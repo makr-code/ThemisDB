@@ -200,8 +200,16 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     
     // Free adapter handle if it exists
     if (lora->adapter_handle) {
-        // In production with llama.cpp, this would call:
-        // llama_lora_adapter_free(lora->adapter_handle);
+        // Call llama.cpp API to free the LoRA adapter
+        extern "C" {
+            void llama_lora_adapter_free(void* adapter);
+            bool themis_llama_lora_available();
+        }
+        
+        if (themis_llama_lora_available()) {
+            spdlog::debug("Freeing LoRA adapter handle for {}", lora_id);
+            llama_lora_adapter_free(lora->adapter_handle);
+        }
         lora->adapter_handle = nullptr;
         spdlog::debug("LoRA adapter handle freed for {}", lora_id);
     }
@@ -216,6 +224,63 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     evictions_++;
     
     spdlog::info("LoRA {} successfully unloaded", lora_id);
+    return true;
+}
+
+bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void* model) {
+    if (!model) {
+        spdlog::error("Cannot initialize LoRA: null model handle");
+        return false;
+    }
+    
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = loras_.find(lora_id);
+    if (it == loras_.end()) {
+        spdlog::error("LoRA {} not found in manager", lora_id);
+        return false;
+    }
+    
+    auto& lora = it->second;
+    
+    // Check if LoRA is already initialized
+    if (lora->adapter_handle) {
+        spdlog::debug("LoRA {} already initialized", lora_id);
+        return true;
+    }
+    
+    spdlog::info("Initializing LoRA adapter with llama.cpp model: {}", lora_id);
+    
+    // Call llama.cpp API to load the LoRA adapter
+    // Forward declarations from llama_lora_adapter.cpp
+    extern "C" {
+        void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+        bool themis_llama_lora_available();
+    }
+    
+    // Check if LoRA API is available
+    if (!themis_llama_lora_available()) {
+        spdlog::warn("llama.cpp LoRA API not available, LoRA support disabled");
+        spdlog::warn("Rebuild llama.cpp with LLAMA_LORA=ON to enable LoRA adapters");
+        return false;
+    }
+    
+    // Initialize the LoRA adapter
+    lora->adapter_handle = llama_lora_adapter_init(
+        reinterpret_cast<struct llama_model*>(model),
+        lora->path.c_str()
+    );
+    
+    if (!lora->adapter_handle) {
+        spdlog::error("Failed to initialize LoRA adapter: {}", lora_id);
+        spdlog::error("  Path: {}", lora->path);
+        spdlog::error("  Base model: {}", lora->base_model_id);
+        return false;
+    }
+    
+    spdlog::info("✓ LoRA adapter initialized successfully: {}", lora_id);
+    spdlog::info("  Adapter handle: 0x{:x}", reinterpret_cast<uintptr_t>(lora->adapter_handle));
+    
     return true;
 }
 

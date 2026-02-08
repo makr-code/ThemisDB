@@ -407,6 +407,19 @@ public:
     );
     
     /**
+     * @brief Initialize LoRA adapter with llama.cpp model handle
+     * 
+     * This method actually loads the LoRA adapter weights using llama.cpp's
+     * llama_lora_adapter_init() API. Must be called with a valid model handle
+     * before the LoRA can be applied to contexts.
+     * 
+     * @param lora_id LoRA identifier (must already exist in loras_ map)
+     * @param model llama_model handle for loading the adapter
+     * @return true if initialization successful
+     */
+    bool initializeLoRAWithModel(const std::string& lora_id, void* model);
+    
+    /**
      * @brief Unload a LoRA adapter
      * 
      * @param lora_id LoRA to unload

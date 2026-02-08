@@ -15,6 +15,14 @@
 #include <filesystem>
 #include <llama.h>
 
+// Forward declarations for llama.cpp LoRA API (from llama_lora_adapter.cpp)
+extern "C" {
+    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+    int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
+    void llama_lora_adapter_free(void* adapter);
+    bool themis_llama_lora_available();
+}
+
 namespace themis {
 namespace llm {
 
@@ -729,14 +737,24 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                     // Adapter will be loaded by LoRAManager from storage
                 }
                 
-                // Apply adapter to context
-                if (lora_manager_->applyLoRA(adapter_id, lctx)) {
-                    adapter_applied = true;
-                    active_lora_adapter_ = adapter_id;
-                    last_context_ptr_ = lctx;
-                    spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                // Ensure LoRA is initialized with the model handle
+                // This calls llama_lora_adapter_init() if not already done
+                if (lora_manager_->isLoRALoaded(adapter_id)) {
+                    if (!lora_manager_->initializeLoRAWithModel(adapter_id, lmodel)) {
+                        spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
+                    } else {
+                        // Apply adapter to context
+                        if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                            adapter_applied = true;
+                            active_lora_adapter_ = adapter_id;
+                            last_context_ptr_ = lctx;
+                            spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                        } else {
+                            spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                        }
+                    }
                 } else {
-                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                    spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
                 }
             } else {
                 // Adapter already applied to this context
