@@ -132,6 +132,10 @@ private:
     http::response<http::string_body> handleAdapterStatus(
         const http::request<http::string_body>& req);
     
+    // Cross-shard sync endpoint
+    http::response<http::string_body> handleReceiveAdapter(
+        const http::request<http::string_body>& req);
+    
     // Inference endpoint
     http::response<http::string_body> handleLoRAQuery(
         const http::request<http::string_body>& req);

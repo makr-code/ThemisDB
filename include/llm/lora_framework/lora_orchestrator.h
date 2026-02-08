@@ -3,6 +3,7 @@
 #include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
+#include "llm/lora_framework/adapter_consistency_checker.h"
 #include "llm/multi_lora_manager.h"
 #include <memory>
 #include <string>
@@ -405,6 +406,22 @@ public:
      * @param enable Enable advanced features
      */
     void enableAdvancedFeatures(bool enable);
+    
+    // ═══════════════════════════════════════════════════════════
+    // Component Access (for cross-shard sync)
+    // ═══════════════════════════════════════════════════════════
+    
+    /**
+     * @brief Get storage service instance
+     * @return Shared pointer to storage service
+     */
+    std::shared_ptr<LoRAStorageService> getStorageService() const;
+    
+    /**
+     * @brief Get consistency checker instance
+     * @return Shared pointer to consistency checker
+     */
+    std::shared_ptr<AdapterConsistencyChecker> getConsistencyChecker() const;
 
 private:
     class Impl;
