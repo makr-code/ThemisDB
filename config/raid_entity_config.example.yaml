@@ -1,19 +1,12 @@
 # ThemisDB Entity-Level RAID Configuration Example
 #
-# ⚠️  IMPORTANT: This is an aspirational configuration example.
-# ⚠️  These settings are NOT yet automatically parsed by main_server.cpp.
-# ⚠️  To enable RAID, you must manually wire the components in main_server.cpp:
-# ⚠️    1. Create redundancy_manager, hash_ring, shard_topology
-# ⚠️    2. Pass them to HttpServer/EntityApiHandler constructor
-# ⚠️    3. Set feature_raid = true in EntityApiConfig
-#
-# This configuration shows the intended runtime options for RAID-style redundancy
-# for entity write operations using the RedundancyStrategy integration.
+# This configuration enables RAID-style redundancy for entity write operations
+# using the RedundancyStrategy integration in EntityApiHandler.
 #
 # Prerequisites:
 # - THEMIS_ENABLE_GRPC=ON (for distributed shard communication)
-# - Multiple shard nodes configured
-# - Consistent hash ring and shard topology initialized in code
+# - Multiple shard nodes configured in sharding.shards section
+# - Config file loaded by main_server (default paths checked automatically)
 #
 # Version: 1.5.0-dev
 # Documentation: See docs/PRODUCTION_READINESS_RAID_HTTP_GRPC.md
@@ -23,8 +16,7 @@
 # =============================================================================
 entity_api:
   # Enable RAID-style redundancy for entity writes
-  # Default: false (requires explicit setup in main_server.cpp)
-  # ⚠️  Manual wiring required - not automatically parsed from config
+  # Default: false (automatically enabled if raid.enabled = true and components configured)
   feature_raid: true
   
   # Enable other optional features

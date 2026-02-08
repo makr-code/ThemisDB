@@ -117,6 +117,9 @@ class WALManager;
 class ReplicationCoordinator;
 class MultiPrimaryCoordinator;
 class HealthMonitor;
+class CollectionRedundancyManager;
+class ConsistentHashRing;
+class ShardTopology;
 }
 
 namespace index {
@@ -229,7 +232,10 @@ public:
         std::shared_ptr<sharding::WALManager> wal_manager,
         std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
         std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator = nullptr,
-        std::shared_ptr<sharding::HealthMonitor> health_monitor = nullptr
+        std::shared_ptr<sharding::HealthMonitor> health_monitor = nullptr,
+        std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager = nullptr,
+        std::shared_ptr<sharding::ConsistentHashRing> hash_ring = nullptr,
+        std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
     ~HttpServer();
@@ -717,6 +723,11 @@ private:
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
+
+    // RAID redundancy components (optional)
+    std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
+    std::shared_ptr<sharding::ConsistentHashRing> hash_ring_;
+    std::shared_ptr<sharding::ShardTopology> shard_topology_;
 
     // Authorization middleware
     std::shared_ptr<themis::AuthMiddleware> auth_;

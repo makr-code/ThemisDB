@@ -206,7 +206,10 @@ HttpServer::HttpServer(
     std::shared_ptr<sharding::WALManager> wal_manager,
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator,
-    std::shared_ptr<sharding::HealthMonitor> health_monitor
+    std::shared_ptr<sharding::HealthMonitor> health_monitor,
+    std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager,
+    std::shared_ptr<sharding::ConsistentHashRing> hash_ring,
+    std::shared_ptr<sharding::ShardTopology> shard_topology
 )
     : config_(config)
     , storage_(std::move(storage))
@@ -219,6 +222,9 @@ HttpServer::HttpServer(
     , replication_coordinator_(std::move(replication_coordinator))
     , multi_primary_coordinator_(std::move(multi_primary_coordinator))
     , health_monitor_(std::move(health_monitor))
+    , redundancy_manager_(std::move(redundancy_manager))
+    , hash_ring_(std::move(hash_ring))
+    , shard_topology_(std::move(shard_topology))
     , ioc_(static_cast<int>(config_.num_threads))
     , acceptor_(ioc_)
     , start_time_(std::chrono::steady_clock::now())
@@ -659,7 +665,7 @@ HttpServer::HttpServer(
     entity_config.feature_cdc = config_.feature_cdc;
     entity_config.feature_geo = true; // Enable geo if spatial_index exists
     entity_config.feature_replication = (replication_coordinator_ != nullptr);
-    entity_config.feature_raid = false; // RAID redundancy disabled by default (requires explicit setup)
+    entity_config.feature_raid = (redundancy_manager_ != nullptr && hash_ring_ != nullptr && shard_topology_ != nullptr);
     
     entity_api_ = std::make_unique<themis::server::EntityApiHandler>(
         storage_,
@@ -675,11 +681,11 @@ HttpServer::HttpServer(
         wal_manager_,
         replication_coordinator_,
         multi_primary_coordinator_,
-        nullptr,  // redundancy_manager - optional, set via config when needed
-        nullptr,  // hash_ring - optional, set via config when needed
-        nullptr   // shard_topology - optional, set via config when needed
+        redundancy_manager_,
+        hash_ring_,
+        shard_topology_
     );
-    THEMIS_INFO("Entity API Handler initialized");
+    THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
     
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(

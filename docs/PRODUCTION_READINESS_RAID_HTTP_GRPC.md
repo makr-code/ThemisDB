@@ -54,52 +54,87 @@ if (redundancy_manager_ && hash_ring_ && shard_topology_ && config_.feature_raid
 
 ### Configuration
 
-⚠️ **IMPORTANT:** RAID redundancy is **disabled by default** and requires **manual code wiring**.
+RAID redundancy is **disabled by default** and can be enabled via configuration file.
 
-The configuration file `config/raid_entity_config.example.yaml` is **aspirational** - these settings are NOT automatically parsed by `main_server.cpp` or `HttpServer`. To enable RAID, you must:
+The configuration file `config/raid_entity_config.example.yaml` settings are **automatically parsed** by `main_server.cpp` when the config file is loaded. To enable RAID:
 
-1. **Manually initialize components** in `main_server.cpp`
-2. **Pass them to HttpServer** (or extend constructor to accept them)
-3. **Set `feature_raid = true`** in `EntityApiConfig`
+1. **Copy the example configuration** to your config directory
+2. **Set `raid.enabled = true`** in the configuration
+3. **Configure shards** in the `sharding.shards` section
+4. **Configure per-collection RAID modes** in `raid.collections`
 
-**Example configuration (not automatically loaded):**
+**Example configuration:**
 
 ```yaml
 # config/raid_entity_config.example.yaml
-# ⚠️  Manual wiring required - not automatically parsed
 entity_api:
   feature_raid: true
 
 raid:
   enabled: true
+  default:
+    mode: MIRROR
+    replication_factor: 3
+    write_concern: MAJORITY
   collections:
     users:
       mode: MIRROR
       replication_factor: 3
       write_concern: MAJORITY
+      
+sharding:
+  shards:
+    - id: "shard-0"
+      host: "localhost"
+      port: 8080
+    - id: "shard-1"
+      host: "localhost"
+      port: 8081
+    - id: "shard-2"
+      host: "localhost"
+      port: 8082
+  hash_ring:
+    virtual_nodes_per_shard: 100
 ```
 
-### Initialization (Required Manual Steps)
+### Initialization (Automatic)
 
-To enable RAID at startup, initialize the components in `main_server.cpp`:
+When RAID is enabled in configuration, `main_server.cpp` automatically:
 
+1. **Parses the `raid` section** from the config file
+2. **Creates ConsistentHashRing** with configured virtual nodes
+3. **Adds shards** from `sharding.shards` to the hash ring
+4. **Creates CollectionRedundancyManager** with default and per-collection configs
+5. **Passes components to HttpServer** which provides them to EntityApiHandler
+
+No manual code changes required - everything is configured via YAML.
+
+**Code flow:**
 ```cpp
-// Create RAID components
-auto hash_ring = std::make_shared<ConsistentHashRing>(100);
-hash_ring->addNode("shard-0");
-hash_ring->addNode("shard-1");
-hash_ring->addNode("shard-2");
+// main_server.cpp automatically:
+if (cfg->contains("raid") && cfg["raid"]["enabled"]) {
+    // Create hash ring
+    hash_ring = std::make_shared<ConsistentHashRing>(virtual_nodes);
+    
+    // Add shards
+    for (const auto& shard : cfg["sharding"]["shards"]) {
+        hash_ring->addNode(shard["id"]);
+    }
+    
+    // Create redundancy manager
+    redundancy_manager = std::make_shared<CollectionRedundancyManager>();
+    redundancy_manager->setDefaultConfig(default_config);
+    
+    // Configure per-collection
+    for (const auto& [name, config] : cfg["raid"]["collections"]) {
+        redundancy_manager->setCollectionConfig(name, config);
+    }
+}
 
-auto shard_topology = std::make_shared<ShardTopology>();
-
-auto redundancy_manager = std::make_shared<CollectionRedundancyManager>();
-RedundancyConfig raid_config;
-raid_config.mode = RedundancyMode::MIRROR;
-raid_config.replication_factor = 3;
-redundancy_manager->setCollectionConfig("users", raid_config);
-
-// Pass to HttpServer constructor (requires extending constructor)
-// OR pass to EntityApiHandler when initializing in HttpServer
+// Pass to HttpServer
+g_server = std::make_shared<HttpServer>(
+    config, db, ..., redundancy_manager, hash_ring, shard_topology
+);
 ```
 
 ### Testing

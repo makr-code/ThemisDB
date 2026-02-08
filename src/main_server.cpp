@@ -1066,6 +1066,117 @@ int main(int argc, char* argv[]) {
             }
         }
 
+        // ═══════════════════════════════════════════════════════════════════
+        // RAID Redundancy Configuration
+        // ═══════════════════════════════════════════════════════════════════
+        // Initialize RAID components if configured
+        std::shared_ptr<themis::sharding::CollectionRedundancyManager> redundancy_manager;
+        std::shared_ptr<themis::sharding::ConsistentHashRing> hash_ring;
+        std::shared_ptr<themis::sharding::ShardTopology> shard_topology;
+        bool raid_enabled = false;
+
+        if (cfg && cfg->contains("raid") && (*cfg)["raid"].contains("enabled")) {
+            raid_enabled = (*cfg)["raid"]["enabled"].get<bool>();
+        }
+
+        if (raid_enabled) {
+            THEMIS_INFO("Initializing RAID redundancy components...");
+
+            // Create consistent hash ring
+            int virtual_nodes = 100; // default
+            if (cfg->contains("sharding") && (*cfg)["sharding"].contains("hash_ring")) {
+                virtual_nodes = (*cfg)["sharding"]["hash_ring"].value("virtual_nodes_per_shard", 100);
+            }
+            hash_ring = std::make_shared<themis::sharding::ConsistentHashRing>(virtual_nodes);
+
+            // Add shards to hash ring
+            if (cfg->contains("sharding") && (*cfg)["sharding"].contains("shards")) {
+                const auto& shards = (*cfg)["sharding"]["shards"];
+                for (const auto& shard : shards) {
+                    if (shard.contains("id")) {
+                        std::string shard_id = shard["id"].get<std::string>();
+                        hash_ring->addNode(shard_id);
+                        THEMIS_INFO("  Added shard to hash ring: {}", shard_id);
+                    }
+                }
+            } else {
+                // Default: add local shard
+                hash_ring->addNode("shard-0");
+                THEMIS_INFO("  Added default shard to hash ring: shard-0");
+            }
+
+            // Create shard topology
+            shard_topology = std::make_shared<themis::sharding::ShardTopology>();
+
+            // Create redundancy manager
+            redundancy_manager = std::make_shared<themis::sharding::CollectionRedundancyManager>();
+
+            // Configure default redundancy
+            themis::sharding::RedundancyConfig default_config;
+            if (cfg->contains("raid") && (*cfg)["raid"].contains("default")) {
+                const auto& def = (*cfg)["raid"]["default"];
+                
+                // Parse mode
+                std::string mode_str = def.value("mode", std::string("MIRROR"));
+                if (mode_str == "NONE") default_config.mode = themis::sharding::RedundancyMode::NONE;
+                else if (mode_str == "MIRROR") default_config.mode = themis::sharding::RedundancyMode::MIRROR;
+                else if (mode_str == "STRIPE") default_config.mode = themis::sharding::RedundancyMode::STRIPE;
+                else if (mode_str == "STRIPE_MIRROR") default_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
+                else if (mode_str == "PARITY") default_config.mode = themis::sharding::RedundancyMode::PARITY;
+                else if (mode_str == "RAID6") default_config.mode = themis::sharding::RedundancyMode::RAID6;
+                else if (mode_str == "GEO_MIRROR") default_config.mode = themis::sharding::RedundancyMode::GEO_MIRROR;
+                
+                default_config.replication_factor = def.value("replication_factor", 3);
+                
+                // Parse write concern
+                std::string wc_str = def.value("write_concern", std::string("MAJORITY"));
+                if (wc_str == "ONE") default_config.write_concern = themis::sharding::WriteConcern::ONE;
+                else if (wc_str == "MAJORITY") default_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
+                else if (wc_str == "ALL") default_config.write_concern = themis::sharding::WriteConcern::ALL;
+                else if (wc_str == "QUORUM") default_config.write_concern = themis::sharding::WriteConcern::QUORUM;
+            }
+            redundancy_manager->setDefaultConfig(default_config);
+            THEMIS_INFO("  RAID default mode: {}, replication_factor: {}", 
+                       static_cast<int>(default_config.mode), default_config.replication_factor);
+
+            // Configure per-collection redundancy
+            if (cfg->contains("raid") && (*cfg)["raid"].contains("collections")) {
+                const auto& collections = (*cfg)["raid"]["collections"];
+                for (auto it = collections.begin(); it != collections.end(); ++it) {
+                    std::string collection_name = it.key();
+                    const auto& coll_config = it.value();
+                    
+                    themis::sharding::RedundancyConfig coll_redundancy_config;
+                    
+                    // Parse mode
+                    std::string mode_str = coll_config.value("mode", std::string("MIRROR"));
+                    if (mode_str == "NONE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::NONE;
+                    else if (mode_str == "MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::MIRROR;
+                    else if (mode_str == "STRIPE") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE;
+                    else if (mode_str == "STRIPE_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::STRIPE_MIRROR;
+                    else if (mode_str == "PARITY") coll_redundancy_config.mode = themis::sharding::RedundancyMode::PARITY;
+                    else if (mode_str == "RAID6") coll_redundancy_config.mode = themis::sharding::RedundancyMode::RAID6;
+                    else if (mode_str == "GEO_MIRROR") coll_redundancy_config.mode = themis::sharding::RedundancyMode::GEO_MIRROR;
+                    
+                    coll_redundancy_config.replication_factor = coll_config.value("replication_factor", 3);
+                    
+                    // Parse write concern
+                    std::string wc_str = coll_config.value("write_concern", std::string("MAJORITY"));
+                    if (wc_str == "ONE") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ONE;
+                    else if (wc_str == "MAJORITY") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::MAJORITY;
+                    else if (wc_str == "ALL") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::ALL;
+                    else if (wc_str == "QUORUM") coll_redundancy_config.write_concern = themis::sharding::WriteConcern::QUORUM;
+                    
+                    redundancy_manager->setCollectionConfig(collection_name, coll_redundancy_config);
+                    THEMIS_INFO("  Collection '{}': mode={}, replication_factor={}", 
+                               collection_name, static_cast<int>(coll_redundancy_config.mode), 
+                               coll_redundancy_config.replication_factor);
+                }
+            }
+
+            THEMIS_INFO("RAID redundancy components initialized successfully");
+        }
+
         // Create HttpServer with all components
 #ifdef THEMIS_ENABLE_HTTP_SERVER
         g_server = std::make_shared<server::HttpServer>(
@@ -1079,7 +1190,10 @@ int main(int argc, char* argv[]) {
             wal_manager,
             replication_coordinator,
             multi_primary_coordinator,
-            health_monitor
+            health_monitor,
+            redundancy_manager,
+            hash_ring,
+            shard_topology
         );
 #else
         THEMIS_INFO("HTTP server disabled at build time (THEMIS_ENABLE_HTTP_SERVER=OFF)");
