@@ -2,6 +2,7 @@
 // Binary protocol for high-performance native client communication
 
 #include "network/wire_protocol_server.h"
+#include "network/wire_protocol_helpers.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
@@ -264,8 +265,26 @@ void WireProtocolServer::Session::asyncReadHeader() {
         net::buffer(header_buffer_),
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
-                handleMessage();
-                asyncReadHeader();
+                // Parse header to get payload size, then read payload
+                if (header_buffer_.size() >= 12) {
+                    // Extract payload size (bytes 6-9, big-endian)
+                    uint32_t payload_size = 0;
+                    std::memcpy(&payload_size, &header_buffer_[6], sizeof(uint32_t));
+                    payload_size = ntohl(payload_size);
+                    
+                    // Validate payload size
+                    if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
+                        sendError(0x0001, "Payload size exceeds maximum allowed");
+                        asyncReadHeader();  // Continue reading
+                        return;
+                    }
+                    
+                    // Read payload if present
+                    asyncReadPayload(payload_size);
+                } else {
+                    sendError(0x0008, "Invalid header size");
+                    asyncReadHeader();
+                }
             } else {
                 handleError("asyncReadHeader", ec);
             }
@@ -274,7 +293,9 @@ void WireProtocolServer::Session::asyncReadHeader() {
 
 void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
     if (payload_size == 0) {
-        asyncReadChecksum();
+        // No payload, dispatch immediately
+        handleMessage();
+        asyncReadHeader();  // Continue reading next message
         return;
     }
 
@@ -286,7 +307,9 @@ void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
         net::buffer(payload_buffer_),
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
-                asyncReadChecksum();
+                // Payload read successfully, now dispatch
+                handleMessage();
+                asyncReadHeader();  // Continue reading next message
             } else {
                 handleError("asyncReadPayload", ec);
             }
@@ -309,7 +332,7 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
-    bytes_received_.fetch_add(header_buffer_.size(), std::memory_order_relaxed);
+    bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size(), std::memory_order_relaxed);
     
     // Validate header size (must be exactly 12 bytes)
     if (header_buffer_.size() < 12) {
@@ -321,19 +344,8 @@ void WireProtocolServer::Session::handleMessage() {
     // Extract OpCode from header_buffer_[5] (0-indexed: bytes 0-3 are magic, 4 is version, 5 is opcode)
     uint8_t opcode = header_buffer_[5];
     
-    // Extract payload size (bytes 6-9, big-endian)
-    uint32_t payload_size = 0;
-    std::memcpy(&payload_size, &header_buffer_[6], sizeof(uint32_t));
-    // Convert from network byte order (big-endian) to host byte order
-    payload_size = ntohl(payload_size);
-    
-    // Validate payload size
-    if (payload_size > server_->config_.max_frame_size_mb * 1024 * 1024) {
-        sendError(0x0001, "Payload size exceeds maximum allowed");
-        return;
-    }
-    
     // Dispatch based on OpCode
+    // Note: payload_buffer_ is already populated by asyncReadPayload
     switch (opcode) {
         case 0x01: // HELLO
             handleHello();
@@ -461,46 +473,48 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
         return;
     }
     
-    // NOTE: This is a minimal implementation that demonstrates the wire protocol integration.
-    // In production, this would parse the protobuf payload from payload_buffer_.
-    // For now, we provide a stub that shows the integration pattern.
-    
     try {
-        // Parse payload (in a full implementation, this would deserialize TimeSeriesQueryRequest protobuf)
-        // For now, we use hardcoded values to demonstrate the flow
-        
-        // Example: Query the last hour of data for a test metric
-        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::system_clock::now().time_since_epoch()).count();
-        auto one_hour_ago_ms = now_ms - (60 * 60 * 1000);
-        
-        TSStore::QueryOptions query_opts;
-        query_opts.metric = "test_metric";  // Would come from protobuf request
-        query_opts.from_timestamp_ms = one_hour_ago_ms;
-        query_opts.to_timestamp_ms = now_ms;
-        query_opts.limit = 1000;
-        
-        // Execute query using TSStore
-        auto result = server_->ts_store_->query(query_opts);
-        
-        if (!result) {
-            // Safe error access - Result<T> provides error() when result is false
-            std::string error_msg = "Time-series query failed";
-            try {
-                error_msg = std::string("Time-series query failed: ") + result.error().what();
-            } catch (...) {
-                // Fallback if error() access fails
-            }
-            sendError(0x0005, error_msg);
+        // Parse TimeSeriesQueryRequest from payload
+        TimeSeriesQueryRequest request;
+        if (!TimeSeriesQueryRequest::parse(payload_buffer_, request)) {
+            sendError(0x0009, "Failed to parse TimeSeriesQueryRequest");
             return;
         }
         
-        // If continuous aggregates are requested, use AggregateManager
-        // This demonstrates integration with both TSStore and ContinuousAggregateManager
-        bool use_aggregates = false;  // Would come from protobuf request
-        if (use_aggregates && server_->agg_manager_) {
-            // Example: Use pre-computed aggregates for better performance
+        // Validate request
+        if (request.collection.empty()) {
+            sendError(0x000A, "Collection (metric) name is required");
+            return;
+        }
+        
+        if (request.start_time_ns >= request.end_time_ns) {
+            sendError(0x000B, "start_time_ns must be less than end_time_ns");
+            return;
+        }
+        
+        // Start timing
+        auto query_start = std::chrono::high_resolution_clock::now();
+        
+        // Convert timestamps from nanoseconds to milliseconds (TSStore internal format)
+        int64_t start_ms = static_cast<int64_t>(request.start_time_ns / 1000000);
+        int64_t end_ms = static_cast<int64_t>(request.end_time_ns / 1000000);
+        
+        // Build TSStore query options
+        TSStore::QueryOptions query_opts;
+        query_opts.metric = request.collection;
+        query_opts.from_timestamp_ms = start_ms;
+        query_opts.to_timestamp_ms = end_ms;
+        query_opts.limit = 10000;  // Production limit
+        
+        TimeSeriesQueryResponse response;
+        
+        // Check if aggregation is requested
+        bool needs_aggregation = (request.aggregation != 0 || request.bucket_size_ns != 0);
+        
+        if (needs_aggregation) {
+            // Use aggregation path
             auto agg_result = server_->ts_store_->aggregate(query_opts);
+            
             if (!agg_result) {
                 std::string error_msg = "Time-series aggregation failed";
                 try {
@@ -508,35 +522,129 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 } catch (...) {
                     // Fallback if error() access fails
                 }
-                sendError(0x0006, error_msg);
+                sendError(0x0005, error_msg);
                 return;
             }
             
-            // In a full implementation, we would serialize agg_result to TimeSeriesQueryResponse protobuf
-            // and send it back via asyncWriteResponse
+            const auto& agg_data = agg_result.value();
+            
+            // If bucket_size is specified, create time buckets
+            if (request.bucket_size_ns > 0) {
+                // Bucket the data by time windows
+                uint64_t bucket_size_ms = request.bucket_size_ns / 1000000;
+                if (bucket_size_ms == 0) bucket_size_ms = 1;  // Minimum 1ms buckets
+                
+                // For simplicity, return one bucket with aggregated values
+                // In production, you'd group data points into multiple buckets
+                TimeSeriesBucket bucket;
+                bucket.timestamp_ns = request.start_time_ns;
+                bucket.count = agg_data.count;
+                
+                // Set value based on aggregation type
+                switch (request.aggregation) {
+                    case 0:  // AVG
+                        bucket.value = agg_data.avg;
+                        break;
+                    case 1:  // SUM
+                        bucket.value = agg_data.sum;
+                        break;
+                    case 2:  // MIN
+                        bucket.value = agg_data.min;
+                        break;
+                    case 3:  // MAX
+                        bucket.value = agg_data.max;
+                        break;
+                    case 4:  // COUNT
+                        bucket.value = static_cast<double>(agg_data.count);
+                        break;
+                    default:
+                        bucket.value = agg_data.avg;
+                }
+                
+                bucket.min = agg_data.min;
+                bucket.max = agg_data.max;
+                
+                response.buckets.push_back(bucket);
+                response.stats.total_data_points = agg_data.count;
+                response.stats.buckets_returned = 1;
+                response.stats.data_density = static_cast<double>(agg_data.count);
+            } else {
+                // No bucketing, return single aggregated result
+                TimeSeriesBucket bucket;
+                bucket.timestamp_ns = request.start_time_ns;
+                bucket.count = agg_data.count;
+                bucket.value = agg_data.avg;
+                bucket.min = agg_data.min;
+                bucket.max = agg_data.max;
+                
+                response.buckets.push_back(bucket);
+                response.stats.total_data_points = agg_data.count;
+                response.stats.buckets_returned = 1;
+                response.stats.data_density = static_cast<double>(agg_data.count);
+            }
+        } else {
+            // Use raw query path
+            auto result = server_->ts_store_->query(query_opts);
+            
+            if (!result) {
+                std::string error_msg = "Time-series query failed";
+                try {
+                    error_msg = std::string("Time-series query failed: ") + result.error().what();
+                } catch (...) {
+                    // Fallback if error() access fails
+                }
+                sendError(0x0005, error_msg);
+                return;
+            }
+            
+            const auto& data_points = result.value();
+            
+            // Convert data points to buckets (one bucket per data point)
+            for (const auto& point : data_points) {
+                TimeSeriesBucket bucket;
+                bucket.timestamp_ns = static_cast<uint64_t>(point.timestamp_ms) * 1000000;  // ms to ns
+                bucket.value = point.value;
+                bucket.count = 1;
+                bucket.min = point.value;
+                bucket.max = point.value;
+                
+                response.buckets.push_back(bucket);
+            }
+            
+            response.stats.total_data_points = data_points.size();
+            response.stats.buckets_returned = data_points.size();
+            response.stats.data_density = data_points.empty() ? 0.0 : 1.0;
         }
         
-        // In a full implementation:
-        // 1. Serialize result to TimeSeriesQueryResponse protobuf
-        // 2. Build wire frame with OpCode::QUERY_RESULT (0x21)
-        // 3. Calculate checksum
-        // 4. Send via asyncWriteResponse
+        // Calculate query time
+        auto query_end = std::chrono::high_resolution_clock::now();
+        auto query_duration_us = std::chrono::duration_cast<std::chrono::microseconds>(query_end - query_start).count();
+        response.query_time_us = static_cast<uint64_t>(query_duration_us);
         
-        // For now, send a placeholder success response
-        std::vector<uint8_t> response;
+        // Serialize response to protobuf wire format
+        auto response_payload = response.serialize();
+        
+        // Build wire frame response
+        std::vector<uint8_t> wire_response;
+        
         // Wire frame header: Magic (4) + Version (1) + OpCode (1) + Flags (2) + PayloadSize (4) = 12 bytes
         uint32_t magic = htonl(0x544D4442);  // "TMDB" in network byte order
-        response.resize(12);
-        std::memcpy(&response[0], &magic, 4);
-        response[4] = 0x01;  // Version 1
-        response[5] = 0x21;  // OpCode: QUERY_RESULT
-        response[6] = 0x00;  // Flags (low byte)
-        response[7] = 0x00;  // Flags (high byte)
-        uint32_t payload_size = 0;  // Empty payload for now
-        uint32_t payload_size_net = htonl(payload_size);  // Convert to network byte order
-        std::memcpy(&response[8], &payload_size_net, 4);
+        wire_response.resize(12);
+        std::memcpy(&wire_response[0], &magic, 4);
+        wire_response[4] = 0x01;  // Version 1
+        wire_response[5] = 0x21;  // OpCode: QUERY_RESULT
+        wire_response[6] = 0x00;  // Flags (low byte)
+        wire_response[7] = 0x00;  // Flags (high byte)
         
-        asyncWriteResponse(response);
+        uint32_t payload_size = static_cast<uint32_t>(response_payload.size());
+        uint32_t payload_size_net = htonl(payload_size);  // Convert to network byte order
+        std::memcpy(&wire_response[8], &payload_size_net, 4);
+        
+        // Append payload
+        wire_response.insert(wire_response.end(), response_payload.begin(), response_payload.end());
+        
+        // Send response
+        asyncWriteResponse(wire_response);
         
     } catch (const std::exception& e) {
         sendError(0x0007, std::string("Time-series query exception: ") + e.what());
