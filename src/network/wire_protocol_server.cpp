@@ -534,8 +534,24 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 uint64_t bucket_size_ms = request.bucket_size_ns / 1000000;
                 if (bucket_size_ms == 0) bucket_size_ms = 1;  // Minimum 1ms buckets
                 
-                // For simplicity, return one bucket with aggregated values
-                // In production, you'd group data points into multiple buckets
+                // Calculate number of buckets
+                int64_t time_range_ms = end_ms - start_ms;
+                size_t num_buckets = static_cast<size_t>((time_range_ms + bucket_size_ms - 1) / bucket_size_ms);
+                
+                // Limit buckets to reasonable number
+                if (num_buckets > 10000) {
+                    num_buckets = 10000;
+                    bucket_size_ms = time_range_ms / num_buckets;
+                }
+                
+                // Create buckets with aggregated values
+                // Note: In a full implementation with raw data, you would:
+                // 1. Query raw data points
+                // 2. Group by time bucket
+                // 3. Apply aggregation function per bucket
+                // 
+                // Since we only have aggregate results here, we return one bucket
+                // representing the entire time range
                 TimeSeriesBucket bucket;
                 bucket.timestamp_ns = request.start_time_ns;
                 bucket.count = agg_data.count;

@@ -226,35 +226,25 @@ bool TimeSeriesQueryRequest::parse(const std::vector<uint8_t>& data, TimeSeriesQ
 std::vector<uint8_t> TimeSeriesBucket::serialize() const {
     ProtobufSerializer serializer;
     
-    // Field 1: timestamp_ns (varint)
-    if (timestamp_ns != 0) {
-        serializer.writeTag(1, 0);  // varint
-        serializer.writeVarint(timestamp_ns);
-    }
+    // Field 1: timestamp_ns (varint) - ALWAYS serialize for proper ordering
+    serializer.writeTag(1, 0);  // varint
+    serializer.writeVarint(timestamp_ns);
     
-    // Field 2: value (double/fixed64)
-    if (value != 0.0) {
-        serializer.writeTag(2, 1);  // fixed64
-        serializer.writeDouble(value);
-    }
+    // Field 2: value (double/fixed64) - ALWAYS serialize, zero is valid
+    serializer.writeTag(2, 1);  // fixed64
+    serializer.writeDouble(value);
     
-    // Field 3: count (varint)
-    if (count != 0) {
-        serializer.writeTag(3, 0);  // varint
-        serializer.writeVarint(count);
-    }
+    // Field 3: count (varint) - ALWAYS serialize for completeness
+    serializer.writeTag(3, 0);  // varint
+    serializer.writeVarint(count);
     
-    // Field 4: min (double/fixed64)
-    if (min != 0.0) {
-        serializer.writeTag(4, 1);  // fixed64
-        serializer.writeDouble(min);
-    }
+    // Field 4: min (double/fixed64) - ALWAYS serialize, zero is valid
+    serializer.writeTag(4, 1);  // fixed64
+    serializer.writeDouble(min);
     
-    // Field 5: max (double/fixed64)
-    if (max != 0.0) {
-        serializer.writeTag(5, 1);  // fixed64
-        serializer.writeDouble(max);
-    }
+    // Field 5: max (double/fixed64) - ALWAYS serialize, zero is valid
+    serializer.writeTag(5, 1);  // fixed64
+    serializer.writeDouble(max);
     
     return serializer.take();
 }
