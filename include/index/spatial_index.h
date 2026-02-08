@@ -149,6 +149,14 @@ public:
         const geo::GeoSidecar& sidecar
     );
     
+    /// Remove entity from spatial index using WriteBatch (atomic)
+    Status removeBatch(
+        RocksDBWrapper::WriteBatchWrapper& batch,
+        std::string_view table,
+        std::string_view primary_key,
+        const geo::GeoSidecar& sidecar
+    );
+    
     /// Update entity location
     Status update(
         std::string_view table,

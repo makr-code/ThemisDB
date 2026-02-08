@@ -768,7 +768,9 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 		catch (...) { THEMIS_WARN("put(tx): alte Entity für PK={} nicht deserialisierbar", pk); }
 	}
 
-	batch.put(relKey, entity.serialize());
+	// Serialize entity once and reuse for both entity write and geo hook
+	std::vector<uint8_t> serialized_entity = entity.serialize();
+	batch.put(relKey, serialized_entity);
 
 	if (oldEntity) {
 		auto st = updateIndexesForDelete_(table, pk, oldEntity.get(), batch);
@@ -779,17 +781,30 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 	if (spatial_index_mgr_) {
 		// Call atomic geo index hook - it will add spatial index writes to the same batch
 		try {
-			std::vector<uint8_t> blob = entity.serialize();
+			// Remove old spatial index entry if entity had geometry before
+			if (oldBlob && oldEntity) {
+				try {
+					// Try to parse old geometry and remove old spatial entry
+					api::GeoIndexHooks::onEntityDeleteAtomic(
+						batch, spatial_index_mgr_, std::string(table), pk, *oldBlob);
+				} catch (const std::exception& e) {
+					THEMIS_DEBUG("Could not remove old spatial entry for {}:{}: {}", table, pk, e.what());
+					// Continue - not critical if old entry removal fails
+				}
+			}
+			
+			// Add new spatial index entry
 			bool spatial_updated = api::GeoIndexHooks::onEntityPutAtomic(
-				batch, spatial_index_mgr_, std::string(table), pk, blob);
+				batch, spatial_index_mgr_, std::string(table), pk, serialized_entity);
 			// onEntityPutAtomic returns false if no spatial data or index not available
 			// This is expected behavior - spatial indexing is optional
 			if (!spatial_updated) {
 				THEMIS_DEBUG("No spatial data for {}:{} or spatial index not available", table, pk);
 			}
 		} catch (const std::exception& e) {
-			THEMIS_WARN("Atomic geo index hook failed for {}:{}: {}", table, pk, e.what());
-			// Continue with transaction - spatial index is optional and best-effort
+			// Spatial index failures should be logged but not fail the transaction
+			THEMIS_WARN("Atomic geo index hook failed for {}:{}: {} (continuing with transaction)", 
+						table, pk, e.what());
 		}
 	}
 	

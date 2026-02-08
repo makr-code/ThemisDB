@@ -1,5 +1,6 @@
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
+#include "utils/logger.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -27,8 +28,11 @@ static bool pointInPolygon(double px, double py, const std::vector<Coord>& polyg
     return inside;
 }
 
-// Helper function for simple polygon-polygon intersection check
-// Uses separating axis theorem for convex polygons
+// Helper function for simple polygon-polygon intersection check.
+// NOTE: This currently uses only vertex-in-polygon tests (via pointInPolygon)
+// and does not implement the separating axis theorem (SAT) or edge-edge checks.
+// As a result, it may miss cases where polygons intersect only via crossing edges
+// with no vertices contained inside the other polygon.
 static bool simplePolygonIntersects(const std::vector<Coord>& poly1, 
                                    const std::vector<Coord>& poly2) {
     // Simple check: if any vertex of poly1 is inside poly2, they intersect
@@ -128,20 +132,21 @@ public:
                     return true;
                 }
                 
-                // If simple check says no intersection, fall through to MBR check
-                // as our simple check may miss some cases
+                // If simple check says no intersection, conservatively return false
+                // rather than falling back to MBR (which could give false positives).
+                // For production use, consider Boost.Geometry backend (boost_cpu_exact_backend.cpp)
             }
             
-            // Fall back to MBR for all other cases or when exact check is inconclusive
-            auto mbr1 = geom1.computeMBR();
-            auto mbr2 = geom2.computeMBR();
-            return mbr1.intersects(mbr2);
+            // For all other geometry-type combinations or inconclusive cases,
+            // we conservatively report no intersection rather than using an
+            // approximate MBR-based fallback, to avoid false positives.
+            return false;
             
         } catch (const std::exception& e) {
-            // On error, fall back to MBR check
-            auto mbr1 = geom1.computeMBR();
-            auto mbr2 = geom2.computeMBR();
-            return mbr1.intersects(mbr2);
+            // On error, conservatively report no intersection instead of
+            // falling back to an approximate MBR-based check.
+            THEMIS_WARN("CPU exact backend error: {}", e.what());
+            return false;
         }
     }
 };

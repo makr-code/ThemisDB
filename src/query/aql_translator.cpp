@@ -1,5 +1,6 @@
 #include "query/aql_translator.h"
 #include "query/subquery_optimizer.h"
+#include "utils/logger.h"
 #include <sstream>
 #include <variant>
 
@@ -881,36 +882,63 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                 }
                 
-                // TODO(geo-mvp): Compute bbox from queryGeomExpr for index filtering
-                // For full implementation, would need:
-                // 1. Runtime evaluation of geometry expressions
-                // 2. GeoJSON/WKT parsing to extract bounding box
-                // 3. Coordinate transformation if needed
-                // Currently deferred - query engine can execute without pre-computed bbox (with full scan fallback)
+                // Compute bbox from queryGeomExpr for index filtering
+                // For now, support simple bbox literals in the form: [[minx,miny],[maxx,maxy]]
                 std::optional<std::pair<double, double>> bbox_min;
                 std::optional<std::pair<double, double>> bbox_max;
                 
-                // Try to extract simple bbox for GeoJSON Polygon literals
+                // Helper to parse a simple bbox literal
+                auto parseSimpleBbox = [](const std::string &text,
+                                           std::optional<std::pair<double, double>> &out_min,
+                                           std::optional<std::pair<double, double>> &out_max) {
+                    // Extract numeric values from string like [[10.0,50.0],[11.0,51.0]]
+                    std::string numericOnly;
+                    numericOnly.reserve(text.size());
+                    for (char c : text) {
+                        if ((c >= '0' && c <= '9') || c == '-' || c == '+' ||
+                            c == '.' || c == 'e' || c == 'E') {
+                            numericOnly.push_back(c);
+                        } else {
+                            numericOnly.push_back(' ');
+                        }
+                    }
+
+                    std::stringstream ss(numericOnly);
+                    double minx, miny, maxx, maxy;
+                    if (!(ss >> minx >> miny >> maxx >> maxy)) {
+                        return;
+                    }
+                    out_min = std::make_pair(minx, miny);
+                    out_max = std::make_pair(maxx, maxy);
+                };
+                
+                // Try to extract simple bbox for literal geometry expressions
                 if (queryGeomExpr->getType() == ASTNodeType::Literal) {
                     auto lit = std::static_pointer_cast<LiteralExpr>(queryGeomExpr);
                     if (std::holds_alternative<std::string>(lit->value)) {
-                        std::string geojson = std::get<std::string>(lit->value);
-                        // Simple heuristic: if it's a JSON string, try to parse coordinates
-                        // For MVP, we'll support simple bbox literals: [[minx,miny],[maxx,maxy]]
-                        // Full GeoJSON parsing would require runtime evaluation
+                        const std::string &geojson = std::get<std::string>(lit->value);
+                        // Try to parse as simple bbox literal: [[minx,miny],[maxx,maxy]]
+                        parseSimpleBbox(geojson, bbox_min, bbox_max);
                     }
                 }
                 
-                // Set spatial predicate
-                query.spatialPredicate = PredicateSpatial{
-                    column,
-                    operation,
-                    queryGeomExpr,
-                    distance,
-                    bbox_min,
-                    bbox_max
-                };
-                continue; // Skip normal predicate extraction for this filter
+                // Only set spatial predicate if we have a valid bbox
+                // Note: QueryEngine::executeAndKeys requires bbox_min/bbox_max
+                if (bbox_min && bbox_max) {
+                    query.spatialPredicate = PredicateSpatial{
+                        column,
+                        operation,
+                        queryGeomExpr,
+                        distance,
+                        bbox_min,
+                        bbox_max
+                    };
+                    continue; // Skip normal predicate extraction for this filter
+                } else {
+                    // Cannot compute bbox - log warning and skip spatial predicate
+                    THEMIS_WARN("Spatial predicate {} requires bbox but could not compute from expression", 
+                                funcName);
+                }
             }
         }
         

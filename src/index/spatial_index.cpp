@@ -379,32 +379,14 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
         config->total_bounds
     );
     
-    std::string key = makeSpatialKey(table, morton);
-    
-    // Load existing entries for this Morton bucket
-    // Note: This read happens before WriteBatch commit, so it sees the pre-transaction state
-    // The writes added to the batch will be committed atomically later
-    auto value = db_.get(key);
-    std::vector<SidecarEntry> entries;
-    
-    if (value) {
-        std::string s(reinterpret_cast<const char*>(value->data()), value->size());
-        entries = parseSidecarList(s);
-    }
-    
-    // Add new entry
-    SidecarEntry new_entry;
-    new_entry.primary_key = std::string(primary_key);
-    new_entry.sidecar = sidecar;
-    entries.push_back(new_entry);
-    
-    // Add bucket write to WriteBatch
-    const auto dump = serializeSidecarList(entries);
-    std::vector<uint8_t> bytes(dump.begin(), dump.end());
-    batch.put(key, bytes);
-    
-    // Storage improvement: Also write per-PK key to WriteBatch
-    // This allows updating/deleting individual PKs without rewriting entire bucket
+    // Write per-PK key to WriteBatch. This allows updating/deleting
+    // individual PKs without rewriting an entire bucket and avoids
+    // concurrent write conflicts on a shared bucket value.
+    // NOTE: We intentionally avoid a read-modify-write on the shared Morton
+    // bucket key here, because concurrent inserts into the same bucket could
+    // otherwise race and lose updates (last-writer-wins). Instead, we rely
+    // on per-primary-key spatial index entries, which are independent keys
+    // and can be safely written concurrently.
     std::string pk_key = makeSpatialPerPKKey(table, morton, primary_key);
     json pk_sidecar;
     pk_sidecar["mbr"] = {
@@ -420,6 +402,36 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     const auto pk_dump = pk_sidecar.dump();
     std::vector<uint8_t> pk_bytes(pk_dump.begin(), pk_dump.end());
     batch.put(pk_key, pk_bytes);
+    
+    return Status::OK();
+}
+
+// Remove with WriteBatch (atomic)
+SpatialIndexManager::Status SpatialIndexManager::removeBatch(
+    RocksDBWrapper::WriteBatchWrapper& batch,
+    std::string_view table,
+    std::string_view primary_key,
+    const geo::GeoSidecar& sidecar
+) {
+    // G5: Track remove metrics
+    metrics_.remove_count++;
+    
+    auto config = getConfig(table);
+    if (!config) return Status::OK();
+    
+    uint64_t morton = MortonEncoder::encode2D(
+        sidecar.centroid.x,
+        sidecar.centroid.y,
+        config->total_bounds
+    );
+    
+    // Delete per-PK key from WriteBatch
+    std::string pk_key = makeSpatialPerPKKey(table, morton, primary_key);
+    batch.del(pk_key);
+    
+    // Note: We rely on per-PK keys for spatial queries to avoid bucket-level
+    // read-modify-write conflicts. The bucket key is kept for backward compatibility
+    // but is not updated here to prevent concurrent write conflicts.
     
     return Status::OK();
 }
