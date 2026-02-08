@@ -1,0 +1,239 @@
+/**
+ * ThemisDB Entity API Handler RAID Integration Test
+ * 
+ * Tests that RedundancyStrategy is properly integrated into EntityApiHandler
+ * and that RAID modes are applied at runtime when feature_raid is enabled.
+ */
+
+#include <gtest/gtest.h>
+#include "server/entity_api_handler.h"
+#include "sharding/redundancy_strategy.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+#include "storage/rocksdb_wrapper.h"
+#include "index/secondary_index.h"
+#include "index/graph_index.h"
+#include "transaction/transaction_manager.h"
+#include "security/encryption.h"
+#include "security/mock_key_provider.h"
+#include "server/auth_middleware.h"
+#include <memory>
+#include <string>
+#include <filesystem>
+
+using namespace themis;
+using namespace themis::server;
+using namespace themis::sharding;
+
+class EntityApiRaidIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Create temporary directory for test database
+        test_db_path_ = std::filesystem::temp_directory_path() / "test_entity_api_raid_db";
+        std::filesystem::create_directories(test_db_path_);
+        
+        // Initialize storage
+        storage_ = std::make_shared<RocksDBWrapper>(test_db_path_.string());
+        
+        // Initialize indexes
+        secondary_index_ = std::make_shared<SecondaryIndexManager>(storage_);
+        graph_index_ = std::make_shared<GraphIndexManager>(storage_);
+        
+        // Initialize transaction manager
+        tx_manager_ = std::make_shared<TransactionManager>(storage_);
+        
+        // Initialize encryption components
+        field_encryption_ = std::make_shared<FieldEncryption>();
+        key_provider_ = std::make_shared<themis::security::MockKeyProvider>();
+        
+        // Initialize auth middleware (disabled for testing)
+        auth_ = std::make_shared<themis::AuthMiddleware>(storage_);
+        
+        // Initialize RAID components
+        hash_ring_ = std::make_shared<ConsistentHashRing>(100);
+        hash_ring_->addNode("shard-0");
+        hash_ring_->addNode("shard-1");
+        hash_ring_->addNode("shard-2");
+        
+        shard_topology_ = std::make_shared<ShardTopology>();
+        
+        redundancy_manager_ = std::make_shared<CollectionRedundancyManager>();
+        
+        // Configure MIRROR mode for "users" collection
+        RedundancyConfig raid_config;
+        raid_config.mode = RedundancyMode::MIRROR;
+        raid_config.replication_factor = 3;
+        raid_config.write_concern = WriteConcern::MAJORITY;
+        redundancy_manager_->setCollectionConfig("users", raid_config);
+    }
+    
+    void TearDown() override {
+        // Cleanup test database
+        storage_.reset();
+        secondary_index_.reset();
+        graph_index_.reset();
+        tx_manager_.reset();
+        
+        std::filesystem::remove_all(test_db_path_);
+    }
+    
+    std::filesystem::path test_db_path_;
+    std::shared_ptr<RocksDBWrapper> storage_;
+    std::shared_ptr<SecondaryIndexManager> secondary_index_;
+    std::shared_ptr<GraphIndexManager> graph_index_;
+    std::shared_ptr<TransactionManager> tx_manager_;
+    std::shared_ptr<FieldEncryption> field_encryption_;
+    std::shared_ptr<themis::security::KeyProvider> key_provider_;
+    std::shared_ptr<themis::AuthMiddleware> auth_;
+    std::shared_ptr<ConsistentHashRing> hash_ring_;
+    std::shared_ptr<ShardTopology> shard_topology_;
+    std::shared_ptr<CollectionRedundancyManager> redundancy_manager_;
+};
+
+TEST_F(EntityApiRaidIntegrationTest, RaidDisabledByDefault) {
+    // Create handler with RAID components but feature disabled
+    EntityApiConfig config;
+    config.feature_raid = false;  // Disabled
+    
+    EntityApiHandler handler(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        config,
+        nullptr,  // spatial_index
+        nullptr,  // changefeed
+        nullptr,  // wal_manager
+        nullptr,  // replication_coordinator
+        nullptr,  // multi_primary_coordinator
+        redundancy_manager_,
+        hash_ring_,
+        shard_topology_
+    );
+    
+    // Create a mock HTTP request
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    req.method(boost::beast::http::verb::put);
+    req.target("/entities/users:alice");
+    req.set(boost::beast::http::field::content_type, "application/json");
+    req.body() = R"({"key":"users:alice","blob":"{\"name\":\"Alice\",\"age\":30}"})";
+    req.prepare_payload();
+    
+    // Execute request
+    auto response = handler.handlePut(req);
+    
+    // Should succeed without RAID (feature disabled)
+    EXPECT_EQ(response.result(), boost::beast::http::status::created);
+    
+    // Verify data was written to primary storage
+    auto value = storage_->get("users:alice");
+    EXPECT_TRUE(value.has_value());
+}
+
+TEST_F(EntityApiRaidIntegrationTest, RaidEnabledWithComponents) {
+    // Create handler with RAID enabled
+    EntityApiConfig config;
+    config.feature_raid = true;  // Enabled
+    
+    EntityApiHandler handler(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        config,
+        nullptr,  // spatial_index
+        nullptr,  // changefeed
+        nullptr,  // wal_manager
+        nullptr,  // replication_coordinator
+        nullptr,  // multi_primary_coordinator
+        redundancy_manager_,
+        hash_ring_,
+        shard_topology_
+    );
+    
+    // Create a mock HTTP request
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    req.method(boost::beast::http::verb::put);
+    req.target("/entities/users:bob");
+    req.set(boost::beast::http::field::content_type, "application/json");
+    req.body() = R"({"key":"users:bob","blob":"{\"name\":\"Bob\",\"age\":25}"})";
+    req.prepare_payload();
+    
+    // Execute request
+    auto response = handler.handlePut(req);
+    
+    // Should succeed with RAID
+    EXPECT_EQ(response.result(), boost::beast::http::status::created);
+    
+    // Verify data was written to primary storage
+    auto value = storage_->get("users:bob");
+    EXPECT_TRUE(value.has_value());
+    
+    // Verify RAID replicas were written (with shard prefix)
+    // Note: In the current implementation, replicas are written to local storage with shard prefix
+    auto shard_0_value = storage_->get("shard-0:users:bob");
+    auto shard_1_value = storage_->get("shard-1:users:bob");
+    auto shard_2_value = storage_->get("shard-2:users:bob");
+    
+    // At least some replicas should exist (depending on write concern)
+    int replica_count = 0;
+    if (shard_0_value.has_value()) replica_count++;
+    if (shard_1_value.has_value()) replica_count++;
+    if (shard_2_value.has_value()) replica_count++;
+    
+    EXPECT_GT(replica_count, 0) << "Expected at least one RAID replica to be written";
+}
+
+TEST_F(EntityApiRaidIntegrationTest, RaidDisabledWhenComponentsMissing) {
+    // Create handler with feature enabled but no RAID components
+    EntityApiConfig config;
+    config.feature_raid = true;  // Enabled but will be skipped
+    
+    EntityApiHandler handler(
+        storage_,
+        secondary_index_,
+        graph_index_,
+        tx_manager_,
+        field_encryption_,
+        key_provider_,
+        auth_,
+        config,
+        nullptr,  // spatial_index
+        nullptr,  // changefeed
+        nullptr,  // wal_manager
+        nullptr,  // replication_coordinator
+        nullptr,  // multi_primary_coordinator
+        nullptr,  // redundancy_manager - missing!
+        nullptr,  // hash_ring - missing!
+        nullptr   // shard_topology - missing!
+    );
+    
+    // Create a mock HTTP request
+    boost::beast::http::request<boost::beast::http::string_body> req;
+    req.method(boost::beast::http::verb::put);
+    req.target("/entities/users:charlie");
+    req.set(boost::beast::http::field::content_type, "application/json");
+    req.body() = R"({"key":"users:charlie","blob":"{\"name\":\"Charlie\",\"age\":35}"})";
+    req.prepare_payload();
+    
+    // Execute request
+    auto response = handler.handlePut(req);
+    
+    // Should still succeed (RAID skipped gracefully)
+    EXPECT_EQ(response.result(), boost::beast::http::status::created);
+    
+    // Verify data was written to primary storage
+    auto value = storage_->get("users:charlie");
+    EXPECT_TRUE(value.has_value());
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}
