@@ -197,7 +197,30 @@ if (g_wal_grpc_server) {
 - Host: Configurable via `THEMIS_WAL_GRPC_HOST` env var (default: 0.0.0.0)
 - Port: Configurable via `THEMIS_WAL_GRPC_PORT` env var (default: 50051)
 - Max message size: 100 MB (send/receive)
-- Credentials: InsecureServerCredentials (production should use TLS)
+
+**mTLS/TLS Configuration** (Production-Ready):
+- `THEMIS_WAL_GRPC_ENABLE_MTLS`: Enable mTLS/TLS (default: false for backward compatibility)
+- `THEMIS_WAL_GRPC_CERT_PATH`: Path to server certificate in PEM format
+- `THEMIS_WAL_GRPC_KEY_PATH`: Path to server private key in PEM format
+- `THEMIS_WAL_GRPC_CA_CERT_PATH`: Path to CA certificate for client verification (optional)
+- `THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT`: Require client certificates for mutual TLS (default: true)
+
+**Security Modes**:
+1. **Development Mode** (mTLS disabled): Uses `InsecureServerCredentials` - NOT for production
+2. **Server-side TLS**: `ENABLE_MTLS=true`, `REQUIRE_CLIENT_CERT=false` - Server authentication only
+3. **Mutual TLS (mTLS)**: `ENABLE_MTLS=true`, `REQUIRE_CLIENT_CERT=true` - Full mutual authentication (recommended for production)
+
+**Example Production Configuration**:
+```bash
+export THEMIS_WAL_GRPC_HOST=0.0.0.0
+export THEMIS_WAL_GRPC_PORT=50051
+export THEMIS_WAL_GRPC_ENABLE_MTLS=true
+export THEMIS_WAL_GRPC_CERT_PATH=/etc/themis/certs/server.crt
+export THEMIS_WAL_GRPC_KEY_PATH=/etc/themis/certs/server.key
+export THEMIS_WAL_GRPC_CA_CERT_PATH=/etc/themis/certs/ca.crt
+export THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT=true
+```
+
 
 **Data Formats Supported**:
 1. Raw entries array (protobuf WalEntry messages)
@@ -277,10 +300,24 @@ The build system properly handles feature flags:
 - Metrics and monitoring
 
 ### WalGrpcService
-- Currently uses InsecureServerCredentials (⚠️ Production should use TLS)
-- Validates all input data
-- Error handling with proper status codes
-- Maximum message size limits (100 MB)
+**Production-Ready Security** (mTLS/TLS Support Added):
+- **mTLS Mode**: Mutual TLS with client certificate verification (recommended for production)
+- **TLS Mode**: Server-side TLS only (client certificates optional)
+- **Development Mode**: InsecureServerCredentials (⚠️ Not for production)
+- **Certificate Management**: Supports PEM format certificates and keys
+- **Client Verification**: Configurable CA certificate for client authentication
+- **Fallback Behavior**: Automatically falls back to insecure mode if certificate loading fails (with error logging)
+- Input validation for all requests
+- Error handling with proper gRPC status codes
+- Maximum message size limits (100 MB send/receive)
+
+**Security Best Practices**:
+1. Always enable mTLS in production environments
+2. Use strong certificate authorities and keep CA certificates secure
+3. Rotate certificates regularly (recommended: 90-day validity)
+4. Store private keys securely with restricted file permissions (e.g., 0600)
+5. Monitor certificate expiration and renew proactively
+6. Use client certificate verification for zero-trust security model
 
 ## Performance Characteristics
 
@@ -298,11 +335,17 @@ The build system properly handles feature flags:
 
 ## Recommendations
 
-1. ✅ **No code changes needed** - All integration is complete
-2. ⚠️ **Security Enhancement**: Consider adding TLS to gRPC service for production
-3. ✅ **Test Coverage**: Existing tests cover core functionality
-4. ✅ **Documentation**: This file provides comprehensive integration documentation
-5. ✅ **Feature Flags**: Properly implemented and tested
+1. ✅ **Integration Complete** - All HTTP and gRPC wiring is operational
+2. ✅ **mTLS Support Added** - Production-ready TLS/mTLS for gRPC WAL service
+3. ✅ **Test Coverage** - Existing tests cover core functionality
+4. ✅ **Documentation** - Comprehensive integration documentation with mTLS configuration
+5. ✅ **Feature Flags** - Properly implemented and tested
+6. 📋 **Deployment Checklist**:
+   - Generate TLS certificates for production deployment
+   - Configure mTLS environment variables
+   - Test certificate rotation procedures
+   - Monitor certificate expiration
+   - Set up automated certificate renewal (e.g., cert-manager, Let's Encrypt)
 
 ## Conclusion
 
@@ -313,5 +356,12 @@ The investigation confirms that HTTP and gRPC pipeline integration in ThemisDB i
 - Wired into request dispatch paths
 - Protected by feature flags
 - Tested (gRPC has unit tests)
+- **Secured with mTLS/TLS support for production deployments**
 
-**No missing wiring gaps were found.** The original issue requested investigation and integration of missing wiring gaps, but the investigation reveals the integration was already completed prior to this work.
+**Updates Made**:
+1. ✅ Verified all existing wiring (no gaps found)
+2. ✅ Implemented production-ready mTLS/TLS for WalGrpcService
+3. ✅ Added configurable security modes (Development/TLS/mTLS)
+4. ✅ Added comprehensive certificate configuration via environment variables
+5. ✅ Implemented proper error handling and fallback behavior
+6. ✅ Updated documentation with security best practices

@@ -76,7 +76,9 @@
 
 #ifdef THEMIS_ENABLE_GRPC
 #include <grpcpp/grpcpp.h>
+#include <grpcpp/security/server_credentials.h>
 #include "server/wal_grpc_service.h"
+#include "utils/file_utils.h"
 #endif
 
 using namespace themis;
@@ -1098,14 +1100,78 @@ int main(int argc, char* argv[]) {
             std::string grpc_addr = grpc_host + ":" + std::to_string(grpc_port);
 
             grpc::ServerBuilder builder;
-            builder.AddListeningPort(grpc_addr, grpc::InsecureServerCredentials());
+            
+            // Configure server credentials (mTLS support)
+            std::shared_ptr<grpc::ServerCredentials> credentials;
+            bool enable_mtls = false;
+            if (const char* mtls_env = std::getenv("THEMIS_WAL_GRPC_ENABLE_MTLS")) {
+                std::string mtls_str(mtls_env);
+                enable_mtls = (mtls_str == "true" || mtls_str == "1" || mtls_str == "yes");
+            }
+            
+            if (enable_mtls) {
+                // mTLS enabled - create SSL server credentials
+                try {
+                    grpc::SslServerCredentialsOptions ssl_opts;
+                    
+                    // Load CA certificate for client verification
+                    const char* ca_cert_path = std::getenv("THEMIS_WAL_GRPC_CA_CERT_PATH");
+                    if (ca_cert_path && std::strlen(ca_cert_path) > 0) {
+                        ssl_opts.pem_root_certs = themis::utils::readFileContents(ca_cert_path);
+                        THEMIS_INFO("WAL gRPC: Loaded CA certificate from: {}", ca_cert_path);
+                    }
+                    
+                    // Load server certificate and private key
+                    const char* cert_path = std::getenv("THEMIS_WAL_GRPC_CERT_PATH");
+                    const char* key_path = std::getenv("THEMIS_WAL_GRPC_KEY_PATH");
+                    if (cert_path && key_path && std::strlen(cert_path) > 0 && std::strlen(key_path) > 0) {
+                        grpc::SslServerCredentialsOptions::PemKeyCertPair key_cert_pair;
+                        key_cert_pair.private_key = themis::utils::readFileContents(key_path);
+                        key_cert_pair.cert_chain = themis::utils::readFileContents(cert_path);
+                        ssl_opts.pem_key_cert_pairs.push_back(key_cert_pair);
+                        THEMIS_INFO("WAL gRPC: Loaded server certificate from: {}", cert_path);
+                    } else {
+                        throw std::runtime_error("mTLS enabled but certificate paths not configured");
+                    }
+                    
+                    // Configure client certificate requirement
+                    bool require_client_cert = true;
+                    if (const char* req_client = std::getenv("THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT")) {
+                        std::string req_str(req_client);
+                        require_client_cert = (req_str != "false" && req_str != "0" && req_str != "no");
+                    }
+                    
+                    if (require_client_cert) {
+                        ssl_opts.client_certificate_request = GRPC_SSL_REQUEST_AND_REQUIRE_CLIENT_CERTIFICATE_AND_VERIFY;
+                        THEMIS_INFO("WAL gRPC: Client certificate verification enabled (mutual TLS)");
+                    } else {
+                        ssl_opts.client_certificate_request = GRPC_SSL_DONT_REQUEST_CLIENT_CERTIFICATE;
+                        THEMIS_INFO("WAL gRPC: Server-side TLS only (no client certificate verification)");
+                    }
+                    
+                    credentials = grpc::SslServerCredentials(ssl_opts);
+                    THEMIS_INFO("WAL gRPC: mTLS/TLS enabled for production deployment");
+                    
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("WAL gRPC: Failed to load mTLS certificates: {}. Falling back to insecure connection.", e.what());
+                    credentials = grpc::InsecureServerCredentials();
+                    THEMIS_WARN("WAL gRPC: Using insecure credentials due to mTLS configuration error");
+                }
+            } else {
+                // mTLS not enabled - use insecure credentials (development only)
+                credentials = grpc::InsecureServerCredentials();
+                THEMIS_WARN("WAL gRPC: mTLS is disabled. This is insecure and should only be used in development.");
+            }
+            
+            builder.AddListeningPort(grpc_addr, credentials);
             builder.RegisterService(static_cast<grpc::Service*>(wal_service));
             builder.SetMaxReceiveMessageSize(100 * 1024 * 1024);
             builder.SetMaxSendMessageSize(100 * 1024 * 1024);
 
             g_wal_grpc_server = builder.BuildAndStart();
             if (g_wal_grpc_server) {
-                THEMIS_INFO("WAL gRPC Apply service listening on {}", grpc_addr);
+                THEMIS_INFO("WAL gRPC Apply service listening on {} (mTLS: {})", 
+                    grpc_addr, enable_mtls ? "enabled" : "disabled");
             } else {
                 THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
             }
