@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
+#include <mutex>
 #include <llama.h>
 
 namespace fs = std::filesystem;
@@ -16,11 +17,29 @@ namespace llm {
 
 LazyModelLoader::LazyModelLoader(const Config& config)
     : config_(config) {
+    
+    // Initialize llama.cpp backend (must be called before any model operations)
+    // This initializes CUDA/Metal backends and sets up memory management
+    static std::once_flag backend_init_flag;
+    std::call_once(backend_init_flag, []() {
+        spdlog::info("Initializing llama.cpp backend...");
+        llama_backend_init();
+        spdlog::info("✓ llama.cpp backend initialized");
+        
+        // Register cleanup to free backend resources at process exit
+        std::atexit([]() {
+            spdlog::debug("Freeing llama.cpp backend resources");
+            llama_backend_free();
+        });
+    });
+    
     spdlog::info("LazyModelLoader initialized (Ollama-style):");
     spdlog::info("  Max VRAM: {} MB", config_.max_vram_mb);
     spdlog::info("  Max models: {}", config_.max_models);
     spdlog::info("  Model TTL: {} seconds", config_.model_ttl.count());
     spdlog::info("  Lazy loading: {}", config_.enable_lazy_load ? "enabled" : "disabled");
+    spdlog::info("  Default GPU layers: {}", config_.default_n_gpu_layers);
+    spdlog::info("  Default context: {} tokens", config_.default_n_ctx);
 }
 
 LazyModelLoader::~LazyModelLoader() {
@@ -542,9 +561,28 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Initialize llama.cpp model parameters
     llama_model_params model_params = llama_model_default_params();
     
-    // Configure GPU layers from config
-    int n_gpu_layers = config.value("n_gpu_layers", config_.default_n_gpu_layers);
-    model_params.n_gpu_layers = n_gpu_layers;
+    // Configure GPU layers from config and normalize to prevent negative values
+    int n_gpu_layers_raw = config.value("n_gpu_layers", config_.default_n_gpu_layers);
+    int n_gpu_layers = std::max(0, n_gpu_layers_raw);  // Clamp to 0 minimum
+    
+    // GPU/VRAM handling with CPU fallback
+    // Check if GPU is available by attempting to use it
+    if (n_gpu_layers > 0) {
+        spdlog::info("GPU offloading requested: {} layers", n_gpu_layers);
+        
+        // Set GPU layers - llama.cpp will handle fallback internally
+        // If no GPU is available, it will automatically use CPU
+        model_params.n_gpu_layers = n_gpu_layers;
+        
+        // Log GPU configuration
+        spdlog::info("GPU offload configuration:");
+        spdlog::info("  Requested GPU layers: {}", n_gpu_layers);
+        spdlog::info("  VRAM limit: {} MB", config_.max_vram_mb);
+        spdlog::info("  Note: llama.cpp will auto-fallback to CPU if GPU unavailable");
+    } else {
+        spdlog::info("CPU-only inference configured (n_gpu_layers={})", n_gpu_layers);
+        model_params.n_gpu_layers = 0;
+    }
     
     // Enable Flash Attention if available and configured
     bool use_flash_attn = config.value("use_flash_attn", false);
@@ -733,8 +771,15 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     total_ram_mb_ += ram_mb;
     models_loaded_++;
 
-    spdlog::info("Model loaded successfully: {} ({} MB VRAM, {} GPU layers, Flash Attention: {})",
-                 model_id, vram_mb, n_gpu_layers, use_flash_attn ? "ON" : "OFF");
+    // Log successful load with GPU configuration details
+    spdlog::info("✓ Model loaded successfully: {}", model_id);
+    spdlog::info("  Size: {} MB", vram_mb);
+    spdlog::info("  GPU layers: {} {}", n_gpu_layers, 
+                 n_gpu_layers > 0 ? "(GPU acceleration enabled)" : "(CPU-only mode)");
+    spdlog::info("  Context length: {} tokens", ctx_params.n_ctx);
+    spdlog::info("  Flash Attention: {}", use_flash_attn ? "ON" : "OFF");
+    spdlog::info("  Memory-mapped: {}", model_params.use_mmap ? "yes" : "no");
+    
     return result;
 }
 
