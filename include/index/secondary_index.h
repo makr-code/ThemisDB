@@ -15,6 +15,11 @@ namespace themis {
 class BaseEntity;
 class IExpressionEvaluator;
 
+// Forward declaration for spatial index integration
+namespace index {
+class SpatialIndexManager;
+}
+
 /// SecondaryIndexManager
 /// - Gleichheitsbasierte Sekundärindizes pro Tabelle/Spalte(n)
 /// - Single-Column Key-Schema: idx:table:column:value:PK
@@ -37,6 +42,12 @@ public:
     
     // Get expression evaluator
     std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
+    
+    // Set optional spatial index manager for atomic geo index updates (Phase 2)
+    void setSpatialIndexManager(index::SpatialIndexManager* spatial_mgr);
+    
+    // Get spatial index manager
+    index::SpatialIndexManager* getSpatialIndexManager() const;
 
     // Index-Lifecycle
     Status createIndex(std::string_view table, std::string_view column, bool unique = false);
@@ -300,6 +311,9 @@ private:
     
     // Phase 4: Optional ExpressionEvaluator for advanced filtering
     std::shared_ptr<IExpressionEvaluator> expression_evaluator_;
+    
+    // Phase 2: Optional SpatialIndexManager for atomic geo index updates
+    index::SpatialIndexManager* spatial_index_mgr_ = nullptr;
 
     // Meta-Key für vorhandene Indizes: idxmeta:<table>:<column>
     // Composite: idxmeta:<table>:col1+col2+col3

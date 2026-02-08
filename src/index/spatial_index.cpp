@@ -357,6 +357,71 @@ SpatialIndexManager::Status SpatialIndexManager::insert(
     return Status::OK();
 }
 
+// Insert with WriteBatch (atomic)
+SpatialIndexManager::Status SpatialIndexManager::insertBatch(
+    RocksDBWrapper::WriteBatchWrapper& batch,
+    std::string_view table,
+    std::string_view primary_key,
+    const geo::GeoSidecar& sidecar
+) {
+    // G5: Track insert metrics
+    metrics_.insert_count++;
+    
+    auto config = getConfig(table);
+    if (!config) {
+        return Status::Error("Spatial index not found for table: " + std::string(table));
+    }
+    
+    // Compute Morton code for centroid
+    uint64_t morton = MortonEncoder::encode2D(
+        sidecar.centroid.x,
+        sidecar.centroid.y,
+        config->total_bounds
+    );
+    
+    std::string key = makeSpatialKey(table, morton);
+    
+    // Get existing entries for this Morton bucket (read outside transaction)
+    auto value = db_.get(key);
+    std::vector<SidecarEntry> entries;
+    
+    if (value) {
+        std::string s(reinterpret_cast<const char*>(value->data()), value->size());
+        entries = parseSidecarList(s);
+    }
+    
+    // Add new entry
+    SidecarEntry new_entry;
+    new_entry.primary_key = std::string(primary_key);
+    new_entry.sidecar = sidecar;
+    entries.push_back(new_entry);
+    
+    // Add bucket write to WriteBatch
+    const auto dump = serializeSidecarList(entries);
+    std::vector<uint8_t> bytes(dump.begin(), dump.end());
+    batch.put(key, bytes);
+    
+    // Storage improvement: Also write per-PK key to WriteBatch
+    // This allows updating/deleting individual PKs without rewriting entire bucket
+    std::string pk_key = makeSpatialPerPKKey(table, morton, primary_key);
+    json pk_sidecar;
+    pk_sidecar["mbr"] = {
+        {"minx", sidecar.mbr.minx},
+        {"miny", sidecar.mbr.miny},
+        {"maxx", sidecar.mbr.maxx},
+        {"maxy", sidecar.mbr.maxy}
+    };
+    if (sidecar.z_min != 0.0 || sidecar.z_max != 0.0) {
+        pk_sidecar["z_min"] = sidecar.z_min;
+        pk_sidecar["z_max"] = sidecar.z_max;
+    }
+    const auto pk_dump = pk_sidecar.dump();
+    std::vector<uint8_t> pk_bytes(pk_dump.begin(), pk_dump.end());
+    batch.put(pk_key, pk_bytes);
+    
+    return Status::OK();
+}
+
 // Remove
 SpatialIndexManager::Status SpatialIndexManager::remove(
     std::string_view table,

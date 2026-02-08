@@ -190,7 +190,6 @@ bool GeoIndexHooks::onEntityPutAtomic(
     const std::string& pk,
     const std::vector<uint8_t>& blob
 ) {
-    (void)batch; // Future: add spatial index updates to WriteBatch
     // Skip if spatial index not available or table doesn't have spatial index
     if (!spatial_mgr || !spatial_mgr->hasSpatialIndex(table)) {
         return false;
@@ -274,25 +273,17 @@ bool GeoIndexHooks::onEntityPutAtomic(
         // Parse EWKB and compute sidecar
         auto geom_info = geo::EWKBParser::parse(geom_blob);
         auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-        (void)sidecar; // Future: use sidecar for WriteBatch spatial index updates
-
-        // TODO: Add sidecar writes to WriteBatch
-        // This requires exposing WriteBatch::put() and computing the spatial index keys
-        // For now, we'll use the non-atomic insert as fallback
-        // 
-        // Future implementation:
-        // 1. Compute Morton code from sidecar.centroid
-        // 2. Load existing bucket entries from DB
-        // 3. Add new entry to bucket list
-        // 4. batch.put(bucket_key, serialized_bucket)
-        // 5. batch.put(per_pk_key, serialized_sidecar)
         
-        THEMIS_DEBUG("Atomic spatial index update for {}:{} (not yet implemented, using fallback)",
-                    table, pk);
+        // Add spatial index writes to WriteBatch (atomic!)
+        auto status = spatial_mgr->insertBatch(batch, table, pk, sidecar);
+        if (!status) {
+            THEMIS_WARN("Atomic spatial index insert failed for {}:{}: {}", 
+                        table, pk, status.message);
+            return false;
+        }
         
-        // Fallback to non-atomic insert for now
-        // NOTE: This is a temporary solution until WriteBatch integration is complete
-        return false;
+        THEMIS_DEBUG("Atomic spatial index update added to batch for {}:{}", table, pk);
+        return true;
 
     } catch (const json::exception& e) {
         THEMIS_WARN("Geo hook atomic JSON parse error for {}:{}: {}", table, pk, e.what());

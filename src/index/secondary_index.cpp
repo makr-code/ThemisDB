@@ -3,6 +3,8 @@
 
 #include "index/secondary_index.h"
 #include "index/secondary_index_metadata_cache.h"
+#include "index/spatial_index.h"
+#include "api/geo_index_hooks.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/key_schema.h"
 #include "storage/base_entity.h"
@@ -70,6 +72,15 @@ void SecondaryIndexManager::setExpressionEvaluator(std::shared_ptr<IExpressionEv
 
 std::shared_ptr<IExpressionEvaluator> SecondaryIndexManager::getExpressionEvaluator() const {
 	return expression_evaluator_;
+}
+
+// Phase 2: Set spatial index manager for atomic geo index updates
+void SecondaryIndexManager::setSpatialIndexManager(index::SpatialIndexManager* spatial_mgr) {
+	spatial_index_mgr_ = spatial_mgr;
+}
+
+index::SpatialIndexManager* SecondaryIndexManager::getSpatialIndexManager() const {
+	return spatial_index_mgr_;
 }
 
 // static
@@ -763,6 +774,22 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 		auto st = updateIndexesForDelete_(table, pk, oldEntity.get(), batch);
 		if (!st.ok) return st;
 	}
+	
+	// Phase 2: Atomic geo index update if spatial index manager is available
+	if (spatial_index_mgr_) {
+		// Call atomic geo index hook - it will add spatial index writes to the same batch
+		try {
+			std::vector<uint8_t> blob = entity.serialize();
+			api::GeoIndexHooks::onEntityPutAtomic(batch, spatial_index_mgr_, 
+												  std::string(table), pk, blob);
+			// Note: onEntityPutAtomic returns false if no spatial data or index not available
+			// We don't fail the transaction if spatial index update fails - it's best effort
+		} catch (const std::exception& e) {
+			THEMIS_WARN("Atomic geo index hook failed for {}:{}: {}", table, pk, e.what());
+			// Continue with transaction - spatial index is optional
+		}
+	}
+	
 	return updateIndexesForPut_(table, pk, entity, batch);
 }
 

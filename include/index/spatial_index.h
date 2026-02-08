@@ -140,6 +140,15 @@ public:
         const geo::GeoSidecar& sidecar
     );
     
+    /// Insert entity into spatial index using WriteBatch (atomic with entity write)
+    /// This is used by GeoIndexHooks::onEntityPutAtomic for transactional updates
+    Status insertBatch(
+        RocksDBWrapper::WriteBatchWrapper& batch,
+        std::string_view table,
+        std::string_view primary_key,
+        const geo::GeoSidecar& sidecar
+    );
+    
     /// Update entity location
     Status update(
         std::string_view table,
