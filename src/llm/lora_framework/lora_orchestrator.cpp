@@ -56,15 +56,29 @@ public:
     std::unordered_map<std::string, std::vector<std::string>> versions;
     std::unordered_map<std::string, JobInfo> jobs;
     std::vector<EventCallback> callbacks;
+    
+    // Component instances for cross-shard sync
+    std::shared_ptr<LoRAStorageService> storage_service;
+    std::shared_ptr<AdapterConsistencyChecker> consistency_checker;
 };
 
-LoRAOrchestrator::LoRAOrchestrator(const Config& /*config*/) : impl_(std::make_unique<Impl>()) {
+LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
     if (!impl_) {
         spdlog::error("Failed to allocate LoRA Orchestrator Impl");
         throw std::runtime_error("LoRA Orchestrator Impl allocation failed");
     }
+    
+    // Initialize storage service using provided config
+    impl_->storage_service = std::make_shared<LoRAStorageService>(config.storage_config);
+    
+    // Initialize consistency checker
+    AdapterConsistencyChecker::Config checker_config;
+    checker_config.enable_checksums = true;
+    checker_config.enable_signatures = true;
+    impl_->consistency_checker = std::make_shared<AdapterConsistencyChecker>(checker_config);
+    
     impl_->is_initialized = true;
-    spdlog::info("LoRA Orchestrator initialized (stub)");
+    spdlog::info("LoRA Orchestrator initialized with storage and consistency checker");
 }
 
 LoRAOrchestrator::~LoRAOrchestrator() = default;
@@ -448,6 +462,14 @@ MultiLoRAManager* LoRAOrchestrator::getMultiLoRAManager() {
 
 void LoRAOrchestrator::enableAdvancedFeatures(bool enable) {
     impl_->advanced_enabled = enable;
+}
+
+std::shared_ptr<LoRAStorageService> LoRAOrchestrator::getStorageService() const {
+    return impl_->storage_service;
+}
+
+std::shared_ptr<AdapterConsistencyChecker> LoRAOrchestrator::getConsistencyChecker() const {
+    return impl_->consistency_checker;
 }
 
 } // namespace lora
