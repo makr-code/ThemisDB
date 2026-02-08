@@ -279,7 +279,9 @@ bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void*
     }
     
     spdlog::info("✓ LoRA adapter initialized successfully: {}", lora_id);
-    spdlog::info("  Adapter handle: 0x{:x}", reinterpret_cast<uintptr_t>(lora->adapter_handle));
+    spdlog::info("  Path: {}", lora->path);
+    spdlog::info("  Base model: {}", lora->base_model_id);
+    spdlog::info("  Scale: {}", lora->scale);
     
     return true;
 }
