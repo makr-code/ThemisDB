@@ -780,13 +780,16 @@ SecondaryIndexManager::Status SecondaryIndexManager::put(std::string_view table,
 		// Call atomic geo index hook - it will add spatial index writes to the same batch
 		try {
 			std::vector<uint8_t> blob = entity.serialize();
-			api::GeoIndexHooks::onEntityPutAtomic(batch, spatial_index_mgr_, 
-												  std::string(table), pk, blob);
-			// Note: onEntityPutAtomic returns false if no spatial data or index not available
-			// We don't fail the transaction if spatial index update fails - it's best effort
+			bool spatial_updated = api::GeoIndexHooks::onEntityPutAtomic(
+				batch, spatial_index_mgr_, std::string(table), pk, blob);
+			// onEntityPutAtomic returns false if no spatial data or index not available
+			// This is expected behavior - spatial indexing is optional
+			if (!spatial_updated) {
+				THEMIS_DEBUG("No spatial data for {}:{} or spatial index not available", table, pk);
+			}
 		} catch (const std::exception& e) {
 			THEMIS_WARN("Atomic geo index hook failed for {}:{}: {}", table, pk, e.what());
-			// Continue with transaction - spatial index is optional
+			// Continue with transaction - spatial index is optional and best-effort
 		}
 	}
 	

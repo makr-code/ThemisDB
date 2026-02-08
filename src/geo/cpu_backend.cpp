@@ -121,6 +121,9 @@ public:
                 }
                 
                 // Use simple polygon intersection check
+                // TODO(geo-robustness): Add edge-edge intersection checks for complete coverage
+                // Current implementation may miss cases where polygons intersect only at edges
+                // For production use, consider Boost.Geometry backend (boost_cpu_exact_backend.cpp)
                 if (simplePolygonIntersects(poly1, poly2)) {
                     return true;
                 }

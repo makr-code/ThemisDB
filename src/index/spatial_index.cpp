@@ -381,7 +381,9 @@ SpatialIndexManager::Status SpatialIndexManager::insertBatch(
     
     std::string key = makeSpatialKey(table, morton);
     
-    // Get existing entries for this Morton bucket (read outside transaction)
+    // Load existing entries for this Morton bucket
+    // Note: This read happens before WriteBatch commit, so it sees the pre-transaction state
+    // The writes added to the batch will be committed atomically later
     auto value = db_.get(key);
     std::vector<SidecarEntry> entries;
     

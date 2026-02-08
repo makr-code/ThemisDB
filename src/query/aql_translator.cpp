@@ -828,7 +828,8 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
             }
             
             // Handle ST_* spatial functions (G3 - AQL Parser Integration)
-            if (funcName.rfind("st_", 0) == 0) {
+            // Use compare for clearer intent than rfind
+            if (funcName.compare(0, 3, "st_") == 0) {
                 // Recognize ST_Intersects, ST_Within, ST_Contains, ST_DWithin
                 PredicateSpatial::Operation operation;
                 
@@ -880,9 +881,12 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                     }
                 }
                 
-                // TODO: Compute bbox from queryGeomExpr for index filtering
-                // For now, we'll leave bbox computation for a later phase
-                // The query engine can still execute without pre-computed bbox (full scan fallback)
+                // TODO(geo-mvp): Compute bbox from queryGeomExpr for index filtering
+                // For full implementation, would need:
+                // 1. Runtime evaluation of geometry expressions
+                // 2. GeoJSON/WKT parsing to extract bounding box
+                // 3. Coordinate transformation if needed
+                // Currently deferred - query engine can execute without pre-computed bbox (with full scan fallback)
                 std::optional<std::pair<double, double>> bbox_min;
                 std::optional<std::pair<double, double>> bbox_max;
                 
