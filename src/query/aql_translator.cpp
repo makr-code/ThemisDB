@@ -1,4 +1,4 @@
-﻿#include "query/aql_translator.h"
+#include "query/aql_translator.h"
 #include "query/subquery_optimizer.h"
 #include <sstream>
 #include <variant>
@@ -824,6 +824,88 @@ AQLTranslator::TranslationResult AQLTranslator::translate(const std::shared_ptr<
                 
                 // Set fuzzy predicate
                 query.fuzzyPredicate = PredicateFuzzy{column, queryStr, maxDistance, limit};
+                continue; // Skip normal predicate extraction for this filter
+            }
+            
+            // Handle ST_* spatial functions (G3 - AQL Parser Integration)
+            if (funcName.rfind("st_", 0) == 0) {
+                // Recognize ST_Intersects, ST_Within, ST_Contains, ST_DWithin
+                PredicateSpatial::Operation operation;
+                
+                if (funcName == "st_intersects") {
+                    operation = PredicateSpatial::Operation::Intersects;
+                } else if (funcName == "st_within") {
+                    operation = PredicateSpatial::Operation::Within;
+                } else if (funcName == "st_contains") {
+                    operation = PredicateSpatial::Operation::Contains;
+                } else if (funcName == "st_dwithin") {
+                    operation = PredicateSpatial::Operation::DWithin;
+                } else {
+                    return TranslationResult::Error("Unsupported spatial function: " + funcName);
+                }
+                
+                // Parse ST_*(column, geometry [, distance])
+                if (operation == PredicateSpatial::Operation::DWithin) {
+                    if (funcCall->arguments.size() != 3) {
+                        return TranslationResult::Error("ST_DWithin() requires 3 arguments: ST_DWithin(column, geometry, distance)");
+                    }
+                } else {
+                    if (funcCall->arguments.size() != 2) {
+                        return TranslationResult::Error(funcName + "() requires 2 arguments: " + funcName + "(column, geometry)");
+                    }
+                }
+                
+                // Extract column (must be field access: doc.location)
+                if (funcCall->arguments[0]->getType() != ASTNodeType::FieldAccess) {
+                    return TranslationResult::Error(funcName + "() first argument must be field access (e.g., doc.location)");
+                }
+                std::string column = extractColumnName(funcCall->arguments[0]);
+                
+                // Store query geometry expression for runtime evaluation
+                auto queryGeomExpr = funcCall->arguments[1];
+                
+                // Extract optional distance for ST_DWithin
+                std::optional<double> distance;
+                if (operation == PredicateSpatial::Operation::DWithin) {
+                    if (funcCall->arguments[2]->getType() != ASTNodeType::Literal) {
+                        return TranslationResult::Error("ST_DWithin() distance must be numeric literal");
+                    }
+                    auto distLiteral = std::static_pointer_cast<LiteralExpr>(funcCall->arguments[2]);
+                    if (std::holds_alternative<int64_t>(distLiteral->value)) {
+                        distance = static_cast<double>(std::get<int64_t>(distLiteral->value));
+                    } else if (std::holds_alternative<double>(distLiteral->value)) {
+                        distance = std::get<double>(distLiteral->value);
+                    } else {
+                        return TranslationResult::Error("ST_DWithin() distance must be numeric");
+                    }
+                }
+                
+                // TODO: Compute bbox from queryGeomExpr for index filtering
+                // For now, we'll leave bbox computation for a later phase
+                // The query engine can still execute without pre-computed bbox (full scan fallback)
+                std::optional<std::pair<double, double>> bbox_min;
+                std::optional<std::pair<double, double>> bbox_max;
+                
+                // Try to extract simple bbox for GeoJSON Polygon literals
+                if (queryGeomExpr->getType() == ASTNodeType::Literal) {
+                    auto lit = std::static_pointer_cast<LiteralExpr>(queryGeomExpr);
+                    if (std::holds_alternative<std::string>(lit->value)) {
+                        std::string geojson = std::get<std::string>(lit->value);
+                        // Simple heuristic: if it's a JSON string, try to parse coordinates
+                        // For MVP, we'll support simple bbox literals: [[minx,miny],[maxx,maxy]]
+                        // Full GeoJSON parsing would require runtime evaluation
+                    }
+                }
+                
+                // Set spatial predicate
+                query.spatialPredicate = PredicateSpatial{
+                    column,
+                    operation,
+                    queryGeomExpr,
+                    distance,
+                    bbox_min,
+                    bbox_max
+                };
                 continue; // Skip normal predicate extraction for this filter
             }
         }
