@@ -324,10 +324,7 @@ private:
     // moved to MonitoringApiHandler
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);  // Old content-specific metrics (deprecated)
     http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
+    // Entity handlers moved to EntityApiHandler (entity_api_)
     // Query handlers moved to QueryApiHandler
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
