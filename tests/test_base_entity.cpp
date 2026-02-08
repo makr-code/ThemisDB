@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include "utils/serialization.h"
 
 using namespace themis;
 
@@ -262,3 +263,102 @@ TEST_F(BaseEntityTest, BlobOperations) {
     EXPECT_EQ(blob[0], 1);
     EXPECT_EQ(blob[4], 5);
 }
+
+// ===== Error Handling Tests =====
+
+TEST_F(BaseEntityTest, ParseInvalidJsonDoesNotCrash) {
+    BaseEntity entity("test");
+    
+    // Invalid JSON should be handled gracefully
+    std::vector<uint8_t> invalid_json = {'i', 'n', 'v', 'a', 'l', 'i', 'd'};
+    entity.setBlob(invalid_json, BaseEntity::Format::JSON);
+    
+    // Should not crash, should return no fields
+    EXPECT_FALSE(entity.hasField("any_field"));
+    auto fields = entity.getAllFields();
+    EXPECT_TRUE(fields.empty());
+}
+
+TEST_F(BaseEntityTest, CacheInvalidationOnSetBlob) {
+    BaseEntity entity("test");
+    entity.setField("name", std::string("Original"));
+    
+    // Cache should have data
+    EXPECT_TRUE(entity.hasField("name"));
+    
+    // Setting blob should invalidate cache
+    std::vector<uint8_t> new_blob = {'{', '}'};
+    entity.setBlob(new_blob, BaseEntity::Format::JSON);
+    
+    // Old field should not be accessible
+    EXPECT_FALSE(entity.hasField("name"));
+}
+
+TEST_F(BaseEntityTest, SafeUInt64Conversion) {
+    BaseEntity::FieldMap fields;
+    // NOTE: BaseEntity::Value uses int64_t, not uint64_t, as a design choice
+    // This test verifies that INT64_MAX values work correctly within that constraint
+    fields["large_number"] = int64_t(9223372036854775807LL); // INT64_MAX
+    
+    BaseEntity entity("test", fields);
+    auto value = entity.getFieldAsInt("large_number");
+    ASSERT_TRUE(value.has_value());
+    EXPECT_EQ(*value, 9223372036854775807LL);
+    
+    // Verify serialization/deserialization round-trip for large values
+    auto blob = entity.serialize();
+    BaseEntity deserialized = BaseEntity::deserialize("test", blob);
+    auto roundtrip_value = deserialized.getFieldAsInt("large_number");
+    ASSERT_TRUE(roundtrip_value.has_value());
+    EXPECT_EQ(*roundtrip_value, 9223372036854775807LL);
+}
+
+TEST_F(BaseEntityTest, UINT64OverflowClamping) {
+    // Test UINT64 overflow clamping by crafting a binary blob with UINT64 > INT64_MAX
+    utils::Serialization::Encoder encoder;
+    encoder.beginObject(1);
+    encoder.encodeString("overflow_field");
+    encoder.encodeUInt64(18446744073709551615ULL);  // UINT64_MAX
+    encoder.endObject();
+    
+    auto blob = encoder.finish();
+    BaseEntity entity = BaseEntity::deserialize("test", blob);
+    
+    // Value should be clamped to INT64_MAX
+    auto value = entity.getFieldAsInt("overflow_field");
+    ASSERT_TRUE(value.has_value());
+    EXPECT_EQ(*value, std::numeric_limits<int64_t>::max());
+}
+
+TEST_F(BaseEntityTest, UINT32SafeConversion) {
+    // Test UINT32 conversion (UINT32_MAX < INT64_MAX, so no clamping needed)
+    utils::Serialization::Encoder encoder;
+    encoder.beginObject(1);
+    encoder.encodeString("uint32_field");
+    encoder.encodeUInt32(4294967295U);  // UINT32_MAX
+    encoder.endObject();
+    
+    auto blob = encoder.finish();
+    BaseEntity entity = BaseEntity::deserialize("test", blob);
+    
+    // UINT32_MAX fits in int64_t without clamping
+    auto value = entity.getFieldAsInt("uint32_field");
+    ASSERT_TRUE(value.has_value());
+    EXPECT_EQ(*value, 4294967295LL);
+}
+
+TEST_F(BaseEntityTest, NonNegativeRotationPosition) {
+    BaseEntity entity("test");
+    entity.setField("embedding_rotation_pos", int64_t(5));
+    
+    auto pos = entity.getRotationPosition("embedding");
+    ASSERT_TRUE(pos.has_value());
+    EXPECT_EQ(*pos, 5);
+    
+    // Negative values should return nullopt
+    entity.setField("bad_rotation_pos", int64_t(-1));
+    auto bad_pos = entity.getRotationPosition("bad");
+    EXPECT_FALSE(bad_pos.has_value());
+}
+
+

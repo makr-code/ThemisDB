@@ -6,6 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <stdexcept>
 #include <sstream>
+#include <limits>
 
 namespace themis {
 
@@ -47,6 +48,11 @@ void BaseEntity::ensureCache() const {
         return;
     }
     
+    // If parse previously failed, don't retry to avoid log spam and CPU churn
+    if (parse_failed_) {
+        return;
+    }
+    
     if (blob_.empty()) {
         field_cache_ = std::make_shared<FieldMap>();
         cache_valid_ = true;
@@ -61,14 +67,18 @@ void BaseEntity::ensureCache() const {
         }
         cache_valid_ = true;
     } catch (const std::exception& e) {
-        THEMIS_ERROR("Failed to parse entity blob: {}", e.what());
+        THEMIS_ERROR("Failed to parse entity blob (format={}): {}", 
+                     format_ == Format::JSON ? "JSON" : "BINARY", e.what());
+        // Mark parse as failed to prevent repeated retries and log spam
+        parse_failed_ = true;
         field_cache_ = std::make_shared<FieldMap>();
-        cache_valid_ = true;
+        cache_valid_ = true;  // Cache is valid (empty) to prevent retries
     }
 }
 
 void BaseEntity::invalidateCache() {
     cache_valid_ = false;
+    parse_failed_ = false;  // Reset parse failure flag on explicit invalidation
     field_cache_.reset();
 }
 
@@ -202,15 +212,24 @@ BaseEntity::FieldMap BaseEntity::parseJson() const {
 
         for (auto field : obj) {
             auto key_res = field.unescaped_key();
-            if (key_res.error()) continue;
+            if (key_res.error()) {
+                THEMIS_WARN("Failed to parse JSON field key: {}", simdjson::error_message(key_res.error()));
+                continue;
+            }
             std::string key_str(key_res.value_unsafe());
 
             auto val_res = field.value();
-            if (val_res.error()) continue;
+            if (val_res.error()) {
+                THEMIS_WARN("Failed to parse JSON field '{}' value: {}", key_str, simdjson::error_message(val_res.error()));
+                continue;
+            }
             
             // Determine type and convert
             auto type_res = val_res.type();
-            if (type_res.error()) continue;
+            if (type_res.error()) {
+                THEMIS_WARN("Failed to determine type for JSON field '{}': {}", key_str, simdjson::error_message(type_res.error()));
+                continue;
+            }
             auto type = type_res.value_unsafe();
 
             switch (type) {
@@ -314,12 +333,32 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     fields[field_name] = decoder.decodeInt64();
                     break;
                     
-                case utils::Serialization::TypeTag::UINT32:
-                case utils::Serialization::TypeTag::UINT64:
-                    fields[field_name] = static_cast<int64_t>(decoder.decodeUInt64());
+                case utils::Serialization::TypeTag::UINT32: {
+                    // UINT32 uses 4 bytes - must use decodeUInt32() not decodeUInt64()
+                    uint32_t uint_val = decoder.decodeUInt32();
+                    // Safe to convert UINT32 to INT64 - UINT32_MAX < INT64_MAX
+                    fields[field_name] = static_cast<int64_t>(uint_val);
                     break;
+                }
+                    
+                case utils::Serialization::TypeTag::UINT64: {
+                    uint64_t uint_val = decoder.decodeUInt64();
+                    // DESIGN LIMITATION: BaseEntity::Value only supports int64_t, not uint64_t
+                    // This is a schema design constraint - if you need full uint64 range,
+                    // consider using binary blob or string representation
+                    if (uint_val > static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+                        THEMIS_ERROR("UINT64 value {} exceeds INT64_MAX for field '{}'. "
+                                    "Value will be clamped. Consider using binary blob for full uint64 range.",
+                                    uint_val, field_name);
+                        fields[field_name] = std::numeric_limits<int64_t>::max();
+                    } else {
+                        fields[field_name] = static_cast<int64_t>(uint_val);
+                    }
+                    break;
+                }
                     
                 case utils::Serialization::TypeTag::FLOAT:
+                    // Note: Float to double conversion is safe (widening)
                     fields[field_name] = static_cast<double>(decoder.decodeFloat());
                     break;
                     
@@ -336,8 +375,11 @@ BaseEntity::FieldMap BaseEntity::parseBinary() const {
                     break;
                     
                 default:
-                    // Skip unknown types
-                    break;
+                    // Fail fast on unknown or unsupported type tags to avoid decoder desynchronization
+                    // Continuing after unknown tag can cause subsequent reads to go out of bounds
+                    THEMIS_ERROR("Unknown or unsupported type tag {} for field '{}'. Cannot safely continue parsing.",
+                                static_cast<int>(type), field_name);
+                    throw std::runtime_error("Unknown type tag encountered while parsing BaseEntity binary blob");
             }
         }
         
@@ -562,6 +604,7 @@ std::optional<size_t> BaseEntity::getRotationPosition(std::string_view field_nam
     std::string rotation_pos_field = std::string(field_name) + "_rotation_pos";
     auto pos_value = getFieldAsInt(rotation_pos_field);
     if (pos_value && *pos_value >= 0) {
+        // Safe conversion: already verified non-negative
         return static_cast<size_t>(*pos_value);
     }
     return std::nullopt;
