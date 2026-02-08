@@ -262,3 +262,61 @@ TEST_F(BaseEntityTest, BlobOperations) {
     EXPECT_EQ(blob[0], 1);
     EXPECT_EQ(blob[4], 5);
 }
+
+// ===== Error Handling Tests =====
+
+TEST_F(BaseEntityTest, ParseInvalidJsonDoesNotCrash) {
+    BaseEntity entity("test");
+    
+    // Invalid JSON should be handled gracefully
+    std::vector<uint8_t> invalid_json = {'i', 'n', 'v', 'a', 'l', 'i', 'd'};
+    entity.setBlob(invalid_json, BaseEntity::Format::JSON);
+    
+    // Should not crash, should return no fields
+    EXPECT_FALSE(entity.hasField("any_field"));
+    auto fields = entity.getAllFields();
+    EXPECT_TRUE(fields.empty());
+}
+
+TEST_F(BaseEntityTest, CacheInvalidationOnSetBlob) {
+    BaseEntity entity("test");
+    entity.setField("name", std::string("Original"));
+    
+    // Cache should have data
+    EXPECT_TRUE(entity.hasField("name"));
+    
+    // Setting blob should invalidate cache
+    std::vector<uint8_t> new_blob = {'{', '}'};
+    entity.setBlob(new_blob, BaseEntity::Format::JSON);
+    
+    // Old field should not be accessible
+    EXPECT_FALSE(entity.hasField("name"));
+}
+
+TEST_F(BaseEntityTest, SafeUInt64Conversion) {
+    BaseEntity::FieldMap fields;
+    // Test that very large uint values are handled safely
+    // We can't directly test UINT64 from the public API, but we ensure
+    // that INT64_MAX values work correctly
+    fields["large_number"] = int64_t(9223372036854775807LL); // INT64_MAX
+    
+    BaseEntity entity("test", fields);
+    auto value = entity.getFieldAsInt("large_number");
+    ASSERT_TRUE(value.has_value());
+    EXPECT_EQ(*value, 9223372036854775807LL);
+}
+
+TEST_F(BaseEntityTest, NonNegativeRotationPosition) {
+    BaseEntity entity("test");
+    entity.setField("embedding_rotation_pos", int64_t(5));
+    
+    auto pos = entity.getRotationPosition("embedding");
+    ASSERT_TRUE(pos.has_value());
+    EXPECT_EQ(*pos, 5);
+    
+    // Negative values should return nullopt
+    entity.setField("bad_rotation_pos", int64_t(-1));
+    auto bad_pos = entity.getRotationPosition("bad");
+    EXPECT_FALSE(bad_pos.has_value());
+}
+
