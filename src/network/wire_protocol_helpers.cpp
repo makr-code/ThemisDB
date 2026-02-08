@@ -35,7 +35,11 @@ bool ProtobufParser::readFixed64(uint64_t& value) {
         return false;
     }
     
-    std::memcpy(&value, &data_[pos_], 8);
+    // Protobuf fixed64 is little-endian on wire
+    value = 0;
+    for (int i = 0; i < 8; ++i) {
+        value |= static_cast<uint64_t>(data_[pos_ + i]) << (i * 8);
+    }
     pos_ += 8;
     return true;
 }
@@ -45,7 +49,11 @@ bool ProtobufParser::readFixed32(uint32_t& value) {
         return false;
     }
     
-    std::memcpy(&value, &data_[pos_], 4);
+    // Protobuf fixed32 is little-endian on wire
+    value = 0;
+    for (int i = 0; i < 4; ++i) {
+        value |= static_cast<uint32_t>(data_[pos_ + i]) << (i * 8);
+    }
     pos_ += 4;
     return true;
 }
@@ -122,6 +130,7 @@ void ProtobufSerializer::writeVarint(uint64_t value) {
 }
 
 void ProtobufSerializer::writeFixed64(uint64_t value) {
+    // Protobuf fixed64 is little-endian on wire
     for (int i = 0; i < 8; ++i) {
         data_.push_back(static_cast<uint8_t>(value & 0xFF));
         value >>= 8;
@@ -129,6 +138,7 @@ void ProtobufSerializer::writeFixed64(uint64_t value) {
 }
 
 void ProtobufSerializer::writeFixed32(uint32_t value) {
+    // Protobuf fixed32 is little-endian on wire
     for (int i = 0; i < 4; ++i) {
         data_.push_back(static_cast<uint8_t>(value & 0xFF));
         value >>= 8;

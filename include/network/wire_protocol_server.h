@@ -229,6 +229,7 @@ private:
     void asyncReadPayload(uint32_t payload_size);
     void asyncReadChecksum();
     void asyncWriteResponse(const std::vector<uint8_t>& data);
+    void doWrite();  // Internal write loop
 
     // Message handlers (OpCode dispatch)
     void handleMessage();

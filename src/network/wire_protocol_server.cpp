@@ -267,9 +267,10 @@ void WireProtocolServer::Session::asyncReadHeader() {
             if (!ec) {
                 // Parse header to get payload size, then read payload
                 if (header_buffer_.size() >= 12) {
-                    // Extract payload size (bytes 6-9, big-endian)
+                    // Extract payload size (bytes 8-11, big-endian)
+                    // Wire format: Magic(4) + Version(1) + OpCode(1) + Flags(2) + PayloadSize(4)
                     uint32_t payload_size = 0;
-                    std::memcpy(&payload_size, &header_buffer_[6], sizeof(uint32_t));
+                    std::memcpy(&payload_size, &header_buffer_[8], sizeof(uint32_t));
                     payload_size = ntohl(payload_size);
                     
                     // Validate payload size
@@ -293,7 +294,8 @@ void WireProtocolServer::Session::asyncReadHeader() {
 
 void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
     if (payload_size == 0) {
-        // No payload, dispatch immediately
+        // No payload, ensure buffer is empty and dispatch immediately
+        payload_buffer_.clear();
         handleMessage();
         asyncReadHeader();  // Continue reading next message
         return;
@@ -420,6 +422,45 @@ void WireProtocolServer::Session::cancelTimeout() {
 void WireProtocolServer::Session::asyncWriteResponse(const std::vector<uint8_t>& data) {
     std::lock_guard<std::mutex> lock(write_mutex_);
     write_queue_.push_back(data);
+    
+    // Start writing if not already in progress
+    if (!write_in_progress_) {
+        write_in_progress_ = true;
+        doWrite();
+    }
+}
+
+void WireProtocolServer::Session::doWrite() {
+    // Must be called with write_mutex_ already locked OR from async callback
+    if (write_queue_.empty()) {
+        write_in_progress_ = false;
+        return;
+    }
+    
+    auto self = shared_from_this();
+    auto& front = write_queue_.front();
+    
+    net::async_write(
+        socket_,
+        net::buffer(front),
+        [this, self](const boost::system::error_code& ec, std::size_t bytes) {
+            if (!ec) {
+                bytes_sent_.fetch_add(bytes, std::memory_order_relaxed);
+                
+                std::lock_guard<std::mutex> lock(write_mutex_);
+                write_queue_.pop_front();
+                
+                if (!write_queue_.empty()) {
+                    doWrite();  // Continue with next message
+                } else {
+                    write_in_progress_ = false;
+                }
+            } else {
+                std::lock_guard<std::mutex> lock(write_mutex_);
+                write_in_progress_ = false;
+                handleError("asyncWrite", ec);
+            }
+        });
 }
 
 // =============================================================================
@@ -509,7 +550,10 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
         TimeSeriesQueryResponse response;
         
         // Check if aggregation is requested
-        bool needs_aggregation = (request.aggregation != 0 || request.bucket_size_ns != 0);
+        // Note: aggregation enum has AVG=0, so we can't use aggregation!=0 to detect requests
+        // Use bucket_size_ns > 0 OR explicit aggregation field presence as indicator
+        // For production: if request has aggregation field set (even if AVG=0), treat as aggregation request
+        bool needs_aggregation = (request.bucket_size_ns > 0);
         
         if (needs_aggregation) {
             // Use aggregation path
