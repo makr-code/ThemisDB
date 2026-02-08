@@ -16,6 +16,8 @@
 #include <cstring>
 #include <cstdio>  // For snprintf
 #include <arpa/inet.h>  // For ntohl/htonl
+#include <map>  // For multi-bucket aggregation
+#include <algorithm>  // For std::min/max
 
 namespace themis::network {
 
@@ -267,6 +269,12 @@ void WireProtocolServer::Session::asyncReadHeader() {
             if (!ec) {
                 // Parse header to get payload size, then read payload
                 if (header_buffer_.size() >= 12) {
+                    // Extract flags (bytes 6-7, big-endian)
+                    uint16_t flags = 0;
+                    std::memcpy(&flags, &header_buffer_[6], sizeof(uint16_t));
+                    flags = ntohs(flags);
+                    current_flags_ = flags;
+                    
                     // Extract payload size (bytes 8-11, big-endian)
                     // Wire format: Magic(4) + Version(1) + OpCode(1) + Flags(2) + PayloadSize(4)
                     uint32_t payload_size = 0;
@@ -294,10 +302,19 @@ void WireProtocolServer::Session::asyncReadHeader() {
 
 void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
     if (payload_size == 0) {
-        // No payload, ensure buffer is empty and dispatch immediately
+        // No payload, check if we need to read checksum
         payload_buffer_.clear();
-        handleMessage();
-        asyncReadHeader();  // Continue reading next message
+        
+        // Check if SKIP_CHECKSUM flag is set (bit 2)
+        const uint16_t SKIP_CHECKSUM_FLAG = 0x0004;
+        if (!(current_flags_ & SKIP_CHECKSUM_FLAG)) {
+            // Checksum expected, read it
+            asyncReadChecksum();
+        } else {
+            // No checksum, dispatch immediately
+            handleMessage();
+            asyncReadHeader();
+        }
         return;
     }
 
@@ -309,11 +326,38 @@ void WireProtocolServer::Session::asyncReadPayload(uint32_t payload_size) {
         net::buffer(payload_buffer_),
         [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
             if (!ec) {
-                // Payload read successfully, now dispatch
+                // Payload read successfully, check if we need to read checksum
+                const uint16_t SKIP_CHECKSUM_FLAG = 0x0004;
+                if (!(current_flags_ & SKIP_CHECKSUM_FLAG)) {
+                    // Checksum expected, read it
+                    asyncReadChecksum();
+                } else {
+                    // No checksum, dispatch immediately
+                    handleMessage();
+                    asyncReadHeader();
+                }
+            } else {
+                handleError("asyncReadPayload", ec);
+            }
+        });
+}
+
+void WireProtocolServer::Session::asyncReadChecksum() {
+    auto self = shared_from_this();
+    net::async_read(
+        socket_,
+        net::buffer(&checksum_buffer_, sizeof(checksum_buffer_)),
+        [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
+            if (!ec) {
+                // Checksum read successfully
+                // TODO: Verify checksum against header + payload
+                // For now, we just consume it and continue
+                
+                // Dispatch message
                 handleMessage();
                 asyncReadHeader();  // Continue reading next message
             } else {
-                handleError("asyncReadPayload", ec);
+                handleError("asyncReadChecksum", ec);
             }
         });
 }
@@ -556,24 +600,24 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
         bool needs_aggregation = (request.bucket_size_ns > 0);
         
         if (needs_aggregation) {
-            // Use aggregation path
-            auto agg_result = server_->ts_store_->aggregate(query_opts);
-            
-            if (!agg_result) {
-                std::string error_msg = "Time-series aggregation failed";
-                try {
-                    error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().what();
-                } catch (...) {
-                    // Fallback if error() access fails
-                }
-                sendError(0x0005, error_msg);
-                return;
-            }
-            
-            const auto& agg_data = agg_result.value();
-            
-            // If bucket_size is specified, create time buckets
+            // If bucket_size is specified, create time buckets with raw data
             if (request.bucket_size_ns > 0) {
+                // Query raw data points to enable per-bucket aggregation
+                auto result = server_->ts_store_->query(query_opts);
+                
+                if (!result) {
+                    std::string error_msg = "Time-series query failed";
+                    try {
+                        error_msg = std::string("Time-series query failed: ") + result.error().what();
+                    } catch (...) {
+                        // Fallback if error() access fails
+                    }
+                    sendError(0x0005, error_msg);
+                    return;
+                }
+                
+                const auto& data_points = result.value();
+                
                 // Bucket the data by time windows
                 uint64_t bucket_size_ms = request.bucket_size_ns / 1000000;
                 if (bucket_size_ms == 0) bucket_size_ms = 1;  // Minimum 1ms buckets
@@ -588,17 +632,89 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     bucket_size_ms = time_range_ms / num_buckets;
                 }
                 
-                // Create buckets with aggregated values
-                // Note: In a full implementation with raw data, you would:
-                // 1. Query raw data points
-                // 2. Group by time bucket
-                // 3. Apply aggregation function per bucket
-                // 
-                // Since we only have aggregate results here, we return one bucket
-                // representing the entire time range
+                // Create buckets and aggregate data points into them
+                std::map<int64_t, std::vector<double>> bucket_data;
+                
+                for (const auto& point : data_points) {
+                    // Determine which bucket this point belongs to
+                    int64_t bucket_index = (point.timestamp_ms - start_ms) / bucket_size_ms;
+                    int64_t bucket_start_ms = start_ms + (bucket_index * bucket_size_ms);
+                    bucket_data[bucket_start_ms].push_back(point.value);
+                }
+                
+                // Create response buckets with aggregated values
+                for (const auto& [bucket_start_ms, values] : bucket_data) {
+                    if (values.empty()) continue;
+                    
+                    TimeSeriesBucket bucket;
+                    bucket.timestamp_ns = static_cast<uint64_t>(bucket_start_ms) * 1000000;
+                    bucket.count = values.size();
+                    
+                    // Calculate aggregation
+                    double min_val = values[0];
+                    double max_val = values[0];
+                    double sum_val = 0.0;
+                    
+                    for (double val : values) {
+                        min_val = std::min(min_val, val);
+                        max_val = std::max(max_val, val);
+                        sum_val += val;
+                    }
+                    
+                    bucket.min = min_val;
+                    bucket.max = max_val;
+                    
+                    // Set value based on aggregation type
+                    switch (request.aggregation) {
+                        case 0:  // AVG
+                            bucket.value = sum_val / values.size();
+                            break;
+                        case 1:  // SUM
+                            bucket.value = sum_val;
+                            break;
+                        case 2:  // MIN
+                            bucket.value = min_val;
+                            break;
+                        case 3:  // MAX
+                            bucket.value = max_val;
+                            break;
+                        case 4:  // COUNT
+                            bucket.value = static_cast<double>(values.size());
+                            break;
+                        default:
+                            bucket.value = sum_val / values.size();
+                    }
+                    
+                    response.buckets.push_back(bucket);
+                }
+                
+                response.stats.total_data_points = data_points.size();
+                response.stats.buckets_returned = response.buckets.size();
+                response.stats.data_density = data_points.empty() ? 0.0 : 
+                    static_cast<double>(data_points.size()) / response.buckets.size();
+            } else {
+                // No bucketing specified, return single aggregated result
+                auto agg_result = server_->ts_store_->aggregate(query_opts);
+                
+                if (!agg_result) {
+                    std::string error_msg = "Time-series aggregation failed";
+                    try {
+                        error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().what();
+                    } catch (...) {
+                        // Fallback if error() access fails
+                    }
+                    sendError(0x0005, error_msg);
+                    return;
+                }
+                
+                const auto& agg_data = agg_result.value();
+                
+                // Create single bucket with aggregated values
                 TimeSeriesBucket bucket;
                 bucket.timestamp_ns = request.start_time_ns;
                 bucket.count = agg_data.count;
+                bucket.min = agg_data.min;
+                bucket.max = agg_data.max;
                 
                 // Set value based on aggregation type
                 switch (request.aggregation) {
@@ -620,22 +736,6 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                     default:
                         bucket.value = agg_data.avg;
                 }
-                
-                bucket.min = agg_data.min;
-                bucket.max = agg_data.max;
-                
-                response.buckets.push_back(bucket);
-                response.stats.total_data_points = agg_data.count;
-                response.stats.buckets_returned = 1;
-                response.stats.data_density = static_cast<double>(agg_data.count);
-            } else {
-                // No bucketing, return single aggregated result
-                TimeSeriesBucket bucket;
-                bucket.timestamp_ns = request.start_time_ns;
-                bucket.count = agg_data.count;
-                bucket.value = agg_data.avg;
-                bucket.min = agg_data.min;
-                bucket.max = agg_data.max;
                 
                 response.buckets.push_back(bucket);
                 response.stats.total_data_points = agg_data.count;

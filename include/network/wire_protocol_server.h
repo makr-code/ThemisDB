@@ -267,6 +267,7 @@ private:
     std::array<uint8_t, 12> header_buffer_;  // Wire frame header
     std::vector<uint8_t> payload_buffer_;
     uint32_t checksum_buffer_;
+    uint16_t current_flags_ = 0;  // Current message flags
 
     // Write queue (prevent write-write race)
     std::mutex write_mutex_;
