@@ -25,6 +25,12 @@ LazyModelLoader::LazyModelLoader(const Config& config)
         spdlog::info("Initializing llama.cpp backend...");
         llama_backend_init();
         spdlog::info("✓ llama.cpp backend initialized");
+        
+        // Register cleanup to free backend resources at process exit
+        std::atexit([]() {
+            spdlog::debug("Freeing llama.cpp backend resources");
+            llama_backend_free();
+        });
     });
     
     spdlog::info("LazyModelLoader initialized (Ollama-style):");
@@ -555,8 +561,9 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Initialize llama.cpp model parameters
     llama_model_params model_params = llama_model_default_params();
     
-    // Configure GPU layers from config
-    int n_gpu_layers = config.value("n_gpu_layers", config_.default_n_gpu_layers);
+    // Configure GPU layers from config and normalize to prevent negative values
+    int n_gpu_layers_raw = config.value("n_gpu_layers", config_.default_n_gpu_layers);
+    int n_gpu_layers = std::max(0, n_gpu_layers_raw);  // Clamp to 0 minimum
     
     // GPU/VRAM handling with CPU fallback
     // Check if GPU is available by attempting to use it
@@ -573,7 +580,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
         spdlog::info("  VRAM limit: {} MB", config_.max_vram_mb);
         spdlog::info("  Note: llama.cpp will auto-fallback to CPU if GPU unavailable");
     } else {
-        spdlog::info("CPU-only inference configured (n_gpu_layers=0)");
+        spdlog::info("CPU-only inference configured (n_gpu_layers={})", n_gpu_layers);
         model_params.n_gpu_layers = 0;
     }
     

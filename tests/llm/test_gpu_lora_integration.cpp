@@ -16,6 +16,7 @@
 #include <gtest/gtest.h>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 // Conditional compilation for LLM support
 #ifdef THEMIS_ENABLE_LLM
@@ -310,7 +311,13 @@ TEST_F(GPULoRAIntegrationTest, CompleteGPULoRAConfiguration) {
         // Verify capabilities reflect GPU and LoRA support
         auto caps = wrapper.getCapabilities();
         EXPECT_TRUE(caps.gpu_accelerated);
-        EXPECT_TRUE(caps.supports_lora);
+        
+        // LoRA support depends on whether llama.cpp was built with LLAMA_LORA=ON
+        // Check actual runtime availability rather than assuming it's always true
+        extern "C" {
+            bool themis_llama_lora_available();
+        }
+        EXPECT_EQ(caps.supports_lora, themis_llama_lora_available());
     });
 #else
     GTEST_SKIP() << "LLM support not enabled";
@@ -342,11 +349,5 @@ TEST_F(GPULoRAIntegrationTest, ConfigurationLogging) {
 #endif
 }
 
-// ═══════════════════════════════════════════════════════════
-// Main
-// ═══════════════════════════════════════════════════════════
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Note: This test file is auto-discovered by CMake via GLOB_RECURSE in tests/CMakeLists.txt
+// and linked with GTest::gtest_main, so no explicit main() function is needed here.

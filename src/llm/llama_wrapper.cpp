@@ -1096,7 +1096,12 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
     caps.supports_chat = true;
     caps.supports_completion = true;
     
-    caps.supports_lora = true;
+    // Check actual LoRA API availability at runtime
+    extern "C" {
+        bool themis_llama_lora_available();
+    }
+    caps.supports_lora = themis_llama_lora_available();
+    
     caps.supports_quantization = true;
     caps.supports_streaming = true;
     caps.supports_batching = true;

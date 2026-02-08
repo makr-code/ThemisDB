@@ -206,12 +206,19 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
             bool themis_llama_lora_available();
         }
         
+        bool adapter_freed = false;
         if (themis_llama_lora_available()) {
             spdlog::debug("Freeing LoRA adapter handle for {}", lora_id);
             llama_lora_adapter_free(lora->adapter_handle);
+            adapter_freed = true;
         }
         lora->adapter_handle = nullptr;
-        spdlog::debug("LoRA adapter handle freed for {}", lora_id);
+        
+        if (adapter_freed) {
+            spdlog::debug("LoRA adapter handle freed for {}", lora_id);
+        } else {
+            spdlog::debug("LoRA adapter handle cleared without freeing (LoRA API unavailable) for {}", lora_id);
+        }
     }
     
     // Update memory usage
