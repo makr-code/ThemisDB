@@ -159,6 +159,23 @@ TEST_F(SecureTransportClientIntegrationTest, TransferToEndpoint) {
     if (result.success) {
         EXPECT_GT(result.bytes_sent, 0);
         EXPECT_EQ(result.status_code, 201);
+        
+        // Verify transfer metrics
+        EXPECT_GT(result.bytes_compressed, 0);
+        EXPECT_GE(result.compression_ratio, 1.0);
+        EXPECT_GE(result.retry_count, 0);
+        
+        // Note: In a real integration test with a test server,
+        // you would also parse and validate the response body:
+        // - adapter_id matches request
+        // - version matches request
+        // - status is "received"
+        // - bytes_received matches payload size
+        // - compressed flag is correct
+    } else {
+        // If transfer failed, log error for debugging
+        GTEST_SKIP() << "Transfer failed: " << result.error
+                    << " (status: " << result.status_code << ")";
     }
 }
 

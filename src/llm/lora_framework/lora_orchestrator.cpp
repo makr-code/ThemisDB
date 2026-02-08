@@ -67,8 +67,21 @@ LoRAOrchestrator::LoRAOrchestrator(const Config& /*config*/) : impl_(std::make_u
         spdlog::error("Failed to allocate LoRA Orchestrator Impl");
         throw std::runtime_error("LoRA Orchestrator Impl allocation failed");
     }
+    
+    // Initialize storage service
+    LoRAStorageService::Config storage_config;
+    storage_config.backend = LoRAStorageService::Backend::FileSystem;
+    storage_config.filesystem_path = "data/lora_adapters";
+    impl_->storage_service = std::make_shared<LoRAStorageService>(storage_config);
+    
+    // Initialize consistency checker
+    AdapterConsistencyChecker::Config checker_config;
+    checker_config.enable_checksums = true;
+    checker_config.enable_signatures = true;
+    impl_->consistency_checker = std::make_shared<AdapterConsistencyChecker>(checker_config);
+    
     impl_->is_initialized = true;
-    spdlog::info("LoRA Orchestrator initialized (stub)");
+    spdlog::info("LoRA Orchestrator initialized with storage and consistency checker");
 }
 
 LoRAOrchestrator::~LoRAOrchestrator() = default;

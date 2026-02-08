@@ -981,12 +981,14 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
             weights_data = std::vector<uint8_t>(data_str.begin(), data_str.end());
         }
         
+        // Get consistency checker once for all validations
+        auto consistency_checker = orchestrator_->getConsistencyChecker();
+        
         // Verify integrity checks if present
         if (body->contains("checksum")) {
             std::string expected_checksum = body->at("checksum").get<std::string>();
             
             // Calculate checksum and verify
-            auto consistency_checker = orchestrator_->getConsistencyChecker();
             if (consistency_checker) {
                 std::string actual_checksum = consistency_checker->calculateChecksum(weights_data);
                 if (actual_checksum != expected_checksum) {
@@ -1003,7 +1005,6 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
             std::string signature = body->at("signature").get<std::string>();
             
             // Verify signature
-            auto consistency_checker = orchestrator_->getConsistencyChecker();
             if (consistency_checker) {
                 if (!consistency_checker->verifySignature(weights_data, signature)) {
                     return createErrorResponse(
