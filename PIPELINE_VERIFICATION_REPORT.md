@@ -119,6 +119,7 @@ All related extracted handlers are properly wired.
 - **Expected:** ✅ No compilation errors
 - **Reason:** All includes, declarations, and definitions are consistent
 - **Dependencies:** All required dependencies (WALManager, ReplicationCoordinator) are properly wired
+- **Note:** Admin handlers now properly route to admin_api_ (fixed in commit addressing review comments)
 
 ### Integration Status
 | Component | Status |

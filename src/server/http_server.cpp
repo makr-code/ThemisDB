@@ -1942,10 +1942,10 @@ http::response<http::string_body> HttpServer::routeRequest(
             response = handleConfig(req);
             break;
         case Route::AdminBackupPost:
-            response = handleAdminBackup(req);
+            response = admin_api_->handleBackup(req);
             break;
         case Route::AdminRestorePost:
-            response = handleAdminRestore(req);
+            response = admin_api_->handleRestore(req);
             break;
         case Route::EntitiesGet:
             response = entity_api_->handleGet(req);

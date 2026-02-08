@@ -339,9 +339,8 @@ private:
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
-    // Admin: Backup & Restore
-    http::response<http::string_body> handleAdminBackup(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleAdminRestore(const http::request<http::string_body>& req);
+    // Admin handlers moved to AdminApiHandler (admin_api_)
+    // Previously: handleAdminBackup, handleAdminRestore
 
     // Content API endpoints
     http::response<http::string_body> handleContentImport(const http::request<http::string_body>& req);
