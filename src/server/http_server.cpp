@@ -687,6 +687,15 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
     
+    // Initialize BPMN API Handler if process_graph is available
+    if (process_graph_) {
+        bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
+            process_graph_,
+            auth_
+        );
+        THEMIS_INFO("BPMN API Handler initialized");
+    }
+    
     // Initialize Content API Handler
     content_api_ = std::make_unique<themis::server::ContentApiHandler>(
         storage_, content_manager_, nullptr, auth_,
@@ -1570,6 +1579,11 @@ namespace {
     ErrorApiGetByCode,        // GET /api/v1/errors/:code
     ErrorApiCategoriesGet,    // GET /api/v1/errors/categories
     ErrorApiSearchGet,        // GET /api/v1/errors/search
+    
+    // BPMN Process API
+    BpmnProcessStartPost,     // POST /api/v1/bpmn/process/start
+    BpmnTaskCompletePost,     // POST /api/v1/bpmn/task/:taskId/complete
+    BpmnInstanceQueryGet,     // GET /api/v1/bpmn/instance/:instanceId
        
         NotFound
     };
@@ -1777,6 +1791,11 @@ namespace {
             if (method == http::verb::delete_) return Route::FeedbackDelete;
         }
     }
+    
+    // BPMN Process API routes
+    if (path_only == "/api/v1/bpmn/process/start" && method == http::verb::post) return Route::BpmnProcessStartPost;
+    if (path_only.rfind("/api/v1/bpmn/task/", 0) == 0 && path_only.find("/complete") != std::string::npos && method == http::verb::post) return Route::BpmnTaskCompletePost;
+    if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) return Route::BpmnInstanceQueryGet;
     
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
@@ -2938,6 +2957,30 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ErrorApiSearchGet:
             response = handleErrorApiSearch(req);
+            break;
+        case Route::BpmnProcessStartPost:
+            if (bpmn_api_) {
+                response = bpmn_api_->handleStartProcess(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "BPMN process engine not available", req);
+            }
+            break;
+        case Route::BpmnTaskCompletePost:
+            if (bpmn_api_) {
+                response = bpmn_api_->handleTaskComplete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "BPMN process engine not available", req);
+            }
+            break;
+        case Route::BpmnInstanceQueryGet:
+            if (bpmn_api_) {
+                response = bpmn_api_->handleQueryInstance(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "BPMN process engine not available", req);
+            }
             break;
         case Route::SchemaGetFull:
             response = handleSchemaGetFull(req);

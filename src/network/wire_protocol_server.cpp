@@ -308,10 +308,66 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(header_buffer_.size(), std::memory_order_relaxed);
+    
+    // Parse header: magic (4 bytes), version (1 byte), opcode (1 byte), flags (2 bytes), payload_size (4 bytes)
+    // For now, extract opcode from byte 5
+    if (header_buffer_.size() < 6) {
+        sendError(400, "Invalid header size");
+        return;
+    }
+    
+    uint8_t opcode = header_buffer_[5];
+    
+    // Dispatch based on opcode
+    switch (opcode) {
+        case 0x60: // BPMN_START_PROCESS
+            handleBpmnStartProcess();
+            break;
+        case 0x61: // BPMN_TASK_COMPLETE
+            handleBpmnTaskComplete();
+            break;
+        case 0x62: // BPMN_QUERY_INSTANCE
+            handleBpmnQueryInstance();
+            break;
+        case 0xfe: // PING
+            handlePing();
+            break;
+        case 0xff: // CLOSE
+            handleClose();
+            break;
+        default:
+            sendError(400, "Unsupported opcode: " + std::to_string(opcode));
+            break;
+    }
 }
 
 void WireProtocolServer::Session::sendError(uint32_t error_code, const std::string& message) {
-    // Implementation placeholder
+    // Build error response with header
+    json error_json;
+    error_json["error_code"] = error_code;
+    error_json["error_message"] = message;
+    
+    std::string error_str = error_json.dump();
+    std::vector<uint8_t> error_data(error_str.begin(), error_str.end());
+    
+    asyncWriteResponse(error_data);
+}
+
+void WireProtocolServer::Session::handlePing() {
+    // Simple ping response
+    json response;
+    response["pong"] = true;
+    response["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+    
+    std::string response_str = response.dump();
+    std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+    asyncWriteResponse(response_data);
+}
+
+void WireProtocolServer::Session::handleClose() {
+    close();
 }
 
 void WireProtocolServer::Session::handleError(const std::string& context, const boost::system::error_code& ec) {
