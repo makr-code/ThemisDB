@@ -443,7 +443,7 @@ message ErrorResponse {
 
 ### Phase 5: Extended Models (Week 7-8)
 - [ ] GEO_QUERY implementation
-- [ ] TIMESERIES_QUERY implementation
+- [x] TIMESERIES_QUERY implementation (MVP - see wire_protocol_timeseries_integration.md)
 - [ ] BPMN process engine integration
 
 ### Phase 6: Benchmarking (Week 9)

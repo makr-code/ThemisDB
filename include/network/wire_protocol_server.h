@@ -21,6 +21,8 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class TransactionManager;
+class TSStore;
+class ContinuousAggregateManager;
 
 namespace network {
 
@@ -84,7 +86,9 @@ public:
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<GraphIndexManager> graph_index,
         std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<TransactionManager> tx_manager
+        std::shared_ptr<TransactionManager> tx_manager,
+        std::shared_ptr<TSStore> ts_store = nullptr,
+        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr
     );
 
     ~WireProtocolServer();
@@ -157,6 +161,8 @@ private:
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
+    std::shared_ptr<TSStore> ts_store_;
+    std::shared_ptr<ContinuousAggregateManager> agg_manager_;
 
     // Networking (SEPARATE from HTTP server!)
     std::unique_ptr<net::io_context> io_context_;  // Dedicated IO context
