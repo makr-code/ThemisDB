@@ -13,6 +13,7 @@
 #include <iostream>
 #include <chrono>
 #include <cstring>
+#include <cstdio>  // For snprintf
 #include <arpa/inet.h>  // For ntohl/htonl
 
 namespace themis::network {
@@ -310,6 +311,12 @@ void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
     bytes_received_.fetch_add(header_buffer_.size(), std::memory_order_relaxed);
     
+    // Validate header size (must be exactly 12 bytes)
+    if (header_buffer_.size() < 12) {
+        sendError(0x0008, "Invalid header size");
+        return;
+    }
+    
     // Parse header: Magic (4) + Version (1) + OpCode (1) + Flags (2) + PayloadSize (4)
     // Extract OpCode from header_buffer_[5] (0-indexed: bytes 0-3 are magic, 4 is version, 5 is opcode)
     uint8_t opcode = header_buffer_[5];
@@ -361,9 +368,13 @@ void WireProtocolServer::Session::handleMessage() {
         case 0xFF: // CLOSE
             handleClose();
             break;
-        default:
-            sendError(0x0002, "Unknown OpCode: 0x" + std::to_string(opcode));
+        default: {
+            // Format opcode as hexadecimal
+            char hex_opcode[8];
+            std::snprintf(hex_opcode, sizeof(hex_opcode), "0x%02X", opcode);
+            sendError(0x0002, std::string("Unknown OpCode: ") + hex_opcode);
             break;
+        }
     }
 }
 
@@ -473,7 +484,14 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
         auto result = server_->ts_store_->query(query_opts);
         
         if (!result) {
-            sendError(0x0005, "Time-series query failed: " + std::string(result.error().what()));
+            // Safe error access - Result<T> provides error() when result is false
+            std::string error_msg = "Time-series query failed";
+            try {
+                error_msg = std::string("Time-series query failed: ") + result.error().what();
+            } catch (...) {
+                // Fallback if error() access fails
+            }
+            sendError(0x0005, error_msg);
             return;
         }
         
@@ -484,7 +502,13 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
             // Example: Use pre-computed aggregates for better performance
             auto agg_result = server_->ts_store_->aggregate(query_opts);
             if (!agg_result) {
-                sendError(0x0006, "Time-series aggregation failed: " + std::string(agg_result.error().what()));
+                std::string error_msg = "Time-series aggregation failed";
+                try {
+                    error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().what();
+                } catch (...) {
+                    // Fallback if error() access fails
+                }
+                sendError(0x0006, error_msg);
                 return;
             }
             
@@ -501,7 +525,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
         // For now, send a placeholder success response
         std::vector<uint8_t> response;
         // Wire frame header: Magic (4) + Version (1) + OpCode (1) + Flags (2) + PayloadSize (4) = 12 bytes
-        uint32_t magic = 0x544D4442;  // "TMDB"
+        uint32_t magic = htonl(0x544D4442);  // "TMDB" in network byte order
         response.resize(12);
         std::memcpy(&response[0], &magic, 4);
         response[4] = 0x01;  // Version 1
@@ -509,7 +533,8 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
         response[6] = 0x00;  // Flags (low byte)
         response[7] = 0x00;  // Flags (high byte)
         uint32_t payload_size = 0;  // Empty payload for now
-        std::memcpy(&response[8], &payload_size, 4);
+        uint32_t payload_size_net = htonl(payload_size);  // Convert to network byte order
+        std::memcpy(&response[8], &payload_size_net, 4);
         
         asyncWriteResponse(response);
         
