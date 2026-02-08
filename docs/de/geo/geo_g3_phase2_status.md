@@ -33,14 +33,19 @@
    - Extracts geometry column and operation type
    - Stores query geometry expression for runtime evaluation
    - Creates PredicateSpatial and adds to ConjunctiveQuery
+   - **Bbox computation**: Supports simple bbox literals `[[minx,miny],[maxx,maxy]]`
+   - **Limitation**: Full GeoJSON/WKT parsing deferred to future PR
    
 **Usage:**
-Users can now use ST_* functions in AQL FILTER clauses:
+Users can now use ST_* functions in AQL FILTER clauses with simple bbox literals:
 ```aql
 FOR doc IN places
-  FILTER ST_Intersects(doc.location, @queryGeometry)
+  FILTER ST_Intersects(doc.location, [[10.0, 50.0], [11.0, 51.0]])
   RETURN doc
 ```
+
+Note: Currently supports simple bbox literals in format `[[minx,miny],[maxx,maxy]]`. 
+Full GeoJSON/WKT parsing requires runtime geometry evaluation (deferred).
 
 ### Phase 2 - Transactional Atomicity (✅ COMPLETE)
 
@@ -57,15 +62,17 @@ FOR doc IN places
    
 3. ✅ **WriteBatch integration** (`src/index/spatial_index.cpp`)
    - SpatialIndexManager::insertBatch() method added
-   - Loads existing bucket data outside transaction
-   - Adds bucket writes to WriteBatch
-   - Adds per-PK writes to WriteBatch
+   - SpatialIndexManager::removeBatch() method added for atomic deletes
+   - Relies on per-PK keys to avoid concurrent write conflicts
+   - Removed bucket-level read-modify-write that caused race conditions
    
 4. ✅ **Caller integration** (`src/index/secondary_index.cpp`)
    - SecondaryIndexManager::put() calls onEntityPutAtomic()
+   - Removes old spatial entries via onEntityDeleteAtomic() before updates
    - Both entity write and spatial index writes in same WriteBatch
    - Commits WriteBatch atomically
    - Optional spatial index manager via setSpatialIndexManager()
+   - Entity serialized once and reused to avoid overhead
    
 **Current Behavior:**
 - onEntityPutAtomic() is NOW wired up and functional
@@ -90,18 +97,19 @@ auto status = secondary_index_mgr->put(table, entity);
    - Point-Point intersection with epsilon tolerance
    - Point-in-Polygon using ray casting algorithm
    - Polygon-Polygon intersection using vertex containment
-   - Falls back to MBR when exact check is inconclusive or unavailable
+   - Returns false (no MBR fallback) to avoid false positives
+   - Vertex-only checks may miss edge-crossing cases (documented)
    
 2. ✅ **Boost.Geometry Backend** (`src/geo/boost_cpu_exact_backend.cpp`)
    - Full exact geometry checks using Boost.Geometry
    - Handles Point, Polygon, and complex geometries
    - Preferred backend when Boost is available
-   - Robust error handling with MBR fallback
+   - Robust error handling with conservative false returns
 
 **Backend Selection:**
 - Boost.Geometry backend is used when available (compile-time feature)
 - Improved CPU backend provides fallback without external dependencies
-- All backends maintain MBR fallback for robustness
+- No MBR fallback in exact checks to prevent false positives
 
 **Future Integration Point:**
 ```cpp
