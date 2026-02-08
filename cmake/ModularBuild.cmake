@@ -330,6 +330,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/wal_applier.cpp
     ../src/sharding/wal_manager.cpp
     ../src/sharding/wal_shipper.cpp
+    ../src/sharding/secure_transport_client.cpp
     ../src/sharding/replication_coordinator.cpp
     ../src/sharding/replica_topology.cpp
     ../src/sharding/multi_primary_coordinator.cpp

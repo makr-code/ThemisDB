@@ -5,6 +5,7 @@
 #include "lora_metrics.h"
 #include "sharding/shard_topology.h"
 #include "sharding/shard_rpc_client.h"
+#include "sharding/secure_transport_client.h"
 #include <nlohmann/json.hpp>
 #include <string>
 #include <vector>
@@ -100,6 +101,13 @@ public:
         // Metrics
         bool enable_metrics = true;               // Enable Prometheus metrics
         std::string metrics_namespace = "themis_lora_sync";
+        
+        // Transport settings (mTLS, compression, retry)
+        std::string cert_path;                    // mTLS certificate path
+        std::string key_path;                     // mTLS key path
+        std::string ca_cert_path;                 // mTLS CA certificate path
+        bool enable_compression = true;           // Enable compression for transfer
+        int compression_level = 3;                // Compression level (1-22 for Zstd)
     };
     
     /**
