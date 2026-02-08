@@ -1,7 +1,9 @@
 #include "sharding/secure_transport_client.h"
+#include "utils/cursor.h"
 #include <spdlog/spdlog.h>
 #include <thread>
 #include <chrono>
+#include <algorithm>
 
 namespace themis::sharding {
 
@@ -128,11 +130,17 @@ SecureTransportClient::TransferResult SecureTransportClient::transferWithRetry(
             request["compression"] = "none";
         }
         
-        // Encode binary data as base64 in JSON
-        request["data"] = nlohmann::json::binary(
-            std::vector<uint8_t>(transfer_data.begin(), transfer_data.end())
-        );
+        // Encode binary data as base64 string (not JSON binary type which doesn't serialize properly)
+        std::string data_base64 = utils::Cursor::base64Encode(transfer_data);
+        request["data"] = data_base64;
         request["content_type"] = payload.content_type;
+        
+        // TODO: MTLSClient doesn't currently support custom headers (like Authorization: Bearer)
+        // For cross-shard communication, the receiving endpoint needs to either:
+        // 1. Bypass JWT validation when mTLS certificate is valid (service-to-service auth)
+        // 2. MTLSClient needs to be extended to accept custom headers
+        // 3. Use a separate endpoint that doesn't require JWT (only mTLS)
+        // Currently: authorization_token in payload is not used
         
         // Send via mTLS POST
         spdlog::debug("SecureTransportClient: Sending {} bytes (compressed: {}) to {}{}",

@@ -180,22 +180,8 @@ TEST_F(SecureTransportClientIntegrationTest, TransferToEndpoint) {
 }
 
 /**
- * Mock test for compression behavior
+ * Note: Compression behavior testing requires integration with actual transport.
+ * The compression logic is internal to SecureTransportClient and is tested
+ * in the integration test suite where we can verify the actual compressed
+ * payload size in transfer results.
  */
-TEST(SecureTransportCompressionTest, CompressionThreshold) {
-    SecureTransportClient::Config config;
-    config.compression = SecureTransportClient::Config::CompressionType::Zstd;
-    config.compression_threshold = 1024;
-    
-    SecureTransportClient client(config);
-    
-    // Small payload - should not compress
-    SecureTransportClient::Payload small_payload;
-    small_payload.data = std::string(100, 'x');
-    
-    // Large payload - should compress
-    SecureTransportClient::Payload large_payload;
-    large_payload.data = std::string(2000, 'x');
-    
-    // Note: Actual compression is tested in integration
-}

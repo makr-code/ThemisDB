@@ -395,7 +395,7 @@ private:
             payload.checksum = metadata.checksum;
             payload.signature = metadata.signature;
             
-            // Add metadata
+            // Add metadata (including checksum and signature for storage)
             payload.metadata = nlohmann::json{
                 {"adapter_id", adapter_id},
                 {"version", metadata.version},
@@ -410,7 +410,9 @@ private:
                 {"size_bytes", weights.size_bytes},
                 {"format", weights.format},
                 {"hyperparameters", weights.hyperparameters.toJSON()},
-                {"custom_metadata", metadata.custom_metadata}
+                {"custom_metadata", metadata.custom_metadata},
+                {"checksum", metadata.checksum},
+                {"signature", metadata.signature}
             };
             
             // Perform transfer

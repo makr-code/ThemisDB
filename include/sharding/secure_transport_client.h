@@ -61,6 +61,7 @@ public:
         std::string checksum;                // Optional: SHA-256 checksum
         std::string signature;               // Optional: Digital signature
         nlohmann::json metadata;             // Optional: Metadata
+        std::string authorization_token;     // Optional: JWT token for Authorization header
     };
     
     /**

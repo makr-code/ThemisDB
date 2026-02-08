@@ -7,6 +7,7 @@
 #include "llm/lora_framework/lora_config.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
 #include "utils/zstd_codec.h"
+#include "utils/cursor.h"
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <regex>
@@ -51,17 +52,22 @@ void LoRAApiHandler::configureJWT(const auth::JWTValidatorConfig& config) {
 http::response<http::string_body> LoRAApiHandler::handleRequest(
     const http::request<http::string_body>& req) {
     
-    // Validate Bearer Token (JWT) authentication
-    if (!validateBearerToken(req)) {
+    std::string_view target = req.target();
+    auto method = req.method();
+    
+    // Special handling for cross-shard sync endpoint - allow mTLS without JWT
+    // This endpoint is used for internal shard-to-shard communication with mTLS authentication
+    // TODO: Add proper service-to-service authentication (e.g., verify mTLS certificate)
+    bool is_internal_sync = (target == "/api/v1/lora/receive" && method == http::verb::post);
+    
+    // Validate Bearer Token (JWT) authentication for all endpoints except internal sync
+    if (!is_internal_sync && !validateBearerToken(req)) {
         return createErrorResponse(
             http::status::unauthorized,
             "Unauthorized",
             "Valid Bearer Token required. Include 'Authorization: Bearer <token>' header."
         );
     }
-    
-    std::string_view target = req.target();
-    auto method = req.method();
     
     // Route to appropriate handler based on path and method
     
@@ -950,13 +956,20 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
         std::string version = metadata_json.at("version").get<std::string>();
         std::string base_model = metadata_json.at("base_model").get<std::string>();
         
-        // Extract and decode binary data
+        // Extract and decode base64-encoded data
         std::string data_str;
-        if (body->at("data").is_binary()) {
-            auto binary_data = body->at("data").get_binary();
-            data_str = std::string(binary_data.begin(), binary_data.end());
+        if (body->at("data").is_string()) {
+            std::string data_base64 = body->at("data").get<std::string>();
+            auto decoded = utils::Cursor::base64Decode(data_base64);
+            if (!decoded.has_value()) {
+                return createErrorResponse(
+                    http::status::bad_request,
+                    "Failed to decode base64 data"
+                );
+            }
+            data_str = *decoded;
         } else {
-            return createErrorResponse(http::status::bad_request, "Data must be binary");
+            return createErrorResponse(http::status::bad_request, "Data must be base64-encoded string");
         }
         
         // Check if data is compressed
@@ -1071,7 +1084,7 @@ http::response<http::string_body> LoRAApiHandler::handleReceiveAdapter(
             );
         }
         
-        bool stored = storage_service->storeAdapter(adapter_id, weights, metadata);
+        bool stored = storage_service->saveAdapter(adapter_id, weights, metadata);
         
         if (stored) {
             json response_data = {

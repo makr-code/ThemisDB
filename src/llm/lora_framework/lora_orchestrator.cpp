@@ -62,17 +62,14 @@ public:
     std::shared_ptr<AdapterConsistencyChecker> consistency_checker;
 };
 
-LoRAOrchestrator::LoRAOrchestrator(const Config& /*config*/) : impl_(std::make_unique<Impl>()) {
+LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
     if (!impl_) {
         spdlog::error("Failed to allocate LoRA Orchestrator Impl");
         throw std::runtime_error("LoRA Orchestrator Impl allocation failed");
     }
     
-    // Initialize storage service
-    LoRAStorageService::Config storage_config;
-    storage_config.backend = LoRAStorageService::Backend::FileSystem;
-    storage_config.filesystem_path = "data/lora_adapters";
-    impl_->storage_service = std::make_shared<LoRAStorageService>(storage_config);
+    // Initialize storage service using provided config
+    impl_->storage_service = std::make_shared<LoRAStorageService>(config.storage_config);
     
     // Initialize consistency checker
     AdapterConsistencyChecker::Config checker_config;
