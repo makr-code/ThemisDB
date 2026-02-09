@@ -31,8 +31,8 @@ std::vector<std::string> tokenize(const std::string& text) {
     std::string current;
     
     for (char c : text) {
-        if (std::isalnum(c)) {
-            current += std::tolower(c);
+        if (std::isalnum(static_cast<unsigned char>(c))) {
+            current += std::tolower(static_cast<unsigned char>(c));
         } else if (!current.empty()) {
             tokens.push_back(current);
             current.clear();
@@ -63,10 +63,10 @@ std::string soundex(const std::string& s) {
     if (s.empty()) return "";
     
     std::string result;
-    result += std::toupper(s[0]);
+    result += std::toupper(static_cast<unsigned char>(s[0]));
     
     auto getCode = [](char c) -> char {
-        c = std::toupper(c);
+        c = std::toupper(static_cast<unsigned char>(c));
         if (c == 'B' || c == 'F' || c == 'P' || c == 'V') return '1';
         if (c == 'C' || c == 'G' || c == 'J' || c == 'K' || c == 'Q' || c == 'S' || c == 'X' || c == 'Z') return '2';
         if (c == 'D' || c == 'T') return '3';
@@ -95,7 +95,7 @@ std::string metaphone(const std::string& word, int maxLen = 6) {
     
     std::string result;
     std::string upper;
-    for (char c : word) upper += std::toupper(c);
+    for (char c : word) upper += std::toupper(static_cast<unsigned char>(c));
     
     size_t i = 0;
     

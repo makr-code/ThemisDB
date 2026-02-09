@@ -47,15 +47,7 @@
 #endif
 #include "query/functions/ethics_functions.h"
 #include "query/functions/process_mining_functions.h"
-
-// Forward declaration for fulltext functions (implemented in fulltext_functions.cpp)
-namespace themis {
-namespace query {
-namespace functions {
-void registerFulltextFunctions(FunctionRegistry& registry);
-}
-}
-}
+#include "query/functions/fulltext_functions.h"
 
 #include <iostream>
 #include <stdexcept>

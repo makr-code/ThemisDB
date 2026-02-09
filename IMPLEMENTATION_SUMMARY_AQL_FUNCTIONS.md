@@ -13,7 +13,7 @@ Complete and harden AQL implementation areas that are currently incomplete or st
 
 ## Solution Implemented
 
-### 1. Fulltext Functions ✅ COMPLETED
+### 1. Fulltext Functions — REGISTERED (Partial Implementation)
 
 **Actions Taken:**
 - ✅ Created `src/query/functions/fulltext_functions.cpp` with proper interface
@@ -46,7 +46,7 @@ Complete and harden AQL implementation areas that are currently incomplete or st
 
 ---
 
-### 2. Ethics Functions ✅ COMPLETED
+### 2. Ethics Functions — REGISTERED (Stub Implementation)
 
 **Actions Taken:**
 - ✅ Verified functions were already registered in function registry
@@ -75,7 +75,7 @@ Complete and harden AQL implementation areas that are currently incomplete or st
 
 ---
 
-### 3. Process Mining Functions ✅ COMPLETED
+### 3. Process Mining Functions — REGISTERED (Stub Implementation)
 
 **Actions Taken:**
 - ✅ Registered all 14 process mining functions in `function_registry.cpp`

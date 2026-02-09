@@ -143,15 +143,15 @@ This document tracks the implementation status of AQL functions in ThemisDB.
 ## Testing Status
 
 ### Ethics Functions
-- **Unit Tests**: ❌ Not present (functions return stubs, tests would pass trivially)
+- **Unit Tests**: ✅ Added in `test_new_aql_functions.cpp` - tests registration and stub behavior (11 test cases)
 - **Integration Tests**: Limited (test_ethics_evaluator.cpp, test_ethics_plugin_integration.cpp exist but test plugin integration, not functions)
 
 ### Process Mining Functions  
-- **Unit Tests**: ❌ Not present
+- **Unit Tests**: ✅ Added in `test_new_aql_functions.cpp` - tests registration and stub behavior (11 test cases)
 - **Integration Tests**: Present (test_process_mining_e2e.cpp, test_process_mining_extended.cpp) but may need updates
 
 ### Fulltext Functions
-- **Unit Tests**: ❌ Not present (functions not registered)
+- **Unit Tests**: ✅ Added in `test_new_aql_functions.cpp` - tests registration, implemented functions (NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE), and placeholder behavior (23 test cases)
 - **Integration Tests**: Present (test_fulltext_phrase_fuzzy.cpp tests SecondaryIndexManager APIs directly, not AQL functions)
 
 ---

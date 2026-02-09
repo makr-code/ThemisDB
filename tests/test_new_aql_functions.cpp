@@ -11,8 +11,8 @@ using json = nlohmann::json;
 
 class NewAQLFunctionsTest : public ::testing::Test {
 protected:
-    void SetUp() override {
-        // Register all functions
+    // Register all functions once per test suite
+    static void SetUpTestSuite() {
         registerBuiltinFunctions();
     }
     
