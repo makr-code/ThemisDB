@@ -319,7 +319,9 @@ ThemisDB provides comprehensive health check infrastructure:
 
 1. **`sharding::HealthCheckSystem`** - Shard/cluster health monitoring
 2. **`sharding::HealthMonitor`** - Node health with auto-failover
-3. **`server::HealthErrorService`** - HTTP health endpoint (Port 9090)
+3. **`server::HealthErrorService`** - HTTP health endpoint (default Port 9090)
+
+> **Note:** If running ThemisDB and Prometheus on the same machine, adjust either the ThemisDB health endpoint port or the Prometheus host port mapping to avoid conflicts (see Quick Start section).
 
 ### Alert Configuration Example
 
@@ -442,8 +444,8 @@ docker run -d --name jaeger \
   -p 4318:4318 \
   jaegertracing/all-in-one:latest
 
-# Access Jaeger UI
-open http://localhost:16686
+# Access Jaeger UI at http://localhost:16686
+# Visit this URL in your browser
 ```
 
 ### 3. Scrape Metrics with Prometheus
@@ -458,13 +460,14 @@ scrape_configs:
 
 ```bash
 # Start Prometheus
+# Note: Using port 9092 on host to avoid conflict with ThemisDB health endpoint (port 9090)
 docker run -d --name prometheus \
-  -p 9090:9090 \
+  -p 9092:9090 \
   -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml \
   prom/prometheus
 
-# Access Prometheus UI
-open http://localhost:9090
+# Access Prometheus UI at http://localhost:9092
+# Visit this URL in your browser
 ```
 
 ### 4. Visualize with Grafana
@@ -475,11 +478,12 @@ docker run -d --name grafana \
   -p 3000:3000 \
   grafana/grafana
 
-# Access Grafana
-open http://localhost:3000
+# Access Grafana at http://localhost:3000
+# Visit this URL in your browser (default credentials: admin/admin)
 
 # Add Prometheus data source
-# URL: http://prometheus:9090
+# URL: http://prometheus:9090 (container-to-container)
+# Or http://host.docker.internal:9092 (if Prometheus is on host)
 
 # Import ThemisDB dashboards from grafana/ directory
 ```
