@@ -226,7 +226,9 @@ Complete documentation of all 35 directories in `src/` - addressing the document
 
 ---
 
-## 💾 BACKUP & RECOVERY DOCUMENTATION (NEU - 2026-02-09)
+## 💾 BACKUP & RECOVERY DOCUMENTATION
+
+> **Note:** This backup & recovery documentation hub was introduced on 2026-02-09.
 
 ### Comprehensive Data Protection and Disaster Recovery
 
@@ -236,8 +238,8 @@ ThemisDB provides enterprise-grade backup and recovery capabilities with support
 - [BACKUP_RESTORE_DOCS_INDEX.md](BACKUP_RESTORE_DOCS_INDEX.md) - **Complete backup/restore documentation index**
 
 **Core Documentation:**
-- [backup_recovery_system.md](backup_recovery_system.md) - Complete system overview (385 lines)
-- [en/features/features_pitr.md](en/features/features_pitr.md) - Point-in-Time Recovery guide (580 lines)
+- [backup_recovery_system.md](backup_recovery_system.md) - Complete system overview
+- [en/features/features_pitr.md](en/features/features_pitr.md) - Point-in-Time Recovery guide
 - [en/features/features_snapshots.md](en/features/features_snapshots.md) - Named snapshots
 - [en/features/features_raid5_backup.md](en/features/features_raid5_backup.md) - RAID5/6 backup support
 - [en/guides/disaster_recovery.md](en/guides/disaster_recovery.md) - DR procedures and runbooks
