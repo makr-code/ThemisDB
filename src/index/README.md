@@ -17,7 +17,7 @@ Index implementations for ThemisDB's multi-model database.
 
 - HNSW-based vector similarity search
 - **Radius-based vector search** (find all within distance threshold) - Production ready
-- **Multi-vector search** (ensemble search, query expansion, hybrid search) - Production ready beta
+- **Multi-vector search** (ensemble search, query expansion, hybrid search, learned fusion) - Production ready
 - Graph traversal indexing
 - Property graph model support
 - Adaptive index selection
@@ -29,7 +29,7 @@ For index documentation, see:
 - [Adaptive Index](../../docs/src/index/adaptive_index.cpp.md)
 - [Vector Index](../../docs/src/index/vector_index.cpp.md)
 - [Approximate Radius Search](../../docs/src/index/approximate_radius_search.cpp.md) - **Production Ready**
-- [Multi-Vector Search](../../docs/multi_vector_search.md) - **Production Ready Beta**
+- [Multi-Vector Search](../../docs/multi_vector_search.md) - **Production Ready (7/7 fusion strategies)**
 - [Vector Advanced Features](./VECTOR_ADVANCED_FEATURES_README.md) - Detailed guide
 - [Graph Index](../../docs/src/index/graph_index.cpp.md)
 - [Property Graph](../../docs/src/index/property_graph.cpp.md)

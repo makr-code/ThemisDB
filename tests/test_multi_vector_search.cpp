@@ -386,3 +386,45 @@ TEST_F(MultiVectorSearchTest, TopKLimiting) {
     
     EXPECT_LE(result.value().results.size(), 2u);
 }
+
+TEST_F(MultiVectorSearchTest, LearnedFusion) {
+    // Test LEARNED_FUSION strategy with pre-computed weights
+    MultiVectorSearch::MultiQuery query;
+    query.vectors = {
+        {1.0f, 0.0f, 0.0f},  // Similar to doc1
+        {0.0f, 1.0f, 0.0f}   // Similar to doc2
+    };
+    
+    // Use LEARNED_FUSION with optimized weights
+    MultiVectorSearch::SearchConfig config;
+    config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
+    config.weights = {0.7f, 0.3f};  // Simulating learned weights
+    config.top_k = 5;
+    
+    auto result = multi_search_->search(query, config);
+    ASSERT_TRUE(result.has_value()) << result.error().message;
+    
+    EXPECT_GT(result.value().results.size(), 0u);
+    EXPECT_EQ(result.value().strategy_used, MultiVectorSearch::FusionStrategy::LEARNED_FUSION);
+    EXPECT_EQ(result.value().weights_used.size(), 2u);
+    EXPECT_FLOAT_EQ(result.value().weights_used[0], 0.7f);
+    EXPECT_FLOAT_EQ(result.value().weights_used[1], 0.3f);
+}
+
+TEST_F(MultiVectorSearchTest, LearnedFusionWithoutWeights) {
+    // Test that LEARNED_FUSION requires weights
+    MultiVectorSearch::MultiQuery query;
+    query.vectors = {
+        {1.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f}
+    };
+    
+    MultiVectorSearch::SearchConfig config;
+    config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
+    // No weights provided - should fail
+    config.top_k = 5;
+    
+    auto result = multi_search_->search(query, config);
+    EXPECT_FALSE(result.has_value());
+    EXPECT_EQ(result.error().code, errors::ErrorCode::INVALID_ARGUMENT);
+}

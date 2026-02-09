@@ -309,19 +309,19 @@ Tests cover:
 - **Cause**: nprobe too small or PQ too aggressive
 - **Solution**: Increase nprobe or reduce pq_m
 
-## Multi-Vector Search (Production-Ready Beta)
+## Multi-Vector Search (Production-Ready)
 
 ### Description
 
 Multi-Vector Search enables complex similarity queries involving multiple vectors with various fusion strategies:
 - Multiple query vectors (ensemble search)
 - Multiple vector fields per item (multi-modal search)
-- 6 fusion strategies (Linear, RRF, Rank-based, Max, Min, Avg)
+- 7 fusion strategies (Linear, RRF, Rank-based, Max, Min, Avg, Learned)
 - Hybrid search (vector + keyword/BM25)
 - Query expansion support
 - Weight optimization
 
-**Status**: ✅ Production-Ready Beta (v1.5.0+)
+**Status**: ✅ Production-Ready (v1.5.0+)
 
 ### API Usage
 
@@ -372,6 +372,7 @@ auto hybrid_result = multi_search.hybridSearch(query_vector, keyword_scores, con
 | MAX_SCORE | Maximum score wins | Any match acceptable |
 | MIN_SCORE | Minimum score required | All queries must match |
 | AVG_SCORE | Average of scores | Equal importance |
+| LEARNED_FUSION | Optimized weights via NDCG | Best accuracy with training data |
 
 ### Use Cases
 
@@ -493,7 +494,7 @@ Where: r = results in radius, m = number of queries, R = total results
 - Online index updates without retraining
 
 ### Multi-Vector Search (Future)
-- ⏳ Learned fusion strategy (ML-based weight optimization)
+- Advanced deep learning-based fusion (neural network models)
 - GPU acceleration for multi-vector operations
 - Distributed search for massive datasets
 

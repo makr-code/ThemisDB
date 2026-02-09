@@ -17,7 +17,7 @@ Both modules are fully implemented with comprehensive test coverage and benchmar
 - Full test coverage with unit and integration tests
 - Performance benchmarks available
 
-**Note:** Only the "LEARNED_FUSION" strategy for multi-vector search is not yet implemented (planned for future release). All other functionality is complete and operational.
+**Note:** All features are now fully implemented including the "LEARNED_FUSION" strategy for multi-vector search. All functionality is complete and operational.
 
 ## Modules Overview
 
@@ -77,27 +77,26 @@ if (result) {
 
 ### 2. Multi-Vector Search (`multi_vector_search.h/cpp`)
 
-**Status:** ✅ **Production-Ready Beta (6/7 fusion strategies implemented)**
+**Status:** ✅ **Production-Ready (All 7 fusion strategies implemented)**
 
 Complex similarity queries involving multiple vectors.
 
 **Implemented Features:**
 - ✅ Multiple query vectors (ensemble search)
 - ✅ Multiple vector fields per item (multi-modal)
-- ✅ 6 fusion strategies: Linear, Rank-based, RRF, Max, Min, Avg
+- ✅ 7 fusion strategies: Linear, Rank-based, RRF, Max, Min, Avg, Learned
 - ✅ Hybrid search (vector + keyword)
 - ✅ Query expansion support
-- ✅ Weight optimization with grid search
+- ✅ Weight optimization with grid search and NDCG
 - ✅ Batch processing
 - ✅ Comprehensive unit and integration tests
-- ⏳ Learned Fusion (planned for future release)
 
-**Fusion Strategies (Implemented):**
+**Fusion Strategies (All Implemented):**
 1. **Linear Combination**: `score = w1*s1 + w2*s2 + ...` ✅
 2. **Rank Fusion**: Borda count method ✅
 3. **Reciprocal Rank Fusion (RRF)**: `score = Σ 1/(k + rank_i)` ✅
 4. **Max/Min/Avg**: Simple aggregation ✅
-5. **Learned Fusion**: ML-optimized weights ⏳ (future)
+5. **Learned Fusion**: Uses optimized weights from `optimizeWeights()` method ✅
 
 **Usage:**
 ```cpp
@@ -137,6 +136,25 @@ std::unordered_map<std::string, float> keyword_scores = {
 };
 auto result3 = multi_search.hybridSearch(
     query_vector, keyword_scores, config);
+
+// Example 4: Learned fusion with optimized weights
+// Step 1: Prepare training data
+std::vector<MultiVectorSearch::MultiQuery> training_queries = {
+    /* your training queries */
+};
+std::vector<std::vector<std::string>> relevance_judgments = {
+    /* relevant doc IDs for each query */
+};
+
+// Step 2: Learn optimal weights using NDCG
+auto learned_weights = multi_search.optimizeWeights(training_queries, relevance_judgments);
+
+// Step 3: Use learned weights with LEARNED_FUSION strategy
+if (learned_weights) {
+    config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
+    config.weights = learned_weights.value();
+    auto result4 = multi_search.search(query, config);
+}
 ```
 
 **Use Cases:**
@@ -204,11 +222,12 @@ Works with `advanced_vector_index.h` for optimized operations:
 - ✅ Query expansion support
 - ✅ Weight learning/optimization (grid search with NDCG)
 - ✅ Batch processing
+- ✅ Learned fusion strategy implementation
 
 ### 🚧 Future Enhancements
 
 #### Phase 4: Advanced Features (Planned)
-- ⏳ Learned fusion (ML-based weight learning)
+- ⏳ Deep learning-based fusion (neural network fusion models)
 - ⏳ GPU acceleration for multi-vector operations
 - ⏳ Distributed search for massive datasets
 - ⏳ Advanced caching strategies

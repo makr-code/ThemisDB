@@ -225,8 +225,14 @@ MultiVectorSearch::search(
                 break;
             }
             case FusionStrategy::LEARNED_FUSION:
-                return makeError(errors::ErrorCode::NOT_IMPLEMENTED,
-                                "LEARNED_FUSION strategy not yet implemented");
+                // Learned fusion uses optimized weights (similar to linear combination)
+                // Weights should be pre-computed using optimizeWeights() method
+                if (weights.empty() || weights.size() != scores.size()) {
+                    return makeError(errors::ErrorCode::INVALID_ARGUMENT,
+                                    "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
+                }
+                result.fused_score = linearCombination(scores, weights);
+                break;
         }
         
         fused_results.push_back(std::move(result));
@@ -417,8 +423,14 @@ MultiVectorSearch::hybridSearch(
                 break;
             }
             case FusionStrategy::LEARNED_FUSION:
-                return makeError(errors::ErrorCode::NOT_IMPLEMENTED,
-                                "LEARNED_FUSION strategy not yet implemented");
+                // Learned fusion uses optimized weights (similar to linear combination)
+                // Weights should be pre-computed using optimizeWeights() method
+                if (config.weights.empty() || config.weights.size() != field_names.size()) {
+                    return makeError(errors::ErrorCode::INVALID_ARGUMENT,
+                                    "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
+                }
+                result.fused_score = linearCombination(fusion_scores, config.weights);
+                break;
         }
         
         fused_results.push_back(std::move(result));
