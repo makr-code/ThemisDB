@@ -19,7 +19,8 @@ TenantManager::TenantManager() {
     config_.global_max_tenants = 1000;
     config_.enforce_quotas = true;
     
-    // Only create default tenant if explicitly allowed
+    // ensureDefaultTenant() checks allow_default_tenant flag internally
+    // and only creates the default tenant if the flag is true
     ensureDefaultTenant();
 }
 

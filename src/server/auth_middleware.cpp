@@ -308,7 +308,12 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         
         // TODO: Check if any of the roles provide the required_scope
         // For now, we grant access if authentication succeeds
-        // Note: Kerberos doesn't provide tenant context by default
+        // 
+        // IMPORTANT: Kerberos tickets do not include tenant information.
+        // Clients using Kerberos authentication MUST provide tenant_id via:
+        // - X-Tenant-ID header
+        // - Path parameter (/tenants/{tenant_id}/...)
+        // The tenant_id will be extracted from the request in the API handler.
         
         metrics_.authz_success_total++;
         return AuthResult::OK(result.principal_name, "", {});  // Empty tenant_id - must be provided via header
