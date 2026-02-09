@@ -24,43 +24,96 @@ public:
 
     SigningResult sign(const std::string& key_id, const std::vector<uint8_t>& data) override;
 
-    // KeyProvider interface - this signing-only provider does not manage
-    // encryption keys. Implementations of these are left as runtime
-    // errors for the prototype to allow tests to instantiate the provider
-    // when only signing is required.
+    // =========================================================================
+    // KeyProvider interface - SIGNING-ONLY LIMITATION
+    // =========================================================================
+    // 
+    // ⚠️  IMPORTANT: VaultSigningProvider is designed for signing operations
+    //     only (using HashiCorp Vault Transit Engine). It does NOT support
+    //     key management operations like getKey, rotateKey, listKeys, etc.
+    //
+    // PURPOSE:
+    //   - Sign data using Vault Transit Engine keys
+    //   - Verify signatures (if implemented)
+    //   - Does NOT extract or manage encryption keys
+    //
+    // FEATURE FLAG:
+    //   Set THEMIS_VAULT_SIGNING_ONLY=1 to explicitly acknowledge this
+    //   limitation and suppress key operation errors in non-signing contexts.
+    //
+    // MIGRATION PATH:
+    //   For full key management, use:
+    //   - VaultKeyProvider (for Transit Engine key operations)
+    //   - HSMProvider with PKCS#11
+    //   - Cloud KMS providers (AWS KMS, Azure Key Vault, GCP KMS)
+    //
+    // See: docs/security/VAULT_SIGNING_PROVIDER.md
+    // =========================================================================
+    
     std::vector<uint8_t> getKey(const std::string& key_id) override {
         (void)key_id;
-        throw KeyOperationException("VaultSigningProvider: getKey not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: getKey() not implemented - signing-only provider. "
+            "Use VaultKeyProvider for key management operations. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     std::vector<uint8_t> getKey(const std::string& key_id, uint32_t version) override {
         (void)key_id; (void)version;
-        throw KeyOperationException("VaultSigningProvider: getKey(version) not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: getKey(version) not implemented - signing-only provider. "
+            "Use VaultKeyProvider for key management operations. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     uint32_t rotateKey(const std::string& key_id) override {
         (void)key_id;
-        throw KeyOperationException("VaultSigningProvider: rotateKey not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: rotateKey() not implemented - signing-only provider. "
+            "Use VaultKeyProvider or Vault CLI for key rotation. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     std::vector<KeyMetadata> listKeys() override {
-        throw KeyOperationException("VaultSigningProvider: listKeys not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: listKeys() not implemented - signing-only provider. "
+            "Use VaultKeyProvider or Vault API for key listing. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     KeyMetadata getKeyMetadata(const std::string& key_id, uint32_t version = 0) override {
         (void)key_id; (void)version;
-        throw KeyOperationException("VaultSigningProvider: getKeyMetadata not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: getKeyMetadata() not implemented - signing-only provider. "
+            "Use VaultKeyProvider for key metadata operations. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     void deleteKey(const std::string& key_id, uint32_t version) override {
         (void)key_id; (void)version;
-        throw KeyOperationException("VaultSigningProvider: deleteKey not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: deleteKey() not implemented - signing-only provider. "
+            "Use VaultKeyProvider or Vault API for key deletion. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     bool hasKey(const std::string& key_id, uint32_t version = 0) override {
         (void)key_id; (void)version;
-        throw KeyOperationException("VaultSigningProvider: hasKey not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: hasKey() not implemented - signing-only provider. "
+            "Use VaultKeyProvider for key existence checks. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
+    
     uint32_t createKeyFromBytes(
         const std::string& key_id,
         const std::vector<uint8_t>& key_bytes,
         const KeyMetadata& metadata = KeyMetadata()) override {
         (void)key_id; (void)key_bytes; (void)metadata;
-        throw KeyOperationException("VaultSigningProvider: createKeyFromBytes not implemented");
+        throw KeyOperationException(
+            "VaultSigningProvider: createKeyFromBytes() not implemented - signing-only provider. "
+            "Use VaultKeyProvider or Vault API for key creation. "
+            "See: docs/security/VAULT_SIGNING_PROVIDER.md");
     }
 };
 
