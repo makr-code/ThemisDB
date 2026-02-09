@@ -612,3 +612,10 @@ POST /api/import/geotiff
 
 **Status:** Phase 0.1 abgeschlossen (EWKB Storage + Sidecar)  
 **Next:** Phase 0.2 (R-Tree Spatial Index)
+
+---
+
+## See Also
+
+- [Geospatial Module Overview](README.md) - Current implementation
+- [Future Enhancements for Geospatial Implementation](../../geospatial_future_enhancements.md) - Planned improvements and roadmap
