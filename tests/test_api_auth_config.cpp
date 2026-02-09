@@ -292,6 +292,26 @@ TEST_F(ApiAuthConfigTest, ExactMatchTakesPrecedenceOverWildcard) {
     EXPECT_EQ(result->rate_limit_per_minute, 100);
 }
 
+TEST_F(ApiAuthConfigTest, EmptyPatternIsHandledSafely) {
+    ApiAuthConfig config;
+    
+    // Add empty pattern (should not crash)
+    EndpointAuthConfig empty;
+    empty.endpoint_pattern = "";
+    empty.required_scope = "none";
+    empty.rate_limit_per_minute = 100;
+    config.endpoint_configs.push_back(empty);
+    
+    // Should not match anything
+    auto result = config.getEndpointConfig("/any/path");
+    EXPECT_FALSE(result.has_value());
+    
+    // Empty pattern should only match empty path
+    result = config.getEndpointConfig("");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->endpoint_pattern, "");
+}
+
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

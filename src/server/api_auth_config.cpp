@@ -17,7 +17,7 @@ std::optional<EndpointAuthConfig> ApiAuthConfig::getEndpointConfig(const std::st
         const auto& pattern = config.endpoint_pattern;
         
         // Handle wildcard patterns like "/entities/*"
-        if (pattern.back() == '*') {
+        if (!pattern.empty() && pattern.back() == '*') {
             std::string prefix = pattern.substr(0, pattern.length() - 1);
             if (path.rfind(prefix, 0) == 0) {
                 return config;
