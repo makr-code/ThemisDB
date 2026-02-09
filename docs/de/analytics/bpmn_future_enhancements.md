@@ -55,7 +55,7 @@ Implement individual node visit timestamp tracking to capture the actual time ea
 
 **Current Code Location:**
 - `src/index/process_graph.cpp` - Token creation and advancement logic
-- `include/index/process_graph.h` - ProcessToken and ProcessHistory structures
+- `include/index/process_graph.h` - `ProcessToken` (`created_at_ms`, `visited_nodes`) and `ProcessGraphManager::getNodeHistory` APIs
 
 ---
 
