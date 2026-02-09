@@ -544,6 +544,154 @@ if err != nil {
 }
 ```
 
+## Wire Protocol
+
+ThemisDB provides a native binary Wire Protocol for high-performance communication. The Go client includes full support for the Wire Protocol with TLS/mTLS encryption.
+
+### Basic Wire Protocol Connection
+
+```go
+package main
+
+import (
+    "log"
+    themisdb "github.com/makr-code/ThemisDB/clients/go"
+)
+
+func main() {
+    // Create Wire Protocol client (development - no TLS)
+    client := themisdb.NewWireClient("localhost", 18765, "username", "password")
+    
+    if err := client.Connect(); err != nil {
+        log.Fatalf("Connection failed: %v", err)
+    }
+    defer client.Disconnect()
+    
+    // Put a document
+    err := client.Put("user:123", map[string]interface{}{
+        "name":  "Alice",
+        "email": "alice@example.com",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    // Get a document
+    doc, err := client.Get("user:123")
+    if err != nil {
+        log.Fatal(err)
+    }
+    log.Printf("Retrieved: %+v", doc)
+}
+```
+
+### Wire Protocol with TLS (Production)
+
+```go
+// Create production TLS configuration
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ServerName = "themisdb.example.com"
+
+// Create client with TLS
+client, err := themisdb.NewWireClientWithTLS(
+    "themisdb.example.com",
+    18765,
+    "username",
+    "password",
+    tlsConfig,
+)
+if err != nil {
+    log.Fatalf("Failed to create client: %v", err)
+}
+
+if err := client.Connect(); err != nil {
+    log.Fatalf("Connection failed: %v", err)
+}
+defer client.Disconnect()
+
+log.Println("Connected securely with TLS 1.3!")
+```
+
+### Mutual TLS (mTLS)
+
+```go
+// Create mTLS configuration
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ClientCertPath = "/etc/themisdb/certs/client.crt"
+tlsConfig.ClientKeyPath = "/etc/themisdb/certs/client-key.pem"
+tlsConfig.ServerName = "themisdb.example.com"
+
+client, err := themisdb.NewWireClientWithTLS(
+    "themisdb.example.com",
+    18765,
+    "username",
+    "password",
+    tlsConfig,
+)
+```
+
+### Environment-Based Configuration
+
+```go
+// Configure from environment variables
+client, err := themisdb.NewWireClientFromEnv()
+if err != nil {
+    log.Fatalf("Failed to create client: %v", err)
+}
+```
+
+Set environment variables:
+```bash
+export THEMIS_WIRE_HOST=themisdb.example.com
+export THEMIS_WIRE_PORT=18765
+export THEMIS_WIRE_USERNAME=myuser
+export THEMIS_WIRE_PASSWORD=mypassword
+export THEMIS_WIRE_TLS_ENABLED=true
+export THEMIS_WIRE_TLS_CA_CERT=/etc/themisdb/certs/ca.crt
+export THEMIS_WIRE_TLS_CLIENT_CERT=/etc/themisdb/certs/client.crt
+export THEMIS_WIRE_TLS_CLIENT_KEY=/etc/themisdb/certs/client-key.pem
+export THEMIS_WIRE_PRODUCTION_MODE=true
+```
+
+### TLS Configuration Options
+
+```go
+tlsConfig := &themisdb.TLSConfig{
+    Enabled:            true,                          // Enable TLS
+    CACertPath:         "/path/to/ca.crt",             // CA certificate
+    ClientCertPath:     "/path/to/client.crt",         // Client cert (mTLS)
+    ClientKeyPath:      "/path/to/client-key.pem",     // Client key (mTLS)
+    MinVersion:         tls.VersionTLS13,              // Minimum TLS version
+    InsecureSkipVerify: false,                         // Verify certificates
+    ServerName:         "themisdb.example.com",        // Server name for SNI
+    ProductionMode:     true,                          // Enforce production security
+}
+
+// Validate configuration
+if err := tlsConfig.Validate(); err != nil {
+    log.Fatalf("Invalid TLS config: %v", err)
+}
+```
+
+### Production Mode
+
+Enable `ProductionMode` to enforce strict security requirements:
+
+```go
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ProductionMode = true
+
+// This enforces:
+// ✅ TLS must be enabled
+// ✅ TLS 1.3 is recommended (TLS 1.2 allowed with warning)
+// ❌ InsecureSkipVerify is forbidden
+// ✅ Certificate verification is mandatory
+```
+
+For more details, see:
+- [Wire Protocol Transport Security Guide](../../docs/en/guides/WIRE_PROTOCOL_TRANSPORT_SECURITY.md)
+- [TLS Setup Guide](../../docs/de/guides/guides_tls_setup.md)
+
 ## Testing
 
 Run unit tests:
@@ -565,6 +713,10 @@ go test -v -tags=integration
 3. **Use appropriate isolation levels** - SNAPSHOT for consistency, READ_COMMITTED for performance
 4. **Close transactions** - Always commit or rollback transactions
 5. **Check IsActive()** - Verify transaction state before operations
+6. **Use TLS in production** - Enable `ProductionMode` for Wire Protocol connections
+7. **Implement mTLS for service-to-service** - Use client certificates for zero-trust architecture
+8. **Monitor certificate expiration** - Set up alerts 30 days before certificate expiry
+9. **Rotate certificates regularly** - Automate with Let's Encrypt or HashiCorp Vault
 
 ## Examples
 
