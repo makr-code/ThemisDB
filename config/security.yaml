@@ -77,8 +77,66 @@ hsm:
   provider: stub  # ⚠️  DEVELOPMENT ONLY - CHANGE FOR PRODUCTION! ⚠️
   
   # ═══════════════════════════════════════════════════════════════════════
+  # Stub Provider Security Gating (NEW in v1.4.2)
+  # ═══════════════════════════════════════════════════════════════════════
+  #
+  # SECURITY HARDENING: The stub provider now requires explicit opt-in to
+  # prevent accidental production deployment.
+  #
+  # Environment Variables:
+  #
+  # 1. THEMIS_ALLOW_HSM_STUB=1
+  #    - Explicitly allows stub provider usage
+  #    - Required in production-like environments
+  #    - Only set for development/testing
+  #
+  # 2. THEMIS_PRODUCTION_MODE=1
+  #    - Forces production mode
+  #    - Stub provider will FAIL even with THEMIS_ALLOW_HSM_STUB=1
+  #    - Use to ensure production deployments use real HSM
+  #
+  # 3. ENVIRONMENT=production (or NODE_ENV=production)
+  #    - Automatically detected as production environment
+  #    - Requires THEMIS_ALLOW_HSM_STUB=1 to proceed
+  #    - Logs ERROR-level warnings
+  #
+  # Behavior:
+  # - Development (no env vars): Stub allowed with warnings
+  # - Production indicators detected: Fails without THEMIS_ALLOW_HSM_STUB=1
+  # - THEMIS_PRODUCTION_MODE=1: Always fails with stub
+  #
+  # See: docs/security/HSM_PRODUCTION_SETUP.md
+  # ═══════════════════════════════════════════════════════════════════════
+  
+  # ═══════════════════════════════════════════════════════════════════════
   # PKCS#11 Configuration (for 'pkcs11' provider)
   # ═══════════════════════════════════════════════════════════════════════
+  #
+  # ⚠️  IMPORTANT: PKCS#11 Header Strategy (NEW in v1.4.2) ⚠️
+  #
+  # ThemisDB uses a two-tier PKCS#11 header approach:
+  #
+  # 1. DEVELOPMENT: pkcs11_minimal.h (built-in, limited)
+  #    - For local development and testing
+  #    - Works with SoftHSM2
+  #    - Missing vendor-specific features
+  #    - Build with: cmake (default)
+  #
+  # 2. PRODUCTION: Vendor PKCS#11 headers (required)
+  #    - Install HSM vendor SDK first
+  #    - Full PKCS#11 functionality
+  #    - Vendor-specific extensions
+  #    - Build with: cmake -DTHEMIS_USE_VENDOR_PKCS11=ON
+  #
+  # Vendor SDK Installation:
+  #   Thales Luna:  Luna HSM Client SDK
+  #   AWS CloudHSM: CloudHSM Client SDK
+  #   Utimaco:      CryptoServer SDK
+  #   nCipher:      nShield SDK
+  #
+  # See: docs/security/PKCS11_INTEGRATION.md
+  # ═══════════════════════════════════════════════════════════════════════
+  
   pkcs11:
     # Path to PKCS#11 library
     # Examples:
@@ -169,6 +227,28 @@ hsm:
   # ═══════════════════════════════════════════════════════════════════════
   # HashiCorp Vault Configuration (for 'vault' provider)
   # ═══════════════════════════════════════════════════════════════════════
+  #
+  # ⚠️  IMPORTANT: VaultSigningProvider Limitation (NEW in v1.4.2) ⚠️
+  #
+  # VaultSigningProvider is a SIGNING-ONLY provider:
+  #   ✅ Supports: sign(), verify() operations
+  #   ❌ Does NOT support: getKey(), rotateKey(), listKeys(), etc.
+  #
+  # PURPOSE:
+  #   - Sign data using Vault Transit Engine
+  #   - Keys never leave Vault (enhanced security)
+  #   - Minimal permissions required
+  #
+  # FOR FULL KEY MANAGEMENT:
+  #   Use VaultKeyProvider instead (separate implementation)
+  #   Or use Vault CLI/API directly for key operations
+  #
+  # FEATURE FLAG:
+  #   Set THEMIS_VAULT_SIGNING_ONLY=1 to acknowledge this limitation
+  #
+  # See: docs/security/VAULT_SIGNING_PROVIDER.md
+  # ═══════════════════════════════════════════════════════════════════════
+  
   vault:
     # Vault server URL
     address: "https://vault.example.com:8200"

@@ -119,3 +119,4 @@ FOR doc IN areas
 - [geo_integration_readme.md](geo_integration_readme.md) - Integration Guide
 - [geo_feature_tiering.md](geo_feature_tiering.md) - Feature Tiers
 - [Performance: Geo](../performance/performance_geo.md) - Benchmarks
+- [Future Enhancements](../../geospatial_future_enhancements.md) - Planned improvements for geospatial features
