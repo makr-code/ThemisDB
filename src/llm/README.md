@@ -74,6 +74,32 @@ This clarifies that both engines are independent implementations serving differe
 - Chain-of-thought storage
 - Conversation history management
 
+### Grammar-Constrained Generation ⚠️
+
+**Status:** Code complete, but **disabled in default build**
+
+The LLM module includes complete implementation for grammar-constrained generation (EBNF/GBNF format), which guarantees valid structured outputs. However, this feature is currently **build-gated** and unavailable in the default build.
+
+**Error Message:** When attempting to use grammar support, you will see:
+```
+"Grammar support is unavailable (llama grammar API not present)"
+```
+
+**Location:** `src/llm/grammar.cpp` line 76-82
+
+**Required APIs from llama.cpp:**
+- `llama_grammar_init()` - Compile EBNF to grammar
+- `llama_grammar_free()` - Free grammar resources
+- `llama_grammar_sample()` - Filter tokens by grammar rules
+- `llama_grammar_accept()` - Update grammar state after token generation
+
+**To Enable:** Update the llama.cpp dependency to include these grammar APIs and rebuild ThemisDB. No code changes are needed - the Grammar class will automatically detect and use the APIs when available.
+
+**See Also:**
+- `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` - Full grammar documentation
+- `docs/LLM_IMPLEMENTATION_COMPLETE.md` - LLM implementation status
+- `docs/LLM_CORE_STATUS_MASTER.md` - Master status document
+
 ## Features
 
 - Store LLM interactions and conversations

@@ -1,7 +1,7 @@
 # LLM Core Implementation Status - Master Document
 
 **Date:** January 19, 2026  
-**Status:** ✅ **PRODUCTION READY** (Core: 100%, Integration: 95%)  
+**Status:** ✅ **PRODUCTION READY** (Core: 83% Fully Available, 17% Build-Gated, Integration: 95%)  
 **Version:** v1.3.5  
 **Last Audit:** January 19, 2026
 
@@ -11,11 +11,13 @@
 
 This is the **single source of truth** for LLM Core implementation status in ThemisDB. After comprehensive code audit, the LLM Core is confirmed to be **production-ready** with real llama.cpp API integration, robust error handling, and comprehensive safety features.
 
+**⚠️ IMPORTANT:** Grammar-constrained generation is build-gated and not available in the default build. See Component 4 below for details.
+
 ### Current Status
 
-- **Core Completion:** 100% ✅
+- **Core Completion:** 83% Fully Available, 17% Build-Gated ⚠️
 - **Integration Completion:** 95% ✅ (Vision embeddings pending)
-- **Production Readiness:** ✅ YES (with documented caveats)
+- **Production Readiness:** ✅ YES for text-based features (with documented caveats)
 - **Code Quality Score:** 9.5/10
 
 ### Key Findings
@@ -25,7 +27,8 @@ This is the **single source of truth** for LLM Core implementation status in The
 3. ✅ **Production-Grade Error Handling** - State machine prevents silent failures
 4. ✅ **Thread-Safe Implementation** - 25+ mutex protections
 5. ✅ **GPU Acceleration Ready** - CUDA/Metal/Vulkan support
-6. ⚠️ **Vision Support Partial** - Text inference complete, image embeddings pending
+6. ⚠️ **Grammar Support Build-Gated** - Disabled in default build, requires llama.cpp grammar APIs
+7. ⚠️ **Vision Support Partial** - Text inference complete, image embeddings pending
 
 ---
 
@@ -146,36 +149,63 @@ This is the **single source of truth** for LLM Core implementation status in The
 
 ---
 
-### 4. Grammar Support ✅ COMPLETE
+### 4. Grammar Support ⚠️ BUILD-GATED
 
-**Status:** PRODUCTION READY  
+**Status:** CODE COMPLETE, BUILD-GATED (Disabled in Default Build)  
 **Files:** `src/llm/grammar.cpp`, `include/llm/grammar.h`
 
-#### API Calls
-- ✅ `llama_grammar_init()` - Line 86-89
-- ✅ `llama_grammar_free()` - Lines 31, 49
-- ✅ `llama_grammar_sample()` - Used in llama_wrapper.cpp line 1223
-- ✅ `llama_grammar_accept()` - Used in llama_wrapper.cpp line 1279
+#### ⚠️ AVAILABILITY WARNING
+
+Grammar support is **currently disabled** in the default build. The implementation is complete, but `Grammar::compile()` method (src/llm/grammar.cpp line 76-82) returns an error:
+
+```
+"Grammar support is unavailable (llama grammar API not present)"
+```
+
+**Root Cause:** llama.cpp dependency does not include or enable the grammar APIs required by this feature.
+
+**Required APIs:**
+- `llama_grammar_init()` - Compile EBNF to grammar
+- `llama_grammar_free()` - Free grammar resources  
+- `llama_grammar_sample()` - Filter tokens by grammar
+- `llama_grammar_accept()` - Update grammar state
+
+#### Code Status (When APIs Are Available)
+- ✅ `llama_grammar_init()` - Line 86-89 (currently stubbed)
+- ✅ `llama_grammar_free()` - Lines 31, 49 (currently no-op)
+- ✅ `llama_grammar_sample()` - Used in llama_wrapper.cpp line 1223 (conditional)
+- ✅ `llama_grammar_accept()` - Used in llama_wrapper.cpp line 1279 (conditional)
 
 #### GBNF Support
-- **Validation:** ✅ Correct
-- **Compilation:** EBNF text → llama_grammar structure
+- **Validation:** ✅ Code ready
+- **Compilation:** EBNF text → llama_grammar structure (when APIs present)
 - **Error Handling:** Proper validation with error messages
+- **Current Behavior:** Returns error, gracefully falls back
 
 #### Multiple Grammar Support
-- **Status:** ✅ YES via GrammarCache
+- **Status:** ✅ YES via GrammarCache (when enabled)
 - **Caching:** Multiple grammars can be compiled and cached
 
-#### Performance
+#### Performance (When Enabled)
 - **Compilation:** <100ms typically
 - **Token Filtering:** <1ms per sample
 - **State Updates:** <0.1ms
+
+#### How to Enable
+
+To enable grammar-constrained generation:
+
+1. **Update llama.cpp dependency** to include grammar API functions
+2. **Rebuild ThemisDB** to link against the updated llama.cpp
+3. The Grammar class will automatically detect and use the APIs when available
+4. No code changes needed - the implementation is already complete
 
 #### Error Handling
 - **Quality:** Production-grade ✅
 - **Validation:** Empty text/symbol checks
 - **Exceptions:** Try-catch with logging
 - **Fallback:** Graceful degradation to unconstrained generation
+- **Current:** Always returns unavailability error
 
 ---
 
@@ -291,7 +321,15 @@ This is the **single source of truth** for LLM Core implementation status in The
 
 ### Known Limitations
 
-1. **Vision Embedding Injection (Non-Critical)**
+1. **Grammar-Constrained Generation (Build-Gated)** ⚠️
+   - **Status:** Code complete, disabled in default build
+   - **File:** `src/llm/grammar.cpp` line 76-82
+   - **Error Message:** "Grammar support is unavailable (llama grammar API not present)"
+   - **Impact:** Cannot use grammar-constrained generation
+   - **Workaround:** Update llama.cpp to include grammar APIs and rebuild
+   - **Timeline:** Requires build configuration change
+
+2. **Vision Embedding Injection (Non-Critical)**
    - **Status:** Architecture ready, implementation pending
    - **File:** `llama_wrapper.cpp` line 2195
    - **Impact:** Text-only inference works fine

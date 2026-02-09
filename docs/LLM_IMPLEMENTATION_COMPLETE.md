@@ -1,14 +1,18 @@
-# LLM Core Implementation - COMPLETE ✅
+# LLM Core Implementation - COMPLETE ✅ (with Build-Gated Features)
 
 **Date:** January 18, 2026  
-**Status:** 6/6 Features Production-Ready (100%)  
+**Status:** 5/6 Core Features Production-Ready (83%), 1 Feature Build-Gated  
 **Commit:** 9d8ce9c
 
 ---
 
-## Mission Accomplished 🎉
+## Implementation Status 🎉
 
-All missing llama.cpp API calls have been implemented. ThemisDB LLM Core is now **100% production-ready** with zero implementation gaps.
+Core LLM implementation is **production-ready** with the following status:
+- ✅ **5/6 Features:** Fully implemented and ready to use
+- ⚠️ **1/6 Features:** Grammar support is build-gated (requires llama.cpp with grammar APIs)
+
+**Note:** Grammar-constrained generation code is present but disabled by default. See "Known Limitations" section for details on enabling it.
 
 ---
 
@@ -46,46 +50,47 @@ llama_lora_adapter_free(static_cast<llama_lora_adapter*>(entry->adapter_handle))
 
 ---
 
-### Grammar Support (4 APIs)
+### Grammar Support (4 APIs) ⚠️
 
 **Files:** `src/llm/grammar.cpp`, `src/llm/llama_wrapper.cpp`
 
-#### 1. Grammar Initialization - `llama_grammar_init()`
+**⚠️ AVAILABILITY NOTE:** Grammar support is **build-gated** and currently disabled in the default build. The `Grammar::compile()` method in `src/llm/grammar.cpp` (line 76-82) returns an error: "Grammar support is unavailable (llama grammar API not present)". This feature requires llama.cpp to be built with grammar API support enabled.
+
+#### 1. Grammar Initialization - `llama_grammar_init()` ⚠️ DISABLED
 ```cpp
 // In Grammar::compile():
-grammar_ = llama_grammar_init(ebnf_text_.c_str(), start_symbol_.c_str());
+// grammar_ = llama_grammar_init(ebnf_text_.c_str(), start_symbol_.c_str());
+// Currently returns: "Grammar support is unavailable (llama grammar API not present)"
 ```
 
-**Benefit:** Real EBNF parsing, grammar state machine initialized.
+**Status:** API call stubbed out. Requires llama.cpp with grammar support.
 
-#### 2. Resource Cleanup - `llama_grammar_free()` (2 locations)
+#### 2. Resource Cleanup - `llama_grammar_free()` (2 locations) ⚠️ DISABLED
 ```cpp
 // Destructor:
-llama_grammar_free(grammar_);
-
-// Move assignment operator:
-if (grammar_ != nullptr) {
-    llama_grammar_free(grammar_);
-}
+// llama_grammar_free(grammar_);
+// Currently: grammar_ is always nullptr, no cleanup needed
 ```
 
-**Benefit:** Proper RAII, no memory leaks.
+**Status:** No-op when grammar support unavailable.
 
-#### 3. Token Filtering - `llama_grammar_sample()`
+#### 3. Token Filtering - `llama_grammar_sample()` ⚠️ CONDITIONAL
 ```cpp
 // In sampleTokenInternal():
-llama_grammar_sample(grammar, ctx, &candidates_p);
+// llama_grammar_sample(grammar, ctx, &candidates_p);
+// Only called if grammar is valid (never true in current build)
 ```
 
-**Benefit:** Constrains generation to valid grammar productions.
+**Status:** Code present but never executed without grammar APIs.
 
-#### 4. State Updates - `llama_grammar_accept()`
+#### 4. State Updates - `llama_grammar_accept()` ⚠️ CONDITIONAL
 ```cpp
 // After token sampling:
-llama_grammar_accept(grammar, ctx, sampled_token);
+// llama_grammar_accept(grammar, ctx, sampled_token);
+// Only called if grammar is valid (never true in current build)
 ```
 
-**Benefit:** Maintains grammar state machine correctness.
+**Status:** Code present but never executed without grammar APIs.
 
 ---
 
@@ -122,10 +127,10 @@ llama_grammar_accept(grammar, ctx, sampled_token);
 | 4 | Async Loading | ✅ 100% | Progress callbacks |
 | 5 | Real Embeddings | ✅ 100% | Base model |
 | 6 | Native Tokenizer | ✅ 100% | Direct llama.cpp |
-| 7 | **Grammar Support** | ✅ **100%** ✨ | **EBNF + constraints** |
+| 7 | **Grammar Support** | ⚠️ **Build-Gated** | **Requires llama.cpp grammar APIs** |
 | 8 | **LoRA Fusion** | ✅ **100%** ✨ | **Lazy init + fusion** |
 
-**Production Ready:** 6/6 (100%)
+**Production Ready:** 5/6 (83%) - Grammar support requires build configuration
 
 ---
 
@@ -187,13 +192,13 @@ ctest -R "test_llama_wrapper|test_lora|test_grammar" -V
 - ✅ Real embeddings for training
 - ✅ Native tokenization
 - ✅ **LoRA adapter fine-tuning** ✨
-- ✅ **Grammar-constrained generation** ✨
+- ⚠️ **Grammar-constrained generation** (requires build with llama.cpp grammar APIs)
 
 **Configuration:**
 ```cpp
 LlamaWrapper::Config config;
 config.use_lora_adapters = true;      // ✅ Now works!
-config.grammar_config.enabled = true; // ✅ Now works!
+config.grammar_config.enabled = true; // ⚠️ Requires llama.cpp grammar APIs
 ```
 
 ---
@@ -236,14 +241,23 @@ config.grammar_config.enabled = true; // ✅ Now works!
 
 **Workaround:** None needed - this is the correct pattern.
 
-### Grammar
+### Grammar ⚠️ BUILD-GATED
 
 **API Availability:**
-- Requires llama.cpp with grammar support
-- APIs available in recent llama.cpp versions
-- If not available, graceful fallback to no grammar
+- ⚠️ **CURRENTLY DISABLED:** Grammar support is build-gated and not available in the default build
+- The `Grammar::compile()` method returns error: "Grammar support is unavailable (llama grammar API not present)"
+- Requires llama.cpp to be built with grammar API support enabled
+- See `src/llm/grammar.cpp` line 76-82 for the error message
 
-**Mitigation:** Check llama.cpp version, update if needed.
+**To Enable Grammar Support:**
+1. Ensure llama.cpp dependency includes grammar APIs (`llama_grammar_init`, `llama_grammar_free`, `llama_grammar_sample`, `llama_grammar_accept`)
+2. Rebuild ThemisDB with updated llama.cpp
+3. The Grammar class will automatically use real APIs when available
+
+**Current Behavior:**
+- Grammar compilation always fails with unavailability error
+- System gracefully falls back to unconstrained generation
+- No crashes or errors in application code
 
 ---
 
