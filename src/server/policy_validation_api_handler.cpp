@@ -132,25 +132,53 @@ bool PolicyValidationApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role
 ) const {
-    if (!auth_) {
-        THEMIS_WARN("AuthMiddleware not configured - denying request for role '{}'", required_role);
+    // Fail-closed: If no auth configured, deny access for production security
+    if (!auth_ || !auth_->isEnabled()) {
+        THEMIS_WARN("AuthMiddleware not configured or disabled - denying access to policy validation endpoint");
         return false;
     }
     
+    // Extract authorization header
     auto auth_it = req.find(http::field::authorization);
     if (auth_it == req.end()) {
+        THEMIS_WARN("Missing Authorization header for policy validation endpoint");
         return false;
     }
     
-    const auto auth_value = auth_it->value().to_string();
-    if (auth_value.empty()) {
+    // Extract Bearer token
+    auto token = AuthMiddleware::extractBearerToken(
+        std::string_view(auth_it->value().data(), auth_it->value().size())
+    );
+    
+    if (!token) {
+        THEMIS_WARN("Invalid Authorization header format for policy validation endpoint");
         return false;
     }
     
-    // Further validation (e.g., token verification and role checks)
-    // should be performed by the configured AuthMiddleware
-    // TODO: Replace with actual auth_->authorize(req, required_role) when available
-    // For production use, integrate with the actual AuthMiddleware implementation
+    // Map role to scope for authorization
+    // operator role -> policy:read scope
+    // admin role -> policy:write scope
+    std::string required_scope;
+    if (required_role == "admin") {
+        required_scope = "policy:write";
+    } else if (required_role == "operator") {
+        required_scope = "policy:read";
+    } else {
+        required_scope = "policy:" + required_role;
+    }
+    
+    // Validate token and check required scope
+    auto auth_result = auth_->authorize(*token, required_scope);
+    if (!auth_result.authorized) {
+        THEMIS_WARN("Authorization failed for policy validation endpoint - user: {}, required scope: {}, reason: {}",
+            auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
+            required_scope,
+            auth_result.reason.empty() ? "insufficient_scope" : auth_result.reason);
+        return false;
+    }
+    
+    THEMIS_DEBUG("Authorization successful for policy validation endpoint - user: {}, scope: {}",
+        auth_result.user_id, required_scope);
     return true;
 }
 

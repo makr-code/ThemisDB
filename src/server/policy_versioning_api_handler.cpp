@@ -222,33 +222,52 @@ bool PolicyVersioningApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role
 ) const {
-    if (!auth_) {
-        THEMIS_WARN("AuthMiddleware not configured - denying access");
+    // Fail-closed: If no auth configured, deny access for production security
+    if (!auth_ || !auth_->isEnabled()) {
+        THEMIS_WARN("AuthMiddleware not configured or disabled - denying access to policy versioning endpoint");
         return false;
     }
     
-    // Extract token from Authorization header
+    // Extract authorization header
     auto auth_it = req.find(http::field::authorization);
     if (auth_it == req.end()) {
+        THEMIS_WARN("Missing Authorization header for policy versioning endpoint");
         return false;
     }
     
+    // Extract Bearer token
     std::string auth_header(auth_it->value());
-    if (auth_header.find("Bearer ") != 0) {
+    auto token = AuthMiddleware::extractBearerToken(auth_header);
+    
+    if (!token) {
+        THEMIS_WARN("Invalid Authorization header format for policy versioning endpoint");
         return false;
     }
     
-    std::string token = auth_header.substr(7);
+    // Map role to scope for authorization
+    // operator role -> policy:read scope
+    // admin role -> policy:write scope
+    std::string required_scope;
+    if (required_role == "admin") {
+        required_scope = "policy:write";
+    } else if (required_role == "operator") {
+        required_scope = "policy:read";
+    } else {
+        required_scope = "policy:" + required_role;
+    }
     
-    // Validate token and check role using auth middleware
-    // In a real implementation, this would call auth_->validateToken(token, required_role)
-    // For now, we perform basic validation
-    if (token.empty()) {
+    // Validate token and check required scope
+    auto auth_result = auth_->authorize(*token, required_scope);
+    if (!auth_result.authorized) {
+        THEMIS_WARN("Authorization failed for policy versioning endpoint - user: {}, required scope: {}, reason: {}",
+            auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
+            required_scope,
+            auth_result.reason.empty() ? "insufficient_scope" : auth_result.reason);
         return false;
     }
     
-    // TODO: Replace with actual auth_->validateToken(token, required_role) when available
-    // For production use, integrate with the actual AuthMiddleware implementation
+    THEMIS_DEBUG("Authorization successful for policy versioning endpoint - user: {}, scope: {}",
+        auth_result.user_id, required_scope);
     return true;
 }
 

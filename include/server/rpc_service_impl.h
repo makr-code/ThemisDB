@@ -186,9 +186,13 @@ private:
     const std::chrono::steady_clock::time_point* start_time_;
     
     /**
-     * @brief Verify authentication token from context
+     * @brief Verify authentication token from context and check required scope
+     * @param context RPC request context containing metadata with auth token
+     * @param username Output parameter for authenticated username
+     * @param required_scope Required authorization scope (e.g., "rpc:read", "rpc:write", "rpc:admin")
+     * @return true if authentication and authorization succeed, false otherwise
      */
-    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username);
+    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username, const std::string& required_scope = "");
     
     /**
      * @brief Create error response

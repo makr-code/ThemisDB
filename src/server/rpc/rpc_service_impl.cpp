@@ -1827,13 +1827,35 @@ json ThemisRPCService::dispatch(
     const json& params,
     const themis::plugins::rpc::RPCRequestContext& context
 ) {
-    // Authentication check (except for authenticate method)
-    if (method != "authenticate") {
+    // Authentication and authorization check (except for authenticate and health_check methods)
+    if (method != "authenticate" && method != "health_check") {
         std::string username;
-        if (!verifyAuth(context, username)) {
+        std::string required_scope;
+        
+        // Map RPC methods to required scopes according to rpc_authentication.md
+        if (method == "get" || method == "batch_get" || method == "search" || 
+            method == "query" || method == "paginated_query" || method == "vector_search" ||
+            method == "graph_traverse" || method == "geo_query" || method == "timeseries_query" ||
+            method == "get_index_operations" || method == "list_collections" ||
+            method == "get_collection_metadata" || method == "aggregation_pipeline") {
+            required_scope = "rpc:read";
+        } else if (method == "put" || method == "batch_put" || method == "delete" ||
+                   method == "update_entity" || method == "batch_update") {
+            required_scope = "rpc:write";
+        } else if (method == "create_index" || method == "drop_index" || method == "stats") {
+            required_scope = "rpc:admin";
+        } else if (method == "transaction_begin" || method == "transaction_commit" || 
+                   method == "transaction_abort") {
+            required_scope = "transaction:write";
+        } else {
+            // Unknown method - require admin scope
+            required_scope = "rpc:admin";
+        }
+        
+        if (!verifyAuth(context, username, required_scope)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::AUTHENTICATION_FAILED,
-                "Authentication required"
+                "Authentication failed or insufficient scope: " + required_scope
             );
         }
     }
@@ -1901,11 +1923,14 @@ json ThemisRPCService::dispatch(
 
 bool ThemisRPCService::verifyAuth(
     const themis::plugins::rpc::RPCRequestContext& context,
-    std::string& username
+    std::string& username,
+    const std::string& required_scope
 ) {
-    // If auth middleware is not configured, allow requests
-    // This maintains backward compatibility with existing deployments
+    // Fail-closed: If auth middleware is configured and enabled, enforce authentication
+    // Only allow unauthenticated access if auth is explicitly disabled
     if (!auth_ || !auth_->isEnabled()) {
+        // Auth not configured - allow for backward compatibility
+        // In production, auth should always be enabled
         username = context.username.empty() ? "anonymous" : context.username;
         return true;
     }
@@ -1922,12 +1947,19 @@ bool ThemisRPCService::verifyAuth(
     }
     
     if (token.empty()) {
+        // No token provided - deny access
         return false;
     }
     
-    // Validate token using auth middleware
-    auto auth_result = auth_->validateToken(token);
+    // Validate token and check required scope using auth middleware
+    auto auth_result = auth_->authorize(token, required_scope);
     if (!auth_result.authorized) {
+        // Log authentication failure with details
+        // Note: Don't log token itself for security reasons
+        if (!auth_result.user_id.empty()) {
+            // Token was valid but lacked scope
+            username = auth_result.user_id;
+        }
         return false;
     }
     
