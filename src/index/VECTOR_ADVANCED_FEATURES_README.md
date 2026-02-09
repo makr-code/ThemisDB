@@ -113,7 +113,7 @@ query.vectors = {query_vec1, query_vec2, query_vec3};
 query.weights = {0.5f, 0.3f, 0.2f};
 
 MultiVectorSearch::SearchConfig config;
-config.fusion = FusionStrategy::LINEAR_COMBINATION;
+config.fusion = MultiVectorSearch::FusionStrategy::LINEAR_COMBINATION;
 config.top_k = 10;
 
 // Execute search

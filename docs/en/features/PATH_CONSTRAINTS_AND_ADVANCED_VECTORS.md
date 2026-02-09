@@ -504,9 +504,9 @@ Where: r = results in radius, m = number of queries, R = total results
 
 ## References
 
-- [PathConstraints Documentation](../de/features/features_path_constraints.md)
-- [Vector Index Documentation](../en/features/vector_search.md)
-- [Multi-Vector Search Guide](../../multi_vector_search.md)
-- [Vector Advanced Features](../../src/index/VECTOR_ADVANCED_FEATURES_README.md)
+- [PathConstraints Documentation](../../de/features/features_path_constraints.md)
+- [Vector Index Documentation](./vector_search.md)
+- [Multi-Vector Search Guide](../../../docs/multi_vector_search.md)
+- [Vector Advanced Features](../../../src/index/VECTOR_ADVANCED_FEATURES_README.md)
 - [FAISS Documentation](https://github.com/facebookresearch/faiss)
 - [HNSW Paper](https://arxiv.org/abs/1603.09320)
