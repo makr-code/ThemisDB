@@ -175,7 +175,7 @@ ThemisDB exposes Prometheus-compatible metrics across multiple subsystems. Unlik
 #### LLM Metrics
 - **Headers:** 
   - [`include/llm/grafana_metrics.h`](../../include/llm/grafana_metrics.h) - Grafana/Prometheus integration
-  - [`include/llm/lora_metrics.h`](../../include/llm/lora_framework/lora_metrics.h) - LoRA adapter metrics
+  - [`include/llm/lora_framework/lora_metrics.h`](../../include/llm/lora_framework/lora_metrics.h) - LoRA adapter metrics
 - **Features:**
   - Inference latency and throughput
   - Cache hit/miss rates (response cache, KV cache)
