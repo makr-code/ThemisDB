@@ -561,8 +561,8 @@ See [API.md](./API.md) for complete API documentation.
 - **[docs/replication/](./replication/)** - Additional replication documentation and examples
 
 ### Related Documentation
-- [Replication Architecture](./ARCHITECTURE.md) - System architecture overview
-- [Security Guide](./SECURITY.md) - Security configuration for replication
-- [Performance Guide](./PERFORMANCE.md) - Performance tuning guidelines
-- [Disaster Recovery](./DR.md) - DR procedures and best practices
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - System architecture overview
+- [SECURITY.md](../SECURITY.md) - Security configuration for replication
+- [MONITORING.md](./production/MONITORING.md) - Monitoring and metrics setup
+- [Disaster Recovery](./en/guides/disaster_recovery.md) - DR procedures and best practices
 - [Distributed Sharding Architecture](./de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Sharding module documentation

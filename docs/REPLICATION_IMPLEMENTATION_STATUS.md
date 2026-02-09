@@ -274,4 +274,5 @@ tests/
 
 ### Verwandte Systemdokumentation
 - [Distributed Sharding Architecture](./de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Sharding-Modul Dokumentation
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - System-Architektur-Übersicht
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - System-Architektur-Übersicht
+- [SECURITY.md](../SECURITY.md) - Sicherheitskonfiguration

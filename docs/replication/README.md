@@ -80,13 +80,12 @@ ThemisDB's replication system is organized across two main modules:
 - [Distributed Transactions](../DISTRIBUTED_TRANSACTIONS.md)
 
 ### System Architecture
-- [ARCHITECTURE.md](../ARCHITECTURE.md) - System overview
-- [SECURITY.md](../SECURITY.md) - Security configuration
-- [PERFORMANCE.md](../PERFORMANCE.md) - Performance tuning
+- [ARCHITECTURE.md](../../ARCHITECTURE.md) - System overview
+- [SECURITY.md](../../SECURITY.md) - Security configuration
+- [MONITORING.md](../production/MONITORING.md) - Monitoring setup
 
 ### Operations
-- [Monitoring Guide](../MONITORING.md) - Metrics and alerting
-- [Disaster Recovery](../DR.md) - DR procedures
+- [Disaster Recovery](../en/guides/disaster_recovery.md) - DR procedures
 
 ## 🚀 Quick Start
 
