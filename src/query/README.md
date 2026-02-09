@@ -22,11 +22,11 @@ AQL query parser, optimizer, and execution engine for ThemisDB.
 ## Documentation
 
 For query documentation, see:
-- [AQL Parser](../../docs/src/query/aql_parser.cpp.md)
-- [AQL Translator](../../docs/src/query/aql_translator.cpp.md)
-- [Query Engine](../../docs/src/query/query_engine.cpp.md)
-- [Query Optimizer](../../docs/src/query/query_optimizer.cpp.md)
-- [Query Parser](../../docs/src/query/query_parser.cpp.md)
-- [AQL Syntax](../../docs/aql_syntax.md)
-- [Query Engine Documentation](../../docs/query_engine_aql.md)
-- [AQL Explain/Profile](../../docs/aql_explain_profile.md)
+- [AQL Syntax](../../docs/de/aql/aql_syntax.md)
+- [AQL Query Engine](../../docs/de/aql/aql_query_engine.md)
+- [AQL Functions Reference](../../docs/de/aql/aql_functions_reference.md)
+- [AQL Hybrid Queries](../../docs/de/aql/aql_hybrid_queries.md)
+- [AQL Language Scope](../../docs/de/aql/aql_language_scope.md)
+- [AQL Proximity Patterns](../../docs/aql-proximity-patterns.md)
+- [Query Hybrid Overview](../../docs/de/query/query_hybrid_overview.md)
+- [Namespace Query Architecture](../../docs/de/architecture/namespace-query.md)
