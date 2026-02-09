@@ -68,6 +68,7 @@
 
 // Sprint C features
 #include "index/adaptive_index.h"
+#include "server/tenant_manager.h"
 
 // Now include http_server.h which has forward declarations
 #include "server/http_server.h"
@@ -1901,6 +1902,79 @@ http::response<http::string_body> HttpServer::routeRequest(
         recordLatency(duration);
         span.setStatus(false, "rate_limited");
         return *rate_limit_response;
+    }
+
+    // Check tenant quotas BEFORE processing request
+    {
+        auto& tenant_mgr = themis::TenantManager::instance();
+        
+        // Extract tenant ID from request headers or path
+        std::unordered_map<std::string, std::string> headers;
+        for (auto const& field : req) {
+            headers[std::string(field.name_string())] = std::string(field.value());
+        }
+        
+        if (auto tenant_id_opt = tenant_mgr.extractTenantId(headers, target)) {
+            const std::string& tenant_id = *tenant_id_opt;
+            
+            // Check connection quota
+            auto conn_check = tenant_mgr.checkQuota(tenant_id, "connections", 1);
+            if (!conn_check.allowed) {
+                THEMIS_WARN("Tenant connection quota exceeded: tenant={}, reason={}",
+                           tenant_id, conn_check.reason);
+                
+                http::response<http::string_body> res{http::status::service_unavailable, req.version()};
+                res.set(http::field::content_type, "application/json");
+                nlohmann::json body = {
+                    {"error", "Service Unavailable"},
+                    {"message", "Tenant connection quota exceeded: " + conn_check.reason},
+                    {"tenant_id", tenant_id},
+                    {"status_code", 503}
+                };
+                res.body() = body.dump();
+                applyGovernanceHeaders(req, res);
+                res.prepare_payload();
+                tenant_mgr.recordRateLimited(tenant_id);
+                recordLatency(std::chrono::microseconds(0));
+                span.setStatus(false, "tenant_quota_exceeded");
+                return res;
+            }
+            
+            // Check query quota for query endpoints
+            std::string path_only = target;
+            auto qpos = path_only.find('?');
+            if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+            
+            bool is_query_endpoint = (path_only == "/query" || 
+                                     path_only == "/search/hybrid" ||
+                                     path_only == "/search/fusion" ||
+                                     path_only == "/search/fulltext" ||
+                                     path_only.rfind("/api/aql", 0) == 0);
+            
+            if (is_query_endpoint) {
+                auto query_check = tenant_mgr.checkQuota(tenant_id, "queries", 1);
+                if (!query_check.allowed) {
+                    THEMIS_WARN("Tenant query quota exceeded: tenant={}, reason={}",
+                               tenant_id, query_check.reason);
+                    
+                    http::response<http::string_body> res{http::status::service_unavailable, req.version()};
+                    res.set(http::field::content_type, "application/json");
+                    nlohmann::json body = {
+                        {"error", "Service Unavailable"},
+                        {"message", "Tenant query quota exceeded: " + query_check.reason},
+                        {"tenant_id", tenant_id},
+                        {"status_code", 503}
+                    };
+                    res.body() = body.dump();
+                    applyGovernanceHeaders(req, res);
+                    res.prepare_payload();
+                    tenant_mgr.recordRateLimited(tenant_id);
+                    recordLatency(std::chrono::microseconds(0));
+                    span.setStatus(false, "tenant_quota_exceeded");
+                    return res;
+                }
+            }
+        }
     }
 
     // Early routing for Ethics AI API

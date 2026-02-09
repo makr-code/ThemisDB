@@ -1,5 +1,6 @@
 #include "server/api_gateway.h"
 #include "server/api_version_config.h"
+#include "server/rate_limiter_v2.h"
 #include "core/error_codes.h"
 #include <chrono>
 #include <ctime>
@@ -43,12 +44,43 @@ APIGateway::APIGateway(
 ) : config_(config),
     auth_(std::move(auth)),
     rate_limiter_(std::move(rate_limiter)),
+    rate_limiter_v2_(nullptr),
     load_shedder_(std::move(load_shedder)),
     shard_router_(std::move(shard_router)),
     metrics_(std::move(metrics)),
     version_manager_(std::make_shared<APIVersionManager>())
 {
-    spdlog::info("APIGateway initialized: id={}, datacenter={}, sharding={}, federation={}, versioning={}",
+    spdlog::info("APIGateway initialized: id={}, datacenter={}, sharding={}, federation={}, versioning={}, rate_limiter=V1",
+                 config_.gateway_id, config_.datacenter, 
+                 config_.enable_sharding, config_.enable_query_federation,
+                 config_.enable_api_versioning);
+    
+    // Verify configuration
+    if (config_.enable_sharding && !shard_router_) {
+        spdlog::warn("Sharding enabled but no shard router provided");
+    }
+    if (config_.enable_query_federation && !shard_router_) {
+        spdlog::warn("Query federation enabled but no shard router provided");
+    }
+}
+
+APIGateway::APIGateway(
+    const Config& config,
+    std::shared_ptr<AuthMiddleware> auth,
+    std::shared_ptr<PerClientRateLimiter> rate_limiter_v2,
+    std::shared_ptr<LoadShedder> load_shedder,
+    std::shared_ptr<sharding::ShardRouter> shard_router,
+    std::shared_ptr<observability::PrometheusMetrics> metrics
+) : config_(config),
+    auth_(std::move(auth)),
+    rate_limiter_(nullptr),
+    rate_limiter_v2_(std::move(rate_limiter_v2)),
+    load_shedder_(std::move(load_shedder)),
+    shard_router_(std::move(shard_router)),
+    metrics_(std::move(metrics)),
+    version_manager_(std::make_shared<APIVersionManager>())
+{
+    spdlog::info("APIGateway initialized: id={}, datacenter={}, sharding={}, federation={}, versioning={}, rate_limiter=V2",
                  config_.gateway_id, config_.datacenter, 
                  config_.enable_sharding, config_.enable_query_federation,
                  config_.enable_api_versioning);
@@ -234,8 +266,8 @@ nlohmann::json APIGateway::getHealthStatus() const {
         health["components"]["auth"] = "healthy";
     }
     
-    if (rate_limiter_) {
-        health["components"]["rate_limiter"] = "healthy";
+    if (rate_limiter_ || rate_limiter_v2_) {
+        health["components"]["rate_limiter"] = rate_limiter_v2_ ? "healthy_v2" : "healthy_v1";
     }
     
     if (load_shedder_) {
@@ -315,6 +347,27 @@ APIGateway::RouteTarget APIGateway::determineRouteTarget(
 }
 
 bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
+    // Prefer V2 rate limiter if available
+    if (rate_limiter_v2_) {
+        // Extract client ID from request (could be IP, user ID, JWT subject, etc.)
+        std::string client_id = "anonymous";
+        
+        // Check if Authorization header exists for user-based rate limiting
+        auto auth_header = req.find(http::field::authorization);
+        if (auth_header != req.end()) {
+            // Use auth header as client ID (or extract JWT subject in production)
+            client_id = std::string(auth_header->value());
+            // Could extract actual user_id from JWT here
+        }
+        
+        // Determine priority based on client attributes
+        // In production, this could check JWT claims for premium users
+        auto priority = TokenBucketRateLimiter::Priority::NORMAL;
+        
+        return rate_limiter_v2_->allowRequest(client_id, 1, priority);
+    }
+    
+    // Fallback to V1 rate limiter
     if (!rate_limiter_) {
         return true;
     }
