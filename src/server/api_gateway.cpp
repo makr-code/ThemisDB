@@ -4,6 +4,7 @@
 #include "core/error_codes.h"
 #include <chrono>
 #include <ctime>
+#include <sstream>
 #include <spdlog/spdlog.h>
 
 // Portable wrappers for tm <-> time_t conversions
@@ -85,7 +86,7 @@ APIGateway::APIGateway(
                  config_.enable_sharding, config_.enable_query_federation,
                  config_.enable_api_versioning);
     
-    // Verify configuration
+    // Verify configuration (same validation as V1 constructor)
     if (config_.enable_sharding && !shard_router_) {
         spdlog::warn("Sharding enabled but no shard router provided");
     }
@@ -364,8 +365,12 @@ bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
                 if (ctx && !ctx->user_id.empty()) {
                     client_id = ctx->user_id;  // Use JWT subject as client ID
                 } else {
-                    // Fallback: use a hash of the token (not the full token)
-                    client_id = "token_" + std::to_string(std::hash<std::string>{}(token) % 1000000);
+                    // Fallback: use a stable hash of the token (not the full token)
+                    // Convert hash to hex string to avoid collisions from modulo
+                    size_t hash_val = std::hash<std::string>{}(token);
+                    std::ostringstream oss;
+                    oss << "token_" << std::hex << hash_val;
+                    client_id = oss.str();
                 }
             } else {
                 // Non-bearer auth or malformed: use generic ID

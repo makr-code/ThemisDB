@@ -58,17 +58,19 @@ rate_limiting:
 - Automatic idle client cleanup
 
 **Priority Configuration**:
-- **HIGH** (VIP): 2000 capacity, 200 tokens/s (default)
-- **NORMAL**: 1000 capacity, 100 tokens/s (default)
-- **LOW**: 500 capacity, 50 tokens/s (default)
+- **HIGH** (VIP): 2000 capacity, 200 tokens/s (via `high_capacity`, `high_refill_rate`)
+- **NORMAL**: Uses `capacity_per_client`, `refill_rate_per_client` (default: 100 capacity, 10 tokens/s)
+- **LOW**: 500 capacity, 50 tokens/s (via `low_capacity`, `low_refill_rate`)
+
+**Note**: The base configuration (`capacity_per_client`, `refill_rate_per_client`) defines the NORMAL priority lane. HIGH and LOW lanes override these with their specific settings when `enable_priority_lanes: true`.
 
 **Configuration** (`config.yaml`):
 ```yaml
 rate_limiting:
   v2:
     enabled: true                   # Enable V2 rate limiter (recommended)
-    capacity_per_client: 100        # Tokens per client
-    refill_rate_per_client: 10      # Tokens per second per client
+    capacity_per_client: 100        # NORMAL lane: tokens per client (burst)
+    refill_rate_per_client: 10      # NORMAL lane: tokens per second per client
     max_clients: 10000              # Maximum tracked clients
     cleanup_interval_minutes: 5     # Idle client cleanup interval
     

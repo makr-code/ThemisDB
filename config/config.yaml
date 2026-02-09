@@ -550,7 +550,8 @@ rate_limiting:
 # =============================================================================
 tenants:
   # Enable tenant-based resource quotas and isolation
-  enforce_quotas: true
+  # Set to true to enable quota enforcement in production
+  enforce_quotas: false
   
   # Tenant identification
   tenant_header: "X-Tenant-ID"      # HTTP header for tenant ID
