@@ -15,13 +15,26 @@ namespace themis {
 namespace {
 
 // Flag to track if production mode is enabled
-// Set via environment variable THEMIS_PRODUCTION_MODE=1
+// Set via environment variable THEMIS_PRODUCTION_MODE=1 or THEMIS_ENVIRONMENT=production
+// Note: For testing, use the test-only reset function below
 bool is_production_mode() {
-    static const bool production = []() {
-        const char* env = std::getenv("THEMIS_PRODUCTION_MODE");
-        return env && (std::string(env) == "1" || std::string(env) == "true");
-    }();
-    return production;
+    const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
+    
+    // Check THEMIS_PRODUCTION_MODE first (accepts "1", "true", "production")
+    if (mode_env) {
+        std::string mode_str(mode_env);
+        if (mode_str == "1" || mode_str == "true" || mode_str == "production") {
+            return true;
+        }
+    }
+    
+    // Check THEMIS_ENVIRONMENT (accepts "production")
+    if (env_env && std::string(env_env) == "production") {
+        return true;
+    }
+    
+    return false;
 }
 
 class DefaultExpressionEvaluator : public IExpressionEvaluator {
@@ -51,8 +64,9 @@ class DefaultFieldEncryption : public IFieldEncryption {
 public:
     DefaultFieldEncryption() {
         if (is_production_mode()) {
-            spdlog::error("StorageEngine: Using default (no-op) field encryption in PRODUCTION mode. "
-                         "DATA IS NOT ENCRYPTED! Provide a real implementation via dependency injection.");
+            throw std::runtime_error(
+                "StorageEngine: Cannot use default (no-op) field encryption in PRODUCTION mode. "
+                "DATA WOULD NOT BE ENCRYPTED! Provide a real FieldEncryption implementation via dependency injection.");
         }
     }
 
@@ -61,9 +75,6 @@ public:
         const std::vector<uint8_t>& plaintext) override {
         // Default implementation: no-op encryption (returns plaintext)
         // Real implementation would use AES-GCM or similar
-        if (is_production_mode()) {
-            spdlog::error("StorageEngine: Field encryption attempted with default (no-op) encryption in PRODUCTION mode: '{}'", field_name);
-        }
         return plaintext;
     }
     
@@ -84,17 +95,15 @@ class DefaultKeyProvider : public IKeyProvider {
 public:
     DefaultKeyProvider() {
         if (is_production_mode()) {
-            spdlog::error("StorageEngine: Using default (insecure) key provider in PRODUCTION mode. "
-                         "KEYS ARE NOT SECURE! Provide a real implementation via dependency injection.");
+            throw std::runtime_error(
+                "StorageEngine: Cannot use default (insecure) key provider in PRODUCTION mode. "
+                "KEYS WOULD NOT BE SECURE! Provide a real KeyProvider implementation via dependency injection.");
         }
     }
 
     std::vector<uint8_t> get_key(const std::string& key_id) override {
         // Default implementation: return a dummy key
         // Real implementation would fetch from Vault, HSM, etc.
-        if (is_production_mode()) {
-            spdlog::error("StorageEngine: Key retrieval attempted with default (insecure) key provider in PRODUCTION mode: '{}'", key_id);
-        }
         return std::vector<uint8_t>(32, 0x42); // 32-byte dummy key
     }
     

@@ -5,10 +5,10 @@
 using namespace themis;
 
 // ============================================================================
-// KeySchema Basic Key Construction Tests
+// KeySchemaV15 Basic Key Construction Tests (v1.5.0+ format)
 // ============================================================================
 
-TEST(KeySchemaTest, MakeRelationalKey) {
+TEST(KeySchemaV15Test, MakeRelationalKey) {
     std::string key = KeySchema::makeRelationalKey("users", "123");
     EXPECT_EQ(key, "rel:users:123");
     
@@ -17,7 +17,7 @@ TEST(KeySchemaTest, MakeRelationalKey) {
     EXPECT_EQ(key, "rel:products:abc-def");
 }
 
-TEST(KeySchemaTest, MakeDocumentKey) {
+TEST(KeySchemaV15Test, MakeDocumentKey) {
     std::string key = KeySchema::makeDocumentKey("orders", "456");
     EXPECT_EQ(key, "doc:orders:456");
     
@@ -26,32 +26,32 @@ TEST(KeySchemaTest, MakeDocumentKey) {
     EXPECT_EQ(key, "doc:invoices:inv-2024-001");
 }
 
-TEST(KeySchemaTest, MakeGraphNodeKey) {
+TEST(KeySchemaV15Test, MakeGraphNodeKey) {
     std::string key = KeySchema::makeGraphNodeKey("node123");
     EXPECT_EQ(key, "node:node123");
 }
 
-TEST(KeySchemaTest, MakeGraphEdgeKey) {
+TEST(KeySchemaV15Test, MakeGraphEdgeKey) {
     std::string key = KeySchema::makeGraphEdgeKey("edge456");
     EXPECT_EQ(key, "edge:edge456");
 }
 
-TEST(KeySchemaTest, MakeVectorKey) {
+TEST(KeySchemaV15Test, MakeVectorKey) {
     std::string key = KeySchema::makeVectorKey("embeddings", "vec789");
     EXPECT_EQ(key, "vec:embeddings:vec789");
 }
 
-TEST(KeySchemaTest, MakeSecondaryIndexKey) {
+TEST(KeySchemaV15Test, MakeSecondaryIndexKey) {
     std::string key = KeySchema::makeSecondaryIndexKey("users", "email", "john@example.com", "123");
     EXPECT_EQ(key, "idx:users:email:john@example.com:123");
 }
 
-TEST(KeySchemaTest, MakeGraphOutdexKey) {
+TEST(KeySchemaV15Test, MakeGraphOutdexKey) {
     std::string key = KeySchema::makeGraphOutdexKey("node1", "edge1");
     EXPECT_EQ(key, "graph:out:node1:edge1");
 }
 
-TEST(KeySchemaTest, MakeGraphIndexKey) {
+TEST(KeySchemaV15Test, MakeGraphIndexKey) {
     std::string key = KeySchema::makeGraphIndexKey("node2", "edge2");
     EXPECT_EQ(key, "graph:in:node2:edge2");
 }
@@ -60,49 +60,49 @@ TEST(KeySchemaTest, MakeGraphIndexKey) {
 // KeySchema Parsing Tests
 // ============================================================================
 
-TEST(KeySchemaTest, ParseKeyTypeRelational) {
+TEST(KeySchemaV15Test, ParseKeyTypeRelational) {
     std::string key = "rel:users:123";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::RELATIONAL);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeDocument) {
+TEST(KeySchemaV15Test, ParseKeyTypeDocument) {
     std::string key = "doc:orders:456";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::DOCUMENT);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeGraphNode) {
+TEST(KeySchemaV15Test, ParseKeyTypeGraphNode) {
     std::string key = "node:node123";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::GRAPH_NODE);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeGraphEdge) {
+TEST(KeySchemaV15Test, ParseKeyTypeGraphEdge) {
     std::string key = "edge:edge456";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::GRAPH_EDGE);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeVector) {
+TEST(KeySchemaV15Test, ParseKeyTypeVector) {
     std::string key = "vec:embeddings:vec789";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::VECTOR);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeSecondaryIndex) {
+TEST(KeySchemaV15Test, ParseKeyTypeSecondaryIndex) {
     std::string key = "idx:users:email:john@example.com:123";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::SECONDARY_INDEX);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeGraphOutdex) {
+TEST(KeySchemaV15Test, ParseKeyTypeGraphOutdex) {
     std::string key = "graph:out:node1:edge1";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::GRAPH_OUTDEX);
 }
 
-TEST(KeySchemaTest, ParseKeyTypeGraphIndex) {
+TEST(KeySchemaV15Test, ParseKeyTypeGraphIndex) {
     std::string key = "graph:in:node2:edge2";
     auto type = KeySchema::parseKeyType(key);
     EXPECT_EQ(type, KeySchema::KeyType::GRAPH_INDEX);
@@ -112,7 +112,7 @@ TEST(KeySchemaTest, ParseKeyTypeGraphIndex) {
 // KeySchema Ambiguity Resolution Tests (v1.5.0+)
 // ============================================================================
 
-TEST(KeySchemaTest, ParseKeyTypeDistinguishesRelationalAndDocument) {
+TEST(KeySchemaV15Test, ParseKeyTypeDistinguishesRelationalAndDocument) {
     // New format with prefixes should be distinguishable
     std::string rel_key = "rel:users:123";
     std::string doc_key = "doc:users:123";
@@ -122,7 +122,7 @@ TEST(KeySchemaTest, ParseKeyTypeDistinguishesRelationalAndDocument) {
     EXPECT_NE(KeySchema::parseKeyType(rel_key), KeySchema::parseKeyType(doc_key));
 }
 
-TEST(KeySchemaTest, ParseKeyTypeLegacyFormat) {
+TEST(KeySchemaV15Test, ParseKeyTypeLegacyFormat) {
     // Legacy format without prefix should default to DOCUMENT for backward compatibility
     std::string legacy_key = "users:123";
     auto type = KeySchema::parseKeyType(legacy_key);
@@ -133,45 +133,45 @@ TEST(KeySchemaTest, ParseKeyTypeLegacyFormat) {
 // KeySchema Primary Key Extraction Tests
 // ============================================================================
 
-TEST(KeySchemaTest, ExtractPrimaryKeyRelational) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeyRelational) {
     std::string key = "rel:users:123";
     std::string pk = KeySchema::extractPrimaryKey(key);
     EXPECT_EQ(pk, "123");
 }
 
-TEST(KeySchemaTest, ExtractPrimaryKeyDocument) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeyDocument) {
     std::string key = "doc:orders:order-456";
     std::string pk = KeySchema::extractPrimaryKey(key);
     EXPECT_EQ(pk, "order-456");
 }
 
-TEST(KeySchemaTest, ExtractPrimaryKeyGraphNode) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeyGraphNode) {
     std::string key = "node:node123";
     std::string pk = KeySchema::extractPrimaryKey(key);
     EXPECT_EQ(pk, "node123");
 }
 
-TEST(KeySchemaTest, ExtractPrimaryKeyVector) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeyVector) {
     std::string key = "vec:embeddings:vec789";
     std::string pk = KeySchema::extractPrimaryKey(key);
     EXPECT_EQ(pk, "vec789");
 }
 
-TEST(KeySchemaTest, ExtractPrimaryKeySecondaryIndex) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeySecondaryIndex) {
     std::string key = "idx:users:email:john@example.com:123";
     std::string pk = KeySchema::extractPrimaryKey(key);
     // For secondary index, the PK is the last component
     EXPECT_EQ(pk, "123");
 }
 
-TEST(KeySchemaTest, ExtractPrimaryKeyGraphOutdex) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeyGraphOutdex) {
     std::string key = "graph:out:node1:edge1";
     std::string pk = KeySchema::extractPrimaryKey(key);
     // For graph outdex, last component is edge PK
     EXPECT_EQ(pk, "edge1");
 }
 
-TEST(KeySchemaTest, ExtractPrimaryKeyNoSeparator) {
+TEST(KeySchemaV15Test, ExtractPrimaryKeyNoSeparator) {
     std::string key = "simplekey";
     std::string pk = KeySchema::extractPrimaryKey(key);
     EXPECT_EQ(pk, "simplekey");
@@ -181,22 +181,31 @@ TEST(KeySchemaTest, ExtractPrimaryKeyNoSeparator) {
 // KeySchema Edge Cases and Special Characters
 // ============================================================================
 
-TEST(KeySchemaTest, KeysWithSpecialCharacters) {
+TEST(KeySchemaV15Test, KeysWithSpecialCharacters) {
     // Test keys with special characters that might appear in real data
     std::string key = KeySchema::makeRelationalKey("users", "user@example.com");
     EXPECT_EQ(key, "rel:users:user@example.com");
     EXPECT_EQ(KeySchema::extractPrimaryKey(key), "user@example.com");
 }
 
-TEST(KeySchemaTest, KeysWithColonsInValue) {
-    // Test keys where the value contains colons
+TEST(KeySchemaV15Test, KeysWithColonsInValueNotSupported) {
+    // Test keys where the value contains colons - these are NOT round-trippable
+    // This documents the current limitation that ':' is reserved as separator
     std::string key = KeySchema::makeDocumentKey("logs", "2024:01:15:error");
     EXPECT_EQ(key, "doc:logs:2024:01:15:error");
-    // extractPrimaryKey should return everything after the last separator
-    EXPECT_EQ(KeySchema::extractPrimaryKey(key), "error");
+    
+    // extractPrimaryKey returns everything after the last separator
+    // For this key with colons in the PK, this is lossy behavior
+    std::string extracted = KeySchema::extractPrimaryKey(key);
+    EXPECT_EQ(extracted, "error"); // Only gets the part after last ':'
+    
+    // This demonstrates the PK is NOT round-trippable when it contains ':'
+    EXPECT_NE(extracted, "2024:01:15:error");
+    
+    // Applications MUST sanitize PKs to not contain ':' for round-trip safety
 }
 
-TEST(KeySchemaTest, EmptyComponents) {
+TEST(KeySchemaV15Test, EmptyComponents) {
     // Test with empty strings
     std::string key = KeySchema::makeRelationalKey("", "123");
     EXPECT_EQ(key, "rel::123");
@@ -205,7 +214,7 @@ TEST(KeySchemaTest, EmptyComponents) {
     EXPECT_EQ(key, "rel:users:");
 }
 
-TEST(KeySchemaTest, RoundTripRelationalKey) {
+TEST(KeySchemaV15Test, RoundTripRelationalKey) {
     // Create a key, extract the PK, verify it matches
     std::string original_pk = "user-12345";
     std::string key = KeySchema::makeRelationalKey("users", original_pk);
@@ -213,7 +222,7 @@ TEST(KeySchemaTest, RoundTripRelationalKey) {
     EXPECT_EQ(extracted_pk, original_pk);
 }
 
-TEST(KeySchemaTest, RoundTripDocumentKey) {
+TEST(KeySchemaV15Test, RoundTripDocumentKey) {
     // Create a key, extract the PK, verify it matches
     std::string original_pk = "doc-67890";
     std::string key = KeySchema::makeDocumentKey("documents", original_pk);
@@ -225,7 +234,7 @@ TEST(KeySchemaTest, RoundTripDocumentKey) {
 // KeySchema Integration Tests
 // ============================================================================
 
-TEST(KeySchemaTest, MultipleKeyTypesDistinct) {
+TEST(KeySchemaV15Test, MultipleKeyTypesDistinct) {
     // Verify that different key types for the same PK are distinct
     std::string pk = "123";
     std::string rel_key = KeySchema::makeRelationalKey("data", pk);
@@ -243,7 +252,7 @@ TEST(KeySchemaTest, MultipleKeyTypesDistinct) {
     EXPECT_EQ(KeySchema::extractPrimaryKey(vec_key), pk);
 }
 
-TEST(KeySchemaTest, AllKeyTypesUnique) {
+TEST(KeySchemaV15Test, AllKeyTypesUnique) {
     // Create keys for all types and ensure they're all different
     std::string pk = "test123";
     

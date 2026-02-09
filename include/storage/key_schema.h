@@ -19,8 +19,15 @@ namespace themis {
 /// - GRAPH_OUTDEX:    graph:out:pk_start:pk_edge
 /// - GRAPH_INDEX:     graph:in:pk_target:pk_edge
 ///
+/// IMPORTANT: All key components (table_name, collection_name, object_name, column,
+/// value, pk_value, pk_start, pk_edge, pk_target) MUST NOT contain the separator
+/// character ':' (see SEPARATOR below). Keys containing ':' in any component are
+/// not supported and will result in incorrect parsing. Applications must validate
+/// or sanitize input to ensure no ':' characters appear in key components.
+///
 /// Legacy Format (pre-1.5.0, deprecated):
 /// - table_name:pk_value or collection_name:pk_value (ambiguous, assumed DOCUMENT)
+///   The same restriction on ':' in components applies to legacy keys.
 class KeySchema {
 public:
     /// Key types for different data models

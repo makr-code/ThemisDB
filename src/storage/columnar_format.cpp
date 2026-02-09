@@ -738,12 +738,12 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
         return std::vector<uint8_t>();
     }
 
-    // Maximum safe input size (1GB)
-    constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024 * 1024;
+    // Maximum safe input size - must fit in int for LZ4 API
+    constexpr size_t MAX_INPUT_SIZE = static_cast<size_t>(INT_MAX);
     if (data.size() > MAX_INPUT_SIZE) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
-            "LZ4 compression: input data too large"
+            "LZ4 compression: input data too large (exceeds INT_MAX)"
         ));
     }
 
@@ -756,10 +756,11 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
         ));
     }
 
-    // Allocate output buffer
-    std::vector<uint8_t> compressed;
+    // Format: [original_size:8][compressed_data...]
+    // Store original size for safe decompression
+    std::vector<uint8_t> result;
     try {
-        compressed.resize(max_compressed_size);
+        result.resize(8 + max_compressed_size);
     } catch (const std::bad_alloc&) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -767,10 +768,14 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
         ));
     }
 
+    // Write original size as 8-byte header
+    uint64_t original_size = data.size();
+    std::memcpy(result.data(), &original_size, 8);
+
     // Compress the data
     int compressed_size = LZ4_compress_default(
         reinterpret_cast<const char*>(data.data()),
-        reinterpret_cast<char*>(compressed.data()),
+        reinterpret_cast<char*>(result.data() + 8),
         static_cast<int>(data.size()),
         max_compressed_size
     );
@@ -782,9 +787,9 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vec
         ));
     }
 
-    // Resize to actual compressed size
-    compressed.resize(compressed_size);
-    return compressed;
+    // Resize to actual size (header + compressed data)
+    result.resize(8 + compressed_size);
+    return result;
 }
 
 Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::vector<uint8_t>& compressed) {
@@ -792,17 +797,39 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
         return std::vector<uint8_t>();
     }
 
-    // Read original size from first 8 bytes (if stored with size header)
-    // For now, we'll use a heuristic: assume max 100x expansion
-    constexpr size_t MAX_EXPANSION = 100;
+    // Validate minimum size for header
+    if (compressed.size() < 8) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "LZ4 decompression: compressed data too small (missing header)"
+        ));
+    }
+
+    // Read original size from 8-byte header
+    uint64_t original_size;
+    std::memcpy(&original_size, compressed.data(), 8);
+
+    // Validate original size
     constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 1024 * 4; // 4GB
+    if (original_size > MAX_DECOMPRESSED_SIZE) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "LZ4 decompression: original size too large"
+        ));
+    }
 
-    size_t estimated_size = compressed.size() * 10; // Start with 10x
-    estimated_size = std::min(estimated_size, MAX_DECOMPRESSED_SIZE);
+    // Original size must fit in int for LZ4 API
+    if (original_size > static_cast<size_t>(INT_MAX)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "LZ4 decompression: original size exceeds INT_MAX"
+        ));
+    }
 
+    // Allocate exact buffer for decompression
     std::vector<uint8_t> decompressed;
     try {
-        decompressed.resize(estimated_size);
+        decompressed.resize(original_size);
     } catch (const std::bad_alloc&) {
         return tl::unexpected(Error(
             errors::ErrorCode::ERR_COMPRESSION_FAILED,
@@ -810,42 +837,37 @@ Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::v
         ));
     }
 
-    // Try decompression
+    // Decompress (skip 8-byte header)
+    size_t compressed_data_size = compressed.size() - 8;
+    if (compressed_data_size > static_cast<size_t>(INT_MAX)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "LZ4 decompression: compressed data size exceeds INT_MAX"
+        ));
+    }
+
     int decompressed_size = LZ4_decompress_safe(
-        reinterpret_cast<const char*>(compressed.data()),
+        reinterpret_cast<const char*>(compressed.data() + 8),
         reinterpret_cast<char*>(decompressed.data()),
-        static_cast<int>(compressed.size()),
-        static_cast<int>(estimated_size)
+        static_cast<int>(compressed_data_size),
+        static_cast<int>(original_size)
     );
 
     if (decompressed_size < 0) {
-        // Try larger buffer if needed
-        estimated_size = std::min(compressed.size() * MAX_EXPANSION, MAX_DECOMPRESSED_SIZE);
-        try {
-            decompressed.resize(estimated_size);
-        } catch (const std::bad_alloc&) {
-            return tl::unexpected(Error(
-                errors::ErrorCode::ERR_COMPRESSION_FAILED,
-                "LZ4 decompression: failed to allocate larger buffer"
-            ));
-        }
-
-        decompressed_size = LZ4_decompress_safe(
-            reinterpret_cast<const char*>(compressed.data()),
-            reinterpret_cast<char*>(decompressed.data()),
-            static_cast<int>(compressed.size()),
-            static_cast<int>(estimated_size)
-        );
-
-        if (decompressed_size < 0) {
-            return tl::unexpected(Error(
-                errors::ErrorCode::ERR_COMPRESSION_FAILED,
-                "LZ4 decompression failed"
-            ));
-        }
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "LZ4 decompression failed"
+        ));
     }
 
-    decompressed.resize(decompressed_size);
+    // Verify decompressed size matches expected
+    if (static_cast<size_t>(decompressed_size) != original_size) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_INVALID_FORMAT,
+            "LZ4 decompression: size mismatch"
+        ));
+    }
+
     return decompressed;
 }
 
