@@ -1,0 +1,13 @@
+# Ignore private keys for security
+*-key.pem
+*.key
+
+# But keep the public certificates for testing
+!ca-cert.pem
+!server-cert.pem
+!client-cert.pem
+
+# Keep scripts and docs
+!*.sh
+!*.md
+!README.md

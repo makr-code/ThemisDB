@@ -337,3 +337,62 @@ TEST_F(WireProtocolConnectionPoolTest, StatisticsPersistence) {
     // Stats should accumulate
     EXPECT_GE(stats2.failed_connections, stats1.failed_connections);
 }
+
+/**
+ * @brief Test SSL context initialization with valid system paths
+ */
+TEST_F(WireProtocolConnectionPoolTest, SSLContextInitialization) {
+    config_.enable_ssl = true;
+    config_.ssl_ca_cert_path = "";  // Use system default CA certs
+    
+    // Should initialize SSL context successfully
+    EXPECT_NO_THROW({
+        WireProtocolConnectionPool pool(config_);
+        auto stats = pool.getStats();
+        EXPECT_EQ(stats.total_connections, 0);
+    });
+}
+
+/**
+ * @brief Test mTLS requires all certificate paths
+ */
+TEST_F(WireProtocolConnectionPoolTest, MTLSRequiresCertificates) {
+    config_.enable_mtls = true;
+    config_.ssl_ca_cert_path = "/tmp/ca.pem";
+    
+    // Missing client cert path - should throw
+    EXPECT_THROW({
+        WireProtocolConnectionPool pool(config_);
+    }, std::runtime_error);
+    
+    config_.ssl_cert_path = "/tmp/cert.pem";
+    // Missing client key path - should throw
+    EXPECT_THROW({
+        WireProtocolConnectionPool pool(config_);
+    }, std::runtime_error);
+}
+
+/**
+ * @brief Test SSL socket wrapper functionality
+ */
+TEST_F(WireProtocolConnectionPoolTest, SocketWrapperBasics) {
+    // Test with plain socket
+    auto io = std::make_shared<net::io_context>();
+    auto plain_socket = std::make_shared<tcp::socket>(*io);
+    
+    SocketWrapper wrapper_plain(plain_socket);
+    EXPECT_FALSE(wrapper_plain.is_ssl());
+    EXPECT_FALSE(wrapper_plain.is_open());  // Not connected
+}
+
+/**
+ * @brief Test connection reuse rate calculation
+ */
+TEST_F(WireProtocolConnectionPoolTest, ConnectionReuseRate) {
+    WireProtocolConnectionPool pool(config_);
+    
+    auto stats = pool.getStats();
+    
+    // With no connections, reuse rate should be 0
+    EXPECT_EQ(stats.getReuseRate(), 0.0);
+}
