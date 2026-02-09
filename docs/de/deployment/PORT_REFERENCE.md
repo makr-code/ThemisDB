@@ -81,12 +81,29 @@ curl -X POST http://localhost:8080/api/query \
 
 **Protocols:** Binary Wire Protocol, gRPC  
 **Transport:** TCP  
-**TLS:** Optional
+**TLS:** **Required in Production** (enforced when `THEMIS_PRODUCTION_MODE=true`)
 
 **Purpose:**
 - High-performance binary protocol for client SDKs
 - gRPC inter-shard communication (Enterprise Edition)
 - Optimized for low-latency operations
+
+**Security Posture:**
+- ✅ **Production Mode**: TLS encryption is **mandatory** - server will refuse to start without TLS
+- ⚠️ **Development Mode**: TLS is optional for local testing
+- 🔒 **Override**: Use `--allow-insecure-wire-protocol` flag to bypass (not recommended)
+
+**Production Configuration:**
+```yaml
+# config.yaml
+wire_protocol:
+  enable_tls: true  # REQUIRED in production
+  tls_cert_path: /path/to/server.crt
+  tls_key_path: /path/to/server.key
+  tls_ca_cert_path: /path/to/ca.crt  # Optional: for mTLS
+  tls_require_client_cert: true      # Optional: enforce mTLS
+  port: 18765
+```
 
 **Docker Mapping:**
 ```yaml
@@ -96,7 +113,7 @@ ports:
 
 **Usage Example:**
 ```python
-# Python client
+# Python client with TLS
 from themisdb import Client
 
 client = Client(host="localhost", port=18765)

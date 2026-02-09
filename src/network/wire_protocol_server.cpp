@@ -10,6 +10,7 @@
 #include "transaction/transaction_manager.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "security/transport_security_checker.h"
 
 #include <iostream>
 #include <chrono>
@@ -50,6 +51,15 @@ WireProtocolServer::WireProtocolServer(
 
 WireProtocolServer::~WireProtocolServer() {
     stop();
+}
+
+bool WireProtocolServer::validateTransportSecurity(int argc, char* argv[]) const {
+    return themis::security::TransportSecurityChecker::validateProductionSafety(
+        config_.enable_tls,
+        "Wire Protocol",
+        argc,
+        argv
+    );
 }
 
 void WireProtocolServer::start() {
