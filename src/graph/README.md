@@ -188,13 +188,29 @@ constraints.requireUniqueNodes();
 // Get optimization plan
 auto plan = optimizer.optimizeConstrainedPath("start", "end", constraints);
 if (plan) {
-    std::cout << "Algorithm: " << (plan->algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << std::endl;
+    // Display algorithm name
+    std::string algo_name;
+    switch (plan->algorithm) {
+        case TraversalAlgorithm::BFS: algo_name = "BFS"; break;
+        case TraversalAlgorithm::DFS: algo_name = "DFS"; break;
+        case TraversalAlgorithm::DIJKSTRA: algo_name = "Dijkstra"; break;
+        case TraversalAlgorithm::ASTAR: algo_name = "A*"; break;
+        case TraversalAlgorithm::BIDIRECTIONAL: algo_name = "Bidirectional"; break;
+    }
+    std::cout << "Algorithm: " << algo_name << std::endl;
     std::cout << "Estimated cost: " << plan->estimated_cost << std::endl;
     std::cout << plan->explanation << std::endl;
 }
 
 // Execute path finding with constraints
 auto paths = constraints.findConstrainedPaths("start", "end", 10);
+if (!paths) {
+    std::cerr << "Failed to find constrained paths: " << paths.error().message << std::endl;
+} else {
+    for (const auto& path : paths.value()) {
+        std::cout << "Path cost: " << path.cost << ", nodes: " << path.nodes.size() << std::endl;
+    }
+}
 ```
 
 For more details on PathConstraints, see `ADVANCED_FEATURES_README.md`.

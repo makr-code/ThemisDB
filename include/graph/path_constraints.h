@@ -164,10 +164,12 @@ public:
      * @param start_node Starting node ID
      * @param end_node Target node ID
      * @param max_results Maximum number of paths to return (default: 10)
-     * @return Result containing vector of PathResult objects, sorted by cost
-     * @throws ErrorCode::INVALID_STATE if GraphIndexManager is not set
-     * @throws ErrorCode::VALIDATION_FAILED if constraints are contradictory
-     * @throws ErrorCode::NOT_FOUND if no paths satisfy all constraints
+     * @return Result containing vector of PathResult objects, sorted by cost on success,
+     *         or an error describing the failure condition.
+     * @note Possible error codes include:
+     *       - ErrorRegistry::ErrorCode::INVALID_STATE if GraphIndexManager is not set
+     *       - ErrorRegistry::ErrorCode::VALIDATION_FAILED if constraints are contradictory
+     *       - ErrorRegistry::ErrorCode::NOT_FOUND if no paths satisfy all constraints
      */
     Result<std::vector<PathResult>> findConstrainedPaths(
         std::string_view start_node,

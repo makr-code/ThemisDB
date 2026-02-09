@@ -328,6 +328,12 @@ All methods return `Result<T>` for consistent error handling:
 
 ```cpp
 // Example: PathConstraints
+// First, create and configure constraints
+PathConstraints constraints(&graph_mgr);
+constraints.addMinLength(2);
+constraints.addMaxLength(10);
+constraints.requireUniqueNodes();
+
 auto result = constraints.findConstrainedPaths("start", "end", 10);
 if (!result) {
     std::cerr << "Error: " << result.error().message << std::endl;
@@ -348,9 +354,9 @@ if (!analytics_result.first.ok) {
 ```
 
 Common error codes for PathConstraints:
-- `ErrorCode::INVALID_STATE`: GraphIndexManager not set
-- `ErrorCode::VALIDATION_FAILED`: Contradictory or unsatisfiable constraints
-- `ErrorCode::NOT_FOUND`: No paths found satisfying constraints
+- `ErrorRegistry::ErrorCode::INVALID_STATE`: GraphIndexManager not set
+- `ErrorRegistry::ErrorCode::VALIDATION_FAILED`: Contradictory or unsatisfiable constraints
+- `ErrorRegistry::ErrorCode::NOT_FOUND`: No paths found satisfying constraints
 
 ## Testing
 
