@@ -211,24 +211,52 @@ bool ComplianceReportingApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role
 ) const {
-    if (!auth_) {
-        THEMIS_ERROR("AuthMiddleware not configured for ComplianceReportingApiHandler");
+    // Fail-closed: If no auth configured, deny access for production security
+    if (!auth_ || !auth_->isEnabled()) {
+        THEMIS_ERROR("AuthMiddleware not configured or disabled - denying access to compliance reporting endpoint");
         return false;
     }
     
+    // Extract authorization header
     auto auth_it = req.find(http::field::authorization);
     if (auth_it == req.end()) {
+        THEMIS_WARN("Missing Authorization header for compliance reporting endpoint");
         return false;
     }
     
+    // Extract Bearer token
     const auto auth_value = auth_it->value().to_string();
-    if (auth_value.empty()) {
+    auto token = AuthMiddleware::extractBearerToken(auth_value);
+    
+    if (!token) {
+        THEMIS_WARN("Invalid Authorization header format for compliance reporting endpoint");
         return false;
     }
     
-    // Delegate authentication and authorization to the configured AuthMiddleware
-    // TODO: Replace with actual auth_->authorize(req, required_role) when available
-    // For production use, integrate with the actual AuthMiddleware implementation
+    // Map role to scope for authorization
+    // operator role -> audit:read scope (for compliance reporting)
+    // admin role -> audit:write scope
+    std::string required_scope;
+    if (required_role == "admin") {
+        required_scope = "audit:write";
+    } else if (required_role == "operator") {
+        required_scope = "audit:read";
+    } else {
+        required_scope = "audit:" + required_role;
+    }
+    
+    // Validate token and check required scope
+    auto auth_result = auth_->authorize(*token, required_scope);
+    if (!auth_result.authorized) {
+        THEMIS_WARN("Authorization failed for compliance reporting endpoint - user: {}, required scope: {}, reason: {}",
+            auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
+            required_scope,
+            auth_result.reason.empty() ? "insufficient_scope" : auth_result.reason);
+        return false;
+    }
+    
+    THEMIS_DEBUG("Authorization successful for compliance reporting endpoint - user: {}, scope: {}",
+        auth_result.user_id, required_scope);
     return true;
 }
 
