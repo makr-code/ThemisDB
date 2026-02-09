@@ -116,7 +116,12 @@ public:
         ConnectionHandle(ConnectionHandle&& other) noexcept;
         ConnectionHandle& operator=(ConnectionHandle&& other) noexcept;
         
-        SocketWrapper& socket() { return *socket_; }
+        // Backward-compatible accessor returning the underlying TCP socket
+        tcp::socket& socket() { return socket_->lowest_layer(); }
+        
+        // Access to the SocketWrapper for advanced usage (SSL vs plain)
+        SocketWrapper& socketWrapper() { return *socket_; }
+        
         bool isValid() const { return socket_ && socket_->is_open(); }
         
     private:

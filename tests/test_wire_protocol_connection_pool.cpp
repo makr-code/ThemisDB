@@ -358,14 +358,15 @@ TEST_F(WireProtocolConnectionPoolTest, SSLContextInitialization) {
  */
 TEST_F(WireProtocolConnectionPoolTest, MTLSRequiresCertificates) {
     config_.enable_mtls = true;
-    config_.ssl_ca_cert_path = "/tmp/ca.pem";
+    // Use actual test CA cert path to test missing client cert validation
+    config_.ssl_ca_cert_path = "../certs/test/wire_protocol/ca-cert.pem";
     
     // Missing client cert path - should throw
     EXPECT_THROW({
         WireProtocolConnectionPool pool(config_);
     }, std::runtime_error);
     
-    config_.ssl_cert_path = "/tmp/cert.pem";
+    config_.ssl_cert_path = "../certs/test/wire_protocol/client-cert.pem";
     // Missing client key path - should throw
     EXPECT_THROW({
         WireProtocolConnectionPool pool(config_);

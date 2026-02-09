@@ -2,6 +2,9 @@
 *-key.pem
 *.key
 
+# Ignore OpenSSL serial file (regenerated during cert creation)
+*.srl
+
 # But keep the public certificates for testing
 !ca-cert.pem
 !server-cert.pem

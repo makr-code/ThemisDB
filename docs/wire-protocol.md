@@ -159,8 +159,15 @@ WireProtocolConnectionPool pool(config);
 // Acquire connection
 auto conn = pool.acquireConnection("localhost:8766");
 
-// Use connection for I/O
-// conn.socket().write_some(...)
+// Use connection for I/O via the underlying socket
+auto& socket = conn.socket();
+// socket.write_some(boost::asio::buffer(request_bytes));
+// socket.read_some(boost::asio::buffer(response_buffer));
+
+// Or access the wrapper directly for SSL-specific operations
+if (conn.socketWrapper().is_ssl()) {
+    // SSL-specific logic
+}
 
 // Connection automatically returned to pool when conn goes out of scope
 ```

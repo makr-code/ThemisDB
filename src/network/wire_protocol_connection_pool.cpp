@@ -4,6 +4,8 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <openssl/x509v3.h>
+#include <openssl/ssl.h>
 
 namespace themis::network {
 
@@ -134,8 +136,8 @@ void WireProtocolConnectionPool::initializeSSLContext() {
     
     // Configure mTLS (mutual TLS) - client presents certificate to server
     if (config_.enable_mtls) {
-        // Verify server certificate
-        ssl_context_->set_verify_mode(ssl::verify_peer | ssl::verify_fail_if_no_peer_cert);
+        // Verify server certificate (verify_fail_if_no_peer_cert is for servers, not needed here)
+        ssl_context_->set_verify_mode(ssl::verify_peer);
         
         // Load CA certificate for server verification
         if (config_.ssl_ca_cert_path.empty()) {
@@ -196,8 +198,9 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
         if (timed_out || ec) {
             failed_connections_.fetch_add(1, std::memory_order_relaxed);
             if (timed_out) {
+                auto timeout_seconds = std::chrono::duration_cast<std::chrono::seconds>(config_.connect_timeout).count();
                 throw std::runtime_error("Connection timed out after " + 
-                    std::to_string(config_.connect_timeout.count()) + " seconds");
+                    std::to_string(timeout_seconds) + " seconds");
             }
             throw std::runtime_error("Connection failed: " + ec.message());
         }
@@ -223,6 +226,9 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
                 throw std::runtime_error("Failed to set SNI hostname");
             }
             
+            // Set hostname verification callback for proper TLS validation
+            ssl_stream->set_verify_callback(ssl::host_name_verification(host));
+            
             // Perform SSL handshake with timeout
             local_io.restart();
             timer.expires_after(config_.connect_timeout);
@@ -247,8 +253,9 @@ std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(cons
             if (timed_out || ec) {
                 failed_connections_.fetch_add(1, std::memory_order_relaxed);
                 if (timed_out) {
+                    auto timeout_seconds = std::chrono::duration_cast<std::chrono::seconds>(config_.connect_timeout).count();
                     throw std::runtime_error("SSL handshake timed out after " + 
-                        std::to_string(config_.connect_timeout.count()) + " seconds");
+                        std::to_string(timeout_seconds) + " seconds");
                 }
                 throw std::runtime_error("SSL handshake failed: " + ec.message());
             }
