@@ -104,13 +104,14 @@ public:
      * @param argv: Command-line arguments
      * @return true if configuration is safe, false if should exit
      */
-    bool validateTransportSecurity(int argc, char* argv[]) const;
+    bool validateTransportSecurity(int argc, const char* const argv[]) const;
 
     /**
      * @brief Start server in dedicated thread pool
      * 
      * Creates separate IO context and worker threads,
      * isolated from HTTP server to prevent interference.
+     * Enforces transport security validation before starting.
      */
     void start();
 

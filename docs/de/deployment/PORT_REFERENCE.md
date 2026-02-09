@@ -113,7 +113,7 @@ ports:
 
 **Usage Example:**
 ```python
-# Python client with TLS
+# Python client (Wire Protocol)
 from themisdb import Client
 
 client = Client(host="localhost", port=18765)

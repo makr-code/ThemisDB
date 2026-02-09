@@ -59,7 +59,7 @@ WireProtocolServer::~WireProtocolServer() {
     stop();
 }
 
-bool WireProtocolServer::validateTransportSecurity(int argc, char* argv[]) const {
+bool WireProtocolServer::validateTransportSecurity(int argc, const char* const argv[]) const {
     return themis::security::TransportSecurityChecker::validateProductionSafety(
         config_.enable_tls,
         "Wire Protocol",
@@ -69,6 +69,14 @@ bool WireProtocolServer::validateTransportSecurity(int argc, char* argv[]) const
 }
 
 void WireProtocolServer::start() {
+    // Enforce transport security validation as a startup gate
+    // We do not have argc/argv here, so we pass an empty argument list
+    if (!validateTransportSecurity(0, nullptr)) {
+        std::cerr << "[WireProtocol] Transport security validation failed. Server will not start."
+                  << std::endl;
+        return;
+    }
+    
     running_.store(true, std::memory_order_release);
 
     tcp::endpoint endpoint(tcp::v4(), config_.port);

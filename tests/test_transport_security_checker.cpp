@@ -2,6 +2,7 @@
 #include "security/transport_security_checker.h"
 #include <cstdlib>
 #include <string>
+#include <optional>
 
 using namespace themis::security;
 
@@ -14,9 +15,16 @@ using namespace themis::security;
 class TransportSecurityCheckerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Save original environment variables
-        saved_prod_mode_ = std::getenv("THEMIS_PRODUCTION_MODE");
-        saved_environment_ = std::getenv("THEMIS_ENVIRONMENT");
+        // Save original environment variables as copies
+        const char* prod_mode = std::getenv("THEMIS_PRODUCTION_MODE");
+        if (prod_mode) {
+            saved_prod_mode_ = std::string(prod_mode);
+        }
+        
+        const char* environment = std::getenv("THEMIS_ENVIRONMENT");
+        if (environment) {
+            saved_environment_ = std::string(environment);
+        }
         
         // Clear environment for clean test state
         unsetenv("THEMIS_PRODUCTION_MODE");
@@ -24,22 +32,22 @@ protected:
     }
     
     void TearDown() override {
-        // Restore original environment
-        if (saved_prod_mode_) {
-            setenv("THEMIS_PRODUCTION_MODE", saved_prod_mode_, 1);
+        // Restore original environment from copies
+        if (saved_prod_mode_.has_value()) {
+            setenv("THEMIS_PRODUCTION_MODE", saved_prod_mode_.value().c_str(), 1);
         } else {
             unsetenv("THEMIS_PRODUCTION_MODE");
         }
         
-        if (saved_environment_) {
-            setenv("THEMIS_ENVIRONMENT", saved_environment_, 1);
+        if (saved_environment_.has_value()) {
+            setenv("THEMIS_ENVIRONMENT", saved_environment_.value().c_str(), 1);
         } else {
             unsetenv("THEMIS_ENVIRONMENT");
         }
     }
     
-    const char* saved_prod_mode_ = nullptr;
-    const char* saved_environment_ = nullptr;
+    std::optional<std::string> saved_prod_mode_;
+    std::optional<std::string> saved_environment_;
 };
 
 // =============================================================================
@@ -90,17 +98,17 @@ TEST_F(TransportSecurityCheckerTest, DetectDevelopmentModeByDefault) {
 
 TEST_F(TransportSecurityCheckerTest, DetectOverrideFlag) {
     const char* argv[] = {"themis_server", "--allow-insecure-wire-protocol"};
-    EXPECT_TRUE(TransportSecurityChecker::hasAllowInsecureFlag(2, const_cast<char**>(argv)));
+    EXPECT_TRUE(TransportSecurityChecker::hasAllowInsecureFlag(2, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, NoOverrideFlagWithoutFlag) {
     const char* argv[] = {"themis_server", "--other-flag"};
-    EXPECT_FALSE(TransportSecurityChecker::hasAllowInsecureFlag(2, const_cast<char**>(argv)));
+    EXPECT_FALSE(TransportSecurityChecker::hasAllowInsecureFlag(2, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, NoOverrideFlagWithNoArgs) {
     const char* argv[] = {"themis_server"};
-    EXPECT_FALSE(TransportSecurityChecker::hasAllowInsecureFlag(1, const_cast<char**>(argv)));
+    EXPECT_FALSE(TransportSecurityChecker::hasAllowInsecureFlag(1, argv));
 }
 
 // =============================================================================
@@ -117,7 +125,7 @@ TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportInDevelopmentMode) {
     
     // Should allow insecure transport in development
     EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 1, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 1, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInDevelopmentMode) {
@@ -130,7 +138,7 @@ TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInDevelopmentMode) {
     
     // Should allow secure transport in development
     EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 1, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 1, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, BlockInsecureTransportInProductionMode) {
@@ -142,7 +150,7 @@ TEST_F(TransportSecurityCheckerTest, BlockInsecureTransportInProductionMode) {
     
     // Should block insecure transport in production
     EXPECT_FALSE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 1, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 1, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInProductionMode) {
@@ -154,7 +162,7 @@ TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInProductionMode) {
     
     // Should allow secure transport in production
     EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 1, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 1, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportWithOverrideFlag) {
@@ -166,7 +174,7 @@ TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportWithOverrideFlag) {
     
     // Should allow with override flag (but log critical warning)
     EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 2, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 2, argv));
 }
 
 // =============================================================================
@@ -211,7 +219,7 @@ TEST_F(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithTLS) {
     
     // Validation should pass
     EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 3, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 3, argv));
     
     // No periodic warnings
     std::string warning = TransportSecurityChecker::getPeriodicWarning(enable_tls, "Wire Protocol");
@@ -228,7 +236,7 @@ TEST_F(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithoutTLS) {
     
     // Validation should fail (block startup)
     EXPECT_FALSE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 3, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 3, argv));
 }
 
 TEST_F(TransportSecurityCheckerTest, FullValidationFlow_DevelopmentWithoutTLS) {
@@ -242,7 +250,7 @@ TEST_F(TransportSecurityCheckerTest, FullValidationFlow_DevelopmentWithoutTLS) {
     
     // Validation should pass in development
     EXPECT_TRUE(TransportSecurityChecker::validateProductionSafety(
-        enable_tls, "Wire Protocol", 3, const_cast<char**>(argv)));
+        enable_tls, "Wire Protocol", 3, argv));
     
     // No periodic warnings in development
     std::string warning = TransportSecurityChecker::getPeriodicWarning(enable_tls, "Wire Protocol");
