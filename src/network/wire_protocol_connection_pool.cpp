@@ -8,6 +8,50 @@
 namespace themis::network {
 
 // =============================================================================
+// SocketWrapper Implementation
+// =============================================================================
+
+SocketWrapper::SocketWrapper(std::shared_ptr<tcp::socket> plain_socket)
+    : plain_socket_(std::move(plain_socket))
+    , ssl_socket_(nullptr)
+{}
+
+SocketWrapper::SocketWrapper(std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket)
+    : plain_socket_(nullptr)
+    , ssl_socket_(std::move(ssl_socket))
+{}
+
+bool SocketWrapper::is_open() const {
+    if (plain_socket_) {
+        return plain_socket_->is_open();
+    } else if (ssl_socket_) {
+        return ssl_socket_->lowest_layer().is_open();
+    }
+    return false;
+}
+
+void SocketWrapper::close(boost::system::error_code& ec) {
+    if (plain_socket_) {
+        plain_socket_->close(ec);
+    } else if (ssl_socket_) {
+        // For SSL, shutdown the SSL connection first
+        ssl_socket_->shutdown(ec);
+        if (!ec || ec == net::error::eof) {
+            ssl_socket_->lowest_layer().close(ec);
+        }
+    }
+}
+
+tcp::socket& SocketWrapper::lowest_layer() {
+    if (plain_socket_) {
+        return *plain_socket_;
+    } else if (ssl_socket_) {
+        return ssl_socket_->lowest_layer();
+    }
+    throw std::runtime_error("SocketWrapper has no valid socket");
+}
+
+// =============================================================================
 // WireProtocolConnectionPool Implementation
 // =============================================================================
 
@@ -15,14 +59,9 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
     : config_(config)
     , io_context_(std::make_shared<net::io_context>())
 {
-    // NOTE: TLS/mTLS is not currently implemented for this connection pool.
-    // Reject configurations that attempt to enable it to avoid a false sense of security.
+    // Initialize SSL context if TLS is enabled
     if (config_.enable_ssl || config_.enable_mtls) {
-        throw std::runtime_error(
-            "WireProtocolConnectionPool does not yet support SSL/mTLS. "
-            "Disable 'enable_ssl' and 'enable_mtls' in the configuration. "
-            "TLS support is planned for a future release."
-        );
+        initializeSSLContext();
     }
     
     // Start maintenance thread for pruning stale connections
@@ -65,22 +104,73 @@ std::pair<std::string, std::string> WireProtocolConnectionPool::parseTarget(cons
     return {host, port};
 }
 
-std::shared_ptr<tcp::socket> WireProtocolConnectionPool::createConnection(const std::string& target) {
-    auto [host, port] = parseTarget(target);
+void WireProtocolConnectionPool::initializeSSLContext() {
+    // Create SSL context with appropriate TLS version
+    // Use TLS 1.2 or higher for client connections
+    ssl_context_ = std::make_shared<ssl::context>(ssl::context::tlsv12_client);
     
-    auto socket = std::make_shared<tcp::socket>(*io_context_);
+    // Set SSL options for security
+    ssl_context_->set_options(
+        ssl::context::default_workarounds |
+        ssl::context::no_sslv2 |
+        ssl::context::no_sslv3 |
+        ssl::context::no_tlsv1 |
+        ssl::context::no_tlsv1_1 |
+        ssl::context::single_dh_use
+    );
+    
+    // Enable server certificate verification for SSL (not mTLS)
+    if (config_.enable_ssl && !config_.enable_mtls) {
+        ssl_context_->set_verify_mode(ssl::verify_peer);
+        
+        // Load CA certificates for server verification
+        if (!config_.ssl_ca_cert_path.empty()) {
+            ssl_context_->load_verify_file(config_.ssl_ca_cert_path);
+        } else {
+            // Use system default CA certificates
+            ssl_context_->set_default_verify_paths();
+        }
+    }
+    
+    // Configure mTLS (mutual TLS) - client presents certificate to server
+    if (config_.enable_mtls) {
+        // Verify server certificate
+        ssl_context_->set_verify_mode(ssl::verify_peer | ssl::verify_fail_if_no_peer_cert);
+        
+        // Load CA certificate for server verification
+        if (config_.ssl_ca_cert_path.empty()) {
+            throw std::runtime_error("mTLS requires CA certificate path (ssl_ca_cert_path)");
+        }
+        ssl_context_->load_verify_file(config_.ssl_ca_cert_path);
+        
+        // Load client certificate and private key
+        if (config_.ssl_cert_path.empty() || config_.ssl_key_path.empty()) {
+            throw std::runtime_error(
+                "mTLS requires client certificate path (ssl_cert_path) and "
+                "private key path (ssl_key_path)"
+            );
+        }
+        
+        ssl_context_->use_certificate_chain_file(config_.ssl_cert_path);
+        ssl_context_->use_private_key_file(config_.ssl_key_path, ssl::context::pem);
+    }
+}
+
+std::shared_ptr<SocketWrapper> WireProtocolConnectionPool::createConnection(const std::string& target) {
+    auto [host, port] = parseTarget(target);
     
     try {
         // Resolve endpoint
         tcp::resolver resolver(*io_context_);
         auto endpoints = resolver.resolve(host, port);
         
-        // Use synchronous connect with timeout
         // Create a fresh io_context for this connection
         net::io_context local_io;
-        auto local_socket = std::make_shared<tcp::socket>(local_io);
         
         boost::system::error_code ec;
+        
+        // Create plain socket first for connection
+        auto plain_socket = std::make_shared<tcp::socket>(local_io);
         
         // Set up deadline timer
         net::steady_timer timer(local_io);
@@ -90,12 +180,12 @@ std::shared_ptr<tcp::socket> WireProtocolConnectionPool::createConnection(const 
         timer.async_wait([&](const boost::system::error_code& error) {
             if (!error) {
                 timed_out = true;
-                local_socket->close(ec);
+                plain_socket->close(ec);
             }
         });
         
         // Attempt async connect
-        net::async_connect(*local_socket, endpoints,
+        net::async_connect(*plain_socket, endpoints,
             [&ec](const boost::system::error_code& error, const tcp::endpoint&) {
                 ec = error;
             });
@@ -112,18 +202,66 @@ std::shared_ptr<tcp::socket> WireProtocolConnectionPool::createConnection(const 
             throw std::runtime_error("Connection failed: " + ec.message());
         }
         
-        // Transfer the connected socket to our pool's io_context
-        // Since we can't transfer sockets between contexts, create new socket and connect
-        socket = local_socket;  // Use the successfully connected socket
-        
         // Set socket options
-        socket->set_option(tcp::no_delay(true));
-        socket->set_option(net::socket_base::keep_alive(true));
+        plain_socket->set_option(tcp::no_delay(true));
+        plain_socket->set_option(net::socket_base::keep_alive(true));
+        
+        std::shared_ptr<SocketWrapper> wrapper;
+        
+        // If SSL is enabled, wrap the socket and perform handshake
+        if (config_.enable_ssl || config_.enable_mtls) {
+            if (!ssl_context_) {
+                throw std::runtime_error("SSL context not initialized");
+            }
+            
+            auto ssl_stream = std::make_shared<ssl::stream<tcp::socket>>(
+                std::move(*plain_socket), *ssl_context_
+            );
+            
+            // Set SNI hostname for proper certificate verification
+            if (!SSL_set_tlsext_host_name(ssl_stream->native_handle(), host.c_str())) {
+                throw std::runtime_error("Failed to set SNI hostname");
+            }
+            
+            // Perform SSL handshake with timeout
+            local_io.restart();
+            timer.expires_after(config_.connect_timeout);
+            
+            timed_out = false;
+            timer.async_wait([&](const boost::system::error_code& error) {
+                if (!error) {
+                    timed_out = true;
+                    boost::system::error_code shutdown_ec;
+                    ssl_stream->lowest_layer().close(shutdown_ec);
+                }
+            });
+            
+            ec.clear();
+            ssl_stream->async_handshake(ssl::stream_base::client,
+                [&ec](const boost::system::error_code& error) {
+                    ec = error;
+                });
+            
+            local_io.run();
+            
+            if (timed_out || ec) {
+                failed_connections_.fetch_add(1, std::memory_order_relaxed);
+                if (timed_out) {
+                    throw std::runtime_error("SSL handshake timed out after " + 
+                        std::to_string(config_.connect_timeout.count()) + " seconds");
+                }
+                throw std::runtime_error("SSL handshake failed: " + ec.message());
+            }
+            
+            wrapper = std::make_shared<SocketWrapper>(ssl_stream);
+        } else {
+            wrapper = std::make_shared<SocketWrapper>(plain_socket);
+        }
         
         connections_created_.fetch_add(1, std::memory_order_relaxed);
         total_connections_.fetch_add(1, std::memory_order_relaxed);
         
-        return socket;
+        return wrapper;
         
     } catch (const std::exception& e) {
         // Only count failures once (already counted above before throw)
@@ -193,7 +331,8 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
                 conn->in_use = true;
                 
                 lock.lock();
-                pool->all_connections[socket.get()] = conn;
+                void* socket_key = socket.get();
+                pool->all_connections[socket_key] = conn;
                 pool->active_count++;
                 
                 return ConnectionHandle(socket, this, target);
@@ -222,12 +361,15 @@ WireProtocolConnectionPool::acquireConnection(const std::string& target) {
 
 void WireProtocolConnectionPool::releaseConnection(
     const std::string& target, 
-    std::shared_ptr<tcp::socket> socket) 
+    std::shared_ptr<SocketWrapper> socket) 
 {
     auto pool = getOrCreateTargetPool(target);
     std::lock_guard<std::mutex> lock(pool->mutex);
     
-    auto it = pool->all_connections.find(socket.get());
+    // Use raw pointer as key (works for both plain and SSL sockets)
+    void* socket_key = socket.get();
+    
+    auto it = pool->all_connections.find(socket_key);
     if (it != pool->all_connections.end()) {
         auto conn = it->second;
         conn->in_use = false;
@@ -275,7 +417,8 @@ void WireProtocolConnectionPool::warmup(const std::string& target) {
             // Only lock to update shared pool state
             {
                 std::lock_guard<std::mutex> lock(pool->mutex);
-                pool->all_connections[socket.get()] = conn;
+                void* socket_key = socket.get();
+                pool->all_connections[socket_key] = conn;
                 pool->available.push(conn);
             }
             
@@ -308,7 +451,8 @@ void WireProtocolConnectionPool::pruneStaleConnections() {
                     boost::system::error_code ec;
                     conn->socket->close(ec);
                 }
-                pool->all_connections.erase(conn->socket.get());
+                void* socket_key = conn->socket.get();
+                pool->all_connections.erase(socket_key);
                 total_connections_.fetch_sub(1, std::memory_order_relaxed);
                 stale_removed_.fetch_add(1, std::memory_order_relaxed);
             }
@@ -370,7 +514,7 @@ WireProtocolConnectionPool::Stats WireProtocolConnectionPool::getStats() const {
     return stats;
 }
 
-bool WireProtocolConnectionPool::performHealthCheck(tcp::socket& socket) {
+bool WireProtocolConnectionPool::performHealthCheck(SocketWrapper& socket) {
     if (!socket.is_open()) {
         return false;
     }
@@ -379,16 +523,25 @@ bool WireProtocolConnectionPool::performHealthCheck(tcp::socket& socket) {
     
     // Try to read with MSG_PEEK to check if connection is alive
     char dummy;
-    socket.receive(net::buffer(&dummy, 1), tcp::socket::message_peek, ec);
     
-    if (ec == net::error::would_block || ec == net::error::try_again) {
-        // No data available, but connection is alive
-        return true;
+    if (socket.is_ssl()) {
+        // For SSL sockets, we can't use MSG_PEEK directly
+        // Just check if the socket is open
+        keepalive_checks_.fetch_add(1, std::memory_order_relaxed);
+        return socket.is_open();
+    } else {
+        // For plain sockets, use MSG_PEEK
+        socket.plain_socket()->receive(net::buffer(&dummy, 1), tcp::socket::message_peek, ec);
+        
+        if (ec == net::error::would_block || ec == net::error::try_again) {
+            // No data available, but connection is alive
+            return true;
+        }
+        
+        keepalive_checks_.fetch_add(1, std::memory_order_relaxed);
+        
+        return !ec && socket.is_open();
     }
-    
-    keepalive_checks_.fetch_add(1, std::memory_order_relaxed);
-    
-    return !ec && socket.is_open();
 }
 
 // =============================================================================
@@ -396,7 +549,7 @@ bool WireProtocolConnectionPool::performHealthCheck(tcp::socket& socket) {
 // =============================================================================
 
 WireProtocolConnectionPool::ConnectionHandle::ConnectionHandle(
-    std::shared_ptr<tcp::socket> socket,
+    std::shared_ptr<SocketWrapper> socket,
     WireProtocolConnectionPool* pool,
     const std::string& target)
     : socket_(std::move(socket))

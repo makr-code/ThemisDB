@@ -23,10 +23,37 @@ namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
 
 /**
+ * @brief Socket wrapper supporting both plain and SSL sockets
+ */
+class SocketWrapper {
+public:
+    SocketWrapper(std::shared_ptr<tcp::socket> plain_socket);
+    SocketWrapper(std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket);
+    
+    bool is_open() const;
+    void close(boost::system::error_code& ec);
+    
+    // Access underlying socket for I/O operations
+    tcp::socket& lowest_layer();
+    
+    // Check if this is an SSL socket
+    bool is_ssl() const { return ssl_socket_ != nullptr; }
+    
+    // Get the plain or SSL socket
+    tcp::socket* plain_socket() { return plain_socket_.get(); }
+    ssl::stream<tcp::socket>* ssl_socket() { return ssl_socket_.get(); }
+    
+private:
+    std::shared_ptr<tcp::socket> plain_socket_;
+    std::shared_ptr<ssl::stream<tcp::socket>> ssl_socket_;
+};
+
+/**
  * @brief Wire Protocol Connection Pool for client-side pooling
  * 
  * Provides:
  * - TCP connection pooling (reduce handshake overhead)
+ * - TLS/mTLS support for secure connections
  * - Keep-Alive support
  * - Per-target connection pooling
  * - Automatic reconnection
@@ -39,6 +66,7 @@ using tcp = net::ip::tcp;
  * - Better throughput under high concurrency
  * - Lower latency for subsequent requests
  * 
+ * @see docs/wire-protocol.md for protocol documentation
  * @see docs/knowledge-base/PERFORMANCE_TIPS.md (Connection Pooling section)
  */
 class WireProtocolConnectionPool {
@@ -76,7 +104,7 @@ public:
     class ConnectionHandle {
     public:
         ConnectionHandle(
-            std::shared_ptr<tcp::socket> socket,
+            std::shared_ptr<SocketWrapper> socket,
             WireProtocolConnectionPool* pool,
             const std::string& target
         );
@@ -88,11 +116,11 @@ public:
         ConnectionHandle(ConnectionHandle&& other) noexcept;
         ConnectionHandle& operator=(ConnectionHandle&& other) noexcept;
         
-        tcp::socket& socket() { return *socket_; }
+        SocketWrapper& socket() { return *socket_; }
         bool isValid() const { return socket_ && socket_->is_open(); }
         
     private:
-        std::shared_ptr<tcp::socket> socket_;
+        std::shared_ptr<SocketWrapper> socket_;
         WireProtocolConnectionPool* pool_;
         std::string target_;
     };
@@ -152,7 +180,7 @@ private:
      * @brief Pooled connection with metadata
      */
     struct PooledConnection {
-        std::shared_ptr<tcp::socket> socket;
+        std::shared_ptr<SocketWrapper> socket;
         std::chrono::steady_clock::time_point last_used;
         std::chrono::steady_clock::time_point created_at;
         bool in_use = false;
@@ -175,7 +203,7 @@ private:
         std::mutex mutex;
         std::condition_variable cv;
         std::queue<std::shared_ptr<PooledConnection>> available;
-        std::unordered_map<tcp::socket*, std::shared_ptr<PooledConnection>> all_connections;
+        std::unordered_map<void*, std::shared_ptr<PooledConnection>> all_connections;
         size_t active_count = 0;
     };
     
@@ -187,12 +215,12 @@ private:
     /**
      * @brief Create new connection for target
      */
-    std::shared_ptr<tcp::socket> createConnection(const std::string& target);
+    std::shared_ptr<SocketWrapper> createConnection(const std::string& target);
     
     /**
      * @brief Release connection back to pool
      */
-    void releaseConnection(const std::string& target, std::shared_ptr<tcp::socket> socket);
+    void releaseConnection(const std::string& target, std::shared_ptr<SocketWrapper> socket);
     
     /**
      * @brief Get or create target pool
@@ -202,7 +230,12 @@ private:
     /**
      * @brief Perform connection health check
      */
-    bool performHealthCheck(tcp::socket& socket);
+    bool performHealthCheck(SocketWrapper& socket);
+    
+    /**
+     * @brief Initialize SSL context for TLS/mTLS
+     */
+    void initializeSSLContext();
     
     Config config_;
     std::shared_ptr<net::io_context> io_context_;
