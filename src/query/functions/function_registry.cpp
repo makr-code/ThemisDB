@@ -48,6 +48,15 @@
 #include "query/functions/ethics_functions.h"
 #include "query/functions/process_mining_functions.h"
 
+// Forward declaration for fulltext functions (implemented in fulltext_functions.cpp)
+namespace themis {
+namespace query {
+namespace functions {
+void registerFulltextFunctions(FunctionRegistry& registry);
+}
+}
+}
+
 #include <iostream>
 #include <stdexcept>
 
@@ -101,6 +110,10 @@ void registerBuiltinFunctions() {
         // Process Mining functions (process discovery, conformance checking, pattern matching)
         // Includes: PM_EXTRACT_LOG, PM_DISCOVER_PROCESS, PM_FIND_SIMILAR, PM_COMPARE_IDEAL, PM_CONFORMANCE, etc.
         registerProcessMiningFunctions(registry);
+        
+        // Fulltext functions (search, phrase matching, fuzzy search, n-gram similarity)
+        // Includes: FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE
+        registerFulltextFunctions(registry);
     } catch (const std::exception& ex) {
         // Re-throw with more context - will be caught by FunctionRegistryInitializer
         std::cerr << "registerBuiltinFunctions() exception: " << ex.what() << std::endl;

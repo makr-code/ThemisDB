@@ -107,40 +107,36 @@ This document tracks the implementation status of AQL functions in ThemisDB.
 
 ---
 
-### Fulltext Functions ❌ NOT REGISTERED
+### Fulltext Functions ✅ REGISTERED (Partial Implementation)
 
-**Status**: Functions are defined in header but NOT registered in function registry.
+**Status**: Functions are registered and callable. Core text functions implemented, search functions are placeholders.
 
-**Registered**: ❌ No
+**Registered**: ✅ Yes (as of this update)
 
-**Implementation Level**: Header-only placeholders with incorrect interface
+**Implementation Level**: Mixed - text processing functions fully implemented, search functions return placeholders
 
-**Functions Defined**:
-- `FULLTEXT` - Placeholder returning empty array
-- `PHRASE` - Placeholder returning empty array  
-- `FUZZY` - Placeholder returning empty array
-- `NGRAM_MATCH` - Implemented (n-gram similarity calculation)
-- `TOKENS` - Implemented (simple tokenization)
-- `SOUNDEX` - Implemented (Soundex phonetic encoding)
-- `METAPHONE` - Implemented (Metaphone phonetic encoding)
-- `DOUBLE_METAPHONE` - Implemented (Double Metaphone encoding)
+**Functions**:
+- `FULLTEXT` - ⚠️ Placeholder (returns note about SecondaryIndexManager integration needed)
+- `PHRASE` - ⚠️ Placeholder (returns note about SecondaryIndexManager integration needed)
+- `FUZZY` - ⚠️ Placeholder (returns note about SecondaryIndexManager integration needed)
+- `NGRAM_MATCH` - ✅ Fully implemented (n-gram similarity calculation)
+- `TOKENS` - ✅ Fully implemented (simple tokenization)
+- `SOUNDEX` - ✅ Fully implemented (Soundex phonetic encoding)
+- `METAPHONE` - ✅ Fully implemented (Metaphone phonetic encoding)
+- `DOUBLE_METAPHONE` - ✅ Fully implemented (Double Metaphone encoding)
 
-**Issues**:
-1. ❌ Not registered in `function_registry.cpp`
-2. ❌ Uses incorrect interface (`JsonValue`/`ExecutionContext` instead of `nlohmann::json`/`FunctionContext`)
-3. ❌ Incorrect namespace (`themisdb::` instead of `themis::`)
-4. ⚠️ FULLTEXT, PHRASE, FUZZY need integration with SecondaryIndexManager
-
-**Requirements for Full Implementation**:
-1. Fix interface to use `nlohmann::json` and `FunctionContext`
-2. Fix namespace to `themis::`
-3. Register functions in `function_registry.cpp`
-4. Wire FULLTEXT/PHRASE/FUZZY to SecondaryIndexManager APIs:
+**Requirements for Full Implementation of Search Functions**:
+1. ✅ Fix interface to use `nlohmann::json` and `FunctionContext` - **DONE**
+2. ✅ Fix namespace to `themis::` - **DONE**
+3. ✅ Register functions in `function_registry.cpp` - **DONE**
+4. ❌ Wire FULLTEXT/PHRASE/FUZZY to SecondaryIndexManager APIs:
    - `scanFulltextPhrase(table, column, phrase, limit)`
    - `scanFulltextFuzzy(table, column, query, maxDistance, limit)`
-5. Add proper error handling and result formatting
+   - `scanFulltext(table, column, query, limit)` (or equivalent)
+5. ❌ Add proper error handling and result formatting
+6. ❌ Add context access to get SecondaryIndexManager instance
 
-**Documentation**: See [Fulltext Functions Header](../include/query/functions/fulltext_functions.h)
+**Documentation**: See [Fulltext Functions Implementation](../src/query/functions/fulltext_functions.cpp)
 
 ---
 
@@ -165,12 +161,14 @@ This document tracks the implementation status of AQL functions in ThemisDB.
 ### Short-term (Minimal Changes)
 1. ✅ **DONE**: Register process mining functions in function registry
 2. ✅ **DONE**: Register ethics functions in function registry  
-3. ✅ **DONE**: Update documentation to clarify stub/placeholder status
-4. ✅ **DONE**: Add clear comments indicating requirements for full implementation
+3. ✅ **DONE**: Register fulltext functions in function registry
+4. ✅ **DONE**: Fix fulltext function interface to use correct types
+5. ✅ **DONE**: Update documentation to clarify stub/placeholder status
+6. ✅ **DONE**: Add clear comments indicating requirements for full implementation
 
 ### Medium-term (Function Implementation)
-1. ❌ **TODO**: Fix fulltext function interface and register them
-2. ❌ **TODO**: Wire FULLTEXT/PHRASE/FUZZY to SecondaryIndexManager
+1. ❌ **TODO**: Wire FULLTEXT/PHRASE/FUZZY to SecondaryIndexManager
+2. ❌ **TODO**: Add FunctionContext access to SecondaryIndexManager
 3. ❌ **TODO**: Add NOT_SUPPORTED runtime errors where appropriate
 4. ❌ **TODO**: Add basic unit tests that verify stub behavior
 
@@ -190,3 +188,9 @@ This document tracks the implementation status of AQL functions in ThemisDB.
   - Registered ethics functions (were already partially registered)
   - Updated documentation links in src/query/README.md
   - Clarified stub/placeholder implementation status
+- **2024-02-09**: Fulltext functions registered
+  - Created proper fulltext_functions.cpp with correct interface
+  - Fixed namespace and types (nlohmann::json, FunctionContext)
+  - Registered fulltext functions in function registry
+  - Text processing functions (NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE) fully implemented
+  - Search functions (FULLTEXT, PHRASE, FUZZY) return placeholders awaiting SecondaryIndexManager integration
