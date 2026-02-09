@@ -452,8 +452,8 @@ func (c *WireClient) Connect() error {
 			tlsCfg.ServerName = c.host
 		}
 		
-		log.Printf("INFO: Establishing TLS connection to %s (MinVersion: TLS 1.%d)", 
-			addr, tlsCfg.MinVersion - tls.VersionTLS10)
+		log.Printf("INFO: Establishing TLS connection to %s (MinVersion: %s)", 
+			addr, tlsVersionString(tlsCfg.MinVersion))
 		
 		tlsConn, err := tls.DialWithDialer(&dialer, "tcp", addr, tlsCfg)
 		if err != nil {
