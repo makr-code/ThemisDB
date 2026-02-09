@@ -473,7 +473,7 @@ return false;
 
 | API Function | Location | Status |
 |--------------|----------|--------|
-| `llama_grammar_init()` | grammar.cpp:86-89 | ⚠️ Stubbed - returns nullptr |
+| `llama_grammar_init()` | grammar.cpp:86-89 | ⚠️ Not invoked in current build; `Grammar::compile()` short-circuits and leaves `grammar_` null |
 | `llama_grammar_free()` | grammar.cpp:31, 49 | ⚠️ No-op - grammar always nullptr |
 | `llama_grammar_sample()` | llama_wrapper.cpp:1223 | ⚠️ Conditional - never called |
 | `llama_grammar_accept()` | llama_wrapper.cpp:1279 | ⚠️ Conditional - never called |

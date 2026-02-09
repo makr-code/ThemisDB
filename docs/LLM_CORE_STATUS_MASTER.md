@@ -18,7 +18,7 @@ This is the **single source of truth** for LLM Core implementation status in The
 - **Core Completion:** 5/6 Features Fully Available, 1/6 Build-Gated ⚠️
 - **Integration Completion:** 95% ✅ (Vision embeddings pending)
 - **Production Readiness:** ✅ YES for text-based features (with documented caveats)
-- **Code Quality Score:** 9.5/10
+- **Internal Code Quality Score:** 9.5/10 (implementation health only; production readiness score is 8.33/10 per latest audit, reflecting build-gated grammar)
 
 ### Key Findings
 

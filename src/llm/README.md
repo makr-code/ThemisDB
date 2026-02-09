@@ -85,7 +85,7 @@ The LLM module includes complete implementation for grammar-constrained generati
 "Grammar support is unavailable (llama grammar API not present)"
 ```
 
-**Location:** `src/llm/grammar.cpp` line 76-82
+**Location:** `Grammar::compile()` in `src/llm/grammar.cpp`
 
 **Required APIs from llama.cpp:**
 - `llama_grammar_init()` - Compile EBNF to grammar

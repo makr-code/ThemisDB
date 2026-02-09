@@ -54,7 +54,7 @@ llama_lora_adapter_free(static_cast<llama_lora_adapter*>(entry->adapter_handle))
 
 **Files:** `src/llm/grammar.cpp`, `src/llm/llama_wrapper.cpp`
 
-**⚠️ AVAILABILITY NOTE:** Grammar support is **build-gated** and currently disabled in the default build. The `Grammar::compile()` method in `src/llm/grammar.cpp` (line 76-82) returns an error: "Grammar support is unavailable (llama grammar API not present)". This feature requires llama.cpp to be built with grammar API support enabled.
+**⚠️ AVAILABILITY NOTE:** Grammar support is **build-gated** and currently disabled in the default build. The `Grammar::compile()` method in `src/llm/grammar.cpp` currently returns an error: "Grammar support is unavailable (llama grammar API not present)". This feature requires llama.cpp to be built with grammar API support enabled.
 
 #### 1. Grammar Initialization - `llama_grammar_init()` ⚠️ DISABLED
 ```cpp
@@ -247,7 +247,7 @@ config.grammar_config.enabled = true; // ⚠️ Requires llama.cpp grammar APIs
 - ⚠️ **CURRENTLY DISABLED:** Grammar support is build-gated and not available in the default build
 - The `Grammar::compile()` method returns error: "Grammar support is unavailable (llama grammar API not present)"
 - Requires llama.cpp to be built with grammar API support enabled
-- See `src/llm/grammar.cpp` line 76-82 for the error message
+- See `Grammar::compile()` in `src/llm/grammar.cpp` for the exact error handling and message
 
 **To Enable Grammar Support:**
 1. Ensure llama.cpp dependency includes grammar APIs (`llama_grammar_init`, `llama_grammar_free`, `llama_grammar_sample`, `llama_grammar_accept`)
