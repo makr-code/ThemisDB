@@ -190,7 +190,6 @@ bool GeoIndexHooks::onEntityPutAtomic(
     const std::string& pk,
     const std::vector<uint8_t>& blob
 ) {
-    (void)batch; // Future: add spatial index updates to WriteBatch
     // Skip if spatial index not available or table doesn't have spatial index
     if (!spatial_mgr || !spatial_mgr->hasSpatialIndex(table)) {
         return false;
@@ -274,31 +273,131 @@ bool GeoIndexHooks::onEntityPutAtomic(
         // Parse EWKB and compute sidecar
         auto geom_info = geo::EWKBParser::parse(geom_blob);
         auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
-        (void)sidecar; // Future: use sidecar for WriteBatch spatial index updates
-
-        // TODO: Add sidecar writes to WriteBatch
-        // This requires exposing WriteBatch::put() and computing the spatial index keys
-        // For now, we'll use the non-atomic insert as fallback
-        // 
-        // Future implementation:
-        // 1. Compute Morton code from sidecar.centroid
-        // 2. Load existing bucket entries from DB
-        // 3. Add new entry to bucket list
-        // 4. batch.put(bucket_key, serialized_bucket)
-        // 5. batch.put(per_pk_key, serialized_sidecar)
         
-        THEMIS_DEBUG("Atomic spatial index update for {}:{} (not yet implemented, using fallback)",
-                    table, pk);
+        // Add spatial index writes to WriteBatch (atomic!)
+        auto status = spatial_mgr->insertBatch(batch, table, pk, sidecar);
+        if (!status) {
+            THEMIS_WARN("Atomic spatial index insert failed for {}:{}: {}", 
+                        table, pk, status.message);
+            return false;
+        }
         
-        // Fallback to non-atomic insert for now
-        // NOTE: This is a temporary solution until WriteBatch integration is complete
-        return false;
+        THEMIS_DEBUG("Atomic spatial index update added to batch for {}:{}", table, pk);
+        return true;
 
     } catch (const json::exception& e) {
         THEMIS_WARN("Geo hook atomic JSON parse error for {}:{}: {}", table, pk, e.what());
         return false;
     } catch (const std::exception& e) {
         THEMIS_WARN("Geo hook atomic error for {}:{}: {}", table, pk, e.what());
+        return false;
+    }
+}
+
+// Phase 2: Atomic entity DELETE with spatial index update via WriteBatch
+bool GeoIndexHooks::onEntityDeleteAtomic(
+    RocksDBWrapper::WriteBatchWrapper& batch,
+    index::SpatialIndexManager* spatial_mgr,
+    const std::string& table,
+    const std::string& pk,
+    const std::vector<uint8_t>& old_blob
+) {
+    // Skip if spatial index not available or table doesn't have spatial index
+    if (!spatial_mgr || !spatial_mgr->hasSpatialIndex(table)) {
+        return false;
+    }
+
+    try {
+        // Parse old blob to extract geometry and compute sidecar
+        std::string blob_str(reinterpret_cast<const char*>(old_blob.data()), old_blob.size());
+        auto j = json::parse(blob_str);
+
+        // Look for geometry field
+        std::vector<uint8_t> geom_blob;
+        bool found_geometry = false;
+
+        // Try same field names as in onEntityPut
+        if (j.contains("geometry") && j["geometry"].is_string()) {
+            std::string hex_ewkb = j["geometry"].get<std::string>();
+            geom_blob.reserve(hex_ewkb.size() / 2);
+            for (size_t i = 0; i < hex_ewkb.size(); i += 2) {
+                uint8_t byte = static_cast<uint8_t>(
+                    std::stoi(hex_ewkb.substr(i, 2), nullptr, 16)
+                );
+                geom_blob.push_back(byte);
+            }
+            found_geometry = true;
+        } else if (j.contains("geometry") && j["geometry"].is_object()) {
+            std::string geojson = j["geometry"].dump();
+            auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+            geom_blob = geo::EWKBParser::serialize(geom_info);
+            found_geometry = true;
+        } else if (j.contains("location")) {
+            if (j["location"].is_string()) {
+                std::string geojson = j["location"].get<std::string>();
+                try {
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    geom_blob = geo::EWKBParser::serialize(geom_info);
+                    found_geometry = true;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (location string) for {}:{}: {}", table, pk, e.what());
+                }
+            } else if (j["location"].is_object()) {
+                std::string geojson = j["location"].dump();
+                try {
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    geom_blob = geo::EWKBParser::serialize(geom_info);
+                    found_geometry = true;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (location object) for {}:{}: {}", table, pk, e.what());
+                }
+            }
+        } else if (j.contains("geom")) {
+            if (j["geom"].is_string()) {
+                std::string geojson = j["geom"].get<std::string>();
+                try {
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    geom_blob = geo::EWKBParser::serialize(geom_info);
+                    found_geometry = true;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (geom string) for {}:{}: {}", table, pk, e.what());
+                }
+            } else if (j["geom"].is_object()) {
+                std::string geojson = j["geom"].dump();
+                try {
+                    auto geom_info = geo::EWKBParser::parseGeoJSON(geojson);
+                    geom_blob = geo::EWKBParser::serialize(geom_info);
+                    found_geometry = true;
+                } catch (const std::exception& e) {
+                    THEMIS_WARN("Geo hook parse error (geom object) for {}:{}: {}", table, pk, e.what());
+                }
+            }
+        }
+
+        if (!found_geometry) {
+            return false;
+        }
+
+        // Parse EWKB and compute sidecar
+        auto geom_info = geo::EWKBParser::parse(geom_blob);
+        auto sidecar = geo::EWKBParser::computeSidecar(geom_info);
+        
+        // Remove spatial index entry from WriteBatch (atomic!)
+        auto status = spatial_mgr->removeBatch(batch, table, pk, sidecar);
+        if (!status) {
+            THEMIS_WARN("Atomic spatial index remove failed for {}:{}: {}", 
+                        table, pk, status.message);
+            return false;
+        }
+        
+        THEMIS_DEBUG("Atomic spatial index remove added to batch for {}:{}", table, pk);
+        return true;
+
+    } catch (const json::exception& e) {
+        THEMIS_WARN("Geo hook atomic delete JSON parse error for {}:{}: {}", table, pk, e.what());
+        return false;
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Geo hook atomic delete error for {}:{}: {}", table, pk, e.what());
         return false;
     }
 }
