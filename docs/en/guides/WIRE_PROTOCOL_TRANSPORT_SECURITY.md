@@ -255,18 +255,24 @@ certbot certonly --standalone -d themisdb.example.com
 
 #### Certificate Rotation
 
-Implement automated certificate rotation to prevent expiration:
+Implement automated certificate rotation to prevent expiration. Note that accessing the underlying TLS connection state requires extending the client API:
 
 ```go
-// Monitor certificate expiration
-tlsConn := client.conn.(*tls.Conn)
-state := tlsConn.ConnectionState()
-expiresAt := state.PeerCertificates[0].NotAfter
+// Conceptual example - would require adding a public method to WireClient
+// to expose the TLS connection state when TLS is enabled.
 
-if time.Until(expiresAt) < 30*24*time.Hour {
-    log.Printf("WARNING: Server certificate expires in %v", time.Until(expiresAt))
-}
+// For now, monitor certificate expiration by:
+// 1. Track certificate expiration dates in your deployment system
+// 2. Set up alerts 30 days before expiry
+// 3. Use automated certificate renewal (Let's Encrypt, Vault)
+// 4. Reload client connections after certificate renewal
 ```
+
+**Recommended approach for certificate monitoring:**
+- Use external monitoring tools (cert-manager, Vault, monitoring systems)
+- Set up alerts 30 days before certificate expiry
+- Implement automated certificate renewal with Let's Encrypt or HashiCorp Vault
+- Plan certificate rotation windows during maintenance periods
 
 ### Network Architecture
 
@@ -442,11 +448,11 @@ openssl s_client -connect themisdb.example.com:18765 \
 
 ## References
 
-- [Wire Protocol Server Implementation](../../include/network/wire_protocol_server.h)
-- [Wire Protocol Connection Pool](../../include/network/wire_protocol_connection_pool.h)
-- [TLS Setup Guide](../de/guides/guides_tls_setup.md)
-- [Port Reference](../de/deployment/PORT_REFERENCE.md)
-- [mTLS Configuration Example](../../config/sharding/shard-router-mtls-example.yaml)
+- [Wire Protocol Server Implementation](../../../include/network/wire_protocol_server.h)
+- [Wire Protocol Connection Pool](../../../include/network/wire_protocol_connection_pool.h)
+- [TLS Setup Guide](../../de/guides/guides_tls_setup.md)
+- [Port Reference](../../de/deployment/PORT_REFERENCE.md)
+- [mTLS Configuration Example](../../../config/sharding/shard-router-mtls-example.yaml)
 
 ---
 

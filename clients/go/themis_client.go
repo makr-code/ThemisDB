@@ -289,9 +289,14 @@ func (tc *TLSConfig) Validate() error {
 		
 		// Validate CA certificate if provided
 		if tc.CACertPath != "" {
-			if _, err := os.Stat(tc.CACertPath); os.IsNotExist(err) {
+			if _, err := os.Stat(tc.CACertPath); err != nil {
+				if os.IsNotExist(err) {
+					return &TLSConfigurationError{&ThemisDBError{
+						Message: fmt.Sprintf("CA certificate file not found: %s", tc.CACertPath),
+					}}
+				}
 				return &TLSConfigurationError{&ThemisDBError{
-					Message: fmt.Sprintf("CA certificate file not found: %s", tc.CACertPath),
+					Message: fmt.Sprintf("CA certificate file not accessible: %s (%v)", tc.CACertPath, err),
 				}}
 			}
 		} else if !tc.InsecureSkipVerify {
@@ -305,14 +310,24 @@ func (tc *TLSConfig) Validate() error {
 					Message: "Both ClientCertPath and ClientKeyPath must be provided for mTLS",
 				}}
 			}
-			if _, err := os.Stat(tc.ClientCertPath); os.IsNotExist(err) {
+			if _, err := os.Stat(tc.ClientCertPath); err != nil {
+				if os.IsNotExist(err) {
+					return &TLSConfigurationError{&ThemisDBError{
+						Message: fmt.Sprintf("Client certificate file not found: %s", tc.ClientCertPath),
+					}}
+				}
 				return &TLSConfigurationError{&ThemisDBError{
-					Message: fmt.Sprintf("Client certificate file not found: %s", tc.ClientCertPath),
+					Message: fmt.Sprintf("Client certificate file not accessible: %s (%v)", tc.ClientCertPath, err),
 				}}
 			}
-			if _, err := os.Stat(tc.ClientKeyPath); os.IsNotExist(err) {
+			if _, err := os.Stat(tc.ClientKeyPath); err != nil {
+				if os.IsNotExist(err) {
+					return &TLSConfigurationError{&ThemisDBError{
+						Message: fmt.Sprintf("Client key file not found: %s", tc.ClientKeyPath),
+					}}
+				}
 				return &TLSConfigurationError{&ThemisDBError{
-					Message: fmt.Sprintf("Client key file not found: %s", tc.ClientKeyPath),
+					Message: fmt.Sprintf("Client key file not accessible: %s (%v)", tc.ClientKeyPath, err),
 				}}
 			}
 		}
@@ -357,7 +372,13 @@ func (tc *TLSConfig) BuildTLSConfig() (*tls.Config, error) {
 			}}
 		}
 		
-		caCertPool := x509.NewCertPool()
+		// Start with system cert pool and add custom CA
+		caCertPool, err := x509.SystemCertPool()
+		if err != nil {
+			// If system pool is unavailable (e.g., on some platforms), create new pool
+			caCertPool = x509.NewCertPool()
+		}
+		
 		if !caCertPool.AppendCertsFromPEM(caCert) {
 			return nil, &TLSConfigurationError{&ThemisDBError{
 				Message: "Failed to parse CA certificate",
@@ -459,14 +480,6 @@ func (c *WireClient) Connect() error {
 		if err != nil {
 			return &ConnectionError{&ThemisDBError{
 				Message: fmt.Sprintf("Failed to establish TLS connection: %v", err),
-			}}
-		}
-		
-		// Verify TLS handshake completed
-		if err := tlsConn.Handshake(); err != nil {
-			tlsConn.Close()
-			return &ConnectionError{&ThemisDBError{
-				Message: fmt.Sprintf("TLS handshake failed: %v", err),
 			}}
 		}
 		
@@ -880,9 +893,9 @@ func NewWireClientFromEnv() (*WireClient, error) {
 		ProductionMode:     productionMode,
 	}
 	
-	// Use TLS 1.3 for production
-	if productionMode {
-		tlsConfig.MinVersion = tls.VersionTLS13
+	// In production mode, recommend TLS 1.3 but allow TLS 1.2 with warning
+	if productionMode && tlsConfig.MinVersion < tls.VersionTLS13 {
+		log.Printf("WARNING: Production mode enabled but TLS minimum version is TLS 1.2; TLS 1.3 is recommended for production")
 	}
 	
 	return NewWireClientWithTLS(host, port, username, password, tlsConfig)
@@ -899,9 +912,11 @@ func getEnv(key, defaultValue string) string {
 func getEnvInt(key string, defaultValue int) int {
 	if value := os.Getenv(key); value != "" {
 		var intVal int
-		if _, err := fmt.Sscanf(value, "%d", &intVal); err == nil {
-			return intVal
+		if _, err := fmt.Sscanf(value, "%d", &intVal); err != nil {
+			log.Printf("WARNING: Invalid integer value for %s: %s, using default: %d", key, value, defaultValue)
+			return defaultValue
 		}
+		return intVal
 	}
 	return defaultValue
 }

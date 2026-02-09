@@ -656,6 +656,12 @@ export THEMIS_WIRE_PRODUCTION_MODE=true
 ### TLS Configuration Options
 
 ```go
+import (
+    "crypto/tls"
+    "log"
+    themisdb "github.com/makr-code/ThemisDB/clients/go"
+)
+
 tlsConfig := &themisdb.TLSConfig{
     Enabled:            true,                          // Enable TLS
     CACertPath:         "/path/to/ca.crt",             // CA certificate

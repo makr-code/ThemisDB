@@ -177,7 +177,7 @@ func TestTLSConfig_BuildTLSConfig(t *testing.T) {
 		tlsCfg, err := config.BuildTLSConfig()
 		require.NoError(t, err)
 		assert.NotNil(t, tlsCfg)
-		assert.Equal(t, tls.VersionTLS12, int(tlsCfg.MinVersion))
+		assert.Equal(t, uint16(tls.VersionTLS12), tlsCfg.MinVersion)
 		assert.True(t, tlsCfg.InsecureSkipVerify)
 		assert.Equal(t, "example.com", tlsCfg.ServerName)
 	})
