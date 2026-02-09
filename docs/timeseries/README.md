@@ -1,24 +1,22 @@
 # ThemisDB Time-Series Engine 📊
 
-**Version:** 1.5.0  
 **Status:** Production Ready  
-**Last Updated:** December 2024  
 **Category:** Time-Series Storage & Analytics
 
 ---
 
 ## 📖 Table of Contents
 
-- [Overview](#-overview)
-- [Architecture](#-architecture)
-- [TSStore vs TimeSeriesStore](#-tsstore-vs-timeseriesstore)
-- [Core Components](#-core-components)
-- [Usage Examples](#-usage-examples)
-- [Configuration](#-configuration)
-- [Performance Considerations](#-performance-considerations)
-- [Best Practices](#-best-practices)
-- [API Reference](#-api-reference)
-- [Related Documentation](#-related-documentation)
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [TSStore vs TimeSeriesStore](#tsstore-vs-timeseriesstore)
+- [Core Components](#core-components)
+- [Usage Examples](#usage-examples)
+- [Configuration](#configuration)
+- [Performance Considerations](#performance-considerations)
+- [Best Practices](#best-practices)
+- [API Reference](#api-reference)
+- [Related Documentation](#related-documentation)
 
 ---
 
@@ -301,7 +299,7 @@ tsc:cpu_usage:server01:1704067200000:1704153600000 → <compressed binary>
 Based on Facebook's Gorilla codec:
 - **Paper:** "Gorilla: A Fast, Scalable, In-Memory Time Series Database" (VLDB 2015)
 - **Authors:** Pelkonen et al., Facebook
-- **URL:** http://www.vldb.org/pvldb/vol8/p1816-teller.pdf
+- **URL:** https://www.vldb.org/pvldb/vol8/p1816-teller.pdf
 
 **Compression Techniques:**
 
@@ -1568,7 +1566,7 @@ public:
 - **Tests:** `tests/test_timeseries*.cpp`
 
 ### External References
-- **[Gorilla Paper](http://www.vldb.org/pvldb/vol8/p1816-teller.pdf)** - Original Gorilla compression algorithm
+- **[Gorilla Paper](https://www.vldb.org/pvldb/vol8/p1816-teller.pdf)** - Original Gorilla compression algorithm
 - **[RocksDB Documentation](https://github.com/facebook/rocksdb/wiki)** - Underlying storage engine
 - **[nlohmann/json](https://github.com/nlohmann/json)** - JSON library used for metadata
 
