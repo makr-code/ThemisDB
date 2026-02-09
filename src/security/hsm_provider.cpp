@@ -35,6 +35,38 @@ HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
 bool HSMProvider::initialize() {
     if (initialized_) return true;
+    
+    // SECURITY HARDENING: Check for explicit opt-in to use stub provider
+    // This prevents accidental production deployment with insecure stub
+    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
+    const char* force_production = std::getenv("THEMIS_PRODUCTION_MODE");
+    
+    // Fail-fast: If production mode is explicitly enabled, stub is not allowed
+    if (force_production && std::string(force_production) == "1") {
+        last_error_ = "HSM stub provider cannot be used in production mode. "
+                      "Build with -DTHEMIS_ENABLE_HSM_REAL=ON or disable THEMIS_PRODUCTION_MODE.";
+        THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
+        return false;
+    }
+    
+    // Fail-fast: Without explicit opt-in, refuse to initialize if production-like environment detected
+    if (!allow_stub || std::string(allow_stub) != "1") {
+        // Check for production-like indicators
+        const char* env_type = std::getenv("ENVIRONMENT");
+        const char* node_env = std::getenv("NODE_ENV");
+        
+        bool production_indicators = 
+            (env_type && (std::string(env_type) == "production" || std::string(env_type) == "prod")) ||
+            (node_env && std::string(node_env) == "production");
+        
+        if (production_indicators) {
+            last_error_ = "HSM stub provider detected production environment but THEMIS_ALLOW_HSM_STUB is not set. "
+                          "Set THEMIS_ALLOW_HSM_STUB=1 to explicitly allow insecure stub, or use real HSM.";
+            THEMIS_ERROR("SECURITY ERROR: {}", last_error_);
+            return false;
+        }
+    }
+    
     initialized_ = true;
     
     // CRITICAL SECURITY WARNING: Stub provider active
@@ -48,6 +80,9 @@ bool HSMProvider::initialize() {
     THEMIS_WARN("║  - Build with -DTHEMIS_ENABLE_HSM_REAL=ON                    ║");
     THEMIS_WARN("║  - Configure PKCS#11 HSM (Luna, CloudHSM, etc.)             ║");
     THEMIS_WARN("║  - Or use cloud KMS (AWS KMS, Azure Key Vault, GCP KMS)     ║");
+    THEMIS_WARN("║                                                               ║");
+    THEMIS_WARN("║  To explicitly allow stub (dev only):                        ║");
+    THEMIS_WARN("║  - Set THEMIS_ALLOW_HSM_STUB=1 environment variable          ║");
     THEMIS_WARN("║                                                               ║");
     THEMIS_WARN("║  See: docs/security/HSM_PRODUCTION_SETUP.md                  ║");
     THEMIS_WARN("╚═══════════════════════════════════════════════════════════════╝");
