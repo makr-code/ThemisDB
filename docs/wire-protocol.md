@@ -379,7 +379,7 @@ The complete Protocol Buffers definition is available at:
 - [Performance Tips](knowledge-base/PERFORMANCE_TIPS.md) - Connection pooling optimization
 - [TLS Implementation](../TLS_IMPLEMENTATION_VERIFICATION.md) - TLS setup verification
 - [Security Guide](../SECURITY.md) - Security best practices
-- [API Documentation](api/README.md) - Higher-level API reference
+- [API Documentation](de/apis/README.md) - Higher-level API reference
 
 ## References
 
