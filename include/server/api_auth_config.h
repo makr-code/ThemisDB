@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 #include <optional>
 
 namespace themis {
@@ -17,6 +16,9 @@ namespace server {
 struct EndpointAuthConfig {
     // Endpoint pattern (e.g., "/entities/*", "/query", "/api/pki/*")
     std::string endpoint_pattern;
+    
+    // HTTP method (e.g., "GET", "POST", "PUT", "DELETE", "*" for all methods)
+    std::string http_method = "*";
     
     // Required scope for this endpoint (e.g., "data:read", "data:write", "admin")
     std::string required_scope;
@@ -57,11 +59,12 @@ struct ApiAuthConfig {
     std::vector<EndpointAuthConfig> endpoint_configs;
     
     /**
-     * @brief Get endpoint configuration for a given path
+     * @brief Get endpoint configuration for a given path and HTTP method
      * @param path The request path (e.g., "/entities/123")
+     * @param method The HTTP method (e.g., "GET", "POST", "PUT", "DELETE")
      * @return Configuration if found, nullopt otherwise
      */
-    std::optional<EndpointAuthConfig> getEndpointConfig(const std::string& path) const;
+    std::optional<EndpointAuthConfig> getEndpointConfig(const std::string& path, const std::string& method = "*") const;
     
     /**
      * @brief Initialize with default secure configuration

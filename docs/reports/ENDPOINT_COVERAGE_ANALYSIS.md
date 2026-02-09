@@ -31,7 +31,7 @@ This document provides a comprehensive analysis of the REST/HTTP API endpoint co
 | `/health` | GET | MonitoringApiHandler | No | Health check |
 | `/version` | GET | MonitoringApiHandler | No | Version information |
 | `/stats` | GET | MonitoringApiHandler | No | Server statistics |
-| `/api/capabilities` | GET | MonitoringApiHandler | No | Server capabilities |
+| `/capabilities` or `/api/capabilities` | GET | MonitoringApiHandler | No | Server capabilities |
 | `/metrics` | GET | MonitoringApiHandler | No | Prometheus metrics |
 | `/api/plugins/metrics` | GET | MonitoringApiHandler | No | Plugin metrics |
 
@@ -203,7 +203,7 @@ This document provides a comprehensive analysis of the REST/HTTP API endpoint co
 | `/content/import` | POST | ContentApiHandler | Yes (content:write) | Import content |
 | `/content/config` | GET | ContentApiHandler | Yes (content:read) | Get config |
 | `/content/config` | PUT | ContentApiHandler | Yes (content:write) | Update config |
-| `/content/**` | GET | ContentApiHandler | Yes (content:read) | Get content |
+| `/content/*` | GET | ContentApiHandler | Yes (content:read) | Get content |
 | `/search/hybrid` | POST | http_server.cpp | Yes (content:read) | Hybrid search |
 | `/search/fusion` | POST | http_server.cpp | Yes (content:read) | Fusion search |
 | `/search/fulltext` | POST | http_server.cpp | Yes (content:read) | Fulltext search |

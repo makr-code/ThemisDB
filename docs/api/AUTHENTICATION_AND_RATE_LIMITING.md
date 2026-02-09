@@ -526,23 +526,35 @@ curl http://localhost:8080/entities/test:123
 
 ### Enabling Authentication in Existing Deployments
 
-1. **Phase 1**: Enable authentication but allow unauthenticated access
+1. **Phase 1**: Enable authentication but use lenient defaults
    ```cpp
+   auto config = ApiAuthConfig::createSecureDefaults();
    config.auth_enabled = true;
-   config.auth_required = false;  // Log but don't enforce
+   // Initially set high rate limits for all endpoints
+   for (auto &endpoint : config.endpoint_configs) {
+       endpoint.rate_limit_per_minute *= 10;  // 10x normal limits
+   }
    ```
 
 2. **Phase 2**: Issue tokens to all clients and monitor usage
 
 3. **Phase 3**: Enable enforcement gradually per endpoint
    ```cpp
-   config.auth_required = true;
-   config.endpoint_configs["/entities/*"].auth_required = false;  // Still allow
+   config.auth_enabled = true;
+   // Disable auth for specific endpoints during migration
+   for (auto &endpoint : config.endpoint_configs) {
+       if (endpoint.endpoint_pattern == "/entities/*") {
+           endpoint.auth_required = false;  // Still allow unauthenticated
+       } else {
+           endpoint.auth_required = true;
+       }
+   }
    ```
 
 4. **Phase 4**: Full enforcement
    ```cpp
-   // All endpoints require authentication
+   // Use secure defaults - all endpoints require authentication
+   auto config = ApiAuthConfig::createSecureDefaults();
    ```
 
 ### Adding Rate Limiting
