@@ -49,7 +49,7 @@ ThemisDB is a high-performance, multi-model database system that integrates rela
 | **scheduler/** | Task scheduling, retention management | TaskScheduler, HybridRetentionManager |
 | **search/** | Hybrid search (vector + full-text) | HybridSearch |
 | **security/** | Encryption, key management, PKI, RBAC, audit | RbacManager, FieldEncryption, KeyProvider |
-| **server/** | HTTP/gRPC servers, 40+ API handlers | HttpServer, ApiGateway, QueryApiHandler |
+| **server/** | HTTP/gRPC servers, 40+ API handlers, rate limiting, tenant management | HttpServer, ApiGateway, QueryApiHandler, RateLimiter, TenantManager |
 | **sharding/** | Horizontal scaling, consensus (Raft/Paxos/Gossip) | ShardRouter, RaftConsensus, DistributedCoordinator |
 | **storage/** | RocksDB wrapper, compression, blob storage, transactions | StorageEngine, BlobStorageManager |
 | **temporal/** | Conflict resolution for temporal data | TemporalConflictResolver |
@@ -80,7 +80,9 @@ Handles multiple protocol frontends:
 
 **Key Components:**
 - 40+ specialized API handlers for different domains (query, storage, LLM, geo, graph, etc.)
-- API Gateway with authentication, rate limiting, load shedding
+- API Gateway with authentication, rate limiting (V1/V2), load shedding
+- Tenant management with resource quotas and isolation
+- SSE connection manager for changefeed streaming with rate limits
 - Request routing and protocol translation
 
 ### 2. **Query Processing Layer**
@@ -515,16 +517,48 @@ Client (HTTP/gRPC/WebSocket/MQTT)
 
 1. **Request Reception**: Protocol-specific server receives request
 2. **Authentication**: Validate credentials, check permissions
-3. **Rate Limiting**: Enforce request rate limits per client
-4. **Parsing**: Convert query string to AST (Abstract Syntax Tree)
-5. **Validation**: Check schema, permissions, syntax
-6. **Optimization**: Generate optimal execution plan
-7. **Execution**: Execute plan with pipelining
-8. **Index Usage**: Utilize appropriate indices for fast lookups
-9. **Storage Access**: Read/write data from/to RocksDB
-10. **Replication**: Replicate writes to other nodes (if configured)
-11. **Result Formatting**: Convert internal format to requested format
-12. **Response**: Send results back to client
+3. **Rate Limiting**: Enforce request rate limits per client (V1 token bucket or V2 priority lanes)
+4. **Tenant Quota Check**: Verify tenant resource quotas (connections, queries, storage)
+5. **Parsing**: Convert query string to AST (Abstract Syntax Tree)
+6. **Validation**: Check schema, permissions, syntax
+7. **Optimization**: Generate optimal execution plan
+8. **Execution**: Execute plan with pipelining
+9. **Index Usage**: Utilize appropriate indices for fast lookups
+10. **Storage Access**: Read/write data from/to RocksDB
+11. **Replication**: Replicate writes to other nodes (if configured)
+12. **Result Formatting**: Convert internal format to requested format
+13. **Response**: Send results back to client
+
+### Resource Limits & Protection
+
+ThemisDB implements comprehensive resource limits to ensure system stability and fair resource allocation:
+
+**Rate Limiting:**
+- **V1 (Legacy)**: Token bucket with per-IP and per-user limits
+- **V2 (Preferred)**: Priority lanes (HIGH/NORMAL/LOW) for VIP client support
+- Configurable burst capacity and sustained rates
+- Automatic idle client cleanup
+
+**Tenant Quotas:**
+- Per-tenant resource isolation (storage, documents, collections)
+- Connection limits (default: 50 per tenant)
+- Concurrent query limits (default: 100 per tenant)
+- Rate limits per tenant (default: 1000 req/s)
+- Enforced at HTTP server and API Gateway layers
+
+**SSE/Changefeed Limits:**
+- Per-connection rate caps (max events/second)
+- Buffer limits (default: 1000 events per connection)
+- Heartbeat mechanism (15s interval) to prevent timeouts
+- Configurable overflow policy (drop oldest/newest)
+
+**Connection Limits:**
+- Max concurrent requests (default: 1000)
+- HTTP/2 stream limits (default: 100)
+- Request body size limits
+- Load shedding at 90% capacity
+
+See [RESOURCE_LIMITS_GUIDE.md](docs/RESOURCE_LIMITS_GUIDE.md) for detailed configuration and best practices.
 
 ---
 
