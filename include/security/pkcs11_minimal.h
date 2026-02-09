@@ -1,4 +1,47 @@
 #pragma once
+
+// =============================================================================
+// PKCS#11 Minimal Header - DEVELOPMENT/TESTING ONLY
+// =============================================================================
+//
+// ⚠️  WARNING: This is a MINIMAL subset of PKCS#11 types/constants.
+//     It is NOT suitable for production use with real HSM devices.
+//
+// PURPOSE:
+//   - Allow compilation without vendor-specific PKCS#11 headers
+//   - Support development and testing with SoftHSM2
+//   - Provide basic type definitions for PKCS#11 operations
+//
+// LIMITATIONS:
+//   - Missing many PKCS#11 functions and constants
+//   - No vendor-specific extensions
+//   - May be incompatible with some HSM devices
+//   - Not guaranteed to match vendor header definitions
+//
+// PRODUCTION REQUIREMENTS:
+//   For production HSM deployments, you MUST:
+//   1. Use vendor-provided PKCS#11 headers (cryptoki.h, pkcs11.h)
+//   2. Install HSM vendor SDK:
+//      - Thales Luna: Luna HSM Client SDK
+//      - AWS CloudHSM: CloudHSM Client SDK
+//      - Utimaco: CryptoServer SDK
+//      - nCipher: nShield SDK
+//   3. Link against vendor PKCS#11 library
+//   4. Replace this header with vendor header in production builds
+//
+// COMPILE-TIME VALIDATION:
+//   The build system should detect and warn about minimal header usage.
+//   Set THEMIS_USE_VENDOR_PKCS11=ON to use vendor headers instead.
+//
+// MIGRATION PATH:
+//   1. Install HSM vendor SDK
+//   2. Set PKCS11_INCLUDE_DIR to vendor header location
+//   3. Build with -DTHEMIS_USE_VENDOR_PKCS11=ON
+//   4. Verify against vendor header definitions
+//
+// See: docs/security/PKCS11_INTEGRATION.md
+// =============================================================================
+
 // Minimal PKCS#11 type/constant declarations to avoid external header dependency.
 // This is NOT a full PKCS#11 header; only what we need for basic sign/verify.
 // For production replace with the vendor's official pkcs11.h.
@@ -104,3 +147,32 @@ struct CK_FUNCTION_LIST {
 };
 
 } // extern "C"
+
+// =============================================================================
+// Compile-Time Validation
+// =============================================================================
+//
+// Verify critical PKCS#11 constants at compile time to catch header mismatches
+//
+#ifdef THEMIS_ENABLE_HSM_REAL
+    // These static assertions will fail if vendor headers define different values
+    // This is a safety check to detect incompatibilities early
+    
+    static_assert(CKR_OK == 0x00000000U, 
+        "PKCS#11 CKR_OK mismatch - vendor header may be incompatible");
+    
+    static_assert(CKR_GENERAL_ERROR == 0x00000005U,
+        "PKCS#11 CKR_GENERAL_ERROR mismatch - vendor header may be incompatible");
+    
+    static_assert(CKM_RSA_PKCS == 0x00000001U,
+        "PKCS#11 CKM_RSA_PKCS mismatch - vendor header may be incompatible");
+    
+    static_assert(CKO_PRIVATE_KEY == 0x00000003U,
+        "PKCS#11 CKO_PRIVATE_KEY mismatch - vendor header may be incompatible");
+    
+    // Warning: Using minimal PKCS#11 header in production build
+    #ifndef THEMIS_USE_VENDOR_PKCS11
+        #warning "Using pkcs11_minimal.h with real HSM support. Consider using vendor PKCS#11 headers for production."
+    #endif
+#endif
+// =============================================================================
