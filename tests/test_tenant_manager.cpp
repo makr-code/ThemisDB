@@ -11,6 +11,11 @@ protected:
         // Reset tenant manager to default state
         auto& tm = TenantManager::instance();
         
+        // Enable default tenant for tests (backward compatibility mode)
+        TenantManager::Config config = tm.getConfig();
+        config.allow_default_tenant = true;
+        tm.configure(config);
+        
         // Remove any non-default tenants
         auto tenants = tm.listTenants();
         for (const auto& t : tenants) {
@@ -427,4 +432,54 @@ TEST_F(TenantManagerTest, TenantEncryptionKey) {
     // Default key derivation for tenant without custom key
     std::string defaultKeyId = tm.getTenantKeyId("default");
     EXPECT_EQ(defaultKeyId, "tenant:default:master");
+}
+
+// ===== Security Tests =====
+
+TEST_F(TenantManagerTest, SecureDefaultBehavior) {
+    // Create a new tenant manager instance with default config
+    auto& tm = TenantManager::instance();
+    
+    // Reset to secure defaults
+    TenantManager::Config secure_config;
+    secure_config.allow_default_tenant = false;  // Secure default
+    tm.configure(secure_config);
+    
+    // Without allow_default_tenant, extracting tenant should fail
+    std::unordered_map<std::string, std::string> headers;  // No tenant header
+    auto tenant_id = tm.extractTenantId(headers, "/api/documents");
+    
+    EXPECT_FALSE(tenant_id.has_value());  // Should return nullopt
+    
+    // Context resolution should also fail
+    auto ctx = tm.resolveContext(headers, "/api/documents", "user123");
+    EXPECT_FALSE(ctx.has_value());  // Should return nullopt
+    
+    // Now with explicit tenant header, it should work if tenant exists
+    TenantConfig config;
+    config.tenant_id = "secure-test";
+    config.display_name = "Secure Test";
+    tm.createTenant(config);
+    
+    headers["X-Tenant-ID"] = "secure-test";
+    tenant_id = tm.extractTenantId(headers, "/api/documents");
+    EXPECT_TRUE(tenant_id.has_value());
+    EXPECT_EQ(*tenant_id, "secure-test");
+}
+
+TEST_F(TenantManagerTest, BackwardCompatibilityMode) {
+    auto& tm = TenantManager::instance();
+    
+    // Enable backward compatibility mode
+    TenantManager::Config compat_config;
+    compat_config.allow_default_tenant = true;
+    compat_config.default_tenant_id = "default";
+    tm.configure(compat_config);
+    
+    // Now without explicit tenant, should return default
+    std::unordered_map<std::string, std::string> headers;
+    auto tenant_id = tm.extractTenantId(headers, "/api/documents");
+    
+    EXPECT_TRUE(tenant_id.has_value());
+    EXPECT_EQ(*tenant_id, "default");
 }
