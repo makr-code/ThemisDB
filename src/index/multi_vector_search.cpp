@@ -110,13 +110,28 @@ MultiVectorSearch::search(
     
     // Determine weights to use
     std::vector<float> weights;
+    bool weights_provided = false;
     if (!config.weights.empty()) {
         weights = config.weights;
+        weights_provided = true;
     } else if (!query.weights.empty()) {
         weights = query.weights;
+        weights_provided = true;
     } else {
-        // Equal weights
+        // Equal weights (fallback for most strategies)
         weights.resize(query.vectors.size(), 1.0f / query.vectors.size());
+    }
+    
+    // LEARNED_FUSION requires explicitly provided weights
+    if (config.fusion == FusionStrategy::LEARNED_FUSION && !weights_provided) {
+        return makeError(errors::ErrorCode::INVALID_ARGUMENT,
+                        "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
+    }
+    
+    // Validate weights for strategies that need them
+    if (weights.size() != query.vectors.size()) {
+        return makeError(errors::ErrorCode::INVALID_ARGUMENT,
+                        "Weight count must match query vector count");
     }
     
     // Validate weights sum to approximately 1.0 for LINEAR_COMBINATION
@@ -226,11 +241,7 @@ MultiVectorSearch::search(
             }
             case FusionStrategy::LEARNED_FUSION:
                 // Learned fusion uses optimized weights (similar to linear combination)
-                // Weights should be pre-computed using optimizeWeights() method
-                if (weights.empty() || weights.size() != scores.size()) {
-                    return makeError(errors::ErrorCode::INVALID_ARGUMENT,
-                                    "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
-                }
+                // Note: weights validation already performed earlier in this function
                 result.fused_score = linearCombination(scores, weights);
                 break;
         }
@@ -425,7 +436,7 @@ MultiVectorSearch::hybridSearch(
             case FusionStrategy::LEARNED_FUSION:
                 // Learned fusion uses optimized weights (similar to linear combination)
                 // Weights should be pre-computed using optimizeWeights() method
-                if (config.weights.empty() || config.weights.size() != field_names.size()) {
+                if (config.weights.empty() || config.weights.size() != fusion_scores.size()) {
                     return makeError(errors::ErrorCode::INVALID_ARGUMENT,
                                     "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
                 }

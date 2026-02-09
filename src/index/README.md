@@ -26,16 +26,15 @@ Index implementations for ThemisDB's multi-model database.
 ## Documentation
 
 For index documentation, see:
-- [Adaptive Index](../../docs/src/index/adaptive_index.cpp.md)
-- [Vector Index](../../docs/src/index/vector_index.cpp.md)
-- [Approximate Radius Search](../../docs/src/index/approximate_radius_search.cpp.md) - **Production Ready**
-- [Multi-Vector Search](../../docs/multi_vector_search.md) - **Production Ready (7/7 fusion strategies)**
+- [Adaptive Index](../../docs/de/src/index/adaptive_index.cpp.md)
+- [Vector Index](../../docs/de/src/index/vector_index.cpp.md)
+- [Approximate Radius Search](../../docs/ApproximateRadiusSearch.md) - **Production Ready**
+- [Multi-Vector Search](../../docs/multi_vector_search.md) - **Production Ready**
 - [Vector Advanced Features](./VECTOR_ADVANCED_FEATURES_README.md) - Detailed guide
-- [Graph Index](../../docs/src/index/graph_index.cpp.md)
-- [Property Graph](../../docs/src/index/property_graph.cpp.md)
-- [Secondary Index](../../docs/src/index/secondary_index.cpp.md)
-- [GNN Embeddings](../../docs/src/index/gnn_embeddings.cpp.md)
-- [Indexes Documentation](../../docs/indexes.md)
+- [Graph Index](../../docs/de/src/index/graph_index.cpp.md)
+- [Property Graph](../../docs/de/src/index/property_graph.cpp.md)
+- [Secondary Index](../../docs/de/src/index/secondary_index.cpp.md)
+- [GNN Embeddings](../../docs/de/src/index/gnn_embeddings.cpp.md)
 - [HNSW Persistence](../../docs/hnsw_persistence.md)
 
 ## Tests and Benchmarks

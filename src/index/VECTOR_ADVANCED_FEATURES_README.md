@@ -292,10 +292,15 @@ const auto& search_result = result.value();
 std::cout << "Found " << search_result.results.size() << " results\n";
 ```
 
-**Note:** The LEARNED_FUSION strategy will return:
+**Note:** The LEARNED_FUSION strategy requires pre-computed weights:
 ```cpp
-ErrorRegistry::ErrorCode::NOT_IMPLEMENTED
-"LEARNED_FUSION strategy not yet implemented"
+// LEARNED_FUSION requires weights to be provided
+config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
+config.weights = {0.6f, 0.4f};  // Must be provided via config or query
+
+// Without weights, returns:
+// ErrorRegistry::ErrorCode::INVALID_ARGUMENT
+// "LEARNED_FUSION requires pre-computed weights from optimizeWeights()"
 ```
 
 All other methods return actual results or appropriate error codes for invalid inputs.
