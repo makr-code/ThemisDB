@@ -100,11 +100,20 @@ Select based on your deployment environment:
 ```bash
 # Enable real HSM provider during build
 cmake -DTHEMIS_ENABLE_HSM_REAL=ON \
+      -DTHEMIS_USE_VENDOR_PKCS11=ON \  # Use vendor PKCS#11 headers (recommended)
       -DTHEMIS_ENABLE_SECURITY=ON \
       -DCMAKE_BUILD_TYPE=Release \
       ..
 make -j$(nproc)
 ```
+
+**Build Options:**
+- `-DTHEMIS_ENABLE_HSM_REAL=ON` - Enable real HSM provider (vs stub)
+- `-DTHEMIS_USE_VENDOR_PKCS11=ON` - Use vendor PKCS#11 headers (production)
+- `-DPKCS11_INCLUDE_DIR=/path/to/headers` - Vendor header location (if needed)
+- `-DPKCS11_LIBRARY=/path/to/lib.so` - PKCS#11 library path (if needed)
+
+See: [PKCS#11 Integration Guide](PKCS11_INTEGRATION.md) for details on vendor headers.
 
 ### Step 3: Configure HSM Provider
 
@@ -138,15 +147,30 @@ Or use secrets management:
 ### Step 5: Verify Configuration
 
 ```bash
-# Test mode (development)
+# Test mode (development) - requires explicit opt-in for stub
+export THEMIS_ALLOW_HSM_STUB=1
 ./themis_server --config config/development.yaml
 
-# Production mode (enforces HSM)
+# Production mode (enforces real HSM, blocks stub)
+export THEMIS_PRODUCTION_MODE=1
 ./themis_server --config config/production.yaml
 ```
 
+**🛡️ NEW Security Gating (v1.4.2+):**
+
+Production environments are now protected by security gating:
+- ✅ Real HSM: Works normally
+- ❌ Stub HSM without opt-in: **FAILS** with error
+- ⚠️ Stub HSM with opt-in: Works but logs ERROR warnings
+
+**Environment Variables:**
+- `THEMIS_PRODUCTION_MODE=1` - Forces production mode (stub always fails)
+- `THEMIS_ALLOW_HSM_STUB=1` - Explicitly allows stub (dev only)
+- `ENVIRONMENT=production` - Auto-detected as production (requires opt-in)
+
 Expected output:
 ```
+# With Real HSM:
 [INFO] HSMProvider init (real_ready=true)
 [INFO] HSM connected: Thales Luna SA-7
 ```
@@ -402,8 +426,12 @@ hsm:
 
 - [ ] HSM provider selected based on environment
 - [ ] ThemisDB built with `-DTHEMIS_ENABLE_HSM_REAL=ON`
+- [ ] **🆕 Vendor PKCS#11 headers installed** (for PKCS#11 providers)
+- [ ] **🆕 Build with `-DTHEMIS_USE_VENDOR_PKCS11=ON`** (recommended)
 - [ ] Master key generated in HSM
 - [ ] `config/security.yaml` configured with real provider
+- [ ] **🆕 `THEMIS_PRODUCTION_MODE=1` set** (enforces real HSM)
+- [ ] **🆕 `THEMIS_ALLOW_HSM_STUB` NOT set** (blocks accidental stub usage)
 - [ ] HSM PIN/credentials stored in secrets management
 - [ ] HSM connectivity tested from application server
 - [ ] Backup and recovery procedures documented
@@ -412,22 +440,112 @@ hsm:
 ### Deployment
 
 - [ ] Server starts without stub provider warnings
+- [ ] **🆕 No "HSM STUB PROVIDER ACTIVE" warnings** in logs
 - [ ] Logs show: `HSMProvider init (real_ready=true)`
 - [ ] First encryption operation succeeds
 - [ ] Metrics show HSM operations (not stub)
+- [ ] **🆕 `isStubProvider()` returns `false`** (real HSM confirmed)
 - [ ] Audit logs capture HSM operations
 
 ### Post-Deployment
 
 - [ ] Monitor HSM health metrics
+- [ ] **🆕 Periodic security checks pass** (no stub warnings)
 - [ ] Verify periodic security checks pass
 - [ ] Test key rotation procedures
 - [ ] Document disaster recovery process
 - [ ] Schedule compliance audit
 
+### 🛡️ Security Gating Verification (v1.4.2+)
+
+Test security gating before production:
+
+```bash
+# Test 1: Verify production mode blocks stub
+export THEMIS_PRODUCTION_MODE=1
+# Should FAIL if stub is active
+./themis_server --config config/test.yaml
+
+# Test 2: Verify production environment detection
+export ENVIRONMENT=production
+unset THEMIS_ALLOW_HSM_STUB
+# Should FAIL without opt-in
+./themis_server --config config/test.yaml
+
+# Test 3: Verify real HSM works in production mode
+export THEMIS_PRODUCTION_MODE=1
+# Should SUCCEED with real HSM
+./themis_server --config config/production.yaml
+```
+
+
 ---
 
 ## Troubleshooting
+
+### Issue: "HSM stub provider cannot be used in production mode"
+
+**New in v1.4.2** - Security gating prevents accidental stub usage.
+
+**Error Message:**
+```
+SECURITY ERROR: HSM stub provider cannot be used in production mode. 
+Build with -DTHEMIS_ENABLE_HSM_REAL=ON or disable THEMIS_PRODUCTION_MODE.
+```
+
+**Cause:** `THEMIS_PRODUCTION_MODE=1` is set but stub provider is active.
+
+**Solutions:**
+
+1. **Build with real HSM (recommended):**
+```bash
+cmake -DTHEMIS_ENABLE_HSM_REAL=ON \
+      -DTHEMIS_USE_VENDOR_PKCS11=ON \
+      -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
+
+2. **Configure real HSM provider:**
+```yaml
+hsm:
+  provider: pkcs11  # Not 'stub'
+  pkcs11:
+    library_path: "/usr/lib/libCryptoki2_64.so"
+```
+
+3. **Disable production mode (NOT recommended):**
+```bash
+unset THEMIS_PRODUCTION_MODE
+```
+
+### Issue: "HSM stub provider detected production environment"
+
+**New in v1.4.2** - Auto-detection of production environments.
+
+**Error Message:**
+```
+SECURITY ERROR: HSM stub provider detected production environment but 
+THEMIS_ALLOW_HSM_STUB is not set. Set THEMIS_ALLOW_HSM_STUB=1 to explicitly 
+allow insecure stub, or use real HSM.
+```
+
+**Cause:** `ENVIRONMENT=production` or `NODE_ENV=production` detected without opt-in.
+
+**Solutions:**
+
+1. **Use real HSM (recommended):**
+   - Follow pre-deployment checklist above
+   - Ensure build has `THEMIS_ENABLE_HSM_REAL=ON`
+
+2. **Explicitly opt-in to stub (dev/test only):**
+```bash
+export THEMIS_ALLOW_HSM_STUB=1
+```
+
+3. **Change environment indicator:**
+```bash
+export ENVIRONMENT=development  # Or staging, test, etc.
+```
 
 ### Issue: "HSM fallback stub active"
 

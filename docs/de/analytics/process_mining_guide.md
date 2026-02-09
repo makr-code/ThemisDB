@@ -88,6 +88,10 @@ auto metrics = mining.calculateCollaborationMetrics(social_network);
 
 ---
 
+## Related Documentation
+
+- [Future Enhancements](./bpmn_future_enhancements.md) - Planned improvements for BPMN/process engine
+
 See full documentation at https://github.com/makr-code/ThemisDB
 
 ---
