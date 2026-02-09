@@ -88,3 +88,11 @@ Plugin-Discovery
 - Capability-API `GET /api/capabilities` (HTTP/Server) implementieren.
 - Plugin-Interfaces entwerfen (`include/geo/spatial_backend.h`, `include/geo/geo_ops_ext.h`).
 - Minimaler GPU-Stub-Backend + GEOS-Stub-Plugin zum Laden/Listen.
+
+---
+
+## See Also
+
+- [Geospatial Module Overview](README.md) - Current implementation
+- [Geospatial Architecture](geo_architecture.md) - System design
+- [Future Enhancements for Geospatial Implementation](../../geospatial_future_enhancements.md) - Planned improvements and roadmap
