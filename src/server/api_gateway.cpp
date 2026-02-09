@@ -349,20 +349,34 @@ APIGateway::RouteTarget APIGateway::determineRouteTarget(
 bool APIGateway::checkRateLimit(const http::request<http::string_body>& req) {
     // Prefer V2 rate limiter if available
     if (rate_limiter_v2_) {
-        // Extract client ID from request (could be IP, user ID, JWT subject, etc.)
+        // Extract client ID from request (prefer user ID from JWT)
         std::string client_id = "anonymous";
         
         // Check if Authorization header exists for user-based rate limiting
         auto auth_header = req.find(http::field::authorization);
         if (auth_header != req.end()) {
-            // Use auth header as client ID (or extract JWT subject in production)
-            client_id = std::string(auth_header->value());
-            // Could extract actual user_id from JWT here
+            std::string auth_value = std::string(auth_header->value());
+            
+            // Extract JWT subject if possible (via AuthMiddleware)
+            if (auth_ && auth_value.size() > 7 && auth_value.substr(0, 7) == "Bearer ") {
+                std::string token = auth_value.substr(7);
+                auto ctx = auth_->extractContext(token);
+                if (ctx && !ctx->user_id.empty()) {
+                    client_id = ctx->user_id;  // Use JWT subject as client ID
+                } else {
+                    // Fallback: use a hash of the token (not the full token)
+                    client_id = "token_" + std::to_string(std::hash<std::string>{}(token) % 1000000);
+                }
+            } else {
+                // Non-bearer auth or malformed: use generic ID
+                client_id = "authenticated";
+            }
         }
         
         // Determine priority based on client attributes
         // In production, this could check JWT claims for premium users
         auto priority = TokenBucketRateLimiter::Priority::NORMAL;
+        // Future: Extract priority from JWT claims (e.g., ctx->premium = true)
         
         return rate_limiter_v2_->allowRequest(client_id, 1, priority);
     }

@@ -8,7 +8,7 @@ ThemisDB implements comprehensive resource limits and rate limiting to ensure sy
 
 1. [Rate Limiting](#rate-limiting)
 2. [Tenant Quotas](#tenant-quotas)
-3. [SSE/Changefeed Limits](#ssec hangefeed-limits)
+3. [SSE/Changefeed Limits](#ssechangefeed-limits)
 4. [Connection Limits](#connection-limits)
 5. [Configuration Reference](#configuration-reference)
 
