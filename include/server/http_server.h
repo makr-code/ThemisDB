@@ -44,6 +44,7 @@
 #include "server/graph_api_handler.h"
 #include "server/index_api_handler.h"
 #include "server/entity_api_handler.h"
+#include "server/bpmn_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
@@ -85,6 +86,7 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class TransactionManager;
+class ProcessGraphManager;
 class LLMInteractionStore;
 class Changefeed;
 class TSStore;
@@ -535,6 +537,7 @@ private:
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
+    std::shared_ptr<ProcessGraphManager> process_graph_;
     std::shared_ptr<TransactionManager> tx_manager_;
     
     // Spatial Index Manager (geo MVP)
@@ -648,6 +651,9 @@ private:
     std::unique_ptr<themis::server::IndexApiHandler> index_api_;
     // Entity API Handler
     std::unique_ptr<themis::server::EntityApiHandler> entity_api_;
+    
+    // BPMN API Handler
+    std::unique_ptr<themis::server::BpmnApiHandler> bpmn_api_;
     
     // Content API Handler
     std::unique_ptr<themis::server::ContentApiHandler> content_api_;
