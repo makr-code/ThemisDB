@@ -53,6 +53,22 @@ public:
         const std::vector<uint8_t>& blob
     );
 
+    /// Atomic entity DELETE with spatial index update (Phase 2)
+    /// Uses WriteBatch to ensure entity delete and spatial index update are atomic
+    /// @param batch RocksDB WriteBatch for atomic operations
+    /// @param spatial_mgr Spatial index manager
+    /// @param table Table name
+    /// @param pk Primary key
+    /// @param old_blob Previous entity blob (for computing sidecar)
+    /// @return true if spatial entry was removed, false otherwise
+    static bool onEntityDeleteAtomic(
+        RocksDBWrapper::WriteBatchWrapper& batch,
+        index::SpatialIndexManager* spatial_mgr,
+        const std::string& table,
+        const std::string& pk,
+        const std::vector<uint8_t>& old_blob
+    );
+
     /// Hook called before entity DELETE (non-atomic)
     /// Removes entry from spatial index if it exists
     /// @param db RocksDB storage wrapper
