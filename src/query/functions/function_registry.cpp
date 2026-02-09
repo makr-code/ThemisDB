@@ -46,6 +46,7 @@
 #include "query/functions/lora_functions.h"
 #endif
 #include "query/functions/ethics_functions.h"
+#include "query/functions/process_mining_functions.h"
 
 #include <iostream>
 #include <stdexcept>
@@ -96,6 +97,10 @@ void registerBuiltinFunctions() {
         // Ethics AI functions (ethical decision-making and evaluation)
         // Includes: ETHICS_MAKE_DECISION, ETHICS_EVALUATE, ETHICS_GET_ARGUMENTS, ETHICS_FIND_SIMILAR_DILEMMAS, etc.
         registerEthicsFunctions(registry);
+        
+        // Process Mining functions (process discovery, conformance checking, pattern matching)
+        // Includes: PM_EXTRACT_LOG, PM_DISCOVER_PROCESS, PM_FIND_SIMILAR, PM_COMPARE_IDEAL, PM_CONFORMANCE, etc.
+        registerProcessMiningFunctions(registry);
     } catch (const std::exception& ex) {
         // Re-throw with more context - will be caught by FunctionRegistryInitializer
         std::cerr << "registerBuiltinFunctions() exception: " << ex.what() << std::endl;
