@@ -38,7 +38,7 @@ ThemisDB's replication system is organized across two main modules:
 - **Location**: `include/replication/`, `src/replication/`
 - **Components**:
   - `ReplicationManager` - Lifecycle and configuration management
-  - `MultiMasterReplication` - Multi-master coordination
+  - `MultiMasterReplicationManager` - Multi-master coordination (see `include/replication/multi_master_replication.h`)
 - **Responsibility**: High-level replication strategies and orchestration
 
 #### `sharding/` Module (Low-Level Infrastructure)

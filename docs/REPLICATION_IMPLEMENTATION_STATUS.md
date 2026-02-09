@@ -17,7 +17,7 @@ Die Replikationsinfrastruktur ist auf zwei Hauptmodule aufgeteilt:
 **`replication/` Modul** - High-Level Orchestrierung:
 - `include/replication/`, `src/replication/`
 - ReplicationManager für Lifecycle-Management
-- MultiMasterReplication für Multi-Master-Koordination
+- MultiMasterReplicationManager für Multi-Master-Koordination
 
 **`sharding/` Modul** - Low-Level WAL-Infrastruktur (Hauptfokus dieses Dokuments):
 - `include/sharding/`, `src/sharding/`

@@ -197,7 +197,7 @@ ThemisDB implements enterprise-grade replication with automatic failover, write 
 **Module Architecture:**
 - **`replication/` module** (`include/replication/`, `src/replication/`) - High-level orchestration
   - ReplicationManager - Lifecycle management
-  - MultiMasterReplication - Multi-master coordination
+  - MultiMasterReplicationManager - Multi-master coordination
 - **`sharding/` module** (`include/sharding/`, `src/sharding/`) - Low-level infrastructure
   - WAL components (Manager, Shipper, Applier)
   - ReplicationCoordinator - Write concern (ONE/MAJORITY/ALL)
