@@ -274,7 +274,7 @@ if (!auth_result.authorized) {
 ### Connection Limits
 
 ```cpp
-// Recommended SSE configuration
+// Example SSE configuration with overridable defaults
 ChangefeedApiHandler handler(
     storage,
     changefeed,
@@ -283,9 +283,9 @@ ChangefeedApiHandler handler(
     feature_cdc_enabled
 );
 
-// Default limits (can be overridden per request)
-const int default_max_seconds = 3600;  // 1 hour max connection
-const int default_heartbeat_ms = 30000;  // 30 second heartbeat
+// Default values (can be overridden via query parameters)
+const int default_max_seconds = 3600;  // Default: 1 hour (overridable via max_seconds param)
+const int default_heartbeat_ms = 30000;  // Default: 30 seconds (overridable via heartbeat_ms param)
 ```
 
 ### Query Parameters

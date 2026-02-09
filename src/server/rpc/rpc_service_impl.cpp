@@ -7,6 +7,7 @@
 #include <sstream>
 #include <chrono>
 #include <unordered_map>
+#include <unordered_set>
 
 // Define THEMIS_VERSION_STRING if not already defined
 #ifndef THEMIS_VERSION_STRING
@@ -1833,19 +1834,36 @@ json ThemisRPCService::dispatch(
         std::string required_scope;
         
         // Map RPC methods to required scopes according to rpc_authentication.md
-        if (method == "get" || method == "batch_get" || method == "search" || 
-            method == "query" || method == "paginated_query" || method == "vector_search" ||
-            method == "graph_traverse" || method == "geo_query" || method == "timeseries_query" ||
-            method == "get_index_operations" || method == "list_collections" ||
-            method == "get_collection_metadata" || method == "aggregation_pipeline") {
+        // Read operations (rpc:read)
+        static const std::unordered_set<std::string> read_methods = {
+            "get", "batch_get", "search", "query", "paginated_query", 
+            "vector_search", "graph_traverse", "geo_query", "timeseries_query",
+            "get_index_operations", "list_collections", "get_collection_metadata", 
+            "aggregation_pipeline"
+        };
+        
+        // Write operations (rpc:write)
+        static const std::unordered_set<std::string> write_methods = {
+            "put", "batch_put", "delete", "update_entity", "batch_update"
+        };
+        
+        // Admin operations (rpc:admin)
+        static const std::unordered_set<std::string> admin_methods = {
+            "create_index", "drop_index", "stats"
+        };
+        
+        // Transaction operations (transaction:write)
+        static const std::unordered_set<std::string> transaction_methods = {
+            "transaction_begin", "transaction_commit", "transaction_abort"
+        };
+        
+        if (read_methods.count(method)) {
             required_scope = "rpc:read";
-        } else if (method == "put" || method == "batch_put" || method == "delete" ||
-                   method == "update_entity" || method == "batch_update") {
+        } else if (write_methods.count(method)) {
             required_scope = "rpc:write";
-        } else if (method == "create_index" || method == "drop_index" || method == "stats") {
+        } else if (admin_methods.count(method)) {
             required_scope = "rpc:admin";
-        } else if (method == "transaction_begin" || method == "transaction_commit" || 
-                   method == "transaction_abort") {
+        } else if (transaction_methods.count(method)) {
             required_scope = "transaction:write";
         } else {
             // Unknown method - require admin scope
@@ -1926,11 +1944,10 @@ bool ThemisRPCService::verifyAuth(
     std::string& username,
     const std::string& required_scope
 ) {
-    // Fail-closed: If auth middleware is configured and enabled, enforce authentication
-    // Only allow unauthenticated access if auth is explicitly disabled
+    // If auth middleware is not configured or not enabled, allow unauthenticated access
+    // for backward compatibility. In production, auth should always be enabled.
     if (!auth_ || !auth_->isEnabled()) {
         // Auth not configured - allow for backward compatibility
-        // In production, auth should always be enabled
         username = context.username.empty() ? "anonymous" : context.username;
         return true;
     }
