@@ -165,9 +165,39 @@ constraints.forbidden_vertices = {"blocked"}; // Skip certain vertices
 
 The Graph Query Optimizer integrates with:
 - **GraphIndexManager**: Core graph operations (BFS, Dijkstra, A*)
+- **PathConstraints**: Constraint-based path finding via `optimizeConstrainedPath()`
 - **QueryOptimizer**: General query optimization framework
 - **Result<T>**: Error handling using the tl::expected pattern
 - **Error Registry**: Structured error reporting
+
+### PathConstraints Integration
+
+The optimizer supports constrained path queries through integration with the PathConstraints module:
+
+```cpp
+#include "graph/graph_query_optimizer.h"
+#include "graph/path_constraints.h"
+
+// Create constraints
+PathConstraints constraints(&graph_mgr);
+constraints.addMinLength(2);
+constraints.addMaxLength(5);
+constraints.addForbiddenNode("blocked_user");
+constraints.requireUniqueNodes();
+
+// Get optimization plan
+auto plan = optimizer.optimizeConstrainedPath("start", "end", constraints);
+if (plan) {
+    std::cout << "Algorithm: " << (plan->algorithm == TraversalAlgorithm::BFS ? "BFS" : "DFS") << std::endl;
+    std::cout << "Estimated cost: " << plan->estimated_cost << std::endl;
+    std::cout << plan->explanation << std::endl;
+}
+
+// Execute path finding with constraints
+auto paths = constraints.findConstrainedPaths("start", "end", 10);
+```
+
+For more details on PathConstraints, see `ADVANCED_FEATURES_README.md`.
 
 ## Testing
 

@@ -26,10 +26,12 @@ namespace graph {
  * - Path uniqueness constraints
  * - Custom validation predicates
  * 
- * This is a stub implementation for GAP-006. Future implementations will
- * integrate with the graph query optimizer for efficient execution.
+ * Implemented using BFS traversal with constraint validation during graph exploration.
+ * Integrates with GraphIndexManager for graph operations and GraphQueryOptimizer
+ * for query planning and cost estimation.
  * 
- * @note This is a placeholder implementation. Real algorithms to be added in future releases.
+ * @note Node and edge property constraints have partial support (defined in API but
+ * not fully validated during traversal). All other constraint types are fully implemented.
  */
 class PathConstraints {
 public:
@@ -141,7 +143,13 @@ public:
     /**
      * @brief Validate a path against all constraints
      * 
-     * @note Stub implementation - always returns false with appropriate message
+     * Checks all active constraints and returns true if the path satisfies all of them.
+     * Supports: MIN_LENGTH, MAX_LENGTH, FORBIDDEN_NODE, REQUIRED_NODE, FORBIDDEN_EDGE,
+     * REQUIRED_EDGE, NO_CYCLES, UNIQUE_NODES, UNIQUE_EDGES, and CUSTOM_PREDICATE.
+     * 
+     * @param nodes Vector of node IDs in the path
+     * @param edges Vector of edge IDs in the path
+     * @return Result containing true if path is valid, or error with violation details
      */
     Result<bool> validatePath(const std::vector<std::string>& nodes, 
                               const std::vector<std::string>& edges) const;
@@ -149,7 +157,17 @@ public:
     /**
      * @brief Find paths between two nodes that satisfy all constraints
      * 
-     * @note Stub implementation - returns error indicating not yet implemented
+     * Uses BFS traversal to explore the graph and find paths that satisfy all active
+     * constraints. Constraints are validated both during traversal (for efficiency)
+     * and after path completion (for correctness). Results are sorted by path cost.
+     * 
+     * @param start_node Starting node ID
+     * @param end_node Target node ID
+     * @param max_results Maximum number of paths to return (default: 10)
+     * @return Result containing vector of PathResult objects, sorted by cost
+     * @throws ErrorCode::INVALID_STATE if GraphIndexManager is not set
+     * @throws ErrorCode::VALIDATION_FAILED if constraints are contradictory
+     * @throws ErrorCode::NOT_FOUND if no paths satisfy all constraints
      */
     Result<std::vector<PathResult>> findConstrainedPaths(
         std::string_view start_node,
