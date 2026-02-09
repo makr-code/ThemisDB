@@ -1944,10 +1944,16 @@ bool ThemisRPCService::verifyAuth(
     std::string& username,
     const std::string& required_scope
 ) {
-    // If auth middleware is not configured or not enabled, allow unauthenticated access
-    // for backward compatibility. In production, auth should always be enabled.
-    if (!auth_ || !auth_->isEnabled()) {
-        // Auth not configured - allow for backward compatibility
+    // If auth middleware is not configured (null), allow unauthenticated access
+    // for backward compatibility. In production, auth should always be configured.
+    if (!auth_) {
+        username = context.username.empty() ? "anonymous" : context.username;
+        return true;
+    }
+    
+    // If auth middleware is configured but not enabled, allow unauthenticated access
+    // for development/testing. In production, auth should always be enabled.
+    if (!auth_->isEnabled()) {
         username = context.username.empty() ? "anonymous" : context.username;
         return true;
     }

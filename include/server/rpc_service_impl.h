@@ -192,7 +192,7 @@ private:
      * @param required_scope Required authorization scope (e.g., "rpc:read", "rpc:write", "rpc:admin")
      * @return true if authentication and authorization succeed, false otherwise
      */
-    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username, const std::string& required_scope = "");
+    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username, const std::string& required_scope);
     
     /**
      * @brief Create error response
