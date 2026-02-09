@@ -163,8 +163,10 @@ config.filesystem_compression = true;
 BlobStorageConfig config;
 config.enable_webdav = true;
 config.webdav_url = "https://webdav.example.com/themisdb/";
-config.webdav_username = "admin";
-config.webdav_password = "secret";
+config.webdav_username = "<WEBDAV_USERNAME>";
+config.webdav_password = "<WEBDAV_PASSWORD>";
+// NOTE: Do not hardcode credentials in source code. Load them from environment
+// variables or a secrets manager in production deployments.
 ```
 
 #### Use Cases

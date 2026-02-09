@@ -74,7 +74,8 @@ Wrapper around RocksDB TransactionDB providing:
 
 **Documentation:**
 - [RocksDB Wrapper Source Documentation (DE)](../de/src/storage/rocksdb_wrapper.cpp.md)
-- [RocksDB Storage Layout (DE)](../de/storage/storage_rocksdb.md) - Physical layout and operations
+- [RocksDB Storage Layout](rocksdb_layout.md) - Key prefixes and physical layout
+- [RocksDB Storage Operations (DE)](../de/storage/storage_rocksdb.md) - Detailed operations guide
 - [RocksDB Optimization Guide (EN)](../en/storage/ROCKSDB_OPTIMIZATION_GUIDE.md)
 
 **Source Files:**
@@ -91,6 +92,7 @@ ThemisDB uses RocksDB column families to logically separate different data types
 - `cf_graph` - Graph adjacency lists
 - `cf_changefeed` - Change data capture events
 - `cf_ts` - Time-series data
+- `cf_vector` - Vector index metadata
 
 ### Write-Ahead Log (WAL)
 
@@ -115,6 +117,7 @@ ThemisDB supports multiple blob storage backends for large binary data.
 Support for cloud storage providers:
 
 **Documentation:**
+- [Cloud Blob Storage Backends](CLOUD_BLOB_BACKENDS.md) - Consolidated overview of all blob backends
 - [Cloud Blob Storage Backends (DE)](../de/storage/storage_cloud_backends.md) - S3 and Azure integration
 - [Blob Redundancy Management (DE)](../de/storage/storage_blob_redundancy.md) - RAID-like redundancy
 
