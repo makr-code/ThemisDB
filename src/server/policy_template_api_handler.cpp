@@ -1,4 +1,5 @@
 #include "server/policy_template_api_handler.h"
+#include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
@@ -218,17 +219,8 @@ bool PolicyTemplateApiHandler::checkAuth(
         return false;
     }
     
-    // Map role to scope for authorization
-    // operator role -> policy:read scope
-    // admin role -> policy:write scope
-    std::string required_scope;
-    if (required_role == "admin") {
-        required_scope = "policy:write";
-    } else if (required_role == "operator") {
-        required_scope = "policy:read";
-    } else {
-        required_scope = "policy:" + required_role;
-    }
+    // Map role to scope for authorization using shared helper
+    std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
     
     // Validate token and check required scope
     auto auth_result = auth_->authorize(*token, required_scope);

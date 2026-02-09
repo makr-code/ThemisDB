@@ -1,4 +1,5 @@
 #include "server/compliance_reporting_api_handler.h"
+#include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 
 #include <sstream>
@@ -234,17 +235,9 @@ bool ComplianceReportingApiHandler::checkAuth(
         return false;
     }
     
-    // Map role to scope for authorization
-    // operator role -> audit:read scope (for compliance reporting)
-    // admin role -> audit:write scope
-    std::string required_scope;
-    if (required_role == "admin") {
-        required_scope = "audit:write";
-    } else if (required_role == "operator") {
-        required_scope = "audit:read";
-    } else {
-        required_scope = "audit:" + required_role;
-    }
+    // Map role to scope for authorization using shared helper
+    // Compliance reporting uses audit scopes
+    std::string required_scope = auth_scope_mapper::mapAuditRoleToScope(required_role);
     
     // Validate token and check required scope
     auto auth_result = auth_->authorize(*token, required_scope);
