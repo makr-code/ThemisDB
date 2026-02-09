@@ -516,6 +516,10 @@ client.close()
 
 ---
 
+## Related Documentation
+
+- [Future Enhancements](../analytics/bpmn_future_enhancements.md) - Planned improvements for wire protocol and BPMN/process engine
+
 ## Next Steps
 
 1. **Implement Protocol Buffers schemas** (themis.proto)

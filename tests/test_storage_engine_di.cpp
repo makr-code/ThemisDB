@@ -124,3 +124,105 @@ TEST_F(StorageEngineErrorHandlingTest, ResultBooleanConversion) {
     }
 }
 
+// ============================================================================
+// Production Guard Tests
+// ============================================================================
+
+class StorageEngineProductionGuardTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Save original environment variable
+        const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
+        const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
+        
+        original_mode_env_ = mode_env ? std::string(mode_env) : "";
+        original_env_env_ = env_env ? std::string(env_env) : "";
+        
+        // Ensure we're not in production mode for tests
+        unsetenv("THEMIS_PRODUCTION_MODE");
+        unsetenv("THEMIS_ENVIRONMENT");
+    }
+
+    void TearDown() override {
+        // Restore original environment variables
+        if (!original_mode_env_.empty()) {
+            setenv("THEMIS_PRODUCTION_MODE", original_mode_env_.c_str(), 1);
+        } else {
+            unsetenv("THEMIS_PRODUCTION_MODE");
+        }
+        
+        if (!original_env_env_.empty()) {
+            setenv("THEMIS_ENVIRONMENT", original_env_env_.c_str(), 1);
+        } else {
+            unsetenv("THEMIS_ENVIRONMENT");
+        }
+    }
+
+    std::string original_mode_env_;
+    std::string original_env_env_;
+};
+
+TEST_F(StorageEngineProductionGuardTest, DefaultImplementationsWorkInDevelopment) {
+    // Ensure we're not in production mode
+    unsetenv("THEMIS_PRODUCTION_MODE");
+    unsetenv("THEMIS_ENVIRONMENT");
+    
+    // Create storage engine with defaults - should work without exceptions
+    auto storage = StorageEngine::createDefault();
+    ASSERT_NE(storage, nullptr);
+    
+    // Operations should work (though they're no-ops)
+    ASSERT_TRUE(storage->open("/tmp/test_db"));
+    ASSERT_TRUE(storage->put("key", "value"));
+    
+    // Default evaluator always returns true
+    EXPECT_TRUE(storage->apply_filter("some_expression", nullptr));
+    
+    // Default encryption is pass-through
+    std::vector<uint8_t> data = {1, 2, 3, 4};
+    auto encrypted = storage->encrypt_field("test_field", data);
+    EXPECT_EQ(encrypted, data);
+}
+
+TEST_F(StorageEngineProductionGuardTest, EncryptionFailsInProductionMode) {
+    // Set production mode
+    setenv("THEMIS_PRODUCTION_MODE", "1", 1);
+    
+    // Attempting to create default encryption should throw
+    EXPECT_THROW(StorageEngine::createDefaultEncryption(), std::runtime_error);
+}
+
+TEST_F(StorageEngineProductionGuardTest, KeyProviderFailsInProductionMode) {
+    // Set production mode via THEMIS_ENVIRONMENT
+    setenv("THEMIS_ENVIRONMENT", "production", 1);
+    
+    // Attempting to create default key provider should throw
+    EXPECT_THROW(StorageEngine::createDefaultKeyProvider(), std::runtime_error);
+}
+
+TEST_F(StorageEngineProductionGuardTest, DefaultEvaluatorAllowedInProduction) {
+    // Set production mode
+    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    
+    // Evaluator warns but doesn't fail (less critical than encryption/keys)
+    auto evaluator = StorageEngine::createDefaultEvaluator();
+    ASSERT_NE(evaluator, nullptr);
+    
+    // Should still work, just logs warnings
+    EXPECT_TRUE(evaluator->evaluate("test", nullptr));
+}
+
+TEST_F(StorageEngineProductionGuardTest, IndexManagerAllowedInProduction) {
+    // Set production mode
+    setenv("THEMIS_PRODUCTION_MODE", "production", 1);
+    
+    // Index manager warns but doesn't fail
+    auto manager = StorageEngine::createDefaultIndexManager();
+    ASSERT_NE(manager, nullptr);
+    
+    // Operations should work (no-ops)
+    auto result = manager->createSecondaryIndex("test_idx", "field");
+    ASSERT_TRUE(result);
+    EXPECT_EQ(*result, nullptr);
+}
+
