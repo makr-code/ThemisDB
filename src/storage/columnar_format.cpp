@@ -4,6 +4,9 @@
 #include <limits>
 #include <unordered_set>
 #include <spdlog/spdlog.h>
+#include <lz4.h>
+#include <snappy.h>
+#include "utils/expected.h"
 
 namespace themis {
 namespace storage {
@@ -727,40 +730,216 @@ Result<std::vector<int64_t>> FrameOfReferenceCodec::decodeInt64(const std::vecto
 }
 
 // ============================================================================
-// Generic Compression Stubs (LZ4/Snappy require external libraries)
-// TODO: Integrate LZ4 and Snappy libraries in future version
+// Generic Compression Implementation (LZ4/Snappy)
 // ============================================================================
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4([[maybe_unused]] const std::vector<uint8_t>& data) {
-    // TODO: Implement LZ4 compression when library is integrated
-    // Requires: lz4 library (vcpkg install lz4)
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "LZ4 compression not yet implemented - requires lz4 library"
-    ));
+Result<std::vector<uint8_t>> GenericCompressionCodec::compressLZ4(const std::vector<uint8_t>& data) {
+    if (data.empty()) {
+        return std::vector<uint8_t>();
+    }
+
+    // Maximum safe input size (1GB)
+    constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024 * 1024;
+    if (data.size() > MAX_INPUT_SIZE) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "LZ4 compression: input data too large"
+        ));
+    }
+
+    // Get maximum compressed size
+    int max_compressed_size = LZ4_compressBound(static_cast<int>(data.size()));
+    if (max_compressed_size <= 0) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "LZ4 compression: invalid compression bound"
+        ));
+    }
+
+    // Allocate output buffer
+    std::vector<uint8_t> compressed;
+    try {
+        compressed.resize(max_compressed_size);
+    } catch (const std::bad_alloc&) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "LZ4 compression: failed to allocate output buffer"
+        ));
+    }
+
+    // Compress the data
+    int compressed_size = LZ4_compress_default(
+        reinterpret_cast<const char*>(data.data()),
+        reinterpret_cast<char*>(compressed.data()),
+        static_cast<int>(data.size()),
+        max_compressed_size
+    );
+
+    if (compressed_size <= 0) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "LZ4 compression failed"
+        ));
+    }
+
+    // Resize to actual compressed size
+    compressed.resize(compressed_size);
+    return compressed;
 }
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4([[maybe_unused]] const std::vector<uint8_t>& compressed) {
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "LZ4 decompression not yet implemented - requires lz4 library"
-    ));
+Result<std::vector<uint8_t>> GenericCompressionCodec::decompressLZ4(const std::vector<uint8_t>& compressed) {
+    if (compressed.empty()) {
+        return std::vector<uint8_t>();
+    }
+
+    // Read original size from first 8 bytes (if stored with size header)
+    // For now, we'll use a heuristic: assume max 100x expansion
+    constexpr size_t MAX_EXPANSION = 100;
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 1024 * 4; // 4GB
+
+    size_t estimated_size = compressed.size() * 10; // Start with 10x
+    estimated_size = std::min(estimated_size, MAX_DECOMPRESSED_SIZE);
+
+    std::vector<uint8_t> decompressed;
+    try {
+        decompressed.resize(estimated_size);
+    } catch (const std::bad_alloc&) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "LZ4 decompression: failed to allocate output buffer"
+        ));
+    }
+
+    // Try decompression
+    int decompressed_size = LZ4_decompress_safe(
+        reinterpret_cast<const char*>(compressed.data()),
+        reinterpret_cast<char*>(decompressed.data()),
+        static_cast<int>(compressed.size()),
+        static_cast<int>(estimated_size)
+    );
+
+    if (decompressed_size < 0) {
+        // Try larger buffer if needed
+        estimated_size = std::min(compressed.size() * MAX_EXPANSION, MAX_DECOMPRESSED_SIZE);
+        try {
+            decompressed.resize(estimated_size);
+        } catch (const std::bad_alloc&) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_COMPRESSION_FAILED,
+                "LZ4 decompression: failed to allocate larger buffer"
+            ));
+        }
+
+        decompressed_size = LZ4_decompress_safe(
+            reinterpret_cast<const char*>(compressed.data()),
+            reinterpret_cast<char*>(decompressed.data()),
+            static_cast<int>(compressed.size()),
+            static_cast<int>(estimated_size)
+        );
+
+        if (decompressed_size < 0) {
+            return tl::unexpected(Error(
+                errors::ErrorCode::ERR_COMPRESSION_FAILED,
+                "LZ4 decompression failed"
+            ));
+        }
+    }
+
+    decompressed.resize(decompressed_size);
+    return decompressed;
 }
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy([[maybe_unused]] const std::vector<uint8_t>& data) {
-    // TODO: Implement Snappy compression when library is integrated
-    // Requires: snappy library (vcpkg install snappy)
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "Snappy compression not yet implemented - requires snappy library"
-    ));
+Result<std::vector<uint8_t>> GenericCompressionCodec::compressSnappy(const std::vector<uint8_t>& data) {
+    if (data.empty()) {
+        return std::vector<uint8_t>();
+    }
+
+    // Maximum safe input size (1GB)
+    constexpr size_t MAX_INPUT_SIZE = 1024ULL * 1024 * 1024;
+    if (data.size() > MAX_INPUT_SIZE) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Snappy compression: input data too large"
+        ));
+    }
+
+    // Get maximum compressed size
+    size_t max_compressed_size = snappy::MaxCompressedLength(data.size());
+
+    // Allocate output buffer
+    std::vector<uint8_t> compressed;
+    try {
+        compressed.resize(max_compressed_size);
+    } catch (const std::bad_alloc&) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Snappy compression: failed to allocate output buffer"
+        ));
+    }
+
+    // Compress the data
+    size_t compressed_size = 0;
+    snappy::RawCompress(
+        reinterpret_cast<const char*>(data.data()),
+        data.size(),
+        reinterpret_cast<char*>(compressed.data()),
+        &compressed_size
+    );
+
+    // Resize to actual compressed size
+    compressed.resize(compressed_size);
+    return compressed;
 }
 
-Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy([[maybe_unused]] const std::vector<uint8_t>& compressed) {
-    return tl::unexpected(Error(
-        errors::ErrorCode::ERR_COMPRESSION_FAILED,
-        "Snappy decompression not yet implemented - requires snappy library"
-    ));
+Result<std::vector<uint8_t>> GenericCompressionCodec::decompressSnappy(const std::vector<uint8_t>& compressed) {
+    if (compressed.empty()) {
+        return std::vector<uint8_t>();
+    }
+
+    // Get uncompressed length
+    size_t uncompressed_size = 0;
+    if (!snappy::GetUncompressedLength(
+            reinterpret_cast<const char*>(compressed.data()),
+            compressed.size(),
+            &uncompressed_size)) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Snappy decompression: failed to get uncompressed length"
+        ));
+    }
+
+    // Validate size to prevent excessive memory allocation
+    constexpr size_t MAX_DECOMPRESSED_SIZE = 1024ULL * 1024 * 1024 * 4; // 4GB
+    if (uncompressed_size > MAX_DECOMPRESSED_SIZE) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Snappy decompression: uncompressed size too large"
+        ));
+    }
+
+    // Allocate output buffer
+    std::vector<uint8_t> decompressed;
+    try {
+        decompressed.resize(uncompressed_size);
+    } catch (const std::bad_alloc&) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Snappy decompression: failed to allocate output buffer"
+        ));
+    }
+
+    // Decompress the data
+    if (!snappy::RawUncompress(
+            reinterpret_cast<const char*>(compressed.data()),
+            compressed.size(),
+            reinterpret_cast<char*>(decompressed.data()))) {
+        return tl::unexpected(Error(
+            errors::ErrorCode::ERR_COMPRESSION_FAILED,
+            "Snappy decompression failed"
+        ));
+    }
+
+    return decompressed;
 }
 
 // ============================================================================
