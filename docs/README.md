@@ -78,7 +78,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Storage Module](de/storage/README.md)** - RocksDB Wrapper, LSM-Tree, MVCC (76K LOC)
 - **[Index Module](de/search/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
 - **[Cache Module](de/storage/README.md)** - Semantic Cache, Result Cache
-- **[Timeseries Module](de/timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
+- **[Timeseries Module](timeseries/README.md)** - Time-Series Engine, Gorilla Compression, Continuous Aggregates ([German](de/timeseries/README.md))
 
 ### Distribution & Scaling Layer
 - **[Sharding Module](de/sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
