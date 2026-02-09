@@ -687,13 +687,17 @@ HttpServer::HttpServer(
     );
     THEMIS_INFO("Entity API Handler initialized (RAID: {})", entity_config.feature_raid ? "enabled" : "disabled");
     
-    // Initialize BPMN API Handler if process_graph is available
+    // Initialize BPMN API Handler
+    // Note: ProcessGraphManager must be explicitly created and passed to HttpServer
+    // For now, handler gracefully handles nullptr and returns 503 Service Unavailable
+    bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
+        process_graph_,  // May be nullptr if not initialized
+        auth_
+    );
     if (process_graph_) {
-        bpmn_api_ = std::make_unique<themis::server::BpmnApiHandler>(
-            process_graph_,
-            auth_
-        );
-        THEMIS_INFO("BPMN API Handler initialized");
+        THEMIS_INFO("BPMN API Handler initialized with ProcessGraphManager");
+    } else {
+        THEMIS_INFO("BPMN API Handler initialized (ProcessGraphManager not available - endpoints will return 503)");
     }
     
     // Initialize Content API Handler
@@ -1794,7 +1798,25 @@ namespace {
     
     // BPMN Process API routes
     if (path_only == "/api/v1/bpmn/process/start" && method == http::verb::post) return Route::BpmnProcessStartPost;
-    if (path_only.rfind("/api/v1/bpmn/task/", 0) == 0 && path_only.find("/complete") != std::string::npos && method == http::verb::post) return Route::BpmnTaskCompletePost;
+    
+    // Task completion route with strict validation
+    if (method == http::verb::post) {
+        const std::string task_prefix = "/api/v1/bpmn/task/";
+        const std::string complete_suffix = "/complete";
+        if (path_only.rfind(task_prefix, 0) == 0 &&
+            path_only.size() > task_prefix.size() + complete_suffix.size() &&
+            path_only.compare(path_only.size() - complete_suffix.size(), complete_suffix.size(), complete_suffix) == 0) {
+            // Ensure there is a non-empty taskId segment between prefix and suffix
+            const std::size_t task_id_start = task_prefix.size();
+            const std::size_t suffix_pos = path_only.size() - complete_suffix.size();
+            // Check that there's exactly the taskId between prefix and suffix (no additional slashes)
+            std::string task_id_segment = path_only.substr(task_id_start, suffix_pos - task_id_start);
+            if (!task_id_segment.empty() && task_id_segment.find('/') == std::string::npos) {
+                return Route::BpmnTaskCompletePost;
+            }
+        }
+    }
+    
     if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) return Route::BpmnInstanceQueryGet;
     
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;

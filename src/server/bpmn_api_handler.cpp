@@ -60,19 +60,35 @@ std::optional<http::response<http::string_body>> BpmnApiHandler::requireAccess(
     const std::string& action,
     const std::string& resource
 ) {
-    auto ctx = extractAuthContext(req);
-    
     // If auth is disabled, allow all
     if (!auth_ || !auth_->isEnabled()) {
         return std::nullopt;
     }
-    
-    // If no user_id, deny
-    if (ctx.user_id.empty()) {
+
+    // Extract Authorization header
+    auto it = req.find(http::field::authorization);
+    if (it == req.end()) {
+        // No Authorization header -> 401 Unauthorized
         return makeErrorResponse(http::status::unauthorized, "Authentication required", req);
     }
-    
-    // Check authorization (simplified - could integrate with auth middleware)
+
+    // Extract Bearer token
+    auto token = themis::AuthMiddleware::extractBearerToken(
+        std::string_view(it->value().data(), it->value().size())
+    );
+    if (!token) {
+        // Malformed or missing Bearer token -> 401 Unauthorized
+        return makeErrorResponse(http::status::unauthorized, "Invalid authorization header", req);
+    }
+
+    // Validate token
+    auto ar = auth_->validateToken(*token);
+    if (!ar.authorized) {
+        // Invalid token -> 401 Unauthorized
+        return makeErrorResponse(http::status::unauthorized, "Invalid or expired token", req);
+    }
+
+    // TODO: Implement scope-based authorization when AuthMiddleware supports it
     // For now, just ensure user is authenticated
     
     return std::nullopt; // Access granted

@@ -23,11 +23,10 @@ protected:
         fs::create_directories(test_dir_);
         
         // Initialize RocksDB storage
-        storage_ = std::make_shared<themis::RocksDBWrapper>();
         themis::RocksDBWrapper::Config db_config;
-        db_config.path = test_dir_.string();
-        db_config.create_if_missing = true;
-        storage_->open(db_config);
+        db_config.db_path = test_dir_.string();
+        storage_ = std::make_shared<themis::RocksDBWrapper>(db_config);
+        storage_->open();
         
         // Initialize ProcessGraphManager
         process_graph_ = std::make_shared<themis::ProcessGraphManager>(*storage_);
@@ -161,7 +160,7 @@ TEST_F(BpmnIntegrationTest, CompleteTask) {
     ASSERT_TRUE(get_status.ok);
     ASSERT_FALSE(instance.tokens.empty());
     
-    // Find the task node
+    // Find the task node - assert it exists
     std::string task_node;
     for (const auto& token : instance.tokens) {
         if (token.current_node == "userTask1") {
@@ -170,16 +169,16 @@ TEST_F(BpmnIntegrationTest, CompleteTask) {
         }
     }
     
-    if (!task_node.empty()) {
-        // Complete the task with output variables
-        json output_vars = {
-            {"approved", true},
-            {"reviewComment", "Looks good"}
-        };
-        
-        auto complete_status = process_graph_->completeTask(instance_id, task_node, output_vars);
-        EXPECT_TRUE(complete_status.ok) << "Failed to complete task: " << complete_status.message;
-    }
+    ASSERT_FALSE(task_node.empty()) << "Expected token at userTask1 not found";
+    
+    // Complete the task with output variables
+    json output_vars = {
+        {"approved", true},
+        {"reviewComment", "Looks good"}
+    };
+    
+    auto complete_status = process_graph_->completeTask(instance_id, task_node, output_vars);
+    EXPECT_TRUE(complete_status.ok) << "Failed to complete task: " << complete_status.message;
 }
 
 TEST_F(BpmnIntegrationTest, ProcessStateTransitions) {
@@ -238,10 +237,8 @@ protected:
     void SetUp() override {
         BpmnIntegrationTest::SetUp();
         
-        // Create mock auth middleware (disabled for testing)
-        auth_ = std::make_shared<themis::AuthMiddleware>(themis::AuthMiddleware::Config{
-            .enabled = false
-        });
+        // Create auth middleware instance for testing
+        auth_ = std::make_shared<themis::AuthMiddleware>();
         
         // Create BPMN API handler
         bpmn_handler_ = std::make_unique<themis::server::BpmnApiHandler>(
@@ -421,22 +418,22 @@ TEST_F(BpmnIntegrationTest, TaskIdFormatConsistency) {
 // ============================================================================
 
 TEST_F(BpmnIntegrationTest, ProcessStatusCodes) {
-    // Test that status codes match proto spec
+    // Test that status codes match proto spec and state transitions work correctly
     auto [status, instance_id] = process_graph_->startProcess("testProcess", json::object());
     ASSERT_TRUE(status.ok);
     
     auto [get_status, instance] = process_graph_->getProcessInstance(instance_id);
     ASSERT_TRUE(get_status.ok);
     
-    // RUNNING = 0
-    EXPECT_EQ(static_cast<int>(themis::ProcessInstance::State::RUNNING), 1);  // Index in enum
+    // Newly started process instance should be in RUNNING state
+    EXPECT_EQ(instance.state, themis::ProcessInstance::State::RUNNING);
     
     // Test state transitions
     process_graph_->suspendProcess(instance_id);
     auto [s1, i1] = process_graph_->getProcessInstance(instance_id);
     EXPECT_EQ(i1.state, themis::ProcessInstance::State::SUSPENDED);
     
-    process_graph_->terminateProcess(instance_id);
+    process_graph_->terminateProcess(instance_id, "test termination");
     auto [s2, i2] = process_graph_->getProcessInstance(instance_id);
     EXPECT_EQ(i2.state, themis::ProcessInstance::State::TERMINATED);
 }

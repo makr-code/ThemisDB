@@ -887,6 +887,14 @@ void WireProtocolServer::Session::handleClose() {
 // BPMN Process Handlers
 // =============================================================================
 
+namespace {
+    // Helper to parse JSON from payload buffer
+    json parsePayloadJson(const std::vector<uint8_t>& payload_buffer) {
+        std::string payload_str(payload_buffer.begin(), payload_buffer.end());
+        return json::parse(payload_str);
+    }
+}
+
 void WireProtocolServer::Session::handleBpmnStartProcess() {
     if (!authenticated_.load()) {
         sendError(401, "Authentication required");
