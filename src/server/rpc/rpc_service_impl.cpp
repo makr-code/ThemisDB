@@ -1873,7 +1873,7 @@ json ThemisRPCService::dispatch(
         if (!verifyAuth(context, username, required_scope)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::AUTHENTICATION_FAILED,
-                "Authentication failed or insufficient scope: " + required_scope
+                "Authentication or authorization failed: missing/invalid credentials or insufficient scope (" + required_scope + " required)"
             );
         }
     }

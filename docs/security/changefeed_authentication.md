@@ -155,9 +155,16 @@ def stream_changefeed(get_token_fn):
    - Client should expect heartbeats every 30-60 seconds
    - Disconnect and reconnect if no heartbeat received in 2x interval
 
-### Example: JavaScript Client
+### Example: JavaScript/Node.js Client
+
+**Note:** Browser `EventSource` does not support custom headers. For authenticated SSE in browsers, use `fetch()` with ReadableStream or include the token in the URL (less secure). The example below uses Node.js with `eventsource` package which supports headers.
 
 ```javascript
+// Node.js example using 'eventsource' npm package
+// npm install eventsource
+
+const EventSource = require('eventsource');
+
 class ChangefeedClient {
   constructor(baseUrl, getTokenFn) {
     this.baseUrl = baseUrl;
@@ -165,6 +172,7 @@ class ChangefeedClient {
     this.lastSequence = 0;
     this.reconnectDelay = 1000;
     this.maxReconnectDelay = 60000;
+    this.eventSource = null;
   }
   
   async connect() {
@@ -173,28 +181,31 @@ class ChangefeedClient {
         const token = await this.getTokenFn();
         const url = `${this.baseUrl}/changefeed/stream?from_seq=${this.lastSequence}`;
         
-        const eventSource = new EventSource(url, {
+        // Node.js eventsource package supports headers
+        this.eventSource = new EventSource(url, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
         
-        eventSource.addEventListener('message', (event) => {
+        this.eventSource.addEventListener('message', (event) => {
           const data = JSON.parse(event.data);
           this.lastSequence = data.sequence;
           this.handleEvent(data);
         });
         
-        eventSource.addEventListener('error', (error) => {
+        this.eventSource.addEventListener('error', (error) => {
           console.error('SSE error:', error);
-          eventSource.close();
+          if (this.eventSource) {
+            this.eventSource.close();
+          }
           
           // Reconnect with exponential backoff
           setTimeout(() => this.connect(), this.reconnectDelay);
           this.reconnectDelay = Math.min(this.reconnectDelay * 2, this.maxReconnectDelay);
         });
         
-        eventSource.addEventListener('open', () => {
+        this.eventSource.addEventListener('open', () => {
           console.log('SSE connection established');
           this.reconnectDelay = 1000; // Reset backoff
         });
@@ -206,6 +217,13 @@ class ChangefeedClient {
         await new Promise(resolve => setTimeout(resolve, this.reconnectDelay));
         this.reconnectDelay = Math.min(this.reconnectDelay * 2, this.maxReconnectDelay);
       }
+    }
+  }
+  
+  disconnect() {
+    if (this.eventSource) {
+      this.eventSource.close();
+      this.eventSource = null;
     }
   }
   
@@ -284,7 +302,7 @@ ChangefeedApiHandler handler(
 );
 
 // Default values (can be overridden via query parameters)
-const int default_max_seconds = 3600;  // Default: 1 hour (overridable via max_seconds param)
+const int default_max_seconds = 30;  // Default: 30 seconds (overridable via max_seconds param)
 const int default_heartbeat_ms = 30000;  // Default: 30 seconds (overridable via heartbeat_ms param)
 ```
 

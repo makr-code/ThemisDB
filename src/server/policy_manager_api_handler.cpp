@@ -350,10 +350,11 @@ bool PolicyManagerApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role
 ) {
-    // Fail-closed: If no auth configured, deny access for production security
+    // Backward compatibility: If no auth configured or disabled, allow access but log a warning
+    // Production deployments should always enable authentication
     if (!auth_ || !auth_->isEnabled()) {
-        THEMIS_WARN("AuthMiddleware not configured or disabled - denying access to policy endpoint");
-        return false;
+        THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy endpoint (dev/test mode only)");
+        return true;
     }
     
     // Extract authorization header

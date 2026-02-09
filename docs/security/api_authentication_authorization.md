@@ -28,6 +28,8 @@ When AuthMiddleware is not configured or explicitly disabled:
 - Requests are allowed with a warning logged
 - This is for development/testing environments only
 - **Production deployments must always enable authentication**
+- All Policy API handlers, RPC service, and Changefeed endpoints support this backward-compatible fail-open mode
+- Warnings are logged to alert operators when unauthenticated access is granted
 
 ---
 
