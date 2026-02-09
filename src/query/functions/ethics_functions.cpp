@@ -7,12 +7,21 @@ namespace functions {
 
 using json = nlohmann::json;
 
-// Helper to create placeholder responses
+// Helper to create placeholder responses and errors
 namespace {
 json makeStubResponse(const std::string& function_name) {
     json result;
     result["status"] = "stub";
-    result["message"] = function_name + " implementation pending";
+    result["message"] = function_name + " implementation pending - requires ethics_ai plugin integration";
+    result["note"] = "This is a placeholder implementation. Full functionality requires the ethics_ai plugin.";
+    return result;
+}
+
+json makeNotSupportedError(const std::string& function_name, const std::string& reason) {
+    json result;
+    result["error"] = "NOT_SUPPORTED";
+    result["function"] = function_name;
+    result["message"] = function_name + " is not yet fully implemented: " + reason;
     return result;
 }
 }
@@ -115,21 +124,21 @@ json EthicsGetArgumentsFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // TODO: Query ethics_arguments collection via AQL
+    // This requires integration with the ethics_arguments collection
+    // which should be populated by the ethics_ai plugin
     const std::string& philosophy = args[0];
     const json& types = args.size() > 1 ? args[1] : json::array();
     int limit = args.size() > 2 ? args[2].get<int>() : 20;
     
-    json results = json::array();
-    
-    // Stub: Return empty array
-    // Real implementation would execute:
+    // Return empty array as placeholder until collection is populated
+    // Real implementation would execute AQL query:
     // FOR arg IN ethics_arguments
     //   FILTER arg.philosophy_school == @school
     //   FILTER @types == [] OR arg.argument_type IN @types
     //   LIMIT @limit
     //   RETURN arg
     
-    return results;
+    return json::array();
 }
 
 json EthicsFindSimilarDilemmasFunction::execute(
@@ -137,22 +146,24 @@ json EthicsFindSimilarDilemmasFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // TODO: Integrate with vector search
+    // Requires: 
+    // 1. ethics_dilemmas collection with embeddings
+    // 2. Vector index on embeddings field
+    // 3. Text-to-embedding conversion for query_text
     const std::string& query_text = args[0];
     double threshold = args.size() > 1 ? args[1].get<double>() : 0.65;
     int limit = args.size() > 2 ? args[2].get<int>() : 10;
     
-    json results = json::array();
-    
-    // Stub: Return empty array
-    // Real implementation would execute:
+    // Return empty array as placeholder
+    // Real implementation would execute vector similarity search:
     // FOR doc IN ethics_dilemmas
-    //   LET similarity = VECTOR_COSINE_SIMILARITY(doc.embedding, @query_vector)
+    //   LET similarity = VECTOR_COSINE_SIMILARITY(doc.embedding, EMBED(@query_text))
     //   FILTER similarity >= @threshold
     //   SORT similarity DESC
     //   LIMIT @limit
-    //   RETURN doc
+    //   RETURN {dilemma: doc, similarity: similarity}
     
-    return results;
+    return json::array();
 }
 
 json EthicsTraverseChainFunction::execute(
@@ -160,18 +171,18 @@ json EthicsTraverseChainFunction::execute(
     const FunctionContext& /*ctx*/) const {
     
     // TODO: Integrate with graph traversal
+    // Requires ethics_arguments_graph to be created with edges representing
+    // argument relationships (supports, counters, rebuts)
     const std::string& start_id = args[0];
     int max_depth = args.size() > 1 ? args[1].get<int>() : 5;
     
-    json results = json::array();
-    
-    // Stub: Return empty array
-    // Real implementation would execute:
+    // Return empty array as placeholder
+    // Real implementation would execute graph traversal:
     // FOR v, e, p IN 1..@max_depth OUTBOUND @start_id
     //   GRAPH 'ethics_arguments_graph'
-    //   RETURN {vertex: v, edge: e, path: p}
+    //   RETURN {vertex: v, edge: e, path: p, depth: LENGTH(p.edges)}
     
-    return results;
+    return json::array();
 }
 
 // ============================================================================

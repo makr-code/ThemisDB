@@ -3,6 +3,7 @@
 #include <spdlog/spdlog.h>
 #include <vector>
 #include <string>
+#include <random>
 
 using namespace themis::storage;
 
@@ -567,4 +568,145 @@ TEST(IntegrationTest, LargeDatasetCompression) {
     EXPECT_GT(ratio, 5.0);  // At least 5x compression for this pattern
 
     spdlog::info("Large dataset compression ratio: {}x", ratio);
+}
+
+// ============================================================================
+// LZ4 and Snappy Codec Tests
+// ============================================================================
+
+TEST(GenericCompressionCodecTest, LZ4CompressDecompress) {
+    std::vector<uint8_t> original_data = {
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10,  // Repeated pattern
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+    };
+
+    auto compressed = GenericCompressionCodec::compressLZ4(original_data);
+    ASSERT_TRUE(compressed.has_value()) << "LZ4 compression should succeed";
+    // Note: Small inputs may not compress well due to headers/metadata
+    // Only verify round-trip correctness, not compression ratio
+
+    auto decompressed = GenericCompressionCodec::decompressLZ4(*compressed);
+    ASSERT_TRUE(decompressed.has_value()) << "LZ4 decompression should succeed";
+    EXPECT_EQ(*decompressed, original_data) << "Decompressed data should match original";
+}
+
+TEST(GenericCompressionCodecTest, LZ4EmptyData) {
+    std::vector<uint8_t> empty_data;
+
+    auto compressed = GenericCompressionCodec::compressLZ4(empty_data);
+    ASSERT_TRUE(compressed.has_value());
+    EXPECT_TRUE(compressed->empty());
+
+    auto decompressed = GenericCompressionCodec::decompressLZ4(empty_data);
+    ASSERT_TRUE(decompressed.has_value());
+    EXPECT_TRUE(decompressed->empty());
+}
+
+TEST(GenericCompressionCodecTest, LZ4LargeData) {
+    // Create a large dataset with repetitive pattern - should compress well
+    std::vector<uint8_t> large_data(100000);
+    for (size_t i = 0; i < large_data.size(); ++i) {
+        large_data[i] = static_cast<uint8_t>(i % 256);
+    }
+
+    auto compressed = GenericCompressionCodec::compressLZ4(large_data);
+    ASSERT_TRUE(compressed.has_value());
+    // Large data with pattern should compress (accounting for 8-byte header)
+    EXPECT_LT(compressed->size(), large_data.size());
+
+    auto decompressed = GenericCompressionCodec::decompressLZ4(*compressed);
+    ASSERT_TRUE(decompressed.has_value());
+    EXPECT_EQ(*decompressed, large_data);
+
+    double ratio = static_cast<double>(large_data.size()) / (compressed->size() - 8); // Exclude header
+    spdlog::info("LZ4 compression ratio for large data: {}x", ratio);
+}
+
+TEST(GenericCompressionCodecTest, SnappyCompressDecompress) {
+    std::vector<uint8_t> original_data = {
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10,  // Repeated pattern
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+    };
+
+    auto compressed = GenericCompressionCodec::compressSnappy(original_data);
+    ASSERT_TRUE(compressed.has_value()) << "Snappy compression should succeed";
+    // Note: Small inputs may not compress well due to headers/metadata
+    // Only verify round-trip correctness, not compression ratio
+
+    auto decompressed = GenericCompressionCodec::decompressSnappy(*compressed);
+    ASSERT_TRUE(decompressed.has_value()) << "Snappy decompression should succeed";
+    EXPECT_EQ(*decompressed, original_data) << "Decompressed data should match original";
+}
+
+TEST(GenericCompressionCodecTest, SnappyEmptyData) {
+    std::vector<uint8_t> empty_data;
+
+    auto compressed = GenericCompressionCodec::compressSnappy(empty_data);
+    ASSERT_TRUE(compressed.has_value());
+    EXPECT_TRUE(compressed->empty());
+
+    auto decompressed = GenericCompressionCodec::decompressSnappy(empty_data);
+    ASSERT_TRUE(decompressed.has_value());
+    EXPECT_TRUE(decompressed->empty());
+}
+
+TEST(GenericCompressionCodecTest, SnappyLargeData) {
+    // Create a large dataset with some pattern
+    std::vector<uint8_t> large_data(100000);
+    for (size_t i = 0; i < large_data.size(); ++i) {
+        large_data[i] = static_cast<uint8_t>(i % 256);
+    }
+
+    auto compressed = GenericCompressionCodec::compressSnappy(large_data);
+    ASSERT_TRUE(compressed.has_value());
+    EXPECT_LT(compressed->size(), large_data.size());
+
+    auto decompressed = GenericCompressionCodec::decompressSnappy(*compressed);
+    ASSERT_TRUE(decompressed.has_value());
+    EXPECT_EQ(*decompressed, large_data);
+
+    double ratio = static_cast<double>(large_data.size()) / compressed->size();
+    spdlog::info("Snappy compression ratio for large data: {}x", ratio);
+}
+
+TEST(GenericCompressionCodecTest, LZ4RandomData) {
+    // Test with random data (should be less compressible)
+    // Use fixed seed for deterministic testing
+    std::vector<uint8_t> random_data(1000);
+    std::mt19937 gen(42); // Fixed seed for reproducibility
+    std::uniform_int_distribution<> dis(0, 255);
+    
+    for (size_t i = 0; i < random_data.size(); ++i) {
+        random_data[i] = static_cast<uint8_t>(dis(gen));
+    }
+
+    auto compressed = GenericCompressionCodec::compressLZ4(random_data);
+    ASSERT_TRUE(compressed.has_value());
+    // Random data might not compress well, but should still round-trip
+    
+    auto decompressed = GenericCompressionCodec::decompressLZ4(*compressed);
+    ASSERT_TRUE(decompressed.has_value());
+    EXPECT_EQ(*decompressed, random_data);
+}
+
+TEST(GenericCompressionCodecTest, SnappyRandomData) {
+    // Test with random data (should be less compressible)
+    // Use fixed seed for deterministic testing
+    std::vector<uint8_t> random_data(1000);
+    std::mt19937 gen(42); // Fixed seed for reproducibility
+    std::uniform_int_distribution<> dis(0, 255);
+    
+    for (size_t i = 0; i < random_data.size(); ++i) {
+        random_data[i] = static_cast<uint8_t>(dis(gen));
+    }
+
+    auto compressed = GenericCompressionCodec::compressSnappy(random_data);
+    ASSERT_TRUE(compressed.has_value());
+    // Random data might not compress well, but should still round-trip
+    
+    auto decompressed = GenericCompressionCodec::decompressSnappy(*compressed);
+    ASSERT_TRUE(decompressed.has_value());
+    EXPECT_EQ(*decompressed, random_data);
 }
