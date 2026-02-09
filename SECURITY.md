@@ -130,6 +130,29 @@ ThemisDB implements **defense-in-depth** security across all layers:
 - 🔗 **Perfect Forward Secrecy** (PFS)
 - 📜 **Certificate pinning** for HSM/TSA
 
+**🛡️ Security Hardening (v1.4.2+):**
+
+> [!WARNING]
+> **NEW: HSM Stub Provider Gating**
+> - ⚠️ Requires explicit opt-in via `THEMIS_ALLOW_HSM_STUB=1`
+> - ❌ Fails in production mode (`THEMIS_PRODUCTION_MODE=1`)
+> - 🔍 Auto-detects production environments (`ENVIRONMENT=production`)
+> - 📋 See: [HSM Production Setup](docs/security/HSM_PRODUCTION_SETUP.md)
+
+> [!NOTE]
+> **VaultSigningProvider Limitation**
+> - ✅ Signing operations only (Transit Engine)
+> - ❌ Key management operations throw clear errors
+> - 📖 Migration path: Use `VaultKeyProvider` for full key management
+> - 📋 See: [Vault Signing Provider](docs/security/VAULT_SIGNING_PROVIDER.md)
+
+> [!TIP]
+> **PKCS#11 Integration Strategy**
+> - 📁 Development: `pkcs11_minimal.h` (built-in, limited)
+> - 🏭 Production: Vendor PKCS#11 headers (required)
+> - ✅ Compile-time validation for header compatibility
+> - 📋 See: [PKCS#11 Integration](docs/security/PKCS11_INTEGRATION.md)
+
 </details>
 
 <details>

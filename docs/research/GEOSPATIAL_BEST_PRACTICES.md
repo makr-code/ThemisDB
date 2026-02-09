@@ -658,6 +658,8 @@ private:
 
 ## 5. Recommended Enhancements
 
+**Note:** For detailed planning and specification of future enhancements, see [Future Enhancements for Geospatial Implementation](../geospatial_future_enhancements.md).
+
 ### Implementation Roadmap
 
 #### Phase 1: Quick Wins (Q1 2026) ⚡ 2-3 weeks
