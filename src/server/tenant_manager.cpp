@@ -11,14 +11,15 @@ TenantManager& TenantManager::instance() {
 }
 
 TenantManager::TenantManager() {
-    // Create default configuration
+    // Create default configuration - SECURE BY DEFAULT
     config_.default_tenant_id = "default";
-    config_.allow_default_tenant = true;
+    config_.allow_default_tenant = false;  // Changed to false for production-ready security
     config_.tenant_header = "X-Tenant-ID";
     config_.tenant_path_prefix = "/tenants/";
     config_.global_max_tenants = 1000;
     config_.enforce_quotas = true;
     
+    // Only create default tenant if explicitly allowed
     ensureDefaultTenant();
 }
 

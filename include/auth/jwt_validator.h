@@ -15,6 +15,7 @@ namespace auth {
 struct JWTClaims {
     std::string sub;                          // Subject (user ID)
     std::string email;
+    std::string tenant_id;                    // Tenant ID from JWT claim
     std::vector<std::string> groups;
     std::vector<std::string> roles;
     std::string issuer;

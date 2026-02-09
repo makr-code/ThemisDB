@@ -27,22 +27,25 @@ class AuthMiddleware {
 public:
     struct AuthContext {
         std::string user_id;
+        std::string tenant_id;  // Tenant from JWT or token config
         std::vector<std::string> groups;
     };
     struct AuthResult {
         bool authorized = false;
         std::string user_id;
+        std::string tenant_id;  // Tenant from JWT claim or token config
         std::vector<std::string> groups;  // JWT groups claim for encryption contexts
         std::string reason; // for audit logs
-        static AuthResult OK(std::string_view uid, std::vector<std::string> grps = {}) { 
-            return {true, std::string(uid), std::move(grps), ""}; 
+        static AuthResult OK(std::string_view uid, std::string_view tid = "", std::vector<std::string> grps = {}) { 
+            return {true, std::string(uid), std::string(tid), std::move(grps), ""}; 
         }
-        static AuthResult Denied(std::string msg) { return {false, "", {}, std::move(msg)}; }
+        static AuthResult Denied(std::string msg) { return {false, "", "", {}, std::move(msg)}; }
     };
 
     struct TokenConfig {
         std::string token;
         std::string user_id;
+        std::string tenant_id;  // Optional: if not set, extracted from request headers
         std::unordered_set<std::string> scopes;
     };
 
@@ -54,8 +57,9 @@ public:
         std::chrono::seconds jwks_cache_ttl{3600}; // Default 1 hour
         std::chrono::seconds clock_skew{60};       // Default 60 seconds tolerance
         
-        // Mapping of JWT claims to scopes
+        // Mapping of JWT claims to scopes and tenant
         std::string scope_claim = "roles";  // Which JWT claim contains scopes (e.g., "roles", "groups", "scopes")
+        std::string tenant_claim = "tenant_id";  // Which JWT claim contains tenant ID
     };
 
     /// Constructor (must be defined in .cpp due to unique_ptr<JWTValidator>)
