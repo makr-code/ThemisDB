@@ -226,6 +226,43 @@ Complete documentation of all 35 directories in `src/` - addressing the document
 
 ---
 
+## 💾 BACKUP & RECOVERY DOCUMENTATION (NEU - 2026-02-09)
+
+### Comprehensive Data Protection and Disaster Recovery
+
+ThemisDB provides enterprise-grade backup and recovery capabilities with support for multiple backup strategies, integrity verification, and point-in-time recovery (PITR).
+
+**Documentation Hub:**
+- [BACKUP_RESTORE_DOCS_INDEX.md](BACKUP_RESTORE_DOCS_INDEX.md) - **Complete backup/restore documentation index**
+
+**Core Documentation:**
+- [backup_recovery_system.md](backup_recovery_system.md) - Complete system overview (385 lines)
+- [en/features/features_pitr.md](en/features/features_pitr.md) - Point-in-Time Recovery guide (580 lines)
+- [en/features/features_snapshots.md](en/features/features_snapshots.md) - Named snapshots
+- [en/features/features_raid5_backup.md](en/features/features_raid5_backup.md) - RAID5/6 backup support
+- [en/guides/disaster_recovery.md](en/guides/disaster_recovery.md) - DR procedures and runbooks
+
+**Operational Guides:**
+- [production/DISASTER_RECOVERY.md](production/DISASTER_RECOVERY.md) - Production DR plan
+- [operations/disaster-recovery/DR_CHECKLISTS.md](operations/disaster-recovery/DR_CHECKLISTS.md) - Operational checklists
+- [operations/disaster-recovery/DR_TESTING.md](operations/disaster-recovery/DR_TESTING.md) - Testing procedures
+- [knowledge-base/BACKUP_RECOVERY.md](knowledge-base/BACKUP_RECOVERY.md) - KB articles and FAQ
+
+**Key Features:**
+- ✅ Full, Incremental, and Differential Backups (v1.3.0+)
+- ✅ WAL Archiving for continuous backup (v1.3.0+)
+- ✅ RAID5/6 coordinated backups (v1.3.5+)
+- ✅ Named Snapshots with semantic tagging (v1.4.0+)
+- ✅ Point-in-Time Recovery (PITR) (v1.4.0+)
+- ✅ Backup compression and verification (v1.3.0+)
+- ✅ Structured diff computation between states (v1.4.1+)
+
+**Bilingual Documentation:**
+- 🇬🇧 English: `docs/en/features/` and `docs/en/guides/`
+- 🇩🇪 German: `docs/de/features/` and `docs/de/guides/`
+
+---
+
 ## 📋 DOKUMENTATIONS-ÜBERSICHT
 
 ### PHASE 1: ANALYSE & RESEARCH (Steps 1-3)
