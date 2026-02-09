@@ -31,7 +31,12 @@ Utility functions and shared components for ThemisDB.
 
 ## Documentation
 
-For utilities documentation, see:
+### Observability Overview
+For comprehensive observability and monitoring documentation, see:
+- **[Observability & Monitoring Overview](../../docs/observability/README.md)** - Central hub for logging, tracing, metrics, and alerting
+
+### Component Documentation
+For detailed utilities documentation, see:
 - [Audit Logger](../../docs/src/utils/audit_logger.cpp.md)
 - [Cursor](../../docs/src/utils/cursor.cpp.md)
 - [HKDF Helper](../../docs/src/utils/hkdf_helper.cpp.md)

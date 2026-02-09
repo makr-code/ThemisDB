@@ -165,7 +165,8 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Performance Tuning](de/performance/README.md)** - Performance-Optimierung
 - **[Benchmarks](de/performance/benchmarks.md)** - Performance-Benchmarks
 - **[Memory Tuning](de/performance/memory_tuning.md)** - Speicher-Optimierung
-- **[Observability](de/observability/README.md)** - Monitoring & Metrics
+- **[Observability & Monitoring Overview](observability/README.md)** - **Central Hub:** Logging, Tracing, Metrics & Alerting
+- **[Observability (DE)](de/observability/README.md)** - German Documentation: Monitoring & Metrics
 
 ---
 

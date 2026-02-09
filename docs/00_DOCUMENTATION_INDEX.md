@@ -226,6 +226,51 @@ Complete documentation of all 35 directories in `src/` - addressing the document
 
 ---
 
+## 📊 OBSERVABILITY & MONITORING DOCUMENTATION (NEU - 2026-02-09)
+
+### Central Observability Overview
+
+ThemisDB now has a comprehensive observability documentation hub that consolidates information about logging, tracing, metrics, and alerting capabilities.
+
+**Core Documentation:**
+- **[Observability & Monitoring Overview](observability/README.md)** - **Central Hub** for all observability capabilities
+  - Logging infrastructure (spdlog-based)
+  - Distributed tracing (OpenTelemetry with OTLP export)
+  - Metrics collection (Prometheus-compatible, distributed across modules)
+  - Alerting integration (Prometheus Alertmanager)
+  - Gaps analysis and future roadmap
+
+**Key Sections:**
+- ✅ **Logging:** Comprehensive coverage of logger.h, audit logging, SAGA logging
+- ✅ **Distributed Tracing:** Complete OpenTelemetry integration guide with Jaeger/Tempo setup
+- ✅ **Metrics:** Documentation of all metrics locations across LLM, sharding, performance, security subsystems
+- ✅ **Alerting:** Alert configuration examples and health check systems
+- ✅ **Gaps & Future Work:** Identified lack of unified metrics module, recommendations for v1.6+
+
+**Related Files:**
+- [Tracing Configuration Guide](tracing-configuration.md) - Detailed tracing setup
+- [LLM Response Cache Metrics](LLM_RESPONSE_CACHE_METRICS.md) - Cache metrics integration
+- [Utils Module README](../src/utils/README.md) - Updated with observability link
+- [German Observability Docs](de/observability/) - Comprehensive German documentation
+
+**Metrics Locations Documented:**
+- `include/llm/grafana_metrics.h` - LLM inference and cache metrics
+- `include/sharding/prometheus_metrics.h` - Sharding and cluster metrics
+- `include/performance/lockfree_metrics_buffer.h` - Performance metrics
+- `include/security/hsm_security_metrics.h` - Security metrics
+- `include/utils/compression_metrics.h` - Compression metrics
+- `include/plugins/plugin_metrics.h` - Plugin metrics
+
+**Key Features:**
+- ✅ Central documentation hub linking all observability resources
+- ✅ Clear identification of metrics distribution across modules
+- ✅ Code examples for logging, tracing, and metrics
+- ✅ Quick start guides for Prometheus, Grafana, Jaeger integration
+- ✅ Gap analysis calling out lack of dedicated unified metrics module
+- ✅ Updated cross-references from src/utils/README.md and docs/README.md
+
+---
+
 ## 📋 DOKUMENTATIONS-ÜBERSICHT
 
 ### PHASE 1: ANALYSE & RESEARCH (Steps 1-3)
