@@ -60,7 +60,7 @@ int main(int argc, char* argv[]) {
         } else if (arg == "--config") {
             if (i + 1 < argc) {
                 config_path = argv[++i];
-                std::cerr << "Warning: --config is not yet implemented, ignoring configuration file" << std::endl;
+                std::cerr << "Warning: Configuration file support is not yet implemented. The provided path will be ignored." << std::endl;
             } else {
                 std::cerr << "Error: --config requires a value" << std::endl;
                 print_usage(argv[0]);
