@@ -58,7 +58,7 @@ TEST_F(WireProtocolConnectionPoolTest, BasicInitialization) {
 TEST_F(WireProtocolConnectionPoolTest, Configuration) {
     config_.min_connections_per_target = 5;
     config_.max_connections_per_target = 50;
-    config_.enable_ssl = true;
+    config_.enable_ssl = false;  // Don't enable SSL in this test
     
     WireProtocolConnectionPool pool(config_);
     
@@ -276,8 +276,7 @@ TEST_F(WireProtocolConnectionPoolTest, IdleTimeoutConfiguration) {
  */
 TEST_F(WireProtocolConnectionPoolTest, SSLConfiguration) {
     config_.enable_ssl = true;
-    config_.ssl_cert_path = "/nonexistent/cert.pem";
-    config_.ssl_key_path = "/nonexistent/key.pem";
+    config_.ssl_ca_cert_path = "";  // Empty path will use system defaults
     
     // Should initialize without error
     WireProtocolConnectionPool pool(config_);
@@ -295,11 +294,10 @@ TEST_F(WireProtocolConnectionPoolTest, MTLSConfiguration) {
     config_.ssl_key_path = "/nonexistent/key.pem";
     config_.ssl_ca_cert_path = "/nonexistent/ca.pem";
     
-    // Should initialize without error
-    WireProtocolConnectionPool pool(config_);
-    
-    auto stats = pool.getStats();
-    EXPECT_EQ(stats.total_connections, 0);
+    // Should throw during initialization due to missing certificates
+    EXPECT_THROW({
+        WireProtocolConnectionPool pool(config_);
+    }, std::runtime_error);
 }
 
 /**
@@ -338,4 +336,64 @@ TEST_F(WireProtocolConnectionPoolTest, StatisticsPersistence) {
     
     // Stats should accumulate
     EXPECT_GE(stats2.failed_connections, stats1.failed_connections);
+}
+
+/**
+ * @brief Test SSL context initialization with valid system paths
+ */
+TEST_F(WireProtocolConnectionPoolTest, SSLContextInitialization) {
+    config_.enable_ssl = true;
+    config_.ssl_ca_cert_path = "";  // Use system default CA certs
+    
+    // Should initialize SSL context successfully
+    EXPECT_NO_THROW({
+        WireProtocolConnectionPool pool(config_);
+        auto stats = pool.getStats();
+        EXPECT_EQ(stats.total_connections, 0);
+    });
+}
+
+/**
+ * @brief Test mTLS requires all certificate paths
+ */
+TEST_F(WireProtocolConnectionPoolTest, MTLSRequiresCertificates) {
+    config_.enable_mtls = true;
+    // Use actual test CA cert path to test missing client cert validation
+    config_.ssl_ca_cert_path = "../certs/test/wire_protocol/ca-cert.pem";
+    
+    // Missing client cert path - should throw
+    EXPECT_THROW({
+        WireProtocolConnectionPool pool(config_);
+    }, std::runtime_error);
+    
+    config_.ssl_cert_path = "../certs/test/wire_protocol/client-cert.pem";
+    // Missing client key path - should throw
+    EXPECT_THROW({
+        WireProtocolConnectionPool pool(config_);
+    }, std::runtime_error);
+}
+
+/**
+ * @brief Test SSL socket wrapper functionality
+ */
+TEST_F(WireProtocolConnectionPoolTest, SocketWrapperBasics) {
+    // Test with plain socket
+    auto io = std::make_shared<net::io_context>();
+    auto plain_socket = std::make_shared<tcp::socket>(*io);
+    
+    SocketWrapper wrapper_plain(plain_socket);
+    EXPECT_FALSE(wrapper_plain.is_ssl());
+    EXPECT_FALSE(wrapper_plain.is_open());  // Not connected
+}
+
+/**
+ * @brief Test connection reuse rate calculation
+ */
+TEST_F(WireProtocolConnectionPoolTest, ConnectionReuseRate) {
+    WireProtocolConnectionPool pool(config_);
+    
+    auto stats = pool.getStats();
+    
+    // With no connections, reuse rate should be 0
+    EXPECT_EQ(stats.getReuseRate(), 0.0);
 }
