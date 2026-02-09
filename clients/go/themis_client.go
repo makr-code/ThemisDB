@@ -2,12 +2,17 @@ package themisdb
 
 import (
 	"bytes"
+	"crypto/tls"
+	"crypto/x509"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
 	"hash/crc32"
 	"io"
+	"log"
 	"net"
+	"os"
+	"strings"
 	"sync"
 	"time"
 )
@@ -90,6 +95,10 @@ type ConnectionError struct {
 }
 
 type AuthenticationError struct {
+	*ThemisDBError
+}
+
+type TLSConfigurationError struct {
 	*ThemisDBError
 }
 
@@ -205,9 +214,175 @@ type WireClient struct {
 	done              chan struct{}
 	requestTimeout    time.Duration
 	connectionTimeout time.Duration
+	tlsConfig         *TLSConfig
+}
+
+// TLSConfig holds TLS/mTLS configuration for Wire Protocol connections
+type TLSConfig struct {
+	// Enable TLS (required for production)
+	Enabled bool
+	
+	// CA certificate path for server verification
+	CACertPath string
+	
+	// Client certificate and key for mTLS (optional)
+	ClientCertPath string
+	ClientKeyPath  string
+	
+	// Minimum TLS version (default: TLS 1.2)
+	MinVersion uint16
+	
+	// Skip certificate verification (INSECURE - only for testing)
+	InsecureSkipVerify bool
+	
+	// Server name for certificate verification
+	ServerName string
+	
+	// Enforce production-safe behavior: fail if TLS is disabled in production
+	ProductionMode bool
+}
+
+// NewTLSConfig creates a secure TLS configuration with defaults
+func NewTLSConfig() *TLSConfig {
+	return &TLSConfig{
+		Enabled:        true,
+		MinVersion:     tls.VersionTLS12,
+		ProductionMode: false,
+	}
+}
+
+// NewProductionTLSConfig creates a TLS configuration enforcing production security
+func NewProductionTLSConfig(caCertPath string) *TLSConfig {
+	return &TLSConfig{
+		Enabled:        true,
+		CACertPath:     caCertPath,
+		MinVersion:     tls.VersionTLS13, // Enforce TLS 1.3 for production
+		ProductionMode: true,
+	}
+}
+
+// Validate checks if the TLS configuration is valid and safe for production
+func (tc *TLSConfig) Validate() error {
+	if tc == nil {
+		return &TLSConfigurationError{&ThemisDBError{Message: "TLS configuration is nil"}}
+	}
+	
+	// Production mode enforcement
+	if tc.ProductionMode && !tc.Enabled {
+		return &TLSConfigurationError{&ThemisDBError{
+			Message: "SECURITY VIOLATION: TLS is REQUIRED in production mode but is disabled. " +
+				"Set TLSConfig.Enabled=true or disable ProductionMode (NOT RECOMMENDED)",
+		}}
+	}
+	
+	// If TLS is enabled, validate required configuration
+	if tc.Enabled {
+		// Warn about insecure configurations
+		if tc.InsecureSkipVerify {
+			log.Println("WARNING: InsecureSkipVerify is enabled. This is INSECURE and should only be used for testing.")
+			if tc.ProductionMode {
+				return &TLSConfigurationError{&ThemisDBError{
+					Message: "SECURITY VIOLATION: InsecureSkipVerify cannot be used in production mode",
+				}}
+			}
+		}
+		
+		// Validate CA certificate if provided
+		if tc.CACertPath != "" {
+			if _, err := os.Stat(tc.CACertPath); os.IsNotExist(err) {
+				return &TLSConfigurationError{&ThemisDBError{
+					Message: fmt.Sprintf("CA certificate file not found: %s", tc.CACertPath),
+				}}
+			}
+		} else if !tc.InsecureSkipVerify {
+			log.Println("INFO: No CA certificate provided, using system certificate pool")
+		}
+		
+		// Validate client certificates for mTLS
+		if tc.ClientCertPath != "" || tc.ClientKeyPath != "" {
+			if tc.ClientCertPath == "" || tc.ClientKeyPath == "" {
+				return &TLSConfigurationError{&ThemisDBError{
+					Message: "Both ClientCertPath and ClientKeyPath must be provided for mTLS",
+				}}
+			}
+			if _, err := os.Stat(tc.ClientCertPath); os.IsNotExist(err) {
+				return &TLSConfigurationError{&ThemisDBError{
+					Message: fmt.Sprintf("Client certificate file not found: %s", tc.ClientCertPath),
+				}}
+			}
+			if _, err := os.Stat(tc.ClientKeyPath); os.IsNotExist(err) {
+				return &TLSConfigurationError{&ThemisDBError{
+					Message: fmt.Sprintf("Client key file not found: %s", tc.ClientKeyPath),
+				}}
+			}
+		}
+		
+		// Enforce minimum TLS version
+		if tc.MinVersion < tls.VersionTLS12 {
+			return &TLSConfigurationError{&ThemisDBError{
+				Message: "TLS version must be at least TLS 1.2 (versions below 1.2 are deprecated and insecure)",
+			}}
+		}
+		
+		// Production mode should use TLS 1.3
+		if tc.ProductionMode && tc.MinVersion < tls.VersionTLS13 {
+			log.Println("WARNING: Production mode should use TLS 1.3. TLS 1.2 is allowed but not recommended.")
+		}
+	} else {
+		// TLS is disabled - warn user
+		log.Println("WARNING: TLS is disabled. Connection is NOT encrypted. This should only be used for local development.")
+	}
+	
+	return nil
+}
+
+// BuildTLSConfig creates a *tls.Config from TLSConfig
+func (tc *TLSConfig) BuildTLSConfig() (*tls.Config, error) {
+	if !tc.Enabled {
+		return nil, nil
+	}
+	
+	config := &tls.Config{
+		MinVersion:         tc.MinVersion,
+		InsecureSkipVerify: tc.InsecureSkipVerify,
+		ServerName:         tc.ServerName,
+	}
+	
+	// Load CA certificate if provided
+	if tc.CACertPath != "" {
+		caCert, err := os.ReadFile(tc.CACertPath)
+		if err != nil {
+			return nil, &TLSConfigurationError{&ThemisDBError{
+				Message: fmt.Sprintf("Failed to read CA certificate: %v", err),
+			}}
+		}
+		
+		caCertPool := x509.NewCertPool()
+		if !caCertPool.AppendCertsFromPEM(caCert) {
+			return nil, &TLSConfigurationError{&ThemisDBError{
+				Message: "Failed to parse CA certificate",
+			}}
+		}
+		config.RootCAs = caCertPool
+	}
+	
+	// Load client certificate for mTLS if provided
+	if tc.ClientCertPath != "" && tc.ClientKeyPath != "" {
+		cert, err := tls.LoadX509KeyPair(tc.ClientCertPath, tc.ClientKeyPath)
+		if err != nil {
+			return nil, &TLSConfigurationError{&ThemisDBError{
+				Message: fmt.Sprintf("Failed to load client certificate: %v", err),
+			}}
+		}
+		config.Certificates = []tls.Certificate{cert}
+		log.Println("INFO: mTLS enabled - client certificate loaded")
+	}
+	
+	return config, nil
 }
 
 // NewWireClient creates new ThemisDB wire protocol client
+// For production use, call NewWireClientWithTLS instead
 func NewWireClient(host string, port int, username, password string) *WireClient {
 	return &WireClient{
 		host:              host,
@@ -222,26 +397,123 @@ func NewWireClient(host string, port int, username, password string) *WireClient
 		done:              make(chan struct{}),
 		requestTimeout:    REQUEST_TIMEOUT,
 		connectionTimeout: DEFAULT_TIMEOUT,
+		tlsConfig:         nil, // No TLS by default
 	}
+}
+
+// NewWireClientWithTLS creates new ThemisDB wire protocol client with TLS
+func NewWireClientWithTLS(host string, port int, username, password string, tlsConfig *TLSConfig) (*WireClient, error) {
+	// Validate TLS configuration
+	if err := tlsConfig.Validate(); err != nil {
+		return nil, err
+	}
+	
+	return &WireClient{
+		host:              host,
+		port:              port,
+		username:          username,
+		password:          password,
+		authenticated:     false,
+		sequence:          0,
+		pendingRequests:   make(map[uint32]chan *WireFrame),
+		receiveBuffer:     make([]byte, 0),
+		running:           false,
+		done:              make(chan struct{}),
+		requestTimeout:    REQUEST_TIMEOUT,
+		connectionTimeout: DEFAULT_TIMEOUT,
+		tlsConfig:         tlsConfig,
+	}, nil
 }
 
 // Connect establishes connection to ThemisDB
 func (c *WireClient) Connect() error {
+	// Validate TLS configuration if present
+	if c.tlsConfig != nil {
+		if err := c.tlsConfig.Validate(); err != nil {
+			return err
+		}
+	}
+	
+	// Create base TCP connection
 	var dialer net.Dialer
 	dialer.Timeout = c.connectionTimeout
-	conn, err := dialer.Dial("tcp", fmt.Sprintf("%s:%d", c.host, c.port))
-	if err != nil {
-		return &ConnectionError{&ThemisDBError{Message: fmt.Sprintf("Failed to connect: %v", err)}}
+	
+	addr := fmt.Sprintf("%s:%d", c.host, c.port)
+	
+	// If TLS is enabled, establish TLS connection
+	if c.tlsConfig != nil && c.tlsConfig.Enabled {
+		tlsCfg, err := c.tlsConfig.BuildTLSConfig()
+		if err != nil {
+			return err
+		}
+		
+		// Set server name for SNI if not already set
+		if tlsCfg.ServerName == "" {
+			tlsCfg.ServerName = c.host
+		}
+		
+		log.Printf("INFO: Establishing TLS connection to %s (MinVersion: TLS 1.%d)", 
+			addr, tlsCfg.MinVersion - tls.VersionTLS10)
+		
+		tlsConn, err := tls.DialWithDialer(&dialer, "tcp", addr, tlsCfg)
+		if err != nil {
+			return &ConnectionError{&ThemisDBError{
+				Message: fmt.Sprintf("Failed to establish TLS connection: %v", err),
+			}}
+		}
+		
+		// Verify TLS handshake completed
+		if err := tlsConn.Handshake(); err != nil {
+			tlsConn.Close()
+			return &ConnectionError{&ThemisDBError{
+				Message: fmt.Sprintf("TLS handshake failed: %v", err),
+			}}
+		}
+		
+		// Log connection state
+		state := tlsConn.ConnectionState()
+		log.Printf("INFO: TLS connection established (Version: %s, CipherSuite: %s, ServerName: %s)", 
+			tlsVersionString(state.Version), 
+			tls.CipherSuiteName(state.CipherSuite),
+			state.ServerName)
+		
+		c.conn = tlsConn
+	} else {
+		// Plain TCP connection (no TLS)
+		log.Printf("WARNING: Establishing unencrypted connection to %s", addr)
+		
+		conn, err := dialer.Dial("tcp", addr)
+		if err != nil {
+			return &ConnectionError{&ThemisDBError{
+				Message: fmt.Sprintf("Failed to connect: %v", err),
+			}}
+		}
+		c.conn = conn
 	}
-
-	c.conn = conn
+	
 	c.running = true
-
+	
 	// Start receive goroutine
 	go c.receiveLoop()
-
+	
 	// Authenticate
 	return c.authenticate()
+}
+
+// tlsVersionString returns a human-readable TLS version string
+func tlsVersionString(version uint16) string {
+	switch version {
+	case tls.VersionTLS10:
+		return "TLS 1.0"
+	case tls.VersionTLS11:
+		return "TLS 1.1"
+	case tls.VersionTLS12:
+		return "TLS 1.2"
+	case tls.VersionTLS13:
+		return "TLS 1.3"
+	default:
+		return fmt.Sprintf("Unknown (0x%04x)", version)
+	}
 }
 
 // Disconnect closes connection
@@ -556,4 +828,88 @@ func (c *WireClient) receiveLoop() {
 		c.receiveBuffer = c.receiveBuffer[offset:]
 		c.receiveMu.Unlock()
 	}
+}
+
+// IsTLSEnabled returns true if this client has TLS enabled
+func (c *WireClient) IsTLSEnabled() bool {
+	return c.tlsConfig != nil && c.tlsConfig.Enabled
+}
+
+// GetTLSConfig returns the TLS configuration (may be nil)
+func (c *WireClient) GetTLSConfig() *TLSConfig {
+	return c.tlsConfig
+}
+
+// NewWireClientFromEnv creates a Wire Protocol client from environment variables
+// Supports the following environment variables:
+//   THEMIS_WIRE_HOST - Server hostname (default: localhost)
+//   THEMIS_WIRE_PORT - Server port (default: 18765)
+//   THEMIS_WIRE_USERNAME - Username for authentication
+//   THEMIS_WIRE_PASSWORD - Password for authentication
+//   THEMIS_WIRE_TLS_ENABLED - Enable TLS (true/false, default: false)
+//   THEMIS_WIRE_TLS_CA_CERT - Path to CA certificate
+//   THEMIS_WIRE_TLS_CLIENT_CERT - Path to client certificate (for mTLS)
+//   THEMIS_WIRE_TLS_CLIENT_KEY - Path to client key (for mTLS)
+//   THEMIS_WIRE_TLS_INSECURE_SKIP_VERIFY - Skip certificate verification (INSECURE, default: false)
+//   THEMIS_WIRE_TLS_SERVER_NAME - Server name for SNI
+//   THEMIS_WIRE_PRODUCTION_MODE - Enable production mode (fail if TLS disabled, default: false)
+func NewWireClientFromEnv() (*WireClient, error) {
+	host := getEnv("THEMIS_WIRE_HOST", "localhost")
+	port := getEnvInt("THEMIS_WIRE_PORT", 18765)
+	username := getEnv("THEMIS_WIRE_USERNAME", "")
+	password := getEnv("THEMIS_WIRE_PASSWORD", "")
+	
+	// Check if TLS should be enabled
+	tlsEnabled := getEnvBool("THEMIS_WIRE_TLS_ENABLED", false)
+	productionMode := getEnvBool("THEMIS_WIRE_PRODUCTION_MODE", false)
+	
+	// If neither TLS settings nor production mode is set, create basic client
+	if !tlsEnabled && !productionMode {
+		return NewWireClient(host, port, username, password), nil
+	}
+	
+	// Create TLS configuration
+	tlsConfig := &TLSConfig{
+		Enabled:            tlsEnabled,
+		CACertPath:         getEnv("THEMIS_WIRE_TLS_CA_CERT", ""),
+		ClientCertPath:     getEnv("THEMIS_WIRE_TLS_CLIENT_CERT", ""),
+		ClientKeyPath:      getEnv("THEMIS_WIRE_TLS_CLIENT_KEY", ""),
+		InsecureSkipVerify: getEnvBool("THEMIS_WIRE_TLS_INSECURE_SKIP_VERIFY", false),
+		ServerName:         getEnv("THEMIS_WIRE_TLS_SERVER_NAME", host),
+		MinVersion:         tls.VersionTLS12,
+		ProductionMode:     productionMode,
+	}
+	
+	// Use TLS 1.3 for production
+	if productionMode {
+		tlsConfig.MinVersion = tls.VersionTLS13
+	}
+	
+	return NewWireClientWithTLS(host, port, username, password, tlsConfig)
+}
+
+// Helper functions for environment variable parsing
+func getEnv(key, defaultValue string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return defaultValue
+}
+
+func getEnvInt(key string, defaultValue int) int {
+	if value := os.Getenv(key); value != "" {
+		var intVal int
+		if _, err := fmt.Sscanf(value, "%d", &intVal); err == nil {
+			return intVal
+		}
+	}
+	return defaultValue
+}
+
+func getEnvBool(key string, defaultValue bool) bool {
+	if value := os.Getenv(key); value != "" {
+		lower := strings.ToLower(value)
+		return lower == "true" || lower == "1" || lower == "yes"
+	}
+	return defaultValue
 }
