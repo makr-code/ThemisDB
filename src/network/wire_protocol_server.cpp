@@ -7,11 +7,13 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
+#include "index/process_graph.h"
 #include "transaction/transaction_manager.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
 #include "security/transport_security_checker.h"
 
+#include <nlohmann/json.hpp>
 #include <iostream>
 #include <chrono>
 #include <cstring>
@@ -19,6 +21,8 @@
 #include <arpa/inet.h>  // For ntohl/htonl
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
+
+using json = nlohmann::json;
 
 namespace themis::network {
 
@@ -33,6 +37,7 @@ WireProtocolServer::WireProtocolServer(
     std::shared_ptr<GraphIndexManager> graph_index,
     std::shared_ptr<VectorIndexManager> vector_index,
     std::shared_ptr<TransactionManager> tx_manager,
+    std::shared_ptr<ProcessGraphManager> process_graph)
     std::shared_ptr<TSStore> ts_store,
     std::shared_ptr<ContinuousAggregateManager> agg_manager)
     : config_(config)
@@ -41,6 +46,7 @@ WireProtocolServer::WireProtocolServer(
     , graph_index_(graph_index)
     , vector_index_(vector_index)
     , tx_manager_(tx_manager)
+    , process_graph_(process_graph)
     , ts_store_(ts_store)
     , agg_manager_(agg_manager)
 {
@@ -388,6 +394,37 @@ void WireProtocolServer::Session::asyncReadChecksum() {
 
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
+    bytes_received_.fetch_add(header_buffer_.size(), std::memory_order_relaxed);
+    
+    // Parse header: magic (4 bytes), version (1 byte), opcode (1 byte), flags (2 bytes), payload_size (4 bytes)
+    // For now, extract opcode from byte 5
+    if (header_buffer_.size() < 6) {
+        sendError(400, "Invalid header size");
+        return;
+    }
+    
+    uint8_t opcode = header_buffer_[5];
+    
+    // Dispatch based on opcode
+    switch (opcode) {
+        case 0x60: // BPMN_START_PROCESS
+            handleBpmnStartProcess();
+            break;
+        case 0x61: // BPMN_TASK_COMPLETE
+            handleBpmnTaskComplete();
+            break;
+        case 0x62: // BPMN_QUERY_INSTANCE
+            handleBpmnQueryInstance();
+            break;
+        case 0xfe: // PING
+            handlePing();
+            break;
+        case 0xff: // CLOSE
+            handleClose();
+            break;
+        default:
+            sendError(400, "Unsupported opcode: " + std::to_string(opcode));
+            break;
     bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size(), std::memory_order_relaxed);
     
     // Validate header size (must be exactly 12 bytes)
@@ -447,7 +484,32 @@ void WireProtocolServer::Session::handleMessage() {
 }
 
 void WireProtocolServer::Session::sendError(uint32_t error_code, const std::string& message) {
-    // Implementation placeholder
+    // Build error response with header
+    json error_json;
+    error_json["error_code"] = error_code;
+    error_json["error_message"] = message;
+    
+    std::string error_str = error_json.dump();
+    std::vector<uint8_t> error_data(error_str.begin(), error_str.end());
+    
+    asyncWriteResponse(error_data);
+}
+
+void WireProtocolServer::Session::handlePing() {
+    // Simple ping response
+    json response;
+    response["pong"] = true;
+    response["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()
+    ).count();
+    
+    std::string response_str = response.dump();
+    std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+    asyncWriteResponse(response_data);
+}
+
+void WireProtocolServer::Session::handleClose() {
+    close();
 }
 
 void WireProtocolServer::Session::handleError(const std::string& context, const boost::system::error_code& ec) {
@@ -829,6 +891,325 @@ void WireProtocolServer::Session::handlePing() {
 void WireProtocolServer::Session::handleClose() {
     // Handle graceful connection close
     close();
+}
+
+// =============================================================================
+// BPMN Process Handlers
+// =============================================================================
+
+namespace {
+    // Helper to parse JSON from payload buffer
+    json parsePayloadJson(const std::vector<uint8_t>& payload_buffer) {
+        std::string payload_str(payload_buffer.begin(), payload_buffer.end());
+        return json::parse(payload_str);
+    }
+}
+
+void WireProtocolServer::Session::handleBpmnStartProcess() {
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    if (!server_->process_graph_) {
+        sendError(503, "Process engine not available");
+        return;
+    }
+
+    try {
+        // Parse JSON payload
+        // Expected format: { "process_definition_key": "...", "variables": {...}, "business_key": "..." }
+        json request = parsePayloadJson(payload_buffer_);
+
+        std::string process_key = request.value("process_definition_key", "");
+        json variables = request.value("variables", json::object());
+        std::string business_key = request.value("business_key", "");
+
+        if (process_key.empty()) {
+            sendError(400, "Missing process_definition_key");
+            return;
+        }
+
+        // Start process instance
+        auto [status, instance_id] = server_->process_graph_->startProcess(process_key, variables);
+
+        if (!status.ok) {
+            sendError(500, "Failed to start process: " + status.message);
+            return;
+        }
+
+        // Get instance state to return active tasks
+        auto [get_status, instance] = server_->process_graph_->getProcessInstance(instance_id);
+        
+        // Build response
+        json response;
+        response["process_instance_id"] = instance_id;
+        
+        // Map process state to ProcessStatus enum
+        std::string state_str = "RUNNING";
+        int status_code = 0; // RUNNING
+        if (get_status.ok) {
+            switch (instance.state) {
+                case ProcessInstance::State::RUNNING:
+                    state_str = "RUNNING";
+                    status_code = 0;
+                    break;
+                case ProcessInstance::State::COMPLETED:
+                    state_str = "COMPLETED";
+                    status_code = 1;
+                    break;
+                case ProcessInstance::State::FAILED:
+                    state_str = "FAILED";
+                    status_code = 2;
+                    break;
+                case ProcessInstance::State::SUSPENDED:
+                    state_str = "SUSPENDED";
+                    status_code = 3;
+                    break;
+                case ProcessInstance::State::TERMINATED:
+                    state_str = "TERMINATED";
+                    status_code = 4;
+                    break;
+                default:
+                    state_str = "RUNNING";
+                    status_code = 0;
+            }
+
+            // Extract active task IDs from tokens
+            json active_tasks = json::array();
+            for (const auto& token : instance.tokens) {
+                if (token.state == ProcessToken::State::READY || 
+                    token.state == ProcessToken::State::ACTIVE) {
+                    active_tasks.push_back(instance_id + ":" + token.current_node);
+                }
+            }
+            response["active_task_ids"] = active_tasks;
+        } else {
+            response["active_task_ids"] = json::array();
+        }
+        
+        response["status"] = status_code;
+        response["status_string"] = state_str;
+
+        // Serialize response
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(500, std::string("Internal error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleBpmnTaskComplete() {
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    if (!server_->process_graph_) {
+        sendError(503, "Process engine not available");
+        return;
+    }
+
+    try {
+        // Parse JSON payload
+        // Expected format: { "task_id": "...", "variables": {...}, "assignee": "..." }
+        json request = parsePayloadJson(payload_buffer_);
+
+        std::string task_id = request.value("task_id", "");
+        json variables = request.value("variables", json::object());
+        std::string assignee = request.value("assignee", username_);
+
+        if (task_id.empty()) {
+            sendError(400, "Missing task_id");
+            return;
+        }
+
+        // Task ID format: typically "token_id" or we need to parse instance_id and node_id
+        // For simplicity, we'll assume task_id format is "instance_id:node_id" or just token_id
+        // Let's extract instance_id from the task if it contains ':'
+        
+        std::string instance_id;
+        std::string node_id;
+        
+        size_t colon_pos = task_id.find(':');
+        if (colon_pos != std::string::npos) {
+            instance_id = task_id.substr(0, colon_pos);
+            node_id = task_id.substr(colon_pos + 1);
+        } else {
+            // If no colon, treat as token_id and we need to find the instance
+            // For now, return error - client should provide instance:node format
+            sendError(400, "Invalid task_id format. Expected 'instance_id:node_id'");
+            return;
+        }
+
+        // Complete the task
+        auto status = server_->process_graph_->completeTask(instance_id, node_id, variables);
+
+        // Build response
+        json response;
+        response["success"] = status.ok;
+        
+        if (!status.ok) {
+            response["error"] = status.message;
+            response["next_task_id"] = "";
+        } else {
+            response["error"] = "";
+            
+            // Try to find next active task
+            auto [get_status, instance] = server_->process_graph_->getProcessInstance(instance_id);
+            if (get_status.ok && !instance.tokens.empty()) {
+                // Find first active token
+                for (const auto& token : instance.tokens) {
+                    if (token.state == ProcessToken::State::READY || 
+                        token.state == ProcessToken::State::ACTIVE) {
+                        response["next_task_id"] = instance_id + ":" + token.current_node;
+                        break;
+                    }
+                }
+                if (!response.contains("next_task_id")) {
+                    response["next_task_id"] = "";
+                }
+            } else {
+                response["next_task_id"] = "";
+            }
+        }
+
+        // Serialize response
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(500, std::string("Internal error: ") + e.what());
+    }
+}
+
+void WireProtocolServer::Session::handleBpmnQueryInstance() {
+    if (!authenticated_.load()) {
+        sendError(401, "Authentication required");
+        return;
+    }
+
+    if (!server_->process_graph_) {
+        sendError(503, "Process engine not available");
+        return;
+    }
+
+    try {
+        // Parse JSON payload
+        // Expected format: { "process_instance_id": "...", "include_variables": true/false, "include_history": true/false }
+        json request = parsePayloadJson(payload_buffer_);
+
+        std::string instance_id = request.value("process_instance_id", "");
+        bool include_variables = request.value("include_variables", true);
+        bool include_history = request.value("include_history", false);
+
+        if (instance_id.empty()) {
+            sendError(400, "Missing process_instance_id");
+            return;
+        }
+
+        // Get process instance
+        auto [status, instance] = server_->process_graph_->getProcessInstance(instance_id);
+
+        if (!status.ok) {
+            sendError(404, "Process instance not found: " + status.message);
+            return;
+        }
+
+        // Build response
+        json response;
+
+        // Map status
+        int status_code = 0;
+        switch (instance.state) {
+            case ProcessInstance::State::RUNNING:
+                status_code = 0;
+                break;
+            case ProcessInstance::State::COMPLETED:
+                status_code = 1;
+                break;
+            case ProcessInstance::State::FAILED:
+                status_code = 2;
+                break;
+            case ProcessInstance::State::SUSPENDED:
+                status_code = 3;
+                break;
+            case ProcessInstance::State::TERMINATED:
+                status_code = 4;
+                break;
+            default:
+                status_code = 0;
+        }
+        response["status"] = status_code;
+
+        // Active tasks
+        json active_tasks = json::array();
+        for (const auto& token : instance.tokens) {
+            if (token.state == ProcessToken::State::READY || 
+                token.state == ProcessToken::State::ACTIVE) {
+                json task;
+                task["task_id"] = instance_id + ":" + token.current_node;
+                task["task_name"] = token.current_node;
+                task["task_type"] = "userTask"; // Default, could be enhanced
+                task["assignee"] = ""; // Not stored in token currently
+                task["created_at_ns"] = token.created_at_ms * 1000000; // Convert ms to ns
+                active_tasks.push_back(task);
+            }
+        }
+        response["active_tasks"] = active_tasks;
+
+        // Variables
+        if (include_variables) {
+            response["variables"] = instance.variables;
+        } else {
+            response["variables"] = json::object();
+        }
+
+        // History (simplified - just list visited nodes)
+        if (include_history) {
+            json history = json::array();
+            for (const auto& token : instance.tokens) {
+                for (const auto& node : token.visited_nodes) {
+                    json event;
+                    event["event_type"] = "node_visited";
+                    // TODO: ProcessGraphManager doesn't store individual visit timestamps per node,
+                    // only token creation time. Future enhancement: add visit timestamp tracking.
+                    event["timestamp_ns"] = token.created_at_ms * 1000000;
+                    event["data"] = json::object();
+                    event["data"]["node_id"] = node;
+                    history.push_back(event);
+                }
+            }
+            response["history"] = history;
+        } else {
+            response["history"] = json::array();
+        }
+
+        // Timestamps
+        response["start_time_ns"] = instance.started_at_ms * 1000000; // Convert ms to ns
+        if (instance.completed_at_ms.has_value()) {
+            response["end_time_ns"] = instance.completed_at_ms.value() * 1000000;
+        } else {
+            response["end_time_ns"] = 0;
+        }
+
+        // Serialize response
+        std::string response_str = response.dump();
+        std::vector<uint8_t> response_data(response_str.begin(), response_str.end());
+        asyncWriteResponse(response_data);
+
+    } catch (const json::exception& e) {
+        sendError(400, std::string("Invalid JSON: ") + e.what());
+    } catch (const std::exception& e) {
+        sendError(500, std::string("Internal error: ") + e.what());
+    }
 }
 
 } // namespace themis::network
