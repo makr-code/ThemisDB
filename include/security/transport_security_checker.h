@@ -87,7 +87,7 @@ public:
             THEMIS_CRITICAL("║  ⚠️  PRODUCTION SECURITY OVERRIDE ACTIVE  ⚠️                  ║");
             THEMIS_CRITICAL("╠═══════════════════════════════════════════════════════════════╣");
             THEMIS_CRITICAL("║  --allow-insecure-wire-protocol flag used in PRODUCTION!     ║");
-            THEMIS_CRITICAL("║  {} transport security is DISABLED.                       ║", protocol_name);
+            THEMIS_CRITICAL("║  {} transport security is DISABLED.", protocol_name);
             THEMIS_CRITICAL("║  Network traffic is UNENCRYPTED and vulnerable to:           ║");
             THEMIS_CRITICAL("║  - Man-in-the-middle attacks                                 ║");
             THEMIS_CRITICAL("║  - Eavesdropping and data theft                              ║");
@@ -112,7 +112,7 @@ public:
         THEMIS_CRITICAL("╔═══════════════════════════════════════════════════════════════╗");
         THEMIS_CRITICAL("║  🛑  CRITICAL SECURITY FAILURE  🛑                            ║");
         THEMIS_CRITICAL("╠═══════════════════════════════════════════════════════════════╣");
-        THEMIS_CRITICAL("║  Insecure {} transport is NOT ALLOWED in production!      ║", protocol_name);
+        THEMIS_CRITICAL("║  Insecure {} transport is NOT ALLOWED in production!", protocol_name);
         THEMIS_CRITICAL("║                                                               ║");
         THEMIS_CRITICAL("║  SECURITY RISK:                                              ║");
         THEMIS_CRITICAL("║  Network traffic is transmitted in PLAINTEXT without         ║");
