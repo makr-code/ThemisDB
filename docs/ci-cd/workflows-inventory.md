@@ -1,14 +1,8 @@
 # GitHub Actions Workflows Inventory
 
-**Generated:** 2026-02-10 11:33:40
+**Generated:** 2026-02-10 11:38:20
 
-**Total Workflows:** 51 (successfully parsed) + 2 (YAML syntax errors)
-
-> **Note:** Two workflow files have YAML syntax errors and could not be parsed:
-> - `dr-testing.yml` - YAML parsing error on line 45-47
-> - `incident-drill.yml` - YAML parsing error on line 62-64
-> 
-> These files should be fixed before implementing the consolidation plan.
+**Total Workflows:** 51
 
 ## Table of Contents
 

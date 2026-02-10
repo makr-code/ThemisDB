@@ -64,6 +64,20 @@ Key improvements:
 - Consistent standards and conventions
 - Better caching and performance
 
+## Related Documentation
+
+The ThemisDB repository contains additional CI/CD related documentation:
+
+- **[CI_CD_WORKFLOWS.md](../CI_CD_WORKFLOWS.md)** - Git Flow CI/CD pipeline documentation
+- **[COMPLETE_CICD_STRATEGY.md](../COMPLETE_CICD_STRATEGY.md)** - Complete automated CI/CD strategy (German)
+- **[CI_CD_REVIEW_BRANCHING_STRATEGY.md](../CI_CD_REVIEW_BRANCHING_STRATEGY.md)** - Branching strategy review
+- **[CI_TEST_REPORTING.md](../CI_TEST_REPORTING.md)** - Test reporting setup
+
+This inventory and consolidation plan complements the existing documentation by providing:
+- Complete analysis of all 53 workflow files
+- Consolidation opportunities and migration strategy
+- Automated inventory generation tool
+
 ## Quick Links
 
 - [Workflows Directory](../../.github/workflows/)
