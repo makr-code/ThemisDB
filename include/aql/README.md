@@ -6,7 +6,7 @@ This directory contains the header files for AQL (Advanced Query Language) speci
 
 ### About AQL (Advanced Query Language)
 
-**AQL** is ThemisDB's multi-paradigm, declarative query language inspired by ArangoDB's AQL (ArrangoQL) but extended for comprehensive multi-model database support:
+**AQL** is ThemisDB's multi-paradigm, declarative query language inspired by ArangoDB's AQL (ArangoQL) but extended for comprehensive multi-model database support:
 
 **Language Characteristics:**
 - **Declarative Syntax**: SQL-like with FOR-FILTER-SORT-RETURN pattern

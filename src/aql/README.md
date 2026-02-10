@@ -6,7 +6,7 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 
 ### About AQL (Advanced Query Language)
 
-**AQL** is ThemisDB's multi-paradigm, declarative query language based on ArangoDB's AQL (ArrangoQL) but significantly extended to support:
+**AQL** is ThemisDB's multi-paradigm, declarative query language based on ArangoDB's AQL (ArangoQL) but significantly extended to support:
 
 - **Multi-Model Data**: Relational tables, document collections, property graphs, vector embeddings, geospatial data, timeseries
 - **Hybrid Queries**: Combine vector similarity + geospatial filters, fulltext + graph traversal, and more
