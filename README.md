@@ -2,12 +2,12 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
   
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
-  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml)
-  [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
+  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml)
+  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml)
+  [![Compliance](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
-  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)

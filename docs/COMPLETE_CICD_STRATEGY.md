@@ -1,5 +1,12 @@
 # ThemisDB - Complete Automated CI/CD Strategy
 
+> **⚠️ HISTORICAL DOCUMENT**  
+> This document describes the CI/CD strategy from January 2026. The workflows described here have been **superseded by the consolidated CI/CD architecture** implemented in February 2026.  
+> **For current CI/CD documentation, see:**
+> - [docs/ci-cd/ci-architecture.md](ci-cd/ci-architecture.md) - Current CI/CD architecture
+> - [.github/workflows/README.md](../.github/workflows/README.md) - Active workflows documentation
+> - [docs/ci-cd/consolidation-plan.md](ci-cd/consolidation-plan.md) - Consolidation details
+
 ## Übersicht der Workflow-Strategie
 
 Dieses Dokument beschreibt die vollständige, harmonisierte CI/CD-Strategie für ThemisDB mit allen vorhandenen und neuen Workflows.
