@@ -57,6 +57,27 @@ Templates for legal queries, contract analysis, and compliance checking.
 
 ---
 
+### 3b. **administrative_law_prompts.yaml** - Administrative Law (Verwaltungsrecht)
+German administrative law templates including environmental law and administrative procedures.
+
+**Prompts included:**
+- `verwaltungsrecht_analysis` - Administrative law analysis
+- `verwaltungsverfahren` - Administrative procedure (VwVfG)
+- `bimschg_immissionsschutz` - Federal Immission Control Act
+- `ta_laerm_noise_analysis` - TA Lärm noise analysis
+- `genehmigungsverfahren` - Licensing/approval procedures
+- `umweltrecht_compliance` - Environmental law compliance
+- `verwaltungsakt_pruefung` - Administrative act review
+- `baurecht_genehmigung` - Building law and construction permits
+
+**Use cases:** Administrative decisions, environmental permits (BImSchG, TA Lärm), building permits, compliance checking, administrative procedures
+
+**Topics covered:** Verwaltungsrecht, Verwaltungsverfahren, Immissionsschutzrecht, BImSchG, TA Lärm, Umweltrecht, Baurecht, Genehmigungsverfahren
+
+**Note:** Diese Templates bieten nur Analysen, keine Rechtsberatung. Konsultieren Sie immer qualifizierte Rechtsanwälte.
+
+---
+
 ### 4. **technical_prompts.yaml** - Technical Engineering
 Templates for technical queries, system architecture, and engineering problems.
 
@@ -145,6 +166,7 @@ for (const auto& file : {
     "standard_prompts.yaml",
     "scientific_prompts.yaml", 
     "legal_prompts.yaml",
+    "administrative_law_prompts.yaml",
     "technical_prompts.yaml",
     "economic_prompts.yaml",
     "mathematical_prompts.yaml",
@@ -245,6 +267,26 @@ These prompts integrate with ThemisDB's complete prompt engineering system:
 - **FeedbackCollector** - Gather feedback
 - **PromptVersionControl** - Version management
 - **SelfImprovementOrchestrator** - Autonomous optimization
+
+## Statistics
+
+**Total Prompt Files**: 8
+**Total Prompts**: 61+
+**Domains Covered**:
+- Standard (6 prompts)
+- Scientific (7 prompts)
+- Legal (7 prompts)
+- Administrative Law (8 prompts) - NEW!
+- Technical (8 prompts)
+- Economic (8 prompts)
+- Mathematical (8 prompts)
+- Geographic (8 prompts)
+
+**Special Coverage**:
+- German Administrative Law (Verwaltungsrecht)
+- Environmental Law (BImSchG, TA Lärm, Umweltrecht)
+- Building Law (Baurecht)
+- Administrative Procedures (VwVfG, Genehmigungsverfahren)
 
 ## Contributing
 

@@ -6,15 +6,16 @@ Diese Übersicht beschreibt alle verfügbaren Prompt-Vorlagen in deutscher Sprac
 
 ```
 config/prompts/
-├── README.md                    - Englische Dokumentation
-├── UEBERSICHT.md               - Diese Datei (Deutsche Übersicht)
-├── standard_prompts.yaml        - Standard-Anfragen
-├── scientific_prompts.yaml      - Wissenschaftliche Methoden
-├── legal_prompts.yaml           - Rechtliche Anfragen
-├── technical_prompts.yaml       - Technische Anfragen
-├── economic_prompts.yaml        - Wirtschaftliche Anfragen
-├── mathematical_prompts.yaml    - Mathematische Anfragen
-└── geographic_prompts.yaml      - Geografische Anfragen
+├── README.md                       - Englische Dokumentation
+├── UEBERSICHT.md                  - Diese Datei (Deutsche Übersicht)
+├── standard_prompts.yaml           - Standard-Anfragen
+├── scientific_prompts.yaml         - Wissenschaftliche Methoden
+├── legal_prompts.yaml              - Rechtliche Anfragen
+├── administrative_law_prompts.yaml - Verwaltungsrecht (NEU!)
+├── technical_prompts.yaml          - Technische Anfragen
+├── economic_prompts.yaml           - Wirtschaftliche Anfragen
+├── mathematical_prompts.yaml       - Mathematische Anfragen
+└── geographic_prompts.yaml         - Geografische Anfragen
 ```
 
 ## 🎯 Domänen-Übersicht
@@ -88,6 +89,51 @@ config/prompts/
 **⚠️ Wichtiger Hinweis:**
 Diese Vorlagen dienen nur zur Information, nicht als Rechtsberatung.
 Konsultieren Sie immer einen qualifizierten Rechtsanwalt.
+
+---
+
+### 3b. Verwaltungsrecht (administrative_law_prompts.yaml) ⭐ NEU!
+
+**Zweck**: Deutsches Verwaltungsrecht, Verwaltungsverfahren, Immissionsschutzrecht
+
+**8 Prompts enthalten:**
+- `verwaltungsrecht_analysis` - Verwaltungsrechtliche Analyse
+- `verwaltungsverfahren` - Verwaltungsverfahren nach VwVfG
+- `bimschg_immissionsschutz` - Bundes-Immissionsschutzgesetz (BImSchG)
+- `ta_laerm_noise_analysis` - TA Lärm - Lärmschutzanalyse
+- `genehmigungsverfahren` - Genehmigungsverfahren
+- `umweltrecht_compliance` - Umweltrechtliche Compliance
+- `verwaltungsakt_pruefung` - Verwaltungsaktprüfung
+- `baurecht_genehmigung` - Baurecht und Baugenehmigungen
+
+**Anwendungsfälle:**
+- Verwaltungsakte prüfen
+- Genehmigungsverfahren analysieren (BImSchG, Baurecht)
+- Immissionsschutzrechtliche Bewertung
+- Lärmschutz nach TA Lärm
+- Umweltrechtliche Compliance-Prüfung
+- Baurechtsanalyse und Baugenehmigungen
+
+**Rechtsgebiete abgedeckt:**
+- ✅ Allgemeines Verwaltungsrecht
+- ✅ Verwaltungsverfahrensgesetz (VwVfG)
+- ✅ Bundes-Immissionsschutzgesetz (BImSchG)
+- ✅ TA Lärm (Technische Anleitung zum Schutz gegen Lärm)
+- ✅ Umweltrecht (WHG, KrWG, BBodSchG, BNatSchG)
+- ✅ Baurecht (BauGB, BauNVO, Landesbauordnung)
+- ✅ Genehmigungsverfahren
+
+**Prüfungsschemata:**
+- Formelle und materielle Rechtmäßigkeit
+- Ermessensprüfung
+- Verhältnismäßigkeitsprüfung
+- Grenzwertprüfung (TA Lärm Immissionsrichtwerte)
+- Bauplanungsrecht und Bauordnungsrecht
+- Umweltrechtliche Compliance-Checklisten
+
+**⚠️ Wichtiger Hinweis:**
+Diese Vorlagen dienen nur zur Information, nicht als Rechtsberatung.
+Konsultieren Sie immer einen qualifizierten Rechtsanwalt für konkrete Rechtsfragen.
 
 ---
 
@@ -201,6 +247,7 @@ auto manager = std::make_shared<PromptManager>();
 manager->loadFromYAML("config/prompts/standard_prompts.yaml");
 manager->loadFromYAML("config/prompts/scientific_prompts.yaml");
 manager->loadFromYAML("config/prompts/legal_prompts.yaml");
+manager->loadFromYAML("config/prompts/administrative_law_prompts.yaml");  // NEU!
 manager->loadFromYAML("config/prompts/technical_prompts.yaml");
 manager->loadFromYAML("config/prompts/economic_prompts.yaml");
 manager->loadFromYAML("config/prompts/mathematical_prompts.yaml");
@@ -223,9 +270,31 @@ auto prompt = manager->getPromptWithContext("statistical_analysis", context);
 auto response = llm->generate(prompt.value());
 ```
 
-### 3. Beispiele
+### 3. Verwaltungsrecht Beispiel (NEU!)
 
-Siehe `examples/domain_prompts_usage_example.cpp` für vollständige Beispiele aller 7 Domänen.
+```cpp
+// Verwaltungsrechtliche Analyse
+std::unordered_map<std::string, std::string> context = {
+    {"query", "Genehmigung nach BImSchG prüfen"},
+    {"context", "Anlage: Produktionsstätte..."}
+};
+
+auto prompt = manager->getPromptWithContext("bimschg_immissionsschutz", context);
+auto response = llm->generate(prompt.value());
+
+// Lärmschutzprüfung nach TA Lärm
+context = {
+    {"query", "Lärmemissionen bewerten"},
+    {"context", "Messwerte: ..."}
+};
+
+prompt = manager->getPromptWithContext("ta_laerm_noise_analysis", context);
+response = llm->generate(prompt.value());
+```
+
+### 4. Beispiele
+
+Siehe `examples/domain_prompts_usage_example.cpp` für vollständige Beispiele aller 8 Domänen.
 
 ## 🔧 Template-Variablen
 
@@ -241,6 +310,26 @@ Alle Prompts unterstützen dynamische Variablen:
 - `{schema}` - Vollständiges Schema als JSON
 - `{capabilities}` - Aktivierte Funktionen
 
+## 📊 Statistik
+
+**Prompt-Dateien gesamt**: 8
+**Prompts gesamt**: 61+
+**Abgedeckte Domänen**:
+- Standard (6 Prompts)
+- Wissenschaftlich (7 Prompts)
+- Rechtlich (7 Prompts)
+- Verwaltungsrecht (8 Prompts) ⭐ NEU!
+- Technisch (8 Prompts)
+- Wirtschaftlich (8 Prompts)
+- Mathematisch (8 Prompts)
+- Geografisch (8 Prompts)
+
+**Spezielle Abdeckung**:
+- Deutsches Verwaltungsrecht (Verwaltungsrecht)
+- Umweltrecht (BImSchG, TA Lärm, Umweltrecht)
+- Baurecht (Baurecht, Bauordnungsrecht)
+- Verwaltungsverfahren (VwVfG, Genehmigungsverfahren)
+
 ## 🎯 Empfehlungen
 
 ### Für Standard-Anfragen
@@ -252,8 +341,17 @@ Alle Prompts unterstützen dynamische Variablen:
 - Synthese mehrerer Quellen
 - Hypothesentests
 
-### Für rechtliche Fragen
+### Für rechtliche Fragen (Allgemein)
 👉 Verwenden Sie `legal_prompts.yaml`
+- ⚠️ Nur zur Information, keine Rechtsberatung
+
+### Für Verwaltungsrecht (BImSchG, TA Lärm, etc.) ⭐ NEU!
+👉 Verwenden Sie `administrative_law_prompts.yaml`
+- Verwaltungsverfahren nach VwVfG
+- Genehmigungen nach BImSchG
+- Lärmschutz nach TA Lärm
+- Umweltrechtliche Compliance
+- Baurecht und Baugenehmigungen
 - ⚠️ Nur zur Information, keine Rechtsberatung
 
 ### Für technische Probleme
