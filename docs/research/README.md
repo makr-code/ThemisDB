@@ -42,7 +42,18 @@ Comprehensive research on GPU-accelerated vector indexing approaches for ThemisD
 
 ### Verfügbare Dokumente
 
-0. **[GPU_VECTOR_INDEXING_RESEARCH.md](GPU_VECTOR_INDEXING_RESEARCH.md)** 🆕🔥
+0. **[Multi-Layer Feedback Learning (GERMAN)](../de/research/MULTI_LAYER_FEEDBACK_LEARNING.md)** 🆕🔥
+   - Multi-Layer Feedback Learning & Self-Improvement Koordination
+   - Analyse existierender Feedback-Mechanismen in ThemisDB (5 Schichten, 15+ Mechanismen)
+   - Best Practices von Google (Mesa, Borg), Meta (TAO, Gorilla), Microsoft (Autopilot)
+   - 2 Koordinationsmodelle: Hierarchisch (Top-Down) und Peer-to-Peer (Horizontal)
+   - 15+ KPIs für Multi-Layer Monitoring mit Dashboard-Konzepten
+   - Rollback-Strategien, Shadow Testing, Progressive Rollout (Canary Deployment)
+   - 27 Referenzen zu Papers, Industry Architectures, OSS Projects
+   - 4-Phasen Implementierungs-Roadmap (7-11 Monate, ~11,500 LOC)
+   - **Status:** ✅ Research Complete (10. Februar 2026)
+
+1. **[GPU_VECTOR_INDEXING_RESEARCH.md](GPU_VECTOR_INDEXING_RESEARCH.md)** 🔥
    - GPU-Optimized Vector Indexing Research
    - 7 GPU acceleration approaches (Brute-Force, IVF, HNSW, PQ, Multi-GPU, Tensor Cores, Hybrid)
    - State-of-the-art papers (FAISS, CAGRA, SONG, ScaNN, NGT-QG)
