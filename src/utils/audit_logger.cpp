@@ -22,6 +22,10 @@
 namespace themis {
 namespace utils {
 
+// Version constant for CEF format (should match ThemisDB version)
+// TODO: In production, this should be derived from a central version header
+static const char* THEMISDB_VERSION = "1.5.0";
+
 // Local base64 (kept minimal to avoid new deps here)
 static std::string base64_encode_local(const std::vector<uint8_t>& data) {
     static const char b64_table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -905,7 +909,7 @@ std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventT
     // CEF Format: CEF:Version|Device Vendor|Device Product|Device Version|Signature ID|Name|Severity|Extension
     std::ostringstream cef;
     
-    cef << "CEF:0|ThemisDB|TaskScheduler|1.5.0|";
+    cef << "CEF:0|ThemisDB|TaskScheduler|" << THEMISDB_VERSION << "|";
     
     // Signature ID (event type)
     cef << securityEventTypeToString(event_type) << "|";

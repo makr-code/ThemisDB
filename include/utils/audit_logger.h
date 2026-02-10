@@ -146,7 +146,7 @@ struct AuditLoggerConfig {
     std::string siem_type = "syslog"; // "syslog", "splunk", or "elastic"
     std::string siem_format = "json";  // "json", "cef", or "syslog"
     std::string siem_host = "localhost";
-    uint16_t siem_port = 514; // syslog default (514), Splunk HEC (8088), Elastic (9200)
+    uint16_t siem_port = 514; // Default: syslog (514). Configure based on siem_type: Splunk HEC (8088), Elastic (9200)
     std::string splunk_token; // Splunk HEC token
     std::string elastic_index = "themisdb-audit"; // Elasticsearch index
     

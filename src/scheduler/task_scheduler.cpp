@@ -27,6 +27,12 @@
 // - Comprehensive audit logging
 // - Secure task definition storage (encryption at rest)
 // - Sandboxed execution environments
+//
+// Note: Multiple TODO comments throughout this file indicate where user authentication
+// context should be integrated. Currently using "system" as a placeholder.
+// Tracked in issue: #TODO-AUTH-CONTEXT
+// When implementing, replace all "system" strings with actual user ID from auth context:
+//   audit_logger_->logTaskSchedulerEvent(..., auth_context->user_id, ...)
 
 namespace themis {
 
