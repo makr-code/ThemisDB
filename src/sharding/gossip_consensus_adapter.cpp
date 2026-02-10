@@ -187,7 +187,7 @@ uint64_t GossipConsensusAdapter::getLastLogIndex() const {
 
 bool GossipConsensusAdapter::addNode(
     const std::string& node_id,
-    const std::string& endpoint
+    const std::string& /*endpoint*/
 ) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -215,18 +215,18 @@ bool GossipConsensusAdapter::removeNode(const std::string& node_id) {
     return true;
 }
 
-bool GossipConsensusAdapter::transferLeadership(const std::string& target_node_id) {
+bool GossipConsensusAdapter::transferLeadership(const std::string& /*target_node_id*/) {
     // Gossip is leaderless, so this is a no-op
     spdlog::info("Gossip is leaderless, leadership transfer not applicable");
     return true;
 }
 
-bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
+bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& /*snapshot_data*/) {
     spdlog::warn("Gossip snapshot not yet implemented");
     return false;
 }
 
-bool GossipConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) {
+bool GossipConsensusAdapter::restoreSnapshot(const nlohmann::json& /*snapshot_data*/) {
     spdlog::warn("Gossip snapshot restore not yet implemented");
     return false;
 }

@@ -154,7 +154,7 @@ extern "C" {
  * @note The signature matches the legacy stub for backward compatibility.
  *       Modern code should use the full API with adapter handles.
  */
-int llama_lora_adapter_set(struct llama_context* ctx, const char* adapter_path) {
+int llama_lora_adapter_set_path(struct llama_context* ctx, const char* adapter_path) {
     ensureAPIInitialized();
     
     if (!ctx) {

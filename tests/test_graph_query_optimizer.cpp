@@ -172,7 +172,7 @@ TEST_F(GraphQueryOptimizerTest, ExecuteBFS_FindsAllNodesInDepth) {
 }
 
 TEST_F(GraphQueryOptimizerTest, ExecuteBFS_RespectsMaxDepth) {
-    auto result = optimizer_->executeBFS("A", 1);
+    auto result = optimizer_->executeBFS("A", 1, {});
     ASSERT_TRUE(result);
     
     const auto& nodes = result.value();
@@ -221,7 +221,7 @@ TEST_F(GraphQueryOptimizerTest, ExecuteDFS_FindsNodes) {
 }
 
 TEST_F(GraphQueryOptimizerTest, ExecuteDFS_RespectsMaxDepth) {
-    auto result = optimizer_->executeDFS("A", 1);
+    auto result = optimizer_->executeDFS("A", 1, {});
     ASSERT_TRUE(result);
     
     const auto& nodes = result.value();
@@ -246,7 +246,7 @@ TEST_F(GraphQueryOptimizerTest, ExecuteDijkstra_FindsShortestPath) {
 
 TEST_F(GraphQueryOptimizerTest, ExecuteDijkstra_NoPath_ReturnsEmpty) {
     // D has no outgoing edges to reach anyone
-    auto result = optimizer_->executeDijkstra("D", "A");
+    auto result = optimizer_->executeDijkstra("D", "A", {});
     ASSERT_TRUE(result);
     
     const auto& path = result.value();
@@ -285,7 +285,7 @@ TEST_F(GraphQueryOptimizerTest, ExecuteBidirectional_FindsPath) {
 }
 
 TEST_F(GraphQueryOptimizerTest, ExecuteBidirectional_MeetingPoint) {
-    auto result = optimizer_->executeBidirectional("A", "D");
+    auto result = optimizer_->executeBidirectional("A", "D", {});
     ASSERT_TRUE(result);
     
     const auto& path = result.value();
@@ -369,7 +369,7 @@ TEST_F(GraphQueryOptimizerTest, ExecutionHistory_RecordsStats) {
 TEST_F(GraphQueryOptimizerTest, ExecutionHistory_BoundedSize) {
     // Execute many queries to test history bounding
     for (int i = 0; i < 150; ++i) {
-        optimizer_->executeBFS("A", 1);
+        optimizer_->executeBFS("A", 1, {});
     }
     
     const auto& history = optimizer_->getExecutionHistory();

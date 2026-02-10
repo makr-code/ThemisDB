@@ -354,7 +354,7 @@ TEST_F(LearnableRopeTest, ValidationLossEmptyDataset) {
 
 TEST_F(LearnableRopeTest, SaveAndLoadParameters) {
     // Create a temporary file path
-    std::string temp_path = std::filesystem::temp_directory_path() / "test_rope_params.json";
+    std::string temp_path = (std::filesystem::temp_directory_path() / "test_rope_params.json").string();
     
     // Modify theta values
     std::vector<double> custom_theta(64);
@@ -398,7 +398,7 @@ TEST_F(LearnableRopeTest, LoadParametersNonexistentFile) {
 }
 
 TEST_F(LearnableRopeTest, SavedFileFormat) {
-    std::string temp_path = std::filesystem::temp_directory_path() / "test_format.json";
+    std::string temp_path = (std::filesystem::temp_directory_path() / "test_format.json").string();
     
     learnable_rope_->saveParameters(temp_path);
     
@@ -524,10 +524,4 @@ TEST_F(LearnableRopeTest, SingleSampleTraining) {
 }
 
 // ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Main removed - using GTest's main from themis_tests.exe

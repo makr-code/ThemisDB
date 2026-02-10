@@ -1,0 +1,121 @@
+name: 'Reusable C++ Build'
+
+on:
+  workflow_call:
+    inputs:
+      os:
+        description: 'Operating system (ubuntu-latest, windows-latest, macos-latest)'
+        required: false
+        type: string
+        default: 'ubuntu-latest'
+      build-type:
+        description: 'Build type (Release, Debug, RelWithDebInfo)'
+        required: false
+        type: string
+        default: 'Release'
+      use-system-libs:
+        description: 'Use system libraries from apt (ON/OFF)'
+        required: false
+        type: string
+        default: 'OFF'
+      cmake-preset:
+        description: 'CMake preset name'
+        required: false
+        type: string
+        default: ''
+      run-tests:
+        description: 'Run tests after build'
+        required: false
+        type: boolean
+        default: true
+      upload-artifacts:
+        description: 'Upload build artifacts'
+        required: false
+        type: boolean
+        default: false
+      artifact-name:
+        description: 'Name for artifacts'
+        required: false
+        type: string
+        default: 'themisdb-build'
+      cache-key-suffix:
+        description: 'Additional cache key suffix'
+        required: false
+        type: string
+        default: ''
+    outputs:
+      build-status:
+        description: 'Build status (success/failure)'
+        value: ${{ jobs.build.outputs.status }}
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    name: Build (${{ inputs.os }}, ${{ inputs.build-type }})
+    runs-on: ${{ inputs.os }}
+    timeout-minutes: 60
+    outputs:
+      status: ${{ steps.build-result.outputs.status }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - name: Setup C++ environment
+        uses: ./.github/actions/setup-cpp-env
+        with:
+          use-system-libs: ${{ inputs.use-system-libs }}
+          cache-key-suffix: ${{ inputs.cache-key-suffix }}
+
+      - name: Setup vcpkg
+        uses: ./.github/actions/setup-vcpkg
+        with:
+          cache-key-suffix: ${{ inputs.cache-key-suffix }}
+
+      - name: Build with CMake
+        id: cmake
+        uses: ./.github/actions/cmake-build
+        with:
+          preset: ${{ inputs.cmake-preset }}
+          build-type: ${{ inputs.build-type }}
+          run-tests: ${{ inputs.run-tests }}
+
+      - name: Report test results
+        if: always() && inputs.run-tests
+        uses: ./.github/actions/report-results
+        with:
+          test-results-path: build/test-results.xml
+          artifact-name: test-results-${{ inputs.os }}-${{ inputs.build-type }}
+          report-name: 'Tests (${{ inputs.os }}, ${{ inputs.build-type }})'
+          fail-on-error: false
+
+      - name: Upload build artifacts
+        if: inputs.upload-artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}-${{ inputs.os }}-${{ inputs.build-type }}
+          path: |
+            build/themisdb*
+            build/lib*.a
+            build/lib*.so
+            build/*.dll
+            build/*.exe
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Set build result
+        id: build-result
+        if: always()
+        run: |
+          if [ "${{ steps.cmake.outcome }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
+        shell: bash

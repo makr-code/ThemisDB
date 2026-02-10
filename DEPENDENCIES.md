@@ -163,7 +163,7 @@ GitHub Actions workflows test dependency compatibility:
    - Full dependency resolution
    - Cross-platform builds (Linux, Windows, macOS)
 
-3. **Dependency Scanning** (`.github/workflows/security-scan.yml`):
+3. **Dependency Scanning** (`.github/workflows/security.yml` and `.github/workflows/compliance.yml`):
    - Weekly vulnerability scans
    - SBOM (Software Bill of Materials) generation
 

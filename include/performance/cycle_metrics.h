@@ -4,6 +4,13 @@
 #include <cstdint>
 #include <string>
 
+#ifdef _MSC_VER
+    #include <intrin.h>
+    #ifdef _M_ARM64
+        #include <arm64_neon.h>
+    #endif
+#endif
+
 namespace themis {
 namespace performance {
 
@@ -20,13 +27,19 @@ public:
      * @return Current CPU cycle count
      */
     static inline uint64_t cpu_cycles() noexcept {
-#if defined(__x86_64__) || defined(_M_X64)
+#if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_IX86))
+        return __rdtsc();
+#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
         uint32_t lo, hi;
         __asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
         return ((uint64_t)hi << 32) | lo;
 #elif defined(__aarch64__) || defined(_M_ARM64)
         uint64_t val;
+#if defined(_MSC_VER)
+        val = _ReadStatusReg(ARM64_CNTVCT);
+#else
         __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
+#endif
         return val;
 #else
         // Fallback for unsupported architectures
@@ -42,16 +55,24 @@ public:
      * Use for precise measurement endpoints.
      */
     static inline uint64_t rdtscp() noexcept {
-#if defined(__x86_64__) || defined(_M_X64)
+#if defined(_MSC_VER) && (defined(_M_X64) || defined(_M_IX86))
+        unsigned int aux;
+        return __rdtscp(&aux);
+#elif defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
         uint32_t lo, hi;
         __asm__ __volatile__("rdtscp" : "=a"(lo), "=d"(hi) :: "rcx");
         return ((uint64_t)hi << 32) | lo;
 #elif defined(__aarch64__) || defined(_M_ARM64)
+#if defined(_MSC_VER)
+        __isb(_ARM64_BARRIER_SY);
+        return _ReadStatusReg(ARM64_CNTVCT);
+#else
         // ARM64: use ISB to serialize
         __asm__ __volatile__("isb" ::: "memory");
         uint64_t val;
         __asm__ __volatile__("mrs %0, cntvct_el0" : "=r"(val));
         return val;
+#endif
 #else
         return 0;
 #endif

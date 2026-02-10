@@ -1,0 +1,35 @@
+{
+  "version": 6,
+  "include": ["CMakePresets.json"],
+  "configurePresets": [
+    {
+      "name": "vscode-windows-release",
+      "displayName": "VS Code: Windows MSVC Release (LoRA+Tests)",
+      "description": "Uses MSVC with VsDevCmd environment",
+      "hidden": false,
+      "inherits": "windows-ninja-msvc-release",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vscode-windows-release",
+      "configurePreset": "vscode-windows-release",
+      "targets": ["themis_tests"],
+      "jobs": 4
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "vscode-lora-tests",
+      "configurePreset": "vscode-windows-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}
