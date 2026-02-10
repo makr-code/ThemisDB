@@ -377,8 +377,4 @@ TEST_F(ResidualQuantizerTest, LargeDataset) {
     EXPECT_TRUE(status.ok);
 }
 
-// Main function
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Main removed - using GTest's main from themis_tests.exe

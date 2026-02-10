@@ -1149,6 +1149,9 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learned_quantizer.cpp
     ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/rotary_embeddings.cpp
+    ../src/index/learnable_rope.cpp
+    ../src/index/lora_rope.cpp
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1161,6 +1164,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/usb_admin_authenticator.cpp
     ../src/security/aql_injection_detector.cpp
     ../src/core/security_initialization.cpp
+    ../src/performance/cycle_metrics.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -2526,6 +2530,13 @@ add_executable(themis_server
 target_link_libraries(themis_server
     PRIVATE
         themis_core
+)
+
+# Set output directory to build root instead of cmake/ subdirectory
+set_target_properties(themis_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}"
 )
 
 # Ensure themis_server does not directly link mimalloc; rely on themis_core
