@@ -151,10 +151,19 @@ grpc::Status PromptEngineeringGrpcService::GetOptimizationHistory(
         // Convert to protobuf
         for (const auto& entry : history) {
             auto* pb_entry = response->add_entries();
-            // Convert timestamp to ISO 8601 string
+            
+            // Convert timestamp to ISO 8601 string (thread-safe)
             auto time = std::chrono::system_clock::to_time_t(entry.timestamp);
-            char buf[100];
-            std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time));
+            std::tm tm_buf;
+            #ifdef _WIN32
+            gmtime_s(&tm_buf, &time);
+            #else
+            gmtime_r(&time, &tm_buf);
+            #endif
+            
+            constexpr size_t ISO8601_BUFFER_SIZE = 32;
+            char buf[ISO8601_BUFFER_SIZE];
+            std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
             pb_entry->set_timestamp(buf);
             
             pb_entry->set_old_score(entry.old_score);
@@ -435,10 +444,18 @@ grpc::Status PromptEngineeringGrpcService::GetVersions(
             pb_ver->set_commit_message(version.commit_message);
             pb_ver->set_author(version.author);
             
-            // Convert timestamp to ISO 8601
+            // Convert timestamp to ISO 8601 (thread-safe)
             auto time = std::chrono::system_clock::to_time_t(version.timestamp);
-            char buf[100];
-            std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time));
+            std::tm tm_buf;
+            #ifdef _WIN32
+            gmtime_s(&tm_buf, &time);
+            #else
+            gmtime_r(&time, &tm_buf);
+            #endif
+            
+            constexpr size_t ISO8601_BUFFER_SIZE = 32;
+            char buf[ISO8601_BUFFER_SIZE];
+            std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
             pb_ver->set_timestamp(buf);
             
             pb_ver->set_performance_score(version.performance_score);
