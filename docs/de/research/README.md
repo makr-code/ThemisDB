@@ -14,6 +14,12 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 
 ## 📚 Dokumente
 
+### Self-Improvement & Koordination
+
+| Dokument | Sprache | Beschreibung | Status |
+|----------|---------|--------------|--------|
+| [**MULTI_LAYER_FEEDBACK_LEARNING.md**](MULTI_LAYER_FEEDBACK_LEARNING.md) | 🇩🇪 DE | **Multi-Layer Feedback Learning & Self-Improvement Koordination:** Prinzipien, Algorithmen und Architekturen zur Koordination mehrschichtiger Feedback-Loops. Analyse von Best Practices (Google, Meta, Microsoft), 2 Koordinationsmodelle (Hierarchisch, Peer-to-Peer), 15+ KPIs, Rollback/Shadow Testing/Rollout Strategien | ✅ Complete |
+
 ### Performance-Optimierung
 
 | Dokument | Sprache | Beschreibung | Status |
