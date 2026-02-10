@@ -78,7 +78,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Storage Module](de/storage/README.md)** - RocksDB Wrapper, LSM-Tree, MVCC (76K LOC)
 - **[Index Module](de/search/README.md)** - Vector HNSW, Graph, Secondary, Spatial (400K LOC)
 - **[Cache Module](de/storage/README.md)** - Semantic Cache, Result Cache
-- **[Timeseries Module](de/timeseries/README.md)** - Gorilla Compression, Aggregates (39K LOC)
+- **[Timeseries Module](timeseries/README.md)** - Time-Series Engine, Gorilla Compression, Continuous Aggregates ([German](de/timeseries/README.md))
 
 ### Distribution & Scaling Layer
 - **[Sharding Module](de/sharding/README.md)** - VCC-URN Sharding, Auto-Rebalancing, Gossip (300K LOC)
@@ -98,6 +98,7 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Server Module](de/server/README.md)** - HTTP Server, 21 API Handlers (164K LOC)
 - **[HTTP API Referenz](de/apis/HTTP_API_REFERENCE.md)** - **Vollständige HTTP Endpoint-Dokumentation** ⭐
 - **[API Documentation](de/apis/README.md)** - REST API Übersicht
+- **[Wire Protocol](wire-protocol.md)** - Binary protocol for client-server communication with TLS/mTLS
 - **[LLM Module](de/llm/README.md)** - LLM Interaction Store, Prompt Manager
 
 ### Security & Governance Layer
@@ -165,7 +166,8 @@ This root file is language-neutral. Bitte wähle eine Sprachversion:
 - **[Performance Tuning](de/performance/README.md)** - Performance-Optimierung
 - **[Benchmarks](de/performance/benchmarks.md)** - Performance-Benchmarks
 - **[Memory Tuning](de/performance/memory_tuning.md)** - Speicher-Optimierung
-- **[Observability](de/observability/README.md)** - Monitoring & Metrics
+- **[Observability & Monitoring Overview](observability/README.md)** - **Central Hub:** Logging, Tracing, Metrics & Alerting
+- **[Observability (DE)](de/observability/README.md)** - German Documentation: Monitoring & Metrics
 
 ---
 

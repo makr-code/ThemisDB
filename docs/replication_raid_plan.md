@@ -1,5 +1,16 @@
 # Replication Readiness Plan (RAID 1/10)
 
+> **Related Documentation:**
+> - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies
+> - **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed component status (~85% complete)
+
+## Module Organization
+
+This plan covers the WAL-based replication infrastructure implemented in the **`sharding/` module**:
+- `include/sharding/` - Headers for WAL components (wal_manager.h, wal_shipper.h, wal_applier.h, replication_coordinator.h, replica_topology.h)
+- `src/sharding/` - Implementation files for WAL infrastructure
+- The high-level `replication/` module (ReplicationManager) orchestrates these low-level components
+
 ## Current Findings
 - WAL pipeline exists: WALManager (persist), WALShipper (async sender, needs mTLS), WALApplier (apply with LSN checks/retries).
 - Receive endpoints in place: HTTP `/api/v1/wal/apply` implemented with auth/HMAC + latency metrics; gRPC ApplyWalBatch service implemented and server lifecycle wired (when gRPC enabled).
@@ -36,3 +47,8 @@
 - Test shipper→HTTP apply in loopback: start two instances (primary on 8765, replica on 8766), write to primary with MAJORITY, verify applied on replica.
 - Stand up multi-node integration test (MAJORITY) to verify no 404 and lag convergence.
 - Re-run RAID endurance test with replicas enabled; capture logs for any remaining failures.
+
+## See Also
+
+- **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication guide with deployment topologies and operational procedures
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status with component breakdown

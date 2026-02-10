@@ -155,6 +155,34 @@ export THEMIS_TLS_CA_CERT=/path/to/ca.crt
 export THEMIS_TLS_REQUIRE_CLIENT_CERT=1
 ```
 
+### Configuration File (YAML)
+
+For Wire Protocol TLS configuration, add to your `config.yaml`:
+
+```yaml
+wire_protocol:
+  # Enable Wire Protocol TLS
+  enable_tls: true
+  
+  # Server certificate and key (PEM format)
+  tls_cert_path: /path/to/server.crt
+  tls_key_path: /path/to/server.key
+  
+  # Optional: CA certificate for mTLS client verification
+  tls_ca_cert_path: /path/to/ca.crt
+  
+  # Optional: Require client certificates (mTLS)
+  tls_require_client_cert: false
+  
+  # Port (default: 18765)
+  port: 18765
+```
+
+**Production Requirement**: When `THEMIS_PRODUCTION_MODE=true` or `THEMIS_ENVIRONMENT=production`,
+Wire Protocol TLS **must** be enabled. The server will refuse to start with insecure transport
+in production mode unless explicitly overridden with `--allow-insecure-wire-protocol` flag
+(not recommended for compliance reasons).
+
 ### Code Configuration (C++ API)
 
 ```cpp
@@ -235,6 +263,45 @@ openssl s_client -connect localhost:8443 \
 ---
 
 ## Security Best Practices
+
+### Production Mode Enforcement
+
+ThemisDB enforces secure transport in production environments to prevent accidental exposure
+of sensitive data.
+
+**Production Mode Detection:**
+- `THEMIS_PRODUCTION_MODE=true` (or `1`, or `production`)
+- `THEMIS_ENVIRONMENT=production` (or `prod`)
+
+**Enforcement Rules:**
+1. **Wire Protocol**: TLS **must** be enabled when running in production mode
+2. **HTTP Server**: TLS is strongly recommended but not enforced (backwards compatibility)
+3. **Startup Validation**: Server performs security checks on startup and refuses to start if
+   insecure configuration is detected in production mode
+
+**Override for Testing (Not Recommended):**
+```bash
+# ONLY for development/testing - NOT for production!
+./themis_server --allow-insecure-wire-protocol
+```
+
+**Secure Production Configuration:**
+```yaml
+# config.yaml
+wire_protocol:
+  enable_tls: true
+  tls_cert_path: /etc/themis/certs/server.crt
+  tls_key_path: /etc/themis/certs/server.key
+  tls_ca_cert_path: /etc/themis/certs/ca.crt  # For mTLS
+  tls_require_client_cert: true               # Enable mTLS
+
+server:
+  enable_tls: true
+  tls_cert_path: /etc/themis/certs/server.crt
+  tls_key_path: /etc/themis/certs/server.key
+  tls_ca_cert_path: /etc/themis/certs/ca.crt
+  tls_require_client_cert: true
+```
 
 ### Certificate Management
 

@@ -28,16 +28,23 @@ ThemisDB uses a clean port mapping strategy to separate core functionality from 
 
 ## Port Summary Table
 
-| Port  | Protocol/Service | Status | Build Flag Required | Description |
-|-------|-----------------|--------|---------------------|-------------|
-| 8080  | HTTP/1.1, GraphQL, HTTP/2 | Core | None | REST API, GraphQL endpoint, HTTP/2 upgrade |
-| 18765 | Wire Protocol, gRPC | Core | None | Binary protocol, gRPC inter-shard communication |
-| 4318  | OpenTelemetry/OTLP | Core | None | Prometheus metrics, OpenTelemetry collector |
-| 1883  | MQTT | Optional | `-DTHEMIS_ENABLE_MQTT=ON` | MQTT broker (plain, unencrypted) |
-| 8883  | MQTT over TLS | Optional | `-DTHEMIS_ENABLE_MQTT=ON` | MQTT broker with TLS encryption |
-| 8083  | MQTT over WebSocket | Optional | `-DTHEMIS_ENABLE_MQTT=ON` | MQTT broker via WebSocket transport |
-| 5432  | PostgreSQL Wire Protocol | Optional | `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` | PostgreSQL-compatible wire protocol |
-| 3000  | MCP | Optional | `-DTHEMIS_ENABLE_MCP=ON` | Model Context Protocol for LLM integration |
+| Port  | Protocol/Service | Status | Build Flag Required | TLS Support | Description |
+|-------|-----------------|--------|---------------------|-------------|-------------|
+| 8080  | HTTP/1.1, GraphQL, HTTP/2 | Core | None | ✅ Optional | REST API, GraphQL endpoint, HTTP/2 upgrade |
+| 18765 | Wire Protocol, gRPC | Core | None | ✅ **Recommended** | Binary protocol, gRPC inter-shard communication |
+| 4318  | OpenTelemetry/OTLP | Core | None | ⚠️ Internal | Prometheus metrics, OpenTelemetry collector |
+| 1883  | MQTT | Optional | `-DTHEMIS_ENABLE_MQTT=ON` | ❌ No | MQTT broker (plain, unencrypted) |
+| 8883  | MQTT over TLS | Optional | `-DTHEMIS_ENABLE_MQTT=ON` | ✅ Required | MQTT broker with TLS encryption |
+| 8083  | MQTT over WebSocket | Optional | `-DTHEMIS_ENABLE_MQTT=ON` | ⚠️ Optional | MQTT broker via WebSocket transport |
+| 5432  | PostgreSQL Wire Protocol | Optional | `-DTHEMIS_ENABLE_POSTGRES_WIRE=ON` | ✅ Recommended | PostgreSQL-compatible wire protocol |
+| 3000  | MCP | Optional | `-DTHEMIS_ENABLE_MCP=ON` | ⚠️ Optional | Model Context Protocol for LLM integration |
+
+**Legend:**
+- ✅ **Recommended**: TLS should be enabled for production use
+- ✅ **Required**: TLS is mandatory for this protocol
+- ✅ **Optional**: TLS can be enabled but is not required
+- ⚠️ **Internal**: Should only be exposed on internal networks
+- ❌ **No**: TLS not supported (use TLS-enabled alternative)
 
 ---
 
@@ -81,12 +88,47 @@ curl -X POST http://localhost:8080/api/query \
 
 **Protocols:** Binary Wire Protocol, gRPC  
 **Transport:** TCP  
-**TLS:** Optional
+**TLS:** ✅ **Recommended for Production** (configure via `WireProtocolServer::Config`)
 
 **Purpose:**
 - High-performance binary protocol for client SDKs
 - gRPC inter-shard communication (Enterprise Edition)
 - Optimized for low-latency operations
+- **Default port for production deployments with TLS**
+
+**Security Recommendations:**
+- ✅ **Enable TLS** for all production deployments
+- ✅ **Use mTLS** for service-to-service communication
+- ✅ Configure minimum TLS version (1.2 or 1.3)
+- ✅ Use strong cipher suites
+- ⚠️ **Never expose unencrypted Wire Protocol to public networks**
+
+**Configuration:**
+```cpp
+// C++ Server Configuration
+config.enable_tls = true;
+config.tls_cert_path = "/etc/themisdb/certs/server.crt";
+config.tls_key_path = "/etc/themisdb/certs/server-key.pem";
+config.tls_ca_cert_path = "/etc/themisdb/certs/ca.crt";
+config.tls_require_client_cert = true;  // For mTLS
+```
+
+**Security Posture:**
+- ✅ **Production Mode**: TLS encryption is **mandatory** - server will refuse to start without TLS
+- ⚠️ **Development Mode**: TLS is optional for local testing
+- 🔒 **Override**: Use `--allow-insecure-wire-protocol` flag to bypass (not recommended)
+
+**Production Configuration:**
+```yaml
+# config.yaml
+wire_protocol:
+  enable_tls: true  # REQUIRED in production
+  tls_cert_path: /path/to/server.crt
+  tls_key_path: /path/to/server.key
+  tls_ca_cert_path: /path/to/ca.crt  # Optional: for mTLS
+  tls_require_client_cert: true      # Optional: enforce mTLS
+  port: 18765
+```
 
 **Docker Mapping:**
 ```yaml
@@ -95,13 +137,25 @@ ports:
 ```
 
 **Usage Example:**
-```python
-# Python client
-from themisdb import Client
+```go
+// Go client with TLS
+import themisdb "github.com/makr-code/ThemisDB/clients/go"
 
-client = Client(host="localhost", port=18765)
-result = client.query("MATCH (n) RETURN n LIMIT 10")
+tlsConfig := themisdb.NewProductionTLSConfig("/etc/themisdb/certs/ca.crt")
+tlsConfig.ServerName = "themisdb.example.com"
+
+client, err := themisdb.NewWireClientWithTLS(
+    "themisdb.example.com",
+    18765,
+    "username",
+    "password",
+    tlsConfig,
+)
 ```
+
+**See Also:**
+- [Wire Protocol Transport Security Guide](../../en/guides/WIRE_PROTOCOL_TRANSPORT_SECURITY.md)
+- [TLS Setup Guide](../guides/guides_tls_setup.md)
 
 ---
 

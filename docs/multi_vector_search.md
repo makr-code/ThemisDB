@@ -4,8 +4,8 @@
 
 MultiVectorSearch provides advanced similarity search capabilities for complex retrieval scenarios involving multiple vectors. All core methods are fully implemented with comprehensive fusion strategy support.
 
-**Status**: Production-Ready Beta (6/6 APIs functional)  
-**Version**: 1.5.0-beta  
+**Status**: Production-Ready (7/7 APIs functional)  
+**Version**: 1.5.0  
 **Last Updated**: February 2026
 
 ## Implementation Status
@@ -27,7 +27,7 @@ All core methods are fully implemented and tested:
 
 - **Multiple Query Vectors**: Search with multiple query reformulations simultaneously
 - **Multiple Vector Fields**: Search across different vector fields (e.g., title, content, metadata)
-- **Fusion Strategies**: 6 different strategies to combine scores/ranks
+- **Fusion Strategies**: 7 different strategies to combine scores/ranks
 - **Hybrid Search**: Combine vector similarity with keyword/BM25 scores
 - **Batch Processing**: Efficient processing of multiple queries
 - **Weight Optimization**: Learn optimal fusion weights from training data
@@ -52,6 +52,7 @@ All core methods are fully implemented and tested:
 4. **Max Score**: Take the maximum score across all queries
 5. **Min Score**: Take the minimum score across all queries
 6. **Average Score**: Take the average score across all queries
+7. **Learned Fusion**: Uses optimized weights from `optimizeWeights()` method (grid search with NDCG)
 
 ## Usage
 
@@ -164,6 +165,22 @@ if (optimal_weights) {
     // Use learned weights in future searches
     config.weights = optimal_weights.value();
 }
+```
+
+### Learned Fusion Strategy
+
+```cpp
+// Use learned/optimized weights with LEARNED_FUSION strategy
+MultiVectorSearch::MultiQuery query;
+query.vectors = {query_vec1, query_vec2};
+
+MultiVectorSearch::SearchConfig config;
+config.fusion = MultiVectorSearch::FusionStrategy::LEARNED_FUSION;
+config.weights = {0.7f, 0.3f};  // Pre-computed weights (e.g., from optimizeWeights)
+config.top_k = 10;
+
+auto result = multi_search.search(query, config);
+// Note: LEARNED_FUSION requires weights to be explicitly provided
 ```
 
 ## Configuration Options

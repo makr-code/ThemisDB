@@ -11,6 +11,7 @@
 #include "transaction/transaction_manager.h"
 #include "timeseries/tsstore.h"
 #include "timeseries/continuous_agg.h"
+#include "security/transport_security_checker.h"
 
 #include <nlohmann/json.hpp>
 #include <iostream>
@@ -58,7 +59,24 @@ WireProtocolServer::~WireProtocolServer() {
     stop();
 }
 
+bool WireProtocolServer::validateTransportSecurity(int argc, const char* const argv[]) const {
+    return themis::security::TransportSecurityChecker::validateProductionSafety(
+        config_.enable_tls,
+        "Wire Protocol",
+        argc,
+        argv
+    );
+}
+
 void WireProtocolServer::start() {
+    // Enforce transport security validation as a startup gate
+    // We do not have argc/argv here, so we pass an empty argument list
+    if (!validateTransportSecurity(0, nullptr)) {
+        std::cerr << "[WireProtocol] Transport security validation failed. Server will not start."
+                  << std::endl;
+        return;
+    }
+    
     running_.store(true, std::memory_order_release);
 
     tcp::endpoint endpoint(tcp::v4(), config_.port);

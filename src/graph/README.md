@@ -165,9 +165,55 @@ constraints.forbidden_vertices = {"blocked"}; // Skip certain vertices
 
 The Graph Query Optimizer integrates with:
 - **GraphIndexManager**: Core graph operations (BFS, Dijkstra, A*)
+- **PathConstraints**: Constraint-based path finding via `optimizeConstrainedPath()`
 - **QueryOptimizer**: General query optimization framework
 - **Result<T>**: Error handling using the tl::expected pattern
 - **Error Registry**: Structured error reporting
+
+### PathConstraints Integration
+
+The optimizer supports constrained path queries through integration with the PathConstraints module:
+
+```cpp
+#include "graph/graph_query_optimizer.h"
+#include "graph/path_constraints.h"
+
+// Create constraints
+PathConstraints constraints(&graph_mgr);
+constraints.addMinLength(2);
+constraints.addMaxLength(5);
+constraints.addForbiddenNode("blocked_user");
+constraints.requireUniqueNodes();
+
+// Get optimization plan
+auto plan = optimizer.optimizeConstrainedPath("start", "end", constraints);
+if (plan) {
+    // Display algorithm name
+    std::string algo_name;
+    switch (plan->algorithm) {
+        case TraversalAlgorithm::BFS: algo_name = "BFS"; break;
+        case TraversalAlgorithm::DFS: algo_name = "DFS"; break;
+        case TraversalAlgorithm::DIJKSTRA: algo_name = "Dijkstra"; break;
+        case TraversalAlgorithm::ASTAR: algo_name = "A*"; break;
+        case TraversalAlgorithm::BIDIRECTIONAL: algo_name = "Bidirectional"; break;
+    }
+    std::cout << "Algorithm: " << algo_name << std::endl;
+    std::cout << "Estimated cost: " << plan->estimated_cost << std::endl;
+    std::cout << plan->explanation << std::endl;
+}
+
+// Execute path finding with constraints
+auto paths = constraints.findConstrainedPaths("start", "end", 10);
+if (!paths) {
+    std::cerr << "Failed to find constrained paths: " << paths.error().message << std::endl;
+} else {
+    for (const auto& path : paths.value()) {
+        std::cout << "Path cost: " << path.cost << ", nodes: " << path.nodes.size() << std::endl;
+    }
+}
+```
+
+For more details on PathConstraints, see `ADVANCED_FEATURES_README.md`.
 
 ## Testing
 

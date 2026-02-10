@@ -96,10 +96,22 @@ public:
     ~WireProtocolServer();
 
     /**
+     * @brief Validate transport security configuration for production
+     * 
+     * Checks if TLS is properly configured when running in production mode.
+     * 
+     * @param argc: Command-line argument count
+     * @param argv: Command-line arguments
+     * @return true if configuration is safe, false if should exit
+     */
+    bool validateTransportSecurity(int argc, const char* const argv[]) const;
+
+    /**
      * @brief Start server in dedicated thread pool
      * 
      * Creates separate IO context and worker threads,
      * isolated from HTTP server to prevent interference.
+     * Enforces transport security validation before starting.
      */
     void start();
 

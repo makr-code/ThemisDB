@@ -102,6 +102,17 @@ private:
     std::optional<http::response<http::string_body>> checkAuth(
         const http::request<http::string_body>& req, const std::string& required_scope);
     
+    // Tenant isolation helper
+    struct TenantAuthContext {
+        std::string user_id;
+        std::string tenant_id;
+        std::vector<std::string> groups;
+    };
+    std::optional<http::response<http::string_body>> checkAuthAndResolveTenant(
+        const http::request<http::string_body>& req, 
+        const std::string& required_scope,
+        TenantAuthContext& out_context);
+    
     // Governance headers
     void applyGovernanceHeaders(
         const http::request<http::string_body>& req,
