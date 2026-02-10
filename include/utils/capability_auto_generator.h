@@ -14,6 +14,9 @@
 
 namespace themis::util {
 
+// Forward declaration
+class SelfAwareness;
+
 /**
  * Capability Auto-Generator
  * 
@@ -106,10 +109,12 @@ public:
      * 
      * @param config Configuration
      * @param topology Shard topology manager
+     * @param self_awareness Optional self-awareness system (for audit trigger)
      */
     explicit CapabilityAutoGenerator(
         const Config& config,
-        std::shared_ptr<sharding::ShardTopology> topology
+        std::shared_ptr<sharding::ShardTopology> topology,
+        std::shared_ptr<SelfAwareness> self_awareness = nullptr
     );
     
     /**
@@ -201,6 +206,7 @@ public:
 private:
     Config config_;
     std::shared_ptr<sharding::ShardTopology> topology_;
+    std::shared_ptr<SelfAwareness> self_awareness_;  // For triggering self-awareness on audit signing
     
     // Background thread
     std::unique_ptr<std::thread> worker_thread_;

@@ -1,4 +1,5 @@
 #include "utils/capability_auto_generator.h"
+#include "utils/self_awareness.h"
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <yaml-cpp/yaml.h>
@@ -77,8 +78,9 @@ CapabilityAutoGenerator::Config CapabilityAutoGenerator::Config::loadFromYAML(co
 // Constructor
 CapabilityAutoGenerator::CapabilityAutoGenerator(
     const Config& config,
-    std::shared_ptr<sharding::ShardTopology> topology
-) : config_(config), topology_(topology) {
+    std::shared_ptr<sharding::ShardTopology> topology,
+    std::shared_ptr<SelfAwareness> self_awareness
+) : config_(config), topology_(topology), self_awareness_(self_awareness) {
 }
 
 // Destructor
@@ -427,6 +429,12 @@ void CapabilityAutoGenerator::auditLog(const std::string& shard_id, const nlohma
         log_entry["timestamp"] = std::chrono::system_clock::now().time_since_epoch().count();
         
         log << log_entry.dump() << "\n";
+        
+        // TRIGGER SELF-AWARENESS: When audit log is signed/written
+        if (self_awareness_ && config_.require_signature) {
+            // Trigger self-awareness snapshot on audit signing
+            self_awareness_->onAuditSigning(log_entry);
+        }
     } catch (...) {
         // Ignore logging errors
     }
