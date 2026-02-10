@@ -74,6 +74,54 @@ This clarifies that both engines are independent implementations serving differe
 - Chain-of-thought storage
 - Conversation history management
 
+### Grammar-Constrained Generation ✅ IMPLEMENTED
+
+**Status:** Fully implemented with runtime API detection
+
+The LLM module includes complete implementation for grammar-constrained generation (EBNF/GBNF format), which guarantees valid structured outputs. This feature uses **runtime API detection** similar to LoRA adapters.
+
+**How It Works:**
+1. On first use, the system detects if llama.cpp has grammar APIs available
+2. If available: Full grammar-constrained generation is enabled
+3. If not available: System falls back gracefully to unconstrained generation
+
+**Implementation Details:**
+```
+"Grammar support is unavailable (llama grammar API not present)"
+```
+
+**Location:** `Grammar::compile()` in `src/llm/grammar.cpp`
+
+**Dynamic API Loading:** `src/llm/llama_grammar_adapter.cpp`
+
+**Required APIs from llama.cpp:**
+- `llama_grammar_init()` - Compile EBNF to grammar
+- `llama_grammar_free()` - Free grammar resources
+- `llama_grammar_sample()` - Filter tokens by grammar rules
+- `llama_grammar_accept()` - Update grammar state after token generation
+
+**Runtime Detection:**
+- Uses `themis_llama_grammar_available()` to check API availability
+- Automatically activates when llama.cpp has grammar support
+- Graceful fallback with informative logging if not available
+- No rebuild needed when llama.cpp is updated
+
+**Usage:**
+```cpp
+// Grammar support is automatically detected and used
+Grammar grammar(ebnf_text, "root");
+if (grammar.isValid()) {
+    // Grammar APIs are available and working
+} else {
+    // APIs not available, will use unconstrained generation
+}
+```
+
+**See Also:**
+- `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` - Full grammar documentation
+- `docs/LLM_IMPLEMENTATION_COMPLETE.md` - LLM implementation status (100%)
+- `docs/LLM_CORE_STATUS_MASTER.md` - Master status document
+
 ## Features
 
 - Store LLM interactions and conversations

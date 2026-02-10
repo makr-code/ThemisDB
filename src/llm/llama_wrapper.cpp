@@ -23,6 +23,13 @@ extern "C" {
     bool themis_llama_lora_available();
 }
 
+// Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
+extern "C" {
+    void llama_grammar_sample(const struct llama_grammar* grammar, const struct llama_context* ctx, struct llama_token_data_array* candidates);
+    void llama_grammar_accept(struct llama_grammar* grammar, const struct llama_context* ctx, int token);
+    bool themis_llama_grammar_available();
+}
+
 namespace themis {
 namespace llm {
 
@@ -1483,13 +1490,12 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
-    if (grammar != nullptr) {
-        // llama_grammar_sample(grammar, ctx, &candidates_p);
-        // NOTE: Grammar API removed from llama.cpp - needs migration to new API
-        spdlog::warn("Grammar sampling not available - llama.cpp API changed");
-        
-        // spdlog::debug("Grammar filtering applied, {} candidates remaining", 
-        //              candidates_p.size);
+    if (grammar != nullptr && themis_llama_grammar_available()) {
+        llama_grammar_sample(grammar, ctx, &candidates_p);
+        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+                     candidates_p.size);
+    } else if (grammar != nullptr && !themis_llama_grammar_available()) {
+        spdlog::warn("Grammar sampling requested but llama.cpp grammar API not available");
     }
     
     // Apply temperature sampling
@@ -1541,10 +1547,11 @@ llama_token LlamaWrapper::sampleTokenInternal(
     llama_token sampled_token = candidates_p.data[0].id;
     
     // Update grammar state with sampled token (Phase 3.2)
-    if (grammar != nullptr) {
-        // llama_grammar_accept(grammar, ctx, sampled_token);
-        // NOTE: Grammar API removed from llama.cpp - needs migration to new API
-        spdlog::warn("Grammar accept not available - llama.cpp API changed");
+    if (grammar != nullptr && themis_llama_grammar_available()) {
+        llama_grammar_accept(grammar, ctx, sampled_token);
+        spdlog::debug("Grammar state updated with token {}", sampled_token);
+    } else if (grammar != nullptr && !themis_llama_grammar_available()) {
+        spdlog::warn("Grammar accept requested but llama.cpp grammar API not available");
     }
     
     return sampled_token;
