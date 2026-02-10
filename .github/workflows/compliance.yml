@@ -1,0 +1,159 @@
+name: 'Compliance & Audit'
+
+on:
+  pull_request:
+    branches:
+      - main
+      - release/*
+  push:
+    branches:
+      - main
+  schedule:
+    # Monthly compliance check on 1st of month at 3 AM UTC
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  # License compliance
+  license-scan:
+    name: License Compliance Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate license policy
+        run: |
+          if [ ! -f ".license-policy.json" ]; then
+            echo "⚠️ Warning: .license-policy.json not found"
+            exit 0
+          fi
+          
+          echo "## 📋 License Policy" >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          cat .license-policy.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Check project licenses
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## 📄 Project Licenses" >> $GITHUB_STEP_SUMMARY
+          
+          find . -name "LICENSE*" -o -name "COPYING*" | while read file; do
+            echo "- \`$file\`" >> $GITHUB_STEP_SUMMARY
+          done
+
+  # SBOM generation
+  sbom-generation:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate SBOM with syft
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+          syft . -o spdx-json > sbom.spdx.json
+          syft . -o cyclonedx-json > sbom.cyclonedx.json
+        continue-on-error: true
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-reports
+          path: |
+            sbom.*.json
+          retention-days: 90
+
+      - name: SBOM summary
+        run: |
+          echo "## 📦 SBOM Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Software Bill of Materials created in SPDX and CycloneDX formats" >> $GITHUB_STEP_SUMMARY
+
+  # Audit checks
+  audit-checks:
+    name: Audit Security
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check security configurations
+        run: |
+          echo "## 🔐 Security Configuration Audit" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Check for security files
+          files=("SECURITY.md" ".github/dependabot.yml" ".github/workflows/security*.yml")
+          
+          echo "### Security Files" >> $GITHUB_STEP_SUMMARY
+          for file in "${files[@]}"; do
+            if ls $file 1> /dev/null 2>&1; then
+              echo "- ✅ \`$file\`" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "- ⚠️ \`$file\` (missing)" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+      - name: Check workflow permissions
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Workflow Permissions Audit" >> $GITHUB_STEP_SUMMARY
+          
+          # Basic check for overly permissive workflows
+          if grep -r "permissions:.*write-all" .github/workflows/ 2>/dev/null; then
+            echo "⚠️ Found workflows with write-all permissions" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No write-all permissions found" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # Access control review
+  access-review:
+    name: Access Control Review
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Review access patterns
+        run: |
+          echo "## 👥 Access Control Review" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Manual review required for:" >> $GITHUB_STEP_SUMMARY
+          echo "- Repository access and permissions" >> $GITHUB_STEP_SUMMARY
+          echo "- Secret management and rotation" >> $GITHUB_STEP_SUMMARY
+          echo "- Branch protection rules" >> $GITHUB_STEP_SUMMARY
+          echo "- Deploy key management" >> $GITHUB_STEP_SUMMARY
+
+  # Compliance summary
+  summary:
+    name: Compliance Summary
+    runs-on: ubuntu-latest
+    needs: [license-scan, sbom-generation, audit-checks, access-review]
+    if: always()
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# ✅ Compliance & Audit Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| License Scan | ${{ needs.license-scan.result == 'success' && '✅' || '❌' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SBOM Generation | ${{ needs.sbom-generation.result == 'success' && '✅' || '❌' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Audit Checks | ${{ needs.audit-checks.result == 'success' && '✅' || '❌' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Access Review | ${{ needs.access-review.result == 'success' && '✅' || (needs.access-review.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY

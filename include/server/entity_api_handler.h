@@ -31,6 +31,9 @@ class WALManager;
 class ReplicationCoordinator;
 class MultiPrimaryCoordinator;
 struct WriteConcernConfig;
+class CollectionRedundancyManager;
+class ConsistentHashRing;
+class ShardTopology;
 }
 
 namespace utils {
@@ -44,6 +47,7 @@ struct EntityApiConfig {
     bool feature_cdc = false;  // Enable change data capture
     bool feature_geo = false;  // Enable geo/spatial index
     bool feature_replication = false;  // Enable replication/write concern
+    bool feature_raid = false;  // Enable RAID-style redundancy via RedundancyStrategy
 };
 
 /**
@@ -94,6 +98,9 @@ public:
      * @param wal_manager Optional: WAL manager for replication
      * @param replication_coordinator Optional: Replication coordinator
      * @param multi_primary_coordinator Optional: Multi-primary coordinator
+     * @param redundancy_manager Optional: RAID-style redundancy manager
+     * @param hash_ring Optional: Consistent hash ring for shard routing
+     * @param shard_topology Optional: Shard topology for RAID operations
      */
     EntityApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
@@ -108,7 +115,10 @@ public:
         std::shared_ptr<Changefeed> changefeed = nullptr,
         std::shared_ptr<sharding::WALManager> wal_manager = nullptr,
         std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator = nullptr,
-        std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator = nullptr
+        std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator = nullptr,
+        std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager = nullptr,
+        std::shared_ptr<sharding::ConsistentHashRing> hash_ring = nullptr,
+        std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
     /**
@@ -169,6 +179,11 @@ private:
     std::shared_ptr<sharding::WALManager> wal_manager_;
     std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator_;
     std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator_;
+    
+    // RAID redundancy (optional)
+    std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
+    std::shared_ptr<sharding::ConsistentHashRing> hash_ring_;
+    std::shared_ptr<sharding::ShardTopology> shard_topology_;
 
     // Helper methods
     std::string extractPathParam(const std::string& target, const std::string& prefix);

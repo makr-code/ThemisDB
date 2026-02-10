@@ -196,6 +196,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     JWTClaims claims;
     claims.sub = payload.value("sub", "");
     claims.email = payload.value("email", "");
+    claims.tenant_id = payload.value("tenant_id", "");  // Extract tenant_id from JWT
     claims.issuer = payload.value("iss", "");
     if (payload.contains("groups")) {
         claims.groups = payload["groups"].get<std::vector<std::string>>();

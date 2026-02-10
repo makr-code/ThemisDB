@@ -1,6 +1,7 @@
 #include "performance/wisckey.h"
 #include <stdexcept>
 #include <cstring>
+#include <cstdio>
 
 namespace themis {
 namespace performance {
@@ -43,7 +44,7 @@ ValueLog::~ValueLog() {
 }
 
 ValueAddress ValueLog::append(const std::string& value) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for writes
     
     ValueAddress addr;
     addr.offset = current_offset_;
@@ -59,7 +60,9 @@ ValueAddress ValueLog::append(const std::string& value) {
 }
 
 std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // Exclusive lock required: std::fstream is not thread-safe for concurrent seekg/read
+    // Concurrent calls to seekg() would corrupt the file position state
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);
     
     log_file_->seekg(addr.offset);
     std::string value(addr.size, '\0');
@@ -73,13 +76,76 @@ std::optional<std::string> ValueLog::read(const ValueAddress& addr) {
 }
 
 void ValueLog::sync() {
-    std::lock_guard<std::mutex> lock(mutex_);
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for sync
     log_file_->flush();
 }
 
-void ValueLog::compact(const std::vector<ValueAddress>& live_addresses) {
-    // TODO: Implement garbage collection
-    // This would copy live values to new log and update addresses
+void ValueLog::compact(std::vector<ValueAddress>& live_addresses) {
+    std::unique_lock<std::shared_mutex> lock(rw_mutex_);  // Exclusive lock for compaction
+    
+    if (live_addresses.empty()) {
+        return;
+    }
+    
+    // Create temporary new log file
+    std::string temp_log_path = log_path_ + ".tmp";
+    std::fstream temp_log(temp_log_path, std::ios::out | std::ios::binary);
+    
+    if (!temp_log.is_open()) {
+        throw std::runtime_error("Failed to create temporary log file for compaction");
+    }
+    
+    uint64_t new_offset = 0;
+    
+    // Copy live values to new log and update addresses in-place
+    for (auto& addr : live_addresses) {
+        // Read value from old log
+        log_file_->seekg(addr.offset);
+        std::string value(addr.size, '\0');
+        log_file_->read(&value[0], addr.size);
+        
+        if (log_file_->gcount() != static_cast<std::streamsize>(addr.size)) {
+            temp_log.close();
+            std::remove(temp_log_path.c_str());
+            throw std::runtime_error("Failed to read value during compaction");
+        }
+        
+        // Write value to new log
+        temp_log.write(value.data(), value.size());
+        if (!temp_log.good()) {
+            temp_log.close();
+            std::remove(temp_log_path.c_str());
+            throw std::runtime_error("Failed to write value during compaction");
+        }
+        
+        // Update address in-place
+        addr.offset = new_offset;
+        new_offset += addr.size;
+    }
+    
+    // Flush and close temporary log
+    temp_log.flush();
+    temp_log.close();
+    
+    // Close old log
+    log_file_->close();
+    
+    // Replace old log with new log atomically
+    if (std::rename(temp_log_path.c_str(), log_path_.c_str()) != 0) {
+        throw std::runtime_error("Failed to replace old log with compacted log");
+    }
+    
+    // Reopen log file
+    log_file_ = std::make_unique<std::fstream>(
+        log_path_, std::ios::in | std::ios::out | std::ios::binary
+    );
+    
+    if (!log_file_->is_open()) {
+        throw std::runtime_error("Failed to reopen log file after compaction");
+    }
+    
+    // Update current offset
+    current_offset_ = new_offset;
 }
 
 WiscKeyStorage::WiscKeyStorage(const std::string& value_log_path) {

@@ -58,11 +58,11 @@ Result<void> CTEEvaluator::evaluateCTE(
         // Execute CTE via QueryEngine
         auto status = queryEngine.executeCTEs({spec}, context);
         
-        if (!status.ok) {
-            THEMIS_ERROR("CTE '{}' execution failed: {}", cte.name, status.message);
+        if (!status) {
+            THEMIS_ERROR("CTE '{}' execution failed: {}", cte.name, status.error().message());
             return ErrVoid(
                 ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                fmt::format("CTE '{}' execution failed: {}", cte.name, status.message)
+                fmt::format("CTE '{}' execution failed: {}", cte.name, status.error().message())
             );
         }
         
@@ -136,13 +136,13 @@ Result<void> CTEEvaluator::evaluateRecursiveCTE(
             // Execute CTE query
             auto status = queryEngine.executeCTEs({spec}, context);
             
-            if (!status.ok) {
+            if (!status) {
                 THEMIS_ERROR("Recursive CTE '{}' iteration {} failed: {}", 
-                            cte.name, iteration, status.message);
+                            cte.name, iteration, status.error().message());
                 return ErrVoid(
                     ErrorCode::ERR_QUERY_EXECUTION_FAILED,
                     fmt::format("Recursive CTE '{}' iteration {} failed: {}", 
-                               cte.name, iteration, status.message)
+                               cte.name, iteration, status.error().message())
                 );
             }
             

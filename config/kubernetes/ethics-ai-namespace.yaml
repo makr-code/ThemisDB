@@ -1,0 +1,275 @@
+# ============================================================================
+# Kubernetes Namespace and RBAC Configuration - Ethics AI Framework
+# ============================================================================
+# Namespace setup with resource quotas and RBAC policies
+# ============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ethics-ai
+  labels:
+    name: ethics-ai
+    project: themisdb
+    environment: production
+    monitoring: enabled
+  annotations:
+    description: "Ethics AI Framework - Moral philosophy reasoning system"
+    owner: "themisdb-team"
+    contact: "team@themisdb.io"
+
+---
+# ============================================================================
+# ResourceQuota - Namespace Resource Limits
+# ============================================================================
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: ethics-ai-quota
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+spec:
+  hard:
+    # Compute resources
+    requests.cpu: "20"
+    requests.memory: 40Gi
+    limits.cpu: "40"
+    limits.memory: 80Gi
+    
+    # Storage
+    requests.storage: 100Gi
+    persistentvolumeclaims: "10"
+    
+    # Objects
+    pods: "50"
+    services: "10"
+    configmaps: "20"
+    secrets: "20"
+    replicationcontrollers: "10"
+    
+  # Scope selectors
+  scopeSelector:
+    matchExpressions:
+      - operator: In
+        scopeName: PriorityClass
+        values: ["high", "medium"]
+
+---
+# ============================================================================
+# LimitRange - Default Resource Constraints
+# ============================================================================
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: ethics-ai-limits
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+spec:
+  limits:
+    # Container limits
+    - type: Container
+      default:
+        cpu: 1000m
+        memory: 2Gi
+      defaultRequest:
+        cpu: 250m
+        memory: 512Mi
+      max:
+        cpu: 4000m
+        memory: 8Gi
+      min:
+        cpu: 100m
+        memory: 128Mi
+    
+    # Pod limits
+    - type: Pod
+      max:
+        cpu: 8000m
+        memory: 16Gi
+      min:
+        cpu: 100m
+        memory: 128Mi
+    
+    # PVC limits
+    - type: PersistentVolumeClaim
+      max:
+        storage: 50Gi
+      min:
+        storage: 1Gi
+
+---
+# ============================================================================
+# NetworkPolicy - Default Deny
+# ============================================================================
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: ethics-ai
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+
+---
+# ============================================================================
+# NetworkPolicy - Allow DNS
+# ============================================================================
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-dns
+  namespace: ethics-ai
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: kube-system
+      ports:
+        - protocol: UDP
+          port: 53
+
+---
+# ============================================================================
+# RBAC - ServiceAccount
+# ============================================================================
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ethics-ai
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+automountServiceAccountToken: true
+
+---
+# ============================================================================
+# RBAC - Role
+# ============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ethics-ai-role
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+rules:
+  # ConfigMaps
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch"]
+  
+  # Secrets
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list"]
+  
+  # Pods (for health checks)
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  
+  # Services
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list"]
+  
+  # Endpoints
+  - apiGroups: [""]
+    resources: ["endpoints"]
+    verbs: ["get", "list", "watch"]
+
+---
+# ============================================================================
+# RBAC - RoleBinding
+# ============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ethics-ai-rolebinding
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ethics-ai-role
+subjects:
+  - kind: ServiceAccount
+    name: ethics-ai
+    namespace: ethics-ai
+
+---
+# ============================================================================
+# RBAC - ClusterRole (for cross-namespace access if needed)
+# ============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ethics-ai-cluster-role
+  labels:
+    app: ethics-ai
+rules:
+  # Read-only access to nodes (for metrics)
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
+  
+  # Read-only access to namespaces
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "list"]
+
+---
+# ============================================================================
+# RBAC - ClusterRoleBinding
+# ============================================================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ethics-ai-cluster-rolebinding
+  labels:
+    app: ethics-ai
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ethics-ai-cluster-role
+subjects:
+  - kind: ServiceAccount
+    name: ethics-ai
+    namespace: ethics-ai
+
+---
+# ============================================================================
+# PriorityClass - High Priority
+# ============================================================================
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: ethics-ai-high-priority
+  labels:
+    app: ethics-ai
+value: 1000000
+globalDefault: false
+description: "High priority for critical Ethics AI components"
+
+---
+# ============================================================================
+# PriorityClass - Medium Priority
+# ============================================================================
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: ethics-ai-medium-priority
+  labels:
+    app: ethics-ai
+value: 100000
+globalDefault: false
+description: "Medium priority for standard Ethics AI components"

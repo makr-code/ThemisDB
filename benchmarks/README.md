@@ -312,3 +312,67 @@ When adding new benchmarks, please:
 3. Include baseline comparisons
 4. Update this README with benchmark descriptions
 5. Add appropriate `--benchmark_filter` tags
+
+---
+
+## 🚨 Performance Regression Detection & Baseline Management
+
+**Automated performance monitoring with PR blocking for regressions > 10%**
+
+ThemisDB includes an automated performance regression detection system that:
+
+- 📊 **Stores baselines** per branch (main/develop) and release
+- 🚫 **Blocks PRs** automatically if regressions exceed 10%
+- 📈 **Tracks trends** via Grafana dashboards
+- 🔔 **Sends alerts** for performance violations
+- 📝 **Full documentation** of thresholds and pipelines
+
+### Quick Start
+
+```bash
+# Check for regressions in your changes
+python performance_regression_detector.py \
+  --baseline baselines/main/latest.json \
+  --current my_results.json \
+  --output report.txt
+
+# View available baselines
+python baseline_manager.py list
+
+# Export metrics for Grafana
+python metrics_exporter.py \
+  --baseline baselines/main/latest.json \
+  --output metrics.prom
+```
+
+### Key Features
+
+- **Thresholds**: Minor (5%), Major (10% - blocks PR), Critical (20%)
+- **Metrics**: Throughput, latency, CPU time, memory usage
+- **Workflows**: 
+  - `nightly.yml` - Nightly performance benchmarks
+  - `tests-extended.yml` - Extended performance tests
+  - `ops-automation.yml` - Baseline updates
+- **Dashboard**: Grafana configuration in `monitoring/`
+
+### Documentation
+
+- 📖 **[Performance Regression Detection Guide](../docs/PERFORMANCE_REGRESSION_DETECTION.md)** - Complete documentation
+- 📋 **[Quick Reference](../docs/PERFORMANCE_REGRESSION_QUICK_REFERENCE.md)** - Common commands and scenarios
+- 🔔 **[Alerting Configuration](../docs/PERFORMANCE_ALERTING_CONFIG.md)** - Slack, email, PagerDuty setup
+
+### Files
+
+```
+benchmarks/
+├── baselines/                    # Baseline storage
+│   ├── main/latest.json         # Main branch baseline
+│   ├── develop/latest.json      # Develop branch baseline
+│   └── releases/v*.json         # Release baselines
+├── baseline_manager.py           # Manage baselines
+├── performance_regression_detector.py  # Detect regressions
+├── metrics_exporter.py           # Export to Prometheus
+└── monitoring/
+    └── performance_regression_dashboard.json  # Grafana dashboard
+```
+

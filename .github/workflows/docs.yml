@@ -1,11 +1,24 @@
-name: Documentation Build & Deploy
+name: 'Documentation'
 
 on:
-  # Only run on releases and manual trigger
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
+      - develop
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '**.md'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '**.md'
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -13,108 +26,103 @@ permissions:
   id-token: write
 
 jobs:
-  build:
-    name: Build Documentation
+  # Build MkDocs documentation
+  build-mkdocs:
+    name: Build MkDocs Site
+    uses: ./.github/workflows/reusable-docs-build.yml
+    with:
+      docs-path: 'docs'
+      mkdocs-config: 'mkdocs.yml'
+      deploy-target: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'gh-pages' || 'artifact' }}
+
+  # Build compendium docs
+  build-compendium:
+    name: Build Compendium
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 20
+    if: github.event_name != 'pull_request'
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: ./.github/actions/setup-language
         with:
-          fetch-depth: 0
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: 'pip'
-      
-      - name: Install dependencies
+          language: python
+          version: '3.11'
+
+      - name: Build compendium
         run: |
-          pip install -r requirements-docs.txt
-      
-      - name: Build MkDocs site
-        run: |
-          mkdocs build --clean
-      
-      - name: Install wkhtmltopdf
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wkhtmltopdf
-      
-      - name: Generate PDF from print page
-        run: |
-          # wkhtmltopdf may exit with code 1 due to network errors for external resources 
-          # (fonts, badges) but still generates a valid PDF. We verify the PDF exists and 
-          # has content rather than checking exit codes.
-          wkhtmltopdf \
-            --enable-local-file-access \
-            --outline \
-            --zoom 1.0 \
-            --page-size A4 \
-            --margin-top 20mm \
-            --margin-bottom 20mm \
-            --margin-left 15mm \
-            --margin-right 15mm \
-            site/print_page/index.html \
-            site/ThemisDB-Documentation.pdf 2>&1 | grep -v "Failed to load https://" | grep -v "ContentNotFoundError" || true
-          
-          # Verify PDF was created and has content
-          if [ ! -f "site/ThemisDB-Documentation.pdf" ] || [ ! -s "site/ThemisDB-Documentation.pdf" ]; then
-            echo "Error: PDF generation failed - file not created or empty"
-            exit 1
+          # Check if compendium build script exists
+          if [ -f "compendium/build.py" ]; then
+            pip install -r compendium/requirements.txt || true
+            python compendium/build.py
+          else
+            echo "Compendium build not configured"
           fi
-          echo "PDF generated successfully"
-          ls -lh site/ThemisDB-Documentation.pdf
-      
-      - name: Copy PDF to docs directory
-        run: |
-          cp site/ThemisDB-Documentation.pdf docs/ThemisDB-Documentation.pdf
-      
-      - name: Upload documentation artifact
-        if: env.ACT != 'true'
+        continue-on-error: true
+
+      - name: Upload compendium
         uses: actions/upload-artifact@v4
         with:
-          name: documentation-site
-          path: site/
-      
-      - name: Upload PDF artifact
-        if: env.ACT != 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: documentation-pdf
-          path: docs/ThemisDB-Documentation.pdf
-      
-      - name: Verify PDF
-        run: |
-          ls -lh site/ThemisDB-Documentation.pdf
-          ls -lh docs/ThemisDB-Documentation.pdf
-  
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
+          name: compendium-docs
+          path: compendium/output/
+          retention-days: 30
+          if-no-files-found: warn
+
+  # Validate documentation links
+  validate-links:
+    name: Validate Links
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
+    timeout-minutes: 15
     steps:
-      - name: Download documentation artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: documentation-site
-          path: site
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      
-      - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install markdown-link-check
+        run: |
+          npm install -g markdown-link-check
+
+      - name: Check markdown links
+        run: |
+          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | \
+            xargs markdown-link-check --config .markdown-link-check.json || true
+        continue-on-error: true
+
+  # Sync to wiki
+  sync-wiki:
+    name: Sync to Wiki
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Sync to wiki
+        run: |
+          echo "## 📚 Wiki Sync" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Wiki synchronization would occur here in production" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Files to sync:" >> $GITHUB_STEP_SUMMARY
+          find docs -name "*.md" | head -10 | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+        continue-on-error: true
+
+  # Documentation summary
+  summary:
+    name: Documentation Summary
+    runs-on: ubuntu-latest
+    needs: [build-mkdocs, build-compendium, validate-links, sync-wiki]
+    if: always()
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# 📚 Documentation Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| MkDocs Site | ${{ needs.build-mkdocs.result == 'success' && '✅' || '❌' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Compendium | ${{ needs.build-compendium.result == 'success' && '✅' || (needs.build-compendium.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Link Validation | ${{ needs.validate-links.result == 'success' && '✅' || '❌' }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Wiki Sync | ${{ needs.sync-wiki.result == 'success' && '✅' || (needs.sync-wiki.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY

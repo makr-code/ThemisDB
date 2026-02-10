@@ -1,0 +1,97 @@
+#version 450
+
+// Optimized batch vector search with shared memory
+// ThemisDB Vulkan Compute Shader
+// Uses shared memory for query caching and parallel reduction
+
+layout(local_size_x = 256) in;
+
+// Shared memory for query vector caching
+shared float sharedQuery[256];
+
+layout(std430, binding = 0) readonly buffer QueryVectors {
+    float queries[];
+};
+
+layout(std430, binding = 1) readonly buffer DatabaseVectors {
+    float vectors[];
+};
+
+layout(std430, binding = 2) writeonly buffer Distances {
+    float distances[];
+};
+
+layout(push_constant) uniform PushConstants {
+    uint numQueries;
+    uint numVectors;
+    uint dim;
+    uint metricType; // 0=L2, 1=Cosine, 2=InnerProduct
+} pc;
+
+void main() {
+    uint globalThreadId = gl_GlobalInvocationID.x;
+    uint localThreadId = gl_LocalInvocationID.x;
+    uint queryIdx = gl_WorkGroupID.y;
+    
+    if (queryIdx >= pc.numQueries) {
+        return;
+    }
+    
+    uint queryOffset = queryIdx * pc.dim;
+    
+    // Load query vector into shared memory (coalesced access)
+    for (uint i = localThreadId; i < pc.dim; i += 256) {
+        sharedQuery[i] = queries[queryOffset + i];
+    }
+    
+    barrier();
+    
+    // Process vectors
+    uint vectorIdx = globalThreadId;
+    
+    if (vectorIdx >= pc.numVectors) {
+        return;
+    }
+    
+    uint vectorOffset = vectorIdx * pc.dim;
+    
+    float result = 0.0;
+    float normQuery = 0.0;
+    float normVector = 0.0;
+    
+    // Compute distance based on metric type
+    if (pc.metricType == 0) {
+        // L2 distance
+        for (uint i = 0; i < pc.dim; i++) {
+            float diff = sharedQuery[i] - vectors[vectorOffset + i];
+            result += diff * diff;
+        }
+        result = sqrt(result);
+    } else if (pc.metricType == 1) {
+        // Cosine distance
+        float dotProduct = 0.0;
+        for (uint i = 0; i < pc.dim; i++) {
+            float q = sharedQuery[i];
+            float v = vectors[vectorOffset + i];
+            dotProduct += q * v;
+            normQuery += q * q;
+            normVector += v * v;
+        }
+        normQuery = sqrt(normQuery);
+        normVector = sqrt(normVector);
+        float cosineSim = (normQuery > 1e-10 && normVector > 1e-10) 
+            ? dotProduct / (normQuery * normVector)
+            : 0.0;
+        result = 1.0 - cosineSim;
+    } else {
+        // Inner product distance
+        float dotProduct = 0.0;
+        for (uint i = 0; i < pc.dim; i++) {
+            dotProduct += sharedQuery[i] * vectors[vectorOffset + i];
+        }
+        result = max(0.0, -dotProduct);
+    }
+    
+    // Store result
+    distances[queryIdx * pc.numVectors + vectorIdx] = result;
+}

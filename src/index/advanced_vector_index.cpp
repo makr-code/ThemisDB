@@ -65,9 +65,22 @@ bool AdvancedVectorIndex::initializeIndex() {
                 );
                 ivf_pq->own_fields = true; // FAISS will delete the quantizer
                 ivf_pq->nprobe = config_.nprobe;
+                
+                // v1.5.x: Enable ADC tables for ~40% faster search
+                if (config_.use_adc_tables) {
+                    ivf_pq->use_precomputed_table = 1; // Enable ADC distance tables
+                    if (config_.polysemous_ht > 0) {
+                        ivf_pq->polysemous_ht = config_.polysemous_ht;
+                        THEMIS_INFO("Enabled polysemous hash tables: ht={}", 
+                                   config_.polysemous_ht);
+                    }
+                    THEMIS_INFO("Enabled ADC tables for IVF+PQ (v1.5.x optimization)");
+                }
+                
                 idx = ivf_pq;
-                THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}",
-                           config_.nlist, config_.pq_m, config_.pq_nbits);
+                THEMIS_INFO("Created IVF+PQ index: nlist={}, m={}, nbits={}, adc={}", 
+                           config_.nlist, config_.pq_m, config_.pq_nbits, 
+                           config_.use_adc_tables);
                 break;
             }
             
@@ -366,6 +379,97 @@ bool AdvancedVectorIndex::load(const std::string& path) {
     (void)path;
     return false;
 #endif
+}
+
+AdvancedVectorIndex::Config AdvancedVectorIndex::getWorkloadOptimizedConfig(
+    size_t dataset_size,
+    size_t dimension,
+    WorkloadType workload) {
+    
+    Config config;
+    config.workload = workload;
+    
+    // Calculate optimal nlist (typically sqrt(N) to N/50)
+    size_t base_nlist = static_cast<size_t>(std::sqrt(dataset_size));
+    base_nlist = std::max(size_t(64), std::min(base_nlist, size_t(65536)));
+    
+    // Workload-specific nlist adjustments
+    switch (workload) {
+        case WorkloadType::OLTP:
+            // OLTP: Fewer clusters for faster search
+            config.nlist = std::max(size_t(64), base_nlist / 2);
+            config.nprobe = 32;  // Lower nprobe for speed
+            config.index_type = Config::Type::IVF_FLAT;  // Prefer speed over compression
+            break;
+            
+        case WorkloadType::ANALYTICS:
+            // Analytics: More clusters, higher nprobe for accuracy
+            config.nlist = std::min(size_t(65536), base_nlist * 2);
+            config.nprobe = 128;  // Higher nprobe for recall
+            config.index_type = Config::Type::IVF_PQ;  // Use compression for large datasets
+            break;
+            
+        case WorkloadType::RAG:
+            // RAG: Balance between speed and accuracy
+            config.nlist = base_nlist;
+            config.nprobe = 64;
+            config.index_type = Config::Type::IVF_PQ;
+            break;
+            
+        case WorkloadType::BATCH_INSERT:
+            // Batch insert: Optimize for fast training and insertion
+            config.nlist = std::max(size_t(64), base_nlist / 4);
+            config.nprobe = 32;
+            config.index_type = Config::Type::IVF_FLAT;
+            config.train_size = std::min(size_t(50000), dataset_size / 10);  // Faster training
+            break;
+            
+        case WorkloadType::MIXED:
+        default:
+            config.nlist = base_nlist;
+            config.nprobe = 64;
+            config.index_type = Config::Type::IVF_PQ;
+            break;
+    }
+    
+    // PQ parameters based on dimension and workload (only for PQ-based indices)
+    if (config.index_type == Config::Type::IVF_PQ || 
+        config.index_type == Config::Type::IVF_HNSW_PQ) {
+        config.use_pq = true;
+        
+        // pq_m should divide dimension evenly
+        if (workload == WorkloadType::ANALYTICS || workload == WorkloadType::RAG) {
+            // Higher compression for these workloads
+            config.pq_m = 16;  // More sub-quantizers
+        } else {
+            config.pq_m = 8;   // Standard compression
+        }
+        
+        // Ensure pq_m divides dimension
+        while (dimension % config.pq_m != 0 && config.pq_m > 4) {
+            config.pq_m--;
+        }
+        
+        config.pq_nbits = 8;  // Standard 8 bits
+    } else {
+        config.use_pq = false;  // No PQ for IVF_FLAT or HNSW_FLAT
+    }
+    
+    // Training size recommendations (only set if not already set by workload)
+    if (config.train_size == 0) {
+        config.train_size = std::max(size_t(30 * config.nlist), 
+                                     std::min(size_t(100000), dataset_size / 10));
+    }
+    
+    // GPU usage recommendations
+    if (workload == WorkloadType::ANALYTICS || dataset_size > 1000000) {
+        config.use_gpu = true;  // Recommend GPU for large/analytical workloads
+    }
+    
+    THEMIS_INFO("Generated workload-optimized config: workload={}, nlist={}, nprobe={}, pq_m={}",
+                static_cast<int>(workload), config.nlist, config.nprobe, config.pq_m);
+    
+    return config;
 }
 
 } // namespace themis

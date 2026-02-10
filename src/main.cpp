@@ -16,11 +16,64 @@
 #include "query/query_optimizer.h"
 #include <iostream>
 #include <string>
+#include <optional>
 
 using namespace themis;
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
-    // Initialize logger
+int main(int argc, char* argv[]) {
+    // --- Early flag handling (no heavy initialization) ---
+    auto print_usage = [](const char* prog) {
+        std::cout << "Usage: " << prog << " [options]\n"
+                  << "Options:\n"
+                  << "  --db PATH         Database path (default: ./data/themis_test)\n"
+                  << "  --db-path PATH    Alias for --db\n"
+                  << "  --config FILE     Configuration file (not yet implemented)\n"
+                  << "  --version, -v     Show version information and exit\n"
+                  << "  --help, -h        Show this help message\n";
+    };
+
+    // Parse command-line arguments
+    std::string db_path = "./data/themis_test";
+    // TODO: Implement configuration file loading logic
+    [[maybe_unused]] std::optional<std::string> config_path;
+    
+    for (int i = 1; i < argc; ++i) {
+        std::string arg = argv[i];
+        if (arg == "--version" || arg == "-v") {
+#ifdef THEMIS_VERSION_STRING
+            std::cout << THEMIS_VERSION_STRING << std::endl;
+#else
+            std::cout << "unknown" << std::endl;
+#endif
+            return 0;
+        } else if (arg == "--help" || arg == "-h") {
+            print_usage(argv[0]);
+            return 0;
+        } else if (arg == "--db" || arg == "--db-path") {
+            if (i + 1 < argc) {
+                db_path = argv[++i];
+            } else {
+                std::cerr << "Error: " << arg << " requires a value" << std::endl;
+                print_usage(argv[0]);
+                return 1;
+            }
+        } else if (arg == "--config") {
+            if (i + 1 < argc) {
+                config_path = argv[++i];
+                std::cerr << "Warning: Configuration file support is not yet implemented. The provided path will be ignored." << std::endl;
+            } else {
+                std::cerr << "Error: --config requires a value" << std::endl;
+                print_usage(argv[0]);
+                return 1;
+            }
+        } else {
+            std::cerr << "Error: Unknown option: " << arg << std::endl;
+            print_usage(argv[0]);
+            return 1;
+        }
+    }
+    
+    // Initialize logger AFTER flag checks
     utils::Logger::init("vccdb.log", utils::Logger::Level::INFO);
     
     THEMIS_INFO("=== Themis Multi-Model Database System ===");
@@ -30,11 +83,12 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
     THEMIS_INFO("Version: unknown");
 #endif
     THEMIS_INFO("Architecture: Hybrid Relational-Graph-Vector-Document");
+    THEMIS_INFO("Database path: {}", db_path);
     
     try {
         // Configure RocksDB
-    RocksDBWrapper::Config config;
-    config.db_path = "./data/themis_test";
+        RocksDBWrapper::Config config;
+        config.db_path = db_path;
         config.memtable_size_mb = 64;
         config.block_cache_size_mb = 256;
         config.enable_wal = true;

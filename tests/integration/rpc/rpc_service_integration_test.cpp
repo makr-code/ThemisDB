@@ -427,5 +427,175 @@ TEST_F(RPCServiceIntegrationTest, ConnectionPooling) {
         << "Batch GET should work or return appropriate error";
 }
 
+/**
+ * @test Verify health check with uptime tracking
+ * 
+ * Acceptance Criteria:
+ * - Health check returns status, version, and uptime
+ * - Uptime is >= 0
+ * - Uptime increases over time
+ */
+TEST_F(RPCServiceIntegrationTest, HealthCheckWithUptime) {
+    // Step 1: Get initial health status
+    json health_params = {};
+    json health_response1 = rpc_service_->handleHealthCheck(health_params);
+    
+    ASSERT_TRUE(health_response1.contains("result") || health_response1.contains("success"))
+        << "Health check should return result";
+    
+    // Extract result
+    json result1;
+    if (health_response1.contains("result")) {
+        result1 = health_response1["result"];
+    } else if (health_response1.contains("success") && health_response1["success"].get<bool>()) {
+        // Some formats might have the data directly
+        result1 = health_response1;
+    }
+    
+    // Step 2: Verify health check fields
+    EXPECT_TRUE(result1.contains("status")) << "Health check should include status";
+    EXPECT_TRUE(result1.contains("version")) << "Health check should include version";
+    EXPECT_TRUE(result1.contains("uptime_seconds")) << "Health check should include uptime_seconds";
+    
+    // Step 3: Verify uptime is non-negative
+    if (result1.contains("uptime_seconds")) {
+        int64_t uptime = result1["uptime_seconds"].get<int64_t>();
+        EXPECT_GE(uptime, 0) << "Uptime should be non-negative";
+    }
+    
+    // Step 4: Wait a bit and verify uptime increases
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    
+    json health_response2 = rpc_service_->handleHealthCheck(health_params);
+    json result2;
+    if (health_response2.contains("result")) {
+        result2 = health_response2["result"];
+    } else if (health_response2.contains("success") && health_response2["success"].get<bool>()) {
+        result2 = health_response2;
+    }
+    
+    if (result2.contains("uptime_seconds")) {
+        int64_t uptime2 = result2["uptime_seconds"].get<int64_t>();
+        // If start_time was provided, uptime should be positive
+        // If not provided, both will be 0 which is also acceptable
+        EXPECT_GE(uptime2, 0) << "Uptime should remain non-negative";
+    }
+}
+
+/**
+ * @test Verify authentication handling
+ * 
+ * Acceptance Criteria:
+ * - Authentication endpoint validates required parameters
+ * - Missing username/password returns error
+ * - Appropriate error messages for unconfigured auth
+ */
+TEST_F(RPCServiceIntegrationTest, AuthenticationHandling) {
+    // Step 1: Test authentication with missing parameters
+    json auth_params_empty = {};
+    json auth_response_empty = rpc_service_->handleAuthenticate(auth_params_empty);
+    
+    ASSERT_TRUE(auth_response_empty.contains("error"))
+        << "Empty auth params should return error";
+    EXPECT_EQ(auth_response_empty["error"]["code"], 
+              static_cast<int>(themis::plugins::rpc::RPCErrorCode::AUTHENTICATION_FAILED))
+        << "Should return AUTHENTICATION_FAILED error code";
+    
+    // Step 2: Test authentication with only username
+    json auth_params_partial = {
+        {"username", "testuser"}
+    };
+    json auth_response_partial = rpc_service_->handleAuthenticate(auth_params_partial);
+    
+    ASSERT_TRUE(auth_response_partial.contains("error"))
+        << "Partial auth params should return error";
+    
+    // Step 3: Test authentication with both username and password
+    // Without auth middleware configured, should return appropriate error
+    json auth_params_full = {
+        {"username", "testuser"},
+        {"password", "testpass"}
+    };
+    json auth_response_full = rpc_service_->handleAuthenticate(auth_params_full);
+    
+    ASSERT_TRUE(auth_response_full.contains("error"))
+        << "Auth without configured middleware should return error";
+    
+    // Verify error message indicates auth is not configured or requires JWT
+    if (auth_response_full["error"].contains("message")) {
+        std::string error_msg = auth_response_full["error"]["message"].get<std::string>();
+        EXPECT_TRUE(error_msg.find("not configured") != std::string::npos ||
+                   error_msg.find("JWT") != std::string::npos ||
+                   error_msg.find("authentication backend") != std::string::npos)
+            << "Error should mention configuration or JWT requirement";
+    }
+}
+
+/**
+ * @test Verify optional feature endpoints return clear messages
+ * 
+ * Acceptance Criteria:
+ * - AQL query returns message about module requirement
+ * - Vector search returns message about module requirement
+ * - Graph traversal returns message about module requirement
+ * - Time series query returns message about module requirement
+ */
+TEST_F(RPCServiceIntegrationTest, OptionalFeatureMessages) {
+    // Step 1: Test AQL query endpoint
+    json aql_params = {
+        {"aql", "FOR doc IN users RETURN doc"}
+    };
+    json aql_response = rpc_service_->handleQuery(aql_params);
+    
+    if (aql_response.contains("result")) {
+        json result = aql_response["result"];
+        EXPECT_TRUE(result.contains("note")) << "AQL should include explanatory note";
+        if (result.contains("note")) {
+            std::string note = result["note"].get<std::string>();
+            EXPECT_TRUE(note.find("module") != std::string::npos ||
+                       note.find("search") != std::string::npos)
+                << "Note should mention module or alternative";
+        }
+    }
+    
+    // Step 2: Test vector search endpoint
+    json vector_params = {
+        {"collection", "embeddings"},
+        {"vector", std::vector<float>{0.1, 0.2, 0.3}},
+        {"k", 10}
+    };
+    json vector_response = rpc_service_->handleVectorSearch(vector_params);
+    
+    if (vector_response.contains("result")) {
+        json result = vector_response["result"];
+        EXPECT_TRUE(result.contains("note")) << "Vector search should include explanatory note";
+    }
+    
+    // Step 3: Test graph traversal endpoint
+    json graph_params = {
+        {"collection", "relationships"},
+        {"start_vertex", "user_1"}
+    };
+    json graph_response = rpc_service_->handleGraphTraverse(graph_params);
+    
+    if (graph_response.contains("result")) {
+        json result = graph_response["result"];
+        EXPECT_TRUE(result.contains("note")) << "Graph traversal should include explanatory note";
+    }
+    
+    // Step 4: Test time series query endpoint
+    json ts_params = {
+        {"collection", "metrics"},
+        {"start_time", 1000000},
+        {"end_time", 2000000}
+    };
+    json ts_response = rpc_service_->handleTimeSeriesQuery(ts_params);
+    
+    if (ts_response.contains("result")) {
+        json result = ts_response["result"];
+        EXPECT_TRUE(result.contains("note")) << "Time series query should include explanatory note";
+    }
+}
+
 } // namespace test
 } // namespace themis

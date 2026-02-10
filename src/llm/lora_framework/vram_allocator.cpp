@@ -96,15 +96,25 @@ bool VRAMAllocator::initialize_backend() {
             int device_count = 0;
             cudaError_t err = cudaGetDeviceCount(&device_count);
             if (err != cudaSuccess || device_count == 0) {
+                spdlog::error("CUDA initialization failed: {} (device count: {})", 
+                             cudaGetErrorString(err), device_count);
                 return false;
             }
             
             // Set device 0 as default
-            cudaSetDevice(0);
+            err = cudaSetDevice(0);
+            if (err != cudaSuccess) {
+                spdlog::error("Failed to set CUDA device 0: {}", cudaGetErrorString(err));
+                return false;
+            }
             
             // Query available memory
             size_t free_bytes, total_bytes;
-            cudaMemGetInfo(&free_bytes, &total_bytes);
+            err = cudaMemGetInfo(&free_bytes, &total_bytes);
+            if (err != cudaSuccess) {
+                spdlog::error("Failed to query CUDA memory info: {}", cudaGetErrorString(err));
+                return false;
+            }
             
             // Use 80% of free memory if pool_size not specified
             if (pool_size_bytes_ == 0 || pool_size_bytes_ > free_bytes) {
@@ -121,13 +131,23 @@ bool VRAMAllocator::initialize_backend() {
             int device_count = 0;
             hipError_t err = hipGetDeviceCount(&device_count);
             if (err != hipSuccess || device_count == 0) {
+                spdlog::error("HIP initialization failed: {} (device count: {})", 
+                             hipGetErrorString(err), device_count);
                 return false;
             }
             
-            hipSetDevice(0);
+            err = hipSetDevice(0);
+            if (err != hipSuccess) {
+                spdlog::error("Failed to set HIP device 0: {}", hipGetErrorString(err));
+                return false;
+            }
             
             size_t free_bytes, total_bytes;
-            hipMemGetInfo(&free_bytes, &total_bytes);
+            err = hipMemGetInfo(&free_bytes, &total_bytes);
+            if (err != hipSuccess) {
+                spdlog::error("Failed to query HIP memory info: {}", hipGetErrorString(err));
+                return false;
+            }
             
             if (pool_size_bytes_ == 0 || pool_size_bytes_ > free_bytes) {
                 pool_size_bytes_ = static_cast<size_t>(free_bytes * 0.8);
@@ -344,6 +364,13 @@ void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) 
         case acceleration::BackendType::CUDA: {
             cudaError_t err = cudaMalloc(&ptr, size_bytes);
             if (err != cudaSuccess) {
+                spdlog::error("CUDA allocation failed for {} bytes: {}", 
+                             size_bytes, cudaGetErrorString(err));
+                return nullptr;
+            }
+            if (ptr == nullptr) {
+                spdlog::error("CUDA allocation returned null pointer for {} bytes despite success code", 
+                             size_bytes);
                 return nullptr;
             }
             return ptr;
@@ -354,6 +381,13 @@ void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) 
         case acceleration::BackendType::HIP: {
             hipError_t err = hipMalloc(&ptr, size_bytes);
             if (err != hipSuccess) {
+                spdlog::error("HIP allocation failed for {} bytes: {}", 
+                             size_bytes, hipGetErrorString(err));
+                return nullptr;
+            }
+            if (ptr == nullptr) {
+                spdlog::error("HIP allocation returned null pointer for {} bytes despite success code", 
+                             size_bytes);
                 return nullptr;
             }
             return ptr;
@@ -363,20 +397,28 @@ void* VRAMAllocator::allocate_from_backend(size_t size_bytes, size_t alignment) 
         case acceleration::BackendType::VULKAN:
         case acceleration::BackendType::DIRECTX:
             // TODO: Implement Vulkan/DirectX allocation
+            spdlog::warn("VRAM allocation not implemented for Vulkan/DirectX backend");
             return nullptr;
             
         case acceleration::BackendType::CPU:
             // CPU allocation with alignment
 #ifdef _WIN32
             ptr = _aligned_malloc(size_bytes, alignment);
+            if (ptr == nullptr) {
+                spdlog::error("CPU aligned allocation failed for {} bytes with alignment {}", 
+                             size_bytes, alignment);
+            }
 #else
             if (posix_memalign(&ptr, alignment, size_bytes) != 0) {
+                spdlog::error("CPU posix_memalign failed for {} bytes with alignment {}", 
+                             size_bytes, alignment);
                 ptr = nullptr;
             }
 #endif
             return ptr;
             
         default:
+            spdlog::error("Unknown backend type for VRAM allocation");
             return nullptr;
     }
 }

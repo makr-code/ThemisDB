@@ -24,12 +24,17 @@ ThemisDB nutzt eine **Offline-First vcpkg Build-Strategie** für reproduzierbare
    - **NEU:** Edition-spezifische Build-Wege (Community, Enterprise, Hyperscaler)
    - **NEU:** Lizenz-bedingte Build-Konfigurationen
    - **NEU:** Edition-spezifische Metriken & Monitoring
-2. **[Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md)** ⭐ **NEU** - Alle Dependencies mit Vendor-Links
-3. **[Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md)** ⭐ **NEU** - Alle 61 CMake Schalter
+2. **[ThemisDB mit llama.cpp auf SoC (Raspberry Pi & Co.)](THEMIS_LLAMA_CPP_SOC_GUIDE.md)** ⭐ **NEU (v1.5.0)** - Umfassende Anleitung für LLM-Inferenz auf Edge-Geräten
+   - Raspberry Pi 4/5, Orange Pi 5, NVIDIA Jetson, Rock 5B
+   - llama.cpp Integration und Optimierung
+   - AI-Beschleuniger-Chips (Coral TPU, Hailo, etc.)
+   - Performance-Benchmarks und Best Practices
+3. **[Bibliotheken-Übersicht](BIBLIOTHEKEN_UBERSICHT.md)** ⭐ **NEU** - Alle Dependencies mit Vendor-Links
+4. **[Build-Optionen Referenz](BUILD_OPTIONEN_REFERENZ.md)** ⭐ **NEU** - Alle 61 CMake Schalter
    - **NEU:** Enterprise/Hyperscaler-spezifische Optionen
-4. **[vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md)** - Offline-First Build-System
-5. **[Docker Build](DOCKER_DEPLOYMENT.md)** - Container-basiertes Deployment
-6. **[ARM/Raspberry Pi Build](deployment_arm_build.md)** - ARM64/ARMv7 Builds
+5. **[vcpkg Offline Strategy](VCPKG_OFFLINE_STRATEGY.md)** - Offline-First Build-System
+6. **[Docker Build](DOCKER_DEPLOYMENT.md)** - Container-basiertes Deployment
+7. **[ARM/Raspberry Pi Build](deployment_arm_build.md)** - ARM64/ARMv7 Builds
 
 ---
 
@@ -75,6 +80,9 @@ sudo cmake --install build
 | **Linux (Ubuntu)** | x64 | ✅ Production | ✅ | ✅ | [Deployment Strategy](deployment_strategy.md) |
 | **Linux (Ubuntu)** | ARM64 | ✅ Production | ✅ | ✅ | [ARM Build](deployment_arm_build.md) |
 | **Raspberry Pi 4/5** | ARM64 | ✅ Supported | ✅ | ✅ | [ARM Build](deployment_arm_build.md) |
+| **Raspberry Pi + llama.cpp** | ARM64 | ✅ Supported | ✅ | ✅ | [SoC LLM Guide](THEMIS_LLAMA_CPP_SOC_GUIDE.md) ⭐ |
+| **Orange Pi 5 / Rock 5B** | ARM64 | ✅ Supported | ✅ | ✅ | [SoC LLM Guide](THEMIS_LLAMA_CPP_SOC_GUIDE.md) |
+| **NVIDIA Jetson** | ARM64 | ✅ Supported | ✅ | ✅ | [SoC LLM Guide](THEMIS_LLAMA_CPP_SOC_GUIDE.md) |
 | **QNAP NAS** | x64 | ✅ Supported | ✅ | ✅ | [QNAP Deployment](deployment_qnap.md) |
 | **macOS** | ARM64 (M1/M2) | 🚧 Planned | ❌ | ✅ | TBD |
 

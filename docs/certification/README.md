@@ -1,5 +1,49 @@
 # ThemisDB Certification Program
 
+> **Validate your expertise** with industry-recognized ThemisDB professional certifications.
+
+---
+
+## 🎯 Quick Certification Selector
+
+**What's your goal?**
+
+| I want to... | Recommended Certification | Duration | Prerequisites |
+|-------------|---------------------------|----------|---------------|
+| Learn ThemisDB basics | [Fundamentals (TDF)](#1-themisdb-fundamentals-certification-tdf) | 90 min | None |
+| Master queries and AQL | [Query Expert (TQE)](#2-themisdb-query-expert-certification-tqe) | 120 min | TDF required |
+| Run production systems | [Operations (TOC)](#3-themisdb-operations-certification-toc) | 120 min | TDF required |
+| Implement security | [Security (TSC)](#4-themisdb-security-certification-tsc) | 150 min | TDF + (TQE or TOC) |
+| Become a complete expert | All Four Certifications | 8-12 months | Sequential |
+
+---
+
+## 📊 Certification Path Visualization
+
+```mermaid
+graph TB
+    START[Start Your Journey] --> TDF[ThemisDB Fundamentals<br/>TDF - Entry Level]
+    
+    TDF --> CHOICE{Choose Your Path}
+    
+    CHOICE -->|Developer Track| TQE[Query Expert<br/>TQE - Advanced]
+    CHOICE -->|Operations Track| TOC[Operations<br/>TOC - Advanced]
+    
+    TQE --> TSC[Security Specialist<br/>TSC - Expert]
+    TOC --> TSC
+    
+    TSC --> COMPLETE[Fully Certified<br/>ThemisDB Professional]
+    
+    style START fill:#e1f5ff
+    style TDF fill:#ffe1e1
+    style TQE fill:#fff3cd
+    style TOC fill:#fff3cd
+    style TSC fill:#e1ffe1
+    style COMPLETE fill:#d4edda
+```
+
+---
+
 ## Overview
 
 The ThemisDB Certification Program is designed to validate expertise across different aspects of ThemisDB database technology. Our certification paths ensure that professionals have the knowledge and hands-on skills required to design, develop, deploy, and maintain ThemisDB solutions in production environments.

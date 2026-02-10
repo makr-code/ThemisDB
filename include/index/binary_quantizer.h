@@ -3,50 +3,43 @@
 #include <vector>
 #include <string>
 #include <cstdint>
-#include <cmath>
-#include <numeric>
-#include <stdexcept>
+#include <memory>
 
 namespace themis {
 
 /**
  * @brief Binary Quantization for Maximum Vector Compression
  * 
- * Implements binary quantization that represents each vector dimension as a single bit (±1),
- * achieving 32x compression for typical floating-point vectors. While accuracy is reduced
- * compared to Product Quantization, binary quantization is extremely fast and memory-efficient,
- * making it ideal for filtering, pre-ranking, and memory-constrained environments.
+ * v1.5.0 - FAISS-optimized Binary Quantizer with Fallback
+ * 
+ * Binary quantization compresses float32 vectors to binary (1 bit per dimension),
+ * achieving 32x compression ratio. Uses sign of (value - mean) for binarization.
+ * 
+ * FAISS Integration: When THEMIS_HAS_FAISS is defined and prefer_faiss is true,
+ * uses compiler intrinsics (same as FAISS uses internally) for optimized Hamming
+ * distance computation with SIMD instructions.
  * 
  * @sources
- * - Algorithm: Binary Quantization / Sign-based Hashing
- * - Paper: Gong, Y., & Lazebnik, S. (2011). 
- *          "Iterative Quantization: A Procrustean Approach to Learning Binary Codes"
- *          IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
- * - DOI: 10.1109/CVPR.2011.5995432
- * - Paper: Joulin, A., et al. (2016).
- *          "FastText.zip: Compressing text classification models"
- *          arXiv:1612.03651
- * - Implementation: Optimized for ThemisDB with hardware acceleration
+ * - Algorithm: Locality Sensitive Hashing (LSH) / Binary Quantization
+ * - Implementation: Custom ThemisDB with optional FAISS-style optimizations
+ * - Library: https://github.com/facebookresearch/faiss
+ * - For production use: Consider FAISS IndexBinaryFlat directly or AdvancedVectorIndex
  * 
- * Features:
- * - 1 bit per dimension (32x compression vs float32)
- * - Hardware-accelerated Hamming distance (SIMD popcount)
- * - Optional centering for improved accuracy
- * - Fast encoding and distance computation
- * 
- * Part of ThemisDB v1.4.1 - Feature: Vector Compression Research (#914)
+ * Part of ThemisDB v1.5.0 - FAISS Integration (#1079)
  */
 class BinaryQuantizer {
 public:
     struct Config {
-        bool center_values;       // Center around mean before quantization
-        bool normalize_input;     // Normalize input vectors to unit length
-        float scale_factor;       // Scaling factor for reconstruction (auto-learned if 0)
+        bool center_values;       // Center vectors before binarization
+        bool normalize_input;     // Normalize input vectors
+        float scale_factor;       // Manual scale factor (0 = auto-learn)
+        bool prefer_faiss;        // Prefer FAISS-style optimizations if available (default: true)
         
         Config() 
             : center_values(true)
             , normalize_input(false)
             , scale_factor(0.0f)
+            , prefer_faiss(true)
         {}
     };
 
@@ -63,18 +56,18 @@ public:
      * @param config Configuration parameters
      */
     explicit BinaryQuantizer(int dimension, const Config& config = Config());
+    
+    ~BinaryQuantizer();
 
     /**
-     * @brief Train quantizer statistics from training vectors
-     * Learns mean and scale for centering/reconstruction
-     * @param training_vectors Training data (num_vectors x dimension)
+     * @brief Train quantizer to learn centering and scaling parameters
+     * @param training_vectors Training data
      * @return Status indicating success or failure
      */
     Status train(const std::vector<std::vector<float>>& training_vectors);
 
     /**
-     * @brief Encode a vector into binary codes
-     * Each bit represents the sign of (value - mean)
+     * @brief Encode vector to binary representation
      * @param vector Input vector (dimension floats)
      * @return Binary codes (dimension/8 bytes, packed)
      */
@@ -82,14 +75,13 @@ public:
 
     /**
      * @brief Decode binary codes back to approximate vector
-     * @param codes Binary codes (dimension/8 bytes)
-     * @return Reconstructed vector (dimension floats, values are ±scale)
+     * @param codes Binary codes
+     * @return Reconstructed vector
      */
     std::vector<float> decode(const std::vector<uint8_t>& codes) const;
 
     /**
-     * @brief Compute Hamming distance between two binary code vectors
-     * Fast hardware-accelerated distance using popcount
+     * @brief Compute Hamming distance between two binary codes
      * @param codes_a First binary codes
      * @param codes_b Second binary codes
      * @return Hamming distance (number of differing bits)
@@ -98,72 +90,46 @@ public:
                          const std::vector<uint8_t>& codes_b) const;
 
     /**
-     * @brief Compute asymmetric distance between query and binary codes
-     * Query is in full precision, database vector is binarized
-     * @param query Query vector (dimension floats)
-     * @param codes Binary codes (dimension/8 bytes)
-     * @return Approximate L2 distance
+     * @brief Compute asymmetric distance: full-precision query vs binary database vector
+     * @param query Query vector (full precision)
+     * @param codes Binary codes
+     * @return Approximate distance
      */
     float asymmetricDistance(const std::vector<float>& query,
                             const std::vector<uint8_t>& codes) const;
 
-    /**
-     * @brief Check if quantizer is trained
-     */
     bool isTrained() const { return trained_; }
-
-    /**
-     * @brief Get compression ratio
-     * @return Ratio of original size to compressed size (typically 32.0 for float32)
-     */
-    float getCompressionRatio() const {
-        return (dimension_ * sizeof(float)) / static_cast<float>(getEncodedSize());
-    }
-
+    float getCompressionRatio() const { return 32.0f; }  // float32 -> 1 bit = 32x
+    size_t getMemoryUsage() const;
+    int getDimension() const { return dimension_; }
+    float getScale() const { return scale_; }  // Get learned scale factor
+    
     /**
      * @brief Get encoded size in bytes
      */
     size_t getEncodedSize() const {
-        return (dimension_ + 7) / 8;  // Round up to nearest byte
+        return (dimension_ + 7) / 8;  // Ceiling division for bit packing
     }
-
+    
     /**
-     * @brief Get memory usage in bytes for quantizer metadata
+     * @brief Check which backend is being used
+     * @return "faiss" or "custom"
      */
-    size_t getMemoryUsage() const {
-        return sizeof(*this) + mean_values_.size() * sizeof(float);
-    }
-
-    // Getters
-    int getDimension() const { return dimension_; }
-    float getMean(int dim) const { return mean_values_[dim]; }
-    float getScale() const { return scale_; }
+    const char* getBackend() const;
 
 private:
     int dimension_;
     Config config_;
     bool trained_ = false;
-    
-    // Per-dimension mean values (for centering)
-    std::vector<float> mean_values_;
-    
-    // Global scale factor for reconstruction
     float scale_ = 1.0f;
+    std::vector<float> mean_values_;
 
-    /**
-     * @brief Compute mean value across all dimensions
-     */
-    float computeMean(const std::vector<float>& vector) const;
-
-    /**
-     * @brief Compute L2 norm of vector
-     */
+    // Helper methods
     float computeNorm(const std::vector<float>& vector) const;
-
-    /**
-     * @brief Count set bits in a byte (popcount)
-     */
-    static int popcount(uint8_t byte);
+    int popcount(uint8_t byte) const;
+    
+    // Backend tracking
+    bool use_faiss_ = false;
 };
 
 } // namespace themis

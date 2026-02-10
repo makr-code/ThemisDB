@@ -253,4 +253,89 @@ TEST(BwTreeTest, MixedConcurrentOperations) {
     EXPECT_EQ(insert_count.load(), 50);
 }
 
+// Test for double-free bug fix: concurrent operations with high contention
+// This test creates many concurrent inserts which will trigger consolidation
+// when delta chains exceed the threshold, testing the ownership transfer fix
+TEST(BwTreeTest, ConcurrentConsolidationSafety) {
+    BwTree tree;
+    
+    // Pre-populate with data to create delta chain
+    for (int i = 0; i < 20; i++) {
+        tree.insert(i, "initial_" + std::to_string(i));
+    }
+    
+    // Create heavy contention with concurrent inserts and searches
+    // This increases the likelihood of CAS failures during consolidation
+    std::vector<std::thread> threads;
+    std::atomic<bool> stop{false};
+    
+    // Writer threads - create delta chains
+    for (int t = 0; t < 4; t++) {
+        threads.emplace_back([&tree, &stop, t]() {
+            int count = 0;
+            while (!stop.load() && count < 50) {
+                for (int i = 0; i < 5; i++) {
+                    int key = (t * 10 + i) % 20;
+                    tree.insert(key, "updated_" + std::to_string(t) + "_" + std::to_string(count));
+                }
+                count++;
+            }
+        });
+    }
+    
+    // Reader threads - trigger apply_deltas() in search operations
+    // This creates temporary consolidated views for reading
+    for (int t = 0; t < 4; t++) {
+        threads.emplace_back([&tree, &stop]() {
+            int count = 0;
+            while (!stop.load() && count < 100) {
+                for (int i = 0; i < 20; i++) {
+                    std::string value;
+                    tree.search(i, value);
+                }
+                count++;
+            }
+        });
+    }
+    
+    // Let threads run for a bit
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    stop.store(true);
+    
+    for (auto& thread : threads) {
+        thread.join();
+    }
+    
+    // If there was a double-free bug, the test would likely crash or 
+    // trigger memory sanitizer errors. The fact that we reach here means
+    // memory management is correct.
+    
+    // Verify tree is still functional
+    std::string value;
+    EXPECT_TRUE(tree.search(5, value));
+}
+
+// Test that consolidation is triggered when delta chain gets too long
+TEST(BwTreeTest, AutomaticConsolidation) {
+    BwTree tree;
+    
+    // Insert enough records to trigger consolidation threshold
+    // The threshold is 10 deltas per the constant in bwtree.h
+    for (int i = 0; i < 15; i++) {
+        EXPECT_TRUE(tree.insert(1, "value_" + std::to_string(i)));
+    }
+    
+    // Get stats to verify consolidation happened
+    auto stats = tree.get_stats();
+    
+    // After 15 inserts with threshold of 10, we should have triggered
+    // at least one consolidation, so delta count should be < 15
+    EXPECT_LT(stats.num_deltas, 15u);
+    
+    // Verify the tree still works correctly after consolidation
+    std::string value;
+    EXPECT_TRUE(tree.search(1, value));
+    EXPECT_EQ(value, "value_14");  // Last inserted value
+}
+
 

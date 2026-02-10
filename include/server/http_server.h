@@ -44,6 +44,7 @@
 #include "server/graph_api_handler.h"
 #include "server/index_api_handler.h"
 #include "server/entity_api_handler.h"
+#include "server/bpmn_api_handler.h"
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
@@ -56,6 +57,7 @@
 #include "server/classification_api_handler.h"
 #include "server/reports_api_handler.h"
 #include "server/update_api_handler.h"
+#include "server/ethics_api_handler.h"
 #if THEMIS_ENABLE_LLM
 #include "server/feedback_api_handler.h"
 #else
@@ -84,14 +86,24 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class TransactionManager;
+class ProcessGraphManager;
 class LLMInteractionStore;
 class Changefeed;
 class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
-class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
+class PITRManager;
+
+namespace prompt_engineering {
+class PromptManager;
+}
+
+namespace transaction {
+class BranchManager;
+class MergeEngine;
+}
 
 namespace analytics {
 class DiffEngine;
@@ -99,6 +111,9 @@ class DiffEngine;
 
 namespace server {
 class DiffApiHandler;
+class PITRApiHandler;
+class BranchApiHandler;
+class MergeApiHandler;
 }
 
 namespace sharding {
@@ -107,6 +122,9 @@ class WALManager;
 class ReplicationCoordinator;
 class MultiPrimaryCoordinator;
 class HealthMonitor;
+class CollectionRedundancyManager;
+class ConsistentHashRing;
+class ShardTopology;
 }
 
 namespace index {
@@ -219,7 +237,10 @@ public:
         std::shared_ptr<sharding::WALManager> wal_manager,
         std::shared_ptr<sharding::ReplicationCoordinator> replication_coordinator,
         std::shared_ptr<sharding::MultiPrimaryCoordinator> multi_primary_coordinator = nullptr,
-        std::shared_ptr<sharding::HealthMonitor> health_monitor = nullptr
+        std::shared_ptr<sharding::HealthMonitor> health_monitor = nullptr,
+        std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager = nullptr,
+        std::shared_ptr<sharding::ConsistentHashRing> hash_ring = nullptr,
+        std::shared_ptr<sharding::ShardTopology> shard_topology = nullptr
     );
 
     ~HttpServer();
@@ -314,10 +335,7 @@ private:
     // moved to MonitoringApiHandler
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);  // Old content-specific metrics (deprecated)
     http::response<http::string_body> handleConfig(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleGetEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handlePutEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleDeleteEntity(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleEntitiesBatch(const http::request<http::string_body>& req);
+    // Entity handlers moved to EntityApiHandler (entity_api_)
     // Query handlers moved to QueryApiHandler
     http::response<http::string_body> handleGraphTraverse(const http::request<http::string_body>& req);
     http::response<http::string_body> handleGraphEdgeCreate(const http::request<http::string_body>& req);
@@ -332,9 +350,8 @@ private:
     http::response<http::string_body> handleIndexRebuild(const http::request<http::string_body>& req);
     http::response<http::string_body> handleIndexReindex(const http::request<http::string_body>& req);
     
-    // Admin: Backup & Restore
-    http::response<http::string_body> handleAdminBackup(const http::request<http::string_body>& req);
-    http::response<http::string_body> handleAdminRestore(const http::request<http::string_body>& req);
+    // Admin handlers moved to AdminApiHandler (admin_api_)
+    // Previously: handleAdminBackup, handleAdminRestore
 
     // Content API endpoints
     http::response<http::string_body> handleContentImport(const http::request<http::string_body>& req);
@@ -458,6 +475,8 @@ private:
     http::response<http::string_body> handleSchemaGetFull(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaGetTables(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaGetTable(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaPut(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaPatch(const http::request<http::string_body>& req);
 
     // Utility methods
     http::response<http::string_body> makeResponse(
@@ -521,6 +540,7 @@ private:
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
+    std::shared_ptr<ProcessGraphManager> process_graph_;
     std::shared_ptr<TransactionManager> tx_manager_;
     
     // Spatial Index Manager (geo MVP)
@@ -543,21 +563,36 @@ private:
     std::shared_ptr<LLMInteractionStore> llm_store_;
     rocksdb::ColumnFamilyHandle* llm_cf_handle_ = nullptr;
     // Prompt Manager for managing prompt templates (in-memory or RocksDB-backed)
-    std::shared_ptr<themis::PromptManager> prompt_manager_;
+    std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager_;
     rocksdb::ColumnFamilyHandle* prompt_cf_handle_ = nullptr;
     
     // Changefeed (Sprint A CDC)
     std::shared_ptr<Changefeed> changefeed_; // shared_ptr for SSE manager
     rocksdb::ColumnFamilyHandle* cdc_cf_handle_ = nullptr;
     
-    // Snapshot Manager (Named Snapshots feature) - TEMPORARILY DISABLED
-    // std::unique_ptr<SnapshotManager> snapshot_manager_;
-    // std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
-    // TODO: Re-enable after resolving incomplete type errors
+    // Snapshot Manager (Named Snapshots feature)
+    std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
+    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
+    
+    // PITR Manager (Point-in-Time Recovery feature)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<server::PITRApiHandler> pitr_api_handler_;
+    std::unique_ptr<SnapshotManager> snapshot_manager_;
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
     std::unique_ptr<DiffApiHandler> diff_api_handler_;
+    
+    // PITR Manager and API Handler (Phase 3 MVCC features)
+    std::unique_ptr<PITRManager> pitr_manager_;
+    std::unique_ptr<PITRApiHandler> pitr_api_handler_;
+    // Branch Manager and API Handler (Phase 4 MVCC features - Optional)
+    std::unique_ptr<transaction::BranchManager> branch_manager_;
+    std::unique_ptr<BranchApiHandler> branch_api_handler_;
+    
+    // Merge Engine and API Handler (Phase 5 MVCC features - 3-Way Merge)
+    std::unique_ptr<transaction::MergeEngine> merge_engine_;
+    std::unique_ptr<MergeApiHandler> merge_api_handler_;
     
     // SSE Connection Manager for Changefeed streaming
 #ifdef THEMIS_ENABLE_SSE
@@ -620,6 +655,9 @@ private:
     // Entity API Handler
     std::unique_ptr<themis::server::EntityApiHandler> entity_api_;
     
+    // BPMN API Handler
+    std::unique_ptr<themis::server::BpmnApiHandler> bpmn_api_;
+    
     // Content API Handler
     std::unique_ptr<themis::server::ContentApiHandler> content_api_;
     
@@ -669,6 +707,9 @@ private:
     // Error API Handler
     std::unique_ptr<themis::server::ErrorApiHandler> error_api_handler_;
     
+    // Ethics AI API Handler (ethical decision-making and evaluation)
+    std::unique_ptr<themis::server::EthicsApiHandler> ethics_api_;
+    
     // Health/Error Service (separate port)
     std::unique_ptr<themis::server::HealthErrorService> health_error_service_;
     
@@ -687,6 +728,11 @@ private:
     std::shared_ptr<sharding::HealthMonitor> health_monitor_;
     std::string wal_shared_secret_;
     std::string wal_hmac_secret_;
+
+    // RAID redundancy components (optional)
+    std::shared_ptr<sharding::CollectionRedundancyManager> redundancy_manager_;
+    std::shared_ptr<sharding::ConsistentHashRing> hash_ring_;
+    std::shared_ptr<sharding::ShardTopology> shard_topology_;
 
     // Authorization middleware
     std::shared_ptr<themis::AuthMiddleware> auth_;

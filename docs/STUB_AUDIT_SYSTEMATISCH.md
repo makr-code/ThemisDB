@@ -343,36 +343,48 @@ Diese Features haben Design-Dokumente, aber fehlende oder unvollständige Implem
 #### 4.1 Video Processor
 **Datei:** `src/content/video_processor.cpp`
 
-**Status:** 🟡 **Simulation/Placeholder-Implementation**
+**Status:** ✅ **Implementiert mit FFmpeg (v1.3.0+)**
 
-**Code:**
+**Implementation:**
 ```cpp
-VideoMetadata VideoProcessor::extractMetadata(const std::vector<uint8_t>& data) {
-    VideoMetadata meta;
-    
-    // This is a simulation - real implementation would use libavformat
-    meta.duration_seconds = 120.0;  // Placeholder
-    meta.width = 1920;
-    meta.height = 1080;
-    meta.fps = 30.0;
-    meta.codec = "h264";  // Assumed
-    
-    THEMIS_WARN("VideoProcessor: Using simulated metadata extraction");
-    return meta;
+// FFmpeg-based metadata extraction (conditional compilation)
+#ifdef THEMIS_HAS_FFMPEG
+MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint8_t>& blob) {
+    // Real FFmpeg implementation:
+    // - Opens video with libavformat
+    // - Extracts duration, bitrate, container format
+    // - Extracts video stream metadata (width, height, codec, framerate)
+    // - Extracts audio stream metadata (codec, sample rate, channels)
+    // - Handles both old and new FFmpeg API versions
 }
 
-std::vector<uint8_t> VideoProcessor::extractThumbnail(const std::vector<uint8_t>& data) {
-    // Return empty thumbnail placeholder
-    return {};
+std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<uint8_t>& blob) {
+    // Real FFmpeg implementation:
+    // - Opens video with libavformat
+    // - Seeks to 10% of duration
+    // - Decodes frame with libavcodec
+    // - Scales to thumbnail size with libswscale
+    // - Converts color space (YUV to RGB)
+    // - Returns raw RGB data
 }
+#endif
 ```
 
-**Fehlende Dependencies:**
-- ❌ FFmpeg/libavformat Integration
-- ❌ libavcodec für Frame-Dekodierung
-- ❌ libswscale für Thumbnail-Generierung
+**Implementierte Features:**
+- ✅ FFmpeg/libavformat Integration (optional via pkg-config)
+- ✅ libavcodec für Frame-Dekodierung
+- ✅ libswscale für Thumbnail-Generierung und Farbraumkonvertierung
+- ✅ Rückwärtskompatibilität: Simulation Mode bei fehlender FFmpeg-Installation
+- ✅ Sichere temporäre Dateiverwaltung (race condition-frei)
+- ✅ Versionskompatibler API-Code (FFmpeg 4.x und 5.x+)
+- ✅ Vollständige Ressourcenbereinigung und Fehlerbehandlung
 
-**Empfehlung:** 🟡 **Priorität P2** - Für echte Video-Analyse benötigt
+**Build-System:**
+- vcpkg.json: FFmpeg mit Features (avcodec, avformat, swscale, avfilter)
+- Dependencies.cmake: pkg-config-basierte FFmpeg-Erkennung
+- CMakeLists.txt: Bedingte Kompilierung mit THEMIS_HAS_FFMPEG Flag
+
+**Empfehlung:** ✅ **Abgeschlossen** - Enterprise-ready Video-Analyse verfügbar
 
 ---
 
@@ -732,9 +744,11 @@ bool ShardRPCClient::connect(const std::string& endpoint) {
 ### Phase 3: Content Processing (P2)
 **Zeitrahmen:** 6-8 Wochen
 
-6. **Video Processor mit FFmpeg**
-   - libavformat Integration
-   - Thumbnail Generation
+6. ~~**Video Processor mit FFmpeg**~~ ✅ **Abgeschlossen (v1.3.0+)**
+   - ✅ libavformat Integration
+   - ✅ Thumbnail Generation
+   - ✅ Metadata Extraction (Duration, Codec, FPS, Bitrate)
+   - ✅ Rückwärtskompatibilität (Simulation Mode)
    - **Aufwand:** 1 Woche
 
 7. **Office PPTX Support**

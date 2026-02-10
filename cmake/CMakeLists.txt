@@ -145,6 +145,8 @@ option(THEMIS_ENABLE_PIPER_TTS "Enable Piper TTS for Text-to-Speech" OFF)
 # Hardware acceleration backend options
 option(THEMIS_ENABLE_CUDA "Enable NVIDIA CUDA acceleration" OFF)
 option(THEMIS_ENABLE_HIP "Enable AMD HIP acceleration" OFF)
+option(THEMIS_ENABLE_NCCL "Enable NCCL for NVIDIA multi-GPU (v2.5+)" OFF)
+option(THEMIS_ENABLE_RCCL "Enable RCCL for AMD multi-GPU (v2.5+)" OFF)
 
 # Geospatial Processing (P2 - v1.4.0+)
 # Enables GDAL integration for Shapefile and GeoTIFF support
@@ -839,13 +841,24 @@ if(NOT TARGET RocksDB::rocksdb AND NOT TARGET RocksDB::rocksdb-shared)
 endif()
 
 # Core packages via vcpkg (or system where available)
-find_package(simdjson CONFIG REQUIRED)
-find_package(TBB CONFIG REQUIRED)
+find_package(simdjson CONFIG QUIET)
+if(NOT simdjson_FOUND)
+    message(WARNING "simdjson not found - some features may be disabled")
+endif()
+
+find_package(TBB CONFIG QUIET)
+if(NOT TBB_FOUND)
+    message(WARNING "TBB not found - will use fallback threading")
+endif()
+
 find_package(Arrow CONFIG QUIET)
 find_package(fmt CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost QUIET COMPONENTS system)
+if(NOT Boost_FOUND)
+    message(WARNING "Boost not found - some features may be disabled")
+endif()
 
 # yaml-cpp might be found via PkgConfig or CONFIG
 find_package(yaml-cpp CONFIG QUIET)
@@ -885,9 +898,13 @@ if(TARGET yaml-cpp::yaml-cpp)
 endif()
 
 # Defensive check: Ensure Boost::system target exists after find_package
-if(NOT TARGET Boost::system)
-    message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
-                        "Ensure Boost was found and the 'system' component is available.")
+if(Boost_FOUND)
+    if(NOT TARGET Boost::system)
+        message(FATAL_ERROR "Required CMake target 'Boost::system' not found. "
+                            "Ensure Boost was found and the 'system' component is available.")
+    endif()
+else()
+    message(WARNING "Boost not available - network features may be disabled")
 endif()
 # Optional ZSTD for content compression wrappers
 # Note: ZSTD packages may expose different target names depending on the build system
@@ -1128,6 +1145,7 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/backup_manager.cpp
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
+    ../src/storage/batch_write_optimizer.cpp
     
     ../src/metadata/schema_manager.cpp
     ../src/server/schema_api_handler.cpp
@@ -1169,6 +1187,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
+    ../src/transaction/merge_engine.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1195,6 +1214,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
     ../src/server/cache_api_handler.cpp
     ../src/server/admin_api_handler.cpp
@@ -1204,6 +1224,12 @@ set(THEMIS_CORE_SOURCES
     ../src/server/monitoring_api_handler.cpp
     ../src/server/query_api_handler.cpp
     ../src/server/policy_api_handler.cpp
+    ../src/server/policy_manager_api_handler.cpp
+    ../src/server/policy_versioning_api_handler.cpp
+    ../src/server/policy_template_api_handler.cpp
+    ../src/server/compliance_reporting_api_handler.cpp
+    ../src/server/policy_validation_api_handler.cpp
+    ../src/server/review_scheduling_api_handler.cpp
     ../src/server/prompt_api_handler.cpp
     ../src/server/graph_api_handler.cpp
     ../src/server/index_api_handler.cpp
@@ -1224,6 +1250,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/policy_engine.cpp
     ../src/server/auth_middleware.cpp
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
     
     # LLM integration (server/API/grpc) is added conditionally below
     ../src/server/rate_limiter.cpp
@@ -1234,6 +1261,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/export_api_handler.cpp
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/server/http3_session.cpp>
     $<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/server/websocket_session.cpp>
@@ -1244,6 +1272,12 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_type.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_manager.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/text_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/video_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/audio_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pdf_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/geo_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/cad_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
@@ -1253,8 +1287,16 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
     
+    # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/content_chunker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/bulk_upload_interface.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/async_bulk_uploader.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/multimodal_chunker.cpp>
+    
     ../src/cache/semantic_cache.cpp
     ../src/cache/embedding_cache.cpp
+    ../src/cache/bounded_lru_cache.cpp
     # LLM core components are added conditionally below
     ../src/cdc/changefeed.cpp
     
@@ -1302,6 +1344,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
+    ../src/utils/thread_pool_manager.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
@@ -1344,6 +1387,18 @@ set(THEMIS_CORE_SOURCES
     ../src/auth/jwt_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
+    ../src/governance/policy_manager.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/compliance_reporting.cpp
+    ../src/governance/policy_validation.cpp
+    ../src/governance/policy_coordinator.cpp
+    ../src/governance/policy_version_history.cpp
+    ../src/governance/policy_manager_versioned.cpp
+    ../src/governance/policy_template.cpp
+    ../src/governance/compliance_reporter.cpp
+    ../src/governance/policy_validator.cpp
+    ../src/governance/review_scheduler.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1355,15 +1410,21 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/urn.cpp
     ../src/sharding/consistent_hash.cpp
     ../src/sharding/shard_topology.cpp
+    ../src/sharding/metadata_shard.cpp
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp
+    ../src/sharding/mtls_connection_pool.cpp
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
     ../src/utils/file_utils.cpp
+    ../src/utils/capability_auto_generator.cpp
+    ../src/utils/self_awareness.cpp
     ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
+    ../src/sharding/capability_matcher.cpp
+    ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
     ../src/sharding/shard_load_detector.cpp
@@ -1429,9 +1490,12 @@ set(THEMIS_CORE_SOURCES
     
     # Network
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_helpers.cpp
+    ../src/network/wire_protocol_connection_pool.cpp
     
-    # Observability
+    # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
+    ../src/observability/alertmanager.cpp
     
     # GraphQL API (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRAPHQL}>:../src/api/graphql.cpp>
@@ -1444,6 +1508,8 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    ../src/analytics/arrow_export.cpp
+    ../src/analytics/analytics_export.cpp
     
     # Git-like MVCC Features
     # Phase 1: Named Snapshots
@@ -1452,12 +1518,17 @@ set(THEMIS_CORE_SOURCES
     
     # Phase 2: Diff Engine
     ../src/analytics/diff_engine.cpp
+    
+    # Phase 5: Three-Way Merge
+    ../src/transaction/merge_engine.cpp
 )
 
 # HTTP Server API handlers (only if HTTP server enabled)
 if(THEMIS_ENABLE_HTTP_SERVER)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/server/diff_api_handler.cpp
+        ../src/server/merge_api_handler.cpp
+        ../src/server/pitr_api_handler.cpp
     )
 endif()
 
@@ -1580,6 +1651,12 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/embedding_provider.cpp
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
+    ../src/llm/llama_grammar_adapter.cpp
+    # GPU VRAM Allocation (vLLM-inspired)
+    ../src/llm/adaptive_vram_allocator.cpp
+    ../src/llm/multi_gpu_memory_coordinator.cpp
+    ../src/llm/paged_kv_cache_manager.cpp
+    ../src/llm/mixed_precision_inference.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
@@ -1688,6 +1765,13 @@ if(THEMIS_ENABLE_CUDA)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CUDA)
     target_include_directories(themis_core PRIVATE ${CUDAToolkit_INCLUDE_DIRS})
     target_link_libraries(themis_core PRIVATE CUDA::cudart CUDA::cuda_driver)
+    
+    # Link NCCL if available
+    if(NCCL_FOUND)
+        target_include_directories(themis_core PRIVATE ${NCCL_INCLUDE_DIRS})
+        target_link_libraries(themis_core PRIVATE ${NCCL_LIBRARIES})
+        message(STATUS "NCCL libraries linked: ${NCCL_LIBRARIES}")
+    endif()
     
     message(STATUS "CUDA acceleration enabled")
     message(STATUS "  CUDA Version: ${CUDAToolkit_VERSION}")
@@ -1987,13 +2071,20 @@ else()
     message(STATUS "MessagePack target not found - buffer binary protocol may fail to build")
 endif()
 
+# RFC 3161 Timestamp Authority (TSA) - OpenSSL implementation
 # Enable OpenSSL-based Timestamp Authority (RFC 3161) if both OpenSSL and CURL are available
 # OpenSSL is required for cryptographic operations, CURL for HTTP/HTTPS communication with TSA servers
-if(OpenSSL_FOUND AND CURL_FOUND)
+if(THEMIS_USE_OPENSSL_TSA AND OpenSSL_FOUND AND CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_USE_OPENSSL_TSA)
-    message(STATUS "Timestamp Authority (RFC 3161): Enabled with OpenSSL and CURL")
+    message(STATUS "Timestamp Authority (RFC 3161): OpenSSL implementation enabled")
 else()
-    message(STATUS "Timestamp Authority (RFC 3161): Using stub implementation (OpenSSL=${OpenSSL_FOUND}, CURL=${CURL_FOUND})")
+    if(THEMIS_USE_OPENSSL_TSA AND NOT OpenSSL_FOUND)
+        message(WARNING "RFC 3161 TSA: OpenSSL mode requested but OpenSSL not found - falling back to stub mode")
+    endif()
+    if(THEMIS_USE_OPENSSL_TSA AND NOT CURL_FOUND)
+        message(WARNING "RFC 3161 TSA: OpenSSL mode requested but CURL not found - falling back to stub mode")
+    endif()
+    message(STATUS "Timestamp Authority (RFC 3161): Using stub implementation (development only - NOT for production)")
 endif()
 
 # Define version string for runtime use
@@ -2056,6 +2147,12 @@ if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
     endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
+endif()
+
+# FFmpeg support for video processing (optional)
+if(FFMPEG_FOUND)
+    target_link_libraries(themis_core PUBLIC FFmpeg::avformat)
+    message(STATUS "FFmpeg linked to themis_core - real video processing enabled")
 endif()
 
 # ============================================================================
@@ -2409,6 +2506,14 @@ if(THEMIS_ENABLE_LLM)
         list(APPEND THEMIS_CORE_SOURCES
             ../src/llm/lora_framework/kernels/hip_kernels.cpp  # LoRA HIP kernels (AMD)
         )
+        
+        # Link RCCL if available
+        if(RCCL_FOUND)
+            target_include_directories(themis_core PRIVATE ${RCCL_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE ${RCCL_LIBRARIES})
+            message(STATUS "RCCL libraries linked: ${RCCL_LIBRARIES}")
+        endif()
+        
         message(STATUS "LoRA: HIP kernels enabled (AMD ROCm support)")
     endif()
     
@@ -2580,6 +2685,8 @@ if(THEMIS_BUILD_TESTS)
         ${THEMIS_ROOT_DIR}/tests/test_lib_hnsw_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_lib_boost_integration.cpp
         ${THEMIS_ROOT_DIR}/tests/test_secondary_index.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_thread_pool_manager.cpp
+        ${THEMIS_ROOT_DIR}/tests/test_batch_write_optimizer.cpp
     )
     target_link_libraries(themis_tests_critical
         PRIVATE
@@ -2753,6 +2860,58 @@ if(THEMIS_BUILD_TESTS)
             DISCOVERY_MODE PRE_TEST
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_bao>
             EXTRA_ARGS --gtest_color=yes
+        )
+    endif()
+    
+    # GPU Vector Index Test
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(test_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # Multi-GPU Vector Index Test
+        add_executable(test_multi_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/tests/test_multi_gpu_vector_index.cpp
+        )
+        target_link_libraries(test_multi_gpu_vector_index
+            PRIVATE
+                themis_core
+                GTest::gtest
+                GTest::gtest_main
+        )
+        gtest_discover_tests(test_multi_gpu_vector_index
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_multi_gpu_vector_index>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
+        )
+        
+        # NCCL/RCCL Collective Backends Test (v2.5+)
+        add_executable(test_collective_backends
+            ${THEMIS_ROOT_DIR}/tests/test_collective_backends.cpp
+        )
+        target_link_libraries(test_collective_backends
+            PRIVATE
+                themis_core
+                GTest::gtest
+        )
+        gtest_discover_tests(test_collective_backends
+            DISCOVERY_MODE PRE_TEST
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:test_collective_backends>
+            EXTRA_ARGS --gtest_color=yes
+            CONFIGURATIONS Release Debug
         )
     endif()
 endif()
@@ -3117,6 +3276,30 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark
             benchmark::benchmark_main
     )
+    
+    # GPU Vector Index benchmark
+    if(THEMIS_ENABLE_GPU AND THEMIS_ENABLE_VECTOR_SEARCH)
+        add_executable(bench_gpu_vector_index
+            ${THEMIS_ROOT_DIR}/benchmarks/bench_gpu_vector_index.cpp
+        )
+        
+        target_link_libraries(bench_gpu_vector_index
+            PRIVATE
+                themis_core
+                benchmark::benchmark
+                benchmark::benchmark_main
+        )
+        
+        # Multi-GPU Vector Index example (also works as benchmark)
+        add_executable(multi_gpu_vector_index_example
+            ${THEMIS_ROOT_DIR}/examples/multi_gpu_vector_index_example.cpp
+        )
+        
+        target_link_libraries(multi_gpu_vector_index_example
+            PRIVATE
+                themis_core
+        )
+    endif()
 
     # GNN Embeddings benchmark
     add_executable(bench_gnn_embeddings

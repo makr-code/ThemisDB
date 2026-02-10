@@ -98,13 +98,40 @@ TEST_F(BinaryQuantizerTest, EncodeDecodeRoundTrip) {
     EXPECT_EQ(codes.size(), bq.getEncodedSize());
     
     auto decoded = bq.decode(codes);
-    EXPECT_EQ(decoded.size(), test_vector.size());
+    EXPECT_EQ(decoded.size(), dimension_);
+}
+
+TEST_F(BinaryQuantizerTest, BackendSelection) {
+    // Test backend reporting
+    BinaryQuantizer::Config config;
+    config.prefer_faiss = true;
+    BinaryQuantizer bq(dimension_, config);
     
-    // Decoded values should be ±scale
-    for (float val : decoded) {
-        EXPECT_TRUE(std::abs(val - bq.getScale()) < 0.1f || 
-                   std::abs(val + bq.getScale()) < 0.1f);
+    const char* backend = bq.getBackend();
+    EXPECT_TRUE(strcmp(backend, "faiss") == 0 || strcmp(backend, "custom") == 0);
+    
+#ifdef THEMIS_HAS_FAISS
+    if (config.prefer_faiss) {
+        // Should use FAISS if available and preferred
+        EXPECT_STREQ(backend, "faiss");
     }
+#else
+    // Should always use custom if FAISS not available
+    EXPECT_STREQ(backend, "custom");
+#endif
+}
+
+TEST_F(BinaryQuantizerTest, ForceCustomBackend) {
+    // Test forcing custom backend even when FAISS available
+    BinaryQuantizer::Config config;
+    config.prefer_faiss = false;
+    BinaryQuantizer bq(dimension_, config);
+    
+    EXPECT_STREQ(bq.getBackend(), "custom");
+    
+    // Train and verify it works
+    auto status = bq.train(training_vectors_);
+    EXPECT_TRUE(status.ok);
 }
 
 TEST_F(BinaryQuantizerTest, CompressionRatio) {

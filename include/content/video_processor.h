@@ -15,6 +15,14 @@
 #include <mutex>
 #include <atomic>
 
+// FFmpeg forward declarations to avoid header pollution
+#ifdef THEMIS_HAS_FFMPEG
+struct AVFormatContext;
+struct AVCodecContext;
+struct AVFrame;
+struct SwsContext;
+#endif
+
 namespace themis {
 namespace content {
 
@@ -75,6 +83,12 @@ private:
     std::vector<uint8_t> generateThumbnail(const std::vector<uint8_t>& blob);
     std::string extractSubtitles(const std::vector<uint8_t>& blob);
     std::vector<int64_t> detectScenes(const std::vector<uint8_t>& blob);
+    
+#ifdef THEMIS_HAS_FFMPEG
+    // FFmpeg-specific helper methods
+    MediaExtractionData extractMetadataFFmpeg(const std::vector<uint8_t>& blob);
+    std::vector<uint8_t> generateThumbnailFFmpeg(const std::vector<uint8_t>& blob);
+#endif
 };
 
 } // namespace content

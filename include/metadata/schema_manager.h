@@ -175,6 +175,37 @@ public:
     /// Lists enabled features based on build flags
     json getCapabilitiesJSON();
 
+    // ========================================================================
+    // Schema Management API (PUT/PATCH)
+    // ========================================================================
+
+    /// Store/update custom schema for a table
+    /// @param table_name Table/collection name
+    /// @param schema Custom schema definition (JSON)
+    /// @return true on success, false on validation failure
+    bool setTableSchema(std::string_view table_name, const TableSchema& schema);
+
+    /// Partial update of existing schema
+    /// @param table_name Table/collection name
+    /// @param updates JSON object with fields to update
+    /// @return true on success, false if table not found or validation failure
+    bool patchTableSchema(std::string_view table_name, const json& updates);
+
+    /// Delete custom schema for a table
+    /// @param table_name Table/collection name
+    /// @return true if deleted, false if not found
+    bool deleteTableSchema(std::string_view table_name);
+
+    /// Validate table schema structure
+    /// @param schema Schema to validate
+    /// @return Error message if invalid, empty string if valid
+    std::string validateSchema(const TableSchema& schema) const;
+
+    /// Parse TableSchema from JSON
+    /// @param j JSON object
+    /// @return TableSchema or throws on parse error
+    static TableSchema parseTableSchema(const json& j);
+
 private:
     // ========================================================================
     // Internal Implementation
@@ -213,6 +244,14 @@ private:
     /// Build cache from scratch
     void buildCache();
 
+    /// Load custom schemas from RocksDB
+    void loadCustomSchemas();
+
+    /// Save custom schema to RocksDB
+    /// @param table_name Table name
+    /// @param schema Schema to save
+    void saveCustomSchema(std::string_view table_name, const TableSchema& schema);
+
     // ========================================================================
     // Member Variables
     // ========================================================================
@@ -225,6 +264,9 @@ private:
     std::map<std::string, RelationshipSchema> rel_cache_;   // Edge type -> schema
     std::chrono::system_clock::time_point last_refresh_;    // Last cache refresh time
     std::chrono::seconds cache_ttl_{60};                    // Cache TTL (default: 60s)
+
+    // Custom schemas (persisted in RocksDB under "config:schema:{table_name}")
+    std::map<std::string, TableSchema> custom_schemas_;     // User-defined schemas
 
     // Thread safety
     mutable std::shared_mutex cache_mutex_;                 // Read-write lock for cache

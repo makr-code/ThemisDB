@@ -15,6 +15,21 @@
 #include <filesystem>
 #include <llama.h>
 
+// Forward declarations for llama.cpp LoRA API (from llama_lora_adapter.cpp)
+extern "C" {
+    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
+    int llama_lora_adapter_set_with_scale(struct llama_context* ctx, void* adapter, float scale);
+    void llama_lora_adapter_free(void* adapter);
+    bool themis_llama_lora_available();
+}
+
+// Forward declarations for llama.cpp grammar API (from llama_grammar_adapter.cpp)
+extern "C" {
+    void llama_grammar_sample(const struct llama_grammar* grammar, const struct llama_context* ctx, struct llama_token_data_array* candidates);
+    void llama_grammar_accept(struct llama_grammar* grammar, const struct llama_context* ctx, int token);
+    bool themis_llama_grammar_available();
+}
+
 namespace themis {
 namespace llm {
 
@@ -729,14 +744,24 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
                     // Adapter will be loaded by LoRAManager from storage
                 }
                 
-                // Apply adapter to context
-                if (lora_manager_->applyLoRA(adapter_id, lctx)) {
-                    adapter_applied = true;
-                    active_lora_adapter_ = adapter_id;
-                    last_context_ptr_ = lctx;
-                    spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                // Ensure LoRA is initialized with the model handle
+                // This calls llama_lora_adapter_init() if not already done
+                if (lora_manager_->isLoRALoaded(adapter_id)) {
+                    if (!lora_manager_->initializeLoRAWithModel(adapter_id, lmodel)) {
+                        spdlog::warn("Failed to initialize LoRA adapter {}, proceeding with base model", adapter_id);
+                    } else {
+                        // Apply adapter to context
+                        if (lora_manager_->applyLoRA(adapter_id, lctx)) {
+                            adapter_applied = true;
+                            active_lora_adapter_ = adapter_id;
+                            last_context_ptr_ = lctx;
+                            spdlog::debug("LoRA adapter {} applied to context", adapter_id);
+                        } else {
+                            spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                        }
+                    }
                 } else {
-                    spdlog::warn("Failed to apply LoRA adapter {}, proceeding with base model", adapter_id);
+                    spdlog::warn("LoRA adapter {} not found in manager, proceeding with base model", adapter_id);
                 }
             } else {
                 // Adapter already applied to this context
@@ -1078,7 +1103,12 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
     caps.supports_chat = true;
     caps.supports_completion = true;
     
-    caps.supports_lora = true;
+    // Check actual LoRA API availability at runtime
+    extern "C" {
+        bool themis_llama_lora_available();
+    }
+    caps.supports_lora = themis_llama_lora_available();
+    
     caps.supports_quantization = true;
     caps.supports_streaming = true;
     caps.supports_batching = true;
@@ -1460,13 +1490,12 @@ llama_token LlamaWrapper::sampleTokenInternal(
     
     // Apply grammar constraint FIRST (Phase 3.2)
     // This filters candidates to only those valid according to grammar
-    if (grammar != nullptr) {
-        // llama_grammar_sample(grammar, ctx, &candidates_p);
-        // NOTE: Grammar API removed from llama.cpp - needs migration to new API
-        spdlog::warn("Grammar sampling not available - llama.cpp API changed");
-        
-        // spdlog::debug("Grammar filtering applied, {} candidates remaining", 
-        //              candidates_p.size);
+    if (grammar != nullptr && themis_llama_grammar_available()) {
+        llama_grammar_sample(grammar, ctx, &candidates_p);
+        spdlog::debug("Grammar filtering applied, {} candidates remaining", 
+                     candidates_p.size);
+    } else if (grammar != nullptr && !themis_llama_grammar_available()) {
+        spdlog::warn("Grammar sampling requested but llama.cpp grammar API not available");
     }
     
     // Apply temperature sampling
@@ -1518,10 +1547,11 @@ llama_token LlamaWrapper::sampleTokenInternal(
     llama_token sampled_token = candidates_p.data[0].id;
     
     // Update grammar state with sampled token (Phase 3.2)
-    if (grammar != nullptr) {
-        // llama_grammar_accept(grammar, ctx, sampled_token);
-        // NOTE: Grammar API removed from llama.cpp - needs migration to new API
-        spdlog::warn("Grammar accept not available - llama.cpp API changed");
+    if (grammar != nullptr && themis_llama_grammar_available()) {
+        llama_grammar_accept(grammar, ctx, sampled_token);
+        spdlog::debug("Grammar state updated with token {}", sampled_token);
+    } else if (grammar != nullptr && !themis_llama_grammar_available()) {
+        spdlog::warn("Grammar accept requested but llama.cpp grammar API not available");
     }
     
     return sampled_token;

@@ -1,8 +1,53 @@
-# 🎯 THEMIS v1.4 COMPLETE DOCUMENTATION INDEX
+# 🎯 THEMIS v1.5.0 DOCUMENTATION INDEX
 
-**Projektabschluss:** 29. Dezember 2025  
-**Status:** ✅ ALL 8 STEPS COMPLETED  
-**Total Deliverables:** 14 Dokumente + 5 Skripte
+**Version:** 1.5.0-dev  
+**Release Type:** Alpha (Beta/RC Ready)  
+**Documentation Updated:** February 7, 2026  
+**Status:** ✅ Consolidated & Archived
+
+> **Note:** Historical development documents (GAP analyses, old roadmaps, TODO lists, and implementation summaries) have been archived to [docs/ARCHIVED/](ARCHIVED/) for reference. This index covers current, actively maintained documentation.
+
+---
+
+## 📚 CONTINUOUS DOCUMENTATION IMPROVEMENT PROCESS (NEU - 2026-02-02)
+
+### Living Documentation & Review Process
+
+ThemisDB hat einen umfassenden Prozess für kontinuierliche Dokumentationsverbesserung und -review etabliert, um sicherzustellen, dass die Dokumentation stets aktuell und korrekt bleibt.
+
+**Core Documentation:**
+- [CONTINUOUS_DOCUMENTATION_PROCESS.md](CONTINUOUS_DOCUMENTATION_PROCESS.md) - Gesamtübersicht und Executive Summary
+- [DOCUMENTATION_REVIEW_GUIDELINES.md](DOCUMENTATION_REVIEW_GUIDELINES.md) - Vollständige Review-Richtlinien
+- [PR_DOCUMENTATION_CHECKLIST.md](PR_DOCUMENTATION_CHECKLIST.md) - PR Dokumentations-Checkliste Template
+- [DOCUMENTATION_MERGE_PROTOCOL.md](DOCUMENTATION_MERGE_PROTOCOL.md) - Merge-Protokoll für Doku-PRs
+- [DOCUMENTATION_REVIEW_SCHEDULE.md](DOCUMENTATION_REVIEW_SCHEDULE.md) - Review-Kalender und Templates
+- [DOCUMENTATION_IMPROVEMENT_QUICKREF.md](DOCUMENTATION_IMPROVEMENT_QUICKREF.md) - Schnellreferenz für tägliche Arbeit
+- [DOCUMENTATION_FEEDBACK_MECHANISMS.md](DOCUMENTATION_FEEDBACK_MECHANISMS.md) - Feedback-Kanäle und Response-Prozess
+
+**Integration:**
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - Aktualisiert mit neuen Dokumentationsanforderungen
+- [DOCUMENTATION_ARCHIVAL_PROCESS.md](DOCUMENTATION_ARCHIVAL_PROCESS.md) - Bestehender Archivierungsprozess (integriert)
+
+**Review Schedule:**
+- 📅 **Monthly:** Erste Montag jeden Monats - Quick Review (2-4 Stunden)
+- 📅 **Quarterly:** Quartalsmitte - Comprehensive Audit (1-2 Tage)
+- 📅 **Release:** 3-5 Tage vor jedem Release - Release Documentation Review
+- 📅 **Ad-Hoc:** Nach Major-Features, Critical Bugs, Security Updates
+
+**Key Features:**
+- ✅ Mandatory documentation checklist für alle PRs mit Code-Änderungen
+- ✅ Structured review process (Pre-Merge, Monthly, Quarterly, Release)
+- ✅ Merge protocol mit Qualitätskriterien und Blocking Issues
+- ✅ Feedback mechanisms (GitHub Issues, PRs, Discussions)
+- ✅ Documentation debt tracking mit Prioritäten
+- ✅ Metrics tracking (Coverage, Links, Staleness, User Issues)
+- ✅ Archival process für veraltete Dokumentation
+- ✅ Living Documentation Prinzip
+
+**Acceptance Criteria (erfüllt):**
+- ✅ Jede Major-Änderung im Code wird in der Doku abgebildet (via PR Checklist)
+- ✅ Reviewzyklen sind im Arbeitsprozess verankert (Schedule etabliert)
+- ✅ Merge-Protokoll und Feedback für jeden Doku-PR (Templates vorhanden)
 
 ---
 
@@ -75,6 +120,108 @@ ThemisDB nutzt ab sofort eine **Git Flow Branching Strategy**:
 
 ---
 
+## 🚀 GPU VECTOR INDEXING ROADMAP (NEU - 2026-02-07)
+
+### GPU Acceleration Implementation Plan (v2.x Series)
+
+ThemisDB is implementing GPU-accelerated vector indexing across multiple backends for significant performance improvements. GPU stubs were removed in v1.5.0 as incomplete; v2.x will deliver production-ready GPU support.
+
+**Master Tracking:**
+- [GPU_MASTER_TRACKING.md](GPU_MASTER_TRACKING.md) - **Master tracking document** (comprehensive roadmap, timelines, metrics)
+
+**Core Documentation:**
+- [FUTURE_GPU_SUPPORT.md](FUTURE_GPU_SUPPORT.md) - Detailed GPU roadmap and technical rationale
+- [GPU_SUPPORT_ROADMAP.md](GPU_SUPPORT_ROADMAP.md) - User migration guide and API examples
+- [GPU_VECTOR_INDEXING_ARCHITECTURE.md](GPU_VECTOR_INDEXING_ARCHITECTURE.md) - Technical architecture and design
+
+**Backend-Specific Docs:**
+- [GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md](GPU_CUDA_BACKEND_IMPLEMENTATION_V2_1.md) - CUDA backend (v2.1, Q3 2026)
+- [VULKAN_BACKEND_GUIDE.md](VULKAN_BACKEND_GUIDE.md) - Vulkan backend (v2.2, Q4 2026)
+- [MULTI_GPU_VECTOR_INDEXING.md](MULTI_GPU_VECTOR_INDEXING.md) - Multi-GPU support (v2.4, Q2 2027)
+
+**Implementation Status:**
+- [GPU_VECTOR_INDEXING_IMPLEMENTATION.md](GPU_VECTOR_INDEXING_IMPLEMENTATION.md) - Implementation progress
+- [GPU_VECTOR_INDEXING_PR_SUMMARY.md](GPU_VECTOR_INDEXING_PR_SUMMARY.md) - PR summaries and changelogs
+- [VULKAN_IMPLEMENTATION_SUMMARY.md](VULKAN_IMPLEMENTATION_SUMMARY.md) - Vulkan implementation details
+- [MULTI_GPU_IMPLEMENTATION_SUMMARY.md](../MULTI_GPU_IMPLEMENTATION_SUMMARY.md) - Multi-GPU scaffolding status
+
+**Issue Templates:**
+- `.github/ISSUE_TEMPLATE/gpu-master-tracking.md` - Master epic tracking issue
+- `.github/ISSUE_TEMPLATE/gpu-cuda-implementation.md` - CUDA backend (v2.1)
+- `.github/ISSUE_TEMPLATE/gpu-vulkan-implementation.md` - Vulkan backend (v2.2)
+- `.github/ISSUE_TEMPLATE/gpu-hip-implementation.md` - HIP/ROCm backend (v2.3)
+- `.github/ISSUE_TEMPLATE/gpu-multi-gpu-support.md` - Multi-GPU (v2.4)
+
+**Roadmap Timeline:**
+- **v2.1 (Q3 2026)**: CUDA Backend → 250K QPS, 10x speedup (NVIDIA GPUs)
+- **v2.2 (Q4 2026)**: Vulkan Backend → 200K QPS (cross-platform: NVIDIA, AMD, Intel, Apple)
+- **v2.3 (Q1 2027)**: HIP Backend → 200K QPS (AMD GPUs optimized)
+- **v2.4 (Q2 2027)**: Multi-GPU → 1.6M QPS (8 GPUs, NCCL/RCCL)
+
+**Key Features:**
+- ✅ Comprehensive roadmap with timelines and success metrics
+- ✅ Multi-backend support (CUDA, Vulkan, HIP)
+- ✅ Performance targets: 5-10x speedup for batch operations
+- ✅ Cross-platform compatibility (Linux, Windows, macOS)
+- ✅ Backward compatible API (CPU fallback always available)
+- ✅ Complete issue templates for all phases
+- ✅ Risk mitigation and resource planning
+
+---
+
+## 🔄 REPLICATION & HIGH AVAILABILITY (NEU - 2026-02-09)
+
+### Comprehensive Replication Documentation
+
+ThemisDB implements enterprise-grade replication with automatic failover, write concern guarantees, and RAID topology support.
+
+**Getting Started:**
+- **[docs/replication/](replication/)** - Central documentation hub ⭐ **START HERE**
+- **[replication-ha-guide.md](replication-ha-guide.md)** - Complete HA deployment guide (English)
+  - Deployment topologies (Active-Passive, Active-Active, Multi-DC)
+  - Configuration, monitoring, alerting
+  - Operational procedures and troubleshooting
+  - Performance tuning guidelines
+
+**Implementation Details:**
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (German, ~85% complete)
+  - WAL-based infrastructure (Manager, Shipper, Applier)
+  - Component breakdown and file locations
+  - Integration test results (8/8 passing)
+  - Prometheus metrics reference
+- **[replication_raid_plan.md](replication_raid_plan.md)** - RAID 1/10 readiness plan
+  - Current implementation status
+  - Integration roadmap
+  - Acceptance criteria
+
+**Module Architecture:**
+- **`replication/` module** (`include/replication/`, `src/replication/`) - High-level orchestration
+  - ReplicationManager - Lifecycle management
+  - MultiMasterReplicationManager - Multi-master coordination
+- **`sharding/` module** (`include/sharding/`, `src/sharding/`) - Low-level infrastructure
+  - WAL components (Manager, Shipper, Applier)
+  - ReplicationCoordinator - Write concern (ONE/MAJORITY/ALL)
+  - ReplicaTopology - RAID 1/10/5/6 support
+  - Consensus modules (Raft, Gossip, Paxos)
+  - HealthMonitor - Failure detection
+
+**Key Features:**
+- ✅ WAL-based replication with LSN tracking
+- ✅ Write concern enforcement (ONE/MAJORITY/ALL)
+- ✅ RAID 1/10 topology support
+- ✅ Automatic failure detection and failover
+- ✅ HTTP and gRPC replication endpoints
+- ✅ Prometheus metrics integration
+- ✅ Multi-datacenter support
+- 🚧 RAID 5/6 implementation (in progress)
+
+**Related Documentation:**
+- [Distributed Sharding Architecture](de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md)
+- [Consensus Module Architecture](de/sharding/CONSENSUS_MODULE.md)
+- [Distributed Transactions](DISTRIBUTED_TRANSACTIONS.md)
+
+---
+
 ## 🐳 DOCKER RAID CLUSTER DOCUMENTATION (NEU - 2026-01-04)
 
 ### RAID Setup and Troubleshooting
@@ -129,6 +276,87 @@ Complete documentation of all 35 directories in `src/` - addressing the document
 - 🎯 Quick reference for locating functionality
 - 🎯 Architectural boundary enforcement
 - 🎯 Reduced onboarding time for developers
+
+---
+
+## 💾 BACKUP & RECOVERY DOCUMENTATION
+
+> **Note:** This backup & recovery documentation hub was introduced on 2026-02-09.
+
+### Comprehensive Data Protection and Disaster Recovery
+
+ThemisDB provides enterprise-grade backup and recovery capabilities with support for multiple backup strategies, integrity verification, and point-in-time recovery (PITR).
+
+**Documentation Hub:**
+- [BACKUP_RESTORE_DOCS_INDEX.md](BACKUP_RESTORE_DOCS_INDEX.md) - **Complete backup/restore documentation index**
+
+**Core Documentation:**
+- [backup_recovery_system.md](backup_recovery_system.md) - Complete system overview
+- [en/features/features_pitr.md](en/features/features_pitr.md) - Point-in-Time Recovery guide
+- [en/features/features_snapshots.md](en/features/features_snapshots.md) - Named snapshots
+- [en/features/features_raid5_backup.md](en/features/features_raid5_backup.md) - RAID5/6 backup support
+- [en/guides/disaster_recovery.md](en/guides/disaster_recovery.md) - DR procedures and runbooks
+
+**Operational Guides:**
+- [production/DISASTER_RECOVERY.md](production/DISASTER_RECOVERY.md) - Production DR plan
+- [operations/disaster-recovery/DR_CHECKLISTS.md](operations/disaster-recovery/DR_CHECKLISTS.md) - Operational checklists
+- [operations/disaster-recovery/DR_TESTING.md](operations/disaster-recovery/DR_TESTING.md) - Testing procedures
+- [knowledge-base/BACKUP_RECOVERY.md](knowledge-base/BACKUP_RECOVERY.md) - KB articles and FAQ
+
+**Key Features:**
+- ✅ Full, Incremental, and Differential Backups (v1.3.0+)
+- ✅ WAL Archiving for continuous backup (v1.3.0+)
+- ✅ RAID5/6 coordinated backups (v1.3.5+)
+- ✅ Named Snapshots with semantic tagging (v1.4.0+)
+- ✅ Point-in-Time Recovery (PITR) (v1.4.0+)
+- ✅ Backup compression and verification (v1.3.0+)
+- ✅ Structured diff computation between states (v1.4.1+)
+
+**Bilingual Documentation:**
+- 🇬🇧 English: `docs/en/features/` and `docs/en/guides/`
+- 🇩🇪 German: `docs/de/features/` and `docs/de/guides/`
+## 📊 OBSERVABILITY & MONITORING DOCUMENTATION (NEU - 2026-02-09)
+
+### Central Observability Overview
+
+ThemisDB now has a comprehensive observability documentation hub that consolidates information about logging, tracing, metrics, and alerting capabilities.
+
+**Core Documentation:**
+- **[Observability & Monitoring Overview](observability/README.md)** - **Central Hub** for all observability capabilities
+  - Logging infrastructure (spdlog-based)
+  - Distributed tracing (OpenTelemetry with OTLP export)
+  - Metrics collection (Prometheus-compatible, distributed across modules)
+  - Alerting integration (Prometheus Alertmanager)
+  - Gaps analysis and future roadmap
+
+**Key Sections:**
+- ✅ **Logging:** Comprehensive coverage of logger.h, audit logging, SAGA logging
+- ✅ **Distributed Tracing:** Complete OpenTelemetry integration guide with Jaeger/Tempo setup
+- ✅ **Metrics:** Documentation of all metrics locations across LLM, sharding, performance, security subsystems
+- ✅ **Alerting:** Alert configuration examples and health check systems
+- ✅ **Gaps & Future Work:** Identified lack of unified metrics module, recommendations for v1.6+
+
+**Related Files:**
+- [Tracing Configuration Guide](tracing-configuration.md) - Detailed tracing setup
+- [LLM Response Cache Metrics](LLM_RESPONSE_CACHE_METRICS.md) - Cache metrics integration
+- [Utils Module README](../src/utils/README.md) - Updated with observability link
+- [German Observability Docs](de/observability/) - Comprehensive German documentation
+
+**Metrics Locations Documented:**
+- `include/llm/grafana_metrics.h` - LLM inference and cache metrics
+- `include/sharding/prometheus_metrics.h` - Sharding and cluster metrics
+- `include/performance/lockfree_metrics_buffer.h` - Performance metrics
+- `include/security/hsm_security_metrics.h` - Security metrics
+- `include/utils/compression_metrics.h` - Compression metrics
+- `include/plugins/plugin_metrics.h` - Plugin metrics
+
+**Key Features:**
+- ✅ Central documentation hub linking all observability resources
+- ✅ Clear identification of metrics distribution across modules
+- ✅ Code examples for logging, tracing, and metrics
+- ✅ Quick start guides for Prometheus, Grafana, Jaeger integration
+- ✅ Gap analysis calling out lack of dedicated unified metrics module
+- ✅ Updated cross-references from src/utils/README.md and docs/README.md
 
 ---
 
@@ -674,21 +902,44 @@ SUPPORT:
 
 ---
 
-**Project Completion Date:** December 29, 2025  
-**Documentation Status:** COMPLETE & PRODUCTION-READY  
-**Next Phase:** Engineering Implementation (January 2026)
+## 📦 ARCHIVED DOCUMENTATION
+
+Historical development documents have been moved to organized archives for reference:
+
+### Archive Structure
+- **[ARCHIVED/gaps/](ARCHIVED/gaps/)** - GAP analysis documents from development phases (20+ files)
+- **[ARCHIVED/roadmaps/](ARCHIVED/roadmaps/)** - Historical roadmaps and version planning (9 files)
+- **[ARCHIVED/todos/](ARCHIVED/todos/)** - Task lists and planning documents (11 files)
+- **[ARCHIVED/implementation-summaries/](ARCHIVED/implementation-summaries/)** - Completed feature implementations (40+ files)
+
+### Why Archived?
+These documents represent completed work, superseded plans, or historical context. They are preserved for reference but are no longer actively maintained.
+
+**See:** [ARCHIVED/README.md](ARCHIVED/README.md) for complete archive documentation and index.
+
+**Current Status Tracking:**
+- **Roadmap:** [CHANGELOG.md](../CHANGELOG.md) and release notes
+- **Tasks:** GitHub Issues and Project Boards
+- **Features:** Actively maintained documentation in main docs tree
 
 ---
 
-# 🎉 PROJECT COMPLETE!
+**Documentation Updated:** February 7, 2026  
+**Version:** 1.5.0-dev (Alpha, Beta/RC Ready)  
+**Documentation Status:** CONSOLIDATED & CURRENT  
+**Next Phase:** Beta/RC Release Preparation
 
-All 8 steps of the comprehensive Themis v1.4 analysis, optimization, and launch preparation have been successfully completed. The workspace now contains:
+---
 
-✨ **13 Comprehensive Documents** (13,000+ lines)  
-🐍 **5 Analysis & Automation Scripts**  
-📊 **3 CSV Data Exports**  
-🎯 **Complete Roadmap from Analysis to Launch**
+# 🎉 DOCUMENTATION CONSOLIDATED!
 
-**Ready for:** Engineering implementation, marketing launch, customer communication
+The ThemisDB documentation has been reorganized for Beta/RC readiness:
+
+✨ **70+ Historical Documents Archived**  
+🗂️ **Organized Archive Structure** (gaps, roadmaps, todos, implementations)  
+📚 **Streamlined Current Documentation**  
+🎯 **Clear Navigation and References**
+
+**Ready for:** Beta/RC releases, production deployment, enterprise adoption
 
 ---

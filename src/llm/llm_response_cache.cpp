@@ -126,7 +126,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
     entry.embedding = embedding; // Cache embedding for brute-force fallback
     
     response_store_[pk] = entry;
-    stats_.total_entries = response_store_.size();
+    stats_.total_entries.store(response_store_.size(), std::memory_order_relaxed);
     
     // Record cache size metric
     if (metrics_collector_) {
@@ -152,7 +152,7 @@ void LLMResponseCache::put(const std::string& prompt, const InferenceResponse& r
                 vector_index_->removeByPk(oldest_it->first);
             }
             response_store_.erase(oldest_it);
-            stats_.total_entries = response_store_.size();
+            stats_.total_entries.store(response_store_.size(), std::memory_order_relaxed);
             
             if (metrics_collector_) {
                 metrics_collector_->recordCacheSize(cache_name_, stats_.total_entries / 1024.0);
@@ -182,7 +182,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     // Generate embedding for the query prompt
     auto query_embedding = generateEmbedding(prompt);
     if (query_embedding.empty()) {
-        stats_.misses++;
+        stats_.misses.fetch_add(1, std::memory_order_relaxed);
         THEMIS_DEBUG("Cache miss: failed to generate embedding for prompt");
         if (metrics_collector_) {
             metrics_collector_->recordCacheMiss(cache_name_);
@@ -211,11 +211,16 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                     
                     // Check if entry is expired
                     if (!isExpired(entry)) {
-                        stats_.hits++;
+                        stats_.hits.fetch_add(1, std::memory_order_relaxed);
                         auto end = std::chrono::high_resolution_clock::now();
                         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-                        stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                                      duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+                        
+                        // Update average lookup time atomically
+                        size_t total_ops = stats_.hits.load(std::memory_order_relaxed) + 
+                                          stats_.misses.load(std::memory_order_relaxed);
+                        double new_avg = (stats_.avg_lookup_time_ms.load(std::memory_order_relaxed) * (total_ops - 1) + 
+                                         duration.count() / 1000.0) / total_ops;
+                        stats_.avg_lookup_time_ms.store(new_avg, std::memory_order_relaxed);
                         
                         // Record cache hit
                         if (metrics_collector_) {
@@ -234,7 +239,7 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
                             vector_index_->removeByPk(it->first);
                         }
                         response_store_.erase(it);
-                        stats_.total_entries = response_store_.size();
+                        stats_.total_entries.store(response_store_.size(), std::memory_order_relaxed);
                         
                         // Update cache size
                         if (metrics_collector_) {
@@ -309,11 +314,16 @@ std::optional<InferenceResponse> LLMResponseCache::get(const std::string& prompt
     }
     
     // Cache miss
-    stats_.misses++;
+    stats_.misses.fetch_add(1, std::memory_order_relaxed);
     auto end = std::chrono::high_resolution_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    stats_.avg_lookup_time_ms = (stats_.avg_lookup_time_ms * (stats_.hits + stats_.misses - 1) + 
-                                  duration.count() / 1000.0) / (stats_.hits + stats_.misses);
+    
+    // Update average lookup time atomically
+    size_t total_ops = stats_.hits.load(std::memory_order_relaxed) + 
+                      stats_.misses.load(std::memory_order_relaxed);
+    double new_avg = (stats_.avg_lookup_time_ms.load(std::memory_order_relaxed) * (total_ops - 1) + 
+                     duration.count() / 1000.0) / total_ops;
+    stats_.avg_lookup_time_ms.store(new_avg, std::memory_order_relaxed);
     
     // Record cache miss
     if (metrics_collector_) {
@@ -344,7 +354,7 @@ size_t LLMResponseCache::invalidate(const std::string& pattern) {
             }
         }
         
-        stats_.total_entries = response_store_.size();
+        stats_.total_entries.store(response_store_.size(), std::memory_order_relaxed);
         return count;
     } catch (const std::regex_error&) {
         return 0;
@@ -369,7 +379,7 @@ void LLMResponseCache::clear() {
         );
     }
     
-    stats_.total_entries = 0;
+    stats_.total_entries.store(0, std::memory_order_relaxed);
     
     // Record cache cleared
     if (metrics_collector_) {
@@ -379,7 +389,12 @@ void LLMResponseCache::clear() {
 
 LLMResponseCache::CacheStatistics LLMResponseCache::getStatistics() const {
     std::lock_guard<std::mutex> lock(cache_mutex_);
-    return stats_;
+    CacheStatistics result;
+    result.hits.store(stats_.hits.load(std::memory_order_relaxed), std::memory_order_relaxed);
+    result.misses.store(stats_.misses.load(std::memory_order_relaxed), std::memory_order_relaxed);
+    result.total_entries.store(stats_.total_entries.load(std::memory_order_relaxed), std::memory_order_relaxed);
+    result.avg_lookup_time_ms.store(stats_.avg_lookup_time_ms.load(std::memory_order_relaxed), std::memory_order_relaxed);
+    return result;
 }
 
 std::vector<float> LLMResponseCache::generateEmbedding(const std::string& prompt) const {

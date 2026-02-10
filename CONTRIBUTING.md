@@ -26,11 +26,12 @@ Thank you for your interest in contributing to ThemisDB! This document provides 
 | [🚀 Getting Started](#-getting-started) | Set up development environment |
 | [💻 Development Workflow](#-development-workflow) | Branching and committing |
 | [✅ Code Quality Standards](#-code-quality-standards) | Enforced quality checks |
+| [📋 License Compliance](#-license-compliance) | License policy and compliance |
 | [🔄 Pull Request Process](#-pull-request-process) | Submitting changes |
 | [🏷️ Issue Labels](#️-issue-labels) | GitHub label system |
 | [🐛 Reporting Bugs](#-reporting-bugs) | Bug report guidelines |
 | [💡 Feature Requests](#-feature-requests) | Suggesting enhancements |
-| [📝 Documentation](#documentation) | Documentation guidelines and archival |
+| [📝 Documentation](#documentation) | Living documentation and continuous review process |
 | [📦 Package Maintenance](#-package-maintenance) | Platform packaging |
 
 ---
@@ -644,6 +645,39 @@ start coverage/html/index.html     # Windows
 - `.env.example` templates (never `.env`)
 - Configuration placeholders (`YOUR_API_KEY_HERE`)
 
+### 📋 License Compliance
+
+> [!IMPORTANT]
+> **All dependencies must comply with ThemisDB's license policy!**  
+> The automated license compliance workflow blocks PRs with incompatible licenses.
+
+**License Policy:**
+- **Allowed:** MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Unlicense, CC0-1.0, MPL-2.0
+- **Warning (Weak Copyleft):** LGPL-2.1, LGPL-3.0, EPL-1.0, EPL-2.0 (acceptable with dynamic linking)
+- **Blocked (Strong Copyleft):** GPL-2.0, GPL-3.0, AGPL-3.0
+- **Blocked:** Proprietary, Commercial, UNLICENSED
+
+**Before adding dependencies:**
+
+1. **Check the license** - Verify it's in the allowed list
+2. **Review `.license-policy.json`** - Consult the policy file
+3. **Document in PR** - Mention the license in your pull request
+
+**If your PR is blocked:**
+- **Option A:** Replace the dependency with a compatible alternative (preferred)
+- **Option B:** Request an exception by creating an issue with label `license-exception`
+
+**Automated Checks:**
+- ✅ Runs on every PR that changes dependencies
+- 📊 Monthly audit on the first of each month
+- 🔍 Scans `vcpkg.json`, `package.json`, and other dependency files
+- 💬 Posts results as PR comment with detailed violations
+
+**Documentation:**
+- [Full License Compliance Process](docs/de/compliance/license-compliance.md) (German)
+- [License Compliance Process](docs/en/compliance/license-compliance.md) (English)
+- [License Policy File](.license-policy.json)
+
 ### 🎨 Code Style
 
 <details>
@@ -947,17 +981,81 @@ Any other relevant information
 
 ## Documentation
 
-- **Architecture docs**: `docs/architecture.md`, `docs/design/`
-- **API docs**: Generated from code comments, `docs/apis/`
-- **User guides**: `docs/*.md`
-- **Deployment**: `docs/deployment.md`
-- **Packaging**: `docs/packaging.md`, `docs/PACKAGING-QUICKREF.md`
+ThemisDB follows a **Living Documentation** approach where documentation evolves with the codebase through continuous review and improvement.
 
-**Updating documentation:**
-- Keep docs in sync with code changes
-- Use clear, concise language
-- Include code examples where appropriate
-- Update `mkdocs.yml` if adding new pages
+### Documentation Structure
+
+- **Architecture docs**: `docs/architecture/`
+- **API docs**: `docs/api/`
+- **User guides**: `docs/`
+- **Examples**: `examples/`
+- **Compendium**: `compendium/`
+- **Translations**: `docs/de/`, `docs/fr/`, `docs/es/`, `docs/ja/`
+- **Archived docs**: `docs/ARCHIVED/` - Historical development documents (GAP analyses, old roadmaps, completed implementations)
+
+> **Note:** Historical development documents (GAP analyses, roadmaps, TODO lists, implementation summaries) have been archived to `docs/ARCHIVED/`. See [docs/ARCHIVED/README.md](docs/ARCHIVED/README.md) for the complete archive index.
+
+### Documentation Requirements
+
+**All PRs with code changes must include documentation updates:**
+- [ ] Complete the [PR Documentation Checklist](docs/PR_DOCUMENTATION_CHECKLIST.md)
+- [ ] Update affected documentation files
+- [ ] Add/update code examples if applicable
+- [ ] Update CHANGELOG.md
+- [ ] Ensure documentation builds successfully (`mkdocs build --strict`)
+
+**Documentation must be:**
+- **Accurate** - Reflects current implementation
+- **Complete** - Covers all features and use cases
+- **Clear** - Easy to understand for target audience
+- **Tested** - Code examples compile and run
+- **Maintained** - Regularly reviewed and updated
+
+### Continuous Review Process
+
+Documentation is reviewed at multiple levels:
+
+1. **PR Review** (Every PR with code changes)
+   - Documentation changes reviewed alongside code
+   - At least one reviewer verifies accuracy
+   - Must pass before merge
+
+2. **Monthly Reviews** (First Monday of each month)
+   - Quick check of recent changes
+   - Identify and fix quick wins
+   - Track documentation debt
+
+3. **Quarterly Reviews** (Start of each quarter)
+   - Comprehensive documentation audit
+   - Test all examples
+   - Update translations
+   - Archive outdated content
+
+4. **Release Reviews** (Before each release)
+   - Verify release documentation
+   - Update version references
+   - Validate migration guides
+
+**Review schedule and process:** [docs/DOCUMENTATION_REVIEW_SCHEDULE.md](docs/DOCUMENTATION_REVIEW_SCHEDULE.md)
+
+### Documentation Guidelines
+
+**Writing style:**
+- Use active voice ("Configure the database..." not "The database can be configured...")
+- Be specific with values and examples
+- Provide working code examples
+- Explain prerequisites clearly
+- Keep language clear and concise
+
+**Quality standards:**
+```bash
+# Before submitting PR:
+mkdocs build --strict              # Verify build
+./scripts/check-links.sh           # Validate links
+./scripts/test-examples.sh         # Test examples (if available)
+```
+
+**Complete documentation guidelines:** [docs/DOCUMENTATION_REVIEW_GUIDELINES.md](docs/DOCUMENTATION_REVIEW_GUIDELINES.md)
 
 ### Documentation Archival
 

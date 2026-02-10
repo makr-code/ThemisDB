@@ -6,6 +6,7 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <chrono>
 
 /**
  * @file rpc_service_impl.h
@@ -17,6 +18,7 @@
 
 namespace themis {
 class RocksDBWrapper;  // Forward declaration
+class AuthMiddleware;  // Forward declaration
 namespace index {
 class SpatialIndexManager;  // Forward declaration
 }
@@ -37,8 +39,10 @@ class ThemisRPCService {
 public:
     explicit ThemisRPCService(
         RocksDBWrapper* storage,
-        themis::index::SpatialIndexManager* spatial_index = nullptr
-    ) : storage_(storage), spatial_index_(spatial_index) {}
+        themis::index::SpatialIndexManager* spatial_index = nullptr,
+        std::shared_ptr<AuthMiddleware> auth = nullptr,
+        const std::chrono::steady_clock::time_point* start_time = nullptr
+    ) : storage_(storage), spatial_index_(spatial_index), auth_(auth), start_time_(start_time) {}
     
     /**
      * @brief Handle GET operation
@@ -178,11 +182,17 @@ public:
 private:
     RocksDBWrapper* storage_;
     themis::index::SpatialIndexManager* spatial_index_;
+    std::shared_ptr<AuthMiddleware> auth_;
+    const std::chrono::steady_clock::time_point* start_time_;
     
     /**
-     * @brief Verify authentication token from context
+     * @brief Verify authentication token from context and check required scope
+     * @param context RPC request context containing metadata with auth token
+     * @param username Output parameter for authenticated username
+     * @param required_scope Required authorization scope (e.g., "rpc:read", "rpc:write", "rpc:admin")
+     * @return true if authentication and authorization succeed, false otherwise
      */
-    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username);
+    bool verifyAuth(const themis::plugins::rpc::RPCRequestContext& context, std::string& username, const std::string& required_scope);
     
     /**
      * @brief Create error response

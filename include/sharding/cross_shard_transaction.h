@@ -6,6 +6,7 @@
 
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -78,6 +79,10 @@ struct CrossShardTransaction {
     std::map<std::string, ShardParticipant> participants;  // Shard ID -> participant
     nlohmann::json metadata;                 // Additional metadata
     
+    // MVCC timestamps for snapshot isolation
+    int64_t snapshot_timestamp = 0;          // Read timestamp (start of transaction)
+    int64_t commit_timestamp = 0;            // Commit timestamp (end of transaction)
+    
     // Compensation data (for SAGA)
     std::map<std::string, nlohmann::json> compensations;
     
@@ -138,6 +143,9 @@ struct CrossShardTransactionConfig {
     
     // Transaction timeout
     std::chrono::milliseconds transaction_timeout{30000};
+    
+    // Transaction log path (defaults to /var/lib/themisdb/transaction_log.jsonl)
+    std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl";
 };
 
 /**
@@ -155,7 +163,8 @@ class CrossShardTransactionCoordinator {
 public:
     explicit CrossShardTransactionCoordinator(
         const CrossShardTransactionConfig& config,
-        std::shared_ptr<ConsensusModule> consensus
+        std::shared_ptr<ConsensusModule> consensus,
+        std::shared_ptr<themis::sharding::TrueTime> truetime = nullptr
     );
     
     ~CrossShardTransactionCoordinator();
@@ -330,8 +339,46 @@ private:
         std::set<std::string>& rec_stack
     );
     
+    /**
+     * @brief Execute compensations for SAGA transaction
+     */
+    void executeCompensations(
+        const std::string& transaction_id,
+        const std::vector<nlohmann::json>& executed_steps,
+        const std::vector<nlohmann::json>& compensations
+    );
+    
+    /**
+     * @brief Generate MVCC commit timestamp ensuring external consistency
+     * @param txn Transaction to generate timestamp for
+     * @return Commit timestamp that is definitely after snapshot timestamp
+     */
+    int64_t generateCommitTimestamp(const CrossShardTransaction& txn);
+    
+    /**
+     * @brief Persist transaction state to durable storage
+     */
+    bool persistTransactionState(
+        const std::string& transaction_id,
+        TransactionState state
+    );
+    
+    /**
+     * @brief Load pending transactions from durable storage
+     */
+    std::vector<CrossShardTransaction> loadPendingTransactions();
+    
+    /**
+     * @brief Recover coordinator state after failure
+     */
+    bool recoverFromFailure();
+    
     CrossShardTransactionConfig config_;
     std::shared_ptr<ConsensusModule> consensus_;
+    std::shared_ptr<themis::sharding::TrueTime> truetime_;
+    
+    // Transaction log file
+    std::string transaction_log_path_;
     
     // State
     mutable std::mutex transactions_mutex_;

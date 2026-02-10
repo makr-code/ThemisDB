@@ -11,12 +11,14 @@
 #include <gtest/gtest.h>
 #include "llm/llama_wrapper.h"
 #include "llm/llm_prefix_cache.h"
+#include "tests/utils/mock_clock.h"
 #include <filesystem>
 #include <cstdlib>
 #include <chrono>
 #include <thread>
 
 using namespace themis::llm;
+using namespace themis::utils;
 
 namespace {
 
@@ -52,12 +54,16 @@ protected:
             GTEST_SKIP() << "No test model found. Set THEMIS_TEST_MODEL_PATH or place model in ./models/";
         }
         
+        // Create mock clock for deterministic testing
+        mock_clock_ = std::make_shared<MockClock>();
+        
         // Setup prefix cache configuration
         cache_config_.similarity_threshold = 0.95;
         cache_config_.max_entries = 100;
         cache_config_.min_prefix_length = 20;
         cache_config_.ttl_seconds = 3600;
         cache_config_.enable_kv_caching = true;
+        cache_config_.clock = mock_clock_;  // Inject mock clock
     }
     
     void TearDown() override {
@@ -66,6 +72,7 @@ protected:
     
     std::string model_path_;
     LLMPrefixCache::Config cache_config_;
+    std::shared_ptr<MockClock> mock_clock_;
 };
 
 // ============================================================================
@@ -147,15 +154,15 @@ TEST_F(KVCacheReuseTest, LRUEviction) {
     
     std::vector<float> embedding = {0.1f, 0.2f, 0.3f};
     
-    // Add 3 entries
+    // Add 3 entries with time advancement
     cache.put("Prefix 1 - long enough to be cached", {1}, embedding);
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    mock_clock_->advance(std::chrono::milliseconds(10));
     cache.put("Prefix 2 - long enough to be cached", {2}, embedding);
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    mock_clock_->advance(std::chrono::milliseconds(10));
     cache.put("Prefix 3 - long enough to be cached", {3}, embedding);
     
     // Add 4th entry - should evict oldest (Prefix 1)
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    mock_clock_->advance(std::chrono::milliseconds(10));
     cache.put("Prefix 4 - long enough to be cached", {4}, embedding);
     
     // Prefix 1 should be evicted
@@ -181,8 +188,8 @@ TEST_F(KVCacheReuseTest, TTLExpiration) {
     auto result1 = cache.get(prefix, embedding);
     EXPECT_TRUE(result1.has_value()) << "Entry should exist before TTL";
     
-    // Wait for expiration
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    // Advance time past TTL (use mock clock)
+    mock_clock_->advance(std::chrono::seconds(2));
     
     // Should be expired
     auto result2 = cache.get(prefix, embedding);
@@ -317,6 +324,155 @@ TEST_F(KVCacheReuseTest, RAGWorkloadSimulation) {
     EXPECT_GT(hit_rate, 0.5) << "RAG workload should have >50% hit rate after warmup";
     
     SUCCEED() << "RAG simulation hit rate: " << (hit_rate * 100.0) << "%";
+}
+
+// ============================================================================
+// High/Low Frequency Pattern Tests
+// ============================================================================
+
+TEST_F(KVCacheReuseTest, HighFrequencyPattern) {
+    LLMPrefixCache cache("test_frequency_cache", cache_config_);
+    
+    // Simulate high-frequency access pattern (80/20 rule)
+    std::vector<std::string> high_freq_prefixes = {
+        "System prompt: You are a helpful AI assistant for customer service queries",
+        "Context: Based on the documentation provided below, answer the following question"
+    };
+    
+    std::vector<std::string> low_freq_prefixes = {
+        "Random query one that rarely appears in the workload pattern",
+        "Another infrequent prefix that shows up occasionally only",
+        "Third low frequency prefix for diversity in test patterns"
+    };
+    
+    // Use distinct embeddings per prefix to avoid false positive cache hits
+    std::vector<std::vector<float>> embeddings;
+    for (size_t i = 0; i < high_freq_prefixes.size() + low_freq_prefixes.size(); ++i) {
+        std::vector<float> embedding(128);
+        for (size_t j = 0; j < 128; ++j) {
+            embedding[j] = 0.1f + static_cast<float>(i) * 0.05f + static_cast<float>(j) * 0.001f;
+        }
+        embeddings.push_back(embedding);
+    }
+    
+    // Simulate 100 queries following Zipfian-like distribution
+    int high_freq_count = 0;
+    int low_freq_count = 0;
+    
+    for (int i = 0; i < 100; ++i) {
+        // 80% of queries use high-frequency prefixes
+        if (i % 5 != 0) {
+            size_t prefix_idx = i % high_freq_prefixes.size();
+            std::string prefix = high_freq_prefixes[prefix_idx];
+            auto result = cache.get(prefix, embeddings[prefix_idx]);
+            if (!result.has_value()) {
+                cache.put(prefix, {i}, embeddings[prefix_idx]);
+            } else {
+                high_freq_count++;
+            }
+        } else {
+            // 20% use low-frequency prefixes
+            size_t prefix_idx = i % low_freq_prefixes.size();
+            size_t embedding_idx = high_freq_prefixes.size() + prefix_idx;
+            std::string prefix = low_freq_prefixes[prefix_idx];
+            auto result = cache.get(prefix, embeddings[embedding_idx]);
+            if (!result.has_value()) {
+                cache.put(prefix, {i}, embeddings[embedding_idx]);
+            } else {
+                low_freq_count++;
+            }
+        }
+    }
+    
+    // High-frequency prefixes should have much better cache hit rate
+    EXPECT_GT(high_freq_count, low_freq_count) 
+        << "High-frequency patterns should have more cache hits than low-frequency";
+    
+    SUCCEED() << "High-freq hits: " << high_freq_count << ", Low-freq hits: " << low_freq_count;
+}
+
+TEST_F(KVCacheReuseTest, FingerprintFrequencyTracking) {
+    LLMPrefixCache cache("test_fingerprint_cache", cache_config_);
+    
+    std::string prefix = "Repeated prefix for frequency tracking validation test";
+    std::vector<int> tokens = {1, 2, 3, 4, 5};
+    std::vector<float> embedding = {0.1f, 0.2f, 0.3f};
+    
+    // Record the same fingerprint multiple times
+    cache.put(prefix, tokens, embedding);
+    
+    // Access multiple times to track frequency
+    for (int i = 0; i < 10; ++i) {
+        auto result = cache.get(prefix, embedding);
+        ASSERT_TRUE(result.has_value()) << "Prefix should remain cached";
+        EXPECT_GE(result->usage_count, static_cast<size_t>(i + 1)) 
+            << "Usage count should increase with each access";
+    }
+    
+    // Verify final usage count
+    auto final_result = cache.get(prefix, embedding);
+    ASSERT_TRUE(final_result.has_value());
+    EXPECT_GE(final_result->usage_count, 10) 
+        << "Final usage count should reflect all accesses";
+    
+    SUCCEED() << "Fingerprint accessed " << final_result->usage_count << " times";
+}
+
+TEST_F(KVCacheReuseTest, ZipfianDistributionWorkload) {
+    cache_config_.max_entries = 20;
+    LLMPrefixCache cache("test_zipfian_cache", cache_config_);
+    
+    // Create 20 different prefixes
+    std::vector<std::string> prefixes;
+    for (int i = 0; i < 20; ++i) {
+        prefixes.push_back("Prefix " + std::to_string(i) + " for Zipfian distribution test pattern");
+    }
+    
+    // Use distinct embeddings per prefix
+    std::vector<std::vector<float>> embeddings;
+    for (int i = 0; i < 20; ++i) {
+        std::vector<float> embedding(64);
+        for (int j = 0; j < 64; ++j) {
+            embedding[j] = 0.1f + static_cast<float>(i) * 0.02f + static_cast<float>(j) * 0.001f;
+        }
+        embeddings.push_back(embedding);
+    }
+    
+    std::vector<int> access_counts(20, 0);
+    
+    // Simulate Zipfian distribution: access frequency decreases with rank
+    // Top 20% (4 prefixes) get 80% of accesses
+    constexpr int total_accesses = 1000;
+    
+    for (int i = 0; i < total_accesses; ++i) {
+        // Zipfian: P(k) ~ 1/k^alpha, alpha=1
+        // Approximate: first 4 items get most traffic
+        int idx;
+        if (i % 10 < 8) {
+            // 80% of accesses go to top 20% of items
+            idx = i % 4;
+        } else {
+            // 20% of accesses distributed among remaining 80%
+            idx = 4 + (i % 16);
+        }
+        
+        access_counts[idx]++;
+        
+        auto result = cache.get(prefixes[idx], embeddings[idx]);
+        if (!result.has_value()) {
+            cache.put(prefixes[idx], {idx}, embeddings[idx]);
+        }
+    }
+    
+    // Verify: top 4 items should have significantly higher access counts
+    int top4_accesses = access_counts[0] + access_counts[1] + access_counts[2] + access_counts[3];
+    int rest_accesses = total_accesses - top4_accesses;
+    
+    EXPECT_GT(top4_accesses, rest_accesses) 
+        << "Top 20% of items should receive majority of accesses";
+    
+    SUCCEED() << "Top 4 prefixes: " << top4_accesses << " accesses, "
+              << "Remaining 16: " << rest_accesses << " accesses";
 }
 
 // ============================================================================

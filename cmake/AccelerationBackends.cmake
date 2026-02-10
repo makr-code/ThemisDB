@@ -33,12 +33,24 @@ if(THEMIS_ENABLE_CUDA)
     )
 endif()
 
+# NCCL vector backend for multi-GPU vector indexing (v2.5+)
+# Always compile to provide stub implementations for CPU-only builds
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/acceleration/nccl_vector_backend.cpp
+)
+
 # RCCL backend (AMD multi-GPU)
 if(THEMIS_ENABLE_HIP)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/llm/lora_framework/rccl_backend.cpp
     )
 endif()
+
+# RCCL vector backend for multi-GPU vector indexing (v2.5+)
+# Always compile to provide stub implementations for CPU-only builds
+list(APPEND THEMIS_CORE_SOURCES
+    ../src/acceleration/rccl_vector_backend.cpp
+)
 
 # Intel OneAPI backend
 if(THEMIS_ENABLE_ONEAPI)
@@ -59,6 +71,21 @@ if(THEMIS_ENABLE_CUDA OR THEMIS_ENABLE_HIP)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/acceleration/faiss_gpu_backend.cpp
     )
+endif()
+
+# GPU Vector Index implementation
+if(THEMIS_ENABLE_GPU)
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/index/gpu_vector_index.cpp
+        ../src/index/multi_gpu_vector_index.cpp
+    )
+    
+    # Vulkan backend for GPU Vector Index
+    if(THEMIS_ENABLE_VULKAN)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/index/gpu_vector_index_vulkan.cpp
+        )
+    endif()
 endif()
 
 # Memory management for multi-GPU scenarios

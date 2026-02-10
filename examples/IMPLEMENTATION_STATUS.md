@@ -76,7 +76,7 @@ All 10 examples have been fully documented with comprehensive guides:
 ### Supporting Files
 
 - ✅ **examples/README.md** - Main overview with all examples listed
-- ✅ **examples/TODO.md** - Comprehensive roadmap (11,700+ characters)
+- ✅ **[docs/ARCHIVED/todos/TODO.md](../docs/ARCHIVED/todos/TODO.md)** - Comprehensive roadmap (archived, 11,700+ characters)
 - ✅ **requirements-common.txt** - Base dependencies
 - ✅ **requirements-extended.txt** - Advanced dependencies
 
@@ -103,7 +103,6 @@ All 10 examples have been fully documented with comprehensive guides:
 ```
 examples/
 ├── README.md (Overview with table of all examples)
-├── TODO.md (Detailed roadmap and implementation plan)
 ├── requirements-common.txt (Base dependencies)
 ├── requirements-extended.txt (Advanced dependencies)
 │
@@ -160,6 +159,8 @@ examples/
     ├── HOW_TO.md
     └── requirements.txt
 ```
+
+> **Note:** The original `examples/TODO.md` roadmap has been archived to `docs/ARCHIVED/todos/TODO.md` (see line 79 in Supporting Files section above).
 
 ## 🎯 Key Features
 

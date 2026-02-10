@@ -33,9 +33,9 @@ TEST_F(AQLShortestPathDispatchTest, ExecuteShortestPathSugar) {
         SHORTEST_PATH TO "city:dresden"
         RETURN v
     )";
-    auto [status, jsonRes] = executeAql(aql, *engine);
+    auto jsonRes = executeAql(aql, *engine);
     // Even if graph lacks edges, we should get OK status or empty path list.
-    ASSERT_TRUE(status.ok) << status.message;
-    ASSERT_EQ(jsonRes["type"], "shortest_path");
-    ASSERT_TRUE(jsonRes.contains("paths"));
+    ASSERT_TRUE(jsonRes.has_value()) << jsonRes.error().message();
+    ASSERT_EQ((*jsonRes)["type"], "shortest_path");
+    ASSERT_TRUE(jsonRes->contains("paths"));
 }

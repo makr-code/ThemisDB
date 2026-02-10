@@ -280,4 +280,158 @@ TEST_F(LLMResponseCacheTest, RealisticWorkflow) {
     EXPECT_NEAR(stats.getHitRate(), 0.5, 0.2);
 }
 
+// Thread-Safety Tests (FIND-018)
+
+TEST_F(LLMResponseCacheTest, ConcurrentPutAndGet) {
+    LLMResponseCache cache("test_cache", config_);
+    
+    std::atomic<int> put_count{0};
+    std::atomic<int> get_count{0};
+    std::vector<std::thread> threads;
+    
+    // Spawn threads that concurrently put and get
+    for (int i = 0; i < 5; ++i) {
+        threads.emplace_back([&cache, &put_count, i]() {
+            for (int j = 0; j < 20; ++j) {
+                std::string prompt = "Prompt " + std::to_string(i * 20 + j);
+                auto response = InferenceResponse();
+                response.text = "Response " + std::to_string(i * 20 + j);
+                cache.put(prompt, response);
+                put_count++;
+            }
+        });
+    }
+    
+    for (int i = 0; i < 5; ++i) {
+        threads.emplace_back([&cache, &get_count, i]() {
+            for (int j = 0; j < 20; ++j) {
+                std::string prompt = "Prompt " + std::to_string(i * 20 + j);
+                cache.get(prompt);  // May hit or miss
+                get_count++;
+            }
+        });
+    }
+    
+    for (auto& t : threads) t.join();
+    
+    EXPECT_EQ(put_count, 100);
+    EXPECT_EQ(get_count, 100);
+    
+    // Statistics should be consistent (no race conditions)
+    auto stats = cache.getStatistics();
+    EXPECT_GE(stats.hits.load() + stats.misses.load(), 100);
+}
+
+TEST_F(LLMResponseCacheTest, ConcurrentStatisticsUpdate) {
+    LLMResponseCache cache("test_cache", config_);
+    
+    // Pre-populate cache
+    for (int i = 0; i < 10; ++i) {
+        std::string prompt = "Prompt " + std::to_string(i);
+        auto response = InferenceResponse();
+        response.text = "Response " + std::to_string(i);
+        cache.put(prompt, response);
+    }
+    
+    std::vector<std::thread> threads;
+    
+    // Spawn many threads doing concurrent get operations
+    for (int i = 0; i < 10; ++i) {
+        threads.emplace_back([&cache, i]() {
+            for (int j = 0; j < 100; ++j) {
+                std::string prompt = "Prompt " + std::to_string(j % 10);
+                cache.get(prompt);
+            }
+        });
+    }
+    
+    for (auto& t : threads) t.join();
+    
+    // Verify statistics are consistent (no lost updates)
+    auto stats = cache.getStatistics();
+    EXPECT_EQ(stats.hits.load() + stats.misses.load(), 1000);
+    EXPECT_GT(stats.hits.load(), 900);  // Most should be hits
+    EXPECT_GE(stats.avg_lookup_time_ms.load(), 0.0);
+}
+
+TEST_F(LLMResponseCacheTest, ConcurrentClearAndAccess) {
+    LLMResponseCache cache("test_cache", config_);
+    
+    std::atomic<bool> should_stop{false};
+    std::vector<std::thread> threads;
+    
+    // Thread that continuously adds entries
+    threads.emplace_back([&cache, &should_stop]() {
+        int count = 0;
+        while (!should_stop) {
+            std::string prompt = "Prompt " + std::to_string(count++);
+            auto response = InferenceResponse();
+            response.text = "Response";
+            cache.put(prompt, response);
+            std::this_thread::sleep_for(std::chrono::microseconds(100));
+        }
+    });
+    
+    // Thread that continuously reads entries
+    threads.emplace_back([&cache, &should_stop]() {
+        int count = 0;
+        while (!should_stop) {
+            std::string prompt = "Prompt " + std::to_string(count++);
+            cache.get(prompt);
+            std::this_thread::sleep_for(std::chrono::microseconds(100));
+        }
+    });
+    
+    // Thread that periodically clears cache
+    threads.emplace_back([&cache, &should_stop]() {
+        for (int i = 0; i < 3; ++i) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            cache.clear();
+        }
+        should_stop = true;
+    });
+    
+    for (auto& t : threads) t.join();
+    
+    // No crashes = success
+    SUCCEED();
+}
+
+TEST_F(LLMResponseCacheTest, ConcurrentInvalidate) {
+    LLMResponseCache cache("test_cache", config_);
+    
+    // Pre-populate cache
+    for (int i = 0; i < 50; ++i) {
+        std::string prompt = "Prompt " + std::to_string(i);
+        auto response = InferenceResponse();
+        response.text = "Response " + std::to_string(i);
+        cache.put(prompt, response);
+    }
+    
+    std::vector<std::thread> threads;
+    
+    // Multiple threads invalidating different patterns
+    threads.emplace_back([&cache]() {
+        cache.invalidate(".*[0-4]$");  // Invalidate ending in 0-4
+    });
+    
+    threads.emplace_back([&cache]() {
+        cache.invalidate(".*[5-9]$");  // Invalidate ending in 5-9
+    });
+    
+    // Thread reading during invalidation
+    threads.emplace_back([&cache]() {
+        for (int i = 0; i < 50; ++i) {
+            std::string prompt = "Prompt " + std::to_string(i);
+            cache.get(prompt);
+        }
+    });
+    
+    for (auto& t : threads) t.join();
+    
+    // Some entries should be invalidated
+    auto stats = cache.getStatistics();
+    EXPECT_LT(stats.total_entries.load(), 50);
+}
+
 // No custom main; gtest_main provides the entry point

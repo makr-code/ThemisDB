@@ -1,0 +1,147 @@
+name: 'CI - Release'
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      - 'release/*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        type: string
+      skip-tests:
+        description: 'Skip tests'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+  security-events: write
+
+env:
+  BUILD_TYPE: Release
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+jobs:
+  # Build for multiple platforms
+  build-linux:
+    name: Build Linux Release
+    uses: ./.github/workflows/reusable-cpp-build.yml
+    with:
+      os: ubuntu-latest
+      build-type: Release
+      run-tests: ${{ !inputs.skip-tests }}
+      upload-artifacts: true
+      artifact-name: themisdb-linux-release
+
+  build-macos:
+    name: Build macOS Release
+    uses: ./.github/workflows/reusable-cpp-build.yml
+    with:
+      os: macos-latest
+      build-type: Release
+      run-tests: ${{ !inputs.skip-tests }}
+      upload-artifacts: true
+      artifact-name: themisdb-macos-release
+
+  build-windows:
+    name: Build Windows Release
+    uses: ./.github/workflows/reusable-cpp-build.yml
+    with:
+      os: windows-latest
+      build-type: Release
+      cmake-preset: 'windows-ninja-msvc-release'
+      run-tests: ${{ !inputs.skip-tests }}
+      upload-artifacts: true
+      artifact-name: themisdb-windows-release
+
+  # Cross-compile for ARM
+  build-arm64:
+    name: Build ARM64
+    uses: ./.github/workflows/reusable-cross-compile.yml
+    with:
+      target-arch: arm64
+      build-type: Release
+      upload-artifacts: true
+
+  # Security scan
+  security:
+    name: Security Scan
+    uses: ./.github/workflows/reusable-security-scan.yml
+    with:
+      scanner-type: 'all'
+      upload-sarif: true
+    secrets: inherit
+
+  # Build and push containers
+  container-release:
+    name: Build Release Containers
+    needs: [build-linux, security]
+    uses: ./.github/workflows/reusable-container-build.yml
+    with:
+      dockerfile: 'Dockerfile'
+      platforms: 'linux/amd64,linux/arm64'
+      push: true
+      tags: ${{ github.ref_type == 'tag' && github.ref_name || 'release-candidate' }}
+    secrets: inherit
+
+  # Publish release artifacts
+  publish-artifacts:
+    name: Publish Release
+    runs-on: ubuntu-latest
+    needs: [build-linux, build-macos, build-windows, build-arm64, container-release]
+    if: github.ref_type == 'tag'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Publish artifacts
+        uses: ./.github/actions/artifact-publish
+        with:
+          artifacts-path: release-artifacts/
+          release-tag: ${{ github.ref_name }}
+          generate-checksums: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          files: |
+            release-artifacts/**/*
+          generate_release_notes: true
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'rc') || contains(github.ref_name, 'beta') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Release notification
+  notify:
+    name: Release Notification
+    runs-on: ubuntu-latest
+    needs: [publish-artifacts]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Send notification
+        uses: ./.github/actions/notification
+        with:
+          status: ${{ needs.publish-artifacts.result }}
+          message: 'Release ${{ github.ref_name }} published'
+          channels: 'summary'

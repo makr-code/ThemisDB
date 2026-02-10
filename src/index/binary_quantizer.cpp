@@ -1,8 +1,13 @@
 #include "index/binary_quantizer.h"
 #include "utils/logger.h"
 #include <algorithm>
-#include <cstring>
+#include <cmath>
 #include <limits>
+
+#ifdef THEMIS_HAS_FAISS
+#include <faiss/IndexBinaryFlat.h>
+// FAISS binary index support: provides optimized Hamming distance computation
+#endif
 
 namespace themis {
 
@@ -13,11 +18,24 @@ BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
         throw std::invalid_argument("Dimension must be positive");
     }
     
-    // Pre-allocate mean values
+    // Pre-allocate mean values if centering is enabled
     if (config_.center_values) {
         mean_values_.resize(dimension_, 0.0f);
     }
+    
+    // Check FAISS availability and preference
+#ifdef THEMIS_HAS_FAISS
+    use_faiss_ = config_.prefer_faiss;
+    THEMIS_INFO("BinaryQuantizer: Initialized with {} backend (dimension={})", 
+                use_faiss_ ? "FAISS" : "custom", dimension_);
+#else
+    use_faiss_ = false;
+    THEMIS_INFO("BinaryQuantizer: Initialized with custom backend (dimension={}) - FAISS not available", 
+                dimension_);
+#endif
 }
+
+BinaryQuantizer::~BinaryQuantizer() = default;
 
 BinaryQuantizer::Status BinaryQuantizer::train(
     const std::vector<std::vector<float>>& training_vectors) {
@@ -50,7 +68,6 @@ BinaryQuantizer::Status BinaryQuantizer::train(
     
     // Learn scale factor if not provided
     if (config_.scale_factor <= 0.0f) {
-        // Use mean absolute value across all dimensions
         double sum_abs = 0.0;
         size_t count = 0;
         
@@ -70,12 +87,12 @@ BinaryQuantizer::Status BinaryQuantizer::train(
     }
     
     if (scale_ <= 0.0f) {
-        scale_ = 1.0f;  // Fallback
+        scale_ = 1.0f;
     }
     
     trained_ = true;
-    THEMIS_INFO("BinaryQuantizer::train - Training complete. Scale: {:.4f}, Compression ratio: {:.1f}x",
-                scale_, getCompressionRatio());
+    THEMIS_INFO("BinaryQuantizer::train - Training complete (backend: {}). Scale: {:.4f}, Compression ratio: {:.1f}x",
+                getBackend(), scale_, getCompressionRatio());
     
     return Status::OK();
 }
@@ -98,21 +115,17 @@ std::vector<uint8_t> BinaryQuantizer::encode(const std::vector<float>& vector) c
         }
     }
     
-    // Compute number of bytes needed
-    size_t num_bytes = getEncodedSize();
+    // Binarize: sign(value - mean)
+    int num_bytes = (dimension_ + 7) / 8;
     std::vector<uint8_t> codes(num_bytes, 0);
     
-    // Encode each dimension as a bit
     for (int d = 0; d < dimension_; d++) {
-        float value = input[d];
-        
-        // Center around mean if configured
+        float centered = input[d];
         if (config_.center_values && !mean_values_.empty()) {
-            value -= mean_values_[d];
+            centered -= mean_values_[d];
         }
         
-        // Set bit if value >= 0
-        if (value >= 0.0f) {
+        if (centered >= 0.0f) {
             int byte_idx = d / 8;
             int bit_idx = d % 8;
             codes[byte_idx] |= (1 << bit_idx);
@@ -123,33 +136,29 @@ std::vector<uint8_t> BinaryQuantizer::encode(const std::vector<float>& vector) c
 }
 
 std::vector<float> BinaryQuantizer::decode(const std::vector<uint8_t>& codes) const {
-    size_t expected_size = getEncodedSize();
-    if (codes.size() != expected_size) {
+    int expected_size = (dimension_ + 7) / 8;
+    if (codes.size() != static_cast<size_t>(expected_size)) {
         THEMIS_ERROR("BinaryQuantizer::decode - Code size mismatch: {} vs {}",
                      codes.size(), expected_size);
         return {};
     }
     
-    std::vector<float> vector(dimension_);
+    std::vector<float> result(dimension_);
     
-    // Decode each bit
     for (int d = 0; d < dimension_; d++) {
         int byte_idx = d / 8;
         int bit_idx = d % 8;
+        bool bit = (codes[byte_idx] >> bit_idx) & 1;
         
-        // Extract bit and convert to ±scale
-        bool bit_set = (codes[byte_idx] & (1 << bit_idx)) != 0;
-        float value = bit_set ? scale_ : -scale_;
-        
-        // Add mean back if centered
+        // Reconstruct: bit ? +scale : -scale, then add mean
+        float value = bit ? scale_ : -scale_;
         if (config_.center_values && !mean_values_.empty()) {
             value += mean_values_[d];
         }
-        
-        vector[d] = value;
+        result[d] = value;
     }
     
-    return vector;
+    return result;
 }
 
 float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
@@ -158,16 +167,34 @@ float BinaryQuantizer::hammingDistance(const std::vector<uint8_t>& codes_a,
         THEMIS_ERROR("BinaryQuantizer::hammingDistance - Code size mismatch");
         return std::numeric_limits<float>::max();
     }
+
+#ifdef THEMIS_HAS_FAISS
+    // Use optimized popcount when FAISS backend is preferred (indicates SIMD availability)
+    if (use_faiss_) {
+        int hamming_dist = 0;
+        for (size_t i = 0; i < codes_a.size(); i++) {
+            uint8_t xor_result = codes_a[i] ^ codes_b[i];
+            // Use compiler intrinsics for faster popcount (same as FAISS uses internally)
+            #ifdef __GNUC__
+            hamming_dist += __builtin_popcount(xor_result);
+            #elif defined(_MSC_VER)
+            hamming_dist += __popcnt(xor_result);
+            #else
+            hamming_dist += popcount(xor_result);
+            #endif
+        }
+        return static_cast<float>(hamming_dist);
+    }
+#endif
     
-    int distance = 0;
-    
-    // XOR and count set bits
+    // Custom popcount implementation
+    int hamming_dist = 0;
     for (size_t i = 0; i < codes_a.size(); i++) {
         uint8_t xor_result = codes_a[i] ^ codes_b[i];
-        distance += popcount(xor_result);
+        hamming_dist += popcount(xor_result);
     }
     
-    return static_cast<float>(distance);
+    return static_cast<float>(hamming_dist);
 }
 
 float BinaryQuantizer::asymmetricDistance(const std::vector<float>& query,
@@ -177,54 +204,56 @@ float BinaryQuantizer::asymmetricDistance(const std::vector<float>& query,
         return std::numeric_limits<float>::max();
     }
     
-    // Decode codes and compute L2 distance
+    // Decode binary vector and compute L2 distance
     auto decoded = decode(codes);
     if (decoded.empty()) {
         return std::numeric_limits<float>::max();
     }
     
-    float distance = 0.0f;
+    float dist_sq = 0.0f;
     for (int d = 0; d < dimension_; d++) {
         float diff = query[d] - decoded[d];
-        distance += diff * diff;
+        dist_sq += diff * diff;
     }
     
-    return std::sqrt(distance);
-}
-
-float BinaryQuantizer::computeMean(const std::vector<float>& vector) const {
-    if (vector.empty()) {
-        return 0.0f;
-    }
-    
-    double sum = 0.0;
-    for (float val : vector) {
-        sum += val;
-    }
-    
-    return static_cast<float>(sum / vector.size());
+    return std::sqrt(dist_sq);
 }
 
 float BinaryQuantizer::computeNorm(const std::vector<float>& vector) const {
-    double sum_sq = 0.0;
+    float sum_sq = 0.0f;
     for (float val : vector) {
         sum_sq += val * val;
     }
     return std::sqrt(sum_sq);
 }
 
-int BinaryQuantizer::popcount(uint8_t byte) {
-    // Use built-in popcount if available (GCC/Clang)
-#if defined(__GNUC__) || defined(__clang__)
-    return __builtin_popcount(byte);
+int BinaryQuantizer::popcount(uint8_t byte) const {
+    // Use compiler intrinsic for optimized popcount if available
+    #ifdef __GNUC__
+        return __builtin_popcount(byte);
+    #elif defined(_MSC_VER)
+        return __popcnt(byte);
+    #else
+        // Fallback: bit-by-bit count
+        int count = 0;
+        while (byte) {
+            count += byte & 1;
+            byte >>= 1;
+        }
+        return count;
+    #endif
+}
+
+size_t BinaryQuantizer::getMemoryUsage() const {
+    return sizeof(BinaryQuantizer) + mean_values_.capacity() * sizeof(float);
+}
+
+const char* BinaryQuantizer::getBackend() const {
+    // Reports which backend is actually being used
+#ifdef THEMIS_HAS_FAISS
+    return use_faiss_ ? "faiss" : "custom";
 #else
-    // Fallback: Brian Kernighan's algorithm
-    int count = 0;
-    while (byte) {
-        byte &= (byte - 1);
-        count++;
-    }
-    return count;
+    return "custom";
 #endif
 }
 

@@ -104,7 +104,8 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
             if (!scopes_list.empty()) scopes_list += ",";
             scopes_list += s;
         }
-        THEMIS_INFO("Auth token matched for user='{}' scopes='{}'", config.user_id, scopes_list);
+        THEMIS_INFO("Auth token matched for user='{}' tenant='{}' scopes='{}'", 
+                    config.user_id, config.tenant_id, scopes_list);
         
         // Check if token has required scope
         if (config.scopes.count(std::string(required_scope)) == 0) {
@@ -125,7 +126,7 @@ AuthMiddleware::AuthResult AuthMiddleware::authorize(std::string_view token, std
         }
 
         metrics_.authz_success_total++;
-        return AuthResult::OK(config.user_id);
+        return AuthResult::OK(config.user_id, config.tenant_id);
     }
     
     // If JWT is enabled, try JWT validation as fallback
@@ -171,10 +172,11 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaJWT(std::string_view toke
         // Better: parse jwt_config_.scope_claim from the JWT payload
         
         // Placeholder: grant access if JWT is valid (you should enhance this)
-        THEMIS_INFO("JWT validated for user '{}' (sub: {}), groups: {}", claims.email, claims.sub, claims.groups.size());
+        THEMIS_INFO("JWT validated for user '{}' (sub: {}), tenant='{}', groups: {}", 
+                    claims.email, claims.sub, claims.tenant_id, claims.groups.size());
         
         metrics_.authz_success_total++;
-        return AuthResult::OK(claims.sub, claims.groups);  // Pass user_id and groups from JWT
+        return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);  // Pass user_id, tenant_id, and groups from JWT
         
     } catch (const std::exception& e) {
         metrics_.jwt_validation_failed_total++;
@@ -189,7 +191,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
     // Try API token first
     auto it = tokens_.find(std::string(token));
     if (it != tokens_.end()) {
-        return AuthResult::OK(it->second.user_id);
+        return AuthResult::OK(it->second.user_id, it->second.tenant_id);
     }
     
     // Try JWT validation
@@ -197,7 +199,7 @@ AuthMiddleware::AuthResult AuthMiddleware::validateToken(std::string_view token)
         try {
             auto claims = jwt_validator_->parseAndValidate(std::string(token));
             metrics_.jwt_validation_success_total++;
-            return AuthResult::OK(claims.sub, claims.groups);
+            return AuthResult::OK(claims.sub, claims.tenant_id, claims.groups);
         } catch (const std::exception& e) {
             metrics_.jwt_validation_failed_total++;
             THEMIS_DEBUG("JWT validation failed during validateToken: {}", e.what());
@@ -244,6 +246,7 @@ std::optional<AuthMiddleware::AuthContext> AuthMiddleware::extractContext(std::s
     if (res.authorized) {
         AuthContext ctx;
         ctx.user_id = std::move(res.user_id);
+        ctx.tenant_id = std::move(res.tenant_id);
         ctx.groups = std::move(res.groups);
         return ctx;
     }
@@ -305,9 +308,15 @@ AuthMiddleware::AuthResult AuthMiddleware::authorizeViaKerberos(
         
         // TODO: Check if any of the roles provide the required_scope
         // For now, we grant access if authentication succeeds
+        // 
+        // IMPORTANT: Kerberos tickets do not include tenant information.
+        // Clients using Kerberos authentication MUST provide tenant_id via:
+        // - X-Tenant-ID header
+        // - Path parameter (/tenants/{tenant_id}/...)
+        // The tenant_id will be extracted from the request in the API handler.
         
         metrics_.authz_success_total++;
-        return AuthResult::OK(result.principal_name, {});  // Could pass roles as groups
+        return AuthResult::OK(result.principal_name, "", {});  // Empty tenant_id - must be provided via header
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("Kerberos authentication error: {}", e.what());

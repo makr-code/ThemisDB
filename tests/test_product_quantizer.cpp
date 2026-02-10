@@ -219,3 +219,28 @@ TEST_F(ProductQuantizerTest, Different1024DimensionWith16Subquantizers) {
 }
 
 
+
+TEST_F(ProductQuantizerTest, BackendSelection) {
+    ProductQuantizer::Config config;
+    config.prefer_faiss = true;
+    ProductQuantizer pq(dimension_, config);
+    
+    const char* backend = pq.getBackend();
+    EXPECT_TRUE(strcmp(backend, "faiss") == 0 || strcmp(backend, "custom") == 0);
+}
+
+TEST_F(ProductQuantizerTest, ForceCustomBackend) {
+    ProductQuantizer::Config config;
+    config.prefer_faiss = false;
+    ProductQuantizer pq(dimension_, config);
+    
+    EXPECT_STREQ(pq.getBackend(), "custom");
+    auto status = pq.train(training_vectors_);
+    EXPECT_TRUE(status.ok);
+}
+
+// Main function
+int main(int argc, char **argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
+}

@@ -69,6 +69,37 @@ public:
     
     // Get expression evaluator
     std::shared_ptr<IExpressionEvaluator> getExpressionEvaluator() const;
+    
+    // Advanced Vector Index Integration (v1.5.0+)
+    // Enable FAISS-based advanced indexing (IVF+PQ/HNSW) for large-scale datasets
+    // Note: Requires THEMIS_GPU_ENABLED for FAISS support
+    struct AdvancedIndexConfig {
+        bool enabled = false;           // Enable advanced indexing
+        size_t nlist = 1024;           // Number of IVF clusters
+        size_t nprobe = 64;            // Number of clusters to search
+        bool use_pq = true;            // Enable Product Quantization
+        size_t pq_m = 8;               // Number of sub-quantizers
+        size_t pq_nbits = 8;           // Bits per sub-quantizer
+        bool use_gpu = false;          // Use GPU acceleration
+        int gpu_device = 0;            // GPU device ID
+        size_t train_size = 100000;    // Training set size
+        enum class Type {
+            IVF_FLAT,     // IVF without compression
+            IVF_PQ,       // IVF + Product Quantization (default)
+            HNSW_FLAT,    // HNSW without IVF
+            IVF_HNSW_PQ   // IVF + HNSW + PQ
+        } index_type = Type::IVF_PQ;
+    };
+    
+    // Enable advanced indexing with specified configuration
+    // Must be called before init() to take effect
+    Status setAdvancedIndexConfig(const AdvancedIndexConfig& config);
+    
+    // Get current advanced index configuration
+    AdvancedIndexConfig getAdvancedIndexConfig() const { return advanced_config_; }
+    
+    // Check if advanced indexing is enabled and available
+    bool isAdvancedIndexEnabled() const { return advanced_config_.enabled && advanced_index_ != nullptr; }
 
 
     // Initialisierung eines Index-Namespace (z. B. "documents"): Dimension, M/ef, Metrik
@@ -268,6 +299,10 @@ public:
     bool isHnswEnabled() const { return useHnsw_; }
         std::string getSavePath() const { return savePath_; }
     
+    /// Get vector by primary key (for searchById support)
+    /// Returns nullopt if vector doesn't exist
+    std::optional<std::vector<float>> getVectorByPk(std::string_view pk) const;
+    
     // Encryption configuration (Phase 1)
     bool isVectorEncryptionEnabled() const;
     void setVectorEncryptionEnabled(bool enabled);
@@ -393,6 +428,10 @@ private:
     // Rotary Embeddings support
     std::unique_ptr<RotaryEmbedding> rotary_embedding_;
     bool rotary_enabled_ = false;
+    
+    // Advanced Vector Index Integration (v1.5.0+)
+    AdvancedIndexConfig advanced_config_;
+    std::unique_ptr<class AdvancedVectorIndex> advanced_index_;
     
     // Helper: Log audit event if logger is set
     void logAuditEvent_(const std::string& event_type, const std::string& resource,

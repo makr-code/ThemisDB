@@ -204,12 +204,12 @@ LoRALayer::LoRALayer(size_t in_dim, size_t out_dim, size_t rank, float scaling)
     // B: (in_dim, rank) - Kaiming initialization
     B_ = std::make_unique<Tensor>(tensor_utils::kaiming_uniform({in_dim, rank}));
     B_->requires_grad = true;
-    B_->grad.reset(new Tensor({in_dim, rank}, 0.0f));
+    B_->grad = std::make_unique<Tensor>(std::vector<size_t>{in_dim, rank}, 0.0f);
     
     // A: (rank, out_dim) - Zero initialization (as per LoRA paper)
     A_ = std::make_unique<Tensor>(tensor_utils::zeros({rank, out_dim}));
     A_->requires_grad = true;
-    A_->grad.reset(new Tensor({rank, out_dim}, 0.0f));
+    A_->grad = std::make_unique<Tensor>(std::vector<size_t>{rank, out_dim}, 0.0f);
     
     spdlog::debug("{}: Initialized with {} parameters", name_, parameter_count());
 }
@@ -219,10 +219,10 @@ Tensor LoRALayer::forward(const Tensor& input) {
                   name_, input.shape()[0], input.shape().size() > 1 ? input.shape()[1] : 0);
     
     // Cache input for backward pass
-    cached_input_.reset(new Tensor(input.clone()));
+    cached_input_ = std::make_unique<Tensor>(input.clone());
     
     // Compute BA = B @ A
-    cached_BA_.reset(new Tensor(B_->matmul(*A_)));
+    cached_BA_ = std::make_unique<Tensor>(B_->matmul(*A_));
     
     // Compute output = input @ BA * scaling
     Tensor output = input.matmul(*cached_BA_);
@@ -247,14 +247,14 @@ Tensor LoRALayer::backward(const Tensor& grad_output) {
     Tensor input_T = cached_input_->transpose();
     Tensor temp_BA = B_T.matmul(input_T);  // (rank, batch)
     auto grad_A_result = temp_BA.matmul(scaled_grad);  // (rank, out_dim)
-    A_->grad.reset(new Tensor(std::move(grad_A_result)));
+    A_->grad = std::make_unique<Tensor>(std::move(grad_A_result));
     
     // grad_B = input.T @ scaled_grad @ A.T
     // Shape: (in_dim, batch) @ (batch, out_dim) @ (out_dim, rank) = (in_dim, rank)
     Tensor A_T = A_->transpose();
     Tensor temp_AB = scaled_grad.matmul(A_T);  // (batch, rank)
     auto grad_B_result = input_T.matmul(temp_AB);  // (in_dim, rank)
-    B_->grad.reset(new Tensor(std::move(grad_B_result)));
+    B_->grad = std::make_unique<Tensor>(std::move(grad_B_result));
     
     // grad_input = scaled_grad @ A.T @ B.T
     // Shape: (batch, out_dim) @ (out_dim, rank) @ (rank, in_dim) = (batch, in_dim)
@@ -284,9 +284,9 @@ void LoRALayer::set_weights(const Tensor& B, const Tensor& A) {
     if (B.shape() != B_->shape() || A.shape() != A_->shape()) {
         throw std::invalid_argument("Weight shapes do not match");
     }
-    // Replace underlying tensors to avoid copy-assignment on non-copyable members
-    B_.reset(new Tensor(B.clone()));
-    A_.reset(new Tensor(A.clone()));
+    // Replace underlying tensors using make_unique for proper RAII
+    B_ = std::make_unique<Tensor>(B.clone());
+    A_ = std::make_unique<Tensor>(A.clone());
     spdlog::debug("{}: Weights updated", name_);
 }
 

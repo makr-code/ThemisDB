@@ -17,6 +17,15 @@
 #include <chrono>
 #include <filesystem>
 
+#ifdef THEMIS_HAS_FFMPEG
+extern "C" {
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libswscale/swscale.h>
+#include <libavutil/imgutils.h>
+}
+#endif
+
 namespace themis {
 namespace content {
 
@@ -73,9 +82,14 @@ bool VideoProcessor::initialize(const PluginConfig& config) {
     extract_subtitles_ = config.get<bool>("subtitles.extract", true);
     enable_scene_detection_ = config.get<bool>("scene_detection.enabled", false);
     
-    // Note: In a real implementation, we would initialize FFmpeg here
-    // avformat_network_init();
-    // av_register_all(); // Deprecated in newer FFmpeg
+#ifdef THEMIS_HAS_FFMPEG
+    // Initialize FFmpeg library (only needed for older versions)
+    // Modern FFmpeg doesn't require explicit initialization
+    #if LIBAVFORMAT_VERSION_INT < AV_VERSION_INT(58, 9, 100)
+        av_register_all();
+    #endif
+    avformat_network_init();
+#endif
     
     initialized_ = true;
     return true;
@@ -86,8 +100,10 @@ void VideoProcessor::shutdown() {
         return;
     }
     
-    // Note: Clean up FFmpeg resources
-    // avformat_network_deinit();
+#ifdef THEMIS_HAS_FFMPEG
+    // Clean up FFmpeg network resources
+    avformat_network_deinit();
+#endif
     
     initialized_ = false;
 }
@@ -268,9 +284,13 @@ std::vector<ContentChunk> VideoProcessor::chunk(
 }
 
 bool VideoProcessor::healthCheck() const {
-    // Check FFmpeg availability
-    // In real implementation: check if libavformat, libavcodec are loaded
+#ifdef THEMIS_HAS_FFMPEG
+    // Check if FFmpeg libraries are properly loaded
     return initialized_;
+#else
+    // Simulation mode - always healthy
+    return initialized_;
+#endif
 }
 
 json VideoProcessor::getStatistics() const {
@@ -287,12 +307,11 @@ json VideoProcessor::getStatistics() const {
 // Private implementation methods
 
 MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t>& blob) {
+#ifdef THEMIS_HAS_FFMPEG
+    return extractMetadataFFmpeg(blob);
+#else
+    // Fallback to simulation mode
     MediaExtractionData data;
-    
-    // This is a simulation. Real implementation would use:
-    // AVFormatContext* fmt_ctx = nullptr;
-    // avformat_open_input(&fmt_ctx, ...);
-    // avformat_find_stream_info(fmt_ctx, nullptr);
     
     // Analyze blob header to detect format
     if (blob.size() >= 12) {
@@ -326,18 +345,16 @@ MediaExtractionData VideoProcessor::extractMetadata(const std::vector<uint8_t>& 
     data.channels = 2;
     
     return data;
+#endif
 }
 
 std::vector<uint8_t> VideoProcessor::generateThumbnail(const std::vector<uint8_t>& blob) {
-    // Real implementation would:
-    // 1. Open video with FFmpeg
-    // 2. Seek to 10% or first keyframe
-    // 3. Decode frame
-    // 4. Scale to thumbnail size
-    // 5. Encode as JPEG
-    
-    // Return empty thumbnail placeholder
+#ifdef THEMIS_HAS_FFMPEG
+    return generateThumbnailFFmpeg(blob);
+#else
+    // Return empty thumbnail placeholder in simulation mode
     return std::vector<uint8_t>();
+#endif
 }
 
 std::string VideoProcessor::extractSubtitles(const std::vector<uint8_t>& blob) {
@@ -357,6 +374,319 @@ std::vector<int64_t> VideoProcessor::detectScenes(const std::vector<uint8_t>& bl
     
     return std::vector<int64_t>();
 }
+
+#ifdef THEMIS_HAS_FFMPEG
+/**
+ * @brief Extract video metadata using FFmpeg libraries
+ * 
+ * This function uses libavformat and libavcodec to extract real metadata from video files.
+ * It opens the video file, retrieves stream information, and extracts:
+ * - Container format and duration
+ * - Video stream: width, height, codec, framerate
+ * - Audio stream: codec, sample rate, channels
+ * 
+ * @param blob Raw video file data
+ * @return MediaExtractionData containing all extracted metadata
+ * @throws std::runtime_error if video cannot be opened or processed
+ * 
+ * @note This function creates a temporary file for FFmpeg processing.
+ *       The temporary file is automatically cleaned up on success or error.
+ */
+MediaExtractionData VideoProcessor::extractMetadataFFmpeg(const std::vector<uint8_t>& blob) {
+    MediaExtractionData data;
+    
+    // Create unique temporary file path to avoid race conditions
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string unique_id = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) + 
+                           "_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+    std::string temp_path = (temp_dir / ("themis_video_" + unique_id)).string();
+    
+    try {
+        std::ofstream temp_file(temp_path, std::ios::binary | std::ios::trunc);
+        if (!temp_file) {
+            throw std::runtime_error("Failed to create temporary file");
+        }
+        temp_file.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+        temp_file.close();
+        
+        // Open video file
+        AVFormatContext* fmt_ctx = nullptr;
+        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to open video file");
+        }
+        
+        // Retrieve stream information
+        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to find stream info");
+        }
+        
+        // Extract container format
+        if (fmt_ctx->iformat) {
+            data.container_format = fmt_ctx->iformat->name;
+        }
+        
+        // Extract duration (in microseconds -> milliseconds)
+        if (fmt_ctx->duration != AV_NOPTS_VALUE) {
+            data.duration_ms = fmt_ctx->duration / 1000;
+        }
+        
+        // Extract bitrate
+        if (fmt_ctx->bit_rate > 0) {
+            data.bitrate_kbps = fmt_ctx->bit_rate / 1000;
+        }
+        
+        // Find video and audio streams
+        for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
+            AVStream* stream = fmt_ctx->streams[i];
+            AVCodecParameters* codecpar = stream->codecpar;
+            
+            if (codecpar->codec_type == AVMEDIA_TYPE_VIDEO && data.width == 0) {
+                // Video stream
+                data.width = codecpar->width;
+                data.height = codecpar->height;
+                
+                // Get codec name
+                const AVCodec* codec = avcodec_find_decoder(codecpar->codec_id);
+                if (codec) {
+                    data.video_codec = codec->name;
+                }
+                
+                // Calculate framerate
+                if (stream->avg_frame_rate.den > 0) {
+                    data.framerate = static_cast<double>(stream->avg_frame_rate.num) / 
+                                    stream->avg_frame_rate.den;
+                }
+            } 
+            else if (codecpar->codec_type == AVMEDIA_TYPE_AUDIO && data.audio_codec.empty()) {
+                // Audio stream
+                data.sample_rate = codecpar->sample_rate;
+                
+                // Get number of channels (handle both old and new FFmpeg API)
+                #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(59, 24, 100)
+                    // FFmpeg 5.1+ uses ch_layout
+                    data.channels = codecpar->ch_layout.nb_channels;
+                #else
+                    // Older FFmpeg uses channels field
+                    data.channels = codecpar->channels;
+                #endif
+                
+                // Get codec name
+                const AVCodec* codec = avcodec_find_decoder(codecpar->codec_id);
+                if (codec) {
+                    data.audio_codec = codec->name;
+                }
+            }
+        }
+        
+        // Cleanup
+        avformat_close_input(&fmt_ctx);
+        std::filesystem::remove(temp_path);
+        
+    } catch (...) {
+        // Ensure temp file is cleaned up
+        if (std::filesystem::exists(temp_path)) {
+            std::filesystem::remove(temp_path);
+        }
+        throw;
+    }
+    
+    return data;
+}
+
+/**
+ * @brief Generate video thumbnail using FFmpeg libraries
+ * 
+ * This function uses libavformat, libavcodec, and libswscale to generate a thumbnail:
+ * 1. Opens the video file with FFmpeg
+ * 2. Seeks to 10% of the video duration (or first keyframe)
+ * 3. Decodes a frame using the appropriate video codec
+ * 4. Scales the frame to the configured thumbnail size (maintains aspect ratio)
+ * 5. Converts color space from YUV to RGB24
+ * 6. Returns raw RGB data (can be encoded to JPEG/PNG later)
+ * 
+ * @param blob Raw video file data
+ * @return std::vector<uint8_t> containing raw RGB24 thumbnail data (width*height*3 bytes)
+ * @throws std::runtime_error if video cannot be opened, decoded, or scaled
+ * 
+ * @note The returned data is in RGB24 format with no padding.
+ *       Each pixel is 3 bytes (R, G, B) in row-major order.
+ * @note This function creates a temporary file for FFmpeg processing.
+ *       The temporary file is automatically cleaned up on success or error.
+ */
+std::vector<uint8_t> VideoProcessor::generateThumbnailFFmpeg(const std::vector<uint8_t>& blob) {
+    std::vector<uint8_t> thumbnail;
+    
+    // Create unique temporary file path to avoid race conditions
+    auto temp_dir = std::filesystem::temp_directory_path();
+    std::string unique_id = std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) + 
+                           "_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+    std::string temp_path = (temp_dir / ("themis_thumb_" + unique_id)).string();
+    
+    try {
+        std::ofstream temp_file(temp_path, std::ios::binary | std::ios::trunc);
+        if (!temp_file) {
+            throw std::runtime_error("Failed to create temporary file");
+        }
+        temp_file.write(reinterpret_cast<const char*>(blob.data()), blob.size());
+        temp_file.close();
+        
+        // Open video file
+        AVFormatContext* fmt_ctx = nullptr;
+        if (avformat_open_input(&fmt_ctx, temp_path.c_str(), nullptr, nullptr) < 0) {
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to open video file");
+        }
+        
+        if (avformat_find_stream_info(fmt_ctx, nullptr) < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to find stream info");
+        }
+        
+        // Find video stream
+        int video_stream_index = -1;
+        for (unsigned int i = 0; i < fmt_ctx->nb_streams; i++) {
+            if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+                video_stream_index = i;
+                break;
+            }
+        }
+        
+        if (video_stream_index < 0) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("No video stream found");
+        }
+        
+        AVStream* video_stream = fmt_ctx->streams[video_stream_index];
+        AVCodecParameters* codecpar = video_stream->codecpar;
+        
+        // Find decoder
+        const AVCodec* codec = avcodec_find_decoder(codecpar->codec_id);
+        if (!codec) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Decoder not found");
+        }
+        
+        // Allocate codec context
+        AVCodecContext* codec_ctx = avcodec_alloc_context3(codec);
+        if (!codec_ctx) {
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to allocate codec context");
+        }
+        
+        if (avcodec_parameters_to_context(codec_ctx, codecpar) < 0) {
+            avcodec_free_context(&codec_ctx);
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to copy codec parameters");
+        }
+        
+        if (avcodec_open2(codec_ctx, codec, nullptr) < 0) {
+            avcodec_free_context(&codec_ctx);
+            avformat_close_input(&fmt_ctx);
+            std::filesystem::remove(temp_path);
+            throw std::runtime_error("Failed to open codec");
+        }
+        
+        // Seek to 10% of video duration
+        int64_t seek_target = fmt_ctx->duration / 10;
+        av_seek_frame(fmt_ctx, -1, seek_target, AVSEEK_FLAG_BACKWARD);
+        
+        // Read and decode frames until we get one
+        AVPacket* packet = av_packet_alloc();
+        AVFrame* frame = av_frame_alloc();
+        bool got_frame = false;
+        
+        while (av_read_frame(fmt_ctx, packet) >= 0) {
+            if (packet->stream_index == video_stream_index) {
+                if (avcodec_send_packet(codec_ctx, packet) >= 0) {
+                    if (avcodec_receive_frame(codec_ctx, frame) >= 0) {
+                        got_frame = true;
+                        av_packet_unref(packet);
+                        break;
+                    }
+                }
+            }
+            av_packet_unref(packet);
+        }
+        
+        if (got_frame) {
+            // Scale frame to thumbnail size
+            int thumb_width = max_thumbnail_width_;
+            int thumb_height = max_thumbnail_height_;
+            
+            // Maintain aspect ratio
+            double aspect = static_cast<double>(frame->width) / frame->height;
+            if (frame->width > frame->height) {
+                thumb_height = static_cast<int>(thumb_width / aspect);
+            } else {
+                thumb_width = static_cast<int>(thumb_height * aspect);
+            }
+            
+            // Create scaling context
+            SwsContext* sws_ctx = sws_getContext(
+                frame->width, frame->height, static_cast<AVPixelFormat>(frame->format),
+                thumb_width, thumb_height, AV_PIX_FMT_RGB24,
+                SWS_BILINEAR, nullptr, nullptr, nullptr
+            );
+            
+            if (sws_ctx) {
+                // Allocate RGB frame
+                AVFrame* rgb_frame = av_frame_alloc();
+                rgb_frame->format = AV_PIX_FMT_RGB24;
+                rgb_frame->width = thumb_width;
+                rgb_frame->height = thumb_height;
+                av_frame_get_buffer(rgb_frame, 0);
+                
+                // Convert to RGB
+                sws_scale(sws_ctx, frame->data, frame->linesize, 0, frame->height,
+                         rgb_frame->data, rgb_frame->linesize);
+                
+                // Copy RGB data - optimize for case without padding
+                thumbnail.resize(thumb_width * thumb_height * 3);
+                uint8_t* dst = thumbnail.data();
+                const uint8_t* src = rgb_frame->data[0];
+                const int row_size = thumb_width * 3;
+                
+                if (rgb_frame->linesize[0] == row_size) {
+                    // No padding - single fast copy
+                    memcpy(dst, src, thumbnail.size());
+                } else {
+                    // Handle padding - copy row by row
+                    for (int y = 0; y < thumb_height; y++) {
+                        memcpy(dst + y * row_size, src + y * rgb_frame->linesize[0], row_size);
+                    }
+                }
+                
+                av_frame_free(&rgb_frame);
+                sws_freeContext(sws_ctx);
+            }
+        }
+        
+        // Cleanup
+        av_frame_free(&frame);
+        av_packet_free(&packet);
+        avcodec_free_context(&codec_ctx);
+        avformat_close_input(&fmt_ctx);
+        std::filesystem::remove(temp_path);
+        
+    } catch (...) {
+        // Ensure temp file is cleaned up
+        if (std::filesystem::exists(temp_path)) {
+            std::filesystem::remove(temp_path);
+        }
+        throw;
+    }
+    
+    return thumbnail;
+}
+#endif
 
 // Plugin entry point
 THEMIS_CONTENT_PLUGIN(VideoProcessor)

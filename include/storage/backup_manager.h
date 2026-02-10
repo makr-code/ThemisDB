@@ -332,6 +332,79 @@ public:
     Result<void> isBackupComplete(const std::string& backup_dir, 
                                    const RAIDConfig& raid_config);
 
+    // ============================================================================
+    // GAP-008: Cloud Backup & Snapshot Scheduling (Stub/Placeholder)
+    // ============================================================================
+    
+    /**
+     * Schedule automatic backup (stub for future implementation)
+     * @param schedule_cron: Cron expression for scheduling (e.g., "0 2 * * *")
+     * @param backup_type: Type of backup (full/incremental/differential)
+     * @param options: Backup options
+     * @return Result<std::string> containing schedule ID on success, Error on failure
+     * @note This is a placeholder for K8s CronJob or internal scheduler integration
+     */
+    Result<std::string> scheduleBackup(const std::string& schedule_cron,
+                                       const std::string& backup_type,
+                                       const BackupOptions& options);
+    
+    /**
+     * Cancel scheduled backup (stub for future implementation)
+     * @param schedule_id: Schedule ID to cancel
+     * @return Result<void> on success, Error on failure
+     */
+    Result<void> cancelScheduledBackup(const std::string& schedule_id);
+    
+    /**
+     * List all scheduled backups (stub for future implementation)
+     * @return Vector of schedule IDs and their configurations
+     */
+    std::vector<std::pair<std::string, std::string>> listScheduledBackups();
+    
+    /**
+     * Perform cloud backup to S3/Azure/GCS (stub for future implementation)
+     * @param local_backup_path: Local backup path
+     * @param cloud_uri: Cloud storage URI (s3://bucket/path, azure://container/path, gs://bucket/path)
+     * @param options: Cloud-specific options
+     * @return Result<std::string> containing cloud backup URI on success, Error on failure
+     * @note This is a placeholder for cloud provider integration
+     */
+    Result<std::string> uploadBackupToCloud(const std::string& local_backup_path,
+                                            const std::string& cloud_uri,
+                                            const BackupOptions& options);
+    
+    /**
+     * Restore from cloud backup (stub for future implementation)
+     * @param cloud_uri: Cloud storage URI
+     * @param local_restore_path: Local path to restore to
+     * @param options: Restore options
+     * @return Result<void> on success, Error on failure
+     * @note This is a placeholder for cloud provider integration
+     */
+    Result<void> restoreFromCloud(const std::string& cloud_uri,
+                                  const std::string& local_restore_path,
+                                  const BackupOptions& options);
+    
+    /**
+     * Create database snapshot (stub for future Kubernetes integration)
+     * @param snapshot_name: Name for the snapshot
+     * @param storage_class: K8s storage class for snapshot
+     * @return Result<std::string> containing snapshot ID on success, Error on failure
+     * @note This is a placeholder for K8s VolumeSnapshot integration
+     */
+    Result<std::string> createSnapshot(const std::string& snapshot_name,
+                                       const std::string& storage_class = "default");
+    
+    /**
+     * Restore from snapshot (stub for future Kubernetes integration)
+     * @param snapshot_id: Snapshot ID to restore from
+     * @param restore_pvc: PVC to restore to
+     * @return Result<void> on success, Error on failure
+     * @note This is a placeholder for K8s VolumeSnapshot integration
+     */
+    Result<void> restoreFromSnapshot(const std::string& snapshot_id,
+                                     const std::string& restore_pvc);
+
 private:
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
     RAIDConfig raid_config_;

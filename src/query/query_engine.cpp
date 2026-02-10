@@ -3248,7 +3248,6 @@ QueryEngine::executeRecursivePathQuery(const RecursivePathQuery& q) const {
 
 Result<std::vector<TraversalResult>>
 QueryEngine::executeGeneralTraversal(
-    const std::string& variable,
     const std::string& startVertex,
     int minDepth,
     int maxDepth,
@@ -4136,7 +4135,8 @@ QueryEngine::executeContentGeoQuery(const ContentGeoQuery& q) const {
 }
 
 // Phase 4.1: Execute CTEs and store results in context
-QueryEngine::Status QueryEngine::executeCTEs(
+// GAP-002: Migrated from Status to Result<void> for unified error handling
+Result<void> QueryEngine::executeCTEs(
 	const std::vector<QueryEngine::CTESpec>& ctes,
     EvaluationContext& context
 ) const {
@@ -4152,7 +4152,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
         if (!cte.subquery) {
             cteSpan.setStatus(false);
             span.setStatus(false);
-            return Status::Error("CTE '" + cte.name + "' has null subquery");
+            return ErrVoid(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("CTE '{}' has null subquery", cte.name)
+            );
         }
         
         // Translate CTE subquery to executable form
@@ -4160,7 +4163,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
         if (!translation.success) {
             cteSpan.setStatus(false);
             span.setStatus(false);
-            return Status::Error("CTE '" + cte.name + "' translation failed: " + translation.error_message);
+            return ErrVoid(
+                errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+                fmt::format("CTE '{}' translation failed: {}", cte.name, translation.error_message)
+            );
         }
         
         // Execute CTE based on query type
@@ -4180,7 +4186,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
             if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' JOIN execution failed: " + result.error().message());
+                return ErrVoid(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("CTE '{}' JOIN execution failed: {}", cte.name, result.error().message())
+                );
             }
             cte_results = std::move(*result);
             
@@ -4190,7 +4199,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
             if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' conjunctive execution failed: " + result.error().message());
+                return ErrVoid(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("CTE '{}' conjunctive execution failed: {}", cte.name, result.error().message())
+                );
             }
             auto entities = std::move(*result);
             cte_results.reserve(entities.size());
@@ -4204,7 +4216,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
             if (!result) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' disjunctive execution failed: " + result.error().message());
+                return ErrVoid(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("CTE '{}' disjunctive execution failed: {}", cte.name, result.error().message())
+                );
             }
             auto entities = std::move(*result);
             cte_results.reserve(entities.size());
@@ -4216,7 +4231,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
             // Graph traversal - not typically used in CTEs but supported
             cteSpan.setStatus(false);
             span.setStatus(false);
-            return Status::Error("CTE '" + cte.name + "': Graph traversal queries not yet supported in CTEs");
+            return ErrVoid(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("CTE '{}': Graph traversal queries not yet supported in CTEs", cte.name)
+            );
             
 		} else if (translation.vector_geo.has_value()) {
             // Vector+Geo hybrid
@@ -4224,7 +4242,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
             if (!vgResult) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' vector+geo execution failed: " + vgResult.error().message());
+                return ErrVoid(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("CTE '{}' vector+geo execution failed: {}", cte.name, vgResult.error().message())
+                );
             }
             auto& results = *vgResult;
             cte_results.reserve(results.size());
@@ -4238,7 +4259,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
             if (!cgResult) {
                 cteSpan.setStatus(false);
                 span.setStatus(false);
-                return Status::Error("CTE '" + cte.name + "' content+geo execution failed: " + cgResult.error().message());
+                return ErrVoid(
+                    errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                    fmt::format("CTE '{}' content+geo execution failed: {}", cte.name, cgResult.error().message())
+                );
             }
             auto& results = *cgResult;
             cte_results.reserve(results.size());
@@ -4249,7 +4273,10 @@ QueryEngine::Status QueryEngine::executeCTEs(
         } else {
             cteSpan.setStatus(false);
             span.setStatus(false);
-            return Status::Error("CTE '" + cte.name + "': Unknown query type");
+            return ErrVoid(
+                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                fmt::format("CTE '{}': Unknown query type", cte.name)
+            );
         }
         
         // Store CTE results in context
@@ -4259,7 +4286,7 @@ QueryEngine::Status QueryEngine::executeCTEs(
     }
     
     span.setStatus(true);
-    return Status::OK();
+    return OkVoid();
 }
 
 } // namespace themis

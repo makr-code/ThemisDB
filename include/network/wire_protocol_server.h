@@ -21,6 +21,9 @@ class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class TransactionManager;
+class ProcessGraphManager;
+class TSStore;
+class ContinuousAggregateManager;
 
 namespace network {
 
@@ -84,16 +87,31 @@ public:
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         std::shared_ptr<GraphIndexManager> graph_index,
         std::shared_ptr<VectorIndexManager> vector_index,
-        std::shared_ptr<TransactionManager> tx_manager
+        std::shared_ptr<TransactionManager> tx_manager,
+        std::shared_ptr<ProcessGraphManager> process_graph = nullptr
+        std::shared_ptr<TSStore> ts_store = nullptr,
+        std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr
     );
 
     ~WireProtocolServer();
+
+    /**
+     * @brief Validate transport security configuration for production
+     * 
+     * Checks if TLS is properly configured when running in production mode.
+     * 
+     * @param argc: Command-line argument count
+     * @param argv: Command-line arguments
+     * @return true if configuration is safe, false if should exit
+     */
+    bool validateTransportSecurity(int argc, const char* const argv[]) const;
 
     /**
      * @brief Start server in dedicated thread pool
      * 
      * Creates separate IO context and worker threads,
      * isolated from HTTP server to prevent interference.
+     * Enforces transport security validation before starting.
      */
     void start();
 
@@ -157,6 +175,9 @@ private:
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
+    std::shared_ptr<ProcessGraphManager> process_graph_;
+    std::shared_ptr<TSStore> ts_store_;
+    std::shared_ptr<ContinuousAggregateManager> agg_manager_;
 
     // Networking (SEPARATE from HTTP server!)
     std::unique_ptr<net::io_context> io_context_;  // Dedicated IO context
@@ -223,6 +244,7 @@ private:
     void asyncReadPayload(uint32_t payload_size);
     void asyncReadChecksum();
     void asyncWriteResponse(const std::vector<uint8_t>& data);
+    void doWrite();  // Internal write loop
 
     // Message handlers (OpCode dispatch)
     void handleMessage();
@@ -235,6 +257,9 @@ private:
     void handleVectorSearch();
     void handleGeoQuery();
     void handleTimeseriesQuery();
+    void handleBpmnStartProcess();
+    void handleBpmnTaskComplete();
+    void handleBpmnQueryInstance();
     void handlePing();
     void handleClose();
 
@@ -260,6 +285,7 @@ private:
     std::array<uint8_t, 12> header_buffer_;  // Wire frame header
     std::vector<uint8_t> payload_buffer_;
     uint32_t checksum_buffer_;
+    uint16_t current_flags_ = 0;  // Current message flags
 
     // Write queue (prevent write-write race)
     std::mutex write_mutex_;

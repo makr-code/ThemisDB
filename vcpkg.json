@@ -32,7 +32,11 @@
     { "name": "crc32c" },
     { "name": "cpp-httplib" },
     { "name": "msgpack" },
-    { "name": "tl-expected" }
+    { "name": "tl-expected" },
+    { 
+      "name": "ffmpeg", 
+      "features": ["avcodec", "avformat", "swscale", "avfilter"]
+    }
   ],
   "features": {
     "gpu": {
@@ -95,6 +99,14 @@
     "gdal": {
       "description": "Enable GDAL integration for Shapefile and GeoTIFF support",
       "dependencies": ["gdal"]
+    },
+    "cloud-storage": {
+      "description": "Enable cloud storage backends (AWS S3, Azure Blob, Google Cloud Storage) for backup automation",
+      "dependencies": [
+        { "name": "aws-sdk-cpp", "features": ["s3", "transfer"] },
+        "azure-storage-cpp",
+        { "name": "google-cloud-cpp", "features": ["storage"] }
+      ]
     }
   }
 }

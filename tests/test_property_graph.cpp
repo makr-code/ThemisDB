@@ -496,3 +496,450 @@ TEST_F(PropertyGraphTest, DeleteNode_CascadeDeletesConnectedEdges) {
     });
     EXPECT_EQ(typeCount, 0);
 }
+
+TEST_F(PropertyGraphTest, TraverseBFS_ReturnsNodesInBFSOrder) {
+    // Create a simple graph: A -> B -> C, A -> D
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity nodeD("nodeD");
+    nodeD.setField("id", "nodeD");
+    pgm_->addNode(nodeD);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    BaseEntity edgeAD("edgeAD");
+    edgeAD.setField("id", "edgeAD");
+    edgeAD.setField("_from", "nodeA");
+    edgeAD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeAD);
+    
+    // Traverse BFS from nodeA
+    auto [status, nodes] = pgm_->traverseBFS("nodeA");
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // Should visit A, then B and D (level 1), then C (level 2)
+    ASSERT_GE(nodes.size(), 1u);
+    EXPECT_EQ(nodes[0], "nodeA");  // First should be start node
+    
+    // B and D should come before C (BFS property)
+    auto posB = std::find(nodes.begin(), nodes.end(), "nodeB");
+    auto posD = std::find(nodes.begin(), nodes.end(), "nodeD");
+    auto posC = std::find(nodes.begin(), nodes.end(), "nodeC");
+    
+    EXPECT_NE(posB, nodes.end());
+    EXPECT_NE(posD, nodes.end());
+    EXPECT_NE(posC, nodes.end());
+    
+    // C should come after both B and D
+    if (posC != nodes.end()) {
+        EXPECT_LT(posB, posC);
+        EXPECT_LT(posD, posC);
+    }
+}
+
+TEST_F(PropertyGraphTest, TraverseBFS_WithMaxDepth) {
+    // Create a chain: A -> B -> C -> D
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity nodeD("nodeD");
+    nodeD.setField("id", "nodeD");
+    pgm_->addNode(nodeD);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    BaseEntity edgeCD("edgeCD");
+    edgeCD.setField("id", "edgeCD");
+    edgeCD.setField("_from", "nodeC");
+    edgeCD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeCD);
+    
+    // Traverse with max depth 2
+    auto [status, nodes] = pgm_->traverseBFS("nodeA", "default", 2);
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // Should only reach A, B, C (not D which is at depth 3)
+    EXPECT_LE(nodes.size(), 3u);
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeA") != nodes.end());
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeB") != nodes.end());
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeC") != nodes.end());
+    // D should not be included
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeD") == nodes.end());
+}
+
+TEST_F(PropertyGraphTest, TraverseDFS_ReturnsNodesInDFSOrder) {
+    // Create a simple graph: A -> B -> C, A -> D
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity nodeD("nodeD");
+    nodeD.setField("id", "nodeD");
+    pgm_->addNode(nodeD);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    BaseEntity edgeAD("edgeAD");
+    edgeAD.setField("id", "edgeAD");
+    edgeAD.setField("_from", "nodeA");
+    edgeAD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeAD);
+    
+    // Traverse DFS from nodeA
+    auto [status, nodes] = pgm_->traverseDFS("nodeA");
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // Should visit nodes
+    ASSERT_GE(nodes.size(), 1u);
+    EXPECT_EQ(nodes[0], "nodeA");  // First should be start node
+    
+    // All nodes should be visited
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeB") != nodes.end());
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeC") != nodes.end());
+    EXPECT_TRUE(std::find(nodes.begin(), nodes.end(), "nodeD") != nodes.end());
+}
+
+TEST_F(PropertyGraphTest, FindShortestPath_ReturnsCorrectPath) {
+    // Create a graph: A -> B -> D, A -> C -> D
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity nodeD("nodeD");
+    nodeD.setField("id", "nodeD");
+    pgm_->addNode(nodeD);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeBD("edgeBD");
+    edgeBD.setField("id", "edgeBD");
+    edgeBD.setField("_from", "nodeB");
+    edgeBD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeBD);
+    
+    BaseEntity edgeAC("edgeAC");
+    edgeAC.setField("id", "edgeAC");
+    edgeAC.setField("_from", "nodeA");
+    edgeAC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeAC);
+    
+    BaseEntity edgeCD("edgeCD");
+    edgeCD.setField("id", "edgeCD");
+    edgeCD.setField("_from", "nodeC");
+    edgeCD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeCD);
+    
+    // Find shortest path from A to D (both paths have same length)
+    auto [status, path] = pgm_->findShortestPath("nodeA", "nodeD");
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // Path should be of length 3: A -> (B or C) -> D
+    EXPECT_EQ(path.size(), 3u);
+    EXPECT_EQ(path[0], "nodeA");
+    EXPECT_EQ(path[2], "nodeD");
+    // Middle node should be either B or C
+    EXPECT_TRUE(path[1] == "nodeB" || path[1] == "nodeC");
+}
+
+TEST_F(PropertyGraphTest, FindShortestPath_NoPathExists) {
+    // Create two disconnected nodes
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    // Try to find path (should fail)
+    auto [status, path] = pgm_->findShortestPath("nodeA", "nodeB");
+    EXPECT_FALSE(status.ok);
+    EXPECT_TRUE(path.empty());
+}
+
+TEST_F(PropertyGraphTest, GetOutgoingEdges_ReturnsCorrectEdges) {
+    // Create nodes and edges
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    edgeAB.setField("_type", "CONNECTS");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeAC("edgeAC");
+    edgeAC.setField("id", "edgeAC");
+    edgeAC.setField("_from", "nodeA");
+    edgeAC.setField("_to", "nodeC");
+    edgeAC.setField("_type", "LINKS");
+    pgm_->addEdge(edgeAC);
+    
+    // Get outgoing edges from nodeA
+    auto [status, edges] = pgm_->getOutgoingEdges("nodeA");
+    ASSERT_TRUE(status.ok) << status.message;
+    EXPECT_EQ(edges.size(), 2u);
+    
+    // Verify edges
+    bool foundAB = false, foundAC = false;
+    for (const auto& edge : edges) {
+        if (edge.edgeId == "edgeAB") {
+            foundAB = true;
+            EXPECT_EQ(edge.fromPk, "nodeA");
+            EXPECT_EQ(edge.toPk, "nodeB");
+            EXPECT_EQ(edge.type, "CONNECTS");
+        } else if (edge.edgeId == "edgeAC") {
+            foundAC = true;
+            EXPECT_EQ(edge.fromPk, "nodeA");
+            EXPECT_EQ(edge.toPk, "nodeC");
+            EXPECT_EQ(edge.type, "LINKS");
+        }
+    }
+    EXPECT_TRUE(foundAB);
+    EXPECT_TRUE(foundAC);
+}
+
+TEST_F(PropertyGraphTest, GetIncomingEdges_ReturnsCorrectEdges) {
+    // Create nodes and edges
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity edgeAC("edgeAC");
+    edgeAC.setField("id", "edgeAC");
+    edgeAC.setField("_from", "nodeA");
+    edgeAC.setField("_to", "nodeC");
+    edgeAC.setField("_type", "CONNECTS");
+    pgm_->addEdge(edgeAC);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    edgeBC.setField("_type", "LINKS");
+    pgm_->addEdge(edgeBC);
+    
+    // Get incoming edges to nodeC
+    auto [status, edges] = pgm_->getIncomingEdges("nodeC");
+    ASSERT_TRUE(status.ok) << status.message;
+    EXPECT_EQ(edges.size(), 2u);
+    
+    // Verify edges
+    bool foundAC = false, foundBC = false;
+    for (const auto& edge : edges) {
+        if (edge.edgeId == "edgeAC") {
+            foundAC = true;
+            EXPECT_EQ(edge.fromPk, "nodeA");
+            EXPECT_EQ(edge.toPk, "nodeC");
+            EXPECT_EQ(edge.type, "CONNECTS");
+        } else if (edge.edgeId == "edgeBC") {
+            foundBC = true;
+            EXPECT_EQ(edge.fromPk, "nodeB");
+            EXPECT_EQ(edge.toPk, "nodeC");
+            EXPECT_EQ(edge.type, "LINKS");
+        }
+    }
+    EXPECT_TRUE(foundAC);
+    EXPECT_TRUE(foundBC);
+}
+
+TEST_F(PropertyGraphTest, ComputePageRank_SimpleGraph) {
+    // Create a simple graph: A -> B, A -> C, B -> C
+    // C should have highest PageRank as it has most incoming edges
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeAC("edgeAC");
+    edgeAC.setField("id", "edgeAC");
+    edgeAC.setField("_from", "nodeA");
+    edgeAC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeAC);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    // Compute PageRank
+    auto [status, scores] = pgm_->computePageRank();
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // All nodes should have scores
+    EXPECT_EQ(scores.size(), 3u);
+    EXPECT_TRUE(scores.find("nodeA") != scores.end());
+    EXPECT_TRUE(scores.find("nodeB") != scores.end());
+    EXPECT_TRUE(scores.find("nodeC") != scores.end());
+    
+    // Scores should sum to approximately 1.0
+    double sum = scores.at("nodeA") + scores.at("nodeB") + scores.at("nodeC");
+    EXPECT_NEAR(sum, 1.0, 0.01);
+    
+    // NodeC should have highest score (2 incoming edges)
+    EXPECT_GT(scores.at("nodeC"), scores.at("nodeA"));
+    EXPECT_GT(scores.at("nodeC"), scores.at("nodeB"));
+    
+    // All scores should be positive
+    EXPECT_GT(scores.at("nodeA"), 0.0);
+    EXPECT_GT(scores.at("nodeB"), 0.0);
+    EXPECT_GT(scores.at("nodeC"), 0.0);
+}
+
+TEST_F(PropertyGraphTest, ComputePageRank_ChainGraph) {
+    // Create a chain: A -> B -> C -> D
+    // D should have highest PageRank due to flow through chain
+    BaseEntity nodeA("nodeA");
+    nodeA.setField("id", "nodeA");
+    pgm_->addNode(nodeA);
+    
+    BaseEntity nodeB("nodeB");
+    nodeB.setField("id", "nodeB");
+    pgm_->addNode(nodeB);
+    
+    BaseEntity nodeC("nodeC");
+    nodeC.setField("id", "nodeC");
+    pgm_->addNode(nodeC);
+    
+    BaseEntity nodeD("nodeD");
+    nodeD.setField("id", "nodeD");
+    pgm_->addNode(nodeD);
+    
+    BaseEntity edgeAB("edgeAB");
+    edgeAB.setField("id", "edgeAB");
+    edgeAB.setField("_from", "nodeA");
+    edgeAB.setField("_to", "nodeB");
+    pgm_->addEdge(edgeAB);
+    
+    BaseEntity edgeBC("edgeBC");
+    edgeBC.setField("id", "edgeBC");
+    edgeBC.setField("_from", "nodeB");
+    edgeBC.setField("_to", "nodeC");
+    pgm_->addEdge(edgeBC);
+    
+    BaseEntity edgeCD("edgeCD");
+    edgeCD.setField("id", "edgeCD");
+    edgeCD.setField("_from", "nodeC");
+    edgeCD.setField("_to", "nodeD");
+    pgm_->addEdge(edgeCD);
+    
+    // Compute PageRank
+    auto [status, scores] = pgm_->computePageRank();
+    ASSERT_TRUE(status.ok) << status.message;
+    
+    // All nodes should have scores
+    EXPECT_EQ(scores.size(), 4u);
+    
+    // Scores should sum to approximately 1.0
+    double sum = 0.0;
+    for (const auto& [node, score] : scores) {
+        sum += score;
+    }
+    EXPECT_NEAR(sum, 1.0, 0.01);
+    
+    // All scores should be positive
+    for (const auto& [node, score] : scores) {
+        EXPECT_GT(score, 0.0);
+    }
+}

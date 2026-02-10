@@ -23,6 +23,10 @@ namespace beast {
 
 namespace themis::sharding {
 
+// Forward declarations for connection pool
+class MTLSConnectionPoolManager;
+class EndpointConnectionPool;
+
 /**
  * mTLS Client for Secure Shard-to-Shard Communication
  * 
@@ -60,10 +64,17 @@ public:
         uint32_t max_retries = 3;             // Maximum retry attempts
         uint32_t retry_delay_ms = 1000;       // Initial retry delay (exponential backoff)
         
-        // Connection pooling
+        // Connection pooling (legacy - kept for backward compatibility)
         bool enable_pooling = true;     // Enable connection pooling
-        uint32_t max_connections = 10;  // Max connections per endpoint
-        uint32_t idle_timeout_ms = 60000; // Idle connection timeout
+        uint32_t max_connections = 10;  // Max connections per endpoint (legacy)
+        uint32_t idle_timeout_ms = 60000; // Idle connection timeout (legacy)
+        
+        // Dynamic connection pool configuration (new)
+        bool use_connection_pool = true;        // Use new dynamic connection pool
+        size_t pool_min_connections = 2;        // Minimum connections per endpoint
+        size_t pool_max_connections = 50;       // Maximum connections per endpoint
+        uint32_t pool_connection_ttl_s = 300;   // Connection TTL in seconds
+        uint32_t pool_idle_timeout_s = 60;      // Idle timeout in seconds
     };
     
     /**
@@ -145,6 +156,12 @@ public:
     void reset();
     
     /**
+     * Get connection pool statistics (JSON format for monitoring)
+     * @return JSON object with pool statistics
+     */
+    nlohmann::json getPoolStatistics() const;
+    
+    /**
      * Parse endpoint into host and port
      * Supports both IPv4 and IPv6 addresses
      * 
@@ -166,6 +183,9 @@ private:
     // Boost.Asio and SSL context (PIMPL to hide Boost headers)
     struct Impl;
     std::unique_ptr<Impl> impl_;
+    
+    // Connection pool manager (new)
+    std::shared_ptr<MTLSConnectionPoolManager> pool_manager_;
     
     /**
      * Perform HTTP request with retry logic

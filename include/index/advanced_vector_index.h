@@ -19,6 +19,7 @@ namespace themis {
  * - Large-scale RAG (> 10M documents)
  * - Multi-tenant vector search
  * - Memory-constrained deployments
+ * - Workload-optimized configurations (OLTP, Analytics, RAG)
  * 
  * @sources
  * - Based on: FAISS (Facebook AI Similarity Search)
@@ -28,10 +29,22 @@ namespace themis {
  * - License: MIT
  * - ThemisDB Integration: Transactional wrapper with ACID guarantees,
  *   multi-backend GPU support, and RocksDB persistence layer
+ * - Workload Optimization: PERFORMANCE_TIPS.md
  */
 class AdvancedVectorIndex {
 public:
+    enum class WorkloadType {
+        OLTP,           ///< High-throughput, low-latency queries
+        ANALYTICS,      ///< Large batch queries, maximize recall
+        MIXED,          ///< Balanced workload
+        RAG,            ///< Retrieval-Augmented Generation
+        BATCH_INSERT    ///< Bulk data loading
+    };
+    
     struct Config {
+        // Workload optimization
+        WorkloadType workload = WorkloadType::MIXED;
+        
         // IVF Parameters
         size_t nlist = 1024;           // Number of clusters (sqrt(N) is good default)
         size_t nprobe = 64;            // Number of clusters to search (tradeoff: speed vs accuracy)
@@ -40,6 +53,10 @@ public:
         bool use_pq = true;            // Enable Product Quantization
         size_t pq_m = 8;               // Number of sub-quantizers (d % m == 0)
         size_t pq_nbits = 8;           // Bits per sub-quantizer (8 or 16)
+        
+        // ADC (Asymmetric Distance Computation) Parameters (v1.5.x)
+        bool use_adc_tables = true;    // Enable ADC tables for ~40% faster search
+        int polysemous_ht = 0;         // Polysemous codes for early termination (0=disabled)
         
         // GPU Settings
         bool use_gpu = false;          // Use GPU acceleration
@@ -130,6 +147,18 @@ public:
      * @brief Get configuration
      */
     const Config& getConfig() const { return config_; }
+    
+    /**
+     * @brief Get workload-optimized configuration
+     * @param dataset_size Expected dataset size
+     * @param dimension Vector dimensionality
+     * @param workload Workload type
+     * @return Optimized configuration for workload
+     */
+    static Config getWorkloadOptimizedConfig(
+        size_t dataset_size,
+        size_t dimension,
+        WorkloadType workload);
 
 private:
     size_t dimension_;

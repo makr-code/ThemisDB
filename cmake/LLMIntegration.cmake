@@ -78,9 +78,31 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ml_model_manager.cpp
         
         # Prompt Engineering and Optimization Framework
-        ../src/llm/prompt_optimizer.cpp
-        ../src/llm/prompt_evaluator.cpp
+        ../src/prompt_engineering/prompt_optimizer.cpp
+        ../src/prompt_engineering/prompt_evaluator.cpp
+        ../src/prompt_engineering/meta_prompt_generator.cpp
+        ../src/prompt_engineering/prompt_performance_tracker.cpp
+        ../src/prompt_engineering/self_improvement_orchestrator.cpp
+        ../src/prompt_engineering/feedback_collector.cpp
+        ../src/prompt_engineering/prompt_version_control.cpp
+        ../src/prompt_engineering/prompt_engineering_integration.cpp
         ../src/llm/fewshot_optimizer.cpp
-        ../src/llm/meta_prompt_generator.cpp
     )
+    
+    # Flash Attention v3 Integration
+    if(THEMIS_ENABLE_FLASH_ATTENTION)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/attention/flash_attention.cpp
+            ../src/llm/attention/kv_cache_manager.cpp
+        )
+        
+        # CUDA backend for Flash Attention
+        if(THEMIS_ENABLE_CUDA)
+            list(APPEND THEMIS_CORE_SOURCES
+                ../src/llm/attention/cuda/flash_attention_cuda.cu
+            )
+        endif()
+        
+        message(STATUS "Flash Attention v3: Enabled")
+    endif()
 endif()

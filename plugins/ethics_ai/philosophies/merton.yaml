@@ -1,0 +1,235 @@
+# Robert K. Merton - Scientific Ethics / Wissenschaftsethik
+
+school_id: merton
+name: "Scientific Ethics (Merton)"
+name_de: "Wissenschaftsethik (Merton)"
+
+## Hauptvertreter / Main Representatives
+founders:
+  - name: "Robert K. Merton"
+    years: "1910-2003"
+    nationality: "American"
+    key_works:
+      - title: "The Normative Structure of Science"
+        year: 1942
+        significance: "Defined four norms of scientific practice (CUDOS)"
+    biography: "Sociologist of science, established foundational norms for scientific conduct"
+  
+  - name: "Francis Bacon"
+    years: "1561-1626"
+    nationality: "English"
+    key_works:
+      - title: "Novum Organum"
+        year: 1620
+        significance: "Scientific method and empiricism"
+    biography: "Father of empiricism, established scientific method principles"
+  
+  - name: "Carl Sagan"
+    years: "1934-1996"
+    nationality: "American"
+    key_works:
+      - title: "The Demon-Haunted World"
+        year: 1995
+        significance: "Scientific skepticism and public responsibility"
+    biography: "Astronomer and science communicator, advocate for scientific responsibility"
+
+## Historischer Kontext / Historical Context
+historical_context:
+  period: "17th Century - Present"
+  philosophical_movement: "Scientific Revolution, Philosophy of Science"
+  zeitgeist: "Empiricism, reproducibility, research integrity, responsible innovation"
+  influences:
+    - source: "Enlightenment Philosophy"
+      thinkers: ["Bacon", "Descartes"]
+      impact: "Emphasis on reason and empirical evidence"
+    - source: "Pragmatism"
+      thinkers: ["Dewey", "Pierce"]
+      impact: "Scientific inquiry as problem-solving"
+    - source: "Critical Rationalism"
+      thinkers: ["Popper"]
+      impact: "Falsificationism and scientific honesty"
+  reactions_against:
+    - "Pseudoscience and quackery"
+    - "Scientific misconduct and fraud"
+    - "Irresponsible innovation"
+    - "Exploitation of research subjects"
+
+## Hauptthesen / Main Theses
+main_theses:
+  - thesis_id: "mertonian_norms"
+    name: "Mertonian Norms (CUDOS)"
+    description: "Four foundational norms of scientific practice"
+    explanation: |
+      Communalism: Scientific findings are common property
+      Universalism: Truth claims evaluated by universal criteria, not personal attributes
+      Disinterestedness: Scientists act for knowledge, not personal gain
+      Organized Skepticism: Systematic scrutiny of all claims
+  
+  - thesis_id: "research_integrity"
+    name: "Research Integrity"
+    description: "Honesty, accuracy, and transparency in all research activities"
+    explanation: |
+      Researchers must conduct and report research honestly, accurately, and transparently.
+      This includes proper attribution, avoiding fabrication/falsification, and full disclosure.
+  
+  - thesis_id: "responsible_innovation"
+    name: "Responsible Research and Innovation (RRI)"
+    description: "Science should anticipate and reflect on societal implications"
+    explanation: |
+      Researchers have responsibility to consider broader impacts of their work,
+      engage with society, and ensure research benefits humanity responsibly.
+
+## Sekundärthesen / Secondary Theses
+secondary_theses:
+  - "Reproducibility and replication as core scientific values"
+  - "Peer review as quality control mechanism"
+  - "Open science and data sharing"
+  - "Protection of human and animal research subjects"
+  - "Conflict of interest disclosure and management"
+  - "Responsible authorship and credit attribution"
+  - "Scientific communication to public"
+  - "Environmental responsibility in research"
+
+## Entscheidungsrahmen / Decision Framework
+decision_framework:
+  primary_test: "Scientific Integrity Test"
+  description: "Ensure research meets highest standards of honesty and rigor"
+  steps:
+    - "Is the methodology sound and appropriate?"
+    - "Are results reported accurately without bias?"
+    - "Are limitations and uncertainties acknowledged?"
+    - "Is proper credit given to all contributors?"
+  
+  secondary_test: "Social Responsibility Test"
+  description: "Consider broader societal implications"
+  criteria:
+    - "Potential benefits to society"
+    - "Possible risks or harms"
+    - "Environmental impact"
+    - "Ethical treatment of subjects"
+    - "Public understanding and engagement"
+
+## Stärken / Strengths
+strengths:
+  - "Clear normative framework for scientific conduct"
+  - "Promotes reproducibility and reliability"
+  - "Protects research subjects and public"
+  - "Enhances credibility of science"
+  - "Fosters international cooperation"
+  - "Addresses dual-use research concerns"
+  - "Encourages responsible innovation"
+
+## Schwächen / Weaknesses
+weaknesses:
+  - "Tension between openness and competitive advantage"
+  - "Challenge of enforcing norms internationally"
+  - "Pressure from funding sources may compromise integrity"
+  - "Reproducibility crisis reveals systemic issues"
+  - "Publication bias toward positive results"
+  - "Difficulty balancing speed and rigor"
+  - "Cultural variations in ethical standards"
+
+## Interne Debatten / Internal Debates
+internal_debate:
+  open_vs_proprietary:
+    issue: "Should all scientific knowledge be freely shared?"
+    positions:
+      - "Open science: Maximum transparency and accessibility"
+      - "Proprietary research: Intellectual property protection necessary"
+      - "Hybrid model: Delay publication for commercialization, then share"
+  
+  dual_use_research:
+    issue: "How to handle research with potential for harm?"
+    positions:
+      - "Freedom of inquiry: No censorship of research"
+      - "Precautionary principle: Restrict dangerous research"
+      - "Oversight model: Review boards evaluate risks"
+  
+  replication_requirements:
+    issue: "What level of replication is necessary?"
+    positions:
+      - "All findings should be independently replicated"
+      - "Selective replication based on importance and feasibility"
+      - "Focus on pre-registration and methodology transparency"
+
+## Philosophische Positionierung / Philosophical Positioning
+philosophical_positioning:
+  relation_to_pragmatism: "Science as practical problem-solving with social responsibility"
+  relation_to_kantian: "Universal principles of honesty and respect for persons in research"
+  relation_to_consequentialist: "Consider outcomes and impacts of research"
+  relation_to_virtue_ethics: "Cultivate virtues of honesty, humility, curiosity in scientists"
+
+## Praktische Anwendungen / Practical Applications
+practical_applications:
+  research_design:
+    principle: "Methodological rigor"
+    considerations:
+      - "Appropriate controls and randomization"
+      - "Adequate sample size and power"
+      - "Pre-registration of hypotheses"
+      - "Transparent reporting of methods"
+  
+  data_management:
+    principle: "Data integrity and accessibility"
+    considerations:
+      - "Accurate record-keeping"
+      - "Secure data storage"
+      - "Data sharing when appropriate"
+      - "Retention of raw data"
+  
+  publication:
+    principle: "Honest reporting"
+    considerations:
+      - "Report all results, including null findings"
+      - "Acknowledge limitations"
+      - "Avoid p-hacking and HARKing"
+      - "Proper citation and attribution"
+  
+  human_subjects:
+    principle: "Respect and protection"
+    considerations:
+      - "Informed consent"
+      - "Minimize risks"
+      - "Ensure confidentiality"
+      - "Fair participant selection"
+
+## Moderne Entwicklungen / Modern Developments
+modern_developments:
+  reproducibility_crisis:
+    description: "Many published findings cannot be replicated"
+    significance: "Led to reforms in methodology and reporting standards"
+  
+  open_science_movement:
+    description: "Push for open access, open data, open methodology"
+    significance: "Increasing transparency and accessibility of research"
+  
+  research_ethics_boards:
+    description: "Institutional review boards (IRBs) for ethical oversight"
+    significance: "Systematic ethical review of research involving humans/animals"
+  
+  citizen_science:
+    description: "Public participation in scientific research"
+    significance: "Democratization of science, public engagement"
+
+## Kritische Perspektiven / Critical Perspectives
+critiques:
+  funding_bias: "Commercial and political interests can compromise objectivity"
+  publish_or_perish: "Career pressures incentivize quantity over quality"
+  reproducibility_crisis: "Systemic issues undermine scientific reliability"
+  access_inequality: "Paywalls limit access to scientific knowledge"
+  participant_exploitation: "Historical abuses in research (Tuskegee, etc.)"
+
+## Literatur / Key Literature
+key_literature:
+  - author: "Merton, Robert K."
+    title: "The Normative Structure of Science"
+    year: 1942
+  - author: "Popper, Karl"
+    title: "The Logic of Scientific Discovery"
+    year: 1959
+  - author: "Beauchamp, T.L. & Childress, J.F."
+    title: "Principles of Biomedical Ethics"
+    year: 1979
+  - author: "Jasanoff, Sheila"
+    title: "The Ethics of Invention"
+    year: 2016

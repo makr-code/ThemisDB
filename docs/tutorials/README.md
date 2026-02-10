@@ -1,6 +1,19 @@
 # ThemisDB Tutorials
 
-Welcome to the ThemisDB tutorials! This directory contains comprehensive, hands-on guides to help you master ThemisDB.
+> **Hands-on guides** to help you master ThemisDB from basics to advanced techniques.
+
+---
+
+## 🎯 Choose Your Learning Path
+
+| Your Role | Start Here | Then Continue | Advanced |
+|-----------|-----------|---------------|----------|
+| **New User** | [Getting Started](GETTING_STARTED_TUTORIAL.md) | [CRUD Operations](CRUD_TUTORIAL.md) | [Interactive Examples](INTERACTIVE_EXAMPLES.md) |
+| **Developer** | [CRUD Operations](CRUD_TUTORIAL.md) | [Batch Operations](BATCH_OPERATIONS.md) | [Best Practices](BEST_PRACTICES.md) |
+| **Architect** | [Schema Design](SCHEMA_DESIGN.md) | [Best Practices](BEST_PRACTICES.md) | [Performance Guide](../knowledge-base/PERFORMANCE_TIPS.md) |
+| **Visual Learner** | [Video Tutorials](VIDEO_TUTORIALS.md) | [Interactive Examples](INTERACTIVE_EXAMPLES.md) | [Use Cases](../use-cases/README.md) |
+
+---
 
 ## 📚 Tutorial Index
 

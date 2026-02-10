@@ -4,6 +4,7 @@
 #include "sharding/paxos_consensus.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
+#include <cstring>  // for strerror
 
 namespace themisdb {
 namespace sharding {
@@ -109,7 +110,7 @@ std::optional<uint64_t> PaxosConsensus::propose(
     
     // Create log entry
     ConsensusLogEntry entry;
-    entry.index = next_slot_++;
+    entry.index = next_slot_.fetch_add(1);
     entry.term = current_round_;
     entry.operation = operation;
     entry.data = data;
@@ -159,7 +160,7 @@ std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
     std::vector<ConsensusLogEntry> result;
     std::lock_guard<std::mutex> lock(proposal_mutex_);
     
-    uint64_t end = end_index.value_or(commit_index_);
+    uint64_t end = end_index.value_or(commit_index_.load());
     
     for (uint64_t i = start_index; i <= end; ++i) {
         auto it = committed_log_.find(i);
@@ -172,7 +173,12 @@ std::vector<ConsensusLogEntry> PaxosConsensus::readLog(
 }
 
 uint64_t PaxosConsensus::getCommitIndex() const {
-    return commit_index_;
+    return commit_index_.load();
+}
+
+uint64_t PaxosConsensus::getLastLogIndex() const {
+    uint64_t next = next_slot_.load();
+    return next > 0 ? next - 1 : 0;
 }
 
 bool PaxosConsensus::addNode(
@@ -236,8 +242,8 @@ bool PaxosConsensus::restoreSnapshot(const nlohmann::json& /*snapshot_data*/) {
 ConsensusStats PaxosConsensus::getStats() const {
     ConsensusStats stats{};
     stats.current_term = current_round_;
-    stats.commit_index = commit_index_;
-    stats.last_applied = commit_index_;
+    stats.commit_index = commit_index_.load();
+    stats.last_applied = commit_index_.load();
     stats.state = state_.load();
     stats.current_leader = current_leader_;
     stats.cluster_size = cluster_nodes_.size();
@@ -300,12 +306,30 @@ void PaxosConsensus::runProposer() {
         
         if (!running_.load()) break;
         
-        // Process pending proposals
+        // Process pending proposals with retry logic
+        std::vector<uint64_t> failed_slots;
+        
         for (auto it = pending_proposals_.begin(); it != pending_proposals_.end();) {
             auto& [slot, entry] = *it;
             
             lock.unlock();
-            bool success = executePreparePhase(slot, entry);
+            
+            // Retry logic: attempt proposal up to 3 times
+            bool success = false;
+            const int max_retries = 3;
+            
+            for (int retry = 0; retry < max_retries && running_.load(); ++retry) {
+                if (retry > 0) {
+                    spdlog::debug("Node {} retrying proposal for slot {} (attempt {}/{})",
+                                 node_id_, slot, retry + 1, max_retries);
+                    // Exponential backoff: 100ms, 200ms, 400ms
+                    std::this_thread::sleep_for(std::chrono::milliseconds(100 * (1 << retry)));
+                }
+                
+                success = executePreparePhase(slot, entry);
+                if (success) break;
+            }
+            
             lock.lock();
             
             if (success) {
@@ -313,7 +337,14 @@ void PaxosConsensus::runProposer() {
             } else {
                 ++it;
                 failed_proposals_++;
+                failed_slots.push_back(slot);
             }
+        }
+        
+        // Log failed proposals
+        for (uint64_t slot : failed_slots) {
+            spdlog::warn("Node {} failed to get consensus for slot {} after retries",
+                        node_id_, slot);
         }
     }
     
@@ -336,7 +367,20 @@ void PaxosConsensus::runLearner() {
     
     while (running_.load()) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        // Learner logic would track accepted values
+        
+        // Learner tracks accepted values and determines when consensus is reached
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        
+        // Check for newly committed instances
+        for (auto& [slot, instance] : instances_) {
+            if (instance.is_committed && committed_log_.find(slot) == committed_log_.end()) {
+                // This instance just reached consensus
+                spdlog::debug("Learner detected committed value at slot {}", slot);
+                
+                // Update committed log (done via broadcastCommit)
+                // Learner's job is to track and apply committed values
+            }
+        }
     }
     
     spdlog::debug("Paxos learner thread stopped");
@@ -373,15 +417,63 @@ void PaxosConsensus::leaderElectionThread() {
 }
 
 bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry& value) {
-    // Simplified prepare phase
+    // Phase 1a: Generate unique proposal number and send prepare requests
     auto proposal = generateProposalNumber();
     
-    // In a real implementation, this would send prepare requests to all nodes
-    // and wait for a quorum of promises
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // Get or create instance for this slot
+    auto& instance = instances_[slot];
+    instance.slot = slot;
+    instance.prepare_promises.clear();
+    
+    spdlog::debug("Node {} executing prepare phase for slot {} with proposal {}/{}",
+                 node_id_, slot, proposal.round, proposal.node_id);
     
     total_prepares_++;
     
-    // Execute accept phase
+    // In a single-node simulation, we always promise to ourselves
+    // In multi-node: Send prepare(proposal) to all acceptors
+    instance.prepare_promises.insert(node_id_);
+    
+    // Simulate timeout for collecting promises
+    auto start_time = std::chrono::steady_clock::now();
+    
+    // For now, simulate other nodes accepting
+    // In real implementation: Send RPC with timeout and wait for quorum of promises
+    for (const auto& node : cluster_nodes_) {
+        if (node != node_id_) {
+            // Check if we've exceeded timeout
+            auto elapsed = std::chrono::steady_clock::now() - start_time;
+            if (elapsed > config_.paxos_prepare_timeout) {
+                spdlog::warn("Node {} prepare phase timed out for slot {} after {}ms",
+                           node_id_, slot,
+                           std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                break;
+            }
+            
+            // Simulate promise from other nodes
+            // In production: Send RPC and wait for response
+            instance.prepare_promises.insert(node);
+        }
+    }
+    
+    // Check if we have quorum
+    if (!hasQuorum(instance.prepare_promises.size())) {
+        spdlog::warn("Node {} failed to get quorum in prepare phase for slot {} ({}/{})",
+                    node_id_, slot, instance.prepare_promises.size(), cluster_nodes_.size());
+        return false;
+    }
+    
+    spdlog::debug("Node {} got quorum ({}/{}) in prepare phase for slot {}",
+                 node_id_, instance.prepare_promises.size(), 
+                 cluster_nodes_.size(), slot);
+    
+    // Phase 1b complete: We have quorum of promises
+    // If any acceptor returned a previously accepted value, use the one with highest ballot
+    // For now, we use our proposed value since we're simulating
+    
+    // Move to accept phase
     return executeAcceptPhase(slot, proposal, value);
 }
 
@@ -390,13 +482,68 @@ bool PaxosConsensus::executeAcceptPhase(
     const ProposalNumber& proposal,
     const ConsensusLogEntry& value
 ) {
-    // Simplified accept phase
-    // In a real implementation, this would send accept requests to all nodes
-    // and wait for a quorum of acceptances
+    // Phase 2a: Send accept requests to all acceptors
+    auto start_time = std::chrono::steady_clock::now();
+    
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        
+        auto& instance = instances_[slot];
+        instance.accept_acks.clear();
+        
+        spdlog::debug("Node {} executing accept phase for slot {} with proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
+    }
     
     total_accepts_++;
     
-    // Mark as committed
+    // Accept on self (we're also an acceptor)
+    if (handleAccept(slot, proposal, value)) {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        instances_[slot].accept_acks.insert(node_id_);
+    }
+    
+    // In real implementation: Send accept(proposal, value) to all acceptors via RPC
+    // For now, simulate other nodes accepting with timeout
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        auto& instance = instances_[slot];
+        
+        for (const auto& node : cluster_nodes_) {
+            if (node != node_id_) {
+                // Check if we've exceeded timeout
+                auto elapsed = std::chrono::steady_clock::now() - start_time;
+                if (elapsed > config_.paxos_accept_timeout) {
+                    spdlog::warn("Node {} accept phase timed out for slot {} after {}ms",
+                               node_id_, slot,
+                               std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count());
+                    break;
+                }
+                
+                // Simulate acceptance from other nodes
+                // In production: Send RPC and wait for response
+                instance.accept_acks.insert(node);
+            }
+        }
+        
+        // Phase 2b: Check if we have quorum of accepts
+        if (!hasQuorum(instance.accept_acks.size())) {
+            spdlog::warn("Node {} failed to get quorum in accept phase for slot {} ({}/{})",
+                        node_id_, slot, instance.accept_acks.size(), cluster_nodes_.size());
+            return false;
+        }
+        
+        spdlog::debug("Node {} got quorum ({}/{}) in accept phase for slot {}",
+                     node_id_, instance.accept_acks.size(),
+                     cluster_nodes_.size(), slot);
+        
+        // Quorum reached - value is chosen
+        instance.is_committed = true;
+        instance.accepted_value = value;
+        instance.accepted_proposal = proposal;
+    }
+    
+    // Broadcast commit to all learners
     broadcastCommit(slot, value);
     
     return true;
@@ -406,8 +553,9 @@ void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& val
     {
         std::lock_guard<std::mutex> lock(proposal_mutex_);
         committed_log_[slot] = value;
-        if (slot > commit_index_) {
-            commit_index_ = slot;
+        uint64_t current_commit = commit_index_.load();
+        if (slot > current_commit) {
+            commit_index_.store(slot);
         }
     }
     
@@ -434,28 +582,218 @@ bool PaxosConsensus::hasQuorum(size_t count) const {
 }
 
 ProposalNumber PaxosConsensus::generateProposalNumber() {
-    return ProposalNumber{current_round_++, node_id_};
+    // Increment round and generate unique proposal number
+    uint64_t round = ++current_round_;
+    return ProposalNumber{round, node_id_};
 }
 
 bool PaxosConsensus::loadPersistentState() {
-    // TODO: Complete implementation
-    // Should load current_round_, next_slot_, commit_index_,
-    // instances_, and committed_log_ from persistent storage (e.g., RocksDB)
-    // For now, returns false indicating no state to load
-    return false;  // Placeholder - no persistent state loaded
+    if (config_.data_dir.empty()) {
+        spdlog::warn("No data directory configured for Paxos persistence");
+        return false;
+    }
+    
+    try {
+        std::string state_file = config_.data_dir + "/paxos_state_" + node_id_ + ".json";
+        std::ifstream file(state_file);
+        
+        if (!file.is_open()) {
+            spdlog::info("No persistent state file found at {}, starting fresh", state_file);
+            return false;
+        }
+        
+        nlohmann::json state_json;
+        file >> state_json;
+        file.close();
+        
+        // Load basic state
+        if (state_json.contains("current_round")) {
+            current_round_ = state_json["current_round"].get<uint64_t>();
+        }
+        
+        if (state_json.contains("next_slot")) {
+            next_slot_.store(state_json["next_slot"].get<uint64_t>());
+        }
+        
+        if (state_json.contains("commit_index")) {
+            commit_index_.store(state_json["commit_index"].get<uint64_t>());
+        }
+        
+        // Load Paxos instances
+        if (state_json.contains("instances")) {
+            for (const auto& [slot_str, instance_json] : state_json["instances"].items()) {
+                uint64_t slot = std::stoull(slot_str);
+                PaxosInstance& instance = instances_[slot];
+                
+                instance.slot = slot;
+                
+                if (instance_json.contains("promised_proposal")) {
+                    const auto& promised = instance_json["promised_proposal"];
+                    instance.promised_proposal.round = promised["round"].get<uint64_t>();
+                    instance.promised_proposal.node_id = promised["node_id"].get<std::string>();
+                }
+                
+                if (instance_json.contains("accepted_proposal")) {
+                    const auto& accepted = instance_json["accepted_proposal"];
+                    instance.accepted_proposal.round = accepted["round"].get<uint64_t>();
+                    instance.accepted_proposal.node_id = accepted["node_id"].get<std::string>();
+                }
+                
+                if (instance_json.contains("accepted_value")) {
+                    const auto& value_json = instance_json["accepted_value"];
+                    instance.accepted_value.log_index = value_json["log_index"].get<uint64_t>();
+                    instance.accepted_value.term = value_json["term"].get<uint64_t>();
+                    instance.accepted_value.operation = value_json["operation"].get<std::string>();
+                    instance.accepted_value.data = value_json["data"];
+                }
+                
+                if (instance_json.contains("is_committed")) {
+                    instance.is_committed = instance_json["is_committed"].get<bool>();
+                }
+            }
+        }
+        
+        // Load committed log
+        if (state_json.contains("committed_log")) {
+            for (const auto& [index_str, entry_json] : state_json["committed_log"].items()) {
+                uint64_t index = std::stoull(index_str);
+                ConsensusLogEntry& entry = committed_log_[index];
+                
+                entry.log_index = entry_json["log_index"].get<uint64_t>();
+                entry.term = entry_json["term"].get<uint64_t>();
+                entry.operation = entry_json["operation"].get<std::string>();
+                entry.data = entry_json["data"];
+            }
+        }
+        
+        spdlog::info("Loaded Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
+                     current_round_, next_slot_.load(), commit_index_.load(), 
+                     instances_.size(), committed_log_.size());
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to load Paxos persistent state: {}", e.what());
+        return false;
+    }
 }
 
 bool PaxosConsensus::savePersistentState() {
-    // TODO: Complete implementation
-    // Should save current_round_, next_slot_, commit_index_,
-    // instances_, and committed_log_ to persistent storage (e.g., RocksDB)
-    // For now, returns true indicating save succeeded (no-op)
-    return true;  // Placeholder - no persistent state saved
+    if (config_.data_dir.empty()) {
+        spdlog::warn("No data directory configured for Paxos persistence");
+        return false;
+    }
+    
+    try {
+        nlohmann::json state_json;
+        
+        // Save basic state
+        state_json["current_round"] = current_round_;
+        state_json["next_slot"] = next_slot_.load();
+        state_json["commit_index"] = commit_index_.load();
+        
+        // Save Paxos instances
+        nlohmann::json instances_json = nlohmann::json::object();
+        for (const auto& [slot, instance] : instances_) {
+            nlohmann::json instance_json;
+            
+            instance_json["slot"] = instance.slot;
+            instance_json["is_committed"] = instance.is_committed;
+            
+            // Save promised proposal
+            if (instance.promised_proposal.round > 0) {
+                instance_json["promised_proposal"] = {
+                    {"round", instance.promised_proposal.round},
+                    {"node_id", instance.promised_proposal.node_id}
+                };
+            }
+            
+            // Save accepted proposal
+            if (instance.accepted_proposal.round > 0) {
+                instance_json["accepted_proposal"] = {
+                    {"round", instance.accepted_proposal.round},
+                    {"node_id", instance.accepted_proposal.node_id}
+                };
+                
+                // Save accepted value
+                instance_json["accepted_value"] = {
+                    {"log_index", instance.accepted_value.log_index},
+                    {"term", instance.accepted_value.term},
+                    {"operation", instance.accepted_value.operation},
+                    {"data", instance.accepted_value.data}
+                };
+            }
+            
+            instances_json[std::to_string(slot)] = instance_json;
+        }
+        state_json["instances"] = instances_json;
+        
+        // Save committed log
+        nlohmann::json committed_log_json = nlohmann::json::object();
+        for (const auto& [index, entry] : committed_log_) {
+            committed_log_json[std::to_string(index)] = {
+                {"log_index", entry.log_index},
+                {"term", entry.term},
+                {"operation", entry.operation},
+                {"data", entry.data}
+            };
+        }
+        state_json["committed_log"] = committed_log_json;
+        
+        // Write to file atomically (write to temp, then rename)
+        std::string state_file = config_.data_dir + "/paxos_state_" + node_id_ + ".json";
+        std::string temp_file = state_file + ".tmp";
+        
+        std::ofstream file(temp_file);
+        if (!file.is_open()) {
+            spdlog::error("Failed to open temporary state file: {}", temp_file);
+            return false;
+        }
+        
+        file << state_json.dump(2);  // Pretty print with 2-space indent
+        file.close();
+        
+        // Atomic rename
+        if (std::rename(temp_file.c_str(), state_file.c_str()) != 0) {
+            spdlog::error("Failed to rename temporary state file: {}", strerror(errno));
+            return false;
+        }
+        
+        spdlog::debug("Saved Paxos persistent state: round={}, next_slot={}, commit_index={}, instances={}, committed_entries={}",
+                      current_round_, next_slot_.load(), commit_index_.load(),
+                      instances_.size(), committed_log_.size());
+        
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to save Paxos persistent state: {}", e.what());
+        return false;
+    }
 }
 
-bool PaxosConsensus::handlePrepare(uint64_t /*slot*/, const ProposalNumber& /*proposal*/) {
-    // Simplified prepare handler
-    return true;
+bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // Get or create instance for this slot
+    auto& instance = instances_[slot];
+    
+    // Phase 1b: Promise not to accept proposals with lower ballot
+    if (proposal > instance.promised_proposal) {
+        // Update promised proposal
+        instance.promised_proposal = proposal;
+        
+        spdlog::debug("Node {} promised slot {} to proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
+        
+        // Return true (promise granted)
+        // In a real implementation, we would also return the previously accepted value
+        return true;
+    }
+    
+    // Reject if we've already promised to a higher proposal
+    spdlog::debug("Node {} rejected prepare for slot {} - already promised to higher proposal",
+                 node_id_, slot);
+    return false;
 }
 
 bool PaxosConsensus::handleAccept(
@@ -463,8 +801,27 @@ bool PaxosConsensus::handleAccept(
     const ProposalNumber& /*proposal*/,
     const ConsensusLogEntry& /*value*/
 ) {
-    // Simplified accept handler
-    return true;
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    
+    // Get or create instance for this slot
+    auto& instance = instances_[slot];
+    
+    // Phase 2b: Accept proposal if it's >= our promised proposal
+    if (proposal >= instance.promised_proposal) {
+        // Accept the proposal
+        instance.accepted_proposal = proposal;
+        instance.accepted_value = value;
+        
+        spdlog::debug("Node {} accepted slot {} with proposal {}/{}",
+                     node_id_, slot, proposal.round, proposal.node_id);
+        
+        return true;
+    }
+    
+    // Reject if proposal number is lower than promised
+    spdlog::debug("Node {} rejected accept for slot {} - proposal too low",
+                 node_id_, slot);
+    return false;
 }
 
 void PaxosConsensus::handleCommit(uint64_t slot, const ConsensusLogEntry& value) {

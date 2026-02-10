@@ -345,6 +345,28 @@ cudaError_t launch_sequence_mean_kernel(
     cudaStream_t stream = nullptr
 );
 
+/**
+ * @brief CUDA kernel launcher for SGD parameter update
+ * 
+ * Performs in-place SGD parameter update on GPU:
+ * param = param - learning_rate * grad
+ * 
+ * This avoids CPU roundtrip for efficient parameter updates.
+ * 
+ * @param params Parameter tensor (device pointer, in/out)
+ * @param grads Gradient tensor (device pointer)
+ * @param learning_rate Learning rate
+ * @param size Number of elements
+ * @param stream CUDA stream for async execution
+ */
+cudaError_t launch_sgd_update_kernel(
+    float* params,
+    const float* grads,
+    float learning_rate,
+    size_t size,
+    cudaStream_t stream = nullptr
+);
+
 } // namespace cuda
 } // namespace lora
 } // namespace llm

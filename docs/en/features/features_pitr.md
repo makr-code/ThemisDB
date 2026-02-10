@@ -579,6 +579,85 @@ Use consistent tag naming:
 
 ---
 
+## gRPC API
+
+In addition to the C++ API and REST API, PITR functionality is also available via gRPC for high-performance binary communication.
+
+### Service Definition
+
+**Service:** `themis.core.PITRService`  
+**Proto file:** `proto/themis_core.proto`
+
+### Available Methods
+
+| Method | Purpose | Request | Response |
+|--------|---------|---------|----------|
+| `CreateSnapshot` | Create named snapshot | `CreateSnapshotRequest` | `CreateSnapshotResponse` |
+| `ListSnapshots` | List all snapshots | `ListSnapshotsRequest` | `ListSnapshotsResponse` |
+| `GetSnapshot` | Get snapshot details | `GetSnapshotRequest` | `GetSnapshotResponse` |
+| `DeleteSnapshot` | Delete snapshot | `DeleteSnapshotRequest` | `DeleteSnapshotResponse` |
+| `PreviewRestore` | Preview restore (dry-run) | `PreviewRestoreRequest` | `PreviewRestoreResponse` |
+| `ExecuteRestore` | Execute restore operation | `ExecuteRestoreRequest` | `ExecuteRestoreResponse` |
+| `GetRestoreProgress` | Get restore progress | `GetRestoreProgressRequest` | `GetRestoreProgressResponse` |
+
+### Usage Example (grpcurl)
+
+```bash
+# Create snapshot
+grpcurl -plaintext -d '{
+  "tag_name": "before_deploy_v2.0",
+  "description": "Before version 2.0 deployment",
+  "created_by": "admin"
+}' localhost:50051 themis.core.PITRService/CreateSnapshot
+
+# List snapshots
+grpcurl -plaintext -d '{
+  "limit": 10,
+  "sort_by": "timestamp",
+  "ascending": false
+}' localhost:50051 themis.core.PITRService/ListSnapshots
+
+# Preview restore
+grpcurl -plaintext -d '{
+  "restore_type": "TAG",
+  "target": "before_deploy_v2.0",
+  "tables": ["users", "orders"]
+}' localhost:50051 themis.core.PITRService/PreviewRestore
+
+# Execute restore
+grpcurl -plaintext -d '{
+  "restore_type": "TAG",
+  "target": "before_deploy_v2.0",
+  "dry_run": false,
+  "create_backup": true,
+  "abort_on_first_error": true
+}' localhost:50051 themis.core.PITRService/ExecuteRestore
+
+# Get restore progress
+grpcurl -plaintext localhost:50051 themis.core.PITRService/GetRestoreProgress
+```
+
+### Message Structures
+
+**RestoreType enum:**
+- `SEQUENCE` (0) - Restore to specific sequence number
+- `TAG` (1) - Restore to named snapshot
+- `TIMESTAMP` (2) - Restore to specific timestamp
+
+**RestoreProgress.Phase enum:**
+- `NOT_STARTED` - Restore not yet initiated
+- `CREATING_BACKUP` - Creating automatic backup
+- `VALIDATING` - Validating parameters
+- `REPLAYING_EVENTS` - Replaying events backward
+- `COMMITTING` - Committing changes
+- `COMPLETED` - Restore completed successfully
+- `FAILED` - Restore failed with error
+- `ROLLED_BACK` - Restore rolled back
+
+For complete message definitions, see [proto/themis_core.proto](../../../proto/themis_core.proto).
+
+---
+
 ## Troubleshooting
 
 ### Problem: Tag creation fails with "Invalid tag name"

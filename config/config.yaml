@@ -493,7 +493,26 @@ features:
 sse:
   # Maximum events per second per connection (0 = unlimited)
   # Server-side rate limiting for SSE streams
+  # Recommended: 100-1000 for production to prevent overwhelming clients
   max_events_per_second: 0
+  
+  # Maximum buffered events per connection
+  # Events are buffered when client can't keep up with changefeed rate
+  # Recommended: 1000-10000 depending on memory availability
+  max_buffered_events: 1000
+  
+  # Heartbeat interval (milliseconds)
+  # Prevents connection timeout during idle periods
+  heartbeat_interval_ms: 15000
+  
+  # Event poll interval (milliseconds)
+  # How often to check changefeed for new events
+  event_poll_interval_ms: 500
+  
+  # Drop oldest events on buffer overflow
+  # true: Drop oldest events when buffer full (prevent memory issues)
+  # false: Drop newest events (preserve historical order)
+  drop_oldest_on_overflow: true
 
 # =============================================================================
 # API RATE LIMITING
@@ -501,6 +520,59 @@ sse:
 rate_limiting:
   # Audit API rate limit (requests per minute, 0 = unlimited)
   audit_rate_limit_per_minute: 100
+  
+  # Global rate limiter configuration (RateLimiter V1)
+  # For backwards compatibility - prefer V2 for new deployments
+  bucket_capacity: 100              # Maximum burst capacity (tokens)
+  refill_rate: 100                  # Tokens refilled per minute
+  window_seconds: 60                # Time window for rate limit
+  per_ip_enabled: true              # Enable per-IP rate limiting
+  per_user_enabled: true            # Enable per-user rate limiting (requires auth)
+  
+  # Rate Limiter V2 configuration (PerClientRateLimiter with priority lanes)
+  # Preferred for new deployments - supports priority lanes for VIP clients
+  v2:
+    enabled: false                  # Enable V2 rate limiter (recommended)
+    capacity_per_client: 100        # Tokens per client
+    refill_rate_per_client: 10      # Tokens per second per client
+    max_clients: 10000              # Maximum tracked clients
+    cleanup_interval_minutes: 5     # Idle client cleanup interval
+    
+    # Priority lane configuration
+    enable_priority_lanes: true     # Enable HIGH/NORMAL/LOW priority lanes
+    high_capacity: 2000             # VIP client burst capacity
+    high_refill_rate: 200           # VIP client sustained rate (tokens/s)
+    low_capacity: 500               # Low-priority burst capacity
+    low_refill_rate: 50             # Low-priority sustained rate (tokens/s)
+
+# =============================================================================
+# TENANT RESOURCE QUOTAS (Multi-tenancy)
+# =============================================================================
+tenants:
+  # Enable tenant-based resource quotas and isolation
+  # Set to true to enable quota enforcement in production
+  enforce_quotas: false
+  
+  # Tenant identification
+  tenant_header: "X-Tenant-ID"      # HTTP header for tenant ID
+  tenant_path_prefix: "/tenants/"   # Path prefix for tenant routing
+  
+  # Default tenant for single-tenant deployments
+  default_tenant_id: "default"
+  allow_default_tenant: true        # Allow requests without tenant ID
+  
+  # Global tenant limits
+  max_tenants: 1000                 # Maximum number of tenants
+  
+  # Default per-tenant resource quotas (can be overridden per tenant)
+  default_quotas:
+    max_storage_bytes: 0            # 0 = unlimited, otherwise bytes limit
+    max_documents: 0                # 0 = unlimited, otherwise document count
+    max_collections: 0              # 0 = unlimited, otherwise collection count
+    max_concurrent_queries: 100     # Maximum concurrent queries per tenant
+    max_connections: 50             # Maximum simultaneous connections per tenant
+    requests_per_second: 1000       # Rate limit per tenant (req/s)
+    burst_size: 100                 # Token bucket burst size per tenant
 
 # =============================================================================
 # LLM CONFIGURATION (Optional - requires llama.cpp integration)

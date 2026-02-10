@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 
-using namespace themis;
+using namespace themis::prompt_engineering;
 
 TEST(PromptManagerTest, CreateAndGetTemplate) {
     PromptManager pm;

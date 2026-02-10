@@ -202,6 +202,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/cte_cache.cpp
     ../src/query/result_stream.cpp
     ../src/query/query_cache.cpp
+    ../src/query/workload_cache_strategy.cpp
+    ../src/query/query_cache_manager.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
@@ -328,11 +330,13 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/wal_applier.cpp
     ../src/sharding/wal_manager.cpp
     ../src/sharding/wal_shipper.cpp
+    ../src/sharding/secure_transport_client.cpp
     ../src/sharding/replication_coordinator.cpp
     ../src/sharding/replica_topology.cpp
     ../src/sharding/multi_primary_coordinator.cpp
     ../src/sharding/health_monitor.cpp
     ../src/sharding/truetime.cpp
+    ../src/sharding/distributed_time_coordinator.cpp
     
     # Distributed transactions
     ../src/sharding/distributed_transaction.cpp
@@ -362,7 +366,7 @@ set(THEMIS_SHARDING_SOURCES
 set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
-    ../src/llm/prompt_manager.cpp
+    ../src/prompt_engineering/prompt_manager.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
     
@@ -407,6 +411,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     
     # API handlers (always included)
@@ -450,6 +455,7 @@ set(THEMIS_NETWORK_SOURCES
     
     # gRPC support (conditional)
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/wal_grpc_service.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/server/pitr_grpc_service.cpp>
     
     # Advanced protocols (conditional)
     $<$<BOOL:${THEMIS_ENABLE_HTTP2}>:../src/server/http2_session.cpp>
@@ -464,9 +470,11 @@ set(THEMIS_NETWORK_SOURCES
     
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
+    ../src/network/wire_protocol_connection_pool.cpp
     
-    # Observability
+    # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
+    ../src/observability/alertmanager.cpp
 )
 
 set(THEMIS_GEO_SOURCES

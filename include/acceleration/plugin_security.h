@@ -263,6 +263,11 @@ private:
     
     // Helper: Check if certificate is currently valid
     bool isCertificateValid(X509* cert);
+    
+    // Helper: Load plugin metadata for chain validation
+    std::optional<PluginMetadata> loadPluginMetadataForChainValidation(
+        const std::string& plugin_path
+    );
 };
 
 // Audit logging for plugin security events

@@ -1,0 +1,287 @@
+# ============================================================================
+# Kubernetes Deployment - Ethics AI Framework
+# ============================================================================
+# Production-ready deployment with replicas, resource limits, and health checks
+# ============================================================================
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ethics-ai
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: application
+    version: v1.0.0
+    managed-by: themisdb
+  annotations:
+    description: "Ethical AI framework with moral philosophy reasoning"
+    maintainer: "themisdb-team"
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0  # Zero downtime deployments
+  
+  selector:
+    matchLabels:
+      app: ethics-ai
+      component: application
+  
+  template:
+    metadata:
+      labels:
+        app: ethics-ai
+        component: application
+        version: v1.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/metrics"
+    
+    spec:
+      # Security context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      
+      # Service account
+      serviceAccountName: ethics-ai
+      
+      # Anti-affinity for high availability
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - ethics-ai
+                topologyKey: kubernetes.io/hostname
+      
+      # Init containers
+      initContainers:
+        - name: wait-for-themisdb
+          image: busybox:1.35
+          command:
+            - sh
+            - -c
+            - |
+              until nc -z themisdb 8529; do
+                echo "Waiting for ThemisDB..."
+                sleep 5
+              done
+              echo "ThemisDB is ready"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+      
+      # Main container
+      containers:
+        - name: ethics-ai
+          image: themisdb/ethics-ai:latest
+          imagePullPolicy: IfNotPresent
+          
+          # Security context
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false  # Application needs to write logs
+          
+          # Ports
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 8081
+              protocol: TCP
+          
+          # Environment variables
+          env:
+            - name: THEMIS_HOST
+              value: "themisdb"
+            - name: THEMIS_PORT
+              value: "8529"
+            - name: SERVICE_PORT
+              value: "8080"
+            - name: METRICS_PORT
+              value: "8081"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: WORKERS
+              value: "4"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          
+          # Environment from ConfigMap
+          envFrom:
+            - configMapRef:
+                name: ethics-ai-config
+          
+          # Resource limits and requests
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+              ephemeral-storage: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+              ephemeral-storage: 5Gi
+          
+          # Liveness probe - restart if unhealthy
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          
+          # Readiness probe - remove from service if not ready
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          
+          # Startup probe - initial startup
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 12  # Allow 2 minutes for startup
+          
+          # Volume mounts
+          volumeMounts:
+            - name: logs
+              mountPath: /app/logs
+            - name: data
+              mountPath: /app/data
+            - name: models
+              mountPath: /app/models
+            - name: tmp
+              mountPath: /tmp
+          
+          # Lifecycle hooks
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 15  # Allow time for graceful shutdown
+      
+      # Volumes
+      volumes:
+        - name: logs
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: data
+          persistentVolumeClaim:
+            claimName: ethics-ai-data
+        - name: models
+          persistentVolumeClaim:
+            claimName: ethics-ai-models
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi
+      
+      # DNS configuration
+      dnsPolicy: ClusterFirst
+      
+      # Termination grace period
+      terminationGracePeriodSeconds: 30
+      
+      # Restart policy
+      restartPolicy: Always
+
+---
+# ============================================================================
+# PersistentVolumeClaim - Data Storage
+# ============================================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ethics-ai-data
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteMany  # Shared across pods
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: standard
+
+---
+# ============================================================================
+# PersistentVolumeClaim - Model Storage
+# ============================================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ethics-ai-models
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: storage
+spec:
+  accessModes:
+    - ReadWriteMany  # Shared across pods
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: standard
+
+---
+# ============================================================================
+# ServiceAccount
+# ============================================================================
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ethics-ai
+  namespace: ethics-ai
+  labels:
+    app: ethics-ai
+    component: application

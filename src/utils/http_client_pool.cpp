@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <regex>
+#include <algorithm>
 
 namespace themis {
 namespace utils {
@@ -164,6 +165,7 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
         if (!conn->in_use) {
             conn->in_use = true;
             conn->last_used = now;
+            connections_reused_.fetch_add(1, std::memory_order_relaxed);
             return conn->client;
         }
     }
@@ -178,6 +180,7 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
         pooled->in_use = true;
         pooled->last_used = now;
         stripe->connections.push_back(pooled);
+        connections_created_.fetch_add(1, std::memory_order_relaxed);
         return client;
     } else {
         // Exceeded limit, roll back the increment
@@ -196,6 +199,7 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
             if (!conn->in_use) {
                 conn->in_use = true;
                 conn->last_used = std::chrono::steady_clock::now();
+                connections_reused_.fetch_add(1, std::memory_order_relaxed);
                 return conn->client;
             }
         }
@@ -234,6 +238,8 @@ HTTPClientPool::Stats HTTPClientPool::getStats() const {
     stats.stale_connections_removed = stale_removed_.load();
     stats.acquire_timeouts = acquire_timeouts_.load();
     stats.requests_served = requests_served_.load();
+    stats.connections_created = connections_created_.load();
+    stats.connections_reused = connections_reused_.load();
     
     size_t in_use = 0;
     for (const auto& stripe : stripes_) {
@@ -278,6 +284,52 @@ void HTTPClientPool::pruneStaleConnections() {
 size_t HTTPClientPool::getStripeIndex() const {
     // Round-robin distribution across stripes
     return round_robin_.fetch_add(1, std::memory_order_relaxed) % stripes_.size();
+}
+
+void HTTPClientPool::warmup(size_t num_connections) {
+    if (shutdown_.load()) {
+        return;
+    }
+    
+    // Cap at max connections
+    num_connections = std::min(num_connections, config_.max_connections);
+    
+    // Distribute connections across stripes
+    size_t connections_per_stripe = num_connections / stripes_.size();
+    size_t remainder = num_connections % stripes_.size();
+    
+    for (size_t i = 0; i < stripes_.size(); ++i) {
+        auto& stripe = stripes_[i];
+        std::lock_guard<std::mutex> lock(stripe->mutex);
+        
+        size_t target_count = connections_per_stripe + (i < remainder ? 1 : 0);
+        size_t current_count = stripe->connections.size();
+        
+        // Create additional connections up to target
+        for (size_t j = current_count; j < target_count; ++j) {
+            // Use atomic reserve like acquireConnection to avoid exceeding max
+            size_t current_total = total_connections_.fetch_add(1);
+            if (current_total >= config_.max_connections) {
+                total_connections_.fetch_sub(1);  // Roll back
+                break;
+            }
+            
+            try {
+                auto client = createClient();
+                auto pooled = std::make_shared<PooledConnection>();
+                pooled->client = client;
+                pooled->in_use = false;
+                pooled->last_used = std::chrono::steady_clock::now();
+                
+                stripe->connections.push_back(pooled);
+                connections_created_.fetch_add(1, std::memory_order_relaxed);
+            } catch (const std::exception&) {
+                total_connections_.fetch_sub(1);  // Roll back on failure
+                // Stop warmup on first failure to avoid cascading errors
+                break;
+            }
+        }
+    }
 }
 
 // ============================================================================

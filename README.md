@@ -2,13 +2,15 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
   
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
-  [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
+  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml)
+  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml)
+  [![Compliance](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
+  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
-  [![Version](https://img.shields.io/badge/version-1.4.1--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
+  [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
@@ -22,11 +24,13 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 
 - 🔒 **ACID Transactions** - Full snapshot isolation with MVCC
 - 🔍 **Multi-Model** - Relational, Graph, Vector, Document in one database
-- 🚀 **High Performance** - 45K writes/s, 120K reads/s, GPU-accelerated vector search
+- 🚀 **High Performance** - 45K writes/s, 120K reads/s, CPU-optimized vector search (GPU planned for v2.x)
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
-- 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
+- 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant, **autonomous prompt optimization**
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
 - 🏗️ **Modular Architecture (v1.4.0+)** - Optional modular build for faster compilation and selective features
+- 🛡️ **Production Resilience (v1.4.1+)** - Circuit breakers, auto-retry, 99.99% corruption detection, network timeouts
+- 📊 **Observability & Automation (v1.4.1+)** - Health checks, alerting interface, automated backup scheduling (K8s-ready)
 
 **📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
 
@@ -275,6 +279,69 @@ curl http://localhost:8080/metrics
 - 📚 **[Examples Index](docs/EXAMPLES_INDEX.md)** - Browse 37+ examples by feature
 - 🎓 **[Learning Paths](docs/EXAMPLES_INDEX.md#-learning-paths)** - Guided paths for different roles
 
+### Schema Management API
+
+ThemisDB provides a comprehensive Schema Manager for database introspection and schema customization:
+
+```bash
+# Get all table schemas
+curl http://localhost:8080/api/v1/schema
+
+# Get specific table schema
+curl http://localhost:8080/api/v1/schema/tables/users
+
+# Create/update custom schema
+curl -X PUT http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "products",
+    "type": "relational",
+    "properties": [
+      {"name": "id", "type": "integer", "indexed": true, "nullable": false},
+      {"name": "name", "type": "string", "nullable": true},
+      {"name": "price", "type": "double", "nullable": false}
+    ],
+    "indexes": [
+      {"name": "id", "type": "regular", "unique": true, "columns": ["id"]}
+    ]
+  }'
+
+# Partial update (PATCH)
+curl -X PATCH http://localhost:8080/api/v1/schema/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "properties": [
+      {"name": "description", "type": "string", "nullable": true}
+    ]
+  }'
+
+# Get database capabilities
+curl http://localhost:8080/api/v1/capabilities
+```
+
+**Supported Schema Types:**
+- `relational` - Traditional table with structured columns
+- `document` - Flexible document/JSON storage
+- `graph_node` - Graph database nodes
+- `graph_edge` - Graph database edges/relationships
+- `vector` - Vector embeddings for AI/ML
+
+**Supported Property Types:**
+- `string`, `integer`, `double`, `boolean`, `vector`, `binary`, `null`
+
+**Supported Index Types:**
+- `regular`, `range`, `sparse`, `geo`, `ttl`, `fulltext`, `composite`
+
+**Features:**
+- ✅ Automatic schema discovery from data
+- ✅ Custom schema definitions with validation
+- ✅ Partial updates (PATCH)
+- ✅ Persistent storage in RocksDB
+- ✅ Thread-safe caching with 60s TTL
+- ✅ Comprehensive validation (names, types, references)
+
+> **📖 More Info:** [Operations Handbook - Schema Management](docs/operations/OPERATIONS_HANDBOOK.md#schema-management)
+
 ---
 
 ## Core Capabilities
@@ -371,7 +438,7 @@ graph TB
 ### Multi-Model Database
 - **Relational**: SQL-like queries with secondary indexes
 - **Graph**: BFS, Dijkstra, A* traversals with path constraints
-- **Vector**: HNSW and FAISS for similarity search (GPU-accelerated)
+- **Vector**: HNSW and FAISS for similarity search (CPU-optimized, GPU via FAISS)
 - **Document**: JSON storage with flexible schema
 - **Time-Series**: Gorilla compression, continuous aggregates
 
@@ -594,6 +661,66 @@ graph TB
 
 ---
 
+## Production Resilience (v1.4.1+)
+
+ThemisDB includes comprehensive safe-fail mechanisms for production reliability:
+
+### 🛡️ Circuit Breaker Patterns
+
+**GPU/LLM Safe-Fail Manager** - Automatic CPU fallback when GPU fails
+- State machine: HEALTHY → DEGRADED → CIRCUIT_OPEN
+- Memory pressure monitoring (OOM prevention)
+- Operation timeouts detect hung kernels
+- < 1µs overhead per operation
+
+**Database Connection Manager** - Connection pooling with health monitoring
+- 2-10 connections (configurable), 40% overhead reduction
+- Exponential backoff retry (100ms → 30s)
+- Automatic stale connection removal
+- ~10µs overhead per acquire/release
+
+**Network Timeout Handler** - Prevents hanging connections
+- Accept/read/write timeouts (5s/30s/30s defaults)
+- TCP keepalive & TCP_NODELAY
+- Protection against Slowloris DoS attacks
+- ~5-10µs overhead per operation
+
+**Transaction Auto-Retry** - Automatic retry with exponential backoff
+- Intelligent error classification (retryable vs non-retryable)
+- Jitter support prevents thundering herd
+- Circuit breaker integration
+- ~3µs overhead on success path
+
+### 🔒 Data Integrity
+
+**Research-Backed Protection** (Based on Bairavasundaram et al. 2008, Bonwick et al. 2010)
+
+- **Paranoid checks**: 99.99% corruption detection (~5% read overhead)
+- **XXH3 checksums**: 3x faster than CRC32 (~2% read overhead)
+- **Background verification**: During compaction (0% read overhead)
+- **mmap disabled**: Prevents hidden I/O errors (< 1% overall impact)
+
+### 📊 Reliability Metrics
+
+| Metric | Before v1.4.1 | After v1.4.1 | Improvement |
+|--------|---------------|--------------|-------------|
+| **Availability** | 99.5% | 99.95%+ | +0.45% |
+| **Automatic Recovery** | Manual | 99.9% | +99.9% |
+| **Corruption Detection** | None | 99.99% | +99.99% |
+| **Manual Intervention** | High | -90% | -90% |
+| **Transaction Success** | ~95% | 99.9% | +4.9% |
+
+**Total System Overhead:** < 1% (safe-fail) + ~7% read (integrity checks, configurable)
+
+**📚 Documentation:**
+- [Safe-Fail Mechanisms](docs/SAFE_FAIL_MECHANISMS.md) - Technical guide
+- [Database File Robustness](docs/DATABASE_FILE_ROBUSTNESS.md) - Academic research
+- [Network Timeout Handling](docs/NETWORK_TIMEOUT_HANDLING.md) - Complete guide
+- [Transaction Auto-Retry](docs/TRANSACTION_AUTO_RETRY.md) - Retry strategies
+- [mmap Performance Impact](docs/MMAP_PERFORMANCE_IMPACT.md) - Detailed analysis
+
+---
+
 ## Editions
 
 | Edition | License | Features | Use Case |
@@ -606,7 +733,111 @@ graph TB
 
 ---
 
+## Edge AI & SoC Deployment
+
+ThemisDB supports native LLM integration with **llama.cpp** on System-on-Chip (SoC) devices for edge AI deployments.
+
+### 🎯 Supported Platforms
+
+- **Raspberry Pi 4/5** - ARM64, NEON-optimized
+- **Orange Pi 5 / Rock 5B** - ARM Mali GPU, NPU acceleration
+- **NVIDIA Jetson** - CUDA GPU acceleration
+- **AI Accelerators** - Coral TPU, Hailo, Intel NCS2
+
+### 🚀 Quick Setup Example (Raspberry Pi 5)
+
+```yaml
+# config/config-rpi5-llm.yaml
+llm:
+  enabled: true
+  model_path: "/data/models/phi-3-mini-4k-instruct.Q4_K_M.gguf"
+  context_size: 4096
+  threads: 4
+  enable_caching: true
+```
+
+**Performance:** ~2-3 tokens/second (Phi-3-Mini 3.8B)
+
+### 📚 Documentation
+
+- **[🌟 Complete SoC Guide](docs/de/deployment/THEMIS_LLAMA_CPP_SOC_GUIDE.md)** - Comprehensive guide (German)
+- **[⚡ Quick Reference](docs/de/deployment/THEMIS_SOC_QUICKREF.md)** - Fast configuration reference
+- **[🔧 Raspberry Pi Tuning](docs/de/deployment/deployment_raspberry_tuning.md)** - System optimization
+
+**Key Features:**
+- ✅ Local AI inference without cloud dependency
+- ✅ Data sovereignty and privacy
+- ✅ 10-50x more energy efficient than desktop GPUs
+- ✅ Models: TinyLlama (1B), Phi-3 (3.8B), Mistral (7B)
+- ✅ RAG, embeddings, chat, and text generation
+- ✅ **Autonomous prompt optimization** with A/B testing and rollback ([learn more](docs/PROMPT_ENGINEERING_ARCHITECTURE.md))
+
+---
+
 ## Documentation
+
+> **📚 Complete Documentation Hub:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
+
+### 🎯 Documentation Quick Access
+
+| Category | Description | Link |
+|----------|-------------|------|
+| 📑 **Category Index** | Browse all docs by category | [View Index →](docs/CATEGORY_INDEX.md) |
+| 🚀 **Quick Start** | 5-minute setup guide | [Get Started →](QUICKSTART.md) |
+| 💡 **Use Cases** | E-Commerce, IoT, RAG/LLM, SaaS | [Browse →](docs/use-cases/README.md) |
+| 🎓 **Tutorials** | Hands-on learning paths | [Learn →](docs/tutorials/README.md) |
+| 🏆 **Certification** | Professional certifications | [Get Certified →](docs/certification/README.md) |
+| 📚 **Knowledge Base** | Troubleshooting & tips | [Search →](docs/knowledge-base/README.md) |
+
+### Documentation Structure
+
+```mermaid
+graph TB
+    HUB[📚 Documentation Hub]
+    
+    HUB --> START[🚀 Getting Started]
+    HUB --> USECASE[💡 Use Cases]
+    HUB --> TUTORIAL[🎓 Tutorials]
+    HUB --> CERT[🏆 Certification]
+    HUB --> KB[📚 Knowledge Base]
+    HUB --> CORE[📖 Core Docs]
+    
+    START --> QS[Quick Start]
+    START --> INSTALL[Installation]
+    START --> FIRST[First Steps]
+    
+    USECASE --> ECOM[E-Commerce]
+    USECASE --> IOT[IoT & Sensors]
+    USECASE --> RAG[RAG & LLM]
+    USECASE --> SAAS[SaaS Multi-Tenancy]
+    
+    TUTORIAL --> CRUD[CRUD Operations]
+    TUTORIAL --> SCHEMA[Schema Design]
+    TUTORIAL --> BP[Best Practices]
+    TUTORIAL --> VIDEO[Video Tutorials]
+    
+    CERT --> FUND[Fundamentals]
+    CERT --> QUERY[Query Expert]
+    CERT --> OPS[Operations]
+    CERT --> SEC[Security]
+    
+    KB --> TROUBLE[Troubleshooting]
+    KB --> PERF[Performance Tips]
+    KB --> MIG[Migration Guides]
+    KB --> BACKUP[Backup & Recovery]
+    
+    CORE --> ARCH[Architecture]
+    CORE --> AQL[AQL Language]
+    CORE --> API[API Reference]
+    CORE --> SECURITY[Security]
+    
+    style HUB fill:#e1f5ff
+    style USECASE fill:#ffe1e1
+    style CERT fill:#e1ffe1
+    style KB fill:#fff3cd
+```
+
+### 📖 Core Documentation Categories
 
 **Getting Started:**
 - 🚀 [Quick Start](#quick-start) - Get up and running in 5 minutes
@@ -629,7 +860,7 @@ graph TB
 **Operations:**
 - ⚙️ [Configuration Guide](docs/en/guides/guides_configuration.md) - Server configuration
 - 📊 [Monitoring & Metrics](docs/de/observability/observability_prometheus.md) - Prometheus and Grafana
-- 💾 [Backup & Recovery](docs/de/guides/guides_deployment.md#backup--recovery) - Data protection
+- 💾 [Backup & Recovery](docs/BACKUP_RESTORE_DOCS_INDEX.md) - Comprehensive data protection guide
 - ⚡ [Performance Tuning](docs/de/performance/performance_memory.md) - Optimization tips
 
 **Development:**
@@ -646,7 +877,18 @@ graph TB
 - 📚 [Archived Docs](docs/ARCHIVED/README.md) - Historical documentation (superseded)
 - ✅ **Status**: Core 100% production-ready, Integration 95% complete
 
-> **📚 Full Documentation:** [https://makr-code.github.io/ThemisDB/](https://makr-code.github.io/ThemisDB/)
+**Audit Reports:**
+- 📋 [**v1.4.1 Audit Reports**](docs/audit-reports/v1.4.1/README.md) - **Complete audit package for v1.4.1**
+  - [Executive Summary](docs/audit-reports/v1.4.1/EXECUTIVE_SUMMARY.md) - Overall audit opinion: ✅ **APPROVED WITH CONDITIONS** (89.3/100)
+  - [Code Quality Audit](docs/audit-reports/v1.4.1/CODE_QUALITY_AUDIT.md) - SAST analysis, TODO inventory, metrics (89/100)
+  - [Security Controls Audit](docs/audit-reports/v1.4.1/SECURITY_CONTROLS_AUDIT.md) - 58 controls assessed (90/100)
+  - [Test Coverage Audit](docs/audit-reports/v1.4.1/TEST_COVERAGE_AUDIT.md) - Unit 87%, Integration 95%, E2E 72% (88/100)
+  - [Compliance Audit](docs/audit-reports/v1.4.1/COMPLIANCE_AUDIT.md) - ISO 27001, NIST, OWASP, BSI C5, SOC 2, GDPR (95/100)
+  - [Findings & Risks](docs/audit-reports/v1.4.1/FINDINGS_AND_RISKS.md) - 62 findings: 3 critical, 7 high, 22 medium, 30 low
+  - [Performance Audit](docs/audit-reports/v1.4.1/PERFORMANCE_AND_RELIABILITY_AUDIT.md) - 45K writes/s, 123K reads/s (92/100)
+- 🔒 [Audit Framework](docs/audit-framework/README.md) - Comprehensive audit methodology and tools
+- 📊 **Compliance**: 95.3% across 428 controls (ISO 27001, NIST, OWASP, BSI C5, SOC 2, GDPR)
+- 🎯 **Status**: Production-ready with v1.4.2 remediation required (3 critical findings)
 
 ---
 
@@ -689,6 +931,29 @@ CHIMERA Suite features:
 - Support for multiple database systems (PostgreSQL, MongoDB, Neo4j, ThemisDB, and more)
 
 Learn more: [CHIMERA Suite Documentation](benchmarks/chimera/)
+
+### Performance Dashboard & Monitoring
+
+ThemisDB includes a **comprehensive Performance Dashboard** for visualizing benchmark trends, detecting regressions, and monitoring performance across releases and branches.
+
+**Features:**
+- 📊 **Real-time Grafana Dashboard** - Throughput, latency, error rates
+- 🔍 **Automatic Regression Detection** - CI/CD integration with configurable thresholds
+- 📈 **Historical Tracking** - Performance trends over time
+- 🌿 **Branch Comparisons** - Compare main, develop, and feature branches
+- 🏷️ **Release Tracking** - Performance evolution across versions
+- 🖥️ **Hardware Comparison** - Test on different configurations
+- 🚨 **Alerts & Notifications** - Slack/Email alerts for regressions
+
+**Quick Start:**
+```bash
+# Start dashboard
+cd grafana && docker-compose up -d
+
+# Access at http://localhost:3000 (admin/admin)
+```
+
+**📊 [Performance Dashboard Documentation](grafana/PERFORMANCE_DASHBOARD_README.md)** | **[Quick Start Guide](docs/en/PERFORMANCE_DASHBOARD_QUICKSTART.md)** | **[Example Charts](docs/en/PERFORMANCE_DASHBOARD_EXAMPLES.md)**
 
 ---
 
@@ -737,6 +1002,27 @@ We welcome contributions! Please see our:
 - 📋 [Code of Conduct](CODE_OF_CONDUCT.md) - Community standards
 - 💬 [Support](SUPPORT.md) - How to get help
 - 🔒 [Security Policy](SECURITY.md) - Reporting security issues
+
+### CI/CD Architecture
+
+ThemisDB uses a modern, consolidated CI/CD architecture (February 2026):
+- **20 workflows** (down from 53, 62% reduction)
+- **12 entry workflows** for PR validation, releases, security, testing
+- **7 reusable workflows** for shared functionality
+- **8 composite actions** for common steps
+
+**Key Workflows:**
+- `ci-pull-request.yml` - Fast PR validation (~15-30 min)
+- `ci-release.yml` - Complete release pipeline
+- `security.yml` - Comprehensive security scanning
+- `nightly.yml` - Extended test suite
+
+**Documentation:**
+- 📖 [CI/CD Architecture](docs/ci-cd/ci-architecture.md) - Complete architecture guide
+- 🔧 [Workflow README](.github/workflows/README.md) - All workflows documented
+- 📁 [Archived Workflows](.github/workflows/_archived/README.md) - Historical workflows (51 archived)
+
+All changes are automatically validated through CI/CD pipelines ensuring code quality, security, and performance standards.
 
 ---
 

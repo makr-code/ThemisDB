@@ -176,6 +176,92 @@ public:
     /// Add multiple edges with types (atomic)
     Status addEdgesBatch(const std::vector<BaseEntity>& edges, std::string_view graph_id = "default");
 
+    // ===== Graph Traversal Algorithms =====
+
+    /// Breadth-First Search traversal from a starting node
+    /// @param start_node_pk Starting node primary key
+    /// @param graph_id Target graph
+    /// @param max_depth Maximum depth to traverse (-1 for unlimited)
+    /// @return Pair of Status and vector of node primary keys in BFS order
+    std::pair<Status, std::vector<std::string>> traverseBFS(
+        std::string_view start_node_pk,
+        std::string_view graph_id = "default",
+        int max_depth = -1
+    ) const;
+
+    /// Depth-First Search traversal from a starting node
+    /// @param start_node_pk Starting node primary key
+    /// @param graph_id Target graph
+    /// @param max_depth Maximum depth to traverse (-1 for unlimited)
+    /// @return Pair of Status and vector of node primary keys in DFS order
+    std::pair<Status, std::vector<std::string>> traverseDFS(
+        std::string_view start_node_pk,
+        std::string_view graph_id = "default",
+        int max_depth = -1
+    ) const;
+
+    /// Find shortest path between two nodes using BFS (unweighted)
+    /// @param from_pk Starting node primary key
+    /// @param to_pk Target node primary key
+    /// @param graph_id Target graph
+    /// @return Pair of Status and vector of node primary keys representing the path
+    std::pair<Status, std::vector<std::string>> findShortestPath(
+        std::string_view from_pk,
+        std::string_view to_pk,
+        std::string_view graph_id = "default"
+    ) const;
+
+    /// Get node entity by primary key
+    /// @param pk Node primary key
+    /// @param graph_id Target graph
+    /// @return Pair of Status and BaseEntity
+    std::pair<Status, BaseEntity> getNode(
+        std::string_view pk,
+        std::string_view graph_id = "default"
+    ) const;
+
+    /// Get edge entity by edge ID
+    /// @param edgeId Edge identifier
+    /// @param graph_id Target graph
+    /// @return Pair of Status and BaseEntity
+    std::pair<Status, BaseEntity> getEdge(
+        std::string_view edgeId,
+        std::string_view graph_id = "default"
+    ) const;
+
+    /// Get all outgoing edges from a node
+    /// @param fromPk Source node primary key
+    /// @param graph_id Target graph
+    /// @return Pair of Status and vector of EdgeInfo
+    std::pair<Status, std::vector<EdgeInfo>> getOutgoingEdges(
+        std::string_view fromPk,
+        std::string_view graph_id = "default"
+    ) const;
+
+    /// Get all incoming edges to a node
+    /// @param toPk Target node primary key
+    /// @param graph_id Target graph
+    /// @return Pair of Status and vector of EdgeInfo
+    std::pair<Status, std::vector<EdgeInfo>> getIncomingEdges(
+        std::string_view toPk,
+        std::string_view graph_id = "default"
+    ) const;
+
+    // ===== Graph Analytics =====
+
+    /// PageRank computation for node importance ranking
+    /// @param graph_id Target graph
+    /// @param damping_factor Damping factor (default 0.85)
+    /// @param max_iterations Maximum iterations (default 100)
+    /// @param tolerance Convergence tolerance (default 1e-6)
+    /// @return Pair of Status and map of node_pk -> PageRank score
+    std::pair<Status, std::map<std::string, double>> computePageRank(
+        std::string_view graph_id = "default",
+        double damping_factor = 0.85,
+        int max_iterations = 100,
+        double tolerance = 1e-6
+    ) const;
+
 private:
     RocksDBWrapper& db_;
 

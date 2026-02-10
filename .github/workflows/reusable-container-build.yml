@@ -1,0 +1,139 @@
+name: 'Reusable Container Build'
+
+on:
+  workflow_call:
+    inputs:
+      dockerfile:
+        description: 'Path to Dockerfile'
+        required: false
+        type: string
+        default: 'Dockerfile'
+      platforms:
+        description: 'Target platforms (comma-separated)'
+        required: false
+        type: string
+        default: 'linux/amd64,linux/arm64'
+      registry:
+        description: 'Container registry (ghcr.io, docker.io)'
+        required: false
+        type: string
+        default: 'ghcr.io'
+      tags:
+        description: 'Image tags (comma-separated)'
+        required: false
+        type: string
+        default: 'latest'
+      push:
+        description: 'Push to registry'
+        required: false
+        type: boolean
+        default: false
+      build-args:
+        description: 'Build arguments (key=value, one per line)'
+        required: false
+        type: string
+        default: ''
+    outputs:
+      image-digest:
+        description: 'Image digest'
+        value: ${{ jobs.build.outputs.digest }}
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build Container (${{ inputs.dockerfile }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ inputs.platforms }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: network=host
+
+      - name: Log in to Container Registry
+        if: inputs.push
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ inputs.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ inputs.registry }}/${{ github.repository }}
+          tags: |
+            type=raw,value=${{ inputs.tags }}
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+
+      - name: Build and push container
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          platforms: ${{ inputs.platforms }}
+          push: ${{ inputs.push }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: ${{ inputs.build-args }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Generate SBOM
+        if: inputs.push
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ inputs.registry }}/${{ github.repository }}:${{ inputs.tags }}
+          format: spdx-json
+          output-file: sbom.spdx.json
+        continue-on-error: true
+
+      - name: Upload SBOM
+        if: inputs.push
+        uses: actions/upload-artifact@v4
+        with:
+          name: container-sbom
+          path: sbom.spdx.json
+          retention-days: 90
+        continue-on-error: true
+
+      - name: Container build summary
+        if: always()
+        run: |
+          echo "## 🐳 Container Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Dockerfile:** ${{ inputs.dockerfile }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Platforms:** ${{ inputs.platforms }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Registry:** ${{ inputs.registry }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Tags:** ${{ inputs.tags }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Push:** ${{ inputs.push }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ Container built successfully" >> $GITHUB_STEP_SUMMARY
+            if [ -n "${{ steps.build.outputs.digest }}" ]; then
+              echo "**Digest:** \`${{ steps.build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "❌ Container build failed" >> $GITHUB_STEP_SUMMARY
+          fi

@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 #include <memory>
 #include <thread>
 #include <mutex>
@@ -32,12 +33,24 @@
 #include <chrono>
 #include <condition_variable>
 #include <functional>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 
 // Forward declarations
 class QueryEngine;
+class Changefeed;
+class EventTriggerManager;
+class CronExpression;
+
+namespace utils {
+    class AuditLogger;
+}
+
+namespace scheduler {
+    class TaskAuditManager;
+}
 
 /**
  * @brief Represents a scheduled task with AQL query or custom function
@@ -57,13 +70,43 @@ struct ScheduledTask {
     std::string function_name;                // Function name (if type == FUNCTION)
     nlohmann::json parameters;                // Parameters for the task
     
-    // Scheduling configuration (cron-like)
+    // Scheduling configuration
+    enum class TriggerType {
+        CRON,         // Cron-based scheduling
+        INTERVAL,     // Fixed interval (existing)
+        CDC_EVENT,    // CDC event-based trigger
+        WEBHOOK,      // External HTTP events (future)
+        MANUAL        // Only manual execution
+    } trigger_type = TriggerType::INTERVAL;  // Default: maintain backward compatibility
+    
+    // CRON-based scheduling
+    std::string cron_expression;  // e.g., "0 9-17 * * 1-5" for weekdays 9-17h
+    
+    // INTERVAL-based scheduling (existing)
     std::chrono::milliseconds interval{std::chrono::minutes(5)};  // Fixed interval
     std::chrono::system_clock::time_point next_run;                // Next scheduled run
     int64_t last_run_ms = 0;                                       // Timestamp of last run
     
-    // Optional advanced scheduling (future extension)
-    // std::string cron_expression;  // e.g., "0 */5 * * *" for every 5 minutes
+    // CDC Event-based trigger configuration
+    struct CDCTrigger {
+        std::string key_prefix;               // Key prefix filter (e.g., "users:")
+        std::set<int> event_types;            // Event types (0=PUT, 1=DELETE, etc.)
+        std::optional<std::string> condition; // Optional AQL filter
+        uint32_t debounce_ms = 0;            // Event debouncing in ms
+    } cdc_trigger;
+    
+    // Hybrid trigger logic (when both time and event triggers are active)
+    enum class TriggerLogic {
+        OR,   // Execute on ANY trigger (time OR event)
+        AND   // Execute only when BOTH triggers are satisfied
+    } trigger_logic = TriggerLogic::OR;
+    
+    // Priority for event-based tasks
+    enum class Priority {
+        LOW = 0,
+        NORMAL = 1,
+        HIGH = 2
+    } priority = Priority::NORMAL;
     
     // Task state
     bool enabled = true;
@@ -157,14 +200,28 @@ public:
         bool persist_tasks = false;            // Save tasks to disk for recovery
         std::string persistence_path = "data/tasks";  // Path for task persistence
         bool allow_task_overlap = false;       // Allow same task to run concurrently
+        
+        // Audit and anomaly detection
+        bool enable_audit_logging = true;      // Enable comprehensive audit logging
+        bool enable_anomaly_detection = true;  // Enable anomaly detection
+        bool enable_gdpr_mode = false;         // Enable GDPR-compliant data masking
     };
     
     /**
      * @brief Construct a task scheduler
      * @param query_engine Query engine for executing AQL queries
      * @param config Scheduler configuration
+     * @param changefeed Optional changefeed for CDC event triggers (nullptr = no CDC support)
+     * @param audit_logger Optional audit logger for tamper-evident logging (nullptr = basic logging)
+     * 
+     * Note: The optional parameters maintain backward compatibility.
+     * Existing code using TaskScheduler(query_engine, config) continues to work.
+     * New code can add changefeed for CDC event trigger support and audit_logger for comprehensive auditing.
      */
-    explicit TaskScheduler(QueryEngine* query_engine, const Config& config);
+    explicit TaskScheduler(QueryEngine* query_engine, 
+                          const Config& config,
+                          Changefeed* changefeed = nullptr,
+                          std::shared_ptr<utils::AuditLogger> audit_logger = nullptr);
     ~TaskScheduler();
     
     // Lifecycle management
@@ -268,11 +325,24 @@ public:
      * @return Task details or nullptr if not found
      */
     std::shared_ptr<ScheduledTask> getTask(const std::string& task_id) const;
+    
+    /**
+     * @brief Get audit manager for querying audit events
+     * @return Shared pointer to audit manager (may be nullptr if audit logging disabled)
+     */
+    std::shared_ptr<scheduler::TaskAuditManager> getAuditManager() const {
+        return audit_manager_;
+    }
 
 private:
     // Core components
     QueryEngine* query_engine_;
+    Changefeed* changefeed_;
+    utils::AuditLogger* audit_logger_;  // Optional audit logger for SIEM integration
     Config config_;
+    
+    // Audit and anomaly detection
+    std::shared_ptr<scheduler::TaskAuditManager> audit_manager_;
     
     // Function registry
     std::map<std::string, TaskFunction> functions_;
@@ -280,6 +350,12 @@ private:
     // Task storage
     std::map<std::string, std::shared_ptr<ScheduledTask>> tasks_;
     mutable std::mutex tasks_mutex_;
+    
+    // Event trigger manager (for CDC events)
+    std::unique_ptr<EventTriggerManager> event_trigger_manager_;
+    
+    // Cron expression cache
+    std::map<std::string, std::shared_ptr<CronExpression>> cron_expressions_;
     
     // Scheduler thread
     std::atomic<bool> running_{false};
@@ -306,6 +382,16 @@ private:
     // Scheduling logic
     bool shouldExecute(const ScheduledTask& task, const std::chrono::system_clock::time_point& now) const;
     void updateNextRun(ScheduledTask& task);
+    bool shouldExecuteCron(const ScheduledTask& task, const std::chrono::system_clock::time_point& now) const;
+    
+    // Event trigger management
+    void setupEventTrigger(std::shared_ptr<ScheduledTask> task);
+    void removeEventTrigger(const std::string& task_id);
+    void onCDCEvent(std::shared_ptr<ScheduledTask> task, const void* event);
+    
+    // Cron expression management
+    std::shared_ptr<CronExpression> getCronExpression(const std::string& task_id);
+    void updateCronExpression(const std::string& task_id, const std::string& expression);
     
     // Persistence (optional)
     void saveTasks();
@@ -318,9 +404,11 @@ private:
     // Security & Validation helpers
     void validateAqlQuery(const std::string& aql) const;
     void validateResourceLimits(const ScheduledTask& task) const;
+    void validateCronExpression(const std::string& expression) const;
+    void validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger) const;
     ScheduledTask sanitizeTask(const ScheduledTask& task) const;
     void enforceQueryComplexityLimits(const std::string& aql) const;
-    bool checkRateLimit(const std::string& task_id) const;
+    bool checkRateLimit(const std::string& task_id);  // Non-const since it logs security events
 };
 
 } // namespace themis

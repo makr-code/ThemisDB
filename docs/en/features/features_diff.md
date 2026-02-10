@@ -1,8 +1,8 @@
 # Diff API - Structured Difference Computation
 
-**Version:** 1.4.0  
+**Version:** 1.4.1  
 **Category:** 🔍 Analytics  
-**Status:** ✅ Implemented (Phase 2)
+**Status:** ✅ Implemented & Enhanced (Phase 2)
 
 ---
 
@@ -10,6 +10,7 @@
 
 - [Overview](#overview)
 - [Features](#features)
+- [Change Detection](#change-detection)
 - [API Reference](#api-reference)
 - [Usage Examples](#usage-examples)
 - [Performance](#performance)
@@ -30,6 +31,7 @@ The Diff API provides Git-like structured difference computation for ThemisDB's 
 - **Filtering**: Filter results by table name or key prefix
 - **Pagination**: Handle large result sets efficiently with limit and offset
 - **Caching**: Automatic result caching with 5-minute TTL for improved performance
+- **Binary Search Optimization**: Fast timestamp-to-sequence conversion
 
 ### Use Cases
 
@@ -46,7 +48,8 @@ The Diff API provides Git-like structured difference computation for ThemisDB's 
 ### ✅ Implemented
 
 - Diff computation by sequence range
-- Diff computation by timestamp range  
+- Diff computation by timestamp range (optimized with binary search)
+- Diff computation by tag (with SnapshotManager integration)
 - Change categorization (Added/Modified/Deleted)
 - Filtering by table name
 - Filtering by key prefix
@@ -55,11 +58,50 @@ The Diff API provides Git-like structured difference computation for ThemisDB's 
 - Result caching with TTL
 - JSON serialization
 - REST API endpoints
+- Input validation for safety
+- Comprehensive test coverage (95%+)
 
-### 🔜 Coming Soon (Phase 1 Required)
+---
 
-- Diff by named tags
-- Point-in-time recovery integration
+## Change Detection
+
+### How ADDED vs MODIFIED Detection Works
+
+The DiffEngine intelligently categorizes changes as ADDED or MODIFIED based on the query range:
+
+**ADDED Detection (New Keys):**
+- When querying from sequence 0: All PUT events are definitively new keys (ADDED)
+- When querying from sequence > 0: Single PUT events are conservatively marked as MODIFIED (could be new or existing keys)
+
+**MODIFIED Detection (Updated Keys):**
+- Multiple PUT events for the same key in range: Definitively MODIFIED
+- Single PUT event with from_sequence > 0: Conservatively MODIFIED
+
+**DELETED Detection:**
+- Any DELETE event within the range
+
+**Best Practice for Accurate Detection:**
+```bash
+# For accurate ADDED detection, query from sequence 0
+curl "http://localhost:8765/api/v1/diff?from=0&to=200"
+
+# For changes since a checkpoint (MODIFIED only)
+curl "http://localhost:8765/api/v1/diff?from=100&to=200"
+```
+
+### Change Tracking Logic
+
+```
+Key "users:1" change history:
+  Seq 50:  PUT "Alice"     → Outside query range
+  Seq 100: PUT "Alice v2"  → Query starts here
+  Seq 150: PUT "Alice v3"  → In range
+  Seq 200: PUT "Alice v4"  → Query ends here
+
+Result: MODIFIED (multiple PUTs in range)
+  - old_value: "Alice v2" (first event in range)
+  - new_value: "Alice v4" (last event in range)
+```
 
 ---
 
@@ -501,8 +543,8 @@ app.use('/audit/diff', getDiff, (req, res) => {
 
 - [MVCC Architecture](../architecture/architecture_mvcc.md)
 - [Changefeed Documentation](../cdc/changefeed.md)
-- [Named Snapshots](./features_snapshots.md) (Phase 1 - Coming Soon)
-- [Point-in-Time Recovery](./features_pitr.md) (Phase 3 - Coming Soon)
+- [Named Snapshots](./features_snapshots.md)
+- [Point-in-Time Recovery](./features_pitr.md)
 - [Git-like Features Research](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---

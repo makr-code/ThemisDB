@@ -1,0 +1,80 @@
+{
+  "adaptive_shard_routing": {
+    "enabled": false,
+    "description": "Adaptive capability-based shard routing with iterative query execution",
+    
+    "iterations": {
+      "max_iterations": 3,
+      "results_per_iteration": 3,
+      "description": "Control how many iterations and shards per iteration"
+    },
+    
+    "thresholds": {
+      "initial_threshold": 0.8,
+      "intermediate_threshold": 0.6,
+      "fallback_threshold": 0.4,
+      "description": "Relevance score thresholds for each iteration round"
+    },
+    
+    "stop_criteria": {
+      "target_result_count": 100,
+      "diminishing_returns_ratio": 0.1,
+      "per_iteration_timeout_ms": 2000,
+      "total_query_timeout_ms": 10000,
+      "description": "Conditions to stop iterative execution early"
+    },
+    
+    "fallback": {
+      "fallback_to_scatter_gather": true,
+      "description": "Fall back to scatter-gather if no capability matches found"
+    },
+    
+    "capability_matching": {
+      "weights": {
+        "keyword_weight": 0.30,
+        "semantic_weight": 0.40,
+        "domain_weight": 0.10,
+        "organization_weight": 0.10,
+        "region_weight": 0.05,
+        "data_type_weight": 0.05,
+        "description": "Weights for different matching criteria (must sum to 1.0)"
+      },
+      
+      "keyword_matching": {
+        "use_tfidf": true,
+        "idf_smoothing": 1.0,
+        "description": "TF-IDF based keyword matching configuration"
+      },
+      
+      "semantic_matching": {
+        "enable_embeddings": true,
+        "embedding_threshold": 0.5,
+        "description": "Semantic similarity via embeddings (cosine distance)"
+      },
+      
+      "result_limits": {
+        "min_score": 0.0,
+        "max_results": 50,
+        "description": "Minimum score and maximum results to return from matching"
+      }
+    }
+  },
+  
+  "example_shard_capabilities": {
+    "description": "Example shard capability configuration",
+    "shard_001": {
+      "domains": ["construction", "law"],
+      "organizations": ["hamburg_bauamt"],
+      "regions": ["hamburg", "germany"],
+      "data_types": ["building_permits", "legal_documents"],
+      "keywords": ["baurecht", "building", "permit", "hamburg"]
+    },
+    "shard_002": {
+      "domains": ["law"],
+      "organizations": [],
+      "regions": ["germany"],
+      "data_types": ["legal_documents", "statutes"],
+      "keywords": ["law", "legal", "statute", "germany"]
+    }
+  }
+}
