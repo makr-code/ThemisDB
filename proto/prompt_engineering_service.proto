@@ -1,0 +1,249 @@
+syntax = "proto3";
+
+package themis.prompt_engineering;
+
+option cc_enable_arenas = true;
+option optimize_for = SPEED;
+
+// Prompt Engineering Service - provides prompt optimization, A/B testing, 
+// feedback collection, version control, and monitoring capabilities
+service PromptEngineeringService {
+  // Optimization operations
+  rpc Optimize(OptimizeRequest) returns (OptimizeResponse);
+  rpc GetOptimizationHistory(HistoryRequest) returns (HistoryResponse);
+  
+  // A/B Testing operations
+  rpc ListABTests(ABTestListRequest) returns (ABTestListResponse);
+  rpc GetABTest(ABTestDetailRequest) returns (ABTestDetailResponse);
+  
+  // Feedback operations
+  rpc SubmitFeedback(FeedbackRequest) returns (FeedbackResponse);
+  
+  // Statistics and monitoring
+  rpc GetStats(StatsRequest) returns (StatsResponse);
+  
+  // Version control operations
+  rpc GetVersions(VersionsRequest) returns (VersionsResponse);
+  rpc Rollback(RollbackRequest) returns (RollbackResponse);
+}
+
+// ============================================================================
+// Optimization Messages
+// ============================================================================
+
+message OptimizeRequest {
+  string prompt_id = 1;
+  string strategy = 2;  // "auto", "manual", etc.
+  repeated TestCase test_cases = 3;
+}
+
+message TestCase {
+  string input = 1;
+  string expected_output = 2;
+  map<string, string> context = 3;
+}
+
+message OptimizeResponse {
+  enum Status {
+    SUCCESS = 0;
+    SKIPPED = 1;
+    FAILED = 2;
+    AB_TESTING = 3;
+  }
+  Status status = 1;
+  string prompt_id = 2;
+  double improvement = 3;
+  double old_score = 4;
+  double new_score = 5;
+  int32 iterations = 6;
+  bool ab_testing = 7;
+  string ab_test_id = 8;
+  string message = 9;
+}
+
+message HistoryRequest {
+  string prompt_id = 1;
+  int32 limit = 2;  // Max number of history entries to return
+}
+
+message HistoryResponse {
+  repeated OptimizationHistoryEntry entries = 1;
+}
+
+message OptimizationHistoryEntry {
+  string timestamp = 1;  // ISO 8601 format
+  double old_score = 2;
+  double new_score = 3;
+  double improvement = 4;
+  int32 iterations = 5;
+  string status = 6;
+}
+
+// ============================================================================
+// A/B Testing Messages
+// ============================================================================
+
+message ABTestListRequest {
+  bool active_only = 1;  // Filter for active tests only
+}
+
+message ABTestListResponse {
+  repeated ABTestSummary tests = 1;
+}
+
+message ABTestSummary {
+  string test_id = 1;
+  string prompt_id = 2;
+  string version_a = 3;
+  string version_b = 4;
+  int32 samples_a = 5;
+  int32 samples_b = 6;
+  double score_a = 7;
+  double score_b = 8;
+  bool is_significant = 9;
+  double confidence = 10;
+  string status = 11;  // "active", "completed", "cancelled"
+}
+
+message ABTestDetailRequest {
+  string test_id = 1;
+}
+
+message ABTestDetailResponse {
+  string test_id = 1;
+  string prompt_id = 2;
+  string status = 3;
+  string winner = 4;  // "a", "b", or empty if not decided
+  ABTestDetails details = 5;
+}
+
+message ABTestDetails {
+  string version_a = 1;
+  string version_b = 2;
+  int32 samples_a = 3;
+  int32 samples_b = 4;
+  double score_a = 5;
+  double score_b = 6;
+  double confidence = 7;
+  bool is_significant = 8;
+  string start_time = 9;
+  string end_time = 10;
+}
+
+// ============================================================================
+// Feedback Messages
+// ============================================================================
+
+message FeedbackRequest {
+  string prompt_id = 1;
+  string query = 2;
+  string response = 3;
+  FeedbackType type = 4;
+  string feedback_text = 5;
+  double severity = 6;  // 0.0-1.0
+  map<string, string> metadata = 7;
+}
+
+enum FeedbackType {
+  USER_POSITIVE = 0;
+  USER_NEGATIVE = 1;
+  HALLUCINATION_DETECTED = 2;
+  TIMEOUT = 3;
+  PARSE_ERROR = 4;
+  VALIDATION_FAILED = 5;
+  CONTEXT_MISSING = 6;
+  AMBIGUOUS_OUTPUT = 7;
+  SECURITY_ISSUE = 8;
+  PERFORMANCE_ISSUE = 9;
+}
+
+message FeedbackResponse {
+  bool success = 1;
+  string feedback_id = 2;
+  string prompt_id = 3;
+  string message = 4;
+}
+
+// ============================================================================
+// Statistics Messages
+// ============================================================================
+
+message StatsRequest {
+  bool include_detailed = 1;
+}
+
+message StatsResponse {
+  IntegrationStats integration = 1;
+  PerformanceStats performance = 2;
+  FeedbackStats feedback = 3;
+  int32 active_ab_tests = 4;
+  VersionControlStats version_control = 5;
+}
+
+message IntegrationStats {
+  bool running = 1;
+  int64 total_executions = 2;
+  int64 total_optimizations = 3;
+  string last_optimization = 4;
+}
+
+message PerformanceStats {
+  double avg_success_rate = 1;
+  double avg_latency_ms = 2;
+  int64 total_executions = 3;
+  int64 total_successes = 4;
+  int64 total_failures = 5;
+}
+
+message FeedbackStats {
+  int64 total_feedback = 1;
+  double positive_ratio = 2;
+  int64 hallucination_count = 3;
+  int64 positive_count = 4;
+  int64 negative_count = 5;
+}
+
+message VersionControlStats {
+  bool available = 1;
+  int64 total_commits = 2;
+  int64 total_branches = 3;
+  int64 total_rollbacks = 4;
+}
+
+// ============================================================================
+// Version Control Messages
+// ============================================================================
+
+message VersionsRequest {
+  string prompt_id = 1;
+  string branch = 2;  // Default: "main"
+  int32 limit = 3;    // Max number of versions to return
+}
+
+message VersionsResponse {
+  repeated PromptVersion versions = 1;
+}
+
+message PromptVersion {
+  string version_id = 1;
+  string branch = 2;
+  string commit_message = 3;
+  string author = 4;
+  string timestamp = 5;  // ISO 8601 format
+  double performance_score = 6;
+  map<string, string> metadata = 7;
+}
+
+message RollbackRequest {
+  string prompt_id = 1;
+  string version_id = 2;  // Optional: rollback to specific version
+  int32 n_versions = 3;   // Optional: rollback N versions
+  string message = 4;     // Rollback reason
+}
+
+message RollbackResponse {
+  bool success = 1;
+  string prompt_id = 2;
+  string rolled_back_to_version = 3;
+  string message = 4;
+}

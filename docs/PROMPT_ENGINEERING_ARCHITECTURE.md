@@ -287,24 +287,28 @@ prompts:
 3. **Concurrent Access**: All components are thread-safe
 4. **Metric Overhead**: ~0.1-1% overhead for performance tracking
 
-## Future Enhancements
+## Implementation Status
 
-### Phase 3: Self-Improvement Orchestration (Planned)
+### ✅ Phase 1-2: Foundation (Complete)
+- PromptManager, PromptOptimizer, PromptEvaluator, MetaPromptGenerator
+- PromptPerformanceTracker
+
+### ✅ Phase 3: Self-Improvement Orchestration (Complete)
 - `SelfImprovementOrchestrator`: Automated optimization scheduling
 - A/B testing framework
 - Automatic rollback on performance degradation
 
-### Phase 4: Feedback Collection (Planned)
+### ✅ Phase 4: Feedback Collection (Complete)
 - `FeedbackCollector`: Structured feedback aggregation
 - Hallucination detection
 - Failed query analysis
 
-### Phase 5: Version Control (Planned)
+### ✅ Phase 5: Version Control (Complete)
 - `PromptVersionControl`: Git-like version management
 - Branching and merging
 - Diff visualization
 
-### Phase 6: Integration Layer (Planned)
+### ✅ Phase 6: Integration Layer (Complete)
 - `PromptEngineeringIntegration`: Seamless LLM integration
 - Automatic prompt enhancement hooks
 - Background optimization triggers
@@ -523,57 +527,148 @@ void executeLLMQuery(const std::string& prompt_id, const std::string& query) {
 }
 ```
 
-## API Endpoints (Future)
+## API Endpoints ✅
 
-The orchestrator can be exposed via HTTP API:
+The prompt engineering system is fully accessible via both REST API and gRPC:
 
-```
-POST /api/v1/prompt_engineering/optimize
+### REST API (HTTP/JSON)
+
+All REST endpoints follow the `/api/v1/prompt_engineering/*` pattern.
+
+### gRPC API (Binary Protocol)
+
+All gRPC methods are defined in `proto/prompt_engineering_service.proto` under the `PromptEngineeringService` service.
+
+---
+
+### Optimization Endpoint
+
+**POST /api/v1/prompt_engineering/optimize**
+
+Trigger manual optimization for a specific prompt.
+
+Request:
+```json
 {
     "prompt_id": "query_enhancement_v1",
-    "strategy": "auto"
+    "strategy": "auto",
+    "test_cases": [
+        {
+            "input": "sample query",
+            "expected_output": "expected result",
+            "context": {}
+        }
+    ]
 }
+```
 
 Response:
+```json
 {
-    "optimization_id": "opt_12345",
-    "status": "in_progress",
-    "estimated_completion": "2026-02-10T15:30:00Z"
+    "status": "success",
+    "prompt_id": "query_enhancement_v1",
+    "improvement": 0.15,
+    "old_score": 0.75,
+    "new_score": 0.90,
+    "iterations": 3,
+    "ab_testing": true,
+    "ab_test_id": "test_12345"
 }
+```
 
-GET /api/v1/prompt_engineering/ab_tests
+### A/B Testing Endpoints
+
+**GET /api/v1/prompt_engineering/ab_tests**
+
+List all active A/B tests.
+
 Response:
+```json
 [
     {
-        "test_id": "abtest_123",
-        "prompt_id": "summarization_v2",
-        "version_a_score": 0.75,
-        "version_b_score": 0.88,
-        "is_significant": true,
-        "samples": 1000
+        "test_id": "test_12345",
+        "prompt_id": "query_enhancement_v1",
+        "version_a": "v1.0",
+        "version_b": "v1.1",
+        "samples_a": 523,
+        "samples_b": 477,
+        "score_a": 0.82,
+        "score_b": 0.88,
+        "is_significant": false,
+        "confidence": 0.89
     }
 ]
-
-POST /api/v1/prompt_engineering/rollback/{prompt_id}
-Response:
-{
-    "success": true,
-    "rolled_back_to": "version_v1.2"
-}
-
-GET /api/v1/prompt_engineering/metrics/{prompt_id}
-Response:
-{
-    "prompt_id": "query_enhancement_v1",
-    "success_rate": 0.87,
-    "avg_latency_ms": 120.5,
-    "total_executions": 1523,
-    "last_optimized": "2026-02-09T10:00:00Z",
-    "improvement_over_baseline": 0.15
-}
 ```
 
-## Production Deployment Checklist
+**GET /api/v1/prompt_engineering/ab_tests/:id**
+
+Get details for a specific A/B test.
+
+**POST /api/v1/prompt_engineering/feedback**
+
+Submit feedback about prompt execution (types: USER_POSITIVE, USER_NEGATIVE, HALLUCINATION_DETECTED, etc.)
+
+**GET /api/v1/prompt_engineering/stats**
+
+Get comprehensive system statistics including integration, performance, and feedback metrics.
+
+**GET /api/v1/prompt_engineering/history/:id**
+
+Get optimization history for a specific prompt.
+
+**GET /api/v1/prompt_engineering/versions/:id**
+
+Get version history for a specific prompt.
+
+**POST /api/v1/prompt_engineering/rollback**
+
+Rollback a prompt to its previous version.
+
+---
+
+## API Comparison: REST vs gRPC
+
+Both HTTP REST and gRPC APIs provide identical functionality. Choose based on your needs:
+
+| Feature | REST API | gRPC API | When to Use |
+|---------|----------|----------|-------------|
+| **Protocol** | HTTP/JSON | HTTP/2 + Protobuf | |
+| **Performance** | Good | Excellent (binary) | gRPC for high-throughput |
+| **Ease of Use** | Easy (curl, browsers) | Requires client SDK | REST for ad-hoc testing |
+| **Streaming** | Limited (SSE) | Full duplex | gRPC for real-time |
+| **Type Safety** | Runtime validation | Compile-time | gRPC for service-to-service |
+| **Browser Support** | Native | Requires gRPC-Web | REST for web apps |
+
+### Endpoint Mapping
+
+| Operation | HTTP REST | gRPC Method |
+|-----------|-----------|-------------|
+| Trigger optimization | `POST /optimize` | `Optimize()` |
+| List A/B tests | `GET /ab_tests` | `ListABTests()` |
+| Get A/B test details | `GET /ab_tests/:id` | `GetABTest()` |
+| Submit feedback | `POST /feedback` | `SubmitFeedback()` |
+| Get statistics | `GET /stats` | `GetStats()` |
+| Get history | `GET /history/:id` | `GetOptimizationHistory()` |
+| Get versions | `GET /versions/:id` | `GetVersions()` |
+| Rollback | `POST /rollback` | `Rollback()` |
+
+**Protocol Buffers:** See `proto/prompt_engineering_service.proto` for complete message definitions.
+
+## Prometheus Metrics ✅
+
+The system exports comprehensive metrics in Prometheus format:
+
+### Key Metrics
+- `themis_prompt_engineering_optimization_attempts_total` - Total optimization attempts
+- `themis_prompt_engineering_ab_tests_active` - Currently active A/B tests  
+- `themis_prompt_engineering_prompt_success_rate` - Overall success rate
+- `themis_prompt_engineering_hallucination_detections_total` - Hallucinations detected
+- `themis_prompt_engineering_version_commits_total` - Version commits
+- And 20+ additional metrics for comprehensive observability
+
+See implementation in `prompt_engineering_metrics.h` for complete list.
+
+## Production Deployment Checklist (All Phases)
 
 Before deploying the autonomous self-improvement system:
 
@@ -596,25 +691,22 @@ Before deploying the autonomous self-improvement system:
 - **Memory usage**: ~1KB per active A/B test
 - **Optimization frequency**: Configurable (default: once per 24h)
 
-## Future Enhancements
+## Additional Enhancements
 
-### Phase 4: Feedback Collection (Planned)
-- Structured feedback aggregation
-- Hallucination detection
-- Failed query analysis
-- User satisfaction tracking
+### ✅ Completed
+- **REST API Endpoints** - Full HTTP/JSON API for all operations
+- **gRPC API** - High-performance binary protocol with identical functionality
+- **Prometheus Metrics Export** - Comprehensive metrics for all operations
+- **Real-time Performance Monitoring** - Via metrics and stats endpoints
 
-### Phase 5: Version Control (Planned)
-- Git-like version management
-- Branching and merging
-- Diff visualization
-- Rollback to any version
-
-### Phase 6: Integration Layer (Planned)
-- Seamless LLM hooks
-- Automatic prompt enhancement
-- Background optimization workers
-- Prometheus metrics export
+### Future Possibilities
+- **Grafana Dashboards** - Pre-built dashboards for visualization (can be created using exported metrics)
+- **Advanced Analytics**:
+  - Machine learning for pattern detection
+  - Predictive failure analysis
+  - Anomaly detection in prompt performance
+  - Long-term trend analysis
+- **Alert Integration** - Webhooks for critical events (low success rates, hallucination spikes)
 
 
 ### 7. FeedbackCollector (`feedback_collector.h`) ⭐ **NEW - Phase 4**
@@ -715,21 +807,255 @@ for (const auto& prompt_id : problematic) {
 }
 ```
 
-## Enhanced Autonomous Workflow (Phases 1-4 Complete)
+### 8. PromptVersionControl (`prompt_version_control.h`) ⭐ **NEW - Phase 5**
 
-With Phase 4 complete, the system now has a complete quality management cycle:
+**Purpose**: Git-like version control system for prompt templates
+
+**Key Features**:
+- Commit versions with descriptive messages
+- SHA-256 based version IDs (32 hex characters)
+- Branch and merge support
+- Rollback capabilities
+- Diff visualization (line-by-line)
+- Tagging system for releases
+- Performance score tracking per version
+- Complete version genealogy
+
+**Example Usage**:
+```cpp
+PromptVersionControl vcs(db, cf);
+
+// Commit a new version
+std::string version_id = vcs.commit(
+    "prompt_id",
+    "Summarize: {text}",
+    "Initial version",
+    "user@example.com",
+    "main"
+);
+
+// Create a branch for experimentation
+vcs.createBranch("prompt_id", "experiment", version_id);
+
+// Make changes on the branch
+std::string exp_version = vcs.commit(
+    "prompt_id",
+    "Provide a concise summary: {text}",
+    "Improved wording",
+    "user@example.com",
+    "experiment"
+);
+
+// Compare versions
+auto diff = vcs.diff(version_id, exp_version);
+std::cout << "+" << diff.additions << " -" << diff.deletions << "\n";
+std::cout << diff.unified_diff << "\n";
+
+// Merge back to main if successful
+auto merge_result = vcs.merge(
+    "prompt_id",
+    "experiment",  // source
+    "main",        // target
+    MergeStrategy::AUTO,
+    "Merge improved wording"
+);
+
+if (merge_result.success) {
+    std::cout << "Merged successfully!\n";
+    // Tag for production
+    vcs.tag(merge_result.merged_version_id, "production-v1.0");
+}
+
+// Rollback if needed
+vcs.rollback("prompt_id", version_id, "Reverting to previous version");
+```
+
+**Rollback Options**:
+- By version ID: `rollback(prompt_id, version_id, message)`
+- By count: `rollbackN(prompt_id, n_versions, branch)` - go back N commits
+
+**Merge Strategies**:
+- `AUTO`: Intelligent automatic merge (default)
+- `OURS`: Keep target branch content
+- `THEIRS`: Accept source branch content
+
+**History & Analytics**:
+```cpp
+// Get version history
+auto history = vcs.getHistory("prompt_id", "main", 10);
+for (const auto& version : history) {
+    std::cout << version.version_id << ": " 
+              << version.commit_message << "\n";
+}
+
+// Get all branches
+auto branches = vcs.listBranches("prompt_id");
+
+// Get version by tag
+auto prod_version = vcs.getByTag("prompt_id", "production");
+
+// View genealogy
+auto genealogy = vcs.getGenealogy("prompt_id");
+```
+
+### 9. PromptEngineeringIntegration (`prompt_engineering_integration.h`) ⭐ **NEW - Phase 6**
+
+**Purpose**: Unified integration layer orchestrating all prompt engineering components
+
+**Key Features**:
+- Pre-execution hooks (prompt enhancement)
+- Post-execution hooks (metrics and feedback recording)
+- Automatic versioning on every execution
+- Background optimization worker
+- Lifecycle management (start/stop)
+- Comprehensive status reporting
+- Configurable behavior
+
+**Example Usage**:
+```cpp
+// Configure integration
+IntegrationConfig config;
+config.enable_auto_versioning = true;
+config.enable_auto_optimization = true;
+config.background_worker_enabled = true;
+config.background_worker_interval = std::chrono::hours(1);
+
+// Initialize (orchestrates all components)
+auto integration = std::make_shared<PromptEngineeringIntegration>(
+    config,
+    prompt_manager,
+    prompt_optimizer,
+    performance_tracker,
+    orchestrator,
+    feedback_collector,
+    version_control
+);
+
+// Start the integration layer
+integration->start();
+
+// Use in LLM workflow
+// Before LLM execution
+auto ctx = integration->beforeExecution(
+    "query_optimizer",
+    {{"table", "users"}, {"limit", "10"}}
+);
+
+// Execute with enhanced prompt
+auto response = llm_wrapper->generate(ctx.enhanced_prompt);
+
+// After LLM execution
+integration->afterExecution(
+    ctx,
+    response,
+    true,      // success
+    120.0,     // latency_ms
+    0.9        // optional feedback score
+);
+
+// Monitor system health
+auto status = integration->getStatus();
+std::cout << "Total executions: " << status.total_executions << "\n";
+std::cout << "Total optimizations: " << status.total_optimizations << "\n";
+
+// Get detailed statistics
+auto stats = integration->getStats();
+std::cout << stats.dump(2) << "\n";
+
+// Stop gracefully
+integration->stop();
+```
+
+**Background Optimization Worker**:
+```cpp
+// Worker automatically runs on schedule
+// Checks for prompts needing optimization
+// Triggers SelfImprovementOrchestrator
+// Records results in version control
+
+// Manual trigger
+integration->startBackgroundOptimization();
+
+// Check worker status
+auto worker_status = integration->getBackgroundWorkerStatus();
+std::cout << "Cycles completed: " << worker_status.cycles_completed << "\n";
+std::cout << "Next run: " << worker_status.next_scheduled_run << "\n";
+
+// Stop worker
+integration->stopBackgroundOptimization();
+```
+
+**ExecutionContext** (tracks single execution):
+```cpp
+struct ExecutionContext {
+    std::string execution_id;      // Unique UUID
+    std::string prompt_id;
+    std::string original_prompt;
+    std::string enhanced_prompt;   // With versioning + context
+    nlohmann::json context;
+    std::string version_id;        // Version used
+    std::chrono::system_clock::time_point start_time;
+};
+```
+
+**IntegrationStatus** (system health):
+```cpp
+struct IntegrationStatus {
+    bool running;
+    bool background_worker_active;
+    size_t total_executions;
+    size_t total_optimizations;
+    std::chrono::system_clock::time_point last_optimization;
+    size_t active_prompts;
+    std::unordered_map<std::string, size_t> executions_by_prompt;
+};
+```
+
+## Enhanced Autonomous Workflow (Phases 1-6 Complete)
+
+With all 6 phases complete, the system provides a fully integrated, autonomous prompt engineering solution:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     Execution Phase                              │
-│  1. LLM generates response using prompt template                 │
-│  2. PromptPerformanceTracker records metrics (Phase 2)           │
-│  3. FeedbackCollector records quality feedback (Phase 4)         │
+│                     Execution Phase (Phase 6)                    │
+│  1. PromptEngineeringIntegration.beforeExecution()               │
+│     - Loads prompt template (Phase 1: PromptManager)             │
+│     - Gets latest version (Phase 5: PromptVersionControl)        │
+│     - Injects context variables                                  │
+│  2. LLM generates response using enhanced prompt                 │
+│  3. PromptEngineeringIntegration.afterExecution()                │
+│     - Records metrics (Phase 2: PromptPerformanceTracker)        │
+│     - Records feedback (Phase 4: FeedbackCollector)              │
+│     - Auto-commits version (Phase 5: PromptVersionControl)       │
 └────────────────────────┬────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │                     Analysis Phase                               │
+│  1. PromptPerformanceTracker analyzes metrics                    │
+│  2. FeedbackCollector identifies patterns                        │
+│  3. SelfImprovementOrchestrator checks triggers (Phase 3)        │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                  Optimization Phase (Phase 3)                    │
+│  1. SelfImprovementOrchestrator.shouldOptimize()                 │
+│  2. Collect failure cases from FeedbackCollector                 │
+│  3. PromptOptimizer + MetaPromptGenerator improve prompt         │
+│  4. PromptVersionControl creates new version                     │
+│  5. A/B test new vs old version                                  │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   Deployment Phase (Phase 3 & 5)                 │
+│  1. Statistical analysis confirms improvement                    │
+│  2. Deploy winner automatically                                  │
+│  3. Tag version for production (Phase 5)                         │
+│  4. OR rollback if degradation detected                          │
+└─────────────────────────────────────────────────────────────────┘
+```
 │  1. Performance analysis (success rate, latency)                 │
 │  2. Feedback analysis (patterns, common issues)                  │
 │  3. Problem identification (low performers)                      │
@@ -770,7 +1096,7 @@ With Phase 4 complete, the system now has a complete quality management cycle:
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Complete Integration Example (Phases 1-4)
+## Complete Integration Example (Phases 1-6)
 
 ```cpp
 #include "prompt_engineering/prompt_manager.h"
@@ -897,7 +1223,7 @@ void recordUserFeedback(const std::string& prompt_id,
 }
 ```
 
-## Production Deployment Checklist (Updated for Phase 4)
+## Production Deployment Checklist (Updated for All Phases)
 
 Before deploying the autonomous self-improvement system:
 
@@ -917,13 +1243,348 @@ Before deploying the autonomous self-improvement system:
 - [ ] **NEW: Configure feedback retention policies**
 - [ ] **NEW: Set up quality dashboards**
 
-## Performance Impact (Updated)
+## Performance Impact (All Phases)
 
-### Phases 1-4 Combined:
-- **Overall overhead**: ~0.5-1.0% (all components)
+### Complete System Integration (All 6 Phases)
+- **Overall overhead**: ~0.5-1.5% (all components)
 - **PromptPerformanceTracker**: ~0.1% (Phase 2)
 - **SelfImprovementOrchestrator**: ~0.1% (Phase 3)
 - **FeedbackCollector**: ~0.1-0.5% (Phase 4)
-- **Memory per prompt**: ~2-3KB (all metadata)
+- **PromptVersionControl**: ~0.1% (Phase 5, commit operations)
+- **PromptEngineeringIntegration**: ~0.2% (Phase 6, coordination layer)
+- **Memory per prompt**: ~3-5KB (all metadata + version history)
 - **Optimization frequency**: Configurable (default: 24h)
+- **Storage growth**: ~1-2MB per 1000 prompts (with version history)
 
+
+## Examples and Demos
+
+Complete working examples are available in the `examples/` directory:
+
+### Phase 1-2: Basic Prompt Management
+- **`prompt_optimization_example.cpp`**: Demonstrates basic prompt optimization workflow
+- **`domain_prompts_usage_example.cpp`**: Shows domain-specific prompt templates
+
+### Phase 3: Self-Improvement
+- **`complete_self_improvement_example.cpp`**: Full autonomous optimization with A/B testing
+  - Demonstrates trigger-based optimization
+  - Shows A/B testing workflow
+  - Includes rollback scenarios
+
+### Phase 4: Feedback Collection
+- **`feedback_collection_example.cpp`**: Comprehensive feedback system usage
+  - Records various feedback types
+  - Analyzes failure patterns
+  - Generates test cases from failures
+
+### Phase 5: Version Control
+- **`version_control_example.cpp`**: Git-like prompt versioning
+  - Commit and rollback operations
+  - Branch creation and merging
+  - Diff visualization
+  - Tagging for releases
+
+### Phase 6: Complete Integration
+- **`complete_integration_example.cpp`**: End-to-end system integration
+  - Shows all components working together
+  - Background optimization worker
+  - Status monitoring and reporting
+  - Production deployment pattern
+
+### Running Examples
+
+```bash
+# Build examples
+cd build
+make prompt_optimization_example
+make complete_self_improvement_example
+make feedback_collection_example
+make version_control_example
+make complete_integration_example
+
+# Run an example
+./examples/complete_integration_example
+```
+
+## Test Suite
+
+Comprehensive test coverage across all phases:
+
+### Unit Tests
+- `test_prompt_manager.cpp`: Template management (Phase 1)
+- `test_prompt_optimizer.cpp`: Optimization algorithms (Phase 1)
+- `test_meta_prompt_generator.cpp`: Meta-prompting (Phase 1)
+- `test_prompt_evaluator.cpp`: Quality metrics (Phase 1)
+- `test_prompt_performance_tracker.cpp`: Performance tracking (Phase 2)
+- `test_self_improvement_orchestrator.cpp`: Autonomous optimization (Phase 3)
+- `test_feedback_collector.cpp`: Feedback collection (Phase 4)
+- `test_prompt_version_control.cpp`: Version control (Phase 5)
+- `test_prompt_engineering_integration.cpp`: Integration layer (Phase 6)
+
+### Running Tests
+
+```bash
+# Run all prompt engineering tests
+ctest -R prompt
+
+# Run specific phase tests
+ctest -R test_prompt_manager
+ctest -R test_self_improvement_orchestrator
+ctest -R test_feedback_collector
+ctest -R test_prompt_version_control
+ctest -R test_prompt_engineering_integration
+
+# Verbose output
+ctest -R prompt -V
+```
+
+## Quick Start Guide
+
+### 1. Basic Setup (Phases 1-2)
+
+```cpp
+#include "prompt_engineering/prompt_manager.h"
+#include "prompt_engineering/prompt_performance_tracker.h"
+
+using namespace themis::prompt_engineering;
+
+// Initialize
+auto manager = std::make_shared<PromptManager>(db, cf);
+auto tracker = std::make_shared<PromptPerformanceTracker>(db, cf);
+
+// Create a prompt template
+PromptManager::PromptTemplate tmpl;
+tmpl.name = "summarize";
+tmpl.content = "Summarize: {text}";
+auto created = manager->createTemplate(tmpl);
+
+// Use it
+auto prompt = manager->getPromptWithContext(created.id, {{"text", "..."}});
+// ... execute with LLM ...
+tracker->recordExecution(created.id, success, latency_ms, feedback);
+```
+
+### 2. Enable Autonomous Optimization (Phase 3)
+
+```cpp
+#include "prompt_engineering/self_improvement_orchestrator.h"
+
+ImprovementConfig config;
+config.min_success_rate = 0.8;
+config.enable_ab_testing = true;
+
+auto orchestrator = std::make_shared<SelfImprovementOrchestrator>(
+    config, tracker, optimizer, manager, evaluator
+);
+
+// Automatic optimization
+auto results = orchestrator->runAutoOptimization();
+```
+
+### 3. Add Feedback Collection (Phase 4)
+
+```cpp
+#include "prompt_engineering/feedback_collector.h"
+
+auto collector = std::make_shared<FeedbackCollector>(db, cf);
+
+// Record feedback
+collector->recordFeedback(
+    prompt_id, query, response,
+    FeedbackType::USER_POSITIVE,
+    "Very helpful!", 0.9
+);
+
+// Analyze for optimization
+auto problematic = collector->getPromptsWithNegativeFeedback(0.3, 10);
+```
+
+### 4. Enable Version Control (Phase 5)
+
+```cpp
+#include "prompt_engineering/prompt_version_control.h"
+
+auto vcs = std::make_shared<PromptVersionControl>(db, cf);
+
+// Auto-commit on changes
+auto version_id = vcs->commit(prompt_id, content, "Updated for clarity", "user");
+
+// Tag production versions
+vcs->tag(version_id, "production-v1.2");
+
+// Rollback if needed
+vcs->rollback(prompt_id, previous_version_id, "Reverting due to issue");
+```
+
+### 5. Full Integration (Phase 6)
+
+```cpp
+#include "prompt_engineering/prompt_engineering_integration.h"
+
+IntegrationConfig config;
+config.background_worker_enabled = true;
+config.enable_auto_versioning = true;
+
+auto integration = std::make_shared<PromptEngineeringIntegration>(
+    config, manager, optimizer, tracker, orchestrator, collector, vcs
+);
+
+integration->start();
+
+// Use in your LLM workflow
+auto ctx = integration->beforeExecution(prompt_id, context);
+auto response = llm->generate(ctx.enhanced_prompt);
+integration->afterExecution(ctx, response, true, 120.0, 0.9);
+
+// System runs autonomously!
+```
+
+### 6. Using the REST API
+
+Access all features via HTTP endpoints:
+
+```bash
+# Trigger optimization
+curl -X POST http://localhost:8080/api/v1/prompt_engineering/optimize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt_id": "query_enhancement",
+    "strategy": "auto"
+  }'
+
+# Get system statistics
+curl http://localhost:8080/api/v1/prompt_engineering/stats
+
+# Submit feedback
+curl -X POST http://localhost:8080/api/v1/prompt_engineering/feedback \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt_id": "query_enhancement",
+    "query": "test query",
+    "response": "test response",
+    "type": "USER_POSITIVE",
+    "severity": 0.9
+  }'
+
+# View Prometheus metrics
+curl http://localhost:8080/metrics | grep themis_prompt_engineering
+```
+
+### 7. Using the gRPC API
+
+Access via high-performance binary protocol:
+
+```cpp
+#include "proto/prompt_engineering_service.grpc.pb.h"
+
+// Connect to gRPC server
+auto channel = grpc::CreateChannel(
+    "localhost:18765",
+    grpc::InsecureChannelCredentials()
+);
+
+auto stub = prompt_engineering::PromptEngineeringService::NewStub(channel);
+
+// Trigger optimization
+prompt_engineering::OptimizeRequest request;
+request.set_prompt_id("query_enhancement");
+request.set_strategy("auto");
+
+prompt_engineering::OptimizeResponse response;
+grpc::ClientContext context;
+
+auto status = stub->Optimize(&context, request, &response);
+if (status.ok()) {
+    std::cout << "Improvement: " << response.improvement() << std::endl;
+}
+
+// Submit feedback
+prompt_engineering::FeedbackRequest fb_request;
+fb_request.set_prompt_id("query_enhancement");
+fb_request.set_query("test query");
+fb_request.set_response("test response");
+fb_request.set_type(prompt_engineering::USER_POSITIVE);
+fb_request.set_severity(0.9);
+
+prompt_engineering::FeedbackResponse fb_response;
+grpc::ClientContext fb_context;
+
+auto fb_status = stub->SubmitFeedback(&fb_context, fb_request, &fb_response);
+
+// Get statistics
+prompt_engineering::StatsRequest stats_request;
+prompt_engineering::StatsResponse stats_response;
+grpc::ClientContext stats_context;
+
+auto stats_status = stub->GetStats(&stats_context, stats_request, &stats_response);
+if (stats_status.ok()) {
+    std::cout << "Total executions: " 
+              << stats_response.integration().total_executions() << std::endl;
+    std::cout << "Success rate: " 
+              << stats_response.performance().avg_success_rate() << std::endl;
+}
+```
+
+### Python gRPC Client Example
+
+```python
+import grpc
+import prompt_engineering_service_pb2
+import prompt_engineering_service_pb2_grpc
+
+# Connect to server
+channel = grpc.insecure_channel('localhost:18765')
+stub = prompt_engineering_service_pb2_grpc.PromptEngineeringServiceStub(channel)
+
+# Trigger optimization
+request = prompt_engineering_service_pb2.OptimizeRequest(
+    prompt_id="query_enhancement",
+    strategy="auto"
+)
+
+response = stub.Optimize(request)
+print(f"Improvement: {response.improvement}")
+
+# Submit feedback
+feedback_request = prompt_engineering_service_pb2.FeedbackRequest(
+    prompt_id="query_enhancement",
+    query="test query",
+    response="test response",
+    type=prompt_engineering_service_pb2.USER_POSITIVE,
+    severity=0.9
+)
+
+feedback_response = stub.SubmitFeedback(feedback_request)
+print(f"Feedback ID: {feedback_response.feedback_id}")
+```
+
+## Additional Resources
+
+- **Implementation Summaries**:
+  - `IMPLEMENTATION_SUMMARY_PROMPT_ENGINEERING.md`: Complete implementation details
+  - `PHASE3_COMPLETE_SUMMARY.md`: Phase 3 (Self-Improvement) details
+  - `PHASE4_COMPLETE_SUMMARY.md`: Phase 4 (Feedback Collection) details
+  - `PHASE5_COMPLETE_SUMMARY.md`: Phase 5 (Version Control) details
+  - `PHASE6_COMPLETE_SUMMARY.md`: Phase 6 (Integration Layer) details
+
+- **Architecture**:
+  - This document: Complete system architecture
+  - `ARCHITECTURE.md`: Overall ThemisDB architecture
+  - `LLAMA_CPP_INTEGRATION_SUMMARY.md`: LLM integration details
+
+- **API Reference**:
+  - Header files in `include/prompt_engineering/`
+  - Inline documentation in source code
+
+## Support and Contributing
+
+- **Issues**: https://github.com/makr-code/ThemisDB/issues
+- **Discussions**: https://github.com/makr-code/ThemisDB/discussions
+- **Documentation**: https://makr-code.github.io/ThemisDB/
+- **Contributing**: See `CONTRIBUTING.md`
+
+---
+
+**Last Updated**: February 10, 2026  
+**Status**: All 6 Phases Complete ✅  
+**Version**: 2.0.0 (Production Ready)
