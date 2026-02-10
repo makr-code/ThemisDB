@@ -192,11 +192,9 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     
     tasks_[id] = task_ptr;
     
-    THEMIS_INFO("Registered task: {} (name={}, trigger_type={}, interval={}ms)",
+    THEMIS_INFO("Registered task: {} (name={}, trigger_type={})",
                 id, sanitized_task.name,
-                static_cast<int>(sanitized_task.trigger_type), 
-                sanitized_task.type == ScheduledTask::TaskType::AQL_QUERY ? "AQL" : "FUNCTION",
-                sanitized_task.interval.count());
+                static_cast<int>(sanitized_task.trigger_type));
     
     if (config_.persist_tasks) {
         saveTasks();
