@@ -1,0 +1,115 @@
+name: 'Setup vcpkg'
+description: 'Bootstrap and configure vcpkg package manager'
+author: 'ThemisDB Team'
+
+inputs:
+  manifest-path:
+    description: 'Path to vcpkg.json manifest file'
+    required: false
+    default: 'vcpkg.json'
+  cache-key-suffix:
+    description: 'Additional cache key suffix'
+    required: false
+    default: ''
+  vcpkg-root:
+    description: 'vcpkg installation directory'
+    required: false
+    default: ''
+
+outputs:
+  vcpkg-root:
+    description: 'Path to vcpkg root directory'
+    value: ${{ steps.paths.outputs.vcpkg-root }}
+  cache-hit:
+    description: 'Whether package cache was hit'
+    value: ${{ steps.cache-packages.outputs.cache-hit }}
+
+runs:
+  using: composite
+  steps:
+    - name: Determine vcpkg paths
+      id: paths
+      shell: bash
+      run: |
+        if [ -n "${{ inputs.vcpkg-root }}" ]; then
+          VCPKG_DIR="${{ inputs.vcpkg-root }}"
+        elif [ -n "$VCPKG_ROOT" ]; then
+          VCPKG_DIR="$VCPKG_ROOT"
+        else
+          VCPKG_DIR="${{ github.workspace }}/vcpkg"
+        fi
+        echo "vcpkg-root=$VCPKG_DIR" >> $GITHUB_OUTPUT
+        echo "VCPKG_ROOT=$VCPKG_DIR" >> $GITHUB_ENV
+
+    - name: Cache vcpkg packages
+      id: cache-packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ${{ steps.paths.outputs.vcpkg-root }}/installed
+          ${{ steps.paths.outputs.vcpkg-root }}/packages
+        key: vcpkg-packages-${{ runner.os }}-${{ hashFiles(inputs.manifest-path) }}-${{ inputs.cache-key-suffix }}
+        restore-keys: |
+          vcpkg-packages-${{ runner.os }}-${{ hashFiles(inputs.manifest-path) }}-
+          vcpkg-packages-${{ runner.os }}-
+
+    - name: Clone or update vcpkg
+      shell: bash
+      run: |
+        VCPKG_DIR="${{ steps.paths.outputs.vcpkg-root }}"
+        
+        if [ -f "$VCPKG_DIR/bootstrap-vcpkg.sh" ]; then
+          echo "Using existing vcpkg at $VCPKG_DIR"
+        else
+          echo "Cloning vcpkg to $VCPKG_DIR"
+          rm -rf "$VCPKG_DIR"
+          git clone https://github.com/microsoft/vcpkg.git "$VCPKG_DIR"
+        fi
+
+    - name: Bootstrap vcpkg
+      shell: bash
+      run: |
+        VCPKG_DIR="${{ steps.paths.outputs.vcpkg-root }}"
+        
+        if [ -f "$VCPKG_DIR/vcpkg" ] || [ -f "$VCPKG_DIR/vcpkg.exe" ]; then
+          echo "vcpkg already bootstrapped"
+        else
+          echo "Bootstrapping vcpkg..."
+          cd "$VCPKG_DIR"
+          ./bootstrap-vcpkg.sh -disableMetrics
+        fi
+
+    - name: Enable vcpkg binary caching
+      shell: bash
+      run: |
+        echo "VCPKG_BINARY_SOURCES=clear;x-gha,readwrite" >> $GITHUB_ENV
+
+    - name: Install vcpkg dependencies
+      shell: bash
+      run: |
+        VCPKG_DIR="${{ steps.paths.outputs.vcpkg-root }}"
+        
+        if [ ! -f "${{ inputs.manifest-path }}" ]; then
+          echo "Warning: Manifest file not found at ${{ inputs.manifest-path }}"
+          exit 0
+        fi
+        
+        echo "Installing vcpkg dependencies with retry logic..."
+        MAX_RETRIES=3
+        RETRY_COUNT=0
+        
+        while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          if "$VCPKG_DIR/vcpkg" install --clean-after-build; then
+            echo "✓ vcpkg installation successful"
+            break
+          else
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+              echo "⚠ vcpkg installation failed (attempt $RETRY_COUNT/$MAX_RETRIES). Retrying in 10 seconds..."
+              sleep 10
+            else
+              echo "✗ vcpkg installation failed after $MAX_RETRIES attempts"
+              exit 1
+            fi
+          fi
+        done

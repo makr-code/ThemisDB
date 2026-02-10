@@ -1,0 +1,98 @@
+name: 'CI - Main Branch'
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+  security-events: write
+  id-token: write
+
+env:
+  BUILD_TYPE: Release
+  CMAKE_BUILD_PARALLEL_LEVEL: 4
+  CTEST_PARALLEL_LEVEL: 4
+  VCPKG_MAX_CONCURRENCY: 4
+
+jobs:
+  # Multi-platform C++ builds
+  cpp-build-linux:
+    name: C++ Build (Linux)
+    uses: ./.github/workflows/reusable-cpp-build.yml
+    with:
+      os: ubuntu-latest
+      build-type: Release
+      use-system-libs: 'OFF'
+      run-tests: true
+      upload-artifacts: true
+      artifact-name: themisdb-linux
+
+  cpp-build-macos:
+    name: C++ Build (macOS)
+    uses: ./.github/workflows/reusable-cpp-build.yml
+    with:
+      os: macos-latest
+      build-type: Release
+      use-system-libs: 'OFF'
+      run-tests: true
+      upload-artifacts: true
+      artifact-name: themisdb-macos
+
+  # Full security scanning
+  security:
+    name: Security Scan
+    uses: ./.github/workflows/reusable-security-scan.yml
+    with:
+      scanner-type: 'all'
+      upload-sarif: true
+      create-issues: false
+    secrets: inherit
+
+  # Container build
+  container:
+    name: Container Build
+    needs: [cpp-build-linux]
+    uses: ./.github/workflows/reusable-container-build.yml
+    with:
+      dockerfile: 'Dockerfile'
+      platforms: 'linux/amd64,linux/arm64'
+      push: ${{ github.ref == 'refs/heads/main' }}
+      tags: ${{ github.ref == 'refs/heads/main' && 'latest' || 'develop' }}
+    secrets: inherit
+
+  # Documentation build
+  docs:
+    name: Documentation
+    uses: ./.github/workflows/reusable-docs-build.yml
+    with:
+      deploy-target: ${{ github.ref == 'refs/heads/main' && 'gh-pages' || 'artifact' }}
+    secrets: inherit
+
+  # Notification
+  notify:
+    name: Notify Build Status
+    runs-on: ubuntu-latest
+    needs: [cpp-build-linux, cpp-build-macos, security, container, docs]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Send notification
+        uses: ./.github/actions/notification
+        with:
+          status: ${{ needs.cpp-build-linux.result == 'success' && needs.cpp-build-macos.result == 'success' && 'success' || 'failure' }}
+          message: 'Main branch CI completed'
+          channels: 'summary'
+          workflow-name: ${{ github.workflow }}
