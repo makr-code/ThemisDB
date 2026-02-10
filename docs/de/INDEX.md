@@ -36,7 +36,20 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 Module documentation is located directly in the source code directories:
 - Source modules: `../../src/<module>/README.md` and `../../src/<module>/FUTURE_ENHANCEMENTS.md`
 - Header documentation: `../../include/<module>/README.md`
-- 40+ modules organized in Foundation, Query/Index, Security, Server/Network, Intelligence, Operations, Data Integration, Distributed, Specialized, and Utility layers
+
+**Module-specific Documentation in docs/de/:**
+All source code modules now have corresponding documentation directories for German-language guides, tutorials, and implementation notes:
+- **Foundation Layer:** [core](core/), [storage](storage/), [transaction](transaction/), [themis](themis/), [base](base/), [utils](utils/)
+- **Query & Index:** [query](query/), [aql](aql/), [index](index/), [search](search/), [temporal](temporal/), [timeseries](timeseries/)
+- **Security:** [security](security/), [auth](auth/), [governance](governance/)
+- **Server & Network:** [server](server/), [network](network/), [api](api/), [sharding](sharding/)
+- **Intelligence:** [rag](rag/), [llm](llm/), [analytics](analytics/), [voice](voice/)
+- **Operations:** [performance](performance/), [observability](observability/), [updates](updates/), [scheduler](scheduler/)
+- **Data Integration:** [importers](importers/), [exporters](exporters/), [cdc](cdc/), [plugins](plugins/)
+- **Distributed:** [replication](replication/), sharding
+- **Specialized:** [graph](graph/), [chimera](chimera/), [geo](geo/), [acceleration](acceleration/)
+- **Utility:** [metadata](metadata/), [gpu](gpu/), [cache](cache/), [content](content/)
+- **Additional:** [prompt_engineering](prompt_engineering/)
 
 **Business & Strategy:**
 - [Strategiepapier: Industrie 4.0 & IoT](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
