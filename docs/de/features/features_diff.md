@@ -492,8 +492,8 @@ GET /api/v1/diff?from=0&to=200
 
 - [MVCC Architektur](../architecture/architecture_mvcc.md)
 - [Changefeed Dokumentation](../cdc/changefeed.md)
-- [Named Snapshots](./features_snapshots.md) (Phase 1 - Demnächst)
-- [Point-in-Time Recovery](./features_pitr.md) (Phase 3 - Demnächst)
+- [Named Snapshots](./features_snapshots.md)
+- [Point-in-Time Recovery](./features_pitr.md)
 - [Git-ähnliche Features Forschung](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---

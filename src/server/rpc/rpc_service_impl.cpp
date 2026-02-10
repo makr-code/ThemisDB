@@ -7,6 +7,7 @@
 #include <sstream>
 #include <chrono>
 #include <unordered_map>
+#include <unordered_set>
 
 // Define THEMIS_VERSION_STRING if not already defined
 #ifndef THEMIS_VERSION_STRING
@@ -1827,13 +1828,52 @@ json ThemisRPCService::dispatch(
     const json& params,
     const themis::plugins::rpc::RPCRequestContext& context
 ) {
-    // Authentication check (except for authenticate method)
-    if (method != "authenticate") {
+    // Authentication and authorization check (except for authenticate and health_check methods)
+    if (method != "authenticate" && method != "health_check") {
         std::string username;
-        if (!verifyAuth(context, username)) {
+        std::string required_scope;
+        
+        // Map RPC methods to required scopes according to rpc_authentication.md
+        // Read operations (rpc:read)
+        static const std::unordered_set<std::string> read_methods = {
+            "get", "batch_get", "search", "query", "paginated_query", 
+            "vector_search", "graph_traverse", "geo_query", "timeseries_query",
+            "get_index_operations", "list_collections", "get_collection_metadata", 
+            "aggregation_pipeline"
+        };
+        
+        // Write operations (rpc:write)
+        static const std::unordered_set<std::string> write_methods = {
+            "put", "batch_put", "delete", "update_entity", "batch_update"
+        };
+        
+        // Admin operations (rpc:admin)
+        static const std::unordered_set<std::string> admin_methods = {
+            "create_index", "drop_index", "stats"
+        };
+        
+        // Transaction operations (transaction:write)
+        static const std::unordered_set<std::string> transaction_methods = {
+            "transaction_begin", "transaction_commit", "transaction_abort"
+        };
+        
+        if (read_methods.count(method)) {
+            required_scope = "rpc:read";
+        } else if (write_methods.count(method)) {
+            required_scope = "rpc:write";
+        } else if (admin_methods.count(method)) {
+            required_scope = "rpc:admin";
+        } else if (transaction_methods.count(method)) {
+            required_scope = "transaction:write";
+        } else {
+            // Unknown method - require admin scope
+            required_scope = "rpc:admin";
+        }
+        
+        if (!verifyAuth(context, username, required_scope)) {
             return createError(
                 themis::plugins::rpc::RPCErrorCode::AUTHENTICATION_FAILED,
-                "Authentication required"
+                "Authentication or authorization failed: missing/invalid credentials or insufficient scope (" + required_scope + " required)"
             );
         }
     }
@@ -1901,11 +1941,19 @@ json ThemisRPCService::dispatch(
 
 bool ThemisRPCService::verifyAuth(
     const themis::plugins::rpc::RPCRequestContext& context,
-    std::string& username
+    std::string& username,
+    const std::string& required_scope
 ) {
-    // If auth middleware is not configured, allow requests
-    // This maintains backward compatibility with existing deployments
-    if (!auth_ || !auth_->isEnabled()) {
+    // If auth middleware is not configured (null), allow unauthenticated access
+    // for backward compatibility. In production, auth should always be configured.
+    if (!auth_) {
+        username = context.username.empty() ? "anonymous" : context.username;
+        return true;
+    }
+    
+    // If auth middleware is configured but not enabled, allow unauthenticated access
+    // for development/testing. In production, auth should always be enabled.
+    if (!auth_->isEnabled()) {
         username = context.username.empty() ? "anonymous" : context.username;
         return true;
     }
@@ -1922,12 +1970,19 @@ bool ThemisRPCService::verifyAuth(
     }
     
     if (token.empty()) {
+        // No token provided - deny access
         return false;
     }
     
-    // Validate token using auth middleware
-    auto auth_result = auth_->validateToken(token);
+    // Validate token and check required scope using auth middleware
+    auto auth_result = auth_->authorize(token, required_scope);
     if (!auth_result.authorized) {
+        // Log authentication failure with details
+        // Note: Don't log token itself for security reasons
+        if (!auth_result.user_id.empty()) {
+            // Token was valid but lacked scope
+            username = auth_result.user_id;
+        }
         return false;
     }
     

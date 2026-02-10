@@ -1,5 +1,6 @@
 #include "server/policy_manager_api_handler.h"
 #include "server/auth_middleware.h"
+#include "server/auth_scope_mapper.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 
@@ -350,22 +351,45 @@ bool PolicyManagerApiHandler::checkAuth(
     const http::request<http::string_body>& req,
     const std::string& required_role
 ) {
-    if (!auth_) {
-        THEMIS_WARN("No auth middleware configured, allowing request");
-        return true;  // If no auth configured, allow (for testing/development)
+    // Backward compatibility: If no auth configured or disabled, allow access but log a warning
+    // Production deployments should always enable authentication
+    if (!auth_ || !auth_->isEnabled()) {
+        THEMIS_WARN("AuthMiddleware not configured or disabled - allowing unauthenticated access to policy endpoint (dev/test mode only)");
+        return true;
     }
     
-    // Extract authorization header or token
-    // This is a simplified check - real implementation would validate JWT/session
+    // Extract authorization header
     auto auth_header = req.find(http::field::authorization);
     if (auth_header == req.end()) {
-        THEMIS_WARN("No authorization header provided");
+        THEMIS_WARN("Missing Authorization header for policy endpoint");
         return false;
     }
     
-    // In a real implementation, validate the token and check roles
-    // For now, assume valid if header is present
-    THEMIS_DEBUG("Auth check passed for role: {}", required_role);
+    // Extract Bearer token
+    auto token = AuthMiddleware::extractBearerToken(
+        std::string_view(auth_header->value().data(), auth_header->value().size())
+    );
+    
+    if (!token) {
+        THEMIS_WARN("Invalid Authorization header format for policy endpoint");
+        return false;
+    }
+    
+    // Map role to scope for authorization using shared helper
+    std::string required_scope = auth_scope_mapper::mapPolicyRoleToScope(required_role);
+    
+    // Validate token and check required scope
+    auto auth_result = auth_->authorize(*token, required_scope);
+    if (!auth_result.authorized) {
+        THEMIS_WARN("Authorization failed for policy endpoint - user: {}, required scope: {}, reason: {}",
+            auth_result.user_id.empty() ? "unknown" : auth_result.user_id,
+            required_scope,
+            auth_result.reason.empty() ? "insufficient_scope" : auth_result.reason);
+        return false;
+    }
+    
+    THEMIS_DEBUG("Authorization successful for policy endpoint - user: {}, scope: {}",
+        auth_result.user_id, required_scope);
     return true;
 }
 

@@ -403,7 +403,7 @@ test
 - [Diff API Dokumentation](./features_diff.md)
 - [MVCC Architektur](../architecture/architecture_mvcc.md)
 - [Changefeed Dokumentation](../cdc/changefeed.md)
-- [Point-in-Time Recovery](./features_pitr.md) (Phase 3 - Demnächst)
+- [Point-in-Time Recovery](./features_pitr.md)
 - [Git-ähnliche Features Forschung](../../docs/research/GIT_LIKE_FEATURES_FOR_MVCC.md)
 
 ---

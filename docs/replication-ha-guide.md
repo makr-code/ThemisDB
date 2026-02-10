@@ -49,20 +49,53 @@ ThemisDB's High Availability (HA) Replication provides enterprise-grade reliabil
 
 ## Architecture
 
-### Components
+### Module Organization
+
+ThemisDB's replication system is split across two main module directories:
+
+**`replication/` Module** - High-level replication orchestration:
+- **Location**: `include/replication/`, `src/replication/`
+- **Components**:
+  - `ReplicationManager` - Orchestrates replication lifecycle and configuration
+  - `MultiMasterReplicationManager` - Multi-master replication coordination
+- **Responsibility**: High-level replication strategies, multi-master coordination, and configuration management
+
+**`sharding/` Module** - Low-level replication infrastructure and distributed coordination:
+- **Location**: `include/sharding/`, `src/sharding/`
+- **Components**:
+  - `WALManager` - Write-Ahead Log persistence with LSN tracking
+  - `WALShipper` - Batch-based WAL shipping to replicas
+  - `WALApplier` - Idempotent WAL application on replicas
+  - `ReplicationCoordinator` - Write concern enforcement (ONE/MAJORITY/ALL)
+  - `ReplicaTopology` - Shard-to-replica mapping with RAID support
+  - **Consensus modules**: Raft, Gossip, Paxos for leader election
+  - `HealthMonitor` - Replica health tracking
+  - Various distributed system components (topology, metrics, etc.)
+- **Responsibility**: WAL-based replication mechanics, distributed consensus, topology management, and low-level coordination
+
+**Design Rationale**: The split allows `replication/` to focus on business logic and orchestration while `sharding/` handles the complex distributed systems infrastructure needed for both replication and horizontal scaling.
+
+> **See Also**: 
+> - [REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md) - Detailed status of WAL components
+> - [replication_raid_plan.md](./replication_raid_plan.md) - RAID 1/10 implementation roadmap
+
+### High-Level Components
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Replication Manager                       │
+│                   (replication/ module)                      │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
 │  │    WAL       │  │   Leader     │  │   Health     │     │
 │  │  Manager     │  │  Election    │  │  Monitor     │     │
+│  │ (sharding/)  │  │ (sharding/)  │  │ (sharding/)  │     │
 │  └──────────────┘  └──────────────┘  └──────────────┘     │
 │                                                              │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
 │  │ Replication  │  │  Conflict    │  │  Metrics &   │     │
 │  │   Streams    │  │  Resolution  │  │  Events      │     │
+│  │ (sharding/)  │  │              │  │ (sharding/)  │     │
 │  └──────────────┘  └──────────────┘  └──────────────┘     │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -522,7 +555,14 @@ See [API.md](./API.md) for complete API documentation.
 
 ## See Also
 
-- [Replication Architecture](./ARCHITECTURE.md)
-- [Security Guide](./SECURITY.md)
-- [Performance Guide](./PERFORMANCE.md)
-- [Disaster Recovery](./DR.md)
+### Replication Documentation
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](./REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (~85% complete) with component breakdown
+- **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 readiness plan and implementation roadmap
+- **[docs/replication/](./replication/)** - Additional replication documentation and examples
+
+### Related Documentation
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - System architecture overview
+- [SECURITY.md](../SECURITY.md) - Security configuration for replication
+- [MONITORING.md](./production/MONITORING.md) - Monitoring and metrics setup
+- [Disaster Recovery](./en/guides/disaster_recovery.md) - DR procedures and best practices
+- [Distributed Sharding Architecture](./de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Sharding module documentation

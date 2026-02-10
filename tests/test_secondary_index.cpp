@@ -15,7 +15,7 @@ using namespace themis;
 
 TEST(KeySchemaTest, MakeRelationalKey) {
     std::string key = KeySchema::makeRelationalKey("users", "123");
-    EXPECT_EQ(key, "users:123");
+    EXPECT_EQ(key, "rel:users:123"); // v1.5.0+ format with prefix
 }
 
 TEST(KeySchemaTest, MakeGraphNodeKey) {
@@ -44,7 +44,8 @@ TEST(KeySchemaTest, MakeGraphIndexKey) {
 }
 
 TEST(KeySchemaTest, ExtractPrimaryKey) {
-    std::string pk = KeySchema::extractPrimaryKey("users:123");
+    // v1.5.0+ format with prefixes
+    std::string pk = KeySchema::extractPrimaryKey("rel:users:123");
     EXPECT_EQ(pk, "123");
     
     pk = KeySchema::extractPrimaryKey("idx:users:age:30:user_456");
@@ -52,11 +53,17 @@ TEST(KeySchemaTest, ExtractPrimaryKey) {
 }
 
 TEST(KeySchemaTest, ParseKeyType) {
+    // v1.5.0+ format tests
+    EXPECT_EQ(KeySchema::parseKeyType("rel:users:123"), KeySchema::KeyType::RELATIONAL);
+    EXPECT_EQ(KeySchema::parseKeyType("doc:orders:456"), KeySchema::KeyType::DOCUMENT);
     EXPECT_EQ(KeySchema::parseKeyType("idx:users:age:30:pk"), KeySchema::KeyType::SECONDARY_INDEX);
     EXPECT_EQ(KeySchema::parseKeyType("graph:out:alice:e1"), KeySchema::KeyType::GRAPH_OUTDEX);
     EXPECT_EQ(KeySchema::parseKeyType("graph:in:bob:e1"), KeySchema::KeyType::GRAPH_INDEX);
     EXPECT_EQ(KeySchema::parseKeyType("node:alice"), KeySchema::KeyType::GRAPH_NODE);
     EXPECT_EQ(KeySchema::parseKeyType("edge:e1"), KeySchema::KeyType::GRAPH_EDGE);
+    
+    // Legacy format (pre-1.5.0) - defaults to DOCUMENT for backward compatibility
+    EXPECT_EQ(KeySchema::parseKeyType("users:123"), KeySchema::KeyType::DOCUMENT);
 }
 
 // ----------------- SecondaryIndex integration tests -----------------

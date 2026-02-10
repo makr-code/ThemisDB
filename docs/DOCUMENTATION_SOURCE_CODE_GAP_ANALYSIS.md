@@ -614,17 +614,21 @@ Documentation references presets like:
 #### Graph Advanced Features
 | Component | Header | Implementation | Tests | Documentation | Status |
 |-----------|--------|---------------|-------|---------------|--------|
-| Path Constraints | ✅ | ✅ | ✅ | ✅ | Stub |
+| Path Constraints | ✅ | ✅ | ✅ | ✅ | **Implemented** |
 | Centrality Algorithms | ✅ | ✅ | ✅ | ✅ | Stub |
 | Community Detection | ✅ | ✅ | ✅ | ✅ | Stub |
 
+**Implementation Notes:**
+- **Path Constraints**: Fully implemented with BFS traversal, constraint validation, and GraphQueryOptimizer integration. See `src/graph/path_constraints.cpp` (442 lines) and `src/graph/ADVANCED_FEATURES_README.md`.
+- **Centrality & Community**: Stub implementations exist, but note that these algorithms are **already fully implemented** in the existing `GraphAnalytics` class (`include/index/graph_analytics.h`).
+
 **Files Created:**
 - `include/graph/path_constraints.h`
-- `include/graph/centrality_algorithms.h`
-- `include/graph/community_detection.h`
-- `src/graph/path_constraints.cpp`
-- `src/graph/centrality_algorithms.cpp`
-- `src/graph/community_detection.cpp`
+- `include/graph/centrality_algorithms.h` (stub - use GraphAnalytics instead)
+- `include/graph/community_detection.h` (stub - use GraphAnalytics instead)
+- `src/graph/path_constraints.cpp` (full implementation)
+- `src/graph/centrality_algorithms.cpp` (stub)
+- `src/graph/community_detection.cpp` (stub)
 - `src/graph/ADVANCED_FEATURES_README.md`
 - `tests/test_graph_advanced_features.cpp`
 

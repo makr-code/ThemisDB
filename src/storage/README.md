@@ -19,10 +19,23 @@ RocksDB wrapper and storage layer abstractions for ThemisDB.
 
 ## Documentation
 
-For storage documentation, see:
-- [Base Entity](../../docs/src/storage/base_entity.cpp.md)
-- [Key Schema](../../docs/src/storage/key_schema.cpp.md)
-- [RocksDB Wrapper](../../docs/src/storage/rocksdb_wrapper.cpp.md)
-- [RocksDB Layout](../../docs/storage/rocksdb_layout.md)
-- [Cloud Blob Backends](../../docs/storage/CLOUD_BLOB_BACKENDS.md)
-- [Base Entity Documentation](../../docs/base_entity.md)
+For comprehensive storage documentation, see the [Storage Module Index](../../docs/storage/README.md).
+
+### Quick Links
+
+- **Core Components:**
+  - [Base Entity](../../docs/de/src/storage/base_entity.cpp.md) - Entity storage abstractions
+  - [Key Schema](../../docs/de/src/storage/key_schema.cpp.md) - Key encoding and organization
+  - [RocksDB Wrapper](../../docs/de/src/storage/rocksdb_wrapper.cpp.md) - RocksDB integration
+- **Architecture:**
+  - [RocksDB Layout](../../docs/storage/rocksdb_layout.md) - Key prefixes and physical layout
+  - [RocksDB Storage Operations (DE)](../../docs/de/storage/storage_rocksdb.md) - Detailed operations guide
+  - [Base Entity Architecture (DE)](../../docs/de/architecture/architecture_base_entity.md) - Architectural overview
+- **Blob Storage:**
+  - [Cloud Blob Backends](../../docs/storage/CLOUD_BLOB_BACKENDS.md) - S3, Azure, WebDAV, Filesystem
+  - [Blob Redundancy (DE)](../../docs/de/storage/storage_blob_redundancy.md) - RAID-like redundancy
+- **Operations:**
+  - [Backup & Recovery](../../docs/backup_recovery_system.md) - Backup strategies and PITR
+  - [Index Maintenance (DE)](../../docs/de/features/features_index_maintenance.md) - Index operations
+- **Audit Reports:**
+  - [RocksDB Wrapper Audit](../../docs/ROCKSDB_WRAPPER_AUDIT_REPORT.md) - Security and correctness analysis

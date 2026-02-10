@@ -2,6 +2,7 @@
 
 #include "server/auth_middleware.h"
 #include "server/rate_limiter.h"
+#include "server/rate_limiter_v2.h"
 #include "server/load_shedder.h"
 #include "server/api_version.h"
 #include "sharding/shard_router.h"
@@ -99,7 +100,7 @@ public:
      * 
      * @param config Gateway configuration
      * @param auth Authentication middleware
-     * @param rate_limiter Rate limiter instance
+     * @param rate_limiter Rate limiter instance (V1 - deprecated, prefer V2)
      * @param load_shedder Load shedder instance
      * @param shard_router Shard router for distributed requests (optional)
      * @param metrics Prometheus metrics collector (optional)
@@ -108,6 +109,25 @@ public:
         const Config& config,
         std::shared_ptr<AuthMiddleware> auth,
         std::shared_ptr<RateLimiter> rate_limiter,
+        std::shared_ptr<LoadShedder> load_shedder,
+        std::shared_ptr<sharding::ShardRouter> shard_router = nullptr,
+        std::shared_ptr<observability::PrometheusMetrics> metrics = nullptr
+    );
+    
+    /**
+     * @brief Construct API Gateway with V2 rate limiter (preferred)
+     * 
+     * @param config Gateway configuration
+     * @param auth Authentication middleware
+     * @param rate_limiter_v2 Rate limiter V2 with priority lanes
+     * @param load_shedder Load shedder instance
+     * @param shard_router Shard router for distributed requests (optional)
+     * @param metrics Prometheus metrics collector (optional)
+     */
+    APIGateway(
+        const Config& config,
+        std::shared_ptr<AuthMiddleware> auth,
+        std::shared_ptr<PerClientRateLimiter> rate_limiter_v2,
         std::shared_ptr<LoadShedder> load_shedder,
         std::shared_ptr<sharding::ShardRouter> shard_router = nullptr,
         std::shared_ptr<observability::PrometheusMetrics> metrics = nullptr
@@ -186,7 +206,8 @@ public:
 private:
     Config config_;
     std::shared_ptr<AuthMiddleware> auth_;
-    std::shared_ptr<RateLimiter> rate_limiter_;
+    std::shared_ptr<RateLimiter> rate_limiter_;  // V1 (legacy)
+    std::shared_ptr<PerClientRateLimiter> rate_limiter_v2_;  // V2 (preferred)
     std::shared_ptr<LoadShedder> load_shedder_;
     std::shared_ptr<sharding::ShardRouter> shard_router_;
     std::shared_ptr<observability::PrometheusMetrics> metrics_;

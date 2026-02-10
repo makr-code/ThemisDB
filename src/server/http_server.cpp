@@ -68,6 +68,7 @@
 
 // Sprint C features
 #include "index/adaptive_index.h"
+#include "server/tenant_manager.h"
 
 // Now include http_server.h which has forward declarations
 #include "server/http_server.h"
@@ -1943,6 +1944,103 @@ http::response<http::string_body> HttpServer::routeRequest(
         span.setStatus(false, "rate_limited");
         return *rate_limit_response;
     }
+
+    // Check tenant quotas BEFORE processing request
+    // Note: Tenant context will be acquired if tenant is identified
+    std::optional<themis::TenantContext> tenant_ctx_opt;
+    std::unique_ptr<themis::TenantContextGuard> tenant_guard;
+    {
+        auto& tenant_mgr = themis::TenantManager::instance();
+        
+        // Extract tenant ID from request - optimize by checking header directly first
+        std::optional<std::string> tenant_id_opt;
+        auto tenant_header_it = req.find("X-Tenant-ID");
+        if (tenant_header_it != req.end()) {
+            tenant_id_opt = std::string(tenant_header_it->value());
+        } else {
+            // Fallback: check path prefix (only if header not present)
+            std::unordered_map<std::string, std::string> headers;
+            for (auto const& field : req) {
+                headers[std::string(field.name_string())] = std::string(field.value());
+            }
+            tenant_id_opt = tenant_mgr.extractTenantId(headers, target);
+        }
+        
+        if (tenant_id_opt) {
+            const std::string& tenant_id = *tenant_id_opt;
+            
+            // Get tenant config and create context
+            auto tenant_config = tenant_mgr.getTenant(tenant_id);
+            if (tenant_config) {
+                tenant_ctx_opt = themis::TenantContext::fromConfig(*tenant_config, "");
+                
+                // Use RAII guard to acquire connection slot (automatically released on scope exit)
+                tenant_guard = std::make_unique<themis::TenantContextGuard>(*tenant_ctx_opt);
+                
+                if (!tenant_guard->hasConnection()) {
+                    // Connection quota exceeded
+                    auto end = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                    
+                    THEMIS_WARN("Tenant connection quota exceeded: tenant={}", tenant_id);
+                    
+                    http::response<http::string_body> res{http::status::service_unavailable, req.version()};
+                    res.set(http::field::content_type, "application/json");
+                    nlohmann::json body = {
+                        {"error", "Service Unavailable"},
+                        {"message", "Tenant connection quota exceeded"},
+                        {"tenant_id", tenant_id},
+                        {"status_code", 503}
+                    };
+                    res.body() = body.dump();
+                    applyGovernanceHeaders(req, res);
+                    res.prepare_payload();
+                    // Use separate metric for quota exceeded (not rate limited)
+                    // tenant_mgr has no recordQuotaExceeded, so we document this in logs only
+                    recordLatency(duration);
+                    span.setStatus(false, "tenant_quota_exceeded");
+                    return res;
+                }
+                
+                // Check query quota for query endpoints
+                std::string path_only = target;
+                auto qpos = path_only.find('?');
+                if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+                
+                // Use prefix match for /search/* to catch all search endpoints
+                bool is_query_endpoint = (path_only == "/query" || 
+                                         path_only.rfind("/search/", 0) == 0 ||
+                                         path_only.rfind("/api/aql", 0) == 0);
+                
+                if (is_query_endpoint) {
+                    // Acquire query slot via RAII guard
+                    if (!tenant_guard->acquireQuerySlot()) {
+                        // Query quota exceeded
+                        auto end = std::chrono::steady_clock::now();
+                        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+                        
+                        THEMIS_WARN("Tenant query quota exceeded: tenant={}", tenant_id);
+                        
+                        http::response<http::string_body> res{http::status::service_unavailable, req.version()};
+                        res.set(http::field::content_type, "application/json");
+                        nlohmann::json body = {
+                            {"error", "Service Unavailable"},
+                            {"message", "Tenant query quota exceeded"},
+                            {"tenant_id", tenant_id},
+                            {"status_code", 503}
+                        };
+                        res.body() = body.dump();
+                        applyGovernanceHeaders(req, res);
+                        res.prepare_payload();
+                        recordLatency(duration);
+                        span.setStatus(false, "tenant_quota_exceeded");
+                        return res;
+                    }
+                }
+            }
+        }
+    }
+    // tenant_guard will automatically release connection/query slots when it goes out of scope
 
     // Early routing for Ethics AI API
     {
