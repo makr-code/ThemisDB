@@ -1,4 +1,5 @@
 #include "server/changefeed_api_handler.h"
+#include "server/tenant_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "cdc/changefeed.h"
 #ifdef THEMIS_ENABLE_SSE
@@ -542,6 +543,176 @@ std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuth
     }
     
     // Authorization successful
+    return std::nullopt;
+}
+
+std::optional<http::response<http::string_body>> ChangefeedApiHandler::checkAuthAndResolveTenant(
+    const http::request<http::string_body>& req,
+    const std::string& required_scope,
+    TenantAuthContext& out_context
+) {
+    // If auth is disabled, allow access but still require tenant ID from headers
+    if (!auth_ || !auth_->isEnabled()) {
+        // Try to extract tenant from headers/path even without auth
+        auto& tm = TenantManager::instance();
+        
+        // Build headers map
+        std::unordered_map<std::string, std::string> headers_map;
+        for (const auto& h : req) {
+            headers_map[std::string(h.name_string())] = std::string(h.value());
+        }
+        
+        std::string path_str(req.target());
+        auto tenant_id = tm.extractTenantId(headers_map, path_str);
+        
+        if (!tenant_id) {
+            http::response<http::string_body> res{http::status::bad_request, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set(http::field::server, "THEMIS/0.1.0");
+            res.keep_alive(req.keep_alive());
+            res.body() = R"({"error":"missing_tenant","message":"Missing X-Tenant-ID header or tenant in path"})";
+            res.prepare_payload();
+            return res;
+        }
+        
+        // Verify tenant exists and is enabled
+        auto tenant_config = tm.getTenant(*tenant_id);
+        if (!tenant_config || !tenant_config->enabled) {
+            http::response<http::string_body> res{http::status::forbidden, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set(http::field::server, "THEMIS/0.1.0");
+            res.keep_alive(req.keep_alive());
+            res.body() = R"({"error":"invalid_tenant","message":"Tenant not found or disabled"})";
+            res.prepare_payload();
+            return res;
+        }
+        
+        out_context.tenant_id = *tenant_id;
+        out_context.user_id = "anonymous";
+        return std::nullopt;
+    }
+    
+    // Check for Authorization header
+    auto it = req.find(http::field::authorization);
+    if (it == req.end()) {
+        http::response<http::string_body> res{http::status::unauthorized, req.version()};
+        res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"missing_authorization","message":"Missing Authorization header"})";
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Extract and validate token
+    auto token = AuthMiddleware::extractBearerToken(
+        std::string_view(it->value().data(), it->value().size())
+    );
+    
+    if (!token) {
+        http::response<http::string_body> res{http::status::unauthorized, req.version()};
+        res.set(http::field::www_authenticate, "Bearer realm=\"themis\"");
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        res.body() = R"({"error":"invalid_token","message":"Invalid Authorization header format"})";
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Validate token and check required scope
+    auto auth_result = auth_->authorize(*token, required_scope);
+    if (!auth_result.authorized) {
+        http::response<http::string_body> res{http::status::forbidden, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        nlohmann::json error_body = {
+            {"error", "insufficient_scope"},
+            {"message", "Token does not have required scope: " + required_scope}
+        };
+        res.body() = error_body.dump();
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Extract tenant from JWT or request headers
+    auto& tm = TenantManager::instance();
+    std::string tenant_id_from_auth = auth_result.tenant_id;
+    
+    // Build headers map
+    std::unordered_map<std::string, std::string> headers_map;
+    for (const auto& h : req) {
+        headers_map[std::string(h.name_string())] = std::string(h.value());
+    }
+    
+    std::string path_str(req.target());
+    auto tenant_id_from_request = tm.extractTenantId(headers_map, path_str);
+    
+    // Determine which tenant ID to use
+    std::string final_tenant_id;
+    if (!tenant_id_from_auth.empty()) {
+        // Use tenant from JWT/token
+        final_tenant_id = tenant_id_from_auth;
+        
+        // If request also specified tenant, they must match (prevent cross-tenant access)
+        if (tenant_id_from_request && *tenant_id_from_request != tenant_id_from_auth) {
+            http::response<http::string_body> res{http::status::forbidden, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set(http::field::server, "THEMIS/0.1.0");
+            res.keep_alive(req.keep_alive());
+            nlohmann::json error_body = {
+                {"error", "tenant_mismatch"},
+                {"message", "Tenant ID in request does not match authenticated tenant"}
+            };
+            res.body() = error_body.dump();
+            res.prepare_payload();
+            return res;
+        }
+    } else if (tenant_id_from_request) {
+        // Use tenant from request header/path
+        final_tenant_id = *tenant_id_from_request;
+    } else {
+        // No tenant specified - FAIL CLOSED
+        http::response<http::string_body> res{http::status::bad_request, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        nlohmann::json error_body = {
+            {"error", "missing_tenant"},
+            {"message", "Tenant ID must be provided via X-Tenant-ID header, path, or JWT claim"}
+        };
+        res.body() = error_body.dump();
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Verify tenant exists and is enabled
+    auto tenant_config = tm.getTenant(final_tenant_id);
+    if (!tenant_config || !tenant_config->enabled) {
+        http::response<http::string_body> res{http::status::forbidden, req.version()};
+        res.set(http::field::content_type, "application/json");
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.keep_alive(req.keep_alive());
+        nlohmann::json error_body = {
+            {"error", "invalid_tenant"},
+            {"message", "Tenant not found or disabled"}
+        };
+        res.body() = error_body.dump();
+        res.prepare_payload();
+        return res;
+    }
+    
+    // Set output context
+    out_context.user_id = auth_result.user_id;
+    out_context.tenant_id = final_tenant_id;
+    out_context.groups = auth_result.groups;
+    
+    // Record request for tenant
+    tm.recordRequest(final_tenant_id);
+    
+    // Authorization and tenant validation successful
     return std::nullopt;
 }
 

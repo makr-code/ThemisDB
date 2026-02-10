@@ -17,12 +17,14 @@ protected:
         AuthMiddleware::TokenConfig admin_token{
             .token = "admin-token-123",
             .user_id = "admin",
+            .tenant_id = "test-tenant",
             .scopes = {"admin", "config:write", "config:read", "cdc:read", "metrics:read"}
         };
         
         AuthMiddleware::TokenConfig readonly_token{
             .token = "readonly-token-456",
             .user_id = "viewer",
+            .tenant_id = "test-tenant",
             .scopes = {"cdc:read", "metrics:read"}
         };
         
@@ -655,4 +657,47 @@ TEST_F(AuthMiddlewareTest, ErrorResponseFormats) {
         // Failed authorization should not leak user_id
         EXPECT_TRUE(result.user_id.empty() || !result.authorized);
     }
+}
+
+// ===== Tenant Isolation Tests =====
+
+TEST_F(AuthMiddlewareTest, TenantExtraction) {
+    // Test that tokens with tenant_id properly extract tenant
+    auto result = auth_.validateToken("admin-token-123");
+    EXPECT_TRUE(result.authorized);
+    EXPECT_EQ(result.user_id, "admin");
+    EXPECT_EQ(result.tenant_id, "test-tenant");
+    
+    result = auth_.validateToken("readonly-token-456");
+    EXPECT_TRUE(result.authorized);
+    EXPECT_EQ(result.user_id, "viewer");
+    EXPECT_EQ(result.tenant_id, "test-tenant");
+}
+
+TEST_F(AuthMiddlewareTest, TenantInAuthContext) {
+    // Test extractContext returns tenant_id
+    auto context = auth_.extractContext("admin-token-123");
+    ASSERT_TRUE(context.has_value());
+    EXPECT_EQ(context->user_id, "admin");
+    EXPECT_EQ(context->tenant_id, "test-tenant");
+    
+    context = auth_.extractContext("invalid-token");
+    EXPECT_FALSE(context.has_value());
+}
+
+TEST_F(AuthMiddlewareTest, TokenWithoutTenant) {
+    // Test token without tenant_id (should have empty tenant_id)
+    AuthMiddleware::TokenConfig no_tenant_token{
+        .token = "no-tenant-token",
+        .user_id = "user-no-tenant",
+        .tenant_id = "",  // Empty tenant
+        .scopes = {"read"}
+    };
+    
+    auth_.addToken(no_tenant_token);
+    
+    auto result = auth_.validateToken("no-tenant-token");
+    EXPECT_TRUE(result.authorized);
+    EXPECT_EQ(result.user_id, "user-no-tenant");
+    EXPECT_EQ(result.tenant_id, "");  // Empty string when not specified
 }
