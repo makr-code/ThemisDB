@@ -1,10 +1,13 @@
 #include "scheduler/task_scheduler.h"
+#include "scheduler/event_trigger.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
 #include "security/aql_injection_detector.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/audit_logger.h"
+#include "utils/cron_parser.h"
+#include "cdc/changefeed.h"
 #include <sstream>
 #include <fstream>
 #include <iomanip>
@@ -29,10 +32,18 @@ namespace themis {
 
 // ===== TaskScheduler Implementation =====
 
-TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config)
-    : query_engine_(query_engine), config_(config) {
+TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, Changefeed* changefeed)
+    : query_engine_(query_engine), changefeed_(changefeed), config_(config) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
+    }
+    
+    // Initialize event trigger manager if changefeed is provided
+    if (changefeed_) {
+        event_trigger_manager_ = std::make_unique<EventTriggerManager>(changefeed_);
+        THEMIS_INFO("TaskScheduler initialized with CDC event support");
+    } else {
+        THEMIS_INFO("TaskScheduler initialized without CDC event support");
     }
     
     if (config_.persist_tasks) {
@@ -129,6 +140,16 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     // Validate resource limits (timeout, max_retries)
     validateResourceLimits(task);
     
+    // Validate trigger-specific configuration
+    if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
+        validateCronExpression(task.cron_expression);
+    } else if (task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+        validateCDCTrigger(task.cdc_trigger);
+        if (!changefeed_) {
+            throw std::invalid_argument("CDC event triggers require a Changefeed instance");
+        }
+    }
+    
     // Sanitize task parameters
     auto sanitized_task = sanitizeTask(task);
     
@@ -148,17 +169,32 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     auto task_ptr = std::make_shared<ScheduledTask>(sanitized_task);
     task_ptr->id = id;
     
-    // Initialize next_run if not set
-    if (task_ptr->next_run == std::chrono::system_clock::time_point{}) {
-        task_ptr->next_run = std::chrono::system_clock::now() + task_ptr->interval;
+    // Initialize next_run based on trigger type
+    if (task_ptr->trigger_type == ScheduledTask::TriggerType::CRON) {
+        // Parse cron expression and calculate next run
+        updateCronExpression(id, task_ptr->cron_expression);
+        auto cron = getCronExpression(id);
+        if (cron) {
+            auto next = cron->getNextExecution(std::chrono::system_clock::now());
+            if (next) {
+                task_ptr->next_run = *next;
+            }
+        }
+    } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+        // Traditional interval-based scheduling
+        if (task_ptr->next_run == std::chrono::system_clock::time_point{}) {
+            task_ptr->next_run = std::chrono::system_clock::now() + task_ptr->interval;
+        }
+    } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+        // Setup CDC event trigger
+        setupEventTrigger(task_ptr);
     }
     
     tasks_[id] = task_ptr;
     
-    THEMIS_INFO("Registered task: {} (name={}, type={}, interval={}ms)",
-                id, sanitized_task.name, 
-                sanitized_task.type == ScheduledTask::TaskType::AQL_QUERY ? "AQL" : "FUNCTION",
-                sanitized_task.interval.count());
+    THEMIS_INFO("Registered task: {} (name={}, trigger_type={})",
+                id, sanitized_task.name,
+                static_cast<int>(sanitized_task.trigger_type));
     
     if (config_.persist_tasks) {
         saveTasks();
@@ -172,6 +208,14 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
     
     auto it = tasks_.find(task_id);
     if (it != tasks_.end()) {
+        // Remove CDC event trigger if present
+        if (it->second->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+            removeEventTrigger(task_id);
+        }
+        
+        // Remove cron expression from cache
+        cron_expressions_.erase(task_id);
+        
         THEMIS_INFO("Unregistered task: {}", task_id);
         tasks_.erase(it);
         
@@ -571,11 +615,37 @@ bool TaskScheduler::shouldExecute(const ScheduledTask& task,
         return false;  // Task already running
     }
     
-    return now >= task.next_run;
+    // Check based on trigger type
+    if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
+        return shouldExecuteCron(task, now);
+    } else if (task.trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+        return now >= task.next_run;
+    } else if (task.trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+        // CDC events trigger tasks directly via callbacks
+        return false;
+    } else if (task.trigger_type == ScheduledTask::TriggerType::MANUAL) {
+        // Manual tasks are only executed via executeTaskNow()
+        return false;
+    }
+    
+    return false;
 }
 
 void TaskScheduler::updateNextRun(ScheduledTask& task) {
-    task.next_run = std::chrono::system_clock::now() + task.interval;
+    if (task.trigger_type == ScheduledTask::TriggerType::CRON) {
+        // Calculate next run from cron expression
+        auto it = cron_expressions_.find(task.id);
+        if (it != cron_expressions_.end()) {
+            auto next = it->second->getNextExecution(std::chrono::system_clock::now());
+            if (next) {
+                task.next_run = *next;
+            }
+        }
+    } else if (task.trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+        // Traditional interval-based scheduling
+        task.next_run = std::chrono::system_clock::now() + task.interval;
+    }
+    // CDC_EVENT and MANUAL types don't have a next_run
 }
 
 // ===== Persistence =====
@@ -602,6 +672,25 @@ void TaskScheduler::saveTasks() {
         task_json["parameters"] = task->parameters;
         task_json["interval_ms"] = task->interval.count();
         task_json["enabled"] = task->enabled;
+        
+        // Save trigger configuration
+        task_json["trigger_type"] = static_cast<int>(task->trigger_type);
+        task_json["cron_expression"] = task->cron_expression;
+        task_json["priority"] = static_cast<int>(task->priority);
+        task_json["trigger_logic"] = static_cast<int>(task->trigger_logic);
+        
+        // Save CDC trigger config
+        nlohmann::json cdc_json;
+        cdc_json["key_prefix"] = task->cdc_trigger.key_prefix;
+        cdc_json["event_types"] = nlohmann::json::array();
+        for (int type : task->cdc_trigger.event_types) {
+            cdc_json["event_types"].push_back(type);
+        }
+        if (task->cdc_trigger.condition) {
+            cdc_json["condition"] = *task->cdc_trigger.condition;
+        }
+        cdc_json["debounce_ms"] = task->cdc_trigger.debounce_ms;
+        task_json["cdc_trigger"] = cdc_json;
         
         tasks_json.push_back(task_json);
     }
@@ -653,6 +742,32 @@ void TaskScheduler::loadTasks() {
             task.parameters = task_json.value("parameters", nlohmann::json::object());
             task.interval = std::chrono::milliseconds(task_json.value("interval_ms", 300000));
             task.enabled = task_json.value("enabled", true);
+            
+            // Load trigger configuration (with defaults for backward compatibility)
+            task.trigger_type = static_cast<ScheduledTask::TriggerType>(
+                task_json.value("trigger_type", static_cast<int>(ScheduledTask::TriggerType::INTERVAL)));
+            task.cron_expression = task_json.value("cron_expression", "");
+            task.priority = static_cast<ScheduledTask::Priority>(
+                task_json.value("priority", static_cast<int>(ScheduledTask::Priority::NORMAL)));
+            task.trigger_logic = static_cast<ScheduledTask::TriggerLogic>(
+                task_json.value("trigger_logic", static_cast<int>(ScheduledTask::TriggerLogic::OR)));
+            
+            // Load CDC trigger config
+            if (task_json.contains("cdc_trigger")) {
+                auto cdc_json = task_json["cdc_trigger"];
+                task.cdc_trigger.key_prefix = cdc_json.value("key_prefix", "");
+                task.cdc_trigger.debounce_ms = cdc_json.value("debounce_ms", 0);
+                
+                if (cdc_json.contains("event_types")) {
+                    for (const auto& type : cdc_json["event_types"]) {
+                        task.cdc_trigger.event_types.insert(type.get<int>());
+                    }
+                }
+                
+                if (cdc_json.contains("condition")) {
+                    task.cdc_trigger.condition = cdc_json["condition"].get<std::string>();
+                }
+            }
             
             registerTask(task);
         }
@@ -875,5 +990,152 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
     
     return true;
 }
+
+// ===== Cron Expression Management =====
+
+void TaskScheduler::validateCronExpression(const std::string& expression) const {
+    if (expression.empty()) {
+        throw std::invalid_argument("Cron expression cannot be empty");
+    }
+    
+    auto validation = CronExpression::validate(expression);
+    if (!validation.is_valid) {
+        throw std::invalid_argument("Invalid cron expression: " + validation.error_message);
+    }
+}
+
+std::shared_ptr<CronExpression> TaskScheduler::getCronExpression(const std::string& task_id) {
+    auto it = cron_expressions_.find(task_id);
+    if (it != cron_expressions_.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
+void TaskScheduler::updateCronExpression(const std::string& task_id, const std::string& expression) {
+    auto parsed = CronExpression::parse(expression);
+    if (!parsed) {
+        throw std::invalid_argument("Failed to parse cron expression: " + expression);
+    }
+    cron_expressions_[task_id] = std::make_shared<CronExpression>(*parsed);
+}
+
+bool TaskScheduler::shouldExecuteCron(const ScheduledTask& task, 
+                                       const std::chrono::system_clock::time_point& now) const {
+    auto it = cron_expressions_.find(task.id);
+    if (it == cron_expressions_.end()) {
+        return false;
+    }
+    return it->second->matches(now);
+}
+
+// ===== CDC Trigger Management =====
+
+void TaskScheduler::validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger) const {
+    if (trigger.key_prefix.empty()) {
+        throw std::invalid_argument("CDC trigger key_prefix cannot be empty");
+    }
+    
+    if (trigger.event_types.empty()) {
+        throw std::invalid_argument("CDC trigger must specify at least one event type");
+    }
+    
+    // Validate event types are in valid range (0-3)
+    for (int type : trigger.event_types) {
+        if (type < 0 || type > 3) {
+            throw std::invalid_argument("Invalid CDC event type: " + std::to_string(type));
+        }
+    }
+}
+
+void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
+    if (!event_trigger_manager_) {
+        THEMIS_ERROR("Cannot setup CDC trigger without EventTriggerManager");
+        return;
+    }
+    
+    // Convert task CDC config to EventTrigger config
+    CDCTriggerConfig config;
+    config.key_prefix = task->cdc_trigger.key_prefix;
+    
+    // Convert event types from int to ChangeEventType
+    for (int type_int : task->cdc_trigger.event_types) {
+        config.event_types.insert(static_cast<Changefeed::ChangeEventType>(type_int));
+    }
+    
+    config.condition = task->cdc_trigger.condition;
+    config.debounce_ms = task->cdc_trigger.debounce_ms;
+    
+    // Create callback that triggers task execution
+    auto callback = [this, task_id = task->id](const Changefeed::ChangeEvent& event) {
+        // Retrieve task inside the callback to avoid capturing by value
+        std::shared_ptr<ScheduledTask> task_ptr;
+        {
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            auto it = tasks_.find(task_id);
+            if (it == tasks_.end()) {
+                THEMIS_DEBUG("Task {} no longer exists, skipping execution", task_id);
+                return;
+            }
+            task_ptr = it->second;
+        }
+        
+        THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
+                    task_id, event.key, static_cast<int>(event.type));
+        
+        // Check if task is enabled
+        if (!task_ptr->enabled) {
+            THEMIS_DEBUG("Task {} is disabled, skipping execution", task_id);
+            return;
+        }
+        
+        // Atomic check-and-set for task running state
+        bool expected = false;
+        if (!config_.allow_task_overlap) {
+            // Try to set running to true atomically
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            if (task_ptr->running) {
+                THEMIS_DEBUG("Task {} is already running, skipping execution", task_id);
+                return;
+            }
+            task_ptr->running = true;
+        } else {
+            task_ptr->running = true;
+        }
+        
+        // Execute task asynchronously
+        std::thread task_thread([this, task_ptr]() {
+            executeTask(task_ptr);
+            
+            // Remove from running threads
+            {
+                std::lock_guard<std::mutex> lock(running_mutex_);
+                running_task_threads_.erase(task_ptr->id);
+            }
+        });
+        
+        // Store thread for cleanup
+        {
+            std::lock_guard<std::mutex> lock(running_mutex_);
+            running_task_threads_[task_id] = std::move(task_thread);
+        }
+    };
+    
+    // Register trigger with manager
+    event_trigger_manager_->registerTrigger(task->id, config, std::move(callback));
+}
+
+void TaskScheduler::removeEventTrigger(const std::string& task_id) {
+    if (event_trigger_manager_) {
+        event_trigger_manager_->unregisterTrigger(task_id);
+    }
+}
+
+void TaskScheduler::onCDCEvent(std::shared_ptr<ScheduledTask> task, const void* event) {
+    // This method is called by EventTrigger callback
+    // The actual implementation is in setupEventTrigger's callback
+}
+
+// ===== Update shouldExecute and updateNextRun =====
 
 } // namespace themis
