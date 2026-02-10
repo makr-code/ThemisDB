@@ -28,6 +28,7 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 | Dokument | Sprache | Beschreibung | Status |
 |----------|---------|--------------|--------|
 | [**ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md**](ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md) | 🇩🇪 DE | **Adaptive Learning Core:** Mechanismen für Selbstoptimierung & Kernanalyse, autonomes Self-Tuning, Performance-Metriken-Erfassung, Rollback-Strategien | ✅ Complete |
+| [**HYBRID_KONZEPT_THEMISDB.md**](HYBRID_KONZEPT_THEMISDB.md) | 🇩🇪 DE | **Hybrid-Konzept:** Kombination von regelbasierten und ML-basierten Ansätzen für ThemisDB, Architektur, Implementierung, Phasen-Rollout | ✅ Complete |
 
 **Inhalt:**
 - 25+ Research Papers aus SIGMOD, VLDB, OSDI, NeurIPS
@@ -44,6 +45,9 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 - **NEU (Feb 2026):** Autonomes Performance-Feedback & Rollback-Mechanismen
 - **NEU (Feb 2026):** Industriestandards (Google Spanner, AWS Aurora, SQL Server, CockroachDB)
 - **NEU (Feb 2026):** Open Source Libraries für Self-Tuning (OtterTune, ALEX, HypoPG, etc.)
+- **NEU (Feb 2026):** Hybrid-Konzept für ThemisDB - Kombination von Regel- und ML-basierten Ansätzen
+- **NEU (Feb 2026):** Vollständige Hybrid-Architektur mit ThemisDB-spezifischer Implementierung
+- **NEU (Feb 2026):** Phasenweise Rollout-Strategie (Shadow → Conservative → Balanced → Aggressive)
 - Vollständige Referenzen und Zitationen
 
 ---
@@ -79,6 +83,10 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 - ML-basierte Optimierung: Reinforcement Learning für Query Optimization
 - Shadow Mode, Canary Deployments, Versionierung
 - Neo, Bao, OtterTune für autonomes Tuning
+- **Hybrid-Konzept:** Kombination von Regel- und ML-basierten Ansätzen
+- Confidence-basierte Entscheidungslogik
+- Fallback-Kaskaden & Circuit Breaker
+- ThemisDB-spezifische Architektur & Integration
 
 ---
 
