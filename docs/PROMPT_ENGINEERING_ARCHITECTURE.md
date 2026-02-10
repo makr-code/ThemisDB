@@ -346,3 +346,273 @@ ctest -R test_prompt_performance_tracker
 For issues or questions:
 - GitHub Issues: https://github.com/makr-code/ThemisDB/issues
 - Documentation: https://makr-code.github.io/ThemisDB/
+
+### 6. SelfImprovementOrchestrator (`self_improvement_orchestrator.h`) ⭐ **NEW - Phase 3**
+
+**Purpose**: Orchestrate autonomous prompt optimization with A/B testing and rollback
+
+**Key Features**:
+- Automatic optimization triggering based on performance thresholds
+- Manual optimization on-demand
+- A/B testing framework with statistical analysis
+- Automatic rollback on performance degradation
+- Optimization history tracking
+- Configurable safety guards
+
+**Example Usage**:
+```cpp
+// Initialize orchestrator
+ImprovementConfig config;
+config.min_success_rate = 0.7;        // Trigger if below 70%
+config.min_executions = 100;          // Need 100 samples
+config.enable_ab_testing = true;      // Enable A/B testing
+config.ab_test_sample_size = 1000;    // 1000 samples per test
+
+auto orchestrator = std::make_shared<SelfImprovementOrchestrator>(
+    config, tracker, optimizer, manager, evaluator
+);
+
+// Automatic optimization scan
+auto results = orchestrator->runAutoOptimization();
+for (const auto& result : results) {
+    std::cout << "Optimized " << result.prompt_id 
+              << " with " << (result.improvement * 100) << "% improvement\n";
+}
+
+// Manual optimization with test cases
+std::vector<TestCase> test_cases = {...};
+auto result = orchestrator->optimizePrompt("prompt_id", test_cases);
+
+// A/B testing
+std::string test_id = orchestrator->startABTest(
+    "prompt_id", "version_a", "version_b"
+);
+
+// Record observations
+orchestrator->recordABTestObservation(test_id, "a", true, 120.5);
+orchestrator->recordABTestObservation(test_id, "b", true, 105.2);
+
+// Check results
+auto test = orchestrator->getABTestResults(test_id);
+if (test && test->is_significant) {
+    std::cout << "Version B is significantly better!\n";
+}
+
+// Rollback if needed
+if (performance_degraded) {
+    orchestrator->rollbackPrompt("prompt_id");
+}
+```
+
+**Configuration Options**:
+- `min_success_rate`: Trigger optimization if below this (default: 0.8)
+- `min_executions`: Minimum samples before optimization (default: 100)
+- `reoptimize_interval`: Hours between re-optimizations (default: 24)
+- `max_iterations`: Maximum optimization iterations (default: 5)
+- `target_improvement`: Target improvement percentage (default: 0.1 = 10%)
+- `enable_ab_testing`: Enable A/B testing before deployment (default: true)
+- `ab_test_sample_size`: Samples for A/B test (default: 1000)
+- `ab_test_confidence`: Confidence level for significance (default: 0.95)
+- `enable_auto_rollback`: Enable automatic rollback (default: true)
+- `rollback_threshold`: Rollback if performance < this factor (default: 0.9)
+
+## Autonomous Self-Improvement Workflow (Complete)
+
+With Phase 3 complete, the full autonomous workflow is now operational:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Execution Phase                              │
+│  1. LLM generates response using prompt template                 │
+│  2. PromptPerformanceTracker records metrics                     │
+│     - Success/failure                                            │
+│     - Latency                                                    │
+│     - User feedback                                              │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     Analysis Phase                               │
+│  1. SelfImprovementOrchestrator.shouldOptimize()                 │
+│  2. Check if optimization threshold met                          │
+│     - Min executions (e.g., 100)                                 │
+│     - Success rate < threshold (e.g., 0.7)                       │
+│     - Cooldown period elapsed                                    │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   Optimization Phase                             │
+│  1. SelfImprovementOrchestrator.optimizePrompt()                 │
+│  2. PromptOptimizer runs improvement cycle                       │
+│  3. MetaPromptGenerator suggests improvements                    │
+│  4. PromptEvaluator validates changes                            │
+│  5. New version created if improved                              │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      A/B Testing Phase                           │
+│  1. Start A/B test with original vs. optimized                   │
+│  2. Route traffic 50/50 between versions                         │
+│  3. Track performance for each version                           │
+│  4. Perform statistical significance test                        │
+│  5. Deploy winner or rollback                                    │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Deployment & Monitoring                       │
+│  1. Deploy optimized version to production                       │
+│  2. Continue monitoring performance                              │
+│  3. Auto-rollback if performance degrades                        │
+│  4. Record in optimization history                               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Complete Integration Example
+
+```cpp
+#include "prompt_engineering/prompt_manager.h"
+#include "prompt_engineering/prompt_performance_tracker.h"
+#include "prompt_engineering/prompt_optimizer.h"
+#include "prompt_engineering/prompt_evaluator.h"
+#include "prompt_engineering/self_improvement_orchestrator.h"
+
+using namespace themis::prompt_engineering;
+
+// Initialize all components
+auto manager = std::make_shared<PromptManager>(db, cf);
+auto tracker = std::make_shared<PromptPerformanceTracker>(db, cf);
+auto optimizer = std::make_shared<PromptOptimizer>();
+auto evaluator = std::make_shared<PromptEvaluator>();
+
+// Configure autonomous improvement
+ImprovementConfig config;
+config.min_success_rate = 0.8;
+config.enable_ab_testing = true;
+
+auto orchestrator = std::make_shared<SelfImprovementOrchestrator>(
+    config, tracker, optimizer, manager, evaluator
+);
+
+// In your LLM call wrapper:
+void executeLLMQuery(const std::string& prompt_id, const std::string& query) {
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // Get prompt template
+    auto prompt = manager->getPromptWithContext(prompt_id, {{"query", query}});
+    
+    // Execute LLM
+    auto response = llm->generate(prompt.value());
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    double latency = std::chrono::duration<double, std::milli>(end - start).count();
+    
+    // Track performance
+    bool success = !response.empty() && response.find("Error") == std::string::npos;
+    tracker->recordExecution(prompt_id, success, latency);
+    
+    // Periodic check (e.g., every hour)
+    static auto last_check = std::chrono::system_clock::now();
+    auto now = std::chrono::system_clock::now();
+    if (now - last_check > std::chrono::hours(1)) {
+        orchestrator->runAutoOptimization();
+        last_check = now;
+    }
+}
+```
+
+## API Endpoints (Future)
+
+The orchestrator can be exposed via HTTP API:
+
+```
+POST /api/v1/prompt_engineering/optimize
+{
+    "prompt_id": "query_enhancement_v1",
+    "strategy": "auto"
+}
+
+Response:
+{
+    "optimization_id": "opt_12345",
+    "status": "in_progress",
+    "estimated_completion": "2026-02-10T15:30:00Z"
+}
+
+GET /api/v1/prompt_engineering/ab_tests
+Response:
+[
+    {
+        "test_id": "abtest_123",
+        "prompt_id": "summarization_v2",
+        "version_a_score": 0.75,
+        "version_b_score": 0.88,
+        "is_significant": true,
+        "samples": 1000
+    }
+]
+
+POST /api/v1/prompt_engineering/rollback/{prompt_id}
+Response:
+{
+    "success": true,
+    "rolled_back_to": "version_v1.2"
+}
+
+GET /api/v1/prompt_engineering/metrics/{prompt_id}
+Response:
+{
+    "prompt_id": "query_enhancement_v1",
+    "success_rate": 0.87,
+    "avg_latency_ms": 120.5,
+    "total_executions": 1523,
+    "last_optimized": "2026-02-09T10:00:00Z",
+    "improvement_over_baseline": 0.15
+}
+```
+
+## Production Deployment Checklist
+
+Before deploying the autonomous self-improvement system:
+
+- [ ] Configure `ImprovementConfig` for your workload
+- [ ] Set up RocksDB persistence for metrics
+- [ ] Define test cases for critical prompts
+- [ ] Enable A/B testing for production safety
+- [ ] Configure rollback thresholds
+- [ ] Set up monitoring and alerting
+- [ ] Schedule periodic `runAutoOptimization()` calls
+- [ ] Test rollback mechanism
+- [ ] Document prompt templates in YAML
+- [ ] Set up logging and audit trails
+
+## Performance Impact
+
+### Phase 3 Addition:
+- **Orchestrator overhead**: Negligible (~0.1%)
+- **A/B testing**: No additional overhead (routing decision only)
+- **Memory usage**: ~1KB per active A/B test
+- **Optimization frequency**: Configurable (default: once per 24h)
+
+## Future Enhancements
+
+### Phase 4: Feedback Collection (Planned)
+- Structured feedback aggregation
+- Hallucination detection
+- Failed query analysis
+- User satisfaction tracking
+
+### Phase 5: Version Control (Planned)
+- Git-like version management
+- Branching and merging
+- Diff visualization
+- Rollback to any version
+
+### Phase 6: Integration Layer (Planned)
+- Seamless LLM hooks
+- Automatic prompt enhancement
+- Background optimization workers
+- Prometheus metrics export
+
