@@ -112,6 +112,21 @@ enum class SecurityEventType {
     BACKUP_CREATED,
     RESTORE_COMPLETED,
     
+    // Task Scheduler Events (SIEM Integration)
+    TASK_REGISTERED,
+    TASK_UNREGISTERED,
+    TASK_ENABLED,
+    TASK_DISABLED,
+    TASK_UPDATED,
+    TASK_EXECUTED_SUCCESS,
+    TASK_EXECUTED_FAILURE,
+    TASK_CRON_TRIGGERED,
+    TASK_CDC_TRIGGERED,
+    TASK_MANUAL_TRIGGERED,
+    TASK_TIMEOUT,
+    TASK_RESOURCE_LIMIT_EXCEEDED,
+    TASK_ANOMALY_DETECTED,
+    
     // Generic
     CUSTOM_EVENT
 };
@@ -128,10 +143,17 @@ struct AuditLoggerConfig {
     
     // SIEM integration
     bool enable_siem = false;
-    std::string siem_type = "syslog"; // "syslog" or "splunk"
+    std::string siem_type = "syslog"; // "syslog", "splunk", or "elastic"
+    std::string siem_format = "json";  // "json", "cef", or "syslog"
     std::string siem_host = "localhost";
-    uint16_t siem_port = 514; // syslog default
+    uint16_t siem_port = 514; // syslog default (514), Splunk HEC (8088), Elastic (9200)
     std::string splunk_token; // Splunk HEC token
+    std::string elastic_index = "themisdb-audit"; // Elasticsearch index
+    
+    // Task Scheduler SIEM settings
+    bool enable_task_scheduler_audit = true;
+    bool enable_anomaly_detection = true;
+    double anomaly_threshold = 2.0; // Standard deviations from baseline
 };
 
 // Minimal Audit Logger supporting Encrypt-then-Sign batches (single-entry for now)
@@ -213,6 +235,33 @@ public:
      * @brief Get the configured log file path
      */
     std::string getLogPath() const { return cfg_.log_path; }
+    
+    /**
+     * @brief Log a task scheduler event with resource metrics and anomaly detection
+     * @param event_type Task scheduler event type
+     * @param task_id Task identifier
+     * @param user_id User/service account executing the task
+     * @param details Event details including resource consumption and metrics
+     */
+    void logTaskSchedulerEvent(
+        SecurityEventType event_type,
+        const std::string& task_id,
+        const std::string& user_id,
+        const nlohmann::json& details = {}
+    );
+    
+    /**
+     * @brief Calculate anomaly score for a task execution
+     * @param task_id Task identifier
+     * @param execution_time_ms Execution time in milliseconds
+     * @param resource_usage Resource consumption metrics
+     * @return Anomaly score (0.0 = normal, >2.0 = anomalous)
+     */
+    double calculateAnomalyScore(
+        const std::string& task_id,
+        double execution_time_ms,
+        const nlohmann::json& resource_usage
+    );
 
 private:
     std::shared_ptr<themis::FieldEncryption> enc_;
@@ -226,6 +275,17 @@ private:
     uint64_t entry_count_ = 0;
     std::chrono::system_clock::time_point last_timestamp_;
     mutable std::mutex chain_mu_;
+    
+    // Task scheduler baseline metrics for anomaly detection
+    struct TaskBaseline {
+        double avg_execution_time_ms = 0.0;
+        double stddev_execution_time_ms = 0.0;
+        size_t execution_count = 0;
+        std::chrono::system_clock::time_point last_execution;
+        double avg_frequency_seconds = 0.0; // Average time between executions
+    };
+    std::map<std::string, TaskBaseline> task_baselines_;
+    mutable std::mutex baselines_mu_;
 
     static std::vector<uint8_t> sha256(const std::vector<uint8_t>& data);
     void appendJsonLine(const nlohmann::json& j);
@@ -234,6 +294,15 @@ private:
     void saveChainState();
     std::string computeEntryHash(const nlohmann::json& entry) const;
     static std::string securityEventTypeToString(SecurityEventType type);
+    
+    // SIEM format converters
+    std::string formatAsJson(const nlohmann::json& event) const;
+    std::string formatAsCef(const nlohmann::json& event, SecurityEventType event_type) const;
+    std::string formatAsSyslog(const nlohmann::json& event, SecurityEventType event_type) const;
+    
+    // Anomaly detection helpers
+    void updateTaskBaseline(const std::string& task_id, double execution_time_ms);
+    double calculateZScore(double value, double mean, double stddev) const;
 };
 
 } // namespace utils

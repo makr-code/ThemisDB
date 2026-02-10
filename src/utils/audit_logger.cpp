@@ -5,6 +5,8 @@
 #include <openssl/sha.h>
 #include <sstream>
 #include <iomanip>
+#include <cmath>
+#include <algorithm>
 
 #ifdef _WIN32
 #include <winsock2.h>
@@ -241,6 +243,20 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::SERVER_STOPPED: return "SERVER_STOPPED";
         case SecurityEventType::BACKUP_CREATED: return "BACKUP_CREATED";
         case SecurityEventType::RESTORE_COMPLETED: return "RESTORE_COMPLETED";
+        // Task Scheduler Events
+        case SecurityEventType::TASK_REGISTERED: return "TASK_REGISTERED";
+        case SecurityEventType::TASK_UNREGISTERED: return "TASK_UNREGISTERED";
+        case SecurityEventType::TASK_ENABLED: return "TASK_ENABLED";
+        case SecurityEventType::TASK_DISABLED: return "TASK_DISABLED";
+        case SecurityEventType::TASK_UPDATED: return "TASK_UPDATED";
+        case SecurityEventType::TASK_EXECUTED_SUCCESS: return "TASK_EXECUTED_SUCCESS";
+        case SecurityEventType::TASK_EXECUTED_FAILURE: return "TASK_EXECUTED_FAILURE";
+        case SecurityEventType::TASK_CRON_TRIGGERED: return "TASK_CRON_TRIGGERED";
+        case SecurityEventType::TASK_CDC_TRIGGERED: return "TASK_CDC_TRIGGERED";
+        case SecurityEventType::TASK_MANUAL_TRIGGERED: return "TASK_MANUAL_TRIGGERED";
+        case SecurityEventType::TASK_TIMEOUT: return "TASK_TIMEOUT";
+        case SecurityEventType::TASK_RESOURCE_LIMIT_EXCEEDED: return "TASK_RESOURCE_LIMIT_EXCEEDED";
+        case SecurityEventType::TASK_ANOMALY_DETECTED: return "TASK_ANOMALY_DETECTED";
         // Generic
         case SecurityEventType::CUSTOM_EVENT: return "CUSTOM_EVENT";
         default: return "UNKNOWN";
@@ -429,7 +445,28 @@ nlohmann::json AuditLogger::getChainState() const {
 // ============================================================================
 
 void AuditLogger::forwardToSiem(const nlohmann::json& event) {
-    (void)event;
+    if (!cfg_.enable_siem) {
+        return;
+    }
+    
+    // Determine event type if available
+    SecurityEventType event_type = SecurityEventType::CUSTOM_EVENT;
+    if (event.contains("event_type")) {
+        std::string event_type_str = event["event_type"].get<std::string>();
+        // Map string back to enum for formatting (simplified approach)
+        // In production, might want a proper reverse mapping
+    }
+    
+    // Format the message based on configured format
+    std::string formatted_message;
+    if (cfg_.siem_format == "cef") {
+        formatted_message = formatAsCef(event, event_type);
+    } else if (cfg_.siem_format == "syslog") {
+        formatted_message = formatAsSyslog(event, event_type);
+    } else { // json (default)
+        formatted_message = formatAsJson(event);
+    }
+    
     if (cfg_.siem_type == "syslog") {
         // RFC 5424 Syslog format (POSIX only)
 #ifndef _WIN32
@@ -444,19 +481,7 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
         addr.sin_port = htons(cfg_.siem_port);
         inet_pton(AF_INET, cfg_.siem_host.c_str(), &addr.sin_addr);
 
-        std::ostringstream syslog_msg;
-        syslog_msg << "<134>1 ";
-
-        auto now = std::chrono::system_clock::now();
-        auto time_t_now = std::chrono::system_clock::to_time_t(now);
-        std::tm tm_utc;
-        gmtime_r(&time_t_now, &tm_utc);
-        syslog_msg << std::put_time(&tm_utc, "%Y-%m-%dT%H:%M:%S") << "Z ";
-
-        syslog_msg << "themisdb themis-audit - - - " << event.dump();
-
-        std::string msg = syslog_msg.str();
-        sendto(sock, msg.c_str(), msg.size(), 0,
+        sendto(sock, formatted_message.c_str(), formatted_message.size(), 0,
                (struct sockaddr*)&addr, sizeof(addr));
 
         close(sock);
@@ -469,6 +494,13 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
         THEMIS_WARN("Splunk SIEM forwarding not yet implemented");
         // TODO: HTTP POST to https://<host>:8088/services/collector/event
         // with Authorization: Splunk <token>
+        // Body: formatted_message (JSON format)
+        
+    } else if (cfg_.siem_type == "elastic") {
+        // Elasticsearch integration - would require libcurl
+        THEMIS_WARN("Elasticsearch SIEM forwarding not yet implemented");
+        // TODO: HTTP POST to http://<host>:9200/<index>/_doc
+        // Body: formatted_message (JSON format)
     }
 }
 
@@ -694,6 +726,295 @@ size_t AuditLogger::purgeOldEntries(std::chrono::system_clock::time_point older_
         THEMIS_ERROR("Failed to purge audit entries: {}", e.what());
         return 0;
     }
+}
+
+// ============================================================================
+// Task Scheduler SIEM Integration
+// ============================================================================
+
+void AuditLogger::logTaskSchedulerEvent(
+    SecurityEventType event_type,
+    const std::string& task_id,
+    const std::string& user_id,
+    const nlohmann::json& details
+) {
+    if (!cfg_.enabled || !cfg_.enable_task_scheduler_audit) {
+        return;
+    }
+    
+    nlohmann::json event = {
+        {"event_type", securityEventTypeToString(event_type)},
+        {"task_id", task_id},
+        {"user_id", user_id},
+        {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count()},
+        {"category", "TASK_SCHEDULER"}
+    };
+    
+    // Add all details
+    if (!details.is_null() && !details.empty()) {
+        for (auto& [key, value] : details.items()) {
+            event[key] = value;
+        }
+    }
+    
+    // Calculate anomaly score if enabled and execution metrics are present
+    if (cfg_.enable_anomaly_detection && 
+        details.contains("execution_time_ms") && 
+        event_type == SecurityEventType::TASK_EXECUTED_SUCCESS) {
+        
+        double execution_time = details["execution_time_ms"].get<double>();
+        double anomaly_score = calculateAnomalyScore(task_id, execution_time, details);
+        event["anomaly_score"] = anomaly_score;
+        
+        // If anomaly detected, log separate anomaly event
+        if (anomaly_score > cfg_.anomaly_threshold) {
+            nlohmann::json anomaly_details = details;
+            anomaly_details["anomaly_score"] = anomaly_score;
+            anomaly_details["threshold"] = cfg_.anomaly_threshold;
+            
+            logSecurityEvent(
+                SecurityEventType::TASK_ANOMALY_DETECTED,
+                user_id,
+                task_id,
+                anomaly_details
+            );
+        }
+    }
+    
+    // Set severity based on event type
+    if (event_type == SecurityEventType::TASK_EXECUTED_FAILURE ||
+        event_type == SecurityEventType::TASK_TIMEOUT ||
+        event_type == SecurityEventType::TASK_RESOURCE_LIMIT_EXCEEDED ||
+        event_type == SecurityEventType::TASK_ANOMALY_DETECTED) {
+        event["severity"] = "HIGH";
+        THEMIS_WARN("Task scheduler event: {} - Task: {} - User: {}", 
+            securityEventTypeToString(event_type), task_id, user_id);
+    } else if (event_type == SecurityEventType::TASK_UNREGISTERED ||
+               event_type == SecurityEventType::TASK_DISABLED ||
+               event_type == SecurityEventType::TASK_UPDATED) {
+        event["severity"] = "MEDIUM";
+    } else {
+        event["severity"] = "LOW";
+    }
+    
+    logEvent(event);
+}
+
+double AuditLogger::calculateAnomalyScore(
+    const std::string& task_id,
+    double execution_time_ms,
+    const nlohmann::json& resource_usage
+) {
+    std::lock_guard<std::mutex> lock(baselines_mu_);
+    
+    auto& baseline = task_baselines_[task_id];
+    
+    // Need at least 10 executions to establish baseline
+    if (baseline.execution_count < 10) {
+        updateTaskBaseline(task_id, execution_time_ms);
+        return 0.0; // No anomaly for new tasks
+    }
+    
+    // Calculate z-score for execution time
+    double time_zscore = calculateZScore(
+        execution_time_ms,
+        baseline.avg_execution_time_ms,
+        baseline.stddev_execution_time_ms
+    );
+    
+    // Check execution frequency anomaly
+    double frequency_zscore = 0.0;
+    auto now = std::chrono::system_clock::now();
+    if (baseline.execution_count > 1) {
+        auto time_since_last = std::chrono::duration_cast<std::chrono::seconds>(
+            now - baseline.last_execution
+        ).count();
+        
+        if (baseline.avg_frequency_seconds > 0) {
+            frequency_zscore = calculateZScore(
+                static_cast<double>(time_since_last),
+                baseline.avg_frequency_seconds,
+                baseline.avg_frequency_seconds * 0.5 // Assume 50% stddev
+            );
+        }
+    }
+    
+    // Update baseline
+    updateTaskBaseline(task_id, execution_time_ms);
+    
+    // Return maximum z-score as anomaly score
+    return std::max(std::abs(time_zscore), std::abs(frequency_zscore));
+}
+
+void AuditLogger::updateTaskBaseline(const std::string& task_id, double execution_time_ms) {
+    auto& baseline = task_baselines_[task_id];
+    
+    auto now = std::chrono::system_clock::now();
+    
+    // Update frequency tracking
+    if (baseline.execution_count > 0) {
+        auto time_since_last = std::chrono::duration_cast<std::chrono::seconds>(
+            now - baseline.last_execution
+        ).count();
+        
+        // Update average frequency using exponential moving average
+        if (baseline.avg_frequency_seconds == 0.0) {
+            baseline.avg_frequency_seconds = static_cast<double>(time_since_last);
+        } else {
+            baseline.avg_frequency_seconds = 
+                0.9 * baseline.avg_frequency_seconds + 0.1 * time_since_last;
+        }
+    }
+    
+    baseline.last_execution = now;
+    
+    // Update execution time statistics
+    size_t n = baseline.execution_count;
+    double old_mean = baseline.avg_execution_time_ms;
+    
+    // Welford's online algorithm for mean and variance
+    baseline.execution_count++;
+    double delta = execution_time_ms - old_mean;
+    baseline.avg_execution_time_ms = old_mean + delta / baseline.execution_count;
+    
+    if (n > 0) {
+        double delta2 = execution_time_ms - baseline.avg_execution_time_ms;
+        double variance = (n * baseline.stddev_execution_time_ms * baseline.stddev_execution_time_ms + 
+                          delta * delta2) / baseline.execution_count;
+        baseline.stddev_execution_time_ms = std::sqrt(variance);
+    }
+}
+
+double AuditLogger::calculateZScore(double value, double mean, double stddev) const {
+    if (stddev < 0.001) { // Avoid division by zero
+        return 0.0;
+    }
+    return (value - mean) / stddev;
+}
+
+// ============================================================================
+// SIEM Format Converters
+// ============================================================================
+
+std::string AuditLogger::formatAsJson(const nlohmann::json& event) const {
+    return event.dump();
+}
+
+std::string AuditLogger::formatAsCef(const nlohmann::json& event, SecurityEventType event_type) const {
+    // CEF Format: CEF:Version|Device Vendor|Device Product|Device Version|Signature ID|Name|Severity|Extension
+    std::ostringstream cef;
+    
+    cef << "CEF:0|ThemisDB|TaskScheduler|1.5.0|";
+    
+    // Signature ID (event type)
+    cef << securityEventTypeToString(event_type) << "|";
+    
+    // Name (human-readable event name)
+    std::string name = securityEventTypeToString(event_type);
+    std::replace(name.begin(), name.end(), '_', ' ');
+    cef << name << "|";
+    
+    // Severity (0-10 scale)
+    std::string severity_str = event.value("severity", "LOW");
+    int severity = 0;
+    if (severity_str == "HIGH") severity = 8;
+    else if (severity_str == "MEDIUM") severity = 5;
+    else severity = 2;
+    cef << severity << "|";
+    
+    // Extension fields
+    std::vector<std::string> extensions;
+    
+    if (event.contains("task_id")) {
+        extensions.push_back("taskId=" + event["task_id"].get<std::string>());
+    }
+    if (event.contains("user_id")) {
+        extensions.push_back("suser=" + event["user_id"].get<std::string>());
+    }
+    if (event.contains("timestamp")) {
+        extensions.push_back("rt=" + std::to_string(event["timestamp"].get<uint64_t>()));
+    }
+    if (event.contains("execution_time_ms")) {
+        extensions.push_back("executionTime=" + std::to_string(event["execution_time_ms"].get<double>()));
+    }
+    if (event.contains("anomaly_score")) {
+        extensions.push_back("anomalyScore=" + std::to_string(event["anomaly_score"].get<double>()));
+    }
+    if (event.contains("error_message")) {
+        std::string msg = event["error_message"].get<std::string>();
+        // Escape special characters in CEF
+        std::replace(msg.begin(), msg.end(), '=', ':');
+        std::replace(msg.begin(), msg.end(), '|', '/');
+        extensions.push_back("msg=" + msg);
+    }
+    if (event.contains("source_ip")) {
+        extensions.push_back("src=" + event["source_ip"].get<std::string>());
+    }
+    
+    // Join extensions
+    for (size_t i = 0; i < extensions.size(); ++i) {
+        if (i > 0) cef << " ";
+        cef << extensions[i];
+    }
+    
+    return cef.str();
+}
+
+std::string AuditLogger::formatAsSyslog(const nlohmann::json& event, SecurityEventType event_type) const {
+    // RFC 5424 Syslog format
+    std::ostringstream syslog;
+    
+    // Priority: Facility (16 = local use 0) * 8 + Severity
+    std::string severity_str = event.value("severity", "LOW");
+    int severity = 6; // Informational
+    if (severity_str == "HIGH") severity = 2; // Critical
+    else if (severity_str == "MEDIUM") severity = 4; // Warning
+    
+    int priority = 16 * 8 + severity;
+    syslog << "<" << priority << ">1 ";
+    
+    // Timestamp (ISO 8601)
+    auto now = std::chrono::system_clock::now();
+    auto time_t = std::chrono::system_clock::to_time_t(now);
+    std::tm tm;
+    #ifdef _WIN32
+    gmtime_s(&tm, &time_t);
+    #else
+    gmtime_r(&time_t, &tm);
+    #endif
+    
+    syslog << std::put_time(&tm, "%Y-%m-%dT%H:%M:%S") << "Z ";
+    
+    // Hostname
+    syslog << "themisdb-server ";
+    
+    // App name
+    syslog << "task-scheduler ";
+    
+    // Process ID
+    syslog << "- ";
+    
+    // Message ID
+    syslog << securityEventTypeToString(event_type) << " ";
+    
+    // Structured data
+    syslog << "[themis@32473";
+    if (event.contains("task_id")) {
+        syslog << " taskId=\"" << event["task_id"].get<std::string>() << "\"";
+    }
+    if (event.contains("user_id")) {
+        syslog << " userId=\"" << event["user_id"].get<std::string>() << "\"";
+    }
+    if (event.contains("anomaly_score")) {
+        syslog << " anomalyScore=\"" << event["anomaly_score"].get<double>() << "\"";
+    }
+    syslog << "] ";
+    
+    // Message
+    syslog << "Task Scheduler Event: " << securityEventTypeToString(event_type);
+    
+    return syslog.str();
 }
 
 } // namespace utils
