@@ -105,9 +105,18 @@ struct CapabilityMatchResult {
     
     /**
      * Comparison operator for sorting by score (descending)
+     * Note: Returns true if this score is GREATER than other's score
+     * to enable descending sort when used with std::sort
      */
     bool operator<(const CapabilityMatchResult& other) const {
-        return score > other.score;  // Note: reversed for descending sort
+        return score > other.score;  // Reversed for descending sort
+    }
+    
+    /**
+     * Explicit descending comparison
+     */
+    bool operator>(const CapabilityMatchResult& other) const {
+        return score < other.score;
     }
 };
 

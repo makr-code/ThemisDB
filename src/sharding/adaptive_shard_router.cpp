@@ -227,16 +227,21 @@ CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
     // Extract keywords
     context.keywords = matcher_->extractKeywords(query);
     
-    // TODO: In production, add more sophisticated query analysis:
-    // - Domain detection (e.g., "law", "medicine", "construction")
-    // - Organization extraction (e.g., "hamburg bauamt")
-    // - Region extraction (e.g., "hamburg", "berlin")
-    // - Data type detection (e.g., "building permits", "legal documents")
-    // - Embedding generation using sentence transformers
+    // TODO (KNOWN LIMITATION): Production deployment requires more sophisticated query analysis:
+    // - Domain detection using NLP/ML models (e.g., "law", "medicine", "construction")
+    // - Named entity recognition for organization extraction (e.g., "hamburg bauamt")
+    // - Geographic entity recognition for region extraction (e.g., "hamburg", "berlin")
+    // - Data type detection from query structure and content
+    // - Embedding generation using sentence transformers or similar models
+    // 
+    // Current implementation uses simple pattern matching as a basic fallback.
+    // For production use, integrate with NLP/embedding services or pre-computed metadata.
+    // See docs/ADAPTIVE_SHARD_ROUTING.md for integration recommendations.
     
     // For now, do simple pattern matching for common terms
     std::string query_lower = query;
-    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), 
+                  [](unsigned char c) { return std::tolower(c); });
     
     // Detect regions (example patterns)
     if (query_lower.find("hamburg") != std::string::npos) {

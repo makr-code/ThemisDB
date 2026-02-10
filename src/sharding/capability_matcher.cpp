@@ -451,7 +451,7 @@ double CapabilityMatcher::jaccardSimilarity(
     const std::set<std::string>& set2
 ) const {
     if (set1.empty() && set2.empty()) {
-        return 1.0;  // Both empty = perfect match
+        return 0.0;  // No meaningful information to compare
     }
     
     if (set1.empty() || set2.empty()) {

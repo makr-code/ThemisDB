@@ -93,7 +93,7 @@ curl -X PUT http://localhost:8080/api/v1/admin/shard/shard_001/capabilities \
 curl http://localhost:8080/api/v1/admin/shard/shard_001/capabilities
 
 # Get all shard capabilities
-curl http://localhost:8080/api/v1/admin/topology/capabilities
+curl http://localhost:8080/api/v1/admin/capabilities
 
 # Bulk update capabilities
 curl -X POST http://localhost:8080/api/v1/admin/capabilities/bulk \
@@ -229,12 +229,32 @@ Returns:
    - Enable for subset of queries
    - Monitor metrics before full rollout
 
-## Limitations
+## Limitations & Known Issues
 
-- Requires manual capability configuration for each shard
-- Semantic matching requires pre-computed embeddings
-- May miss relevant results if capability metadata is inaccurate
-- Not suitable for queries requiring exhaustive search across all data
+1. **Manual Capability Configuration**
+   - Requires manual capability configuration for each shard
+   - No automatic capability discovery or learning (planned for future)
+
+2. **Query Analysis** (IMPORTANT)
+   - Current implementation uses simple pattern matching for query analysis
+   - Production deployments should integrate with:
+     - NLP/ML models for domain detection
+     - Named entity recognition for organization/region extraction
+     - Sentence transformers for semantic embeddings
+   - See `src/sharding/adaptive_shard_router.cpp` TODO comments for details
+
+3. **Semantic Matching**
+   - Requires pre-computed embeddings for both queries and shard capabilities
+   - No automatic embedding generation included
+
+4. **Result Completeness**
+   - May miss relevant results if capability metadata is inaccurate
+   - Not suitable for queries requiring exhaustive search across all data
+   - Consider using higher result_per_iteration or lower thresholds for critical queries
+
+5. **Performance**
+   - First query after startup may be slower due to IDF cache building
+   - Capability matching adds small overhead (~10-50ms depending on shard count)
 
 ## Future Enhancements
 

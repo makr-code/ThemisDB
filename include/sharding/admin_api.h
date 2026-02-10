@@ -60,9 +60,10 @@ public:
         static constexpr const char* CERTS = "/admin/certs";
         
         // Capability management endpoints
-        static constexpr const char* CAPABILITIES = "/admin/capabilities";           // GET all
-        static constexpr const char* SHARD_CAPABILITIES = "/admin/shard/";          // GET/PUT + {id}/capabilities
-        static constexpr const char* CAPABILITIES_BULK = "/admin/capabilities/bulk"; // POST bulk update
+        static constexpr const char* CAPABILITIES = "/admin/capabilities";                    // GET all
+        static constexpr const char* SHARD_CAPABILITIES_GET = "/admin/shard/{shard_id}/capabilities";  // GET single
+        static constexpr const char* SHARD_CAPABILITIES_PUT = "/admin/shard/{shard_id}/capabilities";  // PUT single
+        static constexpr const char* CAPABILITIES_BULK = "/admin/capabilities/bulk";          // POST bulk update
     };
 
 private:

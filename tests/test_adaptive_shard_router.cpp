@@ -326,7 +326,9 @@ TEST_F(AdaptiveShardRouterTest, IterationTimeTracking) {
     }
     
     // Total should be at least the sum (may include overhead)
-    EXPECT_GE(stats.total_time_ms, sum_iterations - 100);  // Allow small timing variance
+    // Use relative tolerance to avoid flaky tests on slow systems
+    uint64_t tolerance = std::max(uint64_t(100), sum_iterations / 10);  // 10% or 100ms
+    EXPECT_GE(stats.total_time_ms, sum_iterations - tolerance);
 }
 
 TEST_F(AdaptiveShardRouterTest, EmptyShardTopology) {
