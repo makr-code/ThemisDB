@@ -527,55 +527,106 @@ void executeLLMQuery(const std::string& prompt_id, const std::string& query) {
 }
 ```
 
-## API Endpoints (Future)
+## API Endpoints ✅
 
-The orchestrator can be exposed via HTTP API:
+The prompt engineering system is now fully accessible via REST API:
 
-```
-POST /api/v1/prompt_engineering/optimize
+### Optimization Endpoint
+
+**POST /api/v1/prompt_engineering/optimize**
+
+Trigger manual optimization for a specific prompt.
+
+Request:
+```json
 {
     "prompt_id": "query_enhancement_v1",
-    "strategy": "auto"
+    "strategy": "auto",
+    "test_cases": [
+        {
+            "input": "sample query",
+            "expected_output": "expected result",
+            "context": {}
+        }
+    ]
 }
+```
 
 Response:
+```json
 {
-    "optimization_id": "opt_12345",
-    "status": "in_progress",
-    "estimated_completion": "2026-02-10T15:30:00Z"
+    "status": "success",
+    "prompt_id": "query_enhancement_v1",
+    "improvement": 0.15,
+    "old_score": 0.75,
+    "new_score": 0.90,
+    "iterations": 3,
+    "ab_testing": true,
+    "ab_test_id": "test_12345"
 }
+```
 
-GET /api/v1/prompt_engineering/ab_tests
+### A/B Testing Endpoints
+
+**GET /api/v1/prompt_engineering/ab_tests**
+
+List all active A/B tests.
+
 Response:
+```json
 [
     {
-        "test_id": "abtest_123",
-        "prompt_id": "summarization_v2",
-        "version_a_score": 0.75,
-        "version_b_score": 0.88,
-        "is_significant": true,
-        "samples": 1000
+        "test_id": "test_12345",
+        "prompt_id": "query_enhancement_v1",
+        "version_a": "v1.0",
+        "version_b": "v1.1",
+        "samples_a": 523,
+        "samples_b": 477,
+        "score_a": 0.82,
+        "score_b": 0.88,
+        "is_significant": false,
+        "confidence": 0.89
     }
 ]
-
-POST /api/v1/prompt_engineering/rollback/{prompt_id}
-Response:
-{
-    "success": true,
-    "rolled_back_to": "version_v1.2"
-}
-
-GET /api/v1/prompt_engineering/metrics/{prompt_id}
-Response:
-{
-    "prompt_id": "query_enhancement_v1",
-    "success_rate": 0.87,
-    "avg_latency_ms": 120.5,
-    "total_executions": 1523,
-    "last_optimized": "2026-02-09T10:00:00Z",
-    "improvement_over_baseline": 0.15
-}
 ```
+
+**GET /api/v1/prompt_engineering/ab_tests/:id**
+
+Get details for a specific A/B test.
+
+**POST /api/v1/prompt_engineering/feedback**
+
+Submit feedback about prompt execution (types: USER_POSITIVE, USER_NEGATIVE, HALLUCINATION_DETECTED, etc.)
+
+**GET /api/v1/prompt_engineering/stats**
+
+Get comprehensive system statistics including integration, performance, and feedback metrics.
+
+**GET /api/v1/prompt_engineering/history/:id**
+
+Get optimization history for a specific prompt.
+
+**GET /api/v1/prompt_engineering/versions/:id**
+
+Get version history for a specific prompt.
+
+**POST /api/v1/prompt_engineering/rollback**
+
+Rollback a prompt to its previous version.
+
+## Prometheus Metrics ✅
+
+The system exports comprehensive metrics in Prometheus format:
+
+### Key Metrics
+- `themis_prompt_engineering_optimization_attempts_total` - Total optimization attempts
+- `themis_prompt_engineering_ab_tests_active` - Currently active A/B tests  
+- `themis_prompt_engineering_prompt_success_rate` - Overall success rate
+- `themis_prompt_engineering_hallucination_detections_total` - Hallucinations detected
+- `themis_prompt_engineering_version_commits_total` - Version commits
+- And 20+ additional metrics for comprehensive observability
+
+See implementation in `prompt_engineering_metrics.h` for complete list.
 
 ## Production Deployment Checklist (All Phases)
 
@@ -600,19 +651,21 @@ Before deploying the autonomous self-improvement system:
 - **Memory usage**: ~1KB per active A/B test
 - **Optimization frequency**: Configurable (default: once per 24h)
 
-## Additional Enhancements (Future)
+## Additional Enhancements
 
-### Monitoring & Observability
-- Prometheus metrics export
-- Grafana dashboards
-- Real-time performance monitoring
-- Alert integration
+### ✅ Completed
+- **REST API Endpoints** - Full API for optimization, A/B testing, feedback, stats, history, versions, and rollback
+- **Prometheus Metrics Export** - Comprehensive metrics for all prompt engineering operations
+- **Real-time Performance Monitoring** - Via metrics and stats endpoints
 
-### Advanced Analytics
-- Machine learning for pattern detection
-- Predictive failure analysis
-- Anomaly detection in prompt performance
-- Long-term trend analysis
+### Future Possibilities
+- **Grafana Dashboards** - Pre-built dashboards for visualization (can be created using exported metrics)
+- **Advanced Analytics**:
+  - Machine learning for pattern detection
+  - Predictive failure analysis
+  - Anomaly detection in prompt performance
+  - Long-term trend analysis
+- **Alert Integration** - Webhooks for critical events (low success rates, hallucination spikes)
 
 
 ### 7. FeedbackCollector (`feedback_collector.h`) ⭐ **NEW - Phase 4**
@@ -1343,6 +1396,37 @@ auto response = llm->generate(ctx.enhanced_prompt);
 integration->afterExecution(ctx, response, true, 120.0, 0.9);
 
 // System runs autonomously!
+```
+
+### 6. Using the REST API
+
+Access all features via HTTP endpoints:
+
+```bash
+# Trigger optimization
+curl -X POST http://localhost:8080/api/v1/prompt_engineering/optimize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt_id": "query_enhancement",
+    "strategy": "auto"
+  }'
+
+# Get system statistics
+curl http://localhost:8080/api/v1/prompt_engineering/stats
+
+# Submit feedback
+curl -X POST http://localhost:8080/api/v1/prompt_engineering/feedback \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt_id": "query_enhancement",
+    "query": "test query",
+    "response": "test response",
+    "type": "USER_POSITIVE",
+    "severity": 0.9
+  }'
+
+# View Prometheus metrics
+curl http://localhost:8080/metrics | grep themis_prompt_engineering
 ```
 
 ## Additional Resources
