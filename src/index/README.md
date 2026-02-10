@@ -97,8 +97,8 @@ Cross-platform GPU-accelerated vector similarity search with automatic backend s
 
 **Supported Backends:**
 - **Vulkan**: Production-ready (v2.2), cross-platform compute (NVIDIA, AMD, Intel, Apple)
-- **CUDA**: Planned (v2.1), NVIDIA-specific optimizations
-- **HIP**: Planned (v2.3), AMD-specific optimizations
+- **CUDA**: Experimental/Planned (v2.1), NVIDIA-specific optimizations
+- **HIP**: Experimental/Planned (v2.3), AMD-specific optimizations
 - **CPU SIMD**: Always available fallback
 
 **Features:**
@@ -628,7 +628,7 @@ auto rel_rotated = rope.rotateRelational(head_emb, relation_name);
 ```
 
 **References:**
-- Su et al. (2021). "RoFormer: Enhanced Transformer with Rotary Position Embedding" arXiv:2104.09864
+- Su et al. (2021). "RoFormer: Enhanced Transformer with Rotary Position Embedding." arXiv:2104.09864
 
 #### LoRARotaryEmbedding
 **Location:** `lora_rope.cpp`, `../include/index/lora_rope.h`
@@ -1481,8 +1481,8 @@ option(THEMIS_ENABLE_QUANTIZATION "Enable vector quantization" ON)
 - TTL indexes with auto-cleanup
 
 🔬 **Experimental:**
-- GPU acceleration (HIP backend)
-- Learned quantization
+- GPU acceleration (CUDA and HIP backends)
+- Learned quantization (LearnedQuantizer - RESEARCH ONLY)
 - Graph attention networks (GAT)
 - Exact geometry backend for spatial queries
 - Erasure coding for vector backups

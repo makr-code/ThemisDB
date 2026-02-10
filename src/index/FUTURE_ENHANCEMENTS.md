@@ -10,16 +10,18 @@ This document outlines planned improvements and experimental features for the Th
 **Priority:** High
 **Target:** v1.6.0
 
-**CUDA Backend (v2.1)**
+**CUDA Backend (ThemisDB v1.6.0, GPU Backend v2.1)**
 - Complete CUDA implementation for NVIDIA GPUs
 - CUDA-specific optimizations (tensor cores, shared memory)
 - Dynamic kernel selection based on GPU architecture
 - Multi-GPU load balancing
 
-**HIP Backend (v2.3)**
+**HIP Backend (ThemisDB v1.6.0, GPU Backend v2.3)**
 - AMD GPU support via HIP
 - ROCm optimization for AMD architectures
 - Cross-vendor GPU compatibility testing
+
+Note: GPU backend versions (v2.x) refer to the internal GPUVectorIndex implementation version, separate from ThemisDB product versions (v1.x).
 
 **Mixed Precision Optimization**
 - FP16 training and inference

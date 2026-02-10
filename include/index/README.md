@@ -47,6 +47,8 @@ std::vector<VectorSearchResult> searchKnnFiltered(const std::string& objectName,
                                                     const std::vector<float>& query, 
                                                     size_t k, 
                                                     const FilterExpr& filter);
+// Radius search (find all within distance threshold)
+// Note: "KnnRadius" combines k-nearest neighbors with radius constraint
 std::vector<VectorSearchResult> searchKnnRadius(const std::string& objectName, 
                                                  const std::vector<float>& query, 
                                                  float radius, size_t max_results);

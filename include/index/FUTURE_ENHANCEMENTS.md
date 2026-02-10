@@ -502,10 +502,15 @@ public:
 
 | Client Version | Server v1.5.x | Server v1.6.x | Server v1.7.x | Server v2.0.x |
 |----------------|---------------|---------------|---------------|---------------|
-| v1.5.x         | ✅ Full       | ✅ Full       | ⚠️ Deprecated | ❌ Removed    |
-| v1.6.x         | ✅ Full       | ✅ Full       | ✅ Full       | ⚠️ Deprecated |
-| v1.7.x         | ⚠️ Limited    | ✅ Full       | ✅ Full       | ✅ Full       |
-| v2.0.x         | ❌ Incompatible| ⚠️ Limited   | ✅ Full       | ✅ Full       |
+| v1.5.x         | ✅ Full       | ✅ Full       | ⚠️ Deprecated¹ | ❌ Removed    |
+| v1.6.x         | ✅ Full       | ✅ Full       | ✅ Full       | ⚠️ Deprecated¹ |
+| v1.7.x         | ⚠️ Limited²   | ✅ Full       | ✅ Full       | ✅ Full       |
+| v2.0.x         | ❌ Incompatible³| ⚠️ Limited²  | ✅ Full       | ✅ Full       |
+
+**Notes:**
+1. **Deprecated**: Old APIs still work but emit deprecation warnings. New features unavailable.
+2. **Limited**: Core APIs work, but new features (e.g., learned indexes, federated search) unavailable. Performance optimizations may not be available.
+3. **Incompatible**: Breaking changes in protocol or API. Client must upgrade.
 
 ### Migration Guides
 
