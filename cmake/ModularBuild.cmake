@@ -366,7 +366,7 @@ set(THEMIS_SHARDING_SOURCES
 set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
-    ../src/llm/prompt_manager.cpp
+    ../src/prompt_engineering/prompt_manager.cpp
     ../src/llm/block_table.cpp
     ../src/llm/paged_kv_cache.cpp
     

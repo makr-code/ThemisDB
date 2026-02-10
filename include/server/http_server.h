@@ -92,10 +92,13 @@ class Changefeed;
 class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
-class PromptManager;
 class SnapshotManager;
 class SnapshotApiHandler;
 class PITRManager;
+
+namespace prompt_engineering {
+class PromptManager;
+}
 
 namespace transaction {
 class BranchManager;
@@ -560,7 +563,7 @@ private:
     std::shared_ptr<LLMInteractionStore> llm_store_;
     rocksdb::ColumnFamilyHandle* llm_cf_handle_ = nullptr;
     // Prompt Manager for managing prompt templates (in-memory or RocksDB-backed)
-    std::shared_ptr<themis::PromptManager> prompt_manager_;
+    std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager_;
     rocksdb::ColumnFamilyHandle* prompt_cf_handle_ = nullptr;
     
     // Changefeed (Sprint A CDC)

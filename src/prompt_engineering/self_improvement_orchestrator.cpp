@@ -1,0 +1,602 @@
+/**
+ * @file self_improvement_orchestrator.cpp
+ * @brief Implementation of self-improvement orchestration
+ */
+
+#include "prompt_engineering/self_improvement_orchestrator.h"
+#include "prompt_engineering/prompt_performance_tracker.h"
+#include "prompt_engineering/prompt_optimizer.h"
+#include "prompt_engineering/prompt_manager.h"
+#include "prompt_engineering/prompt_evaluator.h"
+#include "utils/logger.h"
+#include <algorithm>
+#include <random>
+#include <sstream>
+#include <iomanip>
+#include <cmath>
+
+namespace themis {
+namespace prompt_engineering {
+
+// ============================================================================
+// OptimizationResult Implementation
+// ============================================================================
+
+nlohmann::json OptimizationResult::toJson() const {
+    nlohmann::json j;
+    j["prompt_id"] = prompt_id;
+    j["original_version"] = original_version;
+    j["optimized_version"] = optimized_version;
+    j["status"] = static_cast<int>(status);
+    j["baseline_score"] = baseline_score;
+    j["optimized_score"] = optimized_score;
+    j["improvement"] = improvement;
+    j["iterations"] = iterations;
+    
+    auto started_time = std::chrono::system_clock::to_time_t(started_at);
+    j["started_at"] = started_time;
+    
+    auto completed_time = std::chrono::system_clock::to_time_t(completed_at);
+    j["completed_at"] = completed_time;
+    
+    j["metadata"] = metadata;
+    
+    return j;
+}
+
+// ============================================================================
+// ABTest Implementation
+// ============================================================================
+
+nlohmann::json ABTest::toJson() const {
+    nlohmann::json j;
+    j["test_id"] = test_id;
+    j["prompt_id"] = prompt_id;
+    j["version_a"] = version_a;
+    j["version_b"] = version_b;
+    j["samples_a"] = samples_a;
+    j["samples_b"] = samples_b;
+    j["score_a"] = score_a;
+    j["score_b"] = score_b;
+    j["is_significant"] = is_significant;
+    j["p_value"] = p_value;
+    
+    auto started_time = std::chrono::system_clock::to_time_t(started_at);
+    j["started_at"] = started_time;
+    
+    auto completed_time = std::chrono::system_clock::to_time_t(completed_at);
+    j["completed_at"] = completed_time;
+    
+    return j;
+}
+
+// ============================================================================
+// SelfImprovementOrchestrator Implementation
+// ============================================================================
+
+SelfImprovementOrchestrator::SelfImprovementOrchestrator(
+    const ImprovementConfig& config,
+    std::shared_ptr<PromptPerformanceTracker> tracker,
+    std::shared_ptr<PromptOptimizer> optimizer,
+    std::shared_ptr<PromptManager> manager,
+    std::shared_ptr<PromptEvaluator> evaluator
+)
+    : config_(config)
+    , tracker_(tracker)
+    , optimizer_(optimizer)
+    , manager_(manager)
+    , evaluator_(evaluator)
+{
+    THEMIS_INFO("SelfImprovementOrchestrator initialized with min_success_rate={}, min_executions={}",
+                config_.min_success_rate, config_.min_executions);
+}
+
+std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<OptimizationResult> results;
+    
+    if (!tracker_) {
+        THEMIS_ERROR("PromptPerformanceTracker not available");
+        return results;
+    }
+    
+    // Get all tracked prompts
+    auto all_metrics = tracker_->getAllMetrics();
+    
+    THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
+    
+    for (const auto& metrics : all_metrics) {
+        // Check if this prompt should be optimized
+        if (shouldOptimize(metrics.prompt_id)) {
+            THEMIS_INFO("Triggering optimization for prompt: {}", metrics.prompt_id);
+            
+            // For auto-optimization, we need to create test cases
+            // In production, these would come from historical successful queries
+            // For now, we'll skip prompts without test cases
+            // This is a hook for future integration
+            
+            THEMIS_DEBUG("Auto-optimization requires test cases - skipping {}", metrics.prompt_id);
+            
+            // Record that we attempted optimization
+            last_optimization_[metrics.prompt_id] = std::chrono::system_clock::now();
+        }
+    }
+    
+    return results;
+}
+
+OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
+    const std::string& prompt_id,
+    const std::vector<TestCase>& test_cases
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    OptimizationResult result;
+    result.prompt_id = prompt_id;
+    result.status = OptimizationStatus::NOT_STARTED;
+    result.started_at = std::chrono::system_clock::now();
+    
+    if (!optimizer_ || !manager_ || !tracker_) {
+        THEMIS_ERROR("Required components not available");
+        result.status = OptimizationStatus::FAILED;
+        result.completed_at = std::chrono::system_clock::now();
+        return result;
+    }
+    
+    // Get current prompt template
+    auto template_opt = manager_->getTemplate(prompt_id);
+    if (!template_opt.has_value()) {
+        THEMIS_ERROR("Prompt template not found: {}", prompt_id);
+        result.status = OptimizationStatus::FAILED;
+        result.completed_at = std::chrono::system_clock::now();
+        return result;
+    }
+    
+    result.original_version = template_opt->content;
+    
+    // Get current performance metrics
+    auto metrics_opt = tracker_->getMetrics(prompt_id);
+    if (metrics_opt.has_value()) {
+        result.baseline_score = metrics_opt->success_rate;
+    }
+    
+    THEMIS_INFO("Starting optimization for prompt '{}' (baseline_score={:.2f})",
+                prompt_id, result.baseline_score);
+    
+    result.status = OptimizationStatus::IN_PROGRESS;
+    
+    try {
+        // Configure optimizer
+        OptimizationConfig opt_config;
+        opt_config.max_iterations = config_.max_iterations;
+        opt_config.target_score = std::min(1.0, result.baseline_score + config_.target_improvement);
+        
+        optimizer_->setConfig(opt_config);
+        
+        // Create evaluation function using the evaluator
+        // 
+        // NOTE: This is a placeholder evaluation function for demonstration.
+        // In production, this should:
+        // 1. Actually execute the prompt with LLM
+        // 2. Compare LLM output against expected results
+        // 3. Use PromptEvaluator to compute proper metrics
+        // 
+        // Example production implementation:
+        //   auto eval_fn = [this, &llm](const std::string& prompt, const std::vector<TestCase>& cases) {
+        //       std::vector<std::string> outputs;
+        //       std::vector<std::string> expected;
+        //       for (const auto& tc : cases) {
+        //           outputs.push_back(llm->generate(prompt + tc.input));
+        //           expected.push_back(tc.expected_output);
+        //       }
+        //       return evaluator_->evaluateBatch(outputs, expected).overall_score;
+        //   };
+        //
+        auto eval_fn = [this, &test_cases](const std::string& prompt, 
+                                           const std::vector<TestCase>& cases) -> double {
+            // PLACEHOLDER: Heuristic-based scoring for testing
+            // TODO: Replace with actual LLM execution and evaluation
+            double score = 0.5; // Base score
+            
+            // These are arbitrary heuristics for testing purposes only
+            if (prompt.find("Task") != std::string::npos) score += 0.2;
+            if (prompt.find("Example") != std::string::npos) score += 0.2;
+            if (prompt.length() > 100) score += 0.1;
+            
+            return std::min(1.0, score);
+        };
+        
+        // Run optimization
+        auto opt_result = optimizer_->optimize(
+            result.original_version,
+            test_cases,
+            eval_fn
+        );
+        
+        result.optimized_version = opt_result.optimized_prompt;
+        result.optimized_score = opt_result.final_score;
+        result.improvement = (result.optimized_score - result.baseline_score) / 
+                            std::max(0.01, result.baseline_score);
+        result.iterations = opt_result.iterations;
+        
+        // Check if improvement is significant
+        if (result.improvement >= config_.target_improvement * 0.5) {
+            // Improvement is good enough
+            if (config_.enable_ab_testing) {
+                result.status = OptimizationStatus::AB_TESTING;
+                
+                // Start A/B test
+                std::string test_id = startABTest(
+                    prompt_id,
+                    result.original_version,
+                    result.optimized_version,
+                    config_.ab_test_sample_size
+                );
+                
+                result.metadata["ab_test_id"] = test_id;
+                
+                THEMIS_INFO("Optimization completed, starting A/B test: {}", test_id);
+            } else {
+                // Deploy directly without A/B testing
+                result.status = OptimizationStatus::DEPLOYED;
+                deployOptimizedVersion(prompt_id, result.optimized_version);
+                
+                THEMIS_INFO("Optimization completed and deployed (no A/B testing)");
+            }
+        } else {
+            // Improvement not significant enough
+            result.status = OptimizationStatus::COMPLETED;
+            THEMIS_WARN("Optimization improvement ({:.2%}) below threshold ({:.2%})",
+                       result.improvement, config_.target_improvement);
+        }
+        
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Optimization failed: {}", e.what());
+        result.status = OptimizationStatus::FAILED;
+        result.metadata["error"] = e.what();
+    }
+    
+    result.completed_at = std::chrono::system_clock::now();
+    
+    // Save to history
+    optimization_history_[prompt_id].push_back(result);
+    last_optimization_[prompt_id] = result.completed_at;
+    
+    return result;
+}
+
+std::string SelfImprovementOrchestrator::startABTest(
+    const std::string& prompt_id,
+    const std::string& version_a,
+    const std::string& version_b,
+    size_t sample_size
+) {
+    // Note: Lock already held by caller
+    
+    ABTest test;
+    test.test_id = generateTestId();
+    test.prompt_id = prompt_id;
+    test.version_a = version_a;
+    test.version_b = version_b;
+    test.started_at = std::chrono::system_clock::now();
+    
+    if (sample_size == 0) {
+        sample_size = config_.ab_test_sample_size;
+    }
+    
+    active_ab_tests_[test.test_id] = test;
+    
+    THEMIS_INFO("Started A/B test {} for prompt {} (sample_size={})",
+                test.test_id, prompt_id, sample_size);
+    
+    return test.test_id;
+}
+
+void SelfImprovementOrchestrator::recordABTestObservation(
+    const std::string& test_id,
+    const std::string& version_used,
+    bool success,
+    double latency_ms
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = active_ab_tests_.find(test_id);
+    if (it == active_ab_tests_.end()) {
+        THEMIS_WARN("A/B test not found: {}", test_id);
+        return;
+    }
+    
+    ABTest& test = it->second;
+    
+    // Determine which version and update stats
+    bool is_version_a = (version_used == test.version_a || version_used == "a");
+    
+    if (is_version_a) {
+        // Update version A stats
+        double new_score = success ? 1.0 : 0.0;
+        test.score_a = (test.score_a * test.samples_a + new_score) / (test.samples_a + 1);
+        test.samples_a++;
+    } else {
+        // Update version B stats
+        double new_score = success ? 1.0 : 0.0;
+        test.score_b = (test.score_b * test.samples_b + new_score) / (test.samples_b + 1);
+        test.samples_b++;
+    }
+    
+    THEMIS_DEBUG("A/B test {} observation: version={}, success={}, samples_a={}, samples_b={}",
+                 test_id, version_used, success, test.samples_a, test.samples_b);
+    
+    // Check if test is complete
+    checkABTestCompletion(test_id);
+}
+
+bool SelfImprovementOrchestrator::checkABTestCompletion(const std::string& test_id) {
+    // Note: Lock already held by caller in most cases
+    
+    auto it = active_ab_tests_.find(test_id);
+    if (it == active_ab_tests_.end()) {
+        return false;
+    }
+    
+    ABTest& test = it->second;
+    
+    // Check if we have enough samples
+    size_t target_samples = config_.ab_test_sample_size / 2; // Each version gets half
+    if (test.samples_a < target_samples || test.samples_b < target_samples) {
+        return false;
+    }
+    
+    // Perform statistical analysis
+    analyzeABTest(test);
+    
+    test.completed_at = std::chrono::system_clock::now();
+    
+    THEMIS_INFO("A/B test {} completed: score_a={:.3f}, score_b={:.3f}, significant={}, p={:.4f}",
+                test_id, test.score_a, test.score_b, test.is_significant, test.p_value);
+    
+    // Decide whether to deploy based on results
+    if (test.is_significant && test.score_b > test.score_a) {
+        // Version B is significantly better - deploy it
+        THEMIS_INFO("A/B test {} shows version B is better - deploying", test_id);
+        deployOptimizedVersion(test.prompt_id, test.version_b);
+        
+        // Update optimization history
+        for (auto& results : optimization_history_[test.prompt_id]) {
+            if (results.metadata.contains("ab_test_id") && 
+                results.metadata["ab_test_id"] == test_id) {
+                results.status = OptimizationStatus::DEPLOYED;
+            }
+        }
+    } else {
+        // Version B is not better - keep version A
+        THEMIS_WARN("A/B test {} shows no significant improvement - keeping original", test_id);
+        
+        // Update optimization history
+        for (auto& results : optimization_history_[test.prompt_id]) {
+            if (results.metadata.contains("ab_test_id") && 
+                results.metadata["ab_test_id"] == test_id) {
+                results.status = OptimizationStatus::COMPLETED;
+            }
+        }
+    }
+    
+    return true;
+}
+
+std::optional<ABTest> SelfImprovementOrchestrator::getABTestResults(const std::string& test_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = active_ab_tests_.find(test_id);
+    if (it != active_ab_tests_.end()) {
+        return it->second;
+    }
+    
+    return std::nullopt;
+}
+
+bool SelfImprovementOrchestrator::rollbackPrompt(const std::string& prompt_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    // Get optimization history
+    auto hist_it = optimization_history_.find(prompt_id);
+    if (hist_it == optimization_history_.end() || hist_it->second.empty()) {
+        THEMIS_WARN("No optimization history found for prompt: {}", prompt_id);
+        return false;
+    }
+    
+    // Find the last deployed optimization
+    auto& history = hist_it->second;
+    for (auto it = history.rbegin(); it != history.rend(); ++it) {
+        if (it->status == OptimizationStatus::DEPLOYED) {
+            // Rollback to original version
+            deployOptimizedVersion(prompt_id, it->original_version);
+            it->status = OptimizationStatus::ROLLED_BACK;
+            
+            THEMIS_INFO("Rolled back prompt '{}' to original version", prompt_id);
+            return true;
+        }
+    }
+    
+    THEMIS_WARN("No deployed optimization found to rollback for prompt: {}", prompt_id);
+    return false;
+}
+
+std::vector<OptimizationResult> SelfImprovementOrchestrator::getOptimizationHistory(
+    const std::string& prompt_id
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = optimization_history_.find(prompt_id);
+    if (it != optimization_history_.end()) {
+        return it->second;
+    }
+    
+    return {};
+}
+
+std::vector<ABTest> SelfImprovementOrchestrator::getActiveABTests() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<ABTest> tests;
+    tests.reserve(active_ab_tests_.size());
+    
+    for (const auto& [id, test] : active_ab_tests_) {
+        tests.push_back(test);
+    }
+    
+    return tests;
+}
+
+void SelfImprovementOrchestrator::setConfig(const ImprovementConfig& config) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    config_ = config;
+    THEMIS_INFO("Updated SelfImprovementOrchestrator configuration");
+}
+
+bool SelfImprovementOrchestrator::shouldOptimize(const std::string& prompt_id) const {
+    // Note: Lock already held by caller in most cases
+    
+    if (!tracker_) {
+        return false;
+    }
+    
+    // Get performance metrics
+    auto metrics_opt = tracker_->getMetrics(prompt_id);
+    if (!metrics_opt.has_value()) {
+        return false;
+    }
+    
+    const auto& metrics = metrics_opt.value();
+    
+    // Check minimum execution threshold
+    if (metrics.total_executions < config_.min_executions) {
+        return false;
+    }
+    
+    // Check if performance is below threshold
+    if (metrics.success_rate >= config_.min_success_rate) {
+        return false;
+    }
+    
+    // Check if enough time has passed since last optimization
+    if (!canReoptimize(prompt_id)) {
+        return false;
+    }
+    
+    return true;
+}
+
+// ============================================================================
+// Private Methods
+// ============================================================================
+
+std::string SelfImprovementOrchestrator::generateTestId() const {
+    static thread_local std::mt19937_64 gen((std::random_device())());
+    static std::uniform_int_distribution<uint64_t> dis;
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+    
+    std::ostringstream oss;
+    oss << "abtest_" << std::hex << std::setfill('0')
+        << std::setw(12) << ms
+        << "_"
+        << std::setw(8) << dis(gen);
+    return oss.str();
+}
+
+bool SelfImprovementOrchestrator::canReoptimize(const std::string& prompt_id) const {
+    auto it = last_optimization_.find(prompt_id);
+    if (it == last_optimization_.end()) {
+        return true; // Never optimized before
+    }
+    
+    auto now = std::chrono::system_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::hours>(now - it->second);
+    
+    return elapsed >= config_.reoptimize_interval;
+}
+
+void SelfImprovementOrchestrator::analyzeABTest(ABTest& test) {
+    // Simplified statistical analysis using z-test for proportions
+    // In production, use a proper statistical library
+    
+    // Calculate pooled proportion
+    double p_pooled = (test.score_a * test.samples_a + test.score_b * test.samples_b) /
+                      (test.samples_a + test.samples_b);
+    
+    // Calculate standard error
+    double se = std::sqrt(p_pooled * (1 - p_pooled) * 
+                         (1.0 / test.samples_a + 1.0 / test.samples_b));
+    
+    // Avoid division by zero
+    if (se < 1e-10) {
+        test.p_value = 1.0;
+        test.is_significant = false;
+        return;
+    }
+    
+    // Calculate z-score
+    double z = (test.score_b - test.score_a) / se;
+    
+    // Calculate p-value using approximation of cumulative distribution function
+    // Note: This is a simplified approximation. For production use, integrate
+    // a proper statistical library like Boost.Math for accurate CDF calculation.
+    // 
+    // Current implementation uses a rough approximation:
+    // - For |z| < 1.96: moderate evidence (p ~0.05)
+    // - For |z| > 2.58: strong evidence (p < 0.01)
+    // 
+    // TODO: Replace with proper normal CDF implementation
+    double abs_z = std::abs(z);
+    if (abs_z >= 2.58) {
+        test.p_value = 0.01;  // Strong significance
+    } else if (abs_z >= 1.96) {
+        test.p_value = 0.05;  // Moderate significance
+    } else if (abs_z >= 1.64) {
+        test.p_value = 0.10;  // Weak significance
+    } else {
+        // Linear interpolation for z between 0 and 1.64
+        test.p_value = 1.0 - (abs_z / 1.64) * 0.9;
+    }
+    
+    // Two-tailed test
+    // (Already handled by using absolute value above)
+    
+    // Check significance
+    double alpha = 1.0 - config_.ab_test_confidence;
+    test.is_significant = (test.p_value < alpha) && (test.score_b > test.score_a);
+}
+
+void SelfImprovementOrchestrator::deployOptimizedVersion(
+    const std::string& prompt_id,
+    const std::string& version
+) {
+    if (!manager_) {
+        THEMIS_ERROR("PromptManager not available for deployment");
+        return;
+    }
+    
+    // Get current template
+    auto template_opt = manager_->getTemplate(prompt_id);
+    if (!template_opt.has_value()) {
+        THEMIS_ERROR("Cannot deploy - template not found: {}", prompt_id);
+        return;
+    }
+    
+    // Update template content
+    auto updated_template = template_opt.value();
+    updated_template.content = version;
+    
+    // Update metadata to track deployment
+    updated_template.metadata["last_deployed"] = 
+        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    
+    // Create new version (in production, this would use PromptVersionControl)
+    manager_->createTemplate(updated_template);
+    
+    THEMIS_INFO("Deployed optimized version for prompt: {}", prompt_id);
+}
+
+} // namespace prompt_engineering
+} // namespace themis

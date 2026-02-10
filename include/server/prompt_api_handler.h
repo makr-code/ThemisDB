@@ -13,7 +13,10 @@ namespace themis {
 
 // Forward declarations
 class RocksDBWrapper;
+
+namespace prompt_engineering {
 class PromptManager;
+}
 
 namespace server {
 
@@ -45,7 +48,7 @@ public:
      */
     PromptApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
-        std::shared_ptr<PromptManager> prompt_manager,
+        std::shared_ptr<prompt_engineering::PromptManager> prompt_manager,
         std::shared_ptr<themis::AuthMiddleware> auth
     );
 
@@ -79,7 +82,7 @@ public:
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
-    std::shared_ptr<PromptManager> prompt_manager_;
+    std::shared_ptr<prompt_engineering::PromptManager> prompt_manager_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
 
     // Helper methods (to be implemented)

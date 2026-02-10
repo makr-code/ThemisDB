@@ -4,9 +4,9 @@
  */
 
 #include <gtest/gtest.h>
-#include "llm/meta_prompt_generator.h"
+#include "prompt_engineering/meta_prompt_generator.h"
 
-using namespace themis::llm;
+using namespace themis::prompt_engineering;
 
 class MetaPromptGeneratorTest : public ::testing::Test {
 protected:

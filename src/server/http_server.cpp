@@ -53,7 +53,7 @@
 
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"
 #include "transaction/snapshot_manager.h"
 #include "transaction/branch_manager.h"
@@ -401,19 +401,19 @@ HttpServer::HttpServer(
             if (cf_result) {
                 prompt_cf_handle_ = *cf_result;
                 THEMIS_INFO("PromptManager: using dedicated CF 'prompt_templates'");
-                prompt_manager_ = std::make_shared<themis::PromptManager>(storage_.get(), prompt_cf_handle_);
+                prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>(storage_.get(), prompt_cf_handle_);
             } else {
                 THEMIS_WARN("PromptManager: failed to create dedicated CF, falling back to in-memory: {}", cf_result.error().message());
-                prompt_manager_ = std::make_shared<themis::PromptManager>();
+                prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>();
             }
         } else {
             // No storage available (tests / in-memory run)
-            prompt_manager_ = std::make_shared<themis::PromptManager>();
+            prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>();
             THEMIS_INFO("PromptManager initialized in-memory (no storage provided)");
         }
     } catch (const std::exception& ex) {
         THEMIS_ERROR("PromptManager initialization failure: {}", ex.what());
-        prompt_manager_ = std::make_shared<themis::PromptManager>();
+        prompt_manager_ = std::make_shared<themis::prompt_engineering::PromptManager>();
     }
     
     // Initialize Time-Series Store (Sprint B) if feature enabled

@@ -14,11 +14,14 @@ class RocksDBWrapper;
 class SecondaryIndexManager;
 class GraphIndexManager;
 class LLMInteractionStore;
-class PromptManager;
 class SemanticCache;
 class FieldEncryption;
 class KeyProvider;
 class AuthMiddleware;
+
+namespace prompt_engineering {
+class PromptManager;
+}
 
 namespace security {
 class PKIKeyProvider;
@@ -73,7 +76,7 @@ public:
         std::shared_ptr<KeyProvider> key_provider,
         std::shared_ptr<SemanticCache> semantic_cache,
         std::shared_ptr<LLMInteractionStore> llm_store,
-        std::shared_ptr<PromptManager> prompt_manager,
+        std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager,
         std::shared_ptr<::themis::AuthMiddleware> auth,
         bool feature_llm_query_enhancement,
         bool feature_llm_store
@@ -117,7 +120,7 @@ private:
     std::shared_ptr<KeyProvider> key_provider_;
     std::shared_ptr<SemanticCache> semantic_cache_;
     std::shared_ptr<LLMInteractionStore> llm_store_;
-    std::shared_ptr<PromptManager> prompt_manager_;
+    std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager_;
     std::shared_ptr<::themis::AuthMiddleware> auth_;
     bool feature_llm_query_enhancement_{false};
     bool feature_llm_store_{false};
