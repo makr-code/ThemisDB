@@ -135,35 +135,22 @@ jobs:
       - name: Deploy to badges branch
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: |
+          # Badge-Dateien sichern
+          cp -r badges /tmp/badges-backup
+          
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
           # Badges branch auschecken oder erstellen
-          git fetch origin badges 2>/dev/null || git checkout --orphan badges || git checkout badges
+          git fetch origin badges 2>/dev/null || true
           git checkout badges 2>/dev/null || git checkout --orphan badges
           
           # Alle Dateien außer badges löschen
           git rm -rf . 2>/dev/null || true
           
-          # Badge-Dateien hinzufügen
+          # Badge-Dateien aus Backup wiederherstellen
           mkdir -p badges
-          cat > badges/lines-of-code.json << EOF
-          {
-            "schemaVersion": 1,
-            "label": "lines of code",
-            "message": "${{ env.TOTAL_LINES }}",
-            "color": "blue"
-          }
-          EOF
-          
-          cat > badges/file-count.json << EOF
-          {
-            "schemaVersion": 1,
-            "label": "files",
-            "message": "${{ env.CODE_FILES }}",
-            "color": "green"
-          }
-          EOF
+          cp /tmp/badges-backup/*.json badges/
           
           # README für badges branch
           cat > README.md << EOF
