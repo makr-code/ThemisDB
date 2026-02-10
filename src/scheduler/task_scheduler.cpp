@@ -33,8 +33,8 @@
 namespace themis {
 
 // Default values for audit context (when auth context not available)
-static constexpr const char* DEFAULT_AUDIT_USER = DEFAULT_AUDIT_USER;
-static constexpr const char* DEFAULT_AUDIT_IP = DEFAULT_AUDIT_IP;
+static constexpr const char* DEFAULT_AUDIT_USER = "system";
+static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
 // ===== TaskScheduler Implementation =====
 
@@ -239,8 +239,8 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         event.success = true;
         event.user_id = DEFAULT_AUDIT_USER; 
         event.ip_address = DEFAULT_AUDIT_IP; 
-        // TODO(#ISSUE): Integrate with authentication context to retrieve actual user_id
-        // TODO(#ISSUE): Integrate with request context to retrieve actual IP address
+        // TODO: Integrate with AuthenticationContext to retrieve actual user_id when available
+        // TODO: Integrate with RequestContext to retrieve actual client IP address when available
         event.metadata["cron_expression"] = sanitized_task.cron_expression;
         event.metadata["interval_ms"] = sanitized_task.interval.count();
         
