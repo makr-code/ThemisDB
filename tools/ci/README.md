@@ -39,6 +39,46 @@ The script generates `docs/ci-cd/workflows-inventory.md` with:
 - Common patterns analysis
 - Actions usage summary
 
+### parse_build_errors.py
+
+Parses compiler output from build logs and generates structured error reports.
+
+**Features:**
+- Parses GCC, Clang, and MSVC compiler output
+- Extracts errors and warnings with file locations
+- Categorizes errors by type (linking, syntax, missing files, etc.)
+- Generates JSON and Markdown reports
+- Used by the nightly build workflow for automated issue creation
+
+**Usage:**
+```bash
+# Parse a build log
+python3 tools/ci/parse_build_errors.py build.log --compiler gcc \
+  --json error_summary.json \
+  --markdown error_summary.md
+
+# Supported compilers: gcc, clang, msvc
+```
+
+**Requirements:**
+- Python 3.7 or higher
+- No external dependencies
+
+**Output:**
+- JSON file with structured error data
+- Markdown file with formatted error summary
+- Exit code 1 if errors found, 0 otherwise
+
+**Error Categories:**
+- `linking` - Undefined references, unresolved externals
+- `syntax` - Syntax errors, missing semicolons
+- `missing_file` - Missing headers or files
+- `ambiguity` - Ambiguous calls, overload resolution
+- `deprecated` - Deprecated features
+- `other` - All other errors
+
+See [Nightly Build documentation](../../docs/ci/NIGHTLY_BUILD.md) for more details.
+
 ## Installation
 
 ```bash
