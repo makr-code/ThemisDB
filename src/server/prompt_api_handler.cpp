@@ -1,6 +1,6 @@
 #include "server/prompt_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -10,7 +10,7 @@ namespace server {
 
 PromptApiHandler::PromptApiHandler(
     std::shared_ptr<RocksDBWrapper> storage,
-    std::shared_ptr<PromptManager> prompt_manager,
+    std::shared_ptr<prompt_engineering::PromptManager> prompt_manager,
     std::shared_ptr<AuthMiddleware> auth
 )
     : storage_(std::move(storage))
@@ -35,7 +35,7 @@ http::response<http::string_body> PromptApiHandler::handlePost(
         }
 
         auto body = nlohmann::json::parse(req.body());
-        themis::PromptManager::PromptTemplate t;
+        themis::prompt_engineering::PromptManager::PromptTemplate t;
         
         if (body.contains("id")) t.id = body.value("id", std::string());
         if (body.contains("name")) t.name = body.value("name", std::string());
