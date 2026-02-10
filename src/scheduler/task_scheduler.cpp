@@ -36,6 +36,24 @@ namespace themis {
 static constexpr const char* DEFAULT_AUDIT_USER = "system";
 static constexpr const char* DEFAULT_AUDIT_IP = "localhost";
 
+// Helper function to set default audit context
+static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
+    event.user_id = DEFAULT_AUDIT_USER;
+    event.ip_address = DEFAULT_AUDIT_IP;
+}
+
+// Helper function to convert trigger type to string
+static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
+    switch (type) {
+        case ScheduledTask::TriggerType::CRON: return "CRON";
+        case ScheduledTask::TriggerType::CDC_EVENT: return "CDC";
+        case ScheduledTask::TriggerType::INTERVAL: return "INTERVAL";
+        case ScheduledTask::TriggerType::MANUAL: return "MANUAL";
+        case ScheduledTask::TriggerType::WEBHOOK: return "WEBHOOK";
+        default: return "UNKNOWN";
+    }
+}
+
 // ===== TaskScheduler Implementation =====
 
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
@@ -226,19 +244,9 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
         event.task_name = sanitized_task.name;
         event.task_description = sanitized_task.description;
         event.event_type = scheduler::TaskEventType::TASK_REGISTERED;
-        event.trigger_type = [&]() {
-            switch (sanitized_task.trigger_type) {
-                case ScheduledTask::TriggerType::CRON: return "CRON";
-                case ScheduledTask::TriggerType::CDC_EVENT: return "CDC";
-                case ScheduledTask::TriggerType::INTERVAL: return "INTERVAL";
-                case ScheduledTask::TriggerType::MANUAL: return "MANUAL";
-                case ScheduledTask::TriggerType::WEBHOOK: return "WEBHOOK";
-                default: return "UNKNOWN";
-            }
-        }();
+        event.trigger_type = getTriggerTypeString(sanitized_task.trigger_type);
         event.success = true;
-        event.user_id = DEFAULT_AUDIT_USER; 
-        event.ip_address = DEFAULT_AUDIT_IP; 
+        setDefaultAuditContext(event);
         // TODO: Integrate with AuthenticationContext to retrieve actual user_id when available
         // TODO: Integrate with RequestContext to retrieve actual client IP address when available
         event.metadata["cron_expression"] = sanitized_task.cron_expression;
@@ -570,18 +578,8 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         start_event.task_name = task->name;
         start_event.task_description = task->description;
         start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
-        start_event.trigger_type = [&]() {
-            switch (task->trigger_type) {
-                case ScheduledTask::TriggerType::CRON: return "CRON";
-                case ScheduledTask::TriggerType::CDC_EVENT: return "CDC";
-                case ScheduledTask::TriggerType::INTERVAL: return "INTERVAL";
-                case ScheduledTask::TriggerType::MANUAL: return "MANUAL";
-                case ScheduledTask::TriggerType::WEBHOOK: return "WEBHOOK";
-                default: return "UNKNOWN";
-            }
-        }();
-        start_event.user_id = DEFAULT_AUDIT_USER;
-        start_event.ip_address = DEFAULT_AUDIT_IP;
+        start_event.trigger_type = getTriggerTypeString(task->trigger_type);
+        setDefaultAuditContext(start_event);
         
         audit_manager_->logAuditEvent(start_event);
     }
@@ -631,8 +629,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             completion_event.task_description = task->description;
             completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
             completion_event.trigger_type = start_event.trigger_type;
-            completion_event.user_id = DEFAULT_AUDIT_USER;
-            completion_event.ip_address = DEFAULT_AUDIT_IP;
+            completion_setDefaultAuditContext(completion_event);
             completion_event.success = true;
             
             // Resource usage (basic metrics)
@@ -681,8 +678,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.task_description = task->description;
             failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
             failure_event.trigger_type = start_event.trigger_type;
-            failure_event.user_id = DEFAULT_AUDIT_USER;
-            failure_event.ip_address = DEFAULT_AUDIT_IP;
+            failure_setDefaultAuditContext(failure_event);
             failure_event.success = false;
             failure_event.error_message = e.what();
             failure_event.error_type = "EXECUTION_ERROR";
@@ -702,8 +698,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.task_name = task->name;
                 security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
                 security_event.severity = "HIGH";
-                security_event.user_id = DEFAULT_AUDIT_USER;
-                security_event.ip_address = DEFAULT_AUDIT_IP;
+                security_setDefaultAuditContext(security_event);
                 security_event.violation_type = "excessive_failures";
                 security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
                 security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
