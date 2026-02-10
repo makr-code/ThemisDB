@@ -26,7 +26,7 @@
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
 #include "llm/llm_interaction_store.h"
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 #include "cache/semantic_cache.h"
 #include "server/auth_middleware.h"
 #include "security/encryption.h"
@@ -71,7 +71,7 @@ QueryApiHandler::QueryApiHandler(
     std::shared_ptr<KeyProvider> key_provider,
     std::shared_ptr<SemanticCache> semantic_cache,
     std::shared_ptr<LLMInteractionStore> llm_store,
-    std::shared_ptr<PromptManager> prompt_manager,
+    std::shared_ptr<themis::prompt_engineering::PromptManager> prompt_manager,
     std::shared_ptr<::themis::AuthMiddleware> auth,
     bool feature_llm_query_enhancement,
     bool feature_llm_store
