@@ -159,12 +159,20 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 **Organisierte Ordner:**
 - `aql/` - **AQL Grammatik (EBNF)** ⭐ **v1.3.0**
+- `reports/` - **Build & Code Reviews** - Build-Reports, Code-Reviews, Analyse-Berichte ⭐ **NEU**
+- `guides/` - **Setup & Build-Guides** - Quickstart, Docker, Windows, VS Code Setup ⭐ **NEU**
+- `releases/` - **Release-Planung** - RC-Checklisten, Roadmaps ⭐ **NEU**
+- `performance/` - **Performance-Optimierung** - Cache, Query, Library Optimizations ⭐ **NEU**
+- `implementation/` - **Implementierungs-Summaries** - Feature-Implementierungen (AQL, LoRA, etc.) ⭐ **NEU**
+- `features/` - **Feature-Dokumentation** - Cloud Storage, CRON, gRPC, TLS, etc. ⭐ **NEU**
+- `phase_reports/` - **Projekt-Phasen** - Phase 3-6 Zusammenfassungen ⭐ **NEU**
+- `security/` - **Security Hardening** - Security Summaries & Analysen ⭐ **NEU**
+- `lora/` - **LoRA-Stabilisierung** - LoRA-spezifische Analysen & Pläne ⭐ **NEU**
+- `architecture/` - **Architektur-Dokumentation** - Vector Indexing, etc. ⭐ **NEU**
+- `reference/` - **Referenz-Dokumentation** - Dependencies, Sources ⭐ **NEU**
 - `build/` - Build-System-Dokumentation (BUILD-SYSTEM.md, BUILDGUIDE.md, etc.)
 - `development/` - Entwicklungs-Dokumentation (IMPLEMENTATION-*.md, CODE_REVIEW-*.md)
-- `guides/` - Benutzer- und Entwickler-Guides (RAILWAY_COMPLETE_GUIDE.md, etc.)
-- `architecture/` - Architektur-Dokumentation (ARCHITECTURE_OVERVIEW.md, etc.)
 - `stakeholder/` - Stakeholder-Dokumentation
-- `releases/` - Release-Notizen (v1.3.0.md, v1.2.0.md, v1.1.0.md, etc.)
 - `llm/` - **LLM & AI Integration** ⭐ **v1.3.0 RELEASED**
 - `plugins/` - **RPC Framework** ⭐ **v1.3.0**
 - `archive/` - Alte/historische Dokumentation
@@ -390,7 +398,16 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 🔍 Source Code Dokumentation
 
 ### Module Documentation (src/)
-Alle 26 Module mit detaillierter Dokumentation in [src/](src/README.md):
+Alle 40 ThemisDB-Module mit vollständiger Dokumentation direkt in den Source-Verzeichnissen:
+
+**Dokumentation pro Modul in `../../src/<module>/`:**
+- `README.md` - Modul-Übersicht, Architektur, APIs
+- `FUTURE_ENHANCEMENTS.md` - Geplante Features & Verbesserungen (falls vorhanden)
+
+**Header-Dokumentation in `../../include/<module>/`:**
+- `README.md` - Header-Dokumentation und API-Referenz
+
+**Module nach Kategorie:**
 
 - **Acceleration** - GPU/CPU Backends (173K LOC)
 - **Analytics** - OLAP, CEP (57K LOC)
