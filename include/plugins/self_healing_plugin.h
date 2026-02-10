@@ -79,7 +79,7 @@ struct PluginDiagnostics {
     /**
      * @brief Check if plugin needs immediate attention
      */
-    bool needsImediateAttention() const {
+    bool needsImmediateAttention() const {
         return status == PluginHealthStatus::CRITICAL || 
                status == PluginHealthStatus::RECOVERING ||
                getErrorRate() > 0.5;
