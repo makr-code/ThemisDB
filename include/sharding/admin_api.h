@@ -58,6 +58,11 @@ public:
         static constexpr const char* HEALTH = "/admin/health";
         static constexpr const char* STATS = "/admin/stats";
         static constexpr const char* CERTS = "/admin/certs";
+        
+        // Capability management endpoints
+        static constexpr const char* CAPABILITIES = "/admin/capabilities";           // GET all
+        static constexpr const char* SHARD_CAPABILITIES = "/admin/shard/";          // GET/PUT + {id}/capabilities
+        static constexpr const char* CAPABILITIES_BULK = "/admin/capabilities/bulk"; // POST bulk update
     };
 
 private:

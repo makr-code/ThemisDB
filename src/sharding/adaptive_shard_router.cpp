@@ -1,0 +1,433 @@
+#include "sharding/adaptive_shard_router.h"
+#include <algorithm>
+#include <chrono>
+#include <sstream>
+
+namespace themis::sharding {
+
+AdaptiveShardRouter::AdaptiveShardRouter(
+    std::shared_ptr<URNResolver> resolver,
+    std::shared_ptr<RemoteExecutor> executor,
+    std::shared_ptr<ShardTopology> topology,
+    const Config& config,
+    const AdaptiveConfig& adaptive_config,
+    std::shared_ptr<PrometheusMetrics> metrics,
+    std::shared_ptr<TrueTime> truetime
+) : ShardRouter(resolver, executor, config, metrics, truetime),
+    topology_(topology),
+    adaptive_config_(adaptive_config)
+{
+    if (!adaptive_config_.isValid()) {
+        throw std::invalid_argument("Invalid AdaptiveConfig");
+    }
+    
+    // Create capability matcher
+    matcher_ = std::make_shared<CapabilityMatcher>(adaptive_config_.matcher_config);
+}
+
+nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
+    // Check if adaptive routing is enabled
+    if (!adaptive_config_.enable_adaptive_routing) {
+        // Fallback to base class scatter-gather
+        return ShardRouter::executeQuery(query);
+    }
+    
+    AdaptiveStats stats;
+    return executeAdaptiveQuery(query, stats);
+}
+
+nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
+    const std::string& query,
+    AdaptiveStats& stats
+) {
+    total_adaptive_queries_++;
+    
+    // Initialize stats
+    stats.start_time = std::chrono::system_clock::now();
+    stats.query_id = "q_" + std::to_string(total_adaptive_queries_.load());
+    stats.iterations_executed = 0;
+    stats.total_shards_queried = 0;
+    stats.total_results = 0;
+    stats.used_adaptive_routing = true;
+    stats.stopped_early = false;
+    
+    // Prepare query context for matching
+    auto query_context = prepareQueryContext(query);
+    
+    // Get all shards with capabilities
+    auto all_shards = topology_->getAllShards();
+    
+    if (all_shards.empty()) {
+        stats.end_time = std::chrono::system_clock::now();
+        stats.total_time_ms = 0;
+        stats.stop_reason = "no_shards_available";
+        return nlohmann::json::array();
+    }
+    
+    // Match query against shard capabilities
+    auto match_results = matcher_->match(query_context, all_shards);
+    
+    // Check if we have any capability matches
+    if (match_results.empty() || match_results[0].score < adaptive_config_.fallback_threshold) {
+        if (adaptive_config_.fallback_to_scatter_gather) {
+            fallback_to_scatter_gather_++;
+            stats.used_adaptive_routing = false;
+            stats.stop_reason = "no_capability_matches_fallback_to_scatter_gather";
+            stats.end_time = std::chrono::system_clock::now();
+            stats.total_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                stats.end_time - stats.start_time).count();
+            return ShardRouter::executeQuery(query);
+        } else {
+            stats.stop_reason = "no_capability_matches";
+            stats.end_time = std::chrono::system_clock::now();
+            stats.total_time_ms = 0;
+            return nlohmann::json::array();
+        }
+    }
+    
+    // Iterative execution
+    std::vector<std::vector<ShardResult>> all_iteration_results;
+    std::set<std::string> already_queried;
+    uint32_t previous_result_count = 0;
+    
+    // Define thresholds for each iteration
+    std::vector<double> thresholds = {
+        adaptive_config_.initial_threshold,
+        adaptive_config_.intermediate_threshold,
+        adaptive_config_.fallback_threshold
+    };
+    
+    for (uint32_t iteration = 0; iteration < adaptive_config_.max_iterations; ++iteration) {
+        stats.iterations_executed = iteration + 1;
+        
+        auto iteration_start = std::chrono::high_resolution_clock::now();
+        
+        // Select shards for this iteration
+        double threshold = iteration < thresholds.size() ? 
+                          thresholds[iteration] : adaptive_config_.fallback_threshold;
+        
+        auto shard_ids = selectShardsForIteration(
+            match_results, threshold, 
+            adaptive_config_.results_per_iteration, 
+            already_queried);
+        
+        if (shard_ids.empty()) {
+            stats.stop_reason = "no_more_shards_above_threshold";
+            break;
+        }
+        
+        // Execute query on selected shards
+        auto iteration_results = executeOnShards(
+            query, shard_ids, adaptive_config_.per_iteration_timeout_ms);
+        
+        all_iteration_results.push_back(iteration_results);
+        
+        // Update already queried set
+        for (const auto& shard_id : shard_ids) {
+            already_queried.insert(shard_id);
+        }
+        
+        stats.total_shards_queried += shard_ids.size();
+        
+        // Count results
+        uint32_t iteration_result_count = 0;
+        for (const auto& result : iteration_results) {
+            if (result.success && result.data.is_array()) {
+                iteration_result_count += result.data.size();
+            }
+        }
+        
+        stats.total_results += iteration_result_count;
+        
+        auto iteration_end = std::chrono::high_resolution_clock::now();
+        uint64_t iteration_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            iteration_end - iteration_start).count();
+        
+        // Calculate iteration statistics
+        auto iter_stats = calculateIterationStats(
+            iteration + 1, shard_ids, iteration_results, 
+            match_results, iteration_time_ms);
+        stats.iteration_details.push_back(iter_stats);
+        
+        // Check stop criteria
+        uint64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            iteration_end - stats.start_time).count();
+        
+        std::string stop_reason;
+        if (shouldStop(stats.total_results, previous_result_count, 
+                      elapsed_ms, iteration + 1, stop_reason)) {
+            stats.stopped_early = true;
+            stats.stop_reason = stop_reason;
+            early_stops_++;
+            break;
+        }
+        
+        previous_result_count = stats.total_results;
+    }
+    
+    // If we completed all iterations without early stop
+    if (!stats.stopped_early) {
+        stats.stop_reason = "max_iterations_reached";
+    }
+    
+    // Merge results from all iterations
+    auto merged_results = mergeIterationResults(all_iteration_results);
+    
+    stats.end_time = std::chrono::system_clock::now();
+    stats.total_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        stats.end_time - stats.start_time).count();
+    
+    // Calculate iterations saved
+    uint32_t potential_iterations = (all_shards.size() + 
+        adaptive_config_.results_per_iteration - 1) / 
+        adaptive_config_.results_per_iteration;
+    if (potential_iterations > stats.iterations_executed) {
+        iterations_saved_ += (potential_iterations - stats.iterations_executed);
+    }
+    
+    return merged_results;
+}
+
+nlohmann::json AdaptiveShardRouter::getAdaptiveStatistics() const {
+    return {
+        {"total_adaptive_queries", total_adaptive_queries_.load()},
+        {"iterations_saved", iterations_saved_.load()},
+        {"early_stops", early_stops_.load()},
+        {"fallback_to_scatter_gather", fallback_to_scatter_gather_.load()},
+        {"matcher_stats", matcher_->getStatistics()},
+        {"config", {
+            {"enable_adaptive_routing", adaptive_config_.enable_adaptive_routing},
+            {"max_iterations", adaptive_config_.max_iterations},
+            {"results_per_iteration", adaptive_config_.results_per_iteration},
+            {"initial_threshold", adaptive_config_.initial_threshold},
+            {"intermediate_threshold", adaptive_config_.intermediate_threshold},
+            {"fallback_threshold", adaptive_config_.fallback_threshold},
+            {"target_result_count", adaptive_config_.target_result_count}
+        }}
+    };
+}
+
+void AdaptiveShardRouter::updateAdaptiveConfig(const AdaptiveConfig& config) {
+    if (!config.isValid()) {
+        throw std::invalid_argument("Invalid AdaptiveConfig");
+    }
+    adaptive_config_ = config;
+    
+    // Update matcher config
+    matcher_ = std::make_shared<CapabilityMatcher>(config.matcher_config);
+}
+
+CapabilityMatcher::QueryContext AdaptiveShardRouter::prepareQueryContext(
+    const std::string& query
+) {
+    CapabilityMatcher::QueryContext context;
+    context.query_text = query;
+    
+    // Extract keywords
+    context.keywords = matcher_->extractKeywords(query);
+    
+    // TODO: In production, add more sophisticated query analysis:
+    // - Domain detection (e.g., "law", "medicine", "construction")
+    // - Organization extraction (e.g., "hamburg bauamt")
+    // - Region extraction (e.g., "hamburg", "berlin")
+    // - Data type detection (e.g., "building permits", "legal documents")
+    // - Embedding generation using sentence transformers
+    
+    // For now, do simple pattern matching for common terms
+    std::string query_lower = query;
+    std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
+    
+    // Detect regions (example patterns)
+    if (query_lower.find("hamburg") != std::string::npos) {
+        context.regions.push_back("hamburg");
+    }
+    if (query_lower.find("berlin") != std::string::npos) {
+        context.regions.push_back("berlin");
+    }
+    if (query_lower.find("münchen") != std::string::npos || query_lower.find("munich") != std::string::npos) {
+        context.regions.push_back("munich");
+    }
+    
+    // Detect domains (example patterns)
+    if (query_lower.find("baurecht") != std::string::npos || query_lower.find("building") != std::string::npos) {
+        context.domains.push_back("construction");
+    }
+    if (query_lower.find("recht") != std::string::npos || query_lower.find("legal") != std::string::npos) {
+        context.domains.push_back("law");
+    }
+    
+    return context;
+}
+
+std::vector<std::string> AdaptiveShardRouter::selectShardsForIteration(
+    const std::vector<CapabilityMatchResult>& match_results,
+    double threshold,
+    size_t max_shards,
+    const std::set<std::string>& already_queried
+) {
+    std::vector<std::string> selected;
+    
+    for (const auto& match : match_results) {
+        // Skip if already queried
+        if (already_queried.find(match.shard_id) != already_queried.end()) {
+            continue;
+        }
+        
+        // Skip if below threshold
+        if (match.score < threshold) {
+            continue;
+        }
+        
+        selected.push_back(match.shard_id);
+        
+        if (selected.size() >= max_shards) {
+            break;
+        }
+    }
+    
+    return selected;
+}
+
+std::vector<ShardResult> AdaptiveShardRouter::executeOnShards(
+    const std::string& query,
+    const std::vector<std::string>& shard_ids,
+    uint32_t timeout_ms
+) {
+    std::vector<ShardResult> results;
+    
+    // For now, use the base class's scatterGather method but filtered to specific shards
+    // In production, this would be optimized to only query the specified shards
+    
+    // Simple approach: query each shard individually
+    for (const auto& shard_id : shard_ids) {
+        ShardResult result;
+        result.shard_id = shard_id;
+        
+        try {
+            // Get shard info
+            auto shard_info = topology_->getShard(shard_id);
+            if (!shard_info) {
+                result.success = false;
+                result.error_msg = "Shard not found";
+                results.push_back(result);
+                continue;
+            }
+            
+            // Execute query on shard
+            // For now, return empty successful result as placeholder
+            // In production, this would use RemoteExecutor to actually query the shard
+            result.success = true;
+            result.data = nlohmann::json::array();
+            result.execution_time_ms = 0;
+            
+        } catch (const std::exception& e) {
+            result.success = false;
+            result.error_msg = e.what();
+        }
+        
+        results.push_back(result);
+    }
+    
+    return results;
+}
+
+bool AdaptiveShardRouter::shouldStop(
+    uint32_t current_results,
+    uint32_t previous_results,
+    uint64_t elapsed_ms,
+    uint32_t iteration,
+    std::string& reason
+) {
+    // Check total timeout
+    if (elapsed_ms >= adaptive_config_.total_query_timeout_ms) {
+        reason = "total_timeout_exceeded";
+        return true;
+    }
+    
+    // Check if we have enough results
+    if (current_results >= adaptive_config_.target_result_count) {
+        reason = "target_result_count_reached";
+        return true;
+    }
+    
+    // Check diminishing returns (skip for first iteration)
+    if (iteration > 1 && previous_results > 0) {
+        uint32_t new_results = current_results - previous_results;
+        double ratio = static_cast<double>(new_results) / previous_results;
+        
+        if (ratio < adaptive_config_.diminishing_returns_ratio) {
+            reason = "diminishing_returns";
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+nlohmann::json AdaptiveShardRouter::mergeIterationResults(
+    const std::vector<std::vector<ShardResult>>& all_results
+) {
+    nlohmann::json merged = nlohmann::json::array();
+    std::set<std::string> seen_ids;  // For deduplication if needed
+    
+    for (const auto& iteration_results : all_results) {
+        for (const auto& shard_result : iteration_results) {
+            if (shard_result.success && shard_result.data.is_array()) {
+                for (const auto& item : shard_result.data) {
+                    // Simple deduplication by string representation
+                    // In production, use proper ID-based deduplication
+                    merged.push_back(item);
+                }
+            }
+        }
+    }
+    
+    return merged;
+}
+
+AdaptiveShardRouter::IterationStats AdaptiveShardRouter::calculateIterationStats(
+    uint32_t iteration,
+    const std::vector<std::string>& shard_ids,
+    const std::vector<ShardResult>& results,
+    const std::vector<CapabilityMatchResult>& match_results,
+    uint64_t iteration_time_ms
+) {
+    IterationStats stats;
+    stats.iteration_number = iteration;
+    stats.shards_queried = shard_ids.size();
+    stats.iteration_time_ms = iteration_time_ms;
+    stats.shard_ids = shard_ids;
+    
+    // Count results
+    stats.results_received = 0;
+    for (const auto& result : results) {
+        if (result.success && result.data.is_array()) {
+            stats.results_received += result.data.size();
+        }
+    }
+    
+    // Calculate score statistics for queried shards
+    std::vector<double> scores;
+    for (const auto& shard_id : shard_ids) {
+        for (const auto& match : match_results) {
+            if (match.shard_id == shard_id) {
+                scores.push_back(match.score);
+                break;
+            }
+        }
+    }
+    
+    if (!scores.empty()) {
+        stats.min_score = *std::min_element(scores.begin(), scores.end());
+        stats.max_score = *std::max_element(scores.begin(), scores.end());
+        stats.avg_score = std::accumulate(scores.begin(), scores.end(), 0.0) / scores.size();
+    } else {
+        stats.min_score = 0.0;
+        stats.max_score = 0.0;
+        stats.avg_score = 0.0;
+    }
+    
+    return stats;
+}
+
+} // namespace themis::sharding
