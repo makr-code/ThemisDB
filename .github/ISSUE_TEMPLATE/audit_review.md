@@ -227,8 +227,8 @@ Select one:
 
 ## Related Links
 
-- **Workflow Run:** [Link to audit-check workflow]
-- **Automated Checks:** [audit-check.yml results](../../actions/workflows/audit-check.yml)
+- **Workflow Run:** [Link to compliance workflow]
+- **Automated Checks:** [compliance.yml results](../../actions/workflows/compliance.yml)
 - **Evidence Repository:** `docs/audit-framework/evidence/vX.X.X/`
 - **Compliance Matrix:** [COMPLIANCE_MAPPING.md](../../../docs/audit-framework/COMPLIANCE_MAPPING.md)
 

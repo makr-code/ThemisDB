@@ -40,6 +40,16 @@ public:
         size_t max_memory_mb = 2048;          // Maximum memory for adapters (MB)
     };
     
+    /**
+     * @brief Cache statistics
+     */
+    struct CacheStats {
+        size_t cache_hits = 0;
+        size_t cache_misses = 0;
+        size_t total_loads = 0;
+        size_t current_size = 0;
+    };
+    
     explicit LoRAAdapterManager(const Config& config = Config{});
     ~LoRAAdapterManager();
     
@@ -188,6 +198,7 @@ private:
         float scaling;
         void* adapter_handle = nullptr;      // Opaque handle to actual adapter
         size_t memory_bytes = 0;
+        bool is_loaded = false;              // Tracks whether the adapter payload is present in cache
         bool is_pinned = false;
         bool is_applied = false;             // Track if adapter is currently applied to model
         std::chrono::system_clock::time_point last_used;
@@ -217,6 +228,10 @@ private:
      * @brief Update last used time for cache
      */
     void touchAdapter(const std::string& adapter_id);
+    
+    // Implementation detail - forwards to MultiLoRAManager
+    class Impl;
+    std::unique_ptr<Impl> impl_;
 };
 
 } // namespace lora

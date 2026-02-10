@@ -6,6 +6,7 @@
 #include <vector>
 #include <optional>
 #include <memory>
+#include <unordered_map>
 
 namespace themis {
 namespace storage {
@@ -44,6 +45,8 @@ public:
     
 private:
     std::shared_ptr<RocksDBWrapper> db_;
+    bool use_fallback_memory_store_ = false;                 // In-memory fallback when RocksDB is unavailable
+    std::unordered_map<std::string, std::string> mem_store_; // Simple map for tests/in-memory mode
     static constexpr const char* KEY_PREFIX = "security_sig:";
     
     std::string makeKey(const std::string& resource_id) const;

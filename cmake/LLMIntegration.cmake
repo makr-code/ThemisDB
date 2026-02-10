@@ -22,6 +22,15 @@ if(THEMIS_ENABLE_LLM)
         # LoRA Router - Automatic routing automation
         ../src/llm/lora_router.cpp
         
+        # Adapter Registry - Adapter lifecycle management
+        ../src/llm/adapter_registry.cpp
+        
+        # Distributed Training Coordinator (cross-shard, federated, fault-tolerant)
+        ../src/llm/distributed_training_coordinator.cpp
+        
+        # Byzantine fault detection for distributed training
+        ../src/llm/byzantine_detector.cpp
+        
         # Multi-GPU LoRA layers
         ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
         
@@ -69,10 +78,15 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ml_model_manager.cpp
         
         # Prompt Engineering and Optimization Framework
-        ../src/llm/prompt_optimizer.cpp
-        ../src/llm/prompt_evaluator.cpp
+        ../src/prompt_engineering/prompt_optimizer.cpp
+        ../src/prompt_engineering/prompt_evaluator.cpp
+        ../src/prompt_engineering/meta_prompt_generator.cpp
+        ../src/prompt_engineering/prompt_performance_tracker.cpp
+        ../src/prompt_engineering/self_improvement_orchestrator.cpp
+        ../src/prompt_engineering/feedback_collector.cpp
+        ../src/prompt_engineering/prompt_version_control.cpp
+        ../src/prompt_engineering/prompt_engineering_integration.cpp
         ../src/llm/fewshot_optimizer.cpp
-        ../src/llm/meta_prompt_generator.cpp
     )
     
     # Flash Attention v3 Integration

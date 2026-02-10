@@ -1,0 +1,112 @@
+name: 'Setup Language Runtime'
+description: 'Setup language runtime environments (Python, Node.js, Java, Go, etc.)'
+author: 'ThemisDB Team'
+
+inputs:
+  language:
+    description: 'Language to setup (python, node, java, go, ruby, rust, swift, dotnet, php)'
+    required: true
+  version:
+    description: 'Language version (e.g., 3.11, 18, 11, 1.21)'
+    required: true
+  cache-dependency-path:
+    description: 'Path to dependency file for caching (e.g., requirements.txt, package.json)'
+    required: false
+    default: ''
+
+outputs:
+  cache-hit:
+    description: 'Whether dependency cache was hit'
+    value: ${{ steps.setup.outputs.cache-hit }}
+
+runs:
+  using: composite
+  steps:
+    - name: Setup Python
+      if: inputs.language == 'python'
+      id: setup-python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.version }}
+        cache: ${{ inputs.cache-dependency-path != '' && 'pip' || '' }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+
+    - name: Setup Node.js
+      if: inputs.language == 'node'
+      id: setup-node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.version }}
+        cache: ${{ inputs.cache-dependency-path != '' && 'npm' || '' }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+
+    - name: Setup Java
+      if: inputs.language == 'java'
+      id: setup-java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: ${{ inputs.version }}
+        cache: ${{ inputs.cache-dependency-path != '' && 'maven' || '' }}
+
+    - name: Setup Go
+      if: inputs.language == 'go'
+      id: setup-go
+      uses: actions/setup-go@v5
+      with:
+        go-version: ${{ inputs.version }}
+        cache: ${{ inputs.cache-dependency-path != '' }}
+        cache-dependency-path: ${{ inputs.cache-dependency-path }}
+
+    - name: Setup Ruby
+      if: inputs.language == 'ruby'
+      id: setup-ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ inputs.version }}
+        bundler-cache: ${{ inputs.cache-dependency-path != '' }}
+
+    - name: Setup Rust
+      if: inputs.language == 'rust'
+      id: setup-rust
+      shell: bash
+      run: |
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${{ inputs.version }}
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+    - name: Setup .NET
+      if: inputs.language == 'dotnet'
+      id: setup-dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ inputs.version }}
+
+    - name: Setup PHP
+      if: inputs.language == 'php'
+      id: setup-php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ inputs.version }}
+        tools: composer
+        coverage: none
+
+    - name: Setup Swift
+      if: inputs.language == 'swift'
+      id: setup-swift
+      uses: swift-actions/setup-swift@v2
+      with:
+        swift-version: ${{ inputs.version }}
+
+    - name: Set cache-hit output
+      id: setup
+      shell: bash
+      run: |
+        CACHE_HIT="false"
+        if [ "${{ inputs.language }}" == "python" ]; then
+          CACHE_HIT="${{ steps.setup-python.outputs.cache-hit }}"
+        elif [ "${{ inputs.language }}" == "node" ]; then
+          CACHE_HIT="${{ steps.setup-node.outputs.cache-hit }}"
+        elif [ "${{ inputs.language }}" == "go" ]; then
+          CACHE_HIT="${{ steps.setup-go.outputs.cache-hit }}"
+        fi
+        echo "cache-hit=$CACHE_HIT" >> $GITHUB_OUTPUT

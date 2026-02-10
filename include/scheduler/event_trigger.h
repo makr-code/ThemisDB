@@ -1,0 +1,187 @@
+/**
+ * @file event_trigger.h
+ * @brief Event-based trigger system for task scheduler with CDC integration
+ * 
+ * Provides event-based task triggering based on database changes (CDC).
+ * Supports:
+ * - Key prefix filtering (e.g., "users:*")
+ * - Event type filtering (PUT, DELETE, TRANSACTION_COMMIT, TRANSACTION_ROLLBACK)
+ * - Optional condition evaluation on event payload
+ * - Debouncing for high-frequency events
+ * 
+ * Integrates with the Changefeed system to listen for database changes
+ * and trigger tasks when matching events occur.
+ */
+
+#ifndef THEMIS_EVENT_TRIGGER_H
+#define THEMIS_EVENT_TRIGGER_H
+
+#include "cdc/changefeed.h"
+#include <string>
+#include <set>
+#include <optional>
+#include <functional>
+#include <memory>
+#include <atomic>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+
+namespace themis {
+
+/**
+ * @brief Configuration for CDC-based event trigger
+ */
+struct CDCTriggerConfig {
+    std::string key_prefix;                           // Filter by key prefix (e.g., "users:")
+    std::set<Changefeed::ChangeEventType> event_types; // Event types to trigger on
+    std::optional<std::string> condition;             // Optional AQL filter condition
+    uint32_t debounce_ms = 0;                         // Debounce interval in milliseconds
+    
+    // Validation
+    bool isValid() const;
+    std::string getValidationError() const;
+};
+
+/**
+ * @brief Event listener for CDC events with filtering and debouncing
+ * 
+ * This class listens to Changefeed events and determines when to trigger
+ * tasks based on configured filters and debouncing rules.
+ */
+class EventTrigger {
+public:
+    using TriggerCallback = std::function<void(const Changefeed::ChangeEvent&)>;
+    
+    /**
+     * @brief Construct an event trigger
+     * @param changefeed Changefeed instance to listen to (not owned)
+     * @param config Trigger configuration
+     * @param callback Function to call when event matches
+     */
+    EventTrigger(Changefeed* changefeed,
+                 const CDCTriggerConfig& config,
+                 TriggerCallback callback);
+    
+    ~EventTrigger();
+    
+    // Lifecycle
+    void start();
+    void stop();
+    bool isRunning() const { return running_.load(); }
+    
+    // Configuration
+    const CDCTriggerConfig& getConfig() const { return config_; }
+    void updateConfig(const CDCTriggerConfig& config);
+    
+    // Statistics
+    struct Stats {
+        uint64_t events_received = 0;
+        uint64_t events_matched = 0;
+        uint64_t events_debounced = 0;
+        uint64_t triggers_fired = 0;
+        std::chrono::system_clock::time_point last_trigger_time;
+    };
+    
+    Stats getStats() const;
+    
+private:
+    Changefeed* changefeed_;
+    CDCTriggerConfig config_;
+    TriggerCallback callback_;
+    
+    // Listener thread
+    std::atomic<bool> running_{false};
+    std::thread listener_thread_;
+    std::mutex mutex_;
+    std::condition_variable cv_;
+    
+    // Debouncing state
+    std::chrono::steady_clock::time_point last_trigger_time_;
+    mutable std::mutex debounce_mutex_;
+    
+    // Statistics
+    mutable std::atomic<uint64_t> events_received_{0};
+    mutable std::atomic<uint64_t> events_matched_{0};
+    mutable std::atomic<uint64_t> events_debounced_{0};
+    mutable std::atomic<uint64_t> triggers_fired_{0};
+    std::chrono::system_clock::time_point last_trigger_time_sys_;
+    
+    // Last sequence number processed
+    uint64_t last_sequence_ = 0;
+    
+    // Event listener loop
+    void listenerLoop();
+    
+    // Event filtering
+    bool matchesFilter(const Changefeed::ChangeEvent& event) const;
+    bool matchesKeyPrefix(const std::string& key) const;
+    bool matchesEventType(Changefeed::ChangeEventType type) const;
+    bool matchesCondition(const Changefeed::ChangeEvent& event) const;
+    
+    // Debouncing
+    bool shouldDebounce() const;
+};
+
+/**
+ * @brief Manager for multiple event triggers
+ * 
+ * Manages lifecycle and coordination of multiple event triggers,
+ * allowing efficient sharing of changefeed resources.
+ */
+class EventTriggerManager {
+public:
+    explicit EventTriggerManager(Changefeed* changefeed);
+    ~EventTriggerManager();
+    
+    /**
+     * @brief Register a new event trigger
+     * @param id Unique identifier for the trigger
+     * @param config Trigger configuration
+     * @param callback Callback function
+     * @return True if registered successfully
+     */
+    bool registerTrigger(const std::string& id,
+                        const CDCTriggerConfig& config,
+                        EventTrigger::TriggerCallback callback);
+    
+    /**
+     * @brief Unregister an event trigger
+     * @param id Trigger identifier
+     */
+    void unregisterTrigger(const std::string& id);
+    
+    /**
+     * @brief Update trigger configuration
+     * @param id Trigger identifier
+     * @param config New configuration
+     */
+    void updateTrigger(const std::string& id, const CDCTriggerConfig& config);
+    
+    /**
+     * @brief Get trigger statistics
+     * @param id Trigger identifier
+     * @return Statistics or nullopt if trigger not found
+     */
+    std::optional<EventTrigger::Stats> getTriggerStats(const std::string& id) const;
+    
+    /**
+     * @brief Start all triggers
+     */
+    void startAll();
+    
+    /**
+     * @brief Stop all triggers
+     */
+    void stopAll();
+    
+private:
+    Changefeed* changefeed_;
+    std::map<std::string, std::unique_ptr<EventTrigger>> triggers_;
+    mutable std::mutex mutex_;
+};
+
+} // namespace themis
+
+#endif // THEMIS_EVENT_TRIGGER_H

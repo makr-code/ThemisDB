@@ -365,19 +365,19 @@ Standard-Labels für alle Security Issues:
 
 ### Security Scan Workflow
 ```yaml
-# .github/workflows/security-scan.yml
-# OWASP ZAP, CodeQL, Trivy, Gitleaks, cppcheck
+# .github/workflows/security.yml
+# Comprehensive security scanning: CodeQL, Trivy, Gitleaks, cppcheck
 ```
 
 **Integration:**
-- Findings aus OWASP ZAP → `security_network_attack.md`
-- CodeQL Alerts → Passende Kategorie
+- Findings aus security scans → Passende Kategorie
+- CodeQL Alerts → Relevante Issue-Templates
 - Trivy Findings → `security_crypto_attack.md` (für schwache Crypto)
 
 ### Fuzzing Workflow
 ```yaml
-# .github/workflows/fuzzing.yml
-# AFL++ Fuzzing für Injection-Vektoren
+# .github/workflows/tests-specialized.yml
+# AFL++ Fuzzing für Injection-Vektoren (in specialized tests)
 ```
 
 **Integration:**
@@ -395,9 +395,8 @@ Standard-Labels für alle Security Issues:
 - [Threat Model](../../docs/de/security/security_threat_model.md)
 
 ### Workflows
-- `.github/workflows/attack-vector-analysis.yml` - Hauptworkflow
-- `.github/workflows/security-scan.yml` - Security Scans
-- `.github/workflows/fuzzing.yml` - Fuzzing Tests
+- `.github/workflows/security.yml` - Comprehensive security scanning
+- `.github/workflows/tests-specialized.yml` - Fuzzing and specialized tests
 
 ### Externe Standards
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)

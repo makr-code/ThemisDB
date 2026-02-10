@@ -127,7 +127,7 @@ Device MultiGPUContext::get_device(int rank) const {
     return devices_[rank];
 }
 
-void MultiGPUContext::synchronize_all() {
+void MultiGPUContext::synchronize_all() const {
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {

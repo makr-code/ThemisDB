@@ -12,12 +12,12 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "llm/prompt_optimizer.h"
-#include "llm/prompt_evaluator.h"
+#include "prompt_engineering/prompt_optimizer.h"
+#include "prompt_engineering/prompt_evaluator.h"
 #include "llm/fewshot_optimizer.h"
-#include "llm/meta_prompt_generator.h"
+#include "prompt_engineering/meta_prompt_generator.h"
 
-using namespace themis::llm;
+using namespace themis::prompt_engineering;
 
 // Example evaluation function for demonstration purposes
 // NOTE: In production, replace this with a function that:

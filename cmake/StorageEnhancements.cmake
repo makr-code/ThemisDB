@@ -8,6 +8,18 @@ list(APPEND THEMIS_CORE_SOURCES
     # Hybrid retention policies
     ../src/scheduler/hybrid_retention_manager.cpp
     
+    # Task scheduler with cron and CDC triggers
+    ../src/scheduler/task_scheduler.cpp
+    ../src/scheduler/event_trigger.cpp
+    
+    # Task audit events and anomaly detection
+    ../src/scheduler/task_audit_event.cpp
+    ../src/scheduler/task_anomaly_detector.cpp
+    ../src/scheduler/task_audit_manager.cpp
+    
+    # Cron parser utility
+    ../src/utils/cron_parser.cpp
+    
     # HyperTable data structure
     ../src/timeseries/hypertable.cpp
     

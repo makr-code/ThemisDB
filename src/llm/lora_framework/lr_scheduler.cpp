@@ -1,4 +1,5 @@
 #include "llm/lora_framework/lr_scheduler.h"
+#include "utils/type_conversion.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <cmath>
@@ -8,6 +9,8 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
+
+using themis::utils::conversion::safe_double_to_float;
 
 namespace themis {
 namespace llm {
@@ -97,7 +100,7 @@ float PolynomialLR::get_lr(int step) const {
     }
     
     float progress = static_cast<float>(step) / static_cast<float>(total_steps_);
-    float decay = std::pow(1.0f - progress, power_);
+    float decay = std::pow(1.0f - progress, safe_double_to_float(power_, true));
     return end_lr_ + (start_lr_ - end_lr_) * decay;
 }
 
@@ -117,7 +120,7 @@ LRSchedulerConfig PolynomialLR::config() const {
 
 float StepLR::get_lr(int step) const {
     int num_steps = step / step_size_;
-    return initial_lr_ * std::pow(gamma_, num_steps);
+    return initial_lr_ * std::pow(safe_double_to_float(gamma_, true), num_steps);
 }
 
 LRSchedulerConfig StepLR::config() const {
@@ -134,7 +137,7 @@ LRSchedulerConfig StepLR::config() const {
 // ============================================================================
 
 float ExponentialLR::get_lr(int step) const {
-    return initial_lr_ * std::pow(gamma_, step);
+    return initial_lr_ * std::pow(safe_double_to_float(gamma_, true), step);
 }
 
 LRSchedulerConfig ExponentialLR::config() const {

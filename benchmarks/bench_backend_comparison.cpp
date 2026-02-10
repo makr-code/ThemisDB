@@ -81,7 +81,7 @@ static void BM_Backend_CPU(benchmark::State& state) {
     
     double samples_per_sec = batch_size / (state.iterations() * state.max_iterations * 1e-6);
     state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
+    state.counters["batch_size"] = static_cast<double>(batch_size);
     state.counters["speedup_vs_cpu"] = 1.0;  // Baseline
     
     state.SetLabel("CPU");
@@ -133,7 +133,7 @@ static void BM_Backend_CUDA(benchmark::State& state) {
     
     double samples_per_sec = batch_size / (state.iterations() * state.max_iterations * 1e-6);
     state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
+    state.counters["batch_size"] = static_cast<double>(batch_size);
     state.counters["target_speedup"] = 3.0;  // Target 2-4x
     
     state.SetLabel("CUDA");
@@ -185,7 +185,7 @@ static void BM_Backend_HIP(benchmark::State& state) {
     
     double samples_per_sec = batch_size / (state.iterations() * state.max_iterations * 1e-6);
     state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
+    state.counters["batch_size"] = static_cast<double>(batch_size);
     state.counters["target_speedup"] = 3.0;  // Target 2-4x
     
     state.SetLabel("HIP");
@@ -237,7 +237,7 @@ static void BM_Backend_Vulkan(benchmark::State& state) {
     
     double samples_per_sec = batch_size / (state.iterations() * state.max_iterations * 1e-6);
     state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
+    state.counters["batch_size"] = static_cast<double>(batch_size);
     
     state.SetLabel("Vulkan");
 }
@@ -289,7 +289,7 @@ static void BM_Backend_DirectX(benchmark::State& state) {
     
     double samples_per_sec = batch_size / (state.iterations() * state.max_iterations * 1e-6);
     state.counters["samples/sec"] = samples_per_sec;
-    state.counters["batch_size"] = batch_size;
+    state.counters["batch_size"] = static_cast<double>(batch_size);
     
     state.SetLabel("DirectX");
 }

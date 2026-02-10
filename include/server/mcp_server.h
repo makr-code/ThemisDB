@@ -23,7 +23,10 @@ class HttpServer;
 class RocksDBWrapper;
 class SecondaryIndexManager;
 class SchemaManager;
+
+namespace prompt_engineering {
 class PromptManager;
+}
 
 /**
  * @brief MCP (Model Context Protocol) Server Implementation
@@ -205,7 +208,7 @@ private:
     std::unique_ptr<SchemaManager> schema_mgr_;
     
     // Prompt management for natural language queries
-    std::unique_ptr<PromptManager> prompt_mgr_;
+    std::unique_ptr<themis::prompt_engineering::PromptManager> prompt_mgr_;
 
     // Session state
     bool initialized_ = false;

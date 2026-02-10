@@ -4,9 +4,9 @@
  */
 
 #include <gtest/gtest.h>
-#include "llm/prompt_optimizer.h"
+#include "prompt_engineering/prompt_optimizer.h"
 
-using namespace themis::llm;
+using namespace themis::prompt_engineering;
 
 class PromptOptimizerTest : public ::testing::Test {
 protected:

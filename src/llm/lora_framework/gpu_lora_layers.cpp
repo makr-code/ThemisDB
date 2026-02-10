@@ -221,12 +221,12 @@ GPUTensor GPULoRALayer::backward(const GPUTensor& grad_output) {
             );
         }
         
-        input_for_backward = cached_input_;
+        input_for_backward = cached_input_.clone();
         h_for_backward = input_for_backward.matmul(*B_);
     } else {
         // Use cached activations (normal path)
-        input_for_backward = cached_input_;
-        h_for_backward = cached_h_;
+        input_for_backward = cached_input_.clone();
+        h_for_backward = cached_h_.clone();
     }
     
     // Try to use fused kernels if enabled and on CUDA/HIP

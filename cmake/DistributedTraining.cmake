@@ -18,5 +18,8 @@ if(THEMIS_ENABLE_DISTRIBUTED_TRAINING)
         
         # Distributed training coordinator (cross-shard, federated, fault-tolerant)
         ../src/llm/distributed_training_coordinator.cpp
+        
+        # Byzantine fault detection for distributed training
+        ../src/llm/byzantine_detector.cpp
     )
 endif()

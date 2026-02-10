@@ -1,0 +1,17 @@
+# ============================================================================
+# Helper image to hold pre-built vcpkg artifacts from WSL/Linux build
+# ============================================================================
+# Usage: docker build -f Dockerfile.prebuilt-helper -t themis-prebuilt-helper .
+#
+# This creates a minimal image containing only the vcpkg_installed/x64-linux
+# artifacts, which can be used as a bind-mount source for the main build
+
+FROM scratch
+
+# Copy pre-built artifacts from Windows host
+# This will be populated by the build script
+COPY build-linux/vcpkg_installed/x64-linux /prebuilt/x64-linux
+
+# Metadata
+LABEL description="Pre-built vcpkg artifacts for ThemisDB Docker builds"
+LABEL source="WSL/Linux build-linux/vcpkg_installed/x64-linux"
