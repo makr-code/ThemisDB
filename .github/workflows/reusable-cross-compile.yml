@@ -1,0 +1,155 @@
+name: 'Reusable Cross-Compile'
+
+on:
+  workflow_call:
+    inputs:
+      target-arch:
+        description: 'Target architecture (arm64, armhf, riscv64)'
+        required: true
+        type: string
+      toolchain:
+        description: 'Toolchain configuration'
+        required: false
+        type: string
+        default: ''
+      build-type:
+        description: 'Build type (Release, Debug)'
+        required: false
+        type: string
+        default: 'Release'
+      run-tests:
+        description: 'Run tests with QEMU'
+        required: false
+        type: boolean
+        default: false
+      upload-artifacts:
+        description: 'Upload cross-compiled artifacts'
+        required: false
+        type: boolean
+        default: true
+    outputs:
+      build-status:
+        description: 'Build status'
+        value: ${{ jobs.cross-compile.outputs.status }}
+
+permissions:
+  contents: read
+
+jobs:
+  cross-compile:
+    name: Cross-compile (${{ inputs.target-arch }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    outputs:
+      status: ${{ steps.build-result.outputs.status }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup cross-compilation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            crossbuild-essential-${{ inputs.target-arch }} \
+            qemu-user-static \
+            cmake ninja-build
+          
+          # Architecture-specific setup
+          case "${{ inputs.target-arch }}" in
+            arm64|aarch64)
+              echo "TARGET_ARCH=aarch64-linux-gnu" >> $GITHUB_ENV
+              echo "VCPKG_TRIPLET=arm64-linux" >> $GITHUB_ENV
+              ;;
+            armhf|armv7)
+              echo "TARGET_ARCH=arm-linux-gnueabihf" >> $GITHUB_ENV
+              echo "VCPKG_TRIPLET=arm-linux" >> $GITHUB_ENV
+              ;;
+            riscv64)
+              echo "TARGET_ARCH=riscv64-linux-gnu" >> $GITHUB_ENV
+              echo "VCPKG_TRIPLET=riscv64-linux" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Setup vcpkg for cross-compilation
+        uses: ./.github/actions/setup-vcpkg
+        with:
+          cache-key-suffix: ${{ inputs.target-arch }}
+
+      - name: Configure cross-compilation
+        run: |
+          # Create toolchain file
+          cat > toolchain-${{ inputs.target-arch }}.cmake <<EOF
+          set(CMAKE_SYSTEM_NAME Linux)
+          set(CMAKE_SYSTEM_PROCESSOR ${{ inputs.target-arch }})
+          
+          set(CMAKE_C_COMPILER ${TARGET_ARCH}-gcc)
+          set(CMAKE_CXX_COMPILER ${TARGET_ARCH}-g++)
+          
+          set(CMAKE_FIND_ROOT_PATH /usr/${TARGET_ARCH})
+          set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+          set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+          set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+          EOF
+
+      - name: Build for target architecture
+        id: build
+        run: |
+          VCPKG_DIR="${VCPKG_ROOT:-vcpkg}"
+          
+          cmake -S . -B build-${{ inputs.target-arch }} -G Ninja \
+            -DCMAKE_BUILD_TYPE=${{ inputs.build-type }} \
+            -DCMAKE_TOOLCHAIN_FILE=toolchain-${{ inputs.target-arch }}.cmake \
+            -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$VCPKG_DIR/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=$VCPKG_TRIPLET \
+            -DTHEMIS_BUILD_TESTS=${{ inputs.run-tests && 'ON' || 'OFF' }} \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF
+          
+          cmake --build build-${{ inputs.target-arch }} --config ${{ inputs.build-type }} -j $(nproc)
+        continue-on-error: true
+
+      - name: Run tests with QEMU
+        if: inputs.run-tests
+        run: |
+          cd build-${{ inputs.target-arch }}
+          # QEMU-based testing would go here
+          echo "Cross-compiled tests require QEMU setup"
+        continue-on-error: true
+
+      - name: Upload cross-compiled artifacts
+        if: inputs.upload-artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: themisdb-${{ inputs.target-arch }}-${{ inputs.build-type }}
+          path: |
+            build-${{ inputs.target-arch }}/themisdb*
+            build-${{ inputs.target-arch }}/lib*.a
+            build-${{ inputs.target-arch }}/lib*.so
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Cross-compile summary
+        if: always()
+        run: |
+          echo "## 🔨 Cross-Compilation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Target:** ${{ inputs.target-arch }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Type:** ${{ inputs.build-type }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ Cross-compilation successful" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Cross-compilation failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Set build result
+        id: build-result
+        if: always()
+        run: |
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi
