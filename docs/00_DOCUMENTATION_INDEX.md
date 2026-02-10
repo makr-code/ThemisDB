@@ -169,6 +169,59 @@ ThemisDB is implementing GPU-accelerated vector indexing across multiple backend
 
 ---
 
+## 🔄 REPLICATION & HIGH AVAILABILITY (NEU - 2026-02-09)
+
+### Comprehensive Replication Documentation
+
+ThemisDB implements enterprise-grade replication with automatic failover, write concern guarantees, and RAID topology support.
+
+**Getting Started:**
+- **[docs/replication/](replication/)** - Central documentation hub ⭐ **START HERE**
+- **[replication-ha-guide.md](replication-ha-guide.md)** - Complete HA deployment guide (English)
+  - Deployment topologies (Active-Passive, Active-Active, Multi-DC)
+  - Configuration, monitoring, alerting
+  - Operational procedures and troubleshooting
+  - Performance tuning guidelines
+
+**Implementation Details:**
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (German, ~85% complete)
+  - WAL-based infrastructure (Manager, Shipper, Applier)
+  - Component breakdown and file locations
+  - Integration test results (8/8 passing)
+  - Prometheus metrics reference
+- **[replication_raid_plan.md](replication_raid_plan.md)** - RAID 1/10 readiness plan
+  - Current implementation status
+  - Integration roadmap
+  - Acceptance criteria
+
+**Module Architecture:**
+- **`replication/` module** (`include/replication/`, `src/replication/`) - High-level orchestration
+  - ReplicationManager - Lifecycle management
+  - MultiMasterReplicationManager - Multi-master coordination
+- **`sharding/` module** (`include/sharding/`, `src/sharding/`) - Low-level infrastructure
+  - WAL components (Manager, Shipper, Applier)
+  - ReplicationCoordinator - Write concern (ONE/MAJORITY/ALL)
+  - ReplicaTopology - RAID 1/10/5/6 support
+  - Consensus modules (Raft, Gossip, Paxos)
+  - HealthMonitor - Failure detection
+
+**Key Features:**
+- ✅ WAL-based replication with LSN tracking
+- ✅ Write concern enforcement (ONE/MAJORITY/ALL)
+- ✅ RAID 1/10 topology support
+- ✅ Automatic failure detection and failover
+- ✅ HTTP and gRPC replication endpoints
+- ✅ Prometheus metrics integration
+- ✅ Multi-datacenter support
+- 🚧 RAID 5/6 implementation (in progress)
+
+**Related Documentation:**
+- [Distributed Sharding Architecture](de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md)
+- [Consensus Module Architecture](de/sharding/CONSENSUS_MODULE.md)
+- [Distributed Transactions](DISTRIBUTED_TRANSACTIONS.md)
+
+---
+
 ## 🐳 DOCKER RAID CLUSTER DOCUMENTATION (NEU - 2026-01-04)
 
 ### RAID Setup and Troubleshooting

@@ -1,10 +1,32 @@
 # WAL-basierte Replikation - Implementierungs-Status
 
+> **Related Documentation (English):**
+> - **[replication-ha-guide.md](./replication-ha-guide.md)** - Complete HA/replication deployment guide
+> - **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 implementation roadmap
+
 ## 📋 Zusammenfassung
 
 Das Themis-Datenbanksystem hat eine **vollständige WAL-basierte Replikationsinfrastruktur** mit RAID 1/10-Unterstützung implementiert.
 
 **Status: ✅ ~85% IMPLEMENTIERT**
+
+### Modul-Organisation
+
+Die Replikationsinfrastruktur ist auf zwei Hauptmodule aufgeteilt:
+
+**`replication/` Modul** - High-Level Orchestrierung:
+- `include/replication/`, `src/replication/`
+- ReplicationManager für Lifecycle-Management
+- MultiMasterReplicationManager für Multi-Master-Koordination
+
+**`sharding/` Modul** - Low-Level WAL-Infrastruktur (Hauptfokus dieses Dokuments):
+- `include/sharding/`, `src/sharding/`
+- Alle WAL-Komponenten (Manager, Shipper, Applier)
+- ReplicationCoordinator für Write-Concern
+- Consensus-Module (Raft, Gossip, Paxos)
+- Topology und Health-Management
+
+Diese Aufteilung ermöglicht es, dass `replication/` sich auf Business-Logik konzentriert, während `sharding/` die komplexe Infrastruktur für verteilte Systeme bereitstellt.
 
 ---
 
@@ -238,5 +260,19 @@ tests/
 
 ---
 
-**Letztes Update:** 2026-01-04
+**Letztes Update:** 2026-02-09
 **Implementierungs-Umfang:** ~85% (inklusive Tests)
+
+---
+
+## 📚 Weitere Dokumentation
+
+### Englischsprachige Dokumentation
+- **[replication-ha-guide.md](./replication-ha-guide.md)** - Vollständiger HA/Replication Guide mit Deployment-Topologien, Konfiguration, Monitoring und Troubleshooting
+- **[replication_raid_plan.md](./replication_raid_plan.md)** - RAID 1/10 Readiness Plan und Implementierungs-Roadmap
+- **[docs/replication/](./replication/)** - Zusätzliche Replikations-Dokumentation und Beispiele
+
+### Verwandte Systemdokumentation
+- [Distributed Sharding Architecture](./de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md) - Sharding-Modul Dokumentation
+- [ARCHITECTURE.md](../ARCHITECTURE.md) - System-Architektur-Übersicht
+- [SECURITY.md](../SECURITY.md) - Sicherheitskonfiguration
