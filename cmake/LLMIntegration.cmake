@@ -73,6 +73,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/prompt_engineering/prompt_evaluator.cpp
         ../src/prompt_engineering/meta_prompt_generator.cpp
         ../src/prompt_engineering/prompt_performance_tracker.cpp
+        ../src/prompt_engineering/self_improvement_orchestrator.cpp
         ../src/llm/fewshot_optimizer.cpp
     )
     
