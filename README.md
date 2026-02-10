@@ -1003,6 +1003,27 @@ We welcome contributions! Please see our:
 - 💬 [Support](SUPPORT.md) - How to get help
 - 🔒 [Security Policy](SECURITY.md) - Reporting security issues
 
+### CI/CD Architecture
+
+ThemisDB uses a modern, consolidated CI/CD architecture (February 2026):
+- **20 workflows** (down from 53, 62% reduction)
+- **12 entry workflows** for PR validation, releases, security, testing
+- **7 reusable workflows** for shared functionality
+- **8 composite actions** for common steps
+
+**Key Workflows:**
+- `ci-pull-request.yml` - Fast PR validation (~15-30 min)
+- `ci-release.yml` - Complete release pipeline
+- `security.yml` - Comprehensive security scanning
+- `nightly.yml` - Extended test suite
+
+**Documentation:**
+- 📖 [CI/CD Architecture](docs/ci-cd/ci-architecture.md) - Complete architecture guide
+- 🔧 [Workflow README](.github/workflows/README.md) - All workflows documented
+- 📁 [Archived Workflows](.github/workflows/_archived/README.md) - Historical workflows (51 archived)
+
+All changes are automatically validated through CI/CD pipelines ensuring code quality, security, and performance standards.
+
 ---
 
 <div align="center">
