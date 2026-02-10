@@ -69,10 +69,10 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/ml_model_manager.cpp
         
         # Prompt Engineering and Optimization Framework
-        ../src/llm/prompt_optimizer.cpp
-        ../src/llm/prompt_evaluator.cpp
+        ../src/prompt_engineering/prompt_optimizer.cpp
+        ../src/prompt_engineering/prompt_evaluator.cpp
         ../src/llm/fewshot_optimizer.cpp
-        ../src/llm/meta_prompt_generator.cpp
+        ../src/prompt_engineering/meta_prompt_generator.cpp
     )
     
     # Flash Attention v3 Integration
