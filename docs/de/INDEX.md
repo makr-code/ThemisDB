@@ -32,6 +32,19 @@ Welcome to the ThemisDB documentation! This guide will help you find the informa
 - [Architecture Overview](architecture/OVERVIEW.md) - Understand how ThemisDB works
 - [🧠 LLM Complete Setup Guide](guides/LLM_COMPLETE_SETUP_GUIDE.md) - **NEU** Vollständiger Guide für LLM-Setup und Inferencing
 
+**Module Documentation:** ⭐ **NEU**
+- [Module Index](src/INDEX.md) - Alle 40 ThemisDB-Module mit vollständiger Dokumentation
+- Foundation Layer (6): core, storage, transaction, themis, base, utils
+- Query & Index (6): query, aql, index, search, temporal, timeseries
+- Security (3): security, auth, governance
+- Server & Network (4): server, network, api, sharding
+- Intelligence (4): rag, llm, analytics, voice
+- Operations (4): performance, observability, updates, scheduler
+- Data Integration (4): importers, exporters, cdc, plugins
+- Distributed (2): replication, sharding
+- Specialized (4): graph, chimera, geo, acceleration
+- Utility (4): metadata, gpu, cache, content
+
 **Business & Strategy:**
 - [Strategiepapier: Industrie 4.0 & IoT](strategie/STRATEGIEPAPIER_INDUSTRIE_4_0_IOT.md) - ThemisDB für Smart Manufacturing & IoT-Anwendungen
 
