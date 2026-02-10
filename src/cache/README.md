@@ -19,8 +19,7 @@ Caching implementations for ThemisDB.
 ## Documentation
 
 For caching documentation, see:
-- [Semantic Cache](../../docs/src/cache/semantic_cache.cpp.md)
-- [Semantic Cache Documentation](../../docs/semantic_cache.md)
-- [Cache Invalidation Strategy](../../docs/cache_invalidation_strategy.md)
-- [Caching Data Structures](../../docs/caching_data_structures.md)
-- [Caching Lookup Patterns](../../docs/caching_lookup_patterns.md)
+- [Semantic Cache Implementation](../../docs/de/src/cache/semantic_cache.cpp.md)
+- [Semantic Cache Feature Documentation](../../docs/de/features/features_semantic_cache.md)
+- [Cache Invalidation Strategy](../../docs/de/architecture/architecture_cache_invalidation.md)
+- [Core Concerns - Cache Strategies](../../include/core/concerns/CACHE_STRATEGIES_README.md)
