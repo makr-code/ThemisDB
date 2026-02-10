@@ -269,7 +269,7 @@ This document tracks all audit findings and their remediation through GitHub Iss
 | **FIND-CQ-006** | #915 | Improve Error Handling Consistency (5 modules) | Backend Team | v1.5.0 |
 | **FIND-CQ-007** | #916 | Fix Implicit Conversions (4 instances) | All Teams | v1.5.0 |
 | **FIND-CQ-008** | #917 | Review Shared State Thread Safety (2 instances) | Backend Team | v1.4.2 |
-| **FIND-CQ-009** | #918 | Reduce TODO Count 294 → 250 | All Teams | v1.6.0 |
+| **FIND-CQ-009** | #918 | Reduce TODO Count 273 → 250 | All Teams | v1.6.0 |
 | **FIND-CQ-010** | #919 | Apply Consistent Code Style | All Teams | v1.5.0 |
 | **FIND-CQ-011** | #920 | Optimize Complex Query Optimizer Function (CC 47) | Query Team | v1.5.0 |
 | **FIND-CQ-012** | #921 | Optimize Graph Traversal Function (CC 38) | Graph Team | v1.5.0 |

@@ -14,15 +14,14 @@ This report presents the code quality audit findings for ThemisDB v1.4.1, based 
 
 ### Overall Assessment
 
-| Metric | Result | Target | Status | Change |
-|--------|--------|--------|--------|--------|
-| SAST Findings (Critical) | 0 | 0 | ✅ PASS | → |
-| SAST Findings (High) | 0 | < 5 | ✅ PASS | ↓ -3 |
-| Code Coverage | 87% | > 85% | ✅ PASS | → |
-| TODO/FIXME Count | 292 | < 300 | ✅ GOOD | ↓ -2 |
-| Cyclomatic Complexity | 8.2 avg | < 15 | ✅ PASS | → |
-| Header Guard Compliance | 100% | 100% | ✅ PASS | → |
-| Test Files | 605 | - | ✅ EXCELLENT | ↑ |
+| Metric | Result | Target | Status |
+|--------|--------|--------|--------|
+| SAST Findings (Critical) | 0 | 0 | ✅ PASS |
+| SAST Findings (High) | 3 | < 5 | ✅ PASS |
+| Code Coverage | 87% | > 85% | ✅ PASS |
+| TODO/FIXME Count | 273 | < 300 | ✅ GOOD |
+| Cyclomatic Complexity | 8.2 avg | < 15 | ✅ PASS |
+| Header Guard Compliance | 100% | 100% | ✅ PASS |
 
 **Overall Rating:** ✅ **EXCELLENT** - All critical findings resolved, improved metrics
 
@@ -200,7 +199,7 @@ All high-severity findings from v1.4.1 have been resolved in v1.5.0-dev:
 v1.2.0: 320 TODOs
 v1.3.0: 298 TODOs
 v1.4.0: 280 TODOs
-v1.4.1: 294 TODOs  ↑ 14 (new features added)
+v1.4.1: 273 TODOs  ↓ 7 (cleanup efforts)
 ```
 
 **Target for v1.5.0:** < 250 TODOs
@@ -340,7 +339,7 @@ v1.4.1: 294 TODOs  ↑ 14 (new features added)
 |---------|-----------|----------|-------|-------|
 | v1.3.0 | 92% | 82% | 298 | B |
 | v1.4.0 | 94% | 85% | 280 | B+ |
-| v1.4.1 | 95% | 87% | 294 | B+ |
+| v1.4.1 | 95% | 87% | 273 | B+ |
 
 **Trend:** ✅ Improving (SAST, Coverage) | ⚠️ Monitor (TODOs)
 

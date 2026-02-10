@@ -21,10 +21,9 @@ This directory contains comprehensive audit reports for ThemisDB v1.4.1, coverin
 
 **Key Findings:**
 - ✅ 0 critical SAST findings
-- ✅ 0 high-severity findings (All 3 resolved!)
-- ✅ 87% code coverage (maintained)
-- ✅ 292 TODOs (↓ -2 from v1.4.1)
-- ✅ 605 test files
+- ✅ 87% code coverage (target: >85%)
+- ⚠️ 3 high-severity findings (RPC TODOs, LoRA security, Voice API)
+- ✅ 273 TODOs (below 300 threshold)
 
 **Pages:** 389 lines | 12 KB
 

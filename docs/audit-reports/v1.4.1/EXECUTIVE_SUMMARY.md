@@ -244,7 +244,7 @@ v1.3.0: 64% → v1.4.0: 67% → v1.4.1: 72%  ✅ +8% overall
 
 ### Medium-Term Actions (v1.6.0 - August 2026)
 
-15. Reduce TODO count to < 250 (current: 294)
+15. Reduce TODO count to < 250 (current: 273)
 16. Break circular dependencies (2 instances)
 17. Complete optional features (Process Mining, OpenCL Erasure Coding)
 18. Formalize ISO 27001 management review process
@@ -288,7 +288,7 @@ v1.3.0: 64% → v1.4.0: 67% → v1.4.1: 72%  ✅ +8% overall
 
 - ⚠️ Unit test coverage 3% below target (87% vs 90%)
 - ⚠️ E2E test coverage 8% below target (72% vs 80%)
-- ⚠️ TODO count above target (294 vs < 250)
+- ⚠️ TODO count above target (273 vs < 250)
 - ⚠️ Some high complexity functions (8 > CC 20)
 
 ### Security
@@ -404,7 +404,7 @@ v1.3.0: 64% → v1.4.0: 67% → v1.4.1: 72%  ✅ +8% overall
 
 **Focus:** TODO Reduction & Optimizations
 
-- ✅ Reduce TODOs 294 → 250
+- ✅ Reduce TODOs 273 → 250
 - ✅ Break circular dependencies
 - ✅ Complete optional features
 - ✅ IDS/IPS integration
