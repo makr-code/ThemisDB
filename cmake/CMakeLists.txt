@@ -1632,6 +1632,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/embedding_provider.cpp
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/llama_lora_adapter.cpp
+    ../src/llm/llama_grammar_adapter.cpp
     # GPU VRAM Allocation (vLLM-inspired)
     ../src/llm/adaptive_vram_allocator.cpp
     ../src/llm/multi_gpu_memory_coordinator.cpp
