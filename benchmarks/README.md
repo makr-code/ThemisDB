@@ -350,8 +350,9 @@ python metrics_exporter.py \
 - **Thresholds**: Minor (5%), Major (10% - blocks PR), Critical (20%)
 - **Metrics**: Throughput, latency, CPU time, memory usage
 - **Workflows**: 
-  - `performance-regression-check.yml` - Runs on PRs
-  - `update-performance-baselines.yml` - Updates baselines
+  - `nightly.yml` - Nightly performance benchmarks
+  - `tests-extended.yml` - Extended performance tests
+  - `ops-automation.yml` - Baseline updates
 - **Dashboard**: Grafana configuration in `monitoring/`
 
 ### Documentation
