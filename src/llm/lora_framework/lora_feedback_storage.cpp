@@ -21,6 +21,13 @@ FeedbackStorageService::FeedbackStorageService(const Config& config)
     if (!config_.db) {
         throw std::runtime_error("FeedbackStorageService: RocksDB instance is required");
     }
+    // Ensure the database is opened for CRUD operations in tests (monolithic, internal storage)
+    if (!config_.db->isOpen()) {
+        bool ok = config_.db->open();
+        if (!ok) {
+            throw std::runtime_error("FeedbackStorageService: failed to open RocksDB database");
+        }
+    }
     
     spdlog::info("FeedbackStorageService initialized with collection: {}", 
                  config_.collection_name);
@@ -107,10 +114,40 @@ std::vector<Feedback> FeedbackStorageService::listFeedback(const FeedbackFilter&
     
     try {
         std::lock_guard<std::mutex> lock(mutex_);
+        // Prefix scan over collection namespace: "<collection_name>:<id>"
+        const std::string prefix = config_.collection_name + ":";
+        size_t skipped = 0;
         
-        // Note: RocksDBWrapper does not have scan() API yet.
-        // For now, return empty results. This should be implemented with RocksDB iterators.
-        // TODO: Add Iterator API to RocksDBWrapper for efficient prefix scanning
+        config_.db->scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+            try {
+                // Parse JSON value into Feedback
+                json j = json::parse(value);
+                Feedback fb = Feedback::fromJSON(j);
+                
+                // Apply filters
+                if (filter.adapter_id && fb.adapter_id != *filter.adapter_id) return true; // continue
+                if (filter.user_id && fb.user_id != *filter.user_id) return true; // continue
+                if (filter.min_rating && fb.rating < *filter.min_rating) return true; // continue
+                if (filter.flagged_for_training && fb.flagged_for_training != *filter.flagged_for_training) return true; // continue
+                if (filter.training_category && fb.training_category != *filter.training_category) return true; // continue
+                if (filter.since && fb.timestamp < *filter.since) return true; // continue
+                
+                // Pagination: offset then limit
+                if (skipped < filter.offset) {
+                    ++skipped;
+                    return true; // continue
+                }
+                
+                results.push_back(std::move(fb));
+                if (results.size() >= filter.limit) {
+                    return false; // stop scanning
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to parse feedback entry for key {}: {}", std::string(key), e.what());
+                // Continue scanning despite parse errors
+            }
+            return true; // continue
+        });
         
         return results;
         

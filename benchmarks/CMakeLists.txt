@@ -44,10 +44,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_framework.cpp")
     )
     
     target_link_libraries(bench_lora_framework PRIVATE
+        themis_core
+
         ${BENCHMARK_LIBS}
-        # Add ThemisDB core libraries when available
-        # themis_core
-        # themis_llm
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -87,8 +86,9 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_lora_fu
     )
     
     target_link_libraries(bench_multi_lora_fusion PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -136,8 +136,9 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_lora_auto_bin
     )
     
     target_link_libraries(bench_lora_auto_binding PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -287,9 +288,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_snapshot_manager.cpp")
     )
     
     target_link_libraries(bench_snapshot_manager PRIVATE
+        themis_core
         ${BENCHMARK_LIBS}
-        # Add ThemisDB core libraries when available
-        # themis_core
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -333,8 +333,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_gpu_training_cycle.cpp" AND (THEMIS
     )
     
     target_link_libraries(bench_gpu_training_cycle PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -371,8 +372,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_scaling.cpp" AND (THEMIS_
     )
     
     target_link_libraries(bench_multi_gpu_scaling PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -409,8 +411,9 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_multi_gpu_lor
     )
     
     target_link_libraries(bench_multi_gpu_lora_advanced PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -449,8 +452,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_mixed_precision_perf.cpp" AND (THEM
     )
     
     target_link_libraries(bench_mixed_precision_perf PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog
@@ -525,8 +529,9 @@ if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_compa
     )
     
     target_link_libraries(bench_backend_comparison PRIVATE
-        ${BENCHMARK_LIBS}
         themis_core
+
+        ${BENCHMARK_LIBS}
         OpenSSL::SSL
         OpenSSL::Crypto
         spdlog::spdlog

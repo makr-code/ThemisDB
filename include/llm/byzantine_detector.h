@@ -138,6 +138,12 @@ public:
     void setMaxByzantineShards(int f) { max_byzantine_shards_ = f; }
     int getMaxByzantineShards() const { return max_byzantine_shards_; }
     
+    // Public for use by BulyanDetector
+    std::vector<std::string> selectKrumGradients(
+        const std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
+        int num_to_select
+    ) const;
+    
 private:
     int max_byzantine_shards_;  // f parameter: max number of Byzantine shards
     
@@ -145,11 +151,6 @@ private:
     float computeDistance(
         const std::vector<GradientTensor>& grad1,
         const std::vector<GradientTensor>& grad2
-    ) const;
-    
-    std::vector<std::string> selectKrumGradients(
-        const std::map<std::string, std::vector<GradientTensor>>& shard_gradients,
-        int num_to_select
     ) const;
 };
 

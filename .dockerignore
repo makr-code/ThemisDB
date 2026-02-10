@@ -1,128 +1,62 @@
 # ============================================================================
-# Docker Build Context Exclusions (BLACKLIST - exclude large/unnecessary files)
+# Docker Build Context - STRICT WHITELIST
 # ============================================================================
-# Strategy: Exclude everything NOT needed for Docker build to minimize context size
+# Exclude everything by default
+**
 
 # ============================================================================
-# CRITICAL: Large directories (60GB+ excluded)
+# INCLUDE: Root files
 # ============================================================================
-models/                 # 30GB - LLM models, not needed for build
-build-msvc/             # 22GB - build artifacts
-build-wsl/              # 6GB - build artifacts
-projects/               # 922MB - example projects
-external/               # 826MB - external dependencies
-compendium/             # 612MB - documentation
-release/                # 947MB - release artifacts
-site/                   # 141MB - generated website
-tools/                  # 122MB - development tools
-
-# exclude full vcpkg from main context; provided via buildx --build-context
-vcpkg/
-
-# (when using buildx --build-context=vcpkg=... you can still access vcpkg in Dockerfile)
-
-# llama.cpp/ is NEEDED for build - only exclude large subdirectories
-llama.cpp/build/
-llama.cpp/build-*/
-llama.cpp/models/
-llama.cpp/.git/
+!CMakeLists.txt
+!VERSION
+!vcpkg.json
+!vcpkg-configuration.json
+!.dockerignore
+!Dockerfile
+!Dockerfile.*
+!docker-compose.yml
 
 # ============================================================================
-# Build artifacts (will be rebuilt in container)
+# INCLUDE: Directories (must include both folder and contents)
 # ============================================================================
-build/
-build-*/
-out/
-CMakeFiles/
-*.o
-*.a
-*.so*
-*.dll
-*.exe
-*.pdb
-Testing/
-vcpkg_installed/
-logs/
+!cmake/
+!cmake/**
+!include/
+!include/**
+!src/
+!src/**
+!proto/
+!proto/**
+!internal/
+!internal/**
+!adapters/
+!adapters/**
+!aql/
+!aql/**
+!docker/
+!docker/**
+!llama.cpp/
+!llama.cpp/**
 
 # ============================================================================
-# Development/testing (not needed for Docker build)
+# EXCLUDE: llama.cpp build artifacts
 # ============================================================================
-tests/
-benchmarks/
-fuzz/
-data/**
-!data/
-!data/docs.db
-test_geo_integration_db/
-test_replication_loopback_data/
+llama.cpp/build/**
+llama.cpp/build-*/**
+llama.cpp/.git/**
+llama.cpp/.github/**
+llama.cpp/tests/**
 
 # ============================================================================
-# Documentation (not needed in runtime image)
+# EXCLUDE: Anything large (redundant safety)
 # ============================================================================
-docs/
-book/
-*.md
-!docker/*.md
-
-# ============================================================================
-# CI/CD and VCS
-# ============================================================================
-.git/
-.github/
-.gitignore
-.gitattributes
-.gitmodules
-.gitleaks.toml
-
-# ============================================================================
-# IDE and dev tools
-# ============================================================================
-.vscode/
-.clang-*
-*.code-workspace
-CMakePresets.json
-CMakeLists.txt.user
-CMakeUserPresets.json
-__pycache__/
-*.pyc
-node_modules/
-
-# ============================================================================
-# Packaging and release artifacts
-# ============================================================================
-packaging/
-debian/
-release-changelogs/
-wordpress-*/
-helm/
-grafana/
-deploy/
-
-# ============================================================================
-# Temporary and log files
-# ============================================================================
-*.log
-*.log.*
-*.tmp
-*.swp
-*~
-.DS_Store
-
-# ============================================================================
-# IMPORTANT: These are explicitly NOT excluded (needed for build)
-# ============================================================================
-# !llama.cpp/          - Essential for ThemisDB LLM features
-# !vcpkg/              - Required for dependency management
-# !vcpkg.json          - Dependency manifest
-# !vcpkg-configuration.json
-# !ports-overlays/     - Custom vcpkg ports
-# !CMakeLists.txt      - Build configuration
-# !cmake/              - CMake modules and settings
-# !src/                - Source code
-# !include/            - Header files
-# !proto/              - Protocol buffer definitions
-# !internal/           - Internal libraries
-# !scripts/            - Build and configuration scripts
-# !Dockerfile*         - Docker build files
-# !.dockerignore       - This file
-
+vcpkg/**
+build/**
+build-*/**
+models/**
+projects/**
+external/**
+compendium/**
+release/**
+site/**
+tools/**

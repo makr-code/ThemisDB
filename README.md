@@ -2,12 +2,12 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
   
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
-  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml)
-  [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
+  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml)
+  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml)
+  [![Compliance](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
-  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
@@ -26,7 +26,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🔍 **Multi-Model** - Relational, Graph, Vector, Document in one database
 - 🚀 **High Performance** - 45K writes/s, 120K reads/s, CPU-optimized vector search (GPU planned for v2.x)
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
-- 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
+- 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant, **autonomous prompt optimization**
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
 - 🏗️ **Modular Architecture (v1.4.0+)** - Optional modular build for faster compilation and selective features
 - 🛡️ **Production Resilience (v1.4.1+)** - Circuit breakers, auto-retry, 99.99% corruption detection, network timeouts
@@ -894,6 +894,7 @@ llm:
 - ✅ 10-50x more energy efficient than desktop GPUs
 - ✅ Models: TinyLlama (1B), Phi-3 (3.8B), Mistral (7B)
 - ✅ RAG, embeddings, chat, and text generation
+- ✅ **Autonomous prompt optimization** with A/B testing and rollback ([learn more](docs/PROMPT_ENGINEERING_ARCHITECTURE.md))
 
 ---
 
@@ -1125,6 +1126,27 @@ We welcome contributions! Please see our:
 - 📋 [Code of Conduct](CODE_OF_CONDUCT.md) - Community standards
 - 💬 [Support](SUPPORT.md) - How to get help
 - 🔒 [Security Policy](SECURITY.md) - Reporting security issues
+
+### CI/CD Architecture
+
+ThemisDB uses a modern, consolidated CI/CD architecture (February 2026):
+- **20 workflows** (down from 53, 62% reduction)
+- **12 entry workflows** for PR validation, releases, security, testing
+- **7 reusable workflows** for shared functionality
+- **8 composite actions** for common steps
+
+**Key Workflows:**
+- `ci-pull-request.yml` - Fast PR validation (~15-30 min)
+- `ci-release.yml` - Complete release pipeline
+- `security.yml` - Comprehensive security scanning
+- `nightly.yml` - Extended test suite
+
+**Documentation:**
+- 📖 [CI/CD Architecture](docs/ci-cd/ci-architecture.md) - Complete architecture guide
+- 🔧 [Workflow README](.github/workflows/README.md) - All workflows documented
+- 📁 [Archived Workflows](.github/workflows/_archived/README.md) - Historical workflows (51 archived)
+
+All changes are automatically validated through CI/CD pipelines ensuring code quality, security, and performance standards.
 
 ---
 

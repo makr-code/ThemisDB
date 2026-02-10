@@ -139,7 +139,7 @@ TEST(AlignmentHelpersTest, AlignUp) {
 }
 
 TEST(AlignmentHelpersTest, AlignUpConst) {
-    alignas(64) const char buffer[128];
+    alignas(64) const char buffer[128] = {};
     
     const void* ptr1 = buffer + 1;
     const void* aligned1 = align_up<16>(ptr1);
@@ -170,7 +170,7 @@ TEST(AlignmentHelpersTest, AlignDown) {
 }
 
 TEST(AlignmentHelpersTest, AlignDownConst) {
-    alignas(64) const char buffer[128];
+    alignas(64) const char buffer[128] = {};
     
     const void* ptr17 = buffer + 17;
     const void* aligned17 = align_down<16>(ptr17);

@@ -6,7 +6,7 @@
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
 #include "llm/embedded_llm.h"
-#include "llm/prompt_manager.h"
+#include "prompt_engineering/prompt_manager.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include "version.h"
@@ -1027,7 +1027,7 @@ json McpServer::toolIntrospectDatabase(const json& args) {
     }
     
     // Build context from SchemaManager
-    auto context = PromptManager::buildContextFromSchema(
+    auto context = themis::prompt_engineering::PromptManager::buildContextFromSchema(
         schema_mgr_.get(),
         themis::version::getEditionString(),
         themis::version::getVersionString()

@@ -113,9 +113,9 @@ TEST_F(ProcessMiningE2ETest, FindSimilarProcesses) {
     
     auto result = matcher->findSimilar(pattern, config);
     ASSERT_TRUE(result.first.ok());
-    auto& results = result.second;
+    (void)result.second;  // Results would be populated with real data
     
-    // Results would be populated with real data
+    // Results populated with real data
 }
 
 TEST_F(ProcessMiningE2ETest, ConformanceChecking) {
@@ -253,7 +253,7 @@ TEST_F(ProcessMiningE2ETest, HybridSearchAllMethods) {
     
     auto result = matcher->findSimilar(pattern, config);
     ASSERT_TRUE(result.first.ok());
-    auto& results = result.second;
+    (void)result.second;  // Weights applied correctly
     // Verify weights are applied correctly
 }
 

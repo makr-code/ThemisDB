@@ -4,16 +4,19 @@
 #include <cmath>
 
 // FAISS includes (conditional on FAISS availability)
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
+    #include <faiss/IndexFlat.h>
     #include <faiss/IndexIVFPQ.h>
     #include <faiss/IndexIVFFlat.h>
-    #include <faiss/IndexHNSWFlat.h>
-    #include <faiss/gpu/GpuIndexIVFPQ.h>
-    #include <faiss/gpu/GpuIndexIVFFlat.h>
-    #include <faiss/gpu/StandardGpuResources.h>
+    #include <faiss/IndexHNSW.h>
+    #ifdef THEMIS_ENABLE_CUDA
+        #include <faiss/gpu/GpuIndexIVFPQ.h>
+        #include <faiss/gpu/GpuIndexIVFFlat.h>
+        #include <faiss/gpu/StandardGpuResources.h>
+    #endif
     #include <faiss/index_io.h>
 #else
-    // Stub definitions for non-GPU builds
+    // Stub definitions for non-FAISS builds
     namespace faiss {
         class Index {};
         class IndexIVFPQ : public Index {};
@@ -34,7 +37,7 @@ AdvancedVectorIndex::AdvancedVectorIndex(size_t dimension, const Config& config)
 }
 
 AdvancedVectorIndex::~AdvancedVectorIndex() {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (index_) {
         delete static_cast<faiss::Index*>(index_);
         index_ = nullptr;
@@ -43,19 +46,24 @@ AdvancedVectorIndex::~AdvancedVectorIndex() {
 }
 
 bool AdvancedVectorIndex::initializeIndex() {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     try {
         faiss::Index* idx = nullptr;
         
         switch (config_.index_type) {
             case Config::Type::IVF_PQ: {
                 // IVF + Product Quantization (10-100x compression)
+                // Need a quantizer (flat L2 index for clustering)
+                auto* quantizer = new faiss::IndexFlat(dimension_, faiss::METRIC_L2);
                 auto* ivf_pq = new faiss::IndexIVFPQ(
+                    quantizer,
                     dimension_,
                     config_.nlist,
                     config_.pq_m,
-                    config_.pq_nbits
+                    config_.pq_nbits,
+                    faiss::METRIC_L2
                 );
+                ivf_pq->own_fields = true; // FAISS will delete the quantizer
                 ivf_pq->nprobe = config_.nprobe;
                 
                 // v1.5.x: Enable ADC tables for ~40% faster search
@@ -78,11 +86,14 @@ bool AdvancedVectorIndex::initializeIndex() {
             
             case Config::Type::IVF_FLAT: {
                 // IVF without compression (faster, more memory)
+                auto* quantizer = new faiss::IndexFlat(dimension_, faiss::METRIC_L2);
                 auto* ivf_flat = new faiss::IndexIVFFlat(
+                    quantizer,
                     dimension_,
                     config_.nlist,
                     faiss::METRIC_L2
                 );
+                ivf_flat->own_fields = true; // FAISS will delete the quantizer
                 ivf_flat->nprobe = config_.nprobe;
                 idx = ivf_flat;
                 THEMIS_INFO("Created IVF Flat index: nlist={}", config_.nlist);
@@ -116,7 +127,7 @@ bool AdvancedVectorIndex::initializeIndex() {
 }
 
 bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return false;
@@ -159,7 +170,7 @@ bool AdvancedVectorIndex::train(const float* vectors, size_t count) {
 }
 
 bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return false;
@@ -189,7 +200,7 @@ bool AdvancedVectorIndex::add(const float* vectors, size_t count) {
 }
 
 bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, size_t count) {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return false;
@@ -222,7 +233,7 @@ bool AdvancedVectorIndex::addWithIds(const float* vectors, const int64_t* ids, s
 AdvancedVectorIndex::SearchResult AdvancedVectorIndex::search(const float* query, size_t k) {
     SearchResult result;
     
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return result;
@@ -256,7 +267,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
 ) {
     std::vector<SearchResult> results(num_queries);
     
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return results;
@@ -300,7 +311,7 @@ std::vector<AdvancedVectorIndex::SearchResult> AdvancedVectorIndex::searchBatch(
 AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
     Stats stats;
     
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (index_) {
         auto* idx = static_cast<faiss::Index*>(index_);
         stats.total_vectors = idx->ntotal;
@@ -323,7 +334,7 @@ AdvancedVectorIndex::Stats AdvancedVectorIndex::getStats() const {
 }
 
 bool AdvancedVectorIndex::save(const std::string& path) {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     if (!index_) {
         THEMIS_ERROR("Index not initialized");
         return false;
@@ -347,7 +358,7 @@ bool AdvancedVectorIndex::save(const std::string& path) {
 }
 
 bool AdvancedVectorIndex::load(const std::string& path) {
-#ifdef THEMIS_GPU_ENABLED
+#ifdef THEMIS_HAS_FAISS
     try {
         if (index_) {
             delete static_cast<faiss::Index*>(index_);

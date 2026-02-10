@@ -2,10 +2,12 @@
 #include "llm/model_metadata_cache.h"
 #include "llm/lora_metadata_cache.h"
 #include "llm/paged_block_manager.h"
+#include "utils/type_conversion.h"
 #include <thread>
 #include <vector>
 
 using namespace themis::llm;
+using themis::utils::conversion::safe_size_to_int;
 
 // ============================================================================
 // ModelMetadataCache Tests
@@ -258,7 +260,7 @@ TEST(PagedBlockManagerTest, ConcurrentAllocation) {
     // Verify all allocations succeeded
     int total_allocated = 0;
     for (const auto& ids : all_allocated) {
-        total_allocated += ids.size();
+        total_allocated += safe_size_to_int(ids.size());
     }
     
     EXPECT_EQ(total_allocated, 500);

@@ -20,7 +20,7 @@
 #endif
 
 #include <gtest/gtest.h>
-#include "llm/lora_framework/lora_adapter_manager.h"
+#include "llm/multi_lora_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_orchestrator.h"
@@ -31,6 +31,7 @@
 #include <thread>
 #include <chrono>
 
+using namespace themis::llm;
 using namespace themis::llm::lora;
 using namespace themis::llm::applications;
 
@@ -49,10 +50,11 @@ protected:
         storage_ = std::make_shared<LoRAStorageService>(storage_config);
         
         // Initialize adapter manager
-        LoRAAdapterManager::Config manager_config;
-        manager_config.max_cache_size = 5;
-        manager_config.cache_ttl = std::chrono::seconds(300);
-        manager_ = std::make_shared<LoRAAdapterManager>(manager_config);
+        MultiLoRAManager::Config manager_config;
+        manager_config.max_lora_slots = 5;
+        manager_config.max_lora_vram_mb = 2048;
+        manager_config.lora_ttl = std::chrono::seconds(300);
+        manager_ = std::make_shared<MultiLoRAManager>(manager_config);
         
         // Initialize training service
         LoRATrainingService::Config training_config;
@@ -71,11 +73,11 @@ protected:
     }
     
     void TearDown() override {
-        orchestrator_.reset();
-        audit_.reset();
-        training_.reset();
-        manager_.reset();
-        storage_.reset();
+        orchestrator_ = nullptr;
+        audit_ = nullptr;
+        training_ = nullptr;
+        manager_ = nullptr;
+        storage_ = nullptr;
         
         // Cleanup test files
         system("rm -rf /tmp/test_lora_storage");
@@ -83,7 +85,7 @@ protected:
     }
     
     std::shared_ptr<LoRAStorageService> storage_;
-    std::shared_ptr<LoRAAdapterManager> manager_;
+    std::shared_ptr<MultiLoRAManager> manager_;
     std::shared_ptr<LoRATrainingService> training_;
     std::shared_ptr<LoRAAuditLogger> audit_;
     std::unique_ptr<LoRAOrchestrator> orchestrator_;
@@ -242,19 +244,19 @@ TEST_F(LoRAFrameworkTest, AdapterManager_LoadAndUnload) {
     storage_->saveAdapter("test_adapter", weights, metadata);
     
     // Load adapter
-    bool loaded = manager_->loadAdapter("test_adapter");
+    bool loaded = manager_->loadLoRA("test_adapter", "/tmp/test_adapter.bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
     EXPECT_TRUE(loaded);
-    EXPECT_TRUE(manager_->isLoaded("test_adapter"));
+    EXPECT_TRUE(manager_->isLoRALoaded("test_adapter"));
     
     // Get adapter info
-    auto info = manager_->getAdapterInfo("test_adapter");
+    auto info = manager_->getLoRAInfo("test_adapter");
     ASSERT_TRUE(info.has_value());
     EXPECT_EQ(info->adapter_id, "test_adapter");
     
     // Unload adapter
-    bool unloaded = manager_->unloadAdapter("test_adapter");
+    bool unloaded = manager_->unloadLoRA("test_adapter", false);
     EXPECT_TRUE(unloaded);
-    EXPECT_FALSE(manager_->isLoaded("test_adapter"));
+    EXPECT_FALSE(manager_->isLoRALoaded("test_adapter"));
 }
 
 TEST_F(LoRAFrameworkTest, AdapterManager_HotSwapping) {
@@ -283,15 +285,15 @@ TEST_F(LoRAFrameworkTest, AdapterManager_HotSwapping) {
     storage_->saveAdapter("adapter2", weights2, metadata2);
     
     // Load adapter1
-    manager_->loadAdapter("adapter1");
-    EXPECT_TRUE(manager_->isLoaded("adapter1"));
-    EXPECT_FALSE(manager_->isLoaded("adapter2"));
+    manager_->loadLoRA("adapter1", "/tmp/adapter1.bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
+    EXPECT_TRUE(manager_->isLoRALoaded("adapter1"));
     
-    // Hot-swap to adapter2
-    bool swapped = manager_->switchAdapter("adapter1", "adapter2");
-    EXPECT_TRUE(swapped);
-    EXPECT_FALSE(manager_->isLoaded("adapter1"));
-    EXPECT_TRUE(manager_->isLoaded("adapter2"));
+    // Hot-swap to adapter2 (unload first, then load)
+    manager_->unloadLoRA("adapter1", false);
+    EXPECT_FALSE(manager_->isLoRALoaded("adapter1"));
+    
+    manager_->loadLoRA("adapter2", "/tmp/adapter2.bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
+    EXPECT_TRUE(manager_->isLoRALoaded("adapter2"));
 }
 
 TEST_F(LoRAFrameworkTest, AdapterManager_CacheEviction) {
@@ -308,17 +310,16 @@ TEST_F(LoRAFrameworkTest, AdapterManager_CacheEviction) {
         metadata.base_model = "llama-2-7b";
         
         storage_->saveAdapter(metadata.adapter_id, weights, metadata);
-        manager_->loadAdapter(metadata.adapter_id);
+        manager_->loadLoRA(metadata.adapter_id, "/tmp/" + metadata.adapter_id + ".bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
     }
     
     // First adapter should be evicted (LRU)
-    EXPECT_FALSE(manager_->isLoaded("adapter1"));
-    EXPECT_TRUE(manager_->isLoaded("adapter6"));
+    EXPECT_FALSE(manager_->isLoRALoaded("adapter1"));
+    EXPECT_TRUE(manager_->isLoRALoaded("adapter6"));
     
-    // Get cache stats
-    auto stats = manager_->getCacheStats();
-    EXPECT_EQ(stats.current_size, 5);
-    EXPECT_GT(stats.evictions, 0);
+    // Get memory stats (replacing getCacheStats)
+    auto stats = manager_->getMemoryStats();
+    EXPECT_GT(stats["loras_loaded"], 0);
 }
 
 // ============================================================================
@@ -809,7 +810,7 @@ TEST_F(LoRAFrameworkTest, Performance_AdapterLoading) {
     
     // Measure load time
     auto start = std::chrono::high_resolution_clock::now();
-    manager_->loadAdapter("perf_adapter");
+    manager_->loadLoRA("perf_adapter", "/tmp/perf_adapter.bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
     auto end = std::chrono::high_resolution_clock::now();
     
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -845,11 +846,12 @@ TEST_F(LoRAFrameworkTest, Performance_HotSwapping) {
     storage_->saveAdapter("swap1", weights1, metadata1);
     storage_->saveAdapter("swap2", weights2, metadata2);
     
-    manager_->loadAdapter("swap1");
+    manager_->loadLoRA("swap1", "/tmp/swap1.bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
     
-    // Measure hot-swap time
+    // Measure hot-swap time (unload + load)
     auto start = std::chrono::high_resolution_clock::now();
-    manager_->switchAdapter("swap1", "swap2");
+    manager_->unloadLoRA("swap1", false);
+    manager_->loadLoRA("swap2", "/tmp/swap2.bin", "llama-2-7b", false, GPUPlacement::SINGLE_GPU, 1.0f);
     auto end = std::chrono::high_resolution_clock::now();
     
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

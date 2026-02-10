@@ -1,8 +1,12 @@
 #include "llm/lora_framework/gpu_embedding_layer.h"
 #include "llm/lora_framework/cuda_kernels.h"
 #include "llm/lora_framework/hip_kernels.h"
+#ifdef THEMIS_ENABLE_VULKAN
 #include "llm/lora_framework/vulkan_kernels.h"
+#endif
+#ifdef THEMIS_ENABLE_DIRECTX
 #include "llm/lora_framework/directx_kernels.h"
+#endif
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstring>
@@ -72,10 +76,14 @@ GPUTensor GPUEmbeddingLayer::forward(const GPUTensor& token_ids) {
             return forwardCUDA(token_ids);
         case DeviceType::HIP:
             return forwardHIP(token_ids);
+#ifdef THEMIS_ENABLE_VULKAN
         case DeviceType::VULKAN:
             return forwardVulkan(token_ids);
+#endif
+#ifdef THEMIS_ENABLE_DIRECTX
         case DeviceType::DIRECTX:
             return forwardDirectX(token_ids);
+#endif
         default:
             return forwardCPU(token_ids);
     }
@@ -213,6 +221,7 @@ GPUTensor GPUEmbeddingLayer::forwardHIP(const GPUTensor& token_ids) {
 #endif
 }
 
+#ifdef THEMIS_ENABLE_VULKAN
 GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     auto shape = token_ids.shape();
     size_t batch_size = shape[0];
@@ -253,7 +262,14 @@ GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
     
     return embeddings;
 }
+#else
+GPUTensor GPUEmbeddingLayer::forwardVulkan(const GPUTensor& token_ids) {
+    spdlog::warn("Vulkan not enabled at compile time, using CPU fallback");
+    return forwardCPU(token_ids);
+}
+#endif
 
+#ifdef THEMIS_ENABLE_DIRECTX
 GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
     auto shape = token_ids.shape();
     size_t batch_size = shape[0];
@@ -294,7 +310,12 @@ GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
     
     return embeddings;
 }
-
+#else
+GPUTensor GPUEmbeddingLayer::forwardDirectX(const GPUTensor& token_ids) {
+    spdlog::warn("DirectX not enabled at compile time, using CPU fallback");
+    return forwardCPU(token_ids);
+}
+#endif
 } // namespace lora
 } // namespace llm
 } // namespace themis

@@ -160,8 +160,9 @@ TEST_F(Geo3DFunctionsTest, StDistance2D) {
     
     auto result = registry.call("ST_DISTANCE", args, ctx);
     
-    // Euclidean 2D distance: sqrt(3^2 + 4^2) = 5.0
-    EXPECT_NEAR(result.template get<double>(), 5.0, 0.001);
+    // ST_DISTANCE uses geodetic (Haversine) distance, not Euclidean
+    // For points (0,0) and (3,4) the geodetic distance is approximately 555807 meters
+    EXPECT_NEAR(result.template get<double>(), 555807.0, 1000.0);
 }
 
 // Test: ST_DWITHIN with 3D points

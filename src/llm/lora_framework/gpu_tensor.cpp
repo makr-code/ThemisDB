@@ -921,6 +921,8 @@ GPUTensor ones(const std::vector<size_t>& shape, const Device& device, DType dty
     return GPUTensor(shape, 1.0f, device, dtype);
 }
 
+// TODO: Tensor type forward-declared but not defined - functions disabled for now
+/*
 GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType dtype) {
     GPUTensor result(tensor.shape(), device, dtype);
     result.upload(tensor.data());
@@ -930,9 +932,12 @@ GPUTensor from_legacy_tensor(const Tensor& tensor, const Device& device, DType d
 Tensor to_legacy_tensor(const GPUTensor& gpu_tensor) {
     Tensor result(gpu_tensor.shape());
     auto data = gpu_tensor.cpu_data();
-    std::copy(data.begin(), data.end(), result.data().begin());
+    if (data.size() == result.size()) {
+        std::copy(data.begin(), data.end(), result.data().begin());
+    }
     return result;
 }
+*/
 
 } // namespace gpu_tensor_utils
 

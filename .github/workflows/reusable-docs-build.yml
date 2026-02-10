@@ -1,0 +1,119 @@
+name: 'Reusable Docs Build'
+
+on:
+  workflow_call:
+    inputs:
+      docs-path:
+        description: 'Path to documentation directory'
+        required: false
+        type: string
+        default: 'docs'
+      deploy-target:
+        description: 'Deployment target (none, gh-pages, artifact)'
+        required: false
+        type: string
+        default: 'artifact'
+      mkdocs-config:
+        description: 'MkDocs configuration file'
+        required: false
+        type: string
+        default: 'mkdocs.yml'
+      python-version:
+        description: 'Python version for MkDocs'
+        required: false
+        type: string
+        default: '3.11'
+    outputs:
+      build-status:
+        description: 'Build status'
+        value: ${{ jobs.build.outputs.status }}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      status: ${{ steps.build-result.outputs.status }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: ./.github/actions/setup-language
+        with:
+          language: python
+          version: ${{ inputs.python-version }}
+
+      - name: Install MkDocs and dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
+          
+          # Install additional plugins if requirements file exists
+          if [ -f "${{ inputs.docs-path }}/requirements.txt" ]; then
+            pip install -r ${{ inputs.docs-path }}/requirements.txt
+          fi
+
+      - name: Validate MkDocs configuration
+        run: |
+          if [ ! -f "${{ inputs.mkdocs-config }}" ]; then
+            echo "Error: MkDocs config not found: ${{ inputs.mkdocs-config }}"
+            exit 1
+          fi
+          mkdocs --version
+          python -c "import yaml; yaml.safe_load(open('${{ inputs.mkdocs-config }}'))"
+
+      - name: Build documentation
+        id: build
+        run: |
+          mkdocs build -f ${{ inputs.mkdocs-config }} -d site --strict
+
+      - name: Upload documentation artifact
+        if: inputs.deploy-target == 'artifact' || inputs.deploy-target == 'gh-pages'
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-site
+          path: site/
+          retention-days: 30
+
+      - name: Deploy to GitHub Pages
+        if: inputs.deploy-target == 'gh-pages' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          cname: docs.themisdb.io
+        continue-on-error: true
+
+      - name: Documentation summary
+        if: always()
+        run: |
+          echo "## 📚 Documentation Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Config:** ${{ inputs.mkdocs-config }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Deploy Target:** ${{ inputs.deploy-target }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "✅ Documentation built successfully" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Documentation build failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Set build result
+        id: build-result
+        if: always()
+        run: |
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+          fi

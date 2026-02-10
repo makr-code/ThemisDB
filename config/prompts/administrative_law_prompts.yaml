@@ -1,0 +1,569 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 ThemisDB Contributors
+#
+# Administrative Law Prompts (Verwaltungsrecht)
+#
+# This file contains prompt templates for German administrative law,
+# administrative procedures, environmental protection law (BImSchG),
+# and related regulations (TA Lärm, etc.).
+
+version: "1.0.0"
+
+prompts:
+  
+  verwaltungsrecht_analysis:
+    name: "Administrative Law Analysis (Verwaltungsrecht)"
+    version: "1.0"
+    description: "Analyze administrative law matters and decisions"
+    active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "administrative_fairness"
+      - "procedural_justice"
+      - "power_imbalance"
+      - "public_interest"
+    ethics_note: "Verwaltungsrechtliche Entscheidungen betreffen oft Grundrechte und öffentliches Interesse. Bei Ermessensentscheidungen ThemisDB Ethik-Modul konsultieren."
+    content: |
+      Sie analysieren einen verwaltungsrechtlichen Sachverhalt aus der ThemisDB.
+      
+      Verwaltungsrechtliche Fragestellung: {query}
+      Kontext: {context}
+      
+      **HINWEIS**: Dies ist eine informative Analyse, keine Rechtsberatung.
+      Konsultieren Sie immer qualifizierte Rechtsanwälte für konkrete Rechtsfragen.
+      
+      Prüfungsschema Verwaltungsrecht:
+      1. **Rechtsgrundlage**: Welche Ermächtigungsgrundlage besteht?
+      2. **Formelle Rechtmäßigkeit**: 
+         - Zuständigkeit (sachlich, örtlich, instanziell)
+         - Verfahren (Anhörung gem. § 28 VwVfG, etc.)
+         - Form (Schriftform, Begründung gem. § 39 VwVfG)
+      3. **Materielle Rechtmäßigkeit**:
+         - Tatbestandsvoraussetzungen erfüllt?
+         - Ermessen ordnungsgemäß ausgeübt?
+         - Verhältnismäßigkeit gewahrt?
+      4. **Rechtsfolge**: Ist die verfügte Rechtsfolge rechtmäßig?
+      
+      Bitte präsentieren Sie:
+      - Relevante Rechtsgrundlagen (Gesetze, Verordnungen)
+      - Formelle Prüfung
+      - Materielle Prüfung
+      - Ermessensprüfung (falls zutreffend)
+      - Rechtliche Schlussfolgerung
+      - Rechtsschutzmöglichkeiten
+
+  verwaltungsverfahren:
+    name: "Administrative Procedure (Verwaltungsverfahren)"
+    version: "1.0"
+    description: "Analyze administrative procedures according to VwVfG"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "procedural_fairness"
+      - "right_to_be_heard"
+      - "transparency"
+    ethics_note: "Verfahrensfehler können Grundrechte verletzen. Ethik-Modul bei Verfahrensmängeln einbeziehen."
+    content: |
+      Analyse eines Verwaltungsverfahrens nach VwVfG.
+      
+      Verfahrensstand: {query}
+      Zusätzliche Informationen: {context}
+      
+      Prüfung des Verwaltungsverfahrens:
+      
+      **A. Verfahrensbeteiligte** (§§ 11-15 VwVfG)
+      - Beteiligte gemäß § 13 VwVfG
+      - Beteiligtenfähigkeit und Handlungsfähigkeit
+      
+      **B. Verfahrensgrundsätze**
+      - Untersuchungsgrundsatz (§ 24 VwVfG)
+      - Anhörung (§ 28 VwVfG)
+      - Akteneinsicht (§ 29 VwVfG)
+      - Beratung und Auskunft (§ 25 VwVfG)
+      
+      **C. Verfahrensablauf**
+      - Antragstellung / Einleitung
+      - Ermittlungsverfahren
+      - Anhörungsverfahren
+      - Entscheidung
+      
+      **D. Fristen**
+      - Gesetzliche Fristen
+      - Behördlich gesetzte Fristen
+      - Fristwahrung und Wiedereinsetzung (§ 32 VwVfG)
+      
+      **E. Verfahrensmängel**
+      - Heilung (§ 45 VwVfG)
+      - Unbeachtlichkeit (§ 46 VwVfG)
+      
+      Analysieren Sie das Verfahren systematisch und identifizieren Sie:
+      - Verfahrensschritte
+      - Mögliche Verfahrensfehler
+      - Heilungsmöglichkeiten
+      - Rechtsschutzmöglichkeiten
+
+  bimschg_immissionsschutz:
+    name: "Federal Immission Control Act (BImSchG)"
+    version: "1.0"
+    description: "Analyze matters under the German Federal Immission Control Act"
+    active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "environmental_protection"
+      - "public_health"
+      - "economic_viability"
+      - "intergenerational_justice"
+      - "neighbor_rights"
+    ethics_note: "BImSchG-Genehmigungen betreffen Umweltschutz vs. wirtschaftliche Interessen. Ethik-Modul bei Konflikten zwischen Gesundheitsschutz und Wirtschaft konsultieren."
+    content: |
+      Prüfung nach dem Bundes-Immissionsschutzgesetz (BImSchG).
+      
+      Immissionsschutzrechtlicher Sachverhalt: {query}
+      Anlagendetails/Kontext: {context}
+      
+      **Prüfungsschema BImSchG:**
+      
+      **I. Anwendungsbereich**
+      - Handelt es sich um eine Anlage i.S.d. § 3 Abs. 5 BImSchG?
+      - Genehmigungsbedürftige Anlage nach § 4 BImSchG i.V.m. 4. BImSchV?
+      - Welche Anlagenkategorie (Spalte 1, 2 der 4. BImSchV)?
+      
+      **II. Genehmigungsverfahren**
+      - Förmliches Verfahren (§ 10 BImSchG) oder vereinfachtes Verfahren (§ 19 BImSchG)?
+      - Öffentlichkeitsbeteiligung erforderlich?
+      - Umweltverträglichkeitsprüfung (UVPG)?
+      
+      **III. Genehmigungsvoraussetzungen (§ 6 BImSchG)**
+      1. **Schädliche Umwelteinwirkungen** (§ 3 Abs. 1 BImSchG):
+         - Schutz vor schädlichen Umwelteinwirkungen
+         - Vorsorge gegen schädliche Umwelteinwirkungen
+      
+      2. **Weitere Pflichten**:
+         - § 5 Abs. 1 Nr. 1 BImSchG: Schutzpflicht
+         - § 5 Abs. 1 Nr. 2 BImSchG: Vorsorgepflicht
+         - § 5 Abs. 1 Nr. 3 BImSchG: Abfallvermeidung/-verwertung
+         - § 5 Abs. 1 Nr. 4 BImSchG: Energie- und Rohstoffeffizienz
+      
+      3. **Sonstige öffentlich-rechtliche Vorschriften**:
+         - Baurecht
+         - Naturschutzrecht
+         - Wasserrecht
+         - Arbeitsschutzrecht
+      
+      **IV. Grenzwerte und technische Regelwerke**
+      - TA Luft (Luftreinhaltung)
+      - TA Lärm (Lärmschutz)
+      - Weitere technische Anleitungen
+      
+      Bitte analysieren Sie:
+      - Anwendbare Vorschriften
+      - Genehmigungsfähigkeit
+      - Erfüllung der Genehmigungsvoraussetzungen
+      - Nebenbestimmungen (Auflagen, Bedingungen)
+      - Nachbarrechte
+
+  ta_laerm_noise_analysis:
+    name: "TA Lärm - Noise Analysis"
+    version: "1.0"
+    description: "Analyze noise emissions according to TA Lärm (Technical Instructions on Noise Control)"
+    active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "quality_of_life"
+      - "health_protection"
+      - "property_rights"
+      - "economic_interests"
+      - "distributive_justice"
+    ethics_note: "Lärmschutz betrifft Gesundheit und Lebensqualität vs. wirtschaftliche Nutzung. Ethik-Modul bei Interessenkonflikten zwischen Anwohnern und Betreibern konsultieren."
+    content: |
+      Lärmschutzrechtliche Prüfung nach TA Lärm.
+      
+      Lärmquelle/Sachverhalt: {query}
+      Messdaten/Kontext: {context}
+      
+      **Technische Anleitung zum Schutz gegen Lärm (TA Lärm):**
+      
+      **I. Anwendungsbereich (Nr. 1 TA Lärm)**
+      - Genehmigungsbedürftige Anlagen nach BImSchG
+      - Nicht genehmigungsbedürftige Anlagen (soweit relevant)
+      - Ausnahmen beachten
+      
+      **II. Immissionsorte (Nr. 2.3 TA Lärm)**
+      - Maßgebliche Immissionsorte bestimmen
+      - Gebietsart nach BauNVO bzw. faktisch (wenn kein B-Plan)
+      
+      **III. Immissionsrichtwerte (Nr. 6.1 TA Lärm)**
+      
+      Gebietsart | Tags (6-22 Uhr) | Nachts (22-6 Uhr)
+      ---|---|---
+      Industriegebiete | 70 dB(A) | 70 dB(A)
+      Gewerbegebiete | 65 dB(A) | 50 dB(A)
+      Kern-, Dorf-, Mischgebiete | 60 dB(A) | 45 dB(A)
+      Allg. Wohngebiete, Kleinsiedl. | 55 dB(A) | 40 dB(A)
+      Reine Wohngebiete | 50 dB(A) | 35 dB(A)
+      Kurgebiete, Krankenhäuser, Pflegeanstalten | 45 dB(A) | 35 dB(A)
+      
+      **IV. Beurteilung (Nr. 3 TA Lärm)**
+      - Beurteilungspegel ermitteln (Nr. 3.2.1 TA Lärm)
+      - Zuschläge für Ton-, Impuls-, Informationshaltigkeit (Nr. 3.2.1 Abs. 3)
+      - Einzelne kurzzeitige Geräuschspitzen (Nr. 6.2 TA Lärm)
+      
+      **V. Prognose und Messung**
+      - Emissionsdaten der Anlage
+      - Schallausbreitungsberechnung
+      - Vorbelastung berücksichtigen
+      - Messverfahren nach DIN-Normen
+      
+      **VI. Lärmminderung**
+      - Primäre Maßnahmen (Quelle)
+      - Sekundäre Maßnahmen (Ausbreitung)
+      - Tertiäre Maßnahmen (Immissionsort)
+      
+      Bitte beurteilen Sie:
+      - Anwendbarkeit der TA Lärm
+      - Relevante Immissionsorte und Gebietsarten
+      - Beurteilungspegel vs. Immissionsrichtwerte
+      - Erforderliche Lärmschutzmaßnahmen
+      - Einhaltung der Richtwerte
+
+  genehmigungsverfahren:
+    name: "Licensing/Approval Procedure (Genehmigungsverfahren)"
+    version: "1.0"
+    description: "Analyze administrative licensing and approval procedures"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "procedural_fairness"
+      - "stakeholder_participation"
+      - "public_interest"
+    ethics_note: "Genehmigungsverfahren können verschiedene Interessengruppen betreffen. Ethik-Modul bei komplexen Stakeholder-Konflikten einbeziehen."
+    content: |
+      Analyse eines behördlichen Genehmigungsverfahrens.
+      
+      Genehmigungsgegenstand: {query}
+      Verfahrensstand: {context}
+      
+      **Genehmigungsverfahren - Systematik:**
+      
+      **A. Rechtsgrundlage und Genehmigungserfordernis**
+      - Welche Rechtsgrundlage (BImSchG, BauGB, WasserG, etc.)?
+      - Genehmigungspflicht oder Anzeigepflicht?
+      - Konzentrationswirkung (§ 13 BImSchG)?
+      
+      **B. Verfahrensart**
+      - Förmliches Verfahren mit Öffentlichkeitsbeteiligung
+      - Vereinfachtes Verfahren
+      - Anzeigeverfahren
+      - Planfeststellungsverfahren
+      
+      **C. Verfahrensschritte**
+      1. **Antragstellung**:
+         - Vollständigkeit der Unterlagen
+         - Antragskonferenz (optional)
+      
+      2. **Behördenbeteiligung**:
+         - Anhörung von Trägern öffentlicher Belange
+         - Stellungnahmen einholen
+      
+      3. **Öffentlichkeitsbeteiligung** (falls erforderlich):
+         - Bekanntmachung
+         - Auslegung der Unterlagen
+         - Einwendungsfrist
+         - Erörterungstermin
+      
+      4. **Prüfung**:
+         - Formelle Rechtmäßigkeit
+         - Materielle Genehmigungsvoraussetzungen
+         - Standortprüfung
+         - Umweltverträglichkeit
+      
+      5. **Entscheidung**:
+         - Genehmigung (mit/ohne Nebenbestimmungen)
+         - Ablehnung
+         - Einstellung des Verfahrens
+      
+      **D. Genehmigungsinhalt**
+      - Genehmigter Gegenstand
+      - Auflagen (§ 12 BImSchG)
+      - Bedingungen
+      - Befristungen
+      - Auflagenvorbehalte
+      
+      **E. Rechtsbehelfe**
+      - Widerspruchsverfahren
+      - Verwaltungsgerichtliche Klage
+      - Fristen beachten!
+      
+      Analysieren Sie:
+      - Zutreffendes Verfahren
+      - Verfahrensschritte und Fristen
+      - Beteiligte und deren Rechte
+      - Genehmigungsvoraussetzungen
+      - Mögliche Hindernisse
+      - Rechtsschutzmöglichkeiten
+
+  umweltrecht_compliance:
+    name: "Environmental Law Compliance (Umweltrecht)"
+    version: "1.0"
+    description: "Check compliance with environmental regulations"
+    active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "environmental_protection"
+      - "sustainability"
+      - "intergenerational_justice"
+      - "precautionary_principle"
+      - "polluter_pays_principle"
+    ethics_note: "Umweltrecht betrifft nachhaltige Entwicklung und Schutz künftiger Generationen. Ethik-Modul bei Konflikten zwischen Wirtschaft und Umweltschutz konsultieren."
+    content: |
+      Umweltrechtliche Compliance-Prüfung.
+      
+      Prüfgegenstand: {query}
+      Betriebliche Situation: {context}
+      
+      **Umweltrechtliche Compliance-Bereiche:**
+      
+      **I. Immissionsschutzrecht**
+      - BImSchG-Genehmigung vorhanden/erforderlich?
+      - Anzeigepflichten nach § 15 BImSchG
+      - Betriebspflichten nach § 5 BImSchG
+      - Emissionsgrenzwerte eingehalten?
+      - TA Luft, TA Lärm, TA Abfall Anforderungen
+      
+      **II. Wasserrecht (WHG)**
+      - Erlaubnis/Bewilligung für Gewässerbenutzung?
+      - Einleitung von Abwasser (§§ 8, 57 WHG)
+      - Anlagen zum Umgang mit wassergefährdenden Stoffen (AwSV)
+      - Gewässerschutz (§ 5 WHG)
+      
+      **III. Abfallrecht (KrWG)**
+      - Abfallvermeidung (§ 13 KrWG)
+      - Abfallhierarchie beachtet (§ 6 KrWG)?
+      - Entsorgungsnachweise
+      - Überwachungsverfahren
+      - Beförderungserlaubnis
+      
+      **IV. Bodenschutzrecht (BBodSchG)**
+      - Altlastenverdacht?
+      - Sanierungspflichten
+      - Vorsorgepflicht (§ 7 BBodSchG)
+      
+      **V. Naturschutzrecht (BNatSchG)**
+      - Eingriffe in Natur und Landschaft?
+      - Ausgleichs- und Ersatzmaßnahmen
+      - Artenschutzrechtliche Verbote (§ 44 BNatSchG)
+      - Natura 2000 Gebiete betroffen?
+      
+      **VI. Chemikalienrecht**
+      - REACH-Verordnung
+      - CLP-Verordnung (Einstufung/Kennzeichnung)
+      - Biozid-Verordnung
+      
+      **VII. Anlagensicherheit**
+      - Störfall-Verordnung (12. BImSchV)
+      - Betriebssicherheitsverordnung
+      - Gefahrstoffverordnung
+      
+      **VIII. Berichtspflichten**
+      - Emissionserklärung (§ 27 BImSchG)
+      - PRTR (Pollutant Release and Transfer Register)
+      - EU-ETS (Emissionshandel)
+      
+      Erstellen Sie eine Compliance-Checkliste:
+      - Anwendbare Rechtsgebiete
+      - Erforderliche Genehmigungen/Erlaubnisse
+      - Einhaltung von Grenzwerten
+      - Betriebspflichten
+      - Dokumentations- und Berichtspflichten
+      - Identifizierte Compliance-Lücken
+      - Handlungsempfehlungen
+
+  verwaltungsakt_pruefung:
+    name: "Administrative Act Review (Verwaltungsakt-Prüfung)"
+    version: "1.0"
+    description: "Examine the legality of an administrative act"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "administrative_fairness"
+      - "proportionality"
+      - "legal_certainty"
+      - "individual_rights"
+    ethics_note: "Ermessensentscheidungen erfordern Abwägung verschiedener Interessen. Ethik-Modul bei Verhältnismäßigkeitsprüfung konsultieren."
+    content: |
+      Rechtmäßigkeitsprüfung eines Verwaltungsakts.
+      
+      Verwaltungsakt: {query}
+      Sachverhalt: {context}
+      
+      **Prüfungsschema Verwaltungsakt:**
+      
+      **I. Verwaltungsakt i.S.d. § 35 VwVfG**
+      - Hoheitliche Maßnahme
+      - Behörde
+      - Öffentliches Recht
+      - Regelung
+      - Einzelfall
+      - Außenwirkung
+      
+      **II. Formelle Rechtmäßigkeit**
+      
+      1. **Zuständigkeit** (§§ 3 ff. VwVfG):
+         - Sachliche Zuständigkeit
+         - Örtliche Zuständigkeit
+         - Instanzielle Zuständigkeit
+      
+      2. **Verfahren**:
+         - Anhörung (§ 28 VwVfG)
+         - Beteiligte (§§ 11-15 VwVfG)
+         - Fristen
+         - Besondere Verfahrensvorschriften
+      
+      3. **Form** (§§ 37, 39 VwVfG):
+         - Schriftform (falls erforderlich)
+         - Begründung (§ 39 VwVfG)
+         - Rechtsbehelfsbelehrung (§ 39 Abs. 2 Nr. 4 VwVfG)
+      
+      **III. Materielle Rechtmäßigkeit**
+      
+      1. **Ermächtigungsgrundlage**:
+         - Gesetzliche Grundlage vorhanden?
+         - Bestimmtheit
+      
+      2. **Tatbestandsvoraussetzungen**:
+         - Alle Tatbestandsmerkmale erfüllt?
+         - Subsumtion
+      
+      3. **Ermessen** (§ 40 VwVfG):
+         - Ermessensspielraum vorhanden?
+         - Ermessensgebrauch:
+           * Ermessensausfall
+           * Ermessensüberschreitung
+           * Ermessensfehlgebrauch
+         - Verhältnismäßigkeit:
+           * Legitimer Zweck
+           * Geeignetheit
+           * Erforderlichkeit
+           * Angemessenheit
+      
+      4. **Rechtsfolge**:
+         - Rechtmäßigkeit der Rechtsfolge
+         - Nebenbestimmungen (§ 36 VwVfG):
+           * Befristung
+           * Bedingung
+           * Widerrufsvorbehalt
+           * Auflage
+           * Auflagenvorbehalt
+      
+      **IV. Rechtswidrigkeit und Konsequenzen**
+      - Nichtigkeit (§ 44 VwVfG)
+      - Heilung (§ 45 VwVfG)
+      - Unbeachtlichkeit (§ 46 VwVfG)
+      - Rücknahme (§ 48 VwVfG)
+      - Widerruf (§ 49 VwVfG)
+      
+      **V. Rechtsschutz**
+      - Widerspruch (§§ 68 ff. VwGO)
+      - Anfechtungsklage (§ 42 Abs. 1 Alt. 1 VwGO)
+      - Fristen (1 Monat, § 70 VwGO)
+      
+      Prüfen Sie systematisch:
+      - Vorliegen eines Verwaltungsakts
+      - Formelle Rechtmäßigkeit
+      - Materielle Rechtmäßigkeit
+      - Ermessensausübung
+      - Heilungsmöglichkeiten
+      - Rechtsbehelfe und Erfolgsaussichten
+
+  baurecht_genehmigung:
+    name: "Building Law and Construction Permits (Baurecht)"
+    version: "1.0"
+    description: "Analyze building permits and construction law matters"
+    active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "property_rights"
+      - "neighbor_protection"
+      - "public_interest"
+      - "urban_planning"
+    ethics_note: "Baurecht erfordert Abwägung zwischen Eigentümerinteressen und Nachbarschutz. Ethik-Modul bei Interessenkonflikten einbeziehen."
+    content: |
+      Baurechtliche Prüfung und Baugenehmigung.
+      
+      Bauvorhaben: {query}
+      Grundstückssituation: {context}
+      
+      **Prüfungsschema Baurecht:**
+      
+      **I. Bauliche Anlage i.S.d. Landesbauordnung**
+      - Mit dem Erdboden verbunden
+      - Aus Bauprodukten hergestellt
+      - Von gewisser Beständigkeit
+      
+      **II. Genehmigungsbedürftigkeit**
+      - Grundsatz: Genehmigungspflicht
+      - Ausnahmen: Verfahrensfreie Vorhaben (LBO)
+      - Genehmigungsfreistellung möglich?
+      
+      **III. Bauplanungsrecht (BauGB)**
+      
+      **A. Zulässigkeit im Geltungsbereich eines B-Plans (§ 30 BauGB)**
+      1. Art der baulichen Nutzung (§§ 2-11 BauNVO)
+      2. Maß der baulichen Nutzung (§§ 16-21a BauNVO)
+      3. Bauweise, überbaubare Grundstücksfläche (§§ 22, 23 BauNVO)
+      4. Stellplätze, Garagen, Zufahrten
+      
+      **B. Zulässigkeit innerhalb im Zusammenhang bebauter Ortsteile (§ 34 BauGB)**
+      1. Einfügen in Eigenart der näheren Umgebung:
+         - Art der baulichen Nutzung
+         - Maß der baulichen Nutzung
+         - Bauweise
+         - Überbaute Grundstücksfläche
+      2. Erschließung gesichert
+      3. Rücksichtnahmegebot
+      
+      **C. Zulässigkeit im Außenbereich (§ 35 BauGB)**
+      1. Privilegierte Vorhaben (§ 35 Abs. 1 BauGB)
+      2. Sonstige Vorhaben (§ 35 Abs. 2 BauGB)
+      3. Öffentliche Belange (§ 35 Abs. 3 BauGB)
+      
+      **IV. Bauordnungsrecht (Landesbauordnung)**
+      
+      1. **Abstandsflächen**:
+         - Erforderliche Abstandsflächentiefe
+         - Grenzständige Bebauung zulässig?
+      
+      2. **Brandschutz**:
+         - Rettungswege
+         - Feuerwiderstandsklassen
+         - Brandabschnitte
+      
+      3. **Stellplätze und Garagen**:
+         - Stellplatzpflicht nach örtlicher Satzung
+         - Anzahl erforderlicher Stellplätze
+      
+      4. **Technische Baubestimmungen**:
+         - Standsicherheit
+         - Wärme-, Schall-, Brandschutz
+         - Barrierefreiheit (falls erforderlich)
+      
+      **V. Weitere öffentlich-rechtliche Vorschriften**
+      - Denkmalschutz
+      - Naturschutz
+      - Nachbarschutz
+      - Immissionsschutz
+      
+      **VI. Baugenehmigung**
+      - Antragsunterlagen vollständig?
+      - Bauvorlagen nach LBO
+      - Bauantrag vs. Kenntnisgabeverfahren
+      - Genehmigungsfiktion beachten
+      
+      Prüfen Sie:
+      - Bauplanungsrechtliche Zulässigkeit
+      - Bauordnungsrechtliche Anforderungen
+      - Erforderliche Stellungnahmen/Genehmigungen
+      - Nachbarrechte
+      - Genehmigungsfähigkeit
+      - Alternative Verfahren
+

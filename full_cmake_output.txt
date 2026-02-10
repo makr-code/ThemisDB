@@ -1,0 +1,991 @@
+-- Running vcpkg install
+warning: attempting to set builtin-baseline in vcpkg.json while overriding the default-registry in vcpkg-configuration.json.
+the default-registry from vcpkg-configuration.json will be used.
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages will be built and installed:
+  * abseil:x64-windows@20240722.0
+    benchmark:x64-windows@1.9.0
+  * boost-algorithm:x64-windows@1.86.0
+  * boost-align:x64-windows@1.86.0
+  * boost-array:x64-windows@1.86.0
+    boost-asio:x64-windows@1.86.0
+  * boost-assert:x64-windows@1.86.0
+    boost-beast:x64-windows@1.86.0
+  * boost-bind:x64-windows@1.86.0
+  * boost-cmake:x64-windows@1.86.0
+  * boost-concept-check:x64-windows@1.86.0
+  * boost-config:x64-windows@1.86.0
+  * boost-container:x64-windows@1.86.0
+  * boost-container-hash:x64-windows@1.86.0
+  * boost-context:x64-windows@1.86.0
+  * boost-conversion:x64-windows@1.86.0
+  * boost-core:x64-windows@1.86.0
+  * boost-coroutine:x64-windows@1.86.0
+  * boost-date-time:x64-windows@1.86.0
+  * boost-describe:x64-windows@1.86.0
+  * boost-detail:x64-windows@1.86.0
+  * boost-endian:x64-windows@1.86.0
+  * boost-exception:x64-windows@1.86.0
+  * boost-function:x64-windows@1.86.0
+  * boost-function-types:x64-windows@1.86.0
+  * boost-functional:x64-windows@1.86.0
+  * boost-fusion:x64-windows@1.86.0
+  * boost-headers:x64-windows@1.86.0
+  * boost-integer:x64-windows@1.86.0
+  * boost-intrusive:x64-windows@1.86.0
+  * boost-io:x64-windows@1.86.0
+  * boost-iterator:x64-windows@1.86.0
+  * boost-lexical-cast:x64-windows@1.86.0
+  * boost-logic:x64-windows@1.86.0
+  * boost-move:x64-windows@1.86.0
+  * boost-mp11:x64-windows@1.86.0
+  * boost-mpl:x64-windows@1.86.0
+  * boost-numeric-conversion:x64-windows@1.86.0
+  * boost-optional:x64-windows@1.86.0
+  * boost-pool:x64-windows@1.86.0
+  * boost-predef:x64-windows@1.86.0
+  * boost-preprocessor:x64-windows@1.86.0
+  * boost-range:x64-windows@1.86.0
+  * boost-regex:x64-windows@1.86.0
+  * boost-smart-ptr:x64-windows@1.86.0
+  * boost-static-assert:x64-windows@1.86.0
+  * boost-static-string:x64-windows@1.86.0
+  * boost-system:x64-windows@1.86.0
+  * boost-throw-exception:x64-windows@1.86.0
+  * boost-tokenizer:x64-windows@1.86.0
+  * boost-tuple:x64-windows@1.86.0
+  * boost-type-index:x64-windows@1.86.0
+  * boost-type-traits:x64-windows@1.86.0
+  * boost-typeof:x64-windows@1.86.0
+  * boost-uninstall:x64-windows@1.86.0
+  * boost-unordered:x64-windows@1.86.0
+    boost-url:x64-windows@1.86.0
+  * boost-utility:x64-windows@1.86.0
+  * boost-variant2:x64-windows@1.86.0
+  * boost-winapi:x64-windows@1.86.0
+  * brotli:x64-windows@1.1.0#1
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+    c-ares:x64-windows@1.34.1
+  * civetweb:x64-windows@1.16#2
+    cpp-httplib[brotli,core]:x64-windows@0.18.0
+    crc32c:x64-windows@1.1.2#2
+    curl[core,non-http,schannel,ssl,sspi]:x64-windows@8.10.1
+  * fmt:x64-windows@11.0.2#1
+    grpc[codegen,core]:x64-windows@1.60.0#1
+    gtest:x64-windows@1.15.2
+    hnswlib:x64-windows@0.8.0
+  * hwloc:x64-windows@2.11.2
+    libzip[bzip2,core,default-aes,wincrypto]:x64-windows@1.10.1
+  * lz4:x64-windows@1.10.0
+    mimalloc:x64-windows@2.2.6
+    msgpack:x64-windows@6.1.1
+    nlohmann-json:x64-windows@3.11.3#1
+    openssl:x64-windows@3.6.0
+    opentelemetry-cpp[core,otlp-http]:x64-windows@1.24.0
+    prometheus-cpp[compression,core,pull]:x64-windows@1.2.4
+  * protobuf:x64-windows@4.25.1#1
+    pugixml:x64-windows@1.14
+  * re2:x64-windows@2024-07-02
+    rocksdb[core,lz4,zlib,zstd]:x64-windows@9.7.2
+    simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@3.10.1
+    spdlog:x64-windows@1.14.1
+    tbb[core,hwloc]:x64-windows@2021.13.0
+    tl-expected:x64-windows@1.1.0
+  * upb:x64-windows@4.25.1#1
+  * utf8-range:x64-windows@4.25.1
+  * vcpkg-boost:x64-windows@2024-05-15
+  * vcpkg-cmake:x64-windows@2024-04-23
+  * vcpkg-cmake-config:x64-windows@2024-05-23
+  * vcpkg-cmake-get-vars:x64-windows@2024-09-22
+    yaml-cpp:x64-windows@0.8.0#1
+  * zlib:x64-windows@1.3.1
+    zstd:x64-windows@1.5.6
+Additional packages (*) will be modified to complete this operation.
+Restored 97 package(s) from C:\Users\mkrueger\AppData\Local\vcpkg\archives in 34 s. Use --debug to see more details.
+Installing 1/97 vcpkg-cmake-config:x64-windows@2024-05-23...
+Elapsed time to handle vcpkg-cmake-config:x64-windows: 15.1 ms
+vcpkg-cmake-config:x64-windows package ABI: 942a60faab6f884767ae8b2f255a5f5b00b214890904e293cd552e758d6f41c8
+Installing 2/97 vcpkg-cmake:x64-windows@2024-04-23...
+Elapsed time to handle vcpkg-cmake:x64-windows: 17.7 ms
+vcpkg-cmake:x64-windows package ABI: a8348a2172057a4a77c87cd6db413e81cb8f4f8f4b434e6bf410a98f4ed3d149
+Installing 3/97 benchmark:x64-windows@1.9.0...
+Elapsed time to handle benchmark:x64-windows: 59.4 ms
+benchmark:x64-windows package ABI: 67796fd729e2217716bf0b4db529706cecc696fcdd81cf23f7174b1029634885
+Installing 4/97 vcpkg-boost:x64-windows@2024-05-15...
+Elapsed time to handle vcpkg-boost:x64-windows: 21.6 ms
+vcpkg-boost:x64-windows package ABI: 9b4204c1a1c6898f8655a143f1e35845734fd8129b98cb8068d8909c61615f5b
+Installing 5/97 boost-uninstall:x64-windows@1.86.0...
+Elapsed time to handle boost-uninstall:x64-windows: 10.1 ms
+boost-uninstall:x64-windows package ABI: 0282e5deebe266e0b67ba6f67878be6f6d03466d89ce1c06d5355d65e489e3b6
+Installing 6/97 boost-cmake:x64-windows@1.86.0...
+Elapsed time to handle boost-cmake:x64-windows: 22 ms
+boost-cmake:x64-windows package ABI: abdc0cfdccb15d9ced4f4bbb0609ea26adaaf3c478b6550dbc92241b0acee60c
+Installing 7/97 boost-headers:x64-windows@1.86.0...
+Elapsed time to handle boost-headers:x64-windows: 13.3 ms
+boost-headers:x64-windows package ABI: a3a682fa65b82e3c2efaa8f7e6855c0328f6b02558e526dfcf302e1e27dced9f
+Installing 8/97 boost-config:x64-windows@1.86.0...
+Elapsed time to handle boost-config:x64-windows: 287 ms
+boost-config:x64-windows package ABI: 48eb5741cf1bafe83cc21989af76dca6017c08a42cd1d7308e29d6d1c8f5a776
+Installing 9/97 boost-assert:x64-windows@1.86.0...
+Elapsed time to handle boost-assert:x64-windows: 23.6 ms
+boost-assert:x64-windows package ABI: 7a9685f06b527a2c3afdba1b9421b7736ba1bf70e426313b0f69cacbd8886b9a
+Installing 10/97 boost-throw-exception:x64-windows@1.86.0...
+Elapsed time to handle boost-throw-exception:x64-windows: 20.9 ms
+boost-throw-exception:x64-windows package ABI: 6f2c22bcaccf6ab60d8802e1473dc8a1585793c2b0b24373507bab6bf9a88df6
+Installing 11/97 boost-predef:x64-windows@1.86.0...
+Elapsed time to handle boost-predef:x64-windows: 207 ms
+boost-predef:x64-windows package ABI: b5105ed1f2fbe34f972d6629291fe9f9b92d51c7ce7bc55095f71974f266fad9
+Installing 12/97 boost-winapi:x64-windows@1.86.0...
+Elapsed time to handle boost-winapi:x64-windows: 151 ms
+boost-winapi:x64-windows package ABI: 34fcb4c29338fcdb47c93c4e90ef8945c7f8f9ea1a37f6466898148c3af7b5e9
+Installing 13/97 boost-mp11:x64-windows@1.86.0...
+Elapsed time to handle boost-mp11:x64-windows: 33.9 ms
+boost-mp11:x64-windows package ABI: 5cc72394b26db32068147876c91460419ecd69af2a0b328b8a5aa9ff48ac99a1
+Installing 14/97 boost-variant2:x64-windows@1.86.0...
+Elapsed time to handle boost-variant2:x64-windows: 21.7 ms
+boost-variant2:x64-windows package ABI: f71db10d119fb15270ce95c8bdb8c2986052041e9811fa9edc373c43b8f27bee
+Installing 15/97 boost-system:x64-windows@1.86.0...
+Elapsed time to handle boost-system:x64-windows: 63.5 ms
+boost-system:x64-windows package ABI: 02fa70fd3e4d46337c022392ebb8f68bab0602b7b822588ed20e2d8bc802d152
+Installing 16/97 boost-static-assert:x64-windows@1.86.0...
+Elapsed time to handle boost-static-assert:x64-windows: 17 ms
+boost-static-assert:x64-windows package ABI: 2570df7dd6eb852458d755b68741e32ca20052f2f1a764a68bd810f7d990899d
+Installing 17/97 boost-type-traits:x64-windows@1.86.0...
+Elapsed time to handle boost-type-traits:x64-windows: 196 ms
+boost-type-traits:x64-windows package ABI: 910d84c14af46656836f68262d6a587e9ffbe3d88187f3823e47599a26fac448
+Installing 18/97 boost-preprocessor:x64-windows@1.86.0...
+Elapsed time to handle boost-preprocessor:x64-windows: 256 ms
+boost-preprocessor:x64-windows package ABI: 89a32b3a36fcb48d9d282cd93b1ff87028cbb92b65aef82a86c41ca2b2314e4e
+Installing 19/97 boost-io:x64-windows@1.86.0...
+Elapsed time to handle boost-io:x64-windows: 20.4 ms
+boost-io:x64-windows package ABI: 5a5efee11952df40a987b96fba38d7ff53200fe90da716ba166b9588c559697a
+Installing 20/97 boost-core:x64-windows@1.86.0...
+Elapsed time to handle boost-core:x64-windows: 63.6 ms
+boost-core:x64-windows package ABI: e1864c94010291489b9ec31e6664e3d3d178fb5da5f9da877039c6cb613b4c66
+Installing 21/97 boost-utility:x64-windows@1.86.0...
+Elapsed time to handle boost-utility:x64-windows: 29.6 ms
+boost-utility:x64-windows package ABI: 225ef844d4a699ca721344620876e68ff57b86234b84cfee0ecb6f8e06a6e91e
+Installing 22/97 boost-move:x64-windows@1.86.0...
+Elapsed time to handle boost-move:x64-windows: 41 ms
+boost-move:x64-windows package ABI: f69ea27e197310c917b7bf990697818626ad154eb5d2d90c3c3090fbb55102e9
+Installing 23/97 boost-smart-ptr:x64-windows@1.86.0...
+Elapsed time to handle boost-smart-ptr:x64-windows: 121 ms
+boost-smart-ptr:x64-windows package ABI: 629fda4a0228c78a6e4d48e0c8ad58eb82ccd5934fd750844d480985381e38a1
+Installing 24/97 boost-detail:x64-windows@1.86.0...
+Elapsed time to handle boost-detail:x64-windows: 56 ms
+boost-detail:x64-windows package ABI: eea12ecd042d29b0982cf4d74a5bd128caf5e3a321f1d01e6cb30010ce69b2d3
+Installing 25/97 boost-optional:x64-windows@1.86.0...
+Elapsed time to handle boost-optional:x64-windows: 29.2 ms
+boost-optional:x64-windows package ABI: 8e053e1dfcec1073bcb68107832fc38e3d4bd4d2b3fb439952d872ae67be6a47
+Installing 26/97 boost-mpl:x64-windows@1.86.0...
+Elapsed time to handle boost-mpl:x64-windows: 717 ms
+boost-mpl:x64-windows package ABI: ac88491a35f7cfc9feef5e9930cf2de866bde1085d31cc71efa2a073f1418fa0
+Installing 27/97 boost-typeof:x64-windows@1.86.0...
+Elapsed time to handle boost-typeof:x64-windows: 31.7 ms
+boost-typeof:x64-windows package ABI: ebfd9edcd7b364c193886bb31a365f898898e05b6fff53c70540e091ece85300
+Installing 28/97 boost-tuple:x64-windows@1.86.0...
+Elapsed time to handle boost-tuple:x64-windows: 21.6 ms
+boost-tuple:x64-windows package ABI: 14d092f612df266f505d380676a9f76c8e0d66cc46230786072b43297756381f
+Installing 29/97 boost-function-types:x64-windows@1.86.0...
+Elapsed time to handle boost-function-types:x64-windows: 59.5 ms
+boost-function-types:x64-windows package ABI: 58f9c1862b50a472559a088cb5878555d7fbe2187ce5f05418927d967452d2a1
+Installing 30/97 boost-bind:x64-windows@1.86.0...
+Elapsed time to handle boost-bind:x64-windows: 27.3 ms
+boost-bind:x64-windows package ABI: 9192e6c1aec4325a2317b104d552a7f46898762125a057f7a0256941909a485b
+Installing 31/97 boost-function:x64-windows@1.86.0...
+Elapsed time to handle boost-function:x64-windows: 60.1 ms
+boost-function:x64-windows package ABI: 35514390782ab72ce932314e5886e09b3c294c91e901d08855def11bc8f71901
+Installing 32/97 boost-functional:x64-windows@1.86.0...
+Elapsed time to handle boost-functional:x64-windows: 25.3 ms
+boost-functional:x64-windows package ABI: b12d0b8753c88d2afdf6c609ddc91a3078e8184be221bab62e9b8463de11536f
+Installing 33/97 boost-describe:x64-windows@1.86.0...
+Elapsed time to handle boost-describe:x64-windows: 29.2 ms
+boost-describe:x64-windows package ABI: 1c33372eae9c5a655a8e4636cf676f9b7a966ec79b657928bde0fc29b2ec013d
+Installing 34/97 boost-container-hash:x64-windows@1.86.0...
+Elapsed time to handle boost-container-hash:x64-windows: 52.4 ms
+boost-container-hash:x64-windows package ABI: 6109b3f6f3a61f16ea646bedbd626e92d50ae88cc66410d151867865e30706b1
+Installing 35/97 boost-fusion:x64-windows@1.86.0...
+Elapsed time to handle boost-fusion:x64-windows: 561 ms
+boost-fusion:x64-windows package ABI: 59d6a281d0f1508ce6cd61a67fbb5969a726944be670471ac8804bc160961681
+Installing 36/97 boost-concept-check:x64-windows@1.86.0...
+Elapsed time to handle boost-concept-check:x64-windows: 42 ms
+boost-concept-check:x64-windows package ABI: f26a32eceb5963d674ea272c4a52e4ed3ced8a87a88f7e9db67a8427d1771777
+Installing 37/97 boost-iterator:x64-windows@1.86.0...
+Elapsed time to handle boost-iterator:x64-windows: 44 ms
+boost-iterator:x64-windows package ABI: f3bdb34ed0590092839316b57a7c79d414c0684f6d5cce441b67b38584a02242
+Installing 38/97 boost-tokenizer:x64-windows@1.86.0...
+Elapsed time to handle boost-tokenizer:x64-windows: 22.5 ms
+boost-tokenizer:x64-windows package ABI: 06d5cde0c25ac9ee1d3e78fa004f7e78dd926aec0e08ff765d512ae24f7705b1
+Installing 39/97 boost-integer:x64-windows@1.86.0...
+Elapsed time to handle boost-integer:x64-windows: 28.1 ms
+boost-integer:x64-windows package ABI: 93a2599d154883543bc1c8cbcc5eacea7d21f399af46c038cf7103cb85763607
+Installing 40/97 boost-regex:x64-windows@1.86.0...
+Elapsed time to handle boost-regex:x64-windows: 81.2 ms
+boost-regex:x64-windows package ABI: 37962116016155215b39ec5f73814f563ba15856aa00c638c26bda799750c05f
+Installing 41/97 boost-conversion:x64-windows@1.86.0...
+Elapsed time to handle boost-conversion:x64-windows: 23 ms
+boost-conversion:x64-windows package ABI: 410ade1c71ed748f79724963f2a58dca4d22a0a2931d59b2e5a499e339e18eb8
+Installing 42/97 boost-array:x64-windows@1.86.0...
+Elapsed time to handle boost-array:x64-windows: 23.3 ms
+boost-array:x64-windows package ABI: 4dc3527d1f7a11aeb2cf0b09eda1f075a2dc01e0cac96a5d47a72e071340441f
+Installing 43/97 boost-range:x64-windows@1.86.0...
+Elapsed time to handle boost-range:x64-windows: 150 ms
+boost-range:x64-windows package ABI: 43eeb0f814d40db8d491a0bdc6d525862480193d902851d54767e4ef0d2a9d6f
+Installing 44/97 boost-numeric-conversion:x64-windows@1.86.0...
+Elapsed time to handle boost-numeric-conversion:x64-windows: 36.1 ms
+boost-numeric-conversion:x64-windows package ABI: e92e1072e125ce287cd9cab1228b7fe55f1e0e240887da0fa4132d61b977aa8a
+Installing 45/97 boost-intrusive:x64-windows@1.86.0...
+Elapsed time to handle boost-intrusive:x64-windows: 127 ms
+boost-intrusive:x64-windows package ABI: 8a663d71b59a4bb4ab8775914a002e55501a30fba4d4efaed02147803f040d20
+Installing 46/97 boost-container:x64-windows@1.86.0...
+Elapsed time to handle boost-container:x64-windows: 96.2 ms
+boost-container:x64-windows package ABI: d0d30018a8c9ac1249c802eb944120ffe85381ba12e5a1b47237bba5f0071315
+Installing 47/97 boost-lexical-cast:x64-windows@1.86.0...
+Elapsed time to handle boost-lexical-cast:x64-windows: 30.1 ms
+boost-lexical-cast:x64-windows package ABI: aa5f05e48b48f95b05c2d04a88bc7d423d7474a9dfa794176fe7a8018ed7a41f
+Installing 48/97 boost-unordered:x64-windows@1.86.0...
+Elapsed time to handle boost-unordered:x64-windows: 48.7 ms
+boost-unordered:x64-windows package ABI: ae72bb96009586434c08da8735d5f2f26138ed8f942bcaf94f38f5b459684784
+Installing 49/97 boost-exception:x64-windows@1.86.0...
+Elapsed time to handle boost-exception:x64-windows: 69 ms
+boost-exception:x64-windows package ABI: 3b7265b8d29bdc338029381ab5d01465433a18d7358b3e4b4c2506cb4184a1a0
+Installing 50/97 boost-algorithm:x64-windows@1.86.0...
+Elapsed time to handle boost-algorithm:x64-windows: 80.1 ms
+boost-algorithm:x64-windows package ABI: 7a81b7a874fec12242b3d46ad0f361ed7ef9b8f06bbc61d8a11d0104bd596f3f
+Installing 51/97 boost-date-time:x64-windows@1.86.0...
+Elapsed time to handle boost-date-time:x64-windows: 84.6 ms
+boost-date-time:x64-windows package ABI: f0bf7e0664bb5e3120fbeb7fc21ecf9d2d18f9733cf791416272db59741100a7
+Installing 52/97 boost-pool:x64-windows@1.86.0...
+Elapsed time to handle boost-pool:x64-windows: 34 ms
+boost-pool:x64-windows package ABI: 93c93f44c9cd74fedb06f16d0b14610ccfbf92acaea12f65870bcf058d22642d
+Installing 53/97 boost-context:x64-windows@1.86.0...
+Elapsed time to handle boost-context:x64-windows: 44 ms
+boost-context:x64-windows package ABI: 3234412c8affc64e7ee4a4d25d840896e918e94c8c5d4b536cad715c9ebe1db7
+Installing 54/97 boost-coroutine:x64-windows@1.86.0...
+Elapsed time to handle boost-coroutine:x64-windows: 68.4 ms
+boost-coroutine:x64-windows package ABI: 38e2f40da53221d3a608db869e2c9c1367f89fe91800a26f950b167a47d269cf
+Installing 55/97 boost-align:x64-windows@1.86.0...
+Elapsed time to handle boost-align:x64-windows: 84.9 ms
+boost-align:x64-windows package ABI: 5bbdaf2fc13ea11edc2a65b44bd7802f0ea8de861938ae75c73085c6fbf80497
+Installing 56/97 boost-asio:x64-windows@1.86.0...
+Elapsed time to handle boost-asio:x64-windows: 553 ms
+boost-asio:x64-windows package ABI: fed22c3d82b59d95e236c6f6bbbe2d17fc2a424cf5e19255ce359fe44a71ee1f
+Installing 57/97 boost-type-index:x64-windows@1.86.0...
+Elapsed time to handle boost-type-index:x64-windows: 33.8 ms
+boost-type-index:x64-windows package ABI: 13d0ca1d01505cb209c24528d060aa4b4be6a36f51bbda6e21b757fbfb8aaa6b
+Installing 58/97 boost-static-string:x64-windows@1.86.0...
+Elapsed time to handle boost-static-string:x64-windows: 27.5 ms
+boost-static-string:x64-windows package ABI: 96fd947dfbcc7056bde9791535496f820f7260bce22ce51f463da2eab35e6415
+Installing 59/97 boost-logic:x64-windows@1.86.0...
+Elapsed time to handle boost-logic:x64-windows: 27.9 ms
+boost-logic:x64-windows package ABI: fb7ce85b58f6d0ff2251507fb059ca2706af5f09206bff6c7d58620cdd71054f
+Installing 60/97 boost-endian:x64-windows@1.86.0...
+Elapsed time to handle boost-endian:x64-windows: 33.7 ms
+boost-endian:x64-windows package ABI: c4acdf40a196e2403585ca8903a1af3ee879660bef3494eb672bb5758389bccc
+Installing 61/97 boost-beast:x64-windows@1.86.0...
+Elapsed time to handle boost-beast:x64-windows: 175 ms
+boost-beast:x64-windows package ABI: bc4c5346d40caab4e62b3c2e4e6e4292992bec55555fd0df28ac1a4175c3577c
+Installing 62/97 boost-url:x64-windows@1.86.0...
+Elapsed time to handle boost-url:x64-windows: 88.3 ms
+boost-url:x64-windows package ABI: 3a7bb05351b41466d062d77a6b678f6df7efddbc5e52ff516dd86d6c569c55cc
+Installing 63/97 c-ares:x64-windows@1.34.1...
+Elapsed time to handle c-ares:x64-windows: 50.5 ms
+c-ares:x64-windows package ABI: 5835f5923bcf87672c6708b3f650773c5a48d20b98bd2d5f4eb004f759d732a0
+Installing 64/97 brotli:x64-windows@1.1.0#1...
+Elapsed time to handle brotli:x64-windows: 44.4 ms
+brotli:x64-windows package ABI: 762cb1ad20263406a2cabefafac5edce77a04e1161ac44155b0fdf273b011173
+Installing 65/97 cpp-httplib[brotli,core]:x64-windows@0.18.0...
+Elapsed time to handle cpp-httplib:x64-windows: 34.4 ms
+cpp-httplib:x64-windows package ABI: 767854d440a0594f1dda2fa00241f5be8460d1ef8ecf25cbbe9883087bffdbe7
+Installing 66/97 crc32c:x64-windows@1.1.2#2...
+Elapsed time to handle crc32c:x64-windows: 55.6 ms
+crc32c:x64-windows package ABI: 6c9d533ea7b98b747e8ecb5d578bb05ff32787b9d6323c231d59b2d17b1e5ea2
+Installing 67/97 zlib:x64-windows@1.3.1...
+Elapsed time to handle zlib:x64-windows: 32.4 ms
+zlib:x64-windows package ABI: 7d6cb2aadcb83cd66d2a5f323b6ba95553ae7eb2a6a0f59d28b0367c1d313621
+Installing 68/97 curl[core,non-http,schannel,ssl,sspi]:x64-windows@8.10.1...
+Elapsed time to handle curl:x64-windows: 90 ms
+curl:x64-windows package ABI: a04ceb6f743d1ab5daf40c41ec7395337ee90e970cc6c1e34400a3cc6364c96e
+Installing 69/97 abseil:x64-windows@20240722.0...
+Elapsed time to handle abseil:x64-windows: 542 ms
+abseil:x64-windows package ABI: 4d6deffd9e40dacb8f234184a87c6291f7762622483d86e460cf9eb8a94bf733
+Installing 70/97 utf8-range:x64-windows@4.25.1...
+Elapsed time to handle utf8-range:x64-windows: 36.4 ms
+utf8-range:x64-windows package ABI: 6e97c13c19a8465d929f64038d07e478aaf3fec033e4eae498570742c3657edf
+Installing 71/97 upb:x64-windows@4.25.1#1...
+Elapsed time to handle upb:x64-windows: 113 ms
+upb:x64-windows package ABI: be0c716fafe797ffa1a5d87216616390da458cf867df6d540f1d55ed88b1d62d
+Installing 72/97 re2:x64-windows@2024-07-02...
+Elapsed time to handle re2:x64-windows: 39.9 ms
+re2:x64-windows package ABI: 0b64b58e839771e587a44597d4fa0874dadd66496b65c0abd9b279d63e5ae7b7
+Installing 73/97 protobuf:x64-windows@4.25.1#1...
+Elapsed time to handle protobuf:x64-windows: 180 ms
+protobuf:x64-windows package ABI: f1057203d1762fbfd3aabd0e6cb6ff076ce56678e4028aa569572276ebc1a97e
+Installing 74/97 vcpkg-cmake-get-vars:x64-windows@2024-09-22...
+Elapsed time to handle vcpkg-cmake-get-vars:x64-windows: 30.1 ms
+vcpkg-cmake-get-vars:x64-windows package ABI: 02fcdf4840ed9039f7d02c4da0b319b672a3e0bbaed9056cf3b078ae755770cc
+Installing 75/97 openssl:x64-windows@3.6.0...
+Elapsed time to handle openssl:x64-windows: 160 ms
+openssl:x64-windows package ABI: 962353091c5bbdbe8351f1a131f54e6fe23b21813d7e1083610169afd3bcd9bd
+Installing 76/97 grpc[codegen,core]:x64-windows@1.60.0#1...
+Elapsed time to handle grpc:x64-windows: 193 ms
+grpc:x64-windows package ABI: ec44873144bc4cc6bbae4790fb3eec27a9c33640d1bb5ed22a218d8314eb4c87
+Installing 77/97 gtest:x64-windows@1.15.2...
+Elapsed time to handle gtest:x64-windows: 110 ms
+gtest:x64-windows package ABI: 37dea2952555cae7be6248d620d7c03377c6289a0dce1f77c20c111eda94a8db
+Installing 78/97 hnswlib:x64-windows@0.8.0...
+Elapsed time to handle hnswlib:x64-windows: 31.3 ms
+hnswlib:x64-windows package ABI: 8e85ac209019bd580324c308ad095e4f504737d0366cc131e001c25dbd843572
+Installing 79/97 bzip2[core,tool]:x64-windows@1.0.8#6...
+Elapsed time to handle bzip2:x64-windows: 51.6 ms
+bzip2:x64-windows package ABI: 5cb3ed9d1b263a60d372344765e5146dc1642ec740890346c74f2ba66f569907
+Installing 80/97 libzip[bzip2,core,default-aes,wincrypto]:x64-windows@1.10.1...
+Elapsed time to handle libzip:x64-windows: 49.8 ms
+libzip:x64-windows package ABI: a0830d03a8457ccfef5dee3b66faf138c3fabe00deb41e36de49509189613e5b
+Installing 81/97 mimalloc:x64-windows@2.2.6...
+Elapsed time to handle mimalloc:x64-windows: 38.3 ms
+mimalloc:x64-windows package ABI: 6b982595227dfa4ae182c3d7a00dd7ef2247b626a9c76a170c837b6d538715bf
+Installing 82/97 msgpack:x64-windows@6.1.1...
+Elapsed time to handle msgpack:x64-windows: 488 ms
+msgpack:x64-windows package ABI: 4cdfdd678f74be4cb59d74f1746420f6658fcd20a54a624c57ec25f053f0a7fb
+Installing 83/97 nlohmann-json:x64-windows@3.11.3#1...
+Elapsed time to handle nlohmann-json:x64-windows: 319 ms
+nlohmann-json:x64-windows package ABI: 55d60437febfe730a905bc6e105974dc886ef0fba188d107bc8f9470ac88992b
+Installing 84/97 opentelemetry-cpp[core,otlp-http]:x64-windows@1.24.0...
+Elapsed time to handle opentelemetry-cpp:x64-windows: 370 ms
+opentelemetry-cpp:x64-windows package ABI: 7636bd9010114858e3090d2324bc295ed88f6e5f737ab216548040ae9e6a926d
+Installing 85/97 civetweb:x64-windows@1.16#2...
+Elapsed time to handle civetweb:x64-windows: 44.9 ms
+civetweb:x64-windows package ABI: 79911e6058d21c39a59efc70b62da0f7cc658b28382183a5614f198000882fc3
+Installing 86/97 prometheus-cpp[compression,core,pull]:x64-windows@1.2.4...
+Elapsed time to handle prometheus-cpp:x64-windows: 56.7 ms
+prometheus-cpp:x64-windows package ABI: 7b117f13a724da7cedbc9d7b0ac3e4599e2eba8ed41bf3d285cd219566b1c131
+Installing 87/97 pugixml:x64-windows@1.14...
+Elapsed time to handle pugixml:x64-windows: 38.7 ms
+pugixml:x64-windows package ABI: ef0e4e87e0dccd789b0c499615aa80c900a9bc118a14295831f31569dbe99973
+Installing 88/97 zstd:x64-windows@1.5.6...
+Elapsed time to handle zstd:x64-windows: 57.7 ms
+zstd:x64-windows package ABI: f87be934650988d74e6a958d589addbdbfc5a2d1ae3cd0d8ad94d3d823b9dd09
+Installing 89/97 lz4:x64-windows@1.10.0...
+Elapsed time to handle lz4:x64-windows: 41.2 ms
+lz4:x64-windows package ABI: 065c94ed9550c458f7b0a8f357d89e1f6b095f4cdb3ee060d58623757c398f1a
+Installing 90/97 rocksdb[core,lz4,zlib,zstd]:x64-windows@9.7.2...
+Elapsed time to handle rocksdb:x64-windows: 139 ms
+rocksdb:x64-windows package ABI: 34c2d95c4186626357cf1cddbd57c7a54a0bc35a5a5b13af255383608a25ee94
+Installing 91/97 simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@3.10.1...
+Elapsed time to handle simdjson:x64-windows: 53.8 ms
+simdjson:x64-windows package ABI: 7350d5e8be207e6333748442e235d4274a602fe84f04b900f3501f275948131a
+Installing 92/97 fmt:x64-windows@11.0.2#1...
+Elapsed time to handle fmt:x64-windows: 43.6 ms
+fmt:x64-windows package ABI: 6fe319411c19d3e1b099e01e3f56ded3d52a1947f2f90cd6065c500ee574f80c
+Installing 93/97 spdlog:x64-windows@1.14.1...
+Elapsed time to handle spdlog:x64-windows: 104 ms
+spdlog:x64-windows package ABI: 4f684e1b2ecbde40e1f7929cfb6516f64614f71c69070384f57b43bb8ded5629
+Installing 94/97 hwloc:x64-windows@2.11.2...
+Elapsed time to handle hwloc:x64-windows: 72.6 ms
+hwloc:x64-windows package ABI: 2de2354938b0e1ab12a2d49f24cce6b53511ec22cae37c34ffbaedd08ed88cf3
+Installing 95/97 tbb[core,hwloc]:x64-windows@2021.13.0...
+Elapsed time to handle tbb:x64-windows: 209 ms
+tbb:x64-windows package ABI: ff994d84c66e0400f6e43387c3a50dfd07cd6ac191c69bc405193d9cfd916b48
+Installing 96/97 tl-expected:x64-windows@1.1.0...
+Elapsed time to handle tl-expected:x64-windows: 33.1 ms
+tl-expected:x64-windows package ABI: f3a6b5d7c0ab33351006b4d2165916ebbeb1342807d7301adceed656c3b1d227
+Installing 97/97 yaml-cpp:x64-windows@0.8.0#1...
+Elapsed time to handle yaml-cpp:x64-windows: 83.5 ms
+yaml-cpp:x64-windows package ABI: 509f116e96ebc77880271cefe0cd676ec2881f8e1e2ca39cc8040d839d9aca70
+Installed contents are licensed to you by owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages.
+Some packages did not declare an SPDX license. Check the `copyright` file for each package for more information about their licensing.
+Packages installed in this vcpkg installation declare the following licenses:
+(BSD-3-Clause OR GPL-2.0-only)
+(GPL-2.0-only OR Apache-2.0)
+Apache-2.0
+BSD-2-Clause
+BSD-3-Clause
+BSL-1.0
+CC0-1.0
+ISC
+MIT
+MIT-CMU
+Zlib
+bzip2-1.0.6
+curl
+benchmark provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(benchmark CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE benchmark::benchmark benchmark::benchmark_main)
+
+benchmark provides pkg-config modules:
+
+  # Google microbenchmark framework
+  benchmark
+
+  # Google microbenchmark framework (with main() function)
+  benchmark_main
+
+boost-asio provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(boost_asio CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Boost::asio)
+
+boost-beast provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(boost_beast CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Boost::beast)
+
+boost-url provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(boost_url CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Boost::url)
+
+c-ares provides CMake targets:
+
+  find_package(c-ares CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE c-ares::cares)
+
+cpp-httplib provides CMake targets:
+
+    find_package(httplib CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE httplib::httplib)
+
+crc32c provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(Crc32c CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE Crc32c::crc32c)
+
+curl is compatible with built-in CMake targets:
+
+    find_package(CURL REQUIRED)
+    target_link_libraries(main PRIVATE CURL::libcurl)
+
+openssl is compatible with built-in CMake targets:
+
+  find_package(OpenSSL REQUIRED)
+  target_link_libraries(main PRIVATE OpenSSL::SSL)
+  target_link_libraries(main PRIVATE OpenSSL::Crypto)
+
+grpc provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(gRPC CONFIG REQUIRED)
+  # note: 8 additional targets are not displayed.
+  target_link_libraries(main PRIVATE gRPC::gpr gRPC::grpc gRPC::grpc++ gRPC::grpc++_alts)
+
+The package gtest is compatible with built-in CMake targets:
+
+    enable_testing()
+    
+    find_package(GTest CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE GTest::gtest GTest::gtest_main GTest::gmock GTest::gmock_main)
+    
+    add_test(AllTestsInMain main)
+
+hnswlib provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(hnswlib CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE hnswlib::hnswlib)
+
+libzip provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(libzip CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE libzip::zip)
+
+libzip provides pkg-config modules:
+
+  # library for handling zip archives
+  libzip
+
+mimalloc provides CMake targets:
+
+  find_package(mimalloc CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE $<IF:$<TARGET_EXISTS:mimalloc-static>,mimalloc-static,mimalloc>)
+
+To ensure the mimalloc-override.dll is loaded at runtime on Windows with
+dynamic linkage, it is suggested to insert some call to the mimalloc API
+in the main function, eg. `mi_version()`. Cf.
+https://github.com/microsoft/mimalloc/blob/dev/readme.md#dynamic-override-on-windows
+
+msgpack provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(msgpack-cxx CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE msgpack-cxx)
+
+The package nlohmann-json provides CMake targets:
+
+    find_package(nlohmann_json CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE nlohmann_json::nlohmann_json)
+
+The package nlohmann-json can be configured to not provide implicit conversions via a custom triplet file:
+
+    set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+
+For more information, see the docs here:
+    
+    https://json.nlohmann.me/api/macros/json_use_implicit_conversions/
+
+opentelemetry-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(opentelemetry-cpp CONFIG REQUIRED)
+  # note: 24 additional targets are not displayed.
+  target_link_libraries(main PRIVATE opentelemetry-cpp::api opentelemetry-cpp::ext opentelemetry-cpp::sdk opentelemetry-cpp::logs)
+
+opentelemetry-cpp provides pkg-config modules:
+
+  # A header-only library to support instrumentation with OpenTelemetry.
+  opentelemetry_api
+
+  # Common components for the OpenTelemetry SDK, a library for exporting telemetry.
+  opentelemetry_common
+
+  # Components for exporting logs in the OpenTelemetry SDK.
+  opentelemetry_logs
+
+  # Components for exporting metrics in the OpenTelemetry SDK.
+  opentelemetry_metrics
+
+  # Components for resource detection in the OpenTelemetry SDK.
+  opentelemetry_resources
+
+  # Components for exporting traces in the OpenTelemetry SDK.
+  opentelemetry_trace
+
+  # A library exporting version information for OpenTelemetry.
+  opentelemetry_version
+
+prometheus-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(prometheus-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE prometheus-cpp::core prometheus-cpp::pull prometheus-cpp::util)
+
+pugixml provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(pugixml CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE pugixml::shared pugixml::pugixml)
+
+pugixml provides pkg-config modules:
+
+  # Light-weight, simple and fast XML parser for C++ with XPath support.
+  pugixml
+
+zstd provides CMake targets:
+
+  find_package(zstd CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE zstd::libzstd)
+
+rocksdb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(RocksDB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE RocksDB::rocksdb RocksDB::rocksdb-shared)
+
+rocksdb provides pkg-config modules:
+
+  # An embeddable persistent key-value store for fast storage
+  rocksdb
+
+simdjson provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(simdjson CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE simdjson::simdjson)
+
+simdjson provides pkg-config modules:
+
+  # Parsing gigabytes of JSON per second
+  simdjson
+
+The package spdlog provides CMake targets:
+
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog)
+
+    # Or use the header-only version
+    find_package(spdlog CONFIG REQUIRED)
+    target_link_libraries(main PRIVATE spdlog::spdlog_header_only)
+
+tbb provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(TBB CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE TBB::tbb TBB::tbbmalloc TBB::tbbmalloc_proxy)
+
+tbb provides pkg-config modules:
+
+  # C++ library for parallel programming on multi-core processors.
+  tbb
+
+tl-expected provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(tl-expected CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE tl::expected)
+
+yaml-cpp provides CMake targets:
+
+  # this is heuristically generated, and may not be correct
+  find_package(yaml-cpp CONFIG REQUIRED)
+  target_link_libraries(main PRIVATE yaml-cpp::yaml-cpp)
+
+yaml-cpp provides pkg-config modules:
+
+  # A YAML parser and emitter for C++
+  yaml-cpp
+
+All requested installations completed successfully in: 9.7 s
+-- Running vcpkg install - done
+-- The CXX compiler identification is MSVC 19.44.35220.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- ThemisDB 1.4.1 (1.4.1-dev)
+-- MSVC Include Paths Added (EARLY):
+--   - C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207/include
+--   - C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/{ucrt,shared,um}
+-- MSVC Library Paths Added:
+--   - C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207/lib/x64
+--   - C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/{ucrt,um}/x64
+-- MSVC Runtime: MultiThreadedDLL (MD) / MultiThreadedDebugDLL (MDd) [shared triplet]
+-- Added MSVC lib path: C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207/lib/x64
+-- LTCG enabled: /GL (compile) + /LTCG:INCREMENTAL (link)
+-- C++ Standard: C++20
+-- Build Type: Release
+-- Compiler: MSVC 19.44.35220.0
+-- ==========================================
+-- Platform Detection:
+--   Target Architecture: x86_64
+--   Target Platform: windows
+--   Target Triplet: x64-windows
+--   System: Windows 10.0.26100
+--   Processor: AMD64
+-- ==========================================
+-- Applying architecture optimizations for x86_64...
+--   x86_64 optimization: Baseline (AVX2 disabled)
+-- ==========================================
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring COMMUNITY edition...
+--   Hardware limits: Up to 8 GB GPU VRAM, 5 nodes, 1 GB cache
+--   Features: Core + optional LLM/gRPC/GPU
+-- ==========================================
+-- Feature Configuration:
+-- ==========================================
+--   LLM: Enabled
+--     Content ingestion: Enabled
+--   Network Protocols:
+--     gRPC: Enabled
+--     HTTP Server: Enabled
+--   GPU Acceleration: Disabled
+--   Security & Enterprise:
+--   Development Tools:
+--     Unit tests: Enabled
+--     Benchmarks: Enabled
+--     mimalloc: Enabled
+--   >> Auto-enabling Phase 1 performance optimizations
+--   Performance Optimizations:
+--     AVX2: Enabled
+--     Phase 1:
+--       RCU Index: Enabled
+--       LIRS Cache: Enabled
+-- ==========================================
+-- ==========================================
+-- Edition-Feature Matrix Validation
+-- ==========================================
+-- Validating features against COMMUNITY edition matrix:
+--   THEMIS_ENABLE_LLM: ALLOWED (ON)
+--   THEMIS_ENABLE_GPU: ALLOWED (OFF)
+--   THEMIS_ENABLE_CUDA: ALLOWED (OFF)
+--   THEMIS_ENABLE_GRPC: ALLOWED (ON)
+--   THEMIS_ENABLE_TRACING: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP2: ALLOWED (OFF)
+--   THEMIS_ENABLE_HTTP3: ALLOWED (OFF)
+--   THEMIS_ENABLE_WEBSOCKET: ALLOWED (OFF)
+--   THEMIS_ENABLE_MQTT: ALLOWED (OFF)
+--   THEMIS_ENABLE_POSTGRES_WIRE: ALLOWED (OFF)
+--   THEMIS_ENABLE_MCP: ALLOWED (OFF)
+--   THEMIS_ENABLE_SSE: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISKANN: ALLOWED (OFF)
+--   THEMIS_ENABLE_DISTRIBUTED_TRAINING: ALLOWED (OFF)
+-- ==========================================
+-- Edition-Feature Matrix Validation: Complete
+-- ==========================================
+-- ==========================================
+-- vcpkg Configuration
+-- ==========================================
+-- Binary cache: Enabled (default local cache)
+--   Location: C:\Users\mkrueger\AppData\Local/vcpkg/archives
+--   Mode: Read-Write
+-- vcpkg root: C:/VCC/themis/vcpkg (from VCPKG_ROOT)
+-- vcpkg feature: llm
+-- vcpkg feature: rpc (gRPC, protobuf)
+-- Active vcpkg features: llm;rpc
+-- Validating dependency requirements...
+-- ==========================================
+-- vcpkg configuration complete
+-- ==========================================
+-- OpenSSL found: 3.6.0
+-- ZLIB found: 1.3.1
+-- zstd found - enabling Zstandard compression
+-- RocksDB found
+-- simdjson found
+-- TBB found
+-- fmt found
+-- Found Threads: TRUE
+-- spdlog found
+-- Found nlohmann_json: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/share/nlohmann_json/nlohmann_jsonConfig.cmake (found version "3.11.3")
+-- nlohmann_json found
+-- Could NOT find boost_filesystem (missing: boost_filesystem_DIR)
+-- Boost found: 1.86.0
+-- Threads found
+-- Found OpenMP_CXX: -openmp (found version "2.0")
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found
+-- Protobuf found: 25.1.0
+-- gRPC found
+-- GTest found - tests enabled
+-- Google Benchmark found - benchmarks enabled
+-- Prometheus C++ client found - metrics enabled
+-- CURL found - enabling HTTP client features
+-- cpp-httplib found - enabling built-in HTTP server
+-- MessagePack found - enabling binary buffer protocol
+-- Kerberos support disabled (THEMIS_ENABLE_KERBEROS=OFF or Windows platform)
+-- Arrow not found - Parquet export disabled
+-- yaml-cpp found
+-- hnswlib found - enabling HNSW vector search
+-- mimalloc found - enabling high-performance memory allocation
+-- The C compiler identification is MSVC 19.44.35220.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Found OpenMP_C: -openmp (found version "2.0")
+-- Found OpenMP: TRUE (found version "2.0")
+-- OpenMP found for LLM support
+-- Applied MSVC includes to project: llama.cpp
+CMAKE_BUILD_TYPE=Release
+-- Found Git: C:/Program Files/Git/cmd/git.exe (found version "2.52.0.windows.1")
+-- The ASM compiler identification is MSVC
+CMake Warning (dev) at C:/Program Files/CMake/share/cmake-4.1/Modules/CMakeDetermineASMCompiler.cmake:234 (message):
+  Policy CMP194 is not set: MSVC is not an assembler for language ASM.  Run
+  "cmake --help-policy CMP194" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+Call Stack (most recent call first):
+  llama.cpp/ggml/CMakeLists.txt:2 (project)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found assembler: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+-- Applied MSVC includes to project: ggml
+-- Warning: ccache not found - consider installing it for faster compilation or disable this warning with GGML_CCACHE=OFF
+-- CMAKE_SYSTEM_PROCESSOR: AMD64
+-- CMAKE_GENERATOR_PLATFORM: 
+-- GGML_SYSTEM_ARCH: x86
+-- Including CPU backend
+-- x86 detected
+-- Performing Test HAS_AVX_1
+-- Performing Test HAS_AVX_1 - Success
+-- Performing Test HAS_AVX2_1
+-- Performing Test HAS_AVX2_1 - Success
+-- Performing Test HAS_FMA_1
+-- Performing Test HAS_FMA_1 - Success
+-- Performing Test HAS_AVX512_1
+-- Performing Test HAS_AVX512_1 - Failed
+-- Performing Test HAS_AVX512_2
+-- Performing Test HAS_AVX512_2 - Failed
+-- Adding CPU backend variant ggml-cpu: /arch:AVX2 GGML_AVX2;GGML_FMA;GGML_F16C
+-- ggml version: 0.9.5
+-- ggml commit:  8cc0ba957
+-- llama.cpp configured as subdirectory - enabling LLM plugin support
+-- Google Benchmark found
+-- ============================================
+-- ThemisDB Dependencies Summary
+-- ============================================
+-- Required: OpenSSL, RocksDB, gRPC, Protobuf, GTest
+-- Optional: CURL, Arrow, Parquet, mimalloc, OpenTelemetry
+-- Protocols: HTTP/2=OFF, HTTP/3=OFF
+-- Features: LLM=ON, GPU=OFF, CUDA=OFF
+-- ============================================
+-- Validating platform requirements...
+--   Building for Windows platform
+-- Platform validation: OK
+-- Validating edition constraints...
+-- Edition validation: OK
+-- Validating feature dependencies...
+--   gRPC enabled - inter-shard communication available
+-- Feature validation: OK
+--   Total features enabled: 0 GPU backend(s)
+--   Key features: LLM, gRPC
+-- Configuring ThemisDB benchmark suite
+-- Google Benchmark found - building benchmarks
+-- LoRA framework benchmarks not found at C:/VCC/themis/benchmarks/bench_lora_framework.cpp
+-- Adding Multi-LoRA fusion benchmarks
+-- Adding LoRA auto-binding benchmarks
+--   LoRA auto-binding: Auto-binding, context switching, caching, eviction
+-- Fused kernels benchmarks skipped (CUDA/HIP not enabled)
+-- Fused LoRA kernels benchmarks skipped (CUDA/HIP not enabled)
+-- Adding Snapshot Manager benchmarks
+-- Adding Multi-GPU LoRA Advanced benchmarks
+--   Multi-GPU LoRA: resource-aware eviction, dynamic scheduling, migration
+-- Backend Comparison benchmarks skipped (GPU disabled or file missing)
+-- Found Google Benchmark: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/share/benchmark
+-- Performance benchmarks enabled:
+--   - benchmark_mimalloc
+--   - benchmark_huge_pages
+--   - benchmark_rcu_index
+--   - benchmark_lirs_cache
+-- 
+-- Run benchmarks with:
+--   ./build/benchmarks/benchmark_mimalloc
+--   ./build/benchmarks/benchmark_huge_pages
+--   ./build/benchmarks/benchmark_rcu_index
+--   ./build/benchmarks/benchmark_lirs_cache
+-- Adding RAG Ethics benchmarks
+-- Adding Knowledge Gap Detector Phase 2 benchmarks
+--   Knowledge Gap Detector Phase 2: Token probability, perplexity, self-consistency, FLARE
+-- Adding Advanced Patterns benchmarks
+--   Advanced Patterns: Parallel scalability, sharding strategy, read/write ratios
+-- Adding Distributed Coordinator benchmarks
+--   Distributed Coordinator: Leader election, task scheduling, failover
+-- Adding Storage Performance benchmarks
+--   Storage: mimalloc, huge pages, RCU index
+-- Adding OLAP Performance benchmarks
+--   OLAP: Aggregations, GROUP BY, filters at scale
+-- Adding Embedding Cache Performance benchmarks
+--   Embedding Cache: HNSW, hit/miss, batch operations
+-- Adding LLM Inference Performance benchmarks
+--   LLM: Inference, LoRA adapters, throughput
+-- Benchmarks configured successfully
+--   - Build LoRA benchmarks with: cmake --build . --target bench_lora_auto_binding
+--   - Run LoRA benchmarks with: ./benchmarks/bench_lora_auto_binding
+--   - Or use: make run_benchmark_lora_auto_binding
+--   - Build all benchmarks with: cmake --build . --target bench_lora_framework
+--   - Run all benchmarks with: ./benchmarks/bench_lora_framework
+--   - Or use: make run_benchmarks
+--   - Performance benchmarks: bench_storage_performance, bench_olap_performance,
+--     bench_embedding_cache_performance, bench_llm_inference_performance
+-- Found ZLIB: optimized;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/lib/zlib.lib;debug;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/debug/lib/zlibd.lib (found suitable version "1.3.1", minimum required is "1.1.2")
+-- Found BZip2: optimized;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/lib/bz2.lib;debug;C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/debug/lib/bz2d.lib (found version "1.0.8")
+-- Looking for BZ2_bzCompressInit
+-- Looking for BZ2_bzCompressInit - found
+-- libzip found - Archive processing available
+-- Auto-enabling Phase 1 performance optimizations for tests/benchmarks
+--   (Disable with: cmake -DTHEMIS_PERF_AUTO_ENABLE=OFF)
+-- Enabling mimalloc allocator optimization (+10-20% performance)
+-- Found mimalloc: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/share/mimalloc
+-- Windows: Disabling mimalloc-redirect DLL to prevent loader crash
+-- Enabling RCU index optimization (+200-500% read performance)
+-- RCU: Read-Copy-Update for lock-free reads in read-heavy workloads
+-- Enabling LIRS cache optimization (+30-40% cache hit rate)
+-- LIRS: Low Inter-reference Recency Set for scan-resistant caching
+-- Edition: COMMUNITY - GPU limited to 24GB, up to 5 nodes
+--   GPU Backend: Vulkan=OFF (cross-platform), CUDA=OFF (NVIDIA-only)
+--   LLM Support: ON
+-- No license file specified, using default community license: C:/VCC/themis/config/license_community_default.json
+-- Embedding license data from: C:/VCC/themis/config/license_community_default.json
+--   Organization:     ThemisDB Community
+--   License Key:      THEMIS-COMMUNITY-OPENSOURCE
+--   Edition:          COMMUNITY
+--   Expiry Date:      9999-12-31
+--   Max Nodes:        5
+--   Build Timestamp:  2026-01-29 05:41:28 UTC
+-- RocksDB: Using static library (rocksdb.lib) to satisfy C++ API usage
+-- yaml-cpp found via CONFIG
+-- LLM support enabled - integrating llama.cpp
+-- llama.cpp already available as target (from find_package) - skipping add_subdirectory
+-- Including LLM server and core sources (THEMIS_ENABLE_LLM=ON)
+-- gRPC found - enabling LLM gRPC service
+-- Building ThemisDB as monolithic themis_core library
+-- Boost.Geometry enabled for exact geometry checks
+-- Kerberos/GSSAPI authentication enabled
+-- Timestamp Authority (RFC 3161): Enabled with OpenSSL and CURL
+-- mimalloc linked to themis_core
+-- RCU Index enabled (+200-500% read performance)
+-- LIRS Cache enabled (+30-40% hit rate improvement)
+-- HTTP/REST server enabled
+-- gRPC support enabled (inter-shard communication)
+-- Found Protobuf: C:/VCC/themis/build-msvc-ninja-release/vcpkg_installed/x64-windows/tools/protobuf/protoc.exe (found version "25.1.0")
+-- gRPC and Protobuf found - linking to themis_core (with reflection)
+-- Skipping LoRA GPU sources (THEMIS_ENABLE_GPU=OFF)
+-- LLM Vision: disabled (set -DTHEMIS_ENABLE_VISION=ON to enable)
+-- LLM Plugin: Linked llama.cpp library
+-- LLM Plugin: Source files added to themis_core
+--   - Ollama-style lazy model loading enabled
+--   - vLLM-style multi-LoRA management enabled
+--   - LoRA Adapter Framework enabled (Issue #319)
+--     * Full CRUD operations with BaseEntity storage
+--     * Enterprise security (AES-256-GCM + Ed25519)
+--     * Async job management for training/loading
+--     * Complete audit trail for compliance
+--   - Async inference engine enabled (independent threading)
+--   - ThemisDB cache reuse integration enabled (Phases 2.1-2.3)
+--     * ModelMetadataCache (ConcurrentCache)
+--     * LoRAMetadataCache (ConcurrentCache)
+--     * PagedBlockManager (foundation for PagedAttention v1.4.0)
+--     * KVCacheBuffer (VectorAutoBuffer for KV cache batching - Phase 2.2)
+--     * LLMResponseCache (SemanticCache for response caching - Phase 2.3 - 75x faster)
+-- Pruned mimalloc libs from themis_server link libraries
+-- Configuring ThemisDB test suite
+-- MSVC Runtime: MultiThreaded$<$<CONFIG:Debug>:Debug>DLL
+-- GTest found - building unified test binary
+-- Building 479 test files after feature gating
+-- Multi-GPU LoRA Advanced tests not found at C:/VCC/themis/tests/test_multi_gpu_lora_advanced.cpp
+-- Distributed Coordinator tests not found at C:/VCC/themis/tests/test_distributed_coordinator.cpp
+-- Adding Consensus Module tests
+--   Consensus Module: Raft, Gossip, Paxos implementations
+-- Adding Property Graph tests
+--   Property Graph: edge cascade deletion, node/edge management
+-- Adding HTTP Client Pool tests
+--   HTTP Client Pool: striped locking, stale connection removal, timeouts
+-- Adding gRPC Channel Pool tests
+--   gRPC Channel Pool: channel reuse, keepalive, stale pruning
+-- Adding Batch Operation Manager tests
+--   Batch Operation Manager: adaptive sizing, queue management
+-- Adding HNSW Parameter Tuner tests
+--   HNSW Parameter Tuner: adaptive efSearch, memory optimization
+-- Adding Enhanced Query Cache tests
+--   Enhanced Query Cache: TBB concurrent hash map, TTL, LRU eviction
+-- Adding RPC Geospatial Query tests
+--   RPC Geo Query: intersects, within, near spatial queries
+-- Adding Index Maintenance tests
+--   Index Maintenance: fragmentation monitoring, rebuild, reorganization, statistics
+-- Adding GraphQL parser tests
+--   GraphQL Parser: query parsing, arguments, validation
+-- Adding Fulltext Phrase and Fuzzy Search tests
+--   Fulltext: phrase matching, fuzzy search with Levenshtein distance
+-- Adding RocksDBWrapper comprehensive tests
+--   RocksDBWrapper Comprehensive: CRUD, transactions, MVCC, backup/restore, iterators, column families
+-- Adding PITR Manager comprehensive tests
+--   PITR Manager Comprehensive: point-in-time recovery, changefeed replay, snapshots, consistency
+-- Adding Vector Index comprehensive tests
+--   Vector Index Comprehensive: HNSW, distance metrics, filtered search, persistence, concurrency
+-- Adding Transaction Manager comprehensive tests
+--   Transaction Manager Comprehensive: ACID, isolation levels, deadlock detection, 2PC, savepoints
+-- Adding Utilities comprehensive tests
+--   Utilities Comprehensive: error handling, PII detection, stemming, OLAP engine
+-- Adding Graph Index comprehensive tests
+--   Graph Index Comprehensive: nodes, edges, traversals, BFS, shortest path, weighted graphs
+-- Tests configured successfully
+-- Plugin Hot-Plug Monitoring Benchmark: Enabled
+-- Found Python3: C:/Program Files/Python313/python.exe (found version "3.13.6") found components: Interpreter
+-- Documentation database generation enabled
+--   Output: C:/VCC/themis/build-msvc-ninja-release/data/docs.db
+--   Size: ~2-3 MB (1151 documents)
+-- ==========================================
+-- ThemisDB 1.4.1 (1.4.1-dev)
+-- Edition: COMMUNITY
+-- ==========================================
+-- Configuring done (82.6s)
+-- Generating done (2.3s)
+-- Build files have been written to: C:/VCC/themis/build-msvc-ninja-release

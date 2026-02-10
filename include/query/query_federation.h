@@ -186,6 +186,10 @@ private:
         std::optional<std::string> order_by;
         std::optional<uint64_t> limit;
         std::optional<uint64_t> offset;
+        
+        // Extended for adaptive capability-based routing
+        std::string query_text;               // Original query text
+        std::vector<float> embeddings;        // Query embeddings for semantic matching
     };
     QueryMetadata analyzeQuery(const std::string& query);
     

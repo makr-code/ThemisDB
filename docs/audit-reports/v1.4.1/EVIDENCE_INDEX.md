@@ -188,7 +188,7 @@ docs/audit-framework/evidence/v1.4.1/
 | **EV-CR-002** | PR #856 | LoRA framework review | `code-reviews/pr-856-lora-review.md` | 3 issues addressed |
 | **EV-CR-003** | PR #871 | Audit framework review | `code-reviews/pr-871-audit-framework.md` | Approved ✅ |
 | **EV-CR-004** | Manual | Comprehensive security review | `code-reviews/manual-security-review.pdf` | 12 findings |
-| **EV-CR-005** | TODO Audit | TODO/FIXME inventory | `metrics/todo-inventory.txt` | 294 TODOs catalogued |
+| **EV-CR-005** | TODO Audit | TODO/FIXME inventory | `metrics/todo-inventory.txt` | 273 TODOs catalogued |
 
 **Summary:** Code reviews conducted for all major changes. Security review completed with findings documented.
 
