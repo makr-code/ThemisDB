@@ -20,6 +20,13 @@ This directory contains documentation and tools related to the GitHub Actions CI
   - Phased migration plan
   - Risk assessment and mitigation strategies
 
+- **[../ci/NIGHTLY_BUILD.md](../ci/NIGHTLY_BUILD.md)** - Nightly Build System with automatic issue tracking
+  - Automated builds across multiple platforms, compilers, and build types
+  - Intelligent error parsing and categorization
+  - Automatic GitHub issue creation for build failures
+  - Build result aggregation and reporting
+  - Comprehensive monitoring and troubleshooting guide
+
 ## Tools
 
 The workflows inventory is automatically generated using:
