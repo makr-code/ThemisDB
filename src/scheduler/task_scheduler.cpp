@@ -32,6 +32,10 @@
 
 namespace themis {
 
+// Default values for audit context (when auth context not available)
+static constexpr const char* DEFAULT_AUDIT_USER = DEFAULT_AUDIT_USER;
+static constexpr const char* DEFAULT_AUDIT_IP = DEFAULT_AUDIT_IP;
+
 // ===== TaskScheduler Implementation =====
 
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
@@ -233,8 +237,10 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
             }
         }();
         event.success = true;
-        event.user_id = "system"; // TODO: Get from auth context
-        event.ip_address = "localhost"; // TODO: Get from request context
+        event.user_id = DEFAULT_AUDIT_USER; 
+        event.ip_address = DEFAULT_AUDIT_IP; 
+        // TODO(#ISSUE): Integrate with authentication context to retrieve actual user_id
+        // TODO(#ISSUE): Integrate with request context to retrieve actual IP address
         event.metadata["cron_expression"] = sanitized_task.cron_expression;
         event.metadata["interval_ms"] = sanitized_task.interval.count();
         
@@ -574,8 +580,8 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 default: return "UNKNOWN";
             }
         }();
-        start_event.user_id = "system";
-        start_event.ip_address = "localhost";
+        start_event.user_id = DEFAULT_AUDIT_USER;
+        start_event.ip_address = DEFAULT_AUDIT_IP;
         
         audit_manager_->logAuditEvent(start_event);
     }
@@ -625,8 +631,8 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             completion_event.task_description = task->description;
             completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
             completion_event.trigger_type = start_event.trigger_type;
-            completion_event.user_id = "system";
-            completion_event.ip_address = "localhost";
+            completion_event.user_id = DEFAULT_AUDIT_USER;
+            completion_event.ip_address = DEFAULT_AUDIT_IP;
             completion_event.success = true;
             
             // Resource usage (basic metrics)
@@ -675,8 +681,8 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.task_description = task->description;
             failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
             failure_event.trigger_type = start_event.trigger_type;
-            failure_event.user_id = "system";
-            failure_event.ip_address = "localhost";
+            failure_event.user_id = DEFAULT_AUDIT_USER;
+            failure_event.ip_address = DEFAULT_AUDIT_IP;
             failure_event.success = false;
             failure_event.error_message = e.what();
             failure_event.error_type = "EXECUTION_ERROR";
@@ -696,8 +702,8 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.task_name = task->name;
                 security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
                 security_event.severity = "HIGH";
-                security_event.user_id = "system";
-                security_event.ip_address = "localhost";
+                security_event.user_id = DEFAULT_AUDIT_USER;
+                security_event.ip_address = DEFAULT_AUDIT_IP;
                 security_event.violation_type = "excessive_failures";
                 security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
                 security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
@@ -983,8 +989,8 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
             security_event.timestamp = std::chrono::system_clock::now();
             security_event.event_type = scheduler::TaskSecurityEventType::AQL_INJECTION_DETECTED;
             security_event.severity = "CRITICAL";
-            security_event.user_id = "system";
-            security_event.ip_address = "localhost";
+            security_event.user_id = DEFAULT_AUDIT_USER;
+            security_event.ip_address = DEFAULT_AUDIT_IP;
             security_event.violation_type = "aql_injection";
             security_event.description = "AQL injection detected: " + validation_result.error_message;
             security_event.details["detected_patterns"] = validation_result.detected_patterns;
@@ -1023,8 +1029,8 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
             security_event.task_name = task.name;
             security_event.event_type = scheduler::TaskSecurityEventType::RESOURCE_LIMIT_EXCEEDED;
             security_event.severity = "MEDIUM";
-            security_event.user_id = "system";
-            security_event.ip_address = "localhost";
+            security_event.user_id = DEFAULT_AUDIT_USER;
+            security_event.ip_address = DEFAULT_AUDIT_IP;
             security_event.violation_type = "timeout_limit_exceeded";
             security_event.description = "Task timeout exceeds maximum allowed";
             security_event.details["requested_timeout_ms"] = task.timeout.count();
@@ -1147,7 +1153,7 @@ void TaskScheduler::enforceQueryComplexityLimits(const std::string& aql) const {
     }
 }
 
-bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
+bool TaskScheduler::checkRateLimit(const std::string& task_id) {
     // Simple rate limiting implementation
     // In production, use a more sophisticated rate limiter (e.g., token bucket, sliding window)
     
@@ -1177,8 +1183,8 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
             security_event.task_id = task_id;
             security_event.event_type = scheduler::TaskSecurityEventType::RATE_LIMIT_EXCEEDED;
             security_event.severity = "MEDIUM";
-            security_event.user_id = "system";
-            security_event.ip_address = "localhost";
+            security_event.user_id = DEFAULT_AUDIT_USER;
+            security_event.ip_address = DEFAULT_AUDIT_IP;
             security_event.violation_type = "manual_execution_rate_limit";
             security_event.description = "Task execution rate limit exceeded";
             security_event.details["executions_in_window"] = times.size();
@@ -1187,9 +1193,7 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
             security_event.blocked = true;
             security_event.action_taken = "execution_denied";
             
-            // Using const_cast here as this is a security logging operation
-            // that doesn't modify the logical state of the TaskScheduler
-            const_cast<TaskScheduler*>(this)->audit_manager_->logSecurityEvent(security_event);
+            audit_manager_->logSecurityEvent(security_event);
         }
         
         return false;

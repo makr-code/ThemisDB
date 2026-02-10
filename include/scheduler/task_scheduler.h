@@ -407,7 +407,7 @@ private:
     void validateCDCTrigger(const ScheduledTask::CDCTrigger& trigger) const;
     ScheduledTask sanitizeTask(const ScheduledTask& task) const;
     void enforceQueryComplexityLimits(const std::string& aql) const;
-    bool checkRateLimit(const std::string& task_id) const;
+    bool checkRateLimit(const std::string& task_id);  // Non-const since it logs security events
 };
 
 } // namespace themis

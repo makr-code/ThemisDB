@@ -4,9 +4,15 @@
 #include "scheduler/task_audit_manager.h"
 #include <chrono>
 #include <thread>
+#include <filesystem>
 
 using namespace themis;
 using namespace themis::scheduler;
+
+// Helper function to get portable temporary directory
+static std::string getTempDir() {
+    return std::filesystem::temp_directory_path().string();
+}
 
 // Test UUID generation
 TEST(TaskAuditEvent, GenerateUUID) {
@@ -269,8 +275,8 @@ TEST(TaskAuditManager, BasicAuditing) {
     TaskAuditConfig config;
     config.enable_audit_logging = true;
     config.enable_anomaly_detection = true;
-    config.audit_log_path = "/tmp/test_audit.jsonl";
-    config.security_log_path = "/tmp/test_security.jsonl";
+    config.audit_log_path = getTempDir() + "/test_audit.jsonl";
+    config.security_log_path = getTempDir() + "/test_security.jsonl";
     
     auto audit_manager = std::make_shared<TaskAuditManager>(nullptr, config);
     
@@ -298,7 +304,7 @@ TEST(TaskAuditManager, BasicAuditing) {
 TEST(TaskAuditManager, SecurityEventLogging) {
     TaskAuditConfig config;
     config.enable_security_logging = true;
-    config.security_log_path = "/tmp/test_security2.jsonl";
+    config.security_log_path = getTempDir() + "/test_security2.jsonl";
     
     auto audit_manager = std::make_shared<TaskAuditManager>(nullptr, config);
     
