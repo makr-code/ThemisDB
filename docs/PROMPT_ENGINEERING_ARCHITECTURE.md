@@ -529,7 +529,17 @@ void executeLLMQuery(const std::string& prompt_id, const std::string& query) {
 
 ## API Endpoints ✅
 
-The prompt engineering system is now fully accessible via REST API:
+The prompt engineering system is fully accessible via both REST API and gRPC:
+
+### REST API (HTTP/JSON)
+
+All REST endpoints follow the `/api/v1/prompt_engineering/*` pattern.
+
+### gRPC API (Binary Protocol)
+
+All gRPC methods are defined in `proto/prompt_engineering_service.proto` under the `PromptEngineeringService` service.
+
+---
 
 ### Optimization Endpoint
 
@@ -614,6 +624,36 @@ Get version history for a specific prompt.
 
 Rollback a prompt to its previous version.
 
+---
+
+## API Comparison: REST vs gRPC
+
+Both HTTP REST and gRPC APIs provide identical functionality. Choose based on your needs:
+
+| Feature | REST API | gRPC API | When to Use |
+|---------|----------|----------|-------------|
+| **Protocol** | HTTP/JSON | HTTP/2 + Protobuf | |
+| **Performance** | Good | Excellent (binary) | gRPC for high-throughput |
+| **Ease of Use** | Easy (curl, browsers) | Requires client SDK | REST for ad-hoc testing |
+| **Streaming** | Limited (SSE) | Full duplex | gRPC for real-time |
+| **Type Safety** | Runtime validation | Compile-time | gRPC for service-to-service |
+| **Browser Support** | Native | Requires gRPC-Web | REST for web apps |
+
+### Endpoint Mapping
+
+| Operation | HTTP REST | gRPC Method |
+|-----------|-----------|-------------|
+| Trigger optimization | `POST /optimize` | `Optimize()` |
+| List A/B tests | `GET /ab_tests` | `ListABTests()` |
+| Get A/B test details | `GET /ab_tests/:id` | `GetABTest()` |
+| Submit feedback | `POST /feedback` | `SubmitFeedback()` |
+| Get statistics | `GET /stats` | `GetStats()` |
+| Get history | `GET /history/:id` | `GetOptimizationHistory()` |
+| Get versions | `GET /versions/:id` | `GetVersions()` |
+| Rollback | `POST /rollback` | `Rollback()` |
+
+**Protocol Buffers:** See `proto/prompt_engineering_service.proto` for complete message definitions.
+
 ## Prometheus Metrics ✅
 
 The system exports comprehensive metrics in Prometheus format:
@@ -654,8 +694,9 @@ Before deploying the autonomous self-improvement system:
 ## Additional Enhancements
 
 ### ✅ Completed
-- **REST API Endpoints** - Full API for optimization, A/B testing, feedback, stats, history, versions, and rollback
-- **Prometheus Metrics Export** - Comprehensive metrics for all prompt engineering operations
+- **REST API Endpoints** - Full HTTP/JSON API for all operations
+- **gRPC API** - High-performance binary protocol with identical functionality
+- **Prometheus Metrics Export** - Comprehensive metrics for all operations
 - **Real-time Performance Monitoring** - Via metrics and stats endpoints
 
 ### Future Possibilities
@@ -1427,6 +1468,94 @@ curl -X POST http://localhost:8080/api/v1/prompt_engineering/feedback \
 
 # View Prometheus metrics
 curl http://localhost:8080/metrics | grep themis_prompt_engineering
+```
+
+### 7. Using the gRPC API
+
+Access via high-performance binary protocol:
+
+```cpp
+#include "proto/prompt_engineering_service.grpc.pb.h"
+
+// Connect to gRPC server
+auto channel = grpc::CreateChannel(
+    "localhost:18765",
+    grpc::InsecureChannelCredentials()
+);
+
+auto stub = prompt_engineering::PromptEngineeringService::NewStub(channel);
+
+// Trigger optimization
+prompt_engineering::OptimizeRequest request;
+request.set_prompt_id("query_enhancement");
+request.set_strategy("auto");
+
+prompt_engineering::OptimizeResponse response;
+grpc::ClientContext context;
+
+auto status = stub->Optimize(&context, request, &response);
+if (status.ok()) {
+    std::cout << "Improvement: " << response.improvement() << std::endl;
+}
+
+// Submit feedback
+prompt_engineering::FeedbackRequest fb_request;
+fb_request.set_prompt_id("query_enhancement");
+fb_request.set_query("test query");
+fb_request.set_response("test response");
+fb_request.set_type(prompt_engineering::USER_POSITIVE);
+fb_request.set_severity(0.9);
+
+prompt_engineering::FeedbackResponse fb_response;
+grpc::ClientContext fb_context;
+
+auto fb_status = stub->SubmitFeedback(&fb_context, fb_request, &fb_response);
+
+// Get statistics
+prompt_engineering::StatsRequest stats_request;
+prompt_engineering::StatsResponse stats_response;
+grpc::ClientContext stats_context;
+
+auto stats_status = stub->GetStats(&stats_context, stats_request, &stats_response);
+if (stats_status.ok()) {
+    std::cout << "Total executions: " 
+              << stats_response.integration().total_executions() << std::endl;
+    std::cout << "Success rate: " 
+              << stats_response.performance().avg_success_rate() << std::endl;
+}
+```
+
+### Python gRPC Client Example
+
+```python
+import grpc
+import prompt_engineering_service_pb2
+import prompt_engineering_service_pb2_grpc
+
+# Connect to server
+channel = grpc.insecure_channel('localhost:18765')
+stub = prompt_engineering_service_pb2_grpc.PromptEngineeringServiceStub(channel)
+
+# Trigger optimization
+request = prompt_engineering_service_pb2.OptimizeRequest(
+    prompt_id="query_enhancement",
+    strategy="auto"
+)
+
+response = stub.Optimize(request)
+print(f"Improvement: {response.improvement}")
+
+# Submit feedback
+feedback_request = prompt_engineering_service_pb2.FeedbackRequest(
+    prompt_id="query_enhancement",
+    query="test query",
+    response="test response",
+    type=prompt_engineering_service_pb2.USER_POSITIVE,
+    severity=0.9
+)
+
+feedback_response = stub.SubmitFeedback(feedback_request)
+print(f"Feedback ID: {feedback_response.feedback_id}")
 ```
 
 ## Additional Resources
