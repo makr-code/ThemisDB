@@ -1,31 +1,49 @@
-# src/utils
+# Utilities Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Src
+Utility functions and shared components for ThemisDB.
 
----
+## Components
 
+- Audit logger
+- Cursor/pagination
+- HKDF key derivation helper
+- LEK (Local Encryption Key) manager
+- Logger
+- Normalizer
+- PII detection and pseudonymization
+- PKI client
+- Retention manager
+- SAGA logger
+- Serialization
+- Text processing (stemmer, stopwords)
+- Tracing
+- ZSTD codec
+- Geospatial utilities
 
-Files in this folder include logging, HKDF helpers, PII detection, serialization, and utilities.
+## Features
 
-Per‑file drafts:
-- `audit_logger.cpp.md`
-- `cursor.cpp.md`
-- `hkdf_helper.cpp.md`
-- `lek_manager.cpp.md`
-- `logger.cpp.md`
-- `normalizer.cpp.md`
-- `pii_detection_engine.cpp.md`
-- `pii_detector.cpp.md`
-- `pii_detector.cpp.old.md`
-- `pii_pseudonymizer.cpp.md`
-- `pki_client.cpp.md`
-- `regex_detection_engine.cpp.md`
-- `retention_manager.cpp.md`
-- `saga_logger.cpp.md`
-- `serialization.cpp.md`
-- `stemmer.cpp.md`
-- `stopwords.cpp.md`
-- `tracing.cpp.md`
-- `zstd_codec.cpp.md`
+- Comprehensive logging infrastructure
+- Audit trail generation
+- PII detection and redaction
+- Text normalization and stemming
+- Compression utilities
+- Distributed tracing
+
+## Documentation
+
+### Observability Overview
+For comprehensive observability and monitoring documentation, see:
+- **[Observability & Monitoring Overview](../../docs/observability/README.md)** - Central hub for logging, tracing, metrics, and alerting
+
+### Component Documentation
+For detailed utilities documentation, see:
+- [Audit Logger](../../docs/src/utils/audit_logger.cpp.md)
+- [Cursor](../../docs/src/utils/cursor.cpp.md)
+- [HKDF Helper](../../docs/src/utils/hkdf_helper.cpp.md)
+- [LEK Manager](../../docs/src/utils/lek_manager.cpp.md)
+- [Logger](../../docs/src/utils/logger.cpp.md)
+- [PII Detector](../../docs/src/utils/pii_detector.cpp.md)
+- [Stemmer](../../docs/src/utils/stemmer.cpp.md)
+- [Tracing](../../docs/src/utils/tracing.cpp.md)
+- [ZSTD Codec](../../docs/src/utils/zstd_codec.cpp.md)
+- And many more in [docs/src/utils/](../../docs/src/utils/)

@@ -1,14 +1,26 @@
-# src/cache
+# Cache Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Src
+Caching implementations for ThemisDB.
 
----
+## Components
 
+- Semantic query cache
+- Result set caching
+- Cache invalidation strategies
+- In-memory cache with LRU eviction
 
-Files in this folder:
-- `semantic_cache.cpp` — LLM semantic cache implementation (RocksDB CF, TTL, stats).
+## Features
 
-Per‑file drafts:
-- `semantic_cache.cpp.md`
+- Semantic-aware query result caching
+- Vector similarity-based cache lookups
+- Configurable cache size and TTL
+- Automatic cache invalidation on data changes
+
+## Documentation
+
+For caching documentation, see:
+- [Semantic Cache](../../docs/src/cache/semantic_cache.cpp.md)
+- [Semantic Cache Documentation](../../docs/semantic_cache.md)
+- [Cache Invalidation Strategy](../../docs/cache_invalidation_strategy.md)
+- [Caching Data Structures](../../docs/caching_data_structures.md)
+- [Caching Lookup Patterns](../../docs/caching_lookup_patterns.md)

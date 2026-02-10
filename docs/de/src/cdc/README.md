@@ -1,14 +1,25 @@
-# src/cdc
+# Change Data Capture (CDC) Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Src
+Change Data Capture and changefeed implementation for ThemisDB.
 
----
+## Components
 
+- Changefeed implementation
+- Server-Sent Events (SSE) streaming
+- Change log management
+- Subscription management
 
-Files in this folder:
-- `changefeed.cpp` — changefeed writer/reader implementation (if present). TODO: inspect for functions and explain event model.
+## Features
 
-Per‑file drafts:
-- `changefeed.cpp.md`
+- Real-time change notifications
+- SSE-based event streaming
+- Filtered change subscriptions
+- Historical change replay
+
+## Documentation
+
+For CDC documentation, see:
+- [Changefeed](../../docs/src/cdc/changefeed.cpp.md)
+- [Change Data Capture](../../docs/change_data_capture.md)
+- [CDC Documentation](../../docs/cdc.md)
+- [Changefeed Development](../../docs/development/changefeed/)

@@ -1,14 +1,25 @@
-# src/api
+# API Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Src
+HTTP API server implementation for ThemisDB.
 
----
+## Components
 
+- HTTP server using Crow/beast
+- RESTful API endpoints
+- Request/response handling
+- API middleware
 
-Files in this folder:
-- `http_server.cpp` — HTTP server utilities / handlers used by API layer. TODO: extract functions and describe responsibilities.
+## Features
 
-Per‑file drafts:
-- `http_server.cpp.md`
+- Document CRUD operations
+- AQL query execution
+- Graph operations
+- Authentication and authorization
+- TLS/SSL support
+
+## Documentation
+
+For API documentation, see:
+- [HTTP Server Documentation](../../docs/src/api/http_server.cpp.md)
+- [OpenAPI Specification](../../docs/apis/openapi.md)
+- [API Documentation](../../docs/api/)

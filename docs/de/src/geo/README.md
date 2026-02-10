@@ -1,16 +1,26 @@
-# src/geo
+# Geospatial Module
 
-**Stand:** 5. Dezember 2025  
-**Version:** 1.0.0  
-**Kategorie:** Src
+Geospatial query processing and indexing implementation for ThemisDB.
 
----
+## Components
 
+- CPU-based geospatial backend
+- GPU-accelerated geospatial operations (stub)
+- Spatial index structures
+- Geo query processors
 
-Files in this folder:
-- `cpu_backend.cpp` — CPU backend for geospatial processing.
-- `gpu_backend_stub.cpp` — GPU backend stub (placeholder for GPU acceleration).
+## Features
 
-Per‑file drafts:
-- `cpu_backend.cpp.md`
-- `gpu_backend_stub.cpp.md`
+- 2D and 3D spatial queries
+- Geometry operations (contains, intersects, distance)
+- S2/H3 cell indexing support
+- GPU acceleration for large-scale queries
+
+## Documentation
+
+For geospatial documentation, see:
+- [CPU Backend](../../docs/src/geo/cpu_backend.cpp.md)
+- [GPU Backend Stub](../../docs/src/geo/gpu_backend_stub.cpp.md)
+- [Geo Architecture](../../docs/GEO_ARCHITECTURE.md)
+- [Geo Integration](../../docs/geo_integration_readme.md)
+- [Geo Feature Tiering](../../docs/geo_feature_tiering.md)
