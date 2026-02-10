@@ -1162,3 +1162,216 @@ Before deploying the autonomous self-improvement system:
 - **Optimization frequency**: Configurable (default: 24h)
 - **Storage growth**: ~1-2MB per 1000 prompts (with version history)
 
+
+## Examples and Demos
+
+Complete working examples are available in the `examples/` directory:
+
+### Phase 1-2: Basic Prompt Management
+- **`prompt_optimization_example.cpp`**: Demonstrates basic prompt optimization workflow
+- **`domain_prompts_usage_example.cpp`**: Shows domain-specific prompt templates
+
+### Phase 3: Self-Improvement
+- **`complete_self_improvement_example.cpp`**: Full autonomous optimization with A/B testing
+  - Demonstrates trigger-based optimization
+  - Shows A/B testing workflow
+  - Includes rollback scenarios
+
+### Phase 4: Feedback Collection
+- **`feedback_collection_example.cpp`**: Comprehensive feedback system usage
+  - Records various feedback types
+  - Analyzes failure patterns
+  - Generates test cases from failures
+
+### Phase 5: Version Control
+- **`version_control_example.cpp`**: Git-like prompt versioning
+  - Commit and rollback operations
+  - Branch creation and merging
+  - Diff visualization
+  - Tagging for releases
+
+### Phase 6: Complete Integration
+- **`complete_integration_example.cpp`**: End-to-end system integration
+  - Shows all components working together
+  - Background optimization worker
+  - Status monitoring and reporting
+  - Production deployment pattern
+
+### Running Examples
+
+```bash
+# Build examples
+cd build
+make prompt_optimization_example
+make complete_self_improvement_example
+make feedback_collection_example
+make version_control_example
+make complete_integration_example
+
+# Run an example
+./examples/complete_integration_example
+```
+
+## Test Suite
+
+Comprehensive test coverage across all phases:
+
+### Unit Tests
+- `test_prompt_manager.cpp`: Template management (Phase 1)
+- `test_prompt_optimizer.cpp`: Optimization algorithms (Phase 1)
+- `test_meta_prompt_generator.cpp`: Meta-prompting (Phase 1)
+- `test_prompt_evaluator.cpp`: Quality metrics (Phase 1)
+- `test_prompt_performance_tracker.cpp`: Performance tracking (Phase 2)
+- `test_self_improvement_orchestrator.cpp`: Autonomous optimization (Phase 3)
+- `test_feedback_collector.cpp`: Feedback collection (Phase 4)
+- `test_prompt_version_control.cpp`: Version control (Phase 5)
+- `test_prompt_engineering_integration.cpp`: Integration layer (Phase 6)
+
+### Running Tests
+
+```bash
+# Run all prompt engineering tests
+ctest -R prompt
+
+# Run specific phase tests
+ctest -R test_prompt_manager
+ctest -R test_self_improvement_orchestrator
+ctest -R test_feedback_collector
+ctest -R test_prompt_version_control
+ctest -R test_prompt_engineering_integration
+
+# Verbose output
+ctest -R prompt -V
+```
+
+## Quick Start Guide
+
+### 1. Basic Setup (Phases 1-2)
+
+```cpp
+#include "prompt_engineering/prompt_manager.h"
+#include "prompt_engineering/prompt_performance_tracker.h"
+
+using namespace themis::prompt_engineering;
+
+// Initialize
+auto manager = std::make_shared<PromptManager>(db, cf);
+auto tracker = std::make_shared<PromptPerformanceTracker>(db, cf);
+
+// Create a prompt template
+PromptManager::PromptTemplate tmpl;
+tmpl.name = "summarize";
+tmpl.content = "Summarize: {text}";
+auto created = manager->createTemplate(tmpl);
+
+// Use it
+auto prompt = manager->getPromptWithContext(created.id, {{"text", "..."}});
+// ... execute with LLM ...
+tracker->recordExecution(created.id, success, latency_ms, feedback);
+```
+
+### 2. Enable Autonomous Optimization (Phase 3)
+
+```cpp
+#include "prompt_engineering/self_improvement_orchestrator.h"
+
+ImprovementConfig config;
+config.min_success_rate = 0.8;
+config.enable_ab_testing = true;
+
+auto orchestrator = std::make_shared<SelfImprovementOrchestrator>(
+    config, tracker, optimizer, manager, evaluator
+);
+
+// Automatic optimization
+auto results = orchestrator->runAutoOptimization();
+```
+
+### 3. Add Feedback Collection (Phase 4)
+
+```cpp
+#include "prompt_engineering/feedback_collector.h"
+
+auto collector = std::make_shared<FeedbackCollector>(db, cf);
+
+// Record feedback
+collector->recordFeedback(
+    prompt_id, query, response,
+    FeedbackType::USER_POSITIVE,
+    "Very helpful!", 0.9
+);
+
+// Analyze for optimization
+auto problematic = collector->getPromptsWithNegativeFeedback(0.3, 10);
+```
+
+### 4. Enable Version Control (Phase 5)
+
+```cpp
+#include "prompt_engineering/prompt_version_control.h"
+
+auto vcs = std::make_shared<PromptVersionControl>(db, cf);
+
+// Auto-commit on changes
+auto version_id = vcs->commit(prompt_id, content, "Updated for clarity", "user");
+
+// Tag production versions
+vcs->tag(version_id, "production-v1.2");
+
+// Rollback if needed
+vcs->rollback(prompt_id, previous_version_id, "Reverting due to issue");
+```
+
+### 5. Full Integration (Phase 6)
+
+```cpp
+#include "prompt_engineering/prompt_engineering_integration.h"
+
+IntegrationConfig config;
+config.background_worker_enabled = true;
+config.enable_auto_versioning = true;
+
+auto integration = std::make_shared<PromptEngineeringIntegration>(
+    config, manager, optimizer, tracker, orchestrator, collector, vcs
+);
+
+integration->start();
+
+// Use in your LLM workflow
+auto ctx = integration->beforeExecution(prompt_id, context);
+auto response = llm->generate(ctx.enhanced_prompt);
+integration->afterExecution(ctx, response, true, 120.0, 0.9);
+
+// System runs autonomously!
+```
+
+## Additional Resources
+
+- **Implementation Summaries**:
+  - `IMPLEMENTATION_SUMMARY_PROMPT_ENGINEERING.md`: Complete implementation details
+  - `PHASE3_COMPLETE_SUMMARY.md`: Phase 3 (Self-Improvement) details
+  - `PHASE4_COMPLETE_SUMMARY.md`: Phase 4 (Feedback Collection) details
+  - `PHASE5_COMPLETE_SUMMARY.md`: Phase 5 (Version Control) details
+  - `PHASE6_COMPLETE_SUMMARY.md`: Phase 6 (Integration Layer) details
+
+- **Architecture**:
+  - This document: Complete system architecture
+  - `ARCHITECTURE.md`: Overall ThemisDB architecture
+  - `LLAMA_CPP_INTEGRATION_SUMMARY.md`: LLM integration details
+
+- **API Reference**:
+  - Header files in `include/prompt_engineering/`
+  - Inline documentation in source code
+
+## Support and Contributing
+
+- **Issues**: https://github.com/makr-code/ThemisDB/issues
+- **Discussions**: https://github.com/makr-code/ThemisDB/discussions
+- **Documentation**: https://makr-code.github.io/ThemisDB/
+- **Contributing**: See `CONTRIBUTING.md`
+
+---
+
+**Last Updated**: February 10, 2026  
+**Status**: All 6 Phases Complete ✅  
+**Version**: 2.0.0 (Production Ready)
