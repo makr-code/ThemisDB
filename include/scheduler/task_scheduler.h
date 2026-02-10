@@ -338,6 +338,7 @@ private:
     // Core components
     QueryEngine* query_engine_;
     Changefeed* changefeed_;
+    utils::AuditLogger* audit_logger_;  // Optional audit logger for SIEM integration
     Config config_;
     
     // Audit and anomaly detection
