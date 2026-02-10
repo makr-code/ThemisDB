@@ -309,6 +309,178 @@ Tests cover:
 - **Cause**: nprobe too small or PQ too aggressive
 - **Solution**: Increase nprobe or reduce pq_m
 
+## Multi-Vector Search (Production-Ready)
+
+### Description
+
+Multi-Vector Search enables complex similarity queries involving multiple vectors with various fusion strategies:
+- Multiple query vectors (ensemble search)
+- Multiple vector fields per item (multi-modal search)
+- 7 fusion strategies (Linear, RRF, Rank-based, Max, Min, Avg, Learned)
+- Hybrid search (vector + keyword/BM25)
+- Query expansion support
+- Weight optimization
+
+**Status**: ✅ Production-Ready (v1.5.0+)
+
+### API Usage
+
+#### C++ API
+
+```cpp
+#include "index/multi_vector_search.h"
+#include "index/vector_index.h"
+
+// Initialize
+VectorIndexManager vector_mgr(db);
+vector_mgr.init("documents", 128, VectorIndexManager::Metric::COSINE);
+MultiVectorSearch multi_search(vector_mgr);
+
+// Example 1: Multi-query search with fusion
+MultiVectorSearch::MultiQuery query;
+query.vectors = {
+    query_vector_1,  // Original query
+    query_vector_2   // Reformulation
+};
+query.weights = {0.6f, 0.4f};
+
+MultiVectorSearch::SearchConfig config;
+config.fusion = MultiVectorSearch::FusionStrategy::RECIPROCAL_RANK;
+config.top_k = 10;
+
+auto result = multi_search.search(query, config);
+if (result) {
+    for (const auto& res : result.value().results) {
+        std::cout << "ID: " << res.id << ", Score: " << res.fused_score << std::endl;
+    }
+}
+
+// Example 2: Hybrid search (vector + keyword)
+std::unordered_map<std::string, float> keyword_scores = {
+    {"doc1", 0.8f}, {"doc2", 0.6f}
+};
+auto hybrid_result = multi_search.hybridSearch(query_vector, keyword_scores, config);
+```
+
+### Fusion Strategies
+
+| Strategy | Description | Use Case |
+|----------|-------------|----------|
+| LINEAR_COMBINATION | Weighted sum of scores | Known importance of each query |
+| RECIPROCAL_RANK (RRF) | Reciprocal rank fusion | General purpose, robust |
+| RANK_FUSION | Borda count voting | Unknown relative importance |
+| MAX_SCORE | Maximum score wins | Any match acceptable |
+| MIN_SCORE | Minimum score required | All queries must match |
+| AVG_SCORE | Average of scores | Equal importance |
+| LEARNED_FUSION | Optimized weights via NDCG | Best accuracy with training data |
+
+### Use Cases
+
+1. **Query Expansion**: Multiple reformulations of the same query
+2. **Multi-modal Search**: Search across text + image + audio embeddings
+3. **Ensemble Retrieval**: Combine multiple embedding models
+4. **Hybrid Search**: Semantic similarity + keyword/BM25 scores
+
+### Tests and Benchmarks
+
+```bash
+# Run tests
+./build/tests/test_multi_vector_search
+
+# View implementation
+cat src/index/multi_vector_search.cpp
+```
+
+## Approximate Radius Search (Production-Ready)
+
+### Description
+
+Approximate Radius Search finds all vectors within a specified distance threshold, instead of finding the top-k nearest neighbors.
+
+**Features:**
+- ✅ Search within distance radius
+- ✅ Multiple distance metrics (L2, Cosine, Dot Product)
+- ✅ Batch processing support
+- ✅ Max results limiting
+- ✅ Performance optimized
+
+**Status**: ✅ Production-Ready (v1.5.0+)
+
+### API Usage
+
+#### C++ API
+
+```cpp
+#include "index/approximate_radius_search.h"
+#include "index/vector_index.h"
+
+// Initialize
+VectorIndexManager vector_mgr(db);
+vector_mgr.init("documents", 128, VectorIndexManager::Metric::COSINE);
+ApproximateRadiusSearch radius_search(vector_mgr);
+
+// Configure search
+ApproximateRadiusSearch::SearchConfig config;
+config.radius = 0.3f;              // Distance threshold
+config.metric = ApproximateRadiusSearch::Metric::COSINE;
+config.max_results = 1000;
+config.sort_results = true;
+
+// Perform search
+auto result = radius_search.search(query_vector, config);
+if (result) {
+    std::cout << "Found " << result.value().results.size() 
+              << " vectors within radius " << config.radius << std::endl;
+    for (const auto& item : result.value().results) {
+        std::cout << item.id << ": distance=" << item.distance << std::endl;
+    }
+}
+
+// Batch search
+std::vector<std::vector<float>> queries = {query1, query2, query3};
+auto batch_results = radius_search.batchSearch(queries, config);
+```
+
+### Use Cases
+
+| Use Case | Description | Example |
+|----------|-------------|---------|
+| Duplicate Detection | Find all similar items within threshold | Content deduplication |
+| Clustering | Find neighbors for clustering algorithms | K-means, DBSCAN preprocessing |
+| Anomaly Detection | Find items with few/no neighbors | Outlier detection |
+| Local Density | Estimate local data density | Density-based analysis |
+
+### Comparison: k-NN vs Radius Search
+
+| Feature | k-NN Search | Radius Search |
+|---------|-------------|---------------|
+| Result count | Fixed (k) | Variable (within radius) |
+| Query parameter | Number of neighbors | Distance threshold |
+| Use case | "Top-k similar" | "All within threshold" |
+| Result size | Predictable | Unpredictable |
+
+### Tests and Benchmarks
+
+```bash
+# Run comprehensive integration tests
+./build/tests/test_approximate_radius_search_integration
+
+# Run performance benchmarks
+./build/benchmarks/bench_approximate_radius_search
+
+# View implementation
+cat src/index/approximate_radius_search.cpp
+```
+
+### Performance Characteristics
+
+| Operation | Time Complexity | Space Complexity |
+|-----------|----------------|------------------|
+| Single search | O(log n + r) | O(r) |
+| Batch search | O(m × log n + R) | O(R) |
+
+Where: r = results in radius, m = number of queries, R = total results
+
 ## Future Enhancements
 
 ### PathConstraints (Planned)
@@ -321,9 +493,21 @@ Tests cover:
 - Multi-GPU support
 - Online index updates without retraining
 
+### Multi-Vector Search (Future)
+- Advanced deep learning-based fusion (neural network models)
+- GPU acceleration for multi-vector operations
+- Distributed search for massive datasets
+
+### Approximate Radius Search (Future)
+- Dynamic radius adjustment based on density
+- Advanced caching for frequent radius values
+- GPU-accelerated distance computations
+
 ## References
 
-- [PathConstraints Documentation](../de/features/features_path_constraints.md)
-- [Vector Index Documentation](../en/features/vector_search.md)
+- [PathConstraints Documentation](../../de/features/features_path_constraints.md)
+- [Vector Index Documentation](./vector_search.md)
+- [Multi-Vector Search Guide](../../../docs/multi_vector_search.md)
+- [Vector Advanced Features](../../../src/index/VECTOR_ADVANCED_FEATURES_README.md)
 - [FAISS Documentation](https://github.com/facebookresearch/faiss)
 - [HNSW Paper](https://arxiv.org/abs/1603.09320)

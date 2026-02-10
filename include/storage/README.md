@@ -12,4 +12,4 @@ See `../../src/storage/` for the implementation code.
 
 ## Documentation
 
-See `../../docs/src/storage/` for detailed module documentation.
+See `../../docs/storage/` for detailed storage module documentation.

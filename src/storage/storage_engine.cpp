@@ -2,19 +2,56 @@
 #include "utils/expected.h"
 #include "utils/tracing.h"
 #include <fmt/format.h>
+#include <spdlog/spdlog.h>
 #include <stdexcept>
+#include <cstdlib>
 
 namespace themis {
 
 // Default implementations for createDefault() factory
-// These would normally come from concrete Query/Security implementations
+// WARNING: These are NOT production-safe implementations!
+// They are provided for testing, development, and backward compatibility only.
+// Production systems MUST provide real implementations via dependency injection.
 namespace {
+
+// Flag to track if production mode is enabled
+// Set via environment variable THEMIS_PRODUCTION_MODE=1 or THEMIS_ENVIRONMENT=production
+// Note: For testing, use the test-only reset function below
+bool is_production_mode() {
+    const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
+    const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
+    
+    // Check THEMIS_PRODUCTION_MODE first (accepts "1", "true", "production")
+    if (mode_env) {
+        std::string mode_str(mode_env);
+        if (mode_str == "1" || mode_str == "true" || mode_str == "production") {
+            return true;
+        }
+    }
+    
+    // Check THEMIS_ENVIRONMENT (accepts "production")
+    if (env_env && std::string(env_env) == "production") {
+        return true;
+    }
+    
+    return false;
+}
 
 class DefaultExpressionEvaluator : public IExpressionEvaluator {
 public:
+    DefaultExpressionEvaluator() {
+        if (is_production_mode()) {
+            spdlog::warn("StorageEngine: Using default (no-op) expression evaluator in PRODUCTION mode. "
+                        "This is NOT recommended. Provide a real implementation via dependency injection.");
+        }
+    }
+
     bool evaluate(const std::string& expression, const void* context) override {
         // Default implementation: always return true (no filtering)
         // Real implementation would parse and evaluate the expression
+        if (is_production_mode() && !expression.empty()) {
+            spdlog::error("StorageEngine: Expression evaluation attempted with default evaluator in PRODUCTION mode: '{}'", expression);
+        }
         return true;
     }
     
@@ -25,6 +62,14 @@ public:
 
 class DefaultFieldEncryption : public IFieldEncryption {
 public:
+    DefaultFieldEncryption() {
+        if (is_production_mode()) {
+            throw std::runtime_error(
+                "StorageEngine: Cannot use default (no-op) field encryption in PRODUCTION mode. "
+                "DATA WOULD NOT BE ENCRYPTED! Provide a real FieldEncryption implementation via dependency injection.");
+        }
+    }
+
     std::vector<uint8_t> encrypt_field(
         const std::string& field_name,
         const std::vector<uint8_t>& plaintext) override {
@@ -48,6 +93,14 @@ public:
 
 class DefaultKeyProvider : public IKeyProvider {
 public:
+    DefaultKeyProvider() {
+        if (is_production_mode()) {
+            throw std::runtime_error(
+                "StorageEngine: Cannot use default (insecure) key provider in PRODUCTION mode. "
+                "KEYS WOULD NOT BE SECURE! Provide a real KeyProvider implementation via dependency injection.");
+        }
+    }
+
     std::vector<uint8_t> get_key(const std::string& key_id) override {
         // Default implementation: return a dummy key
         // Real implementation would fetch from Vault, HSM, etc.
@@ -62,11 +115,21 @@ public:
 
 class DefaultIndexManager : public IIndexManager {
 public:
+    DefaultIndexManager() {
+        if (is_production_mode()) {
+            spdlog::warn("StorageEngine: Using default (no-op) index manager in PRODUCTION mode. "
+                        "Indexes will not be functional. Provide a real implementation via dependency injection.");
+        }
+    }
+
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
         std::string_view field_name,
         const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
+        if (is_production_mode()) {
+            spdlog::warn("StorageEngine: Index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+        }
         return Ok<ISecondaryIndex*>(nullptr);
     }
     
@@ -75,6 +138,9 @@ public:
         uint32_t dimension,
         const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
+        if (is_production_mode()) {
+            spdlog::warn("StorageEngine: Vector index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+        }
         return Ok<IVectorIndex*>(nullptr);
     }
     
@@ -82,6 +148,9 @@ public:
         std::string_view name,
         const std::string& config = "") override {
         // Default implementation: no-op, returns nullptr
+        if (is_production_mode()) {
+            spdlog::warn("StorageEngine: Graph index creation attempted with default (no-op) index manager in PRODUCTION mode: '{}'", name);
+        }
         return Ok<IGraphIndex*>(nullptr);
     }
     

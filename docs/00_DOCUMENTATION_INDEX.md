@@ -169,6 +169,59 @@ ThemisDB is implementing GPU-accelerated vector indexing across multiple backend
 
 ---
 
+## 🔄 REPLICATION & HIGH AVAILABILITY (NEU - 2026-02-09)
+
+### Comprehensive Replication Documentation
+
+ThemisDB implements enterprise-grade replication with automatic failover, write concern guarantees, and RAID topology support.
+
+**Getting Started:**
+- **[docs/replication/](replication/)** - Central documentation hub ⭐ **START HERE**
+- **[replication-ha-guide.md](replication-ha-guide.md)** - Complete HA deployment guide (English)
+  - Deployment topologies (Active-Passive, Active-Active, Multi-DC)
+  - Configuration, monitoring, alerting
+  - Operational procedures and troubleshooting
+  - Performance tuning guidelines
+
+**Implementation Details:**
+- **[REPLICATION_IMPLEMENTATION_STATUS.md](REPLICATION_IMPLEMENTATION_STATUS.md)** - Detailed implementation status (German, ~85% complete)
+  - WAL-based infrastructure (Manager, Shipper, Applier)
+  - Component breakdown and file locations
+  - Integration test results (8/8 passing)
+  - Prometheus metrics reference
+- **[replication_raid_plan.md](replication_raid_plan.md)** - RAID 1/10 readiness plan
+  - Current implementation status
+  - Integration roadmap
+  - Acceptance criteria
+
+**Module Architecture:**
+- **`replication/` module** (`include/replication/`, `src/replication/`) - High-level orchestration
+  - ReplicationManager - Lifecycle management
+  - MultiMasterReplicationManager - Multi-master coordination
+- **`sharding/` module** (`include/sharding/`, `src/sharding/`) - Low-level infrastructure
+  - WAL components (Manager, Shipper, Applier)
+  - ReplicationCoordinator - Write concern (ONE/MAJORITY/ALL)
+  - ReplicaTopology - RAID 1/10/5/6 support
+  - Consensus modules (Raft, Gossip, Paxos)
+  - HealthMonitor - Failure detection
+
+**Key Features:**
+- ✅ WAL-based replication with LSN tracking
+- ✅ Write concern enforcement (ONE/MAJORITY/ALL)
+- ✅ RAID 1/10 topology support
+- ✅ Automatic failure detection and failover
+- ✅ HTTP and gRPC replication endpoints
+- ✅ Prometheus metrics integration
+- ✅ Multi-datacenter support
+- 🚧 RAID 5/6 implementation (in progress)
+
+**Related Documentation:**
+- [Distributed Sharding Architecture](de/sharding/DISTRIBUTED_SHARDING_ARCHITECTURE.md)
+- [Consensus Module Architecture](de/sharding/CONSENSUS_MODULE.md)
+- [Distributed Transactions](DISTRIBUTED_TRANSACTIONS.md)
+
+---
+
 ## 🐳 DOCKER RAID CLUSTER DOCUMENTATION (NEU - 2026-01-04)
 
 ### RAID Setup and Troubleshooting
@@ -262,6 +315,48 @@ ThemisDB provides enterprise-grade backup and recovery capabilities with support
 **Bilingual Documentation:**
 - 🇬🇧 English: `docs/en/features/` and `docs/en/guides/`
 - 🇩🇪 German: `docs/de/features/` and `docs/de/guides/`
+## 📊 OBSERVABILITY & MONITORING DOCUMENTATION (NEU - 2026-02-09)
+
+### Central Observability Overview
+
+ThemisDB now has a comprehensive observability documentation hub that consolidates information about logging, tracing, metrics, and alerting capabilities.
+
+**Core Documentation:**
+- **[Observability & Monitoring Overview](observability/README.md)** - **Central Hub** for all observability capabilities
+  - Logging infrastructure (spdlog-based)
+  - Distributed tracing (OpenTelemetry with OTLP export)
+  - Metrics collection (Prometheus-compatible, distributed across modules)
+  - Alerting integration (Prometheus Alertmanager)
+  - Gaps analysis and future roadmap
+
+**Key Sections:**
+- ✅ **Logging:** Comprehensive coverage of logger.h, audit logging, SAGA logging
+- ✅ **Distributed Tracing:** Complete OpenTelemetry integration guide with Jaeger/Tempo setup
+- ✅ **Metrics:** Documentation of all metrics locations across LLM, sharding, performance, security subsystems
+- ✅ **Alerting:** Alert configuration examples and health check systems
+- ✅ **Gaps & Future Work:** Identified lack of unified metrics module, recommendations for v1.6+
+
+**Related Files:**
+- [Tracing Configuration Guide](tracing-configuration.md) - Detailed tracing setup
+- [LLM Response Cache Metrics](LLM_RESPONSE_CACHE_METRICS.md) - Cache metrics integration
+- [Utils Module README](../src/utils/README.md) - Updated with observability link
+- [German Observability Docs](de/observability/) - Comprehensive German documentation
+
+**Metrics Locations Documented:**
+- `include/llm/grafana_metrics.h` - LLM inference and cache metrics
+- `include/sharding/prometheus_metrics.h` - Sharding and cluster metrics
+- `include/performance/lockfree_metrics_buffer.h` - Performance metrics
+- `include/security/hsm_security_metrics.h` - Security metrics
+- `include/utils/compression_metrics.h` - Compression metrics
+- `include/plugins/plugin_metrics.h` - Plugin metrics
+
+**Key Features:**
+- ✅ Central documentation hub linking all observability resources
+- ✅ Clear identification of metrics distribution across modules
+- ✅ Code examples for logging, tracing, and metrics
+- ✅ Quick start guides for Prometheus, Grafana, Jaeger integration
+- ✅ Gap analysis calling out lack of dedicated unified metrics module
+- ✅ Updated cross-references from src/utils/README.md and docs/README.md
 
 ---
 
