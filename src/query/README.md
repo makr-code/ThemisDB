@@ -2,7 +2,7 @@
 
 ## Module Purpose
 
-The Query module provides ThemisDB's AQL (ArrangoQL) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. It translates AQL queries into optimized execution plans and executes them across relational, document, graph, vector, and geospatial data models with hybrid query support.
+The Query module provides ThemisDB's AQL (Advanced Query Language) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. It translates AQL queries into optimized execution plans and executes them across relational, document, graph, vector, and geospatial data models with hybrid query support.
 
 ## Scope
 

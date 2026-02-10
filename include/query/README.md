@@ -2,7 +2,7 @@
 
 ## Module Purpose
 
-The Query module provides ThemisDB's comprehensive query execution layer, featuring the AQL (Astra Query Language) parser, query optimizer, execution engine, caching system, and federation capabilities. It handles all aspects of query processing from parsing to result delivery with support for multi-model data, hybrid queries, and distributed execution.
+The Query module provides ThemisDB's comprehensive query execution layer, featuring the AQL (Advanced Query Language) parser, query optimizer, execution engine, caching system, and federation capabilities. It handles all aspects of query processing from parsing to result delivery with support for multi-model data, hybrid queries, and distributed execution.
 
 ## Scope
 
@@ -87,7 +87,7 @@ auto results = engine.executeVectorGeoQuery(hybrid_query);
 ### AQL Parser
 **Location:** `aql_parser.h`, `../../src/query/aql_parser.cpp`
 
-Recursive descent parser for AQL (Astra Query Language) with comprehensive syntax support.
+Recursive descent parser for AQL (Advanced Query Language) with comprehensive syntax support.
 
 **Syntax Features (v1.5.0+):**
 ```
