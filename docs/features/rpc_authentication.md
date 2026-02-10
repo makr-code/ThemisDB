@@ -107,17 +107,21 @@ auto rpc_service = std::make_unique<ThemisRPCService>(
 
 ## Authorization Scopes
 
-RPC service respects the following authorization scopes:
+RPC service enforces the following authorization scopes:
 
 | Scope | Operations | Description |
 |-------|-----------|-------------|
-| `rpc:read` | GET, BatchGet, Search, Query | Read-only operations |
-| `rpc:write` | PUT, BatchPut, Delete, UpdateEntity | Write operations |
+| `rpc:read` | GET, BatchGet, Search, Query, PaginatedQuery, VectorSearch, GraphTraverse, GeoQuery, TimeSeriesQuery, GetIndexOperations, ListCollections, GetCollectionMetadata, AggregationPipeline | Read-only operations |
+| `rpc:write` | PUT, BatchPut, Delete, UpdateEntity, BatchUpdate | Write operations |
 | `rpc:admin` | CreateIndex, DropIndex, Stats | Administrative operations |
-| `transaction:write` | TransactionBegin, TransactionCommit | Transaction management |
-| `admin` | All operations | Full administrative access |
+| `transaction:write` | TransactionBegin, TransactionCommit, TransactionAbort | Transaction management |
+| `admin` | All operations | Full administrative access (wildcard scope) |
 
-**Note:** Scope checking is performed by the gRPC plugin layer. The RPC service validates token presence and authenticity.
+**Important:** Scope checking is now enforced in the RPC service dispatch layer. Each method requires authentication and the appropriate scope. Requests with missing or invalid tokens are denied (fail-closed behavior).
+
+**Health Check:** The `health_check` method does not require authentication for monitoring purposes.
+
+**Authenticate Method:** The `authenticate` method itself does not require prior authentication.
 
 ---
 
@@ -350,6 +354,7 @@ grpcurl -plaintext \
 1. **Always enable authentication in production**
    - Never deploy with auth middleware disabled
    - Use JWT tokens from trusted identity provider
+   - **Fail-closed behavior**: All endpoints deny access when authentication is enabled but token is missing/invalid
 
 2. **Use HTTPS/TLS for gRPC**
    - Encrypt tokens in transit
@@ -358,14 +363,21 @@ grpcurl -plaintext \
 3. **Configure appropriate scopes**
    - Follow principle of least privilege
    - Separate read and write access
+   - Use built-in RBAC roles: admin, operator, analyst, readonly (see RBAC::getBuiltinRoles())
 
 4. **Monitor authentication metrics**
    - Track failed authentication attempts
    - Set up alerts for anomalous patterns
+   - Review audit logs regularly
 
 5. **Rotate tokens regularly**
    - Use short-lived JWT tokens
    - Implement token refresh mechanism
+
+6. **Scope-based authorization**
+   - Each RPC method enforces specific scope requirements
+   - Missing scope results in authentication failure
+   - Admin scope provides wildcard access (*:*)
 
 ---
 
