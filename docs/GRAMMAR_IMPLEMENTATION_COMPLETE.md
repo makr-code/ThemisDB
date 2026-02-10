@@ -1,13 +1,13 @@
-# Grammar-Constrained Generation - Implementation Complete ⚠️ BUILD-GATED
+# Grammar-Constrained Generation - Implementation Complete ✅
 
 ## Status
-⚠️ **Implementation Complete - Build-Gated** - Code is ready, but feature is **disabled in default build** due to missing llama.cpp grammar APIs. See "Enabling Grammar Support" section below.
+✅ **Implementation Complete with Runtime API Detection** - Ready for production use with automatic API detection and graceful fallback.
 
 ## Overview
 
 Grammar-constrained generation forces the LLM to generate outputs that conform to a predefined EBNF grammar, **guaranteeing valid structured output** without post-processing or error handling.
 
-**⚠️ IMPORTANT:** This feature is currently **disabled in the default build**. The Grammar class code is complete, but `Grammar::compile()` returns an error: "Grammar support is unavailable (llama grammar API not present)". This is because the llama.cpp dependency does not include the required grammar APIs.
+**✅ FULLY IMPLEMENTED:** This feature now uses **runtime API detection** to automatically detect and use llama.cpp grammar APIs when available, with graceful fallback to unconstrained generation if not present.
 
 ## Implementation Details
 
@@ -15,30 +15,38 @@ Grammar-constrained generation forces the LLM to generate outputs that conform t
 
 1. **Grammar Class** (`include/llm/grammar.h`, `src/llm/grammar.cpp`)
    - Wraps llama.cpp's `llama_grammar` functionality
-   - Compiles EBNF text into grammar rules
+   - Compiles EBNF text into grammar rules using `llama_grammar_init()`
    - Manages grammar lifecycle with RAII
    - Move semantics for efficient transfer
+   - Runtime API detection with graceful fallback
 
-2. **GrammarCache** (`include/llm/grammar_cache.h`, `src/llm/grammar_cache.cpp`)
+2. **Grammar Adapter** (`src/llm/llama_grammar_adapter.cpp`) **✨ NEW**
+   - Dynamic API loading via dlsym/GetProcAddress
+   - Runtime detection of llama.cpp grammar functions
+   - Thread-safe initialization
+   - Graceful fallback when APIs not available
+
+3. **GrammarCache** (`include/llm/grammar_cache.h`, `src/llm/grammar_cache.cpp`)
    - Thread-safe grammar caching
    - LRU-style cache with configurable size
    - Reduces compilation overhead for repeated grammars
 
-3. **Built-in Grammars** (`src/llm/grammars/*.gbnf`)
+4. **Built-in Grammars** (`src/llm/grammars/*.gbnf`)
    - JSON (strict and relaxed)
    - XML
    - CSV
    - ReAct Agent format
 
-4. **LlamaWrapper Integration** (`include/llm/llama_wrapper.h`, `src/llm/llama_wrapper.cpp`)
+5. **LlamaWrapper Integration** (`include/llm/llama_wrapper.h`, `src/llm/llama_wrapper.cpp`)
    - Grammar configuration in `Config::GrammarConfig`
    - Grammar parameter in `InferenceRequest`
    - Grammar-constrained token sampling in `sampleTokenInternal()`
    - Automatic grammar state management
+   - Runtime API checks before using grammar functions
 
 ## API Usage
 
-⚠️ **Note:** The examples below show how to use grammar support **once it is enabled**. In the current default build, grammar compilation will fail with "Grammar support is unavailable (llama grammar API not present)".
+⚠️ **Note:** Grammar support automatically activates when llama.cpp has the required APIs. If not available, the system falls back gracefully to unconstrained generation.
 
 ### Using Built-in Grammars (When Enabled)
 
