@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <chrono>
 #include <sstream>
+#include <numeric>
 
 namespace themis::sharding {
 

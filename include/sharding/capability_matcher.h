@@ -7,6 +7,8 @@
 #include <memory>
 #include <map>
 #include <set>
+#include <atomic>
+#include <nlohmann/json.hpp>
 
 namespace themis::sharding {
 
