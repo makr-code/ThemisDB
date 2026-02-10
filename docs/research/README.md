@@ -105,6 +105,16 @@ Comprehensive research on GPU-accelerated vector indexing approaches for ThemisD
    - Integration mit LearnedQuantizer, LoRA-RAID, GPU Support
    - **Status:** ✅ Abgeschlossen (1. Februar 2026)
 
+7. **[PROMPT_ENHANCEMENT_ENGINE_OPTIMIZATION_RESEARCH.md](PROMPT_ENHANCEMENT_ENGINE_OPTIMIZATION_RESEARCH.md)** 🆕🔥
+   - Optimierung selbstlernender Prompt-Enhancement-Engines
+   - 4 Ansätze: Meta-Prompting, Evolutionary, RLHF, Feedback-based Optimization
+   - Feedback-Loops und automatische Auswertung (Metriken, LLM-as-a-Judge)
+   - Rollback-Sicherheit (Version Control, A/B Testing, Shadow Testing, Canary Deployment)
+   - ThemisDB Integration-Architektur (Phases 1-6 vollständig implementiert)
+   - Prototypischer Workflow für kontinuierliche Verbesserung
+   - Praxistipps aus 12+ Research Papers und 4 Industriesystemen (OpenAI, Anthropic, Google, Microsoft)
+   - **Status:** ✅ Research Complete (10. Februar 2026)
+
 ---
 
 ## 🎯 Forschungsthemen
@@ -587,10 +597,9 @@ json McpServer::toolGetSchema(const json& args) {
 ---
 
 **Erstellt:** 11. Januar 2026  
-**Letzte Aktualisierung:** 1. Februar 2026  
+**Letzte Aktualisierung:** 10. Februar 2026  
 **Autor:** Research Team  
-**Version:** 4.0
-**Version:** 3.1
+**Version:** 4.1
 
 ---
 
@@ -598,6 +607,7 @@ json McpServer::toolGetSchema(const json& args) {
 
 | Datum | Version | Änderungen |
 |-------|---------|------------|
+| 2026-02-10 | 4.1 | Prompt Enhancement Engine Optimization Research hinzugefügt |
 | 2026-02-01 | 4.0 | Product Quantization Research hinzugefügt |
 | 2026-02-01 | 3.1 | GPU Vector Indexing Research hinzugefügt |
 | 2026-02-01 | 3.1 | Learned Index Structures Research hinzugefügt |
