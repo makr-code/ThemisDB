@@ -1,700 +1,830 @@
-# Index Module Headers - Future API Enhancements
+# Index Module - Future Enhancements
 
-This document outlines planned API additions and breaking changes for the ThemisDB Index module public headers.
+## Planned Features
 
-## API Versioning Strategy
+### Full-Text Search Index
+**Priority:** High  
+**Target Version:** v1.7.0
 
-### Semantic Versioning
-- **Major version (X.0.0)**: Breaking API changes
-- **Minor version (1.X.0)**: New features, backward-compatible
-- **Patch version (1.5.X)**: Bug fixes, no API changes
+Add inverted index for full-text search with stemming, stop words, and relevance ranking.
 
-### Deprecation Policy
-1. Mark API as deprecated with `[[deprecated("message")]]`
-2. Provide migration path in documentation
-3. Keep deprecated API for 2 major versions
-4. Remove in version X+2
+**Features:**
+- **Tokenization**: Language-aware tokenizers (English, German, French, etc.)
+- **Stemming**: Porter/Snowball stemmers for root word extraction
+- **Stop Words**: Configurable stop word lists
+- **TF-IDF Scoring**: Term frequency-inverse document frequency ranking
+- **Phrase Search**: Quoted phrase matching
+- **Fuzzy Search**: Levenshtein distance for typo tolerance
+- **Highlighting**: Result snippet generation with keyword highlighting
 
-## Planned API Changes
-
-### v1.6.0 - Non-Breaking Additions
-
-#### VectorIndexManager Enhancements
-**New Methods:**
+**API:**
 ```cpp
-// Advanced search with multiple filters
-std::vector<VectorSearchResult> searchKnnMultiFilter(
-    const std::string& objectName,
-    const std::vector<float>& query,
-    size_t k,
-    const std::vector<FilterExpr>& filters,  // NEW: Multiple filters
-    FilterCombineMode mode = FilterCombineMode::AND);  // NEW: AND/OR combination
+// Create full-text index
+sim.createFullTextIndex("articles", "content", {
+    .language = "en",
+    .stemming = true,
+    .stop_words = {"the", "a", "an"},
+    .min_word_length = 3
+});
 
-// Batch search with per-query k
-std::vector<std::vector<VectorSearchResult>> searchKnnBatch(
-    const std::string& objectName,
-    const std::vector<std::vector<float>>& queries,
-    const std::vector<size_t>& k_values);  // NEW: Per-query k
+// Full-text search
+auto results = sim.fullTextSearch(
+    "articles", "content",
+    "machine learning algorithms",
+    /*limit=*/10
+);
 
-// Export/import index
-Result<void> exportIndex(const std::string& objectName, 
-                         const std::string& export_path);  // NEW
-Result<void> importIndex(const std::string& objectName, 
-                         const std::string& import_path);  // NEW
-
-// Index statistics
-IndexStatistics getIndexStatistics(const std::string& objectName);  // NEW
-
-struct IndexStatistics {
-    size_t num_vectors;
-    size_t dimension;
-    size_t memory_bytes;
-    DistanceMetric metric;
-    bool quantized;
-    size_t hnsw_layers;
-    float avg_degree;
-    float index_quality;  // Recall estimate
-};
+// Results sorted by relevance score
+for (const auto& result : results) {
+    std::cout << "Score: " << result.score << std::endl;
+    std::cout << "Snippet: " << result.snippet << std::endl;
+}
 ```
 
-**New Configuration:**
+**Implementation:**
+- RocksDB key schema: `fts:table:term:pk`
+- Term frequency storage: `fts_tf:table:pk:term -> frequency`
+- Document frequency: `fts_df:table:term -> doc_count`
+- BM25 ranking algorithm for relevance scoring
+
+**Use Cases:**
+- Document search
+- Log analysis
+- Content discovery
+- Semantic search (combined with vector search)
+
+---
+
+### Distributed Index Partitioning
+**Priority:** High  
+**Target Version:** v1.7.0
+
+Shard indexes across multiple nodes for horizontal scalability.
+
+**Features:**
+- **Hash Partitioning**: Distribute keys by hash(pk) % num_shards
+- **Range Partitioning**: Split by key ranges (e.g., A-M, N-Z)
+- **Consistent Hashing**: Minimize data movement on resharding
+- **Shard Rebalancing**: Automatic redistribution on node add/remove
+- **Distributed Queries**: Scatter-gather for cross-shard queries
+
+**Architecture:**
+```
+┌────────────────┐
+│ Query Planner  │
+└────────┬───────┘
+         │ Scatter
+         ├─────────────┬─────────────┬─────────────┐
+         ▼             ▼             ▼             ▼
+    ┌────────┐    ┌────────┐    ┌────────┐    ┌────────┐
+    │Shard 0 │    │Shard 1 │    │Shard 2 │    │Shard 3 │
+    │ (A-F)  │    │ (G-M)  │    │ (N-S)  │    │ (T-Z)  │
+    └────────┘    └────────┘    └────────┘    └────────┘
+         │             │             │             │
+         └─────────────┴─────────────┴─────────────┘
+                       │ Gather
+                       ▼
+              ┌────────────────┐
+              │ Merge Results  │
+              └────────────────┘
+```
+
+**API:**
 ```cpp
-struct HnswParams {
-    size_t M = 16;
-    size_t ef_construction = 200;
-    int ef_search = 100;
-    size_t max_elements = 1000000;
+// Configure partitioning
+IndexManager::ShardingConfig config;
+config.num_shards = 4;
+config.strategy = ShardingStrategy::HASH;
+config.replication_factor = 2;  // Replicate each shard 2x
+
+index_manager->enableSharding(config);
+
+// Queries automatically routed to correct shards
+auto results = vim.search("embeddings", query_vector, 10);
+// Internally: scatter to shards, merge top-k results
+```
+
+**Challenges:**
+- Cross-shard joins and traversals
+- Maintaining global statistics (IDF for full-text)
+- Atomic multi-shard transactions
+- Network latency for distributed queries
+
+---
+
+### GPU Memory Oversubscription
+**Priority:** High  
+**Target Version:** v1.6.0
+
+Support datasets larger than GPU VRAM via paging and streaming.
+
+**Features:**
+- **Unified Memory**: CUDA Unified Memory for automatic paging
+- **Streaming**: Load index chunks from host RAM as needed
+- **LRU Eviction**: Keep hot partitions in VRAM, evict cold
+- **Prefetching**: Predict next access patterns, prefetch to GPU
+- **Multi-GPU**: Distribute index across multiple GPUs
+
+**Configuration:**
+```cpp
+GPUVectorIndex::Config config;
+config.backend = GPUVectorIndex::Backend::CUDA;
+config.enable_oversubscription = true;
+config.vram_budget_mb = 8192;  // 8GB VRAM limit
+config.prefetch_strategy = PrefetchStrategy::LRU;
+
+// Works with 50M vectors (200GB) on 8GB GPU
+auto gpu_index = std::make_unique<GPUVectorIndex>(config);
+```
+
+**Performance:**
+- Hot data: Full GPU speed (200K queries/sec)
+- Cold data: CPU speed with PCIe overhead (10K queries/sec)
+- Prefetch hit rate: 80-90% (workload-dependent)
+
+---
+
+### Index Compression
+**Priority:** Medium  
+**Target Version:** v1.7.0
+
+Reduce index storage footprint via compression.
+
+**Techniques:**
+- **Delta Encoding**: Store differences between adjacent keys
+- **Prefix Compression**: Share common key prefixes
+- **Bloom Filters**: Reduce false lookups (already in RocksDB)
+- **Dictionary Encoding**: Map frequent strings to small integers
+- **Run-Length Encoding**: Compress repeated values
+
+**Example:**
+```cpp
+// Without compression
+idx:users:country:USA:pk1
+idx:users:country:USA:pk2
+idx:users:country:USA:pk3
+
+// With prefix compression
+idx:users:country:USA:[pk1, pk2, pk3]
+
+// 60% size reduction typical
+```
+
+**API:**
+```cpp
+SecondaryIndexManager::Config config;
+config.enable_compression = true;
+config.compression_algorithm = CompressionAlgorithm::ZSTD;
+config.compression_level = 3;  // Balance: speed vs ratio
+
+SecondaryIndexManager sim(db, config);
+```
+
+---
+
+### Learned Indexes
+**Priority:** Medium  
+**Target Version:** v1.8.0
+
+Replace B-tree with ML models for improved lookup performance.
+
+**Concept:** Learn CDF (cumulative distribution function) of keys to predict position.
+
+**Sources:**
+- Paper: Kraska et al. (2018), "The Case for Learned Index Structures", SIGMOD
+- Benefits: 2-3x faster lookups, 10-100x smaller indexes
+- Tradeoffs: Requires training, less flexible for updates
+
+**Architecture:**
+```
+┌──────────────┐
+│   ML Model   │  Predicts: position = f(key)
+│ (Neural Net) │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────────┐
+│  Correction      │  Binary search in local region
+│  Layer (±ε)      │
+└──────┬───────────┘
+       │
+       ▼
+┌──────────────┐
+│  Final Value │
+└──────────────┘
+```
+
+**API:**
+```cpp
+// Enable learned index
+sim.createLearnedIndex("users", "age", {
+    .model_type = ModelType::NEURAL_NETWORK,
+    .hidden_layers = {128, 64, 32},
+    .error_bound = 100,  // Search within ±100 positions
+    .retraining_interval = 3600  // Retrain hourly
+});
+```
+
+**Use Cases:**
+- Read-heavy workloads
+- Stable key distributions
+- Large indexes (> 1M keys)
+
+---
+
+### Approximate Index Maintenance
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Trade consistency for write throughput via lazy index updates.
+
+**Strategies:**
+- **Batch Updates**: Buffer writes, flush periodically
+- **Asynchronous Updates**: Update indexes in background thread
+- **Eventually Consistent**: Accept temporary inconsistency
+- **Merge Thresholds**: Only update index after N changes
+
+**Configuration:**
+```cpp
+SecondaryIndexManager::Config config;
+config.update_strategy = UpdateStrategy::BATCH;
+config.batch_size = 1000;          // Flush every 1K writes
+config.flush_interval_ms = 5000;    // Or every 5 seconds
+config.consistency = ConsistencyLevel::EVENTUAL;
+
+SecondaryIndexManager sim(db, config);
+```
+
+**Benefits:**
+- 10-50x higher write throughput
+- Lower write amplification
+- Reduced lock contention
+
+**Tradeoffs:**
+- Index may lag behind data
+- Queries may miss recent writes
+- More complex recovery logic
+
+---
+
+## Performance Optimizations
+
+### SIMD Optimization for Vector Distance
+**Priority:** High  
+**Target Version:** v1.6.0
+
+Use AVX-512/NEON instructions for faster distance computation.
+
+**Current:** Generic C++ loops (~1 GB/s)
+**Optimized:** AVX-512 intrinsics (~50 GB/s)
+
+**Implementation:**
+```cpp
+// AVX-512 for L2 distance
+float l2_distance_avx512(const float* a, const float* b, size_t dim) {
+    __m512 sum = _mm512_setzero_ps();
+    for (size_t i = 0; i < dim; i += 16) {
+        __m512 va = _mm512_loadu_ps(a + i);
+        __m512 vb = _mm512_loadu_ps(b + i);
+        __m512 diff = _mm512_sub_ps(va, vb);
+        sum = _mm512_fmadd_ps(diff, diff, sum);
+    }
+    return _mm512_reduce_add_ps(sum);
+}
+
+// ARM NEON for mobile/edge
+float l2_distance_neon(const float* a, const float* b, size_t dim) {
+    float32x4_t sum = vdupq_n_f32(0.0f);
+    for (size_t i = 0; i < dim; i += 4) {
+        float32x4_t va = vld1q_f32(a + i);
+        float32x4_t vb = vld1q_f32(b + i);
+        float32x4_t diff = vsubq_f32(va, vb);
+        sum = vmlaq_f32(sum, diff, diff);
+    }
+    return vaddvq_f32(sum);
+}
+```
+
+**Expected Improvement:**
+- 50x faster distance computation
+- 10x faster HNSW search
+- Critical for CPU-based vector search
+
+---
+
+### Cache-Oblivious Indexes
+**Priority:** Medium  
+**Target Version:** v1.7.0
+
+Optimize index layout for CPU cache hierarchy (L1/L2/L3).
+
+**Techniques:**
+- **Cache-Oblivious B-trees**: Recursive blocking for cache efficiency
+- **Eytzinger Layout**: Breadth-first array layout for binary search
+- **Prefetch Hints**: Software prefetch for predictable access patterns
+
+**Benefits:**
+- 2-5x faster lookups (cache-friendly)
+- Fewer cache misses
+- Better memory bandwidth utilization
+
+**References:**
+- Paper: Brodal et al. (2002), "Cache-Oblivious Data Structures"
+- Eytzinger layout: Used in `std::lower_bound` optimizations
+
+---
+
+### GPU Kernel Fusion
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Combine multiple GPU operations into single kernel to reduce overhead.
+
+**Example:**
+```cpp
+// Before: 3 kernel launches
+distance_kernel<<<...>>>(query, database, distances);
+top_k_kernel<<<...>>>(distances, indices, k);
+rerank_kernel<<<...>>>(indices, refined_distances);
+
+// After: 1 fused kernel (3x faster)
+fused_search_kernel<<<...>>>(query, database, indices, distances, k);
+```
+
+**Benefits:**
+- Eliminate intermediate memory transfers
+- Better GPU occupancy
+- 2-3x faster end-to-end
+
+---
+
+### Adaptive HNSW Parameters
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Automatically tune HNSW parameters (M, efConstruction, efSearch) based on workload.
+
+**Features:**
+- Monitor query latency and recall
+- Adjust efSearch dynamically (higher for slow queries)
+- Retrain index with better M if recall drops
+- Learn optimal parameters per use case
+
+**Algorithm:**
+```cpp
+// Adaptive tuning
+void AdaptiveHNSW::tune() {
+    auto metrics = collectMetrics();
     
-    // NEW in v1.6.0
-    bool allow_replace_deleted = true;  // Reuse deleted IDs
-    size_t random_seed = 100;           // Reproducible builds
-    bool normalize_vectors = false;     // Auto-normalize inputs
-};
-```
-
-#### SecondaryIndexManager Enhancements
-**New Methods:**
-```cpp
-// Index statistics
-IndexStats getIndexStats(const std::string& table, const std::string& field);  // NEW
-
-struct IndexStats {
-    size_t num_entries;
-    size_t memory_bytes;
-    float cardinality_ratio;  // unique_values / total_values
-    IndexType type;
-    std::chrono::system_clock::time_point created_at;
-    std::chrono::system_clock::time_point last_updated;
-};
-
-// Bulk operations
-Result<void> bulkInsert(const std::string& table,
-                        const std::vector<std::pair<std::string, FieldValues>>& data);  // NEW
-
-// Index verification
-VerificationResult verifyIndex(const std::string& table, 
-                                const std::string& field);  // NEW
-
-struct VerificationResult {
-    bool is_consistent;
-    size_t missing_entries;
-    size_t extra_entries;
-    std::vector<std::string> inconsistent_keys;
-};
-```
-
-#### GraphIndexManager Enhancements
-**New Methods:**
-```cpp
-// Centrality measures
-CentralityResult computeBetweennessCentrality(const std::string& graph_id, 
-                                               size_t sample_size = 0);  // NEW
-CentralityResult computeClosenessCentrality(const std::string& graph_id);  // NEW
-CentralityResult computePageRank(const std::string& graph_id, 
-                                  float damping = 0.85, 
-                                  size_t max_iterations = 100);  // NEW
-
-struct CentralityResult {
-    std::map<std::string, float> node_scores;
-    float max_score;
-    float min_score;
-    float avg_score;
-};
-
-// Community detection
-CommunityResult detectCommunities(const std::string& graph_id, 
-                                   CommunityAlgorithm algo = CommunityAlgorithm::LOUVAIN);  // NEW
-
-struct CommunityResult {
-    std::map<std::string, size_t> node_to_community;
-    size_t num_communities;
-    std::vector<size_t> community_sizes;
-    float modularity;
-};
-
-enum class CommunityAlgorithm {
-    LOUVAIN,
-    LABEL_PROPAGATION,
-    GIRVAN_NEWMAN
-};
-
-// Subgraph extraction
-SubgraphResult extractSubgraph(const std::string& graph_id,
-                                const std::vector<std::string>& node_ids);  // NEW
-
-struct SubgraphResult {
-    std::vector<std::string> nodes;
-    std::vector<EdgeData> edges;
-    size_t num_nodes;
-    size_t num_edges;
-};
-```
-
-#### SpatialIndexManager Enhancements
-**New Methods:**
-```cpp
-// Convex hull
-ConvexHull computeConvexHull(const std::string& table, 
-                              const std::string& field);  // NEW
-
-struct ConvexHull {
-    std::vector<Point> vertices;
-    double area;
-    double perimeter;
-};
-
-// Spatial clustering
-ClusterResult spatialCluster(const std::string& table, 
-                              const std::string& field, 
-                              ClusterAlgorithm algo = ClusterAlgorithm::DBSCAN,
-                              double epsilon = 1.0,
-                              size_t min_points = 5);  // NEW
-
-struct ClusterResult {
-    std::map<std::string, int> pk_to_cluster;  // -1 = noise
-    size_t num_clusters;
-    std::vector<size_t> cluster_sizes;
-};
-
-enum class ClusterAlgorithm {
-    DBSCAN,
-    OPTICS,
-    KMEANS
-};
-
-// Heatmap generation
-Heatmap generateHeatmap(const std::string& table, 
-                         const std::string& field, 
-                         const BoundingBox& region,
-                         size_t grid_width = 100,
-                         size_t grid_height = 100);  // NEW
-
-struct Heatmap {
-    std::vector<std::vector<size_t>> grid;  // grid[y][x]
-    size_t width;
-    size_t height;
-    BoundingBox bounds;
-    size_t max_count;
-};
-```
-
-#### GPUVectorIndex Enhancements
-**New Methods:**
-```cpp
-// Multi-GPU support
-Result<void> enableMultiGPU(const std::vector<int>& gpu_ids);  // NEW
-GPUDistribution getGPUDistribution();  // NEW
-
-struct GPUDistribution {
-    std::map<int, size_t> gpu_to_vector_count;
-    std::map<int, float> gpu_to_memory_usage_bytes;
-    LoadBalancingStrategy strategy;
-};
-
-enum class LoadBalancingStrategy {
-    ROUND_ROBIN,
-    LEAST_LOADED,
-    STATIC_PARTITION
-};
-
-// Performance profiling
-GPUProfile getPerformanceProfile();  // NEW
-
-struct GPUProfile {
-    float avg_query_latency_ms;
-    float throughput_queries_per_sec;
-    float gpu_utilization_percent;
-    float memory_bandwidth_gb_per_sec;
-};
-```
-
-### v1.7.0 - Breaking Changes
-
-#### VectorIndexManager API v2
-**Removed Methods (Deprecated in v1.5.0):**
-```cpp
-// REMOVED: Use searchKnn with ef_search parameter instead
-std::vector<VectorSearchResult> searchKnnWithEf(/* ... */);
-
-// REMOVED: Use init with HnswParams instead
-Result<void> initHnsw(/* ... */);
-```
-
-**Changed Signatures:**
-```cpp
-// BEFORE (v1.5.0):
-Result<void> addEntity(const std::string& objectName, 
-                       const std::string& pk, 
-                       const std::vector<float>& embedding);
-
-// AFTER (v1.7.0): Add optional metadata
-Result<void> addEntity(const std::string& objectName, 
-                       const std::string& pk, 
-                       const std::vector<float>& embedding,
-                       const VectorMetadata& metadata = {});  // NEW parameter
-
-struct VectorMetadata {
-    std::map<std::string, std::string> tags;       // User-defined tags
-    std::chrono::system_clock::time_point timestamp;
-    float confidence_score = 1.0;                   // Quality indicator
-};
-```
-
-**New Distance Metric Enum:**
-```cpp
-enum class DistanceMetric {
-    L2 = 0,
-    COSINE = 1,
-    DOT = 2,
+    if (metrics.avg_latency > target_latency_ms) {
+        efSearch = std::max(efSearch - 10, 10);  // Reduce for speed
+    }
     
-    // NEW in v1.7.0
-    HAMMING = 3,           // For binary vectors
-    JACCARD = 4,           // For set similarity
-    MAHALANOBIS = 5,       // Covariance-aware
-    MINKOWSKI = 6          // Generalized metric (p-norm)
-};
+    if (metrics.recall < target_recall) {
+        efSearch = std::min(efSearch + 10, 500);  // Increase for recall
+    }
+    
+    if (metrics.recall < 0.90 && metrics.dataset_size > 1e6) {
+        // Rebuild with higher M
+        rebuild_with_M(M + 4);
+    }
+}
 ```
 
-#### SecondaryIndexManager API v2
-**Changed Index Types:**
+---
+
+## Refactoring Opportunities
+
+### Unified Index Interface
+**Priority:** High  
+**Target Version:** v1.6.0
+
+Extract common interface for all index types to enable polymorphism.
+
+**Current State:** Separate manager classes with different APIs
+**Desired State:** Unified `IIndex` interface
+
+**Interface:**
 ```cpp
-// BEFORE (v1.5.0):
-enum class IndexType {
-    REGULAR,
-    COMPOSITE,
-    RANGE,
-    SPARSE,
-    GEO,
-    TTL,
-    FULLTEXT
-};
-
-// AFTER (v1.7.0):
-enum class IndexType {
-    BTREE,              // Renamed from REGULAR
-    HASH,               // NEW: Hash index for exact matches
-    COMPOSITE,          // Unchanged
-    RANGE,              // Unchanged
-    BITMAP,             // NEW: For low-cardinality fields
-    SPARSE,             // Unchanged
-    GEO,                // Unchanged
-    TTL,                // Unchanged
-    FULLTEXT            // Unchanged
-};
-```
-
-**New Create Method:**
-```cpp
-// v1.7.0: Extended configuration
-Result<void> createIndex(const std::string& table, 
-                         const std::string& field, 
-                         const IndexConfig& config);  // NEW
-
-struct IndexConfig {
-    IndexType type = IndexType::BTREE;
-    bool unique = false;                    // Enforce uniqueness
-    bool sparse = false;                    // Skip NULLs
-    std::string collation = "binary";       // String comparison
-    CompressionType compression = CompressionType::SNAPPY;
-    size_t cache_size_mb = 100;             // Index cache
-};
-```
-
-### v1.8.0 - Advanced Features
-
-#### Learned Index API
-**New Header:** `learned_index.h`
-
-```cpp
-class LearnedIndexManager {
+class IIndex {
 public:
-    // Create learned index
-    Result<void> createLearnedIndex(const std::string& table,
-                                     const std::string& field,
-                                     const LearnedIndexConfig& config);
+    virtual ~IIndex() = default;
     
-    // Query (same interface as regular index)
-    std::vector<std::string> scanKeysEqual(const std::string& table,
-                                            const std::string& field,
-                                            const std::string& value);
+    // CRUD operations
+    virtual Status insert(const Key& key, const Value& value) = 0;
+    virtual Status remove(const Key& key) = 0;
+    virtual Status update(const Key& key, const Value& new_value) = 0;
     
-    // Train/update model
-    Result<void> trainModel(const std::string& table,
-                            const std::string& field,
-                            const std::vector<TrainingExample>& data);
-    
-    // Model info
-    LearnedModelInfo getModelInfo(const std::string& table,
-                                   const std::string& field);
-};
-
-struct LearnedIndexConfig {
-    ModelType model_type = ModelType::RMI;  // Recursive Model Index
-    size_t num_models = 100;                 // Number of sub-models
-    size_t training_data_size = 10000;       // Samples for training
-    float error_bound = 64;                  // Position error tolerance
-};
-
-struct LearnedModelInfo {
-    ModelType type;
-    size_t num_models;
-    float avg_error;
-    float max_error;
-    float speedup_vs_btree;
-    size_t memory_bytes;
-};
-```
-
-#### Federated Index API
-**New Header:** `federated_index.h`
-
-```cpp
-class FederatedIndexManager {
-public:
-    // Register remote index
-    Result<void> registerRemoteIndex(const std::string& name,
-                                      const RemoteIndexConfig& config);
-    
-    // Federated search
-    std::vector<VectorSearchResult> federatedSearch(
-        const std::vector<std::string>& index_names,
-        const std::vector<float>& query,
-        size_t k,
-        FederationStrategy strategy = FederationStrategy::MERGE_TOP_K);
-    
-    // Privacy-preserving search
-    std::vector<VectorSearchResult> privateSearch(
-        const std::string& index_name,
-        const std::vector<float>& query,
-        size_t k,
-        PrivacyLevel privacy = PrivacyLevel::DIFFERENTIAL_PRIVACY);
-};
-
-struct RemoteIndexConfig {
-    std::string endpoint;           // Remote server URL
-    std::string auth_token;          // Authentication
-    EncryptionType encryption;       // Transport encryption
-    size_t timeout_ms = 5000;        // Query timeout
-};
-
-enum class FederationStrategy {
-    MERGE_TOP_K,                     // Merge results, return top k
-    ROUND_ROBIN,                     // Query each index in turn
-    LOAD_BALANCED                    // Based on index load
-};
-
-enum class PrivacyLevel {
-    NONE,                            // No privacy protection
-    DIFFERENTIAL_PRIVACY,            // DP noise injection
-    HOMOMORPHIC_ENCRYPTION,          // Encrypted computation
-    SECURE_MULTI_PARTY               // SMC protocol
-};
-```
-
-### v2.0.0 - Major Redesign
-
-#### Unified Index Interface
-**New Base Class:**
-```cpp
-// All index managers inherit from this
-class IIndexManager {
-public:
-    virtual ~IIndexManager() = default;
-    
-    // Common operations
-    virtual Result<void> create(const IndexDescriptor& descriptor) = 0;
-    virtual Result<void> drop(const IndexDescriptor& descriptor) = 0;
-    virtual bool exists(const IndexDescriptor& descriptor) = 0;
-    
-    // Query interface
-    virtual QueryResult query(const IndexQuery& query) = 0;
+    // Query operations
+    virtual std::vector<Result> lookup(const Query& query) = 0;
+    virtual std::vector<Result> range(const Key& start, const Key& end) = 0;
     
     // Maintenance
-    virtual Result<void> rebuild(const IndexDescriptor& descriptor) = 0;
-    virtual Result<void> optimize(const IndexDescriptor& descriptor) = 0;
-    
-    // Statistics
-    virtual IndexStatistics getStatistics(const IndexDescriptor& descriptor) = 0;
+    virtual Status rebuild() = 0;
+    virtual Status optimize() = 0;
+    virtual Statistics getStats() = 0;
 };
 
-struct IndexDescriptor {
+// Implementations
+class BTreeIndex : public IIndex { ... };
+class HNSWIndex : public IIndex { ... };
+class RTreeIndex : public IIndex { ... };
+```
+
+**Benefits:**
+- Generic query optimizer can choose best index
+- Easier to add new index types
+- Uniform testing and benchmarking
+
+---
+
+### Index Metadata Registry
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Centralized registry for index metadata (type, stats, config).
+
+**Current:** Metadata scattered across manager classes
+**Desired:** Single source of truth
+
+**Schema:**
+```cpp
+struct IndexMetadata {
     std::string name;
-    IndexType type;
     std::string table;
     std::vector<std::string> columns;
-    IndexConfig config;
+    IndexType type;  // BTREE, HNSW, RTREE, etc.
+    nlohmann::json config;
+    
+    // Statistics
+    size_t num_entries;
+    size_t size_bytes;
+    Timestamp created_at;
+    Timestamp last_updated;
+    
+    // Performance metrics
+    uint64_t query_count;
+    double avg_query_latency_ms;
+    double cache_hit_rate;
 };
 
-struct IndexQuery {
-    IndexDescriptor index;
-    QueryOperation operation;
-    std::vector<QueryValue> values;
-    QueryOptions options;
-};
-
-enum class QueryOperation {
-    EXACT_MATCH,
-    RANGE,
-    PREFIX,
-    SIMILARITY,
-    CONTAINS,
-    INTERSECTS,
-    NEARBY
-};
-```
-
-#### Async API
-**All index operations support async:**
-```cpp
-class VectorIndexManager : public IIndexManager {
+class IndexRegistry {
 public:
-    // Synchronous (existing)
-    std::vector<VectorSearchResult> searchKnn(/* ... */);
-    
-    // Asynchronous (NEW in v2.0.0)
-    std::future<std::vector<VectorSearchResult>> searchKnnAsync(/* ... */);
-    
-    // Callback-based (NEW in v2.0.0)
-    void searchKnnAsync(/* ... */, 
-                        std::function<void(Result<std::vector<VectorSearchResult>>)> callback);
-    
-    // Streaming results (NEW in v2.0.0)
-    ResultStream<VectorSearchResult> searchKnnStreaming(/* ... */);
+    void registerIndex(const IndexMetadata& metadata);
+    std::optional<IndexMetadata> getMetadata(std::string_view name);
+    std::vector<IndexMetadata> listIndexes(std::string_view table);
+    void updateStats(std::string_view name, const Statistics& stats);
 };
+```
 
-// Stream API for large result sets
-template<typename T>
-class ResultStream {
+**Benefits:**
+- Query planner can make informed decisions
+- Easy to monitor index health
+- Enables index usage analytics
+
+---
+
+### Zero-Copy Index Serialization
+**Priority:** Medium  
+**Target Version:** v1.7.0
+
+Eliminate memory copies when persisting/loading indexes.
+
+**Current:** Serialize to temp buffer, then write to RocksDB
+**Desired:** Direct memory-mapped I/O
+
+**Techniques:**
+- **Memory-Mapped Files**: `mmap()` for zero-copy reads
+- **Shared Memory**: Cross-process index sharing
+- **Cap'n Proto**: Zero-copy serialization format
+
+**Example:**
+```cpp
+// Memory-mapped index file
+class MmappedIndex {
+    void* data_;
+    size_t size_;
+    
 public:
-    bool hasNext();
-    T next();
-    void close();
+    MmappedIndex(const std::string& path) {
+        int fd = open(path.c_str(), O_RDONLY);
+        struct stat sb;
+        fstat(fd, &sb);
+        size_ = sb.st_size;
+        data_ = mmap(nullptr, size_, PROT_READ, MAP_PRIVATE, fd, 0);
+    }
     
-    // Range-based for loop support
-    Iterator begin();
-    Iterator end();
+    // Direct access, no copies
+    const VectorIndex* getIndex() const {
+        return static_cast<const VectorIndex*>(data_);
+    }
 };
 ```
 
-## Backward Compatibility
+**Benefits:**
+- 10-100x faster index loading
+- Lower memory usage
+- Better resource utilization
 
-### Compatibility Matrix
+---
 
-| Client Version | Server v1.5.x | Server v1.6.x | Server v1.7.x | Server v2.0.x |
-|----------------|---------------|---------------|---------------|---------------|
-| v1.5.x         | ✅ Full       | ✅ Full       | ⚠️ Deprecated¹ | ❌ Removed    |
-| v1.6.x         | ✅ Full       | ✅ Full       | ✅ Full       | ⚠️ Deprecated¹ |
-| v1.7.x         | ⚠️ Limited²   | ✅ Full       | ✅ Full       | ✅ Full       |
-| v2.0.x         | ❌ Incompatible³| ⚠️ Limited²  | ✅ Full       | ✅ Full       |
+## Known Issues
 
-**Notes:**
-1. **Deprecated**: Old APIs still work but emit deprecation warnings. New features unavailable.
-2. **Limited**: Core APIs work, but new features (e.g., learned indexes, federated search) unavailable. Performance optimizations may not be available.
-3. **Incompatible**: Breaking changes in protocol or API. Client must upgrade.
+### Issue: HNSW Vector Deletion Not Supported
+**Severity:** Medium  
+**Impact:** Must rebuild index to remove vectors
 
-### Migration Guides
-
-#### v1.5.x → v1.6.0
-No breaking changes. All APIs backward compatible.
-
-**Recommended Updates:**
+**Current Workaround:** Mark as deleted, filter results
 ```cpp
-// Old (still works):
-vector_idx.searchKnn(objectName, query, k);
+// Soft delete: mark as deleted
+deleted_ids_.insert(pk);
 
-// New (recommended):
-vector_idx.searchKnn(objectName, query, k, ef_search);
-```
-
-#### v1.6.x → v1.7.0
-Some breaking changes in enum values and method signatures.
-
-**Required Changes:**
-```cpp
-// BEFORE (v1.6.x):
-sec_idx.createIndex(table, field, IndexType::REGULAR);
-
-// AFTER (v1.7.0):
-sec_idx.createIndex(table, field, IndexType::BTREE);
-
-// OR use config:
-IndexConfig config{.type = IndexType::BTREE};
-sec_idx.createIndex(table, field, config);
-```
-
-#### v1.7.x → v2.0.0
-Major API redesign. Requires significant refactoring.
-
-**Migration Tool:**
-```bash
-# Use automated migration tool
-themis-migrate --from 1.7 --to 2.0 --input src/ --output src_migrated/
-
-# Review changes
-git diff --no-index src/ src_migrated/
-```
-
-## Feature Flags
-
-### Compile-Time Flags
-```cmake
-# Enable experimental APIs
-option(THEMIS_ENABLE_EXPERIMENTAL_API "Enable experimental index APIs" OFF)
-
-# Enable API v2 (breaking changes)
-option(THEMIS_ENABLE_API_V2 "Enable v2.0 unified index API" OFF)
-
-# Backward compatibility
-option(THEMIS_ENABLE_LEGACY_API "Enable deprecated v1.x APIs" ON)
-```
-
-### Runtime Flags
-```cpp
-// Enable experimental features at runtime
-IndexFeatures::enable(Feature::LEARNED_INDEXES);
-IndexFeatures::enable(Feature::FEDERATED_SEARCH);
-
-// Check availability
-if (IndexFeatures::isAvailable(Feature::QUANTUM_SEARCH)) {
-    // Use quantum-inspired search
+// Filter during search
+auto raw_results = hnsw_index_.search(query, k + deleted_ids_.size());
+std::vector<Result> filtered;
+for (const auto& r : raw_results) {
+    if (!deleted_ids_.contains(r.id)) {
+        filtered.push_back(r);
+    }
 }
 ```
 
-## API Stability Levels
+**Proper Solution (v1.7.0):**
+- Implement HNSW node removal with graph repair
+- Rebalance layers after deletion
+- Trigger rebuild when >20% deleted
 
-### Stability Ratings
-- **Stable**: Guaranteed backward compatibility within major version
-- **Beta**: API may change in minor releases, with deprecation warnings
-- **Experimental**: API may change or be removed without notice
+**References:**
+- HNSWlib issue: https://github.com/nmslib/hnswlib/issues/93
 
-### Current Ratings (v1.5.0)
+---
 
-#### Stable APIs
-- `VectorIndexManager` core methods
-- `SecondaryIndexManager` core methods
-- `GraphIndexManager` core methods
-- `SpatialIndexManager` core methods
-- `HnswParameterTuner` core methods
+### Issue: Spatial Index Polygon Intersection Approximation
+**Severity:** Low  
+**Impact:** False positives in complex polygon queries
 
-#### Beta APIs
-- `AdaptiveIndexManager`
-- `GNNEmbeddingManager`
-- `LoRARotaryEmbedding`
-- `LearnableRotaryEmbedding`
-- `GPUVectorIndex` (CUDA/HIP backends)
-- Temporal graph methods
-- Fulltext search
-- 3D spatial indexing
-
-#### Experimental APIs
-- `LearnedQuantizer`
-- Quantum-inspired algorithms
-- Neuromorphic computing integration
-- Federated indexing
-
-## Deprecation Notices
-
-### Deprecated in v1.5.0 (Remove in v1.7.0)
+**Current Behavior:** Use MBR (bounding box) approximation
 ```cpp
-// VectorIndexManager
-[[deprecated("Use searchKnn with ef_search parameter")]]
-std::vector<VectorSearchResult> searchKnnWithEf(/* ... */);
-
-[[deprecated("Use init with HnswParams struct")]]
-Result<void> initHnsw(/* ... */);
+// Query: Find polygons intersecting with polygon P
+// Current: Returns all polygons whose MBR intersects P's MBR
+// Problem: May return polygons that don't actually intersect P
 ```
 
-### Deprecated in v1.6.0 (Remove in v1.8.0)
+**Workaround:** Post-filter with exact geometry check
 ```cpp
-// SecondaryIndexManager
-[[deprecated("Use IndexType::BTREE instead")]]
-const IndexType REGULAR = IndexType::BTREE;
+auto candidates = spatial.searchIntersects("polygons", query_mbr);
 
-// GraphIndexManager
-[[deprecated("Use computePageRank method")]]
-std::map<std::string, float> calculatePageRank(/* ... */);
-```
-
-## Testing Strategy
-
-### API Compatibility Tests
-```cpp
-// Automated compatibility testing
-TEST(ApiCompatibility, v1_5_to_v1_6) {
-    // Test that v1.5 client code works with v1.6 server
-    ASSERT_TRUE(testBackwardCompatibility("1.5.0", "1.6.0"));
-}
-
-TEST(ApiCompatibility, v1_6_to_v1_7) {
-    // Test migration paths
-    ASSERT_TRUE(testMigrationPath("1.6.0", "1.7.0"));
+std::vector<SpatialResult> exact_matches;
+for (const auto& candidate : candidates) {
+    auto geom = loadGeometry(candidate.primary_key);
+    if (exactIntersection(geom, query_polygon)) {
+        exact_matches.push_back(candidate);
+    }
 }
 ```
 
-### Performance Regression Tests
-```cpp
-// Ensure new APIs don't regress performance
-BENCHMARK(VectorSearch_v1_5_API) {
-    // Baseline performance
-}
+**Proper Solution (v1.7.0):**
+- Implement exact polygon intersection tests
+- Use GEOS library for computational geometry
+- Cache MBR checks, only exact-check close candidates
 
-BENCHMARK(VectorSearch_v1_6_API) {
-    // Must be <= 5% slower than v1.5
+---
+
+### Issue: Composite Index Column Order Matters
+**Severity:** Medium  
+**Impact:** Query must match index column order for efficiency
+
+**Problem:**
+```cpp
+// Index: (country, city, zip)
+sim.createCompositeIndex("addresses", {"country", "city", "zip"});
+
+// Efficient: Matches prefix
+sim.lookupByIndex("addresses", {"country", "city"}, {"USA", "SF"});
+
+// Inefficient: Skips "city", can't use index
+sim.lookupByIndex("addresses", {"country", "zip"}, {"USA", "94102"});
+```
+
+**Workaround:** Create multiple indexes for different query patterns
+```cpp
+sim.createCompositeIndex("addresses", {"country", "city", "zip"});
+sim.createCompositeIndex("addresses", {"country", "zip"});
+```
+
+**Proper Solution (v1.7.0):**
+- Permutation indexes: Automatically create multiple orderings
+- Smarter query planner: Detect partial matches
+- Index intersection: Merge results from multiple indexes
+
+---
+
+### Issue: GPU Index Limited by VRAM
+**Severity:** High  
+**Impact:** Cannot index >10M vectors on 8GB GPU
+
+**Current Limits:**
+- 8GB VRAM: ~10M vectors (768D)
+- 16GB VRAM: ~20M vectors (768D)
+- 24GB VRAM: ~30M vectors (768D)
+
+**Workaround:** Use CPU fallback or multi-GPU
+```cpp
+if (dataset_size * dim * sizeof(float) > gpu_vram_mb) {
+    config.backend = GPUVectorIndex::Backend::CPU;
 }
 ```
 
-## Documentation
+**Proper Solution (v1.6.0):**
+- GPU memory oversubscription (see Planned Features)
+- Multi-GPU sharding
+- Quantization to reduce memory (PQ/BQ)
 
-### API Documentation
-- Doxygen comments on all public APIs
-- Usage examples for each method
-- Performance characteristics
-- Thread safety guarantees
-- Deprecation notices with migration paths
+---
 
-### Migration Guides
-- Separate guide for each major version transition
-- Code examples (before/after)
-- Automated migration tools
-- Breaking changes summary
+## Research Areas
 
-## Community Feedback
+### Quantum-Inspired Optimization
+**Timeframe:** 2-3 years  
+**Potential:** 10-100x speedup for specific problems
 
-We value community input on API design:
+Explore quantum-inspired algorithms for combinatorial optimization in indexing.
 
-1. **RFC Process**: Propose API changes via GitHub RFC issues
-2. **Beta Feedback**: Test beta APIs and provide feedback
-3. **Breaking Change Review**: All breaking changes reviewed by community
-4. **Voting**: Major API changes require community vote
+**Applications:**
+- **Traveling Salesman**: Optimize index node insertion order
+- **Graph Partitioning**: Shard graph indexes optimally
+- **K-means Clustering**: Faster IVF training
 
-**Contact:**
-- GitHub Issues: [ThemisDB/ThemisDB](https://github.com/ThemisDB/ThemisDB/issues)
-- Discussion Forum: [ThemisDB Discussions](https://github.com/ThemisDB/ThemisDB/discussions)
-- Discord: [ThemisDB Community](https://discord.gg/themisdb)
+**References:**
+- Quantum annealing for combinatorial optimization
+- Simulated annealing / Metropolis-Hastings
+- Tensor network methods
 
-## See Also
+---
 
-- [Implementation Future Enhancements](../../src/index/FUTURE_ENHANCEMENTS.md) - Implementation roadmap
-- [API Versioning Policy](../../docs/api_versioning.md) - Detailed versioning policy
-- [Breaking Changes Log](../../CHANGELOG.md) - Historical breaking changes
-- [Migration Tools](../../tools/migration/README.md) - Automated migration tools
+### Neuromorphic Index Structures
+**Timeframe:** 3-5 years  
+**Potential:** Ultra-low-power indexing for edge devices
+
+Explore brain-inspired computing for energy-efficient indexing.
+
+**Concept:**
+- Spiking Neural Networks (SNNs) for approximate search
+- Associative memory for content-addressable indexes
+- Event-driven updates (only compute on change)
+
+**Benefits:**
+- 100-1000x lower power consumption
+- Ideal for edge/IoT deployments
+- Naturally approximate (trade accuracy for efficiency)
+
+**Challenges:**
+- Immature hardware (Intel Loihi, IBM TrueNorth)
+- Difficult to program
+- Limited tooling
+
+---
+
+### Homomorphic Encryption for Encrypted Indexes
+**Timeframe:** 2-3 years  
+**Potential:** Enable querying without decryption
+
+Allow clients to search encrypted data without server seeing plaintext.
+
+**Use Cases:**
+- Healthcare: Search medical records without HIPAA violations
+- Finance: Query transactions without exposing sensitive data
+- Privacy-preserving analytics
+
+**Challenges:**
+- 100-10000x slower than plaintext
+- Limited operations (addition, multiplication only)
+- Large ciphertext sizes
+
+**References:**
+- Microsoft SEAL library
+- Homomorphic Encryption Standardization Consortium
+- Fully Homomorphic Encryption (FHE)
+
+---
+
+## Migration Paths
+
+### Migrating from v1.4.x to v1.5.x
+**Breaking Changes:** FAISS integration changes API
+
+**Steps:**
+1. **Update dependencies**
+   ```bash
+   vcpkg install faiss
+   cmake -DTHEMIS_HAS_FAISS=ON ..
+   ```
+
+2. **Update VectorIndexManager initialization**
+   ```cpp
+   // Old (v1.4.x)
+   vim.init("embeddings", 1536, VectorIndexManager::Metric::COSINE);
+   
+   // New (v1.5.x) - same, but supports advanced config
+   vim.init("embeddings", 1536, VectorIndexManager::Metric::COSINE);
+   
+   // Optional: Enable IVF+PQ
+   VectorIndexManager::AdvancedIndexConfig adv;
+   adv.enabled = true;
+   vim.setAdvancedIndexConfig(adv);
+   ```
+
+3. **Rebuild indexes for FAISS support**
+   ```cpp
+   // Rebuild existing indexes to use FAISS
+   vim.rebuildIndex("embeddings");
+   ```
+
+**Compatibility:** v1.4.x indexes still work, but won't use FAISS optimizations
+
+---
+
+### Migrating from Single-Node to Distributed
+**Timeframe:** v1.7.0+  
+**Effort:** High (requires schema changes)
+
+**Preparation:**
+1. **Design shard key**
+   ```cpp
+   // Choose sharding strategy
+   // Option 1: Hash-based (uniform distribution)
+   size_t shard = hash(pk) % num_shards;
+   
+   // Option 2: Range-based (preserves locality)
+   size_t shard = rangeMap(pk, shard_boundaries);
+   
+   // Option 3: Tenant-based (multi-tenancy)
+   size_t shard = tenantIdToShard(tenant_id);
+   ```
+
+2. **Plan replication**
+   ```cpp
+   // Replicate each shard N times
+   config.replication_factor = 3;
+   config.consistency_level = ConsistencyLevel::QUORUM;  // 2/3 replicas
+   ```
+
+3. **Test distributed queries**
+   ```cpp
+   // Test scatter-gather performance
+   auto results = vim.search(query_vector, 10);
+   // Measure: network latency, merge overhead
+   ```
+
+**Rollout:**
+1. Deploy sharded cluster in parallel
+2. Backfill data to shards
+3. Switch queries to sharded cluster
+4. Decommission single-node
+
+---
+
+### Migrating to Learned Indexes
+**Timeframe:** v1.8.0+  
+**Effort:** Medium (training required)
+
+**Steps:**
+1. **Collect training data**
+   ```cpp
+   // Sample keys for CDF learning
+   auto keys = sim.sampleKeys("users", "age", 10000);
+   std::sort(keys.begin(), keys.end());
+   ```
+
+2. **Train learned index model**
+   ```cpp
+   LearnedIndex::Config config;
+   config.model_type = ModelType::NEURAL_NETWORK;
+   config.hidden_layers = {128, 64, 32};
+   
+   auto learned_index = LearnedIndex::train(keys, config);
+   ```
+
+3. **A/B test performance**
+   ```cpp
+   // Compare: B-tree vs Learned Index
+   auto btree_latency = benchmark(btree_index, queries);
+   auto learned_latency = benchmark(learned_index, queries);
+   
+   if (learned_latency < btree_latency) {
+       // Migrate to learned index
+       sim.replaceIndex("users", "age", learned_index);
+   }
+   ```
+
+**When to Use:**
+- Read-heavy workloads (>90% reads)
+- Stable key distributions
+- Large datasets (>1M keys)
+- Latency-sensitive queries
+
+**When NOT to Use:**
+- Write-heavy workloads
+- Skewed/changing distributions
+- Small datasets (<100K keys)
+- Requires exact results

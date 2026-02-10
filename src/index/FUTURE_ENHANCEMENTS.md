@@ -1,525 +1,830 @@
 # Index Module - Future Enhancements
 
-This document outlines planned improvements and experimental features for the ThemisDB Index module.
-
-## Near-Term Enhancements (v1.6.0 - v1.7.0)
-
-### 1. GPU Backend Maturity
-
-**Status:** In Progress
-**Priority:** High
-**Target:** v1.6.0
-
-**CUDA Backend (ThemisDB v1.6.0, GPU Backend v2.1)**
-- Complete CUDA implementation for NVIDIA GPUs
-- CUDA-specific optimizations (tensor cores, shared memory)
-- Dynamic kernel selection based on GPU architecture
-- Multi-GPU load balancing
-
-**HIP Backend (ThemisDB v1.6.0, GPU Backend v2.3)**
-- AMD GPU support via HIP
-- ROCm optimization for AMD architectures
-- Cross-vendor GPU compatibility testing
-
-Note: GPU backend versions (v2.x) refer to the internal GPUVectorIndex implementation version, separate from ThemisDB product versions (v1.x).
-
-**Mixed Precision Optimization**
-- FP16 training and inference
-- TF32 support for Ampere+ GPUs
-- Dynamic precision selection based on accuracy requirements
-- Quantization-aware mixed precision
-
-**Estimated Impact:**
-- 2-5x speedup on NVIDIA GPUs (vs Vulkan)
-- AMD GPU support for data centers
-- Memory reduction: 40-50% with FP16
-
-### 2. Distributed Indexing
-
-**Status:** Design Phase
-**Priority:** High
-**Target:** v1.7.0
-
-**Sharded Vector Indexes**
-- Partition vector indexes across multiple nodes
-- Query routing based on hash or range partitioning
-- Distributed HNSW with cross-shard links
-- Consistent hashing for rebalancing
-
-**Distributed Graph Indexes**
-- Graph partitioning (METIS, edge-cut, vertex-cut)
-- Distributed graph traversal (cross-partition hops)
-- Replicated adjacency lists for hot nodes
-- Distributed PageRank and community detection
-
-**Distributed Secondary Indexes**
-- Global secondary indexes across shards
-- Local secondary indexes with scatter-gather
-- Index replication for read scalability
-
-**Estimated Impact:**
-- 10-100x scalability (horizontal scaling)
-- Sub-linear query latency increase with data size
-- High availability via replication
-
-### 3. Advanced Quantization
-
-**Status:** Research
-**Priority:** Medium
-**Target:** v1.6.0
-
-**Learned Quantization Production Release**
-- Stabilize LearnedQuantizer implementation
-- Integration with FAISS for k-means acceleration
-- Production-grade training pipeline
-- Hyperparameter auto-tuning
-
-**Scalar Quantization**
-- Per-dimension min-max quantization
-- 4-bit, 8-bit, and 16-bit variants
-- Dynamic range adjustment
-- Hardware-accelerated dequantization
-
-**Additive Quantization**
-- Multi-codebook approach (RQ++, AQ)
-- Higher accuracy than residual quantization
-- Configurable codebook count
-- Joint optimization of codebooks
-
-**Estimated Impact:**
-- Learned quantization: +2-5% recall vs product quantization
-- Scalar quantization: 2-8x compression with minimal accuracy loss
-- Additive quantization: 99%+ recall at 8x compression
-
-### 4. Temporal Index Enhancements
-
-**Status:** Beta
-**Priority:** Medium
-**Target:** v1.6.0
-
-**Interval Tree Indexing**
-- Efficient overlapping interval queries
-- Temporal join optimization
-- Historical snapshot indexing
-- Time-travel queries
-
-**Temporal Aggregation Acceleration**
-- Pre-aggregated time buckets (hourly, daily, monthly)
-- Incremental aggregation updates
-- Window function optimization
-- Temporal materialized views
-
-**Bitemporal Indexing**
-- Valid time + transaction time support
-- Historical correction support
-- Audit trail indexing
-- GDPR compliance (right to be forgotten)
-
-**Estimated Impact:**
-- 10-100x faster temporal range queries
-- Real-time temporal analytics
-- Compliance-ready temporal data management
-
-### 5. Fulltext Search Improvements
-
-**Status:** Beta
-**Priority:** Medium
-**Target:** v1.6.0
-
-**Advanced Scoring**
-- BM25+ (improved term saturation)
-- TF-IDF variants (logarithmic, augmented)
-- Language-specific scoring (stemming, stop words)
-- Custom scoring functions
-
-**Phrase Search Optimization**
-- Position-aware inverted index
-- Skip lists for phrase matching
-- Proximity scoring
-- Slop-tolerant phrase matching
-
-**Fuzzy Search**
-- Edit distance (Levenshtein, Damerau-Levenshtein)
-- Phonetic matching (Soundex, Metaphone)
-- N-gram indexing for typo tolerance
-- Configurable similarity threshold
-
-**Faceted Search**
-- Hierarchical facets
-- Dynamic facet aggregation
-- Facet counting optimization
-- Multi-select facets
-
-**Estimated Impact:**
-- 5-10x faster phrase queries
-- Sub-100ms fuzzy search on 10M documents
-- Rich search UI capabilities
-
-## Mid-Term Enhancements (v1.8.0 - v2.0.0)
-
-### 6. Machine Learning Index Optimization
-
-**Status:** Research
-**Priority:** Medium
-**Target:** v1.8.0
-
-**Learned Index Structures**
-- Neural network-based index prediction
-- CDF-based learned indexes for sorted data
-- Recursive model index (RMI)
-- Hybrid learned + traditional indexes
-
-**Automatic Workload Adaptation**
-- Reinforcement learning for parameter tuning
-- Online learning from query patterns
-- Adaptive ef_search based on accuracy requirements
-- Automatic index type selection (HNSW vs brute-force)
-
-**Query Performance Prediction**
-- ML-based query cost estimation
-- Execution time prediction
-- Index selection recommendation
-- Resource allocation optimization
-
-**Estimated Impact:**
-- 2-5x improvement in parameter tuning efficiency
-- Automatic adaptation to changing workloads
-- Reduced manual tuning effort by 90%
-
-### 7. Hybrid Search Enhancements
-
-**Status:** Design Phase
-**Priority:** Medium
-**Target:** v1.8.0
-
-**Dense-Sparse Fusion**
-- BM25 + vector search hybrid
-- Learnable fusion weights
-- Reciprocal rank fusion (RRF)
-- Weighted score combination
-
-**Multi-Modal Search**
-- Text + image + audio embedding search
-- Cross-modal similarity search
-- Modality-specific indexes
-- Late fusion strategies
-
-**Semantic + Lexical Hybrid**
-- Combine semantic vector search with keyword matching
-- Boost exact keyword matches
-- Synonym-aware semantic search
-- Entity-aware search
-
-**Estimated Impact:**
-- 10-20% improvement in search relevance
-- Support for complex multi-modal queries
-- Better handling of domain-specific terminology
-
-### 8. Graph Algorithm Acceleration
-
-**Status:** Design Phase
-**Priority:** Medium
-**Target:** v1.9.0
-
-**GPU-Accelerated Graph Algorithms**
-- GPU-based BFS/DFS (10-100x speedup)
-- GPU PageRank (cuGraph integration)
-- GPU community detection (Louvain, Label Propagation)
-- GPU shortest path (Dijkstra, Bellman-Ford)
-
-**Advanced Graph Algorithms**
-- Centrality measures (betweenness, closeness, eigenvector)
-- Graph embedding (node2vec, DeepWalk, GraphSAGE)
-- Graph neural network inference
-- Subgraph matching and isomorphism
-
-**Temporal Graph Algorithms**
-- Temporal PageRank (time-aware)
-- Temporal community detection
-- Event detection in dynamic graphs
-- Trend analysis and forecasting
-
-**Estimated Impact:**
-- 10-100x speedup on large graphs
-- Real-time graph analytics
-- Advanced graph ML capabilities
-
-### 9. Spatial Index Enhancements
-
-**Status:** Beta (3D), Design (4D+)
-**Priority:** Medium
-**Target:** v1.9.0
-
-**Advanced 3D Support**
-- Volumetric queries (intersects, contains, overlaps)
-- 3D convex hull queries
-- LiDAR point cloud indexing
-- Voxel-based spatial indexing
-
-**4D Spatiotemporal Indexing**
-- Space + time unified index
-- Trajectory queries (moving object databases)
-- Predictive spatial queries
-- Spatiotemporal clustering
-
-**Advanced Geometry**
-- Polygon and multi-polygon support
-- Curve and surface support
-- 3D mesh indexing
-- Topology-aware queries
-
-**Geospatial Integration**
-- Full PostGIS compatibility
-- Coordinate reference system (CRS) support
-- Geodetic vs Cartesian distance
-- Map projection transformations
-
-**Estimated Impact:**
-- Full 3D GIS capabilities
-- IoT and moving object tracking
-- Augmented reality spatial queries
-
-### 10. Index Compression
-
-**Status:** Research
-**Priority:** Low
-**Target:** v2.0.0
-
-**HNSW Graph Compression**
-- Edge pruning (remove redundant edges)
-- Hierarchical compression (compress lower layers more)
-- Delta encoding for edge lists
-- Graph neural network-based compression
-
-**Secondary Index Compression**
-- Bitmap indexing for low-cardinality fields
-- Run-length encoding (RLE) for sorted data
-- Dictionary encoding for string columns
-- Prefix compression for key strings
-
-**Inverted Index Compression**
-- Variable-byte encoding (VByte)
-- Simple-9, Simple-16 encoding
-- PForDelta compression
-- Roaring bitmaps for posting lists
-
-**Estimated Impact:**
-- 30-50% reduction in HNSW memory usage
-- 50-70% reduction in inverted index size
-- Minimal performance impact (<5% slowdown)
-
-## Long-Term Research (v2.1.0+)
-
-### 11. Quantum-Inspired Search
-
-**Status:** Early Research
-**Priority:** Low
-**Target:** TBD
-
-**Quantum Annealing for Optimization**
-- Quantum-inspired graph partitioning
-- Quantum optimization for index structure
-- Hybrid classical-quantum search
-
-**Quantum Machine Learning**
-- Quantum neural networks for embeddings
-- Quantum-enhanced similarity search
-- Variational quantum algorithms
-
-**Estimated Impact:**
-- Potential 10-1000x speedup for specific problems
-- Novel search algorithms
-- Requires quantum hardware (D-Wave, IBM Q)
-
-### 12. Neuromorphic Computing
-
-**Status:** Early Research
-**Priority:** Low
-**Target:** TBD
-
-**Spiking Neural Networks for Search**
-- Event-driven vector search
-- Low-power edge device indexing
-- Temporal coding for embeddings
-
-**Neuromorphic Hardware Integration**
-- Intel Loihi integration
-- IBM TrueNorth support
-- Energy-efficient search (<1W)
-
-**Estimated Impact:**
-- 100-1000x energy efficiency
-- Real-time edge device search
-- Novel embedding representations
-
-### 13. Federated Indexing
-
-**Status:** Design Phase
-**Priority:** Medium
-**Target:** v2.1.0
-
-**Privacy-Preserving Search**
-- Homomorphic encryption for queries
-- Secure multi-party computation
-- Differential privacy for indexes
-
-**Federated Vector Search**
-- Cross-organization similarity search
-- Privacy-preserving embedding alignment
-- Secure aggregation of search results
-
-**Decentralized Indexing**
-- Blockchain-based index verification
-- IPFS-backed vector storage
-- Peer-to-peer distributed search
-
-**Estimated Impact:**
-- Privacy-compliant cross-organization search
-- GDPR/CCPA-ready indexing
-- Decentralized knowledge graphs
-
-## Experimental Features
-
-### Vector Database Extensions
-
-**ANN Algorithm Diversity**
-- NSW (Navigable Small World) graphs
-- ANNOY (Spotify's library)
-- FLANN (Fast Library for Approximate Nearest Neighbors)
-- ScaNN (Google's library)
-- Vamana (Microsoft's DiskANN)
-
-**Distance Metrics**
-- Hamming distance (binary vectors)
-- Jaccard similarity (set vectors)
-- Mahalanobis distance (covariance-aware)
-- Wasserstein distance (distribution matching)
-- Custom user-defined metrics
-
-**Vector Operations**
-- Vector algebra (add, subtract, multiply)
-- Centroid computation
-- Cluster analysis
-- Dimensionality reduction (PCA, t-SNE, UMAP)
-
-### Graph Database Extensions
-
-**Property Graph Enhancements**
-- Hyperedges (edges connecting >2 nodes)
-- Hypergraphs
-- Metagraphs (graphs of graphs)
-- Graph versioning and branching
-
-**Graph Query Languages**
-- Cypher compatibility (Neo4j)
-- Gremlin support (Apache TinkerPop)
-- SPARQL for RDF graphs
-- GraphQL for property graphs
-
-**Graph Algorithms Library**
-- 50+ graph algorithms
-- Streaming graph algorithms
-- Incremental graph updates
-- Graph OLAP (analytical processing)
-
-### Spatial Database Extensions
-
-**Advanced Spatial Types**
-- Spherical geometry (full globe support)
-- Raster data indexing
-- 3D solid geometry
-- Parametric curves and surfaces
-
-**Spatial Analytics**
-- Heatmap generation
-- Spatial clustering (DBSCAN, OPTICS)
-- Spatial interpolation (kriging, IDW)
-- Voronoi diagrams and Delaunay triangulation
-
-**Temporal-Spatial Fusion**
-- Spatiotemporal clustering
-- Moving object prediction
-- Trajectory similarity search
-- Event detection in spatiotemporal data
-
-## Performance Targets
-
-### v1.6.0 Targets
-- Vector search latency: <1ms (k=10, 1M vectors, GPU)
-- Secondary index lookup: <50μs (cached)
-- Graph traversal: <5ms (BFS depth 5)
-- Spatial query: <10ms (intersects, 1M objects)
-
-### v1.8.0 Targets
-- Vector search latency: <500μs (k=10, 10M vectors, GPU)
-- Distributed query: <100ms (cross-shard, 10 nodes)
-- Temporal query: <20ms (1-year range, 100M events)
-- Fulltext search: <50ms (10M documents, phrase query)
-
-### v2.0.0 Targets
-- Vector search latency: <200μs (k=10, 100M vectors, GPU)
-- Graph analytics: <1s (PageRank, 1B edges)
-- Hybrid search: <10ms (dense + sparse, 10M documents)
-- Spatiotemporal query: <50ms (4D query, 100M trajectories)
-
-## Contributions Welcome
-
-We welcome contributions in the following areas:
-
-1. **GPU Backend Development**
-   - CUDA kernel optimization
-   - HIP implementation
-   - Vulkan compute shader optimization
-
-2. **Distributed Systems**
-   - Sharding strategies
-   - Cross-shard query optimization
-   - Replication and consistency
-
-3. **Machine Learning**
-   - Learned index structures
-   - Automatic parameter tuning
-   - Query performance prediction
-
-4. **Domain Expertise**
-   - Geospatial algorithms
-   - Graph algorithms
-   - Information retrieval
-
-5. **Performance Optimization**
-   - SIMD optimization
-   - Cache-aware algorithms
-   - Compression algorithms
-
-6. **Documentation**
-   - Tutorials and guides
-   - API documentation
-   - Performance tuning guides
-
-For contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
-
-## References
-
-### Vector Search
-- Malkov, Y. A., & Yashunin, D. A. (2018). "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs." arXiv:1603.09320
-- Johnson, J., Douze, M., & Jégou, H. (2019). "Billion-scale similarity search with GPUs." IEEE Transactions on Big Data.
-- Guo, R., et al. (2020). "Accelerating Large-Scale Inference with Anisotropic Vector Quantization." arXiv:1908.10396
-
-### Graph Algorithms
-- Leskovec, J., & Faloutsos, C. (2006). "Sampling from large graphs." KDD.
-- Blondel, V. D., et al. (2008). "Fast unfolding of communities in large networks." Journal of Statistical Mechanics.
-- Hamilton, W. L., et al. (2017). "Inductive representation learning on large graphs." NeurIPS.
-
-### Spatial Indexing
-- Guttman, A. (1984). "R-trees: A dynamic index structure for spatial searching." ACM SIGMOD.
-- Beckmann, N., et al. (1990). "The R*-tree: An efficient and robust access method for points and rectangles." ACM SIGMOD.
-- Morton, G. M. (1966). "A computer oriented geodetic data base and a new technique in file sequencing." IBM Technical Report.
-
-### Information Retrieval
-- Robertson, S., & Zaragoza, H. (2009). "The probabilistic relevance framework: BM25 and beyond." Foundations and Trends in Information Retrieval.
-- Büttcher, S., et al. (2010). "Information Retrieval: Implementing and Evaluating Search Engines." MIT Press.
+## Planned Features
+
+### Full-Text Search Index
+**Priority:** High  
+**Target Version:** v1.7.0
+
+Add inverted index for full-text search with stemming, stop words, and relevance ranking.
+
+**Features:**
+- **Tokenization**: Language-aware tokenizers (English, German, French, etc.)
+- **Stemming**: Porter/Snowball stemmers for root word extraction
+- **Stop Words**: Configurable stop word lists
+- **TF-IDF Scoring**: Term frequency-inverse document frequency ranking
+- **Phrase Search**: Quoted phrase matching
+- **Fuzzy Search**: Levenshtein distance for typo tolerance
+- **Highlighting**: Result snippet generation with keyword highlighting
+
+**API:**
+```cpp
+// Create full-text index
+sim.createFullTextIndex("articles", "content", {
+    .language = "en",
+    .stemming = true,
+    .stop_words = {"the", "a", "an"},
+    .min_word_length = 3
+});
+
+// Full-text search
+auto results = sim.fullTextSearch(
+    "articles", "content",
+    "machine learning algorithms",
+    /*limit=*/10
+);
+
+// Results sorted by relevance score
+for (const auto& result : results) {
+    std::cout << "Score: " << result.score << std::endl;
+    std::cout << "Snippet: " << result.snippet << std::endl;
+}
+```
+
+**Implementation:**
+- RocksDB key schema: `fts:table:term:pk`
+- Term frequency storage: `fts_tf:table:pk:term -> frequency`
+- Document frequency: `fts_df:table:term -> doc_count`
+- BM25 ranking algorithm for relevance scoring
+
+**Use Cases:**
+- Document search
+- Log analysis
+- Content discovery
+- Semantic search (combined with vector search)
+
+---
+
+### Distributed Index Partitioning
+**Priority:** High  
+**Target Version:** v1.7.0
+
+Shard indexes across multiple nodes for horizontal scalability.
+
+**Features:**
+- **Hash Partitioning**: Distribute keys by hash(pk) % num_shards
+- **Range Partitioning**: Split by key ranges (e.g., A-M, N-Z)
+- **Consistent Hashing**: Minimize data movement on resharding
+- **Shard Rebalancing**: Automatic redistribution on node add/remove
+- **Distributed Queries**: Scatter-gather for cross-shard queries
+
+**Architecture:**
+```
+┌────────────────┐
+│ Query Planner  │
+└────────┬───────┘
+         │ Scatter
+         ├─────────────┬─────────────┬─────────────┐
+         ▼             ▼             ▼             ▼
+    ┌────────┐    ┌────────┐    ┌────────┐    ┌────────┐
+    │Shard 0 │    │Shard 1 │    │Shard 2 │    │Shard 3 │
+    │ (A-F)  │    │ (G-M)  │    │ (N-S)  │    │ (T-Z)  │
+    └────────┘    └────────┘    └────────┘    └────────┘
+         │             │             │             │
+         └─────────────┴─────────────┴─────────────┘
+                       │ Gather
+                       ▼
+              ┌────────────────┐
+              │ Merge Results  │
+              └────────────────┘
+```
+
+**API:**
+```cpp
+// Configure partitioning
+IndexManager::ShardingConfig config;
+config.num_shards = 4;
+config.strategy = ShardingStrategy::HASH;
+config.replication_factor = 2;  // Replicate each shard 2x
+
+index_manager->enableSharding(config);
+
+// Queries automatically routed to correct shards
+auto results = vim.search("embeddings", query_vector, 10);
+// Internally: scatter to shards, merge top-k results
+```
+
+**Challenges:**
+- Cross-shard joins and traversals
+- Maintaining global statistics (IDF for full-text)
+- Atomic multi-shard transactions
+- Network latency for distributed queries
+
+---
+
+### GPU Memory Oversubscription
+**Priority:** High  
+**Target Version:** v1.6.0
+
+Support datasets larger than GPU VRAM via paging and streaming.
+
+**Features:**
+- **Unified Memory**: CUDA Unified Memory for automatic paging
+- **Streaming**: Load index chunks from host RAM as needed
+- **LRU Eviction**: Keep hot partitions in VRAM, evict cold
+- **Prefetching**: Predict next access patterns, prefetch to GPU
+- **Multi-GPU**: Distribute index across multiple GPUs
+
+**Configuration:**
+```cpp
+GPUVectorIndex::Config config;
+config.backend = GPUVectorIndex::Backend::CUDA;
+config.enable_oversubscription = true;
+config.vram_budget_mb = 8192;  // 8GB VRAM limit
+config.prefetch_strategy = PrefetchStrategy::LRU;
+
+// Works with 50M vectors (200GB) on 8GB GPU
+auto gpu_index = std::make_unique<GPUVectorIndex>(config);
+```
+
+**Performance:**
+- Hot data: Full GPU speed (200K queries/sec)
+- Cold data: CPU speed with PCIe overhead (10K queries/sec)
+- Prefetch hit rate: 80-90% (workload-dependent)
+
+---
+
+### Index Compression
+**Priority:** Medium  
+**Target Version:** v1.7.0
+
+Reduce index storage footprint via compression.
+
+**Techniques:**
+- **Delta Encoding**: Store differences between adjacent keys
+- **Prefix Compression**: Share common key prefixes
+- **Bloom Filters**: Reduce false lookups (already in RocksDB)
+- **Dictionary Encoding**: Map frequent strings to small integers
+- **Run-Length Encoding**: Compress repeated values
+
+**Example:**
+```cpp
+// Without compression
+idx:users:country:USA:pk1
+idx:users:country:USA:pk2
+idx:users:country:USA:pk3
+
+// With prefix compression
+idx:users:country:USA:[pk1, pk2, pk3]
+
+// 60% size reduction typical
+```
+
+**API:**
+```cpp
+SecondaryIndexManager::Config config;
+config.enable_compression = true;
+config.compression_algorithm = CompressionAlgorithm::ZSTD;
+config.compression_level = 3;  // Balance: speed vs ratio
+
+SecondaryIndexManager sim(db, config);
+```
+
+---
 
 ### Learned Indexes
-- Kraska, T., et al. (2018). "The case for learned index structures." ACM SIGMOD.
-- Ding, J., et al. (2020). "ALEX: An updatable adaptive learned index." ACM SIGMOD.
-- Marcus, R., et al. (2021). "Bao: Making learned query optimization practical." ACM SIGMOD.
+**Priority:** Medium  
+**Target Version:** v1.8.0
+
+Replace B-tree with ML models for improved lookup performance.
+
+**Concept:** Learn CDF (cumulative distribution function) of keys to predict position.
+
+**Sources:**
+- Paper: Kraska et al. (2018), "The Case for Learned Index Structures", SIGMOD
+- Benefits: 2-3x faster lookups, 10-100x smaller indexes
+- Tradeoffs: Requires training, less flexible for updates
+
+**Architecture:**
+```
+┌──────────────┐
+│   ML Model   │  Predicts: position = f(key)
+│ (Neural Net) │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────────┐
+│  Correction      │  Binary search in local region
+│  Layer (±ε)      │
+└──────┬───────────┘
+       │
+       ▼
+┌──────────────┐
+│  Final Value │
+└──────────────┘
+```
+
+**API:**
+```cpp
+// Enable learned index
+sim.createLearnedIndex("users", "age", {
+    .model_type = ModelType::NEURAL_NETWORK,
+    .hidden_layers = {128, 64, 32},
+    .error_bound = 100,  // Search within ±100 positions
+    .retraining_interval = 3600  // Retrain hourly
+});
+```
+
+**Use Cases:**
+- Read-heavy workloads
+- Stable key distributions
+- Large indexes (> 1M keys)
+
+---
+
+### Approximate Index Maintenance
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Trade consistency for write throughput via lazy index updates.
+
+**Strategies:**
+- **Batch Updates**: Buffer writes, flush periodically
+- **Asynchronous Updates**: Update indexes in background thread
+- **Eventually Consistent**: Accept temporary inconsistency
+- **Merge Thresholds**: Only update index after N changes
+
+**Configuration:**
+```cpp
+SecondaryIndexManager::Config config;
+config.update_strategy = UpdateStrategy::BATCH;
+config.batch_size = 1000;          // Flush every 1K writes
+config.flush_interval_ms = 5000;    // Or every 5 seconds
+config.consistency = ConsistencyLevel::EVENTUAL;
+
+SecondaryIndexManager sim(db, config);
+```
+
+**Benefits:**
+- 10-50x higher write throughput
+- Lower write amplification
+- Reduced lock contention
+
+**Tradeoffs:**
+- Index may lag behind data
+- Queries may miss recent writes
+- More complex recovery logic
+
+---
+
+## Performance Optimizations
+
+### SIMD Optimization for Vector Distance
+**Priority:** High  
+**Target Version:** v1.6.0
+
+Use AVX-512/NEON instructions for faster distance computation.
+
+**Current:** Generic C++ loops (~1 GB/s)
+**Optimized:** AVX-512 intrinsics (~50 GB/s)
+
+**Implementation:**
+```cpp
+// AVX-512 for L2 distance
+float l2_distance_avx512(const float* a, const float* b, size_t dim) {
+    __m512 sum = _mm512_setzero_ps();
+    for (size_t i = 0; i < dim; i += 16) {
+        __m512 va = _mm512_loadu_ps(a + i);
+        __m512 vb = _mm512_loadu_ps(b + i);
+        __m512 diff = _mm512_sub_ps(va, vb);
+        sum = _mm512_fmadd_ps(diff, diff, sum);
+    }
+    return _mm512_reduce_add_ps(sum);
+}
+
+// ARM NEON for mobile/edge
+float l2_distance_neon(const float* a, const float* b, size_t dim) {
+    float32x4_t sum = vdupq_n_f32(0.0f);
+    for (size_t i = 0; i < dim; i += 4) {
+        float32x4_t va = vld1q_f32(a + i);
+        float32x4_t vb = vld1q_f32(b + i);
+        float32x4_t diff = vsubq_f32(va, vb);
+        sum = vmlaq_f32(sum, diff, diff);
+    }
+    return vaddvq_f32(sum);
+}
+```
+
+**Expected Improvement:**
+- 50x faster distance computation
+- 10x faster HNSW search
+- Critical for CPU-based vector search
+
+---
+
+### Cache-Oblivious Indexes
+**Priority:** Medium  
+**Target Version:** v1.7.0
+
+Optimize index layout for CPU cache hierarchy (L1/L2/L3).
+
+**Techniques:**
+- **Cache-Oblivious B-trees**: Recursive blocking for cache efficiency
+- **Eytzinger Layout**: Breadth-first array layout for binary search
+- **Prefetch Hints**: Software prefetch for predictable access patterns
+
+**Benefits:**
+- 2-5x faster lookups (cache-friendly)
+- Fewer cache misses
+- Better memory bandwidth utilization
+
+**References:**
+- Paper: Brodal et al. (2002), "Cache-Oblivious Data Structures"
+- Eytzinger layout: Used in `std::lower_bound` optimizations
+
+---
+
+### GPU Kernel Fusion
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Combine multiple GPU operations into single kernel to reduce overhead.
+
+**Example:**
+```cpp
+// Before: 3 kernel launches
+distance_kernel<<<...>>>(query, database, distances);
+top_k_kernel<<<...>>>(distances, indices, k);
+rerank_kernel<<<...>>>(indices, refined_distances);
+
+// After: 1 fused kernel (3x faster)
+fused_search_kernel<<<...>>>(query, database, indices, distances, k);
+```
+
+**Benefits:**
+- Eliminate intermediate memory transfers
+- Better GPU occupancy
+- 2-3x faster end-to-end
+
+---
+
+### Adaptive HNSW Parameters
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Automatically tune HNSW parameters (M, efConstruction, efSearch) based on workload.
+
+**Features:**
+- Monitor query latency and recall
+- Adjust efSearch dynamically (higher for slow queries)
+- Retrain index with better M if recall drops
+- Learn optimal parameters per use case
+
+**Algorithm:**
+```cpp
+// Adaptive tuning
+void AdaptiveHNSW::tune() {
+    auto metrics = collectMetrics();
+    
+    if (metrics.avg_latency > target_latency_ms) {
+        efSearch = std::max(efSearch - 10, 10);  // Reduce for speed
+    }
+    
+    if (metrics.recall < target_recall) {
+        efSearch = std::min(efSearch + 10, 500);  // Increase for recall
+    }
+    
+    if (metrics.recall < 0.90 && metrics.dataset_size > 1e6) {
+        // Rebuild with higher M
+        rebuild_with_M(M + 4);
+    }
+}
+```
+
+---
+
+## Refactoring Opportunities
+
+### Unified Index Interface
+**Priority:** High  
+**Target Version:** v1.6.0
+
+Extract common interface for all index types to enable polymorphism.
+
+**Current State:** Separate manager classes with different APIs
+**Desired State:** Unified `IIndex` interface
+
+**Interface:**
+```cpp
+class IIndex {
+public:
+    virtual ~IIndex() = default;
+    
+    // CRUD operations
+    virtual Status insert(const Key& key, const Value& value) = 0;
+    virtual Status remove(const Key& key) = 0;
+    virtual Status update(const Key& key, const Value& new_value) = 0;
+    
+    // Query operations
+    virtual std::vector<Result> lookup(const Query& query) = 0;
+    virtual std::vector<Result> range(const Key& start, const Key& end) = 0;
+    
+    // Maintenance
+    virtual Status rebuild() = 0;
+    virtual Status optimize() = 0;
+    virtual Statistics getStats() = 0;
+};
+
+// Implementations
+class BTreeIndex : public IIndex { ... };
+class HNSWIndex : public IIndex { ... };
+class RTreeIndex : public IIndex { ... };
+```
+
+**Benefits:**
+- Generic query optimizer can choose best index
+- Easier to add new index types
+- Uniform testing and benchmarking
+
+---
+
+### Index Metadata Registry
+**Priority:** Medium  
+**Target Version:** v1.6.0
+
+Centralized registry for index metadata (type, stats, config).
+
+**Current:** Metadata scattered across manager classes
+**Desired:** Single source of truth
+
+**Schema:**
+```cpp
+struct IndexMetadata {
+    std::string name;
+    std::string table;
+    std::vector<std::string> columns;
+    IndexType type;  // BTREE, HNSW, RTREE, etc.
+    nlohmann::json config;
+    
+    // Statistics
+    size_t num_entries;
+    size_t size_bytes;
+    Timestamp created_at;
+    Timestamp last_updated;
+    
+    // Performance metrics
+    uint64_t query_count;
+    double avg_query_latency_ms;
+    double cache_hit_rate;
+};
+
+class IndexRegistry {
+public:
+    void registerIndex(const IndexMetadata& metadata);
+    std::optional<IndexMetadata> getMetadata(std::string_view name);
+    std::vector<IndexMetadata> listIndexes(std::string_view table);
+    void updateStats(std::string_view name, const Statistics& stats);
+};
+```
+
+**Benefits:**
+- Query planner can make informed decisions
+- Easy to monitor index health
+- Enables index usage analytics
+
+---
+
+### Zero-Copy Index Serialization
+**Priority:** Medium  
+**Target Version:** v1.7.0
+
+Eliminate memory copies when persisting/loading indexes.
+
+**Current:** Serialize to temp buffer, then write to RocksDB
+**Desired:** Direct memory-mapped I/O
+
+**Techniques:**
+- **Memory-Mapped Files**: `mmap()` for zero-copy reads
+- **Shared Memory**: Cross-process index sharing
+- **Cap'n Proto**: Zero-copy serialization format
+
+**Example:**
+```cpp
+// Memory-mapped index file
+class MmappedIndex {
+    void* data_;
+    size_t size_;
+    
+public:
+    MmappedIndex(const std::string& path) {
+        int fd = open(path.c_str(), O_RDONLY);
+        struct stat sb;
+        fstat(fd, &sb);
+        size_ = sb.st_size;
+        data_ = mmap(nullptr, size_, PROT_READ, MAP_PRIVATE, fd, 0);
+    }
+    
+    // Direct access, no copies
+    const VectorIndex* getIndex() const {
+        return static_cast<const VectorIndex*>(data_);
+    }
+};
+```
+
+**Benefits:**
+- 10-100x faster index loading
+- Lower memory usage
+- Better resource utilization
+
+---
+
+## Known Issues
+
+### Issue: HNSW Vector Deletion Not Supported
+**Severity:** Medium  
+**Impact:** Must rebuild index to remove vectors
+
+**Current Workaround:** Mark as deleted, filter results
+```cpp
+// Soft delete: mark as deleted
+deleted_ids_.insert(pk);
+
+// Filter during search
+auto raw_results = hnsw_index_.search(query, k + deleted_ids_.size());
+std::vector<Result> filtered;
+for (const auto& r : raw_results) {
+    if (!deleted_ids_.contains(r.id)) {
+        filtered.push_back(r);
+    }
+}
+```
+
+**Proper Solution (v1.7.0):**
+- Implement HNSW node removal with graph repair
+- Rebalance layers after deletion
+- Trigger rebuild when >20% deleted
+
+**References:**
+- HNSWlib issue: https://github.com/nmslib/hnswlib/issues/93
+
+---
+
+### Issue: Spatial Index Polygon Intersection Approximation
+**Severity:** Low  
+**Impact:** False positives in complex polygon queries
+
+**Current Behavior:** Use MBR (bounding box) approximation
+```cpp
+// Query: Find polygons intersecting with polygon P
+// Current: Returns all polygons whose MBR intersects P's MBR
+// Problem: May return polygons that don't actually intersect P
+```
+
+**Workaround:** Post-filter with exact geometry check
+```cpp
+auto candidates = spatial.searchIntersects("polygons", query_mbr);
+
+std::vector<SpatialResult> exact_matches;
+for (const auto& candidate : candidates) {
+    auto geom = loadGeometry(candidate.primary_key);
+    if (exactIntersection(geom, query_polygon)) {
+        exact_matches.push_back(candidate);
+    }
+}
+```
+
+**Proper Solution (v1.7.0):**
+- Implement exact polygon intersection tests
+- Use GEOS library for computational geometry
+- Cache MBR checks, only exact-check close candidates
+
+---
+
+### Issue: Composite Index Column Order Matters
+**Severity:** Medium  
+**Impact:** Query must match index column order for efficiency
+
+**Problem:**
+```cpp
+// Index: (country, city, zip)
+sim.createCompositeIndex("addresses", {"country", "city", "zip"});
+
+// Efficient: Matches prefix
+sim.lookupByIndex("addresses", {"country", "city"}, {"USA", "SF"});
+
+// Inefficient: Skips "city", can't use index
+sim.lookupByIndex("addresses", {"country", "zip"}, {"USA", "94102"});
+```
+
+**Workaround:** Create multiple indexes for different query patterns
+```cpp
+sim.createCompositeIndex("addresses", {"country", "city", "zip"});
+sim.createCompositeIndex("addresses", {"country", "zip"});
+```
+
+**Proper Solution (v1.7.0):**
+- Permutation indexes: Automatically create multiple orderings
+- Smarter query planner: Detect partial matches
+- Index intersection: Merge results from multiple indexes
+
+---
+
+### Issue: GPU Index Limited by VRAM
+**Severity:** High  
+**Impact:** Cannot index >10M vectors on 8GB GPU
+
+**Current Limits:**
+- 8GB VRAM: ~10M vectors (768D)
+- 16GB VRAM: ~20M vectors (768D)
+- 24GB VRAM: ~30M vectors (768D)
+
+**Workaround:** Use CPU fallback or multi-GPU
+```cpp
+if (dataset_size * dim * sizeof(float) > gpu_vram_mb) {
+    config.backend = GPUVectorIndex::Backend::CPU;
+}
+```
+
+**Proper Solution (v1.6.0):**
+- GPU memory oversubscription (see Planned Features)
+- Multi-GPU sharding
+- Quantization to reduce memory (PQ/BQ)
+
+---
+
+## Research Areas
+
+### Quantum-Inspired Optimization
+**Timeframe:** 2-3 years  
+**Potential:** 10-100x speedup for specific problems
+
+Explore quantum-inspired algorithms for combinatorial optimization in indexing.
+
+**Applications:**
+- **Traveling Salesman**: Optimize index node insertion order
+- **Graph Partitioning**: Shard graph indexes optimally
+- **K-means Clustering**: Faster IVF training
+
+**References:**
+- Quantum annealing for combinatorial optimization
+- Simulated annealing / Metropolis-Hastings
+- Tensor network methods
+
+---
+
+### Neuromorphic Index Structures
+**Timeframe:** 3-5 years  
+**Potential:** Ultra-low-power indexing for edge devices
+
+Explore brain-inspired computing for energy-efficient indexing.
+
+**Concept:**
+- Spiking Neural Networks (SNNs) for approximate search
+- Associative memory for content-addressable indexes
+- Event-driven updates (only compute on change)
+
+**Benefits:**
+- 100-1000x lower power consumption
+- Ideal for edge/IoT deployments
+- Naturally approximate (trade accuracy for efficiency)
+
+**Challenges:**
+- Immature hardware (Intel Loihi, IBM TrueNorth)
+- Difficult to program
+- Limited tooling
+
+---
+
+### Homomorphic Encryption for Encrypted Indexes
+**Timeframe:** 2-3 years  
+**Potential:** Enable querying without decryption
+
+Allow clients to search encrypted data without server seeing plaintext.
+
+**Use Cases:**
+- Healthcare: Search medical records without HIPAA violations
+- Finance: Query transactions without exposing sensitive data
+- Privacy-preserving analytics
+
+**Challenges:**
+- 100-10000x slower than plaintext
+- Limited operations (addition, multiplication only)
+- Large ciphertext sizes
+
+**References:**
+- Microsoft SEAL library
+- Homomorphic Encryption Standardization Consortium
+- Fully Homomorphic Encryption (FHE)
+
+---
+
+## Migration Paths
+
+### Migrating from v1.4.x to v1.5.x
+**Breaking Changes:** FAISS integration changes API
+
+**Steps:**
+1. **Update dependencies**
+   ```bash
+   vcpkg install faiss
+   cmake -DTHEMIS_HAS_FAISS=ON ..
+   ```
+
+2. **Update VectorIndexManager initialization**
+   ```cpp
+   // Old (v1.4.x)
+   vim.init("embeddings", 1536, VectorIndexManager::Metric::COSINE);
+   
+   // New (v1.5.x) - same, but supports advanced config
+   vim.init("embeddings", 1536, VectorIndexManager::Metric::COSINE);
+   
+   // Optional: Enable IVF+PQ
+   VectorIndexManager::AdvancedIndexConfig adv;
+   adv.enabled = true;
+   vim.setAdvancedIndexConfig(adv);
+   ```
+
+3. **Rebuild indexes for FAISS support**
+   ```cpp
+   // Rebuild existing indexes to use FAISS
+   vim.rebuildIndex("embeddings");
+   ```
+
+**Compatibility:** v1.4.x indexes still work, but won't use FAISS optimizations
+
+---
+
+### Migrating from Single-Node to Distributed
+**Timeframe:** v1.7.0+  
+**Effort:** High (requires schema changes)
+
+**Preparation:**
+1. **Design shard key**
+   ```cpp
+   // Choose sharding strategy
+   // Option 1: Hash-based (uniform distribution)
+   size_t shard = hash(pk) % num_shards;
+   
+   // Option 2: Range-based (preserves locality)
+   size_t shard = rangeMap(pk, shard_boundaries);
+   
+   // Option 3: Tenant-based (multi-tenancy)
+   size_t shard = tenantIdToShard(tenant_id);
+   ```
+
+2. **Plan replication**
+   ```cpp
+   // Replicate each shard N times
+   config.replication_factor = 3;
+   config.consistency_level = ConsistencyLevel::QUORUM;  // 2/3 replicas
+   ```
+
+3. **Test distributed queries**
+   ```cpp
+   // Test scatter-gather performance
+   auto results = vim.search(query_vector, 10);
+   // Measure: network latency, merge overhead
+   ```
+
+**Rollout:**
+1. Deploy sharded cluster in parallel
+2. Backfill data to shards
+3. Switch queries to sharded cluster
+4. Decommission single-node
+
+---
+
+### Migrating to Learned Indexes
+**Timeframe:** v1.8.0+  
+**Effort:** Medium (training required)
+
+**Steps:**
+1. **Collect training data**
+   ```cpp
+   // Sample keys for CDF learning
+   auto keys = sim.sampleKeys("users", "age", 10000);
+   std::sort(keys.begin(), keys.end());
+   ```
+
+2. **Train learned index model**
+   ```cpp
+   LearnedIndex::Config config;
+   config.model_type = ModelType::NEURAL_NETWORK;
+   config.hidden_layers = {128, 64, 32};
+   
+   auto learned_index = LearnedIndex::train(keys, config);
+   ```
+
+3. **A/B test performance**
+   ```cpp
+   // Compare: B-tree vs Learned Index
+   auto btree_latency = benchmark(btree_index, queries);
+   auto learned_latency = benchmark(learned_index, queries);
+   
+   if (learned_latency < btree_latency) {
+       // Migrate to learned index
+       sim.replaceIndex("users", "age", learned_index);
+   }
+   ```
+
+**When to Use:**
+- Read-heavy workloads (>90% reads)
+- Stable key distributions
+- Large datasets (>1M keys)
+- Latency-sensitive queries
+
+**When NOT to Use:**
+- Write-heavy workloads
+- Skewed/changing distributions
+- Small datasets (<100K keys)
+- Requires exact results
