@@ -1409,6 +1409,8 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/file_utils.cpp
     ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
+    ../src/sharding/capability_matcher.cpp
+    ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
     ../src/sharding/shard_load_detector.cpp
