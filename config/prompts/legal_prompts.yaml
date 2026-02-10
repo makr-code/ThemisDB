@@ -15,6 +15,12 @@ prompts:
     version: "1.0"
     description: "Analyze legal documents or situations"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "fairness_justice"
+      - "legal_rights"
+      - "power_imbalance"
+    ethics_note: "Legal analysis may involve ethical conflicts regarding fairness, justice, and individual rights. Consider consulting ThemisDB ethics module for deeper ethical assessment."
     content: |
       You are providing legal analysis based on data in ThemisDB.
       
@@ -44,6 +50,11 @@ prompts:
     version: "1.0"
     description: "Review and analyze contract terms"
     active: true
+    ethics_flag: "low"
+    ethics_considerations:
+      - "contractual_fairness"
+      - "informed_consent"
+    ethics_note: "Contract review may raise ethical questions about fairness and informed consent. Consider ethics module if power imbalances are detected."
     content: |
       You are reviewing a contract or agreement.
       
@@ -73,6 +84,12 @@ prompts:
     version: "1.0"
     description: "Check compliance with regulations or policies"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "regulatory_fairness"
+      - "stakeholder_impact"
+      - "public_good"
+    ethics_note: "Compliance matters often involve trade-offs between competing interests. Ethics module can help assess stakeholder impacts."
     content: |
       You are performing a compliance check.
       
@@ -105,6 +122,11 @@ prompts:
     version: "1.0"
     description: "Research legal precedents and statutes"
     active: true
+    ethics_flag: "low"
+    ethics_considerations:
+      - "access_to_justice"
+      - "legal_precedent_fairness"
+    ethics_note: "Legal research may reveal ethical issues in precedents or statutes. Consider ethics module for controversial cases."
     content: |
       You are conducting legal research.
       
@@ -133,6 +155,12 @@ prompts:
     version: "1.0"
     description: "Assess legal risks in actions or decisions"
     active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "risk_distribution"
+      - "stakeholder_harm"
+      - "precautionary_principle"
+    ethics_note: "Risk assessment involves ethical trade-offs between different stakeholders. High-risk scenarios should consult ThemisDB ethics module."
     content: |
       You are assessing legal risk.
       
@@ -167,6 +195,12 @@ prompts:
     version: "1.0"
     description: "Perform legal due diligence review"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "transparency"
+      - "fiduciary_duty"
+      - "disclosure_obligations"
+    ethics_note: "Due diligence may uncover ethical issues regarding transparency and disclosure. Ethics module can assist with complex ethical dilemmas."
     content: |
       You are conducting legal due diligence.
       

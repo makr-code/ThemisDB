@@ -207,6 +207,11 @@ prompts:
     version: "1.0"
     description: "What this prompt does"
     active: true
+    ethics_flag: "low|moderate|high"  # NEW: Ethics consideration level
+    ethics_considerations:            # NEW: Specific ethical concerns
+      - "concern_1"
+      - "concern_2"
+    ethics_note: "When to consult ethics module"  # NEW: Guidance
     content: |
       Template content with {variable} placeholders.
       
@@ -224,6 +229,82 @@ metadata:
   purpose: "Description of file purpose"
   category: "domain"
 ```
+
+## Ethics Integration (NEW)
+
+Many prompts now include ethics metadata to flag potential ethical concerns and guide integration with ThemisDB's ethics module.
+
+### Ethics Fields
+
+- **`ethics_flag`**: Indicates the level of ethical consideration needed
+  - `low`: Minimal ethical concerns
+  - `moderate`: Some ethical considerations
+  - `high`: Significant ethical implications requiring careful review
+
+- **`ethics_considerations`**: List of specific ethical concerns that may arise
+  - Examples: `fairness_justice`, `human_subjects_protection`, `environmental_protection`, `power_imbalance`
+
+- **`ethics_note`**: Guidance on when and how to consult the ethics module
+
+### When Ethics Flags Are Triggered
+
+Prompts with `ethics_flag: "moderate"` or `"high"` should trigger consultation with ThemisDB's ethics module when:
+
+1. The query involves conflicting stakeholder interests
+2. Human subjects, animals, or vulnerable populations are affected
+3. Environmental impacts or intergenerational justice are at stake
+4. Power imbalances or procedural fairness concerns exist
+5. Risk-benefit trade-offs must be evaluated
+
+### Example: Ethics-Aware Prompt Usage
+
+```cpp
+auto prompt_result = prompt_manager->getPromptWithContext("bimschg_immissionsschutz", context);
+
+// Check ethics flag
+if (prompt_result.ethics_flag == "high") {
+    // Consult ethics module
+    auto ethics_assessment = ethics_module->assess({
+        {"scenario", context["query"]},
+        {"stakeholders", "facility_operator,neighbors,environment"},
+        {"considerations", prompt_result.ethics_considerations}
+    });
+    
+    // Enhance prompt with ethical guidance
+    if (ethics_assessment.has_conflict) {
+        context["ethical_guidance"] = ethics_assessment.recommendation;
+    }
+}
+
+auto response = llm->generate(prompt_result.content);
+```
+
+### Prompts with Ethics Integration
+
+**High Priority (ethics_flag: "high"):**
+- `risk_assessment` - Risk distribution and stakeholder harm
+- `bimschg_immissionsschutz` - Environmental vs. economic interests
+- `ta_laerm_noise_analysis` - Quality of life vs. economic use
+- `umweltrecht_compliance` - Sustainability and future generations
+- `experimental_design` - Human/animal subjects protection
+- `verwaltungsrecht_analysis` - Fundamental rights and public interest
+
+**Moderate Priority (ethics_flag: "moderate"):**
+- Legal and administrative prompts involving fairness, transparency, proportionality
+- Scientific prompts involving research integrity and objectivity
+
+### Ethics Module Integration
+
+The ethics flags enable seamless integration with ThemisDB's ethics evaluation system (see `examples/24_moral_philosophy_debates/`):
+
+1. **Automatic Detection**: System detects high-ethics prompts
+2. **Ethical Assessment**: Evaluates stakeholder impacts and ethical principles
+3. **Guidance Generation**: Provides recommendations for ethical decision-making
+4. **Audit Trail**: Documents ethical considerations in prompt execution
+
+This ensures that ThemisDB operations consider ethical implications systematically, not as an afterthought.
+
+---
 
 ## Template Variables
 

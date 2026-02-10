@@ -77,6 +77,12 @@ prompts:
     version: "1.0"
     description: "Test hypotheses using available data"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "research_integrity"
+      - "data_transparency"
+      - "publication_bias"
+    ethics_note: "Hypothesis testing involves research ethics. Consider ethics module for studies involving human subjects or sensitive data."
     content: |
       You are testing a scientific hypothesis using data from ThemisDB.
       
@@ -163,6 +169,14 @@ prompts:
     version: "1.0"
     description: "Design scientific experiments based on data"
     active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "research_ethics"
+      - "human_subjects_protection"
+      - "animal_welfare"
+      - "informed_consent"
+      - "risk_benefit_analysis"
+    ethics_note: "Experimental design must consider ethical implications. ALWAYS consult ThemisDB ethics module for experiments involving humans or animals."
     content: |
       You are designing a scientific experiment using ThemisDB data.
       
@@ -196,6 +210,12 @@ prompts:
     version: "1.0"
     description: "Critically analyze findings with scientific rigor"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "research_integrity"
+      - "objectivity"
+      - "conflict_of_interest"
+    ethics_note: "Peer review requires objectivity and fairness. Ethics module can assist with conflicts of interest or controversial findings."
     content: |
       You are conducting peer review analysis of research findings.
       

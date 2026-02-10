@@ -310,6 +310,84 @@ Alle Prompts unterstützen dynamische Variablen:
 - `{schema}` - Vollständiges Schema als JSON
 - `{capabilities}` - Aktivierte Funktionen
 
+## ⚖️ Ethik-Integration (NEU!)
+
+Viele Prompts enthalten jetzt Ethik-Metadaten, um potenzielle ethische Konflikte zu kennzeichnen und die Integration mit ThemisDB's Ethik-Modul zu steuern.
+
+### Ethik-Felder
+
+- **`ethics_flag`**: Zeigt den Grad der ethischen Überlegung an
+  - `low`: Minimale ethische Bedenken
+  - `moderate`: Einige ethische Überlegungen
+  - `high`: Erhebliche ethische Implikationen, sorgfältige Prüfung erforderlich
+
+- **`ethics_considerations`**: Liste spezifischer ethischer Bedenken
+  - Beispiele: `fairness_justice`, `environmental_protection`, `power_imbalance`, `intergenerational_justice`
+
+- **`ethics_note`**: Hinweise, wann und wie das Ethik-Modul zu konsultieren ist
+
+### Wann Ethik-Flags ausgelöst werden
+
+Prompts mit `ethics_flag: "moderate"` oder `"high"` sollten eine Konsultation des Ethik-Moduls auslösen, wenn:
+
+1. Die Anfrage widersprüchliche Stakeholder-Interessen betrifft
+2. Menschen, Tiere oder schutzbedürftige Gruppen betroffen sind
+3. Umweltauswirkungen oder Generationengerechtigkeit auf dem Spiel stehen
+4. Machtungleichgewichte oder Verfahrensfairness-Bedenken bestehen
+5. Risiko-Nutzen-Abwägungen erforderlich sind
+
+### Beispiel: Ethik-bewusste Prompt-Nutzung
+
+```cpp
+auto prompt_result = manager->getPromptWithContext("bimschg_immissionsschutz", context);
+
+// Ethik-Flag prüfen
+if (prompt_result.ethics_flag == "high") {
+    // Ethik-Modul konsultieren
+    auto ethics_assessment = ethik_modul->bewerten({
+        {"szenario", context["query"]},
+        {"stakeholder", "betreiber,anwohner,umwelt"},
+        {"ueberlegungen", prompt_result.ethics_considerations}
+    });
+    
+    // Prompt mit ethischer Orientierung erweitern
+    if (ethics_assessment.hat_konflikt) {
+        context["ethische_orientierung"] = ethics_assessment.empfehlung;
+    }
+}
+
+auto response = llm->generate(prompt_result.content);
+```
+
+### Prompts mit Ethik-Integration
+
+**Hohe Priorität (ethics_flag: "high"):**
+- `risk_assessment` - Risikoverteilung und Stakeholder-Schäden
+- `bimschg_immissionsschutz` - Umwelt vs. wirtschaftliche Interessen
+- `ta_laerm_noise_analysis` - Lebensqualität vs. wirtschaftliche Nutzung
+- `umweltrecht_compliance` - Nachhaltigkeit und zukünftige Generationen
+- `experimental_design` - Schutz von Menschen/Tieren
+- `verwaltungsrecht_analysis` - Grundrechte und öffentliches Interesse
+
+**Mittlere Priorität (ethics_flag: "moderate"):**
+- Rechtliche und verwaltungsrechtliche Prompts zu Fairness, Transparenz, Verhältnismäßigkeit
+- Wissenschaftliche Prompts zu Forschungsintegrität und Objektivität
+
+### Integration mit Ethik-Modul
+
+Die Ethik-Flags ermöglichen nahtlose Integration mit ThemisDB's Ethik-Bewertungssystem (siehe `examples/24_moral_philosophy_debates/`):
+
+1. **Automatische Erkennung**: System erkennt Prompts mit hohem Ethik-Niveau
+2. **Ethische Bewertung**: Bewertet Stakeholder-Auswirkungen und ethische Prinzipien
+3. **Orientierungsgenerierung**: Bietet Empfehlungen für ethische Entscheidungsfindung
+4. **Audit-Trail**: Dokumentiert ethische Überlegungen bei Prompt-Ausführung
+
+Dies stellt sicher, dass ThemisDB-Operationen ethische Implikationen systematisch berücksichtigen, nicht nachträglich.
+
+**Wichtig**: Bei Prompts mit `ethics_flag: "high"` (z.B. BImSchG, TA Lärm) sollte das Ethik-Modul immer konsultiert werden, da diese Entscheidungen oft Grundrechte, Gesundheit und Umweltschutz betreffen.
+
+---
+
 ## 📊 Statistik
 
 **Prompt-Dateien gesamt**: 8

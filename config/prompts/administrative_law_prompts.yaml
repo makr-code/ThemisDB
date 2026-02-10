@@ -16,6 +16,13 @@ prompts:
     version: "1.0"
     description: "Analyze administrative law matters and decisions"
     active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "administrative_fairness"
+      - "procedural_justice"
+      - "power_imbalance"
+      - "public_interest"
+    ethics_note: "Verwaltungsrechtliche Entscheidungen betreffen oft Grundrechte und öffentliches Interesse. Bei Ermessensentscheidungen ThemisDB Ethik-Modul konsultieren."
     content: |
       Sie analysieren einen verwaltungsrechtlichen Sachverhalt aus der ThemisDB.
       
@@ -50,6 +57,12 @@ prompts:
     version: "1.0"
     description: "Analyze administrative procedures according to VwVfG"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "procedural_fairness"
+      - "right_to_be_heard"
+      - "transparency"
+    ethics_note: "Verfahrensfehler können Grundrechte verletzen. Ethik-Modul bei Verfahrensmängeln einbeziehen."
     content: |
       Analyse eines Verwaltungsverfahrens nach VwVfG.
       
@@ -94,6 +107,14 @@ prompts:
     version: "1.0"
     description: "Analyze matters under the German Federal Immission Control Act"
     active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "environmental_protection"
+      - "public_health"
+      - "economic_viability"
+      - "intergenerational_justice"
+      - "neighbor_rights"
+    ethics_note: "BImSchG-Genehmigungen betreffen Umweltschutz vs. wirtschaftliche Interessen. Ethik-Modul bei Konflikten zwischen Gesundheitsschutz und Wirtschaft konsultieren."
     content: |
       Prüfung nach dem Bundes-Immissionsschutzgesetz (BImSchG).
       
@@ -146,6 +167,14 @@ prompts:
     version: "1.0"
     description: "Analyze noise emissions according to TA Lärm (Technical Instructions on Noise Control)"
     active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "quality_of_life"
+      - "health_protection"
+      - "property_rights"
+      - "economic_interests"
+      - "distributive_justice"
+    ethics_note: "Lärmschutz betrifft Gesundheit und Lebensqualität vs. wirtschaftliche Nutzung. Ethik-Modul bei Interessenkonflikten zwischen Anwohnern und Betreibern konsultieren."
     content: |
       Lärmschutzrechtliche Prüfung nach TA Lärm.
       
@@ -202,6 +231,12 @@ prompts:
     version: "1.0"
     description: "Analyze administrative licensing and approval procedures"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "procedural_fairness"
+      - "stakeholder_participation"
+      - "public_interest"
+    ethics_note: "Genehmigungsverfahren können verschiedene Interessengruppen betreffen. Ethik-Modul bei komplexen Stakeholder-Konflikten einbeziehen."
     content: |
       Analyse eines behördlichen Genehmigungsverfahrens.
       
@@ -272,6 +307,14 @@ prompts:
     version: "1.0"
     description: "Check compliance with environmental regulations"
     active: true
+    ethics_flag: "high"
+    ethics_considerations:
+      - "environmental_protection"
+      - "sustainability"
+      - "intergenerational_justice"
+      - "precautionary_principle"
+      - "polluter_pays_principle"
+    ethics_note: "Umweltrecht betrifft nachhaltige Entwicklung und Schutz künftiger Generationen. Ethik-Modul bei Konflikten zwischen Wirtschaft und Umweltschutz konsultieren."
     content: |
       Umweltrechtliche Compliance-Prüfung.
       
@@ -340,6 +383,13 @@ prompts:
     version: "1.0"
     description: "Examine the legality of an administrative act"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "administrative_fairness"
+      - "proportionality"
+      - "legal_certainty"
+      - "individual_rights"
+    ethics_note: "Ermessensentscheidungen erfordern Abwägung verschiedener Interessen. Ethik-Modul bei Verhältnismäßigkeitsprüfung konsultieren."
     content: |
       Rechtmäßigkeitsprüfung eines Verwaltungsakts.
       
@@ -430,6 +480,13 @@ prompts:
     version: "1.0"
     description: "Analyze building permits and construction law matters"
     active: true
+    ethics_flag: "moderate"
+    ethics_considerations:
+      - "property_rights"
+      - "neighbor_protection"
+      - "public_interest"
+      - "urban_planning"
+    ethics_note: "Baurecht erfordert Abwägung zwischen Eigentümerinteressen und Nachbarschutz. Ethik-Modul bei Interessenkonflikten einbeziehen."
     content: |
       Baurechtliche Prüfung und Baugenehmigung.
       
