@@ -1,7 +1,7 @@
 # Research Documentation
 
-**Stand:** 23. Dezember 2025  
-**Version:** 1.0  
+**Stand:** 10. Februar 2026  
+**Version:** 1.1  
 **Kategorie:** 🔬 Research & Scientific Findings
 
 ---
@@ -23,6 +23,12 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 | [**IMPLEMENTATION_VALIDATION_GUIDE.md**](IMPLEMENTATION_VALIDATION_GUIDE.md) | 🇩🇪 DE | **Implementierungs- und Test-Guide:** Feature Flags, Benchmark-Verfahren, Rollback-Strategien | ✅ Complete |
 | [**ADDITIONAL_SOURCES.md**](ADDITIONAL_SOURCES.md) | 🇩🇪 DE | **Erweiterte Quellen:** Weitere Konferenzen, Usability-Optimierungen, Online-Ressourcen, Open-Source Projekte | ✅ Complete |
 
+### Adaptive Learning & Self-Tuning
+
+| Dokument | Sprache | Beschreibung | Status |
+|----------|---------|--------------|--------|
+| [**ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md**](ADAPTIVE_LEARNING_CORE_SELBSTOPTIMIERUNG.md) | 🇩🇪 DE | **Adaptive Learning Core:** Mechanismen für Selbstoptimierung & Kernanalyse, autonomes Self-Tuning, Performance-Metriken-Erfassung, Rollback-Strategien | ✅ Complete |
+
 **Inhalt:**
 - 25+ Research Papers aus SIGMOD, VLDB, OSDI, NeurIPS
 - 10 Optimierungsbereiche (LSM-Trees, Vector Search, Graph Processing, etc.)
@@ -34,6 +40,10 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 - **NEU:** Usability & Developer Experience Optimierungen
 - **NEU:** Observability, Security, ML Integration
 - **NEU:** Open-Source Projekte und Online-Ressourcen zum Lernen
+- **NEU (Feb 2026):** Adaptive Learning Core mit 2+ selbstoptimierenden Ansätzen
+- **NEU (Feb 2026):** Autonomes Performance-Feedback & Rollback-Mechanismen
+- **NEU (Feb 2026):** Industriestandards (Google Spanner, AWS Aurora, SQL Server, CockroachDB)
+- **NEU (Feb 2026):** Open Source Libraries für Self-Tuning (OtterTune, ALEX, HypoPG, etc.)
 - Vollständige Referenzen und Zitationen
 
 ---
@@ -63,6 +73,12 @@ Dieses Verzeichnis enthält research-basierte Dokumentation und wissenschaftlich
 ### 5. Query Optimization
 - Eddies: Adaptive Query Processing (+50-100%)
 - Bao: ML-based Optimizer (+30-70%)
+
+### 6. Adaptive Learning & Self-Tuning
+- Regelbasierte Systeme: Threshold-based Auto-Tuning
+- ML-basierte Optimierung: Reinforcement Learning für Query Optimization
+- Shadow Mode, Canary Deployments, Versionierung
+- Neo, Bao, OtterTune für autonomes Tuning
 
 ---
 
@@ -207,6 +223,6 @@ cat docs/de/research/WISSENSCHAFTLICHE_PERFORMANCE_OPTIMIERUNGEN.md
 ---
 
 **Erstellt von:** GitHub Copilot  
-**Datum:** 23. Dezember 2025  
-**Version:** 1.0  
+**Datum:** 10. Februar 2026  
+**Version:** 1.1  
 **Status:** 🔬 Active Research
