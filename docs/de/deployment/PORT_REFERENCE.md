@@ -113,6 +113,23 @@ config.tls_ca_cert_path = "/etc/themisdb/certs/ca.crt";
 config.tls_require_client_cert = true;  // For mTLS
 ```
 
+**Security Posture:**
+- ✅ **Production Mode**: TLS encryption is **mandatory** - server will refuse to start without TLS
+- ⚠️ **Development Mode**: TLS is optional for local testing
+- 🔒 **Override**: Use `--allow-insecure-wire-protocol` flag to bypass (not recommended)
+
+**Production Configuration:**
+```yaml
+# config.yaml
+wire_protocol:
+  enable_tls: true  # REQUIRED in production
+  tls_cert_path: /path/to/server.crt
+  tls_key_path: /path/to/server.key
+  tls_ca_cert_path: /path/to/ca.crt  # Optional: for mTLS
+  tls_require_client_cert: true      # Optional: enforce mTLS
+  port: 18765
+```
+
 **Docker Mapping:**
 ```yaml
 ports:
