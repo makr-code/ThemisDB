@@ -25,6 +25,7 @@ nlohmann::json PromptMetrics::toJson() const {
     j["user_satisfaction"] = user_satisfaction;
     j["total_executions"] = total_executions;
     j["failed_executions"] = failed_executions;
+    j["feedback_count"] = feedback_count;
     
     auto last_updated_time = std::chrono::system_clock::to_time_t(last_updated);
     j["last_updated"] = last_updated_time;
@@ -43,6 +44,7 @@ PromptMetrics PromptMetrics::fromJson(const nlohmann::json& j) {
     m.user_satisfaction = j.value("user_satisfaction", 0.0);
     m.total_executions = j.value("total_executions", 0);
     m.failed_executions = j.value("failed_executions", 0);
+    m.feedback_count = j.value("feedback_count", 0);
     
     if (j.contains("last_updated")) {
         auto time_val = j["last_updated"].get<std::time_t>();
@@ -312,12 +314,11 @@ void PromptPerformanceTracker::updateAverages(
     
     // Update user satisfaction if provided
     if (user_feedback > 0.0) {
-        // Only update if we have feedback
-        if (metrics.user_satisfaction == 0.0) {
-            metrics.user_satisfaction = user_feedback;
-        } else {
-            metrics.user_satisfaction = ((metrics.user_satisfaction * (n - 1)) + user_feedback) / n;
-        }
+        metrics.feedback_count++;
+        size_t fb_count = metrics.feedback_count;
+        
+        // Calculate incremental average for satisfaction
+        metrics.user_satisfaction = ((metrics.user_satisfaction * (fb_count - 1)) + user_feedback) / fb_count;
     }
     
     // Update timestamp

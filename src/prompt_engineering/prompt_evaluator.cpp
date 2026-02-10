@@ -230,6 +230,12 @@ bool PromptEvaluator::isStatisticallySignificant(
     }
     new_mean /= new_scores.size();
     
+    // Handle division by zero case
+    if (std::abs(baseline_mean) < 1e-10) {
+        // If baseline is essentially zero, any positive new mean is an improvement
+        return new_mean > 0.05;
+    }
+    
     // Simple check: new mean must be significantly higher
     // For a full implementation, use proper t-test
     double improvement = (new_mean - baseline_mean) / baseline_mean;

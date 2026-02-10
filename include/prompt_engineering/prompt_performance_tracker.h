@@ -38,6 +38,7 @@ struct PromptMetrics {
     double user_satisfaction = 0.0;                 ///< User feedback score (0.0-1.0)
     size_t total_executions = 0;                    ///< Total number of executions
     size_t failed_executions = 0;                   ///< Number of failed executions
+    size_t feedback_count = 0;                      ///< Number of feedback entries received
     std::chrono::system_clock::time_point last_updated;  ///< Last update timestamp
     std::chrono::system_clock::time_point created_at;    ///< Creation timestamp
     
