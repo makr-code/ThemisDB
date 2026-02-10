@@ -859,7 +859,7 @@ graph TB
 **Operations:**
 - ⚙️ [Configuration Guide](docs/en/guides/guides_configuration.md) - Server configuration
 - 📊 [Monitoring & Metrics](docs/de/observability/observability_prometheus.md) - Prometheus and Grafana
-- 💾 [Backup & Recovery](docs/de/guides/guides_deployment.md#backup--recovery) - Data protection
+- 💾 [Backup & Recovery](docs/BACKUP_RESTORE_DOCS_INDEX.md) - Comprehensive data protection guide
 - ⚡ [Performance Tuning](docs/de/performance/performance_memory.md) - Optimization tips
 
 **Development:**
