@@ -1,0 +1,201 @@
+name: Code Statistics
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  schedule:
+    # Läuft täglich um 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  count-stats:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Count Lines of Code and Files
+        run: |
+          echo "📊 Code Statistics für ThemisDB"
+          echo "================================"
+          echo "📁 Verzeichnisse: ./include, ./src"
+          echo "💻 Dateitypen: .c, .cpp, .cc, .cxx, .h, .hpp, .hxx"
+          echo ""
+          
+          # Compilierbare Dateien zählen
+          code_files=$(find ./include ./src -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" -o -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) 2>/dev/null | wc -l)
+          echo "📁 Compilierbare Dateien: $code_files"
+          echo ""
+          
+          # Zeilen Code zählen
+          total_lines=$(find ./include ./src -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" -o -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) -exec cat {} + 2>/dev/null | wc -l)
+          echo "📝 Gesamte Zeilen Code: $total_lines"
+          echo ""
+          
+          # Code-Zeilen nach Dateityp
+          echo "📊 Zeilen nach Dateityp:"
+          echo "------------------------"
+          
+          # C-Dateien
+          c_lines=$(find ./include ./src -type f -name "*.c" -exec cat {} + 2>/dev/null | wc -l)
+          c_files=$(find ./include ./src -type f -name "*.c" 2>/dev/null | wc -l)
+          if [ $c_files -gt 0 ]; then
+            echo "  .c:   $c_lines Zeilen ($c_files Dateien)"
+          fi
+          
+          # C++ Source-Dateien
+          cpp_lines=$(find ./include ./src -type f \( -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" \) -exec cat {} + 2>/dev/null | wc -l)
+          cpp_files=$(find ./include ./src -type f \( -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" \) 2>/dev/null | wc -l)
+          if [ $cpp_files -gt 0 ]; then
+            echo "  .cpp: $cpp_lines Zeilen ($cpp_files Dateien)"
+          fi
+          
+          # Header-Dateien
+          h_lines=$(find ./include ./src -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) -exec cat {} + 2>/dev/null | wc -l)
+          h_files=$(find ./include ./src -type f \( -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) 2>/dev/null | wc -l)
+          if [ $h_files -gt 0 ]; then
+            echo "  .h:   $h_lines Zeilen ($h_files Dateien)"
+          fi
+          
+          echo ""
+          
+          # Statistik nach Verzeichnis
+          echo "📂 Zeilen nach Verzeichnis:"
+          echo "---------------------------"
+          
+          if [ -d "./include" ]; then
+            include_lines=$(find ./include -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" -o -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) -exec cat {} + 2>/dev/null | wc -l)
+            include_files=$(find ./include -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" -o -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) 2>/dev/null | wc -l)
+            echo "  ./include: $include_lines Zeilen ($include_files Dateien)"
+          fi
+          
+          if [ -d "./src" ]; then
+            src_lines=$(find ./src -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" -o -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) -exec cat {} + 2>/dev/null | wc -l)
+            src_files=$(find ./src -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.cc" -o -name "*.cxx" -o -name "*.h" -o -name "*.hpp" -o -name "*.hxx" \) 2>/dev/null | wc -l)
+            echo "  ./src:     $src_lines Zeilen ($src_files Dateien)"
+          fi
+          
+          echo ""
+          echo "================================"
+          
+          # Statistik in Environment exportieren
+          echo "CODE_FILES=$code_files" >> $GITHUB_ENV
+          echo "TOTAL_LINES=$total_lines" >> $GITHUB_ENV
+      
+      - name: Install cloc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cloc
+      
+      - name: Detailed Statistics with cloc
+        run: |
+          echo ""
+          echo "🔍 Detaillierte Statistiken mit cloc:"
+          echo "======================================"
+          if [ -d "./include" ] || [ -d "./src" ]; then
+            cloc ./include ./src --include-lang=C,C++,"C/C++ Header" --md 2>/dev/null || echo "Keine Dateien gefunden"
+          else
+            echo "⚠️  Verzeichnisse ./include und ./src nicht gefunden"
+          fi
+      
+      - name: Create Badge Data
+        run: |
+          mkdir -p badges
+          
+          # Badge für Lines of Code
+          cat > badges/lines-of-code.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "lines of code",
+            "message": "${{ env.TOTAL_LINES }}",
+            "color": "blue"
+          }
+          EOF
+          
+          # Badge für File Count
+          cat > badges/file-count.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "files",
+            "message": "${{ env.CODE_FILES }}",
+            "color": "green"
+          }
+          EOF
+          
+          echo "✅ Badge-Daten erstellt"
+          cat badges/lines-of-code.json
+          cat badges/file-count.json
+      
+      - name: Deploy to badges branch
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Badges branch auschecken oder erstellen
+          git fetch origin badges 2>/dev/null || git checkout --orphan badges || git checkout badges
+          git checkout badges 2>/dev/null || git checkout --orphan badges
+          
+          # Alle Dateien außer badges löschen
+          git rm -rf . 2>/dev/null || true
+          
+          # Badge-Dateien hinzufügen
+          mkdir -p badges
+          cat > badges/lines-of-code.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "lines of code",
+            "message": "${{ env.TOTAL_LINES }}",
+            "color": "blue"
+          }
+          EOF
+          
+          cat > badges/file-count.json << EOF
+          {
+            "schemaVersion": 1,
+            "label": "files",
+            "message": "${{ env.CODE_FILES }}",
+            "color": "green"
+          }
+          EOF
+          
+          # README für badges branch
+          cat > README.md << EOF
+          # ThemisDB Badges
+          
+          Automatisch generierte Badge-Daten für Code-Statistiken.
+          
+          Letzte Aktualisierung: $(date)
+          EOF
+          
+          git add badges/ README.md
+          git commit -m "Update badges: ${{ env.TOTAL_LINES }} lines, ${{ env.CODE_FILES }} files" || echo "Keine Änderungen"
+          git push origin badges || git push --set-upstream origin badges
+      
+      - name: Summary
+        run: |
+          echo "### 📊 ThemisDB Code Statistiken" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Scope:** \`./include\` und \`./src\` (nur compilierbare Dateien)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metrik | Wert |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 💻 Compilierbare Dateien | ${{ env.CODE_FILES }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📝 Gesamte Zeilen Code | ${{ env.TOTAL_LINES }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "🕐 Letzte Aktualisierung: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🏷️ Badges für README" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Fügen Sie diese Zeilen zu Ihrer README.md hinzu:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```markdown' >> $GITHUB_STEP_SUMMARY
+          echo "![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/badges/badges/lines-of-code.json)" >> $GITHUB_STEP_SUMMARY
+          echo "![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/badges/badges/file-count.json)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
