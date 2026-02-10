@@ -1053,6 +1053,14 @@ audit-evidence/
 - **Security Policy:** `/SECURITY.md`
 - **Release Checklist:** [Link to release checklist]
 
+### Completed Audit Reports
+
+- **v1.4.1 Audit Reports:** [`docs/audit-reports/v1.4.1/`](../audit-reports/v1.4.1/README.md) - Complete audit package for v1.4.1 release (January 2026)
+  - 12 comprehensive audit reports covering code quality, security, testing, compliance, performance, deployment, and dependencies
+  - 62 findings documented with risk assessment and remediation tracking
+  - Overall score: 89.3/100 (B+ grade)
+  - Status: ✅ Production Ready with Conditions
+
 ---
 
 ## How to Use This Template
