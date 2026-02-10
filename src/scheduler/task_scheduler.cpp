@@ -1,5 +1,7 @@
 #include "scheduler/task_scheduler.h"
 #include "scheduler/event_trigger.h"
+#include "scheduler/task_audit_manager.h"
+#include "scheduler/task_audit_event.h"
 #include "query/query_engine.h"
 #include "query/aql_runner.h"
 #include "security/aql_injection_detector.h"
@@ -32,10 +34,25 @@ namespace themis {
 
 // ===== TaskScheduler Implementation =====
 
-TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, Changefeed* changefeed)
+TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
+                             Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger)
     : query_engine_(query_engine), changefeed_(changefeed), config_(config) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
+    }
+    
+    // Initialize audit manager if audit logging is enabled
+    if (config_.enable_audit_logging) {
+        scheduler::TaskAuditConfig audit_config;
+        audit_config.enable_audit_logging = config_.enable_audit_logging;
+        audit_config.enable_anomaly_detection = config_.enable_anomaly_detection;
+        audit_config.enable_gdpr_mode = config_.enable_gdpr_mode;
+        
+        audit_manager_ = std::make_shared<scheduler::TaskAuditManager>(
+            audit_logger, audit_config);
+        
+        THEMIS_INFO("TaskScheduler audit logging enabled (anomaly_detection={}, gdpr_mode={})",
+                   config_.enable_anomaly_detection, config_.enable_gdpr_mode);
     }
     
     // Initialize event trigger manager if changefeed is provided
@@ -195,6 +212,34 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
     THEMIS_INFO("Registered task: {} (name={}, trigger_type={})",
                 id, sanitized_task.name,
                 static_cast<int>(sanitized_task.trigger_type));
+    
+    // Log audit event for task registration
+    if (audit_manager_) {
+        scheduler::TaskAuditEvent event;
+        event.uuid = scheduler::generateUUID();
+        event.timestamp = std::chrono::system_clock::now();
+        event.task_id = id;
+        event.task_name = sanitized_task.name;
+        event.task_description = sanitized_task.description;
+        event.event_type = scheduler::TaskEventType::TASK_REGISTERED;
+        event.trigger_type = [&]() {
+            switch (sanitized_task.trigger_type) {
+                case ScheduledTask::TriggerType::CRON: return "CRON";
+                case ScheduledTask::TriggerType::CDC_EVENT: return "CDC";
+                case ScheduledTask::TriggerType::INTERVAL: return "INTERVAL";
+                case ScheduledTask::TriggerType::MANUAL: return "MANUAL";
+                case ScheduledTask::TriggerType::WEBHOOK: return "WEBHOOK";
+                default: return "UNKNOWN";
+            }
+        }();
+        event.success = true;
+        event.user_id = "system"; // TODO: Get from auth context
+        event.ip_address = "localhost"; // TODO: Get from request context
+        event.metadata["cron_expression"] = sanitized_task.cron_expression;
+        event.metadata["interval_ms"] = sanitized_task.interval.count();
+        
+        audit_manager_->logAuditEvent(event);
+    }
     
     if (config_.persist_tasks) {
         saveTasks();
@@ -510,6 +555,31 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     
     auto start = std::chrono::steady_clock::now();
     
+    // Create audit event for task start
+    scheduler::TaskAuditEvent start_event;
+    if (audit_manager_) {
+        start_event.uuid = scheduler::generateUUID();
+        start_event.timestamp = std::chrono::system_clock::now();
+        start_event.task_id = task->id;
+        start_event.task_name = task->name;
+        start_event.task_description = task->description;
+        start_event.event_type = scheduler::TaskEventType::TASK_STARTED;
+        start_event.trigger_type = [&]() {
+            switch (task->trigger_type) {
+                case ScheduledTask::TriggerType::CRON: return "CRON";
+                case ScheduledTask::TriggerType::CDC_EVENT: return "CDC";
+                case ScheduledTask::TriggerType::INTERVAL: return "INTERVAL";
+                case ScheduledTask::TriggerType::MANUAL: return "MANUAL";
+                case ScheduledTask::TriggerType::WEBHOOK: return "WEBHOOK";
+                default: return "UNKNOWN";
+            }
+        }();
+        start_event.user_id = "system";
+        start_event.ip_address = "localhost";
+        
+        audit_manager_->logAuditEvent(start_event);
+    }
+    
     try {
         nlohmann::json result;
         
@@ -544,11 +614,46 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         THEMIS_DEBUG("Executed task {} ({}): {:.2f}ms",
                      task->id, task->name, elapsed_ms);
         
+        // Log audit event for successful completion
+        if (audit_manager_) {
+            scheduler::TaskAuditEvent completion_event;
+            completion_event.uuid = scheduler::generateUUID();
+            completion_event.timestamp = std::chrono::system_clock::now();
+            completion_event.duration_ms = elapsed_ms;
+            completion_event.task_id = task->id;
+            completion_event.task_name = task->name;
+            completion_event.task_description = task->description;
+            completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
+            completion_event.trigger_type = start_event.trigger_type;
+            completion_event.user_id = "system";
+            completion_event.ip_address = "localhost";
+            completion_event.success = true;
+            
+            // Resource usage (basic metrics)
+            completion_event.resource_usage.execution_time_ms = elapsed_ms;
+            completion_event.resource_usage.cpu_time_ms = elapsed_ms; // Approximate
+            
+            // Extract result metrics if available
+            if (result.is_object()) {
+                if (result.contains("rows")) {
+                    completion_event.resource_usage.result_rows = result["rows"].get<uint64_t>();
+                }
+                if (result.contains("affected")) {
+                    completion_event.resource_usage.affected_rows = result["affected"].get<uint64_t>();
+                }
+            }
+            
+            audit_manager_->logAuditEvent(completion_event);
+        }
+        
         if (task->on_success) {
             task->on_success(task->id, result);
         }
         
     } catch (const std::exception& e) {
+        auto end = std::chrono::steady_clock::now();
+        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        
         task->failed_executions++;
         task->last_error = e.what();
         task->last_failure_time = std::chrono::system_clock::now();
@@ -558,6 +663,51 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         
         span.recordError(e.what());
         THEMIS_ERROR("Failed to execute task {}: {}", task->id, e.what());
+        
+        // Log audit event for failure
+        if (audit_manager_) {
+            scheduler::TaskAuditEvent failure_event;
+            failure_event.uuid = scheduler::generateUUID();
+            failure_event.timestamp = std::chrono::system_clock::now();
+            failure_event.duration_ms = elapsed_ms;
+            failure_event.task_id = task->id;
+            failure_event.task_name = task->name;
+            failure_event.task_description = task->description;
+            failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
+            failure_event.trigger_type = start_event.trigger_type;
+            failure_event.user_id = "system";
+            failure_event.ip_address = "localhost";
+            failure_event.success = false;
+            failure_event.error_message = e.what();
+            failure_event.error_type = "EXECUTION_ERROR";
+            
+            // Resource usage
+            failure_event.resource_usage.execution_time_ms = elapsed_ms;
+            failure_event.resource_usage.cpu_time_ms = elapsed_ms;
+            
+            auto anomaly_metrics = audit_manager_->logAuditEvent(failure_event);
+            
+            // If anomaly detected in failures, log as security event
+            if (anomaly_metrics.is_anomalous && anomaly_metrics.failure_rate_score > 0.7) {
+                scheduler::TaskSecurityEvent security_event;
+                security_event.uuid = scheduler::generateUUID();
+                security_event.timestamp = std::chrono::system_clock::now();
+                security_event.task_id = task->id;
+                security_event.task_name = task->name;
+                security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
+                security_event.severity = "HIGH";
+                security_event.user_id = "system";
+                security_event.ip_address = "localhost";
+                security_event.violation_type = "excessive_failures";
+                security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
+                security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
+                security_event.details["failure_rate_score"] = anomaly_metrics.failure_rate_score;
+                security_event.blocked = false;
+                security_event.action_taken = "logged_for_review";
+                
+                audit_manager_->logSecurityEvent(security_event);
+            }
+        }
         
         if (task->on_failure) {
             task->on_failure(task->id, e.what());
@@ -826,9 +976,24 @@ void TaskScheduler::validateAqlQuery(const std::string& aql) const {
             THEMIS_WARN("Injection pattern detected: {}", pattern);
         }
         
-        // Note: Formal audit logging could be added here via a class-level
-        // AuditLogger instance if AccessControl integration is required.
-        // For now, structured logging via THEMIS_WARN is sufficient.
+        // Log security event for AQL injection attempt
+        if (audit_manager_) {
+            scheduler::TaskSecurityEvent security_event;
+            security_event.uuid = scheduler::generateUUID();
+            security_event.timestamp = std::chrono::system_clock::now();
+            security_event.event_type = scheduler::TaskSecurityEventType::AQL_INJECTION_DETECTED;
+            security_event.severity = "CRITICAL";
+            security_event.user_id = "system";
+            security_event.ip_address = "localhost";
+            security_event.violation_type = "aql_injection";
+            security_event.description = "AQL injection detected: " + validation_result.error_message;
+            security_event.details["detected_patterns"] = validation_result.detected_patterns;
+            security_event.details["query_excerpt"] = aql.substr(0, std::min(size_t(100), aql.length()));
+            security_event.blocked = true;
+            security_event.action_taken = "query_rejected";
+            
+            audit_manager_->logSecurityEvent(security_event);
+        }
         
         throw std::invalid_argument("AQL query validation failed: " + validation_result.error_message);
     }
@@ -848,6 +1013,28 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
     
     if (task.timeout > MAX_TIMEOUT) {
         auto max_timeout_ms = std::chrono::duration_cast<std::chrono::milliseconds>(MAX_TIMEOUT).count();
+        
+        // Log security event for excessive timeout
+        if (audit_manager_) {
+            scheduler::TaskSecurityEvent security_event;
+            security_event.uuid = scheduler::generateUUID();
+            security_event.timestamp = std::chrono::system_clock::now();
+            security_event.task_id = task.id;
+            security_event.task_name = task.name;
+            security_event.event_type = scheduler::TaskSecurityEventType::RESOURCE_LIMIT_EXCEEDED;
+            security_event.severity = "MEDIUM";
+            security_event.user_id = "system";
+            security_event.ip_address = "localhost";
+            security_event.violation_type = "timeout_limit_exceeded";
+            security_event.description = "Task timeout exceeds maximum allowed";
+            security_event.details["requested_timeout_ms"] = task.timeout.count();
+            security_event.details["max_timeout_ms"] = max_timeout_ms;
+            security_event.blocked = true;
+            security_event.action_taken = "task_rejected";
+            
+            audit_manager_->logSecurityEvent(security_event);
+        }
+        
         throw std::invalid_argument("Task timeout exceeds maximum allowed: " + 
                                    std::to_string(max_timeout_ms) + " milliseconds");
     }
@@ -982,6 +1169,29 @@ bool TaskScheduler::checkRateLimit(const std::string& task_id) const {
     
     // Check if limit is exceeded
     if (times.size() >= max_executions) {
+        // Log security event for rate limit exceeded
+        if (audit_manager_) {
+            scheduler::TaskSecurityEvent security_event;
+            security_event.uuid = scheduler::generateUUID();
+            security_event.timestamp = std::chrono::system_clock::now();
+            security_event.task_id = task_id;
+            security_event.event_type = scheduler::TaskSecurityEventType::RATE_LIMIT_EXCEEDED;
+            security_event.severity = "MEDIUM";
+            security_event.user_id = "system";
+            security_event.ip_address = "localhost";
+            security_event.violation_type = "manual_execution_rate_limit";
+            security_event.description = "Task execution rate limit exceeded";
+            security_event.details["executions_in_window"] = times.size();
+            security_event.details["max_executions"] = max_executions;
+            security_event.details["window_minutes"] = 1;
+            security_event.blocked = true;
+            security_event.action_taken = "execution_denied";
+            
+            // Using const_cast here as this is a security logging operation
+            // that doesn't modify the logical state of the TaskScheduler
+            const_cast<TaskScheduler*>(this)->audit_manager_->logSecurityEvent(security_event);
+        }
+        
         return false;
     }
     

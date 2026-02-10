@@ -44,6 +44,14 @@ class Changefeed;
 class EventTriggerManager;
 class CronExpression;
 
+namespace utils {
+    class AuditLogger;
+}
+
+namespace scheduler {
+    class TaskAuditManager;
+}
+
 /**
  * @brief Represents a scheduled task with AQL query or custom function
  */
@@ -192,6 +200,11 @@ public:
         bool persist_tasks = false;            // Save tasks to disk for recovery
         std::string persistence_path = "data/tasks";  // Path for task persistence
         bool allow_task_overlap = false;       // Allow same task to run concurrently
+        
+        // Audit and anomaly detection
+        bool enable_audit_logging = true;      // Enable comprehensive audit logging
+        bool enable_anomaly_detection = true;  // Enable anomaly detection
+        bool enable_gdpr_mode = false;         // Enable GDPR-compliant data masking
     };
     
     /**
@@ -199,14 +212,16 @@ public:
      * @param query_engine Query engine for executing AQL queries
      * @param config Scheduler configuration
      * @param changefeed Optional changefeed for CDC event triggers (nullptr = no CDC support)
+     * @param audit_logger Optional audit logger for tamper-evident logging (nullptr = basic logging)
      * 
-     * Note: The optional changefeed parameter maintains backward compatibility.
+     * Note: The optional parameters maintain backward compatibility.
      * Existing code using TaskScheduler(query_engine, config) continues to work.
-     * New code can add changefeed for CDC event trigger support.
+     * New code can add changefeed for CDC event trigger support and audit_logger for comprehensive auditing.
      */
     explicit TaskScheduler(QueryEngine* query_engine, 
                           const Config& config,
-                          Changefeed* changefeed = nullptr);
+                          Changefeed* changefeed = nullptr,
+                          std::shared_ptr<utils::AuditLogger> audit_logger = nullptr);
     ~TaskScheduler();
     
     // Lifecycle management
@@ -310,12 +325,23 @@ public:
      * @return Task details or nullptr if not found
      */
     std::shared_ptr<ScheduledTask> getTask(const std::string& task_id) const;
+    
+    /**
+     * @brief Get audit manager for querying audit events
+     * @return Shared pointer to audit manager (may be nullptr if audit logging disabled)
+     */
+    std::shared_ptr<scheduler::TaskAuditManager> getAuditManager() const {
+        return audit_manager_;
+    }
 
 private:
     // Core components
     QueryEngine* query_engine_;
     Changefeed* changefeed_;
     Config config_;
+    
+    // Audit and anomaly detection
+    std::shared_ptr<scheduler::TaskAuditManager> audit_manager_;
     
     // Function registry
     std::map<std::string, TaskFunction> functions_;
