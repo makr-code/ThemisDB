@@ -616,3 +616,314 @@ Before deploying the autonomous self-improvement system:
 - Background optimization workers
 - Prometheus metrics export
 
+
+### 7. FeedbackCollector (`feedback_collector.h`) ⭐ **NEW - Phase 4**
+
+**Purpose**: Collect and analyze feedback for quality-driven optimization
+
+**Key Features**:
+- 10 feedback types (user feedback, system errors, hallucinations)
+- Complete context capture (query, response, metadata)
+- Failed query analysis with pattern extraction
+- Statistical aggregation per prompt and system-wide
+- RocksDB persistence for durability
+- Problem identification and prioritization
+
+**Example Usage**:
+```cpp
+FeedbackCollector collector;
+
+// Record user feedback
+collector.recordFeedback(
+    "prompt_id",
+    "What is AI?",
+    "AI stands for...",
+    FeedbackType::USER_POSITIVE,
+    "Very helpful!",
+    0.9  // High satisfaction
+);
+
+// Record system-detected issue
+collector.recordFeedback(
+    "prompt_id",
+    "Capital of Atlantis?",
+    "Poseidon City...",
+    FeedbackType::HALLUCINATION_DETECTED,
+    "Fabricated information",
+    0.8  // High severity
+);
+
+// Get statistics
+auto stats = collector.getStats("prompt_id");
+std::cout << "Positive ratio: " << stats.positive_ratio << "\n";
+std::cout << "Hallucinations: " << stats.hallucination_count << "\n";
+
+// Identify problematic prompts
+auto problematic = collector.getPromptsWithNegativeFeedback(0.3, 10);
+for (const auto& id : problematic) {
+    // Trigger optimization
+}
+
+// Analyze failure patterns
+auto patterns = collector.analyzeFailurePatterns("prompt_id", 3);
+for (const auto& pattern : patterns) {
+    std::cout << "Pattern: " << pattern.pattern 
+              << " (x" << pattern.occurrences << ")\n";
+}
+
+// Get failed queries for test case generation
+auto failed = collector.getFailedQueries("prompt_id", 100);
+std::vector<TestCase> test_cases;
+for (const auto& [query, response, type] : failed) {
+    test_cases.push_back({query, response, {}});
+}
+```
+
+**Feedback Types**:
+- `USER_POSITIVE`: Explicitly marked as helpful
+- `USER_NEGATIVE`: Explicitly marked as unhelpful
+- `HALLUCINATION_DETECTED`: System detected false information
+- `TIMEOUT`: Query execution timeout
+- `PARSE_ERROR`: Failed to parse response
+- `VALIDATION_FAILED`: Response validation failed
+- `CONTEXT_MISSING`: Required context missing
+- `AMBIGUOUS_OUTPUT`: Unclear output
+- `SECURITY_ISSUE`: Security concern
+- `PERFORMANCE_ISSUE`: Performance degradation
+
+**Integration with Optimization**:
+```cpp
+// In optimization workflow
+auto problematic = feedback_collector->getPromptsWithNegativeFeedback();
+
+for (const auto& prompt_id : problematic) {
+    // Get failure context
+    auto failed = feedback_collector->getFailedQueries(prompt_id);
+    auto patterns = feedback_collector->analyzeFailurePatterns(prompt_id);
+    
+    // Generate test cases from failures
+    std::vector<TestCase> test_cases;
+    for (const auto& [query, response, type] : failed) {
+        test_cases.push_back({query, response, {}});
+    }
+    
+    // Optimize with context
+    auto result = orchestrator->optimizePrompt(prompt_id, test_cases);
+    
+    THEMIS_INFO("Optimized {} addressing {} failure patterns",
+                prompt_id, patterns.size());
+}
+```
+
+## Enhanced Autonomous Workflow (Phases 1-4 Complete)
+
+With Phase 4 complete, the system now has a complete quality management cycle:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     Execution Phase                              │
+│  1. LLM generates response using prompt template                 │
+│  2. PromptPerformanceTracker records metrics (Phase 2)           │
+│  3. FeedbackCollector records quality feedback (Phase 4)         │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     Analysis Phase                               │
+│  1. Performance analysis (success rate, latency)                 │
+│  2. Feedback analysis (patterns, common issues)                  │
+│  3. Problem identification (low performers)                      │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   Trigger Decision                               │
+│  1. SelfImprovementOrchestrator.shouldOptimize()                 │
+│  2. Check performance AND feedback thresholds                    │
+│  3. Retrieve failure context from FeedbackCollector              │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   Optimization Phase                             │
+│  1. Generate test cases from failed queries                      │
+│  2. PromptOptimizer with failure context                         │
+│  3. MetaPromptGenerator with pattern insights                    │
+│  4. PromptEvaluator validates improvements                       │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      A/B Testing Phase                           │
+│  1. Start A/B test with original vs. optimized                   │
+│  2. Route traffic, collect metrics AND feedback                  │
+│  3. Statistical analysis of performance + satisfaction           │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Deployment & Monitoring                       │
+│  1. Deploy optimized version                                     │
+│  2. Continue collecting feedback                                 │
+│  3. Monitor for quality regression                               │
+│  4. Auto-rollback if issues increase                             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Complete Integration Example (Phases 1-4)
+
+```cpp
+#include "prompt_engineering/prompt_manager.h"
+#include "prompt_engineering/prompt_performance_tracker.h"
+#include "prompt_engineering/prompt_optimizer.h"
+#include "prompt_engineering/prompt_evaluator.h"
+#include "prompt_engineering/self_improvement_orchestrator.h"
+#include "prompt_engineering/feedback_collector.h"
+
+using namespace themis::prompt_engineering;
+
+// Initialize all components
+auto manager = std::make_shared<PromptManager>(db, cf);
+auto tracker = std::make_shared<PromptPerformanceTracker>(db, cf);
+auto optimizer = std::make_shared<PromptOptimizer>();
+auto evaluator = std::make_shared<PromptEvaluator>();
+auto feedback_collector = std::make_shared<FeedbackCollector>(db, cf);
+
+// Configure autonomous improvement
+ImprovementConfig config;
+config.min_success_rate = 0.8;
+config.enable_ab_testing = true;
+
+auto orchestrator = std::make_shared<SelfImprovementOrchestrator>(
+    config, tracker, optimizer, manager, evaluator
+);
+
+// In your LLM call wrapper:
+void executeLLMQuery(const std::string& prompt_id, const std::string& query) {
+    auto start = std::chrono::high_resolution_clock::now();
+    
+    // Get prompt template
+    auto prompt = manager->getPromptWithContext(prompt_id, {{"query", query}});
+    
+    // Execute LLM
+    std::string response;
+    try {
+        response = llm->generate(prompt.value());
+    } catch (const std::exception& e) {
+        // Record error feedback
+        feedback_collector->recordFeedback(
+            prompt_id, query, "",
+            FeedbackType::PARSE_ERROR,
+            e.what(),
+            0.8
+        );
+        throw;
+    }
+    
+    auto end = std::chrono::high_resolution_clock::now();
+    double latency = std::chrono::duration<double, std::milli>(end - start).count();
+    
+    // Track performance (Phase 2)
+    bool success = !response.empty();
+    tracker->recordExecution(prompt_id, success, latency);
+    
+    // Detect hallucinations (Phase 4)
+    if (detectHallucination(response)) {
+        feedback_collector->recordFeedback(
+            prompt_id, query, response,
+            FeedbackType::HALLUCINATION_DETECTED,
+            "Contradiction with knowledge base",
+            0.9
+        );
+    }
+}
+
+// Periodic optimization with feedback (e.g., hourly):
+void scheduledOptimization() {
+    // Get prompts with performance issues
+    auto low_performers = tracker->getLowPerformingPrompts(0.7, 100);
+    
+    // Get prompts with negative feedback
+    auto negative_feedback = feedback_collector->getPromptsWithNegativeFeedback(0.3, 10);
+    
+    // Combine and deduplicate
+    std::unordered_set<std::string> candidates(low_performers.begin(), low_performers.end());
+    candidates.insert(negative_feedback.begin(), negative_feedback.end());
+    
+    for (const auto& prompt_id : candidates) {
+        if (orchestrator->shouldOptimize(prompt_id)) {
+            // Get failure context from feedback
+            auto failed_queries = feedback_collector->getFailedQueries(prompt_id, 50);
+            auto patterns = feedback_collector->analyzeFailurePatterns(prompt_id);
+            
+            // Generate test cases from failures
+            std::vector<TestCase> test_cases;
+            for (const auto& [query, response, type] : failed_queries) {
+                test_cases.push_back({query, response, {}});
+            }
+            
+            // Log optimization context
+            THEMIS_INFO("Optimizing {} with {} failure patterns",
+                       prompt_id, patterns.size());
+            for (const auto& pattern : patterns) {
+                THEMIS_DEBUG("  Pattern: {} ({} occurrences)",
+                            pattern.pattern, pattern.occurrences);
+            }
+            
+            // Optimize with context
+            auto result = orchestrator->optimizePrompt(prompt_id, test_cases);
+            
+            THEMIS_INFO("Optimization complete: {}% improvement",
+                       result.improvement * 100);
+        }
+    }
+}
+
+// User feedback collection:
+void recordUserFeedback(const std::string& prompt_id,
+                       const std::string& query,
+                       const std::string& response,
+                       int rating,  // 1-5
+                       const std::string& comment) {
+    FeedbackType type = (rating >= 4) ? 
+        FeedbackType::USER_POSITIVE : 
+        FeedbackType::USER_NEGATIVE;
+    
+    double severity = 1.0 - (rating / 5.0);
+    
+    feedback_collector->recordFeedback(
+        prompt_id, query, response, type, comment, severity
+    );
+}
+```
+
+## Production Deployment Checklist (Updated for Phase 4)
+
+Before deploying the autonomous self-improvement system:
+
+- [ ] Configure `ImprovementConfig` for your workload
+- [ ] Set up RocksDB persistence for metrics and feedback
+- [ ] Define test cases for critical prompts
+- [ ] Enable A/B testing for production safety
+- [ ] Configure rollback thresholds
+- [ ] **NEW: Set up feedback collection triggers**
+- [ ] **NEW: Configure hallucination detection**
+- [ ] **NEW: Define feedback aggregation schedules**
+- [ ] Set up monitoring and alerting
+- [ ] Schedule periodic `runAutoOptimization()` calls
+- [ ] Test rollback mechanism
+- [ ] Document prompt templates in YAML
+- [ ] Set up logging and audit trails
+- [ ] **NEW: Configure feedback retention policies**
+- [ ] **NEW: Set up quality dashboards**
+
+## Performance Impact (Updated)
+
+### Phases 1-4 Combined:
+- **Overall overhead**: ~0.5-1.0% (all components)
+- **PromptPerformanceTracker**: ~0.1% (Phase 2)
+- **SelfImprovementOrchestrator**: ~0.1% (Phase 3)
+- **FeedbackCollector**: ~0.1-0.5% (Phase 4)
+- **Memory per prompt**: ~2-3KB (all metadata)
+- **Optimization frequency**: Configurable (default: 24h)
+
