@@ -373,6 +373,8 @@ TEST_F(PITRManagerComprehensiveTest, RestoreWithDeleteEvents) {
     // Restore to before deletions
     auto status = pitr_mgr_->restoreToSequence(5, options);
     EXPECT_TRUE(status.ok);
+}
+
 // ============================================================================
 // Disaster Recovery Scenarios
 // ============================================================================

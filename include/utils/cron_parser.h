@@ -13,11 +13,11 @@
  * - Wildcards: * (any value)
  * - Ranges: 0-5 (values from 0 to 5)
  * - Lists: 1,3,5 (specific values)
- * - Steps: */15 (every 15 units), 0-30/5 (every 5 from 0 to 30)
+ * - Steps: *\/15 (every 15 units), 0-30/5 (every 5 from 0 to 30)
  * 
  * Examples:
  * - "0 9-17 * * 1-5" = Weekdays 9-17h every hour
- * - "*/15 * * * *" = Every 15 minutes
+ * - "*\/15 * * * *" = Every 15 minutes
  * - "0 0 1 * *" = First day of month at midnight
  * - "30 2 * * 0" = Every Sunday at 2:30 AM
  */
@@ -40,7 +40,7 @@ struct CronValidationResult {
     bool is_valid = false;
     std::string error_message;
     
-    bool operator bool() const { return is_valid; }
+    operator bool() const { return is_valid; }
 };
 
 /**

@@ -24,7 +24,7 @@ protected:
         storage_ = std::make_shared<RocksDBWrapper>(cfg);
         ASSERT_TRUE(storage_->open());
         
-        changefeed_ = std::make_unique<Changefeed>(storage_->getDB());
+        changefeed_ = std::make_unique<Changefeed>(storage_->getRawDB());
         query_engine_ = std::make_unique<QueryEngine>(storage_.get());
         
         TaskScheduler::Config scheduler_config;

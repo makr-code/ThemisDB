@@ -705,9 +705,9 @@ nlohmann::json ComplianceReporter::ChangeHistoryReport::toJson() const {
         nlohmann::json change_json;
         change_json["version"] = change.version;
         change_json["timestamp"] = change.timestamp;
-        change_json["modified_by"] = change.modified_by;
+        change_json["modified_by"] = change.author;  // Use author field instead
         change_json["change_description"] = change.change_description;
-        change_json["rule"] = change.rule.toJson();
+        change_json["rule_id"] = change.rule_id;  // Store rule_id instead of full rule
         changes_json.push_back(change_json);
     }
     
@@ -726,7 +726,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toCSV() const {
     for (const auto& change : changes) {
         csv << change.version << ",";
         csv << change.timestamp << ",";
-        csv << change.modified_by << ",";
+        csv << change.author << ",";
         csv << "\"" << change.change_description << "\"\n";
     }
     
@@ -762,7 +762,7 @@ std::string ComplianceReporter::ChangeHistoryReport::toHTML() const {
     for (const auto& change : changes) {
         html << "<tr><td>" << change.version << "</td>";
         html << "<td>" << change.timestamp << "</td>";
-        html << "<td>" << change.modified_by << "</td>";
+        html << "<td>" << change.author << "</td>";
         html << "<td>" << change.change_description << "</td></tr>";
     }
     html << "</table>";
@@ -871,7 +871,7 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
         
         for (const auto& resource : rule.resources) {
             for (const auto& role : rule.required_roles) {
-                Entry entry;
+                AccessControlMatrix::Entry entry;
                 entry.role = role.empty() ? "*" : role;
                 entry.resource = resource;
                 entry.allowed_actions = rule.actions;
@@ -883,7 +883,7 @@ ComplianceReporter::AccessControlMatrix ComplianceReporter::generateAccessContro
             
             // If no required roles, create an entry for all roles
             if (rule.required_roles.empty()) {
-                Entry entry;
+                AccessControlMatrix::Entry entry;
                 entry.role = "*";
                 entry.resource = resource;
                 entry.allowed_actions = rule.actions;
@@ -912,7 +912,7 @@ ComplianceReporter::RiskAssessmentReport ComplianceReporter::generateRiskAssessm
     for (const auto& rule : all_rules) {
         // Check for disabled rules
         if (!rule.enabled) {
-            RiskItem risk;
+            RiskAssessmentReport::RiskItem risk;
             risk.risk_id = "DISABLED_" + rule.id;
             risk.severity = "medium";
             risk.description = "Policy rule is disabled: " + rule.name;
@@ -933,7 +933,7 @@ ComplianceReporter::RiskAssessmentReport ComplianceReporter::generateRiskAssessm
             }
             
             if (is_permissive && !rule.require_encryption && !rule.audit_access) {
-                RiskItem risk;
+                RiskAssessmentReport::RiskItem risk;
                 risk.risk_id = "PERMISSIVE_" + rule.id;
                 risk.severity = "high";
                 risk.description = "Overly permissive rule without encryption or audit: " + rule.name;
@@ -958,7 +958,7 @@ ComplianceReporter::RiskAssessmentReport ComplianceReporter::generateRiskAssessm
             }
             
             if (is_sensitive) {
-                RiskItem risk;
+                RiskAssessmentReport::RiskItem risk;
                 risk.risk_id = "NO_ENCRYPTION_" + rule.id;
                 risk.severity = "high";
                 risk.description = "Sensitive resource without encryption requirement: " + rule.name;
@@ -971,7 +971,7 @@ ComplianceReporter::RiskAssessmentReport ComplianceReporter::generateRiskAssessm
         
         // Check for short retention periods
         if (rule.enabled && rule.retention_days < 30) {
-            RiskItem risk;
+            RiskAssessmentReport::RiskItem risk;
             risk.risk_id = "SHORT_RETENTION_" + rule.id;
             risk.severity = "low";
             risk.description = "Short retention period (" + std::to_string(rule.retention_days) + " days): " + rule.name;
@@ -1006,7 +1006,7 @@ ComplianceReporter::ChangeHistoryReport ComplianceReporter::generateChangeHistor
         
         for (const auto& version : versions) {
             report.changes.push_back(version);
-            report.changes_by_user[version.modified_by]++;
+            report.changes_by_user[version.author]++;
         }
     }
     

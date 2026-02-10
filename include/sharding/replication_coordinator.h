@@ -18,6 +18,17 @@ namespace themis::sharding {
  */
 class ReplicationCoordinator {
 public:
+    /**
+     * Result of a replication wait operation
+     */
+    struct ReplicationResult {
+        bool success = false;                       // Whether write succeeded
+        size_t replicas_acknowledged = 0;          // Number of replicas that acknowledged
+        size_t replicas_required = 0;              // Number of replicas required by write concern
+        std::chrono::milliseconds latency{0};      // Time to acquire required acknowledgments
+        std::string error_message;                 // Error details if failed
+    };
+
     explicit ReplicationCoordinator(std::shared_ptr<WALShipper> shipper);
     ~ReplicationCoordinator();
 
@@ -26,9 +37,9 @@ public:
      * @param entry_lsn LSN of the written entry
      * @param concern Write concern level
      * @param timeout Max time to wait for acknowledgments
-     * @return WriteResult with success status and replica count
+     * @return ReplicationResult with success status and replica count
      */
-    WriteResult waitForReplication(
+    ReplicationResult waitForReplication(
         const LSN& entry_lsn,
         const WriteConcernConfig& concern
     );

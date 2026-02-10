@@ -10,6 +10,7 @@
     #include <winsock2.h>
     #include <ws2tcpip.h>
     typedef SOCKET socket_t;
+    typedef SSIZE_T ssize_t;
     #define INVALID_SOCKET_VALUE INVALID_SOCKET
 #else
     #include <sys/socket.h>

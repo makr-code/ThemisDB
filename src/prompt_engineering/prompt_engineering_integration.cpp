@@ -184,7 +184,7 @@ void BackgroundOptimizationWorker::runOptimizationCycle() {
     
     // Log results
     for (const auto& result : results) {
-        if (result.success) {
+        if (result.status == prompt_engineering::OptimizationStatus::COMPLETED) {
             // Version control automatically handles commits in orchestrator
         }
     }
@@ -288,7 +288,7 @@ ExecutionContext PromptEngineeringIntegration::beforeExecution(
         return ctx;
     }
     
-    ctx.original_prompt = template_opt.value();
+    ctx.original_prompt = template_opt.value().content;
     
     // Enhance prompt with context
     ctx.enhanced_prompt = enhancePrompt(prompt_id, context);
@@ -436,16 +436,18 @@ void PromptEngineeringIntegration::checkAndTriggerOptimization(const std::string
     // Check if optimization is needed
     auto metrics = tracker_->getMetrics(prompt_id);
     
-    if (metrics.total_executions < config_.min_executions_before_optimization) {
+    if (!metrics.has_value() || metrics->total_executions < config_.min_executions_before_optimization) {
         return;  // Not enough data yet
     }
     
-    if (metrics.success_rate < config_.min_success_rate_for_optimization) {
+    if (metrics->success_rate < config_.min_success_rate_for_optimization) {
         // Trigger optimization
         if (orchestrator_->shouldOptimize(prompt_id)) {
-            auto result = orchestrator_->optimizePrompt(prompt_id);
+            // Create empty test cases for now
+            std::vector<prompt_engineering::TestCase> empty_cases;
+            auto result = orchestrator_->optimizePrompt(prompt_id, empty_cases);
             
-            if (result.success) {
+            if (result.status == prompt_engineering::OptimizationStatus::COMPLETED) {
                 std::lock_guard<std::mutex> lock(mutex_);
                 total_optimizations_++;
                 last_optimization_ = std::chrono::system_clock::now();
@@ -454,7 +456,7 @@ void PromptEngineeringIntegration::checkAndTriggerOptimization(const std::string
                 if (config_.auto_commit_on_optimization) {
                     version_control_->commit(
                         prompt_id,
-                        result.optimized_prompt,
+                        result.optimized_version,
                         "Auto-optimization: " + std::to_string(result.improvement * 100) + "% improvement",
                         "integration_system"
                     );
@@ -473,12 +475,19 @@ std::string PromptEngineeringIntegration::enhancePrompt(
         auto latest = version_control_->getLatest(prompt_id);
         if (latest.has_value()) {
             // Use versioned content
-            return manager_->formatPrompt(prompt_id, context);
+            auto tmpl = manager_->getTemplate(prompt_id);
+            if (tmpl.has_value()) {
+                return tmpl->content;
+            }
         }
     }
     
     // Fall back to template
-    return manager_->formatPrompt(prompt_id, context);
+    auto tmpl = manager_->getTemplate(prompt_id);
+    if (tmpl.has_value()) {
+        return tmpl->content;
+    }
+    return "";
 }
 
 std::string PromptEngineeringIntegration::generateExecutionId() {

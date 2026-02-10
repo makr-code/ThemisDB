@@ -29,16 +29,16 @@ struct OptimizationConfig {
 };
 
 /**
- * @brief Prompt optimization result
+ * @brief Internal result of prompt optimization (renamed to avoid conflict with self_improvement_orchestrator.h)
  */
-struct OptimizationResult {
-    std::string optimized_prompt;      ///< Final optimized prompt
-    double final_score = 0.0;          ///< Final evaluation score
-    size_t iterations = 0;             ///< Number of iterations performed
-    bool converged = false;            ///< Whether optimization converged
-    std::vector<double> score_history; ///< Score at each iteration
-    std::vector<std::string> prompt_history; ///< Prompts at each iteration
-    nlohmann::json metadata;           ///< Additional metadata
+struct OptimizerResult {
+    std::string optimized_prompt;         ///< Final optimized prompt
+    double final_score = 0.0;             ///< Final evaluation score
+    size_t iterations = 0;                ///< Number of iterations performed
+    bool converged = false;               ///< Whether optimization converged
+    std::vector<double> score_history;    ///< Score at each iteration
+    std::vector<std::string> prompt_history; ///< Prompt at each iteration
+    nlohmann::json metadata;              ///< Additional metadata
 };
 
 /**
@@ -93,7 +93,7 @@ public:
      * @param improve_fn Improvement function (optional, uses default if not provided)
      * @return Optimization result
      */
-    OptimizationResult optimize(
+    OptimizerResult optimize(
         const std::string& initial_prompt,
         const std::vector<TestCase>& test_cases,
         EvaluationFunction eval_fn,

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "governance/policy_manager.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -12,10 +11,13 @@
 namespace themis {
 namespace governance {
 
+// Forward declaration to avoid circular include
+struct PolicyRule;
+
 /// Represents a versioned snapshot of a PolicyRule
 struct PolicyRuleVersion {
     std::string version;                               // Semantic version (major.minor.patch)
-    PolicyRule rule;                                   // The rule at this version
+    std::string rule_id;                               // ID of the rule (instead of full rule object)
     std::string author;                                // Who made this version
     std::int64_t timestamp;                            // When this version was created
     std::string change_description;                    // Description of changes

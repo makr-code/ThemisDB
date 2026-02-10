@@ -1104,7 +1104,13 @@ int main(int argc, char* argv[]) {
                     if (shard.contains("id")) {
                         std::string shard_id = shard["id"].get<std::string>();
                         hash_ring->addNode(shard_id);
-                        shard_topology->addShard(shard_id);
+                        
+                        // Create ShardInfo with at least the shard_id
+                        themis::sharding::ShardInfo info;
+                        info.shard_id = shard_id;
+                        info.is_healthy = true;
+                        shard_topology->addShard(info);
+                        
                         THEMIS_INFO("  Added shard to hash ring and topology: {}", shard_id);
                     }
                 }
@@ -1112,7 +1118,12 @@ int main(int argc, char* argv[]) {
                 // Default: add local shard
                 const std::string default_shard_id = "shard-0";
                 hash_ring->addNode(default_shard_id);
-                shard_topology->addShard(default_shard_id);
+                
+                themis::sharding::ShardInfo info;
+                info.shard_id = default_shard_id;
+                info.is_healthy = true;
+                shard_topology->addShard(info);
+                
                 THEMIS_INFO("  Added default shard to hash ring and topology: {}", default_shard_id);
             }
 

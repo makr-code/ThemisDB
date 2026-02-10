@@ -713,7 +713,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             completion_event.task_description = task->description;
             completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
             completion_event.trigger_type = start_event.trigger_type;
-            completion_setDefaultAuditContext(completion_event);
+            // TODO: completion_setDefaultAuditContext(completion_event);
             completion_event.success = true;
             
             // Resource usage (basic metrics)
@@ -762,7 +762,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.task_description = task->description;
             failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
             failure_event.trigger_type = start_event.trigger_type;
-            failure_setDefaultAuditContext(failure_event);
+            // TODO: failure_setDefaultAuditContext(failure_event);
             failure_event.success = false;
             failure_event.error_message = e.what();
             failure_event.error_type = "EXECUTION_ERROR";
@@ -782,7 +782,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.task_name = task->name;
                 security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
                 security_event.severity = "HIGH";
-                security_setDefaultAuditContext(security_event);
+                // TODO: security_setDefaultAuditContext(security_event);
                 security_event.violation_type = "excessive_failures";
                 security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
                 security_event.details["anomaly_score"] = anomaly_metrics.overall_score;

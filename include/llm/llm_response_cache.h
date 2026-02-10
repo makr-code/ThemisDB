@@ -83,6 +83,24 @@ public:
             if (h + m == 0) return 0.0;
             return static_cast<double>(h) / (h + m);
         }
+        
+        // Default constructor
+        CacheStatistics() : hits(0), misses(0), total_entries(0), avg_lookup_time_ms(0) {}
+        
+        // Explicitly define copy constructor to handle atomic members
+        CacheStatistics(const CacheStatistics& other)
+            : hits(other.hits.load(std::memory_order_relaxed)),
+              misses(other.misses.load(std::memory_order_relaxed)),
+              total_entries(other.total_entries.load(std::memory_order_relaxed)),
+              avg_lookup_time_ms(other.avg_lookup_time_ms.load(std::memory_order_relaxed)) {}
+        
+        CacheStatistics& operator=(const CacheStatistics& other) {
+            hits.store(other.hits.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            misses.store(other.misses.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            total_entries.store(other.total_entries.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            avg_lookup_time_ms.store(other.avg_lookup_time_ms.load(std::memory_order_relaxed), std::memory_order_relaxed);
+            return *this;
+        }
     };
 
     explicit LLMResponseCache(const std::string& cache_name, const Config& config);

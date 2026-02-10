@@ -12,16 +12,14 @@ class CpuBackendExactCheckTest : public ::testing::Test {
 protected:
     // Helper to create a point geometry
     GeometryInfo createPoint(double x, double y) {
-        GeometryInfo geom;
-        geom.geom_type = GeometryType::Point;
+        GeometryInfo geom(GeometryType::Point);
         geom.coords.push_back({x, y});
         return geom;
     }
     
     // Helper to create a polygon geometry
-    GeometryInfo createPolygon(const std::vector<Coord>& coords) {
-        GeometryInfo geom;
-        geom.geom_type = GeometryType::Polygon;
+    GeometryInfo createPolygon(const std::vector<Coordinate>& coords) {
+        GeometryInfo geom(GeometryType::Polygon);
         geom.rings.push_back(coords);
         return geom;
     }
@@ -54,7 +52,7 @@ TEST_F(CpuBackendExactCheckTest, PointInPolygon_Inside) {
     auto point = createPoint(10.5, 50.5);
     
     // Create a square polygon
-    std::vector<Coord> square = {
+    std::vector<Coordinate> square = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},
@@ -75,7 +73,7 @@ TEST_F(CpuBackendExactCheckTest, PointInPolygon_Outside) {
     auto point = createPoint(15.0, 55.0);
     
     // Create a square polygon
-    std::vector<Coord> square = {
+    std::vector<Coordinate> square = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},
@@ -93,7 +91,7 @@ TEST_F(CpuBackendExactCheckTest, PointInPolygon_OnEdge) {
     auto point = createPoint(10.0, 50.5);
     
     // Create a square polygon
-    std::vector<Coord> square = {
+    std::vector<Coordinate> square = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},
@@ -111,7 +109,7 @@ TEST_F(CpuBackendExactCheckTest, PointInPolygon_OnEdge) {
 
 TEST_F(CpuBackendExactCheckTest, PolygonPolygon_Overlapping) {
     // Create two overlapping squares
-    std::vector<Coord> square1 = {
+    std::vector<Coordinate> square1 = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},
@@ -119,7 +117,7 @@ TEST_F(CpuBackendExactCheckTest, PolygonPolygon_Overlapping) {
         {10.0, 50.0}
     };
     
-    std::vector<Coord> square2 = {
+    std::vector<Coordinate> square2 = {
         {10.5, 50.5},
         {11.5, 50.5},
         {11.5, 51.5},
@@ -148,7 +146,7 @@ TEST_F(CpuBackendExactCheckTest, PolygonPolygon_Overlapping) {
 
 TEST_F(CpuBackendExactCheckTest, PolygonPolygon_NonOverlapping) {
     // Create two non-overlapping squares
-    std::vector<Coord> square1 = {
+    std::vector<Coordinate> square1 = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},
@@ -156,7 +154,7 @@ TEST_F(CpuBackendExactCheckTest, PolygonPolygon_NonOverlapping) {
         {10.0, 50.0}
     };
     
-    std::vector<Coord> square2 = {
+    std::vector<Coordinate> square2 = {
         {15.0, 55.0},
         {16.0, 55.0},
         {16.0, 56.0},
@@ -186,7 +184,7 @@ TEST_F(CpuBackendExactCheckTest, PolygonPolygon_NonOverlapping) {
 TEST_F(CpuBackendExactCheckTest, PolygonPolygon_EdgeOnly_NotDetected) {
     // Create two squares that only touch at edges
     // This is a known limitation of the vertex-only check
-    std::vector<Coord> square1 = {
+    std::vector<Coordinate> square1 = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},
@@ -194,7 +192,7 @@ TEST_F(CpuBackendExactCheckTest, PolygonPolygon_EdgeOnly_NotDetected) {
         {10.0, 50.0}
     };
     
-    std::vector<Coord> square2 = {
+    std::vector<Coordinate> square2 = {
         {11.0, 50.0},  // Shares edge with square1
         {12.0, 50.0},
         {12.0, 51.0},
@@ -233,7 +231,7 @@ TEST_F(CpuBackendExactCheckTest, MBR_Computation) {
     EXPECT_EQ(mbr.maxy, 50.5);
     
     // Polygon MBR
-    std::vector<Coord> square = {
+    std::vector<Coordinate> square = {
         {10.0, 50.0},
         {11.0, 50.0},
         {11.0, 51.0},

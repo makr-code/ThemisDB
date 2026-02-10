@@ -18,6 +18,11 @@ typedef struct ssl_st SSL;
 
 namespace themis::sharding {
 
+// Custom deleter for SSL pointers
+struct SSLDeleter {
+    void operator()(SSL* ptr) const;
+};
+
 /**
  * @brief Per-Endpoint Connection Pool with dynamic scaling
  * 
@@ -81,7 +86,7 @@ public:
      * @param timeout Maximum time to wait for connection
      * @return SSL connection or nullopt if timeout/failure
      */
-    std::optional<std::unique_ptr<SSL>> getConnection(
+    std::optional<std::unique_ptr<SSL, SSLDeleter>> getConnection(
         std::chrono::milliseconds timeout = std::chrono::seconds(5)
     );
     
@@ -89,7 +94,7 @@ public:
      * @brief Return connection to pool for reuse
      * @param connection SSL connection to return
      */
-    void releaseConnection(std::unique_ptr<SSL> connection);
+    void releaseConnection(std::unique_ptr<SSL, SSLDeleter> connection);
     
     /**
      * @brief Mark connection as failed (will be replaced)
@@ -119,14 +124,14 @@ private:
      * @brief Pooled connection with metadata
      */
     struct PooledConnection {
-        std::unique_ptr<SSL> ssl;
+        std::unique_ptr<SSL, SSLDeleter> ssl;
         std::chrono::steady_clock::time_point created_at;
         std::chrono::steady_clock::time_point last_used;
         bool is_valid = true;
     };
     
     // Connection lifecycle management
-    std::optional<std::unique_ptr<SSL>> createNewConnection();
+    std::optional<std::unique_ptr<SSL, SSLDeleter>> createNewConnection();
     bool validateConnection(SSL* conn);
     bool isConnectionExpired(const PooledConnection& pooled);
     void cleanupExpiredConnections();
@@ -212,7 +217,7 @@ public:
      * @param timeout Maximum wait time
      * @return SSL connection or nullopt
      */
-    std::optional<std::unique_ptr<SSL>> getConnection(
+    std::optional<std::unique_ptr<SSL, SSLDeleter>> getConnection(
         const std::string& endpoint,
         std::chrono::milliseconds timeout = std::chrono::seconds(5)
     );
@@ -222,7 +227,7 @@ public:
      * @param endpoint Target endpoint
      * @param conn SSL connection to return
      */
-    void releaseConnection(const std::string& endpoint, std::unique_ptr<SSL> conn);
+    void releaseConnection(const std::string& endpoint, std::unique_ptr<SSL, SSLDeleter> conn);
     
     /**
      * @brief Get global statistics

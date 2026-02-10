@@ -301,7 +301,7 @@ http::response<http::string_body> PolicyManagerApiHandler::handleGetStats(
             {"total_rules", stats.total_rules},
             {"enabled_rules", stats.enabled_rules},
             {"disabled_rules", stats.disabled_rules},
-            {"rules_by_priority", stats.rules_by_priority}
+            {"rules_by_classification", stats.rules_by_classification}
         };
         
         return makeResponse(http::status::ok, response.dump(2), req);

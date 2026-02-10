@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include "server/rpc/blob_transfer_handler.h"
-#include "proto/sharding/shard_rpc.pb.h"
 #include <filesystem>
 #include <fstream>
 #include <vector>

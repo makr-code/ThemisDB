@@ -121,7 +121,7 @@ public:
      * @param query Query string (e.g., AQL query)
      * @return Combined results from all relevant shards
      */
-    nlohmann::json executeQuery(const std::string& query);
+    virtual nlohmann::json executeQuery(const std::string& query);
     
     /**
      * Determine routing strategy for a query

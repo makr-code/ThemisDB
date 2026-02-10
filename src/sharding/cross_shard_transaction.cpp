@@ -385,7 +385,7 @@ bool CrossShardTransactionCoordinator::executeSaga(
     std::vector<nlohmann::json> executed_steps;
     
     for (size_t i = 0; i < steps.size(); ++i) {
-        (void)steps[i];  // Step would be used in full implementation
+        const auto& step = steps[i];
         
         // Extract shard_id and operation from step
         if (!step.contains("shard_id") || !step.contains("operation")) {
@@ -1272,7 +1272,7 @@ bool CrossShardTransactionCoordinator::detectCycle(
     const std::string& start_node,
     std::set<std::string>& visited,
     std::set<std::string>& rec_stack
-) {
+) const {
     if (rec_stack.find(start_node) != rec_stack.end()) {
         return true;  // Cycle detected
     }

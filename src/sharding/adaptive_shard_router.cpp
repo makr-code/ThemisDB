@@ -91,6 +91,9 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
     std::set<std::string> already_queried;
     uint32_t previous_result_count = 0;
     
+    // Track elapsed time with steady_clock for consistency
+    auto execution_start = std::chrono::steady_clock::now();
+    
     // Define thresholds for each iteration
     std::vector<double> thresholds = {
         adaptive_config_.initial_threshold,
@@ -150,9 +153,10 @@ nlohmann::json AdaptiveShardRouter::executeAdaptiveQuery(
             match_results, iteration_time_ms);
         stats.iteration_details.push_back(iter_stats);
         
-        // Check stop criteria
+        // Check stop criteria - use steady_clock for total elapsed time
+        auto execution_current = std::chrono::steady_clock::now();
         uint64_t elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-            iteration_end - stats.start_time).count();
+            execution_current - execution_start).count();
         
         std::string stop_reason;
         if (shouldStop(stats.total_results, previous_result_count, 

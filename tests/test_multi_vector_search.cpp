@@ -86,7 +86,7 @@ TEST_F(MultiVectorSearchTest, LinearCombinationFusion) {
     config.top_k = 5;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().strategy_used, MultiVectorSearch::FusionStrategy::LINEAR_COMBINATION);
@@ -108,7 +108,7 @@ TEST_F(MultiVectorSearchTest, ReciprocalRankFusion) {
     config.rrf_k = 60.0f;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().strategy_used, MultiVectorSearch::FusionStrategy::RECIPROCAL_RANK);
@@ -132,7 +132,7 @@ TEST_F(MultiVectorSearchTest, RankBasedFusion) {
     config.top_k = 5;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().strategy_used, MultiVectorSearch::FusionStrategy::RANK_FUSION);
@@ -150,7 +150,7 @@ TEST_F(MultiVectorSearchTest, MaxScoreFusion) {
     config.top_k = 5;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().strategy_used, MultiVectorSearch::FusionStrategy::MAX_SCORE);
@@ -168,7 +168,7 @@ TEST_F(MultiVectorSearchTest, MinScoreFusion) {
     config.top_k = 5;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
 }
@@ -185,7 +185,7 @@ TEST_F(MultiVectorSearchTest, AvgScoreFusion) {
     config.top_k = 5;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
 }
@@ -204,7 +204,7 @@ TEST_F(MultiVectorSearchTest, ScoreNormalization) {
     query.weights = {0.5f, 0.5f};
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     // Scores should be normalized
     EXPECT_GT(result.value().results.size(), 0u);
@@ -223,7 +223,7 @@ TEST_F(MultiVectorSearchTest, SearchWithExpansion) {
     config.top_k = 5;
     
     auto result = multi_search_->searchWithExpansion(query_variants, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().weights_used.size(), 3u);
@@ -238,7 +238,7 @@ TEST_F(MultiVectorSearchTest, SearchMultiField) {
     config.top_k = 5;
     
     auto result = multi_search_->searchMultiField(query_vector, field_names, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
 }
@@ -259,7 +259,7 @@ TEST_F(MultiVectorSearchTest, HybridSearch) {
     config.top_k = 5;
     
     auto result = multi_search_->hybridSearch(query_vector, keyword_scores, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().weights_used.size(), 2u);
@@ -283,7 +283,7 @@ TEST_F(MultiVectorSearchTest, BatchSearch) {
     config.top_k = 3;
     
     auto result = multi_search_->batchSearch(queries, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_EQ(result.value().size(), 2u);
     EXPECT_GT(result.value()[0].results.size(), 0u);
@@ -302,7 +302,7 @@ TEST_F(MultiVectorSearchTest, OptimizeWeights) {
     };
     
     auto result = multi_search_->optimizeWeights(queries, relevance);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_EQ(result.value().size(), 2u);
     
@@ -402,7 +402,7 @@ TEST_F(MultiVectorSearchTest, LearnedFusion) {
     config.top_k = 5;
     
     auto result = multi_search_->search(query, config);
-    ASSERT_TRUE(result.has_value()) << result.error().message;
+    ASSERT_TRUE(result.has_value()) << result.error().message();
     
     EXPECT_GT(result.value().results.size(), 0u);
     EXPECT_EQ(result.value().strategy_used, MultiVectorSearch::FusionStrategy::LEARNED_FUSION);
@@ -426,5 +426,6 @@ TEST_F(MultiVectorSearchTest, LearnedFusionWithoutWeights) {
     
     auto result = multi_search_->search(query, config);
     EXPECT_FALSE(result.has_value());
-    EXPECT_EQ(result.error().code, errors::ErrorCode::INVALID_ARGUMENT);
+    auto expected_error = errors::ErrorCode::INVALID_ARGUMENT;
+    EXPECT_EQ(result.error().code(), expected_error);
 }

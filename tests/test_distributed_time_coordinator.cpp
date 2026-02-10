@@ -6,7 +6,7 @@
 #include "sharding/consensus_module.h"
 #include <memory>
 
-using namespace themis::sharding;
+using namespace themisdb::sharding;
 
 namespace {
 

@@ -6,6 +6,7 @@
 #include "sharding/shard_topology.h"
 #include "sharding/urn_resolver.h"
 #include "sharding/remote_executor.h"
+#include "sharding/consistent_hash.h"
 #include <memory>
 
 using namespace themis::sharding;
@@ -22,11 +23,22 @@ protected:
         // Add test shards with capabilities
         setupTestShards();
         
-        // Create mock URN resolver
-        resolver = std::make_shared<URNResolver>(topology);
+        // Create consistent hash ring for routing
+        hash_ring = std::make_shared<ConsistentHashRing>(150);
+        hash_ring->addShard("shard_hamburg");
+        hash_ring->addShard("shard_bremen");
+        hash_ring->addShard("shard_law");
+        hash_ring->addShard("shard_berlin");
+        hash_ring->addShard("shard_generic");
         
-        // Create mock remote executor
-        executor = std::make_shared<RemoteExecutor>();
+        // Create mock URN resolver with hash ring
+        resolver = std::make_shared<URNResolver>(topology, hash_ring);
+        
+        // Create mock remote executor with config
+        RemoteExecutor::Config executor_config;
+        executor_config.connect_timeout_ms = 5000;
+        executor_config.request_timeout_ms = 30000;
+        executor = std::make_shared<RemoteExecutor>(executor_config);
         
         // Create adaptive router
         ShardRouter::Config router_config;
@@ -99,6 +111,7 @@ protected:
     }
     
     std::shared_ptr<ShardTopology> topology;
+    std::shared_ptr<ConsistentHashRing> hash_ring;
     std::shared_ptr<URNResolver> resolver;
     std::shared_ptr<RemoteExecutor> executor;
     std::unique_ptr<AdaptiveShardRouter> router;

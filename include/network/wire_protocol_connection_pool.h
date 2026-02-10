@@ -33,9 +33,6 @@ public:
     bool is_open() const;
     void close(boost::system::error_code& ec);
     
-    // Access underlying socket for I/O operations
-    tcp::socket& lowest_layer();
-    
     // Check if this is an SSL socket
     bool is_ssl() const { return ssl_socket_ != nullptr; }
     
@@ -117,7 +114,13 @@ public:
         ConnectionHandle& operator=(ConnectionHandle&& other) noexcept;
         
         // Backward-compatible accessor returning the underlying TCP socket
-        tcp::socket& socket() { return socket_->lowest_layer(); }
+        // Only works for plain (non-SSL) sockets
+        tcp::socket& socket() { 
+            if (!socket_->is_ssl() && socket_->plain_socket()) {
+                return *socket_->plain_socket();
+            }
+            throw std::runtime_error("socket() accessor not available for SSL connections; use socketWrapper() instead");
+        }
         
         // Access to the SocketWrapper for advanced usage (SSL vs plain)
         SocketWrapper& socketWrapper() { return *socket_; }

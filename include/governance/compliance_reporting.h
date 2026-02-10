@@ -192,7 +192,7 @@ public:
     };
     
     struct ChangeHistoryReport {
-        std::vector<PolicyVersionHistory::VersionRecord> changes;
+        std::vector<PolicyRuleVersion> changes;
         int total_changes = 0;
         std::unordered_map<std::string, int> changes_by_user;
         int64_t start_time = 0;

@@ -512,12 +512,12 @@ if(THEMIS_ENABLE_LLM)
     # LLAMA.CPP INTEGRATION WITH DEPENDENCY PINNING
     # =========================================================================
     # Use FetchContent for reproducible builds with pinned commit
-    # Pinned commit: b4313 (Jan 2024 - stable release with Flash Attention support)
+    # Pinned commit: b7974 (Feb 2026 - stable release with Flash Attention support)
     # To update: Change GIT_TAG to desired commit hash and test thoroughly
     
     include(FetchContent)
     
-    set(LLAMA_CPP_GIT_TAG "b4313" CACHE STRING "llama.cpp commit hash for reproducible builds")
+    set(LLAMA_CPP_GIT_TAG "b7974" CACHE STRING "llama.cpp commit hash for reproducible builds")
     
     message(STATUS "Fetching llama.cpp (pinned commit: ${LLAMA_CPP_GIT_TAG})")
     

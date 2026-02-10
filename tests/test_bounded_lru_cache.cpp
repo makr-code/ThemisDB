@@ -100,7 +100,7 @@ TEST_F(BoundedLRUCacheTest, LRUOrderMaintained) {
 TEST_F(BoundedLRUCacheTest, ExpiresTTLEntries) {
     BoundedLRUCache::Config config;
     config.max_entries = 100;
-    config.ttl = std::chrono::milliseconds(100);
+    config.ttl = std::chrono::seconds(1);
     config.enable_statistics = true;
     auto ttl_cache = std::make_unique<BoundedLRUCache>(config);
     

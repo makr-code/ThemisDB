@@ -1,6 +1,7 @@
 #pragma once
 
 #include "security/hsm_provider.h"
+#include "utils/logger.h"
 #include <string>
 #include <cstdlib>
 

@@ -43,6 +43,7 @@ ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
 #endif
     
     // Pre-allocate codebooks
+#ifdef THEMIS_HAS_FAISS
     // Use FAISS ProductQuantizer
     // Parameters: dimension, M (num_subquantizers), nbits (8 for 256 centroids)
     faiss_pq_ = std::make_unique<faiss::ProductQuantizer>(

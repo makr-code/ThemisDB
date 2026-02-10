@@ -512,7 +512,6 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalOutbound)(b
     
     for (auto _ : state) {
         auto result = query_engine_->executeGeneralTraversal(
-            "v",
             start_node,
             1,        // minDepth
             depth,    // maxDepth
@@ -558,7 +557,6 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalInbound)(be
     
     for (auto _ : state) {
         auto result = query_engine_->executeGeneralTraversal(
-            "v",
             start_node,
             1,
             depth,
@@ -598,7 +596,6 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalAny)(benchm
     
     for (auto _ : state) {
         auto result = query_engine_->executeGeneralTraversal(
-            "v",
             start_node,
             1,
             depth,
@@ -637,7 +634,6 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalDepthFilter
     
     for (auto _ : state) {
         auto result = query_engine_->executeGeneralTraversal(
-            "v",
             start_node,
             2,        // minDepth = 2 (filter out depth 0 and 1)
             3,        // maxDepth = 3
@@ -675,7 +671,6 @@ BENCHMARK_DEFINE_F(GeneralTraversalBenchmarkFixture, GeneralTraversalLargeResult
     
     for (auto _ : state) {
         auto result = query_engine_->executeGeneralTraversal(
-            "v",
             start_node,
             0,        // Include start vertex
             4,        // Deeper traversal

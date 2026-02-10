@@ -9,6 +9,7 @@
 #include "index/approximate_radius_search.h"
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include <iostream>
 #include <cassert>
 #include <vector>
@@ -57,10 +58,13 @@ void testAllMetrics() {
     for (const auto& metric_test : metrics) {
         std::cout << "  Testing " << metric_test.name << " metric..." << std::endl;
         
-        themis::RocksDBWrapper db;
-        std::string db_path = "/tmp/test_radius_" + metric_test.name;
-        auto init_result = db.init(db_path);
-        assert(init_result.ok);
+        // Initialize RocksDBWrapper with Config
+        themis::RocksDBWrapper::Config db_config;
+        db_config.db_path = "/tmp/test_radius_" + metric_test.name;
+        themis::RocksDBWrapper db(db_config);
+        if (!db.open()) {
+            assert(false && "Failed to open database");
+        }
         
         themis::VectorIndexManager vim(db);
         auto vec_init = vim.init("vectors", 64, metric_test.vim_metric);
@@ -98,9 +102,12 @@ void testAllMetrics() {
 void testLargeDataset() {
     std::cout << "Test 2: Large dataset handling..." << std::endl;
     
-    themis::RocksDBWrapper db;
-    auto init_result = db.init("/tmp/test_radius_large");
-    assert(init_result.ok);
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = "/tmp/test_radius_large";
+    themis::RocksDBWrapper db(db_config);
+    if (!db.open()) {
+        assert(false && "Failed to open database");
+    }
     
     themis::VectorIndexManager vim(db);
     auto vec_init = vim.init("large_vectors", 128, themis::VectorIndexManager::Metric::COSINE);
@@ -154,9 +161,12 @@ void testLargeDataset() {
 void testBatchSearchPerformance() {
     std::cout << "Test 3: Batch search performance..." << std::endl;
     
-    themis::RocksDBWrapper db;
-    auto init_result = db.init("/tmp/test_radius_batch");
-    assert(init_result.ok);
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = "/tmp/test_radius_batch";
+    themis::RocksDBWrapper db(db_config);
+    if (!db.open()) {
+        assert(false && "Failed to open database");
+    }
     
     themis::VectorIndexManager vim(db);
     auto vec_init = vim.init("batch_vectors", 128, themis::VectorIndexManager::Metric::COSINE);
@@ -215,9 +225,12 @@ void testBatchSearchPerformance() {
 void testAdaptiveTargetCount() {
     std::cout << "Test 4: Adaptive target count..." << std::endl;
     
-    themis::RocksDBWrapper db;
-    auto init_result = db.init("/tmp/test_radius_adaptive");
-    assert(init_result.ok);
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = "/tmp/test_radius_adaptive";
+    themis::RocksDBWrapper db(db_config);
+    if (!db.open()) {
+        assert(false && "Failed to open database");
+    }
     
     themis::VectorIndexManager vim(db);
     auto vec_init = vim.init("adaptive_vectors", 128, themis::VectorIndexManager::Metric::COSINE);
@@ -262,9 +275,12 @@ void testAdaptiveTargetCount() {
 void testEstimationAccuracy() {
     std::cout << "Test 5: Result count estimation..." << std::endl;
     
-    themis::RocksDBWrapper db;
-    auto init_result = db.init("/tmp/test_radius_estimate");
-    assert(init_result.ok);
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = "/tmp/test_radius_estimate";
+    themis::RocksDBWrapper db(db_config);
+    if (!db.open()) {
+        assert(false && "Failed to open database");
+    }
     
     themis::VectorIndexManager vim(db);
     auto vec_init = vim.init("estimate_vectors", 128, themis::VectorIndexManager::Metric::COSINE);
@@ -313,9 +329,12 @@ void testEstimationAccuracy() {
 void testErrorHandling() {
     std::cout << "Test 6: Error handling..." << std::endl;
     
-    themis::RocksDBWrapper db;
-    auto init_result = db.init("/tmp/test_radius_errors");
-    assert(init_result.ok);
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = "/tmp/test_radius_errors";
+    themis::RocksDBWrapper db(db_config);
+    if (!db.open()) {
+        assert(false && "Failed to open database");
+    }
     
     themis::VectorIndexManager vim(db);
     auto vec_init = vim.init("error_vectors", 128, themis::VectorIndexManager::Metric::COSINE);
@@ -367,9 +386,12 @@ void testErrorHandling() {
 void testStatistics() {
     std::cout << "Test 7: Statistics tracking..." << std::endl;
     
-    themis::RocksDBWrapper db;
-    auto init_result = db.init("/tmp/test_radius_stats");
-    assert(init_result.ok);
+    themis::RocksDBWrapper::Config db_config;
+    db_config.db_path = "/tmp/test_radius_stats";
+    themis::RocksDBWrapper db(db_config);
+    if (!db.open()) {
+        assert(false && "Failed to open database");
+    }
     
     themis::VectorIndexManager vim(db);
     auto vec_init = vim.init("stats_vectors", 64, themis::VectorIndexManager::Metric::COSINE);

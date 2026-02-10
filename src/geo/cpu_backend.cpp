@@ -10,7 +10,7 @@ namespace themis { namespace geo {
 
 // Helper function to check point-in-polygon using ray casting algorithm
 // This provides a reasonable fallback when Boost.Geometry is not available
-static bool pointInPolygon(double px, double py, const std::vector<Coord>& polygon) {
+static bool pointInPolygon(double px, double py, const std::vector<Coordinate>& polygon) {
     if (polygon.size() < 3) return false;
     
     bool inside = false;
@@ -33,8 +33,8 @@ static bool pointInPolygon(double px, double py, const std::vector<Coord>& polyg
 // and does not implement the separating axis theorem (SAT) or edge-edge checks.
 // As a result, it may miss cases where polygons intersect only via crossing edges
 // with no vertices contained inside the other polygon.
-static bool simplePolygonIntersects(const std::vector<Coord>& poly1, 
-                                   const std::vector<Coord>& poly2) {
+static bool simplePolygonIntersects(const std::vector<Coordinate>& poly1, 
+                                   const std::vector<Coordinate>& poly2) {
     // Simple check: if any vertex of poly1 is inside poly2, they intersect
     for (const auto& coord : poly1) {
         if (pointInPolygon(coord.x, coord.y, poly2)) {
@@ -113,7 +113,7 @@ public:
             
             // Polygon-Polygon intersection
             if (geom1.isPolygon() && geom2.isPolygon()) {
-                std::vector<Coord> poly1, poly2;
+                std::vector<Coordinate> poly1, poly2;
                 
                 // Extract polygon coordinates
                 if (!geom1.rings.empty()) {

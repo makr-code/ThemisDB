@@ -306,18 +306,13 @@ HttpServer::HttpServer(
         
         // Initialize SnapshotManager (Named Snapshots feature)
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
-        snapshot_api_handler_ = std::make_unique<SnapshotApiHandler>(*snapshot_manager_);
+        snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
         pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
         pitr_api_handler_ = std::make_unique<server::PITRApiHandler>(*pitr_manager_);
         THEMIS_INFO("PITRManager initialized");
-        
-        // Initialize DiffEngine and DiffApiHandler (Phase 2 MVCC features)
-        // Pass SnapshotManager for tag-based diff support
-        snapshot_manager_ = std::make_unique<SnapshotManager>(*storage_, *changefeed_);
-        THEMIS_INFO("SnapshotManager initialized");
         
         // Initialize BranchManager (Phase 4 - Persistent Branches)
         branch_manager_ = std::make_unique<transaction::BranchManager>(*storage_, *changefeed_, *snapshot_manager_);
@@ -751,10 +746,11 @@ HttpServer::HttpServer(
     THEMIS_INFO("WAL API Handler initialized");
 
     // Initialize Ethics AI API Handler
-    ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
-        storage_, query_api_->getQueryEngine(), auth_
-    );
-    THEMIS_INFO("Ethics AI API Handler initialized");
+    // TODO: Fix QueryEngine dependency
+    // ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
+    //     storage_, query_api_->getQueryEngine(), auth_
+    // );
+    // THEMIS_INFO("Ethics AI API Handler initialized");
 
     // Initialize Update Checker (if feature enabled)
     if (config_.feature_update_checker) {
@@ -1546,13 +1542,7 @@ namespace {
     DiffCacheStatsGet,          // GET /api/v1/diff/cache/stats
     DiffCacheClear,             // DELETE /api/v1/diff/cache
     
-    // PITR API (Point-in-Time Recovery)
-    PITRRestoreSequencePost,    // POST /api/v1/pitr/restore/sequence
-    PITRRestoreTagPost,         // POST /api/v1/pitr/restore/tag
-    PITRRestoreTimestampPost,   // POST /api/v1/pitr/restore/timestamp
-    PITRPreviewPost,            // POST /api/v1/pitr/preview
-    PITRProgressGet,            // GET /api/v1/pitr/progress
-    // PITR API (Phase 3 MVCC)
+    // PITR API (Point-in-Time Recovery - Phase 3 MVCC)
     PITRRestorePost,            // POST /api/v1/restore/pitr
     PITRPreviewPost,            // POST /api/v1/restore/preview
     PITRProgressGet,            // GET /api/v1/restore/progress
@@ -1678,9 +1668,6 @@ namespace {
     if (path_only == "/api/v1/diff/cache" && method == http::verb::delete_) return Route::DiffCacheClear;
     
     // PITR API endpoints
-    if (path_only == "/api/v1/pitr/restore/sequence" && method == http::verb::post) return Route::PITRRestoreSequencePost;
-    if (path_only == "/api/v1/pitr/restore/tag" && method == http::verb::post) return Route::PITRRestoreTagPost;
-    if (path_only == "/api/v1/pitr/restore/timestamp" && method == http::verb::post) return Route::PITRRestoreTimestampPost;
     if (path_only == "/api/v1/pitr/preview" && method == http::verb::post) return Route::PITRPreviewPost;
     if (path_only == "/api/v1/pitr/progress" && method == http::verb::get) return Route::PITRProgressGet;
     if (path_only == "/api/v1/restore/pitr" && method == http::verb::post) return Route::PITRRestorePost;
@@ -2043,6 +2030,8 @@ http::response<http::string_body> HttpServer::routeRequest(
     // tenant_guard will automatically release connection/query slots when it goes out of scope
 
     // Early routing for Ethics AI API
+    // TODO: Re-enable when EthicsApiHandler routing is fixed
+    /*
     {
         std::string path_only = target;
         auto qpos = path_only.find('?');
@@ -2059,6 +2048,7 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
         }
     }
+    */
 
     http::response<http::string_body> response;
 
@@ -2410,13 +2400,11 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         
         // PITR API
-        case Route::PITRRestoreSequencePost:
         case Route::PITRRestorePost:
             if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
-                pitr_api_handler_->handleRestoreToSequence(httplib_req, httplib_res);
                 pitr_api_handler_->handleRestore(httplib_req, httplib_res);
                 // Convert cpp-httplib → Beast types
                 response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
@@ -2425,13 +2413,11 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "PITR API not available (requires CDC feature)", req);
             }
             break;
-        case Route::PITRRestoreTagPost:
         case Route::PITRPreviewPost:
             if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
                 auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
                 httplib::Response httplib_res;
-                pitr_api_handler_->handleRestoreToTag(httplib_req, httplib_res);
                 pitr_api_handler_->handlePreview(httplib_req, httplib_res);
                 // Convert cpp-httplib → Beast types
                 response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
@@ -2440,34 +2426,6 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "PITR API not available (requires CDC feature)", req);
             }
             break;
-        case Route::PITRRestoreTimestampPost:
-        case Route::PITRProgressGet:
-            if (pitr_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                pitr_api_handler_->handleRestoreToTimestamp(httplib_req, httplib_res);
-                pitr_api_handler_->handleGetProgress(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable,
-                    "PITR API not available (requires CDC feature)", req);
-            }
-            break;
-        case Route::PITRPreviewPost:
-            if (pitr_api_handler_) {
-                // Convert Beast → cpp-httplib types
-                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
-                httplib::Response httplib_res;
-                pitr_api_handler_->handlePreviewRestore(httplib_req, httplib_res);
-                // Convert cpp-httplib → Beast types
-                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
-            } else {
-                response = makeErrorResponse(http::status::service_unavailable,
-                    "PITR API not available (requires CDC feature)", req);
-            }
-            break;
         case Route::PITRProgressGet:
             if (pitr_api_handler_) {
                 // Convert Beast → cpp-httplib types
@@ -2479,6 +2437,8 @@ http::response<http::string_body> HttpServer::routeRequest(
             } else {
                 response = makeErrorResponse(http::status::service_unavailable,
                     "PITR API not available (requires CDC feature)", req);
+            }
+            break;
         // Branch API handlers
         case Route::BranchesPost:
             if (branch_api_handler_) {
@@ -3173,7 +3133,7 @@ http::response<http::string_body> HttpServer::routeRequest(
         span.setStatus(false);
     }
 
-    } catch (const nlohmann::json::exception& e) {
+} catch (const nlohmann::json::exception& e) {
         // JSON parsing errors (including invalid UTF-8)
         THEMIS_ERROR("JSON parsing error in routeRequest: {}", e.what());
         response = makeErrorResponse(http::status::bad_request, 

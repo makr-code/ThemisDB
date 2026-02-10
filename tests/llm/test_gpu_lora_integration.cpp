@@ -23,6 +23,11 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/model_loader.h"
 #include "llm/llama_wrapper.h"
+
+// Forward declarations for C API
+extern "C" {
+    bool themis_llama_lora_available();
+}
 #endif
 
 using namespace themis;
@@ -142,9 +147,6 @@ TEST_F(GPULoRAIntegrationTest, VRAMLimitConfiguration) {
  */
 TEST_F(GPULoRAIntegrationTest, LoRAAPIAvailability) {
 #ifdef THEMIS_ENABLE_LLM
-    extern "C" {
-        bool themis_llama_lora_available();
-    }
     
     // Should not crash regardless of API availability
     EXPECT_NO_THROW({
@@ -314,9 +316,6 @@ TEST_F(GPULoRAIntegrationTest, CompleteGPULoRAConfiguration) {
         
         // LoRA support depends on whether llama.cpp was built with LLAMA_LORA=ON
         // Check actual runtime availability rather than assuming it's always true
-        extern "C" {
-            bool themis_llama_lora_available();
-        }
         EXPECT_EQ(caps.supports_lora, themis_llama_lora_available());
     });
 #else

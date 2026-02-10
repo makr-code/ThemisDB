@@ -337,7 +337,7 @@ private:
         const std::string& start_node,
         std::set<std::string>& visited,
         std::set<std::string>& rec_stack
-    );
+    ) const;
     
     /**
      * @brief Execute compensations for SAGA transaction

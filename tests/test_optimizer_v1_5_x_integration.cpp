@@ -23,7 +23,9 @@ using namespace themis;
 class DistributedCostModelTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        dbWrapper = std::make_unique<RocksDBWrapper>();
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = "./data/test_optimizer_distributed";
+        dbWrapper = std::make_unique<RocksDBWrapper>(cfg);
         secIdx = std::make_unique<SecondaryIndexManager>(*dbWrapper);
         optimizer = std::make_unique<QueryOptimizer>(*secIdx);
         optimizer->enableAdaptiveOptimization(true);
@@ -274,5 +276,3 @@ TEST_F(DistributedCostModelTest, FullPipelineIntegration) {
     // Verify join strategy is set
     EXPECT_FALSE(plan.join_strategy.empty());
 }
-
-#endif // THEMIS_GPU_ENABLED

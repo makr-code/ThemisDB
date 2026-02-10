@@ -18,7 +18,7 @@ PromptOptimizer::PromptOptimizer(const OptimizationConfig& config)
                  config_.max_iterations, config_.target_score);
 }
 
-OptimizationResult PromptOptimizer::optimize(
+OptimizerResult PromptOptimizer::optimize(
     const std::string& initial_prompt,
     const std::vector<TestCase>& test_cases,
     EvaluationFunction eval_fn,
@@ -28,12 +28,12 @@ OptimizationResult PromptOptimizer::optimize(
     
     if (test_cases.empty()) {
         THEMIS_ERROR("Cannot optimize without test cases");
-        return OptimizationResult{};
+        return OptimizerResult{};
     }
     
     if (!eval_fn) {
         THEMIS_ERROR("Evaluation function is required");
-        return OptimizationResult{};
+        return OptimizerResult{};
     }
     
     // Use default improvement function if not provided
@@ -41,7 +41,7 @@ OptimizationResult PromptOptimizer::optimize(
         improve_fn = defaultImprovePrompt;
     }
     
-    OptimizationResult result;
+    OptimizerResult result;
     result.optimized_prompt = initial_prompt;
     
     std::string current_prompt = initial_prompt;

@@ -306,12 +306,12 @@ TEST_F(DiskSpaceMonitorTest, RealWorldScenario) {
     monitor.setAlertCallback([&](const DiskSpaceMonitor::SpaceInfo& info, 
                                   const std::string& msg) {
         alert_received = true;
-        spdlog::info("Alert: {}", msg);
+        // spdlog logging commented out - use fmt::print instead if logging needed
     });
     
     monitor.setGCCallback([&]() {
         gc_triggered = true;
-        spdlog::info("GC triggered");
+        // GC triggered - logging commented out
     });
     
     // Start monitoring
@@ -334,12 +334,7 @@ TEST_F(DiskSpaceMonitorTest, RealWorldScenario) {
     EXPECT_GT(stats.total_checks, 0);
     EXPECT_GT(info.total_bytes, 0);
     
-    // Log final state
-    spdlog::info("Final stats:");
-    spdlog::info("  Total checks: {}", stats.total_checks);
-    spdlog::info("  Space level: {}", static_cast<int>(monitor.getSpaceLevel()));
-    spdlog::info("  Free space: {}", disk_utils::formatBytes(info.free_bytes));
-    spdlog::info("  Usage: {:.1f}%", info.usage_percent * 100);
+    // Logging commented out - not needed for test assertions
 }
 
 // ============================================================================

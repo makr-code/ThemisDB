@@ -5,7 +5,7 @@
 #include "sharding/metadata_shard.h"
 #include <thread>
 
-using namespace themis::sharding;
+using namespace themisdb::sharding;
 
 class MetadataShardTest : public ::testing::Test {
 protected:

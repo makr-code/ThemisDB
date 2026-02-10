@@ -208,7 +208,7 @@ bool ReviewSchedulingApiHandler::checkAuth(
     }
     
     // Extract Bearer token
-    const auto auth_value = auth_it->value().to_string();
+    const auto auth_value = std::string(auth_it->value());
     auto token = AuthMiddleware::extractBearerToken(auth_value);
     
     if (!token) {

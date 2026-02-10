@@ -24,10 +24,12 @@ protected:
         std::filesystem::create_directories(test_db_path_);
         
         // Initialize database
-        db_ = std::make_unique<RocksDBWrapper>(test_db_path_);
+        RocksDBWrapper::Config config;
+        config.db_path = test_db_path_;
+        db_ = std::make_unique<RocksDBWrapper>(config);
         
         // Initialize changefeed
-        changefeed_ = std::make_unique<Changefeed>(*db_);
+        changefeed_ = std::make_unique<Changefeed>(db_->getRawDB());
         
         // Initialize snapshot manager
         snapshot_manager_ = std::make_unique<SnapshotManager>(*db_, *changefeed_);
@@ -54,7 +56,16 @@ protected:
         for (int i = 0; i < count; i++) {
             std::string key = "test_key_" + std::to_string(i);
             std::string value = "test_value_" + std::to_string(i);
-            changefeed_->recordPut(key, value);
+            // Create and record a ChangeEvent
+            Changefeed::ChangeEvent event{
+                0,  // sequence (auto-generated)
+                Changefeed::ChangeEventType::EVENT_PUT,
+                key,
+                value,
+                std::chrono::system_clock::now().time_since_epoch().count() / 1000000,
+                nlohmann::json()
+            };
+            changefeed_->recordEvent(event);
         }
     }
     

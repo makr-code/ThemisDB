@@ -1,8 +1,16 @@
 #include "sharding/mtls_connection_pool.h"
 #include <iostream>
 #include <algorithm>
+#include <openssl/ssl.h>
 
 namespace themis::sharding {
+
+// Implement custom SSL deleter
+void SSLDeleter::operator()(SSL* ptr) const {
+    if (ptr) {
+        SSL_free(ptr);
+    }
+}
 
 // ===========================================================================
 // EndpointConnectionPool Implementation
@@ -36,7 +44,7 @@ EndpointConnectionPool::~EndpointConnectionPool() {
     }
 }
 
-std::optional<std::unique_ptr<SSL>> EndpointConnectionPool::getConnection(
+std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::getConnection(
     std::chrono::milliseconds timeout
 ) {
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
@@ -94,7 +102,7 @@ std::optional<std::unique_ptr<SSL>> EndpointConnectionPool::getConnection(
     return std::nullopt;
 }
 
-void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL> connection) {
+void EndpointConnectionPool::releaseConnection(std::unique_ptr<SSL, SSLDeleter> connection) {
     if (!connection) return;
     
     std::unique_lock<std::shared_mutex> lock(pool_mutex_);
@@ -155,9 +163,9 @@ bool EndpointConnectionPool::warmUp() {
     size_t created = 0;
     for (size_t i = 0; i < config_.min_connections; ++i) {
         auto conn = createNewConnection();
-        if (conn) {
+        if (conn.has_value()) {
             PooledConnection pooled;
-            pooled.ssl = std::move(conn);
+            pooled.ssl = std::move(conn.value());
             pooled.created_at = std::chrono::steady_clock::now();
             pooled.last_used = std::chrono::steady_clock::now();
             pooled.is_valid = true;
@@ -186,7 +194,7 @@ void EndpointConnectionPool::closeAll() {
     active_connections_.clear();
 }
 
-std::optional<std::unique_ptr<SSL>> EndpointConnectionPool::createNewConnection() {
+std::optional<std::unique_ptr<SSL, SSLDeleter>> EndpointConnectionPool::createNewConnection() {
     // Note: This is a stub implementation
     // In production, this would:
     // 1. Parse endpoint to get host and port
@@ -322,7 +330,7 @@ std::shared_ptr<EndpointConnectionPool> MTLSConnectionPoolManager::getPool(
     return pool;
 }
 
-std::optional<std::unique_ptr<SSL>> MTLSConnectionPoolManager::getConnection(
+std::optional<std::unique_ptr<SSL, SSLDeleter>> MTLSConnectionPoolManager::getConnection(
     const std::string& endpoint,
     std::chrono::milliseconds timeout
 ) {
@@ -341,7 +349,7 @@ std::optional<std::unique_ptr<SSL>> MTLSConnectionPoolManager::getConnection(
 
 void MTLSConnectionPoolManager::releaseConnection(
     const std::string& endpoint, 
-    std::unique_ptr<SSL> conn
+    std::unique_ptr<SSL, SSLDeleter> conn
 ) {
     if (!conn) return;
     

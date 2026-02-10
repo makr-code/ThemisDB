@@ -641,7 +641,10 @@ bool PaxosConsensus::loadPersistentState() {
                 
                 if (instance_json.contains("accepted_value")) {
                     const auto& value_json = instance_json["accepted_value"];
-                    instance.accepted_value.log_index = value_json["log_index"].get<uint64_t>();
+                    // Note: JSON uses "log_index" but struct uses "index"
+                    if (value_json.contains("log_index")) {
+                        instance.accepted_value.index = value_json["log_index"].get<uint64_t>();
+                    }
                     instance.accepted_value.term = value_json["term"].get<uint64_t>();
                     instance.accepted_value.operation = value_json["operation"].get<std::string>();
                     instance.accepted_value.data = value_json["data"];
@@ -659,7 +662,12 @@ bool PaxosConsensus::loadPersistentState() {
                 uint64_t index = std::stoull(index_str);
                 ConsensusLogEntry& entry = committed_log_[index];
                 
-                entry.log_index = entry_json["log_index"].get<uint64_t>();
+                // Note: JSON may use "log_index" but struct uses "index"
+                if (entry_json.contains("index")) {
+                    entry.index = entry_json["index"].get<uint64_t>();
+                } else if (entry_json.contains("log_index")) {
+                    entry.index = entry_json["log_index"].get<uint64_t>();
+                }
                 entry.term = entry_json["term"].get<uint64_t>();
                 entry.operation = entry_json["operation"].get<std::string>();
                 entry.data = entry_json["data"];
@@ -717,7 +725,7 @@ bool PaxosConsensus::savePersistentState() {
                 
                 // Save accepted value
                 instance_json["accepted_value"] = {
-                    {"log_index", instance.accepted_value.log_index},
+                    {"index", instance.accepted_value.index},
                     {"term", instance.accepted_value.term},
                     {"operation", instance.accepted_value.operation},
                     {"data", instance.accepted_value.data}
@@ -732,7 +740,7 @@ bool PaxosConsensus::savePersistentState() {
         nlohmann::json committed_log_json = nlohmann::json::object();
         for (const auto& [index, entry] : committed_log_) {
             committed_log_json[std::to_string(index)] = {
-                {"log_index", entry.log_index},
+                {"index", entry.index},
                 {"term", entry.term},
                 {"operation", entry.operation},
                 {"data", entry.data}
@@ -797,9 +805,9 @@ bool PaxosConsensus::handlePrepare(uint64_t slot, const ProposalNumber& proposal
 }
 
 bool PaxosConsensus::handleAccept(
-    uint64_t /*slot*/,
-    const ProposalNumber& /*proposal*/,
-    const ConsensusLogEntry& /*value*/
+    uint64_t slot,
+    const ProposalNumber& proposal,
+    const ConsensusLogEntry& value
 ) {
     std::lock_guard<std::mutex> lock(state_mutex_);
     
@@ -807,7 +815,8 @@ bool PaxosConsensus::handleAccept(
     auto& instance = instances_[slot];
     
     // Phase 2b: Accept proposal if it's >= our promised proposal
-    if (proposal >= instance.promised_proposal) {
+    if (proposal.round >= instance.promised_proposal.round || 
+        (proposal.round == instance.promised_proposal.round && proposal.node_id >= instance.promised_proposal.node_id)) {
         // Accept the proposal
         instance.accepted_proposal = proposal;
         instance.accepted_value = value;

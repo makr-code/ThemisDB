@@ -13,7 +13,8 @@ namespace themis::sharding {
 enum class WriteConcern {
     ONE,        // Only primary must acknowledge (fastest, lowest durability)
     MAJORITY,   // Majority of replicas must acknowledge (balanced)
-    ALL         // All replicas must acknowledge (slowest, highest durability)
+    ALL,        // All replicas must acknowledge (slowest, highest durability)
+    QUORUM      // Configurable quorum (use write_quorum)
 };
 
 /**
@@ -26,17 +27,6 @@ struct WriteConcernConfig {
 };
 
 /**
- * Write Result with replication status
- */
-struct WriteResult {
-    bool success = false;
-    size_t replicas_acknowledged = 0;
-    size_t replicas_required = 0;
-    std::string error;
-    std::chrono::milliseconds latency{0};
-};
-
-/**
  * Parse WriteConcern from string
  */
 inline WriteConcern parseWriteConcern(const std::string& str) {
@@ -46,6 +36,8 @@ inline WriteConcern parseWriteConcern(const std::string& str) {
         return WriteConcern::MAJORITY;
     } else if (str == "ALL" || str == "all") {
         return WriteConcern::ALL;
+    } else if (str == "QUORUM" || str == "quorum" || str == "Q") {
+        return WriteConcern::QUORUM;
     }
     return WriteConcern::ONE; // default
 }
@@ -58,6 +50,7 @@ inline std::string toString(WriteConcern wc) {
         case WriteConcern::ONE: return "ONE";
         case WriteConcern::MAJORITY: return "MAJORITY";
         case WriteConcern::ALL: return "ALL";
+        case WriteConcern::QUORUM: return "QUORUM";
         default: return "ONE";
     }
 }
@@ -73,6 +66,8 @@ inline size_t calculateRequiredReplicas(WriteConcern concern, size_t total_repli
             return (total_replicas / 2) + 1; // Quorum
         case WriteConcern::ALL:
             return total_replicas; // All replicas
+        case WriteConcern::QUORUM:
+            return (total_replicas / 2) + 1; // Default quorum
         default:
             return 1;
     }

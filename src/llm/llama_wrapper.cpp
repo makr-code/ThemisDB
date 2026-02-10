@@ -1104,9 +1104,6 @@ LLMCapabilities LlamaWrapper::getCapabilities() const {
     caps.supports_completion = true;
     
     // Check actual LoRA API availability at runtime
-    extern "C" {
-        bool themis_llama_lora_available();
-    }
     caps.supports_lora = themis_llama_lora_available();
     
     caps.supports_quantization = true;

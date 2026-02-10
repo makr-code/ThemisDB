@@ -1,10 +1,12 @@
 #include "governance/policy_version_history.h"
+#include "governance/policy_manager.h"
 #include "utils/logger.h"
 
 #include <algorithm>
 #include <chrono>
 #include <fstream>
 #include <sstream>
+#include <fmt/format.h>
 
 namespace themis {
 namespace governance {
@@ -14,7 +16,7 @@ namespace governance {
 nlohmann::json PolicyRuleVersion::toJson() const {
     nlohmann::json j;
     j["version"] = version;
-    j["rule"] = rule.toJson();
+    j["rule_id"] = rule_id;
     j["author"] = author;
     j["timestamp"] = timestamp;
     j["change_description"] = change_description;
@@ -24,7 +26,8 @@ nlohmann::json PolicyRuleVersion::toJson() const {
 PolicyRuleVersion PolicyRuleVersion::fromJson(const nlohmann::json& j) {
     PolicyRuleVersion v;
     if (j.contains("version")) v.version = j["version"].get<std::string>();
-    if (j.contains("rule")) v.rule = PolicyRule::fromJson(j["rule"]);
+    if (j.contains("rule_id")) v.rule_id = j["rule_id"].get<std::string>();
+    if (j.contains("rule")) v.rule_id = j["rule"].get<std::string>();  // Backwards compatibility
     if (j.contains("author")) v.author = j["author"].get<std::string>();
     if (j.contains("timestamp")) v.timestamp = j["timestamp"].get<std::int64_t>();
     if (j.contains("change_description")) v.change_description = j["change_description"].get<std::string>();
@@ -89,7 +92,7 @@ std::string PolicyVersionHistory::recordVersion(
     // Create version entry
     PolicyRuleVersion version;
     version.version = new_version;
-    version.rule = rule;
+    version.rule_id = rule_id;
     version.author = author;
     version.timestamp = std::chrono::system_clock::now().time_since_epoch().count() / 1000000000;
     version.change_description = change_description;
@@ -178,11 +181,26 @@ VersionDiff PolicyVersionHistory::compareVersions(
         return diff;
     }
     
-    diff.changes = identifyChanges(v1->rule, v2->rule);
+    // Since we only store rule_id, we can only note that versions differ
+    diff.changes.push_back(fmt::format("Version {} -> {}", version1, version2));
     
-    // Create detailed diff
-    diff.details["version1_data"] = v1->rule.toJson();
-    diff.details["version2_data"] = v2->rule.toJson();
+    // Create detailed diff with version metadata
+    nlohmann::json v1_data;
+    v1_data["version"] = v1->version;
+    v1_data["rule_id"] = v1->rule_id;
+    v1_data["author"] = v1->author;
+    v1_data["timestamp"] = v1->timestamp;
+    v1_data["change_description"] = v1->change_description;
+    
+    nlohmann::json v2_data;
+    v2_data["version"] = v2->version;
+    v2_data["rule_id"] = v2->rule_id;
+    v2_data["author"] = v2->author;
+    v2_data["timestamp"] = v2->timestamp;
+    v2_data["change_description"] = v2->change_description;
+    
+    diff.details["version1_data"] = v1_data;
+    diff.details["version2_data"] = v2_data;
     diff.details["version1_author"] = v1->author;
     diff.details["version2_author"] = v2->author;
     diff.details["version1_timestamp"] = v1->timestamp;

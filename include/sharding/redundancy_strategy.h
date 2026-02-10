@@ -30,6 +30,8 @@
 #include <atomic>
 #include <future>
 
+#include "sharding/write_concern.h"
+
 namespace themis {
 namespace sharding {
 
@@ -62,17 +64,6 @@ enum class ReadPreference {
     ROUND_ROBIN,    // Load-balance across all replicas
     RANDOM,         // Random replica selection
     SECONDARY_ONLY  // Only read from secondaries
-};
-
-/**
- * Write Concern
- * How many acknowledgements to wait for
- */
-enum class WriteConcern {
-    ONE,            // Acknowledge after one write
-    MAJORITY,       // Wait for majority of replicas
-    ALL,            // Wait for all replicas
-    QUORUM          // Wait for quorum (configurable)
 };
 
 /**

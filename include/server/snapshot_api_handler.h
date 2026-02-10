@@ -42,10 +42,7 @@ public:
      * @param server HTTP server instance
      */
     void registerRoutes(httplib::Server& server);
-
-private:
-    transaction::SnapshotManager& snapshot_manager_;
-
+    
     /**
      * @brief Handle POST /api/v1/snapshots/tags
      * 
@@ -82,6 +79,9 @@ private:
      * @brief Handle GET /api/v1/snapshots/stats
      */
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
+
+private:
+    transaction::SnapshotManager& snapshot_manager_;
 
     /**
      * @brief Create error response

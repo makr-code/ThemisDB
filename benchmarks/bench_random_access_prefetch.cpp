@@ -59,7 +59,7 @@ std::vector<std::string> generateKeys(size_t count) {
 
 std::vector<uint8_t> generateValue(size_t size) {
     static std::mt19937 rng(42);
-    static std::uniform_int_distribution<uint8_t> dist(0, 255);
+    static std::uniform_int_distribution<int> dist(0, 255);
     
     std::vector<uint8_t> value;
     value.reserve(size);

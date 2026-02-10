@@ -190,7 +190,7 @@ bool PromptPerformanceTracker::resetMetrics(const std::string& prompt_id) {
     // Remove from DB if available
     if (db_) {
         std::string key = std::string(KEY_PREFIX) + prompt_id;
-        db_->deleteKey(key);
+        db_->del(key);
     }
     
     THEMIS_INFO("Reset metrics for prompt: {}", prompt_id);
@@ -206,7 +206,7 @@ void PromptPerformanceTracker::clearAllMetrics() {
     if (db_) {
         std::string prefix = KEY_PREFIX;
         db_->scanPrefix(prefix, [this](std::string_view key, std::string_view) -> bool {
-            db_->deleteKey(std::string(key));
+            db_->del(std::string(key));
             return true; // continue scanning
         });
     }

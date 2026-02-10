@@ -12,6 +12,9 @@
 // llama.cpp forward declarations (newer API may not be present in headers)
 extern "C" {
     int llama_lora_adapter_set(struct llama_context* ctx, int adapter_index, float scale);
+    void llama_lora_adapter_free(void* adapter);
+    bool themis_llama_lora_available();
+    void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
 }
 
 namespace themis {
@@ -242,11 +245,6 @@ bool MultiLoRAManager::unloadLoRA(const std::string& lora_id, bool force) {
     // Free adapter handle if it exists
     if (lora->adapter_handle) {
         // Call llama.cpp API to free the LoRA adapter
-        extern "C" {
-            void llama_lora_adapter_free(void* adapter);
-            bool themis_llama_lora_available();
-        }
-        
         bool adapter_freed = false;
         if (themis_llama_lora_available()) {
             spdlog::debug("Freeing LoRA adapter handle for {}", lora_id);
@@ -299,14 +297,7 @@ bool MultiLoRAManager::initializeLoRAWithModel(const std::string& lora_id, void*
     
     spdlog::info("Initializing LoRA adapter with llama.cpp model: {}", lora_id);
     
-    // Call llama.cpp API to load the LoRA adapter
-    // Forward declarations from llama_lora_adapter.cpp
-    extern "C" {
-        void* llama_lora_adapter_init(struct llama_model* model, const char* path_lora);
-        bool themis_llama_lora_available();
-    }
-    
-    // Check if LoRA API is available
+    // Check if LoRA API is available (declarations at file scope line 13-16)
     if (!themis_llama_lora_available()) {
         spdlog::warn("llama.cpp LoRA API not available, LoRA support disabled");
         spdlog::warn("Rebuild llama.cpp with LLAMA_LORA=ON to enable LoRA adapters");

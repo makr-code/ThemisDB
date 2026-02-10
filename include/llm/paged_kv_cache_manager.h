@@ -100,6 +100,9 @@ public:
         double fragmentation_rate;
         size_t shared_blocks;
         double prefix_sharing_ratio;
+        size_t bytes_per_block;
+        size_t total_memory_bytes;
+        size_t used_memory_bytes;
     };
 
     /**
@@ -134,11 +137,6 @@ public:
         double avg_prefix_length = 0.0;
         double prefix_reuse_ratio = 0.0;
         WorkloadPattern detected_pattern = WorkloadPattern::UNKNOWN;
-    };
-        double prefix_sharing_ratio;
-        size_t bytes_per_block;
-        size_t total_memory_bytes;
-        size_t used_memory_bytes;
     };
 
     PagedKVCacheManager(const Config& config);

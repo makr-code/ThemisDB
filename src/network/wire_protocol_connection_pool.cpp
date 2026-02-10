@@ -44,15 +44,6 @@ void SocketWrapper::close(boost::system::error_code& ec) {
     }
 }
 
-tcp::socket& SocketWrapper::lowest_layer() {
-    if (plain_socket_) {
-        return *plain_socket_;
-    } else if (ssl_socket_) {
-        return ssl_socket_->lowest_layer();
-    }
-    throw std::runtime_error("SocketWrapper has no valid socket");
-}
-
 // =============================================================================
 // WireProtocolConnectionPool Implementation
 // =============================================================================

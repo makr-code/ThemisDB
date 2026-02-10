@@ -78,6 +78,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "utils/input_validator.h"
 #include "storage/security_signature_manager.h"
 #include "content/content_fs.h"
+#include "transaction/snapshot_manager.h"
 
 namespace themis {
 // Forward declarations
@@ -92,8 +93,6 @@ class Changefeed;
 class TSStore;
 class ContinuousAggregateManager;
 class AdaptiveIndexManager;
-class SnapshotManager;
-class SnapshotApiHandler;
 class PITRManager;
 
 namespace prompt_engineering {
@@ -114,6 +113,7 @@ class DiffApiHandler;
 class PITRApiHandler;
 class BranchApiHandler;
 class MergeApiHandler;
+class SnapshotApiHandler;  // Moved here to match namespace
 }
 
 namespace sharding {
@@ -572,12 +572,7 @@ private:
     
     // Snapshot Manager (Named Snapshots feature)
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
-    std::unique_ptr<SnapshotApiHandler> snapshot_api_handler_;
-    
-    // PITR Manager (Point-in-Time Recovery feature)
-    std::unique_ptr<PITRManager> pitr_manager_;
-    std::unique_ptr<server::PITRApiHandler> pitr_api_handler_;
-    std::unique_ptr<SnapshotManager> snapshot_manager_;
+    std::unique_ptr<server::SnapshotApiHandler> snapshot_api_handler_;
     
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
@@ -585,7 +580,8 @@ private:
     
     // PITR Manager and API Handler (Phase 3 MVCC features)
     std::unique_ptr<PITRManager> pitr_manager_;
-    std::unique_ptr<PITRApiHandler> pitr_api_handler_;
+    std::unique_ptr<server::PITRApiHandler> pitr_api_handler_;
+    
     // Branch Manager and API Handler (Phase 4 MVCC features - Optional)
     std::unique_ptr<transaction::BranchManager> branch_manager_;
     std::unique_ptr<BranchApiHandler> branch_api_handler_;

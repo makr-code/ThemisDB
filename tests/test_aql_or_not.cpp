@@ -20,8 +20,10 @@ protected:
     AQLTranslator translator;
 
     void SetUp() override {
-        db = std::make_unique<RocksDBWrapper>();
-        db->open("/tmp/test_or_not_db", false);
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = "/tmp/test_or_not_db";
+        db = std::make_unique<RocksDBWrapper>(cfg);
+        db->open();
         
         secIdx = std::make_unique<SecondaryIndexManager>(*db);
         engine = std::make_unique<QueryEngine>(*db, *secIdx);

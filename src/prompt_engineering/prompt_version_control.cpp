@@ -10,6 +10,7 @@
 #include <sstream>
 #include <iomanip>
 #include <random>
+#include <unordered_set>
 #include <openssl/sha.h>
 
 namespace themis {

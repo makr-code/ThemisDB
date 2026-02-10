@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <map>
@@ -8,22 +9,15 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
+#include "sharding/redundancy_strategy.h"
+
 namespace themis::sharding {
 
 /**
  * Replica Topology Mapping
- * 
- * Maps shard IDs to replica sets for RAID 1/10 replication.
- * Supports stripe + mirror configurations.
+ *
+ * Maps shard IDs to replica sets for mirror and stripe-mirror replication.
  */
-
-enum class RedundancyMode {
-    NONE = 0,           // No replication
-    RAID1 = 1,          // Mirror (1:1 replica)
-    RAID10 = 10,        // Stripe + mirror (1:2 replicas per stripe)
-    RAID5 = 5,          // Stripe + parity (n+1 replicas)
-    RAID6 = 6           // Stripe + dual parity (n+2 replicas)
-};
 
 /**
  * Shard replica set (e.g., [primary, replica1, replica2])
@@ -32,8 +26,8 @@ struct ShardReplicaSet {
     std::string shard_id;
     std::string primary_id;
     std::vector<std::string> replicas;  // replica_ids (excludes primary)
-    RedundancyMode redundancy = RedundancyMode::RAID1;
-    uint64_t stripe_key = 0;            // For RAID 10: stripe group identifier
+    RedundancyMode redundancy = RedundancyMode::MIRROR;
+    uint64_t stripe_key = 0;            // For STRIPE_MIRROR: stripe group identifier
     bool is_healthy = true;
     
     size_t quorum_size() const {

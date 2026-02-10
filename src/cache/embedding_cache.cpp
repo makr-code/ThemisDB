@@ -251,7 +251,7 @@ bool EmbeddingCache::store(
     // Create cache entry
     CacheEntry entry;
     entry.query_text = query_text;
-    entry.embedding = embedding;
+    entry.embedding = cache::AlignedVector<float>(embedding.begin(), embedding.end());
     entry.metadata = metadata;
     entry.timestamp_ms = getCurrentTimestampMs();
     entry.access_count = 0;

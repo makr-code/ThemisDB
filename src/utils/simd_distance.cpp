@@ -84,14 +84,7 @@ static inline float avx2_l2_sq(const float* a, const float* b, std::size_t dim) 
     __m256 acc0 = _mm256_setzero_ps();
     __m256 acc1 = _mm256_setzero_ps();
     const std::size_t step = 16;
-    
-    for (; i + step <= dim; i += step) {
-        // Prefetch data ahead for both arrays
-        if (i + PREFETCH_DISTANCE < dim) {
-            _mm_prefetch(reinterpret_cast<const char*>(a + i + PREFETCH_DISTANCE), _MM_HINT_T0);
-            _mm_prefetch(reinterpret_cast<const char*>(b + i + PREFETCH_DISTANCE), _MM_HINT_T0);
     // Prefetch distance for 1536D vectors: prefetch 64 floats (256 bytes) ahead
-    // This keeps L2 cache warm for upcoming iterations
     constexpr std::size_t prefetch_distance = 64;
     
     for (; i + step <= dim; i += step) {

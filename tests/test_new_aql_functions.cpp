@@ -295,9 +295,10 @@ TEST_F(NewAQLFunctionsTest, AllNewFunctionCategoriesRegistered) {
     int ethicsCount = 0;
     int processCount = 0;
     
-    auto allFunctions = reg.getAllFunctionNames();
+    auto allSignatures = reg.getAllSignatures();
     
-    for (const auto& name : allFunctions) {
+    for (const auto& sig : allSignatures) {
+        const auto& name = sig.name;
         if (name.find("FULLTEXT") != std::string::npos || 
             name.find("PHRASE") != std::string::npos ||
             name.find("FUZZY") != std::string::npos ||

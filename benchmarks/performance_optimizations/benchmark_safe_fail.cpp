@@ -37,7 +37,7 @@ static void BM_GPUSafeFail_RecordSuccess(benchmark::State& state) {
     llm::GPUSafeFailManager manager(config);
     
     for (auto _ : state) {
-        manager.recordSuccess("benchmark_op");
+        manager.recordSuccess();
     }
 }
 BENCHMARK(BM_GPUSafeFail_RecordSuccess);
@@ -48,7 +48,7 @@ static void BM_GPUSafeFail_RecordFailure(benchmark::State& state) {
     llm::GPUSafeFailManager manager(config);
     
     for (auto _ : state) {
-        manager.recordFailure("benchmark_op");
+        manager.recordFailure(llm::GPUSafeFailManager::FailureType::DEVICE_ERROR, "benchmark_op");
     }
 }
 BENCHMARK(BM_GPUSafeFail_RecordFailure);
@@ -101,12 +101,12 @@ static void BM_GPUSafeFail_GetHealthMetrics(benchmark::State& state) {
     
     // Record some operations
     for (int i = 0; i < 100; ++i) {
-        manager.recordSuccess("benchmark_op");
+        manager.recordSuccess();
     }
     
     for (auto _ : state) {
-        auto metrics = manager.getHealthMetrics();
-        benchmark::DoNotOptimize(metrics.error_rate);
+        auto status = manager.getHealthStatus();
+        benchmark::DoNotOptimize(status.error_rate);
     }
 }
 BENCHMARK(BM_GPUSafeFail_GetHealthMetrics);
@@ -120,12 +120,14 @@ class TestConnection : public storage::DatabaseConnectionManager::Connection {
 public:
     bool isValid() const override { return true; }
     bool ping() override { return true; }
-    std::chrono::steady_clock::time_point getLastUsed() const override {
-        return std::chrono::steady_clock::now();
-    }
+    std::string getError() const override { return ""; }
+    void close() override {}
 };
 
 class TestConnectionManager : public storage::DatabaseConnectionManager {
+public:
+    explicit TestConnectionManager(const storage::DatabaseConnectionManager::ConnectionConfig& config)
+        : DatabaseConnectionManager(config) {}
 protected:
     std::shared_ptr<Connection> createConnection() override {
         return std::make_shared<TestConnection>();
@@ -133,7 +135,7 @@ protected:
 };
 
 static void BM_ConnectionManager_AcquireRelease(benchmark::State& state) {
-    storage::DatabaseConnectionManager::Config config;
+    storage::DatabaseConnectionManager::ConnectionConfig config;
     config.min_connections = 2;
     config.max_connections = 10;
     TestConnectionManager manager(config);
@@ -152,7 +154,7 @@ static void BM_ConnectionManager_AcquireRelease(benchmark::State& state) {
 BENCHMARK(BM_ConnectionManager_AcquireRelease);
 
 static void BM_ConnectionManager_AcquireRelease_WithError(benchmark::State& state) {
-    storage::DatabaseConnectionManager::Config config;
+    storage::DatabaseConnectionManager::ConnectionConfig config;
     config.min_connections = 2;
     config.max_connections = 10;
     config.max_retry_attempts = 1;  // Minimize retry overhead
@@ -172,7 +174,7 @@ static void BM_ConnectionManager_AcquireRelease_WithError(benchmark::State& stat
 BENCHMARK(BM_ConnectionManager_AcquireRelease_WithError);
 
 static void BM_ConnectionManager_ParallelAcquire(benchmark::State& state) {
-    storage::DatabaseConnectionManager::Config config;
+    storage::DatabaseConnectionManager::ConnectionConfig config;
     config.min_connections = 2;
     config.max_connections = state.range(0);
     TestConnectionManager manager(config);
@@ -196,11 +198,11 @@ BENCHMARK(BM_ConnectionManager_ParallelAcquire)
     ->Arg(50);
 
 static void BM_ConnectionManager_GetPoolStats(benchmark::State& state) {
-    storage::DatabaseConnectionManager::Config config;
+    storage::DatabaseConnectionManager::ConnectionConfig config;
     TestConnectionManager manager(config);
     
     for (auto _ : state) {
-        auto stats = manager.getPoolStats();
+        auto stats = manager.getStats();
         benchmark::DoNotOptimize(stats.active_connections);
     }
 }
@@ -267,7 +269,8 @@ static void BM_DiskSpaceMonitor_GetDiskUsagePercent(benchmark::State& state) {
     storage::DiskSpaceMonitor monitor("/tmp", config);
     
     for (auto _ : state) {
-        benchmark::DoNotOptimize(monitor.getDiskUsagePercent());
+        auto info = monitor.getSpaceInfo();
+        benchmark::DoNotOptimize(info.usage_percent);
     }
 }
 BENCHMARK(BM_DiskSpaceMonitor_GetDiskUsagePercent);
@@ -281,7 +284,8 @@ static void BM_DiskSpaceMonitor_RecordWrite(benchmark::State& state) {
     int64_t writes = 0;
     
     for (auto _ : state) {
-        monitor.recordWrite(bytes);
+        // Simulate write by checking space level (recordWrite not available in API)
+        benchmark::DoNotOptimize(monitor.getSpaceLevel());
         writes++;
     }
     
@@ -299,7 +303,7 @@ static void BM_Combined_DatabaseOperation(benchmark::State& state) {
     llm::GPUSafeFailManager::Config gpu_config;
     llm::GPUSafeFailManager gpu_manager(gpu_config);
     
-    storage::DatabaseConnectionManager::Config conn_config;
+    storage::DatabaseConnectionManager::ConnectionConfig conn_config;
     TestConnectionManager conn_manager(conn_config);
     
     storage::DiskSpaceMonitor::Config disk_config;
@@ -310,8 +314,9 @@ static void BM_Combined_DatabaseOperation(benchmark::State& state) {
     int64_t operations = 0;
     
     for (auto _ : state) {
-        // Check if we can write
-        if (!disk_monitor.canWrite(data_size)) {
+        // Check if we can write (using space level instead of canWrite)
+        auto space_level = disk_monitor.getSpaceLevel();
+        if (space_level == storage::DiskSpaceMonitor::SpaceLevel::EMERGENCY) {
             continue;
         }
         
@@ -323,9 +328,6 @@ static void BM_Combined_DatabaseOperation(benchmark::State& state) {
         
         // Perform operation (simulated)
         benchmark::DoNotOptimize(conn);
-        
-        // Record write
-        disk_monitor.recordWrite(data_size);
         
         // Release connection
         conn_manager.releaseConnection(conn, false);

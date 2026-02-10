@@ -88,7 +88,7 @@ public:
         std::shared_ptr<GraphIndexManager> graph_index,
         std::shared_ptr<VectorIndexManager> vector_index,
         std::shared_ptr<TransactionManager> tx_manager,
-        std::shared_ptr<ProcessGraphManager> process_graph = nullptr
+        std::shared_ptr<ProcessGraphManager> process_graph = nullptr,
         std::shared_ptr<TSStore> ts_store = nullptr,
         std::shared_ptr<ContinuousAggregateManager> agg_manager = nullptr
     );

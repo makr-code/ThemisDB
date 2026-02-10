@@ -13,6 +13,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
+#include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
@@ -50,13 +51,14 @@ protected:
         // Initialize indexes (they take RocksDBWrapper& not shared_ptr)
         secondary_index_ = std::make_shared<SecondaryIndexManager>(*storage_);
         graph_index_ = std::make_shared<GraphIndexManager>(*storage_);
+        vector_index_ = std::make_shared<VectorIndexManager>(*storage_);
         
         // Initialize transaction manager
-        tx_manager_ = std::make_shared<TransactionManager>(*storage_);
+        tx_manager_ = std::make_shared<TransactionManager>(*storage_, *secondary_index_, *graph_index_, *vector_index_);
         
         // Initialize encryption components
-        field_encryption_ = std::make_shared<FieldEncryption>();
         key_provider_ = std::make_shared<themis::MockKeyProvider>();
+        field_encryption_ = std::make_shared<FieldEncryption>(key_provider_);
         
         // Initialize auth middleware (default constructor)
         auth_ = std::make_shared<themis::AuthMiddleware>();
@@ -83,6 +85,7 @@ protected:
         // Destroy managers that may hold references into storage_ before resetting storage_
         secondary_index_.reset();
         graph_index_.reset();
+        vector_index_.reset();
         tx_manager_.reset();
         storage_.reset();
         
@@ -93,6 +96,7 @@ protected:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     std::shared_ptr<GraphIndexManager> graph_index_;
+    std::shared_ptr<VectorIndexManager> vector_index_;
     std::shared_ptr<TransactionManager> tx_manager_;
     std::shared_ptr<FieldEncryption> field_encryption_;
     std::shared_ptr<themis::KeyProvider> key_provider_;

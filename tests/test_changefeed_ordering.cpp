@@ -32,7 +32,7 @@ protected:
         ASSERT_TRUE(db_->open());
         
         // Create changefeed
-        changefeed_ = std::make_unique<Changefeed>(db_->getDB(), nullptr);
+        changefeed_ = std::make_unique<Changefeed>(db_->getRawDB(), nullptr);
     }
     
     void TearDown() override {

@@ -34,9 +34,6 @@ public:
      * @param server HTTP server instance
      */
     void registerRoutes(httplib::Server& server);
-
-private:
-    transaction::BranchManager& branch_manager_;
     
     // Route handlers
     void handleCreateBranch(const httplib::Request& req, httplib::Response& res);
@@ -47,6 +44,9 @@ private:
     void handleDeleteBranch(const httplib::Request& req, httplib::Response& res);
     void handleGetStats(const httplib::Request& req, httplib::Response& res);
     void handleGetActiveBranch(const httplib::Request& req, httplib::Response& res);
+
+private:
+    transaction::BranchManager& branch_manager_;
     
     // Helper methods
     void sendJson(httplib::Response& res, const json& data, int status_code = 200);

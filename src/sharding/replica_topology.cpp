@@ -1,4 +1,7 @@
 #include "sharding/replica_topology.h"
+
+#include <algorithm>
+#include <cctype>
 #include <nlohmann/json.hpp>
 
 namespace themis::sharding {
@@ -25,14 +28,24 @@ bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
         // Parse redundancy mode
         if (item.contains("redundancy")) {
             std::string mode_str = item["redundancy"].get<std::string>();
-            if (mode_str == "RAID1") {
-                replica_set.redundancy = RedundancyMode::RAID1;
-            } else if (mode_str == "RAID10") {
-                replica_set.redundancy = RedundancyMode::RAID10;
-            } else if (mode_str == "RAID5") {
-                replica_set.redundancy = RedundancyMode::RAID5;
-            } else if (mode_str == "RAID6") {
+            std::string mode_upper = mode_str;
+            std::transform(mode_upper.begin(), mode_upper.end(), mode_upper.begin(),
+                [](unsigned char c) { return static_cast<char>(std::toupper(c)); });
+
+            if (mode_upper == "NONE") {
+                replica_set.redundancy = RedundancyMode::NONE;
+            } else if (mode_upper == "RAID1" || mode_upper == "MIRROR") {
+                replica_set.redundancy = RedundancyMode::MIRROR;
+            } else if (mode_upper == "RAID10" || mode_upper == "STRIPE_MIRROR") {
+                replica_set.redundancy = RedundancyMode::STRIPE_MIRROR;
+            } else if (mode_upper == "RAID5" || mode_upper == "PARITY") {
+                replica_set.redundancy = RedundancyMode::PARITY;
+            } else if (mode_upper == "RAID6") {
                 replica_set.redundancy = RedundancyMode::RAID6;
+            } else if (mode_upper == "STRIPE") {
+                replica_set.redundancy = RedundancyMode::STRIPE;
+            } else if (mode_upper == "GEO_MIRROR") {
+                replica_set.redundancy = RedundancyMode::GEO_MIRROR;
             }
         }
         
@@ -45,7 +58,7 @@ bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
             }
         }
         
-        // Parse stripe key (for RAID 10)
+        // Parse stripe key (for STRIPE_MIRROR)
         if (item.contains("stripe_key")) {
             replica_set.stripe_key = item["stripe_key"].get<uint64_t>();
         }

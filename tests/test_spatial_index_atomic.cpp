@@ -15,7 +15,9 @@ protected:
     void SetUp() override {
         // Create temporary database for testing
         db_path_ = "/tmp/test_spatial_atomic_" + std::to_string(::testing::UnitTest::GetInstance()->random_seed());
-        db_ = std::make_unique<RocksDBWrapper>(db_path_);
+        RocksDBWrapper::Config config;
+        config.db_path = db_path_;
+        db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         
         spatial_mgr_ = std::make_unique<SpatialIndexManager>(*db_);

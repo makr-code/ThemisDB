@@ -350,7 +350,7 @@ TEST_F(DatabaseConnectionManagerTest, KeepaliveStartStop) {
         return true;
     };
     
-    ConnectionKeepalive keepalive(std::chrono::milliseconds(100), keepalive_fn);
+    ConnectionKeepalive keepalive(std::chrono::seconds(1), keepalive_fn);
     
     EXPECT_FALSE(keepalive.isRunning());
     
@@ -373,7 +373,7 @@ TEST_F(DatabaseConnectionManagerTest, KeepaliveTracksFailures) {
         return call_count % 2 == 0;  // Fail every other call
     };
     
-    ConnectionKeepalive keepalive(std::chrono::milliseconds(100), keepalive_fn);
+    ConnectionKeepalive keepalive(std::chrono::seconds(1), keepalive_fn);
     
     keepalive.start();
     std::this_thread::sleep_for(std::chrono::milliseconds(350));

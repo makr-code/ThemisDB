@@ -16,11 +16,11 @@ ReplicationCoordinator::~ReplicationCoordinator() {
     pending_cv_.notify_all();
 }
 
-WriteResult ReplicationCoordinator::waitForReplication(
+ReplicationCoordinator::ReplicationResult ReplicationCoordinator::waitForReplication(
     const LSN& entry_lsn,
     const WriteConcernConfig& concern
 ) {
-    WriteResult result;
+    ReplicationResult result;
     result.success = false;
 
     if (!enabled_ || !shipper_) {
@@ -79,11 +79,11 @@ WriteResult ReplicationCoordinator::waitForReplication(
                      toString(concern.level), lsn_key,
                      result.replicas_acknowledged, required, result.latency.count());
     } else {
-        result.error = "Write concern timeout: only " +
+        result.error_message = "Write concern timeout: only " +
                       std::to_string(result.replicas_acknowledged) + "/" +
                       std::to_string(required) + " replicas acknowledged within " +
                       std::to_string(concern.timeout.count()) + "ms";
-        THEMIS_WARN("{}", result.error);
+        THEMIS_WARN("{}", result.error_message);
     }
 
     // Cleanup this entry

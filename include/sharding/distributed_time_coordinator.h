@@ -9,7 +9,7 @@
 #include <chrono>
 #include <cstdint>
 
-namespace themis::sharding {
+namespace themisdb::sharding {
 
 /**
  * @brief Distributed Time Coordinator using Consensus Log Index
@@ -103,6 +103,6 @@ private:
     Config config_;
 };
 
-} // namespace themis::sharding
+} // namespace themisdb::sharding
 
 #endif // THEMISDB_SHARDING_DISTRIBUTED_TIME_COORDINATOR_H

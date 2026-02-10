@@ -145,7 +145,8 @@ TEST_F(GPUVRAMAllocationTest, CalculateModelSize) {
     
     // Q4
     size_t size_q4 = AdaptiveVRAMAllocator::calculateModelSize(num_params, 0.5f);
-    EXPECT_NEAR(size_q4, 3.5ULL * 1024 * 1024 * 1024, 1e9);
+    size_t expected_q4 = static_cast<size_t>(3.5 * 1024 * 1024 * 1024);
+    EXPECT_NEAR(static_cast<double>(size_q4), static_cast<double>(expected_q4), 1e9);
 }
 
 // ============================================================================

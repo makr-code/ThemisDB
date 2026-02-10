@@ -18,7 +18,11 @@
 #include <chrono>
 #include <cstring>
 #include <cstdio>  // For snprintf
-#include <arpa/inet.h>  // For ntohl/htonl
+#ifdef _WIN32
+    #include <winsock2.h>  // For ntohl/htonl on Windows
+#else
+    #include <arpa/inet.h>  // For ntohl/htonl on Unix
+#endif
 #include <map>  // For multi-bucket aggregation
 #include <algorithm>  // For std::min/max
 
@@ -37,7 +41,7 @@ WireProtocolServer::WireProtocolServer(
     std::shared_ptr<GraphIndexManager> graph_index,
     std::shared_ptr<VectorIndexManager> vector_index,
     std::shared_ptr<TransactionManager> tx_manager,
-    std::shared_ptr<ProcessGraphManager> process_graph)
+    std::shared_ptr<ProcessGraphManager> process_graph,
     std::shared_ptr<TSStore> ts_store,
     std::shared_ptr<ContinuousAggregateManager> agg_manager)
     : config_(config)
@@ -386,56 +390,11 @@ void WireProtocolServer::Session::asyncReadChecksum() {
         });
 }
 
-void WireProtocolServer::Session::asyncReadChecksum() {
-    auto self = shared_from_this();
-    net::async_read(
-        socket_,
-        net::buffer(&checksum_buffer_, sizeof(checksum_buffer_)),
-        [this, self](const boost::system::error_code& ec, std::size_t /*bytes*/) {
-            if (!ec) {
-                // Process message
-            } else {
-                handleError("asyncReadChecksum", ec);
-            }
-        });
-}
-
 void WireProtocolServer::Session::handleMessage() {
     requests_processed_.fetch_add(1, std::memory_order_relaxed);
-    bytes_received_.fetch_add(header_buffer_.size(), std::memory_order_relaxed);
-    
-    // Parse header: magic (4 bytes), version (1 byte), opcode (1 byte), flags (2 bytes), payload_size (4 bytes)
-    // For now, extract opcode from byte 5
-    if (header_buffer_.size() < 6) {
-        sendError(400, "Invalid header size");
-        return;
-    }
-    
-    uint8_t opcode = header_buffer_[5];
-    
-    // Dispatch based on opcode
-    switch (opcode) {
-        case 0x60: // BPMN_START_PROCESS
-            handleBpmnStartProcess();
-            break;
-        case 0x61: // BPMN_TASK_COMPLETE
-            handleBpmnTaskComplete();
-            break;
-        case 0x62: // BPMN_QUERY_INSTANCE
-            handleBpmnQueryInstance();
-            break;
-        case 0xfe: // PING
-            handlePing();
-            break;
-        case 0xff: // CLOSE
-            handleClose();
-            break;
-        default:
-            sendError(400, "Unsupported opcode: " + std::to_string(opcode));
-            break;
     bytes_received_.fetch_add(header_buffer_.size() + payload_buffer_.size(), std::memory_order_relaxed);
     
-    // Validate header size (must be exactly 12 bytes)
+    // Validate header size (must be at least 12 bytes)
     if (header_buffer_.size() < 12) {
         sendError(0x0008, "Invalid header size");
         return;
@@ -474,6 +433,15 @@ void WireProtocolServer::Session::handleMessage() {
             break;
         case 0x51: // TIMESERIES_QUERY
             handleTimeseriesQuery();
+            break;
+        case 0x60: // BPMN_START_PROCESS
+            handleBpmnStartProcess();
+            break;
+        case 0x61: // BPMN_TASK_COMPLETE
+            handleBpmnTaskComplete();
+            break;
+        case 0x62: // BPMN_QUERY_INSTANCE
+            handleBpmnQueryInstance();
             break;
         case 0xFE: // PING
             handlePing();
@@ -688,7 +656,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 if (!result) {
                     std::string error_msg = "Time-series query failed";
                     try {
-                        error_msg = std::string("Time-series query failed: ") + result.error().what();
+                        error_msg = std::string("Time-series query failed: ") + result.error().message();
                     } catch (...) {
                         // Fallback if error() access fails
                     }
@@ -779,7 +747,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
                 if (!agg_result) {
                     std::string error_msg = "Time-series aggregation failed";
                     try {
-                        error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().what();
+                        error_msg = std::string("Time-series aggregation failed: ") + agg_result.error().message();
                     } catch (...) {
                         // Fallback if error() access fails
                     }
@@ -829,7 +797,7 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
             if (!result) {
                 std::string error_msg = "Time-series query failed";
                 try {
-                    error_msg = std::string("Time-series query failed: ") + result.error().what();
+                    error_msg = std::string("Time-series query failed: ") + result.error().message();
                 } catch (...) {
                     // Fallback if error() access fails
                 }
@@ -889,16 +857,6 @@ void WireProtocolServer::Session::handleTimeseriesQuery() {
     } catch (const std::exception& e) {
         sendError(0x0007, std::string("Time-series query exception: ") + e.what());
     }
-}
-
-void WireProtocolServer::Session::handlePing() {
-    // TODO: Implement PING/PONG
-    sendError(0x0003, "PING not yet implemented");
-}
-
-void WireProtocolServer::Session::handleClose() {
-    // Handle graceful connection close
-    close();
 }
 
 // =============================================================================

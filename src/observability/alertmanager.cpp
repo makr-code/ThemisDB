@@ -26,31 +26,28 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
 Result<void> Alertmanager::sendAlert(const Alert& alert) {
     THEMIS_WARN("Alertmanager::sendAlert is a stub - not yet implemented");
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
-        "Alert sending not yet implemented",
-        "Alertmanager::sendAlert"
-    };
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UNKNOWN,
+        "Alert sending not yet implemented"
+    });
 }
 
 Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
     THEMIS_WARN("Alertmanager::resolveAlert is a stub - not yet implemented");
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
-        "Alert resolution not yet implemented",
-        "Alertmanager::resolveAlert"
-    };
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UNKNOWN,
+        "Alert resolution not yet implemented"
+    });
 }
 
 Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duration_minutes) {
     THEMIS_WARN("Alertmanager::silenceAlert is a stub - not yet implemented");
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
-        "Alert silencing not yet implemented",
-        "Alertmanager::silenceAlert"
-    };
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UNKNOWN,
+        "Alert silencing not yet implemented"
+    });
 }
 
 std::vector<Alert> Alertmanager::getActiveAlerts() {
@@ -62,18 +59,16 @@ Result<void> Alertmanager::testConnection() {
     THEMIS_WARN("Alertmanager::testConnection is a stub - not yet implemented");
     
     if (!config_.enabled) {
-        return Error{
-            ErrorCode::SERVICE_UNAVAILABLE,
-            "Alertmanager is not enabled",
-            "Alertmanager::testConnection"
-        };
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
+            "Alertmanager is not enabled"
+        });
     }
     
-    return Error{
-        ErrorCode::NOT_IMPLEMENTED,
-        "Connection test not yet implemented",
-        "Alertmanager::testConnection"
-    };
+    return tl::unexpected(Error{
+        errors::ErrorCode::ERR_UNKNOWN,
+        "Connection test not yet implemented"
+    });
 }
 
 std::string Alertmanager::severityToString(AlertSeverity severity) {
@@ -244,11 +239,10 @@ std::vector<Alert> DefaultAlertmanager::getActiveAlerts() {
 
 Result<void> DefaultAlertmanager::testConnection() {
     if (!config_.enabled) {
-        return Error{
-            ErrorCode::SERVICE_UNAVAILABLE,
-            "Alertmanager is not enabled in configuration",
-            "DefaultAlertmanager::testConnection"
-        };
+        return tl::unexpected(Error{
+            errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
+            "Alertmanager is not enabled in configuration"
+        });
     }
     
     THEMIS_INFO("Testing Alertmanager connection to: {}", config_.endpoint_url);

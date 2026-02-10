@@ -534,8 +534,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                     };
                     
                     // Convert data to bytes using the same serialized representation as the primary write
-                    std::string serialized_entity = entity.serialize();
-                    std::vector<uint8_t> data_bytes(serialized_entity.begin(), serialized_entity.end());
+                    std::vector<uint8_t> data_bytes(blob_str.begin(), blob_str.end());
                     
                     // Apply redundancy strategy
                     auto write_result = strategy->write(
@@ -556,7 +555,7 @@ http::response<http::string_body> EntityApiHandler::handlePut(
                     } else {
                         raid_applied = true;  // Only set to true when actually successful
                         span.setAttribute("raid.success", true);
-                        span.setAttribute("raid.mode", static_cast<int>(strategy->getConfig().mode));
+                        span.setAttribute("raid.mode", static_cast<int64_t>(strategy->getConfig().mode));
                         span.setAttribute("raid.shards_written", static_cast<int64_t>(write_result.written_shards.size()));
                         span.setAttribute("raid.latency_ms", static_cast<int64_t>(write_result.latency.count()));
                         THEMIS_DEBUG("RAID write successful for {}: {} shards written in {}ms", 
@@ -616,10 +615,10 @@ http::response<http::string_body> EntityApiHandler::handlePut(
 
             auto write_result = replication_coordinator_->waitForReplication(wal_entry.lsn, wc_config);
             if (!write_result.success) {
-                THEMIS_WARN("Write concern {} failed for {}: {}", concern_str, key, write_result.error);
-                span.setStatus(false, write_result.error);
+                THEMIS_WARN("Write concern {} failed for {}: {}", concern_str, key, write_result.error_message);
+                span.setStatus(false, write_result.error_message);
                 return makeErrorResponse(http::status::service_unavailable,
-                    "Write concern not met: " + write_result.error, req);
+                    "Write concern not met: " + write_result.error_message, req);
             }
             span.setAttribute("write_concern.level", concern_str);
             span.setAttribute("write_concern.acks", static_cast<int64_t>(write_result.replicas_acknowledged));

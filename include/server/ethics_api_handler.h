@@ -102,10 +102,10 @@ public:
      * @brief Handle POST /ethics/evaluation request
      * 
      * Request body:
-     * {
-     *   "decision": { /* decision object */ },
-     *   "arguments": [ /* optional argument objects */ ]
-     * }
+    * {
+    *   "decision": { "...": "decision object" },
+    *   "arguments": [ "optional argument objects" ]
+    * }
      * 
      * Response:
      * {

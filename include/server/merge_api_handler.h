@@ -109,6 +109,7 @@ public:
      * - target_sequence: Target sequence number
      */
     void handleCanFastForward(const httplib::Request& req, httplib::Response& res);
+#endif
 
 private:
     transaction::MergeEngine& merge_engine_;

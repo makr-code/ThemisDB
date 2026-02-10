@@ -8,6 +8,7 @@
 #include <atomic>
 #include <queue>
 #include <unordered_map>
+#include <random>
 
 namespace themis {
 namespace storage {

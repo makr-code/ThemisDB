@@ -181,7 +181,10 @@ protected:
         mock_server_->start();
         
         // Create mock coordinator and topology
-        coordinator_ = std::make_shared<MultiPrimaryCoordinator>();
+        MultiPrimaryConfig mp_config;
+        mp_config.current_node_id = "test-node-1";
+        mp_config.use_last_write_wins = true;
+        coordinator_ = std::make_shared<MultiPrimaryCoordinator>(mp_config);
         topology_ = std::make_shared<ReplicaTopology>();
         
         // Create HTTP client pool

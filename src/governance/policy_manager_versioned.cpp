@@ -154,8 +154,16 @@ bool PolicyManagerWithVersioning::rollbackToVersion(
         current_version = current_rule->version;
     }
     
+    // To rollback, we need to fetch the rule by ID from the rule store
+    // since we only store rule_id in PolicyRuleVersion
+    auto target_rule = policy_manager_->getRule(version_data->rule_id);
+    if (!target_rule.has_value()) {
+        spdlog::error("Cannot rollback: rule {} not found", version_data->rule_id);
+        return false;
+    }
+    
     // Update rule to target version
-    PolicyRule rollback_rule = version_data->rule;
+    PolicyRule rollback_rule = target_rule.value();
     rollback_rule.updated_at = std::chrono::system_clock::now().time_since_epoch().count() / 1000000000;
     rollback_rule.last_modified_by = user;
     rollback_rule.change_description = "Rolled back to version " + target_version;

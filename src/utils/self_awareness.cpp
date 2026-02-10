@@ -2,10 +2,17 @@
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <sstream>
-#include <sys/sysinfo.h>
-#include <sys/statvfs.h>
-#include <unistd.h>
 #include <ctime>
+#include <thread>
+
+#ifdef _WIN32
+    #include <windows.h>
+    #include <psapi.h>
+#else
+    #include <sys/sysinfo.h>
+    #include <sys/statvfs.h>
+    #include <unistd.h>
+#endif
 
 namespace themis::util {
 
@@ -122,7 +129,39 @@ SelfAwareness::Snapshot SelfAwareness::onAuditSigning(const nlohmann::json& audi
 SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
     HealthMetrics metrics;
     
-    // Get system info (Linux-specific)
+#ifdef _WIN32
+    // Windows implementation using WAPI
+    MEMORYSTATUSEX mem_status;
+    mem_status.dwLength = sizeof(mem_status);
+    
+    if (GlobalMemoryStatusEx(&mem_status)) {
+        metrics.memory_total_bytes = mem_status.ullTotalPhys;
+        metrics.memory_used_bytes = mem_status.ullTotalPhys - mem_status.ullAvailPhys;
+        metrics.memory_available_bytes = mem_status.ullAvailPhys;
+        metrics.memory_usage_percent = mem_status.dwMemoryLoad / 100.0;
+    }
+    
+    // Disk usage (approximate path)
+    ULARGE_INTEGER free_bytes, total_bytes;
+    if (GetDiskFreeSpaceExA("C:\\", &free_bytes, &total_bytes, nullptr)) {
+        metrics.disk_total_bytes = total_bytes.QuadPart;
+        metrics.disk_available_bytes = free_bytes.QuadPart;
+        metrics.disk_used_bytes = total_bytes.QuadPart - free_bytes.QuadPart;
+        metrics.disk_usage_percent = 
+            static_cast<double>(metrics.disk_used_bytes) / metrics.disk_total_bytes;
+    }
+    
+    // CPU and thread info
+    metrics.thread_count = std::thread::hardware_concurrency();
+    metrics.cpu_usage_percent = 0.0;  // Placeholder - would need performance counters
+    metrics.cpu_load_1min = 0.0;
+    metrics.cpu_load_5min = 0.0;
+    metrics.cpu_load_15min = 0.0;
+    metrics.uptime_seconds = GetTickCount64() / 1000;  // System uptime in seconds
+    metrics.open_file_descriptors = 0;  // Placeholder for Windows
+    
+#else
+    // Linux implementation using system calls
     struct sysinfo si;
     if (sysinfo(&si) == 0) {
         metrics.memory_total_bytes = si.totalram * si.mem_unit;
@@ -149,16 +188,14 @@ SelfAwareness::HealthMetrics SelfAwareness::collectHealthMetrics() const {
     }
     
     // Get thread count
-    // TODO: Count actual threads from /proc/self/task or use std::thread::hardware_concurrency()
     metrics.thread_count = std::thread::hardware_concurrency();
     
-    // Get open file descriptors
-    // TODO: Count from /proc/self/fd
-    metrics.open_file_descriptors = 0;  // Placeholder
-    
     // CPU usage (simplified - would need more complex calculation)
-    // TODO: Read from /proc/stat and calculate percentage
     metrics.cpu_usage_percent = metrics.cpu_load_1min / std::thread::hardware_concurrency();
+    
+    // Get open file descriptors
+    metrics.open_file_descriptors = 0;  // Placeholder
+#endif
     
     return metrics;
 }
