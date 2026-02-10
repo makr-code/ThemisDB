@@ -13,6 +13,9 @@ on:
 jobs:
   count-stats:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push to badges branch
+      actions: read    # Required to read workflow information
     
     steps:
       - name: Checkout Repository
