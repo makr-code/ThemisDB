@@ -159,7 +159,6 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 
 **Organisierte Ordner:**
 - `aql/` - **AQL Grammatik (EBNF)** ⭐ **v1.3.0**
-- `src/` - **Modul-Dokumentation** - Alle 40 ThemisDB-Module (README.md, FUTURE_ENHANCEMENTS.md, include_README.md) ⭐ **NEU**
 - `reports/` - **Build & Code Reviews** - Build-Reports, Code-Reviews, Analyse-Berichte ⭐ **NEU**
 - `guides/` - **Setup & Build-Guides** - Quickstart, Docker, Windows, VS Code Setup ⭐ **NEU**
 - `releases/` - **Release-Planung** - RC-Checklisten, Roadmaps ⭐ **NEU**
@@ -399,12 +398,14 @@ Die Dokumentation wurde neu strukturiert für bessere Übersichtlichkeit:
 ## 🔍 Source Code Dokumentation
 
 ### Module Documentation (src/)
-**⭐ NEU:** Alle 40 ThemisDB-Module mit vollständiger Dokumentation in [src/INDEX.md](src/INDEX.md):
+Alle 40 ThemisDB-Module mit vollständiger Dokumentation direkt in den Source-Verzeichnissen:
 
-**Dokumentation pro Modul:**
+**Dokumentation pro Modul in `../../src/<module>/`:**
 - `README.md` - Modul-Übersicht, Architektur, APIs
-- `FUTURE_ENHANCEMENTS.md` - Geplante Features & Verbesserungen  
-- `include_README.md` - Header-Dokumentation und API-Referenz
+- `FUTURE_ENHANCEMENTS.md` - Geplante Features & Verbesserungen (falls vorhanden)
+
+**Header-Dokumentation in `../../include/<module>/`:**
+- `README.md` - Header-Dokumentation und API-Referenz
 
 **Module nach Kategorie:**
 
