@@ -2,7 +2,26 @@
 
 ## Module Purpose
 
-The Query module provides ThemisDB's AQL (Advanced Query Language) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. It translates AQL queries into optimized execution plans and executes them across relational, document, graph, vector, and geospatial data models with hybrid query support.
+The Query module provides ThemisDB's AQL (Advanced Query Language) query engine, featuring a cost-based optimizer, multi-model execution pipeline, and comprehensive caching infrastructure. AQL is based on ArangoDB's query language but significantly extended to support multiple query paradigms including relational, document, graph, vector, spatial, and timeseries models. It translates AQL queries into optimized execution plans and executes them across all data models with hybrid query support.
+
+### About AQL
+
+**AQL (Advanced Query Language)** is ThemisDB's multi-paradigm query language inspired by ArangoDB's AQL but extended with:
+- **Multi-Model Support**: Seamlessly query relational tables, document collections, property graphs, vector embeddings, geospatial data, and timeseries
+- **Hybrid Queries**: Combine vector similarity with geospatial filters, fulltext search with graph traversal, and more
+- **SQL-Like Syntax**: Familiar declarative syntax with FOR-FILTER-SORT-RETURN pattern
+- **Advanced Features**: Window functions, CTEs, recursive queries, subqueries, LLM integration
+- **100+ Functions**: String, math, array, date, geo (ST_*), vector, graph, document, JSON, AI/ML, process mining, ethics, and more
+
+**Compared to ArangoDB AQL:**
+- ✅ Maintains core AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN, LET, COLLECT)
+- ✅ Compatible graph traversal syntax with enhanced spatial constraints
+- ➕ Extended with vector similarity functions (SIMILARITY, COSINE_DISTANCE, L2_DISTANCE)
+- ➕ Enhanced geospatial support (ST_* functions for complex spatial queries)
+- ➕ LLM integration (LLM INFER, LLM RAG, LLM EMBED)
+- ➕ Timeseries-specific syntax and window functions
+- ➕ Advanced process mining and ethics functions
+- ➕ Query federation across distributed databases
 
 ## Scope
 

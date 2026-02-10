@@ -1,0 +1,457 @@
+# ThemisDB AQL Headers
+
+## Module Purpose
+
+This directory contains the header files for AQL (Advanced Query Language) specialized components, specifically focusing on LLM integration and AI-assisted documentation. These headers define the interfaces for natural language query processing, LLM command handling, and documentation generation.
+
+### About AQL (Advanced Query Language)
+
+**AQL** is ThemisDB's multi-paradigm, declarative query language inspired by ArangoDB's AQL (ArrangoQL) but extended for comprehensive multi-model database support:
+
+**Language Characteristics:**
+- **Declarative Syntax**: SQL-like with FOR-FILTER-SORT-RETURN pattern
+- **Multi-Model**: Single language for relational, document, graph, vector, spatial, and timeseries data
+- **Composable**: Build complex hybrid queries from simple operations
+- **Extensible**: 100+ built-in functions with plugin architecture
+
+**ArangoDB Compatibility:**
+- ✅ Core syntax compatible (FOR, FILTER, SORT, LIMIT, RETURN, LET, COLLECT)
+- ✅ Graph traversal syntax preserved
+- ➕ Extended with vector similarity functions
+- ➕ Enhanced geospatial support (ST_* functions)
+- ➕ Native LLM integration (INFER, RAG, EMBED)
+- ➕ Timeseries and window functions
+- ➕ Process mining and ethics functions
+
+## Scope
+
+**In Scope:**
+- LLM command handler interfaces
+- Documentation assistant function declarations
+- Natural language to AQL translation interfaces
+- Query explanation and profiling interfaces
+- LLM backend abstractions
+
+**Out of Scope:**
+- Core AQL parsing (see include/query/)
+- Query execution engine (see include/query/)
+- Storage interfaces (see include/storage/)
+- Index management (see include/index/)
+
+## Key Components
+
+### LlmAqlHandler
+**Location:** `llm_aql_handler.h`, `../../src/aql/llm_aql_handler.cpp`
+
+Header interface for LLM-specific AQL command handling.
+
+**Class Definition:**
+```cpp
+class LlmAqlHandler {
+public:
+    explicit LlmAqlHandler(std::shared_ptr<ILLMBackend> backend);
+    
+    // LLM command execution
+    Result<json> handleLLMCommand(const LLMCommand& cmd);
+    
+    // Individual command handlers
+    Result<std::string> handleInfer(const InferRequest& req);
+    Result<std::string> handleRAG(const RAGRequest& req);
+    Result<std::vector<float>> handleEmbed(const EmbedRequest& req);
+    Result<void> handleModelLoad(const ModelLoadRequest& req);
+    Result<void> handleLoraLoad(const LoraLoadRequest& req);
+    Result<json> handleStats(const StatsRequest& req);
+    Result<void> handleCacheClear();
+    
+    // Natural language translation
+    Result<std::string> translateNLToAQL(const std::string& nl_query);
+    
+private:
+    std::shared_ptr<ILLMBackend> backend_;
+    std::shared_ptr<ModelRegistry> models_;
+    std::shared_ptr<LoraRegistry> loras_;
+    std::shared_ptr<PromptCache> cache_;
+};
+```
+
+**Request Structures:**
+```cpp
+struct InferRequest {
+    std::string prompt;
+    std::string model_alias;
+    std::optional<std::string> lora_alias;
+    int max_tokens = 512;
+    float temperature = 0.7;
+    float top_p = 0.9;
+    int top_k = 40;
+    std::vector<std::string> stop_sequences;
+};
+
+struct RAGRequest {
+    std::string query;
+    std::string collection;
+    int top_k = 10;
+    float similarity_threshold = 0.7;
+    std::string model_alias;
+    std::optional<std::string> filter_expr;
+    float temperature = 0.3;  // Lower for factual responses
+};
+
+struct EmbedRequest {
+    std::string text;
+    std::string model_alias;
+    bool normalize = true;
+};
+
+struct ModelLoadRequest {
+    std::string model_path;
+    std::string alias;
+    int gpu_layers = 0;
+    size_t context_size = 4096;
+    std::map<std::string, std::string> params;
+};
+
+struct LoraLoadRequest {
+    std::string adapter_path;
+    std::string alias;
+    std::string base_model;
+    float scale = 1.0;
+};
+```
+
+**Thread Safety:**
+- All methods are thread-safe
+- Model loading is serialized internally
+- Inference can be concurrent up to batch size
+
+### DocsAssistantFunctions
+**Location:** `docs_assistant_functions.h`, `../../src/aql/docs_assistant_functions.cpp`
+
+AI-powered documentation and query assistance.
+
+**Class Definition:**
+```cpp
+class DocsAssistant {
+public:
+    explicit DocsAssistant(std::shared_ptr<ILLMBackend> llm);
+    
+    // Natural language to AQL translation
+    Result<std::string> translateToAQL(const std::string& nl_query);
+    
+    // Query explanation
+    Result<std::string> explainQuery(const std::string& aql_query);
+    
+    // Function documentation lookup
+    Result<std::string> getFunctionDocs(const std::string& function_name);
+    
+    // Query optimization suggestions
+    Result<std::vector<std::string>> suggestOptimizations(const std::string& query);
+    
+    // Example query generation
+    Result<std::vector<std::string>> generateExamples(const std::string& description);
+    
+    // Schema recommendation
+    Result<json> recommendSchema(const std::string& description);
+    
+private:
+    std::shared_ptr<ILLMBackend> llm_;
+    std::shared_ptr<FunctionRegistry> functions_;
+    std::shared_ptr<SemanticCache> cache_;
+};
+```
+
+**Usage Example:**
+```cpp
+#include "aql/docs_assistant_functions.h"
+
+DocsAssistant assistant(llm_backend);
+
+// Translate natural language
+auto aql = assistant.translateToAQL("Find users in Seattle older than 30");
+// Returns: FOR user IN users FILTER user.city == "Seattle" AND user.age > 30 RETURN user
+
+// Explain query
+auto explanation = assistant.explainQuery(aql.value());
+
+// Get function documentation
+auto docs = assistant.getFunctionDocs("SIMILARITY");
+```
+
+## Architecture
+
+### LLM Integration Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    AQL Query with LLM                        │
+│  FOR doc IN collection LET emb = LLM EMBED(doc.text) ...   │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    AQL Parser (query module)                 │
+│  Detects LLM command syntax, creates LLMCommand AST node    │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    LlmAqlHandler (aql module)                │
+│  Routes to appropriate handler (infer/rag/embed/model)      │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    ILLMBackend Interface                     │
+│  Abstract backend (LlamaCpp, VLLM, Ollama, OpenAI)         │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                    LLM Runtime (llama.cpp)                   │
+│  GGUF model loading, inference, GPU acceleration           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### RAG Pipeline
+
+```
+User Query → Embedding → Vector Search → Context Assembly → LLM → Response
+     ↓            ↓            ↓              ↓            ↓        ↓
+  NL Text    Embed Model   HNSW Index    Top-K Docs    Generate  JSON
+```
+
+### Type Hierarchy
+
+```cpp
+// Base backend interface
+class ILLMBackend {
+public:
+    virtual Result<std::string> infer(const InferRequest& req) = 0;
+    virtual Result<std::vector<float>> embed(const std::string& text) = 0;
+    virtual Result<ModelInfo> getModelInfo(const std::string& alias) = 0;
+};
+
+// Concrete implementations
+class LlamaCppBackend : public ILLMBackend { /* ... */ };
+class VLLMBackend : public ILLMBackend { /* ... */ };
+class OllamaBackend : public ILLMBackend { /* ... */ };
+class OpenAIBackend : public ILLMBackend { /* ... */ };
+
+// Model and adapter registries
+class ModelRegistry {
+public:
+    void registerModel(const std::string& alias, std::shared_ptr<Model> model);
+    std::shared_ptr<Model> getModel(const std::string& alias);
+    std::vector<std::string> listModels();
+};
+
+class LoraRegistry {
+public:
+    void registerAdapter(const std::string& alias, std::shared_ptr<LoraAdapter> adapter);
+    std::shared_ptr<LoraAdapter> getAdapter(const std::string& alias);
+};
+```
+
+## Integration Points
+
+### With Query Module
+```cpp
+// In query execution
+if (node->type == ASTNodeType::LLMCommand) {
+    LlmAqlHandler handler(llm_backend);
+    return handler.handleLLMCommand(*node->llm_command);
+}
+```
+
+### With Index Module
+```cpp
+// RAG uses vector index
+VectorIndexManager vector_idx(storage);
+auto results = vector_idx.search(embedding, k);
+```
+
+### With Storage Module
+```cpp
+// Store embeddings
+storage->put("llm:embedding:" + doc_id, embedding_json);
+
+// Store model metadata
+storage->put("llm:model:" + model_id, model_metadata);
+```
+
+## API/Usage Examples
+
+### Basic LLM Commands
+
+```cpp
+#include "aql/llm_aql_handler.h"
+
+LlmAqlHandler handler(llm_backend);
+
+// Text generation
+InferRequest infer_req;
+infer_req.prompt = "Explain quantum computing";
+infer_req.model_alias = "llama-3-8b";
+infer_req.max_tokens = 500;
+infer_req.temperature = 0.7;
+
+auto result = handler.handleInfer(infer_req);
+if (result) {
+    std::cout << "Response: " << result.value() << std::endl;
+}
+
+// Embedding generation
+EmbedRequest embed_req;
+embed_req.text = "The quick brown fox";
+embed_req.model_alias = "all-minilm-l6-v2";
+
+auto embedding = handler.handleEmbed(embed_req);
+if (embedding) {
+    std::cout << "Embedding dims: " << embedding.value().size() << std::endl;
+}
+```
+
+### RAG Query
+
+```cpp
+// Retrieval-Augmented Generation
+RAGRequest rag_req;
+rag_req.query = "What are the benefits of vector databases?";
+rag_req.collection = "documentation";
+rag_req.top_k = 5;
+rag_req.similarity_threshold = 0.7;
+rag_req.model_alias = "llama-3-8b";
+rag_req.temperature = 0.3;
+
+auto answer = handler.handleRAG(rag_req);
+if (answer) {
+    std::cout << "Answer: " << answer.value() << std::endl;
+}
+```
+
+### Model Management
+
+```cpp
+// Load a model
+ModelLoadRequest load_req;
+load_req.model_path = "/models/llama-3-8b-instruct.gguf";
+load_req.alias = "llama-3-8b";
+load_req.gpu_layers = 32;
+load_req.context_size = 8192;
+
+auto load_result = handler.handleModelLoad(load_req);
+
+// Load LoRA adapter
+LoraLoadRequest lora_req;
+lora_req.adapter_path = "/adapters/medical-terminology.safetensors";
+lora_req.alias = "medical";
+lora_req.base_model = "llama-3-8b";
+lora_req.scale = 1.0;
+
+auto lora_result = handler.handleLoraLoad(lora_req);
+
+// Use specialized model
+InferRequest specialized_req;
+specialized_req.prompt = "Explain ACE inhibitors mechanism";
+specialized_req.model_alias = "llama-3-8b";
+specialized_req.lora_alias = "medical";
+
+auto specialized_answer = handler.handleInfer(specialized_req);
+```
+
+## Dependencies
+
+### Internal Dependencies
+- **query/**: AQL AST node types
+- **index/**: Vector index for similarity search
+- **storage/**: Persistent storage for embeddings and metadata
+- **llm/**: LLM backend implementations
+
+### External Dependencies
+- **llama.cpp** (optional): GGUF model inference
+- **nlohmann/json**: JSON serialization
+- **spdlog** (optional): Logging
+
+### Compilation
+```cmake
+# Link AQL module
+target_link_libraries(my_app themis-aql)
+
+# Dependencies
+target_link_libraries(my_app 
+    themis-query 
+    themis-index
+    llama  # Optional: llama.cpp
+)
+```
+
+## Performance Characteristics
+
+### Header-Only Overhead
+- Interfaces are pure virtual (vtable indirection only)
+- Request structures are POD types (no overhead)
+- Template methods for zero-cost abstractions
+
+### Runtime Overhead
+- Model loading: 1-30 seconds (one-time per model)
+- Embedding: 10-100ms per text (batched)
+- Inference: 10-100 tokens/sec
+- RAG: 50-500ms (retrieval + generation)
+
+## Known Limitations
+
+1. **Backend Dependency**
+   - Currently tightly coupled to llama.cpp
+   - Need abstract backend interface (planned v1.6.0)
+
+2. **No Streaming Interface**
+   - Currently returns full response
+   - Streaming API planned for v1.7.0
+
+3. **Limited Multi-Modal Support**
+   - Text-only currently
+   - Image/audio support planned for v1.7.0
+
+4. **Model Size Constraints**
+   - Limited by available RAM/VRAM
+   - Large models (70B+) require significant resources
+
+## Status
+
+**Production Ready** (as of v1.5.0)
+
+✅ **Stable Interfaces:**
+- LlmAqlHandler
+- DocsAssistantFunctions
+- InferRequest, RAGRequest, EmbedRequest
+
+⚠️ **Beta:**
+- LoRA adapter support
+- Natural language to AQL translation
+- Query explanation
+
+🔬 **Experimental:**
+- Multi-modal interfaces
+- Agent framework interfaces
+- Fine-tuning interfaces
+
+## Related Documentation
+
+- [src/aql/README.md](../../src/aql/README.md) - Implementation details
+- [Query Module](../query/README.md) - Core AQL parsing
+- [LLM Module](../llm/README.md) - LLM backend implementations
+- [Index Module](../index/README.md) - Vector indexing
+
+## Contributing
+
+When modifying AQL headers:
+
+1. Maintain ArangoDB AQL compatibility where applicable
+2. Use clear, self-documenting interface names
+3. Add comprehensive Doxygen comments
+4. Consider backward compatibility
+5. Test with multiple LLM backends
+
+For detailed contribution guidelines, see [CONTRIBUTING.md](../../CONTRIBUTING.md).
+
+## See Also
+
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md) - Planned interface improvements
+- [Query Headers](../query/README.md) - Core AQL interfaces
+- [LLM Headers](../llm/README.md) - LLM backend interfaces

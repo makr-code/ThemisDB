@@ -1,8 +1,68 @@
-# ThemisDB Query Module
+# ThemisDB Query Module Headers
 
 ## Module Purpose
 
-The Query module provides ThemisDB's comprehensive query execution layer, featuring the AQL (Advanced Query Language) parser, query optimizer, execution engine, caching system, and federation capabilities. It handles all aspects of query processing from parsing to result delivery with support for multi-model data, hybrid queries, and distributed execution.
+The Query module provides ThemisDB's comprehensive query execution layer, featuring the AQL (Advanced Query Language) parser, query optimizer, execution engine, caching system, and federation capabilities. AQL is a multi-paradigm query language based on ArangoDB's AQL but extended to support relational, document, graph, vector, spatial, and timeseries models. This module handles all aspects of query processing from parsing to result delivery with support for hybrid queries and distributed execution.
+
+### About AQL (Advanced Query Language)
+
+**AQL** is ThemisDB's declarative query language inspired by ArangoDB's AQL (ArrangoQL) but significantly extended for multi-model database capabilities:
+
+**Core Philosophy:**
+- **Declarative Syntax**: SQL-like readability with FOR-FILTER-SORT-RETURN pattern
+- **Multi-Paradigm**: Single query language for all data models (relational, document, graph, vector, spatial, timeseries)
+- **Composable**: Mix and match query patterns for complex hybrid queries
+- **Extensible**: 100+ built-in functions with plugin architecture for custom functions
+
+**Key Differentiators from ArangoDB AQL:**
+- ✅ **Compatible Core**: Maintains ArangoDB AQL syntax for common operations
+- ➕ **Vector Search**: Native SIMILARITY(), COSINE_DISTANCE(), L2_DISTANCE() functions
+- ➕ **Advanced Geospatial**: Full ST_* function suite (PostGIS-compatible)
+- ➕ **LLM Integration**: LLM INFER, LLM RAG, LLM EMBED commands
+- ➕ **Timeseries**: Specialized window functions and retention policies
+- ➕ **Process Mining**: Event log analysis, conformance checking, variant detection
+- ➕ **Ethics Functions**: Bias detection, fairness scoring, transparency analysis
+- ➕ **Federation**: Query across distributed databases and shards
+
+**Query Examples:**
+
+```aql
+-- Relational query (SQL-like)
+FOR user IN users
+  FILTER user.age > 30 AND user.city == "Seattle"
+  SORT user.name ASC
+  LIMIT 10
+  RETURN user
+
+-- Graph traversal (compatible with ArangoDB)
+FOR vertex, edge, path IN 1..5 OUTBOUND "users/alice" GRAPH "social"
+  FILTER vertex.verified == true
+  RETURN {vertex: vertex, distance: LENGTH(path)}
+
+-- Vector similarity (ThemisDB extension)
+FOR doc IN documents
+  LET score = SIMILARITY(doc.embedding, @queryVector)
+  FILTER score > 0.8
+  SORT score DESC
+  LIMIT 10
+  RETURN {doc: doc, score: score}
+
+-- Hybrid vector+geo query (ThemisDB extension)
+FOR place IN places
+  LET vecScore = SIMILARITY(place.embedding, @queryVector)
+  FILTER vecScore > 0.7
+  FILTER ST_DWithin(place.location, ST_Point(@lon, @lat), 1000)
+  SORT vecScore DESC
+  LIMIT 20
+  RETURN place
+
+-- LLM integration (ThemisDB extension)
+LLM RAG 'What are the top rated restaurants near me?'
+  SEARCH IN restaurants
+  FILTER ST_DWithin(location, ST_Point(@userLon, @userLat), 5000)
+  TOP 5
+  MODEL 'llama-3-8b'
+```
 
 ## Scope
 
