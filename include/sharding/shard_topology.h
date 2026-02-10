@@ -7,6 +7,7 @@
 #include <map>
 #include <optional>
 #include <algorithm>
+#include "sharding/shard_capabilities.h"
 
 namespace themis::sharding {
 
@@ -28,6 +29,9 @@ struct ShardInfo {
     // PKI/Security fields
     std::string certificate_serial;          // X.509 certificate serial number
     std::vector<std::string> capabilities;   // read, write, replicate, admin
+    
+    // Domain capability for adaptive routing
+    DomainCapability domain_capability;      // Domain specialization info
     
     /**
      * Check if this shard has a specific capability

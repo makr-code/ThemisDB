@@ -1407,8 +1407,12 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
     ../src/utils/file_utils.cpp
+    ../src/utils/capability_auto_generator.cpp
+    ../src/utils/self_awareness.cpp
     ../src/stubs.cpp
     ../src/sharding/shard_router.cpp
+    ../src/sharding/capability_matcher.cpp
+    ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/rebalance_operation.cpp
     ../src/sharding/data_migrator.cpp
     ../src/sharding/shard_load_detector.cpp
