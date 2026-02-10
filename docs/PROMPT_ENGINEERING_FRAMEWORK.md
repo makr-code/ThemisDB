@@ -1,5 +1,7 @@
 # Prompt Engineering & Optimization Framework
 
+> **📌 Note**: This document describes the Phase 1 foundation components. For the complete system including Phases 2-6 (Performance Tracking, Self-Improvement, Feedback Collection, Version Control, and Integration Layer), see **[PROMPT_ENGINEERING_ARCHITECTURE.md](PROMPT_ENGINEERING_ARCHITECTURE.md)**.
+
 ## Overview
 
 The Prompt Engineering & Optimization Framework provides a **production-ready**, systematic, research-based approach to improving LLM prompts through iterative refinement, automatic evaluation, and intelligent few-shot example selection. Built on principles from DSPy, AutoPrompt, and Chain-of-Thought research.

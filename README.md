@@ -26,7 +26,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🔍 **Multi-Model** - Relational, Graph, Vector, Document in one database
 - 🚀 **High Performance** - 45K writes/s, 120K reads/s, CPU-optimized vector search (GPU planned for v2.x)
 - 🛡️ **Enterprise Security** - TLS 1.3, RBAC, field-level encryption, audit logging
-- 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant
+- 🧠 **AI-Ready** - Optional LLM engine, vector search, image analysis, voice assistant, **autonomous prompt optimization**
 - 🌐 **Modern Protocols** - HTTP/2, WebSocket, gRPC, MQTT, PostgreSQL Wire, GraphQL
 - 🏗️ **Modular Architecture (v1.4.0+)** - Optional modular build for faster compilation and selective features
 - 🛡️ **Production Resilience (v1.4.1+)** - Circuit breakers, auto-retry, 99.99% corruption detection, network timeouts
@@ -770,6 +770,7 @@ llm:
 - ✅ 10-50x more energy efficient than desktop GPUs
 - ✅ Models: TinyLlama (1B), Phi-3 (3.8B), Mistral (7B)
 - ✅ RAG, embeddings, chat, and text generation
+- ✅ **Autonomous prompt optimization** with A/B testing and rollback ([learn more](docs/PROMPT_ENGINEERING_ARCHITECTURE.md))
 
 ---
 
