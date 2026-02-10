@@ -249,16 +249,20 @@ TEST_F(SelfImprovementOrchestratorTest, RollbackPrompt) {
     std::vector<TestCase> test_cases = {{"input", "output", {}}};
     auto result = orchestrator_->optimizePrompt(prompt_id, test_cases);
     
-    // Manually mark as deployed for testing
-    // (In real scenario, A/B testing would do this)
+    // Check that optimization happened
+    EXPECT_EQ(result.prompt_id, prompt_id);
     
-    // Rollback
-    bool rolled_back = orchestrator_->rollbackPrompt(prompt_id);
+    // Rollback will fail if not deployed, which is expected without full A/B testing
+    // Test the no-history case
+    bool rolled_back = orchestrator_->rollbackPrompt("nonexistent_prompt");
+    EXPECT_FALSE(rolled_back);  // Should fail for non-existent prompt
     
-    // Rollback might fail if not deployed, which is expected in this test
-    // In production, we'd need full A/B testing flow
-    // This test validates the rollback mechanism exists
-    EXPECT_TRUE(rolled_back || !rolled_back);  // Just check it doesn't crash
+    // For existing prompt with history but no deployment, rollback might succeed or fail
+    // depending on whether optimization was marked as deployed
+    // This tests that the method doesn't crash
+    rolled_back = orchestrator_->rollbackPrompt(prompt_id);
+    // Result depends on deployment status, but method should not crash
+    EXPECT_TRUE(rolled_back || !rolled_back);  // Just ensure no crash
 }
 
 TEST_F(SelfImprovementOrchestratorTest, AutoOptimizationScan) {

@@ -175,22 +175,36 @@ OptimizationResult SelfImprovementOrchestrator::optimizePrompt(
         optimizer_->setConfig(opt_config);
         
         // Create evaluation function using the evaluator
+        // 
+        // NOTE: This is a placeholder evaluation function for demonstration.
+        // In production, this should:
+        // 1. Actually execute the prompt with LLM
+        // 2. Compare LLM output against expected results
+        // 3. Use PromptEvaluator to compute proper metrics
+        // 
+        // Example production implementation:
+        //   auto eval_fn = [this, &llm](const std::string& prompt, const std::vector<TestCase>& cases) {
+        //       std::vector<std::string> outputs;
+        //       std::vector<std::string> expected;
+        //       for (const auto& tc : cases) {
+        //           outputs.push_back(llm->generate(prompt + tc.input));
+        //           expected.push_back(tc.expected_output);
+        //       }
+        //       return evaluator_->evaluateBatch(outputs, expected).overall_score;
+        //   };
+        //
         auto eval_fn = [this, &test_cases](const std::string& prompt, 
                                            const std::vector<TestCase>& cases) -> double {
-            // Simple evaluation: count successful matches
-            double total_score = 0.0;
-            for (const auto& tc : cases) {
-                // In production, this would actually run the prompt
-                // For now, use a heuristic based on prompt quality
-                double score = 0.5; // Base score
-                
-                if (prompt.find("Task") != std::string::npos) score += 0.2;
-                if (prompt.find("Example") != std::string::npos) score += 0.2;
-                if (prompt.length() > 100) score += 0.1;
-                
-                total_score += std::min(1.0, score);
-            }
-            return total_score / cases.size();
+            // PLACEHOLDER: Heuristic-based scoring for testing
+            // TODO: Replace with actual LLM execution and evaluation
+            double score = 0.5; // Base score
+            
+            // These are arbitrary heuristics for testing purposes only
+            if (prompt.find("Task") != std::string::npos) score += 0.2;
+            if (prompt.find("Example") != std::string::npos) score += 0.2;
+            if (prompt.length() > 100) score += 0.1;
+            
+            return std::min(1.0, score);
         };
         
         // Run optimization
@@ -525,10 +539,29 @@ void SelfImprovementOrchestrator::analyzeABTest(ABTest& test) {
     // Calculate z-score
     double z = (test.score_b - test.score_a) / se;
     
-    // Calculate p-value (simplified two-tailed test)
-    // In production, use proper statistical functions
-    test.p_value = 2.0 * (1.0 - std::abs(z) / 3.0); // Very simplified!
-    test.p_value = std::max(0.0, std::min(1.0, test.p_value));
+    // Calculate p-value using approximation of cumulative distribution function
+    // Note: This is a simplified approximation. For production use, integrate
+    // a proper statistical library like Boost.Math for accurate CDF calculation.
+    // 
+    // Current implementation uses a rough approximation:
+    // - For |z| < 1.96: moderate evidence (p ~0.05)
+    // - For |z| > 2.58: strong evidence (p < 0.01)
+    // 
+    // TODO: Replace with proper normal CDF implementation
+    double abs_z = std::abs(z);
+    if (abs_z >= 2.58) {
+        test.p_value = 0.01;  // Strong significance
+    } else if (abs_z >= 1.96) {
+        test.p_value = 0.05;  // Moderate significance
+    } else if (abs_z >= 1.64) {
+        test.p_value = 0.10;  // Weak significance
+    } else {
+        // Linear interpolation for z between 0 and 1.64
+        test.p_value = 1.0 - (abs_z / 1.64) * 0.9;
+    }
+    
+    // Two-tailed test
+    // (Already handled by using absolute value above)
     
     // Check significance
     double alpha = 1.0 - config_.ab_test_confidence;
