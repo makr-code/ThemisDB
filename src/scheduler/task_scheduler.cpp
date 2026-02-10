@@ -32,8 +32,8 @@ namespace themis {
 
 // ===== TaskScheduler Implementation =====
 
-TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, Changefeed* changefeed)
-    : query_engine_(query_engine), changefeed_(changefeed), config_(config) {
+TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, Changefeed* changefeed, utils::AuditLogger* audit_logger)
+    : query_engine_(query_engine), changefeed_(changefeed), audit_logger_(audit_logger), config_(config) {
     if (!query_engine_) {
         throw std::invalid_argument("TaskScheduler: query_engine cannot be null");
     }
@@ -196,6 +196,31 @@ std::string TaskScheduler::registerTask(const ScheduledTask& task) {
                 id, sanitized_task.name,
                 static_cast<int>(sanitized_task.trigger_type));
     
+    // Audit log task registration
+    if (config_.enable_audit_logging && audit_logger_) {
+        nlohmann::json details = {
+            {"task_name", sanitized_task.name},
+            {"task_description", sanitized_task.description},
+            {"trigger_type", static_cast<int>(sanitized_task.trigger_type)},
+            {"enabled", task_ptr->enabled}
+        };
+        
+        if (task_ptr->trigger_type == ScheduledTask::TriggerType::CRON) {
+            details["cron_expression"] = task_ptr->cron_expression;
+        } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::CDC_EVENT) {
+            details["cdc_key_prefix"] = task_ptr->cdc_trigger.key_prefix;
+        } else if (task_ptr->trigger_type == ScheduledTask::TriggerType::INTERVAL) {
+            details["interval_seconds"] = task_ptr->interval.count() / 1000.0;
+        }
+        
+        audit_logger_->logTaskSchedulerEvent(
+            utils::SecurityEventType::TASK_REGISTERED,
+            id,
+            "system", // TODO: Get actual user from auth context
+            details
+        );
+    }
+    
     if (config_.persist_tasks) {
         saveTasks();
     }
@@ -217,6 +242,24 @@ void TaskScheduler::unregisterTask(const std::string& task_id) {
         cron_expressions_.erase(task_id);
         
         THEMIS_INFO("Unregistered task: {}", task_id);
+        
+        // Audit log task unregistration
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", it->second->name},
+                {"total_executions", it->second->total_executions},
+                {"successful_executions", it->second->successful_executions},
+                {"failed_executions", it->second->failed_executions}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_UNREGISTERED,
+                task_id,
+                "system", // TODO: Get actual user from auth context
+                details
+            );
+        }
+        
         tasks_.erase(it);
         
         if (config_.persist_tasks) {
@@ -233,6 +276,20 @@ void TaskScheduler::enableTask(const std::string& task_id) {
         it->second->enabled = true;
         THEMIS_INFO("Enabled task: {}", task_id);
         
+        // Audit log task enable
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", it->second->name}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_ENABLED,
+                task_id,
+                "system", // TODO: Get actual user from auth context
+                details
+            );
+        }
+        
         if (config_.persist_tasks) {
             saveTasks();
         }
@@ -246,6 +303,20 @@ void TaskScheduler::disableTask(const std::string& task_id) {
     if (it != tasks_.end()) {
         it->second->enabled = false;
         THEMIS_INFO("Disabled task: {}", task_id);
+        
+        // Audit log task disable
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", it->second->name}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_DISABLED,
+                task_id,
+                "system", // TODO: Get actual user from auth context
+                details
+            );
+        }
         
         if (config_.persist_tasks) {
             saveTasks();
@@ -310,6 +381,21 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
             return nlohmann::json{{"error", "Task not found"}};
         }
         task = it->second;
+    }
+    
+    // Audit log manual task execution trigger
+    if (config_.enable_audit_logging && audit_logger_) {
+        nlohmann::json details = {
+            {"task_name", task->name},
+            {"trigger_type", "MANUAL"}
+        };
+        
+        audit_logger_->logTaskSchedulerEvent(
+            utils::SecurityEventType::TASK_MANUAL_TRIGGERED,
+            task_id,
+            "system", // TODO: Get actual user from auth context
+            details
+        );
     }
     
     // Execute synchronously
@@ -466,6 +552,23 @@ void TaskScheduler::schedulerLoop() {
                         continue;
                     }
                     
+                    // Audit log cron trigger activation (for cron-based tasks)
+                    if (config_.enable_audit_logging && audit_logger_ && 
+                        task->trigger_type == ScheduledTask::TriggerType::CRON) {
+                        nlohmann::json details = {
+                            {"task_name", task->name},
+                            {"trigger_type", "CRON"},
+                            {"cron_expression", task->cron_expression}
+                        };
+                        
+                        audit_logger_->logTaskSchedulerEvent(
+                            utils::SecurityEventType::TASK_CRON_TRIGGERED,
+                            id,
+                            "system",
+                            details
+                        );
+                    }
+                    
                     tasks_to_execute.push_back(task);
                 }
             }
@@ -544,11 +647,38 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         THEMIS_DEBUG("Executed task {} ({}): {:.2f}ms",
                      task->id, task->name, elapsed_ms);
         
+        // Audit log successful task execution
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", task->name},
+                {"trigger_type", static_cast<int>(task->trigger_type)},
+                {"execution_time_ms", elapsed_ms},
+                {"total_executions", task->total_executions},
+                {"avg_execution_time_ms", task->avg_execution_time_ms},
+                {"success", true}
+            };
+            
+            // Add trigger-specific details
+            if (task->trigger_type == ScheduledTask::TriggerType::CRON) {
+                details["cron_expression"] = task->cron_expression;
+            }
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_EXECUTED_SUCCESS,
+                task->id,
+                "system", // TODO: Get actual user from auth context
+                details
+            );
+        }
+        
         if (task->on_success) {
             task->on_success(task->id, result);
         }
         
     } catch (const std::exception& e) {
+        auto end = std::chrono::steady_clock::now();
+        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+        
         task->failed_executions++;
         task->last_error = e.what();
         task->last_failure_time = std::chrono::system_clock::now();
@@ -558,6 +688,25 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         
         span.recordError(e.what());
         THEMIS_ERROR("Failed to execute task {}: {}", task->id, e.what());
+        
+        // Audit log failed task execution
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", task->name},
+                {"trigger_type", static_cast<int>(task->trigger_type)},
+                {"execution_time_ms", elapsed_ms},
+                {"error_message", e.what()},
+                {"failed_executions", task->failed_executions},
+                {"success", false}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_EXECUTED_FAILURE,
+                task->id,
+                "system", // TODO: Get actual user from auth context
+                details
+            );
+        }
         
         if (task->on_failure) {
             task->on_failure(task->id, e.what());
@@ -1082,6 +1231,24 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
         
         THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
                     task_id, event.key, static_cast<int>(event.type));
+        
+        // Audit log CDC trigger activation
+        if (config_.enable_audit_logging && audit_logger_) {
+            nlohmann::json details = {
+                {"task_name", task_ptr->name},
+                {"trigger_type", "CDC_EVENT"},
+                {"cdc_key", event.key},
+                {"cdc_event_type", static_cast<int>(event.type)},
+                {"cdc_key_prefix", task_ptr->cdc_trigger.key_prefix}
+            };
+            
+            audit_logger_->logTaskSchedulerEvent(
+                utils::SecurityEventType::TASK_CDC_TRIGGERED,
+                task_id,
+                "system",
+                details
+            );
+        }
         
         // Check if task is enabled
         if (!task_ptr->enabled) {
