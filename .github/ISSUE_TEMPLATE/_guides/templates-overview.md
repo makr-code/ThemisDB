@@ -54,9 +54,8 @@ Specialized templates for security attack vectors organized by category:
 - **`security_distributed_attack.md`** - Distributed system attack vectors (consensus, MVCC, shard attacks)
 
 **Related Workflows:**
-- `.github/workflows/attack-vector-analysis.yml` - Automated attack vector analysis
-- `.github/workflows/security-scan.yml` - Security scanning (OWASP ZAP, AFL++, CodeQL)
-- `.github/workflows/fuzzing.yml` - Fuzzing tests for injection vectors
+- `.github/workflows/security.yml` - Comprehensive security scanning (CodeQL, Trivy, Gitleaks, cppcheck)
+- `.github/workflows/tests-specialized.yml` - Fuzzing tests for injection vectors
 
 **Documentation:**
 - `docs/de/security/ANGRIFFSVEKTOREN_ANALYSE_RUNBOOK.md` - Analysis runbook

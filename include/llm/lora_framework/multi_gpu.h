@@ -72,7 +72,7 @@ public:
     /**
      * @brief Synchronize all GPUs
      */
-    void synchronize_all();
+    void synchronize_all() const;
     
 private:
     std::vector<Device> devices_;

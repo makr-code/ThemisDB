@@ -1179,7 +1179,7 @@ std::vector<uint8_t> RedundancyStrategy::mergeChunks(
 
 std::string RedundancyStrategy::selectReadShard(
     const std::vector<std::string>& available_shards,
-    ShardTopology& topology
+    ShardTopology& /*topology*/
 ) {
     if (available_shards.empty()) {
         throw std::runtime_error("No available shards");

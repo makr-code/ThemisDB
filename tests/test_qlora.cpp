@@ -3,6 +3,7 @@
 #include "llm/lora_framework/lora_layers.h"
 #include <memory>
 #include <cmath>
+#include <chrono>
 
 using namespace themis::llm::lora;
 

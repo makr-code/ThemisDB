@@ -1,0 +1,142 @@
+BUILD ANALYSIS REPORT
+=====================
+
+DATE: 25. Januar 2026
+WORKSPACE: c:\VCC\themis
+
+## ANALYSIS SUMMARY
+
+### 1. SOURCE FILES AVAILABLE
+==================================
+
+✓ LLM Sources (src/llm/):
+  - Core LLM files: 37+ .cpp files present
+  - LoRA Framework: 54+ .cpp files present in lora_framework/
+  - Key missing implementations noted below
+
+✓ Chimera Adapter Sources (src/chimera/):
+  - adapter_factory.cpp ✓
+  - themisdb_adapter.cpp ✓
+
+✓ Voice Assistant (src/voice/):
+  - voice_assistant.cpp ✓
+  - voice_assistant_llm.cpp ✓
+
+✓ Other modules: All major directories present
+  - storage/, query/, index/, etc.
+
+### 2. CMAKE BUILD LISTS vs ACTUAL FILES
+========================================
+
+DISCREPANCIES FOUND:
+
+#### Missing in Build Lists but Source Exists:
+1. adapter_registry.cpp (src/llm/) - NEWLY CREATED
+   Status: Added to cmake/LLMIntegration.cmake
+
+2. byzantine_detector.cpp (src/llm/) - EXISTS
+   Status: Added to cmake/DistributedTraining.cmake
+
+3. Chimera Adapter Files (src/chimera/)
+   - adapter_factory.cpp - EXISTS but not in any build list
+   - themisdb_adapter.cpp - EXISTS but not in any build list
+   - Status: NEED TO ADD to build configuration
+
+4. Voice Assistant Files (src/voice/)
+   - voice_assistant.cpp - EXISTS 
+   - voice_assistant_llm.cpp - EXISTS
+   - Status: May not be in build lists; verify
+
+#### Expected in Build Lists but Hard to Verify:
+- Many LLM framework files in lora_framework/ exist
+- Need to cross-check cmake/LLMIntegration.cmake completeness
+
+### 3. BUILD CONFIGURATION FILES
+================================
+
+Key CMake files that define source compilation:
+- cmake/CMakeLists.txt - Main source list
+- cmake/LLMIntegration.cmake - LLM module sources
+- cmake/DistributedTraining.cmake - Distributed training sources
+- cmake/AccelerationBackends.cmake - GPU/CUDA sources
+- cmake/ContentProcessors.cmake - Content handling sources
+- cmake/DistributedTraining.cmake - Training coordination sources
+
+### 4. RECOMMENDATIONS
+======================
+
+A. IMMEDIATE ACTIONS NEEDED:
+1. Add Chimera adapter sources to build list:
+   - src/chimera/adapter_factory.cpp
+   - src/chimera/themisdb_adapter.cpp
+   
+2. Verify voice_assistant sources in build list
+
+3. Run grep to find all referenced but unbuild files
+
+B. BUILD HEALTH:
+- Latest link error shows only 4 unresolved symbols (DOWN from 145+)
+- Most compilation successful
+- Main issue: Missing source files in build lists
+
+C. NEXT STEPS:
+1. Complete build list audit for all modules
+2. Add missing sources identified in this analysis
+3. Rebuild and verify link success
+4. Run full test suite
+
+### 5. FILE INVENTORY
+====================
+
+src/llm/ (37 files):
+  adapter_load_balancer.cpp, adapter_registry.cpp, ai_decision_auditor.cpp,
+  async_inference_engine.cpp, block_table.cpp, byzantine_detector.cpp,
+  constitutional_reasoning_engine.cpp, continuous_batch_scheduler.cpp,
+  distributed_training_coordinator.cpp, docs_assistant.cpp, embedded_llm.cpp,
+  ethical_guidelines_manager.cpp, ethics_aware_confidence_detector.cpp,
+  explanation_generator.cpp, feedback_plugin_basic.cpp, feedback_store.cpp,
+  fewshot_optimizer.cpp, gguf_loader.cpp, gpu_memory_manager.cpp,
+  grafana_metrics.cpp, grammar.cpp, grammar_cache.cpp,
+  inference_engine_enhanced.cpp, kernel_fusion.cpp, kv_cache_buffer.cpp,
+  llamacpp_inference_engine.cpp, llama_lora_adapter_stub.cpp,
+  llama_resource_manager.cpp, llama_wrapper.cpp, llm_interaction_store.cpp,
+  llm_model_audit_logger.cpp, llm_model_storage.cpp, llm_plugin_manager.cpp,
+  llm_prefix_cache.cpp, llm_response_cache.cpp, lora_metadata_cache.cpp,
+  lora_router.cpp, lora_security_validator.cpp, meta_prompt_generator.cpp,
+  ml_model_manager.cpp, model_loader.cpp, model_metadata_cache.cpp,
+  multi_lora_manager.cpp, multi_perspective_generator.cpp, paged_block_manager.cpp,
+  paged_kv_cache.cpp, production_validator.cpp, prompt_evaluator.cpp,
+  prompt_manager.cpp, prompt_optimizer.cpp, sampling_strategy.cpp,
+  vision_config.cpp, vision_encoder.cpp, vision_resource_monitor.cpp
+
+src/llm/lora_framework/ (54 files):
+  adapter_consistency_checker.cpp, adapter_sync_manager.cpp, adaptive_batcher.cpp,
+  base_model_adapter.cpp, custom_allreduce.cpp, data_loader.cpp,
+  directx_buffer.cpp, directx_context.cpp, directx_descriptors.cpp,
+  directx_pipeline.cpp, directx_shader.cpp, distributed_dataloader.cpp,
+  distributed_trainer.cpp, embedding_provider.cpp, feedback_plugin.cpp,
+  flash_lora.cpp, gguf_converter.cpp, gpu_data_loader.cpp,
+  gpu_embedding_layer.cpp, gpu_lora_layers.cpp, gpu_memory.cpp,
+  gpu_tensor.cpp, gpu_training_loop.cpp, gpu_utilization_monitor.cpp,
+  gradient_checkpointing.cpp, gradient_utils.cpp, llama_tokenizer.cpp,
+  lora_adapter_manager.cpp, lora_audit_logger.cpp, lora_feedback_storage.cpp,
+  lora_layers.cpp, lora_orchestrator.cpp, lora_storage_service.cpp,
+  lora_storage_service_themisdb.cpp, lora_training_config.cpp,
+  lora_training_service.cpp, lr_scheduler.cpp, mixed_precision.cpp,
+  model_compatibility.cpp, multi_gpu.cpp, multi_gpu_lora_layer.cpp,
+  multi_gpu_trainer.cpp, nccl_backend.cpp, paged_memory_manager.cpp,
+  paged_optimizer.cpp, quantization.cpp, quantized_model.cpp,
+  rccl_backend.cpp, resource_profiler.cpp, sequence_packer.cpp,
+  training_service_registry.cpp, vram_allocator.cpp, vulkan_buffer.cpp,
+  vulkan_context.cpp, vulkan_pipeline.cpp
+
+src/chimera/ (2 files):
+  adapter_factory.cpp ✓ (MISSING FROM BUILD)
+  themisdb_adapter.cpp ✓ (MISSING FROM BUILD)
+
+src/voice/ (2 files):
+  voice_assistant.cpp ✓
+  voice_assistant_llm.cpp ✓
+
+END OF REPORT
+=============

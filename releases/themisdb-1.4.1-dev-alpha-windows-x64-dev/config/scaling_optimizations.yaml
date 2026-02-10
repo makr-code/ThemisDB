@@ -1,0 +1,296 @@
+# =============================================================================
+# ThemisDB Scaling Optimizations Configuration
+# Version: 1.4.0
+# =============================================================================
+#
+# Configuration for ThemisDB scaling optimizations targeting 10B+ records
+# Includes adaptive query caching, cache-aware indexing, and WAL optimization
+#
+# Performance Targets:
+# - Query Engine @ 10B: 200M → 600M ops/sec (+200%)
+# - WAL throughput: 217k → 350k items/sec (+61%)
+# - Vector Search @ 1B: -15% → -5% overhead (+67% efficiency)
+# - Cache hit latency: 5-10ms → <1ms (-90%)
+#
+# =============================================================================
+
+# =============================================================================
+# PHASE 1: ADAPTIVE MULTI-LEVEL QUERY CACHE
+# =============================================================================
+query_cache:
+  # Enable adaptive query cache (default: false for backward compatibility)
+  enabled: true
+  
+  # L1 (HOT) Cache Configuration - In-memory, ultra-fast
+  l1_hot:
+    # Maximum entries in L1 cache
+    max_entries: 10000
+    
+    # Maximum entry size (bytes) - entries larger than this go to L2
+    max_entry_size: 1024  # 1KB
+    
+    # Time-to-live for L1 entries (seconds)
+    ttl_seconds: 300  # 5 minutes
+  
+  # L2 (WARM) Cache Configuration - Compressed in-memory
+  l2_warm:
+    # Maximum entries in L2 cache
+    max_entries: 50000
+    
+    # Maximum entry size (bytes) - entries larger than this go to L3
+    max_entry_size: 10240  # 10KB
+    
+    # Time-to-live for L2 entries (seconds)
+    ttl_seconds: 1800  # 30 minutes
+    
+    # Zstd compression level (1-22, higher = better compression but slower)
+    # Recommended: 3 (balanced), 1 (fast), 9 (high compression)
+    compression_level: 3
+  
+  # L3 (COLD) Cache Configuration - RocksDB persistent
+  l3_cold:
+    # Path for L3 cache database
+    db_path: "./data/query_cache"
+    
+    # Time-to-live for L3 entries (seconds)
+    ttl_seconds: 86400  # 24 hours
+  
+  # Adaptive TTL Configuration
+  adaptive_ttl:
+    # Enable adaptive TTL based on query frequency
+    enabled: true
+    
+    # Minimum TTL (seconds)
+    min_ttl_seconds: 60  # 1 minute
+    
+    # Maximum TTL (seconds)
+    max_ttl_seconds: 86400  # 24 hours
+  
+  # Eviction Policy
+  eviction:
+    # Enable frequency weighting in LRU scoring
+    enable_frequency_weighting: true
+    
+    # Weight for frequency in LRU score (0.0-1.0)
+    # Higher = more weight on access frequency vs recency
+    frequency_weight: 0.3
+
+# =============================================================================
+# PHASE 2: CACHE-AWARE ADAPTIVE INDEX SELECTION
+# =============================================================================
+adaptive_indexing:
+  # Enable cache-aware index selection
+  enabled: true
+  
+  # L3 cache size for index fit ratio calculation (MB)
+  # Typical L3 cache: 20MB (consumer), 30-50MB (server)
+  l3_cache_size_mb: 20
+  
+  # Target cache hit rate for index recommendations (0.0-1.0)
+  # Indexes are scored to maximize this target
+  target_cache_hit_rate: 0.70  # 70%
+  
+  # Minimum score threshold for index suggestions (0.0-1.0)
+  # Lower = more suggestions, higher = only high-impact suggestions
+  min_suggestion_score: 0.5
+  
+  # Maximum number of index suggestions to return
+  max_suggestions: 10
+  
+  # Query pattern tracking
+  pattern_tracking:
+    # Enable automatic query pattern tracking
+    enabled: true
+    
+    # Track cache hit/miss metrics per query pattern
+    track_cache_metrics: true
+    
+    # Sample size for selectivity analysis (0 = full scan)
+    selectivity_sample_size: 1000
+
+# =============================================================================
+# PHASE 3: WAL ADAPTIVE BATCHING & COMPRESSION
+# =============================================================================
+wal_optimization:
+  # Enable WAL optimization features
+  enabled: true
+  
+  # Adaptive Batch Sizing
+  adaptive_batching:
+    # Enable adaptive batch size calculation
+    enabled: true
+    
+    # Base batch size (used if adaptive disabled)
+    base_batch_size: 100
+    
+    # Minimum batch size (when adaptive enabled)
+    min_batch_size: 10
+    
+    # Maximum batch size (when adaptive enabled)
+    max_batch_size: 1000
+    
+    # Factors for adaptive calculation (see calculateOptimalBatchSize)
+    # Network latency thresholds (milliseconds)
+    network_latency_thresholds:
+      very_fast: 1.0   # <1ms → 0.5x multiplier
+      fast: 5.0        # <5ms → 0.75x multiplier
+      slow: 20.0       # >20ms → 1.5x multiplier
+      very_slow: 50.0  # >50ms → 2.0x multiplier
+    
+    # CPU utilization thresholds (0.0-1.0)
+    cpu_utilization_thresholds:
+      low: 0.3   # <30% → 1.5x multiplier
+      high: 0.8  # >80% → 0.6x multiplier
+    
+    # Disk IOPS thresholds
+    disk_iops_thresholds:
+      low: 10000   # <10k → 0.7x multiplier
+      high: 50000  # >50k → 1.5x multiplier
+  
+  # Intelligent Compression Selection
+  compression:
+    # Enable intelligent compression type selection
+    enabled: true
+    
+    # Default compression type if intelligent selection disabled
+    # Options: "none", "lz4", "zstd"
+    default_type: "zstd"
+    
+    # Default compression level
+    default_level: 3
+    
+    # Intelligent selection rules (see selectCompressionType)
+    rules:
+      # Minimum payload size for compression (bytes)
+      min_payload_size: 4096  # 4KB
+      
+      # CPU utilization threshold for compression (0.0-1.0)
+      # Above this threshold, disable compression or use faster method
+      cpu_threshold_disable: 0.85  # 85%
+      cpu_threshold_fast: 0.70     # 70%
+      
+      # Use Zstd for repetitive payloads (JSON, text) when CPU < threshold
+      prefer_zstd_for_repetitive: true
+
+# =============================================================================
+# PHASE 4: HNSW VECTOR INDEX LAYER PRUNING
+# =============================================================================
+hnsw_optimization:
+  # Enable HNSW layer optimization
+  enabled: true
+  
+  # Predictive layer pruning
+  layer_pruning:
+    enabled: true
+    
+    # Pruning threshold multiplier (k * multiplier)
+    # If candidate_count > k * multiplier, skip deeper layers
+    threshold_multiplier: 5
+    
+    # Minimum samples for statistical confidence (optional, has default)
+    min_samples: 5
+  
+  # Adaptive layer selection
+  adaptive_layer_selection:
+    enabled: true
+    
+    # Window size for layer efficiency statistics
+    stats_window_size: 1000
+    
+    # Minimum samples for statistical confidence (optional, has default)
+    min_samples: 10
+  
+  # Batch insert optimization
+  batch_insert:
+    enabled: false
+    
+    # Batch size for grouped inserts
+    batch_size: 100
+
+# =============================================================================
+# MONITORING & METRICS
+# =============================================================================
+monitoring:
+  # Enable detailed performance metrics
+  enable_metrics: true
+  
+  # Metrics collection interval (seconds)
+  metrics_interval: 60
+  
+  # Cache statistics
+  cache_stats:
+    # Report cache hit/miss ratios
+    report_hit_rates: true
+    
+    # Report cache tier utilization
+    report_tier_utilization: true
+    
+    # Report promotion/demotion events
+    report_cache_events: true
+  
+  # Index statistics
+  index_stats:
+    # Report index suggestion scores
+    report_suggestions: true
+    
+    # Report cache fit ratios
+    report_cache_fit: true
+  
+  # WAL statistics
+  wal_stats:
+    # Report batch size adaptations
+    report_batch_sizes: true
+    
+    # Report compression ratios
+    report_compression: true
+    
+    # Report throughput metrics
+    report_throughput: true
+
+# =============================================================================
+# EXAMPLES & USE CASES
+# =============================================================================
+#
+# Example 1: High-Performance OLAP (Query-Heavy)
+# ----------------------------------------------
+# query_cache.enabled: true
+# query_cache.l1_hot.max_entries: 50000
+# query_cache.l2_warm.max_entries: 200000
+# adaptive_indexing.enabled: true
+# wal_optimization.adaptive_batching.enabled: false  # Less write load
+#
+# Example 2: Real-Time Indexing (Write-Heavy)
+# -------------------------------------------
+# query_cache.enabled: false  # Cache less useful for unique queries
+# wal_optimization.enabled: true
+# wal_optimization.adaptive_batching.enabled: true
+# wal_optimization.adaptive_batching.max_batch_size: 2000
+# wal_optimization.compression.enabled: true
+#
+# Example 3: Balanced Workload (Hybrid OLTP/OLAP)
+# -----------------------------------------------
+# query_cache.enabled: true
+# query_cache.l1_hot.max_entries: 20000
+# adaptive_indexing.enabled: true
+# wal_optimization.enabled: true
+# wal_optimization.adaptive_batching.enabled: true
+# wal_optimization.compression.enabled: true
+#
+# Example 4: Resource-Constrained Environment
+# -------------------------------------------
+# query_cache.enabled: true
+# query_cache.l1_hot.max_entries: 5000
+# query_cache.l2_warm.max_entries: 10000
+# query_cache.l3_cold.db_path: ""  # Disable L3
+# wal_optimization.compression.rules.cpu_threshold_disable: 0.70  # Disable compression earlier
+#
+# Example 5: Maximum Performance (High-End Server)
+# ------------------------------------------------
+# query_cache.enabled: true
+# query_cache.l1_hot.max_entries: 100000
+# query_cache.l2_warm.max_entries: 500000
+# adaptive_indexing.l3_cache_size_mb: 50  # Larger L3 cache
+# wal_optimization.adaptive_batching.max_batch_size: 5000
+# wal_optimization.compression.default_level: 1  # Fast compression
+#
+# =============================================================================

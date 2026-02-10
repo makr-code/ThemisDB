@@ -1,0 +1,146 @@
+name: 'SDK Tests'
+
+on:
+  pull_request:
+    paths:
+      - 'clients/**'
+      - 'sdks/**'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'clients/**'
+      - 'sdks/**'
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Test specific language (or "all")'
+        required: false
+        type: string
+        default: 'all'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  # Python SDK
+  python:
+    if: inputs.language == 'all' || inputs.language == 'python' || inputs.language == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['3.10', '3.11', '3.12']
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: python
+      version: ${{ matrix.version }}
+
+  # JavaScript/Node.js SDK
+  javascript:
+    if: inputs.language == 'all' || inputs.language == 'javascript' || inputs.language == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['18', '20', '21']
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: javascript
+      version: ${{ matrix.version }}
+
+  # Java SDK
+  java:
+    if: inputs.language == 'all' || inputs.language == 'java' || inputs.language == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['11', '17', '21']
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: java
+      version: ${{ matrix.version }}
+
+  # Go SDK
+  go:
+    if: inputs.language == 'all' || inputs.language == 'go' || inputs.language == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['1.20', '1.21', '1.22']
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: go
+      version: ${{ matrix.version }}
+
+  # Ruby SDK
+  ruby:
+    if: inputs.language == 'all' || inputs.language == 'ruby' || inputs.language == ''
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: ruby
+      version: '3.2'
+
+  # Rust SDK
+  rust:
+    if: inputs.language == 'all' || inputs.language == 'rust' || inputs.language == ''
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: rust
+      version: 'stable'
+
+  # C# SDK
+  csharp:
+    if: inputs.language == 'all' || inputs.language == 'csharp' || inputs.language == ''
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: csharp
+      version: '7.0'
+
+  # PHP SDK
+  php:
+    if: inputs.language == 'all' || inputs.language == 'php' || inputs.language == ''
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ['8.1', '8.2', '8.3']
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: php
+      version: ${{ matrix.version }}
+
+  # Swift SDK
+  swift:
+    if: inputs.language == 'all' || inputs.language == 'swift' || inputs.language == ''
+    uses: ./.github/workflows/reusable-sdk-test.yml
+    with:
+      language: swift
+      version: '5.9'
+
+  # SDK Summary
+  summary:
+    name: SDK Test Summary
+    runs-on: ubuntu-latest
+    needs: [python, javascript, java, go, ruby, rust, csharp, php, swift]
+    if: always()
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# 📦 SDK Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Language | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Python | ${{ needs.python.result == 'success' && '✅' || (needs.python.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| JavaScript | ${{ needs.javascript.result == 'success' && '✅' || (needs.javascript.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Java | ${{ needs.java.result == 'success' && '✅' || (needs.java.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Go | ${{ needs.go.result == 'success' && '✅' || (needs.go.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Ruby | ${{ needs.ruby.result == 'success' && '✅' || (needs.ruby.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Rust | ${{ needs.rust.result == 'success' && '✅' || (needs.rust.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| C# | ${{ needs.csharp.result == 'success' && '✅' || (needs.csharp.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| PHP | ${{ needs.php.result == 'success' && '✅' || (needs.php.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Swift | ${{ needs.swift.result == 'success' && '✅' || (needs.swift.result == 'skipped' && '⏭️' || '❌') }} |" >> $GITHUB_STEP_SUMMARY

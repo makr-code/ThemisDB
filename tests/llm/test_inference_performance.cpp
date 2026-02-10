@@ -459,7 +459,7 @@ TEST_F(InferencePerformanceTest, Concurrent_ThroughputMeasurement) {
     std::vector<std::thread> threads;
     
     for (int i = 0; i < num_threads; ++i) {
-        threads.emplace_back([&completed, &throughput]() {
+        threads.emplace_back([this, &completed, &throughput]() {
             for (int j = 0; j < 25; ++j) {
                 simulateGeneration(10);
                 throughput.increment(10);
@@ -500,7 +500,7 @@ TEST_F(InferencePerformanceTest, Concurrent_Scalability) {
         std::vector<std::thread> threads;
         
         for (int i = 0; i < num_threads; ++i) {
-            threads.emplace_back([&throughput]() {
+            threads.emplace_back([this, &throughput]() {
                 for (int j = 0; j < 20; ++j) {
                     simulateGeneration(10);
                     throughput.increment(10);

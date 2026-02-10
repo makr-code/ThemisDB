@@ -2,12 +2,12 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
   
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
-  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security-scan.yml)
-  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/performance-regression-check.yml)
-  [![Audit Check](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/audit-check.yml)
+  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
+  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml)
+  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml)
+  [![Compliance](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml)
   [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
-  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci.yml)
+  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
@@ -33,6 +33,130 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 📊 **Observability & Automation (v1.4.1+)** - Health checks, alerting interface, automated backup scheduling (K8s-ready)
 
 **📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
+
+---
+
+## 📚 Module Documentation
+
+ThemisDB has **comprehensive documentation for all 39 modules** (139 files total) with production-ready standards:
+
+<details>
+<summary><b>🏗️ Foundation Layer</b> (6 modules)</summary>
+
+- **[Core](src/core/README.md)** - ConcernsContext DI framework, ILogger/ITracer/IMetrics/ICache interfaces, adapter implementations ([Future Enhancements](src/core/FUTURE_ENHANCEMENTS.md))
+- **[Storage](src/storage/README.md)** - RocksDB MVCC wrapper, 7 blob backends (S3/Azure/GCS/MinIO/local/memory/hybrid), backup/PITR ([Future Enhancements](src/storage/FUTURE_ENHANCEMENTS.md))
+- **[Transaction](src/transaction/README.md)** - MVCC concurrency control, SAGA orchestration, deadlock detection ([Future Enhancements](src/transaction/FUTURE_ENHANCEMENTS.md))
+- **[Themis](src/themis/README.md)** - Core framework, module loading with X.509/GPG signatures, edition management ([Future Enhancements](src/themis/FUTURE_ENHANCEMENTS.md))
+- **[Base](src/base/README.md)** - Base utilities and common infrastructure ([Future Enhancements](src/base/FUTURE_ENHANCEMENTS.md))
+- **[Utils](src/utils/README.md)** - General utility functions and helpers ([Future Enhancements](src/utils/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🔍 Query & Index Layer</b> (6 modules)</summary>
+
+- **[Query](src/query/README.md)** - AQL parser/optimizer/executor, 100+ functions, CTE support ([Future Enhancements](src/query/FUTURE_ENHANCEMENTS.md))
+- **[AQL](src/aql/README.md)** - Multi-paradigm query language (based on ArangoDB AQL), LLM integration (INFER/RAG/EMBED), hybrid queries ([Future Enhancements](src/aql/FUTURE_ENHANCEMENTS.md))
+- **[Index](src/index/README.md)** - HNSW GPU vector search, B-tree, graph, spatial, adaptive indexes ([Future Enhancements](src/index/FUTURE_ENHANCEMENTS.md))
+- **[Search](src/search/README.md)** - Full-text search with BM25 ranking ([Future Enhancements](src/search/FUTURE_ENHANCEMENTS.md))
+- **[Temporal](src/temporal/README.md)** - Time-travel queries, AS OF, bitemporal support ([Future Enhancements](src/temporal/FUTURE_ENHANCEMENTS.md))
+- **[TimeSeries](src/timeseries/README.md)** - Time-series optimized storage and queries ([Future Enhancements](src/timeseries/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🔒 Security & Auth</b> (3 modules)</summary>
+
+- **[Security](src/security/README.md)** - AES-256-GCM encryption, Vault/HSM/PKI integration, RBAC, compliance (SOC 2/NIST/GDPR) ([Future Enhancements](src/security/FUTURE_ENHANCEMENTS.md))
+- **[Auth](src/auth/README.md)** - JWT, Kerberos/GSSAPI, MFA (TOTP), rate limiting ([Future Enhancements](src/auth/FUTURE_ENHANCEMENTS.md))
+- **[Governance](src/governance/README.md)** - Data governance policies and compliance frameworks ([Future Enhancements](src/governance/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🌐 Server & Network</b> (4 modules)</summary>
+
+- **[Server](src/server/README.md)** - 7 protocols (HTTP/1.1/2/3, WebSocket, MQTT, PostgreSQL, gRPC), 40+ API handlers ([Future Enhancements](src/server/FUTURE_ENHANCEMENTS.md))
+- **[Network](src/network/README.md)** - Wire protocol, connection pooling, TLS/mTLS, zero-copy I/O ([Future Enhancements](src/network/FUTURE_ENHANCEMENTS.md))
+- **[API](src/api/README.md)** - REST API layer implementation ([Future Enhancements](src/api/FUTURE_ENHANCEMENTS.md))
+- **[Sharding](src/sharding/README.md)** - Horizontal partitioning and distribution ([Future Enhancements](src/sharding/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🧠 Intelligence Layer</b> (4 modules)</summary>
+
+- **[RAG](src/rag/README.md)** - 23 components: RAG Judge (faithfulness/relevance/completeness), Knowledge Gap Detector, LLM Bridge, Bias Detector ([Future Enhancements](src/rag/FUTURE_ENHANCEMENTS.md))
+- **[LLM](src/llm/README.md)** - LLM integration framework with llama.cpp ([Future Enhancements](src/llm/FUTURE_ENHANCEMENTS.md))
+- **[Analytics](src/analytics/README.md)** - OLAP (CUBE/ROLLUP), process mining, CEP, SIMD vectorization (4.5x-6.9x speedup) ([Future Enhancements](src/analytics/FUTURE_ENHANCEMENTS.md))
+- **[Voice](src/voice/README.md)** - NLU pipeline (STT→LLM→TTS), speaker diarization, meeting protocols ([Future Enhancements](src/voice/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>📊 Operations</b> (4 modules)</summary>
+
+- **[Performance](src/performance/README.md)** - Cycle metrics, RCU lock-free reads, LIRS cache, mimalloc, feature flags ([Future Enhancements](src/performance/FUTURE_ENHANCEMENTS.md))
+- **[Observability](src/observability/README.md)** - Prometheus integration, profiling, flame graphs, automated issue detection ([Future Enhancements](src/observability/FUTURE_ENHANCEMENTS.md))
+- **[Updates](src/updates/README.md)** - Hot-reload (zero-downtime), schema migration, atomic rollback ([Future Enhancements](src/updates/FUTURE_ENHANCEMENTS.md))
+- **[Scheduler](src/scheduler/README.md)** - Cron scheduling, 3-stage hybrid retention (Gorilla→Adaptive→Time-based, 99.9% compression) ([Future Enhancements](src/scheduler/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🔄 Data Integration</b> (4 modules)</summary>
+
+- **[Importers](src/importers/README.md)** - Data import from various sources ([Future Enhancements](src/importers/FUTURE_ENHANCEMENTS.md))
+- **[Exporters](src/exporters/README.md)** - Data export to multiple formats ([Future Enhancements](src/exporters/FUTURE_ENHANCEMENTS.md))
+- **[CDC](src/cdc/README.md)** - Change Data Capture for real-time data replication ([Future Enhancements](src/cdc/FUTURE_ENHANCEMENTS.md))
+- **[Plugins](src/plugins/README.md)** - Plugin system for extensibility ([Future Enhancements](src/plugins/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🌍 Distributed Systems</b> (2 modules)</summary>
+
+- **[Replication](src/replication/README.md)** - Raft consensus, multi-master with vector clocks, WAL shipping, 50K-100K writes/sec ([Future Enhancements](src/replication/FUTURE_ENHANCEMENTS.md))
+- **[Sharding](src/sharding/README.md)** - Horizontal scaling and data distribution ([Future Enhancements](src/sharding/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🎯 Specialized</b> (4 modules)</summary>
+
+- **[Graph](src/graph/README.md)** - 5 traversal algorithms (BFS/DFS/Dijkstra/A*/Bidirectional), 12 constraint types ([Future Enhancements](src/graph/FUTURE_ENHANCEMENTS.md))
+- **[Chimera](src/chimera/README.md)** - Vendor-neutral CHIMERA benchmark adapter ([Future Enhancements](src/chimera/FUTURE_ENHANCEMENTS.md))
+- **[Geo](src/geo/README.md)** - Advanced geospatial features and queries ([Future Enhancements](src/geo/FUTURE_ENHANCEMENTS.md))
+- **[Acceleration](src/acceleration/README.md)** - Hardware acceleration (GPU, SIMD, etc.) ([Future Enhancements](src/acceleration/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+<details>
+<summary><b>🛠️ Utility</b> (4 modules)</summary>
+
+- **[Metadata](src/metadata/README.md)** - Schema introspection and system catalog ([Future Enhancements](src/metadata/FUTURE_ENHANCEMENTS.md))
+- **[GPU](src/gpu/README.md)** - GPU utilities and memory management ([Future Enhancements](src/gpu/FUTURE_ENHANCEMENTS.md))
+- **[Cache](src/cache/README.md)** - Multi-level caching layer ([Future Enhancements](src/cache/FUTURE_ENHANCEMENTS.md))
+- **[Content](src/content/README.md)** - Content management utilities ([Future Enhancements](src/content/FUTURE_ENHANCEMENTS.md))
+
+</details>
+
+### 📖 Documentation Standards
+
+Each module includes **enterprise-grade documentation**:
+
+- ✅ **Module Purpose & Scope** - Clear description with boundaries
+- ✅ **Key Components** - Main classes, functions, and structures
+- ✅ **Architecture** - Design patterns with ASCII diagrams
+- ✅ **Integration Points** - Dependencies and module interactions
+- ✅ **API/Usage Examples** - 50+ working code examples per major module
+- ✅ **Performance Characteristics** - Benchmarks and tuning guides
+- ✅ **Known Limitations** - Current constraints and workarounds
+- ✅ **Production Status** - Readiness indicators
+- ✅ **Future Roadmap** - Planned features with target versions
+- ✅ **Research Foundation** - 100+ peer-reviewed paper citations
+
+**Total Documentation:** 139 files · 500+ code examples · 80+ architecture diagrams · ~1MB technical content
 
 ---
 
@@ -1002,6 +1126,27 @@ We welcome contributions! Please see our:
 - 📋 [Code of Conduct](CODE_OF_CONDUCT.md) - Community standards
 - 💬 [Support](SUPPORT.md) - How to get help
 - 🔒 [Security Policy](SECURITY.md) - Reporting security issues
+
+### CI/CD Architecture
+
+ThemisDB uses a modern, consolidated CI/CD architecture (February 2026):
+- **20 workflows** (down from 53, 62% reduction)
+- **12 entry workflows** for PR validation, releases, security, testing
+- **7 reusable workflows** for shared functionality
+- **8 composite actions** for common steps
+
+**Key Workflows:**
+- `ci-pull-request.yml` - Fast PR validation (~15-30 min)
+- `ci-release.yml` - Complete release pipeline
+- `security.yml` - Comprehensive security scanning
+- `nightly.yml` - Extended test suite
+
+**Documentation:**
+- 📖 [CI/CD Architecture](docs/ci-cd/ci-architecture.md) - Complete architecture guide
+- 🔧 [Workflow README](.github/workflows/README.md) - All workflows documented
+- 📁 [Archived Workflows](.github/workflows/_archived/README.md) - Historical workflows (51 archived)
+
+All changes are automatically validated through CI/CD pipelines ensuring code quality, security, and performance standards.
 
 ---
 

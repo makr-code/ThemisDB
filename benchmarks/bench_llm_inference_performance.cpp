@@ -35,7 +35,7 @@ namespace {
 // Test Data Generation
 // ═══════════════════════════════════════════════════════════
 
-std::vector<std::string> generatePrompts(size_t count, size_t length = 100) {
+std::vector<std::string> generatePrompts(size_t count, size_t /*length*/ = 100) {
     std::vector<std::string> prompts;
     prompts.reserve(count);
     
@@ -286,7 +286,7 @@ static void BM_MultiLoRA_BatchProcessing(benchmark::State& state) {
     for (size_t i = 0; i < batch_size; ++i) {
         std::string adapter_name = "batch_adapter_" + std::to_string(i);
         adapters.push_back(adapter_name);
-        contexts.push_back(getMockContext(i));
+        contexts.push_back(getMockContext(static_cast<int>(i)));
         mgr.loadLoRA(adapter_name, "/loras/" + adapter_name + ".bin", base_model, 1.0f);
     }
     
@@ -521,7 +521,7 @@ static void BM_LLM_EndToEnd(benchmark::State& state) {
         mgr.applyLoRA("e2e-adapter", reinterpret_cast<llama_context*>(ctx));
         
         // 2. Process prompt
-        const std::string& prompt = prompts[prompt_idx % prompts.size()];
+        (void)prompts[prompt_idx % prompts.size()];  // Prompt variable used implicitly
         auto tokens = generateTokenSequence(100, rng);
         
         // 3. Generate response (simulated)

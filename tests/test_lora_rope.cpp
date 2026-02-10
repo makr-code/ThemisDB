@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "index/lora_rope.h"
 #include <numeric>
+#include <algorithm>
 #include <cmath>
 #include <thread>
 
@@ -564,10 +565,4 @@ TEST_F(LoRARopeTest, ConcurrentAdapterRegistration) {
 }
 
 // ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Main removed - using GTest's main from themis_tests.exe

@@ -100,7 +100,7 @@ TEST_F(RotaryEmbeddingTest, InvalidConfiguration) {
     invalid_config.hidden_dim = 127;  // Odd number
     invalid_config.num_rotation_pairs = 64;
     
-    EXPECT_THROW(RotaryEmbedding(invalid_config), std::invalid_argument);
+    EXPECT_THROW(RotaryEmbedding rope(invalid_config), std::invalid_argument);
 }
 
 TEST_F(RotaryEmbeddingTest, EmptyThetaCache) {
@@ -109,7 +109,7 @@ TEST_F(RotaryEmbeddingTest, EmptyThetaCache) {
     config.num_rotation_pairs = 64;
     // Don't call computeThetaCache()
     
-    EXPECT_THROW(RotaryEmbedding(config), std::invalid_argument);
+    EXPECT_THROW(RotaryEmbedding rope(config), std::invalid_argument);
 }
 
 // ============================================================================
@@ -371,9 +371,12 @@ protected:
         std::filesystem::create_directories(test_dir_);
         
         // Initialize database
-        db_ = std::make_unique<RocksDBWrapper>();
-        auto status = db_->open(test_dir_.string());
-        ASSERT_TRUE(status.ok) << "Failed to open database: " << status.message;
+        RocksDBWrapper::Config db_config;
+        db_config.db_path = test_dir_.string();
+        db_config.create_if_missing = true;
+        db_ = std::make_unique<RocksDBWrapper>(db_config);
+        bool opened = db_->open();
+        ASSERT_TRUE(opened) << "Failed to open database";
         
         // Initialize vector index
         vector_mgr_ = std::make_unique<VectorIndexManager>(*db_);
@@ -550,10 +553,4 @@ TEST(BaseEntityRotationTest, NoRotationMetadata) {
 }
 
 // ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+// Main removed - using GTest's main from themis_tests.exe

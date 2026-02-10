@@ -105,7 +105,16 @@ endif()
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)
-option(THEMIS_ENABLE_GPU "Enable GPU acceleration for vector search" ON)
+
+# GPU and LLM defaults (can be overridden via -D flags)
+# GPU acceleration includes FAISS, OpenBLAS, LAPACK via vcpkg
+if(NOT DEFINED THEMIS_ENABLE_GPU)
+    set(THEMIS_ENABLE_GPU ON CACHE BOOL "Enable GPU acceleration for vector search (default ON)" )
+endif()
+if(NOT DEFINED THEMIS_ENABLE_LLM)
+    set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM plugin support with llama.cpp (default ON)" )
+endif()
+
 option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
 option(THEMIS_ENABLE_ASAN "Enable AddressSanitizer for debugging" OFF)
 option(THEMIS_STRICT_BUILD "Treat warnings as errors" OFF)
@@ -123,10 +132,9 @@ if(THEMIS_QNAP_BUILD OR THEMIS_STATIC_BUILD)
     set(THEMIS_CORE_SHARED OFF CACHE BOOL "Force static core to avoid Windows DLL export limit (LNK1189)" FORCE)
 endif()
 
-# LLM Support (v1.3.0+)
+# Note: THEMIS_ENABLE_LLM is now set above as FORCE ON (Core Feature)
 # Community Edition: LLM is a core feature (llama.cpp Embedding, Similarity, Inference)
 # Enterprise/Hyperscaler: Advanced LLM features (Fine-Tuning, Model Management) available as add-on module
-option(THEMIS_ENABLE_LLM "Enable LLM plugin support with llama.cpp (v1.3.0+)" ON)
 
 # Voice Assistant Support (v1.4.0+) - Enterprise Feature
 # Requires: Whisper.cpp (STT), Piper TTS (TTS), llama.cpp (LLM)
@@ -726,12 +734,12 @@ if(MSVC)
     endif()
     add_compile_definitions(NOMINMAX _CRT_SECURE_NO_WARNINGS _WIN32_WINNT=0x0A00)
     # Apply Release-specific settings for single- and multi-config generators
-    add_compile_options($<$<CONFIG:Release>:/O2> $<$<CONFIG:Release>:/GL>)
+    add_compile_options($<$<CONFIG:Release>:/O2>)
     # Disable iterator debugging in Release to match vcpkg RocksDB
     add_compile_definitions($<$<CONFIG:Release>:_ITERATOR_DEBUG_LEVEL=0>)
     # Note: AVX2 optimization moved to cmake/platforms/ArchitectureOptimizations.cmake
-    # Ensure Link-Time Code Generation to avoid link restart messages
-    add_link_options($<$<CONFIG:Release>:/LTCG>)
+    # Disable LTCG to avoid file locking issues on Windows with Ninja
+    add_link_options($<$<CONFIG:Release>:/INCREMENTAL:NO>)
 else()
     add_compile_options(-Wall -Wextra -Wpedantic)
     if(THEMIS_STRICT_BUILD)
@@ -1159,6 +1167,9 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learned_quantizer.cpp
     ../src/index/residual_quantizer.cpp
     ../src/index/adaptive_index.cpp
+    ../src/index/rotary_embeddings.cpp
+    ../src/index/learnable_rope.cpp
+    ../src/index/lora_rope.cpp
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1171,6 +1182,7 @@ set(THEMIS_CORE_SOURCES
     ../src/security/usb_admin_authenticator.cpp
     ../src/security/aql_injection_detector.cpp
     ../src/core/security_initialization.cpp
+    ../src/performance/cycle_metrics.cpp
     
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
@@ -1589,6 +1601,8 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/AccelerationBackends.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/ContentProcessors.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/LLMIntegration.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/DistributedTraining.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/ChimeraAdapters.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/VoiceAssistant.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/BlobStorage.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/BufferManagement.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/ErrorHealthServices.cmake)
@@ -2038,7 +2052,27 @@ if(CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_CURL)
 endif()
 
+# Link cpp-httplib (HTTP server) if available
+if(TARGET httplib::httplib)
+    target_link_libraries(themis_core PUBLIC httplib::httplib)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_HTTPLIB)
+else()
+    message(STATUS "cpp-httplib target not found - HTTP server adapter may fail to build")
+endif()
+
+# Link MessagePack if available (target names vary by package)
+if(TARGET msgpack-cxx)
+    target_link_libraries(themis_core PUBLIC msgpack-cxx)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_MSGPACK)
+elseif(TARGET msgpack::msgpack)
+    target_link_libraries(themis_core PUBLIC msgpack::msgpack)
+    target_compile_definitions(themis_core PUBLIC THEMIS_HAS_MSGPACK)
+else()
+    message(STATUS "MessagePack target not found - buffer binary protocol may fail to build")
+endif()
+
 # RFC 3161 Timestamp Authority (TSA) - OpenSSL implementation
+# Enable OpenSSL-based Timestamp Authority (RFC 3161) if both OpenSSL and CURL are available
 # OpenSSL is required for cryptographic operations, CURL for HTTP/HTTPS communication with TSA servers
 if(THEMIS_USE_OPENSSL_TSA AND OpenSSL_FOUND AND CURL_FOUND)
     target_compile_definitions(themis_core PUBLIC THEMIS_USE_OPENSSL_TSA)
@@ -2105,7 +2139,12 @@ endif()
 
 # v1.1.0: Link mimalloc (20-40% memory boost, drop-in replacement)
 if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-    target_link_libraries(themis_core PUBLIC mimalloc-static)
+    # Use DLL version on Windows (mimalloc-static not available in vcpkg binary cache)
+    if(WIN32)
+        target_link_libraries(themis_core PUBLIC mimalloc)
+    else()
+        target_link_libraries(themis_core PUBLIC mimalloc-static)
+    endif()
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_MIMALLOC)
     message(STATUS "mimalloc linked to themis_core")
 endif()
@@ -2154,6 +2193,12 @@ if(THEMIS_ENABLE_HTTP3 AND nghttp3_FOUND AND ngtcp2_FOUND)
     target_link_libraries(themis_core PUBLIC nghttp3::nghttp3 ngtcp2::ngtcp2)
     target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP3)
     message(STATUS "HTTP/3 support enabled and linked to themis_core")
+endif()
+
+# HTTP Server Support
+if(THEMIS_ENABLE_HTTP_SERVER)
+    target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_HTTP_SERVER)
+    message(STATUS "HTTP/REST server enabled")
 endif()
 
 # GDAL Geospatial Processing Support
@@ -2590,6 +2635,13 @@ add_executable(themis_server
 target_link_libraries(themis_server
     PRIVATE
         themis_core
+)
+
+# Set output directory to build root instead of cmake/ subdirectory
+set_target_properties(themis_server PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_BINARY_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_BINARY_DIR}"
 )
 
 # Ensure themis_server does not directly link mimalloc; rely on themis_core

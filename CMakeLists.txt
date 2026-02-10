@@ -3,6 +3,11 @@
 
 cmake_minimum_required(VERSION 3.20)
 
+# CRITICAL: Set CMAKE_PROJECT_INCLUDE before any project() call
+# This ensures MSVC includes are applied to ALL subprojects (including llama.cpp)
+# Must be set unconditionally (before MSVC is defined by project())
+set(CMAKE_PROJECT_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/msvc_includes_fix.cmake")
+
 # Read VERSION first (before project())
 if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at ${CMAKE_CURRENT_SOURCE_DIR}/VERSION")

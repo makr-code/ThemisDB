@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 #include "llm/llm_response_cache.h"
 #include "llm/grafana_metrics.h"
+#include "utils/type_conversion.h"
 #include <memory>
 
 using namespace themis::llm;
 using namespace themis::llm::monitoring;
+using themis::utils::conversion::safe_double_to_float;
 
 class LLMResponseCacheMetricsTest : public ::testing::Test {
 protected:
