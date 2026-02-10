@@ -1067,38 +1067,57 @@ void TaskScheduler::setupEventTrigger(std::shared_ptr<ScheduledTask> task) {
     config.debounce_ms = task->cdc_trigger.debounce_ms;
     
     // Create callback that triggers task execution
-    auto callback = [this, task](const Changefeed::ChangeEvent& event) {
+    auto callback = [this, task_id = task->id](const Changefeed::ChangeEvent& event) {
+        // Retrieve task inside the callback to avoid capturing by value
+        std::shared_ptr<ScheduledTask> task_ptr;
+        {
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            auto it = tasks_.find(task_id);
+            if (it == tasks_.end()) {
+                THEMIS_DEBUG("Task {} no longer exists, skipping execution", task_id);
+                return;
+            }
+            task_ptr = it->second;
+        }
+        
         THEMIS_DEBUG("CDC event triggered task: {} (key={}, type={})",
-                    task->id, event.key, static_cast<int>(event.type));
+                    task_id, event.key, static_cast<int>(event.type));
         
         // Check if task is enabled
-        if (!task->enabled) {
-            THEMIS_DEBUG("Task {} is disabled, skipping execution", task->id);
+        if (!task_ptr->enabled) {
+            THEMIS_DEBUG("Task {} is disabled, skipping execution", task_id);
             return;
         }
         
-        // Check if task is already running (unless overlap is allowed)
-        if (task->running && !config_.allow_task_overlap) {
-            THEMIS_DEBUG("Task {} is already running, skipping execution", task->id);
-            return;
+        // Atomic check-and-set for task running state
+        bool expected = false;
+        if (!config_.allow_task_overlap) {
+            // Try to set running to true atomically
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            if (task_ptr->running) {
+                THEMIS_DEBUG("Task {} is already running, skipping execution", task_id);
+                return;
+            }
+            task_ptr->running = true;
+        } else {
+            task_ptr->running = true;
         }
         
         // Execute task asynchronously
-        task->running = true;
-        std::thread task_thread([this, task]() {
-            executeTask(task);
+        std::thread task_thread([this, task_ptr]() {
+            executeTask(task_ptr);
             
             // Remove from running threads
             {
                 std::lock_guard<std::mutex> lock(running_mutex_);
-                running_task_threads_.erase(task->id);
+                running_task_threads_.erase(task_ptr->id);
             }
         });
         
         // Store thread for cleanup
         {
             std::lock_guard<std::mutex> lock(running_mutex_);
-            running_task_threads_[task->id] = std::move(task_thread);
+            running_task_threads_[task_id] = std::move(task_thread);
         }
     };
     

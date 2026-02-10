@@ -199,6 +199,10 @@ public:
      * @param query_engine Query engine for executing AQL queries
      * @param config Scheduler configuration
      * @param changefeed Optional changefeed for CDC event triggers (nullptr = no CDC support)
+     * 
+     * Note: The optional changefeed parameter maintains backward compatibility.
+     * Existing code using TaskScheduler(query_engine, config) continues to work.
+     * New code can add changefeed for CDC event trigger support.
      */
     explicit TaskScheduler(QueryEngine* query_engine, 
                           const Config& config,

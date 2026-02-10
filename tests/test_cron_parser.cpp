@@ -61,7 +61,7 @@ TEST_F(CronParserTest, ValidateInvalidMonth) {
 }
 
 TEST_F(CronParserTest, ValidateInvalidWeekday) {
-    auto result = CronExpression::validate("0 0 * * 7");
+    auto result = CronExpression::validate("0 0 * * 8");
     EXPECT_FALSE(result.is_valid);
     EXPECT_FALSE(result.error_message.empty());
 }

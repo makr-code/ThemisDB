@@ -111,11 +111,12 @@ EventTrigger::Stats EventTrigger::getStats() const {
 void EventTrigger::listenerLoop() {
     THEMIS_DEBUG("EventTrigger listener loop started");
     
-    // Get current sequence to start from
-    last_sequence_ = changefeed_->getLatestSequence();
-    
     while (running_.load()) {
         try {
+            // Get current sequence inside the loop to ensure changefeed is valid
+            if (last_sequence_ == 0) {
+                last_sequence_ = changefeed_->getLatestSequence();
+            }
             // Poll for new events with long-polling
             Changefeed::ListOptions options;
             options.from_sequence = last_sequence_;

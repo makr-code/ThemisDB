@@ -132,8 +132,9 @@ std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExec
     // Start from the next minute
     auto current = advanceToNextMinute(from);
     
-    // Limit search to avoid infinite loops (search up to 4 years ahead)
-    const int MAX_ITERATIONS = 4 * 365 * 24 * 60; // 4 years in minutes
+    // Limit search to avoid infinite loops
+    // Search up to 4 years ahead (4 years * 365 days * 24 hours * 60 minutes)
+    const int MAX_ITERATIONS = 4 * 365 * 24 * 60;
     
     for (int i = 0; i < MAX_ITERATIONS; ++i) {
         if (matches(current)) {
@@ -411,7 +412,9 @@ std::chrono::system_clock::time_point CronExpression::advanceToNextDay(
 
 std::chrono::system_clock::time_point CronExpression::advanceToNextMonth(
     const std::chrono::system_clock::time_point& time) {
-    // Approximate - add 30 days
+    // TODO: Properly handle calendar month boundaries (28, 29, 30, 31 days)
+    // This is currently unused but kept for future optimization
+    // Current implementation advances minute-by-minute which handles all cases correctly
     return time + std::chrono::hours(24 * 30);
 }
 
