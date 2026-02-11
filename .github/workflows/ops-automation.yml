@@ -125,31 +125,13 @@ jobs:
   # Performance baseline update
   performance-baseline:
     name: Update Performance Baseline
-    runs-on: ubuntu-latest
     if: inputs.operation == 'all' || inputs.operation == 'performance-baseline' || inputs.operation == ''
-    timeout-minutes: 120
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Run benchmarks
-        uses: ./.github/workflows/reusable-benchmark.yml
-        with:
-          benchmark-suite: 'all'
-          baseline-ref: 'main'
-          upload-results: true
-          update-baseline: true
-        secrets: inherit
-
-      - name: Baseline update summary
-        run: |
-          echo "## 📊 Performance Baseline Update" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Update Date:** $(date -u +"%Y-%m-%d")" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Performance baselines have been updated." >> $GITHUB_STEP_SUMMARY
+    uses: ./.github/workflows/reusable-benchmark.yml
+    with:
+      benchmark-suite: 'all'
+      baseline-ref: 'main'
+      upload-results: true
+      update-baseline: true
 
   # Operations summary
   summary:
