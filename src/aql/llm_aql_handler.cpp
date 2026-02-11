@@ -133,7 +133,7 @@ std::string LLMAQLHandler::executeRAG(
                         }
                     }
                 }
-            } catch (const std::exception& e) {
+            } catch (const std::exception& /* e */) {
                 // Log error but continue with empty context
                 // In production, this would be logged properly
             }

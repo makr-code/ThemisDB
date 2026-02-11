@@ -28,7 +28,7 @@ public:
     MockPKIClient() : VCCPKIClient(PKIConfig{}) {}
     
     // NOTE: signHash signature changed in base class
-    SignatureResult signHash(const std::vector<uint8_t>& hash) {
+    SignatureResult signHash([[maybe_unused]] const std::vector<uint8_t>& hash) {
         SignatureResult result;
         result.ok = true;
         result.signature_id = "test-sig-" + std::to_string(signature_count_++);
@@ -136,7 +136,7 @@ protected:
     }
     
     // Helper to find audit events by type
-    std::vector<nlohmann::json> findAuditEventsByType(const std::string& event_type) {
+    std::vector<nlohmann::json> findAuditEventsByType([[maybe_unused]] const std::string& event_type) {
         auto all_entries = readAuditLog();
         std::vector<nlohmann::json> matching;
         

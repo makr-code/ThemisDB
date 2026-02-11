@@ -21,11 +21,11 @@ namespace rocksdb {
     class Transaction;
     class WriteBatch;
     class WriteBatchWithIndex;
-    class Options;
-    class ReadOptions;
-    class WriteOptions;
-    class TransactionDBOptions;
-    class TransactionOptions;
+    struct Options;
+    struct ReadOptions;
+    struct WriteOptions;
+    struct TransactionDBOptions;
+    struct TransactionOptions;
     class Snapshot;
     class DB;
     class ColumnFamilyHandle;

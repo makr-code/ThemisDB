@@ -172,7 +172,7 @@ TEST_F(TaskSchedulerIntegrationTest, CDCTaskExecution) {
     task.cdc_trigger.key_prefix = "users:";
     task.cdc_trigger.event_types.insert(static_cast<int>(Changefeed::ChangeEventType::EVENT_PUT));
     
-    scheduler_->registerFunction("user_change_handler", [&execution_count, &last_key](const nlohmann::json& params) {
+    scheduler_->registerFunction("user_change_handler", [&execution_count, &last_key]([[maybe_unused]] const nlohmann::json& params) {
         execution_count++;
         return nlohmann::json{{"status", "processed"}};
     });
