@@ -1,202 +1,253 @@
 <?php
 /**
- * ThemisDB Feature Matrix Core Class
+ * Feature Matrix Class
  * 
- * Handles feature data structure and retrieval
+ * Handles feature data and comparison logic
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class ThemisDB_Feature_Matrix_Core {
+class ThemisDB_Feature_Matrix_Data {
     
     /**
      * Get all feature data
      * 
-     * @return array Complete feature data structure
+     * @return array Feature data organized by category
      */
     public static function get_features() {
         return array(
             'data_models' => array(
                 'name' => 'Data Models',
                 'features' => array(
-                    'relational' => array(
-                        'name' => 'Relational (SQL)',
+                    array(
+                        'name' => 'Relational SQL',
                         'themisdb' => 'full',
                         'postgresql' => 'full',
                         'mongodb' => 'limited',
                         'neo4j' => 'no',
-                        'tooltip' => 'Full SQL support with ACID transactions'
+                        'description' => 'Full SQL support with ACID transactions and complex queries',
+                        'tooltip' => 'Standard SQL database capabilities with joins, transactions, and constraints'
                     ),
-                    'graph' => array(
+                    array(
                         'name' => 'Graph Database',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'limited',
                         'neo4j' => 'full',
-                        'tooltip' => 'Native graph storage and Cypher query support'
+                        'description' => 'Native graph data model with efficient traversal',
+                        'tooltip' => 'Store and query connected data using nodes, edges, and relationships'
                     ),
-                    'document' => array(
-                        'name' => 'Document (NoSQL)',
+                    array(
+                        'name' => 'Document Store',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'full',
                         'neo4j' => 'no',
-                        'tooltip' => 'Schema-less JSON document storage'
+                        'description' => 'Schema-flexible JSON document storage',
+                        'tooltip' => 'Store semi-structured data as documents without rigid schema'
                     ),
-                    'vector' => array(
+                    array(
                         'name' => 'Vector/Embeddings',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'limited',
                         'neo4j' => 'no',
-                        'tooltip' => 'Native vector storage for AI/ML embeddings',
+                        'description' => 'Native vector storage and similarity search',
+                        'tooltip' => 'Store and query high-dimensional vectors for AI/ML applications',
                         'highlight' => true
                     ),
-                    'timeseries' => array(
+                    array(
                         'name' => 'Time-Series',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'limited',
-                        'neo4j' => 'no'
+                        'neo4j' => 'no',
+                        'description' => 'Optimized time-series data storage and queries',
+                        'tooltip' => 'Efficiently store and analyze time-stamped data'
                     ),
-                    'key_value' => array(
-                        'name' => 'Key-Value Store',
+                    array(
+                        'name' => 'Key-Value',
                         'themisdb' => 'full',
                         'postgresql' => 'no',
                         'mongodb' => 'limited',
-                        'neo4j' => 'no'
+                        'neo4j' => 'no',
+                        'description' => 'Simple key-value storage for caching',
+                        'tooltip' => 'Fast key-value operations for caching and simple lookups'
                     )
                 )
             ),
             'ai_ml' => array(
                 'name' => 'AI/ML Features',
                 'features' => array(
-                    'embedded_llm' => array(
+                    array(
                         'name' => 'Embedded LLM',
                         'themisdb' => 'full',
                         'postgresql' => 'no',
                         'mongodb' => 'no',
                         'neo4j' => 'no',
+                        'description' => 'Run LLaMA models directly in the database',
+                        'tooltip' => 'Native LLM integration with llama.cpp - no external services needed',
                         'highlight' => true,
-                        'tooltip' => 'Built-in LLM via llama.cpp - no external API needed'
+                        'exclusive' => true
                     ),
-                    'vector_search' => array(
+                    array(
                         'name' => 'Vector Similarity Search',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'limited',
-                        'neo4j' => 'no'
+                        'neo4j' => 'no',
+                        'description' => 'HNSW algorithm for fast similarity search',
+                        'tooltip' => 'High-performance nearest neighbor search for embeddings',
+                        'highlight' => true
                     ),
-                    'rag_support' => array(
-                        'name' => 'RAG (Retrieval-Augmented Generation)',
+                    array(
+                        'name' => 'RAG Support',
                         'themisdb' => 'full',
                         'postgresql' => 'no',
                         'mongodb' => 'no',
                         'neo4j' => 'no',
-                        'highlight' => true
+                        'description' => 'Retrieval-Augmented Generation built-in',
+                        'tooltip' => 'Native support for RAG workflows with context retrieval',
+                        'highlight' => true,
+                        'exclusive' => true
                     ),
-                    'gpu_acceleration' => array(
+                    array(
                         'name' => 'GPU Acceleration',
                         'themisdb' => 'full',
                         'postgresql' => 'no',
                         'mongodb' => 'no',
                         'neo4j' => 'no',
-                        'highlight' => true
+                        'description' => 'Hardware acceleration for ML workloads',
+                        'tooltip' => 'Leverage GPU power for faster ML inference and training',
+                        'highlight' => true,
+                        'exclusive' => true
                     )
                 )
             ),
             'performance' => array(
-                'name' => 'Performance & Scaling',
+                'name' => 'Performance',
                 'features' => array(
-                    'horizontal_scaling' => array(
+                    array(
                         'name' => 'Horizontal Scaling',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'full',
-                        'neo4j' => 'full'
+                        'neo4j' => 'full',
+                        'description' => 'Scale out across multiple nodes',
+                        'tooltip' => 'Add more servers to handle increased load'
                     ),
-                    'sharding' => array(
+                    array(
                         'name' => 'Auto-Sharding',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'full',
-                        'neo4j' => 'limited'
+                        'neo4j' => 'limited',
+                        'description' => 'Automatic data partitioning',
+                        'tooltip' => 'Automatically distribute data across shards'
                     ),
-                    'replication' => array(
+                    array(
                         'name' => 'Replication',
                         'themisdb' => 'full',
                         'postgresql' => 'full',
                         'mongodb' => 'full',
-                        'neo4j' => 'full'
+                        'neo4j' => 'full',
+                        'description' => 'Multi-master and replica sets',
+                        'tooltip' => 'Data redundancy and high availability'
                     ),
-                    'caching' => array(
+                    array(
                         'name' => 'Built-in Caching',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
-                        'mongodb' => 'full',
-                        'neo4j' => 'limited'
+                        'mongodb' => 'limited',
+                        'neo4j' => 'limited',
+                        'description' => 'Intelligent query result caching',
+                        'tooltip' => 'Automatic caching layer for improved performance'
                     )
                 )
             ),
             'compatibility' => array(
-                'name' => 'Protocol Compatibility',
+                'name' => 'Compatibility',
                 'features' => array(
-                    'sql_protocol' => array(
+                    array(
                         'name' => 'SQL Protocol',
                         'themisdb' => 'full',
                         'postgresql' => 'full',
                         'mongodb' => 'no',
-                        'neo4j' => 'no'
+                        'neo4j' => 'no',
+                        'description' => 'Standard SQL interface',
+                        'tooltip' => 'Connect using standard SQL clients and tools'
                     ),
-                    'mongodb_protocol' => array(
+                    array(
                         'name' => 'MongoDB Protocol',
                         'themisdb' => 'full',
                         'postgresql' => 'no',
                         'mongodb' => 'full',
-                        'neo4j' => 'no'
+                        'neo4j' => 'no',
+                        'description' => 'MongoDB wire protocol compatibility',
+                        'tooltip' => 'Use MongoDB drivers and tools directly'
                     ),
-                    'cypher' => array(
+                    array(
                         'name' => 'Cypher (Graph)',
                         'themisdb' => 'full',
                         'postgresql' => 'no',
                         'mongodb' => 'no',
-                        'neo4j' => 'full'
+                        'neo4j' => 'full',
+                        'description' => 'Graph query language support',
+                        'tooltip' => 'Query graph data using Cypher syntax'
                     ),
-                    'rest_api' => array(
+                    array(
                         'name' => 'REST API',
                         'themisdb' => 'full',
                         'postgresql' => 'limited',
                         'mongodb' => 'full',
-                        'neo4j' => 'full'
+                        'neo4j' => 'full',
+                        'description' => 'RESTful HTTP API',
+                        'tooltip' => 'Access database via standard REST endpoints'
                     ),
-                    'graphql' => array(
+                    array(
                         'name' => 'GraphQL API',
                         'themisdb' => 'full',
-                        'postgresql' => 'limited',
+                        'postgresql' => 'no',
                         'mongodb' => 'limited',
-                        'neo4j' => 'full'
+                        'neo4j' => 'limited',
+                        'description' => 'GraphQL query interface',
+                        'tooltip' => 'Modern API with GraphQL for flexible queries'
                     )
                 )
             ),
-            'pricing' => array(
-                'name' => 'Licensing & Cost',
+            'licensing' => array(
+                'name' => 'Licensing',
                 'features' => array(
-                    'license' => array(
-                        'name' => 'License',
+                    array(
+                        'name' => 'License Type',
                         'themisdb' => 'MIT',
-                        'postgresql' => 'PostgreSQL',
+                        'postgresql' => 'PostgreSQL License',
                         'mongodb' => 'SSPL',
-                        'neo4j' => 'GPL/Comm.',
-                        'display_text' => true
+                        'neo4j' => 'GPL/Commercial',
+                        'description' => 'Software license',
+                        'tooltip' => 'Type of license governing the database use',
+                        'is_text' => true
                     ),
-                    'commercial_use' => array(
+                    array(
                         'name' => 'Free for Commercial Use',
                         'themisdb' => 'full',
                         'postgresql' => 'full',
                         'mongodb' => 'limited',
-                        'neo4j' => 'limited'
+                        'neo4j' => 'limited',
+                        'description' => 'Can be used commercially without fees',
+                        'tooltip' => 'No licensing fees or restrictions for commercial deployment'
+                    ),
+                    array(
+                        'name' => 'Cloud Vendor Lock-in',
+                        'themisdb' => 'no',
+                        'postgresql' => 'no',
+                        'mongodb' => 'limited',
+                        'neo4j' => 'limited',
+                        'description' => 'Avoid proprietary cloud dependencies',
+                        'tooltip' => 'Can be deployed anywhere without vendor restrictions',
+                        'inverted' => true
                     )
                 )
             )
@@ -204,12 +255,12 @@ class ThemisDB_Feature_Matrix_Core {
     }
     
     /**
-     * Get filtered features by category
+     * Get features by category
      * 
-     * @param string $category Category filter (all, data_models, ai_ml, etc.)
-     * @return array Filtered feature data
+     * @param string $category Category slug or 'all'
+     * @return array Filtered features
      */
-    public static function get_filtered_features($category = 'all') {
+    public static function get_features_by_category($category = 'all') {
         $all_features = self::get_features();
         
         if ($category === 'all') {
@@ -224,30 +275,106 @@ class ThemisDB_Feature_Matrix_Core {
     }
     
     /**
-     * Get status display info
+     * Get flat feature list
      * 
-     * @param string $status Status code (full, limited, no)
+     * @param string $category Category slug or 'all'
+     * @return array Flat array of features
+     */
+    public static function get_flat_features($category = 'all') {
+        $categorized = self::get_features_by_category($category);
+        $flat = array();
+        
+        foreach ($categorized as $cat_slug => $cat_data) {
+            foreach ($cat_data['features'] as $feature) {
+                $feature['category'] = $cat_slug;
+                $feature['category_name'] = $cat_data['name'];
+                $flat[] = $feature;
+            }
+        }
+        
+        return $flat;
+    }
+    
+    /**
+     * Get database list
+     * 
+     * @return array Database information
+     */
+    public static function get_databases() {
+        return array(
+            'themisdb' => array(
+                'name' => 'ThemisDB',
+                'slug' => 'themisdb',
+                'logo' => 'themisdb-logo.svg'
+            ),
+            'postgresql' => array(
+                'name' => 'PostgreSQL',
+                'slug' => 'postgresql',
+                'logo' => 'postgresql-logo.svg'
+            ),
+            'mongodb' => array(
+                'name' => 'MongoDB',
+                'slug' => 'mongodb',
+                'logo' => 'mongodb-logo.svg'
+            ),
+            'neo4j' => array(
+                'name' => 'Neo4j',
+                'slug' => 'neo4j',
+                'logo' => 'neo4j-logo.svg'
+            )
+        );
+    }
+    
+    /**
+     * Get status label
+     * 
+     * @param string $status Status value
+     * @param bool $inverted Whether this is an inverted metric
      * @return array Status information
      */
-    public static function get_status_info($status) {
+    public static function get_status_info($status, $inverted = false) {
+        // For text values, return as-is
+        if (!in_array($status, array('full', 'limited', 'no'))) {
+            return array(
+                'label' => $status,
+                'class' => 'status-text',
+                'icon' => '',
+                'score' => 0
+            );
+        }
+        
         $status_map = array(
             'full' => array(
-                'icon' => '✓',
+                'label' => 'Full Support',
                 'class' => 'status-full',
-                'label' => 'Full Support'
+                'icon' => '✓',
+                'score' => 2
             ),
             'limited' => array(
-                'icon' => '◐',
+                'label' => 'Limited Support',
                 'class' => 'status-limited',
-                'label' => 'Limited Support'
+                'icon' => '◐',
+                'score' => 1
             ),
             'no' => array(
-                'icon' => '✗',
+                'label' => 'Not Available',
                 'class' => 'status-no',
-                'label' => 'No Support'
+                'icon' => '✗',
+                'score' => 0
             )
         );
         
-        return isset($status_map[$status]) ? $status_map[$status] : $status_map['no'];
+        $info = isset($status_map[$status]) ? $status_map[$status] : $status_map['no'];
+        
+        // For inverted metrics, flip the class
+        if ($inverted) {
+            if ($status === 'full') {
+                $info['class'] = 'status-no';
+            } elseif ($status === 'no') {
+                $info['class'] = 'status-full';
+            }
+        }
+        
+        return $info;
     }
 }
