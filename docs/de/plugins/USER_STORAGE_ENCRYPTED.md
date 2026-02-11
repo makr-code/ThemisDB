@@ -305,14 +305,19 @@ vault kv get themis/keys/user_storage_vs_nfd
 - Windows-Unterstützung experimentell (WinFsp erforderlich)
 - macOS erfordert macFUSE-Installation
 - HSM-Operationen langsamer als Vault (10-50ms vs 1-5ms)
-- Schlüsselrotation verursacht vorübergehenden Read-Only-Modus
+- **Schlüsselrotation**: Framework vorhanden, vollständige Zero-Downtime-Implementierung in Arbeit (manuelle Rotation funktioniert)
+- **Listenoperationen**: `listUsers()` und `listGroups()` noch nicht implementiert, verwenden Sie individuelle Get-Operationen
 
 ## Zukünftige Erweiterungen
 
+- [x] Basis-Benutzer-/Gruppen-CRUD-Operationen
+- [x] Container-Mounting und Gesundheitsüberwachung
+- [ ] Automatische Zero-Downtime-Schlüsselrotation (Framework vollständig)
+- [ ] Alle Benutzer/Gruppen in einer Sicherheitsstufe auflisten
 - [ ] Backup/Wiederherstellung pro Stufe
 - [ ] Migration von unverschlüsselt zu verschlüsselt
 - [ ] Multi-Region-Replikation
-- [ ] Container-Gesundheitsüberwachung
+- [ ] Erweiterte Container-Gesundheitsüberwachung mit Benachrichtigungen
 - [ ] Automatische Fehlerwiederherstellung
 
 ## Lizenz

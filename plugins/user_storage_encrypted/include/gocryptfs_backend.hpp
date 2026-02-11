@@ -77,6 +77,10 @@ private:
         const std::string& stdin_data = ""
     );
     
+    Result<std::string> executeCommandSafe(
+        const std::vector<std::string>& args
+    );
+    
     bool directoryExists(const std::string& path);
     bool createDirectory(const std::string& path);
 };

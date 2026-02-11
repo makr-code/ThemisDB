@@ -8,6 +8,7 @@
 #include <sstream>
 #include <iomanip>
 #include <sys/stat.h>
+#include <errno.h>
 
 using json = nlohmann::json;
 
@@ -352,7 +353,15 @@ Result<void> MultiLevelEncryptedStorage::unmountLevel(SecurityLevel level) {
 }
 
 Result<void> MultiLevelEncryptedStorage::rotateKey(SecurityLevel level) {
-    return Result<void>::error("Key rotation not yet implemented");
+    // TODO: Key rotation implementation
+    // This is a placeholder for zero-downtime key rotation.
+    // Full implementation requires:
+    // 1. Create new container with new key
+    // 2. Copy data from old to new container
+    // 3. Atomically switch containers (rename)
+    // 4. Keep old container as backup
+    // 5. Trigger notifications
+    return Result<void>::error("Key rotation not yet fully implemented - see TODO in code");
 }
 
 std::string MultiLevelEncryptedStorage::getBasePath(SecurityLevel level) {
@@ -400,7 +409,12 @@ Result<void> MultiLevelEncryptedStorage::writeUserFile(const std::string& path, 
         size_t pos = path.find_last_of('/');
         if (pos != std::string::npos) {
             std::string dir = path.substr(0, pos);
-            mkdir(dir.c_str(), 0700);
+            int result = mkdir(dir.c_str(), 0700);
+            if (result != 0 && errno != EEXIST) {
+                return Result<void>::error(
+                    "Failed to create directory: " + dir + " (errno: " + std::to_string(errno) + ")"
+                );
+            }
         }
         
         std::ofstream file(path);
@@ -455,7 +469,12 @@ Result<void> MultiLevelEncryptedStorage::writeGroupFile(const std::string& path,
         size_t pos = path.find_last_of('/');
         if (pos != std::string::npos) {
             std::string dir = path.substr(0, pos);
-            mkdir(dir.c_str(), 0700);
+            int result = mkdir(dir.c_str(), 0700);
+            if (result != 0 && errno != EEXIST) {
+                return Result<void>::error(
+                    "Failed to create directory: " + dir + " (errno: " + std::to_string(errno) + ")"
+                );
+            }
         }
         
         std::ofstream file(path);
@@ -531,7 +550,9 @@ Result<void> MultiLevelEncryptedStorage::deleteUser(const std::string& user_id, 
 }
 
 Result<std::vector<User>> MultiLevelEncryptedStorage::listUsers(SecurityLevel level) {
-    return Result<std::vector<User>>::error("Not yet implemented");
+    // TODO: Implement directory listing for users
+    // This requires iterating through the users directory and reading all JSON files
+    return Result<std::vector<User>>::error("listUsers() not yet implemented - use getUser() for now");
 }
 
 // Group Management API Implementation
@@ -571,7 +592,9 @@ Result<void> MultiLevelEncryptedStorage::deleteGroup(const std::string& group_id
 }
 
 Result<std::vector<Group>> MultiLevelEncryptedStorage::listGroups(SecurityLevel level) {
-    return Result<std::vector<Group>>::error("Not yet implemented");
+    // TODO: Implement directory listing for groups
+    // This requires iterating through the groups directory and reading all JSON files
+    return Result<std::vector<Group>>::error("listGroups() not yet implemented - use getGroup() for now");
 }
 
 // Health Check Implementation

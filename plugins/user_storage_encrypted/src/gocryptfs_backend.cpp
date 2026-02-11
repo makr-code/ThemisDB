@@ -6,7 +6,9 @@
 #include <fstream>
 #include <iomanip>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 namespace themis {
 namespace plugins {
@@ -82,22 +84,26 @@ Result<void> GocryptfsBackend::createContainer(
         }
     }
     
-    // Create temporary password file
-    std::string password_file = encrypted_dir + "/.gocryptfs.password";
+    // Create secure temporary password file
+    std::string password_file;
     auto pw_result = createPasswordFile(password_file, key_material);
     if (pw_result.isError()) {
         return pw_result;
     }
     
     // Initialize gocryptfs container
-    // gocryptfs -init -passfile <file> <encrypted_dir>
-    auto result = executeCommand(
+    // Using vector for safe argument passing
+    std::vector<std::string> args = {
         impl_->gocryptfs_binary,
-        {"-init", "-passfile", password_file, encrypted_dir}
-    );
+        "-init",
+        "-passfile", password_file,
+        encrypted_dir
+    };
     
-    // Clean up password file
-    std::remove(password_file.c_str());
+    auto result = executeCommandSafe(args);
+    
+    // Clean up password file securely
+    unlink(password_file.c_str());
     
     if (result.isError()) {
         return Result<void>::error("Failed to initialize gocryptfs container: " + result.error());
@@ -116,22 +122,25 @@ Result<void> GocryptfsBackend::mountContainer(
         return Result<void>(); // Already mounted is success
     }
     
-    // Create temporary password file
-    std::string password_file = encrypted_dir + "/.gocryptfs.password";
+    // Create secure temporary password file
+    std::string password_file;
     auto pw_result = createPasswordFile(password_file, key_material);
     if (pw_result.isError()) {
         return pw_result;
     }
     
-    // Mount gocryptfs
-    // gocryptfs -passfile <file> <encrypted_dir> <mount_point>
-    auto result = executeCommand(
+    // Mount gocryptfs using safe argument passing
+    std::vector<std::string> args = {
         impl_->gocryptfs_binary,
-        {"-passfile", password_file, encrypted_dir, mount_point}
-    );
+        "-passfile", password_file,
+        encrypted_dir,
+        mount_point
+    };
     
-    // Clean up password file
-    std::remove(password_file.c_str());
+    auto result = executeCommandSafe(args);
+    
+    // Clean up password file securely
+    unlink(password_file.c_str());
     
     if (result.isError()) {
         return Result<void>::error("Failed to mount gocryptfs container: " + result.error());
@@ -145,11 +154,13 @@ Result<void> GocryptfsBackend::unmountContainer(const std::string& mount_point) 
         return Result<void>(); // Not mounted is success
     }
     
-    // Unmount using fusermount -u (Linux) or umount (macOS/BSD)
+    // Unmount using safe argument passing
 #ifdef __linux__
-    auto result = executeCommand("fusermount", {"-u", mount_point});
+    std::vector<std::string> args = {"fusermount", "-u", mount_point};
+    auto result = executeCommandSafe(args);
 #else
-    auto result = executeCommand("umount", {mount_point});
+    std::vector<std::string> args = {"umount", mount_point};
+    auto result = executeCommandSafe(args);
 #endif
     
     if (result.isError()) {
@@ -184,21 +195,38 @@ Result<void> GocryptfsBackend::createPasswordFile(
     const std::string& path,
     const std::vector<uint8_t>& key_material
 ) {
-    // Write key material to file (base64 or hex)
-    std::ofstream file(path, std::ios::binary);
-    if (!file.is_open()) {
-        return Result<void>::error("Failed to create password file: " + path);
+    // Create secure temporary file outside encrypted directory
+    char temp_template[] = "/tmp/gocryptfs_key_XXXXXX";
+    int fd = mkstemp(temp_template);
+    if (fd == -1) {
+        return Result<void>::error("Failed to create secure temporary file");
     }
     
-    // Set restrictive permissions (600)
-    chmod(path.c_str(), 0600);
+    // Set restrictive permissions (600) before writing
+    if (fchmod(fd, 0600) != 0) {
+        close(fd);
+        unlink(temp_template);
+        return Result<void>::error("Failed to set password file permissions");
+    }
     
     // Write key as hex string
+    std::ostringstream hex_key;
     for (uint8_t byte : key_material) {
-        file << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
+        hex_key << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
     }
     
-    file.close();
+    std::string key_str = hex_key.str();
+    if (write(fd, key_str.c_str(), key_str.size()) != static_cast<ssize_t>(key_str.size())) {
+        close(fd);
+        unlink(temp_template);
+        return Result<void>::error("Failed to write key to temporary file");
+    }
+    
+    close(fd);
+    
+    // Store the temporary file path for later cleanup
+    const_cast<std::string&>(path) = temp_template;
+    
     return Result<void>();
 }
 
@@ -207,32 +235,74 @@ Result<std::string> GocryptfsBackend::executeCommand(
     const std::vector<std::string>& args,
     const std::string& stdin_data
 ) {
-    // Build command string
-    std::ostringstream cmd;
-    cmd << command;
-    for (const auto& arg : args) {
-        cmd << " " << arg;
+    // Deprecated: Use executeCommandSafe instead
+    // This version is kept for backward compatibility with simple commands
+    std::vector<std::string> full_args = {command};
+    full_args.insert(full_args.end(), args.begin(), args.end());
+    return executeCommandSafe(full_args);
+}
+
+Result<std::string> GocryptfsBackend::executeCommandSafe(
+    const std::vector<std::string>& args
+) {
+    if (args.empty()) {
+        return Result<std::string>::error("Empty command arguments");
     }
     
-    // Add stderr redirect
-    cmd << " 2>&1";
+    // Use fork/exec for safe execution without shell
+    int pipe_fd[2];
+    if (pipe(pipe_fd) != 0) {
+        return Result<std::string>::error("Failed to create pipe");
+    }
     
-    // Execute command
-    std::array<char, 128> buffer;
+    pid_t pid = fork();
+    if (pid == -1) {
+        close(pipe_fd[0]);
+        close(pipe_fd[1]);
+        return Result<std::string>::error("Failed to fork process");
+    }
+    
+    if (pid == 0) {
+        // Child process
+        close(pipe_fd[0]); // Close read end
+        
+        // Redirect stdout and stderr to pipe
+        dup2(pipe_fd[1], STDOUT_FILENO);
+        dup2(pipe_fd[1], STDERR_FILENO);
+        close(pipe_fd[1]);
+        
+        // Prepare arguments for execvp
+        std::vector<char*> c_args;
+        for (const auto& arg : args) {
+            c_args.push_back(const_cast<char*>(arg.c_str()));
+        }
+        c_args.push_back(nullptr);
+        
+        // Execute command
+        execvp(c_args[0], c_args.data());
+        
+        // If execvp returns, it failed
+        _exit(127);
+    }
+    
+    // Parent process
+    close(pipe_fd[1]); // Close write end
+    
+    // Read output
     std::string output;
-    
-    FILE* pipe = popen(cmd.str().c_str(), "r");
-    if (!pipe) {
-        return Result<std::string>::error("Failed to execute command: " + command);
+    char buffer[1024];
+    ssize_t bytes_read;
+    while ((bytes_read = read(pipe_fd[0], buffer, sizeof(buffer))) > 0) {
+        output.append(buffer, bytes_read);
     }
+    close(pipe_fd[0]);
     
-    while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
-        output += buffer.data();
-    }
+    // Wait for child to finish
+    int status;
+    waitpid(pid, &status, 0);
     
-    int exit_code = pclose(pipe);
-    
-    if (exit_code != 0) {
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+        int exit_code = WIFEXITED(status) ? WEXITSTATUS(status) : -1;
         return Result<std::string>::error(
             "Command failed with exit code " + std::to_string(exit_code) + ": " + output
         );

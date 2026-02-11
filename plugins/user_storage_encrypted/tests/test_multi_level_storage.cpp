@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <fstream>
 #include <cstdlib>
+#include <filesystem>
 
 using namespace themis::plugins::user_storage;
 
@@ -21,9 +22,12 @@ protected:
             storage_->shutdown();
         }
         
-        // Clean up test directory
-        std::string cmd = "rm -rf " + test_dir_;
-        system(cmd.c_str());
+        // Clean up test directory using C++17 filesystem
+        try {
+            std::filesystem::remove_all(test_dir_);
+        } catch (const std::exception& e) {
+            // Ignore cleanup errors
+        }
     }
     
     std::string getSimpleConfig() {
