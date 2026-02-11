@@ -20,6 +20,9 @@ public:
     
     // Store optional vector index manager for RAG queries
     VectorIndexManager* vector_index_mgr_ = nullptr;
+    
+    // Default configuration constants
+    static constexpr float DEFAULT_SIMILARITY_THRESHOLD = 0.7f;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -101,7 +104,7 @@ std::string LLMAQLHandler::executeRAG(
                 auto query_embedding = THEMIS_LLM_EMBED(query);
                 
                 // Search for similar documents
-                float similarity_threshold = 0.7f;
+                float similarity_threshold = Impl::DEFAULT_SIMILARITY_THRESHOLD;
                 if (options.count("similarity_threshold")) {
                     similarity_threshold = std::stof(options.at("similarity_threshold"));
                 }
@@ -114,11 +117,15 @@ std::string LLMAQLHandler::executeRAG(
                 if (status.ok) {
                     // Retrieve documents and build context
                     for (const auto& result : results) {
+                        // Convert distance metric to similarity score
+                        // For COSINE/L2 metrics: lower distance = higher similarity
+                        float similarity = 1.0f - result.distance;
+                        
                         // Filter by similarity threshold
-                        if (result.distance <= (1.0f - similarity_threshold)) {
+                        if (similarity >= similarity_threshold) {
                             llm::RAGContext::Document doc;
                             doc.source = result.pk;
-                            doc.relevance_score = 1.0f - result.distance; // Convert distance to similarity
+                            doc.relevance_score = similarity;
                             // Note: Content would need to be fetched from storage
                             // For now, we'll use the pk as content placeholder
                             doc.content = result.pk;
@@ -379,7 +386,8 @@ std::string LLMAQLHandler::translateNLToAQL(
     try {
         // Build system prompt for AQL translation
         std::ostringstream system_prompt;
-        system_prompt << "You are an expert in ArangoDB Query Language (AQL) for ThemisDB.\n\n";
+        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
         
         // Add schema context if provided
         if (!schema_context.empty()) {

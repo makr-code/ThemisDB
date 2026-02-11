@@ -9,6 +9,12 @@
 
 using namespace themis::aql;
 
+// Test constants
+namespace {
+    const std::string EXPECTED_TRANSLATION_ERROR = "translation failed";
+    const std::string EXPECTED_CHAT_ERROR = "CHAT failed";
+}
+
 class NLToAQLTranslationTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -266,8 +272,8 @@ TEST_F(NLToAQLTranslationTest, EmptyQuery) {
     } catch (const std::exception& e) {
         // Either throws exception or returns empty result
         std::string error_msg = e.what();
-        EXPECT_TRUE(error_msg.find("translation failed") != std::string::npos ||
-                    error_msg.find("CHAT failed") != std::string::npos);
+        EXPECT_TRUE(error_msg.find(EXPECTED_TRANSLATION_ERROR) != std::string::npos ||
+                    error_msg.find(EXPECTED_CHAT_ERROR) != std::string::npos);
     }
 }
 
