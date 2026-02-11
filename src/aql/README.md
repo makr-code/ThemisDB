@@ -39,16 +39,26 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 ### LlmAqlHandler
 **Location:** `llm_aql_handler.cpp`, `../include/aql/llm_aql_handler.h`
 
-Handles LLM-specific AQL commands for AI model integration.
+Handles LLM-specific AQL commands for AI model integration with full implementation of natural language translation, RAG, and chat capabilities.
 
-**Features:**
-- **LLM INFER**: Generate text using loaded language models
-- **LLM RAG**: Retrieval-Augmented Generation with vector search
-- **LLM EMBED**: Generate embeddings for text
+**Core Features:**
+- **Natural Language to AQL**: `translateNLToAQL()` - Schema-aware query translation
+- **Chat Interface**: `executeChat()` - Multi-turn conversations with message history
+- **LLM INFER**: Generate text using loaded language models (with model/LoRA selection)
+- **LLM RAG**: Retrieval-Augmented Generation with vector search integration
+- **LLM EMBED**: Generate embeddings for text (with model selection support)
 - **LLM MODEL**: Load/unload/list/ingest GGUF models
 - **LLM LORA**: LoRA (Low-Rank Adaptation) adapter management
 - **LLM STATS**: Performance monitoring and statistics
 - **LLM CACHE**: Prompt cache management
+
+**Recent Improvements (v1.3.2):**
+- ✅ Active model and LoRA selection in all inference methods
+- ✅ Complete RAG integration with VectorIndexManager for similarity search
+- ✅ Automatic similarity threshold filtering for RAG queries
+- ✅ Multi-format chat support (ChatML, Llama2, Alpaca, Vicuna)
+- ✅ Markdown cleanup for LLM-generated responses
+- ✅ Comprehensive test coverage
 
 **Syntax Examples:**
 
@@ -311,41 +321,125 @@ Key Schema:
 
 ### Natural Language Queries
 
+ThemisDB now supports direct natural language to AQL translation via the `translateNLToAQL()` method. This feature uses LLM-powered translation with schema awareness for accurate query generation.
+
 ```cpp
 #include "aql/llm_aql_handler.h"
 
-LlmAqlHandler handler(llm_backend);
+LLMAQLHandler handler;
 
-// Ask a question
+// Basic translation
 std::string nl_query = "What are the top 10 restaurants in Seattle with high ratings?";
-
-// Translate to AQL
 auto aql_query = handler.translateNLToAQL(nl_query);
+
 // Generated AQL:
 // FOR place IN restaurants
 //   FILTER place.city == "Seattle"
 //   SORT place.rating DESC
 //   LIMIT 10
 //   RETURN place
+
+// Schema-aware translation for better accuracy
+std::string schema_context = R"(
+Collections:
+- restaurants: {_id, name, city, rating, cuisine, price_level}
+- reviews: {_id, restaurant_id, user_id, rating, comment}
+)";
+
+nl_query = "Find Italian restaurants in Seattle with average rating above 4.5";
+aql_query = handler.translateNLToAQL(nl_query, schema_context);
+
+// The translation uses schema context to generate more accurate queries:
+// FOR r IN restaurants
+//   FILTER r.city == "Seattle" AND r.cuisine == "Italian" AND r.rating > 4.5
+//   RETURN r
 ```
+
+**Features:**
+- **Schema-Aware**: Provide database schema for more accurate translations
+- **Markdown Cleanup**: Automatically removes code fences from LLM responses
+- **Error Handling**: Clear error messages for translation failures
+- **Multi-Turn Context**: Uses chat interface for better prompt handling
+
+**Performance:**
+- Translation typically completes in < 2 seconds (target)
+- Depends on LLM model size and hardware acceleration
 
 ### RAG Query Example
 
+ThemisDB's RAG implementation now includes full vector search integration with similarity filtering.
+
 ```cpp
-// RAG query for documentation
-std::string user_question = "How do I create a vector index in ThemisDB?";
+#include "aql/llm_aql_handler.h"
 
-std::string rag_query = R"(
-  LLM RAG 'How do I create a vector index in ThemisDB?'
-    SEARCH IN documentation
-    TOP 5
-    MODEL 'llama-3-8b'
-    TEMPERATURE 0.3
-)";
+LLMAQLHandler handler;
 
-auto result = handler.execute(rag_query);
+// Basic RAG query
+std::string query = "How do I create a vector index in ThemisDB?";
+std::unordered_map<std::string, std::string> options;
+options["max_tokens"] = "300";
+options["temperature"] = "0.3";
+options["similarity_threshold"] = "0.7"; // Filter by relevance
+
+auto result = handler.executeRAG(query, "documentation", 5, "", options);
 // Returns: To create a vector index in ThemisDB, use the CREATE INDEX statement...
+
+// RAG with LoRA adapter for domain-specific responses
+options["temperature"] = "0.5";
+result = handler.executeRAG(
+    "Explain database replication strategies",
+    "technical_docs",
+    10,
+    "technical-assistant", // LoRA adapter ID
+    options
+);
+
+// RAG workflow:
+// 1. Generate query embedding via executeEmbed()
+// 2. Search vector index for similar documents (top-k with similarity threshold)
+// 3. Build RAGContext with retrieved documents
+// 4. Generate response using context-aware LLM inference
 ```
+
+**RAG Features:**
+- **Vector Search Integration**: Automatic similarity search via VectorIndexManager
+- **Similarity Filtering**: Filter results by configurable threshold (0.0-1.0)
+- **Top-K Control**: Retrieve variable number of relevant documents
+- **LoRA Support**: Apply domain-specific adapters for specialized responses
+- **Graceful Degradation**: Falls back to context-free generation if vector index unavailable
+
+### Chat Interface
+
+Multi-turn conversations with message history support.
+
+```cpp
+#include "aql/llm_aql_handler.h"
+#include "llm/llama_wrapper.h"
+
+LLMAQLHandler handler;
+
+// Build conversation history
+std::vector<llm::ChatMessage> messages;
+messages.emplace_back("system", "You are a helpful database assistant.");
+messages.emplace_back("user", "What is a vector index?");
+
+std::unordered_map<std::string, std::string> options;
+options["chat_format"] = "llama2"; // or "chatml", "alpaca", "vicuna"
+
+auto response = handler.executeChat(messages, "", options);
+
+// Continue conversation
+messages.emplace_back("assistant", response);
+messages.emplace_back("user", "How do I create one?");
+
+response = handler.executeChat(messages, "", options);
+```
+
+**Chat Features:**
+- **Multi-Turn Context**: Maintains conversation history
+- **Format Support**: ChatML, Llama2, Alpaca, Vicuna templates
+- **Model Selection**: Specify model for chat (future: active)
+- **Used by translateNLToAQL**: Internal use for better prompt handling
 
 ### Embedding Generation
 
