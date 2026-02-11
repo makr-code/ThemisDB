@@ -551,17 +551,6 @@ class ThemisDB_Taxonomy_Manager_Plugin {
     }
     
     /**
-     * Load text domain
-     */
-    public function load_textdomain_old() {
-        load_plugin_textdomain(
-            'themisdb-taxonomy-manager',
-            false,
-            dirname(plugin_basename(__FILE__)) . '/languages'
-        );
-    }
-    
-    /**
      * Get taxonomy manager instance
      */
     public function get_taxonomy_manager() {
