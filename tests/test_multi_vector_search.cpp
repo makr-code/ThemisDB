@@ -426,6 +426,7 @@ TEST_F(MultiVectorSearchTest, LearnedFusionWithoutWeights) {
     
     auto result = multi_search_->search(query, config);
     EXPECT_FALSE(result.has_value());
+    // MSVC workaround: extract qualified enum to avoid macro parsing error
     auto expected_error = errors::ErrorCode::INVALID_ARGUMENT;
     EXPECT_EQ(result.error().code(), expected_error);
 }

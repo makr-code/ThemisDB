@@ -79,9 +79,13 @@ protected:
         for (size_t i = 0; i < count; i++) {
             Changefeed::ChangeEvent event;
             event.type = Changefeed::ChangeEventType::EVENT_PUT;
-            event.key = fmt::format("{}:key_{}", table_prefix, i);
-            event.value = fmt::format(R"({{"id":{},"data":"test_{}"}}})", i, i);
+            event.key = fmt::format("{}:key_{}", table_prefix, static_cast<unsigned long long>(i));
+            event.value = fmt::format(R"({{"id":{},"data":"test_{}"}})", static_cast<unsigned long long>(i), static_cast<unsigned long long>(i));
             event.timestamp_ms = 1000 + static_cast<int64_t>(i);
+            changefeed_->recordEvent(event);
+        }
+    }
+
     void createLargeDataset(size_t num_records) {
         for (size_t i = 0; i < num_records; ++i) {
             Changefeed::ChangeEvent event;

@@ -214,7 +214,7 @@ TEST_F(PolicyIntegrationE2ETest, UnifiedPolicyEvaluation) {
     // Verify both RBAC and classification decisions are combined
     EXPECT_TRUE(unified_decision.rbac_allowed);
     EXPECT_TRUE(unified_decision.require_encryption);
-    EXPECT_FALSE(unified_decision.allow_export);
+    EXPECT_FALSE(unified_decision.export_allowed);  // Note: member is export_allowed, not allow_export
     EXPECT_TRUE(unified_decision.audit_access);
     
     // Most restrictive wins

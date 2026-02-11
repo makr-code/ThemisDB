@@ -114,6 +114,12 @@ public:
     // Get current policy
     const PluginSecurityPolicy& getPolicy() const { return policy_; }
     
+    // Check certificate revocation list (public for testing)
+    bool checkCRL(const std::string& certificate);
+    
+    // OCSP (Online Certificate Status Protocol) check (public for testing)
+    bool checkOCSP(const std::string& certificate);
+    
 private:
     PluginSecurityPolicy policy_;
     
@@ -128,12 +134,6 @@ private:
     
     // Load and verify X.509 certificate
     bool loadCertificate(const std::string& certPEM);
-    
-    // Check certificate revocation list
-    bool checkCRL(const std::string& certificate);
-    
-    // OCSP (Online Certificate Status Protocol) check
-    bool checkOCSP(const std::string& certificate);
 };
 
 // ============================================================================

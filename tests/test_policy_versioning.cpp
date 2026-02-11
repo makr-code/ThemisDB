@@ -91,11 +91,15 @@ TEST_F(PolicyVersionHistoryTest, GetSpecificVersion) {
     
     auto v1 = history->getVersion(rule.id, "0.0.1");
     ASSERT_TRUE(v1.has_value());
-    EXPECT_EQ(v1->rule.name, "Test Rule");
+    EXPECT_EQ(v1->rule_id, "rule_004");
+    EXPECT_EQ(v1->version, "0.0.1");
+    EXPECT_EQ(v1->change_description, "V1");
     
     auto v2 = history->getVersion(rule.id, "0.0.2");
     ASSERT_TRUE(v2.has_value());
-    EXPECT_EQ(v2->rule.name, "Updated Name");
+    EXPECT_EQ(v2->rule_id, "rule_004");
+    EXPECT_EQ(v2->version, "0.0.2");
+    EXPECT_EQ(v2->change_description, "V2");
 }
 
 TEST_F(PolicyVersionHistoryTest, GetNonexistentVersion) {
