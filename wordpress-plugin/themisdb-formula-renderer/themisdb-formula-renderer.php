@@ -3,7 +3,7 @@
  * Plugin Name: ThemisDB Formula Renderer
  * Plugin URI: https://github.com/makr-code/ThemisDB
  * Description: Rendert mathematische Formeln in LaTeX-Notation ($$...$$) in anzeigbare Formeln mit KaTeX. Unterstützt sowohl Inline- als auch Block-Formeln.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
  * License: MIT
@@ -27,13 +27,14 @@ if (version_compare(PHP_VERSION, '7.2', '<')) {
 }
 
 // Plugin constants
-define('THEMISDB_FORMULA_VERSION', '1.0.0');
+define('THEMISDB_FORMULA_VERSION', '1.1.0');
 define('THEMISDB_FORMULA_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_FORMULA_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 // Include required files
 require_once THEMISDB_FORMULA_PLUGIN_DIR . 'includes/class-formula-renderer.php';
 require_once THEMISDB_FORMULA_PLUGIN_DIR . 'includes/class-shortcodes.php';
+require_once THEMISDB_FORMULA_PLUGIN_DIR . 'includes/class-formula-library.php';
 
 /**
  * Initialize the plugin
@@ -68,9 +69,31 @@ function themisdb_formula_activate() {
 register_activation_hook(__FILE__, 'themisdb_formula_activate');
 
 /**
- * Enqueue frontend scripts and styles
+ * Conditional script loading - only if formulas present
  */
 function themisdb_formula_enqueue_scripts() {
+    global $post;
+    
+    // Only load if formulas are present
+    if (!is_a($post, 'WP_Post')) {
+        return;
+    }
+    
+    $has_formula = (
+        // Check shortcodes
+        has_shortcode($post->post_content, 'themisdb_formula') ||
+        has_shortcode($post->post_content, 'formula') ||
+        has_shortcode($post->post_content, 'latex') ||
+        has_shortcode($post->post_content, 'math') ||
+        // Check delimiters
+        strpos($post->post_content, '$$') !== false ||
+        (strpos($post->post_content, '$') !== false && preg_match('/\$[^\$]+\$/', $post->post_content))
+    );
+    
+    if (!$has_formula) {
+        return;
+    }
+    
     // Enqueue KaTeX CSS
     wp_enqueue_style(
         'katex-style',
@@ -96,7 +119,7 @@ function themisdb_formula_enqueue_scripts() {
         true
     );
     
-    // Enqueue KaTeX Auto-render extension
+    // Enqueue KaTeX auto-render
     wp_enqueue_script(
         'katex-auto-render',
         'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js',
@@ -105,7 +128,7 @@ function themisdb_formula_enqueue_scripts() {
         true
     );
     
-    // Enqueue plugin custom script
+    // Enqueue plugin JavaScript
     wp_enqueue_script(
         'themisdb-formula-script',
         THEMISDB_FORMULA_PLUGIN_URL . 'assets/js/script.js',
@@ -114,21 +137,36 @@ function themisdb_formula_enqueue_scripts() {
         true
     );
     
-    // Pass options to JavaScript
-    $auto_render = get_option('themisdb_formula_auto_render', 1);
+    // Localize script
     wp_localize_script('themisdb-formula-script', 'themisdbFormula', array(
-        'autoRender' => (bool) $auto_render,
+        'autoRender' => get_option('themisdb_formula_auto_render', 1),
         'inlineDelimiter' => get_option('themisdb_formula_inline_delimiter', '$'),
         'blockDelimiter' => get_option('themisdb_formula_block_delimiter', '$$'),
-        'ajaxDelay' => 500 // Configurable delay for AJAX content
     ));
-    
-    // Add integrity attributes for CDN resources (security enhancement)
-    // Note: While WordPress doesn't natively support SRI via wp_enqueue_*,
-    // we recommend using a security plugin or custom filter for production environments
-    // Example filter for SRI: add_filter('script_loader_tag', 'add_sri_attributes', 10, 3);
 }
 add_action('wp_enqueue_scripts', 'themisdb_formula_enqueue_scripts');
+
+/**
+ * Add preload for KaTeX
+ */
+function themisdb_formula_add_preload() {
+    global $post;
+    
+    if (!is_a($post, 'WP_Post')) {
+        return;
+    }
+    
+    $has_formula = (
+        has_shortcode($post->post_content, 'themisdb_formula') ||
+        strpos($post->post_content, '$$') !== false
+    );
+    
+    if ($has_formula) {
+        echo '<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" as="style">';
+        echo '<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" as="script">';
+    }
+}
+add_action('wp_head', 'themisdb_formula_add_preload', 1);
 
 /**
  * Enqueue admin scripts and styles
@@ -163,3 +201,18 @@ function themisdb_formula_admin_enqueue_scripts($hook) {
     );
 }
 add_action('admin_enqueue_scripts', 'themisdb_formula_admin_enqueue_scripts');
+
+/**
+ * Add formula library admin menu
+ */
+function themisdb_formula_library_menu() {
+    add_submenu_page(
+        'options-general.php',
+        __('Formula Library', 'themisdb-formula-renderer'),
+        __('Formula Library', 'themisdb-formula-renderer'),
+        'manage_options',
+        'themisdb-formula-library',
+        array(new ThemisDB_Formula_Library(), 'render_admin_page')
+    );
+}
+add_action('admin_menu', 'themisdb_formula_library_menu');

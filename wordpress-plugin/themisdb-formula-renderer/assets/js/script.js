@@ -1,6 +1,6 @@
 /**
  * ThemisDB Formula Renderer JavaScript
- * Version: 1.0.0
+ * Version: 1.1.0
  */
 
 (function($) {
@@ -142,5 +142,148 @@
             });
         });
     }
+    
+    /**
+     * Copy-to-Clipboard functionality
+     */
+    function addCopyButtons() {
+        document.querySelectorAll('.themisdb-formula-block').forEach(container => {
+            // Skip if button already exists
+            if (container.querySelector('.themisdb-copy-formula')) {
+                return;
+            }
+            
+            // Get LaTeX code
+            const latex = container.dataset.latex || container.textContent.trim();
+            
+            // Create copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'themisdb-copy-formula';
+            copyBtn.setAttribute('aria-label', 'Copy LaTeX code');
+            copyBtn.innerHTML = '📋 Copy';
+            copyBtn.title = 'Copy LaTeX code to clipboard';
+            
+            copyBtn.onclick = function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Copy to clipboard
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(latex).then(() => {
+                        // Success feedback
+                        copyBtn.innerHTML = '✅ Copied!';
+                        copyBtn.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = '📋 Copy';
+                            copyBtn.classList.remove('copied');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Copy failed:', err);
+                        fallbackCopy(latex, copyBtn);
+                    });
+                } else {
+                    fallbackCopy(latex, copyBtn);
+                }
+            };
+            
+            container.style.position = 'relative';
+            container.appendChild(copyBtn);
+        });
+    }
+    
+    /**
+     * Fallback copy method for older browsers
+     */
+    function fallbackCopy(text, button) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            document.execCommand('copy');
+            button.innerHTML = '✅ Copied!';
+            button.classList.add('copied');
+            setTimeout(() => {
+                button.innerHTML = '📋 Copy';
+                button.classList.remove('copied');
+            }, 2000);
+        } catch (err) {
+            console.error('Fallback copy failed:', err);
+            button.innerHTML = '❌ Failed';
+        }
+        
+        document.body.removeChild(textarea);
+    }
+    
+    /**
+     * Add MathML for screen readers
+     */
+    function addMathMLAccessibility() {
+        document.querySelectorAll('.themisdb-formula-block, .themisdb-formula-inline').forEach(container => {
+            const katexElement = container.querySelector('.katex');
+            if (!katexElement || container.querySelector('.mathml-alternative')) {
+                return;
+            }
+            
+            // Get LaTeX source
+            const latex = container.dataset.latex || container.textContent.trim();
+            
+            try {
+                // Generate MathML using KaTeX
+                const mathml = katex.renderToString(latex, {
+                    output: 'mathml',
+                    throwOnError: false
+                });
+                
+                // Create hidden MathML container for screen readers
+                const mathmlDiv = document.createElement('div');
+                mathmlDiv.className = 'mathml-alternative sr-only';
+                mathmlDiv.setAttribute('aria-label', 'Mathematical formula: ' + latex);
+                mathmlDiv.innerHTML = mathml;
+                
+                container.appendChild(mathmlDiv);
+                
+                // Hide visual formula from screen readers
+                katexElement.setAttribute('aria-hidden', 'true');
+                
+            } catch (err) {
+                console.warn('MathML generation failed:', err);
+            }
+        });
+    }
+    
+    // Add screen reader only class
+    const style = document.createElement('style');
+    style.textContent = `
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Initialize copy buttons and MathML after formula rendering
+    $(document).ready(function($) {
+        // Wait for formulas to be rendered
+        setTimeout(addCopyButtons, 500);
+        setTimeout(addMathMLAccessibility, 600);
+        
+        // Also add after AJAX content loads
+        $(document).ajaxComplete(function() {
+            setTimeout(addCopyButtons, 500);
+            setTimeout(addMathMLAccessibility, 600);
+        });
+    });
     
 })(jQuery);
