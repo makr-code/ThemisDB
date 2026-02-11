@@ -75,27 +75,13 @@ jobs:
     name: Deploy Container
     needs: validate
     if: inputs.component == 'all' || inputs.component == 'container'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-    environment:
-      name: ${{ inputs.environment }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Build and push container
-        uses: ./.github/workflows/reusable-container-build.yml
-        with:
-          dockerfile: 'Dockerfile'
-          platforms: 'linux/amd64,linux/arm64'
-          push: true
-          tags: ${{ inputs.version }}-${{ inputs.environment }}
-        secrets: inherit
-
-      - name: Container deployment summary
-        run: |
-          echo "## 🐳 Container Deployed" >> $GITHUB_STEP_SUMMARY
-          echo "**Tag:** ${{ inputs.version }}-${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+    uses: ./.github/workflows/reusable-container-build.yml
+    with:
+      dockerfile: 'Dockerfile'
+      platforms: 'linux/amd64,linux/arm64'
+      push: true
+      tags: ${{ inputs.version }}-${{ inputs.environment }}
+    secrets: inherit
 
   # Deploy Helm chart
   deploy-helm:
