@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ThemisDB Feature Matrix
  * Plugin URI: https://github.com/makr-code/ThemisDB
- * Description: Interactive feature comparison matrix for ThemisDB vs. competing databases. Visualize features, capabilities, and differences with Mermaid.js diagrams. Use shortcode [themisdb_feature_matrix] to embed.
+ * Description: Interactive feature comparison matrix for ThemisDB vs PostgreSQL, MongoDB, Neo4j
  * Version: 1.0.0
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
@@ -24,8 +24,10 @@ define('THEMISDB_FM_VERSION', '1.0.0');
 define('THEMISDB_FM_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_FM_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_FM_PLUGIN_FILE', __FILE__);
-define('THEMISDB_FM_GITHUB_REPO', 'makr-code/ThemisDB');
-define('THEMISDB_FM_GITHUB_PATH', 'tools/feature-matrix-wordpress');
+
+// Load required files
+require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php';
+require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php';
 
 /**
  * Main Plugin Class
@@ -36,6 +38,11 @@ class ThemisDB_Feature_Matrix {
      * Plugin instance
      */
     private static $instance = null;
+    
+    /**
+     * Admin instance
+     */
+    private $admin = null;
     
     /**
      * Get plugin instance
@@ -62,9 +69,10 @@ class ThemisDB_Feature_Matrix {
         // Register shortcode
         add_shortcode('themisdb_feature_matrix', array($this, 'render_matrix'));
         
-        // Admin menu
-        add_action('admin_menu', array($this, 'add_admin_menu'));
-        add_action('admin_init', array($this, 'register_settings'));
+        // Initialize admin
+        if (is_admin()) {
+            $this->admin = new ThemisDB_Feature_Matrix_Admin();
+        }
         
         // Plugin action links
         add_filter('plugin_action_links_' . plugin_basename(THEMISDB_FM_PLUGIN_FILE), array($this, 'add_action_links'));
@@ -80,12 +88,13 @@ class ThemisDB_Feature_Matrix {
     public function activate() {
         // Set default options
         $defaults = array(
-            'data_source' => 'local',
-            'default_comparison_dbs' => 'postgresql,mongodb,neo4j',
-            'default_category' => 'all',
-            'show_mermaid_diagrams' => true,
-            'table_view' => 'detailed',
-            'enable_tooltips' => true,
+            'default_view' => 'all',
+            'default_style' => 'modern',
+            'enable_filters' => 'yes',
+            'enable_csv_export' => 'yes',
+            'show_themis_highlight' => 'yes',
+            'sticky_header' => 'yes',
+            'enable_tooltips' => 'yes'
         );
         
         foreach ($defaults as $key => $value) {
@@ -93,6 +102,9 @@ class ThemisDB_Feature_Matrix {
                 add_option('themisdb_fm_' . $key, $value);
             }
         }
+        
+        // Flush rewrite rules
+        flush_rewrite_rules();
     }
     
     /**
@@ -122,15 +134,6 @@ class ThemisDB_Feature_Matrix {
             return;
         }
         
-        // Mermaid.js from CDN (for diagrams)
-        wp_enqueue_script(
-            'mermaid-js',
-            'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js',
-            array(),
-            '10.0.0',
-            true
-        );
-        
         // Plugin CSS
         wp_enqueue_style(
             'themisdb-fm-style',
@@ -143,7 +146,7 @@ class ThemisDB_Feature_Matrix {
         wp_enqueue_script(
             'themisdb-fm-script',
             THEMISDB_FM_PLUGIN_URL . 'assets/js/feature-matrix.js',
-            array('jquery', 'mermaid-js'),
+            array('jquery'),
             THEMISDB_FM_VERSION,
             true
         );
@@ -154,10 +157,13 @@ class ThemisDB_Feature_Matrix {
             'nonce' => wp_create_nonce('themisdb_fm_nonce'),
             'plugin_url' => THEMISDB_FM_PLUGIN_URL,
             'settings' => array(
-                'default_category' => get_option('themisdb_fm_default_category', 'all'),
-                'show_mermaid' => get_option('themisdb_fm_show_mermaid_diagrams', true),
-                'table_view' => get_option('themisdb_fm_table_view', 'detailed'),
-                'enable_tooltips' => get_option('themisdb_fm_enable_tooltips', true),
+                'default_view' => get_option('themisdb_fm_default_view', 'all'),
+                'default_style' => get_option('themisdb_fm_default_style', 'modern'),
+                'enable_filters' => get_option('themisdb_fm_enable_filters', 'yes'),
+                'enable_csv_export' => get_option('themisdb_fm_enable_csv_export', 'yes'),
+                'show_themis_highlight' => get_option('themisdb_fm_show_themis_highlight', 'yes'),
+                'sticky_header' => get_option('themisdb_fm_sticky_header', 'yes'),
+                'enable_tooltips' => get_option('themisdb_fm_enable_tooltips', 'yes')
             ),
         ));
     }
@@ -167,10 +173,11 @@ class ThemisDB_Feature_Matrix {
      */
     public function render_matrix($atts) {
         $atts = shortcode_atts(array(
-            'category' => get_option('themisdb_fm_default_category', 'all'),
-            'compare' => get_option('themisdb_fm_default_comparison_dbs', 'postgresql,mongodb,neo4j'),
-            'view' => get_option('themisdb_fm_table_view', 'detailed'),
-            'show_diagram' => get_option('themisdb_fm_show_mermaid_diagrams', true),
+            'category' => get_option('themisdb_fm_default_view', 'all'),
+            'style' => get_option('themisdb_fm_default_style', 'modern'),
+            'highlight_themis' => get_option('themisdb_fm_show_themis_highlight', 'yes'),
+            'sticky_header' => get_option('themisdb_fm_sticky_header', 'yes'),
+            'filterable' => get_option('themisdb_fm_enable_filters', 'yes')
         ), $atts, 'themisdb_feature_matrix');
         
         // Load template
@@ -180,46 +187,10 @@ class ThemisDB_Feature_Matrix {
     }
     
     /**
-     * Add admin menu
-     */
-    public function add_admin_menu() {
-        add_options_page(
-            __('Feature Matrix Settings', 'themisdb-feature-matrix'),
-            __('Feature Matrix', 'themisdb-feature-matrix'),
-            'manage_options',
-            'themisdb-fm-settings',
-            array($this, 'render_settings_page')
-        );
-    }
-    
-    /**
-     * Register settings
-     */
-    public function register_settings() {
-        register_setting('themisdb_fm_settings', 'themisdb_fm_data_source');
-        register_setting('themisdb_fm_settings', 'themisdb_fm_default_comparison_dbs');
-        register_setting('themisdb_fm_settings', 'themisdb_fm_default_category');
-        register_setting('themisdb_fm_settings', 'themisdb_fm_show_mermaid_diagrams');
-        register_setting('themisdb_fm_settings', 'themisdb_fm_table_view');
-        register_setting('themisdb_fm_settings', 'themisdb_fm_enable_tooltips');
-    }
-    
-    /**
-     * Render settings page
-     */
-    public function render_settings_page() {
-        if (!current_user_can('manage_options')) {
-            return;
-        }
-        
-        include THEMISDB_FM_PLUGIN_DIR . 'templates/admin-settings.php';
-    }
-    
-    /**
      * Add plugin action links
      */
     public function add_action_links($links) {
-        $settings_link = '<a href="' . admin_url('options-general.php?page=themisdb-fm-settings') . '">' . __('Settings', 'themisdb-feature-matrix') . '</a>';
+        $settings_link = '<a href="' . admin_url('options-general.php?page=themisdb-feature-matrix') . '">' . __('Settings', 'themisdb-feature-matrix') . '</a>';
         array_unshift($links, $settings_link);
         return $links;
     }
@@ -231,127 +202,17 @@ class ThemisDB_Feature_Matrix {
         check_ajax_referer('themisdb_fm_nonce', 'nonce');
         
         $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : 'all';
-        $compare = isset($_POST['compare']) ? sanitize_text_field($_POST['compare']) : '';
         
-        // Check cache first
-        $cache_key = 'themisdb_fm_features_' . md5($category . '_' . $compare);
-        $cached_data = get_transient($cache_key);
+        // Get features from data class
+        $features = ThemisDB_Feature_Matrix_Data::get_flat_features($category);
+        $databases = ThemisDB_Feature_Matrix_Data::get_databases();
         
-        if ($cached_data !== false) {
-            wp_send_json_success($cached_data);
-            return;
-        }
-        
-        // Load features
-        $features = $this->load_features($category, $compare);
-        
-        // Cache data for 24 hours
-        set_transient($cache_key, $features, 86400);
-        
-        wp_send_json_success($features);
-    }
-    
-    /**
-     * Load features data
-     */
-    private function load_features($category = 'all', $compare = '') {
-        // Sample feature data structure
-        // In production, this would load from JSON files or database
-        $all_features = array(
-            array(
-                'name' => 'Multi-Model Support',
-                'category' => 'architecture',
-                'themisdb' => 'available',
-                'postgresql' => 'limited',
-                'mongodb' => 'partial',
-                'neo4j' => 'not_available',
-                'description' => 'Native support for document, graph, key-value, time-series, and vector data models in a single database',
-            ),
-            array(
-                'name' => 'Native LLM Integration',
-                'category' => 'ai_ml',
-                'themisdb' => 'available',
-                'postgresql' => 'not_available',
-                'mongodb' => 'not_available',
-                'neo4j' => 'not_available',
-                'description' => 'Run LLaMA models directly in database with llama.cpp integration',
-            ),
-            array(
-                'name' => 'Vector Search (HNSW)',
-                'category' => 'ai_ml',
-                'themisdb' => 'available',
-                'postgresql' => 'available',
-                'mongodb' => 'available',
-                'neo4j' => 'limited',
-                'description' => 'High-performance vector similarity search using HNSW algorithm',
-            ),
-            array(
-                'name' => 'Graph Database',
-                'category' => 'architecture',
-                'themisdb' => 'available',
-                'postgresql' => 'limited',
-                'mongodb' => 'not_available',
-                'neo4j' => 'available',
-                'description' => 'Native graph data model with efficient traversal algorithms',
-            ),
-            array(
-                'name' => 'ACID Transactions',
-                'category' => 'reliability',
-                'themisdb' => 'available',
-                'postgresql' => 'available',
-                'mongodb' => 'available',
-                'neo4j' => 'available',
-                'description' => 'Full ACID compliance for data consistency and integrity',
-            ),
-            array(
-                'name' => 'Sharding & RAID',
-                'category' => 'scalability',
-                'themisdb' => 'available',
-                'postgresql' => 'limited',
-                'mongodb' => 'available',
-                'neo4j' => 'available',
-                'description' => 'Horizontal scaling with automatic sharding and RAID support',
-            ),
-            array(
-                'name' => 'Field-Level Encryption',
-                'category' => 'security',
-                'themisdb' => 'available',
-                'postgresql' => 'limited',
-                'mongodb' => 'available',
-                'neo4j' => 'limited',
-                'description' => 'Encrypt sensitive data at the field level',
-            ),
-            array(
-                'name' => 'AQL Query Language',
-                'category' => 'usability',
-                'themisdb' => 'available',
-                'postgresql' => 'not_available',
-                'mongodb' => 'not_available',
-                'neo4j' => 'not_available',
-                'description' => 'Powerful and intuitive Advanced Query Language',
-            ),
-        );
-        
-        // Filter by category if specified
-        if ($category !== 'all') {
-            $all_features = array_filter($all_features, function($feature) use ($category) {
-                return $feature['category'] === $category;
-            });
-        }
-        
-        // Filter databases to compare
-        $databases = array('themisdb');
-        if (!empty($compare)) {
-            $databases = array_merge($databases, explode(',', $compare));
-        } else {
-            $databases = array('themisdb', 'postgresql', 'mongodb', 'neo4j');
-        }
-        
-        return array(
-            'features' => array_values($all_features),
-            'databases' => $databases,
-            'category' => $category,
-        );
+        wp_send_json_success(array(
+            'features' => $features,
+            'databases' => array_keys($databases),
+            'database_info' => $databases,
+            'category' => $category
+        ));
     }
 }
 
