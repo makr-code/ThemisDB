@@ -1,8 +1,7 @@
 <?php
 /**
  * Taxonomy Manager
- * Main class that coordinates taxonomy extraction and assignment
- * Uses both extractor and hierarchy manager
+ * Registers and manages custom taxonomies for ThemisDB
  */
 
 if (!defined('ABSPATH')) {
@@ -12,281 +11,386 @@ if (!defined('ABSPATH')) {
 class ThemisDB_Taxonomy_Manager {
     
     /**
-     * Taxonomy extractor instance
+     * Taxonomies configuration
      */
-    private $extractor;
-    
-    /**
-     * Category hierarchy manager instance
-     */
-    private $hierarchy;
+    private $taxonomies = array(
+        'themisdb_feature' => array(
+            'singular' => 'Database Feature',
+            'plural' => 'Database Features',
+            'hierarchical' => true,
+            'post_types' => array('post', 'page')
+        ),
+        'themisdb_usecase' => array(
+            'singular' => 'Use Case',
+            'plural' => 'Use Cases',
+            'hierarchical' => true,
+            'post_types' => array('post', 'page')
+        ),
+        'themisdb_industry' => array(
+            'singular' => 'Industry',
+            'plural' => 'Industries',
+            'hierarchical' => true,
+            'post_types' => array('post', 'page')
+        ),
+        'themisdb_techspec' => array(
+            'singular' => 'Technical Spec',
+            'plural' => 'Technical Specs',
+            'hierarchical' => false,
+            'post_types' => array('post')
+        )
+    );
     
     /**
      * Constructor
      */
     public function __construct() {
-        $this->extractor = new ThemisDB_Taxonomy_Extractor();
-        $this->hierarchy = new ThemisDB_Category_Hierarchy();
-        
-        // Hook into post save
-        add_action('save_post', array($this, 'auto_assign_taxonomies'), 10, 3);
-        
-        // Add REST API endpoint for external use
-        add_action('rest_api_init', array($this, 'register_rest_routes'));
+        add_action('init', array($this, 'register_taxonomies'), 0);
+        add_action('init', array($this, 'register_shortcodes'));
     }
     
     /**
-     * Auto-assign taxonomies when post is saved
-     * 
-     * @param int $post_id
-     * @param WP_Post $post
-     * @param bool $update
+     * Register all custom taxonomies
      */
-    public function auto_assign_taxonomies($post_id, $post, $update) {
-        // Check if auto-extraction is enabled
-        if (!get_option('themisdb_taxonomy_auto_extract', 1)) {
-            return;
-        }
-        
-        // Avoid auto-save and revisions
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return;
-        }
-        
-        // Only process posts and pages
-        if (!in_array($post->post_type, array('post', 'page'))) {
-            return;
-        }
-        
-        // Check permissions
-        if (!current_user_can('edit_post', $post_id)) {
-            return;
-        }
-        
-        // Extract taxonomies
-        $result = $this->extractor->extract_taxonomies($post, array(
-            'extract_from_content' => get_option('themisdb_taxonomy_auto_categories', 1),
-            'extract_from_metadata' => true
-        ));
-        
-        // Assign categories with hierarchy
-        if (get_option('themisdb_taxonomy_auto_categories', 1)) {
-            $this->assign_categories_with_hierarchy($post_id, $result['categories']);
-        }
-        
-        // Assign tags
-        if (get_option('themisdb_taxonomy_auto_tags', 1)) {
-            $this->assign_tags($post_id, $result['tags']);
-        }
-    }
-    
-    /**
-     * Assign categories with proper hierarchy
-     * 
-     * @param int $post_id
-     * @param array $category_names
-     */
-    public function assign_categories_with_hierarchy($post_id, $category_names) {
-        if (empty($category_names)) {
-            return;
-        }
-        
-        $category_ids = array();
-        
-        foreach ($category_names as $cat_name) {
-            // Create or get category with proper hierarchy
-            $cat_id = $this->hierarchy->get_or_create_hierarchical_category($cat_name);
+    public function register_taxonomies() {
+        foreach ($this->taxonomies as $taxonomy => $config) {
+            $labels = array(
+                'name' => _x($config['plural'], 'taxonomy general name', 'themisdb-taxonomy'),
+                'singular_name' => _x($config['singular'], 'taxonomy singular name', 'themisdb-taxonomy'),
+                'search_items' => __('Search ' . $config['plural'], 'themisdb-taxonomy'),
+                'all_items' => __('All ' . $config['plural'], 'themisdb-taxonomy'),
+                'parent_item' => $config['hierarchical'] ? __('Parent ' . $config['singular'], 'themisdb-taxonomy') : null,
+                'parent_item_colon' => $config['hierarchical'] ? __('Parent ' . $config['singular'] . ':', 'themisdb-taxonomy') : null,
+                'edit_item' => __('Edit ' . $config['singular'], 'themisdb-taxonomy'),
+                'update_item' => __('Update ' . $config['singular'], 'themisdb-taxonomy'),
+                'add_new_item' => __('Add New ' . $config['singular'], 'themisdb-taxonomy'),
+                'new_item_name' => __('New ' . $config['singular'] . ' Name', 'themisdb-taxonomy'),
+                'menu_name' => __($config['plural'], 'themisdb-taxonomy'),
+            );
             
-            if (!is_wp_error($cat_id)) {
-                $category_ids[] = $cat_id;
-            }
-        }
-        
-        // Assign categories to post (append, don't replace)
-        if (!empty($category_ids)) {
-            wp_set_post_categories($post_id, $category_ids, true);
-        }
-    }
-    
-    /**
-     * Assign tags to post
-     * 
-     * @param int $post_id
-     * @param array $tag_names
-     */
-    public function assign_tags($post_id, $tag_names) {
-        if (empty($tag_names)) {
-            return;
-        }
-        
-        $tag_ids = array();
-        
-        foreach ($tag_names as $tag_name) {
-            $tag = get_term_by('name', $tag_name, 'post_tag');
+            $args = array(
+                'hierarchical' => $config['hierarchical'],
+                'labels' => $labels,
+                'show_ui' => true,
+                'show_admin_column' => true,
+                'query_var' => true,
+                'rewrite' => array('slug' => str_replace('themisdb_', '', $taxonomy)),
+                'show_in_rest' => true,
+            );
             
-            if (!$tag) {
-                $result = wp_insert_term($tag_name, 'post_tag');
-                if (!is_wp_error($result)) {
-                    $tag_ids[] = $result['term_id'];
-                }
-            } else {
-                $tag_ids[] = $tag->term_id;
-            }
-        }
-        
-        // Assign tags to post (append, don't replace)
-        if (!empty($tag_ids)) {
-            wp_set_post_terms($post_id, $tag_ids, 'post_tag', true);
+            register_taxonomy($taxonomy, $config['post_types'], $args);
         }
     }
     
     /**
-     * Extract and assign taxonomies for a batch of posts
-     * 
-     * @param array $post_ids Array of post IDs
-     * @param array $options Extraction options
-     * @return array Statistics
+     * Insert default terms on activation
      */
-    public function batch_assign_taxonomies($post_ids, $options = array()) {
-        $stats = array(
-            'processed' => 0,
-            'categories_assigned' => 0,
-            'tags_assigned' => 0,
-            'errors' => 0
+    public function insert_default_terms() {
+        $this->insert_feature_terms();
+        $this->insert_usecase_terms();
+        $this->insert_industry_terms();
+        $this->insert_techspec_terms();
+    }
+    
+    /**
+     * Insert default Database Features terms
+     */
+    private function insert_feature_terms() {
+        $features = array(
+            'Data Models' => array(
+                'Relational SQL',
+                'Graph Database',
+                'Document Store',
+                'Vector Database',
+                'Time-Series',
+                'Key-Value Store'
+            ),
+            'AI/ML' => array(
+                'Embedded LLM',
+                'Vector Search',
+                'RAG Support',
+                'GPU Acceleration',
+                'Model Inference'
+            ),
+            'Performance' => array(
+                'Horizontal Scaling',
+                'Auto-Sharding',
+                'Replication',
+                'Caching',
+                'Query Optimization'
+            ),
+            'Compatibility' => array(
+                'SQL Protocol',
+                'MongoDB Protocol',
+                'Cypher (Graph)',
+                'REST API',
+                'GraphQL API',
+                'gRPC'
+            )
         );
         
-        foreach ($post_ids as $post_id) {
-            try {
-                $post = get_post($post_id);
-                if (!$post) {
-                    continue;
+        foreach ($features as $parent_name => $children) {
+            $parent = wp_insert_term($parent_name, 'themisdb_feature');
+            if (!is_wp_error($parent)) {
+                $parent_id = $parent['term_id'];
+                foreach ($children as $child_name) {
+                    wp_insert_term($child_name, 'themisdb_feature', array('parent' => $parent_id));
                 }
-                
-                $result = $this->extractor->extract_taxonomies($post, $options);
-                
-                $this->assign_categories_with_hierarchy($post_id, $result['categories']);
-                $this->assign_tags($post_id, $result['tags']);
-                
-                $stats['processed']++;
-                $stats['categories_assigned'] += count($result['categories']);
-                $stats['tags_assigned'] += count($result['tags']);
-                
-            } catch (Exception $e) {
-                $stats['errors']++;
             }
         }
-        
-        return $stats;
     }
     
     /**
-     * Consolidate existing categories using hierarchy rules
-     * 
-     * @return array Statistics
+     * Insert default Use Cases terms
      */
-    public function consolidate_categories() {
-        if (!get_option('themisdb_taxonomy_consolidate_categories', 1)) {
-            return array('message' => 'Consolidation disabled');
+    private function insert_usecase_terms() {
+        $usecases = array(
+            'AI & Machine Learning',
+            'Real-Time Analytics',
+            'Graph Analytics',
+            'IoT Data Management',
+            'Content Management',
+            'E-Commerce',
+            'Social Networks',
+            'Recommendation Systems',
+            'Knowledge Graphs',
+            'Semantic Search'
+        );
+        
+        foreach ($usecases as $usecase) {
+            wp_insert_term($usecase, 'themisdb_usecase');
+        }
+    }
+    
+    /**
+     * Insert default Industries terms
+     */
+    private function insert_industry_terms() {
+        $industries = array(
+            'Healthcare',
+            'Finance',
+            'E-Commerce',
+            'Telecommunications',
+            'Manufacturing',
+            'Education',
+            'Government',
+            'Media & Entertainment',
+            'Transportation',
+            'Energy'
+        );
+        
+        foreach ($industries as $industry) {
+            wp_insert_term($industry, 'themisdb_industry');
+        }
+    }
+    
+    /**
+     * Insert default Technical Specs terms
+     */
+    private function insert_techspec_terms() {
+        $techspecs = array(
+            'ACID',
+            'MVCC',
+            'C++',
+            'RocksDB',
+            'llama.cpp',
+            'CUDA',
+            'OpenCL',
+            'Docker',
+            'Kubernetes',
+            'High Availability',
+            'Disaster Recovery'
+        );
+        
+        foreach ($techspecs as $techspec) {
+            wp_insert_term($techspec, 'themisdb_techspec');
+        }
+    }
+    
+    /**
+     * Register shortcodes
+     */
+    public function register_shortcodes() {
+        add_shortcode('themisdb_taxonomy', array($this, 'shortcode_taxonomy_list'));
+        add_shortcode('themisdb_term_card', array($this, 'shortcode_term_card'));
+    }
+    
+    /**
+     * Shortcode: [themisdb_taxonomy]
+     */
+    public function shortcode_taxonomy_list($atts) {
+        $atts = shortcode_atts(array(
+            'taxonomy' => 'themisdb_feature',
+            'style' => 'list',
+            'show_icons' => 'yes',
+            'show_count' => 'yes',
+            'parent' => 0,
+            'limit' => -1,
+            'orderby' => 'name',
+            'order' => 'ASC'
+        ), $atts);
+        
+        $args = array(
+            'taxonomy' => $atts['taxonomy'],
+            'parent' => $atts['parent'],
+            'number' => $atts['limit'],
+            'orderby' => $atts['orderby'],
+            'order' => $atts['order'],
+            'hide_empty' => false
+        );
+        
+        $terms = get_terms($args);
+        
+        if (is_wp_error($terms) || empty($terms)) {
+            return '';
         }
         
-        return $this->hierarchy->consolidate_existing_categories();
+        ob_start();
+        
+        if ($atts['style'] === 'list') {
+            $this->render_list_style($terms, $atts);
+        } elseif ($atts['style'] === 'cloud') {
+            $this->render_cloud_style($terms, $atts);
+        } elseif ($atts['style'] === 'grid') {
+            $this->render_grid_style($terms, $atts);
+        }
+        
+        return ob_get_clean();
     }
     
     /**
-     * Get optimization recommendations
-     * 
-     * @return array Recommendations
+     * Render list style
      */
-    public function get_optimization_recommendations() {
-        return $this->hierarchy->get_optimization_recommendations();
-    }
-    
-    /**
-     * Register REST API routes
-     */
-    public function register_rest_routes() {
-        register_rest_route('themisdb/v1', '/taxonomy/extract', array(
-            'methods' => 'POST',
-            'callback' => array($this, 'rest_extract_taxonomies'),
-            'permission_callback' => function() {
-                return current_user_can('edit_posts');
-            }
-        ));
-        
-        register_rest_route('themisdb/v1', '/taxonomy/consolidate', array(
-            'methods' => 'POST',
-            'callback' => array($this, 'rest_consolidate_categories'),
-            'permission_callback' => function() {
-                return current_user_can('manage_categories');
-            }
-        ));
-        
-        register_rest_route('themisdb/v1', '/taxonomy/recommendations', array(
-            'methods' => 'GET',
-            'callback' => array($this, 'rest_get_recommendations'),
-            'permission_callback' => function() {
-                return current_user_can('manage_categories');
-            }
-        ));
-    }
-    
-    /**
-     * REST API: Extract taxonomies
-     */
-    public function rest_extract_taxonomies($request) {
-        $post_id = $request->get_param('post_id');
-        $text = $request->get_param('text');
-        $options = $request->get_param('options') ?: array();
-        
-        if ($post_id) {
-            $post = get_post($post_id);
-            if (!$post) {
-                return new WP_Error('invalid_post', 'Post not found', array('status' => 404));
+    private function render_list_style($terms, $atts) {
+        echo '<ul class="themisdb-taxonomy-list">';
+        foreach ($terms as $term) {
+            $icon = get_term_meta($term->term_id, 'icon', true);
+            $color = get_term_meta($term->term_id, 'color', true);
+            $link = get_term_link($term);
+            
+            echo '<li>';
+            echo '<a href="' . esc_url($link) . '">';
+            
+            if ($atts['show_icons'] === 'yes' && $icon) {
+                $style = $color ? 'style="color: ' . esc_attr($color) . ';"' : '';
+                echo '<span class="icon" ' . $style . '>' . esc_html($icon) . '</span> ';
             }
             
-            $result = $this->extractor->extract_taxonomies($post, $options);
-        } elseif ($text) {
-            // Create temporary post object for extraction
-            $temp_post = new stdClass();
-            $temp_post->post_title = $request->get_param('title') ?: '';
-            $temp_post->post_content = $text;
-            $temp_post->ID = 0;
+            echo '<span class="name">' . esc_html($term->name) . '</span>';
             
-            $result = $this->extractor->extract_taxonomies($temp_post, $options);
-        } else {
-            return new WP_Error('missing_params', 'Either post_id or text required', array('status' => 400));
+            if ($atts['show_count'] === 'yes') {
+                echo ' <span class="count">(' . $term->count . ')</span>';
+            }
+            
+            echo '</a>';
+            echo '</li>';
+        }
+        echo '</ul>';
+    }
+    
+    /**
+     * Render cloud style
+     */
+    private function render_cloud_style($terms, $atts) {
+        $max_count = 0;
+        foreach ($terms as $term) {
+            if ($term->count > $max_count) {
+                $max_count = $term->count;
+            }
         }
         
-        return rest_ensure_response($result);
+        echo '<div class="themisdb-tag-cloud">';
+        foreach ($terms as $term) {
+            $color = get_term_meta($term->term_id, 'color', true);
+            $link = get_term_link($term);
+            
+            // Scale font size based on count
+            $font_size = $max_count > 0 ? (1 + ($term->count / $max_count) * 1.5) : 1;
+            
+            $style = 'font-size: ' . $font_size . 'em;';
+            if ($color) {
+                $style .= ' color: ' . esc_attr($color) . ';';
+            }
+            
+            echo '<a href="' . esc_url($link) . '" style="' . $style . '" title="' . $term->count . ' items">';
+            echo esc_html($term->name);
+            echo '</a> ';
+        }
+        echo '</div>';
     }
     
     /**
-     * REST API: Consolidate categories
+     * Render grid style
      */
-    public function rest_consolidate_categories($request) {
-        $stats = $this->consolidate_categories();
-        return rest_ensure_response($stats);
+    private function render_grid_style($terms, $atts) {
+        echo '<div class="themisdb-taxonomy-grid">';
+        foreach ($terms as $term) {
+            $icon = get_term_meta($term->term_id, 'icon', true);
+            $color = get_term_meta($term->term_id, 'color', true);
+            $link = get_term_link($term);
+            
+            $border_style = $color ? 'border-color: ' . esc_attr($color) . ';' : '';
+            
+            echo '<div class="grid-item" style="' . $border_style . '">';
+            
+            if ($atts['show_icons'] === 'yes' && $icon) {
+                echo '<div class="icon">' . esc_html($icon) . '</div>';
+            }
+            
+            echo '<h4><a href="' . esc_url($link) . '">' . esc_html($term->name) . '</a></h4>';
+            
+            if ($atts['show_count'] === 'yes') {
+                echo '<span class="count">' . $term->count . ' posts</span>';
+            }
+            
+            echo '</div>';
+        }
+        echo '</div>';
     }
     
     /**
-     * REST API: Get recommendations
+     * Shortcode: [themisdb_term_card]
      */
-    public function rest_get_recommendations($request) {
-        $recommendations = $this->get_optimization_recommendations();
-        return rest_ensure_response($recommendations);
-    }
-    
-    /**
-     * Get extractor instance
-     */
-    public function get_extractor() {
-        return $this->extractor;
-    }
-    
-    /**
-     * Get hierarchy manager instance
-     */
-    public function get_hierarchy() {
-        return $this->hierarchy;
+    public function shortcode_term_card($atts) {
+        $atts = shortcode_atts(array(
+            'term_id' => 0,
+            'show_description' => 'yes',
+            'show_posts' => 'yes'
+        ), $atts);
+        
+        if (!$atts['term_id']) {
+            return '';
+        }
+        
+        $term = get_term($atts['term_id']);
+        
+        if (is_wp_error($term)) {
+            return '';
+        }
+        
+        $icon = get_term_meta($term->term_id, 'icon', true);
+        $color = get_term_meta($term->term_id, 'color', true);
+        $link = get_term_link($term);
+        
+        ob_start();
+        ?>
+        <div class="themisdb-term-card" style="border-color: <?php echo esc_attr($color); ?>;">
+            <?php if ($icon): ?>
+                <div class="card-icon"><?php echo esc_html($icon); ?></div>
+            <?php endif; ?>
+            
+            <h3><a href="<?php echo esc_url($link); ?>"><?php echo esc_html($term->name); ?></a></h3>
+            
+            <?php if ($atts['show_description'] === 'yes' && $term->description): ?>
+                <p class="description"><?php echo esc_html($term->description); ?></p>
+            <?php endif; ?>
+            
+            <?php if ($atts['show_posts'] === 'yes'): ?>
+                <div class="post-count">
+                    <a href="<?php echo esc_url($link); ?>"><?php echo $term->count; ?> posts</a>
+                </div>
+            <?php endif; ?>
+        </div>
+        <?php
+        return ob_get_clean();
     }
 }

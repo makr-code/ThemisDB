@@ -50,7 +50,7 @@ The ThemisDB Feature Matrix plugin provides a comprehensive, interactive feature
 
 ## 🚀 Installation
 
-### Manual Installation
+### Method 1: Manual Installation
 
 1. **Upload Plugin**
    ```bash
@@ -116,9 +116,22 @@ The ThemisDB Feature Matrix plugin provides a comprehensive, interactive feature
     filterable="yes"]
 ```
 
-## 🛠️ Technical Details
+## 📊 Feature Status Indicators
 
-### File Structure
+| Icon | Status | Meaning |
+|------|--------|---------|
+| ✓ | Full Support | Fully supported natively |
+| ◐ | Limited Support | Available with limitations |
+| ✗ | No Support | Feature not supported |
+
+## 🛠️ Technical Requirements
+
+- **PHP:** 7.4 or higher
+- **WordPress:** 5.8 or higher
+- **Browser:** Chrome 120+, Firefox 120+, Safari 17+, Edge 120+
+- **JavaScript:** Enabled (for interactive features)
+
+## 📂 File Structure
 
 ```
 themisdb-feature-matrix-wordpress/

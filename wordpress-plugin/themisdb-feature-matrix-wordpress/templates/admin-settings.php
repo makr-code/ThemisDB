@@ -1,161 +1,171 @@
 <?php
 /**
- * Admin Settings Template for Feature Matrix
+ * Admin Settings Template
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Handle form submission
+if (isset($_POST['themisdb_matrix_save'])) {
+    check_admin_referer('themisdb_matrix_settings');
+    
+    update_option('themisdb_matrix_default_category', sanitize_text_field($_POST['default_category']));
+    update_option('themisdb_matrix_default_style', sanitize_text_field($_POST['default_style']));
+    update_option('themisdb_matrix_show_legend', isset($_POST['show_legend']) ? 1 : 0);
+    update_option('themisdb_matrix_enable_filtering', isset($_POST['enable_filtering']) ? 1 : 0);
+    update_option('themisdb_matrix_enable_sorting', isset($_POST['enable_sorting']) ? 1 : 0);
+    update_option('themisdb_matrix_sticky_header', isset($_POST['sticky_header']) ? 1 : 0);
+    update_option('themisdb_matrix_highlight_themis', isset($_POST['highlight_themis']) ? 1 : 0);
+    update_option('themisdb_matrix_enable_export', isset($_POST['enable_export']) ? 1 : 0);
+    update_option('themisdb_matrix_export_prefix', sanitize_text_field($_POST['export_prefix']));
+    
+    echo '<div class="notice notice-success"><p>' . __('Settings saved successfully!', 'themisdb-feature-matrix') . '</p></div>';
+}
 ?>
 
 <div class="wrap">
-    <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+    <h1><?php _e('ThemisDB Feature Matrix Settings', 'themisdb-feature-matrix'); ?></h1>
     
-    <div class="themisdb-admin-header">
-        <p><?php _e('Configure the Feature Matrix plugin settings.', 'themisdb-feature-matrix'); ?></p>
-    </div>
-
-    <?php settings_errors('themisdb_fm_settings'); ?>
-
-    <form method="post" action="options.php">
-        <?php
-        settings_fields('themisdb_fm_settings');
-        do_settings_sections('themisdb_fm_settings');
-        ?>
-
-        <table class="form-table" role="presentation">
-            <tr>
-                <th scope="row">
-                    <label for="themisdb_fm_default_category"><?php _e('Default Category', 'themisdb-feature-matrix'); ?></label>
-                </th>
-                <td>
-                    <select name="themisdb_fm_default_category" id="themisdb_fm_default_category">
-                        <option value="all" <?php selected(get_option('themisdb_fm_default_category'), 'all'); ?>>
-                            <?php _e('All Features', 'themisdb-feature-matrix'); ?>
-                        </option>
-                        <option value="architecture" <?php selected(get_option('themisdb_fm_default_category'), 'architecture'); ?>>
-                            <?php _e('Architecture', 'themisdb-feature-matrix'); ?>
-                        </option>
-                        <option value="ai_ml" <?php selected(get_option('themisdb_fm_default_category'), 'ai_ml'); ?>>
-                            <?php _e('AI/ML', 'themisdb-feature-matrix'); ?>
-                        </option>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <th scope="row">
-                    <label for="themisdb_fm_default_comparison_dbs"><?php _e('Default Comparison Databases', 'themisdb-feature-matrix'); ?></label>
-                </th>
-                <td>
-                    <input type="text" 
-                           name="themisdb_fm_default_comparison_dbs" 
-                           id="themisdb_fm_default_comparison_dbs" 
-                           value="<?php echo esc_attr(get_option('themisdb_fm_default_comparison_dbs')); ?>" 
-                           class="regular-text" />
-                    <p class="description">
-                        <?php _e('Comma-separated list (e.g., postgresql,mongodb,neo4j).', 'themisdb-feature-matrix'); ?>
-                    </p>
-                </td>
-            </tr>
-
-            <tr>
-                <th scope="row">
-                    <label for="themisdb_fm_show_mermaid_diagrams"><?php _e('Show Mermaid Diagrams', 'themisdb-feature-matrix'); ?></label>
-                </th>
-                <td>
-                    <input type="checkbox" 
-                           name="themisdb_fm_show_mermaid_diagrams" 
-                           id="themisdb_fm_show_mermaid_diagrams" 
-                           value="1" 
-                           <?php checked(get_option('themisdb_fm_show_mermaid_diagrams'), 1); ?> />
-                    <label for="themisdb_fm_show_mermaid_diagrams">
-                        <?php _e('Enable feature hierarchy diagrams', 'themisdb-feature-matrix'); ?>
-                    </label>
-                </td>
-            </tr>
-
-            <tr>
-                <th scope="row">
-                    <label for="themisdb_fm_table_view"><?php _e('Table View', 'themisdb-feature-matrix'); ?></label>
-                </th>
-                <td>
-                    <select name="themisdb_fm_table_view" id="themisdb_fm_table_view">
-                        <option value="detailed" <?php selected(get_option('themisdb_fm_table_view'), 'detailed'); ?>>
-                            <?php _e('Detailed', 'themisdb-feature-matrix'); ?>
-                        </option>
-                        <option value="compact" <?php selected(get_option('themisdb_fm_table_view'), 'compact'); ?>>
-                            <?php _e('Compact', 'themisdb-feature-matrix'); ?>
-                        </option>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <th scope="row">
-                    <label for="themisdb_fm_enable_tooltips"><?php _e('Enable Tooltips', 'themisdb-feature-matrix'); ?></label>
-                </th>
-                <td>
-                    <input type="checkbox" 
-                           name="themisdb_fm_enable_tooltips" 
-                           id="themisdb_fm_enable_tooltips" 
-                           value="1" 
-                           <?php checked(get_option('themisdb_fm_enable_tooltips'), 1); ?> />
-                    <label for="themisdb_fm_enable_tooltips">
-                        <?php _e('Show tooltips on hover', 'themisdb-feature-matrix'); ?>
-                    </label>
-                </td>
-            </tr>
+    <form method="post" action="">
+        <?php wp_nonce_field('themisdb_matrix_settings'); ?>
+        
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        <label for="default_category"><?php _e('Default Category', 'themisdb-feature-matrix'); ?></label>
+                    </th>
+                    <td>
+                        <select name="default_category" id="default_category" class="regular-text">
+                            <option value="all" <?php selected(get_option('themisdb_matrix_default_category', 'all'), 'all'); ?>>
+                                <?php _e('All Features', 'themisdb-feature-matrix'); ?>
+                            </option>
+                            <option value="data_models" <?php selected(get_option('themisdb_matrix_default_category'), 'data_models'); ?>>
+                                <?php _e('Data Models', 'themisdb-feature-matrix'); ?>
+                            </option>
+                            <option value="ai_ml" <?php selected(get_option('themisdb_matrix_default_category'), 'ai_ml'); ?>>
+                                <?php _e('AI/ML Features', 'themisdb-feature-matrix'); ?>
+                            </option>
+                            <option value="performance" <?php selected(get_option('themisdb_matrix_default_category'), 'performance'); ?>>
+                                <?php _e('Performance & Scaling', 'themisdb-feature-matrix'); ?>
+                            </option>
+                            <option value="compatibility" <?php selected(get_option('themisdb_matrix_default_category'), 'compatibility'); ?>>
+                                <?php _e('Protocol Compatibility', 'themisdb-feature-matrix'); ?>
+                            </option>
+                            <option value="pricing" <?php selected(get_option('themisdb_matrix_default_category'), 'pricing'); ?>>
+                                <?php _e('Licensing & Cost', 'themisdb-feature-matrix'); ?>
+                            </option>
+                        </select>
+                        <p class="description">
+                            <?php _e('Default category to display when the shortcode is loaded.', 'themisdb-feature-matrix'); ?>
+                        </p>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row">
+                        <label for="default_style"><?php _e('Default Style', 'themisdb-feature-matrix'); ?></label>
+                    </th>
+                    <td>
+                        <label>
+                            <input type="radio" name="default_style" value="modern" 
+                                   <?php checked(get_option('themisdb_matrix_default_style', 'modern'), 'modern'); ?>>
+                            <?php _e('Modern', 'themisdb-feature-matrix'); ?>
+                        </label>
+                        <br>
+                        <label>
+                            <input type="radio" name="default_style" value="minimal" 
+                                   <?php checked(get_option('themisdb_matrix_default_style'), 'minimal'); ?>>
+                            <?php _e('Minimal', 'themisdb-feature-matrix'); ?>
+                        </label>
+                        <p class="description">
+                            <?php _e('Visual style for the feature matrix.', 'themisdb-feature-matrix'); ?>
+                        </p>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row"><?php _e('Enable Features', 'themisdb-feature-matrix'); ?></th>
+                    <td>
+                        <fieldset>
+                            <label>
+                                <input type="checkbox" name="show_legend" value="1" 
+                                       <?php checked(get_option('themisdb_matrix_show_legend', 1), 1); ?>>
+                                <?php _e('Show Legend', 'themisdb-feature-matrix'); ?>
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" name="enable_filtering" value="1" 
+                                       <?php checked(get_option('themisdb_matrix_enable_filtering', 1), 1); ?>>
+                                <?php _e('Enable Filtering', 'themisdb-feature-matrix'); ?>
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" name="enable_sorting" value="1" 
+                                       <?php checked(get_option('themisdb_matrix_enable_sorting', 1), 1); ?>>
+                                <?php _e('Enable Sorting', 'themisdb-feature-matrix'); ?>
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" name="sticky_header" value="1" 
+                                       <?php checked(get_option('themisdb_matrix_sticky_header', 1), 1); ?>>
+                                <?php _e('Sticky Header', 'themisdb-feature-matrix'); ?>
+                            </label>
+                            <br>
+                            <label>
+                                <input type="checkbox" name="highlight_themis" value="1" 
+                                       <?php checked(get_option('themisdb_matrix_highlight_themis', 1), 1); ?>>
+                                <?php _e('Highlight ThemisDB', 'themisdb-feature-matrix'); ?>
+                            </label>
+                        </fieldset>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th scope="row"><?php _e('Export Settings', 'themisdb-feature-matrix'); ?></th>
+                    <td>
+                        <label>
+                            <input type="checkbox" name="enable_export" value="1" 
+                                   <?php checked(get_option('themisdb_matrix_enable_export', 1), 1); ?>>
+                            <?php _e('Enable CSV Export', 'themisdb-feature-matrix'); ?>
+                        </label>
+                        <br><br>
+                        <label for="export_prefix">
+                            <?php _e('Export Filename Prefix:', 'themisdb-feature-matrix'); ?>
+                        </label>
+                        <input type="text" name="export_prefix" id="export_prefix" value="<?php echo esc_attr(get_option('themisdb_matrix_export_prefix', 'themisdb-comparison')); ?>" class="regular-text">
+                        <p class="description">
+                            <?php _e('Prefix for exported CSV files. Date will be automatically appended.', 'themisdb-feature-matrix'); ?>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
         </table>
-
-        <?php submit_button(); ?>
+        
+        <p class="submit">
+            <input type="submit" name="themisdb_matrix_save" class="button button-primary" value="<?php _e('Save Settings', 'themisdb-feature-matrix'); ?>">
+        </p>
     </form>
-
-    <div class="themisdb-admin-section">
-        <h2><?php _e('Shortcode Usage', 'themisdb-feature-matrix'); ?></h2>
-        <div class="themisdb-shortcode-examples">
-            <h3><?php _e('Basic Usage', 'themisdb-feature-matrix'); ?></h3>
-            <code>[themisdb_feature_matrix]</code>
-            
-            <h3><?php _e('Filter by Category', 'themisdb-feature-matrix'); ?></h3>
-            <code>[themisdb_feature_matrix category="ai_ml"]</code>
-            
-            <h3><?php _e('Compact View', 'themisdb-feature-matrix'); ?></h3>
-            <code>[themisdb_feature_matrix view="compact"]</code>
-            
-            <h3><?php _e('Without Diagram', 'themisdb-feature-matrix'); ?></h3>
-            <code>[themisdb_feature_matrix show_diagram="false"]</code>
-        </div>
-    </div>
+    
+    <hr>
+    
+    <h2><?php _e('Shortcode Usage', 'themisdb-feature-matrix'); ?></h2>
+    <p><?php _e('Use the following shortcode to display the feature matrix:', 'themisdb-feature-matrix'); ?></p>
+    <code>[themisdb_feature_matrix]</code>
+    
+    <h3><?php _e('Shortcode Parameters', 'themisdb-feature-matrix'); ?></h3>
+    <ul>
+        <li><code>category</code> - <?php _e('Filter by category (all, data_models, ai_ml, performance, compatibility, pricing)', 'themisdb-feature-matrix'); ?></li>
+        <li><code>style</code> - <?php _e('Visual style (modern, minimal)', 'themisdb-feature-matrix'); ?></li>
+        <li><code>show_legend</code> - <?php _e('Show legend (yes, no)', 'themisdb-feature-matrix'); ?></li>
+        <li><code>filterable</code> - <?php _e('Enable filtering (yes, no)', 'themisdb-feature-matrix'); ?></li>
+        <li><code>sticky_header</code> - <?php _e('Sticky table header (yes, no)', 'themisdb-feature-matrix'); ?></li>
+        <li><code>highlight_themis</code> - <?php _e('Highlight ThemisDB column (yes, no)', 'themisdb-feature-matrix'); ?></li>
+    </ul>
+    
+    <h3><?php _e('Examples', 'themisdb-feature-matrix'); ?></h3>
+    <p><code>[themisdb_feature_matrix category="ai_ml"]</code></p>
+    <p><code>[themisdb_feature_matrix category="all" style="modern" show_legend="yes"]</code></p>
 </div>
-
-<style>
-.themisdb-admin-header {
-    background: #f0f0f1;
-    padding: 15px;
-    border-left: 4px solid #2ea44f;
-    margin: 20px 0;
-}
-
-.themisdb-admin-section {
-    margin-top: 30px;
-    padding: 20px;
-    background: #fff;
-    border: 1px solid #ccd0d4;
-}
-
-.themisdb-shortcode-examples h3 {
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-.themisdb-shortcode-examples code {
-    display: block;
-    padding: 10px;
-    background: #f6f7f7;
-    border: 1px solid #dcdcde;
-    border-radius: 3px;
-    font-family: Consolas, Monaco, monospace;
-    margin-bottom: 15px;
-}
-</style>

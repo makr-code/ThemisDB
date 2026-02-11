@@ -1,0 +1,284 @@
+/**
+ * Wiki Editor Styles
+ * Styles for the markdown editor in admin
+ */
+
+/* SimpleMDE Overrides */
+.CodeMirror {
+    border: 1px solid #dfe3e8;
+    border-radius: 4px;
+    font-family: 'Courier New', Consolas, Monaco, monospace;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.CodeMirror-fullscreen {
+    z-index: 100000;
+}
+
+.editor-toolbar {
+    border: 1px solid #dfe3e8;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    background: #f8f9fa;
+}
+
+.editor-toolbar button {
+    color: #2c3e50;
+}
+
+.editor-toolbar button:hover,
+.editor-toolbar button.active {
+    background: #7c4dff;
+    color: white;
+}
+
+.editor-toolbar i.separator {
+    border-left: 1px solid #dfe3e8;
+}
+
+.editor-preview,
+.editor-preview-side {
+    background: white;
+    padding: 20px;
+}
+
+.editor-preview h1,
+.editor-preview-side h1 {
+    color: #2c3e50;
+    border-bottom: 2px solid #7c4dff;
+    padding-bottom: 0.5rem;
+}
+
+.editor-preview h2,
+.editor-preview-side h2 {
+    color: #2c3e50;
+    border-bottom: 1px solid #dfe3e8;
+    padding-bottom: 0.5rem;
+}
+
+.editor-preview a,
+.editor-preview-side a {
+    color: #3498db;
+}
+
+.editor-preview a.wikilink,
+.editor-preview-side a.wikilink {
+    border-bottom: 1px solid #3498db;
+    text-decoration: none;
+}
+
+.editor-preview code,
+.editor-preview-side code {
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #e74c3c;
+}
+
+.editor-preview pre,
+.editor-preview-side pre {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+/* WikiLink Button Custom Icon */
+.editor-toolbar .fa-link::before {
+    content: "[[]]";
+    font-family: monospace;
+    font-weight: bold;
+}
+
+/* Editor Container */
+#wiki-markdown-editor-container {
+    margin-bottom: 20px;
+}
+
+/* Hide default WordPress editor */
+#postdivrich {
+    display: none;
+}
+
+/* Meta Box Styles */
+.wiki-meta-box {
+    padding: 12px;
+}
+
+.wiki-meta-box label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.wiki-meta-box input[type="text"],
+.wiki-meta-box select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dfe3e8;
+    border-radius: 4px;
+}
+
+.wiki-meta-box .description {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin-top: 5px;
+}
+
+/* GitHub Sync Box */
+#wiki_github_sync .inside {
+    padding: 12px;
+}
+
+#wiki_github_sync input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dfe3e8;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+#wiki_github_sync button {
+    width: 100%;
+}
+
+#wiki_github_sync p {
+    margin-bottom: 10px;
+}
+
+/* Revision History */
+.wiki-revision-history {
+    margin-top: 20px;
+}
+
+.revision-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.revision-table th {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.revision-table td {
+    padding: 10px;
+    border: 1px solid #dfe3e8;
+}
+
+.revision-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.revision-table a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.revision-table a:hover {
+    color: #7c4dff;
+    text-decoration: underline;
+}
+
+/* Diff Viewer */
+.wiki-diff {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border: 1px solid #dfe3e8;
+    border-radius: 4px;
+}
+
+.wiki-diff h4 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 2px solid #7c4dff;
+    padding-bottom: 10px;
+}
+
+.diff-stats {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+}
+
+.diff-stat {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.diff-added-stat {
+    background: #d4edda;
+    color: #155724;
+}
+
+.diff-removed-stat {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.diff-unchanged-stat {
+    background: #e7f1ff;
+    color: #004085;
+}
+
+.diff-container {
+    background: white;
+    padding: 15px;
+    border-radius: 4px;
+    font-family: 'Courier New', Consolas, Monaco, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-x: auto;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.diff-line {
+    display: flex;
+    padding: 2px 0;
+}
+
+.diff-prefix {
+    min-width: 30px;
+    font-weight: bold;
+}
+
+.diff-content {
+    flex: 1;
+    word-break: break-all;
+}
+
+.diff-added {
+    background: #d4edda;
+    color: #155724;
+}
+
+.diff-removed {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.diff-unchanged {
+    background: transparent;
+    color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .editor-toolbar button {
+        padding: 8px 6px;
+    }
+    
+    .CodeMirror {
+        font-size: 13px;
+    }
+}

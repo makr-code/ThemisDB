@@ -7,14 +7,12 @@
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
  * License: MIT
- * License URI: https://opensource.org/licenses/MIT
  * Text Domain: themisdb-feature-matrix
  * Domain Path: /languages
- * Requires at least: 5.0
+ * Requires at least: 5.8
  * Requires PHP: 7.4
  */
 
-// Exit if accessed directly
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -29,15 +27,16 @@ define('THEMISDB_FM_PLUGIN_FILE', __FILE__);
 require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php';
 require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php';
 
-/**
- * Main Plugin Class
- */
-class ThemisDB_Feature_Matrix {
+// Include files
+require_once THEMISDB_MATRIX_DIR . 'includes/class-feature-matrix.php';
+require_once THEMISDB_MATRIX_DIR . 'includes/class-shortcode.php';
+require_once THEMISDB_MATRIX_DIR . 'includes/class-admin.php';
+
+// Initialize
+function themisdb_matrix_init() {
+    load_plugin_textdomain('themisdb-feature-matrix', false, dirname(plugin_basename(__FILE__)) . '/languages');
     
-    /**
-     * Plugin instance
-     */
-    private static $instance = null;
+    new ThemisDB_Matrix_Shortcode();
     
     /**
      * Admin instance
@@ -81,6 +80,22 @@ class ThemisDB_Feature_Matrix {
         add_action('wp_ajax_themisdb_fm_get_features', array($this, 'ajax_get_features'));
         add_action('wp_ajax_nopriv_themisdb_fm_get_features', array($this, 'ajax_get_features'));
     }
+}
+add_action('plugins_loaded', 'themisdb_matrix_init');
+
+// Activation
+function themisdb_matrix_activate() {
+    $defaults = array(
+        'default_category' => 'all',
+        'default_style' => 'modern',
+        'show_legend' => 1,
+        'enable_filtering' => 1,
+        'enable_sorting' => 1,
+        'sticky_header' => 1,
+        'highlight_themis' => 1,
+        'enable_export' => 1,
+        'export_prefix' => 'themisdb-comparison'
+    );
     
     /**
      * Plugin activation
@@ -106,22 +121,23 @@ class ThemisDB_Feature_Matrix {
         // Flush rewrite rules
         flush_rewrite_rules();
     }
+}
+register_activation_hook(__FILE__, 'themisdb_matrix_activate');
+
+// Enqueue assets
+function themisdb_matrix_enqueue_assets() {
+    global $post;
     
-    /**
-     * Plugin deactivation
-     */
-    public function deactivate() {
-        // Clean up transients
-        delete_transient('themisdb_fm_cached_features');
+    if (!is_a($post, 'WP_Post') || !has_shortcode($post->post_content, 'themisdb_feature_matrix')) {
+        return;
     }
     
-    /**
-     * Initialize plugin
-     */
-    public function init() {
-        // Load text domain
-        load_plugin_textdomain('themisdb-feature-matrix', false, dirname(plugin_basename(__FILE__)) . '/languages');
-    }
+    wp_enqueue_style(
+        'themisdb-matrix-style',
+        THEMISDB_MATRIX_URL . 'assets/css/feature-matrix.css',
+        array(),
+        THEMISDB_MATRIX_VERSION
+    );
     
     /**
      * Enqueue assets
@@ -215,10 +231,11 @@ class ThemisDB_Feature_Matrix {
         ));
     }
 }
+add_action('wp_enqueue_scripts', 'themisdb_matrix_enqueue_assets');
 
-// Initialize plugin
-function themisdb_feature_matrix_init() {
-    return ThemisDB_Feature_Matrix::get_instance();
+function themisdb_matrix_get_color_scheme() {
+    if (isset($_COOKIE['themisdb_color_scheme'])) {
+        return sanitize_text_field($_COOKIE['themisdb_color_scheme']);
+    }
+    return 'light';
 }
-
-add_action('plugins_loaded', 'themisdb_feature_matrix_init');

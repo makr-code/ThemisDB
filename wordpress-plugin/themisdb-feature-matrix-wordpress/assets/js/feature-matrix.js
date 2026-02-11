@@ -15,7 +15,7 @@
         sortDirection: 'desc',
 
         /**
-         * Initialize the feature matrix
+         * Initialize the matrix
          */
         init: function() {
             // Store settings from PHP
@@ -190,7 +190,7 @@
         },
 
         /**
-         * Render feature comparison table
+         * Render the table
          */
         renderTable: function() {
             if (!this.currentData) return;
@@ -241,8 +241,6 @@
                 if (feature.description) {
                     html += '<div class="feature-description">' + self.escapeHtml(feature.description) + '</div>';
                 }
-                
-                html += '</td>';
 
                 // Status columns for each database
                 self.currentData.databases.forEach(function(db) {
@@ -396,7 +394,7 @@
         },
 
         /**
-         * Export data as CSV
+         * Get status display information
          */
         exportCSV: function() {
             if (!this.currentData) return;
@@ -460,24 +458,40 @@
             return div.innerHTML;
         },
 
-        /**
-         * Show loading state
-         */
-        showLoading: function() {
-            $('#fm-loading').show();
-            $('#fm-matrix-table').css('opacity', '0.3');
+            let csv = 'Feature,ThemisDB,PostgreSQL,MongoDB,Neo4j,Category\n';
+
+            for (const categoryKey in this.features) {
+                const category = this.features[categoryKey];
+
+                for (const featureKey in category.features) {
+                    const feature = category.features[featureKey];
+                    
+                    csv += '"' + feature.name + '",';
+                    csv += feature.themisdb + ',';
+                    csv += feature.postgresql + ',';
+                    csv += feature.mongodb + ',';
+                    csv += feature.neo4j + ',';
+                    csv += '"' + category.name + '"\n';
+                }
+            }
+
+            // Create download
+            const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            const today = new Date().toISOString().split('T')[0];
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'themisdb-feature-comparison-' + today + '.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         },
 
         /**
-         * Hide loading state
-         */
-        hideLoading: function() {
-            $('#fm-loading').hide();
-            $('#fm-matrix-table').css('opacity', '1');
-        },
-
-        /**
-         * Show error message
+         * Check if mobile view should be shown
          */
         showError: function(message) {
             const $tableContainer = $('#fm-matrix-table');
@@ -488,18 +502,24 @@
         },
 
         /**
-         * Simple translation helper
+         * Escape HTML to prevent XSS
          */
-        translate: function(text) {
-            // In production, this would use WordPress i18n
-            return text;
+        escapeHtml: function(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
         }
     };
 
     // Initialize on document ready
     $(document).ready(function() {
-        if ($('.themisdb-feature-wrapper').length > 0) {
-            window.ThemisDBFeatureMatrix.init();
+        if ($('.matrix-table').length > 0) {
+            FeatureMatrix.init();
         }
     });
 

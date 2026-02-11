@@ -140,16 +140,7 @@
 }
 
 /* Matrix Table */
-.themisdb-matrix-section {
-    position: relative;
-    overflow-x: auto;
-}
-
-.themisdb-matrix-table {
-    width: 100%;
-}
-
-.themisdb-matrix-table table {
+.matrix-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
@@ -186,14 +177,17 @@
     font-style: italic;
 }
 
-/* Status Badges */
-.themisdb-status-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
+.matrix-table thead th.themisdb-col::after {
+    content: '⭐ Recommended';
+    position: absolute;
+    top: -8px;
+    right: 8px;
+    background: var(--themis-warning);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
 }
 
 .status-available, .status-full {
@@ -411,13 +405,13 @@
     text-align: center;
 }
 
-.themisdb-mermaid-container .mermaid {
-    display: inline-block;
+.matrix-table tbody tr:not(.category-header):hover {
+    background: var(--matrix-row-hover);
 }
 
-.themisdb-mermaid-container svg {
-    max-width: 100%;
-    height: auto;
+.matrix-table tbody td {
+    padding: 12px;
+    border-bottom: 1px solid var(--matrix-border);
 }
 
 /* Legend */
@@ -426,29 +420,33 @@
     color: var(--matrix-text-primary);
 }
 
-.themisdb-legend-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 12px;
+.feature-name {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.themisdb-legend-item {
-    display: flex;
+.info-icon {
+    cursor: help;
+    color: var(--themis-secondary);
+    font-size: 14px;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
     align-items: center;
     gap: 12px;
     padding: 12px;
     background: var(--matrix-light-bg);
     border-radius: 4px;
+    font-weight: 500;
+    font-size: 18px;
 }
 
-/* Loading State */
-.themisdb-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 10;
+.status-full {
+    color: var(--status-full);
 }
 
 .themisdb-spinner {
@@ -461,9 +459,8 @@
     margin: 0 auto 16px;
 }
 
-@keyframes themisdb-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.status-no {
+    color: var(--status-no);
 }
 
 /* Export Section */
@@ -474,8 +471,11 @@
     background: var(--matrix-light-bg);
 }
 
-/* Footer */
-.themisdb-footer {
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
     text-align: center;
     padding: 16px;
     background: var(--matrix-light-bg);
@@ -487,8 +487,15 @@
     color: var(--matrix-text-secondary);
 }
 
-.themisdb-branding {
-    margin: 0;
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
 }
 
 .themisdb-branding a {
@@ -497,8 +504,13 @@
     font-weight: 500;
 }
 
-.themisdb-branding a:hover {
-    text-decoration: underline;
+/* Legend */
+.matrix-legend {
+    margin-top: 20px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid var(--matrix-border);
 }
 
 /* Tooltip Support */
@@ -526,43 +538,59 @@
     z-index: 100;
 }
 
-[data-tooltip]:hover::before {
-    opacity: 1;
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .themisdb-feature-wrapper {
-        padding: 12px;
+/* Mobile Card View (< 768px) */
+@media (max-width: 767px) {
+    .matrix-table {
+        display: none;
     }
-
-    .themisdb-section {
+    
+    .matrix-cards {
+        display: block;
+    }
+    
+    .feature-card {
+        background: #fff;
+        border: 1px solid var(--matrix-border);
+        border-radius: 6px;
         padding: 16px;
+        margin-bottom: 16px;
     }
-
-    .themisdb-feature-header h2 {
-        font-size: 1.5rem;
+    
+    .feature-card h4 {
+        margin: 0 0 12px 0;
+        font-size: 16px;
+        font-weight: 600;
     }
-
-    .themisdb-filters {
+    
+    .feature-card .db-comparison {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+        margin-bottom: 8px;
+        padding: 8px 0;
+        border-bottom: 1px solid var(--matrix-border);
+    }
+    
+    .feature-card .db-comparison:last-child {
+        border-bottom: none;
+    }
+    
+    .feature-card .db-name {
+        font-weight: 500;
+    }
+    
+    .category-filters {
         flex-direction: column;
     }
-
-    .themisdb-filter-group {
+    
+    .category-btn {
         width: 100%;
-    }
-
-    .themisdb-matrix-table {
-        font-size: 12px;
-    }
-
-    .themisdb-matrix-table th,
-    .themisdb-matrix-table td {
-        padding: 8px;
-    }
-
-    .themisdb-legend-items {
-        grid-template-columns: 1fr;
     }
     
     /* Mobile Card View */
@@ -639,54 +667,53 @@
     }
 }
 
-@media (max-width: 480px) {
-    .themisdb-feature-header h2 {
-        font-size: 1.25rem;
+/* Desktop: Hide card view */
+@media (min-width: 768px) {
+    .matrix-cards {
+        display: none;
     }
+}
 
-    .themisdb-description {
-        font-size: 1rem;
-    }
-
-    .themisdb-btn-primary,
-    .themisdb-btn-secondary {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .themisdb-export {
-        flex-direction: column;
-    }
+/* Focus Indicators (Accessibility) */
+button:focus,
+th:focus,
+.category-btn:focus {
+    outline: 3px solid var(--themis-accent);
+    outline-offset: 2px;
 }
 
 /* Print Styles */
 @media print {
-    .themisdb-filters,
-    .themisdb-export {
+    .matrix-filter-bar,
+    .export-btn {
         display: none;
     }
-
-    .themisdb-section {
-        box-shadow: none;
-        border: 1px solid #ddd;
-        page-break-inside: avoid;
-    }
-
-    .themisdb-matrix-table th {
-        position: static;
+    
+    .matrix-table thead th.themisdb-col::after {
+        content: '★';
     }
 }
 
-/* WordPress Integration Adjustments */
-.admin-bar .themisdb-feature-wrapper {
-    margin-top: 32px;
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: var(--themis-secondary);
 }
 
-/* Dashicons Support */
-.themisdb-feature-wrapper .dashicons {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--themis-light);
+    border-top-color: var(--themis-secondary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 /* Dark Mode Support */
