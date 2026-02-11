@@ -135,7 +135,7 @@ jobs:
           cat badges/lines-of-code.json
           cat badges/file-count.json
       
-      - name: Deploy to badges branch
+      - name: Deploy to badges branch (main/master)
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         run: |
           # Badge-Dateien sichern
@@ -157,21 +157,55 @@ jobs:
           
           # README für badges branch
           cat > README.md << EOF
-          # ThemisDB Badges
+          # ThemisDB Badges (main branch)
           
-          Automatisch generierte Badge-Daten für Code-Statistiken.
+          Automatisch generierte Badge-Daten für Code-Statistiken vom main Branch.
           
           Letzte Aktualisierung: $(date)
           EOF
           
           git add badges/ README.md
-          git commit -m "Update badges: ${{ env.TOTAL_LINES }} lines, ${{ env.CODE_FILES }} files" || echo "Keine Änderungen"
+          git commit -m "Update badges (main): ${{ env.TOTAL_LINES }} lines, ${{ env.CODE_FILES }} files" || echo "Keine Änderungen"
           git push origin badges || git push --set-upstream origin badges
+      
+      - name: Deploy to badges-develop branch (develop)
+        if: github.ref == 'refs/heads/develop'
+        run: |
+          # Badge-Dateien sichern
+          cp -r badges /tmp/badges-backup
+          
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Badges-develop branch auschecken oder erstellen
+          git fetch origin badges-develop 2>/dev/null || true
+          git checkout badges-develop 2>/dev/null || git checkout --orphan badges-develop
+          
+          # Alle Dateien außer badges löschen
+          git rm -rf . 2>/dev/null || true
+          
+          # Badge-Dateien aus Backup wiederherstellen
+          mkdir -p badges
+          cp /tmp/badges-backup/*.json badges/
+          
+          # README für badges-develop branch
+          cat > README.md << EOF
+          # ThemisDB Badges (develop branch)
+          
+          Automatisch generierte Badge-Daten für Code-Statistiken vom develop Branch.
+          
+          Letzte Aktualisierung: $(date)
+          EOF
+          
+          git add badges/ README.md
+          git commit -m "Update badges (develop): ${{ env.TOTAL_LINES }} lines, ${{ env.CODE_FILES }} files" || echo "Keine Änderungen"
+          git push origin badges-develop || git push --set-upstream origin badges-develop
       
       - name: Summary
         run: |
           echo "### 📊 ThemisDB Code Statistiken" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
           echo "**Scope:** \`./include\` und \`./src\` (nur compilierbare Dateien)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Metrik | Wert |" >> $GITHUB_STEP_SUMMARY
@@ -183,9 +217,14 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🏷️ Badges für README" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Fügen Sie diese Zeilen zu Ihrer README.md hinzu:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Für main Branch:**" >> $GITHUB_STEP_SUMMARY
           echo '```markdown' >> $GITHUB_STEP_SUMMARY
           echo "![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/badges/badges/lines-of-code.json)" >> $GITHUB_STEP_SUMMARY
           echo "![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/badges/badges/file-count.json)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Für develop Branch:**" >> $GITHUB_STEP_SUMMARY
+          echo '```markdown' >> $GITHUB_STEP_SUMMARY
+          echo "![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/badges-develop/badges/lines-of-code.json)" >> $GITHUB_STEP_SUMMARY
+          echo "![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/badges-develop/badges/file-count.json)" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
