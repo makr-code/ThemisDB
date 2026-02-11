@@ -31,6 +31,8 @@ require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-admin.php';
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-custom-taxonomies.php';
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tree-view.php';
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-widget.php';
+require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-metabox.php';
+require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-template-handler.php';
 
 /**
  * Main Plugin Class

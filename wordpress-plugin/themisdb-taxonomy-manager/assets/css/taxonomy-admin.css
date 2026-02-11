@@ -223,6 +223,47 @@
     margin-right: 8px;
 }
 
+/* Simple Selector */
+.themisdb-simple-selector .feature-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.themisdb-simple-selector .feature-items label {
+    padding: 8px 10px;
+}
+
+/* Taxonomy Info Shortcode */
+.themisdb-taxonomy-info {
+    padding: 20px;
+    background: #fff;
+    border-left: 4px solid var(--taxonomy-secondary);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.themisdb-taxonomy-info .taxonomy-icon {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.themisdb-taxonomy-info h3 {
+    margin: 0 0 10px 0;
+    color: var(--taxonomy-primary);
+}
+
+.themisdb-taxonomy-info p {
+    margin: 0 0 10px 0;
+    color: #666;
+}
+
+.themisdb-taxonomy-info .post-count {
+    font-size: 0.9em;
+    color: #999;
+}
+
 /* Responsive */
 @media (max-width: 782px) {
     .tree-controls {
