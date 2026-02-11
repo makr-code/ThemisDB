@@ -8,7 +8,10 @@
 
 #pragma once
 
-#include "proto/prompt_engineering_service.grpc.pb.h"
+// NOTE: Proto file "prompt_engineering_service.grpc.pb.h" not generated yet
+// This service is a stub until the proto definition is generated
+// #include "proto/prompt_engineering_service.grpc.pb.h"
+
 #include "prompt_engineering/prompt_manager.h"
 #include "prompt_engineering/prompt_optimizer.h"
 #include "prompt_engineering/prompt_performance_tracker.h"
@@ -27,13 +30,11 @@ class RocksDBWrapper;
 namespace server {
 
 /**
- * @brief gRPC service for prompt engineering operations
+ * @brief gRPC service for prompt engineering operations (STUB - Proto not generated)
  * 
- * Implements the PromptEngineeringService proto definition, providing
- * gRPC access to all prompt engineering features in parallel with HTTP API.
+ * Placeholder implementation. Full gRPC service available once proto is generated.
  */
-class PromptEngineeringGrpcService final 
-    : public prompt_engineering::PromptEngineeringService::Service {
+class PromptEngineeringGrpcService final {
 public:
     /**
      * @brief Construct gRPC service with all prompt engineering components
@@ -49,52 +50,10 @@ public:
         std::shared_ptr<::themis::prompt_engineering::PromptEngineeringIntegration> integration
     );
 
-    ~PromptEngineeringGrpcService() override = default;
+    ~PromptEngineeringGrpcService() = default;
 
-    // Optimization operations
-    grpc::Status Optimize(
-        grpc::ServerContext* context,
-        const prompt_engineering::OptimizeRequest* request,
-        prompt_engineering::OptimizeResponse* response) override;
-
-    grpc::Status GetOptimizationHistory(
-        grpc::ServerContext* context,
-        const prompt_engineering::HistoryRequest* request,
-        prompt_engineering::HistoryResponse* response) override;
-
-    // A/B Testing operations
-    grpc::Status ListABTests(
-        grpc::ServerContext* context,
-        const prompt_engineering::ABTestListRequest* request,
-        prompt_engineering::ABTestListResponse* response) override;
-
-    grpc::Status GetABTest(
-        grpc::ServerContext* context,
-        const prompt_engineering::ABTestDetailRequest* request,
-        prompt_engineering::ABTestDetailResponse* response) override;
-
-    // Feedback operations
-    grpc::Status SubmitFeedback(
-        grpc::ServerContext* context,
-        const prompt_engineering::FeedbackRequest* request,
-        prompt_engineering::FeedbackResponse* response) override;
-
-    // Statistics and monitoring
-    grpc::Status GetStats(
-        grpc::ServerContext* context,
-        const prompt_engineering::StatsRequest* request,
-        prompt_engineering::StatsResponse* response) override;
-
-    // Version control operations
-    grpc::Status GetVersions(
-        grpc::ServerContext* context,
-        const prompt_engineering::VersionsRequest* request,
-        prompt_engineering::VersionsResponse* response) override;
-
-    grpc::Status Rollback(
-        grpc::ServerContext* context,
-        const prompt_engineering::RollbackRequest* request,
-        prompt_engineering::RollbackResponse* response) override;
+    // NOTE: All gRPC methods removed - proto file not generated yet
+    // Stub service - full implementation available once proto is generated
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
@@ -105,10 +64,6 @@ private:
     std::shared_ptr<::themis::prompt_engineering::FeedbackCollector> feedback_collector_;
     std::shared_ptr<::themis::prompt_engineering::PromptVersionControl> version_control_;
     std::shared_ptr<::themis::prompt_engineering::PromptEngineeringIntegration> integration_;
-
-    // Helper methods for authentication
-    bool validateBearerToken(grpc::ServerContext* context);
-    std::string extractBearerToken(grpc::ServerContext* context);
 };
 
 } // namespace server

@@ -20,6 +20,23 @@
 #include <memory>
 #include <stdexcept>
 
+// Check if Vulkan headers are available
+#if defined(__has_include)
+#  if __has_include(<vulkan/vulkan.h>)
+#    define THEMIS_HAS_VULKAN_IMPL 1
+#  else
+#    define THEMIS_HAS_VULKAN_IMPL 0
+#  endif
+#else
+#  if defined(THEMIS_ENABLE_VULKAN)
+#    define THEMIS_HAS_VULKAN_IMPL 1
+#  else
+#    define THEMIS_HAS_VULKAN_IMPL 0
+#  endif
+#endif
+
+#if THEMIS_HAS_VULKAN_IMPL
+
 namespace themis {
 namespace index {
 
@@ -836,3 +853,55 @@ bool VulkanVectorIndexBackend::isInitialized() const {
 
 } // namespace index
 } // namespace themis
+
+#else // !THEMIS_HAS_VULKAN_IMPL
+
+// Stub implementations when Vulkan is not available
+namespace themis {
+namespace index {
+
+class VulkanVectorIndexBackend::Impl {
+public:
+    explicit Impl(const GPUVectorIndex::Config&) {}
+    ~Impl() = default;
+    bool initialize(int) { return false; }
+    void shutdown() {}
+    bool uploadVectors(const std::vector<std::vector<float>>&) { return false; }
+    std::vector<std::pair<float, size_t>> searchIndices(const std::vector<float>&, size_t) { return {}; }
+    std::vector<std::vector<std::pair<float, size_t>>> searchBatchIndices(
+        const std::vector<std::vector<float>>&, size_t) { return {}; }
+    std::vector<GPUVectorIndex::SearchResult> search(const std::vector<float>&, size_t) { return {}; }
+    std::vector<std::vector<GPUVectorIndex::SearchResult>> searchBatch(
+        const std::vector<std::vector<float>>&, size_t) { return {}; }
+    GPUVectorIndex::Statistics getStatistics() const { return {}; }
+    bool isInitialized() const { return false; }
+};
+
+VulkanVectorIndexBackend::VulkanVectorIndexBackend(const GPUVectorIndex::Config& config)
+    : pImpl(std::make_unique<Impl>(config)) {}
+
+VulkanVectorIndexBackend::~VulkanVectorIndexBackend() = default;
+
+bool VulkanVectorIndexBackend::initialize(int) { return false; }
+void VulkanVectorIndexBackend::shutdown() {}
+bool VulkanVectorIndexBackend::uploadVectors(const std::vector<std::vector<float>>&) { return false; }
+
+std::vector<std::pair<float, size_t>> VulkanVectorIndexBackend::searchIndices(
+    const std::vector<float>&, size_t) { return {}; }
+
+std::vector<std::vector<std::pair<float, size_t>>> VulkanVectorIndexBackend::searchBatchIndices(
+    const std::vector<std::vector<float>>&, size_t) { return {}; }
+
+std::vector<GPUVectorIndex::SearchResult> VulkanVectorIndexBackend::search(
+    const std::vector<float>&, size_t) { return {}; }
+
+std::vector<std::vector<GPUVectorIndex::SearchResult>> VulkanVectorIndexBackend::searchBatch(
+    const std::vector<std::vector<float>>&, size_t) { return {}; }
+
+GPUVectorIndex::Statistics VulkanVectorIndexBackend::getStatistics() const { return {}; }
+bool VulkanVectorIndexBackend::isInitialized() const { return false; }
+
+} // namespace index
+} // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_IMPL

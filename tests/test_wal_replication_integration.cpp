@@ -129,11 +129,11 @@ TEST_F(WALReplicationIntegrationTest, MajorityQuorumEnforcement) {
     // In real scenario, shipper would contact replicas and collect acks
     
     // Wait for replication
-    WriteResult result = coordinator_->waitForReplication(primary_lsn, wc);
+    auto result = coordinator_->waitForReplication(primary_lsn, wc);
     
     // In this simple test without actual network, we expect timeout or success
     // depending on mock setup
-    EXPECT_TRUE(result.success || result.latency.count() > 0);
+    EXPECT_TRUE(result.success || result.replicas_acknowledged > 0);
 }
 
 /**
@@ -304,7 +304,7 @@ TEST_F(WALReplicationIntegrationTest, WriteConcernTimeout) {
     
     // With timeout and no actual replica responses (mock), coordinator should handle gracefully
     auto start = std::chrono::steady_clock::now();
-    WriteResult result = coordinator_->waitForReplication(lsn, wc);
+    auto result = coordinator_->waitForReplication(lsn, wc);
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - start);
     

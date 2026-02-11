@@ -1,0 +1,178 @@
+<?php
+/**
+ * Architecture Diagram Template
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+?>
+
+<div class="themisdb-architecture-wrapper">
+    <div class="themisdb-section themisdb-architecture-header">
+        <h2><?php _e('ThemisDB Architecture', 'themisdb-architecture-diagrams'); ?></h2>
+        <p class="themisdb-description">
+            <?php _e('Interactive visualization of ThemisDB system architecture. Explore different layers and components.', 'themisdb-architecture-diagrams'); ?>
+        </p>
+    </div>
+
+    <?php if ($atts['show_controls'] === 'true' || $atts['show_controls'] === true): ?>
+    <!-- View Controls -->
+    <div class="themisdb-section themisdb-controls">
+        <div class="themisdb-view-selector">
+            <label for="ad-view-select">
+                <strong><?php _e('Architecture View:', 'themisdb-architecture-diagrams'); ?></strong>
+            </label>
+            <select id="ad-view-select" class="themisdb-select">
+                <optgroup label="<?php _e('ThemisDB Architecture', 'themisdb-architecture-diagrams'); ?>">
+                    <option value="high_level" <?php selected($atts['view'], 'high_level'); ?>>
+                        <?php _e('High-Level Architecture', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="storage_layer" <?php selected($atts['view'], 'storage_layer'); ?>>
+                        <?php _e('Storage Layer', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="llm_integration" <?php selected($atts['view'], 'llm_integration'); ?>>
+                        <?php _e('LLM Integration', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="sharding_raid" <?php selected($atts['view'], 'sharding_raid'); ?>>
+                        <?php _e('Sharding & RAID', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="hardware_architecture" <?php selected($atts['view'], 'hardware_architecture'); ?>>
+                        <?php _e('Hardware Architecture', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                </optgroup>
+                <optgroup label="<?php _e('Comparisons', 'themisdb-architecture-diagrams'); ?>">
+                    <option value="database_comparison" <?php selected($atts['view'], 'database_comparison'); ?>>
+                        <?php _e('Database Comparison', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="llm_comparison" <?php selected($atts['view'], 'llm_comparison'); ?>>
+                        <?php _e('LLM Services Comparison', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="performance_comparison" <?php selected($atts['view'], 'performance_comparison'); ?>>
+                        <?php _e('Performance by Hardware', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="tco_comparison" <?php selected($atts['view'], 'tco_comparison'); ?>>
+                        <?php _e('TCO Over Time (1-5 Years)', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="feature_matrix" <?php selected($atts['view'], 'feature_matrix'); ?>>
+                        <?php _e('Feature Matrix', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="deployment_options" <?php selected($atts['view'], 'deployment_options'); ?>>
+                        <?php _e('Deployment Options', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="use_case_recommendations" <?php selected($atts['view'], 'use_case_recommendations'); ?>>
+                        <?php _e('Use Case Recommendations', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                    <option value="migration_paths" <?php selected($atts['view'], 'migration_paths'); ?>>
+                        <?php _e('Migration Paths', 'themisdb-architecture-diagrams'); ?>
+                    </option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="themisdb-diagram-actions">
+            <button id="ad-zoom-in" class="themisdb-btn-secondary" title="<?php _e('Zoom In', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-plus"></span>
+            </button>
+            <button id="ad-zoom-out" class="themisdb-btn-secondary" title="<?php _e('Zoom Out', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-minus"></span>
+            </button>
+            <button id="ad-zoom-reset" class="themisdb-btn-secondary" title="<?php _e('Reset Zoom', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-image-rotate"></span>
+            </button>
+            <button id="ad-fullscreen" class="themisdb-btn-secondary" title="<?php _e('Fullscreen', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-fullscreen-alt"></span>
+            </button>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <!-- Diagram Section -->
+    <div class="themisdb-section themisdb-diagram-section">
+        <div id="ad-loading" class="themisdb-loading" style="display: none;">
+            <div class="themisdb-spinner"></div>
+            <p><?php _e('Loading architecture diagram...', 'themisdb-architecture-diagrams'); ?></p>
+        </div>
+        
+        <div class="themisdb-diagram-container" id="ad-diagram-container">
+            <div class="mermaid" id="ad-mermaid-diagram">
+                <!-- Diagram will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Component Details Panel -->
+    <div class="themisdb-section themisdb-details-panel" id="ad-details-panel" style="display: none;">
+        <h3>
+            <span class="dashicons dashicons-info"></span>
+            <span id="ad-details-title"><?php _e('Component Details', 'themisdb-architecture-diagrams'); ?></span>
+        </h3>
+        <div id="ad-details-content">
+            <!-- Component details will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Architecture Description -->
+    <div class="themisdb-section themisdb-description-panel">
+        <h3><?php _e('Architecture Overview', 'themisdb-architecture-diagrams'); ?></h3>
+        <div id="ad-description-content" class="themisdb-description-text">
+            <p><?php _e('ThemisDB features a modern, multi-layered architecture designed for performance, scalability, and flexibility.', 'themisdb-architecture-diagrams'); ?></p>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="themisdb-section themisdb-legend">
+        <h3><?php _e('Legend', 'themisdb-architecture-diagrams'); ?></h3>
+        <div class="themisdb-legend-items">
+            <div class="themisdb-legend-item">
+                <span class="themisdb-legend-box" style="background: #2ea44f;"></span>
+                <span><?php _e('Storage Components', 'themisdb-architecture-diagrams'); ?></span>
+            </div>
+            <div class="themisdb-legend-item">
+                <span class="themisdb-legend-box" style="background: #3498db;"></span>
+                <span><?php _e('AI/LLM Components', 'themisdb-architecture-diagrams'); ?></span>
+            </div>
+            <div class="themisdb-legend-item">
+                <span class="themisdb-legend-box" style="background: #f39c12;"></span>
+                <span><?php _e('Persistence Layer', 'themisdb-architecture-diagrams'); ?></span>
+            </div>
+            <div class="themisdb-legend-item">
+                <span class="themisdb-legend-box" style="background: #e74c3c;"></span>
+                <span><?php _e('Consensus/Coordination', 'themisdb-architecture-diagrams'); ?></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Export Section -->
+    <div class="themisdb-section themisdb-export">
+        <button id="ad-export-svg" class="themisdb-btn-secondary">
+            <span class="dashicons dashicons-download"></span>
+            <?php _e('Export SVG', 'themisdb-architecture-diagrams'); ?>
+        </button>
+        <button id="ad-export-png" class="themisdb-btn-secondary">
+            <span class="dashicons dashicons-format-image"></span>
+            <?php _e('Export PNG', 'themisdb-architecture-diagrams'); ?>
+        </button>
+        <button id="ad-print" class="themisdb-btn-secondary">
+            <span class="dashicons dashicons-printer"></span>
+            <?php _e('Print', 'themisdb-architecture-diagrams'); ?>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="themisdb-section themisdb-footer">
+        <p class="themisdb-disclaimer">
+            <small>
+                <?php _e('Architecture diagrams are simplified representations. Actual implementation may vary based on configuration.', 'themisdb-architecture-diagrams'); ?>
+            </small>
+        </p>
+        <p class="themisdb-branding">
+            <small>
+                <?php printf(
+                    __('Powered by %s', 'themisdb-architecture-diagrams'),
+                    '<a href="https://github.com/makr-code/ThemisDB" target="_blank">ThemisDB</a>'
+                ); ?>
+            </small>
+        </p>
+    </div>
+</div>

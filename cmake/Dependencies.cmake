@@ -341,6 +341,8 @@ endif()
 
 # FFmpeg (video processing - optional for content plugins)
 find_package(PkgConfig QUIET)
+set(FFMPEG_FOUND FALSE)
+
 if(PkgConfig_FOUND)
     pkg_check_modules(FFMPEG QUIET 
         libavformat 
@@ -348,24 +350,45 @@ if(PkgConfig_FOUND)
         libswscale 
         libavutil
     )
-    if(FFMPEG_FOUND)
-        message(STATUS "FFmpeg found via pkg-config - enabling real video processing")
+endif()
+
+# Fallback for vcpkg/Windows: Check if FFmpeg libraries exist
+if(NOT FFMPEG_FOUND)
+    find_library(AVFORMAT_LIB NAMES avformat HINTS ${CMAKE_PREFIX_PATH}/lib)
+    find_library(AVCODEC_LIB NAMES avcodec HINTS ${CMAKE_PREFIX_PATH}/lib)
+    find_library(SWSCALE_LIB NAMES swscale HINTS ${CMAKE_PREFIX_PATH}/lib)
+    find_library(AVUTIL_LIB NAMES avutil HINTS ${CMAKE_PREFIX_PATH}/lib)
+    
+    if(AVFORMAT_LIB AND AVCODEC_LIB AND SWSCALE_LIB AND AVUTIL_LIB)
+        set(FFMPEG_FOUND TRUE)
+        message(STATUS "FFmpeg found via vcpkg - enabling real video processing")
         add_compile_definitions(THEMIS_HAS_FFMPEG=1)
-        
-        # Create imported targets for FFmpeg libraries
-        if(NOT TARGET FFmpeg::avformat)
-            add_library(FFmpeg::avformat INTERFACE IMPORTED)
+    endif()
+endif()
+
+if(FFMPEG_FOUND)
+    # Create imported targets for FFmpeg libraries
+    if(NOT TARGET FFmpeg::avformat)
+        add_library(FFmpeg::avformat INTERFACE IMPORTED)
+        if(PkgConfig_FOUND AND FFMPEG_INCLUDE_DIRS)
             set_target_properties(FFmpeg::avformat PROPERTIES
                 INTERFACE_INCLUDE_DIRECTORIES "${FFMPEG_INCLUDE_DIRS}"
                 INTERFACE_LINK_LIBRARIES "${FFMPEG_LIBRARIES}"
             )
+        else()
+            # vcpkg/Windows: Use direct library paths
+            set_target_properties(FFmpeg::avformat PROPERTIES
+                INTERFACE_LINK_LIBRARIES "${AVFORMAT_LIB};${AVCODEC_LIB};${SWSCALE_LIB};${AVUTIL_LIB}"
+            )
         endif()
-    else()
-        message(STATUS "FFmpeg not found - video processor will use simulation mode")
-        message(STATUS "Install with: apt-get install libavformat-dev libavcodec-dev libswscale-dev libavutil-dev")
     endif()
 else()
-    message(STATUS "pkg-config not found - skipping FFmpeg detection")
+    message(STATUS "FFmpeg not found - video processor will use simulation mode")
+    if(WIN32)
+        message(STATUS "Install with: vcpkg install ffmpeg:x64-windows")
+    else()
+        message(STATUS "Install with: apt-get install libavformat-dev libavcodec-dev libswscale-dev libavutil-dev")
+    endif()
 endif()
 
 # HNSW library (vector indexing)

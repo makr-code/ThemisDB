@@ -4,6 +4,15 @@
 #include <string>
 #include <optional>
 
+// Windows-compatible environment variable macros
+#ifdef _WIN32
+    #define SETENV(name, value) _putenv_s(name, value)
+    #define UNSETENV(name) _putenv(name "=")
+#else
+    #define SETENV(name, value) setenv(name, value, 1)
+    #define UNSETENV(name) unsetenv(name)
+#endif
+
 using namespace themis::security;
 
 /**
@@ -27,12 +36,30 @@ protected:
         }
         
         // Clear environment for clean test state
+        #ifdef _WIN32
+        _putenv("THEMIS_PRODUCTION_MODE=");
+        _putenv("THEMIS_ENVIRONMENT=");
+        #else
         unsetenv("THEMIS_PRODUCTION_MODE");
         unsetenv("THEMIS_ENVIRONMENT");
+        #endif
     }
     
     void TearDown() override {
         // Restore original environment from copies
+        #ifdef _WIN32
+        if (saved_prod_mode_.has_value()) {
+            _putenv_s("THEMIS_PRODUCTION_MODE", saved_prod_mode_.value().c_str());
+        } else {
+            _putenv("THEMIS_PRODUCTION_MODE=");
+        }
+        
+        if (saved_environment_.has_value()) {
+            _putenv_s("THEMIS_ENVIRONMENT", saved_environment_.value().c_str());
+        } else {
+            _putenv("THEMIS_ENVIRONMENT=");
+        }
+        #else
         if (saved_prod_mode_.has_value()) {
             setenv("THEMIS_PRODUCTION_MODE", saved_prod_mode_.value().c_str(), 1);
         } else {
@@ -44,6 +71,7 @@ protected:
         } else {
             unsetenv("THEMIS_ENVIRONMENT");
         }
+        #endif
     }
     
     std::optional<std::string> saved_prod_mode_;
@@ -55,40 +83,40 @@ protected:
 // =============================================================================
 
 TEST_F(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_PRODUCTION_MODE_true) {
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     EXPECT_TRUE(TransportSecurityChecker::isProductionMode());
 }
 
 TEST_F(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_PRODUCTION_MODE_1) {
-    setenv("THEMIS_PRODUCTION_MODE", "1", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "1");
     EXPECT_TRUE(TransportSecurityChecker::isProductionMode());
 }
 
 TEST_F(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_PRODUCTION_MODE_production) {
-    setenv("THEMIS_PRODUCTION_MODE", "production", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "production");
     EXPECT_TRUE(TransportSecurityChecker::isProductionMode());
 }
 
 TEST_F(TransportSecurityCheckerTest, DetectDevelopmentModeFromTHEMIS_PRODUCTION_MODE_false) {
-    setenv("THEMIS_PRODUCTION_MODE", "false", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "false");
     EXPECT_FALSE(TransportSecurityChecker::isProductionMode());
 }
 
 TEST_F(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_ENVIRONMENT_production) {
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    setenv("THEMIS_ENVIRONMENT", "production", 1);
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    SETENV("THEMIS_ENVIRONMENT", "production");
     EXPECT_TRUE(TransportSecurityChecker::isProductionMode());
 }
 
 TEST_F(TransportSecurityCheckerTest, DetectProductionModeFromTHEMIS_ENVIRONMENT_prod) {
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    setenv("THEMIS_ENVIRONMENT", "prod", 1);
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    SETENV("THEMIS_ENVIRONMENT", "prod");
     EXPECT_TRUE(TransportSecurityChecker::isProductionMode());
 }
 
 TEST_F(TransportSecurityCheckerTest, DetectDevelopmentModeByDefault) {
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    unsetenv("THEMIS_ENVIRONMENT");
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    UNSETENV("THEMIS_ENVIRONMENT");
     EXPECT_FALSE(TransportSecurityChecker::isProductionMode());
 }
 
@@ -117,8 +145,8 @@ TEST_F(TransportSecurityCheckerTest, NoOverrideFlagWithNoArgs) {
 
 TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportInDevelopmentMode) {
     // Development mode (no env vars set)
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    unsetenv("THEMIS_ENVIRONMENT");
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    UNSETENV("THEMIS_ENVIRONMENT");
     
     const char* argv[] = {"themis_server"};
     bool enable_tls = false;
@@ -130,8 +158,8 @@ TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportInDevelopmentMode) {
 
 TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInDevelopmentMode) {
     // Development mode
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    unsetenv("THEMIS_ENVIRONMENT");
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    UNSETENV("THEMIS_ENVIRONMENT");
     
     const char* argv[] = {"themis_server"};
     bool enable_tls = true;
@@ -143,7 +171,7 @@ TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInDevelopmentMode) {
 
 TEST_F(TransportSecurityCheckerTest, BlockInsecureTransportInProductionMode) {
     // Production mode
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     const char* argv[] = {"themis_server"};
     bool enable_tls = false;
@@ -155,7 +183,7 @@ TEST_F(TransportSecurityCheckerTest, BlockInsecureTransportInProductionMode) {
 
 TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInProductionMode) {
     // Production mode
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     const char* argv[] = {"themis_server"};
     bool enable_tls = true;
@@ -167,7 +195,7 @@ TEST_F(TransportSecurityCheckerTest, AllowSecureTransportInProductionMode) {
 
 TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportWithOverrideFlag) {
     // Production mode with override flag
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     const char* argv[] = {"themis_server", "--allow-insecure-wire-protocol"};
     bool enable_tls = false;
@@ -182,22 +210,22 @@ TEST_F(TransportSecurityCheckerTest, AllowInsecureTransportWithOverrideFlag) {
 // =============================================================================
 
 TEST_F(TransportSecurityCheckerTest, NoWarningInDevelopmentMode) {
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    unsetenv("THEMIS_ENVIRONMENT");
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    UNSETENV("THEMIS_ENVIRONMENT");
     
     std::string warning = TransportSecurityChecker::getPeriodicWarning(false, "Wire Protocol");
     EXPECT_TRUE(warning.empty());
 }
 
 TEST_F(TransportSecurityCheckerTest, NoWarningWhenTLSEnabled) {
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     std::string warning = TransportSecurityChecker::getPeriodicWarning(true, "Wire Protocol");
     EXPECT_TRUE(warning.empty());
 }
 
 TEST_F(TransportSecurityCheckerTest, WarningWhenTLSDisabledInProduction) {
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     std::string warning = TransportSecurityChecker::getPeriodicWarning(false, "Wire Protocol");
     EXPECT_FALSE(warning.empty());
@@ -211,7 +239,7 @@ TEST_F(TransportSecurityCheckerTest, WarningWhenTLSDisabledInProduction) {
 
 TEST_F(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithTLS) {
     // Set production mode
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     // Simulate server startup with TLS enabled
     const char* argv[] = {"themis_server", "--config", "config.yaml"};
@@ -228,7 +256,7 @@ TEST_F(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithTLS) {
 
 TEST_F(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithoutTLS) {
     // Set production mode
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    SETENV("THEMIS_PRODUCTION_MODE", "true");
     
     // Simulate server startup with TLS disabled
     const char* argv[] = {"themis_server", "--config", "config.yaml"};
@@ -241,8 +269,8 @@ TEST_F(TransportSecurityCheckerTest, FullValidationFlow_ProductionWithoutTLS) {
 
 TEST_F(TransportSecurityCheckerTest, FullValidationFlow_DevelopmentWithoutTLS) {
     // Development mode (default)
-    unsetenv("THEMIS_PRODUCTION_MODE");
-    unsetenv("THEMIS_ENVIRONMENT");
+    UNSETENV("THEMIS_PRODUCTION_MODE");
+    UNSETENV("THEMIS_ENVIRONMENT");
     
     // Simulate server startup with TLS disabled
     const char* argv[] = {"themis_server", "--config", "config.yaml"};

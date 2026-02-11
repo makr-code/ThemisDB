@@ -139,12 +139,30 @@ protected:
         original_env_env_ = env_env ? std::string(env_env) : "";
         
         // Ensure we're not in production mode for tests
+        #ifdef _WIN32
+        _putenv("THEMIS_PRODUCTION_MODE=");
+        _putenv("THEMIS_ENVIRONMENT=");
+        #else
         unsetenv("THEMIS_PRODUCTION_MODE");
         unsetenv("THEMIS_ENVIRONMENT");
+        #endif
     }
 
     void TearDown() override {
         // Restore original environment variables
+        #ifdef _WIN32
+        if (!original_mode_env_.empty()) {
+            _putenv_s("THEMIS_PRODUCTION_MODE", original_mode_env_.c_str());
+        } else {
+            _putenv("THEMIS_PRODUCTION_MODE=");
+        }
+        
+        if (!original_env_env_.empty()) {
+            _putenv_s("THEMIS_ENVIRONMENT", original_env_env_.c_str());
+        } else {
+            _putenv("THEMIS_ENVIRONMENT=");
+        }
+        #else
         if (!original_mode_env_.empty()) {
             setenv("THEMIS_PRODUCTION_MODE", original_mode_env_.c_str(), 1);
         } else {
@@ -156,6 +174,7 @@ protected:
         } else {
             unsetenv("THEMIS_ENVIRONMENT");
         }
+        #endif
     }
 
     std::string original_mode_env_;
@@ -164,8 +183,13 @@ protected:
 
 TEST_F(StorageEngineProductionGuardTest, DefaultImplementationsWorkInDevelopment) {
     // Ensure we're not in production mode
+    #ifdef _WIN32
+    _putenv("THEMIS_PRODUCTION_MODE=");
+    _putenv("THEMIS_ENVIRONMENT=");
+    #else
     unsetenv("THEMIS_PRODUCTION_MODE");
     unsetenv("THEMIS_ENVIRONMENT");
+    #endif
     
     // Create storage engine with defaults - should work without exceptions
     auto storage = StorageEngine::createDefault();
@@ -186,7 +210,11 @@ TEST_F(StorageEngineProductionGuardTest, DefaultImplementationsWorkInDevelopment
 
 TEST_F(StorageEngineProductionGuardTest, EncryptionFailsInProductionMode) {
     // Set production mode
+    #ifdef _WIN32
+    _putenv_s("THEMIS_PRODUCTION_MODE", "1");
+    #else
     setenv("THEMIS_PRODUCTION_MODE", "1", 1);
+    #endif
     
     // Attempting to create default encryption should throw
     EXPECT_THROW(StorageEngine::createDefaultEncryption(), std::runtime_error);
@@ -194,7 +222,11 @@ TEST_F(StorageEngineProductionGuardTest, EncryptionFailsInProductionMode) {
 
 TEST_F(StorageEngineProductionGuardTest, KeyProviderFailsInProductionMode) {
     // Set production mode via THEMIS_ENVIRONMENT
+    #ifdef _WIN32
+    _putenv_s("THEMIS_ENVIRONMENT", "production");
+    #else
     setenv("THEMIS_ENVIRONMENT", "production", 1);
+    #endif
     
     // Attempting to create default key provider should throw
     EXPECT_THROW(StorageEngine::createDefaultKeyProvider(), std::runtime_error);
@@ -202,7 +234,11 @@ TEST_F(StorageEngineProductionGuardTest, KeyProviderFailsInProductionMode) {
 
 TEST_F(StorageEngineProductionGuardTest, DefaultEvaluatorAllowedInProduction) {
     // Set production mode
+    #ifdef _WIN32
+    _putenv_s("THEMIS_PRODUCTION_MODE", "true");
+    #else
     setenv("THEMIS_PRODUCTION_MODE", "true", 1);
+    #endif
     
     // Evaluator warns but doesn't fail (less critical than encryption/keys)
     auto evaluator = StorageEngine::createDefaultEvaluator();
@@ -214,7 +250,11 @@ TEST_F(StorageEngineProductionGuardTest, DefaultEvaluatorAllowedInProduction) {
 
 TEST_F(StorageEngineProductionGuardTest, IndexManagerAllowedInProduction) {
     // Set production mode
+    #ifdef _WIN32
+    _putenv_s("THEMIS_PRODUCTION_MODE", "production");
+    #else
     setenv("THEMIS_PRODUCTION_MODE", "production", 1);
+    #endif
     
     // Index manager warns but doesn't fail
     auto manager = StorageEngine::createDefaultIndexManager();

@@ -32,20 +32,12 @@
     { "name": "crc32c" },
     { "name": "cpp-httplib" },
     { "name": "msgpack" },
-    { "name": "tl-expected" },
-    { 
-      "name": "ffmpeg", 
-      "features": ["avcodec", "avformat", "swscale", "avfilter"]
-    }
+    { "name": "tl-expected" }
   ],
   "features": {
     "gpu": {
       "description": "Enable GPU acceleration for vector search",
-      "dependencies": [
-        "faiss",
-        "openblas",
-        "lapack"
-      ]
+      "dependencies": []
     },
     "llm": {
       "description": "Enable LLM integration with llama.cpp (v1.3.0+)",

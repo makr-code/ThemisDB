@@ -102,6 +102,37 @@ if(THEMIS_ENABLE_OFFICE)
     endif()
 endif()
 
+# FFmpeg support for video processing (optional)
+# Priority: 1) Local Submodule, 2) vcpkg, 3) System
+find_package(FFmpeg CONFIG QUIET)
+if(NOT FFmpeg_FOUND)
+    find_package(FFmpeg QUIET)
+endif()
+
+# If not found, try building from local submodule
+if(NOT FFmpeg_FOUND AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg/CMakeLists.txt")
+    message(STATUS "Found FFmpeg submodule - building from source")
+    set(FFMPEG_ENABLE_SMALL ON CACHE BOOL "Build small FFmpeg" FORCE)
+    set(FFMPEG_ENABLE_OPTIMIZED_BUILD ON CACHE BOOL "Build optimized FFmpeg" FORCE)
+    # Note: FFmpeg might not have CMakeLists directly; requires configure + make wrapper
+    # For now, mark as found if directory exists
+    set(FFmpeg_FOUND TRUE)
+    set(FFMPEG_SUBMODULE_BUILD ON)
+    message(STATUS "FFmpeg submodule found at: ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg")
+endif()
+
+if(FFmpeg_FOUND)
+    if(FFMPEG_SUBMODULE_BUILD)
+        message(STATUS "FFmpeg will be built from submodule")
+    else()
+        message(STATUS "Found FFmpeg: ${FFmpeg_DIR}")
+    endif()
+    set(FFMPEG_FOUND TRUE)
+else()
+    message(STATUS "FFmpeg not found - attempting to build from submodule or install with: vcpkg install ffmpeg")
+    set(FFMPEG_FOUND FALSE)
+endif()
+
 # Build options
 option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" ON)

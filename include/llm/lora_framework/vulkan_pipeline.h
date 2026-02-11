@@ -2,11 +2,20 @@
 
 #include "llm/lora_framework/vulkan_context.h"
 #include "llm/lora_framework/vulkan_buffer.h"
-#include <vulkan/vulkan.h>
+
+#if __has_include(<vulkan/vulkan.h>)
+#  include <vulkan/vulkan.h>
+#  define THEMIS_HAS_VULKAN_PIPELINE 1
+#else
+#  define THEMIS_HAS_VULKAN_PIPELINE 0
+#endif
+
 #include <vector>
 #include <string>
 #include <memory>
 #include <unordered_map>
+
+#if THEMIS_HAS_VULKAN_PIPELINE
 
 namespace themis {
 namespace lora {
@@ -158,3 +167,36 @@ private:
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
+
+#else // !THEMIS_HAS_VULKAN_PIPELINE
+
+// Stub implementation when Vulkan is not available
+namespace themis {
+namespace lora {
+namespace vulkan {
+
+class VulkanComputePipeline {
+public:
+    VulkanComputePipeline(VulkanContext*, const std::string&) {}
+    VulkanComputePipeline(VulkanContext*, const std::vector<uint32_t>&) {}
+    ~VulkanComputePipeline() = default;
+    
+    VulkanComputePipeline(const VulkanComputePipeline&) = delete;
+    VulkanComputePipeline& operator=(const VulkanComputePipeline&) = delete;
+    VulkanComputePipeline(VulkanComputePipeline&&) noexcept = default;
+    VulkanComputePipeline& operator=(VulkanComputePipeline&&) noexcept = default;
+    
+    bool create(size_t = 0) { return false; }
+    void cleanup() {}
+    bool is_ready() const { return false; }
+    bool bind_buffer(uint32_t, VulkanBuffer*) { return false; }
+    bool set_push_constants(const void*, size_t) { return false; }
+    bool dispatch(uint32_t, uint32_t, uint32_t) { return false; }
+    bool wait() { return false; }
+};
+
+} // namespace vulkan
+} // namespace lora
+} // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_PIPELINE

@@ -187,8 +187,8 @@ public:
             idToIndex[id] = index;
         }
         
-        // Invalidate cache since vector data changed
-        invalidateFlatVectorsCache();
+        // Cache invalidation would be for CUDA backend (not currently used)
+        // invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
         
@@ -222,8 +222,8 @@ public:
         vectorData.pop_back();
         idToIndex.erase(id);
         
-        // Invalidate cache since vector data changed
-        invalidateFlatVectorsCache();
+        // Cache invalidation would be for CUDA backend (not currently used)
+        // invalidateFlatVectorsCache();
         
         stats.numVectors = vectorData.size();
         
@@ -307,6 +307,8 @@ public:
         return results;
     }
     
+#ifdef THEMIS_ENABLE_CUDA
+    // CUDA backend search functions (currently not used, Vulkan is active)
     std::vector<SearchResult> searchGPU(const std::vector<float>& query, size_t k) {
         if (!cudaBackend || vectorData.empty() || query.size() != static_cast<size_t>(dimension)) {
             return {};
@@ -442,6 +444,7 @@ public:
         
         return results;
     }
+#endif // THEMIS_ENABLE_CUDA
     
     float computeDistance(const float* a, const float* b, int dim) {
         switch (config.metric) {
@@ -452,7 +455,6 @@ public:
                     sum += diff * diff;
                 }
                 return std::sqrt(sum);  // Return actual L2 distance (not squared)
-            }
             }
             case DistanceMetric::COSINE: {
                 float dot = 0.0f, normA = 0.0f, normB = 0.0f;
@@ -606,18 +608,19 @@ std::vector<std::vector<GPUVectorIndex::SearchResult>> GPUVectorIndex::searchBat
     }
     #endif
     
-    // CPU fallback - process each query
-    std::vector<std::vector<SearchResult>> results;
-    results.reserve(queries.size());
-    
-    for (const auto& query : queries) {
-        results.push_back(pImpl->searchCPU(query, k));
-    }
-    
-    // Use appropriate backend
+    // Use appropriate backend or CPU fallback
     switch (pImpl->activeBackend) {
         case Backend::HIP:
-            return pImpl->searchBatchHIP(queries, k);
+            // HIP backend not implemented - fallback to CPU
+            if (pImpl->config.allowCPUFallback) {
+                std::vector<std::vector<SearchResult>> results;
+                results.reserve(queries.size());
+                for (const auto& query : queries) {
+                    results.push_back(pImpl->searchCPU(query, k));
+                }
+                return results;
+            }
+            return {};
         case Backend::CUDA:
             // CUDA backend not implemented in this PR
             if (pImpl->config.allowCPUFallback) {

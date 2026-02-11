@@ -1,9 +1,18 @@
 #pragma once
 
 #include "llm/lora_framework/vulkan_context.h"
-#include <vulkan/vulkan.h>
+
+#if __has_include(<vulkan/vulkan.h>)
+#  include <vulkan/vulkan.h>
+#  define THEMIS_HAS_VULKAN_BUFFER 1
+#else
+#  define THEMIS_HAS_VULKAN_BUFFER 0
+#endif
+
 #include <cstddef>
 #include <memory>
+
+#if THEMIS_HAS_VULKAN_BUFFER
 
 namespace themis {
 namespace lora {
@@ -113,3 +122,33 @@ private:
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
+
+#else // !THEMIS_HAS_VULKAN_BUFFER
+
+// Stub implementation when Vulkan is not available
+namespace themis {
+namespace lora {
+namespace vulkan {
+
+class VulkanBuffer {
+public:
+    enum class Usage { DeviceLocal, Staging, Uniform };
+    
+    VulkanBuffer(VulkanContext*, size_t, Usage) {}
+    ~VulkanBuffer() = default;
+    
+    bool initialize() { return false; }
+    void cleanup() {}
+    bool upload(const void*, size_t) { return false; }
+    bool download(void*, size_t) { return false; }
+    void* map() { return nullptr; }
+    void unmap() {}
+    bool is_mapped() const { return false; }
+    size_t size() const { return 0; }
+};
+
+} // namespace vulkan
+} // namespace lora
+} // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_BUFFER

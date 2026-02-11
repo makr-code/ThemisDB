@@ -1,6 +1,7 @@
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
+#include "llm/llama_wrapper.h"
 #include <string>
 #include <memory>
 #include <vector>

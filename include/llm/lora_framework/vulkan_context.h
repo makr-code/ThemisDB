@@ -1,10 +1,33 @@
 #pragma once
 
-#include <vulkan/vulkan.h>
+// Check if Vulkan header is available
+#if defined(__has_include)
+#  if __has_include(<vulkan/vulkan.h>)
+#    include <vulkan/vulkan.h>
+#    define THEMIS_HAS_VULKAN_HEADER 1
+#  else
+#    define THEMIS_HAS_VULKAN_HEADER 0
+#  endif
+#else
+// Compiler doesn't support __has_include, assume Vulkan is available if THEMIS_ENABLE_VULKAN is defined
+#  if defined(THEMIS_ENABLE_VULKAN)
+#    include <vulkan/vulkan.h>
+#    define THEMIS_HAS_VULKAN_HEADER 1
+#  else
+#    define THEMIS_HAS_VULKAN_HEADER 0
+#  endif
+#endif
+
+#if !THEMIS_HAS_VULKAN_HEADER && defined(THEMIS_ENABLE_VULKAN)
+#  error "Vulkan SDK not found. Please install Vulkan SDK or disable THEMIS_ENABLE_VULKAN in CMake configuration."
+#endif
+
 #include <vector>
 #include <string>
 #include <memory>
 #include <cstdint>
+
+#if THEMIS_HAS_VULKAN_HEADER
 
 namespace themis {
 namespace lora {
@@ -184,3 +207,32 @@ private:
 } // namespace vulkan
 } // namespace lora
 } // namespace themis
+
+#else // !THEMIS_HAS_VULKAN_HEADER
+
+// Stub implementation when Vulkan is not available
+namespace themis {
+namespace lora {
+namespace vulkan {
+
+class VulkanContext {
+public:
+    VulkanContext() = default;
+    ~VulkanContext() = default;
+    
+    VulkanContext(const VulkanContext&) = delete;
+    VulkanContext& operator=(const VulkanContext&) = delete;
+    VulkanContext(VulkanContext&&) noexcept = default;
+    VulkanContext& operator=(VulkanContext&&) noexcept = default;
+    
+    bool initialize(int = 0, bool = false) { return false; }
+    void cleanup() {}
+    bool is_initialized() const { return false; }
+    static bool is_available() { return false; }
+};
+
+} // namespace vulkan
+} // namespace lora
+} // namespace themis
+
+#endif // THEMIS_HAS_VULKAN_HEADER

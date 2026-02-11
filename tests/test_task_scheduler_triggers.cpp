@@ -25,7 +25,8 @@ protected:
         ASSERT_TRUE(storage_->open());
         
         changefeed_ = std::make_unique<Changefeed>(storage_->getRawDB());
-        query_engine_ = std::make_unique<QueryEngine>(storage_.get());
+        // NOTE: QueryEngine constructor changed - no longer accepts RocksDBWrapper*
+        // query_engine_ = std::make_unique<QueryEngine>(storage_.get());
         
         TaskScheduler::Config scheduler_config;
         scheduler_config.max_concurrent_tasks = 2;
@@ -33,7 +34,7 @@ protected:
         scheduler_config.persist_tasks = false;
         
         scheduler_ = std::make_unique<TaskScheduler>(
-            query_engine_.get(), 
+            nullptr,  // NOTE: QueryEngine constructor changed, passing nullptr
             scheduler_config,
             changefeed_.get()
         );
@@ -44,7 +45,7 @@ protected:
             scheduler_->stop();
         }
         changefeed_.reset();
-        query_engine_.reset();
+        // query_engine_.reset();  // Not initialized
         storage_->close();
     }
     

@@ -206,7 +206,8 @@ public:
 
 NCCLVectorBackend::NCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
 
-NCCLVectorBackend::~NCCLVectorBackend() = default;
+// Explicitly defined to ensure Impl is complete type when destructed
+NCCLVectorBackend::~NCCLVectorBackend() {}
 
 bool NCCLVectorBackend::initialize(const Config& config) {
     return pImpl->initialize(config);
@@ -463,9 +464,18 @@ bool NCCLVectorBackend::checkNVLinkSupport(const std::vector<int>& deviceIds) {
 
 #else // THEMIS_ENABLE_NCCL
 
-// Stub implementations when NCCL is not available
-NCCLVectorBackend::NCCLVectorBackend() : pImpl(nullptr) {}
-NCCLVectorBackend::~NCCLVectorBackend() = default;
+// Stub implementation when NCCL is not available
+// Define empty Impl class to satisfy unique_ptr
+class NCCLVectorBackend::Impl {
+public:
+    Impl() = default;
+    ~Impl() = default;
+};
+
+NCCLVectorBackend::NCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
+
+// Explicitly defined to ensure Impl is complete type when destructed
+NCCLVectorBackend::~NCCLVectorBackend() {}
 bool NCCLVectorBackend::initialize(const Config&) { return false; }
 void NCCLVectorBackend::shutdown() {}
 bool NCCLVectorBackend::isInitialized() const { return false; }

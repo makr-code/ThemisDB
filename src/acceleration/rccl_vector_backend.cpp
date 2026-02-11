@@ -206,7 +206,8 @@ public:
 
 RCCLVectorBackend::RCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
 
-RCCLVectorBackend::~RCCLVectorBackend() = default;
+// Explicitly defined to ensure Impl is complete type when destructed
+RCCLVectorBackend::~RCCLVectorBackend() {}
 
 bool RCCLVectorBackend::initialize(const Config& config) {
     return pImpl->initialize(config);
@@ -463,9 +464,18 @@ bool RCCLVectorBackend::checkXGMISupport(const std::vector<int>& deviceIds) {
 
 #else // THEMIS_ENABLE_RCCL
 
-// Stub implementations when RCCL is not available
-RCCLVectorBackend::RCCLVectorBackend() : pImpl(nullptr) {}
-RCCLVectorBackend::~RCCLVectorBackend() = default;
+// Stub implementation when RCCL is not available
+// Define empty Impl class to satisfy unique_ptr
+class RCCLVectorBackend::Impl {
+public:
+    Impl() = default;
+    ~Impl() = default;
+};
+
+RCCLVectorBackend::RCCLVectorBackend() : pImpl(std::make_unique<Impl>()) {}
+
+// Explicitly defined to ensure Impl is complete type when destructed
+RCCLVectorBackend::~RCCLVectorBackend() {}
 bool RCCLVectorBackend::initialize(const Config&) { return false; }
 void RCCLVectorBackend::shutdown() {}
 bool RCCLVectorBackend::isInitialized() const { return false; }

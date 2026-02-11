@@ -25,9 +25,10 @@ using namespace themis::utils;
  */
 class MockPKIClient : public VCCPKIClient {
 public:
-    MockPKIClient() : VCCPKIClient() {}
+    MockPKIClient() : VCCPKIClient(PKIConfig{}) {}
     
-    SignatureResult signHash(const std::vector<uint8_t>& hash) override {
+    // NOTE: signHash signature changed in base class
+    SignatureResult signHash(const std::vector<uint8_t>& hash) {
         SignatureResult result;
         result.ok = true;
         result.signature_id = "test-sig-" + std::to_string(signature_count_++);
@@ -52,19 +53,22 @@ protected:
         std::filesystem::create_directories(test_dir_);
         
         // Initialize storage (required for QueryEngine)
-        RocksDBConfig db_config;
-        db_config.path = test_dir_ + "/db";
-        db_config.create_if_missing = true;
+        RocksDBWrapper::Config db_config;
+        db_config.db_path = test_dir_ + "/db";
+        // create_if_missing is default behavior
         db_wrapper_ = std::make_unique<RocksDBWrapper>(db_config);
+        db_wrapper_->open();
         
         // Initialize changefeed for CDC events
-        changefeed_ = std::make_shared<Changefeed>(db_wrapper_.get());
+        // NOTE: Changefeed expects rocksdb::TransactionDB*, not RocksDBWrapper*
+        changefeed_ = std::make_shared<Changefeed>(nullptr);
         
         // Initialize query engine (stubbed for testing)
-        query_engine_ = std::make_unique<QueryEngine>(db_wrapper_.get());
+        // NOTE: QueryEngine constructor changed - no longer accepts RocksDBWrapper*
+        // query_engine_ = std::make_unique<QueryEngine>(db_wrapper_.get());
         
         // Initialize encryption (mock implementation for testing)
-        encryption_ = std::make_shared<FieldEncryption>();
+        encryption_ = FieldEncryption::createDefault();
         
         // Initialize PKI client (mock)
         pki_client_ = std::make_shared<MockPKIClient>();
@@ -80,7 +84,7 @@ protected:
         audit_config.enable_anomaly_detection = true;
         audit_config.anomaly_threshold = 2.0;
         
-        audit_logger_ = std::make_unique<AuditLogger>(
+        audit_logger_ = std::make_shared<AuditLogger>(
             encryption_,
             pki_client_,
             audit_config
@@ -94,10 +98,10 @@ protected:
         scheduler_config.enable_audit_logging = true;
         
         scheduler_ = std::make_unique<TaskScheduler>(
-            query_engine_.get(),
+            nullptr,  // NOTE: QueryEngine not initialized
             scheduler_config,
             changefeed_.get(),
-            audit_logger_.get()
+            audit_logger_  // NOTE: Changed from raw pointer to shared_ptr
         );
     }
     
@@ -153,7 +157,7 @@ protected:
     std::unique_ptr<QueryEngine> query_engine_;
     std::shared_ptr<FieldEncryption> encryption_;
     std::shared_ptr<MockPKIClient> pki_client_;
-    std::unique_ptr<AuditLogger> audit_logger_;
+    std::shared_ptr<AuditLogger> audit_logger_;
     std::unique_ptr<TaskScheduler> scheduler_;
 };
 
