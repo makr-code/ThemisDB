@@ -141,7 +141,7 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          git add .github/badges/*.json
+          git add .github/badges/
           git commit -m "Update code statistics badges: ${{ env.TOTAL_LINES }} lines, ${{ env.CODE_FILES }} files" || echo "Keine Änderungen"
           git push
       
