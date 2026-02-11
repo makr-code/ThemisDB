@@ -1,64 +1,184 @@
 /**
  * ThemisDB Formula Renderer Styles
- * Version: 1.0.0
- * 
- * Themis Brand Colors:
- * Primary: #2c3e50 (Dark Blue-Gray)
- * Secondary: #3498db (Light Blue)
- * Accent: #7c4dff (Purple)
+ * Version: 1.1.0
  */
 
-/* CSS Variables for Themis Brand */
+/* Themis Brand Colors */
 :root {
     --themis-primary: #2c3e50;
     --themis-secondary: #3498db;
     --themis-accent: #7c4dff;
     --themis-success: #27ae60;
+    --themis-warning: #f39c12;
     --themis-error: #e74c3c;
     --themis-light: #ecf0f1;
     --themis-dark: #1a252f;
 }
 
-/* Formula container styles */
-.themisdb-formula-content {
-    line-height: 1.8;
+/* Formula Containers */
+.themisdb-formula {
+    margin: 1rem 0;
+    font-family: 'KaTeX_Main', 'Times New Roman', serif;
 }
 
-/* Block formula styles */
 .themisdb-formula-block {
-    display: block;
-    margin: 1.5em 0;
-    padding: 1em;
-    background-color: var(--themis-light);
+    position: relative;
+    background: var(--themis-light);
     border-left: 4px solid var(--themis-accent);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
     overflow-x: auto;
-    text-align: center;
+    -webkit-overflow-scrolling: touch;
 }
 
-.themisdb-formula-block .katex-display {
-    margin: 0;
-}
-
-/* Inline formula styles */
 .themisdb-formula-inline {
     display: inline;
-    padding: 0 0.25em;
+    padding: 0.2rem 0.4rem;
+    background: rgba(124, 77, 255, 0.1);
+    border-radius: 3px;
 }
 
-/* Formula in dark mode */
-@media (prefers-color-scheme: dark) {
+/* Formula Content */
+.themisdb-formula-content {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Error Styling */
+.themisdb-formula-error {
+    color: var(--themis-error);
+    border-left-color: var(--themis-error);
+    background: rgba(231, 76, 60, 0.1);
+}
+
+.themisdb-formula-error::before {
+    content: '⚠ ';
+    font-weight: bold;
+}
+
+/* Copy Button */
+.themisdb-copy-formula {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--themis-secondary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    z-index: 10;
+}
+
+.themisdb-formula-block:hover .themisdb-copy-formula {
+    opacity: 1;
+}
+
+.themisdb-copy-formula:hover {
+    background: var(--themis-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(124, 77, 255, 0.3);
+}
+
+.themisdb-copy-formula:active {
+    transform: translateY(0);
+}
+
+.themisdb-copy-formula.copied {
+    background: var(--themis-success);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
     .themisdb-formula-block {
-        background-color: var(--themis-dark);
-        border-left-color: var(--themis-secondary);
-        color: #e0e0e0;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-size: 0.9em;
+    }
+    
+    .katex {
+        font-size: 0.95em;
+    }
+    
+    .katex-display {
+        overflow-x: auto;
+        overflow-y: hidden;
+        max-width: 100vw;
+        padding: 0.5rem 0;
+    }
+    
+    .themisdb-copy-formula {
+        opacity: 1; /* Always visible on mobile */
+        padding: 6px 10px;
+        font-size: 12px;
     }
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --themis-light: #2c3e50;
+        --themis-dark: #1a252f;
+    }
+    
     .themisdb-formula-block {
-        padding: 0.75em;
-        font-size: 0.9em;
+        background: var(--themis-dark);
+        color: #ecf0f1;
+    }
+    
+    .themisdb-formula-inline {
+        background: rgba(124, 77, 255, 0.2);
+        color: #ecf0f1;
+    }
+    
+    /* KaTeX dark mode adjustments */
+    .katex {
+        color: #ecf0f1;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .themisdb-copy-formula {
+        display: none;
+    }
+    
+    .themisdb-formula-block {
+        border-left: 2px solid #000;
+        background: transparent;
+        page-break-inside: avoid;
+    }
+}
+
+/* Accessibility */
+.themisdb-formula[aria-hidden="true"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .themisdb-formula-block {
+        border-width: 3px;
+    }
+    
+    .themisdb-copy-formula {
+        border: 2px solid white;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .themisdb-copy-formula {
+        transition: none;
     }
 }
 
@@ -146,15 +266,6 @@
 }
 
 .katex-display {
-    margin: 1em 0;
-}
-
-/* Error display */
-.themisdb-formula-error {
-    color: var(--themis-error);
-    background: #fef7f1;
-    border-left: 4px solid var(--themis-error);
-    padding: 0.5em 1em;
     margin: 1em 0;
 }
 

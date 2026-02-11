@@ -8,10 +8,15 @@ Das ThemisDB Formula Renderer Plugin ermöglicht es, mathematische Formeln in La
 
 ## Features
 
+- ✅ **Conditional Loading** - KaTeX nur bei Bedarf laden für optimale Performance
 - ✅ Automatisches Rendering von LaTeX-Formeln in Beiträgen, Seiten und Kommentaren
 - ✅ Unterstützung für Inline-Formeln (`$...$`) und Block-Formeln (`$$...$$`)
+- ✅ **Copy-to-Clipboard** - LaTeX-Code einfach kopieren
+- ✅ **Formula Library** - Bibliothek häufiger Formeln im Admin-Bereich
 - ✅ Schnelles Rendering mit KaTeX
+- ✅ **Themis Brand Colors** - Professionelles Design mit Themis-Branding
 - ✅ Responsive Design - funktioniert auf allen Geräten
+- ✅ **MathML Support** - Barrierefreiheit für Screen Reader
 - ✅ Dark Mode Unterstützung
 - ✅ Einfache Integration per Shortcode
 - ✅ Keine Server-seitige Verarbeitung erforderlich
@@ -293,7 +298,56 @@ MIT License - siehe [LICENSE](LICENSE) Datei
 
 ## Changelog
 
-Siehe [CHANGELOG.md](CHANGELOG.md) für Versionshistorie.
+### Version 1.1.0 (2026-02-11)
+
+**⚡ Performance Enhancements:**
+- ✅ **Conditional Loading** - KaTeX wird nur noch auf Seiten mit Formeln geladen (~70% schnellere Ladezeit)
+- ✅ Preload-Hints für KaTeX-Ressourcen hinzugefügt
+
+**🎨 Design & Branding:**
+- ✅ **Themis Brand Colors** - Neue Farbpalette mit Themis-Branding
+- ✅ Verbesserte mobile Darstellung mit horizontalem Scroll
+- ✅ Dark Mode Optimierungen
+- ✅ Print-Styles für bessere Druckausgabe
+- ✅ High Contrast Mode Support
+
+**✨ Neue Features:**
+- ✅ **Copy-to-Clipboard Button** - LaTeX-Code direkt aus Formeln kopieren
+- ✅ **Formula Library** - Admin-Bereich mit häufig verwendeten Formeln (Algebra, Calculus, Statistics, Physics, Geometry)
+- ✅ **MathML Export** - Verbesserte Barrierefreiheit für Screen Reader
+
+**♿ Accessibility:**
+- ✅ MathML-Alternative für Screen Reader
+- ✅ Verbesserte ARIA-Labels
+- ✅ Reduced Motion Support
+
+**📱 Mobile:**
+- ✅ Optimierte Darstellung auf kleinen Bildschirmen
+- ✅ Touch-optimierte Copy-Buttons
+- ✅ Besseres Overflow-Handling für lange Formeln
+
+### Version 1.0.0 (Initial Release)
+- ✅ Grundlegende LaTeX-Formel-Rendering
+- ✅ Shortcode-Support
+- ✅ Auto-Render mit konfigurierbaren Delimiters
+- ✅ Admin-Einstellungen
+
+Siehe [CHANGELOG.md](CHANGELOG.md) für die vollständige Versionshistorie.
+
+## Formula Library
+
+Ab Version 1.1.0 enthält das Plugin eine **Formula Library** mit häufig verwendeten mathematischen Formeln:
+
+**Zugriff:** WordPress Admin → Einstellungen → Formula Library
+
+**Kategorien:**
+- **Algebra** - Quadratische Formel, Binomialtheorem, Logarithmen
+- **Calculus** - Ableitungsregeln, Integration, Fundamentalsatz
+- **Statistics** - Mittelwert, Standardabweichung, Normalverteilung
+- **Physics** - E=mc², Newtonsche Gesetze, kinetische Energie
+- **Geometry** - Pythagoras, Kreisfläche, Kugelvolumen
+
+Jede Formel kann mit einem Klick als Shortcode oder LaTeX-Code kopiert werden.
 
 ## Weiterentwicklung
 
