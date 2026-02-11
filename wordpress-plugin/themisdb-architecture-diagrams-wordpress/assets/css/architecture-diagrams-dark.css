@@ -1,0 +1,113 @@
+/* ThemisDB Architecture Diagrams - Dark Mode Styles */
+
+/* Dark Mode Theme Variables */
+body.dark-mode,
+[data-theme="dark"] {
+    --themis-primary: #3498db;      /* Lighter in dark mode */
+    --themis-secondary: #7c4dff;
+    --themis-accent: #3498db;
+    --themis-success: #27ae60;
+    --themis-warning: #f39c12;
+    --themis-error: #e74c3c;
+    --themis-dark: #1a252f;
+    --themis-light: #2c3e50;
+    --themis-text-primary: #ecf0f1;
+    --themis-text-secondary: #95a5a6;
+    
+    /* Update legacy aliases */
+    --themisdb-primary: var(--themis-secondary);
+    --themisdb-secondary: var(--themis-accent);
+    --themisdb-light-bg: #2c3e50;
+    --themisdb-white: #1a252f;
+    --themisdb-text-primary: var(--themis-text-primary);
+    --themisdb-text-secondary: var(--themis-text-secondary);
+    --themisdb-border: #4a5568;
+}
+
+/* Dark Mode Container */
+.dark-mode .themisdb-architecture-container,
+[data-theme="dark"] .themisdb-architecture-container {
+    background: var(--themis-dark);
+    border-color: var(--themis-secondary);
+}
+
+/* Dark Mode Sections */
+.dark-mode .themisdb-section,
+[data-theme="dark"] .themisdb-section {
+    background: var(--themis-light);
+    border-color: var(--themis-secondary);
+    color: var(--themis-text-primary);
+}
+
+/* Dark Mode Controls */
+.dark-mode .themisdb-controls,
+[data-theme="dark"] .themisdb-controls {
+    background: var(--themis-light);
+}
+
+.dark-mode .themisdb-select,
+[data-theme="dark"] .themisdb-select {
+    background: var(--themis-dark);
+    border-color: var(--themis-secondary);
+    color: var(--themis-text-primary);
+}
+
+/* Dark Mode Diagram Container */
+.dark-mode .themisdb-diagram-container,
+[data-theme="dark"] .themisdb-diagram-container {
+    background: var(--themis-dark);
+}
+
+/* Dark Mode Mermaid Adjustments */
+.dark-mode .mermaid svg,
+[data-theme="dark"] .mermaid svg {
+    filter: brightness(0.9);
+}
+
+/* Dark Mode Text */
+.dark-mode .themisdb-architecture-header h2,
+.dark-mode .themisdb-section h3,
+[data-theme="dark"] .themisdb-architecture-header h2,
+[data-theme="dark"] .themisdb-section h3 {
+    color: var(--themis-text-primary);
+}
+
+.dark-mode .themisdb-description,
+.dark-mode .themisdb-description-text,
+.dark-mode #ad-details-content,
+[data-theme="dark"] .themisdb-description,
+[data-theme="dark"] .themisdb-description-text,
+[data-theme="dark"] #ad-details-content {
+    color: var(--themis-text-secondary);
+}
+
+/* Dark Mode Buttons */
+.dark-mode .themisdb-btn-secondary,
+[data-theme="dark"] .themisdb-btn-secondary {
+    background: var(--themis-dark);
+    color: var(--themis-text-primary);
+    border-color: var(--themis-secondary);
+}
+
+.dark-mode .themisdb-btn-secondary:hover,
+[data-theme="dark"] .themisdb-btn-secondary:hover {
+    background: var(--themis-primary);
+    border-color: var(--themis-accent);
+}
+
+/* Dark Mode Legend */
+.dark-mode .themisdb-legend-item,
+[data-theme="dark"] .themisdb-legend-item {
+    color: var(--themis-text-primary);
+}
+
+/* Dark Mode Footer */
+.dark-mode .themisdb-footer,
+[data-theme="dark"] .themisdb-footer {
+    background: var(--themis-light);
+}
+
+.dark-mode .themisdb-branding a,
+[data-theme="dark"] .themisdb-branding a {
+    color: var(--themis-secondary);
+}

@@ -55,6 +55,9 @@ if (!defined('ABSPATH')) {
                 </th>
                 <td>
                     <select name="themisdb_ad_theme" id="themisdb_ad_theme">
+                        <option value="themis" <?php selected(get_option('themisdb_ad_theme'), 'themis'); ?>>
+                            <?php _e('Themis (Recommended)', 'themisdb-architecture-diagrams'); ?>
+                        </option>
                         <option value="neutral" <?php selected(get_option('themisdb_ad_theme'), 'neutral'); ?>>
                             <?php _e('Neutral', 'themisdb-architecture-diagrams'); ?>
                         </option>
@@ -69,8 +72,40 @@ if (!defined('ABSPATH')) {
                         </option>
                     </select>
                     <p class="description">
-                        <?php _e('Color theme for diagram rendering.', 'themisdb-architecture-diagrams'); ?>
+                        <?php _e('Color theme for diagram rendering. Themis uses official brand colors.', 'themisdb-architecture-diagrams'); ?>
                     </p>
+                </td>
+            </tr>
+            
+            <tr>
+                <th scope="row">
+                    <label for="themisdb_ad_enable_dark_mode"><?php _e('Enable Dark Mode', 'themisdb-architecture-diagrams'); ?></label>
+                </th>
+                <td>
+                    <input type="checkbox" 
+                           name="themisdb_ad_enable_dark_mode" 
+                           id="themisdb_ad_enable_dark_mode" 
+                           value="1" 
+                           <?php checked(get_option('themisdb_ad_enable_dark_mode', 1), 1); ?> />
+                    <label for="themisdb_ad_enable_dark_mode">
+                        <?php _e('Enable automatic dark mode detection (system preference, theme, plugins)', 'themisdb-architecture-diagrams'); ?>
+                    </label>
+                </td>
+            </tr>
+            
+            <tr>
+                <th scope="row">
+                    <label for="themisdb_ad_enable_lazy_loading"><?php _e('Enable Lazy Loading', 'themisdb-architecture-diagrams'); ?></label>
+                </th>
+                <td>
+                    <input type="checkbox" 
+                           name="themisdb_ad_enable_lazy_loading" 
+                           id="themisdb_ad_enable_lazy_loading" 
+                           value="1" 
+                           <?php checked(get_option('themisdb_ad_enable_lazy_loading', 1), 1); ?> />
+                    <label for="themisdb_ad_enable_lazy_loading">
+                        <?php _e('Load diagrams only when they become visible (improves performance)', 'themisdb-architecture-diagrams'); ?>
+                    </label>
                 </td>
             </tr>
 
