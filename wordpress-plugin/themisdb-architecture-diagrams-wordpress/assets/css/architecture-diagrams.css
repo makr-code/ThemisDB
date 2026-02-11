@@ -1,16 +1,29 @@
 /* ThemisDB Architecture Diagrams Styles */
 /* Based on TCO Calculator and Feature Matrix design pattern */
 
+/* Themis Brand Colors */
 :root {
-    --themisdb-primary: #2ea44f;
-    --themisdb-secondary: #3498db;
-    --themisdb-success: #27ae60;
-    --themisdb-warning: #f39c12;
-    --themisdb-danger: #e74c3c;
-    --themisdb-light-bg: #f6f8fa;
+    --themis-primary: #2c3e50;
+    --themis-secondary: #3498db;
+    --themis-accent: #7c4dff;
+    --themis-success: #27ae60;
+    --themis-warning: #f39c12;
+    --themis-error: #e74c3c;
+    --themis-dark: #1a252f;
+    --themis-light: #ecf0f1;
+    --themis-text-primary: #2c3e50;
+    --themis-text-secondary: #7f8c8d;
+    
+    /* Legacy aliases for compatibility */
+    --themisdb-primary: var(--themis-secondary);
+    --themisdb-secondary: var(--themis-accent);
+    --themisdb-success: var(--themis-success);
+    --themisdb-warning: var(--themis-warning);
+    --themisdb-danger: var(--themis-error);
+    --themisdb-light-bg: var(--themis-light);
     --themisdb-white: #ffffff;
-    --themisdb-text-primary: #24292f;
-    --themisdb-text-secondary: #57606a;
+    --themisdb-text-primary: var(--themis-text-primary);
+    --themisdb-text-secondary: var(--themis-text-secondary);
     --themisdb-border: #d0d7de;
     --themisdb-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     --themisdb-shadow-hover: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
@@ -104,6 +117,36 @@
 .themisdb-diagram-actions {
     display: flex;
     gap: 8px;
+}
+
+/* Themis-styled diagram controls */
+.themisdb-arch-controls {
+    background: var(--themis-primary);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.themisdb-arch-controls button {
+    background: var(--themis-secondary);
+    color: white;
+    border: 2px solid var(--themis-accent);
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.themisdb-arch-controls button:hover {
+    background: var(--themis-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(124, 77, 255, 0.3);
+}
+
+.themisdb-arch-controls button:active {
+    transform: translateY(0);
 }
 
 .themisdb-btn-secondary {
@@ -314,10 +357,46 @@
     .themisdb-diagram-actions {
         justify-content: center;
     }
+    
+    /* Mobile Responsive Controls - Floating Action Buttons */
+    .themisdb-arch-controls {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 1000;
+        background: var(--themis-primary);
+        padding: 10px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .themisdb-arch-controls button {
+        width: 48px;
+        height: 48px;  /* Larger touch targets */
+        font-size: 20px;
+        min-height: 44px;  /* iOS accessibility minimum */
+    }
 
     .themisdb-diagram-container {
         min-height: 400px;
         padding: 12px;
+    }
+    
+    .themisdb-diagram-container .mermaid {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .themisdb-arch-controls button,
+    .themisdb-btn-secondary {
+        padding: 10px 18px;
+        min-width: 44px;
+        min-height: 44px;
     }
 }
 
@@ -373,4 +452,38 @@
 
 .themisdb-diagram-container .node:hover {
     opacity: 0.8;
+}
+
+/* Screen Reader Only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Keyboard Focus Indicators */
+.themisdb-arch-controls button:focus,
+.themisdb-btn-secondary:focus,
+.mermaid:focus {
+    outline: 3px solid var(--themis-accent);
+    outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .themisdb-architecture-wrapper,
+    .themisdb-section {
+        border-width: 3px;
+    }
+    
+    .themisdb-arch-controls button,
+    .themisdb-btn-secondary {
+        border-width: 3px;
+    }
 }

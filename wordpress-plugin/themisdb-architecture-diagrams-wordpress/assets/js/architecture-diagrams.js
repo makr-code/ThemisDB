@@ -33,8 +33,8 @@
                 // Set up event listeners
                 this.setupEventListeners();
 
-                // Load initial diagram
-                this.loadDiagram(this.currentView);
+                // Initialize lazy loading or load diagram immediately
+                this.initLazyLoading();
             }).catch((error) => {
                 console.error('Mermaid library failed to load:', error);
                 this.showError('Failed to load Mermaid library from CDN. This may be due to:<br>' +
@@ -75,25 +75,94 @@
          */
         initMermaid: function() {
             if (typeof mermaid !== 'undefined') {
+                // Detect color scheme for theming
+                const colorScheme = this.detectColorScheme();
+                const themeVars = this.getThemeVariables(colorScheme);
+                
                 mermaid.initialize({
                     startOnLoad: false,
-                    theme: this.settings.theme || 'neutral',
-                    securityLevel: 'strict',
+                    theme: 'base',
+                    themeVariables: themeVars,
                     flowchart: {
-                        useMaxWidth: true,
                         htmlLabels: true,
-                        curve: 'basis'
+                        curve: 'basis',
+                        nodeSpacing: 50,
+                        rankSpacing: 50
                     },
-                    themeVariables: {
-                        primaryColor: '#2ea44f',
-                        primaryTextColor: '#fff',
-                        primaryBorderColor: '#2c974b',
-                        lineColor: '#57606a',
-                        secondaryColor: '#f6f8fa',
-                        tertiaryColor: '#3498db'
-                    }
+                    securityLevel: 'loose'
                 });
             }
+        },
+        
+        /**
+         * Detect color scheme
+         */
+        detectColorScheme: function() {
+            // Check if dark mode is set via localized script
+            if (typeof themisdbAD !== 'undefined' && themisdbAD.colorScheme) {
+                return themisdbAD.colorScheme;
+            }
+            
+            // Check system preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+            
+            // Check body class
+            if (document.body.classList.contains('dark-mode') || 
+                document.documentElement.getAttribute('data-theme') === 'dark') {
+                return 'dark';
+            }
+            
+            return 'light';
+        },
+        
+        /**
+         * Get theme variables based on color scheme
+         */
+        getThemeVariables: function(colorScheme) {
+            if (colorScheme === 'dark') {
+                return {
+                    primaryColor: '#3498db',
+                    primaryTextColor: '#ffffff',
+                    primaryBorderColor: '#7c4dff',
+                    secondaryColor: '#7c4dff',
+                    tertiaryColor: '#27ae60',
+                    lineColor: '#7c4dff',
+                    textColor: '#ecf0f1',
+                    mainBkg: '#1a252f',
+                    secondBkg: '#2c3e50',
+                    nodeBorder: '#3498db',
+                    clusterBkg: '#2c3e50',
+                    clusterBorder: '#3498db',
+                    defaultLinkColor: '#7c4dff',
+                    titleColor: '#ecf0f1',
+                    edgeLabelBackground: '#1a252f',
+                    errorBkgColor: '#e74c3c',
+                    errorTextColor: '#ffffff'
+                };
+            }
+            
+            // Light mode - Themis Brand Colors
+            return {
+                primaryColor: '#2c3e50',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#3498db',
+                secondaryColor: '#7c4dff',
+                tertiaryColor: '#27ae60',
+                lineColor: '#3498db',
+                textColor: '#2c3e50',
+                mainBkg: '#ffffff',
+                secondBkg: '#ecf0f1',
+                nodeBorder: '#3498db',
+                clusterBkg: '#ecf0f1',
+                clusterBorder: '#2c3e50',
+                defaultLinkColor: '#3498db',
+                titleColor: '#2c3e50',
+                edgeLabelBackground: '#ffffff',
+                errorBkgColor: '#e74c3c',
+                errorTextColor: '#ffffff'
+            };
         },
 
         /**
@@ -144,6 +213,12 @@
             $('#ad-print').on('click', function(e) {
                 e.preventDefault();
                 window.print();
+            });
+            
+            // Export Mermaid code button
+            $('#ad-export-code').on('click', function(e) {
+                e.preventDefault();
+                self.exportMermaidCode();
             });
 
             // Node click events (for interactivity)
@@ -210,6 +285,8 @@
                     if (this.settings.interactive) {
                         this.setupNodeInteractivity();
                     }
+                    // Initialize touch gestures after render
+                    this.initTouchGestures();
                 }).catch((error) => {
                     console.error('Mermaid rendering error:', error);
                     this.showError('Failed to render diagram: ' + error.message);
@@ -395,6 +472,115 @@
         showError: function(message) {
             const $container = $('#ad-mermaid-diagram');
             $container.html('<div class="themisdb-error"><p><strong>⚠️ Error:</strong> ' + message + '</p></div>');
+        },
+        
+        /**
+         * Initialize lazy loading for diagrams
+         */
+        initLazyLoading: function() {
+            // Check if lazy loading is enabled
+            if (typeof themisdbAD === 'undefined' || !themisdbAD.settings.enableLazyLoading) {
+                // Load initial diagram immediately
+                this.loadDiagram(this.currentView);
+                return;
+            }
+            
+            // Use IntersectionObserver for lazy loading
+            const self = this;
+            const diagramContainer = document.getElementById('ad-diagram-container');
+            
+            if (!diagramContainer || !('IntersectionObserver' in window)) {
+                // Fallback: load immediately if IntersectionObserver not supported
+                this.loadDiagram(this.currentView);
+                return;
+            }
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '50px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting && !diagramContainer.dataset.loaded) {
+                        diagramContainer.dataset.loaded = 'true';
+                        self.loadDiagram(self.currentView);
+                        observer.unobserve(diagramContainer);
+                    }
+                });
+            }, observerOptions);
+            
+            observer.observe(diagramContainer);
+        },
+        
+        /**
+         * Render single diagram (for re-rendering)
+         */
+        renderSingleDiagram: function(node) {
+            // Remove data-processed attribute if exists (for re-rendering)
+            node.removeAttribute('data-processed');
+            
+            // Render with Mermaid
+            if (typeof mermaid !== 'undefined') {
+                mermaid.run({ nodes: [node] }).catch(function(err) {
+                    console.error('Mermaid rendering error:', err);
+                    node.innerHTML = '<div class="mermaid-error">Failed to render diagram</div>';
+                });
+            }
+        },
+        
+        /**
+         * Export Mermaid source code
+         */
+        exportMermaidCode: function() {
+            const mermaidDiv = document.querySelector('#ad-mermaid-diagram');
+            if (!mermaidDiv) return;
+            
+            const code = mermaidDiv.textContent;
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'themisdb-diagram-' + this.currentView + '-' + Date.now() + '.mmd';
+            a.click();
+            URL.revokeObjectURL(url);
+        },
+        
+        /**
+         * Initialize touch gestures for mobile
+         */
+        initTouchGestures: function() {
+            // Only on mobile and if enabled
+            if (!window.matchMedia('(max-width: 768px)').matches) {
+                return;
+            }
+            
+            const diagrams = document.querySelectorAll('.mermaid svg');
+            diagrams.forEach(function(svg) {
+                let currentScale = 1;
+                let lastTap = 0;
+                
+                // Double-tap to zoom
+                svg.addEventListener('touchend', function(e) {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    
+                    if (tapLength < 300 && tapLength > 0) {
+                        // Double tap detected
+                        e.preventDefault();
+                        if (currentScale === 1) {
+                            currentScale = 2;
+                        } else {
+                            currentScale = 1;
+                        }
+                        svg.style.transform = 'scale(' + currentScale + ')';
+                        svg.style.transition = 'transform 0.3s ease';
+                    }
+                    lastTap = currentTime;
+                });
+            });
         }
     };
 

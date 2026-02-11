@@ -1,5 +1,61 @@
 # ThemisDB Architecture Diagrams - WordPress Plugin
 
+## 🎉 Update v1.1.0 - Themis Branding & Enhancements
+
+**Major Update**: Comprehensive improvements for branding, accessibility, and performance!
+
+### ✨ New Features
+
+#### 🎨 Themis Brand Colors Integration
+- Replaced standard Mermaid colors with official Themis brand colors
+- Consistent styling across all diagram components
+- Updated CSS variables for easy theming
+
+#### 🌙 Dark Mode Support
+- Automatic dark mode detection (system preference, WordPress theme, plugins)
+- Separate dark mode stylesheet with optimized colors
+- Smooth transitions between light and dark modes
+- Cookie-based user preference support
+
+#### ⚡ Performance Optimization
+- Conditional script loading (Mermaid.js only loads when shortcode present)
+- Lazy loading with IntersectionObserver API
+- Upgraded to Mermaid.js ESM v10.6.1 for smaller bundle size
+- Module preloading for faster initial load
+
+#### ♿ WCAG 2.1 AA Accessibility
+- Complete ARIA labels and roles for all interactive elements
+- Screen reader support with descriptive text
+- Keyboard navigation with visible focus indicators
+- High contrast mode support
+- Semantic HTML with proper figure/figcaption structure
+
+#### 📱 Mobile Touch Optimization
+- Responsive floating action buttons on mobile
+- Touch targets sized to 44px minimum (iOS standard)
+- Double-tap to zoom gestures
+- Optimized layout for tablets and phones
+
+#### 📥 Enhanced Export Features
+- Export as SVG (existing)
+- Export as PNG with canvas rendering
+- Export Mermaid source code (.mmd files)
+- Improved export naming with timestamps
+
+#### ⚙️ Admin Panel Improvements
+- New setting: Enable/disable dark mode
+- New setting: Enable/disable lazy loading
+- Default theme changed to "themis"
+
+### 🔧 Technical Changes
+- Updated plugin version to 1.1.0
+- Added `themisdb_arch_get_color_scheme()` function
+- New CSS file: `architecture-diagrams-dark.css`
+- Enhanced JavaScript with modular color scheme detection
+- Improved template accessibility
+
+---
+
 ## 🔧 Update v1.0.1 - Bug Fix
 
 **Issue Fixed**: Graph code was not being converted by Mermaid into graphics.

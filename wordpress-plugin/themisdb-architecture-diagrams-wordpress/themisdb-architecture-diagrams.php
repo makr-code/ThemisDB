@@ -3,7 +3,7 @@
  * Plugin Name: ThemisDB Architecture Diagrams
  * Plugin URI: https://github.com/makr-code/ThemisDB
  * Description: Interactive architecture diagrams for ThemisDB. Visualize multi-model architecture, storage layer, LLM integration, and sharding with Mermaid.js. Use shortcode [themisdb_architecture] to embed.
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: ThemisDB Team
  * Author URI: https://github.com/makr-code/ThemisDB
  * License: MIT
@@ -20,12 +20,50 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('THEMISDB_AD_VERSION', '1.0.2');
+define('THEMISDB_AD_VERSION', '1.1.0');
 define('THEMISDB_AD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_AD_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_AD_PLUGIN_FILE', __FILE__);
 define('THEMISDB_AD_GITHUB_REPO', 'makr-code/ThemisDB');
 define('THEMISDB_AD_GITHUB_PATH', 'tools/architecture-diagrams-wordpress');
+
+/**
+ * Detect color scheme (light/dark)
+ * 
+ * @return string 'light' or 'dark'
+ */
+function themisdb_arch_get_color_scheme() {
+    // Priority 1: User cookie preference
+    if (isset($_COOKIE['themisdb_color_scheme'])) {
+        return sanitize_text_field($_COOKIE['themisdb_color_scheme']);
+    }
+    
+    // Priority 2: WordPress theme setting
+    $theme_mod = get_theme_mod('color_scheme', 'light');
+    if ($theme_mod === 'dark') {
+        return 'dark';
+    }
+    
+    // Priority 3: Check if common dark mode plugins are active
+    if (function_exists('is_plugin_active')) {
+        if (is_plugin_active('wp-dark-mode/wp-dark-mode.php') || 
+            is_plugin_active('dark-mode/dark-mode.php')) {
+            return 'dark';
+        }
+    }
+    
+    // Priority 4: Admin setting
+    if (get_option('themisdb_ad_enable_dark_mode', 1)) {
+        // Check for dark mode preference based on time (optional fallback)
+        $current_hour = intval(date('H'));
+        if ($current_hour >= 20 || $current_hour <= 6) {
+            // Evening hours - could prefer dark mode
+            // But we'll default to light unless explicitly set
+        }
+    }
+    
+    return 'light';
+}
 
 /**
  * Main Plugin Class
@@ -58,6 +96,7 @@ class ThemisDB_Architecture_Diagrams {
         // Initialize plugin
         add_action('init', array($this, 'init'));
         add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+        add_action('wp_head', array($this, 'add_preload'), 1);
         
         // Register shortcode
         add_shortcode('themisdb_architecture', array($this, 'render_diagram'));
@@ -81,11 +120,13 @@ class ThemisDB_Architecture_Diagrams {
         // Set default options
         $defaults = array(
             'default_view' => 'high_level',
-            'theme' => 'neutral',
+            'theme' => 'themis',
             'interactive' => true,
             'enable_export' => true,
             'show_descriptions' => true,
             'default_zoom' => 100,
+            'enable_dark_mode' => 1,
+            'enable_lazy_loading' => 1,
         );
         
         foreach ($defaults as $key => $value) {
@@ -122,12 +163,15 @@ class ThemisDB_Architecture_Diagrams {
             return;
         }
         
-        // Mermaid.js from CDN - load in header to ensure it's available before plugin script
+        // Detect color scheme
+        $color_scheme = themisdb_arch_get_color_scheme();
+        
+        // Mermaid.js ESM from CDN - load in header to ensure it's available before plugin script
         wp_enqueue_script(
             'mermaid-js',
-            'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js',
+            'https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.esm.min.mjs',
             array(),
-            '10.0.0',
+            '10.6.1',
             false
         );
         
@@ -138,6 +182,16 @@ class ThemisDB_Architecture_Diagrams {
             array(),
             THEMISDB_AD_VERSION
         );
+        
+        // Dark mode styles
+        if ($color_scheme === 'dark') {
+            wp_enqueue_style(
+                'themisdb-ad-dark',
+                THEMISDB_AD_PLUGIN_URL . 'assets/css/architecture-diagrams-dark.css',
+                array('themisdb-ad-style'),
+                THEMISDB_AD_VERSION
+            );
+        }
         
         // Plugin JS
         wp_enqueue_script(
@@ -153,14 +207,27 @@ class ThemisDB_Architecture_Diagrams {
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('themisdb_ad_nonce'),
             'plugin_url' => THEMISDB_AD_PLUGIN_URL,
+            'colorScheme' => $color_scheme,
             'settings' => array(
                 'default_view' => get_option('themisdb_ad_default_view', 'high_level'),
-                'theme' => get_option('themisdb_ad_theme', 'neutral'),
+                'theme' => get_option('themisdb_ad_theme', 'themis'),
                 'interactive' => get_option('themisdb_ad_interactive', true),
                 'enable_export' => get_option('themisdb_ad_enable_export', true),
                 'show_descriptions' => get_option('themisdb_ad_show_descriptions', true),
+                'enableLazyLoading' => get_option('themisdb_ad_enable_lazy_loading', 1),
             ),
         ));
+    }
+    
+    /**
+     * Add preload for Mermaid.js
+     */
+    public function add_preload() {
+        global $post;
+        
+        if (is_a($post, 'WP_Post') && has_shortcode($post->post_content, 'themisdb_architecture')) {
+            echo '<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.esm.min.mjs">' . "\n";
+        }
     }
     
     /**
@@ -203,6 +270,19 @@ class ThemisDB_Architecture_Diagrams {
         register_setting('themisdb_ad_settings', 'themisdb_ad_enable_export');
         register_setting('themisdb_ad_settings', 'themisdb_ad_show_descriptions');
         register_setting('themisdb_ad_settings', 'themisdb_ad_default_zoom');
+        
+        // NEW: v1.1.0 Settings
+        register_setting('themisdb_ad_settings', 'themisdb_ad_enable_dark_mode', array(
+            'type' => 'boolean',
+            'default' => 1,
+            'sanitize_callback' => 'absint'
+        ));
+        
+        register_setting('themisdb_ad_settings', 'themisdb_ad_enable_lazy_loading', array(
+            'type' => 'boolean',
+            'default' => 1,
+            'sanitize_callback' => 'absint'
+        ));
     }
     
     /**

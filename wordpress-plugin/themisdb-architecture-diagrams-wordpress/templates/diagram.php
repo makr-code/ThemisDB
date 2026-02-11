@@ -6,24 +6,48 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Get diagram description based on view
+$descriptions = array(
+    'high_level' => __('System architecture diagram showing the client layer connecting to the API layer, which interfaces with the query engine and LLM engine. The query engine connects to the storage layer.', 'themisdb-architecture-diagrams'),
+    'storage_layer' => __('Storage layer architecture showing RocksDB-based multi-model storage with indexes for graph, vector, relational and document data.', 'themisdb-architecture-diagrams'),
+    'llm_integration' => __('LLM integration architecture showing llama.cpp integration, model management, and vector embeddings.', 'themisdb-architecture-diagrams'),
+    'sharding_raid' => __('Distributed system architecture showing data sharding, RAID configuration, and replication across nodes.', 'themisdb-architecture-diagrams'),
+    'hardware_architecture' => __('Hardware architecture mapping software components to CPU, GPU, RAM, storage, and network resources.', 'themisdb-architecture-diagrams'),
+    'database_comparison' => __('Comparison of ThemisDB with other popular databases showing unique advantages.', 'themisdb-architecture-diagrams'),
+    'llm_comparison' => __('Comparison of embedded LLM approach versus cloud-based LLM services.', 'themisdb-architecture-diagrams'),
+    'performance_comparison' => __('Performance scales dramatically with hardware investment showing ROI at each tier.', 'themisdb-architecture-diagrams'),
+    'tco_comparison' => __('Total Cost of Ownership analysis over 1, 3, and 5 years comparing different deployment options.', 'themisdb-architecture-diagrams'),
+    'feature_matrix' => __('Comprehensive feature comparison across all major database systems.', 'themisdb-architecture-diagrams'),
+    'deployment_options' => __('Flexible deployment models including on-premise, cloud, hybrid and SaaS options.', 'themisdb-architecture-diagrams'),
+    'use_case_recommendations' => __('Recommended database choices for different application scenarios.', 'themisdb-architecture-diagrams'),
+    'migration_paths' => __('Clear migration paths from legacy databases to ThemisDB.', 'themisdb-architecture-diagrams'),
+);
+
+$view_title = ucwords(str_replace('_', ' ', $atts['view']));
+$diagram_id = 'diagram-' . uniqid();
 ?>
 
 <div class="themisdb-architecture-wrapper">
-    <div class="themisdb-section themisdb-architecture-header">
-        <h2><?php _e('ThemisDB Architecture', 'themisdb-architecture-diagrams'); ?></h2>
+    <figure class="themisdb-section themisdb-architecture-header" 
+            role="img" 
+            aria-labelledby="<?php echo esc_attr($diagram_id); ?>-header-title">
+        <h2 id="<?php echo esc_attr($diagram_id); ?>-header-title">
+            <?php _e('ThemisDB Architecture', 'themisdb-architecture-diagrams'); ?>
+        </h2>
         <p class="themisdb-description">
             <?php _e('Interactive visualization of ThemisDB system architecture. Explore different layers and components.', 'themisdb-architecture-diagrams'); ?>
         </p>
-    </div>
+    </figure>
 
     <?php if ($atts['show_controls'] === 'true' || $atts['show_controls'] === true): ?>
     <!-- View Controls -->
-    <div class="themisdb-section themisdb-controls">
+    <div class="themisdb-section themisdb-controls" role="toolbar" aria-label="<?php _e('Diagram Controls', 'themisdb-architecture-diagrams'); ?>">
         <div class="themisdb-view-selector">
             <label for="ad-view-select">
                 <strong><?php _e('Architecture View:', 'themisdb-architecture-diagrams'); ?></strong>
             </label>
-            <select id="ad-view-select" class="themisdb-select">
+            <select id="ad-view-select" class="themisdb-select" aria-label="<?php _e('Select Architecture View', 'themisdb-architecture-diagrams'); ?>">
                 <optgroup label="<?php _e('ThemisDB Architecture', 'themisdb-architecture-diagrams'); ?>">
                     <option value="high_level" <?php selected($atts['view'], 'high_level'); ?>>
                         <?php _e('High-Level Architecture', 'themisdb-architecture-diagrams'); ?>
@@ -71,35 +95,56 @@ if (!defined('ABSPATH')) {
         </div>
 
         <div class="themisdb-diagram-actions">
-            <button id="ad-zoom-in" class="themisdb-btn-secondary" title="<?php _e('Zoom In', 'themisdb-architecture-diagrams'); ?>">
-                <span class="dashicons dashicons-plus"></span>
+            <button type="button" id="ad-zoom-in" class="themisdb-btn-secondary" 
+                    aria-label="<?php _e('Zoom In', 'themisdb-architecture-diagrams'); ?>"
+                    title="<?php _e('Zoom In', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-plus" aria-hidden="true"></span>
             </button>
-            <button id="ad-zoom-out" class="themisdb-btn-secondary" title="<?php _e('Zoom Out', 'themisdb-architecture-diagrams'); ?>">
-                <span class="dashicons dashicons-minus"></span>
+            <button type="button" id="ad-zoom-out" class="themisdb-btn-secondary" 
+                    aria-label="<?php _e('Zoom Out', 'themisdb-architecture-diagrams'); ?>"
+                    title="<?php _e('Zoom Out', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-minus" aria-hidden="true"></span>
             </button>
-            <button id="ad-zoom-reset" class="themisdb-btn-secondary" title="<?php _e('Reset Zoom', 'themisdb-architecture-diagrams'); ?>">
-                <span class="dashicons dashicons-image-rotate"></span>
+            <button type="button" id="ad-zoom-reset" class="themisdb-btn-secondary" 
+                    aria-label="<?php _e('Reset Zoom', 'themisdb-architecture-diagrams'); ?>"
+                    title="<?php _e('Reset Zoom', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-image-rotate" aria-hidden="true"></span>
             </button>
-            <button id="ad-fullscreen" class="themisdb-btn-secondary" title="<?php _e('Fullscreen', 'themisdb-architecture-diagrams'); ?>">
-                <span class="dashicons dashicons-fullscreen-alt"></span>
+            <button type="button" id="ad-fullscreen" class="themisdb-btn-secondary" 
+                    aria-label="<?php _e('Toggle Fullscreen', 'themisdb-architecture-diagrams'); ?>"
+                    title="<?php _e('Fullscreen', 'themisdb-architecture-diagrams'); ?>">
+                <span class="dashicons dashicons-fullscreen-alt" aria-hidden="true"></span>
             </button>
         </div>
     </div>
     <?php endif; ?>
 
     <!-- Diagram Section -->
-    <div class="themisdb-section themisdb-diagram-section">
-        <div id="ad-loading" class="themisdb-loading" style="display: none;">
+    <figure class="themisdb-section themisdb-diagram-section"
+            role="img"
+            aria-labelledby="<?php echo esc_attr($diagram_id); ?>-title"
+            aria-describedby="<?php echo esc_attr($diagram_id); ?>-desc">
+        
+        <!-- Screen reader title -->
+        <figcaption id="<?php echo esc_attr($diagram_id); ?>-title" class="sr-only">
+            <?php echo esc_html(sprintf(__('ThemisDB %s Architecture Diagram', 'themisdb-architecture-diagrams'), $view_title)); ?>
+        </figcaption>
+        
+        <!-- Screen reader description -->
+        <div id="<?php echo esc_attr($diagram_id); ?>-desc" class="sr-only">
+            <?php echo isset($descriptions[$atts['view']]) ? esc_html($descriptions[$atts['view']]) : ''; ?>
+        </div>
+        <div id="ad-loading" class="themisdb-loading" style="display: none;" role="status" aria-live="polite">
             <div class="themisdb-spinner"></div>
             <p><?php _e('Loading architecture diagram...', 'themisdb-architecture-diagrams'); ?></p>
         </div>
         
         <div class="themisdb-diagram-container" id="ad-diagram-container">
-            <div class="mermaid" id="ad-mermaid-diagram">
+            <div class="mermaid" id="ad-mermaid-diagram" role="presentation" tabindex="0">
                 <!-- Diagram will be rendered here -->
             </div>
         </div>
-    </div>
+    </figure>
 
     <!-- Component Details Panel -->
     <div class="themisdb-section themisdb-details-panel" id="ad-details-panel" style="display: none;">
@@ -144,17 +189,25 @@ if (!defined('ABSPATH')) {
     </div>
 
     <!-- Export Section -->
-    <div class="themisdb-section themisdb-export">
-        <button id="ad-export-svg" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-download"></span>
+    <div class="themisdb-section themisdb-export" role="group" aria-label="<?php _e('Export Options', 'themisdb-architecture-diagrams'); ?>">
+        <button type="button" id="ad-export-svg" class="themisdb-btn-secondary"
+                aria-label="<?php _e('Export as SVG', 'themisdb-architecture-diagrams'); ?>">
+            <span class="dashicons dashicons-download" aria-hidden="true"></span>
             <?php _e('Export SVG', 'themisdb-architecture-diagrams'); ?>
         </button>
-        <button id="ad-export-png" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-format-image"></span>
+        <button type="button" id="ad-export-png" class="themisdb-btn-secondary"
+                aria-label="<?php _e('Export as PNG', 'themisdb-architecture-diagrams'); ?>">
+            <span class="dashicons dashicons-format-image" aria-hidden="true"></span>
             <?php _e('Export PNG', 'themisdb-architecture-diagrams'); ?>
         </button>
-        <button id="ad-print" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-printer"></span>
+        <button type="button" id="ad-export-code" class="themisdb-btn-secondary"
+                aria-label="<?php _e('Export Mermaid Code', 'themisdb-architecture-diagrams'); ?>">
+            <span class="dashicons dashicons-media-code" aria-hidden="true"></span>
+            <?php _e('Export Code', 'themisdb-architecture-diagrams'); ?>
+        </button>
+        <button type="button" id="ad-print" class="themisdb-btn-secondary"
+                aria-label="<?php _e('Print Diagram', 'themisdb-architecture-diagrams'); ?>">
+            <span class="dashicons dashicons-printer" aria-hidden="true"></span>
             <?php _e('Print', 'themisdb-architecture-diagrams'); ?>
         </button>
     </div>
