@@ -1,61 +1,41 @@
-# ThemisDB Feature Matrix - WordPress Plugin
+# ThemisDB Feature Matrix - WordPress Plugin v1.0.0
 
-A WordPress plugin for interactive feature comparison between ThemisDB and competing databases. Visualize features, capabilities, and differences with dynamic tables and Mermaid.js diagrams.
+Interactive feature comparison matrix for ThemisDB vs. competing databases (PostgreSQL, MongoDB, Neo4j).
 
 ## 📋 Overview
 
-This plugin follows the **TCO Calculator** and **Benchmark Visualizer** template pattern, providing comprehensive feature comparison capabilities with Mermaid.js diagram integration.
+A WordPress plugin that provides a comprehensive, interactive feature comparison between ThemisDB and three major competing databases. Designed for marketing websites, documentation, and product pages to clearly demonstrate ThemisDB's unique capabilities.
 
-- **Shortcode-based Integration**: `[themisdb_feature_matrix]`
-- **Admin Settings Page**: Customize default values
-- **Mermaid.js Diagrams**: Visual feature hierarchy
-- **WordPress-optimized**: Uses WordPress best practices
+### Key Features
 
-## ✨ Features
-
-### Comprehensive Feature Comparison
-- 📊 **Interactive Matrix**: Dynamic feature comparison table
-- 🎨 **Visual Diagrams**: Mermaid.js feature hierarchy visualization
-- 🔍 **Category Filters**: Architecture, AI/ML, Scalability, Security, Reliability, Usability
-- 📋 **Multiple Views**: Detailed or compact table views
-- 🏷️ **Status Indicators**: Clear visual indicators for feature availability
-- 💡 **Tooltips**: Hover descriptions for feature status
-
-### WordPress Integration
-- 📝 **Shortcode**: Easy embedding via `[themisdb_feature_matrix]`
-- ⚙️ **Admin Panel**: Settings page under Settings → Feature Matrix
-- 🔗 **Plugin Action Links**: Direct settings access
-- �� **Theme-compatible**: Works with any WordPress theme
-- 📱 **Responsive**: Optimized for all screen sizes
-
-### Visual Features
-- 🎭 **Mermaid.js Integration**: Mind maps and diagrams
-- 🎨 **Status Badges**: Color-coded feature availability
-- 📊 **Clean Design**: Based on TCO Calculator styling
-- 🌓 **Theme Support**: Light theme with consistent branding
-
-### Export & Sharing
-- 📥 **Export Functions**: CSV export
-- 🖨️ **Print Support**: Optimized print layout
+- **Interactive Comparison Table** - Compare ThemisDB, PostgreSQL, MongoDB, and Neo4j side-by-side
+- **Category Filtering** - Filter by Data Models, AI/ML, Performance, Compatibility, and Licensing
+- **Column Sorting** - Sort by support level for any database
+- **Hover Tooltips** - Detailed explanations for each feature
+- **CSV Export** - Download comparison data with date-stamped filenames
+- **Mobile Card View** - Automatic responsive layout for screens < 768px
+- **Dark Mode** - Auto-detection via `prefers-color-scheme`
+- **WCAG 2.1 AA Compliant** - Full accessibility support
+- **Themis Branding** - Consistent color scheme and highlighting
 
 ## 🚀 Installation
 
-### Manual Installation
+### Method 1: Manual Installation
 
-1. **Download the Plugin**
-   ```bash
-   cd /path/to/wordpress/wp-content/plugins/
-   cp -r /path/to/ThemisDB/tools/feature-matrix-wordpress ./themisdb-feature-matrix
-   ```
+1. Download the plugin folder
+2. Upload to `/wp-content/plugins/themisdb-feature-matrix-wordpress/`
+3. Activate the plugin through WordPress Admin → Plugins
+4. Configure settings at Settings → Feature Matrix
 
-2. **Activate the Plugin**
-   - Go to WordPress Admin → Plugins
-   - Find "ThemisDB Feature Matrix"
-   - Click "Activate"
+### Method 2: From Repository
 
-3. **Configure Settings**
-   - Go to Settings → Feature Matrix
-   - Configure your preferences
+```bash
+cd /path/to/wordpress/wp-content/plugins/
+git clone https://github.com/makr-code/ThemisDB.git
+cp -r ThemisDB/wordpress-plugin/themisdb-feature-matrix-wordpress ./
+```
+
+Then activate via WordPress admin panel.
 
 ## 📖 Usage
 
@@ -65,131 +45,249 @@ This plugin follows the **TCO Calculator** and **Benchmark Visualizer** template
 [themisdb_feature_matrix]
 ```
 
-### Shortcode with Parameters
+### Shortcode Parameters
 
-#### Filter by Category
+| Parameter | Values | Default | Description |
+|-----------|--------|---------|-------------|
+| `category` | `all`, `data_models`, `ai_ml`, `performance`, `compatibility`, `pricing` | `all` | Filter features by category |
+| `style` | `modern`, `minimal` | `modern` | Visual style |
+| `show_legend` | `yes`, `no` | `yes` | Display status legend |
+| `filterable` | `yes`, `no` | `yes` | Enable category filtering |
+| `sticky_header` | `yes`, `no` | `yes` | Sticky table header on scroll |
+| `highlight_themis` | `yes`, `no` | `yes` | Highlight ThemisDB column |
+
+### Examples
+
+**Show only AI/ML features:**
 ```php
 [themisdb_feature_matrix category="ai_ml"]
-[themisdb_feature_matrix category="architecture"]
-[themisdb_feature_matrix category="security"]
 ```
 
-#### Choose View Type
+**Minimal style without filtering:**
 ```php
-[themisdb_feature_matrix view="detailed"]
-[themisdb_feature_matrix view="compact"]
+[themisdb_feature_matrix style="minimal" filterable="no"]
 ```
 
-#### Control Diagram Display
-```php
-[themisdb_feature_matrix show_diagram="true"]
-[themisdb_feature_matrix show_diagram="false"]
-```
-
-#### Compare Specific Databases
-```php
-[themisdb_feature_matrix compare="postgresql,mongodb"]
-```
-
-#### Combined Parameters
+**Performance comparison with all options:**
 ```php
 [themisdb_feature_matrix 
-    category="ai_ml" 
-    view="compact" 
-    show_diagram="true"]
+    category="performance" 
+    style="modern" 
+    show_legend="yes" 
+    sticky_header="yes"]
 ```
 
-## 🛠️ Technical Details
+## 🎨 Feature Categories
 
-### File Structure
+### Data Models
+- Relational (SQL)
+- Graph Database
+- Document (NoSQL)
+- Vector/Embeddings ⭐ *Highlighted*
+- Time-Series
+- Key-Value Store
 
-```
-themisdb-feature-matrix/
-├── themisdb-feature-matrix.php      # Main plugin file
-├── assets/
-│   ├── css/
-│   │   └── feature-matrix.css       # Styling
-│   └── js/
-│       └── feature-matrix.js        # JavaScript with Mermaid.js
-├── templates/
-│   ├── matrix.php                   # Main template
-│   └── admin-settings.php           # Admin settings
-├── data/
-│   └── (feature data files)         # Feature definitions
-├── README.md
-└── LICENSE
-```
+### AI/ML Features
+- Embedded LLM ⭐ *Highlighted*
+- Vector Similarity Search
+- RAG (Retrieval-Augmented Generation) ⭐ *Highlighted*
+- GPU Acceleration ⭐ *Highlighted*
 
-### Technologies
+### Performance & Scaling
+- Horizontal Scaling
+- Auto-Sharding
+- Replication
+- Built-in Caching
 
-- **PHP**: WordPress plugin development (7.4+)
-- **JavaScript**: ES5+ with jQuery
-- **Mermaid.js**: Version 10 for diagrams
-- **CSS3**: Modern, responsive styling
-- **WordPress API**: Settings API, Shortcode API, AJAX
+### Protocol Compatibility
+- SQL Protocol
+- MongoDB Protocol
+- Cypher (Graph)
+- REST API
+- GraphQL API
 
-### Feature Status Types
+### Licensing & Cost
+- License Type
+- Free for Commercial Use
 
-- ✅ **Available**: Fully supported natively
-- ⚠️ **Partial**: Available with limitations or via extensions
-- 🔧 **Limited**: Basic support or external integration required
-- ❌ **Not Available**: Feature not supported
+## ⚙️ Admin Settings
 
-## 🎨 Mermaid.js Integration
+Access settings at **Settings → Feature Matrix** in WordPress admin.
 
-The plugin uses Mermaid.js to create interactive diagrams:
+### Configuration Options
 
-### Mind Map Example
-```mermaid
-mindmap
-  root((ThemisDB Features))
-    Multi-Model
-      Document Store
-      Graph Database
-      Vector Search
-    AI/ML
-      Native LLM
-      Embeddings
-    Enterprise
-      ACID
-      Sharding
+- **Default Category** - Category shown on initial load
+- **Default Style** - Visual appearance (Modern/Minimal)
+- **Enable Features**
+  - Show Legend
+  - Enable Filtering
+  - Enable Sorting
+  - Sticky Header
+  - Highlight ThemisDB
+- **Export Settings**
+  - Enable CSV Export
+  - Export Filename Prefix
+
+## ♿ Accessibility (WCAG 2.1 AA)
+
+The plugin is fully accessible with:
+
+- **Semantic HTML** - Proper `<table>`, `<th>`, `<caption>` elements
+- **ARIA Labels** - `role` and `aria-label` attributes
+- **Keyboard Navigation** - Tab, Enter, Space key support
+- **Focus Indicators** - 3px accent-colored outlines
+- **Screen Reader Support** - `sr-only` class for hidden text
+- **Color Contrast** - Minimum 4.5:1 ratio for all text
+- **Alternative Text** - `aria-label` for status icons
+
+## 📱 Responsive Design
+
+### Desktop (≥ 768px)
+- Full comparison table
+- Column sorting
+- Sticky header
+- Hover tooltips
+
+### Mobile (< 768px)
+- Card-based layout
+- One feature per card
+- All database comparisons visible
+- Touch-friendly buttons
+
+## 🎨 Themis Brand Colors
+
+```css
+--themis-primary: #2c3e50;    /* Dark blue-gray */
+--themis-secondary: #3498db;  /* Blue */
+--themis-accent: #7c4dff;     /* Purple */
+--themis-success: #27ae60;    /* Green (Full Support) */
+--themis-warning: #f39c12;    /* Orange (Limited Support) */
+--themis-error: #e74c3c;      /* Red (No Support) */
 ```
 
 ## 🔒 Security
 
-- **Nonce Verification**: All AJAX requests verified
-- **Capability Checks**: Admin functions require proper permissions
-- **Input Sanitization**: All inputs sanitized
-- **Output Escaping**: All outputs properly escaped
+- **Nonce Verification** - All form submissions
+- **Capability Checks** - `manage_options` for admin
+- **Input Sanitization** - `sanitize_text_field()` on all inputs
+- **Output Escaping** - `esc_html()`, `esc_attr()` on outputs
+- **XSS Prevention** - HTML escaping in JavaScript
+
+## 📊 Feature Status Indicators
+
+| Icon | Status | Meaning |
+|------|--------|---------|
+| ✓ | Full Support | Fully supported natively |
+| ◐ | Limited Support | Available with limitations |
+| ✗ | No Support | Feature not supported |
+
+## 🛠️ Technical Requirements
+
+- **PHP:** 7.4 or higher
+- **WordPress:** 5.8 or higher
+- **Browser:** Chrome 120+, Firefox 120+, Safari 17+, Edge 120+
+- **JavaScript:** Enabled (for interactive features)
+
+## 📂 File Structure
+
+```
+themisdb-feature-matrix-wordpress/
+├── themisdb-feature-matrix.php      # Main plugin file
+├── README.md                         # This file
+├── CHANGELOG.md                      # Version history
+├── LICENSE                           # MIT License
+├── uninstall.php                     # Cleanup on uninstall
+├── assets/
+│   ├── css/
+│   │   ├── feature-matrix.css       # Main styles
+│   │   └── feature-matrix-dark.css  # Dark mode styles
+│   ├── js/
+│   │   └── feature-matrix.js        # Interactive functionality
+│   └── images/                       # (Reserved for logos)
+├── includes/
+│   ├── class-feature-matrix.php     # Core feature data class
+│   ├── class-shortcode.php          # Shortcode handler
+│   └── class-admin.php              # Admin settings
+└── templates/
+    ├── matrix.php                   # Main table template
+    └── admin-settings.php           # Admin page template
+```
+
+## 🧪 Testing
+
+### Functional Tests
+- ✅ Shortcode renders correctly
+- ✅ All 4 databases displayed
+- ✅ Filter buttons work
+- ✅ Column sorting functional
+- ✅ Tooltips display on hover
+- ✅ CSV export downloads file
+- ✅ Mobile view switches at 768px
+
+### Accessibility Tests
+- ✅ Screen reader compatibility
+- ✅ Keyboard navigation
+- ✅ Focus indicators visible
+- ✅ Color contrast passes WCAG AA
+
+### Browser Tests
+- ✅ Chrome 120+
+- ✅ Firefox 120+
+- ✅ Safari 17+
+- ✅ Edge 120+
 
 ## 📄 License
 
-MIT License - See LICENSE file
+MIT License - See [LICENSE](LICENSE) file for details.
 
 ## 🔗 Links
 
-- **GitHub**: [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
-- **Plugin Path**: `/tools/feature-matrix-wordpress/`
+- **GitHub Repository:** [makr-code/ThemisDB](https://github.com/makr-code/ThemisDB)
+- **Plugin Path:** `/wordpress-plugin/themisdb-feature-matrix-wordpress/`
+- **ThemisDB Documentation:** [docs/](../../docs/)
+
+## 🐛 Troubleshooting
+
+### Shortcode not rendering
+- Verify plugin is activated
+- Check for JavaScript errors in browser console
+- Ensure theme supports shortcodes
+
+### Table not displaying
+- Check browser console for JavaScript errors
+- Verify jQuery is loaded
+- Clear browser cache
+
+### CSS not loading
+- Check file permissions (644 for files, 755 for directories)
+- Clear WordPress cache
+- Check for theme CSS conflicts
+
+### Mobile view not switching
+- Test with browser responsive mode
+- Check window width is < 768px
+- Verify JavaScript is enabled
+
+## 📞 Support
+
+For issues, questions, or contributions:
+1. Check existing [GitHub Issues](https://github.com/makr-code/ThemisDB/issues)
+2. Create a new issue with detailed information
+3. Include WordPress version, PHP version, and browser details
 
 ## 🗺️ Roadmap
 
 - [ ] Gutenberg block support
-- [ ] More diagram types
-- [ ] Custom feature definitions
-- [ ] Feature comparison export
-- [ ] Multi-language support
-
-## 📊 Version History
-
-### Version 1.0.0 (Initial Release)
-- Interactive feature comparison matrix
-- Mermaid.js diagram integration
-- Category filtering
-- Multiple view modes
-- CSV export
-- WordPress admin integration
-- Responsive design
+- [ ] Additional database comparisons (MySQL, Redis)
+- [ ] Custom feature definitions via admin
+- [ ] JSON import/export
+- [ ] Multi-language support (i18n)
+- [ ] Database logo SVGs
+- [ ] Comparison permalink generation
 
 ---
 
-**Powered by [ThemisDB](https://github.com/makr-code/ThemisDB)**
+**Version:** 1.0.0  
+**Last Updated:** 2024-02-11  
+**Author:** ThemisDB Team  
+**License:** MIT
