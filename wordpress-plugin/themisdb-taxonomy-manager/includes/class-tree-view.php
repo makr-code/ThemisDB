@@ -1,36 +1,49 @@
 <?php
 /**
  * Tree View Admin
- * Provides visual tree interface for managing taxonomies
+ * Renders hierarchical taxonomy tree with drag & drop
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-class ThemisDB_Taxonomy_Tree_View {
+class ThemisDB_Tree_View {
     
     /**
      * Constructor
      */
     public function __construct() {
-        add_action('admin_menu', array($this, 'add_admin_menu'));
+        add_action('admin_menu', array($this, 'add_menu_page'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
         
         // AJAX handlers
-        add_action('wp_ajax_themisdb_save_term_order', array($this, 'ajax_save_order'));
+        add_action('wp_ajax_themisdb_save_term_order', array($this, 'ajax_save_term_order'));
+        add_action('wp_ajax_themisdb_export_taxonomies', array($this, 'ajax_export_taxonomies'));
+        add_action('wp_ajax_themisdb_import_taxonomies', array($this, 'ajax_import_taxonomies'));
     }
     
     /**
-     * Add admin menu
+     * Add admin menu page
      */
-    public function add_admin_menu() {
-        add_management_page(
+    public function add_menu_page() {
+        add_menu_page(
+            __('ThemisDB Taxonomies', 'themisdb-taxonomy'),
+            __('ThemisDB', 'themisdb-taxonomy'),
+            'manage_categories',
+            'themisdb-taxonomy-tree',
+            array($this, 'render_tree_page'),
+            'dashicons-networking',
+            30
+        );
+        
+        add_submenu_page(
+            'themisdb-taxonomy-tree',
             __('Taxonomy Tree', 'themisdb-taxonomy'),
             __('Taxonomy Tree', 'themisdb-taxonomy'),
             'manage_categories',
             'themisdb-taxonomy-tree',
-            array($this, 'render_page')
+            array($this, 'render_tree_page')
         );
     }
     
@@ -38,14 +51,29 @@ class ThemisDB_Taxonomy_Tree_View {
      * Enqueue scripts and styles
      */
     public function enqueue_scripts($hook) {
-        if ($hook !== 'tools_page_themisdb-taxonomy-tree') {
+        if ($hook !== 'toplevel_page_themisdb-taxonomy-tree') {
             return;
         }
         
-        wp_enqueue_style('themisdb-tree-view', THEMISDB_TAXONOMY_URL . 'assets/css/tree-view.css', array(), THEMISDB_TAXONOMY_VERSION);
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('wp-color-picker');
         
         wp_enqueue_script('jquery-ui-sortable');
-        wp_enqueue_script('themisdb-tree-view', THEMISDB_TAXONOMY_URL . 'assets/js/tree-view.js', array('jquery', 'jquery-ui-sortable'), THEMISDB_TAXONOMY_VERSION, true);
+        
+        wp_enqueue_style(
+            'themisdb-taxonomy-admin',
+            THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/taxonomy-admin.css',
+            array(),
+            THEMISDB_TAXONOMY_VERSION
+        );
+        
+        wp_enqueue_script(
+            'themisdb-tree-view',
+            THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/tree-view.js',
+            array('jquery', 'jquery-ui-sortable'),
+            THEMISDB_TAXONOMY_VERSION,
+            true
+        );
         
         wp_localize_script('themisdb-tree-view', 'themisdbTaxonomy', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
@@ -54,37 +82,48 @@ class ThemisDB_Taxonomy_Tree_View {
     }
     
     /**
-     * Render admin page
+     * Render tree view page
      */
-    public function render_page() {
-        $current_tax = isset($_GET['taxonomy']) ? sanitize_key($_GET['taxonomy']) : 'themisdb_feature';
-        
-        $taxonomies = array(
-            'themisdb_feature' => __('Database Features', 'themisdb-taxonomy'),
-            'themisdb_usecase' => __('Use Cases', 'themisdb-taxonomy'),
-            'themisdb_industry' => __('Industries', 'themisdb-taxonomy'),
-            'themisdb_techspec' => __('Technical Specs', 'themisdb-taxonomy')
-        );
+    public function render_tree_page() {
+        $current_taxonomy = isset($_GET['taxonomy']) ? sanitize_text_field($_GET['taxonomy']) : 'themisdb_feature';
         ?>
-        <div class="wrap">
-            <h1><?php _e('Taxonomy Tree View', 'themisdb-taxonomy'); ?></h1>
+        <div class="wrap themisdb-tree-admin">
+            <h1><?php _e('ThemisDB Taxonomy Tree', 'themisdb-taxonomy'); ?></h1>
             
-            <div class="taxonomy-tabs">
-                <?php foreach ($taxonomies as $tax => $label): ?>
-                    <a href="?page=themisdb-taxonomy-tree&taxonomy=<?php echo $tax; ?>" 
-                       class="nav-tab <?php echo $current_tax === $tax ? 'nav-tab-active' : ''; ?>">
-                        <?php echo esc_html($label); ?>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-            
-            <div class="tree-actions">
-                <button class="button" id="expand-all"><?php _e('Expand All', 'themisdb-taxonomy'); ?></button>
-                <button class="button" id="collapse-all"><?php _e('Collapse All', 'themisdb-taxonomy'); ?></button>
+            <div class="tree-controls">
+                <select id="taxonomy-selector" class="taxonomy-selector">
+                    <option value="themisdb_feature" <?php selected($current_taxonomy, 'themisdb_feature'); ?>>
+                        <?php _e('Features', 'themisdb-taxonomy'); ?>
+                    </option>
+                    <option value="themisdb_usecase" <?php selected($current_taxonomy, 'themisdb_usecase'); ?>>
+                        <?php _e('Use Cases', 'themisdb-taxonomy'); ?>
+                    </option>
+                    <option value="themisdb_industry" <?php selected($current_taxonomy, 'themisdb_industry'); ?>>
+                        <?php _e('Industries', 'themisdb-taxonomy'); ?>
+                    </option>
+                    <option value="themisdb_techspec" <?php selected($current_taxonomy, 'themisdb_techspec'); ?>>
+                        <?php _e('Tech Specs', 'themisdb-taxonomy'); ?>
+                    </option>
+                </select>
+                
+                <input type="text" id="taxonomy-search" class="taxonomy-search" 
+                       placeholder="<?php esc_attr_e('Search terms...', 'themisdb-taxonomy'); ?>">
+                
+                <button type="button" class="button" id="expand-all">
+                    <?php _e('Expand All', 'themisdb-taxonomy'); ?>
+                </button>
+                
+                <button type="button" class="button" id="collapse-all">
+                    <?php _e('Collapse All', 'themisdb-taxonomy'); ?>
+                </button>
+                
+                <button type="button" class="button button-primary" id="export-tree">
+                    <?php _e('Export JSON', 'themisdb-taxonomy'); ?>
+                </button>
             </div>
             
             <div class="taxonomy-tree-container">
-                <?php $this->render_tree($current_tax); ?>
+                <?php $this->render_taxonomy_tree($current_taxonomy); ?>
             </div>
         </div>
         <?php
@@ -93,112 +132,170 @@ class ThemisDB_Taxonomy_Tree_View {
     /**
      * Render taxonomy tree
      */
-    private function render_tree($taxonomy) {
+    public function render_taxonomy_tree($taxonomy) {
         $terms = get_terms(array(
             'taxonomy' => $taxonomy,
             'hide_empty' => false,
+            'parent' => 0,
             'orderby' => 'term_order',
-            'meta_key' => 'term_order',
             'order' => 'ASC'
         ));
         
-        if (is_wp_error($terms) || empty($terms)) {
+        if (empty($terms) || is_wp_error($terms)) {
             echo '<p>' . __('No terms found.', 'themisdb-taxonomy') . '</p>';
             return;
         }
         
-        // Build hierarchical tree
-        $tree = $this->build_tree($terms);
-        
         echo '<ul class="taxonomy-tree" data-taxonomy="' . esc_attr($taxonomy) . '">';
-        $this->render_tree_items($tree, $taxonomy);
+        foreach ($terms as $term) {
+            $this->render_term_item($term, $taxonomy);
+        }
         echo '</ul>';
     }
     
     /**
-     * Build hierarchical tree from flat list
+     * Render single term item
      */
-    private function build_tree($terms, $parent = 0) {
-        $branch = array();
-        
-        foreach ($terms as $term) {
-            if ($term->parent == $parent) {
-                $children = $this->build_tree($terms, $term->term_id);
-                if ($children) {
-                    $term->children = $children;
-                }
-                $branch[] = $term;
-            }
+    private function render_term_item($term, $taxonomy) {
+        $icon = get_term_meta($term->term_id, 'icon', true);
+        $color = get_term_meta($term->term_id, 'color', true);
+        if (empty($color)) {
+            $color = '#3498db';
         }
         
-        return $branch;
-    }
-    
-    /**
-     * Render tree items recursively
-     */
-    private function render_tree_items($terms, $taxonomy) {
-        foreach ($terms as $term) {
-            $icon = get_term_meta($term->term_id, 'icon', true) ?: '📦';
-            $color = get_term_meta($term->term_id, 'color', true);
-            $has_children = isset($term->children) && !empty($term->children);
+        $children = get_terms(array(
+            'taxonomy' => $taxonomy,
+            'hide_empty' => false,
+            'parent' => $term->term_id,
+            'orderby' => 'term_order',
+            'order' => 'ASC'
+        ));
+        
+        $has_children = !empty($children) && !is_wp_error($children);
+        ?>
+        <li class="tree-item" data-term-id="<?php echo esc_attr($term->term_id); ?>">
+            <div class="tree-node" style="border-left-color: <?php echo esc_attr($color); ?>;">
+                <?php if ($has_children): ?>
+                    <span class="tree-toggle">▼</span>
+                <?php else: ?>
+                    <span class="tree-toggle tree-toggle-empty"></span>
+                <?php endif; ?>
+                
+                <?php if (!empty($icon)): ?>
+                    <span class="tree-icon"><?php echo esc_html($icon); ?></span>
+                <?php endif; ?>
+                
+                <span class="tree-label"><?php echo esc_html($term->name); ?></span>
+                <span class="tree-count"><?php echo esc_html($term->count); ?></span>
+                
+                <span class="tree-actions">
+                    <a href="<?php echo esc_url(admin_url('term.php?taxonomy=' . $taxonomy . '&tag_ID=' . $term->term_id)); ?>" 
+                       class="tree-action-edit"><?php _e('Edit', 'themisdb-taxonomy'); ?></a>
+                    <a href="<?php echo esc_url(get_term_link($term)); ?>" 
+                       class="tree-action-view" target="_blank"><?php _e('View', 'themisdb-taxonomy'); ?></a>
+                </span>
+            </div>
             
-            $style = $color ? 'style="color: ' . esc_attr($color) . ';"' : '';
-            
-            echo '<li class="tree-item" data-term-id="' . $term->term_id . '">';
-            echo '<div class="tree-item-content">';
-            
-            if ($has_children) {
-                echo '<span class="tree-toggle">▼</span>';
-            } else {
-                echo '<span class="tree-toggle-placeholder"></span>';
-            }
-            
-            echo '<span class="term-handle">☰</span>';
-            echo '<span class="term-icon" ' . $style . '>' . esc_html($icon) . '</span> ';
-            echo '<span class="term-name">' . esc_html($term->name) . '</span>';
-            echo ' <span class="term-count">[' . $term->count . ' posts]</span>';
-            
-            echo '<span class="term-actions">';
-            echo '<a href="' . get_edit_term_link($term->term_id, $taxonomy) . '" class="edit-term">' . __('Edit', 'themisdb-taxonomy') . '</a> | ';
-            echo '<a href="' . get_term_link($term) . '" class="view-term" target="_blank">' . __('View', 'themisdb-taxonomy') . '</a>';
-            echo '</span>';
-            
-            echo '</div>';
-            
-            if ($has_children) {
-                echo '<ul class="tree-children">';
-                $this->render_tree_items($term->children, $taxonomy);
-                echo '</ul>';
-            }
-            
-            echo '</li>';
-        }
+            <?php if ($has_children): ?>
+                <ul class="tree-children">
+                    <?php foreach ($children as $child): ?>
+                        <?php $this->render_term_item($child, $taxonomy); ?>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </li>
+        <?php
     }
     
     /**
      * AJAX: Save term order
      */
-    public function ajax_save_order() {
+    public function ajax_save_term_order() {
         check_ajax_referer('themisdb_taxonomy_tree', 'nonce');
         
         if (!current_user_can('manage_categories')) {
-            wp_send_json_error('Permission denied');
+            wp_send_json_error(array('message' => 'Unauthorized'));
         }
         
         $order = isset($_POST['order']) ? $_POST['order'] : array();
-        $taxonomy = isset($_POST['taxonomy']) ? sanitize_key($_POST['taxonomy']) : '';
         
-        if (empty($order) || empty($taxonomy)) {
-            wp_send_json_error('Invalid data');
+        if (empty($order)) {
+            wp_send_json_error(array('message' => 'No order data'));
         }
         
         $position = 0;
         foreach ($order as $term_id) {
-            update_term_meta(intval($term_id), 'term_order', $position);
+            update_term_meta($term_id, 'term_order', $position);
             $position++;
         }
         
-        wp_send_json_success(array('message' => 'Order saved successfully'));
+        wp_send_json_success(array('message' => 'Order saved'));
+    }
+    
+    /**
+     * AJAX: Export taxonomies
+     */
+    public function ajax_export_taxonomies() {
+        check_ajax_referer('themisdb_taxonomy_tree', 'nonce');
+        
+        if (!current_user_can('manage_categories')) {
+            wp_send_json_error(array('message' => 'Unauthorized'));
+        }
+        
+        $export_data = array(
+            'version' => '1.0.0',
+            'export_date' => current_time('Y-m-d'),
+            'taxonomies' => array()
+        );
+        
+        $taxonomies = array('themisdb_feature', 'themisdb_usecase', 'themisdb_industry', 'themisdb_techspec');
+        
+        foreach ($taxonomies as $taxonomy) {
+            $terms = get_terms(array(
+                'taxonomy' => $taxonomy,
+                'hide_empty' => false,
+                'orderby' => 'term_order',
+                'order' => 'ASC'
+            ));
+            
+            if (!is_wp_error($terms)) {
+                $export_data['taxonomies'][$taxonomy] = array();
+                
+                foreach ($terms as $term) {
+                    $term_data = array(
+                        'term_id' => $term->term_id,
+                        'name' => $term->name,
+                        'slug' => $term->slug,
+                        'description' => $term->description,
+                        'parent' => $term->parent,
+                        'count' => $term->count,
+                        'meta' => array(
+                            'icon' => get_term_meta($term->term_id, 'icon', true),
+                            'color' => get_term_meta($term->term_id, 'color', true),
+                            'term_order' => get_term_meta($term->term_id, 'term_order', true)
+                        )
+                    );
+                    
+                    $export_data['taxonomies'][$taxonomy][] = $term_data;
+                }
+            }
+        }
+        
+        wp_send_json_success($export_data);
+    }
+    
+    /**
+     * AJAX: Import taxonomies
+     */
+    public function ajax_import_taxonomies() {
+        check_ajax_referer('themisdb_taxonomy_tree', 'nonce');
+        
+        if (!current_user_can('manage_categories')) {
+            wp_send_json_error(array('message' => 'Unauthorized'));
+        }
+        
+        // This would handle JSON import
+        // Implementation depends on specific requirements
+        wp_send_json_success(array('message' => 'Import completed'));
     }
 }

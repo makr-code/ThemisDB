@@ -1,7 +1,7 @@
 <?php
 /**
  * Taxonomy Widget
- * Display taxonomies with icons in various styles
+ * Displays taxonomies in List, Cloud, or Grid format
  */
 
 if (!defined('ABSPATH')) {
@@ -17,41 +17,162 @@ class ThemisDB_Taxonomy_Widget extends WP_Widget {
         parent::__construct(
             'themisdb_taxonomy_widget',
             __('ThemisDB Taxonomy', 'themisdb-taxonomy'),
-            array('description' => __('Display taxonomies with icons', 'themisdb-taxonomy'))
+            array(
+                'description' => __('Display custom taxonomies in various styles', 'themisdb-taxonomy')
+            )
         );
+        
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_widget_styles'));
     }
     
     /**
-     * Front-end display of widget
+     * Enqueue widget styles
+     */
+    public function enqueue_widget_styles() {
+        if (is_active_widget(false, false, $this->id_base)) {
+            wp_enqueue_style(
+                'themisdb-taxonomy-widget',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/taxonomy-widget.css',
+                array(),
+                THEMISDB_TAXONOMY_VERSION
+            );
+        }
+    }
+    
+    /**
+     * Widget form in admin
+     */
+    public function form($instance) {
+        $title = isset($instance['title']) ? $instance['title'] : __('Taxonomies', 'themisdb-taxonomy');
+        $taxonomy = isset($instance['taxonomy']) ? $instance['taxonomy'] : 'themisdb_feature';
+        $style = isset($instance['style']) ? $instance['style'] : 'list';
+        $show_count = isset($instance['show_count']) ? (bool) $instance['show_count'] : true;
+        $parent_only = isset($instance['parent_only']) ? (bool) $instance['parent_only'] : false;
+        ?>
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>">
+                <?php _e('Title:', 'themisdb-taxonomy'); ?>
+            </label>
+            <input class="widefat" 
+                   id="<?php echo esc_attr($this->get_field_id('title')); ?>" 
+                   name="<?php echo esc_attr($this->get_field_name('title')); ?>" 
+                   type="text" 
+                   value="<?php echo esc_attr($title); ?>">
+        </p>
+        
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('taxonomy')); ?>">
+                <?php _e('Taxonomy:', 'themisdb-taxonomy'); ?>
+            </label>
+            <select class="widefat" 
+                    id="<?php echo esc_attr($this->get_field_id('taxonomy')); ?>" 
+                    name="<?php echo esc_attr($this->get_field_name('taxonomy')); ?>">
+                <option value="themisdb_feature" <?php selected($taxonomy, 'themisdb_feature'); ?>>
+                    <?php _e('Features', 'themisdb-taxonomy'); ?>
+                </option>
+                <option value="themisdb_usecase" <?php selected($taxonomy, 'themisdb_usecase'); ?>>
+                    <?php _e('Use Cases', 'themisdb-taxonomy'); ?>
+                </option>
+                <option value="themisdb_industry" <?php selected($taxonomy, 'themisdb_industry'); ?>>
+                    <?php _e('Industries', 'themisdb-taxonomy'); ?>
+                </option>
+                <option value="themisdb_techspec" <?php selected($taxonomy, 'themisdb_techspec'); ?>>
+                    <?php _e('Tech Specs', 'themisdb-taxonomy'); ?>
+                </option>
+            </select>
+        </p>
+        
+        <p>
+            <label for="<?php echo esc_attr($this->get_field_id('style')); ?>">
+                <?php _e('Display Style:', 'themisdb-taxonomy'); ?>
+            </label>
+            <select class="widefat" 
+                    id="<?php echo esc_attr($this->get_field_id('style')); ?>" 
+                    name="<?php echo esc_attr($this->get_field_name('style')); ?>">
+                <option value="list" <?php selected($style, 'list'); ?>><?php _e('List', 'themisdb-taxonomy'); ?></option>
+                <option value="cloud" <?php selected($style, 'cloud'); ?>><?php _e('Cloud', 'themisdb-taxonomy'); ?></option>
+                <option value="grid" <?php selected($style, 'grid'); ?>><?php _e('Grid', 'themisdb-taxonomy'); ?></option>
+            </select>
+        </p>
+        
+        <p>
+            <input class="checkbox" 
+                   type="checkbox" 
+                   id="<?php echo esc_attr($this->get_field_id('show_count')); ?>" 
+                   name="<?php echo esc_attr($this->get_field_name('show_count')); ?>" 
+                   <?php checked($show_count); ?>>
+            <label for="<?php echo esc_attr($this->get_field_id('show_count')); ?>">
+                <?php _e('Show Count', 'themisdb-taxonomy'); ?>
+            </label>
+        </p>
+        
+        <p>
+            <input class="checkbox" 
+                   type="checkbox" 
+                   id="<?php echo esc_attr($this->get_field_id('parent_only')); ?>" 
+                   name="<?php echo esc_attr($this->get_field_name('parent_only')); ?>" 
+                   <?php checked($parent_only); ?>>
+            <label for="<?php echo esc_attr($this->get_field_id('parent_only')); ?>">
+                <?php _e('Parent Terms Only', 'themisdb-taxonomy'); ?>
+            </label>
+        </p>
+        <?php
+    }
+    
+    /**
+     * Update widget settings
+     */
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['taxonomy'] = (!empty($new_instance['taxonomy'])) ? sanitize_text_field($new_instance['taxonomy']) : 'themisdb_feature';
+        $instance['style'] = (!empty($new_instance['style'])) ? sanitize_text_field($new_instance['style']) : 'list';
+        $instance['show_count'] = isset($new_instance['show_count']) ? 1 : 0;
+        $instance['parent_only'] = isset($new_instance['parent_only']) ? 1 : 0;
+        return $instance;
+    }
+    
+    /**
+     * Display widget
      */
     public function widget($args, $instance) {
+        $title = apply_filters('widget_title', isset($instance['title']) ? $instance['title'] : '');
+        $taxonomy = isset($instance['taxonomy']) ? $instance['taxonomy'] : 'themisdb_feature';
+        $style = isset($instance['style']) ? $instance['style'] : 'list';
+        $show_count = isset($instance['show_count']) ? (bool) $instance['show_count'] : true;
+        $parent_only = isset($instance['parent_only']) ? (bool) $instance['parent_only'] : false;
+        
         echo $args['before_widget'];
         
-        if (!empty($instance['title'])) {
-            echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
+        if (!empty($title)) {
+            echo $args['before_title'] . $title . $args['after_title'];
         }
         
-        $taxonomy = !empty($instance['taxonomy']) ? $instance['taxonomy'] : 'themisdb_feature';
-        $style = !empty($instance['style']) ? $instance['style'] : 'list';
-        $show_icons = !empty($instance['show_icons']) ? $instance['show_icons'] : 'yes';
-        $show_count = !empty($instance['show_count']) ? $instance['show_count'] : 'yes';
-        $limit = !empty($instance['limit']) ? intval($instance['limit']) : 10;
-        
-        $terms = get_terms(array(
+        $term_args = array(
             'taxonomy' => $taxonomy,
-            'number' => $limit,
+            'hide_empty' => false,
             'orderby' => 'name',
-            'order' => 'ASC',
-            'hide_empty' => true
-        ));
+            'order' => 'ASC'
+        );
         
-        if (!is_wp_error($terms) && !empty($terms)) {
-            if ($style === 'list') {
-                $this->render_list($terms, $show_icons, $show_count);
-            } elseif ($style === 'cloud') {
-                $this->render_cloud($terms, $show_count);
-            } elseif ($style === 'grid') {
-                $this->render_grid($terms, $show_icons, $show_count);
+        if ($parent_only) {
+            $term_args['parent'] = 0;
+        }
+        
+        $terms = get_terms($term_args);
+        
+        if (!empty($terms) && !is_wp_error($terms)) {
+            switch ($style) {
+                case 'cloud':
+                    $this->render_cloud($terms, $show_count);
+                    break;
+                case 'grid':
+                    $this->render_grid($terms, $show_count);
+                    break;
+                case 'list':
+                default:
+                    $this->render_list($terms, $show_count);
+                    break;
             }
         }
         
@@ -61,27 +182,19 @@ class ThemisDB_Taxonomy_Widget extends WP_Widget {
     /**
      * Render list style
      */
-    private function render_list($terms, $show_icons, $show_count) {
+    private function render_list($terms, $show_count) {
         echo '<ul class="themisdb-taxonomy-list">';
         foreach ($terms as $term) {
             $icon = get_term_meta($term->term_id, 'icon', true);
-            $color = get_term_meta($term->term_id, 'color', true);
-            $link = get_term_link($term);
-            
             echo '<li>';
-            echo '<a href="' . esc_url($link) . '">';
-            
-            if ($show_icons === 'yes' && $icon) {
-                $style = $color ? 'style="color: ' . esc_attr($color) . ';"' : '';
-                echo '<span class="icon" ' . $style . '>' . esc_html($icon) . '</span> ';
+            echo '<a href="' . esc_url(get_term_link($term)) . '">';
+            if (!empty($icon)) {
+                echo '<span class="icon">' . esc_html($icon) . '</span> ';
             }
-            
-            echo '<span class="name">' . esc_html($term->name) . '</span>';
-            
-            if ($show_count === 'yes') {
+            echo esc_html($term->name);
+            if ($show_count) {
                 echo ' <span class="count">(' . $term->count . ')</span>';
             }
-            
             echo '</a>';
             echo '</li>';
         }
@@ -92,28 +205,29 @@ class ThemisDB_Taxonomy_Widget extends WP_Widget {
      * Render cloud style
      */
     private function render_cloud($terms, $show_count) {
-        $max_count = 0;
-        foreach ($terms as $term) {
-            if ($term->count > $max_count) {
-                $max_count = $term->count;
-            }
+        // Calculate font sizes based on count
+        $counts = wp_list_pluck($terms, 'count');
+        $min_count = min($counts);
+        $max_count = max($counts);
+        $spread = $max_count - $min_count;
+        if ($spread <= 0) {
+            $spread = 1;
         }
+        
+        $min_size = 0.8;
+        $max_size = 2;
         
         echo '<div class="themisdb-tag-cloud">';
         foreach ($terms as $term) {
             $color = get_term_meta($term->term_id, 'color', true);
-            $link = get_term_link($term);
-            
-            $font_size = $max_count > 0 ? (1 + ($term->count / $max_count) * 1.5) : 1;
-            
-            $style = 'font-size: ' . $font_size . 'em;';
-            if ($color) {
-                $style .= ' color: ' . esc_attr($color) . ';';
+            if (empty($color)) {
+                $color = '#3498db';
             }
             
-            $title = $show_count === 'yes' ? $term->count . ' items' : '';
+            $size = $min_size + (($term->count - $min_count) / $spread) * ($max_size - $min_size);
             
-            echo '<a href="' . esc_url($link) . '" style="' . $style . '" title="' . esc_attr($title) . '">';
+            echo '<a href="' . esc_url(get_term_link($term)) . '" ';
+            echo 'style="font-size: ' . esc_attr($size) . 'em; color: ' . esc_attr($color) . ';">';
             echo esc_html($term->name);
             echo '</a> ';
         }
@@ -123,122 +237,36 @@ class ThemisDB_Taxonomy_Widget extends WP_Widget {
     /**
      * Render grid style
      */
-    private function render_grid($terms, $show_icons, $show_count) {
+    private function render_grid($terms, $show_count) {
         echo '<div class="themisdb-taxonomy-grid">';
         foreach ($terms as $term) {
             $icon = get_term_meta($term->term_id, 'icon', true);
             $color = get_term_meta($term->term_id, 'color', true);
-            $link = get_term_link($term);
-            
-            $border_style = $color ? 'border-color: ' . esc_attr($color) . ';' : '';
-            
-            echo '<div class="grid-item" style="' . $border_style . '">';
-            
-            if ($show_icons === 'yes' && $icon) {
-                echo '<div class="icon">' . esc_html($icon) . '</div>';
+            if (empty($color)) {
+                $color = '#3498db';
             }
             
-            echo '<h4><a href="' . esc_url($link) . '">' . esc_html($term->name) . '</a></h4>';
-            
-            if ($show_count === 'yes') {
-                echo '<span class="count">' . $term->count . ' posts</span>';
+            echo '<div class="taxonomy-card" style="border-color: ' . esc_attr($color) . ';">';
+            echo '<a href="' . esc_url(get_term_link($term)) . '">';
+            if (!empty($icon)) {
+                echo '<span class="card-icon">' . esc_html($icon) . '</span>';
             }
-            
+            echo '<h3>' . esc_html($term->name) . '</h3>';
+            if ($show_count) {
+                $taxonomy_obj = get_taxonomy($term->taxonomy);
+                echo '<span class="card-count">' . $term->count . ' ' . strtolower($taxonomy_obj->labels->name) . '</span>';
+            }
+            echo '</a>';
             echo '</div>';
         }
         echo '</div>';
     }
-    
-    /**
-     * Back-end widget form
-     */
-    public function form($instance) {
-        $title = !empty($instance['title']) ? $instance['title'] : '';
-        $taxonomy = !empty($instance['taxonomy']) ? $instance['taxonomy'] : 'themisdb_feature';
-        $style = !empty($instance['style']) ? $instance['style'] : 'list';
-        $show_icons = !empty($instance['show_icons']) ? $instance['show_icons'] : 'yes';
-        $show_count = !empty($instance['show_count']) ? $instance['show_count'] : 'yes';
-        $limit = !empty($instance['limit']) ? $instance['limit'] : 10;
-        ?>
-        <p>
-            <label for="<?php echo esc_attr($this->get_field_id('title')); ?>">
-                <?php _e('Title:', 'themisdb-taxonomy'); ?>
-            </label>
-            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('title')); ?>" 
-                   name="<?php echo esc_attr($this->get_field_name('title')); ?>" type="text" 
-                   value="<?php echo esc_attr($title); ?>">
-        </p>
-        
-        <p>
-            <label for="<?php echo esc_attr($this->get_field_id('taxonomy')); ?>">
-                <?php _e('Taxonomy:', 'themisdb-taxonomy'); ?>
-            </label>
-            <select class="widefat" id="<?php echo esc_attr($this->get_field_id('taxonomy')); ?>" 
-                    name="<?php echo esc_attr($this->get_field_name('taxonomy')); ?>">
-                <option value="themisdb_feature" <?php selected($taxonomy, 'themisdb_feature'); ?>>Database Features</option>
-                <option value="themisdb_usecase" <?php selected($taxonomy, 'themisdb_usecase'); ?>>Use Cases</option>
-                <option value="themisdb_industry" <?php selected($taxonomy, 'themisdb_industry'); ?>>Industries</option>
-                <option value="themisdb_techspec" <?php selected($taxonomy, 'themisdb_techspec'); ?>>Technical Specs</option>
-            </select>
-        </p>
-        
-        <p>
-            <label for="<?php echo esc_attr($this->get_field_id('style')); ?>">
-                <?php _e('Display Style:', 'themisdb-taxonomy'); ?>
-            </label>
-            <select class="widefat" id="<?php echo esc_attr($this->get_field_id('style')); ?>" 
-                    name="<?php echo esc_attr($this->get_field_name('style')); ?>">
-                <option value="list" <?php selected($style, 'list'); ?>>List</option>
-                <option value="cloud" <?php selected($style, 'cloud'); ?>>Tag Cloud</option>
-                <option value="grid" <?php selected($style, 'grid'); ?>>Grid</option>
-            </select>
-        </p>
-        
-        <p>
-            <label for="<?php echo esc_attr($this->get_field_id('show_icons')); ?>">
-                <?php _e('Show Icons:', 'themisdb-taxonomy'); ?>
-            </label>
-            <select class="widefat" id="<?php echo esc_attr($this->get_field_id('show_icons')); ?>" 
-                    name="<?php echo esc_attr($this->get_field_name('show_icons')); ?>">
-                <option value="yes" <?php selected($show_icons, 'yes'); ?>>Yes</option>
-                <option value="no" <?php selected($show_icons, 'no'); ?>>No</option>
-            </select>
-        </p>
-        
-        <p>
-            <label for="<?php echo esc_attr($this->get_field_id('show_count')); ?>">
-                <?php _e('Show Count:', 'themisdb-taxonomy'); ?>
-            </label>
-            <select class="widefat" id="<?php echo esc_attr($this->get_field_id('show_count')); ?>" 
-                    name="<?php echo esc_attr($this->get_field_name('show_count')); ?>">
-                <option value="yes" <?php selected($show_count, 'yes'); ?>>Yes</option>
-                <option value="no" <?php selected($show_count, 'no'); ?>>No</option>
-            </select>
-        </p>
-        
-        <p>
-            <label for="<?php echo esc_attr($this->get_field_id('limit')); ?>">
-                <?php _e('Limit:', 'themisdb-taxonomy'); ?>
-            </label>
-            <input class="widefat" id="<?php echo esc_attr($this->get_field_id('limit')); ?>" 
-                   name="<?php echo esc_attr($this->get_field_name('limit')); ?>" type="number" 
-                   value="<?php echo esc_attr($limit); ?>" min="1" max="100">
-        </p>
-        <?php
-    }
-    
-    /**
-     * Save widget settings
-     */
-    public function update($new_instance, $old_instance) {
-        $instance = array();
-        $instance['title'] = (!empty($new_instance['title'])) ? sanitize_text_field($new_instance['title']) : '';
-        $instance['taxonomy'] = (!empty($new_instance['taxonomy'])) ? sanitize_key($new_instance['taxonomy']) : 'themisdb_feature';
-        $instance['style'] = (!empty($new_instance['style'])) ? sanitize_key($new_instance['style']) : 'list';
-        $instance['show_icons'] = (!empty($new_instance['show_icons'])) ? sanitize_key($new_instance['show_icons']) : 'yes';
-        $instance['show_count'] = (!empty($new_instance['show_count'])) ? sanitize_key($new_instance['show_count']) : 'yes';
-        $instance['limit'] = (!empty($new_instance['limit'])) ? intval($new_instance['limit']) : 10;
-        
-        return $instance;
-    }
 }
+
+/**
+ * Register widget
+ */
+function themisdb_register_taxonomy_widget() {
+    register_widget('ThemisDB_Taxonomy_Widget');
+}
+add_action('widgets_init', 'themisdb_register_taxonomy_widget');

@@ -46,6 +46,12 @@ class ThemisDB_Taxonomy_Admin {
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_max_category_depth');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_min_category_posts');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_consolidate_categories');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_show_in_rest');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_enable_seo_schema');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_default_icon');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_default_color');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_breadcrumb_separator');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_enable_custom_metabox');
     }
     
     /**
@@ -185,6 +191,114 @@ class ThemisDB_Taxonomy_Admin {
                                        <?php checked(1, get_option('themisdb_taxonomy_consolidate_categories', 1)); ?>>
                                 <p class="description">
                                     <?php _e('Automatically consolidate similar categories to minimize redundancy', 'themisdb-taxonomy-manager'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_enable_custom_metabox">
+                                    <?php _e('Enable Custom Meta Box', 'themisdb-taxonomy'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       name="themisdb_taxonomy_enable_custom_metabox" 
+                                       id="themisdb_taxonomy_enable_custom_metabox" 
+                                       value="1" 
+                                       <?php checked(1, get_option('themisdb_taxonomy_enable_custom_metabox', 1)); ?>>
+                                <p class="description">
+                                    <?php _e('Use enhanced meta box for post editing', 'themisdb-taxonomy'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_default_icon">
+                                    <?php _e('Default Icon', 'themisdb-taxonomy'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="text" 
+                                       name="themisdb_taxonomy_default_icon" 
+                                       id="themisdb_taxonomy_default_icon" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_default_icon', '📊')); ?>" 
+                                       maxlength="2"
+                                       class="small-text">
+                                <p class="description">
+                                    <?php _e('Default emoji icon for new terms', 'themisdb-taxonomy'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_default_color">
+                                    <?php _e('Default Color', 'themisdb-taxonomy'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="color" 
+                                       name="themisdb_taxonomy_default_color" 
+                                       id="themisdb_taxonomy_default_color" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_default_color', '#3498db')); ?>">
+                                <p class="description">
+                                    <?php _e('Default color for new terms', 'themisdb-taxonomy'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_show_in_rest">
+                                    <?php _e('Show in REST API', 'themisdb-taxonomy'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       name="themisdb_taxonomy_show_in_rest" 
+                                       id="themisdb_taxonomy_show_in_rest" 
+                                       value="1" 
+                                       <?php checked(1, get_option('themisdb_taxonomy_show_in_rest', 1)); ?>>
+                                <p class="description">
+                                    <?php _e('Make taxonomies available in REST API', 'themisdb-taxonomy'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_enable_seo_schema">
+                                    <?php _e('Enable SEO Schema', 'themisdb-taxonomy'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       name="themisdb_taxonomy_enable_seo_schema" 
+                                       id="themisdb_taxonomy_enable_seo_schema" 
+                                       value="1" 
+                                       <?php checked(1, get_option('themisdb_taxonomy_enable_seo_schema', 1)); ?>>
+                                <p class="description">
+                                    <?php _e('Add Schema.org markup to taxonomy pages', 'themisdb-taxonomy'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_breadcrumb_separator">
+                                    <?php _e('Breadcrumb Separator', 'themisdb-taxonomy'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="text" 
+                                       name="themisdb_taxonomy_breadcrumb_separator" 
+                                       id="themisdb_taxonomy_breadcrumb_separator" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_breadcrumb_separator', ' / ')); ?>" 
+                                       class="small-text">
+                                <p class="description">
+                                    <?php _e('Separator for breadcrumb navigation (default: " / ")', 'themisdb-taxonomy'); ?>
                                 </p>
                             </td>
                         </tr>

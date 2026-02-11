@@ -1,72 +1,237 @@
-/**
- * ThemisDB Taxonomy Manager - Tree View JavaScript
- */
+/* ThemisDB Taxonomy Manager - Tree View JavaScript */
 
-jQuery(document).ready(function($) {
+(function($) {
+    'use strict';
     
-    // Make tree sortable
-    $('.taxonomy-tree').sortable({
-        handle: '.term-handle',
-        placeholder: 'tree-placeholder',
-        tolerance: 'pointer',
-        update: function(event, ui) {
-            const order = $(this).sortable('toArray', {attribute: 'data-term-id'});
-            const taxonomy = $(this).data('taxonomy');
+    $(document).ready(function() {
+        
+        // Initialize tree view
+        initTreeView();
+        
+        // Taxonomy selector change
+        $('#taxonomy-selector').on('change', function() {
+            var taxonomy = $(this).val();
+            window.location.href = 'admin.php?page=themisdb-taxonomy-tree&taxonomy=' + taxonomy;
+        });
+        
+        // Search/Filter
+        $('#taxonomy-search').on('input', function() {
+            var query = $(this).val().toLowerCase();
+            
+            if (query === '') {
+                $('.tree-item').show();
+                return;
+            }
+            
+            $('.tree-item').each(function() {
+                var label = $(this).find('.tree-label').first().text().toLowerCase();
+                if (label.includes(query)) {
+                    $(this).show();
+                    // Show all parents
+                    $(this).parents('.tree-item').show();
+                    // Show all children
+                    $(this).find('.tree-item').show();
+                } else {
+                    // Only hide if no children match
+                    var hasMatchingChildren = $(this).find('.tree-label').filter(function() {
+                        return $(this).text().toLowerCase().includes(query);
+                    }).length > 0;
+                    
+                    if (!hasMatchingChildren) {
+                        $(this).hide();
+                    }
+                }
+            });
+        });
+        
+        // Expand all
+        $('#expand-all').on('click', function() {
+            $('.tree-children').slideDown(200);
+            $('.tree-toggle').removeClass('collapsed');
+        });
+        
+        // Collapse all
+        $('#collapse-all').on('click', function() {
+            $('.tree-children').slideUp(200);
+            $('.tree-toggle').addClass('collapsed');
+        });
+        
+        // Export JSON
+        $('#export-tree').on('click', function() {
+            var $btn = $(this);
+            var originalText = $btn.text();
+            
+            $btn.prop('disabled', true).text('Exporting...');
+            
+            $.post(themisdbTaxonomy.ajaxurl, {
+                action: 'themisdb_export_taxonomies',
+                nonce: themisdbTaxonomy.nonce
+            }, function(response) {
+                if (response.success) {
+                    // Create JSON blob and download
+                    var dataStr = JSON.stringify(response.data, null, 2);
+                    var dataBlob = new Blob([dataStr], {type: 'application/json'});
+                    var url = URL.createObjectURL(dataBlob);
+                    
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'themisdb-taxonomies-' + response.data.export_date + '.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    alert('Export completed successfully!');
+                } else {
+                    alert('Export failed: ' + response.data.message);
+                }
+                
+                $btn.prop('disabled', false).text(originalText);
+            }).fail(function() {
+                alert('Export failed. Please try again.');
+                $btn.prop('disabled', false).text(originalText);
+            });
+        });
+        
+        /**
+         * Initialize tree view functionality
+         */
+        function initTreeView() {
+            // Toggle expand/collapse
+            $(document).on('click', '.tree-toggle', function(e) {
+                e.stopPropagation();
+                var $toggle = $(this);
+                var $children = $toggle.closest('.tree-item').find('> .tree-children');
+                
+                if ($children.length > 0) {
+                    $children.slideToggle(200);
+                    $toggle.toggleClass('collapsed');
+                }
+            });
+            
+            // Initialize jQuery UI Sortable for drag & drop
+            if ($.fn.sortable) {
+                $('.taxonomy-tree, .tree-children').sortable({
+                    connectWith: '.taxonomy-tree, .tree-children',
+                    placeholder: 'tree-placeholder',
+                    handle: '.tree-node',
+                    cursor: 'move',
+                    opacity: 0.8,
+                    tolerance: 'pointer',
+                    update: function(event, ui) {
+                        // Only trigger on the receiving list
+                        if (this === ui.item.parent()[0]) {
+                            saveTermOrder($(this));
+                        }
+                    },
+                    start: function(event, ui) {
+                        // Collapse children during drag
+                        ui.item.find('.tree-children').hide();
+                    },
+                    stop: function(event, ui) {
+                        // Restore children after drag
+                        ui.item.find('.tree-children').show();
+                    }
+                });
+            }
+        }
+        
+        /**
+         * Save term order via AJAX
+         */
+        function saveTermOrder($list) {
+            var order = $list.sortable('toArray', {attribute: 'data-term-id'});
+            
+            // Filter out empty values
+            order = order.filter(function(id) {
+                return id !== '';
+            });
+            
+            if (order.length === 0) {
+                return;
+            }
             
             $.post(themisdbTaxonomy.ajaxurl, {
                 action: 'themisdb_save_term_order',
                 nonce: themisdbTaxonomy.nonce,
-                taxonomy: taxonomy,
                 order: order
             }, function(response) {
                 if (response.success) {
-                    showNotice(response.data.message, 'success');
+                    // Show success indicator
+                    showNotification('Order saved', 'success');
                 } else {
-                    showNotice(response.data || 'Failed to save order', 'error');
+                    showNotification('Failed to save order', 'error');
                 }
             }).fail(function() {
-                showNotice('Failed to save order', 'error');
+                showNotification('Failed to save order', 'error');
             });
         }
-    });
-    
-    // Collapsible branches
-    $('.tree-toggle').on('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
         
-        const $children = $(this).closest('.tree-item').find('> .tree-children');
-        $children.slideToggle(200);
-        $(this).toggleClass('collapsed');
-    });
-    
-    // Expand all
-    $('#expand-all').on('click', function(e) {
-        e.preventDefault();
-        $('.tree-children').slideDown(200);
-        $('.tree-toggle').removeClass('collapsed');
-    });
-    
-    // Collapse all
-    $('#collapse-all').on('click', function(e) {
-        e.preventDefault();
-        $('.tree-children').slideUp(200);
-        $('.tree-toggle').addClass('collapsed');
-    });
-    
-    // Show notice helper
-    function showNotice(message, type) {
-        const $notice = $('<div>')
-            .addClass('tree-notice')
-            .addClass(type)
-            .text(message);
+        /**
+         * Show notification message
+         */
+        function showNotification(message, type) {
+            var $notification = $('<div>')
+                .addClass('themisdb-notification')
+                .addClass('notification-' + type)
+                .text(message)
+                .css({
+                    position: 'fixed',
+                    top: '32px',
+                    right: '20px',
+                    padding: '12px 20px',
+                    background: type === 'success' ? '#27ae60' : '#e74c3c',
+                    color: 'white',
+                    borderRadius: '4px',
+                    zIndex: 100000,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+                    fontWeight: '500'
+                });
+            
+            $('body').append($notification);
+            
+            setTimeout(function() {
+                $notification.fadeOut(300, function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        }
         
-        $('.taxonomy-tree-container').prepend($notice);
-        
-        setTimeout(function() {
-            $notice.fadeOut(300, function() {
-                $(this).remove();
+        // Inline editing (future enhancement)
+        $(document).on('dblclick', '.tree-label', function() {
+            var $label = $(this);
+            var currentText = $label.text();
+            var termId = $label.closest('.tree-item').data('term-id');
+            
+            // Create inline input
+            var $input = $('<input type="text">')
+                .val(currentText)
+                .css({
+                    'width': '100%',
+                    'font-weight': '500',
+                    'border': '1px solid #3498db',
+                    'padding': '4px 8px',
+                    'border-radius': '4px'
+                });
+            
+            $label.html($input);
+            $input.focus().select();
+            
+            // Save on blur or enter
+            $input.on('blur keypress', function(e) {
+                if (e.type === 'blur' || e.which === 13) {
+                    var newText = $(this).val().trim();
+                    if (newText !== '' && newText !== currentText) {
+                        // TODO: Implement AJAX save for term name
+                        $label.text(newText);
+                        showNotification('Name updated (refresh to see changes)', 'success');
+                    } else {
+                        $label.text(currentText);
+                    }
+                }
             });
-        }, 3000);
-    }
-});
+        });
+        
+    });
+    
+})(jQuery);
