@@ -1,6 +1,6 @@
 /**
  * ThemisDB Feature Matrix JavaScript
- * Based on TCO Calculator pattern with Mermaid.js integration
+ * Version 1.0.0 - Interactive feature comparison with sorting, filtering, CSV export, and mobile card view
  */
 
 (function($) {
@@ -10,6 +10,9 @@
     window.ThemisDBFeatureMatrix = {
         currentData: null,
         settings: {},
+        currentCategory: 'all',
+        sortColumn: null,
+        sortDirection: 'desc',
 
         /**
          * Initialize the feature matrix
@@ -18,39 +21,28 @@
             // Store settings from PHP
             this.settings = themisdbFM.settings || {};
 
-            // Initialize Mermaid
-            this.initMermaid();
-
             // Set up event listeners
             this.setupEventListeners();
 
             // Load initial data
             this.loadFeatures();
+            
+            // Check window size and switch views
+            this.checkMobileView();
+            $(window).on('resize', this.checkMobileView.bind(this));
         },
 
         /**
-         * Initialize Mermaid.js
+         * Check if mobile view should be used
          */
-        initMermaid: function() {
-            if (typeof mermaid !== 'undefined') {
-                mermaid.initialize({
-                    startOnLoad: false,
-                    theme: 'neutral',
-                    securityLevel: 'strict',
-                    flowchart: {
-                        useMaxWidth: true,
-                        htmlLabels: true,
-                        curve: 'basis'
-                    },
-                    themeVariables: {
-                        primaryColor: '#2ea44f',
-                        primaryTextColor: '#fff',
-                        primaryBorderColor: '#2c974b',
-                        lineColor: '#57606a',
-                        secondaryColor: '#f6f8fa',
-                        tertiaryColor: '#3498db'
-                    }
-                });
+        checkMobileView: function() {
+            const isMobile = $(window).width() < 768;
+            if (isMobile) {
+                $('.themisdb-matrix-table table').hide();
+                this.renderMobileCardView();
+            } else {
+                $('.themisdb-matrix-table table').show();
+                $('.mobile-card-view').hide();
             }
         },
 
@@ -60,32 +52,59 @@
         setupEventListeners: function() {
             const self = this;
 
-            // Filter changes
-            $('#fm-category-filter, #fm-view-type').on('change', function() {
+            // Category filter buttons
+            $('.category-filter-btn').on('click', function(e) {
+                e.preventDefault();
+                const category = $(this).data('category');
+                self.filterByCategory(category);
+            });
+
+            // Filter changes (dropdown)
+            $('#fm-category-filter').on('change', function() {
+                self.currentCategory = $(this).val();
                 self.loadFeatures();
             });
 
             // Refresh button
             $('#fm-refresh-data').on('click', function(e) {
                 e.preventDefault();
-                self.refreshFeatures();
+                self.loadFeatures();
             });
 
-            // Export buttons
-            $('#fm-export-csv').on('click', function(e) {
+            // Export CSV button
+            $('#fm-export-csv, .fm-export-csv').on('click', function(e) {
                 e.preventDefault();
                 self.exportCSV();
             });
 
-            $('#fm-export-pdf').on('click', function(e) {
-                e.preventDefault();
-                self.exportPDF();
-            });
-
+            // Print button
             $('#fm-print').on('click', function(e) {
                 e.preventDefault();
                 window.print();
             });
+            
+            // Column sorting (delegated event for dynamically added headers)
+            $(document).on('click', '.sortable-header', function() {
+                const column = $(this).data('column');
+                self.sortByColumn(column);
+            });
+        },
+
+        /**
+         * Filter by category
+         */
+        filterByCategory: function(category) {
+            this.currentCategory = category;
+            
+            // Update active button
+            $('.category-filter-btn').removeClass('active');
+            $('.category-filter-btn[data-category="' + category + '"]').addClass('active');
+            
+            // Update dropdown if exists
+            $('#fm-category-filter').val(category);
+            
+            // Reload features
+            this.loadFeatures();
         },
 
         /**
@@ -93,7 +112,6 @@
          */
         loadFeatures: function() {
             const self = this;
-            const category = $('#fm-category-filter').val() || 'all';
 
             // Show loading state
             this.showLoading();
@@ -104,15 +122,13 @@
                 data: {
                     action: 'themisdb_fm_get_features',
                     nonce: themisdbFM.nonce,
-                    category: category
+                    category: self.currentCategory
                 },
                 success: function(response) {
                     if (response.success) {
                         self.currentData = response.data;
                         self.renderTable();
-                        if (self.settings.show_mermaid) {
-                            self.renderMermaidDiagram();
-                        }
+                        self.checkMobileView(); // Render appropriate view
                     } else {
                         self.showError('Failed to load feature data');
                     }
@@ -126,10 +142,51 @@
         },
 
         /**
-         * Refresh features (clear cache)
+         * Sort table by column
          */
-        refreshFeatures: function() {
-            this.loadFeatures();
+        sortByColumn: function(column) {
+            if (!this.currentData || !this.currentData.features) return;
+            
+            // Toggle sort direction if same column
+            if (this.sortColumn === column) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortColumn = column;
+                this.sortDirection = 'desc'; // Default to descending (full > limited > no)
+            }
+            
+            // Sort features
+            const self = this;
+            this.currentData.features.sort(function(a, b) {
+                const statusA = a[column] || 'no';
+                const statusB = b[column] || 'no';
+                
+                // Convert status to score for sorting
+                const scoreA = self.getStatusScore(statusA);
+                const scoreB = self.getStatusScore(statusB);
+                
+                if (self.sortDirection === 'asc') {
+                    return scoreA - scoreB;
+                } else {
+                    return scoreB - scoreA;
+                }
+            });
+            
+            // Re-render table
+            this.renderTable();
+            this.checkMobileView();
+        },
+        
+        /**
+         * Get numeric score for status
+         */
+        getStatusScore: function(status) {
+            const scores = {
+                'full': 2,
+                'limited': 1,
+                'no': 0
+            };
+            return scores[status] !== undefined ? scores[status] : 0;
         },
 
         /**
@@ -139,134 +196,203 @@
             if (!this.currentData) return;
 
             const $tableContainer = $('#fm-matrix-table');
-            const viewType = $('#fm-view-type').val() || 'detailed';
+            const highlightThemis = this.settings.show_themis_highlight === 'yes';
+            const stickyHeader = this.settings.sticky_header === 'yes';
+            const enableTooltips = this.settings.enable_tooltips === 'yes';
 
-            let html = '<table>';
+            let tableClass = 'themisdb-matrix-table';
+            if (highlightThemis) tableClass += ' highlight-themis';
+            if (stickyHeader) tableClass += ' sticky-header';
+
+            let html = '<div class="' + tableClass + '"><table role="table">';
             html += '<thead><tr>';
-            html += '<th>' + this.translate('Feature') + '</th>';
+            html += '<th scope="col">' + this.translate('Feature') + '</th>';
 
-            // Add column for each database
+            // Add column for each database with sortable headers
+            const self = this;
             this.currentData.databases.forEach(function(db) {
-                const dbName = db.charAt(0).toUpperCase() + db.slice(1);
-                html += '<th>' + dbName + '</th>';
+                const dbInfo = self.currentData.database_info[db];
+                const dbName = dbInfo ? dbInfo.name : db.charAt(0).toUpperCase() + db.slice(1);
+                const dbClass = 'db-' + db + (db === 'themisdb' && highlightThemis ? ' db-themisdb' : '');
+                const sortClass = self.sortColumn === db ? ' sorted-' + self.sortDirection : '';
+                
+                html += '<th scope="col" class="sortable-header ' + dbClass + sortClass + '" data-column="' + db + '" role="button" aria-sort="' + (self.sortColumn === db ? self.sortDirection : 'none') + '">';
+                html += dbName;
+                html += '</th>';
             });
 
             html += '</tr></thead><tbody>';
 
             // Add rows for each feature
             this.currentData.features.forEach(function(feature) {
-                html += '<tr>';
+                const rowClass = feature.exclusive ? 'feature-row exclusive' : 'feature-row';
+                html += '<tr class="' + rowClass + '">';
                 
                 // Feature name column
                 html += '<td>';
-                html += '<div class="feature-name">' + feature.name + '</div>';
+                html += '<div class="feature-name">' + self.escapeHtml(feature.name);
                 
-                if (viewType === 'detailed' && feature.description) {
-                    html += '<div class="feature-description">' + feature.description + '</div>';
+                if (enableTooltips && feature.tooltip) {
+                    html += ' <span class="info-icon" data-tooltip="' + self.escapeHtml(feature.tooltip) + '"></span>';
+                }
+                
+                html += '</div>';
+                
+                if (feature.description) {
+                    html += '<div class="feature-description">' + self.escapeHtml(feature.description) + '</div>';
                 }
                 
                 html += '</td>';
 
                 // Status columns for each database
-                this.currentData.databases.forEach(function(db) {
-                    const status = feature[db] || 'not_available';
-                    const statusInfo = this.getStatusInfo(status);
+                self.currentData.databases.forEach(function(db) {
+                    const status = feature[db] || 'no';
+                    const isInverted = feature.inverted || false;
+                    const isText = feature.is_text || false;
+                    const cellClass = 'db-' + db + (db === 'themisdb' && highlightThemis ? ' db-themisdb' : '');
                     
-                    html += '<td class="text-center">';
+                    html += '<td class="text-center ' + cellClass + '">';
                     
-                    if (this.settings.enable_tooltips) {
-                        html += '<span class="themisdb-status-badge status-' + status + '" data-tooltip="' + statusInfo.text + '">';
+                    if (isText) {
+                        // Display as text for licensing fields
+                        html += '<span class="themisdb-status-badge status-text">' + self.escapeHtml(status) + '</span>';
                     } else {
-                        html += '<span class="themisdb-status-badge status-' + status + '">';
+                        const statusClass = self.getStatusClass(status, isInverted);
+                        const statusIcon = self.getStatusIcon(status);
+                        
+                        if (enableTooltips) {
+                            const tooltipText = self.getStatusLabel(status, isInverted);
+                            html += '<span class="themisdb-status-badge ' + statusClass + '" data-tooltip="' + tooltipText + '">';
+                        } else {
+                            html += '<span class="themisdb-status-badge ' + statusClass + '">';
+                        }
+                        
+                        html += '<span class="status-icon ' + statusClass + '">' + statusIcon + '</span>';
+                        html += '</span>';
                     }
                     
-                    html += statusInfo.icon + '</span>';
                     html += '</td>';
-                }.bind(this));
+                });
 
                 html += '</tr>';
-            }.bind(this));
+            });
 
-            html += '</tbody></table>';
+            html += '</tbody></table></div>';
             $tableContainer.html(html);
         },
 
         /**
-         * Get status information
+         * Render mobile card view
          */
-        getStatusInfo: function(status) {
-            const statusMap = {
-                'available': {
-                    icon: '✅',
-                    text: this.translate('Fully available natively')
-                },
-                'partial': {
-                    icon: '⚠️',
-                    text: this.translate('Partially available')
-                },
-                'limited': {
-                    icon: '🔧',
-                    text: this.translate('Limited or requires extension')
-                },
-                'not_available': {
-                    icon: '❌',
-                    text: this.translate('Not available')
-                }
-            };
+        renderMobileCardView: function() {
+            if (!this.currentData) return;
 
-            return statusMap[status] || statusMap['not_available'];
-        },
+            let $container = $('.mobile-card-view');
+            if ($container.length === 0) {
+                $('#fm-matrix-table').append('<div class="mobile-card-view"></div>');
+                $container = $('.mobile-card-view');
+            }
 
-        /**
-         * Render Mermaid diagram
-         */
-        renderMermaidDiagram: function() {
-            if (!this.currentData || typeof mermaid === 'undefined') return;
+            const self = this;
+            const enableTooltips = this.settings.enable_tooltips === 'yes';
+            let html = '';
 
-            const diagramCode = this.generateMermaidCode();
-            const $diagramContainer = $('#fm-feature-diagram');
-
-            // Set the Mermaid code
-            $diagramContainer.text(diagramCode);
-            
-            // Remove data-processed attribute for re-rendering
-            $diagramContainer.removeAttr('data-processed');
-
-            // Render the diagram
-            mermaid.run({
-                nodes: [$diagramContainer.get(0)]
-            }).catch((error) => {
-                console.error('Mermaid rendering error:', error);
-            });
-        },
-
-        /**
-         * Generate Mermaid diagram code
-         */
-        generateMermaidCode: function() {
-            let code = 'mindmap\n';
-            code += '  root((ThemisDB Features))\n';
-
-            // Group features by category
-            const categories = {};
             this.currentData.features.forEach(function(feature) {
-                if (!categories[feature.category]) {
-                    categories[feature.category] = [];
+                const cardClass = feature.exclusive ? 'feature-card exclusive' : 'feature-card';
+                html += '<div class="' + cardClass + '" role="article">';
+                
+                // Header
+                html += '<div class="feature-card-header">';
+                html += self.escapeHtml(feature.name);
+                if (feature.exclusive) {
+                    html += ' <span style="color: #f39c12;">⭐</span>';
                 }
-                categories[feature.category].push(feature);
-            });
-
-            // Generate diagram for each category
-            Object.keys(categories).forEach(function(category) {
-                const categoryName = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                code += '    ' + categoryName + '\n';
-
-                categories[category].forEach(function(feature) {
-                    code += '      ' + feature.name + '\n';
+                html += '</div>';
+                
+                // Description
+                if (feature.description) {
+                    html += '<div class="feature-card-description">' + self.escapeHtml(feature.description) + '</div>';
+                }
+                
+                // Database comparisons
+                html += '<div class="feature-card-databases">';
+                
+                self.currentData.databases.forEach(function(db) {
+                    const dbInfo = self.currentData.database_info[db];
+                    const dbName = dbInfo ? dbInfo.name : db.charAt(0).toUpperCase() + db.slice(1);
+                    const status = feature[db] || 'no';
+                    const isText = feature.is_text || false;
+                    
+                    html += '<div class="db-comparison-item">';
+                    html += '<div class="db-name">' + dbName + '</div>';
+                    html += '<div class="db-status">';
+                    
+                    if (isText) {
+                        html += '<span class="themisdb-status-badge status-text">' + self.escapeHtml(status) + '</span>';
+                    } else {
+                        const statusClass = self.getStatusClass(status, feature.inverted);
+                        const statusIcon = self.getStatusIcon(status);
+                        html += '<span class="themisdb-status-badge ' + statusClass + '">';
+                        html += '<span class="status-icon ' + statusClass + '">' + statusIcon + '</span>';
+                        html += '</span>';
+                    }
+                    
+                    html += '</div>';
+                    html += '</div>';
                 });
+                
+                html += '</div>';
+                html += '</div>';
             });
 
-            return code;
+            $container.html(html).show();
+        },
+
+        /**
+         * Get status class
+         */
+        getStatusClass: function(status, inverted) {
+            const baseClass = 'status-' + status;
+            
+            // For inverted metrics (like "Cloud Vendor Lock-in"), flip the color
+            if (inverted) {
+                if (status === 'full') return 'status-no';
+                if (status === 'no') return 'status-full';
+            }
+            
+            return baseClass;
+        },
+
+        /**
+         * Get status icon
+         */
+        getStatusIcon: function(status) {
+            const icons = {
+                'full': '✓',
+                'limited': '◐',
+                'no': '✗'
+            };
+            return icons[status] || icons['no'];
+        },
+
+        /**
+         * Get status label
+         */
+        getStatusLabel: function(status, inverted) {
+            const labels = {
+                'full': 'Full Support',
+                'limited': 'Limited Support',
+                'no': 'Not Available'
+            };
+            
+            let label = labels[status] || labels['no'];
+            
+            if (inverted) {
+                if (status === 'full') label = 'High (negative)';
+                if (status === 'no') label = 'None (positive)';
+            }
+            
+            return label;
         },
 
         /**
@@ -276,34 +402,62 @@
             if (!this.currentData) return;
 
             let csv = 'Feature,';
-            csv += this.currentData.databases.map(db => db.charAt(0).toUpperCase() + db.slice(1)).join(',');
+            const self = this;
+            
+            // Header row with database names
+            csv += this.currentData.databases.map(function(db) {
+                const dbInfo = self.currentData.database_info[db];
+                return dbInfo ? dbInfo.name : db.charAt(0).toUpperCase() + db.slice(1);
+            }).join(',');
             csv += ',Category,Description\n';
 
+            // Data rows
             this.currentData.features.forEach(function(feature) {
-                csv += '"' + feature.name + '",';
-                csv += this.currentData.databases.map(db => {
-                    const status = feature[db] || 'not_available';
-                    return this.getStatusInfo(status).text;
-                }.bind(this)).join(',');
-                csv += ',"' + feature.category + '",';
-                csv += '"' + (feature.description || '') + '"\n';
-            }.bind(this));
+                // Escape and quote feature name
+                csv += '"' + self.escapeCSV(feature.name) + '",';
+                
+                // Add status for each database
+                csv += self.currentData.databases.map(function(db) {
+                    const status = feature[db] || 'no';
+                    if (feature.is_text) {
+                        return '"' + self.escapeCSV(status) + '"';
+                    }
+                    return self.getStatusLabel(status, feature.inverted);
+                }).join(',');
+                
+                // Add category and description
+                csv += ',"' + self.escapeCSV(feature.category_name || feature.category) + '",';
+                csv += '"' + self.escapeCSV(feature.description || '') + '"\n';
+            });
 
             // Create download
-            const blob = new Blob([csv], { type: 'text/csv' });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             a.download = 'themisdb-feature-matrix-' + Date.now() + '.csv';
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         },
 
         /**
-         * Export as PDF
+         * Escape CSV values
          */
-        exportPDF: function() {
-            window.print();
+        escapeCSV: function(str) {
+            if (!str) return '';
+            return String(str).replace(/"/g, '""');
+        },
+
+        /**
+         * Escape HTML
+         */
+        escapeHtml: function(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         },
 
         /**
@@ -327,8 +481,8 @@
          */
         showError: function(message) {
             const $tableContainer = $('#fm-matrix-table');
-            const html = '<div class="themisdb-error">' +
-                        '<p><strong>⚠️ Error:</strong> ' + message + '</p>' +
+            const html = '<div class="themisdb-error" role="alert">' +
+                        '<p><strong>⚠️ Error:</strong> ' + this.escapeHtml(message) + '</p>' +
                         '</div>';
             $tableContainer.html(html);
         },
