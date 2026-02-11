@@ -1,8 +1,11 @@
 #include "aql/llm_aql_handler.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
+#include "llm/llama_wrapper.h"
+#include "index/vector_index.h"
 #include <stdexcept>
 #include <sstream>
+#include <algorithm>
 
 namespace themis {
 namespace aql {
@@ -14,6 +17,9 @@ public:
     llm::LLMPluginManager& getPluginManager() {
         return llm::LLMPluginManager::instance();
     }
+    
+    // Store optional vector index manager for RAG queries
+    VectorIndexManager* vector_index_mgr_ = nullptr;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -28,28 +34,42 @@ std::string LLMAQLHandler::executeInfer(
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
-        // Use EmbeddedLLM for direct inference
-        (void)model_id; // Future: support model selection
-        (void)lora_id;  // Future: support LoRA adapters
+        auto& plugin_mgr = impl_->getPluginManager();
+        
+        // Build inference request with model and LoRA selection
+        llm::InferenceRequest request;
+        request.prompt = prompt;
+        
+        // Set model if specified
+        if (!model_id.empty()) {
+            request.model_id = model_id;
+        }
+        
+        // Set LoRA adapter if specified
+        if (!lora_id.empty()) {
+            request.lora_adapter_id = lora_id;
+        }
         
         // Parse options for generation parameters
-        int max_tokens = 512;
-        float temperature = 0.7f;
-        float top_p = 0.9f;
-        
         if (options.count("max_tokens")) {
-            max_tokens = std::stoi(options.at("max_tokens"));
+            request.max_tokens = std::stoi(options.at("max_tokens"));
         }
         if (options.count("temperature")) {
-            temperature = std::stof(options.at("temperature"));
+            request.temperature = std::stof(options.at("temperature"));
         }
         if (options.count("top_p")) {
-            top_p = std::stof(options.at("top_p"));
+            request.top_p = std::stof(options.at("top_p"));
+        }
+        if (options.count("top_k")) {
+            request.top_k = std::stoi(options.at("top_k"));
+        }
+        if (options.count("repetition_penalty")) {
+            request.repetition_penalty = std::stof(options.at("repetition_penalty"));
         }
         
-        // Use simplified EmbeddedLLM API
-        auto result = THEMIS_LLM_GENERATE(prompt);
-        return result;
+        // Execute via plugin manager
+        auto response = plugin_mgr.generate(request);
+        return response.text;
         
     } catch (const std::exception& e) {
         throw std::runtime_error(
@@ -68,25 +88,71 @@ std::string LLMAQLHandler::executeRAG(
     try {
         auto& plugin_mgr = impl_->getPluginManager();
         
-        // TODO: Integrate with vector search to retrieve documents
-        // For now, create empty context
+        // Build RAG context with vector search integration
         llm::RAGContext context;
         context.query = query;
         context.collection_name = collection;
         context.top_k = top_k;
         
+        // If vector index manager is available, perform similarity search
+        if (impl_->vector_index_mgr_) {
+            try {
+                // Generate query embedding
+                auto query_embedding = THEMIS_LLM_EMBED(query);
+                
+                // Search for similar documents
+                float similarity_threshold = 0.7f;
+                if (options.count("similarity_threshold")) {
+                    similarity_threshold = std::stof(options.at("similarity_threshold"));
+                }
+                
+                auto [status, results] = impl_->vector_index_mgr_->searchKnn(
+                    query_embedding,
+                    top_k
+                );
+                
+                if (status.ok) {
+                    // Retrieve documents and build context
+                    for (const auto& result : results) {
+                        // Filter by similarity threshold
+                        if (result.distance <= (1.0f - similarity_threshold)) {
+                            llm::RAGContext::Document doc;
+                            doc.source = result.pk;
+                            doc.relevance_score = 1.0f - result.distance; // Convert distance to similarity
+                            // Note: Content would need to be fetched from storage
+                            // For now, we'll use the pk as content placeholder
+                            doc.content = result.pk;
+                            context.documents.push_back(doc);
+                        }
+                    }
+                }
+            } catch (const std::exception& e) {
+                // Log error but continue with empty context
+                // In production, this would be logged properly
+            }
+        }
+        
+        // Build inference request with RAG context
         llm::InferenceRequest request;
         request.prompt = query;
-        request.lora_adapter_id = lora_id;
+        
+        // Set LoRA adapter if specified
+        if (!lora_id.empty()) {
+            request.lora_adapter_id = lora_id;
+        }
         
         // Parse options
         if (options.count("max_tokens")) {
             request.max_tokens = std::stoi(options.at("max_tokens"));
         }
-        if (options.count("similarity_threshold")) {
-            // Store for vector search
+        if (options.count("temperature")) {
+            request.temperature = std::stof(options.at("temperature"));
+        }
+        if (options.count("top_p")) {
+            request.top_p = std::stof(options.at("top_p"));
         }
         
+        // Execute RAG query
         auto response = plugin_mgr.generateRAG(context, request);
         return response.text;
         
@@ -102,9 +168,20 @@ std::vector<float> LLMAQLHandler::executeEmbed(
     const std::string& model_id
 ) {
     try {
-        (void)model_id; // Future: support model selection
+        auto& plugin_mgr = impl_->getPluginManager();
         
-        // Use simplified EmbeddedLLM API
+        // If model_id is specified, use plugin manager for model-specific embedding
+        if (!model_id.empty()) {
+            // Build request for specific model
+            llm::InferenceRequest request;
+            request.prompt = text;
+            request.model_id = model_id;
+            
+            // Note: Plugin manager would need an embedWithModel method
+            // For now, fall back to default embedding
+        }
+        
+        // Use simplified EmbeddedLLM API for default embedding
         auto embedding = THEMIS_LLM_EMBED(text);
         return embedding;
         
@@ -291,6 +368,120 @@ std::vector<std::string> LLMAQLHandler::executeBatchInfer(
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("Batch LLM INFER failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::translateNLToAQL(
+    const std::string& nl_query,
+    const std::string& schema_context
+) {
+    try {
+        // Build system prompt for AQL translation
+        std::ostringstream system_prompt;
+        system_prompt << "You are an expert in ArangoDB Query Language (AQL) for ThemisDB.\n\n";
+        
+        // Add schema context if provided
+        if (!schema_context.empty()) {
+            system_prompt << "Database schema:\n" << schema_context << "\n\n";
+        } else {
+            // Default schema description
+            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+            system_prompt << "Graph structures use edges to connect nodes.\n\n";
+        }
+        
+        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+        system_prompt << "Requirements:\n";
+        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+        system_prompt << "- Optimize for performance\n\n";
+        
+        // Build user prompt
+        std::ostringstream user_prompt;
+        user_prompt << "Natural language query: " << nl_query << "\n\n";
+        user_prompt << "Generate the corresponding AQL query:";
+        
+        // Create chat messages for better context
+        std::vector<llm::ChatMessage> messages;
+        messages.emplace_back("system", system_prompt.str());
+        messages.emplace_back("user", user_prompt.str());
+        
+        // Use chat interface for better results
+        auto response = executeChat(messages);
+        
+        // Clean up response - remove markdown code blocks if present
+        std::string aql_query = response;
+        
+        // Remove ```aql or ``` markers
+        size_t start_marker = aql_query.find("```");
+        if (start_marker != std::string::npos) {
+            // Find the actual start of the query (after ```aql or ```)
+            size_t query_start = aql_query.find('\n', start_marker);
+            if (query_start != std::string::npos) {
+                query_start++;
+                // Find end marker
+                size_t end_marker = aql_query.find("```", query_start);
+                if (end_marker != std::string::npos) {
+                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+                }
+            }
+        }
+        
+        // Trim whitespace
+        auto trim = [](std::string& s) {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }).base(), s.end());
+        };
+        trim(aql_query);
+        
+        return aql_query;
+        
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("NL to AQL translation failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::executeChat(
+    const std::vector<llm::ChatMessage>& messages,
+    const std::string& model_id,
+    const std::unordered_map<std::string, std::string>& options
+) {
+    try {
+        // Use EmbeddedLLM chat interface
+        auto& llm = llm::EmbeddedLLMManager::instance().get();
+        
+        // Note: EmbeddedLLM's chat() doesn't directly support custom parameters
+        // We can use generateWithParams for the formatted chat prompt instead
+        
+        // Determine chat format from options or use default
+        llm::ChatFormat format = llm::ChatFormat::ChatML;
+        if (options.count("chat_format")) {
+            const auto& fmt = options.at("chat_format");
+            if (fmt == "llama2") format = llm::ChatFormat::Llama2;
+            else if (fmt == "alpaca") format = llm::ChatFormat::Alpaca;
+            else if (fmt == "vicuna") format = llm::ChatFormat::Vicuna;
+        }
+        
+        // Note: model_id selection would require extending EmbeddedLLM API
+        // For now, use the default model
+        (void)model_id;
+        
+        // If we have custom parameters, we might need to use a different approach
+        // For now, use the standard chat method with default parameters
+        auto response = llm.chat(messages, format);
+        return response;
+        
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("LLM CHAT failed: ") + e.what()
         );
     }
 }

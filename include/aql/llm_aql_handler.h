@@ -74,6 +74,33 @@ public:
         const std::vector<BatchInferRequest>& requests
     );
 
+    // Natural Language to AQL Translation
+    /**
+     * @brief Translate natural language query to AQL
+     * @param nl_query Natural language query (e.g., "Find all users in Seattle")
+     * @param schema_context Optional database schema context for better translation
+     * @return Generated AQL query as string
+     * @throws std::runtime_error if translation fails
+     */
+    std::string translateNLToAQL(
+        const std::string& nl_query,
+        const std::string& schema_context = ""
+    );
+
+    // Conversation/Chat Support
+    /**
+     * @brief Execute chat interaction with message history
+     * @param messages Conversation history
+     * @param model_id Optional model identifier
+     * @param options Generation options
+     * @return Assistant response
+     */
+    std::string executeChat(
+        const std::vector<llm::ChatMessage>& messages,
+        const std::string& model_id = "",
+        const std::unordered_map<std::string, std::string>& options = {}
+    );
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
