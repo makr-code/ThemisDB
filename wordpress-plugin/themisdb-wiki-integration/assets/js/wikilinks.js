@@ -35,7 +35,9 @@
             $link.on('click', function(e) {
                 if (confirm('The page "' + pageName + '" does not exist. Do you want to create it?')) {
                     // Redirect to create new wiki page with pre-filled title
-                    var createUrl = '/wp-admin/post-new.php?post_type=themisdb_wiki&post_title=' + encodeURIComponent(pageName);
+                    var createUrl = (typeof themisdbWiki !== 'undefined' && themisdbWiki.adminUrl) ? 
+                        themisdbWiki.adminUrl + 'post-new.php?post_type=themisdb_wiki&post_title=' + encodeURIComponent(pageName) :
+                        '/wp-admin/post-new.php?post_type=themisdb_wiki&post_title=' + encodeURIComponent(pageName);
                     window.location.href = createUrl;
                 }
                 e.preventDefault();

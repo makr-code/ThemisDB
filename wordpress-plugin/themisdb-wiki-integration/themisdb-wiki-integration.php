@@ -129,6 +129,12 @@ class ThemisDB_Wiki_Integration {
                 THEMISDB_WIKI_VERSION,
                 true
             );
+            
+            wp_localize_script('themisdb-wiki-wikilinks', 'themisdbWiki', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'adminUrl' => admin_url(),
+                'nonce' => wp_create_nonce('themisdb_wiki_nonce')
+            ));
         }
     }
     
@@ -145,7 +151,7 @@ class ThemisDB_Wiki_Integration {
             // SimpleMDE CSS
             wp_enqueue_style(
                 'simplemde',
-                'https://cdn.jsdelivr.net/npm/simplemde@latest/dist/simplemde.min.css',
+                'https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.css',
                 array(),
                 '1.11.2'
             );
@@ -160,7 +166,7 @@ class ThemisDB_Wiki_Integration {
             // SimpleMDE JS
             wp_enqueue_script(
                 'simplemde',
-                'https://cdn.jsdelivr.net/npm/simplemde@latest/dist/simplemde.min.js',
+                'https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.js',
                 array(),
                 '1.11.2',
                 true
@@ -193,7 +199,8 @@ class ThemisDB_Wiki_Integration {
             wp_localize_script('themisdb-markdown-editor', 'themisdbWiki', array(
                 'ajaxurl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('themisdb_wiki_nonce'),
-                'postId' => isset($post->ID) ? $post->ID : 0
+                'postId' => isset($post->ID) ? $post->ID : 0,
+                'adminUrl' => admin_url()
             ));
         }
         

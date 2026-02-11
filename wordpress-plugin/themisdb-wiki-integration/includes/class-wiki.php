@@ -199,7 +199,9 @@ class ThemisDB_Wiki {
         
         // Save markdown source
         if (isset($_POST['wiki_markdown'])) {
-            $markdown = wp_kses_post($_POST['wiki_markdown']);
+            $markdown = wp_unslash($_POST['wiki_markdown']);
+            // Sanitize but preserve markdown formatting
+            $markdown = sanitize_textarea_field($markdown);
             update_post_meta($post_id, '_wiki_markdown', $markdown);
             
             // Convert markdown to HTML for post content
