@@ -10,6 +10,9 @@
   [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
+  [![Docker Version](https://img.shields.io/docker/v/themisdb/themisdb/latest?label=version&logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
+  [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
+  [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
   
