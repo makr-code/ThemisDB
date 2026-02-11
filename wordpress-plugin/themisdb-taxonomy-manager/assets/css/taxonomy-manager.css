@@ -1,0 +1,211 @@
+/**
+ * ThemisDB Taxonomy Manager - Main Styles
+ * Themis Brand Colors
+ */
+
+:root {
+    --themis-primary: #2c3e50;
+    --themis-secondary: #3498db;
+    --themis-accent: #7c4dff;
+    --themis-success: #27ae60;
+    --themis-warning: #f39c12;
+    --themis-error: #e74c3c;
+}
+
+/* Taxonomy List */
+.themisdb-taxonomy-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.themisdb-taxonomy-list li {
+    margin-bottom: 0.5rem;
+}
+
+.themisdb-taxonomy-list a {
+    display: flex;
+    align-items: center;
+    color: var(--themis-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.themisdb-taxonomy-list a:hover {
+    color: var(--themis-secondary);
+    background-color: #f8f9fa;
+}
+
+.themisdb-taxonomy-list .icon {
+    font-size: 1.2em;
+    margin-right: 0.5rem;
+}
+
+.themisdb-taxonomy-list .count {
+    margin-left: auto;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+/* Tag Cloud */
+.themisdb-tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.themisdb-tag-cloud a {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    color: var(--themis-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.themisdb-tag-cloud a:hover {
+    color: var(--themis-accent) !important;
+    transform: scale(1.1);
+    background-color: #f8f9fa;
+}
+
+/* Taxonomy Grid */
+.themisdb-taxonomy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 1rem 0;
+}
+
+.themisdb-taxonomy-grid .grid-item {
+    border: 2px solid var(--themis-secondary);
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.themisdb-taxonomy-grid .grid-item:hover {
+    border-color: var(--themis-accent);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(124, 77, 255, 0.2);
+}
+
+.themisdb-taxonomy-grid .icon {
+    font-size: 2.5em;
+    margin-bottom: 0.5rem;
+}
+
+.themisdb-taxonomy-grid h4 {
+    margin: 0.5rem 0;
+    font-size: 1.1em;
+}
+
+.themisdb-taxonomy-grid h4 a {
+    color: var(--themis-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.themisdb-taxonomy-grid h4 a:hover {
+    color: var(--themis-secondary);
+}
+
+.themisdb-taxonomy-grid .count {
+    color: #6c757d;
+    font-size: 0.9em;
+}
+
+/* Term Card */
+.themisdb-term-card {
+    border: 2px solid var(--themis-secondary);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 1rem 0;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.themisdb-term-card:hover {
+    border-color: var(--themis-accent);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.themisdb-term-card .card-icon {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.themisdb-term-card h3 {
+    margin: 0.5rem 0;
+    text-align: center;
+}
+
+.themisdb-term-card h3 a {
+    color: var(--themis-primary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.themisdb-term-card h3 a:hover {
+    color: var(--themis-secondary);
+}
+
+.themisdb-term-card .description {
+    color: #6c757d;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.themisdb-term-card .post-count {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.themisdb-term-card .post-count a {
+    color: var(--themis-secondary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.themisdb-term-card .post-count a:hover {
+    color: var(--themis-accent);
+}
+
+/* Breadcrumb */
+.themisdb-breadcrumb {
+    padding: 1rem 0;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.themisdb-breadcrumb a {
+    color: var(--themis-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.themisdb-breadcrumb a:hover {
+    color: var(--themis-accent);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .themisdb-taxonomy-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .themisdb-taxonomy-grid .grid-item {
+        padding: 1rem;
+    }
+    
+    .themisdb-tag-cloud {
+        gap: 0.3rem;
+    }
+}

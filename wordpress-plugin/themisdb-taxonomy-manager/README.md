@@ -1,301 +1,268 @@
-# ThemisDB Taxonomy Manager
+# ThemisDB Taxonomy Manager v1.0.0
 
-Ein gemeinsames WordPress-Plugin zur intelligenten Verwaltung von Kategorien und Tags für alle ThemisDB-Plugins.
+A comprehensive WordPress plugin for managing custom taxonomies for ThemisDB features, use cases, industries, and technical specifications.
 
-## Übersicht
+## 📋 Overview
 
-Dieses Plugin konsolidiert die Taxonomie-Verwaltung aus beiden bisherigen Plugins:
-- **themisdb-downloads**: Content-basierte Extraktion (Textanalyse)
-- **themisdb-wiki-integration**: Struktur-basierte Extraktion (Dateipfade, Metadaten)
+This plugin provides advanced taxonomy management for ThemisDB-related content with visual tree interface, icon/color support, SEO optimization, and flexible display widgets.
 
-## Hauptfunktionen
+## 🎯 Features
 
-### ✅ Duale Extraktion
-- **Content-basiert**: Analysiert Beitragsinhalt mit Wortfrequenz und Phrase-Erkennung
-- **Struktur-basiert**: Extrahiert aus Dateipfaden, Verzeichnisstruktur und Metadaten
-- **Kombiniert**: Nutzt beide Ansätze für optimale Ergebnisse
+### ✅ Custom Taxonomies
+- **Database Features** (`themisdb_feature`) - Hierarchical
+- **Use Cases** (`themisdb_usecase`) - Hierarchical  
+- **Industries** (`themisdb_industry`) - Hierarchical
+- **Technical Specs** (`themisdb_techspec`) - Non-hierarchical (tags)
 
-### ✅ Hierarchische Kategorien
-- **Bis zu 3 Ebenen**: Parent → Child → Grandchild Struktur
-- **Automatische Hierarchie**: Erstellt automatisch Eltern-Kind-Beziehungen
-- **Konsolidierung**: Minimiert redundante Kategorien
+### ✅ Visual Tree View
+- Interactive tree interface (Tools → Taxonomy Tree)
+- Drag & drop reordering with AJAX save
+- Expand/collapse branches
+- Post count display
+- Quick edit links
 
-### ✅ Intelligente Optimierung
-- **Kategorie-Konsolidierung**: Fasst ähnliche Kategorien zusammen
-- **Empfehlungen**: Schlägt Optimierungen vor
-- **Minimierung**: "So wenig wie möglich, so viel wie nötig"
+### ✅ Icon & Color Support
+- Emoji icons (📦, 🗄️, 🎯, etc.)
+- Font Awesome support
+- Color picker with Themis brand presets
+- Extended descriptions
+- Featured flag
+- Custom ordering
 
-## Installation
+### ✅ Display Options
+- **Widget**: 3 styles (list, cloud, grid)
+- **Shortcodes**: `[themisdb_taxonomy]` and `[themisdb_term_card]`
+- **Template Functions**: For theme integration
 
-### Methode 1: WordPress Admin
+### ✅ SEO Optimization
+- Schema.org CollectionPage markup
+- Breadcrumb schema (BreadcrumbList)
+- Hierarchical breadcrumb display
+- Meta descriptions
 
-1. Laden Sie das Plugin-Verzeichnis als ZIP-Datei herunter
-2. Gehen Sie zu WordPress Admin → Plugins → Installieren
-3. Klicken Sie auf "Plugin hochladen"
-4. Aktivieren Sie das Plugin
+## 📦 Installation
 
-### Methode 2: Manuell
+### Method 1: WordPress Admin
+1. Download the plugin as ZIP
+2. Go to Plugins → Add New → Upload Plugin
+3. Activate the plugin
+4. Default terms will be created automatically
 
+### Method 2: Manual
 ```bash
-cd /wp-content/plugins/
-cp -r /pfad/zu/themisdb-taxonomy-manager ./
+cd /path/to/wordpress/wp-content/plugins/
+cp -r /path/to/themisdb-taxonomy-manager ./
 ```
 
-## Konfiguration
+Then activate via WordPress admin.
 
-Gehen Sie zu **Einstellungen → Taxonomy Manager**:
+## 🎨 Custom Taxonomies
 
-### Grundeinstellungen
+### Database Features (`themisdb_feature`)
 
-| Einstellung | Beschreibung | Standard |
-|-------------|--------------|----------|
-| Enable Auto-Extraction | Automatische Extraktion bei Post-Speicherung | ✅ An |
-| Auto-Assign Categories | Automatische Kategorie-Zuweisung | ✅ An |
-| Auto-Assign Tags | Automatische Tag-Zuweisung | ✅ An |
-| Maximum Category Depth | Maximale Kategorie-Tiefe (1-5) | 3 |
-| Consolidate Categories | Automatische Konsolidierung | ✅ An |
-
-## Kategorie-Hierarchie
-
-Das Plugin definiert eine dreistufige Hierarchie:
+Hierarchical taxonomy for database features:
 
 ```
-Documentation (Ebene 1)
-├── Guides (Ebene 2)
-├── API Reference (Ebene 2)
-└── Architecture (Ebene 2)
+Data Models
+├── Relational SQL
+├── Graph Database
+├── Document Store
+├── Vector Database
+├── Time-Series
+└── Key-Value Store
 
-Security (Ebene 1)
-├── Authentication (Ebene 2)
-│   └── OAuth (Ebene 3)
-├── Encryption (Ebene 2)
-└── Compliance (Ebene 2)
+AI/ML
+├── Embedded LLM
+├── Vector Search
+├── RAG Support
+├── GPU Acceleration
+└── Model Inference
 
-Features (Ebene 1)
-├── LLM Integration (Ebene 2)
-├── Vector Search (Ebene 2)
-└── Time-Series (Ebene 2)
+Performance
+├── Horizontal Scaling
+├── Auto-Sharding
+├── Replication
+├── Caching
+└── Query Optimization
 
-Operations (Ebene 1)
-├── Deployment (Ebene 2)
-├── Monitoring & Observability (Ebene 2)
-└── Performance (Ebene 2)
+Compatibility
+├── SQL Protocol
+├── MongoDB Protocol
+├── Cypher (Graph)
+├── REST API
+├── GraphQL API
+└── gRPC
 ```
 
-### Hierarchie-Regeln anpassen
+### Use Cases (`themisdb_usecase`)
+
+- AI & Machine Learning
+- Real-Time Analytics
+- Graph Analytics
+- IoT Data Management
+- Content Management
+- E-Commerce
+- Social Networks
+- Recommendation Systems
+- Knowledge Graphs
+- Semantic Search
+
+### Industries (`themisdb_industry`)
+
+- Healthcare
+- Finance
+- E-Commerce
+- Telecommunications
+- Manufacturing
+- Education
+- Government
+- Media & Entertainment
+- Transportation
+- Energy
+
+### Technical Specs (`themisdb_techspec`)
+
+Non-hierarchical tags:
+- ACID, MVCC, C++, RocksDB, llama.cpp
+- CUDA, OpenCL, Docker, Kubernetes
+- High Availability, Disaster Recovery
+
+## 🧩 Usage
+
+### Tree View Admin
+
+Navigate to **Tools → Taxonomy Tree** to:
+- View hierarchical term structure
+- Drag & drop to reorder terms
+- Expand/collapse branches
+- Quick edit terms
+- See post counts
+
+### Widget
+
+Add the **ThemisDB Taxonomy** widget to your sidebar:
+
+**Settings:**
+- Title
+- Taxonomy selection
+- Display style (list/cloud/grid)
+- Show icons (yes/no)
+- Show count (yes/no)
+- Limit (number of terms)
+
+### Shortcodes
+
+#### Taxonomy List
 
 ```php
-add_filter('themisdb_category_hierarchy_rules', function($rules) {
-    $rules['Ihre Kategorie'] = array('Child 1', 'Child 2');
-    return $rules;
-});
+[themisdb_taxonomy taxonomy="themisdb_feature" style="list" show_icons="yes" show_count="yes"]
+
+// Parameters:
+// - taxonomy: themisdb_feature|themisdb_usecase|themisdb_industry|themisdb_techspec
+// - style: list|cloud|grid
+// - show_icons: yes|no
+// - show_count: yes|no
+// - parent: term_id (show only children)
+// - limit: number (default: -1 for all)
+// - orderby: name|count|term_order
+// - order: ASC|DESC
 ```
 
-## Konsolidierung
-
-Das Plugin konsolidiert ähnliche Kategorien automatisch:
-
-```
-Monitoring → Monitoring & Observability
-Observability → Monitoring & Observability
-AQL → AQL Query Language
-APIs → API Reference
-Auth → Authentication
-```
-
-### Konsolidierungs-Regeln anpassen
+#### Term Card
 
 ```php
-add_filter('themisdb_category_consolidation_rules', function($rules) {
-    $rules['Ihre Variante'] = 'Kanonischer Name';
-    return $rules;
-});
+[themisdb_term_card term_id="123" show_description="yes" show_posts="yes"]
 ```
 
-## Verwendung für Entwickler
-
-### Programmatische Extraktion
+### Template Functions
 
 ```php
-// Hole Taxonomy Manager
-$manager = themisdb_get_taxonomy_manager();
+// Display breadcrumb
+<?php themisdb_taxonomy_breadcrumb(); ?>
 
-// Extrahiere von Post
-$post_id = 123;
-$result = $manager->get_extractor()->extract_taxonomies($post_id);
-
-// Weise mit Hierarchie zu
-$manager->assign_categories_with_hierarchy($post_id, $result['categories']);
-$manager->assign_tags($post_id, $result['tags']);
-```
-
-### Batch-Verarbeitung
-
-```php
-$manager = themisdb_get_taxonomy_manager();
-
-$post_ids = array(1, 2, 3, 4, 5);
-$options = array(
-    'extract_from_content' => true,
-    'extract_from_metadata' => true,
-    'max_categories' => 5,
-    'max_tags' => 15
-);
-
-$stats = $manager->batch_assign_taxonomies($post_ids, $options);
-
-// $stats = array(
-//     'processed' => 5,
-//     'categories_assigned' => 12,
-//     'tags_assigned' => 23,
-//     'errors' => 0
-// );
-```
-
-### Kategorie-Optimierung
-
-```php
-$manager = themisdb_get_taxonomy_manager();
-
-// Hole Empfehlungen
-$recommendations = $manager->get_optimization_recommendations();
-
-// Führe Konsolidierung aus
-$stats = $manager->consolidate_categories();
-
-// $stats = array(
-//     'consolidated' => 5,
-//     'hierarchized' => 8,
-//     'errors' => 0
-// );
-```
-
-## REST API
-
-Das Plugin stellt REST API Endpoints bereit:
-
-### Taxonomien extrahieren
-
-```bash
-POST /wp-json/themisdb/v1/taxonomy/extract
-{
-  "post_id": 123
+// Get terms with icons
+<?php
+$terms = get_terms(array('taxonomy' => 'themisdb_feature'));
+foreach ($terms as $term) {
+    $icon = get_term_meta($term->term_id, 'icon', true);
+    $color = get_term_meta($term->term_id, 'color', true);
+    echo '<span style="color: ' . esc_attr($color) . ';">' . esc_html($icon) . '</span> ';
+    echo esc_html($term->name);
 }
-
-# Oder mit Text
-POST /wp-json/themisdb/v1/taxonomy/extract
-{
-  "text": "Content here...",
-  "title": "Title here...",
-  "options": {
-    "max_categories": 5,
-    "max_tags": 15
-  }
-}
+?>
 ```
 
-### Kategorien konsolidieren
+## 🎨 Themis Brand Colors
 
-```bash
-POST /wp-json/themisdb/v1/taxonomy/consolidate
+```css
+--themis-primary: #2c3e50
+--themis-secondary: #3498db
+--themis-accent: #7c4dff
+--themis-success: #27ae60
+--themis-warning: #f39c12
+--themis-error: #e74c3c
 ```
 
-### Empfehlungen abrufen
+## 🔍 SEO Integration
 
-```bash
-GET /wp-json/themisdb/v1/taxonomy/recommendations
-```
+### Schema.org Markup
 
-## Integration mit anderen Plugins
+Automatically adds CollectionPage and BreadcrumbList schema to taxonomy archive pages.
 
-### themisdb-downloads
+### Breadcrumbs
+
+Display hierarchical breadcrumbs:
 
 ```php
-// In themisdb-downloads/themisdb-downloads.php
-if (function_exists('themisdb_get_taxonomy_manager')) {
-    // Verwende shared manager statt eigener Klasse
-    // remove_action('save_post', array($old_manager, 'auto_assign_taxonomies'));
-}
+<?php if (is_tax(array('themisdb_feature', 'themisdb_usecase', 'themisdb_industry', 'themisdb_techspec'))): ?>
+    <?php themisdb_taxonomy_breadcrumb(); ?>
+<?php endif; ?>
 ```
 
-### themisdb-wiki-integration
+## 📝 Term Meta Fields
+
+Each term supports:
+- **Icon**: Emoji or Font Awesome class
+- **Color**: Hex color with picker
+- **Extended Description**: Long-form content
+- **Featured**: Flag for highlighting
+- **Order**: Manual sort position
+
+## ⚙️ Development
+
+### Hooks & Filters
 
 ```php
-// In wordpress_doc_importer.php
-if (function_exists('themisdb_get_taxonomy_manager')) {
-    $manager = themisdb_get_taxonomy_manager();
-    
-    // Nutze hierarchische Kategorien
-    $manager->assign_categories_with_hierarchy($post_id, $categories);
-}
+// Add custom term meta
+add_action('themisdb_feature_edit_form_fields', 'my_custom_fields', 20, 2);
+
+// Modify breadcrumb output
+add_filter('themisdb_taxonomy_breadcrumb_html', 'my_breadcrumb_filter');
 ```
 
-## Optimierung
+## 🧪 Testing
 
-### Manuelle Konsolidierung
+The plugin has been tested with:
+- WordPress 5.8+
+- PHP 7.4+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile responsive design
 
-1. Gehen Sie zu **Einstellungen → Taxonomy Manager**
-2. Wechseln Sie zum Tab **Optimization**
-3. Klicken Sie auf **Get Recommendations**
-4. Prüfen Sie die Vorschläge
-5. Klicken Sie auf **Run Consolidation**
+## 📄 License
 
-### Ergebnis
+MIT License - See LICENSE file for details
 
-```
-Results:
-{
-  "consolidated": 5,
-  "hierarchized": 8,
-  "errors": 0
-}
-```
+## 👥 Author
 
-## Best Practices
+**ThemisDB Team**
+- GitHub: https://github.com/makr-code/ThemisDB
+- Website: https://themisdb.org
 
-### 1. Minimale Kategorien
-
-✅ **Gut**: `Security → Authentication`
-❌ **Schlecht**: `Security`, `Authentication`, `Security and Auth`, `Auth`
-
-### 2. Hierarchische Struktur
-
-✅ **Gut**: 
-```
-Features
-  ├── LLM Integration
-  └── Vector Search
-```
-
-❌ **Schlecht**: Alle auf einer Ebene
-
-### 3. Konsolidierung
-
-✅ **Gut**: Eine kanonische Kategorie `Monitoring & Observability`
-❌ **Schlecht**: Mehrere Varianten: `Monitoring`, `Observability`, `Monitoring/Observability`
-
-## Troubleshooting
-
-### Problem: Kategorien werden nicht automatisch erstellt
-
-**Lösung**: Prüfen Sie, ob "Auto-Assign Categories" in den Einstellungen aktiviert ist.
-
-### Problem: Zu viele Kategorien
-
-**Lösung**: 
-1. Reduzieren Sie "Maximum Category Depth"
-2. Führen Sie Konsolidierung aus
-3. Prüfen Sie Empfehlungen
-
-### Problem: Hierarchie wird nicht angewendet
-
-**Lösung**: Führen Sie manuelle Konsolidierung aus unter **Optimization** Tab.
-
-## Lizenz
-
-MIT - Teil des ThemisDB-Projekts
-
-## Support
+## 🆘 Support
 
 - GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- Dokumentation: https://github.com/makr-code/ThemisDB/wiki
+- Documentation: https://github.com/makr-code/ThemisDB/wiki
+
+## 📝 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.

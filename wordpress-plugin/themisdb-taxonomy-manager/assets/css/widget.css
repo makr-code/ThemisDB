@@ -1,0 +1,60 @@
+/**
+ * ThemisDB Taxonomy Manager - Widget Styles
+ */
+
+.widget_themisdb_taxonomy_widget {
+    margin-bottom: 2rem;
+}
+
+.widget_themisdb_taxonomy_widget .widget-title {
+    font-size: 1.2em;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+/* Widget List Style */
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-list li {
+    margin-bottom: 0.5rem;
+}
+
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-list a {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-list a:hover {
+    background-color: #f8f9fa;
+}
+
+/* Widget Cloud Style */
+.widget_themisdb_taxonomy_widget .themisdb-tag-cloud {
+    line-height: 2;
+}
+
+.widget_themisdb_taxonomy_widget .themisdb-tag-cloud a {
+    padding: 0.25rem 0.5rem;
+}
+
+/* Widget Grid Style */
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+}
+
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-grid .grid-item {
+    padding: 1rem;
+}
+
+.widget_themisdb_taxonomy_widget .themisdb-taxonomy-grid .icon {
+    font-size: 2em;
+}
