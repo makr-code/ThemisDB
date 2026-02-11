@@ -275,14 +275,51 @@
     
     // Initialize copy buttons and MathML after formula rendering
     $(document).ready(function($) {
-        // Wait for formulas to be rendered
-        setTimeout(addCopyButtons, 500);
-        setTimeout(addMathMLAccessibility, 600);
+        // Use MutationObserver to detect when formulas are rendered
+        function observeFormulaRendering() {
+            const observer = new MutationObserver(function(mutations) {
+                let hasFormulaChanges = false;
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // Element node
+                            if (node.classList && (node.classList.contains('katex') || 
+                                node.classList.contains('themisdb-formula-rendered') ||
+                                node.querySelector && node.querySelector('.katex'))) {
+                                hasFormulaChanges = true;
+                            }
+                        }
+                    });
+                });
+                
+                if (hasFormulaChanges) {
+                    // Small delay to ensure rendering is complete
+                    setTimeout(function() {
+                        addCopyButtons();
+                        addMathMLAccessibility();
+                    }, 100);
+                }
+            });
+            
+            // Observe the document body for formula additions
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
         
-        // Also add after AJAX content loads
+        // Initial setup with fallback timeout
+        setTimeout(function() {
+            addCopyButtons();
+            addMathMLAccessibility();
+            observeFormulaRendering();
+        }, 500);
+        
+        // Also add after AJAX content loads with observer
         $(document).ajaxComplete(function() {
-            setTimeout(addCopyButtons, 500);
-            setTimeout(addMathMLAccessibility, 600);
+            setTimeout(function() {
+                addCopyButtons();
+                addMathMLAccessibility();
+            }, 500);
         });
     });
     

@@ -216,11 +216,35 @@ class ThemisDB_Formula_Library {
                 const text = $(this).data('shortcode') || $(this).data('latex');
                 const $btn = $(this);
                 
-                navigator.clipboard.writeText(text).then(() => {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        const originalText = $btn.text();
+                        $btn.text('✅ Copied!');
+                        setTimeout(() => $btn.text(originalText), 2000);
+                    }).catch(err => {
+                        console.error('Clipboard copy failed:', err);
+                        $btn.text('❌ Failed');
+                        setTimeout(() => $btn.text($btn.data('original-text') || 'Copy'), 2000);
+                    });
+                } else {
+                    // Fallback for older browsers
                     const originalText = $btn.text();
-                    $btn.text('✅ Copied!');
+                    try {
+                        const textarea = document.createElement('textarea');
+                        textarea.value = text;
+                        textarea.style.position = 'fixed';
+                        textarea.style.opacity = '0';
+                        document.body.appendChild(textarea);
+                        textarea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        $btn.text('✅ Copied!');
+                    } catch (err) {
+                        console.error('Fallback copy failed:', err);
+                        $btn.text('❌ Failed');
+                    }
                     setTimeout(() => $btn.text(originalText), 2000);
-                });
+                }
             });
         });
         </script>

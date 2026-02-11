@@ -162,8 +162,8 @@ function themisdb_formula_add_preload() {
     );
     
     if ($has_formula) {
-        echo '<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" as="style">';
-        echo '<link rel="preload" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" as="script">';
+        echo '<link rel="preload" href="' . esc_url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css') . '" as="style">';
+        echo '<link rel="preload" href="' . esc_url('https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js') . '" as="script">';
     }
 }
 add_action('wp_head', 'themisdb_formula_add_preload', 1);
