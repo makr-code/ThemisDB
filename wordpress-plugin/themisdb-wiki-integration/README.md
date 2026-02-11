@@ -1,335 +1,120 @@
-# ThemisDB Wiki Integration WordPress Plugin
+# ThemisDB Wiki Integration v1.0.0
 
-**Version:** 1.0.0  
-**Author:** ThemisDB Team  
-**License:** MIT  
-
-## Beschreibung / Description
-
-**Deutsch:**
-Dieses WordPress-Plugin ermöglicht die automatische Integration der ThemisDB-Dokumentation (Wiki) aus GitHub in Ihre WordPress-Website. Das Plugin ruft Markdown-Dateien direkt aus dem GitHub-Repository ab und zeigt sie formatiert in WordPress an.
-
-**English:**
-This WordPress plugin enables automatic integration of ThemisDB documentation (wiki) from GitHub into your WordPress website. The plugin fetches markdown files directly from the GitHub repository and displays them formatted in WordPress.
+Native WordPress wiki with Markdown editor, [[WikiLinks]], version history, and GitHub Wiki sync.
 
 ## Features
 
-- ✅ Automatisches Abrufen von Markdown-Dokumentation aus GitHub
-- ✅ **Wiki-Navigation aus _Sidebar.md** (GitHub Wiki-Index)
-- ✅ **WordPress-Widget für Seitenleisten-Navigation**
-- ✅ **Drei Navigationsstile**: Sidebar, Accordion, Horizontal
-- ✅ Unterstützung für mehrere Sprachen (DE, EN, FR)
-- ✅ Caching-Mechanismus für bessere Performance
-- ✅ **Manuelle Synchronisierung** (on-demand, kein automatischer Hintergrund-Sync)
-- ✅ Shortcodes für einfache Integration
-- ✅ Inhaltsverzeichnis-Generierung
-- ✅ Responsive Design
-- ✅ Dark Mode Support
-- ✅ Admin-Panel zur Konfiguration
+✅ Custom Post Type for Wiki pages  
+✅ Markdown editor (SimpleMDE)  
+✅ [[WikiLink]] syntax support  
+✅ Auto-generated Table of Contents  
+✅ Version history with diff viewer  
+✅ GitHub Wiki synchronization  
+✅ Full-text search with live suggestions  
+✅ Responsive design with Themis brand colors  
+✅ Contributors tracking  
+✅ Related pages and backlinks  
 
 ## Installation
 
-### Methode 1: Manueller Upload
+1. Upload to `/wp-content/plugins/themisdb-wiki-integration/`
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Go to Wiki → Add New to create your first wiki page
+4. (Optional) Configure GitHub sync in Settings → ThemisDB Wiki
 
-1. Laden Sie den Ordner `themisdb-wiki-integration` in das Verzeichnis `/wp-content/plugins/` hoch
-2. Aktivieren Sie das Plugin über das 'Plugins'-Menü in WordPress
-3. Gehen Sie zu Einstellungen → ThemisDB Wiki, um das Plugin zu konfigurieren
+## WikiLink Syntax
 
-### Methode 2: Von GitHub
-
-```bash
-cd /path/to/wordpress/wp-content/plugins/
-git clone https://github.com/makr-code/ThemisDB.git themisdb-repo
-cp -r themisdb-repo/tools/themisdb-wiki-integration ./
-rm -rf themisdb-repo
+```markdown
+[[Page Name]]                  → Link to page
+[[Page|Display Text]]          → Custom link text
+[[Page#Section]]               → Link to section
+[[Category:Name]]              → Assign category
+[[File:image.png|thumb|right]] → Embed image with thumbnail
 ```
 
-## Konfiguration
+## GitHub Sync
 
-Nach der Aktivierung gehen Sie zu **Einstellungen → ThemisDB Wiki** und konfigurieren Sie:
+### Setup
+1. Go to Settings → ThemisDB Wiki
+2. Enter your GitHub repository (e.g., `owner/repository`)
+3. Add a Personal Access Token with repo permissions
+4. Choose sync direction:
+   - Manual: Sync only when you click the button
+   - WordPress → GitHub: Auto-push on save
+   - GitHub → WordPress: Pull from GitHub
+   - Bidirectional: Two-way sync
 
-- **GitHub Repository**: `makr-code/ThemisDB` (Standard)
-- **Branch**: `main` oder `develop`
-- **Dokumentationspfad**: `docs` (Standard)
-- **Standard-Sprache**: `de`, `en`, oder `fr`
-- **GitHub Token** (Optional): Für private Repos oder höhere Rate Limits
-- **Auto-Sync**: Standardmäßig deaktiviert (manuelle Synchronisierung empfohlen)
+### Usage
+- **Push to GitHub**: Edit a wiki page and click "Push to GitHub" in the sidebar
+- **Pull from GitHub**: Go to Settings → ThemisDB Wiki → Sync tab and click "Sync Now"
+- **Bulk Sync**: Click "Bulk Sync All Pages" to sync all wiki pages from GitHub
 
-**Hinweis:** Die Synchronisierung erfolgt on-demand über den "Sync Now" Button im Admin-Panel oder kann optional für automatische stündliche Updates aktiviert werden.
-
-## Verwendung / Usage
-
-### Shortcode: Wiki-Navigation anzeigen (NEU!)
+## Shortcodes
 
 ```php
-[themisdb_wiki_nav lang="de" style="sidebar"]
+// Display specific wiki page
+[themisdb_wiki_page page="getting-started"]
+
+// Show wiki index by category
+[themisdb_wiki_index category="documentation"]
+
+// Recent wiki changes
+[themisdb_wiki_recent limit="5"]
+
+// Wiki search form
+[themisdb_wiki_search]
+
+// Table of Contents
+[themisdb_wiki_toc depth="3" title="Contents"]
 ```
 
-**Parameter:**
-- `lang`: Sprache (`de`, `en`, `fr`) - Standard: Plugin-Einstellung
-- `style`: Anzeigestil (`sidebar`, `accordion`, `horizontal`)
+## Custom Templates
 
-**Beschreibung:**
-Zeigt die vollständige Dokumentations-Navigation aus der `_Sidebar.md` Datei des GitHub-Wikis an. Dies ist der empfohlene Ausgangspunkt für die Navigation durch die Dokumentation.
+To customize wiki page display, copy these templates to your theme:
 
-### Shortcode: Dokumentation anzeigen
+- `templates/single-themisdb_wiki.php` → Single wiki page
+- `templates/archive-themisdb_wiki.php` → Wiki archive/list
+
+## Development
+
+### Hooks
 
 ```php
-[themisdb_wiki file="README.md" lang="de" show_toc="yes"]
+// Filter wiki content before display
+add_filter('themisdb_wiki_content', function($content, $post_id) {
+    // Modify content
+    return $content;
+}, 10, 2);
+
+// Action when wiki page is saved
+add_action('themisdb_wiki_saved', function($post_id) {
+    // Do something
+}, 10, 1);
+
+// Filter WikiLink output
+add_filter('themisdb_wikilink_html', function($html, $page_name, $display_text) {
+    // Customize link HTML
+    return $html;
+}, 10, 3);
 ```
 
-**Parameter:**
-- `file`: Markdown-Datei zum Anzeigen (z.B. `README.md`, `features/FEATURES.md`)
-- `lang`: Sprache (`de`, `en`, `fr`) - Standard: Plugin-Einstellung
-- `show_toc`: Inhaltsverzeichnis anzeigen (`yes`/`no`)
+## Requirements
 
-### Shortcode: Dokumentationsliste anzeigen
+- WordPress 5.0 or higher
+- PHP 7.4 or higher
+- Modern browser with JavaScript enabled
 
-```php
-[themisdb_docs lang="de" layout="grid"]
-```
+## Credits
 
-**Parameter:**
-- `lang`: Sprache (`de`, `en`, `fr`)
-- `layout`: Anzeigelayout (`list`, `grid`)
+- **SimpleMDE** - Markdown editor
+- **jsdiff** - Diff algorithm
+- **ThemisDB Team** - Plugin development
 
-### WordPress Widget
+## License
 
-Das Plugin bietet auch ein WordPress-Widget **"ThemisDB Wiki Navigation"**, das in der Seitenleiste oder anderen Widget-Bereichen platziert werden kann. Das Widget verwendet intern den `[themisdb_wiki_nav]` Shortcode.
+MIT License - See LICENSE file for details
 
-**Widget-Konfiguration:**
-- Titel: Angezeigter Widget-Titel
-- Sprache: DE, EN oder FR
-- Stil: Sidebar, Accordion oder Horizontal
+## Support
 
-## Beispiele / Examples
-
-### Beispiel 1: Vollständige Dokumentationsseite mit Navigation
-
-```php
-<!-- Sidebar-Widget oder Shortcode für Navigation -->
-[themisdb_wiki_nav lang="de" style="accordion"]
-
-<!-- Hauptinhalt -->
-<div class="content-area">
-    [themisdb_wiki file="README.md" lang="de" show_toc="yes"]
-</div>
-```
-
-### Beispiel 2: Deutsche README anzeigen
-```php
-[themisdb_wiki file="README.md" lang="de"]
-```
-
-### Beispiel 2: Englische Architektur-Dokumentation mit Inhaltsverzeichnis
-```php
-[themisdb_wiki file="architecture/ARCHITECTURE.md" lang="en" show_toc="yes"]
-```
-
-### Beispiel 3: Liste aller verfügbaren deutschen Dokumente
-```php
-[themisdb_docs lang="de" layout="grid"]
-```
-
-### Beispiel 4: Feature-Übersicht
-```php
-[themisdb_wiki file="features/FEATURES.md" lang="de" show_toc="yes"]
-```
-
-### Beispiel 5: Installation Guide
-```php
-[themisdb_wiki file="guides/INSTALLATION.md" lang="en"]
-```
-
-## Verzeichnisstruktur
-
-```
-themisdb-wiki-integration/
-├── themisdb-wiki-integration.php   # Haupt-Plugin-Datei
-├── assets/
-│   ├── css/
-│   │   └── wiki-integration.css    # Styling
-│   └── js/
-│       └── wiki-integration.js     # JavaScript-Funktionalität
-├── templates/
-│   └── admin-settings.php          # Admin-Panel-Template
-├── README.md                       # Diese Datei
-├── INSTALLATION.md                 # Installationsanleitung
-├── LICENSE                         # MIT Lizenz
-└── readme.txt                      # WordPress.org readme
-```
-
-## Funktionsweise
-
-1. **GitHub API Integration**: Das Plugin nutzt die GitHub Contents API, um Markdown-Dateien abzurufen
-2. **Caching**: Abgerufene Inhalte werden für 1 Stunde im WordPress-Transient-Cache gespeichert
-3. **Markdown-Parsing**: Einfache Markdown-zu-HTML-Konvertierung (für Produktion empfohlen: Parsedown-Library)
-4. **Shortcode-Rendering**: WordPress Shortcodes ermöglichen flexible Integration in Seiten/Posts
-5. **Manuelle Synchronisierung**: On-demand Aktualisierung über Admin-Panel "Sync Now" Button (Auto-Sync optional deaktivierbar)
-
-## Technische Details
-
-### API Rate Limits
-
-- **GitHub API**: 60 Requests/Stunde (nicht authentifiziert)
-- **Mit Token**: 5.000 Requests/Stunde
-- **Empfehlung**: GitHub Personal Access Token für höhere Limits
-
-### Caching
-
-- **Transient Cache**: 1 Stunde Standardwert
-- **Manuelles Löschen**: Admin-Panel → "Sync Now" Button (empfohlene Methode)
-- **Automatisches Löschen**: Nur bei aktiviertem Auto-Sync (standardmäßig deaktiviert)
-
-### Performance
-
-- Lazy Loading: Assets nur bei Shortcode-Verwendung laden
-- Minified CSS/JS für Produktion
-- CDN-kompatibel
-- Responsive Images
-
-## Sicherheit
-
-- ✅ Nonce-Verification für AJAX-Requests
-- ✅ Capability Checks (`manage_options`)
-- ✅ Input Sanitization
-- ✅ Output Escaping
-- ✅ Sichere GitHub Token-Speicherung
-
-## Kompatibilität
-
-- **WordPress**: 5.0+
-- **PHP**: 7.4+
-- **Themes**: Kompatibel mit allen Standard-WordPress-Themes
-- **Plugins**: Keine bekannten Konflikte
-
-## Troubleshooting
-
-### Problem: "GitHub API returned status code 404"
-**Lösung**: Überprüfen Sie Repository-Name, Branch und Dokumentationspfad in den Einstellungen
-
-### Problem: "Rate limit exceeded"
-**Lösung**: Fügen Sie ein GitHub Personal Access Token in den Einstellungen hinzu
-
-### Problem: Dokumentation wird nicht aktualisiert
-**Lösung**: Klicken Sie auf "Sync Now" im Admin-Panel, um den Cache manuell zu löschen
-
-### Problem: Styling-Probleme
-**Lösung**: Überprüfen Sie Theme-CSS-Konflikte und passen Sie `wiki-integration.css` an
-
-## Erweiterungsmöglichkeiten
-
-### Parsedown-Integration (empfohlen für Produktion)
-
-```php
-// In themisdb-wiki-integration.php
-require_once 'vendor/parsedown/Parsedown.php';
-
-private function markdown_to_html($markdown) {
-    $Parsedown = new Parsedown();
-    return $Parsedown->text($markdown);
-}
-```
-
-### Syntax Highlighting
-
-Integration mit **Prism.js** oder **Highlight.js** für Code-Syntax-Highlighting:
-
-```php
-wp_enqueue_style('prism-css', 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css');
-wp_enqueue_script('prism-js', 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js');
-```
-
-### Mermaid.js für Diagramme
-
-```php
-wp_enqueue_script('mermaid-js', 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js');
-```
-
-## Support & Beiträge
-
-- **Repository**: https://github.com/makr-code/ThemisDB
-- **Issues**: https://github.com/makr-code/ThemisDB/issues
-- **Dokumentation**: https://github.com/makr-code/ThemisDB/tree/main/docs
-
-## Roadmap
-
-### Version 1.1
-- [ ] Parsedown-Library für besseres Markdown-Parsing
-- [ ] Syntax Highlighting mit Prism.js
-- [ ] Mermaid.js für Diagramm-Rendering
-- [ ] Suche in Dokumentation
-
-### Version 1.2
-- [ ] PDF-Export von Dokumentation
-- [ ] Versionsvergleich
-- [ ] Mehrsprachige Navigation
-- [ ] Custom CSS pro Seite
-
-### Version 2.0
-- [ ] Gutenberg-Block für Dokumentation
-- [ ] REST API Endpoints
-- [ ] Webhook-Integration für automatische Updates
-- [ ] ThemisDB-Instanz als Backend für Suche
-
-## Lizenz
-
-Dieses Plugin ist unter der MIT-Lizenz lizenziert. Siehe [LICENSE](LICENSE) für Details.
-
-## Autoren
-
-- **ThemisDB Team** - https://github.com/makr-code
-
-## Danksagungen
-
-- Inspiriert vom TCO Calculator Plugin
-- Basierend auf GitHub Contents API
-- WordPress Plugin-Boilerplate
-
-## Changelog
-
-### Version 1.0.1 (Januar 2026)
-- ⚠️ **Breaking Change**: Auto-Sync standardmäßig deaktiviert
-- ✅ Manuelle On-Demand-Synchronisierung als Standard
-- ✅ Auto-Sync weiterhin optional aktivierbar
-- 📝 Dokumentation aktualisiert
-
-### Version 1.0.0 (Januar 2026)
-- ✅ Initiale Veröffentlichung
-- ✅ GitHub API Integration
-- ✅ Markdown-zu-HTML-Konvertierung
-- ✅ Mehrsprachige Unterstützung (DE, EN, FR)
-- ✅ Caching-Mechanismus
-- ✅ Auto-Sync-Funktion (optional)
-- ✅ Admin-Panel
-- ✅ Responsive Design
-- ✅ Dark Mode Support
-
----
-
-**Viel Erfolg mit ThemisDB Wiki Integration!** 🚀
-
----
-
-## WordPress-Suche Integration
-
-Das Plugin bietet zwei Ansätze für die Suche:
-
-### Option 1: Dynamische Integration (Standard)
-- Inhalte werden dynamisch aus GitHub geladen
-- Kein WordPress-Suche-Support (da nicht in DB gespeichert)
-- Schnelles Setup ohne zusätzliche Konfiguration
-
-### Option 2: WordPress-Seiten mit Shortcodes ⭐ Empfohlen
-- WordPress-Seiten für jedes Dokument anlegen
-- Shortcode im Seiteninhalt: `[themisdb_wiki file="..."]`
-- **WordPress-Suche funktioniert** (durchsucht Seitentitel und Metadaten)
-- Inhalte bleiben automatisch mit GitHub synchronisiert
-- **Vollständige Anleitung:** [WORDPRESS_PAGES_SETUP.md](WORDPRESS_PAGES_SETUP.md)
-
-**Hybrid-Ansatz Vorteile:**
-- ✅ WordPress-Suche funktioniert
-- ✅ Inhalte bleiben mit GitHub synchronisiert  
-- ✅ Keine manuelle Pflege nötig
-- ✅ SEO-optimiert
-
+- Issues: https://github.com/makr-code/ThemisDB/issues
+- Documentation: https://github.com/makr-code/ThemisDB/wiki
