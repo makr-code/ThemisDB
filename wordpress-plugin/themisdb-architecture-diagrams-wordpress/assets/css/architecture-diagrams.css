@@ -374,8 +374,9 @@
     
     .themisdb-arch-controls button {
         width: 48px;
-        height: 48px;  /* Larger touch targets */
+        height: 48px;
         font-size: 20px;
+        min-width: 44px;  /* iOS accessibility minimum */
         min-height: 44px;  /* iOS accessibility minimum */
     }
 

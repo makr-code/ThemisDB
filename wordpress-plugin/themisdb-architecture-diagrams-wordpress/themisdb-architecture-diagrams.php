@@ -52,15 +52,8 @@ function themisdb_arch_get_color_scheme() {
         }
     }
     
-    // Priority 4: Admin setting
-    if (get_option('themisdb_ad_enable_dark_mode', 1)) {
-        // Check for dark mode preference based on time (optional fallback)
-        $current_hour = intval(date('H'));
-        if ($current_hour >= 20 || $current_hour <= 6) {
-            // Evening hours - could prefer dark mode
-            // But we'll default to light unless explicitly set
-        }
-    }
+    // Priority 4: Admin setting (not currently used for auto-detection)
+    // Future: Could implement time-based or other auto-detection logic here
     
     return 'light';
 }

@@ -531,7 +531,8 @@
         },
         
         /**
-         * Export Mermaid source code
+         * Export Mermaid source code as .mmd file
+         * .mmd is the standard Mermaid diagram file extension
          */
         exportMermaidCode: function() {
             const mermaidDiv = document.querySelector('#ad-mermaid-diagram');
@@ -543,6 +544,7 @@
             
             const a = document.createElement('a');
             a.href = url;
+            // .mmd extension for Mermaid diagram files
             a.download = 'themisdb-diagram-' + this.currentView + '-' + Date.now() + '.mmd';
             a.click();
             URL.revokeObjectURL(url);
