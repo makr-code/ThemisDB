@@ -1,0 +1,299 @@
+/* ThemisDB Taxonomy Manager - Admin Styles */
+
+:root {
+    --taxonomy-primary: #2c3e50;
+    --taxonomy-secondary: #3498db;
+    --taxonomy-accent: #7c4dff;
+    --taxonomy-success: #27ae60;
+    --taxonomy-warning: #f39c12;
+}
+
+.themisdb-tree-admin {
+    max-width: 1200px;
+}
+
+/* Tree Controls */
+.tree-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+
+.taxonomy-selector {
+    min-width: 200px;
+}
+
+.taxonomy-search {
+    flex: 1;
+    max-width: 300px;
+    padding: 6px 12px;
+}
+
+/* Taxonomy Tree Container */
+.taxonomy-tree-container {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    min-height: 400px;
+}
+
+.taxonomy-tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.tree-item {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tree-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-left: 3px solid var(--taxonomy-secondary);
+    background: white;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+    cursor: move;
+}
+
+.tree-node:hover {
+    background: #f0f0f1;
+    transform: translateX(4px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tree-toggle {
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+    width: 16px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.tree-toggle.collapsed {
+    transform: rotate(-90deg);
+}
+
+.tree-toggle-empty {
+    opacity: 0;
+}
+
+.tree-icon {
+    font-size: 1.3em;
+    line-height: 1;
+}
+
+.tree-label {
+    flex: 1;
+    font-weight: 500;
+    color: var(--taxonomy-primary);
+}
+
+.tree-count {
+    background: var(--taxonomy-accent);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: center;
+}
+
+.tree-actions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.tree-node:hover .tree-actions {
+    opacity: 1;
+}
+
+.tree-action-edit,
+.tree-action-view {
+    color: var(--taxonomy-secondary);
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.tree-action-edit:hover,
+.tree-action-view:hover {
+    color: var(--taxonomy-accent);
+    text-decoration: underline;
+}
+
+/* Tree Children */
+.tree-children {
+    list-style: none;
+    margin: 0 0 0 30px;
+    padding: 0;
+}
+
+.tree-children .tree-node {
+    border-left-width: 2px;
+    opacity: 0.95;
+}
+
+.tree-children .tree-children .tree-node {
+    border-left-width: 1px;
+    opacity: 0.9;
+}
+
+/* Sortable Placeholder */
+.tree-placeholder {
+    background: #e8f4f8;
+    border: 2px dashed var(--taxonomy-secondary);
+    height: 40px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+}
+
+/* Hidden Children */
+.tree-children.hidden {
+    display: none;
+}
+
+/* Enhanced Meta Box */
+.themisdb-feature-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 10px;
+}
+
+.feature-group {
+    border: 1px solid #dcdcde;
+    border-radius: 8px;
+    padding: 1rem;
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.feature-group:hover {
+    border-color: var(--taxonomy-secondary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.feature-group h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.feature-group h4 .icon {
+    font-size: 1.2em;
+}
+
+.feature-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.feature-items label {
+    display: flex;
+    align-items: center;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.feature-items label:hover {
+    background: #f0f0f1;
+}
+
+.feature-items input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Simple Selector */
+.themisdb-simple-selector .feature-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.themisdb-simple-selector .feature-items label {
+    padding: 8px 10px;
+}
+
+/* Taxonomy Info Shortcode */
+.themisdb-taxonomy-info {
+    padding: 20px;
+    background: #fff;
+    border-left: 4px solid var(--taxonomy-secondary);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin: 20px 0;
+}
+
+.themisdb-taxonomy-info .taxonomy-icon {
+    font-size: 2.5em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.themisdb-taxonomy-info h3 {
+    margin: 0 0 10px 0;
+    color: var(--taxonomy-primary);
+}
+
+.themisdb-taxonomy-info p {
+    margin: 0 0 10px 0;
+    color: #666;
+}
+
+.themisdb-taxonomy-info .post-count {
+    font-size: 0.9em;
+    color: #999;
+}
+
+/* Responsive */
+@media (max-width: 782px) {
+    .tree-controls {
+        flex-wrap: wrap;
+    }
+    
+    .taxonomy-selector,
+    .taxonomy-search {
+        min-width: 100%;
+    }
+    
+    .themisdb-feature-selector {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Loading State */
+.taxonomy-tree-container.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.taxonomy-tree-container.loading::after {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
