@@ -199,9 +199,11 @@ class ThemisDB_Wiki {
         
         // Save markdown source
         if (isset($_POST['wiki_markdown'])) {
+            // Get raw markdown, unslash but preserve formatting
             $markdown = wp_unslash($_POST['wiki_markdown']);
-            // Sanitize but preserve markdown formatting
-            $markdown = sanitize_textarea_field($markdown);
+            // Only remove dangerous HTML/scripts but preserve markdown formatting
+            $allowed_html = array();  // No HTML allowed in markdown source
+            $markdown = wp_kses($markdown, $allowed_html);
             update_post_meta($post_id, '_wiki_markdown', $markdown);
             
             // Convert markdown to HTML for post content

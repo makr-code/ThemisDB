@@ -32,13 +32,20 @@
                     action: function customFunction(editor){
                         var cm = editor.codemirror;
                         var selection = cm.getSelection();
-                        var text = selection || 'Page Name';
-                        cm.replaceSelection('[[' + text + ']]');
+                        var placeholderText = 'Page Name';
+                        var text = selection || placeholderText;
+                        var wikilink = '[[' + text + ']]';
+                        cm.replaceSelection(wikilink);
                         
-                        // If no selection, select the placeholder text
+                        // If no selection, select the placeholder text for easy replacement
                         if (!selection) {
                             var cursor = cm.getCursor();
-                            cm.setSelection({line: cursor.line, ch: cursor.ch - 12}, {line: cursor.line, ch: cursor.ch - 2});
+                            var startOffset = text.length + 2; // text length + ']]'
+                            var endOffset = 2; // ']]'
+                            cm.setSelection(
+                                {line: cursor.line, ch: cursor.ch - startOffset},
+                                {line: cursor.line, ch: cursor.ch - endOffset}
+                            );
                         }
                     },
                     className: 'fa fa-link',

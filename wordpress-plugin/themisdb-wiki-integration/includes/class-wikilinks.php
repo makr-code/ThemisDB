@@ -246,7 +246,8 @@ class ThemisDB_WikiLinks {
     public function get_backlinks($page_slug) {
         global $wpdb;
         
-        $search_pattern = '%[[' . $page_slug . '%';
+        // Properly escape the search term for LIKE query
+        $search_pattern = '%[[' . $wpdb->esc_like($page_slug) . '%';
         
         $query = $wpdb->prepare("
             SELECT p.ID, p.post_title, p.post_name
