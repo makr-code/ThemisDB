@@ -277,7 +277,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 WORKDIR /opt/themis
 
-# Install minimal runtime dependencies
+# Install minimal runtime dependencies + gocryptfs for user storage encryption
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     rm -f /etc/apt/apt.conf.d/docker-clean && \
@@ -286,7 +286,11 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libssl3t64 \
         zlib1g \
         libstdc++6 \
-        curl && \
+        curl \
+        gocryptfs \
+        fuse \
+        libsodium23 && \
+    echo "user_allow_other" >> /etc/fuse.conf && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

@@ -1,0 +1,160 @@
+# Docker Compose example for ThemisDB with User Storage Encryption Plugin
+# This configuration demonstrates how to run ThemisDB with encrypted user storage
+# using gocryptfs and HashiCorp Vault for key management
+
+version: '3.8'
+
+services:
+  # HashiCorp Vault for key management
+  vault:
+    image: hashicorp/vault:1.15
+    container_name: themis-vault
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=dev-token-12345
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-data:/vault/file
+      - vault-logs:/vault/logs
+    command: server -dev
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ThemisDB with user storage encryption
+  themisdb:
+    image: themisdb:latest
+    container_name: themis-db
+    depends_on:
+      vault:
+        condition: service_healthy
+    ports:
+      - "5432:5432"
+      - "8080:8080"
+    cap_add:
+      - SYS_ADMIN  # Required for FUSE
+    devices:
+      - /dev/fuse:/dev/fuse  # FUSE device for gocryptfs
+    security_opt:
+      - apparmor:unconfined  # May be required for FUSE
+    volumes:
+      # Encrypted data directories
+      - ./data/encrypted:/var/lib/themisdb/encrypted
+      # Mount points for decrypted data
+      - ./data/mnt:/var/lib/themisdb/mnt
+      # Configuration
+      - ./config:/etc/themisdb:ro
+      # Vault token (secret)
+      - ./secrets/vault_token:/run/secrets/vault_token:ro
+    environment:
+      # Vault configuration
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN_FILE=/run/secrets/vault_token
+      
+      # ThemisDB configuration
+      - THEMIS_CONFIG=/etc/themisdb/themis.yaml
+      - THEMIS_PLUGIN_DIR=/opt/themis/plugins
+      - THEMIS_DATA_DIR=/var/lib/themisdb
+      
+      # User storage plugin configuration
+      - THEMIS_USER_STORAGE_CONFIG=/etc/themisdb/storage_config.yaml
+      
+      # Logging
+      - THEMIS_LOG_LEVEL=info
+      - THEMIS_LOG_FILE=/var/log/themis/themis.log
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Initialize Vault keys (run once)
+  vault-init:
+    image: hashicorp/vault:1.15
+    container_name: themis-vault-init
+    depends_on:
+      vault:
+        condition: service_healthy
+    environment:
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=dev-token-12345
+    volumes:
+      - ./scripts:/scripts:ro
+    command: >
+      sh -c "
+        echo 'Waiting for Vault to be ready...'
+        sleep 5
+        
+        echo 'Enabling KV secrets engine...'
+        vault secrets enable -path=themis kv-v2 || true
+        
+        echo 'Creating encryption keys...'
+        vault kv put themis/keys/user_storage_vs_nfd \
+          key=$$(openssl rand -base64 32) \
+          algorithm=AES-256-GCM \
+          version=1
+        
+        vault kv put themis/keys/user_storage_geheim \
+          key=$$(openssl rand -base64 32) \
+          algorithm=AES-256-GCM \
+          version=1
+        
+        vault kv put themis/keys/user_storage_streng_geheim \
+          key=$$(openssl rand -base64 32) \
+          algorithm=AES-256-GCM \
+          version=1
+        
+        echo 'Creating Vault policy for ThemisDB...'
+        vault policy write themisdb - <<EOF
+        path \"themis/data/keys/*\" {
+          capabilities = [\"read\", \"list\"]
+        }
+        path \"themis/metadata/keys/*\" {
+          capabilities = [\"read\", \"list\"]
+        }
+        EOF
+        
+        echo 'Creating token for ThemisDB...'
+        vault token create -policy=themisdb -format=json | jq -r '.auth.client_token' > /scripts/vault_token
+        
+        echo 'Vault initialization complete!'
+      "
+    restart: "no"
+
+volumes:
+  vault-data:
+    driver: local
+  vault-logs:
+    driver: local
+
+# Example usage:
+# 1. Start services:
+#    docker-compose -f docker-compose.user-storage.yml up -d
+#
+# 2. Initialize Vault (first time only):
+#    docker-compose -f docker-compose.user-storage.yml up vault-init
+#
+# 3. Copy Vault token to secrets:
+#    mkdir -p secrets
+#    docker-compose -f docker-compose.user-storage.yml exec vault-init cat /scripts/vault_token > secrets/vault_token
+#
+# 4. Restart ThemisDB to use the token:
+#    docker-compose -f docker-compose.user-storage.yml restart themisdb
+#
+# 5. Verify containers are mounted:
+#    docker-compose -f docker-compose.user-storage.yml exec themisdb mount | grep gocryptfs
+#
+# 6. Check health:
+#    curl http://localhost:8080/health
+#
+# 7. Stop services:
+#    docker-compose -f docker-compose.user-storage.yml down
+#
+# Note: For production, use proper secrets management and don't use dev mode for Vault!
