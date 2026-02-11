@@ -1,0 +1,64 @@
+/* ThemisDB Feature Matrix - Dark Mode Styles */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --matrix-border: #4a4a4a;
+        --matrix-header-bg: #1a252f;
+        --matrix-row-hover: #2c3e50;
+        --themis-light: #2c3e50;
+    }
+    
+    .matrix-table {
+        background: #1a252f;
+        color: #ecf0f1;
+    }
+    
+    .matrix-table thead th {
+        background: var(--themis-primary);
+    }
+    
+    .matrix-table thead th.themisdb-col {
+        background: var(--matrix-highlight);
+    }
+    
+    .matrix-table tbody .category-header td {
+        background: #2c3e50;
+        color: #ecf0f1;
+    }
+    
+    .matrix-table tbody tr:not(.category-header):hover {
+        background: var(--matrix-row-hover);
+    }
+    
+    .matrix-filter-bar,
+    .matrix-legend,
+    .feature-card {
+        background: #2c3e50;
+        color: #ecf0f1;
+        border-color: #4a4a4a;
+    }
+    
+    .category-btn {
+        background: #34495e;
+        color: #ecf0f1;
+        border-color: #4a4a4a;
+    }
+    
+    .category-btn:hover {
+        background: #2c3e50;
+    }
+    
+    .category-btn.active {
+        background: var(--themis-accent);
+        border-color: var(--themis-accent);
+    }
+    
+    .tooltip .tooltiptext {
+        background-color: #1a252f;
+        color: #ecf0f1;
+    }
+    
+    .tooltip .tooltiptext::after {
+        border-color: #1a252f transparent transparent transparent;
+    }
+}

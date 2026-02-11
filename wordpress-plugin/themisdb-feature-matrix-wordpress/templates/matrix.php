@@ -1,136 +1,151 @@
 <?php
 /**
  * Feature Matrix Template
- * 
- * This template displays the feature comparison matrix
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
+
+// Get features
+$features = ThemisDB_Feature_Matrix_Core::get_filtered_features($atts['category']);
+
+// Localize data for JavaScript
+$json_features = json_encode($features);
 ?>
 
-<div class="themisdb-feature-wrapper">
-    <div class="themisdb-section themisdb-feature-header">
-        <h2><?php _e('ThemisDB Feature Comparison', 'themisdb-feature-matrix'); ?></h2>
-        <p class="themisdb-description">
-            <?php _e('Compare ThemisDB features and capabilities with leading databases. Discover what makes ThemisDB unique.', 'themisdb-feature-matrix'); ?>
-        </p>
-    </div>
+<script>
+window.themisdbFeatureData = <?php echo $json_features; ?>;
+</script>
 
-    <!-- Category Filters -->
-    <div class="themisdb-section themisdb-filters">
-        <div class="themisdb-filter-group">
-            <label for="fm-category-filter">
-                <strong><?php _e('Category:', 'themisdb-feature-matrix'); ?></strong>
-            </label>
-            <select id="fm-category-filter" class="themisdb-select">
-                <option value="all" <?php selected($atts['category'], 'all'); ?>><?php _e('All Features', 'themisdb-feature-matrix'); ?></option>
-                <option value="architecture" <?php selected($atts['category'], 'architecture'); ?>><?php _e('Architecture', 'themisdb-feature-matrix'); ?></option>
-                <option value="ai_ml" <?php selected($atts['category'], 'ai_ml'); ?>><?php _e('AI/ML', 'themisdb-feature-matrix'); ?></option>
-                <option value="scalability" <?php selected($atts['category'], 'scalability'); ?>><?php _e('Scalability', 'themisdb-feature-matrix'); ?></option>
-                <option value="security" <?php selected($atts['category'], 'security'); ?>><?php _e('Security', 'themisdb-feature-matrix'); ?></option>
-                <option value="reliability" <?php selected($atts['category'], 'reliability'); ?>><?php _e('Reliability', 'themisdb-feature-matrix'); ?></option>
-                <option value="usability" <?php selected($atts['category'], 'usability'); ?>><?php _e('Usability', 'themisdb-feature-matrix'); ?></option>
-            </select>
-        </div>
-
-        <div class="themisdb-filter-group">
-            <label for="fm-view-type">
-                <strong><?php _e('View:', 'themisdb-feature-matrix'); ?></strong>
-            </label>
-            <select id="fm-view-type" class="themisdb-select">
-                <option value="detailed" <?php selected($atts['view'], 'detailed'); ?>><?php _e('Detailed', 'themisdb-feature-matrix'); ?></option>
-                <option value="compact" <?php selected($atts['view'], 'compact'); ?>><?php _e('Compact', 'themisdb-feature-matrix'); ?></option>
-            </select>
-        </div>
-
-        <button id="fm-refresh-data" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-update"></span>
-            <?php _e('Refresh', 'themisdb-feature-matrix'); ?>
-        </button>
-    </div>
-
-    <!-- Feature Matrix Table -->
-    <div class="themisdb-section themisdb-matrix-section">
-        <div id="fm-loading" class="themisdb-loading" style="display: none;">
-            <div class="themisdb-spinner"></div>
-            <p><?php _e('Loading feature data...', 'themisdb-feature-matrix'); ?></p>
+<div class="themisdb-feature-wrapper" role="region" aria-label="Database Feature Comparison">
+    
+    <!-- Filter Bar -->
+    <?php if ($atts['filterable']): ?>
+    <div class="matrix-filter-bar" role="toolbar" aria-label="Filter options">
+        <div class="category-filters" role="group" aria-label="Category filters">
+            <button class="category-btn active" data-category="all" role="button" tabindex="0">
+                <?php _e('All Features', 'themisdb-feature-matrix'); ?>
+            </button>
+            <button class="category-btn" data-category="data_models" role="button" tabindex="0">
+                <?php _e('Data Models', 'themisdb-feature-matrix'); ?>
+            </button>
+            <button class="category-btn" data-category="ai_ml" role="button" tabindex="0">
+                <?php _e('AI/ML', 'themisdb-feature-matrix'); ?>
+            </button>
+            <button class="category-btn" data-category="performance" role="button" tabindex="0">
+                <?php _e('Performance', 'themisdb-feature-matrix'); ?>
+            </button>
+            <button class="category-btn" data-category="compatibility" role="button" tabindex="0">
+                <?php _e('Compatibility', 'themisdb-feature-matrix'); ?>
+            </button>
+            <button class="category-btn" data-category="pricing" role="button" tabindex="0">
+                <?php _e('Licensing', 'themisdb-feature-matrix'); ?>
+            </button>
         </div>
         
-        <div id="fm-matrix-table" class="themisdb-matrix-table">
-            <!-- Table will be populated by JavaScript -->
-        </div>
+        <?php if (get_option('themisdb_matrix_enable_export', 1)): ?>
+        <button class="export-btn" role="button" tabindex="0" aria-label="Export to CSV">
+            <?php _e('Export CSV', 'themisdb-feature-matrix'); ?>
+        </button>
+        <?php endif; ?>
     </div>
-
-    <!-- Mermaid Diagram Section -->
-    <?php if ($atts['show_diagram'] === 'true' || $atts['show_diagram'] === true): ?>
-    <div class="themisdb-section themisdb-diagram-section">
-        <h3>
-            <span class="dashicons dashicons-networking"></span>
-            <?php _e('Feature Hierarchy', 'themisdb-feature-matrix'); ?>
-        </h3>
-        <div class="themisdb-mermaid-container">
-            <div class="mermaid" id="fm-feature-diagram">
-                <!-- Mermaid diagram will be populated by JavaScript -->
+    <?php endif; ?>
+    
+    <!-- Main Table -->
+    <table class="matrix-table <?php echo $atts['sticky_header'] ? 'sticky-header' : ''; ?>" 
+           role="table" 
+           aria-label="Database Feature Comparison">
+        <caption class="sr-only">
+            <?php _e('Comparison of ThemisDB, PostgreSQL, MongoDB, and Neo4j features', 'themisdb-feature-matrix'); ?>
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col"><?php _e('Feature', 'themisdb-feature-matrix'); ?></th>
+                <th scope="col" class="themisdb-col sortable" data-column="themisdb" tabindex="0" role="columnheader">
+                    <?php _e('ThemisDB', 'themisdb-feature-matrix'); ?>
+                </th>
+                <th scope="col" class="sortable" data-column="postgresql" tabindex="0" role="columnheader">
+                    <?php _e('PostgreSQL', 'themisdb-feature-matrix'); ?>
+                </th>
+                <th scope="col" class="sortable" data-column="mongodb" tabindex="0" role="columnheader">
+                    <?php _e('MongoDB', 'themisdb-feature-matrix'); ?>
+                </th>
+                <th scope="col" class="sortable" data-column="neo4j" tabindex="0" role="columnheader">
+                    <?php _e('Neo4j', 'themisdb-feature-matrix'); ?>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($features as $category_key => $category) {
+                // Category header
+                echo '<tr class="category-header">';
+                echo '<td colspan="5" role="rowheader">' . esc_html($category['name']) . '</td>';
+                echo '</tr>';
+                
+                // Feature rows
+                foreach ($category['features'] as $feature_key => $feature) {
+                    $highlight_class = isset($feature['highlight']) && $feature['highlight'] ? 'highlight' : '';
+                    echo '<tr class="' . $highlight_class . '">';
+                    
+                    // Feature name
+                    echo '<td><div class="feature-name">' . esc_html($feature['name']);
+                    if (isset($feature['tooltip'])) {
+                        echo ' <span class="info-icon tooltip" role="tooltip">ℹ️';
+                        echo '<span class="tooltiptext">' . esc_html($feature['tooltip']) . '</span>';
+                        echo '</span>';
+                    }
+                    echo '</div></td>';
+                    
+                    // Database columns
+                    $databases = array('themisdb', 'postgresql', 'mongodb', 'neo4j');
+                    foreach ($databases as $db) {
+                        $status = isset($feature[$db]) ? $feature[$db] : 'no';
+                        
+                        echo '<td class="text-center">';
+                        if (isset($feature['display_text']) && $feature['display_text']) {
+                            echo '<span class="status-text">' . esc_html($status) . '</span>';
+                        } else {
+                            $status_info = ThemisDB_Feature_Matrix_Core::get_status_info($status);
+                            echo '<span class="status-badge status-' . esc_attr($status) . '" role="img" aria-label="' . esc_attr($status_info['label']) . '">';
+                            echo esc_html($status_info['icon']);
+                            echo '</span>';
+                        }
+                        echo '</td>';
+                    }
+                    
+                    echo '</tr>';
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+    
+    <!-- Mobile Card View -->
+    <div class="matrix-cards" aria-label="Mobile feature comparison view">
+        <!-- Populated by JavaScript -->
+    </div>
+    
+    <!-- Legend -->
+    <?php if ($atts['show_legend']): ?>
+    <div class="matrix-legend" role="region" aria-label="Status legend">
+        <h3><?php _e('Feature Status Legend', 'themisdb-feature-matrix'); ?></h3>
+        <div class="legend-items">
+            <div class="legend-item">
+                <span class="status-badge status-full" role="img" aria-label="Full Support">✓</span>
+                <span><?php _e('Full Support - Fully supported natively', 'themisdb-feature-matrix'); ?></span>
+            </div>
+            <div class="legend-item">
+                <span class="status-badge status-limited" role="img" aria-label="Limited Support">◐</span>
+                <span><?php _e('Limited Support - Available with limitations', 'themisdb-feature-matrix'); ?></span>
+            </div>
+            <div class="legend-item">
+                <span class="status-badge status-no" role="img" aria-label="No Support">✗</span>
+                <span><?php _e('No Support - Feature not supported', 'themisdb-feature-matrix'); ?></span>
             </div>
         </div>
     </div>
     <?php endif; ?>
-
-    <!-- Feature Legend -->
-    <div class="themisdb-section themisdb-legend">
-        <h3><?php _e('Feature Status Legend', 'themisdb-feature-matrix'); ?></h3>
-        <div class="themisdb-legend-items">
-            <div class="themisdb-legend-item">
-                <span class="themisdb-status-badge status-available">✅</span>
-                <span><?php _e('Available - Fully supported natively', 'themisdb-feature-matrix'); ?></span>
-            </div>
-            <div class="themisdb-legend-item">
-                <span class="themisdb-status-badge status-partial">⚠️</span>
-                <span><?php _e('Partial - Available with limitations or via extensions', 'themisdb-feature-matrix'); ?></span>
-            </div>
-            <div class="themisdb-legend-item">
-                <span class="themisdb-status-badge status-limited">🔧</span>
-                <span><?php _e('Limited - Basic support or external integration required', 'themisdb-feature-matrix'); ?></span>
-            </div>
-            <div class="themisdb-legend-item">
-                <span class="themisdb-status-badge status-not-available">❌</span>
-                <span><?php _e('Not Available - Feature not supported', 'themisdb-feature-matrix'); ?></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Export Section -->
-    <div class="themisdb-section themisdb-export">
-        <button id="fm-export-csv" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-download"></span>
-            <?php _e('Export CSV', 'themisdb-feature-matrix'); ?>
-        </button>
-        <button id="fm-export-pdf" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-pdf"></span>
-            <?php _e('Export PDF', 'themisdb-feature-matrix'); ?>
-        </button>
-        <button id="fm-print" class="themisdb-btn-secondary">
-            <span class="dashicons dashicons-printer"></span>
-            <?php _e('Print', 'themisdb-feature-matrix'); ?>
-        </button>
-    </div>
-
-    <!-- Footer -->
-    <div class="themisdb-section themisdb-footer">
-        <p class="themisdb-disclaimer">
-            <small>
-                <?php _e('Feature availability and support levels may vary based on version and configuration. Contact us for detailed information.', 'themisdb-feature-matrix'); ?>
-            </small>
-        </p>
-        <p class="themisdb-branding">
-            <small>
-                <?php printf(
-                    __('Powered by %s', 'themisdb-feature-matrix'),
-                    '<a href="https://github.com/makr-code/ThemisDB" target="_blank">ThemisDB</a>'
-                ); ?>
-            </small>
-        </p>
-    </div>
+    
 </div>

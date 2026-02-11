@@ -1,57 +1,34 @@
 /**
  * ThemisDB Feature Matrix JavaScript
- * Based on TCO Calculator pattern with Mermaid.js integration
+ * Interactive filtering, sorting, tooltips, and CSV export
  */
 
 (function($) {
     'use strict';
 
-    // Global namespace
-    window.ThemisDBFeatureMatrix = {
-        currentData: null,
-        settings: {},
+    // Global state
+    const FeatureMatrix = {
+        currentCategory: 'all',
+        sortColumn: null,
+        sortDirection: 'asc',
+        features: null,
 
         /**
-         * Initialize the feature matrix
+         * Initialize the matrix
          */
         init: function() {
-            // Store settings from PHP
-            this.settings = themisdbFM.settings || {};
-
-            // Initialize Mermaid
-            this.initMermaid();
-
-            // Set up event listeners
-            this.setupEventListeners();
-
-            // Load initial data
             this.loadFeatures();
+            this.setupEventListeners();
+            this.checkMobileView();
         },
 
         /**
-         * Initialize Mermaid.js
+         * Load feature data
          */
-        initMermaid: function() {
-            if (typeof mermaid !== 'undefined') {
-                mermaid.initialize({
-                    startOnLoad: false,
-                    theme: 'neutral',
-                    securityLevel: 'strict',
-                    flowchart: {
-                        useMaxWidth: true,
-                        htmlLabels: true,
-                        curve: 'basis'
-                    },
-                    themeVariables: {
-                        primaryColor: '#2ea44f',
-                        primaryTextColor: '#fff',
-                        primaryBorderColor: '#2c974b',
-                        lineColor: '#57606a',
-                        secondaryColor: '#f6f8fa',
-                        tertiaryColor: '#3498db'
-                    }
-                });
-            }
+        loadFeatures: function() {
+            const features = window.themisdbFeatureData || {};
+            this.features = features;
+            this.renderTable();
         },
 
         /**
@@ -60,292 +37,298 @@
         setupEventListeners: function() {
             const self = this;
 
-            // Filter changes
-            $('#fm-category-filter, #fm-view-type').on('change', function() {
-                self.loadFeatures();
+            // Category filtering
+            $('.category-btn').on('click', function() {
+                $('.category-btn').removeClass('active');
+                $(this).addClass('active');
+                self.currentCategory = $(this).data('category');
+                self.renderTable();
             });
 
-            // Refresh button
-            $('#fm-refresh-data').on('click', function(e) {
+            // Column sorting
+            $('.matrix-table thead th.sortable').on('click', function() {
+                const column = $(this).data('column');
+                self.toggleSort(column);
+            });
+
+            // CSV export
+            $('.export-btn').on('click', function(e) {
                 e.preventDefault();
-                self.refreshFeatures();
+                self.exportToCSV();
             });
 
-            // Export buttons
-            $('#fm-export-csv').on('click', function(e) {
-                e.preventDefault();
-                self.exportCSV();
+            // Window resize for mobile view
+            $(window).on('resize', function() {
+                self.checkMobileView();
             });
 
-            $('#fm-export-pdf').on('click', function(e) {
-                e.preventDefault();
-                self.exportPDF();
-            });
-
-            $('#fm-print').on('click', function(e) {
-                e.preventDefault();
-                window.print();
-            });
-        },
-
-        /**
-         * Load feature data via AJAX
-         */
-        loadFeatures: function() {
-            const self = this;
-            const category = $('#fm-category-filter').val() || 'all';
-
-            // Show loading state
-            this.showLoading();
-
-            $.ajax({
-                url: themisdbFM.ajax_url,
-                type: 'POST',
-                data: {
-                    action: 'themisdb_fm_get_features',
-                    nonce: themisdbFM.nonce,
-                    category: category
-                },
-                success: function(response) {
-                    if (response.success) {
-                        self.currentData = response.data;
-                        self.renderTable();
-                        if (self.settings.show_mermaid) {
-                            self.renderMermaidDiagram();
-                        }
-                    } else {
-                        self.showError('Failed to load feature data');
-                    }
-                    self.hideLoading();
-                },
-                error: function() {
-                    self.showError('Error loading feature data');
-                    self.hideLoading();
+            // Keyboard navigation
+            $('.category-btn, .matrix-table th.sortable').on('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    $(this).trigger('click');
                 }
             });
         },
 
         /**
-         * Refresh features (clear cache)
+         * Toggle sort direction
          */
-        refreshFeatures: function() {
-            this.loadFeatures();
+        toggleSort: function(column) {
+            if (this.sortColumn === column) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortColumn = column;
+                this.sortDirection = 'asc';
+            }
+
+            // Update UI
+            $('.matrix-table thead th').removeClass('sort-asc sort-desc');
+            $('.matrix-table thead th[data-column="' + column + '"]')
+                .addClass('sort-' + this.sortDirection);
+
+            this.renderTable();
         },
 
         /**
-         * Render feature comparison table
+         * Render the table
          */
         renderTable: function() {
-            if (!this.currentData) return;
+            if (!this.features) return;
 
-            const $tableContainer = $('#fm-matrix-table');
-            const viewType = $('#fm-view-type').val() || 'detailed';
+            const $tbody = $('.matrix-table tbody');
+            $tbody.empty();
 
-            let html = '<table>';
-            html += '<thead><tr>';
-            html += '<th>' + this.translate('Feature') + '</th>';
-
-            // Add column for each database
-            this.currentData.databases.forEach(function(db) {
-                const dbName = db.charAt(0).toUpperCase() + db.slice(1);
-                html += '<th>' + dbName + '</th>';
-            });
-
-            html += '</tr></thead><tbody>';
-
-            // Add rows for each feature
-            this.currentData.features.forEach(function(feature) {
-                html += '<tr>';
-                
-                // Feature name column
-                html += '<td>';
-                html += '<div class="feature-name">' + feature.name + '</div>';
-                
-                if (viewType === 'detailed' && feature.description) {
-                    html += '<div class="feature-description">' + feature.description + '</div>';
+            // Filter features by category
+            let filteredFeatures = this.features;
+            if (this.currentCategory !== 'all') {
+                filteredFeatures = {};
+                if (this.features[this.currentCategory]) {
+                    filteredFeatures[this.currentCategory] = this.features[this.currentCategory];
                 }
+            }
+
+            // Render categories and features
+            for (const categoryKey in filteredFeatures) {
+                const category = filteredFeatures[categoryKey];
                 
-                html += '</td>';
+                // Category header
+                $tbody.append(
+                    '<tr class="category-header">' +
+                    '<td colspan="5">' + this.escapeHtml(category.name) + '</td>' +
+                    '</tr>'
+                );
 
-                // Status columns for each database
-                this.currentData.databases.forEach(function(db) {
-                    const status = feature[db] || 'not_available';
-                    const statusInfo = this.getStatusInfo(status);
+                // Sort features if needed
+                let features = category.features;
+                if (this.sortColumn) {
+                    features = this.sortFeatures(features, this.sortColumn);
+                }
+
+                // Feature rows
+                for (const featureKey in features) {
+                    const feature = features[featureKey];
+                    const isHighlighted = feature.highlight || false;
+                    const rowClass = isHighlighted ? 'highlight' : '';
+
+                    let row = '<tr class="' + rowClass + '">';
                     
-                    html += '<td class="text-center">';
-                    
-                    if (this.settings.enable_tooltips) {
-                        html += '<span class="themisdb-status-badge status-' + status + '" data-tooltip="' + statusInfo.text + '">';
-                    } else {
-                        html += '<span class="themisdb-status-badge status-' + status + '">';
+                    // Feature name with tooltip
+                    row += '<td><div class="feature-name">' + this.escapeHtml(feature.name);
+                    if (feature.tooltip) {
+                        row += ' <span class="info-icon tooltip">ℹ️<span class="tooltiptext">' + 
+                               this.escapeHtml(feature.tooltip) + '</span></span>';
                     }
-                    
-                    html += statusInfo.icon + '</span>';
-                    html += '</td>';
-                }.bind(this));
+                    row += '</div></td>';
 
-                html += '</tr>';
-            }.bind(this));
+                    // Database columns
+                    const databases = ['themisdb', 'postgresql', 'mongodb', 'neo4j'];
+                    databases.forEach(function(db) {
+                        const status = feature[db] || 'no';
+                        const statusInfo = this.getStatusInfo(status);
+                        
+                        row += '<td class="text-center">';
+                        if (feature.display_text) {
+                            row += '<span class="status-text">' + this.escapeHtml(status) + '</span>';
+                        } else {
+                            row += '<span class="status-badge status-' + status + '" ' +
+                                   'role="img" aria-label="' + statusInfo.label + '">' +
+                                   statusInfo.icon + '</span>';
+                        }
+                        row += '</td>';
+                    }.bind(this));
 
-            html += '</tbody></table>';
-            $tableContainer.html(html);
+                    row += '</tr>';
+                    $tbody.append(row);
+                }
+            }
+
+            // Render mobile card view
+            this.renderMobileCards(filteredFeatures);
         },
 
         /**
-         * Get status information
+         * Render mobile card view
+         */
+        renderMobileCards: function(filteredFeatures) {
+            const $cards = $('.matrix-cards');
+            $cards.empty();
+
+            for (const categoryKey in filteredFeatures) {
+                const category = filteredFeatures[categoryKey];
+
+                for (const featureKey in category.features) {
+                    const feature = category.features[featureKey];
+                    
+                    let card = '<div class="feature-card">';
+                    card += '<h4>' + this.escapeHtml(feature.name) + '</h4>';
+                    
+                    if (feature.tooltip) {
+                        card += '<p class="feature-tooltip">' + this.escapeHtml(feature.tooltip) + '</p>';
+                    }
+
+                    const databases = [
+                        {key: 'themisdb', name: 'ThemisDB'},
+                        {key: 'postgresql', name: 'PostgreSQL'},
+                        {key: 'mongodb', name: 'MongoDB'},
+                        {key: 'neo4j', name: 'Neo4j'}
+                    ];
+
+                    databases.forEach(function(db) {
+                        const status = feature[db.key] || 'no';
+                        const statusInfo = this.getStatusInfo(status);
+                        
+                        card += '<div class="db-comparison">';
+                        card += '<span class="db-name">' + db.name + '</span>';
+                        if (feature.display_text) {
+                            card += '<span class="status-text">' + this.escapeHtml(status) + '</span>';
+                        } else {
+                            card += '<span class="status-badge status-' + status + '">' +
+                                   statusInfo.icon + '</span>';
+                        }
+                        card += '</div>';
+                    }.bind(this));
+
+                    card += '</div>';
+                    $cards.append(card);
+                }
+            }
+        },
+
+        /**
+         * Sort features by column
+         */
+        sortFeatures: function(features, column) {
+            const featuresArray = Object.entries(features);
+            const self = this;
+
+            featuresArray.sort(function(a, b) {
+                const aValue = a[1][column] || '';
+                const bValue = b[1][column] || '';
+                
+                // Map status to numeric values for sorting
+                const statusOrder = {'full': 3, 'limited': 2, 'no': 1};
+                const aOrder = statusOrder[aValue] || 0;
+                const bOrder = statusOrder[bValue] || 0;
+
+                if (self.sortDirection === 'asc') {
+                    return bOrder - aOrder; // Higher status first
+                } else {
+                    return aOrder - bOrder; // Lower status first
+                }
+            });
+
+            // Convert back to object
+            const sorted = {};
+            featuresArray.forEach(function(entry) {
+                sorted[entry[0]] = entry[1];
+            });
+            return sorted;
+        },
+
+        /**
+         * Get status display information
          */
         getStatusInfo: function(status) {
             const statusMap = {
-                'available': {
-                    icon: '✅',
-                    text: this.translate('Fully available natively')
-                },
-                'partial': {
-                    icon: '⚠️',
-                    text: this.translate('Partially available')
-                },
-                'limited': {
-                    icon: '🔧',
-                    text: this.translate('Limited or requires extension')
-                },
-                'not_available': {
-                    icon: '❌',
-                    text: this.translate('Not available')
-                }
+                'full': {icon: '✓', label: 'Full Support'},
+                'limited': {icon: '◐', label: 'Limited Support'},
+                'no': {icon: '✗', label: 'No Support'}
             };
-
-            return statusMap[status] || statusMap['not_available'];
+            return statusMap[status] || statusMap['no'];
         },
 
         /**
-         * Render Mermaid diagram
+         * Export to CSV
          */
-        renderMermaidDiagram: function() {
-            if (!this.currentData || typeof mermaid === 'undefined') return;
+        exportToCSV: function() {
+            if (!this.features) return;
 
-            const diagramCode = this.generateMermaidCode();
-            const $diagramContainer = $('#fm-feature-diagram');
+            let csv = 'Feature,ThemisDB,PostgreSQL,MongoDB,Neo4j,Category\n';
 
-            // Set the Mermaid code
-            $diagramContainer.text(diagramCode);
-            
-            // Remove data-processed attribute for re-rendering
-            $diagramContainer.removeAttr('data-processed');
+            for (const categoryKey in this.features) {
+                const category = this.features[categoryKey];
 
-            // Render the diagram
-            mermaid.run({
-                nodes: [$diagramContainer.get(0)]
-            }).catch((error) => {
-                console.error('Mermaid rendering error:', error);
-            });
-        },
-
-        /**
-         * Generate Mermaid diagram code
-         */
-        generateMermaidCode: function() {
-            let code = 'mindmap\n';
-            code += '  root((ThemisDB Features))\n';
-
-            // Group features by category
-            const categories = {};
-            this.currentData.features.forEach(function(feature) {
-                if (!categories[feature.category]) {
-                    categories[feature.category] = [];
+                for (const featureKey in category.features) {
+                    const feature = category.features[featureKey];
+                    
+                    csv += '"' + feature.name + '",';
+                    csv += feature.themisdb + ',';
+                    csv += feature.postgresql + ',';
+                    csv += feature.mongodb + ',';
+                    csv += feature.neo4j + ',';
+                    csv += '"' + category.name + '"\n';
                 }
-                categories[feature.category].push(feature);
-            });
-
-            // Generate diagram for each category
-            Object.keys(categories).forEach(function(category) {
-                const categoryName = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-                code += '    ' + categoryName + '\n';
-
-                categories[category].forEach(function(feature) {
-                    code += '      ' + feature.name + '\n';
-                });
-            });
-
-            return code;
-        },
-
-        /**
-         * Export data as CSV
-         */
-        exportCSV: function() {
-            if (!this.currentData) return;
-
-            let csv = 'Feature,';
-            csv += this.currentData.databases.map(db => db.charAt(0).toUpperCase() + db.slice(1)).join(',');
-            csv += ',Category,Description\n';
-
-            this.currentData.features.forEach(function(feature) {
-                csv += '"' + feature.name + '",';
-                csv += this.currentData.databases.map(db => {
-                    const status = feature[db] || 'not_available';
-                    return this.getStatusInfo(status).text;
-                }.bind(this)).join(',');
-                csv += ',"' + feature.category + '",';
-                csv += '"' + (feature.description || '') + '"\n';
-            }.bind(this));
+            }
 
             // Create download
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'themisdb-feature-matrix-' + Date.now() + '.csv';
-            a.click();
-            window.URL.revokeObjectURL(url);
+            const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            const today = new Date().toISOString().split('T')[0];
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'themisdb-feature-comparison-' + today + '.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         },
 
         /**
-         * Export as PDF
+         * Check if mobile view should be shown
          */
-        exportPDF: function() {
-            window.print();
+        checkMobileView: function() {
+            const isMobile = window.innerWidth < 768;
+            if (isMobile) {
+                $('.matrix-table').hide();
+                $('.matrix-cards').show();
+            } else {
+                $('.matrix-table').show();
+                $('.matrix-cards').hide();
+            }
         },
 
         /**
-         * Show loading state
+         * Escape HTML to prevent XSS
          */
-        showLoading: function() {
-            $('#fm-loading').show();
-            $('#fm-matrix-table').css('opacity', '0.3');
-        },
-
-        /**
-         * Hide loading state
-         */
-        hideLoading: function() {
-            $('#fm-loading').hide();
-            $('#fm-matrix-table').css('opacity', '1');
-        },
-
-        /**
-         * Show error message
-         */
-        showError: function(message) {
-            const $tableContainer = $('#fm-matrix-table');
-            const html = '<div class="themisdb-error">' +
-                        '<p><strong>⚠️ Error:</strong> ' + message + '</p>' +
-                        '</div>';
-            $tableContainer.html(html);
-        },
-
-        /**
-         * Simple translation helper
-         */
-        translate: function(text) {
-            // In production, this would use WordPress i18n
-            return text;
+        escapeHtml: function(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return String(text).replace(/[&<>"']/g, function(m) { return map[m]; });
         }
     };
 
     // Initialize on document ready
     $(document).ready(function() {
-        if ($('.themisdb-feature-wrapper').length > 0) {
-            window.ThemisDBFeatureMatrix.init();
+        if ($('.matrix-table').length > 0) {
+            FeatureMatrix.init();
         }
     });
 
