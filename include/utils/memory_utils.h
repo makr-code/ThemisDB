@@ -210,7 +210,7 @@ public:
      */
     void* release() noexcept {
         void* result = ptr_.release();
-        size_ = 0;  // Reset size after release for consistency
+        size_ = 0;  // Reset size to 0 after release to indicate no memory is owned
         return result;
     }
     
@@ -302,7 +302,7 @@ public:
      */
     void* release() noexcept { 
         void* result = ptr_.release();
-        size_ = 0;  // Reset size after release for consistency
+        size_ = 0;  // Reset size to 0 after release to indicate no memory is owned
         return result;
     }
     

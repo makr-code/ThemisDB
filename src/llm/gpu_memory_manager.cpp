@@ -57,7 +57,8 @@ public:
      * @param bytes Size in bytes
      * @param type Type of memory (GPU/CPU/PINNED)
      * @param gpu_available Whether GPU is available
-     * @param gpu_device_id GPU device ID (0 = default, only used for GPU memory)
+     * @param gpu_device_id GPU device ID (default 0). Only used for GPU memory
+     *                      cleanup. CPU and PINNED allocations ignore this parameter.
      */
     MemoryHolder(void* ptr, size_t bytes, Type type, bool gpu_available, int gpu_device_id = 0)
         : ptr_(ptr), bytes_(bytes), type_(type), gpu_available_(gpu_available), 
@@ -355,7 +356,7 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     alloc.gpu_ptr = ptr;
     alloc.gpu_device_id = 0;  // Default GPU device
     alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // device_id = 0
+        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // Default GPU device
     );
     
     allocations_[model_id].push_back(std::move(alloc));
