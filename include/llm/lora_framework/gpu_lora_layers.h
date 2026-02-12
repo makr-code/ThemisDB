@@ -122,7 +122,7 @@ public:
     
     // ========== Layer Metadata ==========
     
-    std::string name() const { return name_; }
+    const std::string& name() const { return name_; }
     void set_name(const std::string& name) { name_ = name; }
     
     size_t parameter_count() const { return in_dim_ * rank_ + rank_ * out_dim_; }

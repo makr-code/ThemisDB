@@ -42,7 +42,7 @@ public:
     // Cancel request (best effort)
     void cancel();
     
-    std::string requestId() const { return request_id_; }
+    const std::string& requestId() const { return request_id_; }
     
 private:
     std::string request_id_;
