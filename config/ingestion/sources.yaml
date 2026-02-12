@@ -1,0 +1,253 @@
+# Legal Document Ingestion Sources Configuration
+# Defines multiple data sources for the Legal LoRA Training Pipeline
+
+# ============================================================================
+# HuggingFace Sources
+# ============================================================================
+
+huggingface_sources:
+  # German legal dataset from HuggingFace
+  - source_id: "huggingface_legal"
+    enabled: true
+    type: "huggingface"
+    location: "lexlms/ger_legal_data"
+    priority: 5
+    description: "German legal documents from HuggingFace"
+    options:
+      split: "train"
+      streaming: true
+      token: ""  # Optional: Set HF_TOKEN environment variable
+      revision: "main"
+      batch_size: 1000
+      
+  # Additional HuggingFace dataset
+  - source_id: "huggingface_court_cases"
+    enabled: false
+    type: "huggingface"
+    location: "german-nlp-group/court-decisions"
+    priority: 4
+    description: "German court decisions dataset"
+    options:
+      split: "train"
+      streaming: true
+
+# ============================================================================
+# Filesystem Sources
+# ============================================================================
+
+filesystem_sources:
+  # Internal administrative regulations
+  - source_id: "custom_verwaltungsvorschriften"
+    enabled: true
+    type: "filesystem"
+    location: "/mnt/verwaltung/vorschriften"
+    priority: 10  # Higher priority than public data
+    description: "Internal Verwaltungsvorschriften (administrative regulations)"
+    options:
+      format: "auto"  # Auto-detect: pdf, docx, txt, html, xml, json
+      recursive: true
+      ocr_enabled: true
+      ocr_language: "deu"
+      ocr_dpi: 300
+      skip_text_pdfs: true
+      
+      # File filter
+      extensions:
+        - ".pdf"
+        - ".docx"
+        - ".txt"
+      exclude_patterns:
+        - "**/backup/**"
+        - "**/archive/**"
+        - "**/*_draft*"
+      min_size_bytes: 100
+      max_size_bytes: 104857600  # 100 MB
+      
+      # Metadata extraction
+      extract_metadata: true
+      
+  # Legacy archive PDFs
+  - source_id: "legacy_archive"
+    enabled: true
+    type: "filesystem"
+    location: "/mnt/archive/legal/pdfs"
+    priority: 7
+    description: "Historical precedents from legacy archives"
+    options:
+      format: "pdf"
+      recursive: true
+      ocr_enabled: true
+      ocr_language: "deu+eng"  # German + English
+      skip_text_pdfs: false  # Always OCR legacy docs
+      extensions:
+        - ".pdf"
+      
+  # Internal guidance documents
+  - source_id: "internal_guidance"
+    enabled: true
+    type: "filesystem"
+    location: "/mnt/verwaltung/guidance"
+    priority: 9
+    description: "Internal administrative guidance documents"
+    options:
+      format: "auto"
+      recursive: true
+      ocr_enabled: false  # Modern documents, no OCR needed
+      extensions:
+        - ".docx"
+        - ".pdf"
+        - ".html"
+        
+  # Test/sample data
+  - source_id: "sample_legal_docs"
+    enabled: true
+    type: "filesystem"
+    location: "./examples/legal_lora_training/sample_docs"
+    priority: 1
+    description: "Sample legal documents for testing"
+    options:
+      format: "auto"
+      recursive: true
+      ocr_enabled: false
+
+# ============================================================================
+# API Sources (Future)
+# ============================================================================
+
+api_sources:
+  # REST API example
+  - source_id: "legal_api"
+    enabled: false
+    type: "api"
+    location: "https://api.example.com/legal-documents"
+    priority: 6
+    description: "Legal documents from REST API"
+    options:
+      method: "GET"
+      auth_type: "bearer"
+      auth_token: "${LEGAL_API_TOKEN}"
+      pagination:
+        type: "offset"
+        limit: 100
+        
+  # SOAP API example
+  - source_id: "legacy_soap_api"
+    enabled: false
+    type: "api"
+    location: "https://legacy.example.com/LegalService.asmx"
+    priority: 5
+    description: "Legacy SOAP service"
+    options:
+      protocol: "soap"
+      wsdl_url: "https://legacy.example.com/LegalService.asmx?wsdl"
+
+# ============================================================================
+# Database Sources (Future)
+# ============================================================================
+
+database_sources:
+  # PostgreSQL example
+  - source_id: "legacy_postgres"
+    enabled: false
+    type: "database"
+    location: "postgresql://host:5432/legal_db"
+    priority: 6
+    description: "Legacy PostgreSQL database"
+    options:
+      driver: "postgresql"
+      username: "${DB_USER}"
+      password: "${DB_PASS}"
+      query: "SELECT id, title, content, created_at FROM legal_documents"
+      batch_size: 500
+      
+  # Oracle example
+  - source_id: "legacy_oracle"
+    enabled: false
+    type: "database"
+    location: "oracle://host:1521/LEGAL"
+    priority: 5
+    description: "Legacy Oracle database"
+    options:
+      driver: "oracle"
+      username: "${ORACLE_USER}"
+      password: "${ORACLE_PASS}"
+      query: "SELECT * FROM LEGAL_DOCS WHERE STATUS = 'ACTIVE'"
+
+# ============================================================================
+# Global Ingestion Settings
+# ============================================================================
+
+ingestion_settings:
+  # Target collection for ingested documents
+  target_collection: "legal_documents"
+  
+  # Parallel processing
+  parallel_processing:
+    enabled: true
+    max_threads: 4
+    
+  # Progress reporting
+  progress_reporting:
+    enabled: true
+    update_interval_seconds: 5
+    
+  # Error handling
+  error_handling:
+    continue_on_error: true
+    max_retries: 3
+    retry_delay_seconds: 10
+    
+  # Deduplication
+  deduplication:
+    enabled: true
+    method: "content_hash"  # content_hash, title, metadata
+    
+  # Text processing
+  text_processing:
+    # Preprocessing
+    remove_headers_footers: true
+    normalize_whitespace: true
+    
+    # Chunking (for large documents)
+    enable_chunking: true
+    chunk_size: 2000  # characters
+    chunk_overlap: 200
+    
+  # Metadata enrichment
+  metadata_enrichment:
+    extract_dates: true
+    extract_entities: true
+    extract_keywords: true
+    
+  # Storage
+  storage:
+    enable_compression: true
+    compression_level: 6
+    enable_encryption: false
+
+# ============================================================================
+# Notification Settings
+# ============================================================================
+
+notifications:
+  enabled: true
+  
+  # Email notifications
+  email:
+    enabled: false
+    smtp_host: "smtp.example.com"
+    smtp_port: 587
+    from: "ingestion@example.com"
+    to:
+      - "admin@example.com"
+    events:
+      - "ingestion_completed"
+      - "ingestion_failed"
+      
+  # Webhook notifications
+  webhook:
+    enabled: false
+    url: "https://hooks.example.com/ingestion"
+    events:
+      - "ingestion_completed"
+      - "ingestion_failed"
