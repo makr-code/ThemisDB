@@ -18,8 +18,8 @@
   
   <!-- Code Statistics Badges (branch-specific) -->
   <!-- For develop branch, use: develop instead of main in URLs -->
-  ![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/main/.github/badges/lines-of-code.json)
-  ![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/main/.github/badges/file-count.json)
+  ![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json)
+  ![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/file-count.json)
   ![CI/CD](https://github.com/makr-code/ThemisDB/actions/workflows/code-stats.yml/badge.svg)
 </div>
 
