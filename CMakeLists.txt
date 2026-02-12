@@ -314,6 +314,113 @@ else()
 endif()
 
 # ============================================================================
+# LEGAL TRAINING DATA INGESTION (HuggingFace legal-bert-de)
+# ============================================================================
+
+# Control whether legal training data is ingested during build. Defaults OFF.
+# This is an optional feature that downloads and imports HuggingFace legal-bert-de dataset.
+option(THEMIS_BUILD_LEGAL_TRAINING_DATA "Generate legal training data database during build" OFF)
+
+if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
+    # Find Python3 for legal training data ingestion
+    find_package(Python3 COMPONENTS Interpreter)
+    
+    if(Python3_FOUND)
+        # Legal training data paths
+        set(LEGAL_JSON_OUTPUT "${CMAKE_BINARY_DIR}/data/legal_training_data.json")
+        set(LEGAL_DB_OUTPUT "${CMAKE_BINARY_DIR}/data/legal_training.db")
+        set(LEGAL_IMPORTER_CPP "${CMAKE_BINARY_DIR}/data/import_legal_rocksdb.cpp")
+        
+        # Step 1: Download and ingest HuggingFace dataset to JSON
+        add_custom_command(
+            OUTPUT ${LEGAL_JSON_OUTPUT}
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/data"
+            COMMAND ${Python3_EXECUTABLE}
+                    ${CMAKE_SOURCE_DIR}/scripts/ingest_legal_training_data.py
+                    --output ${LEGAL_JSON_OUTPUT}
+                    --max-samples 10000
+            DEPENDS
+                ${CMAKE_SOURCE_DIR}/scripts/ingest_legal_training_data.py
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Ingesting HuggingFace legal-bert-de dataset (10000 samples)..."
+            VERBATIM
+        )
+        
+        # Step 2: Generate C++ RocksDB importer
+        add_custom_command(
+            OUTPUT ${LEGAL_IMPORTER_CPP}
+            COMMAND ${Python3_EXECUTABLE}
+                    ${CMAKE_SOURCE_DIR}/scripts/generate_legal_rocksdb.py
+                    --method cpp
+                    --output ${LEGAL_DB_OUTPUT}
+            DEPENDS
+                ${LEGAL_JSON_OUTPUT}
+                ${CMAKE_SOURCE_DIR}/scripts/generate_legal_rocksdb.py
+            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+            COMMENT "Generating RocksDB importer for legal training data..."
+            VERBATIM
+        )
+        
+        # Step 3: Build and run RocksDB importer (if RocksDB is available)
+        find_package(RocksDB QUIET)
+        if(RocksDB_FOUND)
+            # Build importer executable
+            add_executable(import_legal_rocksdb ${LEGAL_IMPORTER_CPP})
+            target_link_libraries(import_legal_rocksdb
+                PRIVATE
+                    RocksDB::rocksdb
+                    nlohmann_json::nlohmann_json
+            )
+            target_compile_features(import_legal_rocksdb PRIVATE cxx_std_17)
+            
+            # Step 4: Import legal training data into RocksDB
+            add_custom_command(
+                OUTPUT ${LEGAL_DB_OUTPUT}
+                COMMAND import_legal_rocksdb ${LEGAL_JSON_OUTPUT} ${LEGAL_DB_OUTPUT}
+                DEPENDS
+                    import_legal_rocksdb
+                    ${LEGAL_JSON_OUTPUT}
+                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                COMMENT "Importing legal training data into RocksDB..."
+                VERBATIM
+            )
+            
+            # Step 5: Create top-level target
+            add_custom_target(legal_training_data
+                DEPENDS ${LEGAL_DB_OUTPUT}
+            )
+            
+            # Step 6: Installation (optional component)
+            install(
+                DIRECTORY ${LEGAL_DB_OUTPUT}
+                DESTINATION ${CMAKE_INSTALL_PREFIX}/data
+                COMPONENT legal_training
+                OPTIONAL
+            )
+            
+            message(STATUS "Legal training data ingestion enabled")
+            message(STATUS "  Output: ${LEGAL_DB_OUTPUT}")
+            message(STATUS "  Source: HuggingFace joelito/legal_mc_de")
+            message(STATUS "  Max samples: 10000")
+        else()
+            message(WARNING "RocksDB not found. Legal training data will be JSON only.")
+            message(STATUS "JSON legal training data will be available at: ${LEGAL_JSON_OUTPUT}")
+            
+            # Create a target for JSON-only output
+            add_custom_target(legal_training_data
+                DEPENDS ${LEGAL_JSON_OUTPUT}
+            )
+        endif()
+    else()
+        message(WARNING "Python3 not found. Legal training data ingestion disabled.")
+        message(STATUS "Install Python 3 to enable automatic legal training data ingestion.")
+    endif()
+else()
+    message(STATUS "Legal training data ingestion skipped (THEMIS_BUILD_LEGAL_TRAINING_DATA=OFF)")
+    message(STATUS "To enable: cmake -DTHEMIS_BUILD_LEGAL_TRAINING_DATA=ON")
+endif()
+
+# ============================================================================
 # CPACK DISTRIBUTION
 # ============================================================================
 
