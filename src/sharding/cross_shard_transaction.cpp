@@ -1306,7 +1306,7 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 transaction_id, executed_steps.size());
     
     // Execute compensations in reverse order
-    for (int j = static_cast<int>(executed_steps.size()) - 1; j >= 0; --j) {
+    for (int j = themis::utils::conversion::safe_size_to_int(executed_steps.size()) - 1; j >= 0; --j) {
         const auto& step = executed_steps[j];
         const auto& compensation = compensations[j];
         
