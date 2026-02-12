@@ -316,6 +316,10 @@ private:
     std::map<std::string, IngestionJob> job_history_;
     std::mutex history_mutex_;
     
+    // Custom job handlers (for plugins)
+    std::map<IngestionJobType, std::function<void(IngestionJob&)>> job_handlers_;
+    std::mutex handlers_mutex_;
+    
     // Statistics
     std::atomic<uint64_t> total_jobs_processed_;
     std::atomic<uint64_t> total_jobs_failed_;
