@@ -137,6 +137,8 @@ int main(int argc, char* argv[]) {
     int error_count = 0;
     
     WriteOptions write_options;
+    // Trades durability for performance during batch import; use sync=true for production writes.
+    // Disabling sync improves performance but risks data loss if the process crashes.
     write_options.sync = false;  // Better performance for batch imports
     
     for (const auto& doc : data["documents"]) {

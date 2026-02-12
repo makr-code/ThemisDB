@@ -329,6 +329,7 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
         # Legal training data paths
         set(LEGAL_JSON_OUTPUT "${CMAKE_BINARY_DIR}/data/legal_training_data.json")
         set(LEGAL_DB_OUTPUT "${CMAKE_BINARY_DIR}/data/legal_training.db")
+        set(LEGAL_DB_STAMP "${CMAKE_BINARY_DIR}/data/legal_training.db.stamp")
         set(LEGAL_IMPORTER_CPP "${CMAKE_BINARY_DIR}/data/import_legal_rocksdb.cpp")
         
         # Step 1: Download and ingest HuggingFace dataset to JSON
@@ -374,9 +375,11 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
             target_compile_features(import_legal_rocksdb PRIVATE cxx_std_17)
             
             # Step 4: Import legal training data into RocksDB
+            # Use a stamp file because RocksDB creates a directory, which CMake cannot track properly
             add_custom_command(
-                OUTPUT ${LEGAL_DB_OUTPUT}
+                OUTPUT ${LEGAL_DB_STAMP}
                 COMMAND import_legal_rocksdb ${LEGAL_JSON_OUTPUT} ${LEGAL_DB_OUTPUT}
+                COMMAND ${CMAKE_COMMAND} -E touch ${LEGAL_DB_STAMP}
                 DEPENDS
                     import_legal_rocksdb
                     ${LEGAL_JSON_OUTPUT}
@@ -387,7 +390,7 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
             
             # Step 5: Create top-level target
             add_custom_target(legal_training_data
-                DEPENDS ${LEGAL_DB_OUTPUT}
+                DEPENDS ${LEGAL_DB_STAMP}
             )
             
             # Step 6: Installation (optional component)

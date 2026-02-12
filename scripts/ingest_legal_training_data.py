@@ -80,6 +80,21 @@ def ingest_legal_dataset(output_path: str, max_samples: int = 10000) -> bool:
         logger.info("Loading dataset from HuggingFace Hub...")
         logger.info("(This may take a few minutes on first run)")
         
+        # First, check available splits
+        try:
+            from datasets import get_dataset_config_names, get_dataset_split_names
+            available_splits = get_dataset_split_names("joelito/legal_mc_de")
+            logger.info(f"Available splits: {available_splits}")
+            
+            if 'train' not in available_splits:
+                logger.error(f"Error: 'train' split not found in dataset")
+                logger.error(f"Available splits are: {', '.join(available_splits)}")
+                logger.error(f"Please update the script to use one of the available splits")
+                return False
+        except Exception as e:
+            logger.warning(f"Could not check available splits: {e}")
+            logger.warning("Proceeding with 'train' split assumption...")
+        
         dataset = load_dataset("joelito/legal_mc_de", split=f"train[:{max_samples}]")
         logger.info(f"✓ Loaded {len(dataset)} samples from HuggingFace")
         
