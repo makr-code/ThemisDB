@@ -1306,6 +1306,8 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 transaction_id, executed_steps.size());
     
     // Execute compensations in reverse order
+    // Using index-based loop to access both executed_steps and compensations arrays
+    // Reverse iterators not used here because we need synchronized access to both arrays
     if (!executed_steps.empty()) {
         for (size_t j = executed_steps.size(); j > 0; --j) {
             const size_t idx = j - 1;
