@@ -4,29 +4,8 @@
 #include <algorithm>
 #include <cctype>
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4505)  // unreferenced local function
-#pragma warning(disable: 4101)  // unreferenced local variable
-#endif
-
 namespace themis {
 namespace server {
-
-// Helper: Parse ISO 8601 datetime string to milliseconds since epoch
-static int64_t parseIso8601ToMs(const std::string& iso_str) {
-    if (iso_str.empty()) return 0;
-    
-    // Simple parser for "YYYY-MM-DDTHH:MM:SS" format
-    // For production, use std::chrono or date library
-    std::tm tm = {};
-    std::istringstream ss(iso_str);
-    ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
-    
-    if (ss.fail()) return 0;
-    
-    auto tp = std::chrono::system_clock::from_time_t(std::mktime(&tm));
-    return std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
-}
 
 // Helper: Case-insensitive string contains
 static bool containsCaseInsensitive(const std::string& haystack, const std::string& needle) {
@@ -190,8 +169,7 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
             
             entries.push_back(entry);
             
-        } catch (const std::exception& e) {
-            (void)e;
+        } catch (const std::exception&) {
             // Skip malformed lines
             continue;
         }

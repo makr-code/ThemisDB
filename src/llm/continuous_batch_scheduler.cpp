@@ -248,7 +248,10 @@ void ContinuousBatchScheduler::processBatchResults(
             // Remove from active
             active_requests_.erase(
                 std::remove_if(active_requests_.begin(), active_requests_.end(),
-                              [req](const auto& r) { return r.get() == req; }),
+                              [req](const auto& r) { 
+                                  // Null-safety: Check shared_ptr is valid before comparing
+                                  return r && r.get() == req; 
+                              }),
                 active_requests_.end()
             );
             

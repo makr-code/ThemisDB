@@ -71,7 +71,7 @@ std::optional<WALEntry> WALEntry::deserialize(const std::vector<uint8_t>& data) 
     
     auto readUint64 = [&data, &pos]() -> uint64_t {
         uint64_t val = 0;
-        for (int i = 0; i < 8 && pos < data.size(); ++i, ++pos) {
+        for (size_t i = 0; i < 8 && pos < data.size(); ++i, ++pos) {
             val = (val << 8) | data[pos];
         }
         return val;
