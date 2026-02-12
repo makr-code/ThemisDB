@@ -157,12 +157,9 @@ std::string HuggingFaceIngestionPlugin::submitDatasetJob(
     // Create job
     content::IngestionJob job;
     
-    // Generate job ID
-    static thread_local std::mt19937_64 rng{
-        static_cast<uint64_t>(
-            std::chrono::steady_clock::now().time_since_epoch().count()
-        )
-    };
+    // Generate job ID with better randomness
+    std::random_device rd;
+    std::mt19937_64 rng(rd());
     auto u64 = rng();
     std::ostringstream oss;
     oss << "hf_job_" << std::hex << std::setw(16) << std::setfill('0') << u64;
@@ -189,7 +186,10 @@ std::string HuggingFaceIngestionPlugin::submitDatasetJob(
     // Submit to worker (we need to manually add to queue)
     // Since AsyncIngestionWorker doesn't expose a generic submit method,
     // we'll use submitFile with empty blob and detect in our handler
-    THEMIS_WARN("Cannot submit HF job directly - worker lacks generic submit API. Job created but not queued.");
+    THEMIS_WARN("Cannot submit HF job directly - worker lacks generic submit API. "
+        "To submit this job: "
+        "1. Extend AsyncIngestionWorker with submitCustomJob(type, config) method, or "
+        "2. Use worker.submitFile() as a temporary workaround and handle HUGGINGFACE type in handler");
     
     return job.job_id;
 }
@@ -449,7 +449,7 @@ void HuggingFaceIngestionPlugin::saveToCache(
         }
         
         std::ofstream file(cache_file);
-        file << cache_data.dump(2);  // Pretty print with indent=2
+        file << cache_data.dump();  // Compact format to save space
         
         THEMIS_INFO("Saved {} documents to cache: {}", docs.size(), cache_file);
         
@@ -524,7 +524,14 @@ void HuggingFaceIngestionPlugin::processHuggingFaceJob(
             THEMIS_INFO("Fetched {} documents so far from {}/{}", 
                 documents.size(), dataset_name, split);
             
-            if (!result.has_more || documents.size() >= 10000) {  // Limit for demo
+            // Note: For production use, remove or make this limit configurable
+            // This 10k limit is for demonstration/testing to avoid excessive API usage
+            size_t max_docs_limit = plugin->config_.chunk_size * 10;  // ~10 batches
+            if (!result.has_more || documents.size() >= max_docs_limit) {
+                if (documents.size() >= max_docs_limit) {
+                    THEMIS_INFO("Reached document limit of {} (configurable in future versions)", 
+                        max_docs_limit);
+                }
                 break;
             }
             
