@@ -10,6 +10,10 @@ build-*/
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md
 
+# Backup files
+**/*.backup
+**/*.bak
+
 # Example binaries
 examples/**/usage_example
 examples/**/usage_example_enabled
