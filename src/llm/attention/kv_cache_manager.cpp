@@ -138,9 +138,8 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
     new_table.num_tokens = prefix_length;
     
     // Share prefix blocks (Copy-on-Write)
-    int prefix_blocks = (prefix_length + config_.kv_block_size - 1) / config_.kv_block_size;
-    int parent_block_count = themis::utils::conversion::safe_size_to_int(parent_table.block_ids.size());
-    for (int i = 0; i < prefix_blocks && i < parent_block_count; ++i) {
+    size_t prefix_blocks = (prefix_length + config_.kv_block_size - 1) / config_.kv_block_size;
+    for (size_t i = 0; i < prefix_blocks && i < parent_table.block_ids.size(); ++i) {
         int block_id = parent_table.block_ids[i];
         new_table.block_ids.push_back(block_id);
         blocks_[block_id].ref_count++;

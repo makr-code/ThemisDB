@@ -1306,20 +1306,24 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 transaction_id, executed_steps.size());
     
     // Execute compensations in reverse order
-    for (int j = themis::utils::conversion::safe_size_to_int(executed_steps.size()) - 1; j >= 0; --j) {
-        const auto& step = executed_steps[j];
-        const auto& compensation = compensations[j];
-        
-        if (!compensation.contains("shard_id") || !compensation.contains("operation")) {
-            spdlog::error("Compensation {} missing shard_id or operation", j);
-            continue;
-        }
-        
-        std::string shard_id = compensation["shard_id"];
-        nlohmann::json operation = compensation["operation"];
-        
-        spdlog::info("Executing compensation {} on shard {} for transaction {}", 
-                    j, shard_id, transaction_id);
+    // Using index-based loop to access both executed_steps and compensations arrays
+    // Reverse iterators not used here because we need synchronized access to both arrays
+    if (!executed_steps.empty()) {
+        for (size_t j = executed_steps.size(); j > 0; --j) {
+            const size_t idx = j - 1;
+            const auto& step = executed_steps[idx];
+            const auto& compensation = compensations[idx];
+            
+            if (!compensation.contains("shard_id") || !compensation.contains("operation")) {
+                spdlog::error("Compensation {} missing shard_id or operation", idx);
+                continue;
+            }
+            
+            std::string shard_id = compensation["shard_id"];
+            nlohmann::json operation = compensation["operation"];
+            
+            spdlog::info("Executing compensation {} on shard {} for transaction {}", 
+                        idx, shard_id, transaction_id);
         
         try {
             std::lock_guard<std::mutex> lock(transactions_mutex_);
@@ -1368,37 +1372,37 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 try {
                     // TODO: Replace with proper compensation RPC
                     // For now using abort as a proxy signal
-                    success = rpc_client.abort(transaction_id + "_compensation_" + std::to_string(j));
+                    success = rpc_client.abort(transaction_id + "_compensation_" + std::to_string(idx));
                     
                     if (success) {
-                        spdlog::info("Compensation {} completed successfully", j);
+                        spdlog::info("Compensation {} completed successfully", idx);
                         break;
                     }
                     
                 } catch (const std::exception& e) {
                     if (retries < rpc_config.max_retries) {
                         spdlog::warn("Compensation {} execution failed (attempt {}/{}): {}. Retrying", 
-                                   j, retries + 1, rpc_config.max_retries + 1, e.what());
+                                   idx, retries + 1, rpc_config.max_retries + 1, e.what());
                         std::this_thread::sleep_for(
                             std::chrono::milliseconds(rpc_config.retry_delay_ms * (1 << retries))
                         );
                         retries++;
                     } else {
                         spdlog::error("Compensation {} execution failed after {} retries: {}", 
-                                    j, rpc_config.max_retries, e.what());
+                                    idx, rpc_config.max_retries, e.what());
                         break;
                     }
                 }
             }
             
             if (!success) {
-                spdlog::error("Compensation {} failed - manual intervention may be required", j);
+                spdlog::error("Compensation {} failed - manual intervention may be required", idx);
                 // In production, this would be logged to a persistent compensation log
                 // for manual intervention or retry
             }
             
         } catch (const std::exception& e) {
-            spdlog::error("Failed to execute compensation {}: {}", j, e.what());
+            spdlog::error("Failed to execute compensation {}: {}", idx, e.what());
         }
     }
     
