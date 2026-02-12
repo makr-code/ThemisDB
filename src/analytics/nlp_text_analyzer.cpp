@@ -806,5 +806,179 @@ size_t NlpTextAnalyzer::loadStopWordsFromDirectory(const std::string& directory)
     return loaded_count;
 }
 
+// ========== Legal Modality Extraction ==========
+
+std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string& language_code) const {
+    return "config/nlp/legal/german_modal_verbs.yaml";
+}
+
+bool NlpTextAnalyzer::loadLegalModalityConfig(const std::string& config_path) const {
+    std::ifstream file(config_path);
+    if (!file.is_open()) {
+        return false;
+    }
+    
+    // Clear existing patterns
+    legal_modality_patterns_.clear();
+    
+    std::string line;
+    std::string current_section;
+    LegalModalityPattern current_pattern;
+    bool in_pattern = false;
+    
+    // Simple YAML parser for our legal modality config
+    while (std::getline(file, line)) {
+        // Trim whitespace
+        line.erase(0, line.find_first_not_of(" \t"));
+        line.erase(line.find_last_not_of(" \t") + 1);
+        
+        // Skip empty lines and comments
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        
+        // Detect modality sections
+        if (line.find("mandatory:") == 0 || line.find("default_rule:") == 0 || 
+            line.find("discretionary:") == 0) {
+            current_section = line.substr(0, line.find(':'));
+            continue;
+        }
+        
+        // Start of a pattern (list item)
+        if (line.size() > 2 && line[0] == '-' && line.find("pattern:") != std::string::npos) {
+            // Save previous pattern if exists
+            if (in_pattern && !current_pattern.pattern.empty()) {
+                legal_modality_patterns_.push_back(current_pattern);
+            }
+            
+            // Start new pattern
+            current_pattern = LegalModalityPattern();
+            in_pattern = true;
+            
+            // Extract pattern value
+            size_t colon_pos = line.find(':');
+            if (colon_pos != std::string::npos) {
+                std::string pattern_val = line.substr(colon_pos + 1);
+                pattern_val.erase(0, pattern_val.find_first_not_of(" \t\"'"));
+                pattern_val.erase(pattern_val.find_last_not_of(" \t\"'"));
+                current_pattern.pattern = pattern_val;
+            }
+            continue;
+        }
+        
+        // Parse pattern fields
+        if (in_pattern) {
+            if (line.find("deontic:") != std::string::npos) {
+                size_t colon_pos = line.find(':');
+                std::string val = line.substr(colon_pos + 1);
+                val.erase(0, val.find_first_not_of(" \t\"'"));
+                val.erase(val.find_last_not_of(" \t\"'"));
+                current_pattern.deontic_logic = val;
+            }
+            else if (line.find("strength:") != std::string::npos) {
+                size_t colon_pos = line.find(':');
+                std::string val = line.substr(colon_pos + 1);
+                val.erase(0, val.find_first_not_of(" \t"));
+                current_pattern.strength = std::stof(val);
+            }
+            else if (line.find("interpretation:") != std::string::npos) {
+                size_t colon_pos = line.find(':');
+                std::string val = line.substr(colon_pos + 1);
+                val.erase(0, val.find_first_not_of(" \t\"'"));
+                val.erase(val.find_last_not_of(" \t\"'"));
+                current_pattern.interpretation = val;
+            }
+            else if (line.find("category:") != std::string::npos) {
+                size_t colon_pos = line.find(':');
+                std::string val = line.substr(colon_pos + 1);
+                val.erase(0, val.find_first_not_of(" \t\"'"));
+                val.erase(val.find_last_not_of(" \t\"'"));
+                current_pattern.category = val;
+            }
+        }
+    }
+    
+    // Save last pattern
+    if (in_pattern && !current_pattern.pattern.empty()) {
+        legal_modality_patterns_.push_back(current_pattern);
+    }
+    
+    return !legal_modality_patterns_.empty();
+}
+
+std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(
+    std::string_view text,
+    const std::string& language_code,
+    const std::string& config_path) const {
+    
+    std::vector<LegalModality> modalities;
+    
+    // Determine config file path
+    std::string cfg_path = config_path.empty() 
+        ? getDefaultLegalConfigPath(language_code) 
+        : config_path;
+    
+    // Load configuration (cached in legal_modality_patterns_)
+    if (legal_modality_patterns_.empty()) {
+        if (!loadLegalModalityConfig(cfg_path)) {
+            // Fallback: hard-coded German modal verbs if YAML loading fails
+            legal_modality_patterns_ = {
+                {"\\\\bmuss\\\\b", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht", {}},
+                {"\\\\bhat zu\\\\b", "obligation", 1.0f, "O(φ)", "Formale bindende Verpflichtung", {}},
+                {"\\\\bsoll\\\\b", "default_obligation", 0.8f, "O_default(φ)", "Regelfall, Abweichung rechtfertigungsbedürftig", {"Begründungspflicht bei Abweichung", "Verhältnismäßigkeitsprüfung"}},
+                {"\\\\bkann\\\\b", "permission", 0.3f, "P(φ)", "Ermessensentscheidung", {"Ermessensausübung erforderlich", "Gleichbehandlungsgrundsatz", "Verhältnismäßigkeitsprüfung"}}
+            };
+        }
+    }
+    
+    // Convert text to string for regex processing
+    std::string text_str(text);
+    std::string text_lower = toLowerCase(text);
+    
+    // Search for each modal verb pattern
+    for (const auto& pattern : legal_modality_patterns_) {
+        try {
+            std::regex regex_pattern(pattern.pattern, std::regex::icase);
+            std::smatch match;
+            std::string search_text = text_lower;
+            size_t offset = 0;
+            
+            while (std::regex_search(search_text, match, regex_pattern)) {
+                size_t position = offset + match.position();
+                
+                // Extract the matched verb
+                std::string matched_verb = text_str.substr(position, match.length());
+                
+                LegalModality modality(
+                    matched_verb,
+                    pattern.category,
+                    pattern.strength,
+                    pattern.deontic_logic,
+                    pattern.interpretation,
+                    position
+                );
+                modality.context_requirements = pattern.context_requirements;
+                
+                modalities.push_back(modality);
+                
+                // Continue searching after this match
+                offset += match.position() + match.length();
+                search_text = text_lower.substr(offset);
+            }
+        } catch (const std::regex_error& e) {
+            // Skip invalid regex patterns
+            std::cerr << "Regex error for pattern '" << pattern.pattern << "': " << e.what() << std::endl;
+        }
+    }
+    
+    // Sort by position
+    std::sort(modalities.begin(), modalities.end(),
+              [](const LegalModality& a, const LegalModality& b) {
+                  return a.position < b.position;
+              });
+    
+    return modalities;
+}
+
 } // namespace analytics
 } // namespace themis
