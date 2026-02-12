@@ -78,7 +78,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     auto it = models_.find(model_id);
     if (it != models_.end()) {
         spdlog::debug("Model cache hit: {}", model_id);
-        cache_hits_++;
+        cache_hits_.fetch_add(1, std::memory_order_relaxed);
         
         // Update usage
         it->second->last_used = std::chrono::system_clock::now();
@@ -111,7 +111,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
                 
                 if (model) {
                     spdlog::info("Async preload completed for: {}", model_id);
-                    cache_hits_++; // Count as cache hit since it was preloaded
+                    cache_hits_.fetch_add(1, std::memory_order_relaxed); // Count as cache hit since it was preloaded
                     return model;
                 } else {
                     spdlog::error("Async preload failed for: {}", model_id);
@@ -132,7 +132,7 @@ CachedModel* LazyModelLoader::getOrLoadModel(
     }
     
     spdlog::info("Model cache miss: {} - loading lazily", model_id);
-    cache_misses_++;
+    cache_misses_.fetch_add(1, std::memory_order_relaxed);
     
     // Check if we need to evict
     if (models_.size() >= config_.max_models) {
@@ -449,7 +449,7 @@ size_t LazyModelLoader::evictLRU(size_t target_vram_mb) {
     
     total_vram_mb_ -= lru_model->vram_mb;
     total_ram_mb_ -= lru_model->ram_mb;
-    evictions_++;
+    evictions_.fetch_add(1, std::memory_order_relaxed);
     
     models_.erase(lru_id);
     
@@ -508,15 +508,20 @@ json LazyModelLoader::getMemoryStats() const {
 json LazyModelLoader::getCacheStats() const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    json stats;
-    stats["cache_hits"] = cache_hits_;
-    stats["cache_misses"] = cache_misses_;
-    stats["evictions"] = evictions_;
-    stats["models_loaded"] = models_loaded_;
+    // Load atomic counters once to ensure consistency
+    size_t hits = cache_hits_.load(std::memory_order_relaxed);
+    size_t misses = cache_misses_.load(std::memory_order_relaxed);
+    size_t evict = evictions_.load(std::memory_order_relaxed);
+    size_t loaded = models_loaded_.load(std::memory_order_relaxed);
     
-    if ((cache_hits_ + cache_misses_) > 0) {
-        stats["hit_rate"] = static_cast<double>(cache_hits_) / 
-                           (cache_hits_ + cache_misses_);
+    json stats;
+    stats["cache_hits"] = hits;
+    stats["cache_misses"] = misses;
+    stats["evictions"] = evict;
+    stats["models_loaded"] = loaded;
+    
+    if ((hits + misses) > 0) {
+        stats["hit_rate"] = static_cast<double>(hits) / (hits + misses);
     } else {
         stats["hit_rate"] = 0.0;
     }
@@ -527,10 +532,10 @@ json LazyModelLoader::getCacheStats() const {
 LazyModelLoader::Stats LazyModelLoader::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     Stats s;
-    s.cache_hits = cache_hits_;
-    s.cache_misses = cache_misses_;
-    s.evictions = evictions_;
-    s.models_loaded = models_loaded_;
+    s.cache_hits = cache_hits_.load(std::memory_order_relaxed);
+    s.cache_misses = cache_misses_.load(std::memory_order_relaxed);
+    s.evictions = evictions_.load(std::memory_order_relaxed);
+    s.models_loaded = models_loaded_.load(std::memory_order_relaxed);
     return s;
 }
 
@@ -769,7 +774,7 @@ Result<CachedModel*> LazyModelLoader::loadModelInternal(
     // Update memory accounting and stats
     total_vram_mb_ += vram_mb;
     total_ram_mb_ += ram_mb;
-    models_loaded_++;
+    models_loaded_.fetch_add(1, std::memory_order_relaxed);
 
     // Log successful load with GPU configuration details
     spdlog::info("✓ Model loaded successfully: {}", model_id);
