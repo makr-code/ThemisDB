@@ -106,23 +106,21 @@ private:
 };
 
 /**
- * @brief Note on ContentManager in tests
+ * @brief Note on Integration Tests
  * 
- * ContentManager requires complex setup (RocksDB, VectorIndex, GraphIndex, etc.)
- * which is not suitable for lightweight unit tests.
+ * Tests prefixed with DISABLED_ require ContentManager with full storage setup
+ * (RocksDB, VectorIndex, GraphIndex, SecondaryIndex). GoogleTest automatically
+ * skips tests with the DISABLED_ prefix.
  * 
- * These tests are divided into:
- * 1. UNIT TESTS: Plugin registration tests (no worker start needed)
- * 2. INTEGRATION TESTS: Job processing tests (require ContentManager - DISABLED for now)
- * 
- * For full integration testing with actual job processing, a proper test fixture
- * with RocksDB, indices, etc. would be needed. That's beyond the scope of these
- * minimal plugin infrastructure tests.
+ * These will be enabled when proper test fixtures are available.
  */
 
-// Tests that require actual job processing are disabled
-// They would need proper ContentManager setup with storage
-#define INTEGRATION_TEST_DISABLED GTEST_SKIP() << "Integration test requires full ContentManager setup";
+// Helper for integration tests (to be implemented when enabled)
+std::shared_ptr<ContentManager> makeTestContentManager() {
+    // TODO: Implement when enabling integration tests
+    // Should create: RocksDB, VectorIndex, GraphIndex, SecondaryIndex
+    return nullptr;  // Placeholder
+}
 
 } // anonymous namespace
 
@@ -268,8 +266,8 @@ TEST(IngestionManagerAdapterTest, MockPlugin_Config) {
 // They are disabled for now as they require integration test infrastructure.
 
 TEST(IngestionManagerAdapterTest, DISABLED_RegisterPlugin_Success) {
-    INTEGRATION_TEST_DISABLED
-    // Would require: ContentManager with RocksDB, VectorIndex, etc.
+    // Integration test - requires ContentManager with RocksDB, VectorIndex, etc.
+    // Test code preserved for future enablement
 }
 
 TEST(IngestionManagerAdapterTest, DISABLED_RegisterPlugin_MultiplePlugins) {
