@@ -367,7 +367,8 @@ BENCHMARK_DEFINE_F(RebalancingFixture, BatchSerializationThroughput)(benchmark::
         // Simulate batch serialization for migration
         std::string batch_payload = "[";
         
-        for (int i = 0; i < batch_size_ && i < static_cast<int>(entities_.size()); i++) {
+        size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
+        for (size_t i = 0; i < max_items; i++) {
             if (i > 0) batch_payload += ",";
             batch_payload += entities_[i];
         }
@@ -394,7 +395,8 @@ BENCHMARK_REGISTER_F(RebalancingFixture, BatchSerializationThroughput)
 BENCHMARK_DEFINE_F(RebalancingFixture, BatchDeserializationThroughput)(benchmark::State& state) {
     // Pre-create batch payload
     std::string batch_payload = "[";
-    for (int i = 0; i < batch_size_ && i < static_cast<int>(entities_.size()); i++) {
+    size_t max_items = std::min(static_cast<size_t>(batch_size_), entities_.size());
+    for (size_t i = 0; i < max_items; i++) {
         if (i > 0) batch_payload += ",";
         batch_payload += entities_[i];
     }

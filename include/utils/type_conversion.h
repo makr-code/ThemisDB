@@ -251,6 +251,97 @@ namespace conversion {
         return static_cast<int32_t>(value);
     }
 
+    // ===== Additional utilities for signed/unsigned safety =====
+
+    /**
+     * @brief Safe conversion from int to size_t with negative check
+     * @param value Source value
+     * @return Converted value
+     * @throws ConversionException if value is negative
+     * 
+     * @example
+     *   int count = get_count();
+     *   size_t size = safe_int_to_size(count);
+     */
+    inline size_t safe_int_to_size(int value) {
+        if (value < 0) {
+            std::string msg = "Cannot convert negative int value " + 
+                            std::to_string(value) + " to size_t";
+            spdlog::warn("Type conversion: {}", msg);
+            throw ConversionException(msg);
+        }
+        return static_cast<size_t>(value);
+    }
+
+    /**
+     * @brief Safe conversion from int64_t to size_t with negative check
+     * @param value Source value
+     * @return Converted value
+     * @throws ConversionException if value is negative
+     */
+    inline size_t safe_int64_to_size(int64_t value) {
+        if (value < 0) {
+            std::string msg = "Cannot convert negative int64_t value " + 
+                            std::to_string(value) + " to size_t";
+            spdlog::warn("Type conversion: {}", msg);
+            throw ConversionException(msg);
+        }
+        return static_cast<size_t>(value);
+    }
+
+    /**
+     * @brief Safe index validation helper
+     * @param index Index to validate (can be negative)
+     * @param size Container size
+     * @return true if index is valid (non-negative and within bounds)
+     * 
+     * @example
+     *   std::vector<int> vec = {1, 2, 3};
+     *   int index = -1;
+     *   if (is_valid_index(index, vec.size())) {
+     *       // Safe to access vec[index]
+     *   }
+     */
+    inline bool is_valid_index(int index, size_t size) noexcept {
+        return index >= 0 && static_cast<size_t>(index) < size;
+    }
+
+    /**
+     * @brief Safe subtraction of size_t values returning signed result
+     * @param a First value
+     * @param b Second value
+     * @return Signed difference (a - b)
+     * @throws ConversionException if difference exceeds ptrdiff_t range
+     * 
+     * @example
+     *   size_t pos1 = 100;
+     *   size_t pos2 = 50;
+     *   ptrdiff_t diff = safe_diff(pos1, pos2);  // 50
+     *   ptrdiff_t neg_diff = safe_diff(pos2, pos1);  // -50
+     */
+    inline std::ptrdiff_t safe_diff(size_t a, size_t b) {
+        // Check if positive difference would overflow ptrdiff_t
+        if (a > b) {
+            size_t diff = a - b;
+            if (diff > static_cast<size_t>(std::numeric_limits<std::ptrdiff_t>::max())) {
+                std::string msg = "Difference " + std::to_string(diff) + 
+                                " too large for ptrdiff_t";
+                spdlog::warn("Type conversion: {}", msg);
+                throw ConversionException(msg);
+            }
+            return static_cast<std::ptrdiff_t>(diff);
+        } else {
+            size_t diff = b - a;
+            if (diff > static_cast<size_t>(std::numeric_limits<std::ptrdiff_t>::max())) {
+                std::string msg = "Difference " + std::to_string(diff) + 
+                                " too large for ptrdiff_t";
+                spdlog::warn("Type conversion: {}", msg);
+                throw ConversionException(msg);
+            }
+            return -static_cast<std::ptrdiff_t>(diff);
+        }
+    }
+
 } // namespace conversion
 
 } // namespace utils
