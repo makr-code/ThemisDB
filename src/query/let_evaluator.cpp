@@ -69,6 +69,12 @@ nlohmann::json LetEvaluator::evaluateExpression(
         return nlohmann::json(nullptr);
     }
 
+    // Null-safety: Ensure expr.get() is not null before dynamic_cast
+    if (!expr.get()) {
+        THEMIS_WARN("evaluateExpression: expr.get() returned null pointer");
+        return nlohmann::json(nullptr);
+    }
+
     // Backward-compat: JSON literal wrapper from legacy tests
     if (auto jsonLit = dynamic_cast<query::JsonLiteralExpr*>(expr.get())) {
         return jsonLit->value;

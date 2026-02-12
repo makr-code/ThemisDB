@@ -69,6 +69,12 @@ bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
     if (!plugins.empty()) {
         auto* plugin = plugins.back();
         
+        // Null-safety: Validate plugin pointer before use
+        if (!plugin) {
+            std::cerr << "Error: Plugin pointer is null" << std::endl;
+            return false;
+        }
+        
         // Register backends
         if (auto vectorBackend = plugin->createVectorBackend()) {
             registerBackend(std::move(vectorBackend));

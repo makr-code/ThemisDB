@@ -1141,6 +1141,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto parseFA = [&](const Expression* ex, char& var, std::string& field)->bool{
                             auto* fa = dynamic_cast<const FieldAccessExpr*>(ex);
                             if (!fa) return false;
+                            if (!fa->object) return false;  // Null-safety: Check shared_ptr is valid
                             auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());
                             if (!v) return false;
                             if (v->name != "v" && v->name != "e") return false;
