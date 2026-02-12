@@ -39,6 +39,10 @@ namespace detail {
  * 
  * Provides exception-safe memory management by automatically cleaning up
  * memory in the destructor. Uses secure clearing before deallocation.
+ * 
+ * Note: This class is non-movable and non-copyable to prevent accidental
+ * ownership transfer. Memory is always owned by a single holder instance
+ * managed via shared_ptr in MemoryAllocation.
  */
 class MemoryHolder {
 public:
@@ -48,6 +52,13 @@ public:
         PINNED         // CUDA pinned host memory
     };
     
+    /**
+     * @param ptr Pointer to memory to manage
+     * @param bytes Size in bytes
+     * @param type Type of memory (GPU/CPU/PINNED)
+     * @param gpu_available Whether GPU is available
+     * @param gpu_device_id GPU device ID (0 = default, only used for GPU memory)
+     */
     MemoryHolder(void* ptr, size_t bytes, Type type, bool gpu_available, int gpu_device_id = 0)
         : ptr_(ptr), bytes_(bytes), type_(type), gpu_available_(gpu_available), 
           gpu_device_id_(gpu_device_id) {}
@@ -74,9 +85,11 @@ public:
         }
     }
     
-    // Prevent copying
+    // Prevent copying and moving - memory is owned by single holder
     MemoryHolder(const MemoryHolder&) = delete;
     MemoryHolder& operator=(const MemoryHolder&) = delete;
+    MemoryHolder(MemoryHolder&&) = delete;
+    MemoryHolder& operator=(MemoryHolder&&) = delete;
     
     void* get() const noexcept { return ptr_; }
     size_t size() const noexcept { return bytes_; }

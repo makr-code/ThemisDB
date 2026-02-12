@@ -216,6 +216,9 @@ public:
     
     /**
      * @brief Get size in bytes
+     * 
+     * Note: Returns 0 after release() is called.
+     * 
      * @return size_t Byte count
      */
     size_t size() const noexcept { 
@@ -282,8 +285,34 @@ public:
     CudaBuffer(CudaBuffer&&) noexcept = default;
     CudaBuffer& operator=(CudaBuffer&&) noexcept = default;
     
+    /**
+     * @brief Get raw pointer
+     * @return void* Raw pointer (non-owning)
+     */
     void* get() const noexcept { return ptr_.get(); }
-    void* release() noexcept { size_ = 0; return ptr_.release(); }
+    
+    /**
+     * @brief Release ownership of the pointer
+     * 
+     * Returns the raw pointer and relinquishes ownership.
+     * The caller becomes responsible for freeing the memory.
+     * After calling release(), size() will return 0.
+     * 
+     * @return void* Raw pointer (caller owns)
+     */
+    void* release() noexcept { 
+        void* result = ptr_.release();
+        size_ = 0;  // Reset size after release for consistency
+        return result;
+    }
+    
+    /**
+     * @brief Get size in bytes
+     * 
+     * Note: Returns 0 after release() is called.
+     * 
+     * @return size_t Byte count
+     */
     size_t size() const noexcept { return size_; }
     explicit operator bool() const noexcept { return ptr_ != nullptr; }
 
