@@ -45,6 +45,7 @@ std::string jobTypeToString(IngestionJobType type) {
         case IngestionJobType::ARCHIVE: return "ARCHIVE";
         case IngestionJobType::BATCH_FILES: return "BATCH_FILES";
         case IngestionJobType::URL_FETCH: return "URL_FETCH";
+        case IngestionJobType::HUGGINGFACE: return "HUGGINGFACE";
         default: return "UNKNOWN";
     }
 }
@@ -430,6 +431,18 @@ void AsyncIngestionWorker::setCompletionCallback(
     }
 }
 
+void AsyncIngestionWorker::registerJobHandler(
+    IngestionJobType job_type,
+    std::function<void(IngestionJob&)> handler
+) {
+    std::lock_guard<std::mutex> lock(handlers_mutex_);
+    job_handlers_[job_type] = handler;
+    
+    if (config_.verbose_logging) {
+        THEMIS_INFO("Registered custom handler for job type: {}", jobTypeToString(job_type));
+    }
+}
+
 // ============================================================================
 // Worker Thread Implementation
 // ============================================================================
@@ -522,6 +535,17 @@ void AsyncIngestionWorker::workerLoop(int worker_id) {
 }
 
 void AsyncIngestionWorker::processJob(IngestionJob& job) {
+    // Check for custom handler first
+    {
+        std::lock_guard<std::mutex> lock(handlers_mutex_);
+        auto it = job_handlers_.find(job.type);
+        if (it != job_handlers_.end()) {
+            it->second(job);
+            return;
+        }
+    }
+    
+    // Fall back to built-in handlers
     switch (job.type) {
         case IngestionJobType::SINGLE_FILE:
             processSingleFile(job);
@@ -533,7 +557,7 @@ void AsyncIngestionWorker::processJob(IngestionJob& job) {
             processBatchFiles(job);
             break;
         default:
-            throw std::runtime_error("Unsupported job type");
+            throw std::runtime_error("Unsupported job type: " + jobTypeToString(job.type));
     }
 }
 

@@ -36,7 +36,8 @@ enum class IngestionJobType {
     SINGLE_FILE,   // Single file upload
     ARCHIVE,       // Archive extraction and ingestion
     BATCH_FILES,   // Multiple files (directory upload)
-    URL_FETCH      // Fetch from URL (future)
+    URL_FETCH,     // Fetch from URL (future)
+    HUGGINGFACE    // Fetch from HuggingFace Hub
 };
 
 /**
@@ -218,6 +219,19 @@ public:
         const std::string& job_id,
         std::function<void(const IngestionJob&)> callback
     );
+    
+    /**
+     * @brief Register a custom job handler
+     * 
+     * Allows plugins to register handlers for custom job types.
+     * 
+     * @param job_type Job type to handle
+     * @param handler Function to process jobs of this type
+     */
+    void registerJobHandler(
+        IngestionJobType job_type,
+        std::function<void(IngestionJob&)> handler
+    );
 
 private:
     std::shared_ptr<ContentManager> content_manager_;
@@ -236,6 +250,10 @@ private:
     // Job tracking
     std::map<std::string, IngestionJob> job_history_;
     std::mutex history_mutex_;
+    
+    // Custom job handlers (for plugins)
+    std::map<IngestionJobType, std::function<void(IngestionJob&)>> job_handlers_;
+    std::mutex handlers_mutex_;
     
     // Statistics
     std::atomic<uint64_t> total_jobs_processed_;
