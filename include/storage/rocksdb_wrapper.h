@@ -265,10 +265,10 @@ public:
         void del(std::string_view key);
         
         /// Get from batch only (very fast)
-        std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key);
+        std::optional<std::vector<uint8_t>> getFromBatch(std::string_view key) const;
         
         /// Get from batch first, then DB if not found (Read-Your-Own-Writes)
-        std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key);
+        std::optional<std::vector<uint8_t>> getFromBatchAndDB(std::string_view key) const;
         
         /// Commit the batch atomically
         bool commit();
