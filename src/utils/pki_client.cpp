@@ -28,28 +28,8 @@ namespace utils {
 // Certificate Pinning: SHA256 Fingerprint Verification
 // ============================================================================
 
-// Compute SHA256 fingerprint of X509 certificate (hex string)
-static std::string compute_cert_fingerprint(X509* cert) {
-    if (!cert) return "";
-    
-    unsigned char md[SHA256_DIGEST_LENGTH];
-    unsigned int n = 0;
-    
-    if (!X509_digest(cert, EVP_sha256(), md, &n) || n != SHA256_DIGEST_LENGTH) {
-        return "";
-    }
-    
-    std::ostringstream oss;
-    for (unsigned int i = 0; i < n; ++i) {
-        oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(md[i]);
-    }
-    
-    return oss.str();
-}
-
 // CURL SSL Context Callback for Certificate Pinning
-static CURLcode ssl_ctx_callback(CURL* curl, void* ssl_ctx, void* userptr) {
-    (void)curl; // Unused
+static CURLcode ssl_ctx_callback([[maybe_unused]] CURL* curl, void* ssl_ctx, void* userptr) {
     
     auto* cfg = static_cast<const PKIConfig*>(userptr);
     if (!cfg || !cfg->enable_cert_pinning || cfg->pinned_cert_fingerprints.empty()) {
@@ -69,8 +49,7 @@ static CURLcode ssl_ctx_callback(CURL* curl, void* ssl_ctx, void* userptr) {
         // Get user data (PKIConfig)
         SSL* ssl = static_cast<SSL*>(X509_STORE_CTX_get_ex_data(
             x509_ctx, SSL_get_ex_data_X509_STORE_CTX_idx()));
-        SSL_CTX* ssl_ctx = ssl ? SSL_get_SSL_CTX(ssl) : nullptr;
-        (void)ssl_ctx; // not used currently
+        [[maybe_unused]] SSL_CTX* ssl_ctx = ssl ? SSL_get_SSL_CTX(ssl) : nullptr;
         
         // For simplicity, we'll store the PKIConfig in SSL_CTX ex_data
         // This is a workaround since we can't pass userdata directly to verify callback
@@ -82,8 +61,7 @@ static CURLcode ssl_ctx_callback(CURL* curl, void* ssl_ctx, void* userptr) {
     
     // Set verify mode and callback
     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, 
-        [](int preverify_ok, X509_STORE_CTX* x509_ctx) -> int {
-            (void)x509_ctx;
+        [](int preverify_ok, [[maybe_unused]] X509_STORE_CTX* x509_ctx) -> int {
             // Simplified: just accept if preverify passed
             // In production, add fingerprint verification here
             return preverify_ok;
@@ -322,9 +300,8 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
     res.signature_id = "sig_" + random_hex_id(8);
     res.algorithm = cfg_.signature_algorithm.empty() ? std::string("RSA-SHA256") : cfg_.signature_algorithm;
 
-    size_t expected_len = 0;
-    int nid = nid_for_algorithm(res.algorithm, expected_len);
-    (void)nid;
+    [[maybe_unused]] size_t expected_len = 0;
+    [[maybe_unused]] int nid = nid_for_algorithm(res.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST signing first
     if (!cfg_.endpoint.empty()) {
@@ -464,9 +441,8 @@ SignatureResult VCCPKIClient::signHash(const std::vector<uint8_t>& hash_bytes) c
 bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const SignatureResult& sig) const {
     if (!sig.ok) return false;
 
-    size_t expected_len = 0;
-    int nid = nid_for_algorithm(sig.algorithm, expected_len);
-    (void)nid; (void)expected_len;
+    [[maybe_unused]] size_t expected_len = 0;
+    [[maybe_unused]] int nid = nid_for_algorithm(sig.algorithm, expected_len);
 
     // If a PKI endpoint is configured, try REST verify first
     if (!cfg_.endpoint.empty()) {
@@ -556,8 +532,7 @@ bool VCCPKIClient::verifyHash(const std::vector<uint8_t>& hash_bytes, const Sign
         if (pub_result) {
             EVP_PKEY* pub = *pub_result;
             // Use EVP_PKEY verification instead of deprecated RSA_verify
-            int max_sig_len = EVP_PKEY_size(pub);
-            (void)max_sig_len;
+            [[maybe_unused]] int max_sig_len = EVP_PKEY_size(pub);
             auto sig_bytes = base64_decode(sig.signature_b64);
             EVP_PKEY_CTX* ctx = EVP_PKEY_CTX_new(pub, nullptr);
             if (ctx) {

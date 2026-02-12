@@ -452,9 +452,8 @@ bool MultiLoRAManager::removeLoRA(const std::string& lora_id, llama_context* con
 
 std::vector<InferenceResponse> MultiLoRAManager::batchInferenceMultiLoRA(
     const std::vector<std::pair<InferenceRequest, std::string>>& requests,
-    llama_context* model_context
+    [[maybe_unused]] llama_context* model_context
 ) {
-    (void)model_context;  // Backend integration pending
     spdlog::info("Multi-LoRA batch inference: {} requests", requests.size());
     
     if (!config_.enable_multi_lora_batch) {
