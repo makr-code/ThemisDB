@@ -6,10 +6,7 @@
 #include <iomanip>
 #include <regex>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
-#endif
+
 
 namespace themis {
 namespace query {
@@ -77,7 +74,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string result;
         
         for (const auto& arg : args) {
@@ -122,7 +119,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         // Find last separator
@@ -161,7 +158,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         bool stripExt = args.size() > 1 && args[1].get<bool>();
         
@@ -201,7 +198,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         // Get basename first
@@ -239,7 +236,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         // Replace backslashes with forward slashes
@@ -302,7 +299,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         nlohmann::json result = nlohmann::json::array();
@@ -347,7 +344,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         int levels = args.size() > 1 ? args[1].get<int>() : 1;
         
@@ -391,7 +388,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         if (path.empty()) return false;
@@ -430,7 +427,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         if (path.empty()) return true;
@@ -467,7 +464,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         size_t lastSep = path.find_last_of("/\\");
         return (lastSep == std::string::npos) ? path : path.substr(lastSep + 1);
@@ -495,7 +492,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         size_t lastSep = path.find_last_of("/\\");
@@ -531,7 +528,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         size_t lastSep = path.find_last_of("/\\");
@@ -568,7 +565,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string filename = args[0].get<std::string>();
         std::string replacement = args.size() > 1 ? args[1].get<std::string>() : "_";
         
@@ -698,7 +695,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         // Extract extension
@@ -738,7 +735,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
@@ -776,7 +773,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
@@ -814,7 +811,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
@@ -852,7 +849,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string path = args[0].get<std::string>();
         
         size_t dotPos = path.find_last_of('.');
@@ -896,7 +893,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         double bytes = args[0].get<double>();
         int precision = args.size() > 1 ? args[1].get<int>() : 2;
         
@@ -935,7 +932,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string sizeStr = args[0].get<std::string>();
         
         // Remove whitespace
@@ -1010,6 +1007,3 @@ inline void registerFileFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif

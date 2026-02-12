@@ -6,10 +6,7 @@
 #include <string>
 #include <tuple>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
-#endif
+
 
 namespace themis {
 namespace query {
@@ -511,7 +508,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         int fromSrid = args[1].get<int>();
         int toSrid = args[2].get<int>();
@@ -701,7 +698,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         
         if (args.size() == 1) {
@@ -754,7 +751,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json result = args[0];
         int srid = args[1].get<int>();
         result["crs"] = {
@@ -788,7 +785,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         double lon = args[0].get<double>();
         return crs::getUTMZone(lon);
     }
@@ -817,7 +814,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int zone = args[0].get<int>();
         std::string hemisphere = args.size() > 1 ? args[1].get<std::string>() : "N";
         std::string ellipsoid = args.size() > 2 ? args[2].get<std::string>() : "WGS84";
@@ -850,7 +847,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int epsg = args[0].get<int>();
         const auto& db = crs::getEPSGDatabase();
         
@@ -883,7 +880,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int epsg = args[0].get<int>();
         const auto& db = crs::getEPSGDatabase();
         
@@ -916,7 +913,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int epsg = args[0].get<int>();
         const auto& db = crs::getEPSGDatabase();
         
@@ -952,7 +949,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         double easting = args[0].get<double>();
         double northing = args[1].get<double>();
         int zone = args[2].get<int>();
@@ -993,6 +990,3 @@ inline void registerCrsFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
