@@ -41,7 +41,7 @@ public:
 **Warum ist das wichtig?**
 ```cpp
 // Mit const kann man const-Referenzen verwenden:
-void print_stats(const GPUMemoryManager& mgr) {
+void printStats(const GPUMemoryManager& mgr) {
     std::cout << "VRAM: " << mgr.getTotalVRAM();  // ✅ Funktioniert!
 }
 ```
@@ -140,7 +140,7 @@ public:
             return it->second;  // Cache hit
         }
         
-        QueryResult result = execute_query_internal(sql);
+        QueryResult result = executeQueryInternal(sql);
         cache_[sql] = result;  // ✅ OK, cache_ ist mutable
         return result;
     }
@@ -242,13 +242,13 @@ Bei Code-Reviews prüfen:
 
 ```cpp
 // NIEMALS:
-void bad_function(const Data& data) {
+void badFunction(const Data& data) {
     Data& mutable_data = const_cast<Data&>(data);  // ⚠️ UB!
     mutable_data.modify();
 }
 
 // Stattdessen: API korrigieren
-void good_function(Data& data) {
+void goodFunction(Data& data) {
     data.modify();
 }
 ```
@@ -257,12 +257,12 @@ void good_function(Data& data) {
 
 ```cpp
 // Nutzlos - verhindert move
-const std::string bad_getter() const {
+const std::string badGetter() const {
     return name_;  // ⚠️ const verhindert RVO/move
 }
 
 // Gut - ermöglicht move
-std::string good_getter() const {
+std::string goodGetter() const {
     return name_;  // ✅ Kann moved werden
 }
 ```
