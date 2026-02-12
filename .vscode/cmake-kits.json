@@ -1,0 +1,98 @@
+[
+  {
+    "name": "GCC",
+    "compilers": {
+      "C": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++"
+    },
+    "preferredGenerator": {
+      "name": "Ninja"
+    },
+    "environmentVariables": {
+      "CC": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++"
+    },
+    "toolchainFile": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "cmakeSettings": {
+      "CMAKE_C_COMPILER": "/usr/bin/gcc",
+      "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+      "VCPKG_TARGET_TRIPLET": "x64-linux"
+    }
+  },
+  {
+    "name": "Clang",
+    "compilers": {
+      "C": "/usr/bin/clang",
+      "CXX": "/usr/bin/clang++"
+    },
+    "preferredGenerator": {
+      "name": "Ninja"
+    },
+    "environmentVariables": {
+      "CC": "/usr/bin/clang",
+      "CXX": "/usr/bin/clang++"
+    },
+    "toolchainFile": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "cmakeSettings": {
+      "CMAKE_C_COMPILER": "/usr/bin/clang",
+      "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+      "VCPKG_TARGET_TRIPLET": "x64-linux"
+    }
+  },
+  {
+    "name": "MSVC 2022",
+    "visualStudio": "amd64",
+    "visualStudioArchitecture": "x64",
+    "preferredGenerator": {
+      "name": "Visual Studio 17 2022",
+      "platform": "x64"
+    },
+    "toolchainFile": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "cmakeSettings": {
+      "VCPKG_TARGET_TRIPLET": "x64-windows"
+    }
+  },
+  {
+    "name": "WSL GCC",
+    "compilers": {
+      "C": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++"
+    },
+    "preferredGenerator": {
+      "name": "Ninja"
+    },
+    "environmentVariables": {
+      "CC": "/usr/bin/gcc",
+      "CXX": "/usr/bin/g++"
+    },
+    "toolchainFile": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "cmakeSettings": {
+      "CMAKE_C_COMPILER": "/usr/bin/gcc",
+      "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+      "VCPKG_TARGET_TRIPLET": "x64-linux",
+      "CMAKE_BUILD_TYPE": "Release"
+    }
+  },
+  {
+    "name": "ARM64 Cross",
+    "compilers": {
+      "C": "/usr/bin/aarch64-linux-gnu-gcc",
+      "CXX": "/usr/bin/aarch64-linux-gnu-g++"
+    },
+    "preferredGenerator": {
+      "name": "Ninja"
+    },
+    "environmentVariables": {
+      "CC": "/usr/bin/aarch64-linux-gnu-gcc",
+      "CXX": "/usr/bin/aarch64-linux-gnu-g++"
+    },
+    "toolchainFile": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+    "cmakeSettings": {
+      "CMAKE_C_COMPILER": "/usr/bin/aarch64-linux-gnu-gcc",
+      "CMAKE_CXX_COMPILER": "/usr/bin/aarch64-linux-gnu-g++",
+      "VCPKG_TARGET_TRIPLET": "arm64-linux",
+      "CMAKE_SYSTEM_NAME": "Linux",
+      "CMAKE_SYSTEM_PROCESSOR": "aarch64"
+    }
+  }
+]

@@ -92,7 +92,8 @@ release/**/temp/
 
 # IDE / editor
 .idea/
-.vscode/
+# Note: Enhanced VSCode config in .vscode/ is now tracked (c_cpp_properties.json, cmake-kits.json, cmake-variants.json, README.md)
+# User-specific VSCode files are ignored via rules at top of file
 .vs/
 *.suo
 *.user
