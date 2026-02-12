@@ -537,7 +537,7 @@ Result<void> BlobRedundancyManager::tierUp(
     return themis::OkVoid();
 }
 
-std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() {
+std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() const {
     std::vector<std::string> candidates;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
@@ -559,7 +559,7 @@ std::vector<std::string> BlobRedundancyManager::getBlobsForTierDown() {
     return candidates;
 }
 
-BlobMetadata BlobRedundancyManager::getBlobMetadata(const std::string& blob_id) {
+BlobMetadata BlobRedundancyManager::getBlobMetadata(const std::string& blob_id) const {
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
     
     auto it = blobs_.find(blob_id);
@@ -570,7 +570,7 @@ BlobMetadata BlobRedundancyManager::getBlobMetadata(const std::string& blob_id) 
     return BlobMetadata{};
 }
 
-std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() {
+std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() const {
     std::vector<std::string> degraded;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
@@ -584,7 +584,7 @@ std::vector<std::string> BlobRedundancyManager::getDegradedBlobs() {
     return degraded;
 }
 
-std::vector<std::string> BlobRedundancyManager::getCriticalBlobs() {
+std::vector<std::string> BlobRedundancyManager::getCriticalBlobs() const {
     std::vector<std::string> critical;
     
     std::shared_lock<std::shared_mutex> lock(blobs_mutex_);
