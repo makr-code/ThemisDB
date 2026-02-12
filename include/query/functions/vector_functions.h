@@ -6,10 +6,7 @@
 #include <numeric>
 #include <random>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
-#endif
+
 
 namespace themis {
 namespace query {
@@ -130,7 +127,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "COSINE_SIMILARITY");
         vector_helpers::validateVector(args[1], "COSINE_SIMILARITY");
         vector_helpers::validateSameDimension(args[0], args[1], "COSINE_SIMILARITY");
@@ -172,7 +169,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "EUCLIDEAN_DISTANCE");
         vector_helpers::validateVector(args[1], "EUCLIDEAN_DISTANCE");
         vector_helpers::validateSameDimension(args[0], args[1], "EUCLIDEAN_DISTANCE");
@@ -212,7 +209,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "DOT_PRODUCT");
         vector_helpers::validateVector(args[1], "DOT_PRODUCT");
         vector_helpers::validateSameDimension(args[0], args[1], "DOT_PRODUCT");
@@ -246,7 +243,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "MANHATTAN_DISTANCE");
         vector_helpers::validateVector(args[1], "MANHATTAN_DISTANCE");
         vector_helpers::validateSameDimension(args[0], args[1], "MANHATTAN_DISTANCE");
@@ -285,7 +282,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "CHEBYSHEV_DISTANCE");
         vector_helpers::validateVector(args[1], "CHEBYSHEV_DISTANCE");
         vector_helpers::validateSameDimension(args[0], args[1], "CHEBYSHEV_DISTANCE");
@@ -326,7 +323,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         // Default implementation uses cosine similarity
         vector_helpers::validateVector(args[0], "SIMILARITY");
         vector_helpers::validateVector(args[1], "SIMILARITY");
@@ -373,7 +370,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "L2_NORMALIZE");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -414,7 +411,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "MIN_MAX_NORMALIZE");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -467,7 +464,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_ADD");
         vector_helpers::validateVector(args[1], "VECTOR_ADD");
         vector_helpers::validateSameDimension(args[0], args[1], "VECTOR_ADD");
@@ -505,7 +502,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_SUB");
         vector_helpers::validateVector(args[1], "VECTOR_SUB");
         vector_helpers::validateSameDimension(args[0], args[1], "VECTOR_SUB");
@@ -543,7 +540,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_MUL");
         vector_helpers::validateVector(args[1], "VECTOR_MUL");
         vector_helpers::validateSameDimension(args[0], args[1], "VECTOR_MUL");
@@ -581,7 +578,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_SCALE");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -620,7 +617,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_SUM");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -649,7 +646,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_AVG");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -684,7 +681,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_NORM");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -728,7 +725,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_DIM");
         return static_cast<int64_t>(args[0].size());
     }
@@ -755,7 +752,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_MIN");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -788,7 +785,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_MAX");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -825,7 +822,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int n = args[0].get<int>();
         if (n < 0) {
             throw std::runtime_error("VECTOR_ZEROS: Dimension must be non-negative");
@@ -857,7 +854,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int n = args[0].get<int>();
         if (n < 0) {
             throw std::runtime_error("VECTOR_ONES: Dimension must be non-negative");
@@ -891,7 +888,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         int n = args[0].get<int>();
         if (n < 0) {
             throw std::runtime_error("VECTOR_RANDOM: Dimension must be non-negative");
@@ -936,7 +933,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         vector_helpers::validateVector(args[0], "VECTOR_SLICE");
         
         auto vec = vector_helpers::toVector(args[0]);
@@ -982,7 +979,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> result;
         
         for (const auto& arg : args) {
@@ -1040,6 +1037,3 @@ inline void registerVectorFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
