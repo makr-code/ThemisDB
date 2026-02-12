@@ -7,7 +7,7 @@ set -euo pipefail
 #   THEMISDB_URL - ThemisDB server URL (default: http://localhost:8529)
 
 THEMISDB_URL="${THEMISDB_URL:-http://localhost:8529}"
-SCHEMA_FILE="${SCHEMA_FILE:-config/schemas/legal_training_schema.sql}"
+SCHEMA_FILE="${SCHEMA_FILE:-config/schemas/legal_training_schema.yaml}"
 
 echo "=== Initializing Legal Training Schema ==="
 echo "ThemisDB URL: $THEMISDB_URL"
@@ -19,51 +19,22 @@ if [ ! -f "$SCHEMA_FILE" ]; then
     exit 1
 fi
 
-# Check if curl and jq are available
+# Check if curl is available
 if ! command -v curl &> /dev/null; then
     echo "Error: curl is required but not installed"
     exit 1
 fi
 
-if ! command -v jq &> /dev/null; then
-    echo "Warning: jq not found, falling back to manual JSON construction"
-    USE_JQ=0
-else
-    USE_JQ=1
-fi
-
-# Read schema file content
-SCHEMA_CONTENT=$(cat "$SCHEMA_FILE")
-
 # Execute schema
-echo "Executing schema..."
-
-# Construct JSON payload
-if [ "$USE_JQ" -eq 1 ]; then
-    # Use jq for proper JSON encoding
-    JSON_PAYLOAD=$(jq -n --arg query "$SCHEMA_CONTENT" '{query: $query}')
-    
-    if echo "$JSON_PAYLOAD" | curl -X POST "$THEMISDB_URL/query" \
-        -H "Content-Type: application/json" \
-        -d @-; then
-        echo ""
-        echo "Schema initialization complete!"
-    else
-        echo ""
-        echo "Error: Schema initialization failed"
-        exit 1
-    fi
+# For YAML schemas, ThemisDB expects the schema to be POSTed to /schema endpoint
+echo "Uploading schema..."
+if curl -X POST "$THEMISDB_URL/schema" \
+    -H "Content-Type: application/yaml" \
+    --data-binary @"$SCHEMA_FILE"; then
+    echo ""
+    echo "Schema initialization complete!"
 else
-    # Manual JSON construction (less robust, but works without jq)
-    # Note: This approach has limitations with special characters
-    if curl -X POST "$THEMISDB_URL/query" \
-        -H "Content-Type: application/json" \
-        -d "{\"query\": $(printf '%s' "$SCHEMA_CONTENT" | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' | jq -Rs .)}"; then
-        echo ""
-        echo "Schema initialization complete!"
-    else
-        echo ""
-        echo "Error: Schema initialization failed"
-        exit 1
-    fi
+    echo ""
+    echo "Error: Schema initialization failed"
+    exit 1
 fi

@@ -31,7 +31,7 @@ class LegalTrainingSchemaTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Validate that critical files exist before running tests
-        schema_file_path = "config/schemas/legal_training_schema.sql";
+        schema_file_path = "config/schemas/legal_training_schema.yaml";
         init_script_path = "scripts/init_legal_training_schema.sh";
         doc_file_path = "docs/schemas/LEGAL_TRAINING_SCHEMA.md";
     }

@@ -2,10 +2,11 @@
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Format](https://img.shields.io/badge/format-YAML-orange)
 
 ## 📝 Overview
 
-The Legal Training Data Schema provides a comprehensive multi-model database design for training domain-specific LoRA adapters on German legal language. It leverages ThemisDB's unique multi-model architecture to combine:
+The Legal Training Data Schema provides a comprehensive multi-model database design for training domain-specific LoRA adapters on German legal language. It leverages ThemisDB's unique multi-model architecture using **YAML schema definition** to combine:
 
 - **Document Model**: Legal texts, training samples, and metadata
 - **Graph Model**: Relationships between documents, provisions, and case law
@@ -323,7 +324,36 @@ Recent ingestion activity (last 20 items).
 
 ## 🚀 Usage Examples
 
-### Insert a Legal Document
+### Schema Structure (YAML)
+
+The schema is defined in YAML format following ThemisDB conventions:
+
+```yaml
+version: "1.0.0"
+
+tables:
+  legal_documents:
+    description: "Source legal texts"
+    primary_key: document_id
+    fields:
+      document_id:
+        type: string
+        format: uuid
+        required: true
+      text:
+        type: text
+        required: true
+      embedding:
+        type: vector
+        dimensions: 768
+    indexes:
+      - name: idx_legal_documents_embedding
+        columns: [embedding]
+        type: vector
+        algorithm: hnsw
+```
+
+### Insert a Legal Document (AQL)
 
 ```sql
 INSERT {
@@ -402,6 +432,8 @@ FOR meta IN ingestion_metadata
 
 ### Initialize Schema
 
+The schema is defined in YAML format and uploaded to ThemisDB:
+
 ```bash
 # Set ThemisDB URL (optional)
 export THEMISDB_URL="http://localhost:8529"
@@ -413,11 +445,21 @@ export THEMISDB_URL="http://localhost:8529"
 ### Manual Initialization
 
 ```bash
-# Execute SQL schema directly
-curl -X POST "http://localhost:8529/query" \
-    -H "Content-Type: application/json" \
-    -d @config/schemas/legal_training_schema.sql
+# Upload YAML schema directly
+curl -X POST "http://localhost:8529/schema" \
+    -H "Content-Type: application/yaml" \
+    --data-binary @config/schemas/legal_training_schema.yaml
 ```
+
+## 📁 Schema File Format
+
+The schema is defined in `config/schemas/legal_training_schema.yaml` using ThemisDB's YAML format:
+
+- **Tables**: Define collections with fields, types, and validation
+- **Indexes**: Full-text, vector (HNSW), and secondary indexes
+- **Graphs**: Named graphs with vertex and edge definitions  
+- **Views**: Pre-defined AQL queries for common operations
+- **Configuration**: Performance, security, and monitoring settings
 
 ## ⚡ Performance Considerations
 
