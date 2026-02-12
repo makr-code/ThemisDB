@@ -814,7 +814,7 @@ void RocksDBWrapper::WriteBatchWithIndexWrapper::del(std::string_view key) {
     batch_->Delete(rocksdb::Slice(key.data(), key.size()));
 }
 
-std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatch(std::string_view key) {
+std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatch(std::string_view key) const {
     if (!db_) return std::nullopt;
     
     std::string value;
@@ -830,7 +830,7 @@ std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::
     return std::nullopt;
 }
 
-std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatchAndDB(std::string_view key) {
+std::optional<std::vector<uint8_t>> RocksDBWrapper::WriteBatchWithIndexWrapper::getFromBatchAndDB(std::string_view key) const {
     if (!db_ || !db_->db_) return std::nullopt;
     
     std::string value;

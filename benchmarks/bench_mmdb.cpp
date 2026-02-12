@@ -288,12 +288,13 @@ BENCHMARK_DEFINE_F(MMDBFixture, SemanticSearch)(benchmark::State& state) {
         
         // Get top-5
         std::partial_sort(similarities.begin(), 
-                         similarities.begin() + std::min(5, static_cast<int>(similarities.size())),
+                         similarities.begin() + std::min(size_t(5), similarities.size()),
                          similarities.end(),
                          [](const auto& a, const auto& b) { return a.first > b.first; });
         
         // Retrieve full product details for top results
-        for (int i = 0; i < std::min(5, static_cast<int>(similarities.size())); ++i) {
+        size_t top_results = std::min(size_t(5), similarities.size());
+        for (size_t i = 0; i < top_results; ++i) {
             auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));
             benchmark::DoNotOptimize(product);
         }
@@ -398,13 +399,14 @@ BENCHMARK_DEFINE_F(MMDBFixture, RAGWorkflow)(benchmark::State& state) {
         }
         
         std::partial_sort(similarities.begin(), 
-                         similarities.begin() + std::min(5, static_cast<int>(similarities.size())),
+                         similarities.begin() + std::min(size_t(5), similarities.size()),
                          similarities.end(),
                          [](const auto& a, const auto& b) { return a.first > b.first; });
         
         // Phase 2: Context building (retrieve documents)
         std::string context;
-        for (int i = 0; i < std::min(5, static_cast<int>(similarities.size())); ++i) {
+        size_t top_results = std::min(size_t(5), similarities.size());
+        for (size_t i = 0; i < top_results; ++i) {
             auto product = getEntity(products_, "product_" + std::to_string(similarities[i].second));
             auto doc = getEntity(product_docs_, "doc_" + std::to_string(similarities[i].second));
             

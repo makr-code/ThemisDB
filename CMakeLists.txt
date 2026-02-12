@@ -114,6 +114,38 @@ option(THEMIS_BENCHMARK_MODE
        "Enable all performance measurement features (FOR BENCHMARKING ONLY!)" 
        OFF)
 
+# ============================================================================
+# THREAD SANITIZER SUPPORT
+# ============================================================================
+
+option(THEMIS_ENABLE_TSAN 
+       "Enable ThreadSanitizer for detecting data races (overhead: ~5-15x)" 
+       OFF)
+
+if(THEMIS_ENABLE_TSAN)
+    if(NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+        message(FATAL_ERROR "ThreadSanitizer requires Clang or GCC compiler")
+    endif()
+    
+    set(TSAN_FLAGS "-fsanitize=thread -g -O1 -fno-omit-frame-pointer")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TSAN_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${TSAN_FLAGS}")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${TSAN_FLAGS}")
+    
+    # Set TSan suppressions file if it exists
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tsan_suppressions.txt")
+        set(ENV{TSAN_OPTIONS} "suppressions=${CMAKE_CURRENT_SOURCE_DIR}/tsan_suppressions.txt")
+        message(STATUS "ThreadSanitizer suppressions: ${CMAKE_CURRENT_SOURCE_DIR}/tsan_suppressions.txt")
+    endif()
+    
+    message(WARNING "==========================================")
+    message(WARNING "ThreadSanitizer (TSan) is ENABLED")
+    message(WARNING "Expected slowdown: 5-15x")
+    message(WARNING "Memory overhead: 5-10x")
+    message(WARNING "FOR TESTING ONLY - NOT FOR PRODUCTION")
+    message(WARNING "==========================================")
+endif()
+
 # When THEMIS_BENCHMARK_MODE is ON, enable all measurement features
 if(THEMIS_BENCHMARK_MODE)
     set(THEMIS_ENABLE_CYCLE_METRICS ON CACHE BOOL "" FORCE)

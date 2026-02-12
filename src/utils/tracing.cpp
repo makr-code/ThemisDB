@@ -40,7 +40,8 @@ bool Tracer::initialized_ = false;
 std::atomic<int64_t> Tracer::total_spans_{0};
 std::atomic<int64_t> Tracer::active_spans_{0};
 
-bool Tracer::initialize(const std::string& serviceName, const std::string& endpoint) {
+bool Tracer::initialize([[maybe_unused]] const std::string& serviceName, 
+                        [[maybe_unused]] const std::string& endpoint) {
 #ifdef THEMIS_ENABLE_TRACING
     if (initialized_) {
         THEMIS_WARN("Tracer already initialized");
@@ -125,8 +126,6 @@ bool Tracer::initialize(const std::string& serviceName, const std::string& endpo
         return false;
     }
 #else
-    (void)serviceName;
-    (void)endpoint;
     THEMIS_INFO("Tracing disabled (THEMIS_ENABLE_TRACING not defined)");
     initialized_ = true; // Mark as "initialized" to prevent repeated logs
     return true;
@@ -166,7 +165,7 @@ otel::nostd::shared_ptr<otel::trace::Tracer> Tracer::getTracer() {
 }
 #endif
 
-Tracer::Span Tracer::startSpan(const std::string& name) {
+Tracer::Span Tracer::startSpan([[maybe_unused]] const std::string& name) {
 #ifdef THEMIS_ENABLE_TRACING
     auto tracer = getTracer();
     if (!tracer) {
@@ -178,12 +177,12 @@ Tracer::Span Tracer::startSpan(const std::string& name) {
     active_spans_++;
     return Span(span);
 #else
-    (void)name;
     return Span(); // No-op span
 #endif
 }
 
-Tracer::Span Tracer::startChildSpan(const std::string& name, const Span& parent) {
+Tracer::Span Tracer::startChildSpan([[maybe_unused]] const std::string& name, 
+                                    [[maybe_unused]] const Span& parent) {
 #ifdef THEMIS_ENABLE_TRACING
     auto tracer = getTracer();
     if (!tracer || !parent.valid_) {
@@ -199,8 +198,6 @@ Tracer::Span Tracer::startChildSpan(const std::string& name, const Span& parent)
     active_spans_++;
     return Span(span);
 #else
-    (void)name;
-    (void)parent;
     return Span();
 #endif
 }
@@ -259,70 +256,58 @@ Tracer::Span& Tracer::Span::operator=(Span&& other) noexcept {
     return *this;
 }
 
-void Tracer::Span::setAttribute(const std::string& key, const std::string& value) {
+void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
+                                 [[maybe_unused]] const std::string& value) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
         span_->SetAttribute(key, value);
     }
-#else
-    (void)key;
-    (void)value;
 #endif
 }
 
-void Tracer::Span::setAttribute(const std::string& key, int64_t value) {
+void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
+                                 [[maybe_unused]] int64_t value) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
         span_->SetAttribute(key, value);
     }
-#else
-    (void)key;
-    (void)value;
 #endif
 }
 
-void Tracer::Span::setAttribute(const std::string& key, double value) {
+void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
+                                 [[maybe_unused]] double value) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
         span_->SetAttribute(key, value);
     }
-#else
-    (void)key;
-    (void)value;
 #endif
 }
 
-void Tracer::Span::setAttribute(const std::string& key, bool value) {
+void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key, 
+                                 [[maybe_unused]] bool value) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
         span_->SetAttribute(key, value);
     }
-#else
-    (void)key;
-    (void)value;
 #endif
 }
 
-void Tracer::Span::recordError(const std::string& errorMessage) {
+void Tracer::Span::recordError([[maybe_unused]] const std::string& errorMessage) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
         span_->AddEvent("exception", {{"exception.message", errorMessage}});
         span_->SetStatus(otel::trace::StatusCode::kError, errorMessage);
     }
-#else
-    (void)errorMessage;
 #endif
 }
 
-void Tracer::Span::setStatus(bool ok, const std::string& description) {
+void Tracer::Span::setStatus([[maybe_unused]] bool ok, 
+                             [[maybe_unused]] const std::string& description) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
         auto status_code = ok ? otel::trace::StatusCode::kOk : otel::trace::StatusCode::kError;
         span_->SetStatus(status_code, description);
     }
-#else
-    (void)ok;
-    (void)description;
 #endif
 }
 

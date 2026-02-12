@@ -44,7 +44,7 @@ public:
         metrics_.max_size = maxSize;
     }
 
-    std::optional<CacheEntry> get(std::string_view key) override {
+    std::optional<CacheEntry> get(std::string_view key) const override {
         auto start = std::chrono::steady_clock::now();
         std::lock_guard<std::mutex> lock(mutex_);
         
@@ -183,6 +183,9 @@ public:
     IEvictionStrategy* getEvictionStrategy() override {
         return strategy_.get();
     }
+    const IEvictionStrategy* getEvictionStrategy() const override {
+        return strategy_.get();
+    }
 
     // Metrics support
     const CacheMetrics* getMetrics() const override {
@@ -215,10 +218,10 @@ private:
     };
 
     mutable std::mutex mutex_;
-    std::unordered_map<std::string, CachedValue> cache_;
+    mutable std::unordered_map<std::string, CachedValue> cache_;
     size_t maxSize_;
     uint64_t defaultTTL_;
-    std::unique_ptr<IEvictionStrategy> strategy_;
+    mutable std::unique_ptr<IEvictionStrategy> strategy_;
     mutable CacheMetrics metrics_;
 
     uint64_t getCurrentTimeMs() const {
@@ -227,7 +230,7 @@ private:
         ).count();
     }
     
-    void updateLatency(const std::chrono::steady_clock::time_point& start) {
+    void updateLatency(const std::chrono::steady_clock::time_point& start) const {
         auto end = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
         metrics_.total_latency_ns += latency;

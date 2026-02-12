@@ -793,6 +793,16 @@ if(THEMIS_ENABLE_ASAN)
     endif()
 endif()
 
+# LeakSanitizer support
+if(THEMIS_ENABLE_LSAN)
+    if(NOT MSVC)
+        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=leak)
+    else()
+        message(WARNING "LeakSanitizer not supported on MSVC")
+    endif()
+endif()
+
 # Optionale lokale clang-tidy Aktivierung (nicht in CI standardm��ig).
 if(ENABLE_LOCAL_CLANG_TIDY)
     find_program(CLANG_TIDY_EXE NAMES clang-tidy)

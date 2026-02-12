@@ -79,7 +79,7 @@ EmbeddingCache::~EmbeddingCache() = default;
 
 std::optional<EmbeddingCache::CacheEntry> EmbeddingCache::query(
     const std::vector<float>& query_embedding
-) {
+) const {
     if (query_embedding.size() != config_.embedding_dim) {
         THEMIS_ERROR("Invalid embedding dimension: {} (expected {})",
                     query_embedding.size(), config_.embedding_dim);

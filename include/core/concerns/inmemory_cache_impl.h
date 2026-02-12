@@ -20,7 +20,7 @@ public:
     explicit InMemoryCacheImpl(size_t maxSize = 1000, uint64_t defaultTTL = 0)
         : maxSize_(maxSize), defaultTTL_(defaultTTL), hits_(0), misses_(0) {}
 
-    std::optional<CacheEntry> get(std::string_view key) override {
+    std::optional<CacheEntry> get(std::string_view key) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         
         auto it = cache_.find(std::string(key));

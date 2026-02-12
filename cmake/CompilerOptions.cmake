@@ -104,6 +104,7 @@ if(MSVC)
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
         /EHsc            # Exception handling (C++ only, not SEH)
+        /w14018          # Enable C4018: signed/unsigned mismatch warning
     )
     
     # Also use include_directories for good measure
@@ -153,6 +154,7 @@ else()
         -Wpedantic
         -Wno-unused-parameter
         -Wno-deprecated-declarations
+        -Wsign-compare   # Enable signed/unsigned comparison warnings
     )
     
     # Release-specific options for SIMD optimization
@@ -175,6 +177,13 @@ else()
         add_compile_options(-fsanitize=address -fno-omit-frame-pointer)
         add_link_options(-fsanitize=address)
         message(STATUS "AddressSanitizer enabled for debugging")
+    endif()
+    
+    # LeakSanitizer support (can be combined with AddressSanitizer)
+    if(THEMIS_ENABLE_LSAN)
+        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=leak)
+        message(STATUS "LeakSanitizer enabled for debugging")
     endif()
     
     # UndefinedBehaviorSanitizer support for detecting alignment issues

@@ -91,7 +91,7 @@ public:
      * @param query_embedding Query embedding vector
      * @return Cached entry if similarity > threshold
      */
-    std::optional<CacheEntry> query(const std::vector<float>& query_embedding);
+    std::optional<CacheEntry> query(const std::vector<float>& query_embedding) const;
     
     /**
      * @brief Store embedding in cache with optimal alignment
@@ -131,7 +131,7 @@ public:
 private:
     Config config_;
     mutable CacheStats stats_;
-    std::unique_ptr<EmbeddingCacheImpl> impl_;  // pimpl for vector index + entries
+    mutable std::unique_ptr<EmbeddingCacheImpl> impl_;  // pimpl for vector index + entries
     
     /**
      * @brief Check if entry is expired

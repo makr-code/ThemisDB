@@ -5,9 +5,15 @@
 #include <unordered_map>
 #include <mutex>
 #include <vector>
+#include <memory>
 
 namespace themis {
 namespace llm {
+
+// Forward declaration for internal memory holder
+namespace detail {
+    class MemoryHolder;
+}
 
 /**
  * @brief GPU Memory Manager for multi-model and multi-GPU serving
@@ -27,6 +33,10 @@ public:
         void* cpu_ptr = nullptr;
         bool is_pinned = false;
         int gpu_device_id = 0;  // v1.4.0: Track which GPU owns this allocation
+        
+        // Internal RAII holder for exception safety
+        // This ensures memory is freed even if exceptions occur during cleanup
+        std::shared_ptr<detail::MemoryHolder> holder;
     };
     
     struct Config {

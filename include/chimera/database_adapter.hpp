@@ -350,7 +350,7 @@ public:
      * @brief Get query execution statistics
      * @return Query statistics or error
      */
-    virtual Result<QueryStatistics> get_query_statistics() = 0;
+    virtual Result<QueryStatistics> get_query_statistics() const = 0;
 };
 
 /**
@@ -583,26 +583,26 @@ public:
      * @brief Get system information
      * @return System info or error
      */
-    virtual Result<SystemInfo> get_system_info() = 0;
+    virtual Result<SystemInfo> get_system_info() const = 0;
     
     /**
      * @brief Get runtime metrics
      * @return System metrics or error
      */
-    virtual Result<SystemMetrics> get_metrics() = 0;
+    virtual Result<SystemMetrics> get_metrics() const = 0;
     
     /**
      * @brief Check if a capability is supported
      * @param cap Capability to check
      * @return true if supported, false otherwise
      */
-    virtual bool has_capability(Capability cap) = 0;
+    virtual bool has_capability(Capability cap) const = 0;
     
     /**
      * @brief Get all supported capabilities
      * @return List of supported capabilities
      */
-    virtual std::vector<Capability> get_capabilities() = 0;
+    virtual std::vector<Capability> get_capabilities() const = 0;
 };
 
 /**

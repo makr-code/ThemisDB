@@ -275,6 +275,7 @@ public:
      * @brief Get WebSocket manager for broadcasting
      */
     std::shared_ptr<WebSocketManager> getWebSocketManager() { return websocket_manager_; }
+    std::shared_ptr<const WebSocketManager> getWebSocketManager() const { return websocket_manager_; }
 #endif
 
     // Friend classes for protocol handlers

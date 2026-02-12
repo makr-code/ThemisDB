@@ -98,13 +98,13 @@ public:
      * @brief Get model name
      * @return Model name
      */
-    std::string getModelName() const { return model_name_; }
+    const std::string& getModelName() const { return model_name_; }
     
     /**
      * @brief Get model path
      * @return Model file path
      */
-    std::string getModelPath() const { return model_path_; }
+    const std::string& getModelPath() const { return model_path_; }
     
     /**
      * @brief Get total number of parameters in base model

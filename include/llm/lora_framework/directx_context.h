@@ -106,7 +106,7 @@ public:
     /**
      * @brief Get GPU description string
      */
-    std::string get_gpu_description() const { return gpu_description_; }
+    const std::string& get_gpu_description() const { return gpu_description_; }
 
 private:
     bool create_device();
