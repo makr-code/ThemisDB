@@ -31,6 +31,102 @@
 namespace themis {
 namespace llm {
 
+// Internal RAII helper for memory management
+namespace detail {
+
+/**
+ * @brief RAII holder for GPU/CPU memory allocations
+ * 
+ * Provides exception-safe memory management by automatically cleaning up
+ * memory in the destructor. Uses secure clearing before deallocation.
+ */
+class MemoryHolder {
+public:
+    enum class Type {
+        GPU,           // CUDA device memory
+        CPU,           // Regular CPU memory
+        PINNED         // CUDA pinned host memory
+    };
+    
+    MemoryHolder(void* ptr, size_t bytes, Type type, bool gpu_available, int gpu_device_id = 0)
+        : ptr_(ptr), bytes_(bytes), type_(type), gpu_available_(gpu_available), 
+          gpu_device_id_(gpu_device_id) {}
+    
+    ~MemoryHolder() {
+        if (!ptr_) return;
+        
+        try {
+            switch (type_) {
+                case Type::GPU:
+                    freeGPUMemory();
+                    break;
+                case Type::PINNED:
+                    freePinnedMemory();
+                    break;
+                case Type::CPU:
+                    freeCPUMemory();
+                    break;
+            }
+        } catch (const std::exception& e) {
+            spdlog::error("Exception during memory cleanup: {}", e.what());
+        } catch (...) {
+            spdlog::error("Unknown exception during memory cleanup");
+        }
+    }
+    
+    // Prevent copying
+    MemoryHolder(const MemoryHolder&) = delete;
+    MemoryHolder& operator=(const MemoryHolder&) = delete;
+    
+    void* get() const noexcept { return ptr_; }
+    size_t size() const noexcept { return bytes_; }
+
+private:
+    void freeGPUMemory() {
+#ifdef THEMIS_ENABLE_CUDA
+        if (gpu_available_) {
+            cudaSetDevice(gpu_device_id_);
+            security::VRAMSecureClear::secureClearCUDA(ptr_, bytes_);
+            CUDA_CHECK(cudaFree(ptr_));
+        } else {
+            security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
+            std::free(ptr_);
+        }
+#else
+        security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
+        std::free(ptr_);
+#endif
+    }
+    
+    void freePinnedMemory() {
+#ifdef THEMIS_ENABLE_CUDA
+        if (gpu_available_) {
+            security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
+            CUDA_CHECK(cudaFreeHost(ptr_));
+        } else {
+            security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
+            std::free(ptr_);
+        }
+#else
+        security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
+        std::free(ptr_);
+#endif
+    }
+    
+    void freeCPUMemory() {
+        security::VRAMSecureClear::secureClearCPU(ptr_, bytes_);
+        std::free(ptr_);
+    }
+    
+    void* ptr_;
+    size_t bytes_;
+    Type type_;
+    bool gpu_available_;
+    int gpu_device_id_;
+};
+
+} // namespace detail
+
 GPUMemoryManager::GPUMemoryManager(const Config& config)
     : config_(config) {
     spdlog::info("GPU Memory Manager initialized:");
@@ -44,48 +140,15 @@ GPUMemoryManager::GPUMemoryManager(const Config& config)
 GPUMemoryManager::~GPUMemoryManager() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Free all allocations with secure clearing
-    for (auto& [model_id, allocs] : allocations_) {
-        spdlog::info("Freeing memory for model: {}", model_id);
-        for (auto& alloc : allocs) {
-            if (alloc.gpu_ptr) {
-#ifdef THEMIS_ENABLE_CUDA
-                if (gpu_available_) {
-                    cudaSetDevice(alloc.gpu_device_id);
-                    // Securely clear VRAM before freeing
-                    security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.vram_bytes);
-                    CUDA_CHECK(cudaFree(alloc.gpu_ptr));
-                } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
-                    std::free(alloc.gpu_ptr);
-                }
-#else
-                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
-                std::free(alloc.gpu_ptr);  // Simulation mode
-#endif
-            }
-            if (alloc.cpu_ptr) {
-                if (alloc.is_pinned) {
-#ifdef THEMIS_ENABLE_CUDA
-                    if (gpu_available_) {
-                        // Clear pinned memory before freeing
-                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                        CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
-                    } else {
-                        security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                        std::free(alloc.cpu_ptr);
-                    }
-#else
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                    std::free(alloc.cpu_ptr);  // Simulation mode
-#endif
-                } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                    std::free(alloc.cpu_ptr);
-                }
-            }
-        }
+    // Free all allocations - holders will automatically clean up memory via RAII
+    // Just log what we're cleaning up
+    for (const auto& [model_id, allocs] : allocations_) {
+        spdlog::info("Cleaning up memory for model: {} ({} allocations)", 
+                     model_id, allocs.size());
     }
+    
+    // Clear allocations - this will trigger holder destructors
+    allocations_.clear();
     
     shutdownGPU();
 }
@@ -272,13 +335,16 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     }
 #endif
     
-    // Track allocation
+    // Track allocation with RAII holder for automatic cleanup
     MemoryAllocation alloc;
     alloc.model_id = model_id;
     alloc.vram_bytes = bytes;
     alloc.gpu_ptr = ptr;
+    alloc.holder = std::make_shared<detail::MemoryHolder>(
+        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_
+    );
     
-    allocations_[model_id].push_back(alloc);
+    allocations_[model_id].push_back(std::move(alloc));
     total_vram_used_ += bytes;
     
     spdlog::debug("Allocated {} MB VRAM for model {} (total: {} MB)", 
@@ -325,14 +391,21 @@ void* GPUMemoryManager::allocateCPU(const std::string& model_id, size_t bytes, b
         return nullptr;
     }
     
-    // Track allocation
+    // Track allocation with RAII holder
     MemoryAllocation alloc;
     alloc.model_id = model_id;
     alloc.ram_bytes = bytes;
     alloc.cpu_ptr = ptr;
     alloc.is_pinned = pinned;
     
-    allocations_[model_id].push_back(alloc);
+    // Create holder with appropriate type
+    auto holder_type = pinned ? detail::MemoryHolder::Type::PINNED 
+                              : detail::MemoryHolder::Type::CPU;
+    alloc.holder = std::make_shared<detail::MemoryHolder>(
+        ptr, bytes, holder_type, gpu_available_
+    );
+    
+    allocations_[model_id].push_back(std::move(alloc));
     total_ram_used_ += bytes;
     
     spdlog::debug("Allocated {} MB RAM ({}) for model {} (total: {} MB)", 
@@ -352,23 +425,13 @@ bool GPUMemoryManager::freeGPU(const std::string& model_id, void* ptr) {
         return false;
     }
     
+    // Find the allocation and remove it
+    // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->gpu_ptr == ptr) {
-#ifdef THEMIS_ENABLE_CUDA
-            if (gpu_available_) {
-                cudaSetDevice(alloc_it->gpu_device_id);
-                security::VRAMSecureClear::secureClearCUDA(ptr, alloc_it->vram_bytes);
-                CUDA_CHECK(cudaFree(ptr));
-            } else {
-                security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->vram_bytes);
-                std::free(ptr);
-            }
-#else
-            security::VRAMSecureClear::secureClearCPU(ptr, alloc_it->vram_bytes);
-            std::free(ptr);  // Simulation mode
-#endif
-            
             total_vram_used_ -= alloc_it->vram_bytes;
+            
+            // Erase triggers holder destructor for automatic cleanup
             it->second.erase(alloc_it);
             
             if (it->second.empty()) {
@@ -390,23 +453,13 @@ bool GPUMemoryManager::freeCPU(const std::string& model_id, void* ptr) {
         return false;
     }
     
+    // Find the allocation and remove it
+    // The holder's destructor will automatically handle cleanup via RAII
     for (auto alloc_it = it->second.begin(); alloc_it != it->second.end(); ++alloc_it) {
         if (alloc_it->cpu_ptr == ptr) {
-            if (alloc_it->is_pinned) {
-#ifdef THEMIS_ENABLE_CUDA
-                if (gpu_available_) {
-                    CUDA_CHECK(cudaFreeHost(ptr));
-                } else {
-                    std::free(ptr);
-                }
-#else
-                std::free(ptr);  // Simulation mode
-#endif
-            } else {
-                std::free(ptr);
-            }
-            
             total_ram_used_ -= alloc_it->ram_bytes;
+            
+            // Erase triggers holder destructor for automatic cleanup
             it->second.erase(alloc_it);
             
             if (it->second.empty()) {
@@ -428,51 +481,20 @@ bool GPUMemoryManager::freeModel(const std::string& model_id) {
         return false;
     }
     
+    // Calculate total freed memory for logging
     size_t freed_vram = 0;
     size_t freed_ram = 0;
     
-    for (auto& alloc : it->second) {
-        if (alloc.gpu_ptr) {
-#ifdef THEMIS_ENABLE_CUDA
-            if (gpu_available_) {
-                cudaSetDevice(alloc.gpu_device_id);
-                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.vram_bytes);
-                CUDA_CHECK(cudaFree(alloc.gpu_ptr));
-            } else {
-                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
-                std::free(alloc.gpu_ptr);
-            }
-#else
-            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
-            std::free(alloc.gpu_ptr);  // Simulation mode
-#endif
-            freed_vram += alloc.vram_bytes;
-        }
-        if (alloc.cpu_ptr) {
-            if (alloc.is_pinned) {
-#ifdef THEMIS_ENABLE_CUDA
-                if (gpu_available_) {
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                    CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
-                } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                    std::free(alloc.cpu_ptr);
-                }
-#else
-                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                std::free(alloc.cpu_ptr);  // Simulation mode
-#endif
-            } else {
-                security::VRAMSecureClear::secureClearCPU(alloc.cpu_ptr, alloc.ram_bytes);
-                std::free(alloc.cpu_ptr);
-            }
-            freed_ram += alloc.ram_bytes;
-        }
+    for (const auto& alloc : it->second) {
+        freed_vram += alloc.vram_bytes;
+        freed_ram += alloc.ram_bytes;
     }
     
     total_vram_used_ -= freed_vram;
     total_ram_used_ -= freed_ram;
     
+    // Erase all allocations for this model
+    // Holders will automatically clean up via RAII
     allocations_.erase(it);
     
     spdlog::info("Freed memory for model {}: {} MB VRAM, {} MB RAM",
@@ -725,24 +747,8 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
         }
 #endif
 
-        // Free old fragmented blocks
-        for (const auto& alloc : device_allocs) {
-#ifdef THEMIS_ENABLE_CUDA
-            if (gpu_available_) {
-                cudaSetDevice(device_id);
-                security::VRAMSecureClear::secureClearCUDA(alloc.gpu_ptr, alloc.vram_bytes);
-                CUDA_CHECK(cudaFree(alloc.gpu_ptr));
-            } else {
-                security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
-                std::free(alloc.gpu_ptr);
-            }
-#else
-            security::VRAMSecureClear::secureClearCPU(alloc.gpu_ptr, alloc.vram_bytes);
-            std::free(alloc.gpu_ptr);
-#endif
-        }
-
         // Update allocations list for this model/device
+        // Remove old allocations (which will trigger cleanup via RAII)
         auto& model_allocs = allocations_[model_id];
         model_allocs.erase(
             std::remove_if(model_allocs.begin(), model_allocs.end(),
@@ -751,12 +757,16 @@ bool GPUMemoryManager::defragmentModelGPU(const std::string& model_id,
                 }),
             model_allocs.end());
 
+        // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.vram_bytes = total_vram;
         consolidated.gpu_ptr = new_ptr;
         consolidated.gpu_device_id = device_id;
-        model_allocs.push_back(consolidated);
+        consolidated.holder = std::make_shared<detail::MemoryHolder>(
+            new_ptr, total_vram, detail::MemoryHolder::Type::GPU, gpu_available_, device_id
+        );
+        model_allocs.push_back(std::move(consolidated));
 
         spdlog::debug("Consolidated {} GPU allocations for model {} on device {} into single {} MB block",
                       device_allocs.size(), model_id, device_id, total_vram / (1024.0 * 1024));
@@ -821,20 +831,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             offset += alloc.ram_bytes;
         }
         
-        // Free old blocks
-        for (const auto& alloc : pinned_allocs) {
-#ifdef THEMIS_ENABLE_CUDA
-            if (gpu_available_ && alloc.is_pinned) {
-                CUDA_CHECK(cudaFreeHost(alloc.cpu_ptr));
-            } else {
-                std::free(alloc.cpu_ptr);
-            }
-#else
-            std::free(alloc.cpu_ptr);
-#endif
-        }
-        
-        // Update allocations
+        // Update allocations - removing old allocations will trigger cleanup via RAII
         auto& model_allocs = allocations_[model_id];
         model_allocs.erase(
             std::remove_if(model_allocs.begin(), model_allocs.end(),
@@ -844,12 +841,16 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             model_allocs.end()
         );
         
+        // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.ram_bytes = total_ram;
         consolidated.cpu_ptr = new_ptr;
         consolidated.is_pinned = true;
-        model_allocs.push_back(consolidated);
+        consolidated.holder = std::make_shared<detail::MemoryHolder>(
+            new_ptr, total_ram, detail::MemoryHolder::Type::PINNED, gpu_available_
+        );
+        model_allocs.push_back(std::move(consolidated));
     }
     
     // Consolidate regular allocations
@@ -873,12 +874,7 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             offset += alloc.ram_bytes;
         }
         
-        // Free old blocks
-        for (const auto& alloc : regular_allocs) {
-            std::free(alloc.cpu_ptr);
-        }
-        
-        // Update allocations
+        // Update allocations - removing old allocations will trigger cleanup via RAII
         auto& model_allocs = allocations_[model_id];
         model_allocs.erase(
             std::remove_if(model_allocs.begin(), model_allocs.end(),
@@ -888,12 +884,16 @@ bool GPUMemoryManager::defragmentModelCPU(const std::string& model_id,
             model_allocs.end()
         );
         
+        // Create new consolidated allocation with RAII holder
         MemoryAllocation consolidated;
         consolidated.model_id = model_id;
         consolidated.ram_bytes = total_ram;
         consolidated.cpu_ptr = new_ptr;
         consolidated.is_pinned = false;
-        model_allocs.push_back(consolidated);
+        consolidated.holder = std::make_shared<detail::MemoryHolder>(
+            new_ptr, total_ram, detail::MemoryHolder::Type::CPU, gpu_available_
+        );
+        model_allocs.push_back(std::move(consolidated));
     }
     
     return true;
@@ -1012,14 +1012,17 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes, i
     }
 #endif
     
-    // Track allocation
+    // Track allocation with RAII holder
     MemoryAllocation alloc;
     alloc.model_id = model_id;
     alloc.vram_bytes = bytes;
     alloc.gpu_ptr = ptr;
     alloc.gpu_device_id = gpu_device_id;
+    alloc.holder = std::make_shared<detail::MemoryHolder>(
+        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, gpu_device_id
+    );
     
-    allocations_[model_id].push_back(alloc);
+    allocations_[model_id].push_back(std::move(alloc));
     total_vram_used_ += bytes;
     per_gpu_vram_used_[gpu_device_id] += bytes;
     
@@ -1044,6 +1047,7 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
     size_t freed_ram = 0;
     
     // Free only allocations on specified GPU
+    // Holders will automatically clean up via RAII
     auto& allocs = it->second;
     auto alloc_it = allocs.begin();
     while (alloc_it != allocs.end()) {
@@ -1052,45 +1056,10 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
         bool is_cpu_only = (alloc_it->vram_bytes == 0);
         
         if (is_target_gpu || is_cpu_only) {
-            if (alloc_it->gpu_ptr && is_target_gpu) {
-#ifdef THEMIS_ENABLE_CUDA
-                if (gpu_available_) {
-                    cudaSetDevice(gpu_device_id);
-                    security::VRAMSecureClear::secureClearCUDA(alloc_it->gpu_ptr, alloc_it->vram_bytes);
-                    CUDA_CHECK(cudaFree(alloc_it->gpu_ptr));
-                } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->vram_bytes);
-                    std::free(alloc_it->gpu_ptr);
-                }
-#else
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->gpu_ptr, alloc_it->vram_bytes);
-                std::free(alloc_it->gpu_ptr);  // Simulation mode
-#endif
-                freed_vram += alloc_it->vram_bytes;
-                if (per_gpu_vram_used_.find(gpu_device_id) != per_gpu_vram_used_.end()) {
-                    per_gpu_vram_used_[gpu_device_id] -= alloc_it->vram_bytes;
-                }
-            }
-            if (alloc_it->cpu_ptr) {
-                if (alloc_it->is_pinned) {
-#ifdef THEMIS_ENABLE_CUDA
-                    if (gpu_available_) {
-                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
-                        CUDA_CHECK(cudaFreeHost(alloc_it->cpu_ptr));
-                    } else {
-                        security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
-                        std::free(alloc_it->cpu_ptr);
-                    }
-#else
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
-                    std::free(alloc_it->cpu_ptr);  // Simulation mode
-#endif
-                } else {
-                    security::VRAMSecureClear::secureClearCPU(alloc_it->cpu_ptr, alloc_it->ram_bytes);
-                    std::free(alloc_it->cpu_ptr);
-                }
-                freed_ram += alloc_it->ram_bytes;
-            }
+            freed_vram += alloc_it->vram_bytes;
+            freed_ram += alloc_it->ram_bytes;
+            
+            // Erase triggers holder destructor for automatic cleanup
             alloc_it = allocs.erase(alloc_it);
         } else {
             ++alloc_it;
@@ -1099,6 +1068,9 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
     
     total_vram_used_ -= freed_vram;
     total_ram_used_ -= freed_ram;
+    if (per_gpu_vram_used_.find(gpu_device_id) != per_gpu_vram_used_.end()) {
+        per_gpu_vram_used_[gpu_device_id] -= freed_vram;
+    }
     
     if (allocs.empty()) {
         allocations_.erase(it);
