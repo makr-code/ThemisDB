@@ -101,7 +101,21 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
             ${THEMIS_CORE_INCLUDE_DIRS}
         )
         
+        # Add basic auto-labeler test
+        add_executable(test_auto_labeler_basic
+            ../examples/legal_lora_training/test_auto_labeler_basic.cpp
+        )
+        target_link_libraries(test_auto_labeler_basic
+            themis_core
+            ${THEMIS_CORE_LINK_LIBRARIES}
+        )
+        target_include_directories(test_auto_labeler_basic PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+            ${THEMIS_CORE_INCLUDE_DIRS}
+        )
+        
         message(STATUS "  -> Example: train_legal_lora will be built")
+        message(STATUS "  -> Example: test_auto_labeler_basic will be built")
     endif()
     
     # Add unit tests
