@@ -177,6 +177,13 @@ else()
         message(STATUS "AddressSanitizer enabled for debugging")
     endif()
     
+    # LeakSanitizer support (can be combined with AddressSanitizer)
+    if(THEMIS_ENABLE_LSAN)
+        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=leak)
+        message(STATUS "LeakSanitizer enabled for debugging")
+    endif()
+    
     # UndefinedBehaviorSanitizer support for detecting alignment issues
     # Use separate flag to avoid conflicts with other sanitizers
     if(THEMIS_ENABLE_UBSAN)
