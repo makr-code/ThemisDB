@@ -1225,6 +1225,8 @@ set(THEMIS_CORE_SOURCES
     ../src/core/security_initialization.cpp
     ../src/performance/cycle_metrics.cpp
     
+    ../src/config/config_path_resolver.cpp
+    
     ../src/transaction/transaction_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
