@@ -4,7 +4,6 @@
 #include <vector>
 #include <memory>
 #include <nlohmann/json.hpp>
-#include "content/async_ingestion_worker.h"
 
 namespace themis {
 namespace content {
