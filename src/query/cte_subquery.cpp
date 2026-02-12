@@ -6,10 +6,6 @@
 #include "storage/base_entity.h"
 #include <fmt/format.h>
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4100)  // unreferenced formal parameter
-#endif
-
 #include <algorithm>
 #include <stdexcept>
 #include <fmt/format.h>
