@@ -75,6 +75,15 @@ docs(api): Update REST API documentation
 
 ### Build Commands
 
+**VSCode (Recommended):**
+```
+Use CMake Tools extension for integrated build management:
+- Command Palette → "CMake: Select Configure Preset"
+- Press F7 or Command Palette → "CMake: Build"
+- Automatically uses presets from cmake/CMakePresets.json
+```
+
+**Command Line:**
 ```bash
 # Windows (MSVC)
 cmake --preset windows-vs2022-release
@@ -103,6 +112,20 @@ cmake --build build --target coverage
 ```
 
 ## 🔧 Development Guidelines
+
+### Development Toolchain
+
+**Primary IDE Setup:**
+- **VSCode** with CMake Tools extension (ms-vscode.cmake-tools)
+- CMake presets automatically detected from `cmake/CMakePresets.json`
+- Build/test/debug integrated via CMake Tools UI
+- IntelliSense configured via compile_commands.json
+
+**Build Management:**
+- Use CMake Tools extension for all build operations
+- Presets handle platform-specific configuration
+- Parallel builds automatically configured
+- See [VSCode Context](copilot/VSCODE_CONTEXT.md) for setup
 
 ### What Copilot Should Help With
 
@@ -183,10 +206,12 @@ themis/
 2. **Setup Development Environment:**
    - Follow [VSCode Setup](copilot/VSCODE_CONTEXT.md)
    - Install pre-commit hooks (see below)
-   - Configure CMake presets
+   - Install **CMake Tools extension** (ms-vscode.cmake-tools)
+   - Configure CMake presets (auto-detected by CMake Tools)
 
 3. **First Build:**
-   - See [Build Guide](copilot/BUILD_GUIDE.md)
+   - **VSCode:** Press F7 or use CMake Tools extension
+   - **CLI:** See [Build Guide](copilot/BUILD_GUIDE.md)
    - Start with minimal build (no LLM/GPU)
    - Verify tests pass
 

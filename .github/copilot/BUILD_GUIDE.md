@@ -55,6 +55,31 @@ vcpkg/
 
 All builds use **CMake Presets** (defined in `cmake/CMakePresets.json`).
 
+### Recommended: VSCode CMake Tools
+
+**Best practice for daily development:**
+
+1. **Install CMake Tools extension** (ms-vscode.cmake-tools)
+2. **Select preset:** Command Palette → "CMake: Select Configure Preset"
+3. **Build:** Press `F7` or Command Palette → "CMake: Build"
+4. **Test:** Command Palette → "CMake: Run Tests"
+5. **Debug:** Press `F5` with debug configuration
+
+**Benefits:**
+- ✅ Automatic preset detection
+- ✅ Integrated build/test/debug
+- ✅ IntelliSense auto-configuration
+- ✅ Progress visualization
+- ✅ Error navigation
+
+See [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md) for detailed setup.
+
+---
+
+### Command Line (Alternative)
+
+For CI/CD or when VSCode is not available:
+
 ### Windows (MSVC 2022)
 
 ```powershell

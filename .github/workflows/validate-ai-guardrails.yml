@@ -18,10 +18,16 @@ on:
       - '.github/copilot/**'
       - '.github/scripts/validate_copilot_refs.py'
 
+permissions:
+  contents: read
+
 jobs:
   validate-copilot-instructions:
     name: Validate Copilot Instructions
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
@@ -89,6 +95,9 @@ jobs:
     name: Lint Markdown Files
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -104,6 +113,9 @@ jobs:
   check-structure:
     name: Check Module Structure
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
