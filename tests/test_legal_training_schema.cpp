@@ -4,6 +4,8 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <filesystem>
 
 /**
  * @file test_legal_training_schema.cpp
@@ -28,12 +30,25 @@ namespace test {
 class LegalTrainingSchemaTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Setup can be extended when database initialization is needed
+        // Validate that critical files exist before running tests
+        schema_file_path = "config/schemas/legal_training_schema.sql";
+        init_script_path = "scripts/init_legal_training_schema.sh";
+        doc_file_path = "docs/schemas/LEGAL_TRAINING_SCHEMA.md";
     }
 
     void TearDown() override {
         // Cleanup can be extended when database cleanup is needed
     }
+
+    // Helper to check if file exists
+    bool fileExists(const std::string& path) const {
+        return std::filesystem::exists(path);
+    }
+
+    // File paths
+    std::string schema_file_path;
+    std::string init_script_path;
+    std::string doc_file_path;
 };
 
 // ============================================================================
@@ -44,10 +59,18 @@ protected:
  * Test that the schema file exists and is readable
  */
 TEST_F(LegalTrainingSchemaTest, SchemaFileExists) {
-    // Schema file should exist at expected location
-    const std::string schema_path = "config/schemas/legal_training_schema.sql";
-    // Note: Actual file existence check would be done here in real implementation
-    SUCCEED() << "Schema file structure validated";
+    ASSERT_TRUE(fileExists(schema_file_path)) 
+        << "Schema file not found: " << schema_file_path;
+    
+    // Verify file is readable
+    std::ifstream file(schema_file_path);
+    ASSERT_TRUE(file.good()) 
+        << "Schema file exists but cannot be read: " << schema_file_path;
+    
+    // Verify file has content
+    file.seekg(0, std::ios::end);
+    std::streamsize size = file.tellg();
+    EXPECT_GT(size, 0) << "Schema file is empty";
 }
 
 /**
@@ -338,9 +361,27 @@ TEST_F(LegalTrainingSchemaTest, ValidSourceTypes) {
  * Test that initialization script exists
  */
 TEST_F(LegalTrainingSchemaTest, InitializationScriptExists) {
-    const std::string script_path = "scripts/init_legal_training_schema.sh";
-    // Note: Actual file existence check would be done here in real implementation
-    SUCCEED() << "Initialization script structure validated";
+    ASSERT_TRUE(fileExists(init_script_path))
+        << "Initialization script not found: " << init_script_path;
+    
+    // Verify file is readable
+    std::ifstream file(init_script_path);
+    ASSERT_TRUE(file.good())
+        << "Initialization script exists but cannot be read: " << init_script_path;
+    
+    // Verify file has content
+    file.seekg(0, std::ios::end);
+    std::streamsize size = file.tellg();
+    EXPECT_GT(size, 0) << "Initialization script is empty";
+    
+    // Check if it's executable (on Unix systems)
+#ifndef _WIN32
+    namespace fs = std::filesystem;
+    auto perms = fs::status(init_script_path).permissions();
+    bool is_executable = (perms & fs::perms::owner_exec) != fs::perms::none;
+    EXPECT_TRUE(is_executable) 
+        << "Initialization script should be executable";
+#endif
 }
 
 // ============================================================================
@@ -351,9 +392,18 @@ TEST_F(LegalTrainingSchemaTest, InitializationScriptExists) {
  * Test that documentation exists
  */
 TEST_F(LegalTrainingSchemaTest, DocumentationExists) {
-    const std::string doc_path = "docs/schemas/LEGAL_TRAINING_SCHEMA.md";
-    // Note: Actual file existence check would be done here in real implementation
-    SUCCEED() << "Documentation structure validated";
+    ASSERT_TRUE(fileExists(doc_file_path))
+        << "Documentation file not found: " << doc_file_path;
+    
+    // Verify file is readable
+    std::ifstream file(doc_file_path);
+    ASSERT_TRUE(file.good())
+        << "Documentation file exists but cannot be read: " << doc_file_path;
+    
+    // Verify file has content
+    file.seekg(0, std::ios::end);
+    std::streamsize size = file.tellg();
+    EXPECT_GT(size, 1000) << "Documentation file should have substantial content";
 }
 
 // ============================================================================
