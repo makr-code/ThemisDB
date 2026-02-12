@@ -1,6 +1,7 @@
 #include "acceleration/compute_backend.h"
 #include "acceleration/plugin_loader.h"
 #include "acceleration/cpu_backend.h"
+#include "utils/logger.h"
 #include <algorithm>
 #include <mutex>
 #include <iostream>
@@ -71,7 +72,7 @@ bool BackendRegistry::loadPlugin(const std::string& pluginPath) {
         
         // Null-safety: Validate plugin pointer before use
         if (!plugin) {
-            std::cerr << "Error: Plugin pointer is null" << std::endl;
+            THEMIS_ERROR("Plugin pointer is null after loading");
             return false;
         }
         
