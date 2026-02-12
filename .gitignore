@@ -10,6 +10,17 @@ build-*/
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md
 
+# Backup files
+**/*.backup
+**/*.bak
+
+# VSCode user-specific settings (keep .vscode/ for enhanced config)
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/extensions.json
+.vscode/.ropeproject
+
 # Example binaries
 examples/**/usage_example
 examples/**/usage_example_enabled
@@ -81,7 +92,8 @@ release/**/temp/
 
 # IDE / editor
 .idea/
-.vscode/
+# Note: Enhanced VSCode config in .vscode/ is now tracked (c_cpp_properties.json, cmake-kits.json, cmake-variants.json, README.md)
+# User-specific VSCode files are ignored via rules at top of file
 .vs/
 *.suo
 *.user

@@ -1,0 +1,89 @@
+{
+  "cmake.cmakePath": "cmake",
+  "cmake.buildDirectory": "${workspaceFolder}/build-${buildType}",
+  "cmake.installPrefix": "${workspaceFolder}/install",
+  "cmake.configureSettings": {
+    "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+  },
+  "cmake.additionalCompilerSearchDirs": [
+    "${workspaceFolder}/vcpkg_installed/${vcpkgTriplet}/bin"
+  ],
+  "buildType": {
+    "default": "Debug",
+    "choices": {
+      "Debug": {
+        "short": "Debug",
+        "long": "Debug build with symbols",
+        "buildType": "Debug",
+        "settings": {
+          "CMAKE_BUILD_TYPE": "Debug",
+          "THEMIS_BUILD_TESTS": "ON",
+          "THEMIS_BUILD_BENCHMARKS": "OFF",
+          "THEMIS_ENABLE_LLM": "OFF",
+          "THEMIS_ENABLE_GPU": "OFF"
+        }
+      },
+      "Release": {
+        "short": "Release",
+        "long": "Optimized release build",
+        "buildType": "Release",
+        "settings": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "THEMIS_BUILD_TESTS": "ON",
+          "THEMIS_BUILD_BENCHMARKS": "ON",
+          "THEMIS_ENABLE_LLM": "OFF",
+          "THEMIS_ENABLE_GPU": "OFF"
+        }
+      },
+      "RelWithDebInfo": {
+        "short": "RelWithDebInfo",
+        "long": "Release with debug info",
+        "buildType": "RelWithDebInfo",
+        "settings": {
+          "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+          "THEMIS_BUILD_TESTS": "ON",
+          "THEMIS_BUILD_BENCHMARKS": "ON",
+          "THEMIS_ENABLE_LLM": "OFF",
+          "THEMIS_ENABLE_GPU": "OFF"
+        }
+      },
+      "MinSizeRel": {
+        "short": "MinSizeRel",
+        "long": "Minimum size release",
+        "buildType": "MinSizeRel",
+        "settings": {
+          "CMAKE_BUILD_TYPE": "MinSizeRel",
+          "THEMIS_BUILD_TESTS": "OFF",
+          "THEMIS_BUILD_BENCHMARKS": "OFF",
+          "THEMIS_ENABLE_LLM": "OFF",
+          "THEMIS_ENABLE_GPU": "OFF"
+        }
+      },
+      "Debug-LLM": {
+        "short": "Debug+LLM",
+        "long": "Debug build with LLM support",
+        "buildType": "Debug",
+        "settings": {
+          "CMAKE_BUILD_TYPE": "Debug",
+          "THEMIS_BUILD_TESTS": "ON",
+          "THEMIS_BUILD_BENCHMARKS": "OFF",
+          "THEMIS_ENABLE_LLM": "ON",
+          "THEMIS_ENABLE_GPU": "OFF"
+        }
+      },
+      "Release-Full": {
+        "short": "Release+Full",
+        "long": "Full release with LLM and GPU",
+        "buildType": "Release",
+        "settings": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "THEMIS_BUILD_TESTS": "ON",
+          "THEMIS_BUILD_BENCHMARKS": "ON",
+          "THEMIS_ENABLE_LLM": "ON",
+          "THEMIS_ENABLE_GPU": "ON",
+          "THEMIS_BUILD_RPC_FRAMEWORK": "ON"
+        }
+      }
+    }
+  }
+}
