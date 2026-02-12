@@ -8,10 +8,6 @@
 #include "utils/hkdf_helper.h"
 #include "utils/hkdf_cache.h"
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4505)  // unreferenced local function
-#endif
-
 #include <algorithm>
 #include <chrono>
 #include <random>

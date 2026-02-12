@@ -390,7 +390,8 @@ void demonstrateHIPBackend() {
         
         std::cout << "\nSingle query time: " << (duration.count() / 1000.0) << " ms\n";
         std::cout << "Top 3 results:\n";
-        for (int i = 0; i < std::min(3, (int)results.size()); ++i) {
+        size_t num_results = std::min(size_t(3), results.size());
+        for (size_t i = 0; i < num_results; ++i) {
             std::cout << "  " << (i+1) << ". " << results[i].id 
                       << " (distance: " << results[i].distance << ")\n";
         }

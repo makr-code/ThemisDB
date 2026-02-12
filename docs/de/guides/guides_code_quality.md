@@ -413,3 +413,233 @@ Planned integrations:
 - **Codecov**: Advanced coverage tracking
 - **CodeClimate**: Maintainability scoring
 - **Snyk**: Dependency vulnerability scanning
+
+## 🔧 Unused Variable Management
+
+### Overview
+
+ThemisDB enforces strict unused variable checks to maintain code quality and prevent potential bugs. We use C++17's `[[maybe_unused]]` attribute instead of pragma directives or (void) casts.
+
+### Compiler Warnings
+
+**MSVC:**
+- `C4100`: Unreferenced formal parameter
+- `C4101`: Unreferenced local variable  
+- `C4189`: Local variable initialized but not referenced
+- `C4505`: Unreferenced local function
+
+**GCC/Clang:**
+- `-Wunused-variable`: Unused local variables
+- `-Wunused-parameter`: Unused function parameters
+- `-Wunused-but-set-variable`: Variables set but never read
+
+### Best Practices
+
+#### 1. Remove Unused Variables
+
+**Before:**
+```cpp
+void process() {
+    int unused_counter = 0;  // ⚠️ C4101 warning
+    std::string unused_name = "test";
+    // ... code without using these variables
+}
+```
+
+**After:**
+```cpp
+void process() {
+    // Variables removed
+}
+```
+
+#### 2. Mark Conditionally Used Parameters
+
+Use `[[maybe_unused]]` for parameters used only in certain builds:
+
+**Before:**
+```cpp
+void log_debug(const char* message) {  // ⚠️ C4100 in Release builds
+#ifdef DEBUG
+    fprintf(stderr, "%s\n", message);
+#endif
+}
+```
+
+**After:**
+```cpp
+void log_debug([[maybe_unused]] const char* message) {
+#ifdef DEBUG
+    fprintf(stderr, "%s\n", message);
+#endif
+}
+```
+
+#### 3. API Compatibility Parameters
+
+Use `[[maybe_unused]]` for parameters required by interface but not yet used:
+
+**Before:**
+```cpp
+void callback(int event_type, void* user_data) {  // ⚠️ C4100
+    // user_data not used yet
+    process_event(event_type);
+}
+```
+
+**After:**
+```cpp
+void callback(int event_type, [[maybe_unused]] void* user_data) {
+    process_event(event_type);
+}
+```
+
+#### 4. Lambda Capture Parameters
+
+**Before:**
+```cpp
+db->scan([&](std::string_view key, std::string_view value) {
+    (void)key;  // Old style
+    return process(value);
+});
+```
+
+**After:**
+```cpp
+db->scan([&]([[maybe_unused]] std::string_view key, std::string_view value) {
+    return process(value);
+});
+```
+
+### What NOT to Use
+
+❌ **Pragma directives** (non-portable):
+```cpp
+#ifdef _MSC_VER
+#pragma warning(disable: 4100)  // Don't do this
+#endif
+```
+
+❌ **(void) casts** (verbose, unclear intent):
+```cpp
+void func(int param) {
+    (void)param;  // Don't do this
+}
+```
+
+✅ **Use [[maybe_unused]]** instead (C++17 standard):
+```cpp
+void func([[maybe_unused]] int param) {
+    // Clear intent: parameter may be used conditionally
+}
+```
+
+### Checklist for Changes
+
+Before marking a variable as `[[maybe_unused]]`, verify:
+
+- [ ] Variable is not used in any code path
+- [ ] No side effects from constructor/destructor are lost
+- [ ] Parameter not used in derived class implementations
+- [ ] Tests still pass after changes
+- [ ] No functional changes introduced
+
+### CI Integration
+
+Enable strict unused variable checking in builds:
+
+**CMake:**
+```cmake
+if(MSVC)
+  add_compile_options(/W4 /WX)  # Treat warnings as errors
+else()
+  add_compile_options(-Wall -Wextra -Werror=unused)
+endif()
+```
+
+**GitHub Actions:**
+```yaml
+- name: Check for unused variables
+  run: |
+    cmake -B build -DCMAKE_CXX_FLAGS="-Werror=unused-variable -Werror=unused-parameter"
+    cmake --build build
+```
+
+### Common Patterns
+
+#### Function Context Parameters
+
+Many function implementations receive a context parameter that isn't always used:
+
+```cpp
+class IFunction {
+    virtual nlohmann::json execute(
+        const std::vector<nlohmann::json>& args,
+        [[maybe_unused]] const FunctionContext& ctx
+    ) const override {
+        // ctx used only by some implementations
+        return compute(args[0]);
+    }
+};
+```
+
+#### Future Implementation Placeholders
+
+Parameters for future features:
+
+```cpp
+bool processData(
+    const Data& data,
+    [[maybe_unused]] const Options& options  // Will be used in v2.0
+) {
+    return validate(data);
+}
+```
+
+### Migration from Pragma Directives
+
+When removing pragma directives:
+
+1. **Identify** all uses of the suppressed warning
+2. **Analyze** if variable is truly unused or conditionally used
+3. **Remove** pragma directives
+4. **Mark** parameters with `[[maybe_unused]]` if appropriate
+5. **Delete** truly unused variables/functions
+6. **Test** to ensure no functionality is lost
+
+### Example: Before and After
+
+**Before (with pragma):**
+```cpp
+#ifdef _MSC_VER
+#pragma warning(disable: 4100)
+#endif
+
+void handler(Request& req, Response& res) {
+    (void)res;  // unused
+    return process(req);
+}
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+```
+
+**After (with [[maybe_unused]]):**
+```cpp
+void handler(Request& req, [[maybe_unused]] Response& res) {
+    return process(req);
+}
+```
+
+Benefits:
+- ✅ More readable
+- ✅ Standard C++17
+- ✅ Works across all compilers
+- ✅ Clear intent
+- ✅ No preprocessor noise
+
+---
+
+**Last Updated:** February 2026  
+**PR:** [#XXX](link-to-pr) - Systematic unused variable removal
