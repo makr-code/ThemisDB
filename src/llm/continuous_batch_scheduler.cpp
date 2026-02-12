@@ -46,7 +46,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     scheduled->state = RequestState::WAITING;
     scheduled->submitted_at = std::chrono::system_clock::now();
     scheduled->callback = callback;
-    scheduled->sequence_id = next_sequence_id_++;
+    scheduled->sequence_id = next_sequence_id_.fetch_add(1, std::memory_order_relaxed);
     
     // Estimate prompt tokens (simplified)
     scheduled->total_prompt_tokens = request.prompt.length() / 4;  // Rough estimate
@@ -248,7 +248,10 @@ void ContinuousBatchScheduler::processBatchResults(
             // Remove from active
             active_requests_.erase(
                 std::remove_if(active_requests_.begin(), active_requests_.end(),
-                              [req](const auto& r) { return r.get() == req; }),
+                              [req](const auto& r) { 
+                                  // Null-safety: Check shared_ptr is valid before comparing
+                                  return r && r.get() == req; 
+                              }),
                 active_requests_.end()
             );
             
@@ -472,7 +475,7 @@ void ContinuousBatchScheduler::updateStats() {
 }
 
 std::string ContinuousBatchScheduler::generateRequestId() {
-    return "req_" + std::to_string(next_request_id_++);
+    return "req_" + std::to_string(next_request_id_.fetch_add(1, std::memory_order_relaxed));
 }
 
 } // namespace llm

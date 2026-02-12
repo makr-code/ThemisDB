@@ -35,6 +35,7 @@
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
 #include "utils/cursor.h"
+#include "utils/type_conversion.h"
 
 #include <queue>
 #include <ctime>
@@ -825,12 +826,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         std::tm outTm{}; portable_gmtime_r(&t, &outTm);
                         out = tmToDateStr(outTm); return true;
                     } else if (unit == "month") {
-                        tm.tm_mon += static_cast<int>(amt);
+                        tm.tm_mon += themis::utils::conversion::safe_int64_to_int32(amt);
                         time_t t = portable_mkgmtime(&tm); if (t == -1) return false;
                         std::tm outTm{}; portable_gmtime_r(&t, &outTm);
                         out = tmToDateStr(outTm); return true;
                     } else if (unit == "year") {
-                        tm.tm_year += static_cast<int>(amt);
+                        tm.tm_year += themis::utils::conversion::safe_int64_to_int32(amt);
                         time_t t = portable_mkgmtime(&tm); if (t == -1) return false;
                         std::tm outTm{}; portable_gmtime_r(&t, &outTm);
                         out = tmToDateStr(outTm); return true;
@@ -1141,6 +1142,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto parseFA = [&](const Expression* ex, char& var, std::string& field)->bool{
                             auto* fa = dynamic_cast<const FieldAccessExpr*>(ex);
                             if (!fa) return false;
+                            if (!fa->object) return false;  // Null-safety: Check shared_ptr is valid
                             auto* v = dynamic_cast<const VariableExpr*>(fa->object.get());
                             if (!v) return false;
                             if (v->name != "v" && v->name != "e") return false;
@@ -1759,7 +1761,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             res["entities"] = nlohmann::json::array();
 
             if (retMode == RetMode::Vertex) {
-                res["count"] = static_cast<int>(resultVertices.size());
+                res["count"] = themis::utils::conversion::safe_size_to_int(resultVertices.size());
                 for (const auto& pk : resultVertices) {
                     std::optional<std::vector<uint8_t>> blob = storage_->get(pk);
                     if (!blob && pk.find(':') == std::string::npos) {
@@ -1777,7 +1779,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     }
                 }
             } else if (retMode == RetMode::Edge) {
-                res["count"] = static_cast<int>(resultEdgeIds.size());
+                res["count"] = themis::utils::conversion::safe_size_to_int(resultEdgeIds.size());
                 for (const auto& eid : resultEdgeIds) {
                     auto eblob = storage_->get(themis::KeySchema::makeGraphEdgeKey(eid));
                     if (eblob) {
@@ -1793,7 +1795,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 }
             } else { // Path
                 // F�r jeden Terminalknoten Pfad rekonstruieren
-                res["count"] = static_cast<int>(resultTerminalVertices.size());
+                res["count"] = themis::utils::conversion::safe_size_to_int(resultTerminalVertices.size());
                 for (const auto& terminal : resultTerminalVertices) {
                     // Rekonstruiere Knotenfolge und Kanten entlang Elternzeiger
                     std::vector<std::string> vertices;
@@ -1811,7 +1813,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                     std::reverse(edges.begin(), edges.end());
 
                     nlohmann::json jpath;
-                    jpath["length"] = static_cast<int>(edges.size());
+                    jpath["length"] = themis::utils::conversion::safe_size_to_int(edges.size());
                     jpath["vertices"] = nlohmann::json::array();
                     jpath["edges"] = nlohmann::json::array();
 
@@ -1855,12 +1857,12 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             if (explain) {
                 nlohmann::json metrics;
                 metrics["constant_filter_precheck"] = constantFilterPrechecked;
-                metrics["edges_expanded"] = static_cast<int>(edgesExpanded);
-                metrics["pruned_last_level"] = static_cast<int>(prunedLastLevel);
-                metrics["filter_evaluations_total"] = static_cast<int>(filterEvaluationsTotal);
-                metrics["filter_short_circuits"] = static_cast<int>(filterShortCircuits);
-                metrics["max_frontier_size_reached"] = static_cast<int>(maxFrontierSizeReached);
-                metrics["frontier_limit_hits"] = static_cast<int>(frontierLimitHits);
+                metrics["edges_expanded"] = themis::utils::conversion::safe_size_to_int(edgesExpanded);
+                metrics["pruned_last_level"] = themis::utils::conversion::safe_size_to_int(prunedLastLevel);
+                metrics["filter_evaluations_total"] = themis::utils::conversion::safe_size_to_int(filterEvaluationsTotal);
+                metrics["filter_short_circuits"] = themis::utils::conversion::safe_size_to_int(filterShortCircuits);
+                metrics["max_frontier_size_reached"] = themis::utils::conversion::safe_size_to_int(maxFrontierSizeReached);
+                metrics["frontier_limit_hits"] = themis::utils::conversion::safe_size_to_int(frontierLimitHits);
                 metrics["result_limit_reached"] = resultLimitReached;
                 nlohmann::json fp = nlohmann::json::object();
                 for (const auto& kv : frontierProcessedPerDepth) fp[std::to_string(kv.first)] = kv.second;
@@ -2431,10 +2433,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 cursor_meta["cursor_present"] = !cursor_token.empty();
                 if (q.orderBy.has_value()) {
                     cursor_meta["sort_column"] = q.orderBy->column;
-                    cursor_meta["effective_limit"] = static_cast<int>(q.orderBy->limit);
+                    cursor_meta["effective_limit"] = themis::utils::conversion::safe_size_to_int(q.orderBy->limit);
                     cursor_meta["anchor_set"] = q.orderBy->cursor_pk.has_value();
                 }
-                cursor_meta["requested_count"] = static_cast<int>(requested_count_for_cursor);
+                cursor_meta["requested_count"] = themis::utils::conversion::safe_size_to_int(requested_count_for_cursor);
                 plan_json["cursor"] = std::move(cursor_meta);
             }
         }
@@ -2802,8 +2804,10 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         auto len = evalArg(2);
                         if (!s.is_string()) return nullptr;
                         std::string str = s.get<std::string>();
-                        int start = off.is_number_integer() ? static_cast<int>(off.get<int64_t>()) : 0;
-                        int count = len.is_number_integer() ? static_cast<int>(len.get<int64_t>()) : static_cast<int>(str.size() - std::min<int>(start,(int)str.size()));
+                        int start = off.is_number_integer() ? themis::utils::conversion::safe_int64_to_int32(off.get<int64_t>()) : 0;
+                        int count = len.is_number_integer() ? 
+                            themis::utils::conversion::safe_int64_to_int32(len.get<int64_t>()) : 
+                            themis::utils::conversion::safe_size_to_int(str.size()) - std::min<int>(start, themis::utils::conversion::safe_size_to_int(str.size()));
                         if (start < 0) {
                             start = 0;
                         }

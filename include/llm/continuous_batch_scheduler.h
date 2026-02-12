@@ -207,8 +207,12 @@ private:
     void updateStats();
     
     std::string generateRequestId();
-    int next_request_id_ = 0;
-    int next_sequence_id_ = 0;
+    
+    // Thread-safe counters using atomics
+    // Note: These are incremented during request submission under mutex_,
+    // but making them atomic is defensive programming for future changes
+    std::atomic<int> next_request_id_{0};
+    std::atomic<int> next_sequence_id_{0};
 };
 
 } // namespace llm

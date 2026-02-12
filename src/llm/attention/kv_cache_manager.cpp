@@ -1,4 +1,5 @@
 #include "llm/attention/kv_cache_manager.h"
+#include "utils/type_conversion.h"
 #include <stdexcept>
 #include <cstring>
 
@@ -138,7 +139,8 @@ void KVCacheManager::sharePrefix(uint64_t new_seq_id, uint64_t parent_seq_id,
     
     // Share prefix blocks (Copy-on-Write)
     int prefix_blocks = (prefix_length + config_.kv_block_size - 1) / config_.kv_block_size;
-    for (int i = 0; i < prefix_blocks && i < static_cast<int>(parent_table.block_ids.size()); ++i) {
+    size_t max_blocks = std::min(static_cast<size_t>(prefix_blocks), parent_table.block_ids.size());
+    for (size_t i = 0; i < max_blocks; ++i) {
         int block_id = parent_table.block_ids[i];
         new_table.block_ids.push_back(block_id);
         blocks_[block_id].ref_count++;
