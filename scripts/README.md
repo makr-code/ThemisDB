@@ -135,6 +135,52 @@ python3 scripts/docs-lint.py --format json --output lint-report.json
 - [Documentation Validation Guide (English)](../docs/DOCUMENTATION_VALIDATION.md)
 - [Dokumentations-Validierung (Deutsch)](../docs/de/DOKUMENTATIONS_VALIDIERUNG.md)
 
+### Legal Training Data Ingestion (New in v1.4.0+)
+
+Scripts for automatically downloading and importing legal training data from HuggingFace:
+
+- **`ingest_legal_training_data.py`** - Download and convert HuggingFace legal-bert-de dataset
+- **`generate_legal_rocksdb.py`** - Generate C++ RocksDB importer for legal training data
+
+**Dataset Information:**
+- **Dataset**: `joelito/legal_mc_de`
+- **URL**: https://huggingface.co/datasets/joelito/legal_mc_de
+- **Language**: German (de)
+- **Domain**: Legal documents
+- **Default samples**: 10,000
+
+**Features:**
+- Automatic HuggingFace dataset download
+- Dataset split validation
+- ThemisDB JSON format conversion
+- RocksDB database generation
+- CMake build integration
+
+**Quick Start:**
+```bash
+# Download and convert dataset to JSON
+python3 scripts/ingest_legal_training_data.py \
+    --output data/legal_training_data.json \
+    --max-samples 10000
+
+# Generate RocksDB importer
+python3 scripts/generate_legal_rocksdb.py \
+    --method cpp \
+    --output data/legal_training.db
+```
+
+**CMake Integration:**
+```bash
+# Enable during build
+cmake -B build -DTHEMIS_BUILD_LEGAL_TRAINING_DATA=ON
+
+# Build the database
+cmake --build build --target legal_training_data
+```
+
+**Documentation:**
+- [Legal Training Data Build Guide](../docs/en/development/LEGAL_TRAINING_DATA_BUILD.md)
+
 ### Security & Compliance Scripts
 
 Scripts for security auditing and compliance verification:

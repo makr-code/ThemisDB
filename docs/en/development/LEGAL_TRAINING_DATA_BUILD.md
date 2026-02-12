@@ -7,6 +7,7 @@ This guide explains how to build and use the legal training data database, which
 The legal training data ingestion system downloads German legal text data from HuggingFace and imports it into a RocksDB database for use with ThemisDB's legal document features and LoRA fine-tuning capabilities.
 
 **Dataset**: `joelito/legal_mc_de`  
+**HuggingFace URL**: https://huggingface.co/datasets/joelito/legal_mc_de  
 **Default samples**: 10,000  
 **Language**: German (de)  
 **Domain**: Legal
@@ -330,6 +331,7 @@ cmake -B build \
 ## License & Attribution
 
 **Dataset**: `joelito/legal_mc_de`  
+**HuggingFace URL**: https://huggingface.co/datasets/joelito/legal_mc_de  
 **License**: Check HuggingFace dataset page for license information  
 **Citation**: Please cite the original dataset when using this data
 

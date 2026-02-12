@@ -10,6 +10,9 @@ Analog zu generate_docs_database.py
 This script downloads the legal-bert-de dataset from HuggingFace Hub and
 exports it as JSON for import into ThemisDB.
 
+Dataset: joelito/legal_mc_de
+URL: https://huggingface.co/datasets/joelito/legal_mc_de
+
 Usage:
     python3 scripts/ingest_legal_training_data.py
     python3 scripts/ingest_legal_training_data.py --output data/legal_training_data.json
@@ -72,6 +75,7 @@ def ingest_legal_dataset(output_path: str, max_samples: int = 10000) -> bool:
     logger.info("HuggingFace Legal Training Data Ingestion")
     logger.info("=" * 60)
     logger.info(f"Dataset: joelito/legal_mc_de")
+    logger.info(f"URL: https://huggingface.co/datasets/joelito/legal_mc_de")
     logger.info(f"Max samples: {max_samples}")
     logger.info("")
     
@@ -179,6 +183,7 @@ def ingest_legal_dataset(output_path: str, max_samples: int = 10000) -> bool:
     logger.info(f"File size: {file_size_mb:.2f} MB")
     logger.info(f"Total documents: {len(documents)}")
     logger.info(f"Dataset: joelito/legal_mc_de")
+    logger.info(f"URL: https://huggingface.co/datasets/joelito/legal_mc_de")
     logger.info(f"Language: German (de)")
     logger.info(f"Domain: Legal")
     logger.info("=" * 60)
@@ -188,7 +193,9 @@ def ingest_legal_dataset(output_path: str, max_samples: int = 10000) -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Ingest HuggingFace legal-bert-de training data'
+        description='Ingest HuggingFace legal-bert-de training data from joelito/legal_mc_de\n'
+                    'URL: https://huggingface.co/datasets/joelito/legal_mc_de',
+        formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument(
         '--output',

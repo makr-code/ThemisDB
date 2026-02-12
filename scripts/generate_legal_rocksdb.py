@@ -10,6 +10,9 @@ Analog zu generate_docs_rocksdb.py
 This script generates a C++ program that imports the legal training data
 JSON into a RocksDB database for use with ThemisDB.
 
+Dataset: joelito/legal_mc_de
+URL: https://huggingface.co/datasets/joelito/legal_mc_de
+
 Usage:
     python3 scripts/generate_legal_rocksdb.py --output data/legal_training.db
     python3 scripts/generate_legal_rocksdb.py --method cpp --output data/legal_training.db
