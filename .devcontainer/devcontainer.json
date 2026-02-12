@@ -1,0 +1,66 @@
+{
+  "name": "ThemisDB Development",
+  "dockerFile": "Dockerfile",
+  
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "cmake.configureOnOpen": true,
+        "cmake.useCMakePresets": "always",
+        "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+        "editor.formatOnSave": true,
+        "files.watcherExclude": {
+          "**/build-*/**": true,
+          "**/vcpkg_installed/**": true
+        }
+      },
+      
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools-extension-pack",
+        "twxs.cmake",
+        "github.copilot",
+        "github.copilot-chat",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  
+  "forwardPorts": [8080, 9090],
+  "portsAttributes": {
+    "8080": {
+      "label": "ThemisDB Server",
+      "onAutoForward": "notify"
+    },
+    "9090": {
+      "label": "Metrics/Prometheus",
+      "onAutoForward": "silent"
+    }
+  },
+  
+  "remoteEnv": {
+    "VCPKG_ROOT": "/opt/vcpkg",
+    "THEMIS_BUILD_TYPE": "Debug"
+  },
+  
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  
+  "mounts": [
+    "source=themisdb-vcpkg-cache,target=/opt/vcpkg/packages,type=volume"
+  ],
+  
+  "remoteUser": "vscode",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "username": "vscode",
+      "uid": "1000",
+      "gid": "1000"
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  }
+}
