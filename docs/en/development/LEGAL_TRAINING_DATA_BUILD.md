@@ -6,8 +6,11 @@ This guide explains how to build and use the legal training data database, which
 
 The legal training data ingestion system downloads German legal text data from HuggingFace and imports it into a RocksDB database for use with ThemisDB's legal document features and LoRA fine-tuning capabilities.
 
-**Dataset**: `joelito/legal_mc_de`  
-**HuggingFace URL**: https://huggingface.co/datasets/joelito/legal_mc_de  
+**IMPORTANT**: The original dataset `joelito/legal_mc_de` is no longer available. This system now supports multiple alternative datasets with automatic fallback.
+
+**Primary Dataset**: `joelNiklaus/MultiLegalPile` (German subset)  
+**HuggingFace URL**: https://huggingface.co/datasets/joelNiklaus/MultiLegalPile  
+**Alternative Sources**: See [Alternative Datasets](#alternative-datasets) below  
 **Default samples**: 10,000  
 **Language**: German (de)  
 **Domain**: Legal
@@ -54,6 +57,86 @@ ls -lh build/data/legal_training.db/
   ```bash
   export HF_TOKEN=your_token_here
   ```
+
+## Alternative Datasets
+
+**⚠️ IMPORTANT**: The original dataset `joelito/legal_mc_de` is no longer available on HuggingFace. The ingestion script now supports multiple alternative sources with automatic fallback.
+
+### Available Datasets (in fallback order)
+
+#### 1. **joelNiklaus/MultiLegalPile** (German subset) - **RECOMMENDED**
+- **URL**: https://huggingface.co/datasets/joelNiklaus/MultiLegalPile
+- **Description**: Large-scale multilingual legal corpus with comprehensive German legal texts
+- **Advantages**: Most comprehensive, actively maintained, large dataset
+- **Usage**: Default (no flags needed) or `--dataset joelNiklaus/MultiLegalPile`
+
+#### 2. **joelito/legal_mc_de** - **DEPRECATED**
+- **URL**: https://huggingface.co/datasets/joelito/legal_mc_de
+- **Status**: ⚠️ No longer available (kept for fallback attempt)
+- **Description**: German legal multiple choice questions
+
+#### 3. **elenanereiss/german-ler**
+- **URL**: https://huggingface.co/datasets/elenanereiss/german-ler
+- **Description**: German legal entity recognition dataset
+- **Advantages**: Focused on legal entities, good for NER tasks
+
+### Using Alternative Datasets
+
+**List available datasets**:
+```bash
+python3 scripts/ingest_legal_training_data.py --list-datasets
+```
+
+**Specify a specific dataset**:
+```bash
+python3 scripts/ingest_legal_training_data.py \
+    --dataset joelNiklaus/MultiLegalPile \
+    --max-samples 10000
+```
+
+**Use a custom local dataset**:
+```bash
+python3 scripts/ingest_legal_training_data.py \
+    --local-file /path/to/your/legal_data.json \
+    --max-samples 10000
+```
+
+### Custom Dataset Format
+
+If using `--local-file`, your JSON should be in one of these formats:
+
+**Format 1 - Simple list**:
+```json
+[
+  {"text": "Legal text 1..."},
+  {"text": "Legal text 2..."}
+]
+```
+
+**Format 2 - With documents key**:
+```json
+{
+  "documents": [
+    {"text": "Legal text 1..."},
+    {"text": "Legal text 2..."}
+  ]
+}
+```
+
+**Format 3 - ThemisDB format** (preferred):
+```json
+{
+  "metadata": {"source": "custom", "count": 2},
+  "documents": [
+    {
+      "_key": "legal_001",
+      "source": "custom",
+      "text": "Legal text...",
+      "metadata": {"language": "de", "domain": "legal"}
+    }
+  ]
+}
+```
 
 ## Build Process
 
@@ -225,7 +308,10 @@ legal_training:
   ingestion:
     auto_update: false
     update_interval_hours: 168  # 1 week
-    source: "huggingface:joelito/legal_mc_de"
+    source: "huggingface:joelNiklaus/MultiLegalPile"  # Updated to new source
+    fallback_sources:
+      - "huggingface:elenanereiss/german-ler"
+      - "local_file:custom_legal_data.json"
     max_samples: 10000
   
   usage:
@@ -235,6 +321,45 @@ legal_training:
 ```
 
 ## Troubleshooting
+
+### Dataset Not Available / 404 Error
+
+**Problem**: The dataset `joelito/legal_mc_de` is no longer available on HuggingFace.
+
+**Solution**: The script now automatically tries alternative datasets in fallback order.
+
+```bash
+# Check which datasets are available
+python3 scripts/ingest_legal_training_data.py --list-datasets
+
+# Use the recommended dataset explicitly
+python3 scripts/ingest_legal_training_data.py \
+    --dataset joelNiklaus/MultiLegalPile \
+    --max-samples 10000
+
+# Or provide your own dataset
+python3 scripts/ingest_legal_training_data.py \
+    --local-file custom_data.json
+```
+
+### All HuggingFace Datasets Fail
+
+**Problem**: All HuggingFace datasets fail to load.
+
+**Solutions**:
+1. **Check internet connection**
+2. **Use a local dataset**:
+   ```bash
+   python3 scripts/ingest_legal_training_data.py --local-file your_data.json
+   ```
+3. **Try a specific dataset**:
+   ```bash
+   python3 scripts/ingest_legal_training_data.py --dataset joelNiklaus/german_court_decisions
+   ```
+4. **Set HuggingFace token** (if rate-limited):
+   ```bash
+   export HF_TOKEN=your_token
+   ```
 
 ### Python Dependencies Not Found
 
@@ -295,19 +420,19 @@ cmake -B build \
 ```json
 {
   "metadata": {
-    "source": "huggingface:joelito/legal_mc_de",
-    "version": "1.0.0",
+    "source": "huggingface:joelNiklaus/MultiLegalPile",
+    "version": "2.0.0",
     "count": 10000,
     "max_samples": 10000
   },
   "documents": [
     {
       "_key": "legal_de_000001",
-      "source": "huggingface:joelito/legal_mc_de",
+      "source": "huggingface:joelNiklaus/MultiLegalPile",
       "text": "Legal text content...",
       "metadata": {
         "index": 1,
-        "dataset": "legal_mc_de",
+        "dataset": "joelNiklaus/MultiLegalPile",
         "language": "de",
         "domain": "legal"
       }
@@ -320,7 +445,8 @@ cmake -B build \
 
 | Feature | docs.db | legal_training.db |
 |---------|---------|-------------------|
-| **Source** | Local `docs/` + `compendium/` | HuggingFace `joelito/legal_mc_de` |
+| **Source** | Local `docs/` + `compendium/` | HuggingFace (multiple sources with fallback) |
+| **Primary Dataset** | N/A | `joelNiklaus/MultiLegalPile` |
 | **Build Flag** | `THEMIS_BUILD_DOCS_DB` | `THEMIS_BUILD_LEGAL_TRAINING_DATA` |
 | **Default** | ON | OFF (opt-in) |
 | **Size** | ~2-3 MB | ~50-100 MB |
@@ -330,10 +456,18 @@ cmake -B build \
 
 ## License & Attribution
 
-**Dataset**: `joelito/legal_mc_de`  
-**HuggingFace URL**: https://huggingface.co/datasets/joelito/legal_mc_de  
-**License**: Check HuggingFace dataset page for license information  
-**Citation**: Please cite the original dataset when using this data
+### Primary Dataset: joelNiklaus/MultiLegalPile
+- **Dataset**: `joelNiklaus/MultiLegalPile` (German subset)
+- **HuggingFace URL**: https://huggingface.co/datasets/joelNiklaus/MultiLegalPile
+- **License**: Check HuggingFace dataset page for license information
+- **Citation**: Please cite the original dataset when using this data
+
+### Alternative Datasets
+- **elenanereiss/german-ler**: https://huggingface.co/datasets/elenanereiss/german-ler
+- **joelito/legal_mc_de** (DEPRECATED): https://huggingface.co/datasets/joelito/legal_mc_de (no longer available)
+
+### Important Notes
+⚠️ The original dataset `joelito/legal_mc_de` referenced in earlier versions is no longer available on HuggingFace. This system now uses `joelNiklaus/MultiLegalPile` as the primary source with automatic fallback to alternative datasets.
 
 ## See Also
 
