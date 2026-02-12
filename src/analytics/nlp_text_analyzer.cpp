@@ -850,14 +850,16 @@ std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(
     for (const auto& pattern : legal_modality_patterns_) {
         try {
             std::regex regex_pattern(pattern.pattern, std::regex::icase);
-            std::smatch match;
-            std::string search_text = text_lower;
-            size_t offset = 0;
             
-            while (std::regex_search(search_text, match, regex_pattern)) {
-                size_t position = offset + match.position();
+            // Use iterators to avoid creating substring copies
+            auto search_begin = text_lower.cbegin();
+            auto search_end = text_lower.cend();
+            std::smatch match;
+            
+            while (std::regex_search(search_begin, search_end, match, regex_pattern)) {
+                size_t position = std::distance(text_lower.cbegin(), search_begin) + match.position();
                 
-                // Extract the matched verb
+                // Extract the matched verb from original text (preserving case)
                 std::string matched_verb = text_str.substr(position, match.length());
                 
                 LegalModality modality(
@@ -873,8 +875,7 @@ std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(
                 modalities.push_back(modality);
                 
                 // Continue searching after this match
-                offset += match.position() + match.length();
-                search_text = text_lower.substr(offset);
+                search_begin += match.position() + match.length();
             }
         } catch (const std::regex_error& e) {
             // Skip invalid regex patterns
