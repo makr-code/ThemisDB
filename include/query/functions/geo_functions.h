@@ -6,10 +6,7 @@
 #include <algorithm>
 #include <limits>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
-#endif
+
 
 // Ensure M_PI is defined for portability
 #ifndef M_PI
@@ -216,7 +213,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         double x = args[0].get<double>();
         double y = args[1].get<double>();
         
@@ -255,7 +252,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json geojson;
         geojson["type"] = "LineString";
         geojson["coordinates"] = args[0];
@@ -284,7 +281,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json geojson;
         geojson["type"] = "Polygon";
         geojson["coordinates"] = args[0];
@@ -313,7 +310,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string wkt = args[0].get<std::string>();
         
         // Trim whitespace
@@ -434,7 +431,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arg = args[0];
         
         // Already a GeoJSON object
@@ -481,7 +478,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         
@@ -525,7 +522,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         return geo_helpers::haversineDistance(x1, y1, x2, y2);
@@ -553,7 +550,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (!geom.is_object() || geom["type"] != "LineString") {
             throw std::runtime_error("ST_LENGTH requires LineString geometry");
@@ -600,7 +597,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (!geom.is_object() || geom["type"] != "Polygon") {
             throw std::runtime_error("ST_AREA requires Polygon geometry");
@@ -650,7 +647,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr1 = geo_helpers::extractMBR(args[0]);
         auto mbr2 = geo_helpers::extractMBR(args[1]);
         return mbr1.intersects(mbr2);
@@ -679,7 +676,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr1 = geo_helpers::extractMBR(args[0]);
         auto mbr2 = geo_helpers::extractMBR(args[1]);
         return mbr1.containsMBR(mbr2);
@@ -708,7 +705,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr1 = geo_helpers::extractMBR(args[0]);
         auto mbr2 = geo_helpers::extractMBR(args[1]);
         return mbr2.containsMBR(mbr1);
@@ -738,7 +735,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x1, y1, z1] = geo_helpers::extractPoint(args[0]);
         auto [x2, y2, z2] = geo_helpers::extractPoint(args[1]);
         double maxDistance = args[2].get<double>();
@@ -783,7 +780,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr = geo_helpers::extractMBR(args[0]);
         auto [x, y, z] = geo_helpers::extractPoint(args[1]);
         return mbr.contains(x, y);
@@ -815,7 +812,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x, y, z] = geo_helpers::extractPoint(args[0]);
         return x;
     }
@@ -842,7 +839,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto [x, y, z] = geo_helpers::extractPoint(args[0]);
         return y;
     }
@@ -869,7 +866,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (geom.is_object() && geom["type"] == "Point" && 
             geom["coordinates"].size() >= 3) {
@@ -900,7 +897,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         if (!geom.is_object() || !geom.contains("coordinates")) {
             return false;
@@ -944,7 +941,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         return args[0].dump();
     }
 };
@@ -970,7 +967,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         std::string type = geom["type"];
         const auto& coords = geom["coordinates"];
@@ -1037,7 +1034,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& geom = args[0];
         std::string type = geom["type"];
         
@@ -1104,7 +1101,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto mbr = geo_helpers::extractMBR(args[0]);
         
         nlohmann::json envelope;
@@ -1168,6 +1165,3 @@ inline void registerGeoFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif

@@ -6,10 +6,7 @@
 #include <unordered_set>
 #include <numeric>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
-#endif
+
 
 namespace themis {
 namespace query {
@@ -73,7 +70,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::unordered_set<std::string> unique;
         for (const auto& val : args[0]) {
             unique.insert(val.dump());
@@ -104,7 +101,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string sep = args.size() > 1 ? args[1].get<std::string>() : ",";
         std::string result;
         
@@ -145,7 +142,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string key = args[1].get<std::string>();
         std::unordered_map<std::string, nlohmann::json> groups;
         
@@ -188,7 +185,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
             if (v.is_number()) values.push_back(v.get<double>());
@@ -227,7 +224,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
             if (v.is_number()) values.push_back(v.get<double>());
@@ -266,7 +263,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
             if (v.is_number()) values.push_back(v.get<double>());
@@ -305,7 +302,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
             if (v.is_number()) values.push_back(v.get<double>());
@@ -346,7 +343,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::vector<double> values;
         for (const auto& v : args[0]) {
             if (v.is_number()) values.push_back(v.get<double>());
@@ -398,7 +395,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         for (const auto& arg : args) {
             if (!arg.is_null()) {
                 return arg;
@@ -430,7 +427,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args[0] == args[1]) {
             return nullptr;
         }
@@ -465,7 +462,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json maxVal = args[0];
         for (size_t i = 1; i < args.size(); ++i) {
             if (args[i] > maxVal) {
@@ -503,7 +500,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json minVal = args[0];
         for (size_t i = 1; i < args.size(); ++i) {
             if (args[i] < minVal) {
@@ -537,7 +534,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         bool condition = toBool(args[0]);
         return condition ? args[1] : args[2];
     }
@@ -571,7 +568,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& left = args[0];
         const auto& right = args[1];
         std::string leftKey = args[2].get<std::string>();
@@ -634,7 +631,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& left = args[0];
         const auto& right = args[1];
         std::string leftKey = args[2].get<std::string>();
@@ -701,7 +698,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string key = args[1].get<std::string>();
         const auto& value = args[2];
         
@@ -740,7 +737,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         nlohmann::json result = nlohmann::json::array();
         int64_t rowNum = 1;
         
@@ -782,7 +779,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
         int offset = args.size() > 2 ? args[2].get<int>() : 1;
@@ -838,7 +835,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
         int offset = args.size() > 2 ? args[2].get<int>() : 1;
@@ -892,7 +889,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
         std::string field = args.size() > 1 && !args[1].is_null() ? args[1].get<std::string>() : "";
         
@@ -944,7 +941,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& arr = args[0];
         int n = args[1].get<int>();
         
@@ -1015,6 +1012,3 @@ inline void registerRelationalFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif

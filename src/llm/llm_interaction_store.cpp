@@ -1,5 +1,6 @@
 #include "llm/llm_interaction_store.h"
 #include "utils/logger.h"
+#include "utils/pointer_utils.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -160,6 +161,11 @@ std::vector<LLMInteractionStore::Interaction> LLMInteractionStore::listInteracti
         it.reset(db_->NewIterator(read_opts));
     }
     
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for interaction listing");
+        return results; // Return empty vector
+    }
+    
     // Determine start position
     std::string start_key = KEY_PREFIX;
     if (options.start_after_id.has_value()) {
@@ -229,6 +235,11 @@ LLMInteractionStore::Stats LLMInteractionStore::getStats() const {
         it.reset(db_->NewIterator(read_opts));
     }
     
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for interaction stats");
+        return stats; // Return empty stats
+    }
+    
     it->Seek(KEY_PREFIX);
     
     int64_t total_latency = 0;
@@ -296,6 +307,11 @@ void LLMInteractionStore::clear() {
         it.reset(db_->NewIterator(read_opts, cf_));
     } else {
         it.reset(db_->NewIterator(read_opts));
+    }
+    
+    if (!it) {
+        THEMIS_ERROR("Failed to create RocksDB iterator for interaction clearing");
+        return;
     }
     
     it->Seek(KEY_PREFIX);

@@ -104,6 +104,7 @@ if(MSVC)
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
         /EHsc            # Exception handling (C++ only, not SEH)
+        /w14018          # Enable C4018: signed/unsigned mismatch warning
     )
     
     # Also use include_directories for good measure
@@ -153,6 +154,7 @@ else()
         -Wpedantic
         -Wno-unused-parameter
         -Wno-deprecated-declarations
+        -Wsign-compare   # Enable signed/unsigned comparison warnings
     )
     
     # Release-specific options for SIMD optimization

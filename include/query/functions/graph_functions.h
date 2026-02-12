@@ -8,10 +8,7 @@
 #include <algorithm>
 #include <limits>
 
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
-#endif
+
 
 namespace themis {
 namespace query {
@@ -218,7 +215,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         return graph_helpers::isEdge(args[0]);
     }
 };
@@ -244,7 +241,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         return graph_helpers::isVertex(args[0]);
     }
 };
@@ -270,7 +267,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string id = args[0].get<std::string>();
         auto [collection, key] = graph_helpers::parseIdentifier(id);
         
@@ -308,7 +305,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string vertexId = graph_helpers::getVertexId(args[0]);
         std::string direction = args.size() > 2 ? args[2].get<std::string>() : "any";
         
@@ -355,7 +352,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string startId = graph_helpers::getVertexId(args[0]);
         std::string direction = args.size() > 2 ? args[2].get<std::string>() : "any";
         int maxDepth = args.size() > 3 ? args[3].get<int>() : 1;
@@ -432,7 +429,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string startId = graph_helpers::getVertexId(args[0]);
         std::string endId = graph_helpers::getVertexId(args[1]);
         std::string direction = args.size() > 3 ? args[3].get<std::string>() : "any";
@@ -540,7 +537,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         // Reuse SHORTEST_PATH logic
         ShortestPathFunction spf;
         auto result = spf.execute(args, ctx);
@@ -572,7 +569,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         ShortestPathFunction spf;
         auto result = spf.execute(args, ctx);
         return result["distance"].get<int>() >= 0;
@@ -606,7 +603,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string vertexId = graph_helpers::getVertexId(args[0]);
         auto graph = graph_helpers::buildGraph(args[1]);
         
@@ -666,7 +663,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto graph = graph_helpers::buildGraph(args[0]);
         double damping = args.size() > 1 ? args[1].get<double>() : 0.85;
         int iterations = args.size() > 2 ? args[2].get<int>() : 20;
@@ -804,7 +801,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto graph = graph_helpers::buildGraph(args[0]);
         const auto& vertices = graph.vertices();
         
@@ -869,7 +866,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string vertexId = graph_helpers::getVertexId(args[0]);
         auto graph = graph_helpers::buildGraph(args[1]);
         
@@ -927,7 +924,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         std::string vertexId = graph_helpers::getVertexId(args[0]);
         std::string direction = args.size() > 2 ? args[2].get<std::string>() : "any";
         std::transform(direction.begin(), direction.end(), direction.begin(), ::tolower);
@@ -979,7 +976,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         const auto& input = args[0];
         
         // If it's a path object with vertices field
@@ -1042,7 +1039,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto graph = graph_helpers::buildGraph(args[0]);
         double min_modularity_gain = args.size() > 1 ? args[1].get<double>() : 0.000001;
         
@@ -1185,7 +1182,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                           const FunctionContext& ctx) const override {
+                           [[maybe_unused]] const FunctionContext& ctx) const override {
         auto graph = graph_helpers::buildGraph(args[0]);
         int max_iterations = args.size() > 1 ? args[1].get<int>() : 100;
         
@@ -1307,6 +1304,3 @@ inline void registerGraphFunctions(FunctionRegistry& registry) {
 } // namespace query
 } // namespace themis
 
-#ifdef _MSC_VER
-#pragma warning(pop)
-#endif
