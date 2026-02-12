@@ -1,5 +1,6 @@
 #include "training/knowledge_graph_enricher.h"
 #include <stdexcept>
+#include <chrono>
 
 namespace themis {
 namespace training {
@@ -16,14 +17,46 @@ public:
     
     EnrichmentStats enrichAll(EnrichmentCallback callback) {
         EnrichmentStats stats;
+        auto start_time = std::chrono::steady_clock::now();
         
-        // TODO: Implement full enrichment pipeline
         // 1. Query all samples from target_collection
-        // 2. For each sample:
-        //    - Traverse knowledge graph to find related items
-        //    - Add graph context to sample
-        //    - Update sample in database
-        // 3. Report progress via callback
+        // In production: FOR sample IN legal_training_samples RETURN sample._key
+        std::vector<std::string> sample_ids;
+        // TODO: Fetch from database
+        
+        // 2. Enrich each sample
+        size_t processed = 0;
+        for (const auto& sample_id : sample_ids) {
+            try {
+                auto context = enrichSample(sample_id);
+                
+                // Count items added
+                stats.context_items_added += context.related_provisions.size() +
+                                           context.case_law.size() +
+                                           context.similar_documents.size();
+                
+                if (!context.context_summary.empty()) {
+                    stats.samples_enriched++;
+                }
+                
+                // In production: Update sample in database with context
+                // UPDATE sample WITH { graph_context: @context } IN legal_training_samples
+                
+                stats.samples_processed++;
+                processed++;
+                
+                if (callback && processed % 10 == 0) {
+                    callback(processed, sample_ids.size(), 
+                            "Enriched sample " + sample_id);
+                }
+                
+            } catch (const std::exception& e) {
+                // Continue with next sample
+            }
+        }
+        
+        auto end_time = std::chrono::steady_clock::now();
+        stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
         
         return stats;
     }
@@ -31,17 +64,62 @@ public:
     GraphContext enrichSample(const std::string& sample_id) {
         GraphContext context;
         
-        // TODO: Implement sample enrichment
-        // 1. Fetch sample from database
+        // 1. Fetch sample from database (simulated)
+        // In production: FOR sample IN legal_training_samples FILTER sample._key == @sample_id RETURN sample
+        
         // 2. Get source document
-        // 3. Execute graph traversal queries:
-        //    - findRelatedProvisions()
-        //    - findRelatedCaseLaw()
-        //    - findSimilarDocuments()
+        std::string source_document_id = ""; // Would fetch from sample
+        
+        if (source_document_id.empty()) {
+            return context; // No document to enrich
+        }
+        
+        // 3. Execute graph traversal queries
+        if (config_.include_provisions) {
+            context.related_provisions = findRelatedProvisions(source_document_id, 
+                                                              config_.max_related_items);
+        }
+        
+        if (config_.include_case_law) {
+            context.case_law = findRelatedCaseLaw(source_document_id, 
+                                                  config_.max_related_items);
+        }
+        
+        if (config_.include_similar_docs) {
+            auto similar = findSimilarDocuments(source_document_id, 
+                                               config_.max_related_items);
+            for (const auto& [doc_id, score] : similar) {
+                context.similar_documents.push_back(doc_id);
+            }
+        }
+        
         // 4. Build context summary
-        // 5. Return context
+        context.context_summary = buildContextSummary(context);
         
         return context;
+    }
+    
+private:
+    // Helper: Build context summary from graph data
+    std::string buildContextSummary(const GraphContext& context) {
+        std::string summary;
+        
+        if (!context.related_provisions.empty()) {
+            summary += "Related provisions: " + 
+                      std::to_string(context.related_provisions.size()) + "; ";
+        }
+        
+        if (!context.case_law.empty()) {
+            summary += "Case law references: " + 
+                      std::to_string(context.case_law.size()) + "; ";
+        }
+        
+        if (!context.similar_documents.empty()) {
+            summary += "Similar documents: " + 
+                      std::to_string(context.similar_documents.size());
+        }
+        
+        return summary;
     }
     
     EnrichmentStats enrichQuery(const std::string& aql_query,
@@ -60,11 +138,15 @@ public:
                                                    size_t max_results) {
         std::vector<std::string> provisions;
         
-        // TODO: Execute graph query
+        // Execute graph query to find related provisions
+        // In production: AQL graph traversal query
         // FOR doc IN legal_documents FILTER doc._key == @document_id
         //   FOR provision IN OUTBOUND doc references
         //     LIMIT @max_results
         //     RETURN provision._key
+        
+        // For now, return empty list (would be populated from graph query)
+        // TODO: Implement actual graph traversal
         
         return provisions;
     }
@@ -73,8 +155,15 @@ public:
                                                 size_t max_results) {
         std::vector<std::string> case_law;
         
-        // TODO: Execute graph query
+        // Execute graph query to find related case law
         // Similar to findRelatedProvisions but filter by document_type == "case_law"
+        // FOR doc IN legal_documents FILTER doc._key == @document_id
+        //   FOR related IN OUTBOUND doc cites
+        //     FILTER related.document_type == "case_law"
+        //     LIMIT @max_results
+        //     RETURN related._key
+        
+        // TODO: Implement actual graph traversal
         
         return case_law;
     }
@@ -85,10 +174,19 @@ public:
         
         std::vector<std::pair<std::string, float>> similar;
         
-        // TODO: Execute vector similarity search
-        // 1. Get embedding for document_id
-        // 2. Find similar documents using COSINE_SIMILARITY
-        // 3. Return top max_results with scores
+        // Execute vector similarity search
+        // In production: Use vector index for semantic similarity
+        // FOR doc IN legal_documents FILTER doc._key == @document_id
+        //   LET query_embedding = doc.embedding
+        //   FOR candidate IN legal_documents
+        //     FILTER candidate._key != @document_id
+        //     LET score = COSINE_SIMILARITY(query_embedding, candidate.embedding)
+        //     FILTER score > @similarity_threshold
+        //     SORT score DESC
+        //     LIMIT @max_results
+        //     RETURN {doc: candidate._key, score: score}
+        
+        // TODO: Implement actual vector search
         
         return similar;
     }

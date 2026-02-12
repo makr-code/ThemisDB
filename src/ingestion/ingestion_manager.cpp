@@ -1,8 +1,11 @@
 #include "ingestion/ingestion_manager.h"
+#include "ingestion/huggingface_connector.h"
+#include "ingestion/filesystem_ingester.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
 #include <mutex>
+#include <chrono>
 
 namespace themis {
 namespace ingestion {
@@ -39,8 +42,9 @@ public:
     IngestionStats ingestSource(const std::string& source_id,
                                ProgressCallback progress_callback) {
         IngestionStats stats;
+        auto start_time = std::chrono::steady_clock::now();
         
-        // Find source
+        // Find source configuration
         SourceConfig config;
         {
             std::lock_guard<std::mutex> lock(mutex_);
@@ -57,9 +61,54 @@ public:
             return stats;
         }
         
-        // TODO: Create connector based on type and invoke ingest
-        // For now, return placeholder stats
-        stats.error_message = "Not implemented yet";
+        // Create connector based on type
+        std::unique_ptr<ISourceConnector> connector;
+        
+        try {
+            switch (config.type) {
+                case SourceType::HUGGINGFACE: {
+                    auto hf_connector = std::make_unique<HuggingFaceConnector>();
+                    if (!hf_connector->initialize(config)) {
+                        stats.error_message = "Failed to initialize HuggingFace connector";
+                        return stats;
+                    }
+                    connector = std::move(hf_connector);
+                    break;
+                }
+                
+                case SourceType::FILESYSTEM: {
+                    auto fs_ingester = std::make_unique<FileSystemIngester>();
+                    if (!fs_ingester->initialize(config)) {
+                        stats.error_message = "Failed to initialize filesystem ingester";
+                        return stats;
+                    }
+                    connector = std::move(fs_ingester);
+                    break;
+                }
+                
+                case SourceType::API:
+                case SourceType::DATABASE:
+                default:
+                    stats.error_message = "Connector type not yet implemented: " + 
+                                        std::to_string(static_cast<int>(config.type));
+                    return stats;
+            }
+            
+            // Check availability
+            if (!connector->isAvailable()) {
+                stats.error_message = "Source not available: " + source_id;
+                return stats;
+            }
+            
+            // Invoke ingestion
+            stats = connector->ingest(target_collection_, progress_callback);
+            
+            auto end_time = std::chrono::steady_clock::now();
+            stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
+            
+        } catch (const std::exception& e) {
+            stats.error_message = "Exception during ingestion: " + std::string(e.what());
+        }
         
         return stats;
     }
