@@ -1009,6 +1009,12 @@ graph TB
 - 📋 [Progress Checklist](docs/LLM_LORA_CHECKLIST.md) - Detailed task tracking
 - 📚 [Archived Docs](docs/ARCHIVED/README.md) - Historical documentation (superseded)
 - ✅ **Status**: Core 100% production-ready, Integration 95% complete
+- 🎓 **NEW: [Legal LoRA Training Pipeline](docs/LEGAL_LORA_TRAINING_PIPELINE.md)** - Multi-source ingestion + auto-labeling + knowledge graph enrichment for domain-specific legal AI training
+  - Multi-source data ingestion (HuggingFace, filesystem, OCR support)
+  - Auto-labeling with Legal Modality Analyzer (PR #1 integration)
+  - Knowledge graph enrichment for contextual training
+  - Incremental training with version management
+  - [Tutorial: Custom Document Ingestion](docs/tutorials/CUSTOM_DOCUMENT_INGESTION.md)
 
 **Audit Reports:**
 - 📋 [**v1.4.1 Audit Reports**](docs/audit-reports/v1.4.1/README.md) - **Complete audit package for v1.4.1**
