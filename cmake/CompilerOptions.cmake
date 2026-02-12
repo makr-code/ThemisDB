@@ -104,6 +104,7 @@ if(MSVC)
         /Gy              # Enable function-level linking
         /permissive-     # Conformance mode
         /EHsc            # Exception handling (C++ only, not SEH)
+        /w14018          # Enable C4018: signed/unsigned mismatch warning
     )
     
     # Also use include_directories for good measure
@@ -143,6 +144,8 @@ if(MSVC)
     # Treat warnings as errors if requested
     if(THEMIS_STRICT_BUILD)
         add_compile_options(/WX)
+        # Treat C4018 (signed/unsigned mismatch) as error in strict mode
+        add_compile_options(/we4018)
     endif()
     
 else()
@@ -153,6 +156,7 @@ else()
         -Wpedantic
         -Wno-unused-parameter
         -Wno-deprecated-declarations
+        -Wsign-compare   # Enable signed/unsigned comparison warnings
     )
     
     # Release-specific options for SIMD optimization
@@ -168,6 +172,8 @@ else()
     # Treat warnings as errors if requested
     if(THEMIS_STRICT_BUILD)
         add_compile_options(-Werror)
+        # Treat sign-compare warnings as errors in strict mode
+        add_compile_options(-Werror=sign-compare)
     endif()
     
     # AddressSanitizer support for debugging
