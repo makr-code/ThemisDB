@@ -14,6 +14,13 @@ build-*/
 **/*.backup
 **/*.bak
 
+# VSCode user-specific settings (keep .vscode/ for enhanced config)
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/extensions.json
+.vscode/.ropeproject
+
 # Example binaries
 examples/**/usage_example
 examples/**/usage_example_enabled
