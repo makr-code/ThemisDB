@@ -95,8 +95,8 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleOptimize(
         response["status"] = "success";
         response["prompt_id"] = prompt_id;
         response["improvement"] = result.improvement;
-        response["old_score"] = result.old_score;
-        response["new_score"] = result.new_score;
+        response["old_score"] = result.baseline_score;
+        response["new_score"] = result.optimized_score;
         response["iterations"] = result.iterations;
         
         if (result.status == prompt_engineering::OptimizationStatus::AB_TESTING) {
@@ -268,13 +268,12 @@ http::response<http::string_body> PromptEngineeringApiHandler::handleGetStats(
 
         // Performance tracker stats
         if (tracker_) {
-            stats["performance"] = tracker_->getSummaryStatistics().toJson();
+            stats["performance"] = tracker_->getSummaryStatistics();
         }
 
         // Feedback collector stats
         if (feedback_collector_) {
-            auto system_stats = feedback_collector_->getSystemWideStats();
-            stats["feedback"] = system_stats.toJson();
+            stats["feedback"] = feedback_collector_->getSummary();
         }
 
         // Orchestrator stats (history count, active tests)

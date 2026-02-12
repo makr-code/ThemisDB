@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <chrono>
 
-namespace themis::sharding {
+namespace themisdb::sharding {
 
 DistributedTimeCoordinator::DistributedTimeCoordinator(
     std::shared_ptr<ConsensusModule> consensus,

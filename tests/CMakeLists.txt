@@ -117,6 +117,51 @@ if(NOT THEMIS_ENABLE_CONTENT)
     )
 endif()
 
+# Exclude tests that define their own main()
+list(APPEND TEST_EXCLUDE_PATTERNS
+    ".*test_api_auth_config\\.cpp$"
+    ".*test_argument_store\\.cpp$"
+    ".*test_approximate_radius_search_integration\\.cpp$"
+    ".*test_blob_transfer_checkpoint\\.cpp$"
+    ".*test_cloud_storage_backup_comprehensive\\.cpp$"
+    ".*test_collective_backends\\.cpp$"
+    ".*test_content_fulltext_index\\.cpp$"
+    ".*test_content_policy_manual\\.cpp$"
+    ".*test_entity_api_raid_integration\\.cpp$"
+    ".*test_ethics_ai_types\\.cpp$"
+    ".*test_ethics_evaluator\\.cpp$"
+    ".*test_flash_attention_correctness\\.cpp$"
+    ".*test_gpu_vector_index\\.cpp$"
+    ".*test_gpu_vram_allocation\\.cpp$"
+    ".*test_graph_advanced_features\\.cpp$"
+    ".*test_hsm_startup_integration\\.cpp$"
+    ".*test_hsm_stub_gating\\.cpp$"
+    ".*test_llm_aql_handler\\.cpp$"
+    ".*test_merge_engine\\.cpp$"
+    ".*test_network_timeout\\.cpp$"
+    ".*test_nl_to_aql_translation\\.cpp$"
+    ".*test_paxos_consensus\\.cpp$"
+    ".*test_philosophy_loader\\.cpp$"
+    ".*test_plugin_security_implementation\\.cpp$"
+    ".*test_policy_versioning\\.cpp$"
+    ".*test_product_quantizer\\.cpp$"
+    ".*test_prompt_engineering_integration\\.cpp$"
+    ".*test_rag_aql_integration\\.cpp$"
+    ".*test_task_audit\\.cpp$"
+    ".*test_thread_safety_stress\\.cpp$"
+    ".*test_vault_signing_provider_errors\\.cpp$"
+    ".*test_workload_cache_strategy\\.cpp$"
+    ".*test_workload_driven_cache\\.cpp$"
+    ".*test_multi_gpu_training\\.cpp$"
+    ".*test_multi_vector_search\\.cpp$"
+)
+
+if(NOT THEMIS_ENABLE_WISCKEY)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_wisckey.*\\.cpp$"
+    )
+endif()
+
 # Missing implementations and unfinished features
 list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"

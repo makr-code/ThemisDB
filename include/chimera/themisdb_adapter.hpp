@@ -58,7 +58,7 @@ public:
         const std::vector<RelationalRow>& rows
     ) override;
     
-    Result<QueryStatistics> get_query_statistics() override;
+    Result<QueryStatistics> get_query_statistics() const override;
     
     // IVectorAdapter
     Result<std::string> insert_vector(
@@ -137,10 +137,10 @@ public:
     Result<bool> rollback_transaction(const std::string& transaction_id) override;
     
     // ISystemInfoAdapter
-    Result<SystemInfo> get_system_info() override;
-    Result<SystemMetrics> get_metrics() override;
-    bool has_capability(Capability cap) override;
-    std::vector<Capability> get_capabilities() override;
+    Result<SystemInfo> get_system_info() const override;
+    Result<SystemMetrics> get_metrics() const override;
+    bool has_capability(Capability cap) const override;
+    std::vector<Capability> get_capabilities() const override;
 
 private:
     bool connected_ = false;

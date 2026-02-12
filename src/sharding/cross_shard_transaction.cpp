@@ -1324,8 +1324,8 @@ void CrossShardTransactionCoordinator::executeCompensations(
             
             spdlog::info("Executing compensation {} on shard {} for transaction {}", 
                         idx, shard_id, transaction_id);
-        
-        try {
+            
+            try {
             std::lock_guard<std::mutex> lock(transactions_mutex_);
             auto it = transactions_.find(transaction_id);
             if (it == transactions_.end()) {
@@ -1401,8 +1401,9 @@ void CrossShardTransactionCoordinator::executeCompensations(
                 // for manual intervention or retry
             }
             
-        } catch (const std::exception& e) {
-            spdlog::error("Failed to execute compensation {}: {}", idx, e.what());
+            } catch (const std::exception& e) {
+                spdlog::error("Failed to execute compensation {}: {}", idx, e.what());
+            }
         }
     }
     

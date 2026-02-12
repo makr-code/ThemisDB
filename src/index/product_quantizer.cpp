@@ -500,6 +500,8 @@ float ProductQuantizer::l2Distance(const std::vector<float>& a, const std::vecto
     return std::sqrt(sum);
 }
 
+#endif // !THEMIS_HAS_FAISS
+
 const char* ProductQuantizer::getBackend() const {
     // Reports which backend is actually being used for training
 #ifdef THEMIS_HAS_FAISS
@@ -508,6 +510,5 @@ const char* ProductQuantizer::getBackend() const {
     return "custom";
 #endif
 }
-#endif // !THEMIS_HAS_FAISS
 
 } // namespace themis

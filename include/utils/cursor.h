@@ -95,10 +95,11 @@ public:
      */
     static size_t normalizePageSize(size_t requested_size, const PaginationConfig& config);
     
-private:
     // Base64 encode/decode helpers
     static std::string base64Encode(const std::string& input);
     static std::optional<std::string> base64Decode(const std::string& input);
+
+private:
     
     // Get current Unix timestamp
     static int64_t getCurrentTimestamp();

@@ -126,11 +126,11 @@ private:
     };
 
     mutable std::mutex mutex_;
-    std::unordered_map<std::string, CachedValue> cache_;
+    mutable std::unordered_map<std::string, CachedValue> cache_;
     size_t maxSize_;
     uint64_t defaultTTL_;
-    std::atomic<uint64_t> hits_;
-    std::atomic<uint64_t> misses_;
+    mutable std::atomic<uint64_t> hits_;
+    mutable std::atomic<uint64_t> misses_;
 };
 
 } // namespace concerns

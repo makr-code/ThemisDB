@@ -641,7 +641,7 @@ std::vector<std::string> PolicyExpiration::processExpirations(PolicyManager& pol
                 updated_rule.enabled = false;
                 updated_rule.change_description = "Auto-disabled due to expiration";
                 
-                policy_mgr.updateRule(updated_rule);
+                policy_mgr.updateRule(config.rule_id, updated_rule, "system", updated_rule.change_description);
                 disabled_rules.push_back(config.rule_id);
                 
                 THEMIS_INFO("Auto-disabled expired rule {}", config.rule_id);

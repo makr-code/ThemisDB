@@ -218,7 +218,7 @@ private:
     std::string operation_name_;
     std::chrono::system_clock::time_point start_time_;
     std::atomic<bool> cancelled_{false};
-    std::atomic<bool> timed_out_{false};
+    mutable std::atomic<bool> timed_out_{false};
 };
 
 /**

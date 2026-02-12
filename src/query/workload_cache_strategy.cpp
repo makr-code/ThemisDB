@@ -102,10 +102,10 @@ WorkloadCacheConfig WorkloadCacheConfig::forWorkload(WorkloadType type) {
 }
 
 // ============================================================================
-// WorkloadStats Implementation
+// WorkloadCacheStrategy::WorkloadStats Implementation
 // ============================================================================
 
-nlohmann::json WorkloadStats::toJson() const {
+nlohmann::json WorkloadCacheStrategy::WorkloadStats::toJson() const {
     return {
         {"detected_type", [this]() {
             switch (detected_type) {

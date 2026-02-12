@@ -39,8 +39,8 @@ json EthicsMakeDecisionFunction::execute(
     result["decision_id"] = "decision_" + std::to_string(std::time(nullptr));
     result["dilemma_description"] = args[0];
     result["philosophy_schools"] = args[1];
-    result["category"] = args.size() > 2 ? args[2] : "general";
-    result["use_rag"] = args.size() > 3 ? args[3] : true;
+    result["category"] = args.size() > 2 ? args[2] : json("general");
+    result["use_rag"] = args.size() > 3 ? args[3] : json(true);
     result["decision_text"] = "Stub: Decision analysis pending full implementation";
     result["primary_philosophy"] = args[1][0];
     result["confidence"] = 0.75;
@@ -59,7 +59,7 @@ json EthicsInitializeDebateFunction::execute(
     result["debate_id"] = "debate_" + std::to_string(std::time(nullptr));
     result["dilemma_description"] = args[0];
     result["philosophy_schools"] = args[1];
-    result["category"] = args.size() > 2 ? args[2] : "general";
+    result["category"] = args.size() > 2 ? args[2] : json("general");
     result["status"] = "initialized";
     result["created_at"] = std::time(nullptr);
     

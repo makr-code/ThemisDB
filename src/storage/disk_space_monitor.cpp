@@ -231,8 +231,8 @@ std::chrono::seconds DiskSpaceMonitor::estimateTimeUntilFull() const {
         return std::chrono::seconds(0);
     }
     
-    ssize_t bytes_diff = static_cast<ssize_t>(newest.used_bytes) - 
-                         static_cast<ssize_t>(oldest.used_bytes);
+    int64_t bytes_diff = static_cast<int64_t>(newest.used_bytes) - 
+                         static_cast<int64_t>(oldest.used_bytes);
     
     if (bytes_diff <= 0) {
         // Usage is decreasing or stable

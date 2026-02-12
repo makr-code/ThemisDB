@@ -288,7 +288,7 @@ public:
         note["_collection"] = args[0];
         note["_field"] = args[1];
         note["_query"] = args[2];
-        note["_maxDistance"] = args.size() > 3 ? args[3] : 2;
+        note["_maxDistance"] = args.size() > 3 ? args[3] : json(2);
         result.push_back(note);
         return result;
     }

@@ -71,7 +71,7 @@ BranchManager::BranchManager(
     
     // Ensure default branch exists
     if (!branchExists(DEFAULT_BRANCH)) {
-        auto current_seq = changefeed_.getCurrentSequence();
+        auto current_seq = changefeed_.getLatestSequence();
         auto now = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count();
@@ -124,7 +124,7 @@ std::optional<BranchManager::Branch> BranchManager::createBranch(
     auto sequence = resolveSequence(options);
     if (!sequence.has_value()) {
         // Use current sequence if not specified
-        sequence = changefeed_.getCurrentSequence();
+        sequence = changefeed_.getLatestSequence();
     }
     
     // Get current timestamp
@@ -180,16 +180,23 @@ std::vector<BranchManager::Branch> BranchManager::listBranches(
     std::vector<Branch> branches;
     
     // Iterate over all branch keys
-    auto it = db_.newIterator();
-    for (it->seek(BRANCH_PREFIX); it->valid(); it->next()) {
-        std::string key = it->key();
+    auto it_result = db_.newSafeIterator();
+    if (!it_result) {
+        return branches;
+    }
+    
+    auto& it = it_result.value();
+    for (it.Seek(BRANCH_PREFIX); it.Valid(); it.Next()) {
+        std::string key(it.key());
         
         // Skip if not a branch key or is active branch key
         if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) {
             continue;
         }
         
-        auto branch = deserialize(it->value());
+        std::string value_str(it.value());
+        std::vector<uint8_t> value_bytes(value_str.begin(), value_str.end());
+        auto branch = deserialize(value_bytes);
         if (branch.has_value()) {
             branches.push_back(branch.value());
         }
@@ -271,7 +278,7 @@ bool BranchManager::deleteBranch(const std::string& branch_name, bool force) {
     }
     
     // Delete branch
-    return db_.remove(makeKey(branch_name));
+    return db_.del(makeKey(branch_name));
 }
 
 // Merge branches
@@ -364,15 +371,22 @@ BranchManager::BranchStats BranchManager::getStats() const {
     int64_t oldest = std::numeric_limits<int64_t>::max();
     int64_t newest = 0;
     
-    auto it = db_.newIterator();
-    for (it->seek(BRANCH_PREFIX); it->valid(); it->next()) {
-        std::string key = it->key();
+    auto it_result = db_.newSafeIterator();
+    if (!it_result) {
+        return stats;
+    }
+    
+    auto& it = it_result.value();
+    for (it.Seek(BRANCH_PREFIX); it.Valid(); it.Next()) {
+        std::string key(it.key());
         
         if (key.find(BRANCH_PREFIX) != 0 || key == ACTIVE_BRANCH_KEY) {
             continue;
         }
         
-        auto branch = deserialize(it->value());
+        std::string value_str(it.value());
+        std::vector<uint8_t> value_bytes(value_str.begin(), value_str.end());
+        auto branch = deserialize(value_bytes);
         if (branch.has_value()) {
             stats.total_branches++;
             

@@ -1184,6 +1184,8 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
+    ../src/storage/database_connection_manager.cpp
+    ../src/storage/disk_space_monitor.cpp
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
     ../src/storage/batch_write_optimizer.cpp
@@ -1211,6 +1213,7 @@ set(THEMIS_CORE_SOURCES
     ../src/index/rotary_embeddings.cpp
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
+    ../src/index/multi_vector_search.cpp
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1229,6 +1232,7 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
+    ../src/transaction/branch_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1250,7 +1254,12 @@ set(THEMIS_CORE_SOURCES
     
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
+    ../src/query/workload_cache_strategy.cpp
     ../src/query/functions/function_registry.cpp
+    ../src/query/functions/ethics_functions.cpp
+    ../src/query/functions/fulltext_functions.cpp
+    ../src/prompt_engineering/prompt_manager.cpp
+    ../src/prompt_engineering/prompt_engineering_metrics.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
@@ -1272,6 +1281,9 @@ set(THEMIS_CORE_SOURCES
     ../src/server/policy_validation_api_handler.cpp
     ../src/server/review_scheduling_api_handler.cpp
     ../src/server/prompt_api_handler.cpp
+    ../src/server/prompt_engineering_api_handler.cpp
+    ../src/server/bpmn_api_handler.cpp
+    ../src/server/branch_api_handler.cpp
     ../src/server/graph_api_handler.cpp
     ../src/server/index_api_handler.cpp
     ../src/server/timeseries_api_handler.cpp
@@ -1440,6 +1452,7 @@ set(THEMIS_CORE_SOURCES
     ../src/governance/compliance_reporter.cpp
     ../src/governance/policy_validator.cpp
     ../src/governance/review_scheduler.cpp
+    ../src/governance/policy_review.cpp
     # Geo scaffolding (headers + stubs; safe no-ops until used)
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
@@ -1499,6 +1512,8 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/health_monitor.cpp
     ../src/sharding/shard_durability.cpp
     ../src/sharding/truetime.cpp
+    ../src/sharding/secure_transport_client.cpp
+    ../src/sharding/distributed_time_coordinator.cpp
     ../src/sharding/distributed_transaction.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
@@ -1533,6 +1548,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/socket_timeout_manager.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
@@ -1698,6 +1714,10 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/mixed_precision_inference.cpp
+    # Multi-GPU LoRA Training
+    ../src/llm/lora_framework/multi_gpu.cpp
+    ../src/llm/lora_framework/multi_gpu_trainer.cpp
+    ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)

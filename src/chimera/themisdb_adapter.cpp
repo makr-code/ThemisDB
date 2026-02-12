@@ -79,7 +79,7 @@ Result<size_t> ThemisDBAdapter::batch_insert(
     return Result<size_t>::ok(rows.size());
 }
 
-Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() {
+Result<QueryStatistics> ThemisDBAdapter::get_query_statistics() const {
     QueryStatistics stats;
     stats.execution_time = std::chrono::microseconds(0);
     stats.rows_read = 0;
@@ -320,7 +320,7 @@ Result<bool> ThemisDBAdapter::rollback_transaction(const std::string& transactio
 }
 
 // ISystemInfoAdapter
-Result<SystemInfo> ThemisDBAdapter::get_system_info() {
+Result<SystemInfo> ThemisDBAdapter::get_system_info() const {
     SystemInfo info;
     info.system_name = "ThemisDB";
     info.version = "1.4.0";
@@ -329,7 +329,7 @@ Result<SystemInfo> ThemisDBAdapter::get_system_info() {
     return Result<SystemInfo>::ok(std::move(info));
 }
 
-Result<SystemMetrics> ThemisDBAdapter::get_metrics() {
+Result<SystemMetrics> ThemisDBAdapter::get_metrics() const {
     SystemMetrics metrics;
     metrics.memory.total_bytes = 0;
     metrics.memory.used_bytes = 0;
@@ -342,7 +342,7 @@ Result<SystemMetrics> ThemisDBAdapter::get_metrics() {
     return Result<SystemMetrics>::ok(std::move(metrics));
 }
 
-bool ThemisDBAdapter::has_capability(Capability cap) {
+bool ThemisDBAdapter::has_capability(Capability cap) const {
     // ThemisDB supports all capabilities in this example
     switch (cap) {
         case Capability::RELATIONAL_QUERIES:
@@ -362,7 +362,7 @@ bool ThemisDBAdapter::has_capability(Capability cap) {
     }
 }
 
-std::vector<Capability> ThemisDBAdapter::get_capabilities() {
+std::vector<Capability> ThemisDBAdapter::get_capabilities() const {
     return {
         Capability::RELATIONAL_QUERIES,
         Capability::VECTOR_SEARCH,

@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <optional>
 #include <functional>
+#include <type_traits>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -70,11 +71,21 @@ std::optional<T*> as_optional(T* ptr) noexcept {
  * }
  */
 template<typename T, typename Func>
-auto safe_invoke(T* ptr, Func&& func) -> std::optional<decltype(func(*ptr))> {
+auto safe_invoke(T* ptr, Func&& func)
+    -> std::optional<std::conditional_t<std::is_void_v<decltype(func(*ptr))>, std::monostate, decltype(func(*ptr))>> {
+    using ResultType = decltype(func(*ptr));
+    using OptionalType = std::optional<std::conditional_t<std::is_void_v<ResultType>, std::monostate, ResultType>>;
+
     if (!ptr) {
         return std::nullopt;
     }
-    return func(*ptr);
+
+    if constexpr (std::is_void_v<ResultType>) {
+        func(*ptr);
+        return OptionalType{std::monostate{}};
+    } else {
+        return OptionalType{func(*ptr)};
+    }
 }
 
 /**

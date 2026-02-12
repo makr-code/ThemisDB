@@ -76,6 +76,7 @@ if(THEMIS_ENABLE_LLM)
         
         # ML Model Management and Inference
         ../src/llm/ml_model_manager.cpp
+        ../src/llm/gpu_safe_fail.cpp
         
         # Prompt Engineering and Optimization Framework
         ../src/prompt_engineering/prompt_optimizer.cpp

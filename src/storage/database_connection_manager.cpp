@@ -571,7 +571,7 @@ bool ConnectionTimeoutGuard::hasTimedOut() const {
     auto elapsed_seconds = std::chrono::duration_cast<std::chrono::seconds>(elapsed);
     
     if (elapsed_seconds >= timeout_) {
-        timed_out_ = true;
+        timed_out_.store(true);
         return true;
     }
     

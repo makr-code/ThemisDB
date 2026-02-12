@@ -1,6 +1,6 @@
 #include "index/approximate_radius_search.h"
 #include "index/vector_index.h"
-#include "core/error_registry.h"
+#include "utils/error_registry.h"
 #include "storage/base_entity.h"
 #include <chrono>
 #include <algorithm>

@@ -4,6 +4,8 @@
 #include <cerrno>
 
 #ifdef _WIN32
+    #include <winsock2.h>
+    #include <mstcpip.h>
     #pragma comment(lib, "ws2_32.lib")
 #endif
 

@@ -362,6 +362,21 @@ Result<std::string> BackupManager::createFullBackup(const std::string& dest_dir)
     }
 }
 
+bool BackupManager::createFullBackup(const std::string& dest_dir, 
+                                     std::error_code& ec,
+                                     const BackupOptions& options) {
+    // Call the Result-based version and convert to bool + error_code
+    auto result = createFullBackup(dest_dir);
+    if (result) {
+        ec.clear();
+        return true;
+    } else {
+        // Convert themis::Error to std::error_code (generic error)
+        ec = std::make_error_code(std::errc::io_error);
+        return false;
+    }
+}
+
 Result<std::string> BackupManager::createIncrementalBackup(const std::string& dest_dir) {
     namespace fs = std::filesystem;
     try {
