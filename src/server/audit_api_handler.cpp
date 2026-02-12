@@ -4,11 +4,6 @@
 #include <algorithm>
 #include <cctype>
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4505)  // unreferenced local function
-#pragma warning(disable: 4101)  // unreferenced local variable
-#endif
-
 namespace themis {
 namespace server {
 

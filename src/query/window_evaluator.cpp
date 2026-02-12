@@ -1,11 +1,6 @@
 #include "query/window_evaluator.h"
 #include "query/let_evaluator.h"
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4100)  // unreferenced formal parameter
-#pragma warning(disable: 4101)  // unreferenced local variable
-#endif
-
 #include <algorithm>
 #include <map>
 #include <sstream>
@@ -362,7 +357,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLag(
     const std::shared_ptr<Expression>& argument,
     int64_t offset,
     const std::shared_ptr<Expression>& defaultValue,
-    const std::string& forVariable
+    [[maybe_unused]] const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
@@ -403,7 +398,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLead(
     const std::shared_ptr<Expression>& argument,
     int64_t offset,
     const std::shared_ptr<Expression>& defaultValue,
-    const std::string& forVariable
+    [[maybe_unused]] const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
@@ -441,7 +436,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateFirstValue(
     const std::vector<nlohmann::json>& rows,
     const std::vector<size_t>& sortedIndices,
     const std::shared_ptr<Expression>& argument,
-    const std::string& forVariable
+    [[maybe_unused]] const std::string& forVariable
 ) {
     std::vector<nlohmann::json> results;
     results.reserve(sortedIndices.size());
@@ -523,7 +518,7 @@ std::vector<nlohmann::json> WindowEvaluator::evaluateLastValue(
 nlohmann::json WindowEvaluator::evaluateExpression(
     const std::shared_ptr<Expression>& expr,
     const nlohmann::json& row,
-    const std::string& forVariable
+    [[maybe_unused]] const std::string& forVariable
 ) {
     if (!expr) return nullptr;
     

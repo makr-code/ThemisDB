@@ -3,11 +3,6 @@
 #include "utils/error_registry.h"
 #include "utils/openssl_deleter.h"
 
-#ifdef _MSC_VER
-#pragma warning(disable: 4505)  // unreferenced local function
-#pragma warning(disable: 4189)  // unreferenced local variable
-#endif
-
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/x509.h>
