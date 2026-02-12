@@ -8,6 +8,7 @@
 #include <atomic>
 #include <memory>
 #include <functional>
+#include <map>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -17,6 +18,8 @@ using json = nlohmann::json;
 
 // Forward declarations
 class ContentManager;
+class IngestionPlugin;
+struct IngestionSource;
 
 /**
  * @brief Ingestion job status
@@ -33,10 +36,14 @@ enum class IngestionJobStatus {
  * @brief Ingestion job type
  */
 enum class IngestionJobType {
-    SINGLE_FILE,   // Single file upload
-    ARCHIVE,       // Archive extraction and ingestion
-    BATCH_FILES,   // Multiple files (directory upload)
-    URL_FETCH      // Fetch from URL (future)
+    SINGLE_FILE,        // Single file upload
+    ARCHIVE,            // Archive extraction and ingestion
+    BATCH_FILES,        // Multiple files (directory upload)
+    URL_FETCH,          // Fetch from URL (future)
+    HUGGINGFACE,        // HuggingFace datasets
+    FILESYSTEM_BULK,    // Recursive filesystem scan
+    DATABASE_EXPORT,    // Database via JDBC/ODBC
+    REST_API            // Generic REST API
 };
 
 /**
@@ -218,6 +225,78 @@ public:
         const std::string& job_id,
         std::function<void(const IngestionJob&)> callback
     );
+    
+    // ========================================================================
+    // Plugin Management API (NEW)
+    // ========================================================================
+    
+    /**
+     * @brief Register an ingestion plugin
+     * 
+     * Plugins extend the worker with new data sources.
+     * 
+     * Example:
+     * ```cpp
+     * auto hf_plugin = std::make_shared<HuggingFacePlugin>(...);
+     * worker.registerPlugin(hf_plugin);
+     * ```
+     * 
+     * @param plugin Plugin to register
+     */
+    void registerPlugin(std::shared_ptr<IngestionPlugin> plugin);
+    
+    /**
+     * @brief Unregister a plugin
+     * 
+     * @param plugin_name Name of plugin to remove
+     */
+    void unregisterPlugin(const std::string& plugin_name);
+    
+    /**
+     * @brief List registered plugins
+     * 
+     * @return Vector of plugin names
+     */
+    std::vector<std::string> listPlugins() const;
+    
+    /**
+     * @brief Get plugin by name
+     * 
+     * @param name Plugin name
+     * @return Plugin pointer or nullptr if not found
+     */
+    std::shared_ptr<IngestionPlugin> getPlugin(const std::string& name) const;
+    
+    /**
+     * @brief Submit a multi-source job
+     * 
+     * Creates a job that will be processed by the registered plugin.
+     * 
+     * @param source Source configuration
+     * @param additional_config Optional additional configuration
+     * @return Job ID for tracking
+     */
+    std::string submitSourceJob(
+        const IngestionSource& source,
+        const json& additional_config = json::object()
+    );
+    
+    /**
+     * @brief Load sources from configuration file
+     * 
+     * YAML format:
+     * ```yaml
+     * sources:
+     *   - source_id: hf_legal
+     *     plugin_name: huggingface
+     *     type: HUGGINGFACE
+     *     location: lexlms/ger_legal_data
+     *     priority: 5
+     * ```
+     * 
+     * @param config_path Path to YAML config file
+     */
+    void loadSourcesFromConfig(const std::string& config_path);
 
 private:
     std::shared_ptr<ContentManager> content_manager_;
@@ -237,10 +316,18 @@ private:
     std::map<std::string, IngestionJob> job_history_;
     std::mutex history_mutex_;
     
+    // Custom job handlers (for plugins)
+    std::map<IngestionJobType, std::function<void(IngestionJob&)>> job_handlers_;
+    std::mutex handlers_mutex_;
+    
     // Statistics
     std::atomic<uint64_t> total_jobs_processed_;
     std::atomic<uint64_t> total_jobs_failed_;
     std::atomic<uint64_t> total_items_processed_;
+    
+    // Plugin registry (NEW)
+    std::map<std::string, std::shared_ptr<IngestionPlugin>> plugins_;
+    mutable std::mutex plugins_mutex_;
     
     // Worker thread function
     void workerLoop(int worker_id);
@@ -250,6 +337,7 @@ private:
     void processSingleFile(IngestionJob& job);
     void processArchive(IngestionJob& job);
     void processBatchFiles(IngestionJob& job);
+    void processPluginJob(IngestionJob& job);  // NEW: Plugin-based processing
     
     // Helpers
     std::string generateJobId();

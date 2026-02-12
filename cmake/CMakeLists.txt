@@ -1327,6 +1327,7 @@ set(THEMIS_CORE_SOURCES
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/archive_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/async_ingestion_worker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/ingestion_plugin.cpp>
     
     # Content Pipeline (GAP-005) - Enhanced with streaming and multi-modal support
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/pipeline/zstd_compression.cpp>
@@ -1525,6 +1526,7 @@ set(THEMIS_CORE_SOURCES
     ../src/plugins/plugin_hot_plug_monitor.cpp
     ../src/plugins/plugin_registry.cpp
     ../src/plugins/plugin_metrics.cpp
+    ../src/plugins/huggingface_ingestion_plugin.cpp
     
     # Multi-tenancy support
     ../src/server/tenant_manager.cpp
