@@ -135,6 +135,70 @@ python3 scripts/docs-lint.py --format json --output lint-report.json
 - [Documentation Validation Guide (English)](../docs/DOCUMENTATION_VALIDATION.md)
 - [Dokumentations-Validierung (Deutsch)](../docs/de/DOKUMENTATIONS_VALIDIERUNG.md)
 
+### Legal Training Data Ingestion (Updated v2.0)
+
+Scripts for automatically downloading and importing German legal training data from multiple HuggingFace sources with automatic fallback:
+
+- **`ingest_legal_training_data.py`** - Download and convert German legal datasets from HuggingFace or local files
+- **`generate_legal_rocksdb.py`** - Generate C++ RocksDB importer for legal training data
+
+**⚠️ IMPORTANT UPDATE**: The original dataset `joelito/legal_mc_de` is no longer available. The system now supports multiple alternative datasets with automatic fallback.
+
+**Dataset Information:**
+- **Primary**: `joelNiklaus/MultiLegalPile` (German subset) - **RECOMMENDED**
+  - URL: https://huggingface.co/datasets/joelNiklaus/MultiLegalPile
+- **Alternative 1**: `elenanereiss/german-ler`
+  - URL: https://huggingface.co/datasets/elenanereiss/german-ler
+- **Alternative 2**: Local custom datasets (JSON format)
+- **Language**: German (de)
+- **Domain**: Legal documents
+- **Default samples**: 10,000
+
+**Features:**
+- **Automatic fallback** across multiple datasets
+- Dataset availability checking
+- Local file support for custom datasets
+- ThemisDB JSON format conversion
+- RocksDB database generation
+- CMake build integration
+
+**Quick Start:**
+```bash
+# List available datasets
+python3 scripts/ingest_legal_training_data.py --list-datasets
+
+# Download using automatic fallback (tries MultiLegalPile first)
+python3 scripts/ingest_legal_training_data.py \
+    --output data/legal_training_data.json \
+    --max-samples 10000
+
+# Specify a specific dataset
+python3 scripts/ingest_legal_training_data.py \
+    --dataset joelNiklaus/MultiLegalPile \
+    --max-samples 10000
+
+# Use a local dataset
+python3 scripts/ingest_legal_training_data.py \
+    --local-file custom_legal_data.json
+
+# Generate RocksDB importer
+python3 scripts/generate_legal_rocksdb.py \
+    --method cpp \
+    --output data/legal_training.db
+```
+
+**CMake Integration:**
+```bash
+# Enable during build
+cmake -B build -DTHEMIS_BUILD_LEGAL_TRAINING_DATA=ON
+
+# Build the database
+cmake --build build --target legal_training_data
+```
+
+**Documentation:**
+- [Legal Training Data Build Guide](../docs/en/development/LEGAL_TRAINING_DATA_BUILD.md)
+
 ### Security & Compliance Scripts
 
 Scripts for security auditing and compliance verification:
