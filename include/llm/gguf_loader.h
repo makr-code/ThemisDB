@@ -133,8 +133,8 @@ private:
     bool parseTensorInfo();
     
     // Type size helpers
-    size_t getDtypeSize(const std::string& dtype);
-    size_t getGGMLTypeSize(GGMLType type);
+    size_t getDtypeSize(const std::string& dtype) const;
+    size_t getGGMLTypeSize(GGMLType type) const;
     
     // Metadata parsing helpers
     bool readString(size_t& offset, std::string& out);

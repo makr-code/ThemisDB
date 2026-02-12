@@ -1,4 +1,5 @@
 #include "llm/attention/kv_cache_manager.h"
+#include "utils/type_conversion.h"
 #include <stdexcept>
 #include <cstring>
 
