@@ -5,6 +5,7 @@
 #include <atomic>
 #include <optional>
 #include <functional>
+#include <utility>  // for std::declval
 
 /**
  * @file thread_safety.h
@@ -80,7 +81,7 @@ public:
      * @return Return value of func
      */
     template<typename Func>
-    auto with_lock(Func&& func) const -> decltype(func(value_)) {
+    auto with_lock(Func&& func) const -> decltype(func(std::declval<const T&>())) {
         std::lock_guard<std::mutex> lock(mutex_);
         return func(value_);
     }
@@ -95,7 +96,7 @@ public:
      * @return Return value of func
      */
     template<typename Func>
-    auto with_lock(Func&& func) -> decltype(func(value_)) {
+    auto with_lock(Func&& func) -> decltype(func(std::declval<T&>())) {
         std::lock_guard<std::mutex> lock(mutex_);
         return func(value_);
     }
@@ -136,7 +137,7 @@ public:
      * @return Return value of func
      */
     template<typename Func>
-    auto with_shared_lock(Func&& func) const -> decltype(func(value_)) {
+    auto with_shared_lock(Func&& func) const -> decltype(func(std::declval<const T&>())) {
         std::shared_lock<std::shared_mutex> lock(mutex_);
         return func(value_);
     }
@@ -151,7 +152,7 @@ public:
      * @return Return value of func
      */
     template<typename Func>
-    auto with_unique_lock(Func&& func) -> decltype(func(value_)) {
+    auto with_unique_lock(Func&& func) -> decltype(func(std::declval<T&>())) {
         std::unique_lock<std::shared_mutex> lock(mutex_);
         return func(value_);
     }
