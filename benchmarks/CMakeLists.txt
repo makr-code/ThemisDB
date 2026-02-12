@@ -521,7 +521,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_data_transfer.cpp" AND (THEMIS_ENAB
 endif()
 
 # 5. Backend Comparison Benchmarks
-if(THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_comparison.cpp")
+if(THEMIS_ENABLE_LLM AND THEMIS_ENABLE_GPU AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_backend_comparison.cpp")
     message(STATUS "Adding Backend Comparison benchmarks")
     
     add_executable(bench_backend_comparison

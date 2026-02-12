@@ -793,6 +793,16 @@ if(THEMIS_ENABLE_ASAN)
     endif()
 endif()
 
+# LeakSanitizer support
+if(THEMIS_ENABLE_LSAN)
+    if(NOT MSVC)
+        add_compile_options(-fsanitize=leak -fno-omit-frame-pointer)
+        add_link_options(-fsanitize=leak)
+    else()
+        message(WARNING "LeakSanitizer not supported on MSVC")
+    endif()
+endif()
+
 # Optionale lokale clang-tidy Aktivierung (nicht in CI standardm��ig).
 if(ENABLE_LOCAL_CLANG_TIDY)
     find_program(CLANG_TIDY_EXE NAMES clang-tidy)
@@ -2947,13 +2957,16 @@ if(THEMIS_BUILD_TESTS)
     endif()
 endif()
 
-# Benchmarks
-option(THEMIS_BUILD_DOCKER_RAID_BENCHMARK "Build Docker RAID comprehensive benchmark" OFF)
+# ============================================================================
+# BENCHMARKS: Now managed via benchmarks/CMakeLists.txt (included via add_subdirectory)
+# ============================================================================
+# Previous benchmark definitions have been moved to the dedicated benchmarks/
+# subdirectory. All benchmark targets should be defined in benchmarks/CMakeLists.txt
+# to avoid duplicate target errors. The benchmarks are included via:
+#   add_subdirectory(benchmarks)
+# ============================================================================
+if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
 
-if(THEMIS_BUILD_BENCHMARKS)
-    find_package(benchmark CONFIG REQUIRED)
-    
-    # Modern performance benchmarks (all core areas)
     add_executable(bench_core_performance
         ${THEMIS_ROOT_DIR}/benchmarks/bench_core_performance.cpp
     )
@@ -2977,19 +2990,7 @@ if(THEMIS_BUILD_BENCHMARKS)
             benchmark::benchmark_main
     )
     
-    # Advanced patterns: Read/Write ratios, Parallelity, Self-Protection, Best-Practices, Gap-Analysis
-    if(NOT TARGET bench_advanced_patterns)
-        add_executable(bench_advanced_patterns
-            ${THEMIS_ROOT_DIR}/benchmarks/bench_advanced_patterns.cpp
-        )
-
-        target_link_libraries(bench_advanced_patterns
-            PRIVATE
-                themis_core
-                benchmark::benchmark
-                benchmark::benchmark_main
-        )
-    endif()
+    # Note: bench_advanced_patterns is now defined in benchmarks/CMakeLists.txt
 
     add_executable(bench_hotspots_micro
         ${THEMIS_ROOT_DIR}/benchmarks/bench_hotspots_micro.cpp
@@ -3627,7 +3628,7 @@ if(THEMIS_BUILD_BENCHMARKS)
         message(STATUS "Plugin Hot-Plug Monitoring Benchmark: Enabled")
     endif()
 
-endif()
+endif()  # if(FALSE) - Disabled old benchmark definitions
 
 if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
     find_package(benchmark CONFIG REQUIRED)
@@ -3658,7 +3659,7 @@ if(THEMIS_BUILD_DOCKER_RAID_BENCHMARK)
             benchmark::benchmark_main
         )
     endif()
-endif()
+endif()  # THEMIS_BUILD_DOCKER_RAID_BENCHMARK
 
 # Admin Tools (.NET)
 option(THEMIS_BUILD_ADMIN_TOOLS "Build .NET admin tools (requires .NET SDK 8.0+)" OFF)

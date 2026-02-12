@@ -26,7 +26,6 @@
 
 #ifdef _MSC_VER
 #pragma warning(push)
-#pragma warning(disable : 4100) // ctx unused in some inline functions
 #pragma warning(disable : 4244) // potential narrowing in constants
 #pragma warning(disable : 4146) // unary minus on unsigned
 #endif
@@ -61,7 +60,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -97,7 +96,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -131,7 +130,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -170,7 +169,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -219,7 +218,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -262,7 +261,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -321,7 +320,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -387,7 +386,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return "";
         if (!args[0].is_string()) return args[0].dump();
         
@@ -497,7 +496,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return false;
         if (!args[0].is_string()) return false;
         
@@ -595,7 +594,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return "";
         if (!args[0].is_string()) return args[0].dump();
         
@@ -642,7 +641,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return "";
         if (!args[0].is_string()) return "";
         
@@ -701,7 +700,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return "";
         if (!args[0].is_string()) return "";
         
@@ -741,7 +740,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return "";
         if (!args[0].is_string()) return "";
         
@@ -790,7 +789,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return "";
         if (!args[0].is_string()) return "";
         
@@ -850,7 +849,7 @@ public:
     }
     
     nlohmann::json execute(const std::vector<nlohmann::json>& args,
-                          const FunctionContext& ctx) const override {
+                          [[maybe_unused]] const FunctionContext& ctx) const override {
         if (args.empty() || args[0].is_null()) return 0;
         
         std::string data;

@@ -39,7 +39,7 @@ public:
     virtual ~ICache() = default;
 
     // Core cache operations
-    virtual std::optional<CacheEntry> get(std::string_view key) = 0;
+    virtual std::optional<CacheEntry> get(std::string_view key) const = 0;
     virtual bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) = 0;
     virtual void invalidate(std::string_view key) = 0;
     virtual void clear() = 0;
@@ -60,6 +60,7 @@ public:
     // Optional: Strategy pattern support (not all implementations need this)
     // Return nullptr if strategy pattern is not supported
     virtual IEvictionStrategy* getEvictionStrategy() { return nullptr; }
+    virtual const IEvictionStrategy* getEvictionStrategy() const { return nullptr; }
     
     // Optional: Metrics support (not all implementations need this)
     // Return nullptr if detailed metrics are not available

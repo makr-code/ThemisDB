@@ -372,7 +372,7 @@ bool GGUFLoader::parseTensorInfo() {
     return true;
 }
 
-size_t GGUFLoader::getGGMLTypeSize(GGMLType type) {
+size_t GGUFLoader::getGGMLTypeSize(GGMLType type) const {
     switch (type) {
         case GGMLType::F32: return 4;
         case GGMLType::F16: return 2;
@@ -689,7 +689,7 @@ bool GGUFLoader::validateQuantizationMetadata(const std::string& tensor_name) co
     return true;
 }
 
-size_t GGUFLoader::getDtypeSize(const std::string& dtype) {
+size_t GGUFLoader::getDtypeSize(const std::string& dtype) const {
     if (dtype == "float32") return 4;
     if (dtype == "float16") return 2;
     if (dtype == "int8") return 1;

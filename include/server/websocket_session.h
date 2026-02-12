@@ -83,7 +83,7 @@ public:
     /**
      * @brief Get session ID
      */
-    std::string getSessionId() const { return session_id_; }
+    const std::string& getSessionId() const { return session_id_; }
     
     /**
      * @brief Subscribe to CDC changefeed

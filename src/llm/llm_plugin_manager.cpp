@@ -254,12 +254,12 @@ std::vector<std::string> LLMPluginManager::listModels() const {
     return models;
 }
 
-bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, const std::string& base_model) {
+bool LLMPluginManager::loadLoRA(const std::string& lora_id, const std::string& path, 
+                                [[maybe_unused]] const std::string& base_model) {
     auto* plugin = getDefaultPlugin();
     if (!plugin) {
         throw std::runtime_error("No default LLM plugin available");
     }
-    (void)base_model;
     return plugin->loadLoRA(lora_id, path, 1.0f);
 }
 
@@ -301,8 +301,8 @@ std::vector<std::string> LLMPluginManager::generateStream(const InferenceRequest
     return tokens;
 }
 
-bool LLMPluginManager::ingestModel(const std::string& model_id, const std::string& data) {
-    (void)data;
+bool LLMPluginManager::ingestModel(const std::string& model_id, 
+                                   [[maybe_unused]] const std::string& data) {
     return loadModel(model_id, model_id);
 }
 

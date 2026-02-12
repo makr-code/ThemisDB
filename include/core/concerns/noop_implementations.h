@@ -85,7 +85,7 @@ public:
  */
 class NoOpCache : public ICache {
 public:
-    std::optional<CacheEntry> get(std::string_view key) override { return std::nullopt; }
+    std::optional<CacheEntry> get(std::string_view key) const override { return std::nullopt; }
     bool put(std::string_view key, const CacheEntry& entry, uint64_t ttl_ms = 0) override { return true; }
     void invalidate(std::string_view key) override {}
     void clear() override {}

@@ -1,0 +1,27 @@
+diff --git a/faiss/CMakeLists.txt b/faiss/CMakeLists.txt
+index 85b8168..2c5c147 100644
+--- a/faiss/CMakeLists.txt
++++ b/faiss/CMakeLists.txt
+@@ -465,10 +465,20 @@ else()
+   target_link_libraries(faiss_avx512_spr PRIVATE ${BLAS_LIBRARIES})
+   target_link_libraries(faiss_sve PRIVATE ${BLAS_LIBRARIES})
+ 
+-  find_package(LAPACK REQUIRED)
++  if(NOT LAPACK_LIBRARIES AND NOT TARGET LAPACK::LAPACK)
++    find_package(LAPACK REQUIRED)
++  endif()
++
++  if(LAPACK_LIBRARIES AND NOT TARGET LAPACK::LAPACK)
++    add_library(LAPACK::LAPACK INTERFACE IMPORTED)
++    set_target_properties(LAPACK::LAPACK PROPERTIES
++      INTERFACE_LINK_LIBRARIES "${LAPACK_LIBRARIES}"
++    )
++  endif()
++
+   target_link_libraries(faiss PRIVATE ${LAPACK_LIBRARIES})
+   target_link_libraries(faiss_avx2 PRIVATE ${LAPACK_LIBRARIES})
+   target_link_libraries(faiss_avx512 PRIVATE ${LAPACK_LIBRARIES})
+   target_link_libraries(faiss_avx512_spr PRIVATE ${LAPACK_LIBRARIES})
+    target_link_libraries(faiss_sve PRIVATE ${LAPACK_LIBRARIES})
+ endif()
+

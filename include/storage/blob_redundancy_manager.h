@@ -424,12 +424,12 @@ public:
     // Tier Management
     Result<void> tierDown(const std::string& blob_id, StorageTier target);
     Result<void> tierUp(const std::string& blob_id, StorageTier target);
-    std::vector<std::string> getBlobsForTierDown();
+    std::vector<std::string> getBlobsForTierDown() const;
     
     // Health and Monitoring
-    BlobMetadata getBlobMetadata(const std::string& blob_id);
-    std::vector<std::string> getDegradedBlobs();
-    std::vector<std::string> getCriticalBlobs();
+    BlobMetadata getBlobMetadata(const std::string& blob_id) const;
+    std::vector<std::string> getDegradedBlobs() const;
+    std::vector<std::string> getCriticalBlobs() const;
     BlobRedundancyStats getStats() const;
     
     // Maintenance
