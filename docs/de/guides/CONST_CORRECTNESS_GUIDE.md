@@ -256,21 +256,25 @@ void goodFunction(Data& data) {
 ### ❌ Const bei Return-by-Value
 
 ```cpp
-// Nutzlos - const auf Return-Type verhindert move
+// Unnötig - const auf Return-Type ist nutzlos (C++17+)
 const std::string badGetter() const {
-    //           ^--- ⚠️ const hier ist falsch!
-    return name_;  // RVO/move wird verhindert
+    //           ^--- ⚠️ const hier ist unnötig/verwirrend
+    return name_;  // Kann move beim Assignment verhindern (pre-C++17)
 }
 
 // Gut - const nur auf Methode, nicht auf Return-Type
 std::string goodGetter() const {
     //      ^--- Kein const auf Return-Type!  
     //                    ^--- const auf Methode ist OK!
-    return name_;  // ✅ Kann moved werden
+    return name_;  // ✅ Klar und eindeutig
 }
 ```
 
-**Wichtig**: `const` auf der Methode (rechts) ist gut, `const` auf dem Return-Type (links) ist schlecht!
+**Wichtig**: 
+- `const` auf der Methode (rechts) = gut ✅
+- `const` auf dem Return-Type (links) = unnötig/verwirrend ⚠️
+- In C++17+ mit guaranteed copy elision ist dies primär ein Style-Issue
+- Pre-C++17 konnte es move-Semantik behindern
 
 ### ❌ Mutable Missbrauch
 
