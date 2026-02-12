@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Config Architecture Reorganization** 🗂️
+  - **Hierarchical Directory Structure**: Reorganized all config files into logical categories
+    - `config/core/` - Core system configurations (config.yaml, security.yaml, updates.yaml)
+    - `config/platform/` - Platform-specific configs (rpi3, rpi4, rpi5, qnap)
+    - `config/ai_ml/` - AI/ML configurations (LLM, vision, LoRA, RAG)
+    - `config/security/` - Security & authentication configs (RBAC, PII, Kerberos)
+    - `config/compliance/` - Compliance & ethics (ethical guidelines, audit, governance)
+    - `config/performance/` - Performance optimizations (scaling, query cache, acceleration)
+    - `config/data_management/` - Data lifecycle (retention, redundancy, MIME types)
+    - `config/distributed/` - Distributed system configs (replication, sharding)
+    - `config/licensing/` - License configurations (community, enterprise)
+    - `config/networking/` - Network configurations (connection pooling)
+    - `config/content/` - Content processing (processors, edge types)
+    - `config/monitoring/` - Monitoring & observability (Prometheus metrics)
+    - `config/features/` - Feature flags and capability generation
+    - `config/assistants/` - Assistant configurations (docs, feedback)
+    - `config/processing/` - Stream/event processing (CEP rules)
+    - `config/deprecated/` - Deprecated/backup files
+  - **ConfigPathResolver Utility**: Automatic backward compatibility layer
+    - Resolves legacy paths to new hierarchical locations
+    - Provides fallback mechanism with deprecation warnings
+    - Zero breaking changes to existing code
+    - Includes `resolve()`, `tryResolve()`, and `mapLegacyToNew()` methods
+  - **Updated C++ Code Paths**: Updated all config loading code to use new structure
+    - `src/server/http_server.cpp` - LoRA training config
+    - `src/server/mcp_server.cpp` - LLM system prompts
+    - `src/utils/pii_detector.cpp` - PII patterns
+    - `src/main_server.cpp` - Core config, security, retention policies
+    - `src/index/vector_index.cpp` - Scaling optimizations
+    - `src/content/mime_detector.cpp` - MIME types
+  - **Comprehensive Documentation**:
+    - `config/README.md` - Complete directory structure overview
+    - `config/MIGRATION_GUIDE.md` - Detailed migration instructions
+    - Full path mapping table (60+ config files)
+  - **Benefits**: Improved organization, better discoverability, scalability, backward compatibility
+
 ### Added
 - **v1.5.x Query Optimizer Production Integration** 🎯
   - **Shard Metadata Integration (preparatory)**: Integration point for metadata-backed row estimates

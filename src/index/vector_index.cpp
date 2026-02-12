@@ -12,6 +12,7 @@
 #include "utils/logger.h"
 #include "utils/simd_distance.h"
 #include "utils/audit_logger.h"  // Phase 1: Knowledge Graph Protection
+#include "config/config_path_resolver.h"
 
 // EXPERIMENTAL: Lossless vector compression support
 // NOTE: This is a scientific experiment and may be rolled back.
@@ -131,8 +132,11 @@ void VectorIndexManager::logAuditEvent_(const std::string& event_type, const std
 // Phase 4: Load HNSW optimization configuration from YAML
 void VectorIndexManager::loadHnswOptimizationConfig_() {
 	try {
-		// Try to load configuration from scaling_optimizations.yaml
-		std::string config_path = "./config/scaling_optimizations.yaml";
+		// Try to load configuration from scaling_optimizations.yaml (new path first, then legacy)
+		std::string config_path = themis::config::ConfigPathResolver::mapLegacyToNew("./config/scaling_optimizations.yaml");
+		if (!std::filesystem::exists(config_path)) {
+			config_path = "./config/scaling_optimizations.yaml";
+		}
 		if (!std::filesystem::exists(config_path)) {
 			THEMIS_DEBUG("HNSW optimization config not found at {}, using defaults", config_path);
 			return;

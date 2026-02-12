@@ -9,6 +9,7 @@
 #include "prompt_engineering/prompt_manager.h"
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
+#include "config/config_path_resolver.h"
 #include "version.h"
 #include <spdlog/spdlog.h>
 #include <iostream>
@@ -122,7 +123,11 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         prompt_mgr_ = std::make_unique<PromptManager>();
         
         // Try to load prompts from YAML file
-        std::string prompt_file = "config/llm_system_prompts.yaml";
+        std::string prompt_file = themis::config::ConfigPathResolver::mapLegacyToNew("config/llm_system_prompts.yaml");
+        // Fall back to legacy path if new one doesn't exist
+        if (!std::filesystem::exists(prompt_file)) {
+            prompt_file = "config/llm_system_prompts.yaml";
+        }
         size_t loaded = prompt_mgr_->loadFromYAML(prompt_file);
         if (loaded > 0) {
             spdlog::info("MCP Server loaded {} system prompts from {}", loaded, prompt_file);
