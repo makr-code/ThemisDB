@@ -33,9 +33,9 @@ The modular AI-Guardrails architecture provides:
 
 ### For Contributors
 
-1. **Read Main Instructions**: Start with [COPILOT_INSTRUCTIONS.md](COPILOT_INSTRUCTIONS.md)
+1. **Read Main Instructions**: Start with [../COPILOT_INSTRUCTIONS.md](../COPILOT_INSTRUCTIONS.md)
 2. **Dive into Modules**: Follow links to relevant guides
-3. **Setup Dev Environment**: Use [copilot/VSCODE_CONTEXT.md](copilot/VSCODE_CONTEXT.md)
+3. **Setup Dev Environment**: Use [VSCODE_CONTEXT.md](VSCODE_CONTEXT.md)
 
 ### For Maintainers
 
@@ -211,10 +211,10 @@ When contributing to AI-Guardrails:
 
 ## 📚 Related Documentation
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
-- [ARCHITECTURE.md](../ARCHITECTURE.md) - System architecture
-- [.devcontainer/](../.devcontainer/) - Dev Container setup
-- [.pre-commit-config.yaml](../.pre-commit-config.yaml) - Pre-commit hooks
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Contribution guidelines
+- [ARCHITECTURE.md](../../ARCHITECTURE.md) - System architecture
+- [.devcontainer/](../../.devcontainer/devcontainer.json) - Dev Container setup
+- [.pre-commit-config.yaml](../../.pre-commit-config.yaml) - Pre-commit hooks
 
 ## ❓ FAQ
 
@@ -259,7 +259,7 @@ A: Common issues:
 
 For questions or issues:
 - Open an issue with label `area:documentation`
-- Consult [CONTRIBUTING.md](../CONTRIBUTING.md)
+- Consult [CONTRIBUTING.md](../../CONTRIBUTING.md)
 - Ask in team chat/discussions
 
 ---
