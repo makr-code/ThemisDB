@@ -334,22 +334,26 @@ TEST(SafeArithmeticTest, SafeIterateFromStart) {
 
 TEST(SafeArithmeticTest, SafeIterateNegativeIndex) {
     std::vector<int> data = {1, 2, 3};
+    bool callback_called = false;
     
-    bool success = safe_iterate(data, -1, [](size_t) {
-        // Should not be called
+    bool success = safe_iterate(data, -1, [&](size_t) {
+        callback_called = true;  // Should not be called
     });
     
     EXPECT_FALSE(success);
+    EXPECT_FALSE(callback_called);  // Verify callback was never invoked
 }
 
 TEST(SafeArithmeticTest, SafeIterateOutOfBounds) {
     std::vector<int> data = {1, 2, 3};
+    bool callback_called = false;
     
-    bool success = safe_iterate(data, 10, [](size_t) {
-        // Should not be called
+    bool success = safe_iterate(data, 10, [&](size_t) {
+        callback_called = true;  // Should not be called
     });
     
     EXPECT_FALSE(success);
+    EXPECT_FALSE(callback_called);  // Verify callback was never invoked
 }
 
 // ============================================================================
