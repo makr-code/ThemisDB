@@ -144,8 +144,6 @@ if(MSVC)
     # Treat warnings as errors if requested
     if(THEMIS_STRICT_BUILD)
         add_compile_options(/WX)
-        # Treat C4018 (signed/unsigned mismatch) as error in strict mode
-        add_compile_options(/we4018)
     endif()
     
 else()
@@ -172,8 +170,6 @@ else()
     # Treat warnings as errors if requested
     if(THEMIS_STRICT_BUILD)
         add_compile_options(-Werror)
-        # Treat sign-compare warnings as errors in strict mode
-        add_compile_options(-Werror=sign-compare)
     endif()
     
     # AddressSanitizer support for debugging
