@@ -327,13 +327,23 @@ cmake --build build
 
 ### Combining Sanitizers
 
+AddressSanitizer includes LeakSanitizer by default on most platforms, so you typically only need to enable ASAN:
+
 ```bash
-# ASAN and LSAN can be combined
-cmake -B build -DTHEMIS_ENABLE_ASAN=ON -DTHEMIS_ENABLE_LSAN=ON
+# ASAN includes LSAN automatically
+cmake -B build -DTHEMIS_ENABLE_ASAN=ON
 cmake --build build
 
+# Enable leak detection (usually enabled by default with ASAN)
 ASAN_OPTIONS=detect_leaks=1 ./build/tests/all_tests
+
+# Or use LSAN separately if needed
+cmake -B build -DTHEMIS_ENABLE_LSAN=ON
+cmake --build build
+LSAN_OPTIONS=verbosity=1:log_threads=1 ./build/tests/all_tests
 ```
+
+**Note**: When both ASAN and LSAN are enabled via CMake flags, ASAN_OPTIONS controls both sanitizers since LSAN is integrated into ASAN.
 
 ## Best Practices
 

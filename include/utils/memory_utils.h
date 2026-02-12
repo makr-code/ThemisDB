@@ -201,11 +201,17 @@ public:
     
     /**
      * @brief Release ownership of the pointer
+     * 
+     * Returns the raw pointer and relinquishes ownership.
+     * The caller becomes responsible for freeing the memory.
+     * Size is reset after releasing to maintain consistency.
+     * 
      * @return void* Raw pointer (caller owns)
      */
     void* release() noexcept {
-        size_ = 0;
-        return ptr_.release();
+        void* result = ptr_.release();
+        size_ = 0;  // Reset size after release for consistency
+        return result;
     }
     
     /**

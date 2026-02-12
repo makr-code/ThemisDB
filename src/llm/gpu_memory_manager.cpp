@@ -340,8 +340,9 @@ void* GPUMemoryManager::allocateGPU(const std::string& model_id, size_t bytes) {
     alloc.model_id = model_id;
     alloc.vram_bytes = bytes;
     alloc.gpu_ptr = ptr;
+    alloc.gpu_device_id = 0;  // Default GPU device
     alloc.holder = std::make_shared<detail::MemoryHolder>(
-        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_
+        ptr, bytes, detail::MemoryHolder::Type::GPU, gpu_available_, 0  // device_id = 0
     );
     
     allocations_[model_id].push_back(std::move(alloc));
@@ -1059,6 +1060,13 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
             freed_vram += alloc_it->vram_bytes;
             freed_ram += alloc_it->ram_bytes;
             
+            // Update per-GPU tracking for this specific allocation
+            if (is_target_gpu && alloc_it->vram_bytes > 0) {
+                if (per_gpu_vram_used_.find(alloc_it->gpu_device_id) != per_gpu_vram_used_.end()) {
+                    per_gpu_vram_used_[alloc_it->gpu_device_id] -= alloc_it->vram_bytes;
+                }
+            }
+            
             // Erase triggers holder destructor for automatic cleanup
             alloc_it = allocs.erase(alloc_it);
         } else {
@@ -1068,9 +1076,6 @@ bool GPUMemoryManager::freeModel(const std::string& model_id, int gpu_device_id)
     
     total_vram_used_ -= freed_vram;
     total_ram_used_ -= freed_ram;
-    if (per_gpu_vram_used_.find(gpu_device_id) != per_gpu_vram_used_.end()) {
-        per_gpu_vram_used_[gpu_device_id] -= freed_vram;
-    }
     
     if (allocs.empty()) {
         allocations_.erase(it);
