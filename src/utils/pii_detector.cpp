@@ -1,5 +1,6 @@
 #include "utils/pii_detector.h"
 #include "utils/pii_detection_engine.h"
+#include "config/config_path_resolver.h"
 #include <algorithm>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
@@ -172,24 +173,31 @@ nlohmann::json PIIDetector::getEngineMetadata() const {
 
 bool PIIDetector::loadFromYaml(const std::string& path) {
     try {
-        // If the provided path doesn't point to an existing file, and is
-        // relative, try walking up a few parent directories to find a
-        // repository-level `config/` directory (useful when running tests
-        // from the `build/` directory).
-        std::string resolved = path;
-        if (!std::filesystem::exists(resolved)) {
-            if (!std::filesystem::path(resolved).is_absolute()) {
-                std::filesystem::path cur = std::filesystem::current_path();
-                [[maybe_unused]] bool found = false;
-                // Try up to 4 levels up
-                for (int i = 0; i < 4; ++i) {
-                    std::filesystem::path candidate = cur;
-                    for (int j = 0; j < i; ++j) candidate = candidate.parent_path();
-                    candidate /= resolved;
-                    if (std::filesystem::exists(candidate)) {
-                        resolved = candidate.string();
-                        found = true;
-                        break;
+        // Use ConfigPathResolver to handle both new and legacy paths
+        std::string resolved;
+        auto maybe_resolved = themis::config::ConfigPathResolver::tryResolve(path);
+        if (maybe_resolved) {
+            resolved = *maybe_resolved;
+        } else {
+            // If the provided path doesn't point to an existing file, and is
+            // relative, try walking up a few parent directories to find a
+            // repository-level `config/` directory (useful when running tests
+            // from the `build/` directory).
+            resolved = path;
+            if (!std::filesystem::exists(resolved)) {
+                if (!std::filesystem::path(resolved).is_absolute()) {
+                    std::filesystem::path cur = std::filesystem::current_path();
+                    [[maybe_unused]] bool found = false;
+                    // Try up to 4 levels up
+                    for (int i = 0; i < 4; ++i) {
+                        std::filesystem::path candidate = cur;
+                        for (int j = 0; j < i; ++j) candidate = candidate.parent_path();
+                        candidate /= resolved;
+                        if (std::filesystem::exists(candidate)) {
+                            resolved = candidate.string();
+                            found = true;
+                            break;
+                        }
                     }
                 }
             }

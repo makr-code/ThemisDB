@@ -1,5 +1,6 @@
 #include "content/mime_detector.h"
 #include "storage/security_signature_manager.h"
+#include "config/config_path_resolver.h"
 #include <openssl/sha.h>
 #include <yaml-cpp/yaml.h>
 #include <algorithm>
@@ -25,10 +26,13 @@ bool MimeDetector::reloadConfig(const std::string& config_path) {
 }
 
 std::string MimeDetector::getDefaultConfigPath() const {
-    // Try multiple locations
+    // Try multiple locations (new hierarchical structure first, then legacy)
     std::vector<std::string> candidates = {
+        "config/data_management/mime_types.yaml",
         "config/mime_types.yaml",
+        "../config/data_management/mime_types.yaml",
         "../config/mime_types.yaml",
+        "../../config/data_management/mime_types.yaml",
         "../../config/mime_types.yaml",
         "/etc/themis/mime_types.yaml"
     };
@@ -37,6 +41,12 @@ std::string MimeDetector::getDefaultConfigPath() const {
         if (fs::exists(candidate)) {
             return candidate;
         }
+    }
+    
+    // Try using ConfigPathResolver
+    auto resolved = themis::config::ConfigPathResolver::tryResolve("config/mime_types.yaml");
+    if (resolved) {
+        return *resolved;
     }
     
     return "config/mime_types.yaml";  // Default fallback
