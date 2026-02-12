@@ -45,8 +45,9 @@ for (const auto& item : data) {
     process(item);
 }
 
-// Option 3: Mit Index via enumerate-Pattern
-for (size_t i = 0; const auto& item : data) {
+// Option 3: Mit Index via separate counter
+size_t i = 0;
+for (const auto& item : data) {
     process(item, i++);
 }
 ```
