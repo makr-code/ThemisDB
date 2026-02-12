@@ -2,25 +2,23 @@
   <h1>🗄️ ThemisDB</h1>
   <p><strong>High-Performance Multi-Model Database with Native AI/LLM Integration</strong></p>
   
-  [![CI](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
-  [![Security Scanning](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/security.yml)
-  [![Performance](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/nightly.yml)
-  [![Compliance](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/compliance.yml)
-  [![Documentation](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/docs.yml)
-  [![Test Report](https://img.shields.io/badge/tests-view%20report-blue)](https://github.com/makr-code/ThemisDB/actions/workflows/ci-pull-request.yml)
+  <!-- CI/CD Status -->
+  [![AI Guardrails](https://github.com/makr-code/ThemisDB/actions/workflows/validate-ai-guardrails.yml/badge.svg)](https://github.com/makr-code/ThemisDB/actions/workflows/validate-ai-guardrails.yml)
   [![Coverage](https://img.shields.io/badge/coverage-view%20report-brightgreen)](https://makr-code.github.io/ThemisDB/coverage/)
+  
+  <!-- Distribution -->
   [![Docker](https://img.shields.io/badge/docker-themisdb%2Fthemisdb-blue?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Docker Version](https://img.shields.io/docker/v/themisdb/themisdb/latest?label=version&logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Docker Image Size](https://img.shields.io/docker/image-size/themisdb/themisdb/latest?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
   [![Docker Pulls](https://img.shields.io/docker/pulls/themisdb/themisdb?logo=docker)](https://hub.docker.com/r/themisdb/themisdb)
+  
+  <!-- Meta -->
   [![Version](https://img.shields.io/badge/version-1.5.0--dev-blue)](https://github.com/makr-code/ThemisDB/releases)
   [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
   
-  <!-- Code Statistics Badges (branch-specific) -->
-  <!-- For develop branch, use: develop instead of main in URLs -->
+  <!-- Code Statistics -->
   ![Lines of Code](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/lines-of-code.json)
   ![File Count](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/makr-code/ThemisDB/develop/.github/badges/file-count.json)
-  ![CI/CD](https://github.com/makr-code/ThemisDB/actions/workflows/code-stats.yml/badge.svg)
 </div>
 
 ## What is ThemisDB?
