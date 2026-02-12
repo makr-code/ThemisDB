@@ -261,8 +261,8 @@ public:
     
     // API Configuration
     VisionAPIStability getAPIStability() const { return api_stability_; }
-    std::string getAPIVersion() const { return api_version_; }
-    std::string getAPIPrefix() const { return api_prefix_; }
+    const std::string& getAPIVersion() const { return api_version_; }
+    const std::string& getAPIPrefix() const { return api_prefix_; }
     bool isBackwardCompatible() const { return backward_compatible_; }
     
     // License Management

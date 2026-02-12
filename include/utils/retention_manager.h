@@ -169,7 +169,7 @@ public:
     /**
      * @brief Get last error message
      */
-    std::string getLastError() const { return last_error_; }
+    const std::string& getLastError() const { return last_error_; }
 
 private:
     std::map<std::string, RetentionPolicy> policies_;
