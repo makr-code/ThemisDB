@@ -256,16 +256,21 @@ void goodFunction(Data& data) {
 ### ❌ Const bei Return-by-Value
 
 ```cpp
-// Nutzlos - verhindert move
+// Nutzlos - const auf Return-Type verhindert move
 const std::string badGetter() const {
-    return name_;  // ⚠️ const verhindert RVO/move
+    //           ^--- ⚠️ const hier ist falsch!
+    return name_;  // RVO/move wird verhindert
 }
 
-// Gut - ermöglicht move
+// Gut - const nur auf Methode, nicht auf Return-Type
 std::string goodGetter() const {
+    //      ^--- Kein const auf Return-Type!  
+    //                    ^--- const auf Methode ist OK!
     return name_;  // ✅ Kann moved werden
 }
 ```
+
+**Wichtig**: `const` auf der Methode (rechts) ist gut, `const` auf dem Return-Type (links) ist schlecht!
 
 ### ❌ Mutable Missbrauch
 
