@@ -289,7 +289,7 @@ public:
     QuantizationStats getQuantizationStats() const;
 
     // Getter für Konfiguration & Statistiken
-    std::string getObjectName() const { return objectName_; }
+    const std::string& getObjectName() const { return objectName_; }
     int getDimension() const { return dim_; }
     Metric getMetric() const { return metric_; }
     int getEfSearch() const { return efSearch_; }
@@ -297,7 +297,7 @@ public:
     int getEfConstruction() const { return efConstruction_; }
     size_t getVectorCount() const { return pkToId_.size(); }
     bool isHnswEnabled() const { return useHnsw_; }
-        std::string getSavePath() const { return savePath_; }
+    const std::string& getSavePath() const { return savePath_; }
     
     /// Get vector by primary key (for searchById support)
     /// Returns nullopt if vector doesn't exist
@@ -306,13 +306,13 @@ public:
     // Encryption configuration (Phase 1)
     bool isVectorEncryptionEnabled() const;
     void setVectorEncryptionEnabled(bool enabled);
-    std::string getVectorKeyId() const { return vectorKeyId_; }
+    const std::string& getVectorKeyId() const { return vectorKeyId_; }
     void setVectorKeyId(const std::string& keyId) { vectorKeyId_ = keyId; }
     
     // Phase 2: HNSW index encryption
     bool isHnswEncryptionEnabled() const;
     void setHnswEncryptionEnabled(bool enabled);
-    std::string getHnswKeyId() const { return hnswKeyId_; }
+    const std::string& getHnswKeyId() const { return hnswKeyId_; }
     void setHnswKeyId(const std::string& keyId) { hnswKeyId_ = keyId; }
     
     // Phase 4: HNSW Layer Optimizer access
