@@ -10,6 +10,7 @@
  */
 
 #include "content/async_ingestion_worker.h"
+#include "content/ingestion_plugin.h"
 #include "content/content_manager.h"
 #include "utils/logger.h"
 #include <chrono>
@@ -46,6 +47,9 @@ std::string jobTypeToString(IngestionJobType type) {
         case IngestionJobType::BATCH_FILES: return "BATCH_FILES";
         case IngestionJobType::URL_FETCH: return "URL_FETCH";
         case IngestionJobType::HUGGINGFACE: return "HUGGINGFACE";
+        case IngestionJobType::FILESYSTEM_BULK: return "FILESYSTEM_BULK";
+        case IngestionJobType::DATABASE_EXPORT: return "DATABASE_EXPORT";
+        case IngestionJobType::REST_API: return "REST_API";
         default: return "UNKNOWN";
     }
 }
@@ -556,8 +560,16 @@ void AsyncIngestionWorker::processJob(IngestionJob& job) {
         case IngestionJobType::BATCH_FILES:
             processBatchFiles(job);
             break;
+        case IngestionJobType::HUGGINGFACE:
+        case IngestionJobType::FILESYSTEM_BULK:
+        case IngestionJobType::DATABASE_EXPORT:
+        case IngestionJobType::REST_API:
+            // Plugin-based job types
+            processPluginJob(job);
+            break;
         default:
-            throw std::runtime_error("Unsupported job type: " + jobTypeToString(job.type));
+            throw std::runtime_error("Unsupported job type: " + 
+                jobTypeToString(job.type));
     }
 }
 
@@ -650,6 +662,166 @@ void AsyncIngestionWorker::processBatchFiles(IngestionJob& job) {
         
         total_items_processed_.fetch_add(1);
     }
+}
+
+// ============================================================================
+// Plugin Management API (NEW)
+// ============================================================================
+
+void AsyncIngestionWorker::registerPlugin(
+    std::shared_ptr<IngestionPlugin> plugin
+) {
+    if (!plugin) {
+        throw std::invalid_argument("Plugin cannot be null");
+    }
+    
+    std::lock_guard<std::mutex> lock(plugins_mutex_);
+    
+    auto name = plugin->name();
+    if (plugins_.find(name) != plugins_.end()) {
+        THEMIS_WARN("Plugin '{}' already registered, replacing", name);
+    }
+    
+    plugins_[name] = plugin;
+    THEMIS_INFO("Registered plugin: {} (version {})", name, plugin->version());
+}
+
+void AsyncIngestionWorker::unregisterPlugin(const std::string& plugin_name) {
+    std::lock_guard<std::mutex> lock(plugins_mutex_);
+    
+    auto it = plugins_.find(plugin_name);
+    if (it != plugins_.end()) {
+        plugins_.erase(it);
+        THEMIS_INFO("Unregistered plugin: {}", plugin_name);
+    } else {
+        THEMIS_WARN("Plugin '{}' not found, nothing to unregister", plugin_name);
+    }
+}
+
+std::vector<std::string> AsyncIngestionWorker::listPlugins() const {
+    std::lock_guard<std::mutex> lock(plugins_mutex_);
+    
+    std::vector<std::string> names;
+    names.reserve(plugins_.size());
+    for (const auto& [name, plugin] : plugins_) {
+        names.push_back(name);
+    }
+    return names;
+}
+
+std::shared_ptr<IngestionPlugin> AsyncIngestionWorker::getPlugin(
+    const std::string& name
+) const {
+    std::lock_guard<std::mutex> lock(plugins_mutex_);
+    
+    auto it = plugins_.find(name);
+    if (it != plugins_.end()) {
+        return it->second;
+    }
+    return nullptr;
+}
+
+std::string AsyncIngestionWorker::submitSourceJob(
+    const IngestionSource& source,
+    const json& additional_config
+) {
+    if (!running_.load()) {
+        throw std::runtime_error("Worker not running");
+    }
+    
+    // Find plugin
+    std::shared_ptr<IngestionPlugin> plugin;
+    {
+        std::lock_guard<std::mutex> lock(plugins_mutex_);
+        auto it = plugins_.find(source.plugin_name);
+        if (it == plugins_.end()) {
+            throw std::runtime_error(
+                "Plugin not found: " + source.plugin_name
+            );
+        }
+        plugin = it->second;
+    }
+    
+    // Create job
+    IngestionJob job;
+    job.job_id = generateJobId();
+    job.type = source.type;
+    job.status = IngestionJobStatus::QUEUED;
+    job.filename = source.location;
+    job.config = source.config;
+    job.config["source"] = source.toJson();
+    job.config.merge_patch(additional_config);
+    job.user_context = "";  // TODO: Add user context support
+    job.created_at = getCurrentTimeMs();
+    job.started_at = 0;
+    job.completed_at = 0;
+    job.processed_items = 0;
+    job.progress = 0.0f;
+    
+    // Estimate size
+    try {
+        job.total_items = static_cast<int>(plugin->estimateJobSize(job));
+    } catch (const std::exception& e) {
+        THEMIS_WARN("Plugin {} failed to estimate job size: {}", 
+            source.plugin_name, e.what());
+        job.total_items = -1;  // Unknown
+    }
+    
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex_);
+        
+        if (job_queue_.size() >= config_.max_queue_size) {
+            throw std::runtime_error("Job queue full");
+        }
+        
+        job_queue_.push(job);
+        
+        // Add to history
+        std::lock_guard<std::mutex> hist_lock(history_mutex_);
+        job_history_[job.job_id] = job;
+    }
+    
+    queue_cv_.notify_one();
+    
+    if (config_.verbose_logging) {
+        THEMIS_INFO("Source job submitted: {} (plugin: {}, type: {})", 
+            job.job_id, source.plugin_name, jobTypeToString(source.type));
+    }
+    
+    return job.job_id;
+}
+
+void AsyncIngestionWorker::loadSourcesFromConfig(const std::string& config_path) {
+    // TODO: Implement YAML config loading
+    // This is left as a future enhancement
+    throw std::runtime_error(
+        "loadSourcesFromConfig not yet implemented. "
+        "Use submitSourceJob() directly for now."
+    );
+}
+
+void AsyncIngestionWorker::processPluginJob(IngestionJob& job) {
+    // Extract source config
+    if (!job.config.contains("source")) {
+        throw std::runtime_error("Plugin job missing source configuration");
+    }
+    
+    auto source_json = job.config["source"];
+    auto source = IngestionSource::fromJson(source_json);
+    
+    // Find plugin
+    std::shared_ptr<IngestionPlugin> plugin;
+    {
+        std::lock_guard<std::mutex> lock(plugins_mutex_);
+        auto it = plugins_.find(source.plugin_name);
+        if (it == plugins_.end()) {
+            throw std::runtime_error("Plugin not found: " + source.plugin_name);
+        }
+        plugin = it->second;
+    }
+    
+    // Process via plugin
+    plugin->processJob(job);
 }
 
 // ============================================================================
