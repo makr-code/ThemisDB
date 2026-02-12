@@ -806,5 +806,91 @@ size_t NlpTextAnalyzer::loadStopWordsFromDirectory(const std::string& directory)
     return loaded_count;
 }
 
+// ========== Legal Modality Extraction ==========
+
+std::string NlpTextAnalyzer::getDefaultLegalConfigPath(const std::string& language_code) const {
+    return "config/nlp/legal/german_modal_verbs.yaml";
+}
+
+bool NlpTextAnalyzer::loadLegalModalityConfig(const std::string& config_path) const {
+    // TODO: Implement YAML parsing properly
+    // For now, return false to use fallback patterns
+    return false;
+}
+
+std::vector<LegalModality> NlpTextAnalyzer::extractLegalModalities(
+    std::string_view text,
+    const std::string& language_code,
+    const std::string& config_path) const {
+    
+    std::vector<LegalModality> modalities;
+    
+    // Determine config file path
+    std::string cfg_path = config_path.empty() 
+        ? getDefaultLegalConfigPath(language_code) 
+        : config_path;
+    
+    // Load configuration (cached in legal_modality_patterns_)
+    if (legal_modality_patterns_.empty()) {
+        // For now, use fallback hard-coded patterns
+        // TODO: Fix YAML loading in future iteration
+        legal_modality_patterns_ = {
+            {"\\bmuss\\b", "obligation", 1.0f, "O(φ)", "Bindende Rechtspflicht", {}},
+            {"\\bhat zu\\b", "obligation", 1.0f, "O(φ)", "Formale bindende Verpflichtung", {}},
+            {"\\bsoll\\b", "default_obligation", 0.8f, "O_default(φ)", "Regelfall, Abweichung rechtfertigungsbedürftig", {"Begründungspflicht bei Abweichung", "Verhältnismäßigkeitsprüfung"}},
+            {"\\bkann\\b", "permission", 0.3f, "P(φ)", "Ermessensentscheidung", {"Ermessensausübung erforderlich", "Gleichbehandlungsgrundsatz", "Verhältnismäßigkeitsprüfung"}}
+        };
+    }
+    
+    // Convert text to string for regex processing
+    std::string text_str(text);
+    std::string text_lower = toLowerCase(text);
+    
+    // Search for each modal verb pattern
+    for (const auto& pattern : legal_modality_patterns_) {
+        try {
+            std::regex regex_pattern(pattern.pattern, std::regex::icase);
+            
+            // Use iterators to avoid creating substring copies
+            auto search_begin = text_lower.cbegin();
+            auto search_end = text_lower.cend();
+            std::smatch match;
+            
+            while (std::regex_search(search_begin, search_end, match, regex_pattern)) {
+                size_t position = std::distance(text_lower.cbegin(), search_begin) + match.position();
+                
+                // Extract the matched verb from original text (preserving case)
+                std::string matched_verb = text_str.substr(position, match.length());
+                
+                LegalModality modality(
+                    matched_verb,
+                    pattern.category,
+                    pattern.strength,
+                    pattern.deontic_logic,
+                    pattern.interpretation,
+                    position
+                );
+                modality.context_requirements = pattern.context_requirements;
+                
+                modalities.push_back(modality);
+                
+                // Continue searching after this match
+                search_begin += match.position() + match.length();
+            }
+        } catch (const std::regex_error& e) {
+            // Skip invalid regex patterns
+            std::cerr << "Regex error for pattern '" << pattern.pattern << "': " << e.what() << std::endl;
+        }
+    }
+    
+    // Sort by position
+    std::sort(modalities.begin(), modalities.end(),
+              [](const LegalModality& a, const LegalModality& b) {
+                  return a.position < b.position;
+              });
+    
+    return modalities;
+}
+
 } // namespace analytics
 } // namespace themis

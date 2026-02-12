@@ -1,0 +1,93 @@
+# Pre-commit hooks for ThemisDB
+# See https://pre-commit.com for more information
+# Installation: pip install pre-commit && pre-commit install
+
+repos:
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^(.*\.md|.*\.txt)$
+      - id: end-of-file-fixer
+        exclude: ^(vcpkg/|build-|.*\.png|.*\.jpg)
+      - id: check-yaml
+        args: ['--unsafe']  # Allow custom YAML tags
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+        exclude: ^(.*\.bat|.*\.ps1)$
+
+  # CMake formatting
+  - repo: https://github.com/cheshirekow/cmake-format-precommit
+    rev: v0.6.13
+    hooks:
+      - id: cmake-format
+        files: ^(CMakeLists\.txt|.*\.cmake)$
+        args: ['--in-place']
+      - id: cmake-lint
+        files: ^(CMakeLists\.txt|.*\.cmake)$
+
+  # JSON/YAML validation
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.27.3
+    hooks:
+      - id: check-github-workflows
+      - id: check-github-actions
+
+  # Markdown linting
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.38.0
+    hooks:
+      - id: markdownlint
+        args: ['--fix']
+        exclude: ^(CHANGELOG\.md|\.github/COPILOT_INSTRUCTIONS\.md\.backup)$
+
+  # Shell script validation
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+        args: ['-x']  # Follow sourced files
+
+  # Security: Secret detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: ^(vcpkg/|.*\.lock|.*\.sum)$
+
+  # C++ formatting (clang-format)
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.0
+    hooks:
+      - id: clang-format
+        types_or: [c++, c]
+        args: ['-i']  # in-place
+
+  # Validate Copilot instructions references
+  - repo: local
+    hooks:
+      - id: validate-copilot-refs
+        name: Validate Copilot Instructions References
+        entry: python .github/scripts/validate_copilot_refs.py
+        language: python
+        files: ^\.github/(COPILOT_INSTRUCTIONS\.md|copilot/.*\.md)$
+        pass_filenames: false
+
+# Global exclusions
+exclude: |
+  (?x)^(
+    vcpkg/|
+    vcpkg_installed/|
+    build-.*|
+    \.git/|
+    \.vscode/|
+    .*\.confidential\.md|
+    COPILOT_INSTRUCTIONS\.md\.backup
+  )$

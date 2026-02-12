@@ -28,6 +28,7 @@
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 #include "server/http_server.h"
 #endif
+#include "config/config_path_resolver.h"
 #include "sharding/wal_applier.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_shipper.h"
@@ -558,9 +559,10 @@ int main(int argc, char* argv[]) {
                 return 1;
             }
         } else {
-            // default search paths (prefer YAML)
+            // default search paths (prefer YAML) - now includes new hierarchical paths
             for (const auto& p : {
                     std::string("./config.yaml"), std::string("./config.yml"), std::string("./config.json"),
+                    std::string("./config/core/config.yaml"), std::string("./config/core/config.yml"), std::string("./config/core/config.json"),
                     std::string("./config/config.yaml"), std::string("./config/config.yml"), std::string("./config/config.json"),
                     std::string("/etc/vccdb/config.yaml"), std::string("/etc/vccdb/config.yml"), std::string("/etc/vccdb/config.json")}) {
                 cfg = load_config(p);
@@ -639,8 +641,10 @@ int main(int argc, char* argv[]) {
         themis::security::HSMConfig hsm_config;
         bool hsm_config_loaded = false;
         
-        // Try to load from security.yaml first
+        // Try to load from security.yaml first (try new path, then legacy)
         for (const auto& security_config_path : {
+                std::string("./config/core/security.yaml"),
+                std::string("./config/core/security.yml"),
                 std::string("./config/security.yaml"),
                 std::string("./config/security.yml"),
                 std::string("/etc/themisdb/security.yaml")}) {
@@ -1338,13 +1342,21 @@ int main(int argc, char* argv[]) {
         std::thread retention_thread;
         bool retention_enabled = false;
         int retention_interval_hours = 24;
-        std::string retention_policies_path = "./config/retention_policies.yaml";
+        std::string retention_policies_path = themis::config::ConfigPathResolver::mapLegacyToNew("./config/retention_policies.yaml");
+        // Fall back to legacy if new doesn't exist
+        if (!std::filesystem::exists(retention_policies_path)) {
+            retention_policies_path = "./config/retention_policies.yaml";
+        }
         
         if (cfg && cfg->contains("features") && (*cfg)["features"].contains("retention")) {
             const auto& ret_cfg = (*cfg)["features"]["retention"];
             retention_enabled = ret_cfg.value("enabled", false);
             retention_interval_hours = ret_cfg.value("interval_hours", 24);
-            retention_policies_path = ret_cfg.value("policies_path", std::string("./config/retention_policies.yaml"));
+            if (ret_cfg.contains("policies_path")) {
+                std::string cfg_path = ret_cfg["policies_path"].get<std::string>();
+                auto resolved = themis::config::ConfigPathResolver::tryResolve(cfg_path);
+                retention_policies_path = resolved ? *resolved : cfg_path;
+            }
         }
         
         if (retention_enabled) {

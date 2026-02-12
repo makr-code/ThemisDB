@@ -106,6 +106,27 @@ struct ComplexityMetrics {
 };
 
 /**
+ * @brief Legal modality detected in text
+ * 
+ * Represents modal verbs with legal/normative semantics, particularly
+ * for German administrative law (Verwaltungsrecht).
+ */
+struct LegalModality {
+    std::string verb;                   ///< Modal verb (e.g., "muss", "soll", "kann")
+    std::string category;               ///< Category: "obligation", "permission", "prohibition"
+    float strength;                     ///< Normative strength [0.0, 1.0]
+    std::string deontic_logic;          ///< Deontic logic notation (e.g., "O(φ)")
+    std::string interpretation;         ///< Legal interpretation
+    size_t position;                    ///< Position in text
+    std::vector<std::string> context_requirements;  ///< Required checks/considerations
+    
+    LegalModality() : strength(0.0f), position(0) {}
+    LegalModality(std::string v, std::string c, float s, std::string d, std::string i, size_t pos)
+        : verb(std::move(v)), category(std::move(c)), strength(s)
+        , deontic_logic(std::move(d)), interpretation(std::move(i)), position(pos) {}
+};
+
+/**
  * @brief Lightweight NLP text analyzer for query optimization
  * 
  * Provides basic NLP capabilities without heavy dependencies or
@@ -204,6 +225,24 @@ public:
      */
     ComplexityMetrics analyzeComplexity(std::string_view text) const;
 
+    /**
+     * @brief Extract legal modalities from text (e.g., German modal verbs)
+     * @param text Input text (legal/administrative document)
+     * @param language_code Language code (e.g., "de" for German)
+     * @param config_path Optional path to YAML config (default: german_modal_verbs.yaml)
+     * @return Vector of detected legal modalities with deontic semantics
+     * 
+     * Analyzes text for modal verbs with legal significance, particularly
+     * for German administrative law (Verwaltungsrecht):
+     * - "muss" (must) = Binding obligation (O(φ))
+     * - "soll" (shall) = Default rule (O_default(φ))
+     * - "kann" (may) = Discretionary permission (P(φ))
+     */
+    std::vector<LegalModality> extractLegalModalities(
+        std::string_view text,
+        const std::string& language_code = "de",
+        const std::string& config_path = "") const;
+
     // ========== AQL Query Optimization Support ==========
 
     /**
@@ -290,6 +329,17 @@ private:
     };
     std::vector<EntityPattern> entity_patterns_;
 
+    // Legal modality patterns (for German administrative law)
+    struct LegalModalityPattern {
+        std::string pattern;
+        std::string category;
+        float strength;
+        std::string deontic_logic;
+        std::string interpretation;
+        std::vector<std::string> context_requirements;
+    };
+    mutable std::vector<LegalModalityPattern> legal_modality_patterns_;
+
     // Statistics
     mutable size_t analysis_count_ = 0;
     mutable size_t token_count_ = 0;
@@ -317,6 +367,10 @@ private:
     bool containsJoin(std::string_view query) const;
     bool containsSubquery(std::string_view query) const;
     std::vector<std::string> extractTableNames(std::string_view query) const;
+    
+    // Legal modality helpers
+    bool loadLegalModalityConfig(const std::string& config_path) const;
+    std::string getDefaultLegalConfigPath(const std::string& language_code) const;
 };
 
 /**

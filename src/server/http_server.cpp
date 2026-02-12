@@ -118,6 +118,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "llm/lora_framework/feedback_plugin.h"
 #include "llm/lora_framework/lora_training_config.h"
 #endif
+#include "config/config_path_resolver.h"
 #include "server/schema_api_handler.h"
 #include "metadata/schema_manager.h"
 
@@ -813,7 +814,8 @@ HttpServer::HttpServer(
         
         // Try to load YAML configuration and register configured plugins
         try {
-            auto training_config = LoRATrainingConfig::loadFromFile("config/lora_training_config.yaml");
+            std::string config_path = themis::config::ConfigPathResolver::resolve("config/lora_training_config.yaml");
+            auto training_config = LoRATrainingConfig::loadFromFile(config_path);
             
             // Register cache weighting plugin from config
             auto cache_plugin = training_config.createCacheWeightingPlugin("themis_help_lora");
