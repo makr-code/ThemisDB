@@ -277,12 +277,16 @@ private:
     std::unordered_map<std::string, std::future<CachedModel*>> pending_loads_;
     
     // Statistics
+    // Note: total_vram_mb_ and total_ram_mb_ are protected by mutex_ since they're 
+    // updated together with models_ map modifications
     size_t total_vram_mb_ = 0;
     size_t total_ram_mb_ = 0;
-    size_t cache_hits_ = 0;
-    size_t cache_misses_ = 0;
-    size_t evictions_ = 0;
-    size_t models_loaded_ = 0;
+    
+    // Thread-safe counters using atomics (accessed outside critical sections)
+    std::atomic<size_t> cache_hits_{0};
+    std::atomic<size_t> cache_misses_{0};
+    std::atomic<size_t> evictions_{0};
+    std::atomic<size_t> models_loaded_{0};
     
     // Internal helpers
     Result<CachedModel*> loadModelInternal(
