@@ -35,8 +35,7 @@
 #  endif
 #endif
 
-#if THEMIS_HAS_VULKAN_IMPL
-
+// Forward declaration (visible in both #if and #else branches)
 namespace themis {
 namespace index {
 
@@ -64,6 +63,14 @@ private:
     class Impl;
     std::unique_ptr<Impl> pImpl;
 };
+
+} // namespace index
+} // namespace themis
+
+#if THEMIS_HAS_VULKAN_IMPL
+
+namespace themis {
+namespace index {
 
 /**
  * @brief Implementation class for Vulkan backend

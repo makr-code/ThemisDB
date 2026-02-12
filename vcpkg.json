@@ -12,6 +12,7 @@
     { "name": "simdjson", "version>=": "3.0.0" },
     { "name": "tbb", "version>=": "2021.5.0" },
     { "name": "hnswlib" },
+    { "name": "faiss" },
     { "name": "gtest", "version>=": "1.14.0" },
     { "name": "benchmark", "version>=": "1.8.0" },
     { "name": "boost-asio", "version>=": "1.83.0" },
