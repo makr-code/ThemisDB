@@ -27,7 +27,7 @@ size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
 }
 
 // CURL progress callback
-int progress_callback(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
+int progress_callback_wrapper(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) {
     auto* callback = static_cast<DownloadProgressCallback*>(clientp);
     if (callback && *callback) {
         std::string status = "downloading";
@@ -176,16 +176,19 @@ bool ModelDownloader::exportOllamaModel(
     const std::string& model_name,
     const std::string& output_path
 ) {
-    // This is a placeholder for the Ollama model export functionality
-    // In practice, Ollama models are already in GGUF format and stored in ~/.ollama/models
-    // We would need to locate the model file in Ollama's storage and copy it
+    // Note: This is a simplified implementation
+    // Ollama models are stored in ~/.ollama/models/blobs/sha256-*
+    // In production, this would need to:
+    // 1. Query Ollama API for model manifest
+    // 2. Locate the model file in Ollama's storage
+    // 3. Copy or symlink to output_path
     
-    THEMIS_INFO("Exporting Ollama model to: {}", output_path);
+    THEMIS_WARN("exportOllamaModel is not fully implemented");
+    THEMIS_WARN("Please manually copy model from Ollama storage to: {}", output_path);
+    THEMIS_WARN("Or use direct HuggingFace download instead");
     
-    // For now, we assume the model is accessible via Ollama's model directory
-    // This would need to be implemented based on Ollama's storage structure
-    
-    return true;
+    // Return false to indicate this needs manual intervention
+    return false;
 }
 
 ModelDownloadResult ModelDownloader::downloadFromURL(
@@ -228,7 +231,7 @@ ModelDownloadResult ModelDownloader::downloadFromURL(
         
         // Enable progress tracking if callback provided
         if (progress_callback) {
-            curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_callback);
+            curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, progress_callback_wrapper);
             curl_easy_setopt(curl, CURLOPT_XFERINFODATA, &progress_callback);
             curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
         }

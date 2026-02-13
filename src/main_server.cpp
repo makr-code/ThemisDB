@@ -856,14 +856,19 @@ int main(int argc, char* argv[]) {
                                 std::filesystem::create_directories(dl_config.download_dir);
                             }
                             
-                            // Progress callback
-                            dl_config.progress_callback = [](size_t downloaded, size_t total, const std::string& status) {
-                                if (total > 0 && downloaded % (50 * 1024 * 1024) == 0) {  // Log every 50 MB
-                                    float percent = 100.0f * downloaded / total;
-                                    float mb_downloaded = downloaded / (1024.0f * 1024.0f);
-                                    float mb_total = total / (1024.0f * 1024.0f);
-                                    THEMIS_INFO("Download progress: {:.1f}% ({:.1f} / {:.1f} MB)", 
-                                        percent, mb_downloaded, mb_total);
+                            // Progress callback with percentage-based logging
+                            size_t last_logged_percent = 0;
+                            dl_config.progress_callback = [&last_logged_percent](size_t downloaded, size_t total, const std::string& status) {
+                                if (total > 0) {
+                                    size_t current_percent = (downloaded * 100) / total;
+                                    // Log every 10% progress
+                                    if (current_percent >= last_logged_percent + 10 || current_percent == 100) {
+                                        float mb_downloaded = downloaded / (1024.0f * 1024.0f);
+                                        float mb_total = total / (1024.0f * 1024.0f);
+                                        THEMIS_INFO("Download progress: {:.1f}% ({:.1f} / {:.1f} MB)", 
+                                            static_cast<float>(current_percent), mb_downloaded, mb_total);
+                                        last_logged_percent = current_percent;
+                                    }
                                 }
                             };
                             
