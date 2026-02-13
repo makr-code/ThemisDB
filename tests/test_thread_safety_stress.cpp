@@ -384,20 +384,6 @@ TEST(ThreadSafetyPerformance, SynchronizedOverhead) {
 // ═══════════════════════════════════════════════════════════
 // Main
 // ═══════════════════════════════════════════════════════════
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    std::cout << "\n";
-    std::cout << "═══════════════════════════════════════════════════════════\n";
-    std::cout << "  Thread-Safety Stress Tests\n";
-    std::cout << "═══════════════════════════════════════════════════════════\n";
-    std::cout << "\n";
-    std::cout << "These tests verify thread-safety under high concurrency.\n";
-    std::cout << "\n";
-    std::cout << "Recommended: Run with ThreadSanitizer:\n";
-    std::cout << "  cmake -B build -DTHEMIS_ENABLE_TSAN=ON\n";
-    std::cout << "  cmake --build build\n";
     std::cout << "  ./build/tests/test_thread_safety_stress\n";
     std::cout << "\n";
     std::cout << "═══════════════════════════════════════════════════════════\n";

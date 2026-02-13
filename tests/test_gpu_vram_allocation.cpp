@@ -382,7 +382,3 @@ TEST_F(GPUVRAMAllocationTest, Integration_CompleteWorkflow) {
 }
 
 // Main function
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

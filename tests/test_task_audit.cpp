@@ -324,8 +324,3 @@ TEST(TaskAuditManager, SecurityEventLogging) {
     
     EXPECT_NO_THROW(audit_manager->logSecurityEvent(security_event));
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

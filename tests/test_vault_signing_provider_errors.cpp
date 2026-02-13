@@ -212,8 +212,3 @@ TEST_F(VaultSigningProviderErrorTest, AllErrorMessagesHaveConsistentFormat) {
         EXPECT_NE(msg.find("docs/security"), std::string::npos);
     }
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -382,8 +382,3 @@ TEST_F(MergeEngineTest, ComplexMergeMultipleKeys) {
     EXPECT_EQ(result.stats.conflicts_detected, 0); // No overlapping keys
     EXPECT_GT(result.changes_applied.size(), 0);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

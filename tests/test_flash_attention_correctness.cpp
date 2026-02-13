@@ -293,11 +293,4 @@ TEST(FlashAttention, StatusMessages) {
     EXPECT_STREQ(getStatusMessage(Status::ERROR_CUDA_ERROR), "CUDA error");
 }
 
-// ============================================================================
-// Main
-// ============================================================================
 
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

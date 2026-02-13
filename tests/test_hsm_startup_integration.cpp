@@ -239,7 +239,3 @@ TEST_F(HSMStartupIntegrationTest, ComplianceStatus_StubActive_NonCompliant) {
 /**
  * Main function for standalone test execution
  */
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

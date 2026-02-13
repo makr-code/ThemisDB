@@ -188,8 +188,3 @@ main_theses:
     ASSERT_TRUE(std::holds_alternative<size_t>(result));
     EXPECT_EQ(1u, std::get<size_t>(result)) << "Should only load YAML files";
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

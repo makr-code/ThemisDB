@@ -313,19 +313,3 @@ TEST_F(RAGAQLIntegrationTest, RAGWithZeroTopK) {
     }
 }
 
-// Run tests
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    std::cout << "========================================" << std::endl;
-    std::cout << "RAG AQL Integration Tests" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "Note: These tests require:" << std::endl;
-    std::cout << "  - Loaded LLM model" << std::endl;
-    std::cout << "  - Vector index initialized" << std::endl;
-    std::cout << "  - Document collections available" << std::endl;
-    std::cout << "Tests will be skipped if dependencies are missing." << std::endl;
-    std::cout << "========================================" << std::endl;
-    
-    return RUN_ALL_TESTS();
-}

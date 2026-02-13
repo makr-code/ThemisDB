@@ -197,8 +197,3 @@ TEST_F(HSMStubGatingTest, ErrorMessageIncludesGuidance) {
     // Should mention how to build with real HSM
     EXPECT_NE(error.find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

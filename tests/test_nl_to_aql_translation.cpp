@@ -290,16 +290,3 @@ TEST_F(NLToAQLTranslationTest, InvalidQuery) {
     }
 }
 
-// Run tests
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    
-    std::cout << "========================================" << std::endl;
-    std::cout << "Natural Language to AQL Translation Tests" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "Note: These tests require a loaded LLM model." << std::endl;
-    std::cout << "Tests will be skipped if no model is available." << std::endl;
-    std::cout << "========================================" << std::endl;
-    
-    return RUN_ALL_TESTS();
-}

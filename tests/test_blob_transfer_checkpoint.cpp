@@ -241,8 +241,3 @@ TEST_F(BlobTransferCheckpointTest, ResumeContinuesFromCorrectPosition) {
         EXPECT_GE(chunk_indices_after[0], chunk_indices_before.back());
     }
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

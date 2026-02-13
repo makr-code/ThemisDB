@@ -268,8 +268,3 @@ TEST_F(EthicsEvaluatorTest, OverallScoreIsWeightedAverage) {
     
     EXPECT_NEAR(eval.overall_score, expected, 0.001);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

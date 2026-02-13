@@ -248,8 +248,3 @@ TEST_F(EntityApiRaidIntegrationTest, RaidDisabledWhenComponentsMissing) {
     auto value = storage_->get("users:charlie");
     EXPECT_TRUE(value.has_value());
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

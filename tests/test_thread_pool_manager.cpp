@@ -51,28 +51,31 @@ TEST(ThreadPoolTest, SubmitAndExecute) {
  */
 TEST(ThreadPoolTest, QueueFull) {
     ThreadPool::Config config;
-    config.queue_size = 2;
+    config.queue_size = 1;  // Only 1 task can be queued
     config.min_threads = 1;
+    config.max_threads = 1;  // Prevent dynamic thread growth
     config.name = "queue_full_test";
     
     auto pool = std::make_unique<ThreadPool>(config);
     
     // Submit tasks that sleep to fill up the queue
+    // Task 1 will be executed immediately, Task 2 will be queued
     for (int i = 0; i < 2; i++) {
         auto task = std::make_shared<Task>(
-            []() { std::this_thread::sleep_for(std::chrono::seconds(1)); },
+            []() { std::this_thread::sleep_for(std::chrono::seconds(10)); },  // Long sleep
             Task::Priority::NORMAL,
             "blocking_task"
         );
         pool->submit(task);
     }
     
-    // Wait for queue to fill
+    // Short wait to ensure tasks are submitted
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     
-    // Next should fail (queue full, workers busy)
+    // Now: 1 task executing, 1 task in queue (queue full)
+    // Next should fail (queue full, worker busy)
     auto task = std::make_shared<Task>([]() {}, Task::Priority::NORMAL, "overflow_task");
-    bool result = pool->submit(task, std::chrono::milliseconds(100));
+    bool result = pool->submit(task, std::chrono::milliseconds(50));  // Short timeout
     EXPECT_FALSE(result);
 }
 
@@ -287,8 +290,8 @@ TEST(ThreadPoolTest, ExceptionHandling) {
     pool->submit(throwing_task);
     pool->submit(normal_task);
     
-    // Wait for both tasks
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    // Wait for both tasks to complete (longer wait to ensure exception handling)
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     
     // Normal task should have executed despite exception in first task
     EXPECT_TRUE(executed_after_exception);

@@ -438,8 +438,3 @@ TEST_F(ApiAuthConfigTest, WildcardMethodMatching) {
     ASSERT_TRUE(put_result.has_value());
     EXPECT_EQ(put_result->required_scope, "data:read");
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

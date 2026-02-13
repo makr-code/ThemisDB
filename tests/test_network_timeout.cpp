@@ -369,8 +369,3 @@ TEST_F(SocketTimeoutManagerTest, StatisticsConsistency) {
     // Verify manager is in consistent state
     EXPECT_NE(manager.getHealthState(), static_cast<SocketHealthState>(-1));
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

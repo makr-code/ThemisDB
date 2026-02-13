@@ -208,8 +208,3 @@ TEST_F(ArgumentStoreTest, ShutdownClearsData) {
     ASSERT_TRUE(std::holds_alternative<Status>(result2));
     EXPECT_FALSE(std::get<Status>(result2).isOK());
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

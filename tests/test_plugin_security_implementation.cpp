@@ -317,8 +317,3 @@ TEST_F(PluginSecurityImplementationTest, ELFFormatWithSignature) {
     // May pass hash but fail signature verification
     EXPECT_TRUE(result.hash_verified);
 }
-
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -276,7 +276,3 @@ TEST_F(WorkloadDrivenCacheTest, StreamingWorkloadSimulation) {
     EXPECT_LT(metrics.prefix_reuse_ratio, 0.2) << "Streaming workload should have <20% prefix reuse";
 }
 
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

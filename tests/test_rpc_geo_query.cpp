@@ -114,11 +114,12 @@ TEST_F(RPCGeoQueryTest, IntersectsQueryWithBbox) {
     
     json response = rpc_service_->handleGeoQuery(params);
     
-    ASSERT_TRUE(response.contains("data"));
-    ASSERT_TRUE(response["data"].contains("results"));
-    ASSERT_TRUE(response["data"].contains("count"));
+    // After refactoring: Response format changed from 'data' to 'result'
+    ASSERT_TRUE(response.contains("result"));
+    ASSERT_TRUE(response["result"].contains("results"));
+    ASSERT_TRUE(response["result"].contains("count"));
     
-    auto results = response["data"]["results"];
+    auto results = response["result"]["results"];
     EXPECT_GE(results.size(), 1);  // Should find at least Berlin
     
     // Check that results contain expected fields
@@ -142,10 +143,11 @@ TEST_F(RPCGeoQueryTest, WithinQueryWithBbox) {
     
     json response = rpc_service_->handleGeoQuery(params);
     
-    ASSERT_TRUE(response.contains("data"));
-    ASSERT_TRUE(response["data"].contains("results"));
+    // After refactoring: Response format changed from 'data' to 'result'
+    ASSERT_TRUE(response.contains("result"));
+    ASSERT_TRUE(response["result"].contains("results"));
     
-    auto results = response["data"]["results"];
+    auto results = response["result"]["results"];
     EXPECT_GE(results.size(), 1);  // Should find London
 }
 
@@ -162,10 +164,11 @@ TEST_F(RPCGeoQueryTest, NearQueryWithCenterAndRadius) {
     
     json response = rpc_service_->handleGeoQuery(params);
     
-    ASSERT_TRUE(response.contains("data"));
-    ASSERT_TRUE(response["data"].contains("results"));
+    // After refactoring: Response format changed from 'data' to 'result'
+    ASSERT_TRUE(response.contains("result"));
+    ASSERT_TRUE(response["result"].contains("results"));
     
-    auto results = response["data"]["results"];
+    auto results = response["result"]["results"];
     EXPECT_GE(results.size(), 1);  // Should find Berlin itself
     
     // Check that results contain distance field

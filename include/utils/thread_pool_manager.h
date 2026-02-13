@@ -37,11 +37,7 @@ public:
     
     void execute() {
         auto start = std::chrono::steady_clock::now();
-        try {
-            callback_();
-        } catch (const std::exception& e) {
-            spdlog::error("Task {} failed with exception: {}", name_, e.what());
-        }
+        callback_();
         auto duration = std::chrono::steady_clock::now() - start;
         execution_time_ = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
     }
