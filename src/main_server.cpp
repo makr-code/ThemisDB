@@ -55,6 +55,7 @@
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
+#include "llm/model_downloader.h"
 #endif
 
 #include <iostream>
@@ -807,6 +808,87 @@ int main(int argc, char* argv[]) {
                     llm_config.n_ctx = llm_cfg.value("context_size", 4096);
                     llm_config.n_threads = llm_cfg.value("threads", 4);
                     llm_config.enable_caching = llm_cfg.value("enable_caching", true);
+                    
+                    // Check environment variables for overrides
+                    if (const char* env_gpu_layers = std::getenv("THEMIS_GPU_LAYERS")) {
+                        llm_config.n_gpu_layers = std::atoi(env_gpu_layers);
+                    }
+                    if (const char* env_threads = std::getenv("THEMIS_THREADS")) {
+                        llm_config.n_threads = std::atoi(env_threads);
+                    }
+                    if (const char* env_ctx = std::getenv("THEMIS_CONTEXT_SIZE")) {
+                        llm_config.n_ctx = std::atoi(env_ctx);
+                    }
+                    if (const char* env_model_dir = std::getenv("THEMIS_MODEL_DIR")) {
+                        llm_config.model_path = std::string(env_model_dir) + "/" + 
+                            std::filesystem::path(llm_config.model_path).filename().string();
+                    }
+                    
+                    // Auto-download model if not present
+                    bool auto_download = llm_cfg.value("auto_download", true);
+                    if (const char* env_disable = std::getenv("THEMIS_DISABLE_AUTO_DOWNLOAD")) {
+                        if (std::string(env_disable) == "1" || std::string(env_disable) == "true") {
+                            auto_download = false;
+                        }
+                    }
+                    
+                    if (auto_download && !std::filesystem::exists(llm_config.model_path)) {
+                        THEMIS_INFO("Model not found: {}", llm_config.model_path);
+                        THEMIS_INFO("Starting auto-download...");
+                        
+                        try {
+                            // Configure download from Ollama
+                            themis::llm::ModelDownloadConfig dl_config;
+                            dl_config.model_name = llm_cfg.value("ollama_model", std::string("phi3:mini-4k"));
+                            dl_config.ollama_url = llm_cfg.value("ollama_url", std::string("http://localhost:11434"));
+                            
+                            // Override with environment variable if set
+                            if (const char* env_ollama = std::getenv("THEMIS_OLLAMA_ENDPOINT")) {
+                                dl_config.ollama_url = env_ollama;
+                            }
+                            
+                            // Extract directory from model path
+                            std::filesystem::path model_path_obj(llm_config.model_path);
+                            dl_config.download_dir = model_path_obj.parent_path().string();
+                            
+                            // Create directory if needed
+                            if (!dl_config.download_dir.empty() && !std::filesystem::exists(dl_config.download_dir)) {
+                                std::filesystem::create_directories(dl_config.download_dir);
+                            }
+                            
+                            // Progress callback
+                            dl_config.progress_callback = [](size_t downloaded, size_t total, const std::string& status) {
+                                if (total > 0 && downloaded % (50 * 1024 * 1024) == 0) {  // Log every 50 MB
+                                    float percent = 100.0f * downloaded / total;
+                                    float mb_downloaded = downloaded / (1024.0f * 1024.0f);
+                                    float mb_total = total / (1024.0f * 1024.0f);
+                                    THEMIS_INFO("Download progress: {:.1f}% ({:.1f} / {:.1f} MB)", 
+                                        percent, mb_downloaded, mb_total);
+                                }
+                            };
+                            
+                            // Download model
+                            themis::llm::ModelDownloader downloader;
+                            auto result = downloader.downloadFromOllama(dl_config);
+                            
+                            if (result.success) {
+                                THEMIS_INFO("✓ Model downloaded successfully");
+                                THEMIS_INFO("  Path: {}", result.model_path);
+                                THEMIS_INFO("  Size: {:.1f} MB", result.file_size_bytes / (1024.0f * 1024.0f));
+                                THEMIS_INFO("  Time: {:.1f}s", result.download_time_seconds);
+                                
+                                // Update model path to downloaded location
+                                llm_config.model_path = result.model_path;
+                            } else {
+                                THEMIS_WARN("Model download failed: {}", result.error_message);
+                                THEMIS_WARN("Attempting to proceed without auto-download...");
+                            }
+                            
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("Auto-download exception: {}", e.what());
+                            THEMIS_WARN("Proceeding with configured model path...");
+                        }
+                    }
                     
                     THEMIS_INFO("Initializing EmbeddedLLM...");
                     THEMIS_INFO("  Model: {}", llm_config.model_path);
