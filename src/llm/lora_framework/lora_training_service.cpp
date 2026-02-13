@@ -176,6 +176,11 @@ public:
             // Use provided hyperparameters or default
             auto params = hyperparameters.value_or(config_.default_hyperparameters);
             
+            // Define default target modules for comparison
+            static const std::vector<std::string> DEFAULT_TARGET_MODULES = {
+                "attention.wq", "attention.wv"
+            };
+            
             // Detect Phi-3 model and configure appropriate settings
             bool is_phi3_model = false;
             if (config_.base_model_path.find("phi-3") != std::string::npos ||
@@ -186,8 +191,7 @@ public:
                 spdlog::info("Detected Phi-3 model, applying Phi-3 specific configuration");
                 
                 // Override target modules for Phi-3's Grouped Query Attention architecture
-                if (config_.target_modules.empty() || 
-                    config_.target_modules == std::vector<std::string>{"attention.wq", "attention.wv"}) {
+                if (config_.target_modules.empty() || config_.target_modules == DEFAULT_TARGET_MODULES) {
                     config_.target_modules = {
                         "qkv_proj",      // Phi-3 combined Q/K/V projection
                         "o_proj",        // Output projection

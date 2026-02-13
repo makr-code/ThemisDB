@@ -22,7 +22,19 @@ namespace {
 size_t write_callback(void* ptr, size_t size, size_t nmemb, void* userdata) {
     auto* stream = static_cast<std::ofstream*>(userdata);
     size_t total_size = size * nmemb;
+    
+    // Check if stream is in good state before writing
+    if (!stream->good()) {
+        return 0;  // Signal error to abort download
+    }
+    
     stream->write(static_cast<char*>(ptr), total_size);
+    
+    // Check if write succeeded
+    if (!stream->good()) {
+        return 0;  // Signal error to abort download (e.g., disk full)
+    }
+    
     return total_size;
 }
 
@@ -157,6 +169,16 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     // After pulling, export model to GGUF format
     std::string output_path = config.download_dir + "/" + config.model_name + ".gguf";
     bool export_success = exportOllamaModel(config.ollama_url, config.model_name, output_path);
+    
+    if (!export_success) {
+        // Ollama export not yet fully implemented - provide helpful error message
+        result.success = false;
+        result.error_message = "Ollama model pull succeeded, but export to GGUF is not yet implemented. " 
+                              "Please use direct HuggingFace download or manually copy from Ollama storage (~/.ollama/models/)";
+        THEMIS_WARN("Note: For production use, consider downloading GGUF models directly from HuggingFace");
+        THEMIS_WARN("Example: https://huggingface.co/microsoft/Phi-3-mini-4k-instruct-gguf");
+        return result;
+    }
     
     if (export_success && fs::exists(output_path)) {
         result.success = true;

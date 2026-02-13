@@ -185,7 +185,7 @@ int main(int argc, char** argv) {
         };
     }
     
-    spdlog::info("Running {} quer{}", queries.size(), queries.size() > 1 ? "ies" : "y");
+    spdlog::info("Running {} {}", queries.size(), queries.size() > 1 ? "queries" : "query");
     
     for (size_t i = 0; i < queries.size(); ++i) {
         const auto& prompt = queries[i];
