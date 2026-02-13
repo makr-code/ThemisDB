@@ -13,7 +13,32 @@ ThemisDB now includes **Phi-3-Mini-4k-Instruct** as the default LLM model with a
 
 ## Quick Start
 
-### 1. Auto-Download on First Use
+### Option 1: CLI Tool (Recommended)
+
+Use the `themis-model` CLI tool to download models (similar to Ollama):
+
+```bash
+# Download Phi-3 model
+themis-model pull phi3:mini-4k
+
+# List downloaded models
+themis-model list
+
+# Start server
+themis-server --config config.yaml
+```
+
+**Output:**
+```
+Pulling model: phi3:mini-4k
+Destination: models/default
+
+▐████████████████████████████████░░░░░░░▌ 65.2% (1.50 GB / 2.30 GB) 14.2 MB/s
+```
+
+See [THEMIS_MODEL_CLI.md](en/llm/THEMIS_MODEL_CLI.md) for complete CLI documentation.
+
+### Option 2: Auto-Download on First Use
 
 Simply enable LLM in your configuration - the model downloads automatically:
 
