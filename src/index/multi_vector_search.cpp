@@ -89,7 +89,7 @@ MultiVectorSearch::search(
     
     // 1. Validate inputs
     if (query.vectors.empty()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::search - query vectors cannot be empty");
     }
     
@@ -97,7 +97,7 @@ MultiVectorSearch::search(
     size_t expected_dim = query.vectors[0].size();
     for (const auto& vec : query.vectors) {
         if (vec.size() != expected_dim) {
-            return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                             "MultiVectorSearch::search - all query vectors must have same dimension");
         }
     }
@@ -118,13 +118,13 @@ MultiVectorSearch::search(
     
     // LEARNED_FUSION requires explicitly provided weights
     if (config.fusion == FusionStrategy::LEARNED_FUSION && !weights_provided) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
     }
     
     // Validate weights for strategies that need them
     if (weights.size() != query.vectors.size()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "Weight count must match query vector count");
     }
     
@@ -135,7 +135,7 @@ MultiVectorSearch::search(
             weight_sum += w;
         }
         if (std::abs(weight_sum - 1.0f) > 0.01f) {
-            return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+            return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                             "MultiVectorSearch::search - weights must sum to 1.0 for LINEAR_COMBINATION");
         }
     }
@@ -149,7 +149,7 @@ MultiVectorSearch::search(
     for (const auto& query_vec : query.vectors) {
         auto [status, results] = vector_manager_.searchKnn(query_vec, fetch_k);
         if (!status.ok) {
-            return makeError(errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+            return Err<MultiSearchResult>(errors::ErrorCode::ERR_API_INTERNAL_ERROR,
                             "MultiVectorSearch::search - vector search failed: " + status.message);
         }
         individual_results.push_back(std::move(results));
@@ -283,7 +283,7 @@ MultiVectorSearch::searchMultiField(
     const SearchConfig& config) {
     
     if (field_names.empty()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::searchMultiField - field_names cannot be empty");
     }
     
@@ -309,7 +309,7 @@ MultiVectorSearch::searchWithExpansion(
     const SearchConfig& config) {
     
     if (query_variants.empty()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::searchWithExpansion - query_variants cannot be empty");
     }
     
@@ -337,7 +337,7 @@ MultiVectorSearch::hybridSearch(
     // 1. Perform vector similarity search
     auto [status, vector_results] = vector_manager_.searchKnn(query_vector, config.top_k * 2);
     if (!status.ok) {
-        return makeError(errors::ErrorCode::ERR_API_INTERNAL_ERROR,
+        return Err<MultiSearchResult>(errors::ErrorCode::ERR_API_INTERNAL_ERROR,
                         "MultiVectorSearch::hybridSearch - vector search failed: " + status.message);
     }
     
@@ -431,7 +431,7 @@ MultiVectorSearch::hybridSearch(
                 // Learned fusion uses optimized weights (similar to linear combination)
                 // Weights should be pre-computed using optimizeWeights() method
                 if (config.weights.empty() || config.weights.size() != fusion_scores.size()) {
-                    return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+                    return Err<MultiSearchResult>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                                     "LEARNED_FUSION requires pre-computed weights from optimizeWeights()");
                 }
                 result.fused_score = linearCombination(fusion_scores, config.weights);
@@ -480,7 +480,7 @@ MultiVectorSearch::batchSearch(
     const SearchConfig& config) {
     
     if (queries.empty()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<std::vector<MultiSearchResult>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::batchSearch - queries cannot be empty");
     }
     
@@ -490,8 +490,8 @@ MultiVectorSearch::batchSearch(
     for (const auto& query : queries) {
         auto result = search(query, config);
         if (!result) {
-            return makeError(result.error().code()(),
-                            "MultiVectorSearch::batchSearch - failed on query: " + result.error().message()());
+            return Err<std::vector<MultiSearchResult>>(result.error().code(),
+                            "MultiVectorSearch::batchSearch - failed on query: " + result.error().message());
         }
         results.push_back(std::move(result.value()));
     }
@@ -504,17 +504,17 @@ Result<std::vector<float>> MultiVectorSearch::optimizeWeights(
     const std::vector<std::vector<std::string>>& relevance_judgments) {
     
     if (queries.empty() || relevance_judgments.empty()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<std::vector<float>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments cannot be empty");
     }
     
     if (queries.size() != relevance_judgments.size()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<std::vector<float>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::optimizeWeights - queries and relevance_judgments must have same size");
     }
     
     if (queries[0].vectors.empty()) {
-        return makeError(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
+        return Err<std::vector<float>>(errors::ErrorCode::ERR_UTIL_INVALID_ARGUMENT,
                         "MultiVectorSearch::optimizeWeights - query vectors cannot be empty");
     }
     

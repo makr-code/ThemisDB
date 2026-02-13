@@ -200,6 +200,18 @@ message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
 
+# Ensure legal training tests link even when the feature is disabled in themis_core
+if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
+    target_sources(themis_tests PRIVATE
+        ../src/ingestion/ingestion_manager.cpp
+        ../src/ingestion/huggingface_connector.cpp
+        ../src/ingestion/filesystem_ingester.cpp
+        ../src/training/auto_labeler.cpp
+        ../src/training/knowledge_graph_enricher.cpp
+        ../src/training/incremental_lora_trainer.cpp
+    )
+endif()
+
 target_link_libraries(themis_tests PRIVATE
     GTest::gtest
     GTest::gtest_main

@@ -21,7 +21,7 @@ MultiGPUContext::MultiGPUContext(int num_gpus, const std::vector<int>& gpu_ids)
     spdlog::info("MultiGPUContext created with {} GPUs", devices_.size());
     for (size_t i = 0; i < devices_.size(); ++i) {
         spdlog::info("  Rank {}: Device {} ({})", 
-            i, devices_[i].id, 
+            i, devices_[i].device_id, 
             devices_[i].type == DeviceType::CUDA ? "CUDA" : 
             devices_[i].type == DeviceType::HIP ? "HIP" : "Unknown");
     }
@@ -36,9 +36,15 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
         
         for (int gpu_id : gpu_ids) {
             Device device = Device::cuda(gpu_id);
+            auto backends = GPUMemoryManager::detect_backends();
+            bool has_cuda = false, has_hip = false;
+            for (const auto& backend : backends) {
+                if (backend.type == acceleration::BackendType::CUDA && backend.available) has_cuda = true;
+                if (backend.type == acceleration::BackendType::HIP && backend.available) has_hip = true;
+            }
             
             // Try CUDA first
-            if (GPUMemoryManager::is_backend_available(BackendType::CUDA)) {
+            if (has_cuda) {
                 device = Device::cuda(gpu_id);
                 if (first_type == DeviceType::CPU) {
                     first_type = DeviceType::CUDA;
@@ -48,7 +54,7 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
                 }
             }
             // Try HIP if CUDA not available
-            else if (GPUMemoryManager::is_backend_available(BackendType::HIP)) {
+            else if (has_hip) {
                 device = Device::hip(gpu_id);
                 if (first_type == DeviceType::CPU) {
                     first_type = DeviceType::HIP;
@@ -72,7 +78,14 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
     DeviceType detected_type = DeviceType::CPU;
     
     // Check CUDA
-    if (GPUMemoryManager::is_backend_available(BackendType::CUDA)) {
+    auto backends = GPUMemoryManager::detect_backends();
+    bool has_cuda = false, has_hip = false;
+    for (const auto& backend : backends) {
+        if (backend.type == acceleration::BackendType::CUDA && backend.available) has_cuda = true;
+        if (backend.type == acceleration::BackendType::HIP && backend.available) has_hip = true;
+    }
+    
+    if (has_cuda) {
 #ifdef THEMIS_ENABLE_CUDA
         int cuda_device_count = 0;
         cudaError_t err = cudaGetDeviceCount(&cuda_device_count);
@@ -87,7 +100,7 @@ void MultiGPUContext::detect_gpus(int num_gpus, const std::vector<int>& gpu_ids)
 #endif
     }
     // Check HIP if CUDA not available
-    else if (GPUMemoryManager::is_backend_available(BackendType::HIP)) {
+    else if (has_hip) {
 #ifdef THEMIS_ENABLE_HIP
         int hip_device_count = 0;
         hipError_t err = hipGetDeviceCount(&hip_device_count);
@@ -131,13 +144,13 @@ void MultiGPUContext::synchronize_all() const {
     for (const auto& device : devices_) {
 #ifdef THEMIS_ENABLE_CUDA
         if (device.type == DeviceType::CUDA) {
-            cudaSetDevice(device.id);
+            cudaSetDevice(device.device_id);
             cudaDeviceSynchronize();
         }
 #endif
 #ifdef THEMIS_ENABLE_HIP
         if (device.type == DeviceType::HIP) {
-            hipSetDevice(device.id);
+            hipSetDevice(device.device_id);
             hipDeviceSynchronize();
         }
 #endif
@@ -167,7 +180,7 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                cudaDeviceCanAccessPeer(&can_access_peer, devices[i].id, devices[j].id);
+                cudaDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id);
                 
                 if (can_access_peer) {
                     topology.has_pcie_p2p = true;
@@ -205,7 +218,7 @@ GPUTopology GPUTopology::detect(const std::vector<Device>& devices) {
                 }
                 
                 int can_access_peer = 0;
-                hipDeviceCanAccessPeer(&can_access_peer, devices[i].id, devices[j].id);
+                hipDeviceCanAccessPeer(&can_access_peer, devices[i].device_id, devices[j].device_id);
                 
                 if (can_access_peer) {
                     topology.has_pcie_p2p = true;

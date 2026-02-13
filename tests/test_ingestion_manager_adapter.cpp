@@ -604,5 +604,3 @@ TEST(IngestionManagerAdapterTest, DISABLED_LoadSourcesFromConfig_NotImplemented)
         std::runtime_error
     );
 }
-
-} // namespace

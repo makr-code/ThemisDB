@@ -226,6 +226,19 @@ public:
         std::function<void(const IngestionJob&)> callback
     );
     
+    /**
+     * @brief Register a custom handler for a specific job type
+     * 
+     * Allows external code to handle specific job types with custom logic.
+     * 
+     * @param job_type The type of job to register handler for
+     * @param handler Callback function to process jobs of this type
+     */
+    void registerJobHandler(
+        IngestionJobType job_type,
+        std::function<void(IngestionJob&)> handler
+    );
+    
     // ========================================================================
     // Plugin Management API (NEW)
     // ========================================================================

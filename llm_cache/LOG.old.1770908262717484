@@ -1,0 +1,398 @@
+2026/02/12-15:57:42.620185 408c RocksDB version: 9.7.2
+2026/02/12-15:57:42.620319 408c Git sha 0
+2026/02/12-15:57:42.620376 408c Compile date 2026-02-11 15:57:13
+2026/02/12-15:57:42.620452 408c DB SUMMARY
+2026/02/12-15:57:42.620492 408c Host name (Env):  DESKTOP-712S8LO
+2026/02/12-15:57:42.620573 408c DB Session ID:  QDG1JDM7JCFDRH33RC7D
+2026/02/12-15:57:42.624900 408c CURRENT file:  CURRENT
+2026/02/12-15:57:42.624941 408c IDENTITY file:  IDENTITY
+2026/02/12-15:57:42.625029 408c MANIFEST file:  MANIFEST-000473 size: 177 Bytes
+2026/02/12-15:57:42.625063 408c SST files in ./llm_cache dir, Total Num: 0, files: 
+2026/02/12-15:57:42.625091 408c Write Ahead Log file in ./llm_cache: 000004.log size: 0 ; 000010.log size: 0 ; 000016.log size: 0 ; 000022.log size: 0 ; 000028.log size: 0 ; 000034.log size: 0 ; 000040.log size: 0 ; 000046.log size: 0 ; 000052.log size: 0 ; 000058.log size: 0 ; 000064.log size: 0 ; 000070.log size: 0 ; 000076.log size: 0 ; 000082.log size: 0 ; 000088.log size: 0 ; 000094.log size: 0 ; 000100.log size: 0 ; 000106.log size: 0 ; 000112.log size: 0 ; 000118.log size: 0 ; 000124.log size: 0 ; 000130.log size: 0 ; 000136.log size: 0 ; 000142.log size: 0 ; 000148.log size: 0 ; 000154.log size: 0 ; 000160.log size: 0 ; 000166.log size: 0 ; 000172.log size: 0 ; 000178.log size: 0 ; 000184.log size: 0 ; 000190.log size: 0 ; 000196.log size: 0 ; 000202.log size: 0 ; 000208.log size: 0 ; 000214.log size: 0 ; 000220.log size: 0 ; 000226.log size: 0 ; 000232.log size: 0 ; 000238.log size: 0 ; 000244.log size: 0 ; 000250.log size: 0 ; 000256.log size: 0 ; 000262.log size: 0 ; 000268.log size: 0 ; 000274.log size: 0 ; 000280.log size: 0 ; 000286.log size: 0 ; 000292.log size: 0 ; 000298.log size: 0 ; 000304.log size: 0 ; 000310.log size: 0 ; 000316.log size: 0 ; 000322.log size: 0 ; 000328.log size: 0 ; 000334.log size: 0 ; 000340.log size: 0 ; 000346.log size: 0 ; 000352.log size: 0 ; 000358.log size: 0 ; 000364.log size: 0 ; 000370.log size: 0 ; 000376.log size: 0 ; 000382.log size: 0 ; 000388.log size: 0 ; 000394.log size: 0 ; 000400.log size: 0 ; 000406.log size: 0 ; 000412.log size: 0 ; 000418.log size: 0 ; 000424.log size: 0 ; 000430.log size: 0 ; 000436.log size: 0 ; 000442.log size: 0 ; 000448.log size: 0 ; 000454.log size: 0 ; 000460.log size: 0 ; 000466.log size: 0 ; 000472.log size: 0 ; 
+2026/02/12-15:57:42.625300 408c                         Options.error_if_exists: 0
+2026/02/12-15:57:42.625318 408c                       Options.create_if_missing: 1
+2026/02/12-15:57:42.625328 408c                         Options.paranoid_checks: 1
+2026/02/12-15:57:42.625338 408c             Options.flush_verify_memtable_count: 1
+2026/02/12-15:57:42.625347 408c          Options.compaction_verify_record_count: 1
+2026/02/12-15:57:42.625357 408c                               Options.track_and_verify_wals_in_manifest: 0
+2026/02/12-15:57:42.625366 408c        Options.verify_sst_unique_id_in_manifest: 1
+2026/02/12-15:57:42.625375 408c                                     Options.env: 00000233A28C03E0
+2026/02/12-15:57:42.625384 408c                                      Options.fs: WinFS
+2026/02/12-15:57:42.625393 408c                                Options.info_log: 00000233A29F85B0
+2026/02/12-15:57:42.625402 408c                Options.max_file_opening_threads: 16
+2026/02/12-15:57:42.625411 408c                              Options.statistics: 00000233A29A5750
+2026/02/12-15:57:42.625420 408c                              Options.statistics stats level: 1
+2026/02/12-15:57:42.625430 408c                               Options.use_fsync: 0
+2026/02/12-15:57:42.625439 408c                       Options.max_log_file_size: 0
+2026/02/12-15:57:42.625449 408c                  Options.max_manifest_file_size: 1073741824
+2026/02/12-15:57:42.625458 408c                   Options.log_file_time_to_roll: 0
+2026/02/12-15:57:42.625467 408c                       Options.keep_log_file_num: 1000
+2026/02/12-15:57:42.625476 408c                    Options.recycle_log_file_num: 0
+2026/02/12-15:57:42.625485 408c                         Options.allow_fallocate: 1
+2026/02/12-15:57:42.625524 408c                        Options.allow_mmap_reads: 0
+2026/02/12-15:57:42.625538 408c                       Options.allow_mmap_writes: 0
+2026/02/12-15:57:42.625546 408c                        Options.use_direct_reads: 0
+2026/02/12-15:57:42.625554 408c                        Options.use_direct_io_for_flush_and_compaction: 0
+2026/02/12-15:57:42.625562 408c          Options.create_missing_column_families: 0
+2026/02/12-15:57:42.625569 408c                              Options.db_log_dir: 
+2026/02/12-15:57:42.625576 408c                                 Options.wal_dir: 
+2026/02/12-15:57:42.625584 408c                Options.table_cache_numshardbits: 6
+2026/02/12-15:57:42.625592 408c                         Options.WAL_ttl_seconds: 0
+2026/02/12-15:57:42.625600 408c                       Options.WAL_size_limit_MB: 0
+2026/02/12-15:57:42.625609 408c                        Options.max_write_batch_group_size_bytes: 1048576
+2026/02/12-15:57:42.625617 408c             Options.manifest_preallocation_size: 4194304
+2026/02/12-15:57:42.625624 408c                     Options.is_fd_close_on_exec: 1
+2026/02/12-15:57:42.625632 408c                   Options.advise_random_on_open: 1
+2026/02/12-15:57:42.625639 408c                    Options.db_write_buffer_size: 2147483648
+2026/02/12-15:57:42.625647 408c                    Options.write_buffer_manager: 00000233A28BE040
+2026/02/12-15:57:42.625654 408c           Options.random_access_max_buffer_size: 1048576
+2026/02/12-15:57:42.625663 408c                      Options.use_adaptive_mutex: 0
+2026/02/12-15:57:42.625671 408c                            Options.rate_limiter: 0000000000000000
+2026/02/12-15:57:42.625679 408c     Options.sst_file_manager.rate_bytes_per_sec: 0
+2026/02/12-15:57:42.625687 408c                       Options.wal_recovery_mode: 2
+2026/02/12-15:57:42.625694 408c                  Options.enable_thread_tracking: 0
+2026/02/12-15:57:42.625702 408c                  Options.enable_pipelined_write: 0
+2026/02/12-15:57:42.625709 408c                  Options.unordered_write: 0
+2026/02/12-15:57:42.625716 408c         Options.allow_concurrent_memtable_write: 1
+2026/02/12-15:57:42.625743 408c      Options.enable_write_thread_adaptive_yield: 1
+2026/02/12-15:57:42.625751 408c             Options.write_thread_max_yield_usec: 100
+2026/02/12-15:57:42.625758 408c            Options.write_thread_slow_yield_usec: 3
+2026/02/12-15:57:42.625765 408c                               Options.row_cache: None
+2026/02/12-15:57:42.625773 408c                              Options.wal_filter: None
+2026/02/12-15:57:42.625780 408c             Options.avoid_flush_during_recovery: 0
+2026/02/12-15:57:42.625787 408c             Options.allow_ingest_behind: 0
+2026/02/12-15:57:42.625795 408c             Options.two_write_queues: 1
+2026/02/12-15:57:42.625803 408c             Options.manual_wal_flush: 0
+2026/02/12-15:57:42.625810 408c             Options.wal_compression: 0
+2026/02/12-15:57:42.625818 408c             Options.background_close_inactive_wals: 0
+2026/02/12-15:57:42.625825 408c             Options.atomic_flush: 0
+2026/02/12-15:57:42.625832 408c             Options.avoid_unnecessary_blocking_io: 0
+2026/02/12-15:57:42.625840 408c             Options.prefix_seek_opt_in_only: 0
+2026/02/12-15:57:42.625847 408c                 Options.persist_stats_to_disk: 0
+2026/02/12-15:57:42.625854 408c                 Options.write_dbid_to_manifest: 1
+2026/02/12-15:57:42.625862 408c                 Options.write_identity_file: 1
+2026/02/12-15:57:42.625870 408c                 Options.log_readahead_size: 0
+2026/02/12-15:57:42.625877 408c                 Options.file_checksum_gen_factory: Unknown
+2026/02/12-15:57:42.625885 408c                 Options.best_efforts_recovery: 0
+2026/02/12-15:57:42.625892 408c                Options.max_bgerror_resume_count: 2147483647
+2026/02/12-15:57:42.625899 408c            Options.bgerror_resume_retry_interval: 1000000
+2026/02/12-15:57:42.625907 408c             Options.allow_data_in_errors: 0
+2026/02/12-15:57:42.625914 408c             Options.db_host_id: __hostname__
+2026/02/12-15:57:42.625955 408c             Options.enforce_single_del_contracts: true
+2026/02/12-15:57:42.625967 408c             Options.metadata_write_temperature: kUnknown
+2026/02/12-15:57:42.625976 408c             Options.wal_write_temperature: kUnknown
+2026/02/12-15:57:42.625984 408c             Options.max_background_jobs: 4
+2026/02/12-15:57:42.625991 408c             Options.max_background_compactions: -1
+2026/02/12-15:57:42.625998 408c             Options.max_subcompactions: 1
+2026/02/12-15:57:42.626005 408c             Options.avoid_flush_during_shutdown: 0
+2026/02/12-15:57:42.626012 408c           Options.writable_file_max_buffer_size: 1048576
+2026/02/12-15:57:42.626021 408c             Options.delayed_write_rate : 16777216
+2026/02/12-15:57:42.626029 408c             Options.max_total_wal_size: 0
+2026/02/12-15:57:42.626036 408c             Options.delete_obsolete_files_period_micros: 21600000000
+2026/02/12-15:57:42.626043 408c                   Options.stats_dump_period_sec: 600
+2026/02/12-15:57:42.626050 408c                 Options.stats_persist_period_sec: 600
+2026/02/12-15:57:42.626057 408c                 Options.stats_history_buffer_size: 1048576
+2026/02/12-15:57:42.626064 408c                          Options.max_open_files: -1
+2026/02/12-15:57:42.626071 408c                          Options.bytes_per_sync: 0
+2026/02/12-15:57:42.626080 408c                      Options.wal_bytes_per_sync: 0
+2026/02/12-15:57:42.626088 408c                   Options.strict_bytes_per_sync: 0
+2026/02/12-15:57:42.626096 408c       Options.compaction_readahead_size: 2097152
+2026/02/12-15:57:42.626103 408c                  Options.max_background_flushes: -1
+2026/02/12-15:57:42.626111 408c Options.daily_offpeak_time_utc: 
+2026/02/12-15:57:42.626118 408c Compression algorithms supported:
+2026/02/12-15:57:42.626125 408c 	kZSTD supported: 1
+2026/02/12-15:57:42.626133 408c 	kSnappyCompression supported: 1
+2026/02/12-15:57:42.626141 408c 	kBZip2Compression supported: 0
+2026/02/12-15:57:42.626149 408c 	kZlibCompression supported: 1
+2026/02/12-15:57:42.626157 408c 	kLZ4Compression supported: 1
+2026/02/12-15:57:42.626164 408c 	kXpressCompression supported: 0
+2026/02/12-15:57:42.626172 408c 	kLZ4HCCompression supported: 1
+2026/02/12-15:57:42.626179 408c 	kZSTDNotFinalCompression supported: 1
+2026/02/12-15:57:42.626187 408c Fast CRC32 supported: Not supported on x86
+2026/02/12-15:57:42.626195 408c DMutex implementation: std::mutex
+2026/02/12-15:57:42.626203 408c Jemalloc supported: 0
+2026/02/12-15:57:42.626877 408c [db\version_set.cc:6068] Recovering from manifest file: ./llm_cache/MANIFEST-000473
+2026/02/12-15:57:42.626983 408c [db\column_family.cc:629] --------------- Options for column family [default]:
+2026/02/12-15:57:42.627008 408c               Options.comparator: leveldb.BytewiseComparator
+2026/02/12-15:57:42.627017 408c           Options.merge_operator: None
+2026/02/12-15:57:42.627025 408c        Options.compaction_filter: None
+2026/02/12-15:57:42.627033 408c        Options.compaction_filter_factory: None
+2026/02/12-15:57:42.627040 408c  Options.sst_partitioner_factory: None
+2026/02/12-15:57:42.627048 408c         Options.memtable_factory: SkipListFactory
+2026/02/12-15:57:42.627056 408c            Options.table_factory: BlockBasedTable
+2026/02/12-15:57:42.627082 408c            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (00000233A29EF000)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 4
+  no_block_cache: 0
+  block_cache: 00000233A2937B20
+  block_cache_name: LRUCache
+  block_cache_options:
+    capacity : 33554432
+    num_shard_bits : 6
+    strict_capacity_limit : 0
+    memory_allocator : None
+    high_pri_pool_ratio: 0.500
+    low_pri_pool_ratio: 0.000
+  persistent_cache: 0000000000000000
+  block_size: 4096
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 6
+  enable_index_compression: 1
+  block_align: 0
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+  num_file_reads_for_auto_readahead: 2
+2026/02/12-15:57:42.627095 408c        Options.write_buffer_size: 536870912
+2026/02/12-15:57:42.627105 408c  Options.max_write_buffer_number: 6
+2026/02/12-15:57:42.627114 408c          Options.compression: Snappy
+2026/02/12-15:57:42.627122 408c                  Options.bottommost_compression: Disabled
+2026/02/12-15:57:42.627129 408c       Options.prefix_extractor: nullptr
+2026/02/12-15:57:42.627136 408c   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2026/02/12-15:57:42.627144 408c             Options.num_levels: 7
+2026/02/12-15:57:42.627151 408c        Options.min_write_buffer_number_to_merge: 1
+2026/02/12-15:57:42.627158 408c     Options.max_write_buffer_number_to_maintain: 0
+2026/02/12-15:57:42.627165 408c     Options.max_write_buffer_size_to_maintain: 3221225472
+2026/02/12-15:57:42.627174 408c            Options.bottommost_compression_opts.window_bits: -14
+2026/02/12-15:57:42.627182 408c                  Options.bottommost_compression_opts.level: 32767
+2026/02/12-15:57:42.627189 408c               Options.bottommost_compression_opts.strategy: 0
+2026/02/12-15:57:42.627197 408c         Options.bottommost_compression_opts.max_dict_bytes: 0
+2026/02/12-15:57:42.627204 408c         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2026/02/12-15:57:42.627211 408c         Options.bottommost_compression_opts.parallel_threads: 1
+2026/02/12-15:57:42.627218 408c                  Options.bottommost_compression_opts.enabled: false
+2026/02/12-15:57:42.627225 408c         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2026/02/12-15:57:42.627233 408c         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2026/02/12-15:57:42.627241 408c            Options.compression_opts.window_bits: -14
+2026/02/12-15:57:42.627249 408c                  Options.compression_opts.level: 32767
+2026/02/12-15:57:42.627256 408c               Options.compression_opts.strategy: 0
+2026/02/12-15:57:42.627263 408c         Options.compression_opts.max_dict_bytes: 0
+2026/02/12-15:57:42.627270 408c         Options.compression_opts.zstd_max_train_bytes: 0
+2026/02/12-15:57:42.627277 408c         Options.compression_opts.use_zstd_dict_trainer: true
+2026/02/12-15:57:42.627285 408c         Options.compression_opts.parallel_threads: 1
+2026/02/12-15:57:42.627293 408c                  Options.compression_opts.enabled: false
+2026/02/12-15:57:42.627301 408c         Options.compression_opts.max_dict_buffer_bytes: 0
+2026/02/12-15:57:42.627309 408c      Options.level0_file_num_compaction_trigger: 4
+2026/02/12-15:57:42.627316 408c          Options.level0_slowdown_writes_trigger: 20
+2026/02/12-15:57:42.627323 408c              Options.level0_stop_writes_trigger: 36
+2026/02/12-15:57:42.627331 408c                   Options.target_file_size_base: 67108864
+2026/02/12-15:57:42.627339 408c             Options.target_file_size_multiplier: 1
+2026/02/12-15:57:42.627346 408c                Options.max_bytes_for_level_base: 268435456
+2026/02/12-15:57:42.627354 408c Options.level_compaction_dynamic_level_bytes: 1
+2026/02/12-15:57:42.627362 408c          Options.max_bytes_for_level_multiplier: 10.000000
+2026/02/12-15:57:42.627370 408c Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2026/02/12-15:57:42.627377 408c Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2026/02/12-15:57:42.627384 408c Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2026/02/12-15:57:42.627391 408c Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2026/02/12-15:57:42.627398 408c Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2026/02/12-15:57:42.627405 408c Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2026/02/12-15:57:42.627413 408c Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2026/02/12-15:57:42.627448 408c       Options.max_sequential_skip_in_iterations: 8
+2026/02/12-15:57:42.627460 408c                    Options.max_compaction_bytes: 1677721600
+2026/02/12-15:57:42.627467 408c                        Options.arena_block_size: 1048576
+2026/02/12-15:57:42.627475 408c   Options.soft_pending_compaction_bytes_limit: 68719476736
+2026/02/12-15:57:42.627482 408c   Options.hard_pending_compaction_bytes_limit: 274877906944
+2026/02/12-15:57:42.627489 408c                Options.disable_auto_compactions: 1
+2026/02/12-15:57:42.627498 408c                        Options.compaction_style: kCompactionStyleLevel
+2026/02/12-15:57:42.627507 408c                          Options.compaction_pri: kMinOverlappingRatio
+2026/02/12-15:57:42.627516 408c Options.compaction_options_universal.size_ratio: 1
+2026/02/12-15:57:42.627523 408c Options.compaction_options_universal.min_merge_width: 2
+2026/02/12-15:57:42.627531 408c Options.compaction_options_universal.max_merge_width: 4294967295
+2026/02/12-15:57:42.627538 408c Options.compaction_options_universal.max_size_amplification_percent: 200
+2026/02/12-15:57:42.627545 408c Options.compaction_options_universal.compression_size_percent: -1
+2026/02/12-15:57:42.627552 408c Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2026/02/12-15:57:42.627578 408c Options.compaction_options_universal.max_read_amp: -1
+2026/02/12-15:57:42.627586 408c Options.compaction_options_fifo.max_table_files_size: 1073741824
+2026/02/12-15:57:42.627594 408c Options.compaction_options_fifo.allow_compaction: 0
+2026/02/12-15:57:42.627604 408c                   Options.table_properties_collectors: 
+2026/02/12-15:57:42.627612 408c                   Options.inplace_update_support: 0
+2026/02/12-15:57:42.627619 408c                 Options.inplace_update_num_locks: 10000
+2026/02/12-15:57:42.627626 408c               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2026/02/12-15:57:42.627634 408c               Options.memtable_whole_key_filtering: 0
+2026/02/12-15:57:42.627641 408c   Options.memtable_huge_page_size: 0
+2026/02/12-15:57:42.627649 408c                           Options.bloom_locality: 0
+2026/02/12-15:57:42.627657 408c                    Options.max_successive_merges: 0
+2026/02/12-15:57:42.627664 408c             Options.strict_max_successive_merges: 0
+2026/02/12-15:57:42.627671 408c                Options.optimize_filters_for_hits: 0
+2026/02/12-15:57:42.627678 408c                Options.paranoid_file_checks: 0
+2026/02/12-15:57:42.627685 408c                Options.force_consistency_checks: 1
+2026/02/12-15:57:42.627692 408c                Options.report_bg_io_stats: 0
+2026/02/12-15:57:42.627699 408c                               Options.ttl: 2592000
+2026/02/12-15:57:42.627707 408c          Options.periodic_compaction_seconds: 0
+2026/02/12-15:57:42.627714 408c                        Options.default_temperature: kUnknown
+2026/02/12-15:57:42.627722 408c  Options.preclude_last_level_data_seconds: 0
+2026/02/12-15:57:42.627729 408c    Options.preserve_internal_time_seconds: 0
+2026/02/12-15:57:42.627736 408c                       Options.enable_blob_files: false
+2026/02/12-15:57:42.627743 408c                           Options.min_blob_size: 0
+2026/02/12-15:57:42.627750 408c                          Options.blob_file_size: 268435456
+2026/02/12-15:57:42.627757 408c                   Options.blob_compression_type: NoCompression
+2026/02/12-15:57:42.627765 408c          Options.enable_blob_garbage_collection: false
+2026/02/12-15:57:42.627773 408c      Options.blob_garbage_collection_age_cutoff: 0.250000
+2026/02/12-15:57:42.627781 408c Options.blob_garbage_collection_force_threshold: 1.000000
+2026/02/12-15:57:42.627789 408c          Options.blob_compaction_readahead_size: 0
+2026/02/12-15:57:42.627796 408c                Options.blob_file_starting_level: 0
+2026/02/12-15:57:42.627803 408c         Options.experimental_mempurge_threshold: 0.000000
+2026/02/12-15:57:42.627810 408c            Options.memtable_max_range_deletions: 0
+2026/02/12-15:57:42.629811 408c [db\version_set.cc:6126] Recovered from manifest file:./llm_cache/MANIFEST-000473 succeeded,manifest_file_number is 473, next_file_number is 477, last_sequence is 0, log_number is 467,prev_log_number is 0,max_column_family is 0,min_log_number_to_keep is 0
+2026/02/12-15:57:42.629834 408c [db\version_set.cc:6135] Column family [default] (ID 0), log number is 467
+2026/02/12-15:57:42.630063 408c [db\db_impl\db_impl_open.cc:685] DB ID: 2235a53d-facd-11f0-8e3a-b42e99fe92b3
+2026/02/12-15:57:42.630657 408c EVENT_LOG_v1 {"time_micros": 1770908262630628, "job": 1, "event": "recovery_started", "wal_files": [4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 64, 70, 76, 82, 88, 94, 100, 106, 112, 118, 124, 130, 136, 142, 148, 154, 160, 166, 172, 178, 184, 190, 196, 202, 208, 214, 220, 226, 232, 238, 244, 250, 256, 262, 268, 274, 280, 286, 292, 298, 304, 310, 316, 322, 328, 334, 340, 346, 352, 358, 364, 370, 376, 382, 388, 394, 400, 406, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472]}
+2026/02/12-15:57:42.630674 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #4 mode 2
+2026/02/12-15:57:42.630786 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #10 mode 2
+2026/02/12-15:57:42.630883 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #16 mode 2
+2026/02/12-15:57:42.630973 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #22 mode 2
+2026/02/12-15:57:42.631066 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #28 mode 2
+2026/02/12-15:57:42.631171 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #34 mode 2
+2026/02/12-15:57:42.631257 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #40 mode 2
+2026/02/12-15:57:42.631342 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #46 mode 2
+2026/02/12-15:57:42.631436 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #52 mode 2
+2026/02/12-15:57:42.631521 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #58 mode 2
+2026/02/12-15:57:42.631607 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #64 mode 2
+2026/02/12-15:57:42.631692 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #70 mode 2
+2026/02/12-15:57:42.631864 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #76 mode 2
+2026/02/12-15:57:42.631955 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #82 mode 2
+2026/02/12-15:57:42.632041 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #88 mode 2
+2026/02/12-15:57:42.632127 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #94 mode 2
+2026/02/12-15:57:42.632212 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #100 mode 2
+2026/02/12-15:57:42.632307 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #106 mode 2
+2026/02/12-15:57:42.632413 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #112 mode 2
+2026/02/12-15:57:42.632500 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #118 mode 2
+2026/02/12-15:57:42.632587 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #124 mode 2
+2026/02/12-15:57:42.632674 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #130 mode 2
+2026/02/12-15:57:42.632759 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #136 mode 2
+2026/02/12-15:57:42.632846 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #142 mode 2
+2026/02/12-15:57:42.632934 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #148 mode 2
+2026/02/12-15:57:42.633022 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #154 mode 2
+2026/02/12-15:57:42.633108 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #160 mode 2
+2026/02/12-15:57:42.633194 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #166 mode 2
+2026/02/12-15:57:42.633281 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #172 mode 2
+2026/02/12-15:57:42.633375 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #178 mode 2
+2026/02/12-15:57:42.633463 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #184 mode 2
+2026/02/12-15:57:42.633562 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #190 mode 2
+2026/02/12-15:57:42.633649 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #196 mode 2
+2026/02/12-15:57:42.633737 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #202 mode 2
+2026/02/12-15:57:42.633829 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #208 mode 2
+2026/02/12-15:57:42.633917 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #214 mode 2
+2026/02/12-15:57:42.634004 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #220 mode 2
+2026/02/12-15:57:42.634091 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #226 mode 2
+2026/02/12-15:57:42.634178 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #232 mode 2
+2026/02/12-15:57:42.634264 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #238 mode 2
+2026/02/12-15:57:42.634351 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #244 mode 2
+2026/02/12-15:57:42.634438 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #250 mode 2
+2026/02/12-15:57:42.634524 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #256 mode 2
+2026/02/12-15:57:42.634611 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #262 mode 2
+2026/02/12-15:57:42.634707 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #268 mode 2
+2026/02/12-15:57:42.634815 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #274 mode 2
+2026/02/12-15:57:42.634905 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #280 mode 2
+2026/02/12-15:57:42.634996 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #286 mode 2
+2026/02/12-15:57:42.635086 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #292 mode 2
+2026/02/12-15:57:42.635176 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #298 mode 2
+2026/02/12-15:57:42.635267 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #304 mode 2
+2026/02/12-15:57:42.635356 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #310 mode 2
+2026/02/12-15:57:42.635452 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #316 mode 2
+2026/02/12-15:57:42.635542 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #322 mode 2
+2026/02/12-15:57:42.635631 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #328 mode 2
+2026/02/12-15:57:42.635721 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #334 mode 2
+2026/02/12-15:57:42.635827 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #340 mode 2
+2026/02/12-15:57:42.635914 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #346 mode 2
+2026/02/12-15:57:42.636002 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #352 mode 2
+2026/02/12-15:57:42.636090 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #358 mode 2
+2026/02/12-15:57:42.636179 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #364 mode 2
+2026/02/12-15:57:42.636265 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #370 mode 2
+2026/02/12-15:57:42.636352 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #376 mode 2
+2026/02/12-15:57:42.636439 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #382 mode 2
+2026/02/12-15:57:42.636526 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #388 mode 2
+2026/02/12-15:57:42.636611 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #394 mode 2
+2026/02/12-15:57:42.636698 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #400 mode 2
+2026/02/12-15:57:42.636785 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #406 mode 2
+2026/02/12-15:57:42.636873 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #412 mode 2
+2026/02/12-15:57:42.636960 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #418 mode 2
+2026/02/12-15:57:42.637049 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #424 mode 2
+2026/02/12-15:57:42.637137 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #430 mode 2
+2026/02/12-15:57:42.637225 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #436 mode 2
+2026/02/12-15:57:42.637312 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #442 mode 2
+2026/02/12-15:57:42.637407 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #448 mode 2
+2026/02/12-15:57:42.637496 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #454 mode 2
+2026/02/12-15:57:42.637583 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #460 mode 2
+2026/02/12-15:57:42.637672 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #466 mode 2
+2026/02/12-15:57:42.637764 408c [db\db_impl\db_impl_open.cc:1188] Recovering log #472 mode 2
+2026/02/12-15:57:42.640683 408c EVENT_LOG_v1 {"time_micros": 1770908262640675, "job": 1, "event": "recovery_finished"}
+2026/02/12-15:57:42.641061 408c [db\version_set.cc:5560] Creating manifest 479
+2026/02/12-15:57:42.663894 408c [db\db_impl\db_impl_open.cc:2239] SstFileManager instance 00000233A293BB60
+2026/02/12-15:57:42.664654 408c DB pointer 00000233A2A07880
+2026/02/12-15:57:42.664729 408c [WARN] [utilities\transactions\pessimistic_transaction_db.cc:263] Transaction write_policy is 2
+2026/02/12-15:57:42.689154 408c [db\db_impl\db_impl.cc:1301] SetOptions() on column family [default], inputs:
+2026/02/12-15:57:42.689192 408c [db\db_impl\db_impl.cc:1304] disable_auto_compactions: false
+2026/02/12-15:57:42.689201 408c [db\db_impl\db_impl.cc:1308] [default] SetOptions() succeeded
+2026/02/12-15:57:42.689208 408c [options\cf_options.cc:1060]                         write_buffer_size: 536870912
+2026/02/12-15:57:42.689217 408c [options\cf_options.cc:1062]                   max_write_buffer_number: 6
+2026/02/12-15:57:42.689224 408c [options\cf_options.cc:1065]                          arena_block_size: 1048576
+2026/02/12-15:57:42.689232 408c [options\cf_options.cc:1067]               memtable_prefix_bloom_ratio: 0.000000
+2026/02/12-15:57:42.689240 408c [options\cf_options.cc:1069]               memtable_whole_key_filtering: 0
+2026/02/12-15:57:42.689266 408c [options\cf_options.cc:1072]                   memtable_huge_page_size: 0
+2026/02/12-15:57:42.689274 408c [options\cf_options.cc:1075]                     max_successive_merges: 0
+2026/02/12-15:57:42.689281 408c [options\cf_options.cc:1077]              strict_max_successive_merges: 0
+2026/02/12-15:57:42.689289 408c [options\cf_options.cc:1080]                  inplace_update_num_locks: 10000
+2026/02/12-15:57:42.689317 408c [options\cf_options.cc:1084]                          prefix_extractor: nullptr
+2026/02/12-15:57:42.689326 408c [options\cf_options.cc:1086]                  disable_auto_compactions: 0
+2026/02/12-15:57:42.689335 408c [options\cf_options.cc:1088]       soft_pending_compaction_bytes_limit: 68719476736
+2026/02/12-15:57:42.689343 408c [options\cf_options.cc:1090]       hard_pending_compaction_bytes_limit: 274877906944
+2026/02/12-15:57:42.689351 408c [options\cf_options.cc:1092]        level0_file_num_compaction_trigger: 4
+2026/02/12-15:57:42.689359 408c [options\cf_options.cc:1094]            level0_slowdown_writes_trigger: 20
+2026/02/12-15:57:42.689367 408c [options\cf_options.cc:1096]                level0_stop_writes_trigger: 36
+2026/02/12-15:57:42.689375 408c [options\cf_options.cc:1098]                      max_compaction_bytes: 1677721600
+2026/02/12-15:57:42.689384 408c [options\cf_options.cc:1100]                     target_file_size_base: 67108864
+2026/02/12-15:57:42.689392 408c [options\cf_options.cc:1102]               target_file_size_multiplier: 1
+2026/02/12-15:57:42.689400 408c [options\cf_options.cc:1104]                  max_bytes_for_level_base: 268435456
+2026/02/12-15:57:42.689407 408c [options\cf_options.cc:1106]            max_bytes_for_level_multiplier: 10.000000
+2026/02/12-15:57:42.689416 408c [options\cf_options.cc:1108]                                       ttl: 2592000
+2026/02/12-15:57:42.689441 408c [options\cf_options.cc:1110]               periodic_compaction_seconds: 0
+2026/02/12-15:57:42.689468 408c [options\cf_options.cc:1112]                    paranoid_memory_checks: 0
+2026/02/12-15:57:42.689478 408c [options\cf_options.cc:1126] max_bytes_for_level_multiplier_additional: 1, 1, 1, 1, 1, 1, 1
+2026/02/12-15:57:42.689487 408c [options\cf_options.cc:1128]         max_sequential_skip_in_iterations: 8
+2026/02/12-15:57:42.689496 408c [options\cf_options.cc:1130]                      paranoid_file_checks: 0
+2026/02/12-15:57:42.689504 408c [options\cf_options.cc:1132]                        report_bg_io_stats: 0
+2026/02/12-15:57:42.689528 408c [options\cf_options.cc:1134]                               compression: 1
+2026/02/12-15:57:42.689560 408c [options\cf_options.cc:1136]           experimental_mempurge_threshold: 0.000000
+2026/02/12-15:57:42.689572 408c [options\cf_options.cc:1138]          bottommost_file_compaction_delay: 0
+2026/02/12-15:57:42.689587 408c [options\cf_options.cc:1140]                    uncache_aggressiveness: 0
+2026/02/12-15:57:42.689597 408c [options\cf_options.cc:1144] compaction_options_universal.size_ratio : 1
+2026/02/12-15:57:42.689606 408c [options\cf_options.cc:1146] compaction_options_universal.min_merge_width : 2
+2026/02/12-15:57:42.689615 408c [options\cf_options.cc:1148] compaction_options_universal.max_merge_width : -1
+2026/02/12-15:57:42.689623 408c [options\cf_options.cc:1151] compaction_options_universal.max_size_amplification_percent : 200
+2026/02/12-15:57:42.689631 408c [options\cf_options.cc:1154] compaction_options_universal.compression_size_percent : -1
+2026/02/12-15:57:42.689639 408c [options\cf_options.cc:1156] compaction_options_universal.max_read_amp:  -1
+2026/02/12-15:57:42.689647 408c [options\cf_options.cc:1158] compaction_options_universal.stop_style : 1
+2026/02/12-15:57:42.689671 408c [options\cf_options.cc:1161] compaction_options_universal.allow_trivial_move : 0
+2026/02/12-15:57:42.689680 408c [options\cf_options.cc:1163] compaction_options_universal.incremental        : 0
+2026/02/12-15:57:42.689689 408c [options\cf_options.cc:1167] compaction_options_fifo.max_table_files_size : 1073741824
+2026/02/12-15:57:42.689697 408c [options\cf_options.cc:1169] compaction_options_fifo.allow_compaction : 0
+2026/02/12-15:57:42.689705 408c [options\cf_options.cc:1173]                         enable_blob_files: false
+2026/02/12-15:57:42.689712 408c [options\cf_options.cc:1175]                             min_blob_size: 0
+2026/02/12-15:57:42.689720 408c [options\cf_options.cc:1177]                            blob_file_size: 268435456
+2026/02/12-15:57:42.689728 408c [options\cf_options.cc:1179]                     blob_compression_type: NoCompression
+2026/02/12-15:57:42.689736 408c [options\cf_options.cc:1181]            enable_blob_garbage_collection: false
+2026/02/12-15:57:42.689744 408c [options\cf_options.cc:1183]        blob_garbage_collection_age_cutoff: 0.250000
+2026/02/12-15:57:42.689753 408c [options\cf_options.cc:1185]   blob_garbage_collection_force_threshold: 1.000000
+2026/02/12-15:57:42.689762 408c [options\cf_options.cc:1187]            blob_compaction_readahead_size: 0
+2026/02/12-15:57:42.689770 408c [options\cf_options.cc:1189]                  blob_file_starting_level: 0
+2026/02/12-15:57:42.689777 408c [options\cf_options.cc:1193]                    prepopulate_blob_cache: disable
+2026/02/12-15:57:42.689784 408c [options\cf_options.cc:1195]                    last_level_temperature: 0
+2026/02/12-15:57:42.699388 408c [db\db_impl\db_impl.cc:500] Shutdown: canceling all background work
+2026/02/12-15:57:42.702185 408c [db\db_impl\db_impl.cc:500] Shutdown: canceling all background work
+2026/02/12-15:57:42.709347 408c [db\db_impl\db_impl.cc:705] Shutdown complete

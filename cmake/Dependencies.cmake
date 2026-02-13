@@ -553,6 +553,18 @@ if(THEMIS_ENABLE_LLM)
     set(LLAMA_INSTALL OFF CACHE BOOL "Install llama" FORCE)
     
     # =========================================================================
+    # MSVC C++20 char8_t COMPATIBILITY FIX (PR #LLAMA-CPP-MSVC)
+    # =========================================================================
+    # llama-chat.cpp uses u8"..." literals which MSVC C++20 strictly differentiates
+    # from const char*. We need to add compiler flags to handle this.
+    if(MSVC)
+        # Suppress char8_t strict checking and allow implicit conversions
+        set(LLAMA_CXXFLAGS "/permissive- /Zc:char8_t-")
+        set(CMAKE_CXX_FLAGS_INIT "${CMAKE_CXX_FLAGS_INIT} ${LLAMA_CXXFLAGS}")
+        message(STATUS "llama.cpp: Applied MSVC char8_t compatibility flags")
+    endif()
+    
+    # =========================================================================
     # PERFORMANCE OPTIMIZATIONS - PR #1022 CRITICAL FIXES
     # =========================================================================
     # Flash Attention: +15-25% performance improvement
@@ -582,6 +594,20 @@ if(THEMIS_ENABLE_LLM)
     )
     
     FetchContent_MakeAvailable(llama_cpp)
+    
+    # =========================================================================
+    # APPLY MSVC CHAR8_T FIXES TO LLAMA TARGETS
+    # =========================================================================
+    # After FetchContent_MakeAvailable, apply the compatibility flags
+    if(MSVC AND TARGET llama)
+        target_compile_options(llama PRIVATE /Zc:char8_t-)
+        message(STATUS "Applied /Zc:char8_t- to llama target for MSVC compatibility")
+    endif()
+    
+    if(MSVC AND TARGET ggml)
+        target_compile_options(ggml PRIVATE /Zc:char8_t-)
+        message(STATUS "Applied /Zc:char8_t- to ggml target for MSVC compatibility")
+    endif()
     
     # Ensure OpenMP is linked to llama target
     if(TARGET llama)

@@ -394,12 +394,3 @@ TEST_F(LegalPipelineIntegrationTest, EndToEndPipeline) {
     EXPECT_EQ(train_config.rank, 8);
     EXPECT_EQ(train_config.num_epochs, 1);
 }
-
-// =============================================================================
-// Main
-// =============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

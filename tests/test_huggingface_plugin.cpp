@@ -17,6 +17,7 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
+#include <random>
 
 using namespace themis;
 using namespace themis::plugins;
@@ -44,9 +45,9 @@ public:
             throw std::runtime_error("Failed to open test database");
         }
         
-        vector_index_ = std::make_shared<VectorIndexManager>(storage_);
-        graph_index_ = std::make_shared<GraphIndexManager>(storage_);
-        secondary_index_ = std::make_shared<SecondaryIndexManager>(storage_);
+        vector_index_ = std::make_shared<VectorIndexManager>(*storage_);
+        graph_index_ = std::make_shared<GraphIndexManager>(*storage_);
+        secondary_index_ = std::make_shared<SecondaryIndexManager>(*storage_);
         
         content_manager_ = std::make_shared<ContentManager>(
             storage_, vector_index_, graph_index_, secondary_index_
@@ -352,11 +353,3 @@ TEST(HuggingFacePlugin, DISABLED_FullIngestionWorkflow) {
     std::filesystem::remove_all("/tmp/hf_test_cache");
 }
 
-// ============================================================================
-// Main
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -1141,8 +1141,3 @@ TEST(PolicyReviewIntegrationTest, OverdueReviewNotifications) {
     auto pending = notif_mgr.getPendingNotifications();
     EXPECT_GE(pending.size(), 0);
 }
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

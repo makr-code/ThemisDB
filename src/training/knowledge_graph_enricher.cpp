@@ -121,7 +121,8 @@ private:
         
         return summary;
     }
-    
+
+public:
     EnrichmentStats enrichQuery(const std::string& aql_query,
                                EnrichmentCallback callback) {
         EnrichmentStats stats;
@@ -133,7 +134,7 @@ private:
         
         return stats;
     }
-    
+
     std::vector<std::string> findRelatedProvisions(const std::string& document_id,
                                                    size_t max_results) {
         std::vector<std::string> provisions;
@@ -150,7 +151,7 @@ private:
         
         return provisions;
     }
-    
+
     std::vector<std::string> findRelatedCaseLaw(const std::string& document_id,
                                                 size_t max_results) {
         std::vector<std::string> case_law;
@@ -167,7 +168,7 @@ private:
         
         return case_law;
     }
-    
+
     std::vector<std::pair<std::string, float>> findSimilarDocuments(
         const std::string& document_id,
         size_t max_results) {
@@ -190,11 +191,11 @@ private:
         
         return similar;
     }
-    
+
     void setCustomQuery(const std::string& query_name, const std::string& aql_query) {
         custom_queries_[query_name] = aql_query;
     }
-    
+
 private:
     EnrichmentConfig config_;
     std::string db_connection_;

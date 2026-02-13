@@ -247,7 +247,8 @@ private:
         
         return stats;
     }
-    
+
+public:
     void setApiToken(const std::string& token) {
         api_token_ = token;
     }
@@ -259,7 +260,7 @@ private:
     void setStreamingMode(bool enabled) {
         streaming_enabled_ = enabled;
     }
-    
+
 private:
     SourceConfig config_;
     std::string dataset_name_;

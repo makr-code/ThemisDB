@@ -452,12 +452,3 @@ TEST_F(LegalTrainingSchemaTest, DISABLED_ViewQueries) {
 
 } // namespace test
 } // namespace themis
-
-// ============================================================================
-// Main entry point
-// ============================================================================
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

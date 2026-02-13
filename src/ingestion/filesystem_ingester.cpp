@@ -73,13 +73,19 @@ public:
             if (fs::is_regular_file(path_)) {
                 count = 1;
             } else if (fs::is_directory(path_)) {
-                auto iterator = filter_.recursive 
-                    ? fs::recursive_directory_iterator(path_)
-                    : fs::directory_iterator(path_);
-                    
-                for (const auto& entry : iterator) {
-                    if (entry.is_regular_file() && matchesFilter(entry.path())) {
-                        count++;
+                if (filter_.recursive) {
+                    for (fs::recursive_directory_iterator it(path_), end; it != end; ++it) {
+                        const auto& entry = *it;
+                        if (entry.is_regular_file() && matchesFilter(entry.path())) {
+                            count++;
+                        }
+                    }
+                } else {
+                    for (fs::directory_iterator it(path_), end; it != end; ++it) {
+                        const auto& entry = *it;
+                        if (entry.is_regular_file() && matchesFilter(entry.path())) {
+                            count++;
+                        }
                     }
                 }
             }
@@ -109,13 +115,19 @@ public:
                     files_to_process.push_back(path_);
                 }
             } else if (fs::is_directory(path_)) {
-                auto iterator = filter_.recursive 
-                    ? fs::recursive_directory_iterator(path_)
-                    : fs::directory_iterator(path_);
-                    
-                for (const auto& entry : iterator) {
-                    if (entry.is_regular_file() && matchesFilter(entry.path())) {
-                        files_to_process.push_back(entry.path());
+                if (filter_.recursive) {
+                    for (fs::recursive_directory_iterator it(path_), end; it != end; ++it) {
+                        const auto& entry = *it;
+                        if (entry.is_regular_file() && matchesFilter(entry.path())) {
+                            files_to_process.push_back(entry.path());
+                        }
+                    }
+                } else {
+                    for (fs::directory_iterator it(path_), end; it != end; ++it) {
+                        const auto& entry = *it;
+                        if (entry.is_regular_file() && matchesFilter(entry.path())) {
+                            files_to_process.push_back(entry.path());
+                        }
                     }
                 }
             }
@@ -197,6 +209,7 @@ private:
         return content;
     }
     
+public:
     void setOCRConfig(const OCRConfig& config) {
         ocr_config_ = config;
     }
@@ -212,7 +225,7 @@ private:
     void setMetadataExtraction(bool enabled) {
         metadata_extraction_ = enabled;
     }
-    
+
 private:
     bool matchesFilter(const fs::path& file_path) const {
         // Check extension

@@ -10,6 +10,8 @@
 #include <gtest/gtest.h>
 #include "llm/multi_lora_manager.h"
 #include "llm/llm_plugin_interface.h"
+#include <filesystem>
+#include <fstream>
 #include <thread>
 #include <chrono>
 
@@ -19,7 +21,7 @@ using namespace themis::llm;
 // Test Fixtures
 // ═══════════════════════════════════════════════════════════
 
-class LoRAAdapterTest : public ::testing::Test {
+class LoRAAdapterUnitTest : public ::testing::Test {
 protected:
     void SetUp() override {
         config_.max_lora_vram_mb = 512;
@@ -27,8 +29,30 @@ protected:
         config_.lora_ttl = std::chrono::seconds(60);
         config_.enable_multi_lora_batch = true;
         config_.enable_adapter_fusion = true;
+
+        test_dir_ = std::filesystem::temp_directory_path() / "themis_lora_adapter_test";
+        std::filesystem::create_directories(test_dir_);
+    }
+
+    void TearDown() override {
+        if (std::filesystem::exists(test_dir_)) {
+            std::filesystem::remove_all(test_dir_);
+        }
+    }
+
+    std::string createMockAdapter(const std::string& name, size_t size_bytes = 1024) {
+        auto path = test_dir_ / (name + ".bin");
+        std::ofstream file(path, std::ios::binary);
+
+        for (size_t i = 0; i < size_bytes; ++i) {
+            file.put(static_cast<char>(i % 256));
+        }
+
+        file.close();
+        return path.string();
     }
     
+    std::filesystem::path test_dir_;
     MultiLoRAManager::Config config_;
 };
 
@@ -36,14 +60,17 @@ protected:
 // Cleanup Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LoRAAdapterTest, DestructorCleansUpAllLoRAs) {
+TEST_F(LoRAAdapterUnitTest, DestructorCleansUpAllLoRAs) {
     {
         MultiLoRAManager manager(config_);
         
         // Load several LoRAs
-        manager.loadLoRA("lora1", "/path/to/lora1.bin", "base-model", 1.0f);
-        manager.loadLoRA("lora2", "/path/to/lora2.bin", "base-model", 1.0f);
-        manager.loadLoRA("lora3", "/path/to/lora3.bin", "base-model", 1.0f);
+        auto lora1 = createMockAdapter("lora1");
+        auto lora2 = createMockAdapter("lora2");
+        auto lora3 = createMockAdapter("lora3");
+        manager.loadLoRA("lora1", lora1, "base-model", 1.0f);
+        manager.loadLoRA("lora2", lora2, "base-model", 1.0f);
+        manager.loadLoRA("lora3", lora3, "base-model", 1.0f);
         
         auto loras = manager.listLoRAs();
         EXPECT_EQ(loras.size(), 3);
@@ -54,10 +81,11 @@ TEST_F(LoRAAdapterTest, DestructorCleansUpAllLoRAs) {
     SUCCEED();
 }
 
-TEST_F(LoRAAdapterTest, UnloadLoRAFreesResources) {
+TEST_F(LoRAAdapterUnitTest, UnloadLoRAFreesResources) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("test-lora", "/path/to/test.bin", "base-model", 1.0f);
+    auto lora_path = createMockAdapter("test-lora");
+    manager.loadLoRA("test-lora", lora_path, "base-model", 1.0f);
     
     auto loras_before = manager.listLoRAs();
     EXPECT_EQ(loras_before.size(), 1);
@@ -69,11 +97,13 @@ TEST_F(LoRAAdapterTest, UnloadLoRAFreesResources) {
     EXPECT_EQ(loras_after.size(), 0);
 }
 
-TEST_F(LoRAAdapterTest, UnloadLoRAUpdatesVRAMTracking) {
+TEST_F(LoRAAdapterUnitTest, UnloadLoRAUpdatesVRAMTracking) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora1", "/path/to/lora1.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora2", "/path/to/lora2.bin", "base-model", 1.0f);
+    auto lora1 = createMockAdapter("lora1");
+    auto lora2 = createMockAdapter("lora2");
+    manager.loadLoRA("lora1", lora1, "base-model", 1.0f);
+    manager.loadLoRA("lora2", lora2, "base-model", 1.0f);
     
     auto stats_before = manager.getStats();
     size_t loras_before = stats_before.total_loras_loaded;
@@ -86,10 +116,11 @@ TEST_F(LoRAAdapterTest, UnloadLoRAUpdatesVRAMTracking) {
     EXPECT_LT(loras_after, loras_before);
 }
 
-TEST_F(LoRAAdapterTest, CannotUnloadPinnedLoRA) {
+TEST_F(LoRAAdapterUnitTest, CannotUnloadPinnedLoRA) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("pinned-lora", "/path/to/pinned.bin", "base-model", 1.0f);
+    auto pinned_path = createMockAdapter("pinned-lora");
+    manager.loadLoRA("pinned-lora", pinned_path, "base-model", 1.0f);
     manager.pinLoRA("pinned-lora");
     
     bool unloaded = manager.unloadLoRA("pinned-lora", false);
@@ -104,13 +135,16 @@ TEST_F(LoRAAdapterTest, CannotUnloadPinnedLoRA) {
 // Multi-LoRA Batch Inference Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LoRAAdapterTest, BatchInferenceWithMultipleLoRAs) {
+TEST_F(LoRAAdapterUnitTest, BatchInferenceWithMultipleLoRAs) {
     MultiLoRAManager manager(config_);
     
     // Load multiple LoRAs
-    manager.loadLoRA("math-lora", "/path/to/math.bin", "llama-7b", 1.0f);
-    manager.loadLoRA("code-lora", "/path/to/code.bin", "llama-7b", 1.0f);
-    manager.loadLoRA("chat-lora", "/path/to/chat.bin", "llama-7b", 1.0f);
+    auto math_path = createMockAdapter("math-lora");
+    auto code_path = createMockAdapter("code-lora");
+    auto chat_path = createMockAdapter("chat-lora");
+    manager.loadLoRA("math-lora", math_path, "llama-7b", 1.0f);
+    manager.loadLoRA("code-lora", code_path, "llama-7b", 1.0f);
+    manager.loadLoRA("chat-lora", chat_path, "llama-7b", 1.0f);
     
     // Create batch requests with different LoRAs
     std::vector<std::pair<InferenceRequest, std::string>> requests;
@@ -141,11 +175,13 @@ TEST_F(LoRAAdapterTest, BatchInferenceWithMultipleLoRAs) {
     EXPECT_EQ(responses[3].lora_used, "math-lora");
 }
 
-TEST_F(LoRAAdapterTest, BatchInferenceGroupsByLoRA) {
+TEST_F(LoRAAdapterUnitTest, BatchInferenceGroupsByLoRA) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "base", 1.0f);
-    manager.loadLoRA("lora-b", "/path/to/b.bin", "base", 1.0f);
+    auto lora_a = createMockAdapter("lora-a");
+    auto lora_b = createMockAdapter("lora-b");
+    manager.loadLoRA("lora-a", lora_a, "base", 1.0f);
+    manager.loadLoRA("lora-b", lora_b, "base", 1.0f);
     
     std::vector<std::pair<InferenceRequest, std::string>> requests;
     
@@ -168,10 +204,11 @@ TEST_F(LoRAAdapterTest, BatchInferenceGroupsByLoRA) {
     }
 }
 
-TEST_F(LoRAAdapterTest, BatchInferenceHandlesMissingLoRA) {
+TEST_F(LoRAAdapterUnitTest, BatchInferenceHandlesMissingLoRA) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("existing-lora", "/path/to/existing.bin", "base", 1.0f);
+    auto existing_path = createMockAdapter("existing-lora");
+    manager.loadLoRA("existing-lora", existing_path, "base", 1.0f);
     
     std::vector<std::pair<InferenceRequest, std::string>> requests;
     
@@ -189,7 +226,7 @@ TEST_F(LoRAAdapterTest, BatchInferenceHandlesMissingLoRA) {
     EXPECT_TRUE(!responses[0].text.empty());  // First should have valid response
 }
 
-TEST_F(LoRAAdapterTest, BatchInferenceDisabledByConfig) {
+TEST_F(LoRAAdapterUnitTest, BatchInferenceDisabledByConfig) {
     config_.enable_multi_lora_batch = false;
     MultiLoRAManager manager(config_);
     
@@ -207,13 +244,16 @@ TEST_F(LoRAAdapterTest, BatchInferenceDisabledByConfig) {
 // LoRA Fusion Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LoRAAdapterTest, FuseMultipleLoRAs) {
+TEST_F(LoRAAdapterUnitTest, FuseMultipleLoRAs) {
     MultiLoRAManager manager(config_);
     
     // Load source LoRAs
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora-b", "/path/to/b.bin", "base-model", 1.0f);
-    manager.loadLoRA("lora-c", "/path/to/c.bin", "base-model", 1.0f);
+    auto lora_a = createMockAdapter("lora-a");
+    auto lora_b = createMockAdapter("lora-b");
+    auto lora_c = createMockAdapter("lora-c");
+    manager.loadLoRA("lora-a", lora_a, "base-model", 1.0f);
+    manager.loadLoRA("lora-b", lora_b, "base-model", 1.0f);
+    manager.loadLoRA("lora-c", lora_c, "base-model", 1.0f);
     
     std::vector<std::string> source_loras = {"lora-a", "lora-b", "lora-c"};
     std::vector<float> weights = {0.5f, 0.3f, 0.2f};
@@ -234,11 +274,13 @@ TEST_F(LoRAAdapterTest, FuseMultipleLoRAs) {
     EXPECT_TRUE(found);
 }
 
-TEST_F(LoRAAdapterTest, FusionRequiresSameBaseModel) {
+TEST_F(LoRAAdapterUnitTest, FusionRequiresSameBaseModel) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "model-1", 1.0f);
-    manager.loadLoRA("lora-b", "/path/to/b.bin", "model-2", 1.0f);  // Different base model
+    auto lora_a = createMockAdapter("lora-a");
+    auto lora_b = createMockAdapter("lora-b");
+    manager.loadLoRA("lora-a", lora_a, "model-1", 1.0f);
+    manager.loadLoRA("lora-b", lora_b, "model-2", 1.0f);  // Different base model
     
     std::vector<std::string> source_loras = {"lora-a", "lora-b"};
     std::vector<float> weights = {0.5f, 0.5f};
@@ -247,11 +289,13 @@ TEST_F(LoRAAdapterTest, FusionRequiresSameBaseModel) {
     EXPECT_FALSE(fused);  // Should fail due to different base models
 }
 
-TEST_F(LoRAAdapterTest, FusionNormalizesWeights) {
+TEST_F(LoRAAdapterUnitTest, FusionNormalizesWeights) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "base", 1.0f);
-    manager.loadLoRA("lora-b", "/path/to/b.bin", "base", 1.0f);
+    auto lora_a = createMockAdapter("lora-a");
+    auto lora_b = createMockAdapter("lora-b");
+    manager.loadLoRA("lora-a", lora_a, "base", 1.0f);
+    manager.loadLoRA("lora-b", lora_b, "base", 1.0f);
     
     std::vector<std::string> source_loras = {"lora-a", "lora-b"};
     std::vector<float> weights = {2.0f, 3.0f};  // Sum = 5.0, will be normalized
@@ -262,11 +306,13 @@ TEST_F(LoRAAdapterTest, FusionNormalizesWeights) {
     // Weights should be normalized to 0.4 and 0.6
 }
 
-TEST_F(LoRAAdapterTest, FusionRequiresMatchingWeights) {
+TEST_F(LoRAAdapterUnitTest, FusionRequiresMatchingWeights) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "base", 1.0f);
-    manager.loadLoRA("lora-b", "/path/to/b.bin", "base", 1.0f);
+    auto lora_a = createMockAdapter("lora-a");
+    auto lora_b = createMockAdapter("lora-b");
+    manager.loadLoRA("lora-a", lora_a, "base", 1.0f);
+    manager.loadLoRA("lora-b", lora_b, "base", 1.0f);
     
     std::vector<std::string> source_loras = {"lora-a", "lora-b"};
     std::vector<float> weights = {0.5f};  // Mismatched size
@@ -275,11 +321,12 @@ TEST_F(LoRAAdapterTest, FusionRequiresMatchingWeights) {
     EXPECT_FALSE(fused);
 }
 
-TEST_F(LoRAAdapterTest, FusionDisabledByConfig) {
+TEST_F(LoRAAdapterUnitTest, FusionDisabledByConfig) {
     config_.enable_adapter_fusion = false;
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "base", 1.0f);
+    auto lora_a = createMockAdapter("lora-a");
+    manager.loadLoRA("lora-a", lora_a, "base", 1.0f);
     
     std::vector<std::string> source_loras = {"lora-a"};
     std::vector<float> weights = {1.0f};
@@ -288,10 +335,11 @@ TEST_F(LoRAAdapterTest, FusionDisabledByConfig) {
     EXPECT_FALSE(fused);
 }
 
-TEST_F(LoRAAdapterTest, FusionHandlesMissingSourceLoRA) {
+TEST_F(LoRAAdapterUnitTest, FusionHandlesMissingSourceLoRA) {
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-a", "/path/to/a.bin", "base", 1.0f);
+    auto lora_a = createMockAdapter("lora-a");
+    manager.loadLoRA("lora-a", lora_a, "base", 1.0f);
     
     std::vector<std::string> source_loras = {"lora-a", "missing-lora"};
     std::vector<float> weights = {0.5f, 0.5f};
@@ -304,13 +352,13 @@ TEST_F(LoRAAdapterTest, FusionHandlesMissingSourceLoRA) {
 // Performance and Stress Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LoRAAdapterTest, HandlesLargeNumberOfLoRAs) {
+TEST_F(LoRAAdapterUnitTest, HandlesLargeNumberOfLoRAs) {
     MultiLoRAManager manager(config_);
     
     // Load many LoRAs
     for (int i = 0; i < 20; ++i) {
         std::string lora_id = "lora-" + std::to_string(i);
-        std::string path = "/path/to/lora" + std::to_string(i) + ".bin";
+        std::string path = createMockAdapter("lora-" + std::to_string(i));
         manager.loadLoRA(lora_id, path, "base", 1.0f);
     }
     
@@ -319,19 +367,23 @@ TEST_F(LoRAAdapterTest, HandlesLargeNumberOfLoRAs) {
     EXPECT_LE(loras.size(), config_.max_lora_slots);
 }
 
-TEST_F(LoRAAdapterTest, LRUEvictionWorksCorrectly) {
+TEST_F(LoRAAdapterUnitTest, LRUEvictionWorksCorrectly) {
     config_.max_lora_slots = 3;
     MultiLoRAManager manager(config_);
     
-    manager.loadLoRA("lora-1", "/path/1.bin", "base", 1.0f);
-    manager.loadLoRA("lora-2", "/path/2.bin", "base", 1.0f);
-    manager.loadLoRA("lora-3", "/path/3.bin", "base", 1.0f);
+    auto lora_1 = createMockAdapter("lora-1");
+    auto lora_2 = createMockAdapter("lora-2");
+    auto lora_3 = createMockAdapter("lora-3");
+    manager.loadLoRA("lora-1", lora_1, "base", 1.0f);
+    manager.loadLoRA("lora-2", lora_2, "base", 1.0f);
+    manager.loadLoRA("lora-3", lora_3, "base", 1.0f);
     
     // Access lora-1 to make it recently used
     manager.getLoRA("lora-1");
     
     // Load lora-4, should evict lora-2 (least recently used)
-    manager.loadLoRA("lora-4", "/path/4.bin", "base", 1.0f);
+    auto lora_4 = createMockAdapter("lora-4");
+    manager.loadLoRA("lora-4", lora_4, "base", 1.0f);
     
     auto loras = manager.listLoRAs();
     EXPECT_EQ(loras.size(), 3);
@@ -350,12 +402,13 @@ TEST_F(LoRAAdapterTest, LRUEvictionWorksCorrectly) {
 // Integration Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LoRAAdapterTest, LoadUnloadCycle) {
+TEST_F(LoRAAdapterUnitTest, LoadUnloadCycle) {
     MultiLoRAManager manager(config_);
+    auto cycle_path = createMockAdapter("cycle-lora");
     
     for (int cycle = 0; cycle < 5; ++cycle) {
         // Load
-        manager.loadLoRA("cycle-lora", "/path/to/cycle.bin", "base", 1.0f);
+        manager.loadLoRA("cycle-lora", cycle_path, "base", 1.0f);
         EXPECT_TRUE(manager.isLoRALoaded("cycle-lora"));
         
         // Use
@@ -372,7 +425,7 @@ TEST_F(LoRAAdapterTest, LoadUnloadCycle) {
 // Quantization Tests (v1.4.0)
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(LoRAAdapterTest, QuantizationConfigSetAndGet) {
+TEST_F(LoRAAdapterUnitTest, QuantizationConfigSetAndGet) {
     MultiLoRAManager manager(config_);
     
     LoRAQuantizationConfig quant_config;
@@ -390,13 +443,14 @@ TEST_F(LoRAAdapterTest, QuantizationConfigSetAndGet) {
     EXPECT_TRUE(retrieved.per_channel);
 }
 
-TEST_F(LoRAAdapterTest, INT8QuantizationReducesMemory4x) {
+TEST_F(LoRAAdapterUnitTest, INT8QuantizationReducesMemory4x) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
     
     // Load with quantization
-    bool loaded = manager.loadLoRA("quant-lora", "/path/to/quant.bin", "base-model", true, 1.0f);
+    auto quant_path = createMockAdapter("quant-lora");
+    bool loaded = manager.loadLoRA("quant-lora", quant_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("quant-lora");
@@ -411,14 +465,15 @@ TEST_F(LoRAAdapterTest, INT8QuantizationReducesMemory4x) {
     EXPECT_NEAR(stats->compression_ratio, 4.0f, 0.5f);
 }
 
-TEST_F(LoRAAdapterTest, INT4QuantizationReducesMemory8x) {
+TEST_F(LoRAAdapterUnitTest, INT4QuantizationReducesMemory8x) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT4;
     config_.quantization.group_size = 128;
     MultiLoRAManager manager(config_);
     
     // Load with quantization
-    bool loaded = manager.loadLoRA("quant4-lora", "/path/to/quant4.bin", "base-model", true, 1.0f);
+    auto quant4_path = createMockAdapter("quant4-lora");
+    bool loaded = manager.loadLoRA("quant4-lora", quant4_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("quant4-lora");
@@ -433,37 +488,40 @@ TEST_F(LoRAAdapterTest, INT4QuantizationReducesMemory8x) {
     EXPECT_NEAR(stats->compression_ratio, 8.0f, 1.0f);
 }
 
-TEST_F(LoRAAdapterTest, QuantizationDisabledByDefault) {
+TEST_F(LoRAAdapterUnitTest, QuantizationDisabledByDefault) {
     MultiLoRAManager manager(config_);
     
     // Load without quantization
-    bool loaded = manager.loadLoRA("normal-lora", "/path/to/normal.bin", "base-model", 1.0f);
+    auto normal_path = createMockAdapter("normal-lora");
+    bool loaded = manager.loadLoRA("normal-lora", normal_path, "base-model", 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("normal-lora");
     EXPECT_FALSE(stats.has_value());  // No stats for non-quantized LoRA
 }
 
-TEST_F(LoRAAdapterTest, QuantizationCanBeExplicitlyDisabled) {
+TEST_F(LoRAAdapterUnitTest, QuantizationCanBeExplicitlyDisabled) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
     
     // Load with quantization explicitly disabled
-    bool loaded = manager.loadLoRA("no-quant-lora", "/path/to/noquant.bin", "base-model", false, 1.0f);
+    auto noquant_path = createMockAdapter("no-quant-lora");
+    bool loaded = manager.loadLoRA("no-quant-lora", noquant_path, "base-model", false, 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("no-quant-lora");
     EXPECT_FALSE(stats.has_value());  // Should not be quantized
 }
 
-TEST_F(LoRAAdapterTest, PerChannelScaling) {
+TEST_F(LoRAAdapterUnitTest, PerChannelScaling) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     config_.quantization.per_channel = true;
     MultiLoRAManager manager(config_);
     
-    bool loaded = manager.loadLoRA("perchan-lora", "/path/to/perchan.bin", "base-model", true, 1.0f);
+    auto perchan_path = createMockAdapter("perchan-lora");
+    bool loaded = manager.loadLoRA("perchan-lora", perchan_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("perchan-lora");
@@ -475,7 +533,7 @@ TEST_F(LoRAAdapterTest, PerChannelScaling) {
     EXPECT_GT(stats->avg_scale, 0.0f);
 }
 
-TEST_F(LoRAAdapterTest, QuantizedLoRAsLoadFaster) {
+TEST_F(LoRAAdapterUnitTest, QuantizedLoRAsLoadFaster) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
@@ -483,7 +541,8 @@ TEST_F(LoRAAdapterTest, QuantizedLoRAsLoadFaster) {
     // Load multiple quantized LoRAs
     for (int i = 0; i < 5; ++i) {
         std::string lora_id = "fast-lora-" + std::to_string(i);
-        bool loaded = manager.loadLoRA(lora_id, "/path/to/fast" + std::to_string(i) + ".bin", 
+        std::string path = createMockAdapter("fast-lora-" + std::to_string(i));
+        bool loaded = manager.loadLoRA(lora_id, path, 
                                        "base-model", true, 1.0f);
         EXPECT_TRUE(loaded);
     }
@@ -492,12 +551,13 @@ TEST_F(LoRAAdapterTest, QuantizedLoRAsLoadFaster) {
     EXPECT_EQ(loras.size(), 5);
 }
 
-TEST_F(LoRAAdapterTest, QuantizationStatsContainValidData) {
+TEST_F(LoRAAdapterUnitTest, QuantizationStatsContainValidData) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
     
-    bool loaded = manager.loadLoRA("stats-lora", "/path/to/stats.bin", "base-model", true, 1.0f);
+    auto stats_path = createMockAdapter("stats-lora");
+    bool loaded = manager.loadLoRA("stats-lora", stats_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("stats-lora");
@@ -510,7 +570,7 @@ TEST_F(LoRAAdapterTest, QuantizationStatsContainValidData) {
     EXPECT_GE(stats->compression_ratio, 1.0f);
 }
 
-TEST_F(LoRAAdapterTest, MultipleQuantizationModes) {
+TEST_F(LoRAAdapterUnitTest, MultipleQuantizationModes) {
     MultiLoRAManager manager(config_);
     
     // Load with INT8
@@ -519,7 +579,8 @@ TEST_F(LoRAAdapterTest, MultipleQuantizationModes) {
     int8_config.mode = QuantizationMode::INT8;
     manager.setQuantizationConfig(int8_config);
     
-    bool loaded1 = manager.loadLoRA("int8-lora", "/path/to/int8.bin", "base-model", true, 1.0f);
+    auto int8_path = createMockAdapter("int8-lora");
+    bool loaded1 = manager.loadLoRA("int8-lora", int8_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded1);
     
     // Load with INT4
@@ -528,7 +589,8 @@ TEST_F(LoRAAdapterTest, MultipleQuantizationModes) {
     int4_config.mode = QuantizationMode::INT4;
     manager.setQuantizationConfig(int4_config);
     
-    bool loaded2 = manager.loadLoRA("int4-lora", "/path/to/int4.bin", "base-model", true, 1.0f);
+    auto int4_path = createMockAdapter("int4-lora");
+    bool loaded2 = manager.loadLoRA("int4-lora", int4_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded2);
     
     // Verify both are loaded with different modes
@@ -542,12 +604,13 @@ TEST_F(LoRAAdapterTest, MultipleQuantizationModes) {
     EXPECT_EQ(stats2->mode, QuantizationMode::INT4);
 }
 
-TEST_F(LoRAAdapterTest, QuantizedLoRACanBeApplied) {
+TEST_F(LoRAAdapterUnitTest, QuantizedLoRACanBeApplied) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
     
-    bool loaded = manager.loadLoRA("apply-quant", "/path/to/apply.bin", "base-model", true, 1.0f);
+    auto apply_path = createMockAdapter("apply-quant");
+    bool loaded = manager.loadLoRA("apply-quant", apply_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     // Apply the quantized LoRA
@@ -558,12 +621,13 @@ TEST_F(LoRAAdapterTest, QuantizedLoRACanBeApplied) {
     EXPECT_TRUE(manager.isLoRALoaded("apply-quant"));
 }
 
-TEST_F(LoRAAdapterTest, QuantizedLoRACanBeUnloaded) {
+TEST_F(LoRAAdapterUnitTest, QuantizedLoRACanBeUnloaded) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
     
-    bool loaded = manager.loadLoRA("unload-quant", "/path/to/unload.bin", "base-model", true, 1.0f);
+    auto unload_path = createMockAdapter("unload-quant");
+    bool loaded = manager.loadLoRA("unload-quant", unload_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     bool unloaded = manager.unloadLoRA("unload-quant");
@@ -577,7 +641,7 @@ TEST_F(LoRAAdapterTest, QuantizedLoRACanBeUnloaded) {
     EXPECT_FALSE(stats.has_value());
 }
 
-TEST_F(LoRAAdapterTest, QuantizationAllowsMoreLoRAsInMemory) {
+TEST_F(LoRAAdapterUnitTest, QuantizationAllowsMoreLoRAsInMemory) {
     config_.max_lora_vram_mb = 100;  // Limit VRAM
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
@@ -587,7 +651,8 @@ TEST_F(LoRAAdapterTest, QuantizationAllowsMoreLoRAsInMemory) {
     int loaded_count = 0;
     for (int i = 0; i < 20; ++i) {
         std::string lora_id = "mem-lora-" + std::to_string(i);
-        if (manager.loadLoRA(lora_id, "/path/to/mem" + std::to_string(i) + ".bin", 
+        std::string path = createMockAdapter("mem-lora-" + std::to_string(i));
+        if (manager.loadLoRA(lora_id, path, 
                             "base-model", true, 1.0f)) {
             loaded_count++;
         }
@@ -597,15 +662,17 @@ TEST_F(LoRAAdapterTest, QuantizationAllowsMoreLoRAsInMemory) {
     EXPECT_GE(loaded_count, 3);  // At least 3 should fit
 }
 
-TEST_F(LoRAAdapterTest, QuantizationWithBatchInference) {
+TEST_F(LoRAAdapterUnitTest, QuantizationWithBatchInference) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     config_.enable_multi_lora_batch = true;
     MultiLoRAManager manager(config_);
     
     // Load quantized LoRAs
-    manager.loadLoRA("batch-quant-1", "/path/to/batch1.bin", "base-model", true, 1.0f);
-    manager.loadLoRA("batch-quant-2", "/path/to/batch2.bin", "base-model", true, 1.0f);
+    auto batch1_path = createMockAdapter("batch-quant-1");
+    auto batch2_path = createMockAdapter("batch-quant-2");
+    manager.loadLoRA("batch-quant-1", batch1_path, "base-model", true, 1.0f);
+    manager.loadLoRA("batch-quant-2", batch2_path, "base-model", true, 1.0f);
     
     // Create batch requests
     std::vector<std::pair<InferenceRequest, std::string>> requests;
@@ -624,20 +691,21 @@ TEST_F(LoRAAdapterTest, QuantizationWithBatchInference) {
     EXPECT_EQ(responses.size(), 2);
 }
 
-TEST_F(LoRAAdapterTest, QuantizationStatsForNonExistentLoRA) {
+TEST_F(LoRAAdapterUnitTest, QuantizationStatsForNonExistentLoRA) {
     MultiLoRAManager manager(config_);
     
     auto stats = manager.getQuantizationStats("non-existent");
     EXPECT_FALSE(stats.has_value());
 }
 
-TEST_F(LoRAAdapterTest, INT4GroupSizeConfiguration) {
+TEST_F(LoRAAdapterUnitTest, INT4GroupSizeConfiguration) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT4;
     config_.quantization.group_size = 64;  // Custom group size
     MultiLoRAManager manager(config_);
     
-    bool loaded = manager.loadLoRA("group-lora", "/path/to/group.bin", "base-model", true, 1.0f);
+    auto group_path = createMockAdapter("group-lora");
+    bool loaded = manager.loadLoRA("group-lora", group_path, "base-model", true, 1.0f);
     EXPECT_TRUE(loaded);
     
     auto stats = manager.getQuantizationStats("group-lora");
@@ -645,12 +713,13 @@ TEST_F(LoRAAdapterTest, INT4GroupSizeConfiguration) {
     EXPECT_EQ(stats->mode, QuantizationMode::INT4);
 }
 
-TEST_F(LoRAAdapterTest, QuantizationPreservesLoRAMetadata) {
+TEST_F(LoRAAdapterUnitTest, QuantizationPreservesLoRAMetadata) {
     config_.quantization.enabled = true;
     config_.quantization.mode = QuantizationMode::INT8;
     MultiLoRAManager manager(config_);
     
-    bool loaded = manager.loadLoRA("meta-lora", "/path/to/meta.bin", "specific-model", true, 0.8f);
+    auto meta_path = createMockAdapter("meta-lora");
+    bool loaded = manager.loadLoRA("meta-lora", meta_path, "specific-model", true, 0.8f);
     EXPECT_TRUE(loaded);
     
     auto info = manager.getLoRAInfo("meta-lora");
