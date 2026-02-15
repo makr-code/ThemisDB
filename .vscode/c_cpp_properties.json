@@ -1,53 +1,6 @@
 {
   "configurations": [
     {
-      "name": "Linux (GCC)",
-      "includePath": [
-        "${workspaceFolder}/**",
-        "${workspaceFolder}/include",
-        "${workspaceFolder}/src",
-        "${workspaceFolder}/vcpkg_installed/x64-linux/include"
-      ],
-      "defines": [
-        "_DEBUG",
-        "UNICODE",
-        "_UNICODE"
-      ],
-      "compilerPath": "/usr/bin/g++",
-      "cStandard": "c17",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "linux-gcc-x64",
-      "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-      "configurationProvider": "ms-vscode.cmake-tools",
-      "browse": {
-        "path": [
-          "${workspaceFolder}/**",
-          "${workspaceFolder}/vcpkg_installed/x64-linux/include"
-        ],
-        "limitSymbolsToIncludedHeaders": true
-      }
-    },
-    {
-      "name": "Linux (Clang)",
-      "includePath": [
-        "${workspaceFolder}/**",
-        "${workspaceFolder}/include",
-        "${workspaceFolder}/src",
-        "${workspaceFolder}/vcpkg_installed/x64-linux/include"
-      ],
-      "defines": [
-        "_DEBUG",
-        "UNICODE",
-        "_UNICODE"
-      ],
-      "compilerPath": "/usr/bin/clang++",
-      "cStandard": "c17",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "linux-clang-x64",
-      "compileCommands": "${workspaceFolder}/build/compile_commands.json",
-      "configurationProvider": "ms-vscode.cmake-tools"
-    },
-    {
       "name": "Windows (MSVC)",
       "includePath": [
         "${workspaceFolder}/**",
@@ -67,7 +20,7 @@
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "windows-msvc-x64",
-      "compileCommands": "${workspaceFolder}/build-msvc/compile_commands.json",
+      "compileCommands": "${workspaceFolder}/build-msvc-ninja-release/compile_commands.json",
       "configurationProvider": "ms-vscode.cmake-tools",
       "browse": {
         "path": [
@@ -94,29 +47,35 @@
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "linux-gcc-x64",
-      "compileCommands": "${workspaceFolder}/build-wsl/compile_commands.json",
+      "compileCommands": "${workspaceFolder}/build-wsl-ninja-release/compile_commands.json",
       "configurationProvider": "ms-vscode.cmake-tools"
     },
     {
-      "name": "ARM64 (Cross-compile)",
+      "name": "Linux (GCC)",
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/include",
         "${workspaceFolder}/src",
-        "${workspaceFolder}/vcpkg_installed/arm64-linux/include"
+        "${workspaceFolder}/vcpkg_installed/x64-linux/include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
-        "_UNICODE",
-        "__ARM_NEON"
+        "_UNICODE"
       ],
-      "compilerPath": "/usr/bin/aarch64-linux-gnu-g++",
+      "compilerPath": "/usr/bin/g++",
       "cStandard": "c17",
       "cppStandard": "c++17",
-      "intelliSenseMode": "linux-gcc-arm64",
-      "compileCommands": "${workspaceFolder}/build-arm/compile_commands.json",
-      "configurationProvider": "ms-vscode.cmake-tools"
+      "intelliSenseMode": "linux-gcc-x64",
+      "compileCommands": "${workspaceFolder}/build-linux-ninja-release/compile_commands.json",
+      "configurationProvider": "ms-vscode.cmake-tools",
+      "browse": {
+        "path": [
+          "${workspaceFolder}/**",
+          "${workspaceFolder}/vcpkg_installed/x64-linux/include"
+        ],
+        "limitSymbolsToIncludedHeaders": true
+      }
     }
   ],
   "version": 4

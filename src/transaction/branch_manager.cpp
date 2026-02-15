@@ -95,6 +95,16 @@ void BranchManager::setMergeEngine(MergeEngine* merge_engine) {
     merge_engine_ = merge_engine;
 }
 
+// Create branch (4-arg overload without options)
+std::optional<BranchManager::Branch> BranchManager::createBranch(
+    const std::string& branch_name,
+    const std::string& parent_branch,
+    const std::string& description,
+    const std::string& created_by
+) {
+    return createBranch(branch_name, parent_branch, description, created_by, CreateBranchOptions{});
+}
+
 // Create branch
 std::optional<BranchManager::Branch> BranchManager::createBranch(
     const std::string& branch_name,
@@ -279,6 +289,14 @@ bool BranchManager::deleteBranch(const std::string& branch_name, bool force) {
     
     // Delete branch
     return db_.del(makeKey(branch_name));
+}
+
+// Merge branches (2-arg overload without options)
+BranchManager::MergeResult BranchManager::mergeBranches(
+    const std::string& source_branch,
+    const std::string& target_branch
+) {
+    return mergeBranches(source_branch, target_branch, MergeOptions{});
 }
 
 // Merge branches

@@ -151,8 +151,15 @@ public:
         const std::string& branch_name,
         const std::string& parent_branch,
         const std::string& description,
-        const std::string& created_by = "system",
-        const CreateBranchOptions& options = {}
+        const std::string& created_by = "system"
+    );
+    
+    std::optional<Branch> createBranch(
+        const std::string& branch_name,
+        const std::string& parent_branch,
+        const std::string& description,
+        const std::string& created_by,
+        const CreateBranchOptions& options
     );
     
     /**
@@ -212,8 +219,13 @@ public:
      */
     MergeResult mergeBranches(
         const std::string& source_branch,
+        const std::string& target_branch
+    );
+    
+    MergeResult mergeBranches(
+        const std::string& source_branch,
         const std::string& target_branch,
-        const MergeOptions& options = {}
+        const MergeOptions& options
     );
     
     /**

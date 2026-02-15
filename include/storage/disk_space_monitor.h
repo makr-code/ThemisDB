@@ -88,7 +88,8 @@ public:
     using AlertCallback = std::function<void(const SpaceInfo&, const std::string& message)>;
     using GCCallback = std::function<void()>;
     
-    explicit DiskSpaceMonitor(const std::string& path, const Config& config = Config());
+    DiskSpaceMonitor(const std::string& path);
+    explicit DiskSpaceMonitor(const std::string& path, const Config& config);
     ~DiskSpaceMonitor();
     
     /**

@@ -21,6 +21,23 @@ namespace storage {
 // DiskSpaceMonitor Implementation
 // ============================================================================
 
+DiskSpaceMonitor::DiskSpaceMonitor(const std::string& path)
+    : path_(path)
+    , config_{} {
+    spdlog::info("Disk Space Monitor initialized for: {}", path_);
+    spdlog::info("  Warning threshold: {:.1f}%", config_.warning_threshold * 100);
+    spdlog::info("  Critical threshold: {:.1f}%", config_.critical_threshold * 100);
+    spdlog::info("  Emergency threshold: {:.1f}%", config_.emergency_threshold * 100);
+    spdlog::info("  Reserved space: {} GB", config_.reserved_bytes / (1024.0 * 1024 * 1024));
+    
+    // Initial check
+    checkSpace();
+    
+    if (config_.enable_auto_monitoring) {
+        startMonitoring();
+    }
+}
+
 DiskSpaceMonitor::DiskSpaceMonitor(const std::string& path, const Config& config)
     : path_(path)
     , config_(config) {

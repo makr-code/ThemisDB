@@ -1,8 +1,7 @@
 # ============================================================================
-# Docker Build Context - STRICT WHITELIST
+# Docker Build Context Optimization
 # ============================================================================
-# Exclude everything by default
-**
+# Exclude unnecessary directories to speed up context transfer
 
 # ============================================================================
 # INCLUDE: Root files
@@ -17,36 +16,27 @@
 !Dockerfile.*
 !docker-compose.yml
 
-# ============================================================================
-# INCLUDE: Directories (must include both folder and contents)
-# ============================================================================
-!cmake/
-!cmake/**
-!include/
-!include/**
-!src/
-!src/**
-!proto/
-!proto/**
-!internal/
-!internal/**
-!adapters/
-!adapters/**
-!aql/
-!aql/**
-!docker/
-!docker/**
-!llama.cpp/
-!llama.cpp/**
+# Cache/temp files  
+.git/
+.git/**
+.cache/
+*.log
+.docker-build-**/
 
-# ============================================================================
-# EXCLUDE: llama.cpp build artifacts
-# ============================================================================
-llama.cpp/build/**
-llama.cpp/build-*/**
-llama.cpp/.git/**
-llama.cpp/.github/**
-llama.cpp/tests/**
+# Large/irrelevant directories (documentation, deployment configs, extras)
+docs/
+deploy/
+helm/
+benchmarks/
+fuzz/
+projects/
+wordpress-plugin/
+wordpress-theme/
+training/                   # LLM training data - not needed at runtime
+pytorch_models/             # Model caches
+llm_cache/                  # LLM cache directory
+cache/                      # General cache
+symbols/                    # Debug symbols
 
 # ============================================================================
 # EXCLUDE: Anything large (redundant safety)

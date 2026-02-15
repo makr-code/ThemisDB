@@ -6,6 +6,7 @@
 #include <functional>
 #include <mutex>
 #include <atomic>
+#include <thread>
 #include <queue>
 #include <unordered_map>
 #include <random>

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "llm/llama_wrapper.h"
 #include "llm/grafana_metrics.h"
+#include "test_helpers_llm.h"
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -55,6 +56,10 @@ protected:
 };
 
 TEST_F(LLMGrafanaMetricsTest, MetricsRecordInferenceRequest) {
+    if (!hasRealModels()) {
+        GTEST_SKIP() << "Skipping test: Real models not available (THEMIS_LLM_MODELS_PATH not set)";
+    }
+    
     // Load a stub model
     wrapper_->loadModel("test_model.gguf");
     

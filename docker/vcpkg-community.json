@@ -3,7 +3,7 @@
   "name": "themisdb-community",
   "version": "1.4.0",
   "description": "ThemisDB COMMUNITY Edition - Standard deployment (optimized deps)",
-  "builtin-baseline": "10b7a178346f3f0abef60cecd5130e295afd8da4",
+
   "dependencies": [
     "boost-filesystem",
     "boost-beast",
@@ -12,12 +12,20 @@
     "nlohmann-json",
     "simdjson",
     "tbb",
+    "tl-expected",
+    "yaml-cpp",
+    {
+      "name": "rocksdb",
+      "features": ["lz4", "snappy", "zlib", "zstd"]
+    },
     "protobuf",
     "grpc",
     "curl",
     "openssl",
     "zlib",
+    "zstd",
     "lz4",
-    "snappy"
+    "snappy",
+    "mimalloc"
   ]
 }

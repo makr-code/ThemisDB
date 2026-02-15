@@ -4,13 +4,32 @@
 #include "llm/multi_lora_manager.h"
 #include "llm/async_inference_engine.h"
 #include "llm/llm_plugin_manager.h"
+#include "test_helpers_llm.h"
 #include <filesystem>
 #include <fstream>
 #include <thread>
+#include <cstdlib>
 
 namespace fs = std::filesystem;
 using namespace themis::llm;
 using json = nlohmann::json;
+
+/**
+ * @brief Check if GPU is available, skip test if not
+ * 
+ * Checks for CUDA/HIP GPU availability. If no GPU found, test is skipped
+ * instead of failing. This is appropriate for development machines without GPU.
+ */
+static void requireGPUOrSkip() {
+    // TODO: Implement actual CUDA/HIP detection
+    // For now, check environment variable as workaround
+    const char* has_gpu = std::getenv("THEMIS_HAS_GPU");
+    
+    if (has_gpu == nullptr || std::string(has_gpu) != "1") {
+        GTEST_SKIP() << "Skipping GPU test: No GPU available.\n"
+                     << "To enable GPU tests: $env:THEMIS_HAS_GPU = \"1\"";
+    }
+}
 
 class LLMPluginTest : public ::testing::Test {
 protected:

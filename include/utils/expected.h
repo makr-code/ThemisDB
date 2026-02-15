@@ -1,6 +1,15 @@
 #pragma once
 
-#include <tl/expected.hpp>
+// Try to include tl/expected.hpp if available, otherwise use std::optional fallback
+#if __has_include(<tl/expected.hpp>)
+  #include <tl/expected.hpp>
+  #define HAS_TL_EXPECTED 1
+#else
+  // Fallback: use std::optional + std::bad_optional_access style approach
+  #include <optional>
+  #define HAS_TL_EXPECTED 0
+#endif
+
 #include "utils/error_registry.h"
 #include <string>
 #include <system_error>

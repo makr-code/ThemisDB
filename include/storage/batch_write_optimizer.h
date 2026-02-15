@@ -60,7 +60,8 @@ public:
         bool disable_wal = false;
     };
     
-    explicit BatchWriteOptimizer(const Config& config = Config{});
+    BatchWriteOptimizer();
+    explicit BatchWriteOptimizer(const Config& config);
     ~BatchWriteOptimizer();
     
     /**
