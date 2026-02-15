@@ -8,6 +8,7 @@
 # INCLUDE: Root files
 # ============================================================================
 !CMakeLists.txt
+!CMakePresets.json
 !VERSION
 !vcpkg.json
 !vcpkg-configuration.json
