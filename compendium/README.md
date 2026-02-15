@@ -405,6 +405,6 @@ mkdocs serve -f mkdocs-compendium.yml
 
 ---
 
-**Version:** 1.3.4  
-**Status:** Pilot Phase  
-**Letzte Aktualisierung:** 28. Dezember 2025
+**Version:** 1.5.0-dev  
+**Status:** Documentation Alignment Update  
+**Letzte Aktualisierung:** 15. Februar 2026
