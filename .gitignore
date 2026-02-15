@@ -265,6 +265,7 @@ target/
 # Allow CMakeLists and cmake/ directory helper files (explicitly)
 !CMakeLists.txt
 !cmake/*.cmake
+!cmake/platforms/Toolchains/*.cmake
 
 # End of .gitignore
 
