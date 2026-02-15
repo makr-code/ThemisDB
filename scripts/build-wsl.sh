@@ -13,10 +13,11 @@ echo "CC: $CC"
 echo "CXX: $CXX"
 echo ""
 
-rm -rf build-wsl
+rm -rf build-wsl-ninja-release
 
 echo "Configuring with CMake..."
-cmake -S . -B build-wsl \
+cmake -S . -B build-wsl-ninja-release \
+  -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
   -DVCPKG_ROOT=$VCPKG_ROOT \
@@ -24,8 +25,8 @@ cmake -S . -B build-wsl \
 
 echo ""
 echo "Building..."
-cmake --build build-wsl --parallel 8 2>&1 | tail -100
+cmake --build build-wsl-ninja-release --parallel 8 2>&1 | tail -100
 
 echo ""
 echo "=== Build Complete ==="
-ls -lh build-wsl/themis_server
+ls -lh build-wsl-ninja-release/themis_server

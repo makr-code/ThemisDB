@@ -31,7 +31,7 @@ if (-not $NoCache) {
 
 # Step 2: Configure with CMake
 Write-Host "`n[2/3] Configuring CMake..." -ForegroundColor Cyan
-$buildDir = "$rootDir\build-msvc"
+$buildDir = if ($Config -eq "Debug") { "$rootDir\build-msvc-ninja-debug" } else { "$rootDir\build-msvc-ninja-release" }
 
 if (Test-Path $buildDir) {
     Remove-Item $buildDir -Recurse -Force
@@ -44,8 +44,7 @@ $traceFlag = if ($Debug) { 'ON' } else { 'OFF' }
 # with massive static rocksdb.lib (1.2GB). rocksdb-shared will be used if available.
 # For true DLL builds on Windows, use rocksdb-shared from vcpkg (see CMakeLists.txt).
 cmake -S $rootDir -B $buildDir `
-    -G "Visual Studio 17 2022" `
-    -A x64 `
+    -G "Ninja" `
     -DCMAKE_BUILD_TYPE=$Config `
     -DCMAKE_TOOLCHAIN_FILE="$rootDir\vcpkg\scripts\buildsystems\vcpkg.cmake" `
     -DVCPKG_TARGET_TRIPLET=x64-windows `

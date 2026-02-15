@@ -43,42 +43,6 @@
       }
     },
     {
-      "name": "windows-vs2022-release",
-      "displayName": "Windows Visual Studio 2022 Release",
-      "description": "Production Release build using Visual Studio 2022 (recommended for deployment)",
-      "generator": "Visual Studio 17 2022",
-      "binaryDir": "${sourceDir}/build-msvc",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_BUILD_BENCHMARKS": "OFF",
-        "THEMIS_ENABLE_TRACING": "ON",
-        "THEMIS_ENABLE_GPU": "ON",
-        "THEMIS_ENABLE_LLM": "ON",
-        "THEMIS_ENABLE_ASAN": "OFF",
-        "THEMIS_STRICT_BUILD": "OFF"
-      }
-    },
-    {
-      "name": "windows-vs2022-debug",
-      "displayName": "Windows Visual Studio 2022 Debug",
-      "description": "Debug build using Visual Studio 2022",
-      "generator": "Visual Studio 17 2022",
-      "binaryDir": "${sourceDir}/build-msvc-debug",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-        "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_BUILD_BENCHMARKS": "OFF",
-        "THEMIS_ENABLE_TRACING": "ON",
-        "THEMIS_ENABLE_GPU": "ON",
-        "THEMIS_ENABLE_LLM": "ON",
-        "THEMIS_ENABLE_ASAN": "ON",
-        "THEMIS_STRICT_BUILD": "OFF"
-      }
-    },
-    {
       "name": "windows-ninja-clangcl-debug",
       "inherits": [
         "base"

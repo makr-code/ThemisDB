@@ -4,10 +4,22 @@
   "configurePresets": [
     {
       "name": "vscode-windows-release",
-      "displayName": "VS Code: Windows MSVC Release (LoRA+Tests)",
-      "description": "Uses MSVC with VsDevCmd environment",
+      "displayName": "VS Code: Windows Release (Default)",
+      "description": "Default VS Code preset - MSVC + Ninja Release with tests",
       "hidden": false,
-      "inherits": "windows-release",
+      "inherits": "msvc-ninja-release",
+      "cacheVariables": {
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF"
+      }
+    },
+    {
+      "name": "vscode-windows-debug",
+      "displayName": "VS Code: Windows Debug",
+      "description": "VS Code preset for debug builds",
+      "hidden": false,
+      "inherits": "msvc-ninja-debug",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -21,11 +33,26 @@
       "configurePreset": "vscode-windows-release",
       "targets": ["themis_tests"],
       "jobs": 4
+    },
+    {
+      "name": "vscode-windows-debug",
+      "configurePreset": "vscode-windows-debug",
+      "targets": ["themis_tests"],
+      "jobs": 2
     }
   ],
   "testPresets": [
     {
       "name": "vscode-lora-tests",
+      "displayName": "VS Code: LoRA Tests",
+      "configurePreset": "vscode-windows-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "vscode-gpu-tests",
+      "displayName": "VS Code: GPU Tests",
       "configurePreset": "vscode-windows-release",
       "output": {
         "outputOnFailure": true

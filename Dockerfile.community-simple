@@ -45,9 +45,15 @@ WORKDIR /build
 RUN mkdir -p /opt/themis /opt/vcpkg
 
 # ============================================================================
-# Phase 3: ThemisDB source code
+# Phase 3: ThemisDB source code (minimal copy - only essential files)
 # ============================================================================
-COPY . /build/
+# Copy only essential files to minimize build context
+COPY CMakeLists.txt CMakePresets.json vcpkg.json vcpkg-configuration.json ./
+COPY cmake/ ./cmake/
+COPY src/ ./src/
+COPY include/ ./include/
+COPY docker/ ./docker/
+COPY ports/ ./ports/
 
 # ============================================================================
 # Phase 4: Bootstrap vcpkg

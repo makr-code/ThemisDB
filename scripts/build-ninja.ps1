@@ -8,7 +8,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $RepoRoot = "C:\VCC\themis"
-$BuildDir = "$RepoRoot\build-msvc"
+$BuildDir = "$RepoRoot\build-msvc-ninja-release"
 $VcVarsAll = "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvarsall.bat"
 
 # Check if vcvarsall.bat exists

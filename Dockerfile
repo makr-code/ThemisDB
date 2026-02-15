@@ -103,9 +103,9 @@ COPY vcpkg-configuration.json ./
 # Copy custom vcpkg ports overlay (required by vcpkg-configuration.json)
 COPY ports ./ports
 
-# Copy local vcpkg downloads cache (speeds up build, fallback to internet)
-# Contains 4.42 GB, 71k files from host
-COPY vcpkg/downloads /vcpkg-host-downloads
+# Note: vcpkg downloads are handled via BuildKit cache mounts (see RUN --mount below)
+# No need to copy vcpkg/downloads - will cache at build time if available
+# Previous literal COPY would fail if directory doesn't exist
 
 # Install dependencies with TRIPLE CACHE STRATEGY:
 # 1. BuildKit cache mounts (persistent Docker cache between builds)
