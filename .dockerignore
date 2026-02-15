@@ -3,11 +3,18 @@
 # ============================================================================
 # Exclude unnecessary directories to speed up context transfer
 
-# Build directories
-build/
-build-**/
-artifacts/
-cmake/artifacts/
+# ============================================================================
+# INCLUDE: Root files
+# ============================================================================
+!CMakeLists.txt
+!CMakePresets.json
+!VERSION
+!vcpkg.json
+!vcpkg-configuration.json
+!.dockerignore
+!Dockerfile
+!Dockerfile.*
+!docker-compose.yml
 
 # Cache/temp files  
 .git/
@@ -31,25 +38,17 @@ llm_cache/                  # LLM cache directory
 cache/                      # General cache
 symbols/                    # Debug symbols
 
-# vcpkg directories (huge, cause context transfer issues)
-vcpkg/buildtrees/
-vcpkg/packages/
-vcpkg/downloads/
-vcpkg_installed/
-
-# Node/npm modules & compendium (problematic symlinks, large, documentation-only)
-node_modules/
-.npm/
-compendium/                  # Documentation system (PDF/HTML generation) - NOT needed for server
-**/node_modules/
-
-# Development files
-.vscode/
-.vs/
-*.code-workspace
-
-# System files
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
+# ============================================================================
+# EXCLUDE: Anything large (redundant safety)
+# ============================================================================
+vcpkg/**
+build/**
+build-*/**
+models/**
+projects/**
+external/**
+compendium/**
+release/**
+site/**
+tools/**
+prebuilt-cache/**

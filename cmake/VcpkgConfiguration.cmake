@@ -16,33 +16,56 @@ if(DEFINED ENV{VCPKG_BINARY_SOURCES})
     message(STATUS "Binary cache: Enabled via VCPKG_BINARY_SOURCES")
     message(STATUS "  Source: $ENV{VCPKG_BINARY_SOURCES}")
 else()
-    # Set default binary cache location for local builds
-    set(_default_cache_dir "")
+    # Multi-tier caching strategy for optimal local builds:
+    # 1. Project-local cache (fastest, shared within project)
+    # 2. User-level cache (shared across projects)
+    # 3. Build-directory fallback
     
+    set(_cache_sources "")
+    
+    # Tier 1: Project-local cache (highest priority)
+    set(_project_cache_dir "${CMAKE_SOURCE_DIR}/.vcpkg-cache")
+    if(EXISTS "${_project_cache_dir}" OR CMAKE_SOURCE_DIR)
+        list(APPEND _cache_sources "files,${_project_cache_dir},readwrite")
+        message(STATUS "Binary cache tier 1: Project-local")
+        message(STATUS "  Location: ${_project_cache_dir}")
+    endif()
+    
+    # Tier 2: User-level cache (fallback for shared packages)
+    set(_user_cache_dir "")
     if(WIN32)
         if(DEFINED ENV{LOCALAPPDATA})
-            set(_default_cache_dir "$ENV{LOCALAPPDATA}/vcpkg/archives")
-        else()
-            set(_default_cache_dir "${CMAKE_BINARY_DIR}/.vcpkg_cache")
+            set(_user_cache_dir "$ENV{LOCALAPPDATA}/vcpkg/archives")
         endif()
     else()
         if(DEFINED ENV{HOME})
-            set(_default_cache_dir "$ENV{HOME}/.cache/vcpkg/archives")
-        else()
-            set(_default_cache_dir "${CMAKE_BINARY_DIR}/.vcpkg_cache")
+            set(_user_cache_dir "$ENV{HOME}/.cache/vcpkg/archives")
         endif()
     endif()
     
-    # Create cache directory if it doesn't exist
-    if(_default_cache_dir)
-        file(MAKE_DIRECTORY "${_default_cache_dir}")
+    if(_user_cache_dir)
+        list(APPEND _cache_sources "files,${_user_cache_dir},readwrite")
+        message(STATUS "Binary cache tier 2: User-level")
+        message(STATUS "  Location: ${_user_cache_dir}")
+    endif()
+    
+    # Tier 3: Build directory fallback (if nothing else works)
+    if(NOT _cache_sources)
+        set(_fallback_cache_dir "${CMAKE_BINARY_DIR}/.vcpkg_cache")
+        list(APPEND _cache_sources "files,${_fallback_cache_dir},readwrite")
+        message(STATUS "Binary cache tier 3: Build directory fallback")
+        message(STATUS "  Location: ${_fallback_cache_dir}")
+    endif()
+    
+    # Configure multi-tier cache sources
+    if(_cache_sources)
+        # Join cache sources with semicolons
+        string(REPLACE ";" ";" _cache_sources_joined "${_cache_sources}")
+        set(ENV{VCPKG_BINARY_SOURCES} "clear;${_cache_sources_joined}")
         
-        # Set binary cache environment variable for vcpkg
-        set(ENV{VCPKG_BINARY_SOURCES} "clear;files,${_default_cache_dir},readwrite")
-        
-        message(STATUS "Binary cache: Enabled (default local cache)")
-        message(STATUS "  Location: ${_default_cache_dir}")
-        message(STATUS "  Mode: Read-Write")
+        message(STATUS "Binary cache: Enabled (multi-tier local cache)")
+        message(STATUS "  Mode: Read-Write (all tiers)")
+        message(STATUS "  Strategy: Project-local → User-level → Fallback")
     else()
         message(WARNING "Binary cache: Could not determine cache directory")
     endif()

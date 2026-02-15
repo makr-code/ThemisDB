@@ -226,6 +226,28 @@ curl http://localhost:8080/health
 
 ### 💻 From Source
 
+#### Quick Build with CMake Presets (Recommended)
+
+```bash
+# Clone repository
+git clone https://github.com/makr-code/ThemisDB.git
+cd ThemisDB
+
+# Initialize submodules (vcpkg, llama.cpp)
+git submodule update --init --recursive
+
+# Configure with a preset
+cmake --preset community-release
+
+# Build
+cmake --build --preset community-release
+
+# Start server
+./build-community-release/bin/themis_server --config config.yaml
+```
+
+#### Traditional Build Method
+
 ```bash
 # Clone repository
 git clone https://github.com/makr-code/ThemisDB.git
@@ -243,7 +265,11 @@ cd ThemisDB
 ./build/themis_server --config config.yaml
 ```
 
-> **📖 Build Guide:** See [docs/de/guides/guides_build_strategy.md](docs/de/guides/guides_build_strategy.md) for detailed build instructions.
+> **📖 Build Documentation:**
+> - **[CMake Presets Guide](docs/BUILD_PRESETS.md)** - Use presets for simplified builds
+> - **[Cross-Compilation Guide](docs/BUILD_CROSS_COMPILE.md)** - Build for ARM64, ARMv7, Windows
+> - **[Build Strategy Guide](docs/de/guides/guides_build_strategy.md)** - Detailed build instructions
+> - **[Edition Comparison](docs/EDITION_COMPARISON.md)** - Choose the right edition
 
 > **🔧 Modular Build (v1.4.0+):** Enable modular architecture to resolve Windows COFF symbol limits and improve build times:
 > ```bash
