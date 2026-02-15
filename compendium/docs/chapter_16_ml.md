@@ -2661,8 +2661,8 @@ Für Production Deployment siehe:
 
 ---
 
-**Letzte Aktualisierung**: Januar 2026  
-**Version**: 1.4.0+  
+**Letzte Aktualisierung**: Februar 2026  
+**Version**: 1.5.0-dev  
 **Status**: Comprehensive Reference Chapter  
 **Autoren**: ThemisDB Team
 

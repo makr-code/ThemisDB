@@ -294,9 +294,9 @@ activity = db.execute("""
 
 ## 10.2 Native Security-Stack: Production-Ready Sicherheit
 
-ThemisDB v1.3.0 bietet einen vollständig nativen, in C++ implementierten Security-Stack, der BSI C5-konform ist und keine externen Abhängigkeiten (wie Apache Ranger) für die Kern-Sicherheitsfunktionen benötigt.
+ThemisDB v1.5.0-dev bietet einen vollständig nativen, in C++ implementierten Security-Stack, der BSI C5-konform ist und keine externen Abhängigkeiten (wie Apache Ranger) für die Kern-Sicherheitsfunktionen benötigt.
 
-### 10.2.1 Implementierungsstatus (Dezember 2025)
+### 10.2.1 Implementierungsstatus (Februar 2026)
 
 | Komponente | Status | Implementierung | Beschreibung |
 |------------|--------|-----------------|--------------|

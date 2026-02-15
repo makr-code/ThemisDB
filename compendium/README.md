@@ -1,6 +1,6 @@
 # ThemisDB Kompendium
 
-**Das vollständige Handbuch für ThemisDB v1.4.0**
+**Das vollständige Handbuch für ThemisDB v1.5.0-dev**
 
 **📊 Status:** ✅ **PHASE 1 & 2 COMPLETE** - 🔄 **PHASE 3 IN PROGRESS (docs/de Synchronisierung)**  
 **📦 Build:** 1.7 MB HTML + 6.9 MB PDF (natives Format)  
@@ -11,7 +11,7 @@
 
 ## 🎯 Phase 3: docs/de ↔ Kompendium Synchronisierung (IN PROGRESS)
 
-**Status:** 40% Complete (Stand: 25. Januar 2026)
+**Status:** 40% Complete (Stand: 15. Februar 2026 - Versions-Update auf 1.5.0-dev durchgeführt)
 
 Das Kompendium wird nun systematisch mit den technischen Detaildokumentationen aus `docs/de/` synchronisiert:
 
@@ -405,6 +405,6 @@ mkdocs serve -f mkdocs-compendium.yml
 
 ---
 
-**Version:** 1.3.4  
-**Status:** Pilot Phase  
-**Letzte Aktualisierung:** 28. Dezember 2025
+**Version:** 1.5.0-dev  
+**Status:** Documentation Alignment Update  
+**Letzte Aktualisierung:** 15. Februar 2026

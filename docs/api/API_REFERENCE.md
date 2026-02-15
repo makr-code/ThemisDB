@@ -1,6 +1,23 @@
 # ThemisDB LoRA Framework API Reference
 
+**Version:** 1.5.0-dev  
+**Last Updated:** 2026-02-15
+
 Complete REST API reference for the LoRA (Low-Rank Adaptation) framework in ThemisDB.
+
+## Base URL and Ports
+
+Default base URL:
+```
+http://localhost:8080
+```
+
+> **📖 Port Reference:** ThemisDB uses different ports depending on deployment platform. See [docs/de/deployment/PORT_REFERENCE.md](../de/deployment/PORT_REFERENCE.md) for complete mapping.
+
+**Default Ports:**
+- `8080` - HTTP/REST API (this documentation)
+- `18765` - Binary Wire Protocol/gRPC
+- `4318` - OpenTelemetry/Prometheus metrics
 
 ## Table of Contents
 

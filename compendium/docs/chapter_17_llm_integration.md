@@ -1386,11 +1386,11 @@ FOR review IN reviews
   } IN reviews
 ```
 
-## 17.12 Erweiterte LLM-Features (v1.4.0-alpha)
+## 17.12 Erweiterte LLM-Features (v1.5.0-dev)
 
 ### 17.12.1 Prefix Caching
 
-**Neu in v1.4.0-alpha:** Automatisches Caching häufig verwendeter Prompt-Präfixe für deutlich reduzierte Latenz und Kosten.
+**Status: MVP Complete (v1.5.0-dev):** Automatisches Caching häufig verwendeter Prompt-Präfixe für deutlich reduzierte Latenz und Kosten.
 
 **Funktionsweise:**
 
@@ -1487,7 +1487,7 @@ Beispiel-Output:
 
 ### 17.12.2 Response Caching
 
-**Neu in v1.4.0-alpha:** Intelligentes Caching kompletter LLM-Antworten basierend auf semantischer Ähnlichkeit.
+**Status: MVP Complete (v1.5.0-dev):** Intelligentes Caching kompletter LLM-Antworten basierend auf semantischer Ähnlichkeit.
 
 **Funktionsweise:**
 
@@ -1610,7 +1610,7 @@ FOR stat IN LLMCACHE_TIMESERIES('response', {
 
 ### 17.12.3 Multi-GPU Support
 
-**Neu in v1.4.0-alpha:** Verteilte LLM-Inferenz über mehrere GPUs für maximale Performance und Skalierbarkeit.
+**Status: MVP Complete (v1.5.0-dev):** Verteilte LLM-Inferenz über mehrere GPUs für maximale Performance und Skalierbarkeit.
 
 **Unterstützte Parallelisierungsstrategien:**
 
@@ -1698,7 +1698,7 @@ Output:
 
 ### 17.12.4 Paged Attention
 
-**Neu in v1.4.0-alpha:** Effiziente GPU-Speicherverwaltung für Attention-Mechanismen mit bis zu 80% weniger Speicherverbrauch.
+**Status: MVP Complete (v1.5.0-dev):** Effiziente GPU-Speicherverwaltung für Attention-Mechanismen mit bis zu 80% weniger Speicherverbrauch.
 
 **Problem ohne Paged Attention:**
 
@@ -1727,7 +1727,7 @@ Abb. 17.5: Context-Window-Management
 **Aktivierung:**
 
 ```aql
-// Paged Attention ist standardmäßig aktiviert in v1.4.0-alpha
+// Paged Attention ist standardmäßig aktiviert in v1.5.0-dev
 FOR doc IN large_documents
   LIMIT 1000
   LET analysis = PROMPT('llama-70b-local',
@@ -1780,7 +1780,7 @@ RETURN {
 
 ### 17.12.5 LoRA (Low-Rank Adaptation) Support
 
-**Neu in v1.4.0-alpha:** Effizientes Fine-Tuning und Deployment von spezialisierten Modell-Adaptern mit minimalem Speicher-Overhead.
+**Status: MVP Complete (v1.5.0-dev):** Effizientes Fine-Tuning und Deployment von spezialisierten Modell-Adaptern mit minimalem Speicher-Overhead.
 
 **Konzept:**
 
@@ -1913,7 +1913,7 @@ Output:
 
 ### 17.12.6 Grammar-Constrained Generation
 
-**Neu in v1.4.0-alpha:** EBNF/GBNF-basierte Grammar-Constraints garantieren gültige, strukturierte LLM-Ausgaben (JSON, XML, CSV) ohne Post-Processing.
+**Status: MVP Complete (v1.5.0-dev):** EBNF/GBNF-basierte Grammar-Constraints garantieren gültige, strukturierte LLM-Ausgaben (JSON, XML, CSV) ohne Post-Processing.
 
 **Problem ohne Grammar Constraints:**
 
@@ -2255,7 +2255,7 @@ Output:
 
 ### 17.12.7 RoPE Scaling - Extended Context Window
 
-**Neu in v1.4.0-alpha:** RoPE (Rotary Position Embedding) Scaling erweitert das Kontext-Fenster von Standard 4K-8K auf bis zu 32K+ Tokens (8x Increase).
+**Status: MVP Complete (v1.5.0-dev):** RoPE (Rotary Position Embedding) Scaling erweitert das Kontext-Fenster von Standard 4K-8K auf bis zu 32K+ Tokens (8x Increase).
 
 **Problem: Begrenzte Kontext-Länge:**
 
@@ -2567,7 +2567,7 @@ Output:
 
 ### 17.12.8 Vision Support
 
-**Neu in v1.4.0-alpha:** Multimodale LLM-Integration für Text + Bild-Verarbeitung, ermöglicht visuelle Analyse, OCR und Bildbeschreibung direkt in AQL.
+**Status: MVP Complete (v1.5.0-dev):** Multimodale LLM-Integration für Text + Bild-Verarbeitung, ermöglicht visuelle Analyse, OCR und Bildbeschreibung direkt in AQL.
 
 **Unterstützte Modelle:**
 

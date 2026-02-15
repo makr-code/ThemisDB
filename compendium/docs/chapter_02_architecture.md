@@ -1374,7 +1374,7 @@ Abb. 02.7: Replication-Topologie
 
 ### 2.13.4 MVCC Performance
 
-**Benchmark-Ergebnisse** (v1.3.0):
+**Benchmark-Ergebnisse** (v1.5.0-dev):
 
 | Operation | MVCC (ops/s) | WriteBatch (ops/s) | Overhead |
 |-----------|--------------|---------------------|----------|
