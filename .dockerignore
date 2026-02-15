@@ -61,3 +61,4 @@ compendium/**
 release/**
 site/**
 tools/**
+prebuilt-cache/**
