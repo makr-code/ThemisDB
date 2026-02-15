@@ -49,6 +49,7 @@ Makefile
 # vcpkg (local installs - 163k+ files!)
 vcpkg_installed/
 .vcpkg/
+.vcpkg-cache/
 vcpkg/
 # But allow vcpkg/downloads structure for offline builds (with placeholder files)
 !vcpkg/downloads/
