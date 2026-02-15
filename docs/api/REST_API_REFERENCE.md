@@ -1,5 +1,8 @@
 # REST/HTTP API Reference
 
+**Version:** 1.5.0-dev  
+**Last Updated:** 2026-02-15
+
 ## Overview
 
 ThemisDB provides a comprehensive REST/HTTP API for all database operations. This document describes the available endpoints, authentication requirements, and rate limiting policies.
@@ -14,6 +17,26 @@ For HTTPS/TLS:
 ```
 https://localhost:8080
 ```
+
+### Protocol Support
+
+ThemisDB supports multiple HTTP versions with automatic negotiation:
+
+- **HTTP/1.1**: Fully supported (default for curl and most clients)
+- **HTTP/2**: Fully supported with Server Push (enabled by default)
+- **HTTP/3 (QUIC)**: Planned for v1.6+ (experimental support via `enable_http3` flag)
+
+> **📖 Port Reference:** See [docs/de/deployment/PORT_REFERENCE.md](../de/deployment/PORT_REFERENCE.md) for complete port mapping across deployment platforms.
+
+### Default Ports
+
+| Port | Protocol | Purpose |
+|------|----------|---------|
+| `8080` | HTTP/1.1, HTTP/2 | REST API, GraphQL |
+| `18765` | Binary Wire Protocol | gRPC, inter-shard communication |
+| `4318` | HTTP | OpenTelemetry/Prometheus metrics |
+
+**Note:** Port defaults may vary by platform (Raspberry Pi: 8765, Docker: 18765, Kubernetes: 8529). Check your configuration file.
 
 ## Authentication
 
