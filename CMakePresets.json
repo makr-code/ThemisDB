@@ -2,7 +2,7 @@
   "version": 6,
   "cmakeMinimumRequired": {
     "major": 3,
-    "minor": 23,
+    "minor": 20,
     "patch": 0
   },
   "configurePresets": [
@@ -12,29 +12,200 @@
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+      }
+    },
+    {
+      "name": "minimal-debug",
+      "displayName": "MINIMAL Edition (Debug)",
+      "description": "Lightweight build for embedded systems - Debug configuration",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-minimal-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "MINIMAL",
         "THEMIS_BUILD_TESTS": "ON",
-        "THEMIS_BUILD_BENCHMARKS": "ON",
-        "THEMIS_ENABLE_TRACING": "OFF",
-        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "minimal-release",
+      "displayName": "MINIMAL Edition (MinSizeRel)",
+      "description": "Lightweight build for embedded systems - Optimized for size",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-minimal-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "MinSizeRel",
+        "THEMIS_EDITION": "MINIMAL",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "community-debug",
+      "displayName": "COMMUNITY Edition (Debug)",
+      "description": "Standard edition with default features - Debug configuration",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-community-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY",
         "THEMIS_ENABLE_LLM": "ON",
-        "THEMIS_ENABLE_ASAN": "OFF",
-        "THEMIS_STRICT_BUILD": "OFF"
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "community-release",
+      "displayName": "COMMUNITY Edition (Release)",
+      "description": "Standard deployment configuration with LLM support",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-community-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "community-llm",
+      "displayName": "COMMUNITY Edition + LLM",
+      "description": "COMMUNITY with LLM and GPU acceleration enabled",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-community-llm",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "community-gpu",
+      "displayName": "COMMUNITY Edition + GPU + CUDA",
+      "description": "COMMUNITY with GPU and CUDA acceleration",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-community-gpu",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_CUDA": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "enterprise-debug",
+      "displayName": "ENTERPRISE Edition (Debug)",
+      "description": "Advanced features with HSM - Debug configuration",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-enterprise-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "enterprise-release",
+      "displayName": "ENTERPRISE Edition (Release)",
+      "description": "Production ENTERPRISE build with all advanced features",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-enterprise-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "hyperscaler-release",
+      "displayName": "HYPERSCALER Edition (Release)",
+      "description": "Maximum performance with all features and unlimited resources",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-hyperscaler-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_ENABLE_CUDA": "ON",
+        "THEMIS_ENABLE_GRPC": "ON",
+        "THEMIS_ENABLE_TRACING": "ON",
+        "THEMIS_ENABLE_DISTRIBUTED_TRAINING": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "ON"
+      }
+    },
+    {
+      "name": "cross-arm64",
+      "displayName": "Cross-compile ARM64 Linux",
+      "description": "Cross-compilation for ARM64/AArch64 Linux systems",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-cross-arm64",
+      "toolchainFile": "${sourceDir}/cmake/platforms/Toolchains/arm64-linux-gnu.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "VCPKG_TARGET_TRIPLET": "arm64-linux",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "cross-armv7",
+      "displayName": "Cross-compile ARMv7 Linux",
+      "description": "Cross-compilation for ARMv7 Linux (Raspberry Pi 2/3)",
+      "inherits": ["base"],
+      "binaryDir": "${sourceDir}/build-cross-armv7",
+      "toolchainFile": "${sourceDir}/cmake/platforms/Toolchains/armv7-linux-gnueabihf.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "MINIMAL",
+        "VCPKG_TARGET_TRIPLET": "arm-linux",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
       "name": "windows-ninja-msvc-release",
       "displayName": "Windows Ninja MSVC Release (LLM+Tests+Benchmarks)",
       "description": "Release build with Ninja, MSVC compiler, LLM support, tests and benchmarks",
-      "inherits": [
-        "base"
-      ],
+      "inherits": ["base"],
       "binaryDir": "${sourceDir}/build-msvc-ninja-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "CMAKE_C_COMPILER": "cl",
         "CMAKE_CXX_COMPILER": "cl",
         "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "ON"
       }
     },
@@ -42,38 +213,42 @@
       "name": "windows-ninja-msvc-debug",
       "displayName": "Windows Ninja MSVC Debug",
       "description": "Debug build with Ninja + MSVC (LLM/tests on)",
-      "inherits": [
-        "base"
-      ],
+      "inherits": ["base"],
       "binaryDir": "${sourceDir}/build-msvc-ninja-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_C_COMPILER": "cl",
         "CMAKE_CXX_COMPILER": "cl",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
       "name": "windows-ninja-clangcl-debug",
       "displayName": "Windows Ninja Clang-CL Debug",
       "description": "Debug build with Ninja + clang-cl (Windows toolchain)",
-      "inherits": [
-        "base"
-      ],
+      "inherits": ["base"],
       "binaryDir": "${sourceDir}/build-clangcl-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_C_COMPILER": "C:/LLVM/bin/clang-cl.exe",
-        "CMAKE_CXX_COMPILER": "C:/LLVM/bin/clang-cl.exe"
+        "CMAKE_CXX_COMPILER": "C:/LLVM/bin/clang-cl.exe",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
       }
     },
     {
       "name": "windows-ninja-clangcl-release",
       "displayName": "Windows Ninja Clang-CL Release",
       "description": "Release build with Ninja + clang-cl (Windows toolchain)",
-      "inherits": [
-        "windows-ninja-clangcl-debug"
-      ],
+      "inherits": ["windows-ninja-clangcl-debug"],
       "binaryDir": "${sourceDir}/build-clangcl-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -82,38 +257,132 @@
   ],
   "buildPresets": [
     {
+      "name": "minimal-debug",
+      "configurePreset": "minimal-debug",
+      "jobs": 0
+    },
+    {
+      "name": "minimal-release",
+      "configurePreset": "minimal-release",
+      "jobs": 0
+    },
+    {
+      "name": "community-debug",
+      "configurePreset": "community-debug",
+      "jobs": 0
+    },
+    {
+      "name": "community-release",
+      "configurePreset": "community-release",
+      "jobs": 0
+    },
+    {
+      "name": "community-llm",
+      "configurePreset": "community-llm",
+      "jobs": 0
+    },
+    {
+      "name": "community-gpu",
+      "configurePreset": "community-gpu",
+      "jobs": 0
+    },
+    {
+      "name": "enterprise-debug",
+      "configurePreset": "enterprise-debug",
+      "jobs": 0
+    },
+    {
+      "name": "enterprise-release",
+      "configurePreset": "enterprise-release",
+      "jobs": 0
+    },
+    {
+      "name": "hyperscaler-release",
+      "configurePreset": "hyperscaler-release",
+      "jobs": 0
+    },
+    {
+      "name": "cross-arm64",
+      "configurePreset": "cross-arm64",
+      "jobs": 0
+    },
+    {
+      "name": "cross-armv7",
+      "configurePreset": "cross-armv7",
+      "jobs": 0
+    },
+    {
       "name": "windows-ninja-msvc-debug",
-      "configurePreset": "windows-ninja-msvc-debug"
+      "configurePreset": "windows-ninja-msvc-debug",
+      "jobs": 0
     },
     {
       "name": "windows-ninja-msvc-release",
-      "configurePreset": "windows-ninja-msvc-release"
+      "configurePreset": "windows-ninja-msvc-release",
+      "jobs": 0
     },
     {
       "name": "windows-ninja-clangcl-debug",
-      "configurePreset": "windows-ninja-clangcl-debug"
+      "configurePreset": "windows-ninja-clangcl-debug",
+      "jobs": 0
     },
     {
       "name": "windows-ninja-clangcl-release",
-      "configurePreset": "windows-ninja-clangcl-release"
+      "configurePreset": "windows-ninja-clangcl-release",
+      "jobs": 0
     }
   ],
   "testPresets": [
     {
+      "name": "test-fast",
+      "displayName": "Fast Unit Tests",
+      "description": "Quick unit tests only (no integration tests)",
+      "configurePreset": "community-debug",
+      "output": {
+        "outputOnFailure": true
+      },
+      "filter": {
+        "exclude": {
+          "label": "integration"
+        }
+      }
+    },
+    {
+      "name": "test-full",
+      "displayName": "Full Test Suite",
+      "description": "Complete test suite including integration tests",
+      "configurePreset": "community-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
       "name": "windows-ninja-msvc-debug",
-      "configurePreset": "windows-ninja-msvc-debug"
+      "configurePreset": "windows-ninja-msvc-debug",
+      "output": {
+        "outputOnFailure": true
+      }
     },
     {
       "name": "windows-ninja-msvc-release",
-      "configurePreset": "windows-ninja-msvc-release"
+      "configurePreset": "windows-ninja-msvc-release",
+      "output": {
+        "outputOnFailure": true
+      }
     },
     {
       "name": "windows-ninja-clangcl-debug",
-      "configurePreset": "windows-ninja-clangcl-debug"
+      "configurePreset": "windows-ninja-clangcl-debug",
+      "output": {
+        "outputOnFailure": true
+      }
     },
     {
       "name": "windows-ninja-clangcl-release",
-      "configurePreset": "windows-ninja-clangcl-release"
+      "configurePreset": "windows-ninja-clangcl-release",
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ]
 }
