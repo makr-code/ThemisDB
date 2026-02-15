@@ -19,6 +19,9 @@ if(NOT GTest_FOUND)
     return()
 endif()
 
+# Find yaml-cpp for test configuration
+find_package(yaml-cpp CONFIG REQUIRED)
+
 # Shared test libraries so individual test executables don't forget to link gtest
 set(TEST_LIBS
     GTest::gtest
@@ -117,8 +120,16 @@ if(NOT THEMIS_ENABLE_CONTENT)
     )
 endif()
 
-# Tests with own main() are now being converted to use gtest_main
-# No longer excluded from unified build
+# Tests with own main() - these have custom logic or missing dependencies
+list(APPEND TEST_EXCLUDE_PATTERNS
+    ".*test_argument_store\\.cpp$"
+    ".*test_content_policy_manual\\.cpp$"
+    ".*test_ethics_ai_types\\.cpp$"
+    ".*test_ethics_evaluator\\.cpp$"
+    ".*test_graph_advanced_features\\.cpp$"
+    ".*test_approximate_radius_search_integration\\.cpp$"
+    ".*test_philosophy_loader\\.cpp$"
+)
 
 if(NOT THEMIS_ENABLE_WISCKEY)
     list(APPEND TEST_EXCLUDE_PATTERNS
@@ -183,6 +194,7 @@ target_link_libraries(themis_tests PRIVATE
     spdlog::spdlog
     fmt::fmt
     nlohmann_json::nlohmann_json
+    yaml-cpp
     RocksDB::rocksdb
     OpenSSL::SSL
     OpenSSL::Crypto

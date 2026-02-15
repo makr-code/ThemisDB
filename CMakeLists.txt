@@ -67,7 +67,7 @@ include(cmake/PreloadTargets.cmake)
 include(cmake/editions/EditionDefaults.cmake)
 
 # 7. Feature configuration (LLM, GPU, Network, Security, Tools, Optimizations)
-include(cmake/features/FeatureDefaults.cmake)
+include(cmake/Features/FeatureDefaults.cmake)
 
 # 7.5. Edition-Feature Matrix Validation (ensures features are compatible with edition)
 include(cmake/EditionMatrix.cmake)
@@ -421,6 +421,32 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
 else()
     message(STATUS "Legal training data ingestion skipped (THEMIS_BUILD_LEGAL_TRAINING_DATA=OFF)")
     message(STATUS "To enable: cmake -DTHEMIS_BUILD_LEGAL_TRAINING_DATA=ON")
+endif()
+
+# ============================================================================
+# MULTI-PLATFORM PACKAGE SYSTEM (CMake-Only)
+# ============================================================================
+
+# Enable multi-platform vcpkg package building targets
+option(THEMIS_ENABLE_PACKAGE_SYSTEM "Enable multi-platform package building targets" ON)
+if(THEMIS_ENABLE_PACKAGE_SYSTEM AND EXISTS "${CMAKE_SOURCE_DIR}/cmake/VcpkgPackageSystem.cmake")
+    include(cmake/VcpkgPackageSystem.cmake)
+    message(STATUS "Multi-platform package system: ENABLED")
+else()
+    message(STATUS "Multi-platform package system: DISABLED")
+endif()
+
+# ============================================================================
+# DOCKER BUILD SYSTEM (CMake-Only)
+# ============================================================================
+
+# Enable Docker build targets
+option(THEMIS_ENABLE_DOCKER_SYSTEM "Enable Docker build targets" ON)
+if(THEMIS_ENABLE_DOCKER_SYSTEM AND EXISTS "${CMAKE_SOURCE_DIR}/cmake/DockerBuildSystem.cmake")
+    include(cmake/DockerBuildSystem.cmake)
+    message(STATUS "Docker build system: ENABLED")
+else()
+    message(STATUS "Docker build system: DISABLED")
 endif()
 
 # ============================================================================

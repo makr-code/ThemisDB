@@ -6,7 +6,12 @@
 
 #ifdef __linux__
 #include <sched.h>
+#if __has_include(<numa.h>)
 #include <numa.h>
+#define HAS_NUMA 1
+#else
+#define HAS_NUMA 0
+#endif
 #include <pthread.h>
 #endif
 
@@ -411,7 +416,7 @@ NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
     placement.preferred_numa_node = 0;  // Default to node 0
     placement.use_local_memory = true;
     
-#ifdef __linux__
+#if defined(__linux__) && HAS_NUMA
     if (isNumaAvailable()) {
         size_t num_nodes = getNumaNodeCount();
         
@@ -446,7 +451,7 @@ NumaAwareOptimizer::NumaPlacement NumaAwareOptimizer::getOptimalPlacement(
 }
 
 bool NumaAwareOptimizer::isNumaAvailable() {
-#ifdef __linux__
+#if defined(__linux__) && HAS_NUMA
     return numa_available() != -1;
 #else
     return false;
@@ -454,7 +459,7 @@ bool NumaAwareOptimizer::isNumaAvailable() {
 }
 
 size_t NumaAwareOptimizer::getNumaNodeCount() {
-#ifdef __linux__
+#if defined(__linux__) && HAS_NUMA
     if (isNumaAvailable()) {
         return numa_num_configured_nodes();
     }

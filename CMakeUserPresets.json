@@ -7,7 +7,7 @@
       "displayName": "VS Code: Windows MSVC Release (LoRA+Tests)",
       "description": "Uses MSVC with VsDevCmd environment",
       "hidden": false,
-      "inherits": "windows-ninja-msvc-release",
+      "inherits": "windows-release",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",

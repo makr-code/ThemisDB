@@ -1723,19 +1723,15 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/lora_framework/multi_gpu.cpp
     ../src/llm/lora_framework/multi_gpu_trainer.cpp
     ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
+    # Multi-GPU Communication Backends (NCCL/RCCL - stub implementations when not available)
+    ../src/llm/lora_framework/nccl_backend.cpp
+    ../src/llm/lora_framework/rccl_backend.cpp
     )
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
     )
-
-    # Test utilities linked for LLM integration tests
-    list(APPEND THEMIS_CORE_SOURCES
-    ../tests/utils/raid_simulator.cpp
-    ../tests/utils/shard_failure_injector.cpp
-    )
-    # Note: rag_judge.cpp will be added in a future phase
 endif()
 
 # Ensure minimal LLM components are available when referenced from http_server.

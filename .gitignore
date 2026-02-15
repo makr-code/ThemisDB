@@ -58,6 +58,10 @@ packages/
 downloads/
 buildtrees/
 
+# vcpkg multi-platform package store (50-60 GB, too large for Git)
+vcpkg_packages/
+!vcpkg_packages/README.md
+
 # external/vcpkg - deprecated, use root ./vcpkg instead (v1.3.0+)
 external/vcpkg/
 
@@ -140,6 +144,9 @@ certs/test/*.key
 # Docker build artifacts
 .docker/
 docker/tmp/
+.docker-build-*/
+.dockerignore.optimized
+.dockerignore.prebuilt
 
 # Local clone of optional LLM engine (excluded from VCS)
 # Kept locally for optional builds; never committed

@@ -380,14 +380,3 @@ TEST(ThreadSafetyPerformance, SynchronizedOverhead) {
     // Note: Atomic should be fastest thread-safe option for simple counters
     EXPECT_LT(duration_atomic, duration_safe);
 }
-
-// ═══════════════════════════════════════════════════════════
-// Main
-// ═══════════════════════════════════════════════════════════
-    std::cout << "  ./build/tests/test_thread_safety_stress\n";
-    std::cout << "\n";
-    std::cout << "═══════════════════════════════════════════════════════════\n";
-    std::cout << "\n";
-    
-    return RUN_ALL_TESTS();
-}

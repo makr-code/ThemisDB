@@ -11,7 +11,6 @@
       "hidden": true,
       "generator": "Ninja",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_BUILD_BENCHMARKS": "ON",
@@ -23,97 +22,324 @@
       }
     },
     {
-      "name": "windows-ninja-msvc-release",
-      "displayName": "Windows Ninja MSVC Release (LLM+Tests+Benchmarks)",
-      "description": "Release build with Ninja, MSVC compiler, LLM support, tests and benchmarks",
-      "inherits": [
-        "base"
-      ],
-      "binaryDir": "${sourceDir}/build-msvc-ninja-release",
+      "name": "vcpkg-base",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+      }
+    },
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "inherits": "vcpkg-base", 
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl"
+      }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "inherits": "vcpkg-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "windows-release",
+      "displayName": "Windows Release (MSVC, x64-windows)",
+      "description": "Release build for Windows with MSVC and vcpkg",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-windows-release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl",
         "VCPKG_TARGET_TRIPLET": "x64-windows",
-        "THEMIS_BUILD_BENCHMARKS": "ON"
+        "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "windows-ninja-msvc-debug",
-      "displayName": "Windows Ninja MSVC Debug",
-      "description": "Debug build with Ninja + MSVC (LLM/tests on)",
-      "inherits": [
-        "base"
-      ],
-      "binaryDir": "${sourceDir}/build-msvc-ninja-debug",
+      "name": "windows-debug",
+      "displayName": "Windows Debug (MSVC, x64-windows)",
+      "description": "Debug build for Windows with MSVC and vcpkg",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-windows-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl",
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "windows-ninja-clangcl-debug",
-      "displayName": "Windows Ninja Clang-CL Debug",
-      "description": "Debug build with Ninja + clang-cl (Windows toolchain)",
-      "inherits": [
-        "base"
-      ],
-      "binaryDir": "${sourceDir}/build-clangcl-debug",
+      "name": "windows-release-static",
+      "displayName": "Windows Release Static (MSVC, x64-windows-static)",
+      "description": "Static release build for Windows",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-windows-release-static",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux Release (GCC, x64-linux)",
+      "description": "Release build for Linux with GCC and vcpkg",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build-linux-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Linux Debug (GCC, x64-linux)",
+      "description": "Debug build for Linux with GCC and vcpkg",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build-linux-debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_C_COMPILER": "C:/LLVM/bin/clang-cl.exe",
-        "CMAKE_CXX_COMPILER": "C:/LLVM/bin/clang-cl.exe"
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "THEMIS_EDITION": "COMMUNITY"
       }
     },
     {
-      "name": "windows-ninja-clangcl-release",
-      "displayName": "Windows Ninja Clang-CL Release",
-      "description": "Release build with Ninja + clang-cl (Windows toolchain)",
-      "inherits": [
-        "windows-ninja-clangcl-debug"
-      ],
-      "binaryDir": "${sourceDir}/build-clangcl-release",
+      "name": "windows-release-prebuilt",
+      "displayName": "Windows Release with Pre-built Packages",
+      "description": "Windows release using pre-built vcpkg packages from package store",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-windows-release-prebuilt",
       "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_packages/x64-windows/release",
+        "VCPKG_MANIFEST_MODE": "OFF",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "linux-release-prebuilt",
+      "displayName": "Linux Release with Pre-built Packages",
+      "description": "Linux release using pre-built vcpkg packages from package store",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build-linux-release-prebuilt",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/vcpkg_packages/x64-linux/release",
+        "VCPKG_MANIFEST_MODE": "OFF",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "docker-builder",
+      "displayName": "Docker Package Builder",
+      "description": "Configuration for building vcpkg packages",
+      "inherits": "base",
+      "hidden": true,
+      "cacheVariables": {
+        "THEMIS_BUILD_PACKAGES": "ON",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF"
+      }
+    },
+    {
+      "name": "package-builder-windows-release",
+      "displayName": "Package Builder: Windows Release",
+      "description": "Build vcpkg packages for Windows Release",
+      "inherits": "docker-builder",
+      "binaryDir": "${sourceDir}/build-package-builder",
+      "cacheVariables": {
+        "THEMIS_PACKAGE_TRIPLET": "x64-windows",
+        "THEMIS_PACKAGE_CONFIG": "release",
         "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "package-builder-linux-release",
+      "displayName": "Package Builder: Linux Release",
+      "description": "Build vcpkg packages for Linux Release (Docker)",
+      "inherits": "docker-builder",
+      "binaryDir": "${sourceDir}/build-package-builder",
+      "cacheVariables": {
+        "THEMIS_PACKAGE_TRIPLET": "x64-linux",
+        "THEMIS_PACKAGE_CONFIG": "release",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "minimal",
+      "displayName": "MINIMAL Edition",
+      "description": "Minimal build without LLM/GPU",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-minimal",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_EDITION": "MINIMAL",
+        "THEMIS_ENABLE_LLM": "OFF",
+        "THEMIS_ENABLE_GPU": "OFF"
+      }
+    },
+    {
+      "name": "community",
+      "displayName": "COMMUNITY Edition",
+      "description": "Community build with LLM support (standard)",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-community",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "OFF"
+      }
+    },
+    {
+      "name": "enterprise",
+      "displayName": "ENTERPRISE Edition",
+      "description": "Enterprise build with all features",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-enterprise",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_EDITION": "ENTERPRISE",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON"
+      }
+    },
+    {
+      "name": "hyperscaler",
+      "displayName": "HYPERSCALER Edition",
+      "description": "Hyperscaler build with maximum features",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-hyperscaler",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "THEMIS_EDITION": "HYPERSCALER",
+        "THEMIS_ENABLE_LLM": "ON",
+        "THEMIS_ENABLE_GPU": "ON"
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "windows-ninja-msvc-debug",
-      "configurePreset": "windows-ninja-msvc-debug"
+      "name": "windows-release",
+      "displayName": "Build Windows Release",
+      "configurePreset": "windows-release",
+      "configuration": "Release"
     },
     {
-      "name": "windows-ninja-msvc-release",
-      "configurePreset": "windows-ninja-msvc-release"
+      "name": "windows-debug",
+      "displayName": "Build Windows Debug",
+      "configurePreset": "windows-debug",
+      "configuration": "Debug"
     },
     {
-      "name": "windows-ninja-clangcl-debug",
-      "configurePreset": "windows-ninja-clangcl-debug"
+      "name": "linux-release",
+      "displayName": "Build Linux Release",
+      "configurePreset": "linux-release",
+      "configuration": "Release"
     },
     {
-      "name": "windows-ninja-clangcl-release",
-      "configurePreset": "windows-ninja-clangcl-release"
+      "name": "linux-debug",
+      "displayName": "Build Linux Debug",
+      "configurePreset": "linux-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-release-prebuilt",
+      "displayName": "Build Windows Release (Pre-built Packages)",
+      "configurePreset": "windows-release-prebuilt",
+      "configuration": "Release"
+    },
+    {
+      "name": "linux-release-prebuilt",
+      "displayName": "Build Linux Release (Pre-built Packages)",
+      "configurePreset": "linux-release-prebuilt",
+      "configuration": "Release"
     }
   ],
   "testPresets": [
     {
-      "name": "windows-ninja-msvc-debug",
-      "configurePreset": "windows-ninja-msvc-debug"
+      "name": "windows-release",
+      "displayName": "Test Windows Release",
+      "configurePreset": "windows-release",
+      "configuration": "Release"
     },
     {
-      "name": "windows-ninja-msvc-release",
-      "configurePreset": "windows-ninja-msvc-release"
+      "name": "windows-debug",
+      "displayName": "Test Windows Debug",
+      "configurePreset": "windows-debug",
+      "configuration": "Debug"
     },
     {
-      "name": "windows-ninja-clangcl-debug",
-      "configurePreset": "windows-ninja-clangcl-debug"
+      "name": "linux-release",
+      "displayName": "Test Linux Release",
+      "configurePreset": "linux-release",
+      "configuration": "Release"
     },
     {
-      "name": "windows-ninja-clangcl-release",
-      "configurePreset": "windows-ninja-clangcl-release"
+      "name": "linux-debug",
+      "displayName": "Test Linux Debug",
+      "configurePreset": "linux-debug",
+      "configuration": "Debug"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-full-workflow",
+      "displayName": "Windows: Configure → Build → Test",
+      "description": "Complete workflow for Windows development",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-release"
+        },
+        {
+          "type": "build",
+          "name": "windows-release"
+        },
+        {
+          "type": "test",
+          "name": "windows-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-full-workflow",
+      "displayName": "Linux: Configure → Build → Test",
+      "description": "Complete workflow for Linux development",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-release"
+        },
+        {
+          "type": "build",
+          "name": "linux-release"
+        },
+        {
+          "type": "test",
+          "name": "linux-release"
+        }
+      ]
     }
   ]
 }

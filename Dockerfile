@@ -18,6 +18,16 @@ ARG BUILD_BENCHMARKS=OFF
 ARG TARGETARCH=amd64
 
 # ============================================================================
+# Stage 0: prebuilt - Dummy stage for optional pre-built artifacts
+# ============================================================================
+FROM scratch AS prebuilt
+
+# ============================================================================
+# Stage 0b: vcpkg-cache - Dummy stage for optional vcpkg binary cache
+# ============================================================================
+FROM scratch AS vcpkg-cache
+
+# ============================================================================
 # Stage 1: base - Build environment with vcpkg
 # ============================================================================
 FROM ubuntu:24.04 AS base
@@ -46,11 +56,13 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         libssl-dev zlib1g-dev && \
     apt-get clean
 
-# Clone and bootstrap vcpkg with pinned baseline
+# Clone and bootstrap vcpkg, capture current HEAD as baseline
 RUN git clone https://github.com/microsoft/vcpkg.git ${VCPKG_ROOT} && \
     cd ${VCPKG_ROOT} && \
-    git checkout 10b7a178346f3f0abef60cecd5130e295afd8da4 && \
-    ./bootstrap-vcpkg.sh -disableMetrics
+    VCPKG_BASELINE=$(git rev-parse HEAD) && \
+    echo "${VCPKG_BASELINE}" > /tmp/vcpkg_baseline.txt && \
+    ./bootstrap-vcpkg.sh -disableMetrics && \
+    echo "✓ vcpkg baseline: ${VCPKG_BASELINE}"
 
 # ============================================================================
 # Stage 2: deps - Install dependencies with vcpkg
@@ -88,50 +100,65 @@ RUN set -eux; \
 # Copy vcpkg configuration
 COPY vcpkg-configuration.json ./
 
-# Install dependencies with pre-built vcpkg artifacts
-# USAGE: docker build --build-arg SKIP_VCPKG_INSTALL=ON \
-#   --build-context prebuilt=PATH\TO\build-linux\vcpkg_installed ...
-# Requires: BuildKit + named build context (prebuilt)
-ARG ENABLE_VCPKG_CACHE=OFF
-ARG SKIP_VCPKG_INSTALL=OFF
+# Copy custom vcpkg ports overlay (required by vcpkg-configuration.json)
+COPY ports ./ports
 
-RUN --mount=type=bind,from=prebuilt,source=x64-linux,target=/vcpkg-prebuilt/x64-linux,readonly \
+# Copy local vcpkg downloads cache (speeds up build, fallback to internet)
+# Contains 4.42 GB, 71k files from host
+COPY vcpkg/downloads /vcpkg-host-downloads
+
+# Install dependencies with TRIPLE CACHE STRATEGY:
+# 1. BuildKit cache mounts (persistent Docker cache between builds)
+# 2. Host downloads copied to container (4.42 GB local cache)
+# 3. vcpkg binary cache (compiled packages as .zip archives)
+ARG VCPKG_BINARY_SOURCES="clear;default"
+
+RUN --mount=type=bind,from=prebuilt,target=/vcpkg-prebuilt,readonly \
+    --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
+    --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
+    --mount=type=cache,target=/opt/vcpkg/buildtrees,sharing=locked \
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     mkdir -p /build/vcpkg_installed/${TRIPLET}; \
     \
-    # Copy pre-built artifacts from WSL/Linux build (if available)
-    if [ "${ENABLE_VCPKG_CACHE}" = "ON" ] && [ -d "/vcpkg-prebuilt/x64-linux/lib" ]; then \
-        echo "⚡ Using pre-built artifacts from WSL/Linux build..."; \
-        cp -r /vcpkg-prebuilt/x64-linux/* /build/vcpkg_installed/${TRIPLET}/; \
-        \
-        LIB_COUNT=$(find /build/vcpkg_installed/${TRIPLET}/lib -name '*.a' 2>/dev/null | wc -l || echo 0); \
-        ARTIFACT_SIZE=$(du -sh /build/vcpkg_installed/${TRIPLET} 2>/dev/null | cut -f1 || echo "0"); \
-        echo "✓ Copied ${LIB_COUNT} pre-built libraries (${ARTIFACT_SIZE})"; \
+    # Copy host downloads to BuildKit cache (one-time per file)
+    if [ -d /vcpkg-host-downloads ] && [ "$(ls -A /vcpkg-host-downloads 2>/dev/null)" ]; then \
+        echo "📦 Copying host downloads cache to BuildKit cache..."; \
+        cp -n /vcpkg-host-downloads/*.tar.gz /opt/vcpkg/downloads/ 2>/dev/null || true; \
+        cp -n /vcpkg-host-downloads/*.zip /opt/vcpkg/downloads/ 2>/dev/null || true; \
+        cp -n /vcpkg-host-downloads/*.7z /opt/vcpkg/downloads/ 2>/dev/null || true; \
+        CACHED=$(ls /opt/vcpkg/downloads/*.tar.gz /opt/vcpkg/downloads/*.zip 2>/dev/null | wc -l); \
+        echo "✓ $CACHED cached downloads available"; \
+    else \
+        echo "⚠ No host downloads cache, will download from internet"; \
     fi; \
     \
-    # Use curl for downloads (more reliable than wget)
-    export VCPKG_DOWNLOAD_TOOL=curl; \
-    export VCPKG_USE_ARIA2=0; \
+    # Configure vcpkg with binary caching
+    export VCPKG_BINARY_SOURCES="clear;files,/opt/vcpkg/archives,readwrite"; \
+    export VCPKG_BUILD_TYPE=release; \
+    export VCPKG_MAX_CONCURRENCY=8; \
     \
-    # vcpkg install will:
-    # 1. Use pre-built x64-linux libraries (if present)
-    # 2. Use binary cache from vcpkg/packages (if available)  
-    # 3. Use downloads cache to skip re-downloading archives
-    # 4. Only build packages not in any cache
-    if [ "${SKIP_VCPKG_INSTALL}" = "ON" ] && [ -d "/vcpkg-prebuilt/x64-linux/lib" ]; then \
-        echo "⚠️  Skipping vcpkg install (using pre-built libs only)"; \
-    else \
-        echo "📦 Installing/validating packages for ${TRIPLET}..."; \
-        ${VCPKG_ROOT}/vcpkg install \
-            --triplet="${TRIPLET}" \
-            --x-manifest-root=/build \
-            --x-install-root=/build/vcpkg_installed \
-            --allow-unsupported \
-            --clean-after-build || { \
-            echo "ERROR: vcpkg install failed"; \
-            exit 1; \
-        }; \
+    # Install/compile dependencies (will use cached downloads)
+    echo "📦 Installing packages for ${TRIPLET}..."; \
+    ${VCPKG_ROOT}/vcpkg install \
+        --triplet="${TRIPLET}" \
+        --x-manifest-root=/build \
+        --x-install-root=/build/vcpkg_installed \
+        --allow-unsupported \
+        --clean-after-build || { \
+        echo "ERROR: vcpkg install failed"; \
+        exit 1; \
+    }; \
+    \
+    # Create symlinks for CMake to find vcpkg includes/libs
+    ln -sf /build/vcpkg_installed/${TRIPLET}/include /build/include; \
+    ln -sf /build/vcpkg_installed/${TRIPLET}/lib /build/lib; \
+    ln -sf /build/vcpkg_installed/${TRIPLET}/debug/lib /build/debug; \
+    \
+    # Create symlink for CMake compatibility (/build/include -> /build/vcpkg_installed/*/include)
+    if [ -d "/build/vcpkg_installed/${TRIPLET}/include" ]; then \
+        ln -sf "/build/vcpkg_installed/${TRIPLET}/include" "/build/include"; \
+        echo "✓ Created symlink: /build/include -> /build/vcpkg_installed/${TRIPLET}/include"; \
     fi; \
     \
     echo "✓ Dependencies complete: ${TRIPLET}"; \
@@ -300,8 +327,10 @@ COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
 # Copy llama.cpp libraries (if LLM enabled)
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
 
-# Copy vcpkg runtime libraries (shared libs)
-COPY --from=deps /build/vcpkg_installed/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
+# Copy vcpkg runtime libraries (shared libs) if present
+RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
+    mkdir -p /opt/themis/lib && \
+    cp -a /deps_vcpkg/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
 
 # Update library cache
 RUN ldconfig
@@ -350,7 +379,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 COPY --from=build /src/build/themis_server /opt/themis/bin/themis_server
 COPY --from=build /src/build/compile_commands.json /opt/themis/
 COPY --from=llama /opt/llama.cpp/build/lib*.so* /usr/local/lib/
-COPY --from=deps /build/vcpkg_installed/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
+RUN --mount=type=bind,from=deps,source=/build/vcpkg_installed,target=/deps_vcpkg,readonly \
+    mkdir -p /opt/themis/lib && \
+    cp -a /deps_vcpkg/*/lib/*.so* /opt/themis/lib/ 2>/dev/null || true
 
 # Copy source for debugging
 COPY --from=build /src /src

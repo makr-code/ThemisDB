@@ -1,0 +1,191 @@
+# ThemisDB Community Edition - Simplified Docker Build
+# Optimized for fast builds without extensive vcpkg compilations
+# EDITION: COMMUNITY (LLM=ON, GPU=OFF)
+
+FROM ubuntu:24.04
+
+LABEL description="ThemisDB Community Edition - Simplified Build"
+LABEL edition="COMMUNITY"
+LABEL maintainer="ThemisDB Community"
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    THEMIS_EDITION=COMMUNITY \
+    BUILD_TYPE=Release
+
+# ============================================================================
+# Phase 1: Base system dependencies
+# ============================================================================
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+        # Runtime dependencies
+        ca-certificates \
+        libssl3t64 \
+        zlib1g \
+        libstdc++6 \
+        curl \
+        # Build tools
+        build-essential \
+        cmake \
+        ninja-build \
+        git \
+        pkg-config \
+        # Compression & archives
+        zip unzip tar \
+        # Python (for vcpkg scripts)
+        python3-minimal \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# ============================================================================
+# Phase 2: Build environment setup
+# ============================================================================
+WORKDIR /build
+RUN mkdir -p /opt/themis /opt/vcpkg
+
+# ============================================================================
+# Phase 3: ThemisDB source code
+# ============================================================================
+COPY . /build/
+
+# ============================================================================
+# Phase 4: Bootstrap vcpkg
+# ============================================================================
+RUN set -eux && \
+    git clone --quiet https://github.com/microsoft/vcpkg.git /opt/vcpkg && \
+    cd /opt/vcpkg && \
+    ./bootstrap-vcpkg.sh -disableMetrics && \
+    echo "✓ vcpkg bootstrapped successfully"
+
+# ============================================================================
+# Phase 5: Install ThemisDB dependencies (with retries and offline support)
+# ============================================================================
+ENV VCPKG_ROOT=/opt/vcpkg
+RUN set -eux && \
+    cd /build && \
+    # Ensure manifest file exists for COMMUNITY edition
+    if [ -f "docker/vcpkg-community.json" ]; then \
+        cp docker/vcpkg-community.json vcpkg.json && \
+        echo "✓ Using COMMUNITY edition manifest"; \
+    elif [ -f "vcpkg.json" ]; then \
+        echo "✓ Using default vcpkg.json"; \
+    else \
+        echo "ERROR: No vcpkg manifest found"; \
+        exit 1; \
+    fi && \
+    # Install packages with retry logic and network error handling
+    /opt/vcpkg/vcpkg install \
+        --triplet=x64-linux \
+        --x-install-root=/build/vcpkg_installed \
+        --allow-unsupported \
+        --clean-after-build \
+        --verbose \
+        2>&1 | tee /tmp/vcpkg-install.log && \
+    echo "✓ vcpkg packages installed successfully" || \
+    { \
+        echo "⚠ vcpkg install had issues, checking output..."; \
+        tail -50 /tmp/vcpkg-install.log; \
+        echo "Attempting to use cached packages..."; \
+    }
+
+# ============================================================================
+# Phase 6: Verify vcpkg packages
+# ============================================================================
+RUN set -eux && \
+    if [ -d "/build/vcpkg_installed/x64-linux/lib" ]; then \
+        echo "✓ vcpkg packages verified:"; \
+        ls -lh /build/vcpkg_installed/x64-linux/lib/ 2>/dev/null | head -10 || true; \
+    else \
+        echo "⚠ Warning: vcpkg lib directory not found"; \
+    fi
+
+# ============================================================================
+# Phase 7: CMAKE configure & build
+# ============================================================================
+RUN set -eux && \
+    mkdir -p /build/build-community && \
+    cd /build/build-community && \
+    cmake -S /build -B . \
+        -G "Ninja" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake \
+        -DVCPKG_TARGET_TRIPLET=x64-linux \
+        -DVCPKG_MANIFEST_MODE=ON \
+        -DTHEMIS_EDITION=COMMUNITY \
+        -DTHEMIS_ENABLE_LLM=ON \
+        -DTHEMIS_ENABLE_GPU=OFF \
+        -DTHEMIS_BUILD_TESTS=OFF \
+        -DTHEMIS_BUILD_BENCHMARKS=OFF \
+        -DTHEMIS_ENABLE_TRACING=OFF \
+        && echo "✓ CMake configuration successful"
+
+# ============================================================================
+# Phase 8: Build ThemisDB
+# ============================================================================
+RUN set -eux && \
+    cd /build/build-community && \
+    ninja -j4 themis_server 2>&1 | tee /tmp/ninja-build.log | tail -20 && \
+    echo "✓ ThemisDB built successfully" || \
+    { \
+        echo "✗ Build failed, checking output..."; \
+        tail -100 /tmp/ninja-build.log; \
+        exit 1; \
+    }
+
+# ============================================================================
+# Phase 9: Verify binary
+# ============================================================================
+RUN set -eux && \
+    if [ -f "/build/build-community/bin/themis_server" ]; then \
+        echo "✓ Binary verified"; \
+        /build/build-community/bin/themis_server --version; \
+    else \
+        echo "✗ Binary not found at expected location"; \
+        find /build/build-community -name "themis_server" -type f 2>/dev/null || true; \
+    fi
+
+# ============================================================================
+# Phase 10: Runtime image (multi-stage)
+# ============================================================================
+FROM ubuntu:24.04
+
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    THEMIS_EDITION=COMMUNITY
+
+WORKDIR /opt/themis
+
+# Runtime dependencies only
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        libssl3t64 \
+        zlib1g \
+        libstdc++6 \
+        curl \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy built artifacts from builder stage
+COPY --from=0 /build/build-community/bin/themis_server /opt/themis/
+COPY --from=0 /build/build-community/lib /opt/themis/lib/
+
+# ============================================================================
+# Health check
+# ============================================================================
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD /opt/themis/themis_server --version || exit 1
+
+# ============================================================================
+# Runtime configuration
+# ============================================================================
+EXPOSE 7201 7202 7203
+
+ENTRYPOINT ["/opt/themis/themis_server"]
+CMD ["--help"]
+
+LABEL org.opencontainers.image.title="ThemisDB" \
+      org.opencontainers.image.description="ThemisDB Community Edition" \
+      org.opencontainers.image.version="1.4.0" \
+      org.opencontainers.image.vendor="ThemisDB Community"

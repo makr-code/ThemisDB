@@ -3,6 +3,12 @@
 
 namespace themis {
 
+BatchWriteOptimizer::BatchWriteOptimizer()
+    : config_{}
+{
+    // Default config: no warnings needed
+}
+
 BatchWriteOptimizer::BatchWriteOptimizer(const Config& config)
     : config_(config)
 {

@@ -1,0 +1,155 @@
+# ThemisDB Test Configuration
+# Central configuration for LLM/GPU tests
+# 
+# Usage: Set THEMIS_TEST_CONFIG environment variable to override:
+#   Windows: $env:THEMIS_TEST_CONFIG = "C:\path\to\custom_test_config.yaml"
+#   Linux:   export THEMIS_TEST_CONFIG=/path/to/custom_test_config.yaml
+
+# ═══════════════════════════════════════════════════════════
+# LLM Model Configuration
+# ═══════════════════════════════════════════════════════════
+llm:
+  # Enable/disable LLM tests (set to false to skip tests requiring models)
+  enabled: true
+  
+  # Base directory for models (can be overridden by THEMIS_LLM_MODELS_PATH env var)
+  # Adjust this path to match your build directory
+  models_dir: "C:/VCC/themis/build-msvc-ninja-release/models"
+  
+  # Ollama integration (if using Ollama models)
+  ollama:
+    enabled: true
+    models_dir: "C:/Users/mkrueger/.ollama/models/blobs"
+    # Specific model hashes (from Ollama manifests)
+    models:
+      llama3.2:
+        hash: "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff"
+        size_gb: 1.88
+        context_length: 4096
+      phi3:
+        hash: ""  # Add hash if available
+        size_gb: 0
+        context_length: 4096
+  
+  # Model aliases (map test names to actual files)
+  # These files should exist in models_dir
+  models:
+    test_model: "test_model.gguf"
+    llama-2-7b: "llama-2-7b.gguf"
+    mistral-7b-v0.1: "mistral-7b-v0.1.gguf"
+    tinyllama: "test_model.gguf"  # Alias to main test model
+  
+  # Default model for tests (if not specified)
+  default_model: "test_model"
+  
+  # Inference settings
+  inference:
+    max_tokens: 512
+    temperature: 0.7
+    timeout_seconds: 120
+
+# ═══════════════════════════════════════════════════════════
+# LoRA Adapter Configuration
+# ═══════════════════════════════════════════════════════════
+lora:
+  # Enable/disable LoRA tests
+  enabled: true
+  
+  # Base directory for LoRA adapters
+  adapters_dir: "./lora_adapters"
+  
+  # Test adapters (created dynamically by tests if needed)
+  test_adapters:
+    legal-qa: "legal-qa.bin"
+    medical: "medical.bin"
+    finance: "finance.bin"
+    themis_help_lora: "themis_help.bin"
+  
+  # LoRA settings
+  settings:
+    max_lora_slots: 16
+    max_lora_vram_mb: 2048
+    ttl_seconds: 300
+
+# ═══════════════════════════════════════════════════════════
+# GPU Configuration
+# ═══════════════════════════════════════════════════════════
+gpu:
+  # Enable/disable GPU tests (set to false to skip GPU-specific tests)
+  enabled: false
+  
+  # GPU type: "cuda", "hip", or "none"
+  type: "none"
+  
+  # CUDA configuration (if type == "cuda")
+  cuda:
+    devices: [0]
+    compute_capability: "8.9"  # e.g., RTX 4090
+  
+  # HIP configuration (if type == "hip")
+  hip:
+    devices: [0]
+  
+  # GPU memory settings
+  vram:
+    total_gb: 24
+    reserved_gb: 2
+
+# ═══════════════════════════════════════════════════════════
+# Test Execution Settings
+# ═══════════════════════════════════════════════════════════
+test:
+  # Skip slow tests (e.g., long inference tests)
+  skip_slow_tests: false
+  
+  # Timeout for individual tests (seconds)
+  timeout_seconds: 300
+  
+  # Retry failed tests (useful for flaky network tests)
+  retry_count: 0
+  
+  # Parallel test execution
+  parallel:
+    enabled: false
+    max_workers: 4
+  
+  # Test data directories
+  data:
+    fixtures_dir: "./test_fixtures"
+    temp_dir: "./test_temp"
+
+# ═══════════════════════════════════════════════════════════
+# External Services (optional)
+# ═══════════════════════════════════════════════════════════
+services:
+  # Prometheus monitoring
+  prometheus:
+    enabled: false
+    host: "localhost"
+    port: 9090
+  
+  # Grafana dashboards
+  grafana:
+    enabled: false
+    host: "localhost"
+    port: 3000
+  
+  # Vector database (for RAG tests)
+  vector_db:
+    enabled: true
+    type: "internal"  # or "external" (e.g., Milvus)
+
+# ═══════════════════════════════════════════════════════════
+# Logging and Debugging
+# ═══════════════════════════════════════════════════════════
+logging:
+  level: "info"  # trace, debug, info, warn, error
+  file: "test_logs.txt"
+  console: true
+  
+  # Verbose output for specific test categories
+  verbose:
+    llm: false
+    gpu: false
+    lora: false
+    network: false

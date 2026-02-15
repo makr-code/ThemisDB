@@ -190,6 +190,14 @@ MergeEngine::MergeEngine(
     spdlog::info("MergeEngine initialized");
 }
 
+// Main merge function (no-arg overload)
+MergeEngine::MergeResult MergeEngine::merge(
+    uint64_t base_sequence,
+    uint64_t source_sequence,
+    uint64_t target_sequence) {
+    return merge(base_sequence, source_sequence, target_sequence, MergeOptions{});
+}
+
 // Main merge function
 MergeEngine::MergeResult MergeEngine::merge(
     uint64_t base_sequence,
@@ -322,6 +330,14 @@ MergeEngine::MergeResult MergeEngine::merge(
     }
     
     return result;
+}
+
+// Merge by tag (no-arg overload)
+MergeEngine::MergeResult MergeEngine::mergeByTag(
+    const std::string& base_tag,
+    const std::string& source_tag,
+    const std::string& target_tag) {
+    return mergeByTag(base_tag, source_tag, target_tag, MergeOptions{});
 }
 
 // Merge by tag

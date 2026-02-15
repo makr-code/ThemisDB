@@ -161,8 +161,14 @@ public:
     MergeResult merge(
         uint64_t base_sequence,
         uint64_t source_sequence,
+        uint64_t target_sequence
+    );
+    
+    MergeResult merge(
+        uint64_t base_sequence,
+        uint64_t source_sequence,
         uint64_t target_sequence,
-        const MergeOptions& options = MergeOptions{}
+        const MergeOptions& options
     );
 
     /**
@@ -176,8 +182,14 @@ public:
     MergeResult mergeByTag(
         const std::string& base_tag,
         const std::string& source_tag,
+        const std::string& target_tag
+    );
+    
+    MergeResult mergeByTag(
+        const std::string& base_tag,
+        const std::string& source_tag,
         const std::string& target_tag,
-        const MergeOptions& options = MergeOptions{}
+        const MergeOptions& options
     );
 
     /**
