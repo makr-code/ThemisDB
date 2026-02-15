@@ -176,10 +176,49 @@ public:
             // Use provided hyperparameters or default
             auto params = hyperparameters.value_or(config_.default_hyperparameters);
             
+            // Define default target modules for comparison
+            static const std::vector<std::string> DEFAULT_TARGET_MODULES = {
+                "attention.wq", "attention.wv"
+            };
+            
+            // Detect Phi-3 model and configure appropriate settings
+            bool is_phi3_model = false;
+            if (config_.base_model_path.find("phi-3") != std::string::npos ||
+                config_.base_model_path.find("phi3") != std::string::npos ||
+                adapter_id.find("phi-3") != std::string::npos ||
+                adapter_id.find("phi3") != std::string::npos) {
+                is_phi3_model = true;
+                spdlog::info("Detected Phi-3 model, applying Phi-3 specific configuration");
+                
+                // Override target modules for Phi-3's Grouped Query Attention architecture
+                if (config_.target_modules.empty() || config_.target_modules == DEFAULT_TARGET_MODULES) {
+                    config_.target_modules = {
+                        "qkv_proj",      // Phi-3 combined Q/K/V projection
+                        "o_proj",        // Output projection
+                        "gate_up_proj",  // Phi-3 combined gate/up projection (MLP)
+                        "down_proj"      // Down projection (MLP)
+                    };
+                    spdlog::info("  Target modules updated for Phi-3 GQA architecture");
+                }
+                
+                // Adjust default hyperparameters for Phi-3 if using defaults
+                if (!hyperparameters.has_value()) {
+                    params.rank = 16;
+                    params.alpha = 32.0;
+                    params.learning_rate = 2e-4;
+                    params.dropout = 0.05;
+                    spdlog::info("  Hyperparameters optimized for Phi-3");
+                }
+            }
+            
             spdlog::info("Starting on-the-fly training for adapter: {}", adapter_id);
+            spdlog::info("  Model: {}", is_phi3_model ? "Phi-3" : "Generic");
             spdlog::info("  Training samples: {}", data.size());
             spdlog::info("  Rank: {}, Alpha: {}", params.rank, params.alpha);
             spdlog::info("  Learning rate: {}", params.learning_rate);
+            if (!config_.target_modules.empty()) {
+                spdlog::info("  Target modules: {}", fmt::join(config_.target_modules, ", "));
+            }
             
             // Initialize metrics
             current_metrics_.status = "training";

@@ -3688,6 +3688,29 @@ if(THEMIS_BUILD_ADMIN_TOOLS)
     add_subdirectory(tools)
 endif()
 
+# LLM Model Management CLI Tool (themis-model)
+if(THEMIS_ENABLE_LLM)
+    if(EXISTS "${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp")
+        add_executable(themis-model
+            ${THEMIS_ROOT_DIR}/tools/themis_model_cli.cpp
+        )
+        target_link_libraries(themis-model PRIVATE 
+            themis_core
+            CURL::libcurl
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            yaml-cpp
+        )
+        target_include_directories(themis-model PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../include)
+        message(STATUS "LLM Model CLI Tool: Enabled (themis-model)")
+        
+        # Install the tool
+        install(TARGETS themis-model
+            RUNTIME DESTINATION bin
+        )
+    endif()
+endif()
+
 # Enterprise Plugins
 option(THEMIS_BUILD_ENTERPRISE_PLUGINS "Build enterprise plugins" ON)
 if(THEMIS_BUILD_ENTERPRISE_PLUGINS AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugins")

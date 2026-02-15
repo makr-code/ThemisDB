@@ -3,6 +3,9 @@
 
 if(THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
+        # Model downloader for auto-download functionality
+        ../src/llm/model_downloader.cpp
+        
         # Documentation assistant
         ../src/llm/docs_assistant.cpp
         ../src/aql/docs_assistant_functions.cpp
