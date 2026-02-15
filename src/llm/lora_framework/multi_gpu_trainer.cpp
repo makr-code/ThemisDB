@@ -20,6 +20,14 @@ MultiGPULoRATrainer::MultiGPULoRATrainer(
     spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation_steps);
 }
 
+MultiGPULoRATrainer::MultiGPULoRATrainer(const MultiGPUContext& ctx)
+    : ctx_(ctx), config_(Config{}), current_step_(0), accumulation_counter_(0) {
+    
+    spdlog::info("MultiGPULoRATrainer initialized with {} GPUs (default config)", ctx_.num_gpus());
+    spdlog::info("  Learning rate: {}", config_.learning_rate);
+    spdlog::info("  Gradient accumulation: {} steps", config_.gradient_accumulation_steps);
+}
+
 std::shared_ptr<MultiGPULoRALayer> MultiGPULoRATrainer::create_layer(
     size_t in_dim, size_t out_dim, size_t rank, float scaling,
     CommBackend backend) {

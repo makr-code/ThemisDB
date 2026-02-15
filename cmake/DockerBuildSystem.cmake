@@ -16,8 +16,17 @@ set(THEMIS_DOCKER_TAG "latest"
 set(THEMIS_DOCKER_BUILDKIT ON 
     CACHE BOOL "Enable Docker BuildKit")
 
+set(THEMIS_DOCKER_BUILDX_PLATFORM "" 
+    CACHE STRING "Docker buildx platform (e.g., linux/amd64,linux/arm64)")
+
+set(THEMIS_DOCKER_BUILDX_PUSH OFF 
+    CACHE BOOL "Docker buildx push instead of load")
+
 # Package store for pre-built packages
 set(THEMIS_PACKAGE_STORE "${CMAKE_SOURCE_DIR}/vcpkg_packages")
+
+# Clean docker build context directory
+set(THEMIS_DOCKER_CONTEXT_DIR "${CMAKE_BINARY_DIR}/docker-context")
 
 # ============================================================================
 # Find Docker
@@ -34,6 +43,19 @@ if(NOT DOCKER_EXECUTABLE)
 endif()
 
 message(STATUS "Docker found: ${DOCKER_EXECUTABLE}")
+
+# ============================================================================
+# Docker Build Context (CMake-only)
+# ============================================================================
+
+add_custom_target(docker-context
+    COMMAND "${CMAKE_COMMAND}"
+        -DSOURCE_DIR="${CMAKE_SOURCE_DIR}"
+        -DOUTPUT_DIR="${THEMIS_DOCKER_CONTEXT_DIR}"
+        -P "${CMAKE_SOURCE_DIR}/cmake/DockerContext.cmake"
+    COMMENT "Preparing Docker build context (tracked files only)"
+    VERBATIM
+)
 
 # ============================================================================
 # Docker Build Helper Function
@@ -61,7 +83,7 @@ function(add_docker_build_target)
     endif()
     
     if(NOT ARGS_BUILD_CONTEXT)
-        set(ARGS_BUILD_CONTEXT "${CMAKE_SOURCE_DIR}")
+        set(ARGS_BUILD_CONTEXT "${THEMIS_DOCKER_CONTEXT_DIR}")
     endif()
     
     # Build docker command
@@ -83,6 +105,7 @@ function(add_docker_build_target)
     
     # Create custom target
     add_custom_target(${ARGS_NAME}
+        DEPENDS docker-context
         COMMAND ${CMAKE_COMMAND} -E env DOCKER_BUILDKIT=1 ${_docker_cmd}
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         COMMENT "Building Docker image: ${ARGS_TAG}"
@@ -90,6 +113,66 @@ function(add_docker_build_target)
     )
     
     message(STATUS "Added Docker build target: ${ARGS_NAME} → ${ARGS_TAG}")
+endfunction()
+
+function(add_docker_buildx_target)
+    cmake_parse_arguments(
+        ARGS
+        ""  # Options
+        "NAME;DOCKERFILE;TAG;BUILD_CONTEXT;PLATFORM"  # Single-value
+        "BUILD_ARGS"  # Multi-value
+        ${ARGN}
+    )
+
+    if(NOT ARGS_NAME)
+        message(FATAL_ERROR "NAME argument required")
+    endif()
+
+    if(NOT ARGS_DOCKERFILE)
+        set(ARGS_DOCKERFILE "${CMAKE_SOURCE_DIR}/Dockerfile")
+    endif()
+
+    if(NOT ARGS_TAG)
+        set(ARGS_TAG "themisdb:${ARGS_NAME}")
+    endif()
+
+    if(NOT ARGS_BUILD_CONTEXT)
+        set(ARGS_BUILD_CONTEXT "${THEMIS_DOCKER_CONTEXT_DIR}")
+    endif()
+
+    set(_docker_cmd
+        "${DOCKER_EXECUTABLE}" buildx build
+        -t "${ARGS_TAG}"
+        -f "${ARGS_DOCKERFILE}"
+    )
+
+    if(ARGS_PLATFORM)
+        list(APPEND _docker_cmd --platform "${ARGS_PLATFORM}")
+    endif()
+
+    if(THEMIS_DOCKER_BUILDX_PUSH)
+        list(APPEND _docker_cmd --push)
+    else()
+        list(APPEND _docker_cmd --load)
+    endif()
+
+    if(ARGS_BUILD_ARGS)
+        foreach(_arg ${ARGS_BUILD_ARGS})
+            list(APPEND _docker_cmd --build-arg "${_arg}")
+        endforeach()
+    endif()
+
+    list(APPEND _docker_cmd "${ARGS_BUILD_CONTEXT}")
+
+    add_custom_target(${ARGS_NAME}
+        DEPENDS docker-context
+        COMMAND ${CMAKE_COMMAND} -E env DOCKER_BUILDKIT=1 ${_docker_cmd}
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        COMMENT "Building Docker image with buildx: ${ARGS_TAG}"
+        VERBATIM
+    )
+
+    message(STATUS "Added Docker buildx target: ${ARGS_NAME} → ${ARGS_TAG}")
 endfunction()
 
 # ============================================================================
@@ -128,6 +211,40 @@ if(_has_linux_release)
 else()
     message(STATUS "Skipping docker-build-community-release (no pre-built packages)")
 endif()
+
+# Target: docker-build-community (non-prebuilt)
+add_docker_build_target(
+    NAME docker-build-community
+    DOCKERFILE "${CMAKE_SOURCE_DIR}/Dockerfile"
+    TAG "themisdb:community"
+    BUILD_ARGS
+        "THEMIS_EDITION=COMMUNITY"
+        "ENABLE_LLM=ON"
+    "ENABLE_GPU=ON"
+    "FORCE_CPU_ONLY=OFF"
+        "BUILD_TESTS=OFF"
+        "BUILD_BENCHMARKS=OFF"
+)
+
+# Target: docker-buildx-community (default: COMMUNITY + LLM + GPU)
+add_docker_buildx_target(
+    NAME docker-buildx-community
+    DOCKERFILE "${CMAKE_SOURCE_DIR}/Dockerfile"
+    TAG "themisdb:community"
+    PLATFORM "${THEMIS_DOCKER_BUILDX_PLATFORM}"
+    BUILD_ARGS
+        "THEMIS_EDITION=COMMUNITY"
+        "ENABLE_LLM=ON"
+        "ENABLE_GPU=ON"
+        "FORCE_CPU_ONLY=OFF"
+        "BUILD_TESTS=OFF"
+        "BUILD_BENCHMARKS=OFF"
+)
+
+add_custom_target(docker-buildx-community-push
+    DEPENDS docker-buildx-community
+    COMMENT "Docker buildx push enabled via THEMIS_DOCKER_BUILDX_PUSH=ON"
+)
 
 # Target: docker-build-community-debug
 check_prebuilt_packages("x64-linux" "debug" _has_linux_debug)
@@ -228,6 +345,9 @@ endif()
 message(STATUS "BuildKit: ${THEMIS_DOCKER_BUILDKIT}")
 message(STATUS "")
 message(STATUS "Available Docker targets:")
+message(STATUS "  docker-build-community          - COMMUNITY Release (standard)")
+message(STATUS "  docker-buildx-community         - COMMUNITY Release (buildx)")
+message(STATUS "  docker-buildx-community-push    - COMMUNITY Release (buildx push)")
 if(_has_linux_release)
     message(STATUS "  docker-build-community-release  - COMMUNITY Release (pre-built packages)")
 endif()

@@ -54,7 +54,8 @@ public:
      * @param config Training configuration
      */
     explicit MultiGPULoRATrainer(const MultiGPUContext& ctx, 
-                                 const Config& config = Config{});
+                                 const Config& config);
+    explicit MultiGPULoRATrainer(const MultiGPUContext& ctx);
     
     ~MultiGPULoRATrainer() = default;
     

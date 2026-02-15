@@ -67,7 +67,8 @@ public:
     };
     
     explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry,
-                                 const Config& config = Config{});
+                                 const Config& config);
+    explicit LoRAMetricsCollector(std::shared_ptr<prometheus::Registry> registry);
     
     // Adapter Lifecycle Metrics
     void recordAdapterLoad(const std::string& adapter_id, double duration_ms);

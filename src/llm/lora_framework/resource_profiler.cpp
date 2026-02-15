@@ -17,6 +17,11 @@ ResourceProfiler::ResourceProfiler(const Config& config)
     impl_->config = config;
 }
 
+ResourceProfiler::ResourceProfiler()
+    : impl_(std::make_unique<Impl>()) {
+    impl_->config = Config{};
+}
+
 ResourceProfiler::~ResourceProfiler() = default;
 
 void ResourceProfiler::start() {

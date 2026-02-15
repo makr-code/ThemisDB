@@ -141,7 +141,8 @@ public:
         float gpu_utilization_alert_threshold = 0.95f;  // Alert at 95%
     };
     
-    explicit ResourceProfiler(const Config& config = Config{});
+    explicit ResourceProfiler(const Config& config);
+    explicit ResourceProfiler();
     ~ResourceProfiler();
     
     // Disable copy

@@ -41,6 +41,15 @@ symbols/                    # Debug symbols
 # ============================================================================
 # EXCLUDE: Anything large (redundant safety)
 # ============================================================================
+vcpkg/
+vcpkg/buildtrees/
+vcpkg/packages/
+vcpkg/downloads/
+vcpkg_installed/
+vcpkg_packages/
+node_modules/
+**/node_modules/
+.docker-cache/
 vcpkg/**
 build/**
 build-*/**
