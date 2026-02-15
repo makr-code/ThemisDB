@@ -36,7 +36,7 @@ ThemisDB supports multiple HTTP versions with automatic negotiation:
 | `18765` | Binary Wire Protocol | gRPC, inter-shard communication |
 | `4318` | HTTP | OpenTelemetry/Prometheus metrics |
 
-**Note:** Port defaults may vary by platform (Raspberry Pi: 8765, Docker: 18765, Kubernetes: 8529). Check your configuration file.
+**Note:** As of v1.3.0+, ports are standardized. Some legacy configs may use port 8765 for backwards compatibility. For current deployments, use the standard ports above. See [PORT_REFERENCE.md](../de/deployment/PORT_REFERENCE.md) for complete details.
 
 ## Authentication
 
