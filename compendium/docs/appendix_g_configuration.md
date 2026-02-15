@@ -2,10 +2,15 @@
 
 > "Good defaults get you 90% of the way. This reference handles the other 10%."
 
+**Version:** 1.5.0-dev  
+**Last Updated:** 2026-02-15
+
 ---
 
 ## Overview
 Complete reference for all ThemisDB configuration options. Default values optimized for single-node deployments.
+
+**Note on Port Configurations:** ThemisDB uses different default ports depending on the deployment platform. See the platform-specific section below for details.
 
 ---
 
@@ -20,12 +25,18 @@ Complete reference for all ThemisDB configuration options. Default values optimi
 
 ### Server Settings
 
-#### port
+#### port (Platform-Specific Defaults)
 ```yaml
 server:
-  port: 8529  # Default: 8529 (0x2149)
+  port: 8765  # Default for most configs (standard, RPi)
+  # Platform-specific defaults:
+  #   - Standard/RPi: 8765
+  #   - QNAP/Docker: 18765 (binary wire protocol)
+  #   - Kubernetes: 8529 (HTTP/REST API)
   # Range: 1024-65535
-  # Tip: Use ports 8529-8539 to run multiple instances
+  # Tip: Use ports 8765-8775 to run multiple instances
+  #
+  # See docs/de/deployment/PORT_REFERENCE.md for complete port mapping
 ```
 
 #### bind_address

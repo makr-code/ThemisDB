@@ -633,7 +633,7 @@ Low cardinality: Status (10 values)
 
 **Voice Assistant:** Enterprise feature providing natural language voice interaction using Whisper (STT), Piper (TTS), and llama.cpp (LLM). Enables call center automation, meeting protocol generation, and voice-controlled database queries with DSGVO-compliant storage. See Chapter 10.7.
 
-**WAL (Write-Ahead Log):** Transaction log that records all database changes before they are applied, ensuring durability and enabling replication. In ThemisDB v1.4.0-alpha, WAL replication provides zero-data-loss failover with support for synchronous, asynchronous, and hybrid replication modes. See Chapter 16.10.2.
+**WAL (Write-Ahead Log):** Transaction log that records all database changes before they are applied, ensuring durability and enabling replication. In ThemisDB v1.5.0-dev, WAL replication provides zero-data-loss failover with support for synchronous, asynchronous, and hybrid replication modes. See Chapter 16.10.2.
 
 **WAL Replication:** Replication mechanism based on Write-Ahead Log streaming that continuously transfers transaction log entries from primary to replica nodes. Supports sync (zero data loss, higher latency), async (minimal latency, potential data loss), and hybrid modes. See Chapter 16.10.2.
 
