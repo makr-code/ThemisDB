@@ -1,211 +1,181 @@
 {
-    "version": 6,
-    "cmakeMinimumRequired": {
-        "major": 3,
-        "minor": 23,
-        "patch": 0
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "THEMIS_BUILD_TESTS": "ON",
+        "THEMIS_BUILD_BENCHMARKS": "ON",
+        "THEMIS_ENABLE_TRACING": "OFF",
+        "THEMIS_ENABLE_ASAN": "OFF",
+        "THEMIS_STRICT_BUILD": "OFF"
+      }
     },
-    "configurePresets": [
+    {
+      "name": "vcpkg-base",
+      "hidden": true,
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows"
+      }
+    },
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "generator": "Visual Studio 17 2022",
+      "inherits": "vcpkg-base",
+      "cacheVariables": {
+        "CMAKE_VS_RUNTIME_LIBRARY": "MultiThreadedDLL",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "ON"
+      }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "inherits": "vcpkg-base",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "THEMIS_ENABLE_GPU": "OFF",
+        "THEMIS_ENABLE_LLM": "ON"
+      }
+    },
+    {
+      "name": "msvc-vs-release",
+      "displayName": "Windows: MSVC + Visual Studio Release",
+      "description": "Release build for Windows with MSVC, Visual Studio 17 2022, and COMMUNITY Edition (LLM enabled, GPU disabled)",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-msvc-vs-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "msvc-vs-debug",
+      "displayName": "Windows: MSVC + Visual Studio Debug",
+      "description": "Debug build for Windows with MSVC and Visual Studio 17 2022 (COMMUNITY Edition)",
+      "inherits": "windows-base",
+      "binaryDir": "${sourceDir}/build-msvc-vs-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    },
+    {
+      "name": "linux-ninja-release",
+      "displayName": "Linux: GCC + Ninja Release",
+      "description": "Release build for Linux with GCC, Ninja, and COMMUNITY Edition",
+      "inherits": "linux-base",
+      "binaryDir": "${sourceDir}/build-linux-ninja-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "msvc-vs-release",
+      "displayName": "Build: Windows Release",
+      "configurePreset": "msvc-vs-release"
+    },
+    {
+      "name": "msvc-vs-debug",
+      "displayName": "Build: Windows Debug",
+      "configurePreset": "msvc-vs-debug"
+    },
+    {
+      "name": "linux-ninja-release",
+      "displayName": "Build: Linux Release",
+      "configurePreset": "linux-ninja-release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "msvc-vs-release",
+      "displayName": "Test: Windows Release",
+      "configurePreset": "msvc-vs-release"
+    },
+    {
+      "name": "msvc-vs-debug",
+      "displayName": "Test: Windows Debug",
+      "configurePreset": "msvc-vs-debug"
+    },
+    {
+      "name": "linux-ninja-release",
+      "displayName": "Test: Linux Release",
+      "configurePreset": "linux-ninja-release"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-dev-workflow",
+      "displayName": "Workflow: Windows Release (Configure → Build → Test)",
+      "description": "Complete development workflow for Windows",
+      "steps": [
         {
-            "name": "base",
-            "hidden": true,
-            "generator": "Ninja",
-            "cacheVariables": {
-                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "THEMIS_BUILD_TESTS": "ON",
-                "THEMIS_BUILD_BENCHMARKS": "ON",
-                "THEMIS_ENABLE_TRACING": "OFF",
-                "THEMIS_ENABLE_GPU": "ON",
-                "THEMIS_ENABLE_LLM": "ON",
-                "THEMIS_ENABLE_ASAN": "OFF",
-                "THEMIS_STRICT_BUILD": "OFF"
-            }
+          "type": "configure",
+          "name": "msvc-vs-release"
         },
         {
-            "name": "vcpkg-base",
-            "hidden": true,
-            "inherits": "base",
-            "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-            }
+          "type": "build",
+          "name": "msvc-vs-release"
         },
         {
-            "name": "windows-base",
-            "hidden": true,
-            "inherits": "vcpkg-base",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            },
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
-                "CMAKE_CXX_COMPILER": "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
-                "CMAKE_RC_COMPILER": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/rc.exe",
-                "CMAKE_MT": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/mt.exe",
-                "CMAKE_SYSTEM_VERSION": "10.0.26100.0"
-            }
-        },
-        {
-            "name": "linux-base",
-            "hidden": true,
-            "inherits": "vcpkg-base",
-            "condition": {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Linux"
-            },
-            "cacheVariables": {
-                "CMAKE_C_COMPILER": "gcc",
-                "CMAKE_CXX_COMPILER": "g++"
-            }
-        },
-        {
-            "name": "msvc-ninja-release",
-            "displayName": "Windows: MSVC + Ninja Release",
-            "description": "Release build for Windows with MSVC toolchain and Ninja generator",
-            "inherits": "windows-base",
-            "binaryDir": "${sourceDir}/build-msvc-ninja-release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "VCPKG_TARGET_TRIPLET": "x64-windows",
-                "THEMIS_EDITION": "COMMUNITY"
-            }
-        },
-        {
-            "name": "msvc-ninja-debug",
-            "displayName": "Windows: MSVC + Ninja Debug",
-            "description": "Debug build for Windows with MSVC toolchain and Ninja generator",
-            "inherits": "windows-base",
-            "binaryDir": "${sourceDir}/build-msvc-ninja-debug",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "VCPKG_TARGET_TRIPLET": "x64-windows",
-                "THEMIS_EDITION": "COMMUNITY"
-            }
-        },
-        {
-            "name": "linux-ninja-release",
-            "displayName": "Linux: Ninja Release",
-            "description": "Native Linux release build with GCC and Ninja generator",
-            "inherits": "linux-base",
-            "binaryDir": "${sourceDir}/build-linux-ninja-release",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "VCPKG_TARGET_TRIPLET": "x64-linux",
-                "THEMIS_EDITION": "COMMUNITY"
-            }
+          "type": "test",
+          "name": "msvc-vs-release"
         }
-    ],
-    "buildPresets": [
+      ]
+    },
+    {
+      "name": "windows-debug-workflow",
+      "displayName": "Workflow: Windows Debug (Configure → Build → Test)",
+      "description": "Complete debug workflow for Windows",
+      "steps": [
         {
-            "name": "msvc-ninja-release",
-            "displayName": "Build: MSVC + Ninja Release",
-            "configurePreset": "msvc-ninja-release",
-            "configuration": "Release",
-            "jobs": 8
+          "type": "configure",
+          "name": "msvc-vs-debug"
         },
         {
-            "name": "msvc-ninja-debug",
-            "displayName": "Build: MSVC + Ninja Debug",
-            "configurePreset": "msvc-ninja-debug",
-            "configuration": "Debug",
-            "jobs": 4
+          "type": "build",
+          "name": "msvc-vs-debug"
         },
         {
-            "name": "linux-ninja-release",
-            "displayName": "Build: Linux + Ninja Release",
-            "configurePreset": "linux-ninja-release",
-            "configuration": "Release",
-            "jobs": 8
+          "type": "test",
+          "name": "msvc-vs-debug"
         }
-    ],
-    "testPresets": [
+      ]
+    },
+    {
+      "name": "linux-workflow",
+      "displayName": "Workflow: Linux Release (Configure → Build → Test)",
+      "description": "Complete development workflow for Linux",
+      "steps": [
         {
-            "name": "msvc-ninja-release",
-            "displayName": "Test: MSVC + Ninja Release",
-            "configurePreset": "msvc-ninja-release",
-            "configuration": "Release",
-            "output": {
-                "outputOnFailure": true
-            }
+          "type": "configure",
+          "name": "linux-ninja-release"
         },
         {
-            "name": "msvc-ninja-debug",
-            "displayName": "Test: MSVC + Ninja Debug",
-            "configurePreset": "msvc-ninja-debug",
-            "configuration": "Debug",
-            "output": {
-                "outputOnFailure": true
-            }
+          "type": "build",
+          "name": "linux-ninja-release"
         },
         {
-            "name": "linux-ninja-release",
-            "displayName": "Test: Linux + Ninja Release",
-            "configurePreset": "linux-ninja-release",
-            "configuration": "Release",
-            "output": {
-                "outputOnFailure": true
-            }
+          "type": "test",
+          "name": "linux-ninja-release"
         }
-    ],
-    "workflowPresets": [
-        {
-            "name": "windows-dev-workflow",
-            "displayName": "Windows Dev Workflow: Configure → Build → Test",
-            "description": "Complete development workflow for MSVC + Ninja (Release)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "msvc-ninja-release"
-                },
-                {
-                    "type": "build",
-                    "name": "msvc-ninja-release"
-                },
-                {
-                    "type": "test",
-                    "name": "msvc-ninja-release"
-                }
-            ]
-        },
-        {
-            "name": "windows-debug-workflow",
-            "displayName": "Windows Debug Workflow: Configure → Build → Test",
-            "description": "Complete debug workflow for MSVC + Ninja (Debug)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "msvc-ninja-debug"
-                },
-                {
-                    "type": "build",
-                    "name": "msvc-ninja-debug"
-                },
-                {
-                    "type": "test",
-                    "name": "msvc-ninja-debug"
-                }
-            ]
-        },
-        {
-            "name": "linux-workflow",
-            "displayName": "Linux Workflow: Configure → Build → Test",
-            "description": "Complete development workflow for native Linux with Ninja (Release)",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "linux-ninja-release"
-                },
-                {
-                    "type": "build",
-                    "name": "linux-ninja-release"
-                },
-                {
-                    "type": "test",
-                    "name": "linux-ninja-release"
-                }
-            ]
-        }
-    ]
+      ]
+    }
+  ]
 }

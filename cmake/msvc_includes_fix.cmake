@@ -9,7 +9,7 @@ if(MSVC)
         set(_VC_TOOLS_DIR "C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207")
     endif()
     
-    set(_WIN_SDK_VERSION "10.0.22621.0")
+    set(_WIN_SDK_VERSION "10.0.26100.0")
     set(_WIN_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
     
     # Apply globally after each project() call

@@ -527,9 +527,13 @@ endif()
 if(THEMIS_ENABLE_LLM)
     # Ensure C language is enabled so OpenMP::OpenMP_C target exists
     enable_language(C)
-    # OpenMP MUST be found before llama.cpp configuration
-    find_package(OpenMP REQUIRED)
-    message(STATUS "OpenMP found for LLM support")
+    # Try to find OpenMP - optional for LLM support (llama.cpp can work without it with reduced parallelism)
+    find_package(OpenMP)
+    if(OpenMP_FOUND)
+        message(STATUS "OpenMP found for LLM support")
+    else()
+        message(WARNING "OpenMP not found - llama.cpp will use single-threaded inference")
+    endif()
     
     # =========================================================================
     # LLAMA.CPP INTEGRATION WITH DEPENDENCY PINNING
@@ -609,9 +613,11 @@ if(THEMIS_ENABLE_LLM)
         message(STATUS "Applied /Zc:char8_t- to ggml target for MSVC compatibility")
     endif()
     
-    # Ensure OpenMP is linked to llama target
+    # Ensure OpenMP is linked to llama target (only if found)
     if(TARGET llama)
-        target_link_libraries(llama PUBLIC OpenMP::OpenMP_C)
+        if(OpenMP_FOUND)
+            target_link_libraries(llama PUBLIC OpenMP::OpenMP_C)
+        endif()
         message(STATUS "llama.cpp configured successfully - LLM plugin support enabled")
         message(STATUS "  - Version: ${LLAMA_CPP_GIT_TAG}")
         message(STATUS "  - Flash Attention: ${LLAMA_FLASH_ATTN}")

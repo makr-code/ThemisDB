@@ -165,6 +165,9 @@ private:
 AdapterConsistencyChecker::AdapterConsistencyChecker(const Config& config)
     : impl_(std::make_unique<Impl>(config)) {}
 
+AdapterConsistencyChecker::AdapterConsistencyChecker()
+    : impl_(std::make_unique<Impl>(Config{})) {}
+
 AdapterConsistencyChecker::~AdapterConsistencyChecker() = default;
 
 // Public methods

@@ -46,7 +46,8 @@ public:
         std::string signature_algorithm = "ed25519";
     };
     
-    explicit AdapterConsistencyChecker(const Config& config = Config{});
+    explicit AdapterConsistencyChecker(const Config& config);
+    explicit AdapterConsistencyChecker();
     ~AdapterConsistencyChecker();
     
     // Disable copy

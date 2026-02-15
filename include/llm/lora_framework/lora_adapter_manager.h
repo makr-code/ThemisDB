@@ -50,7 +50,8 @@ public:
         size_t current_size = 0;
     };
     
-    explicit LoRAAdapterManager(const Config& config = Config{});
+    explicit LoRAAdapterManager(const Config& config);
+    explicit LoRAAdapterManager();
     ~LoRAAdapterManager();
     
     // Disable copy

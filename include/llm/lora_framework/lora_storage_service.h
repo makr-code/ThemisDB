@@ -106,7 +106,8 @@ public:
         uint32_t read_quorum_size = 1;          // Number of replicas for read quorum
     };
     
-    explicit LoRAStorageService(const Config& config = Config{});
+    explicit LoRAStorageService(const Config& config);
+    explicit LoRAStorageService();
     ~LoRAStorageService();
     
     // Disable copy

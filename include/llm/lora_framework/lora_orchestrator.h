@@ -126,7 +126,8 @@ public:
         bool use_multi_lora_manager = true;  // Use advanced features when available
     };
     
-    explicit LoRAOrchestrator(const Config& config = Config{});
+    explicit LoRAOrchestrator(const Config& config);
+    explicit LoRAOrchestrator();
     ~LoRAOrchestrator();
     
     // Disable copy

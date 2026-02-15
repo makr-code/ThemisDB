@@ -1083,6 +1083,9 @@ private:
 LoRATrainingService::LoRATrainingService(const Config& config)
     : impl_(std::make_unique<Impl>(config)) {}
 
+LoRATrainingService::LoRATrainingService()
+    : impl_(std::make_unique<Impl>(Config{})) {}
+
 LoRATrainingService::~LoRATrainingService() = default;
 
 TrainingResult LoRATrainingService::trainOnTheFly(

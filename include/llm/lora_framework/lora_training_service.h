@@ -187,7 +187,8 @@ public:
         bool auto_discover_shards = true;          // Auto-discover shards from topology
     };
     
-    explicit LoRATrainingService(const Config& config = Config{});
+    explicit LoRATrainingService(const Config& config);
+    explicit LoRATrainingService();
     ~LoRATrainingService();
     
     // Disable copy

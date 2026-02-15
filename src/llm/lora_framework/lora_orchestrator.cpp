@@ -81,6 +81,26 @@ LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_uniqu
     spdlog::info("LoRA Orchestrator initialized with storage and consistency checker");
 }
 
+LoRAOrchestrator::LoRAOrchestrator() : impl_(std::make_unique<Impl>()) {
+    if (!impl_) {
+        spdlog::error("Failed to allocate LoRA Orchestrator Impl");
+        throw std::runtime_error("LoRA Orchestrator Impl allocation failed");
+    }
+    
+    Config default_config;
+    // Initialize storage service using default config
+    impl_->storage_service = std::make_shared<LoRAStorageService>(default_config.storage_config);
+    
+    // Initialize consistency checker
+    AdapterConsistencyChecker::Config checker_config;
+    checker_config.enable_checksums = true;
+    checker_config.enable_signatures = true;
+    impl_->consistency_checker = std::make_shared<AdapterConsistencyChecker>(checker_config);
+    
+    impl_->is_initialized = true;
+    spdlog::info("LoRA Orchestrator initialized with default config");
+}
+
 LoRAOrchestrator::~LoRAOrchestrator() = default;
 
 json LoRAOrchestrator::JobInfo::toJSON() const {
