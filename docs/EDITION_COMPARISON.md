@@ -1,7 +1,7 @@
 # ThemisDB Edition Comparison
 
-**Version:** 1.3.5+  
-**Last Updated:** 2026-01-05
+**Version:** 1.5.0-dev  
+**Last Updated:** 2026-02-15
 
 ---
 
@@ -60,8 +60,8 @@
 | **WebSocket** | ❌ | ✅ | ✅ | ✅ |
 | **gRPC** | ❌ | ✅ | ✅ | ✅ |
 | **MQTT** | ❌ | ✅ | ✅ | ✅ |
-| **PostgreSQL Wire** | ❌ | ✅ | ✅ | ✅ |
-| **HTTP/3 (QUIC)** | ❌ | 🚧 | 🚧 | ✅ |
+| **PostgreSQL Wire** | ❌ | 🚧 Alpha | 🚧 Alpha | ✅ |
+| **HTTP/3 (QUIC)** | ❌ | 🚧 Planned v1.6+ | 🚧 Planned v1.6+ | ✅ Planned v1.6+ |
 | **MCP (Model Context)** | ❌ | ✅ | ✅ | ✅ |
 
 ---

@@ -1,7 +1,7 @@
 # Appendix D: Feature Status Matrix
 
-**Version:** 1.4.0-alpha  
-**Stand:** 6. Januar 2026  
+**Version:** 1.5.0-dev  
+**Stand:** 15. Februar 2026  
 **Kategorie:** Feature-Übersicht und Implementierungsstatus
 
 ---
@@ -34,70 +34,67 @@ Dieser Appendix bietet eine vollständige, strukturierte Übersicht aller Themis
 
 ## Zusammenfassung
 
-**Aktuelle Reife (Stand Jan 2026):**
+**Aktuelle Reife (Stand Feb 2026):**
 - **Core Database**: ✅ Production-Ready (85%+ Test Coverage)
 - **Multi-Model Support**: ✅ Production-Ready (Relational, Graph, Vector, Document, Time-Series)
 - **Security & Compliance**: ✅ Production-Ready (DSGVO, BSI C5, Audit Logging)
 - **Horizontal Scaling**: ✅ Production-Ready (2/4/8-Node Clusters, 91% Efficiency)
-- **High Availability**: 🆕 Alpha (Hot Spare, WAL Replication)
-- **Voice Assistant**: 🆕 Alpha (Whisper STT, Piper TTS, Meeting Protocols, Call Center Automation)
-- **LLM/RAG Integration**: 🆕 Alpha (8 neue Features: Prefix/Response Caching, Multi-GPU, Paged Attention, LoRA, Grammar-Constrained Generation, RoPE Scaling, Vision)
-- **Performance Optimizations**: 🆕 Alpha (Flash Attention, Speculative Decoding, Continuous Batching)
-- **PostgreSQL Wire Protocol**: 🆕 Alpha (COPY, LISTEN/NOTIFY, Binary Format, Pipeline Mode)
-- **Enhanced Monitoring**: 🆕 Alpha (30+ neue Prometheus-Metriken für LLM, HA, Performance)
+- **High Availability**: 🟢 MVP Complete (Hot Spare, WAL Replication, promoted from Alpha)
+- **Voice Assistant**: 🆕 Beta (Whisper STT, Piper TTS, Meeting Protocols, Call Center Automation)
+- **LLM/RAG Integration**: 🟢 MVP Complete (8 Features: Prefix/Response Caching, Multi-GPU, Paged Attention, LoRA, Grammar-Constrained Generation, RoPE Scaling, Vision - promoted from Alpha)
+- **Performance Optimizations**: 🟢 MVP Complete (Flash Attention, Speculative Decoding, Continuous Batching)
+- **PostgreSQL Wire Protocol**: 🟡 In Development (COPY, LISTEN/NOTIFY, Binary Format, Pipeline Mode - see src/server/FUTURE_ENHANCEMENTS.md)
+- **Enhanced Monitoring**: ✅ Production-Ready (30+ Prometheus-Metriken für LLM, HA, Performance)
 
 ---
 
-## v1.4.0-alpha Feature-Highlights
+## v1.5.0-dev Feature-Highlights
 
 ### LLM-Integration (Kapitel 17)
 
 | Feature | Status | Maturity | Documentation | Performance |
 |---------|--------|----------|---------------|-------------|
-| **Prefix Caching** | 🆕 Alpha | Early | Chapter 17.12.1 | 75% cost savings |
-| **Response Caching** | 🆕 Alpha | Early | Chapter 17.12.2 | 60-80% savings |
-| **Multi-GPU Support** | 🆕 Alpha | Early | Chapter 17.12.3 | 4-8x throughput |
-| **Paged Attention** | 🆕 Alpha | Early | Chapter 17.12.4 | 80% memory reduction |
-| **LoRA Support** | 🆕 Alpha | Early | Chapter 17.12.5 | 99% less memory |
-| **Grammar-Constrained Generation** | 🆕 Alpha | Early | Chapter 17.12.6 | 95-99% valid outputs |
-| **RoPE Scaling** | 🆕 Alpha | Early | Chapter 17.12.7 | 4K→32K context |
-| **Vision Support** | 🆕 Alpha | Early | Chapter 17.12.8 | Multimodal AI |
+| **Prefix Caching** | 🟢 MVP Complete | Stable | Chapter 17.12.1 | 75% cost savings |
+| **Response Caching** | 🟢 MVP Complete | Stable | Chapter 17.12.2 | 60-80% savings |
+| **Multi-GPU Support** | 🟢 MVP Complete | Stable | Chapter 17.12.3 | 4-8x throughput |
+| **Paged Attention** | 🟢 MVP Complete | Stable | Chapter 17.12.4 | 80% memory reduction |
+| **LoRA Support** | 🟢 MVP Complete | Stable | Chapter 17.12.5 | 99% less memory |
+| **Grammar-Constrained Generation** | 🟢 MVP Complete | Stable | Chapter 17.12.6 | 95-99% valid outputs |
+| **RoPE Scaling** | 🟢 MVP Complete | Stable | Chapter 17.12.7 | 4K→32K context |
+| **Vision Support** | 🟢 MVP Complete | Stable | Chapter 17.12.8 | Multimodal AI |
 
 **Roadmap:**
-- Beta (Feb 2026): Performance tuning, extended testing
-- GA (Mar 2026): Production-ready certification
+- Production-Ready (v1.6): Extended testing, performance tuning, production certification
 
 ### Enterprise Features (Kapitel 10)
 
 | Feature | Status | Maturity | Documentation | Use Case |
 |---------|--------|----------|---------------|----------|
-| **Voice Assistant** | 🆕 Alpha | Early | Chapter 10.7 | Call Center, Meeting Protocols |
+| **Voice Assistant** | 🟡 Beta | Improving | Chapter 10.7 | Call Center, Meeting Protocols |
 | **Multi-Tenancy** | ✅ Production-Ready | Stable | Chapter 10.1 | SaaS Applications |
 | **RBAC** | ✅ Production-Ready | Stable | Chapter 10.1 | Enterprise Security |
 | **Audit Logging** | ✅ Production-Ready | Stable | Chapter 10.1 | Compliance |
 
 **Roadmap (Voice Assistant):**
-- Beta (Feb 2026): Enhanced language support, improved accuracy
-- GA (Mar 2026): Production-ready certification for enterprise use
+- Production-Ready (v1.6): Enhanced language support, improved accuracy, production certification
 
 ### Performance-Optimierungen (Kapitel 21)
 
 | Feature | Status | Maturity | Documentation | Performance |
 |---------|--------|----------|---------------|-------------|
-| **Flash Attention** | 🆕 Alpha | Early | Chapter 20.9A.1 | 69% throughput, 37% memory |
-| **Speculative Decoding** | 🆕 Alpha | Early | Chapter 20.9A.2 | 2-3x speedup |
-| **Continuous Batching** | 🆕 Alpha | Early | Chapter 20.9A.3 | 176% throughput |
+| **Flash Attention** | 🟢 MVP Complete | Stable | Chapter 20.9A.1 | 69% throughput, 37% memory |
+| **Speculative Decoding** | 🟡 In Development | Experimental | Chapter 20.9A.2 | 2-3x speedup (target) |
+| **Continuous Batching** | 🟢 MVP Complete | Stable | Chapter 20.9A.3 | 176% throughput |
 
 **Roadmap:**
-- Beta (Feb 2026): Hardware compatibility testing
-- GA (Mar 2026): Production deployment guides
+- Production-Ready (v1.6): Hardware compatibility testing, production deployment guides
 
 ### High Availability (Kapitel 16)
 
 | Feature | Status | Maturity | Documentation | Performance |
 |---------|--------|----------|---------------|-------------|
-| **Hot Spare** | 🆕 Alpha | Early | Chapter 16.10.1 | <5s failover |
-| **WAL Replication** | 🆕 Alpha | Early | Chapter 16.10.2 | Zero data loss |
+| **Hot Spare** | 🟢 MVP Complete | Stable | Chapter 16.10.1 | <5s failover |
+| **WAL Replication** | 🟢 MVP Complete | Stable | Chapter 16.10.2 | Zero data loss |
 | **Multi-SSD WAL** | 🆕 Alpha | Early | Chapter 16.10.2 | <10% write overhead |
 | **Replication Slots** | 🆕 Alpha | Early | Chapter 16.10.2 | Lag monitoring |
 
