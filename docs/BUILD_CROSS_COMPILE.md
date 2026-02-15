@@ -301,12 +301,14 @@ If testing the binary on the build host:
 # Use QEMU to run ARM binaries on x86_64
 sudo apt-get install qemu-user-static
 
-# Run ARM64 binary
-qemu-aarch64-static -L /usr/aarch64-linux-gnu ./build-arm64/bin/themisdb
+# Run ARM64 binary (adjust path to actual binary location)
+qemu-aarch64-static -L /usr/aarch64-linux-gnu ./build-arm64/bin/themis_server
 
-# Run ARMv7 binary
-qemu-arm-static -L /usr/arm-linux-gnueabihf ./build-armv7/bin/themisdb
+# Run ARMv7 binary (adjust path to actual binary location)
+qemu-arm-static -L /usr/arm-linux-gnueabihf ./build-armv7/bin/themis_server
 ```
+
+**Note:** The exact binary name may vary (e.g., `themisdb`, `themis_server`). Check `build-*/bin/` for available executables.
 
 ## Advanced Topics
 
