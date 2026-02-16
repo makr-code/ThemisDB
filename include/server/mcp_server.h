@@ -23,6 +23,7 @@ class HttpServer;
 class RocksDBWrapper;
 class SecondaryIndexManager;
 class SchemaManager;
+class QueryEngine;
 
 namespace prompt_engineering {
 class PromptManager;
@@ -208,6 +209,9 @@ private:
     // Schema management
     std::shared_ptr<SecondaryIndexManager> index_mgr_;
     std::unique_ptr<SchemaManager> schema_mgr_;
+    
+    // Query engine for AQL execution
+    std::unique_ptr<QueryEngine> query_engine_;
     
     // Prompt management for natural language queries
     std::unique_ptr<themis::prompt_engineering::PromptManager> prompt_mgr_;

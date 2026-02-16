@@ -5,6 +5,9 @@
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
+#include "query/query_engine.h"
+#include "query/aql_runner.h"
+#include "index/graph_index.h"
 #include "llm/embedded_llm.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "utils/error_registry.h"
@@ -119,6 +122,13 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         // Create SchemaManager with database and index manager
         schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
         
+        // Create GraphIndexManager for graph queries
+        auto graph_mgr = std::make_shared<GraphIndexManager>(*db);
+        
+        // Create QueryEngine for AQL execution
+        // Note: VectorIndexManager and SpatialIndexManager are optional
+        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr);
+        
         // Initialize PromptManager and load system prompts
         prompt_mgr_ = std::make_unique<PromptManager>();
         
@@ -135,7 +145,7 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
             spdlog::warn("MCP Server could not load system prompts from {}", prompt_file);
         }
         
-        spdlog::info("MCP Server attached to RocksDB database with SchemaManager and PromptManager initialized");
+        spdlog::info("MCP Server attached to RocksDB database with SchemaManager, QueryEngine, and PromptManager initialized");
     } else {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
@@ -373,12 +383,12 @@ json McpServer::handlePromptsGet(const json& params) {
 
 void McpServer::registerDefaultTools() {
     // Query tool
-    registerTool("query", "Execute Cypher or SQL query on ThemisDB",
+    registerTool("query", "Execute AQL, Cypher, or SQL query on ThemisDB",
         {
             {"type", "object"},
             {"properties", {
                 {"query", {{"type", "string"}, {"description", "Query string"}}},
-                {"language", {{"type", "string"}, {"enum", {"cypher", "sql"}}, {"default", "cypher"}}}
+                {"language", {{"type", "string"}, {"enum", {"aql", "cypher", "sql", "auto"}}, {"default", "aql"}, {"description", "Query language (aql=full support, others pending)"}}}
             }},
             {"required", {"query"}}
         },
@@ -568,39 +578,98 @@ void McpServer::registerDefaultTools() {
 
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
-    std::string language = args.value("language", "cypher");
+    std::string language = args.value("language", "aql");
     
     spdlog::info("MCP Tool 'query' called: {} ({})", query, language);
     
-    // For minimal integration, we'll support simple key prefix scans
-    // Full Cypher/SQL support would require query engine integration (future work)
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"query", query},
             {"language", language}
         };
     }
 
     try {
-        // Simple implementation: if query starts with "MATCH" or "SELECT", 
-        // return stub message indicating query engine integration needed
-        // For now, only support simple GET operations
+        // Detect query language if set to "auto"
+        if (language == "auto") {
+            // Simple heuristic: if query contains "FOR", "FILTER", "RETURN" -> AQL
+            // if query contains "SELECT", "FROM" -> SQL
+            // if query contains "MATCH", "WHERE" -> Cypher
+            std::string upper_query = query;
+            std::transform(upper_query.begin(), upper_query.end(), upper_query.begin(), ::toupper);
+            
+            if (upper_query.find("FOR ") != std::string::npos && 
+                upper_query.find("RETURN") != std::string::npos) {
+                language = "aql";
+            } else if (upper_query.find("SELECT") != std::string::npos) {
+                language = "sql";
+            } else if (upper_query.find("MATCH") != std::string::npos) {
+                language = "cypher";
+            } else {
+                language = "aql"; // default
+            }
+        }
         
-        return {
-            {"status", "success"},
-            {"message", "Query executed (limited support - key/value operations only in minimal integration)"},
-            {"query", query},
-            {"language", language},
-            {"results", json::array()},
-            {"note", "Full Cypher/SQL query support requires query engine integration"}
-        };
+        // Execute AQL queries using the query engine
+        if (language == "aql") {
+            if (!query_engine_) {
+                return {
+                    {"status", "error"},
+                    {"message", "Query engine not initialized"},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+            
+            // Execute AQL query
+            auto result = executeAql(query, *query_engine_);
+            
+            if (!result) {
+                return {
+                    {"status", "error"},
+                    {"message", fmt::format("AQL execution failed: {}", result.error().message())},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+            
+            // Return successful result
+            return {
+                {"status", "success"},
+                {"message", "AQL query executed successfully"},
+                {"query", query},
+                {"language", language},
+                {"results", *result}
+            };
+        }
+        // SQL and Cypher not yet implemented
+        else if (language == "sql" || language == "cypher") {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("{} query language not yet implemented", language)},
+                {"query", query},
+                {"language", language},
+                {"note", "Use 'aql' language for full query support"}
+            };
+        }
+        // Unknown language
+        else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported query language: {}", language)},
+                {"query", query},
+                {"language", language},
+                {"supported_languages", json::array({"aql", "sql", "cypher"})}
+            };
+        }
     } catch (const std::exception& e) {
         return {
             {"status", "error"},
-            {"message", std::string("Query execution failed: ") + e.what()},
-            {"query", query}
+            {"message", fmt::format("Query execution failed: {}", e.what())},
+            {"query", query},
+            {"language", language}
         };
     }
 }
