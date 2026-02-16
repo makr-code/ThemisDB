@@ -12,6 +12,7 @@ import json
 import random
 import sqlite3
 import time
+import uuid
 from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from enum import Enum
@@ -411,7 +412,7 @@ class OllamaBackend:
         try:
             response = requests.get(f"{self.base_url}/api/tags", timeout=5)
             return response.status_code == 200
-        except:
+        except (requests.RequestException, requests.Timeout):
             return False
     
     def generate(self, prompt: str, system_prompt: Optional[str] = None, 
@@ -493,7 +494,7 @@ class MoralDialecticEngine:
         """
         # Create new session
         session = DebateSession(
-            id=f"debate_{int(time.time())}",
+            id=f"debate_{uuid.uuid4().hex[:12]}",
             topic=topic,
             ethical_question=ethical_question
         )
@@ -579,7 +580,7 @@ Focus on your core philosophical principles."""
         )
         
         return ChatMessage(
-            id=f"msg_{len(session.messages)}_{int(time.time()*1000)}",
+            id=f"msg_{uuid.uuid4().hex[:16]}",
             philosophy_school=philosophy,
             message_type=MessageType.STATEMENT,
             dimension=dimension,
@@ -621,7 +622,7 @@ Point out potential weaknesses or alternative viewpoints (maximum 150 words)."""
         )
         
         return ChatMessage(
-            id=f"msg_{len(session.messages)}_{int(time.time()*1000)}",
+            id=f"msg_{uuid.uuid4().hex[:16]}",
             philosophy_school=philosophy,
             message_type=MessageType.COUNTER,
             dimension=target_message.dimension,
