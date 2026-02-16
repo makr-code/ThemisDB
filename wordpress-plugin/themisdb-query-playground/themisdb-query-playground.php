@@ -303,6 +303,12 @@ class ThemisDB_Query_Playground {
     public function ajax_execute_query() {
         check_ajax_referer('themisdb_qp_nonce', 'nonce');
         
+        // Check user capability - only editors and above can execute queries
+        if (!current_user_can('edit_posts')) {
+            wp_send_json_error(array('message' => 'Insufficient permissions to execute queries'));
+            return;
+        }
+        
         if (!get_option('themisdb_qp_enable_execution', true)) {
             wp_send_json_error(array('message' => 'Query execution is disabled'));
             return;
@@ -313,7 +319,10 @@ class ThemisDB_Query_Playground {
             return;
         }
         
-        $query = isset($_POST['query']) ? stripslashes($_POST['query']) : '';
+        // Use wp_unslash instead of stripslashes for WordPress best practices
+        // We don't sanitize the query as it needs to preserve SQL/AQL syntax
+        // The database client should handle injection prevention
+        $query = isset($_POST['query']) ? wp_unslash($_POST['query']) : '';
         
         if (empty($query)) {
             wp_send_json_error(array('message' => 'Query cannot be empty'));

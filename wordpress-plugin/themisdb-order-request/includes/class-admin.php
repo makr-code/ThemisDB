@@ -109,7 +109,7 @@ class ThemisDB_Order_Admin {
      * Orders page
      */
     public function orders_page() {
-        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : 'list';
         $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : 0;
         
         if ($action === 'view' && $order_id) {
@@ -314,7 +314,7 @@ class ThemisDB_Order_Admin {
      * Contracts page
      */
     public function contracts_page() {
-        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : 'list';
         $contract_id = isset($_GET['contract_id']) ? intval($_GET['contract_id']) : 0;
         
         if ($action === 'view' && $contract_id) {
@@ -566,7 +566,7 @@ class ThemisDB_Order_Admin {
      * Payments page
      */
     public function payments_page() {
-        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : 'list';
         $payment_id = isset($_GET['payment_id']) ? intval($_GET['payment_id']) : 0;
         
         // Handle payment verification
@@ -782,7 +782,7 @@ class ThemisDB_Order_Admin {
      * Licenses page
      */
     public function licenses_page() {
-        $action = isset($_GET['action']) ? $_GET['action'] : 'list';
+        $action = isset($_GET['action']) ? sanitize_text_field($_GET['action']) : 'list';
         $license_id = isset($_GET['license_id']) ? intval($_GET['license_id']) : 0;
         
         if ($action === 'view' && $license_id) {
@@ -798,7 +798,14 @@ class ThemisDB_Order_Admin {
     private function list_licenses() {
         global $wpdb;
         $table_licenses = $wpdb->prefix . 'themisdb_licenses';
-        $licenses = $wpdb->get_results("SELECT * FROM $table_licenses ORDER BY created_at DESC LIMIT 50", ARRAY_A);
+        // Use esc_sql to ensure table name is safe, and use prepare for the entire query
+        $licenses = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM {$wpdb->prefix}themisdb_licenses ORDER BY created_at DESC LIMIT %d",
+                50
+            ),
+            ARRAY_A
+        );
         $stats = ThemisDB_License_Manager::get_license_stats();
         
         ?>

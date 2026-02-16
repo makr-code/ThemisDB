@@ -354,6 +354,7 @@ class ThemisDB_Auth_System {
         check_ajax_referer('themisdb_login', 'nonce');
         
         $username = isset($_POST['username']) ? sanitize_text_field($_POST['username']) : '';
+        // Password is not sanitized to preserve all characters - wp_signon() handles it securely
         $password = isset($_POST['password']) ? $_POST['password'] : '';
         $remember = isset($_POST['remember']) ? (bool) $_POST['remember'] : false;
         

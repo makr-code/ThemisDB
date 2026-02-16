@@ -31,4 +31,6 @@ delete_option('themisdb_taxonomy_settings');
 
 // Clean up term meta
 global $wpdb;
-$wpdb->query("DELETE FROM {$wpdb->termmeta} WHERE meta_key IN ('icon', 'color', 'extended_description', 'featured', 'term_order')");
+$meta_keys = array('icon', 'color', 'extended_description', 'featured', 'term_order');
+$placeholders = implode(', ', array_fill(0, count($meta_keys), '%s'));
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->termmeta} WHERE meta_key IN ($placeholders)", ...$meta_keys));
