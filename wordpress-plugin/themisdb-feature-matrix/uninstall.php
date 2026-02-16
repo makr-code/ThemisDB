@@ -20,6 +20,6 @@ delete_transient('themisdb_fm_cached_features');
 
 // Delete cached data
 global $wpdb;
-$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE 'themisdb_fm_%'");
-$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_themisdb_fm_%'");
-$wpdb->query("DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_timeout_themisdb_fm_%'");
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", 'themisdb_fm_%'));
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", '_transient_themisdb_fm_%'));
+$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", '_transient_timeout_themisdb_fm_%'));

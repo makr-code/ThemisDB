@@ -23,216 +23,153 @@ define('THEMISDB_FM_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_FM_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_FM_PLUGIN_FILE', __FILE__);
 
+// Backwards compatibility - deprecated constants
+define('THEMISDB_MATRIX_DIR', THEMISDB_FM_PLUGIN_DIR);
+define('THEMISDB_MATRIX_URL', THEMISDB_FM_PLUGIN_URL);
+define('THEMISDB_MATRIX_VERSION', THEMISDB_FM_VERSION);
+
 // Load required files
 require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php';
+require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-shortcode.php';
 require_once THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php';
 
-// Include files
-require_once THEMISDB_MATRIX_DIR . 'includes/class-feature-matrix.php';
-require_once THEMISDB_MATRIX_DIR . 'includes/class-shortcode.php';
-require_once THEMISDB_MATRIX_DIR . 'includes/class-admin.php';
-
-// Initialize
+/**
+ * Initialize plugin
+ */
 function themisdb_matrix_init() {
     load_plugin_textdomain('themisdb-feature-matrix', false, dirname(plugin_basename(__FILE__)) . '/languages');
     
+    // Initialize shortcode handler
     new ThemisDB_Matrix_Shortcode();
     
-    /**
-     * Admin instance
-     */
-    private $admin = null;
-    
-    /**
-     * Get plugin instance
-     */
-    public static function get_instance() {
-        if (null === self::$instance) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-    
-    /**
-     * Constructor
-     */
-    private function __construct() {
-        // Register activation and deactivation hooks
-        register_activation_hook(__FILE__, array($this, 'activate'));
-        register_deactivation_hook(__FILE__, array($this, 'deactivate'));
-        
-        // Initialize plugin
-        add_action('init', array($this, 'init'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
-        
-        // Register shortcode
-        add_shortcode('themisdb_feature_matrix', array($this, 'render_matrix'));
-        
-        // Initialize admin
-        if (is_admin()) {
-            $this->admin = new ThemisDB_Feature_Matrix_Admin();
-        }
-        
-        // Plugin action links
-        add_filter('plugin_action_links_' . plugin_basename(THEMISDB_FM_PLUGIN_FILE), array($this, 'add_action_links'));
-        
-        // AJAX endpoints
-        add_action('wp_ajax_themisdb_fm_get_features', array($this, 'ajax_get_features'));
-        add_action('wp_ajax_nopriv_themisdb_fm_get_features', array($this, 'ajax_get_features'));
+    // Initialize admin if in admin area
+    if (is_admin()) {
+        new ThemisDB_Feature_Matrix_Admin();
     }
 }
 add_action('plugins_loaded', 'themisdb_matrix_init');
 
-// Activation
-function themisdb_matrix_activate() {
-    $defaults = array(
-        'default_category' => 'all',
-        'default_style' => 'modern',
-        'show_legend' => 1,
-        'enable_filtering' => 1,
-        'enable_sorting' => 1,
-        'sticky_header' => 1,
-        'highlight_themis' => 1,
-        'enable_export' => 1,
-        'export_prefix' => 'themisdb-comparison'
-    );
-    
-    /**
-     * Plugin activation
-     */
-    public function activate() {
-        // Set default options
-        $defaults = array(
-            'default_view' => 'all',
-            'default_style' => 'modern',
-            'enable_filters' => 'yes',
-            'enable_csv_export' => 'yes',
-            'show_themis_highlight' => 'yes',
-            'sticky_header' => 'yes',
-            'enable_tooltips' => 'yes'
-        );
-        
-        foreach ($defaults as $key => $value) {
-            if (get_option('themisdb_fm_' . $key) === false) {
-                add_option('themisdb_fm_' . $key, $value);
-            }
-        }
-        
-        // Flush rewrite rules
-        flush_rewrite_rules();
-    }
-}
-register_activation_hook(__FILE__, 'themisdb_matrix_activate');
-
-// Enqueue assets
+/**
+ * Enqueue assets
+ */
 function themisdb_matrix_enqueue_assets() {
     global $post;
     
+    // Only load if shortcode is present
     if (!is_a($post, 'WP_Post') || !has_shortcode($post->post_content, 'themisdb_feature_matrix')) {
         return;
     }
     
+    // Plugin CSS
     wp_enqueue_style(
-        'themisdb-matrix-style',
-        THEMISDB_MATRIX_URL . 'assets/css/feature-matrix.css',
+        'themisdb-fm-style',
+        THEMISDB_FM_PLUGIN_URL . 'assets/css/feature-matrix.css',
         array(),
-        THEMISDB_MATRIX_VERSION
+        THEMISDB_FM_VERSION
     );
     
-    /**
-     * Enqueue assets
-     */
-    public function enqueue_assets() {
-        global $post;
-        
-        // Only load if shortcode is present
-        if (!is_a($post, 'WP_Post') || !has_shortcode($post->post_content, 'themisdb_feature_matrix')) {
-            return;
-        }
-        
-        // Plugin CSS
+    // Dark mode CSS if enabled
+    $color_scheme = themisdb_matrix_get_color_scheme();
+    if ($color_scheme === 'dark') {
         wp_enqueue_style(
-            'themisdb-fm-style',
-            THEMISDB_FM_PLUGIN_URL . 'assets/css/feature-matrix.css',
-            array(),
+            'themisdb-fm-dark-style',
+            THEMISDB_FM_PLUGIN_URL . 'assets/css/feature-matrix-dark.css',
+            array('themisdb-fm-style'),
             THEMISDB_FM_VERSION
         );
-        
-        // Plugin JS
-        wp_enqueue_script(
-            'themisdb-fm-script',
-            THEMISDB_FM_PLUGIN_URL . 'assets/js/feature-matrix.js',
-            array('jquery'),
-            THEMISDB_FM_VERSION,
-            true
-        );
-        
-        // Localize script with AJAX URL and settings
-        wp_localize_script('themisdb-fm-script', 'themisdbFM', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('themisdb_fm_nonce'),
-            'plugin_url' => THEMISDB_FM_PLUGIN_URL,
-            'settings' => array(
-                'default_view' => get_option('themisdb_fm_default_view', 'all'),
-                'default_style' => get_option('themisdb_fm_default_style', 'modern'),
-                'enable_filters' => get_option('themisdb_fm_enable_filters', 'yes'),
-                'enable_csv_export' => get_option('themisdb_fm_enable_csv_export', 'yes'),
-                'show_themis_highlight' => get_option('themisdb_fm_show_themis_highlight', 'yes'),
-                'sticky_header' => get_option('themisdb_fm_sticky_header', 'yes'),
-                'enable_tooltips' => get_option('themisdb_fm_enable_tooltips', 'yes')
-            ),
-        ));
     }
     
-    /**
-     * Render feature matrix
-     */
-    public function render_matrix($atts) {
-        $atts = shortcode_atts(array(
-            'category' => get_option('themisdb_fm_default_view', 'all'),
-            'style' => get_option('themisdb_fm_default_style', 'modern'),
-            'highlight_themis' => get_option('themisdb_fm_show_themis_highlight', 'yes'),
+    // Plugin JS
+    wp_enqueue_script(
+        'themisdb-fm-script',
+        THEMISDB_FM_PLUGIN_URL . 'assets/js/feature-matrix.js',
+        array('jquery'),
+        THEMISDB_FM_VERSION,
+        true
+    );
+    
+    // Localize script with AJAX URL and settings
+    wp_localize_script('themisdb-fm-script', 'themisdbFM', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('themisdb_fm_nonce'),
+        'plugin_url' => THEMISDB_FM_PLUGIN_URL,
+        'settings' => array(
+            'default_view' => get_option('themisdb_fm_default_view', 'all'),
+            'default_style' => get_option('themisdb_fm_default_style', 'modern'),
+            'enable_filters' => get_option('themisdb_fm_enable_filters', 'yes'),
+            'enable_csv_export' => get_option('themisdb_fm_enable_csv_export', 'yes'),
+            'show_themis_highlight' => get_option('themisdb_fm_show_themis_highlight', 'yes'),
             'sticky_header' => get_option('themisdb_fm_sticky_header', 'yes'),
-            'filterable' => get_option('themisdb_fm_enable_filters', 'yes')
-        ), $atts, 'themisdb_feature_matrix');
-        
-        // Load template
-        ob_start();
-        include THEMISDB_FM_PLUGIN_DIR . 'templates/matrix.php';
-        return ob_get_clean();
-    }
-    
-    /**
-     * Add plugin action links
-     */
-    public function add_action_links($links) {
-        $settings_link = '<a href="' . admin_url('options-general.php?page=themisdb-feature-matrix') . '">' . __('Settings', 'themisdb-feature-matrix') . '</a>';
-        array_unshift($links, $settings_link);
-        return $links;
-    }
-    
-    /**
-     * AJAX handler to get feature data
-     */
-    public function ajax_get_features() {
-        check_ajax_referer('themisdb_fm_nonce', 'nonce');
-        
-        $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : 'all';
-        
-        // Get features from data class
-        $features = ThemisDB_Feature_Matrix_Data::get_flat_features($category);
-        $databases = ThemisDB_Feature_Matrix_Data::get_databases();
-        
-        wp_send_json_success(array(
-            'features' => $features,
-            'databases' => array_keys($databases),
-            'database_info' => $databases,
-            'category' => $category
-        ));
-    }
+            'enable_tooltips' => get_option('themisdb_fm_enable_tooltips', 'yes')
+        ),
+    ));
 }
 add_action('wp_enqueue_scripts', 'themisdb_matrix_enqueue_assets');
 
+/**
+ * Plugin activation
+ */
+function themisdb_matrix_activate() {
+    // Set default options
+    $defaults = array(
+        'default_category' => 'all',
+        'default_view' => 'all',
+        'default_style' => 'modern',
+        'show_legend' => 1,
+        'enable_filtering' => 1,
+        'enable_filters' => 'yes',
+        'enable_sorting' => 1,
+        'sticky_header' => 1,
+        'highlight_themis' => 1,
+        'show_themis_highlight' => 'yes',
+        'enable_export' => 1,
+        'enable_csv_export' => 'yes',
+        'enable_tooltips' => 'yes',
+        'export_prefix' => 'themisdb-comparison'
+    );
+    
+    foreach ($defaults as $key => $value) {
+        $option_key = 'themisdb_fm_' . $key;
+        // Also try with matrix prefix for backwards compatibility
+        $matrix_option_key = 'themisdb_matrix_' . $key;
+        
+        if (get_option($option_key) === false && get_option($matrix_option_key) === false) {
+            add_option($option_key, $value);
+        }
+    }
+    
+    // Flush rewrite rules
+    flush_rewrite_rules();
+}
+register_activation_hook(__FILE__, 'themisdb_matrix_activate');
+
+/**
+ * AJAX handler to get feature data
+ */
+function themisdb_matrix_ajax_get_features() {
+    check_ajax_referer('themisdb_fm_nonce', 'nonce');
+    
+    $category = isset($_POST['category']) ? sanitize_text_field($_POST['category']) : 'all';
+    
+    // Get features from data class
+    $features = ThemisDB_Feature_Matrix_Data::get_flat_features($category);
+    $databases = ThemisDB_Feature_Matrix_Data::get_databases();
+    
+    wp_send_json_success(array(
+        'features' => $features,
+        'databases' => array_keys($databases),
+        'database_info' => $databases,
+        'category' => $category
+    ));
+}
+add_action('wp_ajax_themisdb_fm_get_features', 'themisdb_matrix_ajax_get_features');
+add_action('wp_ajax_nopriv_themisdb_fm_get_features', 'themisdb_matrix_ajax_get_features');
+
+/**
+ * Get color scheme preference
+ *
+ * @return string 'light' or 'dark'
+ */
 function themisdb_matrix_get_color_scheme() {
     if (isset($_COOKIE['themisdb_color_scheme'])) {
         return sanitize_text_field($_COOKIE['themisdb_color_scheme']);

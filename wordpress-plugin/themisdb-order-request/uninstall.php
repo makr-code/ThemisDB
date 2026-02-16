@@ -44,7 +44,7 @@ $tables = array(
 );
 
 foreach ($tables as $table) {
-    $wpdb->query("DROP TABLE IF EXISTS $table");
+    $wpdb->query($wpdb->prepare("DROP TABLE IF EXISTS %i", $table));
 }
 
 // Delete uploaded PDF files
