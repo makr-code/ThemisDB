@@ -32,6 +32,7 @@ class PhilosophySchool(Enum):
     VIRTUE_ETHICS = "virtue_ethics"
     SOCRATIC = "socratic"
     STOICISM = "stoicism"
+    USER = "user"  # User messages
 
 
 class ArgumentDimension(Enum):
@@ -46,6 +47,7 @@ class MessageType(Enum):
     """Type of message in the debate."""
     STATEMENT = "statement"      # Initial position statement
     COUNTER = "counter"          # Counter-argument
+    USER = "user"                # User contribution
 
 
 @dataclass
@@ -210,6 +212,12 @@ Speak in first person as Epictetus. Keep responses focused and under 150 words."
             "Living according to nature",
             "Acceptance and equanimity"
         ]
+    },
+    PhilosophySchool.USER: {
+        "name": "User",
+        "description": "User contribution",
+        "system_prompt": "",  # No system prompt for user
+        "core_principles": []
     }
 }
 

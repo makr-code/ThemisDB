@@ -9,6 +9,7 @@ __pycache__/
 *.db-journal
 *.db-shm
 *.db-wal
+moral_debates_gui.db*
 
 # Exported debate files
 debate_*.md
