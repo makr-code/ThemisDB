@@ -12,29 +12,66 @@ if (!defined('ABSPATH')) {
 class ThemisDB_Taxonomy_Extractor {
     
     /**
+     * TF-IDF Calculator instance
+     */
+    private $tfidf;
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        // Initialize TF-IDF calculator
+        if (class_exists('ThemisDB_TFIDF')) {
+            $this->tfidf = new ThemisDB_TFIDF();
+        }
+    }
+    
+    /**
      * Stop words for text analysis (German and English)
      */
     private $stop_words = array(
-        // German
-        'der', 'die', 'das', 'und', 'oder', 'aber', 'ist', 'sind', 'ein', 'eine',
+        // Monatsnamen (DE/EN)
+        'januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember',
+        'january', 'february', 'march', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december',
+        
+        // Wochentage (DE/EN)
+        'monday', 'montag', 'tuesday', 'dienstag', 'wednesday', 'mittwoch',
+        'thursday', 'donnerstag', 'friday', 'freitag', 'saturday', 'samstag',
+        'sunday', 'sonntag',
+        
+        // Monat-Abkürzungen
+        'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec',
+        
+        // Generische Wörter
+        'use', 'test', 'tmp', 'example', 'demo', 'sample', 'draft', 'untitled',
+        
+        // Artikel/Präpositionen (DE/EN)
+        'der', 'die', 'das', 'ein', 'eine', 'einen', 'the', 'a', 'an',
+        'und', 'oder', 'aber', 'and', 'or', 'but', 'with', 'from', 'to',
         'mit', 'von', 'zu', 'auf', 'für', 'in', 'im', 'an', 'bei', 'nach',
-        // English
-        'the', 'is', 'are', 'was', 'were', 'be', 'have', 'has', 'had', 'do',
-        'a', 'an', 'and', 'or', 'but', 'if', 'for', 'with', 'about', 'at'
+        
+        // Sehr häufige Verben
+        'ist', 'sind', 'war', 'waren', 'be', 'is', 'are', 'was', 'were',
+        'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'can', 'could',
+        'if', 'for', 'about', 'at'
     );
     
     /**
      * Patterns to exclude from categories/tags
      */
     private $exclude_patterns = array(
-        '/^\d+$/',              // Pure numbers
-        '/^\d{4}$/',            // Years
-        '/^v?\d+\.\d+/',        // Version numbers
-        '/^(januar|februar|märz|april|mai|juni|juli|august|september|oktober|november|dezember)$/i',
-        '/^(january|february|march|april|may|june|july|august|september|october|november|december)$/i',
-        '/^\d+\s+\d+$/',        // "9 2026" patterns
-        '/^(de|en|fr|es|ja)$/', // Language codes
-        '/^(use|tmp|test)$/i',  // Generic words
+        '/^\d+$/',                          // Pure numbers: 123
+        '/^\d{4}$/',                        // Years: 2026
+        '/^\d{1,2}$/',                      // Single/double digits: 1, 01
+        '/^v?\d+\.\d+/',                    // Version numbers: v1.0, 2.3
+        '/^\d+\s+\d+$/',                    // Date fragments: "9 2026", "01 02"
+        '/^\d{1,2}[\.\/\-]\d{1,2}[\.\/\-]\d{2,4}$/',  // Dates: 01.02.2026, 1/2/26
+        '/^(de|en|fr|es|ja|zh|ru|pt|it)$/i', // Language codes
+        '/^(use|tmp|test|demo|example)$/i',  // Generic words
+        '/^[a-z]$/i',                       // Single letters
+        '/^[\W_]+$/',                       // Only special characters
+        '/^(page|post|article|blog|site|web)$/i', // WordPress generic
+        '/^(http|https|www|ftp)$/i',       // URL fragments
     );
     
     /**
@@ -123,13 +160,205 @@ class ThemisDB_Taxonomy_Extractor {
         $text = strip_shortcodes($text);
         $text = wp_strip_all_tags($text);
         
-        $categories = $this->extract_phrases($text);
-        $tags = $this->extract_keywords($text, $post->post_title);
+        // Extract all potential terms
+        $all_terms = $this->extract_all_terms($text, $post->post_title);
+        
+        // Score terms using TF-IDF if available
+        if ($this->tfidf) {
+            $scored_terms = $this->tfidf->score_terms($all_terms, $text, 20);
+        } else {
+            // Fallback: simple frequency-based scoring
+            $scored_terms = $this->score_by_frequency($all_terms, $text);
+        }
+        
+        // Separate into categories and tags
+        $separated = $this->separate_categories_and_tags($scored_terms);
+        
+        return array(
+            'categories' => $separated['categories'],
+            'tags' => $separated['tags']
+        );
+    }
+    
+    /**
+     * Extract all potential terms from text
+     * 
+     * @param string $text
+     * @param string $title
+     * @return array
+     */
+    private function extract_all_terms($text, $title = '') {
+        $terms = array();
+        
+        // Extract phrases (2-3 words)
+        $phrases = $this->extract_phrases($text);
+        $terms = array_merge($terms, $phrases);
+        
+        // Extract keywords
+        $keywords = $this->extract_keywords($text, $title);
+        $terms = array_merge($terms, $keywords);
+        
+        // Extract key topics
+        $text_lower = mb_strtolower($text, 'UTF-8');
+        foreach ($this->key_topics as $topic) {
+            if (mb_stripos($text_lower, $topic) !== false) {
+                $terms[] = ucwords($topic);
+            }
+        }
+        
+        return array_unique($terms);
+    }
+    
+    /**
+     * Score terms by frequency (fallback when TF-IDF unavailable)
+     * 
+     * @param array $terms
+     * @param string $text
+     * @return array
+     */
+    private function score_by_frequency($terms, $text) {
+        $text_lower = mb_strtolower($text, 'UTF-8');
+        $scored = array();
+        
+        foreach ($terms as $term) {
+            $term_lower = mb_strtolower($term, 'UTF-8');
+            $count = substr_count($text_lower, $term_lower);
+            
+            $scored[] = array(
+                'term' => $term,
+                'score' => $count
+            );
+        }
+        
+        // Sort by score descending
+        usort($scored, function($a, $b) {
+            return $b['score'] <=> $a['score'];
+        });
+        
+        return array_slice($scored, 0, 20);
+    }
+    
+    /**
+     * Separate extracted terms into categories and tags
+     * WordPress Best Practice:
+     * - Categories: Hierarchical, broad (3-5 per post)
+     * - Tags: Flat, specific (8-10 per post)
+     * 
+     * @param array $extracted_terms Scored terms
+     * @return array Array with 'categories' and 'tags'
+     */
+    private function separate_categories_and_tags($extracted_terms) {
+        $categories = array();
+        $tags = array();
+        
+        foreach ($extracted_terms as $term_data) {
+            $term = $term_data['term'];
+            
+            // Skip if already categorized
+            if (in_array($term, $categories) || in_array($term, $tags)) {
+                continue;
+            }
+            
+            // Categories: Broader terms (2+ words, general concepts)
+            if ($this->is_broad_term($term) && count($categories) < 5) {
+                // Check if exists as tag
+                if (!$this->exists_as_tag($term) && !in_array($term, $tags)) {
+                    $categories[] = $term;
+                }
+            }
+            // Tags: Specific terms (1 word or technical terms)
+            elseif ($this->is_specific_term($term) && count($tags) < 10) {
+                // Check if exists as category
+                if (!$this->exists_as_category($term) && !in_array($term, $categories)) {
+                    $tags[] = $term;
+                }
+            }
+        }
         
         return array(
             'categories' => $categories,
             'tags' => $tags
         );
+    }
+    
+    /**
+     * Check if term is broad (suitable for category)
+     * 
+     * @param string $term
+     * @return bool
+     */
+    private function is_broad_term($term) {
+        // Multi-word phrases are typically broader
+        $word_count = count(explode(' ', trim($term)));
+        if ($word_count >= 2) {
+            return true;
+        }
+        
+        // Check against broad concept patterns
+        $broad_patterns = array(
+            'security', 'performance', 'development', 'operations',
+            'integration', 'architecture', 'monitoring', 'deployment',
+            'database', 'llm', 'ai', 'machine', 'data', 'features'
+        );
+        
+        $term_lower = mb_strtolower($term, 'UTF-8');
+        foreach ($broad_patterns as $pattern) {
+            if (stripos($term_lower, $pattern) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Check if term is specific (suitable for tag)
+     * 
+     * @param string $term
+     * @return bool
+     */
+    private function is_specific_term($term) {
+        // Single words or technical acronyms
+        $word_count = count(explode(' ', trim($term)));
+        if ($word_count === 1) {
+            return true;
+        }
+        
+        // Technical terms are specific
+        $specific_patterns = array(
+            'api', 'sdk', 'jwt', 'oauth', 'ssl', 'tls', 'grpc', 'rest',
+            'docker', 'kubernetes', 'k8s', 'sql', 'nosql', 'json',
+            'cuda', 'gpu', 'cpu', 'mvcc', 'acid'
+        );
+        
+        $term_lower = mb_strtolower($term, 'UTF-8');
+        if (in_array($term_lower, $specific_patterns)) {
+            return true;
+        }
+        
+        return !$this->is_broad_term($term);
+    }
+    
+    /**
+     * Check if term exists as a tag
+     * 
+     * @param string $term
+     * @return bool
+     */
+    private function exists_as_tag($term) {
+        $existing = term_exists($term, 'post_tag');
+        return $existing !== 0 && $existing !== null;
+    }
+    
+    /**
+     * Check if term exists as a category
+     * 
+     * @param string $term
+     * @return bool
+     */
+    private function exists_as_category($term) {
+        $existing = term_exists($term, 'category');
+        return $existing !== 0 && $existing !== null;
     }
     
     /**
