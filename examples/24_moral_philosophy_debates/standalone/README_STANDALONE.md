@@ -11,7 +11,22 @@ A self-contained implementation of moral philosophical debates using SQLite for 
 ✅ **Two-Round Debates** - Initial statements + counter-arguments  
 ✅ **Markdown Export** - Save debates in readable format  
 ✅ **Persistent Storage** - All debates saved in SQLite database  
-✅ **Fully Standalone** - No external services required
+✅ **Fully Standalone** - No external services required  
+✅ **GUI Frontend** - Chat-like tkinter interface with user interaction  
+✅ **Interactive Debates** - Users can contribute moral considerations and get responses
+
+## Two Interfaces
+
+### 1. Command-Line Interface (CLI)
+Traditional command-line tool for running debates and exporting results.
+
+### 2. Graphical User Interface (GUI) ⭐ NEW
+Chat-style tkinter window where users can:
+- Input URLs or topics for debates
+- Select which philosophers participate
+- Add their own moral considerations
+- Get responses from all selected philosophers
+- See the debate unfold in real-time with color-coded messages
 
 ## Philosophy Schools
 
@@ -73,14 +88,48 @@ pip install -r requirements_standalone.txt
 
 ## Usage
 
-### Basic Usage
+### GUI Application (Recommended) ⭐
+
+Launch the interactive chat interface:
+```bash
+python gui_dialectic.py
+```
+
+**GUI Features:**
+- **Chat-Style Interface**: See the debate unfold in real-time
+- **Color-Coded Messages**: Each philosopher has a unique color
+- **Interactive Input**: Add your own moral considerations during the debate
+- **Philosopher Selection**: Choose which philosophers participate (checkboxes)
+- **URL/Topic Input**: Enter news article URLs or custom topics
+- **Real-Time Responses**: Philosophers respond to your messages
+- **Status Updates**: See what's happening during debate generation
+- **Persistent Storage**: All debates automatically saved to SQLite
+
+**How to use the GUI:**
+1. **Start Ollama**: Ensure `ollama serve` is running
+2. **Launch GUI**: Run `python gui_dialectic.py`
+3. **Enter Topic**: Type a topic or paste a news article URL
+4. **Set Question**: Enter the ethical question to debate
+5. **Select Philosophers**: Check/uncheck philosophers to include
+6. **Start Debate**: Click "Start Debate" button
+7. **Watch Debate**: See Round 1 (statements) and Round 2 (counter-arguments)
+8. **Add Your View**: Type your moral consideration in the input box
+9. **Send Message**: Click "Send Message" or press Ctrl+Enter
+10. **Get Responses**: All selected philosophers will respond to you!
+
+**Keyboard Shortcuts:**
+- `Ctrl+Enter` in the input field to send your message
+
+### CLI Application
+
+#### Basic Usage
 
 Run with default settings (AI in Medicine debate):
 ```bash
 python standalone_moral_dialectic.py
 ```
 
-### Custom Topics
+#### Custom Topics
 
 Specify your own topic and ethical question:
 ```bash
@@ -89,7 +138,7 @@ python standalone_moral_dialectic.py \
   --question "Is geo-engineering ethically justifiable?"
 ```
 
-### Export to Markdown
+#### Export to Markdown
 
 Save the debate to a markdown file:
 ```bash
@@ -99,7 +148,7 @@ python standalone_moral_dialectic.py \
   --export debate_output.md
 ```
 
-### Use Different Model
+#### Use Different Model
 
 Specify a different Ollama model:
 ```bash
@@ -125,11 +174,11 @@ python standalone_moral_dialectic.py --db my_debates.db
 
 ## How It Works
 
-### Architecture
+### CLI Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  Standalone Moral Dialectic Engine              │
+│  Standalone Moral Dialectic Engine (CLI)        │
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │  ┌──────────────┐      ┌──────────────┐       │
@@ -155,7 +204,52 @@ python standalone_moral_dialectic.py --db my_debates.db
 └─────────────────────────────────────────────────┘
 ```
 
-### Debate Flow
+### GUI Architecture
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  MoralDialecticGUI (Tkinter)                             │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │  Chat Display (Color-coded messages)               │  │
+│  │  - Kant (Blue), Mill (Green), Aristotle (Purple)  │  │
+│  │  - Socrates (Orange), Epictetus (Gray)            │  │
+│  │  - User (Red)                                      │  │
+│  └────────────────────────────────────────────────────┘  │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │  User Input + Philosopher Selection                │  │
+│  └────────────────────────────────────────────────────┘  │
+│                         │                                 │
+│                         ▼                                 │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │  Threading (Background LLM Generation)             │  │
+│  │  - Keeps GUI responsive during debate              │  │
+│  │  - Parallel philosopher responses                  │  │
+│  └────────────────────────────────────────────────────┘  │
+│                         │                                 │
+│                         ▼                                 │
+│  ┌────────────────────────────────────────────────────┐  │
+│  │  MoralDialecticEngine                              │  │
+│  │  - Generate statements                             │  │
+│  │  - Generate counter-arguments                      │  │
+│  │  - Respond to user messages                        │  │
+│  └────────────────────────────────────────────────────┘  │
+│                         │                                 │
+│              ┌──────────┴──────────┐                      │
+│              ▼                     ▼                      │
+│  ┌─────────────────┐   ┌──────────────────────┐         │
+│  │  OllamaBackend  │   │  SQLiteDebateStore    │         │
+│  │  - LLM API      │   │  - Persistent storage │         │
+│  └─────────────────┘   └──────────────────────┘         │
+│              │                     │                      │
+│              ▼                     ▼                      │
+│  ┌─────────────────┐   ┌──────────────────────┐         │
+│  │  Ollama Server  │   │  moral_debates_gui.db │         │
+│  │  localhost:11434│   │  SQLite Database      │         │
+│  └─────────────────┘   └──────────────────────┘         │
+└──────────────────────────────────────────────────────────┘
+```
+
+### Debate Flow (CLI)
 
 1. **Initialization**
    - Create SQLite database (if not exists)
@@ -176,6 +270,40 @@ python standalone_moral_dialectic.py --db my_debates.db
    - All messages saved to SQLite with timestamps
    - Debate session marked as completed
    - Optional markdown export for sharing
+
+### Interactive GUI Flow
+
+1. **User Starts Debate**
+   - Enters topic/URL and ethical question
+   - Selects participating philosophers
+   - Clicks "Start Debate"
+
+2. **Round 1: Initial Statements** (Background Thread)
+   - Each selected philosopher generates statements
+   - Messages appear in chat display with colors
+   - Timestamps and dimensions shown
+
+3. **Round 2: Counter-Arguments** (Background Thread)
+   - Philosophers respond to each other
+   - Critical analysis of opposing views
+   - All displayed in real-time
+
+4. **User Interaction Enabled**
+   - Input field becomes active
+   - User can type moral considerations
+   - Press Ctrl+Enter or click "Send Message"
+
+5. **Philosophers Respond to User** (Background Thread)
+   - Each selected philosopher analyzes user's point
+   - Generates response from their perspective
+   - Responses appear in chat with colors
+   - User can continue the discussion
+
+6. **Continuous Dialogue**
+   - User can add more messages
+   - Philosophers keep responding
+   - All messages saved to database
+   - Debate can continue indefinitely
 
 ### Database Schema
 
