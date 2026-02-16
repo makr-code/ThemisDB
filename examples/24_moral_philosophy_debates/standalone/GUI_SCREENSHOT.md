@@ -11,6 +11,8 @@
 ║  │                                                 [Start Debate]       │   ║
 ║  └──────────────────────────────────────────────────────────────────────┘   ║
 ║                                                                              ║
+║  ⭐ Toolbar: [New Debate] [Load Previous] [Export to Markdown]         ⭐   ║
+║                                                                              ║
 ║  ┌─ Select Philosophers ────────────────────────────────────────────────┐   ║
 ║  │ [✓] Immanuel Kant  [✓] John Stuart Mill  [✓] Aristotle              │   ║
 ║  │ [✓] Socrates       [✓] Epictetus                                     │   ║
@@ -59,10 +61,11 @@
 ## Key Features Visible:
 
 1. **Top Section**: Topic and question input fields with Start Debate button
-2. **Philosophy Selection**: Checkboxes for selecting participating philosophers
-3. **Chat Display**: Scrollable area with color-coded messages, timestamps, and separators
-4. **User Input**: Multi-line text field with Send Message button
-5. **Status Bar**: Shows current status and message count
+2. **Toolbar**: New Debate, Load Previous, Export to Markdown buttons ⭐ NEW
+3. **Philosophy Selection**: Checkboxes for selecting participating philosophers
+4. **Chat Display**: Scrollable area with color-coded messages, timestamps, and separators
+5. **User Input**: Multi-line text field with Send Message button
+6. **Status Bar**: Shows current status and message count
 
 ## User Flow:
 
@@ -72,7 +75,10 @@
 4. User types their own moral consideration
 5. Presses Ctrl+Enter or clicks Send Message
 6. All selected philosophers respond to the user's point
-7. Conversation continues as long as user wants
+7. **NEW**: User can export debate with "Export to Markdown" button
+8. **NEW**: User can load previous debates with "Load Previous" button
+9. **NEW**: User can start fresh with "New Debate" button
+10. Conversation continues as long as user wants
 
 ## Technical Features:
 

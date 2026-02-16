@@ -9,24 +9,29 @@ A self-contained implementation of moral philosophical debates using SQLite for 
 ✅ **5 Philosophy Schools** - Kant, Utilitarianism, Virtue Ethics, Socratic, Stoicism  
 ✅ **4 Argument Dimensions** - Moral, Ethical, Social, Political  
 ✅ **Two-Round Debates** - Initial statements + counter-arguments  
-✅ **Markdown Export** - Save debates in readable format  
+✅ **Markdown Export** - Save debates in readable format (CLI & GUI)  
 ✅ **Persistent Storage** - All debates saved in SQLite database  
 ✅ **Fully Standalone** - No external services required  
 ✅ **GUI Frontend** - Chat-like tkinter interface with user interaction  
-✅ **Interactive Debates** - Users can contribute moral considerations and get responses
+✅ **Interactive Debates** - Users can contribute moral considerations and get responses  
+✅ **Load Previous Debates** - Reload and continue past debates from GUI ⭐ NEW  
+✅ **Debate Management** - New, Load, and Export buttons in GUI toolbar ⭐ NEW
 
 ## Two Interfaces
 
 ### 1. Command-Line Interface (CLI)
 Traditional command-line tool for running debates and exporting results.
 
-### 2. Graphical User Interface (GUI) ⭐ NEW
+### 2. Graphical User Interface (GUI) ⭐ ENHANCED
 Chat-style tkinter window where users can:
 - Input URLs or topics for debates
 - Select which philosophers participate
 - Add their own moral considerations
 - Get responses from all selected philosophers
 - See the debate unfold in real-time with color-coded messages
+- Export debates to markdown files ⭐ NEW
+- Load and continue previous debates ⭐ NEW
+- Start new debates with confirmation ⭐ NEW
 
 ## Philosophy Schools
 
@@ -104,6 +109,9 @@ python gui_dialectic.py
 - **Real-Time Responses**: Philosophers respond to your messages
 - **Status Updates**: See what's happening during debate generation
 - **Persistent Storage**: All debates automatically saved to SQLite
+- **Export to Markdown**: Save debates as markdown files ⭐ NEW
+- **Load Previous Debates**: Reload and continue past debates ⭐ NEW
+- **New Debate**: Clear and start fresh anytime ⭐ NEW
 
 **How to use the GUI:**
 1. **Start Ollama**: Ensure `ollama serve` is running
@@ -117,8 +125,26 @@ python gui_dialectic.py
 9. **Send Message**: Click "Send Message" or press Ctrl+Enter
 10. **Get Responses**: All selected philosophers will respond to you!
 
+**Toolbar Actions:** ⭐ NEW
+- **New Debate**: Clear current debate and start fresh (with confirmation if debate active)
+- **Load Previous**: Open dialog to select and load a previous debate from database
+- **Export to Markdown**: Save current debate as a markdown file (enabled after debate completes)
+
 **Keyboard Shortcuts:**
 - `Ctrl+Enter` in the input field to send your message
+
+**Loading Previous Debates:**
+1. Click "Load Previous" button in toolbar
+2. Browse list of up to 20 recent debates
+3. Select a debate (shows date, topic, and question)
+4. Click "Load" to restore the debate in the chat
+5. Continue the conversation with philosophers!
+
+**Exporting Debates:**
+1. Complete a debate (or load a previous one)
+2. Click "Export to Markdown" button in toolbar
+3. Choose where to save the file
+4. Markdown file includes all messages with timestamps
 
 ### CLI Application
 
