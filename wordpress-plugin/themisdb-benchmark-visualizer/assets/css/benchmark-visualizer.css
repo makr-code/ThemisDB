@@ -1,17 +1,39 @@
 /* ThemisDB Benchmark Visualizer Styles */
 /* Based on TCO Calculator design pattern */
 
-/* CSS Variables */
+/* Themis Brand Colors - Official Color Palette */
 :root {
-    --themisdb-primary: #2ea44f;
-    --themisdb-secondary: #3498db;
-    --themisdb-success: #27ae60;
-    --themisdb-warning: #f39c12;
-    --themisdb-danger: #e74c3c;
+    /* Primary Colors */
+    --themis-primary: #2c3e50;        /* Dark Blue-Gray */
+    --themis-secondary: #3498db;      /* Light Blue */
+    --themis-accent: #7c4dff;         /* Purple */
+    
+    /* Status Colors */
+    --themis-success: #27ae60;        /* Green */
+    --themis-warning: #f39c12;        /* Orange */
+    --themis-error: #e74c3c;          /* Red */
+    
+    /* Extended Colors */
+    --themis-dark: #1a252f;           /* Darker variant */
+    --themis-light: #ecf0f1;          /* Light background */
+    --themis-gray: #95a5a6;           /* Gray for text */
+    
+    /* Text Colors */
+    --themis-text-primary: #2c3e50;   /* Main text */
+    --themis-text-secondary: #7f8c8d; /* Secondary text */
+    
+    /* Backwards compatibility */
+    --themisdb-primary: var(--themis-primary);
+    --themisdb-secondary: var(--themis-secondary);
+    --themisdb-success: var(--themis-success);
+    --themisdb-warning: var(--themis-warning);
+    --themisdb-danger: var(--themis-error);
+    
+    /* UI Elements */
     --themisdb-light-bg: #f6f8fa;
     --themisdb-white: #ffffff;
-    --themisdb-text-primary: #24292f;
-    --themisdb-text-secondary: #57606a;
+    --themisdb-text-primary: var(--themis-text-primary);
+    --themisdb-text-secondary: var(--themis-text-secondary);
     --themisdb-border: #d0d7de;
     --themisdb-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     --themisdb-shadow-hover: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);

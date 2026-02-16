@@ -1,14 +1,31 @@
 /* Global Styles and CSS Variables */
+/* Themis Brand Colors - Official Color Palette */
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --success-color: #27ae60;
-    --warning-color: #f39c12;
-    --danger-color: #e74c3c;
-    --light-bg: #ecf0f1;
+    /* Primary Themis Colors */
+    --themis-primary: #2c3e50;        /* Dark Blue-Gray */
+    --themis-secondary: #3498db;      /* Light Blue */
+    --themis-accent: #7c4dff;         /* Purple */
+    --themis-success: #27ae60;        /* Green */
+    --themis-warning: #f39c12;        /* Orange */
+    --themis-error: #e74c3c;          /* Red */
+    
+    /* Extended Colors */
+    --themis-dark: #1a252f;
+    --themis-light: #ecf0f1;
+    --themis-gray: #95a5a6;
+    --themis-text-primary: #2c3e50;
+    --themis-text-secondary: #7f8c8d;
+    
+    /* Backwards compatibility aliases */
+    --primary-color: var(--themis-primary);
+    --secondary-color: var(--themis-secondary);
+    --success-color: var(--themis-success);
+    --warning-color: var(--themis-warning);
+    --danger-color: var(--themis-error);
+    --light-bg: var(--themis-light);
     --white: #ffffff;
-    --text-primary: #2c3e50;
-    --text-secondary: #7f8c8d;
+    --text-primary: var(--themis-text-primary);
+    --text-secondary: var(--themis-text-secondary);
     --border-color: #bdc3c7;
     --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
