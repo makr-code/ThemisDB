@@ -43,7 +43,7 @@ ThemisDB's MCP (Model Context Protocol) integration has been **upgraded from min
 | `create_index` | ✅ Production | Create indexes (6 types) |
 | `drop_index` | ✅ Production | Drop any index type |
 | `list_indexes` | ✅ Production | List all indexes with stats |
-| `query` | ⚠️ Limited | KV operations only (requires query engine) |
+| `query` | ✅ Production | AQL queries (full support), SQL/Cypher pending |
 
 ### Index Types Supported
 
@@ -55,6 +55,25 @@ ThemisDB's MCP (Model Context Protocol) integration has been **upgraded from min
 | **Geo** | ✅ Production | Location-based queries (bounding box/radius) |
 | **Fulltext** | ✅ Production | Text search with BM25, phrase, fuzzy matching |
 | **TTL** | ✅ Production | Time-to-live with automatic expiration |
+
+### Query Language Support
+
+| Language | Status | Features |
+|----------|--------|----------|
+| **AQL** | ✅ Production | Multi-model queries (relational, graph, vector, geo, fulltext, LLM) |
+| **SQL** | ⚠️ Pending | Requires SQL parser integration |
+| **Cypher** | ⚠️ Pending | Requires Cypher parser integration |
+
+**AQL Capabilities:**
+- FOR loops over collections
+- FILTER conditions with complex expressions
+- SORT and LIMIT for result control
+- COLLECT for aggregation
+- Graph traversals (OUTBOUND, INBOUND, ANY)
+- Vector similarity searches
+- Geo-spatial queries
+- Fulltext search
+- LLM inference and RAG operations
 
 ---
 
@@ -121,6 +140,50 @@ Client Options:
 - Index statistics
 - Database capabilities
 
+### 5. AQL Query Engine Integration
+
+**Execute AQL Query:**
+```javascript
+{
+  "method": "tools/call",
+  "params": {
+    "name": "query",
+    "arguments": {
+      "query": "FOR user IN users FILTER user.age > 18 SORT user.name ASC RETURN user",
+      "language": "aql"
+    }
+  }
+}
+```
+
+**Automatic Language Detection:**
+```javascript
+{
+  "method": "tools/call",
+  "params": {
+    "name": "query",
+    "arguments": {
+      "query": "FOR doc IN products FILTER doc.price > 100 RETURN doc",
+      "language": "auto"  // Automatically detects AQL
+    }
+  }
+}
+```
+
+**Complex AQL with Aggregation:**
+```javascript
+{
+  "method": "tools/call",
+  "params": {
+    "name": "query",
+    "arguments": {
+      "query": "FOR order IN orders COLLECT city = order.city AGGREGATE total = SUM(order.amount) RETURN {city, total}",
+      "language": "aql"
+    }
+  }
+}
+```
+
 ---
 
 ## 📈 Performance Characteristics
@@ -151,7 +214,7 @@ Client Options:
 
 ### Integration Tests (test_mcp_integration.cpp)
 
-**22 Comprehensive Tests:**
+**28 Comprehensive Tests:**
 
 1. **Server Tests (2)**
    - Server initialization
@@ -175,15 +238,23 @@ Client Options:
    - Unsupported type error
    - Index statistics
 
-4. **Schema & Stats (2)**
+4. **Query Tool (6) - NEW**
+   - Simple AQL execution
+   - AQL with FILTER clause
+   - Automatic language detection
+   - Unsupported language error handling
+   - Invalid AQL syntax error handling
+   - Query result verification
+
+5. **Schema & Stats (2)**
    - Get schema
    - Get statistics
 
-5. **Resources (2)**
+6. **Resources (2)**
    - Resources list
    - Resources read
 
-6. **Error Handling (3)**
+7. **Error Handling (3)**
    - Invalid method
    - Missing method
    - Tool not found
@@ -327,13 +398,12 @@ Client Options:
 
 ## 🔄 What's NOT Implemented (Future Work)
 
-### Query Engine Integration (Requires Query Engine)
-- ❌ Full Cypher query execution
-- ❌ SQL query execution via PostgreSQL Wire
-- ❌ Query plan visualization
-- ❌ Streaming query results
+### Query Language Extensions
+- ❌ SQL query execution (requires SQL parser)
+- ❌ Cypher query execution (requires Cypher parser)
+- ✅ **AQL query execution (IMPLEMENTED)**
 
-**Reason:** Query tool enhancement requires full query engine integration, which is outside the scope of MCP integration.
+**Note:** AQL provides comprehensive multi-model query capabilities including relational, graph, vector, geo-spatial, and fulltext queries. SQL and Cypher support can be added in future releases.
 
 ### Platform Support
 - ❌ Windows stdio (currently warns, doesn't crash)
@@ -356,7 +426,8 @@ Client Options:
 - [x] Statistics collection functional
 - [x] Error handling comprehensive
 - [x] Input validation complete
-- [x] Integration tests passing (22 tests)
+- [x] Integration tests passing (28 tests)
+- [x] AQL query engine integrated
 - [x] Documentation updated
 - [x] Performance characteristics documented
 - [x] Security considerations documented
