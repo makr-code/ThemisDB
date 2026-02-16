@@ -1,0 +1,28 @@
+# Configuration for Standalone Moral Dialectic Engine
+
+database:
+  path: "moral_debates.db"
+
+ollama:
+  base_url: "http://localhost:11434"
+  model: "llama3.2"
+  temperature: 0.7
+  max_tokens: 800
+
+debate:
+  default_philosophies:
+    - kant
+    - utilitarianism
+    - virtue_ethics
+    - socratic
+    - stoicism
+  default_dimensions:
+    - moral
+    - ethical
+    - social
+    - political
+  rounds: 2
+
+export:
+  format: "markdown"
+  include_metadata: true
