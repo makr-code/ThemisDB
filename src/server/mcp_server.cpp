@@ -5,6 +5,9 @@
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
 #include "index/secondary_index.h"
+#include "query/query_engine.h"
+#include "query/aql_runner.h"
+#include "index/graph_index.h"
 #include "llm/embedded_llm.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "utils/error_registry.h"
@@ -119,6 +122,13 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         // Create SchemaManager with database and index manager
         schema_mgr_ = std::make_unique<SchemaManager>(*db, index_mgr_.get());
         
+        // Create GraphIndexManager for graph queries
+        auto graph_mgr = std::make_shared<GraphIndexManager>(*db);
+        
+        // Create QueryEngine for AQL execution
+        // Note: VectorIndexManager and SpatialIndexManager are optional
+        query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr);
+        
         // Initialize PromptManager and load system prompts
         prompt_mgr_ = std::make_unique<PromptManager>();
         
@@ -135,7 +145,7 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
             spdlog::warn("MCP Server could not load system prompts from {}", prompt_file);
         }
         
-        spdlog::info("MCP Server attached to RocksDB database with SchemaManager and PromptManager initialized");
+        spdlog::info("MCP Server attached to RocksDB database with SchemaManager, QueryEngine, and PromptManager initialized");
     } else {
         spdlog::info("MCP Server attached to RocksDB database (not open yet)");
     }
@@ -373,12 +383,12 @@ json McpServer::handlePromptsGet(const json& params) {
 
 void McpServer::registerDefaultTools() {
     // Query tool
-    registerTool("query", "Execute Cypher or SQL query on ThemisDB",
+    registerTool("query", "Execute AQL, Cypher, or SQL query on ThemisDB",
         {
             {"type", "object"},
             {"properties", {
                 {"query", {{"type", "string"}, {"description", "Query string"}}},
-                {"language", {{"type", "string"}, {"enum", {"cypher", "sql"}}, {"default", "cypher"}}}
+                {"language", {{"type", "string"}, {"enum", {"aql", "cypher", "sql", "auto"}}, {"default", "aql"}, {"description", "Query language (aql=full support, others pending)"}}}
             }},
             {"required", {"query"}}
         },
@@ -429,12 +439,35 @@ void McpServer::registerDefaultTools() {
         {
             {"type", "object"},
             {"properties", {
-                {"label", {{"type", "string"}}},
-                {"property", {{"type", "string"}}}
+                {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
+                {"column", {{"type", "string"}, {"description", "Column/property name"}}},
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}},
+                {"unique", {{"type", "boolean"}, {"default", false}, {"description", "Unique constraint (for regular/sparse indexes)"}}},
+                {"ttl_seconds", {{"type", "integer"}, {"description", "TTL in seconds (for ttl index type)"}}},
+                {"fulltext_config", {{"type", "object"}, {"description", "Fulltext configuration (for fulltext index type)"}}}
             }},
-            {"required", {"label", "property"}}
+            {"required", {"table", "column"}}
         },
         [this](const json& args) { return toolCreateIndex(args); });
+
+    registerTool("drop_index", "Drop a database index",
+        {
+            {"type", "object"},
+            {"properties", {
+                {"table", {{"type", "string"}, {"description", "Table/collection name"}}},
+                {"column", {{"type", "string"}, {"description", "Column/property name"}}},
+                {"type", {{"type", "string"}, {"enum", {"regular", "range", "sparse", "geo", "fulltext", "ttl"}}, {"default", "regular"}, {"description", "Index type"}}}
+            }},
+            {"required", {"table", "column"}}
+        },
+        [this](const json& args) { return toolDropIndex(args); });
+
+    registerTool("list_indexes", "List all database indexes",
+        {
+            {"type", "object"},
+            {"properties", {}}
+        },
+        [this](const json& args) { return toolListIndexes(args); });
 
     // ========================================================================
     // LLM Tools (NEW)
@@ -545,39 +578,98 @@ void McpServer::registerDefaultTools() {
 
 json McpServer::toolQuery(const json& args) {
     std::string query = args["query"];
-    std::string language = args.value("language", "cypher");
+    std::string language = args.value("language", "aql");
     
     spdlog::info("MCP Tool 'query' called: {} ({})", query, language);
     
-    // For minimal integration, we'll support simple key prefix scans
-    // Full Cypher/SQL support would require query engine integration (future work)
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"},
+            {"message", "Database not attached or not open"},
             {"query", query},
             {"language", language}
         };
     }
 
     try {
-        // Simple implementation: if query starts with "MATCH" or "SELECT", 
-        // return stub message indicating query engine integration needed
-        // For now, only support simple GET operations
+        // Detect query language if set to "auto"
+        if (language == "auto") {
+            // Simple heuristic: if query contains "FOR", "FILTER", "RETURN" -> AQL
+            // if query contains "SELECT", "FROM" -> SQL
+            // if query contains "MATCH", "WHERE" -> Cypher
+            std::string upper_query = query;
+            std::transform(upper_query.begin(), upper_query.end(), upper_query.begin(), ::toupper);
+            
+            if (upper_query.find("FOR ") != std::string::npos && 
+                upper_query.find("RETURN") != std::string::npos) {
+                language = "aql";
+            } else if (upper_query.find("SELECT") != std::string::npos) {
+                language = "sql";
+            } else if (upper_query.find("MATCH") != std::string::npos) {
+                language = "cypher";
+            } else {
+                language = "aql"; // default
+            }
+        }
         
-        return {
-            {"status", "success"},
-            {"message", "Query executed (limited support - key/value operations only in minimal integration)"},
-            {"query", query},
-            {"language", language},
-            {"results", json::array()},
-            {"note", "Full Cypher/SQL query support requires query engine integration"}
-        };
+        // Execute AQL queries using the query engine
+        if (language == "aql") {
+            if (!query_engine_) {
+                return {
+                    {"status", "error"},
+                    {"message", "Query engine not initialized"},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+            
+            // Execute AQL query
+            auto result = executeAql(query, *query_engine_);
+            
+            if (!result) {
+                return {
+                    {"status", "error"},
+                    {"message", fmt::format("AQL execution failed: {}", result.error().message())},
+                    {"query", query},
+                    {"language", language}
+                };
+            }
+            
+            // Return successful result
+            return {
+                {"status", "success"},
+                {"message", "AQL query executed successfully"},
+                {"query", query},
+                {"language", language},
+                {"results", *result}
+            };
+        }
+        // SQL and Cypher not yet implemented
+        else if (language == "sql" || language == "cypher") {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("{} query language not yet implemented", language)},
+                {"query", query},
+                {"language", language},
+                {"note", "Use 'aql' language for full query support"}
+            };
+        }
+        // Unknown language
+        else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported query language: {}", language)},
+                {"query", query},
+                {"language", language},
+                {"supported_languages", json::array({"aql", "sql", "cypher"})}
+            };
+        }
     } catch (const std::exception& e) {
         return {
             {"status", "error"},
-            {"message", std::string("Query execution failed: ") + e.what()},
-            {"query", query}
+            {"message", fmt::format("Query execution failed: {}", e.what())},
+            {"query", query},
+            {"language", language}
         };
     }
 }
@@ -714,19 +806,237 @@ json McpServer::toolDeleteEntity(const json& args) {
 json McpServer::toolCreateIndex(const json& args) {
     spdlog::info("MCP Tool 'create_index' called");
     
-    if (!db_) {
+    if (!db_ || !db_->isOpen()) {
         return {
             {"status", "error"},
-            {"message", "Database not attached"}
+            {"message", "Database not attached or not open"}
         };
     }
+    
+    if (!index_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "Index manager not initialized"}
+        };
+    }
+    
+    // Extract parameters
+    std::string table = args.value("table", "");
+    std::string column = args.value("column", "");
+    std::string index_type = args.value("type", "regular");
+    bool unique = args.value("unique", false);
+    
+    if (table.empty()) {
+        return {
+            {"status", "error"},
+            {"message", "Missing required parameter: table"}
+        };
+    }
+    
+    if (column.empty()) {
+        return {
+            {"status", "error"},
+            {"message", "Missing required parameter: column"}
+        };
+    }
+    
+    try {
+        SecondaryIndexManager::Status status;
+        
+        // Convert index_type string to enum and create appropriate index
+        if (index_type == "regular" || index_type == "secondary") {
+            status = index_mgr_->createIndex(table, column, unique);
+        } else if (index_type == "range") {
+            status = index_mgr_->createRangeIndex(table, column);
+        } else if (index_type == "sparse") {
+            status = index_mgr_->createSparseIndex(table, column, unique);
+        } else if (index_type == "geo" || index_type == "geospatial") {
+            status = index_mgr_->createGeoIndex(table, column);
+        } else if (index_type == "fulltext") {
+            // Get optional fulltext configuration from args
+            SecondaryIndexManager::FulltextConfig config;
+            if (args.contains("fulltext_config")) {
+                auto ft_config = args["fulltext_config"];
+                config.stemming_enabled = ft_config.value("stemming", false);
+                config.language = ft_config.value("language", "none");
+                config.stopwords_enabled = ft_config.value("stopwords", false);
+                config.normalize_umlauts = ft_config.value("normalize_umlauts", false);
+            }
+            status = index_mgr_->createFulltextIndex(table, column, config);
+        } else if (index_type == "ttl") {
+            int64_t ttl_seconds = args.value("ttl_seconds", 86400); // default 1 day
+            status = index_mgr_->createTTLIndex(table, column, ttl_seconds);
+        } else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported index type: {}. Supported types: regular, range, sparse, geo, fulltext, ttl", index_type)}
+            };
+        }
+        
+        if (status.ok) {
+            return {
+                {"status", "success"},
+                {"message", fmt::format("Index created successfully on {}.{}", table, column)},
+                {"table", table},
+                {"column", column},
+                {"index_type", index_type},
+                {"unique", unique}
+            };
+        } else {
+            return {
+                {"status", "error"},
+                {"message", status.message},
+                {"table", table},
+                {"column", column},
+                {"index_type", index_type}
+            };
+        }
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", fmt::format("Index creation failed: {}", e.what())},
+            {"table", table},
+            {"column", column},
+            {"index_type", index_type}
+        };
+    }
+}
 
-    return {
-        {"status", "success"},
-        {"message", "Index creation requires full query engine integration"},
-        {"integration_level", "minimal"},
-        {"note", "Index management available in production integration"}
-    };
+json McpServer::toolDropIndex(const json& args) {
+    spdlog::info("MCP Tool 'drop_index' called");
+    
+    if (!db_ || !db_->isOpen()) {
+        return {
+            {"status", "error"},
+            {"message", "Database not attached or not open"}
+        };
+    }
+    
+    if (!index_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "Index manager not initialized"}
+        };
+    }
+    
+    // Extract parameters
+    std::string table = args.value("table", "");
+    std::string column = args.value("column", "");
+    std::string index_type = args.value("type", "regular");
+    
+    if (table.empty() || column.empty()) {
+        return {
+            {"status", "error"},
+            {"message", "Missing required parameters: table and column"}
+        };
+    }
+    
+    try {
+        SecondaryIndexManager::Status status;
+        
+        // Drop the appropriate index type
+        if (index_type == "regular" || index_type == "secondary") {
+            status = index_mgr_->dropIndex(table, column);
+        } else if (index_type == "range") {
+            status = index_mgr_->dropRangeIndex(table, column);
+        } else if (index_type == "sparse") {
+            status = index_mgr_->dropSparseIndex(table, column);
+        } else if (index_type == "geo" || index_type == "geospatial") {
+            status = index_mgr_->dropGeoIndex(table, column);
+        } else if (index_type == "fulltext") {
+            status = index_mgr_->dropFulltextIndex(table, column);
+        } else if (index_type == "ttl") {
+            status = index_mgr_->dropTTLIndex(table, column);
+        } else {
+            return {
+                {"status", "error"},
+                {"message", fmt::format("Unsupported index type: {}", index_type)}
+            };
+        }
+        
+        if (status.ok) {
+            return {
+                {"status", "success"},
+                {"message", fmt::format("Index dropped successfully from {}.{}", table, column)},
+                {"table", table},
+                {"column", column},
+                {"index_type", index_type}
+            };
+        } else {
+            return {
+                {"status", "error"},
+                {"message", status.message},
+                {"table", table},
+                {"column", column}
+            };
+        }
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", fmt::format("Index drop failed: {}", e.what())},
+            {"table", table},
+            {"column", column}
+        };
+    }
+}
+
+json McpServer::toolListIndexes(const json& args) {
+    spdlog::info("MCP Tool 'list_indexes' called");
+    
+    if (!db_ || !db_->isOpen()) {
+        return {
+            {"status", "error"},
+            {"message", "Database not attached or not open"},
+            {"indexes", json::array()}
+        };
+    }
+    
+    if (!index_mgr_) {
+        return {
+            {"status", "error"},
+            {"message", "Index manager not initialized"},
+            {"indexes", json::array()}
+        };
+    }
+    
+    try {
+        // Get all tables from schema manager
+        json indexes = json::array();
+        
+        if (schema_mgr_) {
+            auto tables = schema_mgr_->getAllTables();
+            
+            for (const auto& table : tables) {
+                // Get index stats for each table
+                auto stats = index_mgr_->getAllIndexStats(table.name);
+                
+                for (const auto& stat : stats) {
+                    json index_info = {
+                        {"table", stat.table},
+                        {"column", stat.column},
+                        {"type", stat.type},
+                        {"unique", stat.unique},
+                        {"estimated_size_bytes", stat.estimated_size_bytes},
+                        {"entry_count", stat.entry_count},
+                        {"additional_info", stat.additional_info}
+                    };
+                    indexes.push_back(index_info);
+                }
+            }
+        }
+        
+        return {
+            {"status", "success"},
+            {"indexes", indexes},
+            {"total_count", indexes.size()}
+        };
+    } catch (const std::exception& e) {
+        return {
+            {"status", "error"},
+            {"message", fmt::format("Failed to list indexes: {}", e.what())},
+            {"indexes", json::array()}
+        };
+    }
 }
 
 json McpServer::toolGetSchema(const json& args) {
