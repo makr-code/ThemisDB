@@ -9,10 +9,13 @@ Features:
 - User can contribute moral considerations
 - Philosophers respond to user messages
 - Persistent storage via SQLite
+- Export debates to markdown
+- Load previous debates
+- Create new debates
 """
 
 import tkinter as tk
-from tkinter import ttk, scrolledtext, messagebox
+from tkinter import ttk, scrolledtext, messagebox, filedialog
 from datetime import datetime
 import threading
 import uuid
@@ -84,7 +87,7 @@ class MoralDialecticGUI:
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
         main_frame.columnconfigure(0, weight=1)
-        main_frame.rowconfigure(2, weight=1)
+        main_frame.rowconfigure(3, weight=1)  # Chat display area should expand
         
         # ===== Top Section: Topic/URL Input =====
         topic_frame = ttk.LabelFrame(main_frame, text="Debate Topic", padding="10")
@@ -104,9 +107,23 @@ class MoralDialecticGUI:
         self.start_button = ttk.Button(topic_frame, text="Start Debate", command=self._start_debate)
         self.start_button.grid(row=0, column=2, rowspan=2, padx=(5, 0))
         
+        # ===== Toolbar with Action Buttons =====
+        toolbar_frame = ttk.Frame(main_frame, padding="5")
+        toolbar_frame.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
+        
+        self.new_button = ttk.Button(toolbar_frame, text="New Debate", command=self._new_debate)
+        self.new_button.pack(side=tk.LEFT, padx=5)
+        
+        self.load_button = ttk.Button(toolbar_frame, text="Load Previous", command=self._load_debate)
+        self.load_button.pack(side=tk.LEFT, padx=5)
+        
+        self.export_button = ttk.Button(toolbar_frame, text="Export to Markdown", command=self._export_debate)
+        self.export_button.pack(side=tk.LEFT, padx=5)
+        self.export_button.config(state=tk.DISABLED)
+        
         # ===== Philosophy Selection =====
         phil_frame = ttk.LabelFrame(main_frame, text="Select Philosophers", padding="10")
-        phil_frame.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
+        phil_frame.grid(row=2, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         
         self.philosophy_vars = {}
         col = 0
@@ -121,7 +138,7 @@ class MoralDialecticGUI:
         
         # ===== Chat Display Area =====
         chat_frame = ttk.LabelFrame(main_frame, text="Debate Chat", padding="10")
-        chat_frame.grid(row=2, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
+        chat_frame.grid(row=3, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), pady=(0, 10))
         chat_frame.columnconfigure(0, weight=1)
         chat_frame.rowconfigure(0, weight=1)
         
@@ -142,7 +159,7 @@ class MoralDialecticGUI:
         
         # ===== User Input Area =====
         input_frame = ttk.LabelFrame(main_frame, text="Your Moral Consideration", padding="10")
-        input_frame.grid(row=3, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
+        input_frame.grid(row=4, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         input_frame.columnconfigure(0, weight=1)
         
         self.user_input = tk.Text(input_frame, wrap=tk.WORD, width=80, height=3, font=("Arial", 10))
@@ -157,7 +174,7 @@ class MoralDialecticGUI:
         
         # ===== Status Bar =====
         status_frame = ttk.Frame(main_frame)
-        status_frame.grid(row=4, column=0, sticky=(tk.W, tk.E))
+        status_frame.grid(row=5, column=0, sticky=(tk.W, tk.E))
         
         self.status_label = ttk.Label(status_frame, text="Ready", relief=tk.SUNKEN)
         self.status_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
@@ -336,6 +353,7 @@ Press Ctrl+Enter to send your message.
             # Enable user interaction
             self.debate_active = True
             self.root.after(0, lambda: self.send_button.config(state=tk.NORMAL))
+            self.root.after(0, lambda: self.export_button.config(state=tk.NORMAL))
             
             self._add_system_message(f"\n{'='*80}")
             self._add_system_message("Debate completed! You can now add your moral considerations.")
@@ -454,6 +472,178 @@ Keep your response under 150 words."""
             self.root.after(0, lambda: messagebox.showerror("Error", error_msg))
             self.root.after(0, lambda: self.send_button.config(state=tk.NORMAL))
             self.root.after(0, lambda: self.user_input.config(state=tk.NORMAL))
+    
+    def _new_debate(self):
+        """Start a new debate, clearing the current session."""
+        if self.debate_active and self.current_session and len(self.current_session.messages) > 0:
+            response = messagebox.askyesno(
+                "New Debate",
+                "Starting a new debate will clear the current conversation. Continue?"
+            )
+            if not response:
+                return
+        
+        # Clear chat display
+        self.chat_display.config(state=tk.NORMAL)
+        self.chat_display.delete("1.0", tk.END)
+        self.chat_display.config(state=tk.DISABLED)
+        
+        # Reset session
+        self.current_session = None
+        self.debate_active = False
+        
+        # Reset UI state
+        self.send_button.config(state=tk.DISABLED)
+        self.export_button.config(state=tk.DISABLED)
+        self.start_button.config(state=tk.NORMAL)
+        self.user_input.config(state=tk.NORMAL)
+        self.user_input.delete("1.0", tk.END)
+        
+        # Show welcome message
+        self._show_welcome_message()
+        self._update_status("Ready for new debate")
+    
+    def _load_debate(self):
+        """Load a previous debate from the database."""
+        # Get list of debates
+        debates = self.db_store.list_debates(limit=20)
+        
+        if not debates:
+            messagebox.showinfo("No Debates", "No previous debates found in database.")
+            return
+        
+        # Create dialog to select debate
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Load Previous Debate")
+        dialog.geometry("600x400")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Add listbox with debates
+        list_frame = ttk.Frame(dialog, padding="10")
+        list_frame.pack(fill=tk.BOTH, expand=True)
+        
+        ttk.Label(list_frame, text="Select a debate to load:").pack(anchor=tk.W, pady=(0, 5))
+        
+        # Create listbox with scrollbar
+        list_scroll = ttk.Scrollbar(list_frame)
+        list_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        debate_listbox = tk.Listbox(list_frame, yscrollcommand=list_scroll.set, font=("Arial", 10))
+        debate_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        list_scroll.config(command=debate_listbox.yview)
+        
+        # Populate listbox
+        for debate in debates:
+            created = datetime.fromisoformat(debate['created_at']).strftime("%Y-%m-%d %H:%M")
+            display_text = f"[{created}] {debate['topic']} - {debate['ethical_question'][:50]}..."
+            debate_listbox.insert(tk.END, display_text)
+        
+        # Store debate IDs for reference
+        debate_ids = [d['id'] for d in debates]
+        
+        # Button frame
+        btn_frame = ttk.Frame(dialog, padding="10")
+        btn_frame.pack(fill=tk.X)
+        
+        def load_selected():
+            selection = debate_listbox.curselection()
+            if not selection:
+                messagebox.showwarning("No Selection", "Please select a debate to load.")
+                return
+            
+            debate_id = debate_ids[selection[0]]
+            dialog.destroy()
+            self._load_debate_by_id(debate_id)
+        
+        ttk.Button(btn_frame, text="Load", command=load_selected).pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Cancel", command=dialog.destroy).pack(side=tk.LEFT, padx=5)
+        
+        # Center dialog on parent
+        dialog.update_idletasks()
+        x = self.root.winfo_x() + (self.root.winfo_width() - dialog.winfo_width()) // 2
+        y = self.root.winfo_y() + (self.root.winfo_height() - dialog.winfo_height()) // 2
+        dialog.geometry(f"+{x}+{y}")
+    
+    def _load_debate_by_id(self, debate_id: str):
+        """Load a specific debate by ID.
+        
+        Args:
+            debate_id: The ID of the debate to load
+        """
+        session = self.db_store.load_debate(debate_id)
+        
+        if not session:
+            messagebox.showerror("Load Error", f"Could not load debate {debate_id}")
+            return
+        
+        # Clear current display
+        self.chat_display.config(state=tk.NORMAL)
+        self.chat_display.delete("1.0", tk.END)
+        self.chat_display.config(state=tk.DISABLED)
+        
+        # Load session
+        self.current_session = session
+        self.debate_active = True
+        
+        # Display debate info
+        self._add_system_message(f"\n{'='*80}")
+        self._add_system_message(f"LOADED DEBATE")
+        self._add_system_message(f"Topic: {session.topic}")
+        self._add_system_message(f"Question: {session.ethical_question}")
+        self._add_system_message(f"Created: {session.created_at.strftime('%Y-%m-%d %H:%M:%S')}")
+        self._add_system_message(f"ID: {session.id}")
+        self._add_system_message(f"{'='*80}\n")
+        
+        # Display all messages
+        for message in session.messages:
+            self._add_chat_message(message)
+        
+        # Update UI state
+        self.send_button.config(state=tk.NORMAL)
+        self.export_button.config(state=tk.NORMAL)
+        self.start_button.config(state=tk.DISABLED)
+        
+        # Update topic and question fields
+        self.topic_entry.delete(0, tk.END)
+        self.topic_entry.insert(0, session.topic)
+        self.question_entry.delete(0, tk.END)
+        self.question_entry.insert(0, session.ethical_question)
+        
+        self._update_status(f"Loaded debate: {session.id} - {len(session.messages)} messages")
+    
+    def _export_debate(self):
+        """Export current debate to markdown file."""
+        if not self.current_session:
+            messagebox.showwarning("No Debate", "No debate to export. Start a debate first.")
+            return
+        
+        # Ask for filename
+        filename = filedialog.asksaveasfilename(
+            defaultextension=".md",
+            filetypes=[("Markdown files", "*.md"), ("All files", "*.*")],
+            initialfile=f"debate_{self.current_session.id}.md",
+            title="Export Debate to Markdown"
+        )
+        
+        if not filename:
+            return  # User cancelled
+        
+        try:
+            # Generate markdown
+            markdown = self.engine.export_debate_markdown(self.current_session)
+            
+            # Write to file
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(markdown)
+            
+            messagebox.showinfo("Export Successful", f"Debate exported to:\n{filename}")
+            self._update_status(f"Exported to {filename}")
+            
+        except Exception as e:
+            error_msg = f"Error exporting debate: {str(e)}"
+            messagebox.showerror("Export Error", error_msg)
+            self._update_status("Export failed")
     
     def _update_status(self, text: str):
         """Update status bar.
