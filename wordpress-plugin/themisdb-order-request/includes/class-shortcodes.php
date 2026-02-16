@@ -502,6 +502,19 @@ class ThemisDB_Order_Shortcodes {
         $step = isset($_POST['step']) ? intval($_POST['step']) : 0;
         $data = isset($_POST['data']) ? $_POST['data'] : array();
         
+        // Sanitize the data array
+        $sanitized_data = array();
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                // Sanitize array values (for modules and training_modules)
+                $sanitized_data[$key] = array_map('sanitize_text_field', $value);
+            } else {
+                // Sanitize scalar values
+                $sanitized_data[$key] = sanitize_text_field($value);
+            }
+        }
+        $data = $sanitized_data;
+        
         // Start session if not started
         if (!session_id()) {
             session_start();
@@ -551,8 +564,8 @@ class ThemisDB_Order_Shortcodes {
         check_ajax_referer('themisdb_order_nonce', 'nonce');
         
         $product_edition = isset($_POST['product_edition']) ? sanitize_text_field($_POST['product_edition']) : '';
-        $modules = isset($_POST['modules']) ? $_POST['modules'] : array();
-        $training_modules = isset($_POST['training_modules']) ? $_POST['training_modules'] : array();
+        $modules = isset($_POST['modules']) && is_array($_POST['modules']) ? array_map('sanitize_text_field', $_POST['modules']) : array();
+        $training_modules = isset($_POST['training_modules']) && is_array($_POST['training_modules']) ? array_map('sanitize_text_field', $_POST['training_modules']) : array();
         
         $total = ThemisDB_Order_Manager::calculate_total($product_edition, $modules, $training_modules);
         
