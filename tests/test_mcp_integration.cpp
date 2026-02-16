@@ -158,8 +158,10 @@ TEST_F(MCPIntegrationTest, EntityPutAndGet) {
         }}
     });
     
-    EXPECT_EQ(put_result["result"]["content"][0]["text"].get<std::string>().find("\"status\":\"success\""), 
-              std::string::npos) == false;
+    // Verify put was successful
+    std::string put_text = put_result["result"]["content"][0]["text"];
+    EXPECT_NE(put_text.find("\"status\":\"success\""), std::string::npos) 
+        << "Put operation should return success status";
     
     // Get the entity
     json get_result = callTool("get_entity", {
@@ -359,7 +361,10 @@ TEST_F(MCPIntegrationTest, CreateIndexMissingParameters) {
     json parsed = json::parse(result_text);
     
     EXPECT_EQ(parsed["status"], "error");
-    EXPECT_TRUE(parsed["message"].get<std::string>().find("Missing") != std::string::npos);
+    EXPECT_NE(parsed["message"].get<std::string>().find("Missing"), std::string::npos)
+        << "Error message should indicate missing parameter";
+    EXPECT_NE(parsed["message"].get<std::string>().find("column"), std::string::npos)
+        << "Error message should specify that 'column' parameter is missing";
 }
 
 TEST_F(MCPIntegrationTest, CreateIndexUnsupportedType) {
@@ -373,7 +378,10 @@ TEST_F(MCPIntegrationTest, CreateIndexUnsupportedType) {
     json parsed = json::parse(result_text);
     
     EXPECT_EQ(parsed["status"], "error");
-    EXPECT_TRUE(parsed["message"].get<std::string>().find("Unsupported") != std::string::npos);
+    EXPECT_NE(parsed["message"].get<std::string>().find("Unsupported"), std::string::npos)
+        << "Error message should indicate unsupported index type";
+    EXPECT_NE(parsed["message"].get<std::string>().find("invalid_type"), std::string::npos)
+        << "Error message should specify which type was invalid";
 }
 
 // ============================================================================
