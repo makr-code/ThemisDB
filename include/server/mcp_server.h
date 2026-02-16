@@ -129,6 +129,8 @@ private:
     json toolGetEntity(const json& args);
     json toolDeleteEntity(const json& args);
     json toolCreateIndex(const json& args);
+    json toolDropIndex(const json& args);
+    json toolListIndexes(const json& args);
     json toolGetSchema(const json& args);
     json toolGetStats(const json& args);
 
