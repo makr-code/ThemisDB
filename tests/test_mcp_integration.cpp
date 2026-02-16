@@ -385,6 +385,119 @@ TEST_F(MCPIntegrationTest, CreateIndexUnsupportedType) {
 }
 
 // ============================================================================
+// Query Tool Tests (AQL Integration)
+// ============================================================================
+
+TEST_F(MCPIntegrationTest, QueryToolAQLSimple) {
+    // First, put some test data
+    callTool("put_entity", {
+        {"key", "users:1"},
+        {"value", {
+            {"name", "Alice"},
+            {"age", 30},
+            {"city", "Berlin"}
+        }}
+    });
+    
+    callTool("put_entity", {
+        {"key", "users:2"},
+        {"value", {
+            {"name", "Bob"},
+            {"age", 25},
+            {"city", "Munich"}
+        }}
+    });
+    
+    // Execute simple AQL query
+    json result = callTool("query", {
+        {"query", "FOR user IN users RETURN user"},
+        {"language", "aql"}
+    });
+    
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+    
+    EXPECT_EQ(parsed["status"], "success");
+    EXPECT_EQ(parsed["language"], "aql");
+    EXPECT_TRUE(parsed.contains("results"));
+}
+
+TEST_F(MCPIntegrationTest, QueryToolAQLWithFilter) {
+    // Put test data
+    callTool("put_entity", {
+        {"key", "products:1"},
+        {"value", {
+            {"name", "Laptop"},
+            {"price", 1200.0},
+            {"category", "electronics"}
+        }}
+    });
+    
+    callTool("put_entity", {
+        {"key", "products:2"},
+        {"value", {
+            {"name", "Book"},
+            {"price", 15.0},
+            {"category", "books"}
+        }}
+    });
+    
+    // Execute AQL query with filter
+    json result = callTool("query", {
+        {"query", "FOR product IN products FILTER product.price > 100 RETURN product"},
+        {"language", "aql"}
+    });
+    
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+    
+    EXPECT_EQ(parsed["status"], "success");
+    EXPECT_EQ(parsed["language"], "aql");
+}
+
+TEST_F(MCPIntegrationTest, QueryToolAutoDetectAQL) {
+    // Test automatic language detection for AQL
+    json result = callTool("query", {
+        {"query", "FOR doc IN collection RETURN doc"},
+        {"language", "auto"}
+    });
+    
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+    
+    // Should detect as AQL and attempt execution
+    EXPECT_EQ(parsed["language"], "aql");
+}
+
+TEST_F(MCPIntegrationTest, QueryToolUnsupportedLanguage) {
+    // Test SQL (not yet implemented)
+    json result = callTool("query", {
+        {"query", "SELECT * FROM users"},
+        {"language", "sql"}
+    });
+    
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+    
+    EXPECT_EQ(parsed["status"], "error");
+    EXPECT_NE(parsed["message"].get<std::string>().find("not yet implemented"), std::string::npos);
+}
+
+TEST_F(MCPIntegrationTest, QueryToolInvalidAQL) {
+    // Test invalid AQL query
+    json result = callTool("query", {
+        {"query", "INVALID QUERY SYNTAX"},
+        {"language", "aql"}
+    });
+    
+    std::string result_text = result["result"]["content"][0]["text"];
+    json parsed = json::parse(result_text);
+    
+    EXPECT_EQ(parsed["status"], "error");
+    EXPECT_TRUE(parsed.contains("message"));
+}
+
+// ============================================================================
 // Schema Discovery Tests
 // ============================================================================
 
