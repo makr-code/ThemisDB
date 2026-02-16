@@ -76,29 +76,61 @@ class ThemisDB_Taxonomy_Admin {
      * Enqueue admin scripts
      */
     public function enqueue_admin_scripts($hook) {
-        if ($hook !== 'settings_page_themisdb-taxonomy-manager') {
-            return;
+        // Enqueue for settings page
+        if ($hook === 'settings_page_themisdb-taxonomy-manager') {
+            wp_enqueue_style(
+                'themisdb-taxonomy-admin',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/admin.css',
+                array(),
+                THEMISDB_TAXONOMY_VERSION
+            );
+            
+            wp_enqueue_script(
+                'themisdb-taxonomy-admin',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/admin.js',
+                array('jquery'),
+                THEMISDB_TAXONOMY_VERSION,
+                true
+            );
+            
+            wp_localize_script('themisdb-taxonomy-admin', 'themisdbTaxonomy', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('themisdb_taxonomy_admin')
+            ));
         }
         
-        wp_enqueue_style(
-            'themisdb-taxonomy-admin',
-            THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/admin.css',
-            array(),
-            THEMISDB_TAXONOMY_VERSION
-        );
-        
-        wp_enqueue_script(
-            'themisdb-taxonomy-admin',
-            THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/admin.js',
-            array('jquery'),
-            THEMISDB_TAXONOMY_VERSION,
-            true
-        );
-        
-        wp_localize_script('themisdb-taxonomy-admin', 'themisdbTaxonomy', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('themisdb_taxonomy_admin')
-        ));
+        // Enqueue for analytics page
+        if ($hook === 'toplevel_page_themisdb-taxonomy-analytics') {
+            wp_enqueue_style(
+                'themisdb-taxonomy-analytics',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/admin.css',
+                array(),
+                THEMISDB_TAXONOMY_VERSION
+            );
+            
+            wp_enqueue_script(
+                'themisdb-taxonomy-analytics',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/taxonomy-analytics.js',
+                array('jquery'),
+                THEMISDB_TAXONOMY_VERSION,
+                true
+            );
+            
+            wp_localize_script('themisdb-taxonomy-analytics', 'themisdbTaxonomy', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('themisdb_taxonomy_admin'),
+                'i18n' => array(
+                    'confirmCleanup' => __('Delete all unused terms? This cannot be undone.', 'themisdb-taxonomy-manager'),
+                    'confirmConsolidate' => __('Automatically merge similar categories? This cannot be undone.', 'themisdb-taxonomy-manager'),
+                    'confirmMerge' => __('Merge these categories? This cannot be undone.', 'themisdb-taxonomy-manager'),
+                    'processing' => __('Processing...', 'themisdb-taxonomy-manager'),
+                    'merging' => __('Merging...', 'themisdb-taxonomy-manager'),
+                    'cleanup' => __('Cleanup', 'themisdb-taxonomy-manager'),
+                    'autoMerge' => __('Auto Merge', 'themisdb-taxonomy-manager'),
+                    'merge' => __('Merge', 'themisdb-taxonomy-manager')
+                )
+            ));
+        }
     }
     
     /**
@@ -786,92 +818,6 @@ class ThemisDB_Taxonomy_Admin {
                 border-color: #bbf7d0;
             }
         </style>
-        
-        <script>
-        jQuery(document).ready(function($) {
-            function showResult(message, type) {
-                var $results = $('#analytics-results');
-                $results.removeClass('error success').addClass(type + ' show');
-                $results.html('<p>' + message + '</p>');
-            }
-            
-            // Cleanup unused terms
-            $('#btn-cleanup').on('click', function() {
-                var $btn = $(this);
-                if (!confirm('<?php _e('Delete all unused terms? This cannot be undone.', 'themisdb-taxonomy-manager'); ?>')) {
-                    return;
-                }
-                
-                $btn.prop('disabled', true).text('<?php _e('Processing...', 'themisdb-taxonomy-manager'); ?>');
-                
-                $.post(ajaxurl, {
-                    action: 'themisdb_cleanup_unused',
-                    nonce: themisdbTaxonomy.nonce
-                }, function(response) {
-                    if (response.success) {
-                        showResult('Deleted ' + response.data.total_deleted + ' unused terms (' + 
-                                   response.data.deleted_categories + ' categories, ' + 
-                                   response.data.deleted_tags + ' tags)', 'success');
-                        setTimeout(function() { location.reload(); }, 2000);
-                    } else {
-                        showResult('Error: ' + response.data.message, 'error');
-                        $btn.prop('disabled', false).text('<?php _e('Cleanup', 'themisdb-taxonomy-manager'); ?>');
-                    }
-                });
-            });
-            
-            // Auto consolidate
-            $('#btn-auto-consolidate').on('click', function() {
-                var $btn = $(this);
-                if (!confirm('<?php _e('Automatically merge similar categories? This cannot be undone.', 'themisdb-taxonomy-manager'); ?>')) {
-                    return;
-                }
-                
-                $btn.prop('disabled', true).text('<?php _e('Processing...', 'themisdb-taxonomy-manager'); ?>');
-                
-                $.post(ajaxurl, {
-                    action: 'themisdb_consolidate_categories',
-                    nonce: themisdbTaxonomy.nonce
-                }, function(response) {
-                    if (response.success) {
-                        showResult('Merged ' + response.data.total_merged + ' categories', 'success');
-                        setTimeout(function() { location.reload(); }, 2000);
-                    } else {
-                        showResult('Error: ' + (response.data.message || 'Unknown error'), 'error');
-                        $btn.prop('disabled', false).text('<?php _e('Auto Merge', 'themisdb-taxonomy-manager'); ?>');
-                    }
-                });
-            });
-            
-            // Individual merge
-            $('.btn-merge').on('click', function() {
-                var $btn = $(this);
-                var term1 = $btn.data('term1');
-                var term2 = $btn.data('term2');
-                
-                if (!confirm('<?php _e('Merge these categories? This cannot be undone.', 'themisdb-taxonomy-manager'); ?>')) {
-                    return;
-                }
-                
-                $btn.prop('disabled', true).text('<?php _e('Merging...', 'themisdb-taxonomy-manager'); ?>');
-                
-                $.post(ajaxurl, {
-                    action: 'themisdb_merge_terms',
-                    nonce: themisdbTaxonomy.nonce,
-                    term1_id: term1,
-                    term2_id: term2
-                }, function(response) {
-                    if (response.success) {
-                        showResult(response.data.message, 'success');
-                        $btn.closest('tr').fadeOut();
-                    } else {
-                        showResult('Error: ' + response.data.message, 'error');
-                        $btn.prop('disabled', false).text('<?php _e('Merge', 'themisdb-taxonomy-manager'); ?>');
-                    }
-                });
-            });
-        });
-        </script>
         <?php
     }
 }
