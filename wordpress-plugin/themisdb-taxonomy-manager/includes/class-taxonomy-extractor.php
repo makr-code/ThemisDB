@@ -251,6 +251,10 @@ class ThemisDB_Taxonomy_Extractor {
         $categories = array();
         $tags = array();
         
+        // Get configurable limits
+        $max_categories = get_option('themisdb_taxonomy_max_categories', 5);
+        $max_tags = get_option('themisdb_taxonomy_max_tags', 10);
+        
         foreach ($extracted_terms as $term_data) {
             $term = $term_data['term'];
             
@@ -260,14 +264,14 @@ class ThemisDB_Taxonomy_Extractor {
             }
             
             // Categories: Broader terms (2+ words, general concepts)
-            if ($this->is_broad_term($term) && count($categories) < 5) {
+            if ($this->is_broad_term($term) && count($categories) < $max_categories) {
                 // Check if exists as tag
                 if (!$this->exists_as_tag($term) && !in_array($term, $tags)) {
                     $categories[] = $term;
                 }
             }
             // Tags: Specific terms (1 word or technical terms)
-            elseif ($this->is_specific_term($term) && count($tags) < 10) {
+            elseif ($this->is_specific_term($term) && count($tags) < $max_tags) {
                 // Check if exists as category
                 if (!$this->exists_as_category($term) && !in_array($term, $categories)) {
                     $tags[] = $term;

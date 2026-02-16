@@ -20,8 +20,9 @@ if (!defined('ABSPATH')) {
 define('THEMISDB_TAXONOMY_VERSION', '1.0.0');
 define('THEMISDB_TAXONOMY_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_TAXONOMY_URL', plugin_dir_url(__FILE__));
-define('THEMISDB_TAXONOMY_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('THEMISDB_TAXONOMY_PLUGIN_URL', plugin_dir_url(__FILE__));
+// Backward compatibility aliases
+define('THEMISDB_TAXONOMY_PLUGIN_DIR', THEMISDB_TAXONOMY_DIR);
+define('THEMISDB_TAXONOMY_PLUGIN_URL', THEMISDB_TAXONOMY_URL);
 
 // Include required files
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tfidf.php';

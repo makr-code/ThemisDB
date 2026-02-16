@@ -236,9 +236,32 @@ class ThemisDB_Taxonomy_Analytics {
         $consolidated = array();
         
         foreach ($suggestions as $suggestion) {
-            // Keep the term with more posts
-            $keep_id = ($suggestion['id1'] <= $suggestion['id2']) ? $suggestion['id1'] : $suggestion['id2'];
-            $merge_id = ($suggestion['id1'] <= $suggestion['id2']) ? $suggestion['id2'] : $suggestion['id1'];
+            // Get the actual term objects to check post counts
+            $term1 = get_term($suggestion['id1'], 'category');
+            $term2 = get_term($suggestion['id2'], 'category');
+            
+            if (is_wp_error($term1) || is_wp_error($term2)) {
+                continue;
+            }
+            
+            // Keep the term with more posts (or lower ID if equal)
+            if ($term1->count > $term2->count) {
+                $keep_id = $term1->term_id;
+                $merge_id = $term2->term_id;
+                $keep_name = $term1->name;
+                $merge_name = $term2->name;
+            } elseif ($term2->count > $term1->count) {
+                $keep_id = $term2->term_id;
+                $merge_id = $term1->term_id;
+                $keep_name = $term2->name;
+                $merge_name = $term1->name;
+            } else {
+                // Equal counts, keep the one with lower ID
+                $keep_id = ($term1->term_id < $term2->term_id) ? $term1->term_id : $term2->term_id;
+                $merge_id = ($term1->term_id < $term2->term_id) ? $term2->term_id : $term1->term_id;
+                $keep_name = ($term1->term_id < $term2->term_id) ? $term1->name : $term2->name;
+                $merge_name = ($term1->term_id < $term2->term_id) ? $term2->name : $term1->name;
+            }
             
             // Get posts with the merge category
             $posts = get_posts(array(
@@ -264,8 +287,8 @@ class ThemisDB_Taxonomy_Analytics {
             
             if (!is_wp_error($result)) {
                 $consolidated[] = array(
-                    'kept' => $suggestion['term1'],
-                    'merged' => $suggestion['term2'],
+                    'kept' => $keep_name,
+                    'merged' => $merge_name,
                     'posts_moved' => count($posts)
                 );
             }
