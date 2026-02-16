@@ -26,6 +26,25 @@ AdaptiveShardRouter::AdaptiveShardRouter(
     matcher_ = std::make_shared<CapabilityMatcher>(adaptive_config_.matcher_config);
 }
 
+AdaptiveShardRouter::AdaptiveShardRouter(
+    std::shared_ptr<URNResolver> resolver,
+    std::shared_ptr<RemoteExecutor> executor,
+    std::shared_ptr<ShardTopology> topology,
+    const Config& config,
+    std::shared_ptr<PrometheusMetrics> metrics,
+    std::shared_ptr<TrueTime> truetime
+) : AdaptiveShardRouter(
+        resolver,
+        executor,
+        topology,
+        config,
+        AdaptiveConfig{},
+        metrics,
+        truetime
+    )
+{
+}
+
 nlohmann::json AdaptiveShardRouter::executeQuery(const std::string& query) {
     // Check if adaptive routing is enabled
     if (!adaptive_config_.enable_adaptive_routing) {

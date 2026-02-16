@@ -15,6 +15,11 @@ LLMOutputValidator::LLMOutputValidator(const Config& config)
                   config_.min_length, config_.max_length, config_.require_utf8);
 }
 
+LLMOutputValidator::LLMOutputValidator()
+    : LLMOutputValidator(Config{})
+{
+}
+
 ValidationResult LLMOutputValidator::validate(const std::string& text) {
     ValidationResult result;
     

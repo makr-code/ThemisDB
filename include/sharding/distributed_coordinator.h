@@ -96,7 +96,13 @@ public:
         const std::string& local_shard_id,
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<GossipConfigManager> gossip_mgr,
-        const Config& config = Config{}
+        const Config& config
+    );
+
+    DistributedCoordinator(
+        const std::string& local_shard_id,
+        std::shared_ptr<ShardTopology> topology,
+        std::shared_ptr<GossipConfigManager> gossip_mgr
     );
     
     ~DistributedCoordinator();

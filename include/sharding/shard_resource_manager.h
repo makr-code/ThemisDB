@@ -66,7 +66,12 @@ public:
     explicit ShardResourceManager(
         const std::string& local_shard_id,
         std::shared_ptr<GossipConfigManager> gossip_manager,
-        const Config& config = Config{}
+        const Config& config
+    );
+
+    explicit ShardResourceManager(
+        const std::string& local_shard_id,
+        std::shared_ptr<GossipConfigManager> gossip_manager
     );
     
     ~ShardResourceManager();

@@ -113,6 +113,13 @@ ShardResourceManager::ShardResourceManager(
     local_snapshot_.health_score = 100.0f;
 }
 
+ShardResourceManager::ShardResourceManager(
+    const std::string& local_shard_id,
+    std::shared_ptr<GossipConfigManager> gossip_manager)
+    : ShardResourceManager(local_shard_id, gossip_manager, Config{})
+{
+}
+
 ShardResourceManager::~ShardResourceManager() {
     stop();
     

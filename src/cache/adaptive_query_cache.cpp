@@ -21,8 +21,9 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         RocksDBWrapper::Config db_config;
         db_config.db_path = config_.l3_db_path;
         db_config.create_if_missing = true;
-        db_config.write_buffer_size = 64 * 1024 * 1024;  // 64MB write buffer
-        db_config.max_open_files = 100;
+        db_config.memtable_size_mb = 64;      // 64MB write buffer
+        db_config.block_cache_size_mb = 256;  // small cache for query cache
+        db_config.max_background_jobs = 2;
         
         l3_db_ = std::make_unique<RocksDBWrapper>(db_config);
         THEMIS_INFO("L3 cache (RocksDB) initialized at: {}", config_.l3_db_path);
@@ -166,9 +167,10 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
         std::string key = "query_cache:" + fingerprint;
         auto result = l3_db_->get(key);
         
-        if (result.ok && !result.value.empty()) {
+        if (result && !result->empty()) {
             try {
-                nlohmann::json entry_json = nlohmann::json::parse(result.value);
+            std::string json_str(result->begin(), result->end());
+            nlohmann::json entry_json = nlohmann::json::parse(json_str);
                 
                 int64_t created_at_ms = entry_json["created_at_ms"];
                 int ttl_seconds = entry_json["ttl_seconds"];
@@ -294,15 +296,15 @@ bool AdaptiveQueryCache::put(
         entry_json["ttl_seconds"] = ttl_seconds;
         
         std::string key = "query_cache:" + fingerprint;
-        auto status = l3_db_->put(key, entry_json.dump());
+        bool ok = l3_db_->put(key, entry_json.dump());
         
-        if (status.ok) {
+        if (ok) {
             THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
             return true;
-        } else {
-            THEMIS_WARN("Failed to store in L3: {}", status.message);
-            return false;
         }
+        
+        THEMIS_WARN("Failed to store in L3 cache");
+        return false;
     }
     
     return false;
@@ -366,7 +368,14 @@ void AdaptiveQueryCache::clear() {
         // Clear L3 by deleting all keys with prefix
         // Note: Simplified implementation
         try {
-            l3_db_->deleteRange("query_cache:", "query_cache:~");
+            std::vector<std::string> keys;
+            l3_db_->scanPrefix("query_cache:", [&keys](std::string_view key, std::string_view) {
+                keys.emplace_back(key);
+                return true;
+            });
+            for (const auto& key : keys) {
+                l3_db_->del(key);
+            }
         } catch (const std::exception& e) {
             THEMIS_WARN("Failed to clear L3 cache: {}", e.what());
         }

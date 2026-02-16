@@ -84,7 +84,13 @@ public:
         const std::string& local_shard_id,
         std::shared_ptr<ShardTopology> topology,
         std::shared_ptr<ShardResourceManager> resource_mgr,
-        const Config& config = Config{}
+        const Config& config
+    );
+
+    explicit LocalityAwareRouter(
+        const std::string& local_shard_id,
+        std::shared_ptr<ShardTopology> topology,
+        std::shared_ptr<ShardResourceManager> resource_mgr
     );
     
     ~LocalityAwareRouter();

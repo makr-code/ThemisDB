@@ -22,6 +22,7 @@
 #include "sharding/shard_router.h"
 #include "sharding/shard_topology.h"
 #include <spdlog/spdlog.h>
+#include <fmt/ranges.h>
 #include <thread>
 #include <atomic>
 #include <cmath>

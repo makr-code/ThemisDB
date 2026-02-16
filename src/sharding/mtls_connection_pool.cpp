@@ -288,6 +288,11 @@ MTLSConnectionPoolManager::MTLSConnectionPoolManager(const Config& config)
     std::cout << "Initialized MTLSConnectionPoolManager" << std::endl;
 }
 
+MTLSConnectionPoolManager::MTLSConnectionPoolManager()
+    : MTLSConnectionPoolManager(Config{})
+{
+}
+
 MTLSConnectionPoolManager::~MTLSConnectionPoolManager() {
     shutdown();
 }

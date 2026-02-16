@@ -7,6 +7,7 @@
   "dependencies": [
     "boost-filesystem",
     "boost-beast",
+    "cpp-httplib",
     "fmt",
     "spdlog",
     "nlohmann-json",

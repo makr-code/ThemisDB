@@ -75,7 +75,8 @@ public:
      * Construct capability matcher
      * @param config Configuration
      */
-    explicit CapabilityMatcher(const Config& config = Config{});
+    explicit CapabilityMatcher(const Config& config);
+    CapabilityMatcher();
     
     /**
      * Match query against shard capabilities

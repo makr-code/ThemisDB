@@ -45,6 +45,14 @@ LocalityAwareRouter::LocalityAwareRouter(
     }
 }
 
+LocalityAwareRouter::LocalityAwareRouter(
+    const std::string& local_shard_id,
+    std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<ShardResourceManager> resource_mgr)
+    : LocalityAwareRouter(local_shard_id, topology, resource_mgr, Config{})
+{
+}
+
 // Destructor
 LocalityAwareRouter::~LocalityAwareRouter() = default;
 

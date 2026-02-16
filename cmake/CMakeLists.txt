@@ -1776,6 +1776,12 @@ if(THEMIS_CORE_SHARED)
 endif()
 add_library(themis_core ${_THEMIS_CORE_LIBTYPE} ${THEMIS_CORE_SOURCES})
 
+# Enable Unity Build to reduce object file count (fixes MSVC LNK1189 with 65535 objects limit)
+set_target_properties(themis_core PROPERTIES
+    UNITY_BUILD ON
+    UNITY_BUILD_BATCH_SIZE 20
+)
+
 # Base include directories for core headers
 # Needed to resolve includes like "sharding/...", "llm/...", etc.
 target_include_directories(themis_core
@@ -1789,6 +1795,20 @@ target_include_directories(themis_core
 if(MSVC)
     set_source_files_properties(src/query/aql_parser.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj;/Bt+")
     set_source_files_properties(src/query/aql_parser_json.cpp PROPERTIES COMPILE_OPTIONS "/O1;/bigobj")
+    
+    # Exclude files with macro/ODR conflicts from Unity Build
+    set_source_files_properties(
+        ../src/content/audio_processor.cpp
+        ../src/content/cad_processor.cpp
+        ../src/content/geo_processor.cpp
+        ../src/content/image_processor.cpp
+        ../src/content/video_processor.cpp
+        ../src/observability/alertmanager.cpp
+        ../src/plugins/plugin_registry.cpp
+        ../src/sharding/hot_spare_manager.cpp
+        ../src/sharding/signed_request.cpp
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+    )
 endif()
 
 # On Windows, export all symbols automatically for shared builds to avoid needing __declspec(dllexport)

@@ -15,6 +15,11 @@ PromptEngineeringMetrics::PromptEngineeringMetrics(const Config& config)
 {
 }
 
+PromptEngineeringMetrics::PromptEngineeringMetrics()
+    : config_(Config{})
+{
+}
+
 // Optimization metrics
 void PromptEngineeringMetrics::recordOptimizationAttempt(const std::string& prompt_id) {
     if (!config_.enabled) return;

@@ -263,7 +263,7 @@ public:
  * Global registry for type-specific plugin factories.
  * Allows third-party code to register plugin types.
  */
-class PluginRegistry {
+class PluginManagerRegistry {
 public:
     using PluginFactory = std::function<std::unique_ptr<IThemisPlugin>()>;
     
@@ -289,7 +289,7 @@ public:
     /**
      * @brief Get singleton instance
      */
-    static PluginRegistry& instance();
+    static PluginManagerRegistry& instance();
     
 private:
     std::unordered_map<std::string, std::pair<PluginType, PluginFactory>> factories_;
@@ -306,10 +306,10 @@ private:
  * ```
  */
 template<typename PluginClass>
-class PluginRegistrar {
+class PluginManagerRegistrar {
 public:
-    PluginRegistrar(const std::string& name, PluginType type) {
-        PluginRegistry::registerFactory(
+    PluginManagerRegistrar(const std::string& name, PluginType type) {
+        PluginManagerRegistry::registerFactory(
             name,
             type,
             []() { return std::make_unique<PluginClass>(); }

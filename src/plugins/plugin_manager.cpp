@@ -792,7 +792,7 @@ PluginManager& PluginManager::instance() {
 // Plugin Registry
 // ============================================================================
 
-void PluginRegistry::registerFactory(
+void PluginManagerRegistry::registerFactory(
     const std::string& name,
     PluginType type,
     PluginFactory factory
@@ -804,7 +804,7 @@ void PluginRegistry::registerFactory(
     THEMIS_INFO("Registered plugin factory: {}", name);
 }
 
-std::unique_ptr<IThemisPlugin> PluginRegistry::createPlugin(const std::string& name) {
+std::unique_ptr<IThemisPlugin> PluginManagerRegistry::createPlugin(const std::string& name) {
     auto& registry = instance();
     std::lock_guard<std::mutex> lock(registry.mutex_);
     
@@ -816,8 +816,8 @@ std::unique_ptr<IThemisPlugin> PluginRegistry::createPlugin(const std::string& n
     return nullptr;
 }
 
-PluginRegistry& PluginRegistry::instance() {
-    static PluginRegistry instance;
+PluginManagerRegistry& PluginManagerRegistry::instance() {
+    static PluginManagerRegistry instance;
     return instance;
 }
 

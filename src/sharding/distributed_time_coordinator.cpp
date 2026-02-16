@@ -16,6 +16,12 @@ DistributedTimeCoordinator::DistributedTimeCoordinator(
                 config_.use_log_index_only, config_.base_uncertainty_ns);
 }
 
+DistributedTimeCoordinator::DistributedTimeCoordinator(
+    std::shared_ptr<ConsensusModule> consensus
+) : DistributedTimeCoordinator(consensus, Config{})
+{
+}
+
 DistributedTimeCoordinator::TimeInterval DistributedTimeCoordinator::now() const {
     uint64_t log_index = getCurrentLogIndex();
     

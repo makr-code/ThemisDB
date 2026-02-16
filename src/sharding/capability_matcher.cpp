@@ -30,6 +30,11 @@ CapabilityMatcher::CapabilityMatcher(const Config& config)
     }
 }
 
+CapabilityMatcher::CapabilityMatcher()
+    : CapabilityMatcher(Config{})
+{
+}
+
 std::vector<CapabilityMatchResult> CapabilityMatcher::match(
     const QueryContext& query,
     const std::vector<ShardInfo>& shards

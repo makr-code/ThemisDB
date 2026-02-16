@@ -34,7 +34,8 @@ public:
         std::string namespace_prefix = "themis_prompt_engineering";
     };
 
-    explicit PromptEngineeringMetrics(const Config& config = Config{});
+    explicit PromptEngineeringMetrics(const Config& config);
+    explicit PromptEngineeringMetrics();
     ~PromptEngineeringMetrics() = default;
 
     // Optimization metrics

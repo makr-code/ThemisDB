@@ -171,7 +171,7 @@ struct RebuildStatus {
 /**
  * Failover Event
  */
-struct FailoverEvent {
+struct HotSpareFailoverEvent {
     std::chrono::system_clock::time_point timestamp;
     std::string failed_shard_id;
     std::string spare_shard_id;
@@ -238,7 +238,7 @@ public:
     // Status
     RebuildStatus getRebuildStatus() const;
     std::optional<SpareShardInfo> getSpareInfo(const std::string& shard_id) const;
-    std::vector<FailoverEvent> getFailoverHistory(size_t max_count = 100) const;
+    std::vector<HotSpareFailoverEvent> getFailoverHistory(size_t max_count = 100) const;
     
     // Configuration
     const HotSpareConfig& getConfig() const { return config_; }
@@ -317,7 +317,7 @@ private:
     
     // Failover history
     mutable std::mutex history_mutex_;
-    std::vector<FailoverEvent> failover_history_;
+    std::vector<HotSpareFailoverEvent> failover_history_;
     static constexpr size_t MAX_HISTORY_SIZE = 1000;
     
     // Statistics

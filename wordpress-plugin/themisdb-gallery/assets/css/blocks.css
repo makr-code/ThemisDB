@@ -1,0 +1,9 @@
+/**
+ * ThemisDB Gallery - Block Styles (Frontend)
+ */
+
+/* Block-specific styles can be added here */
+.wp-block-themisdb-gallery-image-search,
+.wp-block-themisdb-gallery-gallery {
+    margin: 20px 0;
+}

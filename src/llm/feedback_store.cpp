@@ -768,6 +768,11 @@ std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
     return results;
 }
 
+std::vector<FeedbackStore::FeedbackEntry> FeedbackStore::getFeedbackForAdapter(
+    const std::string& adapter_id) const {
+    return getFeedbackForAdapter(adapter_id, ListOptions{});
+}
+
 std::vector<std::string> FeedbackStore::getLinkedAdapters(const std::string& feedback_id) const {
     std::vector<std::string> adapter_ids;
     

@@ -105,7 +105,8 @@ void registerBuiltinFunctions() {
         
         // Fulltext functions (search, phrase matching, fuzzy search, n-gram similarity)
         // Includes: FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH, TOKENS, SOUNDEX, METAPHONE, DOUBLE_METAPHONE
-        registerFulltextFunctions(registry);
+            // TODO: registerFulltextFunctions - optional fulltext module
+            // registerFulltextFunctions(registry);
     } catch (const std::exception& ex) {
         // Re-throw with more context - will be caught by FunctionRegistryInitializer
         std::cerr << "registerBuiltinFunctions() exception: " << ex.what() << std::endl;

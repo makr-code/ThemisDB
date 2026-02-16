@@ -72,6 +72,11 @@ WireProtocolConnectionPool::WireProtocolConnectionPool(const Config& config)
     });
 }
 
+WireProtocolConnectionPool::WireProtocolConnectionPool()
+    : WireProtocolConnectionPool(Config{})
+{
+}
+
 WireProtocolConnectionPool::~WireProtocolConnectionPool() {
     shutdown_.store(true, std::memory_order_release);
     

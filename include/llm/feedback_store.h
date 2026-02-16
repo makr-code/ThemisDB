@@ -238,7 +238,9 @@ public:
      */
     std::vector<FeedbackEntry> getFeedbackForAdapter(
         const std::string& adapter_id,
-        const ListOptions& options = ListOptions{}) const;
+        const ListOptions& options) const;
+    std::vector<FeedbackEntry> getFeedbackForAdapter(
+        const std::string& adapter_id) const;
     
     /**
      * @brief Get adapters linked to a specific feedback

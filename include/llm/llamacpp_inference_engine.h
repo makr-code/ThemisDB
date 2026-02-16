@@ -74,7 +74,8 @@ public:
         bool allow_empty = false;        // Allow empty responses
     };
     
-    explicit LLMOutputValidator(const Config& config = Config());
+    explicit LLMOutputValidator(const Config& config);
+    LLMOutputValidator();
     
     /**
      * @brief Validate LLM output

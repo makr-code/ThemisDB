@@ -206,7 +206,7 @@ bool HotSpareManager::activateSpare(
     if (!spare_id_opt) {
         spdlog::error("No available spares for failover");
         
-        FailoverEvent event;
+        HotSpareFailoverEvent event;
         event.timestamp = std::chrono::system_clock::now();
         event.failed_shard_id = failed_shard_id;
         event.success = false;
@@ -273,7 +273,7 @@ bool HotSpareManager::activateSpare(
         end_time - start_time);
     
     // Record failover event
-    FailoverEvent event;
+    HotSpareFailoverEvent event;
     event.timestamp = std::chrono::system_clock::now();
     event.failed_shard_id = failed_shard_id;
     event.spare_shard_id = spare_id;
@@ -441,13 +441,13 @@ std::optional<SpareShardInfo> HotSpareManager::getSpareInfo(
     return std::nullopt;
 }
 
-std::vector<FailoverEvent> HotSpareManager::getFailoverHistory(
+std::vector<HotSpareFailoverEvent> HotSpareManager::getFailoverHistory(
     size_t max_count) const {
     std::lock_guard<std::mutex> lock(history_mutex_);
     
     size_t count = std::min(max_count, failover_history_.size());
     
-    std::vector<FailoverEvent> history;
+    std::vector<HotSpareFailoverEvent> history;
     if (count > 0) {
         auto start_it = failover_history_.end() - count;
         history.insert(history.end(), start_it, failover_history_.end());

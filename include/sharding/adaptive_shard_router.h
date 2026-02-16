@@ -117,7 +117,16 @@ public:
         std::shared_ptr<RemoteExecutor> executor,
         std::shared_ptr<ShardTopology> topology,
         const Config& config,
-        const AdaptiveConfig& adaptive_config = AdaptiveConfig{},
+        const AdaptiveConfig& adaptive_config,
+        std::shared_ptr<PrometheusMetrics> metrics = nullptr,
+        std::shared_ptr<TrueTime> truetime = nullptr
+    );
+
+    AdaptiveShardRouter(
+        std::shared_ptr<URNResolver> resolver,
+        std::shared_ptr<RemoteExecutor> executor,
+        std::shared_ptr<ShardTopology> topology,
+        const Config& config,
         std::shared_ptr<PrometheusMetrics> metrics = nullptr,
         std::shared_ptr<TrueTime> truetime = nullptr
     );

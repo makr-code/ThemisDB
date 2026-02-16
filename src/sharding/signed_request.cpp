@@ -38,7 +38,7 @@ namespace {
     }
     
     // Base64 decode helper
-    std::optional<std::vector<unsigned char>> base64Decode(const std::string& encoded) {
+    std::optional<std::vector<unsigned char>> base64DecodeBytes(const std::string& encoded) {
         BIO* bmem = BIO_new_mem_buf(encoded.c_str(), static_cast<int>(encoded.size()));
         if (!bmem) return std::nullopt;
         BIO* b64 = BIO_new(BIO_f_base64());
@@ -304,7 +304,7 @@ bool SignedRequestVerifier::verifySignature(const SignedRequest& request) {
     // 4. Check certificate is not revoked (CRL)
     
     // Decode signature
-    auto signature_bytes = base64Decode(request.signature_b64);
+    auto signature_bytes = base64DecodeBytes(request.signature_b64);
     if (!signature_bytes) {
         return false;
     }

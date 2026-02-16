@@ -84,7 +84,8 @@ public:
         bool enable_warmup = true;                    ///< Pre-create min connections on startup
     };
     
-    explicit WireProtocolConnectionPool(const Config& config = Config{});
+    explicit WireProtocolConnectionPool(const Config& config);
+    WireProtocolConnectionPool();
     ~WireProtocolConnectionPool();
     
     // Disable copy and move (maintenance thread captures this)

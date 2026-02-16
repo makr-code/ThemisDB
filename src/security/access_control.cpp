@@ -593,11 +593,22 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
         return false;
     }
     
+    // TODO: AQLInjectionDetector moved to query module, re-enable after modular dependency resolves
     // Use AST-based injection detection for robust security
-    security::AQLInjectionDetector detector;
-    auto validation_result = detector.validateAQLAST(query);
+    // security::AQLInjectionDetector detector;
+    // auto validation_result = detector.validateAQLAST(query);
+    // return !validation_result.is_safe;
     
-    return !validation_result.is_safe;
+    // Temporary: Fallback to basic heuristics
+    static const std::vector<std::string> patterns = {
+        "' OR '1'='1", "'; DROP TABLE", "UNION SELECT", "-- ", "/*", "*/"
+    };
+    for (const auto& pattern : patterns) {
+        if (query.find(pattern) != std::string::npos) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool AccessControl::detectSuspiciousQuery(const std::string& query, const std::string& user_id) {

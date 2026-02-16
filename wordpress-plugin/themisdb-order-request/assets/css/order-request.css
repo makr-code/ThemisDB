@@ -1,0 +1,462 @@
+/* ThemisDB Order Request Plugin - Frontend Styles */
+
+.themisdb-order-flow {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Progress Steps */
+.order-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 0;
+    list-style: none;
+}
+
+.order-steps .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    padding: 20px 10px;
+    opacity: 0.5;
+}
+
+.order-steps .step.active {
+    opacity: 1;
+}
+
+.order-steps .step.completed {
+    opacity: 1;
+}
+
+.order-steps .step.completed .step-number {
+    background-color: #28a745;
+}
+
+.order-steps .step-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background-color: #ccc;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.order-steps .step.active .step-number {
+    background-color: #0073aa;
+}
+
+.order-steps .step-title {
+    display: block;
+    font-size: 14px;
+    color: #333;
+}
+
+.order-steps .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: #ccc;
+    z-index: -1;
+}
+
+.order-steps .step.completed:not(:last-child)::after {
+    background-color: #28a745;
+}
+
+/* Step Content */
+.order-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.order-step-content h2 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+/* Product Selection */
+.product-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.product-card {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    border-color: #0073aa;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.product-card.selected {
+    border-color: #0073aa;
+    background-color: #f0f8ff;
+}
+
+.product-card label {
+    cursor: pointer;
+    display: block;
+}
+
+.product-card input[type="radio"] {
+    margin-right: 10px;
+}
+
+.product-details h3 {
+    margin: 10px 0;
+    color: #0073aa;
+}
+
+.product-description {
+    color: #666;
+    margin: 10px 0;
+}
+
+.product-price {
+    font-size: 18px;
+    color: #333;
+    margin: 15px 0 0 0;
+}
+
+/* Module Selection */
+.module-category {
+    margin: 30px 0;
+}
+
+.module-category h3 {
+    color: #0073aa;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.module-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.module-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    transition: all 0.2s ease;
+}
+
+.module-card:hover {
+    border-color: #0073aa;
+    background-color: #f9f9f9;
+}
+
+.module-card label {
+    cursor: pointer;
+    display: block;
+}
+
+.module-card input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.module-details h4 {
+    margin: 5px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.module-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.module-price {
+    color: #0073aa;
+    font-weight: bold;
+}
+
+/* Training Selection */
+.training-category {
+    margin: 30px 0;
+}
+
+.training-category h3 {
+    color: #0073aa;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.training-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.training-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    transition: all 0.2s ease;
+}
+
+.training-card:hover {
+    border-color: #0073aa;
+    background-color: #f9f9f9;
+}
+
+.training-card label {
+    cursor: pointer;
+    display: block;
+}
+
+.training-card input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.training-details h4 {
+    margin: 5px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.training-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.training-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.training-duration {
+    color: #666;
+}
+
+.training-price {
+    color: #0073aa;
+    font-weight: bold;
+}
+
+/* Customer Form */
+.customer-form {
+    max-width: 600px;
+    margin: 30px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus {
+    outline: none;
+    border-color: #0073aa;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Order Summary */
+.order-summary {
+    margin: 30px 0;
+}
+
+.summary-section {
+    background: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border-left: 4px solid #0073aa;
+}
+
+.summary-section h3 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.summary-section ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.summary-section ul li {
+    margin: 5px 0;
+}
+
+.summary-total {
+    background: #0073aa;
+    color: white;
+    padding: 20px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.summary-total h3 {
+    margin-top: 0;
+    color: white;
+}
+
+.total-amount {
+    font-size: 28px;
+    margin: 10px 0;
+}
+
+/* Navigation */
+.order-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.order-navigation button {
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-prev {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.button-prev:hover {
+    background: #e0e0e0;
+}
+
+.button-next,
+.button-submit {
+    background: #0073aa;
+    border: 1px solid #0073aa;
+    color: white;
+}
+
+.button-next:hover,
+.button-submit:hover {
+    background: #005a87;
+}
+
+/* My Orders / Contracts Tables */
+.orders-table,
+.contracts-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.orders-table th,
+.contracts-table th {
+    background: #0073aa;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.orders-table td,
+.contracts-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.orders-table tr:hover,
+.contracts-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Loading State */
+.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .order-steps {
+        flex-direction: column;
+    }
+    
+    .order-steps .step:not(:last-child)::after {
+        display: none;
+    }
+    
+    .product-selection,
+    .module-selection,
+    .training-selection {
+        grid-template-columns: 1fr;
+    }
+    
+    .order-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .order-navigation button {
+        width: 100%;
+    }
+}

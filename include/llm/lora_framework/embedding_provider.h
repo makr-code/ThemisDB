@@ -89,7 +89,7 @@ public:
     explicit EmbeddingProvider(
         llama_model* model,
         llama_context* context,
-        const Config& config = Config{}
+        const Config& config
     );
     
     ~EmbeddingProvider();

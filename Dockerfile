@@ -53,7 +53,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         # Download acceleration
         aria2 \
         # System libraries
-        libssl-dev zlib1g-dev && \
+        libssl-dev zlib1g-dev libkrb5-dev && \
     apt-get clean
 
 # Clone and bootstrap vcpkg, capture current HEAD as baseline

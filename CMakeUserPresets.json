@@ -5,9 +5,9 @@
     {
       "name": "vscode-windows-release",
       "displayName": "VS Code: Windows Release (Default)",
-      "description": "Default VS Code preset - MSVC + Visual Studio 17 2022 Release with tests",
+      "description": "Default VS Code preset - MSVC + Ninja Release with tests and vcpkg",
       "hidden": false,
-      "inherits": "msvc-vs-release",
+      "inherits": "msvc-ninja-release",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",
@@ -17,9 +17,9 @@
     {
       "name": "vscode-windows-debug",
       "displayName": "VS Code: Windows Debug",
-      "description": "VS Code preset for debug builds",
+      "description": "VS Code preset for debug builds with vcpkg",
       "hidden": false,
-      "inherits": "msvc-vs-debug",
+      "inherits": "msvc-ninja-debug",
       "cacheVariables": {
         "THEMIS_BUILD_TESTS": "ON",
         "THEMIS_ENABLE_LLM": "ON",

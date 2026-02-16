@@ -53,7 +53,11 @@ public:
      */
     explicit DistributedTimeCoordinator(
         std::shared_ptr<ConsensusModule> consensus,
-        const Config& config = Config{}
+        const Config& config
+    );
+
+    explicit DistributedTimeCoordinator(
+        std::shared_ptr<ConsensusModule> consensus
     );
     
     /**

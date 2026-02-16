@@ -222,6 +222,11 @@ ThemisHelpLoRA::ThemisHelpLoRA(const Config& config)
 {
 }
 
+ThemisHelpLoRA::ThemisHelpLoRA()
+    : impl_(std::make_unique<Impl>(Config{}))
+{
+}
+
 ThemisHelpLoRA::~ThemisHelpLoRA() = default;
 
 std::string ThemisHelpLoRA::query(const std::string& question, const std::string& user_id) {

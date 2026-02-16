@@ -80,7 +80,8 @@ public:
         bool enable_auto_rollback = true;
     };
     
-    explicit ThemisHelpLoRA(const Config& config = Config{});
+    explicit ThemisHelpLoRA(const Config& config);
+    ThemisHelpLoRA();
     ~ThemisHelpLoRA();
     
     // Disable copy

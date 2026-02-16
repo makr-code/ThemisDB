@@ -69,6 +69,14 @@ DistributedCoordinator::DistributedCoordinator(
     THEMIS_INFO("DistributedCoordinator initialized for shard: {}", local_shard_id_);
 }
 
+DistributedCoordinator::DistributedCoordinator(
+    const std::string& local_shard_id,
+    std::shared_ptr<ShardTopology> topology,
+    std::shared_ptr<GossipConfigManager> gossip_mgr)
+    : DistributedCoordinator(local_shard_id, topology, gossip_mgr, Config{})
+{
+}
+
 // Destructor
 DistributedCoordinator::~DistributedCoordinator() {
     stop();

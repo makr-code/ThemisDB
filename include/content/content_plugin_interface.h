@@ -359,7 +359,11 @@ using GetVersionFunc = const char* (*)();
  * 
  * THEMIS_CONTENT_PLUGIN(MyProcessor)
  * @endcode
+ * 
+ * NOTE: Only used when building standalone plugins. When building monolithic
+ * themis_core, these functions are not exported to avoid duplicate symbols.
  */
+#ifdef THEMIS_BUILD_STANDALONE_PLUGINS
 #define THEMIS_CONTENT_PLUGIN(PluginClass) \
     extern "C" { \
         THEMIS_PLUGIN_API IContentProcessorPlugin* themis_create_plugin() { \
@@ -372,6 +376,9 @@ using GetVersionFunc = const char* (*)();
             return THEMIS_PLUGIN_API_VERSION; \
         } \
     }
+#else
+#define THEMIS_CONTENT_PLUGIN(PluginClass) // No-op when building monolithic core
+#endif
 
 // ============================================================================
 // Helper Functions

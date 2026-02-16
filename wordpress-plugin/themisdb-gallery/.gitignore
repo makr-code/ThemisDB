@@ -1,0 +1,23 @@
+# Ignore development files
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.bak
+*~
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.sublime-*
+
+# Ignore node modules if we add npm later
+node_modules/
+package-lock.json
+
+# Ignore build artifacts
+*.zip
+dist/
+
+# Keep assets
+!assets/

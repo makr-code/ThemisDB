@@ -1,0 +1,134 @@
+/* ThemisDB Order Request Plugin - Admin Styles */
+
+.themisdb-order-flow .card {
+    background: white;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+
+.themisdb-order-flow .card h2 {
+    margin-top: 0;
+    color: #23282d;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 10px;
+}
+
+.order-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.order-status.status-draft {
+    background-color: #f0f0f1;
+    color: #3c434a;
+}
+
+.order-status.status-pending {
+    background-color: #fcf8e3;
+    color: #856404;
+}
+
+.order-status.status-processing {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+.order-status.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.order-status.status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.status-sent {
+    color: #155724;
+    font-weight: bold;
+}
+
+.status-failed {
+    color: #721c24;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #856404;
+    font-weight: bold;
+}
+
+/* Payment Status Styles */
+.payment-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.payment-status.status-verified {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.payment-status.status-pending {
+    background-color: #fcf8e3;
+    color: #856404;
+}
+
+.payment-status.status-failed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* License Status Styles */
+.license-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.license-status.status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.license-status.status-pending {
+    background-color: #fcf8e3;
+    color: #856404;
+}
+
+.license-status.status-suspended {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.license-status.status-expired {
+    background-color: #f0f0f1;
+    color: #3c434a;
+}
+
+/* Admin Table Enhancements */
+.wp-list-table.themisdb-table th {
+    font-weight: 600;
+}
+
+.wp-list-table.themisdb-table td {
+    vertical-align: middle;
+}
+
+/* Form Enhancements */
+.form-table th {
+    width: 200px;
+}

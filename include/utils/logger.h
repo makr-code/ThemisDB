@@ -5,6 +5,7 @@
 #undef ERROR
 #endif
 
+#include "themis_export.h"
 #include <string>
 #include <memory>
 
@@ -13,7 +14,7 @@ namespace spdlog { class logger; }
 namespace themis {
 namespace utils {
 
-class Logger {
+class THEMIS_BASE_API Logger {
 public:
     enum class Level { TRACE, DEBUG, INFO, WARN, ERROR, CRITICAL };
     

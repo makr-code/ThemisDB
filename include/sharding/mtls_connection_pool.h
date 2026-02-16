@@ -191,7 +191,8 @@ public:
      * @brief Construct pool manager with configuration
      * @param config Manager configuration
      */
-    explicit MTLSConnectionPoolManager(const Config& config = Config{});
+    explicit MTLSConnectionPoolManager(const Config& config);
+    MTLSConnectionPoolManager();
     
     /**
      * @brief Destructor

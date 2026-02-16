@@ -63,10 +63,26 @@ function(themis_add_module MODULE_NAME)
         target_link_libraries(themis_${MODULE_NAME} PUBLIC ${ARG_DEPENDENCIES})
     endif()
     
-    # Windows: Export all symbols for DLL
+    # Define module-specific export macro
+    string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
+    target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS)
+    
+    # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols
     if(MSVC)
         set_target_properties(themis_${MODULE_NAME} PROPERTIES
             WINDOWS_EXPORT_ALL_SYMBOLS ON
+            INTERPROCEDURAL_OPTIMIZATION FALSE
+            VS_GLOBAL_WholeProgramOptimization "false"
+        )
+        target_compile_options(themis_${MODULE_NAME} PRIVATE
+            $<$<CONFIG:Release>:/GL->
+            $<$<CONFIG:RelWithDebInfo>:/GL->
+            $<$<CONFIG:MinSizeRel>:/GL->
+        )
+        target_link_options(themis_${MODULE_NAME} PRIVATE
+            $<$<CONFIG:Release>:/LTCG:OFF>
+            $<$<CONFIG:RelWithDebInfo>:/LTCG:OFF>
+            $<$<CONFIG:MinSizeRel>:/LTCG:OFF>
         )
     endif()
     
@@ -99,19 +115,17 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/tracing.cpp
     ../src/utils/zstd_codec.cpp
     ../src/utils/input_validator.cpp
-    ../src/utils/audit_logger.cpp
     ../src/utils/hkdf_helper.cpp
     ../src/utils/hkdf_cache.cpp
-    ../src/utils/saga_logger.cpp
-    ../src/utils/lek_manager.cpp
     ../src/utils/stemmer.cpp
     ../src/utils/stopwords.cpp
-    ../src/utils/pii_pseudonymizer.cpp
     ../src/utils/normalizer.cpp
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
     ../src/utils/grpc_channel_pool.cpp
+    ../src/observability/metrics_collector.cpp
+    ../src/config/config_path_resolver.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
     ../src/utils/error_registry.cpp
@@ -148,9 +162,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/base_entity.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
-    ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
-    ../src/storage/pitr_manager.cpp
+    # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
     
     # Metadata management
@@ -158,32 +171,34 @@ set(THEMIS_STORAGE_SOURCES
     
     # Indexes
     ../src/index/secondary_index.cpp
-    ../src/index/vector_index.cpp
     ../src/index/rotary_embeddings.cpp
     ../src/index/learnable_rope.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
+    ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
     ../src/index/spatial_index.cpp
+    ../src/api/geo_index_hooks.cpp
+    ../src/utils/geo/ewkb.cpp
     
     # Performance enhancements
     ../src/performance/phase2_feature_flags.cpp
     ../src/performance/phase3/feature_flags.cpp
     
-    # Hybrid search
-    ../src/search/hybrid_search.cpp
-    
     # Storage enhancements
     ../src/cache/semantic_cache.cpp
-    ../src/cache/embedding_cache.cpp
     
     # Updates
     ../src/updates/release_manifest.cpp
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+
+    # Storage security
+    ../src/storage/security_signature.cpp
+    ../src/storage/security_signature_manager.cpp
 )
 
 set(THEMIS_QUERY_SOURCES
@@ -204,9 +219,12 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_cache.cpp
     ../src/query/workload_cache_strategy.cpp
     ../src/query/query_cache_manager.cpp
+    ../src/cache/adaptive_query_cache.cpp
     ../src/query/statistical_aggregator.cpp
     ../src/query/semantic_cache.cpp
     ../src/query/functions/function_registry.cpp
+    ../src/query/functions/ethics_functions.cpp
+    ../src/query/functions/lora_functions.cpp
     
     # Analytics
     ../src/analytics/olap.cpp
@@ -216,6 +234,12 @@ set(THEMIS_QUERY_SOURCES
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
+    
+    # Security: AQL injection detection (uses AQLParser)
+    ../src/security/aql_injection_detector.cpp
+    
+    # NLP features (moved from storage)
+    ../src/storage/nlp_metadata_extractor.cpp
     
     # Import/Export
     ../src/exporters/jsonl_llm_exporter.cpp
@@ -248,14 +272,16 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
-    
-    # Storage security
-    ../src/storage/security_signature.cpp
-    ../src/storage/security_signature_manager.cpp
+    # ../src/security/aql_injection_detector.cpp  # Moved to query module (needs AQLParser)
+    ../src/utils/audit_logger.cpp
+    ../src/utils/lek_manager.cpp
+    ../src/utils/saga_logger.cpp
     
     # Authentication
     ../src/auth/jwt_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
+    ../src/auth/mfa_authenticator.cpp
+    ../src/server/auth_middleware.cpp
     
     # Governance
     ../src/governance/policy_engine.cpp
@@ -269,6 +295,12 @@ set(THEMIS_SECURITY_SOURCES
     
     # Security initialization
     ../src/core/security_initialization.cpp
+    
+    # Storage-backed PII and vector index (require both storage and security)
+    ../src/utils/pii_pseudonymizer.cpp
+    ../src/index/vector_index.cpp
+    # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
+    ../src/search/hybrid_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -285,6 +317,9 @@ set(THEMIS_TRANSACTION_SOURCES
     
     # Change data capture
     ../src/cdc/changefeed.cpp
+    
+    # Graph index (used by transactions)
+    ../src/index/graph_index.cpp
 )
 
 set(THEMIS_SHARDING_SOURCES
@@ -366,15 +401,35 @@ set(THEMIS_SHARDING_SOURCES
 set(THEMIS_LLM_SOURCES
     # LLM core components
     ../src/llm/llm_interaction_store.cpp
+    ../src/llm/llm_response_cache.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/llm/block_table.cpp
+    ../src/llm/paged_block_manager.cpp
     ../src/llm/paged_kv_cache.cpp
+    ../src/llm/llm_plugin_manager.cpp
+    ../src/llm/model_loader.cpp
+    ../src/llm/llama_wrapper.cpp
+    ../src/llm/async_inference_engine.cpp
+    ../src/llm/embedded_llm.cpp
+    ../src/llm/docs_assistant.cpp
+    ../src/llm/feedback_store.cpp
+    ../src/llm/kv_cache_buffer.cpp
+    ../src/llm/multi_lora_manager.cpp
+    ../src/llm/gguf_loader.cpp
+    
+    # LoRA framework (core subset)
+    ../src/llm/lora_framework/lora_orchestrator.cpp
+    ../src/llm/lora_framework/lora_adapter_manager.cpp
+    ../src/llm/lora_framework/lora_storage_service.cpp
+    ../src/llm/lora_framework/lora_training_service.cpp
+    ../src/llm/lora_framework/adapter_consistency_checker.cpp
     
     # RAG enhancement modules
     ../src/rag/knowledge_gap_detector.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/lora_api_handler.cpp>
 )
 
 set(THEMIS_CONTENT_SOURCES
@@ -473,7 +528,6 @@ set(THEMIS_NETWORK_SOURCES
     ../src/network/wire_protocol_connection_pool.cpp
     
     # Observability (GAP-008: Alertmanager integration)
-    ../src/observability/metrics_collector.cpp
     ../src/observability/alertmanager.cpp
 )
 
@@ -482,13 +536,10 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
-    ../src/api/geo_index_hooks.cpp
-    ../src/utils/geo/ewkb.cpp
 )
 
 set(THEMIS_GRAPH_SOURCES
     # Graph indexes and analytics
-    ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp
     ../src/index/edge_types.cpp
@@ -503,42 +554,66 @@ function(themis_build_modular)
     message(STATUS "Building ThemisDB with modular architecture")
     
     # Core modules (always required)
+    set(_themis_base_deps
+        OpenSSL::SSL
+        OpenSSL::Crypto
+        fmt::fmt
+        spdlog::spdlog
+        Boost::system
+        nlohmann_json::nlohmann_json
+        ${THEMIS_YAML_TARGET}
+    )
+    if(THEMIS_ENABLE_GRPC)
+        find_package(gRPC CONFIG)
+        find_package(Protobuf CONFIG)
+        if(gRPC_FOUND AND Protobuf_FOUND)
+            list(APPEND _themis_base_deps gRPC::grpc++ protobuf::libprotobuf)
+        endif()
+    endif()
+
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
-        DEPENDENCIES 
-            OpenSSL::SSL
-            OpenSSL::Crypto
-            fmt::fmt
-            spdlog::spdlog
-            Boost::system
-            nlohmann_json::nlohmann_json
-            ${THEMIS_YAML_TARGET}
+        DEPENDENCIES ${_themis_base_deps}
     )
     
+    set(_themis_storage_deps
+        themis_base
+        ${THEMIS_ROCKSDB_TARGET}
+    )
+    if(TARGET simdjson::simdjson)
+        list(APPEND _themis_storage_deps simdjson::simdjson)
+    endif()
+    if(TARGET TBB::tbb)
+        list(APPEND _themis_storage_deps TBB::tbb)
+    endif()
+
     themis_add_module(storage
         SOURCES ${THEMIS_STORAGE_SOURCES}
-        DEPENDENCIES 
-            themis_base 
-            ${THEMIS_ROCKSDB_TARGET}
-            simdjson::simdjson
-            TBB::tbb
+        DEPENDENCIES ${_themis_storage_deps}
     )
     
-    themis_add_module(query
-        SOURCES ${THEMIS_QUERY_SOURCES}
-        DEPENDENCIES 
-            themis_base 
-            themis_storage
-            ${THEMIS_ARROW_TARGET}
-            ${THEMIS_PARQUET_TARGET}
+    set(_themis_security_deps
+        themis_base
+        themis_storage
+        OpenSSL::SSL
+        OpenSSL::Crypto
     )
+    if(TARGET TBB::tbb)
+        list(APPEND _themis_security_deps TBB::tbb)
+    endif()
+    if(TARGET CURL::libcurl)
+        list(APPEND _themis_security_deps CURL::libcurl)
+    endif()
+    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc::mimalloc)
+        list(APPEND _themis_security_deps mimalloc::mimalloc)
+    endif()
+    if(WIN32)
+        list(APPEND _themis_security_deps Secur32)
+    endif()
     
     themis_add_module(security
         SOURCES ${THEMIS_SECURITY_SOURCES}
-        DEPENDENCIES 
-            themis_base 
-            OpenSSL::SSL 
-            OpenSSL::Crypto
+        DEPENDENCIES ${_themis_security_deps}
     )
     
     themis_add_module(transaction
@@ -546,6 +621,23 @@ function(themis_build_modular)
         DEPENDENCIES 
             themis_base 
             themis_storage
+            themis_security
+    )
+
+    set(_themis_query_deps
+        themis_base
+        themis_storage
+        themis_transaction
+        ${THEMIS_ARROW_TARGET}
+        ${THEMIS_PARQUET_TARGET}
+    )
+    if(THEMIS_MODULE_LLM)
+        list(APPEND _themis_query_deps themis_llm)
+    endif()
+    
+    themis_add_module(query
+        SOURCES ${THEMIS_QUERY_SOURCES}
+        DEPENDENCIES ${_themis_query_deps}
     )
     
     themis_add_module(network
@@ -584,16 +676,41 @@ function(themis_build_modular)
             DEPENDENCIES 
                 themis_base 
                 themis_storage
+                themis_security
         )
+        target_include_directories(themis_llm PRIVATE
+            ${CMAKE_SOURCE_DIR}/llama.cpp/include
+            ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
+        )
+        if(TARGET llama)
+            target_link_libraries(themis_llm PUBLIC llama)
+        elseif(llama_LIBRARIES)
+            target_link_libraries(themis_llm PUBLIC ${llama_LIBRARIES})
+        endif()
     endif()
     
     if(THEMIS_MODULE_GEO)
+        set(_themis_geo_deps
+            themis_base
+            themis_storage
+        )
+        if(TARGET Boost::geometry)
+            list(APPEND _themis_geo_deps Boost::geometry)
+        elseif(TARGET Boost::boost)
+            list(APPEND _themis_geo_deps Boost::boost)
+        elseif(TARGET Boost::headers)
+            list(APPEND _themis_geo_deps Boost::headers)
+        elseif(Boost_FOUND)
+            if(NOT TARGET themis_boost_headers)
+                add_library(themis_boost_headers INTERFACE)
+                target_include_directories(themis_boost_headers INTERFACE ${Boost_INCLUDE_DIRS})
+            endif()
+            list(APPEND _themis_geo_deps themis_boost_headers)
+        endif()
+
         themis_add_module(geo
             SOURCES ${THEMIS_GEO_SOURCES}
-            DEPENDENCIES 
-                themis_base 
-                themis_storage
-                Boost::geometry
+            DEPENDENCIES ${_themis_geo_deps}
         )
     endif()
     
@@ -613,6 +730,15 @@ function(themis_build_modular)
                 themis_base 
                 themis_storage
         )
+    endif()
+
+    # Cross-module fixups for modular build
+    # Removed: storage -> security link to avoid cycle
+    # if(TARGET themis_storage AND TARGET themis_security)
+    #     target_link_libraries(themis_storage PUBLIC themis_security)
+    # endif()
+    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc::mimalloc)
+        target_link_libraries(themis_storage PUBLIC mimalloc::mimalloc)
     endif()
     
     # Create convenience variable for all modules to link against
