@@ -36,6 +36,8 @@ define('THEMISDB_MATRIX_VERSION', THEMISDB_FM_VERSION);
  * @return bool True if file was loaded successfully, false otherwise
  */
 function themisdb_fm_safe_require($file, $is_critical = true) {
+    static $displayed_notices = array();
+    
     if (file_exists($file)) {
         require_once $file;
         return true;
@@ -51,18 +53,22 @@ function themisdb_fm_safe_require($file, $is_critical = true) {
         error_log($error_message);
     }
     
-    // Add admin notice
-    add_action('admin_notices', function() use ($file, $is_critical) {
-        $class = $is_critical ? 'notice-error' : 'notice-warning';
-        $message = sprintf(
-            '<strong>ThemisDB Feature Matrix:</strong> Missing file: %s',
-            esc_html(basename($file))
-        );
-        if ($is_critical) {
-            $message .= ' - Plugin functionality may be impaired.';
-        }
-        printf('<div class="notice %s"><p>%s</p></div>', esc_attr($class), $message);
-    });
+    // Add admin notice (only once per file)
+    $notice_key = md5($file);
+    if (!isset($displayed_notices[$notice_key])) {
+        $displayed_notices[$notice_key] = true;
+        add_action('admin_notices', function() use ($file, $is_critical) {
+            $class = $is_critical ? 'notice-error' : 'notice-warning';
+            $message = sprintf(
+                '<strong>ThemisDB Feature Matrix:</strong> Missing file: %s',
+                esc_html(basename($file))
+            );
+            if ($is_critical) {
+                $message .= ' - Plugin functionality may be impaired.';
+            }
+            printf('<div class="notice %s"><p>%s</p></div>', esc_attr($class), $message);
+        });
+    }
     
     return false;
 }
@@ -70,10 +76,10 @@ function themisdb_fm_safe_require($file, $is_critical = true) {
 // Track if all critical files loaded successfully
 $themisdb_fm_files_loaded = true;
 
-// Load required files
-$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php') && $themisdb_fm_files_loaded;
-$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-shortcode.php') && $themisdb_fm_files_loaded;
-$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php') && $themisdb_fm_files_loaded;
+// Load required files (using & to avoid short-circuit and check all files)
+$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php') & $themisdb_fm_files_loaded;
+$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-shortcode.php') & $themisdb_fm_files_loaded;
+$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php') & $themisdb_fm_files_loaded;
 
 // Abort initialization if critical files are missing
 if (!$themisdb_fm_files_loaded) {
