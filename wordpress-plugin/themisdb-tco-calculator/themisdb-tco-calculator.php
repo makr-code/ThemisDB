@@ -27,6 +27,18 @@ define('THEMISDB_TCO_PLUGIN_FILE', __FILE__);
 define('THEMISDB_TCO_GITHUB_REPO', 'makr-code/ThemisDB');
 define('THEMISDB_TCO_GITHUB_PATH', 'tools/tco-calculator-wordpress');
 
+// Load updater class
+require_once dirname(THEMISDB_TCO_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_TCO_PLUGIN_FILE,
+        'themisdb-tco-calculator',
+        THEMISDB_TCO_VERSION
+    );
+}
+
 /**
  * Main Plugin Class
  */

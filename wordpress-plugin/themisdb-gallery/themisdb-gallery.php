@@ -31,6 +31,19 @@ define('THEMISDB_GALLERY_VERSION', '1.0.1');
 define('THEMISDB_GALLERY_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_GALLERY_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('THEMISDB_GALLERY_PLUGIN_BASENAME', plugin_basename(__FILE__));
+define('THEMISDB_GALLERY_PLUGIN_FILE', __FILE__);
+
+// Load updater class
+require_once dirname(THEMISDB_GALLERY_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_GALLERY_PLUGIN_FILE,
+        'themisdb-gallery',
+        THEMISDB_GALLERY_VERSION
+    );
+}
 
 // Include required files
 require_once THEMISDB_GALLERY_PLUGIN_DIR . 'includes/class-image-api.php';

@@ -30,6 +30,19 @@ if (version_compare(PHP_VERSION, '7.2', '<')) {
 define('THEMISDB_DOWNLOADS_VERSION', '1.2.0');
 define('THEMISDB_DOWNLOADS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_DOWNLOADS_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('THEMISDB_DOWNLOADS_PLUGIN_FILE', __FILE__);
+
+// Load updater class
+require_once dirname(THEMISDB_DOWNLOADS_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_DOWNLOADS_PLUGIN_FILE,
+        'themisdb-downloads',
+        THEMISDB_DOWNLOADS_VERSION
+    );
+}
 
 // Include required files
 require_once THEMISDB_DOWNLOADS_PLUGIN_DIR . 'includes/class-markdown-converter.php';
