@@ -164,7 +164,9 @@ std::optional<ShardRaftInfo> RaftShardManager::getShardRaftInfo(const std::strin
     info.role = raft_state.getState();
     info.term = raft->getCurrentTerm();
     info.commit_index = raft_log.getCommitIndex();
-    info.last_applied = raft_log.getCommitIndex();  // Use commit_index as proxy
+    // Note: Using commit_index as proxy for last_applied since RaftLog doesn't expose last_applied separately
+    // In practice, last_applied trails commit_index but this is sufficient for monitoring
+    info.last_applied = raft_log.getCommitIndex();
     info.leader_id = raft->getLeaderId();
     info.has_quorum = raft->hasQuorum();
     info.is_healthy = raft->hasQuorum() && !raft->isReadOnly();
@@ -195,7 +197,9 @@ std::map<std::string, ShardRaftInfo> RaftShardManager::getAllShardRaftInfo() con
         info.role = raft_state.getState();
         info.term = raft->getCurrentTerm();
         info.commit_index = raft_log.getCommitIndex();
-        info.last_applied = raft_log.getCommitIndex();  // Use commit_index as proxy
+        // Note: Using commit_index as proxy for last_applied since RaftLog doesn't expose last_applied separately
+        // In practice, last_applied trails commit_index but this is sufficient for monitoring
+        info.last_applied = raft_log.getCommitIndex();
         info.leader_id = raft->getLeaderId();
         info.has_quorum = raft->hasQuorum();
         info.is_healthy = raft->hasQuorum() && !raft->isReadOnly();
