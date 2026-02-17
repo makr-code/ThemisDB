@@ -31,7 +31,7 @@ get_header(); ?>
                     echo '<ul class="wiki-nav-list">';
                     while ($recent_pages->have_posts()) {
                         $recent_pages->the_post();
-                        echo '<li><a href="' . get_permalink() . '">' . get_the_title() . '</a></li>';
+                        echo '<li><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></li>';
                     }
                     echo '</ul>';
                     wp_reset_postdata();
@@ -75,7 +75,7 @@ get_header(); ?>
                 ?>
                 <div class="wiki-categories">
                     <?php foreach ($categories as $category) : ?>
-                    <a href="<?php echo get_term_link($category); ?>" class="wiki-category-badge">
+                    <a href="<?php echo esc_url(get_term_link($category)); ?>" class="wiki-category-badge">
                         <?php echo esc_html($category->name); ?>
                     </a>
                     <?php endforeach; ?>
