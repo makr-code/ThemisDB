@@ -72,7 +72,9 @@ function themisdb_taxonomy_safe_require($file, $is_critical = true) {
 // Track if all critical files loaded successfully
 $themisdb_taxonomy_files_loaded = true;
 
-// Include required files (using & to avoid short-circuit and check all files)
+// Include required files
+// Note: Using bitwise AND (&=) instead of logical AND (&&=) to prevent short-circuit evaluation
+// This ensures ALL files are checked and logged, not just until the first failure
 $themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tfidf.php');
 $themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-analytics.php');
 $themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-category-hierarchy.php');

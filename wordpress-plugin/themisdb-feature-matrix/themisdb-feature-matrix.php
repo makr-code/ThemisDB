@@ -76,7 +76,9 @@ function themisdb_fm_safe_require($file, $is_critical = true) {
 // Track if all critical files loaded successfully
 $themisdb_fm_files_loaded = true;
 
-// Load required files (using & to avoid short-circuit and check all files)
+// Load required files
+// Note: Using bitwise AND (&=) instead of logical AND (&&=) to prevent short-circuit evaluation
+// This ensures ALL files are checked and logged, not just until the first failure
 $themisdb_fm_files_loaded &= themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php');
 $themisdb_fm_files_loaded &= themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-shortcode.php');
 $themisdb_fm_files_loaded &= themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php');
