@@ -134,10 +134,11 @@ create_filesystem() {
     
     # Create filesystem with optimized settings for database workloads
     if [[ "$FILESYSTEM" == "ext4" ]]; then
+        # Note: Journaling is ENABLED for data safety in production
+        # For benchmarking, you can disable with: -O ^has_journal
         mkfs.ext4 \
             -L themisdb_data \
             -m 1 \
-            -O ^has_journal \
             "$mapper_device"
     elif [[ "$FILESYSTEM" == "xfs" ]]; then
         mkfs.xfs \

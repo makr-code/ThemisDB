@@ -32,7 +32,9 @@ terraform_configuration: |
 
   # EC2 Instance with encrypted root volume
   resource "aws_instance" "themisdb" {
-    ami           = "ami-0c55b159cbfafe1f0"  # Ubuntu 22.04 LTS
+    # NOTE: AMI IDs are region-specific. Find current Ubuntu 22.04 LTS AMI for your region:
+    # aws ec2 describe-images --owners 099720109477 --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" --query 'sort_by(Images, &CreationDate)[-1].ImageId' --output text
+    ami           = "ami-0c55b159cbfafe1f0"  # PLACEHOLDER: Update with current Ubuntu 22.04 LTS AMI for your region
     instance_type = "r6i.2xlarge"            # 8 vCPU, 64 GB RAM
     
     # Encrypted root volume
