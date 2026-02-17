@@ -46,7 +46,7 @@ namespace {
     llama_lora_adapter_clear_fn g_llama_lora_adapter_clear = nullptr;
     llama_lora_adapter_free_fn g_llama_lora_adapter_free = nullptr;
     
-    std::once_flag g_api_init_flag;
+    std::once_flag g_lora_api_init_flag;
     bool g_lora_api_available = false;
     
     /**
@@ -131,7 +131,7 @@ namespace {
      * @brief Ensure API is initialized (thread-safe)
      */
     inline void ensureAPIInitialized() {
-        std::call_once(g_api_init_flag, initializeLoRAAPI);
+        std::call_once(g_lora_api_init_flag, initializeLoRAAPI);
     }
 }
 

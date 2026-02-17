@@ -81,7 +81,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit RubricEvaluator(const Config& config = {});
+    RubricEvaluator();
+    explicit RubricEvaluator(const Config& config);
     
     /**
      * @brief Destructor

@@ -104,6 +104,10 @@ Winner:)";
     }
 };
 
+PairwiseComparator::PairwiseComparator()
+    : PairwiseComparator(Config{}) {
+}
+
 PairwiseComparator::PairwiseComparator(const Config& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;

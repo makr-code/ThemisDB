@@ -14,7 +14,7 @@
 #include "utils/zstd_codec.h"
 
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
-#include "shard_rpc.grpc.pb.h"
+#include "sharding/shard_rpc.grpc.pb.h"
 #include "shard_rpc.pb.h"
 #endif
 

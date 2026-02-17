@@ -203,7 +203,7 @@ private:
     
     // Memory management
     std::unique_ptr<VRAMAllocator> vram_allocator_;
-    GPUMemoryManager* gpu_memory_manager_ = nullptr;
+    ::themis::llm::GPUMemoryManager* gpu_memory_manager_ = nullptr;
     
     // Dynamic batch size adaptation (NEW)
     std::unique_ptr<AdaptiveBatcher> adaptive_batcher_;

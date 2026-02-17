@@ -164,7 +164,7 @@ TEST_F(ShardRPCTest, TimeoutHandling) {
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_GRPC
-#if __has_include("shard_rpc.grpc.pb.h")
+#if __has_include("sharding/shard_rpc.grpc.pb.h")
 
 TEST_F(ShardRPCTest, GrpcServerStartStop) {
     ShardRPCServer server("0.0.0.0:50051");

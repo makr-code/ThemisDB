@@ -67,6 +67,11 @@ function(themis_add_module MODULE_NAME)
     string(TOUPPER ${MODULE_NAME} MODULE_NAME_UPPER)
     target_compile_definitions(themis_${MODULE_NAME} PRIVATE THEMIS_${MODULE_NAME_UPPER}_EXPORTS)
     
+    # mimalloc import definitions for all modules
+    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+        target_compile_definitions(themis_${MODULE_NAME} PRIVATE MI_SHARED_LIB=1 MI_SHARED_LIB_EXPORT=0)
+    endif()
+    
     # Windows: Export all symbols for DLL and disable /GL so __create_def can read symbols
     if(MSVC)
         set_target_properties(themis_${MODULE_NAME} PROPERTIES
@@ -132,6 +137,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/boost_throw_exception.cpp
     ../src/utils/file_utils.cpp
+    ../src/utils/thread_pool_manager.cpp
     
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
@@ -225,6 +231,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/functions/function_registry.cpp
     ../src/query/functions/ethics_functions.cpp
     ../src/query/functions/lora_functions.cpp
+    ../src/query/functions/process_mining_functions.cpp
     
     # Analytics
     ../src/analytics/olap.cpp
@@ -330,6 +337,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/urn_resolver.cpp
     ../src/sharding/pki_shard_certificate.cpp
     ../src/sharding/mtls_client.cpp
+    ../src/sharding/mtls_connection_pool.cpp
     ../src/sharding/signed_request.cpp
     ../src/sharding/remote_executor.cpp
     ../src/sharding/shard_rpc_client.cpp
@@ -409,13 +417,27 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/llm_plugin_manager.cpp
     ../src/llm/model_loader.cpp
     ../src/llm/llama_wrapper.cpp
+    ../src/llm/llama_lora_adapter.cpp
+    ../src/llm/llama_grammar_adapter.cpp
+    ../src/llm/llamacpp_inference_engine.cpp
     ../src/llm/async_inference_engine.cpp
+    ../src/llm/inference_engine_enhanced.cpp
     ../src/llm/embedded_llm.cpp
+    ../src/llm/ethical_guidelines_manager.cpp
     ../src/llm/docs_assistant.cpp
     ../src/llm/feedback_store.cpp
+    ../src/llm/llm_model_storage.cpp
     ../src/llm/kv_cache_buffer.cpp
     ../src/llm/multi_lora_manager.cpp
     ../src/llm/gguf_loader.cpp
+    ../src/llm/grammar.cpp
+    ../src/llm/grammar_cache.cpp
+    ../src/llm/llm_prefix_cache.cpp
+    ../src/llm/continuous_batch_scheduler.cpp
+    ../src/llm/grafana_metrics.cpp
+    ../src/llm/distributed_training_coordinator.cpp
+        ../src/cache/embedding_cache.cpp
+        ../src/llm/lora_framework/lora_layers.cpp
     
     # LoRA framework (core subset)
     ../src/llm/lora_framework/lora_orchestrator.cpp
@@ -423,6 +445,41 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/lora_framework/lora_storage_service.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp
+    ../src/llm/lora_framework/gradient_utils.cpp
+    ../src/llm/lora_framework/mixed_precision.cpp
+    ../src/llm/lora_framework/lr_scheduler.cpp
+    ../src/llm/lora_framework/data_loader.cpp
+    ../src/llm/lora_framework/distributed_trainer.cpp
+    ../src/llm/lora_framework/quantized_model.cpp
+    ../src/llm/lora_framework/gguf_converter.cpp
+    ../src/llm/lora_framework/llama_tokenizer.cpp
+    ../src/llm/lora_framework/base_model_adapter.cpp
+    ../src/llm/lora_framework/quantization.cpp
+    ../src/llm/lora_framework/model_compatibility.cpp
+    ../src/llm/lora_framework/resource_profiler.cpp
+    ../src/llm/lora_framework/training_service_registry.cpp
+    ../src/llm/byzantine_detector.cpp
+    ../src/security/vram_secure_clear.cpp
+    # GPU memory management and security
+    ../src/llm/gpu_memory_manager.cpp
+    # GPU-specific sources (conditional)
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/vram_allocator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_memory.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_tensor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_lora_layers.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/flash_lora.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_data_loader.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_embedding_layer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/multi_gpu_lora_layer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/multi_gpu.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/multi_gpu_trainer.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/nccl_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/rccl_backend.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/custom_allreduce.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/adaptive_batcher.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_utilization_monitor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gradient_checkpointing.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/llm/lora_framework/gpu_training_loop.cpp>
     
     # RAG enhancement modules
     ../src/rag/knowledge_gap_detector.cpp
@@ -431,6 +488,28 @@ set(THEMIS_LLM_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/lora_api_handler.cpp>
 )
+
+if(THEMIS_ENABLE_GPU)
+    list(APPEND THEMIS_LLM_SOURCES
+        ../src/llm/lora_framework/vram_allocator.cpp
+        ../src/llm/lora_framework/gpu_memory.cpp
+        ../src/llm/lora_framework/gpu_tensor.cpp
+        ../src/llm/lora_framework/gpu_lora_layers.cpp
+        ../src/llm/lora_framework/flash_lora.cpp
+        ../src/llm/lora_framework/gpu_data_loader.cpp
+        ../src/llm/lora_framework/gpu_embedding_layer.cpp
+        ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
+        ../src/llm/lora_framework/multi_gpu.cpp
+        ../src/llm/lora_framework/multi_gpu_trainer.cpp
+        ../src/llm/lora_framework/nccl_backend.cpp
+        ../src/llm/lora_framework/rccl_backend.cpp
+        ../src/llm/lora_framework/custom_allreduce.cpp
+        ../src/llm/lora_framework/adaptive_batcher.cpp
+        ../src/llm/lora_framework/gpu_utilization_monitor.cpp
+        ../src/llm/lora_framework/gradient_checkpointing.cpp
+        ../src/llm/lora_framework/gpu_training_loop.cpp
+    )
+endif()
 
 set(THEMIS_CONTENT_SOURCES
     # Content processing (conditional)
@@ -457,6 +536,7 @@ set(THEMIS_TIMESERIES_SOURCES
     ../src/timeseries/aggregate_scheduler.cpp
     ../src/timeseries/aggregate_scheduler_helper.cpp
     ../src/timeseries/query_optimizer.cpp
+    ../src/timeseries/timeseries_metrics.cpp
 )
 
 set(THEMIS_NETWORK_SOURCES
@@ -570,6 +650,16 @@ function(themis_build_modular)
             list(APPEND _themis_base_deps gRPC::grpc++ protobuf::libprotobuf)
         endif()
     endif()
+    if(THEMIS_ENABLE_TRACING)
+        find_package(opentelemetry-cpp CONFIG REQUIRED)
+        if(NOT TARGET opentelemetry-cpp::trace)
+            message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::trace' not found. Ensure opentelemetry-cpp was found successfully.")
+        endif()
+        if(NOT TARGET opentelemetry-cpp::otlp_http_exporter)
+            message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::otlp_http_exporter' not found. Ensure opentelemetry-cpp was found with otlp-http feature.")
+        endif()
+        list(APPEND _themis_base_deps opentelemetry-cpp::trace opentelemetry-cpp::otlp_http_exporter)
+    endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
@@ -585,6 +675,9 @@ function(themis_build_modular)
     endif()
     if(TARGET TBB::tbb)
         list(APPEND _themis_storage_deps TBB::tbb)
+    endif()
+    if(THEMIS_ENABLE_GPU AND TARGET faiss)
+        list(APPEND _themis_storage_deps faiss)
     endif()
 
     themis_add_module(storage
@@ -604,8 +697,8 @@ function(themis_build_modular)
     if(TARGET CURL::libcurl)
         list(APPEND _themis_security_deps CURL::libcurl)
     endif()
-    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc::mimalloc)
-        list(APPEND _themis_security_deps mimalloc::mimalloc)
+    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+        list(APPEND _themis_security_deps mimalloc)
     endif()
     if(WIN32)
         list(APPEND _themis_security_deps Secur32)
@@ -659,6 +752,21 @@ function(themis_build_modular)
                 themis_security
                 themis_transaction
         )
+        # Ensure proto files are generated before compiling sharding sources
+        if(TARGET themis_shard_proto)
+            add_dependencies(themis_sharding themis_shard_proto)
+            target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
+            # Add include directory for generated proto headers
+            target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
+            message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")
+        endif()
+        # Additional gRPC dependencies for sharding module
+        if(TARGET gRPC::grpc++)
+            target_link_libraries(themis_sharding PUBLIC gRPC::grpc++)
+        endif()
+        if(TARGET protobuf::libprotobuf)
+            target_link_libraries(themis_sharding PUBLIC protobuf::libprotobuf)
+        endif()
     endif()
     
     if(THEMIS_MODULE_TIMESERIES)
@@ -677,11 +785,15 @@ function(themis_build_modular)
                 themis_base 
                 themis_storage
                 themis_security
+                themis_sharding
         )
         target_include_directories(themis_llm PRIVATE
             ${CMAKE_SOURCE_DIR}/llama.cpp/include
             ${CMAKE_SOURCE_DIR}/llama.cpp/ggml/include
         )
+        if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+            target_link_libraries(themis_llm PUBLIC mimalloc)
+        endif()
         if(TARGET llama)
             target_link_libraries(themis_llm PUBLIC llama)
         elseif(llama_LIBRARIES)
@@ -720,6 +832,7 @@ function(themis_build_modular)
             DEPENDENCIES 
                 themis_base 
                 themis_storage
+                themis_transaction
         )
     endif()
     
@@ -737,8 +850,8 @@ function(themis_build_modular)
     # if(TARGET themis_storage AND TARGET themis_security)
     #     target_link_libraries(themis_storage PUBLIC themis_security)
     # endif()
-    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc::mimalloc)
-        target_link_libraries(themis_storage PUBLIC mimalloc::mimalloc)
+    if(THEMIS_ENABLE_MIMALLOC AND TARGET mimalloc)
+        target_link_libraries(themis_storage PUBLIC mimalloc)
     endif()
     
     # Create convenience variable for all modules to link against
@@ -778,3 +891,4 @@ function(themis_build_modular)
     
     set(THEMIS_ALL_MODULES ${THEMIS_ALL_MODULES} PARENT_SCOPE)
 endfunction()
+

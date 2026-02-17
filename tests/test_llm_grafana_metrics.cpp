@@ -8,6 +8,7 @@
 
 using namespace themis::llm;
 using namespace themis::llm::monitoring;
+using namespace themis::test;
 
 class LLMGrafanaMetricsTest : public ::testing::Test {
 protected:

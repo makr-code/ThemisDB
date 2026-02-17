@@ -17,6 +17,10 @@ namespace security {
 
 constexpr uint8_t VRAMSecureClear::PATTERNS[];
 
+bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes) {
+    return secureClearCUDA(ptr, size_bytes, Config{});
+}
+
 bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config& config) {
 #ifdef THEMIS_ENABLE_CUDA
     if (ptr == nullptr || size_bytes == 0) {
@@ -82,6 +86,10 @@ bool VRAMSecureClear::secureClearCUDA(void* ptr, size_t size_bytes, const Config
 #endif
 }
 
+bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes) {
+    return secureClearHIP(ptr, size_bytes, Config{});
+}
+
 bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config& config) {
 #ifdef THEMIS_ENABLE_HIP
     if (ptr == nullptr || size_bytes == 0) {
@@ -144,6 +152,10 @@ bool VRAMSecureClear::secureClearHIP(void* ptr, size_t size_bytes, const Config&
     spdlog::warn("VRAM secure clear (HIP) called but HIP not enabled");
     return false;
 #endif
+}
+
+void VRAMSecureClear::secureClearCPU(void* ptr, size_t size_bytes) {
+    secureClearCPU(ptr, size_bytes, Config{});
 }
 
 void VRAMSecureClear::secureClearCPU(void* ptr, size_t size_bytes, const Config& config) {

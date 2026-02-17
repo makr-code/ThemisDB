@@ -650,6 +650,10 @@ private:
 };
 
 // LLMModelStorage implementation
+LLMModelStorage::LLMModelStorage()
+    : LLMModelStorage(Config{}) {
+}
+
 LLMModelStorage::LLMModelStorage(const Config& config)
     : impl_(std::make_unique<Impl>(config)), config_(config) {}
 

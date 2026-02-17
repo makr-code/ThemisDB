@@ -36,6 +36,10 @@ namespace server {
 // McpServer Implementation
 // ============================================================================
 
+McpServer::McpServer(asio::io_context& io_context)
+    : McpServer(io_context, Config{}) {
+}
+
 McpServer::McpServer(asio::io_context& io_context, const Config& config)
     : io_context_(io_context), config_(config) {
     spdlog::info("MCP Server initializing with transports: stdio={}, sse={}, websocket={}",

@@ -9,7 +9,6 @@ PITRApiHandler::PITRApiHandler(PITRManager& pitr_manager)
     : pitr_manager_(pitr_manager) {
 }
 
-#ifdef THEMIS_ENABLE_HTTP_SERVER
 void PITRApiHandler::registerRoutes(httplib::Server& server) {
     // POST /api/v1/restore/pitr - Execute restore
     server.Post("/api/v1/restore/pitr", [this](const httplib::Request& req, httplib::Response& res) {
@@ -28,7 +27,6 @@ void PITRApiHandler::registerRoutes(httplib::Server& server) {
 
     spdlog::info("PITR API routes registered");
 }
-#endif
 
 void PITRApiHandler::handleRestore(const httplib::Request& req, httplib::Response& res) {
     try {

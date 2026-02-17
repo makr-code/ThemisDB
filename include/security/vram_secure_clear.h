@@ -45,7 +45,8 @@ public:
      * @param config Clearing configuration
      * @return true if successful, false on error
      */
-    static bool secureClearCUDA(void* ptr, size_t size_bytes, const Config& config = Config{});
+    static bool secureClearCUDA(void* ptr, size_t size_bytes);
+    static bool secureClearCUDA(void* ptr, size_t size_bytes, const Config& config);
     
     /**
      * @brief Securely clear HIP memory with multi-pass overwrite
@@ -55,7 +56,8 @@ public:
      * @param config Clearing configuration
      * @return true if successful, false on error
      */
-    static bool secureClearHIP(void* ptr, size_t size_bytes, const Config& config = Config{});
+    static bool secureClearHIP(void* ptr, size_t size_bytes);
+    static bool secureClearHIP(void* ptr, size_t size_bytes, const Config& config);
     
     /**
      * @brief Securely clear CPU memory (for comparison/fallback)
@@ -66,7 +68,8 @@ public:
      * @param size_bytes Size of memory region in bytes
      * @param config Clearing configuration
      */
-    static void secureClearCPU(void* ptr, size_t size_bytes, const Config& config = Config{});
+    static void secureClearCPU(void* ptr, size_t size_bytes);
+    static void secureClearCPU(void* ptr, size_t size_bytes, const Config& config);
 
 private:
     // Overwrite patterns for multi-pass clearing

@@ -10,6 +10,10 @@ namespace llm {
 // GPUSafeFailManager Implementation
 // ============================================================================
 
+GPUSafeFailManager::GPUSafeFailManager()
+    : GPUSafeFailManager(Config{}) {
+}
+
 GPUSafeFailManager::GPUSafeFailManager(const Config& config)
     : config_(config) {
     spdlog::info("GPU Safe-Fail Manager initialized:");

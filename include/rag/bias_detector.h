@@ -62,7 +62,8 @@ public:
      * @brief Construct bias detector with configuration
      * @param config Detector configuration
      */
-    explicit BiasDetector(const BiasDetectorConfig& config = {});
+    BiasDetector();
+    explicit BiasDetector(const BiasDetectorConfig& config);
     
     /**
      * @brief Detect position bias in pairwise comparisons

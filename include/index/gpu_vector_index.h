@@ -88,7 +88,8 @@ public:
     };
     
     // Constructor
-    explicit GPUVectorIndex(const Config& config = Config{});
+    GPUVectorIndex();
+    explicit GPUVectorIndex(const Config& config);
     ~GPUVectorIndex();
     
     // Initialization

@@ -178,7 +178,8 @@ public:
         size_t inline_threshold_mb = 100;  // Files > 100MB go to blob storage
     };
     
-    explicit LLMModelStorage(const Config& config = Config{});
+    LLMModelStorage();
+    explicit LLMModelStorage(const Config& config);
     ~LLMModelStorage();
     
     // ═══════════════════════════════════════════════════════════

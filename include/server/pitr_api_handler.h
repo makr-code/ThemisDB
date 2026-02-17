@@ -4,10 +4,7 @@
 #include "storage/pitr_manager.h"
 #include <memory>
 #include <nlohmann/json.hpp>
-
-#ifdef THEMIS_ENABLE_HTTP_SERVER
 #include <httplib.h>
-#endif
 
 namespace themis {
 namespace server {
@@ -39,7 +36,6 @@ public:
     PITRApiHandler(PITRApiHandler&&) = default;
     PITRApiHandler& operator=(PITRApiHandler&&) = default;
 
-#ifdef THEMIS_ENABLE_HTTP_SERVER
     /**
      * Register routes with HTTP server
      */
@@ -59,7 +55,6 @@ public:
      * Handle GET /api/v1/restore/progress
      */
     void handleGetProgress(const httplib::Request& req, httplib::Response& res);
-#endif
 
 private:
     PITRManager& pitr_manager_;

@@ -116,7 +116,7 @@ private:
     AdminAPI admin_api_;
     std::unique_ptr<themisdb::sharding::OperationalMetrics> metrics_;
     std::unique_ptr<ShardTopology> topology_;
-    std::unique_ptr<HealthCheck> health_check_;
+    std::unique_ptr<HealthCheckSystem> health_check_;
     
     /**
      * @brief Handle topology requests

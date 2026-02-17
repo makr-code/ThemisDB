@@ -146,6 +146,10 @@ void ThreadPool::shutdown() {
 // ThreadPoolManager Implementation
 // ============================================================================
 
+ThreadPoolManager::ThreadPoolManager()
+    : ThreadPoolManager(Config{}) {
+}
+
 ThreadPoolManager::ThreadPoolManager(const Config& config)
     : config_(config), running_(true) {
     

@@ -57,13 +57,26 @@ LoRARouter::LoRARouter(
     std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
     std::shared_ptr<AdapterRegistry> adapter_registry,
     std::shared_ptr<AdapterLoadBalancer> load_balancer,
+    std::shared_ptr<MultiLoRAManager> lora_manager)
+    : LoRARouter(
+        std::move(embedding_provider),
+        std::move(adapter_registry),
+        std::move(load_balancer),
+        std::move(lora_manager),
+        Config{}) {
+}
+
+LoRARouter::LoRARouter(
+    std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
+    std::shared_ptr<AdapterRegistry> adapter_registry,
+    std::shared_ptr<AdapterLoadBalancer> load_balancer,
     std::shared_ptr<MultiLoRAManager> lora_manager,
     const Config& config)
     : config_(config)
-    , embedding_provider_(embedding_provider)
-    , adapter_registry_(adapter_registry)
-    , load_balancer_(load_balancer)
-    , lora_manager_(lora_manager)
+    , embedding_provider_(std::move(embedding_provider))
+    , adapter_registry_(std::move(adapter_registry))
+    , load_balancer_(std::move(load_balancer))
+    , lora_manager_(std::move(lora_manager))
     , fallback_config_(config.fallback) {
     
     spdlog::info("LoRA Router initialized:");

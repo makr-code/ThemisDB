@@ -45,7 +45,7 @@ class PluginMetricsIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Register test plugin factory
-        PluginRegistry::registerFactory(
+        PluginManagerRegistry::registerFactory(
             "integration_test_plugin",
             PluginType::CUSTOM,
             []() { return std::make_unique<IntegrationTestPlugin>(); }
@@ -61,7 +61,7 @@ TEST_F(PluginMetricsIntegrationTest, MetricsRecordedOnLoad) {
     auto& pm = PluginManager::instance();
     
     // Create plugin via registry (simulates loading)
-    auto plugin = PluginRegistry::createPlugin("integration_test_plugin");
+    auto plugin = PluginManagerRegistry::createPlugin("integration_test_plugin");
     ASSERT_NE(plugin, nullptr);
     
     // Initialize plugin

@@ -187,6 +187,10 @@ struct GEvalEvaluator::Impl {
 // Constructor & Destructor
 // ═══════════════════════════════════════════════════════════
 
+GEvalEvaluator::GEvalEvaluator()
+    : GEvalEvaluator(Config{}) {
+}
+
 GEvalEvaluator::GEvalEvaluator(const Config& config)
     : impl_(std::make_unique<Impl>(config)) {
     spdlog::info("GEvalEvaluator initialized with {} samples", config.num_samples);

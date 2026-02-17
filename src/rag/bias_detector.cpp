@@ -11,6 +11,10 @@
 
 namespace themis::rag::judge {
 
+BiasDetector::BiasDetector()
+    : BiasDetector(BiasDetectorConfig{}) {
+}
+
 BiasDetector::BiasDetector(const BiasDetectorConfig& config)
     : config_(config) {
     THEMIS_INFO("BiasDetector initialized");

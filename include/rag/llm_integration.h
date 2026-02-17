@@ -103,9 +103,10 @@ public:
      * @param options Generation options
      * @return Generated text
      */
+    static std::string generate(const std::string& prompt);
     static std::string generate(
         const std::string& prompt,
-        const LLMGenerationOptions& options = {}
+        const LLMGenerationOptions& options
     );
     
     /**
@@ -117,8 +118,12 @@ public:
      */
     static std::vector<std::string> generateMultipleSamples(
         const std::string& prompt,
+        size_t num_samples
+    );
+    static std::vector<std::string> generateMultipleSamples(
+        const std::string& prompt,
         size_t num_samples,
-        const LLMGenerationOptions& options = {}
+        const LLMGenerationOptions& options
     );
     
     /**

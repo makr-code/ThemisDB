@@ -98,6 +98,13 @@ struct ShardMetrics {
     std::chrono::system_clock::time_point start_time;
     std::chrono::system_clock::time_point last_update_time;
     
+    // Delete copy constructor and assignment (std::atomic is not copyable)
+    ShardMetrics(const ShardMetrics&) = delete;
+    ShardMetrics& operator=(const ShardMetrics&) = delete;
+    
+    // Default constructor
+    ShardMetrics() = default;
+    
     /**
      * @brief Get average latency in microseconds
      */
@@ -214,8 +221,9 @@ public:
     
     /**
      * @brief Get aggregated metrics across all shards
+     * @param out Output parameter to receive aggregated metrics
      */
-    ShardMetrics getAggregatedMetrics() const;
+    void getAggregatedMetrics(ShardMetrics& out) const;
     
     /**
      * @brief Get cluster-wide health status
