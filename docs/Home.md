@@ -218,3 +218,18 @@ ThemisDB is open source under the [MIT License](https://github.com/makr-code/The
 **Ready to get started?** → **[Quick Start Guide](guides-QUICK_START)**
 
 **Need help?** → **[Discussions](https://github.com/makr-code/ThemisDB/discussions)**
+
+---
+
+## Dokumenten-Metadaten
+
+```yaml
+Urheber: Themis DevTeam & Copilot
+Dokumenten-Nr: Stand: 2026-02-17
+Erstelldatum: 2026-02-17
+Letzte Änderung: 2026-02-17
+Commit-Titel: "Create documentation for build simplification proposals in ThemisDB repository."
+Reviewer: 
+Titel: "ThemisDB Documentation Home (Language Selector)"
+Dateipfad: docs/Home.md
+```
