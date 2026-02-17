@@ -20,8 +20,13 @@ if (!defined('ABSPATH')) {
 define('THEMISDB_TAXONOMY_VERSION', '1.0.0');
 define('THEMISDB_TAXONOMY_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_TAXONOMY_URL', plugin_dir_url(__FILE__));
+// Backward compatibility aliases
+define('THEMISDB_TAXONOMY_PLUGIN_DIR', THEMISDB_TAXONOMY_DIR);
+define('THEMISDB_TAXONOMY_PLUGIN_URL', THEMISDB_TAXONOMY_URL);
 
 // Include required files
+require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tfidf.php';
+require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-analytics.php';
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-category-hierarchy.php';
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-taxonomy-extractor.php';
 require_once THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-taxonomy-manager.php';
@@ -111,6 +116,11 @@ class ThemisDB_Taxonomy_Manager_Plugin {
         add_option('themisdb_taxonomy_auto_extract', 1);
         add_option('themisdb_taxonomy_auto_tags', 1);
         add_option('themisdb_taxonomy_auto_categories', 1);
+        add_option('themisdb_taxonomy_max_categories', 5);
+        add_option('themisdb_taxonomy_max_tags', 10);
+        add_option('themisdb_taxonomy_min_tfidf_score', 0.5);
+        add_option('themisdb_taxonomy_similarity_threshold', 0.8);
+        add_option('themisdb_taxonomy_prefer_existing', 1);
         add_option('themisdb_taxonomy_max_category_depth', 3);
         add_option('themisdb_taxonomy_min_category_posts', 2);
         add_option('themisdb_taxonomy_consolidate_categories', 1);
@@ -555,7 +565,22 @@ class ThemisDB_Taxonomy_Manager_Plugin {
         return $this->taxonomy_manager;
     }
 }
-add_action('init', 'themisdb_taxonomy_init');
+
+/**
+ * Initialize plugin
+ */
+function themisdb_taxonomy_init() {
+    ThemisDB_Taxonomy_Manager_Plugin::get_instance();
+}
+add_action('plugins_loaded', 'themisdb_taxonomy_init');
+
+/**
+ * Helper function to get taxonomy manager
+ */
+function themisdb_get_taxonomy_manager() {
+    $plugin = ThemisDB_Taxonomy_Manager_Plugin::get_instance();
+    return $plugin->get_taxonomy_manager();
+}
 
 function themisdb_taxonomy_enqueue_styles() {
     wp_enqueue_style('themisdb-taxonomy', THEMISDB_TAXONOMY_URL . 'assets/css/taxonomy-manager.css', array(), THEMISDB_TAXONOMY_VERSION);

@@ -11,6 +11,23 @@ if (!defined('ABSPATH')) {
 class ThemisDB_Taxonomy_Manager {
     
     /**
+     * Analytics instance
+     */
+    private $analytics;
+    
+    /**
+     * Semantic mapping for parent category finding
+     */
+    private $semantic_mapping = array(
+        'Security' => array('authentication', 'encryption', 'oauth', 'jwt', 'ssl', 'tls', 'compliance', 'audit', 'auth', 'authz'),
+        'Performance' => array('caching', 'optimization', 'indexing', 'sharding', 'benchmark', 'latency', 'throughput', 'scaling'),
+        'LLM Integration' => array('embeddings', 'vector search', 'rag', 'ai', 'machine learning', 'nlp', 'llm', 'neural'),
+        'Development' => array('api', 'rest', 'grpc', 'sdk', 'client', 'integration', 'docker', 'kubernetes', 'k8s'),
+        'Data Models' => array('graph', 'document', 'key-value', 'time-series', 'multi-model', 'relational', 'nosql'),
+        'Operations' => array('monitoring', 'backup', 'recovery', 'migration', 'deployment', 'observability')
+    );
+    
+    /**
      * Taxonomies configuration
      */
     private $taxonomies = array(
@@ -46,6 +63,11 @@ class ThemisDB_Taxonomy_Manager {
     public function __construct() {
         add_action('init', array($this, 'register_taxonomies'), 0);
         add_action('init', array($this, 'register_shortcodes'));
+        
+        // Initialize analytics
+        if (class_exists('ThemisDB_Taxonomy_Analytics')) {
+            $this->analytics = new ThemisDB_Taxonomy_Analytics();
+        }
     }
     
     /**
@@ -392,5 +414,204 @@ class ThemisDB_Taxonomy_Manager {
         </div>
         <?php
         return ob_get_clean();
+    }
+    
+    /**
+     * Find matching category using exact match, similarity, and synonyms
+     * 
+     * @param string $term Term to find
+     * @param string $taxonomy Taxonomy name (default: 'category')
+     * @return int|false Term ID if found, false otherwise
+     */
+    public function find_matching_category($term, $taxonomy = 'category') {
+        // 1. Exact match
+        $existing = term_exists($term, $taxonomy);
+        if ($existing && is_array($existing)) {
+            return $existing['term_id'];
+        }
+        
+        // 2. Similarity search using Levenshtein distance
+        $categories = get_terms(array(
+            'taxonomy' => $taxonomy,
+            'hide_empty' => false
+        ));
+        
+        if (!is_wp_error($categories)) {
+            foreach ($categories as $cat) {
+                // Levenshtein distance for short strings
+                if (strlen($term) < 255 && strlen($cat->name) < 255) {
+                    $distance = levenshtein(strtolower($term), strtolower($cat->name));
+                    if ($distance <= 2) { // Max 2 character difference
+                        return $cat->term_id;
+                    }
+                }
+                
+                // Synonym check
+                if ($this->analytics && $this->analytics->are_synonyms($term, $cat->name)) {
+                    return $cat->term_id;
+                }
+                
+                // Similarity using similar_text
+                $percent = 0;
+                similar_text(strtolower($term), strtolower($cat->name), $percent);
+                if ($percent > 85) { // 85% similar
+                    return $cat->term_id;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Find semantic parent category for a term
+     * 
+     * @param string $term Term to find parent for
+     * @return int|false Parent term ID if found, false otherwise
+     */
+    public function find_semantic_parent($term) {
+        $term_lower = strtolower($term);
+        
+        foreach ($this->semantic_mapping as $parent => $keywords) {
+            foreach ($keywords as $keyword) {
+                // Check if term contains the keyword
+                if (stripos($term_lower, $keyword) !== false) {
+                    // Find or create parent category
+                    $parent_term = term_exists($parent, 'category');
+                    if (!$parent_term) {
+                        $parent_term = wp_insert_term($parent, 'category');
+                    }
+                    return is_array($parent_term) ? $parent_term['term_id'] : false;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Assign categories to post with hierarchical structure
+     * 
+     * @param int $post_id Post ID
+     * @param array $category_names Category names to assign
+     * @param bool $append Whether to append or replace categories
+     */
+    public function assign_with_hierarchy($post_id, $category_names, $append = false) {
+        $category_ids = array();
+        $max_categories = get_option('themisdb_taxonomy_max_categories', 5);
+        
+        foreach ($category_names as $cat_name) {
+            if (count($category_ids) >= $max_categories) {
+                break;
+            }
+            
+            // 1. Check if category exists
+            $cat_id = $this->find_matching_category($cat_name, 'category');
+            
+            if ($cat_id) {
+                // Existing category found
+                $category_ids[] = $cat_id;
+                
+                // Get parent categories
+                $parents = get_ancestors($cat_id, 'category');
+                $category_ids = array_merge($category_ids, $parents);
+            } else {
+                // 2. Find semantic parent
+                $parent_id = $this->find_semantic_parent($cat_name);
+                
+                if ($parent_id) {
+                    // Create as child category
+                    $new_cat = wp_insert_term($cat_name, 'category', array(
+                        'parent' => $parent_id
+                    ));
+                    
+                    if (!is_wp_error($new_cat) && isset($new_cat['term_id'])) {
+                        $category_ids[] = $new_cat['term_id'];
+                        $category_ids[] = $parent_id; // Also assign parent
+                    }
+                } else {
+                    // Create as top-level category
+                    $new_cat = wp_insert_term($cat_name, 'category');
+                    if (!is_wp_error($new_cat) && isset($new_cat['term_id'])) {
+                        $category_ids[] = $new_cat['term_id'];
+                    }
+                }
+            }
+        }
+        
+        // Remove duplicates
+        $category_ids = array_unique($category_ids);
+        
+        // Limit to max categories
+        $category_ids = array_slice($category_ids, 0, $max_categories);
+        
+        // Assign to post
+        wp_set_post_categories($post_id, $category_ids, $append);
+    }
+    
+    /**
+     * Consolidate similar categories
+     * 
+     * @param float $similarity_threshold Minimum similarity (0-1)
+     * @return array Consolidation results
+     */
+    public function consolidate_categories($similarity_threshold = 0.8) {
+        if (!$this->analytics) {
+            return array(
+                'total_merged' => 0,
+                'details' => array(),
+                'error' => 'Analytics not available'
+            );
+        }
+        
+        return $this->analytics->consolidate_categories($similarity_threshold);
+    }
+    
+    /**
+     * Get optimization recommendations
+     * 
+     * @return array Recommendations
+     */
+    public function get_optimization_recommendations() {
+        if (!$this->analytics) {
+            return array();
+        }
+        
+        $recommendations = array();
+        
+        // Get consolidation suggestions
+        $consolidation = $this->analytics->get_consolidation_suggestions(0.8);
+        
+        foreach ($consolidation as $suggestion) {
+            $recommendations[] = array(
+                'current_name' => $suggestion['term1'],
+                'post_count' => $suggestion['post_count'],
+                'actions' => array(
+                    array(
+                        'type' => 'merge',
+                        'target' => $suggestion['term2'],
+                        'reason' => sprintf('%.0f%% similar', $suggestion['similarity'] * 100)
+                    )
+                )
+            );
+        }
+        
+        // Get unused terms
+        $unused = $this->analytics->get_unused_terms('category');
+        foreach ($unused as $term) {
+            $recommendations[] = array(
+                'current_name' => $term['name'],
+                'post_count' => 0,
+                'actions' => array(
+                    array(
+                        'type' => 'delete',
+                        'target' => '',
+                        'reason' => 'No posts assigned'
+                    )
+                )
+            );
+        }
+        
+        return $recommendations;
     }
 }

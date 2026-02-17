@@ -21,6 +21,8 @@ class ThemisDB_Taxonomy_Admin {
         // AJAX handlers
         add_action('wp_ajax_themisdb_consolidate_categories', array($this, 'ajax_consolidate'));
         add_action('wp_ajax_themisdb_get_recommendations', array($this, 'ajax_recommendations'));
+        add_action('wp_ajax_themisdb_cleanup_unused', array($this, 'ajax_cleanup_unused'));
+        add_action('wp_ajax_themisdb_merge_terms', array($this, 'ajax_merge_terms'));
     }
     
     /**
@@ -34,6 +36,17 @@ class ThemisDB_Taxonomy_Admin {
             'themisdb-taxonomy-manager',
             array($this, 'admin_page')
         );
+        
+        // Add Analytics submenu
+        add_menu_page(
+            __('Taxonomy Analytics', 'themisdb-taxonomy-manager'),
+            __('Taxonomy Analytics', 'themisdb-taxonomy-manager'),
+            'manage_categories',
+            'themisdb-taxonomy-analytics',
+            array($this, 'analytics_page'),
+            'dashicons-chart-bar',
+            31
+        );
     }
     
     /**
@@ -43,6 +56,11 @@ class ThemisDB_Taxonomy_Admin {
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_auto_extract');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_auto_tags');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_auto_categories');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_max_categories');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_max_tags');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_min_tfidf_score');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_similarity_threshold');
+        register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_prefer_existing');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_max_category_depth');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_min_category_posts');
         register_setting('themisdb_taxonomy_settings', 'themisdb_taxonomy_consolidate_categories');
@@ -58,29 +76,61 @@ class ThemisDB_Taxonomy_Admin {
      * Enqueue admin scripts
      */
     public function enqueue_admin_scripts($hook) {
-        if ($hook !== 'settings_page_themisdb-taxonomy-manager') {
-            return;
+        // Enqueue for settings page
+        if ($hook === 'settings_page_themisdb-taxonomy-manager') {
+            wp_enqueue_style(
+                'themisdb-taxonomy-admin',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/admin.css',
+                array(),
+                THEMISDB_TAXONOMY_VERSION
+            );
+            
+            wp_enqueue_script(
+                'themisdb-taxonomy-admin',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/admin.js',
+                array('jquery'),
+                THEMISDB_TAXONOMY_VERSION,
+                true
+            );
+            
+            wp_localize_script('themisdb-taxonomy-admin', 'themisdbTaxonomy', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('themisdb_taxonomy_admin')
+            ));
         }
         
-        wp_enqueue_style(
-            'themisdb-taxonomy-admin',
-            THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/admin.css',
-            array(),
-            THEMISDB_TAXONOMY_VERSION
-        );
-        
-        wp_enqueue_script(
-            'themisdb-taxonomy-admin',
-            THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/admin.js',
-            array('jquery'),
-            THEMISDB_TAXONOMY_VERSION,
-            true
-        );
-        
-        wp_localize_script('themisdb-taxonomy-admin', 'themisdbTaxonomy', array(
-            'ajaxurl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('themisdb_taxonomy_admin')
-        ));
+        // Enqueue for analytics page
+        if ($hook === 'toplevel_page_themisdb-taxonomy-analytics') {
+            wp_enqueue_style(
+                'themisdb-taxonomy-analytics',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/css/admin.css',
+                array(),
+                THEMISDB_TAXONOMY_VERSION
+            );
+            
+            wp_enqueue_script(
+                'themisdb-taxonomy-analytics',
+                THEMISDB_TAXONOMY_PLUGIN_URL . 'assets/js/taxonomy-analytics.js',
+                array('jquery'),
+                THEMISDB_TAXONOMY_VERSION,
+                true
+            );
+            
+            wp_localize_script('themisdb-taxonomy-analytics', 'themisdbTaxonomy', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('themisdb_taxonomy_admin'),
+                'i18n' => array(
+                    'confirmCleanup' => __('Delete all unused terms? This cannot be undone.', 'themisdb-taxonomy-manager'),
+                    'confirmConsolidate' => __('Automatically merge similar categories? This cannot be undone.', 'themisdb-taxonomy-manager'),
+                    'confirmMerge' => __('Merge these categories? This cannot be undone.', 'themisdb-taxonomy-manager'),
+                    'processing' => __('Processing...', 'themisdb-taxonomy-manager'),
+                    'merging' => __('Merging...', 'themisdb-taxonomy-manager'),
+                    'cleanup' => __('Cleanup', 'themisdb-taxonomy-manager'),
+                    'autoMerge' => __('Auto Merge', 'themisdb-taxonomy-manager'),
+                    'merge' => __('Merge', 'themisdb-taxonomy-manager')
+                )
+            ));
+        }
     }
     
     /**
@@ -153,6 +203,106 @@ class ThemisDB_Taxonomy_Admin {
                                        <?php checked(1, get_option('themisdb_taxonomy_auto_tags', 1)); ?>>
                                 <p class="description">
                                     <?php _e('Automatically extract and assign tags from content', 'themisdb-taxonomy-manager'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_max_categories">
+                                    <?php _e('Max Categories per Post', 'themisdb-taxonomy-manager'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="number" 
+                                       name="themisdb_taxonomy_max_categories" 
+                                       id="themisdb_taxonomy_max_categories" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_max_categories', 5)); ?>" 
+                                       min="1" 
+                                       max="10" 
+                                       class="small-text">
+                                <p class="description">
+                                    <?php _e('Maximum categories to assign per post (1-10, default: 5)', 'themisdb-taxonomy-manager'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_max_tags">
+                                    <?php _e('Max Tags per Post', 'themisdb-taxonomy-manager'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="number" 
+                                       name="themisdb_taxonomy_max_tags" 
+                                       id="themisdb_taxonomy_max_tags" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_max_tags', 10)); ?>" 
+                                       min="1" 
+                                       max="20" 
+                                       class="small-text">
+                                <p class="description">
+                                    <?php _e('Maximum tags to assign per post (1-20, default: 10)', 'themisdb-taxonomy-manager'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_min_tfidf_score">
+                                    <?php _e('Minimum TF-IDF Score', 'themisdb-taxonomy-manager'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="number" 
+                                       name="themisdb_taxonomy_min_tfidf_score" 
+                                       id="themisdb_taxonomy_min_tfidf_score" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_min_tfidf_score', 0.5)); ?>" 
+                                       min="0" 
+                                       max="1" 
+                                       step="0.1" 
+                                       class="small-text">
+                                <p class="description">
+                                    <?php _e('Minimum relevance score for term extraction (0-1, default: 0.5)', 'themisdb-taxonomy-manager'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_similarity_threshold">
+                                    <?php _e('Similarity Threshold', 'themisdb-taxonomy-manager'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="number" 
+                                       name="themisdb_taxonomy_similarity_threshold" 
+                                       id="themisdb_taxonomy_similarity_threshold" 
+                                       value="<?php echo esc_attr(get_option('themisdb_taxonomy_similarity_threshold', 0.8)); ?>" 
+                                       min="0" 
+                                       max="1" 
+                                       step="0.1" 
+                                       class="small-text">
+                                <p class="description">
+                                    <?php _e('Similarity threshold for merge suggestions (0-1, default: 0.8)', 'themisdb-taxonomy-manager'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th scope="row">
+                                <label for="themisdb_taxonomy_prefer_existing">
+                                    <?php _e('Prefer Existing Terms', 'themisdb-taxonomy-manager'); ?>
+                                </label>
+                            </th>
+                            <td>
+                                <input type="checkbox" 
+                                       name="themisdb_taxonomy_prefer_existing" 
+                                       id="themisdb_taxonomy_prefer_existing" 
+                                       value="1" 
+                                       <?php checked(1, get_option('themisdb_taxonomy_prefer_existing', 1)); ?>>
+                                <p class="description">
+                                    <?php _e('Prefer using existing categories/tags over creating new ones', 'themisdb-taxonomy-manager'); ?>
                                 </p>
                             </td>
                         </tr>
@@ -478,5 +628,196 @@ class ThemisDB_Taxonomy_Admin {
         $recommendations = $manager->get_optimization_recommendations();
         
         wp_send_json_success($recommendations);
+    }
+    
+    /**
+     * AJAX: Cleanup unused terms
+     */
+    public function ajax_cleanup_unused() {
+        check_ajax_referer('themisdb_taxonomy_admin', 'nonce');
+        
+        if (!current_user_can('manage_categories')) {
+            wp_send_json_error(array('message' => 'Unauthorized'));
+        }
+        
+        $analytics = new ThemisDB_Taxonomy_Analytics();
+        $deleted_categories = $analytics->cleanup_unused_terms('category');
+        $deleted_tags = $analytics->cleanup_unused_terms('post_tag');
+        
+        wp_send_json_success(array(
+            'deleted_categories' => $deleted_categories,
+            'deleted_tags' => $deleted_tags,
+            'total_deleted' => $deleted_categories + $deleted_tags
+        ));
+    }
+    
+    /**
+     * AJAX: Merge terms
+     */
+    public function ajax_merge_terms() {
+        check_ajax_referer('themisdb_taxonomy_admin', 'nonce');
+        
+        if (!current_user_can('manage_categories')) {
+            wp_send_json_error(array('message' => 'Unauthorized'));
+        }
+        
+        $term1_id = isset($_POST['term1_id']) ? intval($_POST['term1_id']) : 0;
+        $term2_id = isset($_POST['term2_id']) ? intval($_POST['term2_id']) : 0;
+        
+        if (!$term1_id || !$term2_id) {
+            wp_send_json_error(array('message' => 'Invalid term IDs'));
+        }
+        
+        // Get posts with term2
+        $posts = get_posts(array(
+            'category' => $term2_id,
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'post_status' => 'any'
+        ));
+        
+        // Reassign to term1
+        foreach ($posts as $post_id) {
+            $current_cats = wp_get_post_categories($post_id);
+            $current_cats[] = $term1_id;
+            $current_cats = array_diff($current_cats, array($term2_id));
+            wp_set_post_categories($post_id, $current_cats);
+        }
+        
+        // Delete term2
+        $result = wp_delete_term($term2_id, 'category');
+        
+        if (is_wp_error($result)) {
+            wp_send_json_error(array('message' => $result->get_error_message()));
+        }
+        
+        wp_send_json_success(array(
+            'posts_moved' => count($posts),
+            'message' => sprintf('Merged successfully. %d posts moved.', count($posts))
+        ));
+    }
+    
+    /**
+     * Render analytics page
+     */
+    public function analytics_page() {
+        $analytics = new ThemisDB_Taxonomy_Analytics();
+        $stats = $analytics->get_taxonomy_statistics();
+        $distribution = $analytics->get_category_distribution();
+        
+        ?>
+        <div class="wrap">
+            <h1><?php _e('ThemisDB Taxonomy Analytics', 'themisdb-taxonomy-manager'); ?></h1>
+            
+            <div class="taxonomy-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div class="stat-box" style="background: #fff; padding: 20px; border-left: 4px solid #2271b1; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #666;"><?php _e('Total Categories', 'themisdb-taxonomy-manager'); ?></h3>
+                    <span class="stat-number" style="font-size: 32px; font-weight: bold; color: #2271b1;"><?php echo esc_html($stats['total_categories']); ?></span>
+                </div>
+                
+                <div class="stat-box" style="background: #fff; padding: 20px; border-left: 4px solid #00a32a; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #666;"><?php _e('Total Tags', 'themisdb-taxonomy-manager'); ?></h3>
+                    <span class="stat-number" style="font-size: 32px; font-weight: bold; color: #00a32a;"><?php echo esc_html($stats['total_tags']); ?></span>
+                </div>
+                
+                <div class="stat-box" style="background: #fff; padding: 20px; border-left: 4px solid #dba617; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #666;"><?php _e('Unused Terms', 'themisdb-taxonomy-manager'); ?></h3>
+                    <span class="stat-number" style="font-size: 32px; font-weight: bold; color: #dba617;"><?php echo esc_html($stats['unused_terms']); ?></span>
+                    <br>
+                    <button class="button" id="btn-cleanup" style="margin-top: 10px;"><?php _e('Cleanup', 'themisdb-taxonomy-manager'); ?></button>
+                </div>
+                
+                <div class="stat-box" style="background: #fff; padding: 20px; border-left: 4px solid #d63638; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #666;"><?php _e('Consolidation Suggestions', 'themisdb-taxonomy-manager'); ?></h3>
+                    <span class="stat-number" style="font-size: 32px; font-weight: bold; color: #d63638;"><?php echo esc_html(count($stats['consolidation_suggestions'])); ?></span>
+                    <br>
+                    <button class="button button-primary" id="btn-auto-consolidate" style="margin-top: 10px;"><?php _e('Auto Merge', 'themisdb-taxonomy-manager'); ?></button>
+                </div>
+            </div>
+            
+            <h2><?php _e('Category Distribution', 'themisdb-taxonomy-manager'); ?></h2>
+            <table class="widefat" style="margin-bottom: 20px;">
+                <tbody>
+                    <tr>
+                        <td><strong><?php _e('Categories with Posts:', 'themisdb-taxonomy-manager'); ?></strong></td>
+                        <td><?php echo esc_html($distribution['with_posts']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('Empty Categories:', 'themisdb-taxonomy-manager'); ?></strong></td>
+                        <td><?php echo esc_html($distribution['empty']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('Top-Level Categories:', 'themisdb-taxonomy-manager'); ?></strong></td>
+                        <td><?php echo esc_html($distribution['top_level']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('Categories with Children:', 'themisdb-taxonomy-manager'); ?></strong></td>
+                        <td><?php echo esc_html($distribution['with_children']); ?></td>
+                    </tr>
+                    <tr>
+                        <td><strong><?php _e('Average Posts per Category:', 'themisdb-taxonomy-manager'); ?></strong></td>
+                        <td><?php echo esc_html($distribution['avg_posts_per_category']); ?></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2><?php _e('Consolidation Suggestions', 'themisdb-taxonomy-manager'); ?></h2>
+            <?php if (empty($stats['consolidation_suggestions'])): ?>
+                <p><?php _e('No consolidation suggestions. Your categories are well-organized!', 'themisdb-taxonomy-manager'); ?></p>
+            <?php else: ?>
+                <table class="wp-list-table widefat fixed striped">
+                    <thead>
+                        <tr>
+                            <th><?php _e('Term 1', 'themisdb-taxonomy-manager'); ?></th>
+                            <th><?php _e('Term 2', 'themisdb-taxonomy-manager'); ?></th>
+                            <th><?php _e('Similarity', 'themisdb-taxonomy-manager'); ?></th>
+                            <th><?php _e('Total Posts', 'themisdb-taxonomy-manager'); ?></th>
+                            <th><?php _e('Action', 'themisdb-taxonomy-manager'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($stats['consolidation_suggestions'] as $suggestion): ?>
+                        <tr>
+                            <td><?php echo esc_html($suggestion['term1']); ?></td>
+                            <td><?php echo esc_html($suggestion['term2']); ?></td>
+                            <td><?php echo round($suggestion['similarity'] * 100); ?>%</td>
+                            <td><?php echo esc_html($suggestion['post_count']); ?></td>
+                            <td>
+                                <button class="button btn-merge" 
+                                        data-term1="<?php echo esc_attr($suggestion['id1']); ?>"
+                                        data-term2="<?php echo esc_attr($suggestion['id2']); ?>">
+                                    <?php _e('Merge', 'themisdb-taxonomy-manager'); ?>
+                                </button>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php endif; ?>
+            
+            <div id="analytics-results" style="margin-top: 20px;"></div>
+        </div>
+        
+        <style>
+            #analytics-results {
+                background: #f0f6fc;
+                padding: 15px;
+                border-radius: 4px;
+                border: 1px solid #c3dafe;
+                display: none;
+            }
+            #analytics-results.show {
+                display: block;
+            }
+            #analytics-results.error {
+                background: #fef2f2;
+                border-color: #fecaca;
+            }
+            #analytics-results.success {
+                background: #f0fdf4;
+                border-color: #bbf7d0;
+            }
+        </style>
+        <?php
     }
 }
