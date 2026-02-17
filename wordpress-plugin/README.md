@@ -1,9 +1,23 @@
 # ThemisDB WordPress Plugins
 
 **Status:** ✅ Produktionsreif  
-**Letzte Aktualisierung:** Januar 2026  
-**Plugins:** 2 aktive Plugins  
-**Dokumentation:** 72 KB (4 Dokumente)
+**Letzte Aktualisierung:** Februar 2026  
+**Plugins:** 15 aktive Plugins mit automatischen Updates  
+**Dokumentation:** 82 KB (5 Dokumente)
+
+---
+
+## 🔄 Automatische Updates (NEU!)
+
+**Alle ThemisDB Plugins unterstützen jetzt automatische Updates!**
+
+- ✅ Integriert mit WordPress Update-System
+- ✅ Updates direkt von GitHub Repository
+- ✅ Ein-Klick Update-Installation
+- ✅ Automatische Version-Prüfung
+- ✅ Sichere HTTPS-Verbindungen
+
+**Weitere Informationen:** [AUTOMATIC_UPDATES.md](AUTOMATIC_UPDATES.md)
 
 ---
 
@@ -35,6 +49,13 @@ Zeigt Kompendium PDF-Downloads von GitHub Releases an.
 - Konfiguration
 - Troubleshooting
 - Checklisten für Admins und Entwickler
+
+### Für Updates & Releases
+🔄 **[AUTOMATIC_UPDATES.md](AUTOMATIC_UPDATES.md)** (11 KB) **NEU!**
+- Automatisches Update-System
+- Release-Prozess für Entwickler
+- Troubleshooting für Updates
+- GitHub-Integration
 
 ### Für Projekt-Manager
 📊 **[PROJEKTZUSAMMENFASSUNG.md](PROJEKTZUSAMMENFASSUNG.md)** (14 KB)
