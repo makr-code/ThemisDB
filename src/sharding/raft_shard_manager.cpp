@@ -157,13 +157,14 @@ std::optional<ShardRaftInfo> RaftShardManager::getShardRaftInfo(const std::strin
     
     const auto& raft = it->second;
     const auto& raft_state = raft->getRaftState();
+    const auto& raft_log = raft_state.getLog();
     
     ShardRaftInfo info;
     info.shard_id = shard_id;
-    info.role = raft_state.getRole();
+    info.role = raft_state.getState();
     info.term = raft->getCurrentTerm();
-    info.commit_index = raft_state.getCommitIndex();
-    info.last_applied = raft_state.getLastApplied();
+    info.commit_index = raft_log.getCommitIndex();
+    info.last_applied = raft_log.getCommitIndex();  // Use commit_index as proxy
     info.leader_id = raft->getLeaderId();
     info.has_quorum = raft->hasQuorum();
     info.is_healthy = raft->hasQuorum() && !raft->isReadOnly();
@@ -187,13 +188,14 @@ std::map<std::string, ShardRaftInfo> RaftShardManager::getAllShardRaftInfo() con
         if (!raft) continue;
         
         const auto& raft_state = raft->getRaftState();
+        const auto& raft_log = raft_state.getLog();
         
         ShardRaftInfo info;
         info.shard_id = shard_id;
-        info.role = raft_state.getRole();
+        info.role = raft_state.getState();
         info.term = raft->getCurrentTerm();
-        info.commit_index = raft_state.getCommitIndex();
-        info.last_applied = raft_state.getLastApplied();
+        info.commit_index = raft_log.getCommitIndex();
+        info.last_applied = raft_log.getCommitIndex();  // Use commit_index as proxy
         info.leader_id = raft->getLeaderId();
         info.has_quorum = raft->hasQuorum();
         info.is_healthy = raft->hasQuorum() && !raft->isReadOnly();
@@ -242,13 +244,8 @@ RaftConsensus::Config RaftShardManager::createRaftConfig(
     // Set node ID to shard ID
     raft_config.raft_config.node_id = shard_id;
     
-    // Set peers (other replicas in the group)
-    raft_config.raft_config.peers.clear();
-    for (const auto& replica_id : replica_ids) {
-        if (replica_id != shard_id) {
-            raft_config.raft_config.peers.push_back(replica_id);
-        }
-    }
+    // Set cluster members (all replicas including self)
+    raft_config.raft_config.cluster_members = replica_ids;
     
     // Enable partition detection for production use
     raft_config.enable_partition_detection = true;

@@ -21,7 +21,7 @@ namespace sharding {
  */
 struct ShardRaftInfo {
     std::string shard_id;
-    RaftRole role;              // FOLLOWER, CANDIDATE, or LEADER
+    RaftNodeState role;         // FOLLOWER, CANDIDATE, or LEADER
     uint64_t term;              // Current Raft term
     uint64_t commit_index;      // Last committed log index
     uint64_t last_applied;      // Last applied log index
@@ -162,6 +162,22 @@ private:
     RaftConsensus::Config createRaftConfig(const std::string& shard_id,
                                           const std::vector<std::string>& replica_ids);
 };
+
+}  // namespace sharding
+}  // namespace themisdb
+
+// Helper function to convert RaftNodeState to string
+namespace themisdb {
+namespace sharding {
+
+inline std::string raftNodeStateToString(RaftNodeState state) {
+    switch (state) {
+        case RaftNodeState::LEADER: return "LEADER";
+        case RaftNodeState::FOLLOWER: return "FOLLOWER";
+        case RaftNodeState::CANDIDATE: return "CANDIDATE";
+        default: return "UNKNOWN";
+    }
+}
 
 }  // namespace sharding
 }  // namespace themisdb
