@@ -11,6 +11,8 @@ This script automatically appends metadata to markdown files including:
 - Reviewer (empty)
 - Title (first markdown heading)
 - File path (relative to repo root)
+
+Requires: Python 3.9+
 """
 
 import os
@@ -51,18 +53,11 @@ def get_file_first_commit(file_path: str, repo_root: str) -> Tuple[str, str, str
     Returns:
         Tuple of (date, hash, commit_title)
     """
-    # Get first commit hash and date
+    # Get first commit hash and date, following renames
     log_output = run_git_command(
-        ["log", "--follow", "--format=%H|%ai|%s", "--diff-filter=A", "--", file_path],
+        ["log", "--follow", "--format=%H|%ai|%s", "--", file_path],
         cwd=repo_root
     )
-    
-    if not log_output:
-        # File might not be committed yet or use regular log
-        log_output = run_git_command(
-            ["log", "--follow", "--format=%H|%ai|%s", "--", file_path],
-            cwd=repo_root
-        )
     
     if log_output:
         lines = log_output.strip().split("\n")
@@ -120,6 +115,22 @@ def has_metadata_section(content: str) -> bool:
     return "---\n## Dokumenten-Metadaten" in content or "## Dokumenten-Metadaten\n\n```yaml" in content
 
 
+def escape_yaml_string(s: str) -> str:
+    """
+    Escape a string for safe use in YAML.
+    
+    Handles quotes, colons, newlines, and other special characters.
+    """
+    # Replace newlines with spaces
+    s = s.replace("\n", " ").replace("\r", " ")
+    # Escape double quotes
+    s = s.replace('"', '\\"')
+    # Limit length to avoid extremely long lines
+    if len(s) > 200:
+        s = s[:197] + "..."
+    return s
+
+
 def generate_metadata_block(
     file_path: str,
     repo_root: str,
@@ -135,6 +146,10 @@ def generate_metadata_block(
     abs_repo = os.path.abspath(repo_root)
     rel_path = os.path.relpath(abs_path, abs_repo)
     
+    # Escape strings for YAML safety
+    safe_title = escape_yaml_string(title)
+    safe_commit_title = escape_yaml_string(commit_title)
+    
     metadata = f"""
 ---
 
@@ -145,9 +160,9 @@ Urheber: Themis DevTeam & Copilot
 Dokumenten-Nr: {doc_number}
 Erstelldatum: {creation_date}
 Letzte Änderung: {last_modified}
-Commit-Titel: "{commit_title}"
+Commit-Titel: "{safe_commit_title}"
 Reviewer: 
-Titel: "{title}"
+Titel: "{safe_title}"
 Dateipfad: {rel_path}
 ```
 """

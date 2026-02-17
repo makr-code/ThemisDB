@@ -75,3 +75,18 @@ For detailed deployment and operations documentation, see:
 - [Deployment Guide](../docs/deployment.md)
 - [Operations Runbook](../docs/operations_runbook.md)
 - [TLS Setup](../docs/TLS_SETUP.md)
+
+---
+
+## Dokumenten-Metadaten
+
+```yaml
+Urheber: Themis DevTeam & Copilot
+Dokumenten-Nr: Stand: 2026-02-17
+Erstelldatum: 2026-02-17
+Letzte Änderung: 2026-02-17
+Commit-Titel: "Create documentation for build simplification proposals in ThemisDB repository."
+Reviewer: 
+Titel: "ThemisDB Scripts"
+Dateipfad: scripts/README.md
+```
