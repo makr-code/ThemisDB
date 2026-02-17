@@ -198,7 +198,8 @@ if (rbac.authorize("user@example.com", "data", "read")) {
 
 ### 🔒 Encryption
 
-For detailed encryption documentation, please refer to the German documentation:
+For detailed encryption documentation:
+- **[at_rest_encryption_research.md](at_rest_encryption_research.md)** ⭐ - At-Rest Encryption Research (AWS, Google Cloud, Azure)
 - [security_encryption_strategy.md](../../de/security/security_encryption_strategy.md) - Encryption strategy
 - [security_column_encryption.md](../../de/security/security_column_encryption.md) - Column encryption
 - [security_encryption_deployment.md](../../de/security/security_encryption_deployment.md) - Deployment guide

@@ -19,6 +19,7 @@
 | Dokument | Beschreibung | Status |
 |----------|--------------|--------|
 | **[ANGRIFFSVEKTOREN_ANALYSE.md](ANGRIFFSVEKTOREN_ANALYSE.md)** ⭐ | Umfassende Analyse aller Angriffsvektoren (extern + intern) | ✅ v1.4.0 |
+| **[security_at_rest_encryption_research.md](security_at_rest_encryption_research.md)** ⭐ | At-Rest Encryption Forschung (AWS, Google, Azure) | ✅ NEU |
 | [security_threat_model.md](security_threat_model.md) | Threat Model Übersicht | ✅ Aktualisiert |
 | [security_overview.md](security_overview.md) | Sicherheits-Features Übersicht | ✅ |
 | [security_hardening.md](security_hardening.md) | Production Hardening Guide | ✅ |
@@ -43,6 +44,7 @@
 - [security_hardening.md](security_hardening.md) - Hardening Guide
 - [security_policies.md](security_policies.md) - Security Policies
 - [security_policy.md](security_policy.md) - Security Policy Document
+- **[security_at_rest_encryption_research.md](security_at_rest_encryption_research.md)** ⭐ - At-Rest Encryption Research (Hyperscaler Best Practices)
 ## 📋 Übersicht
 
 Das Security-Modul implementiert umfassende Sicherheitsfunktionen für ThemisDB, einschließlich Field-Level Encryption, Key Management, RBAC, PKI-Integration, Vector Encryption und Malware-Scanning.

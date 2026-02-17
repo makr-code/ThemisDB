@@ -1,9 +1,11 @@
 # Encryption Strategy
 
-**Document Version**: 1.0  
-**Last Updated**: 2026-01-11  
+**Document Version**: 1.1  
+**Last Updated**: 2026-02-17  
 **Status**: Active  
 **Owner**: Security Team
+
+> **NEW:** See [At-Rest Encryption Research](../en/security/at_rest_encryption_research.md) for comprehensive analysis of hyperscaler encryption mechanisms (AWS, Google Cloud, Azure) and recommendations for filesystem/hardware-level encryption.
 
 ---
 
@@ -79,7 +81,25 @@ This document defines ThemisDB's encryption strategy for protecting data at rest
 
 **Important**: The embedding field itself is never encrypted to preserve mathematical properties required for cosine similarity and other distance metrics.
 
-#### 4. Audit Log Encryption
+#### 4. Storage-Level Encryption (Filesystem/Hardware)
+
+**See**: [At-Rest Encryption Research](../en/security/at_rest_encryption_research.md) for detailed analysis
+
+ThemisDB supports multiple layers of at-rest encryption beyond application-level field encryption:
+
+**Cloud Deployments:**
+- **AWS EBS Encryption**: Transparent volume encryption with AWS KMS (AES-256-XTS)
+- **Azure Disk Encryption**: BitLocker/dm-crypt integration with Azure Key Vault
+- **GCP Default Encryption**: Automatic encryption for all data (AES-256, Titan chip)
+
+**On-Premise Deployments:**
+- **dm-crypt/LUKS**: Linux kernel-level encryption (AES-256-XTS with AES-NI)
+- **fscrypt**: Per-directory encryption for ext4/f2fs filesystems
+- **Self-Encrypting Drives (SED)**: Hardware-based disk encryption (TCG Opal 2.0)
+
+**Recommendation**: Use managed cloud encryption or dm-crypt/LUKS for comprehensive at-rest protection without custom implementation overhead.
+
+#### 5. Audit Log Encryption
 
 **Implementation**: `src/utils/saga_logger.cpp`
 
@@ -302,6 +322,7 @@ std::string decrypted = encryptor.decrypt(encrypted, schema);
 
 ## 📚 Related Documentation
 
+- **[At-Rest Encryption Research](../en/security/at_rest_encryption_research.md)** - Comprehensive analysis of hyperscaler encryption mechanisms
 - [ENCRYPTION_KEY_MANAGEMENT_POLICY.md](ENCRYPTION_KEY_MANAGEMENT_POLICY.md) - Key management procedures
 - [INFORMATION_SECURITY_POLICY.md](INFORMATION_SECURITY_POLICY.md) - Overall security framework
 - `docs/encryption_metrics.md` - Prometheus metrics guide
