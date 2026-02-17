@@ -77,9 +77,9 @@ function themisdb_fm_safe_require($file, $is_critical = true) {
 $themisdb_fm_files_loaded = true;
 
 // Load required files (using & to avoid short-circuit and check all files)
-$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php') & $themisdb_fm_files_loaded;
-$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-shortcode.php') & $themisdb_fm_files_loaded;
-$themisdb_fm_files_loaded = themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php') & $themisdb_fm_files_loaded;
+$themisdb_fm_files_loaded &= themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-feature-matrix.php');
+$themisdb_fm_files_loaded &= themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-shortcode.php');
+$themisdb_fm_files_loaded &= themisdb_fm_safe_require(THEMISDB_FM_PLUGIN_DIR . 'includes/class-admin.php');
 
 // Abort initialization if critical files are missing
 if (!$themisdb_fm_files_loaded) {

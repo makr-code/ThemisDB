@@ -73,17 +73,17 @@ function themisdb_taxonomy_safe_require($file, $is_critical = true) {
 $themisdb_taxonomy_files_loaded = true;
 
 // Include required files (using & to avoid short-circuit and check all files)
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tfidf.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-analytics.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-category-hierarchy.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-taxonomy-extractor.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-taxonomy-manager.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-admin.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-custom-taxonomies.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tree-view.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-widget.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-metabox.php') & $themisdb_taxonomy_files_loaded;
-$themisdb_taxonomy_files_loaded = themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-template-handler.php') & $themisdb_taxonomy_files_loaded;
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tfidf.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-analytics.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-category-hierarchy.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-taxonomy-extractor.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-taxonomy-manager.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-admin.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-custom-taxonomies.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-tree-view.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-widget.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-metabox.php');
+$themisdb_taxonomy_files_loaded &= themisdb_taxonomy_safe_require(THEMISDB_TAXONOMY_PLUGIN_DIR . 'includes/class-template-handler.php');
 
 // Abort initialization if critical files are missing
 if (!$themisdb_taxonomy_files_loaded) {
