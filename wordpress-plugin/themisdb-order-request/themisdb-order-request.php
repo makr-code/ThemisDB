@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 // Check PHP version
 if (version_compare(PHP_VERSION, '7.4', '<')) {
     add_action('admin_notices', function() {
-        echo '<div class="error"><p><strong>ThemisDB Order Request:</strong> Dieses Plugin benötigt PHP 7.4 oder höher. Sie verwenden PHP ' . PHP_VERSION . '</p></div>';
+        echo '<div class="error"><p><strong>ThemisDB Order Request:</strong> Dieses Plugin benötigt PHP 7.4 oder höher. Sie verwenden PHP ' . esc_html(PHP_VERSION) . '</p></div>';
     });
     return;
 }

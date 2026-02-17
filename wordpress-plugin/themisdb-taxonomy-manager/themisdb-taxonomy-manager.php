@@ -583,6 +583,23 @@ function themisdb_get_taxonomy_manager() {
 }
 
 function themisdb_taxonomy_enqueue_styles() {
+    global $post;
+    
+    // Check if shortcodes are present
+    $has_shortcode = false;
+    if (is_a($post, 'WP_Post')) {
+        $has_shortcode = has_shortcode($post->post_content, 'themisdb_taxonomy') || 
+                        has_shortcode($post->post_content, 'themisdb_taxonomy_info');
+    }
+    
+    // Check if widget is active
+    $has_widget = is_active_widget(false, false, 'themisdb_taxonomy_widget', true);
+    
+    // Only load if shortcode or widget is present
+    if (!$has_shortcode && !$has_widget) {
+        return;
+    }
+    
     wp_enqueue_style('themisdb-taxonomy', THEMISDB_TAXONOMY_URL . 'assets/css/taxonomy-manager.css', array(), THEMISDB_TAXONOMY_VERSION);
     wp_enqueue_style('themisdb-widget', THEMISDB_TAXONOMY_URL . 'assets/css/widget.css', array(), THEMISDB_TAXONOMY_VERSION);
 }

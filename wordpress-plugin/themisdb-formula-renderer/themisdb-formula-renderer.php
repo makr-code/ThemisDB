@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 // Check PHP version
 if (version_compare(PHP_VERSION, '7.2', '<')) {
     add_action('admin_notices', function() {
-        echo '<div class="error"><p><strong>ThemisDB Formula Renderer:</strong> Dieses Plugin benötigt PHP 7.2 oder höher. Sie verwenden PHP ' . PHP_VERSION . '</p></div>';
+        echo '<div class="error"><p><strong>ThemisDB Formula Renderer:</strong> Dieses Plugin benötigt PHP 7.2 oder höher. Sie verwenden PHP ' . esc_html(PHP_VERSION) . '</p></div>';
     });
     return;
 }

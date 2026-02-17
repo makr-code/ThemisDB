@@ -87,6 +87,16 @@ register_deactivation_hook(__FILE__, 'themisdb_docker_downloads_deactivate');
  * Enqueue frontend scripts and styles
  */
 function themisdb_docker_downloads_enqueue_scripts() {
+    global $post;
+    
+    // Only load if shortcodes are present
+    if (!is_a($post, 'WP_Post') || !(
+        has_shortcode($post->post_content, 'themisdb_docker_tags') ||
+        has_shortcode($post->post_content, 'themisdb_docker_latest')
+    )) {
+        return;
+    }
+    
     wp_enqueue_style(
         'themisdb-docker-downloads-style',
         THEMISDB_DOCKER_DOWNLOADS_PLUGIN_URL . 'assets/css/style.css',

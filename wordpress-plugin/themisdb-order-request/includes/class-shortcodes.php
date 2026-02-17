@@ -238,7 +238,7 @@ class ThemisDB_Order_Shortcodes {
                                 <p><?php echo esc_html($training['description']); ?></p>
                                 <p class="training-meta">
                                     <span class="training-duration">
-                                        <strong><?php echo $training['duration_hours']; ?></strong> <?php _e('Stunden', 'themisdb-order-request'); ?>
+                                        <strong><?php echo absint($training['duration_hours']); ?></strong> <?php _e('Stunden', 'themisdb-order-request'); ?>
                                     </span>
                                     <span class="training-price">
                                         <strong>+<?php echo number_format($training['price'], 2, ',', '.'); ?> €</strong>

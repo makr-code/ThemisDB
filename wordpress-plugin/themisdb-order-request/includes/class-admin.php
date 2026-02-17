@@ -163,9 +163,9 @@ class ThemisDB_Order_Admin {
                                     <?php echo esc_html(ucfirst($order['status'])); ?>
                                 </span>
                             </td>
-                            <td><?php echo date('d.m.Y H:i', strtotime($order['created_at'])); ?></td>
+                            <td><?php echo esc_html(wp_date('d.m.Y H:i', strtotime($order['created_at']))); ?></td>
                             <td>
-                                <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>" class="button button-small">
+                                <a href="?page=themisdb-orders&action=view&order_id=<?php echo absint($order['id']); ?>" class="button button-small">
                                     <?php _e('Ansehen', 'themisdb-order-request'); ?>
                                 </a>
                             </td>
@@ -292,7 +292,7 @@ class ThemisDB_Order_Admin {
                             <td><?php echo esc_html(ucfirst($contract['contract_type'])); ?></td>
                             <td><?php echo esc_html(ucfirst($contract['status'])); ?></td>
                             <td>
-                                <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo $contract['id']; ?>" class="button button-small">
+                                <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo absint($contract['id']); ?>" class="button button-small">
                                     <?php _e('Ansehen', 'themisdb-order-request'); ?>
                                 </a>
                             </td>
@@ -357,11 +357,11 @@ class ThemisDB_Order_Admin {
                             <td><strong><?php echo esc_html($contract['contract_number']); ?></strong></td>
                             <td><?php echo esc_html(ucfirst($contract['contract_type'])); ?></td>
                             <td><?php echo esc_html(ucfirst($contract['status'])); ?></td>
-                            <td><?php echo date('d.m.Y', strtotime($contract['valid_from'])); ?></td>
-                            <td><?php echo $contract['valid_until'] ? date('d.m.Y', strtotime($contract['valid_until'])) : '-'; ?></td>
-                            <td><?php echo date('d.m.Y', strtotime($contract['created_at'])); ?></td>
+                            <td><?php echo wp_date('d.m.Y', strtotime($contract['valid_from'])); ?></td>
+                            <td><?php echo $contract['valid_until'] ? esc_html(wp_date('d.m.Y', strtotime($contract['valid_until']))) : '-'; ?></td>
+                            <td><?php echo esc_html(wp_date('d.m.Y', strtotime($contract['created_at']))); ?></td>
                             <td>
-                                <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo $contract['id']; ?>" class="button button-small">
+                                <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo absint($contract['id']); ?>" class="button button-small">
                                     <?php _e('Ansehen', 'themisdb-order-request'); ?>
                                 </a>
                             </td>
@@ -646,7 +646,7 @@ class ThemisDB_Order_Admin {
                             <td><strong><?php echo esc_html($payment['payment_number']); ?></strong></td>
                             <td>
                                 <?php if ($order): ?>
-                                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>">
+                                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo absint($order['id']); ?>">
                                         <?php echo esc_html($order['order_number']); ?>
                                     </a>
                                 <?php else: ?>
@@ -758,7 +758,7 @@ class ThemisDB_Order_Admin {
                 <p>
                     <strong><?php _e('Bestellnummer', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['order_number']); ?><br>
                     <strong><?php _e('Kunde', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['customer_name']); ?><br>
-                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>" class="button button-small">
+                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo absint($order['id']); ?>" class="button button-small">
                         <?php _e('Bestellung ansehen', 'themisdb-order-request'); ?>
                     </a>
                 </p>
@@ -970,7 +970,7 @@ class ThemisDB_Order_Admin {
                     <strong><?php _e('Bestellnummer', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['order_number']); ?><br>
                     <strong><?php _e('Kunde', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['customer_name']); ?><br>
                     <strong><?php _e('E-Mail', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($order['customer_email']); ?><br>
-                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo $order['id']; ?>" class="button button-small">
+                    <a href="?page=themisdb-orders&action=view&order_id=<?php echo absint($order['id']); ?>" class="button button-small">
                         <?php _e('Bestellung ansehen', 'themisdb-order-request'); ?>
                     </a>
                 </p>
@@ -983,7 +983,7 @@ class ThemisDB_Order_Admin {
                 <p>
                     <strong><?php _e('Vertragsnummer', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html($contract['contract_number']); ?><br>
                     <strong><?php _e('Status', 'themisdb-order-request'); ?>:</strong> <?php echo esc_html(ucfirst($contract['status'])); ?><br>
-                    <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo $contract['id']; ?>" class="button button-small">
+                    <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo absint($contract['id']); ?>" class="button button-small">
                         <?php _e('Vertrag ansehen', 'themisdb-order-request'); ?>
                     </a>
                 </p>

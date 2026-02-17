@@ -122,6 +122,19 @@ register_deactivation_hook(__FILE__, 'themisdb_downloads_deactivate');
  * Enqueue frontend scripts and styles
  */
 function themisdb_downloads_enqueue_scripts() {
+    global $post;
+    
+    // Only load if shortcodes are present
+    if (!is_a($post, 'WP_Post') || !(
+        has_shortcode($post->post_content, 'themisdb_downloads') ||
+        has_shortcode($post->post_content, 'themisdb_latest') ||
+        has_shortcode($post->post_content, 'themisdb_verify') ||
+        has_shortcode($post->post_content, 'themisdb_readme') ||
+        has_shortcode($post->post_content, 'themisdb_changelog')
+    )) {
+        return;
+    }
+    
     wp_enqueue_style(
         'themisdb-downloads-style',
         THEMISDB_DOWNLOADS_PLUGIN_URL . 'assets/css/style.css',

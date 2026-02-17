@@ -84,7 +84,18 @@
             });
             
             // Column sorting (delegated event for dynamically added headers)
-            $(document).on('click', '.sortable-header', function() {
+            // Support both click and keyboard navigation
+            $(document).on('click keydown', '.sortable-header', function(e) {
+                // For keyboard: only respond to Enter or Space
+                if (e.type === 'keydown' && (e.key !== 'Enter' && e.key !== ' ')) {
+                    return;
+                }
+                
+                // Prevent default for keyboard events
+                if (e.type === 'keydown') {
+                    e.preventDefault();
+                }
+                
                 const column = $(this).data('column');
                 self.sortByColumn(column);
             });
@@ -215,8 +226,10 @@
                 const dbName = dbInfo ? dbInfo.name : db.charAt(0).toUpperCase() + db.slice(1);
                 const dbClass = 'db-' + db + (db === 'themisdb' && highlightThemis ? ' db-themisdb' : '');
                 const sortClass = self.sortColumn === db ? ' sorted-' + self.sortDirection : '';
+                const ariaSort = self.sortColumn === db ? self.sortDirection : 'none';
+                const ariaLabel = dbName + ' - ' + self.translate('click to sort');
                 
-                html += '<th scope="col" class="sortable-header ' + dbClass + sortClass + '" data-column="' + db + '" role="button" aria-sort="' + (self.sortColumn === db ? self.sortDirection : 'none') + '">';
+                html += '<th scope="col" class="sortable-header ' + dbClass + sortClass + '" data-column="' + db + '" role="button" tabindex="0" aria-sort="' + ariaSort + '" aria-label="' + self.escapeHtml(ariaLabel) + '">';
                 html += dbName;
                 html += '</th>';
             });

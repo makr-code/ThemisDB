@@ -97,15 +97,29 @@
          * Initialize tree view functionality
          */
         function initTreeView() {
-            // Toggle expand/collapse
-            $(document).on('click', '.tree-toggle', function(e) {
+            // Toggle expand/collapse - support both click and keyboard
+            $(document).on('click keydown', '.tree-toggle', function(e) {
+                // For keyboard: only respond to Enter or Space
+                if (e.type === 'keydown' && (e.key !== 'Enter' && e.key !== ' ')) {
+                    return;
+                }
+                
+                // Prevent default for keyboard events to avoid page scroll
+                if (e.type === 'keydown') {
+                    e.preventDefault();
+                }
+                
                 e.stopPropagation();
                 var $toggle = $(this);
                 var $children = $toggle.closest('.tree-item').find('> .tree-children');
                 
                 if ($children.length > 0) {
+                    var wasExpanded = !$toggle.hasClass('collapsed');
                     $children.slideToggle(200);
                     $toggle.toggleClass('collapsed');
+                    
+                    // Update aria-expanded for accessibility
+                    $toggle.attr('aria-expanded', wasExpanded ? 'false' : 'true');
                 }
             });
             

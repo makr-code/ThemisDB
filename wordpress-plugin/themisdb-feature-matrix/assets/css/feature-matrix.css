@@ -311,6 +311,13 @@
     padding-right: 20px;
 }
 
+.sortable-header:focus,
+.sortable-header:focus-visible {
+    outline: 2px solid var(--matrix-themis-secondary);
+    outline-offset: 2px;
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
 .sortable-header::after {
     content: '⇅';
     position: absolute;

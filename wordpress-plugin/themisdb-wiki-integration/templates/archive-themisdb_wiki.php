@@ -26,7 +26,7 @@ get_header(); ?>
             if (!empty($categories) && !is_wp_error($categories)) {
                 echo '<ul>';
                 foreach ($categories as $category) {
-                    echo '<li><a href="' . get_term_link($category) . '">' . esc_html($category->name) . ' (' . $category->count . ')</a></li>';
+                    echo '<li><a href="' . esc_url(get_term_link($category)) . '">' . esc_html($category->name) . ' (' . absint($category->count) . ')</a></li>';
                 }
                 echo '</ul>';
             }
@@ -93,7 +93,7 @@ get_header(); ?>
                 ?>
                 <div class="wiki-page-categories">
                     <?php foreach ($categories as $category) : ?>
-                    <a href="<?php echo get_term_link($category); ?>" class="wiki-category-badge">
+                    <a href="<?php echo esc_url(get_term_link($category)); ?>" class="wiki-category-badge">
                         <?php echo esc_html($category->name); ?>
                     </a>
                     <?php endforeach; ?>

@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 // Check PHP version
 if (version_compare(PHP_VERSION, '7.2', '<')) {
     add_action('admin_notices', function() {
-        echo '<div class="error"><p><strong>ThemisDB Compendium Downloads:</strong> Dieses Plugin benötigt PHP 7.2 oder höher. Sie verwenden PHP ' . PHP_VERSION . '</p></div>';
+        echo '<div class="error"><p><strong>ThemisDB Compendium Downloads:</strong> Dieses Plugin benötigt PHP 7.2 oder höher. Sie verwenden PHP ' . esc_html(PHP_VERSION) . '</p></div>';
     });
     return;
 }
@@ -97,6 +97,16 @@ register_deactivation_hook(__FILE__, 'themisdb_compendium_deactivate');
  * Enqueue frontend scripts and styles
  */
 function themisdb_compendium_enqueue_scripts() {
+    global $post;
+    
+    // Only load if shortcodes are present
+    if (!is_a($post, 'WP_Post') || !(
+        has_shortcode($post->post_content, 'themisdb_compendium_downloads') ||
+        has_shortcode($post->post_content, 'themisdb_compendium')
+    )) {
+        return;
+    }
+    
     wp_enqueue_style(
         'themisdb-compendium-style',
         THEMISDB_COMPENDIUM_PLUGIN_URL . 'assets/css/style.css',

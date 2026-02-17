@@ -86,7 +86,7 @@ class ThemisDB_Markdown_Converter {
         
         // Links: [text](url "title")
         $html = preg_replace_callback('/\[([^\]]+)\]\(([^\s\)]+)(?:\s+"([^"]*)")?\)/', function($matches) {
-            $text = $matches[1];
+            $text = esc_html($matches[1]);
             $url = esc_url($matches[2]);
             $title = isset($matches[3]) ? ' title="' . esc_attr($matches[3]) . '"' : '';
             return '<a href="' . $url . '"' . $title . ' target="_blank" rel="noopener noreferrer">' . $text . '</a>';
