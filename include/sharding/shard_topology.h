@@ -33,11 +33,25 @@ struct ShardInfo {
     // Domain capability for adaptive routing
     DomainCapability domain_capability;      // Domain specialization info
     
+    // Raft consensus state (optional, populated when Raft is enabled)
+    std::string raft_role;                   // "LEADER", "FOLLOWER", "CANDIDATE", or empty
+    uint64_t raft_term;                      // Current Raft term (0 if not using Raft)
+    uint64_t raft_commit_index;              // Raft commit index
+    std::string raft_leader_id;              // Current leader shard ID (empty if unknown)
+    bool raft_has_quorum;                    // Does this shard have Raft quorum?
+    
     /**
      * Check if this shard has a specific capability
      */
     bool hasCapability(const std::string& cap) const {
         return std::find(capabilities.begin(), capabilities.end(), cap) != capabilities.end();
+    }
+    
+    /**
+     * Check if this shard is the Raft leader
+     */
+    bool isRaftLeader() const {
+        return raft_role == "LEADER";
     }
 };
 
@@ -147,6 +161,28 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         shards_.clear();
     }
+    
+    /**
+     * Update Raft status for a shard
+     * @param shard_id Shard identifier
+     * @param role Raft role (LEADER, FOLLOWER, CANDIDATE)
+     * @param term Current Raft term
+     * @param commit_index Raft commit index
+     * @param leader_id Current leader shard ID
+     * @param has_quorum Does shard have quorum?
+     */
+    void updateRaftStatus(const std::string& shard_id,
+                         const std::string& role,
+                         uint64_t term,
+                         uint64_t commit_index,
+                         const std::string& leader_id,
+                         bool has_quorum);
+    
+    /**
+     * Get shards that are Raft leaders
+     * @return Vector of shard IDs that are leaders
+     */
+    std::vector<std::string> getRaftLeaders() const;
     
 private:
     Config config_;

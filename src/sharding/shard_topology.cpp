@@ -344,4 +344,35 @@ void ShardTopology::saveToMetadataStore() {
     }
 }
 
+void ShardTopology::updateRaftStatus(const std::string& shard_id,
+                                    const std::string& role,
+                                    uint64_t term,
+                                    uint64_t commit_index,
+                                    const std::string& leader_id,
+                                    bool has_quorum) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    auto it = shards_.find(shard_id);
+    if (it != shards_.end()) {
+        it->second.raft_role = role;
+        it->second.raft_term = term;
+        it->second.raft_commit_index = commit_index;
+        it->second.raft_leader_id = leader_id;
+        it->second.raft_has_quorum = has_quorum;
+    }
+}
+
+std::vector<std::string> ShardTopology::getRaftLeaders() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    
+    std::vector<std::string> leaders;
+    for (const auto& [id, info] : shards_) {
+        if (info.isRaftLeader()) {
+            leaders.push_back(id);
+        }
+    }
+    
+    return leaders;
+}
+
 } // namespace themis::sharding

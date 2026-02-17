@@ -136,6 +136,32 @@ public:
     void recordWriteConcernWait(const std::string& level, double wait_time_ms, bool success);
     void setPendingWrites(int64_t count);
     void recordQuorumTimeout(const std::string& level);
+    
+    // ==================== Raft Consensus Metrics ====================
+    
+    // Raft state metrics per shard
+    void setRaftRole(const std::string& shard_id, const std::string& role); // LEADER/FOLLOWER/CANDIDATE
+    void setRaftTerm(const std::string& shard_id, uint64_t term);
+    void setRaftCommitIndex(const std::string& shard_id, uint64_t commit_index);
+    void setRaftLastApplied(const std::string& shard_id, uint64_t last_applied);
+    void setRaftLogSize(const std::string& shard_id, uint64_t log_size);
+    
+    // Raft leadership metrics
+    void recordRaftLeaderElection(const std::string& shard_id, double duration_ms);
+    void recordRaftLeaderChange(const std::string& shard_id, const std::string& old_leader, const std::string& new_leader);
+    void recordRaftHeartbeat(const std::string& shard_id, bool success);
+    void recordRaftHeartbeatLatency(const std::string& shard_id, double latency_ms);
+    
+    // Raft replication metrics
+    void recordRaftLogAppend(const std::string& shard_id, uint64_t entries_count, bool success);
+    void recordRaftLogAppendLatency(const std::string& shard_id, double latency_ms);
+    void recordRaftReplicationLag(const std::string& shard_id, const std::string& follower_id, uint64_t lag_entries);
+    void setRaftQuorumStatus(const std::string& shard_id, bool has_quorum);
+    
+    // Raft partition detection metrics
+    void recordRaftPartitionDetected(const std::string& shard_id);
+    void recordRaftPartitionHealed(const std::string& shard_id);
+    void setRaftReadOnlyMode(const std::string& shard_id, bool is_read_only);
 
     // Generic metrics (for extensibility)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});

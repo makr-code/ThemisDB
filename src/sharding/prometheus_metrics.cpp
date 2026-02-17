@@ -396,6 +396,85 @@ std::string PrometheusMetrics::getMetricsWithAnnotations() const {
     return oss.str();
 }
 
+// ==================== Raft Consensus Metrics Implementation ====================
+
+void PrometheusMetrics::setRaftRole(const std::string& shard_id, const std::string& role) {
+    setGauge("themis_raft_role", role == "LEADER" ? 2.0 : (role == "CANDIDATE" ? 1.0 : 0.0),
+             {{"shard_id", shard_id}, {"role", role}});
+}
+
+void PrometheusMetrics::setRaftTerm(const std::string& shard_id, uint64_t term) {
+    setGauge("themis_raft_term", static_cast<double>(term), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setRaftCommitIndex(const std::string& shard_id, uint64_t commit_index) {
+    setGauge("themis_raft_commit_index", static_cast<double>(commit_index), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setRaftLastApplied(const std::string& shard_id, uint64_t last_applied) {
+    setGauge("themis_raft_last_applied", static_cast<double>(last_applied), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setRaftLogSize(const std::string& shard_id, uint64_t log_size) {
+    setGauge("themis_raft_log_size", static_cast<double>(log_size), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordRaftLeaderElection(const std::string& shard_id, double duration_ms) {
+    incrementCounter("themis_raft_leader_elections_total", {{"shard_id", shard_id}});
+    observeHistogram("themis_raft_leader_election_duration_seconds", duration_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordRaftLeaderChange(const std::string& shard_id, 
+                                               const std::string& old_leader, 
+                                               const std::string& new_leader) {
+    incrementCounter("themis_raft_leader_changes_total", 
+                    {{"shard_id", shard_id}, {"old_leader", old_leader}, {"new_leader", new_leader}});
+}
+
+void PrometheusMetrics::recordRaftHeartbeat(const std::string& shard_id, bool success) {
+    incrementCounter("themis_raft_heartbeats_total", 
+                    {{"shard_id", shard_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordRaftHeartbeatLatency(const std::string& shard_id, double latency_ms) {
+    observeHistogram("themis_raft_heartbeat_latency_seconds", latency_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordRaftLogAppend(const std::string& shard_id, uint64_t entries_count, bool success) {
+    incrementCounter("themis_raft_log_appends_total", 
+                    {{"shard_id", shard_id}, {"result", success ? "success" : "failure"}});
+    if (success) {
+        observeHistogram("themis_raft_log_append_entries", static_cast<double>(entries_count), {{"shard_id", shard_id}});
+    }
+}
+
+void PrometheusMetrics::recordRaftLogAppendLatency(const std::string& shard_id, double latency_ms) {
+    observeHistogram("themis_raft_log_append_latency_seconds", latency_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordRaftReplicationLag(const std::string& shard_id, 
+                                                 const std::string& follower_id, 
+                                                 uint64_t lag_entries) {
+    setGauge("themis_raft_replication_lag_entries", static_cast<double>(lag_entries), 
+            {{"shard_id", shard_id}, {"follower_id", follower_id}});
+}
+
+void PrometheusMetrics::setRaftQuorumStatus(const std::string& shard_id, bool has_quorum) {
+    setGauge("themis_raft_has_quorum", has_quorum ? 1.0 : 0.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordRaftPartitionDetected(const std::string& shard_id) {
+    incrementCounter("themis_raft_partitions_detected_total", {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordRaftPartitionHealed(const std::string& shard_id) {
+    incrementCounter("themis_raft_partitions_healed_total", {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setRaftReadOnlyMode(const std::string& shard_id, bool is_read_only) {
+    setGauge("themis_raft_read_only_mode", is_read_only ? 1.0 : 0.0, {{"shard_id", shard_id}});
+}
+
 void PrometheusMetrics::incrementCounter(const std::string& name, 
                                           const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
