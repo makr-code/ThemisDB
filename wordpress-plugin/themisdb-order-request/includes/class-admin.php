@@ -163,7 +163,7 @@ class ThemisDB_Order_Admin {
                                     <?php echo esc_html(ucfirst($order['status'])); ?>
                                 </span>
                             </td>
-                            <td><?php echo esc_html(date('d.m.Y H:i', strtotime($order['created_at']))); ?></td>
+                            <td><?php echo esc_html(wp_date('d.m.Y H:i', strtotime($order['created_at']))); ?></td>
                             <td>
                                 <a href="?page=themisdb-orders&action=view&order_id=<?php echo absint($order['id']); ?>" class="button button-small">
                                     <?php _e('Ansehen', 'themisdb-order-request'); ?>
@@ -357,9 +357,9 @@ class ThemisDB_Order_Admin {
                             <td><strong><?php echo esc_html($contract['contract_number']); ?></strong></td>
                             <td><?php echo esc_html(ucfirst($contract['contract_type'])); ?></td>
                             <td><?php echo esc_html(ucfirst($contract['status'])); ?></td>
-                            <td><?php echo date('d.m.Y', strtotime($contract['valid_from'])); ?></td>
-                            <td><?php echo $contract['valid_until'] ? esc_html(date('d.m.Y', strtotime($contract['valid_until']))) : '-'; ?></td>
-                            <td><?php echo esc_html(date('d.m.Y', strtotime($contract['created_at']))); ?></td>
+                            <td><?php echo wp_date('d.m.Y', strtotime($contract['valid_from'])); ?></td>
+                            <td><?php echo $contract['valid_until'] ? esc_html(wp_date('d.m.Y', strtotime($contract['valid_until']))) : '-'; ?></td>
+                            <td><?php echo esc_html(wp_date('d.m.Y', strtotime($contract['created_at']))); ?></td>
                             <td>
                                 <a href="?page=themisdb-contracts&action=view&contract_id=<?php echo absint($contract['id']); ?>" class="button button-small">
                                     <?php _e('Ansehen', 'themisdb-order-request'); ?>

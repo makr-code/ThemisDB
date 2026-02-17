@@ -114,12 +114,12 @@
                 var $children = $toggle.closest('.tree-item').find('> .tree-children');
                 
                 if ($children.length > 0) {
-                    var isExpanded = !$toggle.hasClass('collapsed');
+                    var wasExpanded = !$toggle.hasClass('collapsed');
                     $children.slideToggle(200);
                     $toggle.toggleClass('collapsed');
                     
                     // Update aria-expanded for accessibility
-                    $toggle.attr('aria-expanded', isExpanded ? 'false' : 'true');
+                    $toggle.attr('aria-expanded', wasExpanded ? 'false' : 'true');
                 }
             });
             

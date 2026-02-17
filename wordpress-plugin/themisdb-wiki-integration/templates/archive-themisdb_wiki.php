@@ -26,7 +26,7 @@ get_header(); ?>
             if (!empty($categories) && !is_wp_error($categories)) {
                 echo '<ul>';
                 foreach ($categories as $category) {
-                    echo '<li><a href="' . esc_url(get_term_link($category)) . '">' . esc_html($category->name) . ' (' . intval($category->count) . ')</a></li>';
+                    echo '<li><a href="' . esc_url(get_term_link($category)) . '">' . esc_html($category->name) . ' (' . absint($category->count) . ')</a></li>';
                 }
                 echo '</ul>';
             }
