@@ -294,10 +294,19 @@ class ThemisDB_Plugin_Updater {
     }
     
     /**
-     * Clear update cache when user manually checks for updates
+     * Clear update cache when WordPress forces an update check
+     * This is triggered when users click "Check Again" on the Updates page
      */
     public function maybe_clear_cache() {
-        if (isset($_GET['force-check']) && current_user_can('update_plugins')) {
+        global $pagenow;
+        
+        // Clear cache when on update-core.php page and update check is triggered
+        if ($pagenow === 'update-core.php' && 
+            isset($_GET['force-check']) && 
+            $_GET['force-check'] == '1' &&
+            current_user_can('update_plugins') &&
+            check_admin_referer('update-core')) {
+            
             $cache_key = 'themisdb_update_' . $this->plugin_slug;
             delete_transient($cache_key);
         }
