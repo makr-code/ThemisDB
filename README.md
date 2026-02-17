@@ -39,7 +39,7 @@ ThemisDB is a **production-ready multi-model database** that combines relational
 - 🛡️ **Production Resilience (v1.4.1+)** - Circuit breakers, auto-retry, 99.99% corruption detection, network timeouts
 - 📊 **Observability & Automation (v1.4.1+)** - Health checks, alerting interface, automated backup scheduling (K8s-ready)
 
-**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)**
+**📚 [Full Documentation](https://makr-code.github.io/ThemisDB/)** · **[🚀 Quick Start](QUICKSTART.md)** · **[❓ FAQ](docs/FAQ.md)** · **[Release Notes](CHANGELOG.md)** · **[📁 Projektstruktur](INDEX.md)**
 
 ---
 
