@@ -483,10 +483,19 @@ public:
     // Export Prometheus metrics
     std::string exportPrometheusMetrics() const;
     
+    /**
+     * @brief Set Raft shard manager for consensus-based writes
+     * @param raft_manager Shared pointer to RaftShardManager
+     */
+    void setRaftShardManager(std::shared_ptr<class RaftShardManager> raft_manager);
+
 private:
     RedundancyConfig config_;
     std::unique_ptr<ErasureCoder> erasure_coder_;
     mutable std::shared_mutex mutex_;
+    
+    // Raft shard manager for consensus-based writes (optional)
+    std::shared_ptr<class RaftShardManager> raft_manager_;
     
     // Statistics
     std::atomic<uint64_t> stats_writes_{0};
@@ -494,6 +503,24 @@ private:
     std::atomic<uint64_t> stats_recoveries_{0};
     std::atomic<uint64_t> stats_bytes_written_{0};
     std::atomic<uint64_t> stats_bytes_read_{0};
+    
+    /**
+     * @brief Check if Raft consensus is enabled and write should go through leader
+     * @param shard_id Shard to check
+     * @return true if Raft is enabled and shard has leader
+     */
+    bool shouldUseRaftConsensus(const std::string& shard_id) const;
+    
+    /**
+     * @brief Propose write through Raft consensus (for leader enforcement)
+     * @param shard_id Target shard
+     * @param document_id Document ID
+     * @param data Data to write
+     * @return true if write was successfully proposed and committed
+     */
+    bool proposeRaftWrite(const std::string& shard_id,
+                         const std::string& document_id,
+                         const std::vector<uint8_t>& data);
     
     // Internal write methods for each mode
     WriteResult writeMirror(

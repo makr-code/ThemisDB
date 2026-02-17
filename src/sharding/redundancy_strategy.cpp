@@ -8,6 +8,7 @@
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/raft_shard_manager.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <numeric>
@@ -639,6 +640,12 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
 
 RedundancyStrategy::~RedundancyStrategy() = default;
 
+void RedundancyStrategy::setRaftShardManager(std::shared_ptr<RaftShardManager> raft_manager) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    raft_manager_ = raft_manager;
+    spdlog::info("RaftShardManager set for RedundancyStrategy");
+}
+
 WriteResult RedundancyStrategy::write(
     const std::string& document_id,
     const std::vector<uint8_t>& data,
@@ -819,6 +826,81 @@ WriteResult RedundancyStrategy::writeMirror(
         result.acknowledgements = successful;
         result.error_message = "Write concern not met";
         return result;
+    }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Raft Consensus Integration Helper Methods
+// ═══════════════════════════════════════════════════════════
+
+bool RedundancyStrategy::shouldUseRaftConsensus(const std::string& shard_id) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    
+    // Check if Raft is enabled in configuration
+    if (!config_.enable_raft_consensus) {
+        return false;
+    }
+    
+    // Check if RaftShardManager is set
+    if (!raft_manager_) {
+        return false;
+    }
+    
+    // Check if shard has Raft instance
+    auto raft_info = raft_manager_->getShardRaftInfo(shard_id);
+    return raft_info.has_value();
+}
+
+bool RedundancyStrategy::proposeRaftWrite(const std::string& shard_id,
+                                         const std::string& document_id,
+                                         const std::vector<uint8_t>& data) {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    
+    if (!raft_manager_) {
+        spdlog::error("RaftShardManager not set, cannot propose Raft write");
+        return false;
+    }
+    
+    // Check if this node is the leader for the shard
+    if (!raft_manager_->isShardLeader(shard_id)) {
+        std::string leader = raft_manager_->getShardLeader(shard_id);
+        if (!leader.empty()) {
+            spdlog::warn("Not the leader for shard {}, leader is: {}", shard_id, leader);
+        } else {
+            spdlog::warn("Not the leader for shard {}, no known leader", shard_id);
+        }
+        return false;
+    }
+    
+    // Serialize write command
+    // Format: "WRITE|<doc_id>|<data_size>|<data>"
+    std::string command = "WRITE|" + document_id + "|" + 
+                         std::to_string(data.size()) + "|";
+    command.append(reinterpret_cast<const char*>(data.data()), data.size());
+    
+    // Propose write through Raft
+    auto future = raft_manager_->proposeWrite(shard_id, command);
+    
+    try {
+        // Wait for commit with timeout
+        auto status = future.wait_for(config_.replication_timeout);
+        if (status == std::future_status::timeout) {
+            spdlog::error("Raft write proposal timeout for shard: {}", shard_id);
+            return false;
+        }
+        
+        bool committed = future.get();
+        if (!committed) {
+            spdlog::error("Raft write proposal failed for shard: {}", shard_id);
+            return false;
+        }
+        
+        spdlog::debug("Raft write committed for document {} on shard {}", document_id, shard_id);
+        return true;
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Exception during Raft write proposal: {}", e.what());
+        return false;
     }
 }
 
