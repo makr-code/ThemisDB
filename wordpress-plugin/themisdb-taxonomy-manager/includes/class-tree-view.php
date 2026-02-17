@@ -91,7 +91,10 @@ class ThemisDB_Tree_View {
             <h1><?php _e('ThemisDB Taxonomy Tree', 'themisdb-taxonomy'); ?></h1>
             
             <div class="tree-controls">
-                <select id="taxonomy-selector" class="taxonomy-selector">
+                <label for="taxonomy-selector">
+                    <?php _e('Select Taxonomy:', 'themisdb-taxonomy'); ?>
+                </label>
+                <select id="taxonomy-selector" class="taxonomy-selector" aria-label="<?php esc_attr_e('Select Taxonomy', 'themisdb-taxonomy'); ?>">
                     <option value="themisdb_feature" <?php selected($current_taxonomy, 'themisdb_feature'); ?>>
                         <?php _e('Features', 'themisdb-taxonomy'); ?>
                     </option>
@@ -106,8 +109,12 @@ class ThemisDB_Tree_View {
                     </option>
                 </select>
                 
+                <label for="taxonomy-search" class="screen-reader-text">
+                    <?php _e('Search terms', 'themisdb-taxonomy'); ?>
+                </label>
                 <input type="text" id="taxonomy-search" class="taxonomy-search" 
-                       placeholder="<?php esc_attr_e('Search terms...', 'themisdb-taxonomy'); ?>">
+                       placeholder="<?php esc_attr_e('Search terms...', 'themisdb-taxonomy'); ?>"
+                       aria-label="<?php esc_attr_e('Search taxonomy terms', 'themisdb-taxonomy'); ?>">
                 
                 <button type="button" class="button" id="expand-all">
                     <?php _e('Expand All', 'themisdb-taxonomy'); ?>
@@ -176,9 +183,11 @@ class ThemisDB_Tree_View {
         <li class="tree-item" data-term-id="<?php echo esc_attr($term->term_id); ?>">
             <div class="tree-node" style="border-left-color: <?php echo esc_attr($color); ?>;">
                 <?php if ($has_children): ?>
-                    <span class="tree-toggle">▼</span>
+                    <button class="tree-toggle" aria-expanded="false" aria-label="<?php printf(esc_attr__('Toggle %s children', 'themisdb-taxonomy'), esc_attr($term->name)); ?>" tabindex="0">
+                        <span aria-hidden="true">▼</span>
+                    </button>
                 <?php else: ?>
-                    <span class="tree-toggle tree-toggle-empty"></span>
+                    <span class="tree-toggle tree-toggle-empty" aria-hidden="true"></span>
                 <?php endif; ?>
                 
                 <?php if (!empty($icon)): ?>
@@ -190,9 +199,12 @@ class ThemisDB_Tree_View {
                 
                 <span class="tree-actions">
                     <a href="<?php echo esc_url(admin_url('term.php?taxonomy=' . $taxonomy . '&tag_ID=' . $term->term_id)); ?>" 
-                       class="tree-action-edit"><?php _e('Edit', 'themisdb-taxonomy'); ?></a>
+                       class="tree-action-edit"
+                       aria-label="<?php printf(esc_attr__('Edit %s', 'themisdb-taxonomy'), esc_attr($term->name)); ?>"><?php _e('Edit', 'themisdb-taxonomy'); ?></a>
                     <a href="<?php echo esc_url(get_term_link($term)); ?>" 
-                       class="tree-action-view" target="_blank"><?php _e('View', 'themisdb-taxonomy'); ?></a>
+                       class="tree-action-view" 
+                       target="_blank"
+                       aria-label="<?php printf(esc_attr__('View %s', 'themisdb-taxonomy'), esc_attr($term->name)); ?>"><?php _e('View', 'themisdb-taxonomy'); ?></a>
                 </span>
             </div>
             
