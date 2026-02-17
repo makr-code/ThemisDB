@@ -21,6 +21,32 @@ Build and development automation scripts are located in the project root:
 - `setup.sh` / `setup.ps1` - Development environment setup
 - `sync-wiki.ps1` - Wiki synchronization
 
+### Documentation Scripts (New)
+Scripts for maintaining documentation consistency:
+- `add_doc_metadata.py` - Automatically add structured YAML metadata to markdown files
+
+**Usage:**
+```bash
+# Dry-run mode (preview what would change)
+python3 scripts/add_doc_metadata.py --dry-run
+
+# Add metadata to all markdown files
+python3 scripts/add_doc_metadata.py
+
+# Add metadata to specific files
+python3 scripts/add_doc_metadata.py --files README.md CONTRIBUTING.md
+```
+
+The script adds structured metadata including:
+- Author (Themis DevTeam & Copilot)
+- Document number (release tag or date)
+- Creation and modification dates (from git history)
+- First commit title
+- Document title (first markdown heading)
+- File path
+
+See the [add-doc-metadata workflow](../.github/workflows/add-doc-metadata.yml) for automated execution.
+
 ### LLM & Benchmarking Scripts (New in v1.3.0+)
 Scripts for managing LLM models and running inferencing benchmarks:
 - `download-ollama-models.ps1` - Download models from Ollama and convert to GGUF

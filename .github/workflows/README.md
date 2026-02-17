@@ -26,6 +26,7 @@ ThemisDB uses a comprehensive Git Flow branching strategy with dedicated workflo
 | **CI** | `ci.yml` | General CI (supplementary) | ✅ Active |
 | **Security Scan** | `security-scan.yml` | Vulnerability scanning | ✅ Active |
 | **Documentation** | `docs.yml` | Build and deploy docs | ✅ Active |
+| **Doc Metadata** | `add-doc-metadata.yml` | Add metadata to markdown files | ✅ Active |
 | **Python SDK** | `python-sdk-test.yml` | Python SDK tests | ✅ Active |
 | **Java SDK** | `java-sdk-test.yml` | Java SDK tests | ✅ Active |
 | **C# SDK** | `csharp-sdk-test.yml` | .NET SDK tests | ✅ Active |
