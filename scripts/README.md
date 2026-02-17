@@ -21,6 +21,32 @@ Build and development automation scripts are located in the project root:
 - `setup.sh` / `setup.ps1` - Development environment setup
 - `sync-wiki.ps1` - Wiki synchronization
 
+### Documentation Scripts (New)
+Scripts for maintaining documentation consistency:
+- `add_doc_metadata.py` - Automatically add structured YAML metadata to markdown files
+
+**Usage:**
+```bash
+# Dry-run mode (preview what would change)
+python3 scripts/add_doc_metadata.py --dry-run
+
+# Add metadata to all markdown files
+python3 scripts/add_doc_metadata.py
+
+# Add metadata to specific files
+python3 scripts/add_doc_metadata.py --files README.md CONTRIBUTING.md
+```
+
+The script adds structured metadata including:
+- Author (Themis DevTeam & Copilot)
+- Document number (release tag or date)
+- Creation and modification dates (from git history)
+- First commit title
+- Document title (first markdown heading)
+- File path
+
+See the [add-doc-metadata workflow](../.github/workflows/add-doc-metadata.yml) for automated execution.
+
 ### LLM & Benchmarking Scripts (New in v1.3.0+)
 Scripts for managing LLM models and running inferencing benchmarks:
 - `download-ollama-models.ps1` - Download models from Ollama and convert to GGUF
@@ -49,3 +75,18 @@ For detailed deployment and operations documentation, see:
 - [Deployment Guide](../docs/deployment.md)
 - [Operations Runbook](../docs/operations_runbook.md)
 - [TLS Setup](../docs/TLS_SETUP.md)
+
+---
+
+## Dokumenten-Metadaten
+
+```yaml
+Urheber: Themis DevTeam & Copilot
+Dokumenten-Nr: Stand: 2026-02-17
+Erstelldatum: 2026-02-17
+Letzte Änderung: 2026-02-17
+Commit-Titel: "Create documentation for build simplification proposals in ThemisDB repository."
+Reviewer: 
+Titel: "ThemisDB Scripts"
+Dateipfad: scripts/README.md
+```
