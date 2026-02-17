@@ -97,6 +97,16 @@ register_deactivation_hook(__FILE__, 'themisdb_compendium_deactivate');
  * Enqueue frontend scripts and styles
  */
 function themisdb_compendium_enqueue_scripts() {
+    global $post;
+    
+    // Only load if shortcodes are present
+    if (!is_a($post, 'WP_Post') || !(
+        has_shortcode($post->post_content, 'themisdb_compendium_downloads') ||
+        has_shortcode($post->post_content, 'themisdb_compendium')
+    )) {
+        return;
+    }
+    
     wp_enqueue_style(
         'themisdb-compendium-style',
         THEMISDB_COMPENDIUM_PLUGIN_URL . 'assets/css/style.css',
