@@ -26,7 +26,7 @@ import json
 import logging
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Dict, Set, Optional, Any, Tuple
 
@@ -84,7 +84,7 @@ class OwnershipLinker:
             "attributes": attributes or {},
             "metadata": {
                 "source": "ownership_linker",
-                "created_time": datetime.utcnow().isoformat(),
+                "created_time": datetime.now(timezone.utc).isoformat(),
                 "edge_type": edge_type
             }
         }

@@ -26,7 +26,7 @@ import json
 import logging
 import sys
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import List, Dict, Set, Optional, Any
 
@@ -172,7 +172,7 @@ class LDAPExporter:
             "attributes": attributes,
             "metadata": {
                 "source": "ldap_export",
-                "export_time": datetime.utcnow().isoformat(),
+                "export_time": datetime.now(timezone.utc).isoformat(),
                 "guid": guid
             }
         }
@@ -195,7 +195,7 @@ class LDAPExporter:
             "attributes": attributes or {},
             "metadata": {
                 "source": "ldap_export",
-                "export_time": datetime.utcnow().isoformat()
+                "export_time": datetime.now(timezone.utc).isoformat()
             }
         }
         
