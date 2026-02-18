@@ -152,7 +152,8 @@ public:
      * @brief Construct detector with configuration
      * @param config Detection configuration parameters
      */
-    explicit KnowledgeGapDetector(const KnowledgeGapConfig& config = {});
+    KnowledgeGapDetector();
+    explicit KnowledgeGapDetector(const KnowledgeGapConfig& config);
     
     /**
      * @brief Destructor
@@ -207,8 +208,13 @@ public:
     DetectionResult detectGap(
         const std::string& query,
         const std::vector<RetrievedDocument>& documents,
+        const std::string& generated_answer
+    );
+    DetectionResult detectGap(
+        const std::string& query,
+        const std::vector<RetrievedDocument>& documents,
         const std::string& generated_answer,
-        const GenerationContext& context = {}
+        const GenerationContext& context
     );
     
     /**

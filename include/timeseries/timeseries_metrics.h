@@ -32,7 +32,8 @@ public:
         int histogram_buckets = 20;
     };
 
-    explicit TimeSeriesMetrics(const Config& config = Config{});
+    TimeSeriesMetrics();
+    explicit TimeSeriesMetrics(const Config& config);
     ~TimeSeriesMetrics() = default;
 
     // ==================== Ingestion Metrics ====================

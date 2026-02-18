@@ -164,19 +164,19 @@ class EnhancedHotReloadTest : public ::testing::Test {
 protected:
     void SetUp() override {
         // Register test plugins
-        PluginRegistry::registerFactory(
+        PluginManagerRegistry::registerFactory(
             "stateful_test",
             PluginType::CUSTOM,
             []() { return std::make_unique<StatefulTestPlugin>(); }
         );
         
-        PluginRegistry::registerFactory(
+        PluginManagerRegistry::registerFactory(
             "simple_test",
             PluginType::CUSTOM,
             []() { return std::make_unique<SimpleTestPlugin>(); }
         );
         
-        PluginRegistry::registerFactory(
+        PluginManagerRegistry::registerFactory(
             "failing_test",
             PluginType::CUSTOM,
             []() { return std::make_unique<FailingTestPlugin>(); }
@@ -202,7 +202,7 @@ TEST_F(EnhancedHotReloadTest, StatefulPluginStatePreservation) {
     auto& pm = PluginManager::instance();
     
     // Create and load stateful plugin
-    auto plugin = PluginRegistry::createPlugin("stateful_test");
+    auto plugin = PluginManagerRegistry::createPlugin("stateful_test");
     ASSERT_NE(plugin, nullptr);
     ASSERT_TRUE(plugin->initialize("{}"));
     
@@ -223,7 +223,7 @@ TEST_F(EnhancedHotReloadTest, StatefulPluginStatePreservation) {
     EXPECT_FALSE(saved.empty());
     
     // Create new instance and restore state
-    auto plugin2 = PluginRegistry::createPlugin("stateful_test");
+    auto plugin2 = PluginManagerRegistry::createPlugin("stateful_test");
     ASSERT_NE(plugin2, nullptr);
     
     auto* stateful2 = dynamic_cast<StatefulTestPlugin*>(plugin2.get());
@@ -241,7 +241,7 @@ TEST_F(EnhancedHotReloadTest, StatefulPluginStatePreservation) {
 }
 
 TEST_F(EnhancedHotReloadTest, StatefulPluginInvalidStateRestore) {
-    auto plugin = PluginRegistry::createPlugin("stateful_test");
+    auto plugin = PluginManagerRegistry::createPlugin("stateful_test");
     ASSERT_NE(plugin, nullptr);
     
     auto* stateful = dynamic_cast<StatefulTestPlugin*>(plugin.get());
@@ -395,7 +395,7 @@ TEST_F(EnhancedHotReloadTest, ConcurrentReloadAttempts) {
 // ============================================================================
 
 TEST_F(EnhancedHotReloadTest, StateSaveRestoreCycle) {
-    auto plugin = PluginRegistry::createPlugin("stateful_test");
+    auto plugin = PluginManagerRegistry::createPlugin("stateful_test");
     ASSERT_NE(plugin, nullptr);
     ASSERT_TRUE(plugin->initialize("{}"));
     
@@ -413,7 +413,7 @@ TEST_F(EnhancedHotReloadTest, StateSaveRestoreCycle) {
     EXPECT_FALSE(saved_state.empty());
     
     // Simulate reload by creating new instance
-    auto plugin2 = PluginRegistry::createPlugin("stateful_test");
+    auto plugin2 = PluginManagerRegistry::createPlugin("stateful_test");
     ASSERT_NE(plugin2, nullptr);
     
     // Initialize with restored state in config

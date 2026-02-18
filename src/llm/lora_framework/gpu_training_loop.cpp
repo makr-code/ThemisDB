@@ -243,11 +243,7 @@ GPUTrainingMetrics GPUTrainingLoop::getMetrics() const {
     GPUTrainingMetrics metrics = current_metrics_;
     
     // Update GPU memory info
-    if (gpu_memory_manager_) {
-        auto stats = gpu_memory_manager_->get_stats(config_.device);
-        metrics.gpu_memory_used = stats.allocated_bytes;
-        metrics.gpu_memory_available = stats.free_bytes;
-    } else if (vram_allocator_) {
+    if (vram_allocator_) {
         auto stats = vram_allocator_->get_stats();
         metrics.gpu_memory_used = stats.allocated_bytes;
         metrics.gpu_memory_available = stats.free_bytes;
@@ -596,8 +592,8 @@ float GPUTrainingLoop::trainStep(const GPUBatch& batch) {
     
     // Calibrate memory estimation periodically (every 100 steps)
     if (adaptive_batcher_ && current_metrics_.current_step % 100 == 0) {
-        if (gpu_memory_manager_) {
-            auto stats = gpu_memory_manager_->get_stats(config_.device);
+        if (vram_allocator_) {
+            auto stats = vram_allocator_->get_stats();
             size_t total_vram = stats.total_bytes;
             size_t used_vram = stats.allocated_bytes;
             

@@ -55,7 +55,8 @@ public:
      * @param dimension Vector dimension
      * @param config Configuration parameters
      */
-    explicit BinaryQuantizer(int dimension, const Config& config = Config());
+    explicit BinaryQuantizer(int dimension);
+    explicit BinaryQuantizer(int dimension, const Config& config);
     
     ~BinaryQuantizer();
 

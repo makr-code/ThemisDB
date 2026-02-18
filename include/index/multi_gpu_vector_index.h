@@ -144,7 +144,8 @@ public:
     };
 
     // Constructor & Destructor
-    explicit MultiGPUVectorIndex(const Config& config = Config{});
+    MultiGPUVectorIndex();
+    explicit MultiGPUVectorIndex(const Config& config);
     ~MultiGPUVectorIndex();
 
     // Initialization

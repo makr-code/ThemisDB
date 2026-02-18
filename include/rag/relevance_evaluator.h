@@ -62,7 +62,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit RelevanceEvaluator(const Config& config = {});
+    RelevanceEvaluator();
+    explicit RelevanceEvaluator(const Config& config);
     
     /**
      * @brief Destructor

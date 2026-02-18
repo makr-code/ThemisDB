@@ -45,7 +45,8 @@ public:
         int max_concurrent_streams = 100;             ///< Max concurrent streams per channel
     };
     
-    explicit GrpcChannelPool(const Config& config = Config{});
+    GrpcChannelPool();
+    explicit GrpcChannelPool(const Config& config);
     ~GrpcChannelPool();
     
     // Disable copy, allow move

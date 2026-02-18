@@ -516,6 +516,10 @@ public:
 // GPUVectorIndex public interface
 // =============================================================================
 
+GPUVectorIndex::GPUVectorIndex()
+    : GPUVectorIndex(Config{}) {
+}
+
 GPUVectorIndex::GPUVectorIndex(const Config& config)
     : pImpl(std::make_unique<Impl>(config)) {
 }

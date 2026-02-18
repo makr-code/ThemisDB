@@ -127,7 +127,8 @@ public:
         std::chrono::seconds metrics_interval{10};
     };
     
-    explicit ThreadPoolManager(const Config& config = Config{});
+    ThreadPoolManager();
+    explicit ThreadPoolManager(const Config& config);
     ~ThreadPoolManager();
     
     // Submit task to appropriate pool

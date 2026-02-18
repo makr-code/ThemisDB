@@ -6,6 +6,10 @@
 
 namespace themis {
 
+TimeSeriesMetrics::TimeSeriesMetrics()
+    : TimeSeriesMetrics(Config{}) {
+}
+
 TimeSeriesMetrics::TimeSeriesMetrics(const Config& config)
     : config_(config) {
 }

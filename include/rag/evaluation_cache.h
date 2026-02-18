@@ -85,7 +85,8 @@ public:
      * @brief Construct evaluation cache
      * @param config Cache configuration
      */
-    explicit EvaluationCache(const CacheConfig& config = {});
+    EvaluationCache();
+    explicit EvaluationCache(const CacheConfig& config);
     
     /**
      * @brief Destructor

@@ -511,6 +511,10 @@ public:
 // MultiGPUVectorIndex public interface
 // =============================================================================
 
+MultiGPUVectorIndex::MultiGPUVectorIndex()
+    : MultiGPUVectorIndex(Config{}) {
+}
+
 MultiGPUVectorIndex::MultiGPUVectorIndex(const Config& config)
     : pImpl(std::make_unique<Impl>(config)) {
 }

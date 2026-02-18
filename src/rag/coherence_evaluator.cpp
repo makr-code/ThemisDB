@@ -89,6 +89,10 @@ struct CoherenceEvaluator::Impl {
     }
 };
 
+CoherenceEvaluator::CoherenceEvaluator()
+    : CoherenceEvaluator(Config{}) {
+}
+
 CoherenceEvaluator::CoherenceEvaluator(const Config& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;

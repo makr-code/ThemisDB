@@ -66,6 +66,10 @@ struct FaithfulnessEvaluator::Impl {
     }
 };
 
+FaithfulnessEvaluator::FaithfulnessEvaluator()
+    : FaithfulnessEvaluator(Config{}) {
+}
+
 FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;

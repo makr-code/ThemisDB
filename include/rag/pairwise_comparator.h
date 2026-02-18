@@ -95,7 +95,8 @@ public:
     /**
      * @brief Construct comparator with configuration
      */
-    explicit PairwiseComparator(const Config& config = {});
+    PairwiseComparator();
+    explicit PairwiseComparator(const Config& config);
     
     /**
      * @brief Destructor

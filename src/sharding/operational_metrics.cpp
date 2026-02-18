@@ -302,10 +302,9 @@ std::string OperationalMetrics::exportJSONMetrics() const {
     return result.dump(2);
 }
 
-ShardMetrics OperationalMetrics::getAggregatedMetrics() const {
+void OperationalMetrics::getAggregatedMetrics(ShardMetrics& aggregated) const {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    ShardMetrics aggregated;
     aggregated.reset();
     
     for (const auto& [_, metrics] : shard_metrics_) {
@@ -341,8 +340,6 @@ ShardMetrics OperationalMetrics::getAggregatedMetrics() const {
         aggregated.transactions_committed += metrics->transactions_committed.load();
         aggregated.transactions_aborted += metrics->transactions_aborted.load();
     }
-    
-    return aggregated;
 }
 
 HealthStatus OperationalMetrics::getClusterHealth() const {

@@ -51,7 +51,8 @@ public:
     /**
      * @brief Create a default context with production implementations.
      */
-    static std::shared_ptr<ConcernsContext> create(const Config& config = Config{});
+    static std::shared_ptr<ConcernsContext> create();
+    static std::shared_ptr<ConcernsContext> create(const Config& config);
 
     /**
      * @brief Create a context with custom implementations (for testing).

@@ -10,6 +10,10 @@
 
 namespace themis::rag::judge {
 
+LLMJudgeIntegration::LLMJudgeIntegration()
+    : LLMJudgeIntegration(Config{}) {
+}
+
 LLMJudgeIntegration::LLMJudgeIntegration(const Config& config)
     : config_(config), mock_mode_warning_shown_(false) {
     // Only set default inference function if mock mode is explicitly enabled

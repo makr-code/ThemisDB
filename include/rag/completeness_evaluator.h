@@ -73,7 +73,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit CompletenessEvaluator(const Config& config = {});
+    CompletenessEvaluator();
+    explicit CompletenessEvaluator(const Config& config);
     
     /**
      * @brief Destructor

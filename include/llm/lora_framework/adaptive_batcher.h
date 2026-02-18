@@ -46,7 +46,7 @@ public:
      * @param config Configuration parameters
      * @param mem_manager GPU memory manager for VRAM queries
      */
-    explicit AdaptiveBatcher(const Config& config, GPUMemoryManager* mem_manager);
+    explicit AdaptiveBatcher(const Config& config, ::themis::llm::GPUMemoryManager* mem_manager);
     
     /**
      * @brief Compute optimal batch size for current VRAM state
@@ -110,7 +110,7 @@ public:
     
 private:
     Config config_;
-    GPUMemoryManager* mem_manager_;
+    ::themis::llm::GPUMemoryManager* mem_manager_;
     size_t current_batch_size_;
     int oom_count_;
     std::vector<float> recent_utilizations_;

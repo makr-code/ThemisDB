@@ -8,7 +8,7 @@ namespace themis {
 namespace llm {
 namespace lora {
 
-AdaptiveBatcher::AdaptiveBatcher(const Config& config, GPUMemoryManager* mem_manager)
+AdaptiveBatcher::AdaptiveBatcher(const Config& config, ::themis::llm::GPUMemoryManager* mem_manager)
     : config_(config)
     , mem_manager_(mem_manager)
     , current_batch_size_(config.min_batch_size)

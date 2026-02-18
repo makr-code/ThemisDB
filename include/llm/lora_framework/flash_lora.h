@@ -123,8 +123,14 @@ public:
         const GPUTensor& input,
         const GPUTensor& B,
         const GPUTensor& A,
+        float scaling
+    );
+    static GPUTensor forward(
+        const GPUTensor& input,
+        const GPUTensor& B,
+        const GPUTensor& A,
         float scaling,
-        const Config& config = Config{}
+        const Config& config
     );
     
     /**
@@ -149,8 +155,15 @@ public:
         const GPUTensor& input,
         const GPUTensor& B,
         const GPUTensor& A,
+        float scaling
+    );
+    static std::tuple<GPUTensor, GPUTensor, GPUTensor> backward(
+        const GPUTensor& grad_output,
+        const GPUTensor& input,
+        const GPUTensor& B,
+        const GPUTensor& A,
         float scaling,
-        const Config& config = Config{}
+        const Config& config
     );
     
     /**

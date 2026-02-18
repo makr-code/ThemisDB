@@ -95,8 +95,13 @@ protected:
     std::string buildPromptWithCoT(
         const std::string& task_description,
         const std::string& input_text,
+        const std::vector<std::string>& criteria
+    );
+    std::string buildPromptWithCoT(
+        const std::string& task_description,
+        const std::string& input_text,
         const std::vector<std::string>& criteria,
-        const std::vector<std::string>& examples = {}
+        const std::vector<std::string>& examples
     );
 
     /**

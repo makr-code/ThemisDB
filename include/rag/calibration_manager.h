@@ -81,7 +81,8 @@ public:
      * @brief Construct calibration manager
      * @param config Calibration configuration
      */
-    explicit CalibrationManager(const CalibrationConfig& config = {});
+    CalibrationManager();
+    explicit CalibrationManager(const CalibrationConfig& config);
     
     /**
      * @brief Load ground truth annotations from file

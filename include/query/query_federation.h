@@ -91,9 +91,10 @@ public:
      * @param shard_router Shard router for execution
      * @param config Configuration
      */
+    QueryFederation(std::shared_ptr<sharding::ShardRouter> shard_router);
     QueryFederation(
         std::shared_ptr<sharding::ShardRouter> shard_router,
-        const Config& config = Config{}
+        const Config& config
     );
     
     /**

@@ -81,7 +81,8 @@ public:
         float error_rate = 0.0f;  // Percentage of operations that failed
     };
     
-    explicit GPUSafeFailManager(const Config& config = Config());
+    GPUSafeFailManager();
+    explicit GPUSafeFailManager(const Config& config);
     ~GPUSafeFailManager() = default;
     
     // Core safe-fail operations

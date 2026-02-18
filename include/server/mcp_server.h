@@ -80,7 +80,8 @@ public:
         int websocket_ping_interval_ms = 30000;
     };
 
-    explicit McpServer(asio::io_context& io_context, const Config& config = Config());
+    explicit McpServer(asio::io_context& io_context);
+    explicit McpServer(asio::io_context& io_context, const Config& config);
     ~McpServer();
 
     // Lifecycle

@@ -187,10 +187,95 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     )
 endif()
 
+set(_themis_test_core_libs)
+if(THEMIS_BUILD_MODULAR)
+    if(DEFINED THEMIS_CORE_SOURCES AND THEMIS_CORE_SOURCES)
+        message(STATUS "THEMIS_BUILD_MODULAR=ON: building themis_tests with THEMIS_CORE_SOURCES for full symbol coverage")
+        target_sources(themis_tests PRIVATE ${THEMIS_CORE_SOURCES})
+        target_compile_definitions(themis_tests PRIVATE
+            THEMIS_BASE_EXPORTS
+            THEMIS_STORAGE_EXPORTS
+            THEMIS_SECURITY_EXPORTS
+            THEMIS_TRANSACTION_EXPORTS
+            THEMIS_SHARDING_EXPORTS
+            THEMIS_LLM_EXPORTS
+            THEMIS_QUERY_EXPORTS
+            THEMIS_TIMESERIES_EXPORTS
+            THEMIS_GRAPH_EXPORTS
+            THEMIS_GEO_EXPORTS
+            THEMIS_CONTENT_EXPORTS
+            THEMIS_NETWORK_EXPORTS
+        )
+
+        set(_themis_test_extra_sources
+            ${THEMIS_ROOT_DIR}/src/llm/ai_decision_auditor.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/explanation_generator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/kernel_fusion.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/applications/themis_help_lora.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_feedback_storage.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_training_config.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_audit_logger.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/lora_framework/feedback_plugin.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
+            ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
+            ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
+        )
+        foreach(_extra_src IN LISTS _themis_test_extra_sources)
+            if(EXISTS "${_extra_src}")
+                list(FIND THEMIS_CORE_SOURCES "${_extra_src}" _extra_src_idx)
+                if(_extra_src_idx EQUAL -1)
+                    target_sources(themis_tests PRIVATE "${_extra_src}")
+                endif()
+            endif()
+        endforeach()
+
+        foreach(_mod
+            themis_base
+            themis_storage
+            themis_security
+            themis_transaction
+            themis_sharding
+            themis_llm
+            themis_query
+            themis_timeseries
+            themis_graph
+            themis_geo
+            themis_content
+        )
+            if(TARGET ${_mod})
+                list(APPEND _themis_test_core_libs ${_mod})
+            endif()
+        endforeach()
+    else()
+        foreach(_mod
+            themis_base
+            themis_storage
+            themis_security
+            themis_transaction
+            themis_sharding
+            themis_llm
+            themis_query
+            themis_timeseries
+            themis_graph
+            themis_geo
+            themis_content
+        )
+            if(TARGET ${_mod})
+                list(APPEND _themis_test_core_libs ${_mod})
+            endif()
+        endforeach()
+    endif()
+else()
+    list(APPEND _themis_test_core_libs themis_core)
+endif()
+
 target_link_libraries(themis_tests PRIVATE
     GTest::gtest
     GTest::gtest_main
-    themis_core
+    ${_themis_test_core_libs}
     spdlog::spdlog
     fmt::fmt
     nlohmann_json::nlohmann_json
@@ -203,6 +288,30 @@ target_link_libraries(themis_tests PRIVATE
     Threads::Threads
 )
 
+if(TARGET prometheus-cpp::core)
+    target_link_libraries(themis_tests PRIVATE prometheus-cpp::core)
+endif()
+if(TARGET prometheus-cpp::pull)
+    target_link_libraries(themis_tests PRIVATE prometheus-cpp::pull)
+endif()
+if(TARGET libzip::zip)
+    target_link_libraries(themis_tests PRIVATE libzip::zip)
+elseif(TARGET libzip::libzip)
+    target_link_libraries(themis_tests PRIVATE libzip::libzip)
+endif()
+if(TARGET pugixml::pugixml)
+    target_link_libraries(themis_tests PRIVATE pugixml::pugixml)
+elseif(TARGET pugixml::static)
+    target_link_libraries(themis_tests PRIVATE pugixml::static)
+endif()
+
+if(WIN32)
+    set(_themis_vcpkg_tbb_lib "${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/lib/tbb12.lib")
+    if(EXISTS "${_themis_vcpkg_tbb_lib}")
+        target_link_libraries(themis_tests PRIVATE "${_themis_vcpkg_tbb_lib}")
+    endif()
+endif()
+
 if(THEMIS_ENABLE_GRPC)
     target_link_libraries(themis_tests PRIVATE gRPC::grpc++)
 endif()
@@ -214,6 +323,15 @@ endif()
 target_compile_definitions(themis_tests PRIVATE
     THEMIS_TEST_BUILD=1
 )
+
+target_include_directories(themis_tests PRIVATE
+    ${CMAKE_BINARY_DIR}/proto_generated
+    ${THEMIS_ROOT_DIR}/vcpkg_installed/x64-windows/include
+)
+
+if(TARGET themis_shard_proto)
+    add_dependencies(themis_tests themis_shard_proto)
+endif()
 
 # Copy DLLs to test directory on Windows after build
 if(WIN32)

@@ -1755,6 +1755,55 @@ if(THEMIS_BUILD_MODULAR)
     message(STATUS "Building ThemisDB as separate module libraries")
     message(STATUS "==============================================")
     
+    # Generate shard RPC protobuf stubs BEFORE modular build (required by sharding module)
+    if(THEMIS_ENABLE_GRPC)
+        find_package(gRPC CONFIG)
+        find_package(Protobuf CONFIG)
+        if(gRPC_FOUND AND Protobuf_FOUND AND COMMAND protobuf_generate)
+            set(SHARD_PROTO ${THEMIS_ROOT_DIR}/proto/sharding/shard_rpc.proto)
+            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
+            file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
+
+            # Manually generate protobuf files
+            set(SHARD_PROTO_SRCS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.cc
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.cc
+            )
+            set(SHARD_PROTO_HDRS
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.h
+                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.h
+            )
+
+            add_custom_command(
+                OUTPUT ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS}
+                COMMAND $<TARGET_FILE:protobuf::protoc>
+                ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
+                     --grpc_out ${SHARD_PROTO_GEN_DIR}
+                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
+                     -I ${THEMIS_ROOT_DIR}/proto/sharding
+                     ${SHARD_PROTO}
+                DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
+                COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
+                VERBATIM
+            )
+
+            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
+            target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
+            target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
+
+            # Suppress warnings in generated protobuf files
+            if(MSVC)
+                target_compile_options(themis_shard_proto PRIVATE /wd4996 /wd4018 /wd4244 /wd4267)
+            else()
+                target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
+            endif()
+
+            message(STATUS "themis_shard_proto library created for inter-shard communication (modular build)")
+        else()
+            message(WARNING "gRPC/Protobuf not found or protobuf_generate() unavailable - shard RPC stubs will not be generated")
+        endif()
+    endif()
+    
     # Call the modular build function to create all module targets
     themis_build_modular()
     
@@ -2361,49 +2410,9 @@ if(THEMIS_ENABLE_GRPC)
             message(WARNING "gRPC::grpc++_reflection not found; linking without reflection to themis_core")
         endif()
 
-        if(COMMAND protobuf_generate)
-            # Generate shard RPC stubs (ApplyWalBatch, etc.)
-            set(SHARD_PROTO ${THEMIS_ROOT_DIR}/proto/sharding/shard_rpc.proto)
-            set(SHARD_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
-            file(MAKE_DIRECTORY ${SHARD_PROTO_GEN_DIR})
-
-            # Manually generate protobuf files
-            set(SHARD_PROTO_SRCS
-                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.cc
-                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.cc
-            )
-            set(SHARD_PROTO_HDRS
-                ${SHARD_PROTO_GEN_DIR}/shard_rpc.pb.h
-                ${SHARD_PROTO_GEN_DIR}/shard_rpc.grpc.pb.h
-            )
-
-            add_custom_command(
-                OUTPUT ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS}
-                COMMAND $<TARGET_FILE:protobuf::protoc>
-                ARGS --cpp_out ${SHARD_PROTO_GEN_DIR}
-                     --grpc_out ${SHARD_PROTO_GEN_DIR}
-                     --plugin=protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>
-                     -I ${THEMIS_ROOT_DIR}/proto/sharding
-                     ${SHARD_PROTO}
-                DEPENDS ${SHARD_PROTO} protobuf::protoc gRPC::grpc_cpp_plugin
-                COMMENT "Generating protobuf and gRPC sources for shard_rpc.proto"
-                VERBATIM
-            )
-
-            add_library(themis_shard_proto STATIC ${SHARD_PROTO_SRCS} ${SHARD_PROTO_HDRS})
-            target_include_directories(themis_shard_proto PUBLIC ${SHARD_PROTO_GEN_DIR})
-            target_link_libraries(themis_shard_proto PUBLIC gRPC::grpc++ protobuf::libprotobuf)
-
-            # Suppress warnings in generated protobuf files
-            if(MSVC)
-                target_compile_options(themis_shard_proto PRIVATE /wd4996 /wd4018 /wd4244 /wd4267)
-            else()
-                target_compile_options(themis_shard_proto PRIVATE -Wno-unused-parameter -Wno-deprecated-declarations -Wno-conversion)
-            endif()
-
+        # Link to generated shard proto library (generated outside this block)
+        if(TARGET themis_shard_proto)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
-        else()
-            message(WARNING "protobuf_generate() not available; skipping shard RPC stub generation")
         endif()
     else()
         message(WARNING "gRPC/Protobuf not found - WAL gRPC service will be disabled at runtime")

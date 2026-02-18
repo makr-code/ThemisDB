@@ -72,6 +72,10 @@ std::shared_ptr<llm::InferenceEngineEnhanced> LLMIntegration::getInferenceEngine
     return g_inference_engine;
 }
 
+std::string LLMIntegration::generate(const std::string& prompt) {
+    return generate(prompt, LLMGenerationOptions{});
+}
+
 std::string LLMIntegration::generate(
     const std::string& prompt,
     const LLMGenerationOptions& options
@@ -126,6 +130,13 @@ std::string LLMIntegration::generate(
         THEMIS_ERROR("LLM generation failed: {}", e.what());
         return "[LLM Generation Error: " + std::string(e.what()) + "]";
     }
+}
+
+std::vector<std::string> LLMIntegration::generateMultipleSamples(
+    const std::string& prompt,
+    size_t num_samples
+) {
+    return generateMultipleSamples(prompt, num_samples, LLMGenerationOptions{});
 }
 
 std::vector<std::string> LLMIntegration::generateMultipleSamples(

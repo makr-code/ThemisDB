@@ -4,6 +4,10 @@
 namespace themis {
 namespace utils {
 
+GrpcChannelPool::GrpcChannelPool()
+    : GrpcChannelPool(Config{}) {
+}
+
 GrpcChannelPool::GrpcChannelPool(const Config& config)
     : config_(config)
 {

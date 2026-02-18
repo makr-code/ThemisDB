@@ -43,6 +43,10 @@ struct RAGJudge::Impl {
     }
 };
 
+RAGJudge::RAGJudge()
+    : RAGJudge(RAGJudgeConfig{}) {
+}
+
 RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
@@ -87,6 +91,14 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
 }
 
 RAGJudge::~RAGJudge() = default;
+
+EvaluationResult RAGJudge::evaluate(
+    const std::string& query,
+    const std::vector<RetrievedDocument>& documents,
+    const std::string& generated_answer
+) {
+    return evaluate(query, documents, generated_answer, RAGJudgeConfig{});
+}
 
 EvaluationResult RAGJudge::evaluate(
     const std::string& query,

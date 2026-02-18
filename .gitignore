@@ -144,6 +144,10 @@ Thumbs.db
 !**/manufacturer/*signer.crt
 certs/manufacturer/*.key
 certs/test/*.key
+certs/minimal/*.json
+certs/community/*.json
+certs/enterprise/*.json
+certs/hyperscaler/*.json
 
 # Docker build artifacts
 .docker/

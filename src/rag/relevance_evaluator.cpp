@@ -65,6 +65,10 @@ struct RelevanceEvaluator::Impl {
     }
 };
 
+RelevanceEvaluator::RelevanceEvaluator()
+    : RelevanceEvaluator(Config{}) {
+}
+
 RelevanceEvaluator::RelevanceEvaluator(const Config& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;

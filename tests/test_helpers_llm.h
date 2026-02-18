@@ -75,11 +75,7 @@ inline bool shouldSkipSlowTest() {
 
 }  // namespace test
 }  // namespace themis
-}
 
 namespace ollama_models {
     constexpr const char* LLAMA3_2_SHA256 = "dde5aa3fc5ffc17176b5e8bdc82f587b24b2678c6c66101bf7da77af9f7ccdff";
 }
-
-}  // namespace test
-}  // namespace themis
