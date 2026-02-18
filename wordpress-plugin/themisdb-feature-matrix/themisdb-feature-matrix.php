@@ -91,6 +91,18 @@ if (!$themisdb_fm_files_loaded) {
     return;
 }
 
+// Load updater class
+require_once dirname(THEMISDB_FM_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_FM_PLUGIN_FILE,
+        'themisdb-feature-matrix',
+        THEMISDB_FM_VERSION
+    );
+}
+
 /**
  * Initialize plugin
  */

@@ -20,9 +20,22 @@ if (!defined('ABSPATH')) {
 define('THEMISDB_TAXONOMY_VERSION', '1.0.0');
 define('THEMISDB_TAXONOMY_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_TAXONOMY_URL', plugin_dir_url(__FILE__));
+define('THEMISDB_TAXONOMY_FILE', __FILE__);
 // Backward compatibility aliases
 define('THEMISDB_TAXONOMY_PLUGIN_DIR', THEMISDB_TAXONOMY_DIR);
 define('THEMISDB_TAXONOMY_PLUGIN_URL', THEMISDB_TAXONOMY_URL);
+
+// Load updater class
+require_once dirname(THEMISDB_TAXONOMY_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_TAXONOMY_FILE,
+        'themisdb-taxonomy-manager',
+        THEMISDB_TAXONOMY_VERSION
+    );
+}
 
 /**
  * Safe require helper - loads files with error handling and logging

@@ -19,6 +19,19 @@ if (!defined('ABSPATH')) {
 define('THEMISDB_TEST_DASHBOARD_VERSION', '1.0.0');
 define('THEMISDB_TEST_DASHBOARD_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_TEST_DASHBOARD_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('THEMISDB_TEST_DASHBOARD_PLUGIN_FILE', __FILE__);
+
+// Load updater class
+require_once dirname(THEMISDB_TEST_DASHBOARD_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_TEST_DASHBOARD_PLUGIN_FILE,
+        'themisdb-test-dashboard',
+        THEMISDB_TEST_DASHBOARD_VERSION
+    );
+}
 
 /**
  * Enqueue plugin styles and scripts

@@ -27,6 +27,18 @@ define('THEMISDB_QP_PLUGIN_FILE', __FILE__);
 define('THEMISDB_QP_GITHUB_REPO', 'makr-code/ThemisDB');
 define('THEMISDB_QP_GITHUB_PATH', 'tools/query-playground-wordpress');
 
+// Load updater class
+require_once dirname(THEMISDB_QP_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_QP_PLUGIN_FILE,
+        'themisdb-query-playground',
+        THEMISDB_QP_VERSION
+    );
+}
+
 // Load ThemisDB PHP Client (if not already loaded via composer)
 if (!class_exists('ThemisDB\\ThemisClient')) {
     // Provide path to ThemisDB PHP client

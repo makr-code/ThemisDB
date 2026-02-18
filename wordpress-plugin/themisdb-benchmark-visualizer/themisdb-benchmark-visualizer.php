@@ -27,6 +27,18 @@ define('THEMISDB_BV_PLUGIN_FILE', __FILE__);
 define('THEMISDB_BV_GITHUB_REPO', 'makr-code/ThemisDB');
 define('THEMISDB_BV_GITHUB_PATH', 'tools/benchmark-visualizer-wordpress');
 
+// Load updater class
+require_once dirname(THEMISDB_BV_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_BV_PLUGIN_FILE,
+        'themisdb-benchmark-visualizer',
+        THEMISDB_BV_VERSION
+    );
+}
+
 /**
  * Main Plugin Class
  */
