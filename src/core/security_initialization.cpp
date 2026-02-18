@@ -212,15 +212,11 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             if (config.contains("kv_mount_path")) {
                 vault_config.kv_mount_path = config["kv_mount_path"].get<std::string>();
             }
-            if (config.contains("namespace")) {
-                vault_config.namespace_ = config["namespace"].get<std::string>();
-            }
-            if (config.contains("role")) {
-                vault_config.role = config["role"].get<std::string>();
-            }
             if (config.contains("tls_skip_verify")) {
-                vault_config.tls_skip_verify = config["tls_skip_verify"].get<bool>();
+                vault_config.verify_ssl = !config["tls_skip_verify"].get<bool>();
             }
+            // Note: namespace and role are Vault Enterprise features not yet in the config struct
+            // They are validated but not used until VaultKeyProvider::Config is extended
             
             if (vault_config.vault_addr.empty() || vault_config.vault_token.empty()) {
                 throw std::runtime_error("VAULT key provider requires vault_addr and vault_token in config");

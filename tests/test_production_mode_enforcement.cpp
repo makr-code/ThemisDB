@@ -14,15 +14,15 @@ using namespace themis::core::concerns;
  */
 class EnvGuard {
 public:
-    EnvGuard(const std::string& name, const std::string& value) : name_(name) {
-        const char* old_val = std::getenv(name.c_str());
+    EnvGuard(const std::string& var_name, const std::string& value) : name_(var_name) {
+        const char* old_val = std::getenv(name_.c_str());
         if (old_val) {
             old_value_ = old_val;
             has_old_ = true;
         } else {
             has_old_ = false;
         }
-        setenv(name.c_str(), value.c_str(), 1);
+        setenv(name_.c_str(), value.c_str(), 1);
     }
     
     ~EnvGuard() {

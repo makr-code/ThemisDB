@@ -55,7 +55,7 @@ public:
      */
     static void enforce(bool condition, const std::string& error_message) {
         if (isEnabled() && !condition) {
-            throw std::runtime_error("Production mode security violation: " + error_message);
+            throw std::runtime_error("Production mode violation: " + error_message);
         }
     }
     
