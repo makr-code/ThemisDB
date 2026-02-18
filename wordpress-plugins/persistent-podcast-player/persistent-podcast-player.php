@@ -84,7 +84,7 @@ class Persistent_Podcast_Player {
             'public' => true,
             'show_in_rest' => true,
             'rest_base' => 'pod_episodes',
-            'supports' => array('title', 'editor', 'custom-fields'),
+            'supports' => array('title', 'editor', 'custom-fields', 'thumbnail'),
             'menu_icon' => 'dashicons-microphone',
             'has_archive' => true,
             'capability_type' => 'post',
@@ -167,6 +167,20 @@ class Persistent_Podcast_Player {
                     }
                 }
                 
+                // Get thumbnail
+                $thumbnail = array(
+                    'full' => '',
+                    'medium' => '',
+                    'thumbnail' => '',
+                );
+                
+                if (has_post_thumbnail($post_id)) {
+                    $thumbnail_id = get_post_thumbnail_id($post_id);
+                    $thumbnail['full'] = wp_get_attachment_image_url($thumbnail_id, 'full');
+                    $thumbnail['medium'] = wp_get_attachment_image_url($thumbnail_id, 'medium');
+                    $thumbnail['thumbnail'] = wp_get_attachment_image_url($thumbnail_id, 'thumbnail');
+                }
+                
                 $episodes[] = array(
                     'id' => $post_id,
                     'title' => get_the_title(),
@@ -174,6 +188,7 @@ class Persistent_Podcast_Player {
                     'desc' => strip_tags(get_the_content()),
                     'excerpt' => $excerpt,
                     'permalink' => $permalink,
+                    'thumbnail' => $thumbnail,
                 );
             }
             wp_reset_postdata();
@@ -232,6 +247,20 @@ class Persistent_Podcast_Player {
                     <button id="ppp-next" class="ppp-btn" title="Next">
                         <span>&#9654;</span>
                     </button>
+                </div>
+                
+                <div class="ppp-time-display">
+                    <span id="ppp-current-time">0:00</span>
+                </div>
+                
+                <div class="ppp-progress-container">
+                    <div class="ppp-progress-bar" id="ppp-progress-bar">
+                        <div class="ppp-progress-fill" id="ppp-progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="ppp-time-display">
+                    <span id="ppp-total-time">0:00</span>
                 </div>
                 
                 <div class="ppp-info">

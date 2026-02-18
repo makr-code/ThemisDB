@@ -5,17 +5,18 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #ffffff;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
     z-index: 9999;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #ffffff;
 }
 
 .ppp-player-container {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    gap: 20px;
+    gap: 15px;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -28,9 +29,9 @@
 }
 
 .ppp-btn {
-    background: #0073aa;
+    background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
-    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -38,12 +39,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s ease;
+    transition: all 0.3s ease;
     font-size: 16px;
+    backdrop-filter: blur(10px);
 }
 
 .ppp-btn:hover {
-    background: #005177;
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
 }
 
 .ppp-btn:active {
@@ -54,6 +58,14 @@
     width: 50px;
     height: 50px;
     font-size: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    border-color: transparent;
+}
+
+#ppp-play-pause:hover {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .ppp-btn-play .ppp-pause-icon,
@@ -66,6 +78,45 @@
     display: block;
 }
 
+/* Time display */
+.ppp-time-display {
+    flex-shrink: 0;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 45px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.9;
+}
+
+/* Progress bar */
+.ppp-progress-container {
+    flex: 1;
+    min-width: 100px;
+}
+
+.ppp-progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: height 0.2s ease;
+}
+
+.ppp-progress-bar:hover {
+    height: 8px;
+}
+
+.ppp-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    border-radius: 3px;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
 /* Info section */
 .ppp-info {
     flex: 1;
@@ -75,7 +126,7 @@
 .ppp-title {
     font-size: 16px;
     font-weight: 600;
-    color: #333;
+    color: #ffffff;
     margin-bottom: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -84,7 +135,7 @@
 
 .ppp-excerpt {
     font-size: 14px;
-    color: #666;
+    color: rgba(255, 255, 255, 0.8);
     line-height: 1.4;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -101,20 +152,23 @@
 
 .ppp-link {
     display: inline-block;
-    background: #0073aa;
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
     padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 25px;
     text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
-    transition: background 0.2s ease;
+    font-weight: 600;
+    transition: all 0.3s ease;
     white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ppp-link:hover {
-    background: #005177;
-    color: #ffffff;
+    background: #ffffff;
+    color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .ppp-link[style*="display: none"] {
@@ -127,67 +181,157 @@
 }
 
 .ppp-btn-toggle {
-    background: #f0f0f0;
-    color: #333;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 25px;
+    padding: 10px 20px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 500;
-    transition: background 0.2s ease;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .ppp-btn-toggle:hover {
-    background: #e0e0e0;
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Playlist */
 .ppp-playlist {
-    background: #f9f9f9;
-    border-top: 1px solid #e0e0e0;
-    max-height: 300px;
+    background: #f8f9fa;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    max-height: 400px;
     overflow-y: auto;
+    backdrop-filter: blur(20px);
 }
 
 .ppp-playlist-items {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 10px 20px;
+    padding: 15px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
 }
 
 .ppp-playlist-item {
-    display: block;
-    width: 100%;
+    display: flex;
+    align-items: center;
     background: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    padding: 12px 15px;
-    margin-bottom: 8px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 0;
     cursor: pointer;
     text-align: left;
-    font-size: 14px;
-    color: #333;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .ppp-playlist-item:hover {
-    background: #f0f0f0;
-    border-color: #0073aa;
+    border-color: #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
 }
 
 .ppp-playlist-item.ppp-active {
-    background: #e8f4f8;
-    border-color: #0073aa;
+    border-color: #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.ppp-playlist-item.ppp-active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.ppp-playlist-thumbnail {
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    background-color: #e9ecef;
+}
+
+.ppp-playlist-thumbnail-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.ppp-playlist-info {
+    flex: 1;
+    padding: 12px 15px;
+    min-width: 0;
+}
+
+.ppp-playlist-title {
+    font-size: 15px;
     font-weight: 600;
-    color: #0073aa;
+    color: #333;
+    margin-bottom: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ppp-playlist-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ppp-playlist-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(102, 126, 234, 0.9);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.ppp-playlist-item:hover .ppp-playlist-play-btn {
+    opacity: 1;
+}
+
+.ppp-playlist-play-btn:hover {
+    background: #667eea;
+    transform: translateY(-50%) scale(1.1);
 }
 
 .ppp-playlist-empty {
-    padding: 20px;
+    padding: 40px 20px;
     text-align: center;
     color: #999;
     font-style: italic;
+    font-size: 16px;
 }
 
 /* Hide audio element */
@@ -196,11 +340,17 @@
 }
 
 /* Responsive design */
+@media (max-width: 1024px) {
+    .ppp-playlist-items {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
 @media (max-width: 768px) {
     .ppp-player-container {
         flex-wrap: wrap;
         padding: 12px 15px;
-        gap: 12px;
+        gap: 10px;
     }
     
     .ppp-controls {
@@ -208,20 +358,31 @@
         flex-shrink: 0;
     }
     
-    .ppp-playlist-toggle {
+    .ppp-time-display {
         order: 2;
-        flex-shrink: 0;
+        font-size: 12px;
+        min-width: 40px;
+    }
+    
+    .ppp-progress-container {
+        order: 3;
+        flex-basis: 100%;
+        margin: 5px 0;
     }
     
     .ppp-info {
-        order: 3;
+        order: 4;
         flex-basis: 100%;
     }
     
     .ppp-link-container {
-        order: 4;
-        flex-basis: 100%;
-        text-align: center;
+        order: 5;
+        flex-basis: calc(100% - 100px);
+    }
+    
+    .ppp-playlist-toggle {
+        order: 6;
+        flex-shrink: 0;
     }
     
     .ppp-link {
@@ -235,6 +396,10 @@
     
     .ppp-excerpt {
         font-size: 13px;
+    }
+    
+    .ppp-playlist-items {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -252,7 +417,26 @@
     }
     
     .ppp-playlist-item {
-        padding: 10px 12px;
-        font-size: 13px;
+        padding: 0;
+    }
+    
+    .ppp-playlist-thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .ppp-playlist-title {
+        font-size: 14px;
+    }
+    
+    .ppp-playlist-desc {
+        font-size: 12px;
+    }
+    
+    .ppp-playlist-play-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+        left: 10px;
     }
 }

@@ -65,10 +65,49 @@
         }
         
         episodes.forEach(function(episode, index) {
-            const item = $('<button>')
+            const item = $('<div>')
                 .addClass('ppp-playlist-item')
-                .attr('data-index', index)
+                .attr('data-index', index);
+            
+            // Add thumbnail if available
+            if (episode.thumbnail && episode.thumbnail.thumbnail) {
+                const thumbnail = $('<div>')
+                    .addClass('ppp-playlist-thumbnail')
+                    .css('background-image', 'url(' + episode.thumbnail.thumbnail + ')');
+                item.append(thumbnail);
+            } else {
+                // Default thumbnail placeholder
+                const placeholder = $('<div>')
+                    .addClass('ppp-playlist-thumbnail ppp-playlist-thumbnail-placeholder')
+                    .html('<span>&#127911;</span>'); // Microphone emoji
+                item.append(placeholder);
+            }
+            
+            // Episode info container
+            const info = $('<div>').addClass('ppp-playlist-info');
+            
+            const title = $('<div>')
+                .addClass('ppp-playlist-title')
                 .text(episode.title);
+            
+            const desc = $('<div>')
+                .addClass('ppp-playlist-desc')
+                .text(episode.desc ? episode.desc.substring(0, 80) + '...' : '');
+            
+            info.append(title);
+            if (desc.text()) {
+                info.append(desc);
+            }
+            
+            item.append(info);
+            
+            // Play button overlay
+            const playBtn = $('<button>')
+                .addClass('ppp-playlist-play-btn')
+                .html('&#9654;')
+                .attr('title', 'Play');
+            
+            item.append(playBtn);
             
             if (index === currentIndex) {
                 item.addClass('ppp-active');
@@ -107,9 +146,23 @@
         });
         
         // Playlist item click (delegated event)
-        $('#ppp-playlist-items').on('click', '.ppp-playlist-item', function() {
-            const index = parseInt($(this).attr('data-index'));
+        $('#ppp-playlist-items').on('click', '.ppp-playlist-item, .ppp-playlist-play-btn', function(e) {
+            e.stopPropagation();
+            const item = $(this).hasClass('ppp-playlist-item') ? $(this) : $(this).closest('.ppp-playlist-item');
+            const index = parseInt(item.attr('data-index'));
             selectEpisode(index);
+        });
+        
+        // Progress bar click for seeking
+        $('#ppp-progress-bar').on('click', function(e) {
+            const bar = $(this);
+            const clickX = e.pageX - bar.offset().left;
+            const width = bar.width();
+            const percentage = clickX / width;
+            
+            if (audio.duration) {
+                audio.currentTime = audio.duration * percentage;
+            }
         });
         
         // Audio ended event
@@ -117,10 +170,60 @@
             playNext();
         });
         
-        // Audio time update (for localStorage persistence)
+        // Audio time update (for progress bar and time display)
         $(audio).on('timeupdate', function() {
+            updateProgress();
             saveState();
         });
+        
+        // Audio metadata loaded (for duration)
+        $(audio).on('loadedmetadata', function() {
+            updateTotalTime();
+        });
+    }
+    
+    /**
+     * Update progress bar and current time
+     */
+    function updateProgress() {
+        if (!audio.duration) return;
+        
+        const percentage = (audio.currentTime / audio.duration) * 100;
+        $('#ppp-progress-fill').css('width', percentage + '%');
+        
+        $('#ppp-current-time').text(formatTime(audio.currentTime));
+    }
+    
+    /**
+     * Update total time display
+     */
+    function updateTotalTime() {
+        if (audio.duration) {
+            $('#ppp-total-time').text(formatTime(audio.duration));
+        }
+    }
+    
+    /**
+     * Format time in MM:SS or HH:MM:SS
+     */
+    function formatTime(seconds) {
+        if (isNaN(seconds) || seconds === 0) return '0:00';
+        
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = Math.floor(seconds % 60);
+        
+        if (hours > 0) {
+            return hours + ':' + pad(minutes) + ':' + pad(secs);
+        }
+        return minutes + ':' + pad(secs);
+    }
+    
+    /**
+     * Pad number with leading zero
+     */
+    function pad(num) {
+        return num < 10 ? '0' + num : num;
     }
     
     /**
