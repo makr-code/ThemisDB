@@ -332,7 +332,9 @@
      * Format time in MM:SS or HH:MM:SS
      */
     function formatTime(seconds) {
-        if (isNaN(seconds) || seconds === 0) return '0:00';
+        if (isNaN(seconds)) return '0:00';
+        
+        seconds = Math.floor(seconds);
         
         const hours = Math.floor(seconds / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
@@ -529,9 +531,14 @@
         const episode = episodes[index];
         if (!episode || !episode.audio) return;
         
+        // Extract file extension from URL or use generic
+        const url = episode.audio;
+        const extension = url.substring(url.lastIndexOf('.')) || '.mp3';
+        const filename = episode.title.replace(/[^a-z0-9]/gi, '_') + extension;
+        
         const link = document.createElement('a');
-        link.href = episode.audio;
-        link.download = episode.title + '.mp3';
+        link.href = url;
+        link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -614,7 +621,7 @@
                 }
                 
                 if (savedContinuous !== null) {
-                    continuousPlay = savedContinuous === 'true';
+                    continuousPlay = savedContinuous === 'true' || savedContinuous === true;
                     $('#ppp-continuous-play').prop('checked', continuousPlay);
                 }
             } catch (e) {

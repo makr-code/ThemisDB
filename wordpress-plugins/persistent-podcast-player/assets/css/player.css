@@ -725,11 +725,4 @@
     .ppp-playlist-desc {
         font-size: 12px;
     }
-    
-    .ppp-playlist-play-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-        left: 10px;
-    }
 }
