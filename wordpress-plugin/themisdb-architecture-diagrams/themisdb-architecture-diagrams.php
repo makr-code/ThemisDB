@@ -27,6 +27,18 @@ define('THEMISDB_AD_PLUGIN_FILE', __FILE__);
 define('THEMISDB_AD_GITHUB_REPO', 'makr-code/ThemisDB');
 define('THEMISDB_AD_GITHUB_PATH', 'tools/architecture-diagrams-wordpress');
 
+// Load updater class
+require_once dirname(THEMISDB_AD_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_AD_PLUGIN_FILE,
+        'themisdb-architecture-diagrams',
+        THEMISDB_AD_VERSION
+    );
+}
+
 /**
  * Detect color scheme (light/dark)
  * 
