@@ -788,6 +788,10 @@ struct PoolAllocator::Impl {
     }
 };
 
+PoolAllocator::PoolAllocator()
+    : PoolAllocator(Config{}) {
+}
+
 PoolAllocator::PoolAllocator(const Config& config)
     : impl_(std::make_unique<Impl>(config)) {
 }

@@ -87,6 +87,10 @@ struct CompletenessEvaluator::Impl {
     }
 };
 
+CompletenessEvaluator::CompletenessEvaluator()
+    : CompletenessEvaluator(Config{}) {
+}
+
 CompletenessEvaluator::CompletenessEvaluator(const Config& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;

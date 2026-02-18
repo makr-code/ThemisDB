@@ -63,7 +63,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit GEvalEvaluator(const Config& config = {});
+    GEvalEvaluator();
+    explicit GEvalEvaluator(const Config& config);
     
     /**
      * @brief Destructor

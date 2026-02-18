@@ -4,6 +4,10 @@
 namespace themis {
 namespace llm {
 
+GrammarCache::GrammarCache()
+    : GrammarCache(Config{}) {
+}
+
 GrammarCache::GrammarCache(const Config& config)
     : config_(config) {
     

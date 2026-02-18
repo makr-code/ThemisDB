@@ -24,6 +24,10 @@ struct KnowledgeGapDetector::Impl {
     std::unordered_map<std::string, DetectionResult> cache;
 };
 
+KnowledgeGapDetector::KnowledgeGapDetector()
+    : KnowledgeGapDetector(KnowledgeGapConfig{}) {
+}
+
 KnowledgeGapDetector::KnowledgeGapDetector(const KnowledgeGapConfig& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;
@@ -268,6 +272,14 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     result.recommendation = FallbackStrategy::NONE;
     
     return result;
+}
+
+DetectionResult KnowledgeGapDetector::detectGap(
+    const std::string& query,
+    const std::vector<RetrievedDocument>& documents,
+    const std::string& generated_answer
+) {
+    return detectGap(query, documents, generated_answer, GenerationContext{});
 }
 
 DetectionResult KnowledgeGapDetector::detectGap(

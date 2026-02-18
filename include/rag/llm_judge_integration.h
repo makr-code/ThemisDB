@@ -70,7 +70,8 @@ public:
      * @brief Construct LLM integration
      * @param config Integration configuration
      */
-    explicit LLMJudgeIntegration(const Config& config = {});
+    LLMJudgeIntegration();
+    explicit LLMJudgeIntegration(const Config& config);
     
     /**
      * @brief Evaluate using LLM

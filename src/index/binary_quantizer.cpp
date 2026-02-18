@@ -11,6 +11,10 @@
 
 namespace themis {
 
+BinaryQuantizer::BinaryQuantizer(int dimension)
+    : BinaryQuantizer(dimension, Config{}) {
+}
+
 BinaryQuantizer::BinaryQuantizer(int dimension, const Config& config)
     : dimension_(dimension), config_(config) {
     

@@ -87,7 +87,8 @@ TEST_F(RealEmbeddingsTest, ConstructorRequiresValidModel) {
     
     // Null model should throw
     EXPECT_THROW({
-        EmbeddingProvider provider(nullptr, nullptr);
+        EmbeddingProvider::Config config;
+        EmbeddingProvider provider(nullptr, nullptr, config);
     }, std::invalid_argument);
 }
 
@@ -101,7 +102,9 @@ TEST_F(RealEmbeddingsTest, ConstructorRequiresValidContext) {
     
     // Null context should throw
     EXPECT_THROW({
-        EmbeddingProvider provider(mock_model, nullptr);
+        llama_model* mock_model = reinterpret_cast<llama_model*>(0x1000);
+        EmbeddingProvider::Config config;
+        EmbeddingProvider provider(mock_model, nullptr, config);
     }, std::invalid_argument);
 }
 

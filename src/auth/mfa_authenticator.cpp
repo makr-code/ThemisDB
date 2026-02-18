@@ -47,6 +47,10 @@ MFAAuthenticator::EnrollmentData MFAAuthenticator::EnrollmentData::from_json(con
 // MFAAuthenticator Implementation
 // ============================================================================
 
+MFAAuthenticator::MFAAuthenticator()
+    : MFAAuthenticator(Config{}) {
+}
+
 MFAAuthenticator::MFAAuthenticator(const Config& config)
     : config_(config) {
     

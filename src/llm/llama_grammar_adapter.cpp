@@ -56,7 +56,7 @@ namespace {
     llama_grammar_sample_fn g_llama_grammar_sample = nullptr;
     llama_grammar_accept_fn g_llama_grammar_accept = nullptr;
     
-    std::once_flag g_api_init_flag;
+    std::once_flag g_grammar_api_init_flag;
     bool g_grammar_api_available = false;
     
     /**
@@ -122,7 +122,7 @@ namespace {
      * @brief Ensure Grammar API is initialized before use
      */
     inline void ensureGrammarAPIInitialized() {
-        std::call_once(g_api_init_flag, initializeGrammarAPI);
+        std::call_once(g_grammar_api_init_flag, initializeGrammarAPI);
     }
 } // anonymous namespace
 

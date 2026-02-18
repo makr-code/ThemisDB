@@ -115,6 +115,10 @@ bool TokenBucketRateLimiter::Bucket::consume(size_t count) {
 
 // ===== PerClientRateLimiter =====
 
+PerClientRateLimiter::PerClientRateLimiter()
+    : PerClientRateLimiter(Config{}) {
+}
+
 PerClientRateLimiter::PerClientRateLimiter(const Config& config)
     : config_(config)
     , last_cleanup_(std::chrono::steady_clock::now())

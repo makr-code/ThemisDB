@@ -71,6 +71,14 @@ std::string LLMMetaAnalyzer::buildPrompt(
 std::string LLMMetaAnalyzer::buildPromptWithCoT(
     const std::string& task_description,
     const std::string& input_text,
+    const std::vector<std::string>& criteria
+) {
+    return buildPromptWithCoT(task_description, input_text, criteria, {});
+}
+
+std::string LLMMetaAnalyzer::buildPromptWithCoT(
+    const std::string& task_description,
+    const std::string& input_text,
     const std::vector<std::string>& criteria,
     const std::vector<std::string>& examples
 ) {

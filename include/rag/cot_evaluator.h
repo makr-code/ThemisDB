@@ -59,7 +59,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit CoTEvaluator(const Config& config = {});
+    CoTEvaluator();
+    explicit CoTEvaluator(const Config& config);
     
     /**
      * @brief Destructor

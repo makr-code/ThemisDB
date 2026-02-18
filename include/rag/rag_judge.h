@@ -208,7 +208,8 @@ public:
      * @brief Construct judge with configuration
      * @param config Evaluation configuration
      */
-    explicit RAGJudge(const RAGJudgeConfig& config = {});
+    RAGJudge();
+    explicit RAGJudge(const RAGJudgeConfig& config);
     
     /**
      * @brief Destructor
@@ -226,8 +227,13 @@ public:
     EvaluationResult evaluate(
         const std::string& query,
         const std::vector<RetrievedDocument>& documents,
+        const std::string& generated_answer
+    );
+    EvaluationResult evaluate(
+        const std::string& query,
+        const std::vector<RetrievedDocument>& documents,
         const std::string& generated_answer,
-        const RAGJudgeConfig& config = {}
+        const RAGJudgeConfig& config
     );
     
     /**

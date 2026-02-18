@@ -54,7 +54,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit CoherenceEvaluator(const Config& config = {});
+    CoherenceEvaluator();
+    explicit CoherenceEvaluator(const Config& config);
     
     /**
      * @brief Destructor

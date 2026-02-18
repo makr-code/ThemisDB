@@ -160,8 +160,14 @@ public:
         std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
         std::shared_ptr<AdapterRegistry> adapter_registry,
         std::shared_ptr<AdapterLoadBalancer> load_balancer,
+        std::shared_ptr<MultiLoRAManager> lora_manager
+    );
+    explicit LoRARouter(
+        std::shared_ptr<lora::EmbeddingProvider> embedding_provider,
+        std::shared_ptr<AdapterRegistry> adapter_registry,
+        std::shared_ptr<AdapterLoadBalancer> load_balancer,
         std::shared_ptr<MultiLoRAManager> lora_manager,
-        const Config& config = Config{}
+        const Config& config
     );
     
     ~LoRARouter();

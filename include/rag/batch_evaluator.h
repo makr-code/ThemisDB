@@ -118,7 +118,8 @@ public:
      * @param judge Judge instance to use
      * @param config Batch evaluator configuration
      */
-    BatchEvaluator(std::shared_ptr<RAGJudge> judge, const BatchEvaluatorConfig& config = {});
+    explicit BatchEvaluator(std::shared_ptr<RAGJudge> judge);
+    BatchEvaluator(std::shared_ptr<RAGJudge> judge, const BatchEvaluatorConfig& config);
     
     /**
      * @brief Destructor - stops worker threads

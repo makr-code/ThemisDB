@@ -64,7 +64,8 @@ public:
         static EnrollmentData from_json(const nlohmann::json& j);
     };
     
-    explicit MFAAuthenticator(const Config& config = Config{});
+    MFAAuthenticator();
+    explicit MFAAuthenticator(const Config& config);
     ~MFAAuthenticator() = default;
     
     /**

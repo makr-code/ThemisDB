@@ -10,6 +10,10 @@ namespace themis {
 namespace core {
 namespace concerns {
 
+std::shared_ptr<ConcernsContext> ConcernsContext::create() {
+    return create(Config{});
+}
+
 std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     // Initialize logger
     auto logLevel = ILogger::levelFromString(config.logLevel);

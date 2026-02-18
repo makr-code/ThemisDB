@@ -82,7 +82,8 @@ public:
     /**
      * @brief Construct evaluator with configuration
      */
-    explicit FaithfulnessEvaluator(const Config& config = {});
+    FaithfulnessEvaluator();
+    explicit FaithfulnessEvaluator(const Config& config);
     
     /**
      * @brief Destructor

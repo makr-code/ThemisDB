@@ -72,6 +72,10 @@ Evaluation:)";
     }
 };
 
+CoTEvaluator::CoTEvaluator()
+    : CoTEvaluator(Config{}) {
+}
+
 CoTEvaluator::CoTEvaluator(const Config& config)
     : impl_(std::make_unique<Impl>()) {
     impl_->config = config;

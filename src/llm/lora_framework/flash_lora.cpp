@@ -69,6 +69,15 @@ GPUTensor FlashLoRA::forward(
     const GPUTensor& input,
     const GPUTensor& B,
     const GPUTensor& A,
+    float scaling
+) {
+    return forward(input, B, A, scaling, Config{});
+}
+
+GPUTensor FlashLoRA::forward(
+    const GPUTensor& input,
+    const GPUTensor& B,
+    const GPUTensor& A,
     float scaling,
     const Config& config
 ) {
@@ -192,6 +201,16 @@ GPUTensor FlashLoRA::forward(
 // ============================================================================
 // FlashLoRA Backward Pass
 // ============================================================================
+
+std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
+    const GPUTensor& grad_output,
+    const GPUTensor& input,
+    const GPUTensor& B,
+    const GPUTensor& A,
+    float scaling
+) {
+    return backward(grad_output, input, B, A, scaling, Config{});
+}
 
 std::tuple<GPUTensor, GPUTensor, GPUTensor> FlashLoRA::backward(
     const GPUTensor& grad_output,

@@ -309,7 +309,8 @@ public:
               enable_statistics(true) {}
     };
     
-    explicit PoolAllocator(const Config& config = Config());
+    PoolAllocator();
+    explicit PoolAllocator(const Config& config);
     ~PoolAllocator();
     
     /**

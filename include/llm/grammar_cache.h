@@ -33,7 +33,8 @@ public:
      * @brief Construct grammar cache with configuration
      * @param config Cache configuration
      */
-    explicit GrammarCache(const Config& config = Config{});
+    GrammarCache();
+    explicit GrammarCache(const Config& config);
     
     /**
      * @brief Get a grammar from cache by name

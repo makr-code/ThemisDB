@@ -12,6 +12,11 @@ namespace {
 namespace themis::query {
 
 QueryFederation::QueryFederation(
+    std::shared_ptr<sharding::ShardRouter> shard_router
+) : QueryFederation(std::move(shard_router), Config{}) {
+}
+
+QueryFederation::QueryFederation(
     std::shared_ptr<sharding::ShardRouter> shard_router,
     const Config& config
 ) : shard_router_(std::move(shard_router)),

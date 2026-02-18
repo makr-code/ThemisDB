@@ -18,9 +18,9 @@ AdminOperations::AdminOperations(const Config& config)
     topology_ = std::make_unique<ShardTopology>();
     
     if (config_.enable_health_checks) {
-        HealthCheckConfig health_config;
-        health_config.check_interval = config_.health_check_interval;
-        health_check_ = std::make_unique<HealthCheck>(health_config);
+        HealthCheckSystem::Config health_config;
+        health_config.check_interval_ms = static_cast<int>(config_.health_check_interval.count() * 1000);
+        health_check_ = std::make_unique<HealthCheckSystem>(health_config);
     }
 }
 
@@ -46,17 +46,15 @@ bool AdminOperations::initialize() {
         [this](const nlohmann::json& body) { return handleStatsRequest(body); }
     );
     
-    // Start health checks if enabled
-    if (health_check_) {
-        health_check_->start();
-    }
+    // Health checks will be started when topology is available
+    // (called via startHealthChecks() after admin operations initialization)
     
     return true;
 }
 
 void AdminOperations::shutdown() {
     if (health_check_) {
-        health_check_->stop();
+        health_check_->stopPeriodicChecks();
     }
 }
 

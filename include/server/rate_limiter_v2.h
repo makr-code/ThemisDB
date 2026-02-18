@@ -137,7 +137,8 @@ public:
             , cleanup_interval(5) {}
     };
 
-    explicit PerClientRateLimiter(const Config& config = Config());
+    PerClientRateLimiter();
+    explicit PerClientRateLimiter(const Config& config);
 
     /**
      * @brief Check if request from client is allowed
