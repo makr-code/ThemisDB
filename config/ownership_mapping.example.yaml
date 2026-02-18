@@ -1,0 +1,180 @@
+# ThemisDB Ownership Mapping Configuration
+# ==========================================
+#
+# Defines ownership and visibility relationships between PostgreSQL-imported
+# entities and Active Directory groups. These mappings enable RBAC-based
+# access control through Apache Ranger policies.
+
+# Mapping Rules
+# -------------
+# Each mapping rule specifies:
+# - entity_pattern: Pattern to match entity IDs (supports wildcards)
+# - owner_group: AD group that owns the entity (gets write access)
+# - visible_to_groups: AD groups that can view the entity (read access)
+# - entity_type: Type of entity (postgres_table, postgres_schema, postgres_view)
+# - attributes: Additional edge attributes (optional)
+
+mappings:
+  # HR Department Tables
+  - entity_pattern: "postgres_table:hr.*"
+    owner_group: "HR-Admins"
+    visible_to_groups:
+      - "HR-Readers"
+      - "HR-Analysts"
+      - "Data-Admins"
+    entity_type: "postgres_table"
+    attributes:
+      department: "hr"
+      sensitivity: "high"
+      compliance: "gdpr"
+
+  - entity_pattern: "postgres_schema:hr"
+    owner_group: "HR-Admins"
+    visible_to_groups:
+      - "HR-Readers"
+      - "Data-Admins"
+    entity_type: "postgres_schema"
+
+  # Finance Department Tables
+  - entity_pattern: "postgres_table:finance.*"
+    owner_group: "Finance-Admins"
+    visible_to_groups:
+      - "Finance-Team"
+      - "Finance-Analysts"
+      - "Data-Admins"
+    entity_type: "postgres_table"
+    attributes:
+      department: "finance"
+      sensitivity: "high"
+      compliance: "sox"
+
+  - entity_pattern: "postgres_schema:finance"
+    owner_group: "Finance-Admins"
+    visible_to_groups:
+      - "Finance-Team"
+      - "Data-Admins"
+    entity_type: "postgres_schema"
+
+  # Engineering Department Tables
+  - entity_pattern: "postgres_table:engineering.*"
+    owner_group: "Engineering-Team"
+    visible_to_groups:
+      - "Engineering-Team"
+      - "Data-Admins"
+    entity_type: "postgres_table"
+    attributes:
+      department: "engineering"
+      sensitivity: "medium"
+
+  - entity_pattern: "postgres_schema:engineering"
+    owner_group: "Engineering-Team"
+    visible_to_groups:
+      - "Engineering-Team"
+      - "Data-Admins"
+    entity_type: "postgres_schema"
+
+  # Public/Shared Tables
+  - entity_pattern: "postgres_table:public.*"
+    owner_group: "Data-Admins"
+    visible_to_groups:
+      - "All-Employees"
+      - "Data-Analysts"
+      - "Data-Admins"
+    entity_type: "postgres_table"
+    attributes:
+      department: "shared"
+      sensitivity: "low"
+
+  - entity_pattern: "postgres_schema:public"
+    owner_group: "Data-Admins"
+    visible_to_groups:
+      - "All-Employees"
+    entity_type: "postgres_schema"
+
+  # Specific High-Value Tables
+  - entity_pattern: "postgres_table:hr.salaries"
+    owner_group: "HR-Admins"
+    visible_to_groups:
+      - "HR-Payroll"
+      - "Finance-Payroll"
+      - "Data-Admins"
+    entity_type: "postgres_table"
+    attributes:
+      sensitivity: "critical"
+      compliance: "gdpr,sox"
+      restricted: true
+
+  - entity_pattern: "postgres_table:finance.invoices"
+    owner_group: "Finance-Admins"
+    visible_to_groups:
+      - "Finance-AP"
+      - "Auditors"
+      - "Data-Admins"
+    entity_type: "postgres_table"
+    attributes:
+      sensitivity: "high"
+      compliance: "sox"
+
+  # Analytics/Reporting Views
+  - entity_pattern: "postgres_view:analytics.*"
+    owner_group: "Data-Analysts"
+    visible_to_groups:
+      - "All-Employees"
+      - "Data-Admins"
+    entity_type: "postgres_view"
+    attributes:
+      department: "analytics"
+      sensitivity: "low"
+
+# Naming Convention Patterns
+# ---------------------------
+# You can also use naming conventions for automatic mapping:
+#
+# Pattern: postgres_table:{department}_*
+# Example: postgres_table:hr_employees -> owned by HR-Team
+#
+# Use the --convention flag with link_ownership.py:
+#   python3 tools/link_ownership.py --convention "postgres_table:hr_*" --output ownership_edges.jsonl
+
+# Usage Examples
+# --------------
+#
+# Apply mappings from this file:
+#   python3 tools/link_ownership.py --mapping ownership_mapping.yaml --output ownership_edges.jsonl
+#
+# Load entities from existing JSONL export:
+#   python3 tools/link_ownership.py --mapping ownership_mapping.yaml --entities pg_export.jsonl --output ownership_edges.jsonl
+#
+# Ingest the generated ownership edges:
+#   python3 tools/ingest.py --source ownership_edges.jsonl
+#
+# Complete workflow:
+#   # 1. Export AD groups
+#   python3 tools/ldap_export.py --config ldap_export_config.yaml --output ad_export.jsonl
+#   
+#   # 2. Import PostgreSQL data (existing functionality)
+#   python3 tools/ingest.py --source pg_dump.sql --type postgres
+#   
+#   # 3. Create ownership links
+#   python3 tools/link_ownership.py --mapping ownership_mapping.yaml --output ownership_edges.jsonl
+#   
+#   # 4. Ingest AD data and ownership edges
+#   python3 tools/ingest.py --source ad_export.jsonl
+#   python3 tools/ingest.py --source ownership_edges.jsonl
+
+# Integration with Ranger
+# ------------------------
+# After ingesting ownership edges, Ranger policies can reference AD groups:
+#
+# Example Ranger policy:
+# {
+#   "id": "allow-hr-admins-hr-tables",
+#   "name": "HR Admins can write to HR tables",
+#   "subjects": ["HR-Admins"],
+#   "actions": ["read", "write", "delete"],
+#   "resources": ["/entities/postgres_table:hr.*"],
+#   "effect": "allow"
+# }
+#
+# The ownership edges in ThemisDB provide the graph structure,
+# while Ranger policies enforce the actual access control decisions.
