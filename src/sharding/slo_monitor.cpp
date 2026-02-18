@@ -143,12 +143,15 @@ SLOMonitor::SLOMonitor(const Config& config)
 }
 
 void SLOMonitor::recordShardAvailability(const std::string& shard_id, bool is_available) {
+    // Sample interval for availability tracking
+    static constexpr auto kAvailabilitySampleInterval = std::chrono::milliseconds(1000);
+    
     auto window = getOrCreateShardWindow(shard_id);
     
     if (is_available) {
-        window->recordUptime(std::chrono::milliseconds(1000));  // 1 second uptime
+        window->recordUptime(kAvailabilitySampleInterval);
     } else {
-        window->recordDowntime(std::chrono::milliseconds(1000));  // 1 second downtime
+        window->recordDowntime(kAvailabilitySampleInterval);
     }
     
     checkAndGenerateAlerts();
@@ -587,7 +590,14 @@ void SLOReporter::reporterLoop() {
 std::string SLOReporter::generateReportFilename() const {
     auto now = std::chrono::system_clock::now();
     auto time_t = std::chrono::system_clock::to_time_t(now);
-    std::tm tm = *std::localtime(&time_t);
+    
+    // Use thread-safe localtime
+    std::tm tm;
+#ifdef _WIN32
+    localtime_s(&tm, &time_t);
+#else
+    localtime_r(&time_t, &tm);
+#endif
     
     std::ostringstream oss;
     oss << config_.output_path << "slo_report_"
