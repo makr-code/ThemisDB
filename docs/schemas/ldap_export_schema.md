@@ -64,7 +64,7 @@ Represents an Active Directory user account.
 |-------|------|----------|-------------|
 | `id` | string | Yes | Unique identifier: `ad_user:{objectGUID}` |
 | `type` | string | Yes | Always `"ad_user"` |
-| `attributes.sAMAccountAccount` | string | Yes | Windows logon name (e.g., "jdoe") |
+| `attributes.sAMAccountName` | string | Yes | Windows logon name (e.g., "jdoe") |
 | `attributes.mail` | string | No | Email address |
 | `attributes.displayName` | string | No | Full display name |
 | `attributes.userPrincipalName` | string | No | UPN (e.g., "jdoe@example.com") |
