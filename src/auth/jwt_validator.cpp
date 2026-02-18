@@ -1,6 +1,7 @@
 #include "auth/jwt_validator.h"
 #include "utils/hkdf_helper.h"
 #include "utils/openssl_deleter.h"
+#include "utils/logger.h"
 
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
@@ -182,6 +183,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         parts.push_back(part);
     }
     if (parts.size() != 3) {
+        utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
         throw std::runtime_error("Invalid JWT format (expected 3 parts)");
     }
     auto header_json = decodeBase64UrlToString(parts[0]);
@@ -190,9 +192,19 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     auto payload = nlohmann::json::parse(payload_json);
     std::string alg = header.value("alg", "");
     std::string kid = header.value("kid", "");
+    
+    // Check algorithm
     if (alg != "RS256") {
-        throw std::runtime_error("Unsupported alg: " + alg);
+        utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
+        throw std::runtime_error("Unsupported alg: " + alg + " (only RS256 is supported)");
     }
+    
+    // Check kid revocation
+    if (!kid.empty() && isKidRevoked(kid)) {
+        utils::Logger::warn("JWT validation failed: Revoked kid: " + kid);
+        throw std::runtime_error("Token signed with revoked key (kid: " + kid + ")");
+    }
+    
     JWTClaims claims;
     claims.sub = payload.value("sub", "");
     claims.email = payload.value("email", "");
@@ -209,12 +221,14 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         int64_t exp = payload["exp"].get<int64_t>();
         claims.expiration = std::chrono::system_clock::time_point{std::chrono::seconds{exp}};
     } else {
+        utils::Logger::warn("JWT validation failed: Missing exp claim");
         throw std::runtime_error("Missing exp claim");
     }
     if (payload.contains("nbf")) {
         int64_t nbf = payload["nbf"].get<int64_t>();
         claims.not_before = std::chrono::system_clock::time_point{std::chrono::seconds{nbf}};
         if (now + cfg_.clock_skew < *claims.not_before) {
+            utils::Logger::warn("JWT validation failed: Token not yet valid (nbf)");
             throw std::runtime_error("Token not yet valid (nbf)");
         }
     }
@@ -222,6 +236,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         int64_t iat = payload["iat"].get<int64_t>();
         claims.issued_at = std::chrono::system_clock::time_point{std::chrono::seconds{iat}};
         if (now + cfg_.clock_skew < *claims.issued_at) {
+            utils::Logger::warn("JWT validation failed: iat in future");
             throw std::runtime_error("iat in future");
         }
     }
@@ -233,12 +248,15 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         }
     }
     if (claims.isExpired() && now > claims.expiration + cfg_.clock_skew) {
+        utils::Logger::warn("JWT validation failed: Token expired");
         throw std::runtime_error("Token expired");
     }
     if (!cfg_.expected_issuer.empty() && claims.issuer != cfg_.expected_issuer) {
+        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + cfg_.expected_issuer + ", got: " + claims.issuer + ")");
         throw std::runtime_error("Issuer mismatch");
     }
     if (!checkAudience(payload)) {
+        utils::Logger::warn("JWT validation failed: Audience mismatch");
         throw std::runtime_error("Audience mismatch");
     }
     auto jwks = fetchJWKS();
@@ -253,8 +271,12 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
             jwk = findJwkForKid(jwks, kid);
         }
     }
-    if (!jwk) throw std::runtime_error("JWK not found for kid");
+    if (!jwk) {
+        utils::Logger::warn("JWT validation failed: JWK not found for kid: " + kid);
+        throw std::runtime_error("JWK not found for kid");
+    }
     if (!verifySignatureRS256(header_payload, sig_bytes, *jwk)) {
+        utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
         throw std::runtime_error("Signature verification failed");
     }
     return claims;
@@ -275,6 +297,27 @@ bool JWTValidator::hasAccess(const JWTClaims& claims, const std::string& encrypt
     }
     for (const auto& group : claims.groups) {
         if (group == encryption_context) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void JWTValidator::revokeKid(const std::string& kid) {
+    revoked_kids_runtime_.push_back(kid);
+    utils::Logger::info("JWT kid revoked: " + kid);
+}
+
+bool JWTValidator::isKidRevoked(const std::string& kid) const {
+    // Check config denylist
+    for (const auto& revoked : cfg_.revoked_kids) {
+        if (revoked == kid) {
+            return true;
+        }
+    }
+    // Check runtime denylist
+    for (const auto& revoked : revoked_kids_runtime_) {
+        if (revoked == kid) {
             return true;
         }
     }
