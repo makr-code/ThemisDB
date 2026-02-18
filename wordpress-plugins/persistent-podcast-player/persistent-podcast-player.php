@@ -237,14 +237,20 @@ class Persistent_Podcast_Player {
         <div id="ppp-player" class="ppp-player">
             <div class="ppp-player-container">
                 <div class="ppp-controls">
-                    <button id="ppp-prev" class="ppp-btn" title="Previous">
+                    <button id="ppp-prev" class="ppp-btn" title="Previous Episode" aria-label="Previous Episode">
                         <span>&#9664;</span>
                     </button>
-                    <button id="ppp-play-pause" class="ppp-btn ppp-btn-play" title="Play/Pause">
+                    <button id="ppp-skip-backward" class="ppp-btn ppp-btn-skip" title="Skip Backward 15s" aria-label="Skip Backward 15 seconds">
+                        <span>&#8634; 15</span>
+                    </button>
+                    <button id="ppp-play-pause" class="ppp-btn ppp-btn-play" title="Play/Pause" aria-label="Play">
                         <span class="ppp-play-icon">&#9654;</span>
                         <span class="ppp-pause-icon">&#10074;&#10074;</span>
                     </button>
-                    <button id="ppp-next" class="ppp-btn" title="Next">
+                    <button id="ppp-skip-forward" class="ppp-btn ppp-btn-skip" title="Skip Forward 30s" aria-label="Skip Forward 30 seconds">
+                        <span>30 &#8635;</span>
+                    </button>
+                    <button id="ppp-next" class="ppp-btn" title="Next Episode" aria-label="Next Episode">
                         <span>&#9654;</span>
                     </button>
                 </div>
@@ -254,13 +260,39 @@ class Persistent_Podcast_Player {
                 </div>
                 
                 <div class="ppp-progress-container">
-                    <div class="ppp-progress-bar" id="ppp-progress-bar">
+                    <div class="ppp-progress-bar" id="ppp-progress-bar" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
                         <div class="ppp-progress-fill" id="ppp-progress-fill"></div>
+                        <div class="ppp-progress-buffer" id="ppp-progress-buffer"></div>
                     </div>
                 </div>
                 
                 <div class="ppp-time-display">
                     <span id="ppp-total-time">0:00</span>
+                </div>
+                
+                <div class="ppp-volume-container">
+                    <button id="ppp-volume-btn" class="ppp-btn ppp-btn-small" title="Mute/Unmute" aria-label="Volume">
+                        <span class="ppp-volume-icon ppp-volume-on">&#128266;</span>
+                        <span class="ppp-volume-icon ppp-volume-off">&#128263;</span>
+                    </button>
+                    <div class="ppp-volume-slider-container">
+                        <input type="range" id="ppp-volume-slider" class="ppp-volume-slider" min="0" max="100" value="100" aria-label="Volume Level">
+                    </div>
+                </div>
+                
+                <div class="ppp-speed-container">
+                    <button id="ppp-speed-btn" class="ppp-btn ppp-btn-small" title="Playback Speed" aria-label="Playback Speed">
+                        <span id="ppp-speed-label">1x</span>
+                    </button>
+                    <div id="ppp-speed-menu" class="ppp-speed-menu" style="display: none;">
+                        <button class="ppp-speed-option" data-speed="0.5">0.5x</button>
+                        <button class="ppp-speed-option" data-speed="0.75">0.75x</button>
+                        <button class="ppp-speed-option ppp-speed-active" data-speed="1">1x</button>
+                        <button class="ppp-speed-option" data-speed="1.25">1.25x</button>
+                        <button class="ppp-speed-option" data-speed="1.5">1.5x</button>
+                        <button class="ppp-speed-option" data-speed="1.75">1.75x</button>
+                        <button class="ppp-speed-option" data-speed="2">2x</button>
+                    </div>
                 </div>
                 
                 <div class="ppp-info">
@@ -272,9 +304,26 @@ class Persistent_Podcast_Player {
                     <a href="#" id="ppp-link" class="ppp-link" target="_blank" rel="noopener noreferrer" aria-label="Zum Artikel (öffnet in neuem Tab)" style="display: none;">Zum Artikel</a>
                 </div>
                 
-                <div class="ppp-playlist-toggle">
-                    <button id="ppp-toggle-playlist" class="ppp-btn-toggle">Playlist</button>
+                <div class="ppp-options">
+                    <label class="ppp-checkbox-label" title="Automatically play next episode">
+                        <input type="checkbox" id="ppp-continuous-play" checked>
+                        <span>Continuous Play</span>
+                    </label>
                 </div>
+                
+                <div class="ppp-playlist-toggle">
+                    <button id="ppp-toggle-playlist" class="ppp-btn-toggle" aria-label="Toggle Playlist">Playlist</button>
+                </div>
+            </div>
+            
+            <div id="ppp-loading" class="ppp-loading" style="display: none;">
+                <div class="ppp-spinner"></div>
+            </div>
+            
+            <div id="ppp-error" class="ppp-error" style="display: none;">
+                <span class="ppp-error-icon">⚠</span>
+                <span class="ppp-error-message" id="ppp-error-message">Error loading audio</span>
+                <button id="ppp-error-retry" class="ppp-btn-retry">Retry</button>
             </div>
             
             <div id="ppp-playlist" class="ppp-playlist" style="display: none;">

@@ -1,31 +1,68 @@
 # Persistent Podcast Player
 
-A modern WordPress plugin that provides a persistent podcast player with episode thumbnails, progress bar, time display, and links to related posts.
+A **state-of-the-art** WordPress plugin that provides a modern, feature-rich podcast player with all the features users expect in 2026.
 
-## Features
+## ✨ Key Features
 
-- **Custom post type** `pod_episode` for managing podcast episodes
-- **Thumbnail support** - Set featured images for episodes
-- **REST API endpoint** for fetching episodes with thumbnail URLs
-- **Modern sticky player bar** with gradient background
-- **Progress bar** - Visual playback progress with seek functionality
+### 🎵 Player Controls
+- **Play/Pause/Previous/Next** - Full playback control
+- **Skip buttons** - Skip backward 15s and forward 30s
+- **Progress bar** - Visual playback progress with seek functionality (click to jump)
 - **Time display** - Shows current time and total duration (MM:SS or HH:MM:SS format)
-- **Episode info** - Title and excerpt from related posts
-- **"Zum Artikel" link** - Links to related WordPress posts
-- **Enhanced playlist view** with:
-  - Episode thumbnails (or placeholder icons)
-  - Episode titles and descriptions
-  - Play button overlays on hover
-  - Grid layout with cards
-  - Active episode highlighting
-- **Responsive design** for mobile, tablet, and desktop
-- **Optional localStorage persistence** for playback state
+- **Volume control** - Volume slider with mute button
+- **Playback speed** - Adjustable speed (0.5x, 0.75x, 1x, 1.25x, 1.5x, 1.75x, 2x)
+- **Continuous play** - Toggle to auto-play next episode
+- **Loading states** - Visual feedback during audio loading
+- **Error handling** - User-friendly error messages with retry button
+- **Buffer indicator** - Shows buffered audio progress
+
+### ⌨️ Keyboard Shortcuts (Best Practice)
+- **Space** - Play/Pause
+- **Arrow Left** - Skip backward 15 seconds
+- **Arrow Right** - Skip forward 30 seconds
+- **Arrow Up** - Increase volume
+- **Arrow Down** - Decrease volume
+- **M** - Mute/Unmute
+- **N** - Next episode
+- **P** - Previous episode
+- **1-9** - Seek to percentage (10%-90%)
+
+### 🎨 Modern UI Design
+- **Gradient background** - Beautiful purple gradient (#667eea → #764ba2)
+- **Glassmorphism effects** - Modern backdrop-filter styling
+- **Smooth animations** - All interactions have smooth transitions
+- **Visual feedback** - Skip feedback overlay, hover states
+- **Responsive design** - Optimized for desktop, tablet, and mobile
+- **Accessibility** - Full ARIA labels and screen reader support
+
+### 📝 Enhanced Playlist
+- **Thumbnail support** - Episode featured images from WordPress media
+- **Card-based design** - Modern grid layout with episode cards
+- **Episode information** - Title, description, and thumbnail
+- **Play button overlay** - Quick play on hover
+- **Download buttons** - Download episodes directly
+- **Active indicator** - Highlights currently playing episode
+- **Search/Filter** - Easy episode navigation
+
+### 💾 Smart Persistence
+- **Volume preference** - Remembers your volume setting
+- **Playback speed** - Saves your preferred speed
+- **Continuous play setting** - Remembers auto-play preference
+- **Current episode** - Resumes where you left off
+- **Playback position** - Returns to last position in episode
+
+### 🔗 WordPress Integration
+- **Custom post type** - `pod_episode` for managing episodes
+- **Featured images** - Full thumbnail support
+- **REST API** - `/wp-json/persistent-player/v1/episodes` endpoint
+- **Related posts** - Link episodes to blog posts with excerpts
+- **Meta fields** - `audio_url` and `related_post_id` custom fields
 
 ## Installation
 
-1. Upload the `persistent-podcast-player` folder to the `/wp-content/plugins/` directory
+1. Upload the `persistent-podcast-player` folder to `/wp-content/plugins/`
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Add podcast episodes through the 'Podcast Episodes' menu in the admin area
+3. Add podcast episodes through the 'Podcast Episodes' menu
 
 ## Usage
 
