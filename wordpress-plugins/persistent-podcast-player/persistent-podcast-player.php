@@ -162,7 +162,7 @@ class Persistent_Podcast_Player {
                     if ($related_post) {
                         $excerpt = $related_post->post_excerpt 
                             ? $related_post->post_excerpt 
-                            : wp_trim_words(strip_tags($related_post->post_content), 30);
+                            : wp_trim_words(strip_tags($related_post->post_content), apply_filters('ppp_excerpt_length', 30));
                         $permalink = get_permalink($related_post_id);
                     }
                 }
@@ -240,7 +240,7 @@ class Persistent_Podcast_Player {
                 </div>
                 
                 <div class="ppp-link-container">
-                    <a href="#" id="ppp-link" class="ppp-link" target="_blank" style="display: none;">Zum Artikel</a>
+                    <a href="#" id="ppp-link" class="ppp-link" target="_blank" rel="noopener noreferrer" aria-label="Zum Artikel (öffnet in neuem Tab)" style="display: none;">Zum Artikel</a>
                 </div>
                 
                 <div class="ppp-playlist-toggle">

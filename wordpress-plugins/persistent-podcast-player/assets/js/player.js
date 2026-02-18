@@ -19,9 +19,6 @@
         
         // Set up event listeners
         setupEventListeners();
-        
-        // Load state from localStorage (optional)
-        loadState();
     });
     
     /**
@@ -38,9 +35,13 @@
             method: 'GET',
             success: function(data) {
                 episodes = data;
+                
+                // Load state from localStorage (optional)
+                loadState();
+                
                 renderPlaylist();
                 
-                // Load first episode if available
+                // Load episode based on saved state or first episode if available
                 if (episodes.length > 0) {
                     updateEpisodeUI(currentIndex, false);
                 }
@@ -213,6 +214,20 @@
             audio.src = episode.audio;
             audio.load();
             
+            // Restore saved time for this episode (only once)
+            if (!autoplay && typeof(Storage) !== 'undefined') {
+                try {
+                    const savedTime = localStorage.getItem('ppp_current_time');
+                    if (savedTime !== null && !isNaN(savedTime)) {
+                        $(audio).one('loadedmetadata', function() {
+                            audio.currentTime = parseFloat(savedTime);
+                        });
+                    }
+                } catch (e) {
+                    // localStorage might be disabled
+                }
+            }
+            
             if (autoplay) {
                 playAudio();
             }
@@ -240,19 +255,12 @@
         if (typeof(Storage) !== 'undefined') {
             try {
                 const savedIndex = localStorage.getItem('ppp_current_index');
-                const savedTime = localStorage.getItem('ppp_current_time');
                 
                 if (savedIndex !== null) {
                     const index = parseInt(savedIndex);
                     if (index >= 0 && index < episodes.length) {
                         currentIndex = index;
                     }
-                }
-                
-                if (savedTime !== null && !isNaN(savedTime)) {
-                    $(audio).on('loadedmetadata', function() {
-                        audio.currentTime = parseFloat(savedTime);
-                    });
                 }
             } catch (e) {
                 // localStorage might be disabled
