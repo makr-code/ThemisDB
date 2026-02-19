@@ -1214,6 +1214,9 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1502,6 +1505,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
     ../src/sharding/raft_consensus.cpp
+    ../src/sharding/raft_shard_manager.cpp
     ../src/sharding/quorum_manager.cpp
     ../src/sharding/partition_detector.cpp
     ../src/sharding/replica_consistency.cpp
@@ -1719,14 +1723,24 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/mixed_precision_inference.cpp
-    # Multi-GPU LoRA Training
-    ../src/llm/lora_framework/multi_gpu.cpp
-    ../src/llm/lora_framework/multi_gpu_trainer.cpp
-    ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
     # Multi-GPU Communication Backends (NCCL/RCCL - stub implementations when not available)
     ../src/llm/lora_framework/nccl_backend.cpp
     ../src/llm/lora_framework/rccl_backend.cpp
     )
+
+    # GPU LoRA/VRAM implementation (GPU-only)
+    if(THEMIS_ENABLE_GPU)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/gpu_tensor.cpp
+            ../src/llm/lora_framework/vram_allocator.cpp
+            ../src/llm/lora_framework/gpu_lora_layers.cpp
+            ../src/llm/lora_framework/paged_memory_manager.cpp
+            ../src/llm/lora_framework/custom_allreduce.cpp
+            ../src/llm/lora_framework/multi_gpu.cpp
+            ../src/llm/lora_framework/multi_gpu_trainer.cpp
+            ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
+        )
+    endif()
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
@@ -2411,7 +2425,9 @@ if(THEMIS_ENABLE_GRPC)
         endif()
 
         # Link to generated shard proto library (generated outside this block)
-        if(TARGET themis_shard_proto)
+        # In modular builds, themis_sharding owns this dependency to avoid
+        # duplicate static proto objects in final executables.
+        if(TARGET themis_shard_proto AND NOT THEMIS_BUILD_MODULAR)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
         endif()
     else()

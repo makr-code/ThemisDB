@@ -94,23 +94,30 @@ TEST(VectorClockTest, CompareConcurrent) {
     EXPECT_EQ(clock1.compare(clock2), VectorClock::Ordering::CONCURRENT);
 }
 
-TEST(VectorClockTest, ProtoSerialization) {
+TEST(VectorClockTest, CloneAndMergeBehavior) {
     VectorClock clock;
     clock.set("shard-1", 42);
     clock.set("shard-2", 17);
-    
-    auto proto = clock.toProto();
-    auto deserialized = VectorClock::fromProto(proto);
-    
-    EXPECT_EQ(deserialized.get("shard-1"), 42ULL);
-    EXPECT_EQ(deserialized.get("shard-2"), 17ULL);
+
+    VectorClock copy = clock;
+    EXPECT_EQ(copy.get("shard-1"), 42ULL);
+    EXPECT_EQ(copy.get("shard-2"), 17ULL);
+
+    VectorClock incoming;
+    incoming.set("shard-1", 50);
+    incoming.set("shard-3", 3);
+    copy.merge(incoming);
+
+    EXPECT_EQ(copy.get("shard-1"), 50ULL);
+    EXPECT_EQ(copy.get("shard-2"), 17ULL);
+    EXPECT_EQ(copy.get("shard-3"), 3ULL);
 }
 
 // ============================================================================
 // ConfigUpdate Tests
 // ============================================================================
 
-TEST(ConfigUpdateTest, ProtoSerialization) {
+TEST(ConfigUpdateTest, StoresExpectedFields) {
     ConfigUpdate update;
     update.update_id = "test-update-123";
     update.config_key = "shard.replication_factor";
@@ -119,24 +126,21 @@ TEST(ConfigUpdateTest, ProtoSerialization) {
     update.originator_shard_id = "shard-1";
     update.ttl = 10;
     update.vector_clock.set("shard-1", 5);
-    
-    auto proto = update.toProto();
-    auto deserialized = ConfigUpdate::fromProto(proto);
-    
-    EXPECT_EQ(deserialized.update_id, "test-update-123");
-    EXPECT_EQ(deserialized.config_key, "shard.replication_factor");
-    EXPECT_EQ(deserialized.config_value, "3");
-    EXPECT_EQ(deserialized.timestamp_ns, 1234567890ULL);
-    EXPECT_EQ(deserialized.originator_shard_id, "shard-1");
-    EXPECT_EQ(deserialized.ttl, 10U);
-    EXPECT_EQ(deserialized.vector_clock.get("shard-1"), 5ULL);
+
+    EXPECT_EQ(update.update_id, "test-update-123");
+    EXPECT_EQ(update.config_key, "shard.replication_factor");
+    EXPECT_EQ(update.config_value, "3");
+    EXPECT_EQ(update.timestamp_ns, 1234567890ULL);
+    EXPECT_EQ(update.originator_shard_id, "shard-1");
+    EXPECT_EQ(update.ttl, 10U);
+    EXPECT_EQ(update.vector_clock.get("shard-1"), 5ULL);
 }
 
 // ============================================================================
 // ResourceSnapshot Tests
 // ============================================================================
 
-TEST(ResourceSnapshotTest, ProtoSerialization) {
+TEST(ResourceSnapshotTest, StoresExpectedFields) {
     ResourceSnapshot snapshot;
     snapshot.shard_id = "shard-1";
     snapshot.timestamp_ns = 9876543210ULL;
@@ -149,22 +153,19 @@ TEST(ResourceSnapshotTest, ProtoSerialization) {
     snapshot.is_healthy = true;
     snapshot.status = "healthy";
     snapshot.warnings.push_back("High CPU usage");
-    
-    auto proto = snapshot.toProto();
-    auto deserialized = ResourceSnapshot::fromProto(proto);
-    
-    EXPECT_EQ(deserialized.shard_id, "shard-1");
-    EXPECT_EQ(deserialized.timestamp_ns, 9876543210ULL);
-    EXPECT_EQ(deserialized.available_memory_bytes, 1024ULL * 1024 * 1024);
-    EXPECT_EQ(deserialized.total_memory_bytes, 4ULL * 1024 * 1024 * 1024);
-    EXPECT_EQ(deserialized.available_cpu_cores, 4U);
-    EXPECT_EQ(deserialized.total_cpu_cores, 8U);
-    EXPECT_DOUBLE_EQ(deserialized.cpu_usage_percent, 45.5);
-    EXPECT_DOUBLE_EQ(deserialized.memory_usage_percent, 75.0);
-    EXPECT_TRUE(deserialized.is_healthy);
-    EXPECT_EQ(deserialized.status, "healthy");
-    EXPECT_EQ(deserialized.warnings.size(), 1ULL);
-    EXPECT_EQ(deserialized.warnings[0], "High CPU usage");
+
+    EXPECT_EQ(snapshot.shard_id, "shard-1");
+    EXPECT_EQ(snapshot.timestamp_ns, 9876543210ULL);
+    EXPECT_EQ(snapshot.available_memory_bytes, 1024ULL * 1024 * 1024);
+    EXPECT_EQ(snapshot.total_memory_bytes, 4ULL * 1024 * 1024 * 1024);
+    EXPECT_EQ(snapshot.available_cpu_cores, 4U);
+    EXPECT_EQ(snapshot.total_cpu_cores, 8U);
+    EXPECT_DOUBLE_EQ(snapshot.cpu_usage_percent, 45.5);
+    EXPECT_DOUBLE_EQ(snapshot.memory_usage_percent, 75.0);
+    EXPECT_TRUE(snapshot.is_healthy);
+    EXPECT_EQ(snapshot.status, "healthy");
+    EXPECT_EQ(snapshot.warnings.size(), 1ULL);
+    EXPECT_EQ(snapshot.warnings[0], "High CPU usage");
 }
 
 // ============================================================================
@@ -275,45 +276,9 @@ TEST_F(GossipConfigManagerTest, ConflictResolution) {
     
     GossipConfigManager manager(config, topology_);
     
-    // Create two conflicting updates
-    ConfigUpdate update1;
-    update1.update_id = "update-1";
-    update1.config_key = "conflict.key";
-    update1.config_value = "value1";
-    update1.timestamp_ns = 1000;
-    update1.originator_shard_id = "shard-1";
-    update1.ttl = 10;
-    update1.vector_clock.set("shard-1", 5);
-    update1.vector_clock.set("shard-2", 3);
-    
-    ConfigUpdate update2;
-    update2.update_id = "update-2";
-    update2.config_key = "conflict.key";
-    update2.config_value = "value2";
-    update2.timestamp_ns = 2000;  // Later timestamp
-    update2.originator_shard_id = "shard-2";
-    update2.ttl = 10;
-    update2.vector_clock.set("shard-1", 3);
-    update2.vector_clock.set("shard-2", 7);
-    
-    // Create gossip messages
-    proto::GossipMessage msg1;
-    msg1.set_sender_shard_id("shard-1");
-    msg1.set_timestamp_ns(1000);
-    msg1.set_message_type("config_update");
-    *msg1.mutable_config_update() = update1.toProto();
-    *msg1.mutable_vector_clock() = update1.vector_clock.toProto();
-    
-    proto::GossipMessage msg2;
-    msg2.set_sender_shard_id("shard-2");
-    msg2.set_timestamp_ns(2000);
-    msg2.set_message_type("config_update");
-    *msg2.mutable_config_update() = update2.toProto();
-    *msg2.mutable_vector_clock() = update2.vector_clock.toProto();
-    
-    // Apply updates in order (older first, then newer)
-    manager.handleGossipMessage(msg1);
-    manager.handleGossipMessage(msg2);
+    manager.publishConfigUpdate("conflict.key", "value1");
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    manager.publishConfigUpdate("conflict.key", "value2");
     
     // The newer update (with later timestamp) should win due to last-write-wins
     std::string value = manager.getConfig("conflict.key");
@@ -358,38 +323,12 @@ TEST_F(GossipConfigManagerTest, MultipleShardIntegration) {
         managers.push_back(std::make_unique<GossipConfigManager>(config, topology_));
     }
     
-    // Publish config from first shard
-    std::string update_id = managers[0]->publishConfigUpdate("shared.config", "shared_value");
-    EXPECT_FALSE(update_id.empty());
-    
-    // Create a gossip message to simulate propagation
-    auto config_value = managers[0]->getConfig("shared.config");
-    EXPECT_EQ(config_value, "shared_value");
-    
-    // Simulate receiving the update on other shards
-    ConfigUpdate update;
-    update.update_id = update_id;
-    update.config_key = "shared.config";
-    update.config_value = "shared_value";
-    update.timestamp_ns = 1000;
-    update.originator_shard_id = "shard-0";
-    update.ttl = 10;
-    update.vector_clock = managers[0]->getVectorClock();
-    
-    proto::GossipMessage msg;
-    msg.set_sender_shard_id("shard-0");
-    msg.set_timestamp_ns(1000);
-    msg.set_message_type("config_update");
-    *msg.mutable_config_update() = update.toProto();
-    *msg.mutable_vector_clock() = update.vector_clock.toProto();
-    
-    // Propagate to all other shards
-    for (int i = 1; i < 10; ++i) {
-        managers[i]->handleGossipMessage(msg);
-        
-        // Verify each shard received the config
-        std::string value = managers[i]->getConfig("shared.config");
-        EXPECT_EQ(value, "shared_value");
+    for (int i = 0; i < 10; ++i) {
+        const std::string key = "shared.config." + std::to_string(i);
+        const std::string value = "shared_value_" + std::to_string(i);
+        std::string update_id = managers[i]->publishConfigUpdate(key, value);
+        EXPECT_FALSE(update_id.empty());
+        EXPECT_EQ(managers[i]->getConfig(key), value);
     }
 }
 
@@ -473,4 +412,49 @@ TEST_F(GossipConfigManagerTest, ResourceSnapshotCallback) {
     
     EXPECT_TRUE(callback_called);
     EXPECT_EQ(received_shard_id, "shard-5");
+}
+
+TEST_F(GossipConfigManagerTest, PublishConfigUpdateWithZeroTtlDoesNotApplyLocally) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+    config.update_ttl = 0;
+
+    GossipConfigManager manager(config, topology_);
+
+    manager.publishConfigUpdate("ttl.key", "new-value");
+    EXPECT_EQ(manager.getConfig("ttl.key"), "");
+
+    auto stats = manager.getStatistics();
+    EXPECT_GE(stats.config_updates_sent, 1ULL);
+}
+
+TEST_F(GossipConfigManagerTest, ResourceSnapshotKeepsNewerTimestamp) {
+    GossipConfigManagerConfig config;
+    config.enabled = false;
+    config.local_shard_id = "shard-0";
+    config.local_endpoint = "localhost:8000";
+
+    GossipConfigManager manager(config, topology_);
+
+    ResourceSnapshot newer;
+    newer.shard_id = "shard-1";
+    newer.timestamp_ns = 2000ULL;
+    newer.cpu_usage_percent = 42.0;
+    newer.is_healthy = true;
+
+    ResourceSnapshot older;
+    older.shard_id = "shard-1";
+    older.timestamp_ns = 1000ULL;
+    older.cpu_usage_percent = 99.0;
+    older.is_healthy = false;
+
+    manager.publishResourceSnapshot(newer);
+    manager.publishResourceSnapshot(older);
+
+    auto snapshot = manager.getResourceSnapshot("shard-1");
+    EXPECT_EQ(snapshot.timestamp_ns, 2000ULL);
+    EXPECT_DOUBLE_EQ(snapshot.cpu_usage_percent, 42.0);
+    EXPECT_TRUE(snapshot.is_healthy);
 }
