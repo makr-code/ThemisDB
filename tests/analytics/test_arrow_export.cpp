@@ -326,8 +326,15 @@ TEST_F(ArrowExportTest, ExportPlaceholderArrowFormat) {
     std::string result = exporter->exportToString(batch, options);
     
     EXPECT_FALSE(result.empty());
-    // Stub implementation should indicate it's a placeholder
-    EXPECT_NE(result.find("placeholder"), std::string::npos);
+    
+#ifdef THEMIS_HAS_ARROW
+    // With Arrow, should get binary data
+    EXPECT_EQ(result.find("ERROR"), std::string::npos);
+#else
+    // Without Arrow, should get error message
+    EXPECT_NE(result.find("ERROR"), std::string::npos);
+    EXPECT_NE(result.find("Arrow"), std::string::npos);
+#endif
 }
 
 // ===== Integration Tests =====

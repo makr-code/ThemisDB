@@ -4,6 +4,8 @@
 #include <chrono>
 #include <spdlog/spdlog.h>
 
+// Apache Arrow integration (optional)
+// Enable with: cmake -DTHEMIS_HAS_ARROW=ON and install Apache Arrow via vcpkg
 #ifdef THEMIS_HAS_ARROW
 #include <arrow/api.h>
 #include <arrow/io/api.h>
