@@ -76,6 +76,9 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/quality_control_pipeline.cpp
         ../src/rag/quality_control_factory.cpp
         
+        # RAG Enhancement: Continuous Learning Integration (Phase 6)
+        ../src/rag/continuous_learning_client.cpp
+        
         # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
         ../src/llm/lora_framework/adapter_consistency_checker.cpp
         ../src/llm/lora_framework/adapter_sync_manager.cpp

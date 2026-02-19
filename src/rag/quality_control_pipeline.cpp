@@ -4,6 +4,7 @@
  */
 
 #include "rag/quality_control_pipeline.h"
+#include "rag/continuous_learning_client.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <numeric>
@@ -20,6 +21,7 @@ struct QualityControlPipeline::Impl {
     std::shared_ptr<LLMJudgeClient> llm_judge_client;
     std::shared_ptr<GEvalEvaluator> geval_evaluator;
     std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
+    std::unique_ptr<ContinuousLearningClient> cl_client;
     std::function<void(const QCResult&)> qc_callback;
     
     // Statistics
@@ -498,20 +500,31 @@ bool QualityControlPipeline::shouldRetry(const QCResult& result, int attempt_num
 }
 
 void QualityControlPipeline::logToContinuousLearning(const QCResult& result) {
-    // Stub: In production, would send metrics to continuous learning orchestrator
-    THEMIS_DEBUG("Logging QC result to continuous learning: score={:.3f}, decision={}", 
-                result.overall_score, static_cast<int>(result.decision));
+    // Create continuous learning client if not already created
+    if (!impl_->cl_client && impl_->config.log_to_continuous_learning) {
+        ContinuousLearningClient::Config cl_config;
+        cl_config.endpoint = impl_->config.cl_endpoint.empty() ? 
+                            "http://localhost:8080/metrics" : 
+                            impl_->config.cl_endpoint;
+        cl_config.enable_logging = true;
+        cl_config.enable_triggers = true;
+        
+        impl_->cl_client = std::make_unique<ContinuousLearningClient>(cl_config);
+        
+        // Set trigger callback
+        impl_->cl_client->setTriggerCallback([](const OptimizationTrigger& trigger) {
+            THEMIS_INFO("Optimization trigger: {} - {}", 
+                       trigger.trigger_type, trigger.recommendation);
+        });
+    }
     
-    // Would send:
-    // - Quality scores per dimension
-    // - Decision (accept/reject/retry)
-    // - Latency metrics
-    // - NLI/G-Eval results
-    // 
-    // Continuous learning would use this to:
-    // - Trigger prompt optimization if low relevance
-    // - Trigger retrieval optimization if low faithfulness
-    // - Trigger LoRA fine-tuning if consistent quality issues
+    // Log result to continuous learning
+    if (impl_->cl_client) {
+        impl_->cl_client->logQCResult(result);
+    }
+    
+    THEMIS_DEBUG("Logged QC result to continuous learning: score={:.3f}, decision={}", 
+                result.overall_score, static_cast<int>(result.decision));
 }
 
 void QualityControlPipeline::recordEvaluation(const QCResult& result) {
