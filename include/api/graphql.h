@@ -483,10 +483,14 @@ public:
     const std::string& mutationType() const { return mutation_type_; }
     const std::string& subscriptionType() const { return subscription_type_; }
     
+    // Introspection policy
+    void setIntrospectionEnabled(bool enabled) { introspection_enabled_ = enabled; }
+    bool isIntrospectionEnabled() const { return introspection_enabled_; }
+    
     // Generate SDL (Schema Definition Language)
     std::string toSDL() const;
     
-    // Introspection support
+    // Introspection support (respects introspection policy)
     std::shared_ptr<Value> introspect(const Field& field) const;
     
 private:
@@ -494,6 +498,7 @@ private:
     std::string query_type_ = "Query";
     std::string mutation_type_ = "Mutation";
     std::string subscription_type_ = "Subscription";
+    bool introspection_enabled_ = true;  // Default: enabled for development
 };
 
 /**
@@ -506,6 +511,7 @@ public:
     static Schema build();
     
 private:
+    static void addGeoScalarTypes(Schema& schema);
     static void addDocumentTypes(Schema& schema);
     static void addGraphTypes(Schema& schema);
     static void addVectorTypes(Schema& schema);

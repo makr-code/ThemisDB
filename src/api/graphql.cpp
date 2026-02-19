@@ -848,6 +848,9 @@ std::string Schema::toSDL() const {
 Schema ThemisSchemaBuilder::build() {
     Schema schema;
     
+    // Add custom geo scalar types
+    addGeoScalarTypes(schema);
+    
     addDocumentTypes(schema);
     addGraphTypes(schema);
     addVectorTypes(schema);
@@ -856,6 +859,71 @@ Schema ThemisSchemaBuilder::build() {
     addMutationType(schema);
     
     return schema;
+}
+
+void ThemisSchemaBuilder::addGeoScalarTypes(Schema& schema) {
+    // Latitude scalar type
+    TypeDefinition latType;
+    latType.kind = TypeDefinition::Kind::Scalar;
+    latType.name = "Latitude";
+    latType.description = "The `Latitude` scalar type represents a latitude coordinate in decimal degrees. "
+                          "Valid range: -90.0 to 90.0 (WGS84).";
+    schema.addType(latType);
+    
+    // Longitude scalar type
+    TypeDefinition lonType;
+    lonType.kind = TypeDefinition::Kind::Scalar;
+    lonType.name = "Longitude";
+    lonType.description = "The `Longitude` scalar type represents a longitude coordinate in decimal degrees. "
+                          "Valid range: -180.0 to 180.0 (WGS84).";
+    schema.addType(lonType);
+    
+    // GeoPoint type
+    TypeDefinition geoPointType;
+    geoPointType.kind = TypeDefinition::Kind::Object;
+    geoPointType.name = "GeoPoint";
+    geoPointType.description = "A geographic point with latitude and longitude coordinates (WGS84).";
+    
+    FieldDefinition latField;
+    latField.name = "lat";
+    latField.description = "Latitude coordinate (-90 to 90)";
+    latField.type = {"Latitude", true, false, nullptr};
+    geoPointType.fields.push_back(latField);
+    
+    FieldDefinition lonField;
+    lonField.name = "lon";
+    lonField.description = "Longitude coordinate (-180 to 180)";
+    lonField.type = {"Longitude", true, false, nullptr};
+    geoPointType.fields.push_back(lonField);
+    
+    schema.addType(geoPointType);
+    
+    // GeoPointInput type for mutations
+    TypeDefinition geoPointInputType;
+    geoPointInputType.kind = TypeDefinition::Kind::InputObject;
+    geoPointInputType.name = "GeoPointInput";
+    geoPointInputType.description = "Input type for geographic coordinates.";
+    
+    FieldDefinition latInputField;
+    latInputField.name = "lat";
+    latInputField.description = "Latitude coordinate (-90 to 90)";
+    latInputField.type = {"Latitude", true, false, nullptr};
+    geoPointInputType.fields.push_back(latInputField);
+    
+    FieldDefinition lonInputField;
+    lonInputField.name = "lon";
+    lonInputField.description = "Longitude coordinate (-180 to 180)";
+    lonInputField.type = {"Longitude", true, false, nullptr};
+    geoPointInputType.fields.push_back(lonInputField);
+    
+    schema.addType(geoPointInputType);
+    
+    // GeoJSON scalar type
+    TypeDefinition geoJSONType;
+    geoJSONType.kind = TypeDefinition::Kind::Scalar;
+    geoJSONType.name = "GeoJSON";
+    geoJSONType.description = "The `GeoJSON` scalar type represents GeoJSON geometry objects as defined in RFC 7946.";
+    schema.addType(geoJSONType);
 }
 
 void ThemisSchemaBuilder::addDocumentTypes(Schema& schema) {
