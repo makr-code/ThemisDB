@@ -7,6 +7,7 @@
 #include <atomic>
 #include "config/config_errors.h"
 #include "config/lru_cache.h"
+#include "config/path_mapping_metadata.h"
 
 namespace themis {
 namespace config {
@@ -65,6 +66,14 @@ public:
     static bool isLegacyPath(const std::string& path);
     
     /**
+     * Get metadata for a path mapping (if it exists).
+     * 
+     * @param legacy_path The legacy path to look up
+     * @return Metadata if mapping exists, std::nullopt otherwise
+     */
+    static std::optional<PathMappingMetadata> getMetadata(const std::string& legacy_path);
+    
+    /**
      * Metrics for config path resolution.
      */
     struct Metrics {
@@ -108,6 +117,9 @@ private:
     // Mapping table from legacy paths to new hierarchical paths
     static const std::map<std::string, std::string> PATH_MAPPING;
     
+    // Metadata table with deprecation information
+    static const std::map<std::string, PathMappingMetadata> METADATA_TABLE;
+    
     // Metrics tracking
     static Metrics metrics_;
     
@@ -120,6 +132,9 @@ private:
     
     // Path validation
     static void validatePath(const std::string& path);
+    
+    // Get category from new path
+    static std::string inferCategory(const std::string& new_path);
 };
 
 } // namespace config
