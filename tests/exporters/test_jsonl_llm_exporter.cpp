@@ -2,6 +2,8 @@
 #include "exporters/jsonl_llm_exporter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "exporters/pii_detector.h"
+#include "exporters/stream_writer.h"
 #include "utils/error_registry.h"
 #include "storage/base_entity.h"
 #include <fstream>
@@ -497,6 +499,280 @@ TEST_F(JSONLLLMExporterTest, MetadataInclusion) {
         auto j = json::parse(line);
         EXPECT_TRUE(j.contains("metadata"));
     }
+}
+
+// ===== P1 Tests: Tenant Isolation =====
+
+TEST_F(JSONLLLMExporterTest, TenantIsolationWithContext) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    // Set tenant on entities
+    for (auto& entity : test_entities_) {
+        entity.setField("tenant_id", "tenant-123");
+    }
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "tenant_isolation.jsonl";
+    
+    // Set tenant context
+    ExportTenantContext tenant_ctx;
+    tenant_ctx.tenant_id = "tenant-123";
+    tenant_ctx.user_id = "user-456";
+    tenant_ctx.scopes = {"export:read", "export:write"};
+    tenant_ctx.enforce_isolation = true;
+    options.tenant_context = tenant_ctx;
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    // All entities should be exported (same tenant)
+    EXPECT_GT(stats.exported_entities, 0);
+    EXPECT_EQ(stats.errors.size(), 0);
+}
+
+TEST_F(JSONLLLMExporterTest, TenantIsolationBlocksCrossTenant) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    // Set different tenants on entities
+    for (size_t i = 0; i < test_entities_.size(); i++) {
+        if (i % 2 == 0) {
+            test_entities_[i].setField("tenant_id", "tenant-123");
+        } else {
+            test_entities_[i].setField("tenant_id", "tenant-456");  // Different tenant
+        }
+    }
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "tenant_cross_blocked.jsonl";
+    
+    // Set tenant context for tenant-123
+    ExportTenantContext tenant_ctx;
+    tenant_ctx.tenant_id = "tenant-123";
+    tenant_ctx.user_id = "user-456";
+    tenant_ctx.scopes = {"export:read"};
+    tenant_ctx.enforce_isolation = true;
+    options.tenant_context = tenant_ctx;
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    // Only half the entities should be exported (tenant-123 only)
+    EXPECT_LT(stats.exported_entities, test_entities_.size());
+}
+
+TEST_F(JSONLLLMExporterTest, TenantInsufficientScopes) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "tenant_insufficient_scopes.jsonl";
+    
+    // Set tenant context without required scopes
+    ExportTenantContext tenant_ctx;
+    tenant_ctx.tenant_id = "tenant-123";
+    tenant_ctx.user_id = "user-456";
+    tenant_ctx.scopes = {"export:admin"};  // Wrong scope
+    tenant_ctx.enforce_isolation = true;
+    options.tenant_context = tenant_ctx;
+    
+    // Should throw exception
+    EXPECT_THROW({
+        exporter.exportEntities(test_entities_, options);
+    }, ExporterException);
+}
+
+// ===== P1 Tests: PII Detection =====
+
+TEST_F(JSONLLLMExporterTest, PIIDetection) {
+    JSONLLLMConfig config;
+    config.pii_config.enable_detection = true;
+    config.pii_config.enable_redaction = false;
+    config.pii_config.fail_on_pii = false;  // Just detect, don't fail
+    
+    // Add entities with PII
+    BaseEntity entity_with_pii;
+    entity_with_pii.setPrimaryKey("pii_entity");
+    entity_with_pii.setField("question", "Contact me at user@example.com or call 555-123-4567");
+    entity_with_pii.setField("answer", "Will do!");
+    
+    std::vector<BaseEntity> pii_entities = {entity_with_pii};
+    
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "pii_detection.jsonl";
+    
+    auto stats = exporter.exportEntities(pii_entities, options);
+    
+    // Should detect PII
+    auto metrics = exporter.getMetrics();
+    EXPECT_GT(metrics->getPIIDetections(), 0);
+    EXPECT_EQ(metrics->getPIIRedactions(), 0);  // No redaction
+}
+
+TEST_F(JSONLLLMExporterTest, PIIRedactionMask) {
+    JSONLLLMConfig config;
+    config.pii_config.enable_detection = true;
+    config.pii_config.enable_redaction = true;
+    config.pii_config.redaction_strategy = "mask";
+    
+    // Add entity with PII
+    BaseEntity entity_with_pii;
+    entity_with_pii.setPrimaryKey("pii_entity");
+    entity_with_pii.setField("question", "My email is test@example.com");
+    entity_with_pii.setField("answer", "Thanks!");
+    
+    std::vector<BaseEntity> pii_entities = {entity_with_pii};
+    
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "pii_redaction_mask.jsonl";
+    
+    auto stats = exporter.exportEntities(pii_entities, options);
+    
+    // Should detect and redact PII
+    auto metrics = exporter.getMetrics();
+    EXPECT_GT(metrics->getPIIDetections(), 0);
+    EXPECT_GT(metrics->getPIIRedactions(), 0);
+    
+    // Verify email is masked in output
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        EXPECT_TRUE(line.find("test@example.com") == std::string::npos);  // Email should be redacted
+        EXPECT_TRUE(line.find("*") != std::string::npos);  // Should contain masking
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, PIIRedactionHash) {
+    JSONLLLMConfig config;
+    config.pii_config.enable_detection = true;
+    config.pii_config.enable_redaction = true;
+    config.pii_config.redaction_strategy = "hash";
+    
+    // Add entity with PII
+    BaseEntity entity_with_pii;
+    entity_with_pii.setPrimaryKey("pii_entity");
+    entity_with_pii.setField("question", "SSN: 123-45-6789");
+    entity_with_pii.setField("answer", "OK");
+    
+    std::vector<BaseEntity> pii_entities = {entity_with_pii};
+    
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "pii_redaction_hash.jsonl";
+    
+    auto stats = exporter.exportEntities(pii_entities, options);
+    
+    // Should detect and redact PII
+    auto metrics = exporter.getMetrics();
+    EXPECT_GT(metrics->getPIIDetections(), 0);
+    EXPECT_GT(metrics->getPIIRedactions(), 0);
+    
+    // Verify SSN is hashed in output
+    auto lines = readLinesFromFile(options.output_path);
+    EXPECT_GT(lines.size(), 0);
+    for (const auto& line : lines) {
+        EXPECT_TRUE(line.find("123-45-6789") == std::string::npos);  // SSN should be redacted
+        EXPECT_TRUE(line.find("SHA256:") != std::string::npos);  // Should contain hash
+    }
+}
+
+TEST_F(JSONLLLMExporterTest, PIIFailOnDetection) {
+    JSONLLLMConfig config;
+    config.pii_config.enable_detection = true;
+    config.pii_config.enable_redaction = false;
+    config.pii_config.fail_on_pii = true;  // Fail if PII detected
+    
+    // Add entity with PII
+    BaseEntity entity_with_pii;
+    entity_with_pii.setPrimaryKey("pii_entity");
+    entity_with_pii.setField("question", "Call me at 555-1234");
+    entity_with_pii.setField("answer", "OK");
+    
+    std::vector<BaseEntity> pii_entities = {entity_with_pii};
+    
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "pii_fail.jsonl";
+    options.continue_on_error = false;
+    
+    // Should throw exception due to PII
+    EXPECT_THROW({
+        exporter.exportEntities(pii_entities, options);
+    }, ExporterException);
+}
+
+// ===== P2 Tests: Compression =====
+
+TEST_F(JSONLLLMExporterTest, CompressionGzip) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "compressed.jsonl.gz";
+    options.compress = true;
+    options.compression_type = "gzip";
+    options.compression_level = 6;
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    EXPECT_GT(stats.exported_entities, 0);
+    
+    // Check compression metrics
+    auto metrics = exporter.getMetrics();
+    double compression_ratio = metrics->getCompressionRatio();
+    EXPECT_GT(compression_ratio, 0.0);
+    EXPECT_LT(compression_ratio, 1.0);  // Compressed should be smaller
+}
+
+TEST_F(JSONLLLMExporterTest, CompressionDisabled) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "uncompressed.jsonl";
+    options.compress = false;
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    EXPECT_GT(stats.exported_entities, 0);
+    
+    // Compression ratio should be 0 (no compression)
+    auto metrics = exporter.getMetrics();
+    EXPECT_EQ(metrics->getCompressionRatio(), 0.0);
+}
+
+// ===== P2 Tests: Resource Limits =====
+
+TEST_F(JSONLLLMExporterTest, FileSizeLimit) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "size_limited.jsonl";
+    options.max_file_size_bytes = 500;  // Very small limit
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    // Should stop before all entities are exported
+    EXPECT_LT(stats.exported_entities, test_entities_.size());
+}
+
+TEST_F(JSONLLLMExporterTest, BufferSizeConfiguration) {
+    JSONLLLMConfig config;
+    JSONLLLMExporter exporter(config);
+    
+    ExportOptions options;
+    options.output_path = test_dir_ / "custom_buffer.jsonl";
+    options.buffer_size_bytes = 4096;  // Custom buffer size
+    
+    auto stats = exporter.exportEntities(test_entities_, options);
+    
+    EXPECT_GT(stats.exported_entities, 0);
 }
 
 int main(int argc, char** argv) {
