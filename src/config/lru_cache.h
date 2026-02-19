@@ -67,8 +67,6 @@ public:
             list_.push_front({key, value, expires_at});
             map_[key] = {value, expires_at, list_.begin()};
         }
-        
-        hits_++;
     }
     
     /**
@@ -181,6 +179,10 @@ public:
      * Remove all expired entries.
      * This is automatically done during get() operations, but can be called
      * explicitly for maintenance.
+     * 
+     * Note: This iterates from the back of the LRU list (least recently used).
+     * Due to varying custom TTLs, expired entries may be scattered throughout
+     * the list, so this may not catch all expired entries in a single pass.
      */
     void removeExpired() {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -190,12 +192,14 @@ public:
         
         while (it != list_.rend()) {
             if (now < it->expires_at) {
-                break; // Rest are not expired (assuming sorted by access time)
+                // Move to next entry
+                ++it;
+            } else {
+                // Entry is expired, remove it
+                map_.erase(it->key);
+                it = decltype(it)(list_.erase(std::next(it).base()));
+                expirations_++;
             }
-            
-            map_.erase(it->key);
-            it = decltype(it)(list_.erase(std::next(it).base()));
-            expirations_++;
         }
     }
 
