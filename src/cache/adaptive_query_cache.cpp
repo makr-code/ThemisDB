@@ -471,12 +471,51 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
         }
     }
     
-    // Invalidate L3 (scan keys with prefix)
+    // Phase 1: Invalidate L3 with proper iterator-based pattern matching
     if (l3_db_) {
         std::lock_guard<std::mutex> lock(l3_mutex_);
-        // Note: This is a simplified implementation. In production, 
-        // you'd want to use RocksDB iterators for efficient scanning
-        // For now, we skip L3 pattern matching to avoid full scan
+        
+        // Phase 1: Check circuit breaker before L3 operation
+        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+            THEMIS_WARN("L3 cache circuit breaker is open, skipping L3 invalidation");
+            enhanced_metrics_.l3_circuit_breaker_open = true;
+        } else {
+            try {
+                // Use RocksDB iterator to scan all cache entries
+                std::vector<std::string> keys_to_delete;
+                l3_db_->scanPrefix("query_cache:", [&](std::string_view key, std::string_view) {
+                    // Extract fingerprint from key (remove "query_cache:" prefix)
+                    std::string fingerprint(key.substr(12));  // "query_cache:" is 12 chars
+                    if (std::regex_search(fingerprint, re)) {
+                        keys_to_delete.emplace_back(key);
+                    }
+                    return true;  // Continue iteration
+                });
+                
+                // Delete matched keys
+                for (const auto& key : keys_to_delete) {
+                    l3_db_->del(key);
+                    count++;
+                }
+                
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordSuccess();
+                    enhanced_metrics_.l3_circuit_breaker_open = false;
+                }
+                
+                THEMIS_DEBUG("Invalidated {} L3 cache entries", keys_to_delete.size());
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to invalidate L3 cache entries: {}", e.what());
+                enhanced_metrics_.l3_read_errors++;
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordFailure();
+                    if (l3_circuit_breaker_->isOpen()) {
+                        enhanced_metrics_.l3_circuit_breaker_trips++;
+                        enhanced_metrics_.l3_circuit_breaker_open = true;
+                    }
+                }
+            }
+        }
     }
     
     THEMIS_INFO("Invalidated {} cache entries matching pattern: {}", count, pattern);
