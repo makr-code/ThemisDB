@@ -1,0 +1,134 @@
+# GPU Module Production Readiness Assessment & Roadmap
+
+## Current State Assessment
+
+The GPU module (`src/gpu`) is **not yet 100% production ready**. While it provides
+edition-aware VRAM limit enforcement, the implementation is a skeleton with no real
+GPU runtime integration.
+
+### Identified Gaps
+
+- **No CUDA/ROCm kernels**: No implemented GPU kernels; query acceleration, vector
+  operations, and matrix multiplication are absent (listed as future in `src/gpu/FUTURE_ENHANCEMENTS.md`)
+- **No real GPU allocations**: `gpu_memory_manager_edition.cpp` tracks a counter only;
+  no actual `cudaMalloc`/`hipMalloc` calls or device handles
+- **No device discovery**: No enumeration of available GPUs, device capability checks,
+  or fallback when no GPU is present
+- **No multi-GPU support**: Single device assumed; no partitioning, pooling, or
+  load balancing across devices
+- **No async/streaming**: No CUDA streams or ROCm queues; all operations would be
+  synchronous stubs
+- **No memory pooling or fragmentation handling**: Every allocation is tracked by a
+  counter with no pool, slab, or defragmentation logic
+- **No owner/tag tracking or leak detection**: Allocation records carry only a string
+  reason; no caller identity, lifetime, or leak-detection pass
+- **No observability**: No Prometheus/OpenTelemetry metrics (VRAM usage, alloc failures,
+  fallback counts, peak/heatmaps); no structured telemetry on alloc-fail or CPU-fallback
+  events
+- **No security/isolation**: No tenant or domain separation for GPU allocations; any
+  caller can exhaust VRAM for other tenants
+- **No admin APIs**: No stats endpoint, dry-run simulation, or policy introspection
+- **Missing tests**: No unit, integration, stress, fuzz, or chaos tests for alloc/free,
+  device loss, multi-GPU, edition limits, or CPU-fallback paths
+- **FUTURE_ENHANCEMENTS.md is plans only**: CUDA kernel support, GPU query acceleration,
+  multi-GPU pooling, and async streams are all unimplemented
+
+## Production Readiness Roadmap
+
+### Stabilität & Sicherheit (Stability & Security)
+
+- Implement device discovery: enumerate CUDA/ROCm devices at startup, log capability
+  and VRAM, and skip GPU paths gracefully when no device is available
+- Add fail-safe fallbacks: any GPU path must fall back to CPU with a structured warning
+  when the device is unavailable, lost, or OOM
+- Handle OOM and timeouts: distinguish soft OOM (limit hit) from hard OOM (driver
+  error); enforce per-operation timeouts for kernel launches
+- Enforce tenant/domain isolation: tag allocations with tenant ID and enforce per-tenant
+  VRAM quotas; reject allocations that would starve other tenants
+- Add policy-gated GPU usage: require explicit capability grant before a caller can
+  use GPU resources; default-deny for new callers
+- Validate kernel integrity: verify checksums/signatures of loaded GPU kernel blobs
+  before execution; reject unrecognized kernels
+
+### Korrektheit & Tests (Correctness & Tests)
+
+- Unit tests for `GPUMemoryManager`: alloc success/failure, deallocation, double-free
+  guard, overflow protection, edition-limit enforcement
+- Integration tests: verify CPU fallback is triggered on alloc failure; test edition
+  transitions; test concurrent alloc/dealloc under load
+- Stress tests: hammer alloc/free at high concurrency to surface races or counter
+  drift
+- Fuzz tests: feed arbitrary sizes and reasons to `TryAllocateGPU`/`ValidateAllocation`
+  to find assertion or exception paths
+- Chaos tests: simulate device loss mid-operation; verify graceful degradation and
+  error propagation
+- Golden tests for kernel launch paths once CUDA/ROCm kernels are added: capture
+  expected outputs for regression detection
+- Test multi-GPU scenarios: correct device selection, balanced load, failure of one
+  device does not crash the process
+
+### Observability & Operations
+
+- Expose Prometheus/OpenTelemetry metrics: current VRAM allocated, peak VRAM,
+  alloc success/failure counters, fallback-to-CPU counter, per-tenant usage
+- Add VRAM heatmaps and utilization histograms to Grafana dashboards
+- Emit structured log events on alloc failure, edition-limit rejection, CPU fallback,
+  and device loss with caller context and remediation hints
+- Define and fire alerts: VRAM > 80% of limit, alloc failure rate spike, device
+  unavailable, tenant quota exceeded
+- Provide admin/ops endpoints: `GET /admin/gpu/stats`, `GET /admin/gpu/tenants`,
+  dry-run allocation simulation (`POST /admin/gpu/simulate`)
+
+### Performance
+
+- Implement a memory pool: pre-allocate VRAM slabs and serve requests from the pool
+  to avoid per-call driver overhead
+- Add async streams: use CUDA streams / ROCm queues so kernel launches do not block
+  the calling thread; expose a future/callback API
+- Support batching: group small allocations and kernel launches into single calls to
+  reduce round-trip latency
+- Handle fragmentation: track free blocks and compact or coalesce when fragmentation
+  exceeds a threshold
+- Multi-GPU load balancing: distribute work across available devices based on current
+  utilization; rebalance when a device becomes hot
+- Pre-allocation hints: allow callers to declare expected peak usage so the pool can
+  reserve capacity upfront
+- Define CPU fallback performance budgets: document and enforce maximum acceptable
+  latency penalty when GPU is unavailable
+
+### Security & Privacy
+
+- Sandbox kernel loading: load and JIT-compile GPU kernels in an isolated process or
+  container; do not allow kernel blobs to execute arbitrary host code
+- Validate and sign kernels: require all GPU kernel blobs to carry a trusted signature;
+  reject unsigned or tampered kernels at load time
+- Tenant-aware allocation domains: prevent one tenant from inspecting or overwriting
+  another tenant's VRAM; zero memory on deallocation before returning to pool
+- Audit-log all GPU operations: record alloc, free, kernel launch, and fallback events
+  with tenant/caller identity for compliance
+
+### API/Config & DX
+
+- High-level kernel/launch API: expose a typed, safe API for submitting GPU work
+  rather than raw memory handles; hide driver details from callers
+- Dry-run and simulate: allow operators to test allocation plans and kernel configs
+  without touching real GPU state (`--dry-run` flag or simulate endpoint)
+- Stats endpoints: surface current and historical VRAM usage, per-tenant breakdown,
+  and edition-limit details via HTTP and CLI
+- Config validation: fail fast at startup if GPU config is inconsistent (e.g.,
+  VRAM limit exceeds physical device memory, unknown device specified)
+- Expose edition-limit introspection: allow callers to query their current limit and
+  remaining headroom without attempting an allocation
+
+### Delivery & Governance
+
+- Add CI gates for GPU paths: compile and test GPU code paths (including CPU-only
+  fallback) on every PR; block merge on alloc/deallocation test failures
+- Simulate device loss in CI: use mock GPU driver or fault-injection harness to
+  validate fallback behavior without real hardware
+- Benchmark suite: track VRAM allocation latency, kernel launch throughput, and
+  pool efficiency in the regression benchmark pipeline
+- Runbooks: document on-call procedures for GPU OOM, device unavailability, tenant
+  quota exhaustion, and kernel load failures
+- Governance gates: require GPU feature flags to be explicitly enabled per edition;
+  deprecation notices before removing GPU API surface
