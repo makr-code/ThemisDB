@@ -100,7 +100,7 @@ The Base/Module Loader subsystem is **not 100% production ready**. While it prov
 - Implement process-level sandboxing for untrusted modules
 - Enforce CPU and memory resource limits per module
 - Restrict file system and network access via capabilities
-- Isolate module crashes to prevent database impact
+- Isolate module crashes to prevent system impact
 
 **Revocation & Cache Strategy**
 - Implement Stale-While-Revalidate (SWR) for revocation checks
