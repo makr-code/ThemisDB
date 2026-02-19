@@ -8,6 +8,7 @@
 #include <mutex>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
+#include "cache/cache_metrics.h"
 
 namespace themis {
 
@@ -72,6 +73,15 @@ public:
         // Eviction policy
         bool enable_frequency_weighting = true;
         float frequency_weight = 0.3f;         // Weight for frequency in LRU score
+        
+        // Size limits (Phase 1: Security)
+        size_t max_total_entry_size = 10485760; // 10MB absolute max per entry
+        bool enable_size_limits = true;         // Enable size validation
+        
+        // Circuit breaker configuration (Phase 1: Fault Isolation)
+        bool enable_circuit_breaker = true;
+        uint32_t cb_failure_threshold = 5;      // Failures before opening
+        uint32_t cb_timeout_ms = 60000;         // 1 minute timeout
     };
     
     struct CacheEntry {
@@ -181,6 +191,13 @@ public:
     CacheStats getStats() const;
     
     /**
+     * @brief Get enhanced metrics (Phase 1: Observability)
+     */
+    cache::CacheMetrics getEnhancedMetrics() const {
+        return enhanced_metrics_;
+    }
+    
+    /**
      * @brief Get detailed cache information (for monitoring)
      */
     nlohmann::json getDetailedInfo() const;
@@ -203,7 +220,11 @@ private:
     };
     
     Config config_;
-    mutable CacheStats stats_;
+    mutable cache::CacheMetrics enhanced_metrics_;  // Enhanced metrics (Phase 1)
+    mutable CacheStats stats_;  // Kept for backward compatibility
+    
+    // Circuit breaker for L3 (RocksDB) operations (Phase 1)
+    std::unique_ptr<cache::CircuitBreaker> l3_circuit_breaker_;
     
     // L1: In-memory HashMap
     std::unordered_map<std::string, L1Entry> l1_cache_;
@@ -225,6 +246,10 @@ private:
     void promoteEntry(const std::string& fingerprint, const CacheEntry& entry);
     void evictLRU(CacheLevel level);
     double calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const;
+    
+    // Phase 1: Size validation and security
+    bool validateEntrySize(size_t size, CacheLevel level) const;
+    bool isWithinSizeLimit(size_t size) const;
 };
 
 } // namespace themis

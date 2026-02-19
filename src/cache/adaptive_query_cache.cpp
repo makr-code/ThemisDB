@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <thread>
 #include <openssl/sha.h>
 #include <regex>
 
@@ -16,20 +17,50 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     THEMIS_INFO("AdaptiveQueryCache initialized: L1={} entries, L2={} entries, L3=RocksDB",
                 config_.l1_max_entries, config_.l2_max_entries);
     
-    // Initialize L3 (RocksDB) cache
-    try {
-        RocksDBWrapper::Config db_config;
-        db_config.db_path = config_.l3_db_path;
-        db_config.create_if_missing = true;
-        db_config.memtable_size_mb = 64;      // 64MB write buffer
-        db_config.block_cache_size_mb = 256;  // small cache for query cache
-        db_config.max_background_jobs = 2;
-        
-        l3_db_ = std::make_unique<RocksDBWrapper>(db_config);
-        THEMIS_INFO("L3 cache (RocksDB) initialized at: {}", config_.l3_db_path);
-    } catch (const std::exception& e) {
-        THEMIS_WARN("Failed to initialize L3 cache: {}. L3 cache disabled.", e.what());
-        l3_db_.reset();
+    // Initialize circuit breaker for L3 (Phase 1: Fault Isolation)
+    if (config_.enable_circuit_breaker) {
+        cache::CircuitBreaker::Config cb_config;
+        cb_config.failure_threshold = config_.cb_failure_threshold;
+        cb_config.timeout_ms = config_.cb_timeout_ms;
+        l3_circuit_breaker_ = std::make_unique<cache::CircuitBreaker>(cb_config);
+        THEMIS_INFO("Circuit breaker enabled for L3 cache (threshold={}, timeout={}ms)",
+                    cb_config.failure_threshold, cb_config.timeout_ms);
+    }
+    
+    // Initialize L3 (RocksDB) cache with retry logic
+    int retry_count = 0;
+    int max_retries = 3;
+    int retry_delay_ms = 1000;  // Start with 1 second
+    
+    while (retry_count < max_retries) {
+        try {
+            RocksDBWrapper::Config db_config;
+            db_config.db_path = config_.l3_db_path;
+            db_config.create_if_missing = true;
+            db_config.memtable_size_mb = 64;      // 64MB write buffer
+            db_config.block_cache_size_mb = 256;  // small cache for query cache
+            db_config.max_background_jobs = 2;
+            
+            l3_db_ = std::make_unique<RocksDBWrapper>(db_config);
+            THEMIS_INFO("L3 cache (RocksDB) initialized at: {}", config_.l3_db_path);
+            break;  // Success
+        } catch (const std::exception& e) {
+            retry_count++;
+            if (retry_count < max_retries) {
+                THEMIS_WARN("Failed to initialize L3 cache (attempt {}/{}): {}. Retrying in {}ms...",
+                           retry_count, max_retries, e.what(), retry_delay_ms);
+                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+                retry_delay_ms *= 2;  // Exponential backoff
+            } else {
+                THEMIS_WARN("Failed to initialize L3 cache after {} attempts: {}. L3 cache disabled.",
+                           max_retries, e.what());
+                l3_db_.reset();
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordFailure();
+                    enhanced_metrics_.l3_circuit_breaker_trips++;
+                }
+            }
+        }
     }
 }
 
@@ -78,11 +109,13 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
                 l1_cache_.erase(it);
                 stats_.evictions++;
+                enhanced_metrics_.evictions++;
             } else {
                 // Cache hit!
                 entry.last_accessed_ms = now_ms;
                 entry.access_count++;
                 stats_.l1_hits++;
+                enhanced_metrics_.l1_hits++;
                 
                 // Return entry
                 CacheEntry result;
@@ -111,6 +144,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
             if (isExpired(entry.created_at_ms, entry.ttl_seconds)) {
                 l2_cache_.erase(it);
                 stats_.evictions++;
+                enhanced_metrics_.evictions++;
             } else {
                 // Decompress result
                 auto decompressed = utils::zstd_decompress(entry.compressed_result);
@@ -122,6 +156,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     entry.last_accessed_ms = now_ms;
                     entry.access_count++;
                     stats_.l2_hits++;
+                    enhanced_metrics_.l2_hits++;
                     
                     // Promote to L1 if accessed frequently
                     if (entry.access_count >= 3 && decompressed.size() < config_.l1_max_entry_size) {
@@ -139,6 +174,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         l1_cache_[fingerprint] = std::move(l1_entry);
                         l2_cache_.erase(it);
                         stats_.promotions++;
+                        enhanced_metrics_.promotions++;
                         
                         THEMIS_DEBUG("Promoted L2->L1: fingerprint={}", fingerprint.substr(0, 16));
                     }
@@ -155,6 +191,11 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     
                     THEMIS_DEBUG("L2 cache hit: fingerprint={}", fingerprint.substr(0, 16));
                     return cache_entry;
+                } else {
+                    // Decompression failed
+                    THEMIS_WARN("Failed to decompress L2 cache entry");
+                    enhanced_metrics_.decompression_failures++;
+                    l2_cache_.erase(it);
                 }
             }
         }
@@ -162,10 +203,34 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     
     // Try L3 (COLD) - RocksDB
     if (l3_db_) {
+        // Phase 1: Check circuit breaker before L3 operation
+        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+            THEMIS_DEBUG("L3 cache circuit breaker is open, skipping L3 lookup");
+            enhanced_metrics_.l3_circuit_breaker_open = true;
+            stats_.misses++;
+            return std::nullopt;
+        }
+        
         std::lock_guard<std::mutex> lock(l3_mutex_);
         
         std::string key = "query_cache:" + fingerprint;
-        auto result = l3_db_->get(key);
+        std::optional<std::vector<uint8_t>> result;
+        
+        try {
+            result = l3_db_->get(key);
+        } catch (const std::exception& e) {
+            THEMIS_WARN("L3 cache read exception: {}", e.what());
+            enhanced_metrics_.l3_read_errors++;
+            if (l3_circuit_breaker_) {
+                l3_circuit_breaker_->recordFailure();
+                if (l3_circuit_breaker_->isOpen()) {
+                    enhanced_metrics_.l3_circuit_breaker_trips++;
+                    enhanced_metrics_.l3_circuit_breaker_open = true;
+                }
+            }
+            stats_.misses++;
+            return std::nullopt;
+        }
         
         if (result && !result->empty()) {
             try {
@@ -179,6 +244,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 if (isExpired(created_at_ms, ttl_seconds)) {
                     l3_db_->del(key);
                     stats_.evictions++;
+                    enhanced_metrics_.evictions++;
                 } else {
                     // Update access stats
                     int64_t access_count = entry_json["access_count"].get<int64_t>() + 1;
@@ -187,6 +253,13 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     l3_db_->put(key, entry_json.dump());
                     
                     stats_.l3_hits++;
+                    enhanced_metrics_.l3_hits++;
+                    
+                    // Phase 1: Record success for circuit breaker
+                    if (l3_circuit_breaker_) {
+                        l3_circuit_breaker_->recordSuccess();
+                        enhanced_metrics_.l3_circuit_breaker_open = false;
+                    }
                     
                     // Return entry
                     CacheEntry cache_entry;
@@ -210,6 +283,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     
     // Cache miss
     stats_.misses++;
+    enhanced_metrics_.misses++;
     THEMIS_DEBUG("Cache miss: fingerprint={}", fingerprint.substr(0, 16));
     return std::nullopt;
 }
@@ -223,8 +297,23 @@ bool AdaptiveQueryCache::put(
     std::string result_str = result.dump();
     size_t result_size = result_str.size();
     
+    // Phase 1: Validate entry size
+    if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {
+        THEMIS_WARN("Rejected cache entry due to size limit: size={}, max={}",
+                   result_size, config_.max_total_entry_size);
+        enhanced_metrics_.size_limit_rejections++;
+        return false;
+    }
+    
     // Select cache level based on size
     CacheLevel level = selectCacheLevel(result_size);
+    
+    // Phase 1: Validate size for selected level
+    if (!validateEntrySize(result_size, level)) {
+        THEMIS_WARN("Entry size {} exceeds limit for cache level", result_size);
+        enhanced_metrics_.size_limit_rejections++;
+        return false;
+    }
     
     // Calculate adaptive TTL (if enabled)
     int ttl_seconds;
@@ -253,6 +342,7 @@ bool AdaptiveQueryCache::put(
         entry.ttl_seconds = ttl_seconds;
         
         l1_cache_[fingerprint] = std::move(entry);
+        enhanced_metrics_.total_bytes_cached += result_size;
         THEMIS_DEBUG("Stored in L1: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
         return true;
         
@@ -261,6 +351,7 @@ bool AdaptiveQueryCache::put(
         auto compressed = utils::zstd_compress(result_str, config_.l2_compression_level);
         if (compressed.empty()) {
             THEMIS_WARN("Failed to compress result for L2 cache");
+            enhanced_metrics_.compression_failures++;
             return false;
         }
         
@@ -278,12 +369,22 @@ bool AdaptiveQueryCache::put(
         entry.access_count = 1;
         entry.ttl_seconds = ttl_seconds;
         
+        size_t compressed_size = entry.compressed_result.size();
         l2_cache_[fingerprint] = std::move(entry);
+        enhanced_metrics_.total_bytes_cached += result_size;
+        enhanced_metrics_.total_bytes_compressed += compressed_size;
         THEMIS_DEBUG("Stored in L2: fingerprint={}, size={}, compressed={}",
-                    fingerprint.substr(0, 16), result_size, entry.compressed_result.size());
+                    fingerprint.substr(0, 16), result_size, compressed_size);
         return true;
         
     } else if (l3_db_) {
+        // Phase 1: Check circuit breaker before L3 operation
+        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+            THEMIS_WARN("L3 cache circuit breaker is open, rejecting write");
+            enhanced_metrics_.l3_circuit_breaker_open = true;
+            return false;
+        }
+        
         // Store in L3 (RocksDB)
         std::lock_guard<std::mutex> lock(l3_mutex_);
         
@@ -296,13 +397,43 @@ bool AdaptiveQueryCache::put(
         entry_json["ttl_seconds"] = ttl_seconds;
         
         std::string key = "query_cache:" + fingerprint;
-        bool ok = l3_db_->put(key, entry_json.dump());
+        bool ok = false;
         
-        if (ok) {
-            THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
-            return true;
+        try {
+            ok = l3_db_->put(key, entry_json.dump());
+            
+            if (ok) {
+                // Phase 1: Record success for circuit breaker
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordSuccess();
+                    enhanced_metrics_.l3_circuit_breaker_open = false;
+                }
+                enhanced_metrics_.total_bytes_cached += result_size;
+                THEMIS_DEBUG("Stored in L3: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+                return true;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("L3 cache write exception: {}", e.what());
+            enhanced_metrics_.l3_write_errors++;
+            if (l3_circuit_breaker_) {
+                l3_circuit_breaker_->recordFailure();
+                if (l3_circuit_breaker_->isOpen()) {
+                    enhanced_metrics_.l3_circuit_breaker_trips++;
+                    enhanced_metrics_.l3_circuit_breaker_open = true;
+                }
+            }
+            return false;
         }
         
+        // Failed to write
+        enhanced_metrics_.l3_write_errors++;
+        if (l3_circuit_breaker_) {
+            l3_circuit_breaker_->recordFailure();
+            if (l3_circuit_breaker_->isOpen()) {
+                enhanced_metrics_.l3_circuit_breaker_trips++;
+                enhanced_metrics_.l3_circuit_breaker_open = true;
+            }
+        }
         THEMIS_WARN("Failed to store in L3 cache");
         return false;
     }
@@ -528,6 +659,7 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
         
         l1_cache_.erase(lru_it);
         stats_.evictions++;
+        enhanced_metrics_.evictions++;
         
     } else if (level == CacheLevel::WARM) {
         // Find LRU entry in L2
@@ -548,6 +680,7 @@ void AdaptiveQueryCache::evictLRU(CacheLevel level) {
         
         l2_cache_.erase(lru_it);
         stats_.evictions++;
+        enhanced_metrics_.evictions++;
     }
 }
 
@@ -561,6 +694,24 @@ double AdaptiveQueryCache::calculateLRUScore(int64_t last_accessed_ms, int64_t a
                    - (1.0 - config_.frequency_weight) * (age_ms / 1000.0);
     
     return score;
+}
+
+// Phase 1: Size validation helpers
+bool AdaptiveQueryCache::isWithinSizeLimit(size_t size) const {
+    return size <= config_.max_total_entry_size;
+}
+
+bool AdaptiveQueryCache::validateEntrySize(size_t size, CacheLevel level) const {
+    switch (level) {
+        case CacheLevel::HOT:
+            return size <= config_.l1_max_entry_size;
+        case CacheLevel::WARM:
+            return size <= config_.l2_max_entry_size;
+        case CacheLevel::COLD:
+            return size <= config_.max_total_entry_size;
+        default:
+            return false;
+    }
 }
 
 } // namespace themis
