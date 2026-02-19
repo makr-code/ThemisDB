@@ -11,6 +11,7 @@
 #include <variant>
 #include <unordered_map>
 #include <vector>
+#include <spdlog/spdlog.h>
 
 #ifdef ARROW_ENABLED
 #include <arrow/api.h>
@@ -20,24 +21,56 @@
 
 #if defined(_WIN32)
 // Windows build stub: minimal no-op implementations to unblock compilation
+// NOTE: Full OLAP functionality is not available on Windows platform
 namespace themis {
 namespace analytics {
 
 class OLAPEngine::Impl {};
 
-OLAPEngine::OLAPEngine() : impl_(nullptr) {}
+OLAPEngine::OLAPEngine() : impl_(nullptr) {
+    spdlog::warn("OLAPEngine: Using Windows stub implementation - full OLAP functionality not available");
+}
 OLAPEngine::~OLAPEngine() = default;
 
-OLAPResult OLAPEngine::execute(const OLAPQuery&) { return {}; }
-OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery&) { return {}; }
-OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery&) { return {}; }
-OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery&) { return {}; }
-OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery&) { return {}; }
-double OLAPEngine::computeAggregate(const std::vector<double>&, Measure::Function, double) { return 0.0; }
-OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery&) { return {}; }
-void OLAPEngine::collectStatistics(std::string_view) {}
-bool OLAPEngine::exportToParquet(const OLAPResult&, const std::string&, const std::string&) { return false; }
-bool OLAPEngine::exportCollectionToParquet(std::string_view, const std::string&, const std::vector<Filter>&, const std::string&) { return false; }
+OLAPResult OLAPEngine::execute(const OLAPQuery&) { 
+    spdlog::error("OLAPEngine::execute() not supported on Windows platform");
+    return {}; 
+}
+OLAPResult OLAPEngine::executeSimpleGroupBy(const OLAPQuery&) { 
+    spdlog::error("OLAPEngine::executeSimpleGroupBy() not supported on Windows platform");
+    return {}; 
+}
+OLAPResult OLAPEngine::executeCubeQuery(const OLAPQuery&) { 
+    spdlog::error("OLAPEngine::executeCubeQuery() not supported on Windows platform");
+    return {}; 
+}
+OLAPResult OLAPEngine::executeRollupQuery(const OLAPQuery&) { 
+    spdlog::error("OLAPEngine::executeRollupQuery() not supported on Windows platform");
+    return {}; 
+}
+OLAPResult OLAPEngine::executeGroupingSetsQuery(const OLAPQuery&) { 
+    spdlog::error("OLAPEngine::executeGroupingSetsQuery() not supported on Windows platform");
+    return {}; 
+}
+double OLAPEngine::computeAggregate(const std::vector<double>&, Measure::Function, double) { 
+    spdlog::error("OLAPEngine::computeAggregate() not supported on Windows platform");
+    return 0.0; 
+}
+OLAPEngine::QueryPlan OLAPEngine::explain(const OLAPQuery&) { 
+    spdlog::error("OLAPEngine::explain() not supported on Windows platform");
+    return {}; 
+}
+void OLAPEngine::collectStatistics(std::string_view) {
+    spdlog::error("OLAPEngine::collectStatistics() not supported on Windows platform");
+}
+bool OLAPEngine::exportToParquet(const OLAPResult&, const std::string&, const std::string&) { 
+    spdlog::error("OLAPEngine::exportToParquet() not supported on Windows platform");
+    return false; 
+}
+bool OLAPEngine::exportCollectionToParquet(std::string_view, const std::string&, const std::vector<Filter>&, const std::string&) { 
+    spdlog::error("OLAPEngine::exportCollectionToParquet() not supported on Windows platform");
+    return false; 
+}
 
 class ColumnarStore::Impl {
 public:
