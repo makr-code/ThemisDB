@@ -285,6 +285,9 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         return result;
     }
     
+    // Verification succeeded - track it
+    metrics_.verificationSuccesses++;
+    
     // Step 6: Calculate and store file hash
     result.moduleHash = verifier_->calculateFileHash(modulePath);
     
@@ -692,11 +695,17 @@ void ModuleLoader::quarantineModule(const std::string& modulePath) {
 
 uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
     // Exponential backoff: 2^(n-1) seconds, capped at maxBackoffSeconds_
+    // Use bit shifting for efficiency instead of std::pow
     if (consecutiveFailures == 0) {
         return 0;
     }
     
-    uint64_t backoff = static_cast<uint64_t>(std::pow(2, consecutiveFailures - 1));
+    // Prevent overflow for very large failure counts
+    if (consecutiveFailures > 32) {
+        return maxBackoffSeconds_;
+    }
+    
+    uint64_t backoff = 1ULL << (consecutiveFailures - 1);
     return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
 }
 
@@ -838,11 +847,20 @@ void ModuleLoader::updateMetrics(bool success, uint64_t durationMs, ModuleErrorC
         metrics_.totalLoadDurationMs += durationMs;
         metrics_.minLoadDurationMs = std::min(metrics_.minLoadDurationMs, durationMs);
         metrics_.maxLoadDurationMs = std::max(metrics_.maxLoadDurationMs, durationMs);
-        metrics_.verificationSuccesses++;
+        // Note: verificationSuccesses is tracked separately in loadModule when verification passes
     } else {
         metrics_.failedLoads++;
-        metrics_.verificationFailures++;
         metrics_.errorCounts[errorCode]++;
+        
+        // Only count verification failures, not all failures
+        if (errorCode == ModuleErrorCode::VERIFICATION_FAILED ||
+            errorCode == ModuleErrorCode::SIGNATURE_INVALID ||
+            errorCode == ModuleErrorCode::HASH_MISMATCH ||
+            errorCode == ModuleErrorCode::CERTIFICATE_REVOKED ||
+            errorCode == ModuleErrorCode::CERTIFICATE_EXPIRED ||
+            errorCode == ModuleErrorCode::UNTRUSTED_SIGNER) {
+            metrics_.verificationFailures++;
+        }
     }
 }
 
