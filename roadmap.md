@@ -20,7 +20,7 @@ The current API subsystem (GraphQL parser/executor and geo index hooks) is **not
 
 ## Roadmap
 
-### 1. Stabilität & Sicherheit (Stability & Security)
+### 1. Stability & Security (Stabilität & Sicherheit)
 
 **Priority:** P0 - Critical
 
@@ -69,7 +69,7 @@ The current API subsystem (GraphQL parser/executor and geo index hooks) is **not
 
 ---
 
-### 2. Korrektheit & Tests (Correctness & Testing)
+### 2. Correctness & Testing (Korrektheit & Tests)
 
 **Priority:** P0 - Critical
 
@@ -138,7 +138,7 @@ The current API subsystem (GraphQL parser/executor and geo index hooks) is **not
 
 ---
 
-### 4. API-Design & DX (Developer Experience)
+### 4. API Design & Developer Experience (API-Design & DX)
 
 **Priority:** P1 - High
 
@@ -205,7 +205,7 @@ The current API subsystem (GraphQL parser/executor and geo index hooks) is **not
 
 ---
 
-### 6. Daten- und Änderungsmanagement (Data & Change Management)
+### 6. Data & Change Management (Daten- und Änderungsmanagement)
 
 **Priority:** P2 - Medium
 
