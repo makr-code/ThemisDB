@@ -625,14 +625,28 @@ Executor::Result Executor::execute(
     
     const Operation* op = document.getOperation(operation_name);
     if (!op) {
-        result.errors.push_back("Operation not found");
+        result.addError(
+            "Operation not found: " + std::string(operation_name),
+            "ERR_OPERATION_NOT_FOUND",
+            context.mask_errors
+        );
         return result;
     }
     
     try {
         result.data = executeOperation(*op, context);
     } catch (const std::exception& e) {
-        result.errors.push_back(std::string("Execution error: ") + e.what());
+        result.addError(
+            std::string("Execution error: ") + e.what(),
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
+    } catch (...) {
+        result.addError(
+            "Unknown execution error",
+            "ERR_EXECUTION_FAILED",
+            context.mask_errors
+        );
     }
     
     return result;

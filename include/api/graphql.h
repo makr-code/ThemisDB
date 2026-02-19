@@ -313,6 +313,7 @@ struct ExecutionContext {
     std::unordered_map<std::string, std::shared_ptr<Value>> variables;
     std::string tenant_id;
     std::string user_id;
+    bool mask_errors = true;  // Mask internal error details in production
     
     // Resolver function type
     using Resolver = std::function<std::shared_ptr<Value>(
@@ -325,6 +326,57 @@ struct ExecutionContext {
 };
 
 /**
+ * @brief Masked Error - Safe for client exposure
+ * 
+ * Masks internal implementation details while providing
+ * useful information for debugging in development.
+ */
+struct MaskedError {
+    std::string message;
+    std::string code;
+    std::vector<std::string> path;  // Path to the field that caused the error
+    
+    // Mask an internal error for client exposure
+    static MaskedError fromInternalError(
+        const std::string& internal_msg,
+        const std::string& error_code = "INTERNAL_ERROR",
+        bool mask = true
+    ) {
+        MaskedError masked;
+        masked.code = error_code;
+        
+        if (mask) {
+            // In production, don't expose internal details
+            if (error_code == "ERR_QUERY_INVALID_SYNTAX") {
+                masked.message = "Invalid query syntax";
+            } else if (error_code.find("LIMIT") != std::string::npos || 
+                      error_code.find("EXCEED") != std::string::npos) {
+                masked.message = "Query exceeds resource limits";
+            } else {
+                masked.message = "An internal error occurred";
+            }
+        } else {
+            // In development, expose full details
+            masked.message = internal_msg;
+        }
+        
+        return masked;
+    }
+    
+    std::string toString() const {
+        std::string result = "[" + code + "] " + message;
+        if (!path.empty()) {
+            result += " at path: ";
+            for (size_t i = 0; i < path.size(); ++i) {
+                if (i > 0) result += ".";
+                result += path[i];
+            }
+        }
+        return result;
+    }
+};
+
+/**
  * @brief GraphQL Executor
  * 
  * Executes parsed GraphQL documents against the ThemisDB data layer.
@@ -333,9 +385,16 @@ class Executor {
 public:
     struct Result {
         std::shared_ptr<Value> data;
-        std::vector<std::string> errors;
+        std::vector<MaskedError> errors;  // Use masked errors instead of strings
         
         bool hasErrors() const { return !errors.empty(); }
+        
+        // Helper to add an error with automatic masking
+        void addError(const std::string& message, 
+                     const std::string& code = "INTERNAL_ERROR",
+                     bool mask = true) {
+            errors.push_back(MaskedError::fromInternalError(message, code, mask));
+        }
     };
     
     Result execute(
