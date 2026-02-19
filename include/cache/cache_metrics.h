@@ -68,7 +68,10 @@ struct CacheMetrics {
     double getCompressionRatio() const {
         uint64_t cached = total_bytes_cached.load();
         uint64_t compressed = total_bytes_compressed.load();
-        return cached > 0 ? static_cast<double>(cached) / compressed : 1.0;
+        if (compressed == 0 || cached == 0) {
+            return 1.0;  // No compression applied or no data
+        }
+        return static_cast<double>(cached) / compressed;
     }
     
     /**

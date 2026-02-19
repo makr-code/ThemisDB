@@ -14,6 +14,11 @@ using namespace themis;
 using namespace themis::cache;
 using json = nlohmann::json;
 
+// Test constants
+constexpr size_t LARGE_DATA_SIZE = 100000;  // 100KB - exceeds max_total_entry_size
+constexpr size_t MEDIUM_DATA_SIZE = 2000;   // 2KB - between L1 and L2 limits
+constexpr size_t LARGE_L3_DATA_SIZE = 15000; // 15KB - goes to L3
+
 class AdaptiveCachePhase1Test : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -45,7 +50,7 @@ TEST_F(AdaptiveCachePhase1Test, SizeLimitRejection) {
     
     // Create an entry that exceeds max_total_entry_size
     json large_result;
-    std::string large_data(100000, 'x');  // 100KB data
+    std::string large_data(LARGE_DATA_SIZE, 'x');
     large_result["data"] = large_data;
     
     std::string fingerprint = cache.generateFingerprint("SELECT * FROM large_table", {});
@@ -90,7 +95,7 @@ TEST_F(AdaptiveCachePhase1Test, SizeLimitDisabled) {
     
     // Create a large entry
     json large_result;
-    std::string large_data(100000, 'x');  // 100KB data
+    std::string large_data(LARGE_DATA_SIZE, 'x');
     large_result["data"] = large_data;
     
     std::string fingerprint = cache.generateFingerprint("SELECT * FROM huge_table", {});
@@ -161,7 +166,7 @@ TEST_F(AdaptiveCachePhase1Test, EnhancedMetricsL2Compression) {
     
     // Create entry that goes to L2 (between L1 and L2 size limits)
     json medium_result;
-    std::string data(2000, 'z');  // 2KB data
+    std::string data(MEDIUM_DATA_SIZE, 'z');
     medium_result["data"] = data;
     
     std::string fingerprint = cache.generateFingerprint("SELECT medium", {});
@@ -263,8 +268,9 @@ TEST_F(AdaptiveCachePhase1Test, CircuitBreakerStates) {
     // Should reject requests when open
     EXPECT_FALSE(cb.allowRequest());
     
-    // Wait for timeout
-    std::this_thread::sleep_for(std::chrono::milliseconds(1100));
+    // Wait for timeout (timeout + margin for reliability)
+    constexpr int timeout_margin_ms = 100;
+    std::this_thread::sleep_for(std::chrono::milliseconds(cb_config.timeout_ms + timeout_margin_ms));
     
     // Should transition to HALF_OPEN
     EXPECT_TRUE(cb.allowRequest());
@@ -290,8 +296,9 @@ TEST_F(AdaptiveCachePhase1Test, CircuitBreakerHalfOpenFailure) {
     cb.recordFailure();
     EXPECT_TRUE(cb.isOpen());
     
-    // Wait for timeout
-    std::this_thread::sleep_for(std::chrono::milliseconds(600));
+    // Wait for timeout (timeout + margin for reliability)
+    constexpr int timeout_margin_ms = 100;
+    std::this_thread::sleep_for(std::chrono::milliseconds(cb_config.timeout_ms + timeout_margin_ms));
     
     // Transition to HALF_OPEN
     EXPECT_TRUE(cb.allowRequest());
@@ -357,7 +364,7 @@ TEST_F(AdaptiveCachePhase1Test, L3PatternInvalidation) {
     // Create entries that will go to L3 (large entries)
     for (int i = 0; i < 5; i++) {
         json large_result;
-        std::string data(15000, 'L');  // 15KB - goes to L3
+        std::string data(LARGE_L3_DATA_SIZE, 'L');
         large_result["data"] = data;
         large_result["id"] = i;
         
@@ -369,7 +376,7 @@ TEST_F(AdaptiveCachePhase1Test, L3PatternInvalidation) {
     // Also create some entries for a different table
     for (int i = 0; i < 3; i++) {
         json result;
-        std::string data(15000, 'P');
+        std::string data(LARGE_L3_DATA_SIZE, 'P');
         result["data"] = data;
         result["id"] = i;
         

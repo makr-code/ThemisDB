@@ -11,6 +11,10 @@
 
 namespace themis {
 
+// Constants
+constexpr size_t QUERY_CACHE_PREFIX_LEN = 12;  // Length of "query_cache:"
+constexpr const char* QUERY_CACHE_PREFIX = "query_cache:";
+
 AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     : config_(config) {
     
@@ -213,7 +217,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
         
         std::lock_guard<std::mutex> lock(l3_mutex_);
         
-        std::string key = "query_cache:" + fingerprint;
+        std::string key = QUERY_CACHE_PREFIX + fingerprint;
         std::optional<std::vector<uint8_t>> result;
         
         try {
@@ -396,7 +400,7 @@ bool AdaptiveQueryCache::put(
         entry_json["access_count"] = 1;
         entry_json["ttl_seconds"] = ttl_seconds;
         
-        std::string key = "query_cache:" + fingerprint;
+        std::string key = QUERY_CACHE_PREFIX + fingerprint;
         bool ok = false;
         
         try {
@@ -483,9 +487,9 @@ size_t AdaptiveQueryCache::invalidate(const std::string& pattern) {
             try {
                 // Use RocksDB iterator to scan all cache entries
                 std::vector<std::string> keys_to_delete;
-                l3_db_->scanPrefix("query_cache:", [&](std::string_view key, std::string_view) {
-                    // Extract fingerprint from key (remove "query_cache:" prefix)
-                    std::string fingerprint(key.substr(12));  // "query_cache:" is 12 chars
+                l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {
+                    // Extract fingerprint from key (remove prefix)
+                    std::string fingerprint(key.substr(QUERY_CACHE_PREFIX_LEN));
                     if (std::regex_search(fingerprint, re)) {
                         keys_to_delete.emplace_back(key);
                     }
@@ -539,7 +543,7 @@ void AdaptiveQueryCache::clear() {
         // Note: Simplified implementation
         try {
             std::vector<std::string> keys;
-            l3_db_->scanPrefix("query_cache:", [&keys](std::string_view key, std::string_view) {
+            l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&keys](std::string_view key, std::string_view) {
                 keys.emplace_back(key);
                 return true;
             });
