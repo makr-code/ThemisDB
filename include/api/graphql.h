@@ -193,6 +193,33 @@ struct ParseError {
 };
 
 /**
+ * @brief Query Limits Configuration
+ * 
+ * Configurable limits to prevent DoS attacks and resource exhaustion.
+ */
+struct QueryLimits {
+    size_t max_query_size_bytes = 100000;      // Maximum query size in bytes
+    size_t max_depth = 10;                      // Maximum nesting depth
+    size_t max_fields = 100;                    // Maximum total field count
+    size_t max_ast_nodes = 1000;                // Maximum AST nodes
+    
+    // Default safe limits
+    static QueryLimits defaults() {
+        return QueryLimits{};
+    }
+    
+    // More permissive limits for trusted contexts
+    static QueryLimits permissive() {
+        return QueryLimits{
+            .max_query_size_bytes = 1000000,
+            .max_depth = 20,
+            .max_fields = 500,
+            .max_ast_nodes = 5000
+        };
+    }
+};
+
+/**
  * @brief GraphQL Parser
  * 
  * Parses GraphQL query strings into Document structures.
@@ -212,21 +239,43 @@ struct ParseError {
  */
 class Parser {
 public:
+    struct Result {
+        bool success = false;
+        Document document;
+        std::vector<ParseError> errors;
+    };
+    
     /**
-     * Parse a GraphQL query string
+     * Parse a GraphQL query string with default limits
      * @param query The GraphQL query string to parse
-     * @return Result<Document> containing the parsed document or error
+     * @return Result containing the parsed document or errors
      */
-    static themis::Result<Document> parse(std::string_view query);
+    static Result parse(std::string_view query);
+    
+    /**
+     * Parse a GraphQL query string with custom limits
+     * @param query The GraphQL query string to parse
+     * @param limits Query limits to enforce
+     * @return Result containing the parsed document or errors
+     */
+    static Result parse(std::string_view query, const QueryLimits& limits);
     
 private:
-    Parser(std::string_view query);
+    Parser(std::string_view query, const QueryLimits& limits);
     
-    themis::Result<Document> parseDocument();
+    Result parseDocument();
     themis::Result<Operation> parseOperation();
-    themis::Result<Field> parseField();
+    themis::Result<Field> parseField(size_t depth = 0);
     themis::Result<std::shared_ptr<Value>> parseValue();
     themis::Result<VariableDefinition> parseVariableDefinition();
+    
+    // Validation helpers
+    bool checkQuerySize();
+    bool checkDepthLimit(size_t depth);
+    bool checkFieldLimit();
+    bool checkASTNodeLimit();
+    void incrementFieldCount() { field_count_++; }
+    void incrementASTNodeCount() { ast_node_count_++; }
     
     // Tokenization helpers
     void skipWhitespace();
@@ -247,9 +296,13 @@ private:
     void error(std::string message);
     
     std::string_view source_;
+    QueryLimits limits_;
     size_t pos_ = 0;
     size_t line_ = 1;
     size_t column_ = 1;
+    size_t field_count_ = 0;
+    size_t ast_node_count_ = 0;
+    size_t max_depth_reached_ = 0;
     std::vector<ParseError> errors_;
 };
 

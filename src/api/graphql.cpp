@@ -13,16 +13,67 @@ using errors::ErrorCode;
 // Parser Implementation
 // ============================================================================
 
-Parser::Parser(std::string_view query) : source_(query) {}
+Parser::Parser(std::string_view query, const QueryLimits& limits) 
+    : source_(query), limits_(limits) {}
 
 Parser::Result Parser::parse(std::string_view query) {
-    Parser parser(query);
+    return parse(query, QueryLimits::defaults());
+}
+
+Parser::Result Parser::parse(std::string_view query, const QueryLimits& limits) {
+    Parser parser(query, limits);
     return parser.parseDocument();
+}
+
+bool Parser::checkQuerySize() {
+    if (source_.size() > limits_.max_query_size_bytes) {
+        error("Query size exceeds maximum allowed size of " + 
+              std::to_string(limits_.max_query_size_bytes) + " bytes");
+        return false;
+    }
+    return true;
+}
+
+bool Parser::checkDepthLimit(size_t depth) {
+    if (depth > max_depth_reached_) {
+        max_depth_reached_ = depth;
+    }
+    if (depth > limits_.max_depth) {
+        error("Query depth exceeds maximum allowed depth of " + 
+              std::to_string(limits_.max_depth));
+        return false;
+    }
+    return true;
+}
+
+bool Parser::checkFieldLimit() {
+    if (field_count_ > limits_.max_fields) {
+        error("Query field count exceeds maximum allowed fields of " + 
+              std::to_string(limits_.max_fields));
+        return false;
+    }
+    return true;
+}
+
+bool Parser::checkASTNodeLimit() {
+    if (ast_node_count_ > limits_.max_ast_nodes) {
+        error("Query AST node count exceeds maximum allowed nodes of " + 
+              std::to_string(limits_.max_ast_nodes));
+        return false;
+    }
+    return true;
 }
 
 Parser::Result Parser::parseDocument() {
     Result result;
     result.success = true;
+    
+    // Check query size first
+    if (!checkQuerySize()) {
+        result.success = false;
+        result.errors = errors_;
+        return result;
+    }
     
     skipWhitespace();
     
@@ -49,6 +100,12 @@ Parser::Result Parser::parseDocument() {
 
 themis::Result<Operation> Parser::parseOperation() {
     Operation op;
+    incrementASTNodeCount();
+    
+    if (!checkASTNodeLimit()) {
+        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum AST node limit");
+    }
     
     skipWhitespace();
     
@@ -88,6 +145,7 @@ themis::Result<Operation> Parser::parseOperation() {
                 return themis::Err<Operation>(varDefResult.error().code(), varDefResult.error().context());
             }
             op.variables.push_back(std::move(*varDefResult));
+            incrementASTNodeCount();
             skipWhitespace();
             match(',');
         }
@@ -105,7 +163,7 @@ themis::Result<Operation> Parser::parseOperation() {
     
     while (!peek('}') && pos_ < source_.size()) {
         skipWhitespace();
-        auto fieldResult = parseField();
+        auto fieldResult = parseField(1);  // Start at depth 1
         if (!fieldResult) {
             return themis::Err<Operation>(fieldResult.error().code(), fieldResult.error().context());
         }
@@ -120,8 +178,24 @@ themis::Result<Operation> Parser::parseOperation() {
     return themis::Ok(std::move(op));
 }
 
-themis::Result<Field> Parser::parseField() {
+themis::Result<Field> Parser::parseField(size_t depth) {
     Field field;
+    incrementFieldCount();
+    incrementASTNodeCount();
+    
+    // Check limits
+    if (!checkDepthLimit(depth)) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum depth limit");
+    }
+    if (!checkFieldLimit()) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum field limit");
+    }
+    if (!checkASTNodeLimit()) {
+        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, 
+            "Query exceeds maximum AST node limit");
+    }
     
     skipWhitespace();
     
@@ -183,7 +257,7 @@ themis::Result<Field> Parser::parseField() {
     if (match('{')) {
         while (!peek('}') && pos_ < source_.size()) {
             skipWhitespace();
-            auto nestedFieldResult = parseField();
+            auto nestedFieldResult = parseField(depth + 1);  // Increment depth for nested fields
             if (!nestedFieldResult) {
                 return themis::Err<Field>(nestedFieldResult.error().code(), nestedFieldResult.error().context());
             }
