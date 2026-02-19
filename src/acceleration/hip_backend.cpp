@@ -4,6 +4,8 @@
 
 #include "acceleration/hip_backend.h"
 #include "acceleration/compute_backend.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
 
 #ifdef THEMIS_ENABLE_HIP
 #include "acceleration/raii/hip_raii.h"
@@ -281,7 +283,15 @@ BackendCapabilities HIPVectorBackend::getCapabilities() const {
 }
 
 bool HIPVectorBackend::initialize() {
-    if (impl_->initialized) return true;
+    if (impl_->initialized) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendAlreadyInitialized,
+            "HIP",
+            "Backend is already initialized",
+            "Call shutdown() before reinitializing"
+        ));
+        return true;  // Not an error, just already initialized
+    }
     
     std::cout << "HIP Backend: Initializing..." << std::endl;
     
@@ -289,14 +299,15 @@ bool HIPVectorBackend::initialize() {
     hipError_t countErr = hipGetDeviceCount(&deviceCount);
     
     if (countErr != hipSuccess || deviceCount == 0) {
-        std::cerr << "HIP initialization failed:" << std::endl;
-        std::cerr << "  Error: " << hipGetErrorString(countErr) << std::endl;
-        std::cerr << "  Device count: " << deviceCount << std::endl;
+        // Set structured error context
         if (deviceCount == 0) {
-            std::cerr << "  No HIP-capable AMD GPUs found" << std::endl;
-            std::cerr << "  Check: ROCm driver installed?" << std::endl;
-            std::cerr << "  Check: AMD GPU present and supported?" << std::endl;
+            setError(ErrorContextHelpers::createNoDevicesError("HIP"));
+        } else {
+            setError(ErrorContextHelpers::createDriverError("HIP"));
         }
+        
+        // Keep backward-compatible logging
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
@@ -326,15 +337,25 @@ bool HIPVectorBackend::initialize() {
     
     hipError_t setDeviceErr = hipSetDevice(impl_->deviceId);
     if (setDeviceErr != hipSuccess) {
-        std::cerr << "HIP: Failed to set device " << impl_->deviceId << std::endl;
-        std::cerr << "  Error: " << hipGetErrorString(setDeviceErr) << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::DeviceSetFailed,
+            "HIP",
+            "Failed to set device " + std::to_string(impl_->deviceId) + ": " + hipGetErrorString(setDeviceErr),
+            "Check if device exists and is not in exclusive mode"
+        ));
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
     hipError_t propErr = hipGetDeviceProperties(&impl_->deviceProps, impl_->deviceId);
     if (propErr != hipSuccess) {
-        std::cerr << "HIP: Failed to query device properties" << std::endl;
-        std::cerr << "  Error: " << hipGetErrorString(propErr) << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::DevicePropertiesQueryFailed,
+            "HIP",
+            "Failed to query device properties: " + std::string(hipGetErrorString(propErr)),
+            "Ensure ROCm runtime is properly installed"
+        ));
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
@@ -361,10 +382,13 @@ bool HIPVectorBackend::initialize() {
     try {
         impl_->stream.create();
     } catch (const std::exception& e) {
-        std::cerr << "HIP: Failed to create HIP stream: " << e.what() << std::endl;
+        setError(ErrorContextHelpers::createQueueError("HIP", e.what()));
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
+    // Clear error on success
+    clearError();
     impl_->initialized = true;
     return true;
 }

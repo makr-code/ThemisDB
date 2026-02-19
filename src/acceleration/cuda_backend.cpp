@@ -1,4 +1,6 @@
 #include "acceleration/cuda_backend.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -111,22 +113,34 @@ bool CUDAVectorBackend::initialize() {
         // Enhanced error logging: enumerate devices and provide diagnostic info
         int deviceCount = 0;
         cudaError_t err = cudaGetDeviceCount(&deviceCount);
-        std::cerr << "CUDA initialization failed:" << std::endl;
-        std::cerr << "  Error: " << cudaGetErrorString(err) << std::endl;
-        std::cerr << "  Device count: " << deviceCount << std::endl;
+        
+        // Set structured error context
         if (deviceCount == 0) {
-            std::cerr << "  No CUDA-capable devices found" << std::endl;
-            std::cerr << "  Check: NVIDIA driver installed?" << std::endl;
-            std::cerr << "  Check: CUDA-capable GPU present?" << std::endl;
+            setError(ErrorContextHelpers::createNoDevicesError("CUDA"));
+        } else {
+            setError(ErrorContext(
+                AccelerationErrorCode::DriverNotInstalled,
+                "CUDA",
+                "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(err)),
+                "Install NVIDIA CUDA driver and runtime"
+            ));
         }
+        
+        // Keep backward-compatible logging
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
     // Set device with error context
     cudaError_t setDeviceErr = cudaSetDevice(0);
     if (setDeviceErr != cudaSuccess) {
-        std::cerr << "CUDA: Failed to set device 0" << std::endl;
-        std::cerr << "  Error: " << cudaGetErrorString(setDeviceErr) << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::DeviceSetFailed,
+            "CUDA",
+            "Failed to set device 0: " + std::string(cudaGetErrorString(setDeviceErr)),
+            "Check if device is available and not in exclusive mode"
+        ));
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
@@ -137,8 +151,9 @@ bool CUDAVectorBackend::initialize() {
         int leastPriority, greatestPriority;
         cudaError_t err = cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority);
         if (err != cudaSuccess) {
-            std::cerr << "CUDA: Failed to get stream priority range" << std::endl;
-            std::cerr << "  Error: " << cudaGetErrorString(err) << std::endl;
+            setError(ErrorContextHelpers::createQueueError("CUDA", 
+                "Failed to get stream priority range: " + std::string(cudaGetErrorString(err))));
+            std::cerr << lastError_.format() << std::endl;
             return false;
         }
         stream_.createWithPriority(leastPriority, cudaStreamNonBlocking);
@@ -148,7 +163,8 @@ bool CUDAVectorBackend::initialize() {
         stream_.create();
 #endif
     } catch (const std::exception& e) {
-        std::cerr << "CUDA: Failed to create stream: " << e.what() << std::endl;
+        setError(ErrorContextHelpers::createQueueError("CUDA", std::string(e.what())));
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
@@ -156,8 +172,13 @@ bool CUDAVectorBackend::initialize() {
     cudaDeviceProp prop;
     cudaError_t propErr = cudaGetDeviceProperties(&prop, 0);
     if (propErr != cudaSuccess) {
-        std::cerr << "CUDA: Failed to query device properties" << std::endl;
-        std::cerr << "  Error: " << cudaGetErrorString(propErr) << std::endl;
+        setError(ErrorContext(
+            AccelerationErrorCode::DevicePropertiesQueryFailed,
+            "CUDA",
+            "Failed to query device properties: " + std::string(cudaGetErrorString(propErr)),
+            "Ensure CUDA runtime is properly installed and device is accessible"
+        ));
+        std::cerr << lastError_.format() << std::endl;
         // stream_ automatically cleaned up by RAII destructor
         return false;
     }
@@ -176,10 +197,18 @@ bool CUDAVectorBackend::initialize() {
     std::cout << "  vLLM Co-Location: ENABLED (low-priority stream, max " << THEMIS_MAX_GPU_VRAM_MB << " MB VRAM)" << std::endl;
 #endif
     
+    // Clear error on success
+    clearError();
     initialized_ = true;
     return true;
 #else
-    std::cerr << "CUDA: Not compiled with CUDA support (THEMIS_ENABLE_CUDA not defined)" << std::endl;
+    setError(ErrorContext(
+        AccelerationErrorCode::FeatureNotSupported,
+        "CUDA",
+        "Not compiled with CUDA support (THEMIS_ENABLE_CUDA not defined)",
+        "Recompile with CUDA support enabled"
+    ));
+    std::cerr << lastError_.format() << std::endl;
     return false;
 #endif
 }

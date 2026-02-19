@@ -3,6 +3,8 @@
 // Copyright (c) 2024 ThemisDB
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -125,14 +127,20 @@ public:
         cl_uint numPlatforms;
         err = clGetPlatformIDs(1, &platform_, &numPlatforms);
         if (err != CL_SUCCESS || numPlatforms == 0) {
-            std::cerr << "OpenCL initialization failed:" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
-            std::cerr << "  Platforms found: " << numPlatforms << std::endl;
+            // Set structured error context
             if (numPlatforms == 0) {
-                std::cerr << "  No OpenCL platforms found" << std::endl;
-                std::cerr << "  Check: OpenCL drivers installed?" << std::endl;
-                std::cerr << "  Check: GPU vendor drivers up to date?" << std::endl;
+                setError(ErrorContext(
+                    AccelerationErrorCode::PlatformNotAvailable,
+                    "OpenCL",
+                    "No OpenCL platforms found",
+                    "Install OpenCL drivers for your GPU (NVIDIA, AMD, or Intel)"
+                ));
+            } else {
+                setError(ErrorContextHelpers::createDriverError("OpenCL"));
             }
+            
+            // Keep backward-compatible logging
+            std::cerr << lastError_.format() << std::endl;
             return false;
         }
         
@@ -150,8 +158,8 @@ public:
             std::cerr << "OpenCL: No GPU devices found, trying CPU..." << std::endl;
             err = clGetDeviceIDs(platform_, CL_DEVICE_TYPE_CPU, 1, &device_, &numDevices);
             if (err != CL_SUCCESS) {
-                std::cerr << "OpenCL: No devices found (GPU or CPU)" << std::endl;
-                std::cerr << "  Error code: " << err << std::endl;
+                setError(ErrorContextHelpers::createNoDevicesError("OpenCL"));
+                std::cerr << lastError_.format() << std::endl;
                 std::cerr << "  Platform: " << platformName << std::endl;
                 return false;
             }
@@ -179,7 +187,8 @@ public:
         try {
             context_.create(nullptr, 1, &device_);
         } catch (const std::exception& e) {
-            std::cerr << "OpenCL: Failed to create context: " << e.what() << std::endl;
+            setError(ErrorContextHelpers::createContextError("OpenCL", e.what()));
+            std::cerr << lastError_.format() << std::endl;
             return false;
         }
         
@@ -187,7 +196,8 @@ public:
         try {
             queue_.create(context_.get(), device_);
         } catch (const std::exception& e) {
-            std::cerr << "OpenCL: Failed to create command queue: " << e.what() << std::endl;
+            setError(ErrorContextHelpers::createQueueError("OpenCL", e.what()));
+            std::cerr << lastError_.format() << std::endl;
             // context_ automatically cleaned up by RAII
             return false;
         }
@@ -196,7 +206,13 @@ public:
         try {
             program_.createWithSource(context_.get(), openclKernelSource);
         } catch (const std::exception& e) {
-            std::cerr << "OpenCL: Failed to create program: " << e.what() << std::endl;
+            setError(ErrorContext(
+                AccelerationErrorCode::KernelCompilationFailed,
+                "OpenCL",
+                "Failed to create program: " + std::string(e.what()),
+                "Check kernel source code syntax"
+            ));
+            std::cerr << lastError_.format() << std::endl;
             // context_ and queue_ automatically cleaned up by RAII
             return false;
         }
@@ -205,15 +221,17 @@ public:
         try {
             program_.build(1, &device_);
         } catch (const std::exception& e) {
-            std::cerr << "OpenCL: Kernel compilation failed: " << e.what() << std::endl;
-            
+            // Get detailed build log
+            std::string buildLog;
             size_t logSize;
             if (clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize) == CL_SUCCESS && logSize > 0) {
                 std::vector<char> log(logSize);
                 clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);
-                std::cerr << "  Build log:" << std::endl;
-                std::cerr << log.data() << std::endl;
+                buildLog = std::string(log.data());
             }
+            
+            setError(ErrorContextHelpers::createKernelCompilationError("OpenCL", "distance kernels", buildLog));
+            std::cerr << lastError_.format() << std::endl;
             
             // All resources automatically cleaned up by RAII
             return false;
@@ -223,17 +241,31 @@ public:
         try {
             l2Kernel_.create(program_.get(), "computeL2Distance");
         } catch (const std::exception& e) {
-            std::cerr << "OpenCL: Failed to create L2 kernel: " << e.what() << std::endl;
+            setError(ErrorContext(
+                AccelerationErrorCode::KernelNotFound,
+                "OpenCL",
+                "Failed to create L2 kernel: " + std::string(e.what()),
+                "Ensure computeL2Distance kernel is defined in program"
+            ));
+            std::cerr << lastError_.format() << std::endl;
             return false;
         }
         
         try {
             cosineKernel_.create(program_.get(), "computeCosineDistance");
         } catch (const std::exception& e) {
-            std::cerr << "OpenCL: Failed to create cosine kernel: " << e.what() << std::endl;
+            setError(ErrorContext(
+                AccelerationErrorCode::KernelNotFound,
+                "OpenCL",
+                "Failed to create cosine kernel: " + std::string(e.what()),
+                "Ensure computeCosineDistance kernel is defined in program"
+            ));
+            std::cerr << lastError_.format() << std::endl;
             return false;
         }
         
+        // Clear error on success
+        clearError();
         initialized_ = true;
         return true;
     }
