@@ -21,6 +21,8 @@ jobs:
   validate-mapping:
     name: Validate Config Path Mapping Table
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout code
