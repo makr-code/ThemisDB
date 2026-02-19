@@ -11,7 +11,7 @@ The AQL/LLM subsystem is **NOT** 100% production-ready. While the core functiona
 - **Lack of Observability**: Missing metrics, distributed tracing, and structured logging for LLM operations
 - **Limited Error Masking**: Internal errors exposed to clients; no structured error objects with codes
 - **RAG Context Issues**: 
-  - Uses placeholder content (`_key` as content fallback) instead of actual document content
+  - Uses document primary key (pk) as placeholder content instead of fetching actual document content from storage
   - No score normalization for similarity search results
 - **Minimal Logging & Resilience**: No circuit breakers, retries with exponential backoff, or timeout handling
 - **Missing Tests**: Limited unit tests, no integration tests for LLM operations, no fuzz testing
