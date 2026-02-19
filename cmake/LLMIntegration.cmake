@@ -79,6 +79,10 @@ if(THEMIS_ENABLE_LLM)
         # RAG Enhancement: Continuous Learning Integration (Phase 6)
         ../src/rag/continuous_learning_client.cpp
         
+        # RAG Enhancement: Production Integration (Phase 7 - Future Works)
+        ../src/rag/onnx_model_loader.cpp
+        ../src/rag/http_metrics_client.cpp
+        
         # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
         ../src/llm/lora_framework/adapter_consistency_checker.cpp
         ../src/llm/lora_framework/adapter_sync_manager.cpp

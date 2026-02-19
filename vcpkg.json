@@ -35,7 +35,8 @@
     { "name": "crc32c" },
     { "name": "cpp-httplib" },
     { "name": "msgpack" },
-    { "name": "tl-expected" }
+    { "name": "tl-expected" },
+    { "name": "onnxruntime" }
   ],
   "features": {
     "gpu": {
