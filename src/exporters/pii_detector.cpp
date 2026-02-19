@@ -177,7 +177,10 @@ std::string PIIDetector::hashString(const std::string& value) const {
     
     std::ostringstream oss;
     oss << "SHA256:";
-    for (int i = 0; i < 8; ++i) {  // Use first 8 bytes for readability
+    // Use first 8 bytes for readability and space efficiency
+    // Note: This reduces uniqueness but is acceptable for PII redaction
+    // where the goal is anonymization, not cryptographic security
+    for (int i = 0; i < 8; ++i) {
         oss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
     return oss.str();

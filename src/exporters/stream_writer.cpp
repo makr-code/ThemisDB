@@ -108,20 +108,20 @@ void StreamWriter::close() {
 
 void StreamWriter::initCompression() {
     if (config_.compression == CompressionType::GZIP) {
-        z_stream* strm = new z_stream();
+        // Use unique_ptr for automatic cleanup
+        auto strm = std::make_unique<z_stream>();
         strm->zalloc = Z_NULL;
         strm->zfree = Z_NULL;
         strm->opaque = Z_NULL;
         
         // Use deflateInit2 with gzip header (window bits + 16)
-        int ret = deflateInit2(strm, config_.compression_level, Z_DEFLATED,
+        int ret = deflateInit2(strm.get(), config_.compression_level, Z_DEFLATED,
                               15 + 16, 8, Z_DEFAULT_STRATEGY);
         if (ret != Z_OK) {
-            delete strm;
             throw ExportIOException("Failed to initialize gzip compression", config_.output_path, ret);
         }
         
-        compression_state_ = strm;
+        compression_state_ = strm.release();  // Transfer ownership
     }
 }
 

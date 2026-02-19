@@ -567,11 +567,11 @@ TEST_F(JSONLLLMExporterTest, TenantInsufficientScopes) {
     ExportOptions options;
     options.output_path = test_dir_ / "tenant_insufficient_scopes.jsonl";
     
-    // Set tenant context without required scopes
+    // Set tenant context without required scopes (insufficient permissions)
     ExportTenantContext tenant_ctx;
     tenant_ctx.tenant_id = "tenant-123";
     tenant_ctx.user_id = "user-456";
-    tenant_ctx.scopes = {"export:admin"};  // Wrong scope
+    tenant_ctx.scopes = {"export:admin"};  // Has admin but not read/write
     tenant_ctx.enforce_isolation = true;
     options.tenant_context = tenant_ctx;
     

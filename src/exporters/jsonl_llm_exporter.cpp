@@ -94,7 +94,11 @@ ExportStats JSONLLLMExporter::exportEntities(
             if (options.compression_type == "gzip") {
                 writer_config.compression = CompressionType::GZIP;
             } else if (options.compression_type == "zstd") {
-                writer_config.compression = CompressionType::ZSTD;  // Future
+                // ZSTD not yet implemented
+                throw ConfigException(
+                    "ZSTD compression not yet supported",
+                    "compression_type"
+                );
             }
             writer_config.compression_level = options.compression_level;
         }
