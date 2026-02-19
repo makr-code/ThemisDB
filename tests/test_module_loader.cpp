@@ -799,7 +799,7 @@ TEST(ModuleLoader, HealthCheckResultsStoredPerModule) {
     EXPECT_TRUE(results.empty());
 }
 
-TEST(ModuleLoader, MetadataCacheAvoidsDou bleLoading) {
+TEST(ModuleLoader, MetadataCacheAvoidsDoubleLoading) {
     ModuleLoader loader;
     
     // The implementation now uses getCachedMetadata() which:
