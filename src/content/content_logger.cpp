@@ -196,46 +196,50 @@ void ContentLogger::debug(const std::string& event, const std::string& message, 
 // ============================================================================
 
 std::string ContentLogger::sanitizeFilename(const std::string& filename) const {
+    // Static regex patterns compiled once
+    static const std::regex email_regex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
+    static const std::regex phone_regex(R"(\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,3}?\)?[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,9})");
+    static const std::regex ssn_regex(R"(\b\d{3}-?\d{2}-?\d{4}\b)");
+    
     // Remove directory path, keep only basename
     size_t pos = filename.find_last_of("/\\");
     std::string basename = (pos != std::string::npos) ? filename.substr(pos + 1) : filename;
     
     // Replace email addresses with [EMAIL]
-    std::regex email_regex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
     basename = std::regex_replace(basename, email_regex, "[EMAIL]");
     
     // Replace phone numbers with [PHONE]
-    std::regex phone_regex(R"(\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,3}?\)?[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,9})");
     basename = std::regex_replace(basename, phone_regex, "[PHONE]");
     
     // Replace SSN patterns with [SSN]
-    std::regex ssn_regex(R"(\b\d{3}-?\d{2}-?\d{4}\b)");
     basename = std::regex_replace(basename, ssn_regex, "[SSN]");
     
     return basename;
 }
 
 std::string ContentLogger::sanitizeMessage(const std::string& message) const {
+    // Static regex patterns compiled once
+    static const std::regex email_regex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
+    static const std::regex phone_regex(R"(\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,3}?\)?[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,9})");
+    static const std::regex ssn_regex(R"(\b\d{3}-?\d{2}-?\d{4}\b)");
+    static const std::regex cc_regex(R"(\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b)");
+    
     std::string sanitized = message;
     
     // Replace email addresses
-    std::regex email_regex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
     sanitized = std::regex_replace(sanitized, email_regex, "[EMAIL]");
     
     // Replace phone numbers
-    std::regex phone_regex(R"(\+?[0-9]{1,4}?[-.\s]?\(?[0-9]{1,3}?\)?[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,9})");
     sanitized = std::regex_replace(sanitized, phone_regex, "[PHONE]");
     
     // Replace SSN patterns
-    std::regex ssn_regex(R"(\b\d{3}-?\d{2}-?\d{4}\b)");
     sanitized = std::regex_replace(sanitized, ssn_regex, "[SSN]");
     
     // Replace credit card patterns (4 groups of 4 digits)
-    std::regex cc_regex(R"(\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b)");
     sanitized = std::regex_replace(sanitized, cc_regex, "[CREDIT_CARD]");
     
     // Replace IP addresses (optional - may be needed for diagnostics)
-    // std::regex ip_regex(R"(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b)");
+    // static const std::regex ip_regex(R"(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b)");
     // sanitized = std::regex_replace(sanitized, ip_regex, "[IP]");
     
     return sanitized;

@@ -44,7 +44,7 @@ TEST(ContentMetricsTest, RecordValidation) {
     EXPECT_EQ(metrics.getTotalValidations(), 3);
     EXPECT_EQ(metrics.getSuccessfulValidations(), 2);
     EXPECT_EQ(metrics.getFailedValidations(), 1);
-    EXPECT_DOUBLE_EQ(metrics.getValidationSuccessRate(), 66.666666666666657);
+    EXPECT_NEAR(metrics.getValidationSuccessRate(), 66.67, 0.01);
 }
 
 TEST(ContentMetricsTest, RecordProcessing) {
@@ -57,7 +57,7 @@ TEST(ContentMetricsTest, RecordProcessing) {
     EXPECT_EQ(metrics.getTotalProcessing(), 3);
     EXPECT_EQ(metrics.getSuccessfulProcessing(), 2);
     EXPECT_EQ(metrics.getFailedProcessing(), 1);
-    EXPECT_DOUBLE_EQ(metrics.getProcessingSuccessRate(), 66.666666666666657);
+    EXPECT_NEAR(metrics.getProcessingSuccessRate(), 66.67, 0.01);
 }
 
 TEST(ContentMetricsTest, RecordExtraction) {

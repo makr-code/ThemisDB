@@ -158,7 +158,7 @@ TEST(ContentLoggerTest, LogWarn) {
     });
 }
 
-TEST(ContentLoggerTest, LogError) {
+TEST(ContentLoggerTest, LogStructuredError) {
     ContentLogger logger("corr-013");
     
     EXPECT_NO_THROW({
