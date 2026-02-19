@@ -4,6 +4,7 @@
  */
 
 #include "rag/geval_evaluator.h"
+#include "rag/llm_judge_client.h"
 #include "llm/inference_engine_enhanced.h"
 #include <spdlog/spdlog.h>
 #include <cmath>
@@ -38,11 +39,14 @@ namespace themis::rag::judge {
 struct GEvalEvaluator::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> llm;
+    std::shared_ptr<judge::LLMJudgeClient> llm_client;
     
     Impl(const Config& cfg) : config(cfg) {
-        // Initialize LLM engine with default config
-        llm::InferenceEngineEnhanced::Config engine_cfg;
-        llm = std::make_shared<llm::InferenceEngineEnhanced>(engine_cfg);
+        // Initialize LLM judge client (engine will be set externally)
+        judge::LLMJudgeClient::Config client_cfg;
+        client_cfg.temperature = cfg.temperature;
+        client_cfg.extract_token_probs = true;
+        llm_client = std::make_shared<judge::LLMJudgeClient>(client_cfg);
     }
     
     /**
@@ -212,13 +216,26 @@ GEvalResult GEvalEvaluator::evaluate(
     result.dimension = dimension;
     
     try {
+        // Generate prompt
+        std::string prompt = impl_->generatePrompt(query, answer, documents, dimension);
+        
         // Generate multiple samples for robustness
         std::vector<double> sample_scores;
         std::vector<std::vector<double>> all_probabilities;
         
         for (int i = 0; i < impl_->config.num_samples; i++) {
             // Get token probabilities for this sample
-            auto probs = impl_->extractProbabilitiesStub(dimension);
+            std::vector<double> probs;
+            
+            if (impl_->llm_client && impl_->llm_client->isReady()) {
+                // Use LLM client to extract token probabilities for score tokens
+                std::vector<std::string> score_tokens = {"1", "2", "3", "4", "5"};
+                probs = impl_->llm_client->extractTokenProbabilities(prompt, score_tokens);
+            } else {
+                // Fall back to stub implementation
+                probs = impl_->extractProbabilitiesStub(dimension);
+            }
+            
             all_probabilities.push_back(probs);
             
             // Compute G-Eval score from probabilities

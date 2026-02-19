@@ -5,6 +5,7 @@
 
 #include "rag/faithfulness_evaluator.h"
 #include "rag/llm_judge_integration.h"
+#include "rag/nli_faithfulness_verifier.h"
 #include "rag/response_parser.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
@@ -20,13 +21,42 @@ using json = nlohmann::json;
 struct FaithfulnessEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     ResponseParser parser;
     
-    // NLI stub - in production would use actual NLI model
+    // NLI-based entailment checking
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
-        // Stub implementation using simple text matching
-        // In production, this would call RoBERTa-large-MNLI or similar
+        // Use NLI verifier if available, otherwise fall back to heuristics
+        if (nli_verifier && nli_verifier->isReady()) {
+            auto nli_result = nli_verifier->verify(document, claim);
+            
+            // Convert NLI prediction to support level
+            switch (nli_result.prediction) {
+                case NLIPrediction::ENTAILMENT:
+                    return nli_result.confidence >= 0.7 
+                        ? SupportLevel::FULLY_SUPPORTED 
+                        : SupportLevel::PARTIALLY_SUPPORTED;
+                
+                case NLIPrediction::NEUTRAL:
+                    return nli_result.confidence >= 0.7
+                        ? SupportLevel::UNSUPPORTED
+                        : SupportLevel::PARTIALLY_SUPPORTED;
+                
+                case NLIPrediction::CONTRADICTION:
+                    return SupportLevel::CONTRADICTED;
+                
+                default:
+                    return SupportLevel::UNSUPPORTED;
+            }
+        }
         
+        // Fall back to heuristic implementation
+        return checkNLIEntailmentHeuristic(claim, document);
+    }
+    
+    // Heuristic fallback (original implementation)
+    SupportLevel checkNLIEntailmentHeuristic(const std::string& claim, const std::string& document) {
+        // Simple heuristic using text matching
         std::string claim_lower = claim;
         std::string doc_lower = document;
         std::transform(claim_lower.begin(), claim_lower.end(), claim_lower.begin(), ::tolower);
@@ -81,7 +111,12 @@ FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
     llm_config.max_tokens = 512;
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
-    THEMIS_DEBUG("FaithfulnessEvaluator initialized");
+    // Initialize NLI verifier
+    NLIFaithfulnessVerifier::Config nli_config;
+    nli_config.use_heuristic_fallback = true;
+    impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>(nli_config);
+    
+    THEMIS_DEBUG("FaithfulnessEvaluator initialized with NLI verifier");
 }
 
 FaithfulnessEvaluator::~FaithfulnessEvaluator() = default;

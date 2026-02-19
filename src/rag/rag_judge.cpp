@@ -7,6 +7,7 @@
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
+#include "rag/llm_judge_client.h"
 #include "rag/faithfulness_evaluator.h"
 #include "rag/relevance_evaluator.h"
 #include "rag/completeness_evaluator.h"
@@ -27,6 +28,7 @@ struct RAGJudge::Impl {
     // Phase 1 components
     PromptTemplateManager template_manager;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    std::shared_ptr<LLMJudgeClient> llm_client;
     
     // Phase 2 specialized evaluators
     std::unique_ptr<FaithfulnessEvaluator> faithfulness_eval;
@@ -70,6 +72,13 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
+    // Initialize LLM Judge Client (new)
+    LLMJudgeClient::Config client_config;
+    client_config.temperature = 0.3;
+    client_config.max_tokens = 1024;
+    client_config.enable_caching = true;
+    impl_->llm_client = std::make_shared<LLMJudgeClient>(client_config);
+    
     // Initialize Phase 2 specialized evaluators
     FaithfulnessEvaluator::Config faith_config;
     faith_config.max_claims_to_extract = config.max_claims_to_verify;
@@ -86,8 +95,9 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     CoherenceEvaluator::Config coh_config;
     impl_->coherence_eval = std::make_unique<CoherenceEvaluator>(coh_config);
     
-    THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}", 
-                static_cast<int>(config.mode), config.judge_model);
+    THEMIS_INFO("RAG Judge initialized with mode: {}, model: {}, LLM client: {}",
+                static_cast<int>(config.mode), config.judge_model,
+                impl_->llm_client ? "enabled" : "disabled");
 }
 
 RAGJudge::~RAGJudge() = default;
