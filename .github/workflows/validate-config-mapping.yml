@@ -1,0 +1,44 @@
+name: Validate Config Mapping
+
+on:
+  pull_request:
+    paths:
+      - 'src/config/config_path_resolver.cpp'
+      - 'src/config/config_path_resolver.h'
+      - 'config/**'
+      - 'scripts/validate_config_mapping.py'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/config/config_path_resolver.cpp'
+      - 'src/config/config_path_resolver.h'
+      - 'config/**'
+      - 'scripts/validate_config_mapping.py'
+
+jobs:
+  validate-mapping:
+    name: Validate Config Path Mapping Table
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Validate mapping table
+        run: |
+          python3 scripts/validate_config_mapping.py
+      
+      - name: Check for schema file
+        run: |
+          if [ ! -f "config/schema/path_mapping.schema.json" ]; then
+            echo "❌ Schema file not found"
+            exit 1
+          fi
+          echo "✅ Schema file exists"
