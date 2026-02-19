@@ -450,6 +450,17 @@ bool PaxosConsensus::executePreparePhase(uint64_t slot, const ConsensusLogEntry&
     // Phase 1a: Generate unique proposal number and send prepare requests
     auto proposal = generateProposalNumber();
     
+    // Phase 2.1.3: Log PREPARE to WAL for durability
+    if (wal_) {
+        try {
+            wal_->logPrepare(slot, proposal.round, node_id_);
+            operations_since_snapshot_++;
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log PREPARE to WAL: {}", e.what());
+            // Continue operation despite WAL failure (graceful degradation)
+        }
+    }
+    
     std::lock_guard<std::mutex> lock(state_mutex_);
     
     // Get or create instance for this slot
@@ -514,6 +525,17 @@ bool PaxosConsensus::executeAcceptPhase(
 ) {
     // Phase 2a: Send accept requests to all acceptors
     auto start_time = std::chrono::steady_clock::now();
+    
+    // Phase 2.1.3: Log ACCEPT to WAL for durability
+    if (wal_) {
+        try {
+            wal_->logAccept(slot, proposal.round, node_id_, value);
+            operations_since_snapshot_++;
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log ACCEPT to WAL: {}", e.what());
+            // Continue operation despite WAL failure (graceful degradation)
+        }
+    }
     
     {
         std::lock_guard<std::mutex> lock(state_mutex_);
@@ -580,6 +602,23 @@ bool PaxosConsensus::executeAcceptPhase(
 }
 
 void PaxosConsensus::broadcastCommit(uint64_t slot, const ConsensusLogEntry& value) {
+    // Phase 2.1.3: Log COMMIT to WAL for durability
+    if (wal_) {
+        try {
+            wal_->logCommit(slot, value);
+            uint64_t ops = ++operations_since_snapshot_;
+            
+            // Check if we should create a snapshot
+            if (wal_->shouldCreateSnapshot(ops)) {
+                spdlog::info("Triggering snapshot creation after {} operations", ops);
+                createPeriodicSnapshot();
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log COMMIT to WAL: {}", e.what());
+            // Continue operation despite WAL failure (graceful degradation)
+        }
+    }
+    
     {
         std::lock_guard<std::mutex> lock(proposal_mutex_);
         committed_log_[slot] = value;
