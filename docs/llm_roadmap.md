@@ -1,0 +1,305 @@
+# LLM Module Production-Readiness Plan & Roadmap
+
+**Status:** Not Production Ready
+**Version:** 1.5.0
+**Last Updated:** February 19, 2026
+
+---
+
+## Executive Summary
+
+The ThemisDB LLM module (`src/llm`) provides a substantial feature set including GGUF model loading, llama.cpp integration, grammar-constrained decoding, paged KV-cache, kernel fusion/flash attention (CUDA), multi-LoRA management, and a partial Prometheus metrics stack. However, **it is not yet production-ready**. This document identifies the concrete gaps discovered during a code review of the `src/llm` directory and provides an actionable roadmap—organized by quarter—to bring the module to production quality.
+
+---
+
+## 1. Current State & Gaps
+
+### 1.1 Observability
+
+**Finding:** The active implementation (`grafana_metrics.cpp`) provides a `PrometheusExporter` and `LLMMetricsCollector` with counter/gauge/histogram support and a Grafana dashboard generator. However:
+
+- `grafana_metrics_broken.cpp.bak` signals that the metrics stack was previously broken and has since been partially restored; the `.bak` artifact should be removed or superseded by a verified working implementation.
+- The `MetricsServer::start()` function contains a `// TODO: Start actual HTTP server` comment—there is **no live HTTP endpoint** serving `/metrics` today. Prometheus cannot scrape the exporter.
+- There is **no OpenTelemetry (OTel) exporter**: no spans, trace context propagation, or OTLP sink are wired anywhere in the LLM pipeline.
+- Metrics for queue depth, backpressure events, and per-request memory usage are defined but not yet emitted from inference hot paths.
+- Grafana alert rules and Grafana panel JSON are auto-generated stubs; they have not been validated against a live Grafana/Prometheus instance.
+
+### 1.2 Grammar (llama.cpp Grammar API)
+
+**Finding:** `grammar.cpp` checks `themis_llama_grammar_available()` at compile time via dynamic symbol resolution (`llama_grammar_adapter.cpp`). If the API is absent, `Grammar::compile()` logs a warning and returns `false`—inference proceeds without grammar constraints, silently producing unconstrained output.
+
+- `llama_grammar_init()` is called with `nullptr` for the `llama_vocab*` parameter (see `grammar.cpp:110`). The inline comment acknowledges: *"this is a limitation of the current API design."* Passing a null vocab pointer may cause undefined behavior in llama.cpp when non-trivial token filtering is required.
+- There is no hard error or caller-visible signal when grammar is requested but silently skipped.
+- No tests exist that exercise grammar compilation with a real `llama_model`/`llama_vocab` loaded from disk.
+
+### 1.3 GGUF Loader — Unsupported Formats
+
+**Finding:** The GGUF loader (`gguf_loader.cpp`, `gguf_loader_README.md`, `docs/GGUF_SUPPORT.md`) fully supports **F32, F16, Q4_K_M, Q8_0** only. The following quantization types are recognised in the `GGMLType` enum and `type_string()` but **have no conversion path and are silently skipped or return raw bytes without dequantization**:
+
+| Format | Block Size | Status |
+|--------|------------|--------|
+| Q4_0   | 18 bytes   | Not supported |
+| Q4_1   | 20 bytes   | Not supported |
+| Q5_0   | 22 bytes   | Not supported |
+| Q5_1   | 24 bytes   | Not supported |
+| Q8_1   | 36 bytes   | Not supported |
+| Q5_K   | 176 bytes  | Not supported |
+| Q6_K   | 210 bytes  | Not supported |
+
+Loading a model that uses any of these formats will not fail with an actionable error; instead the loader silently returns raw quantized bytes, causing downstream numerical corruption.
+
+### 1.4 Kernel Fusion / Flash Attention
+
+**Finding:** `kernel_fusion.cu` provides a tiled Flash Attention forward kernel and several fused GEMM/layer-norm/activation kernels. However:
+
+- The corresponding CPU fallback in `kernel_fusion.cpp` exists, but there is no compile-time or runtime gate that ensures the CUDA path is validated before the CPU fallback is silently engaged.
+- CI pipeline status for GPU tests is unknown; it is unclear whether `kernel_fusion.cu` is compiled and executed in any automated test environment.
+- There are no benchmarks comparing the CUDA kernel throughput against the CPU fallback or against cuBLAS/cuDNN baselines.
+- Shared-memory tile size (`TILE_SIZE = 64`, `BLOCK_SIZE = 256`) is hard-coded and not tuned per GPU architecture (e.g., Ampere vs. Ada).
+
+### 1.5 LlamaWrapper / Config — Missing Guards
+
+**Finding:** `llama_wrapper.cpp` performs basic parameter validation (`n_ctx`, `n_batch`, `n_threads`) but lacks several production-critical safeguards:
+
+- **No request timeouts or per-session quotas**: A single runaway inference request can starve all other sessions indefinitely.
+- **No backpressure or rate limiting**: The continuous batch scheduler (`continuous_batch_scheduler.cpp`) does not enforce a maximum queue depth; callers are never rejected with a `429`-equivalent.
+- **No health or liveness endpoints**: Operators have no API to check whether the model is loaded and the inference loop is responsive.
+- **No model-list or session-list admin API**: Administrators cannot enumerate loaded models, active sessions, or LoRA adapters at runtime.
+- **No prompt safety layer**: There is no input sanitization, prompt-injection detection, or jailbreak mitigation before tokens are fed to the model.
+- **No hot-reload**: Changing configuration or swapping a model requires a full process restart.
+
+### 1.6 Deprecated / Beta Components
+
+**Finding:**
+
+- **LoRA compat shim** (`llama_lora_adapter.cpp` legacy overloads, `LoRAAdapterManager` in `lora_framework/`): The README marks `LoRAAdapterManager` as deprecated in favour of `MultiLoRAManager`. The legacy overloads remain in the build, creating two code paths for the same operation and a risk of inconsistent behaviour.
+- **DirectX / HLSL shader path** (`vision_config.cpp`, DXGI references): References to DirectX shader compilation exist alongside the CUDA/OpenCL paths. On non-Windows targets the DirectX path compiles as a no-op stub, but the dead code adds maintenance burden and confusion.
+- **`grafana_metrics_broken.cpp.bak`**: The `.bak` file is committed to source control, adds noise, and may confuse maintainers about which implementation is canonical.
+
+---
+
+## 2. Plan & Milestones
+
+### Q1 — Observability, Grammar Robustness, Health/Admin Basics, GGUF Validation
+
+**Goal:** Operators can scrape metrics, grammar is fail-safe, GGUF loading never silently corrupts data, and a minimal health endpoint exists.
+
+1. **Observability — Prom/OTel Exporter**
+   - Implement the HTTP `/metrics` endpoint inside `MetricsServer::start()` (Beast/ASIO or Crow).
+   - Wire latency, throughput, error-rate, queue-depth, and backpressure counters into the inference hot path (`llamacpp_inference_engine.cpp`, `continuous_batch_scheduler.cpp`).
+   - Add an OpenTelemetry SDK integration (OTLP gRPC exporter) and propagate trace context through `LlamaWrapper::generate()`.
+   - Validate the Grafana dashboard JSON against a live Grafana 10.x instance; store the validated JSON in `grafana/`.
+
+2. **Grammar Robustness**
+   - Replace the `nullptr` vocab call with a proper `llama_model_get_vocab()` lookup; surface a hard error (`std::runtime_error` or structured error code) when the grammar API is available but the vocab pointer is null.
+   - Promote the silent fallback (grammar requested but API absent) to a logged error + returned status flag; callers must explicitly opt in to unconstrained fallback.
+   - Add integration tests exercising grammar compilation with a real (or synthetic mock) `llama_vocab`.
+
+3. **Health / Model-List API**
+   - Add `GET /health` (liveness) and `GET /models` (loaded model list) endpoints to `LlamaWrapper` or the inference server layer.
+   - Include model memory usage, session count, and LoRA adapter list in the `/models` response.
+
+4. **Timeouts / Quota / Backpressure**
+   - Implement per-request wall-clock timeout (`Config::request_timeout_ms`).
+   - Enforce a maximum queue depth in `ContinuousBatchScheduler`; return a structured error to callers when the queue is full.
+
+5. **GGUF Validation**
+   - For all unsupported `GGMLType` values, return an explicit `UnsupportedQuantizationFormat` error with the format name and a human-readable message.
+   - Add `GGUFConverter::isSupported()` gating in the loader; test each unsupported type produces the correct error.
+
+---
+
+### Q2 — Safety/Policy, Fallbacks, Alerting
+
+**Goal:** The system is safe against prompt-injection attacks, enforces per-user/model quotas, and can degrade gracefully.
+
+1. **Prompt Injection / Jailbreak Detection**
+   - Integrate a lightweight prompt-sanitization pass (regex + semantic heuristics) before tokenisation.
+   - Add a configurable policy layer (`PromptPolicy`) that can block, redact, or flag requests based on keyword lists, regex patterns, or a small classifier.
+   - Log all policy-triggered events to the audit log (`llm_model_audit_logger.cpp`).
+
+2. **Policy / ACL / Quota Per User/Model**
+   - Implement per-user and per-model token-per-minute quotas enforced in the request ingestion layer.
+   - Add ACL checks: certain models (e.g., un-quantised large models) require explicit user/role permissions.
+   - Persist quota counters in the existing KV store with TTL.
+
+3. **Fallbacks (GPU → CPU, Multi-Model)**
+   - On CUDA out-of-memory or kernel launch failure, automatically fall back to the CPU path without crashing the request.
+   - Implement a multi-model fallback chain: if the primary model fails to load or respond within timeout, route to a smaller/cheaper model.
+
+4. **Alerting**
+   - Define Prometheus alerting rules for: error rate > 1 %, p99 latency > threshold, GPU memory > 90 %, queue depth > 80 % of max.
+   - Store alert rule YAML in `prometheus/rules/llm_alerts.yml`.
+   - Add latency heatmap panels to the Grafana dashboard.
+
+---
+
+### Q3 — Testing & Benchmarking, CI GPU/CPU, Performance Tuning
+
+**Goal:** The module has comprehensive automated tests, CI validates GPU and CPU paths, and performance meets SLO targets.
+
+1. **Test Suites**
+   - **Fuzz**: Fuzz `GGUFLoader::parseFile()` and `Grammar::compile()` with AFL++/libFuzzer (add targets under `fuzz/`).
+   - **Chaos**: Inject CUDA allocation failures, mmap failures, and null-vocab conditions to validate error paths.
+   - **Adversarial**: Add adversarial prompt test cases to the grammar and prompt-policy layers.
+   - **Load**: Benchmark sustained token throughput at varying batch sizes and sequence lengths under `benchmarks/`.
+
+2. **CI GPU + CPU**
+   - Add a CI job that compiles and runs `kernel_fusion.cu` tests on a CUDA-enabled runner (e.g., GitHub Actions with `ubuntu-latest` + CUDA toolkit, or a self-hosted runner).
+   - Add a CI job that runs the CPU fallback path on standard runners to prevent regression.
+   - Gate merges on kernel_fusion test pass.
+
+3. **Performance Tuning**
+   - Profile `flashAttentionForwardKernel` on Ampere and Ada architectures; tune `TILE_SIZE` and `BLOCK_SIZE` per SM count.
+   - Benchmark continuous batching throughput against target SLO (e.g., ≥ 2000 tokens/sec on A100 for 7B Q4_K_M).
+   - Evaluate BF16 vs FP16 accumulation in the attention kernel.
+
+---
+
+### Q4 — Cleanup, Admin DX, Audit/Analytics, Runbooks
+
+**Goal:** Deprecated code is removed, the operator experience is polished, and runbooks cover all failure modes.
+
+1. **Cleanup Deprecated Paths**
+   - Remove `LoRAAdapterManager` and its legacy overloads from the build; update all call sites to `MultiLoRAManager`.
+   - Remove or replace the DirectX/DXGI shader stubs with explicit `#error` guards on non-Windows targets.
+   - Delete `grafana_metrics_broken.cpp.bak` from source control.
+
+2. **Admin / Developer Experience**
+   - Add a `POST /admin/models/reload` endpoint for hot-reload without process restart.
+   - Add `GET /admin/sessions` and `DELETE /admin/sessions/{id}` for session management.
+   - Add a `POST /admin/prompt/simulate` dry-run endpoint for prompt policy validation without inference.
+
+3. **Audit / Analytics**
+   - Ensure `LLMModelAuditLogger` records: model load/unload events, LoRA adapter switches, quota violations, policy blocks, and error events with user/tenant context.
+   - Implement a structured analytics export (JSON-lines) suitable for ingestion into the data warehouse or SIEM.
+
+4. **Runbooks**
+   - Write operator runbooks for: GPU OOM recovery, model swap procedure, quota tuning, grammar debugging, and metric scrape troubleshooting.
+   - Store runbooks under `docs/operations/llm/`.
+
+---
+
+## 3. Actionable Checklist
+
+### Observability
+
+- [ ] Implement `MetricsServer::start()` HTTP endpoint (remove `// TODO` placeholder).
+- [ ] Emit `llm_inference_requests_total`, `llm_inference_duration_ms`, `llm_first_token_latency_ms` from the inference hot path.
+- [ ] Emit `llm_scheduler_queue_length`, backpressure-drop counter from `ContinuousBatchScheduler`.
+- [ ] Add OTel OTLP exporter; propagate `trace_id`/`span_id` through `LlamaWrapper::generate()`.
+- [ ] Validate Grafana dashboard JSON against a live Grafana 10.x instance.
+- [ ] Add latency heatmap and p50/p95/p99 panels.
+- [ ] Define Prometheus alerting rules (`prometheus/rules/llm_alerts.yml`).
+
+### Grammar
+
+- [ ] Replace `nullptr` vocab argument in `Grammar::compile()` with `llama_model_get_vocab(model)`.
+- [ ] Propagate a hard error (structured error code or exception) when vocab is null and grammar is requested.
+- [ ] Elevate the silent grammar-unavailable fallback to a logged error with an explicit opt-in flag (`Config::grammar_strict_mode`).
+- [ ] Add integration tests: grammar compilation with real/mock `llama_vocab`, grammar-constrained generation round-trip, error on missing API.
+
+### GGUF Loader
+
+- [ ] Return `UnsupportedQuantizationFormat` error (not silent raw bytes) for Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K.
+- [ ] Gate `GGUFConverter` dispatch on `GGUFConverter::isSupported()`; test each unsupported type.
+- [ ] Add unit tests for unsupported format error messages.
+- [ ] Document which formats are planned for future support and which will be permanently unsupported.
+
+### Safety / Policy
+
+- [ ] Implement `PromptPolicy` with configurable keyword/regex/classifier rules.
+- [ ] Add per-user/per-model token-per-minute quota enforcement in the request ingestion path.
+- [ ] Wire policy-triggered events into `LLMModelAuditLogger`.
+- [ ] Add adversarial prompt tests validating sanitisation and policy blocking.
+
+### Admin / Ops
+
+- [ ] Add `GET /health` (liveness) and `GET /ready` (readiness) endpoints.
+- [ ] Add `GET /models` returning loaded models with memory, session count, and LoRA adapters.
+- [ ] Implement per-request wall-clock timeout (`Config::request_timeout_ms`).
+- [ ] Implement maximum queue depth and structured backpressure rejection.
+- [ ] Add `POST /admin/models/reload` hot-reload endpoint.
+- [ ] Add `POST /admin/prompt/simulate` dry-run endpoint.
+
+### Testing
+
+- [ ] Add fuzz targets for `GGUFLoader::parseFile()` and `Grammar::compile()` under `fuzz/`.
+- [ ] Add chaos tests for CUDA allocation failure and CPU fallback.
+- [ ] Add load benchmarks for continuous batching throughput.
+- [ ] Add CI GPU job compiling and running `kernel_fusion.cu` tests.
+- [ ] Add CI CPU fallback regression test.
+
+---
+
+## 4. Research Tasks & Validation Steps
+
+### 4.1 Grammar / llama Vocab Binding
+
+- **Task:** Verify that `llama_grammar_init()` behaves correctly (no crash, correct token filtering) when passed a real `llama_vocab*` from `llama_model_get_vocab()`.
+- **How to validate:** Load a small quantised model (e.g., a Llama-3.2-1B Q8_0 GGUF), obtain the vocab pointer, compile a simple JSON grammar, run a constrained generation, and assert that all output tokens satisfy the grammar's start rule.
+- **Owner:** LLM integration team.
+- **Acceptance criteria:** Grammar-constrained generation passes a round-trip test in CI with a real model file.
+
+### 4.2 Supported GGUF Formats — Failure Modes
+
+- **Task:** Enumerate all `GGMLType` values that appear in real-world GGUF files available on HuggingFace (Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K, Q2_K, IQ2_XXS, etc.) and determine for each:
+  1. Whether ThemisDB should implement conversion support.
+  2. If not, what error message and recovery suggestion should be returned.
+- **How to validate:** Download one representative GGUF file per format and assert that `GGUFLoader::parseFile()` either (a) succeeds with correct tensor data or (b) returns a structured `UnsupportedQuantizationFormat` error with the format name.
+- **Owner:** GGUF loader team.
+- **Acceptance criteria:** No currently-unsupported format silently returns raw bytes; each produces an actionable error.
+
+### 4.3 CUDA CI Coverage for `kernel_fusion.cu`
+
+- **Task:** Determine whether a CUDA-capable CI runner is available (GitHub-hosted or self-hosted). If not, assess the cost and feasibility of adding one.
+- **How to validate:** Attempt to compile `kernel_fusion.cu` with `nvcc` in CI and run a unit test (e.g., a 128×128 attention kernel correctness test comparing CUDA output against a NumPy reference).
+- **Owner:** Infrastructure / DevOps team.
+- **Acceptance criteria:** `kernel_fusion.cu` compiles without warning and passes a correctness test in CI on at least one GPU architecture (e.g., sm_80 / A100 or sm_86 / A30).
+
+### 4.4 Metrics Schema & Endpoint Decisions
+
+- **Task:** Agree on the canonical set of metric names, labels, and units before wiring them into the hot path (renaming metrics later breaks dashboards and alerts).
+- **Questions to resolve:**
+  1. Should latency histograms use milliseconds or seconds? (Prometheus convention: seconds.)
+  2. Should `model_id` be a label on all metrics, or only on model-specific metrics?
+  3. Should queue-depth metrics be per-model or global?
+  4. What is the Prometheus scrape interval and retention window?
+  5. Should OTel and Prometheus share the same metric names (via the OTel Prometheus bridge) or use separate schemas?
+- **How to validate:** Publish a draft metrics schema in `docs/observability/llm_metrics_schema.md` and obtain sign-off from the observability and SRE teams before implementation begins.
+- **Owner:** Observability / SRE team.
+- **Acceptance criteria:** Metrics schema document approved; at least one dashboard panel and one alerting rule reference the agreed names.
+
+### 4.5 GPU → CPU Fallback Correctness
+
+- **Task:** Verify that the CPU fallback path in `kernel_fusion.cpp` produces numerically equivalent results to the CUDA path (`kernel_fusion.cu`) within an acceptable tolerance (e.g., relative error < 1e-4 for FP32 attention).
+- **How to validate:** Write a test that runs the same attention inputs through both paths (on a machine with a GPU) and compares outputs element-wise.
+- **Owner:** LLM kernel team.
+- **Acceptance criteria:** CPU and CUDA outputs agree within tolerance; test added to CI on GPU runner.
+
+---
+
+## 5. Risks & Dependencies
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| No CUDA CI runner available | Medium | High (Q3 milestone blocked) | Evaluate GitHub Actions CUDA runner; fall back to correctness tests using CPU emulation or a cloud spot instance. |
+| llama.cpp API changes break grammar/LoRA adapters | Medium | High | Pin llama.cpp version in `vcpkg.json`; add version compatibility checks at startup. |
+| OTel SDK adds significant binary size or latency overhead | Low | Medium | Profile with and without OTel; use compile-time feature flag if needed. |
+| Prompt-safety classifier adds unacceptable latency | Low | Medium | Run classifier asynchronously on a separate thread pool; add latency budget to the policy config. |
+| Removing deprecated LoRA compat shim breaks downstream integrations | Medium | Medium | Announce deprecation timeline; provide migration guide from `LoRAAdapterManager` to `MultiLoRAManager`. |
+
+---
+
+## 6. Related Documents
+
+- `src/llm/README.md` — LLM module overview
+- `src/llm/gguf_loader_README.md` — GGUF quantization loading details
+- `src/llm/llama_lora_adapter_README.md` — LoRA adapter implementation notes
+- `docs/GGUF_SUPPORT.md` — GGUF format support matrix
+- `docs/GRAFANA_METRICS_COMPLETE.md` — Grafana metrics integration history
+- `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` — Grammar implementation summary
+- `docs/aql_roadmap.md` — AQL/LLM subsystem production-readiness (complementary)
+- `docs/llm/FLASH_ATTENTION_ARCHITECTURE.md` — Flash Attention architecture notes
+- `docs/observability/` — Observability configuration guides
+- `docs/TESTING_GUIDE_LLM.md` — LLM testing guide
