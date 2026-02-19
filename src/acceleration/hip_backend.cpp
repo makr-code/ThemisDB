@@ -4,6 +4,11 @@
 
 #include "acceleration/hip_backend.h"
 #include "acceleration/compute_backend.h"
+
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/raii/hip_raii.h"
+#endif
+
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -215,17 +220,14 @@ __global__ void topKSelectionKernel(
 struct HIPBackendImpl {
     bool initialized = false;
     int deviceId = 0;
-    hipStream_t stream = nullptr;
+    raii::HipStream stream;  // RAII-managed stream (automatic cleanup)
     HIPVectorBackend::HIPConfig config;
     
     // Device properties
     hipDeviceProp_t deviceProps;
     
-    ~HIPBackendImpl() {
-        if (initialized && stream) {
-            hipStreamDestroy(stream);
-        }
-    }
+    // Destructor no longer needs manual cleanup - RAII handles it
+    ~HIPBackendImpl() = default;
 };
 
 // ============================================================================
@@ -355,11 +357,11 @@ bool HIPVectorBackend::initialize() {
         std::cout << "  Auto-detected Wave Size: " << impl_->config.waveSize << std::endl;
     }
     
-    // Create stream for async operations
-    hipError_t streamErr = hipStreamCreate(&impl_->stream);
-    if (streamErr != hipSuccess) {
-        std::cerr << "HIP: Failed to create HIP stream" << std::endl;
-        std::cerr << "  Error: " << hipGetErrorString(streamErr) << std::endl;
+    // Create stream for async operations using RAII
+    try {
+        impl_->stream.create();
+    } catch (const std::exception& e) {
+        std::cerr << "HIP: Failed to create HIP stream: " << e.what() << std::endl;
         return false;
     }
     
@@ -369,10 +371,7 @@ bool HIPVectorBackend::initialize() {
 
 void HIPVectorBackend::shutdown() {
     if (impl_->initialized) {
-        if (impl_->stream) {
-            hipStreamDestroy(impl_->stream);
-            impl_->stream = nullptr;
-        }
+        // stream automatically destroyed by RAII
         impl_->initialized = false;
     }
 }
@@ -414,19 +413,19 @@ std::vector<float> HIPVectorBackend::computeDistances(
         );
         
         if (useL2) {
-            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                 d_queries, d_vectors, d_distances,
                 numQueries, numVectors, dim
             );
         } else {
             // Cosine distance kernel (default for non-L2)
-            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                 d_queries, d_vectors, d_distances,
                 numQueries, numVectors, dim
             );
         }
         
-        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
+        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream.get()));
         
         // Copy results back
         std::vector<float> distances(numQueries * numVectors);
@@ -514,19 +513,19 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         
         switch (metric) {
             case DistanceMetric::L2:
-                hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                     d_queries, d_vectors, d_distances,
                     numQueries, numVectors, dim
                 );
                 break;
             case DistanceMetric::COSINE:
-                hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                     d_queries, d_vectors, d_distances,
                     numQueries, numVectors, dim
                 );
                 break;
             case DistanceMetric::INNER_PRODUCT:
-                hipLaunchKernelGGL(computeInnerProductDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                hipLaunchKernelGGL(computeInnerProductDistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                     d_queries, d_vectors, d_distances,
                     numQueries, numVectors, dim
                 );
@@ -537,12 +536,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         int threadsPerBlock = 256;
         int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
-        hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream,
+        hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream.get(),
             d_distances, d_indices, d_topKDistances,
             numQueries, numVectors, effectiveK
         );
         
-        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
+        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream.get()));
         
         // Copy results back
         std::vector<uint32_t> indices(numQueries * effectiveK);

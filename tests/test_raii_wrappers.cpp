@@ -8,6 +8,11 @@
 #include <cuda_runtime.h>
 #endif
 
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/raii/hip_raii.h"
+#include <hip/hip_runtime.h>
+#endif
+
 #ifdef THEMIS_ENABLE_OPENCL
 #include "acceleration/raii/opencl_raii.h"
 #ifdef __APPLE__
@@ -112,6 +117,100 @@ TEST(CudaRAII, DeviceMemoryCopy) {
 }
 
 #endif // THEMIS_ENABLE_CUDA
+
+// ============================================================================
+// HIP RAII Tests
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_HIP
+
+TEST(HipRAII, StreamLifecycle) {
+    int deviceCount = 0;
+    hipError_t err = hipGetDeviceCount(&deviceCount);
+    if (err != hipSuccess || deviceCount == 0) {
+        GTEST_SKIP() << "No HIP devices available";
+    }
+    
+    // Test stream creation and destruction
+    {
+        HipStream stream(true);
+        EXPECT_TRUE(stream.valid());
+        EXPECT_NE(stream.get(), nullptr);
+    }
+    // Stream should be automatically destroyed here
+    
+    std::cout << "  ✓ HIP stream RAII lifecycle works" << std::endl;
+}
+
+TEST(HipRAII, StreamMove) {
+    int deviceCount = 0;
+    if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
+        GTEST_SKIP() << "No HIP devices available";
+    }
+    
+    HipStream stream1(true);
+    EXPECT_TRUE(stream1.valid());
+    
+    // Move construction
+    HipStream stream2(std::move(stream1));
+    EXPECT_FALSE(stream1.valid());
+    EXPECT_TRUE(stream2.valid());
+    
+    // Move assignment
+    HipStream stream3;
+    stream3 = std::move(stream2);
+    EXPECT_FALSE(stream2.valid());
+    EXPECT_TRUE(stream3.valid());
+    
+    std::cout << "  ✓ HIP stream move semantics work" << std::endl;
+}
+
+TEST(HipRAII, DeviceMemoryLifecycle) {
+    int deviceCount = 0;
+    if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
+        GTEST_SKIP() << "No HIP devices available";
+    }
+    
+    // Test memory allocation and deallocation
+    {
+        HipDeviceMemory mem(1024);  // 1KB
+        EXPECT_TRUE(mem.valid());
+        EXPECT_NE(mem.get(), nullptr);
+        EXPECT_EQ(mem.size(), 1024);
+    }
+    // Memory should be automatically freed here
+    
+    std::cout << "  ✓ HIP device memory RAII lifecycle works" << std::endl;
+}
+
+TEST(HipRAII, DeviceMemoryCopy) {
+    int deviceCount = 0;
+    if (hipGetDeviceCount(&deviceCount) != hipSuccess || deviceCount == 0) {
+        GTEST_SKIP() << "No HIP devices available";
+    }
+    
+    const size_t size = 10 * sizeof(float);
+    float hostData[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    float hostResult[10] = {0};
+    
+    HipDeviceMemory mem(size);
+    EXPECT_TRUE(mem.valid());
+    
+    // Copy to device
+    EXPECT_NO_THROW(mem.copyFrom(hostData, size));
+    
+    // Copy back to host
+    EXPECT_NO_THROW(mem.copyTo(hostResult, size));
+    
+    // Verify data integrity
+    for (int i = 0; i < 10; ++i) {
+        EXPECT_EQ(hostResult[i], hostData[i]);
+    }
+    
+    std::cout << "  ✓ HIP device memory copy operations work" << std::endl;
+}
+
+#endif // THEMIS_ENABLE_HIP
 
 // ============================================================================
 // OpenCL RAII Tests

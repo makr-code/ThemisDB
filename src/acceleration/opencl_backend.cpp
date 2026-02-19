@@ -16,6 +16,7 @@
 #else
 #include <CL/cl.h>
 #endif
+#include "acceleration/raii/opencl_raii.h"
 #endif
 
 namespace themis {
@@ -82,23 +83,21 @@ class OpenCLVectorBackend : public IVectorBackend {
 private:
     cl_platform_id platform_ = nullptr;
     cl_device_id device_ = nullptr;
-    cl_context context_ = nullptr;
-    cl_command_queue queue_ = nullptr;
-    cl_program program_ = nullptr;
-    cl_kernel l2Kernel_ = nullptr;
-    cl_kernel cosineKernel_ = nullptr;
+    
+    // RAII-managed OpenCL resources (automatic cleanup)
+    raii::OpenCLContext context_;
+    raii::OpenCLQueue queue_;
+    raii::OpenCLProgram program_;
+    raii::OpenCLKernel l2Kernel_;
+    raii::OpenCLKernel cosineKernel_;
+    
     bool initialized_ = false;
 
 public:
     OpenCLVectorBackend() = default;
     
-    ~OpenCLVectorBackend() {
-        if (l2Kernel_) clReleaseKernel(l2Kernel_);
-        if (cosineKernel_) clReleaseKernel(cosineKernel_);
-        if (program_) clReleaseProgram(program_);
-        if (queue_) clReleaseCommandQueue(queue_);
-        if (context_) clReleaseContext(context_);
-    }
+    // Destructor no longer needs manual cleanup - RAII handles it
+    ~OpenCLVectorBackend() = default;
 
     BackendType type() const noexcept override { return BackendType::OPENCL; }
     
@@ -176,75 +175,62 @@ public:
         std::cout << "  Compute Units: " << computeUnits << std::endl;
         std::cout << "  Global Memory: " << (globalMemSize / (1024*1024*1024)) << " GB" << std::endl;
         
-        // Create context
-        context_ = clCreateContext(nullptr, 1, &device_, nullptr, nullptr, &err);
-        if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create context" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
+        // Create context using RAII
+        try {
+            context_.create(nullptr, 1, &device_);
+        } catch (const std::exception& e) {
+            std::cerr << "OpenCL: Failed to create context: " << e.what() << std::endl;
             return false;
         }
         
-        // Create command queue
-        queue_ = clCreateCommandQueue(context_, device_, 0, &err);
-        if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create command queue" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
-            clReleaseContext(context_);
+        // Create command queue using RAII
+        try {
+            queue_.create(context_.get(), device_);
+        } catch (const std::exception& e) {
+            std::cerr << "OpenCL: Failed to create command queue: " << e.what() << std::endl;
+            // context_ automatically cleaned up by RAII
             return false;
         }
         
-        // Create program
-        const char* source = openclKernelSource;
-        size_t sourceSize = strlen(source);
-        program_ = clCreateProgramWithSource(context_, 1, &source, &sourceSize, &err);
-        if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create program" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
-            clReleaseCommandQueue(queue_);
-            clReleaseContext(context_);
+        // Create program using RAII
+        try {
+            program_.createWithSource(context_.get(), openclKernelSource);
+        } catch (const std::exception& e) {
+            std::cerr << "OpenCL: Failed to create program: " << e.what() << std::endl;
+            // context_ and queue_ automatically cleaned up by RAII
             return false;
         }
         
         // Build program
-        err = clBuildProgram(program_, 1, &device_, nullptr, nullptr, nullptr);
-        if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Kernel compilation failed" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
+        try {
+            program_.build(1, &device_);
+        } catch (const std::exception& e) {
+            std::cerr << "OpenCL: Kernel compilation failed: " << e.what() << std::endl;
             
             size_t logSize;
-            clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize);
-            if (logSize > 0) {
+            if (clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize) == CL_SUCCESS && logSize > 0) {
                 std::vector<char> log(logSize);
-                clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);
+                clGetProgramBuildInfo(program_.get(), device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);
                 std::cerr << "  Build log:" << std::endl;
                 std::cerr << log.data() << std::endl;
             }
             
-            clReleaseProgram(program_);
-            clReleaseCommandQueue(queue_);
-            clReleaseContext(context_);
+            // All resources automatically cleaned up by RAII
             return false;
         }
         
-        // Create kernels
-        l2Kernel_ = clCreateKernel(program_, "computeL2Distance", &err);
-        if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create L2 kernel" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
-            clReleaseProgram(program_);
-            clReleaseCommandQueue(queue_);
-            clReleaseContext(context_);
+        // Create kernels using RAII
+        try {
+            l2Kernel_.create(program_.get(), "computeL2Distance");
+        } catch (const std::exception& e) {
+            std::cerr << "OpenCL: Failed to create L2 kernel: " << e.what() << std::endl;
             return false;
         }
         
-        cosineKernel_ = clCreateKernel(program_, "computeCosineDistance", &err);
-        if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create cosine kernel" << std::endl;
-            std::cerr << "  Error code: " << err << std::endl;
-            clReleaseKernel(l2Kernel_);
-            clReleaseProgram(program_);
-            clReleaseCommandQueue(queue_);
-            clReleaseContext(context_);
+        try {
+            cosineKernel_.create(program_.get(), "computeCosineDistance");
+        } catch (const std::exception& e) {
+            std::cerr << "OpenCL: Failed to create cosine kernel: " << e.what() << std::endl;
             return false;
         }
         
@@ -253,6 +239,7 @@ public:
     }
     
     void shutdown() override {
+        // All resources automatically cleaned up by RAII
         initialized_ = false;
     }
     
@@ -271,19 +258,19 @@ public:
         std::vector<float> distances(resultSize);
         
         // Create buffers
-        cl_mem d_queries = clCreateBuffer(context_, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        cl_mem d_queries = clCreateBuffer(context_.get(), CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
                                           numQueries * dimension * sizeof(float),
                                           const_cast<float*>(queries), &err);
         
-        cl_mem d_vectors = clCreateBuffer(context_, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+        cl_mem d_vectors = clCreateBuffer(context_.get(), CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
                                           numVectors * dimension * sizeof(float),
                                           const_cast<float*>(vectors), &err);
         
-        cl_mem d_distances = clCreateBuffer(context_, CL_MEM_WRITE_ONLY,
+        cl_mem d_distances = clCreateBuffer(context_.get(), CL_MEM_WRITE_ONLY,
                                             resultSize * sizeof(float), nullptr, &err);
         
-        // Select kernel
-        cl_kernel kernel = useL2 ? l2Kernel_ : cosineKernel_;
+        // Select kernel (get raw handle from RAII wrapper)
+        cl_kernel kernel = useL2 ? l2Kernel_.get() : cosineKernel_.get();
         
         // Set kernel arguments
         unsigned int uNumQueries = static_cast<unsigned int>(numQueries);
@@ -299,7 +286,7 @@ public:
         
         // Execute kernel
         size_t globalWorkSize[2] = {numQueries, numVectors};
-        err = clEnqueueNDRangeKernel(queue_, kernel, 2, nullptr, globalWorkSize, nullptr, 0, nullptr, nullptr);
+        err = clEnqueueNDRangeKernel(queue_.get(), kernel, 2, nullptr, globalWorkSize, nullptr, 0, nullptr, nullptr);
         if (err != CL_SUCCESS) {
             std::cerr << "OpenCL: Kernel execution failed: " << err << "\n";
             clReleaseMemObject(d_queries);
@@ -309,7 +296,7 @@ public:
         }
         
         // Read results
-        clEnqueueReadBuffer(queue_, d_distances, CL_TRUE, 0, resultSize * sizeof(float),
+        clEnqueueReadBuffer(queue_.get(), d_distances, CL_TRUE, 0, resultSize * sizeof(float),
                            distances.data(), 0, nullptr, nullptr);
         
         // Cleanup
