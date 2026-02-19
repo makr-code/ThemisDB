@@ -12,14 +12,14 @@ using json = nlohmann::json;
 TEST(ContentErrorTest, DefaultConstruction) {
     ContentError err;
     EXPECT_EQ(err.code, ContentErrorCode::OK);
-    EXPECT_TRUE(err.ok());
+    EXPECT_TRUE(err.isOk());
     EXPECT_FALSE(err.failed());
 }
 
 TEST(ContentErrorTest, OkFactory) {
     auto err = ContentError::ok();
     EXPECT_EQ(err.code, ContentErrorCode::OK);
-    EXPECT_TRUE(err.ok());
+    EXPECT_TRUE(err.isOk());
     EXPECT_FALSE(err.failed());
     EXPECT_EQ(err.getHttpStatus(), 200);
 }
@@ -31,7 +31,7 @@ TEST(ContentErrorTest, ErrorFactory) {
     );
     
     EXPECT_EQ(err.code, ContentErrorCode::CONTENT_SIZE_EXCEEDED);
-    EXPECT_FALSE(err.ok());
+    EXPECT_FALSE(err.isOk());
     EXPECT_TRUE(err.failed());
     EXPECT_EQ(err.message, "File too large");
 }

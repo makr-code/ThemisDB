@@ -86,7 +86,7 @@ struct ContentError {
     /**
      * @brief Check if error represents success
      */
-    bool ok() const { return code == ContentErrorCode::OK; }
+    bool isOk() const { return code == ContentErrorCode::OK; }
     
     /**
      * @brief Check if error represents a failure
