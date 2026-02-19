@@ -928,6 +928,206 @@ TEST_F(RedundancyStrategyTest, RAID6_CollectionSpecific) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// GEO_MIRROR Tests
+// ═══════════════════════════════════════════════════════════
+
+class GeoMirrorTest : public ::testing::Test {
+protected:
+    std::unique_ptr<ConsistentHashRing> ring;
+    std::unique_ptr<ShardTopology> topology;
+    std::unique_ptr<MockShardStorage> storage;
+
+    void SetUp() override {
+        ring = std::make_unique<ConsistentHashRing>(100);
+        topology = std::make_unique<ShardTopology>();
+        storage = std::make_unique<MockShardStorage>();
+
+        // 6 shards spread across 2 regions / 2 zones each
+        for (int i = 0; i < 6; ++i) {
+            ring->addNode("shard-" + std::to_string(i));
+        }
+
+        auto addShard = [&](const std::string& id,
+                            const std::string& region,
+                            const std::string& zone,
+                            bool healthy = true) {
+            ShardInfo info;
+            info.shard_id = id;
+            info.region   = region;
+            info.zone     = zone;
+            info.datacenter = region;
+            info.is_healthy = healthy;
+            topology->addShard(info);
+        };
+
+        addShard("shard-0", "us-east", "us-east-1a");
+        addShard("shard-1", "us-east", "us-east-1b");
+        addShard("shard-2", "us-east", "us-east-1c");
+        addShard("shard-3", "eu-west", "eu-west-1a");
+        addShard("shard-4", "eu-west", "eu-west-1b");
+        addShard("shard-5", "eu-west", "eu-west-1c");
+    }
+
+    void TearDown() override {
+        storage.reset();
+        topology.reset();
+        ring.reset();
+    }
+
+    RedundancyStrategy::WriteHandler createWriteHandler() {
+        return [this](const std::string& shard_id, const std::string& doc_id,
+                     const std::vector<uint8_t>& data) {
+            return storage->write(shard_id, doc_id, data);
+        };
+    }
+
+    RedundancyStrategy::ReadHandler createReadHandler() {
+        return [this](const std::string& shard_id, const std::string& doc_id) {
+            return storage->read(shard_id, doc_id);
+        };
+    }
+};
+
+TEST_F(GeoMirrorTest, BasicWriteAndRead) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::MAJORITY;
+    config.geo_replication.local_region = "us-east";
+    config.geo_replication.read_preference = ReadPreference::LOCAL_REGION;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'G', 'e', 'o', 'D', 'a', 't', 'a'};
+
+    auto wr = strategy.write("geo-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+    EXPECT_FALSE(wr.written_shards.empty());
+
+    auto rr = strategy.read("geo-doc1", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, RegionQuorumMet) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::MAJORITY;
+    // Require 1 ack in each region
+    config.geo_replication.region_write_quorums = {{"us-east", 1}, {"eu-west", 1}};
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data(64, 0xAB);
+
+    auto wr = strategy.write("geo-quorum-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+}
+
+TEST_F(GeoMirrorTest, FollowerReadPreference) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+    config.geo_replication.read_preference = ReadPreference::FOLLOWER;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'F', 'o', 'l', 'l', 'o', 'w'};
+
+    auto wr = strategy.write("follower-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    auto rr = strategy.read("follower-doc", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, LocalRegionReadPreference) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+    config.geo_replication.local_region = "eu-west";
+    config.geo_replication.read_preference = ReadPreference::LOCAL_REGION;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'L', 'o', 'c', 'a', 'l'};
+
+    auto wr = strategy.write("local-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    auto rr = strategy.read("local-doc", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, GeoFailoverExcludesFailedRegion) {
+    // Mark all eu-west shards as unhealthy to trigger failover
+    topology->updateHealth("shard-3", false);
+    topology->updateHealth("shard-4", false);
+    topology->updateHealth("shard-5", false);
+
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::MAJORITY;
+    config.geo_replication.enable_geo_failover = true;
+    config.geo_replication.region_failure_threshold = 0.5;
+    config.geo_replication.local_region = "us-east";
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'F', 'a', 'i', 'l', 'O', 'v', 'e', 'r'};
+
+    auto wr = strategy.write("failover-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    // All writes should go to us-east (eu-west is failed-out)
+    for (const auto& shard_id : wr.written_shards) {
+        auto info = topology->getShard(shard_id);
+        if (info) {
+            EXPECT_NE(info->region, "eu-west");
+        }
+    }
+}
+
+TEST_F(GeoMirrorTest, TopologyRegionQuery) {
+    auto regions = topology->getRegions();
+    ASSERT_EQ(regions.size(), 2u);
+    EXPECT_EQ(regions[0], "eu-west");
+    EXPECT_EQ(regions[1], "us-east");
+
+    auto us_shards = topology->getShardsInRegion("us-east");
+    EXPECT_EQ(us_shards.size(), 3u);
+
+    auto eu_shards = topology->getShardsInRegion("eu-west");
+    EXPECT_EQ(eu_shards.size(), 3u);
+
+    EXPECT_TRUE(topology->regionHasQuorum("us-east", 2));
+    EXPECT_FALSE(topology->regionHasQuorum("us-east", 10));
+}
+
+TEST_F(GeoMirrorTest, TopologyHealthyShardsInRegion) {
+    topology->updateHealth("shard-3", false);
+
+    auto healthy_eu = topology->getHealthyShardsInRegion("eu-west");
+    EXPECT_EQ(healthy_eu.size(), 2u);
+
+    auto healthy_us = topology->getHealthyShardsInRegion("us-east");
+    EXPECT_EQ(healthy_us.size(), 3u);
+}
+
+TEST_F(GeoMirrorTest, ShardInfoHasRegionAndZone) {
+    auto info = topology->getShard("shard-0");
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->region, "us-east");
+    EXPECT_EQ(info->zone, "us-east-1a");
+
+    auto info2 = topology->getShard("shard-5");
+    ASSERT_TRUE(info2.has_value());
+    EXPECT_EQ(info2->region, "eu-west");
+    EXPECT_EQ(info2->zone, "eu-west-1c");
+}
+
+// ═══════════════════════════════════════════════════════════
 // Stress Tests
 // ═══════════════════════════════════════════════════════════
 

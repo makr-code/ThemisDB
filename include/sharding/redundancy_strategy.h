@@ -69,7 +69,9 @@ enum class ReadPreference {
     NEAREST,        // Read from nearest replica (latency-based)
     ROUND_ROBIN,    // Load-balance across all replicas
     RANDOM,         // Random replica selection
-    SECONDARY_ONLY  // Only read from secondaries
+    SECONDARY_ONLY, // Only read from secondaries
+    FOLLOWER,       // Follower-reads (any follower, possibly stale)
+    LOCAL_REGION    // Prefer shards in the local region (geo-locality)
 };
 
 /**
@@ -119,22 +121,50 @@ struct ErasureCodingConfig {
 struct GeoReplicationConfig {
     std::string primary_datacenter;
     std::vector<std::string> replica_datacenters;
-    
+
+    // Region/zone placement: map from region name to list of allowed shard IDs
+    // Empty map means no placement constraint (any shard is acceptable)
+    std::map<std::string, std::vector<std::string>> region_shards;
+
+    // Per-region minimum quorum for writes (region -> required acks)
+    // E.g. {{"us-east", 2}, {"eu-west", 1}} means 2 acks in us-east AND 1 in eu-west
+    std::map<std::string, uint32_t> region_write_quorums;
+
+    // Per-region minimum quorum for reads (region -> required acks)
+    std::map<std::string, uint32_t> region_read_quorums;
+
+    // Local region for this node (used for LOCAL_REGION read preference)
+    std::string local_region;
+
     enum class ReplicationMode {
         SYNC,       // Synchronous (high latency, strong consistency)
         SEMI_SYNC,  // Wait for at least one remote DC
         ASYNC       // Asynchronous (low latency, eventual consistency)
     } replication_mode = ReplicationMode::ASYNC;
-    
+
     ConflictResolution conflict_resolution = ConflictResolution::LAST_WRITE_WINS;
     ReadPreference read_preference = ReadPreference::NEAREST;
-    
+
+    // Bounded-staleness: maximum acceptable replication lag for follower reads (ms)
+    // 0 = no bound (pure follower/async reads)
+    uint32_t max_staleness_ms = 0;
+
     // Maximum replication lag before alerts (milliseconds)
     uint32_t max_lag_ms = 10000;
-    
+
     // Local datacenter optimization
     bool prefer_local_reads = true;
     bool prefer_local_writes = false;  // Only for ASYNC mode
+
+    // Geo-failover: automatically exclude regions that have too many unhealthy shards
+    bool enable_geo_failover = false;
+
+    // Minimum fraction of healthy shards in a region before it is considered failed
+    // E.g. 0.5 means a region is failed-out if <50% of its shards are healthy
+    double region_failure_threshold = 0.5;
+
+    // Regions currently marked as failed-out (populated at runtime, not set by user)
+    mutable std::vector<std::string> failed_regions;
 };
 
 /**
@@ -576,6 +606,13 @@ private:
         ShardTopology& topology,
         ReadHandler handler
     );
+
+    ReadResult readGeoMirror(
+        const std::string& document_id,
+        ConsistentHashRing& ring,
+        ShardTopology& topology,
+        ReadHandler handler
+    );
     
     ReadResult readStripe(
         const std::string& document_id,
@@ -605,6 +642,17 @@ private:
         const std::vector<std::string>& available_shards,
         ShardTopology& topology
     );
+
+    // Select the best shard from candidates, preferring shards in local_region
+    // when config is GEO_MIRROR with LOCAL_REGION or FOLLOWER read preference.
+    std::string selectGeoReadShard(
+        const std::vector<std::string>& candidates,
+        ShardTopology& topology,
+        const std::string& local_region
+    );
+
+    // Evaluate geo-failover: mark regions as failed-out based on health thresholds
+    void evaluateGeoFailover(ShardTopology& topology) const;
     
     bool waitForWriteConcern(
         const std::vector<std::future<bool>>& futures,

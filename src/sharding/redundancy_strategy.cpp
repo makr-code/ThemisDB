@@ -669,8 +669,10 @@ WriteResult RedundancyStrategy::write(
                 result = writeMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::MIRROR:
-            case RedundancyMode::GEO_MIRROR:
                 result = writeMirror(document_id, data, ring, topology, handler);
+                break;
+            case RedundancyMode::GEO_MIRROR:
+                result = writeGeoMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
                 result = writeStripe(document_id, data, ring, topology, handler);
@@ -715,8 +717,10 @@ ReadResult RedundancyStrategy::read(
         switch (config_.mode) {
             case RedundancyMode::NONE:
             case RedundancyMode::MIRROR:
-            case RedundancyMode::GEO_MIRROR:
                 result = readMirror(document_id, ring, topology, handler);
+                break;
+            case RedundancyMode::GEO_MIRROR:
+                result = readGeoMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
             case RedundancyMode::STRIPE_MIRROR:
@@ -1125,14 +1129,246 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    // Similar to mirror but considers geographic distribution
-    // For now, delegate to writeMirror
-    return writeMirror(document_id, data, ring, topology, handler);
+    const auto& geo = config_.geo_replication;
+
+    // Run geo-failover evaluation if enabled
+    if (geo.enable_geo_failover) {
+        evaluateGeoFailover(topology);
+    }
+
+    // Collect candidate shards (primary + replicas)
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        return WriteResult::failed(document_id, "No primary shard available");
+    }
+
+    std::vector<std::string> candidates;
+    candidates.push_back(*primary_opt);
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    candidates.insert(candidates.end(), replicas.begin(), replicas.end());
+
+    // If region_shards placement is configured, build the ordered write targets
+    // by consulting region_write_quorums; fall through to mirror logic if not set.
+    std::vector<std::string> target_shards;
+
+    if (!geo.region_shards.empty() || !geo.region_write_quorums.empty()) {
+        // Build region->candidates mapping from the ring candidates
+        std::map<std::string, std::vector<std::string>> region_candidates;
+        for (const auto& shard_id : candidates) {
+            auto shard_info = topology.getShard(shard_id);
+            std::string region = shard_info ? shard_info->region : "";
+            region_candidates[region].push_back(shard_id);
+        }
+
+        // Prioritise local-region shards first, then remote
+        if (!geo.local_region.empty()) {
+            auto it = region_candidates.find(geo.local_region);
+            if (it != region_candidates.end()) {
+                for (const auto& s : it->second) target_shards.push_back(s);
+            }
+        }
+        for (const auto& [region, shards] : region_candidates) {
+            if (region == geo.local_region) continue;
+            // Skip failed regions
+            bool failed = false;
+            for (const auto& fr : geo.failed_regions) {
+                if (fr == region) { failed = true; break; }
+            }
+            if (!failed) {
+                for (const auto& s : shards) target_shards.push_back(s);
+            }
+        }
+    } else {
+        target_shards = candidates;
+    }
+
+    if (target_shards.empty()) {
+        return WriteResult::failed(document_id, "No healthy shards available after geo-failover");
+    }
+
+    // Perform writes in parallel
+    std::vector<std::future<bool>> futures;
+    futures.reserve(target_shards.size());
+    for (const auto& shard_id : target_shards) {
+        futures.push_back(std::async(std::launch::async, [&handler, &shard_id, &document_id, &data]() {
+            return handler(shard_id, document_id, data);
+        }));
+    }
+
+    std::vector<std::string> written_shards, failed_shards;
+    uint32_t successful = 0;
+    for (size_t i = 0; i < futures.size(); ++i) {
+        try {
+            auto status = futures[i].wait_for(config_.replication_timeout);
+            if (status != std::future_status::ready) {
+                spdlog::warn("GEO_MIRROR: write to shard {} timed out", target_shards[i]);
+                failed_shards.push_back(target_shards[i]);
+                continue;
+            }
+            if (futures[i].get()) {
+                written_shards.push_back(target_shards[i]);
+                successful++;
+            } else {
+                failed_shards.push_back(target_shards[i]);
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("GEO_MIRROR: write to shard {} failed: {}", target_shards[i], e.what());
+            failed_shards.push_back(target_shards[i]);
+        }
+    }
+
+    // Check per-region quorums if configured
+    if (!geo.region_write_quorums.empty()) {
+        for (const auto& [region, required] : geo.region_write_quorums) {
+            // Skip regions that have been failed-out
+            bool region_failed = false;
+            for (const auto& fr : geo.failed_regions) {
+                if (fr == region) { region_failed = true; break; }
+            }
+            if (region_failed) continue;
+
+            uint32_t region_acks = 0;
+            for (const auto& shard_id : written_shards) {
+                auto info = topology.getShard(shard_id);
+                if (info && info->region == region) ++region_acks;
+            }
+            if (region_acks < required) {
+                WriteResult r;
+                r.success = false;
+                r.document_id = document_id;
+                r.written_shards = written_shards;
+                r.failed_shards = failed_shards;
+                r.acknowledgements = successful;
+                r.error_message = "Geo-quorum not met for region: " + region;
+                return r;
+            }
+        }
+    }
+
+    // Fall back to global write-concern check
+    bool success = false;
+    switch (config_.write_concern) {
+        case WriteConcern::ONE:
+            success = successful >= 1;
+            break;
+        case WriteConcern::MAJORITY:
+            success = successful > (target_shards.size() / 2);
+            break;
+        case WriteConcern::ALL:
+            success = successful == target_shards.size();
+            break;
+        case WriteConcern::QUORUM:
+            success = successful >= config_.write_quorum;
+            break;
+    }
+
+    if (success) {
+        return WriteResult::successful(document_id, written_shards, std::chrono::milliseconds(0));
+    }
+    WriteResult r;
+    r.success = false;
+    r.document_id = document_id;
+    r.written_shards = written_shards;
+    r.failed_shards = failed_shards;
+    r.acknowledgements = successful;
+    r.error_message = "Write concern not met";
+    return r;
 }
 
 // ═══════════════════════════════════════════════════════════
 // Internal Read Methods
 // ═══════════════════════════════════════════════════════════
+
+ReadResult RedundancyStrategy::readGeoMirror(
+    const std::string& document_id,
+    ConsistentHashRing& ring,
+    ShardTopology& topology,
+    ReadHandler handler
+) {
+    const auto& geo = config_.geo_replication;
+
+    // Run geo-failover evaluation if enabled
+    if (geo.enable_geo_failover) {
+        evaluateGeoFailover(topology);
+    }
+
+    // Collect all replica candidates
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        ReadResult r;
+        r.success = false;
+        r.error_message = "No shard available";
+        return r;
+    }
+
+    std::vector<std::string> candidates;
+    candidates.push_back(*primary_opt);
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    candidates.insert(candidates.end(), replicas.begin(), replicas.end());
+
+    // Remove candidates that belong to failed-out regions
+    if (!geo.failed_regions.empty()) {
+        candidates.erase(
+            std::remove_if(candidates.begin(), candidates.end(),
+                [&](const std::string& sid) {
+                    auto info = topology.getShard(sid);
+                    if (!info) return false;
+                    for (const auto& fr : geo.failed_regions) {
+                        if (info->region == fr) return true;
+                    }
+                    return false;
+                }),
+            candidates.end());
+    }
+
+    if (candidates.empty()) {
+        ReadResult r;
+        r.success = false;
+        r.error_message = "No healthy shards available after geo-failover";
+        return r;
+    }
+
+    // Select shard based on read preference
+    std::string selected_shard;
+    const auto pref = geo.read_preference;
+    if (pref == ReadPreference::LOCAL_REGION || pref == ReadPreference::FOLLOWER) {
+        selected_shard = selectGeoReadShard(candidates, topology, geo.local_region);
+    } else {
+        selected_shard = selectReadShard(candidates, topology);
+    }
+
+    auto data_opt = handler(selected_shard, document_id);
+
+    ReadResult result;
+    result.document_id = document_id;
+    result.source_shard = selected_shard;
+    result.from_replica = (selected_shard != *primary_opt);
+    result.chunks_read = 1;
+
+    if (data_opt) {
+        result.success = true;
+        result.data = std::string(data_opt->begin(), data_opt->end());
+    } else {
+        // Bounded-staleness / follower-read fallback: try remaining candidates
+        result.success = false;
+        for (const auto& shard_id : candidates) {
+            if (shard_id == selected_shard) continue;
+            data_opt = handler(shard_id, document_id);
+            if (data_opt) {
+                result.success = true;
+                result.data = std::string(data_opt->begin(), data_opt->end());
+                result.source_shard = shard_id;
+                result.from_replica = (shard_id != *primary_opt);
+                break;
+            }
+        }
+        if (!result.success) {
+            result.error_message = "Failed to read from any geo-replica";
+        }
+    }
+
+    return result;
+}
 
 ReadResult RedundancyStrategy::readMirror(
     const std::string& document_id,
@@ -1351,9 +1587,93 @@ std::string RedundancyStrategy::selectReadShard(
                 return available_shards[1];
             }
             return available_shards[0];
-            
+
+        case ReadPreference::FOLLOWER:
+            // Any follower (non-primary); fall through to second shard if available
+            if (available_shards.size() > 1) {
+                return available_shards[1];
+            }
+            return available_shards[0];
+
+        case ReadPreference::LOCAL_REGION:
+            // Prefer local region; handled by selectGeoReadShard - fall back to first
+            return available_shards[0];
+
         default:
             return available_shards[0];
+    }
+}
+
+std::string RedundancyStrategy::selectGeoReadShard(
+    const std::vector<std::string>& candidates,
+    ShardTopology& topology,
+    const std::string& local_region
+) {
+    if (candidates.empty()) {
+        throw std::runtime_error("No available shards");
+    }
+
+    if (!local_region.empty()) {
+        // Prefer healthy shards in local_region
+        for (const auto& shard_id : candidates) {
+            auto info = topology.getShard(shard_id);
+            if (info && info->region == local_region && info->is_healthy) {
+                return shard_id;
+            }
+        }
+        // Fall back: any shard in local_region (even if unhealthy marker not yet updated)
+        for (const auto& shard_id : candidates) {
+            auto info = topology.getShard(shard_id);
+            if (info && info->region == local_region) {
+                return shard_id;
+            }
+        }
+    }
+
+    // No local-region shard found – return nearest healthy candidate
+    for (const auto& shard_id : candidates) {
+        auto info = topology.getShard(shard_id);
+        if (info && info->is_healthy) {
+            return shard_id;
+        }
+    }
+
+    return candidates[0];
+}
+
+void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
+    const auto& geo = config_.geo_replication;
+    const auto regions = topology.getRegions();
+
+    for (const auto& region : regions) {
+        const auto all_shards = topology.getShardsInRegion(region);
+        if (all_shards.empty()) continue;
+
+        const auto healthy = topology.getHealthyShardsInRegion(region);
+        double healthy_fraction = static_cast<double>(healthy.size()) /
+                                  static_cast<double>(all_shards.size());
+
+        bool already_failed = false;
+        for (const auto& fr : geo.failed_regions) {
+            if (fr == region) { already_failed = true; break; }
+        }
+
+        if (healthy_fraction < geo.region_failure_threshold) {
+            if (!already_failed) {
+                spdlog::warn("GEO_MIRROR: region '{}' is below failure threshold "
+                             "({:.0f}% healthy), marking as failed-out", region,
+                             healthy_fraction * 100.0);
+                geo.failed_regions.push_back(region);
+            }
+        } else {
+            // Recover the region if it has come back above the threshold
+            if (already_failed) {
+                spdlog::info("GEO_MIRROR: region '{}' has recovered ({:.0f}% healthy), "
+                             "removing from failed list", region, healthy_fraction * 100.0);
+                auto& fr = geo.failed_regions;
+                fr.erase(std::remove(fr.begin(), fr.end(), region), fr.end());
+            }
+        }
     }
 }
 
