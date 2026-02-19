@@ -201,7 +201,7 @@ TEST(ContentErrorTest, ToJsonVerbose) {
     EXPECT_EQ(j["content_id"], "content-abc123");
     EXPECT_EQ(j["category"], "processing");
     EXPECT_EQ(j["http_status"], 500);
-    EXPECT_TRUE(j["retryable"].get<bool>() == false);
+    EXPECT_FALSE(j["retryable"].get<bool>());
     EXPECT_TRUE(j["server_error"].get<bool>());
 }
 

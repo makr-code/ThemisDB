@@ -309,7 +309,7 @@ ContentCategory ContentValidator::mimeToCategory(const std::string& mime_type) c
     if (mime_type.find("text/") == 0) return ContentCategory::TEXT;
     if (mime_type.find("image/") == 0) return ContentCategory::IMAGE;
     if (mime_type.find("audio/") == 0) return ContentCategory::AUDIO;
-    if (mime_type.find("video/") == 0) return ContentCategory::AUDIO;  // Using AUDIO category for now
+    if (mime_type.find("video/") == 0) return ContentCategory::VIDEO;
     if (mime_type == "application/json" || mime_type == "application/xml") return ContentCategory::STRUCTURED;
     return ContentCategory::BINARY;
 }
