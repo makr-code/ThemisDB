@@ -73,6 +73,14 @@ The CHIMERA Suite is a comprehensive benchmark framework designed for evaluating
 
 ## Key Features
 
+### 🧪 Comprehensive Test Coverage (68 Tests)
+- ✓ **Multi-Model Database Operations**: Full coverage of relational, vector, graph, document, and hybrid workloads
+- ✓ **RAG Pipeline Testing**: Retrieval, generation, and end-to-end RAG workflows
+- ✓ **LLM-as-Judge Evaluation**: Faithfulness, relevance, hallucination detection, citation quality
+- ✓ **Ethical AI Guardrails**: Autonomy, bias detection, citation ethics, VETO capability
+- ✓ **RAG Metrics**: Context precision/recall, answer faithfulness/relevance, toxicity checks
+- ✓ **Statistical Framework**: All statistical methods validated with unit tests
+
 ### 🎨 Vendor-Neutral Design
 - ✓ **Color-Blind Friendly Palettes**: Uses Okabe-Ito and Paul Tol color schemes
 - ✓ **No Vendor Bias**: Systems sorted alphabetically or by metric value only
@@ -96,6 +104,14 @@ The CHIMERA Suite is a comprehensive benchmark framework designed for evaluating
 - ✓ Proper citations for all statistical methods
 - ✓ References to color accessibility research
 - ✓ Benchmark standard citations (TPC-C, TPC-H, YCSB)
+
+### 🤖 LLM/RAG/Ethics Evaluation
+- ✓ **RAG Pipeline Support**: End-to-end retrieval-augmented generation testing
+- ✓ **LLM-as-Judge**: Automated quality assessment (faithfulness, relevance, hallucination detection)
+- ✓ **Ethics Compliance**: IEEE P7000-aligned ethical AI evaluation (autonomy, bias, transparency)
+- ✓ **RAG Metrics**: RAGBench and RAGAS-style evaluation metrics
+- ✓ **Citation Quality**: Proper attribution and plagiarism detection
+- ✓ **Toxicity Screening**: Content safety and bias detection
 
 ## Installation
 
@@ -343,11 +359,49 @@ IEEE citation manager.
 
 ## Testing
 
-Run the test suite:
+The CHIMERA Suite includes comprehensive test coverage for all components:
 
+### Test Suites
+
+1. **test_chimera.py** - Core framework tests (22 tests)
+   - Statistical analysis (descriptive stats, outlier removal, t-tests, Mann-Whitney U, Cohen's d, confidence intervals)
+   - Color-blind friendly palettes (Okabe-Ito, Tol palettes, sequential/diverging colors)
+   - IEEE citation management
+   - Report generation (HTML, CSV)
+
+2. **test_database_adapters.py** - Multi-model database adapter tests (28 tests)
+   - Relational CRUD operations (connect, insert, batch insert, queries)
+   - Vector search operations (kNN, ANN, metadata filtering, distance metrics)
+   - Graph traversal (node/edge insertion, shortest path, BFS traversal, edge filters)
+   - Transaction management (begin, commit, rollback, isolation levels)
+   - Hybrid workloads (cross-model operations, transactions spanning multiple models)
+   - Capability discovery and error handling
+
+3. **test_llm_rag_ethics.py** - LLM/RAG/Ethics evaluation tests (18 tests)
+   - RAG pipeline (retrieval, generation, end-to-end)
+   - LLM-as-judge evaluation (faithfulness, relevance, hallucination detection, citation quality)
+   - Ethical AI evaluation (autonomy, bias detection, citation ethics, VETO capability)
+   - RAG metrics (context precision/recall, answer faithfulness/relevance, toxicity)
+   - Comprehensive ethics evaluation workflow
+
+### Running Tests
+
+Run all tests:
 ```bash
 cd benchmarks/chimera
-pytest test_chimera.py -v
+pytest test_chimera.py test_database_adapters.py test_llm_rag_ethics.py -v
+```
+
+Run specific test suite:
+```bash
+pytest test_chimera.py -v                  # Core framework tests
+pytest test_database_adapters.py -v        # Database adapter tests
+pytest test_llm_rag_ethics.py -v           # LLM/RAG/Ethics tests
+```
+
+Run with coverage:
+```bash
+pytest --cov=. --cov-report=html
 ```
 
 ## Neutrality Documentation
@@ -375,21 +429,51 @@ The linter checks for:
 
 ## References
 
+### Statistical Methods
+
 1. **Cohen, J. (1988)**. Statistical Power Analysis for the Behavioral Sciences. Lawrence Erlbaum Associates.
 
 2. **Mann, H. B., & Whitney, D. R. (1947)**. On a test of whether one of two random variables is stochastically larger than the other. The Annals of Mathematical Statistics, 18(1), 50-60.
 
 3. **Welch, B. L. (1947)**. The generalization of 'Student's' problem when several different population variances are involved. Biometrika, 34(1-2), 28-35.
 
-4. **Okabe, M., & Ito, K. (2008)**. Color Universal Design (CUD). J*FLY. https://jfly.uni-koeln.de/color/
+4. **Tukey, J. W. (1977)**. Exploratory Data Analysis. Addison-Wesley.
 
-5. **Tol, P. (2021)**. Colour Schemes. Personal webpage. https://personal.sron.nl/~pault/
+### Color Accessibility
 
-6. **Tukey, J. W. (1977)**. Exploratory Data Analysis. Addison-Wesley.
+5. **Okabe, M., & Ito, K. (2008)**. Color Universal Design (CUD). J*FLY. https://jfly.uni-koeln.de/color/
 
-7. **IEEE Std 730-2014**. IEEE Standard for Software Quality Assurance Processes.
+6. **Tol, P. (2021)**. Colour Schemes. Personal webpage. https://personal.sron.nl/~pault/
 
-8. **IEEE Std 1012-2016**. IEEE Standard for System, Software, and Hardware Verification and Validation.
+### RAG and LLM Evaluation
+
+7. **Es, S., James, J., Espinosa-Anke, L., & Schockaert, S. (2023)**. RAGAS: Automated Evaluation of Retrieval Augmented Generation. arXiv:2309.15217. https://arxiv.org/abs/2309.15217
+
+8. **Chen, J., Lin, H., Han, X., & Sun, L. (2024)**. Benchmarking Large Language Models in Retrieval-Augmented Generation. In Proceedings of AAAI 2024. arXiv:2407.11005. https://arxiv.org/abs/2407.11005
+
+9. **Liu, N. F., Lin, K., Hewitt, J., Paranjape, A., Bevilacqua, M., Petroni, F., & Liang, P. (2023)**. Lost in the Middle: How Language Models Use Long Contexts. arXiv:2307.03172. https://arxiv.org/abs/2307.03172
+
+10. **Gao, Y., Xiong, Y., Gao, X., Jia, K., Pan, J., Bi, Y., ... & Wang, H. (2023)**. Retrieval-Augmented Generation for Large Language Models: A Survey. arXiv:2312.10997. https://arxiv.org/abs/2312.10997
+
+### Ethical AI Standards
+
+11. **IEEE P7000™**. Model Process for Addressing Ethical Concerns During System Design. IEEE Standards Association. https://standards.ieee.org/project/7000.html
+
+12. **IEEE P7001™**. Transparency of Autonomous Systems. IEEE Standards Association.
+
+13. **Jobin, A., Ienca, M., & Vayena, E. (2019)**. The global landscape of AI ethics guidelines. Nature Machine Intelligence, 1(9), 389-399.
+
+14. **Hagendorff, T. (2020)**. The Ethics of AI Ethics: An Evaluation of Guidelines. Minds and Machines, 30(1), 99-120.
+
+### Database Benchmarking Standards
+
+15. **Gray, J. (1993)**. The Benchmark Handbook for Database and Transaction Systems. Morgan Kaufmann.
+
+16. **Cooper, B. F., Silberstein, A., Tam, E., Ramakrishnan, R., & Sears, R. (2010)**. Benchmarking cloud serving systems with YCSB. In Proceedings of the 1st ACM symposium on Cloud computing (pp. 143-154).
+
+17. **IEEE Std 730-2014**. IEEE Standard for Software Quality Assurance Processes.
+
+18. **IEEE Std 1012-2016**. IEEE Standard for System, Software, and Hardware Verification and Validation.
 
 ## License
 
