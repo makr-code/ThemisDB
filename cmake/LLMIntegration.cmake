@@ -70,6 +70,11 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/cot_evaluator.cpp
         ../src/rag/geval_evaluator.cpp
         
+        # RAG Enhancement: Quality Control Pipeline (Phase 5)
+        ../src/rag/llm_judge_client.cpp
+        ../src/rag/nli_faithfulness_verifier.cpp
+        ../src/rag/quality_control_pipeline.cpp
+        
         # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
         ../src/llm/lora_framework/adapter_consistency_checker.cpp
         ../src/llm/lora_framework/adapter_sync_manager.cpp
