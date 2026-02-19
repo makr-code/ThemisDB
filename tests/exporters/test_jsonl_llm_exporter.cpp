@@ -2,10 +2,12 @@
 #include "exporters/jsonl_llm_exporter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "utils/error_registry.h"
 #include "storage/base_entity.h"
 #include <fstream>
 #include <filesystem>
 #include <nlohmann/json.hpp>
+#include <ctime>
 
 using namespace themis::exporters;
 using namespace themis;
@@ -14,8 +16,9 @@ using json = nlohmann::json;
 class JSONLLLMExporterTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Create test output directory
-        test_dir_ = "/tmp/themis_exporter_test";
+        // Create test output directory with unique name
+        auto temp_base = std::filesystem::temp_directory_path();
+        test_dir_ = temp_base / ("themis_exporter_test_" + std::to_string(std::time(nullptr)));
         std::filesystem::create_directories(test_dir_);
         
         // Create test entities
@@ -159,7 +162,10 @@ TEST_F(JSONLLLMExporterTest, IOErrorHandling) {
     
     // Should have errors
     EXPECT_GT(stats.errors.size(), 0);
-    EXPECT_TRUE(stats.errors[0].find("9301") != std::string::npos); // ERR_EXPORT_IO_ERROR
+    
+    // Verify error code is ERR_EXPORT_IO_ERROR
+    auto error_code_str = std::to_string(static_cast<int>(themis::errors::ErrorCode::ERR_EXPORT_IO_ERROR));
+    EXPECT_TRUE(stats.errors[0].find(error_code_str) != std::string::npos);
 }
 
 TEST_F(JSONLLLMExporterTest, ContinueOnError) {

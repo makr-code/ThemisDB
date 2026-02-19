@@ -46,6 +46,9 @@ void ExporterMetrics::reset() {
 
 void ExporterMetrics::recordExport(size_t entity_count, size_t bytes_written,
                                    std::chrono::milliseconds duration) {
+    // Lock to ensure consistent state across multiple atomics
+    std::lock_guard<std::mutex> lock(mutex_);
+    
     total_exports_++;
     total_entities_ += entity_count;
     total_bytes_ += bytes_written;
