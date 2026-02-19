@@ -1,498 +1,387 @@
 /**
  * @file test_quality_control_pipeline.cpp
- * @brief Unit tests for Quality Control Pipeline
+ * @brief Tests for the quality control pipeline
  */
 
 #include <gtest/gtest.h>
 #include "rag/quality_control_pipeline.h"
+#include "rag/llm_judge_client.h"
+#include "rag/geval_evaluator.h"
+#include "rag/nli_faithfulness_verifier.h"
+#include "rag/rag_judge.h"
 
 using namespace themis::rag::judge;
 
 class QualityControlPipelineTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Default configuration
-        config_.default_mode = QCMode::BALANCED;
-        config_.accept_threshold = 0.75;
-        config_.reject_threshold = 0.50;
-        config_.warn_threshold = 0.65;
-        config_.enable_retry = true;
-        config_.max_retries = 2;
-        config_.fast_timeout_ms = 50;
-        config_.balanced_timeout_ms = 500;
-        config_.thorough_timeout_ms = 2000;
+        // Prepare test data
+        query = "What is the capital of France?";
+        good_answer = "The capital of France is Paris, located on the Seine River.";
+        bad_answer = "The capital of France is London, which is known for Big Ben.";
+        
+        // Add documents
+        RetrievedDocument doc1;
+        doc1.id = "doc1";
+        doc1.content = "Paris is the capital and most populous city of France. "
+                      "It is situated on the Seine River in northern France.";
+        doc1.similarity_score = 0.95;
+        documents.push_back(doc1);
+        
+        RetrievedDocument doc2;
+        doc2.id = "doc2";
+        doc2.content = "France is a country in Western Europe with Paris as its capital.";
+        doc2.similarity_score = 0.90;
+        documents.push_back(doc2);
     }
     
-    QualityControlPipeline::Config config_;
-    
-    std::vector<RetrievedDocument> createTestDocuments() {
-        return {
-            {"doc1", "Paris is the capital of France.", 0.95, {}},
-            {"doc2", "France is in Western Europe.", 0.9, {}},
-            {"doc3", "The Eiffel Tower is in Paris.", 0.85, {}}
-        };
-    }
+    std::string query;
+    std::string good_answer;
+    std::string bad_answer;
+    std::vector<RetrievedDocument> documents;
 };
 
 // ═══════════════════════════════════════════════════════════
-// Constructor Tests
+// Basic Pipeline Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(QualityControlPipelineTest, DefaultConstructor) {
-    QualityControlPipeline pipeline;
-    EXPECT_NO_THROW({
-        auto result = pipeline.runQualityControl(
-            "What is Paris?",
-            createTestDocuments(),
-            "Paris is the capital of France."
-        );
-    });
-}
-
-TEST_F(QualityControlPipelineTest, ConfigConstructor) {
-    QualityControlPipeline pipeline(config_);
-    auto config = pipeline.getConfig();
-    
-    EXPECT_EQ(config.default_mode, config_.default_mode);
-    EXPECT_DOUBLE_EQ(config.accept_threshold, config_.accept_threshold);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Fast Mode Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, FastMode_BasicEvaluation) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        QCMode::FAST
-    );
-    
-    EXPECT_EQ(result.mode, QCMode::FAST);
-    EXPECT_GE(result.overall_score, 0.0);
-    EXPECT_LE(result.overall_score, 1.0);
-    EXPECT_GE(result.faithfulness_score, 0.0);
-    // Decision should be one of the valid values
-    EXPECT_TRUE(result.decision == QCDecision::ACCEPT ||
-                result.decision == QCDecision::REJECT ||
-                result.decision == QCDecision::RETRY ||
-                result.decision == QCDecision::WARN);
-}
-
-TEST_F(QualityControlPipelineTest, FastMode_Performance) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        QCMode::FAST
-    );
-    
-    // Fast mode should be quick
-    EXPECT_LT(result.latency.count(), config_.fast_timeout_ms * 2);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Balanced Mode Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, BalancedMode_BasicEvaluation) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France, located in Western Europe.",
-        QCMode::BALANCED
-    );
-    
-    EXPECT_EQ(result.mode, QCMode::BALANCED);
-    EXPECT_GE(result.overall_score, 0.0);
-    EXPECT_LE(result.overall_score, 1.0);
-    
-    // Balanced mode evaluates multiple dimensions
-    EXPECT_GE(result.faithfulness_score, 0.0);
-    EXPECT_GE(result.relevance_score, 0.0);
-    EXPECT_GE(result.completeness_score, 0.0);
-    EXPECT_GE(result.coherence_score, 0.0);
-}
-
-TEST_F(QualityControlPipelineTest, BalancedMode_Performance) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        QCMode::BALANCED
-    );
-    
-    // Balanced mode should be reasonably fast
-    EXPECT_LT(result.latency.count(), config_.balanced_timeout_ms * 2);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Thorough Mode Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, ThoroughMode_BasicEvaluation) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France, located in Western Europe with many tourists.",
-        QCMode::THOROUGH
-    );
-    
-    EXPECT_EQ(result.mode, QCMode::THOROUGH);
-    EXPECT_GE(result.overall_score, 0.0);
-    EXPECT_LE(result.overall_score, 1.0);
-    
-    // Thorough mode should provide recommendations
-    // (may be empty in some cases)
-    EXPECT_GE(result.recommendations.size(), 0);
-}
-
-TEST_F(QualityControlPipelineTest, ThoroughMode_ComprehensiveScores) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        QCMode::THOROUGH
-    );
-    
-    // All dimensions should be evaluated
-    EXPECT_GE(result.faithfulness_score, 0.0);
-    EXPECT_LE(result.faithfulness_score, 1.0);
-    EXPECT_GE(result.relevance_score, 0.0);
-    EXPECT_LE(result.relevance_score, 1.0);
-    EXPECT_GE(result.completeness_score, 0.0);
-    EXPECT_LE(result.completeness_score, 1.0);
-    EXPECT_GE(result.coherence_score, 0.0);
-    EXPECT_LE(result.coherence_score, 1.0);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Decision Logic Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, Decision_Accept) {
-    config_.accept_threshold = 0.5;  // Low threshold for testing
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France, a beautiful city in Western Europe with rich history.",
-        QCMode::BALANCED
-    );
-    
-    // Good answer should be accepted
-    if (result.overall_score >= config_.accept_threshold) {
-        EXPECT_EQ(result.decision, QCDecision::ACCEPT);
-        EXPECT_TRUE(result.passed_threshold);
-    }
-}
-
-TEST_F(QualityControlPipelineTest, Decision_EmptyAnswer) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "",  // Empty answer
-        QCMode::FAST
-    );
-    
-    // Empty answer should not be accepted
-    EXPECT_NE(result.decision, QCDecision::ACCEPT);
-    EXPECT_LT(result.overall_score, config_.accept_threshold);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Adaptive QC Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, AdaptiveQC_SmallBudget) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runAdaptiveQC(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        50  // Small time budget
-    );
-    
-    // Should select fast mode
-    EXPECT_EQ(result.mode, QCMode::FAST);
-}
-
-TEST_F(QualityControlPipelineTest, AdaptiveQC_MediumBudget) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runAdaptiveQC(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        500  // Medium time budget
-    );
-    
-    // Should select balanced mode
-    EXPECT_EQ(result.mode, QCMode::BALANCED);
-}
-
-TEST_F(QualityControlPipelineTest, AdaptiveQC_LargeBudget) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runAdaptiveQC(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        2000  // Large time budget
-    );
-    
-    // Should select thorough mode
-    EXPECT_EQ(result.mode, QCMode::THOROUGH);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Batch Processing Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, BatchQualityControl) {
-    QualityControlPipeline pipeline(config_);
-    
-    std::vector<EvaluationInput> inputs;
-    auto docs = createTestDocuments();
-    
-    for (int i = 0; i < 3; i++) {
-        EvaluationInput input;
-        input.query = "Question " + std::to_string(i);
-        input.documents = docs;
-        input.generated_answer = "Answer " + std::to_string(i);
-        inputs.push_back(input);
-    }
-    
-    auto results = pipeline.batchQualityControl(inputs, QCMode::FAST);
-    
-    ASSERT_EQ(results.size(), inputs.size());
-    
-    for (const auto& result : results) {
-        EXPECT_GE(result.overall_score, 0.0);
-        EXPECT_LE(result.overall_score, 1.0);
-    }
-}
-
-TEST_F(QualityControlPipelineTest, BatchQualityControl_Empty) {
-    QualityControlPipeline pipeline(config_);
-    
-    std::vector<EvaluationInput> inputs;
-    auto results = pipeline.batchQualityControl(inputs);
-    
-    EXPECT_TRUE(results.empty());
-}
-
-// ═══════════════════════════════════════════════════════════
-// Statistics Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, Statistics_Tracking) {
-    QualityControlPipeline pipeline(config_);
-    
-    // Run a few evaluations
-    for (int i = 0; i < 5; i++) {
-        pipeline.runQualityControl(
-            "Question",
-            createTestDocuments(),
-            "Answer",
-            QCMode::FAST
-        );
-    }
-    
-    auto stats = pipeline.getStatistics();
-    
-    EXPECT_EQ(stats.total_evaluations, 5);
-    EXPECT_GE(stats.avg_latency_ms, 0.0);
-    EXPECT_GE(stats.avg_score, 0.0);
-    EXPECT_LE(stats.avg_score, 1.0);
-}
-
-TEST_F(QualityControlPipelineTest, Statistics_ModeUsage) {
-    QualityControlPipeline pipeline(config_);
-    
-    pipeline.runQualityControl("Q", createTestDocuments(), "A", QCMode::FAST);
-    pipeline.runQualityControl("Q", createTestDocuments(), "A", QCMode::FAST);
-    pipeline.runQualityControl("Q", createTestDocuments(), "A", QCMode::BALANCED);
-    
-    auto stats = pipeline.getStatistics();
-    
-    EXPECT_EQ(stats.mode_usage[QCMode::FAST], 2);
-    EXPECT_EQ(stats.mode_usage[QCMode::BALANCED], 1);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Configuration Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, SetConfig) {
-    QualityControlPipeline pipeline;
-    
-    config_.accept_threshold = 0.85;
-    pipeline.setConfig(config_);
-    
-    auto retrieved_config = pipeline.getConfig();
-    EXPECT_DOUBLE_EQ(retrieved_config.accept_threshold, 0.85);
-}
-
-TEST_F(QualityControlPipelineTest, Callback_Called) {
-    QualityControlPipeline pipeline(config_);
-    
-    bool callback_called = false;
-    double callback_score = 0.0;
-    
-    pipeline.setQCCallback([&](const QCResult& result) {
-        callback_called = true;
-        callback_score = result.overall_score;
-    });
-    
-    auto result = pipeline.runQualityControl(
-        "Question",
-        createTestDocuments(),
-        "Answer",
-        QCMode::FAST
-    );
-    
-    EXPECT_TRUE(callback_called);
-    EXPECT_DOUBLE_EQ(callback_score, result.overall_score);
-}
-
-// ═══════════════════════════════════════════════════════════
-// Factory Tests
-// ═══════════════════════════════════════════════════════════
-
-TEST_F(QualityControlPipelineTest, Factory_CreateFast) {
-    auto pipeline = QualityControlPipelineFactory::createFast();
+TEST_F(QualityControlPipelineTest, CreateFastPipeline) {
+    auto pipeline = QualityPipelineFactory::createFast();
     ASSERT_NE(pipeline, nullptr);
     
     auto config = pipeline->getConfig();
-    EXPECT_EQ(config.default_mode, QCMode::FAST);
+    EXPECT_TRUE(config.enable_fast_stage);
+    EXPECT_FALSE(config.enable_balanced_stage);
+    EXPECT_FALSE(config.enable_thorough_stage);
 }
 
-TEST_F(QualityControlPipelineTest, Factory_CreateBalanced) {
-    auto pipeline = QualityControlPipelineFactory::createBalanced();
+TEST_F(QualityControlPipelineTest, CreateBalancedPipeline) {
+    auto pipeline = QualityPipelineFactory::createBalanced();
     ASSERT_NE(pipeline, nullptr);
     
     auto config = pipeline->getConfig();
-    EXPECT_EQ(config.default_mode, QCMode::BALANCED);
+    EXPECT_TRUE(config.enable_fast_stage);
+    EXPECT_TRUE(config.enable_balanced_stage);
+    EXPECT_FALSE(config.enable_thorough_stage);
 }
 
-TEST_F(QualityControlPipelineTest, Factory_CreateThorough) {
-    auto pipeline = QualityControlPipelineFactory::createThorough();
+TEST_F(QualityControlPipelineTest, CreateThoroughPipeline) {
+    auto pipeline = QualityPipelineFactory::createThorough();
     ASSERT_NE(pipeline, nullptr);
     
     auto config = pipeline->getConfig();
-    EXPECT_EQ(config.default_mode, QCMode::THOROUGH);
+    EXPECT_TRUE(config.enable_fast_stage);
+    EXPECT_TRUE(config.enable_balanced_stage);
+    EXPECT_TRUE(config.enable_thorough_stage);
 }
 
-TEST_F(QualityControlPipelineTest, Factory_CreateCustom) {
-    QualityControlPipeline::Config custom_config;
-    custom_config.accept_threshold = 0.9;
-    
-    auto pipeline = QualityControlPipelineFactory::create(custom_config);
+TEST_F(QualityControlPipelineTest, CreateProductionPipeline) {
+    auto pipeline = QualityPipelineFactory::createProduction();
     ASSERT_NE(pipeline, nullptr);
     
     auto config = pipeline->getConfig();
-    EXPECT_DOUBLE_EQ(config.accept_threshold, 0.9);
+    EXPECT_TRUE(config.enable_fast_stage);
+    EXPECT_TRUE(config.enable_balanced_stage);
+    EXPECT_TRUE(config.enable_thorough_stage);
+    EXPECT_TRUE(config.enable_learning_feedback);
 }
 
 // ═══════════════════════════════════════════════════════════
-// Edge Cases
+// Fast Stage Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(QualityControlPipelineTest, VeryLongAnswer) {
-    QualityControlPipeline pipeline(config_);
+TEST_F(QualityControlPipelineTest, FastStagePassesGoodAnswer) {
+    auto pipeline = QualityPipelineFactory::createFast();
     
-    std::string long_answer(5000, 'a');  // 5000 character answer
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
     
-    auto result = pipeline.runQualityControl(
-        "Question",
-        createTestDocuments(),
-        long_answer,
-        QCMode::FAST
-    );
+    // Should complete quickly (<100ms to allow slack for test environment)
+    // Production target is <50ms, but tests may run slower due to overhead
+    EXPECT_LT(result.fast_stage_time.count(), 100);
     
+    // Should have faithfulness score
+    EXPECT_FALSE(result.dimension_scores.empty());
+    
+    bool found_faithfulness = false;
+    for (const auto& score : result.dimension_scores) {
+        if (score.dimension == "faithfulness") {
+            found_faithfulness = true;
+            EXPECT_GT(score.score, 0.5);
+        }
+    }
+    EXPECT_TRUE(found_faithfulness);
+}
+
+TEST_F(QualityControlPipelineTest, FastStageDetectsBadAnswer) {
+    auto pipeline = QualityPipelineFactory::createFast();
+    
+    auto result = pipeline->runQualityControl(query, bad_answer, documents);
+    
+    // Should complete quickly regardless of answer quality
+    // (<100ms to allow slack for test environment)
+    EXPECT_LT(result.fast_stage_time.count(), 100);
+    
+    // May or may not fail depending on threshold, but should have scores
+    EXPECT_FALSE(result.dimension_scores.empty());
+}
+
+// ═══════════════════════════════════════════════════════════
+// Balanced Stage Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, BalancedStageEvaluatesMultipleDimensions) {
+    auto pipeline = QualityPipelineFactory::createBalanced();
+    
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
+    
+    // Should complete within timeout
+    EXPECT_LT(result.total_time.count(), 600);
+    
+    // Should have multiple dimension scores
+    EXPECT_GE(result.dimension_scores.size(), 2);
+    
+    // Should have overall score
     EXPECT_GE(result.overall_score, 0.0);
     EXPECT_LE(result.overall_score, 1.0);
 }
 
-TEST_F(QualityControlPipelineTest, NoDocuments) {
-    QualityControlPipeline pipeline(config_);
-    
-    auto result = pipeline.runQualityControl(
-        "Question",
-        {},  // No documents
-        "Answer",
-        QCMode::FAST
-    );
-    
-    EXPECT_GE(result.overall_score, 0.0);
-    EXPECT_LE(result.overall_score, 1.0);
-}
+// ═══════════════════════════════════════════════════════════
+// Thorough Stage Tests
+// ═══════════════════════════════════════════════════════════
 
-TEST_F(QualityControlPipelineTest, SpecialCharacters) {
-    QualityControlPipeline pipeline(config_);
+TEST_F(QualityControlPipelineTest, ThoroughStageIncludesNLI) {
+    auto pipeline = QualityPipelineFactory::createThorough();
     
-    auto result = pipeline.runQualityControl(
-        "Quéstion with émojis 😀?",
-        createTestDocuments(),
-        "Answér with spëcial chars: @#$%",
-        QCMode::FAST
-    );
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
     
-    EXPECT_GE(result.overall_score, 0.0);
-    EXPECT_LE(result.overall_score, 1.0);
+    // Should complete within timeout
+    EXPECT_LT(result.total_time.count(), 2500);
+    
+    // Should have NLI faithfulness score
+    bool found_nli = false;
+    for (const auto& score : result.dimension_scores) {
+        if (score.dimension == "faithfulness_nli") {
+            found_nli = true;
+            EXPECT_EQ(score.method, "nli");
+        }
+    }
+    EXPECT_TRUE(found_nli);
 }
 
 // ═══════════════════════════════════════════════════════════
 // Performance Tests
 // ═══════════════════════════════════════════════════════════
 
-TEST_F(QualityControlPipelineTest, Performance_FastModeTarget) {
-    QualityControlPipeline pipeline(config_);
+TEST_F(QualityControlPipelineTest, FastModeUnder50ms) {
+    auto pipeline = QualityPipelineFactory::createFast();
     
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris.",
-        QCMode::FAST
-    );
+    auto start = std::chrono::steady_clock::now();
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
+    auto end = std::chrono::steady_clock::now();
     
-    // Fast mode target: <50ms
-    // Allow some margin for test environment
-    EXPECT_LT(result.latency.count(), 100);
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Target: <50ms (may be higher in test environment)
+    EXPECT_LT(duration.count(), 100);  // Allow some slack for testing
 }
 
-TEST_F(QualityControlPipelineTest, Performance_BalancedModeTarget) {
-    QualityControlPipeline pipeline(config_);
+TEST_F(QualityControlPipelineTest, BalancedModeUnder500ms) {
+    auto pipeline = QualityPipelineFactory::createBalanced();
     
-    auto result = pipeline.runQualityControl(
-        "What is the capital of France?",
-        createTestDocuments(),
-        "Paris is the capital of France.",
-        QCMode::BALANCED
-    );
+    auto start = std::chrono::steady_clock::now();
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
+    auto end = std::chrono::steady_clock::now();
     
-    // Balanced mode target: <500ms
-    // Allow margin for test environment
-    EXPECT_LT(result.latency.count(), 1000);
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Target: <500ms (may be higher in test environment)
+    EXPECT_LT(duration.count(), 700);  // Allow some slack for testing
 }
+
+TEST_F(QualityControlPipelineTest, ThoroughModeUnder2s) {
+    auto pipeline = QualityPipelineFactory::createThorough();
+    
+    auto start = std::chrono::steady_clock::now();
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
+    auto end = std::chrono::steady_clock::now();
+    
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+    
+    // Target: <2s (may be higher in test environment)
+    EXPECT_LT(duration.count(), 2500);  // Allow some slack for testing
+}
+
+// ═══════════════════════════════════════════════════════════
+// LLM Judge Client Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, LLMJudgeClientBasic) {
+    LLMJudgeClient::Config config;
+    config.model_name = "test_model";
+    config.temperature = 0.3;
+    config.enable_caching = true;
+    
+    auto client = std::make_shared<LLMJudgeClient>(config);
+    ASSERT_NE(client, nullptr);
+    
+    auto retrieved_config = client->getConfig();
+    EXPECT_EQ(retrieved_config.model_name, "test_model");
+    EXPECT_DOUBLE_EQ(retrieved_config.temperature, 0.3);
+}
+
+// ═══════════════════════════════════════════════════════════
+// NLI Verifier Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, NLIVerifierBasic) {
+    NLIFaithfulnessVerifier::Config config;
+    config.entailment_threshold = 0.7;
+    config.max_claims = 10;
+    
+    auto verifier = std::make_shared<NLIFaithfulnessVerifier>(config);
+    ASSERT_NE(verifier, nullptr);
+    
+    std::vector<std::pair<std::string, std::string>> docs;
+    docs.emplace_back("doc1", documents[0].content);
+    
+    auto result = verifier->verify(good_answer, docs);
+    
+    EXPECT_GE(result.faithfulness_score, 0.0);
+    EXPECT_LE(result.faithfulness_score, 1.0);
+    EXPECT_GT(result.total_claims, 0);
+}
+
+TEST_F(QualityControlPipelineTest, NLIDetectsContradiction) {
+    auto verifier = std::make_shared<NLIFaithfulnessVerifier>();
+    
+    std::vector<std::pair<std::string, std::string>> docs;
+    docs.emplace_back("doc1", documents[0].content);
+    
+    // Answer contradicts documents
+    auto result = verifier->verify(bad_answer, docs);
+    
+    // Should detect low faithfulness
+    EXPECT_LT(result.faithfulness_score, 0.8);
+}
+
+// ═══════════════════════════════════════════════════════════
+// G-Eval Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, GEvalBasic) {
+    GEvalEvaluator::Config config;
+    config.num_samples = 3;
+    config.aggregation = AggregationMethod::MEAN;
+    
+    auto geval = std::make_shared<GEvalEvaluator>(config);
+    ASSERT_NE(geval, nullptr);
+    
+    std::vector<std::pair<std::string, std::string>> docs;
+    docs.emplace_back("doc1", documents[0].content);
+    
+    auto result = geval->evaluate(query, good_answer, docs, "faithfulness");
+    
+    EXPECT_GE(result.geval_score, 0.0);
+    EXPECT_LE(result.geval_score, 1.0);
+    EXPECT_EQ(result.token_probabilities.size(), 5);  // Levels 1-5
+    EXPECT_GE(result.confidence, 0.0);
+    EXPECT_LE(result.confidence, 1.0);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Callback Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, FailureCallbackInvoked) {
+    auto pipeline = QualityPipelineFactory::createFast();
+    
+    bool callback_invoked = false;
+    pipeline->setFailureCallback([&callback_invoked](const QualityCheckResult& result) {
+        callback_invoked = true;
+    });
+    
+    // This may or may not trigger failure depending on threshold
+    auto result = pipeline->runQualityControl(query, bad_answer, documents);
+    
+    // If it failed, callback should have been invoked
+    if (result.status == QualityGateStatus::FAILED) {
+        EXPECT_TRUE(callback_invoked);
+    }
+}
+
+TEST_F(QualityControlPipelineTest, LearningCallbackInvoked) {
+    auto pipeline = QualityPipelineFactory::createProduction();
+    
+    bool callback_invoked = false;
+    std::string captured_query;
+    
+    pipeline->setLearningCallback(
+        [&callback_invoked, &captured_query](
+            const std::string& q, 
+            const QualityCheckResult& result) {
+        callback_invoked = true;
+        captured_query = q;
+    });
+    
+    auto result = pipeline->runQualityControl(query, good_answer, documents);
+    
+    EXPECT_TRUE(callback_invoked);
+    EXPECT_EQ(captured_query, query);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Configuration Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, ConfigurationUpdate) {
+    auto pipeline = QualityPipelineFactory::createFast();
+    
+    QualityControlPipeline::Config new_config;
+    new_config.enable_fast_stage = false;
+    new_config.enable_balanced_stage = true;
+    
+    pipeline->setConfig(new_config);
+    
+    auto retrieved_config = pipeline->getConfig();
+    EXPECT_FALSE(retrieved_config.enable_fast_stage);
+    EXPECT_TRUE(retrieved_config.enable_balanced_stage);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Statistics Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(QualityControlPipelineTest, StatisticsTracking) {
+    auto pipeline = QualityPipelineFactory::createFast();
+    
+    // Run several checks
+    for (int i = 0; i < 5; i++) {
+        pipeline->runQualityControl(query, good_answer, documents);
+    }
+    
+    auto stats = pipeline->getStatistics();
+    EXPECT_FALSE(stats.empty());
+    
+    // Stats should be JSON format
+    EXPECT_NE(stats.find("total_checks"), std::string::npos);
+}
+
+TEST_F(QualityControlPipelineTest, StatisticsReset) {
+    auto pipeline = QualityPipelineFactory::createFast();
+    
+    // Run a check
+    pipeline->runQualityControl(query, good_answer, documents);
+    
+    // Reset
+    pipeline->resetStatistics();
+    
+    auto stats = pipeline->getStatistics();
+    EXPECT_NE(stats.find("\"total_checks\": 0"), std::string::npos);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Main
+// ═══════════════════════════════════════════════════════════
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

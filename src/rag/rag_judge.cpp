@@ -7,6 +7,7 @@
 #include "rag/prompt_templates.h"
 #include "rag/response_parser.h"
 #include "rag/llm_judge_integration.h"
+#include "rag/llm_judge_client.h"
 #include "rag/faithfulness_evaluator.h"
 #include "rag/relevance_evaluator.h"
 #include "rag/completeness_evaluator.h"
@@ -27,6 +28,9 @@ struct RAGJudge::Impl {
     // Phase 1 components
     PromptTemplateManager template_manager;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    
+    // Enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
+    std::shared_ptr<LLMJudgeClient> llm_judge_client;
     
     // Phase 2 specialized evaluators
     std::unique_ptr<FaithfulnessEvaluator> faithfulness_eval;
@@ -69,6 +73,16 @@ RAGJudge::RAGJudge(const RAGJudgeConfig& config)
     llm_config.use_json_mode = true;
     
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
+    
+    // Initialize enhanced LLM Judge Client (connects to InferenceEngineEnhanced)
+    LLMJudgeClient::Config client_config;
+    client_config.model_name = config.judge_model;
+    client_config.temperature = 0.3;
+    client_config.max_tokens = 1024;
+    client_config.enable_caching = config.cache_evaluations;
+    client_config.enable_batching = config.async_evaluation;
+    client_config.batch_size = config.batch_size;
+    impl_->llm_judge_client = std::make_shared<LLMJudgeClient>(client_config);
     
     // Initialize Phase 2 specialized evaluators
     FaithfulnessEvaluator::Config faith_config;

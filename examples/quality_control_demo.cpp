@@ -1,322 +1,285 @@
 /**
  * @file quality_control_demo.cpp
- * @brief Demonstration of ThemisDB Quality Control System
+ * @brief Demonstration of the quality control pipeline for RAG
  * 
- * Shows how to use the complete post-generation quality control pipeline
- * for RAG outputs with Fast, Balanced, and Thorough modes.
+ * Shows how to:
+ * - Set up quality control components
+ * - Run multi-stage quality checks
+ * - Handle quality gate failures
+ * - Integrate with continuous learning
  */
 
+#include <iostream>
+#include <memory>
+#include <iomanip>
 #include "rag/quality_control_pipeline.h"
 #include "rag/llm_judge_client.h"
 #include "rag/geval_evaluator.h"
 #include "rag/nli_faithfulness_verifier.h"
-#include <iostream>
-#include <iomanip>
+#include "rag/rag_judge.h"
 
 using namespace themis::rag::judge;
 
-// Helper to print decision
-std::string decisionToString(QCDecision decision) {
-    switch (decision) {
-        case QCDecision::ACCEPT: return "ACCEPT";
-        case QCDecision::REJECT: return "REJECT";
-        case QCDecision::RETRY: return "RETRY";
-        case QCDecision::WARN: return "WARN";
-        default: return "UNKNOWN";
+void printHeader(const std::string& title) {
+    std::cout << "\n" << std::string(70, '=') << "\n";
+    std::cout << title << "\n";
+    std::cout << std::string(70, '=') << "\n\n";
+}
+
+void printDimensionScores(const QualityCheckResult& result) {
+    std::cout << "Dimension Scores:\n";
+    std::cout << std::string(50, '-') << "\n";
+    
+    for (const auto& score : result.dimension_scores) {
+        std::cout << std::left << std::setw(20) << score.dimension << ": "
+                  << std::fixed << std::setprecision(3) << score.score
+                  << " (confidence: " << score.confidence << ")"
+                  << " [" << score.method << "]\n";
     }
+    std::cout << std::string(50, '-') << "\n";
+    std::cout << "Overall Score: " << std::fixed << std::setprecision(3) 
+              << result.overall_score << "\n\n";
 }
 
-// Helper to print mode
-std::string modeToString(QCMode mode) {
-    switch (mode) {
-        case QCMode::FAST: return "FAST";
-        case QCMode::BALANCED: return "BALANCED";
-        case QCMode::THOROUGH: return "THOROUGH";
-        default: return "UNKNOWN";
-    }
+void printTiming(const QualityCheckResult& result) {
+    std::cout << "Stage Timing:\n";
+    std::cout << std::string(50, '-') << "\n";
+    std::cout << "Fast Screening:      " << result.fast_stage_time.count() << "ms\n";
+    std::cout << "Balanced Evaluation: " << result.balanced_stage_time.count() << "ms\n";
+    std::cout << "Thorough Verification: " << result.thorough_stage_time.count() << "ms\n";
+    std::cout << "Total:               " << result.total_time.count() << "ms\n";
+    std::cout << std::string(50, '-') << "\n\n";
 }
 
-/**
- * @brief Example 1: Basic Quality Control
- */
-void example1_basic_qc() {
-    std::cout << "\n=== Example 1: Basic Quality Control ===\n\n";
+void printStatus(const QualityCheckResult& result) {
+    std::cout << "Quality Gate Status: ";
     
-    // Create pipeline with default configuration
-    QualityControlPipeline pipeline;
-    
-    // Sample RAG output
-    std::string query = "What is the capital of France?";
-    
-    std::vector<RetrievedDocument> documents = {
-        {"doc1", "Paris is the capital of France, located in Western Europe.", 0.95, {}},
-        {"doc2", "France has a population of about 67 million people.", 0.85, {}},
-        {"doc3", "The Eiffel Tower is a famous landmark in Paris.", 0.80, {}}
-    };
-    
-    std::string answer = "The capital of France is Paris, a beautiful city in Western Europe.";
-    
-    // Run quality control
-    auto result = pipeline.runQualityControl(query, documents, answer);
-    
-    // Display results
-    std::cout << "Query: " << query << "\n";
-    std::cout << "Answer: " << answer << "\n\n";
-    std::cout << "Quality Control Results:\n";
-    std::cout << "  Decision: " << decisionToString(result.decision) << "\n";
-    std::cout << "  Overall Score: " << std::fixed << std::setprecision(3) 
-              << result.overall_score << "\n";
-    std::cout << "  Faithfulness: " << result.faithfulness_score << "\n";
-    std::cout << "  Relevance: " << result.relevance_score << "\n";
-    std::cout << "  Completeness: " << result.completeness_score << "\n";
-    std::cout << "  Coherence: " << result.coherence_score << "\n";
-    std::cout << "  Latency: " << result.latency.count() << " ms\n";
-    std::cout << "  Passed Threshold: " << (result.passed_threshold ? "Yes" : "No") << "\n";
-}
-
-/**
- * @brief Example 2: Different QC Modes
- */
-void example2_different_modes() {
-    std::cout << "\n=== Example 2: Different QC Modes ===\n\n";
-    
-    QualityControlPipeline pipeline;
-    
-    std::string query = "Explain quantum entanglement";
-    std::vector<RetrievedDocument> documents = {
-        {"doc1", "Quantum entanglement is a physical phenomenon where particles remain connected.", 0.9, {}}
-    };
-    std::string answer = "Quantum entanglement is when particles are mysteriously connected.";
-    
-    // Test each mode
-    std::vector<QCMode> modes = {QCMode::FAST, QCMode::BALANCED, QCMode::THOROUGH};
-    
-    for (auto mode : modes) {
-        auto result = pipeline.runQualityControl(query, documents, answer, mode);
-        
-        std::cout << modeToString(mode) << " Mode:\n";
-        std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-                  << result.overall_score << "\n";
-        std::cout << "  Decision: " << decisionToString(result.decision) << "\n";
-        std::cout << "  Latency: " << result.latency.count() << " ms\n\n";
-    }
-}
-
-/**
- * @brief Example 3: Adaptive QC with Time Budget
- */
-void example3_adaptive_qc() {
-    std::cout << "\n=== Example 3: Adaptive QC ===\n\n";
-    
-    QualityControlPipeline pipeline;
-    
-    std::string query = "What is machine learning?";
-    std::vector<RetrievedDocument> documents = {
-        {"doc1", "Machine learning is a subset of AI that enables systems to learn from data.", 0.9, {}}
-    };
-    std::string answer = "Machine learning allows computers to learn from data without explicit programming.";
-    
-    // Different time budgets
-    std::vector<int> budgets = {50, 500, 2000};
-    
-    for (int budget : budgets) {
-        auto result = pipeline.runAdaptiveQC(query, documents, answer, budget);
-        
-        std::cout << "Time Budget: " << budget << " ms\n";
-        std::cout << "  Selected Mode: " << modeToString(result.mode) << "\n";
-        std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-                  << result.overall_score << "\n";
-        std::cout << "  Actual Latency: " << result.latency.count() << " ms\n\n";
-    }
-}
-
-/**
- * @brief Example 4: Batch Quality Control
- */
-void example4_batch_qc() {
-    std::cout << "\n=== Example 4: Batch Quality Control ===\n\n";
-    
-    QualityControlPipeline pipeline;
-    
-    // Multiple RAG outputs to evaluate
-    std::vector<EvaluationInput> inputs;
-    
-    for (int i = 1; i <= 3; i++) {
-        EvaluationInput input;
-        input.query = "Question " + std::to_string(i);
-        input.documents = {
-            {"doc" + std::to_string(i), "Document content for question " + std::to_string(i), 0.9, {}}
-        };
-        input.generated_answer = "Answer " + std::to_string(i) + " with some content.";
-        inputs.push_back(input);
+    switch (result.status) {
+        case QualityGateStatus::PASSED:
+            std::cout << "✓ PASSED\n";
+            break;
+        case QualityGateStatus::FAILED:
+            std::cout << "✗ FAILED\n";
+            break;
+        case QualityGateStatus::RETRY_NEEDED:
+            std::cout << "⚠ RETRY NEEDED\n";
+            break;
+        case QualityGateStatus::ESCALATE:
+            std::cout << "⚠ ESCALATE (Human Review)\n";
+            break;
     }
     
-    // Batch process
-    auto results = pipeline.batchQualityControl(inputs, QCMode::FAST);
-    
-    std::cout << "Batch processed " << results.size() << " outputs:\n\n";
-    
-    for (size_t i = 0; i < results.size(); i++) {
-        std::cout << "Output " << (i + 1) << ":\n";
-        std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-                  << results[i].overall_score << "\n";
-        std::cout << "  Decision: " << decisionToString(results[i].decision) << "\n";
-    }
-}
-
-/**
- * @brief Example 5: Custom Configuration
- */
-void example5_custom_config() {
-    std::cout << "\n=== Example 5: Custom Configuration ===\n\n";
-    
-    // Create custom configuration
-    QualityControlPipeline::Config config;
-    config.default_mode = QCMode::THOROUGH;
-    config.accept_threshold = 0.85;  // Stricter threshold
-    config.reject_threshold = 0.60;
-    config.enable_retry = true;
-    config.max_retries = 3;
-    config.enable_nli_verification = true;
-    config.enable_geval_scoring = true;
-    
-    QualityControlPipeline pipeline(config);
-    
-    std::string query = "What are the benefits of renewable energy?";
-    std::vector<RetrievedDocument> documents = {
-        {"doc1", "Renewable energy reduces carbon emissions and helps combat climate change.", 0.9, {}}
-    };
-    std::string answer = "Renewable energy is good for the environment.";
-    
-    auto result = pipeline.runQualityControl(query, documents, answer);
-    
-    std::cout << "Custom Configuration Results:\n";
-    std::cout << "  Accept Threshold: " << config.accept_threshold << "\n";
-    std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-              << result.overall_score << "\n";
-    std::cout << "  Decision: " << decisionToString(result.decision) << "\n";
-    std::cout << "  Retry Count: " << result.retry_count << "\n";
-}
-
-/**
- * @brief Example 6: Using Callback for Monitoring
- */
-void example6_with_callback() {
-    std::cout << "\n=== Example 6: Quality Control with Callback ===\n\n";
-    
-    QualityControlPipeline pipeline;
-    
-    // Set callback to log quality metrics
-    pipeline.setQCCallback([](const QCResult& result) {
-        std::cout << "  [Callback] Evaluation complete:\n";
-        std::cout << "    Score: " << std::fixed << std::setprecision(3) 
-                  << result.overall_score << "\n";
-        std::cout << "    Decision: " << decisionToString(result.decision) << "\n";
-    });
-    
-    std::string query = "What is photosynthesis?";
-    std::vector<RetrievedDocument> documents = {
-        {"doc1", "Photosynthesis is the process by which plants convert light into energy.", 0.9, {}}
-    };
-    std::string answer = "Photosynthesis is how plants make food using sunlight.";
-    
-    std::cout << "Running QC with callback...\n";
-    auto result = pipeline.runQualityControl(query, documents, answer);
-}
-
-/**
- * @brief Example 7: Statistics and Monitoring
- */
-void example7_statistics() {
-    std::cout << "\n=== Example 7: Statistics and Monitoring ===\n\n";
-    
-    QualityControlPipeline pipeline;
-    
-    // Run multiple evaluations
-    for (int i = 0; i < 5; i++) {
-        pipeline.runQualityControl(
-            "Question " + std::to_string(i),
-            {{"doc", "Document content", 0.9, {}}},
-            "Answer " + std::to_string(i),
-            i % 2 == 0 ? QCMode::FAST : QCMode::BALANCED
-        );
+    if (!result.failure_reasons.empty()) {
+        std::cout << "\nFailure Reasons:\n";
+        for (const auto& reason : result.failure_reasons) {
+            std::cout << "  - " << reason << "\n";
+        }
     }
     
-    // Get statistics
-    auto stats = pipeline.getStatistics();
+    if (!result.improvement_suggestions.empty()) {
+        std::cout << "\nImprovement Suggestions:\n";
+        for (const auto& suggestion : result.improvement_suggestions) {
+            std::cout << "  - " << suggestion << "\n";
+        }
+    }
     
-    std::cout << "Quality Control Statistics:\n";
-    std::cout << "  Total Evaluations: " << stats.total_evaluations << "\n";
-    std::cout << "  Accepted: " << stats.accepted << "\n";
-    std::cout << "  Rejected: " << stats.rejected << "\n";
-    std::cout << "  Warned: " << stats.warned << "\n";
-    std::cout << "  Retried: " << stats.retried << "\n";
-    std::cout << "  Avg Score: " << std::fixed << std::setprecision(3) 
-              << stats.avg_score << "\n";
-    std::cout << "  Avg Latency: " << stats.avg_latency_ms << " ms\n";
-    std::cout << "  Mode Usage:\n";
-    std::cout << "    FAST: " << stats.mode_usage.count(QCMode::FAST) 
-              << " (" << (stats.mode_usage.count(QCMode::FAST) ? 
-                        stats.mode_usage.at(QCMode::FAST) : 0) << ")\n";
-    std::cout << "    BALANCED: " << stats.mode_usage.count(QCMode::BALANCED)
-              << " (" << (stats.mode_usage.count(QCMode::BALANCED) ? 
-                        stats.mode_usage.at(QCMode::BALANCED) : 0) << ")\n";
-}
-
-/**
- * @brief Example 8: Factory Methods
- */
-void example8_factory_methods() {
-    std::cout << "\n=== Example 8: Using Factory Methods ===\n\n";
-    
-    std::string query = "What is DNA?";
-    std::vector<RetrievedDocument> documents = {
-        {"doc1", "DNA is the molecule that carries genetic information.", 0.9, {}}
-    };
-    std::string answer = "DNA stores genetic information in living organisms.";
-    
-    // Create pipelines using factory
-    auto fast_pipeline = QualityControlPipelineFactory::createFast();
-    auto balanced_pipeline = QualityControlPipelineFactory::createBalanced();
-    auto thorough_pipeline = QualityControlPipelineFactory::createThorough();
-    
-    std::cout << "Fast Pipeline:\n";
-    auto result1 = fast_pipeline->runQualityControl(query, documents, answer);
-    std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-              << result1.overall_score << "\n\n";
-    
-    std::cout << "Balanced Pipeline:\n";
-    auto result2 = balanced_pipeline->runQualityControl(query, documents, answer);
-    std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-              << result2.overall_score << "\n\n";
-    
-    std::cout << "Thorough Pipeline:\n";
-    auto result3 = thorough_pipeline->runQualityControl(query, documents, answer);
-    std::cout << "  Score: " << std::fixed << std::setprecision(3) 
-              << result3.overall_score << "\n";
+    std::cout << "\n";
 }
 
 int main() {
-    std::cout << "╔═══════════════════════════════════════════════════════════╗\n";
-    std::cout << "║  ThemisDB Quality Control System - Demonstration         ║\n";
-    std::cout << "╚═══════════════════════════════════════════════════════════╝\n";
+    std::cout << "=== Quality Control Pipeline Demo ===\n\n";
     
-    try {
-        example1_basic_qc();
-        example2_different_modes();
-        example3_adaptive_qc();
-        example4_batch_qc();
-        example5_custom_config();
-        example6_with_callback();
-        example7_statistics();
-        example8_factory_methods();
-        
-        std::cout << "\n=== All examples completed successfully! ===\n";
-        
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
-        return 1;
+    // ========================================================================
+    // Example 1: Fast Screening Mode
+    // ========================================================================
+    printHeader("Example 1: Fast Screening Mode (<50ms)");
+    
+    std::cout << "Creating fast pipeline (screening only)...\n";
+    auto fast_pipeline = QualityPipelineFactory::createFast();
+    
+    // Prepare test data
+    std::string query = "What is the capital of France?";
+    std::string answer = "The capital of France is Paris, a beautiful city on the Seine River.";
+    
+    std::vector<RetrievedDocument> documents;
+    RetrievedDocument doc1;
+    doc1.id = "doc1";
+    doc1.content = "Paris is the capital and most populous city of France. "
+                   "It is situated on the Seine River in northern France.";
+    doc1.similarity_score = 0.95;
+    documents.push_back(doc1);
+    
+    std::cout << "Running fast screening...\n";
+    auto result1 = fast_pipeline->runQualityControl(query, answer, documents);
+    
+    printDimensionScores(result1);
+    printTiming(result1);
+    printStatus(result1);
+    
+    // ========================================================================
+    // Example 2: Balanced Mode
+    // ========================================================================
+    printHeader("Example 2: Balanced Mode (<500ms)");
+    
+    std::cout << "Creating balanced pipeline (fast + balanced stages)...\n";
+    auto balanced_pipeline = QualityPipelineFactory::createBalanced();
+    
+    std::cout << "Running balanced evaluation...\n";
+    auto result2 = balanced_pipeline->runQualityControl(query, answer, documents);
+    
+    printDimensionScores(result2);
+    printTiming(result2);
+    printStatus(result2);
+    
+    // ========================================================================
+    // Example 3: Thorough Verification Mode
+    // ========================================================================
+    printHeader("Example 3: Thorough Verification Mode (<2s)");
+    
+    std::cout << "Creating thorough pipeline (all stages + NLI)...\n";
+    auto thorough_pipeline = QualityPipelineFactory::createThorough();
+    
+    std::cout << "Running thorough verification...\n";
+    auto result3 = thorough_pipeline->runQualityControl(query, answer, documents);
+    
+    printDimensionScores(result3);
+    printTiming(result3);
+    printStatus(result3);
+    
+    // ========================================================================
+    // Example 4: Production Mode with Learning Feedback
+    // ========================================================================
+    printHeader("Example 4: Production Mode with Learning Feedback");
+    
+    std::cout << "Creating production pipeline (all stages + learning)...\n";
+    auto prod_pipeline = QualityPipelineFactory::createProduction();
+    
+    // Set up callbacks
+    prod_pipeline->setFailureCallback([](const QualityCheckResult& result) {
+        std::cout << "[CALLBACK] Quality gate failed, triggering retry...\n";
+    });
+    
+    prod_pipeline->setLearningCallback([](const std::string& query, 
+                                          const QualityCheckResult& result) {
+        std::cout << "[CALLBACK] Sending feedback to learning system...\n";
+        std::cout << "  Query: " << query.substr(0, 30) << "...\n";
+        std::cout << "  Score: " << std::fixed << std::setprecision(3) 
+                  << result.overall_score << "\n";
+    });
+    
+    std::cout << "Running production quality control...\n";
+    auto result4 = prod_pipeline->runQualityControl(query, answer, documents);
+    
+    printDimensionScores(result4);
+    printTiming(result4);
+    printStatus(result4);
+    
+    // ========================================================================
+    // Example 5: Testing with Low-Quality Answer
+    // ========================================================================
+    printHeader("Example 5: Low-Quality Answer Detection");
+    
+    std::string bad_query = "What is quantum computing?";
+    std::string bad_answer = "Quantum computing is about computers that use quantum mechanics. "
+                            "It was invented in 1985 by Steve Jobs at Apple. "
+                            "Quantum computers can solve any problem instantly.";
+    
+    std::vector<RetrievedDocument> bad_documents;
+    RetrievedDocument bad_doc;
+    bad_doc.id = "doc2";
+    bad_doc.content = "Quantum computing is a type of computation that harnesses "
+                      "the collective properties of quantum states, such as superposition "
+                      "and entanglement, to perform calculations. The concept was pioneered "
+                      "by physicists like Richard Feynman and David Deutsch in the 1980s.";
+    bad_doc.similarity_score = 0.85;
+    bad_documents.push_back(bad_doc);
+    
+    std::cout << "Testing with factually incorrect answer...\n";
+    auto result5 = prod_pipeline->runQualityControl(bad_query, bad_answer, bad_documents);
+    
+    printDimensionScores(result5);
+    printTiming(result5);
+    printStatus(result5);
+    
+    // ========================================================================
+    // Example 6: NLI Faithfulness Verification
+    // ========================================================================
+    printHeader("Example 6: Direct NLI Faithfulness Verification");
+    
+    std::cout << "Creating standalone NLI verifier...\n";
+    NLIFaithfulnessVerifier::Config nli_config;
+    nli_config.entailment_threshold = 0.7;
+    nli_config.max_claims = 10;
+    
+    auto nli_verifier = std::make_shared<NLIFaithfulnessVerifier>(nli_config);
+    
+    std::vector<std::pair<std::string, std::string>> doc_pairs;
+    doc_pairs.emplace_back("doc1", doc1.content);
+    
+    std::cout << "Verifying answer faithfulness with NLI...\n";
+    auto nli_result = nli_verifier->verify(answer, doc_pairs);
+    
+    std::cout << "NLI Verification Results:\n";
+    std::cout << std::string(50, '-') << "\n";
+    std::cout << "Faithfulness Score: " << std::fixed << std::setprecision(3) 
+              << nli_result.faithfulness_score << "\n";
+    std::cout << "Is Faithful: " << (nli_result.is_faithful ? "Yes" : "No") << "\n";
+    std::cout << "Total Claims: " << nli_result.total_claims << "\n";
+    std::cout << "Supported: " << nli_result.supported_claims << "\n";
+    std::cout << "Partially Supported: " << nli_result.partially_supported_claims << "\n";
+    std::cout << "Unsupported: " << nli_result.unsupported_claims << "\n";
+    std::cout << "Contradicted: " << nli_result.contradicted_claims << "\n";
+    std::cout << "Verification Time: " << nli_result.verification_time.count() << "ms\n";
+    std::cout << std::string(50, '-') << "\n\n";
+    
+    // ========================================================================
+    // Example 7: G-Eval Probabilistic Scoring
+    // ========================================================================
+    printHeader("Example 7: G-Eval Probabilistic Scoring");
+    
+    std::cout << "Creating G-Eval evaluator...\n";
+    GEvalEvaluator::Config geval_config;
+    geval_config.num_samples = 3;
+    geval_config.aggregation = AggregationMethod::MEAN;
+    
+    auto geval = std::make_shared<GEvalEvaluator>(geval_config);
+    
+    std::cout << "Running G-Eval for faithfulness...\n";
+    auto geval_result = geval->evaluate(query, answer, doc_pairs, "faithfulness");
+    
+    std::cout << "G-Eval Results:\n";
+    std::cout << std::string(50, '-') << "\n";
+    std::cout << "Dimension: " << geval_result.dimension << "\n";
+    std::cout << "G-Eval Score: " << std::fixed << std::setprecision(3) 
+              << geval_result.geval_score << "\n";
+    std::cout << "Confidence: " << geval_result.confidence << "\n";
+    std::cout << "Variance: " << geval_result.variance << "\n";
+    std::cout << "\nToken Probabilities (Levels 1-5):\n";
+    for (size_t i = 0; i < geval_result.token_probabilities.size(); i++) {
+        std::cout << "  Level " << (i+1) << ": " 
+                  << std::fixed << std::setprecision(3)
+                  << geval_result.token_probabilities[i] << "\n";
     }
+    std::cout << std::string(50, '-') << "\n\n";
+    
+    // ========================================================================
+    // Summary
+    // ========================================================================
+    printHeader("Summary");
+    
+    std::cout << "Quality Control Pipeline Features Demonstrated:\n";
+    std::cout << "✓ Fast screening mode (<50ms)\n";
+    std::cout << "✓ Balanced evaluation mode (<500ms)\n";
+    std::cout << "✓ Thorough verification mode (<2s)\n";
+    std::cout << "✓ Production mode with learning feedback\n";
+    std::cout << "✓ Low-quality answer detection\n";
+    std::cout << "✓ NLI faithfulness verification\n";
+    std::cout << "✓ G-Eval probabilistic scoring\n";
+    std::cout << "✓ Multi-dimensional quality assessment\n";
+    std::cout << "✓ Quality gate with automatic retry\n";
+    std::cout << "✓ Integration with continuous learning\n";
+    
+    std::cout << "\n=== Demo Complete ===\n";
     
     return 0;
 }

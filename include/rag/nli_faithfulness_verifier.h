@@ -1,10 +1,9 @@
 /**
  * @file nli_faithfulness_verifier.h
- * @brief NLI-based Faithfulness Verification using ONNX models
+ * @brief NLI-based faithfulness verification using Natural Language Inference
  * 
- * Implements Natural Language Inference (NLI) for claim verification
- * using DeBERTa-v3-large-mnli or similar ONNX models. Provides fast,
- * accurate claim-document entailment checking.
+ * Implements faithfulness verification using NLI models (e.g., RoBERTa-large-MNLI)
+ * to check if generated claims are entailed by retrieved documents.
  */
 
 #pragma once
@@ -12,64 +11,130 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <chrono>
 #include <unordered_map>
 
 namespace themis::rag::judge {
 
 /**
- * @brief NLI prediction result
+ * @brief NLI label for entailment checking
  */
 enum class NLILabel {
-    ENTAILMENT,      ///< Hypothesis entailed by premise (score: 1.0)
-    NEUTRAL,         ///< Neither entailment nor contradiction (score: 0.5)
-    CONTRADICTION    ///< Hypothesis contradicts premise (score: 0.0)
+    ENTAILMENT,      ///< Hypothesis is entailed by premise
+    NEUTRAL,         ///< Hypothesis is neither entailed nor contradicted
+    CONTRADICTION    ///< Hypothesis contradicts premise
 };
 
 /**
- * @brief NLI verification result
+ * @brief Support level for a claim
+ */
+enum class SupportLevel {
+    FULLY_SUPPORTED,      ///< Entailed by documents
+    PARTIALLY_SUPPORTED,  ///< Neutral but related
+    UNSUPPORTED,          ///< Not found in documents
+    CONTRADICTED          ///< Contradicts documents
+};
+
+/**
+ * @brief Result from NLI model
  */
 struct NLIResult {
-    NLILabel label;                  ///< Predicted label
-    double entailment_prob;          ///< P(entailment)
-    double neutral_prob;             ///< P(neutral)
-    double contradiction_prob;       ///< P(contradiction)
-    double confidence;               ///< Max probability
-    std::string explanation;         ///< Optional explanation
-    bool success;                    ///< Whether verification succeeded
-    std::chrono::milliseconds latency;  ///< Inference time
+    NLILabel label;
+    double entailment_score;      ///< P(entailment)
+    double neutral_score;          ///< P(neutral)
+    double contradiction_score;    ///< P(contradiction)
+    double confidence;             ///< Confidence in prediction
 };
 
 /**
- * @brief NLI Faithfulness Verifier
+ * @brief Verification result for a single claim
+ */
+struct ClaimVerification {
+    std::string claim;
+    SupportLevel support_level;
+    std::vector<std::string> supporting_doc_ids;
+    std::unordered_map<std::string, NLIResult> nli_scores;  ///< Per-document NLI scores
+    double confidence;
+};
+
+/**
+ * @brief Complete faithfulness verification result
+ */
+struct FaithfulnessVerificationResult {
+    double faithfulness_score;     ///< Overall score (0-1)
+    bool is_faithful;              ///< Meets threshold
+    
+    // Claim statistics
+    size_t total_claims;
+    size_t supported_claims;
+    size_t partially_supported_claims;
+    size_t unsupported_claims;
+    size_t contradicted_claims;
+    
+    std::vector<ClaimVerification> claims;
+    std::string explanation;
+    std::chrono::milliseconds verification_time;
+    
+    FaithfulnessVerificationResult() 
+        : faithfulness_score(0.0), is_faithful(false),
+          total_claims(0), supported_claims(0), 
+          partially_supported_claims(0), unsupported_claims(0),
+          contradicted_claims(0), verification_time(0) {}
+};
+
+/**
+ * @brief NLI-based faithfulness verifier
  * 
- * Uses ONNX Runtime to run NLI models for fast claim verification.
- * Target: <50ms per claim verification.
+ * Uses Natural Language Inference models to verify if claims in generated
+ * answers are supported by retrieved documents. This provides a more
+ * principled approach than simple text matching.
  * 
- * Supported models:
- * - microsoft/deberta-v3-large-mnli
- * - roberta-large-mnli
- * - bart-large-mnli
+ * Typical NLI models:
+ * - RoBERTa-large-MNLI (best accuracy)
+ * - DeBERTa-large-MNLI (state-of-the-art)
+ * - BART-large-MNLI (good balance)
+ * 
+ * Performance targets:
+ * - Fast mode: ~50ms per answer (uses heuristics)
+ * - Balanced mode: ~200ms per answer (lightweight NLI)
+ * - Thorough mode: ~500ms per answer (full transformer NLI)
  */
 class NLIFaithfulnessVerifier {
 public:
     /**
-     * @brief Configuration for NLI verifier
+     * @brief Configuration for NLI verification
      */
     struct Config {
-        std::string model_path;          ///< Path to ONNX model file
-        std::string tokenizer_path;      ///< Path to tokenizer config
-        int max_sequence_length = 512;   ///< Max tokens for premise+hypothesis
-        double entailment_threshold = 0.7;  ///< Min prob for ENTAILMENT
-        bool enable_caching = true;      ///< Cache claim-document pairs
-        int num_threads = 4;             ///< ONNX Runtime threads
-        bool use_gpu = false;            ///< Enable GPU acceleration if available
+        // NLI model settings
+        std::string model_path = "roberta-large-mnli";
+        bool use_gpu = false;
+        
+        // Thresholds for classification
+        double entailment_threshold = 0.7;    ///< Min score for entailment
+        double neutral_threshold = 0.4;       ///< Min score for neutral
+        double contradiction_threshold = 0.7; ///< Min score for contradiction
+        
+        // Claim extraction
+        size_t max_claims = 20;               ///< Max claims to extract
+        bool enable_claim_decomposition = true; ///< Break complex claims
+        
+        // Faithfulness scoring
+        double min_faithfulness_score = 0.8;  ///< Threshold for "faithful"
+        
+        // Performance
+        bool enable_batching = true;          ///< Batch NLI inference
+        size_t batch_size = 8;
     };
     
     /**
-     * @brief Construct verifier with configuration
-     * @param config Verifier configuration
+     * @brief Construct verifier with default config
      */
     NLIFaithfulnessVerifier();
+    
+    /**
+     * @brief Construct verifier with custom config
+     * @param config Verifier configuration
+     */
     explicit NLIFaithfulnessVerifier(const Config& config);
     
     /**
@@ -78,114 +143,54 @@ public:
     ~NLIFaithfulnessVerifier();
     
     /**
-     * @brief Verify if claim is entailed by document
-     * @param claim Hypothesis to verify
-     * @param document Premise document
-     * @return NLI verification result
+     * @brief Verify faithfulness of an answer using NLI
+     * @param answer Generated answer to verify
+     * @param documents Retrieved documents (id, content pairs)
+     * @return Verification result with claim-level analysis
      */
-    NLIResult verifyClaim(
-        const std::string& claim,
-        const std::string& document
+    FaithfulnessVerificationResult verify(
+        const std::string& answer,
+        const std::vector<std::pair<std::string, std::string>>& documents
     );
     
     /**
-     * @brief Batch verify multiple claims against a document
-     * @param claims List of claims to verify
-     * @param document Premise document
-     * @return Vector of NLI results (same order as claims)
+     * @brief Check entailment between premise and hypothesis
+     * @param premise The document/context (entailer)
+     * @param hypothesis The claim to verify (entailed)
+     * @return NLI result with probabilities
      */
-    std::vector<NLIResult> verifyClaimsBatch(
-        const std::vector<std::string>& claims,
-        const std::string& document
+    NLIResult checkEntailment(
+        const std::string& premise,
+        const std::string& hypothesis
     );
     
     /**
-     * @brief Verify claim against multiple documents, return best match
-     * @param claim Hypothesis to verify
-     * @param documents List of premise documents
-     * @return NLI result with highest entailment probability
+     * @brief Load NLI model from disk
+     * @param model_path Path to NLI model files
      */
-    NLIResult verifyAgainstMultipleDocs(
-        const std::string& claim,
-        const std::vector<std::string>& documents
-    );
+    void loadModel(const std::string& model_path);
     
     /**
-     * @brief Check if model is loaded and ready
-     * @return true if model is ready
+     * @brief Check if NLI model is loaded and ready
+     * @return true if model is loaded
      */
-    bool isReady() const;
-    
-    /**
-     * @brief Load ONNX model from path
-     * @param model_path Path to ONNX model file
-     * @param tokenizer_path Path to tokenizer config
-     * @return true if loading succeeded
-     */
-    bool loadModel(const std::string& model_path, const std::string& tokenizer_path);
+    bool isModelLoaded() const;
     
     /**
      * @brief Get current configuration
+     * @return Current config
      */
     Config getConfig() const;
     
     /**
      * @brief Update configuration
+     * @param config New configuration
      */
     void setConfig(const Config& config);
-    
-    /**
-     * @brief Clear verification cache
-     */
-    void clearCache();
-    
-    /**
-     * @brief Get cache statistics
-     */
-    struct CacheStats {
-        size_t hits = 0;
-        size_t misses = 0;
-        double hit_rate = 0.0;
-    };
-    CacheStats getCacheStats() const;
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
-    
-    // Internal helpers
-    std::vector<int> tokenize(const std::string& premise, const std::string& hypothesis);
-    std::vector<float> runInference(const std::vector<int>& input_ids);
-    NLIResult interpretLogits(const std::vector<float>& logits);
-    std::string generateCacheKey(const std::string& claim, const std::string& document);
 };
-
-/**
- * @brief Utilities for NLI-based faithfulness scoring
- */
-namespace nli_utils {
-
-/**
- * @brief Convert NLI label to numeric score
- * @param label NLI prediction label
- * @return Score: ENTAILMENT=1.0, NEUTRAL=0.5, CONTRADICTION=0.0
- */
-double labelToScore(NLILabel label);
-
-/**
- * @brief Compute overall faithfulness from multiple NLI results
- * @param results Vector of NLI results for different claims
- * @return Aggregated faithfulness score (0-1)
- */
-double aggregateFaithfulness(const std::vector<NLIResult>& results);
-
-/**
- * @brief Check if claim is factual (vs opinion/reasoning)
- * @param claim Claim text
- * @return true if claim appears to be factual
- */
-bool isFactualClaim(const std::string& claim);
-
-} // namespace nli_utils
 
 } // namespace themis::rag::judge

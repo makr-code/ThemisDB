@@ -1,39 +1,42 @@
 /**
  * @file llm_judge_client.h
- * @brief LLM Judge Client - Connects RAG Judge to InferenceEngineEnhanced
+ * @brief LLM Judge Client - Connects prompts to InferenceEngineEnhanced
  * 
- * Bridges the RAG Judge evaluation system with the LLM inference engine,
- * providing structured evaluation responses with scores, confidence, and reasoning.
+ * This client bridges RAG Judge evaluations to the LLM inference engine,
+ * enabling automated evaluation with proper caching and batching.
  */
 
 #pragma once
 
-#include "rag/rag_judge.h"
-#include "llm/inference_engine_enhanced.h"
 #include <string>
+#include <vector>
 #include <memory>
-#include <unordered_map>
+#include <chrono>
+
+// Forward declarations
+namespace themis::llm {
+    class InferenceEngineEnhanced;
+    class ILLMPlugin;
+}
 
 namespace themis::rag::judge {
 
 /**
- * @brief Response from LLM judge evaluation
+ * @brief Response from an LLM evaluation
  */
-struct LLMJudgeResponse {
-    double score;                    ///< Normalized score (0-1)
-    double confidence;               ///< Confidence in the score (0-1)
-    std::string reasoning;           ///< Chain-of-thought explanation
-    std::unordered_map<std::string, double> dimension_scores;  ///< Sub-dimension scores
-    bool success;                    ///< Whether evaluation succeeded
-    std::string error_message;       ///< Error message if failed
-    std::chrono::milliseconds latency;  ///< Inference latency
+struct EvaluationResponse {
+    double score = 0.0;               ///< Evaluation score (0-1)
+    std::string reasoning;             ///< Explanation for the score
+    double confidence = 0.0;           ///< Confidence in the evaluation (0-1)
+    std::string raw_response;          ///< Raw LLM response
+    std::chrono::milliseconds evaluation_time; ///< Time taken for evaluation
 };
 
 /**
  * @brief LLM Judge Client
  * 
- * Manages communication with InferenceEngineEnhanced for judge evaluations.
- * Handles prompt construction, response parsing, and error recovery.
+ * Connects RAG Judge evaluation prompts to InferenceEngineEnhanced for
+ * efficient LLM-based evaluation with caching and batching support.
  */
 class LLMJudgeClient {
 public:
@@ -41,24 +44,32 @@ public:
      * @brief Configuration for LLM Judge Client
      */
     struct Config {
-        std::string model_id = "default";
+        std::string model_name = "default";
         double temperature = 0.3;       ///< Low temp for consistent evaluation
         int max_tokens = 1024;
-        int max_retries = 3;
-        int timeout_ms = 10000;
+        int timeout_ms = 30000;
+        int priority = 0;               ///< Request priority
+        
+        // Caching and batching
         bool enable_caching = true;
-        bool extract_token_probs = false;  ///< For G-Eval integration
+        bool enable_batching = true;
+        size_t batch_size = 8;
+        size_t batch_timeout_ms = 100;
+        
+        // Stop sequences for evaluation
+        std::vector<std::string> stop_sequences = {"\n\n", "---"};
     };
     
     /**
-     * @brief Construct client with configuration
-     * @param config Client configuration
-     * @param inference_engine Shared inference engine
+     * @brief Construct client with default config
      */
-    LLMJudgeClient(
-        const Config& config,
-        std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine
-    );
+    LLMJudgeClient();
+    
+    /**
+     * @brief Construct client with custom config
+     * @param config Client configuration
+     */
+    explicit LLMJudgeClient(const Config& config);
     
     /**
      * @brief Destructor
@@ -66,72 +77,63 @@ public:
     ~LLMJudgeClient();
     
     /**
-     * @brief Evaluate using LLM judge
+     * @brief Evaluate a single prompt
      * @param prompt Evaluation prompt
-     * @param dimension Dimension being evaluated
-     * @return LLM judge response with score and reasoning
+     * @return LLM response text
      */
-    LLMJudgeResponse evaluate(
-        const std::string& prompt,
-        EvaluationDimension dimension
+    std::string evaluate(const std::string& prompt);
+    
+    /**
+     * @brief Evaluate multiple prompts in batch
+     * @param prompts Vector of evaluation prompts
+     * @return Vector of LLM responses
+     */
+    std::vector<std::string> evaluateBatch(
+        const std::vector<std::string>& prompts
     );
     
     /**
-     * @brief Evaluate with custom inference request
-     * @param prompt Evaluation prompt
-     * @param dimension Dimension being evaluated
-     * @param request_config Custom inference request configuration
-     * @return LLM judge response
+     * @brief Evaluate a specific dimension for RAG
+     * @param query Original user query
+     * @param answer Generated answer
+     * @param documents Retrieved documents (id, content pairs)
+     * @param dimension Dimension name (e.g., "faithfulness", "relevance")
+     * @return Structured evaluation response
      */
-    LLMJudgeResponse evaluateWithConfig(
-        const std::string& prompt,
-        EvaluationDimension dimension,
-        const llm::InferenceEngineEnhanced::EnhancedInferenceRequest& request_config
+    EvaluationResponse evaluateDimension(
+        const std::string& query,
+        const std::string& answer,
+        const std::vector<std::pair<std::string, std::string>>& documents,
+        const std::string& dimension
     );
     
     /**
-     * @brief Parse LLM response into structured evaluation
-     * @param response Raw LLM response text
-     * @param dimension Dimension being evaluated
-     * @return Parsed judge response
+     * @brief Set custom inference engine
+     * @param engine Shared pointer to inference engine
      */
-    static LLMJudgeResponse parseResponse(
-        const std::string& response,
-        EvaluationDimension dimension
+    void setInferenceEngine(
+        std::shared_ptr<llm::InferenceEngineEnhanced> engine
     );
     
     /**
-     * @brief Extract score from response text
-     * @param response Response text
-     * @return Normalized score (0-1), or -1 if parsing failed
+     * @brief Register a model for inference
+     * @param model_id Model identifier
+     * @param plugin LLM plugin implementation
      */
-    static double extractScore(const std::string& response);
-    
-    /**
-     * @brief Extract reasoning from response text
-     * @param response Response text
-     * @return Reasoning text
-     */
-    static std::string extractReasoning(const std::string& response);
-    
-    /**
-     * @brief Extract confidence from response or compute from token probabilities
-     * @param response Response text
-     * @param token_probs Optional token probabilities
-     * @return Confidence score (0-1)
-     */
-    static double extractConfidence(
-        const std::string& response,
-        const std::vector<double>& token_probs = {}
+    void registerModel(
+        const std::string& model_id,
+        std::shared_ptr<llm::ILLMPlugin> plugin
     );
     
     /**
      * @brief Get current configuration
+     * @return Current config
      */
     Config getConfig() const;
     
     /**
      * @brief Update configuration
+     * @param config New configuration
      */
     void setConfig(const Config& config);
 
@@ -139,15 +141,20 @@ private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
-    // Internal helpers
-    std::string formatPromptForInference(
-        const std::string& prompt,
-        EvaluationDimension dimension
-    );
+    /**
+     * @brief Generate unique request ID
+     * @return Request ID string
+     */
+    std::string generateRequestId();
     
-    LLMJudgeResponse handleInferenceError(
-        const std::string& error_msg,
-        EvaluationDimension dimension
+    /**
+     * @brief Parse JSON-like evaluation response
+     * @param response Raw LLM response
+     * @param parsed Parsed output structure
+     */
+    void parseEvaluationResponse(
+        const std::string& response,
+        EvaluationResponse& parsed
     );
 };
 

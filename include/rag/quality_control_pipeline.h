@@ -1,142 +1,162 @@
 /**
  * @file quality_control_pipeline.h
- * @brief Quality Control Pipeline for RAG outputs
+ * @brief Multi-stage quality control pipeline for RAG-generated answers
  * 
- * Multi-stage quality control orchestration with Fast, Balanced, and Thorough
- * modes. Integrates LLM-as-Judge, G-Eval, and NLI verification with automatic
- * retry logic.
+ * Orchestrates multiple quality checks:
+ * 1. LLM-as-Judge evaluation (multiple dimensions)
+ * 2. G-Eval probabilistic scoring
+ * 3. NLI faithfulness verification
+ * 4. Quality gates with automatic retry
+ * 5. Feedback to continuous learning
  */
 
 #pragma once
 
-#include "rag/rag_judge.h"
 #include "rag/llm_judge_client.h"
 #include "rag/geval_evaluator.h"
 #include "rag/nli_faithfulness_verifier.h"
+#include "rag/rag_judge.h"
 #include <string>
 #include <vector>
 #include <memory>
 #include <functional>
+#include <chrono>
 
 namespace themis::rag::judge {
 
 /**
- * @brief Quality control decision
+ * @brief Quality control stage
  */
-enum class QCDecision {
-    ACCEPT,      ///< Quality meets threshold, accept output
-    REJECT,      ///< Quality below threshold, reject output
-    RETRY,       ///< Quality marginal, retry with different parameters
-    WARN         ///< Quality acceptable but with warnings
+enum class QualityStage {
+    FAST_SCREENING,     ///< Quick initial check (<50ms)
+    BALANCED_EVAL,      ///< Multi-dimension evaluation (<500ms)
+    THOROUGH_VERIFY,    ///< Full verification with NLI (<2s)
+    CONTINUOUS_LEARN    ///< Feedback to learning system
 };
 
 /**
- * @brief Quality control mode (performance vs thoroughness)
+ * @brief Quality gate result
  */
-enum class QCMode {
-    FAST,        ///< <50ms - single-pass faithfulness check
-    BALANCED,    ///< <500ms - multi-dimension evaluation
-    THOROUGH     ///< <2s - full evaluation with NLI and G-Eval
+enum class QualityGateStatus {
+    PASSED,             ///< Meets all thresholds
+    FAILED,             ///< Failed quality checks
+    RETRY_NEEDED,       ///< Should retry generation
+    ESCALATE            ///< Needs human review
 };
 
 /**
- * @brief Quality control result
+ * @brief Dimension-specific quality score
  */
-struct QCResult {
-    QCDecision decision;             ///< Accept/Reject/Retry/Warn
-    double overall_score;            ///< Combined quality score (0-1)
+struct DimensionScore {
+    std::string dimension;
+    double score;              ///< 0-1
+    double confidence;         ///< 0-1
+    std::string method;        ///< "llm", "geval", "nli"
+    std::string explanation;
+};
+
+/**
+ * @brief Quality check result
+ */
+struct QualityCheckResult {
+    QualityGateStatus status;
+    double overall_score;      ///< Aggregate score (0-1)
+    double confidence;         ///< Aggregate confidence (0-1)
     
     // Dimension scores
-    double faithfulness_score;
-    double relevance_score;
-    double completeness_score;
-    double coherence_score;
+    std::vector<DimensionScore> dimension_scores;
     
-    // Analysis
-    std::string explanation;         ///< Why this decision was made
-    std::vector<std::string> warnings;  ///< Non-fatal issues
-    std::vector<std::string> recommendations;  ///< Improvement suggestions
+    // Stage timing
+    std::chrono::milliseconds fast_stage_time;
+    std::chrono::milliseconds balanced_stage_time;
+    std::chrono::milliseconds thorough_stage_time;
+    std::chrono::milliseconds total_time;
     
-    // Detailed evaluations
-    EvaluationResult llm_judge_result;     ///< From LLM judge
-    std::vector<GEvalResult> geval_results;  ///< G-Eval scores
-    std::vector<NLIResult> nli_results;    ///< NLI verifications
+    // Failure reasons (if failed)
+    std::vector<std::string> failure_reasons;
     
-    // Metadata
-    QCMode mode;                     ///< Mode used for this evaluation
-    std::chrono::milliseconds latency;  ///< Total processing time
-    int retry_count;                 ///< Number of retries performed
-    bool passed_threshold;           ///< Met quality threshold
+    // Recommendations
+    bool should_retry;
+    std::vector<std::string> improvement_suggestions;
+    
+    // Learning feedback
+    bool sent_to_learning_system;
+    std::string learning_feedback_id;
 };
 
 /**
- * @brief Quality Control Pipeline
+ * @brief Quality control pipeline
  * 
- * Orchestrates multi-stage quality control with configurable modes:
+ * Multi-stage pipeline for comprehensive quality control:
  * 
- * Fast Mode (<50ms):
- * - Quick faithfulness check using NLI
- * - Single dimension evaluation
+ * Stage 1: Fast Screening (<50ms)
+ * - Quick LLM judge on critical dimension (faithfulness)
+ * - Early rejection of clearly bad answers
  * 
- * Balanced Mode (<500ms):
- * - Multi-dimension LLM judge evaluation
- * - Selective NLI verification for key claims
- * 
- * Thorough Mode (<2s):
- * - Full LLM judge evaluation
+ * Stage 2: Balanced Evaluation (<500ms)
+ * - Multi-dimension LLM judging
  * - G-Eval probabilistic scoring
- * - Comprehensive NLI claim verification
- * - Citation quality analysis
+ * - Aggregate quality assessment
+ * 
+ * Stage 3: Thorough Verification (<2s)
+ * - NLI faithfulness verification
+ * - Claim-level analysis
+ * - Citation checking
+ * 
+ * Stage 4: Continuous Learning
+ * - Send feedback to learning orchestrator
+ * - Update quality models
+ * - Track long-term quality trends
  */
 class QualityControlPipeline {
 public:
     /**
-     * @brief Configuration for quality control pipeline
+     * @brief Configuration for quality pipeline
      */
     struct Config {
-        QCMode default_mode = QCMode::BALANCED;
+        // Stage enablement
+        bool enable_fast_stage = true;
+        bool enable_balanced_stage = true;
+        bool enable_thorough_stage = true;
+        bool enable_learning_feedback = true;
         
         // Quality thresholds
-        double accept_threshold = 0.75;      ///< Accept if score >= this
-        double reject_threshold = 0.50;      ///< Reject if score < this
-        double warn_threshold = 0.65;        ///< Warn if score < this but >= reject
+        double fast_stage_threshold = 0.6;      ///< Min score to pass fast stage
+        double balanced_stage_threshold = 0.7;  ///< Min score to pass balanced
+        double thorough_stage_threshold = 0.8;  ///< Min score for production
         
-        // Retry configuration
-        bool enable_retry = true;
+        // Dimension weights
+        double faithfulness_weight = 0.35;
+        double relevance_weight = 0.25;
+        double completeness_weight = 0.15;
+        double coherence_weight = 0.15;
+        double ethical_weight = 0.10;
+        
+        // Retry policy
+        bool enable_auto_retry = true;
         int max_retries = 2;
-        double retry_improvement_threshold = 0.05;  ///< Min improvement to accept retry
+        double retry_threshold = 0.5;           ///< Min score to allow retry
         
-        // Performance targets (timeouts)
-        int fast_timeout_ms = 50;
-        int balanced_timeout_ms = 500;
-        int thorough_timeout_ms = 2000;
+        // Performance targets
+        int fast_stage_timeout_ms = 50;
+        int balanced_stage_timeout_ms = 500;
+        int thorough_stage_timeout_ms = 2000;
         
-        // Feature toggles
-        bool enable_nli_verification = true;
-        bool enable_geval_scoring = true;
-        bool enable_claim_extraction = true;
-        bool enable_citation_check = true;
-        
-        // Continuous learning integration
-        bool log_to_continuous_learning = true;
-        std::string cl_endpoint;            ///< Continuous learning service endpoint
+        // Learning feedback
+        std::string learning_orchestrator_url;
+        bool enable_async_feedback = true;
     };
     
     /**
-     * @brief Construct pipeline with configuration
-     * @param config Pipeline configuration
-     * @param llm_judge_client LLM judge client (optional, creates default if null)
-     * @param geval_evaluator G-Eval evaluator (optional)
-     * @param nli_verifier NLI verifier (optional)
+     * @brief Construct pipeline with default config
      */
     QualityControlPipeline();
+    
+    /**
+     * @brief Construct pipeline with custom config
+     * @param config Pipeline configuration
+     */
     explicit QualityControlPipeline(const Config& config);
-    QualityControlPipeline(
-        const Config& config,
-        std::shared_ptr<LLMJudgeClient> llm_judge_client,
-        std::shared_ptr<GEvalEvaluator> geval_evaluator,
-        std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier
-    );
     
     /**
      * @brief Destructor
@@ -144,120 +164,147 @@ public:
     ~QualityControlPipeline();
     
     /**
-     * @brief Run quality control on RAG output
-     * @param query Original query
+     * @brief Run quality control on generated answer
+     * @param query Original user query
+     * @param answer Generated answer to check
+     * @param documents Retrieved documents used
+     * @return Quality check result with pass/fail and details
+     */
+    QualityCheckResult runQualityControl(
+        const std::string& query,
+        const std::string& answer,
+        const std::vector<RetrievedDocument>& documents
+    );
+    
+    /**
+     * @brief Run specific stage only
+     * @param stage Stage to run
+     * @param query User query
+     * @param answer Generated answer
      * @param documents Retrieved documents
-     * @param generated_answer Answer to evaluate
-     * @param mode Quality control mode (uses default if not specified)
-     * @return Quality control result with decision
+     * @return Quality check result for that stage
      */
-    QCResult runQualityControl(
+    QualityCheckResult runStage(
+        QualityStage stage,
         const std::string& query,
-        const std::vector<RetrievedDocument>& documents,
-        const std::string& generated_answer,
-        QCMode mode = QCMode::BALANCED
+        const std::string& answer,
+        const std::vector<RetrievedDocument>& documents
     );
     
     /**
-     * @brief Run quality control with automatic mode selection
-     * Selects mode based on query complexity and available time budget
+     * @brief Set callback for quality gate failures
+     * @param callback Function to call when quality gate fails
      */
-    QCResult runAdaptiveQC(
-        const std::string& query,
-        const std::vector<RetrievedDocument>& documents,
-        const std::string& generated_answer,
-        int time_budget_ms = 500
+    void setFailureCallback(
+        std::function<void(const QualityCheckResult&)> callback
     );
     
     /**
-     * @brief Batch quality control on multiple outputs
-     * @param inputs Vector of evaluation inputs
-     * @param mode Quality control mode
-     * @return Vector of QC results
+     * @brief Set callback for learning feedback
+     * @param callback Function to call when sending feedback
      */
-    std::vector<QCResult> batchQualityControl(
-        const std::vector<EvaluationInput>& inputs,
-        QCMode mode = QCMode::BALANCED
+    void setLearningCallback(
+        std::function<void(const std::string&, const QualityCheckResult&)> callback
     );
     
     /**
-     * @brief Set callback for quality control completion
-     * @param callback Function called after each QC run
+     * @brief Set LLM judge client
+     * @param client Shared pointer to LLM judge client
      */
-    void setQCCallback(std::function<void(const QCResult&)> callback);
+    void setLLMJudgeClient(std::shared_ptr<LLMJudgeClient> client);
+    
+    /**
+     * @brief Set G-Eval evaluator
+     * @param evaluator Shared pointer to G-Eval evaluator
+     */
+    void setGEvalEvaluator(std::shared_ptr<GEvalEvaluator> evaluator);
+    
+    /**
+     * @brief Set NLI verifier
+     * @param verifier Shared pointer to NLI verifier
+     */
+    void setNLIVerifier(std::shared_ptr<NLIFaithfulnessVerifier> verifier);
     
     /**
      * @brief Get current configuration
+     * @return Current config
      */
     Config getConfig() const;
     
     /**
      * @brief Update configuration
+     * @param config New configuration
      */
     void setConfig(const Config& config);
     
     /**
-     * @brief Get performance statistics
+     * @brief Get pipeline statistics
+     * @return JSON with statistics
      */
-    struct Statistics {
-        size_t total_evaluations = 0;
-        size_t accepted = 0;
-        size_t rejected = 0;
-        size_t retried = 0;
-        size_t warned = 0;
-        double avg_latency_ms = 0.0;
-        double avg_score = 0.0;
-        std::unordered_map<QCMode, size_t> mode_usage;
-    };
-    Statistics getStatistics() const;
+    std::string getStatistics() const;
+    
+    /**
+     * @brief Reset statistics
+     */
+    void resetStatistics();
 
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;
     
     // Stage implementations
-    QCResult runFastMode(const EvaluationInput& input);
-    QCResult runBalancedMode(const EvaluationInput& input);
-    QCResult runThoroughMode(const EvaluationInput& input);
+    QualityCheckResult runFastStage(
+        const std::string& query,
+        const std::string& answer,
+        const std::vector<RetrievedDocument>& documents
+    );
     
-    // Decision logic
-    QCDecision makeDecision(double overall_score, const Config& config);
-    bool shouldRetry(const QCResult& result, int attempt_num);
+    QualityCheckResult runBalancedStage(
+        const std::string& query,
+        const std::string& answer,
+        const std::vector<RetrievedDocument>& documents
+    );
     
-    // Continuous learning integration
-    void logToContinuousLearning(const QCResult& result);
+    QualityCheckResult runThoroughStage(
+        const std::string& query,
+        const std::string& answer,
+        const std::vector<RetrievedDocument>& documents
+    );
     
-    // Performance monitoring
-    void recordEvaluation(const QCResult& result);
-    bool checkTimeout(std::chrono::steady_clock::time_point start, QCMode mode);
+    void sendLearningFeedback(
+        const std::string& query,
+        const std::string& answer,
+        const QualityCheckResult& result
+    );
+    
+    double computeOverallScore(const std::vector<DimensionScore>& scores);
+    QualityGateStatus determineStatus(double score, QualityStage stage);
 };
 
 /**
- * @brief Factory for creating quality control pipelines
+ * @brief Quality control pipeline factory
  */
-class QualityControlPipelineFactory {
+class QualityPipelineFactory {
 public:
     /**
-     * @brief Create pipeline for fast mode
+     * @brief Create fast pipeline (screening only)
      */
     static std::unique_ptr<QualityControlPipeline> createFast();
     
     /**
-     * @brief Create pipeline for balanced mode
+     * @brief Create balanced pipeline (fast + balanced stages)
      */
     static std::unique_ptr<QualityControlPipeline> createBalanced();
     
     /**
-     * @brief Create pipeline for thorough mode
+     * @brief Create thorough pipeline (all stages)
      */
     static std::unique_ptr<QualityControlPipeline> createThorough();
     
     /**
-     * @brief Create custom pipeline
+     * @brief Create production pipeline with learning feedback
      */
-    static std::unique_ptr<QualityControlPipeline> create(
-        const QualityControlPipeline::Config& config
-    );
+    static std::unique_ptr<QualityControlPipeline> createProduction();
 };
 
 } // namespace themis::rag::judge

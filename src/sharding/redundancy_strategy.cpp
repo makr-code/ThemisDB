@@ -640,7 +640,7 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
 
 RedundancyStrategy::~RedundancyStrategy() = default;
 
-void RedundancyStrategy::setRaftShardManager(std::shared_ptr<RaftShardManager> raft_manager) {
+void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     raft_manager_ = raft_manager;
     spdlog::info("RaftShardManager set for RedundancyStrategy");
@@ -770,11 +770,63 @@ WriteResult RedundancyStrategy::writeMirror(
     
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
+
+    // Fast path: single target shard should be handled synchronously to avoid
+    // unnecessary async machinery and potential blocking edge cases.
+    if (target_shards.size() == 1) {
+        const auto& shard_id = target_shards.front();
+        bool ok = false;
+        try {
+            ok = handler(shard_id, document_id, data);
+        } catch (const std::exception& e) {
+            spdlog::warn("Write to shard {} failed: {}", shard_id, e.what());
+            ok = false;
+        }
+
+        if (ok) {
+            return WriteResult::successful(document_id, {shard_id}, std::chrono::milliseconds(0));
+        }
+
+        WriteResult result;
+        result.success = false;
+        result.document_id = document_id;
+        result.failed_shards = {shard_id};
+        result.acknowledgements = 0;
+        result.error_message = "Write concern not met";
+        return result;
+    }
     
     // Write to all shards
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     std::vector<std::string> failed_shards;
+
+    // Fast-path: single target write should be synchronous to avoid async overhead
+    // and potential blocking behavior in local/unit-test environments.
+    if (target_shards.size() == 1) {
+        bool ok = false;
+        try {
+            ok = handler(target_shards[0], document_id, data);
+        } catch (const std::exception& e) {
+            spdlog::warn("Write to shard {} failed: {}", target_shards[0], e.what());
+            ok = false;
+        }
+
+        if (ok) {
+            written_shards.push_back(target_shards[0]);
+        } else {
+            failed_shards.push_back(target_shards[0]);
+        }
+
+        WriteResult result;
+        result.success = ok;
+        result.document_id = document_id;
+        result.written_shards = written_shards;
+        result.failed_shards = failed_shards;
+        result.acknowledgements = ok ? 1 : 0;
+        result.error_message = ok ? "" : "Write concern not met";
+        return result;
+    }
     
     for (const auto& shard_id : target_shards) {
         futures.push_back(std::async(std::launch::async, [&, shard_id]() {
@@ -784,8 +836,16 @@ WriteResult RedundancyStrategy::writeMirror(
     
     // Wait for writes based on write concern
     uint32_t successful = 0;
+    const auto wait_timeout = config_.replication_timeout;
     for (size_t i = 0; i < futures.size(); ++i) {
         try {
+            auto status = futures[i].wait_for(wait_timeout);
+            if (status != std::future_status::ready) {
+                spdlog::warn("Write to shard {} timed out", target_shards[i]);
+                failed_shards.push_back(target_shards[i]);
+                continue;
+            }
+
             if (futures[i].get()) {
                 written_shards.push_back(target_shards[i]);
                 successful++;
@@ -1503,7 +1563,11 @@ std::shared_ptr<RedundancyStrategy> CollectionRedundancyManager::getStrategy(
     }
     
     // Create new strategy
-    auto config = getConfig(collection);
+    RedundancyConfig config = default_config_;
+    auto cfg_it = collection_configs_.find(collection);
+    if (cfg_it != collection_configs_.end()) {
+        config = cfg_it->second;
+    }
     auto strategy = std::make_shared<RedundancyStrategy>(config);
     strategies_[collection] = strategy;
     
