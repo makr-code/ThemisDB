@@ -6,6 +6,7 @@
 #include <optional>
 #include <memory>
 #include <cstdint>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 // Forward declarations for RocksDB types
@@ -130,6 +131,9 @@ private:
     
     // Helper to wait for new events (for long-poll)
     bool waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) const;
+    
+    // Mutex to protect sequence generation (prevents race conditions in read-modify-write)
+    mutable std::mutex sequence_mutex_;
 };
 
 } // namespace themis

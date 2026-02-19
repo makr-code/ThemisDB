@@ -78,8 +78,9 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
 }
 
 uint64_t Changefeed::nextSequence() {
-    // Simple atomic increment using RocksDB merge operator would be ideal,
-    // but for MVP we'll do a read-modify-write with a transaction
+    // Protect read-modify-write sequence with mutex to prevent race conditions
+    // TODO: Consider using RocksDB merge operator for better performance
+    std::lock_guard<std::mutex> lock(sequence_mutex_);
     
     std::string seq_value;
     rocksdb::ReadOptions read_opts;
@@ -100,10 +101,16 @@ uint64_t Changefeed::nextSequence() {
     rocksdb::WriteOptions write_opts;
     std::string next_seq_str = std::to_string(next_seq);
     
+    rocksdb::Status write_status;
     if (cf_) {
-        db_->Put(write_opts, cf_, SEQUENCE_KEY, next_seq_str);
+        write_status = db_->Put(write_opts, cf_, SEQUENCE_KEY, next_seq_str);
     } else {
-        db_->Put(write_opts, SEQUENCE_KEY, next_seq_str);
+        write_status = db_->Put(write_opts, SEQUENCE_KEY, next_seq_str);
+    }
+    
+    if (!write_status.ok()) {
+        THEMIS_ERROR("Failed to update sequence counter: {}", write_status.ToString());
+        throw std::runtime_error("Failed to update sequence counter: " + write_status.ToString());
     }
     
     return next_seq;

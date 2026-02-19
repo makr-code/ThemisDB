@@ -83,23 +83,29 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     if (config_.compress_payloads && event.value.has_value()) {
         size_t payload_size = event.value->size();
         if (payload_size > config_.compression_threshold_bytes) {
-            auto compressed = utils::zstd_compress(*event.value, 3);
-            if (!compressed.empty() && compressed.size() < payload_size) {
-                event.value = std::string(compressed.begin(), compressed.end());
-                event.metadata["_compressed"] = true;
-                stats_.compressed_payloads++;
-                
-                // Update compression ratio stats
-                double ratio = static_cast<double>(payload_size) / compressed.size();
-                stats_.avg_compression_ratio = 
-                    (stats_.avg_compression_ratio * (stats_.compressed_payloads - 1) + ratio) / 
-                    stats_.compressed_payloads;
+            try {
+                auto compressed = utils::zstd_compress(*event.value, 3);
+                if (!compressed.empty() && compressed.size() < payload_size) {
+                    event.value = std::string(compressed.begin(), compressed.end());
+                    event.metadata["_compressed"] = true;
+                    stats_.compressed_payloads++;
+                    
+                    // Update compression ratio stats
+                    double ratio = static_cast<double>(payload_size) / compressed.size();
+                    stats_.avg_compression_ratio = 
+                        (stats_.avg_compression_ratio * (stats_.compressed_payloads - 1) + ratio) / 
+                        stats_.compressed_payloads;
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Compression failed for event (key={}): {}. Storing uncompressed.", 
+                           event.key, e.what());
+                // Continue with uncompressed payload
             }
         }
     }
     
     {
-        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        std::unique_lock<std::mutex> lock(buffers_mutex_);
         
         // Check global memory limit
         if (stats_.current_buffer_memory >= config_.max_memory_bytes) {
@@ -107,10 +113,10 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
                        config_.max_memory_bytes / 1024 / 1024);
             stats_.buffer_overflow_count++;
             
-            // Flush without lock (will re-acquire)
-            buffers_mutex_.unlock();
+            // Unlock before flush to avoid deadlock, flush will re-acquire lock
+            lock.unlock();
             flushInternal(false);
-            buffers_mutex_.lock();
+            lock.lock();
         }
         
         // Add to buffer
@@ -204,16 +210,27 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
     
     // Record all events to changefeed
     size_t count = 0;
+    size_t failed = 0;
     for (auto& buffered_event : buffer.events) {
         try {
             // Decompress if needed
             Changefeed::ChangeEvent event = buffered_event.event;
             if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
                 if (event.value.has_value()) {
-                    std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
-                    auto decompressed = utils::zstd_decompress(compressed_data);
-                    if (!decompressed.empty()) {
-                        event.value = std::string(decompressed.begin(), decompressed.end());
+                    try {
+                        std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
+                        auto decompressed = utils::zstd_decompress(compressed_data);
+                        if (!decompressed.empty()) {
+                            event.value = std::string(decompressed.begin(), decompressed.end());
+                        } else {
+                            THEMIS_ERROR("Decompression returned empty result for event key={}", event.key);
+                            failed++;
+                            continue;
+                        }
+                    } catch (const std::exception& e) {
+                        THEMIS_ERROR("Decompression failed for event key={}: {}", event.key, e.what());
+                        failed++;
+                        continue;
                     }
                 }
                 event.metadata.erase("_compressed");
@@ -223,7 +240,12 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
             count++;
         } catch (const std::exception& e) {
             THEMIS_ERROR("Failed to record event: {}", e.what());
+            failed++;
         }
+    }
+    
+    if (failed > 0) {
+        THEMIS_WARN("Failed to flush {} out of {} events", failed, buffer.events.size());
     }
     
     stats_.events_flushed += count;
