@@ -873,6 +873,152 @@ void ModuleLoader::resetMetrics() {
     spdlog::info("Module loader metrics reset");
 }
 
+// ============================================================================
+// Staged Loading Implementation (Phase 3)
+// ============================================================================
+
+void ModuleLoader::registerHealthCheck(const std::string& checkName, HealthCheckFunction checkFunc) {
+    healthChecks_[checkName] = checkFunc;
+    spdlog::info("Health check registered: {}", checkName);
+}
+
+void ModuleLoader::clearHealthChecks() {
+    healthChecks_.clear();
+    spdlog::info("All health checks cleared");
+}
+
+void ModuleLoader::setStagedLoadingEnabled(bool enable) {
+    stagedLoadingEnabled_ = enable;
+    spdlog::info("Staged loading {}", enable ? "enabled" : "disabled");
+}
+
+std::optional<LoadStage> ModuleLoader::queryModuleStage(const std::string& moduleName) const {
+    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
+                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    
+    if (it == loadedModules_.end()) {
+        return std::nullopt;
+    }
+    
+    return it->currentStage;
+}
+
+std::vector<HealthCheckResult> ModuleLoader::getHealthCheckResults(const std::string& moduleName) const {
+    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
+                          [&moduleName](const LoadedModule& m) { return m.name == moduleName; });
+    
+    if (it == loadedModules_.end()) {
+        return {};
+    }
+    
+    return it->healthChecks;
+}
+
+bool ModuleLoader::updateModuleStage(const std::string& moduleName, LoadStage newStage) {
+    auto it = std::find_if(loadedModules_.begin(), loadedModules_.end(),
+                          [&moduleName](LoadedModule& m) { return m.name == moduleName; });
+    
+    if (it == loadedModules_.end()) {
+        return false;
+    }
+    
+    it->currentStage = newStage;
+    spdlog::debug("Module {} stage updated to {}", moduleName, static_cast<int>(newStage));
+    return true;
+}
+
+bool ModuleLoader::runHealthChecks(LoadedModule& module, ModuleVerificationResult& result) {
+    if (healthChecks_.empty()) {
+        spdlog::debug("No health checks registered for module: {}", module.name);
+        return true;  // No health checks = pass
+    }
+    
+    spdlog::info("Running {} health checks for module: {}", healthChecks_.size(), module.name);
+    
+    for (const auto& [checkName, checkFunc] : healthChecks_) {
+        auto startTime = std::chrono::steady_clock::now();
+        
+        try {
+            auto healthResult = checkFunc(module.handle, module.name);
+            
+            auto endTime = std::chrono::steady_clock::now();
+            healthResult.checkDurationMs = std::chrono::duration_cast<std::chrono::milliseconds>(
+                endTime - startTime).count();
+            
+            module.healthChecks.push_back(healthResult);
+            
+            if (!healthResult.passed) {
+                result.errorCode = ModuleErrorCode::HEALTH_CHECK_FAILED;
+                result.errorCategory = ErrorCategory::RECOVERABLE;
+                result.errorMessage = "Health check failed: " + checkName + " - " + healthResult.message;
+                spdlog::error("{}", result.errorMessage);
+                return false;
+            }
+            
+            spdlog::info("Health check passed: {} ({}ms)", checkName, healthResult.checkDurationMs);
+        } catch (const std::exception& e) {
+            auto healthResult = HealthCheckResult::failure(checkName, 
+                "Exception during health check: " + std::string(e.what()));
+            module.healthChecks.push_back(healthResult);
+            
+            result.errorCode = ModuleErrorCode::HEALTH_CHECK_FAILED;
+            result.errorCategory = ErrorCategory::FATAL;
+            result.errorMessage = "Health check exception: " + checkName + " - " + std::string(e.what());
+            spdlog::critical("{}", result.errorMessage);
+            return false;
+        }
+    }
+    
+    spdlog::info("All health checks passed for module: {}", module.name);
+    return true;
+}
+
+ModuleMetadata ModuleLoader::extractMetadataFromHandle(void* handle) {
+    ModuleMetadata metadata;
+    
+    if (!handle) {
+        return metadata;
+    }
+    
+    // Extract version information from already-loaded handle
+    typedef const char* (*GetVersionFunc)();
+    typedef uint32_t (*GetVersionIntFunc)();
+    
+    auto getVersionStr = reinterpret_cast<GetVersionFunc>(getSymbol(handle, "themis_module_version"));
+    auto getAbiVersion = reinterpret_cast<GetVersionFunc>(getSymbol(handle, "themis_module_abi_version"));
+    auto getBuildId = reinterpret_cast<GetVersionFunc>(getSymbol(handle, "themis_module_build_id"));
+    auto getMajor = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_major"));
+    auto getMinor = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_minor"));
+    auto getPatch = reinterpret_cast<GetVersionIntFunc>(getSymbol(handle, "themis_api_version_patch"));
+    
+    if (getVersionStr) metadata.version = getVersionStr();
+    if (getAbiVersion) metadata.abiVersion = getAbiVersion();
+    if (getBuildId) metadata.buildId = getBuildId();
+    if (getMajor) metadata.themisMajor = getMajor();
+    if (getMinor) metadata.themisMinor = getMinor();
+    if (getPatch) metadata.themisPatch = getPatch();
+    
+    return metadata;
+}
+
+ModuleMetadata ModuleLoader::getCachedMetadata(const std::string& modulePath) {
+    // Check cache first
+    auto it = metadataCache_.find(modulePath);
+    if (it != metadataCache_.end()) {
+        spdlog::debug("Using cached metadata for: {}", modulePath);
+        return it->second;
+    }
+    
+    // Not in cache - extract and cache it
+    auto metadata = extractModuleMetadata(modulePath);
+    if (metadata.isValid()) {
+        metadataCache_[modulePath] = metadata;
+        spdlog::debug("Cached metadata for: {}", modulePath);
+    }
+    
+    return metadata;
+}
+
 void ModuleRegistry::clear() {
     modules_.clear();
 }

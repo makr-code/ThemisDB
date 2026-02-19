@@ -9,12 +9,68 @@
 #include <memory>
 #include <optional>
 #include <map>
+#include <functional>
 
 namespace themis {
 namespace modules {
 
 // Forward declaration
 class ModuleSecurityVerifier;
+
+/**
+ * @brief Module load stage for staged loading
+ */
+enum class LoadStage {
+    UNLOADED,       // Module not loaded
+    VERIFYING,      // Signature/hash verification in progress
+    VERIFIED,       // Verification complete
+    VALIDATING,     // ABI/metadata validation in progress
+    VALIDATED,      // Validation complete
+    STAGING,        // Pre-activation staging
+    STAGED,         // Staged and ready for activation
+    ACTIVATING,     // Health checks and activation in progress
+    ACTIVE,         // Fully activated and operational
+    FAILED,         // Load failed at some stage
+    UNLOADING       // Unload in progress
+};
+
+/**
+ * @brief Health check result for module activation
+ */
+struct HealthCheckResult {
+    bool passed = false;
+    std::string checkName;
+    std::string message;
+    uint64_t checkDurationMs = 0;
+    
+    static HealthCheckResult success(const std::string& name, const std::string& msg = "") {
+        HealthCheckResult result;
+        result.passed = true;
+        result.checkName = name;
+        result.message = msg.empty() ? "Health check passed" : msg;
+        return result;
+    }
+    
+    static HealthCheckResult failure(const std::string& name, const std::string& msg) {
+        HealthCheckResult result;
+        result.passed = false;
+        result.checkName = name;
+        result.message = msg;
+        return result;
+    }
+};
+
+/**
+ * @brief Health check function type
+ * 
+ * Health check functions are called before module activation.
+ * They can verify module initialization, resource availability, etc.
+ * 
+ * @param moduleHandle OS-specific module handle
+ * @param moduleName Name of the module being checked
+ * @return Health check result
+ */
+using HealthCheckFunction = std::function<HealthCheckResult(void* moduleHandle, const std::string& moduleName)>;
 
 /**
  * @brief Module error codes for structured error handling
@@ -40,6 +96,9 @@ enum class ModuleErrorCode {
     LOAD_LIBRARY_FAILED = 300,
     SYMBOL_NOT_FOUND = 301,
     INITIALIZATION_FAILED = 302,
+    HEALTH_CHECK_FAILED = 303,
+    STAGING_FAILED = 304,
+    ACTIVATION_FAILED = 305,
     
     // Version/ABI errors (4xx)
     VERSION_INCOMPATIBLE = 400,
@@ -179,6 +238,9 @@ struct LoadedModule {
     uint64_t loadTime = 0;      // Unix timestamp
     uint64_t loadDurationMs = 0; // Load duration in milliseconds
     ModuleMetadata metadata;    // Full metadata
+    LoadStage currentStage = LoadStage::UNLOADED;  // Current load stage
+    std::vector<HealthCheckResult> healthChecks;   // Health check results
+    bool fullyActivated = false; // True if passed all stages
 };
 
 /**
@@ -332,6 +394,38 @@ public:
     void setMaxBackoffSeconds(uint32_t maxSeconds);
     
     /**
+     * @brief Register a health check function
+     * @param checkName Unique name for this health check
+     * @param checkFunc Health check function
+     */
+    void registerHealthCheck(const std::string& checkName, HealthCheckFunction checkFunc);
+    
+    /**
+     * @brief Clear all registered health checks
+     */
+    void clearHealthChecks();
+    
+    /**
+     * @brief Query current load stage of a module
+     * @param moduleName Name of the module
+     * @return Optional load stage (nullopt if not found)
+     */
+    std::optional<LoadStage> queryModuleStage(const std::string& moduleName) const;
+    
+    /**
+     * @brief Get health check results for a module
+     * @param moduleName Name of the module
+     * @return Vector of health check results
+     */
+    std::vector<HealthCheckResult> getHealthCheckResults(const std::string& moduleName) const;
+    
+    /**
+     * @brief Enable or disable staged loading
+     * @param enable If true, use staged loading; if false, load directly
+     */
+    void setStagedLoadingEnabled(bool enable);
+    
+    /**
      * @brief Export security audit log
      * @param outputPath Path to export JSON audit log
      * @return true if successful, false otherwise
@@ -423,6 +517,11 @@ private:
     uint32_t themisABIMajor_ = 1;
     uint32_t themisABIMinor_ = 0;
     
+    // Staged loading
+    bool stagedLoadingEnabled_ = true;     // Default: use staged loading
+    std::map<std::string, HealthCheckFunction> healthChecks_;
+    std::map<std::string, ModuleMetadata> metadataCache_;  // Cache to avoid double-loading
+    
     // Platform-specific loading functions
     void* loadLibrary(const std::string& path);
     void unloadLibrary(void* handle);
@@ -448,6 +547,12 @@ private:
     
     // Metrics helpers
     void updateMetrics(bool success, uint64_t durationMs, ModuleErrorCode errorCode);
+    
+    // Staged loading helpers
+    bool updateModuleStage(const std::string& moduleName, LoadStage newStage);
+    bool runHealthChecks(LoadedModule& module, ModuleVerificationResult& result);
+    ModuleMetadata extractMetadataFromHandle(void* handle);
+    ModuleMetadata getCachedMetadata(const std::string& modulePath);
 };
 
 /**
