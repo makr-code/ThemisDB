@@ -75,9 +75,6 @@ TEST_F(QCPipelineTest, PerformanceMetrics) {
     EXPECT_GT(result.metrics.total_time_ms, 0.0);
     EXPECT_GE(result.metrics.llm_calls_count, 0);
     EXPECT_GE(result.metrics.nli_calls_count, 0);
-    
-    // Should have time target flag
-    EXPECT_TRUE(result.metrics.met_time_target || !result.metrics.met_time_target);
 }
 
 TEST_F(QCPipelineTest, QualityChecks) {
@@ -102,8 +99,8 @@ TEST_F(QCPipelineTest, OverallQualityPassFail) {
     
     auto result = pipeline.evaluate(query, sample_docs, answer);
     
-    // Should have overall quality determination
-    EXPECT_TRUE(result.overall_quality_passed || !result.overall_quality_passed);
+    // Should have at least one quality check
+    EXPECT_FALSE(result.quality_checks.empty());
     
     // If passed, all checks should pass
     if (result.overall_quality_passed) {

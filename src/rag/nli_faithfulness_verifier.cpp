@@ -256,7 +256,7 @@ std::vector<NLIResult> NLIFaithfulnessVerifier::verifyBatch(
     results.reserve(pairs.size());
     
     // For now, process sequentially
-    // TODO: Implement true batch processing with model
+    // TODO(issue #XXX): Implement true batch processing with model for better efficiency
     for (const auto& [premise, hypothesis] : pairs) {
         results.push_back(verify(premise, hypothesis));
     }

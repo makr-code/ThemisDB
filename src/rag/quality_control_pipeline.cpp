@@ -278,7 +278,7 @@ std::vector<QCPipelineResult> QualityControlPipeline::evaluateBatch(
     results.reserve(evaluations.size());
     
     // For now, process sequentially
-    // TODO: Implement parallel batch processing
+    // TODO(issue #XXX): Implement parallel batch processing for better throughput
     for (const auto& [query, docs, answer] : evaluations) {
         results.push_back(evaluate(query, docs, answer));
     }
