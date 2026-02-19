@@ -1,4 +1,5 @@
 #include "aql/llm_aql_handler.h"
+#include "aql/llm_error_codes.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
@@ -37,6 +38,11 @@ std::string LLMAQLHandler::executeInfer(
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
+        // Input validation
+        LLMValidator::validatePrompt(prompt);
+        LLMValidator::validateId(model_id, false);
+        LLMValidator::validateId(lora_id, true);
+        
         auto& plugin_mgr = impl_->getPluginManager();
         
         // Build inference request with model and LoRA selection
@@ -74,10 +80,17 @@ std::string LLMAQLHandler::executeInfer(
         auto response = plugin_mgr.generate(request);
         return response.text;
         
+    } catch (const LLMException& e) {
+        // Re-throw LLM-specific exceptions
+        throw;
+    } catch (const std::invalid_argument& e) {
+        // Catch option parsing errors
+        throw LLMException(LLMErrorCode::INVALID_OPTIONS,
+            std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
-        throw std::runtime_error(
-            std::string("LLM INFER failed: ") + e.what()
-        );
+        // Wrap other exceptions as internal errors (mask details)
+        throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+            std::string("Inference operation failed: ") + e.what());
     }
 }
 
@@ -89,6 +102,12 @@ std::string LLMAQLHandler::executeRAG(
     const std::unordered_map<std::string, std::string>& options
 ) {
     try {
+        // Input validation
+        LLMValidator::validatePrompt(query);
+        LLMValidator::validateCollection(collection);
+        LLMValidator::validateTopK(top_k);
+        LLMValidator::validateId(lora_id, true);
+        
         auto& plugin_mgr = impl_->getPluginManager();
         
         // Build RAG context with vector search integration
@@ -163,10 +182,17 @@ std::string LLMAQLHandler::executeRAG(
         auto response = plugin_mgr.generateRAG(context, request);
         return response.text;
         
+    } catch (const LLMException& e) {
+        // Re-throw LLM-specific exceptions
+        throw;
+    } catch (const std::invalid_argument& e) {
+        // Catch option parsing errors
+        throw LLMException(LLMErrorCode::INVALID_OPTIONS,
+            std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
-        throw std::runtime_error(
-            std::string("LLM RAG failed: ") + e.what()
-        );
+        // Wrap other exceptions as internal errors (mask details)
+        throw LLMException(LLMErrorCode::RAG_FAILED,
+            std::string("RAG operation failed: ") + e.what());
     }
 }
 
