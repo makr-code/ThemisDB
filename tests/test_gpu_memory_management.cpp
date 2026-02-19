@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+#include <atomic>
+#include <thread>
+#include <vector>
 #include "themis/gpu/memory_manager.h"
 
 using namespace themis::gpu;
@@ -478,4 +481,136 @@ TEST_F(GPUMemoryManagerTest, Tenant_RemoveQuota_AllowsUnlimitedUse) {
     // Verify allocation tracking still works after quota removal.
     EXPECT_EQ(mgr.GetTenantStats("tenant_h").allocated_bytes, 3 * mb);
     mgr.DeallocateGPU(3 * mb, "tenant_h");
+}
+
+// ---------------------------------------------------------------------------
+// Concurrent stress tests — verify thread safety of GPUMemoryManager
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUMemoryManagerTest, Concurrent_AllocDealloc_NoCounterDrift) {
+    const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
+    if (limit == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t chunk = 1024ULL * 1024ULL;  // 1 MB per operation
+    // Use at most 25% of limit so we don't hit the ceiling.
+    const int max_live = static_cast<int>((limit / 4) / chunk);
+    if (max_live < 4) {
+        GTEST_SKIP() << "Edition limit too small for concurrent test";
+    }
+
+    constexpr int THREADS = 4;
+    // Each thread allocates then frees a single chunk; the 25% budget means
+    // at least one thread always succeeds.
+    std::atomic<int> unexpected_failures{0};
+
+    auto worker = [&]() {
+        std::vector<bool> allocated(max_live, false);
+        // Allocate all.
+        for (int i = 0; i < max_live; ++i) {
+            allocated[i] = mgr.TryAllocateGPU(chunk, "stress");
+        }
+        // Deallocate what was allocated.
+        for (int i = 0; i < max_live; ++i) {
+            if (allocated[i]) {
+                mgr.DeallocateGPU(chunk);
+            }
+        }
+        // After each thread fully drains its own allocations, used bytes must
+        // only contain what *other* threads still hold — never negative.
+        if (mgr.GetGPUMemoryUsed() > limit) {
+            unexpected_failures.fetch_add(1);
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(THREADS);
+    for (int t = 0; t < THREADS; ++t) {
+        threads.emplace_back(worker);
+    }
+    for (auto& th : threads) th.join();
+
+    // After all threads finish, allocated bytes must be exactly 0.
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u) << "Counter drift detected";
+    EXPECT_EQ(unexpected_failures.load(), 0);
+}
+
+TEST_F(GPUMemoryManagerTest, Concurrent_Stats_NeverNegative) {
+    const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
+    if (limit == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t chunk = 512ULL * 1024ULL;  // 512 KB
+    constexpr int THREADS = 8;
+    constexpr int OPS     = 20;
+
+    std::atomic<bool> saw_negative{false};
+
+    auto worker = [&]() {
+        for (int i = 0; i < OPS; ++i) {
+            mgr.TryAllocateGPU(chunk, "stats_stress");
+            const auto s = mgr.GetStats();
+            // allocated_bytes is uint64_t — underflow would wrap to very large value
+            if (s.allocated_bytes > limit) {
+                saw_negative.store(true);
+            }
+            mgr.DeallocateGPU(chunk);
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(THREADS);
+    for (int t = 0; t < THREADS; ++t) {
+        threads.emplace_back(worker);
+    }
+    for (auto& th : threads) th.join();
+
+    EXPECT_FALSE(saw_negative.load()) << "Underflow/overflow detected in concurrent stats";
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
+}
+
+TEST_F(GPUMemoryManagerTest, Concurrent_TenantIsolation_NoLeakage) {
+    const uint64_t limit = GPUMemoryManager::GetMaxGPUVRAMBytes();
+    if (limit < 32ULL * 1024ULL * 1024ULL) {
+        GTEST_SKIP() << "Edition limit too small for concurrent tenant test";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+
+    // Each tenant gets 4 MB quota; 4 tenants run in parallel.
+    constexpr int N_TENANTS = 4;
+    constexpr int OPS_PER   = 10;
+    for (int i = 0; i < N_TENANTS; ++i) {
+        mgr.SetTenantQuota("stress_t" + std::to_string(i), 4 * mb);
+    }
+
+    std::atomic<int> quota_violations{0};
+
+    auto tenant_worker = [&](int tid) {
+        const std::string name = "stress_t" + std::to_string(tid);
+        for (int op = 0; op < OPS_PER; ++op) {
+            bool ok = mgr.TryAllocateGPU(mb, "work", name);
+            if (ok) {
+                // Check tenant usage never exceeds quota.
+                auto ts = mgr.GetTenantStats(name);
+                if (ts.allocated_bytes > 4 * mb) {
+                    quota_violations.fetch_add(1);
+                }
+                mgr.DeallocateGPU(mb, name);
+            }
+        }
+    };
+
+    std::vector<std::thread> threads;
+    threads.reserve(N_TENANTS);
+    for (int t = 0; t < N_TENANTS; ++t) {
+        threads.emplace_back(tenant_worker, t);
+    }
+    for (auto& th : threads) th.join();
+
+    EXPECT_EQ(quota_violations.load(), 0)
+        << "Tenant quota exceeded during concurrent access";
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
 }
