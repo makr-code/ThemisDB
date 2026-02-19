@@ -225,16 +225,12 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         return result;
     }
     
-    // Step 4: Extract metadata (before security verification)
-    // TODO: Optimize to avoid double-loading: Currently loads module twice (once here for
-    // metadata, once later for actual use). Consider: 1) Extract metadata after main load,
-    // 2) Cache metadata, or 3) Use platform-specific binary inspection without loading
-    result.metadata = extractModuleMetadata(modulePath);
+    // Step 4: STAGED LOADING - Use cached metadata if available (optimization)
+    // This eliminates the double-loading issue
+    result.metadata = getCachedMetadata(modulePath);
     if (!result.metadata.isValid()) {
         spdlog::warn("Module metadata invalid or missing for: {}", modulePath);
-        // Set safe fallback values for compatibility
-        // Note: Modules without metadata will show version "unversioned"
-        // This allows loading but signals missing version info to operators
+        // Will extract after loading from handle
         result.metadata.version = "unversioned";
         result.metadata.abiVersion = "unknown";
     } else {
@@ -242,7 +238,11 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
                      result.metadata.version, result.metadata.abiVersion,
                      result.metadata.themisMajor, result.metadata.themisMinor, result.metadata.themisPatch);
         
-        // Check ABI compatibility
+        // STAGED: Validation stage - Check ABI compatibility
+        if (stagedLoadingEnabled_) {
+            spdlog::debug("STAGE: VALIDATING - {}", moduleName);
+        }
+        
         if (!isABICompatible(result.metadata)) {
             result.errorCode = ModuleErrorCode::ABI_INCOMPATIBLE;
             result.errorCategory = categorizeError(result.errorCode);
@@ -257,6 +257,11 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
             updateMetrics(false, 0, result.errorCode);
             return result;
         }
+    }
+    
+    // STAGED: Verification stage
+    if (stagedLoadingEnabled_) {
+        spdlog::debug("STAGE: VERIFYING - {}", moduleName);
     }
     
     // Step 5: SECURITY - Verify module signature and integrity
@@ -288,8 +293,17 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     // Verification succeeded - track it
     metrics_.verificationSuccesses++;
     
+    if (stagedLoadingEnabled_) {
+        spdlog::debug("STAGE: VERIFIED - {}", moduleName);
+    }
+    
     // Step 6: Calculate and store file hash
     result.moduleHash = verifier_->calculateFileHash(modulePath);
+    
+    // STAGED: Staging phase - Load the module library
+    if (stagedLoadingEnabled_) {
+        spdlog::debug("STAGE: STAGING - {}", moduleName);
+    }
     
     // Step 7: Load the module library
     void* handle = loadLibrary(modulePath);
@@ -307,11 +321,27 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         return result;
     }
     
+    // Step 7b: Extract metadata from loaded handle if not already valid
+    // This optimizes by eliminating the double-load issue
+    if (!result.metadata.isValid()) {
+        result.metadata = extractMetadataFromHandle(handle);
+        spdlog::info("Extracted metadata from handle: version={}", result.metadata.version);
+        
+        // Cache it for future use
+        if (result.metadata.isValid()) {
+            metadataCache_[modulePath] = result.metadata;
+        }
+    }
+    
+    if (stagedLoadingEnabled_) {
+        spdlog::debug("STAGE: STAGED - {}", moduleName);
+    }
+    
     // Step 8: Calculate load duration
     auto endTime = std::chrono::steady_clock::now();
     auto durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
     
-    // Step 9: Store module info
+    // Step 9: Create module info structure
     LoadedModule module;
     module.name = moduleName;
     module.path = modulePath;
@@ -322,6 +352,26 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     module.loadDurationMs = static_cast<uint64_t>(durationMs);
     module.metadata = result.metadata;
     module.version = result.metadata.version;
+    module.currentStage = stagedLoadingEnabled_ ? LoadStage::STAGING : LoadStage::ACTIVE;
+    
+    // STAGED: Activation stage - Run health checks if enabled
+    if (stagedLoadingEnabled_) {
+        spdlog::debug("STAGE: ACTIVATING - {}", moduleName);
+        
+        if (!runHealthChecks(module, result)) {
+            // Health check failed - unload and return error
+            spdlog::error("Health checks failed for module: {}", moduleName);
+            unloadLibrary(handle);
+            recordFailure(modulePath, result.errorCode, result.errorMessage);
+            updateMetrics(false, static_cast<uint64_t>(durationMs), result.errorCode);
+            return result;
+        }
+        
+        module.currentStage = LoadStage::ACTIVE;
+        spdlog::info("STAGE: ACTIVE - {} (all health checks passed)", moduleName);
+    }
+    
+    module.fullyActivated = true;
     
     loadedModules_.push_back(module);
     ModuleRegistry::instance().registerModule(module);
@@ -520,6 +570,12 @@ std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
             return "Required symbol not found in module";
         case ModuleErrorCode::INITIALIZATION_FAILED:
             return "Module initialization failed";
+        case ModuleErrorCode::HEALTH_CHECK_FAILED:
+            return "Module health check failed";
+        case ModuleErrorCode::STAGING_FAILED:
+            return "Module staging failed";
+        case ModuleErrorCode::ACTIVATION_FAILED:
+            return "Module activation failed";
         case ModuleErrorCode::VERSION_INCOMPATIBLE:
             return "Module version incompatible with ThemisDB";
         case ModuleErrorCode::ABI_INCOMPATIBLE:
