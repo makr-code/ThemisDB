@@ -1731,6 +1731,11 @@ if(THEMIS_ENABLE_LLM)
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    # Continuous Learning Orchestrator (Phase 2)
+    ../src/rag/learning_metrics.cpp
+    ../src/rag/bayesian_optimizer.cpp
+    ../src/rag/ab_testing_framework.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
     )
 endif()
 
@@ -2545,6 +2550,12 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
         ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
         ../src/rag/knowledge_gap_detector.cpp     # Knowledge gap detection
+        
+        # Continuous Learning Orchestrator (Phase 2)
+        ../src/rag/learning_metrics.cpp
+        ../src/rag/bayesian_optimizer.cpp
+        ../src/rag/ab_testing_framework.cpp
+        ../src/rag/continuous_learning_orchestrator.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
