@@ -1,0 +1,400 @@
+#include "content/content_security.h"
+#include "content/content_errors.h"
+#include <regex>
+#include <sstream>
+
+namespace themis {
+namespace content {
+
+// ============================================================================
+// ContentSecurityConfig
+// ============================================================================
+
+json ContentSecurityConfig::toJson() const {
+    json j;
+    j["enable_malware_scan"] = enable_malware_scan;
+    j["block_on_malware"] = block_on_malware;
+    j["malware_block_threshold"] = static_cast<int>(malware_block_threshold);
+    j["enable_pii_detection"] = enable_pii_detection;
+    j["block_on_pii"] = block_on_pii;
+    j["redact_pii_in_logs"] = redact_pii_in_logs;
+    j["enable_abuse_detection"] = enable_abuse_detection;
+    j["block_on_abuse"] = block_on_abuse;
+    j["sanitize_error_messages"] = sanitize_error_messages;
+    j["hide_internal_paths"] = hide_internal_paths;
+    j["hide_system_info"] = hide_system_info;
+    return j;
+}
+
+ContentSecurityConfig ContentSecurityConfig::fromJson(const json& j) {
+    ContentSecurityConfig config;
+    
+    if (j.contains("enable_malware_scan")) config.enable_malware_scan = j["enable_malware_scan"];
+    if (j.contains("block_on_malware")) config.block_on_malware = j["block_on_malware"];
+    if (j.contains("malware_block_threshold"))
+        config.malware_block_threshold = static_cast<security::ThreatLevel>(j["malware_block_threshold"].get<int>());
+    if (j.contains("enable_pii_detection")) config.enable_pii_detection = j["enable_pii_detection"];
+    if (j.contains("block_on_pii")) config.block_on_pii = j["block_on_pii"];
+    if (j.contains("redact_pii_in_logs")) config.redact_pii_in_logs = j["redact_pii_in_logs"];
+    if (j.contains("enable_abuse_detection")) config.enable_abuse_detection = j["enable_abuse_detection"];
+    if (j.contains("block_on_abuse")) config.block_on_abuse = j["block_on_abuse"];
+    if (j.contains("sanitize_error_messages")) config.sanitize_error_messages = j["sanitize_error_messages"];
+    if (j.contains("hide_internal_paths")) config.hide_internal_paths = j["hide_internal_paths"];
+    if (j.contains("hide_system_info")) config.hide_system_info = j["hide_system_info"];
+    
+    return config;
+}
+
+// ============================================================================
+// SecurityCheckResult
+// ============================================================================
+
+json SecurityCheckResult::toJson() const {
+    json j;
+    j["error"] = error.toJson();
+    j["malware_checked"] = malware_checked;
+    j["malware_clean"] = malware_clean;
+    j["malware_threat"] = malware_threat;
+    j["pii_checked"] = pii_checked;
+    j["pii_found"] = pii_found;
+    j["pii_types"] = pii_types;
+    j["abuse_checked"] = abuse_checked;
+    j["abuse_detected"] = abuse_detected;
+    return j;
+}
+
+// ============================================================================
+// ContentSecurityManager
+// ============================================================================
+
+ContentSecurityManager::ContentSecurityManager(const ContentSecurityConfig& config)
+    : config_(config)
+{}
+
+void ContentSecurityManager::setMalwareFilter(std::shared_ptr<security::MalwareFilterManager> filter) {
+    malware_filter_ = filter;
+}
+
+void ContentSecurityManager::setPiiDetector(std::shared_ptr<utils::PIIDetector> detector) {
+    pii_detector_ = detector;
+}
+
+SecurityCheckResult ContentSecurityManager::checkContent(
+    const std::string& data,
+    const std::string& mime_type,
+    const std::string& content_id,
+    const std::string& filename
+) {
+    metrics_.total_checks++;
+    
+    SecurityCheckResult result;
+    result.error = ContentError::ok();
+    
+    // Check 1: Malware scanning
+    if (config_.enable_malware_scan) {
+        auto malware_result = checkMalware(data, filename, mime_type, content_id);
+        result.malware_checked = malware_result.malware_checked;
+        result.malware_clean = malware_result.malware_clean;
+        result.malware_threat = malware_result.malware_threat;
+        
+        if (malware_result.error.failed()) {
+            result.error = malware_result.error;
+            return result;
+        }
+    }
+    
+    // Check 2: PII detection (for text-based content)
+    if (config_.enable_pii_detection && 
+        (mime_type.find("text/") == 0 || mime_type == "application/json")) {
+        auto pii_result = checkPii(data, content_id);
+        result.pii_checked = pii_result.pii_checked;
+        result.pii_found = pii_result.pii_found;
+        result.pii_types = pii_result.pii_types;
+        
+        if (pii_result.error.failed()) {
+            result.error = pii_result.error;
+            return result;
+        }
+    }
+    
+    // Check 3: Abuse detection (stub for future implementation)
+    if (config_.enable_abuse_detection) {
+        auto abuse_result = checkAbuse(data, content_id);
+        result.abuse_checked = abuse_result.abuse_checked;
+        result.abuse_detected = abuse_result.abuse_detected;
+        
+        if (abuse_result.error.failed()) {
+            result.error = abuse_result.error;
+            return result;
+        }
+    }
+    
+    return result;
+}
+
+SecurityCheckResult ContentSecurityManager::checkTextForPii(
+    const std::string& text,
+    const std::string& content_id
+) {
+    SecurityCheckResult result;
+    result.error = ContentError::ok();
+    
+    if (config_.enable_pii_detection) {
+        return checkPii(text, content_id);
+    }
+    
+    return result;
+}
+
+ContentError ContentSecurityManager::sanitizeError(const ContentError& error) const {
+    if (!config_.sanitize_error_messages) {
+        return error;
+    }
+    
+    metrics_.errors_sanitized++;
+    
+    ContentError sanitized = error;
+    sanitized.message = sanitizeErrorMessage(error.message);
+    sanitized.details = "";  // Always remove internal details for external exposure
+    
+    // Remove sensitive metadata
+    if (!sanitized.metadata.is_null()) {
+        json safe_metadata;
+        // Only keep non-sensitive fields
+        if (sanitized.metadata.contains("size")) {
+            safe_metadata["size"] = sanitized.metadata["size"];
+        }
+        if (sanitized.metadata.contains("mime_type")) {
+            safe_metadata["mime_type"] = sanitized.metadata["mime_type"];
+        }
+        sanitized.metadata = safe_metadata;
+    }
+    
+    return sanitized;
+}
+
+std::string ContentSecurityManager::sanitizeErrorMessage(const std::string& message) const {
+    std::string sanitized = message;
+    
+    if (config_.hide_internal_paths) {
+        sanitized = sanitizePath(sanitized);
+    }
+    
+    if (config_.hide_system_info) {
+        sanitized = sanitizeSystemInfo(sanitized);
+    }
+    
+    return sanitized;
+}
+
+void ContentSecurityManager::setConfig(const ContentSecurityConfig& config) {
+    config_ = config;
+}
+
+const ContentSecurityConfig& ContentSecurityManager::getConfig() const {
+    return config_;
+}
+
+const ContentSecurityManager::Metrics& ContentSecurityManager::getMetrics() const {
+    return metrics_;
+}
+
+void ContentSecurityManager::resetMetrics() {
+    metrics_ = Metrics{};
+}
+
+// ============================================================================
+// Private Helper Methods
+// ============================================================================
+
+SecurityCheckResult ContentSecurityManager::checkMalware(
+    const std::string& data,
+    const std::string& filename,
+    const std::string& mime_type,
+    const std::string& content_id
+) {
+    SecurityCheckResult result;
+    result.error = ContentError::ok();
+    result.malware_checked = true;
+    
+    metrics_.malware_scans++;
+    
+    if (!malware_filter_) {
+        // No malware filter configured, skip check
+        result.malware_clean = true;
+        return result;
+    }
+    
+    auto scan_result = malware_filter_->scan(data, filename, mime_type, content_id);
+    
+    if (!scan_result.clean) {
+        metrics_.malware_detected++;
+        result.malware_clean = false;
+        result.malware_threat = scan_result.scanner_results.empty() 
+            ? "Unknown threat" 
+            : scan_result.scanner_results[0].threat_name;
+        
+        if (config_.block_on_malware && 
+            scan_result.highest_threat >= config_.malware_block_threshold) {
+            metrics_.malware_blocked++;
+            
+            result.error = ContentError::error(
+                ContentErrorCode::CONTENT_MALWARE_DETECTED,
+                "Malware detected in content"
+            );
+            result.error.content_id = content_id;
+            result.error.metadata = {
+                {"threat_level", security::threatLevelToString(scan_result.highest_threat)},
+                {"scanner_count", scan_result.scanners_used}
+            };
+        }
+    } else {
+        result.malware_clean = true;
+    }
+    
+    return result;
+}
+
+SecurityCheckResult ContentSecurityManager::checkPii(
+    const std::string& text,
+    const std::string& content_id
+) {
+    SecurityCheckResult result;
+    result.error = ContentError::ok();
+    result.pii_checked = true;
+    
+    metrics_.pii_scans++;
+    
+    if (!pii_detector_) {
+        // No PII detector configured, skip check
+        result.pii_found = false;
+        return result;
+    }
+    
+    auto findings = pii_detector_->detectInText(text);
+    
+    if (!findings.empty()) {
+        metrics_.pii_detected++;
+        result.pii_found = true;
+        
+        // Collect unique PII types
+        for (const auto& finding : findings) {
+            std::string type_str = utils::PIITypeUtils::toString(finding.type);
+            if (std::find(result.pii_types.begin(), result.pii_types.end(), type_str) 
+                == result.pii_types.end()) {
+                result.pii_types.push_back(type_str);
+            }
+        }
+        
+        if (config_.block_on_pii) {
+            metrics_.pii_blocked++;
+            
+            result.error = ContentError::error(
+                ContentErrorCode::CONTENT_PII_DETECTED,
+                "Personally identifiable information detected in content"
+            );
+            result.error.content_id = content_id;
+            result.error.metadata = {
+                {"pii_count", findings.size()},
+                {"pii_types", result.pii_types}
+            };
+        }
+    } else {
+        result.pii_found = false;
+    }
+    
+    return result;
+}
+
+SecurityCheckResult ContentSecurityManager::checkAbuse(
+    const std::string& text,
+    const std::string& content_id
+) {
+    SecurityCheckResult result;
+    result.error = ContentError::ok();
+    result.abuse_checked = true;
+    result.abuse_detected = false;
+    
+    metrics_.abuse_scans++;
+    
+    // Stub implementation for future abuse detection
+    // Could integrate with:
+    // - Profanity filters
+    // - Hate speech detection
+    // - Adult content detection
+    // - Spam detection
+    
+    // For now, always return clean
+    return result;
+}
+
+std::string ContentSecurityManager::sanitizePath(const std::string& text) const {
+    // Static regex patterns for path sanitization
+    // More specific patterns to avoid false positives
+    static const std::regex unix_path_regex(R"((/[a-zA-Z0-9_\-]+)+(/[a-zA-Z0-9_\-./]+)?)");
+    static const std::regex windows_path_regex(R"([A-Z]:\\([a-zA-Z0-9_\-]+\\)+[a-zA-Z0-9_\-./]*)");
+    static const std::regex home_path_regex(R"(~/[a-zA-Z0-9_\-./]+)");
+    
+    std::string sanitized = text;
+    
+    // Replace Unix paths (requires at least two path segments)
+    sanitized = std::regex_replace(sanitized, unix_path_regex, "[PATH]");
+    
+    // Replace Windows paths
+    sanitized = std::regex_replace(sanitized, windows_path_regex, "[PATH]");
+    
+    // Replace home directory paths
+    sanitized = std::regex_replace(sanitized, home_path_regex, "[PATH]");
+    
+    return sanitized;
+}
+
+std::string ContentSecurityManager::sanitizeSystemInfo(const std::string& text) const {
+    // Static regex patterns for system info sanitization
+    // More specific hostname pattern - requires subdomain and common TLD
+    static const std::regex hostname_regex(R"(\b(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.){2,}[a-zA-Z]{2,}\b)");
+    static const std::regex username_regex(R"(\buser:\s*[a-zA-Z0-9_\-]+)");
+    static const std::regex version_regex(R"(\bversion\s*[0-9]+\.[0-9]+\.[0-9]+)");
+    
+    std::string sanitized = text;
+    
+    // Replace hostnames with better context checking
+    // Only sanitize if it looks like a hostname in context (after common prepositions)
+    if (sanitized.find("://") != std::string::npos || 
+        sanitized.find(" from ") != std::string::npos ||
+        sanitized.find(" to ") != std::string::npos ||
+        sanitized.find(" at ") != std::string::npos ||
+        sanitized.find("connect") != std::string::npos) {
+        sanitized = std::regex_replace(sanitized, hostname_regex, "[HOSTNAME]");
+    }
+    
+    // Replace username references
+    sanitized = std::regex_replace(sanitized, username_regex, "user: [USERNAME]");
+    
+    // Keep version info as it might be useful for debugging
+    // sanitized = std::regex_replace(sanitized, version_regex, "version [VERSION]");
+    
+    return sanitized;
+}
+
+// ============================================================================
+// Metrics
+// ============================================================================
+
+json ContentSecurityManager::Metrics::toJson() const {
+    json j;
+    j["total_checks"] = total_checks.load();
+    j["malware_scans"] = malware_scans.load();
+    j["malware_detected"] = malware_detected.load();
+    j["malware_blocked"] = malware_blocked.load();
+    j["pii_scans"] = pii_scans.load();
+    j["pii_detected"] = pii_detected.load();
+    j["pii_blocked"] = pii_blocked.load();
+    j["abuse_scans"] = abuse_scans.load();
+    j["abuse_detected"] = abuse_detected.load();
+    j["errors_sanitized"] = errors_sanitized.load();
+    return j;
+}
+
+} // namespace content
+} // namespace themis
