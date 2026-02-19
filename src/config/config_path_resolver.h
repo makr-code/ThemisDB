@@ -6,6 +6,7 @@
 #include <optional>
 #include <atomic>
 #include "config/config_errors.h"
+#include "config/lru_cache.h"
 
 namespace themis {
 namespace config {
@@ -72,6 +73,8 @@ public:
         std::atomic<uint64_t> legacy_fallbacks{0};     // Times legacy path was used
         std::atomic<uint64_t> new_path_hits{0};        // Times new path was used
         std::atomic<uint64_t> unmapped_requests{0};    // Requests for unmapped paths
+        std::atomic<uint64_t> cache_hits{0};           // Cache hits
+        std::atomic<uint64_t> cache_misses{0};         // Cache misses
     };
     
     /**
@@ -83,6 +86,23 @@ public:
      * Reset metrics (primarily for testing).
      */
     static void resetMetrics();
+    
+    /**
+     * Enable or disable caching.
+     * 
+     * @param enabled true to enable caching, false to disable
+     */
+    static void setCachingEnabled(bool enabled);
+    
+    /**
+     * Get cache statistics.
+     */
+    static auto cacheStats() { return cache_.stats(); }
+    
+    /**
+     * Clear the cache.
+     */
+    static void clearCache() { cache_.clear(); }
 
 private:
     // Mapping table from legacy paths to new hierarchical paths
@@ -90,6 +110,10 @@ private:
     
     // Metrics tracking
     static Metrics metrics_;
+    
+    // Cache for resolved paths (capacity: 1000, TTL: 5 minutes)
+    static LRUCacheWithTTL<std::string, std::string> cache_;
+    static std::atomic<bool> caching_enabled_;
     
     // Helper to normalize path separators
     static std::string normalizePath(const std::string& path);

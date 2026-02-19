@@ -189,6 +189,69 @@ TEST_F(ConfigPathResolverTest, MetricsResetWorks) {
     EXPECT_EQ(ConfigPathResolver::metrics().legacy_fallbacks, 0);
     EXPECT_EQ(ConfigPathResolver::metrics().new_path_hits, 0);
     EXPECT_EQ(ConfigPathResolver::metrics().unmapped_requests, 0);
+    EXPECT_EQ(ConfigPathResolver::metrics().cache_hits, 0);
+    EXPECT_EQ(ConfigPathResolver::metrics().cache_misses, 0);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Cache Tests
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(ConfigPathResolverTest, CachingEnabled) {
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::clearCache();
+    ConfigPathResolver::setCachingEnabled(true);
+    
+    // Create a test file
+    auto temp_file = test_dir_ / "config" / "cached_test.yaml";
+    createTestFile(temp_file);
+    
+    // First access - cache miss
+    auto result1 = ConfigPathResolver::tryResolve(temp_file.string());
+    EXPECT_TRUE(result1.has_value());
+    
+    // Second access - cache hit
+    auto result2 = ConfigPathResolver::tryResolve(temp_file.string());
+    EXPECT_TRUE(result2.has_value());
+    
+    EXPECT_GT(ConfigPathResolver::metrics().cache_hits, 0);
+}
+
+TEST_F(ConfigPathResolverTest, CachingDisabled) {
+    ConfigPathResolver::resetMetrics();
+    ConfigPathResolver::setCachingEnabled(false);
+    
+    // Create a test file
+    auto temp_file = test_dir_ / "config" / "no_cache_test.yaml";
+    createTestFile(temp_file);
+    
+    // Multiple accesses
+    ConfigPathResolver::tryResolve(temp_file.string());
+    ConfigPathResolver::tryResolve(temp_file.string());
+    
+    // No cache hits when caching is disabled
+    EXPECT_EQ(ConfigPathResolver::metrics().cache_hits, 0);
+    
+    // Re-enable for other tests
+    ConfigPathResolver::setCachingEnabled(true);
+}
+
+TEST_F(ConfigPathResolverTest, CacheClear) {
+    ConfigPathResolver::setCachingEnabled(true);
+    ConfigPathResolver::clearCache();
+    
+    // Create a test file
+    auto temp_file = test_dir_ / "config" / "clear_test.yaml";
+    createTestFile(temp_file);
+    
+    // Cache it
+    ConfigPathResolver::tryResolve(temp_file.string());
+    
+    // Clear cache
+    ConfigPathResolver::clearCache();
+    
+    auto stats = ConfigPathResolver::cacheStats();
+    EXPECT_EQ(stats.size, 0);
 }
 
 // ═══════════════════════════════════════════════════════════

@@ -7,10 +7,12 @@ namespace themis {
 namespace config {
 
 // ═══════════════════════════════════════════════════════════
-// Static Metrics Initialization
+// Static Members Initialization
 // ═══════════════════════════════════════════════════════════
 
 ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300); // 1000 entries, 5 min TTL
+std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -126,6 +128,16 @@ std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
 std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
     
+    // Check cache first if enabled
+    if (caching_enabled_.load()) {
+        auto cached = cache_.get(normalized);
+        if (cached) {
+            metrics_.cache_hits++;
+            return *cached;
+        }
+        metrics_.cache_misses++;
+    }
+    
     // Validate path to prevent security issues
     try {
         validatePath(normalized);
@@ -135,32 +147,40 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
     
     // Try new path first
     std::string new_path = mapLegacyToNew(normalized);
+    std::string resolved_path;
+    
     if (!new_path.empty() && std::filesystem::exists(new_path)) {
         if (normalized != new_path) {
             spdlog::debug("ConfigPathResolver: Using new config path: {} -> {}", 
                          normalized, new_path);
             metrics_.new_path_hits++;
         }
-        return new_path;
+        resolved_path = new_path;
     }
-    
     // Fall back to legacy path with warning
-    if (std::filesystem::exists(normalized)) {
+    else if (std::filesystem::exists(normalized)) {
         if (!new_path.empty() && new_path != normalized) {
             spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
                         "Please migrate to: {}", normalized, new_path);
             metrics_.legacy_fallbacks++;
         }
-        return normalized;
+        resolved_path = normalized;
+    }
+    else {
+        // Track unmapped requests
+        if (new_path.empty() || new_path == normalized) {
+            metrics_.unmapped_requests++;
+        }
+        // Neither path exists
+        return std::nullopt;
     }
     
-    // Track unmapped requests
-    if (new_path.empty() || new_path == normalized) {
-        metrics_.unmapped_requests++;
+    // Cache the resolved path if caching is enabled
+    if (caching_enabled_.load()) {
+        cache_.put(normalized, resolved_path);
     }
     
-    // Neither path exists
-    return std::nullopt;
+    return resolved_path;
 }
 
 std::string ConfigPathResolver::mapLegacyToNew(const std::string& legacy_path) {
@@ -224,6 +244,15 @@ void ConfigPathResolver::resetMetrics() {
     metrics_.legacy_fallbacks = 0;
     metrics_.new_path_hits = 0;
     metrics_.unmapped_requests = 0;
+    metrics_.cache_hits = 0;
+    metrics_.cache_misses = 0;
+}
+
+void ConfigPathResolver::setCachingEnabled(bool enabled) {
+    caching_enabled_.store(enabled);
+    if (!enabled) {
+        cache_.clear();
+    }
 }
 
 } // namespace config
