@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "exporter_interface.h"
+#include "exporter_metrics.h"
 #include "plugins/plugin_interface.h"
 #include <map>
 #include <memory>
@@ -155,8 +156,15 @@ public:
     /// Get quality metrics report
     std::string getQualityMetricsReport() const;
     
+    /// Get exporter metrics (P0: basic metrics)
+    std::shared_ptr<ExporterMetrics> getMetrics() const { return metrics_; }
+    
+    /// Reset metrics
+    void resetMetrics() { if (metrics_) metrics_->reset(); }
+    
 private:
     JSONLLLMConfig config_;
+    std::shared_ptr<ExporterMetrics> metrics_;
     
     // Export helpers
     std::string formatInstructionTuning(const BaseEntity& entity, double& weight);

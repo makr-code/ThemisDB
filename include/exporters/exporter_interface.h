@@ -5,9 +5,13 @@
 #include <chrono>
 #include <vector>
 #include <map>
+#include <memory>
 #include "storage/base_entity.h"
 
 namespace themis::exporters {
+
+// Forward declaration
+class ExporterMetrics;
 
 /// Export statistics collected during export
 struct ExportStats {
@@ -17,6 +21,9 @@ struct ExportStats {
     size_t bytes_written = 0;
     std::chrono::milliseconds duration{0};
     std::vector<std::string> errors;
+    
+    // Optional: Detailed metrics
+    std::shared_ptr<ExporterMetrics> metrics;
     
     std::string toJson() const;
 };
