@@ -1,4 +1,8 @@
 ﻿#include "exporters/jsonl_llm_exporter.h"
+#include "exporters/exporter_errors.h"
+#include "exporters/exporter_metrics.h"
+#include "exporters/pii_detector.h"
+#include "exporters/stream_writer.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -19,147 +23,296 @@ std::string ExportStats::toJson() const {
     j["bytes_written"] = bytes_written;
     j["duration_ms"] = duration.count();
     j["errors"] = errors;
+    
+    // Include metrics if available
+    if (metrics) {
+        j["metrics"] = metrics->toJson();
+    }
+    
     return j.dump(2);
 }
 
 JSONLLLMExporter::JSONLLLMExporter(const JSONLLLMConfig& config)
-    : config_(config) {}
+    : config_(config), metrics_(std::make_shared<ExporterMetrics>()) {}
 
 ExportStats JSONLLLMExporter::exportEntities(
     const std::vector<BaseEntity>& entities,
     const ExportOptions& options
 ) {
     ExportStats stats;
+    stats.metrics = metrics_;  // Attach metrics to stats
     auto start_time = std::chrono::steady_clock::now();
     
-    std::ofstream output(options.output_path);
-    if (!output.is_open()) {
-        stats.errors.push_back("Failed to open output file: " + options.output_path);
-        return stats;
+    // P1: Tenant isolation check
+    if (options.tenant_context && options.tenant_context->enforce_isolation) {
+        // Check required scopes
+        if (!options.tenant_context->hasScope("export:read") && 
+            !options.tenant_context->hasScope("export:write")) {
+            throw ExporterException(
+                themis::errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,
+                "Insufficient permissions for export operation",
+                "tenant_id=" + options.tenant_context->tenant_id
+            );
+        }
+        
+        THEMIS_INFO("Export for tenant: {}, user: {}", 
+                   options.tenant_context->tenant_id,
+                   options.tenant_context->user_id);
     }
     
-    std::set<std::string> seen_hashes;  // For duplicate detection
-    
-    for (const auto& entity : entities) {
-        stats.total_entities++;
+    // P1: Initialize PII detector if enabled
+    std::unique_ptr<PIIDetector> pii_detector;
+    if (config_.pii_config.enable_detection) {
+        PIIDetector::Config pii_config;
+        pii_config.detect_email = config_.pii_config.detect_email;
+        pii_config.detect_phone = config_.pii_config.detect_phone;
+        pii_config.detect_ssn = config_.pii_config.detect_ssn;
+        pii_config.detect_credit_card = config_.pii_config.detect_credit_card;
         
-        try {
-            // Quality filtering
-            if (!passesQualityFilter(entity)) {
-                continue;
+        // Map redaction strategy string to enum
+        if (config_.pii_config.redaction_strategy == "hash") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::HASH;
+        } else if (config_.pii_config.redaction_strategy == "remove") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::REMOVE;
+        } else if (config_.pii_config.redaction_strategy == "partial") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::PARTIAL;
+        } else {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::MASK;
+        }
+        
+        pii_detector = std::make_unique<PIIDetector>(pii_config);
+    }
+    
+    try {
+        // P2: Use StreamWriter for compression and streaming
+        StreamWriter::Config writer_config;
+        writer_config.output_path = options.output_path;
+        writer_config.buffer_size = options.buffer_size_bytes;
+        writer_config.max_file_size = options.max_file_size_bytes;
+        
+        if (options.compress) {
+            if (options.compression_type == "gzip") {
+                writer_config.compression = CompressionType::GZIP;
+            } else if (options.compression_type == "zstd") {
+                // ZSTD not yet implemented
+                throw ConfigException(
+                    "ZSTD compression not yet supported",
+                    "compression_type"
+                );
             }
+            writer_config.compression_level = options.compression_level;
+        }
+        
+        StreamWriter writer(writer_config);
+        
+        std::set<std::string> seen_hashes;  // For duplicate detection
+        
+        for (const auto& entity : entities) {
+            stats.total_entities++;
             
-            // Calculate weight
-            double weight = calculateWeight(entity);
-            
-            // Format based on style
-            std::string line;
-            switch (config_.style) {
-                case JSONLFormat::Style::INSTRUCTION_TUNING:
-                    line = formatInstructionTuning(entity, weight);
-                    break;
-                case JSONLFormat::Style::CHAT_COMPLETION:
-                    line = formatChatCompletion(entity, weight);
-                    break;
-                case JSONLFormat::Style::TEXT_COMPLETION:
-                    line = formatTextCompletion(entity, weight);
-                    break;
-                default:
-                    line = formatInstructionTuning(entity, weight);
-            }
-            
-            if (line.empty()) {
-                continue;
-            }
-            
-            // Schema validation (Outlines open-source integration)
-            if (config_.structured_gen.enable_schema_validation) {
-                std::string validation_error;
-                if (!validateAgainstSchema(line, &validation_error)) {
-                    if (config_.structured_gen.reject_invalid_samples) {
-                        stats.failed_entities++;
-                        stats.errors.push_back(
-                            "Schema validation failed for " + entity.getPrimaryKey() + 
-                            ": " + validation_error
-                        );
-                        continue;  // Skip this sample
-                    }
-                    // Otherwise, log but continue
-                    THEMIS_WARN("Schema validation warning for {}: {}", 
-                               entity.getPrimaryKey(), validation_error);
-                }
-                
-                // Add schema to output if requested (for Outlines)
-                if (config_.structured_gen.include_schema_in_output) {
-                    try {
-                        auto j = json::parse(line);
-                        j["__schema__"] = json::parse(config_.structured_gen.json_schema);
-                        line = j.dump();
-                    } catch (const std::exception& e) {
-                        THEMIS_WARN("Failed to add schema to output: {}", e.what());
-                    }
-                }
-            }
-            
-            // Track quality metrics
-            if (config_.quality_metrics.enable_metrics) {
-                // Track length distribution
-                if (config_.quality_metrics.track_length_distribution) {
-                    constexpr size_t BUCKET_SIZE = 100;  // 100-char buckets
-                    size_t bucket = (line.size() / BUCKET_SIZE) * BUCKET_SIZE;
-                    runtime_metrics_.length_distribution[bucket]++;
-                }
-            }
-            
-            // Duplicate detection
-            if (config_.quality.skip_duplicates) {
-                std::hash<std::string> hasher;
-                auto hash = std::to_string(hasher(line));
-                if (seen_hashes.count(hash)) {
-                    continue;
-                }
-                seen_hashes.insert(hash);
-            }
-            
-            // Write line
-            output << line << "\n";
-            stats.bytes_written += line.size() + 1;
-            stats.exported_entities++;
-            
-            // Progress reporting
-            if (options.progress_callback && 
-                stats.exported_entities % options.progress_interval == 0) {
-                options.progress_callback(stats);
-            }
-            
-        } catch (const std::exception& e) {
-            stats.failed_entities++;
-            stats.errors.push_back(
-                "Entity " + entity.getPrimaryKey() + ": " + e.what()
-            );
-            
-            if (stats.errors.size() >= options.max_errors) {
-                THEMIS_ERROR("Max errors reached, stopping export");
+            // P2: Check size limit
+            if (writer.isLimitReached()) {
+                THEMIS_WARN("Export size limit reached, stopping at {} entities", stats.total_entities);
                 break;
             }
             
-            if (!options.continue_on_error) {
-                throw;
+            try {
+                // P1: Tenant isolation - check entity belongs to tenant
+                if (options.tenant_context && options.tenant_context->enforce_isolation) {
+                    auto tenant_field = entity.getFieldAsString("tenant_id");
+                    if (tenant_field && *tenant_field != options.tenant_context->tenant_id) {
+                        metrics_->recordError("tenant_isolation_violation");
+                        continue;  // Skip entity from different tenant
+                    }
+                }
+                
+                // Quality filtering
+                if (!passesQualityFilter(entity)) {
+                    metrics_->recordQualityFilterRejection("quality_filter_failed");
+                    continue;
+                }
+                
+                // Calculate weight
+                double weight = calculateWeight(entity);
+                
+                // Format based on style
+                std::string line;
+                switch (config_.style) {
+                    case JSONLFormat::Style::INSTRUCTION_TUNING:
+                        line = formatInstructionTuning(entity, weight);
+                        break;
+                    case JSONLFormat::Style::CHAT_COMPLETION:
+                        line = formatChatCompletion(entity, weight);
+                        break;
+                    case JSONLFormat::Style::TEXT_COMPLETION:
+                        line = formatTextCompletion(entity, weight);
+                        break;
+                    default:
+                        line = formatInstructionTuning(entity, weight);
+                }
+                
+                if (line.empty()) {
+                    metrics_->recordQualityFilterRejection("empty_formatted_line");
+                    continue;
+                }
+                
+                // P1: PII detection and redaction
+                if (pii_detector) {
+                    if (pii_detector->containsPII(line)) {
+                        metrics_->recordPIIDetection();
+                        
+                        if (config_.pii_config.fail_on_pii && !config_.pii_config.enable_redaction) {
+                            throw ExporterException(
+                                themis::errors::ErrorCode::ERR_EXPORT_PII_VIOLATION,
+                                "PII detected in export data without redaction",
+                                "entity_id=" + entity.getPrimaryKey()
+                            );
+                        }
+                        
+                        if (config_.pii_config.enable_redaction) {
+                            line = pii_detector->redactPII(line);
+                            metrics_->recordPIIRedaction();
+                        }
+                    }
+                }
+                
+                // Schema validation (Outlines open-source integration)
+                if (config_.structured_gen.enable_schema_validation) {
+                    std::string validation_error;
+                    bool validation_passed = validateAgainstSchema(line, &validation_error);
+                    metrics_->recordSchemaValidation(validation_passed);
+                    
+                    if (!validation_passed) {
+                        if (config_.structured_gen.reject_invalid_samples) {
+                            stats.failed_entities++;
+                            stats.errors.push_back(
+                                "Schema validation failed for " + entity.getPrimaryKey() + 
+                                ": " + validation_error
+                            );
+                            metrics_->recordError("schema_validation_failed");
+                            continue;  // Skip this sample
+                        }
+                        // Otherwise, log but continue
+                        THEMIS_WARN("Schema validation warning for {}: {}", 
+                                   entity.getPrimaryKey(), validation_error);
+                    }
+                    
+                    // Add schema to output if requested (for Outlines)
+                    if (config_.structured_gen.include_schema_in_output) {
+                        try {
+                            auto j = json::parse(line);
+                            j["__schema__"] = json::parse(config_.structured_gen.json_schema);
+                            line = j.dump();
+                        } catch (const std::exception& e) {
+                            THEMIS_WARN("Failed to add schema to output: {}", e.what());
+                        }
+                    }
+                }
+                
+                // Track quality metrics
+                if (config_.quality_metrics.enable_metrics) {
+                    // Track length distribution
+                    if (config_.quality_metrics.track_length_distribution) {
+                        constexpr size_t BUCKET_SIZE = 100;  // 100-char buckets
+                        size_t bucket = (line.size() / BUCKET_SIZE) * BUCKET_SIZE;
+                        runtime_metrics_.length_distribution[bucket]++;
+                    }
+                }
+                
+                // Duplicate detection
+                if (config_.quality.skip_duplicates) {
+                    std::hash<std::string> hasher;
+                    auto hash = std::to_string(hasher(line));
+                    if (seen_hashes.count(hash)) {
+                        metrics_->recordDuplicate();
+                        continue;
+                    }
+                    seen_hashes.insert(hash);
+                }
+                
+                // P2: Write using StreamWriter (handles compression)
+                line += "\n";
+                writer.write(line);
+                stats.bytes_written += line.size();
+                stats.exported_entities++;
+                
+                // Progress reporting
+                if (options.progress_callback && 
+                    stats.exported_entities % options.progress_interval == 0) {
+                    options.progress_callback(stats);
+                }
+                
+            } catch (const ExporterException& e) {
+                stats.failed_entities++;
+                std::string error_msg = "Entity " + entity.getPrimaryKey() + 
+                                      ": [" + std::to_string(static_cast<int>(e.getErrorCode())) + 
+                                      "] " + e.what();
+                stats.errors.push_back(error_msg);
+                metrics_->recordError("exporter_exception");
+                
+                if (stats.errors.size() >= options.max_errors) {
+                    THEMIS_ERROR("Max errors reached, stopping export");
+                    break;
+                }
+                
+                if (!options.continue_on_error) {
+                    throw;
+                }
+            } catch (const std::exception& e) {
+                stats.failed_entities++;
+                stats.errors.push_back(
+                    "Entity " + entity.getPrimaryKey() + ": " + e.what()
+                );
+                metrics_->recordError("generic_exception");
+                
+                if (stats.errors.size() >= options.max_errors) {
+                    THEMIS_ERROR("Max errors reached, stopping export");
+                    break;
+                }
+                
+                if (!options.continue_on_error) {
+                    throw;
+                }
             }
         }
+        
+        // Flush and close writer
+        writer.close();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        );
+        
+        // P2: Record compression metrics
+        if (options.compress) {
+            metrics_->recordCompression(writer.getBytesWritten(), 
+                                       writer.getCompressedBytesWritten());
+        }
+        
+        // Record export metrics
+        metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
+        
+        THEMIS_INFO("JSONL export completed: {} entities in {}ms{}",
+                    stats.exported_entities, stats.duration.count(),
+                    options.compress ? " (compressed)" : "");
+        
+        return stats;
+        
+    } catch (const ExportIOException& e) {
+        stats.errors.push_back(
+            "[" + std::to_string(static_cast<int>(e.getErrorCode())) + "] " + 
+            e.what() + " (file: " + e.getFilePath() + ")"
+        );
+        metrics_->recordError("io_exception");
+        
+        auto end_time = std::chrono::steady_clock::now();
+        stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+            end_time - start_time
+        );
+        
+        return stats;
     }
-    
-    auto end_time = std::chrono::steady_clock::now();
-    stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-        end_time - start_time
-    );
-    
-    output.close();
-    
-    THEMIS_INFO("JSONL export completed: {} entities in {}ms",
-                stats.exported_entities, stats.duration.count());
-    
-    return stats;
 }
 
 std::string JSONLLLMExporter::formatInstructionTuning(
