@@ -1,0 +1,83 @@
+name: CHIMERA Suite Tests
+
+on:
+  push:
+    paths:
+      - 'benchmarks/chimera/**'
+      - '.github/workflows/chimera-tests.yml'
+  pull_request:
+    paths:
+      - 'benchmarks/chimera/**'
+      - '.github/workflows/chimera-tests.yml'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run CHIMERA Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install dependencies
+        run: |
+          cd benchmarks/chimera
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run unit tests
+        run: |
+          cd benchmarks/chimera
+          pytest test_chimera.py -v --tb=short
+      
+      - name: Run database adapter tests
+        run: |
+          cd benchmarks/chimera
+          pytest test_database_adapters.py -v --tb=short
+      
+      - name: Run LLM/RAG/Ethics tests
+        run: |
+          cd benchmarks/chimera
+          pytest test_llm_rag_ethics.py -v --tb=short
+      
+      - name: Run all tests with coverage
+        run: |
+          cd benchmarks/chimera
+          pip install pytest-cov
+          pytest test_chimera.py test_database_adapters.py test_llm_rag_ethics.py \
+            --cov=. --cov-report=xml --cov-report=term-missing
+      
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        if: matrix.python-version == '3.12'
+        with:
+          file: ./benchmarks/chimera/coverage.xml
+          flags: chimera-suite
+          name: chimera-coverage
+          fail_ci_if_error: false
+      
+      - name: Run neutrality linter
+        run: |
+          cd benchmarks/chimera
+          python neutrality_linter.py || echo "Neutrality linter warnings detected"
+      
+      - name: Test import from package
+        run: |
+          cd benchmarks/chimera
+          python -c "from chimera import ChimeraReporter, StatisticalAnalyzer, ColorBlindPalette, CitationManager; print('✓ Package imports successful')"
+      
+      - name: Test demo script
+        run: |
+          cd benchmarks/chimera
+          python demo.py
+          ls -la demo_reports/
