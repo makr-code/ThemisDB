@@ -126,7 +126,7 @@ TEST_F(LLMResilienceTest, RetryPolicy_ExhaustRetries) {
         });
     }, std::runtime_error);
     
-    EXPECT_EQ(call_count, 2);
+    EXPECT_EQ(call_count, 3);  // 1 initial + 2 retries
 }
 
 TEST_F(LLMResilienceTest, RetryPolicy_NonRetryableError) {
@@ -315,5 +315,6 @@ TEST_F(LLMResilienceTest, RetryConfig_MaxDelayEnforcement) {
     
     // Even with exponential backoff, max delay should cap the wait time
     // Max total wait: 100 + 200 + 400 + 500*7 = 4200ms
-    EXPECT_LT(duration.count(), 5000);
+    // Allow some margin for thread scheduling overhead
+    EXPECT_LT(duration.count(), 4500);
 }

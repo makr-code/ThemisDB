@@ -41,6 +41,14 @@ public:
     // Default configuration constants
     static constexpr float DEFAULT_SIMILARITY_THRESHOLD = 0.7f;
     
+    // Token estimation constant
+    static constexpr size_t CHARS_PER_TOKEN = 4;
+    
+    // Helper to estimate token count from text
+    static size_t estimateTokenCount(const std::string& text) {
+        return text.length() / CHARS_PER_TOKEN;
+    }
+    
     // Timeout and resilience components
     LLMTimeoutManager timeout_manager_;
     RetryPolicy retry_policy_;
@@ -123,8 +131,8 @@ std::string LLMAQLHandler::executeInfer(
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
         // Estimate token counts (rough estimate: 1 token ≈ 4 chars)
-        size_t input_tokens = prompt.length() / 4;
-        size_t output_tokens = result.length() / 4;
+        size_t input_tokens = Impl::estimateTokenCount(prompt);
+        size_t output_tokens = Impl::estimateTokenCount(result);
         
         metrics.recordInference(
             model_id.empty() ? "default" : model_id,
@@ -148,7 +156,7 @@ std::string LLMAQLHandler::executeInfer(
         auto end_time = std::chrono::steady_clock::now();
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
-        size_t input_tokens = prompt.length() / 4;
+        size_t input_tokens = Impl::estimateTokenCount(prompt);
         
         metrics.recordInference(
             model_id.empty() ? "default" : model_id,
@@ -176,7 +184,7 @@ std::string LLMAQLHandler::executeInfer(
             model_id.empty() ? "default" : model_id,
             lora_id,
             latency,
-            prompt.length() / 4,
+            Impl::estimateTokenCount(prompt),
             0,
             false,
             "INVALID_OPTIONS"
@@ -196,7 +204,7 @@ std::string LLMAQLHandler::executeInfer(
             model_id.empty() ? "default" : model_id,
             lora_id,
             latency,
-            prompt.length() / 4,
+            Impl::estimateTokenCount(prompt),
             0,
             false,
             "INFERENCE_FAILED"
@@ -320,8 +328,8 @@ std::string LLMAQLHandler::executeRAG(
         auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
         // Estimate token counts
-        size_t input_tokens = query.length() / 4;
-        size_t output_tokens = result.length() / 4;
+        size_t input_tokens = Impl::estimateTokenCount(query);
+        size_t output_tokens = Impl::estimateTokenCount(result);
         
         metrics.recordRAG(
             collection,
@@ -351,7 +359,7 @@ std::string LLMAQLHandler::executeRAG(
             lora_id,
             latency,
             retrieved_docs,
-            query.length() / 4,
+            Impl::estimateTokenCount(query),
             0,
             false,
             LLMException::getErrorCodeString(e.getErrorCode())
@@ -374,7 +382,7 @@ std::string LLMAQLHandler::executeRAG(
             lora_id,
             latency,
             retrieved_docs,
-            query.length() / 4,
+            Impl::estimateTokenCount(query),
             0,
             false,
             "INVALID_OPTIONS"
@@ -395,7 +403,7 @@ std::string LLMAQLHandler::executeRAG(
             lora_id,
             latency,
             retrieved_docs,
-            query.length() / 4,
+            Impl::estimateTokenCount(query),
             0,
             false,
             "RAG_FAILED"

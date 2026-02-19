@@ -435,10 +435,8 @@ TEST_F(LLMMetricsTest, ConcurrentMetricsCollection) {
 // ============================================================================
 
 TEST_F(LLMMetricsTest, ScopedLatencyTracker_Basic) {
-    auto& collector = LLMMetricsCollector::instance();
-    
     {
-        ScopedLatencyTracker tracker(collector, "test_operation", "test_model");
+        ScopedLatencyTracker tracker;
         
         // Simulate some work
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -448,22 +446,20 @@ TEST_F(LLMMetricsTest, ScopedLatencyTracker_Basic) {
         EXPECT_GE(elapsed.count(), 10);
         EXPECT_LT(elapsed.count(), 50);  // Should be close to 10ms
     }
-    // Tracker destroyed here, metrics should be recorded
+    // Tracker destroyed here
 }
 
 TEST_F(LLMMetricsTest, ScopedLatencyTracker_Nested) {
-    auto& collector = LLMMetricsCollector::instance();
-    
     {
-        ScopedLatencyTracker outer_tracker(collector, "outer_operation", "model1");
+        ScopedLatencyTracker outer_tracker;
         
         {
-            ScopedLatencyTracker inner_tracker(collector, "inner_operation", "model2");
+            ScopedLatencyTracker inner_tracker;
             std::this_thread::sleep_for(std::chrono::milliseconds(5));
+            EXPECT_GE(inner_tracker.elapsed().count(), 5);
         }
         
         std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        EXPECT_GE(outer_tracker.elapsed().count(), 10);
     }
-    
-    // Both trackers should record their respective durations
 }

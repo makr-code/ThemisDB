@@ -107,24 +107,15 @@ private:
 
 /**
  * @brief RAII helper for automatic latency tracking
+ * 
+ * Note: This is a simplified timer for elapsed time queries.
+ * Actual metric recording is done explicitly by the caller with more context.
  */
 class ScopedLatencyTracker {
 public:
-    ScopedLatencyTracker(
-        LLMMetricsCollector& collector,
-        const std::string& operation,
-        const std::string& model = ""
-    ) : collector_(collector)
-      , operation_(operation)
-      , model_(model)
-      , start_(std::chrono::steady_clock::now())
+    ScopedLatencyTracker()
+        : start_(std::chrono::steady_clock::now())
     {}
-    
-    ~ScopedLatencyTracker() {
-        auto end = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start_);
-        // Metrics recorded externally with more context
-    }
     
     std::chrono::milliseconds elapsed() const {
         auto now = std::chrono::steady_clock::now();
@@ -132,9 +123,6 @@ public:
     }
 
 private:
-    LLMMetricsCollector& collector_;
-    std::string operation_;
-    std::string model_;
     std::chrono::steady_clock::time_point start_;
 };
 

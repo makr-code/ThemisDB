@@ -39,6 +39,10 @@ public:
      * @param operation_name Name for error reporting
      * @return Result of function execution
      * @throws LLMException with TIMEOUT code if execution exceeds timeout
+     * 
+     * @note If timeout occurs, the worker thread is detached and may continue
+     *       executing. For production use, consider implementing cooperative
+     *       cancellation via std::stop_token (C++20) or manual cancellation flags.
      */
     template<typename Func, typename Result = std::invoke_result_t<Func>>
     Result executeWithTimeout(Func&& func, std::chrono::seconds timeout, const std::string& operation_name) {
@@ -54,7 +58,8 @@ public:
         
         if (status == std::future_status::timeout) {
             // Timeout occurred - we can't safely cancel the thread, but we report the error
-            // Note: The thread will be detached and may complete later
+            // Note: The thread is detached and may complete later (resource consideration)
+            // TODO: Implement cooperative cancellation for cleaner shutdown
             worker.detach();
             throw LLMException(LLMErrorCode::TIMEOUT,
                 "Operation '" + operation_name + "' exceeded timeout of " +
