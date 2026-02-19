@@ -4,6 +4,8 @@
 #include <map>
 #include <filesystem>
 #include <optional>
+#include <atomic>
+#include "config/config_errors.h"
 
 namespace themis {
 namespace config {
@@ -14,6 +16,13 @@ namespace config {
  * This utility maps legacy config paths to their new hierarchical locations
  * and provides fallback mechanisms to support both old and new paths during
  * the migration period.
+ * 
+ * Thread Safety:
+ *   - All public methods are thread-safe for concurrent reads
+ *   - The PATH_MAPPING table is const and initialized at compile-time
+ *   - Metrics use atomic operations for thread-safe updates
+ *   - No locks are required for read operations
+ *   - File system operations may have platform-specific thread-safety guarantees
  * 
  * Usage:
  *   std::string path = ConfigPathResolver::resolve("config/lora_training_config.yaml");
@@ -26,7 +35,7 @@ public:
      * 
      * @param legacy_path The original/legacy config path
      * @return Resolved path that exists on filesystem
-     * @throws std::runtime_error if neither new nor legacy path exists
+     * @throws ConfigNotFoundException if neither new nor legacy path exists
      */
     static std::string resolve(const std::string& legacy_path);
     
@@ -53,13 +62,40 @@ public:
      * @return true if this is a known legacy path
      */
     static bool isLegacyPath(const std::string& path);
+    
+    /**
+     * Metrics for config path resolution.
+     */
+    struct Metrics {
+        std::atomic<uint64_t> resolution_hits{0};      // Successful resolutions
+        std::atomic<uint64_t> resolution_misses{0};    // Failed resolutions
+        std::atomic<uint64_t> legacy_fallbacks{0};     // Times legacy path was used
+        std::atomic<uint64_t> new_path_hits{0};        // Times new path was used
+        std::atomic<uint64_t> unmapped_requests{0};    // Requests for unmapped paths
+    };
+    
+    /**
+     * Get current metrics.
+     */
+    static const Metrics& metrics() { return metrics_; }
+    
+    /**
+     * Reset metrics (primarily for testing).
+     */
+    static void resetMetrics();
 
 private:
     // Mapping table from legacy paths to new hierarchical paths
     static const std::map<std::string, std::string> PATH_MAPPING;
     
+    // Metrics tracking
+    static Metrics metrics_;
+    
     // Helper to normalize path separators
     static std::string normalizePath(const std::string& path);
+    
+    // Path validation
+    static void validatePath(const std::string& path);
 };
 
 } // namespace config

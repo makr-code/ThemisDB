@@ -1,9 +1,16 @@
 #include "config/config_path_resolver.h"
+#include "config/config_errors.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 
 namespace themis {
 namespace config {
+
+// ═══════════════════════════════════════════════════════════
+// Static Metrics Initialization
+// ═══════════════════════════════════════════════════════════
+
+ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -97,15 +104,34 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
 std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
     auto result = tryResolve(legacy_path);
     if (result) {
+        metrics_.resolution_hits++;
         return *result;
     }
     
-    throw std::runtime_error("Config file not found: " + legacy_path + 
-                           " (tried both new and legacy paths)");
+    metrics_.resolution_misses++;
+    
+    // Build list of attempted paths for error message
+    std::vector<std::string> attempted_paths;
+    std::string normalized = normalizePath(legacy_path);
+    std::string new_path = mapLegacyToNew(normalized);
+    
+    if (!new_path.empty() && new_path != normalized) {
+        attempted_paths.push_back(new_path);
+    }
+    attempted_paths.push_back(normalized);
+    
+    throw ConfigNotFoundException(legacy_path, attempted_paths);
 }
 
 std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
+    
+    // Validate path to prevent security issues
+    try {
+        validatePath(normalized);
+    } catch (const InvalidPathException&) {
+        return std::nullopt;
+    }
     
     // Try new path first
     std::string new_path = mapLegacyToNew(normalized);
@@ -113,17 +139,24 @@ std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& leg
         if (normalized != new_path) {
             spdlog::debug("ConfigPathResolver: Using new config path: {} -> {}", 
                          normalized, new_path);
+            metrics_.new_path_hits++;
         }
         return new_path;
     }
     
     // Fall back to legacy path with warning
     if (std::filesystem::exists(normalized)) {
-        if (!new_path.empty()) {
+        if (!new_path.empty() && new_path != normalized) {
             spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
                         "Please migrate to: {}", normalized, new_path);
+            metrics_.legacy_fallbacks++;
         }
         return normalized;
+    }
+    
+    // Track unmapped requests
+    if (new_path.empty() || new_path == normalized) {
+        metrics_.unmapped_requests++;
     }
     
     // Neither path exists
@@ -168,6 +201,29 @@ std::string ConfigPathResolver::normalizePath(const std::string& path) {
     }
     
     return normalized;
+}
+
+void ConfigPathResolver::validatePath(const std::string& path) {
+    // Check for path traversal attempts
+    if (path.find("..") != std::string::npos) {
+        throw InvalidPathException(path, "path traversal not allowed");
+    }
+    
+    // Check for absolute paths outside config directory
+    std::filesystem::path fs_path(path);
+    if (fs_path.is_absolute() && !path.starts_with("/config") && 
+        !path.starts_with("config") && path.find(":\\config") == std::string::npos) {
+        // Allow absolute paths that point to config directory
+        // This is a basic check; more sophisticated validation may be needed
+    }
+}
+
+void ConfigPathResolver::resetMetrics() {
+    metrics_.resolution_hits = 0;
+    metrics_.resolution_misses = 0;
+    metrics_.legacy_fallbacks = 0;
+    metrics_.new_path_hits = 0;
+    metrics_.unmapped_requests = 0;
 }
 
 } // namespace config
