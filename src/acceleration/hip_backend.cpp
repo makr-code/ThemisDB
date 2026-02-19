@@ -284,10 +284,17 @@ bool HIPVectorBackend::initialize() {
     std::cout << "HIP Backend: Initializing..." << std::endl;
     
     int deviceCount = 0;
-    HIP_CHECK(hipGetDeviceCount(&deviceCount));
+    hipError_t countErr = hipGetDeviceCount(&deviceCount);
     
-    if (deviceCount == 0) {
-        std::cerr << "No HIP-capable AMD GPUs found" << std::endl;
+    if (countErr != hipSuccess || deviceCount == 0) {
+        std::cerr << "HIP initialization failed:" << std::endl;
+        std::cerr << "  Error: " << hipGetErrorString(countErr) << std::endl;
+        std::cerr << "  Device count: " << deviceCount << std::endl;
+        if (deviceCount == 0) {
+            std::cerr << "  No HIP-capable AMD GPUs found" << std::endl;
+            std::cerr << "  Check: ROCm driver installed?" << std::endl;
+            std::cerr << "  Check: AMD GPU present and supported?" << std::endl;
+        }
         return false;
     }
     
@@ -300,20 +307,38 @@ bool HIPVectorBackend::initialize() {
         
         for (int i = 0; i < deviceCount; i++) {
             hipDeviceProp_t prop;
-            hipGetDeviceProperties(&prop, i);
-            std::cout << "Device " << i << ": " << prop.name 
-                      << " (" << prop.multiProcessorCount << " CUs)" << std::endl;
-            
-            if (prop.multiProcessorCount > maxCUs) {
-                maxCUs = prop.multiProcessorCount;
-                deviceId = i;
+            if (hipGetDeviceProperties(&prop, i) == hipSuccess) {
+                std::cout << "Device " << i << ": " << prop.name 
+                          << " (" << prop.multiProcessorCount << " CUs, " 
+                          << prop.gcnArchName << ")" << std::endl;
+                
+                if (prop.multiProcessorCount > maxCUs) {
+                    maxCUs = prop.multiProcessorCount;
+                    deviceId = i;
+                }
             }
         }
     }
     
     impl_->deviceId = deviceId;
-    HIP_CHECK(hipSetDevice(impl_->deviceId));
-    HIP_CHECK(hipGetDeviceProperties(&impl_->deviceProps, impl_->deviceId));
+    
+    hipError_t setDeviceErr = hipSetDevice(impl_->deviceId);
+    if (setDeviceErr != hipSuccess) {
+        std::cerr << "HIP: Failed to set device " << impl_->deviceId << std::endl;
+        std::cerr << "  Error: " << hipGetErrorString(setDeviceErr) << std::endl;
+        return false;
+    }
+    
+    hipError_t propErr = hipGetDeviceProperties(&impl_->deviceProps, impl_->deviceId);
+    if (propErr != hipSuccess) {
+        std::cerr << "HIP: Failed to query device properties" << std::endl;
+        std::cerr << "  Error: " << hipGetErrorString(propErr) << std::endl;
+        return false;
+    }
+    
+    // ROCm runtime version
+    int runtimeVersion = 0;
+    hipRuntimeGetVersion(&runtimeVersion);
     
     std::cout << "HIP Backend: Selected device " << impl_->deviceId 
               << " (" << impl_->deviceProps.name << ")" << std::endl;
@@ -321,6 +346,8 @@ bool HIPVectorBackend::initialize() {
     std::cout << "  Global Memory: " << (impl_->deviceProps.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
     std::cout << "  Warp Size: " << impl_->deviceProps.warpSize << std::endl;
     std::cout << "  GCN Arch: " << impl_->deviceProps.gcnArchName << std::endl;
+    std::cout << "  ROCm Runtime: " << (runtimeVersion / 10000000) << "." 
+              << ((runtimeVersion / 100000) % 100) << std::endl;
     
     // Auto-detect wave size if not specified
     if (impl_->config.waveSize == 0) {
@@ -329,7 +356,12 @@ bool HIPVectorBackend::initialize() {
     }
     
     // Create stream for async operations
-    HIP_CHECK(hipStreamCreate(&impl_->stream));
+    hipError_t streamErr = hipStreamCreate(&impl_->stream);
+    if (streamErr != hipSuccess) {
+        std::cerr << "HIP: Failed to create HIP stream" << std::endl;
+        std::cerr << "  Error: " << hipGetErrorString(streamErr) << std::endl;
+        return false;
+    }
     
     impl_->initialized = true;
     return true;

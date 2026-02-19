@@ -122,53 +122,74 @@ public:
     bool initialize() override {
         cl_int err;
         
-        // Get platform
+        // Get platform with error context
         cl_uint numPlatforms;
         err = clGetPlatformIDs(1, &platform_, &numPlatforms);
         if (err != CL_SUCCESS || numPlatforms == 0) {
-            std::cerr << "OpenCL: No platforms found\n";
+            std::cerr << "OpenCL initialization failed:" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
+            std::cerr << "  Platforms found: " << numPlatforms << std::endl;
+            if (numPlatforms == 0) {
+                std::cerr << "  No OpenCL platforms found" << std::endl;
+                std::cerr << "  Check: OpenCL drivers installed?" << std::endl;
+                std::cerr << "  Check: GPU vendor drivers up to date?" << std::endl;
+            }
             return false;
         }
         
         // Get platform info
-        char platformName[128];
+        char platformName[128] = {0};
+        char platformVersion[128] = {0};
         clGetPlatformInfo(platform_, CL_PLATFORM_NAME, sizeof(platformName), platformName, nullptr);
+        clGetPlatformInfo(platform_, CL_PLATFORM_VERSION, sizeof(platformVersion), platformVersion, nullptr);
         
         // Get GPU device (prefer GPU over CPU)
         cl_uint numDevices;
         err = clGetDeviceIDs(platform_, CL_DEVICE_TYPE_GPU, 1, &device_, &numDevices);
         if (err != CL_SUCCESS) {
             // Fallback to CPU
+            std::cerr << "OpenCL: No GPU devices found, trying CPU..." << std::endl;
             err = clGetDeviceIDs(platform_, CL_DEVICE_TYPE_CPU, 1, &device_, &numDevices);
             if (err != CL_SUCCESS) {
-                std::cerr << "OpenCL: No devices found\n";
+                std::cerr << "OpenCL: No devices found (GPU or CPU)" << std::endl;
+                std::cerr << "  Error code: " << err << std::endl;
+                std::cerr << "  Platform: " << platformName << std::endl;
                 return false;
             }
         }
         
         // Get device info
-        char deviceName[128];
+        char deviceName[128] = {0};
+        char deviceVersion[128] = {0};
+        cl_uint computeUnits = 0;
+        cl_ulong globalMemSize = 0;
+        
         clGetDeviceInfo(device_, CL_DEVICE_NAME, sizeof(deviceName), deviceName, nullptr);
-        
-        cl_uint computeUnits;
+        clGetDeviceInfo(device_, CL_DEVICE_VERSION, sizeof(deviceVersion), deviceVersion, nullptr);
         clGetDeviceInfo(device_, CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(computeUnits), &computeUnits, nullptr);
+        clGetDeviceInfo(device_, CL_DEVICE_GLOBAL_MEM_SIZE, sizeof(globalMemSize), &globalMemSize, nullptr);
         
-        std::cout << "OpenCL backend initialized successfully\n";
-        std::cout << "  Platform: " << platformName << "\n";
-        std::cout << "  Device: " << deviceName << "\n";
-        std::cout << "  Compute Units: " << computeUnits << "\n";
+        std::cout << "OpenCL backend initialized successfully" << std::endl;
+        std::cout << "  Platform: " << platformName << " (" << platformVersion << ")" << std::endl;
+        std::cout << "  Device: " << deviceName << std::endl;
+        std::cout << "  Device Version: " << deviceVersion << std::endl;
+        std::cout << "  Compute Units: " << computeUnits << std::endl;
+        std::cout << "  Global Memory: " << (globalMemSize / (1024*1024*1024)) << " GB" << std::endl;
         
         // Create context
         context_ = clCreateContext(nullptr, 1, &device_, nullptr, nullptr, &err);
         if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create context\n";
+            std::cerr << "OpenCL: Failed to create context" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
             return false;
         }
         
         // Create command queue
         queue_ = clCreateCommandQueue(context_, device_, 0, &err);
         if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create command queue\n";
+            std::cerr << "OpenCL: Failed to create command queue" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
+            clReleaseContext(context_);
             return false;
         }
         
@@ -177,31 +198,53 @@ public:
         size_t sourceSize = strlen(source);
         program_ = clCreateProgramWithSource(context_, 1, &source, &sourceSize, &err);
         if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create program\n";
+            std::cerr << "OpenCL: Failed to create program" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
+            clReleaseCommandQueue(queue_);
+            clReleaseContext(context_);
             return false;
         }
         
         // Build program
         err = clBuildProgram(program_, 1, &device_, nullptr, nullptr, nullptr);
         if (err != CL_SUCCESS) {
+            std::cerr << "OpenCL: Kernel compilation failed" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
+            
             size_t logSize;
             clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, 0, nullptr, &logSize);
-            std::vector<char> log(logSize);
-            clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);
-            std::cerr << "OpenCL: Build failed:\n" << log.data() << "\n";
+            if (logSize > 0) {
+                std::vector<char> log(logSize);
+                clGetProgramBuildInfo(program_, device_, CL_PROGRAM_BUILD_LOG, logSize, log.data(), nullptr);
+                std::cerr << "  Build log:" << std::endl;
+                std::cerr << log.data() << std::endl;
+            }
+            
+            clReleaseProgram(program_);
+            clReleaseCommandQueue(queue_);
+            clReleaseContext(context_);
             return false;
         }
         
         // Create kernels
         l2Kernel_ = clCreateKernel(program_, "computeL2Distance", &err);
         if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create L2 kernel\n";
+            std::cerr << "OpenCL: Failed to create L2 kernel" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
+            clReleaseProgram(program_);
+            clReleaseCommandQueue(queue_);
+            clReleaseContext(context_);
             return false;
         }
         
         cosineKernel_ = clCreateKernel(program_, "computeCosineDistance", &err);
         if (err != CL_SUCCESS) {
-            std::cerr << "OpenCL: Failed to create cosine kernel\n";
+            std::cerr << "OpenCL: Failed to create cosine kernel" << std::endl;
+            std::cerr << "  Error code: " << err << std::endl;
+            clReleaseKernel(l2Kernel_);
+            clReleaseProgram(program_);
+            clReleaseCommandQueue(queue_);
+            clReleaseContext(context_);
             return false;
         }
         

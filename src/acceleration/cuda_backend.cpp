@@ -108,12 +108,27 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
 bool CUDAVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
-        std::cerr << "CUDA: No CUDA-capable device found" << std::endl;
+        // Enhanced error logging: enumerate devices and provide diagnostic info
+        int deviceCount = 0;
+        cudaError_t err = cudaGetDeviceCount(&deviceCount);
+        std::cerr << "CUDA initialization failed:" << std::endl;
+        std::cerr << "  Error: " << cudaGetErrorString(err) << std::endl;
+        std::cerr << "  Device count: " << deviceCount << std::endl;
+        if (deviceCount == 0) {
+            std::cerr << "  No CUDA-capable devices found" << std::endl;
+            std::cerr << "  Check: NVIDIA driver installed?" << std::endl;
+            std::cerr << "  Check: CUDA-capable GPU present?" << std::endl;
+        }
         return false;
     }
     
-    // Set device
-    CUDA_CHECK_BOOL(cudaSetDevice(0));
+    // Set device with error context
+    cudaError_t setDeviceErr = cudaSetDevice(0);
+    if (setDeviceErr != cudaSuccess) {
+        std::cerr << "CUDA: Failed to set device 0" << std::endl;
+        std::cerr << "  Error: " << cudaGetErrorString(setDeviceErr) << std::endl;
+        return false;
+    }
     
     // v1.1.0: Create CUDA stream with low priority for vLLM co-location
     cudaStream_t stream;
@@ -125,19 +140,35 @@ bool CUDAVectorBackend::initialize() {
     std::cout << "CUDA: Created low-priority stream for vLLM co-location (priority=" << leastPriority << ")" << std::endl;
 #else
     // Standard stream for non-vLLM deployments
-    CUDA_CHECK_BOOL(cudaStreamCreate(&stream));
+    cudaError_t streamErr = cudaStreamCreate(&stream);
+    if (streamErr != cudaSuccess) {
+        std::cerr << "CUDA: Failed to create CUDA stream" << std::endl;
+        std::cerr << "  Error: " << cudaGetErrorString(streamErr) << std::endl;
+        return false;
+    }
 #endif
     deviceContext_ = static_cast<void*>(stream);
     
-    // Query device properties
+    // Query device properties with error handling
     cudaDeviceProp prop;
-    CUDA_CHECK_BOOL(cudaGetDeviceProperties(&prop, 0));
+    cudaError_t propErr = cudaGetDeviceProperties(&prop, 0);
+    if (propErr != cudaSuccess) {
+        std::cerr << "CUDA: Failed to query device properties" << std::endl;
+        std::cerr << "  Error: " << cudaGetErrorString(propErr) << std::endl;
+        cudaStreamDestroy(stream);
+        return false;
+    }
+    
+    // Runtime version check
+    int runtimeVersion = 0;
+    cudaRuntimeGetVersion(&runtimeVersion);
     
     std::cout << "CUDA Backend initialized successfully:" << std::endl;
     std::cout << "  Device: " << prop.name << std::endl;
     std::cout << "  Compute Capability: " << prop.major << "." << prop.minor << std::endl;
     std::cout << "  Global Memory: " << (prop.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
     std::cout << "  Multiprocessors: " << prop.multiProcessorCount << std::endl;
+    std::cout << "  CUDA Runtime: " << (runtimeVersion / 1000) << "." << ((runtimeVersion % 100) / 10) << std::endl;
 #ifdef THEMIS_VLLM_COLOCATION
     std::cout << "  vLLM Co-Location: ENABLED (low-priority stream, max " << THEMIS_MAX_GPU_VRAM_MB << " MB VRAM)" << std::endl;
 #endif
@@ -145,6 +176,7 @@ bool CUDAVectorBackend::initialize() {
     initialized_ = true;
     return true;
 #else
+    std::cerr << "CUDA: Not compiled with CUDA support (THEMIS_ENABLE_CUDA not defined)" << std::endl;
     return false;
 #endif
 }
