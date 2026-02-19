@@ -6,6 +6,7 @@
 #include "rag/faithfulness_evaluator.h"
 #include "rag/llm_judge_integration.h"
 #include "rag/response_parser.h"
+#include "rag/nli_faithfulness_verifier.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -20,10 +21,35 @@ using json = nlohmann::json;
 struct FaithfulnessEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    std::unique_ptr<NLIFaithfulnessVerifier> nli_verifier;
     ResponseParser parser;
     
-    // NLI stub - in production would use actual NLI model
+    // NLI entailment check - now integrated with NLIFaithfulnessVerifier
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
+        // Use NLI verifier if available
+        if (nli_verifier) {
+            auto nli_result = nli_verifier->verifyClaim(claim, document);
+            if (nli_result.success) {
+                // Convert NLI label to SupportLevel
+                switch (nli_result.label) {
+                    case NLILabel::ENTAILMENT:
+                        return nli_result.entailment_prob >= 0.8 ? 
+                               SupportLevel::FULLY_SUPPORTED : 
+                               SupportLevel::PARTIALLY_SUPPORTED;
+                    case NLILabel::NEUTRAL:
+                        return SupportLevel::PARTIALLY_SUPPORTED;
+                    case NLILabel::CONTRADICTION:
+                        return SupportLevel::CONTRADICTED;
+                }
+            }
+        }
+        
+        // Fallback heuristic if NLI verifier not available
+        return checkNLIEntailmentFallback(claim, document);
+    }
+    
+    // Fallback implementation using simple text matching
+    SupportLevel checkNLIEntailmentFallback(const std::string& claim, const std::string& document) {
         // Stub implementation using simple text matching
         // In production, this would call RoBERTa-large-MNLI or similar
         
@@ -81,7 +107,13 @@ FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
     llm_config.max_tokens = 512;
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
-    THEMIS_DEBUG("FaithfulnessEvaluator initialized");
+    // Initialize NLI verifier for accurate claim verification
+    NLIFaithfulnessVerifier::Config nli_config;
+    nli_config.entailment_threshold = config.entailment_threshold;
+    nli_config.enable_caching = true;
+    impl_->nli_verifier = std::make_unique<NLIFaithfulnessVerifier>(nli_config);
+    
+    THEMIS_DEBUG("FaithfulnessEvaluator initialized with NLI verification");
 }
 
 FaithfulnessEvaluator::~FaithfulnessEvaluator() = default;
