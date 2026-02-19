@@ -2,6 +2,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "server/auth_middleware.h"
+#include "server/sharding_metrics_handler.h"
 #include "metadata/schema_manager.h"
 #include "plugins/plugin_manager.h"
 #include "security/hsm_provider.h"
@@ -27,7 +28,8 @@ MonitoringApiHandler::MonitoringApiHandler(
     std::atomic<uint64_t>* error_count,
     const std::chrono::steady_clock::time_point* start_time,
     std::shared_ptr<SecondaryIndexManager> secondary_index,
-    ::themis::SchemaManager* schema_manager
+    ::themis::SchemaManager* schema_manager,
+    std::shared_ptr<ShardingMetricsHandler> sharding_metrics
 )
     : storage_(std::move(storage))
     , auth_(std::move(auth))
@@ -36,6 +38,7 @@ MonitoringApiHandler::MonitoringApiHandler(
     , start_time_(start_time)
     , secondary_index_(std::move(secondary_index))
     , schema_manager_(schema_manager)
+    , sharding_metrics_(std::move(sharding_metrics))
 {
 }
 
@@ -636,6 +639,55 @@ http::response<http::string_body> MonitoringApiHandler::makeResponse(
     res.body() = body;
     res.prepare_payload();
     return res;
+}
+
+// ==================== Phase 1.5: Sharding and SLO Endpoints ====================
+
+http::response<http::string_body> MonitoringApiHandler::handleShardingMetrics(
+    const http::request<http::string_body>& req
+) {
+    if (!sharding_metrics_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+                                 "Sharding metrics not configured", req);
+    }
+    
+    try {
+        std::string metrics = sharding_metrics_->getMetrics();
+        
+        // Also include SLO metrics if available
+        std::string slo_metrics = sharding_metrics_->getSLOMetrics();
+        if (!slo_metrics.empty()) {
+            metrics += "\n" + slo_metrics;
+        }
+        
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.set(http::field::content_type, "text/plain; version=0.0.4; charset=utf-8");
+        res.keep_alive(req.keep_alive());
+        res.body() = metrics;
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, 
+                                 std::string("Failed to get sharding metrics: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
+    const http::request<http::string_body>& req
+) {
+    if (!sharding_metrics_) {
+        return makeErrorResponse(http::status::service_unavailable, 
+                                 "SLO monitoring not configured", req);
+    }
+    
+    try {
+        std::string slo_status = sharding_metrics_->getSLOStatus();
+        return makeResponse(http::status::ok, slo_status, req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, 
+                                 std::string("Failed to get SLO status: ") + e.what(), req);
+    }
 }
 
 } // namespace server
