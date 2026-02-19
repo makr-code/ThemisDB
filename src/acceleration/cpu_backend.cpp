@@ -11,13 +11,14 @@ namespace acceleration {
 // CPUVectorBackend Implementation
 // ============================================================================
 
+// Compute squared L2 distance between two vectors (no sqrt for performance and consistency)
 float CPUVectorBackend::computeL2Distance(const float* a, const float* b, size_t dim) const {
     float sum = 0.0f;
     for (size_t i = 0; i < dim; ++i) {
         float diff = a[i] - b[i];
         sum += diff * diff;
     }
-    return std::sqrt(sum);
+    return sum;  // Return squared distance (maintains monotonic ordering for ranking)
 }
 
 float CPUVectorBackend::computeCosineDistance(const float* a, const float* b, size_t dim) const {

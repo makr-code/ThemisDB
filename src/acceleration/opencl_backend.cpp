@@ -44,7 +44,8 @@ __kernel void computeL2Distance(
         sum += diff * diff;
     }
     
-    distances[q * numVectors + v] = sqrt(sum);
+    // Return squared L2 distance (no sqrt for consistency and performance)
+    distances[q * numVectors + v] = sum;
 }
 
 __kernel void computeCosineDistance(

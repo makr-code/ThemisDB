@@ -38,7 +38,8 @@ kernel void computeL2Distance(
         sum += diff * diff;
     }
     
-    distances[queryIdx * numVectors + vectorIdx] = sqrt(sum);
+    // Return squared L2 distance (no sqrt for consistency and performance)
+    distances[queryIdx * numVectors + vectorIdx] = sum;
 }
 
 // Cosine Distance Kernel
