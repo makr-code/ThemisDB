@@ -11,6 +11,10 @@ using namespace themis::gpu;
 static void DrainManager() {
     auto& mgr = GPUMemoryManager::GetInstance();
     mgr.DeallocateGPU(mgr.GetGPUMemoryUsed());
+    // Clean up any tenant state that tests may have registered.
+    for (const auto& ts : mgr.GetAllTenantStats()) {
+        mgr.RemoveTenantQuota(ts.tenant_id);
+    }
 }
 
 class GPUMemoryManagerTest : public ::testing::Test {
@@ -279,4 +283,199 @@ TEST_F(GPUMemoryManagerTest, ActiveAllocations_EmptyAfterDrainManager) {
     // DrainManager() is called in TearDown, but verify it also leaves
     // the active allocations empty.
     EXPECT_EQ(mgr.GetActiveAllocations().size(), 0u);
+}
+
+// ---------------------------------------------------------------------------
+// Tenant / domain isolation
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUMemoryManagerTest, Tenant_QuotaSetAndRetrieved) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t quota = 4ULL * 1024ULL * 1024ULL * 1024ULL;  // 4 GB
+    mgr.SetTenantQuota("tenant_a", quota);
+
+    const auto ts = mgr.GetTenantStats("tenant_a");
+    EXPECT_EQ(ts.tenant_id, "tenant_a");
+    EXPECT_EQ(ts.quota_bytes, quota);
+    EXPECT_EQ(ts.allocated_bytes, 0u);
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_AllocWithinQuota_Succeeds) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t quota = 2ULL * 1024ULL * 1024ULL * 1024ULL;  // 2 GB
+    const uint64_t alloc = 1ULL * 1024ULL * 1024ULL * 1024ULL;  // 1 GB
+    if (alloc > GPUMemoryManager::GetMaxGPUVRAMBytes()) {
+        GTEST_SKIP() << "Edition limit too small for this test";
+    }
+    mgr.SetTenantQuota("tenant_b", quota);
+
+    EXPECT_TRUE(mgr.TryAllocateGPU(alloc, "work", "tenant_b"));
+    EXPECT_EQ(mgr.GetTenantStats("tenant_b").allocated_bytes, alloc);
+
+    mgr.DeallocateGPU(alloc, "tenant_b");
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_AllocExceedsQuota_Rejected) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb    = 1024ULL * 1024ULL;
+    const uint64_t quota = 10 * mb;   // 10 MB quota
+    const uint64_t alloc = 20 * mb;   // trying to allocate 20 MB
+    mgr.SetTenantQuota("tenant_c", quota);
+
+    EXPECT_FALSE(mgr.TryAllocateGPU(alloc, "overflow", "tenant_c"));
+    // Global usage must remain zero — rejected alloc must not modify state.
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
+    EXPECT_EQ(mgr.GetTenantStats("tenant_c").allocated_bytes, 0u);
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_QuotaFillThenReject) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb    = 1024ULL * 1024ULL;
+    const uint64_t quota = 4 * mb;
+    mgr.SetTenantQuota("tenant_d", quota);
+
+    ASSERT_TRUE(mgr.TryAllocateGPU(4 * mb, "fill", "tenant_d"));
+    EXPECT_FALSE(mgr.TryAllocateGPU(mb, "overflow", "tenant_d"));  // quota full
+
+    mgr.DeallocateGPU(4 * mb, "tenant_d");
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_TenantsAreIsolated) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() < 20ULL * 1024ULL * 1024ULL) {
+        GTEST_SKIP() << "Edition limit too small for this test";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+    mgr.SetTenantQuota("tenant_x", 5 * mb);
+    mgr.SetTenantQuota("tenant_y", 5 * mb);
+
+    // Fill tenant_x quota.
+    ASSERT_TRUE(mgr.TryAllocateGPU(5 * mb, "x_work", "tenant_x"));
+
+    // tenant_y must still be able to allocate (separate quota).
+    EXPECT_TRUE(mgr.TryAllocateGPU(5 * mb, "y_work", "tenant_y"));
+
+    EXPECT_EQ(mgr.GetTenantStats("tenant_x").allocated_bytes, 5 * mb);
+    EXPECT_EQ(mgr.GetTenantStats("tenant_y").allocated_bytes, 5 * mb);
+
+    mgr.DeallocateGPU(5 * mb, "tenant_x");
+    mgr.DeallocateGPU(5 * mb, "tenant_y");
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_DeallocByTenantDecrementsTenantUsage) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+    mgr.SetTenantQuota("tenant_e", 10 * mb);
+
+    ASSERT_TRUE(mgr.TryAllocateGPU(4 * mb, "work", "tenant_e"));
+    EXPECT_EQ(mgr.GetTenantStats("tenant_e").allocated_bytes, 4 * mb);
+
+    mgr.DeallocateGPU(4 * mb, "tenant_e");
+    EXPECT_EQ(mgr.GetTenantStats("tenant_e").allocated_bytes, 0u);
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_PeakTrackedPerTenant) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+    mgr.SetTenantQuota("tenant_f", 8 * mb);
+
+    ASSERT_TRUE(mgr.TryAllocateGPU(6 * mb, "peak_work", "tenant_f"));
+    const uint64_t peak_before_free = mgr.GetTenantStats("tenant_f").peak_bytes;
+
+    mgr.DeallocateGPU(6 * mb, "tenant_f");
+    const uint64_t peak_after_free = mgr.GetTenantStats("tenant_f").peak_bytes;
+
+    EXPECT_EQ(peak_before_free, 6 * mb);
+    EXPECT_EQ(peak_after_free, 6 * mb);  // peak doesn't decrease
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_GetAllTenantStats_IncludesAllRegistered) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    mgr.SetTenantQuota("t1", 1024ULL * 1024ULL);
+    mgr.SetTenantQuota("t2", 2048ULL * 1024ULL);
+
+    const auto all = mgr.GetAllTenantStats();
+    EXPECT_GE(all.size(), 2u);
+    // Both tenant_ids must appear in the results.
+    bool found_t1 = false, found_t2 = false;
+    for (const auto& ts : all) {
+        if (ts.tenant_id == "t1") found_t1 = true;
+        if (ts.tenant_id == "t2") found_t2 = true;
+    }
+    EXPECT_TRUE(found_t1);
+    EXPECT_TRUE(found_t2);
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_GetTenantStats_UnknownTenant_ReturnsZero) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const auto ts = mgr.GetTenantStats("does_not_exist");
+    EXPECT_EQ(ts.allocated_bytes, 0u);
+    EXPECT_EQ(ts.quota_bytes, 0u);
+    EXPECT_EQ(ts.peak_bytes, 0u);
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_Headroom_WithQuota) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+    mgr.SetTenantQuota("tenant_g", 8 * mb);
+
+    ASSERT_TRUE(mgr.TryAllocateGPU(3 * mb, "work", "tenant_g"));
+    const uint64_t headroom = mgr.GetTenantHeadroom("tenant_g");
+    // tenant headroom = 8 - 3 = 5 MB (assuming global still has plenty)
+    EXPECT_EQ(headroom, 5 * mb);
+
+    mgr.DeallocateGPU(3 * mb, "tenant_g");
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_Headroom_NoQuota_ReturnsGlobalRemaining) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+
+    // No quota registered for this tenant.
+    ASSERT_TRUE(mgr.TryAllocateGPU(mb, "global_work"));
+    const uint64_t headroom = mgr.GetTenantHeadroom("no_quota_tenant");
+    EXPECT_EQ(headroom, GPUMemoryManager::GetMaxGPUVRAMBytes() - mb);
+
+    mgr.DeallocateGPU(mb);
+}
+
+TEST_F(GPUMemoryManagerTest, Tenant_RemoveQuota_AllowsUnlimitedUse) {
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+    mgr.SetTenantQuota("tenant_h", 2 * mb);
+
+    // With quota, 3 MB is rejected.
+    EXPECT_FALSE(mgr.TryAllocateGPU(3 * mb, "over", "tenant_h"));
+
+    // After removing the quota, 3 MB should succeed (limited only by edition).
+    mgr.RemoveTenantQuota("tenant_h");
+    EXPECT_TRUE(mgr.TryAllocateGPU(3 * mb, "now_ok", "tenant_h"));
+    // Verify allocation tracking still works after quota removal.
+    EXPECT_EQ(mgr.GetTenantStats("tenant_h").allocated_bytes, 3 * mb);
+    mgr.DeallocateGPU(3 * mb, "tenant_h");
 }

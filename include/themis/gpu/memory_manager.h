@@ -4,6 +4,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include "themis/edition.h"
 
@@ -18,6 +19,10 @@ namespace gpu {
  * individual allocations by tag so that callers can obtain aggregate stats,
  * peak usage, and per-tag breakdowns.
  *
+ * Tenant isolation: callers may register per-tenant VRAM quotas via
+ * SetTenantQuota().  Allocations carrying a tenant_id are checked against
+ * both the global edition limit and the per-tenant quota.
+ *
  * Thread safety: all public methods are protected by an internal mutex.
  */
 class GPUMemoryManager {
@@ -28,6 +33,7 @@ public:
     struct AllocationRecord {
         uint64_t    size_bytes = 0;
         std::string tag;            // caller-supplied reason / owner label
+        std::string tenant_id;      // empty = no tenant / global
     };
 
     // -----------------------------------------------------------------------
@@ -38,6 +44,16 @@ public:
         uint64_t peak_bytes         = 0;  ///< high-water mark since construction
         uint64_t allocation_count   = 0;  ///< successful TryAllocateGPU() calls
         uint64_t deallocation_count = 0;  ///< successful DeallocateGPU() calls
+    };
+
+    // -----------------------------------------------------------------------
+    // Per-tenant statistics
+    // -----------------------------------------------------------------------
+    struct TenantStats {
+        std::string tenant_id;
+        uint64_t    quota_bytes     = 0;  ///< 0 = no per-tenant cap (global limit applies)
+        uint64_t    allocated_bytes = 0;  ///< live VRAM owned by this tenant
+        uint64_t    peak_bytes      = 0;  ///< high-water mark for this tenant
     };
 
     // -----------------------------------------------------------------------
@@ -60,6 +76,27 @@ public:
     }
 
     // -----------------------------------------------------------------------
+    // Tenant quota management
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Register or update a per-tenant VRAM quota.
+     *
+     * @param tenant_id  Opaque tenant identifier.
+     * @param quota_bytes Maximum VRAM this tenant may use concurrently.
+     *                   Pass 0 to remove the per-tenant cap (global limit applies).
+     */
+    void SetTenantQuota(const std::string& tenant_id, uint64_t quota_bytes);
+
+    /**
+     * @brief Remove the per-tenant VRAM cap (sets quota to 0 / unlimited).
+     *
+     * The tenant entry is kept in the internal map so that usage tracking
+     * continues until all its allocations have been freed.
+     */
+    void RemoveTenantQuota(const std::string& tenant_id);
+
+    // -----------------------------------------------------------------------
     // Allocation / deallocation
     // -----------------------------------------------------------------------
 
@@ -73,12 +110,35 @@ public:
     bool TryAllocateGPU(uint64_t size_bytes, const std::string& tag = "Unknown");
 
     /**
+     * @brief Tenant-aware variant of TryAllocateGPU().
+     *
+     * Checks both the global edition VRAM limit and the per-tenant quota
+     * (if one has been set with SetTenantQuota()).
+     *
+     * @param size_bytes  Bytes to reserve.
+     * @param tag         Owner / reason label.
+     * @param tenant_id   Tenant identifier; empty string = no tenant check.
+     * @return true if allocation was granted, false if either limit was
+     *         exceeded (without modifying state).
+     */
+    bool TryAllocateGPU(uint64_t size_bytes,
+                        const std::string& tag,
+                        const std::string& tenant_id);
+
+    /**
      * @brief Release @p size_bytes of previously allocated VRAM.
      *
      * Silently clamps to zero if @p size_bytes exceeds the tracked total to
      * guard against double-free or mis-matched sizes.
      */
     void DeallocateGPU(uint64_t size_bytes);
+
+    /**
+     * @brief Tenant-aware deallocation.
+     *
+     * Decrements both the global counter and the per-tenant counter.
+     */
+    void DeallocateGPU(uint64_t size_bytes, const std::string& tenant_id);
 
     /**
      * @brief Validate a proposed allocation; throws std::runtime_error on
@@ -104,6 +164,28 @@ public:
      */
     std::vector<AllocationRecord> GetActiveAllocations() const;
 
+    /**
+     * @brief Return stats for a specific tenant.
+     *
+     * Returns a zero-filled TenantStats if the tenant has never allocated or
+     * had a quota set.
+     */
+    TenantStats GetTenantStats(const std::string& tenant_id) const;
+
+    /**
+     * @brief Return a snapshot of stats for all tenants that have a quota or
+     *        at least one live allocation.
+     */
+    std::vector<TenantStats> GetAllTenantStats() const;
+
+    /**
+     * @brief Return how many bytes the tenant may still allocate.
+     *
+     * Returns the lesser of (global_remaining) and (tenant_quota - tenant_used).
+     * If the tenant has no quota registered, only the global limit is considered.
+     */
+    uint64_t GetTenantHeadroom(const std::string& tenant_id) const;
+
 private:
     GPUMemoryManager() = default;
     ~GPUMemoryManager() = default;
@@ -119,8 +201,22 @@ private:
 
     // Per-allocation records for owner/tag tracking and leak detection.
     // On TryAllocateGPU() success a record is appended; on DeallocateGPU()
-    // the first record whose size_bytes matches is removed.
+    // the first record whose size_bytes (and tenant_id, if provided) matches
+    // is removed.
     std::vector<AllocationRecord> active_allocations_;
+
+    // Per-tenant state — keyed by tenant_id.
+    struct TenantState {
+        uint64_t quota_bytes     = 0;  // 0 = no cap
+        uint64_t allocated_bytes = 0;
+        uint64_t peak_bytes      = 0;
+    };
+    std::unordered_map<std::string, TenantState> tenant_states_;
+
+    // Internal helper called under lock.
+    bool TryAllocateUnderLock(uint64_t size_bytes,
+                              const std::string& tag,
+                              const std::string& tenant_id);
 };
 
 // ---------------------------------------------------------------------------
@@ -142,3 +238,4 @@ std::string GetGPUFallbackStrategy();
 
 } // namespace gpu
 } // namespace themis
+

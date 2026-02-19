@@ -11,26 +11,87 @@ namespace themis {
 namespace gpu {
 
 // ============================================================================
-// GPUMemoryManager — method implementations
+// Internal helper — must be called with mutex_ already held
 // ============================================================================
 
-bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes, const std::string& tag) {
-    std::lock_guard<std::mutex> lock(mutex_);
-
+bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes,
+                                             const std::string& tag,
+                                             const std::string& tenant_id) {
     const uint64_t max_vram  = GetMaxGPUVRAMBytes();
     const uint64_t new_total = gpu_memory_allocated_ + size_bytes;
 
+    // Check global edition limit.
     if (new_total > max_vram) {
         return false;
     }
 
+    // Check per-tenant quota (if one is registered and non-zero).
+    if (!tenant_id.empty()) {
+        auto it = tenant_states_.find(tenant_id);
+        if (it != tenant_states_.end() && it->second.quota_bytes > 0) {
+            if (it->second.allocated_bytes + size_bytes > it->second.quota_bytes) {
+                return false;
+            }
+        }
+    }
+
+    // Commit the allocation.
     gpu_memory_allocated_ = new_total;
     if (gpu_memory_allocated_ > peak_bytes_) {
         peak_bytes_ = gpu_memory_allocated_;
     }
     ++allocation_count_;
-    active_allocations_.push_back({size_bytes, tag});
+    active_allocations_.push_back({size_bytes, tag, tenant_id});
+
+    // Update tenant state.
+    if (!tenant_id.empty()) {
+        auto& ts = tenant_states_[tenant_id];
+        ts.allocated_bytes += size_bytes;
+        if (ts.allocated_bytes > ts.peak_bytes) {
+            ts.peak_bytes = ts.allocated_bytes;
+        }
+    }
+
     return true;
+}
+
+// ============================================================================
+// Tenant quota management
+// ============================================================================
+
+void GPUMemoryManager::SetTenantQuota(const std::string& tenant_id,
+                                       uint64_t quota_bytes) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    tenant_states_[tenant_id].quota_bytes = quota_bytes;
+}
+
+void GPUMemoryManager::RemoveTenantQuota(const std::string& tenant_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    // Always set quota_bytes = 0 (no cap) regardless of current usage.
+    // The tenant entry remains in the map so that usage tracking continues;
+    // it will naturally disappear when allocations drain to zero and the
+    // entry is not needed for quota enforcement.
+    auto it = tenant_states_.find(tenant_id);
+    if (it != tenant_states_.end()) {
+        it->second.quota_bytes = 0;
+    }
+}
+
+// ============================================================================
+// GPUMemoryManager — allocation methods
+// ============================================================================
+
+bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes,
+                                        const std::string& tag) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return TryAllocateUnderLock(size_bytes, tag, "");
+}
+
+bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes,
+                                        const std::string& tag,
+                                        const std::string& tenant_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return TryAllocateUnderLock(size_bytes, tag, tenant_id);
 }
 
 void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
@@ -45,11 +106,58 @@ void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
     // Remove the first active record whose size matches (FIFO / best-effort).
     for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {
         if (it->size_bytes == size_bytes) {
+            const std::string tid = it->tenant_id;
             active_allocations_.erase(it);
+            // Decrement tenant counter if applicable.
+            if (!tid.empty()) {
+                auto tit = tenant_states_.find(tid);
+                if (tit != tenant_states_.end()) {
+                    if (tit->second.allocated_bytes >= size_bytes) {
+                        tit->second.allocated_bytes -= size_bytes;
+                    } else {
+                        tit->second.allocated_bytes = 0;
+                    }
+                }
+            }
             break;
         }
     }
 }
+
+void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes,
+                                       const std::string& tenant_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (gpu_memory_allocated_ >= size_bytes) {
+        gpu_memory_allocated_ -= size_bytes;
+    } else {
+        gpu_memory_allocated_ = 0;
+    }
+    ++deallocation_count_;
+
+    // Remove the first active record matching size AND tenant.
+    for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {
+        if (it->size_bytes == size_bytes && it->tenant_id == tenant_id) {
+            active_allocations_.erase(it);
+            break;
+        }
+    }
+
+    // Decrement tenant counter.
+    if (!tenant_id.empty()) {
+        auto tit = tenant_states_.find(tenant_id);
+        if (tit != tenant_states_.end()) {
+            if (tit->second.allocated_bytes >= size_bytes) {
+                tit->second.allocated_bytes -= size_bytes;
+            } else {
+                tit->second.allocated_bytes = 0;
+            }
+        }
+    }
+}
+
+// ============================================================================
+// ValidateAllocation
+// ============================================================================
 
 void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
     const uint64_t max_vram = GetMaxGPUVRAMBytes();
@@ -78,6 +186,10 @@ void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
         throw std::runtime_error(error);
     }
 }
+
+// ============================================================================
+// Queries
+// ============================================================================
 
 uint64_t GPUMemoryManager::GetGPUMemoryUsed() const {
     std::lock_guard<std::mutex> lock(mutex_);
@@ -110,6 +222,58 @@ std::vector<GPUMemoryManager::AllocationRecord>
 GPUMemoryManager::GetActiveAllocations() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return active_allocations_;
+}
+
+GPUMemoryManager::TenantStats
+GPUMemoryManager::GetTenantStats(const std::string& tenant_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    TenantStats ts;
+    ts.tenant_id = tenant_id;
+    auto it = tenant_states_.find(tenant_id);
+    if (it != tenant_states_.end()) {
+        ts.quota_bytes     = it->second.quota_bytes;
+        ts.allocated_bytes = it->second.allocated_bytes;
+        ts.peak_bytes      = it->second.peak_bytes;
+    }
+    return ts;
+}
+
+std::vector<GPUMemoryManager::TenantStats>
+GPUMemoryManager::GetAllTenantStats() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<TenantStats> result;
+    result.reserve(tenant_states_.size());
+    for (const auto& kv : tenant_states_) {
+        TenantStats ts;
+        ts.tenant_id       = kv.first;
+        ts.quota_bytes     = kv.second.quota_bytes;
+        ts.allocated_bytes = kv.second.allocated_bytes;
+        ts.peak_bytes      = kv.second.peak_bytes;
+        result.push_back(std::move(ts));
+    }
+    return result;
+}
+
+uint64_t GPUMemoryManager::GetTenantHeadroom(const std::string& tenant_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const uint64_t global_max  = GetMaxGPUVRAMBytes();
+    const uint64_t global_used = gpu_memory_allocated_;
+    const uint64_t global_left = (global_used < global_max)
+                                     ? global_max - global_used
+                                     : 0;
+
+    auto it = tenant_states_.find(tenant_id);
+    if (it == tenant_states_.end() || it->second.quota_bytes == 0) {
+        return global_left;
+    }
+
+    const uint64_t tenant_max  = it->second.quota_bytes;
+    const uint64_t tenant_used = it->second.allocated_bytes;
+    const uint64_t tenant_left = (tenant_used < tenant_max)
+                                     ? tenant_max - tenant_used
+                                     : 0;
+
+    return (global_left < tenant_left) ? global_left : tenant_left;
 }
 
 std::string GPUMemoryManager::GetEditionInfo() const {
