@@ -1,0 +1,326 @@
+/**
+ * @file auth_metrics.h
+ * @brief Prometheus metrics for authentication module
+ * 
+ * Provides comprehensive metrics collection for monitoring:
+ * - Authentication attempts (success/failure by method)
+ * - Latency distribution (p50/p95/p99)
+ * - JWKS cache performance
+ * - Rate limiting events
+ * - Account lockout events
+ * - Error rates by error code
+ * 
+ * @note Requires Prometheus C++ client library
+ * @note Install with: vcpkg install prometheus-cpp
+ */
+
+#pragma once
+
+#include <memory>
+#include <string>
+#include <chrono>
+#include <atomic>
+#include <map>
+#include <mutex>
+
+// ============================================================================
+// Compilation Guard for Prometheus
+// ============================================================================
+#ifdef THEMIS_HAS_PROMETHEUS
+#include <prometheus/registry.h>
+#include <prometheus/counter.h>
+#include <prometheus/gauge.h>
+#include <prometheus/histogram.h>
+#else
+// Provide stub types when Prometheus is not available
+namespace prometheus {
+    class Registry {};
+    template<typename T> class Family {};
+    class Counter { public: void Increment(double = 1.0) {} };
+    class Gauge { public: void Set(double) {} void Increment(double = 1.0) {} void Decrement(double = 1.0) {} };
+    class Histogram { public: void Observe(double) {} };
+}
+#endif
+
+namespace themis {
+namespace auth {
+
+/**
+ * @brief Authentication method types for metrics
+ */
+enum class AuthMethod {
+    JWT,
+    GSSAPI,
+    MFA,
+    UNKNOWN
+};
+
+/**
+ * @brief Prometheus metrics collector for authentication module
+ * 
+ * Thread-safe metrics collection for authentication operations.
+ * Tracks success/failure rates, latency, cache performance, and security events.
+ */
+class AuthMetrics {
+public:
+    struct Config {
+        std::string namespace_prefix = "themis_auth";
+        bool enable_histograms = true;
+        bool enable_detailed_metrics = true;
+        
+        // Histogram buckets for latency (in milliseconds)
+        std::vector<double> latency_buckets = {1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500};
+    };
+    
+#ifdef THEMIS_HAS_PROMETHEUS
+    explicit AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
+                        const Config& config = Config());
+#else
+    explicit AuthMetrics(const Config& config = Config());
+#endif
+    
+    ~AuthMetrics() = default;
+    
+    // ========================================================================
+    // Authentication Attempt Metrics
+    // ========================================================================
+    
+    /**
+     * @brief Record an authentication attempt
+     * @param method Authentication method used
+     * @param success Whether authentication succeeded
+     * @param duration_ms Time taken for authentication
+     */
+    void recordAuthAttempt(AuthMethod method, bool success, double duration_ms = 0.0);
+    
+    /**
+     * @brief Record authentication success
+     * @param method Authentication method used
+     * @param duration_ms Time taken for authentication
+     */
+    void recordAuthSuccess(AuthMethod method, double duration_ms);
+    
+    /**
+     * @brief Record authentication failure
+     * @param method Authentication method used
+     * @param error_code Error code (from AuthErrorCode)
+     * @param duration_ms Time taken before failure
+     */
+    void recordAuthFailure(AuthMethod method, int error_code, double duration_ms);
+    
+    // ========================================================================
+    // JWKS Cache Metrics
+    // ========================================================================
+    
+    /**
+     * @brief Record JWKS cache hit
+     */
+    void recordJWKSCacheHit();
+    
+    /**
+     * @brief Record JWKS cache miss (fetch required)
+     */
+    void recordJWKSCacheMiss();
+    
+    /**
+     * @brief Record JWKS fetch duration
+     * @param duration_ms Time taken to fetch JWKS
+     * @param success Whether fetch succeeded
+     */
+    void recordJWKSFetch(double duration_ms, bool success);
+    
+    /**
+     * @brief Record JWKS cache size
+     * @param num_keys Number of keys in cache
+     */
+    void setJWKSCacheSize(int num_keys);
+    
+    // ========================================================================
+    // Rate Limiting Metrics
+    // ========================================================================
+    
+    /**
+     * @brief Record rate limit exceeded event
+     * @param type Type of rate limit (ip, user)
+     */
+    void recordRateLimitExceeded(const std::string& type);
+    
+    /**
+     * @brief Record current rate limit token count
+     * @param identifier Client identifier
+     * @param tokens Current token count
+     */
+    void setRateLimitTokens(const std::string& identifier, double tokens);
+    
+    // ========================================================================
+    // Account Lockout Metrics
+    // ========================================================================
+    
+    /**
+     * @brief Record account lockout event
+     * @param user_id User identifier
+     */
+    void recordAccountLockout(const std::string& user_id);
+    
+    /**
+     * @brief Record account unlock event
+     * @param user_id User identifier
+     */
+    void recordAccountUnlock(const std::string& user_id);
+    
+    /**
+     * @brief Set current number of locked accounts
+     * @param count Number of locked accounts
+     */
+    void setLockedAccountCount(int count);
+    
+    // ========================================================================
+    // Error Metrics
+    // ========================================================================
+    
+    /**
+     * @brief Record error by error code
+     * @param error_code Authentication error code
+     */
+    void recordError(int error_code);
+    
+    /**
+     * @brief Record error by category
+     * @param category Error category (jwt, gssapi, mfa, rate_limit)
+     */
+    void recordErrorByCategory(const std::string& category);
+    
+    // ========================================================================
+    // Token Validation Metrics
+    // ========================================================================
+    
+    /**
+     * @brief Record token validation duration
+     * @param method Authentication method
+     * @param duration_ms Time taken for validation
+     */
+    void recordTokenValidation(AuthMethod method, double duration_ms);
+    
+    /**
+     * @brief Record revoked token check
+     * @param was_revoked Whether token was found to be revoked
+     */
+    void recordRevokedTokenCheck(bool was_revoked);
+    
+    // ========================================================================
+    // Statistics Access
+    // ========================================================================
+    
+    /**
+     * @brief Get total authentication attempts
+     */
+    uint64_t getTotalAttempts() const;
+    
+    /**
+     * @brief Get successful authentications
+     */
+    uint64_t getSuccessfulAuths() const;
+    
+    /**
+     * @brief Get failed authentications
+     */
+    uint64_t getFailedAuths() const;
+    
+    /**
+     * @brief Get success rate (0.0 to 1.0)
+     */
+    double getSuccessRate() const;
+
+private:
+    Config config_;
+    
+#ifdef THEMIS_HAS_PROMETHEUS
+    std::shared_ptr<prometheus::Registry> registry_;
+    
+    // Counter families
+    prometheus::Family<prometheus::Counter>& auth_attempts_total_;
+    prometheus::Family<prometheus::Counter>& auth_successes_total_;
+    prometheus::Family<prometheus::Counter>& auth_failures_total_;
+    prometheus::Family<prometheus::Counter>& jwks_cache_hits_total_;
+    prometheus::Family<prometheus::Counter>& jwks_cache_misses_total_;
+    prometheus::Family<prometheus::Counter>& jwks_fetches_total_;
+    prometheus::Family<prometheus::Counter>& rate_limit_exceeded_total_;
+    prometheus::Family<prometheus::Counter>& account_lockouts_total_;
+    prometheus::Family<prometheus::Counter>& account_unlocks_total_;
+    prometheus::Family<prometheus::Counter>& errors_total_;
+    prometheus::Family<prometheus::Counter>& revoked_token_checks_total_;
+    
+    // Gauge families
+    prometheus::Family<prometheus::Gauge>& jwks_cache_size_;
+    prometheus::Family<prometheus::Gauge>& locked_accounts_current_;
+    
+    // Histogram families
+    prometheus::Family<prometheus::Histogram>& auth_duration_ms_;
+    prometheus::Family<prometheus::Histogram>& jwks_fetch_duration_ms_;
+    prometheus::Family<prometheus::Histogram>& token_validation_duration_ms_;
+#endif
+    
+    // Local counters (always available, even without Prometheus)
+    std::atomic<uint64_t> total_attempts_{0};
+    std::atomic<uint64_t> successful_auths_{0};
+    std::atomic<uint64_t> failed_auths_{0};
+    
+    // Helper methods
+    static std::string authMethodToString(AuthMethod method);
+};
+
+/**
+ * @brief RAII helper for automatic auth duration measurement
+ * 
+ * Example usage:
+ *   AuthDurationTimer timer(metrics, AuthMethod::JWT);
+ *   // ... perform authentication ...
+ *   timer.recordSuccess();  // or timer.recordFailure(error_code)
+ */
+class AuthDurationTimer {
+public:
+    AuthDurationTimer(AuthMetrics& metrics, AuthMethod method)
+        : metrics_(metrics)
+        , method_(method)
+        , start_(std::chrono::steady_clock::now())
+        , recorded_(false)
+    {}
+    
+    ~AuthDurationTimer() {
+        if (!recorded_) {
+            // Record as attempt without success/failure
+            auto duration = getDuration();
+            metrics_.recordAuthAttempt(method_, false, duration);
+        }
+    }
+    
+    void recordSuccess() {
+        if (!recorded_) {
+            auto duration = getDuration();
+            metrics_.recordAuthSuccess(method_, duration);
+            recorded_ = true;
+        }
+    }
+    
+    void recordFailure(int error_code) {
+        if (!recorded_) {
+            auto duration = getDuration();
+            metrics_.recordAuthFailure(method_, error_code, duration);
+            recorded_ = true;
+        }
+    }
+    
+    double getDuration() const {
+        auto end = std::chrono::steady_clock::now();
+        return std::chrono::duration<double, std::milli>(end - start_).count();
+    }
+
+private:
+    AuthMetrics& metrics_;
+    AuthMethod method_;
+    std::chrono::steady_clock::time_point start_;
+    bool recorded_;
+};
+
+} // namespace auth
+} // namespace themis
