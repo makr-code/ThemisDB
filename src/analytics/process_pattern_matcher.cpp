@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <set>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 
@@ -13,15 +14,20 @@ ProcessPatternMatcher::ProcessPatternMatcher(
     : db_(db),
       vector_index_(vector_index),
       graph_index_(graph_index),
-      process_mining_(db) {}
+      process_mining_(db) {
+    spdlog::debug("ProcessPatternMatcher initialized (stub implementation)");
+}
 
 std::pair<ProcessPatternMatcher::Status, std::vector<SimilarityResult>>
 ProcessPatternMatcher::findSimilar(
     const ProcessPattern& pattern,
     const PatternMatchConfig& config) {
     (void)pattern;
+    (void)config;
     statistics_.total_comparisons_performed++;
     statistics_.avg_computation_time_ms = 0.0;
+
+    spdlog::warn("ProcessPatternMatcher::findSimilar() called but only stub implementation available");
 
     // Return cached result if available
     const std::string cache_key = pattern.id + ":" + std::to_string(config.min_similarity);
@@ -31,7 +37,7 @@ ProcessPatternMatcher::findSimilar(
     }
 
     pattern_cache_[cache_key] = {};
-    return {Status::OK(), {}};
+    return {Status::Error("ProcessPatternMatcher::findSimilar() stub implementation - results not available"), {}};
 }
 
 std::pair<ProcessPatternMatcher::Status, ProcessMining::ConformanceResult>
@@ -41,8 +47,10 @@ ProcessPatternMatcher::compareWithIdeal(
     (void)case_id;
     (void)ideal_pattern;
 
+    spdlog::warn("ProcessPatternMatcher::compareWithIdeal() called but only stub implementation available");
+
     ProcessMining::ConformanceResult result;
-    return {Status::OK(), result};
+    return {Status::Error("ProcessPatternMatcher::compareWithIdeal() stub implementation - results not available"), result};
 }
 
 std::pair<ProcessPatternMatcher::Status, bool>
@@ -52,8 +60,10 @@ ProcessPatternMatcher::hasPattern(
     double threshold) {
     (void)case_id;
     (void)pattern;
+    (void)threshold;
     statistics_.total_comparisons_performed++;
-    return {Status::OK(), threshold <= 0.0};
+    spdlog::warn("ProcessPatternMatcher::hasPattern() called but only stub implementation available");
+    return {Status::Error("ProcessPatternMatcher::hasPattern() stub implementation - results not available"), false};
 }
 
 std::pair<ProcessPatternMatcher::Status, std::map<std::string, SimilarityResult>>
@@ -61,17 +71,11 @@ ProcessPatternMatcher::findPatternsInBatch(
     const std::vector<std::string>& case_ids,
     const ProcessPattern& pattern,
     const PatternMatchConfig& config) {
-    std::map<std::string, SimilarityResult> results;
-    for (const auto& id : case_ids) {
-        auto [status, matches] = findSimilar(pattern, config);
-        if (!status.ok()) {
-            return {status, {}};
-        }
-        if (!matches.empty()) {
-            results[id] = matches.front();
-        }
-    }
-    return {Status::OK(), results};
+    (void)case_ids;
+    (void)pattern;
+    (void)config;
+    spdlog::warn("ProcessPatternMatcher::findPatternsInBatch() called but only stub implementation available");
+    return {Status::Error("ProcessPatternMatcher::findPatternsInBatch() stub implementation - results not available"), {}};
 }
 
 std::pair<ProcessPatternMatcher::Status, std::map<std::string, ProcessPattern>>
@@ -108,6 +112,7 @@ double ProcessPatternMatcher::computeGraphSimilarity(
     const EventLog& /*log*/,
     const std::string& /*case_id*/
 ) const {
+    spdlog::warn("ProcessPatternMatcher::computeGraphSimilarity() stub - returning 0.0");
     return 0.0;
 }
 
@@ -116,6 +121,7 @@ double ProcessPatternMatcher::computeVectorSimilarity(
     const EventLog& /*log*/,
     const std::string& /*case_id*/
 ) const {
+    spdlog::warn("ProcessPatternMatcher::computeVectorSimilarity() stub - returning 0.0");
     return 0.0;
 }
 
@@ -124,6 +130,7 @@ double ProcessPatternMatcher::computeBehavioralSimilarity(
     const EventLog& /*log*/,
     const std::string& /*case_id*/
 ) const {
+    spdlog::warn("ProcessPatternMatcher::computeBehavioralSimilarity() stub - returning 0.0");
     return 0.0;
 }
 
@@ -133,6 +140,7 @@ double ProcessPatternMatcher::computeHybridSimilarity(
     const std::string& /*case_id*/,
     const PatternMatchConfig& /*config*/
 ) const {
+    spdlog::warn("ProcessPatternMatcher::computeHybridSimilarity() stub - returning 0.0");
     return 0.0;
 }
 
