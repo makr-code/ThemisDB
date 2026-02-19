@@ -6,17 +6,15 @@ The exporters module (`src/exporters`, specifically `jsonl_llm_exporter.cpp`) is
 
 ### Key Gaps Identified
 
-- **Input/Schema Validation**: Missing comprehensive input validation and schema validation coverage beyond simple checks; no json-schema validator library integration
+- **Input/Schema Validation**: Missing comprehensive input validation and schema validation coverage beyond simple checks; simplified schema validation implementation without robust json-schema validator library integration
 - **Authorization & Tenant Controls**: No per-tenant authorization controls or multi-tenant isolation enforcement
-- **PII & Safety**: No PII detection/redaction enforcement; no content safety checks or redaction policies
+- **PII & Content Safety**: No PII detection/redaction enforcement; no content safety checks or redaction policies before export
 - **Resource Limits**: Lack of rate limiting, backpressure mechanisms, and size limits on output lines/files
 - **Error Handling**: Error handling exists but without structured error surface; limited retry/backoff strategies
 - **Observability Gaps**: No metrics (throughput, latency, error rates, quality metrics persistence); no tracing/dashboards for export operations
 - **Duplicate Detection**: In-memory only (no streaming dedupe or sliding window support)
-- **Schema Validation**: Simplified implementation; no integration with robust json-schema validator libraries
 - **Testing Coverage**: Missing integration tests for JSON serialization, schema validation, metadata parsing; no fuzz tests; no golden-file tests
 - **Output Integrity**: No checksum/signature generation on output files
-- **Content Safety**: No content safety checks before export
 - **Warmup/Preflight**: No warmup or preflight checks for output paths
 - **Operations**: No runbooks, limited operational tooling
 
