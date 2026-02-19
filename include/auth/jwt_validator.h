@@ -37,6 +37,8 @@ struct JWTClaims {
  * - Validate signature using JWKS from Keycloak
  * - Check expiration and issuer
  * - Extract claims for access control
+ * - Kid revocation/denylist support
+ * - Metrics and logging on validation failures
  */
 struct JWTValidatorConfig {
     std::string jwks_url;               // Keycloak JWKS endpoint
@@ -44,6 +46,7 @@ struct JWTValidatorConfig {
     std::string expected_audience;      // optional: must be contained in aud if set
     std::chrono::seconds cache_ttl{600};
     std::chrono::seconds clock_skew{60};
+    std::vector<std::string> revoked_kids;  // Kid denylist for revoked keys
 };
 
 class JWTValidator {
@@ -85,6 +88,19 @@ public:
      * @param encryption_context Context used for encryption (user_id or group name)
      */
     static bool hasAccess(const JWTClaims& claims, const std::string& encryption_context);
+    
+    /**
+     * @brief Add a key ID to the revocation list
+     * @param kid Key ID to revoke
+     */
+    void revokeKid(const std::string& kid);
+    
+    /**
+     * @brief Check if a key ID is revoked
+     * @param kid Key ID to check
+     * @return true if the kid is revoked
+     */
+    bool isKidRevoked(const std::string& kid) const;
 
 private:
     std::vector<uint8_t> decodeBase64Url(const std::string& input);
@@ -105,6 +121,7 @@ private:
     std::string jwks_url_;
     nlohmann::json jwks_cache_;
     std::chrono::system_clock::time_point jwks_cache_time_;
+    std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
 };
 
 } // namespace auth
