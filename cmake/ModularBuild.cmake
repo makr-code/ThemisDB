@@ -182,6 +182,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
@@ -357,6 +360,11 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
+    ../src/sharding/adaptive_shard_router.cpp
+    ../src/sharding/capability_matcher.cpp
+    ../src/sharding/metadata_shard.cpp
+    ../src/cache/bounded_lru_cache.cpp
+    ../src/server/rpc/blob_transfer_handler.cpp
     
     # Raft consensus
     ../src/sharding/raft_configuration.cpp
@@ -364,6 +372,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
     ../src/sharding/raft_consensus.cpp
+    ../src/sharding/raft_shard_manager.cpp
     ../src/sharding/quorum_manager.cpp
     ../src/sharding/partition_detector.cpp
     ../src/sharding/replica_consistency.cpp
@@ -658,13 +667,19 @@ function(themis_build_modular)
         if(NOT TARGET opentelemetry-cpp::otlp_http_exporter)
             message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::otlp_http_exporter' not found. Ensure opentelemetry-cpp was found with otlp-http feature.")
         endif()
-        list(APPEND _themis_base_deps opentelemetry-cpp::trace opentelemetry-cpp::otlp_http_exporter)
     endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
         DEPENDENCIES ${_themis_base_deps}
     )
+
+    if(THEMIS_ENABLE_TRACING)
+        target_link_libraries(themis_base PRIVATE
+            opentelemetry-cpp::trace
+            opentelemetry-cpp::otlp_http_exporter
+        )
+    endif()
     
     set(_themis_storage_deps
         themis_base
@@ -755,7 +770,7 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
+            target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
             message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")

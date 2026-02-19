@@ -1,6 +1,8 @@
 #include "auth/jwt_validator.h"
+#include "auth/jwks_validator.h"
 #include "utils/hkdf_helper.h"
 #include "utils/openssl_deleter.h"
+#include "utils/logger.h"
 
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
@@ -15,6 +17,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
+#include <thread>
 
 namespace themis {
 namespace auth {
@@ -68,26 +71,78 @@ nlohmann::json JWTValidator::fetchJWKS() {
     if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
         return jwks_cache_;
     }
+    
     std::string response;
-    CURL* curl = curl_easy_init();
-    if (!curl) throw std::runtime_error("Failed to init curl for JWKS fetch");
-    curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
-    CURLcode rc = curl_easy_perform(curl);
+    int attempt = 0;
+    int retry_delay_ms = 100; // Start with 100ms delay
+    CURLcode rc = CURLE_FAILED_INIT;
     long code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
-    curl_easy_cleanup(curl);
-    if (rc != CURLE_OK || code != 200) {
-        throw std::runtime_error("JWKS HTTP error: " + std::to_string(code));
+    
+    // Retry with exponential backoff
+    while (attempt < cfg_.jwks_max_retries) {
+        attempt++;
+        
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            utils::Logger::error("Failed to init curl for JWKS fetch");
+            if (attempt < cfg_.jwks_max_retries) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+                retry_delay_ms *= 2; // Exponential backoff
+                continue;
+            }
+            throw std::runtime_error("Failed to init curl for JWKS fetch after " + std::to_string(attempt) + " attempts");
+        }
+        
+        response.clear();
+        curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
+        
+        rc = curl_easy_perform(curl);
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
+        curl_easy_cleanup(curl);
+        
+        if (rc == CURLE_OK && code == 200) {
+            // Success
+            break;
+        }
+        
+        // Log error and retry if not the last attempt
+        if (attempt < cfg_.jwks_max_retries) {
+            utils::Logger::warn("JWKS fetch attempt " + std::to_string(attempt) + " failed (HTTP " + 
+                              std::to_string(code) + ", curl error " + std::to_string(rc) + "), retrying...");
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+            retry_delay_ms *= 2; // Exponential backoff
+        }
     }
+    
+    if (rc != CURLE_OK || code != 200) {
+        utils::Logger::error("JWKS HTTP error after " + std::to_string(attempt) + 
+                           " attempts: HTTP " + std::to_string(code) + ", curl error " + std::to_string(rc));
+        throw std::runtime_error("JWKS HTTP error: " + std::to_string(code) + " (after " + 
+                               std::to_string(attempt) + " attempts)");
+    }
+    
     auto json = nlohmann::json::parse(response);
     if (!json.is_object() || !json.contains("keys")) {
+        utils::Logger::error("Invalid JWKS document (missing keys)");
         throw std::runtime_error("Invalid JWKS document (missing keys)");
     }
+    
+    // Validate JWKS schema (P1 security hardening)
+    JWKSValidator jwks_validator;
+    try {
+        jwks_validator.validateOrThrow(json);
+    } catch (const std::exception& e) {
+        utils::Logger::error("JWKS schema validation failed: {}", e.what());
+        throw std::runtime_error(std::string("JWKS schema validation failed: ") + e.what());
+    }
+    
     jwks_cache_ = json;
     jwks_cache_time_ = now;
+    utils::Logger::info("JWKS fetched successfully on attempt " + std::to_string(attempt));
     return jwks_cache_;
 }
 
@@ -175,6 +230,19 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (jwt.rfind("Bearer ", 0) == 0) {
         jwt = jwt.substr(7);
     }
+    
+    // Input validation: Check token size limit
+    if (jwt.size() > MAX_JWT_TOKEN_SIZE) {
+        utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
+        throw std::runtime_error("Token exceeds maximum size limit");
+    }
+    
+    // Input validation: Check for empty token
+    if (jwt.empty()) {
+        utils::Logger::warn("JWT validation failed: Empty token");
+        throw std::runtime_error("Empty token");
+    }
+    
     std::vector<std::string> parts;
     std::stringstream ss(jwt);
     std::string part;
@@ -182,6 +250,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         parts.push_back(part);
     }
     if (parts.size() != 3) {
+        utils::Logger::warn("JWT validation failed: Invalid format (expected 3 parts)");
         throw std::runtime_error("Invalid JWT format (expected 3 parts)");
     }
     auto header_json = decodeBase64UrlToString(parts[0]);
@@ -190,11 +259,28 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     auto payload = nlohmann::json::parse(payload_json);
     std::string alg = header.value("alg", "");
     std::string kid = header.value("kid", "");
+    
+    // Check algorithm
     if (alg != "RS256") {
-        throw std::runtime_error("Unsupported alg: " + alg);
+        utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
+        throw std::runtime_error("Unsupported alg: " + alg + " (only RS256 is supported)");
     }
+    
+    // Check kid revocation
+    if (!kid.empty() && isKidRevoked(kid)) {
+        utils::Logger::warn("JWT validation failed: Revoked kid: " + kid);
+        throw std::runtime_error("Token signed with revoked key (kid: " + kid + ")");
+    }
+    
     JWTClaims claims;
     claims.sub = payload.value("sub", "");
+    
+    // Input validation: Check principal/subject length
+    if (claims.sub.size() > MAX_PRINCIPAL_NAME_LENGTH) {
+        utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
+        throw std::runtime_error("Subject (principal) exceeds maximum length");
+    }
+    
     claims.email = payload.value("email", "");
     claims.tenant_id = payload.value("tenant_id", "");  // Extract tenant_id from JWT
     claims.issuer = payload.value("iss", "");
@@ -209,12 +295,14 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         int64_t exp = payload["exp"].get<int64_t>();
         claims.expiration = std::chrono::system_clock::time_point{std::chrono::seconds{exp}};
     } else {
+        utils::Logger::warn("JWT validation failed: Missing exp claim");
         throw std::runtime_error("Missing exp claim");
     }
     if (payload.contains("nbf")) {
         int64_t nbf = payload["nbf"].get<int64_t>();
         claims.not_before = std::chrono::system_clock::time_point{std::chrono::seconds{nbf}};
         if (now + cfg_.clock_skew < *claims.not_before) {
+            utils::Logger::warn("JWT validation failed: Token not yet valid (nbf)");
             throw std::runtime_error("Token not yet valid (nbf)");
         }
     }
@@ -222,6 +310,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         int64_t iat = payload["iat"].get<int64_t>();
         claims.issued_at = std::chrono::system_clock::time_point{std::chrono::seconds{iat}};
         if (now + cfg_.clock_skew < *claims.issued_at) {
+            utils::Logger::warn("JWT validation failed: iat in future");
             throw std::runtime_error("iat in future");
         }
     }
@@ -233,12 +322,15 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         }
     }
     if (claims.isExpired() && now > claims.expiration + cfg_.clock_skew) {
+        utils::Logger::warn("JWT validation failed: Token expired");
         throw std::runtime_error("Token expired");
     }
     if (!cfg_.expected_issuer.empty() && claims.issuer != cfg_.expected_issuer) {
+        utils::Logger::warn("JWT validation failed: Issuer mismatch (expected: " + cfg_.expected_issuer + ", got: " + claims.issuer + ")");
         throw std::runtime_error("Issuer mismatch");
     }
     if (!checkAudience(payload)) {
+        utils::Logger::warn("JWT validation failed: Audience mismatch");
         throw std::runtime_error("Audience mismatch");
     }
     auto jwks = fetchJWKS();
@@ -253,8 +345,12 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
             jwk = findJwkForKid(jwks, kid);
         }
     }
-    if (!jwk) throw std::runtime_error("JWK not found for kid");
+    if (!jwk) {
+        utils::Logger::warn("JWT validation failed: JWK not found for kid: " + kid);
+        throw std::runtime_error("JWK not found for kid");
+    }
     if (!verifySignatureRS256(header_payload, sig_bytes, *jwk)) {
+        utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
         throw std::runtime_error("Signature verification failed");
     }
     return claims;
@@ -275,6 +371,27 @@ bool JWTValidator::hasAccess(const JWTClaims& claims, const std::string& encrypt
     }
     for (const auto& group : claims.groups) {
         if (group == encryption_context) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void JWTValidator::revokeKid(const std::string& kid) {
+    revoked_kids_runtime_.push_back(kid);
+    utils::Logger::info("JWT kid revoked: " + kid);
+}
+
+bool JWTValidator::isKidRevoked(const std::string& kid) const {
+    // Check config denylist
+    for (const auto& revoked : cfg_.revoked_kids) {
+        if (revoked == kid) {
+            return true;
+        }
+    }
+    // Check runtime denylist
+    for (const auto& revoked : revoked_kids_runtime_) {
+        if (revoked == kid) {
             return true;
         }
     }

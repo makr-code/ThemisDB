@@ -5,6 +5,7 @@
 
 #include "rag/faithfulness_evaluator.h"
 #include "rag/llm_judge_integration.h"
+#include "rag/nli_faithfulness_verifier.h"
 #include "rag/response_parser.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
@@ -20,11 +21,27 @@ using json = nlohmann::json;
 struct FaithfulnessEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     ResponseParser parser;
     
     // NLI stub - in production would use actual NLI model
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
-        // Stub implementation using simple text matching
+        // Use NLI verifier if available
+        if (nli_verifier) {
+            auto nli_result = nli_verifier->checkEntailment(document, claim);
+            
+            if (nli_result.label == NLILabel::ENTAILMENT) {
+                return SupportLevel::FULLY_SUPPORTED;
+            } else if (nli_result.label == NLILabel::NEUTRAL) {
+                return SupportLevel::PARTIALLY_SUPPORTED;
+            } else if (nli_result.label == NLILabel::CONTRADICTION) {
+                return SupportLevel::CONTRADICTED;
+            } else {
+                return SupportLevel::UNSUPPORTED;
+            }
+        }
+        
+        // Fallback: Stub implementation using simple text matching
         // In production, this would call RoBERTa-large-MNLI or similar
         
         std::string claim_lower = claim;
@@ -81,7 +98,13 @@ FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
     llm_config.max_tokens = 512;
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
-    THEMIS_DEBUG("FaithfulnessEvaluator initialized");
+    // Initialize NLI verifier for faithfulness checking
+    NLIFaithfulnessVerifier::Config nli_config;
+    nli_config.entailment_threshold = 0.7;
+    nli_config.max_claims = config.max_claims_to_extract;
+    impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>(nli_config);
+    
+    THEMIS_DEBUG("FaithfulnessEvaluator initialized with NLI support");
 }
 
 FaithfulnessEvaluator::~FaithfulnessEvaluator() = default;

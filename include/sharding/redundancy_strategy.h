@@ -32,6 +32,12 @@
 
 #include "sharding/write_concern.h"
 
+namespace themisdb {
+namespace sharding {
+class RaftShardManager;
+}
+}
+
 namespace themis {
 namespace sharding {
 
@@ -487,7 +493,7 @@ public:
      * @brief Set Raft shard manager for consensus-based writes
      * @param raft_manager Shared pointer to RaftShardManager
      */
-    void setRaftShardManager(std::shared_ptr<class RaftShardManager> raft_manager);
+    void setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager);
 
 private:
     RedundancyConfig config_;
@@ -495,7 +501,7 @@ private:
     mutable std::shared_mutex mutex_;
     
     // Raft shard manager for consensus-based writes (optional)
-    std::shared_ptr<class RaftShardManager> raft_manager_;
+    std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager_;
     
     // Statistics
     std::atomic<uint64_t> stats_writes_{0};
