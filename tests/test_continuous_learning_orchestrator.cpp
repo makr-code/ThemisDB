@@ -158,7 +158,7 @@ TEST_F(ContinuousLearningOrchestratorTest, PerformanceHistory) {
     auto history = orchestrator_->getPerformanceHistory(std::chrono::hours(24));
 
     // Initially empty
-    EXPECT_TRUE(history.empty() || history.size() == 0);
+    EXPECT_TRUE(history.empty());
 }
 
 TEST_F(ContinuousLearningOrchestratorTest, SystemImprovementTracking) {

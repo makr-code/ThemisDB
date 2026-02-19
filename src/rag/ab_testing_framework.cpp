@@ -70,12 +70,17 @@ void ABTestingFramework::recordObservation(const std::string &test_id, bool is_t
     // Update mean and std dev
     double sum = std::accumulate(group.observations.begin(), group.observations.end(), 0.0);
     group.mean = sum / group.sample_count;
-
-    double sq_sum = 0.0;
-    for (double obs : group.observations) {
-        sq_sum += (obs - group.mean) * (obs - group.mean);
+    
+    // Calculate sample standard deviation (using n-1)
+    if (group.sample_count > 1) {
+        double sq_sum = 0.0;
+        for (double obs : group.observations) {
+            sq_sum += (obs - group.mean) * (obs - group.mean);
+        }
+        group.std_dev = std::sqrt(sq_sum / (group.sample_count - 1));
+    } else {
+        group.std_dev = 0.0;
     }
-    group.std_dev = std::sqrt(sq_sum / group.sample_count);
 }
 
 bool ABTestingFramework::shouldUseTreatment(const std::string &test_id, const std::string &user_id) {

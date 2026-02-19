@@ -198,15 +198,12 @@ void ContinuousLearningOrchestrator::runPromptOptimization() {
     if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
         return;
     }
-
-    // In a full implementation, this would:
+    
+    // TODO: Full implementation needed
     // 1. Analyze which prompts have low success rates
     // 2. Generate variations using LLM
     // 3. Test variations on historical failed queries
     // 4. Deploy best variation via A/B test
-
-    // For now, just increment counter to show the system is working
-    // impl_->stats.prompt_optimizations++;
 }
 
 void ContinuousLearningOrchestrator::runRetrievalOptimization() {
@@ -217,14 +214,12 @@ void ContinuousLearningOrchestrator::runRetrievalOptimization() {
     if (impl_->interactions.size() < impl_->config.min_feedback_samples) {
         return;
     }
-
-    // In a full implementation, this would:
+    
+    // TODO: Full implementation needed
     // 1. Create a BayesianOptimizer for retrieval parameters
     // 2. Sample historical queries
     // 3. Test different parameter combinations
     // 4. Deploy best parameters via A/B test
-
-    // impl_->stats.retrieval_optimizations++;
 }
 
 void ContinuousLearningOrchestrator::runLoRARetraining() {
