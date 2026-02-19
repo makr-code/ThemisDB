@@ -330,13 +330,14 @@ SecurityCheckResult ContentSecurityManager::checkAbuse(
 
 std::string ContentSecurityManager::sanitizePath(const std::string& text) const {
     // Static regex patterns for path sanitization
-    static const std::regex unix_path_regex(R"(/[a-zA-Z0-9_\-./]+)");
-    static const std::regex windows_path_regex(R"([A-Z]:\\[a-zA-Z0-9_\-\\./]+)");
-    static const std::regex home_path_regex(R"(~[a-zA-Z0-9_\-./]*)");
+    // More specific patterns to avoid false positives
+    static const std::regex unix_path_regex(R"((/[a-zA-Z0-9_\-]+)+(/[a-zA-Z0-9_\-./]+)?)");
+    static const std::regex windows_path_regex(R"([A-Z]:\\([a-zA-Z0-9_\-]+\\)+[a-zA-Z0-9_\-./]*)");
+    static const std::regex home_path_regex(R"(~/[a-zA-Z0-9_\-./]+)");
     
     std::string sanitized = text;
     
-    // Replace Unix paths
+    // Replace Unix paths (requires at least two path segments)
     sanitized = std::regex_replace(sanitized, unix_path_regex, "[PATH]");
     
     // Replace Windows paths
@@ -350,14 +351,20 @@ std::string ContentSecurityManager::sanitizePath(const std::string& text) const 
 
 std::string ContentSecurityManager::sanitizeSystemInfo(const std::string& text) const {
     // Static regex patterns for system info sanitization
-    static const std::regex hostname_regex(R"(\b[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]?\.(?:[a-zA-Z0-9\-]{2,}\.)*[a-zA-Z]{2,}\b)");
+    // More specific hostname pattern - requires subdomain and common TLD
+    static const std::regex hostname_regex(R"(\b(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.){2,}[a-zA-Z]{2,}\b)");
     static const std::regex username_regex(R"(\buser:\s*[a-zA-Z0-9_\-]+)");
     static const std::regex version_regex(R"(\bversion\s*[0-9]+\.[0-9]+\.[0-9]+)");
     
     std::string sanitized = text;
     
-    // Replace hostnames (be careful not to replace MIME types)
-    if (sanitized.find("://") != std::string::npos || sanitized.find(" from ") != std::string::npos) {
+    // Replace hostnames with better context checking
+    // Only sanitize if it looks like a hostname in context (after common prepositions)
+    if (sanitized.find("://") != std::string::npos || 
+        sanitized.find(" from ") != std::string::npos ||
+        sanitized.find(" to ") != std::string::npos ||
+        sanitized.find(" at ") != std::string::npos ||
+        sanitized.find("connect") != std::string::npos) {
         sanitized = std::regex_replace(sanitized, hostname_regex, "[HOSTNAME]");
     }
     

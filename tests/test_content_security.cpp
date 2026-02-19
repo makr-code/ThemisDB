@@ -342,6 +342,13 @@ TEST(ContentSecurityManagerTest, SanitizeUnixPaths) {
     
     std::string msg3 = "File ~/documents/secret.pdf";
     EXPECT_NE(manager.sanitizeErrorMessage(msg3).find("[PATH]"), std::string::npos);
+    
+    // Should NOT sanitize dates or fractions
+    std::string msg4 = "Date: 2024/01/15";
+    EXPECT_EQ(manager.sanitizeErrorMessage(msg4), msg4);
+    
+    std::string msg5 = "Fraction: 3/4 of files processed";
+    EXPECT_EQ(manager.sanitizeErrorMessage(msg5), msg5);
 }
 
 TEST(ContentSecurityManagerTest, SanitizeWindowsPaths) {
@@ -352,6 +359,28 @@ TEST(ContentSecurityManagerTest, SanitizeWindowsPaths) {
     
     std::string msg = "Error at C:\\Users\\Admin\\file.txt";
     EXPECT_NE(manager.sanitizeErrorMessage(msg).find("[PATH]"), std::string::npos);
+}
+
+TEST(ContentSecurityManagerTest, SanitizeHostnames) {
+    ContentSecurityConfig config;
+    config.hide_system_info = true;
+    
+    ContentSecurityManager manager(config);
+    
+    // Should sanitize hostnames in context
+    std::string msg1 = "Failed to connect to server.internal.company.com";
+    std::string sanitized1 = manager.sanitizeErrorMessage(msg1);
+    EXPECT_NE(sanitized1.find("[HOSTNAME]"), std::string::npos);
+    
+    std::string msg2 = "Error from api.example.com";
+    std::string sanitized2 = manager.sanitizeErrorMessage(msg2);
+    EXPECT_NE(sanitized2.find("[HOSTNAME]"), std::string::npos);
+    
+    // Should NOT sanitize MIME types
+    std::string msg3 = "Content type: application/json";
+    std::string sanitized3 = manager.sanitizeErrorMessage(msg3);
+    EXPECT_EQ(sanitized3.find("application/json"), 0);  // Should still contain mime type
+    EXPECT_EQ(sanitized3.find("[HOSTNAME]"), std::string::npos);
 }
 
 TEST(ContentSecurityManagerTest, SanitizeUsername) {
