@@ -1,5 +1,8 @@
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_error_codes.h"
+#include "aql/llm_timeout_manager.h"
+#include "aql/llm_metrics_collector.h"
+#include "sharding/circuit_breaker.h"
 #include "llm/llm_plugin_manager.h"
 #include "llm/embedded_llm.h"
 #include "llm/llama_wrapper.h"
@@ -7,13 +10,26 @@
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace aql {
 
 class LLMAQLHandler::Impl {
 public:
-    Impl() = default;
+    Impl() 
+        : timeout_manager_()
+        , retry_policy_()
+        , circuit_breaker_(sharding::CircuitBreaker::Config{
+            .failure_threshold = 5,
+            .timeout = std::chrono::seconds(60),
+            .success_threshold = 2,
+            .failure_window = std::chrono::seconds(120)
+        })
+    {
+        // Initialize metrics collector
+        LLMMetricsCollector::instance().initialize();
+    }
     
     llm::LLMPluginManager& getPluginManager() {
         return llm::LLMPluginManager::instance();
@@ -24,6 +40,11 @@ public:
     
     // Default configuration constants
     static constexpr float DEFAULT_SIMILARITY_THRESHOLD = 0.7f;
+    
+    // Timeout and resilience components
+    LLMTimeoutManager timeout_manager_;
+    RetryPolicy retry_policy_;
+    sharding::CircuitBreaker circuit_breaker_;
 };
 
 LLMAQLHandler::LLMAQLHandler() 
@@ -37,57 +58,150 @@ std::string LLMAQLHandler::executeInfer(
     const std::string& lora_id,
     const std::unordered_map<std::string, std::string>& options
 ) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+    
     try {
         // Input validation
         LLMValidator::validatePrompt(prompt);
         LLMValidator::validateId(model_id, false);
         LLMValidator::validateId(lora_id, true);
         
-        auto& plugin_mgr = impl_->getPluginManager();
-        
-        // Build inference request with model and LoRA selection
-        llm::InferenceRequest request;
-        request.prompt = prompt;
-        
-        // Set model if specified
-        if (!model_id.empty()) {
-            request.model_id = model_id;
+        // Check circuit breaker
+        if (!impl_->circuit_breaker_.allowRequest()) {
+            metrics.recordCircuitBreakerState("infer", "open");
+            throw LLMException(LLMErrorCode::INFERENCE_FAILED,
+                "Circuit breaker is open - LLM service temporarily unavailable");
         }
         
-        // Set LoRA adapter if specified
-        if (!lora_id.empty()) {
-            request.lora_adapter_id = lora_id;
-        }
+        // Execute with timeout and retry
+        auto result = impl_->timeout_manager_.executeInferWithTimeout([&]() {
+            return impl_->retry_policy_.executeWithRetry([&]() {
+                auto& plugin_mgr = impl_->getPluginManager();
+                
+                // Build inference request with model and LoRA selection
+                llm::InferenceRequest request;
+                request.prompt = prompt;
+                
+                // Set model if specified
+                if (!model_id.empty()) {
+                    request.model_id = model_id;
+                }
+                
+                // Set LoRA adapter if specified
+                if (!lora_id.empty()) {
+                    request.lora_adapter_id = lora_id;
+                }
+                
+                // Parse options for generation parameters
+                if (options.count("max_tokens")) {
+                    request.max_tokens = std::stoi(options.at("max_tokens"));
+                }
+                if (options.count("temperature")) {
+                    request.temperature = std::stof(options.at("temperature"));
+                }
+                if (options.count("top_p")) {
+                    request.top_p = std::stof(options.at("top_p"));
+                }
+                if (options.count("top_k")) {
+                    request.top_k = std::stoi(options.at("top_k"));
+                }
+                if (options.count("repetition_penalty")) {
+                    request.repetition_penalty = std::stof(options.at("repetition_penalty"));
+                }
+                
+                // Execute via plugin manager
+                auto response = plugin_mgr.generate(request);
+                return response.text;
+            }, RetryPolicy::isRetryableError);
+        });
         
-        // Parse options for generation parameters
-        if (options.count("max_tokens")) {
-            request.max_tokens = std::stoi(options.at("max_tokens"));
-        }
-        if (options.count("temperature")) {
-            request.temperature = std::stof(options.at("temperature"));
-        }
-        if (options.count("top_p")) {
-            request.top_p = std::stof(options.at("top_p"));
-        }
-        if (options.count("top_k")) {
-            request.top_k = std::stoi(options.at("top_k"));
-        }
-        if (options.count("repetition_penalty")) {
-            request.repetition_penalty = std::stof(options.at("repetition_penalty"));
-        }
+        // Record success
+        impl_->circuit_breaker_.recordSuccess();
         
-        // Execute via plugin manager
-        auto response = plugin_mgr.generate(request);
-        return response.text;
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        // Estimate token counts (rough estimate: 1 token ≈ 4 chars)
+        size_t input_tokens = prompt.length() / 4;
+        size_t output_tokens = result.length() / 4;
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
+        );
+        
+        spdlog::debug("LLM INFER completed: model={}, latency={}ms, input_tokens={}, output_tokens={}",
+            model_id, latency.count(), input_tokens, output_tokens);
+        
+        return result;
         
     } catch (const LLMException& e) {
+        // Record failure
+        impl_->circuit_breaker_.recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        size_t input_tokens = prompt.length() / 4;
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            input_tokens,
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
+        );
+        
+        spdlog::error("LLM INFER failed: model={}, error={}", 
+            model_id, e.what());
+        
         // Re-throw LLM-specific exceptions
         throw;
     } catch (const std::invalid_argument& e) {
+        // Record failure
+        impl_->circuit_breaker_.recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            prompt.length() / 4,
+            0,
+            false,
+            "INVALID_OPTIONS"
+        );
+        
         // Catch option parsing errors
         throw LLMException(LLMErrorCode::INVALID_OPTIONS,
             std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
+        // Record failure
+        impl_->circuit_breaker_.recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordInference(
+            model_id.empty() ? "default" : model_id,
+            lora_id,
+            latency,
+            prompt.length() / 4,
+            0,
+            false,
+            "INFERENCE_FAILED"
+        );
+        
         // Wrap other exceptions as internal errors (mask details)
         throw LLMException(LLMErrorCode::INFERENCE_FAILED,
             std::string("Inference operation failed: ") + e.what());
@@ -101,6 +215,10 @@ std::string LLMAQLHandler::executeRAG(
     const std::string& lora_id,
     const std::unordered_map<std::string, std::string>& options
 ) {
+    auto start_time = std::chrono::steady_clock::now();
+    auto& metrics = LLMMetricsCollector::instance();
+    size_t retrieved_docs = 0;
+    
     try {
         // Input validation
         LLMValidator::validatePrompt(query);
@@ -108,88 +226,181 @@ std::string LLMAQLHandler::executeRAG(
         LLMValidator::validateTopK(top_k);
         LLMValidator::validateId(lora_id, true);
         
-        auto& plugin_mgr = impl_->getPluginManager();
+        // Check circuit breaker
+        if (!impl_->circuit_breaker_.allowRequest()) {
+            metrics.recordCircuitBreakerState("rag", "open");
+            throw LLMException(LLMErrorCode::RAG_FAILED,
+                "Circuit breaker is open - LLM service temporarily unavailable");
+        }
         
-        // Build RAG context with vector search integration
-        llm::RAGContext context;
-        context.query = query;
-        context.collection_name = collection;
-        context.top_k = top_k;
-        
-        // If vector index manager is available, perform similarity search
-        if (impl_->vector_index_mgr_) {
-            try {
-                // Generate query embedding
-                auto query_embedding = THEMIS_LLM_EMBED(query);
+        // Execute with timeout and retry
+        auto result = impl_->timeout_manager_.executeRAGWithTimeout([&]() {
+            return impl_->retry_policy_.executeWithRetry([&]() {
+                auto& plugin_mgr = impl_->getPluginManager();
                 
-                // Search for similar documents
-                float similarity_threshold = Impl::DEFAULT_SIMILARITY_THRESHOLD;
-                if (options.count("similarity_threshold")) {
-                    similarity_threshold = std::stof(options.at("similarity_threshold"));
-                }
+                // Build RAG context with vector search integration
+                llm::RAGContext context;
+                context.query = query;
+                context.collection_name = collection;
+                context.top_k = top_k;
                 
-                auto [status, results] = impl_->vector_index_mgr_->searchKnn(
-                    query_embedding,
-                    top_k
-                );
-                
-                if (status.ok) {
-                    // Retrieve documents and build context
-                    for (const auto& result : results) {
-                        // Convert distance metric to similarity score
-                        // For COSINE/L2 metrics: lower distance = higher similarity
-                        float similarity = 1.0f - result.distance;
+                // If vector index manager is available, perform similarity search
+                if (impl_->vector_index_mgr_) {
+                    try {
+                        // Generate query embedding
+                        auto query_embedding = THEMIS_LLM_EMBED(query);
                         
-                        // Filter by similarity threshold
-                        if (similarity >= similarity_threshold) {
-                            llm::RAGContext::Document doc;
-                            doc.source = result.pk;
-                            doc.relevance_score = similarity;
-                            // Note: Content would need to be fetched from storage
-                            // For now, we'll use the pk as content placeholder
-                            doc.content = result.pk;
-                            context.documents.push_back(doc);
+                        // Search for similar documents
+                        float similarity_threshold = Impl::DEFAULT_SIMILARITY_THRESHOLD;
+                        if (options.count("similarity_threshold")) {
+                            similarity_threshold = std::stof(options.at("similarity_threshold"));
                         }
+                        
+                        auto [status, results] = impl_->vector_index_mgr_->searchKnn(
+                            query_embedding,
+                            top_k
+                        );
+                        
+                        if (status.ok) {
+                            // Retrieve documents and build context
+                            for (const auto& result : results) {
+                                // Convert distance metric to similarity score
+                                // For COSINE/L2 metrics: lower distance = higher similarity
+                                float similarity = 1.0f - result.distance;
+                                
+                                // Filter by similarity threshold
+                                if (similarity >= similarity_threshold) {
+                                    llm::RAGContext::Document doc;
+                                    doc.source = result.pk;
+                                    doc.relevance_score = similarity;
+                                    // Note: Content would need to be fetched from storage
+                                    // For now, we'll use the pk as content placeholder
+                                    doc.content = result.pk;
+                                    context.documents.push_back(doc);
+                                }
+                            }
+                            retrieved_docs = context.documents.size();
+                        }
+                    } catch (const std::exception& e) {
+                        // Log error but continue with empty context
+                        spdlog::warn("RAG vector search failed: {}", e.what());
                     }
                 }
-            } catch (const std::exception& /* e */) {
-                // Log error but continue with empty context
-                // In production, this would be logged properly
-            }
-        }
+                
+                // Build inference request with RAG context
+                llm::InferenceRequest request;
+                request.prompt = query;
+                
+                // Set LoRA adapter if specified
+                if (!lora_id.empty()) {
+                    request.lora_adapter_id = lora_id;
+                }
+                
+                // Parse options
+                if (options.count("max_tokens")) {
+                    request.max_tokens = std::stoi(options.at("max_tokens"));
+                }
+                if (options.count("temperature")) {
+                    request.temperature = std::stof(options.at("temperature"));
+                }
+                if (options.count("top_p")) {
+                    request.top_p = std::stof(options.at("top_p"));
+                }
+                
+                // Execute RAG query
+                auto response = plugin_mgr.generateRAG(context, request);
+                return response.text;
+            }, RetryPolicy::isRetryableError);
+        });
         
-        // Build inference request with RAG context
-        llm::InferenceRequest request;
-        request.prompt = query;
+        // Record success
+        impl_->circuit_breaker_.recordSuccess();
         
-        // Set LoRA adapter if specified
-        if (!lora_id.empty()) {
-            request.lora_adapter_id = lora_id;
-        }
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
         
-        // Parse options
-        if (options.count("max_tokens")) {
-            request.max_tokens = std::stoi(options.at("max_tokens"));
-        }
-        if (options.count("temperature")) {
-            request.temperature = std::stof(options.at("temperature"));
-        }
-        if (options.count("top_p")) {
-            request.top_p = std::stof(options.at("top_p"));
-        }
+        // Estimate token counts
+        size_t input_tokens = query.length() / 4;
+        size_t output_tokens = result.length() / 4;
         
-        // Execute RAG query
-        auto response = plugin_mgr.generateRAG(context, request);
-        return response.text;
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            input_tokens,
+            output_tokens,
+            true,
+            ""
+        );
+        
+        spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms",
+            collection, retrieved_docs, latency.count());
+        
+        return result;
         
     } catch (const LLMException& e) {
+        // Record failure
+        impl_->circuit_breaker_.recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            query.length() / 4,
+            0,
+            false,
+            LLMException::getErrorCodeString(e.getErrorCode())
+        );
+        
+        spdlog::error("LLM RAG failed: collection={}, error={}", 
+            collection, e.what());
+        
         // Re-throw LLM-specific exceptions
         throw;
     } catch (const std::invalid_argument& e) {
+        // Record failure
+        impl_->circuit_breaker_.recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            query.length() / 4,
+            0,
+            false,
+            "INVALID_OPTIONS"
+        );
+        
         // Catch option parsing errors
         throw LLMException(LLMErrorCode::INVALID_OPTIONS,
             std::string("Invalid option value: ") + e.what());
     } catch (const std::exception& e) {
+        // Record failure
+        impl_->circuit_breaker_.recordFailure();
+        
+        auto end_time = std::chrono::steady_clock::now();
+        auto latency = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+        
+        metrics.recordRAG(
+            collection,
+            lora_id,
+            latency,
+            retrieved_docs,
+            query.length() / 4,
+            0,
+            false,
+            "RAG_FAILED"
+        );
+        
         // Wrap other exceptions as internal errors (mask details)
         throw LLMException(LLMErrorCode::RAG_FAILED,
             std::string("RAG operation failed: ") + e.what());
