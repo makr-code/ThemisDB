@@ -149,6 +149,35 @@ ExporterMetrics::SchemaValidationStats ExporterMetrics::getSchemaValidationStats
     return stats;
 }
 
+void ExporterMetrics::recordPIIDetection(size_t count) {
+    pii_detections_ += count;
+}
+
+void ExporterMetrics::recordPIIRedaction(size_t count) {
+    pii_redactions_ += count;
+}
+
+size_t ExporterMetrics::getPIIDetections() const {
+    return pii_detections_.load();
+}
+
+size_t ExporterMetrics::getPIIRedactions() const {
+    return pii_redactions_.load();
+}
+
+void ExporterMetrics::recordCompression(size_t uncompressed_bytes, size_t compressed_bytes) {
+    compression_uncompressed_bytes_ += uncompressed_bytes;
+    compression_compressed_bytes_ += compressed_bytes;
+}
+
+double ExporterMetrics::getCompressionRatio() const {
+    size_t uncompressed = compression_uncompressed_bytes_.load();
+    size_t compressed = compression_compressed_bytes_.load();
+    
+    if (uncompressed == 0) return 0.0;
+    return static_cast<double>(compressed) / uncompressed;
+}
+
 json ExporterMetrics::toJson() const {
     json j;
     
@@ -191,6 +220,17 @@ json ExporterMetrics::toJson() const {
         {"passed", schema_stats.passed},
         {"failed", schema_stats.failed},
         {"pass_rate", schema_stats.pass_rate}
+    };
+    
+    // P1: PII detection
+    j["pii_detections"] = pii_detections_.load();
+    j["pii_redactions"] = pii_redactions_.load();
+    
+    // P2: Compression
+    j["compression"] = {
+        {"uncompressed_bytes", compression_uncompressed_bytes_.load()},
+        {"compressed_bytes", compression_compressed_bytes_.load()},
+        {"ratio", getCompressionRatio()}
     };
     
     return j;

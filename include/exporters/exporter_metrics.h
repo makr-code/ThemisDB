@@ -72,6 +72,22 @@ public:
     };
     SchemaValidationStats getSchemaValidationStats() const;
     
+    /// P1: Record PII detection
+    void recordPIIDetection(size_t count = 1);
+    
+    /// P1: Record PII redaction
+    void recordPIIRedaction(size_t count = 1);
+    
+    /// P1: Get PII detection stats
+    size_t getPIIDetections() const;
+    size_t getPIIRedactions() const;
+    
+    /// P2: Record compression stats
+    void recordCompression(size_t uncompressed_bytes, size_t compressed_bytes);
+    
+    /// P2: Get compression ratio
+    double getCompressionRatio() const;
+    
     /// Export metrics as JSON
     nlohmann::json toJson() const;
     
@@ -110,6 +126,14 @@ private:
     std::atomic<size_t> schema_validations_total_{0};
     std::atomic<size_t> schema_validations_passed_{0};
     std::atomic<size_t> schema_validations_failed_{0};
+    
+    // P1: PII detection
+    std::atomic<size_t> pii_detections_{0};
+    std::atomic<size_t> pii_redactions_{0};
+    
+    // P2: Compression
+    std::atomic<size_t> compression_uncompressed_bytes_{0};
+    std::atomic<size_t> compression_compressed_bytes_{0};
     
     // Helper to update latency histogram
     void updateLatencyHistogram(std::chrono::milliseconds duration);
