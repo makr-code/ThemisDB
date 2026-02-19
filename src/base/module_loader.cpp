@@ -214,10 +214,17 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     }
     
     // Step 3: Extract metadata (before security verification)
+    // TODO: Optimize to avoid double-loading: Currently loads module twice (once here for
+    // metadata, once later for actual use). Consider: 1) Extract metadata after main load,
+    // 2) Cache metadata, or 3) Use platform-specific binary inspection without loading
     result.metadata = extractModuleMetadata(modulePath);
     if (!result.metadata.isValid()) {
         spdlog::warn("Module metadata invalid or missing for: {}", modulePath);
-        // Continue anyway - metadata is not critical for basic loading
+        // Set safe fallback values for compatibility
+        // Note: Modules without metadata will show version "unversioned"
+        // This allows loading but signals missing version info to operators
+        result.metadata.version = "unversioned";
+        result.metadata.abiVersion = "unknown";
     } else {
         spdlog::info("Module metadata: version={}, abi={}, themis={}.{}.{}", 
                      result.metadata.version, result.metadata.abiVersion,
@@ -540,6 +547,7 @@ ModuleMetadata ModuleLoader::extractModuleMetadata(const std::string& modulePath
     void* tempHandle = loadLibrary(modulePath);
     if (!tempHandle) {
         spdlog::warn("Could not load module temporarily for metadata extraction: {}", modulePath);
+        // Return empty metadata - caller should check isValid()
         return metadata;
     }
     
@@ -576,15 +584,14 @@ ModuleMetadata ModuleLoader::extractModuleMetadata(const std::string& modulePath
     
     unloadLibrary(tempHandle);
     
-    // If no version found via symbols, provide defaults
+    // Note: If no version symbols found, metadata will be invalid (isValid() == false)
+    // Caller should handle missing metadata gracefully
     if (metadata.version.empty()) {
-        spdlog::debug("No version symbol found in module, using fallback");
-        metadata.version = "0.0.0";
-        metadata.abiVersion = "unknown";
+        spdlog::debug("No version symbol found in module: {}", modulePath);
+    } else {
+        spdlog::debug("Extracted metadata from {}: version={}, abi={}, buildId={}", 
+                      modulePath, metadata.version, metadata.abiVersion, metadata.buildId);
     }
-    
-    spdlog::debug("Extracted metadata from {}: version={}, abi={}, buildId={}", 
-                  modulePath, metadata.version, metadata.abiVersion, metadata.buildId);
     
     return metadata;
 }

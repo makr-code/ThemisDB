@@ -273,20 +273,21 @@ TEST(ModuleLoader, GetErrorMessageReturnsNonEmpty) {
 
 // ===== Integration Tests =====
 
-TEST(ModuleLoader, LoadModuleTwiceReturnsAlreadyLoaded) {
+TEST(ModuleLoader, FailedLoadDoesNotPreventRetry) {
     ModuleLoader loader;
     loader.setAllowUnsigned(true);
     loader.setRequireSignature(false);
     
-    // Try to "load" a module twice (will fail on first load due to non-existent file,
-    // but we're testing the already-loaded check logic)
-    // This test verifies the error handling works
+    // Try to load a non-existent module twice
+    // Both should fail with MODULE_NOT_FOUND, not MODULE_ALREADY_LOADED
+    // This verifies that failed loads don't mark module as "loaded"
     
     auto result1 = loader.loadModule("/nonexistent1.so", "test_module");
     EXPECT_FALSE(result1.success);
+    EXPECT_EQ(result1.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
     
-    // The module wasn't actually loaded, so trying again should still fail
-    // with MODULE_NOT_FOUND, not MODULE_ALREADY_LOADED
+    // Second attempt should also fail with MODULE_NOT_FOUND
+    // (not MODULE_ALREADY_LOADED) since first load failed
     auto result2 = loader.loadModule("/nonexistent1.so", "test_module");
     EXPECT_FALSE(result2.success);
     EXPECT_EQ(result2.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
