@@ -6,6 +6,19 @@ namespace themis::exporters {
 
 using json = nlohmann::json;
 
+// Latency bucket midpoints for percentile estimation (in milliseconds)
+// These are the midpoints of each histogram bucket range:
+// - 0-10ms range: midpoint = 5.0
+// - 10-50ms range: midpoint = 30.0
+// - 50-100ms range: midpoint = 75.0
+// - 100-500ms range: midpoint = 300.0
+// - 500ms+ range: represented as 500.0
+constexpr double LATENCY_0_10MS_MIDPOINT = 5.0;
+constexpr double LATENCY_10_50MS_MIDPOINT = 30.0;
+constexpr double LATENCY_50_100MS_MIDPOINT = 75.0;
+constexpr double LATENCY_100_500MS_MIDPOINT = 300.0;
+constexpr double LATENCY_500PLUS_MIDPOINT = 500.0;
+
 void ExporterMetrics::reset() {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -234,18 +247,18 @@ double ExporterMetrics::calculatePercentile(double percentile) const {
     size_t cumulative = 0;
     
     cumulative += latency_histogram_.count_0_10ms.load();
-    if (cumulative >= target) return 5.0;  // midpoint of 0-10ms
+    if (cumulative >= target) return LATENCY_0_10MS_MIDPOINT;
     
     cumulative += latency_histogram_.count_10_50ms.load();
-    if (cumulative >= target) return 30.0;  // midpoint of 10-50ms
+    if (cumulative >= target) return LATENCY_10_50MS_MIDPOINT;
     
     cumulative += latency_histogram_.count_50_100ms.load();
-    if (cumulative >= target) return 75.0;  // midpoint of 50-100ms
+    if (cumulative >= target) return LATENCY_50_100MS_MIDPOINT;
     
     cumulative += latency_histogram_.count_100_500ms.load();
-    if (cumulative >= target) return 300.0;  // midpoint of 100-500ms
+    if (cumulative >= target) return LATENCY_100_500MS_MIDPOINT;
     
-    return 500.0;  // 500ms+
+    return LATENCY_500PLUS_MIDPOINT;
 }
 
 } // namespace themis::exporters
