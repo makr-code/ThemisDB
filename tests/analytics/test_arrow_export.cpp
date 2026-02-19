@@ -372,3 +372,290 @@ TEST_F(ArrowExportTest, EndToEndWorkflow) {
     EXPECT_TRUE(std::filesystem::exists(json_path));
     EXPECT_TRUE(std::filesystem::exists(csv_path));
 }
+
+// ===== Arrow Export Tests (when THEMIS_HAS_ARROW is enabled) =====
+
+TEST_F(ArrowExportTest, ArrowIPCExport) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"value", ArrowRecordBatch::DataType::DOUBLE, false});
+    batch.addColumn({"name", ArrowRecordBatch::DataType::STRING, true});
+    
+    batch.appendRow({int64_t(1), 10.5, std::string("Alice")});
+    batch.appendRow({int64_t(2), 20.5, std::string("Bob")});
+    batch.appendRow({int64_t(3), 30.5, nullptr});
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    ExportOptions options;
+    options.format = ExportFormat::ARROW_IPC;
+    
+    std::string output_path = test_dir_ + "/test_arrow.ipc";
+    auto result = exporter->exportToFile(batch, output_path, options);
+    
+#ifdef THEMIS_HAS_ARROW
+    // With Arrow support
+    EXPECT_EQ(result.status, ExportStatus::SUCCESS);
+    EXPECT_EQ(result.rows_exported, 3);
+    EXPECT_GT(result.bytes_written, 0);
+    EXPECT_TRUE(std::filesystem::exists(output_path));
+#else
+    // Without Arrow support
+    EXPECT_EQ(result.status, ExportStatus::NOT_SUPPORTED);
+    EXPECT_FALSE(result.message.empty());
+    EXPECT_NE(result.message.find("Arrow"), std::string::npos);
+#endif
+}
+
+TEST_F(ArrowExportTest, ParquetExport) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"timestamp", ArrowRecordBatch::DataType::TIMESTAMP, false});
+    batch.addColumn({"sensor_id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"temperature", ArrowRecordBatch::DataType::DOUBLE, true});
+    batch.addColumn({"active", ArrowRecordBatch::DataType::BOOLEAN, false});
+    
+    for (int i = 0; i < 100; ++i) {
+        batch.appendRow({
+            int64_t(1706745600 + i * 60),
+            int64_t(i % 10),
+            i % 3 == 0 ? nullptr : std::variant<std::nullptr_t, int64_t, double, std::string, bool>(22.5 + i * 0.1),
+            (i % 2 == 0)
+        });
+    }
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    ExportOptions options;
+    options.format = ExportFormat::ARROW_PARQUET;
+    options.compress = true;
+    options.compression_codec = "snappy";
+    
+    std::string output_path = test_dir_ + "/test_data.parquet";
+    auto result = exporter->exportToFile(batch, output_path, options);
+    
+#ifdef THEMIS_HAS_ARROW
+    EXPECT_EQ(result.status, ExportStatus::SUCCESS);
+    EXPECT_EQ(result.rows_exported, 100);
+    EXPECT_GT(result.bytes_written, 0);
+    EXPECT_TRUE(std::filesystem::exists(output_path));
+    
+    // Verify compression worked (file size should be reasonable)
+    size_t file_size = std::filesystem::file_size(output_path);
+    EXPECT_LT(file_size, 10000);  // Should be small due to compression
+#else
+    EXPECT_EQ(result.status, ExportStatus::NOT_SUPPORTED);
+    EXPECT_FALSE(result.message.empty());
+#endif
+}
+
+TEST_F(ArrowExportTest, FeatherExport) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"product_id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"product_name", ArrowRecordBatch::DataType::STRING, false});
+    batch.addColumn({"price", ArrowRecordBatch::DataType::DOUBLE, false});
+    batch.addColumn({"in_stock", ArrowRecordBatch::DataType::BOOLEAN, false});
+    
+    batch.appendRow({int64_t(1), std::string("Laptop"), 999.99, true});
+    batch.appendRow({int64_t(2), std::string("Mouse"), 29.99, true});
+    batch.appendRow({int64_t(3), std::string("Keyboard"), 79.99, false});
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    ExportOptions options;
+    options.format = ExportFormat::ARROW_FEATHER;
+    
+    std::string output_path = test_dir_ + "/test_data.feather";
+    auto result = exporter->exportToFile(batch, output_path, options);
+    
+#ifdef THEMIS_HAS_ARROW
+    EXPECT_EQ(result.status, ExportStatus::SUCCESS);
+    EXPECT_EQ(result.rows_exported, 3);
+    EXPECT_GT(result.bytes_written, 0);
+    EXPECT_TRUE(std::filesystem::exists(output_path));
+#else
+    EXPECT_EQ(result.status, ExportStatus::NOT_SUPPORTED);
+#endif
+}
+
+TEST_F(ArrowExportTest, ArrowStringExport) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"name", ArrowRecordBatch::DataType::STRING, false});
+    
+    batch.appendRow({int64_t(1), std::string("Test")});
+    batch.appendRow({int64_t(2), std::string("Data")});
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    ExportOptions options;
+    options.format = ExportFormat::ARROW_IPC;
+    
+    std::string result = exporter->exportToString(batch, options);
+    
+#ifdef THEMIS_HAS_ARROW
+    EXPECT_FALSE(result.empty());
+    EXPECT_EQ(result.find("ERROR"), std::string::npos);
+#else
+    EXPECT_FALSE(result.empty());
+    EXPECT_NE(result.find("ERROR"), std::string::npos);
+    EXPECT_NE(result.find("Arrow"), std::string::npos);
+#endif
+}
+
+// ===== Negative Tests =====
+
+TEST_F(ArrowExportTest, ExportToUnwritablePath) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+    batch.appendRow({int64_t(1)});
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    ExportOptions options;
+    options.format = ExportFormat::JSON;
+    
+    // Try to write to a path that doesn't exist and can't be created
+    std::string bad_path = "/nonexistent_directory_12345/subdir/file.json";
+    auto result = exporter->exportToFile(batch, bad_path, options);
+    
+    EXPECT_EQ(result.status, ExportStatus::FAILED);
+    EXPECT_FALSE(result.message.empty());
+}
+
+TEST_F(ArrowExportTest, FormatSupportCheck) {
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    // JSON and CSV should always be supported
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::JSON));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::CSV));
+    
+    // Arrow formats depend on compile flag
+#ifdef THEMIS_HAS_ARROW
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
+    EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_FEATHER));
+#else
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_FEATHER));
+#endif
+}
+
+TEST_F(ArrowExportTest, ExporterInfo) {
+    auto exporter = ExporterFactory::createDefaultExporter();
+    std::string info = exporter->getExporterInfo();
+    
+    EXPECT_FALSE(info.empty());
+    EXPECT_NE(info.find("AnalyticsExporter"), std::string::npos);
+    
+#ifdef THEMIS_HAS_ARROW
+    EXPECT_NE(info.find("Arrow enabled"), std::string::npos);
+#else
+    EXPECT_NE(info.find("JSON/CSV only"), std::string::npos);
+#endif
+}
+
+TEST_F(ArrowExportTest, NullBitmapHandling) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"optional_value", ArrowRecordBatch::DataType::DOUBLE, true});
+    batch.addColumn({"optional_text", ArrowRecordBatch::DataType::STRING, true});
+    
+    // Mix of null and non-null values
+    batch.appendRow({int64_t(1), 10.5, std::string("text1")});
+    batch.appendRow({int64_t(2), nullptr, std::string("text2")});
+    batch.appendRow({int64_t(3), 30.5, nullptr});
+    batch.appendRow({int64_t(4), nullptr, nullptr});
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    // Test CSV export with nulls
+    ExportOptions csv_options;
+    csv_options.format = ExportFormat::CSV;
+    std::string csv_result = exporter->exportToString(batch, csv_options);
+    EXPECT_FALSE(csv_result.empty());
+    
+    // Test JSON export with nulls
+    ExportOptions json_options;
+    json_options.format = ExportFormat::JSON;
+    std::string json_result = exporter->exportToString(batch, json_options);
+    EXPECT_FALSE(json_result.empty());
+    EXPECT_NE(json_result.find("null"), std::string::npos);
+    
+#ifdef THEMIS_HAS_ARROW
+    // Test Arrow export with nulls
+    ExportOptions arrow_options;
+    arrow_options.format = ExportFormat::ARROW_IPC;
+    std::string arrow_path = test_dir_ + "/nulls_test.ipc";
+    auto arrow_result = exporter->exportToFile(batch, arrow_path, arrow_options);
+    EXPECT_EQ(arrow_result.status, ExportStatus::SUCCESS);
+    EXPECT_EQ(arrow_result.rows_exported, 4);
+#endif
+}
+
+TEST_F(ArrowExportTest, EmptyBatchExport) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"value", ArrowRecordBatch::DataType::DOUBLE, false});
+    
+    // No rows appended
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    // Test JSON export of empty batch
+    ExportOptions options;
+    options.format = ExportFormat::JSON;
+    
+    std::string result = exporter->exportToString(batch, options);
+    EXPECT_FALSE(result.empty());
+    EXPECT_NE(result.find("\"row_count\": 0"), std::string::npos);
+}
+
+TEST_F(ArrowExportTest, LargeDatasetExport) {
+    ArrowRecordBatch batch;
+    batch.addColumn({"id", ArrowRecordBatch::DataType::INT64, false});
+    batch.addColumn({"value", ArrowRecordBatch::DataType::DOUBLE, false});
+    batch.addColumn({"category", ArrowRecordBatch::DataType::STRING, false});
+    
+    // Create a larger dataset
+    const size_t num_rows = 10000;
+    for (size_t i = 0; i < num_rows; ++i) {
+        batch.appendRow({
+            int64_t(i),
+            double(i) * 1.5,
+            std::string("category_") + std::to_string(i % 10)
+        });
+    }
+    
+    auto exporter = ExporterFactory::createDefaultExporter();
+    
+    // Test CSV export
+    ExportOptions csv_options;
+    csv_options.format = ExportFormat::CSV;
+    std::string csv_path = test_dir_ + "/large_data.csv";
+    auto csv_result = exporter->exportToFile(batch, csv_path, csv_options);
+    EXPECT_EQ(csv_result.status, ExportStatus::SUCCESS);
+    EXPECT_EQ(csv_result.rows_exported, num_rows);
+    EXPECT_GT(csv_result.duration_ms, 0.0);
+    
+#ifdef THEMIS_HAS_ARROW
+    // Test Parquet export with compression
+    ExportOptions parquet_options;
+    parquet_options.format = ExportFormat::ARROW_PARQUET;
+    parquet_options.compress = true;
+    parquet_options.compression_codec = "zstd";
+    parquet_options.compression_level = 3;
+    
+    std::string parquet_path = test_dir_ + "/large_data.parquet";
+    auto parquet_result = exporter->exportToFile(batch, parquet_path, parquet_options);
+    EXPECT_EQ(parquet_result.status, ExportStatus::SUCCESS);
+    EXPECT_EQ(parquet_result.rows_exported, num_rows);
+    EXPECT_GT(parquet_result.bytes_written, 0);
+    
+    // Verify Parquet file is smaller than CSV due to compression
+    size_t csv_size = std::filesystem::file_size(csv_path);
+    size_t parquet_size = std::filesystem::file_size(parquet_path);
+    EXPECT_LT(parquet_size, csv_size);
+#endif
+}
+
