@@ -195,5 +195,5 @@ The config path resolver and migration utilities (`src/config/config_path_resolv
 ## Related Documentation
 
 - [Config Path Resolver Source Code](../src/config/config_path_resolver.h)
-- [Architecture Overview](architecture/ARCHITECTURE_OVERVIEW.md)
-- [Security Framework](SECURITY.md)
+- [Architecture Overview](de/architecture/ARCHITECTURE_OVERVIEW.md)
+- [Security Framework](../SECURITY.md)
