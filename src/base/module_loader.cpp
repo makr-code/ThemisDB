@@ -185,6 +185,8 @@ bool ModuleLoader::isThemisModule(const std::string& filename) {
 
 ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath, 
                                                  const std::string& moduleName) {
+    auto startTime = std::chrono::steady_clock::now();
+    
     ModuleVerificationResult result;
     result.modulePath = modulePath;
     result.verificationTimestamp = static_cast<uint64_t>(std::time(nullptr));
@@ -193,7 +195,9 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     // Step 1: Check if already loaded
     if (isModuleLoaded(moduleName)) {
-        result.errorMessage = "Module already loaded: " + moduleName;
+        result.errorCode = ModuleErrorCode::MODULE_ALREADY_LOADED;
+        result.errorCategory = categorizeError(result.errorCode);
+        result.errorMessage = getErrorMessage(result.errorCode) + ": " + moduleName;
         spdlog::warn("{}", result.errorMessage);
         result.success = false;
         return result;
@@ -201,16 +205,31 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     // Step 2: Verify module exists
     if (!std::filesystem::exists(modulePath)) {
-        result.errorMessage = "Module file not found: " + modulePath;
+        result.errorCode = ModuleErrorCode::MODULE_NOT_FOUND;
+        result.errorCategory = categorizeError(result.errorCode);
+        result.errorMessage = getErrorMessage(result.errorCode) + ": " + modulePath;
         spdlog::error("{}", result.errorMessage);
         result.success = false;
         return result;
     }
     
-    // Step 3: SECURITY - Verify module signature and integrity
+    // Step 3: Extract metadata (before security verification)
+    result.metadata = extractModuleMetadata(modulePath);
+    if (!result.metadata.isValid()) {
+        spdlog::warn("Module metadata invalid or missing for: {}", modulePath);
+        // Continue anyway - metadata is not critical for basic loading
+    } else {
+        spdlog::info("Module metadata: version={}, abi={}, themis={}.{}.{}", 
+                     result.metadata.version, result.metadata.abiVersion,
+                     result.metadata.themisMajor, result.metadata.themisMinor, result.metadata.themisPatch);
+    }
+    
+    // Step 4: SECURITY - Verify module signature and integrity
     std::string errorMessage;
     if (!verifier_->verifyModule(modulePath, errorMessage)) {
-        result.errorMessage = "Module verification failed: " + errorMessage;
+        result.errorCode = ModuleErrorCode::VERIFICATION_FAILED;
+        result.errorCategory = categorizeError(result.errorCode);
+        result.errorMessage = getErrorMessage(result.errorCode) + ": " + errorMessage;
         spdlog::critical("SECURITY: {}", result.errorMessage);
         result.success = false;
         
@@ -231,10 +250,12 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     // Step 4: Calculate and store file hash
     result.moduleHash = verifier_->calculateFileHash(modulePath);
     
-    // Step 5: Load the module library
+    // Step 6: Load the module library
     void* handle = loadLibrary(modulePath);
     if (!handle) {
-        result.errorMessage = "Failed to load module library: " + modulePath;
+        result.errorCode = ModuleErrorCode::LOAD_LIBRARY_FAILED;
+        result.errorCategory = categorizeError(result.errorCode);
+        result.errorMessage = getErrorMessage(result.errorCode) + ": " + modulePath;
 #ifndef _WIN32
         result.errorMessage += " - " + std::string(dlerror());
 #endif
@@ -243,7 +264,11 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         return result;
     }
     
-    // Step 6: Store module info
+    // Step 7: Calculate load duration
+    auto endTime = std::chrono::steady_clock::now();
+    auto durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+    
+    // Step 8: Store module info
     LoadedModule module;
     module.name = moduleName;
     module.path = modulePath;
@@ -251,16 +276,19 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     module.handle = handle;
     module.verified = true;
     module.loadTime = result.verificationTimestamp;
-    
-    // TODO: Extract version from module metadata
-    module.version = "unknown";
+    module.loadDurationMs = static_cast<uint64_t>(durationMs);
+    module.metadata = result.metadata;
+    module.version = result.metadata.version;
     
     loadedModules_.push_back(module);
     ModuleRegistry::instance().registerModule(module);
     
-    spdlog::info("Module loaded successfully: {} (hash: {})", moduleName, result.moduleHash);
+    spdlog::info("Module loaded successfully: {} (version: {}, hash: {}, duration: {}ms)", 
+                 moduleName, module.version, result.moduleHash, durationMs);
     
     result.success = true;
+    result.errorCode = ModuleErrorCode::SUCCESS;
+    result.errorCategory = ErrorCategory::PERMANENT;
     return result;
 }
 
@@ -409,6 +437,156 @@ bool ModuleRegistry::isRegistered(const std::string& moduleName) const {
 
 std::vector<LoadedModule> ModuleRegistry::getAllModules() const {
     return modules_;
+}
+
+// ============================================================================
+// Helper methods for error handling and metadata extraction
+// ============================================================================
+
+std::string ModuleLoader::getErrorMessage(ModuleErrorCode code) const {
+    switch (code) {
+        case ModuleErrorCode::SUCCESS:
+            return "Success";
+        case ModuleErrorCode::MODULE_NOT_FOUND:
+            return "Module file not found";
+        case ModuleErrorCode::MODULE_ALREADY_LOADED:
+            return "Module is already loaded";
+        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+            return "Module directory not found";
+        case ModuleErrorCode::MODULE_ACCESS_DENIED:
+            return "Access denied to module file";
+        case ModuleErrorCode::VERIFICATION_FAILED:
+            return "Module verification failed";
+        case ModuleErrorCode::SIGNATURE_INVALID:
+            return "Invalid or missing signature";
+        case ModuleErrorCode::HASH_MISMATCH:
+            return "Hash verification failed";
+        case ModuleErrorCode::CERTIFICATE_REVOKED:
+            return "Certificate has been revoked";
+        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+            return "Certificate has expired";
+        case ModuleErrorCode::UNTRUSTED_SIGNER:
+            return "Untrusted certificate signer";
+        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+            return "Failed to load module library";
+        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+            return "Required symbol not found in module";
+        case ModuleErrorCode::INITIALIZATION_FAILED:
+            return "Module initialization failed";
+        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+            return "Module version incompatible with ThemisDB";
+        case ModuleErrorCode::ABI_INCOMPATIBLE:
+            return "Module ABI incompatible with ThemisDB";
+        case ModuleErrorCode::METADATA_MISSING:
+            return "Module metadata is missing";
+        case ModuleErrorCode::METADATA_CORRUPTED:
+            return "Module metadata is corrupted";
+        case ModuleErrorCode::POLICY_VIOLATION:
+            return "Module violates security policy";
+        case ModuleErrorCode::BLACKLISTED:
+            return "Module is blacklisted";
+        case ModuleErrorCode::QUARANTINED:
+            return "Module is quarantined due to repeated failures";
+        case ModuleErrorCode::INTERNAL_ERROR:
+            return "Internal module loader error";
+        case ModuleErrorCode::UNKNOWN_ERROR:
+        default:
+            return "Unknown error";
+    }
+}
+
+ErrorCategory ModuleLoader::categorizeError(ModuleErrorCode code) const {
+    switch (code) {
+        // Transient errors - may succeed on retry
+        case ModuleErrorCode::MODULE_ACCESS_DENIED:
+        case ModuleErrorCode::LOAD_LIBRARY_FAILED:
+            return ErrorCategory::TRANSIENT;
+            
+        // Recoverable errors - user can fix
+        case ModuleErrorCode::MODULE_NOT_FOUND:
+        case ModuleErrorCode::MODULE_DIRECTORY_NOT_FOUND:
+        case ModuleErrorCode::VERSION_INCOMPATIBLE:
+        case ModuleErrorCode::ABI_INCOMPATIBLE:
+        case ModuleErrorCode::METADATA_MISSING:
+            return ErrorCategory::RECOVERABLE;
+            
+        // Fatal errors - require system intervention
+        case ModuleErrorCode::VERIFICATION_FAILED:
+        case ModuleErrorCode::SIGNATURE_INVALID:
+        case ModuleErrorCode::HASH_MISMATCH:
+        case ModuleErrorCode::CERTIFICATE_REVOKED:
+        case ModuleErrorCode::CERTIFICATE_EXPIRED:
+        case ModuleErrorCode::UNTRUSTED_SIGNER:
+        case ModuleErrorCode::BLACKLISTED:
+        case ModuleErrorCode::QUARANTINED:
+        case ModuleErrorCode::POLICY_VIOLATION:
+            return ErrorCategory::FATAL;
+            
+        // Permanent errors - retry won't help
+        case ModuleErrorCode::MODULE_ALREADY_LOADED:
+        case ModuleErrorCode::SYMBOL_NOT_FOUND:
+        case ModuleErrorCode::METADATA_CORRUPTED:
+        case ModuleErrorCode::INITIALIZATION_FAILED:
+        default:
+            return ErrorCategory::PERMANENT;
+    }
+}
+
+ModuleMetadata ModuleLoader::extractModuleMetadata(const std::string& modulePath) {
+    ModuleMetadata metadata;
+    
+    // Try to load metadata from module itself
+    // For now, check if module exports standard version symbols
+    void* tempHandle = loadLibrary(modulePath);
+    if (!tempHandle) {
+        spdlog::warn("Could not load module temporarily for metadata extraction: {}", modulePath);
+        return metadata;
+    }
+    
+    // Try to get version information via exported symbols
+    // Common pattern: themis_module_version, themis_module_abi, etc.
+    typedef const char* (*GetVersionFunc)();
+    typedef uint32_t (*GetVersionIntFunc)();
+    
+    auto getVersionStr = reinterpret_cast<GetVersionFunc>(getSymbol(tempHandle, "themis_module_version"));
+    auto getAbiVersion = reinterpret_cast<GetVersionFunc>(getSymbol(tempHandle, "themis_module_abi_version"));
+    auto getBuildId = reinterpret_cast<GetVersionFunc>(getSymbol(tempHandle, "themis_module_build_id"));
+    auto getMajor = reinterpret_cast<GetVersionIntFunc>(getSymbol(tempHandle, "themis_api_version_major"));
+    auto getMinor = reinterpret_cast<GetVersionIntFunc>(getSymbol(tempHandle, "themis_api_version_minor"));
+    auto getPatch = reinterpret_cast<GetVersionIntFunc>(getSymbol(tempHandle, "themis_api_version_patch"));
+    
+    if (getVersionStr) {
+        metadata.version = getVersionStr();
+    }
+    if (getAbiVersion) {
+        metadata.abiVersion = getAbiVersion();
+    }
+    if (getBuildId) {
+        metadata.buildId = getBuildId();
+    }
+    if (getMajor) {
+        metadata.themisMajor = getMajor();
+    }
+    if (getMinor) {
+        metadata.themisMinor = getMinor();
+    }
+    if (getPatch) {
+        metadata.themisPatch = getPatch();
+    }
+    
+    unloadLibrary(tempHandle);
+    
+    // If no version found via symbols, provide defaults
+    if (metadata.version.empty()) {
+        spdlog::debug("No version symbol found in module, using fallback");
+        metadata.version = "0.0.0";
+        metadata.abiVersion = "unknown";
+    }
+    
+    spdlog::debug("Extracted metadata from {}: version={}, abi={}, buildId={}", 
+                  modulePath, metadata.version, metadata.abiVersion, metadata.buildId);
+    
+    return metadata;
 }
 
 void ModuleRegistry::clear() {

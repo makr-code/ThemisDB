@@ -17,14 +17,86 @@ namespace modules {
 class ModuleSecurityVerifier;
 
 /**
+ * @brief Module error codes for structured error handling
+ */
+enum class ModuleErrorCode {
+    SUCCESS = 0,
+    
+    // File system errors (1xx)
+    MODULE_NOT_FOUND = 100,
+    MODULE_ALREADY_LOADED = 101,
+    MODULE_DIRECTORY_NOT_FOUND = 102,
+    MODULE_ACCESS_DENIED = 103,
+    
+    // Verification errors (2xx)
+    VERIFICATION_FAILED = 200,
+    SIGNATURE_INVALID = 201,
+    HASH_MISMATCH = 202,
+    CERTIFICATE_REVOKED = 203,
+    CERTIFICATE_EXPIRED = 204,
+    UNTRUSTED_SIGNER = 205,
+    
+    // Loading errors (3xx)
+    LOAD_LIBRARY_FAILED = 300,
+    SYMBOL_NOT_FOUND = 301,
+    INITIALIZATION_FAILED = 302,
+    
+    // Version/ABI errors (4xx)
+    VERSION_INCOMPATIBLE = 400,
+    ABI_INCOMPATIBLE = 401,
+    METADATA_MISSING = 402,
+    METADATA_CORRUPTED = 403,
+    
+    // Policy errors (5xx)
+    POLICY_VIOLATION = 500,
+    BLACKLISTED = 501,
+    QUARANTINED = 502,
+    
+    // Unknown/Internal errors (9xx)
+    INTERNAL_ERROR = 900,
+    UNKNOWN_ERROR = 999
+};
+
+/**
+ * @brief Error category for error handling strategy
+ */
+enum class ErrorCategory {
+    TRANSIENT,      // Temporary failure, retry may succeed
+    PERMANENT,      // Persistent failure, retry unlikely to help
+    RECOVERABLE,    // Can be fixed by user action
+    FATAL           // Unrecoverable, requires system intervention
+};
+
+/**
+ * @brief Module metadata (version, ABI, build info)
+ */
+struct ModuleMetadata {
+    std::string version;        // Semantic version (e.g., "1.2.3")
+    std::string abiVersion;     // ABI version for compatibility checking
+    std::string buildId;        // Build ID / commit hash
+    std::string buildDate;      // Build timestamp
+    std::string compiler;       // Compiler version
+    uint32_t themisMajor = 0;   // ThemisDB major version
+    uint32_t themisMinor = 0;   // ThemisDB minor version
+    uint32_t themisPatch = 0;   // ThemisDB patch version
+    
+    bool isValid() const {
+        return !version.empty() && themisMajor > 0;
+    }
+};
+
+/**
  * @brief Module verification result
  */
 struct ModuleVerificationResult {
     bool success = false;
+    ModuleErrorCode errorCode = ModuleErrorCode::SUCCESS;
+    ErrorCategory errorCategory = ErrorCategory::PERMANENT;
     std::string errorMessage;
     std::string moduleHash;
     std::string modulePath;
     uint64_t verificationTimestamp = 0;
+    ModuleMetadata metadata;
     
     // Authenticode information (Windows only)
     std::string authenticodeSigner;  // Certificate subject (e.g., "CN=ThemisDB GmbH")
@@ -38,11 +110,13 @@ struct ModuleVerificationResult {
 struct LoadedModule {
     std::string name;           // e.g., "themis_storage"
     std::string path;           // Full path to DLL/SO
-    std::string version;        // Module version
+    std::string version;        // Module version (from metadata)
     std::string fileHash;       // SHA-256 hash
     void* handle = nullptr;     // OS-specific handle
     bool verified = false;      // Signature verification status
     uint64_t loadTime = 0;      // Unix timestamp
+    uint64_t loadDurationMs = 0; // Load duration in milliseconds
+    ModuleMetadata metadata;    // Full metadata
 };
 
 /**
@@ -229,6 +303,11 @@ private:
     std::string calculateModuleHash(const std::string& modulePath);
     std::string getModuleNameFromPath(const std::string& path);
     bool isThemisModule(const std::string& filename);
+    
+    // Metadata extraction
+    ModuleMetadata extractModuleMetadata(const std::string& modulePath);
+    std::string getErrorMessage(ModuleErrorCode code) const;
+    ErrorCategory categorizeError(ModuleErrorCode code) const;
 };
 
 /**
