@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <chrono>
 #include <iostream>
+#include <algorithm>
+#include <cmath>
 #include <spdlog/spdlog.h>
 
 #ifdef _WIN32
@@ -193,27 +195,37 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     spdlog::info("Loading module: {} from {}", moduleName, modulePath);
     
-    // Step 1: Check if already loaded
+    // Step 1: Check quarantine and backoff
+    if (checkQuarantine(modulePath, result)) {
+        // Module is quarantined or in backoff - update metrics and return
+        updateMetrics(false, 0, result.errorCode);
+        return result;
+    }
+    
+    // Step 2: Check if already loaded
     if (isModuleLoaded(moduleName)) {
         result.errorCode = ModuleErrorCode::MODULE_ALREADY_LOADED;
         result.errorCategory = categorizeError(result.errorCode);
         result.errorMessage = getErrorMessage(result.errorCode) + ": " + moduleName;
         spdlog::warn("{}", result.errorMessage);
         result.success = false;
+        updateMetrics(false, 0, result.errorCode);
         return result;
     }
     
-    // Step 2: Verify module exists
+    // Step 3: Verify module exists
     if (!std::filesystem::exists(modulePath)) {
         result.errorCode = ModuleErrorCode::MODULE_NOT_FOUND;
         result.errorCategory = categorizeError(result.errorCode);
         result.errorMessage = getErrorMessage(result.errorCode) + ": " + modulePath;
         spdlog::error("{}", result.errorMessage);
         result.success = false;
+        recordFailure(modulePath, result.errorCode, result.errorMessage);
+        updateMetrics(false, 0, result.errorCode);
         return result;
     }
     
-    // Step 3: Extract metadata (before security verification)
+    // Step 4: Extract metadata (before security verification)
     // TODO: Optimize to avoid double-loading: Currently loads module twice (once here for
     // metadata, once later for actual use). Consider: 1) Extract metadata after main load,
     // 2) Cache metadata, or 3) Use platform-specific binary inspection without loading
@@ -229,9 +241,25 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
         spdlog::info("Module metadata: version={}, abi={}, themis={}.{}.{}", 
                      result.metadata.version, result.metadata.abiVersion,
                      result.metadata.themisMajor, result.metadata.themisMinor, result.metadata.themisPatch);
+        
+        // Check ABI compatibility
+        if (!isABICompatible(result.metadata)) {
+            result.errorCode = ModuleErrorCode::ABI_INCOMPATIBLE;
+            result.errorCategory = categorizeError(result.errorCode);
+            result.errorMessage = getErrorMessage(result.errorCode) + 
+                                 ": module " + std::to_string(result.metadata.themisMajor) + "." +
+                                 std::to_string(result.metadata.themisMinor) + 
+                                 ", themis " + std::to_string(themisABIMajor_) + "." +
+                                 std::to_string(themisABIMinor_);
+            spdlog::error("{}", result.errorMessage);
+            result.success = false;
+            recordFailure(modulePath, result.errorCode, result.errorMessage);
+            updateMetrics(false, 0, result.errorCode);
+            return result;
+        }
     }
     
-    // Step 4: SECURITY - Verify module signature and integrity
+    // Step 5: SECURITY - Verify module signature and integrity
     std::string errorMessage;
     if (!verifier_->verifyModule(modulePath, errorMessage)) {
         result.errorCode = ModuleErrorCode::VERIFICATION_FAILED;
@@ -251,13 +279,16 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
             "CRITICAL"
         });
         
+        // Record failure for quarantine tracking
+        recordFailure(modulePath, result.errorCode, result.errorMessage);
+        updateMetrics(false, 0, result.errorCode);
         return result;
     }
     
-    // Step 4: Calculate and store file hash
+    // Step 6: Calculate and store file hash
     result.moduleHash = verifier_->calculateFileHash(modulePath);
     
-    // Step 6: Load the module library
+    // Step 7: Load the module library
     void* handle = loadLibrary(modulePath);
     if (!handle) {
         result.errorCode = ModuleErrorCode::LOAD_LIBRARY_FAILED;
@@ -268,14 +299,16 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
 #endif
         spdlog::error("{}", result.errorMessage);
         result.success = false;
+        recordFailure(modulePath, result.errorCode, result.errorMessage);
+        updateMetrics(false, 0, result.errorCode);
         return result;
     }
     
-    // Step 7: Calculate load duration
+    // Step 8: Calculate load duration
     auto endTime = std::chrono::steady_clock::now();
     auto durationMs = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
     
-    // Step 8: Store module info
+    // Step 9: Store module info
     LoadedModule module;
     module.name = moduleName;
     module.path = modulePath;
@@ -289,6 +322,10 @@ ModuleVerificationResult ModuleLoader::loadModule(const std::string& modulePath,
     
     loadedModules_.push_back(module);
     ModuleRegistry::instance().registerModule(module);
+    
+    // Success - clear failure history and update metrics
+    clearFailureHistory(modulePath);
+    updateMetrics(true, static_cast<uint64_t>(durationMs), ModuleErrorCode::SUCCESS);
     
     spdlog::info("Module loaded successfully: {} (version: {}, hash: {}, duration: {}ms)", 
                  moduleName, module.version, result.moduleHash, durationMs);
@@ -594,6 +631,228 @@ ModuleMetadata ModuleLoader::extractModuleMetadata(const std::string& modulePath
     }
     
     return metadata;
+}
+
+// ============================================================================
+// Quarantine and Backoff Implementation
+// ============================================================================
+
+void ModuleLoader::recordFailure(const std::string& modulePath, ModuleErrorCode errorCode, const std::string& errorMessage) {
+    uint64_t currentTime = static_cast<uint64_t>(std::time(nullptr));
+    
+    auto& history = failureHistory_[modulePath];
+    history.modulePath = modulePath;
+    history.failureTimestamps.push_back(currentTime);
+    history.consecutiveFailures++;
+    history.lastFailureTime = currentTime;
+    history.lastErrorCode = errorCode;
+    history.lastErrorMessage = errorMessage;
+    
+    // Calculate exponential backoff: 2^n seconds (1s, 2s, 4s, 8s, ...)
+    history.nextRetryTime = currentTime + calculateBackoffTime(history.consecutiveFailures);
+    
+    spdlog::warn("Module failure recorded: {} (failures: {}, next retry: {}s)", 
+                 modulePath, history.consecutiveFailures, 
+                 calculateBackoffTime(history.consecutiveFailures));
+    
+    // Check if should be quarantined
+    if (shouldQuarantine(modulePath)) {
+        quarantineModule(modulePath);
+    }
+}
+
+bool ModuleLoader::shouldQuarantine(const std::string& modulePath) const {
+    auto it = failureHistory_.find(modulePath);
+    if (it == failureHistory_.end()) {
+        return false;
+    }
+    
+    return it->second.consecutiveFailures >= quarantineThreshold_;
+}
+
+void ModuleLoader::quarantineModule(const std::string& modulePath) {
+    auto it = failureHistory_.find(modulePath);
+    if (it == failureHistory_.end()) {
+        return;
+    }
+    
+    if (it->second.quarantineTime > 0) {
+        return;  // Already quarantined
+    }
+    
+    uint64_t currentTime = static_cast<uint64_t>(std::time(nullptr));
+    it->second.quarantineTime = currentTime;
+    
+    metrics_.quarantineEvents++;
+    metrics_.currentlyQuarantined++;
+    
+    spdlog::critical("QUARANTINE: Module quarantined after {} consecutive failures: {} (last error: {})",
+                     it->second.consecutiveFailures, modulePath, it->second.lastErrorMessage);
+}
+
+uint64_t ModuleLoader::calculateBackoffTime(uint32_t consecutiveFailures) const {
+    // Exponential backoff: 2^(n-1) seconds, capped at maxBackoffSeconds_
+    if (consecutiveFailures == 0) {
+        return 0;
+    }
+    
+    uint64_t backoff = static_cast<uint64_t>(std::pow(2, consecutiveFailures - 1));
+    return std::min(backoff, static_cast<uint64_t>(maxBackoffSeconds_));
+}
+
+bool ModuleLoader::checkQuarantine(const std::string& modulePath, ModuleVerificationResult& result) {
+    auto it = failureHistory_.find(modulePath);
+    if (it == failureHistory_.end()) {
+        return false;  // No failure history
+    }
+    
+    auto& history = it->second;
+    
+    // Check if quarantined
+    if (history.isQuarantined()) {
+        result.success = false;
+        result.errorCode = ModuleErrorCode::QUARANTINED;
+        result.errorCategory = ErrorCategory::FATAL;
+        result.errorMessage = getErrorMessage(ModuleErrorCode::QUARANTINED) + 
+                             ": " + modulePath + 
+                             " (failures: " + std::to_string(history.consecutiveFailures) + ")";
+        spdlog::error("{}", result.errorMessage);
+        return true;  // Module is quarantined
+    }
+    
+    // Check backoff
+    uint64_t currentTime = static_cast<uint64_t>(std::time(nullptr));
+    if (!history.canRetry(currentTime)) {
+        result.success = false;
+        result.errorCode = ModuleErrorCode::POLICY_VIOLATION;
+        result.errorCategory = ErrorCategory::TRANSIENT;
+        uint64_t waitTime = history.nextRetryTime - currentTime;
+        result.errorMessage = "Module in backoff period, retry in " + 
+                             std::to_string(waitTime) + " seconds: " + modulePath;
+        spdlog::warn("{}", result.errorMessage);
+        return true;  // In backoff period
+    }
+    
+    return false;  // Can proceed with load
+}
+
+std::optional<ModuleFailureHistory> ModuleLoader::getFailureHistory(const std::string& modulePath) const {
+    auto it = failureHistory_.find(modulePath);
+    if (it == failureHistory_.end()) {
+        return std::nullopt;
+    }
+    return it->second;
+}
+
+std::vector<std::string> ModuleLoader::getQuarantinedModules() const {
+    std::vector<std::string> quarantined;
+    for (const auto& [path, history] : failureHistory_) {
+        if (history.isQuarantined()) {
+            quarantined.push_back(path);
+        }
+    }
+    return quarantined;
+}
+
+bool ModuleLoader::releaseFromQuarantine(const std::string& modulePath) {
+    auto it = failureHistory_.find(modulePath);
+    if (it == failureHistory_.end() || !it->second.isQuarantined()) {
+        return false;
+    }
+    
+    it->second.quarantineTime = 0;
+    it->second.consecutiveFailures = 0;
+    it->second.nextRetryTime = 0;
+    
+    metrics_.quarantineReleases++;
+    metrics_.currentlyQuarantined--;
+    
+    spdlog::info("Module released from quarantine: {}", modulePath);
+    return true;
+}
+
+void ModuleLoader::clearFailureHistory(const std::string& modulePath) {
+    auto it = failureHistory_.find(modulePath);
+    if (it != failureHistory_.end()) {
+        if (it->second.isQuarantined()) {
+            metrics_.currentlyQuarantined--;
+        }
+        failureHistory_.erase(it);
+        spdlog::info("Failure history cleared for module: {}", modulePath);
+    }
+}
+
+void ModuleLoader::setQuarantineThreshold(uint32_t threshold) {
+    quarantineThreshold_ = threshold;
+    spdlog::info("Quarantine threshold set to: {}", threshold);
+}
+
+void ModuleLoader::setMaxBackoffSeconds(uint32_t maxSeconds) {
+    maxBackoffSeconds_ = maxSeconds;
+    spdlog::info("Max backoff time set to: {} seconds", maxSeconds);
+}
+
+// ============================================================================
+// ABI Compatibility Implementation
+// ============================================================================
+
+bool ModuleLoader::isABICompatible(const ModuleMetadata& metadata) const {
+    // Check if metadata is valid
+    if (!metadata.isValid()) {
+        spdlog::warn("Cannot check ABI compatibility: metadata invalid");
+        return false;
+    }
+    
+    // ABI compatibility rules:
+    // 1. Major version must match exactly
+    // 2. Module minor version must be <= ThemisDB minor version
+    
+    if (metadata.themisMajor != themisABIMajor_) {
+        spdlog::error("ABI incompatible: major version mismatch (module: {}, themis: {})",
+                      metadata.themisMajor, themisABIMajor_);
+        return false;
+    }
+    
+    if (metadata.themisMinor > themisABIMinor_) {
+        spdlog::error("ABI incompatible: module minor version too new (module: {}, themis: {})",
+                      metadata.themisMinor, themisABIMinor_);
+        return false;
+    }
+    
+    spdlog::debug("ABI compatible: module {}.{}.{} with themis {}.{}", 
+                  metadata.themisMajor, metadata.themisMinor, metadata.themisPatch,
+                  themisABIMajor_, themisABIMinor_);
+    
+    return true;
+}
+
+// ============================================================================
+// Metrics Implementation
+// ============================================================================
+
+void ModuleLoader::updateMetrics(bool success, uint64_t durationMs, ModuleErrorCode errorCode) {
+    metrics_.totalLoadAttempts++;
+    
+    if (success) {
+        metrics_.successfulLoads++;
+        metrics_.totalLoadDurationMs += durationMs;
+        metrics_.minLoadDurationMs = std::min(metrics_.minLoadDurationMs, durationMs);
+        metrics_.maxLoadDurationMs = std::max(metrics_.maxLoadDurationMs, durationMs);
+        metrics_.verificationSuccesses++;
+    } else {
+        metrics_.failedLoads++;
+        metrics_.verificationFailures++;
+        metrics_.errorCounts[errorCode]++;
+    }
+}
+
+ModuleMetrics ModuleLoader::getMetrics() const {
+    return metrics_;
+}
+
+void ModuleLoader::resetMetrics() {
+    metrics_ = ModuleMetrics();
+    spdlog::info("Module loader metrics reset");
 }
 
 void ModuleRegistry::clear() {

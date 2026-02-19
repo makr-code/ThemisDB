@@ -86,6 +86,68 @@ struct ModuleMetadata {
 };
 
 /**
+ * @brief Module failure history for quarantine and backoff
+ */
+struct ModuleFailureHistory {
+    std::string modulePath;
+    std::vector<uint64_t> failureTimestamps;  // Unix timestamps of failures
+    uint32_t consecutiveFailures = 0;
+    uint64_t lastFailureTime = 0;
+    uint64_t quarantineTime = 0;              // When quarantined (0 = not quarantined)
+    uint64_t nextRetryTime = 0;               // Exponential backoff time
+    ModuleErrorCode lastErrorCode = ModuleErrorCode::SUCCESS;
+    std::string lastErrorMessage;
+    
+    bool isQuarantined() const {
+        return quarantineTime > 0;
+    }
+    
+    bool canRetry(uint64_t currentTime) const {
+        return currentTime >= nextRetryTime;
+    }
+};
+
+/**
+ * @brief Module metrics for observability
+ */
+struct ModuleMetrics {
+    // Load statistics
+    uint64_t totalLoadAttempts = 0;
+    uint64_t successfulLoads = 0;
+    uint64_t failedLoads = 0;
+    uint64_t totalUnloads = 0;
+    
+    // Duration statistics (milliseconds)
+    uint64_t totalLoadDurationMs = 0;
+    uint64_t minLoadDurationMs = UINT64_MAX;
+    uint64_t maxLoadDurationMs = 0;
+    
+    // Verification statistics
+    uint64_t verificationSuccesses = 0;
+    uint64_t verificationFailures = 0;
+    
+    // Quarantine statistics
+    uint64_t quarantineEvents = 0;
+    uint64_t quarantineReleases = 0;
+    uint32_t currentlyQuarantined = 0;
+    
+    // Error breakdown
+    std::map<ModuleErrorCode, uint64_t> errorCounts;
+    
+    double getSuccessRate() const {
+        return totalLoadAttempts > 0 
+            ? (double)successfulLoads / totalLoadAttempts 
+            : 0.0;
+    }
+    
+    double getAverageLoadDurationMs() const {
+        return successfulLoads > 0 
+            ? (double)totalLoadDurationMs / successfulLoads 
+            : 0.0;
+    }
+};
+
+/**
  * @brief Module verification result
  */
 struct ModuleVerificationResult {
@@ -214,6 +276,62 @@ public:
     void addBlacklistedHash(const std::string& hash);
     
     /**
+     * @brief Get failure history for a module
+     * @param modulePath Path to module
+     * @return Optional failure history (nullopt if no failures)
+     */
+    std::optional<ModuleFailureHistory> getFailureHistory(const std::string& modulePath) const;
+    
+    /**
+     * @brief Get all quarantined modules
+     * @return Vector of quarantined module paths
+     */
+    std::vector<std::string> getQuarantinedModules() const;
+    
+    /**
+     * @brief Release a module from quarantine
+     * @param modulePath Path to module to release
+     * @return true if released, false if not quarantined
+     */
+    bool releaseFromQuarantine(const std::string& modulePath);
+    
+    /**
+     * @brief Clear failure history for a module
+     * @param modulePath Path to module
+     */
+    void clearFailureHistory(const std::string& modulePath);
+    
+    /**
+     * @brief Get current module metrics
+     * @return Current metrics snapshot
+     */
+    ModuleMetrics getMetrics() const;
+    
+    /**
+     * @brief Reset all metrics to zero
+     */
+    void resetMetrics();
+    
+    /**
+     * @brief Check if ABI is compatible with ThemisDB
+     * @param metadata Module metadata to check
+     * @return true if compatible, false otherwise
+     */
+    bool isABICompatible(const ModuleMetadata& metadata) const;
+    
+    /**
+     * @brief Set quarantine threshold (consecutive failures before quarantine)
+     * @param threshold Number of failures (default: 3)
+     */
+    void setQuarantineThreshold(uint32_t threshold);
+    
+    /**
+     * @brief Set maximum backoff time in seconds
+     * @param maxSeconds Maximum backoff time (default: 300 = 5 minutes)
+     */
+    void setMaxBackoffSeconds(uint32_t maxSeconds);
+    
+    /**
      * @brief Export security audit log
      * @param outputPath Path to export JSON audit log
      * @return true if successful, false otherwise
@@ -293,6 +411,18 @@ private:
     std::vector<LoadedModule> loadedModules_;
     std::unique_ptr<ModuleSecurityVerifier> verifier_;
     
+    // Quarantine and backoff tracking
+    std::map<std::string, ModuleFailureHistory> failureHistory_;
+    uint32_t quarantineThreshold_ = 3;     // Failures before quarantine
+    uint32_t maxBackoffSeconds_ = 300;      // 5 minutes max backoff
+    
+    // Metrics tracking
+    ModuleMetrics metrics_;
+    
+    // ThemisDB version for ABI compatibility
+    uint32_t themisABIMajor_ = 1;
+    uint32_t themisABIMinor_ = 0;
+    
     // Platform-specific loading functions
     void* loadLibrary(const std::string& path);
     void unloadLibrary(void* handle);
@@ -308,6 +438,16 @@ private:
     ModuleMetadata extractModuleMetadata(const std::string& modulePath);
     std::string getErrorMessage(ModuleErrorCode code) const;
     ErrorCategory categorizeError(ModuleErrorCode code) const;
+    
+    // Quarantine and backoff helpers
+    void recordFailure(const std::string& modulePath, ModuleErrorCode errorCode, const std::string& errorMessage);
+    bool shouldQuarantine(const std::string& modulePath) const;
+    void quarantineModule(const std::string& modulePath);
+    uint64_t calculateBackoffTime(uint32_t consecutiveFailures) const;
+    bool checkQuarantine(const std::string& modulePath, ModuleVerificationResult& result);
+    
+    // Metrics helpers
+    void updateMetrics(bool success, uint64_t durationMs, ModuleErrorCode errorCode);
 };
 
 /**
