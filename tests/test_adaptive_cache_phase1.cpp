@@ -18,6 +18,7 @@ using json = nlohmann::json;
 constexpr size_t LARGE_DATA_SIZE = 100000;  // 100KB - exceeds max_total_entry_size
 constexpr size_t MEDIUM_DATA_SIZE = 2000;   // 2KB - between L1 and L2 limits
 constexpr size_t LARGE_L3_DATA_SIZE = 15000; // 15KB - goes to L3
+constexpr int CB_TIMEOUT_MARGIN_MS = 100;    // Margin for circuit breaker timeout tests
 
 class AdaptiveCachePhase1Test : public ::testing::Test {
 protected:
@@ -269,8 +270,7 @@ TEST_F(AdaptiveCachePhase1Test, CircuitBreakerStates) {
     EXPECT_FALSE(cb.allowRequest());
     
     // Wait for timeout (timeout + margin for reliability)
-    constexpr int timeout_margin_ms = 100;
-    std::this_thread::sleep_for(std::chrono::milliseconds(cb_config.timeout_ms + timeout_margin_ms));
+    std::this_thread::sleep_for(std::chrono::milliseconds(cb_config.timeout_ms + CB_TIMEOUT_MARGIN_MS));
     
     // Should transition to HALF_OPEN
     EXPECT_TRUE(cb.allowRequest());
@@ -297,8 +297,7 @@ TEST_F(AdaptiveCachePhase1Test, CircuitBreakerHalfOpenFailure) {
     EXPECT_TRUE(cb.isOpen());
     
     // Wait for timeout (timeout + margin for reliability)
-    constexpr int timeout_margin_ms = 100;
-    std::this_thread::sleep_for(std::chrono::milliseconds(cb_config.timeout_ms + timeout_margin_ms));
+    std::this_thread::sleep_for(std::chrono::milliseconds(cb_config.timeout_ms + CB_TIMEOUT_MARGIN_MS));
     
     // Transition to HALF_OPEN
     EXPECT_TRUE(cb.allowRequest());

@@ -14,6 +14,7 @@ namespace themis {
 // Constants
 constexpr size_t QUERY_CACHE_PREFIX_LEN = 12;  // Length of "query_cache:"
 constexpr const char* QUERY_CACHE_PREFIX = "query_cache:";
+constexpr int RETRY_BACKOFF_MULTIPLIER = 2;    // Exponential backoff multiplier
 
 AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     : config_(config) {
@@ -54,7 +55,7 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
                 THEMIS_WARN("Failed to initialize L3 cache (attempt {}/{}): {}. Retrying in {}ms...",
                            retry_count, max_retries, e.what(), retry_delay_ms);
                 std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
-                retry_delay_ms *= 2;  // Exponential backoff
+                retry_delay_ms *= RETRY_BACKOFF_MULTIPLIER;  // Exponential backoff
             } else {
                 THEMIS_WARN("Failed to initialize L3 cache after {} attempts: {}. L3 cache disabled.",
                            max_retries, e.what());
