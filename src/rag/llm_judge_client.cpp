@@ -9,8 +9,11 @@
 #include "rag/llm_judge_client.h"
 #include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <iomanip>
+
+using json = nlohmann::json;
 
 namespace themis::rag::judge {
 
@@ -254,10 +257,29 @@ void LLMJudgeClient::parseEvaluationResponse(
     const std::string& response,
     EvaluationResponse& parsed
 ) {
-    // Simple JSON-like parsing
-    // In production, use nlohmann/json or similar
-    
-    // Look for score
+    // Use nlohmann/json for proper JSON parsing
+    try {
+        json j = json::parse(response);
+        
+        if (j.contains("score")) {
+            parsed.score = j["score"].get<double>();
+        } else {
+            parsed.score = 0.5;  // Default
+        }
+        
+        if (j.contains("reasoning")) {
+            parsed.reasoning = j["reasoning"].get<std::string>();
+        }
+        
+        if (j.contains("confidence")) {
+            parsed.confidence = j["confidence"].get<double>();
+        } else {
+            parsed.confidence = 0.5;  // Default
+        }
+        
+    } catch (const json::exception& e) {
+        // Fallback to simple parsing for non-JSON responses
+        // Look for score
     size_t score_pos = response.find("\"score\"");
     if (score_pos != std::string::npos) {
         size_t colon_pos = response.find(":", score_pos);
@@ -293,27 +315,6 @@ void LLMJudgeClient::parseEvaluationResponse(
                 if (quote2 != std::string::npos) {
                     parsed.reasoning = response.substr(quote1 + 1, 
                                                       quote2 - quote1 - 1);
-                }
-            }
-        }
-    }
-    
-    // Look for confidence
-    size_t confidence_pos = response.find("\"confidence\"");
-    if (confidence_pos != std::string::npos) {
-        size_t colon_pos = response.find(":", confidence_pos);
-        if (colon_pos != std::string::npos) {
-            size_t end_pos = response.find_first_of(",}", colon_pos);
-            if (end_pos != std::string::npos) {
-                std::string conf_str = response.substr(colon_pos + 1, 
-                                                      end_pos - colon_pos - 1);
-                conf_str.erase(0, conf_str.find_first_not_of(" \t\n\r"));
-                conf_str.erase(conf_str.find_last_not_of(" \t\n\r,}") + 1);
-                
-                try {
-                    parsed.confidence = std::stod(conf_str);
-                } catch (...) {
-                    parsed.confidence = 0.5;
                 }
             }
         }

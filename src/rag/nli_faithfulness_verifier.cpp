@@ -73,12 +73,23 @@ struct NLIFaithfulnessVerifier::Impl {
         size_t matches = 0;
         size_t contradictions = 0;
         
+        // NOTE: This is a simple heuristic placeholder for NLI model
+        // In production, this would use a proper NLI transformer model
+        // (e.g., RoBERTa-large-MNLI, DeBERTa-v3)
+        // 
+        // Known limitations of this heuristic:
+        // - False positives: "not only", "never before" incorrectly marked as contradictions
+        // - Lacks context awareness
+        // - No semantic understanding
+        // - Should be replaced with real NLI model for production
+        
         for (const auto& w : hyp_words) {
             if (premise_lower.find(w) != std::string::npos) {
                 matches++;
             }
             
-            // Simple contradiction detection
+            // Very simplistic contradiction detection
+            // TODO: Replace with proper NLI model
             if (w == "not" || w == "never" || w == "no" || w == "false") {
                 contradictions++;
             }
@@ -211,9 +222,11 @@ FaithfulnessVerificationResult NLIFaithfulnessVerifier::verify(
     THEMIS_DEBUG("Extracted {} claims from answer", claims.size());
     
     if (claims.empty()) {
-        result.faithfulness_score = 1.0;  // No claims = vacuously true
-        result.is_faithful = true;
-        result.explanation = "No factual claims found in answer";
+        // No claims = potentially low quality or parsing failure
+        // Use a neutral score rather than perfect score
+        result.faithfulness_score = 0.7;  // Neutral: neither perfect nor poor
+        result.is_faithful = true;  // No claims to contradict
+        result.explanation = "No factual claims found in answer (may indicate simple/generic response)";
         
         auto end_time = std::chrono::steady_clock::now();
         result.verification_time = std::chrono::duration_cast<std::chrono::milliseconds>(

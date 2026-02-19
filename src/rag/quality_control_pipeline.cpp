@@ -104,6 +104,11 @@ QualityCheckResult QualityControlPipeline::runQualityControl(
         result.dimension_scores.insert(result.dimension_scores.end(),
                                       stage_result.dimension_scores.begin(),
                                       stage_result.dimension_scores.end());
+        
+        // Update statistics
+        impl_->stats.avg_fast_time_ms = 
+            (impl_->stats.avg_fast_time_ms * impl_->stats.passed_fast + 
+             result.fast_stage_time.count()) / (impl_->stats.passed_fast + 1);
         impl_->stats.passed_fast++;
     }
     
@@ -250,10 +255,7 @@ QualityCheckResult QualityControlPipeline::runFastStage(
     result.fast_stage_time = std::chrono::duration_cast<std::chrono::milliseconds>(
         end - start);
     
-    // Update stats
-    impl_->stats.avg_fast_time_ms = 
-        (impl_->stats.avg_fast_time_ms * impl_->stats.passed_fast + 
-         result.fast_stage_time.count()) / (impl_->stats.passed_fast + 1);
+    // Update stats AFTER incrementing passed_fast counter in the caller
     
     return result;
 }

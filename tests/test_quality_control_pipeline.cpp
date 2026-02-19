@@ -95,7 +95,8 @@ TEST_F(QualityControlPipelineTest, FastStagePassesGoodAnswer) {
     
     auto result = pipeline->runQualityControl(query, good_answer, documents);
     
-    // Should complete quickly
+    // Should complete quickly (<100ms to allow slack for test environment)
+    // Production target is <50ms, but tests may run slower due to overhead
     EXPECT_LT(result.fast_stage_time.count(), 100);
     
     // Should have faithfulness score
@@ -116,7 +117,8 @@ TEST_F(QualityControlPipelineTest, FastStageDetectsBadAnswer) {
     
     auto result = pipeline->runQualityControl(query, bad_answer, documents);
     
-    // Should complete quickly
+    // Should complete quickly regardless of answer quality
+    // (<100ms to allow slack for test environment)
     EXPECT_LT(result.fast_stage_time.count(), 100);
     
     // May or may not fail depending on threshold, but should have scores
