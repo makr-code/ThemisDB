@@ -1,4 +1,5 @@
 #include "auth/jwt_validator.h"
+#include "auth/jwks_validator.h"
 #include "utils/hkdf_helper.h"
 #include "utils/openssl_deleter.h"
 #include "utils/logger.h"
@@ -128,6 +129,15 @@ nlohmann::json JWTValidator::fetchJWKS() {
     if (!json.is_object() || !json.contains("keys")) {
         utils::Logger::error("Invalid JWKS document (missing keys)");
         throw std::runtime_error("Invalid JWKS document (missing keys)");
+    }
+    
+    // Validate JWKS schema (P1 security hardening)
+    JWKSValidator jwks_validator;
+    try {
+        jwks_validator.validateOrThrow(json);
+    } catch (const std::exception& e) {
+        utils::Logger::error("JWKS schema validation failed: {}", e.what());
+        throw std::runtime_error(std::string("JWKS schema validation failed: ") + e.what());
     }
     
     jwks_cache_ = json;
