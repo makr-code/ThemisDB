@@ -220,9 +220,9 @@ The Quality Control components can be integrated with the existing RAG Judge:
 
 // Configure RAG Judge with QC features
 RAGJudgeConfig config;
-config.use_nli_verifier = true;        // Enable NLI verification
-config.use_geval_scoring = false;       // Optional G-Eval
-config.use_quality_control_pipeline = false;  // Full pipeline (alternative)
+config.use_nli_verifier = true;             // Enable NLI verification
+config.use_geval_scoring = false;            // G-Eval (optional, adds latency)
+config.use_quality_control_pipeline = false; // Full pipeline (alternative to basic judge)
 
 RAGJudge judge(config);
 

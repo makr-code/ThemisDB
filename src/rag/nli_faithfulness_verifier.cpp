@@ -45,6 +45,8 @@ struct NLIFaithfulnessVerifier::Impl {
      * In production, this would run actual ONNX model
      */
     NLIResult stubInference(const std::string& claim, const std::string& document) {
+        constexpr size_t MIN_WORD_LENGTH = 3;
+        
         auto start = std::chrono::steady_clock::now();
         
         NLIResult result;
@@ -64,7 +66,7 @@ struct NLIFaithfulnessVerifier::Impl {
             // Remove punctuation
             word.erase(std::remove_if(word.begin(), word.end(), 
                       [](char c) { return !std::isalnum(c); }), word.end());
-            if (word.length() > 3) {  // Skip short words
+            if (word.length() > MIN_WORD_LENGTH) {  // Skip short words
                 claim_terms.push_back(word);
             }
         }

@@ -241,7 +241,8 @@ double LLMJudgeClient::extractScore(const std::string& response) {
     }
     
     // Default to middle score if parsing fails
-    THEMIS_WARN("Failed to extract score from response, using default 0.5");
+    THEMIS_WARN("Failed to extract score from response: {}", 
+                response.substr(0, std::min<size_t>(100, response.length())));
     return 0.5;
 }
 

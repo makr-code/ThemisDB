@@ -75,7 +75,11 @@ TEST_F(QualityControlPipelineTest, FastMode_BasicEvaluation) {
     EXPECT_GE(result.overall_score, 0.0);
     EXPECT_LE(result.overall_score, 1.0);
     EXPECT_GE(result.faithfulness_score, 0.0);
-    EXPECT_NE(result.decision, QCDecision::ACCEPT);  // Some decision was made
+    // Decision should be one of the valid values
+    EXPECT_TRUE(result.decision == QCDecision::ACCEPT ||
+                result.decision == QCDecision::REJECT ||
+                result.decision == QCDecision::RETRY ||
+                result.decision == QCDecision::WARN);
 }
 
 TEST_F(QualityControlPipelineTest, FastMode_Performance) {

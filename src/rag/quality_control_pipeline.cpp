@@ -218,6 +218,10 @@ QCResult QualityControlPipeline::runFastMode(const EvaluationInput& input) {
     QCResult result;
     result.mode = QCMode::FAST;
     
+    // Constants for text processing
+    constexpr size_t MIN_SENTENCE_LENGTH = 20;
+    constexpr size_t MAX_CLAIMS_FAST_MODE = 3;
+    
     // Fast mode: Quick faithfulness check only
     if (impl_->config.enable_nli_verification && impl_->nli_verifier) {
         // Extract key claims (simplified - just split by sentences)
@@ -225,9 +229,9 @@ QCResult QualityControlPipeline::runFastMode(const EvaluationInput& input) {
         std::istringstream answer_stream(input.generated_answer);
         std::string sentence;
         while (std::getline(answer_stream, sentence, '.')) {
-            if (!sentence.empty() && sentence.length() > 20) {
+            if (!sentence.empty() && sentence.length() > MIN_SENTENCE_LENGTH) {
                 claims.push_back(sentence);
-                if (claims.size() >= 3) break;  // Limit for fast mode
+                if (claims.size() >= MAX_CLAIMS_FAST_MODE) break;  // Limit for fast mode
             }
         }
         
@@ -307,6 +311,8 @@ QCResult QualityControlPipeline::runBalancedMode(const EvaluationInput& input) {
     }
     
     // 2. Relevance (heuristic - keyword overlap)
+    constexpr size_t MIN_WORD_LENGTH = 3;
+    
     std::string query_lower = input.query;
     std::string answer_lower = input.generated_answer;
     std::transform(query_lower.begin(), query_lower.end(), query_lower.begin(), ::tolower);
@@ -316,7 +322,7 @@ QCResult QualityControlPipeline::runBalancedMode(const EvaluationInput& input) {
     std::vector<std::string> query_words;
     std::string word;
     while (query_stream >> word) {
-        if (word.length() > 3) query_words.push_back(word);
+        if (word.length() > MIN_WORD_LENGTH) query_words.push_back(word);
     }
     
     int matches = 0;
