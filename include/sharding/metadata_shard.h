@@ -11,7 +11,14 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <atomic>
 #include <nlohmann/json.hpp>
+
+// Forward declarations for Phase 2.2
+namespace themisdb::sharding {
+    class MetadataWAL;
+    class MetadataSnapshotManager;
+}
 
 namespace themisdb {
 namespace sharding {
@@ -84,6 +91,12 @@ struct MetadataShardConfig {
     
     // Consistency settings
     bool enforce_strong_consistency = true;
+    
+    // Phase 2.2: Persistence settings
+    bool enable_persistence = false;           // Enable WAL and snapshots
+    std::string data_dir;                      // Data directory for WAL and snapshots
+    uint64_t snapshot_interval = 10000;        // Snapshot every N operations
+    size_t max_snapshots = 10;                 // Keep last N snapshots
 };
 
 /**
@@ -182,6 +195,18 @@ public:
         std::function<void(const MetadataEntry&)> callback
     );
     
+    /**
+     * @brief Phase 2.2: Create periodic snapshot
+     * @return true if successful
+     */
+    bool createPeriodicSnapshot();
+    
+    /**
+     * @brief Phase 2.2: Recover from WAL
+     * @return true if successful
+     */
+    bool recoverFromWAL();
+
 private:
     /**
      * @brief Determine which shard owns a key
@@ -234,6 +259,12 @@ private:
     mutable std::atomic<uint64_t> total_writes_;
     mutable std::atomic<uint64_t> cache_hits_;
     mutable std::atomic<uint64_t> cache_misses_;
+    
+    // Phase 2.2: Persistence
+    std::unique_ptr<MetadataWAL> wal_;
+    std::unique_ptr<MetadataSnapshotManager> snapshot_manager_;
+    std::atomic<uint64_t> operations_since_snapshot_;
+    LSN last_applied_lsn_;
 };
 
 /**
