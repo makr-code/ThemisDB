@@ -88,9 +88,11 @@ TEST_F(ShardResilienceTest, SplitBrainPrevention) {
     
     // Wait for detection
     std::this_thread::sleep_for(200ms);
-    
-    // With split-brain detection enabled, should detect the issue
-    // (actual split-brain logic depends on quorum calculations)
+
+    // With split-brain detection enabled and one of three nodes unreachable,
+    // detector should flag split-brain and emit at least one partition event.
+    EXPECT_TRUE(partition_detected);
+    EXPECT_TRUE(detector.isSplitBrainDetected());
     
     detector.stop();
 }
@@ -170,6 +172,8 @@ TEST_F(ShardResilienceTest, CascadeFailureHandling) {
     }
     
     EXPECT_EQ(detector.getNetworkHealth(), NetworkHealth::HEALTHY);
+
+    detector.start();
     
     // Simulate cascade failure: multiple nodes fail
     detector.recordFailure("node2");
@@ -180,11 +184,16 @@ TEST_F(ShardResilienceTest, CascadeFailureHandling) {
     
     detector.recordFailure("node4");
     detector.recordFailure("node4");
+
+    // Give background health loop time to update network state
+    std::this_thread::sleep_for(150ms);
     
     // Should detect degraded or partitioned state
     NetworkHealth health = detector.getNetworkHealth();
     EXPECT_TRUE(health == NetworkHealth::DEGRADED || 
                 health == NetworkHealth::PARTITIONED);
+
+    detector.stop();
 }
 
 TEST_F(ShardResilienceTest, QuorumWithMultipleFailures) {
@@ -328,9 +337,10 @@ TEST_F(ShardResilienceTest, PartitionHistoryTracking) {
     // Check if partition history is maintained
     auto history = detector.getPartitionHistory();
     
-    // History tracking depends on implementation
-    // Just verify the method works
-    EXPECT_TRUE(history.empty() || !history.empty());
+    // Partition history is populated by the running health-check loop.
+    // Without start(), failures alone must not produce partition events.
+    EXPECT_TRUE(history.empty());
+    EXPECT_FALSE(detector.isSplitBrainDetected());
 }
 
 TEST_F(ShardResilienceTest, CombinedPartitionAndQuorum) {
@@ -366,11 +376,12 @@ TEST_F(ShardResilienceTest, CombinedPartitionAndQuorum) {
     // Try quorum operation with only reachable nodes
     auto operation = [](const std::string&) { return true; };
     auto result = qm.executeWrite(operation, reachable_nodes);
-    
-    // Should succeed if we have 3+ reachable nodes
-    if (reachable_nodes.size() >= 2) {
-        EXPECT_TRUE(result.success);
-    }
+
+    // Two nodes failed, so exactly three nodes remain reachable.
+    EXPECT_EQ(reachable_nodes.size(), 3);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.acks_required, 2);
+    EXPECT_EQ(result.acks_received, 3);
 }
 
 TEST_F(ShardResilienceTest, NetworkHealthTransitions) {
