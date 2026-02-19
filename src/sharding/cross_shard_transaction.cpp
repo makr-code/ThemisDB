@@ -4,6 +4,8 @@
 #include "sharding/cross_shard_transaction.h"
 #include "sharding/shard_rpc_client.h"
 #include "sharding/truetime.h"
+#include "sharding/transaction_wal.h"
+#include "sharding/transaction_snapshot.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
 #include <set>
@@ -44,6 +46,39 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
         truetime_ = std::make_shared<themis::sharding::TrueTime>(tt_config);
         spdlog::info("Created TrueTime instance for MVCC timestamp management");
     }
+    
+    // Phase 2.3.3: Initialize WAL and Snapshot if persistence enabled
+    if (config_.enable_persistence) {
+        if (config_.data_dir.empty()) {
+            spdlog::warn("Persistence enabled but data_dir not configured, disabling persistence");
+            return;
+        }
+        
+        try {
+            // Initialize Transaction WAL
+            TransactionWALConfig wal_config;
+            wal_config.wal_directory = config_.data_dir + "/wal";
+            wal_config.snapshot_directory = config_.data_dir + "/snapshots";
+            wal_config.segment_size = 16 * 1024 * 1024;  // 16 MB
+            wal_config.snapshot_interval = config_.snapshot_interval;
+            wal_config.max_snapshots = config_.max_snapshots;
+            wal_config.sync_on_write = true;
+            
+            transaction_wal_ = std::make_unique<TransactionWAL>(wal_config);
+            
+            // Initialize Snapshot Manager
+            snapshot_manager_ = std::make_unique<TransactionSnapshotManager>(
+                wal_config.snapshot_directory,
+                config_.max_snapshots
+            );
+            
+            spdlog::info("Transaction WAL and Snapshot initialized at: {}", config_.data_dir);
+        } catch (const std::exception& e) {
+            spdlog::error("Failed to initialize transaction persistence: {}", e.what());
+            transaction_wal_.reset();
+            snapshot_manager_.reset();
+        }
+    }
 }
 
 CrossShardTransactionCoordinator::~CrossShardTransactionCoordinator() {
@@ -56,10 +91,26 @@ bool CrossShardTransactionCoordinator::initialize() {
         return false;
     }
     
-    // Attempt to recover from any previous coordinator failure
-    if (!recoverFromFailure()) {
-        spdlog::error("Failed to recover from previous coordinator failure");
-        return false;
+    // Phase 2.3.3: Initialize WAL if available
+    if (transaction_wal_ && !transaction_wal_->initialize()) {
+        spdlog::error("Failed to initialize transaction WAL");
+        // Continue with degraded mode (no persistence)
+        transaction_wal_.reset();
+        snapshot_manager_.reset();
+    }
+    
+    // Phase 2.3.3: Recover from WAL and snapshot
+    if (transaction_wal_ && snapshot_manager_) {
+        if (!recoverFromWAL()) {
+            spdlog::error("Failed to recover from WAL");
+            return false;
+        }
+    } else {
+        // Fallback: Attempt to recover from legacy file-based persistence
+        if (!recoverFromFailure()) {
+            spdlog::error("Failed to recover from previous coordinator failure");
+            return false;
+        }
     }
     
     spdlog::info("Cross-shard transaction coordinator initialized");
@@ -140,6 +191,18 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     transactions_[transaction_id] = txn;
     total_transactions_++;
     
+    // Phase 2.3.3: Log to WAL if enabled
+    if (transaction_wal_) {
+        try {
+            std::vector<std::string> participants;  // Empty at begin, will add later
+            transaction_wal_->logBegin(transaction_id, protocol, participants);
+            operations_since_snapshot_++;
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log BEGIN to WAL: {}", e.what());
+            // Continue without WAL (graceful degradation)
+        }
+    }
+    
     // Persist transaction state
     persistTransactionState(transaction_id, TransactionState::ACTIVE);
     
@@ -214,10 +277,35 @@ bool CrossShardTransactionCoordinator::prepare(const std::string& transaction_id
     // Send prepare requests to all participants
     bool all_prepared = true;
     for (auto& [shard_id, participant] : txn.participants) {
+        // Phase 2.3.3: Log PREPARE to WAL
+        if (transaction_wal_) {
+            try {
+                nlohmann::json prepare_data = {
+                    {"shard_id", shard_id},
+                    {"operations", participant.operations}
+                };
+                transaction_wal_->logPrepare(transaction_id, shard_id, prepare_data);
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to log PREPARE to WAL: {}", e.what());
+            }
+        }
+        
         bool prepared = sendPrepare(shard_id, transaction_id);
         
         lock.lock();
         participant.prepared = prepared;
+        
+        // Phase 2.3.3: Log PREPARED response to WAL
+        if (transaction_wal_) {
+            try {
+                std::string response = prepared ? "prepared" : "aborted";
+                transaction_wal_->logPrepared(transaction_id, shard_id, prepared, response);
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to log PREPARED to WAL: {}", e.what());
+            }
+        }
         lock.unlock();
         
         if (!prepared) {
@@ -604,16 +692,48 @@ bool CrossShardTransactionCoordinator::execute2PC(CrossShardTransaction& txn) {
     // Phase 2: Commit
     txn.state = TransactionState::COMMITTING;
     
+    // Phase 2.3.3: Log COMMIT decision to WAL
+    if (transaction_wal_) {
+        try {
+            nlohmann::json commit_data = {
+                {"protocol", "2PC"},
+                {"participants", nlohmann::json::array()}
+            };
+            for (const auto& [shard_id, participant] : txn.participants) {
+                commit_data["participants"].push_back(shard_id);
+            }
+            transaction_wal_->logCommit(txn.transaction_id, commit_data);
+            operations_since_snapshot_++;
+        } catch (const std::exception& e) {
+            spdlog::warn("Failed to log COMMIT to WAL: {}", e.what());
+        }
+    }
+    
     bool all_committed = true;
     for (auto& [shard_id, participant] : txn.participants) {
         bool committed = sendCommit(shard_id, txn.transaction_id);
         participant.committed = committed;
+        
+        // Phase 2.3.3: Log COMMITTED response to WAL
+        if (transaction_wal_ && committed) {
+            try {
+                transaction_wal_->logCommitted(txn.transaction_id, shard_id);
+                operations_since_snapshot_++;
+            } catch (const std::exception& e) {
+                spdlog::warn("Failed to log COMMITTED to WAL: {}", e.what());
+            }
+        }
         
         if (!committed) {
             all_committed = false;
             spdlog::error("Commit failed for shard {} in transaction {}", 
                          shard_id, txn.transaction_id);
         }
+    }
+    
+    // Phase 2.3.3: Check if snapshot needed
+    if (transaction_wal_ && transaction_wal_->shouldCreateSnapshot(operations_since_snapshot_.load())) {
+        createPeriodicSnapshot();
     }
     
     return all_committed;
@@ -1715,6 +1835,263 @@ bool CrossShardTransactionCoordinator::recoverFromFailure() {
     
     spdlog::info("Recovery complete: {} recovered, {} aborted", recovered, aborted);
     return true;
+}
+
+// Phase 2.3.3: Recover from WAL and snapshot
+bool CrossShardTransactionCoordinator::recoverFromWAL() {
+    if (!transaction_wal_ || !snapshot_manager_) {
+        spdlog::warn("WAL or snapshot manager not available, skipping WAL recovery");
+        return true;
+    }
+    
+    spdlog::info("Starting recovery from WAL and snapshot...");
+    
+    // Step 1: Load latest snapshot
+    auto snapshot_opt = snapshot_manager_->loadLatestSnapshot();
+    if (snapshot_opt.has_value()) {
+        const auto& snapshot = snapshot_opt.value();
+        
+        // Verify snapshot integrity
+        if (!snapshot_manager_->verifySnapshot(snapshot)) {
+            spdlog::error("Snapshot integrity check failed, cannot recover");
+            return false;
+        }
+        
+        spdlog::info("Loaded snapshot {} with {} active transactions", 
+                    snapshot.snapshot_id, snapshot.total_transactions);
+        
+        // Restore active transactions from snapshot
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        for (const auto& txn_entry : snapshot.active_transactions) {
+            CrossShardTransaction txn;
+            txn.transaction_id = txn_entry.transaction_id;
+            txn.protocol = txn_entry.protocol;
+            txn.state = txn_entry.state;
+            txn.start_time = std::chrono::system_clock::from_time_t(
+                txn_entry.start_timestamp / 1000000000);  // Convert from nanoseconds
+            
+            // Restore participants
+            for (const auto& [part_id, part_status] : txn_entry.participant_status) {
+                ShardParticipant participant;
+                participant.shard_id = part_id;
+                participant.prepared = part_status.prepared;
+                participant.committed = part_status.committed;
+                participant.aborted = part_status.aborted;
+                txn.participants[part_id] = participant;
+            }
+            
+            transactions_[txn.transaction_id] = txn;
+        }
+        
+        last_applied_lsn_ = snapshot.last_applied_lsn;
+        spdlog::info("Restored {} transactions from snapshot, last LSN: {}", 
+                    snapshot.total_transactions, last_applied_lsn_);
+    } else {
+        spdlog::info("No snapshot found, starting with empty state");
+        last_applied_lsn_ = 0;
+    }
+    
+    // Step 2: Replay WAL from last_applied_lsn
+    try {
+        auto wal_entries = transaction_wal_->readEntries(last_applied_lsn_);
+        spdlog::info("Replaying {} WAL entries from LSN {}", 
+                    wal_entries.size(), last_applied_lsn_);
+        
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        for (const auto& entry : wal_entries) {
+            // Update last_applied_lsn
+            last_applied_lsn_ = entry.lsn;
+            
+            // Find or create transaction
+            auto it = transactions_.find(entry.transaction_id);
+            
+            switch (entry.type) {
+                case TransactionWALEntryType::BEGIN:
+                    if (it == transactions_.end()) {
+                        CrossShardTransaction txn;
+                        txn.transaction_id = entry.transaction_id;
+                        txn.protocol = entry.protocol;
+                        txn.state = TransactionState::ACTIVE;
+                        txn.start_time = std::chrono::system_clock::from_time_t(
+                            entry.timestamp / 1000);
+                        transactions_[entry.transaction_id] = txn;
+                        spdlog::debug("Replayed BEGIN for transaction {}", entry.transaction_id);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::PREPARE:
+                    if (it != transactions_.end()) {
+                        it->second.state = TransactionState::PREPARING;
+                        spdlog::debug("Replayed PREPARE for transaction {}", entry.transaction_id);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::PREPARED:
+                    if (it != transactions_.end()) {
+                        auto& participant = it->second.participants[entry.participant_id];
+                        participant.prepared = entry.vote;
+                        spdlog::debug("Replayed PREPARED for transaction {}, participant {}, vote: {}", 
+                                    entry.transaction_id, entry.participant_id, entry.vote);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::COMMIT:
+                    if (it != transactions_.end()) {
+                        it->second.state = TransactionState::COMMITTING;
+                        spdlog::debug("Replayed COMMIT for transaction {}", entry.transaction_id);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::COMMITTED:
+                    if (it != transactions_.end()) {
+                        auto& participant = it->second.participants[entry.participant_id];
+                        participant.committed = true;
+                        // Check if all committed
+                        bool all_committed = true;
+                        for (const auto& [_, p] : it->second.participants) {
+                            if (!p.committed) {
+                                all_committed = false;
+                                break;
+                            }
+                        }
+                        if (all_committed) {
+                            it->second.state = TransactionState::COMMITTED;
+                            it->second.end_time = std::chrono::system_clock::now();
+                        }
+                        spdlog::debug("Replayed COMMITTED for transaction {}, participant {}", 
+                                    entry.transaction_id, entry.participant_id);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::ABORT:
+                    if (it != transactions_.end()) {
+                        it->second.state = TransactionState::ABORTING;
+                        spdlog::debug("Replayed ABORT for transaction {}", entry.transaction_id);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::ABORTED:
+                    if (it != transactions_.end()) {
+                        it->second.state = TransactionState::ABORTED;
+                        it->second.end_time = std::chrono::system_clock::now();
+                        spdlog::debug("Replayed ABORTED for transaction {}", entry.transaction_id);
+                    }
+                    break;
+                    
+                case TransactionWALEntryType::COMPENSATE:
+                    if (it != transactions_.end()) {
+                        spdlog::debug("Replayed COMPENSATE for transaction {}", entry.transaction_id);
+                        // SAGA compensation - store in metadata
+                        it->second.compensations[entry.participant_id] = entry.data;
+                    }
+                    break;
+            }
+        }
+        
+        spdlog::info("WAL replay complete, {} transactions in memory", transactions_.size());
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to replay WAL: {}", e.what());
+        return false;
+    }
+    
+    // Step 3: Resume in-flight transactions based on their state
+    // This would involve re-sending prepare/commit/abort messages as needed
+    // For now, we just log which transactions need attention
+    std::lock_guard<std::mutex> lock(transactions_mutex_);
+    for (const auto& [txn_id, txn] : transactions_) {
+        switch (txn.state) {
+            case TransactionState::PREPARING:
+                spdlog::info("Transaction {} recovered in PREPARING state - may need to resend prepare", 
+                            txn_id);
+                break;
+            case TransactionState::PREPARED:
+                spdlog::info("Transaction {} recovered in PREPARED state - need to make commit/abort decision", 
+                            txn_id);
+                break;
+            case TransactionState::COMMITTING:
+                spdlog::info("Transaction {} recovered in COMMITTING state - need to complete commit", 
+                            txn_id);
+                break;
+            case TransactionState::ABORTING:
+                spdlog::info("Transaction {} recovered in ABORTING state - need to complete abort", 
+                            txn_id);
+                break;
+            case TransactionState::COMMITTED:
+            case TransactionState::ABORTED:
+                // Final states - can be cleaned up eventually
+                break;
+            default:
+                break;
+        }
+    }
+    
+    spdlog::info("Transaction coordinator recovery complete");
+    return true;
+}
+
+// Phase 2.3.3: Create periodic snapshot
+void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
+    if (!transaction_wal_ || !snapshot_manager_) {
+        return;
+    }
+    
+    try {
+        std::lock_guard<std::mutex> lock(transactions_mutex_);
+        
+        // Convert active transactions to snapshot format
+        std::vector<TransactionSnapshotEntry> active_txns;
+        for (const auto& [txn_id, txn] : transactions_) {
+            // Only snapshot non-final transactions
+            if (txn.state != TransactionState::COMMITTED && 
+                txn.state != TransactionState::ABORTED) {
+                
+                TransactionSnapshotEntry entry;
+                entry.transaction_id = txn.transaction_id;
+                entry.protocol = txn.protocol;
+                entry.state = txn.state;
+                entry.start_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                    txn.start_time.time_since_epoch()).count();
+                entry.coordinator_id = "coordinator-1";  // TODO: Get actual coordinator ID
+                
+                // Add participants
+                for (const auto& [shard_id, participant] : txn.participants) {
+                    entry.participants.push_back(shard_id);
+                    
+                    ParticipantStatus status;
+                    status.participant_id = shard_id;
+                    status.prepared = participant.prepared;
+                    status.committed = participant.committed;
+                    status.aborted = participant.aborted;
+                    status.response_data = participant.error_message;
+                    status.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::system_clock::now().time_since_epoch()).count();
+                    
+                    entry.participant_status[shard_id] = status;
+                }
+                
+                active_txns.push_back(entry);
+            }
+        }
+        
+        // Create snapshot
+        auto snapshot_id = snapshot_manager_->createSnapshot(
+            "coordinator-1",  // TODO: Get actual coordinator ID
+            last_applied_lsn_,
+            active_txns
+        );
+        
+        if (snapshot_id.has_value()) {
+            operations_since_snapshot_ = 0;
+            spdlog::info("Created transaction snapshot {} with {} active transactions", 
+                        snapshot_id.value(), active_txns.size());
+        } else {
+            spdlog::error("Failed to create transaction snapshot");
+        }
+        
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to create periodic snapshot: {}", e.what());
+    }
 }
 
 } // namespace sharding
