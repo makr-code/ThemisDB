@@ -40,6 +40,13 @@ struct JWTClaims {
  * - Kid revocation/denylist support
  * - Metrics and logging on validation failures
  */
+
+// Input validation limits
+constexpr size_t MAX_JWT_TOKEN_SIZE = 16 * 1024;  // 16KB max token size
+constexpr size_t MAX_PRINCIPAL_NAME_LENGTH = 256; // 256 chars max for principal names
+constexpr int DEFAULT_JWKS_TIMEOUT_SECONDS = 5;   // 5 second timeout for JWKS fetch
+constexpr int MAX_JWKS_RETRY_ATTEMPTS = 3;        // Max 3 retry attempts for JWKS
+
 struct JWTValidatorConfig {
     std::string jwks_url;               // Keycloak JWKS endpoint
     std::string expected_issuer;        // optional: exact match required if set
@@ -47,6 +54,8 @@ struct JWTValidatorConfig {
     std::chrono::seconds cache_ttl{600};
     std::chrono::seconds clock_skew{60};
     std::vector<std::string> revoked_kids;  // Kid denylist for revoked keys
+    int jwks_timeout_seconds{DEFAULT_JWKS_TIMEOUT_SECONDS};  // JWKS fetch timeout
+    int jwks_max_retries{MAX_JWKS_RETRY_ATTEMPTS};            // JWKS fetch max retries
 };
 
 class JWTValidator {
