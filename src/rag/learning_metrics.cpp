@@ -1,7 +1,7 @@
 /**
  * @file learning_metrics.cpp
  * @brief Implementation of learning metrics (header-only structures)
- * 
+ *
  * This file provides any helper functions needed for learning metrics.
  * Most structures are header-only, so this is minimal.
  */

@@ -1,18 +1,19 @@
 /**
  * @file learning_metrics.h
  * @brief Data structures for continuous learning metrics and interactions
- * 
+ *
  * Defines core data structures for logging RAG interactions, tracking learning
  * progress, and managing A/B test results in the Continuous Learning Orchestrator.
  */
 
 #pragma once
 
-#include <string>
-#include <vector>
-#include <optional>
 #include <chrono>
+#include <optional>
+#include <string>
 #include <unordered_map>
+#include <vector>
+
 #include "knowledge_gap_detector.h"
 
 namespace themis::rag::learning {
@@ -21,10 +22,10 @@ namespace themis::rag::learning {
  * @brief Type of user feedback
  */
 enum class FeedbackType {
-    POSITIVE,           ///< User indicated answer was helpful
-    NEGATIVE,           ///< User indicated answer was not helpful
-    CORRECTION,         ///< User provided a correction
-    NEUTRAL             ///< No explicit feedback
+    POSITIVE,   ///< User indicated answer was helpful
+    NEGATIVE,   ///< User indicated answer was not helpful
+    CORRECTION, ///< User provided a correction
+    NEUTRAL     ///< No explicit feedback
 };
 
 /**
@@ -43,25 +44,25 @@ struct RetrievedDocument {
 struct Interaction {
     std::string interaction_id;
     std::chrono::system_clock::time_point timestamp;
-    
+
     // Input
     std::string query;
     std::vector<RetrievedDocument> retrieved_docs;
     std::string prompt_template_used;
-    
+
     // Output
     std::string generated_answer;
     std::vector<double> token_probabilities;
-    
+
     // Metrics
     knowledge_gap::DetectionResult gap_detection_result;
-    double perplexity = 0.0;
+    double perplexity       = 0.0;
     double confidence_score = 0.0;
-    
+
     // User feedback (optional)
     std::optional<FeedbackType> user_feedback;
     std::optional<std::string> user_correction;
-    
+
     // Metadata
     std::string model_version;
     std::string retrieval_config_version;
@@ -74,10 +75,10 @@ struct Interaction {
  */
 struct PerformanceSnapshot {
     std::chrono::system_clock::time_point timestamp;
-    double accuracy = 0.0;
-    double avg_confidence = 0.0;
+    double accuracy           = 0.0;
+    double avg_confidence     = 0.0;
     double gap_detection_rate = 0.0;
-    size_t total_queries = 0;
+    size_t total_queries      = 0;
     std::string component_version;
 };
 
@@ -86,10 +87,10 @@ struct PerformanceSnapshot {
  */
 struct ImprovementEvent {
     std::chrono::system_clock::time_point timestamp;
-    std::string component;              ///< Which component improved (LoRA, Prompt, Retrieval)
-    std::string improvement_type;       ///< Type of improvement
+    std::string component;        ///< Which component improved (LoRA, Prompt, Retrieval)
+    std::string improvement_type; ///< Type of improvement
     double metric_before = 0.0;
-    double metric_after = 0.0;
+    double metric_after  = 0.0;
     std::string description;
 };
 
@@ -100,11 +101,11 @@ struct ABTestInfo {
     std::string test_id;
     std::string component;
     std::chrono::system_clock::time_point start_time;
-    size_t control_samples = 0;
-    size_t treatment_samples = 0;
-    double control_success_rate = 0.0;
+    size_t control_samples        = 0;
+    size_t treatment_samples      = 0;
+    double control_success_rate   = 0.0;
     double treatment_success_rate = 0.0;
-    bool is_active = true;
+    bool is_active                = true;
 };
 
 /**
@@ -112,14 +113,14 @@ struct ABTestInfo {
  */
 struct LearningStats {
     size_t total_interactions_logged = 0;
-    size_t lora_retraining_count = 0;
-    size_t prompt_optimizations = 0;
-    size_t retrieval_optimizations = 0;
-    
+    size_t lora_retraining_count     = 0;
+    size_t prompt_optimizations      = 0;
+    size_t retrieval_optimizations   = 0;
+
     double current_accuracy = 0.0;
-    double accuracy_7d_avg = 0.0;
-    double accuracy_trend = 0.0;          ///< Positive = improving, Negative = degrading
-    
+    double accuracy_7d_avg  = 0.0;
+    double accuracy_trend   = 0.0; ///< Positive = improving, Negative = degrading
+
     std::vector<ImprovementEvent> recent_improvements;
     std::vector<ABTestInfo> active_ab_tests;
 };
@@ -129,22 +130,22 @@ struct LearningStats {
  */
 struct ABTestResult {
     std::string test_id;
-    double control_success_rate = 0.0;
+    double control_success_rate   = 0.0;
     double treatment_success_rate = 0.0;
-    double improvement = 0.0;              ///< Treatment - Control
-    double p_value = 1.0;
-    bool is_significant = false;           ///< p < 0.05
-    size_t sample_size_control = 0;
-    size_t sample_size_treatment = 0;
+    double improvement            = 0.0; ///< Treatment - Control
+    double p_value                = 1.0;
+    bool is_significant           = false; ///< p < 0.05
+    size_t sample_size_control    = 0;
+    size_t sample_size_treatment  = 0;
 };
 
 /**
  * @brief Retrieval parameters for optimization
  */
 struct RetrievalParams {
-    size_t top_k = 10;
+    size_t top_k                = 10;
     double similarity_threshold = 0.75;
-    double coverage_threshold = 0.8;
+    double coverage_threshold   = 0.8;
 };
 
 } // namespace themis::rag::learning
