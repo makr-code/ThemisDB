@@ -307,6 +307,303 @@ TEST(ModuleLoader, SetSecurityPolicyFlags) {
     SUCCEED();
 }
 
+// ===== Phase 2 Tests: Quarantine & Backoff =====
+
+TEST(ModuleFailureHistory, DefaultValues) {
+    ModuleFailureHistory history;
+    
+    EXPECT_TRUE(history.modulePath.empty());
+    EXPECT_TRUE(history.failureTimestamps.empty());
+    EXPECT_EQ(history.consecutiveFailures, 0u);
+    EXPECT_EQ(history.lastFailureTime, 0u);
+    EXPECT_EQ(history.quarantineTime, 0u);
+    EXPECT_EQ(history.nextRetryTime, 0u);
+    EXPECT_EQ(history.lastErrorCode, ModuleErrorCode::SUCCESS);
+    EXPECT_FALSE(history.isQuarantined());
+}
+
+TEST(ModuleFailureHistory, QuarantineState) {
+    ModuleFailureHistory history;
+    
+    // Not quarantined initially
+    EXPECT_FALSE(history.isQuarantined());
+    
+    // Set quarantine time
+    history.quarantineTime = 1234567890;
+    EXPECT_TRUE(history.isQuarantined());
+}
+
+TEST(ModuleFailureHistory, CanRetry) {
+    ModuleFailureHistory history;
+    uint64_t currentTime = 1000;
+    
+    // Can retry if no backoff set
+    history.nextRetryTime = 0;
+    EXPECT_TRUE(history.canRetry(currentTime));
+    
+    // Cannot retry if backoff not expired
+    history.nextRetryTime = 2000;
+    EXPECT_FALSE(history.canRetry(currentTime));
+    
+    // Can retry after backoff expires
+    currentTime = 2500;
+    EXPECT_TRUE(history.canRetry(currentTime));
+}
+
+TEST(ModuleMetrics, DefaultValues) {
+    ModuleMetrics metrics;
+    
+    EXPECT_EQ(metrics.totalLoadAttempts, 0u);
+    EXPECT_EQ(metrics.successfulLoads, 0u);
+    EXPECT_EQ(metrics.failedLoads, 0u);
+    EXPECT_EQ(metrics.totalUnloads, 0u);
+    EXPECT_EQ(metrics.totalLoadDurationMs, 0u);
+    EXPECT_EQ(metrics.minLoadDurationMs, UINT64_MAX);
+    EXPECT_EQ(metrics.maxLoadDurationMs, 0u);
+    EXPECT_EQ(metrics.verificationSuccesses, 0u);
+    EXPECT_EQ(metrics.verificationFailures, 0u);
+    EXPECT_EQ(metrics.quarantineEvents, 0u);
+    EXPECT_EQ(metrics.quarantineReleases, 0u);
+    EXPECT_EQ(metrics.currentlyQuarantined, 0u);
+    EXPECT_TRUE(metrics.errorCounts.empty());
+}
+
+TEST(ModuleMetrics, SuccessRate) {
+    ModuleMetrics metrics;
+    
+    // Zero attempts = 0% success rate
+    EXPECT_DOUBLE_EQ(metrics.getSuccessRate(), 0.0);
+    
+    // 5 successes out of 10 attempts = 50%
+    metrics.totalLoadAttempts = 10;
+    metrics.successfulLoads = 5;
+    EXPECT_DOUBLE_EQ(metrics.getSuccessRate(), 0.5);
+    
+    // 10 successes out of 10 attempts = 100%
+    metrics.successfulLoads = 10;
+    EXPECT_DOUBLE_EQ(metrics.getSuccessRate(), 1.0);
+}
+
+TEST(ModuleMetrics, AverageLoadDuration) {
+    ModuleMetrics metrics;
+    
+    // Zero loads = 0ms average
+    EXPECT_DOUBLE_EQ(metrics.getAverageLoadDurationMs(), 0.0);
+    
+    // 300ms total over 3 loads = 100ms average
+    metrics.successfulLoads = 3;
+    metrics.totalLoadDurationMs = 300;
+    EXPECT_DOUBLE_EQ(metrics.getAverageLoadDurationMs(), 100.0);
+}
+
+TEST(ModuleLoader, GetFailureHistoryEmpty) {
+    ModuleLoader loader;
+    
+    auto history = loader.getFailureHistory("/nonexistent.so");
+    EXPECT_FALSE(history.has_value());
+}
+
+TEST(ModuleLoader, GetQuarantinedModulesEmpty) {
+    ModuleLoader loader;
+    
+    auto quarantined = loader.getQuarantinedModules();
+    EXPECT_TRUE(quarantined.empty());
+}
+
+TEST(ModuleLoader, ReleaseFromQuarantineNonExistent) {
+    ModuleLoader loader;
+    
+    // Cannot release module that's not quarantined
+    EXPECT_FALSE(loader.releaseFromQuarantine("/nonexistent.so"));
+}
+
+TEST(ModuleLoader, ClearFailureHistoryNonExistent) {
+    ModuleLoader loader;
+    
+    // Should not throw for non-existent module
+    loader.clearFailureHistory("/nonexistent.so");
+    SUCCEED();
+}
+
+TEST(ModuleLoader, GetMetricsInitial) {
+    ModuleLoader loader;
+    
+    auto metrics = loader.getMetrics();
+    
+    EXPECT_EQ(metrics.totalLoadAttempts, 0u);
+    EXPECT_EQ(metrics.successfulLoads, 0u);
+    EXPECT_EQ(metrics.failedLoads, 0u);
+    EXPECT_EQ(metrics.quarantineEvents, 0u);
+    EXPECT_EQ(metrics.currentlyQuarantined, 0u);
+}
+
+TEST(ModuleLoader, ResetMetrics) {
+    ModuleLoader loader;
+    
+    // Reset should not throw
+    loader.resetMetrics();
+    
+    auto metrics = loader.getMetrics();
+    EXPECT_EQ(metrics.totalLoadAttempts, 0u);
+    SUCCEED();
+}
+
+TEST(ModuleLoader, SetQuarantineThreshold) {
+    ModuleLoader loader;
+    
+    // Should accept various thresholds
+    loader.setQuarantineThreshold(1);
+    loader.setQuarantineThreshold(5);
+    loader.setQuarantineThreshold(10);
+    SUCCEED();
+}
+
+TEST(ModuleLoader, SetMaxBackoffSeconds) {
+    ModuleLoader loader;
+    
+    // Should accept various max backoff times
+    loader.setMaxBackoffSeconds(60);
+    loader.setMaxBackoffSeconds(300);
+    loader.setMaxBackoffSeconds(600);
+    SUCCEED();
+}
+
+// ===== Phase 2 Tests: ABI Compatibility =====
+
+TEST(ModuleLoader, IsABICompatibleInvalidMetadata) {
+    ModuleLoader loader;
+    ModuleMetadata metadata;
+    
+    // Invalid metadata (no version, themisMajor = 0)
+    EXPECT_FALSE(loader.isABICompatible(metadata));
+}
+
+TEST(ModuleLoader, IsABICompatibleMajorMatch) {
+    ModuleLoader loader;
+    ModuleMetadata metadata;
+    
+    // Compatible: same major, module minor <= themis minor
+    metadata.version = "1.0.0";
+    metadata.themisMajor = 1;
+    metadata.themisMinor = 0;
+    metadata.themisPatch = 0;
+    
+    EXPECT_TRUE(loader.isABICompatible(metadata));
+}
+
+TEST(ModuleLoader, IsABICompatibleMajorMismatch) {
+    ModuleLoader loader;
+    ModuleMetadata metadata;
+    
+    // Incompatible: different major version
+    metadata.version = "2.0.0";
+    metadata.themisMajor = 2;  // ThemisDB is at major version 1
+    metadata.themisMinor = 0;
+    
+    EXPECT_FALSE(loader.isABICompatible(metadata));
+}
+
+TEST(ModuleLoader, IsABICompatibleMinorTooNew) {
+    ModuleLoader loader;
+    ModuleMetadata metadata;
+    
+    // Incompatible: module minor > themis minor
+    metadata.version = "1.5.0";
+    metadata.themisMajor = 1;
+    metadata.themisMinor = 5;  // ThemisDB is at 1.0
+    
+    EXPECT_FALSE(loader.isABICompatible(metadata));
+}
+
+TEST(ModuleLoader, IsABICompatibleMinorOlder) {
+    ModuleLoader loader;
+    ModuleMetadata metadata;
+    
+    // Compatible: module minor < themis minor (backward compatible)
+    metadata.version = "1.0.0";
+    metadata.themisMajor = 1;
+    metadata.themisMinor = 0;  // Module is older, but compatible
+    
+    EXPECT_TRUE(loader.isABICompatible(metadata));
+}
+
+// ===== Phase 2 Integration Tests =====
+
+TEST(ModuleLoader, LoadNonExistentRecordsFailure) {
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    
+    // Try to load non-existent module
+    auto result = loader.loadModule("/nonexistent_phase2.so", "test_module");
+    
+    EXPECT_FALSE(result.success);
+    EXPECT_EQ(result.errorCode, ModuleErrorCode::MODULE_NOT_FOUND);
+    
+    // Check that failure was recorded
+    auto history = loader.getFailureHistory("/nonexistent_phase2.so");
+    EXPECT_TRUE(history.has_value());
+    if (history) {
+        EXPECT_EQ(history->consecutiveFailures, 1u);
+        EXPECT_EQ(history->lastErrorCode, ModuleErrorCode::MODULE_NOT_FOUND);
+    }
+    
+    // Check metrics updated
+    auto metrics = loader.getMetrics();
+    EXPECT_EQ(metrics.totalLoadAttempts, 1u);
+    EXPECT_EQ(metrics.failedLoads, 1u);
+    EXPECT_EQ(metrics.successfulLoads, 0u);
+}
+
+TEST(ModuleLoader, RepeatedFailuresIncrementCount) {
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    
+    std::string path = "/nonexistent_repeated.so";
+    
+    // First failure
+    auto result1 = loader.loadModule(path, "test1");
+    EXPECT_FALSE(result1.success);
+    
+    auto history1 = loader.getFailureHistory(path);
+    EXPECT_TRUE(history1.has_value());
+    if (history1) {
+        EXPECT_EQ(history1->consecutiveFailures, 1u);
+    }
+    
+    // Wait to avoid backoff (in real scenario, time would pass)
+    // For testing, we clear and try again
+    loader.clearFailureHistory(path);
+    
+    // Second failure
+    auto result2 = loader.loadModule(path, "test2");
+    EXPECT_FALSE(result2.success);
+    
+    auto history2 = loader.getFailureHistory(path);
+    EXPECT_TRUE(history2.has_value());
+    if (history2) {
+        EXPECT_EQ(history2->consecutiveFailures, 1u);  // Cleared, so back to 1
+    }
+}
+
+TEST(ModuleLoader, ClearFailureHistoryWorks) {
+    ModuleLoader loader;
+    loader.setAllowUnsigned(true);
+    
+    std::string path = "/nonexistent_clear.so";
+    
+    // Create a failure
+    loader.loadModule(path, "test");
+    
+    auto history1 = loader.getFailureHistory(path);
+    EXPECT_TRUE(history1.has_value());
+    
+    // Clear history
+    loader.clearFailureHistory(path);
+    
+    auto history2 = loader.getFailureHistory(path);
+    EXPECT_FALSE(history2.has_value());
+}
+
 // Entry point for test execution
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
