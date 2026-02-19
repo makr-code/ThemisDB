@@ -130,24 +130,27 @@ bool CUDAVectorBackend::initialize() {
         return false;
     }
     
-    // v1.1.0: Create CUDA stream with low priority for vLLM co-location
-    cudaStream_t stream;
+    try {
+        // v1.1.0: Create CUDA stream with low priority for vLLM co-location using RAII
 #ifdef THEMIS_VLLM_COLOCATION
-    // Non-blocking stream with low priority (doesn't block vLLM)
-    int leastPriority, greatestPriority;
-    CUDA_CHECK_BOOL(cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority));
-    CUDA_CHECK_BOOL(cudaStreamCreateWithPriority(&stream, cudaStreamNonBlocking, leastPriority));
-    std::cout << "CUDA: Created low-priority stream for vLLM co-location (priority=" << leastPriority << ")" << std::endl;
+        // Non-blocking stream with low priority (doesn't block vLLM)
+        int leastPriority, greatestPriority;
+        cudaError_t err = cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority);
+        if (err != cudaSuccess) {
+            std::cerr << "CUDA: Failed to get stream priority range" << std::endl;
+            std::cerr << "  Error: " << cudaGetErrorString(err) << std::endl;
+            return false;
+        }
+        stream_.createWithPriority(leastPriority, cudaStreamNonBlocking);
+        std::cout << "CUDA: Created low-priority stream for vLLM co-location (priority=" << leastPriority << ")" << std::endl;
 #else
-    // Standard stream for non-vLLM deployments
-    cudaError_t streamErr = cudaStreamCreate(&stream);
-    if (streamErr != cudaSuccess) {
-        std::cerr << "CUDA: Failed to create CUDA stream" << std::endl;
-        std::cerr << "  Error: " << cudaGetErrorString(streamErr) << std::endl;
+        // Standard stream for non-vLLM deployments (RAII-managed)
+        stream_.create();
+#endif
+    } catch (const std::exception& e) {
+        std::cerr << "CUDA: Failed to create stream: " << e.what() << std::endl;
         return false;
     }
-#endif
-    deviceContext_ = static_cast<void*>(stream);
     
     // Query device properties with error handling
     cudaDeviceProp prop;
@@ -155,7 +158,7 @@ bool CUDAVectorBackend::initialize() {
     if (propErr != cudaSuccess) {
         std::cerr << "CUDA: Failed to query device properties" << std::endl;
         std::cerr << "  Error: " << cudaGetErrorString(propErr) << std::endl;
-        cudaStreamDestroy(stream);
+        // stream_ automatically cleaned up by RAII destructor
         return false;
     }
     
@@ -184,11 +187,7 @@ bool CUDAVectorBackend::initialize() {
 void CUDAVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
-        if (deviceContext_) {
-            cudaStream_t stream = static_cast<cudaStream_t>(deviceContext_);
-            cudaStreamDestroy(stream);
-            deviceContext_ = nullptr;
-        }
+        // stream_ automatically destroyed by RAII destructor
         cudaDeviceReset();
         initialized_ = false;
     }
@@ -209,7 +208,8 @@ std::vector<float> CUDAVectorBackend::computeDistances(
         return {};
     }
     
-    cudaStream_t stream = static_cast<cudaStream_t>(deviceContext_);
+    // Use RAII-managed stream
+    cudaStream_t stream = stream_.get();
     
     // Allocate device memory
     float *d_queries, *d_vectors, *d_distances;
@@ -268,7 +268,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
         return {};
     }
     
-    cudaStream_t stream = static_cast<cudaStream_t>(deviceContext_);
+    cudaStream_t stream = stream_.get();
     
     // Allocate device memory
     float *d_queries, *d_vectors, *d_distances;
