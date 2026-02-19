@@ -20,8 +20,21 @@ if (!defined('ABSPATH')) {
 define('THEMISDB_WIKI_VERSION', '1.0.1');
 define('THEMISDB_WIKI_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('THEMISDB_WIKI_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('THEMISDB_WIKI_PLUGIN_FILE', __FILE__);
 define('THEMISDB_WIKI_CACHE_GROUP', 'themisdb_wiki');
 define('THEMISDB_WIKI_CACHE_EXPIRATION', 3600); // 1 hour
+
+// Load updater class
+require_once dirname(THEMISDB_WIKI_PLUGIN_DIR) . '/includes/class-themisdb-plugin-updater.php';
+
+// Initialize automatic updates
+if (class_exists('ThemisDB_Plugin_Updater')) {
+    new ThemisDB_Plugin_Updater(
+        THEMISDB_WIKI_PLUGIN_FILE,
+        'themisdb-wiki-integration',
+        THEMISDB_WIKI_VERSION
+    );
+}
 
 // Include markdown converter
 require_once THEMISDB_WIKI_PLUGIN_DIR . 'includes/class-markdown-converter.php';

@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
 
 namespace themis {
 
@@ -136,6 +137,8 @@ public:
     
 private:
     IKeyProviderPtr key_provider_;
+    std::optional<KeyProviderType> key_provider_type_;
+    std::string key_provider_config_;
     EncryptionConfig encryption_config_;
     std::string rbac_policy_file_;
     auth::JWTValidatorConfig jwt_config_;
