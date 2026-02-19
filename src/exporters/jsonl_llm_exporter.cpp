@@ -1,6 +1,8 @@
 ﻿#include "exporters/jsonl_llm_exporter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
+#include "exporters/pii_detector.h"
+#include "exporters/stream_writer.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -41,22 +43,85 @@ ExportStats JSONLLLMExporter::exportEntities(
     stats.metrics = metrics_;  // Attach metrics to stats
     auto start_time = std::chrono::steady_clock::now();
     
-    try {
-        std::ofstream output(options.output_path);
-        if (!output.is_open()) {
-            throw ExportIOException(
-                "Failed to open output file",
-                options.output_path,
-                errno
+    // P1: Tenant isolation check
+    if (options.tenant_context && options.tenant_context->enforce_isolation) {
+        // Check required scopes
+        if (!options.tenant_context->hasScope("export:read") && 
+            !options.tenant_context->hasScope("export:write")) {
+            throw ExporterException(
+                themis::errors::ErrorCode::ERR_EXPORT_TENANT_UNAUTHORIZED,
+                "Insufficient permissions for export operation",
+                "tenant_id=" + options.tenant_context->tenant_id
             );
         }
+        
+        THEMIS_INFO("Export for tenant: {}, user: {}", 
+                   options.tenant_context->tenant_id,
+                   options.tenant_context->user_id);
+    }
+    
+    // P1: Initialize PII detector if enabled
+    std::unique_ptr<PIIDetector> pii_detector;
+    if (config_.pii_config.enable_detection) {
+        PIIDetector::Config pii_config;
+        pii_config.detect_email = config_.pii_config.detect_email;
+        pii_config.detect_phone = config_.pii_config.detect_phone;
+        pii_config.detect_ssn = config_.pii_config.detect_ssn;
+        pii_config.detect_credit_card = config_.pii_config.detect_credit_card;
+        
+        // Map redaction strategy string to enum
+        if (config_.pii_config.redaction_strategy == "hash") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::HASH;
+        } else if (config_.pii_config.redaction_strategy == "remove") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::REMOVE;
+        } else if (config_.pii_config.redaction_strategy == "partial") {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::PARTIAL;
+        } else {
+            pii_config.default_strategy = PIIDetector::RedactionStrategy::MASK;
+        }
+        
+        pii_detector = std::make_unique<PIIDetector>(pii_config);
+    }
+    
+    try {
+        // P2: Use StreamWriter for compression and streaming
+        StreamWriter::Config writer_config;
+        writer_config.output_path = options.output_path;
+        writer_config.buffer_size = options.buffer_size_bytes;
+        writer_config.max_file_size = options.max_file_size_bytes;
+        
+        if (options.compress) {
+            if (options.compression_type == "gzip") {
+                writer_config.compression = CompressionType::GZIP;
+            } else if (options.compression_type == "zstd") {
+                writer_config.compression = CompressionType::ZSTD;  // Future
+            }
+            writer_config.compression_level = options.compression_level;
+        }
+        
+        StreamWriter writer(writer_config);
         
         std::set<std::string> seen_hashes;  // For duplicate detection
         
         for (const auto& entity : entities) {
             stats.total_entities++;
             
+            // P2: Check size limit
+            if (writer.isLimitReached()) {
+                THEMIS_WARN("Export size limit reached, stopping at {} entities", stats.total_entities);
+                break;
+            }
+            
             try {
+                // P1: Tenant isolation - check entity belongs to tenant
+                if (options.tenant_context && options.tenant_context->enforce_isolation) {
+                    auto tenant_field = entity.getFieldAsString("tenant_id");
+                    if (tenant_field && *tenant_field != options.tenant_context->tenant_id) {
+                        metrics_->recordError("tenant_isolation_violation");
+                        continue;  // Skip entity from different tenant
+                    }
+                }
+                
                 // Quality filtering
                 if (!passesQualityFilter(entity)) {
                     metrics_->recordQualityFilterRejection("quality_filter_failed");
@@ -85,6 +150,26 @@ ExportStats JSONLLLMExporter::exportEntities(
                 if (line.empty()) {
                     metrics_->recordQualityFilterRejection("empty_formatted_line");
                     continue;
+                }
+                
+                // P1: PII detection and redaction
+                if (pii_detector) {
+                    if (pii_detector->containsPII(line)) {
+                        metrics_->recordPIIDetection();
+                        
+                        if (config_.pii_config.fail_on_pii && !config_.pii_config.enable_redaction) {
+                            throw ExporterException(
+                                themis::errors::ErrorCode::ERR_EXPORT_PII_VIOLATION,
+                                "PII detected in export data without redaction",
+                                "entity_id=" + entity.getPrimaryKey()
+                            );
+                        }
+                        
+                        if (config_.pii_config.enable_redaction) {
+                            line = pii_detector->redactPII(line);
+                            metrics_->recordPIIRedaction();
+                        }
+                    }
                 }
                 
                 // Schema validation (Outlines open-source integration)
@@ -141,9 +226,10 @@ ExportStats JSONLLLMExporter::exportEntities(
                     seen_hashes.insert(hash);
                 }
                 
-                // Write line
-                output << line << "\n";
-                stats.bytes_written += line.size() + 1;
+                // P2: Write using StreamWriter (handles compression)
+                line += "\n";
+                writer.write(line);
+                stats.bytes_written += line.size();
                 stats.exported_entities++;
                 
                 // Progress reporting
@@ -186,18 +272,26 @@ ExportStats JSONLLLMExporter::exportEntities(
             }
         }
         
+        // Flush and close writer
+        writer.close();
+        
         auto end_time = std::chrono::steady_clock::now();
         stats.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             end_time - start_time
         );
         
-        output.close();
+        // P2: Record compression metrics
+        if (options.compress) {
+            metrics_->recordCompression(writer.getBytesWritten(), 
+                                       writer.getCompressedBytesWritten());
+        }
         
         // Record export metrics
         metrics_->recordExport(stats.exported_entities, stats.bytes_written, stats.duration);
         
-        THEMIS_INFO("JSONL export completed: {} entities in {}ms",
-                    stats.exported_entities, stats.duration.count());
+        THEMIS_INFO("JSONL export completed: {} entities in {}ms{}",
+                    stats.exported_entities, stats.duration.count(),
+                    options.compress ? " (compressed)" : "");
         
         return stats;
         
