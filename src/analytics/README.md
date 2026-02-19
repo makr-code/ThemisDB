@@ -49,7 +49,8 @@ Multi-dimensional analytical query processing with aggregations and window funct
   - `exportCollectionToParquet()`: Direct collection export
 
 **Implementation Details:**
-- Platform-specific: Windows build uses stub implementation
+- Platform-specific: Windows build uses stub implementation with error logging
+- Windows stub logs errors via spdlog when called, returning empty results
 - Unix/Linux: Full implementation with columnar execution
 - Uses variant types for polymorphic value storage
 - Efficient hash-based grouping
@@ -86,7 +87,7 @@ for (const auto& row : result.rows) {
 **Lines of Code:** ~650 lines  
 **Dependencies:** nlohmann/json, optional Apache Arrow C++
 
-**Status:** ⚠️ Stub Implementation (GAP-003)
+**Status:** ✅ Production-ready columnar data structure
 
 Data export interfaces with optional Apache Arrow integration.
 
@@ -109,63 +110,82 @@ Data export interfaces with optional Apache Arrow integration.
   - `toArrowTable()`: Convert to Arrow table (optional)
 
 **Implementation Strategy:**
-- Placeholder implementation always available
+- Production-ready columnar storage always available
 - JSON/CSV export fully functional without Arrow
-- Arrow formats (IPC, Parquet) require `THEMIS_ENABLE_ARROW` flag
-- Fallback to JSON/CSV if Arrow not available
+- Arrow formats (IPC, Parquet, Feather) require `THEMIS_HAS_ARROW` flag
+- Clear error messages if Arrow not available
 
 **Platform Support:**
-- Windows: Stub implementation
+- Windows: Full columnar implementation
 - Unix/Linux: Full columnar implementation
 - macOS: Full implementation
 
 **Future Work:**
-- Native Apache Arrow C++ integration (v1.7.0)
-- Zero-copy data transfer with Arrow
+- Zero-copy data transfer optimizations (v1.7.0)
 - Flight RPC support
+- Memory pooling for large batches
 
 ### 3. Analytics Export (`analytics_export.cpp`)
 
-**Lines of Code:** ~580 lines  
-**Dependencies:** nlohmann/json
+**Lines of Code:** ~650 lines  
+**Dependencies:** nlohmann/json, optional Apache Arrow C++, spdlog
+
+**Status:** ✅ Production-ready with Arrow support
 
 Export interface implementation and factory methods.
 
 **Key Components:**
-- `StubAnalyticsExporter`: Reference implementation
+- `AnalyticsExporter`: Production implementation
   - JSON export (always available)
   - CSV export (always available)
-  - Arrow format stubs (fallback to JSON/CSV)
+  - Arrow IPC export (when THEMIS_HAS_ARROW enabled)
+  - Parquet export with compression (when THEMIS_HAS_ARROW enabled)
+  - Feather export (when THEMIS_HAS_ARROW enabled)
 - `ExporterFactory`: Factory for creating exporters
   - Default exporter creation
   - Format-specific exporters
 - Export targets:
-  - File export
-  - String export
+  - File export with error handling
+  - String export (not recommended for Parquet binary format)
   - Stream export (callback-based)
 
 **Supported Formats:**
 - ✅ JSON (fully implemented)
 - ✅ CSV (fully implemented)
-- ⚠️ Arrow IPC (placeholder, requires Arrow)
-- ⚠️ Parquet (placeholder, requires Arrow)
-- ⚠️ Feather (placeholder, requires Arrow)
+- ✅ Arrow IPC (implemented with THEMIS_HAS_ARROW)
+- ✅ Parquet (implemented with THEMIS_HAS_ARROW, includes compression)
+- ✅ Feather (implemented with THEMIS_HAS_ARROW)
 
 **Implementation Details:**
-- Format detection from file extension
-- Compression support (when Arrow enabled)
+- Feature guards for Arrow integration
+- Compression support: snappy, gzip, zstd, lz4 (Parquet only)
 - Schema export included
-- Error handling with detailed messages
+- Null bitmap handling
+- Structured logging with spdlog
+- Clear error messages when Arrow not available
+- Returns NOT_SUPPORTED status for unavailable formats
 
 **Usage Pattern:**
 ```cpp
 auto exporter = ExporterFactory::createDefaultExporter();
 
 ExportOptions options;
-options.format = ExportFormat::JSON;
-options.include_schema = true;
+options.format = ExportFormat::ARROW_PARQUET;
+options.compress = true;
+options.compression_codec = "snappy";
+options.compression_level = 3;
 
-auto result = exporter->exportToFile(batch, "output.json", options);
+auto result = exporter->exportToFile(batch, "output.parquet", options);
+
+if (result.status == ExportStatus::NOT_SUPPORTED) {
+    // Arrow not compiled in
+    spdlog::warn("Arrow support not available: {}", result.message);
+} else if (result.status == ExportStatus::SUCCESS) {
+    spdlog::info("Exported {} rows, {} bytes in {:.2f}ms",
+                 result.rows_exported,
+                 result.bytes_written,
+                 result.duration_ms);
+}
 ```
 
 ### 4. Process Mining (`process_mining.cpp`)
@@ -1363,13 +1383,16 @@ std::cout << "Rows filtered: " << profile.rows_filtered << "\n";
 - [x] Diff engine
 - [x] LLM integration layer
 
-### Phase 2: Optional Arrow Integration (⚠️ In Progress - GAP-003)
-- [x] Arrow RecordBatch placeholder
+### Phase 2: Optional Arrow Integration (✅ Complete)
+- [x] Arrow RecordBatch columnar storage
 - [x] Export interface design
-- [x] Stub implementation (always available)
-- [ ] Optional Apache Arrow C++ integration via `THEMIS_ENABLE_ARROW` flag
-- [ ] Arrow IPC format support (optional, requires Arrow flag)
-- [ ] Parquet writer integration (optional, requires Arrow flag)
+- [x] Core implementation (always available)
+- [x] Optional Apache Arrow C++ integration via `THEMIS_HAS_ARROW` flag
+- [x] Arrow IPC format support (with Arrow flag)
+- [x] Parquet writer integration with compression (with Arrow flag)
+- [x] Feather format support (with Arrow flag)
+- [x] Clear error handling when Arrow not available
+- [x] Structured logging for export operations
 - **Note:** Core functionality remains available without Apache Arrow
 
 ### Phase 3: Advanced Features (📋 Planned - v1.7.0)

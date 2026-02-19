@@ -5,9 +5,14 @@
 #include <chrono>
 #include <vector>
 #include <map>
+#include <memory>
+#include <optional>
 #include "storage/base_entity.h"
 
 namespace themis::exporters {
+
+// Forward declaration
+class ExporterMetrics;
 
 /// Export statistics collected during export
 struct ExportStats {
@@ -18,13 +23,32 @@ struct ExportStats {
     std::chrono::milliseconds duration{0};
     std::vector<std::string> errors;
     
+    // Optional: Detailed metrics
+    std::shared_ptr<ExporterMetrics> metrics;
+    
     std::string toJson() const;
+};
+
+/// Tenant context for multi-tenant exports
+struct ExportTenantContext {
+    std::string tenant_id;                  // Tenant identifier
+    std::string user_id;                    // User performing export
+    std::vector<std::string> scopes;        // Authorization scopes (export:read, export:write, etc.)
+    bool enforce_isolation = true;          // Enforce tenant data isolation
+    
+    /// Check if user has required scope
+    bool hasScope(const std::string& scope) const {
+        return std::find(scopes.begin(), scopes.end(), scope) != scopes.end();
+    }
 };
 
 /// Export options for configuring export behavior
 struct ExportOptions {
     // Output file path
     std::string output_path;
+    
+    // P1: Tenant context (optional for backward compatibility)
+    std::optional<ExportTenantContext> tenant_context;
     
     // Filtering
     std::vector<std::string> include_fields;  // If empty, export all fields
@@ -33,7 +57,14 @@ struct ExportOptions {
     
     // Format options
     bool pretty_print = false;
-    bool compress = false;
+    bool compress = false;                     // P2: Enable compression
+    std::string compression_type = "gzip";     // P2: gzip, zstd, none
+    int compression_level = 6;                 // P2: 1-9 for gzip, 1-22 for zstd
+    
+    // P2: Resource limits
+    size_t max_file_size_bytes = 0;           // 0 = unlimited
+    size_t max_throughput_bps = 0;            // 0 = unlimited (bytes per second)
+    size_t buffer_size_bytes = 8192;          // Buffer size for streaming
     
     // Progress reporting
     std::function<void(const ExportStats&)> progress_callback;
