@@ -4,12 +4,89 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <map>
+#include <cstdint>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace importers {
 
 using json = nlohmann::json;
+
+/**
+ * @brief Import error severity levels
+ */
+enum class ImportErrorSeverity {
+    INFO,     ///< Informational (e.g., skipped duplicate)
+    WARNING,  ///< Non-fatal issue (e.g., unknown type, using default)
+    ERROR,    ///< Row/record-level failure (import continues if continue_on_error)
+    CRITICAL  ///< Fatal failure that stops the import
+};
+
+/**
+ * @brief Structured import error codes
+ *
+ * Ranges:
+ *   0       – success
+ *   100-199 – I/O and file errors
+ *   200-299 – SQL parsing errors
+ *   300-399 – Schema mapping errors
+ *   400-499 – Data conversion errors
+ *   500-599 – Validation / policy errors
+ *   900-999 – Generic / unknown errors
+ */
+enum class ImportErrorCode : uint32_t {
+    // Success
+    SUCCESS = 0,
+
+    // I/O errors (100-199)
+    FILE_NOT_FOUND       = 100,
+    FILE_OPEN_FAILED     = 101,
+    FILE_READ_FAILED     = 102,
+    NOT_A_PG_DUMP        = 103,
+
+    // SQL parsing errors (200-299)
+    PARSE_CREATE_TABLE   = 200,
+    PARSE_INSERT         = 201,
+    PARSE_COPY_HEADER    = 202,
+    PARSE_COPY_ROW       = 203,
+    STATEMENT_TOO_LARGE  = 204,
+
+    // Schema mapping errors (300-399)
+    UNKNOWN_TABLE        = 300,
+    COLUMN_COUNT_MISMATCH = 301,
+
+    // Data conversion errors (400-499)
+    TYPE_CONVERSION      = 400,
+    UNKNOWN_PG_TYPE      = 401,
+    VALUE_OUT_OF_RANGE   = 402,
+
+    // Validation / policy errors (500-599)
+    DRY_RUN_ONLY         = 500,
+    TABLE_EXCLUDED       = 501,
+
+    // Generic errors (900-999)
+    UNKNOWN              = 900
+};
+
+/**
+ * @brief Structured import error entry
+ */
+struct ImportError {
+    ImportErrorCode   code     = ImportErrorCode::UNKNOWN;
+    ImportErrorSeverity severity = ImportErrorSeverity::ERROR;
+    std::string       message;
+    std::string       location;  ///< e.g. "line 42" or "table users, row 7"
+
+    json toJson() const {
+        return json{
+            {"code",     static_cast<uint32_t>(code)},
+            {"severity", static_cast<int>(severity)},
+            {"message",  message},
+            {"location", location}
+        };
+    }
+};
 
 /**
  * @brief Import Statistics
@@ -27,8 +104,13 @@ struct ImportStats {
     
     std::vector<std::string> warnings;
     std::vector<std::string> errors;
+    std::vector<ImportError> structured_errors;  ///< Machine-readable error list
     
     json toJson() const {
+        json err_arr = json::array();
+        for (const auto& e : structured_errors) {
+            err_arr.push_back(e.toJson());
+        }
         return json{
             {"total_records", total_records},
             {"imported_records", imported_records},
@@ -38,7 +120,8 @@ struct ImportStats {
             {"schemas_processed", schemas_processed},
             {"elapsed_seconds", elapsed_seconds},
             {"warnings", warnings},
-            {"errors", errors}
+            {"errors", errors},
+            {"structured_errors", err_arr}
         };
     }
 };
@@ -69,6 +152,7 @@ struct ImportOptions {
     // Transformations
     std::map<std::string, std::string> column_mappings; // Old column -> new attribute
     std::map<std::string, std::string> table_mappings;  // Old table -> new entity type
+    std::map<std::string, std::string> type_overrides;  // PG type -> ThemisDB type (user-configurable)
     
     json toJson() const {
         return json{

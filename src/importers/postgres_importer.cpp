@@ -78,8 +78,11 @@ ImportStats PostgreSQLImporter::importData(
     }
     
     // Parse dump file
-    if (!parseDumpFile(source_path, options, stats)) {
-        stats.errors.push_back("Failed to parse dump file");
+    if (!parseDumpFile(source_path, options, stats, progress_callback)) {
+        if (stats.structured_errors.empty()) {
+            addError(stats, ImportErrorCode::FILE_READ_FAILED,
+                     ImportErrorSeverity::CRITICAL, "Failed to parse dump file");
+        }
     }
     
     auto end_time = std::chrono::steady_clock::now();
@@ -145,10 +148,12 @@ json PostgreSQLImporter::getSourceSchema(const std::string& source_path) {
 // Private Methods
 // ============================================================================
 
-bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const ImportOptions& options, ImportStats& stats) {
+bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const ImportOptions& options,
+                                        ImportStats& stats, ProgressCallback& callback) {
     std::ifstream file(file_path);
     if (!file) {
-        stats.errors.push_back("Cannot open file: " + file_path);
+        addError(stats, ImportErrorCode::FILE_OPEN_FAILED, ImportErrorSeverity::CRITICAL,
+                 "Cannot open file: " + file_path);
         return false;
     }
     
@@ -159,7 +164,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     while (std::getline(file, line) && !cancelled_) {
         line_number++;
         
-        // Skip comments
+        // Skip blank lines and SQL comments
         if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
         }
@@ -177,25 +182,59 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                         schemas_[schema.name] = schema;
                         stats.tables_processed++;
                         THEMIS_DEBUG("Parsed table schema: {}", schema.name);
+                        reportProgress(callback, "schema", stats.tables_processed, 0);
                     }
+                } else {
+                    addError(stats, ImportErrorCode::PARSE_CREATE_TABLE,
+                             ImportErrorSeverity::WARNING,
+                             "Failed to parse CREATE TABLE statement",
+                             "line " + std::to_string(line_number));
+                    stats.warnings.push_back("Failed to parse CREATE TABLE near line " +
+                                             std::to_string(line_number));
                 }
             }
             else if (current_sql.find("INSERT INTO") != std::string::npos) {
-                if (!options.dry_run) {
-                    parseInsert(current_sql, options, stats);
-                }
                 stats.total_records++;
+                if (!options.dry_run) {
+                    parseInsert(current_sql, options, stats, line_number);
+                }
             }
             else if (current_sql.find("COPY ") != std::string::npos) {
-                // COPY statement - read data until \.
-                std::string table_name;
-                std::regex copy_regex(R"(COPY\s+(\w+)\s+)");
+                // Extract table name and optional column list from COPY header
+                // Pattern: COPY [schema.]table [(col1, col2, ...)] FROM stdin;
+                std::regex copy_regex(
+                    R"(COPY\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+FROM\s+stdin)",
+                    std::regex_constants::icase);
                 std::smatch match;
                 if (std::regex_search(current_sql, match, copy_regex)) {
-                    table_name = match[1].str();
-                    if (!options.dry_run) {
-                        parseCopy(file, table_name, options, stats);
+                    std::string table_name = match[1].str();
+                    std::vector<std::string> col_list;
+                    if (match[2].matched && !match[2].str().empty()) {
+                        std::istringstream css(match[2].str());
+                        std::string col;
+                        while (std::getline(css, col, ',')) {
+                            col.erase(0, col.find_first_not_of(" \t"));
+                            col.erase(col.find_last_not_of(" \t") + 1);
+                            if (!col.empty()) col_list.push_back(col);
+                        }
                     }
+                    if (!options.dry_run) {
+                        parseCopy(file, table_name, col_list, options, stats);
+                    } else {
+                        // skip COPY data block in dry-run mode
+                        std::string skip_line;
+                        while (std::getline(file, skip_line)) {
+                            if (skip_line == "\\." || skip_line.rfind("\\.", 0) == 0) break;
+                            stats.total_records++;
+                        }
+                    }
+                } else {
+                    addError(stats, ImportErrorCode::PARSE_COPY_HEADER,
+                             ImportErrorSeverity::WARNING,
+                             "Could not parse COPY header",
+                             "line " + std::to_string(line_number));
+                    stats.warnings.push_back("Could not parse COPY header near line " +
+                                             std::to_string(line_number));
                 }
             }
             
@@ -207,7 +246,8 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
 }
 
 bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& schema) {
-    // Simple regex-based parsing (production would use a proper SQL parser)
+    // Regex-based parsing for CREATE TABLE statements.
+    // Handles schema-qualified names: CREATE TABLE [schema.]table (...)
     std::regex table_regex(R"(CREATE TABLE\s+(?:(\w+)\.)?(\w+)\s*\()");
     std::smatch match;
     
@@ -219,7 +259,7 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
             schema.name = match[1].str();
         }
         
-        // Extract columns (simplified)
+        // Extract columns (simplified; does not handle nested parentheses in defaults)
         size_t start = sql.find('(');
         size_t end = sql.find_last_of(')');
         if (start != std::string::npos && end != std::string::npos) {
@@ -230,11 +270,18 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
             std::string column_def;
             
             while (std::getline(ss, column_def, ',')) {
-                // Trim
+                // Trim whitespace
                 column_def.erase(0, column_def.find_first_not_of(" \t\n\r"));
                 column_def.erase(column_def.find_last_not_of(" \t\n\r") + 1);
                 
-                if (column_def.empty() || column_def.find("CONSTRAINT") != std::string::npos) {
+                if (column_def.empty()) continue;
+
+                // Skip table-level constraints
+                if (column_def.find("CONSTRAINT") != std::string::npos ||
+                    column_def.find("PRIMARY KEY") != std::string::npos ||
+                    column_def.find("FOREIGN KEY") != std::string::npos ||
+                    column_def.find("UNIQUE") != std::string::npos ||
+                    column_def.find("CHECK") != std::string::npos) {
                     continue;
                 }
                 
@@ -243,6 +290,11 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
                 std::string col_name, col_type;
                 col_ss >> col_name >> col_type;
                 
+                // Strip surrounding quotes from column name
+                if (!col_name.empty() && col_name.front() == '"') {
+                    col_name = col_name.substr(1, col_name.size() - 2);
+                }
+
                 if (!col_name.empty() && !col_type.empty()) {
                     schema.columns.push_back(col_name);
                     schema.column_types[col_name] = col_type;
@@ -256,84 +308,264 @@ bool PostgreSQLImporter::parseCreateTable(const std::string& sql, TableSchema& s
     return false;
 }
 
-bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions& options, ImportStats& stats) {
-    // Simplified INSERT parsing
-    // Real implementation would use a proper SQL parser
-    
-    // Extract table name
-    std::regex insert_regex(R"(INSERT INTO\s+(\w+))");
+bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions& options,
+                                      ImportStats& stats, size_t line_number) {
+    // Extract table name: INSERT INTO [schema.]table [(col1,...)] VALUES (...)
+    std::regex insert_regex(R"(INSERT INTO\s+(?:\w+\.)?(\w+)\s*(?:\(([^)]*)\))?\s+VALUES\s*\((.+)\)\s*;?\s*$)",
+                            std::regex_constants::icase);
     std::smatch match;
     
-    if (std::regex_search(sql, match, insert_regex)) {
-        std::string table_name = match[1].str();
-        
-        if (!shouldImportTable(table_name, options)) {
-            stats.skipped_records++;
-            return true;
-        }
-        
-        // TODO: Parse VALUES and convert to ThemisDB entity
-        stats.imported_records++;
+    if (!std::regex_search(sql, match, insert_regex)) {
+        addError(stats, ImportErrorCode::PARSE_INSERT, ImportErrorSeverity::WARNING,
+                 "Could not parse INSERT statement",
+                 "line " + std::to_string(line_number));
+        stats.failed_records++;
+        return false;
+    }
+
+    std::string table_name = match[1].str();
+
+    if (!shouldImportTable(table_name, options)) {
+        stats.skipped_records++;
         return true;
     }
-    
-    stats.failed_records++;
-    return false;
+
+    // Resolve effective column list
+    std::vector<std::string> col_list;
+    if (match[2].matched && !match[2].str().empty()) {
+        std::istringstream css(match[2].str());
+        std::string col;
+        while (std::getline(css, col, ',')) {
+            col.erase(0, col.find_first_not_of(" \t"));
+            col.erase(col.find_last_not_of(" \t") + 1);
+            if (!col.empty()) col_list.push_back(col);
+        }
+    } else if (schemas_.count(table_name)) {
+        col_list = schemas_[table_name].columns;
+    }
+
+    // Parse the values clause
+    std::string values_str = match[3].str();
+    std::vector<std::string> values = parseInsertValues(values_str);
+
+    // Build entity JSON
+    TableSchema eff_schema;
+    eff_schema.name = table_name;
+    if (schemas_.count(table_name)) eff_schema = schemas_[table_name];
+    if (!col_list.empty()) eff_schema.columns = col_list;
+
+    json entity = convertRowToEntity(eff_schema, values);
+    THEMIS_DEBUG("INSERT entity: {}", entity.dump());
+
+    stats.imported_records++;
+    return true;
 }
 
-bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table_name, const ImportOptions& options, ImportStats& stats) {
+bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table_name,
+                                    const std::vector<std::string>& columns,
+                                    const ImportOptions& options, ImportStats& stats) {
     if (!shouldImportTable(table_name, options)) {
         // Skip until end marker
         std::string line;
         while (std::getline(file, line)) {
-            if (line == "\\." || line.find("\\.") == 0) {
-                break;
-            }
+            if (line == "\\." || line.rfind("\\.", 0) == 0) break;
             stats.skipped_records++;
         }
         return true;
     }
-    
+
+    // Resolve effective column list from schema or provided list
+    TableSchema eff_schema;
+    if (schemas_.count(table_name)) eff_schema = schemas_[table_name];
+    if (!columns.empty()) eff_schema.columns = columns;
+    eff_schema.name = table_name;
+
     std::string line;
+    size_t row_num = 0;
     while (std::getline(file, line) && !cancelled_) {
-        if (line == "\\." || line.find("\\.") == 0) {
+        if (line == "\\." || line.rfind("\\.", 0) == 0) {
             break;  // End of COPY data
         }
         
-        // Parse tab-separated values
-        // TODO: Convert to ThemisDB entity
+        row_num++;
         stats.total_records++;
+
+        // Parse tab-separated values with PostgreSQL COPY escape rules
+        std::vector<std::string> values = parseCopyRow(line);
+
+        if (!eff_schema.columns.empty() && values.size() != eff_schema.columns.size()) {
+            addError(stats, ImportErrorCode::COLUMN_COUNT_MISMATCH,
+                     ImportErrorSeverity::WARNING,
+                     "COPY row has " + std::to_string(values.size()) +
+                     " columns, expected " + std::to_string(eff_schema.columns.size()),
+                     "table " + table_name + ", row " + std::to_string(row_num));
+            stats.warnings.push_back("Column count mismatch in table " + table_name +
+                                     " row " + std::to_string(row_num));
+            if (!options.continue_on_error) {
+                stats.failed_records++;
+                return false;
+            }
+            stats.failed_records++;
+            continue;
+        }
+
+        json entity = convertRowToEntity(eff_schema, values);
+        THEMIS_DEBUG("COPY entity: {}", entity.dump());
+
         stats.imported_records++;
     }
     
     return true;
 }
 
-std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_type) {
+std::vector<std::string> PostgreSQLImporter::parseCopyRow(const std::string& line) const {
+    // PostgreSQL COPY text format: columns separated by TAB.
+    // Special sequences: \N = SQL NULL, \t = tab, \n = newline, \r = CR, \\ = backslash.
+    std::vector<std::string> result;
+    size_t start = 0;
+
+    // Process each tab-delimited raw field, then unescape
+    for (size_t i = 0; i <= line.size(); ++i) {
+        if (i == line.size() || line[i] == '\t') {
+            std::string raw = line.substr(start, i - start);
+            result.push_back(unescapeCopyValue(raw));
+            start = i + 1;
+        }
+    }
+    return result;
+}
+
+std::string PostgreSQLImporter::unescapeCopyValue(const std::string& val) const {
+    // \N in COPY format means SQL NULL – represent as empty string sentinel
+    if (val == "\\N") {
+        return "";  // NULL value
+    }
+    // Apply other escape sequences
+    std::string out;
+    out.reserve(val.size());
+    for (size_t i = 0; i < val.size(); ++i) {
+        if (val[i] == '\\' && i + 1 < val.size()) {
+            char next = val[++i];
+            switch (next) {
+                case 'N':  /* \N already handled above as entire field */ out += '\\'; out += 'N'; break;
+                case 't':  out += '\t'; break;
+                case 'n':  out += '\n'; break;
+                case 'r':  out += '\r'; break;
+                case '\\': out += '\\'; break;
+                default:   out += '\\'; out += next; break;
+            }
+        } else {
+            out += val[i];
+        }
+    }
+    return out;
+}
+
+std::vector<std::string> PostgreSQLImporter::parseInsertValues(const std::string& values_clause) const {
+    // Parse a VALUES clause like: 1, 'hello', NULL, 'it''s'
+    // Handles single-quoted strings with escaped quotes ('') and numeric/NULL literals.
+    std::vector<std::string> result;
+    size_t i = 0;
+    const size_t n = values_clause.size();
+
+    while (i < n) {
+        // Skip leading whitespace
+        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t')) ++i;
+        if (i >= n) break;
+
+        if (values_clause[i] == '\'') {
+            // Quoted string
+            ++i;
+            std::string val;
+            while (i < n) {
+                if (values_clause[i] == '\'' && i + 1 < n && values_clause[i + 1] == '\'') {
+                    val += '\'';
+                    i += 2;
+                } else if (values_clause[i] == '\'') {
+                    ++i;
+                    break;
+                } else {
+                    val += values_clause[i++];
+                }
+            }
+            result.push_back(val);
+        } else {
+            // Unquoted token (number, NULL, true, false, etc.)
+            size_t start = i;
+            while (i < n && values_clause[i] != ',' && values_clause[i] != ')') ++i;
+            std::string token = values_clause.substr(start, i - start);
+            // Trim trailing whitespace
+            token.erase(token.find_last_not_of(" \t") + 1);
+            result.push_back(token);
+        }
+
+        // Skip comma separator
+        while (i < n && (values_clause[i] == ' ' || values_clause[i] == '\t' ||
+                          values_clause[i] == ',')) ++i;
+    }
+
+    return result;
+}
+
+std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_type,
+                                                            const ImportOptions& options) const {
+    // Check user-configurable overrides first
+    auto it = options.type_overrides.find(pg_type);
+    if (it != options.type_overrides.end()) {
+        return it->second;
+    }
+
     std::string lower_type = pg_type;
     std::transform(lower_type.begin(), lower_type.end(), lower_type.begin(), ::tolower);
-    
-    // Map PostgreSQL types to ThemisDB types
+
+    // Also check lowercase override
+    it = options.type_overrides.find(lower_type);
+    if (it != options.type_overrides.end()) {
+        return it->second;
+    }
+
+    // Array types
+    if (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||
+        lower_type.rfind("array", 0) == 0) {
+        return "array";
+    }
+
+    // Exact / prefix matches for PostgreSQL built-in types
+    if (lower_type == "bigserial" || lower_type == "bigint" || lower_type == "int8") return "long";
+    if (lower_type == "smallint" || lower_type == "int2" || lower_type == "smallserial") return "integer";
+    if (lower_type == "integer" || lower_type == "int" || lower_type == "int4" ||
+        lower_type == "serial" || lower_type == "serial4") return "integer";
+    if (lower_type == "real" || lower_type == "float4") return "float";
+    if (lower_type == "double precision" || lower_type == "float8") return "double";
+    if (lower_type == "numeric" || lower_type == "decimal") return "double";
+    if (lower_type == "money") return "double";
+    if (lower_type == "boolean" || lower_type == "bool") return "boolean";
+    if (lower_type == "text" || lower_type == "name") return "string";
+    if (lower_type == "uuid") return "string";
+    if (lower_type == "inet" || lower_type == "cidr" || lower_type == "macaddr" ||
+        lower_type == "macaddr8") return "string";
+    if (lower_type == "xml") return "string";
+    if (lower_type == "bytea") return "binary";
+    if (lower_type == "json" || lower_type == "jsonb") return "json";
+    if (lower_type == "interval") return "string";
+    if (lower_type == "point" || lower_type == "line" || lower_type == "lseg" ||
+        lower_type == "box" || lower_type == "path" || lower_type == "polygon" ||
+        lower_type == "circle") return "geo";
+    if (lower_type == "tsvector" || lower_type == "tsquery") return "string";
+    if (lower_type == "oid" || lower_type == "xid" || lower_type == "cid") return "integer";
+
+    // Prefix-based fallbacks
     if (lower_type.find("int") != std::string::npos) return "integer";
     if (lower_type.find("serial") != std::string::npos) return "integer";
-    if (lower_type.find("bigint") != std::string::npos) return "long";
-    if (lower_type.find("smallint") != std::string::npos) return "integer";
-    if (lower_type.find("real") != std::string::npos) return "double";
-    if (lower_type.find("double") != std::string::npos) return "double";
-    if (lower_type.find("numeric") != std::string::npos) return "double";
-    if (lower_type.find("decimal") != std::string::npos) return "double";
-    if (lower_type.find("bool") != std::string::npos) return "boolean";
+    if (lower_type.find("float") != std::string::npos) return "double";
     if (lower_type.find("char") != std::string::npos) return "string";
-    if (lower_type.find("text") != std::string::npos) return "string";
     if (lower_type.find("varchar") != std::string::npos) return "string";
     if (lower_type.find("timestamp") != std::string::npos) return "datetime";
     if (lower_type.find("date") != std::string::npos) return "date";
     if (lower_type.find("time") != std::string::npos) return "time";
     if (lower_type.find("json") != std::string::npos) return "json";
-    if (lower_type.find("uuid") != std::string::npos) return "string";
-    if (lower_type.find("bytea") != std::string::npos) return "binary";
-    
-    return "string";  // Default
+
+    return "string";  // Default: treat unknown types as strings
 }
 
 bool PostgreSQLImporter::shouldImportTable(const std::string& table_name, const ImportOptions& options) {
@@ -359,6 +591,20 @@ json PostgreSQLImporter::convertRowToEntity(const TableSchema& schema, const std
     }
     
     return entity;
+}
+
+void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
+                                   ImportErrorSeverity severity, const std::string& message,
+                                   const std::string& location) const {
+    ImportError err;
+    err.code     = code;
+    err.severity = severity;
+    err.message  = message;
+    err.location = location;
+    stats.structured_errors.push_back(err);
+    if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
+        stats.errors.push_back(message);
+    }
 }
 
 void PostgreSQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total) {
@@ -412,3 +658,4 @@ extern "C" {
         delete plugin;
     }
 }
+

@@ -16,8 +16,9 @@ namespace importers {
  * - DDL parsing (CREATE TABLE, CREATE SCHEMA)
  * - DML parsing (INSERT, COPY)
  * - Schema mapping to ThemisDB BaseEntity
- * - Type conversion
+ * - Type conversion with configurable user overrides
  * - Batch processing
+ * - Structured error reporting
  */
 class PostgreSQLImporter : public IImporter {
 public:
@@ -50,18 +51,34 @@ private:
     std::map<std::string, TableSchema> schemas_;
     
     // Parsing methods
-    bool parseDumpFile(const std::string& file_path, const ImportOptions& options, ImportStats& stats);
+    bool parseDumpFile(const std::string& file_path, const ImportOptions& options, ImportStats& stats,
+                       ProgressCallback& callback);
     bool parseCreateTable(const std::string& sql, TableSchema& schema);
-    bool parseInsert(const std::string& sql, const ImportOptions& options, ImportStats& stats);
-    bool parseCopy(std::ifstream& file, const std::string& table_name, const ImportOptions& options, ImportStats& stats);
+    bool parseInsert(const std::string& sql, const ImportOptions& options, ImportStats& stats,
+                     size_t line_number);
+    bool parseCopy(std::ifstream& file, const std::string& table_name,
+                   const std::vector<std::string>& columns,
+                   const ImportOptions& options, ImportStats& stats);
     
     // Schema mapping
-    std::string mapPostgreSQLTypeToThemis(const std::string& pg_type);
+    std::string mapPostgreSQLTypeToThemis(const std::string& pg_type,
+                                          const ImportOptions& options) const;
     bool shouldImportTable(const std::string& table_name, const ImportOptions& options);
     
     // Data conversion
     json convertRowToEntity(const TableSchema& schema, const std::vector<std::string>& values);
+
+    // COPY row helpers
+    std::vector<std::string> parseCopyRow(const std::string& line) const;
+    std::string unescapeCopyValue(const std::string& val) const;
+
+    // INSERT helpers
+    std::vector<std::string> parseInsertValues(const std::string& values_clause) const;
     
+    // Error helpers
+    void addError(ImportStats& stats, ImportErrorCode code, ImportErrorSeverity severity,
+                  const std::string& message, const std::string& location = "") const;
+
     // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total);
 };

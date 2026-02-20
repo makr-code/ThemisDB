@@ -1,0 +1,186 @@
+# Importers Module: Production-Readiness Assessment & Roadmap
+
+**Version:** 1.0
+**Last Updated:** 2026-02-20
+**Scope:** Importers module hardening, observability, and feature coverage
+
+---
+
+## Current Status: Partially Production-Ready
+
+The importers module (`src/importers/`, `include/importers/`) provides a PostgreSQL
+`pg_dump` importer with basic DDL/DML/COPY parsing, schema mapping, and batch-import
+support.  The following gaps must be addressed before the module is suitable for all
+production workloads.
+
+---
+
+## Key Gaps Identified
+
+### Functional / Architecture
+
+- **SQL parsing via regex/heuristics** – `parseCreateTable`, `parseInsert`, and the
+  `COPY` header are parsed with regular expressions.  Complex DDL (nested parentheses,
+  default expressions with sub-selects, quoted identifiers, domain types, partitioned
+  tables) and certain DML corner-cases are not handled correctly.
+- **No streaming / checkpoint support** – The entire dump is processed in a single
+  pass.  Very large files (>1 GB) block the caller and cannot be resumed after a
+  partial failure.
+- **No multi-threading / async import** – Import is single-threaded.  No API exists
+  for live progress streaming to callers while the import is running.
+- **Type mapping incomplete** – Array types (`integer[]`, `text[]`), `jsonb`, `inet`,
+  `cidr`, `macaddr`, `money`, `interval`, `xml`, and PostGIS geometry types had no
+  dedicated mapping rules.  User-configurable overrides were also missing.
+- **No input validation beyond file header check** – Malformed rows, encoding issues,
+  or unexpectedly large values can cause silent data loss.
+
+### Observability / Error Handling
+
+- **No structured error surface** – Errors were appended to a plain `vector<string>`.
+  Callers could not programmatically distinguish parse errors from I/O errors or
+  data-conversion errors.
+- **No Prometheus / OpenTelemetry metrics** – Throughput, latency, error rates, and
+  per-table import counts are not exported.
+- **No monitoring / recovery API** – There is no way to query import progress, retry
+  failed batches, or quarantine problematic rows.
+
+### Testing
+
+- **No integration tests for COPY parsing** – The original `parseCopy` contained a
+  `TODO` comment and did not parse tab-separated values.
+- **No tests for INSERT VALUES parsing** – `parseInsert` similarly contained a `TODO`
+  and never extracted row data.
+- **No fuzz tests or chaos tests** – Corrupt dumps, truncated files, and encoding
+  edge-cases are untested.
+- **No cross-version CI** – PostgreSQL dump formats differ between versions 9.x, 12,
+  14, 15, and 16.  No test matrix covers version variants.
+
+---
+
+## Changes Delivered (v1.1)
+
+The following items were implemented as part of the initial production-hardening pass:
+
+### Structured Error API (Phase 1) ✅
+
+- Added `ImportErrorCode` enum (ranges: I/O 100–199, SQL parse 200–299, schema 300–399,
+  data conversion 400–499, validation 500–599, generic 900–999).
+- Added `ImportErrorSeverity` enum (`INFO`, `WARNING`, `ERROR`, `CRITICAL`).
+- Added `ImportError` struct (`code`, `severity`, `message`, `location`) with
+  `toJson()` serialisation.
+- `ImportStats` now carries a `structured_errors` vector alongside the legacy
+  plain-string `errors` list for backward compatibility.
+
+### User-Configurable Type Overrides ✅
+
+- `ImportOptions` gained a `type_overrides` map allowing callers to override any
+  PostgreSQL type → ThemisDB type mapping without modifying source code.
+
+### Expanded Type Mapping ✅
+
+Added explicit mappings for previously unmapped types:
+
+| PostgreSQL type | ThemisDB type |
+|-----------------|---------------|
+| `jsonb` | `json` |
+| `integer[]`, `text[]`, etc. | `array` |
+| `inet`, `cidr`, `macaddr`, `macaddr8` | `string` |
+| `xml` | `string` |
+| `money` | `double` |
+| `interval` | `string` |
+| `real` / `float4` | `float` |
+| `double precision` / `float8` | `double` |
+| `bigserial`, `bigint`, `int8` | `long` |
+| `smallserial`, `smallint`, `int2` | `integer` |
+| PostGIS geometry types (`point`, `polygon`, etc.) | `geo` |
+| `tsvector`, `tsquery` | `string` |
+| `oid`, `xid`, `cid` | `integer` |
+
+### COPY Row Parsing ✅
+
+- `parseCopyRow()` now correctly splits on TAB and handles all standard PostgreSQL COPY
+  text-format escape sequences (`\N` → NULL, `\t`, `\n`, `\r`, `\\`).
+- Column-count mismatches are recorded as structured `WARNING` errors; the import
+  continues (or halts, depending on `continue_on_error`).
+- COPY column lists from the header (`COPY table (col1, col2) FROM stdin`) are parsed
+  and used to resolve the effective schema.
+
+### INSERT VALUES Parsing ✅
+
+- `parseInsertValues()` now tokenises the VALUES clause, correctly handling:
+  - single-quoted strings with `''` escape sequences,
+  - unquoted numeric / boolean / `NULL` literals.
+- The resolved values are passed to `convertRowToEntity()`.
+
+### Progress Reporting ✅
+
+- `reportProgress()` is called after every table schema is parsed so callers receive
+  incremental feedback even before data rows are processed.
+- `parseDumpFile()` now accepts the `ProgressCallback` parameter and forwards it
+  through to schema and data phases.
+
+---
+
+## Roadmap to Full Production Readiness
+
+### Phase 2: Streaming & Checkpoints (Q2 2026)
+
+- [ ] Implement true streaming parser: process the dump file in fixed-size chunks so
+      memory usage is bounded regardless of file size.
+- [ ] Add checkpoint/resume support: persist the last successfully imported line
+      number/byte offset so imports can be resumed after interruption.
+- [ ] Expose an async import API (`importDataAsync`) returning a future/handle that
+      callers can poll or cancel.
+- [ ] Emit per-batch progress events through the `ProgressCallback`.
+
+### Phase 3: Observability (Q2 2026)
+
+- [ ] Integrate with the existing Prometheus metrics registry to export:
+      `themisdb_import_rows_total{table,status}`,
+      `themisdb_import_duration_seconds{table}`,
+      `themisdb_import_errors_total{table,code}`.
+- [ ] Add OpenTelemetry spans around batch processing for distributed tracing.
+- [ ] Provide a REST endpoint (via the existing HTTP server) for live import status.
+- [ ] Log structured JSON import-completion summaries at `INFO` level.
+
+### Phase 4: Robust SQL Parsing (Q3 2026)
+
+- [ ] Evaluate integration of a SQL parser library (e.g., `libpg_query` or a
+      vendored recursive-descent parser) to replace the regex-based DDL parser.
+- [ ] Handle nested parentheses in column defaults, complex type expressions, and
+      `ALTER TABLE` statements in dumps.
+- [ ] Support `COPY` binary format in addition to text format.
+- [ ] Handle `pg_dump --schema-only` and `--data-only` modes explicitly.
+
+### Phase 5: Input Validation & Security (Q3 2026)
+
+- [ ] Enforce maximum dump file size and per-row size limits (configurable).
+- [ ] Validate input encoding (UTF-8 enforcement with error on invalid sequences).
+- [ ] Add ACL / policy checks: operators must hold an `import:write` permission.
+- [ ] Audit-log all import operations (start, end, stats, errors).
+- [ ] Quarantine rows that fail conversion into a side-channel store for later retry.
+
+### Phase 6: Testing Completeness (Q3–Q4 2026)
+
+- [ ] Integration tests: realistic `pg_dump` files from PostgreSQL 12, 14, 15, 16.
+- [ ] Fuzz tests for `parseCopyRow`, `parseInsertValues`, and `parseCreateTable`.
+- [ ] Chaos tests: truncated files, corrupted lines, encoding errors, very large rows.
+- [ ] Benchmark suite: throughput in rows/s for 100 MB, 1 GB, and 10 GB dumps.
+- [ ] CI matrix: run tests against multiple PostgreSQL dump format variants.
+
+### Phase 7: Admin & Operations (Q4 2026)
+
+- [ ] CLI command: `themisdb import --source pg_dump.sql --progress --dry-run`.
+- [ ] Delta / incremental import: detect and skip already-imported rows using
+      content hashes or primary-key comparison.
+- [ ] Operator API: list active imports, cancel by ID, view per-table stats.
+- [ ] Runbook documentation for common failure scenarios and recovery procedures.
+
+---
+
+## See Also
+
+- [PostgreSQL Importer Source](../src/importers/postgres_importer.cpp)
+- [Importer Interface](../include/importers/importer_interface.h)
+- [Exporters Roadmap](exporters_roadmap.md)
+- [Error Handling Guide](error_handling/README.md)
