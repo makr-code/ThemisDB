@@ -69,7 +69,7 @@ Grammar::Grammar(const std::string& ebnf_text,
         return;
     }
     
-    const struct llama_vocab* vocab = llama_model_get_vocab(model);
+    const ::llama_vocab* vocab = llama_model_get_vocab(model);
     if (vocab == nullptr) {
         error_ = "Grammar compilation failed: llama_model_get_vocab returned null for the provided model";
         spdlog::error("Grammar compilation failed: llama_model_get_vocab returned null");
@@ -151,7 +151,7 @@ bool Grammar::compile() {
     return compileWithVocab(nullptr);
 }
 
-bool Grammar::compileWithVocab(const struct llama_vocab* vocab) {
+bool Grammar::compileWithVocab(const ::llama_vocab* vocab) {
     try {
         grammar_ = llama_grammar_init(vocab, ebnf_text_.c_str(), start_symbol_.c_str());
         

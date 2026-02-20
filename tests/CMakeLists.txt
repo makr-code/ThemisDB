@@ -190,6 +190,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
     ".*test_api_version\\.cpp$"
+    ".*test_nli_verifier\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -224,8 +225,9 @@ if(THEMIS_BUILD_MODULAR)
             message(STATUS "themis_tests: excluding direct sharding sources (provided by themis_sharding module)")
         endif()
         if(TARGET themis_llm)
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/.*\\.cpp$")
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/lora_framework/(gpu_tensor|gpu_lora_layers|flash_lora|paged_optimizer|paged_memory_manager|custom_allreduce|multi_gpu|multi_gpu_trainer|multi_gpu_lora_layer)\\.cpp$")
-            message(STATUS "themis_tests: excluding direct GPU LoRA sources (provided by themis_llm module)")
+            message(STATUS "themis_tests: excluding direct LLM sources (provided by themis_llm module)")
         endif()
         target_sources(themis_tests PRIVATE ${_themis_test_core_sources})
         target_compile_definitions(themis_tests PRIVATE

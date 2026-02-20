@@ -6,6 +6,7 @@
 // Forward declaration for llama.cpp types
 struct llama_grammar;
 struct llama_model;
+struct llama_vocab;
 
 namespace themis {
 namespace llm {
@@ -112,7 +113,7 @@ private:
     // Helper to compile EBNF using a specific vocab pointer (may be nullptr
     // only when the caller has verified that structural-only rules are used).
     bool compile();
-    bool compileWithVocab(const struct llama_vocab* vocab);
+    bool compileWithVocab(const ::llama_vocab* vocab);
 };
 
 } // namespace llm

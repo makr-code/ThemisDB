@@ -459,6 +459,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/grammar_cache.cpp
     ../src/llm/llm_prefix_cache.cpp
     ../src/llm/continuous_batch_scheduler.cpp
+    ../src/llm/token_quota_manager.cpp
     ../src/llm/grafana_metrics.cpp
     ../src/llm/distributed_training_coordinator.cpp
         ../src/cache/embedding_cache.cpp
@@ -645,6 +646,10 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/gpu/device_discovery.cpp
+    ../src/gpu/safe_fail.cpp
+    ../src/gpu/metrics.cpp
+    ../src/gpu/audit_log.cpp
 )
 
 set(THEMIS_GRAPH_SOURCES

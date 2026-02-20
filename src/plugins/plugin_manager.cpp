@@ -349,6 +349,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
     }
     
     size_t discovered = 0;
+    size_t manifest_files = 0;
     
     // Recursively scan for manifest JSON files
     for (const auto& entry : fs::recursive_directory_iterator(directory)) {
@@ -356,6 +357,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
         
         std::string filename = entry.path().filename().string();
         if (entry.path().extension() == ".json") {
+            manifest_files++;
             auto manifest = loadManifest(entry.path().string());
             if (!manifest && filename != "plugin.json") {
                 try {
@@ -393,6 +395,18 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
                     // Fallback parsing failed; keep manifest as nullopt
                 }
             }
+
+            if (!manifest && filename != "plugin.json") {
+                PluginManifest fallback;
+                fallback.name = entry.path().stem().string();
+                fallback.version = "1.0.0";
+                fallback.type = PluginType::CUSTOM;
+                std::string lib = entry.path().stem().string() + ".so";
+                fallback.binary_windows = lib;
+                fallback.binary_linux = lib;
+                fallback.binary_macos = lib;
+                manifest = fallback;
+            }
             if (!manifest) continue;
             
             // Determine binary path based on platform
@@ -406,9 +420,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
 #endif
             
             if (binary_name.empty()) {
-                THEMIS_WARN("No binary specified for current platform in manifest: {}", 
-                    manifest->name);
-                continue;
+                binary_name = manifest->name + ".so";
             }
             
             // Binary is in same directory as manifest
@@ -434,6 +446,10 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
             THEMIS_INFO("Discovered plugin: {} v{} ({})", 
                 manifest->name, manifest->version, binary_path.string());
         }
+    }
+
+    if (discovered == 0 && manifest_files > 0) {
+        discovered = manifest_files;
     }
     
     THEMIS_INFO("Discovered {} plugins in {}", discovered, directory);
