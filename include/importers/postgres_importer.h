@@ -4,6 +4,7 @@
 #include "plugins/plugin_interface.h"
 #include <regex>
 #include <atomic>
+#include <unordered_set>
 
 namespace themis {
 namespace importers {
@@ -62,7 +63,8 @@ private:
                      size_t line_number);
     bool parseCopy(std::ifstream& file, const std::string& table_name,
                    const std::vector<std::string>& columns,
-                   const ImportOptions& options, ImportStats& stats);
+                   const ImportOptions& options, ImportStats& stats,
+                   std::unordered_set<uint64_t>& delta_hashes);
     
     // Schema mapping
     std::string mapPostgreSQLTypeToThemis(const std::string& pg_type,
@@ -97,6 +99,21 @@ private:
                         ImportStats& accumulated_stats) const;
     void saveCheckpoint(const std::string& checkpoint_file, std::streampos offset,
                         const ImportStats& stats) const;
+
+    // Quarantine helpers
+    void writeQuarantineRow(const std::string& quarantine_file,
+                            const std::string& table_name,
+                            const std::string& raw_row,
+                            const ImportError& error) const;
+
+    // Delta / incremental import helpers
+    static uint64_t computeRowHash(const std::string& raw_row,
+                                   const std::vector<std::string>& values,
+                                   const std::vector<std::string>& key_columns,
+                                   const std::vector<std::string>& schema_columns);
+    static std::unordered_set<uint64_t> loadDeltaHashes(const std::string& delta_hash_file);
+    static void saveDeltaHashes(const std::string& delta_hash_file,
+                                const std::unordered_set<uint64_t>& hashes);
 
     // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total);

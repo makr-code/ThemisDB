@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <thread>
 #include <future>
+#include <unordered_set>
+#include <cinttypes>
 
 namespace themis {
 namespace importers {
@@ -74,7 +76,18 @@ ImportStats PostgreSQLImporter::importData(
     
     THEMIS_INFO("Starting PostgreSQL import from: {}", source_path);
     THEMIS_INFO("Options: {}", options.toJson().dump());
-    
+
+    // --- Permission / ACL check ---
+    if (options.permission_check) {
+        if (!options.permission_check("import", "write")) {
+            addError(stats, ImportErrorCode::PERMISSION_DENIED,
+                     ImportErrorSeverity::CRITICAL,
+                     "Permission denied: caller does not hold 'import:write'");
+            THEMIS_INFO("Import aborted: permission_check denied access");
+            return stats;
+        }
+    }
+
     if (options.dry_run) {
         THEMIS_INFO("DRY RUN MODE - No data will be imported");
     }
@@ -247,6 +260,48 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         return false;
     }
 
+    // --- pg_dump mode detection (schema-only / data-only) ---
+    // Scan the first 50 comment lines for known pg_dump header markers.
+    {
+        std::string hdr_line;
+        int hdr_lines = 0;
+        std::streampos after_header = 0;
+        while (std::getline(file, hdr_line) && hdr_lines < 50) {
+            after_header = file.tellg();
+            if (hdr_line.find("-- PostgreSQL database dump") != std::string::npos ||
+                hdr_line.find("pg_dump") != std::string::npos) {
+                hdr_lines++;
+                continue;
+            }
+            if (hdr_line.find("schema only") != std::string::npos ||
+                hdr_line.find("schema-only") != std::string::npos ||
+                hdr_line.find("--schema-only") != std::string::npos) {
+                stats.is_schema_only = true;
+            }
+            if (hdr_line.find("data only") != std::string::npos ||
+                hdr_line.find("data-only") != std::string::npos ||
+                hdr_line.find("--data-only") != std::string::npos) {
+                stats.is_data_only = true;
+            }
+            // Stop after non-empty non-comment line
+            if (!hdr_line.empty() && !(hdr_line.size() >= 2 && hdr_line[0] == '-' && hdr_line[1] == '-')) {
+                break;
+            }
+            hdr_lines++;
+        }
+        // Rewind to read the full file again
+        file.clear();
+        file.seekg(0);
+    }
+
+    // --- Delta hash loading ---
+    std::unordered_set<uint64_t> delta_hashes;
+    if (!options.delta_hash_file.empty()) {
+        delta_hashes = loadDeltaHashes(options.delta_hash_file);
+        THEMIS_INFO("Delta import: loaded {} known hashes from {}", delta_hashes.size(),
+                    options.delta_hash_file);
+    }
+
     // --- Checkpoint / resume support ---
     std::streampos resume_offset = 0;
     if (!options.checkpoint_file.empty()) {
@@ -343,7 +398,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                     }
                     size_t before_copy = stats.imported_records;
                     if (!options.dry_run) {
-                        parseCopy(file, table_name, col_list, options, stats);
+                        parseCopy(file, table_name, col_list, options, stats, delta_hashes);
                     } else {
                         // skip COPY data block in dry-run mode
                         std::string skip_line;
@@ -380,6 +435,11 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     // Final checkpoint on clean completion
     if (!options.checkpoint_file.empty() && !cancelled_) {
         saveCheckpoint(options.checkpoint_file, file.tellg(), stats);
+    }
+
+    // Save updated delta hashes
+    if (!options.delta_hash_file.empty() && !delta_hashes.empty()) {
+        saveDeltaHashes(options.delta_hash_file, delta_hashes);
     }
     
     return !cancelled_;
@@ -503,7 +563,8 @@ bool PostgreSQLImporter::parseInsert(const std::string& sql, const ImportOptions
 
 bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table_name,
                                     const std::vector<std::string>& columns,
-                                    const ImportOptions& options, ImportStats& stats) {
+                                    const ImportOptions& options, ImportStats& stats,
+                                    std::unordered_set<uint64_t>& delta_hashes) {
     if (!shouldImportTable(table_name, options)) {
         // Skip until end marker
         std::string line;
@@ -522,9 +583,31 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
 
     std::string line;
     size_t row_num = 0;
+    bool first_data_line = true;
     while (std::getline(file, line) && !cancelled_) {
         if (line == "\\." || line.rfind("\\.", 0) == 0) {
             break;  // End of COPY data
+        }
+
+        // --- Binary COPY format detection (first data line) ---
+        // PostgreSQL binary COPY starts with the signature: "PGCOPY\n\xff\r\n\0"
+        if (first_data_line) {
+            first_data_line = false;
+            if (line.size() >= 6 && line.compare(0, 6, "PGCOPY") == 0) {
+                addError(stats, ImportErrorCode::BINARY_COPY_FORMAT,
+                         ImportErrorSeverity::ERROR,
+                         "Binary COPY format detected for table '" + table_name +
+                         "'; only text-format COPY is supported. "
+                         "Re-export the dump without --format=binary.",
+                         "table " + table_name);
+                stats.errors.push_back("Binary COPY unsupported in table " + table_name);
+                if (!options.continue_on_error) return false;
+                // Skip remaining lines of this COPY block
+                while (std::getline(file, line)) {
+                    if (line == "\\." || line.rfind("\\.", 0) == 0) break;
+                }
+                return true;
+            }
         }
         
         row_num++;
@@ -532,53 +615,78 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
 
         // Row-size guard
         if (options.max_row_size_bytes > 0 && line.size() > options.max_row_size_bytes) {
-            addError(stats, ImportErrorCode::ROW_TOO_LARGE,
-                     ImportErrorSeverity::WARNING,
-                     "COPY row exceeds max_row_size_bytes (" +
-                     std::to_string(options.max_row_size_bytes) + ")",
-                     "table " + table_name + ", row " + std::to_string(row_num));
+            ImportError err;
+            err.code     = ImportErrorCode::ROW_TOO_LARGE;
+            err.severity = ImportErrorSeverity::WARNING;
+            err.message  = "COPY row exceeds max_row_size_bytes (" +
+                           std::to_string(options.max_row_size_bytes) + ")";
+            err.location = "table " + table_name + ", row " + std::to_string(row_num);
+            stats.structured_errors.push_back(err);
             stats.warnings.push_back("Row too large in table " + table_name +
                                      " row " + std::to_string(row_num));
+            writeQuarantineRow(options.quarantine_file, table_name, line, err);
             if (!options.continue_on_error) {
                 stats.failed_records++;
                 return false;
             }
             stats.failed_records++;
+            stats.quarantined_records++;
             continue;
         }
 
         // UTF-8 encoding guard
         if (options.enforce_utf8 && !isValidUtf8(line)) {
-            addError(stats, ImportErrorCode::INVALID_UTF8,
-                     ImportErrorSeverity::WARNING,
-                     "COPY row contains invalid UTF-8 byte sequence",
-                     "table " + table_name + ", row " + std::to_string(row_num));
+            ImportError err;
+            err.code     = ImportErrorCode::INVALID_UTF8;
+            err.severity = ImportErrorSeverity::WARNING;
+            err.message  = "COPY row contains invalid UTF-8 byte sequence";
+            err.location = "table " + table_name + ", row " + std::to_string(row_num);
+            stats.structured_errors.push_back(err);
             stats.warnings.push_back("Invalid UTF-8 in table " + table_name +
                                      " row " + std::to_string(row_num));
+            writeQuarantineRow(options.quarantine_file, table_name, line, err);
             if (!options.continue_on_error) {
                 stats.failed_records++;
                 return false;
             }
             stats.failed_records++;
+            stats.quarantined_records++;
             continue;
         }
 
         // Parse tab-separated values with PostgreSQL COPY escape rules
         std::vector<std::string> values = parseCopyRow(line);
 
+        // --- Delta / incremental import check ---
+        if (!options.delta_hash_file.empty()) {
+            uint64_t h = computeRowHash(line, values, options.delta_key_columns,
+                                        eff_schema.columns);
+            if (delta_hashes.count(h)) {
+                stats.skipped_records++;
+                emitMetric(options, "themisdb_import_rows_total",
+                           {{"table", table_name}, {"status", "skipped"}}, 1.0);
+                continue;
+            }
+            delta_hashes.insert(h);
+        }
+
         if (!eff_schema.columns.empty() && values.size() != eff_schema.columns.size()) {
-            addError(stats, ImportErrorCode::COLUMN_COUNT_MISMATCH,
-                     ImportErrorSeverity::WARNING,
-                     "COPY row has " + std::to_string(values.size()) +
-                     " columns, expected " + std::to_string(eff_schema.columns.size()),
-                     "table " + table_name + ", row " + std::to_string(row_num));
+            ImportError err;
+            err.code     = ImportErrorCode::COLUMN_COUNT_MISMATCH;
+            err.severity = ImportErrorSeverity::WARNING;
+            err.message  = "COPY row has " + std::to_string(values.size()) +
+                           " columns, expected " + std::to_string(eff_schema.columns.size());
+            err.location = "table " + table_name + ", row " + std::to_string(row_num);
+            stats.structured_errors.push_back(err);
             stats.warnings.push_back("Column count mismatch in table " + table_name +
                                      " row " + std::to_string(row_num));
+            writeQuarantineRow(options.quarantine_file, table_name, line, err);
             if (!options.continue_on_error) {
                 stats.failed_records++;
                 return false;
             }
             stats.failed_records++;
+            stats.quarantined_records++;
             continue;
         }
 
@@ -899,8 +1007,97 @@ void PostgreSQLImporter::reportProgress(ProgressCallback& callback, const std::s
 }
 
 // ============================================================================
-// PostgreSQLImporterPlugin Implementation
+// Quarantine helpers
 // ============================================================================
+
+void PostgreSQLImporter::writeQuarantineRow(const std::string& quarantine_file,
+                                             const std::string& table_name,
+                                             const std::string& raw_row,
+                                             const ImportError& error) const {
+    if (quarantine_file.empty()) return;
+    std::ofstream f(quarantine_file, std::ios::app);
+    if (!f) {
+        THEMIS_INFO("Could not write to quarantine file {}", quarantine_file);
+        return;
+    }
+    json entry = {
+        {"table", table_name},
+        {"row",   raw_row},
+        {"error", {
+            {"code",     static_cast<uint32_t>(error.code)},
+            {"severity", static_cast<int>(error.severity)},
+            {"message",  error.message},
+            {"location", error.location}
+        }}
+    };
+    f << entry.dump() << "\n";
+}
+
+// ============================================================================
+// Delta / incremental import helpers
+// ============================================================================
+
+// FNV-1a 64-bit hash  (no external dependency)
+static uint64_t fnv1a64(const char* data, size_t len) {
+    uint64_t hash = UINT64_C(14695981039346656037);
+    for (size_t i = 0; i < len; ++i) {
+        hash ^= static_cast<uint8_t>(data[i]);
+        hash *= UINT64_C(1099511628211);
+    }
+    return hash;
+}
+
+uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
+                                             const std::vector<std::string>& values,
+                                             const std::vector<std::string>& key_columns,
+                                             const std::vector<std::string>& schema_columns) {
+    if (key_columns.empty() || schema_columns.empty()) {
+        // Hash the entire raw row
+        return fnv1a64(raw_row.data(), raw_row.size());
+    }
+    // Hash only the key column values
+    std::string key_data;
+    for (const auto& kc : key_columns) {
+        auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
+        if (it != schema_columns.end()) {
+            size_t idx = static_cast<size_t>(it - schema_columns.begin());
+            if (idx < values.size()) {
+                key_data += values[idx];
+            }
+        }
+        static constexpr char kDeltaHashFieldSep = '\x01';  // field separator between key columns
+        key_data += kDeltaHashFieldSep;
+    }
+    return fnv1a64(key_data.data(), key_data.size());
+}
+
+std::unordered_set<uint64_t> PostgreSQLImporter::loadDeltaHashes(const std::string& delta_hash_file) {
+    std::unordered_set<uint64_t> hashes;
+    std::ifstream f(delta_hash_file);
+    if (!f) return hashes;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        try {
+            hashes.insert(std::stoull(line, nullptr, 16));
+        } catch (...) {}
+    }
+    return hashes;
+}
+
+void PostgreSQLImporter::saveDeltaHashes(const std::string& delta_hash_file,
+                                          const std::unordered_set<uint64_t>& hashes) {
+    std::ofstream f(delta_hash_file, std::ios::trunc);
+    if (!f) return;
+    for (uint64_t h : hashes) {
+        // Write as 16-character zero-padded hex
+        char buf[17];
+        std::snprintf(buf, sizeof(buf), "%016" PRIx64, h);
+        f << buf << "\n";
+    }
+}
+
+
 
 PostgreSQLImporterPlugin::PostgreSQLImporterPlugin() 
     : importer_(std::make_unique<PostgreSQLImporter>()) {

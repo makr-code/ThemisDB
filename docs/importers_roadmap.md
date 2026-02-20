@@ -224,6 +224,69 @@ Added explicit mappings for previously unmapped types:
 
 ## Roadmap to Full Production Readiness
 
+### Changes Delivered (v1.5)
+
+#### Permission Check / ACL Callback ✅
+
+- `PermissionCheckCallback` type alias added to `importer_interface.h`:
+  `std::function<bool(resource, action)>`.
+- `ImportOptions.permission_check` – called once at the start of every
+  `importData()` / `importDataAsync()` call.
+- On denial: structured `PERMISSION_DENIED` error (code 503, CRITICAL severity)
+  is recorded and `importData()` returns immediately with an empty `ImportStats`.
+- 6 dedicated tests in `test_postgres_importer_advanced.cpp`.
+
+#### Quarantine Rows ✅
+
+- `ImportOptions.quarantine_file` – when non-empty, every failed COPY row (too
+  large, invalid UTF-8, column-count mismatch, binary COPY) is appended to the
+  file as a JSON-L entry: `{"table": ..., "row": ..., "error": {...}}`.
+- `ImportStats.quarantined_records` – tracks the number of quarantined rows.
+- `writeQuarantineRow()` helper in `PostgreSQLImporter`.
+- 4 dedicated tests in `test_postgres_importer_advanced.cpp`.
+
+#### Binary COPY Format Detection ✅
+
+- First data line of every COPY block is checked for the PostgreSQL binary COPY
+  magic bytes (`PGCOPY…`).
+- On detection: structured `BINARY_COPY_FORMAT` error (code 206, ERROR severity)
+  is recorded; the block is skipped; `continue_on_error` is respected.
+- Clear error message tells the operator to re-export without `--format=binary`.
+- 5 dedicated tests in `test_postgres_importer_advanced.cpp`.
+
+#### pg_dump Mode Flags ✅
+
+- `ImportStats.is_schema_only` / `is_data_only` – set by scanning the first 50
+  comment lines of the dump for `schema-only` / `data-only` markers.
+- `ImportStats.toJson()` includes both flags.
+- 4 dedicated tests in `test_postgres_importer_advanced.cpp`.
+
+#### Delta / Incremental Import ✅
+
+- `ImportOptions.delta_hash_file` – path to a flat hex file storing 64-bit
+  FNV-1a row-content hashes (one 16-char hex value per line).
+- On import start: hashes are loaded into an `unordered_set<uint64_t>`.
+- Each COPY row is hashed; already-seen rows are skipped (`skipped_records++`).
+- New rows are added to the set; on import end the file is updated atomically.
+- `ImportOptions.delta_key_columns` – optional list of column names to use as
+  the hash key instead of the full raw row.
+- `computeRowHash()` / `loadDeltaHashes()` / `saveDeltaHashes()` in
+  `PostgreSQLImporter`.
+- 5 dedicated tests in `test_postgres_importer_advanced.cpp`.
+
+#### CLI Tool (`tools/import_cli.cpp`) ✅
+
+- Standalone C++ binary `themisdb-import` wrapping all importer features.
+- Supports all `ImportOptions` flags via command-line arguments.
+- Builds with `nlohmann/json` (header-only); registered in `tools/CMakeLists.txt`.
+- `--output-json` prints final `ImportStats` as JSON to stdout.
+- `--progress` prints per-table progress to stderr.
+- Exit codes: 0 = success, 1 = fatal error, 2 = row-level errors, 3 = bad args.
+
+---
+
+## Roadmap to Full Production Readiness
+
 ### Phase 2: Streaming & Checkpoints (Q2 2026)
 
 - [x] Add checkpoint/resume support: persist byte offset to a JSON file so imports can
@@ -268,8 +331,9 @@ Added explicit mappings for previously unmapped types:
       vendored recursive-descent parser) to replace the regex-based DDL parser.
 - [ ] Handle nested parentheses in column defaults, complex type expressions, and
       `ALTER TABLE` statements in dumps.
-- [ ] Support `COPY` binary format in addition to text format.
-- [ ] Handle `pg_dump --schema-only` and `--data-only` modes explicitly.
+- [x] Detect binary COPY format and emit clear error (`BINARY_COPY_FORMAT`, code 206).
+- [x] Handle `pg_dump --schema-only` and `--data-only` modes via header detection;
+      `ImportStats.is_schema_only` and `is_data_only` flags set automatically.
 
 ### Phase 5: Input Validation & Security (Q3 2026)
 
@@ -283,8 +347,10 @@ Added explicit mappings for previously unmapped types:
       `SecurityEventType` in `audit_logger.h`; string serialisation added to
       `securityEventTypeToString()`.  Operators can log import start/end via
       `AuditLogger::logSecurityEvent(SecurityEventType::BULK_IMPORT, ...)`.
-- [ ] Add ACL / policy checks: operators must hold an `import:write` permission.
-- [ ] Quarantine rows that fail conversion into a side-channel store for later retry.
+- [x] ACL / policy check via `PermissionCheckCallback`: operators must hold
+      `import:write`; denial produces structured `PERMISSION_DENIED` (code 503) error.
+- [x] Quarantine rows that fail conversion into `quarantine_file` (JSON-L) for later
+      inspection and retry.
 
 ### Phase 6: Testing Completeness (Q3–Q4 2026)
 
@@ -298,6 +364,9 @@ Added explicit mappings for previously unmapped types:
       1000+ random/binary inputs for `parseCopyRow`, `parseInsertValues`, `parseCreateTable`,
       and `isValidUtf8`; property-based assertions (no crash, column count consistency,
       NULL count invariant, all-ASCII-is-valid).
+- [x] Advanced feature tests (`test_postgres_importer_advanced.cpp`): 35 test cases covering
+      permission check, quarantine, binary COPY detection, dump mode flags, delta import,
+      FNV-1a hash, and error code values.
 - [ ] True libFuzzer / AFL fuzz drivers (requires build infrastructure change).
 - [ ] Benchmark suite: throughput in rows/s for 100 MB, 1 GB, and 10 GB dumps.
 - [ ] CI matrix: run tests against multiple PostgreSQL dump format variants.
@@ -306,10 +375,13 @@ Added explicit mappings for previously unmapped types:
 
 - [x] Runbook documentation (`docs/importers_runbook.md`): 9 failure scenarios with
       diagnosis and resolution steps; tuning reference; log-message reference.
-- [ ] CLI command: `themisdb import --source pg_dump.sql --progress --dry-run`.
-- [ ] Delta / incremental import: detect and skip already-imported rows using
-      content hashes or primary-key comparison.
-- [ ] Operator API: list active imports, cancel by ID, view per-table stats.
+- [x] CLI tool `themisdb-import` (`tools/import_cli.cpp`): `--source`, `--dry-run`,
+      `--progress`, `--checkpoint`, `--quarantine`, `--delta-hashes`, `--enforce-utf8`,
+      `--max-row-size`, `--include-table`, `--exclude-table`, `--output-json`, etc.
+- [x] Delta / incremental import: skip already-imported rows using FNV-1a content hashes
+      persisted in `delta_hash_file`; configurable per-column key via `delta_key_columns`.
+- [x] Operator API: list active imports (`GET /api/v1/import/jobs`), cancel by ID
+      (`POST /api/v1/import/{id}/cancel`), live progress (`GET /api/v1/import/{id}/status`).
 
 ---
 
@@ -320,3 +392,4 @@ Added explicit mappings for previously unmapped types:
 - [Exporters Roadmap](exporters_roadmap.md)
 - [Importers Runbook](importers_runbook.md)
 - [Error Handling Guide](error_handling/README.md)
+- [Import CLI](../tools/import_cli.cpp)

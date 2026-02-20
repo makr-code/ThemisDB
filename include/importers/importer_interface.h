@@ -70,6 +70,10 @@ enum class ImportErrorCode : uint32_t {
     DRY_RUN_ONLY         = 500,
     TABLE_EXCLUDED       = 501,
     INVALID_UTF8         = 502,
+    PERMISSION_DENIED    = 503,  ///< Caller's permission_check callback returned false
+
+    // SQL parsing errors – extended range (206)
+    BINARY_COPY_FORMAT   = 206,  ///< Binary (non-text) COPY data detected; unsupported
 
     // Generic errors (900-999)
     UNKNOWN              = 900
@@ -102,11 +106,16 @@ struct ImportStats {
     size_t imported_records = 0;
     size_t failed_records = 0;
     size_t skipped_records = 0;
+    size_t quarantined_records = 0;  ///< Rows written to the quarantine file
     
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
     
     double elapsed_seconds = 0.0;
+
+    // Dump-mode flags (set from dump header comments)
+    bool is_schema_only = false;  ///< true when pg_dump --schema-only header detected
+    bool is_data_only   = false;  ///< true when pg_dump --data-only header detected
     
     std::vector<std::string> warnings;
     std::vector<std::string> errors;
@@ -122,9 +131,12 @@ struct ImportStats {
             {"imported_records", imported_records},
             {"failed_records", failed_records},
             {"skipped_records", skipped_records},
+            {"quarantined_records", quarantined_records},
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
             {"elapsed_seconds", elapsed_seconds},
+            {"is_schema_only", is_schema_only},
+            {"is_data_only", is_data_only},
             {"warnings", warnings},
             {"errors", errors},
             {"structured_errors", err_arr}
@@ -166,8 +178,34 @@ using MetricsCallback = std::function<void(
 )>;
 
 /**
- * @brief Import Options
+ * @brief Permission Check Callback for ACL / policy enforcement.
+ *
+ * Called by the importer at the start of every `importData()` /
+ * `importDataAsync()` call so the caller can enforce its own access-control
+ * policy without the importer having a hard dependency on any specific
+ * security framework.
+ *
+ * Return `true` to allow the import; `false` to deny it.  On denial the
+ * importer records a structured `PERMISSION_DENIED` (code 503) error and
+ * returns an empty `ImportStats` immediately.
+ *
+ * @param resource  The resource being accessed, e.g. "import"
+ * @param action    The action being performed, e.g. "write"
+ *
+ * Example wiring to RBAC:
+ * @code
+ *   opts.permission_check = [&rbac, user_id](const std::string& resource,
+ *                                             const std::string& action) {
+ *       return rbac.hasPermission(user_id, resource, action);
+ *   };
+ * @endcode
  */
+using PermissionCheckCallback = std::function<bool(
+    const std::string& resource,
+    const std::string& action
+)>;
+
+
 struct ImportOptions {
     // General
     bool dry_run = false;                    // Don't actually import, just validate
@@ -203,6 +241,26 @@ struct ImportOptions {
 
     // Observability: optional metrics emission callback (Prometheus / OTel / custom)
     MetricsCallback metrics_callback;     // Called at row/error/table/duration events
+
+    // Access control: optional permission-check callback
+    // Called once at import start with ("import", "write"); deny → PERMISSION_DENIED error.
+    PermissionCheckCallback permission_check;
+
+    // Quarantine: rows that fail data conversion are appended to this file as JSON-L.
+    // Each line is: { "table": ..., "row": ..., "error": { "code": ..., "message": ... } }
+    // Empty string = disabled (default).
+    std::string quarantine_file;
+
+    // Delta / incremental import: skip rows whose 64-bit FNV-1a content hash is already
+    // present in delta_hash_file.  After import the file is updated with new hashes.
+    // Empty string = disabled (default).
+    std::string delta_hash_file;
+
+    // Columns to use as the delta key for hash computation.
+    // Each entry is a column name; the hash is computed over the concatenation of
+    // their values (separated by a non-printable field separator).
+    // If empty, the entire raw row string is hashed instead.
+    std::vector<std::string> delta_key_columns;
     
     json toJson() const {
         return json{
@@ -220,7 +278,10 @@ struct ImportOptions {
             {"max_row_size_bytes", max_row_size_bytes},
             {"max_statement_size_bytes", max_statement_size_bytes},
             {"enforce_utf8", enforce_utf8},
-            {"checkpoint_file", checkpoint_file}
+            {"checkpoint_file", checkpoint_file},
+            {"quarantine_file", quarantine_file},
+            {"delta_hash_file", delta_hash_file},
+            {"delta_key_columns", delta_key_columns}
         };
     }
 };
