@@ -36,10 +36,21 @@ spec:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
+            - name: health
+              containerPort: {{ .Values.themisdb.healthPort | default 8081 }}
+              protocol: TCP
+          {{- if .Values.themisdb.env }}
+          env:
+            {{- toYaml .Values.themisdb.env | nindent 12 }}
+          {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml .Values.startupProbe | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
@@ -50,6 +61,16 @@ spec:
               mountPath: /data
             - name: tmp
               mountPath: /tmp
+            {{- if .Values.themisdb.tlsSecret }}
+            - name: tls
+              mountPath: /etc/themisdb/tls
+              readOnly: true
+            {{- end }}
+            {{- if .Values.themisdb.walTlsSecret }}
+            - name: wal-tls
+              mountPath: /etc/themisdb/wal-tls
+              readOnly: true
+            {{- end }}
       volumes:
         - name: config
           configMap:
@@ -63,6 +84,18 @@ spec:
         {{- else }}
         - name: data
           emptyDir: {}
+        {{- end }}
+        {{- if .Values.themisdb.tlsSecret }}
+        - name: tls
+          secret:
+            secretName: {{ .Values.themisdb.tlsSecret }}
+            defaultMode: 0440
+        {{- end }}
+        {{- if .Values.themisdb.walTlsSecret }}
+        - name: wal-tls
+          secret:
+            secretName: {{ .Values.themisdb.walTlsSecret }}
+            defaultMode: 0440
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

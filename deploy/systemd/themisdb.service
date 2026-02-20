@@ -1,0 +1,80 @@
+[Unit]
+Description=ThemisDB - Vector Database with LLM Support
+Documentation=https://github.com/makr-code/ThemisDB
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=exec
+User=themisdb
+Group=themisdb
+
+# --- Executable ---
+ExecStart=/usr/bin/themisdb-server --config /etc/themisdb/config.yaml
+ExecReload=/bin/kill -HUP $MAINPID
+
+# --- Environment file (contains secrets) ---
+# Copy deploy/systemd/themisdb.env.example to /etc/themisdb/themisdb.env,
+# fill in values, and restrict permissions: chmod 600 /etc/themisdb/themisdb.env
+EnvironmentFile=-/etc/themisdb/themisdb.env
+
+# --- Restart policy ---
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=120
+TimeoutStopSec=60
+
+# --- Security hardening ---
+# Restrict file system access
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/themisdb /var/log/themisdb /tmp/themisdb
+PrivateTmp=true
+
+# Restrict kernel features
+NoNewPrivileges=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+ProtectHostname=true
+ProtectClock=true
+
+# Restrict network access to what is needed
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+# Restrict syscalls (broad allowlist for C++ / RocksDB / gRPC)
+SystemCallFilter=@system-service @network-io
+SystemCallArchitectures=native
+
+# Restrict capabilities (drop all, add only what is needed)
+CapabilityBoundingSet=
+AmbientCapabilities=
+
+# Restrict namespaces
+RestrictNamespaces=true
+
+# --- Resource limits ---
+LimitNOFILE=65536
+LimitNPROC=4096
+TasksMax=4096
+
+# --- Runtime directories ---
+RuntimeDirectory=themisdb
+RuntimeDirectoryMode=0750
+StateDirectory=themisdb
+StateDirectoryMode=0750
+LogsDirectory=themisdb
+LogsDirectoryMode=0750
+CacheDirectory=themisdb
+CacheDirectoryMode=0750
+ConfigurationDirectory=themisdb
+ConfigurationDirectoryMode=0750
+
+[Install]
+WantedBy=multi-user.target
