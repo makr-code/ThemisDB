@@ -79,6 +79,12 @@ private:
     void addError(ImportStats& stats, ImportErrorCode code, ImportErrorSeverity severity,
                   const std::string& message, const std::string& location = "") const;
 
+    // Checkpoint helpers
+    bool loadCheckpoint(const std::string& checkpoint_file, std::streampos& offset,
+                        ImportStats& accumulated_stats) const;
+    void saveCheckpoint(const std::string& checkpoint_file, std::streampos offset,
+                        const ImportStats& stats) const;
+
     // Progress reporting
     void reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total);
 };

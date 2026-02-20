@@ -51,6 +51,7 @@ enum class ImportErrorCode : uint32_t {
     PARSE_COPY_HEADER    = 202,
     PARSE_COPY_ROW       = 203,
     STATEMENT_TOO_LARGE  = 204,
+    ROW_TOO_LARGE        = 205,
 
     // Schema mapping errors (300-399)
     UNKNOWN_TABLE        = 300,
@@ -153,6 +154,13 @@ struct ImportOptions {
     std::map<std::string, std::string> column_mappings; // Old column -> new attribute
     std::map<std::string, std::string> table_mappings;  // Old table -> new entity type
     std::map<std::string, std::string> type_overrides;  // PG type -> ThemisDB type (user-configurable)
+
+    // Input validation / safety limits
+    size_t max_row_size_bytes = 0;        // 0 = unlimited; rows exceeding this are rejected
+    size_t max_statement_size_bytes = 0;  // 0 = unlimited; SQL statements exceeding this are skipped
+
+    // Checkpoint / resume support
+    std::string checkpoint_file;          // Path to checkpoint JSON file (empty = disabled)
     
     json toJson() const {
         return json{
@@ -166,7 +174,10 @@ struct ImportOptions {
             {"skip_duplicates", skip_duplicates},
             {"include_tables", include_tables},
             {"exclude_tables", exclude_tables},
-            {"include_schemas", include_schemas}
+            {"include_schemas", include_schemas},
+            {"max_row_size_bytes", max_row_size_bytes},
+            {"max_statement_size_bytes", max_statement_size_bytes},
+            {"checkpoint_file", checkpoint_file}
         };
     }
 };

@@ -88,6 +88,8 @@ ImportStats PostgreSQLImporter::importData(
     auto end_time = std::chrono::steady_clock::now();
     stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
     
+    // Structured JSON completion summary (Phase 3 observability)
+    THEMIS_INFO("Import summary: {}", stats.toJson().dump());
     THEMIS_INFO("Import completed: {} records imported, {} failed, {} skipped in {:.2f}s",
         stats.imported_records, stats.failed_records, stats.skipped_records, stats.elapsed_seconds);
     
@@ -156,10 +158,27 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                  "Cannot open file: " + file_path);
         return false;
     }
-    
+
+    // --- Checkpoint / resume support ---
+    std::streampos resume_offset = 0;
+    if (!options.checkpoint_file.empty()) {
+        ImportStats dummy;
+        if (loadCheckpoint(options.checkpoint_file, resume_offset, dummy)) {
+            THEMIS_INFO("Resuming import from byte offset {}", static_cast<long>(resume_offset));
+            file.seekg(resume_offset);
+            // Carry accumulated counts from the checkpoint
+            stats.imported_records = dummy.imported_records;
+            stats.failed_records   = dummy.failed_records;
+            stats.skipped_records  = dummy.skipped_records;
+            stats.total_records    = dummy.total_records;
+            stats.tables_processed = dummy.tables_processed;
+        }
+    }
+
     std::string line;
     std::string current_sql;
     size_t line_number = 0;
+    size_t batch_row_count = 0;
     
     while (std::getline(file, line) && !cancelled_) {
         line_number++;
@@ -170,6 +189,21 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
         }
         
         current_sql += line + " ";
+
+        // Statement-size guard
+        if (options.max_statement_size_bytes > 0 &&
+            current_sql.size() > options.max_statement_size_bytes) {
+            addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
+                     ImportErrorSeverity::WARNING,
+                     "SQL statement exceeds max_statement_size_bytes (" +
+                     std::to_string(options.max_statement_size_bytes) + ")",
+                     "line " + std::to_string(line_number));
+            stats.warnings.push_back("Statement too large near line " +
+                                     std::to_string(line_number));
+            current_sql.clear();
+            if (!options.continue_on_error) return false;
+            continue;
+        }
         
         // Complete statement?
         if (line.find(';') != std::string::npos) {
@@ -198,6 +232,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                 if (!options.dry_run) {
                     parseInsert(current_sql, options, stats, line_number);
                 }
+                batch_row_count++;
             }
             else if (current_sql.find("COPY ") != std::string::npos) {
                 // Extract table name and optional column list from COPY header
@@ -218,6 +253,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                             if (!col.empty()) col_list.push_back(col);
                         }
                     }
+                    size_t before_copy = stats.imported_records;
                     if (!options.dry_run) {
                         parseCopy(file, table_name, col_list, options, stats);
                     } else {
@@ -228,6 +264,7 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                             stats.total_records++;
                         }
                     }
+                    batch_row_count += stats.imported_records - before_copy;
                 } else {
                     addError(stats, ImportErrorCode::PARSE_COPY_HEADER,
                              ImportErrorSeverity::WARNING,
@@ -239,7 +276,22 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
             }
             
             current_sql.clear();
+
+            // Checkpoint after each batch
+            if (!options.checkpoint_file.empty() &&
+                options.batch_size > 0 &&
+                batch_row_count >= options.batch_size) {
+                std::streampos current_pos = file.tellg();
+                saveCheckpoint(options.checkpoint_file, current_pos, stats);
+                batch_row_count = 0;
+                reportProgress(callback, "data", stats.imported_records, 0);
+            }
         }
+    }
+
+    // Final checkpoint on clean completion
+    if (!options.checkpoint_file.empty() && !cancelled_) {
+        saveCheckpoint(options.checkpoint_file, file.tellg(), stats);
     }
     
     return !cancelled_;
@@ -389,6 +441,23 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         
         row_num++;
         stats.total_records++;
+
+        // Row-size guard
+        if (options.max_row_size_bytes > 0 && line.size() > options.max_row_size_bytes) {
+            addError(stats, ImportErrorCode::ROW_TOO_LARGE,
+                     ImportErrorSeverity::WARNING,
+                     "COPY row exceeds max_row_size_bytes (" +
+                     std::to_string(options.max_row_size_bytes) + ")",
+                     "table " + table_name + ", row " + std::to_string(row_num));
+            stats.warnings.push_back("Row too large in table " + table_name +
+                                     " row " + std::to_string(row_num));
+            if (!options.continue_on_error) {
+                stats.failed_records++;
+                return false;
+            }
+            stats.failed_records++;
+            continue;
+        }
 
         // Parse tab-separated values with PostgreSQL COPY escape rules
         std::vector<std::string> values = parseCopyRow(line);
@@ -605,6 +674,57 @@ void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
     if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
     }
+}
+
+bool PostgreSQLImporter::loadCheckpoint(const std::string& checkpoint_file,
+                                         std::streampos& offset,
+                                         ImportStats& accumulated_stats) const {
+    std::ifstream f(checkpoint_file);
+    if (!f) return false;
+
+    try {
+        std::string content((std::istreambuf_iterator<char>(f)),
+                             std::istreambuf_iterator<char>());
+        json doc = json::parse(content);
+        offset = static_cast<std::streampos>(doc.value("byte_offset", (long long)0));
+        accumulated_stats.imported_records = doc.value("imported_records", (size_t)0);
+        accumulated_stats.failed_records   = doc.value("failed_records",   (size_t)0);
+        accumulated_stats.skipped_records  = doc.value("skipped_records",  (size_t)0);
+        accumulated_stats.total_records    = doc.value("total_records",    (size_t)0);
+        accumulated_stats.tables_processed = doc.value("tables_processed", (size_t)0);
+        THEMIS_INFO("Checkpoint loaded from {}: byte_offset={}", checkpoint_file,
+                    static_cast<long>(offset));
+        return true;
+    } catch (const json::parse_error& e) {
+        THEMIS_INFO("Could not parse checkpoint file {}: JSON error at byte {}: {}, starting fresh",
+                    checkpoint_file, e.byte, e.what());
+        return false;
+    } catch (const std::exception& e) {
+        THEMIS_INFO("Could not load checkpoint file {}: {}, starting fresh",
+                    checkpoint_file, e.what());
+        return false;
+    }
+}
+
+void PostgreSQLImporter::saveCheckpoint(const std::string& checkpoint_file,
+                                         std::streampos offset,
+                                         const ImportStats& stats) const {
+    std::ofstream f(checkpoint_file, std::ios::trunc);
+    if (!f) {
+        THEMIS_INFO("Could not write checkpoint file {}", checkpoint_file);
+        return;
+    }
+    json doc = {
+        {"byte_offset",       static_cast<long long>(offset)},
+        {"imported_records",  stats.imported_records},
+        {"failed_records",    stats.failed_records},
+        {"skipped_records",   stats.skipped_records},
+        {"total_records",     stats.total_records},
+        {"tables_processed",  stats.tables_processed}
+    };
+    f << doc.dump(2);
+    THEMIS_DEBUG("Checkpoint saved to {}: byte_offset={}", checkpoint_file,
+                 static_cast<long>(offset));
 }
 
 void PostgreSQLImporter::reportProgress(ProgressCallback& callback, const std::string& stage, size_t current, size_t total) {

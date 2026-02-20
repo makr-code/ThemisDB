@@ -57,11 +57,12 @@ production workloads.
 
 ---
 
-## Changes Delivered (v1.1)
+## Changes Delivered (v1.1 and v1.2)
 
-The following items were implemented as part of the initial production-hardening pass:
+The following items were implemented as part of the initial production-hardening pass
+(v1.1) and the subsequent continuation (v1.2).
 
-### Structured Error API (Phase 1) ✅
+### Structured Error API (v1.1) ✅
 
 - Added `ImportErrorCode` enum (ranges: I/O 100–199, SQL parse 200–299, schema 300–399,
   data conversion 400–499, validation 500–599, generic 900–999).
@@ -118,6 +119,40 @@ Added explicit mappings for previously unmapped types:
   incremental feedback even before data rows are processed.
 - `parseDumpFile()` now accepts the `ProgressCallback` parameter and forwards it
   through to schema and data phases.
+- Checkpoint saves also trigger a `reportProgress` event for batched data progress.
+
+### Structured JSON Completion Summary ✅
+
+- `importData()` now logs the full `ImportStats::toJson()` payload at `INFO` level on
+  completion, giving operators a machine-readable completion event in the log stream.
+
+### Input Validation / Safety Limits ✅
+
+- `ImportOptions` gains `max_row_size_bytes` (0 = unlimited): COPY rows that exceed
+  this limit are rejected with a structured `ROW_TOO_LARGE` (code 205) warning.
+- `ImportOptions` gains `max_statement_size_bytes` (0 = unlimited): SQL statements
+  that exceed this limit are skipped with a structured `STATEMENT_TOO_LARGE` (code 204)
+  warning.  Both respect `continue_on_error`.
+
+### Checkpoint / Resume Support ✅
+
+- `ImportOptions` gains `checkpoint_file`: path to a JSON file where the importer
+  persists the current byte offset + accumulated counts after every `batch_size`
+  statements.
+- On start-up, if the checkpoint file exists, the importer reads the byte offset
+  and seeks the input file to that position, resuming where it left off.
+- Checkpoint is also saved on clean completion.
+- Format: `{"byte_offset": N, "imported_records": N, ...}`.
+
+### Integration Test Fixture ✅
+
+- Added `tests/fixtures/importers/sample_pg15.sql`: a realistic pg_dump SQL file
+  containing three tables (`users`, `products`, `orders`) with diverse PostgreSQL
+  types (integer, bigint, varchar, boolean, numeric, jsonb, inet, text[]).
+- Added `tests/test_postgres_importer_integration.cpp` with 15 integration-test cases
+  covering: `validateSource`, `getSourceSchema`, dry-run counts, normal import counts,
+  `include_tables` / `exclude_tables` filtering, `max_row_size_bytes` enforcement,
+  and COPY row NULL / array / JSON field parsing.
 
 ---
 
@@ -125,23 +160,23 @@ Added explicit mappings for previously unmapped types:
 
 ### Phase 2: Streaming & Checkpoints (Q2 2026)
 
+- [x] Add checkpoint/resume support: persist byte offset to a JSON file so imports can
+      be resumed after interruption.
 - [ ] Implement true streaming parser: process the dump file in fixed-size chunks so
       memory usage is bounded regardless of file size.
-- [ ] Add checkpoint/resume support: persist the last successfully imported line
-      number/byte offset so imports can be resumed after interruption.
 - [ ] Expose an async import API (`importDataAsync`) returning a future/handle that
       callers can poll or cancel.
 - [ ] Emit per-batch progress events through the `ProgressCallback`.
 
 ### Phase 3: Observability (Q2 2026)
 
+- [x] Log structured JSON import-completion summary at `INFO` level on import end.
 - [ ] Integrate with the existing Prometheus metrics registry to export:
       `themisdb_import_rows_total{table,status}`,
       `themisdb_import_duration_seconds{table}`,
       `themisdb_import_errors_total{table,code}`.
 - [ ] Add OpenTelemetry spans around batch processing for distributed tracing.
 - [ ] Provide a REST endpoint (via the existing HTTP server) for live import status.
-- [ ] Log structured JSON import-completion summaries at `INFO` level.
 
 ### Phase 4: Robust SQL Parsing (Q3 2026)
 
@@ -154,7 +189,8 @@ Added explicit mappings for previously unmapped types:
 
 ### Phase 5: Input Validation & Security (Q3 2026)
 
-- [ ] Enforce maximum dump file size and per-row size limits (configurable).
+- [x] Enforce maximum dump row size (`max_row_size_bytes`) – configurable, default unlimited.
+- [x] Enforce maximum SQL statement size (`max_statement_size_bytes`) – configurable, default unlimited.
 - [ ] Validate input encoding (UTF-8 enforcement with error on invalid sequences).
 - [ ] Add ACL / policy checks: operators must hold an `import:write` permission.
 - [ ] Audit-log all import operations (start, end, stats, errors).
@@ -162,7 +198,8 @@ Added explicit mappings for previously unmapped types:
 
 ### Phase 6: Testing Completeness (Q3–Q4 2026)
 
-- [ ] Integration tests: realistic `pg_dump` files from PostgreSQL 12, 14, 15, 16.
+- [x] Integration tests: realistic pg_dump fixture (`sample_pg15.sql`) with 15 test cases.
+- [ ] Integration tests covering PostgreSQL 12, 14, 16 dump format variants.
 - [ ] Fuzz tests for `parseCopyRow`, `parseInsertValues`, and `parseCreateTable`.
 - [ ] Chaos tests: truncated files, corrupted lines, encoding errors, very large rows.
 - [ ] Benchmark suite: throughput in rows/s for 100 MB, 1 GB, and 10 GB dumps.
