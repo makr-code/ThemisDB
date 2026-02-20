@@ -72,24 +72,15 @@ struct AlertmanagerConfig {
 };
 
 /**
- * Alertmanager interface for ThemisDB observability
- * 
+ * Base Alertmanager interface for ThemisDB observability.
+ *
  * Provides integration with Prometheus Alertmanager or compatible systems:
  * - Send alerts for critical system events
  * - Resolve alerts when issues are fixed
- * - Configure alert routing and receivers
- * 
- * Designed for integration with:
- * - Prometheus Alertmanager
- * - Kubernetes monitoring stack
- * - PagerDuty, Slack, email notifications
- * 
- * GAP-008: Base structure for alerting automation (stub implementation)
- * 
- * @note This is a placeholder interface. Full implementation requires:
- *       - HTTP client for Alertmanager API
- *       - Alert rule evaluation engine
- *       - Integration with MetricsCollector
+ * - Silence / acknowledge active alerts
+ *
+ * Production use: instantiate DefaultAlertmanager which implements the
+ * Prometheus Alertmanager v2 HTTP API with retry and auth-token support.
  */
 class Alertmanager {
 public:
@@ -98,28 +89,28 @@ public:
     virtual ~Alertmanager() = default;
     
     /**
-     * Initialize alertmanager with configuration
+     * Initialize alertmanager with configuration.
      * @param config: Alertmanager configuration
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> initialize(const AlertmanagerConfig& config);
     
     /**
-     * Send alert to alertmanager (stub implementation)
+     * Send an alert to the alertmanager backend.
      * @param alert: Alert to send
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> sendAlert(const Alert& alert);
     
     /**
-     * Resolve alert (stub implementation)
+     * Resolve a previously-fired alert.
      * @param alert_id: ID of alert to resolve
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> resolveAlert(const std::string& alert_id);
     
     /**
-     * Silence alert (stub implementation)
+     * Silence an alert for a given duration.
      * @param alert_id: ID of alert to silence
      * @param duration_minutes: Duration to silence for
      * @return Result<void> on success, Error on failure
@@ -127,13 +118,13 @@ public:
     virtual Result<void> silenceAlert(const std::string& alert_id, int duration_minutes);
     
     /**
-     * Get all active alerts (stub implementation)
+     * Get all currently active (firing or silenced) alerts.
      * @return Vector of active alerts
      */
     virtual std::vector<Alert> getActiveAlerts();
     
     /**
-     * Test alertmanager connectivity (stub implementation)
+     * Test connectivity to the alertmanager backend.
      * @return Result<void> on success, Error on failure
      */
     virtual Result<void> testConnection();

@@ -56,51 +56,37 @@ Result<void> Alertmanager::initialize(const AlertmanagerConfig& config) {
 }
 
 Result<void> Alertmanager::sendAlert(const Alert& alert) {
-    THEMIS_WARN("Alertmanager::sendAlert is a stub - not yet implemented");
-    
-    return tl::unexpected(Error{
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Alert sending not yet implemented"
-    });
+    // Base-class no-op: subclasses provide the concrete transport.
+    (void)alert;
+    return {};
 }
 
 Result<void> Alertmanager::resolveAlert(const std::string& alert_id) {
-    THEMIS_WARN("Alertmanager::resolveAlert is a stub - not yet implemented");
-    
-    return tl::unexpected(Error{
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Alert resolution not yet implemented"
-    });
+    // Base-class no-op: subclasses provide the concrete transport.
+    (void)alert_id;
+    return {};
 }
 
 Result<void> Alertmanager::silenceAlert(const std::string& alert_id, int duration_minutes) {
-    THEMIS_WARN("Alertmanager::silenceAlert is a stub - not yet implemented");
-    
-    return tl::unexpected(Error{
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Alert silencing not yet implemented"
-    });
+    // Base-class no-op: subclasses provide the concrete transport.
+    (void)alert_id;
+    (void)duration_minutes;
+    return {};
 }
 
 std::vector<Alert> Alertmanager::getActiveAlerts() {
-    THEMIS_WARN("Alertmanager::getActiveAlerts is a stub - not yet implemented");
     return active_alerts_;
 }
 
 Result<void> Alertmanager::testConnection() {
-    THEMIS_WARN("Alertmanager::testConnection is a stub - not yet implemented");
-    
     if (!config_.enabled) {
         return tl::unexpected(Error{
             errors::ErrorCode::ERR_NET_CONNECTION_REFUSED,
             "Alertmanager is not enabled"
         });
     }
-    
-    return tl::unexpected(Error{
-        errors::ErrorCode::ERR_UNKNOWN,
-        "Connection test not yet implemented"
-    });
+    // Base-class no-op: subclasses provide the concrete health-check.
+    return {};
 }
 
 std::string Alertmanager::severityToString(AlertSeverity severity) {

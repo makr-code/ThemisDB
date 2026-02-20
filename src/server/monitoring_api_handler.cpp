@@ -400,6 +400,76 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         }}
                     }}
                 }},
+                {"/metrics/html", {
+                    {"get", {
+                        {"summary", "HTML metrics dashboard"},
+                        {"description", "Renders current Prometheus metrics as a human-readable HTML table with dark-mode styling"},
+                        {"operationId", "getMetricsHtml"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "HTML metrics dashboard"},
+                                {"content", {{"text/html", {{"schema", {{"type","string"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/api/v1/observability/alerts", {
+                    {"get", {
+                        {"summary", "List active alerts"},
+                        {"description", "Returns the list of currently active (firing or silenced) alerts as a JSON array"},
+                        {"operationId", "getObservabilityAlerts"},
+                        {"tags", json::array({"observability"})},
+                        {"responses", {
+                            {"200", {{"description", "Active alert list"},
+                                {"content", {{"application/json", {{"schema", {
+                                    {"type","object"},
+                                    {"properties", {
+                                        {"alerts", {{"type","array"}}},
+                                        {"count",  {{"type","integer"}}},
+                                        {"alertmanager_enabled", {{"type","boolean"}}}
+                                    }}
+                                }}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/api/v1/observability/alerts/{id}/silence", {
+                    {"post", {
+                        {"summary", "Silence an alert"},
+                        {"description", "Silences the named alert for a configurable duration. Body: {\"duration_minutes\": <int>} (default 60)"},
+                        {"operationId", "silenceObservabilityAlert"},
+                        {"tags", json::array({"observability"})},
+                        {"parameters", json::array({
+                            json{{"name","id"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                        })},
+                        {"requestBody", {
+                            {"required", false},
+                            {"content", {{"application/json", {{"schema", {
+                                {"type","object"},
+                                {"properties", {{"duration_minutes", {{"type","integer"},{"default",60}}}}}
+                            }}}}}}
+                        }},
+                        {"responses", {
+                            {"200", {{"description", "Alert silenced"}}},
+                            {"400", {{"description", "Bad request"}}},
+                            {"404", {{"description", "Alert not found"}}},
+                            {"503", {{"description", "Alertmanager not configured"}}}
+                        }}
+                    }}
+                }},
+                {"/api/v1/observability/health", {
+                    {"get", {
+                        {"summary", "Observability subsystem health"},
+                        {"description", "Returns aggregate health of the observability stack: Alertmanager connectivity, tracing span counters, and MetricsCollector cardinality"},
+                        {"operationId", "getObservabilityHealth"},
+                        {"tags", json::array({"observability"})},
+                        {"responses", {
+                            {"200", {{"description", "Observability health status"},
+                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
                 {"/api/openapi.json", {
                     {"get", {
                         {"summary", "OpenAPI specification"},
@@ -550,9 +620,10 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                 json{{"BearerAuth", json::array()}}
             })},
             {"tags", json::array({
-                json{{"name","monitoring"},{"description","Health, metrics and observability endpoints"}},
-                json{{"name","entities"},{"description","Entity CRUD operations"}},
-                json{{"name","query"},{"description","Query execution endpoints"}}
+                json{{"name","monitoring"},   {"description","Health, metrics and observability endpoints"}},
+                json{{"name","observability"},{"description","Operator observability REST API – alerts, silences, health"}},
+                json{{"name","entities"},     {"description","Entity CRUD operations"}},
+                json{{"name","query"},        {"description","Query execution endpoints"}}
             })}
         };
 

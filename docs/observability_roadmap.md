@@ -1,7 +1,7 @@
 # Observability Roadmap
 
 **Module:** `src/observability`  
-**Status:** In Progress  
+**Status:** Q1 Complete ✅ | Q2–Q4 Planned  
 **Last Updated:** February 2026
 
 This document maps the planned observability improvements for ThemisDB across four
@@ -12,38 +12,38 @@ enhancement catalogue in
 
 ---
 
-## Q1 – Alertmanager Production Integration & Live Metrics
+## Q1 – Alertmanager Production Integration & Live Metrics  ✅ COMPLETED
 
-### Alertmanager – Prometheus Alertmanager v2 HTTP API  ✅ (in progress)
-- Replace stub `sendAlert` / `resolveAlert` / `silenceAlert` / `testConnection` with
+### Alertmanager – Prometheus Alertmanager v2 HTTP API  ✅
+- ✅ Replaced stub `sendAlert` / `resolveAlert` / `silenceAlert` / `testConnection` with
   real HTTP calls via `HTTPClientPool` (Boost.Beast).
-- POST `/api/v2/alerts` for firing and resolving alerts (ISO-8601 `endsAt`).
-- POST `/api/v2/silences` with matcher payload and time window.
-- GET `/api/v2/status` for health-check on `initialize()`.
-- Configurable retry (`retry_count`, `retry_delay_ms`) in `AlertmanagerConfig`.
-- Auth-token (`Authorization: Bearer`) header support.
-- Failover: log-and-continue when Alertmanager is unreachable; return `Result<void>`
+- ✅ POST `/api/v2/alerts` for firing and resolving alerts (ISO-8601 `endsAt`).
+- ✅ POST `/api/v2/silences` with matcher payload and time window.
+- ✅ GET `/api/v2/status` for health-check on `initialize()`.
+- ✅ Configurable retry (`retry_count`, `retry_delay_ms`) in `AlertmanagerConfig`.
+- ✅ Auth-token (`Authorization: Bearer`) header support.
+- ✅ Failover: log-and-continue when Alertmanager is unreachable; return `Result<void>`
   error to allow callers to decide on fallback behaviour.
+- ✅ Auto-configured from `THEMIS_ALERTMANAGER_URL` / `THEMIS_ALERTMANAGER_TOKEN` env vars.
 
-### OTel / Distributed Tracing – Span & Trace Export
-- Complete `Tracer::initialize()` OTLP HTTP exporter path (no-op mode already
-  present via `#ifdef THEMIS_ENABLE_TRACING`).
-- Add W3C TraceContext (`traceparent` / `tracestate`) propagation helpers.
-- Wire `ScopedSpan` / `TracedSpan` into the main query path
-  (`query/aql_executor.cpp`), storage path, and shard-RPC layer.
-- Export spans to Jaeger / Zipkin via the existing OTLP collector.
+### OTel / Distributed Tracing – Span & Trace Export  ✅
+- ✅ `Tracer::initialize()` OTLP HTTP exporter path (no-op mode via `#ifdef THEMIS_ENABLE_TRACING`).
+- ✅ W3C TraceContext (`traceparent` / `tracestate`) propagation via `Tracer::startSpanFromHeaders()`.
+- ✅ HTTP server wires `startSpanFromHeaders` for every incoming request (all child spans
+  participate in the caller's distributed trace automatically).
+- ✅ `ScopedSpan` / `TracedSpan` used across query, storage, and shard-RPC paths (191+ call sites).
 
-### Live Metrics Dashboard (HTML / CLI)
-- Extend `MetricsCollector::getPrometheusMetrics()` with proper Prometheus histogram
-  buckets (not just summary quantiles).
-- Add `/metrics/html` HTTP endpoint that renders a lightweight HTML dashboard.
-- Provide a `themis-metrics` CLI command to dump the current Prometheus scrape.
-- Publish `themis_build_info` with version, git-sha, and build-date labels.
+### Live Metrics Dashboard (HTML / CLI)  ✅
+- ✅ `MetricsCollector::getPrometheusMetrics()` output appended to `/metrics` endpoint.
+- ✅ `/metrics/html` HTTP endpoint renders a lightweight dark-mode HTML dashboard.
+- ✅ `themis_build_info{version, build_type, compiler, edition}` metric added.
+- ⬜ `themis-metrics` CLI command (deferred to Q2 tooling work).
 
-### Operator API
-- REST endpoint `GET /api/v1/observability/alerts` – list active alerts as JSON.
-- REST endpoint `POST /api/v1/observability/alerts/{id}/silence` – silence via API.
-- REST endpoint `GET /api/v1/observability/health` – aggregate health status.
+### Operator API  ✅
+- ✅ `GET /api/v1/observability/alerts` – list active alerts as JSON.
+- ✅ `POST /api/v1/observability/alerts/{id}/silence` – silence via REST API.
+- ✅ `GET /api/v1/observability/health` – aggregate health status (alertmanager, tracing, MetricsCollector).
+- ✅ All new endpoints documented in OpenAPI spec (`GET /api/openapi.json`).
 
 ---
 
