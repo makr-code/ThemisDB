@@ -251,8 +251,7 @@ TEST_F(CRDTResolverTest, EmptyRemoteReturnsLocal) {
 class LeaderElectionTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        TempWALDir wd_guard{wal_path_};  // create dir
-        (void)wd_guard;
+        std::filesystem::remove_all(wal_path_);
         std::filesystem::create_directories(wal_path_);
         config_ = makeConfig(wal_path_);
         wal_    = std::make_shared<WALManager>(config_);

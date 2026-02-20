@@ -1111,22 +1111,30 @@ bool ReplicationManager::hasQuorum() const {
 }
 
 void ReplicationManager::performHealthCheck() {
-    std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
+    // Collect all health status changes under the write lock, then
+    // notify listeners outside the lock to avoid holding it during callbacks.
+    struct HealthChange {
+        std::string node_id;
+        HealthStatus old_status;
+        HealthStatus new_status;
+    };
+    std::vector<HealthChange> changes;
     
-    for (auto& replica : replicas_) {
-        HealthStatus old_status = replica.health_status;
-        updateReplicaHealth(replica);
-        
-        if (old_status != replica.health_status) {
-            // Capture copies to avoid holding the lock during callback
-            std::string node_id_copy = replica.node_id;
-            HealthStatus new_status = replica.health_status;
-            lock.unlock();
-            notifyListeners([&node_id_copy, old_status, new_status](IReplicationListener& l) {
-                l.onReplicaHealthChanged(node_id_copy, old_status, new_status);
-            });
-            lock.lock();
+    {
+        std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
+        for (auto& replica : replicas_) {
+            HealthStatus old_status = replica.health_status;
+            updateReplicaHealth(replica);
+            if (old_status != replica.health_status) {
+                changes.push_back({replica.node_id, old_status, replica.health_status});
+            }
         }
+    }
+    
+    for (const auto& change : changes) {
+        notifyListeners([&change](IReplicationListener& l) {
+            l.onReplicaHealthChanged(change.node_id, change.old_status, change.new_status);
+        });
     }
 }
 
@@ -1430,8 +1438,11 @@ std::string CRDTConflictResolver::resolve(
             size_t vp = kend + 1;
             while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) ++vp;
             
-            // Check if value is numeric (starts with digit or '-')
-            if (vp < doc.size() && (std::isdigit(static_cast<unsigned char>(doc[vp])) || doc[vp] == '-')) {
+            // Check if value is numeric (starts with digit, or '-' followed by a digit)
+            if (vp < doc.size() &&
+                (std::isdigit(static_cast<unsigned char>(doc[vp])) ||
+                 (doc[vp] == '-' && vp + 1 < doc.size() &&
+                  std::isdigit(static_cast<unsigned char>(doc[vp + 1]))))) {
                 try {
                     size_t consumed = 0;
                     int64_t val = std::stoll(doc.substr(vp), &consumed);
@@ -1466,8 +1477,10 @@ std::string CRDTConflictResolver::resolve(
                 size_t vp = pos + search.size();
                 while (vp < merged.size() && (merged[vp] == ' ' || merged[vp] == ':')) ++vp;
                 size_t vend = vp;
+                // Accept an optional leading '-', then only digits
+                if (vend < merged.size() && merged[vend] == '-') ++vend;
                 while (vend < merged.size() &&
-                       (std::isdigit(static_cast<unsigned char>(merged[vend])) || merged[vend] == '-')) {
+                       std::isdigit(static_cast<unsigned char>(merged[vend]))) {
                     ++vend;
                 }
                 merged = merged.substr(0, vp) + std::to_string(max_val) + merged.substr(vend);
