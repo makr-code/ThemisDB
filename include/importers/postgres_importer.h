@@ -79,6 +79,9 @@ private:
     void addError(ImportStats& stats, ImportErrorCode code, ImportErrorSeverity severity,
                   const std::string& message, const std::string& location = "") const;
 
+    // UTF-8 validation helper
+    static bool isValidUtf8(const std::string& s);
+
     // Checkpoint helpers
     bool loadCheckpoint(const std::string& checkpoint_file, std::streampos& offset,
                         ImportStats& accumulated_stats) const;

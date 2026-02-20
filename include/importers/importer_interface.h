@@ -65,6 +65,7 @@ enum class ImportErrorCode : uint32_t {
     // Validation / policy errors (500-599)
     DRY_RUN_ONLY         = 500,
     TABLE_EXCLUDED       = 501,
+    INVALID_UTF8         = 502,
 
     // Generic errors (900-999)
     UNKNOWN              = 900
@@ -158,6 +159,7 @@ struct ImportOptions {
     // Input validation / safety limits
     size_t max_row_size_bytes = 0;        // 0 = unlimited; rows exceeding this are rejected
     size_t max_statement_size_bytes = 0;  // 0 = unlimited; SQL statements exceeding this are skipped
+    bool enforce_utf8 = false;            // Reject rows/statements containing invalid UTF-8 sequences
 
     // Checkpoint / resume support
     std::string checkpoint_file;          // Path to checkpoint JSON file (empty = disabled)
@@ -177,6 +179,7 @@ struct ImportOptions {
             {"include_schemas", include_schemas},
             {"max_row_size_bytes", max_row_size_bytes},
             {"max_statement_size_bytes", max_statement_size_bytes},
+            {"enforce_utf8", enforce_utf8},
             {"checkpoint_file", checkpoint_file}
         };
     }

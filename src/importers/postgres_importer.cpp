@@ -459,6 +459,22 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
             continue;
         }
 
+        // UTF-8 encoding guard
+        if (options.enforce_utf8 && !isValidUtf8(line)) {
+            addError(stats, ImportErrorCode::INVALID_UTF8,
+                     ImportErrorSeverity::WARNING,
+                     "COPY row contains invalid UTF-8 byte sequence",
+                     "table " + table_name + ", row " + std::to_string(row_num));
+            stats.warnings.push_back("Invalid UTF-8 in table " + table_name +
+                                     " row " + std::to_string(row_num));
+            if (!options.continue_on_error) {
+                stats.failed_records++;
+                return false;
+            }
+            stats.failed_records++;
+            continue;
+        }
+
         // Parse tab-separated values with PostgreSQL COPY escape rules
         std::vector<std::string> values = parseCopyRow(line);
 
@@ -674,6 +690,56 @@ void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
     if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
     }
+}
+
+bool PostgreSQLImporter::isValidUtf8(const std::string& s) {
+    // Validate that every byte sequence in s is valid UTF-8.
+    // Uses the standard multi-byte decoding rules:
+    //   1-byte  (ASCII):       0xxxxxxx
+    //   2-byte continuation:   110xxxxx 10xxxxxx
+    //   3-byte continuation:   1110xxxx 10xxxxxx 10xxxxxx
+    //   4-byte continuation:   11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+    // Rejects overlong encodings, surrogates (U+D800–U+DFFF), and values > U+10FFFF.
+    const auto* bytes = reinterpret_cast<const unsigned char*>(s.data());
+    const size_t len  = s.size();
+    size_t i = 0;
+    while (i < len) {
+        unsigned char c = bytes[i];
+        size_t extra = 0;
+        uint32_t codepoint = 0;
+        if (c <= 0x7F) {
+            // ASCII
+            ++i;
+            continue;
+        } else if ((c & 0xE0) == 0xC0) {
+            extra     = 1;
+            codepoint = c & 0x1F;
+        } else if ((c & 0xF0) == 0xE0) {
+            extra     = 2;
+            codepoint = c & 0x0F;
+        } else if ((c & 0xF8) == 0xF0) {
+            extra     = 3;
+            codepoint = c & 0x07;
+        } else {
+            return false;  // Invalid lead byte
+        }
+        if (i + extra >= len) return false;  // Truncated sequence
+        for (size_t j = 1; j <= extra; ++j) {
+            unsigned char cc = bytes[i + j];
+            if ((cc & 0xC0) != 0x80) return false;  // Invalid continuation byte
+            codepoint = (codepoint << 6) | (cc & 0x3F);
+        }
+        // Reject overlong encodings
+        if (extra == 1 && codepoint < 0x80)   return false;
+        if (extra == 2 && codepoint < 0x800)  return false;
+        if (extra == 3 && codepoint < 0x10000) return false;
+        // Reject surrogates (U+D800–U+DFFF)
+        if (codepoint >= 0xD800 && codepoint <= 0xDFFF) return false;
+        // Reject values above U+10FFFF
+        if (codepoint > 0x10FFFF) return false;
+        i += 1 + extra;
+    }
+    return true;
 }
 
 bool PostgreSQLImporter::loadCheckpoint(const std::string& checkpoint_file,
