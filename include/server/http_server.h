@@ -267,6 +267,17 @@ public:
      */
     bool isRunning() const { return running_; }
 
+    /**
+     * @brief Hot-reload TLS certificate and private key without downtime (SIGHUP)
+     *
+     * Reloads certificate/key files from the paths stored in Config. New TLS
+     * sessions will use the fresh certificate; existing sessions are unaffected.
+     * Thread-safe: protected by ssl_ctx_mutex_.
+     *
+     * @return true if reload succeeded, false if TLS is not enabled or reload failed
+     */
+    bool reloadTls();
+
     // Test helper: expose content manager metrics (nullable)
     const themis::content::ContentManager::Metrics* contentMetrics() const {
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
@@ -746,6 +757,7 @@ private:
     net::io_context ioc_;
     tcp::acceptor acceptor_;
     std::unique_ptr<boost::asio::ssl::context> ssl_ctx_; // SSL context for TLS connections
+    mutable std::mutex ssl_ctx_mutex_; // Protects ssl_ctx_ during hot-reload
     
     // Thread pool
     std::vector<std::thread> threads_;

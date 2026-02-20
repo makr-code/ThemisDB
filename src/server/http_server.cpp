@@ -1306,6 +1306,80 @@ void HttpServer::wait() {
     }
 }
 
+bool HttpServer::reloadTls() {
+    if (!config_.enable_tls) {
+        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled – ignoring");
+        return false;
+    }
+
+    if (config_.tls_cert_path.empty() || config_.tls_key_path.empty()) {
+        THEMIS_ERROR("TLS hot-reload: cert/key paths not configured");
+        return false;
+    }
+
+    THEMIS_INFO("TLS hot-reload: reloading certificate from {} and key from {}",
+        config_.tls_cert_path, config_.tls_key_path);
+
+    try {
+        // Build a fresh SSL context with the same settings
+        auto new_ctx = std::make_unique<boost::asio::ssl::context>(
+            config_.tls_min_version == "TLSv1.2"
+                ? boost::asio::ssl::context::tlsv12_server
+                : boost::asio::ssl::context::tlsv13_server
+        );
+
+        new_ctx->use_certificate_chain_file(config_.tls_cert_path);
+        new_ctx->use_private_key_file(config_.tls_key_path, boost::asio::ssl::context::pem);
+
+        if (!config_.tls_cipher_list.empty()) {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(), config_.tls_cipher_list.c_str());
+        } else {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(),
+                "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305");
+        }
+
+        new_ctx->set_options(
+            boost::asio::ssl::context::default_workarounds |
+            boost::asio::ssl::context::no_sslv2 |
+            boost::asio::ssl::context::no_sslv3 |
+            boost::asio::ssl::context::no_tlsv1 |
+            boost::asio::ssl::context::no_tlsv1_1 |
+            boost::asio::ssl::context::single_dh_use
+        );
+
+        if (config_.tls_require_client_cert && !config_.tls_ca_cert_path.empty()) {
+            new_ctx->load_verify_file(config_.tls_ca_cert_path);
+            new_ctx->set_verify_mode(
+                boost::asio::ssl::verify_peer |
+                boost::asio::ssl::verify_fail_if_no_peer_cert
+            );
+        } else {
+            new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
+        }
+
+#ifdef THEMIS_ENABLE_HTTP2
+        if (config_.enable_http2) {
+            Http2Handler::configureAlpn(*new_ctx);
+        }
+#endif
+
+        // Swap in the new context under the lock so doAccept and onAccept
+        // always see a consistent ssl_ctx_ pointer.
+        {
+            std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+            ssl_ctx_ = std::move(new_ctx);
+        }
+
+        THEMIS_INFO("TLS hot-reload: certificate reloaded successfully");
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("TLS hot-reload failed: {}", e.what());
+        return false;
+    }
+}
+
+
+
 void HttpServer::doAccept() {
     acceptor_.async_accept(
         net::make_strand(ioc_),
@@ -1317,27 +1391,27 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection
-        if (config_.enable_tls && ssl_ctx_) {
+        // Create new session for this connection.
+        // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+        if (config_.enable_tls) {
+            std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+            if (ssl_ctx_) {
 #ifdef THEMIS_ENABLE_HTTP2
-            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
-            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
-            if (config_.enable_http2) {
-                std::make_shared<Http2Session>(
-                    std::move(socket),
-                    *ssl_ctx_,
-                    this,
-                    config_.http2_max_concurrent_streams,
-                    config_.http2_initial_window_size
-                )->start();
-            } else {
-                // TLS without HTTP/2
-                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-            }
+                if (config_.enable_http2) {
+                    std::make_shared<Http2Session>(
+                        std::move(socket),
+                        *ssl_ctx_,
+                        this,
+                        config_.http2_max_concurrent_streams,
+                        config_.http2_initial_window_size
+                    )->start();
+                } else {
+                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                }
 #else
-            // TLS without HTTP/2 support
-            std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
 #endif
+            }
         } else {
             // Plain HTTP/1.1 without TLS
             std::make_shared<Session>(std::move(socket), this)->start();
