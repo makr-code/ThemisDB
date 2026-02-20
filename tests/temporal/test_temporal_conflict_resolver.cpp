@@ -231,6 +231,37 @@ TEST_F(TemporalConflictResolverTest, CRDTMerge_FallbackToLWW) {
     EXPECT_EQ(stats["crdt_merges"], 1);
 }
 
+TEST_F(TemporalConflictResolverTest, CRDTMerge_MergesFieldsFromBothSnapshots) {
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+
+    // Local snapshot has field "a" only; remote has field "b" only.
+    // CRDT merge should produce both fields, preferring the newer value
+    // on any shared key.
+    TemporalSnapshot local;
+    local.snapshot_id = "local_multi";
+    local.hlc         = {1000, 5, "node_a"};
+    local.source_node_id = "node_a";
+    local.data        = {{"a", 1}, {"shared", "old"}};
+    local.checksum    = "c1";
+
+    TemporalSnapshot remote;
+    remote.snapshot_id = "remote_multi";
+    remote.hlc         = {1001, 3, "node_b"};
+    remote.source_node_id = "node_b";
+    remote.data        = {{"b", 2}, {"shared", "new"}};
+    remote.checksum    = "c2";
+
+    auto winner = resolver.resolve(local, remote);
+
+    // Both fields should be present
+    ASSERT_TRUE(winner.data.contains("a"));
+    ASSERT_TRUE(winner.data.contains("b"));
+    // Shared field: newer (remote) wins
+    EXPECT_EQ(winner.data["shared"], "new");
+    EXPECT_EQ(winner.data["a"], 1);
+    EXPECT_EQ(winner.data["b"], 2);
+}
+
 // ============================================================================
 // Policy Override Tests
 // ============================================================================

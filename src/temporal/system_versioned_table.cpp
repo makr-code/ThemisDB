@@ -1,0 +1,246 @@
+/**
+ * ThemisDB System-Versioned Table Implementation
+ *
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#include "temporal/system_versioned_table.h"
+#include <algorithm>
+#include <stdexcept>
+
+namespace themisdb {
+namespace temporal {
+
+// ============================================================================
+// Construction
+// ============================================================================
+
+SystemVersionedTable::SystemVersionedTable(std::string table_name,
+                                           std::string source_node)
+    : table_name_(std::move(table_name)),
+      source_node_(std::move(source_node)) {}
+
+// ============================================================================
+// DML
+// ============================================================================
+
+bool SystemVersionedTable::insert(const std::string& key, const Document& doc) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto& versions = rows_[key];
+    // Reject if a current version already exists
+    for (const auto& v : versions) {
+        if (v.sys_time.end == kMaxTimestamp) {
+            return false;
+        }
+    }
+
+    VersionedDocument vdoc;
+    vdoc.key         = key;
+    vdoc.data        = doc;
+    vdoc.sys_time    = {now(), kMaxTimestamp};
+    vdoc.valid_time  = {now(), kMaxTimestamp};
+    vdoc.modified_by = source_node_;
+
+    versions.push_back(std::move(vdoc));
+    return true;
+}
+
+bool SystemVersionedTable::update(const std::string& key,
+                                  const Document& updates) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return false;
+    }
+
+    auto& versions = it->second;
+    // Find the open-ended (current) version
+    VersionedDocument* current = nullptr;
+    for (auto& v : versions) {
+        if (v.sys_time.end == kMaxTimestamp) {
+            current = &v;
+            break;
+        }
+    }
+    if (!current) {
+        return false;
+    }
+
+    Timestamp ts = now();
+
+    // Close the old version
+    current->sys_time.end = ts;
+
+    // Create a new version with merged data
+    Document merged = current->data;
+    for (auto& [k, val] : updates.items()) {
+        merged[k] = val;
+    }
+
+    VersionedDocument vdoc;
+    vdoc.key         = key;
+    vdoc.data        = std::move(merged);
+    vdoc.sys_time    = {ts, kMaxTimestamp};
+    vdoc.valid_time  = {ts, kMaxTimestamp};
+    vdoc.modified_by = source_node_;
+
+    versions.push_back(std::move(vdoc));
+    return true;
+}
+
+bool SystemVersionedTable::deleteRow(const std::string& key) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return false;
+    }
+
+    closeCurrentVersion(it->second, now());
+    return true;
+}
+
+// ============================================================================
+// Queries
+// ============================================================================
+
+std::optional<VersionedDocument> SystemVersionedTable::getCurrent(
+    const std::string& key) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return std::nullopt;
+    }
+    for (const auto& v : it->second) {
+        if (v.sys_time.end == kMaxTimestamp) {
+            return v;
+        }
+    }
+    return std::nullopt;
+}
+
+std::optional<VersionedDocument> SystemVersionedTable::getAsOf(
+    const std::string& key, Timestamp as_of) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return std::nullopt;
+    }
+    for (const auto& v : it->second) {
+        if (v.sys_time.contains(as_of)) {
+            return v;
+        }
+    }
+    return std::nullopt;
+}
+
+std::vector<VersionedDocument> SystemVersionedTable::getHistory(
+    const std::string& key) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return {};
+    }
+    return it->second;
+}
+
+std::vector<VersionedDocument> SystemVersionedTable::getHistoryInRange(
+    const std::string& key, const TimeRange& range) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return {};
+    }
+
+    std::vector<VersionedDocument> result;
+    for (const auto& v : it->second) {
+        if (v.sys_time.overlaps(range)) {
+            result.push_back(v);
+        }
+    }
+    return result;
+}
+
+std::vector<VersionedDocument> SystemVersionedTable::scan(
+    Timestamp as_of) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    std::vector<VersionedDocument> result;
+    for (const auto& [key, versions] : rows_) {
+        for (const auto& v : versions) {
+            if (as_of == kMaxTimestamp) {
+                if (v.sys_time.end == kMaxTimestamp) {
+                    result.push_back(v);
+                }
+            } else {
+                if (v.sys_time.contains(as_of)) {
+                    result.push_back(v);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+// ============================================================================
+// Metadata
+// ============================================================================
+
+size_t SystemVersionedTable::keyCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return rows_.size();
+}
+
+size_t SystemVersionedTable::versionCount() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    size_t count = 0;
+    for (const auto& [k, v] : rows_) {
+        count += v.size();
+    }
+    return count;
+}
+
+nlohmann::json SystemVersionedTable::getStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    size_t current_count = 0;
+    size_t historical_count = 0;
+    for (const auto& [k, versions] : rows_) {
+        for (const auto& v : versions) {
+            if (v.sys_time.end == kMaxTimestamp) {
+                ++current_count;
+            } else {
+                ++historical_count;
+            }
+        }
+    }
+
+    return {{"table_name", table_name_},
+            {"key_count", rows_.size()},
+            {"current_rows", current_count},
+            {"historical_rows", historical_count},
+            {"total_versions", current_count + historical_count}};
+}
+
+// ============================================================================
+// Private helpers
+// ============================================================================
+
+void SystemVersionedTable::closeCurrentVersion(VersionList& versions,
+                                               Timestamp close_time) {
+    for (auto& v : versions) {
+        if (v.sys_time.end == kMaxTimestamp) {
+            v.sys_time.end = close_time;
+        }
+    }
+}
+
+} // namespace temporal
+} // namespace themisdb

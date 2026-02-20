@@ -174,9 +174,32 @@ TemporalSnapshot TemporalConflictResolver::resolveCRDT(
     const TemporalSnapshot& local,
     const TemporalSnapshot& remote
 ) {
-    // TODO: Implement CRDT merge logic
-    // For now, fallback to Last-Write-Wins
-    return resolveLastWriteWins(local, remote);
+    // LWW-Register per field: for each field, keep the value from the
+    // snapshot with the higher HLC timestamp (Last-Write-Wins per field).
+    // For fields present only in one snapshot the single value is kept.
+    // This is the standard LWW-Element-Register CRDT strategy.
+
+    const TemporalSnapshot& newer =
+        (local.hlc < remote.hlc) ? remote : local;
+    const TemporalSnapshot& older =
+        (local.hlc < remote.hlc) ? local : remote;
+
+    // Start with the older snapshot's fields as the baseline
+    nlohmann::json merged = older.data;
+
+    // Override/add with all fields from the newer snapshot
+    if (newer.data.is_object() && older.data.is_object()) {
+        for (auto& [key, value] : newer.data.items()) {
+            merged[key] = value;
+        }
+    } else {
+        // Non-object payloads: the newer value wins outright
+        merged = newer.data;
+    }
+
+    TemporalSnapshot result = newer;
+    result.data = std::move(merged);
+    return result;
 }
 
 std::vector<ConflictRecord> TemporalConflictResolver::getUnresolvedConflicts() const {
