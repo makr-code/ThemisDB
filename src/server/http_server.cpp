@@ -6472,8 +6472,7 @@ void HttpServer::Session::armReadTimer() {
 }
 
 void HttpServer::Session::cancelReadTimer() {
-    beast::error_code ec;
-    read_timer_.cancel(ec); // cancels the pending async_wait, if any
+    read_timer_.cancel(); // cancels the pending async_wait, if any
 }
 
 void HttpServer::Session::start() {
@@ -6632,7 +6631,7 @@ void HttpServer::SslSession::armReadTimer() {
 
 void HttpServer::SslSession::cancelReadTimer() {
     beast::error_code ec;
-    read_timer_.cancel(ec);
+    read_timer_.cancel();
 }
 
 void HttpServer::SslSession::start() {

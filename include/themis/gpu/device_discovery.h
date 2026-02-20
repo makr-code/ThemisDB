@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include "themis/edition.h"
 
 namespace themis {
 namespace gpu {
@@ -17,6 +18,7 @@ namespace gpu {
  */
 struct DeviceInfo {
     int         index          = 0;      ///< Driver-assigned device index (0-based)
+    int         device_index   = 0;      ///< Backward-compatible alias for index
     std::string name;                    ///< Human-readable device name
     std::string backend;                 ///< "CUDA", "ROCm", "Vulkan", "CPU_FALLBACK"
     uint64_t    total_vram_bytes  = 0;   ///< Total VRAM reported by driver

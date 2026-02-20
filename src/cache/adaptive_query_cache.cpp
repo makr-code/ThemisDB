@@ -892,14 +892,17 @@ bool AdaptiveQueryCache::Config::validate(std::string* error_msg) const {
         return set_error("l3_db_path must not be empty");
     }
     
-    // Validate adaptive TTL
-    if (enable_adaptive_ttl) {
-        if (min_ttl_seconds < 0) {
-            return set_error("min_ttl_seconds must be non-negative");
-        }
-        if (max_ttl_seconds < min_ttl_seconds) {
-            return set_error("max_ttl_seconds must be >= min_ttl_seconds");
-        }
+    // Validate adaptive TTL (legacy + current fields)
+    const int effective_min_ttl = (min_ttl_seconds != 60) ? min_ttl_seconds : adaptive_ttl_min_seconds;
+    const int effective_max_ttl = (max_ttl_seconds != 86400) ? max_ttl_seconds : adaptive_ttl_max_seconds;
+    if (effective_min_ttl <= 0) {
+        return set_error("min_ttl_seconds must be greater than 0");
+    }
+    if (effective_max_ttl <= 0) {
+        return set_error("max_ttl_seconds must be greater than 0");
+    }
+    if (effective_max_ttl < effective_min_ttl) {
+        return set_error("max_ttl_seconds must be >= min_ttl_seconds");
     }
     
     // Validate eviction policy
@@ -953,13 +956,13 @@ bool AdaptiveQueryCache::Config::validate(std::string* error_msg) const {
     
     // Phase 3: Validate adaptive TTL
     if (enable_adaptive_ttl) {
-        if (adaptive_ttl_min_seconds <= 0) {
+        if (effective_min_ttl <= 0) {
             return set_error("adaptive_ttl_min_seconds must be greater than 0");
         }
-        if (adaptive_ttl_max_seconds <= 0) {
+        if (effective_max_ttl <= 0) {
             return set_error("adaptive_ttl_max_seconds must be greater than 0");
         }
-        if (adaptive_ttl_min_seconds >= adaptive_ttl_max_seconds) {
+        if (effective_min_ttl >= effective_max_ttl) {
             return set_error("adaptive_ttl_min_seconds must be less than adaptive_ttl_max_seconds");
         }
         if (adaptive_ttl_scaling_factor <= 0.0) {

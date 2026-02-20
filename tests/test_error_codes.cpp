@@ -8,6 +8,7 @@
 
 #include <string>
 #include <chrono>
+#include <algorithm>
 
 using namespace themis::acceleration;
 
@@ -197,15 +198,15 @@ TEST(ErrorContextHelpers, NoDevicesError) {
 
 // Test ErrorContextHelpers::createDriverError
 TEST(ErrorContextHelpers, DriverError) {
-    auto error = ErrorContextHelpers::createDriverError("HIP", "ROCm driver not found");
+    auto error = ErrorContextHelpers::createDriverError("HIP");
     
     EXPECT_EQ(error.code, AccelerationErrorCode::DriverNotInstalled);
     EXPECT_EQ(error.backendName, "HIP");
     EXPECT_FALSE(error.message.empty());
     EXPECT_FALSE(error.troubleshootingHint.empty());
     
-    // Should mention the specific error
-    EXPECT_NE(error.message.find("ROCm"), std::string::npos);
+    // Should mention driver installation/access
+    EXPECT_NE(error.message.find("driver"), std::string::npos);
 }
 
 // Test ErrorContextHelpers::createContextError
@@ -220,14 +221,14 @@ TEST(ErrorContextHelpers, ContextError) {
 
 // Test ErrorContextHelpers::createMemoryError
 TEST(ErrorContextHelpers, MemoryError) {
-    auto error = ErrorContextHelpers::createMemoryError("CUDA", "cudaMalloc failed", 2048);
+    auto error = ErrorContextHelpers::createMemoryError("CUDA", 2048 * 1024 * 1024ULL);
     
     EXPECT_EQ(error.code, AccelerationErrorCode::OutOfDeviceMemory);
     EXPECT_EQ(error.backendName, "CUDA");
     EXPECT_FALSE(error.message.empty());
     EXPECT_FALSE(error.troubleshootingHint.empty());
     
-    // Should mention memory size
+    // Should mention requested memory size (converted to MB)
     EXPECT_NE(error.message.find("2048"), std::string::npos);
 }
 

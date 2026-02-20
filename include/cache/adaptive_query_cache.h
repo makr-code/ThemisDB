@@ -65,11 +65,6 @@ public:
         int l3_ttl_seconds = 86400;            // 24 hours
         std::string l3_db_path = "./themis_query_cache";
         
-        // Adaptive TTL configuration
-        bool enable_adaptive_ttl = true;
-        int min_ttl_seconds = 60;              // 1 minute minimum
-        int max_ttl_seconds = 86400;           // 24 hour maximum
-        
         // Eviction policy
         bool enable_frequency_weighting = true;
         float frequency_weight = 0.3f;         // Weight for frequency in LRU score
@@ -95,6 +90,8 @@ public:
         
         // Phase 3: Adaptive TTL tuning
         bool enable_adaptive_ttl = false;        // Enable adaptive TTL based on access patterns
+        int min_ttl_seconds = 60;                // Legacy alias for adaptive_ttl_min_seconds
+        int max_ttl_seconds = 86400;             // Legacy alias for adaptive_ttl_max_seconds
         int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
         int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
         double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
@@ -221,7 +218,7 @@ public:
     /**
      * @brief Get enhanced metrics (Phase 1: Observability)
      */
-    cache::CacheMetrics getEnhancedMetrics() const {
+    const cache::CacheMetrics& getEnhancedMetrics() const {
         return enhanced_metrics_;
     }
     
@@ -332,7 +329,6 @@ private:
     // Phase 2: Tenant isolation helpers
     std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
     bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
-    bool isWithinSizeLimit(size_t size) const;
 };
 
 } // namespace themis

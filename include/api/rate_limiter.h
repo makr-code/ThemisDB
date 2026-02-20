@@ -148,6 +148,21 @@ public:
     struct Stats {
         std::atomic<uint64_t> allowed_requests{0};
         std::atomic<uint64_t> rejected_requests{0};
+
+        Stats() = default;
+
+        Stats(const Stats& other) {
+            allowed_requests.store(other.allowed_requests.load());
+            rejected_requests.store(other.rejected_requests.load());
+        }
+
+        Stats& operator=(const Stats& other) {
+            if (this != &other) {
+                allowed_requests.store(other.allowed_requests.load());
+                rejected_requests.store(other.rejected_requests.load());
+            }
+            return *this;
+        }
         
         uint64_t total() const {
             return allowed_requests.load() + rejected_requests.load();

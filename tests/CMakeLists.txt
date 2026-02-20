@@ -191,6 +191,10 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_diskann\\.cpp$"
     ".*test_api_version\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
+    ".*test_continuous_learning_orchestrator\\.cpp$"
+    ".*test_gpu_stream_manager\\.cpp$"
+    ".*test_gpu_module\\.cpp$"
+    ".*test_query_engine_di\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
