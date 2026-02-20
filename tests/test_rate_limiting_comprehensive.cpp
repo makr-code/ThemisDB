@@ -203,7 +203,7 @@ TEST_F(IPBlacklistTest, IsBlacklisted_ReturnsCorrect) {
     EXPECT_FALSE(limiter_->isBlacklisted("some.ip"));
 }
 
-TEST_F(IPBlacklistTest, UnblacklstedIP_AllowedAgain) {
+TEST_F(IPBlacklistTest, UnblacklistedIP_AllowedAgain) {
     limiter_->blacklistIP("temp.banned.ip");
     EXPECT_FALSE(limiter_->allowRequest("temp.banned.ip"));
 

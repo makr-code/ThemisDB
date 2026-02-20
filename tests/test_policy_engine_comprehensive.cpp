@@ -158,7 +158,7 @@ TEST_F(PolicyEngineLoadTest, SaveAndReloadJson_PreservesData) {
 // Authorization Tests
 // ============================================================================
 
-TEST(PolicyEngineAuthTest, NoPolcies_DefaultAllow) {
+TEST(PolicyEngineAuthTest, NoPolicies_DefaultAllow) {
     PolicyEngine pe;
     auto d = pe.authorize("anyone", "read", "/data");
     EXPECT_TRUE(d.allowed);
@@ -412,7 +412,7 @@ TEST(PolicyEngineMetricsTest, AllowIncreasesAllowTotal) {
     EXPECT_EQ(m.policy_deny_total.load(), 0u);
 }
 
-TEST(PolicyEngineMetricsTest, DenyIncreasessdDenyTotal) {
+TEST(PolicyEngineMetricsTest, DenyIncreasesDenyTotal) {
     auto pe = makeEngineWithPolicy("deny", "user", "delete", "/", false);
     pe.authorize("user", "delete", "/data");
 
@@ -422,7 +422,7 @@ TEST(PolicyEngineMetricsTest, DenyIncreasessdDenyTotal) {
     EXPECT_EQ(m.policy_allow_total.load(), 0u);
 }
 
-TEST(PolicyEngineMetricsTest, NoMatchIncreasesdDenyTotal) {
+TEST(PolicyEngineMetricsTest, NoMatchIncreasesDenyTotal) {
     auto pe = makeEngineWithPolicy("allow-specific", "alice", "read", "/data");
     pe.authorize("bob", "delete", "/other");  // no match
 
