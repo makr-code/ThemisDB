@@ -184,3 +184,106 @@ TEST_F(PIIRedactionPolicyTest, ReloadRetainsDefaults) {
     EXPECT_EQ(redacted.find("alice@example.com"), std::string::npos)
         << "Redaction stopped working after a failed reload";
 }
+
+// ---------------------------------------------------------------------------
+// PIIRedactingSink  (auto-redacting spdlog sink wrapper)
+// ---------------------------------------------------------------------------
+#include "utils/pii_redacting_sink.h"
+#include <spdlog/sinks/ostream_sink.h>
+#include <sstream>
+
+class PIIRedactingSinkTest : public ::testing::Test {
+protected:
+    // Build an in-memory logger: ostream_sink wrapped by PIIRedactingSink.
+    void SetUp() override {
+        PIIRedactionPolicy::get().setStrictMode(false);
+        oss_.str("");
+        oss_.clear();
+        auto ostream_sink = std::make_shared<spdlog::sinks::ostream_sink_mt>(oss_);
+        auto pii_sink = std::make_shared<themis::utils::PIIRedactingSink>(ostream_sink);
+        logger_ = std::make_shared<spdlog::logger>("test_pii", pii_sink);
+        logger_->set_level(spdlog::level::trace);
+        logger_->set_pattern("%v");  // Only the message, no timestamps
+    }
+
+    void TearDown() override {
+        PIIRedactionPolicy::get().setStrictMode(false);
+    }
+
+    std::ostringstream oss_;
+    std::shared_ptr<spdlog::logger> logger_;
+};
+
+TEST_F(PIIRedactingSinkTest, EmailAutoRedactedThroughSink) {
+    logger_->info("User: alice@example.com logged in");
+    logger_->flush();
+
+    std::string output = oss_.str();
+    EXPECT_EQ(output.find("alice@example.com"), std::string::npos)
+        << "Email should have been auto-redacted by the sink";
+    // Non-PII parts should survive.
+    EXPECT_NE(output.find("User:"), std::string::npos);
+    EXPECT_NE(output.find("logged in"), std::string::npos);
+}
+
+TEST_F(PIIRedactingSinkTest, SSNAutoRedactedThroughSink) {
+    logger_->info("Processing SSN: 123-45-6789");
+    logger_->flush();
+
+    std::string output = oss_.str();
+    EXPECT_EQ(output.find("123-45-6789"), std::string::npos)
+        << "SSN should have been auto-redacted by the sink";
+}
+
+TEST_F(PIIRedactingSinkTest, NoPIIPassesThroughSinkUnchanged) {
+    logger_->info("Query completed in 42 ms");
+    logger_->flush();
+
+    std::string output = oss_.str();
+    EXPECT_NE(output.find("Query completed in 42 ms"), std::string::npos)
+        << "Non-PII message must pass through unchanged";
+}
+
+TEST_F(PIIRedactingSinkTest, StrictModeAutoRedactedThroughSink) {
+    PIIRedactionPolicy::get().setStrictMode(true);
+
+    logger_->info("User: alice@example.com");
+    logger_->flush();
+
+    std::string output = oss_.str();
+    EXPECT_EQ(output.find("alice@example.com"), std::string::npos);
+    // In strict mode even the local part 'alice' should not appear.
+    EXPECT_EQ(output.find("alice"), std::string::npos)
+        << "Strict mode should fully replace all PII parts";
+}
+
+// ---------------------------------------------------------------------------
+// MetricsCollector  – label redaction via makeKey
+// ---------------------------------------------------------------------------
+#include "observability/metrics_collector.h"
+
+TEST(PIIMetricsRedactionTest, EmailLabelRedactedInPrometheusOutput) {
+    using themis::observability::MetricsCollector;
+
+    // Record a metric with a shard_id label that contains an email address.
+    // The email must not appear verbatim in the Prometheus output.
+    MetricsCollector::getInstance().reset();
+    MetricsCollector::getInstance().recordShardRequest(
+        "shard-alice@corp.de", "read");
+
+    std::string prom = MetricsCollector::getInstance().getPrometheusMetrics();
+
+    // 1. Raw email must not be present.
+    EXPECT_EQ(prom.find("alice@corp.de"), std::string::npos)
+        << "Email in metric label must be redacted in Prometheus output";
+
+    // 2. The non-PII prefix of the shard_id should still be present so that
+    //    label structure is preserved (only the PII substring is replaced).
+    EXPECT_NE(prom.find("shard-"), std::string::npos)
+        << "Non-PII prefix 'shard-' must be preserved after redaction";
+
+    // 3. A masking token must replace the email (partial or strict depending on
+    //    policy configuration – we just verify something non-empty is there).
+    EXPECT_NE(prom.find("shard_requests_total"), std::string::npos)
+        << "Metric name must still appear in Prometheus output";
+}

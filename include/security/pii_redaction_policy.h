@@ -96,6 +96,20 @@ public:
         const std::map<std::string, std::string>& attributes) const;
 
     /**
+     * @brief Redact a single attribute key+value pair efficiently.
+     *
+     * Equivalent to `redactAttributes({{key, value}}).at(key)` but avoids
+     * constructing a temporary map, making it suitable for per-call-site use
+     * in hot paths such as `Tracer::Span::setAttribute`.
+     *
+     * @param key    Attribute key (checked against PII field-name hints).
+     * @param value  Attribute value (scanned for inline PII).
+     * @return Redacted value string.
+     */
+    std::string redactAttributeValue(const std::string& key,
+                                     const std::string& value) const;
+
+    /**
      * @brief Redact PII from Prometheus / metrics label map.
      *
      * Identical semantics to redactAttributes(); provided as a separate

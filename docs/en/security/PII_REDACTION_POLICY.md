@@ -49,13 +49,21 @@ or in combination, to identify, contact, or locate an individual.
 
 ### Channels
 
-The redaction policy applies to **all three telemetry channels**:
+Redaction is **enforced automatically at the infrastructure level** – no
+call-site changes are needed for new code that writes to any of the three
+channels.
 
-| Channel   | Entry Point                                          | Mechanism                          |
-|-----------|------------------------------------------------------|------------------------------------|
-| **Logs**  | `THEMIS_INFO(…)` / `THEMIS_ERROR(…)` / etc.          | `PIIRedactionPolicy::redactForLog` |
-| **Traces**| `Tracer::Span::setAttribute(key, value)`             | `PIIRedactionPolicy::redactAttributes` |
-| **Metrics**| `MetricsCollector` label maps                       | `PIIRedactionPolicy::redactLabels` |
+| Channel    | Enforcement mechanism                                         | Where applied                                |
+|------------|---------------------------------------------------------------|----------------------------------------------|
+| **Logs**   | `PIIRedactingSink` wraps every spdlog sink installed via `Logger::init()`. Every formatted log message passes through `PIIRedactionPolicy::redactForLog()` before reaching the console or file sink. | `include/utils/pii_redacting_sink.h`, `src/utils/logger.cpp` |
+| **Traces** | `Tracer::Span::setAttribute(key, string)` and `Tracer::Span::recordError(string)` route string values through `PIIRedactionPolicy` before forwarding to OpenTelemetry. | `src/utils/tracing.cpp` |
+| **Metrics**| `MetricsCollector::makeKey()` runs every label map through `PIIRedactionPolicy::redactLabels()` before storing or exporting via Prometheus. | `src/observability/metrics_collector.cpp` |
+
+> **Manual calls are still available** via `PIIRedactionPolicy::get()` for
+> cases where structured data must be redacted before being embedded in a
+> format string (so that the already-redacted value is passed to the log
+> call), or for code that bypasses the `Logger` class (e.g., bare
+> `spdlog::info()` calls).
 
 ### Redaction Modes
 
@@ -78,9 +86,15 @@ regardless of per-pattern configuration.
 ┌──────────────────────────────────────────────┐
 │           Application / Handler code          │
 │  (any subsystem writing to logs/traces/metrics)│
-└──────────────────┬───────────────────────────┘
-                   │  raw string / label map
-                   ▼
+└───────┬─────────────┬──────────────┬─────────┘
+        │ THEMIS_INFO │ setAttribute │ recordQuery
+        ▼             ▼              ▼
+┌───────────┐  ┌─────────────┐  ┌──────────────┐
+│  Logger   │  │  Tracer::   │  │  Metrics     │
+│  (spdlog) │  │  Span       │  │  Collector   │
+└─────┬─────┘  └──────┬──────┘  └──────┬───────┘
+      │                │                │
+      ▼ auto           ▼ auto           ▼ auto
 ┌──────────────────────────────────────────────┐
 │         PIIRedactionPolicy  (singleton)        │
 │  ┌────────────────────────────────────────┐  │
@@ -98,15 +112,22 @@ regardless of per-pattern configuration.
 └──────────────────┬───────────────────────────┘
                    │  safe output
                    ▼
-   ┌───────────┬────────────┬──────────────┐
-   │  spdlog   │  OpenTelemetry │  Prometheus │
-   │  (Logger) │  (Tracer)      │  (Metrics)  │
-   └───────────┴────────────┴──────────────┘
+   ┌──────────────────┬────────────┬────────────┐
+   │  PIIRedacting    │  OTel SDK  │  Prometheus │
+   │  Sink → spdlog   │  (Tracer)  │  endpoint  │
+   └──────────────────┴────────────┴────────────┘
 ```
 
-The `PIIRedactionPolicy` is a **process-wide singleton** initialised on first
-use.  It holds a `PIIDetector` instance and delegates all detection logic to the
-configurable engine pipeline.
+Redaction is applied **inside the infrastructure layer**, not by every
+call-site.  This makes it impossible for new code to accidentally bypass
+the policy by simply calling `THEMIS_INFO`, `span.setAttribute`, or
+`MetricsCollector` — all three paths automatically redact before writing.
+
+The `PIIRedactingSink` wraps every real spdlog sink (console, file) so that
+every formatted log message is scanned and masked before being written.
+A thread-local re-entrancy guard ensures the sink itself does not trigger
+infinite recursion if `PIIRedactionPolicy` emits diagnostic messages during
+lazy initialisation.
 
 ---
 
@@ -224,11 +245,18 @@ does not contain the required sections.
 
 Before merging code that handles user data in logs, traces, or metrics:
 
-- [ ] All log messages containing user-supplied strings go through
-      `PIIRedactionPolicy::get().redactForLog(…)`.
-- [ ] Span attributes with user data use `PIIRedactionPolicy::get().redactAttributes(…)`.
-- [ ] Metric labels with user data use `PIIRedactionPolicy::get().redactLabels(…)`.
-- [ ] New PII field names are added to `pii_patterns.yaml` `field_hints`.
+- [ ] **New code using `THEMIS_INFO` / `THEMIS_ERROR` / spdlog**: No action
+      needed if using the `Logger` class — `PIIRedactingSink` redacts
+      automatically.  If using bare `spdlog::info()` (bypassing `Logger`),
+      pre-redact with `PIIRedactionPolicy::get().redactForLog(value)`.
+- [ ] **New trace span attributes**: No action needed for `Tracer::Span` or
+      `TracedSpan` / `ScopedSpan` — `setAttribute(string)` and `recordError`
+      redact automatically.
+- [ ] **New metric label values**: No action needed for `MetricsCollector` —
+      `makeKey()` runs `redactLabels()` automatically.
+- [ ] New PII field names / patterns are added to `pii_patterns.yaml`
+      `field_hints` so that key-based redaction in attributes and labels
+      also covers the new type.
 - [ ] A test case covers the new pattern in `tests/test_pii_redaction_policy.cpp`.
 - [ ] The CI `pii-redaction-check` workflow passes on the PR branch.
 - [ ] Any `// NOPII` suppressions include a clear justification comment.

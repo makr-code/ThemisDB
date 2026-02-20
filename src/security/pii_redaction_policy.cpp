@@ -147,5 +147,19 @@ std::map<std::string, std::string> PIIRedactionPolicy::redactLabels(
     return redactAttributes(labels);
 }
 
+std::string PIIRedactionPolicy::redactAttributeValue(
+    const std::string& key, const std::string& value) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    // Mirror the logic in redactAttributes() for a single key/value pair,
+    // without the overhead of building a temporary map.
+    auto field_type = detector_->classifyFieldName(key);
+    if (field_type != themis::utils::PIIType::UNKNOWN) {
+        std::string mode = strict_mode_ ? "strict"
+                                        : detector_->getRedactionRecommendation(field_type);
+        return themis::utils::PIITypeUtils::maskValue(field_type, value, mode);
+    }
+    return applyRedaction(value);
+}
+
 } // namespace security
 } // namespace themis
