@@ -122,6 +122,15 @@ private:
     bool verifySignatureES256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+    /**
+     * @brief Verify an EdDSA (Ed25519) JWT signature.
+     *
+     * Expects a JWK of type "OKP" with crv="Ed25519" and a 32-byte base64url-
+     * encoded public key in the "x" field.  Requires OpenSSL ≥ 1.1.1.
+     */
+    bool verifySignatureEdDSA(const std::string& header_payload,
+                              const std::vector<uint8_t>& signature,
+                              const nlohmann::json& jwk);
     bool checkAudience(const nlohmann::json& payload) const;
     
     // testing helper

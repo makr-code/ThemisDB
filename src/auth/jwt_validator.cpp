@@ -283,6 +283,37 @@ bool JWTValidator::verifySignatureES256(const std::string& header_payload,
     return EVP_DigestVerifyFinal(mctx.get(), der_buf.get(), (size_t)der_len) == 1;
 }
 
+bool JWTValidator::verifySignatureEdDSA(const std::string& header_payload,
+                                        const std::vector<uint8_t>& signature,
+                                        const nlohmann::json& jwk) {
+    // JWK format: {"kty":"OKP","crv":"Ed25519","x":"<base64url-32-bytes>"}
+    auto it_crv = jwk.find("crv");
+    if (it_crv == jwk.end() || it_crv->get<std::string>() != "Ed25519") return false;
+
+    auto it_x = jwk.find("x");
+    if (it_x == jwk.end()) return false;
+    auto pub_bytes = decodeBase64Url(it_x->get<std::string>());
+    if (pub_bytes.size() != 32) return false;  // Ed25519 public key is exactly 32 bytes
+
+    EVP_PKEY* raw_pkey = EVP_PKEY_new_raw_public_key(
+        EVP_PKEY_ED25519, nullptr, pub_bytes.data(), pub_bytes.size());
+    if (!raw_pkey) return false;
+    std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)> pkey(raw_pkey, EVP_PKEY_free);
+
+    EVP_MD_CTX* raw_ctx = EVP_MD_CTX_new();
+    if (!raw_ctx) return false;
+    std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> ctx(raw_ctx, EVP_MD_CTX_free);
+
+    // Ed25519 uses a single-pass DigestVerify with md=nullptr
+    if (EVP_DigestVerifyInit(ctx.get(), nullptr, nullptr, nullptr, pkey.get()) != 1) return false;
+    int result = EVP_DigestVerify(
+        ctx.get(),
+        signature.data(), signature.size(),
+        reinterpret_cast<const unsigned char*>(header_payload.data()),
+        header_payload.size());
+    return result == 1;
+}
+
 bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
     if (cfg_.expected_audience.empty()) return true;
     if (!payload.contains("aud")) return false;
@@ -433,6 +464,8 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         sig_ok = verifySignatureRS256(header_payload, sig_bytes, *jwk);
     } else if (alg == "ES256") {
         sig_ok = verifySignatureES256(header_payload, sig_bytes, *jwk);
+    } else if (alg == "EdDSA") {
+        sig_ok = verifySignatureEdDSA(header_payload, sig_bytes, *jwk);
     }
     if (!sig_ok) {
         utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
