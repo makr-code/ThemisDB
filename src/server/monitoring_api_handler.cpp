@@ -11,6 +11,7 @@
 #include "themis/license_info.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "observability/metrics_collector.h"
 #include <ctime>
 #ifndef _WIN32
 #include <sys/resource.h>
@@ -948,6 +949,21 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             THEMIS_WARN("Failed to collect HSM security metrics: {}", e.what());
         } catch (...) {
             THEMIS_WARN("Unknown error while collecting HSM security metrics");
+        }
+
+        // Append metrics from the central MetricsCollector (query latency, cache,
+        // TSStore writes, sharding, security, tracing spans, etc.)
+        try {
+            std::string collector_metrics =
+                observability::MetricsCollector::getInstance().getPrometheusMetrics();
+            if (!collector_metrics.empty()) {
+                out += "\n# === ThemisDB Subsystem Metrics (MetricsCollector) ===\n";
+                out += collector_metrics;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to collect subsystem metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting subsystem metrics");
         }
 
         // Return Prometheus format response

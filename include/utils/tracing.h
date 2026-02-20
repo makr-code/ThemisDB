@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 #include <memory>
 #include <optional>
 #include <chrono>
@@ -111,6 +112,30 @@ public:
      * Start a new span as a child of the given parent span
      */
     static Span startChildSpan(const std::string& name, const Span& parent);
+
+    /**
+     * Start a new root span using W3C TraceContext headers for context propagation.
+     *
+     * Extracts the `traceparent` (and optionally `tracestate`) header from the
+     * provided header map and creates a span that is a child of the upstream trace
+     * context.  This enables distributed tracing across service boundaries: callers
+     * (API gateways, service meshes, SDKs) can propagate their trace IDs into
+     * ThemisDB so that all internal spans appear in the same distributed trace.
+     *
+     * Format of `traceparent` (W3C Trace Context Level 1):
+     *   version-traceid-parentid-flags
+     *   e.g. "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+     *
+     * When THEMIS_ENABLE_TRACING is not defined, this falls back to startSpan()
+     * and records the raw `traceparent` value as an attribute for log correlation.
+     *
+     * @param name       Span name
+     * @param headers    HTTP request headers (case-insensitive key lookup)
+     * @return Span      A new span, possibly linked to the upstream trace
+     */
+    static Span startSpanFromHeaders(
+        const std::string& name,
+        const std::map<std::string, std::string>& headers);
     
     /**
      * Get total number of spans created (for metrics)

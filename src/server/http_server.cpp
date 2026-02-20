@@ -160,6 +160,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <functional>
 #include <cmath>
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <limits>
 #include <optional>
@@ -2080,10 +2081,17 @@ namespace {
 }
     const http::request<http::string_body>& req
 ) {
-     // Create span for the entire HTTP request
-     auto span = Tracer::startSpan("http_request");
-     span.setAttribute("http.method", std::string(http::to_string(req.method())));
-     span.setAttribute("http.target", std::string(req.target()));
+    // Create root span for this HTTP request.
+    // If the caller supplied a W3C traceparent header, the new span becomes
+    // a child of that upstream trace context (distributed tracing propagation).
+    std::map<std::string, std::string> req_headers;
+    for (auto const& field : req) {
+        req_headers.emplace(std::string(field.name_string()),
+                            std::string(field.value()));
+    }
+    auto span = Tracer::startSpanFromHeaders("http_request", req_headers);
+    span.setAttribute("http.method", std::string(http::to_string(req.method())));
+    span.setAttribute("http.target", std::string(req.target()));
     
     auto start = std::chrono::steady_clock::now();
     
