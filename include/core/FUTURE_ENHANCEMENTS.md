@@ -556,7 +556,7 @@ We welcome contributions in the following areas:
 ### High-Impact, Beginner-Friendly
 - [ ] Add missing Doxygen comments to interfaces
 - [ ] Create example programs for each interface
-- [ ] Add `noexcept` specifications
+- [x] Add `noexcept` specifications (done for lifecycle methods: `flush()`, `shutdown()`, `HealthStatus::isHealthy()`, `LatencyTimer::elapsedMs()`, `TraceContext::empty()`, and all NoOp implementations)
 - [ ] Fix include order dependencies
 
 ### Medium Complexity

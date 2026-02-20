@@ -329,6 +329,102 @@ httpServer.get("/readyz", [&](auto& req, auto& res) {
 3. **Phase 3**: Gradually migrate existing components
 4. **Phase 4**: Maintain backward compatibility with existing Logger/Tracer/MetricsCollector
 
+## CI Integration
+
+### Recommended Pattern for CI/CD Pipelines
+
+In CI environments, use a **no-op context** so tests run without external
+dependencies (spdlog file sinks, OTLP collectors, Prometheus endpoints):
+
+```cpp
+// test_main.cpp or test fixture SetUp()
+auto concerns = themis::core::concerns::ConcernsContext::createNoOp();
+// Inject into the component under test
+MyComponent component(concerns);
+```
+
+### Validating Lifecycle Hooks in Tests
+
+After exercising a component, verify that lifecycle hooks are callable and
+leave no dangling state:
+
+```cpp
+TEST(MyComponentTest, LifecycleHooksAreClean) {
+    auto concerns = ConcernsContext::createNoOp();
+    MyComponent component(concerns);
+    component.doWork();
+
+    // Flush should be idempotent and not crash
+    EXPECT_NO_THROW(concerns->flush());
+
+    // Shutdown should be idempotent and not crash
+    EXPECT_NO_THROW(concerns->shutdown());
+}
+```
+
+### Validating Health/Readiness Probes
+
+```cpp
+TEST(MyComponentTest, HealthCheckPassesAfterInit) {
+    auto concerns = ConcernsContext::createNoOp();
+    MyComponent component(concerns);
+
+    auto status = concerns->healthCheck();
+    EXPECT_TRUE(status.isHealthy());
+}
+```
+
+### Simulating Unhealthy Dependencies
+
+Use `ConcernsContext::createCustom()` to inject an implementation that
+reports unhealthy — useful for testing circuit-breaker and retry logic:
+
+```cpp
+class UnhealthyCache : public NoOpCache {
+public:
+    ProbeResult isHealthy() const override {
+        return ProbeResult::unhealthy("cache backend unavailable");
+    }
+};
+
+TEST(MyComponentTest, HandlesUnhealthyCache) {
+    auto concerns = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<UnhealthyCache>()
+    );
+
+    auto status = concerns->healthCheck();
+    EXPECT_FALSE(status.isHealthy());
+    EXPECT_FALSE(status.cache.ok);
+    EXPECT_EQ(status.cache.message, "cache backend unavailable");
+}
+```
+
+### noexcept Contract
+
+The following lifecycle methods are declared `noexcept` and are safe to call
+from destructors, signal handlers, and other non-throwing contexts:
+
+| Method | `noexcept` |
+|--------|-----------|
+| `ILogger::flush()` default | ✅ |
+| `ILogger::shutdown()` default | ✅ |
+| `ITracer::flush()` default | ✅ |
+| `IMetrics::flush()` default | ✅ |
+| `IMetrics::shutdown()` default | ✅ |
+| `ICache::flush()` default | ✅ |
+| `ICache::shutdown()` default | ✅ |
+| `HealthStatus::isHealthy()` | ✅ |
+| `TraceContext::empty()` | ✅ |
+| `LatencyTimer::elapsedMs()` | ✅ |
+| All `NoOp*::flush()` / `shutdown()` | ✅ |
+
+> **Note:** Concrete adapters (spdlog, OpenTelemetry, Prometheus) do NOT
+> declare their lifecycle overrides `noexcept` because they interact with
+> external resources that may throw.
+
 ## Benefits
 
 ### Before (Current State)

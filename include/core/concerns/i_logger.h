@@ -21,7 +21,7 @@ struct TraceContext {
     std::string trace_id;    ///< OpenTelemetry trace id (hex string)
     std::string request_id;  ///< Per-request/RPC correlation id
 
-    bool empty() const { return trace_id.empty() && request_id.empty(); }
+    bool empty() const noexcept { return trace_id.empty() && request_id.empty(); }
 };
 
 /**
@@ -109,7 +109,7 @@ public:
      * ensure no messages are lost.  Default is a no-op for backends
      * that do not buffer.
      */
-    virtual void flush() {}
+    virtual void flush() noexcept {}
 
     /**
      * @brief Shut down the logger and release resources.
@@ -117,7 +117,7 @@ public:
      * After shutdown(), all logging calls are silently dropped.
      * Default is a no-op.
      */
-    virtual void shutdown() {}
+    virtual void shutdown() noexcept {}
 
     /**
      * @brief Probe whether the logging sink is reachable and healthy.

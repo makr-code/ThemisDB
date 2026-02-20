@@ -43,7 +43,7 @@ struct HealthStatus {
     ProbeResult cache;
 
     /// @return true only when every concern reports healthy/ready.
-    bool isHealthy() const {
+    bool isHealthy() const noexcept {
         return logger.ok && tracer.ok && metrics.ok && cache.ok;
     }
 };

@@ -74,7 +74,7 @@ public:
      * For in-memory caches this is a no-op; for write-through or
      * write-behind caches, all dirty entries should be persisted.
      */
-    virtual void flush() {}
+    virtual void flush() noexcept {}
 
     /**
      * @brief Shut down the cache and release resources.
@@ -82,7 +82,7 @@ public:
      * Implementations should flush pending writes and free connections
      * (e.g. to Redis).  The cache is unusable after this call.
      */
-    virtual void shutdown() {}
+    virtual void shutdown() noexcept {}
 
     /**
      * @brief Probe whether the cache backend is reachable and healthy.

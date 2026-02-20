@@ -54,7 +54,7 @@ public:
      * Should be called before shutdown() to ensure all in-flight spans
      * are exported.  Default is a no-op.
      */
-    virtual void flush() {}
+    virtual void flush() noexcept {}
 
     /**
      * @brief Probe whether the tracing exporter is reachable and healthy.

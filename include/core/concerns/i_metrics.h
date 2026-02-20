@@ -52,14 +52,14 @@ public:
      * Call before shutdown() to ensure the final snapshot is published.
      * Default is a no-op.
      */
-    virtual void flush() {}
+    virtual void flush() noexcept {}
 
     /**
      * @brief Shut down the metrics backend and release resources.
      *
      * Default is a no-op.
      */
-    virtual void shutdown() {}
+    virtual void shutdown() noexcept {}
 
     /**
      * @brief Probe whether the metrics binding/exporter is healthy.
@@ -85,7 +85,7 @@ public:
         metrics_.recordLatency(operation_, static_cast<double>(duration.count()), labels_);
     }
 
-    double elapsedMs() const {
+    double elapsedMs() const noexcept {
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_);
         return static_cast<double>(duration.count());

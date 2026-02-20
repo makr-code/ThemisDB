@@ -120,7 +120,7 @@ public:
     }
 
     // Lifecycle hooks
-    void flush() override {
+    void flush() noexcept override {
         // In-memory cache has no backing store to flush.
     }
 
