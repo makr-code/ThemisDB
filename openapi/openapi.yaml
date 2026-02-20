@@ -1724,7 +1724,146 @@ paths:
                     example: 'Cache cleared'
         '500': { $ref: '#/components/responses/InternalError' }
 
-components:
+  /api/v1/geo/topology:
+    get:
+      summary: List all shards with region/zone/health metadata
+      tags: [Geo Topology]
+      responses:
+        '200':
+          description: Full geo topology
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 6
+                  shards:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GeoShardInfo'
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /api/v1/geo/topology/shard:
+    post:
+      summary: Add or update a shard's region and zone metadata
+      tags: [Geo Topology]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoShardUpsertRequest'
+      responses:
+        '200':
+          description: Shard added or updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  shard_id:
+                    type: string
+                  region:
+                    type: string
+                  zone:
+                    type: string
+                  action:
+                    type: string
+                    enum: [created, updated]
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /api/v1/geo/regions:
+    get:
+      summary: Per-region aggregated health summary
+      tags: [Geo Topology]
+      responses:
+        '200':
+          description: Region health summaries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_regions:
+                    type: integer
+                  regions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GeoRegionHealth'
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /api/v1/geo/health:
+    get:
+      summary: Overall geo-failover and quorum health
+      tags: [Geo Topology]
+      responses:
+        '200':
+          description: Overall geo health
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoOverallHealth'
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /api/v1/geo/config/{collection}:
+    get:
+      summary: Get geo-replication configuration for a collection
+      tags: [Geo Topology]
+      parameters:
+        - name: collection
+          in: path
+          required: true
+          schema:
+            type: string
+          example: orders
+      responses:
+        '200':
+          description: Geo-replication configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoReplicationConfig'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+    put:
+      summary: Update geo-replication configuration for a collection
+      tags: [Geo Topology]
+      parameters:
+        - name: collection
+          in: path
+          required: true
+          schema:
+            type: string
+          example: orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoReplicationConfigUpdate'
+      responses:
+        '200':
+          description: Configuration updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  collection:
+                    type: string
+                  applied:
+                    type: boolean
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -2271,7 +2410,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    InternalError:
     Unauthorized:
       description: Nicht autorisiert
       headers:
@@ -2288,6 +2426,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    ServiceUnavailable:
+      description: Service not available (component not initialized)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalError:
       description: Interner Serverfehler
       content:
         application/json:
@@ -2859,3 +3004,104 @@ components:
         status:
           type: integer
       required: [error, status]
+
+    # ── Geo Topology schemas ──────────────────────────────────────────────────
+    GeoShardInfo:
+      type: object
+      properties:
+        shard_id:        { type: string, example: "shard-0" }
+        region:          { type: string, example: "us-east" }
+        zone:            { type: string, example: "us-east-1a" }
+        datacenter:      { type: string, example: "us-east" }
+        rack:            { type: string, example: "" }
+        is_healthy:      { type: boolean }
+        raft_role:       { type: string, example: "leader" }
+        raft_term:       { type: integer, format: int64 }
+        raft_leader_id:  { type: string }
+        raft_has_quorum: { type: boolean }
+        primary_endpoint: { type: string, example: "10.0.0.1:7000" }
+        capabilities:    { type: array, items: { type: string } }
+      required: [shard_id, region, zone, is_healthy]
+
+    GeoShardUpsertRequest:
+      type: object
+      properties:
+        shard_id:        { type: string, example: "shard-6" }
+        region:          { type: string, example: "ap-south" }
+        zone:            { type: string, example: "ap-south-1a" }
+        datacenter:      { type: string }
+        rack:            { type: string }
+        primary_endpoint: { type: string }
+        is_healthy:      { type: boolean }
+      required: [shard_id]
+
+    GeoRegionHealth:
+      type: object
+      properties:
+        region:             { type: string, example: "us-east" }
+        total_shards:       { type: integer, example: 3 }
+        healthy_shards:     { type: integer, example: 3 }
+        has_majority_quorum: { type: boolean }
+        zones:              { type: array, items: { type: string } }
+      required: [region, total_shards, healthy_shards, has_majority_quorum]
+
+    GeoOverallHealth:
+      type: object
+      properties:
+        overall_status:   { type: string, enum: [healthy, partial, degraded] }
+        total_shards:     { type: integer }
+        healthy_shards:   { type: integer }
+        total_regions:    { type: integer }
+        healthy_regions:  { type: array, items: { type: string } }
+        degraded_regions: { type: array, items: { type: object } }
+        failed_regions:   { type: array, items: { type: string } }
+      required: [overall_status, total_shards, healthy_shards, total_regions]
+
+    GeoReplicationConfig:
+      type: object
+      properties:
+        collection:              { type: string }
+        mode:                    { type: string, example: "geo_mirror" }
+        replication_factor:      { type: integer, example: 6 }
+        replication_mode:        { type: string, enum: [sync, semi_sync, async] }
+        local_region:            { type: string, example: "us-east" }
+        max_staleness_ms:        { type: integer, example: 500 }
+        prefer_local_reads:      { type: boolean }
+        prefer_local_writes:     { type: boolean }
+        enable_geo_failover:     { type: boolean }
+        region_failure_threshold: { type: number, format: double, example: 0.5 }
+        max_lag_ms:              { type: integer, example: 1000 }
+        region_write_quorums:
+          type: object
+          additionalProperties: { type: integer }
+          example: { "us-east": 2, "eu-west": 1 }
+        region_read_quorums:
+          type: object
+          additionalProperties: { type: integer }
+          example: { "us-east": 1 }
+        failed_regions:
+          type: array
+          items: { type: string }
+      required: [collection, replication_factor, replication_mode]
+
+    GeoReplicationConfigUpdate:
+      type: object
+      description: >
+        Partial update for a collection's GEO_MIRROR configuration.
+        Only provided fields will be updated.
+      properties:
+        replication_factor:      { type: integer, example: 6 }
+        replication_mode:        { type: string, enum: [sync, semi_sync, async] }
+        local_region:            { type: string, example: "us-east" }
+        max_staleness_ms:        { type: integer, example: 500 }
+        prefer_local_reads:      { type: boolean }
+        prefer_local_writes:     { type: boolean }
+        enable_geo_failover:     { type: boolean }
+        region_failure_threshold: { type: number, format: double, example: 0.5 }
+        max_lag_ms:              { type: integer }
+        region_write_quorums:
+          type: object
+          additionalProperties: { type: integer }
+        region_read_quorums:
+          type: object
+          additionalProperties: { type: integer }

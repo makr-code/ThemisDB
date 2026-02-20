@@ -616,6 +616,12 @@ HttpServer::HttpServer(
         storage_, spatial_index_, auth_
     );
     THEMIS_INFO("Spatial API Handler initialized");
+
+    // Initialize Geo Topology API Handler
+    geo_topology_api_ = std::make_unique<themis::server::GeoTopologyApiHandler>(
+        shard_topology_, redundancy_manager_, auth_
+    );
+    THEMIS_INFO("Geo Topology API Handler initialized");
     
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
@@ -1581,6 +1587,14 @@ namespace {
     BpmnProcessStartPost,     // POST /api/v1/bpmn/process/start
     BpmnTaskCompletePost,     // POST /api/v1/bpmn/task/:taskId/complete
     BpmnInstanceQueryGet,     // GET /api/v1/bpmn/instance/:instanceId
+
+    // Geo Topology API
+    GeoTopologyGet,           // GET  /api/v1/geo/topology
+    GeoRegionsGet,            // GET  /api/v1/geo/regions
+    GeoHealthGet,             // GET  /api/v1/geo/health
+    GeoTopologyShardPost,     // POST /api/v1/geo/topology/shard
+    GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
+    GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
        
         NotFound
     };
@@ -1808,6 +1822,14 @@ namespace {
     }
     
     if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) return Route::BpmnInstanceQueryGet;
+
+    // Geo Topology API
+    if (path_only == "/api/v1/geo/topology" && method == http::verb::get) return Route::GeoTopologyGet;
+    if (path_only == "/api/v1/geo/regions"  && method == http::verb::get) return Route::GeoRegionsGet;
+    if (path_only == "/api/v1/geo/health"   && method == http::verb::get) return Route::GeoHealthGet;
+    if (path_only == "/api/v1/geo/topology/shard" && method == http::verb::post) return Route::GeoTopologyShardPost;
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
     
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
@@ -3063,6 +3085,26 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable,
                     "BPMN process engine not available", req);
             }
+            break;
+
+        // ── Geo Topology API ──────────────────────────────────────────────────
+        case Route::GeoTopologyGet:
+            response = geo_topology_api_->handleTopologyGet(req);
+            break;
+        case Route::GeoRegionsGet:
+            response = geo_topology_api_->handleRegionsGet(req);
+            break;
+        case Route::GeoHealthGet:
+            response = geo_topology_api_->handleHealthGet(req);
+            break;
+        case Route::GeoTopologyShardPost:
+            response = geo_topology_api_->handleTopologyShardPost(req);
+            break;
+        case Route::GeoConfigGet:
+            response = geo_topology_api_->handleConfigGet(req);
+            break;
+        case Route::GeoConfigPut:
+            response = geo_topology_api_->handleConfigPut(req);
             break;
         case Route::SchemaGetFull:
             response = handleSchemaGetFull(req);
