@@ -95,7 +95,32 @@ private:
  */
 class LLMMetricsCollector {
 public:
+    /**
+     * @brief Configuration for LLMMetricsCollector.
+     *
+     * All threshold fields accept values in milliseconds and can be tuned
+     * without recompilation:
+     *
+     *  - Distributed / high-latency deployments: raise thresholds (200–500 ms)
+     *  - Local / high-performance deployments: lower thresholds (50–100 ms)
+     *
+     * Additional per-metric thresholds (e.g. first-token latency alert budget)
+     * may be added to this struct in future minor versions without breaking
+     * existing call sites.
+     */
+    struct Config {
+        /**
+         * @brief Minimum wait time (ms) that counts as a lock-contention event.
+         *
+         * Increments `llm_context_lock_contention_total` whenever
+         * `recordContextLockWait()` is called with a value exceeding this.
+         * Default: 100 ms.
+         */
+        double lock_contention_threshold_ms = 100.0;
+    };
+
     explicit LLMMetricsCollector(PrometheusExporter* exporter);
+    LLMMetricsCollector(PrometheusExporter* exporter, const Config& config);
     
     // Inference metrics
     void recordInferenceRequest(const std::string& model_id);
@@ -173,7 +198,8 @@ public:
     
 private:
     PrometheusExporter* exporter_;
-    
+    Config config_;
+
     void initializeMetrics();
     void initializeExtendedContextMetrics();  // v1.4.0+ metrics
 };

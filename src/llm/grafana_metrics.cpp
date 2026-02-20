@@ -234,8 +234,15 @@ std::string PrometheusExporter::serializeMetric(const std::string& name, const M
 
 // LLMMetricsCollector Implementation
 LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter)
-    : exporter_(exporter) {
+    : exporter_(exporter), config_{} {
     spdlog::debug("LLMMetricsCollector initialized");
+    initializeMetrics();
+}
+
+LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter, const Config& config)
+    : exporter_(exporter), config_(config) {
+    spdlog::debug("LLMMetricsCollector initialized (lock_contention_threshold_ms={})",
+                  config_.lock_contention_threshold_ms);
     initializeMetrics();
 }
 
@@ -647,13 +654,7 @@ void LLMMetricsCollector::recordLoRAAdapterSwitch(const std::string& model_id,
 void LLMMetricsCollector::recordContextLockWait(const std::string& model_id, double wait_time_ms) {
     exporter_->observeHistogram("llm_context_lock_wait_ms", wait_time_ms, {{"model_id", model_id}});
     
-    // Track lock contention events with configurable threshold
-    // TODO: Make threshold configurable via config (default: 100ms)
-    // Higher thresholds (200-500ms) recommended for distributed systems
-    // Lower thresholds (50-100ms) for local/high-performance deployments
-    constexpr double CONTENTION_THRESHOLD_MS = 100.0;
-    
-    if (wait_time_ms > CONTENTION_THRESHOLD_MS) {
+    if (wait_time_ms > config_.lock_contention_threshold_ms) {
         exporter_->incrementCounter("llm_context_lock_contention_total", {{"model_id", model_id}});
     }
 }
@@ -850,7 +851,7 @@ void LLMMetricsCollector::initializeExtendedContextMetrics() {
     
     exporter_->registerMetric({
         "llm_context_lock_contention_total",
-        "Total number of context lock contention events (wait > 100ms)",
+        "Total number of context lock contention events (wait exceeds configured threshold)",
         PrometheusExporter::MetricType::COUNTER,
         {"model_id"}
     });
