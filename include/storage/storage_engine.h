@@ -51,6 +51,53 @@ public:
         }
     };
 
+    // ── Storage I/O metrics ───────────────────────────────────────────────
+
+    /**
+     * @brief Cumulative per-operation latency and throughput metrics.
+     *
+     * All latency fields are in **microseconds**.  Counters are monotonically
+     * increasing from the moment the engine was last opened.
+     */
+    struct IOMetrics {
+        // ── put ──────────────────────────────────────────────────────────
+        uint64_t put_ops{0};           ///< Total successful put() calls
+        uint64_t put_errors{0};        ///< Total failed put() calls
+        uint64_t put_latency_us{0};    ///< Cumulative latency of successful puts (µs)
+        uint64_t put_latency_min_us{UINT64_MAX}; ///< Min put latency (µs); UINT64_MAX if none
+        uint64_t put_latency_max_us{0};          ///< Max put latency (µs)
+
+        // ── get ──────────────────────────────────────────────────────────
+        uint64_t get_ops{0};
+        uint64_t get_errors{0};
+        uint64_t get_latency_us{0};
+        uint64_t get_latency_min_us{UINT64_MAX};
+        uint64_t get_latency_max_us{0};
+
+        // ── del ──────────────────────────────────────────────────────────
+        uint64_t del_ops{0};
+        uint64_t del_errors{0};
+        uint64_t del_latency_us{0};
+        uint64_t del_latency_min_us{UINT64_MAX};
+        uint64_t del_latency_max_us{0};
+
+        /** Average put latency in microseconds (0 if no puts yet). */
+        double avg_put_latency_us() const {
+            return put_ops == 0 ? 0.0
+                                : static_cast<double>(put_latency_us) / put_ops;
+        }
+        /** Average get latency in microseconds (0 if no gets yet). */
+        double avg_get_latency_us() const {
+            return get_ops == 0 ? 0.0
+                                : static_cast<double>(get_latency_us) / get_ops;
+        }
+        /** Average del latency in microseconds (0 if no dels yet). */
+        double avg_del_latency_us() const {
+            return del_ops == 0 ? 0.0
+                                : static_cast<double>(del_latency_us) / del_ops;
+        }
+    };
+
     /**
      * @brief Constructor with Dependency Injection
      * 
@@ -150,6 +197,19 @@ public:
     void resetScanCounters();
 
     /**
+     * @brief Return a snapshot of cumulative I/O metrics.
+     *
+     * Thread-safe: fields are read with relaxed atomics (consistent per-field,
+     * not a cross-field snapshot).
+     */
+    IOMetrics ioMetrics() const;
+
+    /**
+     * @brief Reset all I/O metrics to zero / initial state.
+     */
+    void resetIOMetrics();
+
+    /**
      * @brief Apply a filter expression to stored data
      * 
      * Uses the injected expression evaluator to filter documents.
@@ -220,6 +280,25 @@ private:
     mutable std::atomic<uint64_t> sc_examined_{0};
     mutable std::atomic<uint64_t> sc_returned_{0};
     mutable std::atomic<uint64_t> sc_early_stops_{0};
+
+    // I/O latency metrics (lock-free atomics, latency in microseconds)
+    mutable std::atomic<uint64_t> io_put_ops_{0};
+    mutable std::atomic<uint64_t> io_put_errors_{0};
+    mutable std::atomic<uint64_t> io_put_latency_{0};
+    mutable std::atomic<uint64_t> io_put_min_{UINT64_MAX};
+    mutable std::atomic<uint64_t> io_put_max_{0};
+
+    mutable std::atomic<uint64_t> io_get_ops_{0};
+    mutable std::atomic<uint64_t> io_get_errors_{0};
+    mutable std::atomic<uint64_t> io_get_latency_{0};
+    mutable std::atomic<uint64_t> io_get_min_{UINT64_MAX};
+    mutable std::atomic<uint64_t> io_get_max_{0};
+
+    mutable std::atomic<uint64_t> io_del_ops_{0};
+    mutable std::atomic<uint64_t> io_del_errors_{0};
+    mutable std::atomic<uint64_t> io_del_latency_{0};
+    mutable std::atomic<uint64_t> io_del_min_{UINT64_MAX};
+    mutable std::atomic<uint64_t> io_del_max_{0};
 };
 
 } // namespace themis

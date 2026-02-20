@@ -6,6 +6,7 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <cstdlib>
+#include <chrono>
 
 namespace themis {
 
@@ -280,6 +281,20 @@ void StorageEngine::close() {
     is_open_ = false;
 }
 
+// ── Helper: update a min/max atomic (relaxed, best-effort) ──────────────────
+namespace {
+void atomicUpdateMin(std::atomic<uint64_t>& m, uint64_t v) {
+    uint64_t cur = m.load(std::memory_order_relaxed);
+    while (v < cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
+        ;
+}
+void atomicUpdateMax(std::atomic<uint64_t>& m, uint64_t v) {
+    uint64_t cur = m.load(std::memory_order_relaxed);
+    while (v > cur && !m.compare_exchange_weak(cur, v, std::memory_order_relaxed))
+        ;
+}
+} // anonymous namespace
+
 Result<void> StorageEngine::put(const std::string& key, const std::string& value) {
     TracedSpan span("StorageEngine.put");
     span.setAttribute("storage.key_size", static_cast<int64_t>(key.size()));
@@ -287,15 +302,27 @@ Result<void> StorageEngine::put(const std::string& key, const std::string& value
     
     if (!is_open_) {
         span.setStatus(false, "Storage not open");
+        io_put_errors_.fetch_add(1, std::memory_order_relaxed);
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "Storage engine not open");
     }
-    
-    if (!rocksdb_->put(key, value)) {
+
+    auto t0 = std::chrono::steady_clock::now();
+    bool ok = rocksdb_->put(key, value);
+    uint64_t us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+
+    if (!ok) {
+        io_put_errors_.fetch_add(1, std::memory_order_relaxed);
         span.setStatus(false, "RocksDB put failed");
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                        "Failed to write key: " + key);
     }
+    io_put_ops_.fetch_add(1, std::memory_order_relaxed);
+    io_put_latency_.fetch_add(us, std::memory_order_relaxed);
+    atomicUpdateMin(io_put_min_, us);
+    atomicUpdateMax(io_put_max_, us);
 
     span.setStatus(true);
     return OkVoid();
@@ -307,16 +334,28 @@ Result<std::string> StorageEngine::get(const std::string& key) {
     
     if (!is_open_) {
         span.setStatus(false, "Storage not open");
+        io_get_errors_.fetch_add(1, std::memory_order_relaxed);
         return Err<std::string>(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                                 "Storage engine not open");
     }
-    
+
+    auto t0 = std::chrono::steady_clock::now();
     std::string out;
-    if (rocksdb_->get(key, out)) {
+    bool found = rocksdb_->get(key, out);
+    uint64_t us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+
+    if (found) {
+        io_get_ops_.fetch_add(1, std::memory_order_relaxed);
+        io_get_latency_.fetch_add(us, std::memory_order_relaxed);
+        atomicUpdateMin(io_get_min_, us);
+        atomicUpdateMax(io_get_max_, us);
         span.setStatus(true);
         return Ok(std::move(out));
     }
 
+    io_get_errors_.fetch_add(1, std::memory_order_relaxed);
     span.setStatus(false, "Key not found");
     return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                             fmt::format("Key '{}' not found", key));
@@ -328,18 +367,72 @@ Result<void> StorageEngine::del(const std::string& key) {
     
     if (!is_open_) {
         span.setStatus(false, "Storage not open");
+        io_del_errors_.fetch_add(1, std::memory_order_relaxed);
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "Storage engine not open");
     }
-    
-    if (!rocksdb_->del(key)) {
+
+    auto t0 = std::chrono::steady_clock::now();
+    bool ok = rocksdb_->del(key);
+    uint64_t us = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - t0).count());
+
+    if (!ok) {
+        io_del_errors_.fetch_add(1, std::memory_order_relaxed);
         span.setStatus(false, "RocksDB del failed");
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                        "Failed to delete key: " + key);
     }
+    io_del_ops_.fetch_add(1, std::memory_order_relaxed);
+    io_del_latency_.fetch_add(us, std::memory_order_relaxed);
+    atomicUpdateMin(io_del_min_, us);
+    atomicUpdateMax(io_del_max_, us);
 
     span.setStatus(true);
     return OkVoid();
+}
+
+StorageEngine::IOMetrics StorageEngine::ioMetrics() const {
+    IOMetrics m;
+    m.put_ops            = io_put_ops_.load(std::memory_order_relaxed);
+    m.put_errors         = io_put_errors_.load(std::memory_order_relaxed);
+    m.put_latency_us     = io_put_latency_.load(std::memory_order_relaxed);
+    m.put_latency_min_us = io_put_min_.load(std::memory_order_relaxed);
+    m.put_latency_max_us = io_put_max_.load(std::memory_order_relaxed);
+
+    m.get_ops            = io_get_ops_.load(std::memory_order_relaxed);
+    m.get_errors         = io_get_errors_.load(std::memory_order_relaxed);
+    m.get_latency_us     = io_get_latency_.load(std::memory_order_relaxed);
+    m.get_latency_min_us = io_get_min_.load(std::memory_order_relaxed);
+    m.get_latency_max_us = io_get_max_.load(std::memory_order_relaxed);
+
+    m.del_ops            = io_del_ops_.load(std::memory_order_relaxed);
+    m.del_errors         = io_del_errors_.load(std::memory_order_relaxed);
+    m.del_latency_us     = io_del_latency_.load(std::memory_order_relaxed);
+    m.del_latency_min_us = io_del_min_.load(std::memory_order_relaxed);
+    m.del_latency_max_us = io_del_max_.load(std::memory_order_relaxed);
+    return m;
+}
+
+void StorageEngine::resetIOMetrics() {
+    io_put_ops_.store(0, std::memory_order_relaxed);
+    io_put_errors_.store(0, std::memory_order_relaxed);
+    io_put_latency_.store(0, std::memory_order_relaxed);
+    io_put_min_.store(UINT64_MAX, std::memory_order_relaxed);
+    io_put_max_.store(0, std::memory_order_relaxed);
+
+    io_get_ops_.store(0, std::memory_order_relaxed);
+    io_get_errors_.store(0, std::memory_order_relaxed);
+    io_get_latency_.store(0, std::memory_order_relaxed);
+    io_get_min_.store(UINT64_MAX, std::memory_order_relaxed);
+    io_get_max_.store(0, std::memory_order_relaxed);
+
+    io_del_ops_.store(0, std::memory_order_relaxed);
+    io_del_errors_.store(0, std::memory_order_relaxed);
+    io_del_latency_.store(0, std::memory_order_relaxed);
+    io_del_min_.store(UINT64_MAX, std::memory_order_relaxed);
+    io_del_max_.store(0, std::memory_order_relaxed);
 }
 
 Result<void> StorageEngine::scanRange(

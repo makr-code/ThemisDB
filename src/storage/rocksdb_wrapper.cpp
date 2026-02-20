@@ -1414,6 +1414,11 @@ uint64_t RocksDBWrapper::getApproximateSize() const {
     return 0;
 }
 
+uint64_t RocksDBWrapper::getLatestSequenceNumber() const {
+    if (!db_) return 0;
+    return db_->GetLatestSequenceNumber();
+}
+
 bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {
     if (!db_) {
         THEMIS_ERROR("createCheckpoint failed: DB is not open");

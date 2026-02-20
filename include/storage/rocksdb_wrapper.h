@@ -491,6 +491,10 @@ public:
     /// Get current configuration
     const Config& getConfig() const { return config_; }
 
+    /// Get the latest RocksDB sequence number (monotonically increasing with every write).
+    /// Returns 0 if the database is not open.
+    uint64_t getLatestSequenceNumber() const;
+
     // ===== Backup & Recovery (Checkpoints) =====
     /// Create a RocksDB checkpoint (filesystem-level snapshot) at the given directory.
     /// Returns true on success. Directory will be created if it doesn't exist.
