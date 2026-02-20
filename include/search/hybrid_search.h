@@ -16,7 +16,8 @@ class VectorIndexManager;
  * 
  * v1.2.0 Feature: Reciprocal Rank Fusion (RRF) for RAG optimization
  * v1.3.0 Update: Real BM25 and Vector index integration
- * v1.4.0 Update: Configurable vector metric, config validation, normalization fixes
+ * v1.4.0 Update: Configurable vector metric, config validation, normalization fixes,
+ *                resource limits, exception safety, partial-result logging
  * 
  * Features:
  * - BM25 fulltext search with scoring
@@ -25,6 +26,25 @@ class VectorIndexManager;
  * - Linear combination fallback with pre-normalization
  * - Score normalization with edge-case handling
  * - Configurable vector distance metric (COSINE, DOT, L2)
+ * - Bounded resource usage via max_k / max_candidates limits
+ * 
+ * @note Thread Safety: A single HybridSearch instance is NOT thread-safe.
+ *   search() and setConfig() must not be called concurrently on the same
+ *   instance. Callers that share an instance across threads must provide
+ *   their own synchronization (e.g. a mutex around each call).
+ *   Creating separate HybridSearch instances per thread is the preferred
+ *   pattern, since the class is lightweight and holds no mutable state
+ *   beyond Config and the two non-owning index pointers.
+ * 
+ * @note Exception Safety: The constructor offers strong exception safety
+ *   (throws std::invalid_argument on invalid Config; the object is never
+ *   partially constructed). search() is unconditionally noexcept at runtime:
+ *   all exceptions from the index backends and from the fusion stage are
+ *   caught internally, logged via THEMIS_ERROR, and search() returns an
+ *   empty (or partial) result vector rather than propagating the exception.
+ *   reciprocalRankFusion() and normalizeScores() may throw std::bad_alloc
+ *   when called directly, but within search() this is caught and results in
+ *   an empty return value.
  * 
  * Use Cases:
  * - RAG (Retrieval-Augmented Generation)
@@ -48,6 +68,11 @@ public:
         bool use_rrf = true;        // Use RRF (recommended)
         double rrf_k = 60.0;        // RRF constant
         bool normalize_scores = true;
+
+        // Resource limits: k and candidates are clamped to these bounds at
+        // construction time to prevent unbounded memory / latency spikes.
+        size_t max_k = 10'000;          // Hard upper bound for final result k
+        size_t max_candidates = 10'000; // Hard upper bound for k_bm25 / k_vector
         
         // Configurable table/column for searches
         std::string default_table = "documents";
@@ -67,7 +92,20 @@ public:
         std::string content;
         std::optional<double> geo_distance;
     };
-    
+
+    /**
+     * @brief Diagnostic information returned alongside search results.
+     *
+     * Callers should check partial_result to detect degraded-mode responses.
+     */
+    struct SearchStats {
+        bool bm25_ok = false;       ///< BM25 search ran without error
+        bool vector_ok = false;     ///< Vector search ran without error
+        bool partial_result = false;///< True when one source failed but the other succeeded
+        size_t bm25_count = 0;      ///< Raw BM25 candidate count before fusion
+        size_t vector_count = 0;    ///< Raw vector candidate count before fusion
+    };
+
     explicit HybridSearch(
         SecondaryIndexManager* fulltext_index,
         VectorIndexManager* vector_index,
@@ -81,28 +119,36 @@ public:
     HybridSearch& operator=(HybridSearch&&) = default;
     
     /**
-     * @brief Perform hybrid search combining BM25 and vector search
-     * 
-     * @param text_query Text query for BM25 search
-     * @param vector_query Optional vector query for ANN search
-     * @param vector_dim Dimension of vector query
-     * @return Fused results ranked by hybrid score
+     * @brief Perform hybrid search combining BM25 and vector search.
+     *
+     * Internally catches all exceptions from the index backends and returns
+     * whatever partial results are available, logging errors via THEMIS_ERROR.
+     * Never throws.
+     *
+     * @param text_query   Text query for BM25 search (pass "" to skip BM25)
+     * @param vector_query Optional vector query for ANN search (nullptr to skip)
+     * @param vector_dim   Dimension of vector_query; ignored when nullptr
+     * @param stats        Optional output: filled with per-source diagnostics
+     * @return Fused results ranked by hybrid score; may be partial if one
+     *         source failed (indicated by stats.partial_result == true)
      */
     std::vector<Result> search(
         const std::string& text_query,
         const float* vector_query = nullptr,
-        size_t vector_dim = 0
+        size_t vector_dim = 0,
+        SearchStats* stats = nullptr
     );
     
     /**
-     * @brief Fuse BM25 and vector results using Reciprocal Rank Fusion
-     * 
+     * @brief Fuse BM25 and vector results using Reciprocal Rank Fusion.
+     *
      * RRF formula: score(d) = sum(1 / (k + rank_i(d)))
-     * where k is a constant (default 60) and rank_i is the rank in result set i
-     * 
-     * @param bm25_results BM25 search results
-     * @param vector_results Vector search results  
-     * @return Fused results sorted by hybrid score
+     * where k is a constant (default 60) and rank_i is the rank in result set i.
+     * May throw std::bad_alloc; callers (search()) catch this.
+     *
+     * @param bm25_results   BM25 search results (ordered by score descending)
+     * @param vector_results Vector search results (ordered by distance ascending)
+     * @return Fused results sorted by hybrid score, limited to Config::k
      */
     std::vector<Result> reciprocalRankFusion(
         const std::vector<Result>& bm25_results,

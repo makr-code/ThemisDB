@@ -292,6 +292,115 @@ TEST(HybridSearchNullIndices, EmptyTextAndNullVectorReturnsEmpty) {
 }
 
 // ============================================================================
+// Resource Limits Tests
+// ============================================================================
+
+TEST(HybridSearchResourceLimits, ZeroMaxKThrows) {
+    HybridSearch::Config cfg;
+    cfg.max_k = 0;
+    EXPECT_THROW(HybridSearch(nullptr, nullptr, cfg), std::invalid_argument);
+}
+
+TEST(HybridSearchResourceLimits, ZeroMaxCandidatesThrows) {
+    HybridSearch::Config cfg;
+    cfg.max_candidates = 0;
+    EXPECT_THROW(HybridSearch(nullptr, nullptr, cfg), std::invalid_argument);
+}
+
+TEST(HybridSearchResourceLimits, KExceedingMaxKThrows) {
+    HybridSearch::Config cfg;
+    cfg.max_k = 5;
+    cfg.k = 6;
+    EXPECT_THROW(HybridSearch(nullptr, nullptr, cfg), std::invalid_argument);
+}
+
+TEST(HybridSearchResourceLimits, KBm25ExceedingMaxCandidatesThrows) {
+    HybridSearch::Config cfg;
+    cfg.max_candidates = 100;
+    cfg.k_bm25 = 101;
+    EXPECT_THROW(HybridSearch(nullptr, nullptr, cfg), std::invalid_argument);
+}
+
+TEST(HybridSearchResourceLimits, KVectorExceedingMaxCandidatesThrows) {
+    HybridSearch::Config cfg;
+    cfg.max_candidates = 100;
+    cfg.k_vector = 101;
+    EXPECT_THROW(HybridSearch(nullptr, nullptr, cfg), std::invalid_argument);
+}
+
+TEST(HybridSearchResourceLimits, KEqualsMaxKIsValid) {
+    HybridSearch::Config cfg;
+    cfg.max_k = 10;
+    cfg.k = 10;
+    EXPECT_NO_THROW(HybridSearch(nullptr, nullptr, cfg));
+}
+
+TEST(HybridSearchResourceLimits, KBm25EqualsMaxCandidatesIsValid) {
+    HybridSearch::Config cfg;
+    cfg.max_candidates = 50;
+    cfg.k_bm25 = 50;
+    cfg.k_vector = 50;
+    EXPECT_NO_THROW(HybridSearch(nullptr, nullptr, cfg));
+}
+
+TEST(HybridSearchResourceLimits, DefaultLimitsAllowDefaultCandidates) {
+    // Default Config must be valid with its own defaults
+    HybridSearch::Config cfg;
+    EXPECT_NO_THROW(HybridSearch(nullptr, nullptr, cfg));
+    HybridSearch hs(nullptr, nullptr, cfg);
+    EXPECT_GT(hs.getConfig().max_k, 0u);
+    EXPECT_GE(hs.getConfig().max_k, hs.getConfig().k);
+    EXPECT_GT(hs.getConfig().max_candidates, 0u);
+    EXPECT_GE(hs.getConfig().max_candidates, hs.getConfig().k_bm25);
+    EXPECT_GE(hs.getConfig().max_candidates, hs.getConfig().k_vector);
+}
+
+// ============================================================================
+// SearchStats Tests
+// ============================================================================
+
+TEST(HybridSearchStats, NullIndicesNeitherAttempted) {
+    HybridSearch::Config cfg;
+    HybridSearch hs(nullptr, nullptr, cfg);
+    HybridSearch::SearchStats stats;
+    // No text query, no vector → nothing attempted
+    hs.search("", nullptr, 0, &stats);
+    EXPECT_FALSE(stats.partial_result);
+    EXPECT_EQ(stats.bm25_count, 0u);
+    EXPECT_EQ(stats.vector_count, 0u);
+}
+
+TEST(HybridSearchStats, NullIndicesWithTextQuery) {
+    HybridSearch::Config cfg;
+    HybridSearch hs(nullptr, nullptr, cfg);
+    HybridSearch::SearchStats stats;
+    // text query provided but no fulltext_index → bm25 not attempted, bm25_ok=false
+    hs.search("hello world", nullptr, 0, &stats);
+    EXPECT_FALSE(stats.bm25_ok);       // index was never available
+    EXPECT_FALSE(stats.partial_result); // no index attempted → cannot be partial
+    EXPECT_EQ(stats.bm25_count, 0u);
+}
+
+TEST(HybridSearchStats, NullIndicesWithVectorQuery) {
+    HybridSearch::Config cfg;
+    HybridSearch hs(nullptr, nullptr, cfg);
+    HybridSearch::SearchStats stats;
+    float vec[] = {0.1f, 0.2f, 0.3f};
+    // vector query provided but no vector_index → vector not attempted, vector_ok=false
+    hs.search("", vec, 3, &stats);
+    EXPECT_FALSE(stats.vector_ok);      // index was never available
+    EXPECT_FALSE(stats.partial_result);
+    EXPECT_EQ(stats.vector_count, 0u);
+}
+
+TEST(HybridSearchStats, NullStatsPointerIsIgnored) {
+    HybridSearch::Config cfg;
+    HybridSearch hs(nullptr, nullptr, cfg);
+    // Passing nullptr for stats must not crash
+    EXPECT_NO_THROW(hs.search("hello", nullptr, 0, nullptr));
+}
+
+// ============================================================================
 // setConfig Tests
 // ============================================================================
 
