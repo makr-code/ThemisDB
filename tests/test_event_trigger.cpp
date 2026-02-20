@@ -674,7 +674,8 @@ TEST_F(EventTriggerTest, UpdateConfigAffectsSubsequentMatching) {
     EventTrigger trigger(changefeed_.get(), config, cb);
     trigger.start();
 
-    // Event matching old prefix – should NOT fire yet (trigger is on old_prefix:)
+    // Event using new_prefix: – should NOT fire because the trigger is still
+    // configured with old_prefix: at this point
     auto ev1 = makeEvent("new_prefix:item");
     ev1.timestamp_ms = 1000;
     changefeed_->recordEvent(ev1);

@@ -668,7 +668,7 @@ TEST_F(SchedulerIntegrationTest, ManualTriggerTaskNotExecutedBySchedulerLoop) {
     scheduler_->registerTask(task);
 
     scheduler_->start();
-    // Let the scheduler loop run for 3 ticks (check_interval=50ms → 150ms)
+    // Let the scheduler loop run for several ticks (check_interval=20ms in this fixture)
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
     scheduler_->stop();
 
