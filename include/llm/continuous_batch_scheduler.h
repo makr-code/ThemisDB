@@ -42,6 +42,12 @@ public:
         size_t max_concurrent_requests = 128;   // Max pending requests
         size_t max_tokens_per_batch = 8192;    // Total token budget
         
+        // Backpressure: maximum combined waiting + active requests.
+        // When the queue reaches this depth, submitRequest() returns an empty
+        // string immediately instead of enqueuing the request.
+        // 0 means unlimited (no backpressure).
+        size_t max_queue_depth = 0;
+        
         // Scheduling policy
         bool enable_preemption = true;
         bool enable_chunked_prefill = true;    // Chunk large prefills
@@ -156,6 +162,8 @@ public:
         size_t completed_requests = 0;
         size_t failed_requests = 0;
         size_t preempted_requests = 0;
+        // Requests shed by backpressure (queue depth limit reached)
+        size_t rejected_requests = 0;
         
         double avg_scheduling_time_ms = 0.0;
         double avg_time_to_first_token_ms = 0.0;
@@ -163,6 +171,8 @@ public:
         
         size_t current_batch_size = 0;
         size_t max_batch_size_seen = 0;
+        // Current combined depth of waiting + active requests
+        size_t current_queue_depth = 0;
     };
     
     Stats getStats() const;

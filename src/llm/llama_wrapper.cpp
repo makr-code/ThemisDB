@@ -124,6 +124,15 @@ void LlamaWrapper::validateConfig(const Config& config) {
         spdlog::info("RoPE scaling validated: {:.1f}x context extension ({} → {} tokens)",
                     scaling_factor, rope_cfg.original_context, rope_cfg.max_context);
     }
+    
+    // Validate timeout
+    if (config.request_timeout_ms > 0) {
+        if (config.request_timeout_ms < 1000) {
+            spdlog::warn("request_timeout_ms ({}) is less than 1 000 ms; very short timeouts may cause spurious failures",
+                         config.request_timeout_ms);
+        }
+        spdlog::info("Request timeout: {} ms", config.request_timeout_ms);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════

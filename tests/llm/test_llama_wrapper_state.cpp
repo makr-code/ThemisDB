@@ -242,4 +242,26 @@ TEST_F(LlamaWrapperStateTest, StatePreventsSilentFailures) {
                exception_msg.find("UNINITIALIZED") != std::string::npos);
 }
 
+// ═══════════════════════════════════════════════════════════
+// request_timeout_ms config validation tests (Q1)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(LlamaWrapperStateTest, RequestTimeoutDefault_Zero_NoWarning) {
+    // Default config has request_timeout_ms = 0 (unlimited); construction must succeed
+    EXPECT_EQ(config_.request_timeout_ms, 0u);
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config_));
+}
+
+TEST_F(LlamaWrapperStateTest, RequestTimeoutReasonableValue_Accepted) {
+    config_.request_timeout_ms = 30000;  // 30 s — sensible production value
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config_));
+}
+
+TEST_F(LlamaWrapperStateTest, RequestTimeoutShortValue_AcceptedWithWarning) {
+    // Values < 1 000 ms trigger a warning but must NOT throw; callers are
+    // responsible for choosing appropriate timeouts.
+    config_.request_timeout_ms = 100;
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config_));
+}
+
 

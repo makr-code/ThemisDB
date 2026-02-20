@@ -308,4 +308,92 @@ TEST_F(ContinuousBatchSchedulerTest, PrioritySchedulingWithBlocks) {
     scheduler->cancelRequest(high_id);
 }
 
+// ═══════════════════════════════════════════════════════════
+// Backpressure / Queue Depth Tests (Q1 implementation)
+// ═══════════════════════════════════════════════════════════
+
+// Test 8: submitRequest returns empty string when max_queue_depth is reached
+TEST_F(ContinuousBatchSchedulerTest, BackpressureRejectWhenQueueFull) {
+    // Create a scheduler with a small queue depth limit
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size = 32;
+    cfg.max_tokens_per_batch = 2048;
+    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
+    cfg.max_queue_depth = 3;  // Only 3 requests allowed
+    
+    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
+    sched->start();
+    
+    // Fill the queue to the limit
+    std::vector<std::string> ids;
+    for (size_t i = 0; i < cfg.max_queue_depth; ++i) {
+        auto req = createTestRequest(10, 5);
+        std::string id = sched->submitRequest(req);
+        EXPECT_FALSE(id.empty()) << "Request " << i << " should be accepted";
+        ids.push_back(id);
+    }
+    
+    // The next request must be rejected (empty string returned)
+    auto overflow_req = createTestRequest(10, 5);
+    std::string overflow_id = sched->submitRequest(overflow_req);
+    EXPECT_TRUE(overflow_id.empty()) << "Overflow request should be rejected";
+    
+    // rejected_requests counter must be incremented
+    auto stats = sched->getStats();
+    EXPECT_EQ(stats.rejected_requests, 1u);
+    
+    // Cleanup
+    for (const auto& id : ids) {
+        sched->cancelRequest(id);
+    }
+    sched->stop();
+}
+
+// Test 9: max_queue_depth = 0 means unlimited (no rejection)
+TEST_F(ContinuousBatchSchedulerTest, BackpressureUnlimitedWhenZero) {
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size = 32;
+    cfg.max_tokens_per_batch = 2048;
+    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
+    cfg.max_queue_depth = 0;  // Unlimited
+    
+    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
+    sched->start();
+    
+    // Submit many requests — none should be rejected
+    std::vector<std::string> ids;
+    for (int i = 0; i < 20; ++i) {
+        auto req = createTestRequest(5, 3);
+        std::string id = sched->submitRequest(req);
+        EXPECT_FALSE(id.empty()) << "Request " << i << " should be accepted (unlimited)";
+        ids.push_back(id);
+    }
+    
+    auto stats = sched->getStats();
+    EXPECT_EQ(stats.rejected_requests, 0u);
+    
+    for (const auto& id : ids) {
+        sched->cancelRequest(id);
+    }
+    sched->stop();
+}
+
+// Test 10: current_queue_depth is updated by scheduleNextBatch
+TEST_F(ContinuousBatchSchedulerTest, CurrentQueueDepthTracked) {
+    auto req = createTestRequest(20, 10);
+    auto req_id = scheduler->submitRequest(req);
+    EXPECT_FALSE(req_id.empty());
+    
+    // After submit, depth should be >= 1
+    // (depth is updated in scheduleNextBatch, not submitRequest)
+    scheduler->scheduleNextBatch();
+    
+    auto stats = scheduler->getStats();
+    // current_queue_depth = waiting + active; after scheduling the request
+    // moves to active, so depth should be 1
+    EXPECT_EQ(stats.current_queue_depth, 1u);
+    
+    scheduler->cancelRequest(req_id);
+}
+
 // No custom main; gtest_main provides the entry point

@@ -39,6 +39,19 @@ std::string ContinuousBatchScheduler::submitRequest(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Enforce maximum queue depth (backpressure).  Measure combined depth of
+    // waiting queue + active requests so that the limit covers all in-flight
+    // work, not just the waiting queue alone.
+    if (config_.max_queue_depth > 0) {
+        size_t current_depth = waiting_queue_.size() + active_requests_.size();
+        if (current_depth >= config_.max_queue_depth) {
+            stats_.rejected_requests++;
+            spdlog::warn("ContinuousBatchScheduler: queue full ({}/{}) — request rejected (backpressure)",
+                         current_depth, config_.max_queue_depth);
+            return {};  // Empty string signals rejection to caller
+        }
+    }
+    
     auto scheduled = std::make_shared<ScheduledRequest>();
     scheduled->request_id = generateRequestId();
     scheduled->inference_request = request;
@@ -197,6 +210,7 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     stats_.current_batch_size = batch.size();
     stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
     stats_.active_requests = active_requests_.size();
+    stats_.current_queue_depth = waiting_queue_.size() + active_requests_.size();
     
     auto end_time = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(

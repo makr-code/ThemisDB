@@ -16,14 +16,27 @@ ThemisDB supports GGUF version 3, the latest stable format specification for bas
 
 ### Quantization Types
 
-| GGUF Type | Internal Type | Conversion | Status |
-|-----------|---------------|------------|--------|
-| Q4_K_M    | NF4          | Dequantize → NF4 | ✅ Supported |
-| Q8_0      | INT8         | Dequantize → INT8 | ✅ Supported |
-| F16       | FP32         | Direct conversion | ✅ Supported |
-| F32       | FP32         | Direct copy | ✅ Supported |
-| Q4_0      | -            | - | ⏳ Future |
-| Q5_K      | -            | - | ⏳ Future |
+The table below reflects the current status as of v1.5.  `GGUFLoader::isFormatSupported()` is the canonical check for whether a format will be accepted at parse time.
+
+| GGUF Type | Block size | Elements/block | Internal Type | Status |
+|-----------|------------|----------------|---------------|--------|
+| F32       | 4 B/elem   | 1              | FP32          | ✅ Supported — direct copy |
+| F16       | 2 B/elem   | 1              | FP32          | ✅ Supported — direct conversion |
+| Q4_K_M    | 144 B      | 256            | NF4           | ✅ Supported — dequantize → NF4 |
+| Q8_0      | 34 B       | 32             | INT8          | ✅ Supported — dequantize → INT8 |
+| Q4_0      | 18 B       | 32             | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q4_1      | 20 B       | 32             | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q5_0      | 22 B       | 32             | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q5_1      | 24 B       | 32             | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q8_1      | 36 B       | 32             | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q5_K      | 176 B      | 256            | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q6_K      | 210 B      | 256            | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q2_K      | varies     | 256            | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+| Q3_K      | varies     | 256            | —             | ❌ Not supported — `parseFile()` returns an explicit error |
+
+**Unsupported format behavior (v1.5+):** Loading a GGUF file that contains any tensor in an unsupported format causes `GGUFLoader::parseFile()` to return `false` immediately with a human-readable error available via `GGUFLoader::getLastError()`.  The error message names the format, the tensor, and suggests downloading a Q4_K_M or Q8_0 variant.  Prior to v1.5, unsupported formats silently returned raw quantized bytes, causing downstream numerical corruption.
+
+**Model recommendation:** For production deployments use **Q4_K_M** (best accuracy/size trade-off) or **Q8_0** (highest accuracy).  Both are available for most popular models on HuggingFace and Ollama.
 
 ## Architecture
 
