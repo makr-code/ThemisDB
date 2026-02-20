@@ -73,12 +73,15 @@ std::string ChangefeedBuffer::makeBufferKey(const Changefeed::ChangeEvent& event
 }
 
 Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent event) {
+    CDC_MEASURE_LATENCY(metrics_.record_event_latency);
+    
     auto span = Tracer::startSpan("ChangefeedBuffer.recordEvent");
     span.setAttribute("key", event.key);
     span.setAttribute("type", makeBufferKey(event));
     
     if (event.key.empty()) {
         THEMIS_WARN("ChangefeedBuffer: Event key cannot be empty");
+        metrics_.errors++;
         return event;  // Return as-is
     }
     
@@ -91,12 +94,14 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     if (config_.compress_payloads && event.value.has_value()) {
         size_t payload_size = event.value->size();
         if (payload_size > config_.compression_threshold_bytes) {
+            CDC_MEASURE_LATENCY(metrics_.compression_latency);
             try {
                 auto compressed = utils::zstd_compress(*event.value, 3);
                 if (!compressed.empty() && compressed.size() < payload_size) {
                     event.value = std::string(compressed.begin(), compressed.end());
                     event.metadata["_compressed"] = true;
                     stats_.compressed_payloads++;
+                    metrics_.compression_count++;
                     
                     // Update compression ratio stats
                     double ratio = static_cast<double>(payload_size) / compressed.size();
@@ -107,10 +112,16 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
             } catch (const std::exception& e) {
                 THEMIS_WARN("Compression failed for event (key={}): {}. Storing uncompressed.", 
                            event.key, e.what());
+                metrics_.errors++;
                 // Continue with uncompressed payload
             }
         }
     }
+    
+    // Track throughput
+    size_t event_size = event.value.has_value() ? event.value->size() : 0;
+    metrics_.throughput.recordEvent(event_size);
+    metrics_.events_recorded++;
     
     {
         std::unique_lock<std::mutex> lock(buffers_mutex_);
@@ -208,6 +219,8 @@ size_t ChangefeedBuffer::flushInternal(bool lock_held) {
 }
 
 size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, EventTypeBuffer& buffer) {
+    CDC_MEASURE_LATENCY(metrics_.flush_latency);
+    
     if (buffer.events.empty()) {
         return 0;
     }
@@ -230,20 +243,26 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 Changefeed::ChangeEvent event = buffered_event.event;
                 if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
                     if (event.value.has_value()) {
-                        try {
-                            std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
-                            auto decompressed = utils::zstd_decompress(compressed_data);
-                            if (!decompressed.empty()) {
-                                event.value = std::string(decompressed.begin(), decompressed.end());
-                            } else {
-                                THEMIS_ERROR("Decompression returned empty result for event key={}", event.key);
+                        {
+                            CDC_MEASURE_LATENCY(metrics_.decompression_latency);
+                            try {
+                                std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
+                                auto decompressed = utils::zstd_decompress(compressed_data);
+                                if (!decompressed.empty()) {
+                                    event.value = std::string(decompressed.begin(), decompressed.end());
+                                    metrics_.decompression_count++;
+                                } else {
+                                    THEMIS_ERROR("Decompression returned empty result for event key={}", event.key);
+                                    stats_.flush_errors++;
+                                    metrics_.errors++;
+                                    break;  // Don't retry decompression errors
+                                }
+                            } catch (const std::exception& e) {
+                                THEMIS_ERROR("Decompression failed for event key={}: {}", event.key, e.what());
                                 stats_.flush_errors++;
+                                metrics_.errors++;
                                 break;  // Don't retry decompression errors
                             }
-                        } catch (const std::exception& e) {
-                            THEMIS_ERROR("Decompression failed for event key={}: {}", event.key, e.what());
-                            stats_.flush_errors++;
-                            break;  // Don't retry decompression errors
                         }
                     }
                     event.metadata.erase("_compressed");
@@ -253,14 +272,17 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 changefeed_->recordEvent(event);
                 count++;
                 recorded = true;
+                metrics_.events_flushed++;
                 
                 if (retry_count > 0) {
                     stats_.retry_successes++;
+                    metrics_.retries++;
                     THEMIS_DEBUG("Successfully recorded event after {} retries", retry_count);
                 }
             } catch (const std::exception& e) {
                 retry_count++;
                 stats_.retry_attempts++;
+                metrics_.retries++;
                 
                 if (retry_count <= config_.max_retry_attempts) {
                     // Calculate backoff duration with maximum cap
@@ -281,6 +303,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                     THEMIS_ERROR("Failed to record event after {} attempts: {}", retry_count, e.what());
                     stats_.retry_failures++;
                     stats_.flush_errors++;
+                    metrics_.errors++;
                     // Note: failed++ will be done below if !recorded
                 }
             }

@@ -19,6 +19,7 @@
 #pragma once
 
 #include "cdc/changefeed.h"
+#include "cdc/cdc_metrics.h"
 #include <deque>
 #include <map>
 #include <mutex>
@@ -29,6 +30,7 @@
 #include <memory>
 
 namespace themis {
+using namespace themis::cdc;
 
 /**
  * @brief Configuration for changefeed auto-batching
@@ -174,6 +176,17 @@ public:
     const ChangefeedBufferStats& getStats() const;
     
     /**
+     * @brief Get enhanced metrics (latency, throughput, etc.)
+     * @return CDCMetrics with histograms and counters
+     */
+    const CDCMetrics& getMetrics() const { return metrics_; }
+    
+    /**
+     * @brief Reset metrics (for testing or periodic reset)
+     */
+    void resetMetrics() { metrics_.reset(); }
+    
+    /**
      * @brief Get current configuration
      */
     const ChangefeedBufferConfig& getConfig() const { return config_; }
@@ -240,6 +253,9 @@ private:
     
     // Statistics
     ChangefeedBufferStats stats_;
+    
+    // Enhanced metrics (P1 feature)
+    CDCMetrics metrics_;
     
     // Helper functions
     std::string makeBufferKey(const Changefeed::ChangeEvent& event) const;
