@@ -79,6 +79,12 @@ private:
     void addError(ImportStats& stats, ImportErrorCode code, ImportErrorSeverity severity,
                   const std::string& message, const std::string& location = "") const;
 
+    // Metrics emission helper
+    void emitMetric(const ImportOptions& options,
+                    const std::string& metric,
+                    const std::map<std::string, std::string>& labels,
+                    double value) const;
+
     // UTF-8 validation helper
     static bool isValidUtf8(const std::string& s);
 

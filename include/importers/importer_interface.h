@@ -163,6 +163,9 @@ struct ImportOptions {
 
     // Checkpoint / resume support
     std::string checkpoint_file;          // Path to checkpoint JSON file (empty = disabled)
+
+    // Observability: optional metrics emission callback (Prometheus / OTel / custom)
+    MetricsCallback metrics_callback;     // Called at row/error/table/duration events
     
     json toJson() const {
         return json{
@@ -189,6 +192,34 @@ struct ImportOptions {
  * @brief Progress Callback
  */
 using ProgressCallback = std::function<void(const std::string& stage, size_t current, size_t total)>;
+
+/**
+ * @brief Metrics Callback for Prometheus / OpenTelemetry integration.
+ *
+ * Called by the importer at key points so callers can wire any metrics backend
+ * without the importer having a hard dependency on a specific library.
+ *
+ * Standard metric names emitted:
+ *   "themisdb_import_rows_total"     labels: table, status ("imported"|"failed"|"skipped")
+ *   "themisdb_import_duration_seconds" labels: table
+ *   "themisdb_import_errors_total"   labels: table, code (ImportErrorCode as uint32 string)
+ *   "themisdb_import_tables_total"   labels: (none)
+ *
+ * Example wiring to PrometheusMetrics:
+ * @code
+ *   auto& prom = PrometheusMetrics::instance();
+ *   opts.metrics_callback = [&](const std::string& metric,
+ *                               const std::map<std::string,std::string>& labels,
+ *                               double value) {
+ *       prom.addToCounter(metric, static_cast<int64_t>(value), labels);
+ *   };
+ * @endcode
+ */
+using MetricsCallback = std::function<void(
+    const std::string& metric,
+    const std::map<std::string, std::string>& labels,
+    double value
+)>;
 
 /**
  * @brief Base Importer Interface

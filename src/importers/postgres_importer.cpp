@@ -92,7 +92,30 @@ ImportStats PostgreSQLImporter::importData(
     THEMIS_INFO("Import summary: {}", stats.toJson().dump());
     THEMIS_INFO("Import completed: {} records imported, {} failed, {} skipped in {:.2f}s",
         stats.imported_records, stats.failed_records, stats.skipped_records, stats.elapsed_seconds);
-    
+
+    // Prometheus / OTel metrics emission (Phase 3 observability)
+    emitMetric(options, "themisdb_import_rows_total",
+               {{"status", "imported"}},
+               static_cast<double>(stats.imported_records));
+    emitMetric(options, "themisdb_import_rows_total",
+               {{"status", "failed"}},
+               static_cast<double>(stats.failed_records));
+    emitMetric(options, "themisdb_import_rows_total",
+               {{"status", "skipped"}},
+               static_cast<double>(stats.skipped_records));
+    emitMetric(options, "themisdb_import_tables_total",
+               {},
+               static_cast<double>(stats.tables_processed));
+    emitMetric(options, "themisdb_import_duration_seconds",
+               {},
+               stats.elapsed_seconds);
+    // Per-error-code emission
+    for (const auto& e : stats.structured_errors) {
+        emitMetric(options, "themisdb_import_errors_total",
+                   {{"code", std::to_string(static_cast<uint32_t>(e.code))}},
+                   1.0);
+    }
+
     return stats;
 }
 
@@ -498,6 +521,8 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
         THEMIS_DEBUG("COPY entity: {}", entity.dump());
 
         stats.imported_records++;
+        emitMetric(options, "themisdb_import_rows_total",
+                   {{"table", table_name}, {"status", "imported"}}, 1.0);
     }
     
     return true;
@@ -689,6 +714,15 @@ void PostgreSQLImporter::addError(ImportStats& stats, ImportErrorCode code,
     stats.structured_errors.push_back(err);
     if (severity == ImportErrorSeverity::ERROR || severity == ImportErrorSeverity::CRITICAL) {
         stats.errors.push_back(message);
+    }
+}
+
+void PostgreSQLImporter::emitMetric(const ImportOptions& options,
+                                     const std::string& metric,
+                                     const std::map<std::string, std::string>& labels,
+                                     double value) const {
+    if (options.metrics_callback) {
+        options.metrics_callback(metric, labels, value);
     }
 }
 

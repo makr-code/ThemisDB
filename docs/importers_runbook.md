@@ -267,6 +267,69 @@ non-standard tooling may produce headers the regex cannot match.
 | `enforce_utf8` | false | Enable when source encoding is uncertain |
 | `continue_on_error` | true | Set to false for strict validation runs |
 | `dry_run` | false | Use for pre-import validation without modifying data |
+| `metrics_callback` | null | Wire to Prometheus / OTel for metric emission |
+| `checkpoint_file` | "" (disabled) | Set to a file path to enable checkpoint/resume |
+
+---
+
+## Wiring Prometheus Metrics
+
+The importer emits metrics via `ImportOptions.metrics_callback` with the following
+standard metric names:
+
+| Metric | Labels | Description |
+|--------|--------|-------------|
+| `themisdb_import_rows_total` | `table`, `status` (imported/failed/skipped) | Row counter per table and outcome |
+| `themisdb_import_duration_seconds` | – | Total import wall-clock time |
+| `themisdb_import_errors_total` | `code` (ImportErrorCode as uint) | Error counter per error code |
+| `themisdb_import_tables_total` | – | Number of tables processed |
+
+**Example wiring to the existing `PrometheusMetrics` class:**
+
+```cpp
+#include "sharding/prometheus_metrics.h"
+
+themis::sharding::PrometheusMetrics::Config cfg;
+auto prom = std::make_shared<themis::sharding::PrometheusMetrics>(cfg);
+
+ImportOptions opts;
+opts.metrics_callback = [&prom](
+    const std::string& metric,
+    const std::map<std::string, std::string>& labels,
+    double value
+) {
+    prom->addToCounter(metric, static_cast<int64_t>(value), labels);
+};
+
+auto stats = importer.importData(path, opts);
+// Metrics are now visible at prom->getMetrics()
+```
+
+---
+
+## Wiring Audit Logging
+
+Import operations should be logged via the existing `AuditLogger`:
+
+```cpp
+#include "utils/audit_logger.h"
+
+// At import start:
+audit_logger.logSecurityEvent(
+    SecurityEventType::BULK_IMPORT,
+    operator_user_id,
+    source_path,
+    {{"source", source_path}, {"dry_run", options.dry_run}}
+);
+
+// At import completion:
+audit_logger.logSecurityEvent(
+    SecurityEventType::BULK_IMPORT_COMPLETED,
+    operator_user_id,
+    source_path,
+    stats.toJson()
+);
+```
 
 ---
 

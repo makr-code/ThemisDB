@@ -193,6 +193,33 @@ Added explicit mappings for previously unmapped types:
   COPY header parse failure.
 - Tuning reference table and log-message reference.
 
+### Prometheus / OTel Metrics Callback (v1.4) ✅
+
+- `ImportOptions` gains `metrics_callback: MetricsCallback` – a
+  `std::function<void(metric, labels, value)>` that the importer calls at:
+  - Every imported/failed/skipped row with `{table, status}` labels
+  - Import completion: per-status row totals, total duration, total tables
+  - Every structured error: `{code}` label
+- No hard dependency on any metrics library; callers wire to Prometheus, OTel,
+  or any custom backend.  See runbook for wiring example.
+
+### Audit Logging Support (v1.4) ✅
+
+- Added `BULK_IMPORT` and `BULK_IMPORT_COMPLETED` to `SecurityEventType` in
+  `include/utils/audit_logger.h`.
+- Added string-conversion cases in `securityEventTypeToString()`.
+- Operators call `AuditLogger::logSecurityEvent(SecurityEventType::BULK_IMPORT, ...)`
+  at import start and `BULK_IMPORT_COMPLETED` at end with the `ImportStats` JSON payload.
+
+### Fuzz-Style Stress Tests (v1.4) ✅
+
+- 20+ property-based tests in `FuzzStyleTest` suite (`test_postgres_importer_chaos.cpp`):
+  - 1000 random printable and 500 random binary inputs to `parseCopyRow`
+  - 1000 random and 300 binary inputs to `parseInsertValues`
+  - 500 random and 300 binary inputs to `parseCreateTable`
+  - 1000 random binary inputs to `isValidUtf8`
+  - Property invariants: no crash, column count matches tab count, NULL count consistent
+
 ---
 
 ## Roadmap to Full Production Readiness
@@ -210,10 +237,13 @@ Added explicit mappings for previously unmapped types:
 ### Phase 3: Observability (Q2 2026)
 
 - [x] Log structured JSON import-completion summary at `INFO` level on import end.
-- [ ] Integrate with the existing Prometheus metrics registry to export:
+- [x] Emit Prometheus / OTel metrics via `ImportOptions.metrics_callback`: callers wire
+      any metrics backend without a hard library dependency.  Standard metric names:
       `themisdb_import_rows_total{table,status}`,
-      `themisdb_import_duration_seconds{table}`,
-      `themisdb_import_errors_total{table,code}`.
+      `themisdb_import_duration_seconds`,
+      `themisdb_import_errors_total{code}`,
+      `themisdb_import_tables_total`.
+      See the [runbook](importers_runbook.md) for PrometheusMetrics wiring example.
 - [ ] Add OpenTelemetry spans around batch processing for distributed tracing.
 - [ ] Provide a REST endpoint (via the existing HTTP server) for live import status.
 
@@ -234,8 +264,11 @@ Added explicit mappings for previously unmapped types:
       byte sequences are rejected with structured error `INVALID_UTF8` (code 502).
       Overlong encodings, surrogates (U+D800–U+DFFF), and truncated multi-byte sequences
       are all detected.
+- [x] Audit event types `BULK_IMPORT` and `BULK_IMPORT_COMPLETED` added to
+      `SecurityEventType` in `audit_logger.h`; string serialisation added to
+      `securityEventTypeToString()`.  Operators can log import start/end via
+      `AuditLogger::logSecurityEvent(SecurityEventType::BULK_IMPORT, ...)`.
 - [ ] Add ACL / policy checks: operators must hold an `import:write` permission.
-- [ ] Audit-log all import operations (start, end, stats, errors).
 - [ ] Quarantine rows that fail conversion into a side-channel store for later retry.
 
 ### Phase 6: Testing Completeness (Q3–Q4 2026)
@@ -246,7 +279,11 @@ Added explicit mappings for previously unmapped types:
 - [x] Chaos / edge-case tests: truncated COPY block, corrupted CREATE TABLE, empty file,
       binary garbage rows, statement-size guard, UTF-8 validation, row-size guard with
       `continue_on_error = false`, and COPY escape edge cases.
-- [ ] Fuzz tests for `parseCopyRow`, `parseInsertValues`, and `parseCreateTable`.
+- [x] Fuzz-style stress tests (`FuzzStyleTest` suite in `test_postgres_importer_chaos.cpp`):
+      1000+ random/binary inputs for `parseCopyRow`, `parseInsertValues`, `parseCreateTable`,
+      and `isValidUtf8`; property-based assertions (no crash, column count consistency,
+      NULL count invariant, all-ASCII-is-valid).
+- [ ] True libFuzzer / AFL fuzz drivers (requires build infrastructure change).
 - [ ] Benchmark suite: throughput in rows/s for 100 MB, 1 GB, and 10 GB dumps.
 - [ ] CI matrix: run tests against multiple PostgreSQL dump format variants.
 

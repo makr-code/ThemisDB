@@ -69,6 +69,8 @@ enum class SecurityEventType {
     DATA_WRITE,
     DATA_DELETE,
     BULK_EXPORT,
+    BULK_IMPORT,            ///< Large-scale data import started (e.g. pg_dump)
+    BULK_IMPORT_COMPLETED,  ///< Large-scale data import finished; includes stats payload
     
     // Graph & Vector Operations (Phase 1 - Knowledge Graph Protection)
     GRAPH_TRAVERSAL,        // BFS/DFS traversal operations
