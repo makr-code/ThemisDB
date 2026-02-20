@@ -14,6 +14,8 @@
 #include <mutex>
 #include <atomic>
 #include <nlohmann/json.hpp>
+#include <limits>
+#include <map>
 
 namespace themis {
 namespace graph {
@@ -572,31 +574,261 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     std::string_view target_vertex,
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
-    
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
-    
-    // Use existing Dijkstra implementation from GraphIndexManager
+
+    // -----------------------------------------------------------------------
+    // Parallel path: Δ-Stepping shortest-path algorithm (Phase 3.2)
+    //
+    // Partition tentative distances into buckets of width Δ; light edges
+    // (weight ≤ Δ) are relaxed in parallel via std::async; heavy edges are
+    // relaxed serially after each bucket is cleared.  All dist[] / parent[]
+    // updates are applied by the main thread – no data races.
+    // -----------------------------------------------------------------------
+    if (constraints.enable_parallel) {
+        const std::string start(start_vertex);
+        const std::string target(target_vertex);
+
+        // Effective thread count (mirrors BFS logic)
+        const size_t nthreads = [&]() -> size_t {
+            if (constraints.num_threads > 0) {
+                return std::min<size_t>(constraints.num_threads, 16u);
+            }
+            const size_t hw = std::thread::hardware_concurrency();
+            const size_t base = (hw > 0) ? hw : 8u;
+            return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+        }();
+
+        // Choose Δ: average weight of the start vertex's first-hop edges.
+        // Falls back to 1.0 when there are no outgoing edges.
+        // The minimum of MIN_DELTA (1e-6) prevents division-by-zero when
+        // computing bucket indices as floor(dist / delta).
+        static constexpr double MIN_DELTA = 1e-6;
+        double delta = 1.0;
+        {
+            auto [s, adjs] = graph_manager_.outAdjacency(start);
+            if (s.ok && !adjs.empty()) {
+                double sum = 0.0;
+                for (const auto& adj : adjs) {
+                    sum += graph_manager_.getEdgeWeight("", adj.edgeId, "_weight");
+                }
+                delta = std::max(MIN_DELTA, sum / static_cast<double>(adjs.size()));
+            }
+        }
+
+        std::unordered_map<std::string, double> dist;
+        std::unordered_map<std::string, std::string> parent;
+        dist[start] = 0.0;
+
+        // std::map keeps bucket indices sorted; begin() always returns the
+        // minimum-index non-empty bucket in O(log n).
+        std::map<size_t, std::unordered_set<std::string>> buckets;
+        buckets[0].insert(start);
+
+        // Timeout helper (matches BFS / DFS timeout logic)
+        auto timedOut = [&]() -> bool {
+            if (constraints.timeout_ms == 0) return false;
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time).count();
+            return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
+        };
+
+        // Result type returned by each parallel light-edge relaxation task.
+        // edge_count = total edges examined by the task (light + skipped heavy);
+        // accumulated into edges_traversed by the main thread.
+        struct RelaxResult {
+            std::string vertex;
+            double new_dist;
+            std::string parent_vertex;
+        };
+        struct TaskOutput {
+            std::vector<RelaxResult> relaxations;
+            size_t edge_count = 0;
+        };
+
+        while (!buckets.empty()) {
+            if (timedOut()) {
+                local_stats.early_terminated = true;
+                metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+                if (stats) { *stats = local_stats; }
+                recordExecution(local_stats);
+                return Err<GraphIndexManager::PathResult>(
+                    errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                    "Dijkstra (Δ-stepping) exceeded timeout of " +
+                        std::to_string(constraints.timeout_ms) + "ms"
+                );
+            }
+
+            const size_t bucket_idx = buckets.begin()->first;
+            std::unordered_set<std::string> settled_in_bucket;
+
+            // Inner loop: re-process bucket_idx until it is stable (a vertex
+            // whose light-edge relaxation lands back in bucket_idx causes
+            // another iteration).
+            while (!buckets.empty() && buckets.begin()->first == bucket_idx) {
+                std::vector<std::string> S(buckets.begin()->second.begin(),
+                                           buckets.begin()->second.end());
+                buckets.erase(buckets.begin());
+                settled_in_bucket.insert(S.begin(), S.end());
+                local_stats.nodes_explored += S.size();
+
+                // Chunk S into at most nthreads groups.
+                const size_t chunk_size =
+                    std::max<size_t>(1u, (S.size() + nthreads - 1) / nthreads);
+                std::vector<std::future<TaskOutput>> futures;
+
+                for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
+                    const size_t ce = std::min(cs + chunk_size, S.size());
+                    futures.push_back(std::async(std::launch::async,
+                        [&, cs, ce]() {
+                            TaskOutput out;
+                            for (size_t vi = cs; vi < ce; ++vi) {
+                                const std::string& v = S[vi];
+                                // dist[v] is fixed for S (only updated serially)
+                                auto dit = dist.find(v);
+                                if (dit == dist.end()) continue;
+                                const double d_v = dit->second;
+                                auto [s, adjs] = graph_manager_.outAdjacency(v);
+                                if (!s.ok) continue;
+                                out.edge_count += adjs.size();
+                                for (const auto& adj : adjs) {
+                                    const double w = graph_manager_.getEdgeWeight(
+                                        "", adj.edgeId, "_weight");
+                                    if (w > delta) continue; // heavy – skip
+                                    const double nd = d_v + w;
+                                    auto nit = dist.find(adj.targetPk);
+                                    if (nit == dist.end() || nd < nit->second) {
+                                        out.relaxations.push_back({adj.targetPk, nd, v});
+                                    }
+                                }
+                            }
+                            return out;
+                        }));
+                }
+
+                // Apply updates serially so dist[] / parent[] are never
+                // written from multiple threads simultaneously.
+                // Also accumulate the edge counts from each task.
+                for (auto& fut : futures) {
+                    auto out = fut.get();
+                    local_stats.edges_traversed += out.edge_count;
+                    for (const auto& r : out.relaxations) {
+                        auto it = dist.find(r.vertex);
+                        const double old_d = (it != dist.end())
+                            ? it->second
+                            : std::numeric_limits<double>::infinity();
+                        if (r.new_dist < old_d) {
+                            // Move vertex to the correct (lower) bucket.
+                            if (old_d < std::numeric_limits<double>::infinity()) {
+                                const size_t old_idx =
+                                    static_cast<size_t>(old_d / delta);
+                                auto bit = buckets.find(old_idx);
+                                if (bit != buckets.end()) {
+                                    bit->second.erase(r.vertex);
+                                    if (bit->second.empty()) buckets.erase(bit);
+                                }
+                            }
+                            dist[r.vertex] = r.new_dist;
+                            parent[r.vertex] = r.parent_vertex;
+                            buckets[static_cast<size_t>(r.new_dist / delta)]
+                                .insert(r.vertex);
+                        }
+                    }
+                }
+            }
+
+            // Relax heavy edges (weight > Δ) from all settled vertices.
+            // Light edges were already counted in the parallel phase; here we
+            // count only the heavy-edge traversals to avoid double-counting.
+            for (const auto& v : settled_in_bucket) {
+                auto dit = dist.find(v);
+                if (dit == dist.end()) continue;
+                const double d_v = dit->second;
+                auto [s, adjs] = graph_manager_.outAdjacency(v);
+                if (!s.ok) continue;
+                for (const auto& adj : adjs) {
+                    const double w = graph_manager_.getEdgeWeight(
+                        "", adj.edgeId, "_weight");
+                    if (w <= delta) continue; // light – already counted above
+                    local_stats.edges_traversed++;
+                    const double nd = d_v + w;
+                    auto it = dist.find(adj.targetPk);
+                    const double old_d = (it != dist.end())
+                        ? it->second
+                        : std::numeric_limits<double>::infinity();
+                    if (nd < old_d) {
+                        if (old_d < std::numeric_limits<double>::infinity()) {
+                            const size_t old_idx =
+                                static_cast<size_t>(old_d / delta);
+                            auto bit = buckets.find(old_idx);
+                            if (bit != buckets.end()) {
+                                bit->second.erase(adj.targetPk);
+                                if (bit->second.empty()) buckets.erase(bit);
+                            }
+                        }
+                        dist[adj.targetPk] = nd;
+                        parent[adj.targetPk] = v;
+                        buckets[static_cast<size_t>(nd / delta)].insert(adj.targetPk);
+                    }
+                }
+            }
+
+            // Early exit once target has received its final (optimal) distance.
+            if (settled_in_bucket.count(target)) break;
+        }
+
+        // Reconstruct path from parent[] map.
+        GraphIndexManager::PathResult path_result;
+        auto dit = dist.find(target);
+        if (dit != dist.end()) {
+            path_result.totalCost = dit->second;
+            std::vector<std::string> path;
+            std::string cur = target;
+            while (cur != start) {
+                path.push_back(cur);
+                auto pit = parent.find(cur);
+                if (pit == parent.end()) { path.clear(); break; }
+                cur = pit->second;
+            }
+            if (!path.empty() || target == start) {
+                path.push_back(start);
+                std::reverse(path.begin(), path.end());
+                path_result.path = std::move(path);
+            }
+        }
+
+        auto end_time = std::chrono::steady_clock::now();
+        local_stats.execution_time_ms =
+            std::chrono::duration<double, std::milli>(end_time - start_time).count();
+        local_stats.paths_found = path_result.path.empty() ? 0 : 1;
+        if (stats) { *stats = local_stats; }
+        recordExecution(local_stats);
+        return Ok(path_result);
+    }
+
+    // Sequential path: delegate to the GraphIndexManager's Dijkstra.
     auto [status, path_result] = graph_manager_.dijkstra(start_vertex, target_vertex);
-    
+
     if (!status.ok) {
         return Err<GraphIndexManager::PathResult>(
             errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
             "Dijkstra execution failed: " + status.message
         );
     }
-    
+
     auto end_time = std::chrono::steady_clock::now();
-    local_stats.execution_time_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+    local_stats.execution_time_ms =
+        std::chrono::duration<double, std::milli>(end_time - start_time).count();
     local_stats.nodes_explored = path_result.path.size();
     local_stats.paths_found = path_result.path.empty() ? 0 : 1;
-    
+
     if (stats) {
         *stats = local_stats;
     }
     recordExecution(local_stats);
-    
+
     return Ok(path_result);
 }
 

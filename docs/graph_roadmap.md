@@ -155,7 +155,7 @@ Registered as `Route::GraphMetricsGet` in `src/server/http_server.cpp`.
 
 ## Phase 3: Parallel Execution & Adaptive Cost Model
 
-**Status:** ✅ Partially Complete (3.1 + 3.3 done)  
+**Status:** ✅ Complete (3.1 + 3.2 + 3.3 done)  
 **Target Version:** v1.7.0
 
 ### 3.1 Parallel BFS ✅ DONE
@@ -186,10 +186,47 @@ the caller's constraints to the `OptimizationPlan`.
 **Correctness guarantee:** the parallel path produces the same set of reachable
 nodes as the sequential path (verified by `BFS_Parallel_ProducesSameResultAsSequential`).
 
-### 3.2 Parallel Dijkstra (Δ-Stepping)
+### 3.2 Parallel Dijkstra (Δ-Stepping) ✅ DONE
 
-Implement the Δ-stepping shortest-path algorithm for weighted graphs,
-exploiting bucket-based parallelism without global locks.
+`executeDijkstra` now supports the Δ-Stepping shortest-path algorithm when
+`constraints.enable_parallel = true`.
+
+**How it works:**
+1. **Δ selection**: the average edge weight of the start vertex's outgoing edges
+   (defaults to 1.0 when there are no outgoing edges or Δ would be zero).
+2. **Bucket structure**: tentative distances are partitioned into buckets of
+   width Δ using a `std::map<size_t, unordered_set<string>>`.  `begin()` always
+   returns the minimum-index non-empty bucket in O(log n).
+3. **Light-edge relaxation (parallel)**: vertices in the current bucket are
+   chunked into `num_threads` groups; each group is dispatched as a
+   `std::async` task.  Each task returns `vector<RelaxResult>` – no shared
+   writes, no locks needed.
+4. **Serial update phase**: the main thread applies all `RelaxResult` entries
+   from the parallel tasks, maintaining `dist[]` and `parent[]` without data
+   races.
+5. **Heavy-edge relaxation (serial)**: after the bucket is stable, heavy edges
+   (weight > Δ) from all settled vertices are relaxed by the main thread.
+6. **Early exit**: once the target vertex is settled, the algorithm terminates.
+
+**Thread count**: controlled by `QueryConstraints::num_threads`
+(0 = `hardware_concurrency/2`, clamped to [2, 16]).
+
+**Example:**
+```cpp
+GraphQueryOptimizer::QueryConstraints c;
+c.enable_parallel = true;
+c.num_threads = 4;   // or 0 for auto
+auto result = optimizer.executeDijkstra("start", "end", c);
+// result->totalCost == optimal weighted shortest-path cost
+// result->path == reconstructed path from start to end
+```
+
+**Correctness guarantee:** the parallel path produces the same `totalCost` and
+valid path as the sequential Dijkstra
+(`Dijkstra_Parallel_ProducesSameResultAsSequential` test passes).
+
+**Timeout:** if `timeout_ms` is set, `ERR_QUERY_TIMEOUT` is returned when the
+limit is exceeded between bucket iterations.
 
 ### 3.3 Adaptive Cost Model ✅ DONE
 
@@ -364,6 +401,7 @@ already implemented in Phase 3.3.
 | Graph-specific error codes 6400+        | ✅ Done  | graph module |
 | `explainConstrainedPath()` dry-run      | ✅ Done  | graph module |
 | `enable_parallel` + `num_threads` BFS   | ✅ Done  | graph module |
+| Parallel Dijkstra (Δ-Stepping)          | ✅ Done  | graph module |
 | `addEdgePropertyConstraint()` pruning   | ✅ Done  | graph module |
 | Admin API `GET /api/v1/graph/metrics`   | ✅ Done  | server       |
 | Adaptive Cost Model (EMA + export)      | ✅ Done  | graph module |
@@ -388,6 +426,10 @@ already implemented in Phase 3.3.
 | Parallel BFS correctness              | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Parallel BFS default thread count     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | `enable_parallel` default = false     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Dijkstra sequential shortest path     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Dijkstra parallel (Δ-stepping) result | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Dijkstra parallel updates metrics     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Dijkstra parallel single-hop path     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Edge property constraint API          | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Edge property constraint validation   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | `GET /api/v1/graph/metrics` endpoint  | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
@@ -427,6 +469,7 @@ The graph module must pass the following CI checks before merging:
 9. **Adaptive cost model** – EMA updated after each execution; export/import roundtrip is lossless
 10. **Node property constraint** – `addNodePropertyConstraint` prunes BFS; `validatePath` enforces for all nodes
 11. **Weight constraints** – `addMaxWeight` prunes BFS states; `addMinWeight` rejects under-weight completed paths
+12. **Parallel Dijkstra correctness** – `Dijkstra_Parallel_ProducesSameResultAsSequential` test passes; `totalCost` matches sequential
 
 ---
 

@@ -1087,3 +1087,72 @@ TEST_F(GraphQueryOptimizerTest, WeightConstraint_MinWeight_AcceptsHeavyEnoughPat
     EXPECT_GE(res.value().front().cost, 1.0);
 }
 
+
+// ============================================================================
+// Phase 3.2: Parallel Dijkstra (Δ-Stepping) tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, Dijkstra_Sequential_FindsShortestPath) {
+    // Graph: A-(1.0)->B-(1.0)->C-(1.0)->D  and  A-(2.0)->C
+    // Shortest A→D: cost 3.0
+    GraphQueryOptimizer::QueryConstraints c;
+    auto result = optimizer_->executeDijkstra("A", "D", c);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_DOUBLE_EQ(result->totalCost, 3.0);
+    ASSERT_FALSE(result->path.empty());
+    EXPECT_EQ(result->path.front(), "A");
+    EXPECT_EQ(result->path.back(), "D");
+}
+
+TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_ProducesSameResultAsSequential) {
+    // Sequential baseline
+    GraphQueryOptimizer::QueryConstraints seq_c;
+    auto seq = optimizer_->executeDijkstra("A", "D", seq_c);
+    ASSERT_TRUE(seq.has_value());
+
+    // Parallel Δ-stepping must yield the same optimal cost and path endpoints
+    GraphQueryOptimizer::QueryConstraints par_c;
+    par_c.enable_parallel = true;
+    auto par = optimizer_->executeDijkstra("A", "D", par_c);
+    ASSERT_TRUE(par.has_value());
+
+    EXPECT_DOUBLE_EQ(par->totalCost, seq->totalCost);
+    ASSERT_FALSE(par->path.empty());
+    EXPECT_EQ(par->path.front(), "A");
+    EXPECT_EQ(par->path.back(), "D");
+}
+
+TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_ExplicitThreadCount) {
+    GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    c.num_threads = 2;
+    auto result = optimizer_->executeDijkstra("A", "C", c);
+    ASSERT_TRUE(result.has_value());
+    // A→C direct edge costs 2.0; A→B→C also costs 2.0 – either is optimal
+    EXPECT_DOUBLE_EQ(result->totalCost, 2.0);
+    ASSERT_FALSE(result->path.empty());
+    EXPECT_EQ(result->path.front(), "A");
+    EXPECT_EQ(result->path.back(), "C");
+}
+
+TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_UpdatesMetrics) {
+    const uint64_t before = optimizer_->getQueryMetrics().total_queries.load();
+
+    GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    optimizer_->executeDijkstra("A", "D", c);
+
+    EXPECT_EQ(optimizer_->getQueryMetrics().total_queries.load(), before + 1);
+}
+
+TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_SingleHop) {
+    // Shortest A→B: cost 1.0, direct edge
+    GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    auto result = optimizer_->executeDijkstra("A", "B", c);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_DOUBLE_EQ(result->totalCost, 1.0);
+    ASSERT_EQ(result->path.size(), 2u);
+    EXPECT_EQ(result->path.front(), "A");
+    EXPECT_EQ(result->path.back(), "B");
+}

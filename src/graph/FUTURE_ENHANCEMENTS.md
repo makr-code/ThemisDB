@@ -2,51 +2,21 @@
 
 ## Planned Features
 
-### Parallel Graph Execution
+### Parallel Graph Execution ✅ DONE
 **Priority:** High  
 **Target Version:** v1.7.0
 
 Enable parallel execution of graph traversals for improved performance on large graphs.
 
-**Features:**
-- Multi-threaded BFS/DFS traversal
-- Parallel subgraph exploration
+**Implemented Features:**
+- ✅ Multi-threaded BFS (level-parallel frontier expansion via `std::async`)
+- ✅ Parallel Δ-Stepping Dijkstra (bucket-based parallelism, no global locks)
+- ✅ Configurable thread pool size (`num_threads`, 0 = auto-detect)
+- ✅ Thread-safe adjacency access via `GraphIndexManager::outAdjacency`
+
+**Planned (not yet implemented):**
 - Work-stealing queue for load balancing
-- Thread-safe result aggregation
-- Configurable thread pool size
-
-**Benefits:**
-- 40-60% reduction in query time for large graphs (>10K nodes)
-- Better CPU utilization on multi-core systems
-- Scalability for enterprise workloads
-- Reduced latency for complex pattern matching
-
-**API:**
-```cpp
-GraphQueryOptimizer::QueryConstraints constraints;
-constraints.enable_parallel = true;
-constraints.num_threads = 8;
-
-// Optimizer automatically parallelizes when beneficial
-auto plan = optimizer.optimizeKHopNeighborhood("start", 5, constraints);
-if (plan->enable_parallel) {
-    // Execution uses thread pool
-    auto result = optimizer.executeBFS("start", 5, constraints);
-}
-```
-
-**Implementation:**
-- Use thread pool from core module
-- Partition graph by node ranges or subgraphs
-- Implement parallel frontier expansion
-- Use lock-free data structures for visited sets
-- Aggregate results with minimal synchronization
-
-**Challenges:**
-- Thread-safe adjacency access
-- Load balancing for skewed graphs
-- Result ordering consistency
-- Overhead for small graphs
+- Lock-free visited sets for BFS
 
 ---
 
@@ -535,9 +505,9 @@ Process graphs as streams of edge insertions/deletions.
 ## Implementation Priorities
 
 **v1.7.0 (Q3 2026):**
-1. Parallel Graph Execution
-2. Adaptive Cost Model
-3. Advanced Constraint Types
+1. ✅ Parallel Graph Execution (BFS + Dijkstra Δ-Stepping)
+2. ✅ Adaptive Cost Model
+3. ✅ Advanced Constraint Types
 
 **v1.8.0 (Q1 2027):**
 1. Distributed Graph Queries
@@ -637,6 +607,33 @@ auto result = optimizer.executeBFS("start", 5, c);
 
 Produces the same set of reachable nodes as the sequential path (no correctness
 regression). The `num_threads` field defaults to `0` (auto-detect).
+
+### Parallel Dijkstra (Δ-Stepping) ✅ DONE
+
+`GraphQueryOptimizer::executeDijkstra` now uses the Δ-Stepping algorithm when
+`constraints.enable_parallel = true`, giving bucket-based parallelism without
+global locks.
+
+**Algorithm:**
+1. Δ is sampled from the start vertex's first-hop average edge weight (default 1.0).
+2. Vertices are partitioned into buckets of width Δ.
+3. Within each bucket, light-edge (weight ≤ Δ) relaxations are dispatched as
+   `std::async` tasks (one per thread chunk); each task returns a local
+   `vector<RelaxResult>` with no shared writes.
+4. The main thread applies updates serially – no data races on `dist[]` / `parent[]`.
+5. Heavy edges (weight > Δ) are relaxed serially after the bucket is stable.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints c;
+c.enable_parallel = true;   // opt-in; default is false (backward-compatible)
+c.num_threads = 4;          // 0 = hardware_concurrency/2, max 16
+auto result = optimizer.executeDijkstra("A", "D", c);
+// result->totalCost == optimal weighted shortest-path cost
+// result->path      == reconstructed path [A, ..., D]
+```
+
+Produces the same `totalCost` as sequential Dijkstra (verified by
+`Dijkstra_Parallel_ProducesSameResultAsSequential`).
 
 ### Edge Property Constraints ✅ DONE
 
