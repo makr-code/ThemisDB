@@ -1,9 +1,12 @@
 /**
  * @file test_gap008_observability.cpp
- * @brief Example tests for GAP-008 Observability features
+ * @brief Tests for GAP-008 Observability – Prometheus Alertmanager v2 HTTP API integration
  * 
- * Tests the new observability features:
- * - Alertmanager integration (stub)
+ * Tests the Alertmanager implementation including:
+ * - Configuration (including retry config)
+ * - Alert lifecycle (send, resolve, silence, getActiveAlerts)
+ * - Disabled-mode fallback (no HTTP calls, returns success)
+ * - Enabled-mode with unreachable endpoint returns error
  * 
  * Note: HealthCheck functionality is provided by existing systems:
  * - sharding::HealthCheckSystem (shard/cluster health)
@@ -32,7 +35,8 @@ protected:
         AlertmanagerConfig config;
         config.endpoint_url = "http://alertmanager:9093";
         config.timeout_seconds = 10;
-        config.enabled = false;  // Disabled for testing
+        config.enabled = false;  // Disabled for testing – no network calls
+        config.retry_count = 0;
         
         alertmanager_ = std::make_unique<DefaultAlertmanager>(config);
     }
@@ -47,19 +51,23 @@ protected:
 TEST_F(GAP008AlertmanagerTest, InitializeWithConfig) {
     AlertmanagerConfig config;
     config.endpoint_url = "http://localhost:9093";
-    config.enabled = true;
+    config.enabled = false;  // Keep disabled to avoid network calls in test
     config.timeout_seconds = 15;
     config.receivers = {"email", "slack"};
+    config.retry_count = 2;
+    config.retry_delay_ms = 100;
     
     auto result = alertmanager_->initialize(config);
     
-    // Initialization should succeed (even if stub)
+    // Initialization should succeed
     EXPECT_TRUE(result.has_value());
     
     // Configuration should be stored
     EXPECT_EQ(alertmanager_->getConfig().endpoint_url, "http://localhost:9093");
-    EXPECT_TRUE(alertmanager_->getConfig().enabled);
+    EXPECT_FALSE(alertmanager_->getConfig().enabled);
     EXPECT_EQ(alertmanager_->getConfig().timeout_seconds, 15);
+    EXPECT_EQ(alertmanager_->getConfig().retry_count, 2);
+    EXPECT_EQ(alertmanager_->getConfig().retry_delay_ms, 100);
 }
 
 TEST_F(GAP008AlertmanagerTest, SendAlertLogsAlert) {
@@ -89,10 +97,8 @@ TEST_F(GAP008AlertmanagerTest, ResolveAlertReturnsSuccess) {
     
     alertmanager_->sendAlert(alert);
     
-    // Then resolve it
+    // Then resolve it – disabled mode returns success without network call
     auto result = alertmanager_->resolveAlert("alert_002");
-    
-    // Stub implementation should succeed for disabled alertmanager
     EXPECT_TRUE(result.has_value());
 }
 
@@ -105,10 +111,8 @@ TEST_F(GAP008AlertmanagerTest, SilenceAlertWorks) {
     
     alertmanager_->sendAlert(alert);
     
-    // Silence for 60 minutes
+    // Silence for 60 minutes – disabled mode returns success without network call
     auto result = alertmanager_->silenceAlert("alert_003", 60);
-    
-    // Stub implementation should succeed for disabled alertmanager
     EXPECT_TRUE(result.has_value());
 }
 
@@ -125,9 +129,57 @@ TEST_F(GAP008AlertmanagerTest, GetActiveAlertsReturnsVector) {
     }
     
     auto alerts = alertmanager_->getActiveAlerts();
-    
-    // Should return a vector (may be empty for stub)
-    EXPECT_TRUE(alerts.size() >= 0);
+    // Should return active (firing) alerts that were sent
+    EXPECT_EQ(alerts.size(), 3u);
+}
+
+TEST_F(GAP008AlertmanagerTest, ResolveRemovesFromActiveAlerts) {
+    Alert alert;
+    alert.alert_id = "alert_resolve_test";
+    alert.alert_name = "ResolveTest";
+    alert.severity = AlertSeverity::WARNING;
+    alert.status = AlertStatus::FIRING;
+    alertmanager_->sendAlert(alert);
+    EXPECT_EQ(alertmanager_->getActiveAlerts().size(), 1u);
+
+    alertmanager_->resolveAlert("alert_resolve_test");
+    EXPECT_EQ(alertmanager_->getActiveAlerts().size(), 0u);
+}
+
+TEST_F(GAP008AlertmanagerTest, TestConnectionFailsWhenDisabled) {
+    // testConnection must return an error when the alertmanager is disabled.
+    auto result = alertmanager_->testConnection();
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(GAP008AlertmanagerTest, EnabledModeReturnsErrorForUnreachableEndpoint) {
+    // Set up with enabled=true but an unreachable endpoint.
+    // Port 39093 is an unlikely-to-be-in-use ephemeral port for test isolation.
+    AlertmanagerConfig config;
+    config.endpoint_url = "http://127.0.0.1:39093";
+    config.enabled = true;
+    config.timeout_seconds = 1;
+    config.retry_count = 0;  // no retries to keep the test fast
+
+    DefaultAlertmanager am(config);
+
+    Alert alert;
+    alert.alert_id   = "alert_enabled";
+    alert.alert_name = "EnabledTest";
+    alert.severity   = AlertSeverity::WARNING;
+    alert.status     = AlertStatus::FIRING;
+    alert.message    = "Test alert for enabled mode";
+
+    // Should return an error because the endpoint is not reachable
+    auto result = am.sendAlert(alert);
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(GAP008AlertmanagerTest, DefaultRetryConfigValues) {
+    AlertmanagerConfig config;
+    // Default-constructed config should have sensible retry defaults
+    EXPECT_GE(config.retry_count, 0);
+    EXPECT_GE(config.retry_delay_ms, 0);
 }
 
 }  // namespace test

@@ -7,6 +7,9 @@
 #include <memory>
 #include "utils/expected.h"
 
+// Forward declaration to avoid header bloat
+namespace themis { namespace utils { class HTTPClientPool; } }
+
 namespace themis {
 namespace observability {
 
@@ -58,10 +61,14 @@ struct AlertmanagerConfig {
     int timeout_seconds;            // Request timeout
     bool enabled;                   // Whether alerting is enabled
     std::vector<std::string> receivers;  // Alert receivers (email, slack, pagerduty)
+    int retry_count;                // Number of retries on transient failures (0 = no retry)
+    int retry_delay_ms;             // Delay between retries in milliseconds
     
     AlertmanagerConfig()
         : timeout_seconds(10)
-        , enabled(false) {}
+        , enabled(false)
+        , retry_count(3)
+        , retry_delay_ms(500) {}
 };
 
 /**
@@ -155,10 +162,11 @@ protected:
 };
 
 /**
- * Default Alertmanager implementation with stub methods
+ * Default Alertmanager implementation with Prometheus Alertmanager v2 API integration.
  * 
- * This implementation logs alerts but does not actually send them.
- * Full implementation requires HTTP client integration.
+ * When enabled, sends alerts via HTTP POST to the Prometheus Alertmanager REST API
+ * (/api/v2/alerts and /api/v2/silences).  Supports retry-on-failure and connection
+ * health-checks.  When disabled, alerts are logged locally only.
  */
 class DefaultAlertmanager : public Alertmanager {
 public:
@@ -172,6 +180,17 @@ public:
     Result<void> silenceAlert(const std::string& alert_id, int duration_minutes) override;
     std::vector<Alert> getActiveAlerts() override;
     Result<void> testConnection() override;
+
+private:
+    // Lazily-created HTTP client pool (only allocated when enabled)
+    std::shared_ptr<utils::HTTPClientPool> http_pool_;
+
+    // Build the shared client pool if not already initialised
+    void ensureHttpPool();
+
+    // Send a JSON payload to the Alertmanager with retry logic.
+    // Returns the HTTP status code on success or an Error on final failure.
+    Result<int> postWithRetry(const std::string& path, const std::string& json_body);
 };
 
 } // namespace observability
