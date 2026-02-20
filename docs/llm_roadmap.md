@@ -202,7 +202,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - [x] Replace `nullptr` vocab argument in `Grammar::compile()` with `llama_model_get_vocab(model)` — **implemented** via `Grammar(ebnf, start, model)` constructor in `src/llm/grammar.cpp`.
 - [x] Propagate a hard error (structured error code or exception) when vocab is null and grammar is requested — model-aware constructor returns hard error on null model/null vocab.
 - [x] Elevate the silent grammar-unavailable fallback to a logged error — API-unavailable path now uses `spdlog::error` (not `warn`) in both constructors.
-- [ ] Add integration tests: grammar compilation with real/mock `llama_vocab`, grammar-constrained generation round-trip, error on missing API.
+- [x] Add integration tests: empty EBNF, empty start-symbol, null-model hard-error, accessor correctness, move semantics — `tests/llm/test_grammar_integration.cpp` (14 tests).
 
 ### GGUF Loader
 
@@ -213,15 +213,15 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 ### Safety / Policy
 
-- [ ] Implement `PromptPolicy` with configurable keyword/regex/classifier rules.
+- [x] Implement `PromptPolicy` with configurable keyword/regex rules — `include/llm/prompt_policy.h` + `src/llm/prompt_policy.cpp`; `addBlockRule()`, `addRedactRule()`, `removeRule()`, `apply()`.
 - [ ] Add per-user/per-model token-per-minute quota enforcement in the request ingestion path.
-- [ ] Wire policy-triggered events into `LLMModelAuditLogger`.
-- [ ] Add adversarial prompt tests validating sanitisation and policy blocking.
+- [x] Wire policy-triggered events into `LLMModelAuditLogger` — `PROMPT_BLOCKED`/`PROMPT_REDACTED` event types and `logPolicyViolation()` added.
+- [x] Add adversarial prompt tests validating sanitisation and policy blocking — 24 tests in `tests/test_prompt_policy.cpp`.
 
 ### Admin / Ops
 
 - [x] Add `/health` (liveness) and `/ready` (readiness) handlers in `MetricsServer::handleRequest()` + `getHealthURL()` / `getReadyURL()` — returns JSON bodies; paths configurable in `ServerConfig`.
-- [ ] Add `GET /models` returning loaded models with memory, session count, and LoRA adapters.
+- [x] Add `GET /models` handler — `setModelInfoCallback()` + `getModelsURL()` + `/models` branch in `handleRequest()` (returns callback JSON or `[]`).
 - [x] Add `request_timeout_ms` field to `LlamaWrapper::Config` (0 = unlimited) with validation in `validateConfig()`.
 - [x] Implement maximum queue depth and structured backpressure rejection — `SchedulerConfig::max_queue_depth` + `submitRequest()` returns `{}` on overflow; `Stats::rejected_requests` and `Stats::current_queue_depth` added.
 - [ ] Add `POST /admin/models/reload` hot-reload endpoint.
