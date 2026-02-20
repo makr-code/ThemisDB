@@ -8,6 +8,7 @@
 #include <sstream>
 #include <regex>
 #include <algorithm>
+#include <cstdint>
 
 namespace themis::rag {
 
@@ -137,7 +138,6 @@ double LLMMetaAnalyzer::parseScore(
     const std::string& response,
     const std::string& dimension
 ) {
-    (void)dimension;  // Placeholder until dimension-specific scoring is used
     // Try multiple patterns to extract score
     std::vector<std::regex> patterns = {
         std::regex("(?:Score|score):\\s*([0-9]*\\.?[0-9]+)"),
@@ -145,7 +145,14 @@ double LLMMetaAnalyzer::parseScore(
         std::regex("([0-9]*\\.?[0-9]+)\\s*/\\s*1\\.?0?"),
         std::regex("([0-9]*\\.?[0-9]+)\\s*out of\\s*1")
     };
-    
+
+    // If a dimension is provided, also try a dimension-prefixed pattern first
+    if (!dimension.empty()) {
+        patterns.insert(patterns.begin(),
+            std::regex(dimension + "\\s*(?:score|rating)?\\s*:\\s*([0-9]*\\.?[0-9]+)",
+                       std::regex::icase));
+    }
+
     for (const auto& pattern : patterns) {
         std::smatch match;
         if (std::regex_search(response, match, pattern)) {
@@ -223,10 +230,16 @@ void LLMMetaAnalyzer::exportMetrics(std::unordered_map<std::string, double>& met
 }
 
 std::string LLMMetaAnalyzer::computeCacheKey(const std::string& input) {
-    // Simple hash-based cache key
-    // TODO: Consider using a better hash function
-    std::hash<std::string> hasher;
-    return std::to_string(hasher(input));
+    // FNV-1a hash for better distribution than std::hash
+    static constexpr uint64_t kFNVPrime  = 0x00000100000001B3ULL;
+    static constexpr uint64_t kFNVOffset = 0xCBF29CE484222325ULL;
+
+    uint64_t hash = kFNVOffset;
+    for (unsigned char c : input) {
+        hash ^= static_cast<uint64_t>(c);
+        hash *= kFNVPrime;
+    }
+    return std::to_string(hash);
 }
 
 } // namespace themis::rag

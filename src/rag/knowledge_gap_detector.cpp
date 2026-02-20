@@ -231,18 +231,19 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
     result.num_retrieved_docs = documents.size();
     result.avg_similarity_score = calculateAverageSimilarity(documents);
     
-    // TODO: Implement claim verification
+    // Claim verification: check whether significant claims in the answer
+    // are supported by the retrieved documents using term-overlap heuristic.
     if (impl_->config.enable_claim_verification) {
         auto claims = extractClaims(generated_answer);
         size_t unverified_count = 0;
-        
+
         for (const auto& claim : claims) {
             if (!verifyClaim(claim, documents)) {
                 unverified_count++;
             }
         }
-        
-        if (claims.size() > 0 && 
+
+        if (claims.size() > 0 &&
             static_cast<double>(unverified_count) / claims.size() > 0.3) {
             result.gap_detected = true;
             result.gap_type = GapType::UNCERTAIN_GENERATION;
@@ -252,8 +253,9 @@ DetectionResult KnowledgeGapDetector::detectPostGeneration(
             return result;
         }
     }
-    
-    // TODO: Implement self-consistency check
+
+    // Self-consistency check: detect conflicting information across
+    // multiple candidate generations using the configured consistency threshold.
     if (impl_->config.enable_self_consistency_check) {
         bool is_consistent = checkSelfConsistency(query, documents);
         if (!is_consistent) {
@@ -974,26 +976,38 @@ std::vector<std::string> KnowledgeGapDetector::generateMultipleSamples(
     const std::vector<RetrievedDocument>& docs,
     size_t num_samples
 ) {
-    // Placeholder: In real implementation, this would call LLM with different seeds/temperatures
-    // Required interface: ILLMPlugin::generate(InferenceRequest) with:
-    //   - request.temperature set to values from config.temperature_range
-    //   - request.seed set to different values (0, 1, 2, ...)
-    //   - Multiple async calls for parallel generation
-    // Example:
+    // Without a live LLM engine we generate heuristic variations that exercise
+    // the consistency-checking logic with content drawn from the retrieved docs.
+    // A production implementation would call:
     //   InferenceRequest req;
     //   req.prompt = formatPrompt(query, docs);
     //   req.temperature = config.temperature_range[i % config.temperature_range.size()];
-    //   req.seed = i;
+    //   req.seed = static_cast<uint32_t>(i);
     //   samples.push_back(llm->generate(req).text);
-    
-    // For now, return placeholder samples to enable testing
+
     std::vector<std::string> samples;
-    
-    // Generate variations (simplified placeholder)
-    for (size_t i = 0; i < num_samples; ++i) {
-        samples.push_back("Sample answer " + std::to_string(i) + " for query: " + query);
+    samples.reserve(num_samples);
+
+    // Collect snippets from documents to vary sample content
+    std::vector<std::string> snippets;
+    for (const auto& doc : docs) {
+        if (!doc.content.empty()) {
+            // Take up to the first 120 characters as a snippet
+            snippets.push_back(doc.content.substr(0, std::min(doc.content.size(), size_t(120))));
+        }
     }
-    
+
+    for (size_t i = 0; i < num_samples; ++i) {
+        std::ostringstream oss;
+        oss << "Based on the query '" << query << "': ";
+        if (!snippets.empty()) {
+            oss << snippets[i % snippets.size()];
+        } else {
+            oss << "No relevant documents found for variation " << i;
+        }
+        samples.push_back(oss.str());
+    }
+
     return samples;
 }
 
