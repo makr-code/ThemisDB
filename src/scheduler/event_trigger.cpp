@@ -41,7 +41,7 @@ static std::string stripQuotes(const std::string& s) {
 
 // Evaluate a single simple condition against lhs (the resolved field value)
 static bool evalOp(const std::string& lhs, const std::string& op, const std::string& rhs) {
-    if (op == "==" || op == "=") {
+    if (op == "==") {
         return lhs == rhs;
     } else if (op == "!=") {
         return lhs != rhs;

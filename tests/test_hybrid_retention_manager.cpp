@@ -85,7 +85,7 @@ protected:
     void SetUp() override {
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         db_path_ = std::filesystem::temp_directory_path() /
-                   ("themis_retention_test_" + std::to_string(now));
+                   std::filesystem::path("themis_retention_test_" + std::to_string(now));
         std::filesystem::create_directories(db_path_);
 
         RocksDBWrapper::Config cfg;

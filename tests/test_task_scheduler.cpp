@@ -23,8 +23,8 @@ class TaskSchedulerTest : public ::testing::Test {
 protected:
     static std::string makeDbPath() {
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-        return std::filesystem::temp_directory_path() / 
-               ("themis_sched_test_" + std::to_string(now));
+        return (std::filesystem::temp_directory_path() /
+                std::filesystem::path("themis_sched_test_" + std::to_string(now))).string();
     }
 
     void SetUp() override {
