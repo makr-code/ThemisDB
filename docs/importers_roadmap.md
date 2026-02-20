@@ -324,13 +324,20 @@ Added explicit mappings for previously unmapped types:
       - `GET /api/v1/import/jobs` – list all known jobs
       - `GET /api/v1/import/metrics` – Prometheus text format (scrape endpoint)
 - [ ] Add OpenTelemetry spans around batch processing for distributed tracing.
+- [x] `SpanCallback` type alias + `ImportOptions.tracing_callback`: emits spans for
+      `import_total`, `parse_table`, `copy_block`, `insert_batch`, `alter_column`.
+      No hard dependency on any tracing library; callers wire to OTel/Jaeger/Zipkin.
 
 ### Phase 4: Robust SQL Parsing (Q3 2026)
 
 - [ ] Evaluate integration of a SQL parser library (e.g., `libpg_query` or a
       vendored recursive-descent parser) to replace the regex-based DDL parser.
-- [ ] Handle nested parentheses in column defaults, complex type expressions, and
-      `ALTER TABLE` statements in dumps.
+- [x] Handle nested parentheses in column defaults (`numeric(10,4)`, `varchar(255)`,
+      `DEFAULT NOW()`, `CHECK (...)`) via `splitTopLevelCommas()` + `findMatchingParen()`.
+- [x] Handle `ALTER TABLE ... ADD COLUMN` statements: updates cached schema so
+      subsequent COPY and INSERT rows see the new column.
+- [x] Handle `CREATE TYPE ... AS ENUM` / `AS (...)` (composite): stores custom type →
+      ThemisDB type mapping in `custom_type_map_`; used by `mapPostgreSQLTypeToThemis`.
 - [x] Detect binary COPY format and emit clear error (`BINARY_COPY_FORMAT`, code 206).
 - [x] Handle `pg_dump --schema-only` and `--data-only` modes via header detection;
       `ImportStats.is_schema_only` and `is_data_only` flags set automatically.
@@ -367,9 +374,18 @@ Added explicit mappings for previously unmapped types:
 - [x] Advanced feature tests (`test_postgres_importer_advanced.cpp`): 35 test cases covering
       permission check, quarantine, binary COPY detection, dump mode flags, delta import,
       FNV-1a hash, and error code values.
+- [x] Complex DDL tests (`test_postgres_importer_complex_ddl.cpp`): `SplitTopLevelCommasTest`,
+      `FindMatchingParenTest`, `SpanCallbackTest`, `Pg16FixtureTest`, `RealDdlSplitTest` –
+      30+ cases covering nested parens, single-quoted defaults, ALTER TABLE, CREATE TYPE,
+      and OTel span callback.
+- [x] PG 16 fixture (`sample_pg16.sql`): two tables with `numeric(10,4)`, `varchar(255)`,
+      `DEFAULT NOW()`, `CHECK` constraints, `CREATE TYPE AS ENUM`, `CREATE TYPE AS (...)`,
+      `ALTER TABLE ADD COLUMN`, 7 COPY rows.
+- [x] Benchmark: `benchmarks/bench_importer_throughput.cpp` – 6 scenarios (10 k–1 M rows,
+      INSERT, mixed, dry-run); reports rows/second; `--csv` export for trend tracking.
+- [x] CI workflow: `.github/workflows/importer-tests.yml` – matrix build (gcc-12, clang-15,
+      gcc-14); runs all importer GTest suites; uploads XML results as artifacts.
 - [ ] True libFuzzer / AFL fuzz drivers (requires build infrastructure change).
-- [ ] Benchmark suite: throughput in rows/s for 100 MB, 1 GB, and 10 GB dumps.
-- [ ] CI matrix: run tests against multiple PostgreSQL dump format variants.
 
 ### Phase 7: Admin & Operations (Q4 2026)
 

@@ -54,6 +54,7 @@ private:
     
     std::atomic<bool> cancelled_{false};
     std::map<std::string, TableSchema> schemas_;
+    std::map<std::string, std::string> custom_type_map_;  ///< Types from CREATE TYPE statements
     
     // Parsing methods
     bool parseDumpFile(const std::string& file_path, const ImportOptions& options, ImportStats& stats,
@@ -90,6 +91,12 @@ private:
                     const std::string& metric,
                     const std::map<std::string, std::string>& labels,
                     double value) const;
+
+    // Distributed tracing / OTel span emission helper
+    void emitSpan(const ImportOptions& options,
+                  const std::string& operation,
+                  const std::map<std::string, std::string>& attributes,
+                  double duration_seconds) const;
 
     // UTF-8 validation helper
     static bool isValidUtf8(const std::string& s);
@@ -131,7 +138,7 @@ public:
     
     // IThemisPlugin interface
     const char* getName() const override { return "postgres_importer"; }
-    const char* getVersion() const override { return "1.0.0"; }
+    const char* getVersion() const override { return "1.6.0"; }
     plugins::PluginType getType() const override { return plugins::PluginType::IMPORTER; }
     plugins::PluginCapabilities getCapabilities() const override;
     bool initialize(const char* config_json) override;

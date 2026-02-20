@@ -110,6 +110,7 @@ struct ImportStats {
     
     size_t tables_processed = 0;
     size_t schemas_processed = 0;
+    size_t custom_types_processed = 0;  ///< CREATE TYPE statements parsed (enum / composite)
     
     double elapsed_seconds = 0.0;
 
@@ -134,6 +135,7 @@ struct ImportStats {
             {"quarantined_records", quarantined_records},
             {"tables_processed", tables_processed},
             {"schemas_processed", schemas_processed},
+            {"custom_types_processed", custom_types_processed},
             {"elapsed_seconds", elapsed_seconds},
             {"is_schema_only", is_schema_only},
             {"is_data_only", is_data_only},
@@ -148,6 +150,44 @@ struct ImportStats {
  * @brief Progress Callback
  */
 using ProgressCallback = std::function<void(const std::string& stage, size_t current, size_t total)>;
+
+/**
+ * @brief Distributed Tracing / OpenTelemetry Span Callback.
+ *
+ * Called by the importer at the start and end of every major operation
+ * (table schema parse, COPY block, INSERT batch) so callers can record
+ * OpenTelemetry spans, Jaeger spans, or any other distributed-tracing entry
+ * without the importer having a hard dependency on a tracing library.
+ *
+ * @param operation       Short name for the span, e.g. "parse_table", "copy_block"
+ * @param attributes      Key/value span attributes, e.g. {"table": "users", "rows": "150"}
+ * @param duration_seconds Wall-clock duration of the operation in seconds (>= 0)
+ *
+ * Standard operation names emitted:
+ *   "import_total"      – wraps the entire importData() call
+ *   "parse_table"       – one CREATE TABLE statement parsed; attr: "table"
+ *   "copy_block"        – one COPY … FROM stdin block processed; attrs: "table", "rows"
+ *   "insert_batch"      – one INSERT INTO statement processed; attr: "table"
+ *   "alter_column"      – one ALTER TABLE ADD COLUMN processed; attrs: "table", "column"
+ *
+ * Example wiring to OpenTelemetry:
+ * @code
+ *   auto tracer = opentelemetry::trace::Provider::GetTracerProvider()->GetTracer("themisdb");
+ *   opts.tracing_callback = [&tracer](const std::string& op,
+ *                                      const std::map<std::string,std::string>& attrs,
+ *                                      double dur) {
+ *       auto span = tracer->StartSpan(op);
+ *       for (auto& [k, v] : attrs) span->SetAttribute(k, v);
+ *       span->SetAttribute("duration_seconds", dur);
+ *       span->End();
+ *   };
+ * @endcode
+ */
+using SpanCallback = std::function<void(
+    const std::string& operation,
+    const std::map<std::string, std::string>& attributes,
+    double duration_seconds
+)>;
 
 /**
  * @brief Metrics Callback for Prometheus / OpenTelemetry integration.
@@ -241,6 +281,10 @@ struct ImportOptions {
 
     // Observability: optional metrics emission callback (Prometheus / OTel / custom)
     MetricsCallback metrics_callback;     // Called at row/error/table/duration events
+
+    // Observability: optional distributed tracing / OpenTelemetry span callback
+    // Called at start+end of major operations; see SpanCallback documentation above.
+    SpanCallback tracing_callback;
 
     // Access control: optional permission-check callback
     // Called once at import start with ("import", "write"); deny → PERMISSION_DENIED error.
