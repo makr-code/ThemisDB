@@ -16,6 +16,8 @@
 #include "sharding/admin_api.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/prometheus_metrics.h"
+#include "server/sharding_metrics_handler.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -136,9 +138,87 @@ TEST_F(ReedSolomonCoderTest, ThreeParityShards_RecoverThree) {
     encodeDropDecode(data, 4, 3, {0, 2, 4});
 }
 
+TEST_F(ReedSolomonCoderTest, TooManyMissingThrows) {
+    auto data = makeData(256);
+    auto chunks = coder_.encode(data, 4, 2);
+
+    // Provide k chunks but claim 3 are missing (exceeds parity_shards=2)
+    std::map<uint32_t, std::vector<uint8_t>> available;
+    available[0] = chunks[0];
+    available[1] = chunks[1];
+    available[2] = chunks[2];
+    available[3] = chunks[3];
+
+    // 3 missing > 2 parity shards — should throw
+    EXPECT_THROW(coder_.decode(available, {4, 5, 6}, 4, 2), std::runtime_error);
+}
+
 // ============================================================================
-// ShardRepairEngine lifecycle tests
+// CauchyReedSolomonCoder tests
 // ============================================================================
+
+class CauchyReedSolomonCoderTest : public ::testing::Test {
+protected:
+    CauchyReedSolomonCoder coder_;
+
+    std::vector<uint8_t> makeData(size_t n) {
+        std::vector<uint8_t> d(n);
+        for (size_t i = 0; i < n; ++i) d[i] = static_cast<uint8_t>(i & 0xFF);
+        return d;
+    }
+
+    void encodeDropDecode(const std::vector<uint8_t>& original,
+                          uint32_t k, uint32_t m,
+                          const std::vector<uint32_t>& drop_indices) {
+        auto chunks = coder_.encode(original, k, m);
+        ASSERT_EQ(chunks.size(), k + m);
+
+        std::map<uint32_t, std::vector<uint8_t>> available;
+        for (uint32_t i = 0; i < k + m; ++i) {
+            if (std::find(drop_indices.begin(), drop_indices.end(), i) == drop_indices.end()) {
+                available[i] = chunks[i];
+            }
+        }
+        ASSERT_GE(available.size(), k);
+
+        auto recovered = coder_.decode(available, drop_indices, k, m);
+        ASSERT_GE(recovered.size(), original.size());
+
+        std::string dropped_str;
+        for (auto idx : drop_indices) dropped_str += std::to_string(idx) + " ";
+        for (size_t i = 0; i < original.size(); ++i) {
+            EXPECT_EQ(recovered[i], original[i])
+                << "Mismatch at byte " << i << " (dropped: " << dropped_str << ")";
+        }
+    }
+};
+
+TEST_F(CauchyReedSolomonCoderTest, EncodeDecodeNoLoss) {
+    encodeDropDecode(makeData(256), 4, 2, {});
+}
+
+TEST_F(CauchyReedSolomonCoderTest, RecoverOneMissingDataChunk) {
+    encodeDropDecode(makeData(400), 4, 2, {1});
+}
+
+TEST_F(CauchyReedSolomonCoderTest, RecoverTwoMissingChunks_RAID6) {
+    encodeDropDecode(makeData(400), 4, 2, {0, 3});
+}
+
+TEST_F(CauchyReedSolomonCoderTest, TooManyMissingThrows) {
+    auto data = makeData(256);
+    auto chunks = coder_.encode(data, 4, 2);
+
+    std::map<uint32_t, std::vector<uint8_t>> available;
+    available[0] = chunks[0];
+    available[1] = chunks[1];
+    available[2] = chunks[2];
+    available[3] = chunks[3];
+
+    // 3 missing > 2 parity shards — should throw
+    EXPECT_THROW(coder_.decode(available, {4, 5, 6}, 4, 2), std::runtime_error);
+}
+
 
 class ShardRepairEngineTest : public ::testing::Test {
 protected:
@@ -348,4 +428,134 @@ TEST_F(AdminAPIRepairTest, UnauthorizedRequestRejected) {
     auto resp = api_->handleRequest("POST", "/admin/repair", body, "");
     EXPECT_TRUE(resp.contains("error"));
     EXPECT_EQ(resp["error"]["code"], 403);
+}
+
+// ============================================================================
+// PrometheusMetrics repair methods tests
+// ============================================================================
+
+TEST(PrometheusRepairMetricsTest, RecordRepairOperationSuccess) {
+    themis::sharding::PrometheusMetrics::Config cfg;
+    themis::sharding::PrometheusMetrics metrics(cfg);
+
+    metrics.recordRepairOperation(true, 42.5);
+    metrics.recordRepairOperation(true, 10.0);
+    metrics.recordRepairOperation(false, 5.0);
+
+    std::string out = metrics.getMetrics();
+    EXPECT_NE(out.find("themis_shard_repair_operations_total"), std::string::npos);
+}
+
+TEST(PrometheusRepairMetricsTest, RecordRepairShardStatus) {
+    themis::sharding::PrometheusMetrics::Config cfg;
+    themis::sharding::PrometheusMetrics metrics(cfg);
+    using S = themis::sharding::PrometheusMetrics::RepairShardStatus;
+
+    metrics.recordRepairShardStatus("shard_1", S::HEALTHY);
+    metrics.recordRepairShardStatus("shard_2", S::DEGRADED);
+    metrics.recordRepairShardStatus("shard_3", S::REBUILDING);
+
+    std::string out = metrics.getMetrics();
+    EXPECT_NE(out.find("themis_shard_repair_health"), std::string::npos);
+}
+
+TEST(PrometheusRepairMetricsTest, RecordRepairScan) {
+    themis::sharding::PrometheusMetrics::Config cfg;
+    themis::sharding::PrometheusMetrics metrics(cfg);
+
+    metrics.recordRepairScan();
+    metrics.recordRepairScan();
+
+    std::string out = metrics.getMetrics();
+    EXPECT_NE(out.find("themis_shard_repair_scans_total"), std::string::npos);
+}
+
+// ============================================================================
+// ShardingMetricsHandler repair integration tests
+// ============================================================================
+
+TEST(ShardingMetricsHandlerRepairTest, GetMetricsIncludesRepairWhenEngineSet) {
+    // Build a minimal ShardRepairEngine
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    topo_cfg.cluster_name = "metrics-test";
+    auto topology = std::make_shared<ShardTopology>(topo_cfg);
+    auto ring = std::make_shared<ConsistentHashRing>();
+
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    RepairConfig repair_cfg;
+    repair_cfg.enable_periodic_scan = false;
+    repair_cfg.enable_auto_repair = false;
+
+    auto engine = std::make_shared<ShardRepairEngine>(
+        repair_cfg, *strategy, *ring, *topology,
+        [](const std::string&, const std::string&) -> std::optional<std::vector<uint8_t>> {
+            return std::nullopt;
+        },
+        [](const std::string&, const std::string&, const std::vector<uint8_t>&) -> bool {
+            return true;
+        });
+
+    // Create handler with no PrometheusMetrics (minimal) but with repair engine
+    themis::server::ShardingMetricsHandler handler(nullptr);
+    handler.setRepairEngine(engine);
+
+    // getRepairMetrics should return non-empty Prometheus text
+    std::string repair_metrics = handler.getRepairMetrics();
+    EXPECT_NE(repair_metrics.find("themis_shard_repair_scans_total"), std::string::npos);
+}
+
+TEST(ShardingMetricsHandlerRepairTest, GetMetricsAppendsRepairWhenEngineSet) {
+    auto prom = std::make_shared<themis::sharding::PrometheusMetrics>(
+        themis::sharding::PrometheusMetrics::Config{});
+    prom->recordRoutingRequest("read");
+
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    topo_cfg.cluster_name = "metrics-append-test";
+    auto topology = std::make_shared<ShardTopology>(topo_cfg);
+    auto ring = std::make_shared<ConsistentHashRing>();
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    RepairConfig repair_cfg;
+    repair_cfg.enable_periodic_scan = false;
+    repair_cfg.enable_auto_repair = false;
+    auto engine = std::make_shared<ShardRepairEngine>(
+        repair_cfg, *strategy, *ring, *topology,
+        [](const std::string&, const std::string&) -> std::optional<std::vector<uint8_t>> {
+            return std::nullopt;
+        },
+        [](const std::string&, const std::string&, const std::vector<uint8_t>&) -> bool {
+            return true;
+        });
+
+    themis::server::ShardingMetricsHandler handler(prom);
+    handler.setRepairEngine(engine);
+
+    std::string all_metrics = handler.getMetrics();
+    // Both routing and repair metrics should appear
+    EXPECT_NE(all_metrics.find("themis_routing_requests_total"), std::string::npos);
+    EXPECT_NE(all_metrics.find("themis_shard_repair_scans_total"), std::string::npos);
+}
+
+TEST(ShardingMetricsHandlerRepairTest, GetRepairMetricsEmptyWithoutEngine) {
+    themis::server::ShardingMetricsHandler handler(nullptr);
+    EXPECT_TRUE(handler.getRepairMetrics().empty());
+}
+
+TEST(ShardingMetricsHandlerRepairTest, GetMetricsNoRepairWithoutEngine) {
+    auto prom = std::make_shared<themis::sharding::PrometheusMetrics>(
+        themis::sharding::PrometheusMetrics::Config{});
+    prom->recordRoutingRequest("write");
+
+    themis::server::ShardingMetricsHandler handler(prom);
+    std::string out = handler.getMetrics();
+    // Should have routing metrics but no repair metrics
+    EXPECT_NE(out.find("themis_routing_requests_total"), std::string::npos);
+    EXPECT_EQ(out.find("themis_shard_repair_scans_total"), std::string::npos);
 }

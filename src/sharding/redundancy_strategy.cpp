@@ -685,11 +685,17 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
 
 std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
-    const std::vector<uint32_t>& missing_indices [[maybe_unused]],
+    const std::vector<uint32_t>& missing_indices,
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    (void)missing_indices;
+    // Validate that the number of missing chunks does not exceed the fault tolerance
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error("Too many missing chunks: " +
+                                 std::to_string(missing_indices.size()) +
+                                 " missing, but only " + std::to_string(parity_shards) +
+                                 " parity shard(s) available");
+    }
     // Check if we have enough chunks
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
