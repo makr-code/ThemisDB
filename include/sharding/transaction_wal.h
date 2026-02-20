@@ -9,6 +9,10 @@
 
 namespace sharding {
 
+using LSN = themis::sharding::LSN;
+using WALEntry = themis::sharding::WALEntry;
+using WALManager = themis::sharding::WALManager;
+
 /**
  * Transaction protocol types
  */
@@ -50,7 +54,7 @@ struct TransactionWALEntry {
     std::string reason;          // For ABORT/COMPENSATE entries
 
     TransactionWALEntry()
-        : lsn(0), type(TransactionWALEntryType::BEGIN), timestamp(0),
+                : lsn(0, 0), type(TransactionWALEntryType::BEGIN), timestamp(0),
           protocol(TransactionProtocol::TWO_PHASE_COMMIT), vote(false) {}
 };
 
@@ -196,7 +200,7 @@ public:
      * @param start_lsn Starting LSN (0 = from beginning)
      * @return Vector of WAL entries
      */
-    std::vector<TransactionWALEntry> readEntries(LSN start_lsn = 0);
+    std::vector<TransactionWALEntry> readEntries(LSN start_lsn = LSN(0, 0));
 
     /**
      * Check if snapshot should be created

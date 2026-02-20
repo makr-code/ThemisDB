@@ -156,8 +156,8 @@ public:
      */
     template<typename PluginInterface>
     static std::vector<std::string> listPlugins() {
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         std::lock_guard<std::mutex> lock(getMutex());
+        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         
         std::vector<std::string> names;
         for (const auto& [name, _] : type_registry) {
@@ -175,8 +175,8 @@ public:
      */
     template<typename PluginInterface>
     static bool hasPlugin(const std::string& plugin_name) {
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         std::lock_guard<std::mutex> lock(getMutex());
+        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         
         return type_registry.count(plugin_name) > 0;
     }

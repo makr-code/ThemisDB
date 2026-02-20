@@ -14,6 +14,7 @@
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include <gtest/gtest.h>
 #include <iostream>
 #include <cassert>
 #include <filesystem>
@@ -230,46 +231,28 @@ void test_optimizer_integration(themis::RocksDBWrapper& storage) {
     std::cout << "  ✓ Optimizer integration tests passed" << std::endl;
 }
 
-int main() {
+TEST(GraphAdvancedFeatures, PathConstraintsIntegration) {
     std::cout << "\n=== GAP-006 Graph Advanced Features Tests ===" << std::endl;
     std::cout << "Testing PathConstraints implementation...\n" << std::endl;
     std::cout << "NOTE: Centrality and Community Detection already exist in GraphAnalytics.\n";
     std::cout << "      See include/index/graph_analytics.h for full implementations.\n" << std::endl;
-    
-    try {
-        // Test interface
-        test_path_constraints_interface();
-        
-        // Test validation
-        test_path_validation();
-        
-        // Setup storage for path finding tests
-        std::string db_path = "./data/themis_path_constraints_test";
-        std::filesystem::remove_all(db_path);
-        
-        themis::RocksDBWrapper::Config cfg;
-        cfg.db_path = db_path;
-        cfg.memtable_size_mb = 64;
-        cfg.block_cache_size_mb = 128;
-        themis::RocksDBWrapper storage(cfg);
-        assert(storage.open());
-        
-        // Test path finding
-        test_path_finding(storage);
-        
-        // Test optimizer integration
-        test_optimizer_integration(storage);
-        
-        // Cleanup
-        storage.close();
-        std::filesystem::remove_all(db_path);
-        
-        std::cout << "\n✓ All tests passed!" << std::endl;
-        std::cout << "PathConstraints algorithm successfully implemented." << std::endl;
-        
-        return 0;
-    } catch (const std::exception& e) {
-        std::cerr << "\n✗ Test failed with exception: " << e.what() << std::endl;
-        return 1;
-    }
+
+    test_path_constraints_interface();
+    test_path_validation();
+
+    std::string db_path = "./data/themis_path_constraints_test";
+    std::filesystem::remove_all(db_path);
+
+    themis::RocksDBWrapper::Config cfg;
+    cfg.db_path = db_path;
+    cfg.memtable_size_mb = 64;
+    cfg.block_cache_size_mb = 128;
+    themis::RocksDBWrapper storage(cfg);
+    ASSERT_TRUE(storage.open());
+
+    test_path_finding(storage);
+    test_optimizer_integration(storage);
+
+    storage.close();
+    std::filesystem::remove_all(db_path);
 }

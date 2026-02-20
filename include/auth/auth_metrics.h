@@ -73,6 +73,8 @@ public:
     };
     
 #ifdef THEMIS_HAS_PROMETHEUS
+    AuthMetrics();
+    explicit AuthMetrics(const Config& config);
     explicit AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                         const Config& config = Config());
 #else

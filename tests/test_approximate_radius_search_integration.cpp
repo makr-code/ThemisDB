@@ -10,6 +10,7 @@
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include <gtest/gtest.h>
 #include <iostream>
 #include <cassert>
 #include <vector>
@@ -438,31 +439,24 @@ void testStatistics() {
     std::cout << "  ✓ Statistics test passed" << std::endl;
 }
 
-int main() {
+TEST(ApproximateRadiusSearchIntegration, ComprehensiveScenarios) {
     std::cout << "\n=== ApproximateRadiusSearch Integration Tests ===" << std::endl;
     std::cout << "Testing production readiness with comprehensive scenarios\n" << std::endl;
-    
-    try {
-        testAllMetrics();
-        testLargeDataset();
-        testBatchSearchPerformance();
-        testAdaptiveTargetCount();
-        testEstimationAccuracy();
-        testErrorHandling();
-        testStatistics();
-        
-        std::cout << "\n✓✓✓ All integration tests passed! ✓✓✓" << std::endl;
-        std::cout << "\nApproximateRadiusSearch Status:" << std::endl;
-        std::cout << "  ✅ search() - Fully functional" << std::endl;
-        std::cout << "  ✅ batchSearch() - Fully functional" << std::endl;
-        std::cout << "  ✅ searchWithTargetCount() - Fully functional" << std::endl;
-        std::cout << "  ✅ estimateResultCount() - Fully functional" << std::endl;
-        std::cout << "  ⚠️  searchById() - NOT_IMPLEMENTED (known limitation)" << std::endl;
-        std::cout << "\nProduction readiness: 4/5 APIs functional" << std::endl;
-        
-        return 0;
-    } catch (const std::exception& e) {
-        std::cerr << "\n✗ Test failed with exception: " << e.what() << std::endl;
-        return 1;
-    }
+
+    testAllMetrics();
+    testLargeDataset();
+    testBatchSearchPerformance();
+    testAdaptiveTargetCount();
+    testEstimationAccuracy();
+    testErrorHandling();
+    testStatistics();
+
+    std::cout << "\n✓✓✓ All integration tests passed! ✓✓✓" << std::endl;
+    std::cout << "\nApproximateRadiusSearch Status:" << std::endl;
+    std::cout << "  ✅ search() - Fully functional" << std::endl;
+    std::cout << "  ✅ batchSearch() - Fully functional" << std::endl;
+    std::cout << "  ✅ searchWithTargetCount() - Fully functional" << std::endl;
+    std::cout << "  ✅ estimateResultCount() - Fully functional" << std::endl;
+    std::cout << "  ⚠️  searchById() - NOT_IMPLEMENTED (known limitation)" << std::endl;
+    std::cout << "\nProduction readiness: 4/5 APIs functional" << std::endl;
 }
