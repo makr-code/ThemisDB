@@ -6396,6 +6396,7 @@ void HttpServer::ensurePIIPseudonymizer() {
 HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
     : socket_(std::move(socket))
     , server_(server)
+    , read_timer_(socket_.get_executor())
 {
     server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
 }
@@ -6404,12 +6405,37 @@ HttpServer::Session::~Session() {
     server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
+void HttpServer::Session::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            // Timer fired before I/O completed: cancel the pending socket operation
+            THEMIS_WARN("Request read timeout ({}ms) – closing connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
+            self->socket_.close(close_ec);
+            if (close_ec) THEMIS_DEBUG("Session close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::Session::cancelReadTimer() {
+    beast::error_code ec;
+    read_timer_.cancel(ec); // cancels the pending async_wait, if any
+}
+
 void HttpServer::Session::start() {
     doRead();
 }
 
 void HttpServer::Session::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         socket_,
@@ -6424,6 +6450,7 @@ void HttpServer::Session::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         // Client closed connection
@@ -6529,6 +6556,7 @@ void HttpServer::Session::onWrite(
 HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
+    , read_timer_(stream_.get_executor())
 {
     server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
 }
@@ -6537,11 +6565,36 @@ HttpServer::SslSession::~SslSession() {
     server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
+void HttpServer::SslSession::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            THEMIS_WARN("Request read timeout ({}ms) – closing TLS connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::SslSession::cancelReadTimer() {
+    beast::error_code ec;
+    read_timer_.cancel(ec);
+}
+
 void HttpServer::SslSession::start() {
     doHandshake();
 }
 
 void HttpServer::SslSession::doHandshake() {
+    // Arm timeout for TLS handshake as well
+    armReadTimer();
     stream_.async_handshake(
         boost::asio::ssl::stream_base::server,
         beast::bind_front_handler(&SslSession::onHandshake, shared_from_this())
@@ -6549,6 +6602,7 @@ void HttpServer::SslSession::doHandshake() {
 }
 
 void HttpServer::SslSession::onHandshake(beast::error_code ec) {
+    cancelReadTimer();
     if (ec) {
         THEMIS_ERROR("TLS handshake error: {}", ec.message());
         return;
@@ -6578,6 +6632,7 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
 
 void HttpServer::SslSession::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         stream_,
@@ -6592,6 +6647,7 @@ void HttpServer::SslSession::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         doShutdown();

@@ -310,12 +310,15 @@ private:
         void processRequest();
         void doWrite();
         void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
+        void armReadTimer();
+        void cancelReadTimer();
 
         tcp::socket socket_;
         HttpServer* server_;
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
+        net::steady_timer read_timer_; // enforces request_timeout_ms
     };
 
     // SSL Session class for handling TLS connections
@@ -334,12 +337,15 @@ private:
         void doWrite();
         void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
         void doShutdown();
+        void armReadTimer();
+        void cancelReadTimer();
 
         beast::ssl_stream<tcp::socket> stream_;
         HttpServer* server_;
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
+        net::steady_timer read_timer_; // enforces request_timeout_ms
     };
 
     // Request routing
