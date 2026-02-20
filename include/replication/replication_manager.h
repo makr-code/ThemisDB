@@ -23,6 +23,7 @@
 #include <functional>
 #include <atomic>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 #include <thread>
 #include <optional>
@@ -231,6 +232,41 @@ public:
 };
 
 /**
+ * Last-Write-Wins conflict resolver based on embedded timestamp field.
+ * Selects the document with the higher "updated_at" (milliseconds epoch)
+ * in its JSON payload. Falls back to remote on parse errors.
+ */
+class LWWConflictResolver : public IConflictResolver {
+public:
+    std::string resolve(
+        const std::string& local,
+        const std::string& remote,
+        const std::string& collection,
+        const std::string& document_id
+    ) override;
+
+private:
+    // Extract "updated_at" timestamp from a minimal JSON string.
+    // Returns -1 if the field is absent or unparsable.
+    static int64_t extractTimestamp(const std::string& json_doc);
+};
+
+/**
+ * Simple CRDT-style merge resolver.
+ * For numeric fields it keeps the larger value (grow-only counter
+ * semantics); for all other fields it falls back to Last-Write-Wins.
+ */
+class CRDTConflictResolver : public IConflictResolver {
+public:
+    std::string resolve(
+        const std::string& local,
+        const std::string& remote,
+        const std::string& collection,
+        const std::string& document_id
+    ) override;
+};
+
+/**
  * Replication Event Listener
  */
 class IReplicationListener {
@@ -330,6 +366,13 @@ public:
     
     // Is this node the leader?
     bool isLeader() const { return role_.load() == ReplicationRole::LEADER; }
+    
+    // Inform the election module of the current cluster size (for quorum calculation)
+    void setClusterSize(uint32_t size) { cluster_size_.store(size); }
+    
+    // Record an incoming vote grant for the current term (called by ReplicationManager
+    // when a peer replies positively to our RequestVote RPC simulation)
+    void grantVote(uint64_t term);
 
 private:
     std::string node_id_;
@@ -340,6 +383,9 @@ private:
     std::atomic<uint64_t> current_term_{0};
     std::string voted_for_;
     std::string current_leader_;
+    std::atomic<uint32_t> votes_received_{0};    // Votes gathered in current election
+    std::atomic<uint32_t> cluster_size_{1};      // Total known cluster size (set externally)
+    std::chrono::steady_clock::time_point last_heartbeat_time_;
     
     std::mutex election_mutex_;
     std::condition_variable election_cv_;
@@ -512,6 +558,7 @@ private:
     std::unique_ptr<LeaderElection> election_;
     
     std::vector<std::unique_ptr<ReplicationStream>> streams_;
+    mutable std::shared_mutex replicas_mutex_;  // Protects replicas_ and streams_
     std::vector<ReplicaInfo> replicas_;
     
     std::shared_ptr<IConflictResolver> conflict_resolver_;
@@ -528,6 +575,7 @@ private:
     std::thread compaction_thread_;
     std::thread health_monitor_thread_;
     
+    bool validateConfig();
     void heartbeatLoop();
     void compactionLoop();
     void healthMonitorLoop();
