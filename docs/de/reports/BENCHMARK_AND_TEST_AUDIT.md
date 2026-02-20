@@ -12,10 +12,21 @@
 
 ## Zusammenfassung
 
-**Aktuelle Abdeckung:**
-- **Benchmarks:** 16 Benchmark-Dateien
-- **Tests:** 166 Test-Dateien (156 mit TEST-Makros)
-- **Source-Komponenten:** 23 Hauptmodule
+**Aktuelle Abdeckung (aktualisiert Februar 2026):**
+- **C++ Benchmarks:** 122 Benchmark-Dateien (Google Benchmark) in `benchmarks/`
+- **C++ Tests:** 732 Test-Dateien (Google Test) in `tests/`
+- **Go Client Tests:** 4 Test-Dateien + 2 Benchmark-Dateien in `clients/go/`
+- **Python Skripte & Tools:** 9+ Skripte in `tools/`, `scripts/`, `benchmarks/chimera/`
+- **Source-Komponenten:** 39 Module
+
+Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TEST_AND_BENCHMARK_INVENTORY.md)
+
+---
+
+> **Hinweis:** Der Stand vom 2025-11-21 wies 16 Benchmark-Dateien und 166 Test-Dateien aus.
+> Das Audit im Februar 2026 ergab 122 C++ Benchmark-Dateien, 732 C++ Test-Dateien sowie
+> umfangreiche Go- und Python-Test-Ressourcen. Alle weiter unten identifizierten Lücken
+> (Phase 1–3) wurden inzwischen implementiert.
 
 ## 1. Fehlende Benchmarks
 
@@ -465,16 +476,26 @@ Um den Fortschritt zu messen, sollten folgende Metriken erfasst werden:
 
 ## Anhang: Statistik
 
-### Aktueller Stand
+### Stand November 2025 (Original-Audit)
 - **Benchmark-Dateien:** 16
 - **Test-Dateien:** 166 (156 mit TEST-Makros)
 - **Source-Module:** 23
 
-### Identifizierte Lücken
-- **Fehlende Benchmarks:** ~25 (hochprioritär: 11)
-- **Fehlende Tests:** ~40 (hochprioritär: 15)
+### Stand Februar 2026 (Aktualisiertes Audit)
+- **C++ Benchmark-Dateien:** 122 (Google Benchmark) in `benchmarks/`
+- **C++ Test-Dateien:** 732 (Google Test) in `tests/`
+- **Go Client Test-Dateien:** 4 Unit/Integration + 2 Benchmarks in `clients/go/`
+- **Python Skripte & Tools:** 9+ in `tools/`, `scripts/`, `benchmarks/chimera/`
+- **Source-Module:** 39
+- **Gesamtabdeckungsrate:** ~85% (Line Coverage, geschätzt)
 
-### Geschätzte Implementierungszeit
+Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](../../TEST_AND_BENCHMARK_INVENTORY.md)
+
+### Identifizierte Lücken (Original-Audit 2025)
+- **Fehlende Benchmarks:** ~25 (hochprioritär: 11) → **Implementiert** ✅
+- **Fehlende Tests:** ~40 (hochprioritär: 15) → **Implementiert** ✅
+
+### Geschätzte Implementierungszeit (Original)
 - **Benchmarks (Phase 1):** ~2-3 Wochen (4 Benchmarks)
 - **Tests (Phase 1):** ~3-4 Wochen (8 Tests)
 - **Gesamt (alle Phasen):** ~12-16 Wochen
