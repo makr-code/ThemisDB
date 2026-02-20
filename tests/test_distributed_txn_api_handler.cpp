@@ -82,6 +82,33 @@ TEST_F(DistributedTxnApiHandlerTest, BeginReturnsTransactionId) {
     EXPECT_FALSE(body["transaction_id"].get<std::string>().empty());
     EXPECT_EQ(body["status"], "active");
     EXPECT_EQ(body["shards"].size(), 2u);
+    // Default isolation level should be snapshot_isolation
+    EXPECT_EQ(body["isolation_level"], "snapshot_isolation");
+}
+
+TEST_F(DistributedTxnApiHandlerTest, BeginWithSnapshotIsolation) {
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["shard1"],"isolation_level":"snapshot_isolation"})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["isolation_level"], "snapshot_isolation");
+}
+
+TEST_F(DistributedTxnApiHandlerTest, BeginWithSerializableIsolation) {
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["shard1"],"isolation_level":"serializable"})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = parseBody(res);
+    EXPECT_EQ(body["isolation_level"], "serializable");
+}
+
+TEST_F(DistributedTxnApiHandlerTest, BeginWithInvalidIsolationLevelReturnsBadRequest) {
+    auto req = makeReq(http::verb::post, "/dtxn/begin",
+                       R"({"shards":["shard1"],"isolation_level":"read_committed"})");
+    auto res = handler_->handleBegin(req);
+    EXPECT_EQ(res.result(), http::status::bad_request);
 }
 
 TEST_F(DistributedTxnApiHandlerTest, BeginMissingShardsReturnsBadRequest) {

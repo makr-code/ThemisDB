@@ -2,6 +2,7 @@
 // Licensed under MIT License
 
 #include "server/distributed_txn_api_handler.h"
+#include "sharding/distributed_transaction.h"
 #include "utils/logger.h"
 #include <string_view>
 
@@ -44,12 +45,27 @@ DistributedTxnApiHandler::handleBegin(const http::request<http::string_body>& re
                          "'shards' must contain at least one shard ID", req);
         }
 
-        std::string txn_id = coordinator_->beginTransaction(shard_ids);
+        // Optional isolation_level: "snapshot_isolation" (default) or "serializable"
+        auto isolation = sharding::DistributedIsolationLevel::SNAPSHOT_ISOLATION;
+        if (body.contains("isolation_level")) {
+            const std::string isolation_level_str = body["isolation_level"].get<std::string>();
+            if (isolation_level_str == "serializable") {
+                isolation = sharding::DistributedIsolationLevel::SERIALIZABLE;
+            } else if (isolation_level_str != "snapshot_isolation") {
+                return error(http::status::bad_request,
+                             "Unknown isolation_level; use 'snapshot_isolation' or 'serializable'",
+                             req);
+            }
+        }
+
+        std::string txn_id = coordinator_->beginTransaction(shard_ids, isolation);
 
         return ok({
-            {"transaction_id", txn_id},
-            {"status",         "active"},
-            {"shards",         shard_ids}
+            {"transaction_id",  txn_id},
+            {"status",          "active"},
+            {"shards",          shard_ids},
+            {"isolation_level", isolation == sharding::DistributedIsolationLevel::SERIALIZABLE
+                                    ? "serializable" : "snapshot_isolation"}
         }, req);
 
     } catch (const json::exception& e) {

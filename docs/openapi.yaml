@@ -669,6 +669,13 @@ paths:
                     type: string
                   minItems: 1
                   example: ["shard1", "shard2"]
+                isolation_level:
+                  type: string
+                  enum: [snapshot_isolation, serializable]
+                  default: snapshot_isolation
+                  description: |
+                    snapshot_isolation - MVCC snapshot reads, no read locks (default).
+                    serializable - Full serializability, read-set validated on PREPARE.
       responses:
         '200':
           description: Transaction started
@@ -679,6 +686,9 @@ paths:
                 properties:
                   transaction_id: { type: string, example: "txn-abc123" }
                   status:         { type: string, example: "active" }
+                  isolation_level:
+                    type: string
+                    enum: [snapshot_isolation, serializable]
                   shards:
                     type: array
                     items: { type: string }

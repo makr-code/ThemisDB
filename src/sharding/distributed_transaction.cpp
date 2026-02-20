@@ -68,7 +68,8 @@ DistributedTransactionCoordinator::DistributedTransactionCoordinator(
 }
 
 std::string DistributedTransactionCoordinator::beginTransaction(
-    const std::vector<std::string>& shard_ids
+    const std::vector<std::string>& shard_ids,
+    DistributedIsolationLevel isolation_level
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -79,6 +80,7 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     DistributedTransaction txn;
     txn.transaction_id = txn_id;
     txn.state = TransactionState::ACTIVE;
+    txn.isolation_level = isolation_level;
     txn.start_time = truetime_->now().latest;
     
     // Add participants
@@ -93,6 +95,11 @@ std::string DistributedTransactionCoordinator::beginTransaction(
     
     transactions_[txn_id] = std::move(txn);
     total_transactions_.fetch_add(1, std::memory_order_relaxed);
+    
+    THEMIS_DEBUG("Began distributed transaction {} with {} shards, isolation={}",
+                txn_id, shard_ids.size(),
+                isolation_level == DistributedIsolationLevel::SERIALIZABLE
+                    ? "SERIALIZABLE" : "SNAPSHOT_ISOLATION");
     
     return txn_id;
 }
