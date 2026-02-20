@@ -373,6 +373,12 @@ public:
     // Record an incoming vote grant for the current term (called by ReplicationManager
     // when a peer replies positively to our RequestVote RPC simulation)
     void grantVote(uint64_t term);
+    
+    // Start the background election-timeout loop
+    void start();
+    
+    // Get current term
+    uint64_t getCurrentTerm() const { return current_term_.load(); }
 
 private:
     std::string node_id_;
@@ -423,6 +429,9 @@ public:
     
     // Check if stream is healthy
     bool isHealthy() const;
+    
+    // Get current consecutive send failure count
+    uint32_t getConsecutiveFailures() const { return consecutive_failures_.load(); }
 
 private:
     std::string follower_endpoint_;
@@ -434,8 +443,15 @@ private:
     std::atomic<bool> running_{false};
     std::thread stream_thread_;
     
+    // Retry / backoff state
+    std::atomic<uint32_t> consecutive_failures_{0};
+    static constexpr uint32_t kMaxRetries = 3;
+    static constexpr uint32_t kBaseBackoffMs = 100;
+    static constexpr uint32_t kMaxBackoffMs = 5000;
+    
     void streamLoop();
     bool sendBatch(const std::vector<WALEntry>& entries);
+    uint32_t computeBackoffMs() const;
 };
 
 /**

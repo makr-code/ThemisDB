@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <set>
 
 namespace themisdb {
 namespace replication {
@@ -403,7 +404,8 @@ LeaderElection::LeaderElection(
     : node_id_(node_id)
     , config_(config)
     , wal_(wal)
-    , current_term_(wal->getCurrentTerm()) {
+    , current_term_(wal->getCurrentTerm())
+    , last_heartbeat_time_(std::chrono::steady_clock::now()) {
 }
 
 LeaderElection::~LeaderElection() {
@@ -414,8 +416,62 @@ LeaderElection::~LeaderElection() {
     }
 }
 
+void LeaderElection::start() {
+    running_.store(true);
+    last_heartbeat_time_ = std::chrono::steady_clock::now();
+    election_thread_ = std::thread(&LeaderElection::electionLoop, this);
+}
+
+void LeaderElection::electionLoop() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    while (running_.load()) {
+        // Randomized election timeout per Raft spec (§5.2)
+        uint32_t timeout_ms = std::uniform_int_distribution<uint32_t>(
+            config_.election_timeout_min_ms,
+            config_.election_timeout_max_ms)(gen);
+
+        {
+            std::unique_lock<std::mutex> lock(election_mutex_);
+            // Wake up early if we stopped or just became leader
+            bool woken_early = election_cv_.wait_for(
+                lock,
+                std::chrono::milliseconds(timeout_ms),
+                [this] {
+                    return !running_.load() ||
+                           role_.load() == ReplicationRole::LEADER;
+                });
+            if (woken_early) {
+                continue;  // Either stopping or already leader – no need to start election
+            }
+        }
+
+        if (!running_.load()) break;
+
+        // Skip if we are already the leader
+        if (role_.load() == ReplicationRole::LEADER) continue;
+
+        // Check whether the election timeout has actually elapsed since the
+        // last heartbeat (a heartbeat could have arrived just after the cv
+        // timed out but before we re-acquired the lock).
+        auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - last_heartbeat_time_
+        ).count();
+
+        if (elapsed_ms >= static_cast<int64_t>(timeout_ms)) {
+            THEMIS_INFO("Node {} election timeout ({}ms since last heartbeat), starting election",
+                        node_id_, elapsed_ms);
+            startElection();
+        }
+    }
+}
+
 void LeaderElection::startElection() {
     std::lock_guard<std::mutex> lock(election_mutex_);
+    
+    // Guard: do not start an election if we are already the leader
+    if (role_.load() == ReplicationRole::LEADER) return;
     
     // Increment term and become candidate
     current_term_ = wal_->incrementTerm();
@@ -480,11 +536,16 @@ void LeaderElection::receiveHeartbeat(
     const std::string& leader_id,
     uint64_t leader_commit) {
     
-    std::lock_guard<std::mutex> lock(election_mutex_);
-    
-    if (term >= current_term_) {
-        becomeFollower(term, leader_id);
+    {
+        std::lock_guard<std::mutex> lock(election_mutex_);
+        if (term >= current_term_) {
+            becomeFollower(term, leader_id);
+        }
     }
+    // Notify the election loop so it resets its timeout countdown
+    election_cv_.notify_one();
+    // TODO(future): apply leader_commit to follower's local commit index
+    (void)leader_commit;
 }
 
 std::string LeaderElection::getLeaderId() const {
@@ -494,6 +555,7 @@ std::string LeaderElection::getLeaderId() const {
 void LeaderElection::becomeLeader() {
     role_.store(ReplicationRole::LEADER);
     current_leader_ = node_id_;
+    election_cv_.notify_all();  // Wake the election loop so it can skip re-checking
 }
 
 void LeaderElection::becomeFollower(uint64_t term, const std::string& leader_id) {
@@ -564,14 +626,26 @@ bool ReplicationStream::isHealthy() const {
 
 void ReplicationStream::streamLoop() {
     while (running_.load()) {
+        // Apply exponential backoff when the follower is not responsive
+        uint32_t backoff = computeBackoffMs();
+        if (backoff > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(backoff));
+            if (!running_.load()) break;
+        }
+
         uint64_t next_seq = last_acked_sequence_.load() + 1;
         auto entries = wal_->readFrom(next_seq, config_.batch_size);
         
         if (!entries.empty()) {
             if (sendBatch(entries)) {
+                consecutive_failures_.store(0);
                 last_acked_sequence_.store(entries.back().sequence_number);
                 follower_info_.last_applied_sequence = entries.back().sequence_number;
                 follower_info_.last_heartbeat = std::chrono::system_clock::now();
+            } else {
+                uint32_t new_failures = consecutive_failures_.fetch_add(1) + 1;
+                THEMIS_WARN("ReplicationStream to {} failed (attempt {}), backing off {}ms",
+                            follower_endpoint_, new_failures, computeBackoffMs());
             }
         }
         
@@ -579,9 +653,22 @@ void ReplicationStream::streamLoop() {
     }
 }
 
+uint32_t ReplicationStream::computeBackoffMs() const {
+    uint32_t failures = consecutive_failures_.load();
+    if (failures == 0) return 0;
+    // Exponential backoff: base * 2^(failures-1), capped at max
+    uint32_t backoff = kBaseBackoffMs;
+    for (uint32_t i = 1; i < failures && backoff < kMaxBackoffMs; ++i) {
+        backoff = std::min(backoff * 2, kMaxBackoffMs);
+    }
+    return backoff;
+}
+
 bool ReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
-    // In a real implementation, this would send entries over mTLS to the follower
-    // For now, simulate successful replication
+    // In a real implementation, this would serialize entries and send them over
+    // a mTLS connection to the follower endpoint, then wait for acknowledgement.
+    // The retry/backoff logic is managed by the caller (streamLoop).
+    (void)entries;
     return true;
 }
 
@@ -634,6 +721,9 @@ bool ReplicationManager::initialize() {
     
     initialized_.store(true);
     running_.store(true);
+    
+    // Start the election timeout loop (randomized Raft timeouts)
+    election_->start();
     
     // Start background threads
     heartbeat_thread_ = std::thread(&ReplicationManager::heartbeatLoop, this);
@@ -1515,6 +1605,512 @@ std::string HybridLogicalClock::Timestamp::toString() const {
     std::ostringstream oss;
     oss << "HLC(" << physical << "," << logical << "," << node_id << ")";
     return oss.str();
+}
+
+// ============================================================================
+// HybridLogicalClock Implementation
+// ============================================================================
+
+HybridLogicalClock::HybridLogicalClock(const std::string& node_id)
+    : node_id_(node_id)
+    , last_physical_(0)
+    , logical_counter_(0) {
+}
+
+HybridLogicalClock::Timestamp HybridLogicalClock::now() {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    uint64_t wall = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count()
+    );
+
+    uint64_t last = last_physical_.load();
+    if (wall > last) {
+        last_physical_.store(wall);
+        logical_counter_.store(0);
+    } else {
+        // Wall clock has not advanced – increment logical counter
+        logical_counter_++;
+    }
+
+    return Timestamp{last_physical_.load(), logical_counter_.load(), node_id_};
+}
+
+HybridLogicalClock::Timestamp HybridLogicalClock::receive(const Timestamp& received) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    uint64_t wall = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count()
+    );
+
+    uint64_t last  = last_physical_.load();
+    uint64_t max_p = std::max({wall, last, received.physical});
+
+    if (max_p == last && max_p == received.physical) {
+        // Both this node and the sender are at the same physical time
+        logical_counter_.store(std::max(logical_counter_.load(), received.logical) + 1);
+    } else if (max_p == received.physical) {
+        // Sender is ahead
+        logical_counter_.store(received.logical + 1);
+    } else if (max_p == last) {
+        // This node is ahead (or wall advanced)
+        logical_counter_++;
+    } else {
+        // Wall clock is strictly ahead of both
+        logical_counter_.store(0);
+    }
+
+    last_physical_.store(max_p);
+    return Timestamp{last_physical_.load(), logical_counter_.load(), node_id_};
+}
+
+HybridLogicalClock::Timestamp HybridLogicalClock::current() const {
+    return Timestamp{last_physical_.load(), logical_counter_.load(), node_id_};
+}
+
+// ============================================================================
+// VectorClock Implementation
+// ============================================================================
+
+VectorClock::VectorClock(const std::string& node_id) {
+    clocks_[node_id] = 0;
+}
+
+VectorClock::VectorClock(const VectorClock& other) {
+    // mutex_ is mutable – no const_cast needed
+    std::shared_lock<std::shared_mutex> rlock(other.mutex_);
+    clocks_ = other.clocks_;
+}
+
+VectorClock::VectorClock(VectorClock&& other) noexcept {
+    std::unique_lock<std::shared_mutex> wlock(other.mutex_);
+    clocks_ = std::move(other.clocks_);
+}
+
+VectorClock& VectorClock::operator=(const VectorClock& other) {
+    if (this != &other) {
+        std::unique_lock<std::shared_mutex> wlock(mutex_);
+        std::shared_lock<std::shared_mutex> rlock(other.mutex_);
+        clocks_ = other.clocks_;
+    }
+    return *this;
+}
+
+VectorClock& VectorClock::operator=(VectorClock&& other) noexcept {
+    if (this != &other) {
+        std::unique_lock<std::shared_mutex> wlock(mutex_);
+        std::unique_lock<std::shared_mutex> rlock(other.mutex_);
+        clocks_ = std::move(other.clocks_);
+    }
+    return *this;
+}
+
+void VectorClock::increment(const std::string& node_id) {
+    std::unique_lock<std::shared_mutex> lock(mutex_);
+    clocks_[node_id]++;
+}
+
+void VectorClock::merge(const VectorClock& other) {
+    if (this == &other) return;
+
+    // Acquire locks in consistent address order to prevent ABBA deadlock when
+    // two threads concurrently call A.merge(B) and B.merge(A).
+    VectorClock* lo  = (this <  &other) ? this : const_cast<VectorClock*>(&other);
+    VectorClock* hi  = (this >= &other) ? this : const_cast<VectorClock*>(&other);
+    std::unique_lock<std::shared_mutex> lk_lo(lo->mutex_);
+    std::unique_lock<std::shared_mutex> lk_hi(hi->mutex_);
+
+    for (const auto& [node, ts] : other.clocks_) {
+        auto& mine = clocks_[node];
+        if (ts > mine) mine = ts;
+    }
+}
+
+uint64_t VectorClock::get(const std::string& node_id) const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    auto it = clocks_.find(node_id);
+    return it != clocks_.end() ? it->second : 0;
+}
+
+int VectorClock::compare(const VectorClock& other) const {
+    if (this == &other) return 1;  // comparing with self → equal (treat as this >= other)
+
+    // Acquire both shared locks; multiple shared_locks don't deadlock each other.
+    // Use ordered acquisition to keep consistent with exclusive-lock callers.
+    const VectorClock* lo = (this <= &other) ? this : &other;
+    const VectorClock* hi = (this >  &other) ? this : &other;
+    std::shared_lock<std::shared_mutex> lk_lo(lo->mutex_);
+    std::shared_lock<std::shared_mutex> lk_hi(hi->mutex_);
+
+    bool this_greater  = false;
+    bool other_greater = false;
+
+    // Check all entries present in this clock
+    for (const auto& [node, ts] : clocks_) {
+        auto it = other.clocks_.find(node);
+        uint64_t other_ts = (it != other.clocks_.end()) ? it->second : 0;
+        if (ts  > other_ts) this_greater  = true;
+        if (ts  < other_ts) other_greater = true;
+    }
+    // Check entries present only in the other clock
+    for (const auto& [node, ts] : other.clocks_) {
+        if (clocks_.find(node) == clocks_.end() && ts > 0) {
+            other_greater = true;
+        }
+    }
+
+    if ( this_greater && !other_greater) return  1;  // this is strictly newer
+    if (!this_greater &&  other_greater) return -1;  // other is strictly newer
+    if ( this_greater &&  other_greater) return  0;  // concurrent – neither dominates
+    return 0;  // equal – treat as concurrent
+}
+
+bool VectorClock::happensBefore(const VectorClock& other) const {
+    return compare(other) == -1;
+}
+
+bool VectorClock::isConcurrent(const VectorClock& other) const {
+    return compare(other) == 0;
+}
+
+std::string VectorClock::toJson() const {
+    std::shared_lock<std::shared_mutex> lock(mutex_);
+    std::ostringstream oss;
+    oss << "{";
+    bool first = true;
+    for (const auto& [node, ts] : clocks_) {
+        if (!first) oss << ",";
+        oss << "\"" << node << "\":" << ts;
+        first = false;
+    }
+    oss << "}";
+    return oss.str();
+}
+
+VectorClock VectorClock::fromJson(const std::string& json) {
+    VectorClock vc;
+    size_t p = 0;
+    while (p < json.size()) {
+        auto kstart = json.find('"', p);
+        if (kstart == std::string::npos) break;
+        auto kend = json.find('"', kstart + 1);
+        if (kend == std::string::npos) break;
+        std::string key = json.substr(kstart + 1, kend - kstart - 1);
+
+        // Skip ':' and whitespace
+        size_t vp = kend + 1;
+        while (vp < json.size() && (json[vp] == ' ' || json[vp] == ':')) ++vp;
+
+        if (vp < json.size() && std::isdigit(static_cast<unsigned char>(json[vp]))) {
+            try {
+                size_t consumed = 0;
+                uint64_t val = std::stoull(json.substr(vp), &consumed);
+                if (consumed > 0) {
+                    vc.clocks_[key] = val;
+                    p = vp + consumed;
+                    continue;
+                }
+            } catch (...) {}
+        }
+        p = kend + 1;
+    }
+    return vc;
+}
+
+// ============================================================================
+// Multi-master ConflictResolver implementations (MMWriteEntry variants)
+// ============================================================================
+
+MMWriteEntry LastWriteWinsResolver::resolve(
+    const std::string& /*document_id*/,
+    const std::vector<MMWriteEntry>& conflicting_writes)
+{
+    if (conflicting_writes.empty()) return MMWriteEntry{};
+
+    // Select the entry with the latest HLC timestamp; ties resolved by node_id
+    const MMWriteEntry* winner = &conflicting_writes[0];
+    for (const auto& entry : conflicting_writes) {
+        if (winner->hlc < entry.hlc) {
+            winner = &entry;
+        }
+    }
+    return *winner;
+}
+
+CRDTMergeResolver::CRDTMergeResolver(CRDTType type)
+    : crdt_type_(type) {
+}
+
+MMWriteEntry CRDTMergeResolver::resolve(
+    const std::string& document_id,
+    const std::vector<MMWriteEntry>& conflicting_writes)
+{
+    if (conflicting_writes.empty()) return MMWriteEntry{};
+
+    std::string merged_data;
+    switch (crdt_type_) {
+        case CRDTType::LWW_REGISTER: merged_data = mergeLWWRegister(conflicting_writes); break;
+        case CRDTType::MV_REGISTER:  merged_data = mergeMVRegister(conflicting_writes);  break;
+        case CRDTType::G_COUNTER:    merged_data = mergeGCounter(conflicting_writes);    break;
+        case CRDTType::PN_COUNTER:   merged_data = mergePNCounter(conflicting_writes);   break;
+        case CRDTType::G_SET:        merged_data = mergeGSet(conflicting_writes);        break;
+        case CRDTType::OR_SET:       merged_data = mergeORSet(conflicting_writes);       break;
+        case CRDTType::LWW_MAP:      merged_data = mergeLWWMap(conflicting_writes);      break;
+    }
+
+    // Base entry is the LWW winner; replace its data with the merged payload
+    LastWriteWinsResolver lwr;
+    MMWriteEntry result = lwr.resolve(document_id, conflicting_writes);
+    result.data = merged_data;
+    return result;
+}
+
+std::string CRDTMergeResolver::strategyName() const {
+    switch (crdt_type_) {
+        case CRDTType::LWW_REGISTER: return "LWW_REGISTER";
+        case CRDTType::MV_REGISTER:  return "MV_REGISTER";
+        case CRDTType::G_COUNTER:    return "G_COUNTER";
+        case CRDTType::PN_COUNTER:   return "PN_COUNTER";
+        case CRDTType::G_SET:        return "G_SET";
+        case CRDTType::OR_SET:       return "OR_SET";
+        case CRDTType::LWW_MAP:      return "LWW_MAP";
+    }
+    return "UNKNOWN";
+}
+
+std::string CRDTMergeResolver::mergeLWWRegister(const std::vector<MMWriteEntry>& writes) {
+    // Return the data of the entry with the latest HLC
+    const MMWriteEntry* latest = &writes[0];
+    for (const auto& w : writes) {
+        if (latest->hlc < w.hlc) latest = &w;
+    }
+    return latest->data;
+}
+
+std::string CRDTMergeResolver::mergeMVRegister(const std::vector<MMWriteEntry>& writes) {
+    // Multi-value register: return all concurrent values as a JSON array
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& w : writes) {
+        if (!first) oss << ",";
+        oss << w.data;
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
+}
+
+// Helper: scan a JSON doc for "key": integer pairs
+static std::map<std::string, int64_t> extractJsonInts(const std::string& doc) {
+    std::map<std::string, int64_t> fields;
+    size_t p = 0;
+    while (p < doc.size()) {
+        auto ks = doc.find('"', p);
+        if (ks == std::string::npos) break;
+        auto ke = doc.find('"', ks + 1);
+        if (ke == std::string::npos) break;
+        std::string key = doc.substr(ks + 1, ke - ks - 1);
+        size_t vp = ke + 1;
+        while (vp < doc.size() && (doc[vp] == ' ' || doc[vp] == ':')) ++vp;
+        if (vp < doc.size() &&
+            (std::isdigit(static_cast<unsigned char>(doc[vp])) ||
+             (doc[vp] == '-' && vp + 1 < doc.size() &&
+              std::isdigit(static_cast<unsigned char>(doc[vp + 1]))))) {
+            try {
+                size_t consumed = 0;
+                int64_t val = std::stoll(doc.substr(vp), &consumed);
+                if (consumed > 0) { fields[key] = val; p = vp + consumed; continue; }
+            } catch (...) {}
+        }
+        p = ke + 1;
+    }
+    return fields;
+}
+
+std::string CRDTMergeResolver::mergeGCounter(const std::vector<MMWriteEntry>& writes) {
+    // Grow-only counter: for each node-keyed counter take the maximum value
+    std::map<std::string, int64_t> merged;
+    for (const auto& w : writes) {
+        auto fields = extractJsonInts(w.data);
+        for (const auto& [k, v] : fields) {
+            merged[k] = std::max(merged[k], v);
+        }
+    }
+    std::ostringstream oss;
+    oss << "{";
+    bool first = true;
+    for (const auto& [k, v] : merged) {
+        if (!first) oss << ",";
+        oss << "\"" << k << "\":" << v;
+        first = false;
+    }
+    oss << "}";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergePNCounter(const std::vector<MMWriteEntry>& writes) {
+    // PN counter: each entry has a "positive" and "negative" sub-counter per node
+    // Simplified: treat all numeric fields as GCounter
+    return mergeGCounter(writes);
+}
+
+std::string CRDTMergeResolver::mergeGSet(const std::vector<MMWriteEntry>& writes) {
+    // Grow-only set: union of all string values inside JSON arrays
+    // Simplified: concatenate unique tokens from all payloads
+    std::set<std::string> seen;
+    for (const auto& w : writes) {
+        size_t p = 0;
+        while (p < w.data.size()) {
+            auto qs = w.data.find('"', p);
+            if (qs == std::string::npos) break;
+            auto qe = w.data.find('"', qs + 1);
+            if (qe == std::string::npos) break;
+            seen.insert(w.data.substr(qs + 1, qe - qs - 1));
+            p = qe + 1;
+        }
+    }
+    std::ostringstream oss;
+    oss << "[";
+    bool first = true;
+    for (const auto& s : seen) {
+        if (!first) oss << ",";
+        oss << "\"" << s << "\"";
+        first = false;
+    }
+    oss << "]";
+    return oss.str();
+}
+
+std::string CRDTMergeResolver::mergeORSet(const std::vector<MMWriteEntry>& writes) {
+    // OR-Set: observed-remove set; delegate to GSet for simplicity
+    return mergeGSet(writes);
+}
+
+std::string CRDTMergeResolver::mergeLWWMap(const std::vector<MMWriteEntry>& writes) {
+    // LWW-Map: per-key last-write-wins; use HLC to pick winner per key
+    std::map<std::string, std::pair<HybridLogicalClock::Timestamp, std::string>> best;
+    for (const auto& w : writes) {
+        auto fields = extractJsonInts(w.data);
+        for (const auto& [k, v] : fields) {
+            auto it = best.find(k);
+            if (it == best.end() || it->second.first < w.hlc) {
+                best[k] = {w.hlc, std::to_string(v)};
+            }
+        }
+    }
+    std::ostringstream oss;
+    oss << "{";
+    bool first = true;
+    for (const auto& [k, p] : best) {
+        if (!first) oss << ",";
+        oss << "\"" << k << "\":" << p.second;
+        first = false;
+    }
+    oss << "}";
+    return oss.str();
+}
+
+// ============================================================================
+// MMWriteEntry Serialization
+// ============================================================================
+
+std::vector<uint8_t> MMWriteEntry::serialize() const {
+    std::vector<uint8_t> result;
+
+    auto appendUint64 = [&result](uint64_t val) {
+        for (int i = 7; i >= 0; --i)
+            result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
+    };
+    auto appendUint32 = [&result](uint32_t val) {
+        for (int i = 3; i >= 0; --i)
+            result.push_back(static_cast<uint8_t>((val >> (i * 8)) & 0xFF));
+    };
+    auto appendString = [&result](const std::string& s) {
+        uint32_t len = static_cast<uint32_t>(s.size());
+        for (int i = 3; i >= 0; --i)
+            result.push_back(static_cast<uint8_t>((len >> (i * 8)) & 0xFF));
+        result.insert(result.end(), s.begin(), s.end());
+    };
+
+    appendString(write_id);
+    appendString(origin_node);
+    appendString(collection);
+    appendString(document_id);
+    appendString(operation);
+    appendString(data);
+    appendString(checksum);
+    appendString(vector_clock.toJson());
+    appendUint64(hlc.physical);
+    appendUint32(hlc.logical);
+    appendString(hlc.node_id);
+
+    return result;
+}
+
+std::optional<MMWriteEntry> MMWriteEntry::deserialize(const std::vector<uint8_t>& raw) {
+    if (raw.size() < 4) return std::nullopt;
+    size_t pos = 0;
+
+    auto readUint64 = [&]() -> uint64_t {
+        uint64_t v = 0;
+        for (int i = 0; i < 8 && pos < raw.size(); ++i, ++pos)
+            v = (v << 8) | raw[pos];
+        return v;
+    };
+    auto readUint32 = [&]() -> uint32_t {
+        uint32_t v = 0;
+        for (int i = 0; i < 4 && pos < raw.size(); ++i, ++pos)
+            v = (v << 8) | raw[pos];
+        return v;
+    };
+    auto readString = [&]() -> std::string {
+        if (pos + 4 > raw.size()) return {};
+        uint32_t len = readUint32();
+        if (pos + len > raw.size()) return {};
+        std::string s(raw.begin() + pos, raw.begin() + pos + len);
+        pos += len;
+        return s;
+    };
+
+    MMWriteEntry e;
+    e.write_id     = readString();
+    e.origin_node  = readString();
+    e.collection   = readString();
+    e.document_id  = readString();
+    e.operation    = readString();
+    e.data         = readString();
+    e.checksum     = readString();
+    e.vector_clock = VectorClock::fromJson(readString());
+    e.hlc.physical = readUint64();
+    e.hlc.logical  = readUint32();
+    e.hlc.node_id  = readString();
+
+    return e;
+}
+
+// ============================================================================
+// CustomResolver Implementation
+// ============================================================================
+
+CustomResolver::CustomResolver(ResolverFunc resolver)
+    : resolver_(std::move(resolver)) {
+}
+
+MMWriteEntry CustomResolver::resolve(
+    const std::string& document_id,
+    const std::vector<MMWriteEntry>& conflicting_writes)
+{
+    if (resolver_) {
+        return resolver_(document_id, conflicting_writes);
+    }
+    // Fallback to LWW
+    LastWriteWinsResolver lwr;
+    return lwr.resolve(document_id, conflicting_writes);
 }
 
 } // namespace replication

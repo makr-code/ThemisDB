@@ -439,3 +439,367 @@ TEST(ReplicationManagerErrorHandling, ReplicateAsFollowerFails) {
     mgr.shutdown();
 }
 
+// ============================================================================
+// 8. electionLoop – randomized timeout triggers election
+// ============================================================================
+
+TEST(ElectionLoopTest, TimeoutTriggersElectionOnSingleNode) {
+    // Single-node cluster: after an election timeout, node should become leader
+    TempWALDir wd("/tmp/themis_elt_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.election_timeout_min_ms = 50;   // Very short for fast test
+    cfg.election_timeout_max_ms = 100;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    LeaderElection le("node-elt", cfg, wal);
+    le.setClusterSize(1);
+    le.start();
+
+    // Wait up to 500ms for the election loop to fire
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::milliseconds(500);
+    while (!le.isLeader() &&
+           std::chrono::steady_clock::now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    EXPECT_TRUE(le.isLeader())
+        << "Single-node cluster should become leader after election timeout";
+}
+
+TEST(ElectionLoopTest, HeartbeatResetsElectionTimer) {
+    // When heartbeats arrive within the timeout, election must NOT be triggered
+    TempWALDir wd("/tmp/themis_elt_hb_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.election_timeout_min_ms = 200;
+    cfg.election_timeout_max_ms = 300;
+
+    auto wal = std::make_shared<WALManager>(cfg);
+    LeaderElection le("node-hb", cfg, wal);
+    le.setClusterSize(3);  // Need quorum of 2; never grant 2nd vote → stays follower
+    le.start();
+
+    // Send heartbeats every 50ms for 400ms – keep resetting the timer
+    for (int i = 0; i < 8; ++i) {
+        le.receiveHeartbeat(1, "leader-node", 0);
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+
+    // Node should still be FOLLOWER because heartbeats kept resetting the timer
+    EXPECT_EQ(le.getRole(), ReplicationRole::FOLLOWER)
+        << "Regular heartbeats should prevent election timeout";
+}
+
+TEST(ElectionLoopTest, StopDoesNotHang) {
+    // Destroying a started LeaderElection should join cleanly
+    TempWALDir wd("/tmp/themis_elt_stop_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    cfg.election_timeout_min_ms = 5000;  // Long timeout so loop is sleeping
+    cfg.election_timeout_max_ms = 6000;
+
+    auto start = std::chrono::steady_clock::now();
+    {
+        auto wal = std::make_shared<WALManager>(cfg);
+        LeaderElection le("node-stop", cfg, wal);
+        le.setClusterSize(1);
+        le.start();
+        // Destructor stops the thread
+    }
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start).count();
+
+    EXPECT_LT(elapsed, 500)
+        << "Destruction should complete quickly even with long election timeout";
+}
+
+// ============================================================================
+// 9. VectorClock
+// ============================================================================
+
+#include "replication/multi_master_replication.h"
+
+TEST(VectorClockTest, IncrementAndGet) {
+    VectorClock vc("node-A");
+    EXPECT_EQ(vc.get("node-A"), 0u);  // initialised to 0
+
+    vc.increment("node-A");
+    EXPECT_EQ(vc.get("node-A"), 1u);
+
+    vc.increment("node-A");
+    EXPECT_EQ(vc.get("node-A"), 2u);
+
+    // Unknown node returns 0
+    EXPECT_EQ(vc.get("node-Z"), 0u);
+}
+
+TEST(VectorClockTest, Merge) {
+    VectorClock a("node-A");
+    a.increment("node-A");
+    a.increment("node-A");  // A: {A:2}
+
+    VectorClock b("node-B");
+    b.increment("node-B");
+    b.increment("node-B");
+    b.increment("node-B");  // B: {B:3}
+
+    a.merge(b);  // A should now be {A:2, B:3}
+    EXPECT_EQ(a.get("node-A"), 2u);
+    EXPECT_EQ(a.get("node-B"), 3u);
+}
+
+TEST(VectorClockTest, Compare_HappensBefore) {
+    VectorClock a("A");
+    a.increment("A");  // a: {A:1}
+
+    VectorClock b("A");
+    b.increment("A");
+    b.increment("A");  // b: {A:2}
+
+    // a happened before b
+    EXPECT_TRUE(a.happensBefore(b));
+    EXPECT_FALSE(b.happensBefore(a));
+}
+
+TEST(VectorClockTest, Compare_Concurrent) {
+    VectorClock a("A");
+    a.increment("A");
+
+    VectorClock b("B");
+    b.increment("B");
+
+    // Neither happened before the other (different partitions)
+    EXPECT_TRUE(a.isConcurrent(b));
+    EXPECT_TRUE(b.isConcurrent(a));
+}
+
+TEST(VectorClockTest, Compare_EqualIsConcurrent) {
+    VectorClock a;
+    VectorClock b;
+    // Both empty (equal) clocks should be treated as concurrent (compare returns 0)
+    EXPECT_EQ(a.compare(b), 0);
+    EXPECT_FALSE(a.happensBefore(b));
+}
+
+TEST(VectorClockTest, ToJsonRoundTrip) {
+    VectorClock vc;
+    vc.increment("node-1");
+    vc.increment("node-1");
+    vc.increment("node-2");
+
+    std::string json = vc.toJson();
+    EXPECT_FALSE(json.empty());
+
+    VectorClock restored = VectorClock::fromJson(json);
+    EXPECT_EQ(restored.get("node-1"), 2u);
+    EXPECT_EQ(restored.get("node-2"), 1u);
+}
+
+TEST(VectorClockTest, CopyConstructor) {
+    VectorClock original("X");
+    original.increment("X");
+    original.increment("X");
+
+    VectorClock copy(original);
+    EXPECT_EQ(copy.get("X"), 2u);
+
+    // Mutating copy should not affect original
+    copy.increment("X");
+    EXPECT_EQ(original.get("X"), 2u);
+    EXPECT_EQ(copy.get("X"), 3u);
+}
+
+// ============================================================================
+// 10. HybridLogicalClock
+// ============================================================================
+
+TEST(HLCTest, NowReturnsMonotonicTimestamps) {
+    HybridLogicalClock hlc("node-1");
+
+    auto t1 = hlc.now();
+    auto t2 = hlc.now();
+
+    // Each call must produce a non-decreasing timestamp (t2 >= t1)
+    EXPECT_FALSE(t2 < t1)
+        << "now() must produce monotonic HLC timestamps";
+}
+
+TEST(HLCTest, ReceiveAdvancesClockBeyondSender) {
+    HybridLogicalClock sender("sender");
+    HybridLogicalClock receiver("receiver");
+
+    auto sent = sender.now();
+
+    // Simulate receiving a message with the sender's timestamp
+    auto received_ts = receiver.receive(sent);
+
+    // After receiving, the receiver's logical component must be > sender's
+    EXPECT_FALSE(received_ts < sent)
+        << "After receive(), local clock must not be less than the sender's";
+}
+
+TEST(HLCTest, CurrentReturnsLastGeneratedTimestamp) {
+    HybridLogicalClock hlc("node-c");
+    auto t = hlc.now();
+    auto cur = hlc.current();
+
+    EXPECT_EQ(t.physical, cur.physical);
+    EXPECT_EQ(t.logical,  cur.logical);
+}
+
+TEST(HLCTest, TimestampOrdering) {
+    HybridLogicalClock::Timestamp t1{1000, 0, "A"};
+    HybridLogicalClock::Timestamp t2{1000, 1, "A"};
+    HybridLogicalClock::Timestamp t3{2000, 0, "A"};
+
+    EXPECT_TRUE(t1 < t2);   // Same physical, higher logical
+    EXPECT_TRUE(t2 < t3);   // Higher physical wins
+    EXPECT_FALSE(t3 < t1);
+}
+
+TEST(HLCTest, TimestampToString) {
+    HybridLogicalClock::Timestamp ts{12345, 7, "node-x"};
+    std::string s = ts.toString();
+    EXPECT_NE(s.find("12345"), std::string::npos);
+    EXPECT_NE(s.find("7"),     std::string::npos);
+    EXPECT_NE(s.find("node-x"), std::string::npos);
+}
+
+// ============================================================================
+// 11. Multi-master MM resolvers (MMWriteEntry variants)
+// ============================================================================
+
+static HybridLogicalClock::Timestamp makeHLCTimestamp(uint64_t phys, uint32_t log,
+                                              const std::string& node) {
+    return HybridLogicalClock::Timestamp{phys, log, node};
+}
+
+TEST(MMLastWriteWinsTest, SelectsLatestHLCTimestamp) {
+    LastWriteWinsResolver resolver;
+
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = "old"; e1.hlc = makeHLCTimestamp(1000, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = "new"; e2.hlc = makeHLCTimestamp(2000, 0, "B");
+
+    auto result = resolver.resolve("doc1", {e1, e2});
+    EXPECT_EQ(result.data, "new");
+    EXPECT_EQ(result.write_id, "w2");
+}
+
+TEST(MMLastWriteWinsTest, EmptyInputReturnsDefault) {
+    LastWriteWinsResolver resolver;
+    auto result = resolver.resolve("doc1", {});
+    EXPECT_TRUE(result.write_id.empty());
+}
+
+TEST(MMCRDTResolverTest, LWWRegisterPicksLatest) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::LWW_REGISTER);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"({"v":1})";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"({"v":2})";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    EXPECT_EQ(result.data, R"({"v":2})");
+}
+
+TEST(MMCRDTResolverTest, GCounterMergesMaxPerKey) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::G_COUNTER);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"({"counter":5})";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"({"counter":3})";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // The data should contain the max counter value (5)
+    EXPECT_NE(result.data.find("5"), std::string::npos)
+        << "G-Counter merge should keep max value";
+}
+
+TEST(MMCRDTResolverTest, GSetUnionOfValues) {
+    CRDTMergeResolver resolver(CRDTMergeResolver::CRDTType::G_SET);
+
+    MMWriteEntry e1;
+    e1.write_id = "w1"; e1.data = R"(["apple","banana"])";
+    e1.hlc = makeHLCTimestamp(100, 0, "A");
+
+    MMWriteEntry e2;
+    e2.write_id = "w2"; e2.data = R"(["banana","cherry"])";
+    e2.hlc = makeHLCTimestamp(200, 0, "B");
+
+    auto result = resolver.resolve("doc", {e1, e2});
+    // Result should contain all three unique values
+    EXPECT_NE(result.data.find("apple"),  std::string::npos);
+    EXPECT_NE(result.data.find("banana"), std::string::npos);
+    EXPECT_NE(result.data.find("cherry"), std::string::npos);
+}
+
+TEST(MMCRDTResolverTest, StrategyNameMatchesType) {
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::LWW_REGISTER).strategyName(),
+              "LWW_REGISTER");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::G_COUNTER).strategyName(),
+              "G_COUNTER");
+    EXPECT_EQ(CRDTMergeResolver(CRDTMergeResolver::CRDTType::G_SET).strategyName(),
+              "G_SET");
+}
+
+// ============================================================================
+// 12. MMWriteEntry serialize / deserialize round-trip
+// ============================================================================
+
+TEST(MMWriteEntryTest, SerializeDeserializeRoundTrip) {
+    HybridLogicalClock hlc("test-node");
+    auto ts = hlc.now();
+
+    MMWriteEntry original;
+    original.write_id    = "write-123";
+    original.origin_node = "node-A";
+    original.collection  = "users";
+    original.document_id = "user-1";
+    original.operation   = "INSERT";
+    original.data        = R"({"name":"Alice","age":30})";
+    original.checksum    = "abc123";
+    original.hlc         = ts;
+    original.vector_clock.increment("node-A");
+
+    auto serialized = original.serialize();
+    ASSERT_FALSE(serialized.empty());
+
+    auto restored = MMWriteEntry::deserialize(serialized);
+    ASSERT_TRUE(restored.has_value());
+
+    EXPECT_EQ(restored->write_id,    original.write_id);
+    EXPECT_EQ(restored->origin_node, original.origin_node);
+    EXPECT_EQ(restored->collection,  original.collection);
+    EXPECT_EQ(restored->document_id, original.document_id);
+    EXPECT_EQ(restored->operation,   original.operation);
+    EXPECT_EQ(restored->data,        original.data);
+    EXPECT_EQ(restored->checksum,    original.checksum);
+    EXPECT_EQ(restored->hlc.physical, original.hlc.physical);
+    EXPECT_EQ(restored->hlc.logical,  original.hlc.logical);
+    EXPECT_EQ(restored->hlc.node_id,  original.hlc.node_id);
+    EXPECT_EQ(restored->vector_clock.get("node-A"),
+              original.vector_clock.get("node-A"));
+}
+
+// ============================================================================
+// 13. ReplicationStream backoff tracking
+// ============================================================================
+
+TEST(ReplicationStreamTest, InitialBackoffIsZero) {
+    TempWALDir wd("/tmp/themis_stream_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+    auto wal = std::make_shared<WALManager>(cfg);
+    ReplicationStream stream("127.0.0.1:9999", wal, cfg);
+    EXPECT_EQ(stream.getConsecutiveFailures(), 0u);
+}
+
+
