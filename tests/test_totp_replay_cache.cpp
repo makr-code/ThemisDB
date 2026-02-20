@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "auth/totp_replay_cache.h"
+#include "auth/mfa_authenticator.h"
 #include <thread>
 #include <chrono>
 

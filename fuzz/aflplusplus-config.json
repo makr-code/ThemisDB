@@ -135,6 +135,17 @@
         ],
         "coverage_guided": true,
         "notes": "Q1 roadmap item \u2014 fuzz Grammar::compile() and null-vocab hard-error path"
+        "name": "pii_redaction",
+        "description": "PII Redaction Pipeline Fuzzing – ensures no PII leaks through redactForLog/redactAttributes/redactLabels and that the pipeline is crash-free and idempotent on arbitrary input",
+        "source": "src/security/pii_redaction_policy.cpp",
+        "harness": "fuzz/harnesses/pii_redaction_harness.cpp",
+        "input_corpus": "fuzz/corpus/pii/",
+        "dictionary": "fuzz/dictionaries/pii.dict",
+        "timeout": 1000,
+        "memory_limit": "256MB",
+        "priority": "critical",
+        "sanitizers": ["address", "undefined"],
+        "coverage_guided": true
       }
     ],
     "compiler": {
@@ -342,6 +353,29 @@
         "\"HASH\"",
         "\"SHA256\"",
         "\"HMAC\""
+      ]
+    },
+    "pii": {
+      "description": "PII pattern tokens for redaction fuzzing",
+      "tokens": [
+        "\"@\"",
+        "\".com\"",
+        "\".de\"",
+        "\"123-45-\"",
+        "\"-6789\"",
+        "\"4242-4242\"",
+        "\"4532-1488\"",
+        "\"DE89\"",
+        "\"GB29\"",
+        "\"+49-\"",
+        "\"(555)\"",
+        "\"192.168.\"",
+        "\"https://\"",
+        "\"email\"",
+        "\"phone\"",
+        "\"ssn\"",
+        "\"credit_card\"",
+        "\"iban\""
       ]
     }
   },

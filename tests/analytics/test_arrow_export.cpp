@@ -178,8 +178,14 @@ TEST_F(ArrowExportTest, ExporterSupportsFormats) {
     
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::JSON));
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::CSV));
+
+#ifdef THEMIS_HAS_ARROW
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
     EXPECT_TRUE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
+#else
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_IPC));
+    EXPECT_FALSE(exporter->supportsFormat(ExportFormat::ARROW_PARQUET));
+#endif
 }
 
 TEST_F(ArrowExportTest, ExportToJSONString) {

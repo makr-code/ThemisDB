@@ -379,11 +379,3 @@ TEST_F(QualityControlPipelineTest, StatisticsReset) {
     EXPECT_NE(stats.find("\"total_checks\": 0"), std::string::npos);
 }
 
-// ═══════════════════════════════════════════════════════════
-// Main
-// ═══════════════════════════════════════════════════════════
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

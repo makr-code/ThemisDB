@@ -48,6 +48,7 @@
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
+#include "server/geo_topology_api_handler.h"
 #include "server/cache_api_handler.h"
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
@@ -636,6 +637,9 @@ private:
     
     // Spatial API Handler
     std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
+
+    // Geo Topology API Handler
+    std::unique_ptr<themis::server::GeoTopologyApiHandler> geo_topology_api_;
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;

@@ -7,6 +7,7 @@
  */
 
 #include "rag/nli_faithfulness_verifier.h"
+#include "rag/faithfulness_evaluator.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <sstream>

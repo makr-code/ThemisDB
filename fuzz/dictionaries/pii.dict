@@ -1,0 +1,59 @@
+# ThemisDB PII Redaction Fuzzing Dictionary
+# Tokens that guide AFL++ toward PII-containing inputs
+# so the fuzzer can discover edge cases in pattern matching and masking.
+
+# Email delimiters and structure
+"@"
+".com"
+".de"
+".org"
+".net"
+".io"
+
+# SSN pattern tokens
+"123-45-"
+"-45-6789"
+"987654321"
+
+# Credit card structure
+"4242-"
+"-4242-4242"
+"4532-1488"
+"5500-0000"
+
+# IBAN tokens
+"DE89"
+"GB29"
+"FR76"
+"370400440"
+
+# Phone prefixes
+"+49-"
+"+1-"
+"(555)"
+"0800-"
+
+# IP address fragments
+"192.168."
+"10.0.0."
+"172.16."
+
+# URL patterns
+"https://"
+"http://"
+"ftp://"
+
+# Field-name keywords (trigger key-based redaction)
+"email"
+"phone"
+"ssn"
+"credit_card"
+"iban"
+"password"
+"token"
+
+# Boundary / whitespace for tokenizer stress
+"\n"
+"\r\n"
+"\t"
+"  "

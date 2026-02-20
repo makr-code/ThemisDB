@@ -25,15 +25,8 @@ enum class NLILabel {
     CONTRADICTION    ///< Hypothesis contradicts premise
 };
 
-/**
- * @brief Support level for a claim
- */
-enum class SupportLevel {
-    FULLY_SUPPORTED,      ///< Entailed by documents
-    PARTIALLY_SUPPORTED,  ///< Neutral but related
-    UNSUPPORTED,          ///< Not found in documents
-    CONTRADICTED          ///< Contradicts documents
-};
+// Shared support level enum is defined in faithfulness_evaluator.h
+enum class SupportLevel;
 
 /**
  * @brief Result from NLI model
