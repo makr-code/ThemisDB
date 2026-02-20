@@ -649,7 +649,134 @@ TaskScheduler::Stats TaskScheduler::getStats() const {
     return stats;
 }
 
-std::vector<ScheduledTask> TaskScheduler::listTasks() const {
+std::string TaskScheduler::exportMetrics() const {
+    std::ostringstream out;
+
+    // Helper lambda for Prometheus text format (gauge metric with HELP + TYPE)
+    auto write_gauge = [&](const std::string& name, const std::string& help,
+                           double value) {
+        out << "# HELP " << name << " " << help << "\n";
+        out << "# TYPE " << name << " gauge\n";
+        out << name << " " << value << "\n";
+    };
+
+    // Capture snapshot under the lock
+    size_t registered_tasks, active_tasks, running_tasks;
+    size_t total_exec, failed_exec;
+    std::vector<ScheduledTask> task_snapshot;
+
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        registered_tasks = tasks_.size();
+        active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+                                     [](const auto& p) { return p.second->enabled; });
+        {
+            std::lock_guard<std::mutex> rlock(running_mutex_);
+            running_tasks = running_task_threads_.size();
+        }
+        total_exec   = total_executions_.load();
+        failed_exec  = failed_executions_.load();
+
+        task_snapshot.reserve(tasks_.size());
+        for (const auto& [id, task] : tasks_) {
+            task_snapshot.push_back(*task);
+        }
+    }
+
+    // ── Scheduler-level gauges ────────────────────────────────────────────
+    write_gauge("themis_scheduler_tasks_registered",
+                "Total number of registered scheduled tasks.",
+                static_cast<double>(registered_tasks));
+
+    write_gauge("themis_scheduler_tasks_active",
+                "Number of enabled (active) scheduled tasks.",
+                static_cast<double>(active_tasks));
+
+    write_gauge("themis_scheduler_tasks_running",
+                "Number of task instances currently executing.",
+                static_cast<double>(running_tasks));
+
+    // ── Scheduler-level counters ──────────────────────────────────────────
+    out << "# HELP themis_scheduler_executions_total"
+           " Total number of task execution attempts.\n";
+    out << "# TYPE themis_scheduler_executions_total counter\n";
+    out << "themis_scheduler_executions_total{status=\"success\"} "
+        << (total_exec - failed_exec) << "\n";
+    out << "themis_scheduler_executions_total{status=\"failure\"} "
+        << failed_exec << "\n";
+
+    // ── Per-task metrics ──────────────────────────────────────────────────
+    if (!task_snapshot.empty()) {
+        // Counters per task
+        out << "# HELP themis_scheduler_task_executions_total"
+               " Execution count per task.\n";
+        out << "# TYPE themis_scheduler_task_executions_total counter\n";
+        for (const auto& t : task_snapshot) {
+            // Sanitize label values (replace " and \ which are illegal in labels)
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            std::string labels = "task_id=\"" + t.id + "\",task_name=\"" + safe_name + "\"";
+            out << "themis_scheduler_task_executions_total{"
+                << labels << ",status=\"success\"} "
+                << t.successful_executions << "\n";
+            out << "themis_scheduler_task_executions_total{"
+                << labels << ",status=\"failure\"} "
+                << t.failed_executions << "\n";
+        }
+
+        // Avg execution duration gauge per task
+        out << "# HELP themis_scheduler_task_execution_duration_ms"
+               " Moving-average execution duration per task in milliseconds.\n";
+        out << "# TYPE themis_scheduler_task_execution_duration_ms gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            out << "themis_scheduler_task_execution_duration_ms"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << t.avg_execution_time_ms << "\n";
+        }
+
+        // Last-run timestamp (unix epoch seconds) per task
+        out << "# HELP themis_scheduler_task_last_run_timestamp_seconds"
+               " Unix timestamp of the last execution for each task.\n";
+        out << "# TYPE themis_scheduler_task_last_run_timestamp_seconds gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            double last_run_sec = 0.0;
+            if (t.last_run_ms > 0) {
+                last_run_sec = static_cast<double>(t.last_run_ms) / 1000.0;
+            }
+            out << "themis_scheduler_task_last_run_timestamp_seconds"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << last_run_sec << "\n";
+        }
+
+        // Enabled flag (1 = enabled, 0 = disabled)
+        out << "# HELP themis_scheduler_task_enabled"
+               " Whether a task is currently enabled (1) or disabled (0).\n";
+        out << "# TYPE themis_scheduler_task_enabled gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            out << "themis_scheduler_task_enabled"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << (t.enabled ? 1 : 0) << "\n";
+        }
+    }
+
+    return out.str();
+}
+
+
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     std::vector<ScheduledTask> result;

@@ -344,7 +344,26 @@ public:
      * @brief Get scheduler statistics
      */
     Stats getStats() const;
-    
+
+    /**
+     * @brief Export current scheduler metrics in Prometheus text format
+     *
+     * Returns a string in Prometheus exposition format (text/plain; version=0.0.4)
+     * suitable for scraping by a Prometheus server or any compatible monitoring tool.
+     *
+     * Metrics exported:
+     *   - themis_scheduler_tasks_registered        (gauge)
+     *   - themis_scheduler_tasks_active            (gauge)
+     *   - themis_scheduler_tasks_running           (gauge)
+     *   - themis_scheduler_executions_total        (counter, label: status=success|failure)
+     *   - themis_scheduler_task_executions_total   (counter, per task, labels: task_id, task_name, status)
+     *   - themis_scheduler_task_execution_duration_ms (gauge, per task)
+     *   - themis_scheduler_task_last_run_timestamp (gauge, per task, unix seconds)
+     *
+     * @return Prometheus text exposition string (never empty)
+     */
+    std::string exportMetrics() const;
+
     /**
      * @brief List all registered tasks
      */

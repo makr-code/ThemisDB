@@ -586,3 +586,190 @@ TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
     EXPECT_FALSE(result.contains("error")) << result.dump();
     EXPECT_EQ(call_count.load(), 2);
 }
+
+// ===== exportMetrics() tests =====
+
+TEST_F(TaskSchedulerTest, ExportMetricsReturnsNonEmptyString) {
+    EXPECT_FALSE(scheduler_->exportMetrics().empty());
+}
+
+TEST_F(TaskSchedulerTest, ExportMetricsHasPrometheusHelp) {
+    auto text = scheduler_->exportMetrics();
+    EXPECT_NE(text.find("# HELP"), std::string::npos);
+    EXPECT_NE(text.find("# TYPE"), std::string::npos);
+}
+
+TEST_F(TaskSchedulerTest, ExportMetricsContainsTaskName) {
+    std::atomic<int> count{0};
+    scheduler_->registerFunction("metrics_fn",
+        [&count](const nlohmann::json&) -> nlohmann::json {
+            ++count;
+            return {};
+        });
+    ScheduledTask task;
+    task.name          = "my_special_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "metrics_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    scheduler_->registerTask(task);
+
+    auto text = scheduler_->exportMetrics();
+    EXPECT_NE(text.find("my_special_task"), std::string::npos) << text;
+}
+
+TEST_F(TaskSchedulerTest, ExportMetricsSuccessCounterGrowsAfterExecution) {
+    std::atomic<int> count{0};
+    scheduler_->registerFunction("counter_fn",
+        [&count](const nlohmann::json&) -> nlohmann::json {
+            ++count;
+            return {};
+        });
+    ScheduledTask task;
+    task.name          = "counter_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "counter_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    std::string id = scheduler_->registerTask(task);
+
+    // Initial: success=0
+    auto text_before = scheduler_->exportMetrics();
+    EXPECT_NE(text_before.find("status=\"success\"} 0"), std::string::npos) << text_before;
+
+    scheduler_->executeTaskNow(id);
+
+    // After one success: success=1
+    auto text_after = scheduler_->exportMetrics();
+    EXPECT_NE(text_after.find("status=\"success\"} 1"), std::string::npos) << text_after;
+}
+
+// ===== Validation tests =====
+
+TEST_F(TaskSchedulerTest, RetryPolicyMaxRetriesExceedsLimitThrows) {
+    scheduler_->registerFunction("vfn", [](const nlohmann::json&) -> nlohmann::json {
+        return {};
+    });
+    ScheduledTask task;
+    task.name          = "over_retry";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "vfn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy rp;
+    rp.strategy    = ScheduledTask::RetryStrategy::FIXED_DELAY;
+    rp.max_retries = 100;  // Way above the limit of 10
+    task.retry_policy = rp;
+
+    EXPECT_THROW(scheduler_->registerTask(task), std::invalid_argument);
+}
+
+TEST_F(TaskSchedulerTest, EnableTaskThatDoesNotExistThrows) {
+    EXPECT_THROW(scheduler_->enableTask("nonexistent_task_id"), std::runtime_error);
+}
+
+TEST_F(TaskSchedulerTest, DisableTaskThatDoesNotExistThrows) {
+    EXPECT_THROW(scheduler_->disableTask("nonexistent_task_id"), std::runtime_error);
+}
+
+TEST_F(TaskSchedulerTest, GetTaskReturnsNullptrForUnknownId) {
+    auto t = scheduler_->getTask("does_not_exist");
+    EXPECT_EQ(t, nullptr);
+}
+
+// ===== Stats tests =====
+
+TEST_F(TaskSchedulerTest, InitialStatsAreZero) {
+    auto stats = scheduler_->getStats();
+    EXPECT_EQ(stats.registered_tasks, 0u);
+    EXPECT_EQ(stats.active_tasks, 0u);
+    EXPECT_EQ(stats.total_executions, 0u);
+    EXPECT_EQ(stats.failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, StatsTotalExecutionsIncrementsOnSuccess) {
+    std::atomic<int> count{0};
+    scheduler_->registerFunction("stats_fn",
+        [&count](const nlohmann::json&) -> nlohmann::json { ++count; return {}; });
+    ScheduledTask task;
+    task.name          = "stats_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "stats_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    std::string id = scheduler_->registerTask(task);
+
+    scheduler_->executeTaskNow(id);
+    scheduler_->executeTaskNow(id);
+
+    EXPECT_EQ(scheduler_->getStats().total_executions, 2u);
+    EXPECT_EQ(scheduler_->getStats().failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, StatsFailedExecutionsIncrementsOnFailure) {
+    scheduler_->registerFunction("fail_stats_fn",
+        [](const nlohmann::json&) -> nlohmann::json {
+            throw std::runtime_error("boom");
+        });
+    ScheduledTask task;
+    task.name          = "fail_stats_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fail_stats_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries   = 0;
+    std::string id = scheduler_->registerTask(task);
+
+    scheduler_->executeTaskNow(id);
+
+    EXPECT_EQ(scheduler_->getStats().failed_executions, 1u);
+}
+
+// ===== CronExpression integration =====
+
+TEST_F(TaskSchedulerTest, RegisterCronTaskWithSpecialExpression) {
+    scheduler_->registerFunction("cron_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    ScheduledTask task;
+    task.name            = "cron_special";
+    task.type            = ScheduledTask::TaskType::FUNCTION;
+    task.function_name   = "cron_fn";
+    task.trigger_type    = ScheduledTask::TriggerType::CRON;
+    task.cron_expression = "@daily";
+    std::string id = scheduler_->registerTask(task);
+    EXPECT_FALSE(id.empty());
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->cron_expression, "@daily");
+}
+
+TEST_F(TaskSchedulerTest, RegisterAndListMultipleTasks) {
+    scheduler_->registerFunction("list_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    for (int i = 0; i < 5; ++i) {
+        ScheduledTask task;
+        task.name          = "list_task_" + std::to_string(i);
+        task.type          = ScheduledTask::TaskType::FUNCTION;
+        task.function_name = "list_fn";
+        task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+        scheduler_->registerTask(task);
+    }
+    auto tasks = scheduler_->listTasks();
+    EXPECT_EQ(tasks.size(), 5u);
+}
+
+TEST_F(TaskSchedulerTest, UnregisterReducesListSize) {
+    scheduler_->registerFunction("ur_fn",
+        [](const nlohmann::json&) -> nlohmann::json { return {}; });
+    ScheduledTask task;
+    task.name          = "ur_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "ur_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    std::string id = scheduler_->registerTask(task);
+
+    EXPECT_EQ(scheduler_->listTasks().size(), 1u);
+    scheduler_->unregisterTask(id);
+    EXPECT_EQ(scheduler_->listTasks().size(), 0u);
+}
+
+TEST_F(TaskSchedulerTest, ExecuteUnknownTaskReturnsError) {
+    auto result = scheduler_->executeTaskNow("totally_unknown_id");
+    EXPECT_TRUE(result.contains("error"));
+}
