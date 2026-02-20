@@ -416,7 +416,7 @@ DetectionResult KnowledgeGapDetector::detectWithActiveRetrieval(
         
         THEMIS_DEBUG("Reformulated query: {}", reformulated);
         
-        // Perform dynamic retrieval (placeholder - needs VectorIndexManager integration)
+        // Retrieve additional documents for the reformulated query
         auto new_documents = performDynamicRetrieval(reformulated);
         
         // Deduplicate and merge

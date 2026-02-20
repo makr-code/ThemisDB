@@ -35,21 +35,19 @@ struct NLIFaithfulnessVerifier::Impl {
     bool model_loaded = false;
     
     Impl(const Config& cfg) : config(cfg) {
-        // In production, this would load an NLI model (RoBERTa-large-MNLI, DeBERTa, etc.)
-        // For now, we'll use a heuristic-based approach as a placeholder
+        // Uses heuristic term-overlap and negation detection.
+        // Replace with an NLI model (e.g. RoBERTa-large-MNLI, DeBERTa) when available.
         THEMIS_INFO("NLIFaithfulnessVerifier initialized");
         THEMIS_INFO("  Entailment threshold: {}", config.entailment_threshold);
         THEMIS_INFO("  Contradiction threshold: {}", config.contradiction_threshold);
     }
     
     /**
-     * @brief Compute NLI score using heuristic (placeholder for real NLI model)
-     * 
-     * In production, this would:
-     * 1. Tokenize premise and hypothesis
-     * 2. Run through transformer model (RoBERTa/DeBERTa)
-     * 3. Get logits for [entailment, neutral, contradiction]
-     * 4. Apply softmax to get probabilities
+     * @brief Compute NLI score using heuristic term-overlap and negation detection.
+     *
+     * Produces entailment / neutral / contradiction labels and scores based on
+     * weighted term overlap and negation signals.  For higher accuracy, swap this
+     * method with a transformer-based NLI model (tokenise → forward pass → softmax).
      */
     NLIResult computeNLI(const std::string& premise, const std::string& hypothesis) {
         NLIResult result;
@@ -348,8 +346,7 @@ NLIResult NLIFaithfulnessVerifier::checkEntailment(
 }
 
 void NLIFaithfulnessVerifier::loadModel(const std::string& model_path) {
-    // In production, this would load the actual NLI model
-    // For now, we just mark as loaded
+    // Marks the verifier as ready; replace with actual model loading when available.
     impl_->model_loaded = true;
     THEMIS_INFO("NLI model loaded from: {}", model_path);
 }

@@ -276,9 +276,43 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
         }
     }
     
-    // Calculate confidence (placeholder)
-    result.confidence = 0.85;
-    
+    // Calculate confidence: high when dimension scores are consistent (low std dev)
+    // and the overall score is far from the quality threshold (clear pass or fail).
+    {
+        std::vector<double> dim_scores;
+        // Only include scores that were actually evaluated for the current mode
+        if (impl_->config.mode != EvaluationMode::FAST) {
+            dim_scores.push_back(result.faithfulness_score);
+            dim_scores.push_back(result.completeness_score);
+            dim_scores.push_back(result.coherence_score);
+            if (impl_->config.enable_ethical_evaluation)
+                dim_scores.push_back(result.ethical_compliance_score);
+        }
+        dim_scores.push_back(result.relevance_score);  // always evaluated
+
+        // Guard against empty vector (should not happen, but be defensive)
+        if (dim_scores.empty()) {
+            result.confidence = 0.5;
+        } else {
+        double mean = std::accumulate(dim_scores.begin(), dim_scores.end(), 0.0)
+                      / dim_scores.size();
+        double variance = 0.0;
+        for (double s : dim_scores) variance += (s - mean) * (s - mean);
+        variance /= dim_scores.size();
+        double std_dev = std::sqrt(variance);
+
+        // consistency_factor: 1.0 when all scores agree, 0.0 when maximally spread
+        double consistency_factor = 1.0 - std::min(std_dev * 2.0, 1.0);
+
+        // margin_factor: how far the overall score is from the threshold (capped at 0.3 spread)
+        double margin = std::abs(result.overall_score - impl_->config.quality_threshold);
+        double margin_factor = std::min(margin / 0.3, 1.0);
+
+        result.confidence = 0.5 * consistency_factor + 0.5 * margin_factor;
+        result.confidence = std::max(0.1, std::min(1.0, result.confidence));
+        }
+    }
+
     // Record evaluation time
     auto end_time = std::chrono::steady_clock::now();
     result.evaluation_time = std::chrono::duration_cast<std::chrono::milliseconds>(
