@@ -6,7 +6,7 @@
 
 ## Summary
 
-`LoRAAdapterManager` has been **fully removed** as of ThemisDB v1.4.0 (PR: `copilot/analyse-llm-module-gaps`). All call sites have been migrated to `MultiLoRAManager` (`include/llm/multi_lora_manager.h`).
+`LoRAAdapterManager` has been **fully removed** as of ThemisDB v1.5.0 (PR: `copilot/analyse-llm-module-gaps`). All call sites have been migrated to `MultiLoRAManager` (`include/llm/multi_lora_manager.h`).
 
 Files removed:
 - `include/llm/lora_framework/lora_adapter_manager.h`
@@ -29,7 +29,7 @@ Files removed:
 | Version | Status |
 |---------|--------|
 | v1.3.0 | `LoRAAdapterManager` marked `@deprecated`; `MultiLoRAManager` fully functional |
-| **v1.4.0** | ✅ `LoRAAdapterManager` **fully removed**; all call sites migrated to `MultiLoRAManager` |
+| **v1.5.0** | ✅ `LoRAAdapterManager` **fully removed**; all call sites migrated to `MultiLoRAManager` |
 
 ---
 
