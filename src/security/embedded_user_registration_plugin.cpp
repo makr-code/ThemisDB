@@ -3,6 +3,11 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/crypto.h>
+#include <openssl/opensslv.h>
+#include <openssl/params.h>
+#if OPENSSL_VERSION_NUMBER >= 0x30200000L
+#  include <openssl/kdf.h>
+#endif
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
@@ -285,19 +290,105 @@ private:
         return themis::OkVoid();
     }
     
+    // -----------------------------------------------------------------------
+    // Base64 helpers (no line wrapping, no padding trimming needed here)
+    // -----------------------------------------------------------------------
+    static std::string base64Encode(const unsigned char* data, int len) {
+        // EVP_EncodeBlock writes exactly 4*ceil(len/3) chars plus a null terminator.
+        int out_len = 4 * ((len + 2) / 3);
+        std::string out(static_cast<size_t>(out_len) + 1, '\0');
+        int actual = EVP_EncodeBlock(reinterpret_cast<unsigned char*>(&out[0]),
+                                     data, len);
+        out.resize(static_cast<size_t>(actual));
+        return out;
+    }
+
+    static std::vector<unsigned char> base64Decode(const std::string& encoded) {
+        // EVP_DecodeBlock output is at most 3*len/4 bytes (may include padding bytes)
+        int max_out = static_cast<int>(encoded.size()) / 4 * 3 + 4;
+        std::vector<unsigned char> out(static_cast<size_t>(max_out));
+        int out_len = EVP_DecodeBlock(out.data(),
+                                      reinterpret_cast<const unsigned char*>(encoded.data()),
+                                      static_cast<int>(encoded.size()));
+        if (out_len < 0) return {};
+        // Trim padding bytes (= signs at end of base64 input add null bytes)
+        size_t padding = 0;
+        for (auto it = encoded.rbegin(); it != encoded.rend() && *it == '='; ++it)
+            ++padding;
+        out.resize(static_cast<size_t>(out_len) - padding);
+        return out;
+    }
+
+    // Split a string by a delimiter character.
+    static std::vector<std::string> splitBy(const std::string& s, char delim) {
+        std::vector<std::string> parts;
+        size_t start = 0;
+        for (;;) {
+            size_t end = s.find(delim, start);
+            parts.push_back(s.substr(start, end == std::string::npos ? end : end - start));
+            if (end == std::string::npos) break;
+            start = end + 1;
+        }
+        return parts;
+    }
+
+    // -----------------------------------------------------------------------
+    // Argon2id via OpenSSL 3.2+ EVP_KDF (OWASP minimum recommended params)
+    // Falls back to PBKDF2-SHA256 on older OpenSSL builds.
+    //
+    // Format:  $argon2id$v=19$m=19456,t=2,p=1$<base64salt>$<base64hash>
+    // -----------------------------------------------------------------------
     std::string hashPassword(const std::string& password) const {
-        // PBKDF2-SHA256 with a random 16-byte salt and 100,000 iterations.
-        // Format: "pbkdf2$<hex-salt>$<hex-dk>"
-        // This is far more resistant to brute-force than plain SHA-256.
         constexpr int SALT_LEN = 16;
-        constexpr int DK_LEN   = 32;   // 256-bit derived key
-        constexpr int ITER     = 100000;
+        constexpr int DK_LEN   = 32;
 
         unsigned char salt[SALT_LEN];
         if (RAND_bytes(salt, SALT_LEN) != 1) {
             throw std::runtime_error("RAND_bytes failed for password salt");
         }
 
+#if OPENSSL_VERSION_NUMBER >= 0x30200000L
+        // --- Argon2id path (OpenSSL 3.2+) ---
+        // OWASP recommended minimum: m=19456 KiB (≈19 MiB), t=2 iterations, p=1 lane
+        uint32_t t_cost = 2, m_cost = 19456, lanes = 1, threads = 1, version = 19;
+
+        EVP_KDF* kdf = EVP_KDF_fetch(nullptr, "ARGON2ID", nullptr);
+        if (!kdf) {
+            throw std::runtime_error("Argon2id KDF not available in this OpenSSL build");
+        }
+        EVP_KDF_CTX* ctx = EVP_KDF_CTX_new(kdf);
+        EVP_KDF_free(kdf);
+        if (!ctx) {
+            throw std::runtime_error("EVP_KDF_CTX_new failed");
+        }
+
+        OSSL_PARAM params[] = {
+            OSSL_PARAM_construct_octet_string("pass",
+                const_cast<char*>(password.data()),
+                password.size()),
+            OSSL_PARAM_construct_octet_string("salt", salt, SALT_LEN),
+            OSSL_PARAM_construct_uint32("t",       &t_cost),
+            OSSL_PARAM_construct_uint32("m",       &m_cost),
+            OSSL_PARAM_construct_uint32("lanes",   &lanes),
+            OSSL_PARAM_construct_uint32("threads", &threads),
+            OSSL_PARAM_construct_uint32("version", &version),
+            OSSL_PARAM_construct_end()
+        };
+
+        unsigned char dk[DK_LEN];
+        int rc = EVP_KDF_derive(ctx, dk, DK_LEN, params);
+        EVP_KDF_CTX_free(ctx);
+        if (rc != 1) {
+            throw std::runtime_error("Argon2id EVP_KDF_derive failed");
+        }
+
+        // PHC-compatible format
+        return "$argon2id$v=19$m=19456,t=2,p=1$"
+             + base64Encode(salt, SALT_LEN) + "$"
+             + base64Encode(dk, DK_LEN);
+#else
+        // --- PBKDF2-SHA256 fallback for OpenSSL < 3.2 ---
+        constexpr int ITER = 100000;
         unsigned char dk[DK_LEN];
         if (PKCS5_PBKDF2_HMAC(password.c_str(),
                                static_cast<int>(password.size()),
@@ -307,26 +398,91 @@ private:
                                DK_LEN, dk) != 1) {
             throw std::runtime_error("PBKDF2 failed for password hashing");
         }
-
         auto toHex = [](const unsigned char* data, int len) {
             std::ostringstream ss;
             for (int i = 0; i < len; ++i)
-                ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
+                ss << std::hex << std::setw(2) << std::setfill('0')
+                   << static_cast<int>(data[i]);
             return ss.str();
         };
-
         return "pbkdf2$" + toHex(salt, SALT_LEN) + "$" + toHex(dk, DK_LEN);
+#endif
     }
     
     bool verifyPassword(const std::string& password, const std::string& stored_hash) const {
-        // Support both legacy SHA-256 hashes (plain 64-char hex) and new PBKDF2 hashes.
+        // --- Argon2id hashes: $argon2id$v=19$m=...,t=...,p=...$<salt>$<hash> ---
+        if (stored_hash.rfind("$argon2id$", 0) == 0) {
+#if OPENSSL_VERSION_NUMBER >= 0x30200000L
+            // Parse: $argon2id$v=<v>$m=<m>,t=<t>,p=<p>$<b64salt>$<b64hash>
+            // We always produced m=19456,t=2,p=1 but parse them for forward compat.
+            auto parse_argon2id = [&]() -> bool {
+                // Split: $argon2id$v=19$m=19456,t=2,p=1$<b64salt>$<b64hash>
+                // splitBy('$') produces: ["","argon2id","v=19","m=...,t=...,p=...","<salt>","<hash>"]
+                auto parts = splitBy(stored_hash, '$');
+                // Expect exactly 6 parts (parts[0] is empty due to leading '$')
+                if (parts.size() != 6) return false;
+
+                std::string params_str = parts[3]; // "m=19456,t=2,p=1"
+                std::string salt_b64   = parts[4];
+                std::string hash_b64   = parts[5];
+
+                uint32_t m = 19456, t = 2, p = 1;
+                if (std::sscanf(params_str.c_str(), "m=%u,t=%u,p=%u", &m, &t, &p) != 3)
+                    return false;
+
+                auto salt_bytes = base64Decode(salt_b64);
+                auto stored_dk  = base64Decode(hash_b64);
+                if (salt_bytes.empty() || stored_dk.empty()) return false;
+
+                uint32_t version = 19;
+                // threads is set to match lanes so Argon2 runs single-threaded
+                // during verification (standard single-threaded Argon2id behavior).
+                uint32_t threads_val = p;
+
+                EVP_KDF* kdf = EVP_KDF_fetch(nullptr, "ARGON2ID", nullptr);
+                if (!kdf) return false;
+                EVP_KDF_CTX* ctx = EVP_KDF_CTX_new(kdf);
+                EVP_KDF_free(kdf);
+                if (!ctx) return false;
+
+                OSSL_PARAM ossl_params[] = {
+                    OSSL_PARAM_construct_octet_string("pass",
+                        const_cast<char*>(password.data()),
+                        password.size()),
+                    OSSL_PARAM_construct_octet_string("salt",
+                        salt_bytes.data(),
+                        salt_bytes.size()),
+                    OSSL_PARAM_construct_uint32("t",       &t),
+                    OSSL_PARAM_construct_uint32("m",       &m),
+                    OSSL_PARAM_construct_uint32("lanes",   &p),
+                    OSSL_PARAM_construct_uint32("threads", &threads_val),
+                    OSSL_PARAM_construct_uint32("version", &version),
+                    OSSL_PARAM_construct_end()
+                };
+
+                std::vector<unsigned char> computed_dk(stored_dk.size());
+                int rc = EVP_KDF_derive(ctx, computed_dk.data(),
+                                        computed_dk.size(), ossl_params);
+                EVP_KDF_CTX_free(ctx);
+                if (rc != 1) return false;
+
+                return CRYPTO_memcmp(computed_dk.data(), stored_dk.data(),
+                                     stored_dk.size()) == 0;
+            };
+            return parse_argon2id();
+#else
+            // Argon2id hashes cannot be verified without OpenSSL 3.2+
+            return false;
+#endif
+        }
+
+        // --- PBKDF2-SHA256 hashes: "pbkdf2$<hex-salt>$<hex-dk>" ---
         if (stored_hash.rfind("pbkdf2$", 0) == 0) {
-            // Parse "pbkdf2$<hex-salt>$<hex-dk>"
             constexpr int SALT_HEX_LEN = 32; // 16 bytes * 2
             constexpr int DK_LEN       = 32;
             constexpr int ITER         = 100000;
 
-            // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars total
+            // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars
             if (stored_hash.size() != 7u + SALT_HEX_LEN + 1u + 64u) {
                 return false;
             }
@@ -356,11 +512,10 @@ private:
                 return false;
             }
 
-            // Constant-time comparison to prevent timing attacks
             return CRYPTO_memcmp(computed_dk, stored_dk.data(), DK_LEN) == 0;
         }
 
-        // Legacy SHA-256 path: plain 64-char hex (for passwords stored before upgrade)
+        // --- Legacy SHA-256 path: plain 64-char hex ---
         unsigned char hash[EVP_MAX_MD_SIZE];
         unsigned int  hash_len = 0;
         EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
@@ -371,7 +526,8 @@ private:
 
         std::ostringstream ss;
         for (unsigned int i = 0; i < hash_len; ++i)
-            ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+            ss << std::hex << std::setw(2) << std::setfill('0')
+               << static_cast<int>(hash[i]);
 
         return ss.str() == stored_hash;
     }

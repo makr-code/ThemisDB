@@ -1,14 +1,14 @@
 /**
  * @file test_password_hashing_comprehensive.cpp
- * @brief Comprehensive tests for password hashing security (PBKDF2-SHA256)
+ * @brief Comprehensive tests for password hashing security (Argon2id / PBKDF2-SHA256 fallback)
  *
  * Tests verify that:
- * - New passwords are hashed with PBKDF2-SHA256 (not plain SHA-256)
+ * - On OpenSSL >= 3.2: new passwords are hashed with Argon2id (PHC format $argon2id$...)
+ * - On OpenSSL < 3.2: falls back to PBKDF2-SHA256 ("pbkdf2$<salt>$<dk>")
  * - Each hash has a unique random salt → same password gives different hashes
  * - Correct password verifies successfully
  * - Wrong password fails verification
- * - Hash format is "pbkdf2$<salt_hex>$<dk_hex>"
- * - Legacy SHA-256 hashes (64-char hex) are still accepted (backward compat)
+ * - Legacy SHA-256 hashes (64-char hex) and pbkdf2$ hashes are still accepted (backward compat)
  * - Authentication round-trip works via the embedded plugin
  * - Constant-time comparison prevents timing attacks (format-level check)
  */
@@ -18,6 +18,7 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/crypto.h>
+#include <openssl/opensslv.h>
 #include <string>
 #include <vector>
 #include <stdexcept>
@@ -222,11 +223,16 @@ TEST_F(EmbeddedPluginTest, RegisterUser_Succeeds) {
     EXPECT_EQ(result->user_id, "alice");
 }
 
-TEST_F(EmbeddedPluginTest, RegisterUser_HashIsPBKDF2) {
+TEST_F(EmbeddedPluginTest, RegisterUser_HashUsesModernAlgorithm) {
     auto result = plugin_->registerUser("bob", "SecurePass456!");
     ASSERT_TRUE(result.has_value());
-    // The stored hash should use PBKDF2 format
+    // On OpenSSL >= 3.2 the hash uses Argon2id (PHC format).
+    // On older OpenSSL the fallback is PBKDF2-SHA256.
+#if OPENSSL_VERSION_NUMBER >= 0x30200000L
+    EXPECT_EQ(result->password_hash.substr(0, 10), "$argon2id$");
+#else
     EXPECT_EQ(result->password_hash.substr(0, 7), "pbkdf2$");
+#endif
 }
 
 TEST_F(EmbeddedPluginTest, RegisterUser_TwoRegistrations_DifferentHashes) {
@@ -260,4 +266,110 @@ TEST_F(EmbeddedPluginTest, RegisterUser_DuplicateUser_Fails) {
     plugin_->registerUser("eve", "FirstPass123!");
     auto second = plugin_->registerUser("eve", "SecondPass456!");
     EXPECT_FALSE(second.has_value());
+}
+
+// ============================================================================
+// Argon2id Format and Behavior Tests (OpenSSL 3.2+ specific)
+// These tests exercise the PHC-formatted Argon2id code path.
+// On older OpenSSL builds they are skipped.
+// ============================================================================
+
+#if OPENSSL_VERSION_NUMBER >= 0x30200000L
+
+TEST(Argon2idHashTest, Hash_StartsWithArgon2idPHCPrefix) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    auto result = plugin->registerUser("argon_user_a", "SecurePass123!");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ(result->password_hash.substr(0, 10), "$argon2id$");
+}
+
+TEST(Argon2idHashTest, Hash_ContainsVersionSegment) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    auto result = plugin->registerUser("argon_user_b", "SecurePass123!");
+    ASSERT_TRUE(result.has_value());
+    EXPECT_NE(result->password_hash.find("v=19"), std::string::npos);
+}
+
+TEST(Argon2idHashTest, Hash_ContainsOWASPParams) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    auto result = plugin->registerUser("argon_user_c", "SecurePass123!");
+    ASSERT_TRUE(result.has_value());
+    // OWASP minimum: m=19456, t=2, p=1
+    EXPECT_NE(result->password_hash.find("m=19456"), std::string::npos);
+    EXPECT_NE(result->password_hash.find("t=2"),     std::string::npos);
+    EXPECT_NE(result->password_hash.find("p=1"),     std::string::npos);
+}
+
+TEST(Argon2idHashTest, Hash_HasFiveSegments) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    auto result = plugin->registerUser("argon_user_d", "SecurePass123!");
+    ASSERT_TRUE(result.has_value());
+    // Format: $argon2id$v=19$m=...,t=...,p=...$<salt>$<hash>
+    // → 5 non-empty segments separated by '$' (leading '$' makes 6 tokens)
+    size_t count = 0;
+    for (char c : result->password_hash)
+        if (c == '$') ++count;
+    EXPECT_EQ(count, 5u);
+}
+
+TEST(Argon2idHashTest, SamePassword_ProducesUniqueHashes) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    auto r1 = plugin->registerUser("au1", "UniqueCheck1!");
+    auto r2 = plugin->registerUser("au2", "UniqueCheck1!");
+    ASSERT_TRUE(r1.has_value());
+    ASSERT_TRUE(r2.has_value());
+    EXPECT_NE(r1->password_hash, r2->password_hash);
+}
+
+TEST(Argon2idHashTest, Verify_CorrectPassword_Succeeds) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    ASSERT_TRUE(plugin->registerUser("av1", "VerifyMe123!").has_value());
+    auto auth = plugin->authenticateUser("av1", "VerifyMe123!");
+    EXPECT_TRUE(auth.has_value());
+}
+
+TEST(Argon2idHashTest, Verify_WrongPassword_Fails) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    ASSERT_TRUE(plugin->registerUser("av2", "OriginalPass1!").has_value());
+    auto auth = plugin->authenticateUser("av2", "WrongPass1!");
+    EXPECT_FALSE(auth.has_value());
+}
+
+TEST(Argon2idHashTest, Verify_EmptyPassword_Fails) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    // Empty password should fail registration (min_password_length = 12)
+    auto reg = plugin->registerUser("av3", "");
+    EXPECT_FALSE(reg.has_value());
+}
+
+TEST(Argon2idHashTest, Verify_LongPassword_Works) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    std::string long_pass(100, 'A');
+    long_pass += "1!";
+    ASSERT_TRUE(plugin->registerUser("av4", long_pass).has_value());
+    EXPECT_TRUE(plugin->authenticateUser("av4", long_pass).has_value());
+    EXPECT_FALSE(plugin->authenticateUser("av4", std::string(100, 'B') + "1!").has_value());
+}
+
+TEST(Argon2idHashTest, Verify_CaseSensitive) {
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    ASSERT_TRUE(plugin->registerUser("av5", "CaseSensitive1!").has_value());
+    EXPECT_TRUE(plugin->authenticateUser("av5", "CaseSensitive1!").has_value());
+    EXPECT_FALSE(plugin->authenticateUser("av5", "casesensitive1!").has_value());
+}
+
+#endif // OPENSSL_VERSION_NUMBER >= 0x30200000L
+
+// ============================================================================
+// Backward Compatibility: pbkdf2$ hashes must still be verified
+// (tests use plugin API which invokes verifyPassword internally)
+// ============================================================================
+
+TEST(BackwardCompatTest, Plugin_AuthenticateUser_WorksRegardlessOfHashAlgorithm) {
+    // Verifies that the authentication round-trip works with the current hash
+    // algorithm, whether Argon2id (OpenSSL ≥ 3.2) or PBKDF2-SHA256 (fallback).
+    auto plugin = createEmbeddedUserRegistrationPlugin();
+    ASSERT_TRUE(plugin->registerUser("compat1", "InitialPass1!").has_value());
+    // Authentication must succeed regardless of underlying algorithm
+    EXPECT_TRUE(plugin->authenticateUser("compat1", "InitialPass1!").has_value());
 }
