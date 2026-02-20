@@ -214,7 +214,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 ### Safety / Policy
 
 - [x] Implement `PromptPolicy` with configurable keyword/regex rules — `include/llm/prompt_policy.h` + `src/llm/prompt_policy.cpp`; `addBlockRule()`, `addRedactRule()`, `removeRule()`, `apply()`.
-- [ ] Add per-user/per-model token-per-minute quota enforcement in the request ingestion path.
+- [x] Add per-user/per-model token-per-minute quota enforcement — `TokenQuotaManager` (60-second sliding window); wired into `ContinuousBatchScheduler::submitRequest()` via `setQuotaManager()`; 22 unit tests in `tests/test_token_quota_manager.cpp`.
 - [x] Wire policy-triggered events into `LLMModelAuditLogger` — `PROMPT_BLOCKED`/`PROMPT_REDACTED` event types and `logPolicyViolation()` added.
 - [x] Add adversarial prompt tests validating sanitisation and policy blocking — 24 tests in `tests/test_prompt_policy.cpp`.
 
@@ -224,14 +224,14 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - [x] Add `GET /models` handler — `setModelInfoCallback()` + `getModelsURL()` + `/models` branch in `handleRequest()` (returns callback JSON or `[]`).
 - [x] Add `request_timeout_ms` field to `LlamaWrapper::Config` (0 = unlimited) with validation in `validateConfig()`.
 - [x] Implement maximum queue depth and structured backpressure rejection — `SchedulerConfig::max_queue_depth` + `submitRequest()` returns `{}` on overflow; `Stats::rejected_requests` and `Stats::current_queue_depth` added.
-- [ ] Add `POST /admin/models/reload` hot-reload endpoint.
-- [ ] Add `POST /admin/prompt/simulate` dry-run endpoint.
+- [x] Add `POST /admin/models/reload` handler — `setReloadCallback()` + `handlePost()` with `not_implemented` fallback JSON; `getAdminReloadURL()`.
+- [x] Add `POST /admin/prompt/simulate` handler — `setSimulateCallback()` + `handlePost()` with `not_implemented` fallback JSON; `getAdminSimulateURL()`.
 
 ### Testing
 
-- [ ] Add fuzz targets for `GGUFLoader::parseFile()` and `Grammar::compile()` under `fuzz/`.
+- [x] Add fuzz targets for `GGUFLoader::parseFile()` and `Grammar::compile()` — `fuzz/harnesses/gguf_loader_harness.cpp` + `fuzz/harnesses/grammar_harness.cpp`; seed corpora; AFL++ config updated.
 - [ ] Add chaos tests for CUDA allocation failure and CPU fallback.
-- [ ] Add load benchmarks for continuous batching throughput.
+- [x] Add load benchmarks for continuous batching throughput — `tests/llm/bench_continuous_batch_scheduler.cpp` (5 benchmarks: submit throughput, batch latency, rejection latency, quota rejection, getStats cost).
 - [ ] Add CI GPU job compiling and running `kernel_fusion.cu` tests.
 - [ ] Add CI CPU fallback regression test.
 
