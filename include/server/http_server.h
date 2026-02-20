@@ -285,6 +285,34 @@ public:
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
     }
 
+    /**
+     * @brief Inject a ConcernsContext for lifecycle management and health probes.
+     *
+     * When set before calling start(), the server will:
+     *  - forward the context to MonitoringApiHandler so that /health/live and
+     *    /health/ready report per-concern health;
+     *  - call concerns->shutdown() during stop() after all other teardown is done.
+     *
+     * This method is idempotent: calling it multiple times replaces the previous
+     * context.  It is safe to call only from the thread that owns the server
+     * (before start()).
+     *
+     * @param concerns Shared ownership of the ConcernsContext to use.
+     */
+    void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
+        concerns_ = std::move(concerns);
+        // Forward to MonitoringApiHandler if it has already been constructed
+        // (i.e. setConcerns() is called after the constructor ran).
+        if (monitoring_api_) {
+            monitoring_api_->setConcerns(concerns_);
+        }
+    }
+
+    /// @return the current ConcernsContext (may be nullptr).
+    std::shared_ptr<core::concerns::ConcernsContext> getConcerns() const {
+        return concerns_;
+    }
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
     /**
      * @brief Get WebSocket manager for broadcasting
@@ -665,6 +693,8 @@ private:
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
+    // Cross-cutting concerns (lifecycle hooks + health probes); optional.
+    std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
     std::unique_ptr<themis::server::QueryApiHandler> query_api_;
     // Policy API Handler

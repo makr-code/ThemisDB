@@ -182,6 +182,17 @@ public:
      */
     http::response<http::string_body> handleSLOStatus(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Replace the ConcernsContext used for health/readiness probes.
+     *
+     * Can be called after construction (e.g. from HttpServer::setConcerns()).
+     * Thread-safety: must not be called concurrently with handleLiveness() or
+     * handleReadiness(); call only during server initialization.
+     */
+    void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
+        concerns_ = std::move(concerns);
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
