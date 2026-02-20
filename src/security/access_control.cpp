@@ -593,13 +593,14 @@ bool AccessControl::detectSQLInjection(const std::string& query) const {
         return false;
     }
     
-    // TODO: AQLInjectionDetector moved to query module, re-enable after modular dependency resolves
-    // Use AST-based injection detection for robust security
-    // security::AQLInjectionDetector detector;
-    // auto validation_result = detector.validateAQLAST(query);
-    // return !validation_result.is_safe;
-    
-    // Temporary: Fallback to basic heuristics
+    // Use AST-based AQL injection detection for robust security
+    security::AQLInjectionDetector detector;
+    auto validation_result = detector.validateAQLAST(query);
+    if (!validation_result.is_safe) {
+        return true;
+    }
+
+    // Also retain fast heuristic fallback for patterns the AST pass may miss
     static const std::vector<std::string> patterns = {
         "' OR '1'='1", "'; DROP TABLE", "UNION SELECT", "-- ", "/*", "*/"
     };

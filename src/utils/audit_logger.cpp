@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <cmath>
 #include <algorithm>
+#include <curl/curl.h>
 
 #ifdef _WIN32
 #include <winsock2.h>
@@ -494,17 +495,87 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
 #endif
         
     } else if (cfg_.siem_type == "splunk") {
-        // Splunk HEC (HTTP Event Collector) - would require libcurl
-        THEMIS_WARN("Splunk SIEM forwarding not yet implemented");
-        // TODO: HTTP POST to https://<host>:8088/services/collector/event
-        // with Authorization: Splunk <token>
-        // Body: formatted_message (JSON format)
+        // Splunk HEC (HTTP Event Collector) via libcurl
+        {
+            // Wrap the formatted event in a Splunk HEC envelope
+            nlohmann::json hec_payload;
+            hec_payload["event"] = formatted_message;
+            hec_payload["sourcetype"] = "_json";
+            hec_payload["source"]     = "themisdb";
+            std::string body = hec_payload.dump();
+
+            std::string url = "https://" + cfg_.siem_host + ":" +
+                              std::to_string(cfg_.siem_port) + "/services/collector/event";
+
+            CURL* curl = curl_easy_init();
+            if (!curl) {
+                THEMIS_ERROR("Splunk SIEM: failed to init curl");
+                return;
+            }
+
+            struct curl_slist* headers = nullptr;
+            std::string auth_header = "Authorization: Splunk " + cfg_.splunk_token;
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, auth_header.c_str());
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
+            curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);
+            // Allow self-signed certs in dev; production deployments should set CURLOPT_CAINFO
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+            // Discard response body
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
+                             +[](char*, size_t s, size_t n, void*) -> size_t { return s * n; });
+
+            CURLcode rc = curl_easy_perform(curl);
+            if (rc != CURLE_OK) {
+                THEMIS_WARN("Splunk SIEM forward failed: {}", curl_easy_strerror(rc));
+            }
+
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
         
     } else if (cfg_.siem_type == "elastic") {
-        // Elasticsearch integration - would require libcurl
-        THEMIS_WARN("Elasticsearch SIEM forwarding not yet implemented");
-        // TODO: HTTP POST to http://<host>:9200/<index>/_doc
-        // Body: formatted_message (JSON format)
+        // Elasticsearch _doc API via libcurl
+        {
+            std::string url = "http://" + cfg_.siem_host + ":" +
+                              std::to_string(cfg_.siem_port) + "/" +
+                              cfg_.elastic_index + "/_doc";
+
+            CURL* curl = curl_easy_init();
+            if (!curl) {
+                THEMIS_ERROR("Elasticsearch SIEM: failed to init curl");
+                return;
+            }
+
+            struct curl_slist* headers = nullptr;
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, formatted_message.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                             static_cast<long>(formatted_message.size()));
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
+            curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
+                             +[](char*, size_t s, size_t n, void*) -> size_t { return s * n; });
+
+            CURLcode rc = curl_easy_perform(curl);
+            if (rc != CURLE_OK) {
+                THEMIS_WARN("Elasticsearch SIEM forward failed: {}", curl_easy_strerror(rc));
+            }
+
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
     }
 }
 
