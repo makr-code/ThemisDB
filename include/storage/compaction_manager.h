@@ -59,11 +59,12 @@ public:
         // ── Write-amplification ──────────────────────────────────────────
         /// Bytes written by user (logical writes); from rocksdb::BYTES_WRITTEN.
         uint64_t user_bytes_written{0};
-        /// Bytes written by compaction; approximated from "Compaction Stats" in
-        /// the RocksDB property string (rocksdb.stats).  Zero if unavailable.
+        /// Bytes written by L1+ compaction; parsed from the Write(GB) column in
+        /// the per-level Compaction Stats table inside the `rocksdb.stats` property
+        /// string.  Zero if the stats string is unavailable or format changed.
         uint64_t compact_bytes_written{0};
-        /// Bytes written by memtable flush; from rocksdb::FLUSH_WRITE_BYTES if
-        /// available, otherwise 0.
+        /// Bytes written by memtable flush (L0 output); parsed from the L0 row
+        /// of the Compaction Stats table in `rocksdb.stats`.  Zero if unavailable.
         uint64_t flush_bytes_written{0};
 
         /**

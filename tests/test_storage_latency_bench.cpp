@@ -2,7 +2,7 @@
 // Licensed under MIT License
 //
 // Storage latency benchmark:
-//  - Measures put/get/del p50/p99 latency at 1 000 TPS
+//  - Measures put/get/del p50/p99 latency at 1,000 TPS
 //  - Validates success criteria: p99 tx-latency < 50 ms
 //  - Reports write-amplification factor from CompactionManager::Stats
 //
@@ -38,7 +38,7 @@ protected:
 
         RocksDBWrapper::Config cfg;
         cfg.db_path           = db_path_;
-        cfg.enable_wal        = false; // disable RocksDB WAL to measure pure put/get
+        cfg.enable_wal        = false; // disable RocksDB WAL to measure pure storage operations
         cfg.enable_statistics = true;
         cfg.memtable_size_mb  = 64;
         cfg.block_cache_size_mb = 64;
@@ -258,10 +258,12 @@ TEST_F(LatencyBenchmark, IOMetrics_LatencyConsistentWithDirectMeasurement) {
 
     ASSERT_EQ(m.put_ops, static_cast<uint64_t>(kOps));
 
-    // Cumulative latency from metrics should be in the same ballpark as wall time
-    // (within 10x; this accounts for scheduling jitter)
+    // Cumulative latency from metrics should be ≤ wall time × 3.
+    // (3x accounts for measurement overhead and CPU scheduling jitter between
+    // the steady_clock calls wrapping each individual operation vs. the bulk
+    // wall-clock window measured here.)
     EXPECT_GT(m.put_latency_us, 0u) << "Cumulative latency must be positive";
-    EXPECT_LT(m.put_latency_us, static_cast<uint64_t>(wall_us * 10))
+    EXPECT_LT(m.put_latency_us, static_cast<uint64_t>(wall_us * 3))
         << "Cumulative metric latency suspiciously large vs wall time";
     EXPECT_NE(m.put_latency_min_us, UINT64_MAX) << "min latency sentinel must be cleared";
     EXPECT_GE(m.put_latency_max_us, m.put_latency_min_us) << "max >= min";

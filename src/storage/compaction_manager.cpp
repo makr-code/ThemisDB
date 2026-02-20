@@ -141,24 +141,29 @@ CompactionManager::Stats CompactionManager::stats() const {
         // Parse compaction write bytes from the "Compaction Stats" table in
         // the rocksdb.stats property string.  The table looks like:
         //
-        //   Level    Files   Size     Score Read(GB)  Rn(GB) Rnp1(GB) Write(GB) ...
+        //   Level  Files  Size    Score  Read(GB)  Rn(GB)  Rnp1(GB)  Write(GB)  Wnew(GB)  ...
         //   ----------------------------------------------------------------
-        //   L0        1/0    0.00 MB   0.5     0.0      0.0      0.0      0.1   ...
+        //   L0       1/0  0.00MB   0.5      0.0      0.0       0.0       0.1       0.1   ...
+        //   L1      ...
         //
-        // We sum all "Write(GB)" values across levels to get total compaction
-        // bytes written.  This is a best-effort parse; if the format differs,
-        // we leave compact_bytes_written = 0 so the caller gets a conservative
-        // write-amp of 0 rather than a wrong value.
+        // We parse the "Write(GB)" column (8th field, captured as m[1]).  L0
+        // writes are memtable flush outputs; L1+ writes are compaction outputs.
+        // We track them separately:
+        //   flush_bytes_written   = L0 Write(GB) * 1e9
+        //   compact_bytes_written = (all-levels Write(GB) – L0 Write(GB)) * 1e9
+        //
+        // This is a best-effort parse; if the format differs (e.g. different
+        // RocksDB versions), values stay at 0.
         if (!s.rocksdb_stats.empty()) {
-            // Regex: matches floating-point number in the Write(GB) column.
-            // We look for lines starting with L<digit> and pick the 8th number.
+            // Matches a level line: L<digit> followed by ≥7 whitespace-separated tokens.
+            // Captured group 1 = Write(GB) column.
             static const std::regex level_line_re(
-                R"(L\d+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+)\s+(\S+))");
+                R"(L(\d+)\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\S+))");
 
             std::istringstream ss(s.rocksdb_stats);
             std::string line;
-            double total_compact_gb = 0.0;
-            double total_flush_gb   = 0.0;
+            double total_write_gb = 0.0;
+            double flush_gb       = 0.0;
             bool in_compaction_section = false;
 
             while (std::getline(ss, line)) {
@@ -169,22 +174,23 @@ CompactionManager::Stats CompactionManager::stats() const {
 
                 std::smatch m;
                 if (std::regex_search(line, m, level_line_re)) {
-                    // m[1] = Write(GB) for that level
-                    // m[2] = Wnew(GB) for that level (net new bytes = flush+compact)
                     try {
-                        double write_gb = std::stod(m[1].str());
-                        total_compact_gb += write_gb;
-                        if (line.find("L0") != std::string::npos) {
-                            // L0 writes are flush output
-                            total_flush_gb += write_gb;
+                        int    level     = std::stoi(m[1].str());
+                        double write_gb  = std::stod(m[2].str());
+                        total_write_gb  += write_gb;
+                        if (level == 0) {
+                            // L0 writes are exclusively from memtable flush
+                            flush_gb = write_gb;
                         }
                     } catch (...) {}
                 }
             }
 
-            // Convert from GB to bytes
-            s.compact_bytes_written = static_cast<uint64_t>(total_compact_gb * 1e9);
-            s.flush_bytes_written   = static_cast<uint64_t>(total_flush_gb   * 1e9);
+            // flush bytes = L0 Write (memtable → L0 SST)
+            // compact bytes = everything else (L1+ compaction output)
+            s.flush_bytes_written   = static_cast<uint64_t>(flush_gb * 1e9);
+            s.compact_bytes_written = static_cast<uint64_t>(
+                (total_write_gb - flush_gb) * 1e9);
         }
     }
     return s;

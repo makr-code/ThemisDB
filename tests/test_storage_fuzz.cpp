@@ -229,7 +229,7 @@ TEST_F(StorageFuzzTest, SpecialCharKeys_RoundTripThroughRecovery) {
         const std::vector<std::pair<std::string, std::string>> cases = {
             {"key with spaces",   "val1"},
             {"key/with/slashes",  "val2"},
-            {"key\x01\x02\x03",  "val3"},   // non-printable bytes in key
+            {"key\x01\x02\x03",  "val3"},   // key with non-printable bytes (SOH, STX, ETX)
             {std::string(255, 'x'), "max_key_length_val"},
             {"normal_key",        std::string(1024, 'z')}, // long value
         };
