@@ -1,10 +1,12 @@
 #include "cdc/changefeed_buffer.h"
+#include "cdc/cdc_error.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/zstd_codec.h"
 #include <algorithm>
 
 namespace themis {
+using namespace themis::cdc;
 
 // ===== ChangefeedBuffer Implementation =====
 

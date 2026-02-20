@@ -1,4 +1,5 @@
 #include "cdc/changefeed.h"
+#include "cdc/cdc_error.h"
 #include "utils/logger.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -6,6 +7,7 @@
 #include <chrono>
 
 namespace themis {
+using namespace themis::cdc;
 
 // ===== ChangeEvent JSON Serialization =====
 
@@ -120,7 +122,7 @@ uint64_t Changefeed::nextSequence() {
     
     if (!write_status.ok()) {
         THEMIS_ERROR("Failed to update sequence counter: {}", write_status.ToString());
-        throw std::runtime_error("Failed to update sequence counter: " + write_status.ToString());
+        throw error::sequenceGenerationFailed(write_status.ToString());
     }
     
     return next_seq;
@@ -152,7 +154,7 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to record change event {}: {}", event.sequence, s.ToString());
-        throw std::runtime_error("Failed to record change event: " + s.ToString());
+        throw error::eventRecordFailed(s.ToString());
     }
     
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", 
