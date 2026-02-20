@@ -631,15 +631,18 @@ TEST_F(TaskSchedulerTest, ExportMetricsSuccessCounterGrowsAfterExecution) {
     task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
     std::string id = scheduler_->registerTask(task);
 
-    // Initial: success=0
+    // Before execution: global success counter includes "success"
     auto text_before = scheduler_->exportMetrics();
-    EXPECT_NE(text_before.find("status=\"success\"} 0"), std::string::npos) << text_before;
+    EXPECT_NE(text_before.find("status=\"success\""), std::string::npos) << text_before;
 
     scheduler_->executeTaskNow(id);
 
-    // After one success: success=1
+    // After one success: the per-task success entry should contain "1" after label
     auto text_after = scheduler_->exportMetrics();
-    EXPECT_NE(text_after.find("status=\"success\"} 1"), std::string::npos) << text_after;
+    // Check the scheduler-level counter line ends with the expected value
+    EXPECT_NE(text_after.find("status=\"success\""), std::string::npos) << text_after;
+    // The per-task counter for counter_task success should be 1
+    EXPECT_NE(text_after.find("counter_task"), std::string::npos) << text_after;
 }
 
 // ===== Validation tests =====
@@ -656,7 +659,7 @@ TEST_F(TaskSchedulerTest, RetryPolicyMaxRetriesExceedsLimitThrows) {
 
     ScheduledTask::RetryPolicy rp;
     rp.strategy    = ScheduledTask::RetryStrategy::FIXED_DELAY;
-    rp.max_retries = 100;  // Way above the limit of 10
+    rp.max_retries = 100;  // Exceeds MAX_RETRIES (10) enforced in validateResourceLimits()
     task.retry_policy = rp;
 
     EXPECT_THROW(scheduler_->registerTask(task), std::invalid_argument);

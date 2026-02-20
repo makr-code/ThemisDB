@@ -1,5 +1,5 @@
 /**
- * @file integration_test_scheduler.cpp
+ * @file test_scheduler_integration.cpp
  * @brief Integration tests for the Scheduler module
  *
  * Tests end-to-end scheduler flows:
