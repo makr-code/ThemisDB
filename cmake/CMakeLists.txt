@@ -1191,6 +1191,9 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/batch_write_optimizer.cpp
     
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp

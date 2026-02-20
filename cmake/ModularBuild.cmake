@@ -179,6 +179,9 @@ set(THEMIS_STORAGE_SOURCES
     
     # Metadata management
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
     
     # Indexes
     ../src/index/secondary_index.cpp
