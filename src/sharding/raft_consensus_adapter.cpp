@@ -327,18 +327,104 @@ bool RaftConsensusAdapter::removeNode(const std::string& node_id) {
 }
 
 bool RaftConsensusAdapter::transferLeadership(const std::string& target_node_id) {
-    spdlog::warn("Leadership transfer not yet implemented in adapter");
-    return false;
+    if (!raft_ || !isLeader()) {
+        spdlog::warn("transferLeadership: not leader or Raft not initialized");
+        return false;
+    }
+
+    // Validate target exists in the known cluster
+    {
+        std::lock_guard<std::mutex> lock(cluster_mutex_);
+        auto it = std::find(cluster_nodes_.begin(), cluster_nodes_.end(), target_node_id);
+        if (it == cluster_nodes_.end()) {
+            spdlog::error("transferLeadership: target node {} not in cluster", target_node_id);
+            return false;
+        }
+    }
+
+    // Cannot transfer leadership to self
+    if (target_node_id == node_id_) {
+        spdlog::warn("transferLeadership: target is self ({}), nothing to do", node_id_);
+        return true;
+    }
+
+    // Propose an advisory log entry so the target's log is up-to-date
+    nlohmann::json transfer_data = {
+        {"target",  target_node_id},
+        {"from",    node_id_}
+    };
+    propose("LEADERSHIP_TRANSFER", transfer_data);
+
+    // Step down: read the current term and call becomeFollower(term+1) under the
+    // state_mutex_ so the term read and the state transition are serialised
+    // against any concurrent state change.
+    uint64_t new_term;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        new_term = raft_->getCurrentTerm() + 1;
+        raft_->getRaftState().becomeFollower(new_term);
+        current_state_ = ConsensusState::FOLLOWER;
+    }
+
+    spdlog::info("transferLeadership: stepped down to follower (term {}) in favour of {}",
+                 new_term, target_node_id);
+    return true;
 }
 
 bool RaftConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
-    spdlog::warn("Snapshot not yet implemented in adapter");
-    return false;
+    if (!raft_) {
+        spdlog::warn("takeSnapshot: Raft not initialized");
+        return false;
+    }
+
+    const uint64_t commit_idx = raft_->getRaftState().getLog().getCommitIndex();
+    const uint64_t term       = raft_->getRaftState().getCurrentTerm();
+
+    {
+        std::lock_guard<std::mutex> lock(snapshot_mutex_);
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = commit_idx;
+        snapshot_term_  = term;
+    }
+
+    spdlog::info("takeSnapshot: snapshot taken at index={} term={}", commit_idx, term);
+    return true;
 }
 
 bool RaftConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) {
-    spdlog::warn("Snapshot restore not yet implemented in adapter");
-    return false;
+    if (snapshot_data.is_null() || snapshot_data.empty()) {
+        spdlog::error("restoreSnapshot: snapshot_data is null or empty");
+        return false;
+    }
+
+    // Extract optional index/term metadata embedded in the snapshot
+    uint64_t restored_index = 0;
+    uint64_t restored_term  = 0;
+    if (snapshot_data.contains("_snapshot_index"))
+        restored_index = snapshot_data["_snapshot_index"].get<uint64_t>();
+    if (snapshot_data.contains("_snapshot_term"))
+        restored_term  = snapshot_data["_snapshot_term"].get<uint64_t>();
+
+    {
+        std::lock_guard<std::mutex> lock(snapshot_mutex_);
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = restored_index;
+        snapshot_term_  = restored_term;
+    }
+
+    // If Raft is running, step down to follower so the restored state is
+    // consistent with a freshly-caught-up node.
+    if (raft_ && restored_term > 0) {
+        raft_->getRaftState().becomeFollower(restored_term);
+        {
+            std::lock_guard<std::mutex> lock(state_mutex_);
+            current_state_ = ConsensusState::FOLLOWER;
+        }
+    }
+
+    spdlog::info("restoreSnapshot: snapshot restored at index={} term={}",
+                 restored_index, restored_term);
+    return true;
 }
 
 ConsensusStats RaftConsensusAdapter::getStats() const {
@@ -363,16 +449,26 @@ ConsensusStats RaftConsensusAdapter::getStats() const {
 
 nlohmann::json RaftConsensusAdapter::getStatus() const {
     auto stats = getStats();
-    
+
+    uint64_t snap_index = 0;
+    uint64_t snap_term  = 0;
+    {
+        std::lock_guard<std::mutex> lock(snapshot_mutex_);
+        snap_index = snapshot_index_;
+        snap_term  = snapshot_term_;
+    }
+
     return {
-        {"type", "Raft"},
-        {"node_id", node_id_},
-        {"is_leader", isLeader()},
-        {"leader_id", stats.current_leader},
-        {"state", static_cast<int>(stats.state)},
-        {"current_term", stats.current_term},
-        {"cluster_size", stats.cluster_size},
-        {"reachable_nodes", stats.reachable_nodes}
+        {"type",            "Raft"},
+        {"node_id",         node_id_},
+        {"is_leader",       isLeader()},
+        {"leader_id",       stats.current_leader},
+        {"state",           static_cast<int>(stats.state)},
+        {"current_term",    stats.current_term},
+        {"cluster_size",    stats.cluster_size},
+        {"reachable_nodes", stats.reachable_nodes},
+        {"snapshot_index",  snap_index},
+        {"snapshot_term",   snap_term}
     };
 }
 

@@ -76,7 +76,7 @@ AccessControl::~AccessControl() {
 AccessControl::AuthenticationResult AccessControl::authenticate(const Credentials& credentials) {
     TracedSpan span("AccessControl.authenticate");
     span.setAttribute("security.user_id", credentials.user_id);
-    span.setAttribute("security.auth_type", credentials.oauth_token.has_value() ? "oauth" : "password");
+    span.setAttribute("security.auth_type", credentials.oauth_token.has_value() ? "oauth" : "password"); // NOPII: value is a literal enum-string, not the token
     
     std::lock_guard<std::mutex> lock(mutex_);
     
@@ -265,7 +265,7 @@ Result<void> AccessControl::changePassword(
     
     // For embedded plugin, attempt to change password
     // This requires knowledge of plugin-specific API
-    THEMIS_WARN("Password change for embedded plugin - consider using external identity provider");
+    THEMIS_WARN("Password change for embedded plugin - consider using external identity provider"); // NOPII: static advisory string, no PII value
     
     // Invalidate all existing sessions
     invalidateUserSessions(user_id);

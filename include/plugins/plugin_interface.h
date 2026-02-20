@@ -194,6 +194,11 @@ struct PluginManifest {
     
     // Config schema (JSON Schema)
     std::string config_schema;
+    
+    // Expected SHA-256 hash of the binary (hex-encoded).
+    // When set, the plugin manager verifies the on-disk binary hash before loading.
+    // Leave empty to skip hash enforcement (development/unsigned builds).
+    std::string expected_hash;
 };
 
 } // namespace plugins

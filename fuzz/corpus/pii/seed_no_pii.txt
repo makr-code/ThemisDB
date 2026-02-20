@@ -1,0 +1,1 @@
+Query completed in 42 ms, 7 rows returned from users table.
