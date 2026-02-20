@@ -177,6 +177,23 @@ struct IngestionStats {
 };
 
 /**
+ * @brief Quarantine entry for a failed item
+ *
+ * Records an item (file path or URL) that could not be ingested after all
+ * retries. Quarantined items can be re-processed via the admin API.
+ */
+struct QuarantineEntry {
+    std::string item_path;         ///< File path or URL of the failed item
+    std::string source_id;         ///< Source that produced this entry
+    IngestionErrorCode error_code  = IngestionErrorCode::UNKNOWN_ERROR;
+    std::string error_message;     ///< Last error message
+    size_t retry_count = 0;        ///< Number of attempts made
+    std::chrono::system_clock::time_point timestamp; ///< When quarantined
+
+    QuarantineEntry() : timestamp(std::chrono::system_clock::now()) {}
+};
+
+/**
  * @brief Ingestion report for all sources
  */
 struct IngestionReport {
@@ -184,6 +201,8 @@ struct IngestionReport {
     size_t total_documents = 0;
     size_t total_failures = 0;
     double total_time_seconds = 0.0;
+    std::vector<QuarantineEntry> quarantine; ///< Items quarantined during this run
+    bool dry_run = false;                    ///< True if run in dry-run mode
     
     IngestionReport() = default;
 };
@@ -280,6 +299,38 @@ public:
      */
     void setRetryConfig(const RetryConfig& config);
 
+    /**
+     * @brief Enable dry-run mode (scan only, no actual insertion)
+     *
+     * In dry-run mode `ingestAll()` / `ingestSource()` scan sources and count
+     * documents but do not write anything to the target collection.
+     * @param enabled true to enable dry-run mode
+     */
+    void setDryRun(bool enabled);
+
+    /**
+     * @brief Check whether dry-run mode is active
+     */
+    bool isDryRun() const;
+
+    /**
+     * @brief Get all quarantined items accumulated across ingestion runs
+     * @return Vector of quarantine entries
+     */
+    std::vector<QuarantineEntry> getQuarantineItems() const;
+
+    /**
+     * @brief Remove a specific item from the quarantine list
+     * @param item_path Path or URL of the quarantined item
+     * @return true if the item was found and removed
+     */
+    bool dismissQuarantineItem(const std::string& item_path);
+
+    /**
+     * @brief Clear the entire quarantine list
+     */
+    void clearQuarantine();
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -321,6 +372,53 @@ public:
      */
     virtual IngestionStats ingest(const std::string& target_collection,
                                   ProgressCallback progress_callback) = 0;
+};
+
+// ============================================================================
+// IngestionMetricsExporter
+// ============================================================================
+
+/**
+ * @brief Prometheus-compatible text-format metrics exporter for the ingestion module.
+ *
+ * Converts an `IngestionReport` to the Prometheus text exposition format
+ * (https://prometheus.io/docs/instrumenting/exposition_formats/).
+ *
+ * Usage (without requiring prometheus-cpp at the call site):
+ * @code
+ * IngestionMetricsExporter exporter;
+ * exporter.setPrefix("themis_ingestion");
+ * std::string prom_text = exporter.exportText(report);
+ * // Write prom_text to HTTP /metrics endpoint
+ * @endcode
+ */
+class IngestionMetricsExporter {
+public:
+    IngestionMetricsExporter() = default;
+
+    /**
+     * @brief Set the metric name prefix (default: "themis_ingestion")
+     */
+    void setPrefix(const std::string& prefix) { prefix_ = prefix; }
+
+    /**
+     * @brief Export an IngestionReport as Prometheus text
+     * @param report The report to export
+     * @return Prometheus text exposition format string
+     */
+    std::string exportText(const IngestionReport& report) const;
+
+    /**
+     * @brief Export a single IngestionStats as Prometheus text
+     * @param stats     The stats to export
+     * @param source_id Label value for the source_id label
+     * @return Prometheus text exposition format string
+     */
+    std::string exportText(const IngestionStats& stats,
+                           const std::string& source_id) const;
+
+private:
+    std::string prefix_ = "themis_ingestion";
 };
 
 } // namespace ingestion

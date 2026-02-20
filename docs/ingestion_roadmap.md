@@ -24,13 +24,18 @@ ingestion.
 |---|---|
 | `HuggingFaceConnector` – HTTP | Simulated (libcurl stub) |
 | `HuggingFaceConnector` – Retry / back-off | ✅ Implemented (`RetryConfig`) |
-| `FileSystemIngester` – .txt | ✅ Real read |
-| `FileSystemIngester` – PDF / DOCX / OCR | Stub / placeholder |
+| `FileSystemIngester` – .txt / .md / .csv | ✅ Real read |
+| `FileSystemIngester` – HTML / XML | ✅ Implemented (pugixml when available, raw fallback) |
+| `FileSystemIngester` – JSON | ✅ Implemented (string-value extraction, no external dep) |
+| `FileSystemIngester` – PDF / DOCX / OCR | Stub / skipped cleanly |
 | `IngestionManager` – sequential | ✅ Working |
 | `IngestionManager` – parallel | ✅ Implemented (`std::async` wave scheduler) |
+| `IngestionManager` – dry-run mode | ✅ Implemented (`setDryRun()`) |
 | Structured error codes / severity | ✅ Implemented (`IngestionErrorCode`, `IngestionErrorSeverity`) |
+| Quarantine / Dead-Letter Queue | ✅ Basic in-memory quarantine (`QuarantineEntry`, `getQuarantineItems()`) |
 | Observability metrics | ✅ Basic counters in `IngestionMetrics` |
-| Prometheus / OpenTelemetry | Not yet integrated |
+| Prometheus text-format exporter | ✅ Implemented (`IngestionMetricsExporter`) |
+| Prometheus / OpenTelemetry push | Not yet integrated |
 | API / Database connector | Stub (not implemented) |
 | Admin / Operator API | Not yet implemented |
 
@@ -57,20 +62,26 @@ taxonomy and basic observability.
 - [ ] Propagate error list to API / admin endpoint
 - [ ] Add correlation IDs for cross-component tracing
 
-### 1.3 Real File Format Extraction (FileSystemIngester)
+### 1.3 Real File Format Extraction (FileSystemIngester) ✅ PARTIAL
 - [x] Plain text (`.txt`) – real `std::ifstream` read
+- [x] Markdown (`.md`) and CSV (`.csv`) – treated as plain text
+- [x] HTML / HTM – text node extraction via pugixml; raw fallback when unavailable
+- [x] XML – text node extraction via pugixml; raw fallback when unavailable
+- [x] JSON – string-value extraction (no external JSON lib required)
 - [ ] PDF – integrate `libpoppler` or `pdfium` for native text extraction
 - [ ] DOCX – integrate `libdocx` / `pugixml`-based Office Open XML parser
-- [ ] HTML / XML – reuse `pugixml` already in vcpkg dependencies
 - [ ] Encoding detection – integrate `uchardet` or `ICU`
 - [ ] OCR – wire Tesseract for scanned PDFs (flag: `ocr_enabled=true`)
 
-### 1.4 Prometheus / OpenTelemetry Hooks
-- [ ] Expose `IngestionMetrics` counters as Prometheus gauge/counter via
-  `prometheus-cpp` (already a vcpkg dependency)
-- [ ] Labels: `source_id`, `source_type`, `error_code`
-- [ ] Metrics: `ingestion_docs_processed_total`, `ingestion_errors_total`,
-  `ingestion_retry_total`, `ingestion_throughput_docs_per_sec`
+### 1.4 Prometheus / OpenTelemetry Hooks ✅ PARTIAL
+- [x] `IngestionMetricsExporter`: converts `IngestionReport` / `IngestionStats` to
+  Prometheus text exposition format (no external dependency required)
+- [x] Labels: `source_id`
+- [x] Metrics: `docs_processed_total`, `docs_failed_total`, `bytes_processed_total`,
+  `elapsed_seconds`, `retry_total`, `errors_total`, `throughput_docs_per_sec`,
+  `total_documents`, `total_failures`, `total_time_seconds`, `quarantine_size`
+- [ ] Push to prometheus-cpp registry (already a vcpkg dependency)
+- [ ] Labels: `source_type`, `error_code`
 
 ---
 
@@ -90,10 +101,12 @@ taxonomy and basic observability.
 - [ ] On restart, skip already-ingested ranges (resume from checkpoint)
 - [ ] Support `incremental=true` flag in `SourceConfig` / `IngestionSource`
 
-### 2.3 Quarantine & Dead-Letter Queue
-- [ ] Files / records that fail after all retries go to a quarantine collection
-- [ ] Quarantine entry includes: path/URL, error code, timestamp, last error message
-- [ ] Admin API to list, retry, or dismiss quarantine items
+### 2.3 Quarantine & Dead-Letter Queue ✅ PARTIAL
+- [x] In-memory quarantine list (`QuarantineEntry`) populated from FATAL errors
+- [x] Admin API: `getQuarantineItems()`, `dismissQuarantineItem()`, `clearQuarantine()`
+- [x] Quarantine snapshot attached to `IngestionReport`
+- [ ] Persist quarantine to RocksDB across restarts
+- [ ] Admin HTTP API to list / retry / dismiss quarantine items
 
 ### 2.4 Quota & Rate-Limit Guard
 - [ ] Per-source rate limit: max requests/second, max bytes/hour
@@ -133,9 +146,9 @@ taxonomy and basic observability.
 - [ ] Plugin sandboxing: memory / CPU limits per plugin
 - [ ] Plugin health: report `isHealthy()` to operator API
 
-### 3.4 Preview / DryRun Mode
-- [ ] `dryRun=true` flag: scan source, report document count and estimated bytes
-  without actual insertion
+### 3.4 Preview / DryRun Mode ✅ PARTIAL
+- [x] `setDryRun(true)`: scan source via `getDocumentCount()`, report count, no insertion
+- [x] `IngestionReport::dry_run` flag set when run in dry-run mode
 - [ ] Source preview: return first N documents for inspection
 
 ### 3.5 End-to-End Developer Experience
