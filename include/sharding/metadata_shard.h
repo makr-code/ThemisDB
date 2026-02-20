@@ -5,6 +5,7 @@
 #define THEMISDB_SHARDING_METADATA_SHARD_H
 
 #include "sharding/consensus_module.h"
+#include "sharding/wal_manager.h"
 #include "cache/bounded_lru_cache.h"
 #include <string>
 #include <vector>
@@ -22,6 +23,8 @@ namespace themisdb::sharding {
 
 namespace themisdb {
 namespace sharding {
+
+using LSN = themis::sharding::LSN;
 
 /**
  * @brief Metadata partition key types

@@ -223,7 +223,7 @@ TEST(AuthRateLimiterTest, Statistics) {
 TEST(AuthRateLimiterTest, LockoutWindow) {
     AuthRateLimitConfig config;
     config.lockout_failed_attempts = 3;
-    config.lockout_window = std::chrono::seconds(2);  // 2 second window for testing
+    config.lockout_window = std::chrono::minutes(0);  // immediate expiry window for testing
     config.enable_ip_rate_limiting = false;
     config.enable_user_rate_limiting = false;
     

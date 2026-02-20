@@ -7,7 +7,7 @@
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
-#include "storage/wal_manager.h"  // For LSN type
+#include "sharding/wal_manager.h"  // For LSN type
 #include <string>
 #include <vector>
 #include <map>
@@ -16,12 +16,26 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 
+namespace sharding {
+enum class TransactionProtocol;
+enum class TransactionWALEntryType;
+struct TransactionWALEntry;
+struct TransactionWALConfig;
+class TransactionWAL;
+class TransactionSnapshotManager;
+}
+
 namespace themisdb {
 namespace sharding {
 
 // Forward declarations for Phase 2.3.3 integration
-class TransactionWAL;
-class TransactionSnapshotManager;
+using LSN = themis::sharding::LSN;
+
+using TransactionWAL = ::sharding::TransactionWAL;
+using TransactionWALConfig = ::sharding::TransactionWALConfig;
+using TransactionWALEntryType = ::sharding::TransactionWALEntryType;
+using TransactionWALEntry = ::sharding::TransactionWALEntry;
+using TransactionSnapshotManager = ::sharding::TransactionSnapshotManager;
 
 /**
  * @brief Transaction protocol type
@@ -405,7 +419,7 @@ private:
     std::unique_ptr<TransactionWAL> transaction_wal_;
     std::unique_ptr<TransactionSnapshotManager> snapshot_manager_;
     std::atomic<uint64_t> operations_since_snapshot_{0};
-    LSN last_applied_lsn_{0};
+    LSN last_applied_lsn_{0, 0};
     
     // State
     mutable std::mutex transactions_mutex_;

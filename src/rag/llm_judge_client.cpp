@@ -12,6 +12,7 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <iomanip>
+#include <atomic>
 
 using json = nlohmann::json;
 
@@ -78,7 +79,7 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         
         // Submit request and wait for response
         auto handle = impl_->inference_engine->submit(request);
-        auto response = handle.wait();
+        auto response = handle.get();
         
         auto end_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -86,7 +87,7 @@ std::string LLMJudgeClient::evaluate(const std::string& prompt) {
         
         THEMIS_DEBUG("LLM evaluation completed in {}ms", duration.count());
         
-        return response.generated_text;
+        return response.text;
         
     } catch (const std::exception& e) {
         THEMIS_ERROR("LLM evaluation failed: {}", e.what());
@@ -135,8 +136,8 @@ std::vector<std::string> LLMJudgeClient::evaluateBatch(
         
         // Wait for all responses
         for (auto& handle : handles) {
-            auto response = handle.wait();
-            results.push_back(response.generated_text);
+            auto response = handle.get();
+            results.push_back(response.text);
         }
         
         auto end_time = std::chrono::steady_clock::now();
@@ -318,6 +319,7 @@ void LLMJudgeClient::parseEvaluationResponse(
                 }
             }
         }
+    }
     }
 }
 

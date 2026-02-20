@@ -20,7 +20,7 @@ protected:
     void SetUp() override {
         // Create test output directory with unique name
         auto temp_base = std::filesystem::temp_directory_path();
-        test_dir_ = temp_base / ("themis_exporter_test_" + std::to_string(std::time(nullptr)));
+        test_dir_ = (temp_base / ("themis_exporter_test_" + std::to_string(std::time(nullptr)))).string();
         std::filesystem::create_directories(test_dir_);
         
         // Create test entities
@@ -513,7 +513,7 @@ TEST_F(JSONLLLMExporterTest, TenantIsolationWithContext) {
     }
     
     ExportOptions options;
-    options.output_path = test_dir_ / "tenant_isolation.jsonl";
+    options.output_path = test_dir_ + "/tenant_isolation.jsonl";
     
     // Set tenant context
     ExportTenantContext tenant_ctx;
@@ -544,7 +544,7 @@ TEST_F(JSONLLLMExporterTest, TenantIsolationBlocksCrossTenant) {
     }
     
     ExportOptions options;
-    options.output_path = test_dir_ / "tenant_cross_blocked.jsonl";
+    options.output_path = test_dir_ + "/tenant_cross_blocked.jsonl";
     
     // Set tenant context for tenant-123
     ExportTenantContext tenant_ctx;
@@ -565,7 +565,7 @@ TEST_F(JSONLLLMExporterTest, TenantInsufficientScopes) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "tenant_insufficient_scopes.jsonl";
+    options.output_path = test_dir_ + "/tenant_insufficient_scopes.jsonl";
     
     // Set tenant context without required scopes (insufficient permissions)
     ExportTenantContext tenant_ctx;
@@ -600,7 +600,7 @@ TEST_F(JSONLLLMExporterTest, PIIDetection) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "pii_detection.jsonl";
+    options.output_path = test_dir_ + "/pii_detection.jsonl";
     
     auto stats = exporter.exportEntities(pii_entities, options);
     
@@ -627,7 +627,7 @@ TEST_F(JSONLLLMExporterTest, PIIRedactionMask) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "pii_redaction_mask.jsonl";
+    options.output_path = test_dir_ + "/pii_redaction_mask.jsonl";
     
     auto stats = exporter.exportEntities(pii_entities, options);
     
@@ -662,7 +662,7 @@ TEST_F(JSONLLLMExporterTest, PIIRedactionHash) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "pii_redaction_hash.jsonl";
+    options.output_path = test_dir_ + "/pii_redaction_hash.jsonl";
     
     auto stats = exporter.exportEntities(pii_entities, options);
     
@@ -697,7 +697,7 @@ TEST_F(JSONLLLMExporterTest, PIIFailOnDetection) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "pii_fail.jsonl";
+    options.output_path = test_dir_ + "/pii_fail.jsonl";
     options.continue_on_error = false;
     
     // Should throw exception due to PII
@@ -713,7 +713,7 @@ TEST_F(JSONLLLMExporterTest, CompressionGzip) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "compressed.jsonl.gz";
+    options.output_path = test_dir_ + "/compressed.jsonl.gz";
     options.compress = true;
     options.compression_type = "gzip";
     options.compression_level = 6;
@@ -734,7 +734,7 @@ TEST_F(JSONLLLMExporterTest, CompressionDisabled) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "uncompressed.jsonl";
+    options.output_path = test_dir_ + "/uncompressed.jsonl";
     options.compress = false;
     
     auto stats = exporter.exportEntities(test_entities_, options);
@@ -753,7 +753,7 @@ TEST_F(JSONLLLMExporterTest, FileSizeLimit) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "size_limited.jsonl";
+    options.output_path = test_dir_ + "/size_limited.jsonl";
     options.max_file_size_bytes = 500;  // Very small limit
     
     auto stats = exporter.exportEntities(test_entities_, options);
@@ -767,7 +767,7 @@ TEST_F(JSONLLLMExporterTest, BufferSizeConfiguration) {
     JSONLLLMExporter exporter(config);
     
     ExportOptions options;
-    options.output_path = test_dir_ / "custom_buffer.jsonl";
+    options.output_path = test_dir_ + "/custom_buffer.jsonl";
     options.buffer_size_bytes = 4096;  // Custom buffer size
     
     auto stats = exporter.exportEntities(test_entities_, options);
@@ -775,7 +775,3 @@ TEST_F(JSONLLLMExporterTest, BufferSizeConfiguration) {
     EXPECT_GT(stats.exported_entities, 0);
 }
 
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
