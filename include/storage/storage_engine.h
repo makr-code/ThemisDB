@@ -5,6 +5,8 @@
 #include "themis/base/interfaces/security_interface.h"
 #include "themis/base/interfaces/index_interface.h"
 #include "storage/rocksdb_wrapper.h"
+#include <atomic>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <string>
@@ -29,6 +31,26 @@ namespace themis {
  */
 class StorageEngine : public IStorageEngine {
 public:
+    // ── Scan performance counters ─────────────────────────────────────────
+
+    /**
+     * @brief Cumulative scan performance counters.
+     *
+     * All fields are monotonically increasing since the engine was opened.
+     */
+    struct ScanCounters {
+        uint64_t scan_calls{0};          ///< Total calls to scanRange / scanPrefix / scanPredicate
+        uint64_t keys_examined{0};       ///< Total keys visited by all scans
+        uint64_t keys_returned{0};       ///< Keys actually delivered to callers
+        uint64_t early_stops{0};         ///< Scans stopped early by a false callback return
+
+        /** Ratio of returned vs examined keys (filter selectivity). */
+        double selectivity() const {
+            return keys_examined == 0 ? 1.0
+                                      : static_cast<double>(keys_returned) / keys_examined;
+        }
+    };
+
     /**
      * @brief Constructor with Dependency Injection
      * 
@@ -69,6 +91,8 @@ public:
      * open-ended bounds) and calls @p callback for each key-value pair.
      * Returning false from the callback stops iteration early.
      *
+     * Updates ScanCounters atomically.
+     *
      * @return Result<void> – ok on success, error on failure.
      */
     Result<void> scanRange(
@@ -80,12 +104,50 @@ public:
     /**
      * @brief Scan all keys with a given prefix.
      *
+     * Updates ScanCounters atomically.
+     *
      * @return Result<void> – ok on success, error on failure.
      */
     Result<void> scanPrefix(
         std::string_view prefix,
         std::function<bool(std::string_view key, std::string_view value)> callback
     ) override;
+
+    /**
+     * @brief Scan a key range with an inline predicate filter.
+     *
+     * Like scanRange() but only delivers key-value pairs for which
+     * @p predicate returns true.  The predicate is evaluated for every
+     * key visited; if it returns false the entry is counted as
+     * "examined but not returned" (keys_examined++ only).
+     *
+     * Updates ScanCounters atomically.
+     *
+     * @param start_key  Inclusive lower bound (empty = beginning).
+     * @param end_key    Exclusive upper bound (empty = end).
+     * @param predicate  Returns true if the entry should be delivered.
+     * @param callback   Called only for entries that pass the predicate.
+     *                   Return false to stop iteration.
+     * @return Result<void> – ok on success, error on failure.
+     */
+    Result<void> scanPredicate(
+        std::string_view start_key,
+        std::string_view end_key,
+        std::function<bool(std::string_view key, std::string_view value)> predicate,
+        std::function<bool(std::string_view key, std::string_view value)> callback
+    );
+
+    /**
+     * @brief Return a copy of the current scan performance counters.
+     *
+     * Thread-safe: reads are sequentially consistent.
+     */
+    ScanCounters scanCounters() const;
+
+    /**
+     * @brief Reset all scan performance counters to zero.
+     */
+    void resetScanCounters();
 
     /**
      * @brief Apply a filter expression to stored data
@@ -152,6 +214,12 @@ private:
     // Internal storage state
     std::string db_path_;
     bool is_open_ = false;
+
+    // Scan performance counters (lock-free atomics)
+    mutable std::atomic<uint64_t> sc_calls_{0};
+    mutable std::atomic<uint64_t> sc_examined_{0};
+    mutable std::atomic<uint64_t> sc_returned_{0};
+    mutable std::atomic<uint64_t> sc_early_stops_{0};
 };
 
 } // namespace themis

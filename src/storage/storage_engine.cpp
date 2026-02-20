@@ -352,7 +352,17 @@ Result<void> StorageEngine::scanRange(
                        "Storage engine not open");
     }
 
-    rocksdb_->scanRange(start_key, end_key, std::move(callback));
+    sc_calls_.fetch_add(1, std::memory_order_relaxed);
+    bool stopped_early = false;
+    rocksdb_->scanRange(start_key, end_key,
+        [&](std::string_view k, std::string_view v) -> bool {
+            sc_examined_.fetch_add(1, std::memory_order_relaxed);
+            bool cont = callback(k, v);
+            sc_returned_.fetch_add(1, std::memory_order_relaxed);
+            if (!cont) stopped_early = true;
+            return cont;
+        });
+    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
     return OkVoid();
 }
 
@@ -365,8 +375,60 @@ Result<void> StorageEngine::scanPrefix(
                        "Storage engine not open");
     }
 
-    rocksdb_->scanPrefix(prefix, std::move(callback));
+    sc_calls_.fetch_add(1, std::memory_order_relaxed);
+    bool stopped_early = false;
+    rocksdb_->scanPrefix(prefix,
+        [&](std::string_view k, std::string_view v) -> bool {
+            sc_examined_.fetch_add(1, std::memory_order_relaxed);
+            bool cont = callback(k, v);
+            sc_returned_.fetch_add(1, std::memory_order_relaxed);
+            if (!cont) stopped_early = true;
+            return cont;
+        });
+    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
     return OkVoid();
+}
+
+Result<void> StorageEngine::scanPredicate(
+    std::string_view start_key,
+    std::string_view end_key,
+    std::function<bool(std::string_view, std::string_view)> predicate,
+    std::function<bool(std::string_view, std::string_view)> callback)
+{
+    if (!is_open_) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
+    }
+
+    sc_calls_.fetch_add(1, std::memory_order_relaxed);
+    bool stopped_early = false;
+    rocksdb_->scanRange(start_key, end_key,
+        [&](std::string_view k, std::string_view v) -> bool {
+            sc_examined_.fetch_add(1, std::memory_order_relaxed);
+            if (!predicate(k, v)) return true; // skip, but continue
+            sc_returned_.fetch_add(1, std::memory_order_relaxed);
+            bool cont = callback(k, v);
+            if (!cont) stopped_early = true;
+            return cont;
+        });
+    if (stopped_early) sc_early_stops_.fetch_add(1, std::memory_order_relaxed);
+    return OkVoid();
+}
+
+StorageEngine::ScanCounters StorageEngine::scanCounters() const {
+    ScanCounters c;
+    c.scan_calls    = sc_calls_.load(std::memory_order_relaxed);
+    c.keys_examined = sc_examined_.load(std::memory_order_relaxed);
+    c.keys_returned = sc_returned_.load(std::memory_order_relaxed);
+    c.early_stops   = sc_early_stops_.load(std::memory_order_relaxed);
+    return c;
+}
+
+void StorageEngine::resetScanCounters() {
+    sc_calls_.store(0, std::memory_order_relaxed);
+    sc_examined_.store(0, std::memory_order_relaxed);
+    sc_returned_.store(0, std::memory_order_relaxed);
+    sc_early_stops_.store(0, std::memory_order_relaxed);
 }
 
 bool StorageEngine::apply_filter(const std::string& filter_expr, const void* context) {

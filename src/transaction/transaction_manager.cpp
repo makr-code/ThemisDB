@@ -748,4 +748,41 @@ void TransactionManager::Transaction::rollback() {
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }
 
+TransactionManager::Status TransactionManager::Transaction::setSavePoint() {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("setSavePoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("setSavePoint: no active transaction");
+    }
+    mvcc_txn_->setSavePoint();
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::rollbackToSavePoint() {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("rollbackToSavePoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("rollbackToSavePoint: no active transaction");
+    }
+    if (!mvcc_txn_->rollbackToSavePoint()) {
+        return Status::Error("rollbackToSavePoint: no savepoint to roll back to");
+    }
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("popSavePoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("popSavePoint: no active transaction");
+    }
+    if (!mvcc_txn_->popSavePoint()) {
+        return Status::Error("popSavePoint: no savepoint to pop");
+    }
+    return Status::OK();
+}
+
 } // namespace themis

@@ -1104,6 +1104,39 @@ bool RocksDBWrapper::TransactionWrapper::prepare() {
     }
 }
 
+void RocksDBWrapper::TransactionWrapper::setSavePoint() {
+    if (!txn_ || state_ != State::Active) return;
+    txn_->SetSavePoint();
+}
+
+bool RocksDBWrapper::TransactionWrapper::rollbackToSavePoint() {
+    if (!txn_ || state_ != State::Active) return false;
+    rocksdb::Status s = txn_->RollbackToSavePoint();
+    if (s.IsNotFound()) {
+        THEMIS_WARN("TransactionWrapper::rollbackToSavePoint: no savepoint to roll back to");
+        return false;
+    }
+    if (!s.ok()) {
+        THEMIS_ERROR("TransactionWrapper::rollbackToSavePoint failed: {}", s.ToString());
+        return false;
+    }
+    return true;
+}
+
+bool RocksDBWrapper::TransactionWrapper::popSavePoint() {
+    if (!txn_ || state_ != State::Active) return false;
+    rocksdb::Status s = txn_->PopSavePoint();
+    if (s.IsNotFound()) {
+        THEMIS_WARN("TransactionWrapper::popSavePoint: no savepoint to pop");
+        return false;
+    }
+    if (!s.ok()) {
+        THEMIS_ERROR("TransactionWrapper::popSavePoint failed: {}", s.ToString());
+        return false;
+    }
+    return true;
+}
+
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction(TransactionIsolationLevel isolation) {
     return std::make_unique<TransactionWrapper>(this, isolation);
 }
