@@ -215,7 +215,7 @@ TEST_F(RBACTest, AddRole_NewRoleGrantsPermissions) {
     EXPECT_FALSE(rbac_->checkPermission({"auditor"}, "data", "write"));
 }
 
-TEST_F(RBACTest, RemoveRole_NolongerGrantsPermissions) {
+TEST_F(RBACTest, RemoveRole_NoLongerGrantsPermissions) {
     Role custom;
     custom.name = "temp_role";
     custom.permissions.push_back({"data", "write"});
