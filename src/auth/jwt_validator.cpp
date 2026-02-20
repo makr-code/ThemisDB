@@ -6,10 +6,13 @@
 
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
+#include <openssl/ec.h>
+#include <openssl/ecdsa.h>
 #include <openssl/pem.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 #include <openssl/sha.h>
+#include <openssl/bn.h>
 
 #include <curl/curl.h>
 
@@ -204,6 +207,82 @@ bool JWTValidator::verifySignatureRS256(const std::string& header_payload,
     return ok == 1;
 }
 
+bool JWTValidator::verifySignatureES256(const std::string& header_payload,
+                                        const std::vector<uint8_t>& signature,
+                                        const nlohmann::json& jwk) {
+    // Verify ECDSA P-256 / SHA-256 signature (ES256)
+    // JWK format: {"kty":"EC","crv":"P-256","x":"<base64url>","y":"<base64url>"}
+    if (jwk.value("kty", "") != "EC") return false;
+    if (jwk.value("crv", "") != "P-256") return false;
+
+    auto x_b64 = jwk.value("x", "");
+    auto y_b64 = jwk.value("y", "");
+    if (x_b64.empty() || y_b64.empty()) return false;
+
+    auto x_bytes = decodeBase64Url(x_b64);
+    auto y_bytes = decodeBase64Url(y_b64);
+    if (x_bytes.size() != 32 || y_bytes.size() != 32) return false;
+
+    // Build EC_KEY for P-256
+    using ECKeyPtr = std::unique_ptr<EC_KEY, decltype(&EC_KEY_free)>;
+    using ECGroupPtr = std::unique_ptr<EC_GROUP, decltype(&EC_GROUP_free)>;
+    using ECPointPtr = std::unique_ptr<EC_POINT, decltype(&EC_POINT_free)>;
+
+    ECGroupPtr group(EC_GROUP_new_by_curve_name(NID_X9_62_prime256v1), &EC_GROUP_free);
+    if (!group) return false;
+
+    ECKeyPtr ec_key(EC_KEY_new(), &EC_KEY_free);
+    if (!ec_key) return false;
+    if (EC_KEY_set_group(ec_key.get(), group.get()) != 1) return false;
+
+    ECPointPtr pub_point(EC_POINT_new(group.get()), &EC_POINT_free);
+    if (!pub_point) return false;
+
+    auto x_bn = utils::BIGNUMPtr(BN_bin2bn(x_bytes.data(), (int)x_bytes.size(), nullptr));
+    auto y_bn = utils::BIGNUMPtr(BN_bin2bn(y_bytes.data(), (int)y_bytes.size(), nullptr));
+    if (!x_bn || !y_bn) return false;
+
+    if (EC_POINT_set_affine_coordinates_GFp(group.get(), pub_point.get(),
+                                            x_bn.get(), y_bn.get(), nullptr) != 1) return false;
+    if (EC_KEY_set_public_key(ec_key.get(), pub_point.get()) != 1) return false;
+
+    // Set EC_KEY into EVP_PKEY
+    auto pkey = utils::make_evp_key();
+    if (!pkey) return false;
+    if (EVP_PKEY_set1_EC_KEY(pkey.get(), ec_key.get()) != 1) return false;
+
+    // JWT ES256 signature is the raw (r || s) encoding (each 32 bytes = 64 bytes total).
+    // OpenSSL ECDSA_verify expects DER-encoded ECDSA_SIG.  Convert r||s → DER.
+    if (signature.size() != 64) return false;
+
+    using ECDSASIGPtr = std::unique_ptr<ECDSA_SIG, decltype(&ECDSA_SIG_free)>;
+    ECDSASIGPtr ecdsa_sig(ECDSA_SIG_new(), &ECDSA_SIG_free);
+    if (!ecdsa_sig) return false;
+
+    auto r_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data(),      32, nullptr));
+    auto s_bn = utils::BIGNUMPtr(BN_bin2bn(signature.data() + 32, 32, nullptr));
+    if (!r_bn || !s_bn) return false;
+
+    // ECDSA_SIG_set0 takes ownership on success
+    if (ECDSA_SIG_set0(ecdsa_sig.get(), r_bn.get(), s_bn.get()) != 1) return false;
+    r_bn.release();
+    s_bn.release();
+
+    // Encode to DER
+    unsigned char* der_buf = nullptr;
+    int der_len = i2d_ECDSA_SIG(ecdsa_sig.get(), &der_buf);
+    if (der_len <= 0 || !der_buf) return false;
+    std::vector<uint8_t> der(der_buf, der_buf + der_len);
+    OPENSSL_free(der_buf);
+
+    // Verify using EVP_DigestVerify with SHA-256
+    auto mctx = utils::make_evp_md_ctx();
+    if (!mctx) return false;
+    if (EVP_DigestVerifyInit(mctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) != 1) return false;
+    if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) return false;
+    return EVP_DigestVerifyFinal(mctx.get(), der.data(), (size_t)der_len) == 1;
+}
+
 bool JWTValidator::checkAudience(const nlohmann::json& payload) const {
     if (cfg_.expected_audience.empty()) return true;
     if (!payload.contains("aud")) return false;
@@ -260,10 +339,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     std::string alg = header.value("alg", "");
     std::string kid = header.value("kid", "");
     
-    // Check algorithm
-    if (alg != "RS256") {
+    // Check algorithm - support RS256 and ES256
+    if (alg != "RS256" && alg != "ES256") {
         utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
-        throw std::runtime_error("Unsupported alg: " + alg + " (only RS256 is supported)");
+        throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, ES256)");
     }
     
     // Check kid revocation
@@ -349,7 +428,13 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         utils::Logger::warn("JWT validation failed: JWK not found for kid: " + kid);
         throw std::runtime_error("JWK not found for kid");
     }
-    if (!verifySignatureRS256(header_payload, sig_bytes, *jwk)) {
+    bool sig_ok = false;
+    if (alg == "RS256") {
+        sig_ok = verifySignatureRS256(header_payload, sig_bytes, *jwk);
+    } else if (alg == "ES256") {
+        sig_ok = verifySignatureES256(header_payload, sig_bytes, *jwk);
+    }
+    if (!sig_ok) {
         utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
         throw std::runtime_error("Signature verification failed");
     }

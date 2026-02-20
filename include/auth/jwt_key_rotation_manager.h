@@ -14,6 +14,8 @@
 #include <optional>
 
 namespace themis {
+// Forward declaration to avoid pulling the full AuditLogger header here
+namespace utils { class AuditLogger; }
 namespace auth {
 
 /**
@@ -184,10 +186,17 @@ public:
 
     Statistics getStatistics() const;
 
+    /**
+     * @brief Attach an AuditLogger that receives KEY_ROTATED / KEY_DELETED events.
+     * Pass nullptr to detach. The manager does NOT take ownership.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
 private:
     JWTValidator&    validator_;
     TokenBlacklist*  blacklist_;
     Config           config_;
+    utils::AuditLogger* audit_logger_ = nullptr;  // non-owning, optional
 
     mutable std::mutex mutex_;
     std::unordered_map<std::string, JWKKeyInfo> keys_;

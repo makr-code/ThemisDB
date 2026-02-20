@@ -119,6 +119,9 @@ private:
     bool verifySignatureRS256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+    bool verifySignatureES256(const std::string& header_payload,
+                              const std::vector<uint8_t>& signature,
+                              const nlohmann::json& jwk);
     bool checkAudience(const nlohmann::json& payload) const;
     
     // testing helper

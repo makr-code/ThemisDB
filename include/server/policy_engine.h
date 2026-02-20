@@ -8,9 +8,13 @@
 #include <mutex>
 #include <atomic>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace themis {
+
+// Forward declaration to avoid pulling in the full AuditLogger header
+namespace utils { class AuditLogger; }
 
 // Simple Ranger-like Policy Engine (MVP)
 // - Subject: users or wildcard "*"
@@ -86,6 +90,15 @@ public:
 
     const Metrics& getMetrics() const { return metrics_; }
 
+    /**
+     * @brief Attach an AuditLogger that will receive POLICY_UPDATED events
+     *        whenever policies are added, removed, or reloaded.
+     *
+     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
+     * caller must ensure the logger outlives the engine.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
+
     // JSON helpers
     static nlohmann::json toJson(const Policy& p);
     static std::optional<Policy> fromJson(const nlohmann::json& j);
@@ -99,6 +112,7 @@ private:
     mutable std::mutex mutex_;
     std::vector<Policy> policies_;
     mutable Metrics metrics_;
+    utils::AuditLogger* audit_logger_ = nullptr;  // optional; non-owning
 
     // Hot-reload state
     std::string loaded_file_path_;

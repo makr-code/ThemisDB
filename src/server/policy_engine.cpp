@@ -1,4 +1,5 @@
 #include "server/policy_engine.h"
+#include "utils/audit_logger.h"
 #include <fstream>
 #include <filesystem>
 #include <yaml-cpp/yaml.h>
@@ -9,6 +10,23 @@ using json = nlohmann::json;
 
 static bool starts_with(const std::string& s, const std::string& prefix) {
     return s.size() >= prefix.size() && std::equal(prefix.begin(), prefix.end(), s.begin());
+}
+
+// Emit a POLICY_UPDATED audit event if a logger is attached.
+// Called while the policy mutex is NOT held so the logger can take its own locks.
+static void emitPolicyAudit(utils::AuditLogger* logger,
+                             const std::string& action,
+                             const std::string& policy_id,
+                             const std::string& detail = {}) {
+    if (!logger) return;
+    nlohmann::json meta;
+    meta["action"]    = action;
+    meta["policy_id"] = policy_id;
+    if (!detail.empty()) meta["detail"] = detail;
+    logger->logSecurityEvent(utils::SecurityEventType::POLICY_UPDATED,
+                             "policy_engine",   // user / source
+                             "policy/" + policy_id,
+                             meta);
 }
 
 bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
@@ -156,20 +174,43 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
 }
 
 void PolicyEngine::setPolicies(std::vector<Policy> policies) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    policies_ = std::move(policies);
+    utils::AuditLogger* logger = nullptr;
+    size_t count = policies.size();
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        policies_ = std::move(policies);
+        logger = audit_logger_;
+    }
+    emitPolicyAudit(logger, "set_all",
+                    "(bulk)",
+                    "replaced all policies, new count=" + std::to_string(count));
 }
 
 void PolicyEngine::addPolicy(const Policy& p) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    policies_.push_back(p);
+    utils::AuditLogger* logger = nullptr;
+    std::string id = p.id;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        policies_.push_back(p);
+        logger = audit_logger_;
+    }
+    emitPolicyAudit(logger, "add", id);
 }
 
 bool PolicyEngine::removePolicy(const std::string& id) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    auto size_before = policies_.size();
-    policies_.erase(std::remove_if(policies_.begin(), policies_.end(), [&](const Policy& p){ return p.id == id; }), policies_.end());
-    return policies_.size() != size_before;
+    utils::AuditLogger* logger = nullptr;
+    bool removed = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto size_before = policies_.size();
+        policies_.erase(std::remove_if(policies_.begin(), policies_.end(),
+                                       [&](const Policy& p){ return p.id == id; }),
+                        policies_.end());
+        removed = policies_.size() != size_before;
+        logger  = audit_logger_;
+    }
+    if (removed) emitPolicyAudit(logger, "remove", id);
+    return removed;
 }
 
 std::vector<PolicyEngine::Policy> PolicyEngine::listPolicies() const {
