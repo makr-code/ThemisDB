@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <unordered_set>
 
 namespace themis::sharding {
 
@@ -399,15 +400,14 @@ std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string
 
 std::vector<std::string> ShardTopology::getRegions() const {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<std::string> regions;
+    std::unordered_set<std::string> seen;
     for (const auto& [id, info] : shards_) {
         if (!info.region.empty()) {
-            regions.push_back(info.region);
+            seen.insert(info.region);
         }
     }
-    // De-duplicate and sort
+    std::vector<std::string> regions(seen.begin(), seen.end());
     std::sort(regions.begin(), regions.end());
-    regions.erase(std::unique(regions.begin(), regions.end()), regions.end());
     return regions;
 }
 

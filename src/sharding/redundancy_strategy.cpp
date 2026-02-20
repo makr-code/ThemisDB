@@ -14,6 +14,7 @@
 #include <numeric>
 #include <future>
 #include <cstring>
+#include <unordered_set>
 
 namespace themis {
 namespace sharding {
@@ -46,6 +47,41 @@ bool RedundancyConfig::validate() const {
     if (write_quorum > replication_factor) {
         spdlog::error("Invalid write_quorum: must be <= replication_factor");
         return false;
+    }
+
+    if (mode == RedundancyMode::GEO_MIRROR) {
+        // Each per-region write quorum must not exceed the replication factor
+        for (const auto& [region, q] : geo_replication.region_write_quorums) {
+            if (q == 0) {
+                spdlog::error("GEO_MIRROR: write quorum for region '{}' must be >= 1", region);
+                return false;
+            }
+            if (q > replication_factor) {
+                spdlog::error("GEO_MIRROR: write quorum for region '{}' ({}) exceeds "
+                              "replication_factor ({})", region, q, replication_factor);
+                return false;
+            }
+        }
+        // Same for read quorums
+        for (const auto& [region, q] : geo_replication.region_read_quorums) {
+            if (q == 0) {
+                spdlog::error("GEO_MIRROR: read quorum for region '{}' must be >= 1", region);
+                return false;
+            }
+            if (q > replication_factor) {
+                spdlog::error("GEO_MIRROR: read quorum for region '{}' ({}) exceeds "
+                              "replication_factor ({})", region, q, replication_factor);
+                return false;
+            }
+        }
+        // region_failure_threshold must be in (0, 1]
+        if (geo_replication.enable_geo_failover &&
+            (geo_replication.region_failure_threshold <= 0.0 ||
+             geo_replication.region_failure_threshold > 1.0)) {
+            spdlog::error("GEO_MIRROR: region_failure_threshold must be in (0, 1], got {}",
+                          geo_replication.region_failure_threshold);
+            return false;
+        }
     }
     
     return true;
@@ -1328,6 +1364,73 @@ ReadResult RedundancyStrategy::readGeoMirror(
         return r;
     }
 
+    // -------------------------------------------------------------------
+    // Per-region read quorum path: contact enough replicas to satisfy the
+    // per-region quorum requirement before returning.
+    // -------------------------------------------------------------------
+    if (!geo.region_read_quorums.empty()) {
+        // Build O(1) lookup set for failed regions (avoids repeated linear scan)
+        std::unordered_set<std::string> failed_set;
+        failed_set.reserve(geo.failed_regions.size());
+        failed_set.insert(geo.failed_regions.begin(), geo.failed_regions.end());
+
+        // Track per-region successes
+        std::map<std::string, uint32_t> region_reads;
+        ReadResult result;
+        result.document_id = document_id;
+        result.chunks_read = 1;
+
+        // Prefer local-region shard first so we can return data quickly
+        std::vector<std::string> ordered = candidates;
+        if (!geo.local_region.empty()) {
+            std::stable_partition(ordered.begin(), ordered.end(),
+                [&](const std::string& sid) {
+                    auto info = topology.getShard(sid);
+                    return info && info->region == geo.local_region;
+                });
+        }
+
+        for (const auto& shard_id : ordered) {
+            auto data_opt = handler(shard_id, document_id);
+            if (data_opt) {
+                auto info = topology.getShard(shard_id);
+                std::string region = info ? info->region : "";
+                region_reads[region]++;
+
+                // Capture the first successful read as the result
+                if (!result.success) {
+                    result.success = true;
+                    result.data = std::string(data_opt->begin(), data_opt->end());
+                    result.source_shard = shard_id;
+                    result.from_replica = (shard_id != *primary_opt);
+                }
+            }
+
+            // Check if all region quorums are satisfied
+            bool all_met = true;
+            for (const auto& [region, required] : geo.region_read_quorums) {
+                // Skip failed-out regions (O(1) lookup)
+                if (failed_set.count(region)) continue;
+
+                auto it = region_reads.find(region);
+                if (it == region_reads.end() || it->second < required) {
+                    all_met = false;
+                    break;
+                }
+            }
+            if (all_met && result.success) break;
+        }
+
+        if (!result.success) {
+            result.error_message = "Failed to read from any geo-replica";
+        }
+        return result;
+    }
+
+    // -------------------------------------------------------------------
+    // Standard single-shard read path (no per-region read quorums)
+    // -------------------------------------------------------------------
+
     // Select shard based on read preference
     std::string selected_shard;
     const auto pref = geo.read_preference;
@@ -1829,7 +1932,68 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         ss << "themis_redundancy_erasure_algorithm{mode=\"" << mode_str 
            << "\",algorithm=\"" << algo_str << "\"} 1\n";
     }
-    
+
+    // GEO_MIRROR specific metrics
+    if (config_.mode == RedundancyMode::GEO_MIRROR) {
+        const auto& geo = config_.geo_replication;
+
+        // Replication mode
+        std::string repl_mode_str;
+        switch (geo.replication_mode) {
+            case GeoReplicationConfig::ReplicationMode::SYNC:      repl_mode_str = "sync";      break;
+            case GeoReplicationConfig::ReplicationMode::SEMI_SYNC: repl_mode_str = "semi_sync"; break;
+            case GeoReplicationConfig::ReplicationMode::ASYNC:     repl_mode_str = "async";     break;
+            default:                                               repl_mode_str = "unknown";   break;
+        }
+        ss << "# HELP themis_geo_replication_mode Geo replication mode (info metric)\n";
+        ss << "# TYPE themis_geo_replication_mode gauge\n";
+        ss << "themis_geo_replication_mode{replication_mode=\"" << repl_mode_str << "\"} 1\n";
+
+        // Number of configured region write quorums
+        ss << "# HELP themis_geo_region_write_quorums_total Number of regions with write quorum configured\n";
+        ss << "# TYPE themis_geo_region_write_quorums_total gauge\n";
+        ss << "themis_geo_region_write_quorums_total{mode=\"geo_mirror\"} "
+           << geo.region_write_quorums.size() << "\n";
+
+        // Per-region write quorum values
+        ss << "# HELP themis_geo_region_write_quorum Required write quorum per region\n";
+        ss << "# TYPE themis_geo_region_write_quorum gauge\n";
+        for (const auto& [region, quorum] : geo.region_write_quorums) {
+            ss << "themis_geo_region_write_quorum{region=\"" << region << "\"} " << quorum << "\n";
+        }
+
+        // Per-region read quorum values
+        ss << "# HELP themis_geo_region_read_quorum Required read quorum per region\n";
+        ss << "# TYPE themis_geo_region_read_quorum gauge\n";
+        for (const auto& [region, quorum] : geo.region_read_quorums) {
+            ss << "themis_geo_region_read_quorum{region=\"" << region << "\"} " << quorum << "\n";
+        }
+
+        // Failed regions count
+        ss << "# HELP themis_geo_failed_regions_total Number of regions currently failed-out\n";
+        ss << "# TYPE themis_geo_failed_regions_total gauge\n";
+        ss << "themis_geo_failed_regions_total{mode=\"geo_mirror\"} "
+           << geo.failed_regions.size() << "\n";
+
+        // Per-failed-region marker
+        ss << "# HELP themis_geo_region_failed Whether a region is currently failed-out (1=failed)\n";
+        ss << "# TYPE themis_geo_region_failed gauge\n";
+        for (const auto& region : geo.failed_regions) {
+            ss << "themis_geo_region_failed{region=\"" << region << "\"} 1\n";
+        }
+
+        // Geo-failover enabled flag
+        ss << "# HELP themis_geo_failover_enabled Whether geo-failover is enabled\n";
+        ss << "# TYPE themis_geo_failover_enabled gauge\n";
+        ss << "themis_geo_failover_enabled{mode=\"geo_mirror\"} "
+           << (geo.enable_geo_failover ? 1 : 0) << "\n";
+
+        // Bounded-staleness limit
+        ss << "# HELP themis_geo_max_staleness_ms Maximum accepted replication staleness in ms\n";
+        ss << "# TYPE themis_geo_max_staleness_ms gauge\n";
+        ss << "themis_geo_max_staleness_ms{mode=\"geo_mirror\"} " << geo.max_staleness_ms << "\n";
+    }
+
     return ss.str();
 }
 

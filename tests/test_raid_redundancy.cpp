@@ -1127,6 +1127,180 @@ TEST_F(GeoMirrorTest, ShardInfoHasRegionAndZone) {
     EXPECT_EQ(info2->zone, "eu-west-1c");
 }
 
+TEST_F(GeoMirrorTest, RegionReadQuorumEnforced) {
+    // Write to all 6 shards first
+    RedundancyConfig wconfig;
+    wconfig.mode = RedundancyMode::GEO_MIRROR;
+    wconfig.replication_factor = 6;
+    wconfig.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy wstrategy(wconfig);
+    std::vector<uint8_t> data = {'Q', 'u', 'o', 'r', 'u', 'm'};
+    auto wr = wstrategy.write("qr-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    // Now read with per-region read quorums requiring 1 from each region
+    RedundancyConfig rconfig;
+    rconfig.mode = RedundancyMode::GEO_MIRROR;
+    rconfig.replication_factor = 6;
+    rconfig.geo_replication.region_read_quorums = {{"us-east", 1}, {"eu-west", 1}};
+
+    RedundancyStrategy rstrategy(rconfig);
+    auto rr = rstrategy.read("qr-doc", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, PrometheusMetricsIncludeGeoFields) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.geo_replication.region_write_quorums = {{"us-east", 2}};
+    config.geo_replication.region_read_quorums  = {{"us-east", 1}};
+    config.geo_replication.enable_geo_failover  = true;
+    config.geo_replication.max_staleness_ms      = 500;
+
+    RedundancyStrategy strategy(config);
+    std::string metrics = strategy.exportPrometheusMetrics();
+
+    EXPECT_NE(metrics.find("themis_geo_replication_mode"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_region_write_quorum"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_region_read_quorum"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_failed_regions_total"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_failover_enabled"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_max_staleness_ms"), std::string::npos);
+    // Should contain the configured region label
+    EXPECT_NE(metrics.find("us-east"), std::string::npos);
+}
+
+TEST_F(GeoMirrorTest, GeoConfigValidation) {
+    // Valid config
+    RedundancyConfig valid;
+    valid.mode = RedundancyMode::GEO_MIRROR;
+    valid.replication_factor = 3;
+    valid.geo_replication.region_write_quorums = {{"us-east", 2}, {"eu-west", 1}};
+    EXPECT_TRUE(valid.validate());
+
+    // Write quorum exceeds replication_factor
+    RedundancyConfig bad_wq;
+    bad_wq.mode = RedundancyMode::GEO_MIRROR;
+    bad_wq.replication_factor = 3;
+    bad_wq.geo_replication.region_write_quorums = {{"us-east", 5}};
+    EXPECT_FALSE(bad_wq.validate());
+
+    // Write quorum = 0 is invalid
+    RedundancyConfig zero_wq;
+    zero_wq.mode = RedundancyMode::GEO_MIRROR;
+    zero_wq.replication_factor = 3;
+    zero_wq.geo_replication.region_write_quorums = {{"us-east", 0}};
+    EXPECT_FALSE(zero_wq.validate());
+
+    // Invalid region_failure_threshold
+    RedundancyConfig bad_threshold;
+    bad_threshold.mode = RedundancyMode::GEO_MIRROR;
+    bad_threshold.replication_factor = 3;
+    bad_threshold.geo_replication.enable_geo_failover = true;
+    bad_threshold.geo_replication.region_failure_threshold = 0.0;
+    EXPECT_FALSE(bad_threshold.validate());
+}
+
+// ─────────────────────────────────────────────────────────────
+// ReplicaTopology geo-placement tests
+// ─────────────────────────────────────────────────────────────
+#include "sharding/replica_topology.h"
+
+TEST(ReplicaTopologyGeoTest, RegionAndZoneParsedFromJson) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}, {"redundancy", "GEO_MIRROR"},
+         {"region", "us-east"}, {"zone", "us-east-1a"},
+         {"replicas", json::array({"n1", "n2"})}},
+        {{"shard_id", "s1"}, {"primary_id", "n3"}, {"redundancy", "GEO_MIRROR"},
+         {"region", "eu-west"}, {"zone", "eu-west-1b"},
+         {"replicas", json::array({"n4", "n5"})}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+    EXPECT_EQ(topo.getShardCount(), 2u);
+
+    auto rs0 = topo.getReplicaSet("s0");
+    ASSERT_NE(rs0, nullptr);
+    EXPECT_EQ(rs0->region, "us-east");
+    EXPECT_EQ(rs0->zone, "us-east-1a");
+
+    auto rs1 = topo.getReplicaSet("s1");
+    ASSERT_NE(rs1, nullptr);
+    EXPECT_EQ(rs1->region, "eu-west");
+    EXPECT_EQ(rs1->zone, "eu-west-1b");
+}
+
+TEST(ReplicaTopologyGeoTest, GetReplicaSetsInRegion) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}, {"region", "us-east"}},
+        {{"shard_id", "s1"}, {"primary_id", "n1"}, {"region", "us-east"}},
+        {{"shard_id", "s2"}, {"primary_id", "n2"}, {"region", "eu-west"}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+
+    auto us = topo.getReplicaSetsInRegion("us-east");
+    EXPECT_EQ(us.size(), 2u);
+
+    auto eu = topo.getReplicaSetsInRegion("eu-west");
+    EXPECT_EQ(eu.size(), 1u);
+}
+
+TEST(ReplicaTopologyGeoTest, GetRegions) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}, {"region", "us-east"}},
+        {{"shard_id", "s1"}, {"primary_id", "n1"}, {"region", "eu-west"}},
+        {{"shard_id", "s2"}, {"primary_id", "n2"}, {"region", "us-east"}},
+        // Shard with no region -- should not appear in the regions list
+        {{"shard_id", "s3"}, {"primary_id", "n3"}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+
+    auto regions = topo.getRegions();
+    // Only non-empty regions; sorted; de-duplicated
+    ASSERT_EQ(regions.size(), 2u);
+    EXPECT_EQ(regions[0], "eu-west");
+    EXPECT_EQ(regions[1], "us-east");
+}
+
+TEST(ReplicaTopologyGeoTest, EmptyRegionNotIncluded) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    // All shards lack region/zone fields
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}},
+        {{"shard_id", "s1"}, {"primary_id", "n1"}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+
+    EXPECT_TRUE(topo.getRegions().empty());
+    EXPECT_TRUE(topo.getReplicaSetsInRegion("us-east").empty());
+
+    auto rs = topo.getReplicaSet("s0");
+    ASSERT_NE(rs, nullptr);
+    EXPECT_TRUE(rs->region.empty());
+    EXPECT_TRUE(rs->zone.empty());
+}
+
 // ═══════════════════════════════════════════════════════════
 // Stress Tests
 // ═══════════════════════════════════════════════════════════
