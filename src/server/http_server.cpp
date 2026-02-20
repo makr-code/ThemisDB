@@ -626,7 +626,8 @@ HttpServer::HttpServer(
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
-        secondary_index_, schema_manager_.get()
+        secondary_index_, schema_manager_.get(), nullptr,
+        &running_, &active_requests_, &active_connections_
     );
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -1236,9 +1237,22 @@ void HttpServer::stop() {
     beast::error_code ec;
     acceptor_.close(ec);
 
-    // Give active requests time to complete
-    THEMIS_INFO("Waiting for active requests to complete...");
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    // Drain active requests with configurable timeout
+    THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);
+    {
+        const auto drain_deadline = std::chrono::steady_clock::now()
+            + std::chrono::milliseconds(config_.graceful_shutdown_timeout_ms);
+        while (active_requests_.load(std::memory_order_acquire) > 0
+               && std::chrono::steady_clock::now() < drain_deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        auto remaining = active_requests_.load(std::memory_order_acquire);
+        if (remaining > 0) {
+            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight – forcing close", remaining);
+        } else {
+            THEMIS_INFO("All active requests completed");
+        }
+    }
 
     // Flush and cleanup Sprint A/B features
     if (semantic_cache_) {
@@ -1298,6 +1312,80 @@ void HttpServer::wait() {
     }
 }
 
+bool HttpServer::reloadTls() {
+    if (!config_.enable_tls) {
+        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled – ignoring");
+        return false;
+    }
+
+    if (config_.tls_cert_path.empty() || config_.tls_key_path.empty()) {
+        THEMIS_ERROR("TLS hot-reload: cert/key paths not configured");
+        return false;
+    }
+
+    THEMIS_INFO("TLS hot-reload: reloading certificate from {} and key from {}",
+        config_.tls_cert_path, config_.tls_key_path);
+
+    try {
+        // Build a fresh SSL context with the same settings
+        auto new_ctx = std::make_unique<boost::asio::ssl::context>(
+            config_.tls_min_version == "TLSv1.2"
+                ? boost::asio::ssl::context::tlsv12_server
+                : boost::asio::ssl::context::tlsv13_server
+        );
+
+        new_ctx->use_certificate_chain_file(config_.tls_cert_path);
+        new_ctx->use_private_key_file(config_.tls_key_path, boost::asio::ssl::context::pem);
+
+        if (!config_.tls_cipher_list.empty()) {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(), config_.tls_cipher_list.c_str());
+        } else {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(),
+                "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305");
+        }
+
+        new_ctx->set_options(
+            boost::asio::ssl::context::default_workarounds |
+            boost::asio::ssl::context::no_sslv2 |
+            boost::asio::ssl::context::no_sslv3 |
+            boost::asio::ssl::context::no_tlsv1 |
+            boost::asio::ssl::context::no_tlsv1_1 |
+            boost::asio::ssl::context::single_dh_use
+        );
+
+        if (config_.tls_require_client_cert && !config_.tls_ca_cert_path.empty()) {
+            new_ctx->load_verify_file(config_.tls_ca_cert_path);
+            new_ctx->set_verify_mode(
+                boost::asio::ssl::verify_peer |
+                boost::asio::ssl::verify_fail_if_no_peer_cert
+            );
+        } else {
+            new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
+        }
+
+#ifdef THEMIS_ENABLE_HTTP2
+        if (config_.enable_http2) {
+            Http2Handler::configureAlpn(*new_ctx);
+        }
+#endif
+
+        // Swap in the new context under the lock so doAccept and onAccept
+        // always see a consistent ssl_ctx_ pointer.
+        {
+            std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+            ssl_ctx_ = std::move(new_ctx);
+        }
+
+        THEMIS_INFO("TLS hot-reload: certificate reloaded successfully");
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("TLS hot-reload failed: {}", e.what());
+        return false;
+    }
+}
+
+
+
 void HttpServer::doAccept() {
     acceptor_.async_accept(
         net::make_strand(ioc_),
@@ -1309,30 +1397,40 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection
-        if (config_.enable_tls && ssl_ctx_) {
-#ifdef THEMIS_ENABLE_HTTP2
-            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
-            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
-            if (config_.enable_http2) {
-                std::make_shared<Http2Session>(
-                    std::move(socket),
-                    *ssl_ctx_,
-                    this,
-                    config_.http2_max_concurrent_streams,
-                    config_.http2_initial_window_size
-                )->start();
-            } else {
-                // TLS without HTTP/2
-                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-            }
-#else
-            // TLS without HTTP/2 support
-            std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-#endif
+        // Enforce max_connections limit: close the socket immediately if exceeded
+        if (config_.max_connections > 0 &&
+            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+            THEMIS_WARN("Max connections ({}) reached – rejecting new connection",
+                config_.max_connections);
+            beast::error_code close_ec;
+            socket.shutdown(tcp::socket::shutdown_both, close_ec);
+            socket.close(close_ec);
         } else {
-            // Plain HTTP/1.1 without TLS
-            std::make_shared<Session>(std::move(socket), this)->start();
+            // Create new session for this connection.
+            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+            if (config_.enable_tls) {
+                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                if (ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+                    if (config_.enable_http2) {
+                        std::make_shared<Http2Session>(
+                            std::move(socket),
+                            *ssl_ctx_,
+                            this,
+                            config_.http2_max_concurrent_streams,
+                            config_.http2_initial_window_size
+                        )->start();
+                    } else {
+                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                    }
+#else
+                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
+                }
+            } else {
+                // Plain HTTP/1.1 without TLS
+                std::make_shared<Session>(std::move(socket), this)->start();
+            }
         }
     }
 
@@ -1392,6 +1490,9 @@ namespace {
 
     enum class Route {
         Health,
+        HealthLive,    // GET /health/live  – liveness probe
+        HealthReady,   // GET /health/ready – readiness probe
+        OpenApi,       // GET /api/openapi.json – OpenAPI 3.0 spec export
         Version,
         Stats,
         CapabilitiesGet,
@@ -1609,7 +1710,10 @@ namespace {
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (target == "/" || target == "/health") return Route::Health;
-    if (target == "/version" && method == http::verb::get) return Route::Version;
+        if (target == "/health/live" && method == http::verb::get) return Route::HealthLive;
+        if (target == "/health/ready" && method == http::verb::get) return Route::HealthReady;
+        if (target == "/api/openapi.json" && method == http::verb::get) return Route::OpenApi;
+        if (target == "/version" && method == http::verb::get) return Route::Version;
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
@@ -1905,16 +2009,61 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Increment request counter
     request_count_.fetch_add(1, std::memory_order_relaxed);
-    
+
+    // Track in-flight requests for graceful shutdown draining
+    active_requests_.fetch_add(1, std::memory_order_acquire);
+    // RAII guard to decrement on all exit paths
+    struct ActiveRequestGuard {
+        std::atomic<uint64_t>& counter;
+        ~ActiveRequestGuard() { counter.fetch_sub(1, std::memory_order_release); }
+    } active_guard{active_requests_};
+
     // Handle CORS preflight early
     if (method == http::verb::options) {
         return makePreflightResponse(req);
+    }
+
+    // Extract or generate request ID for tracing
+    std::string request_id;
+    auto req_id_it = req.find("X-Request-ID");
+    if (req_id_it != req.end() && !req_id_it->value().empty()) {
+        request_id = std::string(req_id_it->value());
+    } else {
+        // Generate a simple request ID from timestamp + counter
+        request_id = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()
+        ) + "-" + std::to_string(request_count_.load(std::memory_order_relaxed));
+    }
+    span.setAttribute("request.id", request_id);
+
+    // Enforce max header size limit
+    if (config_.max_header_size_bytes > 0) {
+        size_t header_bytes = 0;
+        for (auto const& field : req) {
+            header_bytes += field.name_string().size() + field.value().size() + 4; // 2 for ": " + 2 for "\r\n"
+        }
+        if (header_bytes > config_.max_header_size_bytes) {
+            http::response<http::string_body> res{http::status::request_header_fields_too_large, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set("X-Request-ID", request_id);
+            nlohmann::json body = {
+                {"error", "Request Header Fields Too Large"},
+                {"message", "Total header size exceeds maximum allowed"},
+                {"max_bytes", config_.max_header_size_bytes},
+                {"actual_bytes", header_bytes},
+                {"status_code", 431}
+            };
+            res.body() = body.dump();
+            res.prepare_payload();
+            return res;
+        }
     }
 
     // Enforce request body size limit (after OPTIONS preflight)
     if (req.body().size() > max_body_bytes_) {
         http::response<http::string_body> res{http::status::payload_too_large, req.version()};
         res.set(http::field::content_type, "application/json");
+        res.set("X-Request-ID", request_id);
         nlohmann::json body = {
             {"error", "Payload Too Large"},
             {"message", "Request body exceeds maximum size"},
@@ -2082,6 +2231,15 @@ http::response<http::string_body> HttpServer::routeRequest(
         switch (classifyRoute(req)) {
             case Route::Health:
                 response = monitoring_api_->handleHealthCheck(req);
+            break;
+        case Route::HealthLive:
+            response = monitoring_api_->handleLiveness(req);
+            break;
+        case Route::HealthReady:
+            response = monitoring_api_->handleReadiness(req);
+            break;
+        case Route::OpenApi:
+            response = monitoring_api_->handleOpenApi(req);
             break;
         case Route::Version:
             response = monitoring_api_->handleVersion(req);
@@ -3204,6 +3362,28 @@ http::response<http::string_body> HttpServer::routeRequest(
         auto end = std::chrono::steady_clock::now();
         auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         recordLatency(dur);
+    }
+
+    // Propagate request ID to response
+    if (!request_id.empty()) {
+        response.set("X-Request-ID", request_id);
+    }
+
+    // Emit structured JSON access log line
+    {
+        auto total_dur = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - start
+        );
+        double duration_ms = total_dur.count() / 1000.0;
+        std::string client_ip = extractClientIP(req);
+        THEMIS_INFO("access method={} path={} status={} duration_ms={:.3f} request_id={} client_ip={}",
+            std::string(http::to_string(req.method())),
+            target,
+            response.result_int(),
+            duration_ms,
+            request_id.empty() ? "-" : request_id,
+            client_ip.empty() ? "-" : client_ip
+        );
     }
 
     return response;
@@ -6263,7 +6443,37 @@ void HttpServer::ensurePIIPseudonymizer() {
 HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
     : socket_(std::move(socket))
     , server_(server)
+    , read_timer_(socket_.get_executor())
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::Session::~Session() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void HttpServer::Session::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            // Timer fired before I/O completed: cancel the pending socket operation
+            THEMIS_WARN("Request read timeout ({}ms) – closing connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
+            self->socket_.close(close_ec);
+            if (close_ec) THEMIS_DEBUG("Session close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::Session::cancelReadTimer() {
+    beast::error_code ec;
+    read_timer_.cancel(ec); // cancels the pending async_wait, if any
 }
 
 void HttpServer::Session::start() {
@@ -6272,6 +6482,7 @@ void HttpServer::Session::start() {
 
 void HttpServer::Session::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         socket_,
@@ -6286,6 +6497,7 @@ void HttpServer::Session::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         // Client closed connection
@@ -6391,7 +6603,36 @@ void HttpServer::Session::onWrite(
 HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
+    , read_timer_(stream_.get_executor())
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::SslSession::~SslSession() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void HttpServer::SslSession::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            THEMIS_WARN("Request read timeout ({}ms) – closing TLS connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::SslSession::cancelReadTimer() {
+    beast::error_code ec;
+    read_timer_.cancel(ec);
 }
 
 void HttpServer::SslSession::start() {
@@ -6399,6 +6640,8 @@ void HttpServer::SslSession::start() {
 }
 
 void HttpServer::SslSession::doHandshake() {
+    // Arm timeout for TLS handshake as well
+    armReadTimer();
     stream_.async_handshake(
         boost::asio::ssl::stream_base::server,
         beast::bind_front_handler(&SslSession::onHandshake, shared_from_this())
@@ -6406,6 +6649,7 @@ void HttpServer::SslSession::doHandshake() {
 }
 
 void HttpServer::SslSession::onHandshake(beast::error_code ec) {
+    cancelReadTimer();
     if (ec) {
         THEMIS_ERROR("TLS handshake error: {}", ec.message());
         return;
@@ -6435,6 +6679,7 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
 
 void HttpServer::SslSession::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         stream_,
@@ -6449,6 +6694,7 @@ void HttpServer::SslSession::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         doShutdown();
