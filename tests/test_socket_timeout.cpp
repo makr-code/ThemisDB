@@ -104,7 +104,7 @@ TEST(SocketTimeoutTimer, TimerFiresAfterExpiry) {
 
     std::atomic<bool> fired{false};
     timer.expires_after(std::chrono::milliseconds(10));
-    timer.async_wait([&fired](const asio::error_code& ec) {
+    timer.async_wait([&fired](const boost::system::error_code& ec) {
         if (!ec) fired.store(true);
     });
 
@@ -119,14 +119,13 @@ TEST(SocketTimeoutTimer, CancelledTimerDoesNotFire) {
 
     std::atomic<bool> fired{false};
     timer.expires_after(std::chrono::milliseconds(50));
-    timer.async_wait([&fired](const asio::error_code& ec) {
+    timer.async_wait([&fired](const boost::system::error_code& ec) {
         if (!ec) fired.store(true);
         // ec == operation_aborted when cancelled → fired stays false
     });
 
     // Cancel before the timer fires
-    asio::error_code ec;
-    timer.cancel(ec);
+    timer.cancel();
     ioc.run_for(std::chrono::milliseconds(100));
     EXPECT_FALSE(fired.load());
 }
@@ -140,12 +139,12 @@ TEST(SocketTimeoutTimer, RearmedTimerFiresOnlyOnce) {
 
     // Arm, then re-arm (expires_after cancels the previous wait)
     timer.expires_after(std::chrono::milliseconds(50));
-    timer.async_wait([&fire_count](const asio::error_code& ec) {
+    timer.async_wait([&fire_count](const boost::system::error_code& ec) {
         if (!ec) fire_count.fetch_add(1);
     });
 
     timer.expires_after(std::chrono::milliseconds(10)); // re-arms, first wait gets aborted
-    timer.async_wait([&fire_count](const asio::error_code& ec) {
+    timer.async_wait([&fire_count](const boost::system::error_code& ec) {
         if (!ec) fire_count.fetch_add(1);
     });
 
@@ -166,7 +165,7 @@ TEST(SocketTimeoutTimer, ZeroTimeoutMeansNoTimerIsArmed) {
 
     if (timeout_ms > 0) {
         timer.expires_after(std::chrono::milliseconds(timeout_ms));
-        timer.async_wait([&fired](const asio::error_code& ec) {
+        timer.async_wait([&fired](const boost::system::error_code& ec) {
             if (!ec) fired.store(true);
         });
     }
@@ -185,14 +184,14 @@ TEST(SocketTimeoutTimer, TimerWithVeryShortTimeoutFiresBeforeLongRead) {
     std::atomic<bool> read_completed{false};
 
     timeout_timer.expires_after(std::chrono::milliseconds(20));
-    timeout_timer.async_wait([&timed_out](const asio::error_code& ec) {
+    timeout_timer.async_wait([&timed_out](const boost::system::error_code& ec) {
         if (!ec) timed_out.store(true);
     });
 
     // Simulate a slow read that would complete after the timeout
     auto read_timer = std::make_shared<asio::steady_timer>(ioc);
     read_timer->expires_after(std::chrono::milliseconds(100));
-    read_timer->async_wait([&read_completed, &timeout_timer](const asio::error_code& ec) {
+    read_timer->async_wait([&read_completed, &timeout_timer](const boost::system::error_code& ec) {
         if (!ec) {
             read_completed.store(true);
             timeout_timer.cancel(); // would normally cancel the socket timeout

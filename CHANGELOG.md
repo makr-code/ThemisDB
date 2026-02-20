@@ -45,6 +45,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Benefits**: Improved organization, better discoverability, scalability, backward compatibility
 
 ### Added
+- **Shard Repair / Anti-Entropy Engine** 🔧 (`include/sharding/shard_repair_engine.h`)
+  - **Background anti-entropy scan**: periodic `checkDocumentHealth()` across all shards; degraded documents are automatically queued for recovery
+  - **Repair worker thread**: drains job queue via `RedundancyStrategy::recoverDocument()` (RAID-5/6 + Mirror modes)
+  - **On-demand triggers** returning trackable job IDs: `triggerRepair(shard_id)`, `triggerFullScan()`, `triggerDocumentRepair(doc_id)`
+  - **Per-shard `ShardHealthReport`**: status `HEALTHY` / `DEGRADED` / `FAILED` / `REBUILDING`, scan + repair counters
+  - **Prometheus metrics forwarding**: repair events forwarded to `PrometheusMetrics` and exposed via `exportPrometheusMetrics()` and `ShardingMetricsHandler::getMetrics()`
+  - **Admin API repair endpoints**: `POST /admin/repair`, `POST /admin/repair/scan`, `GET /admin/repair/{job_id}`
+  - **`AutoRecoveryManager::setRepairEngine()`**: wires legacy `AutoRecoveryManager` to delegate `repairDocument()` to the new engine
+
+- **Improved Reed-Solomon erasure decoder** ⚡
+  - Replaced XOR-only parity (single-chunk recovery) with **Vandermonde matrix** systematic codec over GF(2⁸)
+  - Recovers up to `parity_shards` simultaneously lost chunks — enables true RAID-6 dual-parity recovery
+  - Both `ReedSolomonCoder` and `CauchyReedSolomonCoder` now validate `missing_indices.size() <= parity_shards`
+
 - **v1.5.x Query Optimizer Production Integration** 🎯
   - **Shard Metadata Integration (preparatory)**: Integration point for metadata-backed row estimates
     - `DistributedQueryCostModel::getShardRowCount()` replaces hardcoded 10K constant with dynamic estimates

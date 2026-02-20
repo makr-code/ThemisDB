@@ -23,6 +23,29 @@ public:
         std::atomic<uint64_t> max_execution_time_ms{0};
         std::atomic<uint64_t> query_depth_sum{0};
         std::atomic<uint64_t> field_count_sum{0};
+
+        QueryMetrics() = default;
+
+        QueryMetrics(const QueryMetrics& other) {
+            total_queries.store(other.total_queries.load());
+            failed_queries.store(other.failed_queries.load());
+            total_execution_time_ms.store(other.total_execution_time_ms.load());
+            max_execution_time_ms.store(other.max_execution_time_ms.load());
+            query_depth_sum.store(other.query_depth_sum.load());
+            field_count_sum.store(other.field_count_sum.load());
+        }
+
+        QueryMetrics& operator=(const QueryMetrics& other) {
+            if (this != &other) {
+                total_queries.store(other.total_queries.load());
+                failed_queries.store(other.failed_queries.load());
+                total_execution_time_ms.store(other.total_execution_time_ms.load());
+                max_execution_time_ms.store(other.max_execution_time_ms.load());
+                query_depth_sum.store(other.query_depth_sum.load());
+                field_count_sum.store(other.field_count_sum.load());
+            }
+            return *this;
+        }
         
         // Get average execution time
         double avgExecutionTimeMs() const {

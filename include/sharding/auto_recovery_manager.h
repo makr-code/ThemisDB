@@ -13,8 +13,10 @@
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/shard_repair_engine.h"
 #include <thread>
 #include <atomic>
+#include <memory>
 #include <queue>
 #include <condition_variable>
 #include <functional>
@@ -99,6 +101,13 @@ public:
     void triggerRepair();
     void pauseAutoRepair();
     void resumeAutoRepair();
+
+    /**
+     * Attach a ShardRepairEngine to be used for actual document recovery.
+     * When set, repairDocument() delegates to ShardRepairEngine::triggerDocumentRepair()
+     * instead of returning false (the old stub behaviour).
+     */
+    void setRepairEngine(std::shared_ptr<themis::sharding::ShardRepairEngine> engine);
     
     // Status
     HealthStatus getHealthStatus() const;
@@ -139,6 +148,7 @@ private:
     RedundancyStrategy& strategy_;
     ConsistentHashRing& ring_;
     ShardTopology& topology_;
+    std::shared_ptr<themis::sharding::ShardRepairEngine> repair_engine_;
     
     // Threading
     std::atomic<bool> running_{false};
@@ -327,9 +337,22 @@ inline void AutoRecoveryManager::processRepairQueue() {
 }
 
 inline bool AutoRecoveryManager::repairDocument(const std::string& doc_id) {
-    // Simplified repair logic
-    // In production, implement actual document recovery
+    if (repair_engine_) {
+        // Delegate to the full-featured ShardRepairEngine.
+        // triggerDocumentRepair() enqueues an async job; we report success when
+        // the job is accepted (further progress tracked via getJobStatus).
+        // The second argument is the collection name; empty string uses the
+        // engine's configured default_collection.
+        repair_engine_->triggerDocumentRepair(doc_id, /* collection= */ "");
+        return true;
+    }
+    // ShardRepairEngine not wired up — no-op (caller should call setRepairEngine).
     return false;
+}
+
+inline void AutoRecoveryManager::setRepairEngine(
+    std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
+    repair_engine_ = std::move(engine);
 }
 
 inline void AutoRecoveryManager::sendAlert(const std::string& message) {
