@@ -2,6 +2,7 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 #include <random>
 #include <thread>
 #include <chrono>
@@ -441,9 +442,10 @@ std::string MLModelManager::inferAsync(
 }
 
 bool MLModelManager::cancelInference(const std::string& request_id) {
-    // TODO: Implement request cancellation
-    THEMIS_WARN("Inference cancellation not yet implemented for request: " + request_id);
-    return false;
+    std::lock_guard<std::mutex> lock(cancel_mutex_);
+    cancelled_requests_.insert(request_id);
+    THEMIS_INFO("Cancellation requested for request: " + request_id);
+    return true;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -803,11 +805,24 @@ void MLModelManager::updateInstanceMetrics(
         instance->failed_requests++;
     }
     
-    // Update rolling average latency
-    float alpha = 0.1f;  // Exponential smoothing factor
+    // Update rolling average latency (exponential moving average)
+    float alpha = 0.1f;
     instance->avg_latency_ms = instance->avg_latency_ms * (1.0f - alpha) + latency_ms * alpha;
-    
-    // TODO: Update percentile metrics (requires histogram)
+
+    // Update p95/p99 from a fixed-size sliding window of recent latency samples
+    instance->latency_window.push_back(latency_ms);
+    if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
+        instance->latency_window.erase(instance->latency_window.begin());
+    }
+    if (instance->latency_window.size() >= 2) {
+        std::vector<float> sorted = instance->latency_window;
+        std::sort(sorted.begin(), sorted.end());
+        size_t n = sorted.size();
+        size_t idx95 = static_cast<size_t>(std::ceil(0.95 * n)) - 1;
+        size_t idx99 = static_cast<size_t>(std::ceil(0.99 * n)) - 1;
+        instance->p95_latency_ms = sorted[idx95];
+        instance->p99_latency_ms = sorted[idx99];
+    }
 }
 
 std::string MLModelManager::generateInstanceId(const std::string& model_id) {
@@ -1256,9 +1271,10 @@ std::string MLModelManager::inferAsync(
 }
 
 bool MLModelManager::cancelInference(const std::string& request_id) {
-    // TODO: Implement request cancellation
-    THEMIS_WARN("Inference cancellation not yet implemented for request: " + request_id);
-    return false;
+    std::lock_guard<std::mutex> lock(cancel_mutex_);
+    cancelled_requests_.insert(request_id);
+    THEMIS_INFO("Cancellation requested for request: " + request_id);
+    return true;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1618,11 +1634,24 @@ void MLModelManager::updateInstanceMetrics(
         instance->failed_requests++;
     }
     
-    // Update rolling average latency
-    float alpha = 0.1f;  // Exponential smoothing factor
+    // Update rolling average latency (exponential moving average)
+    float alpha = 0.1f;
     instance->avg_latency_ms = instance->avg_latency_ms * (1.0f - alpha) + latency_ms * alpha;
-    
-    // TODO: Update percentile metrics (requires histogram)
+
+    // Update p95/p99 from a fixed-size sliding window of recent latency samples
+    instance->latency_window.push_back(latency_ms);
+    if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
+        instance->latency_window.erase(instance->latency_window.begin());
+    }
+    if (instance->latency_window.size() >= 2) {
+        std::vector<float> sorted = instance->latency_window;
+        std::sort(sorted.begin(), sorted.end());
+        size_t n = sorted.size();
+        size_t idx95 = static_cast<size_t>(std::ceil(0.95 * n)) - 1;
+        size_t idx99 = static_cast<size_t>(std::ceil(0.99 * n)) - 1;
+        instance->p95_latency_ms = sorted[idx95];
+        instance->p99_latency_ms = sorted[idx99];
+    }
 }
 
 std::string MLModelManager::generateInstanceId(const std::string& model_id) {

@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <mutex>
 #include <thread>
 #include <atomic>
@@ -123,6 +124,10 @@ struct MLModelInstance {
     float p95_latency_ms = 0.0f;
     float p99_latency_ms = 0.0f;
     float requests_per_second = 0.0f;
+
+    // Sliding window of recent latency samples for percentile computation
+    static constexpr size_t kLatencyWindowSize = 200;
+    std::vector<float> latency_window;
     
     // Health
     int consecutive_health_check_failures = 0;
@@ -469,6 +474,10 @@ private:
     
     std::string generateRequestId();
     std::atomic<uint64_t> request_counter_{0};
+
+    // In-flight request cancellation tracking
+    std::unordered_set<std::string> cancelled_requests_;
+    std::mutex cancel_mutex_;
 };
 
 } // namespace llm

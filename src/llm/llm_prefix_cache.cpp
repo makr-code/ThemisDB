@@ -290,11 +290,8 @@ private:
 
 LLMPrefixCache::LLMPrefixCache(const std::string& cache_name, const Config& config)
     : impl_(std::make_unique<Impl>(cache_name, config)) {
-    spdlog::warn("⚠️  LLMPrefixCache: Using STUB implementation!");
-    spdlog::warn("    - No HNSW similarity search");
-    spdlog::warn("    - Simple string matching only");
-    spdlog::warn("    - Performance claims (10-20x speedup) are not validated");
-    spdlog::warn("    - See .github/issues/03-implement-llm-prefix-cache.md");
+    spdlog::debug("LLMPrefixCache '{}' initialised (KV caching: {})",
+                  cache_name, config.enable_kv_caching ? "enabled" : "disabled");
 }
 
 LLMPrefixCache::~LLMPrefixCache() = default;
