@@ -37,7 +37,6 @@ This document tracks the compilation status of ThemisDB source files across diff
 | File | MSVC | GCC11 | Clang14 | Apple Clang | ARM64 | Issues | Priority |
 |------|------|-------|---------|-------------|-------|--------|----------|
 | src/query/query_executor.cpp | ⏸️ | ⏸️ | ⏸️ | ⏸️ | ⏸️ | - | High |
-| src/query/query_parser.cpp | ⏸️ | ⏸️ | ⏸️ | ⏸️ | ⏸️ | - | High |
 | src/query/optimizer.cpp | ⏸️ | ⏸️ | ⏸️ | ⏸️ | ⏸️ | - | Medium |
 
 ### LLM Integration

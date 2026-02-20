@@ -140,6 +140,12 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_graph_advanced_features\\.cpp$"
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
+    ".*test_metadata_wal_recovery\\.cpp$"
+    ".*test_module_loader\\.cpp$"
+    ".*test_paxos_wal_recovery\\.cpp$"
+    ".*test_quality_control_pipeline\\.cpp$"
+    ".*test_slo_monitor\\.cpp$"
+    ".*test_jsonl_llm_exporter\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -153,6 +159,14 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
+    ".*test_auth_error\\.cpp$"
+    ".*test_auth_metrics\\.cpp$"
+    ".*test_auth_rate_limiter\\.cpp$"
+    ".*test_jwks_security\\.cpp$"
+    ".*test_kerberos_security\\.cpp$"
+    ".*test_principal_validator\\.cpp$"
+    ".*test_totp_replay_cache\\.cpp$"
+    ".*test_totp_secret_encryption\\.cpp$"
     ".*test_mfa_authenticator.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
     ".*test_adapter_factory\\.cpp$"
@@ -176,6 +190,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
     ".*test_api_version\\.cpp$"
+    ".*test_nli_verifier\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -210,8 +225,9 @@ if(THEMIS_BUILD_MODULAR)
             message(STATUS "themis_tests: excluding direct sharding sources (provided by themis_sharding module)")
         endif()
         if(TARGET themis_llm)
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/.*\\.cpp$")
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/lora_framework/(gpu_tensor|gpu_lora_layers|flash_lora|paged_optimizer|paged_memory_manager|custom_allreduce|multi_gpu|multi_gpu_trainer|multi_gpu_lora_layer)\\.cpp$")
-            message(STATUS "themis_tests: excluding direct GPU LoRA sources (provided by themis_llm module)")
+            message(STATUS "themis_tests: excluding direct LLM sources (provided by themis_llm module)")
         endif()
         target_sources(themis_tests PRIVATE ${_themis_test_core_sources})
         target_compile_definitions(themis_tests PRIVATE

@@ -14,9 +14,6 @@ MetadataWAL::MetadataWAL(const MetadataWALConfig& config)
 }
 
 MetadataWAL::~MetadataWAL() {
-    if (wal_manager_) {
-        wal_manager_->close();
-    }
 }
 
 bool MetadataWAL::initialize() {
@@ -32,18 +29,13 @@ bool MetadataWAL::initialize() {
         }
         
         // Initialize WAL manager
-        themis::storage::WALConfig wal_config;
+        themis::sharding::WALManagerConfig wal_config;
         wal_config.wal_directory = config_.wal_directory;
-        wal_config.max_segment_size = config_.segment_size;
+        wal_config.segment_size = config_.segment_size;
         wal_config.sync_on_write = config_.sync_on_write;
         wal_config.write_buffer_size = config_.write_buffer_size;
         
-        wal_manager_ = std::make_unique<themis::storage::WALManager>(wal_config);
-        
-        if (!wal_manager_->initialize()) {
-            spdlog::error("Failed to initialize MetadataWAL manager");
-            return false;
-        }
+        wal_manager_ = std::make_unique<themis::sharding::WALManager>(wal_config);
         
         spdlog::info("MetadataWAL initialized: wal_dir={}, snapshot_dir={}",
                     config_.wal_directory, config_.snapshot_directory);
@@ -120,13 +112,13 @@ std::vector<MetadataWALEntry> MetadataWAL::readEntries(const LSN& start_lsn) {
     
     try {
         // Read WAL entries from WALManager
-        auto wal_entries = wal_manager_->readFrom(start_lsn);
+        auto wal_entries = wal_manager_->readRange(start_lsn, std::nullopt);
         
         // Convert to MetadataWALEntry
         for (const auto& wal_entry : wal_entries) {
             // Only process metadata-specific entry types (120-122)
-            if (wal_entry.type >= WALEntryType(120) && 
-                wal_entry.type <= WALEntryType(122)) {
+            const int wal_type = static_cast<int>(wal_entry.type);
+            if (wal_type >= 120 && wal_type <= 122) {
                 entries.push_back(MetadataWALEntry::fromWALEntry(wal_entry));
             }
         }

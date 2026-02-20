@@ -173,6 +173,39 @@ span.setAttribute("key", "value");
 span.setStatus(true);  // or false on error
 ```
 
+> **PII note:** `Tracer::Span::setAttribute(key, string)` automatically redacts PII
+> via `PIIRedactionPolicy` before forwarding to OpenTelemetry — no manual redaction
+> needed for values passed directly.  However, if you **pre-format** the value into
+> a string before calling `setAttribute` (e.g. `fmt::format("user={}", user_email)`),
+> the PII is already embedded and cannot be intercepted.  Either pass raw values,
+> or pre-redact with `PIIRedactionPolicy::get().redactForLog(value)`.
+
+### PII-Safe Logging
+```cpp
+#include "utils/logger.h"          // provides THEMIS_INFO / THEMIS_ERROR etc.
+// PII-safe: THEMIS_INFO routes through Logger which installs PIIRedactingSink.
+// Every log message is auto-scanned and PII substrings are masked before
+// reaching console or file sinks – no manual redaction needed.
+
+// ✅ Safe – PII auto-redacted by PIIRedactingSink:
+THEMIS_INFO("Request processed: collection={} count={}", collection_name, count);
+
+// ✅ Safe – even if the value contains PII, the sink masks it before output:
+THEMIS_INFO("Contact: {}", contact_info);
+
+// ⚠️ Requires care – pre-formatted strings bypass per-token detection:
+//   std::string msg = "User " + user_email + " updated record";  // email now embedded
+//   THEMIS_INFO("{}", msg);  // whole string is still scanned, but prefer…
+//   THEMIS_INFO("User {} updated record", user_email);            // …passing separately
+
+// ✅ Explicit pre-redaction (use for bare spdlog:: calls before Logger::init()):
+auto safe = PIIRedactionPolicy::get().redactForLog(user_email);
+spdlog::info("Contact: {}", safe);
+```
+
+> **PII note:** See [PII Redaction Policy](en/security/PII_REDACTION_POLICY.md)
+> for the full developer checklist, PII categories, and configuration.
+
 ## Next Steps
 
 1. Review AdminApiHandler implementation
@@ -189,6 +222,7 @@ span.setStatus(true);  // or false on error
 - Maintain consistent error handling patterns
 - Follow existing code style and conventions
 - Add appropriate logging and tracing
+- **PII Compliance:** Never log or trace user-supplied data (names, emails, phone numbers, IBANs, etc.) verbatim. Use `THEMIS_INFO` / `THEMIS_ERROR` macros (auto-redacted by `PIIRedactingSink`) and pass values as separate format arguments rather than pre-formatting them into strings. See [PII Redaction Policy](en/security/PII_REDACTION_POLICY.md) for the full checklist.
 - Document any deviations from the pattern
 
 ## Questions?
@@ -197,3 +231,4 @@ Refer to:
 - `docs/HTTP_SERVER_REFACTORING.md` - Overall refactoring plan
 - `src/server/admin_api_handler.cpp` - Reference implementation
 - Existing handlers: `audit_api_handler.cpp`, `pki_api_handler.cpp` - Additional examples
+- `docs/en/security/PII_REDACTION_POLICY.md` - PII compliance for logs/traces/metrics

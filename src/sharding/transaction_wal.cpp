@@ -6,7 +6,7 @@
 namespace sharding {
 
 TransactionWAL::TransactionWAL(const TransactionWALConfig& config)
-    : config_(config), current_lsn_(0) {}
+    : config_(config), current_lsn_(0, 0) {}
 
 TransactionWAL::~TransactionWAL() = default;
 
@@ -25,16 +25,12 @@ bool TransactionWAL::initialize() {
         }
 
         // Initialize WAL manager
-        WALConfig wal_config;
+        themis::sharding::WALManagerConfig wal_config;
         wal_config.wal_directory = config_.wal_directory;
         wal_config.segment_size = config_.segment_size;
         wal_config.sync_on_write = config_.sync_on_write;
 
         wal_manager_ = std::make_unique<WALManager>(wal_config);
-        if (!wal_manager_->initialize()) {
-            spdlog::error("Failed to initialize transaction WAL manager");
-            return false;
-        }
 
         spdlog::info("Transaction WAL initialized successfully");
         return true;
@@ -66,7 +62,7 @@ LSN TransactionWAL::logBegin(const std::string& transaction_id,
     current_lsn_ = lsn;
     entry.lsn = lsn;
 
-    spdlog::debug("Logged BEGIN for transaction {} at LSN {}", transaction_id, lsn);
+    spdlog::debug("Logged BEGIN for transaction {} at LSN {}", transaction_id, lsn.toString());
     return lsn;
 }
 
@@ -87,7 +83,7 @@ LSN TransactionWAL::logPrepare(const std::string& transaction_id,
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARE for transaction {} participant {} at LSN {}",
-                  transaction_id, participant_id, lsn);
+                  transaction_id, participant_id, lsn.toString());
     return lsn;
 }
 
@@ -115,7 +111,7 @@ LSN TransactionWAL::logPrepared(const std::string& transaction_id,
     entry.lsn = lsn;
 
     spdlog::debug("Logged PREPARED for transaction {} participant {} vote={} at LSN {}",
-                  transaction_id, participant_id, vote, lsn);
+                  transaction_id, participant_id, vote, lsn.toString());
     return lsn;
 }
 
@@ -133,7 +129,7 @@ LSN TransactionWAL::logCommit(const std::string& transaction_id,
     current_lsn_ = lsn;
     entry.lsn = lsn;
 
-    spdlog::debug("Logged COMMIT for transaction {} at LSN {}", transaction_id, lsn);
+    spdlog::debug("Logged COMMIT for transaction {} at LSN {}", transaction_id, lsn.toString());
     return lsn;
 }
 
@@ -152,7 +148,7 @@ LSN TransactionWAL::logCommitted(const std::string& transaction_id,
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMMITTED for transaction {} participant {} at LSN {}",
-                  transaction_id, participant_id, lsn);
+                  transaction_id, participant_id, lsn.toString());
     return lsn;
 }
 
@@ -175,7 +171,7 @@ LSN TransactionWAL::logAbort(const std::string& transaction_id,
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORT for transaction {} reason='{}' at LSN {}",
-                  transaction_id, reason, lsn);
+                  transaction_id, reason, lsn.toString());
     return lsn;
 }
 
@@ -194,7 +190,7 @@ LSN TransactionWAL::logAborted(const std::string& transaction_id,
     entry.lsn = lsn;
 
     spdlog::debug("Logged ABORTED for transaction {} participant {} at LSN {}",
-                  transaction_id, participant_id, lsn);
+                  transaction_id, participant_id, lsn.toString());
     return lsn;
 }
 
@@ -215,7 +211,7 @@ LSN TransactionWAL::logCompensate(const std::string& transaction_id,
     entry.lsn = lsn;
 
     spdlog::debug("Logged COMPENSATE for transaction {} step {} at LSN {}",
-                  transaction_id, step_id, lsn);
+                  transaction_id, step_id, lsn.toString());
     return lsn;
 }
 
@@ -223,11 +219,12 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
     std::vector<TransactionWALEntry> entries;
 
     try {
-        auto wal_entries = wal_manager_->read(start_lsn);
+        auto wal_entries = wal_manager_->readRange(start_lsn);
         
         for (const auto& wal_entry : wal_entries) {
             // Only process transaction-related entries (types 130-138)
-            if (wal_entry.type >= 130 && wal_entry.type <= 138) {
+            const auto wal_type = static_cast<uint8_t>(wal_entry.type);
+            if (wal_type >= 130 && wal_type <= 138) {
                 auto txn_entry = fromWALEntry(wal_entry);
                 if (txn_entry.has_value()) {
                     entries.push_back(txn_entry.value());
@@ -235,7 +232,7 @@ std::vector<TransactionWALEntry> TransactionWAL::readEntries(LSN start_lsn) {
             }
         }
 
-        spdlog::debug("Read {} transaction WAL entries from LSN {}", entries.size(), start_lsn);
+        spdlog::debug("Read {} transaction WAL entries from LSN {}", entries.size(), start_lsn.toString());
     } catch (const std::exception& e) {
         spdlog::error("Failed to read transaction WAL entries: {}", e.what());
     }
@@ -254,7 +251,7 @@ LSN TransactionWAL::getCurrentLSN() const {
 WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
     WALEntry wal_entry;
     wal_entry.lsn = txn_entry.lsn;
-    wal_entry.type = static_cast<int>(txn_entry.type);
+    wal_entry.type = static_cast<themis::sharding::WALEntryType>(static_cast<uint8_t>(txn_entry.type));
     wal_entry.timestamp = txn_entry.timestamp;
 
     // Serialize to JSON
@@ -282,7 +279,7 @@ WALEntry TransactionWAL::toWALEntry(const TransactionWALEntry& txn_entry) {
         payload["reason"] = txn_entry.reason;
     }
 
-    wal_entry.data = payload.dump();
+    wal_entry.data = payload;
     return wal_entry;
 }
 
@@ -290,11 +287,11 @@ std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& 
     try {
         TransactionWALEntry txn_entry;
         txn_entry.lsn = wal_entry.lsn;
-        txn_entry.type = static_cast<TransactionWALEntryType>(wal_entry.type);
+        txn_entry.type = static_cast<TransactionWALEntryType>(static_cast<uint8_t>(wal_entry.type));
         txn_entry.timestamp = wal_entry.timestamp;
 
         // Deserialize from JSON
-        nlohmann::json payload = nlohmann::json::parse(wal_entry.data);
+        nlohmann::json payload = wal_entry.data;
         
         txn_entry.transaction_id = payload.value("transaction_id", "");
         txn_entry.protocol = static_cast<TransactionProtocol>(
@@ -306,7 +303,7 @@ std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& 
         }
         
         if (payload.contains("participant_id")) {
-            txn_entry.participant_id = payload["participant_id"];
+            txn_entry.participant_id = payload["participant_id"].get<std::string>();
         }
         
         if (payload.contains("data")) {
@@ -314,11 +311,11 @@ std::optional<TransactionWALEntry> TransactionWAL::fromWALEntry(const WALEntry& 
         }
         
         if (payload.contains("vote")) {
-            txn_entry.vote = payload["vote"];
+            txn_entry.vote = payload["vote"].get<bool>();
         }
         
         if (payload.contains("reason")) {
-            txn_entry.reason = payload["reason"];
+            txn_entry.reason = payload["reason"].get<std::string>();
         }
 
         return txn_entry;

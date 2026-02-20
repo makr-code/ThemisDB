@@ -1,0 +1,163 @@
+#include "themis/gpu/feature_flags.h"
+
+namespace themis {
+namespace gpu {
+
+// ============================================================================
+// Static helpers
+// ============================================================================
+
+const char* GPUFeatureFlags::featureName(Feature feature) noexcept {
+    switch (feature) {
+        case Feature::MEMORY_POOL:       return "MEMORY_POOL";
+        case Feature::ASYNC_LAUNCHER:    return "ASYNC_LAUNCHER";
+        case Feature::MULTI_GPU:         return "MULTI_GPU";
+        case Feature::TENSOR_OPS:        return "TENSOR_OPS";
+        case Feature::POLICY_GATE:       return "POLICY_GATE";
+        case Feature::AUDIT_LOG:         return "AUDIT_LOG";
+        case Feature::METRICS:           return "METRICS";
+        case Feature::LOAD_BALANCER:     return "LOAD_BALANCER";
+        case Feature::KERNEL_VALIDATOR:  return "KERNEL_VALIDATOR";
+        case Feature::ALERTS:            return "ALERTS";
+    }
+    return "UNKNOWN";
+}
+
+std::string GPUFeatureFlags::editionName() {
+    return std::string(edition::EDITION_STRING);
+}
+
+// ============================================================================
+// Edition defaults
+// ============================================================================
+
+/*
+ * Feature defaults per edition:
+ *
+ * | Feature          | COMMUNITY | ENTERPRISE | HYPERSCALER |
+ * |------------------|-----------|------------|-------------|
+ * | MEMORY_POOL      |    yes    |    yes     |    yes      |
+ * | ASYNC_LAUNCHER   |    yes    |    yes     |    yes      |
+ * | MULTI_GPU        |    no     |    yes     |    yes      |
+ * | TENSOR_OPS       |    no     |    yes     |    yes      |
+ * | POLICY_GATE      |    yes    |    yes     |    yes      |
+ * | AUDIT_LOG        |    yes    |    yes     |    yes      |
+ * | METRICS          |    yes    |    yes     |    yes      |
+ * | LOAD_BALANCER    |    no     |    yes     |    yes      |
+ * | KERNEL_VALIDATOR |    yes    |    yes     |    yes      |
+ * | ALERTS           |    yes    |    yes     |    yes      |
+ */
+bool GPUFeatureFlags::editionDefaultFor(Feature f) {
+    const auto ed = edition::GetEditionType();
+
+    // Multi-GPU features require Enterprise or above.
+    if (f == Feature::MULTI_GPU || f == Feature::LOAD_BALANCER) {
+        return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::HYPERSCALER;
+    }
+
+    // Tensor ops (GPU kernel execution) require Enterprise or above.
+    if (f == Feature::TENSOR_OPS) {
+        return ed == edition::EditionType::ENTERPRISE ||
+               ed == edition::EditionType::HYPERSCALER;
+    }
+
+    // All other features are available in Community and above
+    // (i.e. always true for any known edition).
+    return ed != edition::EditionType::UNKNOWN;
+}
+
+void GPUFeatureFlags::initDefaults() {
+    const Feature all[] = {
+        Feature::MEMORY_POOL, Feature::ASYNC_LAUNCHER, Feature::MULTI_GPU,
+        Feature::TENSOR_OPS,  Feature::POLICY_GATE,    Feature::AUDIT_LOG,
+        Feature::METRICS,     Feature::LOAD_BALANCER,  Feature::KERNEL_VALIDATOR,
+        Feature::ALERTS,
+    };
+    for (auto f : all) {
+        defaults_[key(f)] = editionDefaultFor(f);
+    }
+}
+
+// ============================================================================
+// Construction
+// ============================================================================
+
+GPUFeatureFlags::GPUFeatureFlags() {
+    initDefaults();
+}
+
+// ============================================================================
+// Query
+// ============================================================================
+
+bool GPUFeatureFlags::isEnabled(Feature feature) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const int k = key(feature);
+    // Check override first.
+    auto ov = overrides_.find(k);
+    if (ov != overrides_.end()) {
+        return ov->second;
+    }
+    // Fall back to edition default.
+    auto def = defaults_.find(k);
+    if (def != defaults_.end()) {
+        return def->second;
+    }
+    return false;
+}
+
+// ============================================================================
+// Override
+// ============================================================================
+
+void GPUFeatureFlags::enable(Feature feature) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    overrides_[key(feature)] = true;
+}
+
+void GPUFeatureFlags::disable(Feature feature) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    overrides_[key(feature)] = false;
+}
+
+void GPUFeatureFlags::resetToDefaults() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    overrides_.clear();
+}
+
+// ============================================================================
+// Introspection
+// ============================================================================
+
+std::vector<GPUFeatureFlags::FeatureStatus> GPUFeatureFlags::getAll() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const Feature all[] = {
+        Feature::MEMORY_POOL, Feature::ASYNC_LAUNCHER, Feature::MULTI_GPU,
+        Feature::TENSOR_OPS,  Feature::POLICY_GATE,    Feature::AUDIT_LOG,
+        Feature::METRICS,     Feature::LOAD_BALANCER,  Feature::KERNEL_VALIDATOR,
+        Feature::ALERTS,
+    };
+    std::vector<FeatureStatus> result;
+    result.reserve(10);
+    for (auto f : all) {
+        FeatureStatus s;
+        s.feature = f;
+        s.name = featureName(f);
+        const int k = key(f);
+        auto ov = overrides_.find(k);
+        if (ov != overrides_.end()) {
+            s.enabled    = ov->second;
+            s.overridden = true;
+        } else {
+            auto def = defaults_.find(k);
+            s.enabled    = (def != defaults_.end()) ? def->second : false;
+            s.overridden = false;
+        }
+        result.push_back(s);
+    }
+    return result;
+}
+
+} // namespace gpu
+} // namespace themis

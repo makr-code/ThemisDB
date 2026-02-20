@@ -91,6 +91,10 @@ using json = nlohmann::json;
 
 // Global atomic flag for signal handling (async-signal-safe)
 std::atomic<bool> g_shutdown_requested{false};
+#ifndef _WIN32
+// SIGHUP flag for TLS certificate hot-reload (Linux/macOS only)
+std::atomic<bool> g_tls_reload_requested{false};
+#endif
 // Server instance (accessed only from main thread, not from signal handler)
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 std::shared_ptr<server::HttpServer> g_server;
@@ -164,6 +168,13 @@ void signalHandler(int signal) {
         // Set atomic flag to trigger shutdown in main thread
         g_shutdown_requested.store(true, std::memory_order_release);
     }
+#ifndef _WIN32
+    else if (signal == SIGHUP) {
+        const char* msg = "\nReceived SIGHUP, scheduling TLS certificate hot-reload...\n";
+        (void)write(STDERR_FILENO, msg, strlen(msg));
+        g_tls_reload_requested.store(true, std::memory_order_release);
+    }
+#endif
 }
 
 #ifdef _WIN32
@@ -1410,7 +1421,7 @@ int main(int argc, char* argv[]) {
                 if (g_wal_grpc_server) {
                     THEMIS_INFO("WAL gRPC Apply service listening on {} (mode: {})", grpc_addr, actual_mode);
                 } else {
-                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
+                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr); // NOPII: grpc_addr is a server bind address, not personal data
                 }
             } else {
                 THEMIS_ERROR("WAL gRPC Apply service NOT started due to TLS configuration errors");
@@ -1423,6 +1434,10 @@ int main(int argc, char* argv[]) {
         // Setup signal handlers
         std::signal(SIGINT, signalHandler);
         std::signal(SIGTERM, signalHandler);
+#ifndef _WIN32
+        // SIGHUP: reload TLS certificates without restarting
+        std::signal(SIGHUP, signalHandler);
+#endif
         
         // Retention worker (optional, runs in background if enabled in config)
         std::atomic<bool> retention_stop{false};
@@ -2060,6 +2075,22 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
         while (!g_shutdown_requested.load(std::memory_order_acquire)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+#ifndef _WIN32
+            // Handle SIGHUP: hot-reload TLS certificates
+            if (g_tls_reload_requested.exchange(false, std::memory_order_acq_rel)) {
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+                if (g_server) {
+                    THEMIS_INFO("SIGHUP received - reloading TLS certificates...");
+                    if (g_server->reloadTls()) {
+                        THEMIS_INFO("TLS certificates hot-reloaded successfully");
+                    } else {
+                        THEMIS_WARN("TLS hot-reload failed or TLS not enabled - continuing with current certificates");
+                    }
+                }
+#endif
+            }
+#endif
         }
         
         THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");

@@ -14,6 +14,8 @@
 namespace themis {
 namespace sharding {
 
+using ConsensusLogEntry = themisdb::sharding::ConsensusLogEntry;
+
 /**
  * Paxos WAL Entry Types (Phase 2.1)
  * 

@@ -234,7 +234,7 @@ TEST(AuthErrorTest, ErrorRegistration) {
     registerAuthErrors();
     
     // Verify some errors are registered
-    auto& registry = errors::ErrorRegistry::getInstance();
+    auto& registry = themis::errors::ErrorRegistry::getInstance();
     
     auto error = registry.getError(toErrorCode(AuthErrorCode::AUTH_TOKEN_INVALID));
     EXPECT_EQ(error.category, "Authentication");

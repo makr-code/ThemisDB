@@ -1,4 +1,5 @@
 #include <iostream>
+#include <gtest/gtest.h>
 #include "content/content_policy.h"
 #include "content/mime_detector.h"
 
@@ -108,18 +109,11 @@ void testMimeDetector() {
               << (result10.allowed ? "PASS" : "FAIL") << std::endl;
 }
 
-int main() {
+TEST(ContentPolicyManual, SmokeRun) {
     std::cout << "Content Policy System - Manual Tests\n" << std::endl;
-    
-    try {
+    EXPECT_NO_THROW({
         testContentPolicy();
         testMimeDetector();
-        
-        std::cout << "\n=== All Manual Tests Completed ===" << std::endl;
-        return 0;
-    }
-    catch (const std::exception& e) {
-        std::cerr << "\nERROR: " << e.what() << std::endl;
-        return 1;
-    }
+    });
+    std::cout << "\n=== All Manual Tests Completed ===" << std::endl;
 }

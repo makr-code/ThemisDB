@@ -18,7 +18,10 @@
         "timeout": 1000,
         "memory_limit": "512MB",
         "priority": "high",
-        "sanitizers": ["address", "undefined"],
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
         "coverage_guided": true
       },
       {
@@ -31,7 +34,11 @@
         "timeout": 500,
         "memory_limit": "256MB",
         "priority": "high",
-        "sanitizers": ["address", "undefined", "memory"],
+        "sanitizers": [
+          "address",
+          "undefined",
+          "memory"
+        ],
         "coverage_guided": true
       },
       {
@@ -44,7 +51,10 @@
         "timeout": 2000,
         "memory_limit": "1GB",
         "priority": "critical",
-        "sanitizers": ["address", "undefined"],
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
         "coverage_guided": true
       },
       {
@@ -57,7 +67,10 @@
         "timeout": 1000,
         "memory_limit": "512MB",
         "priority": "high",
-        "sanitizers": ["address", "undefined"],
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
         "coverage_guided": true
       },
       {
@@ -70,7 +83,9 @@
         "timeout": 5000,
         "memory_limit": "2GB",
         "priority": "medium",
-        "sanitizers": ["address"],
+        "sanitizers": [
+          "address"
+        ],
         "coverage_guided": true
       },
       {
@@ -80,6 +95,52 @@
         "harness": "fuzz/harnesses/auth_harness.cpp",
         "input_corpus": "fuzz/corpus/auth/",
         "dictionary": "fuzz/dictionaries/auth.dict",
+        "timeout": 1000,
+        "memory_limit": "256MB",
+        "priority": "critical",
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
+        "coverage_guided": true
+      },
+      {
+        "name": "gguf_loader",
+        "description": "GGUFLoader::parseFile() \u2014 validates GGUF header, tensor metadata, and format rejection without crashing on arbitrary input",
+        "source": "src/llm/gguf_loader.cpp",
+        "harness": "fuzz/harnesses/gguf_loader_harness.cpp",
+        "input_corpus": "fuzz/corpus/llm/gguf/",
+        "timeout": 1000,
+        "memory_limit": "256MB",
+        "priority": "high",
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
+        "coverage_guided": true,
+        "notes": "Q1 roadmap item \u2014 fuzz unsupported-format rejection paths"
+      },
+      {
+        "name": "grammar_compiler",
+        "description": "Grammar constructors \u2014 both basic and model-aware paths must handle arbitrary EBNF text without crashing",
+        "source": "src/llm/grammar.cpp",
+        "harness": "fuzz/harnesses/grammar_harness.cpp",
+        "input_corpus": "fuzz/corpus/llm/grammar/",
+        "timeout": 500,
+        "memory_limit": "128MB",
+        "priority": "high",
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
+        "coverage_guided": true,
+        "notes": "Q1 roadmap item \u2014 fuzz Grammar::compile() and null-vocab hard-error path"
+        "name": "pii_redaction",
+        "description": "PII Redaction Pipeline Fuzzing – ensures no PII leaks through redactForLog/redactAttributes/redactLabels and that the pipeline is crash-free and idempotent on arbitrary input",
+        "source": "src/security/pii_redaction_policy.cpp",
+        "harness": "fuzz/harnesses/pii_redaction_harness.cpp",
+        "input_corpus": "fuzz/corpus/pii/",
+        "dictionary": "fuzz/dictionaries/pii.dict",
         "timeout": 1000,
         "memory_limit": "256MB",
         "priority": "critical",
@@ -115,7 +176,15 @@
       },
       "secondary_instances": {
         "count": 7,
-        "power_schedules": ["fast", "coe", "lin", "quad", "exploit", "rare", "seek"]
+        "power_schedules": [
+          "fast",
+          "coe",
+          "lin",
+          "quad",
+          "exploit",
+          "rare",
+          "seek"
+        ]
       },
       "sync_interval": 60,
       "stats_interval": 30
@@ -138,12 +207,21 @@
       "minimization": {
         "enabled": true,
         "tool": "afl-cmin",
-        "options": ["-C", "-i", "corpus_full", "-o", "corpus_min"]
+        "options": [
+          "-C",
+          "-i",
+          "corpus_full",
+          "-o",
+          "corpus_min"
+        ]
       },
       "tmin": {
         "enabled": true,
         "tool": "afl-tmin",
-        "options": ["-e", "@@"]
+        "options": [
+          "-e",
+          "@@"
+        ]
       }
     },
     "crash_analysis": {
@@ -154,7 +232,12 @@
       "triage": {
         "enabled": true,
         "tool": "casr",
-        "severity_levels": ["exploitable", "probably_exploitable", "probably_not_exploitable", "not_exploitable"]
+        "severity_levels": [
+          "exploitable",
+          "probably_exploitable",
+          "probably_not_exploitable",
+          "not_exploitable"
+        ]
       },
       "output_dir": "fuzz/crashes",
       "hang_dir": "fuzz/hangs"
@@ -162,7 +245,10 @@
     "coverage": {
       "enabled": true,
       "tool": "llvm-cov",
-      "format": ["html", "lcov"],
+      "format": [
+        "html",
+        "lcov"
+      ],
       "output_dir": "fuzz/coverage",
       "threshold": {
         "line": 80,
@@ -171,7 +257,11 @@
       }
     },
     "reporting": {
-      "format": ["json", "html", "markdown"],
+      "format": [
+        "json",
+        "html",
+        "markdown"
+      ],
       "output_dir": "fuzz/reports",
       "metrics": [
         "total_execs",
@@ -187,7 +277,10 @@
         "enabled": true,
         "on_crash": true,
         "on_hang": false,
-        "channels": ["slack", "email"]
+        "channels": [
+          "slack",
+          "email"
+        ]
       }
     }
   },
@@ -261,6 +354,29 @@
         "\"SHA256\"",
         "\"HMAC\""
       ]
+    },
+    "pii": {
+      "description": "PII pattern tokens for redaction fuzzing",
+      "tokens": [
+        "\"@\"",
+        "\".com\"",
+        "\".de\"",
+        "\"123-45-\"",
+        "\"-6789\"",
+        "\"4242-4242\"",
+        "\"4532-1488\"",
+        "\"DE89\"",
+        "\"GB29\"",
+        "\"+49-\"",
+        "\"(555)\"",
+        "\"192.168.\"",
+        "\"https://\"",
+        "\"email\"",
+        "\"phone\"",
+        "\"ssn\"",
+        "\"credit_card\"",
+        "\"iban\""
+      ]
     }
   },
   "environment": {
@@ -282,12 +398,20 @@
       "workflow": ".github/workflows/fuzzing.yml",
       "schedule": "0 0 * * 0",
       "timeout_minutes": 360,
-      "artifacts": ["crashes", "coverage", "reports"]
+      "artifacts": [
+        "crashes",
+        "coverage",
+        "reports"
+      ]
     },
     "oss_fuzz": {
       "enabled": false,
       "project": "themisdb",
-      "sanitizers": ["address", "undefined", "memory"]
+      "sanitizers": [
+        "address",
+        "undefined",
+        "memory"
+      ]
     }
   }
 }

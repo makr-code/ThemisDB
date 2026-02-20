@@ -11,12 +11,18 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 
+namespace themisdb {
+namespace sharding {
+struct PaxosInstance;
+struct ConsensusLogEntry;
+}
+}
+
 namespace themis {
 namespace sharding {
 
-// Forward declarations
-struct PaxosInstance;
-struct ProposalNumber;
+using PaxosInstance = themisdb::sharding::PaxosInstance;
+using ConsensusLogEntry = themisdb::sharding::ConsensusLogEntry;
 
 /**
  * Paxos Snapshot (Phase 2.1)

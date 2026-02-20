@@ -11,9 +11,36 @@
 #include "rag/quality_control_pipeline.h"
 #include <string>
 #include <memory>
+#include <chrono>
+#include <functional>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 namespace themis::rag::judge {
+
+enum class QCDecision {
+    ACCEPT,
+    WARN,
+    REJECT
+};
+
+enum class QCMode {
+    FAST,
+    BALANCED,
+    THOROUGH
+};
+
+struct QCResult {
+    double overall_score = 0.0;
+    double faithfulness_score = 0.0;
+    double relevance_score = 0.0;
+    double completeness_score = 0.0;
+    double coherence_score = 0.0;
+    QCDecision decision = QCDecision::WARN;
+    QCMode mode = QCMode::BALANCED;
+    std::chrono::milliseconds latency{0};
+    bool passed_threshold = false;
+};
 
 /**
  * @brief Metric types for continuous learning

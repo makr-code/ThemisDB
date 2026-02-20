@@ -12,6 +12,9 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <ctime>
+#ifndef _WIN32
+#include <sys/resource.h>
+#endif
 
 // External reference to global HSM provider (defined in main_server.cpp)
 extern std::shared_ptr<themis::security::HSMProvider> g_hsm_provider;
@@ -29,7 +32,10 @@ MonitoringApiHandler::MonitoringApiHandler(
     const std::chrono::steady_clock::time_point* start_time,
     std::shared_ptr<SecondaryIndexManager> secondary_index,
     ::themis::SchemaManager* schema_manager,
-    std::shared_ptr<ShardingMetricsHandler> sharding_metrics
+    std::shared_ptr<ShardingMetricsHandler> sharding_metrics,
+    const std::atomic<bool>* is_running,
+    const std::atomic<uint64_t>* active_requests,
+    const std::atomic<uint64_t>* active_connections
 )
     : storage_(std::move(storage))
     , auth_(std::move(auth))
@@ -39,6 +45,9 @@ MonitoringApiHandler::MonitoringApiHandler(
     , secondary_index_(std::move(secondary_index))
     , schema_manager_(schema_manager)
     , sharding_metrics_(std::move(sharding_metrics))
+    , is_running_(is_running)
+    , active_requests_(active_requests)
+    , active_connections_(active_connections)
 {
 }
 
@@ -76,6 +85,92 @@ http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
     }
     
     return makeResponse(http::status::ok, response.dump(), req);
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleLiveness(
+    const http::request<http::string_body>& req
+) {
+    // Liveness probe: server process is running and not deadlocked
+    bool alive = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
+
+    json response = {
+        {"status", alive ? "alive" : "dead"},
+        {"checks", {
+            {"server_running", alive}
+        }}
+    };
+
+    auto status = alive ? http::status::ok : http::status::service_unavailable;
+    return makeResponse(status, response.dump(), req);
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleReadiness(
+    const http::request<http::string_body>& req
+) {
+    // Readiness probe: server is ready to accept traffic.
+    // Reports per-layer health: server state, storage, connections, memory.
+    bool server_running = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
+
+    // --- Layer 1: Storage ---
+    bool storage_ok = false;
+    std::string storage_error;
+    if (storage_) {
+        try {
+            storage_ok = (storage_->getRawDB() != nullptr);
+        } catch (const std::exception& e) {
+            storage_error = e.what();
+            storage_ok = false;
+        }
+    } else {
+        // No storage configured - not a readiness failure for lightweight deployments
+        storage_ok = true;
+    }
+
+    // --- Layer 2: Active connections ---
+    uint64_t conn_count = active_connections_
+        ? active_connections_->load(std::memory_order_relaxed) : 0;
+    uint64_t req_count = active_requests_
+        ? active_requests_->load(std::memory_order_relaxed) : 0;
+
+    // --- Layer 3: Memory (RSS) via getrusage (Linux/macOS only) ---
+    int64_t rss_bytes = -1;
+#ifndef _WIN32
+    struct rusage ru{};
+    if (getrusage(RUSAGE_SELF, &ru) == 0) {
+#ifdef __APPLE__
+        // macOS: ru_maxrss is bytes
+        rss_bytes = static_cast<int64_t>(ru.ru_maxrss);
+#else
+        // Linux: ru_maxrss is kilobytes
+        rss_bytes = static_cast<int64_t>(ru.ru_maxrss) * 1024;
+#endif
+    }
+#endif
+
+    bool ready = server_running && storage_ok;
+
+    json checks = {
+        {"server_running", server_running},
+        {"storage_available", storage_ok},
+        {"active_connections", conn_count},
+        {"active_requests", req_count}
+    };
+
+    if (!storage_error.empty()) {
+        checks["storage_error"] = storage_error;
+    }
+
+    if (rss_bytes >= 0) {
+        checks["memory_rss_bytes"] = rss_bytes;
+    }
+
+    json response = {
+        {"status", ready ? "ready" : "not_ready"},
+        {"checks", checks}
+    };
+
+    auto status = ready ? http::status::ok : http::status::service_unavailable;
+    return makeResponse(status, response.dump(), req);
 }
 
 http::response<http::string_body> MonitoringApiHandler::handleVersion(
@@ -172,6 +267,286 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
             {"message", e.what()}
         };
         return makeResponse(http::status::internal_server_error, error_response.dump(), req);
+    }
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
+    const http::request<http::string_body>& req
+) {
+    // Return a minimal but complete OpenAPI 3.0.3 specification describing
+    // the ThemisDB REST API.  The spec is assembled at request time so that
+    // version information is always current.
+    try {
+        std::string api_version;
+#ifdef THEMIS_VERSION_STRING
+        api_version = THEMIS_VERSION_STRING;
+#else
+        api_version = "0.1.0";
+#endif
+
+        json spec = {
+            {"openapi", "3.0.3"},
+            {"info", {
+                {"title", "ThemisDB REST API"},
+                {"description", "Production-ready HTTP API for the ThemisDB distributed database engine"},
+                {"version", api_version},
+                {"contact", {
+                    {"name", "ThemisDB"},
+                    {"url", "https://github.com/makr-code/ThemisDB"}
+                }},
+                {"license", {
+                    {"name", "See LICENSE in repository"},
+                    {"url", "https://github.com/makr-code/ThemisDB/blob/main/LICENSE"}
+                }}
+            }},
+            {"servers", json::array({
+                json{{"url", "/"}, {"description", "This server"}}
+            })},
+            {"paths", {
+                {"/health", {
+                    {"get", {
+                        {"summary", "Basic health check"},
+                        {"operationId", "getHealth"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "Server is healthy"},
+                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}},
+                            {"503", {{"description", "Server is unhealthy"}}}
+                        }}
+                    }}
+                }},
+                {"/health/live", {
+                    {"get", {
+                        {"summary", "Liveness probe"},
+                        {"description", "Returns 200 if the server process is running, 503 if it has stopped"},
+                        {"operationId", "getLiveness"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "Server process is alive"}}},
+                            {"503", {{"description", "Server process is dead"}}}
+                        }}
+                    }}
+                }},
+                {"/health/ready", {
+                    {"get", {
+                        {"summary", "Readiness probe"},
+                        {"description", "Returns 200 when all subsystems (storage, connections) are ready. Returns per-layer health details."},
+                        {"operationId", "getReadiness"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "All layers ready"}}},
+                            {"503", {{"description", "One or more layers not ready"}}}
+                        }}
+                    }}
+                }},
+                {"/version", {
+                    {"get", {
+                        {"summary", "Get server version"},
+                        {"operationId", "getVersion"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "Version and build information"}}}
+                        }}
+                    }}
+                }},
+                {"/metrics", {
+                    {"get", {
+                        {"summary", "Prometheus metrics"},
+                        {"description", "Returns server metrics in Prometheus text exposition format"},
+                        {"operationId", "getMetrics"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "Prometheus text format metrics"},
+                                {"content", {{"text/plain", {{"schema", {{"type","string"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/stats", {
+                    {"get", {
+                        {"summary", "Runtime statistics"},
+                        {"operationId", "getStats"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "Runtime statistics in JSON"}}}
+                        }}
+                    }}
+                }},
+                {"/api/capabilities", {
+                    {"get", {
+                        {"summary", "Server capabilities"},
+                        {"operationId", "getCapabilities"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "Server feature capability map"}}}
+                        }}
+                    }}
+                }},
+                {"/api/openapi.json", {
+                    {"get", {
+                        {"summary", "OpenAPI specification"},
+                        {"description", "Returns this OpenAPI 3.0 specification document"},
+                        {"operationId", "getOpenApiSpec"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "OpenAPI 3.0 specification"},
+                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/entities", {
+                    {"get", {
+                        {"summary", "List entities"},
+                        {"operationId", "listEntities"},
+                        {"tags", json::array({"entities"})},
+                        {"responses", {
+                            {"200", {{"description", "Entity list"}}},
+                            {"401", {{"description", "Unauthorized"}}}
+                        }}
+                    }},
+                    {"post", {
+                        {"summary", "Create entity"},
+                        {"operationId", "createEntity"},
+                        {"tags", json::array({"entities"})},
+                        {"requestBody", {
+                            {"required", true},
+                            {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}
+                        }},
+                        {"responses", {
+                            {"201", {{"description", "Entity created"}}},
+                            {"400", {{"description", "Bad request"}}},
+                            {"413", {{"description", "Payload too large"}}}
+                        }}
+                    }}
+                }},
+                {"/entities/{key}", {
+                    {"get", {
+                        {"summary", "Get entity by key"},
+                        {"operationId", "getEntity"},
+                        {"tags", json::array({"entities"})},
+                        {"parameters", json::array({
+                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                        })},
+                        {"responses", {
+                            {"200", {{"description", "Entity found"}}},
+                            {"404", {{"description", "Not found"}}}
+                        }}
+                    }},
+                    {"put", {
+                        {"summary", "Upsert entity by key"},
+                        {"operationId", "upsertEntity"},
+                        {"tags", json::array({"entities"})},
+                        {"parameters", json::array({
+                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                        })},
+                        {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
+                        {"responses", {
+                            {"200", {{"description", "Entity updated"}}},
+                            {"201", {{"description", "Entity created"}}}
+                        }}
+                    }},
+                    {"delete", {
+                        {"summary", "Delete entity by key"},
+                        {"operationId", "deleteEntity"},
+                        {"tags", json::array({"entities"})},
+                        {"parameters", json::array({
+                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                        })},
+                        {"responses", {
+                            {"200", {{"description", "Entity deleted"}}},
+                            {"404", {{"description", "Not found"}}}
+                        }}
+                    }}
+                }},
+                {"/query", {
+                    {"post", {
+                        {"summary", "Execute a query"},
+                        {"operationId", "postQuery"},
+                        {"tags", json::array({"query"})},
+                        {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
+                        {"responses", {
+                            {"200", {{"description", "Query results"}}},
+                            {"400", {{"description", "Bad query"}}}
+                        }}
+                    }}
+                }},
+                {"/query/aql", {
+                    {"post", {
+                        {"summary", "Execute an AQL (ThemisDB Query Language) query"},
+                        {"operationId", "postAqlQuery"},
+                        {"tags", json::array({"query"})},
+                        {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
+                        {"responses", {
+                            {"200", {{"description", "AQL query results"}}},
+                            {"400", {{"description", "AQL syntax error"}}}
+                        }}
+                    }}
+                }}
+            }},
+            {"components", {
+                {"schemas", {
+                    {"Error", {
+                        {"type", "object"},
+                        {"properties", {
+                            {"error", {{"type","boolean"}}},
+                            {"message", {{"type","string"}}},
+                            {"status_code", {{"type","integer"}}}
+                        }}
+                    }},
+                    {"HealthStatus", {
+                        {"type", "object"},
+                        {"properties", {
+                            {"status", {{"type","string"},{"enum",json::array({"healthy","degraded","unhealthy"})}}},
+                            {"uptime_seconds", {{"type","integer"}}},
+                            {"request_count", {{"type","integer"}}},
+                            {"error_count", {{"type","integer"}}}
+                        }}
+                    }},
+                    {"ReadinessStatus", {
+                        {"type", "object"},
+                        {"properties", {
+                            {"status", {{"type","string"},{"enum",json::array({"ready","not_ready"})}}},
+                            {"checks", {
+                                {"type","object"},
+                                {"properties", {
+                                    {"server_running", {{"type","boolean"}}},
+                                    {"storage_available", {{"type","boolean"}}},
+                                    {"active_connections", {{"type","integer"}}},
+                                    {"active_requests", {{"type","integer"}}},
+                                    {"memory_rss_bytes", {{"type","integer"}}}
+                                }}
+                            }}
+                        }}
+                    }}
+                }},
+                {"securitySchemes", {
+                    {"BearerAuth", {
+                        {"type", "http"},
+                        {"scheme", "bearer"},
+                        {"bearerFormat", "JWT"}
+                    }}
+                }}
+            }},
+            {"security", json::array({
+                json{{"BearerAuth", json::array()}}
+            })},
+            {"tags", json::array({
+                json{{"name","monitoring"},{"description","Health, metrics and observability endpoints"}},
+                json{{"name","entities"},{"description","Entity CRUD operations"}},
+                json{{"name","query"},{"description","Query execution endpoints"}}
+            })}
+        };
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = spec.dump(2); // pretty-printed with 2-space indent
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }
 

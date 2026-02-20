@@ -507,7 +507,7 @@ private:
      */
     std::shared_ptr<KeyProvider> createVaultKeyProvider() {
         spdlog::info("  Initializing Vault-backed encryption:");
-        spdlog::info("    Address: {}", config_.vault_addr);
+        spdlog::info("    Address: {}", config_.vault_addr); // NOPII: vault_addr is a service URL, not personal data
         spdlog::info("    Mount Path: {}", config_.vault_kv_mount);
         
         ::themis::VaultKeyProvider::Config vault_config;

@@ -142,6 +142,7 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
     ../src/acceleration/backend_registry.cpp
@@ -253,7 +254,13 @@ set(THEMIS_QUERY_SOURCES
     
     # Import/Export
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/exporter_metrics.cpp
+    ../src/exporters/pii_detector.cpp
+    ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+
+    # AQL metrics support
+    ../src/aql/llm_metrics_collector.cpp
 )
 
 set(THEMIS_SECURITY_SOURCES
@@ -282,6 +289,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/pii_redaction_policy.cpp
     # ../src/security/aql_injection_detector.cpp  # Moved to query module (needs AQLParser)
     ../src/utils/audit_logger.cpp
     ../src/utils/lek_manager.cpp
@@ -289,6 +297,7 @@ set(THEMIS_SECURITY_SOURCES
     
     # Authentication
     ../src/auth/jwt_validator.cpp
+    ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/server/auth_middleware.cpp
@@ -363,6 +372,8 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/adaptive_shard_router.cpp
     ../src/sharding/capability_matcher.cpp
     ../src/sharding/metadata_shard.cpp
+    ../src/sharding/metadata_wal.cpp
+    ../src/sharding/metadata_snapshot.cpp
     ../src/cache/bounded_lru_cache.cpp
     ../src/server/rpc/blob_transfer_handler.cpp
     
@@ -396,7 +407,11 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
     ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/paxos_wal.cpp
+    ../src/sharding/paxos_snapshot.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/transaction_wal.cpp
+    ../src/sharding/transaction_snapshot.cpp
     
     # Redundancy and reliability
     ../src/sharding/redundancy_strategy.cpp
@@ -413,6 +428,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/shard_durability.cpp
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
+    ../src/sharding/slo_monitor.cpp
 )
 
 set(THEMIS_LLM_SOURCES
@@ -443,6 +459,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/grammar_cache.cpp
     ../src/llm/llm_prefix_cache.cpp
     ../src/llm/continuous_batch_scheduler.cpp
+    ../src/llm/token_quota_manager.cpp
     ../src/llm/grafana_metrics.cpp
     ../src/llm/distributed_training_coordinator.cpp
         ../src/cache/embedding_cache.cpp
@@ -492,6 +509,10 @@ set(THEMIS_LLM_SOURCES
     
     # RAG enhancement modules
     ../src/rag/knowledge_gap_detector.cpp
+    ../src/rag/llm_judge_client.cpp
+    ../src/rag/nli_faithfulness_verifier.cpp
+    ../src/rag/quality_control_pipeline.cpp
+    ../src/rag/geval_evaluator.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
@@ -625,6 +646,10 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/gpu/device_discovery.cpp
+    ../src/gpu/safe_fail.cpp
+    ../src/gpu/metrics.cpp
+    ../src/gpu/audit_log.cpp
 )
 
 set(THEMIS_GRAPH_SOURCES
