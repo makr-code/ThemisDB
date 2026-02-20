@@ -46,6 +46,9 @@ std::string ContinuousBatchScheduler::submitRequest(
         size_t current_depth = waiting_queue_.size() + active_requests_.size();
         if (current_depth >= config_.max_queue_depth) {
             stats_.rejected_requests++;
+            if (metrics_collector_) {
+                metrics_collector_->recordBackpressureDrop();
+            }
             spdlog::warn("ContinuousBatchScheduler: queue full ({}/{}) — request rejected (backpressure)",
                          current_depth, config_.max_queue_depth);
             return {};  // Empty string signals rejection to caller
@@ -211,6 +214,13 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
     stats_.active_requests = active_requests_.size();
     stats_.current_queue_depth = waiting_queue_.size() + active_requests_.size();
+    
+    // Emit queue-length metric so Prometheus/Grafana can visualise scheduler
+    // pressure in real time.  Called under the scheduler lock so the value is
+    // consistent with stats_.current_queue_depth.
+    if (metrics_collector_) {
+        metrics_collector_->recordQueueLength(stats_.current_queue_depth);
+    }
     
     auto end_time = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(

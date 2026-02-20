@@ -2,11 +2,13 @@
 #include "llm/continuous_batch_scheduler.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/paged_block_manager.h"
+#include "llm/grafana_metrics.h"
 #include <memory>
 #include <chrono>
 #include <thread>
 
 using namespace themis::llm;
+using namespace themis::llm::monitoring;
 
 // Test constants
 constexpr size_t CHARS_PER_TOKEN = 4;  // Rough estimate for token size
@@ -394,6 +396,93 @@ TEST_F(ContinuousBatchSchedulerTest, CurrentQueueDepthTracked) {
     EXPECT_EQ(stats.current_queue_depth, 1u);
     
     scheduler->cancelRequest(req_id);
+}
+
+// ═══════════════════════════════════════════════════════════
+// Metrics Emission Tests (Q1 implementation)
+// ═══════════════════════════════════════════════════════════
+
+// Test 11: recordQueueLength is called during scheduleNextBatch
+TEST_F(ContinuousBatchSchedulerTest, MetricsQueueLengthEmittedOnSchedule) {
+    auto exporter = std::make_unique<PrometheusExporter>();
+    auto collector = std::make_unique<LLMMetricsCollector>(exporter.get());
+    
+    scheduler->setMetricsCollector(collector.get());
+    
+    // Submit a request and schedule — should emit queue length
+    auto req = createTestRequest(10, 5);
+    auto req_id = scheduler->submitRequest(req);
+    EXPECT_FALSE(req_id.empty());
+    
+    scheduler->scheduleNextBatch();
+    
+    // The exporter should have recorded a gauge for llm_queue_length
+    std::string metrics = exporter->exportMetrics();
+    EXPECT_NE(metrics.find("llm_queue_length"), std::string::npos);
+    
+    scheduler->cancelRequest(req_id);
+    scheduler->setMetricsCollector(nullptr);
+}
+
+// Test 12: recordBackpressureDrop is called when queue is full
+TEST_F(ContinuousBatchSchedulerTest, MetricsBackpressureDropEmittedOnRejection) {
+    auto exporter = std::make_unique<PrometheusExporter>();
+    auto collector = std::make_unique<LLMMetricsCollector>(exporter.get());
+    
+    // Small queue depth
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size = 32;
+    cfg.max_tokens_per_batch = 2048;
+    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
+    cfg.max_queue_depth = 2;
+    
+    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
+    sched->setMetricsCollector(collector.get());
+    sched->start();
+    
+    // Fill the queue
+    std::string id1 = sched->submitRequest(createTestRequest(5, 3));
+    std::string id2 = sched->submitRequest(createTestRequest(5, 3));
+    EXPECT_FALSE(id1.empty());
+    EXPECT_FALSE(id2.empty());
+    
+    // Overflow — should increment backpressure counter
+    std::string id3 = sched->submitRequest(createTestRequest(5, 3));
+    EXPECT_TRUE(id3.empty());
+    
+    // Check that llm_backpressure_drops_total was incremented
+    std::string metrics = exporter->exportMetrics();
+    EXPECT_NE(metrics.find("llm_backpressure_drops_total"), std::string::npos);
+    
+    sched->cancelRequest(id1);
+    sched->cancelRequest(id2);
+    sched->stop();
+}
+
+// Test 13: setMetricsCollector nullptr — no crash on backpressure or schedule
+TEST_F(ContinuousBatchSchedulerTest, MetricsNullCollectorNoCrash) {
+    // Ensure calling with nullptr doesn't crash even when limits are hit
+    ContinuousBatchScheduler::SchedulerConfig cfg;
+    cfg.max_batch_size = 32;
+    cfg.max_tokens_per_batch = 2048;
+    cfg.block_size_tokens = BLOCK_SIZE_TOKENS;
+    cfg.max_queue_depth = 1;
+    
+    auto sched = std::make_unique<ContinuousBatchScheduler>(cfg, kv_cache.get());
+    sched->setMetricsCollector(nullptr);  // explicitly null
+    sched->start();
+    
+    auto id = sched->submitRequest(createTestRequest(5, 3));
+    EXPECT_FALSE(id.empty());
+    
+    // This should hit the backpressure path with null collector — no crash
+    auto id2 = sched->submitRequest(createTestRequest(5, 3));
+    EXPECT_TRUE(id2.empty());
+    
+    sched->scheduleNextBatch();  // should not crash with null collector
+    
+    sched->cancelRequest(id);
+    sched->stop();
 }
 
 // No custom main; gtest_main provides the entry point

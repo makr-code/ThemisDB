@@ -2,6 +2,7 @@
 
 #include "llm/llm_plugin_interface.h"
 #include "llm/paged_kv_cache.h"
+#include "llm/grafana_metrics.h"
 #include <vector>
 #include <queue>
 #include <mutex>
@@ -126,6 +127,14 @@ public:
     
     ~ContinuousBatchScheduler();
     
+    // Attach a metrics collector for queue-length and backpressure-drop
+    // instrumentation.  May be called at any time after construction; safe to
+    // call nullptr to detach.  Ownership is NOT transferred.
+    void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        metrics_collector_ = collector;
+    }
+    
     // Request submission
     std::string submitRequest(
         const InferenceRequest& request,
@@ -180,6 +189,8 @@ public:
 private:
     SchedulerConfig config_;
     PagedKVCache* kv_cache_;
+    // Optional metrics collector — not owned, may be nullptr
+    monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
     
     // Request queues by priority
     std::priority_queue<

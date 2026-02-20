@@ -129,6 +129,9 @@ public:
     void recordQueueLength(size_t length);
     void recordPreemptions(size_t count);
     void recordSchedulingLatency(double latency_ms);
+    // Increments llm_backpressure_drops_total when the scheduler rejects a
+    // request because max_queue_depth has been reached.
+    void recordBackpressureDrop();
     
     // Quantization metrics
     void recordQuantizationFormat(const std::string& model_id, const std::string& format);
@@ -225,8 +228,10 @@ public:
         std::string host = "0.0.0.0";
         int port = 9090;
         bool enable_cors = true;
-        std::string metrics_path = "/metrics";
+        std::string metrics_path   = "/metrics";
         std::string dashboard_path = "/dashboard";
+        std::string health_path    = "/health";
+        std::string ready_path     = "/ready";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -238,9 +243,11 @@ public:
     void stop();
     bool isRunning() const;
     
-    // Get server URL
+    // Get server URLs
     std::string getMetricsURL() const;
     std::string getDashboardURL() const;
+    std::string getHealthURL() const;
+    std::string getReadyURL() const;
     
 private:
     ServerConfig config_;

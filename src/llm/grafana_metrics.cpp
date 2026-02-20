@@ -432,6 +432,14 @@ void LLMMetricsCollector::initializeMetrics() {
         {"error_type", "component"}
     });
     
+    // Backpressure metrics
+    exporter_->registerMetric({
+        "llm_backpressure_drops_total",
+        "Total inference requests rejected due to queue depth limit (backpressure)",
+        PrometheusExporter::MetricType::COUNTER,
+        {}
+    });
+    
     // Initialize extended context and RoPE/YARN metrics (v1.4.0+)
     initializeExtendedContextMetrics();
 }
@@ -522,6 +530,10 @@ void LLMMetricsCollector::recordPreemptions(size_t count) {
 
 void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
     exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
+}
+
+void LLMMetricsCollector::recordBackpressureDrop() {
+    exporter_->incrementCounter("llm_backpressure_drops_total");
 }
 
 void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, const std::string& format) {
@@ -1068,11 +1080,37 @@ std::string MetricsServer::getDashboardURL() const {
     return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.dashboard_path;
 }
 
+std::string MetricsServer::getHealthURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.health_path;
+}
+
+std::string MetricsServer::getReadyURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.ready_path;
+}
+
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
     } else if (path == config_.dashboard_path) {
         response = "{\"message\": \"Dashboard endpoint\"}";
+    } else if (path == config_.health_path) {
+        // Liveness: server is alive as long as the MetricsServer object exists.
+        // Returns 200 OK with a minimal JSON body so load-balancers and k8s
+        // liveness probes can parse it, and so that a plain curl returns
+        // something human-readable.
+        if (running_) {
+            response = "{\"status\":\"ok\"}";
+        } else {
+            response = "{\"status\":\"stopped\"}";
+        }
+    } else if (path == config_.ready_path) {
+        // Readiness: server is ready to serve metrics when it is running AND
+        // the exporter is non-null (basic availability check).
+        if (running_ && exporter_ != nullptr) {
+            response = "{\"status\":\"ready\"}";
+        } else {
+            response = "{\"status\":\"not_ready\"}";
+        }
     } else {
         response = "404 Not Found";
     }
