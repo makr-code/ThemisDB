@@ -216,46 +216,103 @@ WriteResult WriteResult::failed(const std::string& doc_id, const std::string& er
 }
 
 // ═══════════════════════════════════════════════════════════
-// ReedSolomonCoder Implementation (Simplified)
+// ReedSolomonCoder Implementation
+// Systematic Vandermonde-based encoding that supports recovery of up to
+// parity_shards simultaneously lost chunks (data or parity).
 // ═══════════════════════════════════════════════════════════
+
+// Build Vandermonde parity matrix (parity_shards x data_shards).
+// V[p][j] = gf_pow(p+1, j) so each row uses a distinct evaluation point {1,2,...,m}.
+std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
+    uint32_t rows, uint32_t cols
+) {
+    if (rows + cols > 255) {
+        throw std::invalid_argument("Too many shards: rows + cols must be <= 255");
+    }
+    std::vector<std::vector<uint8_t>> matrix(rows, std::vector<uint8_t>(cols));
+    for (uint32_t p = 0; p < rows; ++p) {
+        uint8_t base = static_cast<uint8_t>(p + 1);  // evaluation point: 1..m
+        for (uint32_t j = 0; j < cols; ++j) {
+            matrix[p][j] = gf_pow(base, static_cast<uint8_t>(j));
+        }
+    }
+    return matrix;
+}
+
+// Gaussian elimination in GF(2^8) to invert an n×n matrix in-place.
+bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
+    const size_t n = matrix.size();
+    // Augment with identity matrix
+    std::vector<std::vector<uint8_t>> aug(n, std::vector<uint8_t>(2 * n, 0));
+    for (size_t i = 0; i < n; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            aug[i][j] = matrix[i][j];
+        }
+        aug[i][n + i] = 1;
+    }
+    for (size_t col = 0; col < n; ++col) {
+        // Find pivot
+        size_t pivot = n;
+        for (size_t row = col; row < n; ++row) {
+            if (aug[row][col] != 0) { pivot = row; break; }
+        }
+        if (pivot == n) return false;
+        std::swap(aug[col], aug[pivot]);
+        uint8_t inv_pivot = gf_inv(aug[col][col]);
+        for (size_t j = 0; j < 2 * n; ++j) {
+            aug[col][j] = gf_mul(aug[col][j], inv_pivot);
+        }
+        for (size_t row = 0; row < n; ++row) {
+            if (row == col || aug[row][col] == 0) continue;
+            uint8_t factor = aug[row][col];
+            for (size_t j = 0; j < 2 * n; ++j) {
+                aug[row][j] ^= gf_mul(factor, aug[col][j]);
+            }
+        }
+    }
+    for (size_t i = 0; i < n; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            matrix[i][j] = aug[i][n + j];
+        }
+    }
+    return true;
+}
 
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    std::vector<std::vector<uint8_t>> chunks;
-    
-    // Calculate chunk size
+    // Calculate chunk size (pad last chunk with zeros if needed)
     size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
-    
-    // Split data into chunks
+
+    // Split data into k chunks (data shards)
+    std::vector<std::vector<uint8_t>> chunks;
+    chunks.reserve(data_shards + parity_shards);
     for (uint32_t i = 0; i < data_shards; ++i) {
         size_t offset = i * chunk_size;
-        size_t size = std::min(chunk_size, data.size() - offset);
-        
-        std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros
+        std::vector<uint8_t> chunk(chunk_size, 0);
         if (offset < data.size()) {
-            std::memcpy(chunk.data(), data.data() + offset, size);
+            size_t sz = std::min(chunk_size, data.size() - offset);
+            std::memcpy(chunk.data(), data.data() + offset, sz);
         }
-        chunks.push_back(chunk);
+        chunks.push_back(std::move(chunk));
     }
-    
-    // Generate parity chunks using XOR (simplified Reed-Solomon)
-    // In production, use proper Galois Field arithmetic
-    for (uint32_t i = 0; i < parity_shards; ++i) {
+
+    // Build Vandermonde parity matrix and compute parity chunks
+    auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+    for (uint32_t p = 0; p < parity_shards; ++p) {
         std::vector<uint8_t> parity(chunk_size, 0);
-        
-        // Simple XOR-based parity for now
-        for (const auto& chunk : chunks) {
-            for (size_t j = 0; j < chunk_size; ++j) {
-                parity[j] ^= chunk[j];
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            uint8_t coeff = vandermonde[p][j];
+            if (coeff == 0) continue;
+            for (size_t x = 0; x < chunk_size; ++x) {
+                parity[x] ^= gf_mul(coeff, chunks[j][x]);
             }
         }
-        
-        chunks.push_back(parity);
+        chunks.push_back(std::move(parity));
     }
-    
+
     return chunks;
 }
 
@@ -265,6 +322,13 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
+    // Validate that the number of missing chunks does not exceed the fault tolerance
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error("Too many missing chunks: " +
+                                 std::to_string(missing_indices.size()) +
+                                 " missing, but only " + std::to_string(parity_shards) +
+                                 " parity shard(s) available");
+    }
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
@@ -277,7 +341,6 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
             break;
         }
     }
-
     if (all_data_available) {
         std::vector<uint8_t> recovered;
         for (uint32_t i = 0; i < data_shards; ++i) {
@@ -287,59 +350,61 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
         return recovered;
     }
 
-    // XOR-parity recovery: each parity chunk = XOR of all data chunks.
-    // Since all parity chunks encode the same XOR equation, we can recover
-    // 1 missing data chunk total (RAID-5 style), regardless of parity shard count.
-    std::vector<uint32_t> missing_data;
+    // Full erasure recovery using Vandermonde matrix inversion.
+    // Build full (k+m) × k encoding matrix:
+    //   Rows 0..k-1:   identity (data chunks)
+    //   Rows k..k+m-1: Vandermonde parity matrix
+    const uint32_t total_shards = data_shards + parity_shards;
+    auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+
+    std::vector<std::vector<uint8_t>> full_matrix(total_shards,
+                                                   std::vector<uint8_t>(data_shards, 0));
     for (uint32_t i = 0; i < data_shards; ++i) {
-        if (available_chunks.find(i) == available_chunks.end()) {
-            missing_data.push_back(i);
+        full_matrix[i][i] = 1;
+    }
+    for (uint32_t p = 0; p < parity_shards; ++p) {
+        full_matrix[data_shards + p] = vandermonde[p];
+    }
+
+    // Select k rows corresponding to available chunks
+    std::vector<uint32_t> available_indices;
+    available_indices.reserve(data_shards);
+    for (const auto& [idx, _] : available_chunks) {
+        if (available_indices.size() < data_shards) {
+            available_indices.push_back(idx);
         }
     }
 
-    if (missing_data.size() > 1) {
-        throw std::runtime_error("XOR parity cannot recover more than 1 missing data chunk");
+    std::vector<std::vector<uint8_t>> decode_matrix(data_shards,
+                                                     std::vector<uint8_t>(data_shards));
+    for (size_t i = 0; i < data_shards; ++i) {
+        decode_matrix[i] = full_matrix[available_indices[i]];
     }
 
-    // Find an available parity chunk
-    std::optional<std::vector<uint8_t>> parity_chunk;
-    for (uint32_t i = data_shards; i < data_shards + parity_shards; ++i) {
-        auto it = available_chunks.find(i);
-        if (it != available_chunks.end()) {
-            parity_chunk = it->second;
-            break;
+    if (!invertMatrix(decode_matrix)) {
+        throw std::runtime_error("Failed to invert decode matrix for Reed-Solomon recovery");
+    }
+
+    // Apply inverse matrix byte-by-byte to recover original data chunks
+    size_t chunk_size = available_chunks.begin()->second.size();
+    std::vector<std::vector<uint8_t>> recovered_data(data_shards,
+                                                      std::vector<uint8_t>(chunk_size, 0));
+    for (size_t x = 0; x < chunk_size; ++x) {
+        std::vector<uint8_t> available_bytes(data_shards);
+        for (size_t i = 0; i < data_shards; ++i) {
+            available_bytes[i] = available_chunks.at(available_indices[i])[x];
+        }
+        std::vector<uint8_t> recovered_bytes;
+        gf_matrix_mul(decode_matrix, available_bytes, recovered_bytes);
+        for (size_t i = 0; i < data_shards; ++i) {
+            recovered_data[i][x] = recovered_bytes[i];
         }
     }
 
-    if (!parity_chunk) {
-        throw std::runtime_error("No parity chunk available for recovery");
-    }
-
-    const size_t chunk_size = parity_chunk->size();
-    const uint32_t missing_idx = missing_data[0];
-
-    // Reconstruct missing chunk: start with parity, XOR all present data chunks
-    std::vector<uint8_t> reconstructed = *parity_chunk;
-    for (uint32_t i = 0; i < data_shards; ++i) {
-        if (i == missing_idx) continue;
-        auto it = available_chunks.find(i);
-        if (it == available_chunks.end()) continue;
-        const auto& chunk = it->second;
-        for (size_t j = 0; j < chunk_size && j < reconstructed.size(); ++j) {
-            reconstructed[j] ^= chunk[j];
-        }
-    }
-
-    // Build the full ordered data result
     std::vector<uint8_t> result;
     result.reserve(data_shards * chunk_size);
-    for (uint32_t i = 0; i < data_shards; ++i) {
-        if (i == missing_idx) {
-            result.insert(result.end(), reconstructed.begin(), reconstructed.end());
-        } else {
-            const auto& chunk = available_chunks.at(i);
-            result.insert(result.end(), chunk.begin(), chunk.end());
-        }
+    for (const auto& chunk : recovered_data) {
+        result.insert(result.end(), chunk.begin(), chunk.end());
     }
     return result;
 }
@@ -372,6 +437,14 @@ uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
 
 uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
     return gf_mul(a, gf_inv(b));
+}
+
+uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
+    uint8_t result = 1;
+    for (uint8_t i = 0; i < exp; ++i) {
+        result = gf_mul(result, a);
+    }
+    return result;
 }
 
 void ReedSolomonCoder::gf_matrix_mul(
@@ -612,11 +685,17 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
 
 std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
-    const std::vector<uint32_t>& missing_indices [[maybe_unused]],
+    const std::vector<uint32_t>& missing_indices,
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    (void)missing_indices;
+    // Validate that the number of missing chunks does not exceed the fault tolerance
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error("Too many missing chunks: " +
+                                 std::to_string(missing_indices.size()) +
+                                 " missing, but only " + std::to_string(parity_shards) +
+                                 " parity shard(s) available");
+    }
     // Check if we have enough chunks
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");

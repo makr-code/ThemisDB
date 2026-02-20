@@ -197,33 +197,47 @@ ThemisDB implements **defense-in-depth** security across all layers:
 ## 🔒 Security Hardening
 
 > [!IMPORTANT]
-> For production deployments, follow our [Security Hardening Guide](docs/security/security_hardening.md).
+> For production deployments, start with the **[Security Posture Guide](docs/production/SECURITY_POSTURE.md)** — it explicitly lists every insecure default, why it is unsafe, and the exact environment variable to change it.
+> Then follow the **[Production Runbook](docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md)** for the full reference of required and optional environment variables, startup sequence, and failure-mode mitigations.
 
 ### Hardening Checklist
 
 | Step | Action | Priority |
 |:----:|--------|:--------:|
-| 1️⃣ | Enable TLS with strong cipher suites | 🔴 Critical |
-| 2️⃣ | Configure RBAC with least-privilege principle | 🔴 Critical |
-| 3️⃣ | Enable audit logging with encryption | 🟡 High |
-| 4️⃣ | Use external key management (Vault/HSM) | 🟡 High |
-| 5️⃣ | Configure rate limiting appropriately | 🟢 Medium |
-| 6️⃣ | Set up monitoring and alerting | 🟢 Medium |
-| 7️⃣ | Regular security updates and patching | 🔴 Critical |
+| 1️⃣ | Set `THEMIS_PRODUCTION_MODE=1` and `THEMIS_ENVIRONMENT=production` | 🔴 Critical |
+| 2️⃣ | Set `THEMIS_TOKEN_ADMIN` to a strong random secret (≥32 bytes) | 🔴 Critical |
+| 3️⃣ | Enable TLS with strong cipher suites | 🔴 Critical |
+| 4️⃣ | Configure RBAC with least-privilege principle | 🔴 Critical |
+| 5️⃣ | Use external key management: Vault or hardware HSM | 🟡 High |
+| 6️⃣ | Enable audit logging with encryption and SIEM sink | 🟡 High |
+| 7️⃣ | Enable WAL gRPC mTLS (`THEMIS_WAL_GRPC_ENABLE_MTLS=1`) | 🟡 High |
+| 8️⃣ | Configure rate limiting appropriately | 🟢 Medium |
+| 9️⃣ | Set up monitoring and alerting | 🟢 Medium |
+| 🔟 | Regular security updates and patching | 🔴 Critical |
 
 ---
 
 ## 📚 Security Documentation
 
+<details open>
+<summary><b>⭐ Production Security (Start Here)</b></summary>
+
+- 🛡️ **[Security Posture Guide](docs/production/SECURITY_POSTURE.md)** — dev vs. production defaults, hardening checklist, threat model, integrator checklist
+- 📋 **[Production Runbook](docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md)** — required env vars, startup sequence, failure modes, mitigations
+- 🖥️ [systemd deployment files](deploy/systemd/) — hardened service unit, production drop-in, env template
+- ☸️ [Kubernetes production Helm values](docs/production/examples/k8s_production_values.yaml) — TLS, secrets, probes, autoscaling
+
+</details>
+
 <details>
 <summary><b>Core Security Guides</b></summary>
 
-- 📖 [Security Overview](docs/security/security_overview.md)
 - 🔐 [TLS Setup Guide](docs/guides/guides_tls_setup.md)
-- 👥 [RBAC Configuration](docs/security/security_implementation.md)
-- 🔒 [Encryption Strategy](docs/security/security_encryption_strategy.md)
-- 🔑 [Key Management](docs/security/security_key_management.md)
-- 🏦 [HSM Integration](docs/security/security_hsm.md)
+- 👥 [RBAC Configuration](docs/security/api_authentication_authorization.md)
+- 🔒 [Encryption Strategy](docs/security/encryption_strategy.md)
+- 🔑 [Key Management](docs/security/ENCRYPTION_KEY_MANAGEMENT_POLICY.md)
+- 🏦 [HSM Integration](docs/security/HSM_PRODUCTION_SETUP.md)
+- ✅ [Production Hardening Checklist](docs/security/PRODUCTION_HARDENING_CHECKLIST.md)
 
 </details>
 
@@ -414,6 +428,6 @@ semgrep --config=auto src/ include/
 
 **🔐 Security is a top priority at ThemisDB**
 
-[🚨 Report a Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · [📖 Security Docs](docs/security/) · [🛡️ Hardening Guide](docs/security/security_hardening.md)
+[🚨 Report a Vulnerability](https://github.com/makr-code/ThemisDB/security/advisories/new) · [📖 Security Docs](docs/security/) · [🛡️ Security Posture Guide](docs/production/SECURITY_POSTURE.md)
 
 </div>

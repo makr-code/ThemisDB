@@ -5,6 +5,9 @@
 #include <vector>
 #include <chrono>
 #include <optional>
+#include <memory>
+
+#include "auth/token_blacklist.h"
 
 namespace themis {
 namespace auth {
@@ -14,6 +17,7 @@ namespace auth {
  */
 struct JWTClaims {
     std::string sub;                          // Subject (user ID)
+    std::string jti;                          // JWT ID – used for per-token revocation
     std::string email;
     std::string tenant_id;                    // Tenant ID from JWT claim
     std::vector<std::string> groups;
@@ -99,6 +103,18 @@ public:
     static bool hasAccess(const JWTClaims& claims, const std::string& encryption_context);
     
     /**
+     * @brief Attach a TokenBlacklist for per-token (JTI) revocation checks.
+     *
+     * When set, parseAndValidate() will extract the "jti" claim from the
+     * token payload and reject any token whose JTI appears in the blacklist.
+     * The validator does NOT take ownership; the caller must ensure the
+     * blacklist outlives the validator.
+     *
+     * @param bl Pointer to the TokenBlacklist (nullptr to detach).
+     */
+    void setTokenBlacklist(TokenBlacklist* bl);
+
+    /**
      * @brief Add a key ID to the revocation list
      * @param kid Key ID to revoke
      */
@@ -119,6 +135,18 @@ private:
     bool verifySignatureRS256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+    bool verifySignatureES256(const std::string& header_payload,
+                              const std::vector<uint8_t>& signature,
+                              const nlohmann::json& jwk);
+    /**
+     * @brief Verify an EdDSA (Ed25519) JWT signature.
+     *
+     * Expects a JWK of type "OKP" with crv="Ed25519" and a 32-byte base64url-
+     * encoded public key in the "x" field.  Requires OpenSSL ≥ 1.1.1.
+     */
+    bool verifySignatureEdDSA(const std::string& header_payload,
+                              const std::vector<uint8_t>& signature,
+                              const nlohmann::json& jwk);
     bool checkAudience(const nlohmann::json& payload) const;
     
     // testing helper
@@ -131,6 +159,7 @@ private:
     nlohmann::json jwks_cache_;
     std::chrono::system_clock::time_point jwks_cache_time_;
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
+    TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
 };
 
 } // namespace auth
