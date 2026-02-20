@@ -443,6 +443,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
+    size_t attempts_made = 0;
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         if (attempt > 0) {
@@ -457,6 +458,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
             std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
         }
 
+        ++attempts_made;
         try {
             if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
                 result = executeAqlQuery(task->aql_query);
@@ -702,6 +704,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
+    size_t attempts_made = 0;
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         // Abort if scheduler is stopping
@@ -727,6 +730,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             if (!running_.load()) break;
         }
 
+        ++attempts_made;
         try {
             if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
                 span.setAttribute("task_type", "aql");
@@ -830,7 +834,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.success = false;
             failure_event.error_message = last_error;
             failure_event.error_type = "EXECUTION_ERROR";
-            failure_event.metadata["attempts"] = max_attempts;
+            failure_event.metadata["attempts_made"] = attempts_made;
             
             // Resource usage
             failure_event.resource_usage.execution_time_ms = elapsed_ms;

@@ -552,8 +552,8 @@ TEST_F(EventTriggerTest, CircuitBreakerOpensAfterConsecutiveFailures) {
     auto stats = trigger.getStats();
     // Circuit should be open
     EXPECT_TRUE(stats.circuit_open);
-    // Callback was called at most 2 times (failure_threshold) before circuit opened
-    EXPECT_LE(call_count.load(), static_cast<int>(cb_cfg.failure_threshold) + 1);
+    // Callback was called at most failure_threshold times before circuit opened
+    EXPECT_LE(call_count.load(), static_cast<int>(cb_cfg.failure_threshold));
     EXPECT_GT(stats.callback_failures, 0u);
 }
 
