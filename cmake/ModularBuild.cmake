@@ -175,6 +175,7 @@ set(THEMIS_STORAGE_SOURCES
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
+    ../src/storage/raft_mvcc_bridge.cpp
     
     # Metadata management
     ../src/metadata/schema_manager.cpp

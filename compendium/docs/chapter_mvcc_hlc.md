@@ -366,13 +366,85 @@ Wenn `themis_mvcc_version_entries` kontinuierlich wächst, wurde GC nicht konfig
 | Hohe Schreiblatenz | `write_latency_seconds` hoch | RocksDB compaction prüfen; ggf. Schreibbatch-Größe erhöhen |
 | HLC läuft nicht monoton | Nicht möglich (API-Garantie) | – |
 | `version_entries` wächst | GC inaktiv | GC-Job überprüfen |
+| Linearizable-Read schlägt fehl | `is_leader == false` | Anfrage an den aktuellen Raft-Leader weiterleiten |
 
 ---
 
-## 18.8 Referenzen
+## 18.9 Raft-MVCC-Bridge: Konsistente Reads über Shard-Grenzen
+
+### Motivation
+
+Für Snapshots und linearisierbare Reads, die **mehrere Shards** gleichzeitig betreffen, müssen alle beteiligten Shards vom selben Zeitpunkt des Raft-Commit-Index lesen.  Die `RaftMvccBridge`-Klasse (in `include/storage/raft_mvcc_bridge.h`) überbrückt die beiden Zeitstempel-Räume:
+
+| Subsystem | Zeitstempel-Typ | Eigenschaft |
+|-----------|----------------|-------------|
+| `DistributedTimeCoordinator` | `int64_t` Raft-Log-Index | Kausal geordnet per Raft |
+| `MVCCStore` / `HybridLogicalClock` | `HLCTimestamp` (64-Bit) | Streng monoton, wall-clock-gebunden |
+
+### Zeitstempel-Konvertierung
+
+```
+TimeInterval.system_time_ns / 1e6  →  HLCTimestamp.physical_ms
+TimeInterval.logical_timestamp & 0xFFFFF  →  HLCTimestamp.logical (20 Bit)
+```
+
+Dadurch wird der Raft-Log-Index in die niederwertigen 20 Bit des HLC-Zeitstempels eingebettet, sodass höhere Log-Indizes innerhalb derselben Millisekunde immer größere HLC-Werte erzeugen.
+
+### Nutzung
+
+```cpp
+#include "storage/raft_mvcc_bridge.h"
+using namespace themis;
+
+// Setup (einmalig pro Shard)
+auto bridge = std::make_shared<RaftMvccBridge>(mvcc_store, coordinator);
+
+// ──── Linearisierbarer Read (nur auf dem Raft-Leader) ────
+auto [is_leader, value] = bridge->linearizableRead("user:42");
+if (!is_leader) {
+    // An Leader weiterleiten
+}
+
+// ──── Snapshot-Zeitstempel ableiten ────
+HLCTimestamp snap = bridge->snapshotTimestamp();
+// snap ist jetzt ≥ jedem HLC-Timestamp eines Schreibvorgangs,
+// der vor diesem Aufruf im Raft-Log committet wurde.
+
+// ──── Konsistenter Snapshot-Read auf mehreren Shards ────
+auto val_shard1 = bridge_shard1->snapshotRead("user:42", snap);
+auto val_shard2 = bridge_shard2->snapshotRead("order:99", snap);
+// Beide Reads sehen einen konsistenten Zustand.
+
+// ──── Raft-bewusstes Schreiben ────
+HLCTimestamp ts = bridge->raftAwareWrite("user:42", new_value);
+// ts ist in das MVCC-Log eingetragen und sofort für Snapshot-Reads sichtbar.
+```
+
+### Schaubild
+
+```
+Shard A                              Shard B
+┌──────────────────────┐             ┌──────────────────────┐
+│  DistributedTime     │             │  DistributedTime     │
+│  Coordinator         │             │  Coordinator         │
+│  (Raft commit idx)   │             │  (Raft commit idx)   │
+└──────────┬───────────┘             └──────────┬───────────┘
+           │ snapshotTimestamp()                │ snapshotTimestamp()
+           │ → HLCTimestamp T                  │ → HLCTimestamp T
+           ▼                                   ▼
+┌──────────────────────┐             ┌──────────────────────┐
+│  MVCCStore           │             │  MVCCStore           │
+│  getAtTimestamp(T)   │             │  getAtTimestamp(T)   │
+└──────────────────────┘             └──────────────────────┘
+          Beide Shards lesen denselben konsistenten Snapshot
+```
+
+---
+
+## 18.10 Referenzen
 
 - Kulkarni, S. et al. (2014). *Logical Physical Clocks and Consistent Snapshots in Globally Distributed Databases.* ([arXiv](https://arxiv.org/abs/1507.05768))
 - Corbett, J. et al. (2012). *Spanner: Google's Globally Distributed Database.* OSDI.
 - [CockroachDB MVCC](https://www.cockroachlabs.com/docs/stable/architecture/storage-layer.html#mvcc)
 - [FoundationDB Record Layer](https://foundationdb.github.io/fdb-record-layer/)
-- ThemisDB: `include/storage/hlc.h`, `include/storage/mvcc_store.h`, `include/server/mvcc_api_handler.h`
+- ThemisDB: `include/storage/hlc.h`, `include/storage/mvcc_store.h`, `include/storage/raft_mvcc_bridge.h`, `include/server/mvcc_api_handler.h`
