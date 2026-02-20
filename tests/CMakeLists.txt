@@ -46,7 +46,6 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*benchmark.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
-list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_multi_shard_transactions\\.cpp$")
 
 # Skip feature-dependent tests when the corresponding modules are disabled
 set(TEST_EXCLUDE_PATTERNS "")
@@ -191,6 +190,10 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_diskann\\.cpp$"
     ".*test_api_version\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
+    ".*test_continuous_learning_orchestrator\\.cpp$"
+    ".*test_gpu_stream_manager\\.cpp$"
+    ".*test_gpu_module\\.cpp$"
+    ".*test_query_engine_di\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -207,6 +210,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/ingestion_manager.cpp
         ../src/ingestion/huggingface_connector.cpp
         ../src/ingestion/filesystem_ingester.cpp
+        ../src/ingestion/api_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp

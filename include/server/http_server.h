@@ -67,6 +67,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/transaction_api_handler.h"
+#include "server/distributed_txn_api_handler.h"
 #include "server/wal_api_handler.h"
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
@@ -283,6 +284,34 @@ public:
     // Test helper: expose content manager metrics (nullable)
     const themis::content::ContentManager::Metrics* contentMetrics() const {
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
+    }
+
+    /**
+     * @brief Inject a ConcernsContext for lifecycle management and health probes.
+     *
+     * When set before calling start(), the server will:
+     *  - forward the context to MonitoringApiHandler so that /health/live and
+     *    /health/ready report per-concern health;
+     *  - call concerns->shutdown() during stop() after all other teardown is done.
+     *
+     * This method is idempotent: calling it multiple times replaces the previous
+     * context.  It is safe to call only from the thread that owns the server
+     * (before start()).
+     *
+     * @param concerns Shared ownership of the ConcernsContext to use.
+     */
+    void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
+        concerns_ = std::move(concerns);
+        // Forward to MonitoringApiHandler if it has already been constructed
+        // (i.e. setConcerns() is called after the constructor ran).
+        if (monitoring_api_) {
+            monitoring_api_->setConcerns(concerns_);
+        }
+    }
+
+    /// @return the current ConcernsContext (may be nullptr).
+    std::shared_ptr<core::concerns::ConcernsContext> getConcerns() const {
+        return concerns_;
     }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -598,6 +627,9 @@ private:
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
     std::unique_ptr<server::SnapshotApiHandler> snapshot_api_handler_;
     
+    // MVCC API Handler (per-record versioning + HLC)
+    std::unique_ptr<server::MvccApiHandler> mvcc_api_handler_;
+    
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
     std::unique_ptr<DiffApiHandler> diff_api_handler_;
@@ -665,6 +697,8 @@ private:
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
+    // Cross-cutting concerns (lifecycle hooks + health probes); optional.
+    std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
     std::unique_ptr<themis::server::QueryApiHandler> query_api_;
     // Policy API Handler
@@ -716,6 +750,9 @@ private:
     
     // Transaction API Handler
     std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
+    
+    // Distributed (cross-shard) Transaction API Handler
+    std::unique_ptr<themis::server::DistributedTxnApiHandler> distributed_txn_api_;
     
     // WAL API Handler
     std::unique_ptr<themis::server::WALApiHandler> wal_api_;

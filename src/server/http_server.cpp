@@ -76,6 +76,7 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/mvcc_api_handler.h"
 #include "server/pitr_api_handler.h"
 #include "server/diff_api_handler.h"
 #include "server/pitr_api_handler.h"
@@ -89,6 +90,9 @@
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_applier.h"
+#include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
+#include "server/distributed_txn_api_handler.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -318,6 +322,14 @@ HttpServer::HttpServer(
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
         snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
+
+        // Initialize MVCC API Handler (per-record versioning + HLC)
+        {
+            auto clock = std::make_shared<themis::HybridLogicalClock>();
+            auto mvcc_store = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(std::move(mvcc_store));
+        }
+        THEMIS_INFO("MVCC API Handler initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
         pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
@@ -636,7 +648,8 @@ HttpServer::HttpServer(
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
         secondary_index_, schema_manager_.get(), nullptr,
-        &running_, &active_requests_, &active_connections_
+        &running_, &active_requests_, &active_connections_,
+        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
     );
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -754,7 +767,24 @@ HttpServer::HttpServer(
         storage_, tx_manager_, auth_
     );
     THEMIS_INFO("Transaction API Handler initialized");
-    
+
+    // Initialize Distributed Transaction (2PC) API Handler
+    {
+        themis::sharding::TrueTime::Config tt_cfg;
+        tt_cfg.base_uncertainty_us = 1000;
+        auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+        themis::sharding::DistributedTransactionCoordinator::Config dtxn_cfg;
+        dtxn_cfg.enable_recovery_log = false; // WAL dir not configured at server init time;
+                                              // configure via DistributedTransactionCoordinator::Config
+                                              // to enable durable recovery logging in production
+        auto dtxn_coordinator = std::make_shared<
+            themis::sharding::DistributedTransactionCoordinator>(truetime, dtxn_cfg);
+        distributed_txn_api_ = std::make_unique<themis::server::DistributedTxnApiHandler>(
+            dtxn_coordinator
+        );
+    }
+    THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
+
     // Initialize WAL API Handler
     wal_api_ = std::make_unique<themis::server::WALApiHandler>(
         storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
@@ -1310,7 +1340,15 @@ void HttpServer::stop() {
     }
     threads_.clear();
 
+    // Shutdown core concerns (flush remaining logs/spans/metrics, release resources).
+    // Called last, after the final "stopped gracefully" log, so the logger is still
+    // available for that message.  The logger itself is the final resource torn down
+    // inside concerns_->shutdown().
     THEMIS_INFO("HTTP Server stopped gracefully");
+
+    if (concerns_) {
+        concerns_->shutdown();
+    }
 }
 
 void HttpServer::wait() {
@@ -1580,6 +1618,14 @@ namespace {
         TransactionCommitPost,
         TransactionRollbackPost,
         TransactionStatsGet,
+        // Distributed (cross-shard) 2PC transaction endpoints
+        DtxnBeginPost,
+        DtxnOperationPost,
+        DtxnCommitPost,
+        DtxnAbortPost,
+        DtxnReadOnlyPost,
+        DtxnStatusGet,
+        DtxnStatsGet,
         ContentImportPost,
         ContentGet,
         ContentBlobGet,
@@ -1707,6 +1753,14 @@ namespace {
     GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
     GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
        
+    // MVCC versioning API
+    MvccKeyGet,              // GET  /api/v1/mvcc/keys/{key}
+    MvccKeyPost,             // POST /api/v1/mvcc/keys/{key}
+    MvccKeyVersionsGet,      // GET  /api/v1/mvcc/keys/{key}/versions
+    MvccKeyVersionsDelete,   // DELETE /api/v1/mvcc/keys/{key}/versions
+    MvccClockGet,            // GET  /api/v1/mvcc/clock
+    MvccStatsGet,            // GET  /api/v1/mvcc/stats
+
         NotFound
     };
 
@@ -1952,6 +2006,15 @@ namespace {
         if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
         if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
 
+        // Distributed (cross-shard) 2PC transaction endpoints
+        if (target == "/dtxn/begin"    && method == http::verb::post) return Route::DtxnBeginPost;
+        if (target == "/dtxn/operation" && method == http::verb::post) return Route::DtxnOperationPost;
+        if (target == "/dtxn/commit"   && method == http::verb::post) return Route::DtxnCommitPost;
+        if (target == "/dtxn/abort"    && method == http::verb::post) return Route::DtxnAbortPost;
+        if (target == "/dtxn/readonly" && method == http::verb::post) return Route::DtxnReadOnlyPost;
+        if (target.rfind("/dtxn/status/", 0) == 0 && method == http::verb::get) return Route::DtxnStatusGet;
+        if (target == "/dtxn/stats"    && method == http::verb::get)  return Route::DtxnStatsGet;
+
         // Content API
         if (target == "/content/import" && method == http::verb::post) return Route::ContentImportPost;
         if (target == "/content/config" && method == http::verb::get) return Route::ContentConfigGet;
@@ -1997,11 +2060,24 @@ namespace {
         if (method == http::verb::patch) return Route::SchemaPatch;
     }
 
+    // MVCC versioning API endpoints
+    // Note: /versions suffix checked first to avoid matching it as a key named "versions"
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/versions") == path_only.size() - 9) {
+        if (method == http::verb::get)     return Route::MvccKeyVersionsGet;
+        if (method == http::verb::delete_) return Route::MvccKeyVersionsDelete;
+    }
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
+        if (method == http::verb::get)  return Route::MvccKeyGet;
+        if (method == http::verb::post) return Route::MvccKeyPost;
+    }
+    if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
+    if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
+
         return Route::NotFound;
     }
 }
-
-http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
      // Create span for the entire HTTP request
@@ -3139,6 +3215,30 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
             break;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        case Route::DtxnBeginPost:
+            response = distributed_txn_api_->handleBegin(req);
+            break;
+        case Route::DtxnOperationPost:
+            response = distributed_txn_api_->handleOperation(req);
+            break;
+        case Route::DtxnCommitPost:
+            response = distributed_txn_api_->handleCommit(req);
+            break;
+        case Route::DtxnAbortPost:
+            response = distributed_txn_api_->handleAbort(req);
+            break;
+        case Route::DtxnReadOnlyPost:
+            response = distributed_txn_api_->handleReadOnly(req);
+            break;
+        case Route::DtxnStatusGet:
+            response = distributed_txn_api_->handleStatus(req);
+            break;
+        case Route::DtxnStatsGet:
+            response = distributed_txn_api_->handleStats(req);
+            break;
+
         case Route::ContentImportPost:
             {
                 if (validator_) {
@@ -3331,6 +3431,83 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+
+        // ─── MVCC versioning API ───────────────────────────────────────────────
+        // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
+        // and populate req.matches so MvccApiHandler::extractKey() works.
+        case Route::MvccKeyGet:
+        case Route::MvccKeyPost: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleGetKey(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handlePutKey(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccKeyVersionsGet:
+        case Route::MvccKeyVersionsDelete: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleListVersions(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handleGcVersions(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccClockGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccStatsGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
@@ -6481,8 +6658,7 @@ void HttpServer::Session::armReadTimer() {
 }
 
 void HttpServer::Session::cancelReadTimer() {
-    beast::error_code ec;
-    read_timer_.cancel(ec); // cancels the pending async_wait, if any
+    read_timer_.cancel(); // cancels the pending async_wait, if any
 }
 
 void HttpServer::Session::start() {
@@ -6641,7 +6817,7 @@ void HttpServer::SslSession::armReadTimer() {
 
 void HttpServer::SslSession::cancelReadTimer() {
     beast::error_code ec;
-    read_timer_.cancel(ec);
+    read_timer_.cancel();
 }
 
 void HttpServer::SslSession::start() {

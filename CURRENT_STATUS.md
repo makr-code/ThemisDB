@@ -32,6 +32,20 @@ Sub-phases:
 
 Status: **Production-ready** ✅
 
+**Phase 2.5: Repair / Anti-Entropy Engine** (100%) ✅
+- `ShardRepairEngine` with background anti-entropy scan thread and repair worker
+- Vandermonde-matrix Reed-Solomon decoder for full multi-chunk erasure recovery (RAID-5/6)
+- On-demand triggers: `triggerRepair()`, `triggerFullScan()`, `triggerDocumentRepair()`
+- Per-shard `ShardHealthReport` with status HEALTHY / DEGRADED / FAILED / REBUILDING
+- Prometheus metrics forwarding via `setPrometheusMetrics()` + `ShardingMetricsHandler`
+- Admin API endpoints: `POST /admin/repair`, `POST /admin/repair/scan`, `GET /admin/repair/{id}`
+- Health endpoint (`GET /admin/health`) enriched with per-shard repair status
+- `AutoRecoveryManager::repairDocument()` delegates to ShardRepairEngine
+- `HotSpareManager` triggers ShardRepairEngine repair after failover activation
+- 43 unit tests in `tests/test_sharding_repair.cpp`
+
+Status: **Production-ready** ✅
+
 ### Current Phase 🚀
 
 **Phase 3: RPC Integration & Network Resilience** (0% - Planning complete)

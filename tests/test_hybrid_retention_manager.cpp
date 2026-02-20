@@ -89,7 +89,7 @@ protected:
         std::filesystem::create_directories(db_path_);
 
         RocksDBWrapper::Config cfg;
-        cfg.db_path = std::string(db_path_) + "/db";
+        cfg.db_path = db_path_.string() + "/db";
         cfg.enable_blobdb = false;
         storage_ = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(storage_->open());

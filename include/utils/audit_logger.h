@@ -149,6 +149,10 @@ struct AuditLoggerConfig {
     uint16_t siem_port = 514; // Default: syslog (514). Configure based on siem_type: Splunk HEC (8088), Elastic (9200)
     std::string splunk_token; // Splunk HEC token
     std::string elastic_index = "themisdb-audit"; // Elasticsearch index
+    /// Path to a CA bundle file (PEM) used for TLS verification when
+    /// siem_type is "splunk".  If empty, libcurl uses its system default
+    /// bundle.  Set this explicitly in production to pin the expected CA.
+    std::string siem_ca_bundle_path;
     
     // Task Scheduler SIEM settings
     bool enable_task_scheduler_audit = true;

@@ -380,6 +380,20 @@ concerns_config.cacheDefaultTTL = 3600;
 
 auto concerns = ConcernsContext::create(concerns_config);
 
+// Wire ConcernsContext into the HTTP server for lifecycle and probe integration
+auto http_server = std::make_unique<themis::server::HttpServer>(
+    server_config, storage, secondary_index, graph_index, vector_index, tx_manager
+);
+http_server->setConcerns(concerns);
+http_server->start();
+
+// The server now:
+//   - Passes `concerns` to MonitoringApiHandler so /health/live and
+//     /health/ready report per-concern status (HTTP 503 if any concern
+//     is unhealthy)
+//   - Calls concerns->shutdown() at the end of HttpServer::stop() to
+//     flush and release all concern resources in the correct order
+
 // Use components
 security.field_encryption->encrypt_field("ssn", plaintext);
 security.rbac->checkPermission({"admin"}, "data", "write");
@@ -389,6 +403,30 @@ concerns->logger().info("ThemisDB started in production mode");
 auto span = concerns->tracer().startSpan("startup");
 concerns->metrics().incrementCounter("startup_total");
 ```
+
+## Lifecycle Management
+
+`ConcernsContext` exposes three methods for production lifecycle management:
+
+| Method | When to call |
+|--------|-------------|
+| `flush()` | Before process suspension or between test cases; does **not** tear down the context. |
+| `shutdown()` | Once, during process exit (e.g. `HttpServer::stop()`). Flushes then releases resources. |
+| `healthCheck()` | Liveness probe (`/health/live`). Returns `HealthStatus{logger, tracer, metrics, cache}`. |
+| `readinessCheck()` | Readiness probe (`/health/ready`). Same as `healthCheck()` for in-process backends. |
+
+### Shutdown Order (guaranteed by `ConcernsContext::shutdown()`)
+
+1. Flush logger, tracer, and metrics (ensures no pending data is lost)
+2. `tracer.shutdown()` — exports remaining spans
+3. `metrics.shutdown()` — publishes final snapshot
+4. `cache.shutdown()` — persists or releases cache entries
+5. `logger.shutdown()` — final flush and sink teardown
+
+`HttpServer::stop()` calls `concerns->shutdown()` **after** all RocksDB and
+network teardown to guarantee the logger is available for shutdown messages.
+
+
 
 ## Failure Modes and Error Messages
 

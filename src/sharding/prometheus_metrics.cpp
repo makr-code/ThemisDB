@@ -674,10 +674,73 @@ void PrometheusMetrics::recordTransactionTimeout(const std::string& transaction_
     incrementCounter("themis_transaction_timeouts_total", {{"type", transaction_type}});
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Shard repair / anti-entropy metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+void PrometheusMetrics::recordRepairOperation(bool success, double duration_ms) {
+    incrementCounter("themis_shard_repair_operations_total",
+                     {{"result", success ? "success" : "failure"}});
+    observeHistogram("themis_shard_repair_duration_seconds", duration_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordRepairShardStatus(const std::string& shard_id,
+                                                 const std::string& status) {
+    // Use a gauge per (shard, status) pair: value is 1 for the active status, 0 for others.
+    // Known statuses are defined in PrometheusMetrics::RepairShardStatus.
+    static constexpr const char* kKnownStatuses[] = {
+        RepairShardStatus::HEALTHY,
+        RepairShardStatus::DEGRADED,
+        RepairShardStatus::FAILED,
+        RepairShardStatus::REBUILDING,
+    };
+    for (const auto* s : kKnownStatuses) {
+        setGauge("themis_shard_repair_health",
+                 (status == s) ? 1.0 : 0.0,
+                 {{"shard_id", shard_id}, {"status", s}});
+    }
+}
+
+void PrometheusMetrics::recordRepairScan() {
+    incrementCounter("themis_shard_repair_scans_total", {});
+// ─── MVCC / HLC Metrics ───────────────────────────────────────────────────────
+
+void PrometheusMetrics::recordMvccWrite(double latency_ms) {
+    incrementCounter("themis_mvcc_writes_total", {});
+    observeHistogram("themis_mvcc_write_latency_seconds", latency_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordMvccRead(const std::string& read_type, double latency_ms) {
+    incrementCounter("themis_mvcc_reads_total", {{"read_type", read_type}});
+    observeHistogram("themis_mvcc_read_latency_seconds", latency_ms / 1000.0, {{"read_type", read_type}});
+}
+
+void PrometheusMetrics::recordMvccGc(uint64_t versions_deleted) {
+    incrementCounter("themis_mvcc_gc_runs_total", {});
+    addToCounter("themis_mvcc_gc_versions_deleted_total", static_cast<int64_t>(versions_deleted), {});
+    // Store the batch count in the histogram for distribution analysis.
+    observeHistogram("themis_mvcc_gc_batch_size", static_cast<double>(versions_deleted), {});
+}
+
+void PrometheusMetrics::setMvccVersionCount(int64_t count) {
+    setGauge("themis_mvcc_version_entries", static_cast<double>(count), {});
+}
+
+void PrometheusMetrics::recordHlcAdvance(const std::string& type) {
+    incrementCounter("themis_hlc_advances_total", {{"type", type}});
+}
+
 void PrometheusMetrics::incrementCounter(const std::string& name, 
                                           const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
     counters_[key]++;
+}
+
+void PrometheusMetrics::addToCounter(const std::string& name,
+                                      int64_t amount,
+                                      const std::map<std::string, std::string>& labels) {
+    std::string key = getCounterKey(name, labels);
+    counters_[key] += amount;
 }
 
 void PrometheusMetrics::setGauge(const std::string& name, double value, 

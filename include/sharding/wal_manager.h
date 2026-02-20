@@ -107,7 +107,8 @@ enum class WALEntryType : uint8_t {
     BEGIN_TX = 4,
     COMMIT_TX = 5,
     ABORT_TX = 6,
-    CHECKPOINT = 7
+    CHECKPOINT = 7,
+    PREPARE_TX = 8   // 2PC PREPARE phase log entry (in-doubt recovery)
 };
 
 /**

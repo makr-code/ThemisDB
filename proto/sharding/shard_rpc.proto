@@ -41,6 +41,15 @@ service ShardService {
     
     // Gossip Protocol
     rpc GossipExchange(GossipMessage) returns (GossipMessage);
+
+    // Shard Repair / Anti-Entropy (v1.5)
+    // Trigger an asynchronous repair job for one shard (or all shards when
+    // shard_id is empty). Returns immediately with a job_id for polling.
+    rpc TriggerRepair(RepairRequest) returns (RepairJobResponse);
+    // Trigger a full cluster-wide anti-entropy scan.
+    rpc TriggerRepairScan(RepairScanRequest) returns (RepairJobResponse);
+    // Poll the status of a repair or scan job.
+    rpc GetRepairStatus(RepairStatusRequest) returns (RepairStatusResponse);
 }
 
 // WAL Apply RPC (mirrors HTTP /api/v1/wal/apply semantics)
@@ -410,4 +419,71 @@ message ChunkManifest {
     uint32 chunk_index = 3;              // Chunk index in file
     uint64 offset = 4;                   // Offset in file (for CDC)
     uint64 snapshot_sequence = 5;        // Snapshot when chunk was created
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Shard Repair / Anti-Entropy RPC Messages  (v1.5)
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Shard health status values (mirrors ShardRepairStatus enum in C++)
+enum RepairShardStatus {
+    REPAIR_SHARD_HEALTHY    = 0;
+    REPAIR_SHARD_DEGRADED   = 1;
+    REPAIR_SHARD_FAILED     = 2;
+    REPAIR_SHARD_REBUILDING = 3;
+}
+
+// Job lifecycle states
+enum RepairJobState {
+    REPAIR_JOB_QUEUED    = 0;
+    REPAIR_JOB_RUNNING   = 1;
+    REPAIR_JOB_COMPLETED = 2;
+    REPAIR_JOB_FAILED    = 3;
+}
+
+message RepairRequest {
+    // Target shard to repair; empty string means "all shards"
+    string shard_id = 1;
+    // Optional: single document to repair within the shard
+    string document_id = 2;
+    // Optional: collection / namespace for the document
+    string collection   = 3;
+}
+
+message RepairScanRequest {
+    // Reserved for future options (e.g. scan depth, dry_run)
+}
+
+message RepairJobResponse {
+    string job_id   = 1;  // Unique job identifier for status polling
+    RepairJobState state = 2;
+    string shard_id = 3;  // Echo of the requested shard (empty for all)
+    string error    = 4;  // Set when state == REPAIR_JOB_FAILED
+}
+
+message RepairStatusRequest {
+    string job_id = 1;
+}
+
+// Per-shard health summary used in RepairStatusResponse
+message RepairShardEntry {
+    string shard_id               = 1;
+    RepairShardStatus status       = 2;
+    uint64 documents_scanned      = 3;
+    uint64 documents_healthy      = 4;
+    uint64 documents_degraded     = 5;
+    uint64 documents_unrecoverable = 6;
+    string last_error             = 7;
+}
+
+message RepairStatusResponse {
+    string job_id                  = 1;
+    RepairJobState state           = 2;
+    string shard_id                = 3;
+    string document_id             = 4;
+    int64  started_at_unix_ms      = 5;   // Unix epoch milliseconds
+    int64  completed_at_unix_ms    = 6;   // 0 when not yet complete
+    string error                   = 7;   // Set when state == FAILED
+    // Filled for scan jobs only
+    repeated RepairShardEntry shard_reports = 8;
 }

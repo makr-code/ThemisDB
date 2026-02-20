@@ -85,6 +85,15 @@ readinessProbe:
   timeoutSeconds: 3
   failureThreshold: 3
 
+# Optional startup probe — useful when the instance loads large models at boot.
+# Uncomment and configure to prevent premature liveness failures during startup.
+# startupProbe:
+#   httpGet:
+#     path: /health
+#     port: health
+#   failureThreshold: 12
+#   periodSeconds: 10
+
 nodeSelector: {}
 
 tolerations: []
@@ -123,6 +132,36 @@ themisdb:
   logLevel: info
   # Enable metrics endpoint
   metricsEnabled: true
+
+  # Health endpoint port (should match THEMIS_HEALTH_PORT env var)
+  healthPort: 8081
+
+  # Environment variables injected into the container.
+  # For production deployments set at minimum:
+  #   THEMIS_PRODUCTION_MODE=1, THEMIS_ENVIRONMENT=production,
+  #   THEMIS_TOKEN_ADMIN (from a Secret), THEMIS_PKI_CERTIFICATE/KEY.
+  # See docs/production/SECURITY_POSTURE.md for the full list.
+  # Example:
+  # env:
+  #   - name: THEMIS_PRODUCTION_MODE
+  #     value: "1"
+  #   - name: THEMIS_TOKEN_ADMIN
+  #     valueFrom:
+  #       secretKeyRef:
+  #         name: themisdb-secrets
+  #         key: THEMIS_TOKEN_ADMIN
+  env: []
+
+  # Name of a Kubernetes Secret containing TLS cert/key for the API server.
+  # The secret must have keys: tls.crt and tls.key.
+  # When set, the secret is mounted at /etc/themisdb/tls (read-only).
+  tlsSecret: ""
+
+  # Name of a Kubernetes Secret containing the WAL gRPC mTLS cert/key/ca.
+  # The secret must have keys: tls.crt, tls.key, and ca.crt.
+  # When set, the secret is mounted at /etc/themisdb/wal-tls (read-only).
+  walTlsSecret: ""
+
   # Configuration file content (JSON)
   # Note: logLevel above is for documentation; the actual log level is set in the config below
   config: |
