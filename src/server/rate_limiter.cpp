@@ -96,6 +96,40 @@ bool RateLimiter::isBlacklisted(const std::string& ip) const {
     return blacklisted_ips_.count(ip) > 0;
 }
 
+bool RateLimiter::isAdaptivelyThrottled(const std::string& ip) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto it = adaptive_state_.find(ip);
+    if (it == adaptive_state_.end()) return false;
+    if (!it->second.under_penalty) return false;
+    return std::chrono::steady_clock::now() < it->second.penalty_until;
+}
+
+void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
+    // Called with mutex_ held
+    if (!config_.adaptive_throttling_enabled) return;
+    auto now = std::chrono::steady_clock::now();
+    auto& entry = adaptive_state_[ip];
+
+    // Prune old rejection timestamps outside the rolling window
+    auto window = std::chrono::seconds(config_.adaptive_window_seconds);
+    entry.rejection_times.erase(
+        std::remove_if(entry.rejection_times.begin(), entry.rejection_times.end(),
+                       [&](const auto& t){ return (now - t) > window; }),
+        entry.rejection_times.end());
+
+    entry.rejection_times.push_back(now);
+
+    if (!entry.under_penalty &&
+        entry.rejection_times.size() >= config_.adaptive_rejection_threshold) {
+        entry.under_penalty = true;
+        entry.penalty_until = now + std::chrono::seconds(
+            config_.adaptive_penalty_duration_seconds);
+        THEMIS_WARN("Adaptive throttle penalty applied to IP: {} ({} rejections in {}s)",
+                    ip, entry.rejection_times.size(),
+                    config_.adaptive_window_seconds);
+    }
+}
+
 std::shared_ptr<TokenBucket> RateLimiter::getOrCreateBucket(
     const std::string& key,
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>>& buckets
@@ -141,6 +175,32 @@ bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id
         stats_.allowed_requests++;
         return true;
     }
+
+    // Adaptive throttle check: temporarily reduce capacity for misbehaving IPs
+    if (config_.adaptive_throttling_enabled && !ip.empty()) {
+        auto& entry = adaptive_state_[ip];
+        auto now = std::chrono::steady_clock::now();
+        if (entry.under_penalty) {
+            if (now >= entry.penalty_until) {
+                // Penalty has expired
+                entry.under_penalty = false;
+                entry.rejection_times.clear();
+                THEMIS_INFO("Adaptive throttle penalty expired for IP: {}", ip);
+            } else {
+                // Still penalised: consume two tokens (makes it ~4x harder to pass)
+                auto bucket = getOrCreateBucket(ip, ip_buckets_);
+                ip_last_access_[ip] = now;
+                bool passed = bucket->tryConsume(2);
+                if (passed) {
+                    stats_.allowed_requests++;
+                } else {
+                    stats_.rejected_requests++;
+                    recordRejectionForAdaptive(ip);
+                }
+                return passed;
+            }
+        }
+    }
     
     bool allowed = true;
     
@@ -170,6 +230,9 @@ bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id
         stats_.allowed_requests++;
     } else {
         stats_.rejected_requests++;
+        if (config_.adaptive_throttling_enabled && !ip.empty()) {
+            recordRejectionForAdaptive(ip);
+        }
     }
     
     // Periodic cleanup
@@ -224,6 +287,14 @@ RateLimiter::Statistics RateLimiter::getStatistics() const {
     Statistics stats = stats_;
     stats.active_ip_buckets = ip_buckets_.size();
     stats.active_user_buckets = user_buckets_.size();
+
+    // Count IPs currently under an active penalty
+    auto now = std::chrono::steady_clock::now();
+    size_t penalised = 0;
+    for (const auto& [ip, entry] : adaptive_state_) {
+        if (entry.under_penalty && now < entry.penalty_until) penalised++;
+    }
+    stats.adaptive_throttle_penalties = penalised;
     
     return stats;
 }
@@ -236,6 +307,7 @@ void RateLimiter::reset() {
     user_buckets_.clear();
     user_last_access_.clear();
     blacklisted_ips_.clear();
+    adaptive_state_.clear();
     
     stats_ = Statistics();
     

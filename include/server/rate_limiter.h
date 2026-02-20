@@ -36,6 +36,17 @@ struct RateLimitConfig {
     
     // Custom rate limits for specific IPs/users
     std::unordered_map<std::string, size_t> custom_limits;
+
+    // ── Adaptive throttling ──────────────────────────────────────────────
+    // When an IP exceeds adaptive_rejection_threshold consecutive rejections
+    // within adaptive_window_seconds, its token-bucket refill rate is
+    // multiplied by adaptive_penalty_factor (e.g. 0.5 = halved).
+    // The penalty is removed after adaptive_penalty_duration_seconds.
+    bool adaptive_throttling_enabled = false;
+    uint32_t adaptive_rejection_threshold = 10;   ///< rejections that trigger penalty
+    uint32_t adaptive_window_seconds      = 60;   ///< rolling window for counting
+    double   adaptive_penalty_factor      = 0.25; ///< 0 < factor < 1
+    uint32_t adaptive_penalty_duration_seconds = 120; ///< how long the penalty lasts
 };
 
 /**
@@ -135,6 +146,12 @@ public:
      * @param ip IP address to check
      */
     bool isBlacklisted(const std::string& ip) const;
+
+    /**
+     * @brief Return true if an IP is currently under an adaptive throttle penalty.
+     * @param ip IP address to check.
+     */
+    bool isAdaptivelyThrottled(const std::string& ip) const;
     
     /**
      * @brief Update configuration at runtime
@@ -150,6 +167,7 @@ public:
         size_t rejected_requests = 0;
         size_t active_ip_buckets = 0;
         size_t active_user_buckets = 0;
+        size_t adaptive_throttle_penalties = 0; ///< IPs currently penalised
     };
     
     Statistics getStatistics() const;
@@ -182,6 +200,18 @@ private:
     
     // IP blacklist (blocked regardless of rate limit)
     std::unordered_set<std::string> blacklisted_ips_;
+
+    // ── Adaptive throttling state ────────────────────────────────────────
+    struct AdaptiveEntry {
+        // Timestamps of recent rejections within the rolling window
+        std::vector<std::chrono::steady_clock::time_point> rejection_times;
+        // If non-zero, IP is currently penalised
+        std::chrono::steady_clock::time_point penalty_until;
+        bool under_penalty = false;
+    };
+    std::unordered_map<std::string, AdaptiveEntry> adaptive_state_;
+
+    void recordRejectionForAdaptive(const std::string& ip);
     
     // Statistics
     mutable Statistics stats_;

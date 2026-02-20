@@ -1,5 +1,6 @@
 #include "server/policy_engine.h"
 #include <fstream>
+#include <filesystem>
 #include <yaml-cpp/yaml.h>
 
 namespace themis {
@@ -89,6 +90,15 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         }
 
         setPolicies(std::move(loaded));
+        // Remember path and file mtime for hot-reload
+        loaded_file_path_ = path;
+        try {
+            auto mtime = std::filesystem::last_write_time(path);
+            last_loaded_mtime_ = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+                std::chrono::file_clock::to_sys(mtime));
+        } catch (...) {
+            last_loaded_mtime_ = std::chrono::system_clock::now();
+        }
         return true;
     } catch (const std::exception& e) {
         if (err) *err = e.what();
@@ -109,6 +119,40 @@ bool PolicyEngine::saveToFile(const std::string& path, std::string* err) const {
         if (err) *err = e.what();
         return false;
     }
+}
+
+bool PolicyEngine::reloadIfChanged(std::string* err) {
+    // Fast read of the stored path under the lock
+    std::string path;
+    std::chrono::system_clock::time_point last_mtime;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        path       = loaded_file_path_;
+        last_mtime = last_loaded_mtime_;
+    }
+
+    if (path.empty()) {
+        // No file was ever loaded – nothing to do
+        return true;
+    }
+
+    // Check modification time without holding the policy lock
+    std::chrono::system_clock::time_point current_mtime;
+    try {
+        auto ft = std::filesystem::last_write_time(path);
+        current_mtime = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+            std::chrono::file_clock::to_sys(ft));
+    } catch (const std::exception& e) {
+        if (err) *err = std::string("stat failed: ") + e.what();
+        return false;
+    }
+
+    if (current_mtime <= last_mtime) {
+        return true;  // File unchanged
+    }
+
+    // File has changed – reload
+    return loadFromFile(path, err);
 }
 
 void PolicyEngine::setPolicies(std::vector<Policy> policies) {

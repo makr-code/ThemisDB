@@ -7,6 +7,7 @@
 #include <optional>
 #include <mutex>
 #include <atomic>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -53,6 +54,21 @@ public:
     // Save policies to JSON file
     bool saveToFile(const std::string& path, std::string* err = nullptr) const;
 
+    /**
+     * @brief Reload policies from the file last passed to loadFromFile().
+     *
+     * Checks whether the file's modification time has changed since the last
+     * load.  If it has, the file is re-read and the in-memory policy set is
+     * atomically replaced.  If the path is empty or the file has not changed
+     * the method is a fast no-op.
+     *
+     * @param err  Optional: populated with a human-readable error string on
+     *             failure (file read error, parse error, etc.).
+     * @return true  if the policies were successfully reloaded (or were already
+     *              up-to-date), false on error.
+     */
+    bool reloadIfChanged(std::string* err = nullptr);
+
     // Replace all policies
     void setPolicies(std::vector<Policy> policies);
     // Append single policy
@@ -83,6 +99,10 @@ private:
     mutable std::mutex mutex_;
     std::vector<Policy> policies_;
     mutable Metrics metrics_;
+
+    // Hot-reload state
+    std::string loaded_file_path_;
+    std::chrono::system_clock::time_point last_loaded_mtime_;
 };
 
 } // namespace themis
