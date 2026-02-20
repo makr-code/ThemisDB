@@ -3,6 +3,7 @@
 #include "core/config_validator.h"
 #include "security/mock_key_provider.h"
 #include "security/vault_key_provider.h"
+#include "security/hsm_provider.h"
 #include "security/hsm_key_provider_adapter.h"
 #include <fstream>
 #include <sstream>
@@ -256,7 +257,19 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             }
             
             try {
-                return std::make_shared<HSMKeyProviderAdapter>(library_path, slot_id, pin);
+                security::HSMConfig hsm_config;
+                hsm_config.library_path = library_path;
+                if (!slot_id.empty()) {
+                    hsm_config.slot_id = static_cast<uint32_t>(std::stoul(slot_id));
+                }
+                hsm_config.pin = pin;
+
+                auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+                if (!hsm->initialize()) {
+                    throw std::runtime_error("HSM provider initialization failed");
+                }
+
+                return std::make_shared<security::HSMKeyProviderAdapter>(hsm);
             } catch (const std::exception& e) {
                 throw std::runtime_error("Failed to initialize HSM key provider: " + std::string(e.what()));
             }
