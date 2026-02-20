@@ -83,6 +83,10 @@ void ShardRepairEngine::setDocumentListProvider(DocumentListProvider provider) {
     doc_list_provider_ = std::move(provider);
 }
 
+void ShardRepairEngine::setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> prom_metrics) {
+    prom_metrics_ = std::move(prom_metrics);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // On-demand triggers
 // ─────────────────────────────────────────────────────────────────────────────
@@ -321,6 +325,11 @@ void ShardRepairEngine::performAntiEntropyScan() {
         metrics_.last_scan_time = std::chrono::system_clock::now();
     }
 
+    // Forward scan event to the centralized PrometheusMetrics registry.
+    if (prom_metrics_) {
+        prom_metrics_->recordRepairScan();
+    }
+
     for (const auto& shard_info : all_shards) {
         if (!running_.load()) break;
 
@@ -380,6 +389,19 @@ void ShardRepairEngine::performAntiEntropyScan() {
         {
             std::lock_guard<std::mutex> lock(health_mutex_);
             shard_health_[shard_id] = report;
+        }
+
+        // Forward per-shard health to the centralized PrometheusMetrics registry.
+        if (prom_metrics_) {
+            using S = PrometheusMetrics::RepairShardStatus;
+            const char* status_str = S::HEALTHY;
+            switch (report.status) {
+                case ShardRepairStatus::DEGRADED:   status_str = S::DEGRADED;   break;
+                case ShardRepairStatus::FAILED:     status_str = S::FAILED;     break;
+                case ShardRepairStatus::REBUILDING: status_str = S::REBUILDING; break;
+                default: break;
+            }
+            prom_metrics_->recordRepairShardStatus(shard_id, status_str);
         }
 
         spdlog::debug("ShardRepairEngine: shard {} – scanned={} healthy={} degraded={} "
@@ -495,18 +517,26 @@ bool ShardRepairEngine::repairDocument(const std::string& doc_id,
 
 void ShardRepairEngine::updateMetricsAfterRepair(bool success,
                                                   std::chrono::milliseconds duration) {
-    std::lock_guard<std::mutex> lock(metrics_mutex_);
-    ++metrics_.total_repairs_attempted;
-    if (success) {
-        ++metrics_.total_repairs_successful;
-    } else {
-        ++metrics_.total_repairs_failed;
+    {
+        std::lock_guard<std::mutex> lock(metrics_mutex_);
+        ++metrics_.total_repairs_attempted;
+        if (success) {
+            ++metrics_.total_repairs_successful;
+        } else {
+            ++metrics_.total_repairs_failed;
+        }
+        // Cumulative moving average: avg_n = avg_{n-1} + (x_n - avg_{n-1}) / n
+        // Avoids the overflow that would occur when computing avg * (n-1).
+        int64_t delta = duration.count() - metrics_.avg_repair_time_ms.count();
+        metrics_.avg_repair_time_ms += std::chrono::milliseconds(
+            delta / static_cast<int64_t>(metrics_.total_repairs_attempted));
     }
-    // Cumulative moving average: avg_n = avg_{n-1} + (x_n - avg_{n-1}) / n
-    // Avoids the overflow that would occur when computing avg * (n-1).
-    int64_t delta = duration.count() - metrics_.avg_repair_time_ms.count();
-    metrics_.avg_repair_time_ms += std::chrono::milliseconds(
-        delta / static_cast<int64_t>(metrics_.total_repairs_attempted));
+
+    // Forward operation result to the centralized PrometheusMetrics registry.
+    if (prom_metrics_) {
+        prom_metrics_->recordRepairOperation(success,
+                                             static_cast<double>(duration.count()));
+    }
 }
 
 }  // namespace sharding

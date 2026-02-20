@@ -18,12 +18,14 @@
 #include "sharding/redundancy_strategy.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
+#include "sharding/prometheus_metrics.h"
 
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
 #include <functional>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <queue>
 #include <string>
@@ -161,6 +163,14 @@ public:
     /// Inject a function that lists document IDs for a given shard.
     void setDocumentListProvider(DocumentListProvider provider);
 
+    /**
+     * Attach a shared PrometheusMetrics instance so that the engine
+     * forwards repair events (scans, operation results, shard health) into
+     * the centralized metrics registry.  Optional — if not set, repair events
+     * are only visible through exportPrometheusMetrics().
+     */
+    void setPrometheusMetrics(std::shared_ptr<PrometheusMetrics> prom_metrics);
+
     // ── On-demand triggers (API / CLI) ────────────────────────────────────────
 
     /**
@@ -219,6 +229,8 @@ private:
     RedundancyStrategy::ReadHandler read_handler_;
     RedundancyStrategy::WriteHandler write_handler_;
     DocumentListProvider doc_list_provider_;
+    /// Optional centralized metrics registry (set via setPrometheusMetrics).
+    std::shared_ptr<PrometheusMetrics> prom_metrics_;
 
     std::atomic<bool> running_{false};
     std::thread scan_thread_;

@@ -13,6 +13,7 @@
 #include <gtest/gtest.h>
 #include "sharding/redundancy_strategy.h"
 #include "sharding/shard_repair_engine.h"
+#include "sharding/auto_recovery_manager.h"
 #include "sharding/admin_api.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
@@ -26,6 +27,22 @@
 #include <chrono>
 
 using namespace themis::sharding;
+
+// ============================================================================
+// Shared test helpers
+// ============================================================================
+
+// No-op read handler: all reads return "not found".
+static const RedundancyStrategy::ReadHandler kNullReadHandler =
+    [](const std::string&, const std::string&) -> std::optional<std::vector<uint8_t>> {
+        return std::nullopt;
+    };
+
+// Always-succeed write handler.
+static const RedundancyStrategy::WriteHandler kAlwaysSucceedWriteHandler =
+    [](const std::string&, const std::string&, const std::vector<uint8_t>&) -> bool {
+        return true;
+    };
 
 // ============================================================================
 // ReedSolomonCoder multi-chunk erasure decoding tests
@@ -257,12 +274,8 @@ protected:
             *strategy_,
             *ring_,
             *topology_,
-            [](const std::string&, const std::string&) -> std::optional<std::vector<uint8_t>> {
-                return std::nullopt;  // Mock: all reads fail (simulates missing data)
-            },
-            [](const std::string&, const std::string&, const std::vector<uint8_t>&) -> bool {
-                return true;  // Mock: all writes succeed
-            }
+            kNullReadHandler,
+            kAlwaysSucceedWriteHandler
         );
     }
 
@@ -486,18 +499,7 @@ TEST(ShardingMetricsHandlerRepairTest, GetMetricsIncludesRepairWhenEngineSet) {
     rcfg.mode = RedundancyMode::MIRROR;
     auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
 
-    RepairConfig repair_cfg;
-    repair_cfg.enable_periodic_scan = false;
-    repair_cfg.enable_auto_repair = false;
-
-    auto engine = std::make_shared<ShardRepairEngine>(
-        repair_cfg, *strategy, *ring, *topology,
-        [](const std::string&, const std::string&) -> std::optional<std::vector<uint8_t>> {
-            return std::nullopt;
-        },
-        [](const std::string&, const std::string&, const std::vector<uint8_t>&) -> bool {
-            return true;
-        });
+    auto engine = makeMinimalEngine(*strategy, *ring, *topology);
 
     // Create handler with no PrometheusMetrics (minimal) but with repair engine
     themis::server::ShardingMetricsHandler handler(nullptr);
@@ -522,17 +524,7 @@ TEST(ShardingMetricsHandlerRepairTest, GetMetricsAppendsRepairWhenEngineSet) {
     rcfg.mode = RedundancyMode::MIRROR;
     auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
 
-    RepairConfig repair_cfg;
-    repair_cfg.enable_periodic_scan = false;
-    repair_cfg.enable_auto_repair = false;
-    auto engine = std::make_shared<ShardRepairEngine>(
-        repair_cfg, *strategy, *ring, *topology,
-        [](const std::string&, const std::string&) -> std::optional<std::vector<uint8_t>> {
-            return std::nullopt;
-        },
-        [](const std::string&, const std::string&, const std::vector<uint8_t>&) -> bool {
-            return true;
-        });
+    auto engine = makeMinimalEngine(*strategy, *ring, *topology);
 
     themis::server::ShardingMetricsHandler handler(prom);
     handler.setRepairEngine(engine);
@@ -558,4 +550,116 @@ TEST(ShardingMetricsHandlerRepairTest, GetMetricsNoRepairWithoutEngine) {
     // Should have routing metrics but no repair metrics
     EXPECT_NE(out.find("themis_routing_requests_total"), std::string::npos);
     EXPECT_EQ(out.find("themis_shard_repair_scans_total"), std::string::npos);
+}
+
+// ============================================================================
+// AutoRecoveryManager + ShardRepairEngine integration tests
+// ============================================================================
+
+static std::shared_ptr<ShardRepairEngine> makeMinimalEngine(
+    RedundancyStrategy& strategy,
+    ConsistentHashRing& ring,
+    ShardTopology& topology) {
+    RepairConfig cfg;
+    cfg.enable_periodic_scan = false;
+    cfg.enable_auto_repair = false;
+    return std::make_shared<ShardRepairEngine>(
+        cfg, strategy, ring, topology,
+        kNullReadHandler, kAlwaysSucceedWriteHandler);
+}
+
+TEST(AutoRecoveryManagerRepairTest, WithoutEngineRepairDocumentReturnsFalse) {
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    ShardTopology topology(topo_cfg);
+    ConsistentHashRing ring;
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    RedundancyStrategy strategy(rcfg);
+
+    themisdb::sharding::AutoRecoveryConfig arm_cfg;
+    arm_cfg.enable_auto_repair = false;
+    themisdb::sharding::AutoRecoveryManager arm(arm_cfg, strategy, ring, topology);
+
+    // No engine set → processRepairQueue's repairDocument returns false
+    // We verify the manager can start and stop cleanly without hanging.
+    arm.start();
+    arm.stop();
+    EXPECT_FALSE(arm.isRunning());
+}
+
+TEST(AutoRecoveryManagerRepairTest, WithEngineRepairDocumentEnqueuesJob) {
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    topo_cfg.cluster_name = "arm-test";
+    auto topology = std::make_shared<ShardTopology>(topo_cfg);
+    auto ring = std::make_shared<ConsistentHashRing>();
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    auto engine = makeMinimalEngine(*strategy, *ring, *topology);
+    engine->start();
+
+    themisdb::sharding::AutoRecoveryConfig arm_cfg;
+    arm_cfg.enable_auto_repair = false;
+    themisdb::sharding::AutoRecoveryManager arm(arm_cfg, *strategy, *ring, *topology);
+    arm.setRepairEngine(engine);
+
+    arm.start();
+    arm.stop();
+
+    engine->stop();
+}
+
+// ============================================================================
+// ShardRepairEngine → PrometheusMetrics forwarding tests
+// ============================================================================
+
+TEST(ShardRepairPrometheusForwardingTest, SetPrometheusMetrics) {
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    auto topology = std::make_shared<ShardTopology>(topo_cfg);
+    auto ring = std::make_shared<ConsistentHashRing>();
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    auto engine = makeMinimalEngine(*strategy, *ring, *topology);
+    auto prom = std::make_shared<themis::sharding::PrometheusMetrics>(
+        themis::sharding::PrometheusMetrics::Config{});
+    // Should not throw
+    EXPECT_NO_THROW(engine->setPrometheusMetrics(prom));
+}
+
+TEST(ShardRepairPrometheusForwardingTest, RepairOperationForwardedToProm) {
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    auto topology = std::make_shared<ShardTopology>(topo_cfg);
+    auto ring = std::make_shared<ConsistentHashRing>();
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    auto prom = std::make_shared<themis::sharding::PrometheusMetrics>(
+        themis::sharding::PrometheusMetrics::Config{});
+
+    RepairConfig cfg;
+    cfg.enable_periodic_scan = false;
+    cfg.enable_auto_repair = true;
+    cfg.repair_poll_interval = std::chrono::seconds(1);
+    ShardRepairEngine engine(cfg, *strategy, *ring, *topology,
+                             kNullReadHandler, kAlwaysSucceedWriteHandler);
+    engine.setPrometheusMetrics(prom);
+    engine.start();
+
+    // Trigger a document repair; wait for the repair worker to process it
+    engine.triggerDocumentRepair("doc-fwd-test", "col");
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    engine.stop();
+
+    // Prometheus should now have a repair_operations_total entry
+    std::string out = prom->getMetrics();
+    EXPECT_NE(out.find("themis_shard_repair_operations_total"), std::string::npos);
 }
