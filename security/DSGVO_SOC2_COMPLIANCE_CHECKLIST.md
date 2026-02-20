@@ -1,6 +1,6 @@
 # ThemisDB – DSGVO / SOC 2 Compliance Checklist
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Status:** Production-Ready (Security Module v2)  
 **Regulierungsrahmen:** DSGVO (GDPR) • SOC 2 Type II  
 **Letzte Aktualisierung:** 2026-02
@@ -28,7 +28,7 @@
 | **Datenminimierung** | Nur notwendige Daten verarbeiten | InputValidator: keine unnötigen Felder; PII-Pseudonymisierung | ✅ |
 | **Richtigkeit** | Daten aktuell halten | Audit-Trail mit Zeitstempel & Hash-Kette | ✅ |
 | **Speicherbegrenzung** | Löschfristen einhalten | `purgeOldEntries()` in AuditLogger; Retention-API | ✅ |
-| **Integrität & Vertraulichkeit** | Angemessene Sicherheit | AES-256-GCM, PBKDF2-SHA256, TLS, mTLS | ✅ |
+| **Integrität & Vertraulichkeit** | Angemessene Sicherheit | AES-256-GCM, Argon2id/PBKDF2-SHA256, TLS, mTLS | ✅ |
 | **Rechenschaftspflicht** | Nachweis der Konformität | Dieses Dokument + Compliance Mapping | ✅ |
 
 ---
@@ -47,7 +47,7 @@
 
 | Maßnahme | Implementierung | Status |
 |----------|-----------------|--------|
-| **Pseudonymisierung & Verschlüsselung** | AES-256-GCM (FieldEncryption), PBKDF2-SHA256 (Passwörter), TLS 1.3 | ✅ |
+| **Pseudonymisierung & Verschlüsselung** | AES-256-GCM (FieldEncryption), Argon2id (OpenSSL ≥ 3.2) / PBKDF2-SHA256 Fallback (Passwörter), TLS 1.3 | ✅ |
 | **Vertraulichkeit** | RBAC + ABAC (PolicyEngine), JWT-Authentifizierung (RS256, ES256, EdDSA) | ✅ |
 | **Integrität** | AuditLogger: append-only Hash-Kette (SHA-256), PKI-Signatur je Eintrag | ✅ |
 | **Verfügbarkeit** | Raft-Konsensus, Hot-Spare-Replikation, RAID-Backup | ✅ |
@@ -114,7 +114,7 @@
 
 | Kriterium | Anforderung | Implementierung | Status |
 |-----------|------------|-----------------|--------|
-| CC6.1 | Registrierung & De-Registrierung | EmbeddedUserRegistrationPlugin mit PBKDF2-SHA256 | ✅ |
+| CC6.1 | Registrierung & De-Registrierung | EmbeddedUserRegistrationPlugin mit Argon2id / PBKDF2-SHA256 Fallback | ✅ |
 | CC6.2 | Benutzerauthentifizierung | JWT (RS256, ES256, **EdDSA**), MFA (TOTP), API-Keys | ✅ |
 | CC6.3 | Rollenbasierte Autorisierung | RBAC + ABAC PolicyEngine (IP-Conditions, Zeitfenster) | ✅ |
 | CC6.4 | Physischer Zugang | Konfigurierbar (out-of-scope für Software-Komponente) | ⚪ N/A |
@@ -168,7 +168,7 @@
 | AuditLogger SIEM (Splunk/Elastic) | 33 | CC7.2, CC7.4 | `AuditLogger::forwardToSiem()` |
 | InputValidator + AQL-Injection | 32 | CC6.8 | `src/security/access_control.cpp` |
 | RateLimiter (adaptiv, IP-Blacklist) | 32 | CC6.6, CC7.2 | `src/server/rate_limiter.cpp` |
-| PBKDF2-SHA256 Passwort-Hashing | 32 | CC6.1 | `src/security/embedded_user_registration_plugin.cpp` |
+| Argon2id / PBKDF2-SHA256 Passwort-Hashing | 32 | CC6.1 | `src/security/embedded_user_registration_plugin.cpp` |
 | SecretManager (Versionierung) | 32 | CC6.6, CC8.1 | `src/security/secret_manager.cpp` |
 | Security-Headers (CSP, CORS, HSTS) | 32 | CC6.8 | `src/server/http_server.cpp` |
 | MFA (TOTP RFC 6238) | 32 | CC6.2 | `src/auth/mfa_authenticator.cpp` |
@@ -183,9 +183,9 @@
 ### 4.1 Authentifizierung & Autorisierung
 
 - [x] JWT-Validierung (RS256, ES256, EdDSA) mit Kid-Revocation
-- [x] PBKDF2-SHA256 für Passwort-Hashing (100.000 Iterationen, zufälliges Salt)
+- [x] Argon2id (OpenSSL ≥ 3.2) / PBKDF2-SHA256 Fallback für Passwort-Hashing (zufälliges Salt, PHC-Format)
 - [x] RBAC mit 4-tier-Rollenhierarchie (guest / readonly / readwrite / admin)
-- [x] ABAC-Erweiterung (IP-Prefixes als Bedingung in PolicyEngine)
+- [x] ABAC-Erweiterung (IP-Prefixes, UTC-Zeitfenster, User-Agent-Patterns in PolicyEngine)
 - [x] Multi-Faktor-Authentifizierung (TOTP RFC 6238)
 - [x] Session-Timeout & Concurrent-Session-Limit
 - [x] API-Key-Authentifizierung mit Revocation-Support
@@ -241,9 +241,11 @@
 - [x] Fuzz-Tests für kritische Security-Entry-Points (50+ Fälle)
 - [x] Penetration-Test-Skript Python (`penetration_tests.py`, 25+ Prüfungen)
 - [x] RBAC-Tests (30+ Fälle)
-- [x] Passwort-Hashing-Tests (25+ Fälle)
+- [x] Passwort-Hashing-Tests: PBKDF2-SHA256 + Argon2id (34+ Fälle)
 - [x] SIEM-Integration-Tests (22+ Fälle)
 - [x] ES256 und EdDSA JWT-Tests
+- [x] Resource-Limits-Tests (PolicyEngine, SecretManager, JWTKeyRotationManager)
+- [x] ABAC-Bedingungen-Tests (IP, UTC-Zeitfenster, User-Agent)
 
 ---
 
@@ -251,8 +253,6 @@
 
 | Punkt | Priorität | Beschreibung |
 |-------|-----------|-------------|
-| Argon2id | Medium | vcpkg enthält keine Argon2-Abhängigkeit; PBKDF2-SHA256 (100k iter) ist als gleichwertig anzusehen gemäß NIST SP 800-132. Bei Bedarf kann `argon2` zu vcpkg.json hinzugefügt werden. |
-| RBAC-Zeitfenster in PolicyEngine | Low | ABAC-Bedingungen unterstützen IP-Prefixes; Zeitfenster-Bedingungen sind vorbereitet (TODO in Header), aber noch nicht implementiert. |
 | SecretManager-Persistenz | Low | SecretManager ist aktuell in-memory only. Für Produktion: Integration mit VaultKeyProvider oder verschlüsselter Datei-Persistenz empfohlen. |
 | HSM-Stub in Produktion | Medium | HSM-Stub ist durch `THEMIS_ALLOW_HSM_STUB`-Guard geschützt; in Produktion ist ein echter HSM (PKCS#11) erforderlich. |
 | EdDSA/Ed448 | Low | Nur Ed25519 wird unterstützt. Ed448 ist nicht implementiert (anderes Schlüsselformat). |

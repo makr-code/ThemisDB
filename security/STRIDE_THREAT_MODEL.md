@@ -77,7 +77,7 @@ Internet clients
 | S1 | JWT forgery with weak/no signature | Auth Middleware | High | RS256 / ES256 / EdDSA; `alg:none` blocked in JWTValidator | ✅ Mitigated |
 | S2 | JWT with revoked kid | JWTValidator | High | JWTKeyRotationManager: revoked kid denylist checked on every validation | ✅ Mitigated |
 | S3 | Replayed JWT after user logout | TokenBlacklist | Medium | JTI-based TokenBlacklist with TTL; `isRevoked()` checked before auth | ✅ Mitigated |
-| S4 | Stolen service-account credentials | SecretManager | High | PBKDF2-SHA256 password hashing; secret rotation pipeline; no plain-text storage | ✅ Mitigated |
+| S4 | Stolen service-account credentials | SecretManager | High | Argon2id (OpenSSL ≥ 3.2) / PBKDF2-SHA256 fallback password hashing; secret rotation pipeline; no plain-text storage | ✅ Mitigated |
 | S5 | IP address spoofing to bypass IP allowlists | PolicyEngine | Medium | ABAC IP conditions are advisory; primary auth remains JWT/mTLS | ⚠️ Partial (IPv6 spoofing in NAT environments) |
 | S6 | mTLS client certificate forgery | gRPC / HTTP2 | High | Client cert validated against trusted CA at TLS layer | ✅ Mitigated |
 
