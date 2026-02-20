@@ -1,4 +1,5 @@
 ﻿#include "utils/logger.h"
+#include "utils/pii_redacting_sink.h"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -17,12 +18,17 @@ std::shared_ptr<spdlog::logger> Logger::logger_;
 
 void Logger::init(const std::string& log_file, Level level) {
     try {
-        // Create console and file sinks
+        // Create console and file sinks, then wrap each with a PII-redacting
+        // layer so that every formatted message has PII removed before it is
+        // written to any output target.
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file, true);
-        
-        // Create logger with both sinks
-        std::vector<spdlog::sink_ptr> sinks{console_sink, file_sink};
+
+        auto pii_console_sink = std::make_shared<themis::utils::PIIRedactingSink>(console_sink);
+        auto pii_file_sink    = std::make_shared<themis::utils::PIIRedactingSink>(file_sink);
+
+        // Create logger with PII-redacting sinks
+        std::vector<spdlog::sink_ptr> sinks{pii_console_sink, pii_file_sink};
         logger_ = std::make_shared<spdlog::logger>("themis", sinks.begin(), sinks.end());
         
         // Set level

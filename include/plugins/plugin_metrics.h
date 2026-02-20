@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <deque>
 #include <map>
 #include <vector>
 #include <mutex>
@@ -47,8 +48,9 @@ public:
         double p99_call_latency_ms = 0.0;
         double sum_call_latency_ms = 0.0;  // Actual sum for accurate reporting
         
-        // Internal: latency samples for percentile calculation
-        std::vector<double> latency_samples;
+        // Internal: latency samples for percentile calculation.
+        // Uses deque for O(1) front eviction instead of O(n) vector::erase.
+        std::deque<double> latency_samples;
         static constexpr size_t MAX_SAMPLES = 1000;
         
         void updatePercentiles();

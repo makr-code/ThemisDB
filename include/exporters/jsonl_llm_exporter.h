@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "exporter_interface.h"
+#include "exporter_metrics.h"
 #include "plugins/plugin_interface.h"
 #include <map>
 #include <memory>
@@ -118,6 +119,25 @@ struct JSONLLLMConfig {
         bool track_length_distribution = true;
         bool track_diversity_score = true;  // Unique n-grams ratio
     } quality_metrics;
+    
+    // P1: PII Detection & Redaction
+    struct PIIConfig {
+        bool enable_detection = false;
+        bool enable_redaction = false;
+        bool detect_email = true;
+        bool detect_phone = true;
+        bool detect_ssn = true;
+        bool detect_credit_card = true;
+        
+        // Redaction strategy: mask, hash, remove, partial
+        std::string redaction_strategy = "mask";
+        
+        // Fields to check for PII
+        std::vector<std::string> check_fields;  // Empty = check all text fields
+        
+        // Fail export on PII detection (without redaction)
+        bool fail_on_pii = false;
+    } pii_config;
 };
 
 /// JSONL exporter for LLM fine-tuning (LoRA/QLoRA)
@@ -155,8 +175,15 @@ public:
     /// Get quality metrics report
     std::string getQualityMetricsReport() const;
     
+    /// Get exporter metrics (P0: basic metrics)
+    std::shared_ptr<ExporterMetrics> getMetrics() const { return metrics_; }
+    
+    /// Reset metrics
+    void resetMetrics() { if (metrics_) metrics_->reset(); }
+    
 private:
     JSONLLLMConfig config_;
+    std::shared_ptr<ExporterMetrics> metrics_;
     
     // Export helpers
     std::string formatInstructionTuning(const BaseEntity& entity, double& weight);

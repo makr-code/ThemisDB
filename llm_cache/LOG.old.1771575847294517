@@ -1,0 +1,678 @@
+2026/02/20-09:24:07.195624 264c RocksDB version: 10.10.1
+2026/02/20-09:24:07.195725 264c Git sha 0
+2026/02/20-09:24:07.195764 264c Compile date 2026-02-14 18:31:16
+2026/02/20-09:24:07.195794 264c DB SUMMARY
+2026/02/20-09:24:07.195822 264c Host name (Env):  DESKTOP-712S8LO
+2026/02/20-09:24:07.195848 264c DB Session ID:  PLQ79TWB9SBU7WI61VS1
+2026/02/20-09:24:07.201218 264c CURRENT file:  CURRENT
+2026/02/20-09:24:07.201252 264c IDENTITY file:  IDENTITY
+2026/02/20-09:24:07.201326 264c MANIFEST file:  MANIFEST-000653 size: 163 Bytes
+2026/02/20-09:24:07.201372 264c SST files in ./llm_cache dir, Total Num: 0, files: 
+2026/02/20-09:24:07.201424 264c Write Ahead Log file in ./llm_cache: 000004.log size: 0 ; 000010.log size: 0 ; 000016.log size: 0 ; 000022.log size: 0 ; 000028.log size: 0 ; 000034.log size: 0 ; 000040.log size: 0 ; 000046.log size: 0 ; 000052.log size: 0 ; 000058.log size: 0 ; 000064.log size: 0 ; 000070.log size: 0 ; 000076.log size: 0 ; 000082.log size: 0 ; 000088.log size: 0 ; 000094.log size: 0 ; 000100.log size: 0 ; 000106.log size: 0 ; 000112.log size: 0 ; 000118.log size: 0 ; 000124.log size: 0 ; 000130.log size: 0 ; 000136.log size: 0 ; 000142.log size: 0 ; 000148.log size: 0 ; 000154.log size: 0 ; 000160.log size: 0 ; 000166.log size: 0 ; 000172.log size: 0 ; 000178.log size: 0 ; 000184.log size: 0 ; 000190.log size: 0 ; 000196.log size: 0 ; 000202.log size: 0 ; 000208.log size: 0 ; 000214.log size: 0 ; 000220.log size: 0 ; 000226.log size: 0 ; 000232.log size: 0 ; 000238.log size: 0 ; 000244.log size: 0 ; 000250.log size: 0 ; 000256.log size: 0 ; 000262.log size: 0 ; 000268.log size: 0 ; 000274.log size: 0 ; 000280.log size: 0 ; 000286.log size: 0 ; 000292.log size: 0 ; 000298.log size: 0 ; 000304.log size: 0 ; 000310.log size: 0 ; 000316.log size: 0 ; 000322.log size: 0 ; 000328.log size: 0 ; 000334.log size: 0 ; 000340.log size: 0 ; 000346.log size: 0 ; 000352.log size: 0 ; 000358.log size: 0 ; 000364.log size: 0 ; 000370.log size: 0 ; 000376.log size: 0 ; 000382.log size: 0 ; 000388.log size: 0 ; 000394.log size: 0 ; 000400.log size: 0 ; 000406.log size: 0 ; 000412.log size: 0 ; 000418.log size: 0 ; 000424.log size: 0 ; 000430.log size: 0 ; 000436.log size: 0 ; 000442.log size: 0 ; 000448.log size: 0 ; 000454.log size: 0 ; 000460.log size: 0 ; 000466.log size: 0 ; 000472.log size: 0 ; 000478.log size: 0 ; 000484.log size: 0 ; 000490.log size: 0 ; 000496.log size: 0 ; 000502.log size: 0 ; 000508.log size: 0 ; 000514.log size: 0 ; 000520.log size: 0 ; 000526.log size: 0 ; 000532.log size: 0 ; 000538.log size: 0 ; 000544.log size: 0 ; 000550.log size: 0 ; 000556.log size: 0 ; 000562.log size: 0 ; 000568.log size: 0 ; 000574.log size: 0 ; 000580.log size: 0 ; 000586.log size: 0 ; 000592.log size: 0 ; 000598.log size: 0 ; 000604.log size: 0 ; 000610.log size: 0 ; 000616.log size: 0 ; 000622.log size: 0 ; 000628.log size: 0 ; 000634.log size: 0 ; 000640.log size: 0 ; 000646.log size: 0 ; 000652.log size: 0 ; 
+2026/02/20-09:24:07.201592 264c                         Options.error_if_exists: 0
+2026/02/20-09:24:07.201612 264c                       Options.create_if_missing: 1
+2026/02/20-09:24:07.201626 264c                         Options.paranoid_checks: 1
+2026/02/20-09:24:07.201639 264c             Options.flush_verify_memtable_count: 1
+2026/02/20-09:24:07.201652 264c          Options.compaction_verify_record_count: 1
+2026/02/20-09:24:07.201665 264c                               Options.track_and_verify_wals_in_manifest: 0
+2026/02/20-09:24:07.201678 264c                               Options.track_and_verify_wals: 0
+2026/02/20-09:24:07.201691 264c        Options.verify_sst_unique_id_in_manifest: 1
+2026/02/20-09:24:07.201704 264c                                     Options.env: 000001ABA562FAA0
+2026/02/20-09:24:07.201718 264c                                      Options.fs: WinFS
+2026/02/20-09:24:07.201731 264c                                Options.info_log: 000001ABA5646770
+2026/02/20-09:24:07.201743 264c                Options.max_file_opening_threads: 16
+2026/02/20-09:24:07.201757 264c                              Options.statistics: 000001ABA54A5C30
+2026/02/20-09:24:07.201802 264c                              Options.statistics stats level: 1
+2026/02/20-09:24:07.201817 264c                               Options.use_fsync: 0
+2026/02/20-09:24:07.201829 264c                       Options.max_log_file_size: 0
+2026/02/20-09:24:07.201841 264c                   Options.log_file_time_to_roll: 0
+2026/02/20-09:24:07.201851 264c                       Options.keep_log_file_num: 1000
+2026/02/20-09:24:07.201862 264c                    Options.recycle_log_file_num: 0
+2026/02/20-09:24:07.201872 264c                         Options.allow_fallocate: 1
+2026/02/20-09:24:07.201882 264c                        Options.allow_mmap_reads: 0
+2026/02/20-09:24:07.201893 264c                       Options.allow_mmap_writes: 0
+2026/02/20-09:24:07.201903 264c                        Options.use_direct_reads: 0
+2026/02/20-09:24:07.201915 264c                        Options.use_direct_io_for_flush_and_compaction: 0
+2026/02/20-09:24:07.201927 264c          Options.create_missing_column_families: 0
+2026/02/20-09:24:07.201937 264c                              Options.db_log_dir: 
+2026/02/20-09:24:07.201948 264c                                 Options.wal_dir: 
+2026/02/20-09:24:07.201958 264c                Options.table_cache_numshardbits: 6
+2026/02/20-09:24:07.201968 264c                         Options.WAL_ttl_seconds: 0
+2026/02/20-09:24:07.201979 264c                       Options.WAL_size_limit_MB: 0
+2026/02/20-09:24:07.201989 264c                        Options.max_write_batch_group_size_bytes: 1048576
+2026/02/20-09:24:07.202001 264c                     Options.is_fd_close_on_exec: 1
+2026/02/20-09:24:07.202012 264c                   Options.advise_random_on_open: 1
+2026/02/20-09:24:07.202023 264c                    Options.db_write_buffer_size: 2147483648
+2026/02/20-09:24:07.202034 264c                    Options.write_buffer_manager: 000001ABA562DD90
+2026/02/20-09:24:07.202044 264c                      Options.use_adaptive_mutex: 0
+2026/02/20-09:24:07.202063 264c                            Options.rate_limiter: 0000000000000000
+2026/02/20-09:24:07.202074 264c     Options.sst_file_manager.rate_bytes_per_sec: 0
+2026/02/20-09:24:07.202086 264c                       Options.wal_recovery_mode: 2
+2026/02/20-09:24:07.202098 264c                  Options.enable_thread_tracking: 0
+2026/02/20-09:24:07.202109 264c                  Options.enable_pipelined_write: 0
+2026/02/20-09:24:07.202119 264c                  Options.unordered_write: 0
+2026/02/20-09:24:07.202125 264c         Options.allow_concurrent_memtable_write: 1
+2026/02/20-09:24:07.202133 264c      Options.enable_write_thread_adaptive_yield: 1
+2026/02/20-09:24:07.202143 264c             Options.write_thread_max_yield_usec: 100
+2026/02/20-09:24:07.202154 264c            Options.write_thread_slow_yield_usec: 3
+2026/02/20-09:24:07.202166 264c                               Options.row_cache: None
+2026/02/20-09:24:07.202177 264c                              Options.wal_filter: None
+2026/02/20-09:24:07.202189 264c             Options.avoid_flush_during_recovery: 0
+2026/02/20-09:24:07.202199 264c             Options.allow_ingest_behind: 0
+2026/02/20-09:24:07.202206 264c             Options.two_write_queues: 1
+2026/02/20-09:24:07.202212 264c             Options.manual_wal_flush: 0
+2026/02/20-09:24:07.202220 264c             Options.wal_compression: 0
+2026/02/20-09:24:07.202231 264c             Options.background_close_inactive_wals: 0
+2026/02/20-09:24:07.202242 264c             Options.atomic_flush: 0
+2026/02/20-09:24:07.202251 264c             Options.avoid_unnecessary_blocking_io: 0
+2026/02/20-09:24:07.202260 264c             Options.prefix_seek_opt_in_only: 0
+2026/02/20-09:24:07.202270 264c                 Options.persist_stats_to_disk: 0
+2026/02/20-09:24:07.202281 264c                 Options.write_dbid_to_manifest: 1
+2026/02/20-09:24:07.202291 264c                 Options.write_identity_file: 1
+2026/02/20-09:24:07.202301 264c                 Options.log_readahead_size: 0
+2026/02/20-09:24:07.202312 264c                 Options.file_checksum_gen_factory: Unknown
+2026/02/20-09:24:07.202351 264c                 Options.best_efforts_recovery: 0
+2026/02/20-09:24:07.202366 264c                Options.max_bgerror_resume_count: 2147483647
+2026/02/20-09:24:07.202377 264c            Options.bgerror_resume_retry_interval: 1000000
+2026/02/20-09:24:07.202388 264c             Options.allow_data_in_errors: 0
+2026/02/20-09:24:07.202399 264c             Options.db_host_id: __hostname__
+2026/02/20-09:24:07.202409 264c             Options.enforce_single_del_contracts: true
+2026/02/20-09:24:07.202420 264c             Options.metadata_write_temperature: kUnknown
+2026/02/20-09:24:07.202431 264c             Options.wal_write_temperature: kUnknown
+2026/02/20-09:24:07.202442 264c             Options.max_background_jobs: 4
+2026/02/20-09:24:07.202454 264c             Options.max_background_compactions: -1
+2026/02/20-09:24:07.202465 264c             Options.max_subcompactions: 1
+2026/02/20-09:24:07.202476 264c             Options.avoid_flush_during_shutdown: 0
+2026/02/20-09:24:07.202487 264c           Options.writable_file_max_buffer_size: 1048576
+2026/02/20-09:24:07.202497 264c             Options.delayed_write_rate : 16777216
+2026/02/20-09:24:07.202508 264c             Options.max_total_wal_size: 0
+2026/02/20-09:24:07.202518 264c             Options.delete_obsolete_files_period_micros: 21600000000
+2026/02/20-09:24:07.202530 264c                   Options.stats_dump_period_sec: 600
+2026/02/20-09:24:07.202541 264c                 Options.stats_persist_period_sec: 600
+2026/02/20-09:24:07.202552 264c                 Options.stats_history_buffer_size: 1048576
+2026/02/20-09:24:07.202563 264c                          Options.max_open_files: -1
+2026/02/20-09:24:07.202574 264c                          Options.bytes_per_sync: 0
+2026/02/20-09:24:07.202584 264c                      Options.wal_bytes_per_sync: 0
+2026/02/20-09:24:07.202594 264c                   Options.strict_bytes_per_sync: 0
+2026/02/20-09:24:07.202605 264c       Options.compaction_readahead_size: 2097152
+2026/02/20-09:24:07.202617 264c                  Options.max_background_flushes: -1
+2026/02/20-09:24:07.202628 264c                  Options.max_manifest_file_size: 1073741824
+2026/02/20-09:24:07.202639 264c                  Options.max_manifest_space_amp_pct: 500
+2026/02/20-09:24:07.202650 264c             Options.manifest_preallocation_size: 4194304
+2026/02/20-09:24:07.202661 264c Options.daily_offpeak_time_utc: 
+2026/02/20-09:24:07.202671 264c Compression algorithms supported:
+2026/02/20-09:24:07.202682 264c 	kZSTD supported: 1
+2026/02/20-09:24:07.202692 264c 	kCustomCompressionA3 supported: 0
+2026/02/20-09:24:07.202704 264c 	kSnappyCompression supported: 1
+2026/02/20-09:24:07.202716 264c 	kCustomCompressionA5 supported: 0
+2026/02/20-09:24:07.202727 264c 	kBZip2Compression supported: 0
+2026/02/20-09:24:07.202737 264c 	kZlibCompression supported: 1
+2026/02/20-09:24:07.202747 264c 	kLZ4Compression supported: 1
+2026/02/20-09:24:07.202757 264c 	kXpressCompression supported: 0
+2026/02/20-09:24:07.202767 264c 	kCustomCompressionA7 supported: 0
+2026/02/20-09:24:07.202778 264c 	kLZ4HCCompression supported: 1
+2026/02/20-09:24:07.202789 264c 	kCustomCompressionB2 supported: 0
+2026/02/20-09:24:07.202800 264c 	kCustomCompression9C supported: 0
+2026/02/20-09:24:07.202810 264c 	kCustomCompression80 supported: 0
+2026/02/20-09:24:07.202821 264c 	kCustomCompressionB3 supported: 0
+2026/02/20-09:24:07.202831 264c 	kCustomCompression9B supported: 0
+2026/02/20-09:24:07.202841 264c 	kCustomCompression81 supported: 0
+2026/02/20-09:24:07.202851 264c 	kCustomCompressionB0 supported: 0
+2026/02/20-09:24:07.202862 264c 	kCustomCompression9A supported: 0
+2026/02/20-09:24:07.202873 264c 	kCustomCompression82 supported: 0
+2026/02/20-09:24:07.202884 264c 	kCustomCompressionB1 supported: 0
+2026/02/20-09:24:07.202895 264c 	kCustomCompression83 supported: 0
+2026/02/20-09:24:07.202906 264c 	kCustomCompressionB6 supported: 0
+2026/02/20-09:24:07.202916 264c 	kCustomCompression84 supported: 0
+2026/02/20-09:24:07.202927 264c 	kCustomCompressionB7 supported: 0
+2026/02/20-09:24:07.202939 264c 	kCustomCompression9F supported: 0
+2026/02/20-09:24:07.202951 264c 	kCustomCompression85 supported: 0
+2026/02/20-09:24:07.202963 264c 	kCustomCompressionB4 supported: 0
+2026/02/20-09:24:07.202974 264c 	kCustomCompression9E supported: 0
+2026/02/20-09:24:07.202985 264c 	kCustomCompression86 supported: 0
+2026/02/20-09:24:07.202996 264c 	kCustomCompressionB5 supported: 0
+2026/02/20-09:24:07.203007 264c 	kCustomCompression9D supported: 0
+2026/02/20-09:24:07.203018 264c 	kCustomCompression87 supported: 0
+2026/02/20-09:24:07.203028 264c 	kCustomCompression88 supported: 0
+2026/02/20-09:24:07.203038 264c 	kCustomCompression89 supported: 0
+2026/02/20-09:24:07.203050 264c 	kCustomCompression92 supported: 0
+2026/02/20-09:24:07.203058 264c 	kCustomCompression8A supported: 0
+2026/02/20-09:24:07.203067 264c 	kCustomCompression91 supported: 0
+2026/02/20-09:24:07.203078 264c 	kCustomCompression8B supported: 0
+2026/02/20-09:24:07.203088 264c 	kCustomCompression90 supported: 0
+2026/02/20-09:24:07.203096 264c 	kCustomCompression8C supported: 0
+2026/02/20-09:24:07.203103 264c 	kCustomCompression97 supported: 0
+2026/02/20-09:24:07.203109 264c 	kCustomCompression8D supported: 0
+2026/02/20-09:24:07.203120 264c 	kCustomCompression96 supported: 0
+2026/02/20-09:24:07.203129 264c 	kCustomCompression8E supported: 0
+2026/02/20-09:24:07.203136 264c 	kCustomCompression95 supported: 0
+2026/02/20-09:24:07.203142 264c 	kCustomCompression8F supported: 0
+2026/02/20-09:24:07.203147 264c 	kCustomCompression93 supported: 0
+2026/02/20-09:24:07.203153 264c 	kCustomCompression94 supported: 0
+2026/02/20-09:24:07.203159 264c 	kCustomCompression98 supported: 0
+2026/02/20-09:24:07.203164 264c 	kCustomCompression99 supported: 0
+2026/02/20-09:24:07.203171 264c 	kCustomCompressionA0 supported: 0
+2026/02/20-09:24:07.203178 264c 	kCustomCompressionA1 supported: 0
+2026/02/20-09:24:07.203184 264c 	kCustomCompressionA2 supported: 0
+2026/02/20-09:24:07.203190 264c 	kCustomCompressionA4 supported: 0
+2026/02/20-09:24:07.203196 264c 	kCustomCompressionA6 supported: 0
+2026/02/20-09:24:07.203202 264c 	kCustomCompressionA8 supported: 0
+2026/02/20-09:24:07.203207 264c 	kCustomCompressionA9 supported: 0
+2026/02/20-09:24:07.203213 264c 	kCustomCompressionAA supported: 0
+2026/02/20-09:24:07.203220 264c 	kCustomCompressionAB supported: 0
+2026/02/20-09:24:07.203226 264c 	kCustomCompressionAC supported: 0
+2026/02/20-09:24:07.203233 264c 	kCustomCompressionAD supported: 0
+2026/02/20-09:24:07.203239 264c 	kCustomCompressionAE supported: 0
+2026/02/20-09:24:07.203244 264c 	kCustomCompressionAF supported: 0
+2026/02/20-09:24:07.203250 264c 	kCustomCompressionB8 supported: 0
+2026/02/20-09:24:07.203256 264c 	kCustomCompressionB9 supported: 0
+2026/02/20-09:24:07.203262 264c 	kCustomCompressionBA supported: 0
+2026/02/20-09:24:07.203268 264c 	kCustomCompressionBB supported: 0
+2026/02/20-09:24:07.203275 264c 	kCustomCompressionBC supported: 0
+2026/02/20-09:24:07.203281 264c 	kCustomCompressionBD supported: 0
+2026/02/20-09:24:07.203286 264c 	kCustomCompressionBE supported: 0
+2026/02/20-09:24:07.203292 264c 	kCustomCompressionBF supported: 0
+2026/02/20-09:24:07.203298 264c 	kCustomCompressionC0 supported: 0
+2026/02/20-09:24:07.203303 264c 	kCustomCompressionC1 supported: 0
+2026/02/20-09:24:07.203309 264c 	kCustomCompressionC2 supported: 0
+2026/02/20-09:24:07.203316 264c 	kCustomCompressionC3 supported: 0
+2026/02/20-09:24:07.203322 264c 	kCustomCompressionC4 supported: 0
+2026/02/20-09:24:07.203329 264c 	kCustomCompressionC5 supported: 0
+2026/02/20-09:24:07.203335 264c 	kCustomCompressionC6 supported: 0
+2026/02/20-09:24:07.203341 264c 	kCustomCompressionC7 supported: 0
+2026/02/20-09:24:07.203346 264c 	kCustomCompressionC8 supported: 0
+2026/02/20-09:24:07.203352 264c 	kCustomCompressionC9 supported: 0
+2026/02/20-09:24:07.203357 264c 	kCustomCompressionCA supported: 0
+2026/02/20-09:24:07.203364 264c 	kCustomCompressionCB supported: 0
+2026/02/20-09:24:07.203371 264c 	kCustomCompressionCC supported: 0
+2026/02/20-09:24:07.203377 264c 	kCustomCompressionCD supported: 0
+2026/02/20-09:24:07.203411 264c 	kCustomCompressionCE supported: 0
+2026/02/20-09:24:07.203421 264c 	kCustomCompressionCF supported: 0
+2026/02/20-09:24:07.203427 264c 	kCustomCompressionD0 supported: 0
+2026/02/20-09:24:07.203433 264c 	kCustomCompressionD1 supported: 0
+2026/02/20-09:24:07.203439 264c 	kCustomCompressionD2 supported: 0
+2026/02/20-09:24:07.203446 264c 	kCustomCompressionD3 supported: 0
+2026/02/20-09:24:07.203452 264c 	kCustomCompressionD4 supported: 0
+2026/02/20-09:24:07.203458 264c 	kCustomCompressionD5 supported: 0
+2026/02/20-09:24:07.203464 264c 	kCustomCompressionD6 supported: 0
+2026/02/20-09:24:07.203469 264c 	kCustomCompressionD7 supported: 0
+2026/02/20-09:24:07.203475 264c 	kCustomCompressionD8 supported: 0
+2026/02/20-09:24:07.203481 264c 	kCustomCompressionD9 supported: 0
+2026/02/20-09:24:07.203488 264c 	kCustomCompressionDA supported: 0
+2026/02/20-09:24:07.203494 264c 	kCustomCompressionDB supported: 0
+2026/02/20-09:24:07.203500 264c 	kCustomCompressionDC supported: 0
+2026/02/20-09:24:07.203506 264c 	kCustomCompressionDD supported: 0
+2026/02/20-09:24:07.203512 264c 	kCustomCompressionDE supported: 0
+2026/02/20-09:24:07.203518 264c 	kCustomCompressionDF supported: 0
+2026/02/20-09:24:07.203525 264c 	kCustomCompressionE0 supported: 0
+2026/02/20-09:24:07.203535 264c 	kCustomCompressionE1 supported: 0
+2026/02/20-09:24:07.203545 264c 	kCustomCompressionE2 supported: 0
+2026/02/20-09:24:07.203556 264c 	kCustomCompressionE3 supported: 0
+2026/02/20-09:24:07.203565 264c 	kCustomCompressionE4 supported: 0
+2026/02/20-09:24:07.203571 264c 	kCustomCompressionE5 supported: 0
+2026/02/20-09:24:07.203577 264c 	kCustomCompressionE6 supported: 0
+2026/02/20-09:24:07.203583 264c 	kCustomCompressionE7 supported: 0
+2026/02/20-09:24:07.203588 264c 	kCustomCompressionE8 supported: 0
+2026/02/20-09:24:07.203594 264c 	kCustomCompressionE9 supported: 0
+2026/02/20-09:24:07.203601 264c 	kCustomCompressionEA supported: 0
+2026/02/20-09:24:07.203608 264c 	kCustomCompressionEB supported: 0
+2026/02/20-09:24:07.203617 264c 	kCustomCompressionEC supported: 0
+2026/02/20-09:24:07.203627 264c 	kCustomCompressionED supported: 0
+2026/02/20-09:24:07.203636 264c 	kCustomCompressionEE supported: 0
+2026/02/20-09:24:07.203645 264c 	kCustomCompressionEF supported: 0
+2026/02/20-09:24:07.203654 264c 	kCustomCompressionF0 supported: 0
+2026/02/20-09:24:07.203663 264c 	kCustomCompressionF1 supported: 0
+2026/02/20-09:24:07.203673 264c 	kCustomCompressionF2 supported: 0
+2026/02/20-09:24:07.203683 264c 	kCustomCompressionF3 supported: 0
+2026/02/20-09:24:07.203693 264c 	kCustomCompressionF4 supported: 0
+2026/02/20-09:24:07.203702 264c 	kCustomCompressionF5 supported: 0
+2026/02/20-09:24:07.203711 264c 	kCustomCompressionF6 supported: 0
+2026/02/20-09:24:07.203721 264c 	kCustomCompressionF7 supported: 0
+2026/02/20-09:24:07.203730 264c 	kCustomCompressionF8 supported: 0
+2026/02/20-09:24:07.203739 264c 	kCustomCompressionF9 supported: 0
+2026/02/20-09:24:07.203749 264c 	kCustomCompressionFA supported: 0
+2026/02/20-09:24:07.203760 264c 	kCustomCompressionFB supported: 0
+2026/02/20-09:24:07.203767 264c 	kCustomCompressionFC supported: 0
+2026/02/20-09:24:07.203773 264c 	kCustomCompressionFD supported: 0
+2026/02/20-09:24:07.203779 264c 	kCustomCompressionFE supported: 0
+2026/02/20-09:24:07.203785 264c Fast CRC32 supported: Not supported on x86
+2026/02/20-09:24:07.203792 264c DMutex implementation: std::mutex
+2026/02/20-09:24:07.203798 264c Jemalloc supported: 0
+2026/02/20-09:24:07.204372 264c [db\version_set.cc:6470] Recovering from manifest file: ./llm_cache/MANIFEST-000653
+2026/02/20-09:24:07.204480 264c [db\column_family.cc:693] --------------- Options for column family [default]:
+2026/02/20-09:24:07.204497 264c               Options.comparator: leveldb.BytewiseComparator
+2026/02/20-09:24:07.204504 264c           Options.merge_operator: None
+2026/02/20-09:24:07.204510 264c        Options.compaction_filter: None
+2026/02/20-09:24:07.204516 264c        Options.compaction_filter_factory: None
+2026/02/20-09:24:07.204522 264c  Options.sst_partitioner_factory: None
+2026/02/20-09:24:07.204531 264c         Options.memtable_factory: SkipListFactory
+2026/02/20-09:24:07.204540 264c            Options.table_factory: BlockBasedTable
+2026/02/20-09:24:07.204564 264c            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (000001ABA56A3560)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 4
+  no_block_cache: 0
+  block_cache: 000001ABA5738190
+  block_cache_name: AutoHyperClockCache
+  block_cache_options:
+    capacity : 33554432
+    num_shard_bits : 0
+    strict_capacity_limit : 0
+    memory_allocator : None
+  persistent_cache: 0000000000000000
+  block_size: 4096
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  user_defined_index_factory: nullptr
+  fail_if_no_udi_on_open: 0
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 6
+  enable_index_compression: 1
+  block_align: 0
+  super_block_alignment_size: 0
+  super_block_alignment_space_overhead_ratio: 128
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+  num_file_reads_for_auto_readahead: 2
+2026/02/20-09:24:07.204573 264c        Options.write_buffer_size: 536870912
+2026/02/20-09:24:07.204580 264c  Options.max_write_buffer_number: 6
+2026/02/20-09:24:07.204585 264c          Options.compression: Snappy
+2026/02/20-09:24:07.204591 264c                  Options.bottommost_compression: Disabled
+2026/02/20-09:24:07.204598 264c       Options.prefix_extractor: nullptr
+2026/02/20-09:24:07.204604 264c   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2026/02/20-09:24:07.204611 264c             Options.num_levels: 7
+2026/02/20-09:24:07.204617 264c        Options.min_write_buffer_number_to_merge: 1
+2026/02/20-09:24:07.204622 264c     Options.max_write_buffer_size_to_maintain: 3221225472
+2026/02/20-09:24:07.204628 264c            Options.bottommost_compression_opts.window_bits: -14
+2026/02/20-09:24:07.204634 264c                  Options.bottommost_compression_opts.level: 32767
+2026/02/20-09:24:07.204640 264c               Options.bottommost_compression_opts.strategy: 0
+2026/02/20-09:24:07.204647 264c         Options.bottommost_compression_opts.max_dict_bytes: 0
+2026/02/20-09:24:07.204653 264c         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2026/02/20-09:24:07.204659 264c         Options.bottommost_compression_opts.parallel_threads: 1
+2026/02/20-09:24:07.204665 264c                  Options.bottommost_compression_opts.enabled: false
+2026/02/20-09:24:07.204671 264c         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2026/02/20-09:24:07.204677 264c         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2026/02/20-09:24:07.204683 264c            Options.compression_opts.window_bits: -14
+2026/02/20-09:24:07.204688 264c                  Options.compression_opts.level: 32767
+2026/02/20-09:24:07.204695 264c               Options.compression_opts.strategy: 0
+2026/02/20-09:24:07.204701 264c         Options.compression_opts.max_dict_bytes: 0
+2026/02/20-09:24:07.204708 264c         Options.compression_opts.zstd_max_train_bytes: 0
+2026/02/20-09:24:07.204714 264c         Options.compression_opts.use_zstd_dict_trainer: true
+2026/02/20-09:24:07.204719 264c         Options.compression_opts.parallel_threads: 1
+2026/02/20-09:24:07.204725 264c                  Options.compression_opts.enabled: false
+2026/02/20-09:24:07.204731 264c         Options.compression_opts.max_dict_buffer_bytes: 0
+2026/02/20-09:24:07.204737 264c      Options.level0_file_num_compaction_trigger: 4
+2026/02/20-09:24:07.204743 264c          Options.level0_slowdown_writes_trigger: 20
+2026/02/20-09:24:07.204750 264c              Options.level0_stop_writes_trigger: 36
+2026/02/20-09:24:07.204758 264c                   Options.target_file_size_base: 67108864
+2026/02/20-09:24:07.204766 264c             Options.target_file_size_multiplier: 1
+2026/02/20-09:24:07.204772 264c            Options.target_file_size_is_upper_bound: 0
+2026/02/20-09:24:07.204777 264c                Options.max_bytes_for_level_base: 268435456
+2026/02/20-09:24:07.204783 264c Options.level_compaction_dynamic_level_bytes: 1
+2026/02/20-09:24:07.204789 264c          Options.max_bytes_for_level_multiplier: 10.000000
+2026/02/20-09:24:07.204797 264c Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2026/02/20-09:24:07.204804 264c Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2026/02/20-09:24:07.204810 264c Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2026/02/20-09:24:07.204816 264c Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2026/02/20-09:24:07.204822 264c Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2026/02/20-09:24:07.204827 264c Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2026/02/20-09:24:07.204833 264c Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2026/02/20-09:24:07.204839 264c       Options.max_sequential_skip_in_iterations: 8
+2026/02/20-09:24:07.204846 264c          Options.memtable_op_scan_flush_trigger: 0
+2026/02/20-09:24:07.204852 264c      Options.memtable_avg_op_scan_flush_trigger: 0
+2026/02/20-09:24:07.204858 264c                    Options.max_compaction_bytes: 1677721600
+2026/02/20-09:24:07.204863 264c                        Options.arena_block_size: 1048576
+2026/02/20-09:24:07.204869 264c   Options.soft_pending_compaction_bytes_limit: 68719476736
+2026/02/20-09:24:07.204875 264c   Options.hard_pending_compaction_bytes_limit: 274877906944
+2026/02/20-09:24:07.204880 264c                Options.disable_auto_compactions: 1
+2026/02/20-09:24:07.204887 264c                        Options.compaction_style: kCompactionStyleLevel
+2026/02/20-09:24:07.204894 264c                          Options.compaction_pri: kMinOverlappingRatio
+2026/02/20-09:24:07.204901 264c Options.compaction_options_universal.size_ratio: 1
+2026/02/20-09:24:07.204907 264c Options.compaction_options_universal.min_merge_width: 2
+2026/02/20-09:24:07.204914 264c Options.compaction_options_universal.max_merge_width: 4294967295
+2026/02/20-09:24:07.204919 264c Options.compaction_options_universal.max_size_amplification_percent: 200
+2026/02/20-09:24:07.204925 264c Options.compaction_options_universal.compression_size_percent: -1
+2026/02/20-09:24:07.204931 264c Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2026/02/20-09:24:07.204937 264c Options.compaction_options_universal.max_read_amp: -1
+2026/02/20-09:24:07.204944 264c Options.compaction_options_universal.reduce_file_locking: 0
+2026/02/20-09:24:07.204951 264c Options.compaction_options_fifo.max_table_files_size: 1073741824
+2026/02/20-09:24:07.204957 264c Options.compaction_options_fifo.allow_compaction: 0
+2026/02/20-09:24:07.204965 264c                   Options.table_properties_collectors: 
+2026/02/20-09:24:07.204971 264c                   Options.inplace_update_support: 0
+2026/02/20-09:24:07.204977 264c                 Options.inplace_update_num_locks: 10000
+2026/02/20-09:24:07.204983 264c               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2026/02/20-09:24:07.204989 264c               Options.memtable_whole_key_filtering: 0
+2026/02/20-09:24:07.204996 264c   Options.memtable_huge_page_size: 0
+2026/02/20-09:24:07.205002 264c                           Options.bloom_locality: 0
+2026/02/20-09:24:07.205008 264c                    Options.max_successive_merges: 0
+2026/02/20-09:24:07.205015 264c             Options.strict_max_successive_merges: 0
+2026/02/20-09:24:07.205020 264c                Options.optimize_filters_for_hits: 0
+2026/02/20-09:24:07.205026 264c                Options.paranoid_file_checks: 0
+2026/02/20-09:24:07.205032 264c                Options.force_consistency_checks: 1
+2026/02/20-09:24:07.205037 264c                Options.report_bg_io_stats: 0
+2026/02/20-09:24:07.205044 264c                Options.disallow_memtable_writes: 0
+2026/02/20-09:24:07.205052 264c                               Options.ttl: 2592000
+2026/02/20-09:24:07.205059 264c          Options.periodic_compaction_seconds: 0
+2026/02/20-09:24:07.205065 264c                        Options.default_temperature: kUnknown
+2026/02/20-09:24:07.205071 264c  Options.preclude_last_level_data_seconds: 0
+2026/02/20-09:24:07.205077 264c    Options.preserve_internal_time_seconds: 0
+2026/02/20-09:24:07.205082 264c                       Options.enable_blob_files: false
+2026/02/20-09:24:07.205088 264c                           Options.min_blob_size: 0
+2026/02/20-09:24:07.205095 264c                          Options.blob_file_size: 268435456
+2026/02/20-09:24:07.205101 264c                   Options.blob_compression_type: NoCompression
+2026/02/20-09:24:07.205108 264c          Options.enable_blob_garbage_collection: false
+2026/02/20-09:24:07.205114 264c      Options.blob_garbage_collection_age_cutoff: 0.250000
+2026/02/20-09:24:07.205120 264c Options.blob_garbage_collection_force_threshold: 1.000000
+2026/02/20-09:24:07.205126 264c          Options.blob_compaction_readahead_size: 0
+2026/02/20-09:24:07.205132 264c                Options.blob_file_starting_level: 0
+2026/02/20-09:24:07.205138 264c         Options.experimental_mempurge_threshold: 0.000000
+2026/02/20-09:24:07.205145 264c            Options.memtable_max_range_deletions: 0
+2026/02/20-09:24:07.205151 264c                  Options.cf_allow_ingest_behind: false
+2026/02/20-09:24:07.207069 264c [db\version_set.cc:6528] Recovered from manifest file:./llm_cache/MANIFEST-000653 succeeded,manifest_file_number is 653, next_file_number is 655, last_sequence is 0, log_number is 647,prev_log_number is 0,max_column_family is 0,min_log_number_to_keep is 0
+2026/02/20-09:24:07.207086 264c [db\version_set.cc:6537] Column family [default] (ID 0), log number is 647
+2026/02/20-09:24:07.207243 264c [db\db_impl\db_impl_open.cc:686] DB ID: 2235a53d-facd-11f0-8e3a-b42e99fe92b3
+2026/02/20-09:24:07.207791 264c EVENT_LOG_v1 {"time_micros": 1771575847207756, "job": 1, "event": "recovery_started", "wal_files": [4, 10, 16, 22, 28, 34, 40, 46, 52, 58, 64, 70, 76, 82, 88, 94, 100, 106, 112, 118, 124, 130, 136, 142, 148, 154, 160, 166, 172, 178, 184, 190, 196, 202, 208, 214, 220, 226, 232, 238, 244, 250, 256, 262, 268, 274, 280, 286, 292, 298, 304, 310, 316, 322, 328, 334, 340, 346, 352, 358, 364, 370, 376, 382, 388, 394, 400, 406, 412, 418, 424, 430, 436, 442, 448, 454, 460, 466, 472, 478, 484, 490, 496, 502, 508, 514, 520, 526, 532, 538, 544, 550, 556, 562, 568, 574, 580, 586, 592, 598, 604, 610, 616, 622, 628, 634, 640, 646, 652]}
+2026/02/20-09:24:07.207807 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #4 mode 2
+2026/02/20-09:24:07.207887 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #4 next seq #72057594037927935
+2026/02/20-09:24:07.207954 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #10 mode 2
+2026/02/20-09:24:07.208022 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #10 next seq #72057594037927935
+2026/02/20-09:24:07.208084 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #16 mode 2
+2026/02/20-09:24:07.208148 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #16 next seq #72057594037927935
+2026/02/20-09:24:07.208217 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #22 mode 2
+2026/02/20-09:24:07.208281 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #22 next seq #72057594037927935
+2026/02/20-09:24:07.208342 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #28 mode 2
+2026/02/20-09:24:07.208405 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #28 next seq #72057594037927935
+2026/02/20-09:24:07.208465 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #34 mode 2
+2026/02/20-09:24:07.208527 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #34 next seq #72057594037927935
+2026/02/20-09:24:07.208586 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #40 mode 2
+2026/02/20-09:24:07.208648 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #40 next seq #72057594037927935
+2026/02/20-09:24:07.208738 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #46 mode 2
+2026/02/20-09:24:07.208804 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #46 next seq #72057594037927935
+2026/02/20-09:24:07.208863 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #52 mode 2
+2026/02/20-09:24:07.208925 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #52 next seq #72057594037927935
+2026/02/20-09:24:07.208985 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #58 mode 2
+2026/02/20-09:24:07.209047 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #58 next seq #72057594037927935
+2026/02/20-09:24:07.209106 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #64 mode 2
+2026/02/20-09:24:07.209168 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #64 next seq #72057594037927935
+2026/02/20-09:24:07.209234 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #70 mode 2
+2026/02/20-09:24:07.209295 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #70 next seq #72057594037927935
+2026/02/20-09:24:07.209355 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #76 mode 2
+2026/02/20-09:24:07.209417 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #76 next seq #72057594037927935
+2026/02/20-09:24:07.209476 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #82 mode 2
+2026/02/20-09:24:07.209538 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #82 next seq #72057594037927935
+2026/02/20-09:24:07.209597 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #88 mode 2
+2026/02/20-09:24:07.209659 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #88 next seq #72057594037927935
+2026/02/20-09:24:07.209718 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #94 mode 2
+2026/02/20-09:24:07.209779 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #94 next seq #72057594037927935
+2026/02/20-09:24:07.209839 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #100 mode 2
+2026/02/20-09:24:07.209900 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #100 next seq #72057594037927935
+2026/02/20-09:24:07.209960 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #106 mode 2
+2026/02/20-09:24:07.210021 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #106 next seq #72057594037927935
+2026/02/20-09:24:07.210081 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #112 mode 2
+2026/02/20-09:24:07.210142 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #112 next seq #72057594037927935
+2026/02/20-09:24:07.210207 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #118 mode 2
+2026/02/20-09:24:07.210269 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #118 next seq #72057594037927935
+2026/02/20-09:24:07.210328 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #124 mode 2
+2026/02/20-09:24:07.210389 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #124 next seq #72057594037927935
+2026/02/20-09:24:07.210447 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #130 mode 2
+2026/02/20-09:24:07.210509 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #130 next seq #72057594037927935
+2026/02/20-09:24:07.210569 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #136 mode 2
+2026/02/20-09:24:07.210630 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #136 next seq #72057594037927935
+2026/02/20-09:24:07.210689 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #142 mode 2
+2026/02/20-09:24:07.210750 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #142 next seq #72057594037927935
+2026/02/20-09:24:07.210809 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #148 mode 2
+2026/02/20-09:24:07.210870 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #148 next seq #72057594037927935
+2026/02/20-09:24:07.210930 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #154 mode 2
+2026/02/20-09:24:07.210991 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #154 next seq #72057594037927935
+2026/02/20-09:24:07.211051 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #160 mode 2
+2026/02/20-09:24:07.211111 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #160 next seq #72057594037927935
+2026/02/20-09:24:07.211173 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #166 mode 2
+2026/02/20-09:24:07.211243 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #166 next seq #72057594037927935
+2026/02/20-09:24:07.211302 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #172 mode 2
+2026/02/20-09:24:07.211364 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #172 next seq #72057594037927935
+2026/02/20-09:24:07.211424 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #178 mode 2
+2026/02/20-09:24:07.211485 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #178 next seq #72057594037927935
+2026/02/20-09:24:07.211545 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #184 mode 2
+2026/02/20-09:24:07.211605 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #184 next seq #72057594037927935
+2026/02/20-09:24:07.211665 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #190 mode 2
+2026/02/20-09:24:07.211726 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #190 next seq #72057594037927935
+2026/02/20-09:24:07.211786 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #196 mode 2
+2026/02/20-09:24:07.211847 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #196 next seq #72057594037927935
+2026/02/20-09:24:07.211906 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #202 mode 2
+2026/02/20-09:24:07.211967 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #202 next seq #72057594037927935
+2026/02/20-09:24:07.212026 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #208 mode 2
+2026/02/20-09:24:07.212089 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #208 next seq #72057594037927935
+2026/02/20-09:24:07.212147 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #214 mode 2
+2026/02/20-09:24:07.212223 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #214 next seq #72057594037927935
+2026/02/20-09:24:07.212336 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #220 mode 2
+2026/02/20-09:24:07.212436 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #220 next seq #72057594037927935
+2026/02/20-09:24:07.212505 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #226 mode 2
+2026/02/20-09:24:07.212587 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #226 next seq #72057594037927935
+2026/02/20-09:24:07.212665 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #232 mode 2
+2026/02/20-09:24:07.212802 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #232 next seq #72057594037927935
+2026/02/20-09:24:07.212884 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #238 mode 2
+2026/02/20-09:24:07.212967 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #238 next seq #72057594037927935
+2026/02/20-09:24:07.213048 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #244 mode 2
+2026/02/20-09:24:07.213133 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #244 next seq #72057594037927935
+2026/02/20-09:24:07.213217 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #250 mode 2
+2026/02/20-09:24:07.213301 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #250 next seq #72057594037927935
+2026/02/20-09:24:07.213389 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #256 mode 2
+2026/02/20-09:24:07.213485 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #256 next seq #72057594037927935
+2026/02/20-09:24:07.213591 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #262 mode 2
+2026/02/20-09:24:07.213685 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #262 next seq #72057594037927935
+2026/02/20-09:24:07.213789 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #268 mode 2
+2026/02/20-09:24:07.213881 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #268 next seq #72057594037927935
+2026/02/20-09:24:07.213970 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #274 mode 2
+2026/02/20-09:24:07.214051 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #274 next seq #72057594037927935
+2026/02/20-09:24:07.214115 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #280 mode 2
+2026/02/20-09:24:07.214184 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #280 next seq #72057594037927935
+2026/02/20-09:24:07.214261 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #286 mode 2
+2026/02/20-09:24:07.214346 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #286 next seq #72057594037927935
+2026/02/20-09:24:07.214431 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #292 mode 2
+2026/02/20-09:24:07.214519 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #292 next seq #72057594037927935
+2026/02/20-09:24:07.214609 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #298 mode 2
+2026/02/20-09:24:07.214676 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #298 next seq #72057594037927935
+2026/02/20-09:24:07.214745 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #304 mode 2
+2026/02/20-09:24:07.214817 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #304 next seq #72057594037927935
+2026/02/20-09:24:07.214904 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #310 mode 2
+2026/02/20-09:24:07.214989 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #310 next seq #72057594037927935
+2026/02/20-09:24:07.215061 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #316 mode 2
+2026/02/20-09:24:07.215127 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #316 next seq #72057594037927935
+2026/02/20-09:24:07.215189 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #322 mode 2
+2026/02/20-09:24:07.215254 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #322 next seq #72057594037927935
+2026/02/20-09:24:07.215315 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #328 mode 2
+2026/02/20-09:24:07.215380 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #328 next seq #72057594037927935
+2026/02/20-09:24:07.215441 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #334 mode 2
+2026/02/20-09:24:07.215505 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #334 next seq #72057594037927935
+2026/02/20-09:24:07.215567 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #340 mode 2
+2026/02/20-09:24:07.215629 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #340 next seq #72057594037927935
+2026/02/20-09:24:07.215691 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #346 mode 2
+2026/02/20-09:24:07.215835 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #346 next seq #72057594037927935
+2026/02/20-09:24:07.215920 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #352 mode 2
+2026/02/20-09:24:07.215988 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #352 next seq #72057594037927935
+2026/02/20-09:24:07.216049 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #358 mode 2
+2026/02/20-09:24:07.216111 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #358 next seq #72057594037927935
+2026/02/20-09:24:07.216171 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #364 mode 2
+2026/02/20-09:24:07.216239 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #364 next seq #72057594037927935
+2026/02/20-09:24:07.216298 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #370 mode 2
+2026/02/20-09:24:07.216376 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #370 next seq #72057594037927935
+2026/02/20-09:24:07.216450 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #376 mode 2
+2026/02/20-09:24:07.216530 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #376 next seq #72057594037927935
+2026/02/20-09:24:07.216603 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #382 mode 2
+2026/02/20-09:24:07.216663 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #382 next seq #72057594037927935
+2026/02/20-09:24:07.216743 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #388 mode 2
+2026/02/20-09:24:07.216820 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #388 next seq #72057594037927935
+2026/02/20-09:24:07.216877 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #394 mode 2
+2026/02/20-09:24:07.216956 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #394 next seq #72057594037927935
+2026/02/20-09:24:07.217035 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #400 mode 2
+2026/02/20-09:24:07.217115 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #400 next seq #72057594037927935
+2026/02/20-09:24:07.217190 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #406 mode 2
+2026/02/20-09:24:07.217249 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #406 next seq #72057594037927935
+2026/02/20-09:24:07.217306 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #412 mode 2
+2026/02/20-09:24:07.217365 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #412 next seq #72057594037927935
+2026/02/20-09:24:07.217422 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #418 mode 2
+2026/02/20-09:24:07.217500 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #418 next seq #72057594037927935
+2026/02/20-09:24:07.217575 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #424 mode 2
+2026/02/20-09:24:07.217652 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #424 next seq #72057594037927935
+2026/02/20-09:24:07.217711 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #430 mode 2
+2026/02/20-09:24:07.217785 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #430 next seq #72057594037927935
+2026/02/20-09:24:07.217842 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #436 mode 2
+2026/02/20-09:24:07.217901 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #436 next seq #72057594037927935
+2026/02/20-09:24:07.217958 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #442 mode 2
+2026/02/20-09:24:07.218037 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #442 next seq #72057594037927935
+2026/02/20-09:24:07.218112 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #448 mode 2
+2026/02/20-09:24:07.218191 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #448 next seq #72057594037927935
+2026/02/20-09:24:07.218272 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #454 mode 2
+2026/02/20-09:24:07.218334 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #454 next seq #72057594037927935
+2026/02/20-09:24:07.218391 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #460 mode 2
+2026/02/20-09:24:07.218450 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #460 next seq #72057594037927935
+2026/02/20-09:24:07.218507 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #466 mode 2
+2026/02/20-09:24:07.218584 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #466 next seq #72057594037927935
+2026/02/20-09:24:07.218642 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #472 mode 2
+2026/02/20-09:24:07.218703 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #472 next seq #72057594037927935
+2026/02/20-09:24:07.218775 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #478 mode 2
+2026/02/20-09:24:07.218835 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #478 next seq #72057594037927935
+2026/02/20-09:24:07.218891 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #484 mode 2
+2026/02/20-09:24:07.218950 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #484 next seq #72057594037927935
+2026/02/20-09:24:07.219025 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #490 mode 2
+2026/02/20-09:24:07.219104 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #490 next seq #72057594037927935
+2026/02/20-09:24:07.219178 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #496 mode 2
+2026/02/20-09:24:07.219256 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #496 next seq #72057594037927935
+2026/02/20-09:24:07.219331 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #502 mode 2
+2026/02/20-09:24:07.219389 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #502 next seq #72057594037927935
+2026/02/20-09:24:07.219446 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #508 mode 2
+2026/02/20-09:24:07.219505 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #508 next seq #72057594037927935
+2026/02/20-09:24:07.219562 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #514 mode 2
+2026/02/20-09:24:07.219642 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #514 next seq #72057594037927935
+2026/02/20-09:24:07.219702 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #520 mode 2
+2026/02/20-09:24:07.219797 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #520 next seq #72057594037927935
+2026/02/20-09:24:07.219871 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #526 mode 2
+2026/02/20-09:24:07.219932 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #526 next seq #72057594037927935
+2026/02/20-09:24:07.219989 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #532 mode 2
+2026/02/20-09:24:07.220048 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #532 next seq #72057594037927935
+2026/02/20-09:24:07.220104 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #538 mode 2
+2026/02/20-09:24:07.220184 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #538 next seq #72057594037927935
+2026/02/20-09:24:07.220249 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #544 mode 2
+2026/02/20-09:24:07.220309 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #544 next seq #72057594037927935
+2026/02/20-09:24:07.220367 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #550 mode 2
+2026/02/20-09:24:07.220427 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #550 next seq #72057594037927935
+2026/02/20-09:24:07.220485 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #556 mode 2
+2026/02/20-09:24:07.220544 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #556 next seq #72057594037927935
+2026/02/20-09:24:07.220603 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #562 mode 2
+2026/02/20-09:24:07.220663 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #562 next seq #72057594037927935
+2026/02/20-09:24:07.220721 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #568 mode 2
+2026/02/20-09:24:07.220843 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #568 next seq #72057594037927935
+2026/02/20-09:24:07.220922 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #574 mode 2
+2026/02/20-09:24:07.220983 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #574 next seq #72057594037927935
+2026/02/20-09:24:07.221041 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #580 mode 2
+2026/02/20-09:24:07.221101 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #580 next seq #72057594037927935
+2026/02/20-09:24:07.221159 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #586 mode 2
+2026/02/20-09:24:07.221219 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #586 next seq #72057594037927935
+2026/02/20-09:24:07.221278 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #592 mode 2
+2026/02/20-09:24:07.221338 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #592 next seq #72057594037927935
+2026/02/20-09:24:07.221396 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #598 mode 2
+2026/02/20-09:24:07.221457 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #598 next seq #72057594037927935
+2026/02/20-09:24:07.221516 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #604 mode 2
+2026/02/20-09:24:07.221594 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #604 next seq #72057594037927935
+2026/02/20-09:24:07.221651 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #610 mode 2
+2026/02/20-09:24:07.221711 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #610 next seq #72057594037927935
+2026/02/20-09:24:07.221768 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #616 mode 2
+2026/02/20-09:24:07.221828 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #616 next seq #72057594037927935
+2026/02/20-09:24:07.221885 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #622 mode 2
+2026/02/20-09:24:07.221944 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #622 next seq #72057594037927935
+2026/02/20-09:24:07.222002 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #628 mode 2
+2026/02/20-09:24:07.222061 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #628 next seq #72057594037927935
+2026/02/20-09:24:07.222121 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #634 mode 2
+2026/02/20-09:24:07.222181 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #634 next seq #72057594037927935
+2026/02/20-09:24:07.222245 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #640 mode 2
+2026/02/20-09:24:07.222307 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #640 next seq #72057594037927935
+2026/02/20-09:24:07.222364 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #646 mode 2
+2026/02/20-09:24:07.222423 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #646 next seq #72057594037927935
+2026/02/20-09:24:07.222480 264c [db\db_impl\db_impl_open.cc:1370] Recovering log #652 mode 2
+2026/02/20-09:24:07.222540 264c [db\db_impl\db_impl_open.cc:1344] Recovered to log #652 next seq #72057594037927935
+2026/02/20-09:24:07.225594 264c EVENT_LOG_v1 {"time_micros": 1771575847225587, "job": 1, "event": "recovery_finished", "status": "OK"}
+2026/02/20-09:24:07.237881 264c [db\version_set.cc:6083] Created manifest 659, compacted+appended from 163 to 163
+2026/02/20-09:24:07.251084 264c [db\db_impl\db_impl_open.cc:2627] SstFileManager instance 000001ABA5ACD0D0
+2026/02/20-09:24:07.252162 264c DB pointer 000001ABA5904B00
+2026/02/20-09:24:07.252241 264c [WARN] [utilities\transactions\pessimistic_transaction_db.cc:269] Transaction write_policy is 2
+2026/02/20-09:24:07.274848 264c [db\db_impl\db_impl.cc:1264] SetOptions() on column family [default], inputs:
+2026/02/20-09:24:07.274873 264c [db\db_impl\db_impl.cc:1267] disable_auto_compactions: false
+2026/02/20-09:24:07.274885 264c [db\db_impl\db_impl.cc:1271] [default] SetOptions() succeeded
+2026/02/20-09:24:07.274894 264c [options\cf_options.cc:1138]                         write_buffer_size: 536870912
+2026/02/20-09:24:07.274901 264c [options\cf_options.cc:1140]                   max_write_buffer_number: 6
+2026/02/20-09:24:07.274907 264c [options\cf_options.cc:1143]                          arena_block_size: 1048576
+2026/02/20-09:24:07.274913 264c [options\cf_options.cc:1145]               memtable_prefix_bloom_ratio: 0.000000
+2026/02/20-09:24:07.274920 264c [options\cf_options.cc:1147]               memtable_whole_key_filtering: 0
+2026/02/20-09:24:07.274926 264c [options\cf_options.cc:1150]                   memtable_huge_page_size: 0
+2026/02/20-09:24:07.274932 264c [options\cf_options.cc:1153]                     max_successive_merges: 0
+2026/02/20-09:24:07.274938 264c [options\cf_options.cc:1155]              strict_max_successive_merges: 0
+2026/02/20-09:24:07.274944 264c [options\cf_options.cc:1158]                  inplace_update_num_locks: 10000
+2026/02/20-09:24:07.274951 264c [options\cf_options.cc:1162]                          prefix_extractor: nullptr
+2026/02/20-09:24:07.274958 264c [options\cf_options.cc:1164]                  disable_auto_compactions: 0
+2026/02/20-09:24:07.274964 264c [options\cf_options.cc:1166]       soft_pending_compaction_bytes_limit: 68719476736
+2026/02/20-09:24:07.274970 264c [options\cf_options.cc:1168]       hard_pending_compaction_bytes_limit: 274877906944
+2026/02/20-09:24:07.274976 264c [options\cf_options.cc:1170]        level0_file_num_compaction_trigger: 4
+2026/02/20-09:24:07.274982 264c [options\cf_options.cc:1172]            level0_slowdown_writes_trigger: 20
+2026/02/20-09:24:07.274990 264c [options\cf_options.cc:1174]                level0_stop_writes_trigger: 36
+2026/02/20-09:24:07.275000 264c [options\cf_options.cc:1176]                      max_compaction_bytes: 1677721600
+2026/02/20-09:24:07.275010 264c [options\cf_options.cc:1178]                     target_file_size_base: 67108864
+2026/02/20-09:24:07.275021 264c [options\cf_options.cc:1180]               target_file_size_multiplier: 1
+2026/02/20-09:24:07.275032 264c [options\cf_options.cc:1182]          target_file_size_is_upper_bound: 0
+2026/02/20-09:24:07.275042 264c [options\cf_options.cc:1184]                  max_bytes_for_level_base: 268435456
+2026/02/20-09:24:07.275050 264c [options\cf_options.cc:1186]            max_bytes_for_level_multiplier: 10.000000
+2026/02/20-09:24:07.275064 264c [options\cf_options.cc:1188]                                       ttl: 2592000
+2026/02/20-09:24:07.275076 264c [options\cf_options.cc:1190]               periodic_compaction_seconds: 0
+2026/02/20-09:24:07.275086 264c [options\cf_options.cc:1193]               preclude_last_level_data_seconds: 0
+2026/02/20-09:24:07.275097 264c [options\cf_options.cc:1195]               preserve_internal_time_seconds: 0
+2026/02/20-09:24:07.275108 264c [options\cf_options.cc:1197]                    paranoid_memory_checks: 0
+2026/02/20-09:24:07.275118 264c [options\cf_options.cc:1199] memtable_veirfy_per_key_checksum_on_seek: 0
+2026/02/20-09:24:07.275129 264c [options\cf_options.cc:1213] max_bytes_for_level_multiplier_additional: 1, 1, 1, 1, 1, 1, 1
+2026/02/20-09:24:07.275140 264c [options\cf_options.cc:1215]         max_sequential_skip_in_iterations: 8
+2026/02/20-09:24:07.275151 264c [options\cf_options.cc:1217]                      paranoid_file_checks: 0
+2026/02/20-09:24:07.275161 264c [options\cf_options.cc:1219]                        report_bg_io_stats: 0
+2026/02/20-09:24:07.275171 264c [options\cf_options.cc:1221]                               compression: 1
+2026/02/20-09:24:07.275209 264c [options\cf_options.cc:1223]           experimental_mempurge_threshold: 0.000000
+2026/02/20-09:24:07.275220 264c [options\cf_options.cc:1225]          bottommost_file_compaction_delay: 0
+2026/02/20-09:24:07.275231 264c [options\cf_options.cc:1227]                    uncache_aggressiveness: 0
+2026/02/20-09:24:07.275260 264c [options\cf_options.cc:1229]              memtable_op_scan_flush_trigger: 0
+2026/02/20-09:24:07.275270 264c [options\cf_options.cc:1231]          memtable_avg_op_scan_flush_trigger: 0
+2026/02/20-09:24:07.275281 264c [options\cf_options.cc:1234] compaction_options_universal.size_ratio : 1
+2026/02/20-09:24:07.275292 264c [options\cf_options.cc:1236] compaction_options_universal.min_merge_width : 2
+2026/02/20-09:24:07.275301 264c [options\cf_options.cc:1238] compaction_options_universal.max_merge_width : -1
+2026/02/20-09:24:07.275309 264c [options\cf_options.cc:1241] compaction_options_universal.max_size_amplification_percent : 200
+2026/02/20-09:24:07.275334 264c [options\cf_options.cc:1244] compaction_options_universal.compression_size_percent : -1
+2026/02/20-09:24:07.275359 264c [options\cf_options.cc:1246] compaction_options_universal.max_read_amp:  -1
+2026/02/20-09:24:07.275389 264c [options\cf_options.cc:1248] compaction_options_universal.stop_style : 1
+2026/02/20-09:24:07.275416 264c [options\cf_options.cc:1251] compaction_options_universal.allow_trivial_move : 0
+2026/02/20-09:24:07.275426 264c [options\cf_options.cc:1253] compaction_options_universal.incremental        : 0
+2026/02/20-09:24:07.275436 264c [options\cf_options.cc:1255] compaction_options_universal.reduce_file_locking : 0
+2026/02/20-09:24:07.275466 264c [options\cf_options.cc:1259] compaction_options_fifo.max_table_files_size : 1073741824
+2026/02/20-09:24:07.275475 264c [options\cf_options.cc:1261] compaction_options_fifo.allow_compaction : 0
+2026/02/20-09:24:07.275482 264c [options\cf_options.cc:1265]                         enable_blob_files: false
+2026/02/20-09:24:07.275492 264c [options\cf_options.cc:1267]                             min_blob_size: 0
+2026/02/20-09:24:07.275520 264c [options\cf_options.cc:1269]                            blob_file_size: 268435456
+2026/02/20-09:24:07.275529 264c [options\cf_options.cc:1271]                     blob_compression_type: NoCompression
+2026/02/20-09:24:07.275536 264c [options\cf_options.cc:1273]            enable_blob_garbage_collection: false
+2026/02/20-09:24:07.275542 264c [options\cf_options.cc:1275]        blob_garbage_collection_age_cutoff: 0.250000
+2026/02/20-09:24:07.275553 264c [options\cf_options.cc:1277]   blob_garbage_collection_force_threshold: 1.000000
+2026/02/20-09:24:07.275565 264c [options\cf_options.cc:1279]            blob_compaction_readahead_size: 0
+2026/02/20-09:24:07.275575 264c [options\cf_options.cc:1281]                  blob_file_starting_level: 0
+2026/02/20-09:24:07.275585 264c [options\cf_options.cc:1285]                    prepopulate_blob_cache: disable
+2026/02/20-09:24:07.275597 264c [options\cf_options.cc:1287]                    last_level_temperature: 0
+2026/02/20-09:24:07.275819 264c [db\db_impl\db_impl.cc:467] Shutdown: canceling all background work
+2026/02/20-09:24:07.278993 264c [db\db_impl\db_impl.cc:467] Shutdown: canceling all background work
+2026/02/20-09:24:07.286420 264c [db\db_impl\db_impl.cc:681] Shutdown complete

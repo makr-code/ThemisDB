@@ -1,6 +1,7 @@
 #include "utils/tracing.h"
 #include "utils/logger.h"
 #include "observability/metrics_collector.h"
+#include "security/pii_redaction_policy.h"
 
 #include <regex>
 #include <string>
@@ -260,7 +261,12 @@ void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key,
                                  [[maybe_unused]] const std::string& value) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
-        span_->SetAttribute(key, value);
+        // Redact PII from string attribute values before recording in the trace.
+        // redactAttributeValue() applies both key-based (field-name hint) and
+        // inline PII redaction without allocating a temporary map.
+        std::string safe_value = themis::security::PIIRedactionPolicy::get()
+                                     .redactAttributeValue(key, value);
+        span_->SetAttribute(key, safe_value);
     }
 #endif
 }
@@ -295,8 +301,11 @@ void Tracer::Span::setAttribute([[maybe_unused]] const std::string& key,
 void Tracer::Span::recordError([[maybe_unused]] const std::string& errorMessage) {
 #ifdef THEMIS_ENABLE_TRACING
     if (span_) {
-        span_->AddEvent("exception", {{"exception.message", errorMessage}});
-        span_->SetStatus(otel::trace::StatusCode::kError, errorMessage);
+        // Redact PII from error messages before recording in the trace.
+        std::string safe_msg = themis::security::PIIRedactionPolicy::get()
+                                   .redactForLog(errorMessage);
+        span_->AddEvent("exception", {{"exception.message", safe_msg}});
+        span_->SetStatus(otel::trace::StatusCode::kError, safe_msg);
     }
 #endif
 }

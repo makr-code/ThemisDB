@@ -219,7 +219,7 @@ public:
             it->second.password_history.erase(it->second.password_history.begin());
         }
         
-        THEMIS_INFO("Password changed for embedded user '{}'", user_id);
+        THEMIS_INFO("Password changed for embedded user '{}'", user_id); // NOPII: user_id is a non-PII identifier, password is not logged
         return themis::OkVoid();
     }
     

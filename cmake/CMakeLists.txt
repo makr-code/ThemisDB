@@ -1214,6 +1214,9 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1336,6 +1339,11 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_errors.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_validator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
@@ -1436,11 +1444,13 @@ set(THEMIS_CORE_SOURCES
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/pii_redaction_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
@@ -1502,6 +1512,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
     ../src/sharding/raft_consensus.cpp
+    ../src/sharding/raft_shard_manager.cpp
     ../src/sharding/quorum_manager.cpp
     ../src/sharding/partition_detector.cpp
     ../src/sharding/replica_consistency.cpp
@@ -1521,8 +1532,14 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
+    ../src/sharding/metadata_wal.cpp
+    ../src/sharding/metadata_snapshot.cpp
     ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/paxos_wal.cpp
+    ../src/sharding/paxos_snapshot.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/transaction_wal.cpp
+    ../src/sharding/transaction_snapshot.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
@@ -1563,7 +1580,11 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/exporter_metrics.cpp
+    ../src/exporters/pii_detector.cpp
+    ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/aql/llm_metrics_collector.cpp
     
     # OLAP Analytics
     ../src/analytics/olap.cpp
@@ -1719,18 +1740,33 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/mixed_precision_inference.cpp
-    # Multi-GPU LoRA Training
-    ../src/llm/lora_framework/multi_gpu.cpp
-    ../src/llm/lora_framework/multi_gpu_trainer.cpp
-    ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
     # Multi-GPU Communication Backends (NCCL/RCCL - stub implementations when not available)
     ../src/llm/lora_framework/nccl_backend.cpp
     ../src/llm/lora_framework/rccl_backend.cpp
     )
+
+    # GPU LoRA/VRAM implementation (GPU-only)
+    if(THEMIS_ENABLE_GPU)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/gpu_tensor.cpp
+            ../src/llm/lora_framework/vram_allocator.cpp
+            ../src/llm/lora_framework/gpu_lora_layers.cpp
+            ../src/llm/lora_framework/paged_memory_manager.cpp
+            ../src/llm/lora_framework/custom_allreduce.cpp
+            ../src/llm/lora_framework/multi_gpu.cpp
+            ../src/llm/lora_framework/multi_gpu_trainer.cpp
+            ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
+        )
+    endif()
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    # Continuous Learning Orchestrator (Phase 2)
+    ../src/rag/learning_metrics.cpp
+    ../src/rag/bayesian_optimizer.cpp
+    ../src/rag/ab_testing_framework.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
     )
 endif()
 
@@ -2411,7 +2447,9 @@ if(THEMIS_ENABLE_GRPC)
         endif()
 
         # Link to generated shard proto library (generated outside this block)
-        if(TARGET themis_shard_proto)
+        # In modular builds, themis_sharding owns this dependency to avoid
+        # duplicate static proto objects in final executables.
+        if(TARGET themis_shard_proto AND NOT THEMIS_BUILD_MODULAR)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
         endif()
     else()
@@ -2545,6 +2583,15 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
         ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
         ../src/rag/knowledge_gap_detector.cpp     # Knowledge gap detection
+        ../src/rag/llm_judge_client.cpp           # LLM Judge Client connecting to InferenceEngineEnhanced
+        ../src/rag/nli_faithfulness_verifier.cpp  # NLI-based faithfulness verification
+        ../src/rag/quality_control_pipeline.cpp   # Multi-stage quality control pipeline
+        
+        # Continuous Learning Orchestrator (Phase 2)
+        ../src/rag/learning_metrics.cpp
+        ../src/rag/bayesian_optimizer.cpp
+        ../src/rag/ab_testing_framework.cpp
+        ../src/rag/continuous_learning_orchestrator.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION

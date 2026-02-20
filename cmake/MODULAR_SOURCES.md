@@ -79,7 +79,6 @@
 - **Purpose**: Advanced indexing and query functionality
 - **Sources**:
   - advanced_vector_index.cpp
-  - query_parser.cpp
   - aggregates.cpp
   - process_mining_functions.cpp
   - process_pattern_matcher.cpp

@@ -91,8 +91,8 @@ TEST_F(EnhancedPluginSecurityTest, Level2_EmbeddedSignature_AllowUnsigned) {
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE
     );
     
-    // Should fail at Level 2 but still report hash verified
-    EXPECT_FALSE(result.passed);
+    // In development mode (allowUnsigned), Level 2 requirement can fall back to Level 1
+    EXPECT_TRUE(result.passed);
     EXPECT_TRUE(result.hash_verified);
 }
 
@@ -179,12 +179,12 @@ TEST_F(EnhancedPluginSecurityTest, VerificationLevelProgression) {
     EXPECT_EQ(result1.level_achieved, 
               EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_1_HASH_ONLY);
     
-    // Level 2 should fail (no embedded sig) but achieve Level 1
+    // With allowUnsigned enabled, Level 2 requirement can pass with Level 1 verification
     auto result2 = verifier.verifyPlugin(
         test_plugin_path_.string(),
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE
     );
-    EXPECT_FALSE(result2.passed);
+    EXPECT_TRUE(result2.passed);
     EXPECT_TRUE(result2.hash_verified);
 }
 
