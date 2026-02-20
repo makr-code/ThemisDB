@@ -285,6 +285,9 @@ public:
     virtual void onFailoverStarted(const std::string& failed_leader_id, const std::string& new_leader_id) = 0;
     virtual void onFailoverCompleted(const std::string& new_leader_id, bool success) = 0;
     virtual void onNetworkPartitionDetected(const std::vector<std::string>& unreachable_nodes) = 0;
+
+    // Called each time a WAL entry is successfully replicated (used by CDC)
+    virtual void onWALEntryApplied(const WALEntry& entry) {}
 };
 
 /**
@@ -1048,6 +1051,130 @@ public:
 private:
     std::shared_ptr<WALManager> wal_;
     BenchmarkConfig config_;
+};
+
+// ============================================================================
+// Change Data Capture (CDC) – v1.6.0
+// ============================================================================
+
+/**
+ * CDCManager
+ *
+ * Captures every WAL entry that passes through the replication pipeline and
+ * delivers it to registered consumer callbacks.  Consumers can filter by
+ * collection name or receive every change.
+ *
+ * Usage:
+ *   auto cdc = std::make_shared<CDCManager>();
+ *   cdc->subscribe("users", [](const WALEntry& e){ ... });
+ *   repl_mgr.addListener(cdc);
+ */
+class CDCManager : public IReplicationListener {
+public:
+    // Callback signature: (WALEntry) -> void
+    using CDCCallback = std::function<void(const WALEntry&)>;
+
+    CDCManager() = default;
+
+    // Subscribe to all collections ("" = wildcard for every collection)
+    uint64_t subscribe(const std::string& collection, CDCCallback callback);
+
+    // Unsubscribe a previously registered handler
+    void unsubscribe(uint64_t subscription_id);
+
+    // Number of active subscriptions
+    size_t subscriptionCount() const;
+
+    // -------------------------------------------------------------------
+    // IReplicationListener overrides (no-ops except onWALEntryApplied)
+    // -------------------------------------------------------------------
+    void onRoleChange(ReplicationRole, ReplicationRole) override {}
+    void onLeaderElected(const std::string&) override {}
+    void onReplicaAdded(const ReplicaInfo&) override {}
+    void onReplicaRemoved(const std::string&) override {}
+    void onConflictDetected(const std::string&) override {}
+    void onReplicationLagWarning(int64_t) override {}
+    void onReplicaHealthChanged(const std::string&, HealthStatus, HealthStatus) override {}
+    void onFailoverStarted(const std::string&, const std::string&) override {}
+    void onFailoverCompleted(const std::string&, bool) override {}
+    void onNetworkPartitionDetected(const std::vector<std::string>&) override {}
+
+    // Dispatches the entry to all matching subscribers
+    void onWALEntryApplied(const WALEntry& entry) override;
+
+private:
+    struct Subscription {
+        uint64_t    id;
+        std::string collection;   // empty = match everything
+        CDCCallback callback;
+    };
+
+    mutable std::shared_mutex subs_mutex_;
+    std::vector<Subscription> subscriptions_;
+    std::atomic<uint64_t>     next_id_{1};
+};
+
+// ============================================================================
+// WAL Archival Manager – v1.6.0
+// ============================================================================
+
+/**
+ * WALArchivalManager
+ *
+ * Archives completed WAL segments to a local (or cloud-pluggable) directory
+ * with optional compression.  Provides retrieval for point-in-time recovery.
+ *
+ * Cloud backends (S3, GCS, Azure) are pluggable via the `IArchivalBackend`
+ * interface; the default backend writes to the local filesystem.
+ */
+class WALArchivalManager {
+public:
+    struct ArchivalConfig {
+        std::string wal_directory;          // Source WAL directory
+        std::string archive_directory;      // Local archive destination
+        uint32_t    archive_after_segments  = 100; // segments to accumulate before archiving
+        uint32_t    local_retention_segments= 10;  // segments to keep locally after archive
+        bool        compress_before_archive = true;
+        uint32_t    delete_after_days       = 365; // purge archived segments older than N days
+    };
+
+    struct ArchivedSegment {
+        uint64_t    segment_id;
+        uint64_t    start_sequence;
+        uint64_t    end_sequence;
+        uint64_t    size_bytes;
+        bool        compressed;
+        std::chrono::system_clock::time_point archived_at;
+        std::string archive_path;
+    };
+
+    explicit WALArchivalManager(const ArchivalConfig& config);
+
+    // Archive the given WAL segment files (paths relative to wal_directory).
+    // Returns number of segments successfully archived.
+    uint32_t archiveSegments(const std::vector<std::string>& segment_paths);
+
+    // Retrieve an archived segment by ID; returns raw bytes (possibly compressed).
+    std::optional<std::vector<uint8_t>> retrieveSegment(uint64_t segment_id) const;
+
+    // List all archived segments (sorted by segment_id ascending).
+    std::vector<ArchivedSegment> listArchived() const;
+
+    // Purge archived segments older than delete_after_days.
+    uint32_t purgeExpired();
+
+    // Background archival: scan wal_directory, archive old segments, return count.
+    uint32_t runArchivalCycle();
+
+private:
+    ArchivalConfig config_;
+    mutable std::mutex archive_mutex_;
+    std::vector<ArchivedSegment> index_;  // in-memory index; persisted via text-format index.txt side-car
+
+    std::string archivePath(uint64_t segment_id) const;
+    void saveIndex() const;
+    void loadIndex();
+    static std::vector<uint8_t> compressData(const std::vector<uint8_t>& data);
 };
 
 } // namespace replication

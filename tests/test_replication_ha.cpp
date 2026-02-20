@@ -1825,3 +1825,310 @@ TEST(ReplicationBenchmarkTest, LatencyPercentilesAreSorted) {
 
     std::filesystem::remove_all(config.wal_directory);
 }
+
+// ============================================================================
+// CDCManager Tests (v1.6.0)
+// ============================================================================
+
+TEST(CDCManagerTest, SubscribeAndReceiveWildcard) {
+    auto cdc = std::make_shared<CDCManager>();
+
+    std::vector<WALEntry> received;
+    cdc->subscribe("", [&received](const WALEntry& e) {
+        received.push_back(e);
+    });
+
+    WALEntry e1;
+    e1.collection = "users";
+    e1.operation  = "INSERT";
+    e1.document_id= "u1";
+    cdc->onWALEntryApplied(e1);
+
+    WALEntry e2;
+    e2.collection = "orders";
+    e2.operation  = "UPDATE";
+    e2.document_id= "o1";
+    cdc->onWALEntryApplied(e2);
+
+    EXPECT_EQ(received.size(), 2u);
+    EXPECT_EQ(received[0].collection, "users");
+    EXPECT_EQ(received[1].collection, "orders");
+}
+
+TEST(CDCManagerTest, SubscribeFiltersByCollection) {
+    auto cdc = std::make_shared<CDCManager>();
+
+    std::vector<std::string> seen;
+    cdc->subscribe("users", [&seen](const WALEntry& e) {
+        seen.push_back(e.document_id);
+    });
+
+    WALEntry eu; eu.collection = "users";  eu.document_id = "u1";
+    WALEntry eo; eo.collection = "orders"; eo.document_id = "o1";
+    cdc->onWALEntryApplied(eu);
+    cdc->onWALEntryApplied(eo);
+
+    ASSERT_EQ(seen.size(), 1u);
+    EXPECT_EQ(seen[0], "u1");
+}
+
+TEST(CDCManagerTest, UnsubscribeStopsDelivery) {
+    auto cdc = std::make_shared<CDCManager>();
+
+    int count = 0;
+    uint64_t id = cdc->subscribe("", [&count](const WALEntry&) { ++count; });
+
+    WALEntry e; e.collection = "c"; e.document_id = "d";
+    cdc->onWALEntryApplied(e);
+    EXPECT_EQ(count, 1);
+
+    cdc->unsubscribe(id);
+    cdc->onWALEntryApplied(e);
+    EXPECT_EQ(count, 1);  // should NOT increase
+}
+
+TEST(CDCManagerTest, MultipleSubscribersReceiveAll) {
+    auto cdc = std::make_shared<CDCManager>();
+
+    int a = 0, b = 0;
+    cdc->subscribe("", [&a](const WALEntry&) { ++a; });
+    cdc->subscribe("", [&b](const WALEntry&) { ++b; });
+
+    WALEntry e; e.collection = "x";
+    cdc->onWALEntryApplied(e);
+    cdc->onWALEntryApplied(e);
+
+    EXPECT_EQ(a, 2);
+    EXPECT_EQ(b, 2);
+}
+
+TEST(CDCManagerTest, SubscriptionCountAccurate) {
+    CDCManager cdc;
+    EXPECT_EQ(cdc.subscriptionCount(), 0u);
+    uint64_t id1 = cdc.subscribe("", [](const WALEntry&){});
+    uint64_t id2 = cdc.subscribe("col", [](const WALEntry&){});
+    EXPECT_EQ(cdc.subscriptionCount(), 2u);
+    cdc.unsubscribe(id1);
+    EXPECT_EQ(cdc.subscriptionCount(), 1u);
+    cdc.unsubscribe(id2);
+    EXPECT_EQ(cdc.subscriptionCount(), 0u);
+}
+
+TEST(CDCManagerTest, ThrowingCallbackDoesNotCrash) {
+    CDCManager cdc;
+    cdc.subscribe("", [](const WALEntry&) {
+        throw std::runtime_error("cdc consumer error");
+    });
+    WALEntry e; e.collection = "c";
+    // Should not propagate the exception
+    EXPECT_NO_THROW(cdc.onWALEntryApplied(e));
+}
+
+TEST(CDCManagerTest, ReplicationManagerDeliversCDCEvents) {
+    TempWALDir tmp("/tmp/themis_cdc_mgr_test");
+    auto cfg = makeConfig(tmp.path);
+    cfg.seed_nodes.clear();
+    // Use the minimum election timeout so the single-node cluster elects
+    // itself as leader quickly.
+    cfg.election_timeout_min_ms = 50;
+    cfg.election_timeout_max_ms = 100;
+
+    ReplicationManager mgr(cfg);
+    ASSERT_TRUE(mgr.initialize());
+
+    auto cdc = std::make_shared<CDCManager>();
+    std::vector<std::string> captured;
+    cdc->subscribe("", [&captured](const WALEntry& e) {
+        captured.push_back(e.document_id);
+    });
+    mgr.addListener(cdc);
+
+    // Wait for the single-node cluster to elect itself leader
+    // (election_timeout_max_ms = 100 ms, add extra margin)
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    WALEntry entry;
+    entry.operation   = "INSERT";
+    entry.collection  = "items";
+    entry.document_id = "item-42";
+    entry.data        = R"({"name":"widget"})";
+    bool ok = mgr.replicate(entry);
+
+    mgr.shutdown();
+    ASSERT_TRUE(ok) << "replicate() failed – node may not be leader yet";
+    ASSERT_EQ(captured.size(), 1u);
+    EXPECT_EQ(captured[0], "item-42");
+}
+
+// ============================================================================
+// WALArchivalManager Tests (v1.6.0)
+// ============================================================================
+
+namespace {
+// Helper: write a small binary WAL-like file to a directory
+void writeSegmentFile(const std::string& dir, const std::string& name,
+                      const std::string& content) {
+    std::filesystem::create_directories(dir);
+    std::ofstream f(dir + "/" + name, std::ios::binary);
+    f << content;
+}
+} // anonymous namespace
+
+TEST(WALArchivalTest, ArchiveSingleSegmentAndRetrieve) {
+    const std::string wal_dir = "/tmp/themis_arch_wal";
+    const std::string arc_dir = "/tmp/themis_arch_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000001.wal", "WAL DATA 1234");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory            = wal_dir;
+    cfg.archive_directory        = arc_dir;
+    cfg.compress_before_archive  = true;
+    cfg.local_retention_segments = 0;
+
+    WALArchivalManager mgr(cfg);
+    uint32_t n = mgr.archiveSegments({"seg_000001.wal"});
+    EXPECT_EQ(n, 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_TRUE(list[0].compressed);
+    EXPECT_GT(list[0].size_bytes, 0u);
+
+    // Retrieve and decompress – should recover original content
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string recovered(data->begin(), data->end());
+    EXPECT_EQ(recovered, "WAL DATA 1234");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, ArchiveWithoutCompressionRoundTrip) {
+    const std::string wal_dir = "/tmp/themis_arch_raw_wal";
+    const std::string arc_dir = "/tmp/themis_arch_raw_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000002.wal", "UNCOMPRESSED SEGMENT");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg);
+    EXPECT_EQ(mgr.archiveSegments({"seg_000002.wal"}), 1u);
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_FALSE(list[0].compressed);
+
+    auto data = mgr.retrieveSegment(list[0].segment_id);
+    ASSERT_TRUE(data.has_value());
+    std::string s(data->begin(), data->end());
+    EXPECT_EQ(s, "UNCOMPRESSED SEGMENT");
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, MissingSegmentReturnsNullopt) {
+    const std::string arc_dir = "/tmp/themis_arch_miss_arc";
+    std::filesystem::remove_all(arc_dir);
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory   = "/tmp/themis_arch_miss_wal";
+    cfg.archive_directory = arc_dir;
+
+    WALArchivalManager mgr(cfg);
+    auto result = mgr.retrieveSegment(999999);
+    EXPECT_FALSE(result.has_value());
+
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, ListArchivedSortedBySegmentId) {
+    const std::string wal_dir = "/tmp/themis_arch_sort_wal";
+    const std::string arc_dir = "/tmp/themis_arch_sort_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000030.wal", "DATA30");
+    writeSegmentFile(wal_dir, "seg_000010.wal", "DATA10");
+    writeSegmentFile(wal_dir, "seg_000020.wal", "DATA20");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+
+    WALArchivalManager mgr(cfg);
+    mgr.archiveSegments({"seg_000030.wal", "seg_000010.wal", "seg_000020.wal"});
+
+    auto list = mgr.listArchived();
+    ASSERT_EQ(list.size(), 3u);
+    EXPECT_LE(list[0].segment_id, list[1].segment_id);
+    EXPECT_LE(list[1].segment_id, list[2].segment_id);
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, PurgeExpiredRemovesOldSegments) {
+    const std::string wal_dir = "/tmp/themis_arch_purge_wal";
+    const std::string arc_dir = "/tmp/themis_arch_purge_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    writeSegmentFile(wal_dir, "seg_000005.wal", "OLD_DATA");
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory           = wal_dir;
+    cfg.archive_directory       = arc_dir;
+    cfg.compress_before_archive = false;
+    cfg.delete_after_days       = 0;  // 0 = purge everything immediately
+
+    WALArchivalManager mgr(cfg);
+    mgr.archiveSegments({"seg_000005.wal"});
+    ASSERT_EQ(mgr.listArchived().size(), 1u);
+
+    // delete_after_days == 0 means purge all; verify the segment is removed
+    uint32_t purged = mgr.purgeExpired();
+    EXPECT_EQ(purged, 1u);
+    EXPECT_EQ(mgr.listArchived().size(), 0u);
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}
+
+TEST(WALArchivalTest, RunArchivalCycleArchivesOldSegments) {
+    const std::string wal_dir = "/tmp/themis_arch_cycle_wal";
+    const std::string arc_dir = "/tmp/themis_arch_cycle_arc";
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+
+    // Write 5 segments; keep retention=2 -> should archive 3
+    for (int i = 1; i <= 5; ++i) {
+        std::ostringstream name;
+        name << "seg_" << std::setw(6) << std::setfill('0') << i << ".wal";
+        writeSegmentFile(wal_dir, name.str(), "DATA" + std::to_string(i));
+    }
+
+    WALArchivalManager::ArchivalConfig cfg;
+    cfg.wal_directory            = wal_dir;
+    cfg.archive_directory        = arc_dir;
+    cfg.local_retention_segments = 2;
+    cfg.compress_before_archive  = false;
+
+    WALArchivalManager mgr(cfg);
+    uint32_t archived = mgr.runArchivalCycle();
+    EXPECT_EQ(archived, 3u);
+    EXPECT_EQ(mgr.listArchived().size(), 3u);
+
+    std::filesystem::remove_all(wal_dir);
+    std::filesystem::remove_all(arc_dir);
+}

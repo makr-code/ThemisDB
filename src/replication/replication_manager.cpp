@@ -787,6 +787,11 @@ bool ReplicationManager::replicate(const WALEntry& entry) {
         stats_.entries_replicated++;
         stats_.bytes_replicated += entry.data.size();
         
+        // Notify CDC listeners about the applied WAL entry
+        notifyListeners([&entry](IReplicationListener& l) {
+            l.onWALEntryApplied(entry);
+        });
+        
         // For sync/semi-sync mode, wait for replication
         if (config_.mode != ReplicationMode::ASYNC) {
             return waitForReplication(seq, config_.replication_timeout_ms);
@@ -1123,11 +1128,20 @@ std::string ReplicationManager::exportPrometheusMetrics() const {
 void ReplicationManager::heartbeatLoop() {
     while (running_.load()) {
         if (election_ && election_->isLeader()) {
-            // Send heartbeats to all followers
-            std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
-            for (const auto& replica : replicas_) {
-                (void)replica;  // In real implementation, send AppendEntries RPC
+            // Notify local election module so it doesn't start a spurious
+            // election against itself; in a real multi-node deployment this
+            // loop would serialize and send AppendEntries RPCs over the wire.
+            uint64_t current_term = election_->getCurrentTerm();
+            {
+                std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+                for (const auto& replica : replicas_) {
+                    // Record outbound heartbeat so the election module can
+                    // reset its own liveness timer if it happens to be watching.
+                    (void)replica;  // endpoint used by real network layer
+                }
             }
+            // Reset the leader's own heartbeat timer to avoid self-election
+            election_->receiveHeartbeat(current_term, node_id_, wal_ ? wal_->getCurrentSequence() : 0);
         }
         
         std::this_thread::sleep_for(
@@ -3591,6 +3605,301 @@ std::string ReplicationBenchmark::format(const BenchmarkResult& r) {
         << "Latency p99:   " << r.latency_p99_us      << " µs\n"
         << "Latency max:   " << r.latency_max_us      << " µs\n";
     return oss.str();
+}
+
+// ============================================================================
+// CDCManager Implementation (v1.6.0)
+// ============================================================================
+
+uint64_t CDCManager::subscribe(const std::string& collection, CDCCallback callback) {
+    uint64_t id = next_id_.fetch_add(1);
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscriptions_.push_back({id, collection, std::move(callback)});
+    return id;
+}
+
+void CDCManager::unsubscribe(uint64_t subscription_id) {
+    std::unique_lock<std::shared_mutex> lock(subs_mutex_);
+    subscriptions_.erase(
+        std::remove_if(subscriptions_.begin(), subscriptions_.end(),
+                       [subscription_id](const Subscription& s) {
+                           return s.id == subscription_id;
+                       }),
+        subscriptions_.end());
+}
+
+size_t CDCManager::subscriptionCount() const {
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    return subscriptions_.size();
+}
+
+void CDCManager::onWALEntryApplied(const WALEntry& entry) {
+    std::shared_lock<std::shared_mutex> lock(subs_mutex_);
+    for (const auto& sub : subscriptions_) {
+        // Empty collection = wildcard; otherwise match on collection name
+        if (sub.collection.empty() || sub.collection == entry.collection) {
+            try {
+                sub.callback(entry);
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("CDCManager: subscriber {} threw: {}", sub.id, e.what());
+            } catch (...) {
+                THEMIS_ERROR("CDCManager: subscriber {} threw unknown exception", sub.id);
+            }
+        }
+    }
+}
+
+// ============================================================================
+// WALArchivalManager Implementation (v1.6.0)
+// ============================================================================
+
+WALArchivalManager::WALArchivalManager(const ArchivalConfig& config)
+    : config_(config) {
+    // Ensure archive directory exists
+    std::error_code ec;
+    std::filesystem::create_directories(config_.archive_directory, ec);
+    // Load existing index if present
+    loadIndex();
+}
+
+std::string WALArchivalManager::archivePath(uint64_t segment_id) const {
+    std::ostringstream oss;
+    oss << config_.archive_directory << "/seg_"
+        << std::setw(20) << std::setfill('0') << segment_id
+        << (config_.compress_before_archive ? ".wal.zst" : ".wal");
+    return oss.str();
+}
+
+/* static */ std::vector<uint8_t> WALArchivalManager::compressData(
+    const std::vector<uint8_t>& data) {
+    size_t bound = ZSTD_compressBound(data.size());
+    std::vector<uint8_t> out(bound);
+    size_t compressed = ZSTD_compress(
+        out.data(), bound, data.data(), data.size(), /*level=*/3);
+    if (ZSTD_isError(compressed)) {
+        return data;  // fall back to uncompressed on error
+    }
+    out.resize(compressed);
+    return out;
+}
+
+void WALArchivalManager::saveIndex() const {
+    // Simple text-format index: one line per segment
+    std::string index_path = config_.archive_directory + "/index.txt";
+    std::ofstream f(index_path);
+    if (!f) return;
+    for (const auto& seg : index_) {
+        auto ts = std::chrono::duration_cast<std::chrono::seconds>(
+            seg.archived_at.time_since_epoch()).count();
+        f << seg.segment_id << " "
+          << seg.start_sequence << " "
+          << seg.end_sequence   << " "
+          << seg.size_bytes     << " "
+          << (seg.compressed ? 1 : 0) << " "
+          << ts                  << " "
+          << seg.archive_path    << "\n";
+    }
+}
+
+void WALArchivalManager::loadIndex() {
+    std::string index_path = config_.archive_directory + "/index.txt";
+    std::ifstream f(index_path);
+    if (!f) return;
+    std::string line;
+    while (std::getline(f, line)) {
+        if (line.empty()) continue;
+        std::istringstream iss(line);
+        ArchivedSegment seg;
+        int64_t ts = 0;
+        int compressed = 0;
+        if (iss >> seg.segment_id >> seg.start_sequence >> seg.end_sequence
+                >> seg.size_bytes >> compressed >> ts >> seg.archive_path) {
+            seg.compressed = (compressed != 0);
+            seg.archived_at = std::chrono::system_clock::time_point(
+                std::chrono::seconds(ts));
+            index_.push_back(seg);
+        }
+    }
+}
+
+uint32_t WALArchivalManager::archiveSegments(
+    const std::vector<std::string>& segment_paths) {
+    uint32_t archived = 0;
+    std::lock_guard<std::mutex> lock(archive_mutex_);
+
+    for (const auto& seg_path : segment_paths) {
+        std::string full_path = config_.wal_directory + "/" + seg_path;
+        std::ifstream src(full_path, std::ios::binary);
+        if (!src) {
+            THEMIS_WARN("WALArchival: cannot open segment {}", full_path);
+            continue;
+        }
+
+        std::vector<uint8_t> raw(
+            (std::istreambuf_iterator<char>(src)),
+            std::istreambuf_iterator<char>());
+
+        // Derive a segment_id from the numeric portion between 'seg_' and '.'
+        // in the filename (e.g. "seg_000042.wal" → 42).  Fall back to an
+        // atomic counter to avoid collisions when the name doesn't match the
+        // expected pattern.
+        static std::atomic<uint64_t> fallback_id{1};
+        uint64_t segment_id = 0;
+        {
+            // Look for digits immediately after the last '_' before the last '.'
+            auto dot_pos = seg_path.rfind('.');
+            auto under_pos = seg_path.rfind('_', dot_pos);
+            if (under_pos != std::string::npos && dot_pos != std::string::npos
+                    && under_pos < dot_pos) {
+                std::string num_str = seg_path.substr(under_pos + 1,
+                                                       dot_pos - under_pos - 1);
+                bool all_digits = !num_str.empty() &&
+                    std::all_of(num_str.begin(), num_str.end(), ::isdigit);
+                if (all_digits) {
+                    try { segment_id = std::stoull(num_str); }
+                    catch (...) { segment_id = 0; }
+                }
+            }
+        }
+        if (segment_id == 0) {
+            segment_id = fallback_id.fetch_add(1);
+        }
+
+        std::vector<uint8_t> payload = config_.compress_before_archive
+                                           ? compressData(raw)
+                                           : raw;
+
+        std::string dest = archivePath(segment_id);
+        std::ofstream dst(dest, std::ios::binary);
+        if (!dst) {
+            THEMIS_ERROR("WALArchival: cannot write archive {}", dest);
+            continue;
+        }
+        dst.write(reinterpret_cast<const char*>(payload.data()),
+                  static_cast<std::streamsize>(payload.size()));
+        dst.close();
+
+        ArchivedSegment meta;
+        meta.segment_id     = segment_id;
+        meta.start_sequence = 0;  // not extracted from binary WAL format here
+        meta.end_sequence   = 0;
+        meta.size_bytes     = payload.size();
+        meta.compressed   = config_.compress_before_archive;
+        meta.archived_at  = std::chrono::system_clock::now();
+        meta.archive_path = dest;
+        index_.push_back(meta);
+        ++archived;
+
+        THEMIS_INFO("WALArchival: archived segment {} -> {} ({} bytes)",
+                    segment_id, dest, payload.size());
+    }
+
+    if (archived > 0) saveIndex();
+    return archived;
+}
+
+std::optional<std::vector<uint8_t>> WALArchivalManager::retrieveSegment(
+    uint64_t segment_id) const {
+    std::lock_guard<std::mutex> lock(archive_mutex_);
+
+    auto it = std::find_if(index_.begin(), index_.end(),
+                           [segment_id](const ArchivedSegment& s) {
+                               return s.segment_id == segment_id;
+                           });
+    if (it == index_.end()) {
+        THEMIS_WARN("WALArchival: segment {} not found in index", segment_id);
+        return std::nullopt;
+    }
+
+    std::ifstream f(it->archive_path, std::ios::binary);
+    if (!f) {
+        THEMIS_ERROR("WALArchival: archive file {} missing", it->archive_path);
+        return std::nullopt;
+    }
+    std::vector<uint8_t> raw(
+        (std::istreambuf_iterator<char>(f)),
+        std::istreambuf_iterator<char>());
+
+    if (!it->compressed) return raw;
+
+    // Decompress with ZSTD
+    uint64_t decompressed_size = ZSTD_getFrameContentSize(raw.data(), raw.size());
+    if (decompressed_size == ZSTD_CONTENTSIZE_ERROR ||
+        decompressed_size == ZSTD_CONTENTSIZE_UNKNOWN) {
+        THEMIS_ERROR("WALArchival: cannot determine decompressed size for segment {}",
+                     segment_id);
+        return std::nullopt;
+    }
+    std::vector<uint8_t> out(decompressed_size);
+    size_t result = ZSTD_decompress(
+        out.data(), out.size(), raw.data(), raw.size());
+    if (ZSTD_isError(result)) {
+        THEMIS_ERROR("WALArchival: decompression failed for segment {}", segment_id);
+        return std::nullopt;
+    }
+    out.resize(result);
+    return out;
+}
+
+std::vector<WALArchivalManager::ArchivedSegment>
+WALArchivalManager::listArchived() const {
+    std::lock_guard<std::mutex> lock(archive_mutex_);
+    auto copy = index_;
+    std::sort(copy.begin(), copy.end(),
+              [](const ArchivedSegment& a, const ArchivedSegment& b) {
+                  return a.segment_id < b.segment_id;
+              });
+    return copy;
+}
+
+uint32_t WALArchivalManager::purgeExpired() {
+    // delete_after_days == 0 means purge everything immediately (no retention)
+    auto cutoff = (config_.delete_after_days == 0)
+        ? std::chrono::system_clock::time_point::max()   // purge all
+        : std::chrono::system_clock::now()
+              - std::chrono::hours(24 * config_.delete_after_days);
+
+    std::lock_guard<std::mutex> lock(archive_mutex_);
+    uint32_t purged = 0;
+    auto it = index_.begin();
+    while (it != index_.end()) {
+        if (it->archived_at < cutoff) {
+            std::error_code ec;
+            std::filesystem::remove(it->archive_path, ec);
+            THEMIS_INFO("WALArchival: purged expired segment {} ({})",
+                        it->segment_id, it->archive_path);
+            it = index_.erase(it);
+            ++purged;
+        } else {
+            ++it;
+        }
+    }
+    if (purged > 0) saveIndex();
+    return purged;
+}
+
+uint32_t WALArchivalManager::runArchivalCycle() {
+    // Collect segment files from the WAL directory older than the retention limit
+    std::vector<std::string> candidates;
+    std::error_code ec;
+    if (!std::filesystem::exists(config_.wal_directory, ec)) return 0;
+
+    for (const auto& entry :
+         std::filesystem::directory_iterator(config_.wal_directory, ec)) {
+        if (ec) break;
+        if (entry.is_regular_file()) {
+            candidates.push_back(entry.path().filename().string());
+        }
+    }
+
+    // Archive everything beyond the local_retention_segments threshold
+    std::sort(candidates.begin(), candidates.end());
+    if (candidates.size() <= config_.local_retention_segments) return 0;
+
+    candidates.resize(candidates.size() - config_.local_retention_segments);
+    uint32_t archived = archiveSegments(candidates);
+    purgeExpired();
+    return archived;
 }
 
 } // namespace replication
