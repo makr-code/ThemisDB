@@ -1249,6 +1249,10 @@ WriteResult RedundancyStrategy::writeGeoMirror(
             region_candidates[region].push_back(shard_id);
         }
 
+        // O(1) lookup set for failed regions
+        const std::unordered_set<std::string> write_failed_set(
+            geo.failed_regions.begin(), geo.failed_regions.end());
+
         // Prioritise local-region shards first, then remote
         if (!geo.local_region.empty()) {
             auto it = region_candidates.find(geo.local_region);
@@ -1258,12 +1262,7 @@ WriteResult RedundancyStrategy::writeGeoMirror(
         }
         for (const auto& [region, shards] : region_candidates) {
             if (region == geo.local_region) continue;
-            // Skip failed regions
-            bool failed = false;
-            for (const auto& fr : geo.failed_regions) {
-                if (fr == region) { failed = true; break; }
-            }
-            if (!failed) {
+            if (!write_failed_set.count(region)) {
                 for (const auto& s : shards) target_shards.push_back(s);
             }
         }
@@ -1397,15 +1396,14 @@ ReadResult RedundancyStrategy::readGeoMirror(
 
     // Remove candidates that belong to failed-out regions
     if (!geo.failed_regions.empty()) {
+        // Build O(1) lookup set once, then filter candidates in a single pass
+        const std::unordered_set<std::string> read_failed_set(
+            geo.failed_regions.begin(), geo.failed_regions.end());
         candidates.erase(
             std::remove_if(candidates.begin(), candidates.end(),
                 [&](const std::string& sid) {
                     auto info = topology.getShard(sid);
-                    if (!info) return false;
-                    for (const auto& fr : geo.failed_regions) {
-                        if (info->region == fr) return true;
-                    }
-                    return false;
+                    return info && read_failed_set.count(info->region);
                 }),
             candidates.end());
     }
@@ -1801,6 +1799,10 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
     const auto& geo = config_.geo_replication;
     const auto regions = topology.getRegions();
 
+    // Build a snapshot set once so per-region lookup is O(1)
+    std::unordered_set<std::string> failed_set(geo.failed_regions.begin(),
+                                               geo.failed_regions.end());
+
     for (const auto& region : regions) {
         const auto all_shards = topology.getShardsInRegion(region);
         if (all_shards.empty()) continue;
@@ -1809,10 +1811,7 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
         double healthy_fraction = static_cast<double>(healthy.size()) /
                                   static_cast<double>(all_shards.size());
 
-        bool already_failed = false;
-        for (const auto& fr : geo.failed_regions) {
-            if (fr == region) { already_failed = true; break; }
-        }
+        const bool already_failed = failed_set.count(region) > 0;
 
         if (healthy_fraction < geo.region_failure_threshold) {
             if (!already_failed) {
@@ -1820,6 +1819,7 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
                              "({:.0f}% healthy), marking as failed-out", region,
                              healthy_fraction * 100.0);
                 geo.failed_regions.push_back(region);
+                failed_set.insert(region);
             }
         } else {
             // Recover the region if it has come back above the threshold
@@ -1828,6 +1828,7 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
                              "removing from failed list", region, healthy_fraction * 100.0);
                 auto& fr = geo.failed_regions;
                 fr.erase(std::remove(fr.begin(), fr.end(), region), fr.end());
+                failed_set.erase(region);
             }
         }
     }
