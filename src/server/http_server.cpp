@@ -38,6 +38,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
+#include "observability/alertmanager.h"
 #include "security/key_provider.h"
 #include "security/mock_key_provider.h"
 #include "security/pki_key_provider.h"
@@ -652,6 +653,23 @@ HttpServer::HttpServer(
         &running_, &active_requests_, &active_connections_,
         concerns_   // may be nullptr – MonitoringApiHandler tolerates that
     );
+    // Wire a disabled-by-default Alertmanager so the Operator API is always available.
+    // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
+    {
+        observability::AlertmanagerConfig am_cfg;
+        const char* am_url = std::getenv("THEMIS_ALERTMANAGER_URL");
+        if (am_url && *am_url != '\0') {
+            am_cfg.endpoint_url = am_url;
+            am_cfg.enabled      = true;
+            const char* am_token = std::getenv("THEMIS_ALERTMANAGER_TOKEN");
+            if (am_token && *am_token != '\0') {
+                am_cfg.auth_token = am_token;
+            }
+            THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
+        }
+        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(std::move(alertmanager));
+    }
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
     query_api_ = std::make_unique<themis::server::QueryApiHandler>(
@@ -1545,7 +1563,12 @@ namespace {
         Stats,
         CapabilitiesGet,
         Metrics,
+        MetricsHtml,    // GET /metrics/html – lightweight HTML dashboard
         PluginMetrics,  // GET /api/plugins/metrics
+        // Operator observability API (Q1)
+        ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
+        ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
+        ObservabilityHealthGet,        // GET  /api/v1/observability/health
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1781,7 +1804,24 @@ namespace {
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
+    if (target == "/metrics/html" && method == http::verb::get) return Route::MetricsHtml;
     if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
+    // Operator observability REST API (Q1)
+    if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
+    if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    {
+        // POST /api/v1/observability/alerts/{id}/silence
+        // path_only must start with the alerts prefix, have a non-empty {id} segment,
+        // and end with the /silence suffix.
+        static constexpr std::string_view kAlertsPrefix{"/api/v1/observability/alerts/"};
+        static constexpr std::string_view kSilenceSuffix{"/silence"};
+        if (method == http::verb::post &&
+            path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
+            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
+            path_only.substr(path_only.size() - kSilenceSuffix.size()) == kSilenceSuffix) {
+            return Route::ObservabilityAlertSilencePost;
+        }
+    }
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
     if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
@@ -2347,9 +2387,21 @@ namespace {
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
             break;
+        case Route::MetricsHtml:
+            response = monitoring_api_->handleMetricsHtml(req);
+            break;
         case Route::PluginMetrics:
             // Delegate to MonitoringApiHandler for plugin metrics
             response = monitoring_api_->handlePluginMetrics(req);
+            break;
+        case Route::ObservabilityAlertsGet:
+            response = monitoring_api_->handleObservabilityAlerts(req);
+            break;
+        case Route::ObservabilityAlertSilencePost:
+            response = monitoring_api_->handleObservabilityAlertSilence(req);
+            break;
+        case Route::ObservabilityHealthGet:
+            response = monitoring_api_->handleObservabilityHealth(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);
