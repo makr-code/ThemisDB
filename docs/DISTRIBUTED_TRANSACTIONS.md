@@ -394,19 +394,59 @@ Transaction lifecycle events are logged:
 
 1. **Coordinator Single Point of Failure**: No coordinator replication (planned for future)
 2. **Blocking Protocol**: 2PC is blocking if coordinator fails (3PC planned)
-3. **Limited In-Doubt Transaction Recovery**: While PREPARED state is logged to WAL for audit trail, automatic completion of in-doubt transactions (querying participants and completing commit/abort after coordinator crash) is not yet implemented and may require manual intervention
 
-### Recent Enhancements (v1.5.0)
+### Recent Enhancements (v1.5.x)
 
 ✅ **Automatic Commit Phase Retry**: Exponential backoff with configurable retry limits  
 ✅ **Enhanced Error Context**: Detailed error messages from all participants  
 ✅ **Recovery Logging**: Transaction states (PREPARED and COMMITTED) persisted to WAL  
 ✅ **Recovery Audit Trail**: Coordinator can verify successfully committed transactions on restart  
 ✅ **Improved Observability**: Better logging and error tracking throughout 2PC phases  
+✅ **In-Doubt Transaction Recovery**: Coordinator scans `PREPARE_TX` WAL entries on restart and
+   safely aborts any transactions that reached PREPARED state but were never resolved  
+✅ **Dedicated WALEntryType::PREPARE_TX**: Semantically correct WAL entry type for 2PC PREPARE phase  
+✅ **TwoPhaseCommitParticipant**: Shard-side participant handler with idempotent message handling,
+   WAL-backed durability, prepare-timeout auto-abort, and crash recovery (`recoverFromWAL`)  
+✅ **HTTP API**: REST endpoints for distributed transactions (`/dtxn/*`, see below)
+
+### HTTP API Reference
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/dtxn/begin` | Begin a distributed transaction across shards |
+| POST | `/dtxn/operation` | Append an operation to an active transaction |
+| POST | `/dtxn/commit` | Commit the transaction (runs 2PC) |
+| POST | `/dtxn/abort` | Abort the transaction |
+| POST | `/dtxn/readonly` | Execute a read-only (snapshot) query |
+| GET | `/dtxn/status/{id}` | Query transaction state |
+| GET | `/dtxn/stats` | Coordinator statistics |
+
+**Example — multi-shard transfer:**
+
+```bash
+# 1. Begin
+curl -X POST http://localhost:8080/dtxn/begin \
+     -H 'Content-Type: application/json' \
+     -d '{"shards": ["shard1", "shard2"]}'
+# → {"transaction_id": "txn-abc123", "status": "active", "shards": ["shard1","shard2"]}
+
+# 2. Add operations
+curl -X POST http://localhost:8080/dtxn/operation \
+     -H 'Content-Type: application/json' \
+     -d '{"transaction_id":"txn-abc123","shard_id":"shard1","operation":{"type":"update","key":"balance","delta":-100}}'
+curl -X POST http://localhost:8080/dtxn/operation \
+     -H 'Content-Type: application/json' \
+     -d '{"transaction_id":"txn-abc123","shard_id":"shard2","operation":{"type":"update","key":"balance","delta":100}}'
+
+# 3. Commit (runs 2PC internally)
+curl -X POST http://localhost:8080/dtxn/commit \
+     -H 'Content-Type: application/json' \
+     -d '{"transaction_id":"txn-abc123"}'
+# → {"transaction_id":"txn-abc123","status":"committed"}
+```
 
 ### Future Enhancements
 
-- [ ] Complete in-doubt transaction recovery (query participants and complete commit/abort)
 - [ ] Three-Phase Commit (3PC) for non-blocking guarantee
 - [ ] Coordinator replication and failover
 - [ ] Participant health monitoring with heartbeat mechanism
@@ -414,7 +454,6 @@ Transaction lifecycle events are logged:
 - [ ] Distributed deadlock detection
 - [ ] Saga pattern support for long-running transactions
 - [ ] Circuit breaker pattern for participant health monitoring
-- [ ] Dedicated WALEntryType::PREPARE_TX for better semantic clarity
 
 ## References
 
