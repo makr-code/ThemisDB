@@ -829,7 +829,6 @@ nav:
     - aql translator.cpp: de/src/query/aql_translator.cpp.md
     - query engine.cpp: de/src/query/query_engine.cpp.md
     - query optimizer.cpp: de/src/query/query_optimizer.cpp.md
-    - query parser.cpp: de/src/query/query_parser.cpp.md
     - semantic cache.cpp: de/src/query/semantic_cache.cpp.md
   - Security:
     - Übersicht: de/src/security/README.md

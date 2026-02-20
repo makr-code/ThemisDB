@@ -456,22 +456,25 @@ ctest -L security --output-on-failure \
 
 **Step 1: Build with Fuzzing Support**
 ```bash
-# Build with ASAN and fuzzing
-cmake -DCMAKE_BUILD_TYPE=Debug \
+# Run from the project root with AFL++ instrumentation and sanitizers
+CC=afl-clang-lto CXX=afl-clang-lto++ cmake -B build-fuzz \
+  -DCMAKE_BUILD_TYPE=Debug \
   -DENABLE_FUZZING=ON \
-  -DCMAKE_CXX_FLAGS="-fsanitize=address,fuzzer-no-link" \
-  -B build-fuzz
-cmake --build build-fuzz
+  -DENABLE_SANITIZERS=ON
+cmake --build build-fuzz --target fuzz_targets
 ```
 
 **Step 2: Run Fuzzers**
 ```bash
-# Run query parser fuzzer
-./build-fuzz/fuzz/query_parser_fuzzer \
-  -max_total_time=3600 \
-  -artifact_prefix=audit-evidence/v[VERSION]/scans/fuzz- \
-  fuzz/corpus/ \
-  2>&1 | tee audit-evidence/v[VERSION]/scans/fuzzing-results.txt
+# Run from the project root: AQL parser fuzzer (AFL++ mode)
+afl-fuzz -i fuzz/corpus/aql \
+  -o audit-evidence/v[VERSION]/scans/fuzz-output \
+  -x fuzz/dictionaries/aql.dict \
+  -V 3600 \
+  -- ./build-fuzz/fuzz/bin/aql_parser_harness @@
+# Save human-readable AFL++ stats as the audit artifact
+cp audit-evidence/v[VERSION]/scans/fuzz-output/default/fuzzer_stats \
+  audit-evidence/v[VERSION]/scans/fuzzer_stats.txt
 ```
 
 **Review Criteria:**
