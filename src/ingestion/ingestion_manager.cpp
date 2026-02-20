@@ -10,6 +10,8 @@
 #include <sstream>
 #include <iomanip>
 #include <random>
+#include <filesystem>
+#include <fstream>
 
 namespace themis {
 namespace ingestion {
@@ -149,13 +151,10 @@ public:
             return stats;
         }
 
-        // Apply rate limiting (token bucket)
+        // Apply per-source request-rate throttle (token bucket)
+        // The byte-quota is checked after ingestion when bytes_processed is known.
         if (rate_limit_config_.enabled && rate_limit_config_.requests_per_second > 0.0) {
-            if (!token_bucket_) {
-                token_bucket_ = std::make_unique<TokenBucket>(
-                    rate_limit_config_.requests_per_second);
-            }
-            token_bucket_->consume();
+            checkRateLimit(source_id, 0, stats);
         }
         
         // Create connector based on type
@@ -219,6 +218,12 @@ public:
                 stats = connector->ingest(target_collection_, progress_callback);
                 stats.correlation_id = corr_id;
                 quarantineFailures(stats, source_id);
+
+                // Check byte-hour quota now that bytes_processed is known
+                if (rate_limit_config_.enabled &&
+                    rate_limit_config_.max_bytes_per_hour > 0) {
+                    checkRateLimit(source_id, stats.bytes_processed, stats);
+                }
             }
             
             auto end_time = std::chrono::steady_clock::now();
@@ -334,8 +339,9 @@ public:
 
     void setRateLimitConfig(const RateLimitConfig& config) {
         rate_limit_config_ = config;
-        // Reset bucket so it's rebuilt on next use
+        // Reset per-source buckets so they're rebuilt on next use
         token_bucket_.reset();
+        per_source_buckets_.clear();
     }
 
     std::vector<QuarantineEntry> getQuarantineItems() const {
@@ -360,8 +366,134 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         quarantine_.clear();
     }
+
+    bool pauseSource(const std::string& source_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = sources_.find(source_id);
+        if (it == sources_.end()) return false;
+        it->second.enabled = false;
+        return true;
+    }
+
+    bool resumeSource(const std::string& source_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = sources_.find(source_id);
+        if (it == sources_.end()) return false;
+        it->second.enabled = true;
+        return true;
+    }
+
+    SourcePreview previewSource(const std::string& source_id,
+                                size_t max_documents) const {
+        SourcePreview preview;
+        preview.source_id = source_id;
+
+        // Cap to avoid memory exhaustion
+        static constexpr size_t kMaxPreviewCap = 100;
+        max_documents = std::min(max_documents, kMaxPreviewCap);
+
+        SourceConfig config;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            auto it = sources_.find(source_id);
+            if (it == sources_.end()) return preview;
+            config = it->second;
+        }
+
+        // Only FILESYSTEM preview is currently implemented
+        if (config.type != SourceType::FILESYSTEM) {
+            preview.total_available = 0;
+            return preview;
+        }
+
+        namespace fs = std::filesystem;
+        const fs::path root(config.location);
+        if (!fs::exists(root)) return preview;
+
+        auto addDoc = [&](const fs::path& p) {
+            std::ifstream f(p, std::ios::binary);
+            if (!f) return;
+            std::string content{std::istreambuf_iterator<char>(f),
+                                 std::istreambuf_iterator<char>()};
+            if (!content.empty()) {
+                preview.documents.push_back(std::move(content));
+            }
+        };
+
+        if (fs::is_regular_file(root)) {
+            preview.total_available = 1;
+            addDoc(root);
+        } else if (fs::is_directory(root)) {
+            // Single pass: count all files and collect up to max_documents.
+            for (auto& entry : fs::recursive_directory_iterator(root)) {
+                if (!entry.is_regular_file()) continue;
+                ++preview.total_available;
+                if (preview.documents.size() < max_documents) {
+                    addDoc(entry.path());
+                }
+            }
+        }
+
+        if (preview.total_available > max_documents) {
+            preview.truncated = true;
+        }
+        return preview;
+    }
     
 private:
+    /// Consume a token from the per-source bucket (creates bucket if needed).
+    /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
+    bool checkRateLimit(const std::string& source_id,
+                        size_t bytes_this_call,
+                        IngestionStats& stats) {
+        if (!rate_limit_config_.enabled) return true;
+
+        // Per-source token bucket.
+        // A shared_ptr is used so that after unlocking the mutex the bucket
+        // remains alive even if another thread removes it from the map.
+        if (rate_limit_config_.requests_per_second > 0.0) {
+            std::shared_ptr<TokenBucket> bucket;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                auto it = per_source_buckets_.find(source_id);
+                if (it == per_source_buckets_.end()) {
+                    auto inserted = per_source_buckets_.emplace(
+                        source_id,
+                        std::make_shared<TokenBucket>(
+                            rate_limit_config_.requests_per_second));
+                    it = inserted.first;
+                }
+                bucket = it->second;
+            }
+            bucket->consume();
+        }
+
+        // Byte-hour quota
+        if (rate_limit_config_.max_bytes_per_hour > 0) {
+            std::lock_guard<std::mutex> lock(mutex_);
+            auto& tracker = bytes_this_hour_[source_id];
+            tracker.bytes += bytes_this_call;
+
+            // Reset counter if an hour has passed
+            auto now = std::chrono::steady_clock::now();
+            if (std::chrono::duration_cast<std::chrono::hours>(
+                    now - tracker.window_start).count() >= 1) {
+                tracker.bytes = bytes_this_call;
+                tracker.window_start = now;
+            }
+
+            if (tracker.bytes > rate_limit_config_.max_bytes_per_hour) {
+                stats.addError(IngestionErrorCode::QUOTA_EXCEEDED,
+                               IngestionErrorSeverity::WARNING,
+                               "Byte-per-hour quota exceeded for source: " + source_id,
+                               source_id);
+                stats.metrics.quota_violations++;
+                return false;
+            }
+        }
+        return true;
+    }
+
     void quarantineFailures(const IngestionStats& stats,
                             const std::string& source_id) {
         for (const auto& err : stats.errors) {
@@ -381,6 +513,13 @@ private:
         }
     }
 
+    // Byte-hour tracking per source
+    struct ByteWindowTracker {
+        size_t bytes = 0;
+        std::chrono::steady_clock::time_point window_start =
+            std::chrono::steady_clock::now();
+    };
+
     std::string db_connection_;
     std::string target_collection_;
     bool parallel_enabled_;
@@ -388,7 +527,9 @@ private:
     size_t max_threads_;
     RetryConfig retry_config_;
     RateLimitConfig rate_limit_config_;
-    std::unique_ptr<TokenBucket> token_bucket_;
+    std::unique_ptr<TokenBucket> token_bucket_;          ///< legacy global bucket (unused)
+    std::unordered_map<std::string, std::shared_ptr<TokenBucket>> per_source_buckets_;
+    std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
     std::vector<QuarantineEntry> quarantine_;
     mutable std::mutex mutex_;
@@ -702,6 +843,116 @@ std::unique_ptr<IngestionManager> IngestionBuilder::build() {
     }
 
     return mgr;
+}
+
+// ============================================================================
+// IngestionManager::previewSource  (public wrapper around Impl)
+// ============================================================================
+
+SourcePreview IngestionManager::previewSource(const std::string& source_id,
+                                               size_t max_documents) const {
+    return impl_->previewSource(source_id, max_documents);
+}
+
+bool IngestionManager::pauseSource(const std::string& source_id) {
+    return impl_->pauseSource(source_id);
+}
+
+bool IngestionManager::resumeSource(const std::string& source_id) {
+    return impl_->resumeSource(source_id);
+}
+
+// ============================================================================
+// IngestionAdminApi
+// ============================================================================
+
+IngestionAdminApi::IngestionAdminApi(IngestionManager& manager)
+    : mgr_(manager) {}
+
+std::vector<SourceStatus> IngestionAdminApi::listSources() const {
+    std::vector<SourceStatus> result;
+    for (const auto& cfg : mgr_.getRegisteredSources()) {
+        SourceStatus s;
+        s.source_id  = cfg.source_id;
+        s.type       = cfg.type;
+        s.enabled    = cfg.enabled;
+
+        // Attempt a lightweight availability probe via previewSource(0)
+        try {
+            auto preview = mgr_.previewSource(cfg.source_id, 0);
+            s.available = true;
+            s.doc_count = preview.total_available;
+        } catch (...) {
+            s.available = false;
+        }
+
+        result.push_back(std::move(s));
+    }
+    return result;
+}
+
+IngestionStats IngestionAdminApi::startSource(const std::string& source_id) {
+    return mgr_.ingestSource(source_id);
+}
+
+bool IngestionAdminApi::pauseSource(const std::string& source_id) {
+    return mgr_.pauseSource(source_id);
+}
+
+bool IngestionAdminApi::resumeSource(const std::string& source_id) {
+    return mgr_.resumeSource(source_id);
+}
+
+std::vector<QuarantineEntry> IngestionAdminApi::listQuarantine() const {
+    return mgr_.getQuarantineItems();
+}
+
+bool IngestionAdminApi::retryQuarantineItem(const std::string& item_path) {
+    // Find which source the quarantine entry belongs to
+    auto items = mgr_.getQuarantineItems();
+    std::string source_id;
+    for (const auto& entry : items) {
+        if (entry.item_path == item_path) {
+            source_id = entry.source_id;
+            break;
+        }
+    }
+    if (source_id.empty()) return false;
+
+    // Remove from quarantine and re-run the source
+    mgr_.dismissQuarantineItem(item_path);
+    mgr_.ingestSource(source_id);
+    return true;
+}
+
+bool IngestionAdminApi::dismissQuarantineItem(const std::string& item_path) {
+    return mgr_.dismissQuarantineItem(item_path);
+}
+
+std::string IngestionAdminApi::healthJson() const {
+    auto sources    = mgr_.getRegisteredSources();
+    auto quarantine = mgr_.getQuarantineItems();
+
+    size_t total     = sources.size();
+    size_t enabled   = 0;
+    for (const auto& s : sources) {
+        if (s.enabled) ++enabled;
+    }
+    size_t qsize = quarantine.size();
+
+    // Determine overall status
+    std::string status = "healthy";
+    if (qsize > 0) status = "degraded";
+    if (enabled == 0 && total > 0) status = "unhealthy";
+
+    std::ostringstream os;
+    os << "{"
+       << "\"status\":\"" << status << "\","
+       << "\"registered_sources\":" << total << ","
+       << "\"enabled_sources\":" << enabled << ","
+       << "\"quarantine_size\":" << qsize
+       << "}";
+    return os.str();
 }
 
 } // namespace ingestion

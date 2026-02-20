@@ -31,17 +31,22 @@ ingestion.
 | `IngestionManager` – sequential | ✅ Working |
 | `IngestionManager` – parallel | ✅ Implemented (`std::async` wave scheduler) |
 | `IngestionManager` – dry-run mode | ✅ Implemented (`setDryRun()`) |
-| `IngestionManager` – rate limiting | ✅ Token-bucket (`RateLimitConfig`, `setRateLimitConfig()`) |
+| `IngestionManager` – preview mode | ✅ Implemented (`previewSource()`, `SourcePreview`) |
+| `IngestionManager` – pause / resume | ✅ Implemented (`pauseSource()`, `resumeSource()`) |
+| `IngestionManager` – rate limiting | ✅ Per-source token-buckets (`RateLimitConfig`, `QUOTA_EXCEEDED`) |
 | Structured error codes / severity | ✅ Implemented (`IngestionErrorCode`, `IngestionErrorSeverity`) |
 | Correlation IDs | ✅ Implemented (`IngestionStats::correlation_id`) |
-| Quarantine / Dead-Letter Queue | ✅ Basic in-memory quarantine (`QuarantineEntry`, `getQuarantineItems()`) |
-| Observability metrics | ✅ Basic counters in `IngestionMetrics` |
-| Prometheus text-format exporter | ✅ Implemented (`IngestionMetricsExporter`, `source_type`+`error_code` labels) |
+| Quarantine / Dead-Letter Queue | ✅ In-memory quarantine with Admin API |
+| Observability metrics | ✅ Counters including `quota_violations` |
+| Prometheus text-format exporter | ✅ `IngestionMetricsExporter` with `source_type`+`error_code` labels |
 | Grafana dashboard | ✅ `grafana/ingestion-dashboard.json` |
+| Grafana alert rules | ✅ `grafana/ingestion-alerts.json` (5 alert rules) |
 | `IngestionBuilder` fluent API | ✅ Implemented |
+| `IngestionAdminApi` operator layer | ✅ Implemented (listSources, start, pause, resume, quarantine, healthJson) |
+| Resilience / fuzz-style tests | ✅ `tests/test_ingestion_resilience.cpp` |
 | Prometheus / OpenTelemetry push | Not yet integrated |
 | API / Database connector | Stub (not implemented) |
-| Admin HTTP Operator API | Not yet implemented |
+| Admin HTTP REST endpoints | Not yet implemented |
 
 ---
 
@@ -113,22 +118,29 @@ taxonomy and basic observability.
 - [ ] Persist quarantine to RocksDB across restarts
 - [ ] Admin HTTP API to list / retry / dismiss quarantine items
 
-### 2.4 Quota & Rate-Limit Guard ✅ PARTIAL
+### 2.4 Quota & Rate-Limit Guard ✅ DONE
 - [x] `RateLimitConfig` struct: `requests_per_second`, `max_bytes_per_hour`, `enabled`
-- [x] Token-bucket rate limiter (`TokenBucket`) in `IngestionManager` with blocking
-  back-pressure
+- [x] Token-bucket rate limiter (`TokenBucket`) with blocking back-pressure
+- [x] Per-source independent token buckets keyed by `source_id`
 - [x] `IngestionManager::setRateLimitConfig()` + `IngestionBuilder::withRateLimitConfig()`
-- [ ] Per-source independent buckets (currently global per-manager)
-- [ ] Emit `QUOTA_EXCEEDED` errors on `max_bytes_per_hour` breach
+- [x] `QUOTA_EXCEEDED` (error_code 1401) emitted when `max_bytes_per_hour` is breached
+- [x] `IngestionMetrics::quota_violations` counter incremented on breach
+
+### 2.5 Source Pause / Resume ✅ DONE
+- [x] `IngestionManager::pauseSource(id)` – mark source disabled in-memory
+- [x] `IngestionManager::resumeSource(id)` – re-enable a paused source
+- [x] Paused sources skipped in `ingestAll()` (inherited from `enabled` flag logic)
 
 ### 2.5 API & Database Connectors
 - [ ] `ApiConnector`: generic REST/GraphQL source with pagination cursor
 - [ ] `DatabaseConnector`: JDBC-style ODBC / PostgreSQL / MySQL bulk export
 
-### 2.6 Fuzz & Chaos Testing
-- [ ] Fuzz corpus for corrupt PDF, truncated DOCX, malformed JSON
+### 2.6 Fuzz & Chaos Testing ✅ PARTIAL
+- [x] `tests/test_ingestion_resilience.cpp`: empty files, truncated JSON, malformed
+  HTML/XML, binary noise, non-UTF-8 bytes, path-traversal attempts, 1 MiB stress,
+  concurrent register/quarantine access, non-existent directory
+- [ ] Fuzz corpus for corrupt PDF, truncated DOCX (requires libfuzzer integration)
 - [ ] Chaos tests: random network failures, slow responses, OOM conditions
-- [ ] Race-condition regression suite for parallel ingestion
 
 ---
 
@@ -142,25 +154,32 @@ taxonomy and basic observability.
   throughput time-series, byte throughput, error rate, retry rate, error-by-code,
   quarantine size over time, ingestion duration per source
 - [x] Template variable: `source_id` (multi-select) and `DS_PROMETHEUS` datasource
-- [ ] Alert rules: error spike, throughput drop, quota breach (requires Grafana Alerting)
+- [x] Alert rules JSON: `grafana/ingestion-alerts.json` – error spike, throughput
+  drop, quota breach (error_code=1401), quarantine growing, high retry rate
 
-### 3.2 Admin / Operator API
-- [ ] `GET /ingestion/sources` – list registered sources with status
-- [ ] `POST /ingestion/sources/{id}/start` – trigger manual run
-- [ ] `POST /ingestion/sources/{id}/pause` – pause scheduled runs
-- [ ] `GET /ingestion/jobs/{job_id}` – job status, progress, errors
-- [ ] `GET /ingestion/quarantine` – list quarantined items
-- [ ] `POST /ingestion/quarantine/{id}/retry` – re-enqueue quarantined item
+### 3.2 Admin / Operator API ✅ PARTIAL
+- [x] `IngestionAdminApi` in-process operator class wrapping `IngestionManager`
+- [x] `listSources()` – list all registered sources with enabled/available/doc_count status
+- [x] `startSource(id)` – trigger immediate ingestion run
+- [x] `pauseSource(id)` / `resumeSource(id)` – disable / re-enable a source
+- [x] `listQuarantine()` – list quarantined items
+- [x] `retryQuarantineItem(path)` – dismiss from quarantine and re-run source
+- [x] `dismissQuarantineItem(path)` – permanently dismiss a quarantine entry
+- [x] `healthJson()` – compact JSON health status (`status`, `registered_sources`,
+  `enabled_sources`, `quarantine_size`)
+- [ ] Expose as HTTP REST endpoints via cpp-httplib (Q3 final milestone)
 
 ### 3.3 Plug-In System Polish
 - [ ] `IngestionPlugin` loader: discover shared libraries in `plugins/` directory
 - [ ] Plugin sandboxing: memory / CPU limits per plugin
 - [ ] Plugin health: report `isHealthy()` to operator API
 
-### 3.4 Preview / DryRun Mode ✅ PARTIAL
+### 3.4 Preview / DryRun Mode ✅ DONE
 - [x] `setDryRun(true)`: scan source via `getDocumentCount()`, report count, no insertion
 - [x] `IngestionReport::dry_run` flag set when run in dry-run mode
-- [ ] Source preview: return first N documents for inspection
+- [x] `IngestionManager::previewSource(source_id, max_docs)` – returns first N
+  document contents (capped at 100) without writing; includes `total_available` and
+  `truncated` flag; `SourcePreview` struct
 
 ### 3.5 End-to-End Developer Experience ✅ PARTIAL
 - [x] `IngestionBuilder` fluent API: `withHuggingFaceSource()`, `withFilesystemSource()`,

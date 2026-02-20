@@ -133,6 +133,21 @@ struct RateLimitConfig {
 };
 
 /**
+ * @brief Source preview – a lightweight sample of documents from a source
+ *
+ * Returned by `IngestionManager::previewSource()`. Contains the first
+ * up-to `max_documents` items without writing them to any collection.
+ */
+struct SourcePreview {
+    std::string source_id;                 ///< Source that was sampled
+    std::vector<std::string> documents;    ///< Extracted document contents
+    size_t total_available = 0;            ///< Total documents available in source
+    bool truncated = false;               ///< true if there are more docs than returned
+
+    SourcePreview() = default;
+};
+
+/**
  * @brief Lightweight observability metrics collected during ingestion
  */
 struct IngestionMetrics {
@@ -140,6 +155,7 @@ struct IngestionMetrics {
     size_t timeout_count    = 0;  ///< Requests that timed out
     size_t error_count      = 0;  ///< Total individual errors encountered
     double throughput_docs_per_sec = 0.0; ///< Documents / second
+    size_t quota_violations = 0;  ///< Times rate/byte-quota was exceeded
 
     IngestionMetrics() = default;
 };
@@ -355,8 +371,39 @@ public:
      *
      * When enabled, connectors are throttled to the configured rate.
      * Excess requests are delayed (blocking back-pressure).
+     * Byte-hour quota violations emit a `QUOTA_EXCEEDED` error.
      */
     void setRateLimitConfig(const RateLimitConfig& config);
+
+    /**
+     * @brief Preview a source – fetch the first N documents without writing
+     *
+     * Useful for validating source configuration, inspecting content quality,
+     * or estimating ingestion size before committing to a full run.
+     *
+     * @param source_id     Source to preview
+     * @param max_documents Maximum number of document contents to return
+     *                      (capped at 100 to avoid memory exhaustion)
+     * @return SourcePreview containing sample documents and total count
+     */
+    SourcePreview previewSource(const std::string& source_id,
+                                size_t max_documents = 5) const;
+
+    /**
+     * @brief Disable a registered source
+     *
+     * Disabled sources are skipped in future `ingestAll()` calls.
+     * @param source_id Source to disable
+     * @return true if source was found and disabled
+     */
+    bool pauseSource(const std::string& source_id);
+
+    /**
+     * @brief Re-enable a previously disabled source
+     * @param source_id Source to re-enable
+     * @return true if source was found and re-enabled
+     */
+    bool resumeSource(const std::string& source_id);
 
 private:
     class Impl;
@@ -575,6 +622,126 @@ private:
         bool dry_run = false;
     };
     std::unique_ptr<Opts> opts_;
+};
+
+// ============================================================================
+// IngestionAdminApi – in-process operator / admin control layer
+// ============================================================================
+
+/**
+ * @brief Source status snapshot for admin queries
+ */
+struct SourceStatus {
+    std::string source_id;
+    SourceType  type;
+    bool        enabled  = true;
+    bool        available = false;  ///< Result of isAvailable() poll
+    size_t      doc_count = 0;     ///< Last known document count (0 = unknown)
+    std::chrono::system_clock::time_point last_run; ///< Last successful run time
+    bool        has_last_run = false;
+
+    SourceStatus() = default;
+};
+
+/**
+ * @brief Admin / Operator API for the ingestion module
+ *
+ * Wraps an existing `IngestionManager` and provides operator-level
+ * status, control, and quarantine management without requiring an HTTP
+ * server.  An HTTP layer (e.g. crow, cpp-httplib) can expose these
+ * methods as REST endpoints (Q3 3.2 final step).
+ *
+ * Example usage:
+ * @code
+ * IngestionManager mgr("db");
+ * mgr.registerSource({...});
+ *
+ * IngestionAdminApi admin(mgr);
+ * auto statuses = admin.listSources();
+ * admin.startSource("my_source");
+ * auto q = admin.listQuarantine();
+ * admin.retryQuarantineItem("path/to/file.pdf");
+ * @endcode
+ */
+class IngestionAdminApi {
+public:
+    /**
+     * @brief Construct admin API around an existing IngestionManager
+     * @param manager Reference to the manager to control (must outlive this object)
+     */
+    explicit IngestionAdminApi(IngestionManager& manager);
+    ~IngestionAdminApi() = default;
+
+    // Non-copyable
+    IngestionAdminApi(const IngestionAdminApi&) = delete;
+    IngestionAdminApi& operator=(const IngestionAdminApi&) = delete;
+
+    // ── Source management ──────────────────────────────────────────────────
+
+    /**
+     * @brief List all registered sources with availability and document counts
+     */
+    std::vector<SourceStatus> listSources() const;
+
+    /**
+     * @brief Trigger an immediate ingestion run for a single source
+     * @return Ingestion statistics from the run
+     */
+    IngestionStats startSource(const std::string& source_id);
+
+    /**
+     * @brief Disable a source so it is skipped in future `ingestAll()` runs
+     * @return true if source was found and disabled
+     */
+    bool pauseSource(const std::string& source_id);
+
+    /**
+     * @brief Re-enable a previously paused source
+     * @return true if source was found and re-enabled
+     */
+    bool resumeSource(const std::string& source_id);
+
+    // ── Quarantine management ──────────────────────────────────────────────
+
+    /**
+     * @brief List all items currently in quarantine
+     */
+    std::vector<QuarantineEntry> listQuarantine() const;
+
+    /**
+     * @brief Re-enqueue a quarantined item for ingestion
+     *
+     * Removes the entry from quarantine and schedules a fresh ingestion
+     * run for the originating source.
+     *
+     * @param item_path The quarantined item path/URL
+     * @return true if the item was found in quarantine and the source was re-run
+     */
+    bool retryQuarantineItem(const std::string& item_path);
+
+    /**
+     * @brief Dismiss (permanently delete) a quarantined item
+     * @return true if the item was found and removed
+     */
+    bool dismissQuarantineItem(const std::string& item_path);
+
+    // ── Health ──────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Get a JSON-like health summary string
+     *
+     * Returns a compact JSON object with ingestion module health indicators:
+     * - `status`:           "healthy" | "degraded" | "unhealthy"
+     * - `registered_sources`: total registered source count
+     * - `enabled_sources`:    enabled source count
+     * - `quarantine_size`:    number of quarantined items
+     *
+     * @return JSON string (UTF-8, no trailing newline)
+     */
+    std::string healthJson() const;
+
+private:
+    IngestionManager& mgr_;
 };
 
 } // namespace ingestion
