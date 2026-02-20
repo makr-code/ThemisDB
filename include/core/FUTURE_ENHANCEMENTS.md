@@ -4,30 +4,34 @@
 
 ### IContext Interface for Contextual Logging
 **Priority:** High  
-**Target Version:** v1.6.0
+**Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/i_context.h`)
 
-Add new interface for context propagation through call chains.
+General context propagation for request/call-chain metadata.  Key features:
+
+- **`IContext`** — abstract interface: `set()`, `get()`, `has()`, `createChild()`, `toTraceContext()`
+- **`SimpleContext`** — thread-safe, `enable_shared_from_this`-based concrete implementation
+- **`context_keys::k*`** — 7 `constexpr string_view` constants (`kTraceId`, `kRequestId`, `kUserId`, `kTenantId`, `kOperation`, `kService`, `kSessionId`)
+- **`toTraceContext()`** bridge — converts the context to `TraceContext` for direct use with `ILogger::logWithContext()`
+- Parent/child chain: children inherit all parent attributes; writes are always local to the child
 
 ```cpp
-class IContext {
-public:
-    virtual void setAttribute(std::string_view key, std::string_view value) = 0;
-    virtual std::optional<std::string> getAttribute(std::string_view key) const = 0;
-    virtual IContextPtr createChild() const = 0;
-};
+// Root context
+auto ctx = SimpleContext::create("trace-abc", "req-42");
+ctx->set(context_keys::kUserId, "u-7");
 
-class ILogger {
-    // New method
-    virtual ILoggerPtr withContext(IContextPtr context) = 0;
-};
+// Sub-operation child
+auto child = ctx->createChild();
+child->set(context_keys::kOperation, "db.query");
+
+// Structured log with full correlation context
+logger.logWithContext(ILogger::Level::INFO, "query done",
+                      child->toTraceContext(), {{"rows", "5"}});
 ```
 
-**Benefits:**
-- Automatic request ID propagation
-- Structured logging context
-- Thread-local context management
+`ILogger` is unchanged — `toTraceContext()` bridges to the existing
+`logWithContext()` API with no interface modifications.
 
----
+
 
 ### Async Interfaces
 **Priority:** High  
@@ -566,7 +570,7 @@ We welcome contributions in the following areas:
 - [x] Fix include order dependencies (removed redundant `lifecycle.h` from `concerns_context.h`; all headers are now self-contained and order-independent)
 
 ### Medium Complexity
-- [ ] Implement IContext interface
+- [x] Implement IContext interface (`SimpleContext` + `context_keys::k*` in `include/core/concerns/i_context.h`; bridges to `logWithContext()` via `toTraceContext()`)
 - [x] Add type-safe metrics labels (`MetricLabels` fluent builder + `labels::k*` constants in `include/core/concerns/metric_labels.h`; implicitly converts to `IMetrics::Labels` so existing code is unchanged)
 - [ ] Create async interface variants
 - [x] Health check interface (implemented in v1.6.0)

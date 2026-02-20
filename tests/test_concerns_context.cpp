@@ -4,6 +4,7 @@
 #include "core/concerns/inmemory_cache_impl.h"
 #include "core/concerns/lifecycle.h"
 #include "core/concerns/metric_labels.h"
+#include "core/concerns/i_context.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
@@ -479,5 +480,126 @@ TEST(MetricLabelsTest, PassedToNoOpMetricsWithoutCrash) {
             MetricLabels()
                 .add(labels::kCacheResult, "miss")
                 .add(labels::kCacheName,   "semantic"))
+    );
+}
+
+// ===== IContext / SimpleContext Tests =====
+
+TEST(IContextTest, EmptyRootContextHasNoAttributes) {
+    auto ctx = SimpleContext::create();
+    EXPECT_FALSE(ctx->has(context_keys::kTraceId));
+    EXPECT_FALSE(ctx->get(context_keys::kTraceId).has_value());
+}
+
+TEST(IContextTest, SetAndGetAttribute) {
+    auto ctx = SimpleContext::create();
+    ctx->set(context_keys::kTraceId, "abc123");
+    EXPECT_TRUE(ctx->has(context_keys::kTraceId));
+    EXPECT_EQ("abc123", ctx->get(context_keys::kTraceId).value());
+}
+
+TEST(IContextTest, OverwriteExistingAttribute) {
+    auto ctx = SimpleContext::create();
+    ctx->set(context_keys::kUserId, "user1");
+    ctx->set(context_keys::kUserId, "user2");
+    EXPECT_EQ("user2", ctx->get(context_keys::kUserId).value());
+}
+
+TEST(IContextTest, FactoryWithCorrelationIds) {
+    auto ctx = SimpleContext::create("trace-42", "req-7");
+    EXPECT_EQ("trace-42", ctx->get(context_keys::kTraceId).value());
+    EXPECT_EQ("req-7",    ctx->get(context_keys::kRequestId).value());
+}
+
+TEST(IContextTest, ChildInheritsParentAttributes) {
+    auto parent = SimpleContext::create("trace-1", "req-1");
+    parent->set(context_keys::kService, "themisdb");
+
+    auto child = parent->createChild();
+    EXPECT_EQ("trace-1",  child->get(context_keys::kTraceId).value());
+    EXPECT_EQ("req-1",    child->get(context_keys::kRequestId).value());
+    EXPECT_EQ("themisdb", child->get(context_keys::kService).value());
+}
+
+TEST(IContextTest, ChildCanShadowParentAttribute) {
+    auto parent = SimpleContext::create("trace-1", "req-1");
+    auto child  = parent->createChild();
+    child->set(context_keys::kRequestId, "req-child");
+
+    // Child sees its own overridden value.
+    EXPECT_EQ("req-child", child->get(context_keys::kRequestId).value());
+    // Parent is unchanged.
+    EXPECT_EQ("req-1",     parent->get(context_keys::kRequestId).value());
+    // Trace ID still inherited.
+    EXPECT_EQ("trace-1",   child->get(context_keys::kTraceId).value());
+}
+
+TEST(IContextTest, ChildWriteDoesNotAffectParent) {
+    auto parent = SimpleContext::create();
+    auto child  = parent->createChild();
+    child->set(context_keys::kOperation, "db.query");
+
+    EXPECT_FALSE(parent->has(context_keys::kOperation));
+    EXPECT_TRUE(child->has(context_keys::kOperation));
+}
+
+TEST(IContextTest, GrandchildInheritsAcrossMultipleLevels) {
+    auto root  = SimpleContext::create("root-trace", "root-req");
+    auto child = root->createChild();
+    child->set(context_keys::kService, "worker");
+    auto grand = child->createChild();
+
+    EXPECT_EQ("root-trace", grand->get(context_keys::kTraceId).value());
+    EXPECT_EQ("root-req",   grand->get(context_keys::kRequestId).value());
+    EXPECT_EQ("worker",     grand->get(context_keys::kService).value());
+}
+
+TEST(IContextTest, ToTraceContextPopulatesFields) {
+    auto ctx = SimpleContext::create("t-abc", "r-123");
+    TraceContext tc = ctx->toTraceContext();
+    EXPECT_EQ("t-abc", tc.trace_id);
+    EXPECT_EQ("r-123", tc.request_id);
+}
+
+TEST(IContextTest, ToTraceContextEmptyWhenNoCorrelationIds) {
+    auto ctx = SimpleContext::create();
+    ctx->set(context_keys::kUserId, "user42");
+    TraceContext tc = ctx->toTraceContext();
+    EXPECT_TRUE(tc.trace_id.empty());
+    EXPECT_TRUE(tc.request_id.empty());
+    EXPECT_TRUE(tc.empty());
+}
+
+TEST(IContextTest, ToTraceContextInheritsFromParent) {
+    auto parent = SimpleContext::create("p-trace", "p-req");
+    auto child  = parent->createChild();
+    // Child overrides request_id only.
+    child->set(context_keys::kRequestId, "c-req");
+
+    TraceContext tc = child->toTraceContext();
+    EXPECT_EQ("p-trace", tc.trace_id);   // inherited
+    EXPECT_EQ("c-req",   tc.request_id); // overridden
+}
+
+TEST(IContextTest, ContextKeysHaveExpectedValues) {
+    EXPECT_EQ("trace_id",   context_keys::kTraceId);
+    EXPECT_EQ("request_id", context_keys::kRequestId);
+    EXPECT_EQ("user_id",    context_keys::kUserId);
+    EXPECT_EQ("tenant_id",  context_keys::kTenantId);
+    EXPECT_EQ("operation",  context_keys::kOperation);
+    EXPECT_EQ("service",    context_keys::kService);
+    EXPECT_EQ("session_id", context_keys::kSessionId);
+}
+
+TEST(IContextTest, IntegrationWithLogWithContext) {
+    // Verify that a SimpleContext can drive ILogger::logWithContext() end-to-end.
+    auto ctx = SimpleContext::create("trace-xyz", "req-999");
+    ctx->set(context_keys::kOperation, "db.query");
+
+    NoOpLogger logger;
+    // Must not throw; logWithContext() falls back to logStructured() in NoOpLogger.
+    EXPECT_NO_THROW(
+        logger.logWithContext(ILogger::Level::INFO, "query completed",
+                              ctx->toTraceContext(), {{"rows", "42"}})
     );
 }
