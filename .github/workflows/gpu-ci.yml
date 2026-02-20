@@ -62,6 +62,7 @@ jobs:
             -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_EDITION=${{ matrix.edition }} \
+            -DTHEMIS_ENABLE_GPU=ON \
             -DTHEMIS_GPU_MAX_VRAM_GB=${{ matrix.vram_gb }} \
             -DTHEMIS_SHARDING_MAX_NODES=${{ matrix.max_nodes }} \
             -DBUILD_TESTING=ON \
@@ -69,24 +70,9 @@ jobs:
 
       - name: Build GPU module sources
         run: |
-          cmake --build build-${{ matrix.edition }} \
-            --target \
-              themis_gpu_memory_manager \
-              themis_gpu_device_discovery \
-              themis_gpu_safe_fail \
-              themis_gpu_audit_log \
-              themis_gpu_policy \
-              themis_gpu_memory_pool \
-              themis_gpu_metrics \
-              themis_gpu_config \
-              themis_gpu_kernel_validator \
-              themis_gpu_alerts \
-              themis_gpu_launcher \
-              themis_gpu_load_balancer \
-              themis_gpu_feature_flags \
-              themis_gpu_admin_api \
-              themis_gpu_module \
-            --parallel 4 || \
+          # GPU sources are compiled into themis_core / themis_tests.
+          # Build the full project; GPU sources from EditionFeatures.cmake
+          # are compiled in automatically when THEMIS_ENABLE_GPU=ON.
           cmake --build build-${{ matrix.edition }} --parallel 4
 
       - name: Run GPU unit tests
