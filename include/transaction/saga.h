@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <chrono>
+#include <thread>
 #include <algorithm>
 #include "storage/rocksdb_wrapper.h"
 
@@ -52,7 +53,13 @@ public:
     
     /// Execute all compensating actions in reverse order
     void compensate();
-    
+
+    /// Execute all compensating actions with retry.
+    /// @param max_retries  Per-step retry attempts on exception (0 = no retry).
+    /// @param backoff_ms   Initial backoff in milliseconds; doubled on each retry.
+    void compensateWithRetry(int max_retries = 3,
+                             std::chrono::milliseconds backoff_ms = std::chrono::milliseconds(50));
+
     /// Clear all steps (called after successful commit)
     void clear();
     
@@ -70,10 +77,26 @@ public:
     
     /// Get duration since first step
     int64_t getDurationMs() const;
-    
+
+    /// SAGA execution metrics.
+    struct Metrics {
+        uint64_t total_steps{0};
+        uint64_t compensated_steps{0};
+        uint64_t failed_compensations{0};  ///< Steps that threw during compensation
+        uint64_t retried_compensations{0}; ///< Steps that succeeded only after retry
+        int64_t  duration_ms{0};
+    };
+
+    /// Return accumulated execution metrics.
+    Metrics getMetrics() const;
+
 private:
     std::vector<Step> steps_;
     bool compensated_ = false;
+
+    // Cumulative metrics
+    uint64_t metrics_failed_{0};
+    uint64_t metrics_retried_{0};
 };
 
 /// SAGA-aware Transaction Operations

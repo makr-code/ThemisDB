@@ -299,5 +299,107 @@ std::optional<SnapshotManager::Snapshot> SnapshotManager::deserialize(
     }
 }
 
+// ---- Phase 7: GC & Retention Policy ----
+
+void SnapshotManager::setRetentionPolicy(const RetentionPolicy& policy) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    retention_policy_ = policy;
+    spdlog::info("SnapshotManager: retention policy set – max_snapshots={}, max_age_ms={}",
+                 policy.max_snapshots, policy.max_age_ms);
+}
+
+size_t SnapshotManager::pruneOldSnapshots() {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // Collect all snapshots, sorted oldest-first
+    // We call the internal iterator directly (mutex already held).
+    std::vector<Snapshot> snapshots;
+
+    auto iterator_result = db_.newIterator();
+    if (!iterator_result) {
+        spdlog::warn("SnapshotManager::pruneOldSnapshots: failed to create iterator");
+        return 0;
+    }
+    auto it = std::move(iterator_result.value());
+    std::string prefix = SNAPSHOT_PREFIX;
+
+    for (it->Seek(prefix); it->Valid(); it->Next()) {
+        std::string key = it->key().ToString();
+        if (key.substr(0, prefix.length()) != prefix) break;
+
+        std::vector<uint8_t> data(
+            it->value().data(),
+            it->value().data() + it->value().size());
+        auto s = deserialize(data);
+        if (s.has_value()) snapshots.push_back(*s);
+    }
+
+    if (snapshots.empty()) return 0;
+
+    // Sort oldest-first by timestamp
+    std::sort(snapshots.begin(), snapshots.end(),
+        [](const Snapshot& a, const Snapshot& b) {
+            return a.timestamp_ms < b.timestamp_ms;
+        });
+
+    const RetentionPolicy& pol = retention_policy_;
+    size_t pruned = 0;
+
+    // Determine the index of the newest snapshot to protect
+    size_t newest_idx = snapshots.size() - 1;
+
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    for (size_t i = 0; i < snapshots.size(); ++i) {
+        if (pol.protect_latest && i == newest_idx) continue;
+
+        bool too_old = (pol.max_age_ms > 0) &&
+                       ((now_ms - snapshots[i].timestamp_ms) > pol.max_age_ms);
+        bool too_many = (pol.max_snapshots > 0) &&
+                        ((snapshots.size() - pruned) > pol.max_snapshots);
+
+        if (too_old || too_many) {
+            auto key = makeKey(snapshots[i].tag_name);
+            if (db_.del(key)) {
+                ++pruned;
+                spdlog::info("SnapshotManager: pruned snapshot '{}' (age={}ms)",
+                             snapshots[i].tag_name,
+                             now_ms - snapshots[i].timestamp_ms);
+            }
+        }
+    }
+
+    spdlog::info("SnapshotManager: pruneOldSnapshots removed {} snapshots", pruned);
+    return pruned;
+}
+
+size_t SnapshotManager::checkConsistency() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    size_t corrupt = 0;
+
+    auto iterator_result = db_.newIterator();
+    if (!iterator_result) return 0;
+    auto it = std::move(iterator_result.value());
+    std::string prefix = SNAPSHOT_PREFIX;
+
+    for (it->Seek(prefix); it->Valid(); it->Next()) {
+        std::string key = it->key().ToString();
+        if (key.substr(0, prefix.length()) != prefix) break;
+
+        std::vector<uint8_t> data(
+            it->value().data(),
+            it->value().data() + it->value().size());
+        auto s = deserialize(data);
+        if (!s.has_value()) {
+            spdlog::warn("SnapshotManager: corrupted snapshot at key '{}'", key);
+            ++corrupt;
+        }
+    }
+
+    return corrupt;
+}
+
 } // namespace transaction
 } // namespace themis

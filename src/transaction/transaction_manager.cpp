@@ -254,8 +254,12 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
     updateStatsWithSeqLock([this]() {
         total_begun_.fetch_add(1, std::memory_order_relaxed);
     });
-    THEMIS_INFO("Transaction {} begun (isolation: {})", txn_id, 
-               isolation == IsolationLevel::ReadCommitted ? "ReadCommitted" : "Snapshot");
+    THEMIS_INFO("Transaction {} begun (isolation: {})", txn_id,
+               isolation == IsolationLevel::READ_UNCOMMITTED  ? "READ_UNCOMMITTED"  :
+               isolation == IsolationLevel::READ_COMMITTED    ? "READ_COMMITTED"    :
+               isolation == IsolationLevel::REPEATABLE_READ   ? "REPEATABLE_READ"   :
+               isolation == IsolationLevel::SERIALIZABLE      ? "SERIALIZABLE"      :
+                                                                "UNKNOWN");
     
     return txn_id;
 }
@@ -460,18 +464,30 @@ TransactionManager::Transaction::Transaction(TransactionId id,
                                              IsolationLevel isolation)
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()) {
-    // Convert ThemisDB IsolationLevel to RocksDB TransactionIsolationLevel
-    auto rocksdb_isolation = (isolation_ == IsolationLevel::Snapshot) 
+    // Map ThemisDB IsolationLevel to the appropriate RocksDB isolation level.
+    // SERIALIZABLE and REPEATABLE_READ use snapshot isolation at the storage layer;
+    // additional write-conflict checks are performed at commit time.
+    // READ_UNCOMMITTED uses ReadCommitted at the RocksDB level (dirty reads are
+    // prevented by RocksDB itself; the isolation hint is used by higher layers).
+    auto rocksdb_isolation =
+        (isolation_ == IsolationLevel::REPEATABLE_READ ||
+         isolation_ == IsolationLevel::Snapshot        ||
+         isolation_ == IsolationLevel::SERIALIZABLE)
         ? RocksDBWrapper::TransactionIsolationLevel::Snapshot
         : RocksDBWrapper::TransactionIsolationLevel::ReadCommitted;
-    
+
     mvcc_txn_ = db_.beginTransaction(rocksdb_isolation);
     if (!mvcc_txn_) {
         throw std::runtime_error("Failed to create MVCC transaction");
     }
     saga_ = std::make_unique<Saga>();
-    THEMIS_INFO("Transaction {} initialized with MVCC and SAGA support (isolation: {})", 
-               id_, isolation_ == IsolationLevel::Snapshot ? "Snapshot" : "ReadCommitted");
+    THEMIS_INFO("Transaction {} initialized with MVCC and SAGA support (isolation: {})",
+               id_,
+               isolation_ == IsolationLevel::READ_UNCOMMITTED ? "READ_UNCOMMITTED" :
+               isolation_ == IsolationLevel::READ_COMMITTED   ? "READ_COMMITTED"   :
+               isolation_ == IsolationLevel::REPEATABLE_READ  ? "REPEATABLE_READ"  :
+               isolation_ == IsolationLevel::SERIALIZABLE     ? "SERIALIZABLE"     :
+                                                                "UNKNOWN");
 }
 
 TransactionManager::Transaction::~Transaction() {

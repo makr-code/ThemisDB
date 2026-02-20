@@ -12,6 +12,7 @@
 #include <condition_variable>
 #include <deque>
 #include "storage/rocksdb_wrapper.h"
+#include "transaction/lock_manager.h"
 
 namespace themis {
 
@@ -21,10 +22,24 @@ class GraphIndexManager;
 class VectorIndexManager;
 class Saga;
 
-/// Isolation levels for transactions
+/// Isolation levels for transactions.
+///
+/// Listed in increasing strictness order.
+/// - READ_UNCOMMITTED: Dirty reads allowed (no locking on reads). Fastest.
+/// - READ_COMMITTED:   Only committed data visible. Default for most workloads.
+/// - REPEATABLE_READ:  Once a row is read it will not change within the txn.
+/// - SERIALIZABLE:     Full serializability via Snapshot Isolation + write-conflict
+///                     detection (SSI). Slowest but safest.
 enum class IsolationLevel {
-    ReadCommitted,  // Default: only committed data visible
-    Snapshot        // Snapshot isolation (point-in-time consistency)
+    // Legacy aliases preserved for backward compatibility
+    ReadCommitted  = 1, ///< Same as READ_COMMITTED
+    Snapshot       = 3, ///< Same as REPEATABLE_READ (snapshot isolation)
+
+    // Standard SQL names
+    READ_UNCOMMITTED = 0, ///< Dirty reads permitted; no read locks acquired
+    READ_COMMITTED   = 1, ///< Only committed values visible (default)
+    REPEATABLE_READ  = 3, ///< Snapshot isolation – no non-repeatable reads
+    SERIALIZABLE     = 4  ///< SSI – also prevents phantom reads and write skew
 };
 
 /// TransactionManager: ACID-ähnliche, atomare Multi-Layer-Updates via RocksDB WriteBatch
@@ -201,12 +216,19 @@ public:
      */
     uint64_t getDeadlockCount() const { return total_deadlocks_.load(std::memory_order_relaxed); }
 
+    /// Access the shared LockManager for external lock operations.
+    LockManager& getLockManager() { return lock_manager_; }
+    const LockManager& getLockManager() const { return lock_manager_; }
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
     GraphIndexManager& graphIdx_;
     VectorIndexManager& vecIdx_;
-    
+
+    // Shared lock manager (Phase 1: Lock Management)
+    LockManager lock_manager_;
+
     // Session management
     mutable std::mutex sessions_mutex_;
     std::unordered_map<TransactionId, std::shared_ptr<Transaction>> active_transactions_;

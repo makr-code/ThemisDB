@@ -157,12 +157,46 @@ public:
      */
     static bool isValidTagName(const std::string& tag_name);
 
+    // ---- Phase 7: GC & Retention Policy ----
+
+    /**
+     * @brief Retention policy for automatic snapshot pruning.
+     */
+    struct RetentionPolicy {
+        size_t  max_snapshots{0};          ///< 0 = unlimited
+        int64_t max_age_ms{0};             ///< 0 = unlimited; prune older than this
+        bool    protect_latest{true};      ///< Never prune the newest snapshot
+    };
+
+    /**
+     * @brief Set the retention policy applied during pruneOldSnapshots().
+     */
+    void setRetentionPolicy(const RetentionPolicy& policy);
+
+    /**
+     * @brief Prune snapshots that exceed the current retention policy.
+     *
+     * Removes the oldest snapshots until max_snapshots and max_age_ms
+     * constraints are satisfied. The newest snapshot is never deleted when
+     * protect_latest is true.
+     *
+     * @return Number of snapshots deleted.
+     */
+    size_t pruneOldSnapshots();
+
+    /**
+     * @brief Consistency check: verify all stored snapshots are readable.
+     * @return Number of corrupted/unreadable snapshots found (0 = healthy).
+     */
+    size_t checkConsistency() const;
+
 private:
     RocksDBWrapper& db_;
     Changefeed& changefeed_;
     
     mutable std::mutex mutex_;
-    
+    RetentionPolicy retention_policy_;
+
     // Key prefix for snapshot storage in RocksDB
     static constexpr const char* SNAPSHOT_PREFIX = "snapshot:";
     

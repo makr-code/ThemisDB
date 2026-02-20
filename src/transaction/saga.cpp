@@ -56,6 +56,8 @@ void Saga::clear() {
     THEMIS_DEBUG("SAGA: Clearing {} steps", steps_.size());
     steps_.clear();
     compensated_ = false;
+    metrics_failed_ = 0;
+    metrics_retried_ = 0;
 }
 
 size_t Saga::compensatedCount() const {
@@ -82,6 +84,68 @@ int64_t Saga::getDurationMs() const {
     auto now = std::chrono::system_clock::now();
     auto first_step_time = steps_[0].executed_at;
     return std::chrono::duration_cast<std::chrono::milliseconds>(now - first_step_time).count();
+}
+
+void Saga::compensateWithRetry(int max_retries,
+                               std::chrono::milliseconds backoff_ms) {
+    if (compensated_) {
+        THEMIS_WARN("SAGA: Already compensated, skipping");
+        return;
+    }
+
+    THEMIS_INFO("SAGA: Compensating {} steps (max_retries={}, backoff={}ms)",
+                steps_.size(), max_retries, backoff_ms.count());
+
+    for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {
+        if (it->compensated) continue;
+
+        bool success = false;
+        std::chrono::milliseconds current_backoff = backoff_ms;
+
+        for (int attempt = 0; attempt <= max_retries; ++attempt) {
+            try {
+                if (attempt > 0) {
+                    THEMIS_DEBUG("SAGA: Retrying '{}' (attempt {}/{})",
+                                 it->operation_name, attempt, max_retries);
+                    std::this_thread::sleep_for(current_backoff);
+                    current_backoff *= 2; // Exponential backoff
+                }
+                it->compensate();
+                it->compensated = true;
+                success = true;
+                if (attempt > 0) {
+                    ++metrics_retried_;
+                }
+                break;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name, attempt + 1, e.what());
+            } catch (...) {
+                THEMIS_WARN("SAGA: Unknown error during compensation of '{}' (attempt {})",
+                            it->operation_name, attempt + 1);
+            }
+        }
+
+        if (!success) {
+            ++metrics_failed_;
+            THEMIS_ERROR("SAGA: Compensation permanently failed for '{}' after {} attempts",
+                         it->operation_name, max_retries + 1);
+        }
+    }
+
+    compensated_ = true;
+    THEMIS_INFO("SAGA: Retry-compensation complete – {}/{} steps, {} retried, {} failed",
+                compensatedCount(), steps_.size(), metrics_retried_, metrics_failed_);
+}
+
+Saga::Metrics Saga::getMetrics() const {
+    Metrics m;
+    m.total_steps            = steps_.size();
+    m.compensated_steps      = compensatedCount();
+    m.failed_compensations   = metrics_failed_;
+    m.retried_compensations  = metrics_retried_;
+    m.duration_ms            = getDurationMs();
+    return m;
 }
 
 // ========== SAGA Operations ==========
