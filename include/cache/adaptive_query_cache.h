@@ -223,6 +223,49 @@ public:
      * @brief Get detailed cache information (for monitoring)
      */
     nlohmann::json getDetailedInfo() const;
+    
+    // ========================================================================
+    // Phase 3: Admin API & Operational Tooling
+    // ========================================================================
+    
+    /**
+     * @brief Get statistics by cache tier
+     * @return JSON with per-tier statistics
+     */
+    nlohmann::json getStatsByTier() const;
+    
+    /**
+     * @brief Get cache health status
+     * @return JSON with health information and warnings
+     */
+    nlohmann::json getHealthStatus() const;
+    
+    /**
+     * @brief Export cache keys for debugging
+     * @param max_keys Maximum number of keys to export (default: 100)
+     * @return Vector of cache keys
+     */
+    std::vector<std::string> exportKeys(size_t max_keys = 100) const;
+    
+    /**
+     * @brief Get tenant usage statistics
+     * @return JSON with per-tenant size usage
+     */
+    nlohmann::json getTenantStats() const;
+    
+    /**
+     * @brief Bulk put for cache warmup
+     * @param entries Vector of {fingerprint, params, result, tenant_id} tuples
+     * @return Number of successfully cached entries
+     */
+    size_t bulkPut(const std::vector<std::tuple<std::string, nlohmann::json, nlohmann::json, std::string>>& entries);
+    
+    /**
+     * @brief Invalidate all entries for a specific tenant
+     * @param tenant_id Tenant ID to invalidate
+     * @return Number of entries invalidated
+     */
+    size_t invalidateTenant(const std::string& tenant_id);
 
 private:
     struct L1Entry {

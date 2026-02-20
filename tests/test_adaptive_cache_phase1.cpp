@@ -729,6 +729,138 @@ TEST_F(AdaptiveCachePhase1Test, TenantFingerprintIncludesTenantId) {
     EXPECT_NE(fp1, fp2);
 }
 
+// ============================================================================
+// Phase 3 Tests: Admin API & Operational Tooling
+// ============================================================================
+
+TEST_F(AdaptiveCachePhase1Test, AdminAPIGetStatsByTier) {
+    AdaptiveQueryCache cache(config_);
+    
+    // Add some entries
+    for (int i = 0; i < 5; i++) {
+        json result = {{"value", i}};
+        std::string fp = cache.generateFingerprint("query" + std::to_string(i), {});
+        cache.put(fp, {}, result);
+    }
+    
+    // Get stats by tier
+    json stats = cache.getStatsByTier();
+    
+    EXPECT_TRUE(stats.contains("l1"));
+    EXPECT_TRUE(stats.contains("l2"));
+    EXPECT_TRUE(stats.contains("l3"));
+    EXPECT_TRUE(stats.contains("overall"));
+    
+    EXPECT_GE(stats["l1"]["entries"], 0);
+    EXPECT_GT(stats["l1"]["max_entries"], 0);
+    EXPECT_GE(stats["overall"]["hit_rate"], 0.0);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdminAPIHealthStatus) {
+    AdaptiveQueryCache cache(config_);
+    
+    json health = cache.getHealthStatus();
+    
+    EXPECT_TRUE(health.contains("healthy"));
+    EXPECT_TRUE(health.contains("warnings"));
+    EXPECT_TRUE(health["warnings"].is_array());
+    
+    // Should be healthy initially
+    EXPECT_TRUE(health["healthy"]);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdminAPIExportKeys) {
+    AdaptiveQueryCache cache(config_);
+    
+    // Add entries
+    for (int i = 0; i < 10; i++) {
+        std::string fp = cache.generateFingerprint("key" + std::to_string(i), {});
+        cache.put(fp, {}, {{"v", i}});
+    }
+    
+    // Export keys
+    auto keys = cache.exportKeys(5);
+    
+    EXPECT_LE(keys.size(), 5);
+    EXPECT_GT(keys.size(), 0);
+    
+    // Keys should have tier prefix
+    for (const auto& key : keys) {
+        EXPECT_TRUE(key.find("L1:") == 0 || key.find("L2:") == 0);
+    }
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdminAPIGetTenantStats) {
+    config_.enable_tenant_isolation = true;
+    AdaptiveQueryCache cache(config_);
+    
+    // Add entries for different tenants
+    json result = {{"data", std::string(100, 'x')}};
+    cache.put(cache.generateFingerprint("q1", {}, "tenant1"), {}, result, "tenant1");
+    cache.put(cache.generateFingerprint("q2", {}, "tenant2"), {}, result, "tenant2");
+    
+    json tenant_stats = cache.getTenantStats();
+    
+    EXPECT_TRUE(tenant_stats["enabled"]);
+    EXPECT_TRUE(tenant_stats.contains("tenants"));
+    EXPECT_GT(tenant_stats["quota_per_tenant"], 0);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdminAPIBulkPut) {
+    AdaptiveQueryCache cache(config_);
+    
+    // Prepare bulk entries
+    std::vector<std::tuple<std::string, json, json, std::string>> entries;
+    for (int i = 0; i < 10; i++) {
+        std::string fp = cache.generateFingerprint("bulk" + std::to_string(i), {});
+        json params = {};
+        json result = {{"id", i}};
+        entries.emplace_back(fp, params, result, "");
+    }
+    
+    // Bulk put
+    size_t cached = cache.bulkPut(entries);
+    
+    EXPECT_EQ(cached, 10);
+    
+    // Verify entries are cached
+    for (int i = 0; i < 10; i++) {
+        std::string fp = cache.generateFingerprint("bulk" + std::to_string(i), {});
+        auto cached_entry = cache.get(fp);
+        EXPECT_TRUE(cached_entry.has_value());
+    }
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdminAPIInvalidateTenant) {
+    config_.enable_tenant_isolation = true;
+    AdaptiveQueryCache cache(config_);
+    
+    // Add entries for multiple tenants
+    json result = {{"data", "test"}};
+    for (int i = 0; i < 5; i++) {
+        std::string fp1 = cache.generateFingerprint("query" + std::to_string(i), {}, "tenant1");
+        std::string fp2 = cache.generateFingerprint("query" + std::to_string(i), {}, "tenant2");
+        cache.put(fp1, {}, result, "tenant1");
+        cache.put(fp2, {}, result, "tenant2");
+    }
+    
+    // Invalidate tenant1
+    size_t invalidated = cache.invalidateTenant("tenant1");
+    EXPECT_GT(invalidated, 0);
+    
+    // Tenant1 entries should be gone
+    for (int i = 0; i < 5; i++) {
+        std::string fp1 = cache.generateFingerprint("query" + std::to_string(i), {}, "tenant1");
+        EXPECT_FALSE(cache.get(fp1, "tenant1").has_value());
+    }
+    
+    // Tenant2 entries should still exist
+    for (int i = 0; i < 5; i++) {
+        std::string fp2 = cache.generateFingerprint("query" + std::to_string(i), {}, "tenant2");
+        EXPECT_TRUE(cache.get(fp2, "tenant2").has_value());
+    }
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

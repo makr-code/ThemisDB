@@ -958,4 +958,230 @@ bool AdaptiveQueryCache::checkTenantQuota(
     return true;
 }
 
+// ============================================================================
+// Phase 3: Admin API & Operational Tooling
+// ============================================================================
+
+nlohmann::json AdaptiveQueryCache::getStatsByTier() const {
+    nlohmann::json stats;
+    
+    // L1 statistics
+    {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        stats["l1"]["entries"] = l1_cache_.size();
+        stats["l1"]["max_entries"] = config_.l1_max_entries;
+        stats["l1"]["utilization"] = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
+        stats["l1"]["hits"] = enhanced_metrics_.l1_hits.load();
+    }
+    
+    // L2 statistics
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        stats["l2"]["entries"] = l2_cache_.size();
+        stats["l2"]["max_entries"] = config_.l2_max_entries;
+        stats["l2"]["utilization"] = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
+        stats["l2"]["hits"] = enhanced_metrics_.l2_hits.load();
+    }
+    
+    // L3 statistics
+    stats["l3"]["enabled"] = (l3_db_ != nullptr);
+    stats["l3"]["hits"] = enhanced_metrics_.l3_hits.load();
+    if (l3_circuit_breaker_) {
+        stats["l3"]["circuit_breaker_open"] = enhanced_metrics_.l3_circuit_breaker_open.load();
+    }
+    
+    // Overall
+    stats["overall"]["misses"] = enhanced_metrics_.misses.load();
+    stats["overall"]["hit_rate"] = enhanced_metrics_.getHitRate();
+    stats["overall"]["evictions"] = enhanced_metrics_.evictions.load();
+    
+    return stats;
+}
+
+nlohmann::json AdaptiveQueryCache::getHealthStatus() const {
+    nlohmann::json health;
+    health["healthy"] = true;
+    health["warnings"] = nlohmann::json::array();
+    
+    // Check L1 utilization
+    {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        double util = static_cast<double>(l1_cache_.size()) / config_.l1_max_entries;
+        if (util > 0.9) {
+            health["warnings"].push_back("L1 cache utilization high: " + std::to_string(util * 100) + "%");
+        }
+    }
+    
+    // Check L2 utilization
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        double util = static_cast<double>(l2_cache_.size()) / config_.l2_max_entries;
+        if (util > 0.9) {
+            health["warnings"].push_back("L2 cache utilization high: " + std::to_string(util * 100) + "%");
+        }
+    }
+    
+    // Check circuit breaker
+    if (enhanced_metrics_.l3_circuit_breaker_open.load()) {
+        health["healthy"] = false;
+        health["warnings"].push_back("L3 circuit breaker is OPEN - RocksDB unavailable");
+    }
+    
+    // Check hit rate
+    double hit_rate = enhanced_metrics_.getHitRate();
+    if (hit_rate < 0.5) {
+        health["warnings"].push_back("Low cache hit rate: " + std::to_string(hit_rate * 100) + "%");
+    }
+    
+    // Check rate limiting
+    uint64_t rate_limited = enhanced_metrics_.rate_limited_requests.load();
+    if (rate_limited > 1000) {
+        health["warnings"].push_back("High rate limiting: " + std::to_string(rate_limited) + " requests rejected");
+    }
+    
+    return health;
+}
+
+std::vector<std::string> AdaptiveQueryCache::exportKeys(size_t max_keys) const {
+    std::vector<std::string> keys;
+    keys.reserve(max_keys);
+    
+    // Export L1 keys
+    {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        for (const auto& [key, entry] : l1_cache_) {
+            if (keys.size() >= max_keys) break;
+            keys.push_back("L1:" + key.substr(0, 16) + "...");
+        }
+    }
+    
+    // Export L2 keys
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        for (const auto& [key, entry] : l2_cache_) {
+            if (keys.size() >= max_keys) break;
+            keys.push_back("L2:" + key.substr(0, 16) + "...");
+        }
+    }
+    
+    return keys;
+}
+
+nlohmann::json AdaptiveQueryCache::getTenantStats() const {
+    nlohmann::json tenant_stats;
+    
+    if (!config_.enable_tenant_isolation) {
+        tenant_stats["enabled"] = false;
+        return tenant_stats;
+    }
+    
+    tenant_stats["enabled"] = true;
+    tenant_stats["quota_per_tenant"] = config_.per_tenant_max_bytes;
+    
+    std::lock_guard<std::mutex> lock(tenant_mutex_);
+    for (const auto& [tenant_id, size_bytes] : tenant_sizes_) {
+        nlohmann::json tenant_info;
+        tenant_info["bytes_used"] = size_bytes;
+        tenant_info["quota"] = config_.per_tenant_max_bytes;
+        tenant_info["utilization"] = static_cast<double>(size_bytes) / config_.per_tenant_max_bytes;
+        tenant_stats["tenants"][tenant_id] = tenant_info;
+    }
+    
+    return tenant_stats;
+}
+
+size_t AdaptiveQueryCache::bulkPut(
+    const std::vector<std::tuple<std::string, nlohmann::json, nlohmann::json, std::string>>& entries
+) {
+    size_t successful = 0;
+    
+    for (const auto& [fingerprint, params, result, tenant_id] : entries) {
+        if (put(fingerprint, params, result, tenant_id)) {
+            successful++;
+        }
+    }
+    
+    THEMIS_INFO("Bulk put completed: {}/{} entries cached", successful, entries.size());
+    return successful;
+}
+
+size_t AdaptiveQueryCache::invalidateTenant(const std::string& tenant_id) {
+    if (tenant_id.empty()) {
+        THEMIS_WARN("Invalid tenant_id for invalidation");
+        return 0;
+    }
+    
+    size_t count = 0;
+    std::string tenant_prefix = "tenant:" + tenant_id + ":";
+    
+    // Invalidate L1
+    {
+        std::lock_guard<std::mutex> lock(l1_mutex_);
+        for (auto it = l1_cache_.begin(); it != l1_cache_.end();) {
+            if (it->first.find(tenant_prefix) == 0) {
+                it = l1_cache_.erase(it);
+                count++;
+            } else {
+                ++it;
+            }
+        }
+    }
+    
+    // Invalidate L2
+    {
+        std::lock_guard<std::mutex> lock(l2_mutex_);
+        for (auto it = l2_cache_.begin(); it != l2_cache_.end();) {
+            if (it->first.find(tenant_prefix) == 0) {
+                it = l2_cache_.erase(it);
+                count++;
+            } else {
+                ++it;
+            }
+        }
+    }
+    
+    // Invalidate L3
+    if (l3_db_ && config_.enable_tenant_isolation) {
+        std::lock_guard<std::mutex> lock(l3_mutex_);
+        
+        if (l3_circuit_breaker_ && !l3_circuit_breaker_->allowRequest()) {
+            THEMIS_WARN("L3 circuit breaker open, skipping L3 tenant invalidation");
+        } else {
+            try {
+                std::vector<std::string> keys_to_delete;
+                l3_db_->scanPrefix(QUERY_CACHE_PREFIX, [&](std::string_view key, std::string_view) {
+                    std::string key_str(key);
+                    if (key_str.find(tenant_prefix) != std::string::npos) {
+                        keys_to_delete.emplace_back(key_str);
+                    }
+                    return true;
+                });
+                
+                for (const auto& key : keys_to_delete) {
+                    l3_db_->del(key);
+                    count++;
+                }
+                
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordSuccess();
+                }
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to invalidate tenant in L3: {}", e.what());
+                if (l3_circuit_breaker_) {
+                    l3_circuit_breaker_->recordFailure();
+                }
+            }
+        }
+    }
+    
+    // Update tenant size tracking
+    if (config_.enable_tenant_isolation) {
+        std::lock_guard<std::mutex> lock(tenant_mutex_);
+        tenant_sizes_[tenant_id] = 0;
+    }
+    
+    THEMIS_INFO("Invalidated {} entries for tenant: {}", count, tenant_id);
+    return count;
+}
+
 } // namespace themis
