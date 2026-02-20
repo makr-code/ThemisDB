@@ -156,5 +156,15 @@ private:
     mutable std::mutex mutex_;
 };
 
+/**
+ * @brief Factory: create the embedded (in-memory) user registration plugin.
+ *
+ * Returns a ready-to-use plugin backed by PBKDF2-SHA256 password hashing.
+ * Intended for standalone deployments and unit tests.
+ *
+ * NOT recommended for production enterprise deployments.
+ */
+std::shared_ptr<IUserRegistrationPlugin> createEmbeddedUserRegistrationPlugin();
+
 } // namespace security
 } // namespace themis

@@ -30,6 +30,17 @@ enum class TransactionState {
 };
 
 /**
+ * @brief Isolation level for distributed transactions
+ *
+ * Controls the read-visibility and locking behaviour applied by
+ * TwoPhaseCommitParticipant::onPrepare() via the validate_and_lock callback.
+ */
+enum class DistributedIsolationLevel {
+    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; no read locks needed
+    SERIALIZABLE        // Full serializability; read-set validation on prepare
+};
+
+/**
  * @brief Participant in a distributed transaction
  */
 struct TransactionParticipant {
@@ -46,6 +57,7 @@ struct TransactionParticipant {
 struct DistributedTransaction {
     std::string transaction_id;           // Unique transaction ID
     TransactionState state;               // Current state
+    DistributedIsolationLevel isolation_level; // Isolation level
     std::chrono::nanoseconds start_time;  // Transaction start timestamp
     std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
     std::vector<TransactionParticipant> participants;  // Participating shards
@@ -55,6 +67,7 @@ struct DistributedTransaction {
     
     DistributedTransaction()
         : state(TransactionState::ACTIVE)
+        , isolation_level(DistributedIsolationLevel::SNAPSHOT_ISOLATION)
         , start_time(0)
         , commit_time(0)
         , commit_retry_count(0) {}
@@ -85,6 +98,7 @@ public:
         uint64_t retry_backoff_base_ms = 100;  // Base delay for exponential backoff
         uint64_t max_backoff_ms = 5000;        // Maximum backoff delay
         bool enable_recovery_log = true;       // Enable transaction recovery logging
+        std::string coordinator_id;            // Identifier for Prometheus labels (default: "default")
     };
     
     /**
@@ -99,10 +113,14 @@ public:
     
     /**
      * @brief Begin a new distributed transaction
-     * @param shard_ids List of participating shards
+     * @param shard_ids       List of participating shards
+     * @param isolation_level Desired isolation level (default: SNAPSHOT_ISOLATION)
      * @return Transaction ID
      */
-    std::string beginTransaction(const std::vector<std::string>& shard_ids);
+    std::string beginTransaction(
+        const std::vector<std::string>& shard_ids,
+        DistributedIsolationLevel isolation_level = DistributedIsolationLevel::SNAPSHOT_ISOLATION
+    );
     
     /**
      * @brief Add an operation to the transaction

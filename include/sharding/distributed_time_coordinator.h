@@ -97,6 +97,16 @@ public:
     }
     
     /**
+     * @brief Check whether this node is the current Raft leader.
+     *
+     * Linearizable reads must only be served by the leader.
+     * Returns true if the underlying ConsensusModule reports leadership.
+     */
+    bool isLeader() const {
+        return consensus_->isLeader();
+    }
+
+    /**
      * @brief Get current log index (basis for timestamps)
      * @return Current log index from consensus module
      */
