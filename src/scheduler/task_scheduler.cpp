@@ -438,34 +438,62 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         );
     }
     
-    // Execute synchronously
+    // Execute synchronously with retry logic (same as scheduled execution)
+    const size_t max_attempts = 1 + task->max_retries;
+    std::string last_error;
+    bool succeeded = false;
     nlohmann::json result;
-    try {
-        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
-            result = executeAqlQuery(task->aql_query);
-        } else {
-            result = executeFunction(task->function_name, task->parameters);
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        if (attempt > 0) {
+            const uint64_t base_ms = 1000;
+            const uint64_t max_ms  = 30000;
+            uint64_t delay_ms = base_ms;
+            for (size_t i = 1; i < attempt; ++i) {
+                delay_ms = std::min(delay_ms * 2, max_ms);
+            }
+            THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms",
+                        task_id, attempt + 1, max_attempts, delay_ms);
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
         }
-        
+
+        try {
+            if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                result = executeAqlQuery(task->aql_query);
+            } else {
+                result = executeFunction(task->function_name, task->parameters);
+            }
+            succeeded = true;
+            break;
+        } catch (const std::exception& e) {
+            last_error = e.what();
+            if (attempt + 1 < max_attempts) {
+                THEMIS_WARN("executeTaskNow task {} attempt {}/{} failed: {} (will retry)",
+                            task_id, attempt + 1, max_attempts, e.what());
+            }
+        }
+    }
+
+    if (succeeded) {
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
-        
+
         if (task->on_success) {
             task->on_success(task_id, result);
         }
-    } catch (const std::exception& e) {
-        result = nlohmann::json{{"error", e.what()}};
+    } else {
+        result = nlohmann::json{{"error", last_error}};
         task->failed_executions++;
-        task->last_error = e.what();
+        task->last_error = last_error;
         task->last_failure_time = std::chrono::system_clock::now();
-        
+
         if (task->on_failure) {
-            task->on_failure(task_id, e.what());
+            task->on_failure(task_id, last_error);
         }
-        
-        span.recordError(e.what());
+
+        span.recordError(last_error);
     }
-    
+
     task->total_executions++;
     total_executions_++;
     
@@ -667,21 +695,61 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         
         audit_manager_->logAuditEvent(start_event);
     }
-    
-    try {
-        nlohmann::json result;
-        
-        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
-            span.setAttribute("task_type", "aql");
-            result = executeAqlQuery(task->aql_query);
-        } else {
-            span.setAttribute("task_type", "function");
-            result = executeFunction(task->function_name, task->parameters);
+
+    // Retry loop with exponential backoff
+    // Attempts: 1 initial + up to max_retries retries
+    const size_t max_attempts = 1 + task->max_retries;
+    std::string last_error;
+    bool succeeded = false;
+    nlohmann::json result;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        // Abort if scheduler is stopping
+        if (!running_.load()) {
+            break;
         }
-        
-        auto end = std::chrono::steady_clock::now();
-        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+
+        // Exponential backoff before each retry (not before the first attempt)
+        if (attempt > 0) {
+            // backoff = base * 2^(attempt-1), capped at 30 s
+            const uint64_t base_ms = 1000;
+            const uint64_t max_ms  = 30000;
+            uint64_t delay_ms = base_ms;
+            for (size_t i = 1; i < attempt; ++i) {
+                delay_ms = std::min(delay_ms * 2, max_ms);
+            }
+
+            THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms backoff",
+                        task->id, attempt + 1, max_attempts, delay_ms);
+
+            // Use sleep_for instead of cv_.wait_for to avoid associating with tasks_mutex_
+            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            if (!running_.load()) break;
+        }
+
+        try {
+            if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                span.setAttribute("task_type", "aql");
+                result = executeAqlQuery(task->aql_query);
+            } else {
+                span.setAttribute("task_type", "function");
+                result = executeFunction(task->function_name, task->parameters);
+            }
+            succeeded = true;
+            break;  // Success – no more retries needed
+        } catch (const std::exception& e) {
+            last_error = e.what();
+            if (attempt + 1 < max_attempts) {
+                THEMIS_WARN("Task {} attempt {}/{} failed: {} (will retry)",
+                            task->id, attempt + 1, max_attempts, e.what());
+            }
+        }
+    }
+    
+    auto end = std::chrono::steady_clock::now();
+    double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+
+    if (succeeded) {
         // Update statistics
         task->last_run_ms = getCurrentTimeMs();
         task->total_executions++;
@@ -694,9 +762,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             / task->total_executions;
         
         updateNextRun(*task);
-        
         total_executions_++;
-        
         span.setAttribute("execution_time_ms", elapsed_ms);
         
         THEMIS_DEBUG("Executed task {} ({}): {:.2f}ms",
@@ -713,7 +779,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             completion_event.task_description = task->description;
             completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
             completion_event.trigger_type = start_event.trigger_type;
-            // TODO: completion_setDefaultAuditContext(completion_event);
+            setDefaultAuditContext(completion_event);
             completion_event.success = true;
             
             // Resource usage (basic metrics)
@@ -736,20 +802,18 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         if (task->on_success) {
             task->on_success(task->id, result);
         }
-        
-    } catch (const std::exception& e) {
-        auto end = std::chrono::steady_clock::now();
-        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+    } else {
+        // All attempts failed
         task->failed_executions++;
-        task->last_error = e.what();
+        task->last_error = last_error;
         task->last_failure_time = std::chrono::system_clock::now();
         failed_executions_++;
         
         updateNextRun(*task);
         
-        span.recordError(e.what());
-        THEMIS_ERROR("Failed to execute task {}: {}", task->id, e.what());
+        span.recordError(last_error);
+        THEMIS_ERROR("Task {} failed after {} attempt(s): {}",
+                     task->id, max_attempts, last_error);
         
         // Log audit event for failure
         if (audit_manager_) {
@@ -762,10 +826,11 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.task_description = task->description;
             failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
             failure_event.trigger_type = start_event.trigger_type;
-            // TODO: failure_setDefaultAuditContext(failure_event);
+            setDefaultAuditContext(failure_event);
             failure_event.success = false;
-            failure_event.error_message = e.what();
+            failure_event.error_message = last_error;
             failure_event.error_type = "EXECUTION_ERROR";
+            failure_event.metadata["attempts"] = max_attempts;
             
             // Resource usage
             failure_event.resource_usage.execution_time_ms = elapsed_ms;
@@ -782,7 +847,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.task_name = task->name;
                 security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
                 security_event.severity = "HIGH";
-                // TODO: security_setDefaultAuditContext(security_event);
+                setDefaultAuditContext(security_event);
                 security_event.violation_type = "excessive_failures";
                 security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
                 security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
@@ -795,7 +860,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         }
         
         if (task->on_failure) {
-            task->on_failure(task->id, e.what());
+            task->on_failure(task->id, last_error);
         }
     }
     

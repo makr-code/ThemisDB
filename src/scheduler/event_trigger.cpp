@@ -223,8 +223,54 @@ EventTrigger::Stats EventTrigger::getStats() const {
     stats.events_matched = events_matched_.load();
     stats.events_debounced = events_debounced_.load();
     stats.triggers_fired = triggers_fired_.load();
+    stats.callback_failures = callback_failures_.load();
+    {
+        std::lock_guard<std::mutex> lock(cb_mutex_);
+        stats.circuit_open = cb_open_;
+    }
     stats.last_trigger_time = last_trigger_time_sys_;
     return stats;
+}
+
+void EventTrigger::setCircuitBreakerConfig(const CircuitBreakerConfig& config) {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    cb_config_ = config;
+}
+
+bool EventTrigger::circuitAllows() {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    if (!cb_open_) {
+        return true;
+    }
+    // Check if cooldown has elapsed → allow a half-open probe
+    auto elapsed = std::chrono::steady_clock::now() - cb_open_since_;
+    if (elapsed >= cb_config_.cooldown) {
+        THEMIS_INFO("EventTrigger circuit breaker: cooldown elapsed, allowing probe");
+        return true;  // Let one call through (half-open)
+    }
+    return false;
+}
+
+void EventTrigger::circuitRecordSuccess() {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    if (cb_open_) {
+        THEMIS_INFO("EventTrigger circuit breaker: closing (callback recovered)");
+    }
+    cb_consecutive_failures_ = 0;
+    cb_open_ = false;
+}
+
+void EventTrigger::circuitRecordFailure() {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    ++cb_consecutive_failures_;
+    callback_failures_++;
+    if (!cb_open_ && cb_consecutive_failures_ >= cb_config_.failure_threshold) {
+        cb_open_ = true;
+        cb_open_since_ = std::chrono::steady_clock::now();
+        THEMIS_WARN("EventTrigger circuit breaker: opened after {} consecutive callback failures "
+                    "(cooldown={}s)",
+                    cb_consecutive_failures_, cb_config_.cooldown.count());
+    }
 }
 
 void EventTrigger::listenerLoop() {
@@ -273,15 +319,23 @@ void EventTrigger::listenerLoop() {
                     last_trigger_time_sys_ = std::chrono::system_clock::now();
                 }
                 
-                // Fire callback
+                // Fire callback – guarded by circuit breaker
+                if (!circuitAllows()) {
+                    THEMIS_DEBUG("EventTrigger circuit breaker open: dropping callback for "
+                                 "key={}", event.key);
+                    continue;
+                }
+
                 triggers_fired_++;
                 THEMIS_DEBUG("EventTrigger fired (key={}, type={}, sequence={})",
                             event.key, static_cast<int>(event.type), event.sequence);
                 
                 try {
                     callback_(event);
+                    circuitRecordSuccess();
                 } catch (const std::exception& e) {
                     THEMIS_ERROR("EventTrigger callback failed: {}", e.what());
+                    circuitRecordFailure();
                 }
             }
             

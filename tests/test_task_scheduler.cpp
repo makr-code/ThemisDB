@@ -333,3 +333,88 @@ TEST_F(TaskSchedulerTest, ExcessiveTimeoutThrows) {
     EXPECT_THROW(scheduler_->registerTask(task), std::invalid_argument);
 }
 
+
+// ===== Retry logic tests =====
+
+TEST_F(TaskSchedulerTest, ZeroRetriesFailsImmediately) {
+    std::atomic<int> attempt_count{0};
+    scheduler_->registerFunction("always_fail", [&](const nlohmann::json&) -> nlohmann::json {
+        ++attempt_count;
+        throw std::runtime_error("deliberate failure");
+    });
+
+    ScheduledTask task;
+    task.name = "zero_retry_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "always_fail";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries = 0;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_EQ(attempt_count.load(), 1);  // Only 1 attempt (no retries)
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->failed_executions, 1u);
+    EXPECT_EQ(t->successful_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, TaskSucceedsOnRetry) {
+    // Fails on first attempt, succeeds on second
+    std::atomic<int> attempt_count{0};
+    scheduler_->registerFunction("fail_then_succeed", [&](const nlohmann::json&) -> nlohmann::json {
+        int n = ++attempt_count;
+        if (n < 2) {
+            throw std::runtime_error("first attempt failed");
+        }
+        return nlohmann::json{{"status", "ok"}};
+    });
+
+    ScheduledTask task;
+    task.name = "retry_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fail_then_succeed";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries = 2;  // Allow 2 retries → 3 total attempts
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    // Should succeed on second attempt
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(attempt_count.load(), 2);
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->successful_executions, 1u);
+    EXPECT_EQ(t->failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, AllRetriesExhaustedCountsAsFailed) {
+    std::atomic<int> attempt_count{0};
+    scheduler_->registerFunction("always_fail_2", [&](const nlohmann::json&) -> nlohmann::json {
+        ++attempt_count;
+        throw std::runtime_error("persistent failure");
+    });
+
+    ScheduledTask task;
+    task.name = "exhaust_retries_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "always_fail_2";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries = 2;  // 1 initial + 2 retries = 3 total attempts
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_EQ(attempt_count.load(), 3);  // All 3 attempts exhausted
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->failed_executions, 1u);
+    EXPECT_EQ(t->successful_executions, 0u);
+}
