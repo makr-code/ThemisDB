@@ -220,7 +220,8 @@ TEST_F(ScanCounterTest, Selectivity_HalfPassed) {
     engine_->scanPredicate(
         "", "",
         [](std::string_view, std::string_view val) {
-            return !val.empty() && val.back() % 2 == 0; // val_0, val_2, val_4, val_6, val_8
+            // Keep entries whose numeric digit value is even: val_0, val_2, val_4, val_6, val_8
+            return !val.empty() && ((val.back() - '0') % 2 == 0);
         },
         [](std::string_view, std::string_view) { return true; });
 

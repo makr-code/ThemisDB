@@ -197,7 +197,8 @@ public:
         auto ib1 = b1_set_.find(key);
         if (ib1 != b1_set_.end()) {
             ++stats_.b1_hits;
-            size_t delta = (b2_set_.size() >= b1_set_.size())
+            // delta = max(1, |B2| / |B1|) — clamped to avoid division by zero
+            size_t delta = (b1_set_.size() == 0 || b2_set_.size() >= b1_set_.size())
                                ? 1
                                : b2_set_.size() / b1_set_.size();
             p_ = std::min(p_ + std::max<size_t>(delta, 1), capacity_);
@@ -212,7 +213,8 @@ public:
         auto ib2 = b2_set_.find(key);
         if (ib2 != b2_set_.end()) {
             ++stats_.b2_hits;
-            size_t delta = (b1_set_.size() >= b2_set_.size())
+            // delta = max(1, |B1| / |B2|) — clamped to avoid division by zero
+            size_t delta = (b2_set_.size() == 0 || b1_set_.size() >= b2_set_.size())
                                ? 1
                                : b1_set_.size() / b2_set_.size();
             p_ = (p_ >= delta) ? p_ - delta : 0;
