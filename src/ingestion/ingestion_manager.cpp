@@ -130,7 +130,8 @@ bool CheckpointStore::read(const std::string& source_id,
             } else if (key == "cursor")    out.cursor          = val;
             else if (key == "timestamp")   out.timestamp       = val;
         }
-        return true;
+        // A valid checkpoint must have a non-empty source_id
+        return !out.source_id.empty();
     } catch (...) {
         return false;
     }
@@ -494,8 +495,7 @@ public:
 
     void setRateLimitConfig(const RateLimitConfig& config) {
         rate_limit_config_ = config;
-        // Reset per-source buckets so they're rebuilt on next use
-        token_bucket_.reset();
+        // Reset per-source buckets so they're rebuilt with the new rate on next use
         per_source_buckets_.clear();
     }
 
@@ -720,7 +720,6 @@ private:
     size_t max_threads_;
     RetryConfig retry_config_;
     RateLimitConfig rate_limit_config_;
-    std::unique_ptr<TokenBucket> token_bucket_;          ///< legacy global bucket (unused)
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>> per_source_buckets_;
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;

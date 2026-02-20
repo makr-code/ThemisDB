@@ -134,6 +134,19 @@ TEST_F(CheckpointTest, EmptyCursorRoundtrips) {
     EXPECT_EQ(out.cursor, "");
 }
 
+TEST_F(CheckpointTest, CorruptFileReturnsFalse) {
+    // Write a file with no source_id= line so read() should return false
+    // (guards against treating empty/corrupt checkpoint files as valid)
+    auto corrupt_path = tmp_dir_ / "corrupt_src.checkpoint";
+    {
+        std::ofstream f(corrupt_path);
+        f << "processed_count=42\n";  // missing source_id=
+    }
+    CheckpointStore store(tmp_dir_.string());
+    IngestionCheckpoint out;
+    EXPECT_FALSE(store.read("corrupt_src", out));
+}
+
 // ============================================================================
 // IngestionManager – checkpoint integration tests
 // ============================================================================
@@ -271,6 +284,10 @@ TEST(ApiConnectorTest, IngestReturnsDocumentsFromSimulatedPages) {
     cfg.location              = "https://api.example.com/docs";
     cfg.options["page_size"]  = "3";
     cfg.options["text_field"] = "text";
+    // max_pages=1 prevents infinite loop: the simulated endpoint always returns
+    // exactly page_size docs, so without a page cap the termination condition
+    // (docs.size() < page_size_) would never be true.
+    cfg.options["max_pages"]  = "1";
     conn.initialize(cfg);
     conn.setPageSize(3);
 
