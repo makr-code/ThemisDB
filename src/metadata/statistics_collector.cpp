@@ -70,7 +70,13 @@ json TableStats::toJSON() const {
 
     auto time_t_val = std::chrono::system_clock::to_time_t(last_updated);
     char buf[64];
-    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&time_t_val));
+    std::tm tm_buf{};
+#ifdef _WIN32
+    gmtime_s(&tm_buf, &time_t_val);
+#else
+    gmtime_r(&time_t_val, &tm_buf);
+#endif
+    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
     j["last_updated"] = buf;
 
     json cols = json::object();

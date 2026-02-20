@@ -27,7 +27,13 @@ json SchemaAuditEntry::toJSON() const {
 
     auto tt = std::chrono::system_clock::to_time_t(timestamp);
     char buf[64];
-    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", std::gmtime(&tt));
+    std::tm tm_buf{};
+#ifdef _WIN32
+    gmtime_s(&tm_buf, &tt);
+#else
+    gmtime_r(&tt, &tm_buf);
+#endif
+    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
     j["timestamp"] = buf;
 
     if (!metadata.is_null() && !metadata.empty()) {
