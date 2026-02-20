@@ -400,6 +400,26 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     }
     
     if (!deps_to_load.empty()) {
+        // Check for circular dependencies before attempting to load them.
+        // This prevents infinite recursion / stack overflow caused by dependency cycles.
+        auto dep_graph = PluginDependencyResolver::buildGraph(plugins_);
+        auto cycles = PluginDependencyResolver::detectCircularDependencies(dep_graph);
+        if (!cycles.empty()) {
+            std::string cycle_desc;
+            for (const auto& cycle : cycles) {
+                if (!cycle_desc.empty()) cycle_desc += "; ";
+                for (size_t i = 0; i < cycle.size(); ++i) {
+                    if (i > 0) cycle_desc += " -> ";
+                    cycle_desc += cycle[i];
+                }
+            }
+            THEMIS_ERROR("Circular dependency detected for plugin {}: {}", name, cycle_desc);
+            metrics_.recordError(name);
+            span.setStatus(false, "Circular dependency");
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                fmt::format("Circular dependency detected involving plugin '{}': {}", name, cycle_desc));
+        }
+
         lock.unlock();
         for (const auto& dep : deps_to_load) {
             THEMIS_INFO("Auto-loading dependency {} for plugin {}", dep, name);

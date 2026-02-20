@@ -203,11 +203,11 @@ void PluginHotPlugMonitor::watchDirectoryLinux() {
             if (event->len > 0) {
                 FileEvent file_event;
                 
-                if (event->mask & IN_CREATE) {
+                if (event->mask & (IN_CREATE | IN_MOVED_TO)) {
                     file_event = FileEvent::CREATED;
                 } else if (event->mask & IN_MODIFY) {
                     file_event = FileEvent::MODIFIED;
-                } else if (event->mask & IN_DELETE) {
+                } else if (event->mask & (IN_DELETE | IN_MOVED_FROM)) {
                     file_event = FileEvent::DELETED;
                 } else {
                     // Ignore other events
@@ -282,6 +282,14 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
                 case FILE_ACTION_REMOVED:
                     event = FileEvent::DELETED;
                     break;
+                case FILE_ACTION_RENAMED_NEW_NAME:
+                    // A rename/move into the directory counts as a new file
+                    event = FileEvent::CREATED;
+                    break;
+                case FILE_ACTION_RENAMED_OLD_NAME:
+                    // A rename/move out of the directory counts as a deletion
+                    event = FileEvent::DELETED;
+                    break;
                 default:
                     // Ignore other actions
                     should_handle = false;
@@ -346,13 +354,25 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
     std::set<std::string> known_files;
     auto scan_directory = [&]() {
         std::set<std::string> current_files;
-        for (const auto& entry : fs::directory_iterator(watch_directory_)) {
-            if (entry.is_regular_file()) {
-                std::string filename = entry.path().filename().string();
-                if (isPluginFile(filename)) {
-                    current_files.insert(filename);
+        try {
+            for (const auto& entry : fs::directory_iterator(watch_directory_)) {
+                // Skip symlinks pointing to non-existent targets
+                if (entry.is_symlink()) {
+                    std::error_code ec;
+                    if (!fs::exists(entry.path(), ec) || ec) {
+                        THEMIS_WARN("Skipping broken symlink: {}", entry.path().string());
+                        continue;
+                    }
+                }
+                if (entry.is_regular_file()) {
+                    std::string filename = entry.path().filename().string();
+                    if (isPluginFile(filename)) {
+                        current_files.insert(filename);
+                    }
                 }
             }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Error scanning plugin directory: {}", e.what());
         }
         
         // Detect new files
@@ -471,7 +491,7 @@ bool PluginHotPlugMonitor::start() {
     watch_descriptor_ = inotify_add_watch(
         inotify_fd_,
         watch_directory_.c_str(),
-        IN_CREATE | IN_MODIFY | IN_DELETE
+        IN_CREATE | IN_MODIFY | IN_DELETE | IN_MOVED_TO | IN_MOVED_FROM
     );
     
     if (watch_descriptor_ < 0) {
