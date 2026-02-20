@@ -4,6 +4,7 @@
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include <filesystem>
 #include <chrono>
 #include <nlohmann/json.hpp>
@@ -939,5 +940,150 @@ TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_CostModelInfluencesEstimate) {
     // Just verify the optimizer produced a valid plan; cost change depends on
     // actual timing so we don't assert exact equality or direction.
     EXPECT_NE(plan_after.value().algorithm, static_cast<decltype(plan_after.value().algorithm)>(-1));
+}
+
+
+// ============================================================================
+// Phase 5.2: NODE_PROPERTY constraint tests
+// ============================================================================
+
+// Helper: store a vertex entity with a property field
+static void storeVertex(themis::RocksDBWrapper& db, const std::string& pk,
+                        const std::string& field, const std::string& value) {
+    themis::BaseEntity v(pk);
+    v.setField("id", pk);
+    v.setField(field, value);
+    db.put(themis::KeySchema::makeGraphNodeKey(pk), v.serialize());
+}
+
+TEST_F(GraphQueryOptimizerTest, NodePropertyConstraint_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addNodePropertyConstraint("country", "USA");
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Node property: country = USA"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, NodePropertyConstraint_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addNodePropertyConstraint("type", "Person");
+    ASSERT_EQ(pc.getConstraints().size(), 1u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::NODE_PROPERTY);
+    EXPECT_EQ(pc.getConstraints()[0].property_key.value_or(""), "type");
+    EXPECT_EQ(pc.getConstraints()[0].string_value.value_or(""), "Person");
+}
+
+TEST_F(GraphQueryOptimizerTest, NodePropertyConstraint_ValidatePath_PassesWhenPresent) {
+    // Store vertex "A" with country=USA
+    storeVertex(*db_, "A", "country", "USA");
+
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addNodePropertyConstraint("country", "USA");
+
+    // Single-node path containing only "A"
+    auto res = pc.validatePath({"A"}, {});
+    ASSERT_TRUE(res.has_value());
+    EXPECT_TRUE(*res);
+}
+
+TEST_F(GraphQueryOptimizerTest, NodePropertyConstraint_ValidatePath_FailsOnWrongValue) {
+    // "A" has country=USA, "B" does not have country set
+    storeVertex(*db_, "A", "country", "USA");
+
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addNodePropertyConstraint("country", "USA");
+
+    // Path with "B" which has no country field → should fail
+    auto res = pc.validatePath({"A", "B"}, {"edge1"});
+    EXPECT_FALSE(res.has_value() && *res);
+}
+
+TEST_F(GraphQueryOptimizerTest, GetNodeField_ReturnsStoredField) {
+    storeVertex(*db_, "testnode", "status", "premium");
+    auto field = graph_mgr_->getNodeField("testnode", "status");
+    ASSERT_TRUE(field.has_value());
+    EXPECT_EQ(*field, "premium");
+}
+
+TEST_F(GraphQueryOptimizerTest, GetNodeField_ReturnsNulloptForMissingNode) {
+    auto field = graph_mgr_->getNodeField("nonexistent_vertex_xyz", "status");
+    EXPECT_FALSE(field.has_value());
+}
+
+// ============================================================================
+// Phase 5.3: Weight constraint tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_DescribeShows_MaxWeight) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMaxWeight(10.5);
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Maximum path weight: 10.5"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_DescribeShows_MinWeight) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMinWeight(2.0);
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Minimum path weight: 2"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_StoredCorrectly) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMaxWeight(5.0);
+    pc.addMinWeight(1.0);
+    ASSERT_EQ(pc.getConstraints().size(), 2u);
+    EXPECT_EQ(pc.getConstraints()[0].type,
+              themis::graph::PathConstraints::ConstraintType::MAX_WEIGHT);
+    EXPECT_DOUBLE_EQ(pc.getConstraints()[0].double_value.value_or(-1.0), 5.0);
+    EXPECT_EQ(pc.getConstraints()[1].type,
+              themis::graph::PathConstraints::ConstraintType::MIN_WEIGHT);
+    EXPECT_DOUBLE_EQ(pc.getConstraints()[1].double_value.value_or(-1.0), 1.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_MaxWeight_PrunesBFS) {
+    // Test graph topology (from createTestGraph):
+    //   A --(1.0)--> B --(1.0)--> C --(1.0)--> D
+    //   A --(2.0)--> C
+    //
+    // Paths to D and their total weights:
+    //   A->B->C->D : 1.0 + 1.0 + 1.0 = 3.0
+    //   A->C->D    : 2.0 + 1.0 = 3.0
+    //
+    // With max_weight=1.5: both paths to D exceed the budget, so no path should
+    // be found.  A->B (1.0) and A->C (2.0) cannot be the target (target is D).
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMaxWeight(1.5);
+
+    auto res = pc.findConstrainedPaths("A", "D", 10);
+    EXPECT_FALSE(res.has_value());
+}
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_MaxWeight_AllowsLightPath) {
+    // A->C direct edge has weight 2.0; max_weight=5.0 should allow it
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMaxWeight(5.0);
+    auto res = pc.findConstrainedPaths("A", "C", 10);
+    ASSERT_TRUE(res.has_value());
+    EXPECT_FALSE(res.value().empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_MinWeight_RejectsLightPaths) {
+    // A->C direct edge has weight 2.0; min_weight=10.0 should reject it
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMinWeight(10.0);
+    auto res = pc.findConstrainedPaths("A", "C", 10);
+    EXPECT_FALSE(res.has_value()); // All paths to C are under 10.0
+}
+
+TEST_F(GraphQueryOptimizerTest, WeightConstraint_MinWeight_AcceptsHeavyEnoughPath) {
+    // A->B (1.0) + B->C (1.0) = 2.0; A->C direct = 2.0
+    // min_weight=1.0 should accept A->B (1-hop, weight 1.0)
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addMinWeight(1.0);
+    auto res = pc.findConstrainedPaths("A", "B", 10);
+    ASSERT_TRUE(res.has_value());
+    EXPECT_FALSE(res.value().empty());
+    EXPECT_GE(res.value().front().cost, 1.0);
 }
 

@@ -754,6 +754,15 @@ std::optional<std::string> GraphIndexManager::getEdgeField(
 	return edge.getFieldAsString(fieldName);
 }
 
+std::optional<std::string> GraphIndexManager::getNodeField(
+	std::string_view vertexId, std::string_view fieldName) const {
+	const std::string nodeKey = KeySchema::makeGraphNodeKey(vertexId);
+	auto blob = db_.get(nodeKey);
+	if (!blob.has_value()) return std::nullopt;
+	BaseEntity vertex = BaseEntity::deserialize(std::string(vertexId), *blob);
+	return vertex.getFieldAsString(fieldName);
+}
+
 std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::string_view edgeId) const {
 	// Try both storage formats: with graphId (edge:<graphId>:<edgeId>) and without (edge:<edgeId>)
 	const std::string edgeKeyWithGid = std::string("edge:") + std::string(graphId) + ":" + std::string(edgeId);

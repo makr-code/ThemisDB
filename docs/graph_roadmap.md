@@ -259,7 +259,7 @@ optimal result, with timeout propagation across network hops.
 
 ## Phase 5: Advanced Constraints & Query Rewriting
 
-**Status:** ✅ Partially Complete (5.1 EDGE_PROPERTY done)  
+**Status:** ✅ Partially Complete (5.1 EDGE_PROPERTY + 5.2 NODE_PROPERTY + 5.3 weight constraints done)  
 **Target Version:** v1.8.0
 
 ### 5.1 Edge Property-Based Constraints ✅ DONE
@@ -282,13 +282,50 @@ auto paths = c.findConstrainedPaths("user1", "user5", 10);
 - `validatePath` also enforces `EDGE_PROPERTY` constraints on complete paths
 - `describeConstraints()` now shows "Edge property: key = value"
 - `GraphIndexManager::getEdgeField(edgeId, fieldName)` added as the backing
-  low-level accessor for edge entity fields (follows the same pattern as
-  `getEdgeWeight_` / `getEdgeType_`)
+  low-level accessor for edge entity fields
 
-`NODE_PROPERTY` constraint validation requires a vertex property store not yet
-available in the current storage model; it is a planned future addition.
+### 5.2 Node Property-Based Constraints ✅ DONE
 
-### 5.2 Automatic Query Rewriting
+`PathConstraints` now supports filtering nodes by arbitrary string field values,
+using the `NODE_PROPERTY` constraint type.
+
+**New API:**
+```cpp
+PathConstraints c(&graph_mgr);
+c.addNodePropertyConstraint("country", "USA"); // only visit nodes where country == "USA"
+auto paths = c.findConstrainedPaths("A", "Z", 10);
+```
+
+**Implementation details:**
+- `addNodePropertyConstraint(field_name, expected_value)` creates a `NODE_PROPERTY` constraint
+- During BFS each candidate `next_node` is checked against all `NODE_PROPERTY` constraints
+  before being enqueued (early pruning)
+- `validatePath` enforces `NODE_PROPERTY` for all nodes in the path
+- `GraphIndexManager::getNodeField(vertexId, fieldName)` added as the backing
+  accessor using `KeySchema::makeGraphNodeKey` (`node:<pk>` key format)
+
+### 5.3 Weight Constraints ✅ DONE
+
+`PathConstraints` now supports total-path-weight constraints.
+
+**New API:**
+```cpp
+PathConstraints c(&graph_mgr);
+c.addMaxWeight(10.0);  // Prune paths with accumulated cost > 10.0 (BFS pruning)
+c.addMinWeight(2.0);   // Reject completed paths with cost < 2.0 (acceptance check)
+auto paths = c.findConstrainedPaths("A", "D", 5);
+```
+
+**Implementation details:**
+- Two new `ConstraintType` values: `MAX_WEIGHT`, `MIN_WEIGHT`
+- `Constraint::double_value` field stores the threshold
+- BFS loop checks `max_weight` after computing `next_state.cost`; states that
+  exceed the budget are pruned before enqueueing
+- Path acceptance at target node checks `min_weight` before calling `validatePath`
+- `describeConstraints()` shows "Maximum path weight: N" / "Minimum path weight: N"
+- Edge weights come from the `_weight` field of each edge entity (default 1.0)
+
+### 5.4 Automatic Query Rewriting
 
 Rewrite graph sub-queries (e.g., `k`-hop + filter) into cheaper equivalent
 forms using algebraic equivalences in the optimizer.
@@ -330,6 +367,8 @@ already implemented in Phase 3.3.
 | `addEdgePropertyConstraint()` pruning   | ✅ Done  | graph module |
 | Admin API `GET /api/v1/graph/metrics`   | ✅ Done  | server       |
 | Adaptive Cost Model (EMA + export)      | ✅ Done  | graph module |
+| `addNodePropertyConstraint()` pruning   | ✅ Done  | graph module |
+| `addMaxWeight()` / `addMinWeight()`     | ✅ Done  | graph module |
 | OTel span export in traversal loops     | 📋 TODO  | observability|
 | Heatmap: nodes-explored per query       | 📋 TODO  | observability|
 | Alerting rule: error_rate > 5%          | 📋 TODO  | ops          |
@@ -358,11 +397,17 @@ already implemented in Phase 3.3.
 | Export / import roundtrip             | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Invalid JSON import returns false     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Unknown algo import silently ignored  | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Node property constraint API          | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Node property constraint validation   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| `getNodeField` accessor               | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Max/min weight constraint API         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Max weight BFS pruning                | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Min weight acceptance check           | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Path constraint validation            | `test_graph_advanced_features.cpp` | ✅ Exists   |
 | Constrained path finding              | `test_path_constraints_direct.cpp` | ✅ Exists   |
 | AQL integration                       | `test_aql_path_constraints.cpp`    | ✅ Exists   |
 | Distributed traversal                 | (planned for Phase 4)              | 📋 TODO     |
-| NODE_PROPERTY constraints             | (planned for Phase 5.1)            | 📋 TODO     |
+| Temporal / geo-fence constraints      | (planned for Phase 5.4)            | 📋 TODO     |
 | Chaos / fuzz tests                    | (planned)                          | 📋 TODO     |
 
 ---
@@ -380,6 +425,8 @@ The graph module must pass the following CI checks before merging:
 7. **Parallel BFS correctness** – `BFS_Parallel_ProducesSameResultAsSequential` test passes
 8. **Metrics endpoint** – `GET /api/v1/graph/metrics` returns JSON with all 11 metric keys
 9. **Adaptive cost model** – EMA updated after each execution; export/import roundtrip is lossless
+10. **Node property constraint** – `addNodePropertyConstraint` prunes BFS; `validatePath` enforces for all nodes
+11. **Weight constraints** – `addMaxWeight` prunes BFS states; `addMinWeight` rejects under-weight completed paths
 
 ---
 

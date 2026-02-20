@@ -216,64 +216,61 @@ auto result = optimizer.executeBFS("start", 10, constraints);
 
 ---
 
-### Advanced Constraint Types
+### Advanced Constraint Types (Partially Implemented)
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
 Extend PathConstraints with more sophisticated constraint types.
 
 **Features:**
-- **Temporal Constraints**: Path valid at specific time
-- **Weight Constraints**: Min/max total path weight
-- **Probability Constraints**: Min probability for uncertain graphs
-- **Resource Constraints**: Capacity limits on paths
-- **Semantic Constraints**: Ontology-based path rules
-- **Geo-Fence Constraints**: Spatial boundaries for paths
+- **Node Property Constraints** ✅ DONE – `addNodePropertyConstraint(key, value)` prunes BFS traversal
+- **Weight Constraints** ✅ DONE – `addMaxWeight(threshold)` prunes BFS; `addMinWeight(threshold)` rejects at acceptance
+- **Temporal Constraints**: Path valid at specific time ⏳ Planned
+- **Probability Constraints**: Min probability for uncertain graphs ⏳ Planned
+- **Resource Constraints**: Capacity limits on paths ⏳ Planned
+- **Semantic Constraints**: Ontology-based path rules ⏳ Planned
+- **Geo-Fence Constraints**: Spatial boundaries for paths ⏳ Planned
 
-**Benefits:**
-- Support complex real-world scenarios
-- Enable domain-specific path finding
-- Better modeling of business rules
-- Integration with other data models
-
-**API:**
+**Implemented API:**
 ```cpp
 PathConstraints constraints(&graph_mgr);
 
-// Temporal constraint
-constraints.addTemporalConstraint(
-    start_time_ms,
-    end_time_ms,
-    TemporalMode::VALID_DURING  // or VALID_AT
-);
+// Node property constraint (v1.7.0)
+constraints.addNodePropertyConstraint("country", "USA");
+// → Only traverse nodes where node.country == "USA"
 
-// Weight constraint
-constraints.addMaxWeight(100.0);  // Total path weight <= 100
-constraints.addMinWeight(10.0);   // Total path weight >= 10
-
-// Resource constraint
-constraints.addResourceCapacity("bandwidth", 1000);  // Max 1000 units
-
-// Geo-fence constraint
-constraints.addGeoFence(
-    center_lat, center_lon, radius_km,
-    GeoFenceMode::MUST_STAY_INSIDE  // or MUST_PASS_THROUGH
-);
-
-// Semantic constraint
-constraints.addSemanticRule(
-    ontology,
-    "path must satisfy rule: IsA(node, Customer) AND HasRelation(node, Premium)"
-);
+// Weight constraints (v1.7.0)
+constraints.addMaxWeight(100.0);  // Total path weight <= 100 (BFS pruning)
+constraints.addMinWeight(10.0);   // Total path weight >= 10 (acceptance check)
 
 auto paths = constraints.findConstrainedPaths("start", "end", 10);
 ```
 
-**Implementation:**
-- Extend Constraint struct with new types
-- Implement validation logic for each type
-- Integrate with temporal graph, property graph
-- Optimize constraint checking during traversal
+**Planned API (not yet implemented):**
+```cpp
+// Temporal constraint
+constraints.addTemporalConstraint(
+    start_time_ms,
+    end_time_ms,
+    TemporalMode::VALID_DURING
+);
+
+// Resource constraint
+constraints.addResourceCapacity("bandwidth", 1000);
+
+// Geo-fence constraint
+constraints.addGeoFence(
+    center_lat, center_lon, radius_km,
+    GeoFenceMode::MUST_STAY_INSIDE
+);
+```
+
+**Implementation Notes:**
+- `getNodeField(vertexId, fieldName)` added to `GraphIndexManager` (uses `node:<pk>` key format)
+- `ConstraintType::MAX_WEIGHT` / `MIN_WEIGHT` added to `PathConstraints::ConstraintType` enum
+- `Constraint::double_value` field stores threshold for weight constraints
+- BFS pruner checks `MAX_WEIGHT` after each edge weight accumulation
+- `validatePath` enforces `NODE_PROPERTY` for all nodes; weight constraints handled by `findConstrainedPaths`
 
 ---
 
@@ -683,6 +680,36 @@ Key properties:
 - `estimateCost()` blends: `(1 - conf) * base + conf * (ema_ms * 10)`
 - `ExecutionStats::algorithm` field enables `recordExecution` to route to the correct model
 - `exportCostModel()` / `importCostModel()` use JSON; unknown algo keys are silently ignored
+
+### Node Property Constraints ✅ DONE
+
+`PathConstraints::addNodePropertyConstraint(field, value)` – prunes BFS traversal
+and validates complete paths by looking up each node's field in the graph store.
+
+```cpp
+PathConstraints c(&graph_mgr);
+c.addNodePropertyConstraint("country", "USA");
+// BFS skips any next_node whose country field ≠ "USA"
+auto paths = c.findConstrainedPaths("user1", "user5", 10);
+```
+
+Backed by new `GraphIndexManager::getNodeField(vertexId, fieldName)` which reads
+from `node:<pk>` key format (same as `KeySchema::makeGraphNodeKey`).
+
+### Weight Constraints ✅ DONE
+
+`PathConstraints::addMaxWeight(threshold)` and `addMinWeight(threshold)` implement
+total-path-weight constraints backed by `ConstraintType::MAX_WEIGHT` / `MIN_WEIGHT`
+and a new `Constraint::double_value` field.
+
+```cpp
+PathConstraints c(&graph_mgr);
+c.addMaxWeight(10.0);   // BFS prunes states where accumulated cost > 10.0
+c.addMinWeight(2.0);    // Final acceptance rejects paths with cost < 2.0
+auto paths = c.findConstrainedPaths("A", "D", 5);
+```
+
+Edge weights are read from each edge's `_weight` field (default 1.0 when absent).
 
 ---
 
