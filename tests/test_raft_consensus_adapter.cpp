@@ -265,3 +265,146 @@ TEST_F(RaftConsensusAdapterTest, LogEntryConversion) {
     
     adapter.stop();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// takeSnapshot / restoreSnapshot tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RaftConsensusAdapterTest, TakeSnapshot_Succeeds) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    nlohmann::json state = {{"collection", "users"}, {"count", 42}};
+    EXPECT_TRUE(adapter.takeSnapshot(state));
+
+    // Snapshot metadata should appear in getStatus()
+    auto status = adapter.getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_GE(status["snapshot_index"].get<uint64_t>(), 0u);
+
+    adapter.stop();
+}
+
+TEST_F(RaftConsensusAdapterTest, TakeSnapshot_NotInitialized_Fails) {
+    RaftConsensusAdapter adapter(config_);
+    // Never call initialize() or start()
+    nlohmann::json state = {{"key", "value"}};
+    EXPECT_FALSE(adapter.takeSnapshot(state));
+}
+
+TEST_F(RaftConsensusAdapterTest, RestoreSnapshot_ValidData_Succeeds) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    nlohmann::json snapshot = {
+        {"collection", "orders"},
+        {"document_count", 1000},
+        {"_snapshot_index", uint64_t(5)},
+        {"_snapshot_term",  uint64_t(2)}
+    };
+    EXPECT_TRUE(adapter.restoreSnapshot(snapshot));
+
+    auto status = adapter.getStatus();
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 5u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(),  2u);
+
+    adapter.stop();
+}
+
+TEST_F(RaftConsensusAdapterTest, RestoreSnapshot_EmptyData_Fails) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    nlohmann::json empty;
+    EXPECT_FALSE(adapter.restoreSnapshot(empty));
+
+    adapter.stop();
+}
+
+TEST_F(RaftConsensusAdapterTest, TakeAndRestoreSnapshot_RoundTrip) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    // Take snapshot
+    nlohmann::json original = {{"shard", "shard-0"}, {"rows", 9999}};
+    ASSERT_TRUE(adapter.takeSnapshot(original));
+
+    auto status_after_take = adapter.getStatus();
+    uint64_t snap_idx = status_after_take["snapshot_index"].get<uint64_t>();
+
+    // Restore with metadata matching what was recorded
+    nlohmann::json to_restore = original;
+    to_restore["_snapshot_index"] = snap_idx;
+    to_restore["_snapshot_term"]  = status_after_take.value("snapshot_term", uint64_t(0));
+    EXPECT_TRUE(adapter.restoreSnapshot(to_restore));
+
+    // Status should still show the same snapshot index
+    auto status_after_restore = adapter.getStatus();
+    EXPECT_EQ(status_after_restore["snapshot_index"].get<uint64_t>(), snap_idx);
+
+    adapter.stop();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// transferLeadership tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RaftConsensusAdapterTest, TransferLeadership_NotLeader_Fails) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    // node1 is not the leader initially
+    ASSERT_FALSE(adapter.isLeader());
+    EXPECT_FALSE(adapter.transferLeadership("node2"));
+
+    adapter.stop();
+}
+
+TEST_F(RaftConsensusAdapterTest, TransferLeadership_UnknownTarget_Fails) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    // Even if somehow leader, target "node99" is not in the cluster
+    EXPECT_FALSE(adapter.transferLeadership("node99"));
+
+    adapter.stop();
+}
+
+TEST_F(RaftConsensusAdapterTest, TransferLeadership_SelfTarget_FailsWhenNotLeader) {
+    // Transferring to self when already leader is a no-op success
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    // We're not the leader, so this should fail the "not leader" guard
+    // But the "self" case is only reachable when we ARE the leader.
+    // Since we can't easily make node1 leader in a unit test, just verify
+    // the non-leader path returns false for self too.
+    EXPECT_FALSE(adapter.transferLeadership(config_.node_id));
+
+    adapter.stop();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getStatus includes snapshot fields
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(RaftConsensusAdapterTest, GetStatus_IncludesSnapshotFields) {
+    RaftConsensusAdapter adapter(config_);
+    ASSERT_TRUE(adapter.initialize(config_.node_id, config_.cluster_nodes));
+    adapter.start();
+
+    auto status = adapter.getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_TRUE(status.contains("snapshot_term"));
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 0u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(),  0u);
+
+    adapter.stop();
+}

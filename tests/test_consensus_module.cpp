@@ -289,3 +289,81 @@ TEST_F(ConsensusModuleTest, WaitForCommitTimeout) {
     
     module->stop();
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Gossip snapshot tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ConsensusModuleTest, GossipTakeSnapshot_Succeeds) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json state = {{"collection", "events"}, {"count", 50}};
+    EXPECT_TRUE(module->takeSnapshot(state));
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_GE(status["snapshot_index"].get<uint64_t>(), 0u);
+
+    module->stop();
+}
+
+TEST_F(ConsensusModuleTest, GossipTakeSnapshot_NotRunning_Fails) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    // Do NOT call start()
+    EXPECT_FALSE(module->takeSnapshot({{"key", "val"}}));
+}
+
+TEST_F(ConsensusModuleTest, GossipRestoreSnapshot_ValidData_Succeeds) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json snap = {
+        {"collection", "logs"},
+        {"_snapshot_index", uint64_t(12)}
+    };
+    EXPECT_TRUE(module->restoreSnapshot(snap));
+
+    auto status = module->getStatus();
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 12u);
+    // Gossip has no term concept — always 0
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(), 0u);
+
+    module->stop();
+}
+
+TEST_F(ConsensusModuleTest, GossipRestoreSnapshot_EmptyData_Fails) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    EXPECT_FALSE(module->restoreSnapshot(nlohmann::json{}));
+
+    module->stop();
+}
+
+TEST_F(ConsensusModuleTest, GossipGetStatus_IncludesSnapshotFields) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_TRUE(status.contains("snapshot_term"));
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 0u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(), 0u);
+
+    module->stop();
+}

@@ -81,18 +81,23 @@ ThemisDB implements a comprehensive RAID-like redundancy system for distributed 
 - **Use Case:** High-performance critical data
 
 #### GEO_MIRROR
-- **Purpose:** Geographic distribution for disaster recovery
+- **Purpose:** Geographic distribution for disaster recovery with configurable geo-quorums and locality-aware routing
 - **Implementation:**
-  - Extends RAID 1 mirroring across geographic datacenters
+  - Extends RAID 1 mirroring across geographic datacenters with full region/zone awareness
+  - **Region/Zone placement:** `ShardInfo` carries `region` and `zone` fields; `GeoReplicationConfig.region_shards` maps region names to preferred shard IDs
   - Configurable replication modes:
     - `SYNC`: Synchronous (strong consistency, higher latency)
     - `SEMI_SYNC`: Wait for at least one remote DC
     - `ASYNC`: Asynchronous (low latency, eventual consistency)
-  - Datacenter-aware replica placement
-  - Configurable conflict resolution strategies
+  - **Per-region write quorums:** `region_write_quorums` map enforces a minimum number of acknowledgements per region before a write is confirmed
+  - **Per-region read quorums:** `region_read_quorums` map for quorum-read semantics per region
+  - **Follower-reads and bounded-staleness:** `ReadPreference::FOLLOWER` routes reads to any follower replica; `max_staleness_ms` limits acceptable replication lag
+  - **Locality-aware reads:** `ReadPreference::LOCAL_REGION` routes reads to the local region first, falling back to remote replicas on miss; controlled via `local_region` field
+  - **Geo-failover:** When `enable_geo_failover = true`, regions with a healthy-shard fraction below `region_failure_threshold` are automatically failed-out; the failed region list is rebuilt on recovery
+  - **ShardTopology API extensions:** `getShardsInRegion()`, `getHealthyShardsInRegion()`, `getRegions()`, `regionHasQuorum()` for programmatic topology inspection
 - **Storage Efficiency:** 1/N
-- **Fault Tolerance:** N-1 datacenter failures
-- **Use Case:** Global applications, disaster recovery
+- **Fault Tolerance:** N-1 datacenter failures; automatic client-side region failover
+- **Use Case:** Global applications, disaster recovery, multi-region ACID-like consistency
 
 ### 1.4 Implementation Details
 

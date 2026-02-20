@@ -134,6 +134,11 @@ private:
     // Statistics
     std::atomic<uint64_t> total_operations_;
     std::atomic<uint64_t> failed_operations_;
+
+    // Snapshot storage (protected by state_mutex_)
+    nlohmann::json snapshot_data_;
+    uint64_t snapshot_index_{0};
+    uint64_t snapshot_term_{0};
 };
 
 } // namespace sharding

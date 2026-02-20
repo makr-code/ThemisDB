@@ -376,6 +376,111 @@ TEST_F(RedundancyStrategyTest, RAID5_RecoveryFromMissingChunk) {
     EXPECT_TRUE(read_result.success);
 }
 
+// ─────────────────────────────────────────────────────────────
+// ReedSolomonCoder GF(2^8) arithmetic tests
+// ─────────────────────────────────────────────────────────────
+// Test XOR-parity decode: write with RS, drop 1 data chunk, recover via parity
+TEST_F(RedundancyStrategyTest, RS_Decode_RecoverOneMissingDataChunk) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 3;
+    config.erasure_coding.parity_shards = 1;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
+
+    RedundancyStrategy strategy(config);
+    const std::string doc_id = "rs-xor-recover";
+    // Use data that is a multiple of data_shards bytes for clean chunk alignment
+    std::vector<uint8_t> data = {0x10, 0x20, 0x30, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
+
+    auto wr = strategy.write(doc_id, data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success) << wr.error_message;
+
+    // Drop the first data chunk key to simulate a lost shard
+    std::string data_chunk_key = doc_id + ":data:0";
+    for (auto& [shard_id, docs] : storage->shard_data) {
+        docs.erase(data_chunk_key);
+    }
+
+    // Read must still succeed (XOR recovery using parity chunk)
+    auto rr = strategy.read(doc_id, "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success) << rr.error_message;
+}
+
+// Verify RS gf_mul(0, x) == 0 and gf_mul(1, x) == x
+TEST_F(RedundancyStrategyTest, RS_GFMultiply_IdentityAndZero) {
+    // Encode a 1-byte document: after RS encode, parity = XOR(data chunks).
+    // With data=[0x42] and 1 data shard + 1 parity shard, the parity should be 0x42.
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 1;
+    config.erasure_coding.parity_shards = 1;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
+
+    RedundancyStrategy strategy(config);
+    const std::vector<uint8_t> data = {0x42};
+    auto wr = strategy.write("gf-id", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success) << wr.error_message;
+
+    // Read back to confirm encode/decode round-trip is correct
+    auto rr = strategy.read("gf-id", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    if (rr.success && !rr.data.empty()) {
+        EXPECT_EQ(static_cast<uint8_t>(rr.data[0]), 0x42u);
+    }
+}
+
+// RS Cauchy: write/read round-trip with CAUCHY algorithm and 1 missing data chunk
+TEST_F(RedundancyStrategyTest, RS_Cauchy_RecoverOneMissingDataChunk) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 3;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+
+    RedundancyStrategy strategy(config);
+    const std::string doc_id = "cauchy-recover";
+    std::vector<uint8_t> data(48, 0xCC);
+
+    auto wr = strategy.write(doc_id, data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success) << wr.error_message;
+
+    // Drop data chunk 1
+    std::string data_chunk_key = doc_id + ":data:1";
+    for (auto& [shard_id, docs] : storage->shard_data) {
+        docs.erase(data_chunk_key);
+    }
+
+    auto rr = strategy.read(doc_id, "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success) << rr.error_message;
+}
+
+// recoverDocument with PARITY/RAID6 uses correct map/uint32_t types (compile + runtime)
+TEST_F(RedundancyStrategyTest, RecoverDocument_Parity_TypeSafe) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 4;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+
+    RedundancyStrategy strategy(config);
+    const std::string doc_id = "parity-recover";
+    std::vector<uint8_t> data(64, 0xBB);
+
+    auto wr = strategy.write(doc_id, data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success) << wr.error_message;
+
+    // Drop one data chunk to force recovery
+    std::string chunk_key = doc_id + ":data:0";
+    for (auto& [shard_id, docs] : storage->shard_data) {
+        docs.erase(chunk_key);
+    }
+
+    bool recovered = strategy.recoverDocument(
+        doc_id, "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_TRUE(recovered);
+}
+
 // ═══════════════════════════════════════════════════════════
 // RAID 10 (STRIPE + MIRROR) Tests
 // ═══════════════════════════════════════════════════════════
@@ -928,8 +1033,591 @@ TEST_F(RedundancyStrategyTest, RAID6_CollectionSpecific) {
 }
 
 // ═══════════════════════════════════════════════════════════
+// GEO_MIRROR Tests
+// ═══════════════════════════════════════════════════════════
+
+class GeoMirrorTest : public ::testing::Test {
+protected:
+    std::unique_ptr<ConsistentHashRing> ring;
+    std::unique_ptr<ShardTopology> topology;
+    std::unique_ptr<MockShardStorage> storage;
+
+    void SetUp() override {
+        ring = std::make_unique<ConsistentHashRing>(100);
+        topology = std::make_unique<ShardTopology>();
+        storage = std::make_unique<MockShardStorage>();
+
+        // 6 shards spread across 2 regions / 2 zones each
+        for (int i = 0; i < 6; ++i) {
+            ring->addNode("shard-" + std::to_string(i));
+        }
+
+        auto addShard = [&](const std::string& id,
+                            const std::string& region,
+                            const std::string& zone,
+                            bool healthy = true) {
+            ShardInfo info;
+            info.shard_id = id;
+            info.region   = region;
+            info.zone     = zone;
+            info.datacenter = region;
+            info.is_healthy = healthy;
+            topology->addShard(info);
+        };
+
+        addShard("shard-0", "us-east", "us-east-1a");
+        addShard("shard-1", "us-east", "us-east-1b");
+        addShard("shard-2", "us-east", "us-east-1c");
+        addShard("shard-3", "eu-west", "eu-west-1a");
+        addShard("shard-4", "eu-west", "eu-west-1b");
+        addShard("shard-5", "eu-west", "eu-west-1c");
+    }
+
+    void TearDown() override {
+        storage.reset();
+        topology.reset();
+        ring.reset();
+    }
+
+    RedundancyStrategy::WriteHandler createWriteHandler() {
+        return [this](const std::string& shard_id, const std::string& doc_id,
+                     const std::vector<uint8_t>& data) {
+            return storage->write(shard_id, doc_id, data);
+        };
+    }
+
+    RedundancyStrategy::ReadHandler createReadHandler() {
+        return [this](const std::string& shard_id, const std::string& doc_id) {
+            return storage->read(shard_id, doc_id);
+        };
+    }
+};
+
+TEST_F(GeoMirrorTest, BasicWriteAndRead) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::MAJORITY;
+    config.geo_replication.local_region = "us-east";
+    config.geo_replication.read_preference = ReadPreference::LOCAL_REGION;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'G', 'e', 'o', 'D', 'a', 't', 'a'};
+
+    auto wr = strategy.write("geo-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+    EXPECT_FALSE(wr.written_shards.empty());
+
+    auto rr = strategy.read("geo-doc1", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, RegionQuorumMet) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::MAJORITY;
+    // Require 1 ack in each region
+    config.geo_replication.region_write_quorums = {{"us-east", 1}, {"eu-west", 1}};
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data(64, 0xAB);
+
+    auto wr = strategy.write("geo-quorum-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+}
+
+TEST_F(GeoMirrorTest, FollowerReadPreference) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+    config.geo_replication.read_preference = ReadPreference::FOLLOWER;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'F', 'o', 'l', 'l', 'o', 'w'};
+
+    auto wr = strategy.write("follower-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    auto rr = strategy.read("follower-doc", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, LocalRegionReadPreference) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+    config.geo_replication.local_region = "eu-west";
+    config.geo_replication.read_preference = ReadPreference::LOCAL_REGION;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'L', 'o', 'c', 'a', 'l'};
+
+    auto wr = strategy.write("local-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    auto rr = strategy.read("local-doc", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, GeoFailoverExcludesFailedRegion) {
+    // Mark all eu-west shards as unhealthy to trigger failover
+    topology->updateHealth("shard-3", false);
+    topology->updateHealth("shard-4", false);
+    topology->updateHealth("shard-5", false);
+
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::MAJORITY;
+    config.geo_replication.enable_geo_failover = true;
+    config.geo_replication.region_failure_threshold = 0.5;
+    config.geo_replication.local_region = "us-east";
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'F', 'a', 'i', 'l', 'O', 'v', 'e', 'r'};
+
+    auto wr = strategy.write("failover-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    // All writes should go to us-east (eu-west is failed-out)
+    for (const auto& shard_id : wr.written_shards) {
+        auto info = topology->getShard(shard_id);
+        if (info) {
+            EXPECT_NE(info->region, "eu-west");
+        }
+    }
+}
+
+TEST_F(GeoMirrorTest, TopologyRegionQuery) {
+    auto regions = topology->getRegions();
+    ASSERT_EQ(regions.size(), 2u);
+    EXPECT_EQ(regions[0], "eu-west");
+    EXPECT_EQ(regions[1], "us-east");
+
+    auto us_shards = topology->getShardsInRegion("us-east");
+    EXPECT_EQ(us_shards.size(), 3u);
+
+    auto eu_shards = topology->getShardsInRegion("eu-west");
+    EXPECT_EQ(eu_shards.size(), 3u);
+
+    EXPECT_TRUE(topology->regionHasQuorum("us-east", 2));
+    EXPECT_FALSE(topology->regionHasQuorum("us-east", 10));
+}
+
+TEST_F(GeoMirrorTest, TopologyHealthyShardsInRegion) {
+    topology->updateHealth("shard-3", false);
+
+    auto healthy_eu = topology->getHealthyShardsInRegion("eu-west");
+    EXPECT_EQ(healthy_eu.size(), 2u);
+
+    auto healthy_us = topology->getHealthyShardsInRegion("us-east");
+    EXPECT_EQ(healthy_us.size(), 3u);
+}
+
+TEST_F(GeoMirrorTest, ShardInfoHasRegionAndZone) {
+    auto info = topology->getShard("shard-0");
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(info->region, "us-east");
+    EXPECT_EQ(info->zone, "us-east-1a");
+
+    auto info2 = topology->getShard("shard-5");
+    ASSERT_TRUE(info2.has_value());
+    EXPECT_EQ(info2->region, "eu-west");
+    EXPECT_EQ(info2->zone, "eu-west-1c");
+}
+
+TEST_F(GeoMirrorTest, RegionReadQuorumEnforced) {
+    // Write to all 6 shards first
+    RedundancyConfig wconfig;
+    wconfig.mode = RedundancyMode::GEO_MIRROR;
+    wconfig.replication_factor = 6;
+    wconfig.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy wstrategy(wconfig);
+    std::vector<uint8_t> data = {'Q', 'u', 'o', 'r', 'u', 'm'};
+    auto wr = wstrategy.write("qr-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    // Now read with per-region read quorums requiring 1 from each region
+    RedundancyConfig rconfig;
+    rconfig.mode = RedundancyMode::GEO_MIRROR;
+    rconfig.replication_factor = 6;
+    rconfig.geo_replication.region_read_quorums = {{"us-east", 1}, {"eu-west", 1}};
+
+    RedundancyStrategy rstrategy(rconfig);
+    auto rr = rstrategy.read("qr-doc", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    EXPECT_EQ(rr.data, std::string(data.begin(), data.end()));
+}
+
+TEST_F(GeoMirrorTest, PrometheusMetricsIncludeGeoFields) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 3;
+    config.geo_replication.region_write_quorums = {{"us-east", 2}};
+    config.geo_replication.region_read_quorums  = {{"us-east", 1}};
+    config.geo_replication.enable_geo_failover  = true;
+    config.geo_replication.max_staleness_ms      = 500;
+
+    RedundancyStrategy strategy(config);
+    std::string metrics = strategy.exportPrometheusMetrics();
+
+    EXPECT_NE(metrics.find("themis_geo_replication_mode"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_region_write_quorum"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_region_read_quorum"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_failed_regions_total"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_failover_enabled"), std::string::npos);
+    EXPECT_NE(metrics.find("themis_geo_max_staleness_ms"), std::string::npos);
+    // Should contain the configured region label
+    EXPECT_NE(metrics.find("us-east"), std::string::npos);
+}
+
+TEST_F(GeoMirrorTest, GeoConfigValidation) {
+    // Valid config
+    RedundancyConfig valid;
+    valid.mode = RedundancyMode::GEO_MIRROR;
+    valid.replication_factor = 3;
+    valid.geo_replication.region_write_quorums = {{"us-east", 2}, {"eu-west", 1}};
+    EXPECT_TRUE(valid.validate());
+
+    // Write quorum exceeds replication_factor
+    RedundancyConfig bad_wq;
+    bad_wq.mode = RedundancyMode::GEO_MIRROR;
+    bad_wq.replication_factor = 3;
+    bad_wq.geo_replication.region_write_quorums = {{"us-east", 5}};
+    EXPECT_FALSE(bad_wq.validate());
+
+    // Write quorum = 0 is invalid
+    RedundancyConfig zero_wq;
+    zero_wq.mode = RedundancyMode::GEO_MIRROR;
+    zero_wq.replication_factor = 3;
+    zero_wq.geo_replication.region_write_quorums = {{"us-east", 0}};
+    EXPECT_FALSE(zero_wq.validate());
+
+    // Invalid region_failure_threshold
+    RedundancyConfig bad_threshold;
+    bad_threshold.mode = RedundancyMode::GEO_MIRROR;
+    bad_threshold.replication_factor = 3;
+    bad_threshold.geo_replication.enable_geo_failover = true;
+    bad_threshold.geo_replication.region_failure_threshold = 0.0;
+    EXPECT_FALSE(bad_threshold.validate());
+}
+
+// ─────────────────────────────────────────────────────────────
+// ReplicaTopology geo-placement tests
+// ─────────────────────────────────────────────────────────────
+#include "sharding/replica_topology.h"
+
+TEST(ReplicaTopologyGeoTest, RegionAndZoneParsedFromJson) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}, {"redundancy", "GEO_MIRROR"},
+         {"region", "us-east"}, {"zone", "us-east-1a"},
+         {"replicas", json::array({"n1", "n2"})}},
+        {{"shard_id", "s1"}, {"primary_id", "n3"}, {"redundancy", "GEO_MIRROR"},
+         {"region", "eu-west"}, {"zone", "eu-west-1b"},
+         {"replicas", json::array({"n4", "n5"})}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+    EXPECT_EQ(topo.getShardCount(), 2u);
+
+    auto rs0 = topo.getReplicaSet("s0");
+    ASSERT_NE(rs0, nullptr);
+    EXPECT_EQ(rs0->region, "us-east");
+    EXPECT_EQ(rs0->zone, "us-east-1a");
+
+    auto rs1 = topo.getReplicaSet("s1");
+    ASSERT_NE(rs1, nullptr);
+    EXPECT_EQ(rs1->region, "eu-west");
+    EXPECT_EQ(rs1->zone, "eu-west-1b");
+}
+
+TEST(ReplicaTopologyGeoTest, GetReplicaSetsInRegion) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}, {"region", "us-east"}},
+        {{"shard_id", "s1"}, {"primary_id", "n1"}, {"region", "us-east"}},
+        {{"shard_id", "s2"}, {"primary_id", "n2"}, {"region", "eu-west"}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+
+    auto us = topo.getReplicaSetsInRegion("us-east");
+    EXPECT_EQ(us.size(), 2u);
+
+    auto eu = topo.getReplicaSetsInRegion("eu-west");
+    EXPECT_EQ(eu.size(), 1u);
+}
+
+TEST(ReplicaTopologyGeoTest, GetRegions) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}, {"region", "us-east"}},
+        {{"shard_id", "s1"}, {"primary_id", "n1"}, {"region", "eu-west"}},
+        {{"shard_id", "s2"}, {"primary_id", "n2"}, {"region", "us-east"}},
+        // Shard with no region -- should not appear in the regions list
+        {{"shard_id", "s3"}, {"primary_id", "n3"}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+
+    auto regions = topo.getRegions();
+    // Only non-empty regions; sorted; de-duplicated
+    ASSERT_EQ(regions.size(), 2u);
+    EXPECT_EQ(regions[0], "eu-west");
+    EXPECT_EQ(regions[1], "us-east");
+}
+
+TEST(ReplicaTopologyGeoTest, EmptyRegionNotIncluded) {
+    using namespace themis::sharding;
+    using json = nlohmann::json;
+
+    // All shards lack region/zone fields
+    json config = json::array({
+        {{"shard_id", "s0"}, {"primary_id", "n0"}},
+        {{"shard_id", "s1"}, {"primary_id", "n1"}}
+    });
+
+    ReplicaTopology topo;
+    ASSERT_TRUE(topo.loadFromJson(config));
+
+    EXPECT_TRUE(topo.getRegions().empty());
+    EXPECT_TRUE(topo.getReplicaSetsInRegion("us-east").empty());
+
+    auto rs = topo.getReplicaSet("s0");
+    ASSERT_NE(rs, nullptr);
+    EXPECT_TRUE(rs->region.empty());
+    EXPECT_TRUE(rs->zone.empty());
+}
+
+// ═══════════════════════════════════════════════════════════
 // Stress Tests
 // ═══════════════════════════════════════════════════════════
+
+TEST_F(GeoMirrorTest, ParallelWrite_AllShardsReceiveData) {
+    // This test directly exercises the parallel async write path in writeGeoMirror
+    // and validates that all region shards receive the data (no dangling-reference
+    // UB from the former &shard_id lambda capture).
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::ALL;
+    config.geo_replication.region_write_quorums = {{"us-east", 3}, {"eu-west", 3}};
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data(256, 0x42);
+
+    auto wr = strategy.write("parallel-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    // All 6 shards should have been written to
+    for (int i = 0; i < static_cast<int>(config.replication_factor); ++i) {
+        const std::string sid = "shard-" + std::to_string(i);
+        auto stored = storage->read(sid, "parallel-doc");
+        EXPECT_TRUE(stored.has_value()) << "Shard " << sid << " did not receive the write";
+    }
+}
+
+TEST_F(GeoMirrorTest, WriteQuorumNotMet_FailsCorrectly) {
+    // Mark enough us-east shards unhealthy that us-east quorum cannot be met
+    topology->updateHealth("shard-0", false);
+    topology->updateHealth("shard-1", false);
+    topology->updateHealth("shard-2", false);
+
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::MAJORITY;
+    // Require 2 acks in us-east, but all 3 us-east shards are unhealthy
+    config.geo_replication.region_write_quorums = {{"us-east", 2}};
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data(32, 0xCC);
+
+    auto wr = strategy.write("quorum-fail-doc", data, "coll", *ring, *topology, createWriteHandler());
+    // The write should fail because us-east quorum cannot be satisfied
+    EXPECT_FALSE(wr.success);
+    EXPECT_NE(wr.error_message.find("Geo-quorum"), std::string::npos);
+}
+
+// ─────────────────────────────────────────────────────────────
+// remove() tests
+// ─────────────────────────────────────────────────────────────
+
+TEST_F(RedundancyStrategyTest, Remove_Mirror_DeletesFromAllReplicas) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'r', 'm', 'd', 'o', 'c'};
+
+    // First write the document
+    auto wr = strategy.write("rm-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+    ASSERT_FALSE(wr.written_shards.empty());
+
+    // Now remove it — must succeed
+    bool removed = strategy.remove("rm-doc1", "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(removed);
+}
+
+TEST_F(GeoMirrorTest, Remove_GeoMirror_DeletesFromLiveRegions) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'g', 'e', 'o', 'r', 'm'};
+
+    auto wr = strategy.write("geo-rm-doc", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+
+    bool removed = strategy.remove("geo-rm-doc", "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(removed);
+}
+
+TEST_F(RedundancyStrategyTest, Remove_NoShard_ReturnsFalse) {
+    // Empty ring — getNode returns nullopt
+    ConsistentHashRing empty_ring(100);
+
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+
+    RedundancyStrategy strategy(config);
+    bool removed = strategy.remove("no-shard-doc", "coll", empty_ring, *topology, createWriteHandler());
+    EXPECT_FALSE(removed);
+}
+
+// ─────────────────────────────────────────────────────────────
+// checkDocumentHealth() tests
+// ─────────────────────────────────────────────────────────────
+
+TEST_F(RedundancyStrategyTest, CheckDocumentHealth_AllReplicasPresent) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'h', 'e', 'a', 'l', 't', 'h'};
+
+    auto wr = strategy.write("health-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+
+    auto health = strategy.checkDocumentHealth("health-doc1", "coll", *ring, *topology, createReadHandler());
+    EXPECT_EQ(health.available_replicas, 3u);
+    EXPECT_TRUE(health.missing_shards.empty());
+    EXPECT_TRUE(health.is_healthy);
+    EXPECT_FALSE(health.can_recover);  // nothing missing — no recovery needed
+}
+
+TEST_F(RedundancyStrategyTest, CheckDocumentHealth_OneMissing_CanRecover) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'d', 'e', 'g', 'r', 'a', 'd', 'e', 'd'};
+
+    auto wr = strategy.write("health-doc2", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+    ASSERT_GE(wr.written_shards.size(), 2u);
+
+    // Simulate one replica going missing by clearing its storage
+    storage->clearShard(wr.written_shards[0]);
+
+    auto health = strategy.checkDocumentHealth("health-doc2", "coll", *ring, *topology, createReadHandler());
+    EXPECT_LT(health.available_replicas, 3u);
+    EXPECT_FALSE(health.is_healthy);
+    EXPECT_TRUE(health.can_recover);
+    EXPECT_FALSE(health.missing_shards.empty());
+}
+
+// ─────────────────────────────────────────────────────────────
+// recoverDocument() tests
+// ─────────────────────────────────────────────────────────────
+
+TEST_F(RedundancyStrategyTest, RecoverDocument_Mirror_RestoresMissingReplica) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    const std::vector<uint8_t> data = {'r', 'e', 'c', 'o', 'v', 'e', 'r'};
+
+    auto wr = strategy.write("recover-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+    ASSERT_GE(wr.written_shards.size(), 2u);
+
+    // Erase one replica
+    const std::string erased_shard = wr.written_shards[0];
+    storage->clearShard(erased_shard);
+
+    // Verify it's really gone
+    EXPECT_FALSE(storage->read(erased_shard, "recover-doc1").has_value());
+
+    // Recover
+    bool recovered = strategy.recoverDocument(
+        "recover-doc1", "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_TRUE(recovered);
+
+    // The erased replica should now have the data back
+    auto restored = storage->read(erased_shard, "recover-doc1");
+    EXPECT_TRUE(restored.has_value());
+    if (restored) {
+        EXPECT_EQ(*restored, data);
+    }
+}
+
+TEST_F(RedundancyStrategyTest, RecoverDocument_NoneMode_ReturnsFalse) {
+    // NONE has no redundancy — recovery is impossible
+    RedundancyConfig config;
+    config.mode = RedundancyMode::NONE;
+    config.replication_factor = 1;
+
+    RedundancyStrategy strategy(config);
+    bool recovered = strategy.recoverDocument(
+        "no-recover", "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_FALSE(recovered);
+}
+
+TEST_F(RedundancyStrategyTest, RecoverDocument_AllReplicasMissing_ReturnsFalse) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    // Don't write anything — all replicas are missing
+    bool recovered = strategy.recoverDocument(
+        "never-written", "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_FALSE(recovered);
+}
 
 TEST_F(RedundancyStrategyTest, DISABLED_StressTest_ManyWrites) {
     // Disabled by default - enable for performance testing

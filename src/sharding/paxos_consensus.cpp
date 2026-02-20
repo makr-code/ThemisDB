@@ -259,14 +259,56 @@ bool PaxosConsensus::transferLeadership(const std::string& target_node_id) {
     return true;
 }
 
-bool PaxosConsensus::takeSnapshot(const nlohmann::json& /*snapshot_data*/) {
-    spdlog::warn("Paxos snapshot not yet implemented");
-    return false;
+bool PaxosConsensus::takeSnapshot(const nlohmann::json& snapshot_data) {
+    if (!running_.load()) {
+        spdlog::warn("takeSnapshot: Paxos not running");
+        return false;
+    }
+
+    const uint64_t snap_index = commit_index_.load();
+
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        const uint64_t snap_term = current_round_;  // read under mutex to avoid race with restoreSnapshot
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = snap_index;
+        snapshot_term_  = snap_term;
+        spdlog::info("PaxosConsensus::takeSnapshot: snapshot at index={} round={}", snap_index, snap_term);
+    }
+
+    return true;
 }
 
-bool PaxosConsensus::restoreSnapshot(const nlohmann::json& /*snapshot_data*/) {
-    spdlog::warn("Paxos snapshot restore not yet implemented");
-    return false;
+bool PaxosConsensus::restoreSnapshot(const nlohmann::json& snapshot_data) {
+    if (snapshot_data.is_null() || snapshot_data.empty()) {
+        spdlog::error("PaxosConsensus::restoreSnapshot: snapshot_data is null or empty");
+        return false;
+    }
+
+    uint64_t restored_index = 0;
+    uint64_t restored_term  = 0;
+    if (snapshot_data.contains("_snapshot_index"))
+        restored_index = snapshot_data["_snapshot_index"].get<uint64_t>();
+    if (snapshot_data.contains("_snapshot_term"))
+        restored_term  = snapshot_data["_snapshot_term"].get<uint64_t>();
+
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = restored_index;
+        snapshot_term_  = restored_term;
+
+        // Step down to follower so this node re-syncs before proposing
+        if (running_.load()) {
+            state_.store(ConsensusState::FOLLOWER);
+            if (restored_term > current_round_)
+                current_round_ = restored_term;
+        }
+    }
+
+    spdlog::info("PaxosConsensus::restoreSnapshot: restored at index={} round={}",
+                 restored_index, restored_term);
+    return true;
 }
 
 ConsensusStats PaxosConsensus::getStats() const {
@@ -285,7 +327,15 @@ ConsensusStats PaxosConsensus::getStats() const {
 
 nlohmann::json PaxosConsensus::getStatus() const {
     auto stats = getStats();
-    
+
+    uint64_t snap_index = 0;
+    uint64_t snap_term  = 0;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        snap_index = snapshot_index_;
+        snap_term  = snapshot_term_;
+    }
+
     return {
         {"type", "Paxos"},
         {"node_id", node_id_},
@@ -296,7 +346,9 @@ nlohmann::json PaxosConsensus::getStatus() const {
         {"commit_index", stats.commit_index},
         {"cluster_size", stats.cluster_size},
         {"total_proposals", stats.total_operations},
-        {"failed_proposals", stats.failed_operations}
+        {"failed_proposals", stats.failed_operations},
+        {"snapshot_index", snap_index},
+        {"snapshot_term",  snap_term}
     };
 }
 

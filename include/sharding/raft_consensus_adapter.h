@@ -112,6 +112,12 @@ private:
     mutable std::mutex state_mutex_;
     mutable ConsensusState current_state_;
     std::string current_leader_;
+
+    // Snapshot storage (in-adapter, index-tracked)
+    mutable std::mutex snapshot_mutex_;
+    nlohmann::json snapshot_data_;
+    uint64_t snapshot_index_{0};
+    uint64_t snapshot_term_{0};
 };
 
 } // namespace sharding
