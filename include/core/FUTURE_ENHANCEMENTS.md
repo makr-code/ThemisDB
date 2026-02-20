@@ -139,32 +139,17 @@ class ICache {
 
 ### Health Check Interface
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Status:** ✅ Implemented in v1.6.0
 
-Add standardized health check interface for all concerns.
+All four concern interfaces (`ILogger`, `ITracer`, `IMetrics`, `ICache`) now
+expose an `isHealthy()` probe returning a `ProbeResult{ok, message}`.
+`ConcernsContext::healthCheck()` and `readinessCheck()` aggregate all four
+results into a `HealthStatus`.  `MonitoringApiHandler::handleLiveness()` and
+`handleReadiness()` include per-concern health details in the JSON response
+when a `ConcernsContext` is injected.
 
-```cpp
-enum class HealthStatus {
-    Healthy,
-    Degraded,
-    Unhealthy
-};
-
-class IHealthCheckable {
-public:
-    virtual HealthStatus checkHealth() const = 0;
-    virtual std::string getHealthDetail() const = 0;
-};
-
-// All concerns implement IHealthCheckable
-class ILogger : public IHealthCheckable { /* ... */ };
-class ITracer : public IHealthCheckable { /* ... */ };
-```
-
-**Use Cases:**
-- Kubernetes liveness/readiness probes
-- Circuit breaker integration
-- Automatic failover
+See `include/core/concerns/lifecycle.h` and the "Lifecycle Management"
+section of `include/core/concerns/README.md` for API details.
 
 ---
 
@@ -578,7 +563,7 @@ We welcome contributions in the following areas:
 - [ ] Implement IContext interface
 - [ ] Add type-safe metrics labels
 - [ ] Create async interface variants
-- [ ] Health check interface
+- [x] Health check interface (implemented in v1.6.0)
 
 ### Advanced Topics
 - [ ] Compile-time DI framework
