@@ -38,10 +38,36 @@ namespace {
 VRAMAllocator::VRAMAllocator(acceleration::BackendType backend, size_t pool_size_bytes)
     : backend_(backend), pool_size_bytes_(pool_size_bytes) {
     
-    // Auto-detect pool size if not specified (use 80% of available VRAM)
+    // Auto-detect pool size if not specified (use 80% of currently free VRAM).
+    // Using free memory rather than total capacity avoids OOM when other
+    // processes already occupy part of the device.
     if (pool_size_bytes_ == 0) {
-        // TODO: Query backend for available memory
-        pool_size_bytes_ = 8ULL * 1024 * 1024 * 1024; // Default 8GB
+#ifdef THEMIS_ENABLE_CUDA
+        if (backend_ == acceleration::BackendType::CUDA) {
+            size_t free_bytes = 0, total_bytes = 0;
+            if (cudaMemGetInfo(&free_bytes, &total_bytes) == cudaSuccess && free_bytes > 0) {
+                pool_size_bytes_ = static_cast<size_t>(free_bytes * 0.8);
+                spdlog::info("VRAMAllocator: CUDA free={} MB total={} MB, reserving {} MB (80% of free)",
+                             free_bytes / (1024 * 1024), total_bytes / (1024 * 1024),
+                             pool_size_bytes_ / (1024 * 1024));
+            }
+        }
+#endif
+#ifdef THEMIS_ENABLE_HIP
+        if (backend_ == acceleration::BackendType::HIP) {
+            size_t free_bytes = 0, total_bytes = 0;
+            if (hipMemGetInfo(&free_bytes, &total_bytes) == hipSuccess && free_bytes > 0) {
+                pool_size_bytes_ = static_cast<size_t>(free_bytes * 0.8);
+                spdlog::info("VRAMAllocator: HIP free={} MB total={} MB, reserving {} MB (80% of free)",
+                             free_bytes / (1024 * 1024), total_bytes / (1024 * 1024),
+                             pool_size_bytes_ / (1024 * 1024));
+            }
+        }
+#endif
+        if (pool_size_bytes_ == 0) {
+            pool_size_bytes_ = 8ULL * 1024 * 1024 * 1024; // Default 8 GB fallback
+            spdlog::debug("VRAMAllocator: could not query backend memory, defaulting to 8 GB pool");
+        }
     }
     
     initialized_ = initialize_backend();

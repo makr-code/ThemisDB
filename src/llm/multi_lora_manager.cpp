@@ -1689,20 +1689,36 @@ void MultiLoRAManager::updateGPUMemoryTracking() {
 
 bool MultiLoRAManager::isGPUHealthy(int gpu_id) const {
     // Already locked by caller
-    
-    // TODO: In production, check actual GPU health
-    // cudaError_t err = cudaSetDevice(gpu_id);
-    // if (err != cudaSuccess) return false;
-    //
-    // cudaDeviceProp prop;
-    // err = cudaGetDeviceProperties(&prop, gpu_id);
-    // return err == cudaSuccess;
-    
-    // Simulation: all GPUs are healthy
-    return config_.multi_gpu.enabled && 
-           std::find(config_.multi_gpu.devices.begin(), 
-                    config_.multi_gpu.devices.end(), 
-                    gpu_id) != config_.multi_gpu.devices.end();
+
+    // Verify the GPU is in the configured device list first.
+    if (!config_.multi_gpu.enabled ||
+        std::find(config_.multi_gpu.devices.begin(),
+                  config_.multi_gpu.devices.end(),
+                  gpu_id) == config_.multi_gpu.devices.end()) {
+        return false;
+    }
+
+#ifdef THEMIS_ENABLE_CUDA
+    // Real CUDA health check: attempt to select the device and query a
+    // lightweight attribute.  cudaDeviceGetAttribute exercises the driver
+    // enough to surface a lost/unreachable device without copying the full
+    // cudaDeviceProp structure.
+    cudaError_t err = cudaSetDevice(gpu_id);
+    if (err != cudaSuccess) {
+        spdlog::warn("isGPUHealthy: cudaSetDevice({}) failed: {}", gpu_id, cudaGetErrorString(err));
+        return false;
+    }
+    int max_threads = 0;
+    err = cudaDeviceGetAttribute(&max_threads, cudaDevAttrMaxThreadsPerBlock, gpu_id);
+    if (err != cudaSuccess) {
+        spdlog::warn("isGPUHealthy: cudaDeviceGetAttribute({}) failed: {}", gpu_id, cudaGetErrorString(err));
+        return false;
+    }
+    return true;
+#else
+    // Non-CUDA build: presence in the configured device list is sufficient.
+    return true;
+#endif
 }
 
 std::vector<int> MultiLoRAManager::getAvailableGPUs() const {

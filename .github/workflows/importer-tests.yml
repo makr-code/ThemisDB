@@ -1,0 +1,154 @@
+name: Importer Module Tests
+
+on:
+  push:
+    paths:
+      - 'src/importers/**'
+      - 'include/importers/**'
+      - 'include/server/import_api_handler.h'
+      - 'src/server/import_api_handler.cpp'
+      - 'tests/test_postgres_importer*.cpp'
+      - 'tests/test_importer_async_api.cpp'
+      - 'tests/fixtures/importers/**'
+      - 'tools/import_cli.cpp'
+      - 'docs/importers_roadmap.md'
+      - 'docs/importers_runbook.md'
+      - '.github/workflows/importer-tests.yml'
+  pull_request:
+    paths:
+      - 'src/importers/**'
+      - 'include/importers/**'
+      - 'include/server/import_api_handler.h'
+      - 'src/server/import_api_handler.cpp'
+      - 'tests/test_postgres_importer*.cpp'
+      - 'tests/test_importer_async_api.cpp'
+      - 'tests/fixtures/importers/**'
+      - 'tools/import_cli.cpp'
+      - 'docs/importers_roadmap.md'
+      - 'docs/importers_runbook.md'
+      - '.github/workflows/importer-tests.yml'
+  workflow_dispatch:
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build & run the self-contained importer test suites (no external DB needed)
+  # ---------------------------------------------------------------------------
+  importer-unit-tests:
+    name: Importer unit tests (${{ matrix.os }} / ${{ matrix.compiler }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            compiler: gcc-12
+            cc: gcc-12
+            cxx: g++-12
+          - os: ubuntu-22.04
+            compiler: clang-15
+            cc: clang-15
+            cxx: clang++-15
+          - os: ubuntu-24.04
+            compiler: gcc-14
+            cc: gcc-14
+            cxx: g++-14
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install build dependencies (${{ matrix.compiler }})
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            cmake ninja-build \
+            ${{ matrix.cc }} ${{ matrix.cxx }} \
+            nlohmann-json3-dev \
+            libgtest-dev \
+            pkg-config
+
+      - name: Build GTest from source (if needed)
+        run: |
+          if [ ! -f /usr/lib/libgtest.a ] && [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
+            cd /usr/src/gtest
+            sudo cmake -DCMAKE_BUILD_TYPE=Release .
+            sudo make
+            sudo cp lib/*.a /usr/lib/ 2>/dev/null || sudo cp *.a /usr/lib/ 2>/dev/null || true
+          fi
+
+      - name: Configure (importer tests only)
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_COMPILER=${{ matrix.cc }} \
+            -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} \
+            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_ENABLE_GPU=OFF
+
+      # Build only the unified test binary (all test_*.cpp files are compiled in)
+      - name: Build test binary
+        run: cmake --build build --target themis_tests -- -j$(nproc)
+
+      - name: Run importer unit tests
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="*Importer*:*Import*:*SplitTopLevelCommas*:*FindMatchingParen*:*SpanCallback*:*Pg16Fixture*:*RealDdlSplit*:*FuzzStyle*:*ImportHandle*:*ImportJobRegistry*:*AsyncImport*:*ImportMetrics*:*ImportApiHandler*:*ImportStats*:*SpanOperation*" \
+            --gtest_output="xml:importer_test_results.xml" \
+            2>&1 | tee importer_test_output.txt
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: importer-test-results-${{ matrix.os }}-${{ matrix.compiler }}
+          path: |
+            build/importer_test_results.xml
+            build/importer_test_output.txt
+          retention-days: 14
+
+  # ---------------------------------------------------------------------------
+  # Validate documentation
+  # ---------------------------------------------------------------------------
+  docs-lint:
+    name: Lint importer docs
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint importers_roadmap.md
+        run: markdownlint docs/importers_roadmap.md --config .markdownlint.json
+
+      - name: Lint importers_runbook.md
+        run: markdownlint docs/importers_runbook.md --config .markdownlint.json
+
+      - name: Verify fixtures exist
+        run: |
+          for f in \
+            tests/fixtures/importers/sample_pg12.sql \
+            tests/fixtures/importers/sample_pg14.sql \
+            tests/fixtures/importers/sample_pg15.sql \
+            tests/fixtures/importers/sample_pg16.sql; do
+            if [ ! -f "$f" ]; then
+              echo "MISSING: $f" >&2
+              exit 1
+            fi
+            echo "OK: $f ($(wc -l < $f) lines)"
+          done

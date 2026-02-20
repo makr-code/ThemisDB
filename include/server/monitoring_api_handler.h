@@ -6,6 +6,8 @@
 #include <chrono>
 #include <boost/beast/http.hpp>
 #include <nlohmann/json.hpp>
+#include "core/concerns/concerns_context.h"
+#include "observability/alertmanager.h"
 
 namespace themis {
 
@@ -45,7 +47,11 @@ namespace server {
  * - GET /stats - Get runtime statistics
  * - GET /api/capabilities - Get server capabilities
  * - GET /metrics - Get Prometheus-compatible metrics
+ * - GET /metrics/html - Lightweight HTML metrics dashboard
  * - GET /config or POST /config - Get/update server configuration
+ * - GET /api/v1/observability/alerts - List active alerts (JSON)
+ * - POST /api/v1/observability/alerts/{id}/silence - Silence an alert
+ * - GET /api/v1/observability/health - Aggregate observability health
  * 
  * Features:
  * - Health monitoring
@@ -53,6 +59,7 @@ namespace server {
  * - Runtime statistics
  * - Prometheus metrics export
  * - Dynamic configuration
+ * - Operator alert management API
  * 
  * Extracted from http_server.cpp (~300 lines) to improve maintainability.
  */
@@ -69,6 +76,14 @@ public:
      * @param secondary_index Secondary index manager (for stats)
      * @param schema_manager Schema manager (for capabilities, optional)
      * @param sharding_metrics Sharding metrics handler (for metrics/slo endpoints, optional)
+     * @param is_running Flag indicating whether the server is running (optional)
+     * @param active_requests Active request counter (optional)
+     * @param active_connections Active connection counter (optional)
+     * @param concerns ConcernsContext for lifecycle and health probes (optional).
+     *        When provided, both handleLiveness() and handleReadiness() include
+     *        per-concern health status from concerns->healthCheck() and
+     *        concerns->readinessCheck() respectively.  If any concern is
+     *        unhealthy, the probe returns HTTP 503.
      */
     MonitoringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
@@ -81,7 +96,8 @@ public:
         std::shared_ptr<ShardingMetricsHandler> sharding_metrics = nullptr,
         const std::atomic<bool>* is_running = nullptr,
         const std::atomic<uint64_t>* active_requests = nullptr,
-        const std::atomic<uint64_t>* active_connections = nullptr
+        const std::atomic<uint64_t>* active_connections = nullptr,
+        std::shared_ptr<core::concerns::ConcernsContext> concerns = nullptr
     );
 
     /**
@@ -93,7 +109,10 @@ public:
 
     /**
      * @brief Handle GET /health/live request (liveness probe)
-     * Returns 200 if server is running, 503 otherwise.
+     * Returns 200 if server is running and all core concerns are healthy.
+     * Returns 503 otherwise.
+     * When a ConcernsContext is supplied, the response includes a
+     * "concerns" section with per-concern health details.
      * @param req HTTP request
      * @return HTTP response with liveness status
      */
@@ -101,9 +120,12 @@ public:
 
     /**
      * @brief Handle GET /health/ready request (readiness probe)
-     * Returns 200 if storage is accessible and server is ready to serve traffic.
-     * Returns 503 if not ready (e.g. storage unavailable, still starting up).
-     * Reports per-layer status (storage, connections, memory).
+     * Returns 200 if storage is accessible, server is ready to serve
+     * traffic, and all core concerns pass readiness checks.
+     * Returns 503 if not ready (e.g. storage unavailable, still starting
+     * up, or a core concern reports not ready).
+     * When a ConcernsContext is supplied, the response includes a
+     * "concerns" section with per-concern readiness details.
      * @param req HTTP request
      * @return HTTP response with readiness status
      */
@@ -144,6 +166,15 @@ public:
      * @return HTTP response with metrics in Prometheus format
      */
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /metrics/html request (lightweight HTML dashboard)
+     * Renders the current Prometheus metrics as a human-readable HTML page
+     * for quick operator inspection without a dedicated Grafana instance.
+     * @param req HTTP request
+     * @return HTTP response with HTML metrics dashboard
+     */
+    http::response<http::string_body> handleMetricsHtml(const http::request<http::string_body>& req);
     
     /**
      * @brief Handle GET /api/plugins/metrics request
@@ -166,6 +197,61 @@ public:
      */
     http::response<http::string_body> handleSLOStatus(const http::request<http::string_body>& req);
 
+    // -------------------------------------------------------------------------
+    // Operator Observability REST API
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief GET /api/v1/observability/alerts
+     * Returns the list of currently active (firing) alerts as a JSON array.
+     * @param req HTTP request
+     * @return HTTP 200 with JSON array of active alerts
+     */
+    http::response<http::string_body> handleObservabilityAlerts(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief POST /api/v1/observability/alerts/{id}/silence
+     * Silences the named alert for a configurable duration.
+     * Body: { "duration_minutes": <int> }  (default: 60)
+     * @param req HTTP request (path contains alert_id)
+     * @return HTTP 200 on success, 400/404 on error
+     */
+    http::response<http::string_body> handleObservabilityAlertSilence(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief GET /api/v1/observability/health
+     * Returns aggregate observability subsystem health:
+     * Alertmanager status, tracing status, metrics collector stats,
+     * and exporter health counters.
+     * @param req HTTP request
+     * @return HTTP 200 with JSON health document
+     */
+    http::response<http::string_body> handleObservabilityHealth(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief Replace the ConcernsContext used for health/readiness probes.
+     *
+     * Can be called after construction (e.g. from HttpServer::setConcerns()).
+     * Thread-safety: must not be called concurrently with handleLiveness() or
+     * handleReadiness(); call only during server initialization.
+     */
+    void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
+        concerns_ = std::move(concerns);
+    }
+
+    /**
+     * @brief Set the Alertmanager instance used by the Operator REST API.
+     *
+     * Optional: when not set, the observability alert endpoints return empty
+     * lists / a disabled status instead of errors.
+     */
+    void setAlertmanager(std::shared_ptr<observability::DefaultAlertmanager> alertmanager) {
+        alertmanager_ = std::move(alertmanager);
+    }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<AuthMiddleware> auth_;
@@ -178,12 +264,18 @@ private:
     const std::atomic<bool>* is_running_{nullptr};
     const std::atomic<uint64_t>* active_requests_{nullptr};
     const std::atomic<uint64_t>* active_connections_{nullptr};
+    std::shared_ptr<core::concerns::ConcernsContext> concerns_;
+    std::shared_ptr<observability::DefaultAlertmanager> alertmanager_;
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+
+    /// Build the JSON "concerns" block from a HealthStatus and update @p ok.
+    static json buildConcernsJson(
+        const core::concerns::HealthStatus& status, bool& ok);
 };
 
 } // namespace server

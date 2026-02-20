@@ -18,7 +18,6 @@
 
 #include <benchmark/benchmark.h>
 #include "llm/multi_lora_manager.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/llm_response_cache.h"
 #include <vector>
 #include <string>
@@ -81,15 +80,6 @@ MultiLoRAManager::Config createLoRAConfig(size_t slots = 8, size_t vram_mb = 409
     cfg.enable_multi_lora_batch = true;
     cfg.lora_ttl = std::chrono::seconds(300);
     cfg.enable_lazy_load = true;
-    return cfg;
-}
-
-LoRAAdapterManager::Config createAdapterConfig() {
-    LoRAAdapterManager::Config cfg;
-    cfg.max_cache_size = 20;
-    cfg.max_memory_mb = 8192;
-    cfg.cache_ttl = std::chrono::seconds(600);
-    cfg.enable_auto_unload = true;
     return cfg;
 }
 

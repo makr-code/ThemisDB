@@ -80,6 +80,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_gradient_checkpointing\\.cpp$"
         ".*test_inference_engine_enhanced\\.cpp$"
         ".*test_kernel_fusion\\.cpp$"
+        ".*test_kernel_fusion_cpu_fallback\\.cpp$"
+        ".*test_kernel_fusion_cuda\\.cpp$"
         ".*test_model_loader_async\\.cpp$"
         ".*test_phase1_flash_attention\\.cpp$"
         ".*test_phase1_kv_cache_reuse\\.cpp$"
@@ -149,7 +151,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
     ".*test_metadata_wal_recovery\\.cpp$"
-    ".*test_module_loader\\.cpp$"
     ".*test_paxos_wal_recovery\\.cpp$"
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
@@ -249,6 +250,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/ingestion_manager.cpp
         ../src/ingestion/huggingface_connector.cpp
         ../src/ingestion/filesystem_ingester.cpp
+        ../src/ingestion/api_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp

@@ -6,12 +6,16 @@
 #include <regex>
 #include <unordered_set>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 namespace themis {
 namespace llm {
+
+// Forward declaration to avoid a circular include with llm_model_audit_logger.h
+class LLMModelAuditLogger;
 
 /**
  * @file lora_security_validator.h
@@ -189,9 +193,21 @@ public:
      * @param config New configuration
      */
     void setConfig(const LoRASecurityConfig& config);
-    
+
+    /**
+     * @brief Attach an audit logger so that signature verification
+     *        failures and successes are persisted via LLMModelAuditLogger.
+     *
+     * Optional: when not set, security events are only written to spdlog.
+     * The logger is owned externally; the validator keeps a shared_ptr.
+     *
+     * @param logger Shared audit-logger instance (may be nullptr to detach)
+     */
+    void setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger);
+
 private:
     LoRASecurityConfig config_;
+    std::shared_ptr<LLMModelAuditLogger> audit_logger_;
     
     // Helper methods
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);

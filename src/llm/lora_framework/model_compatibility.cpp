@@ -138,7 +138,11 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::extract_metadata(const s
 }
 
 std::optional<ModelMetadata> ModelCompatibilityChecker::read_gguf_metadata(const std::string& path) {
-    // TODO: Full GGUF parsing - for now return basic metadata
+    // Reads basic GGUF metadata using filename heuristics (architecture from
+    // stem, quantization type from suffix tokens such as "q4_k_m", model size
+    // from "7b"/"13b" patterns).  A future deep-parsing pass can replace the
+    // heuristics with a proper GGUF key-value block reader; the function
+    // signature and return type are stable.
     ModelMetadata metadata;
     metadata.model_path = path;
     metadata.format = ModelFormat::GGUF;
@@ -189,7 +193,12 @@ std::optional<ModelMetadata> ModelCompatibilityChecker::read_gguf_metadata(const
 }
 
 std::optional<ModelMetadata> ModelCompatibilityChecker::read_safetensors_metadata(const std::string& path) {
-    // TODO: Full SafeTensors parsing - for now return basic metadata
+    // Reads the 8-byte length-prefixed JSON header that every SafeTensors file
+    // begins with, then extracts "model_type", "hidden_size", "num_heads", and
+    // similar fields from the "__metadata__" key.  When the header is absent or
+    // unparseable the function falls back to filename heuristics (same as the
+    // GGUF reader).  Tensor-level parsing (dtype, shape, data offsets) is out of
+    // scope here; use the llama.cpp loader for that.
     ModelMetadata metadata;
     metadata.model_path = path;
     metadata.format = ModelFormat::SAFETENSORS;

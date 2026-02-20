@@ -83,6 +83,21 @@ public:
         collector_.reset();
     }
 
+    // Lifecycle hooks
+    void flush() override {
+        // MetricsCollector is pull-based (Prometheus scrapes); no push needed.
+    }
+
+    void shutdown() override {
+        collector_.reset();
+    }
+
+    ProbeResult isHealthy() const override {
+        // The Prometheus adapter is healthy as long as the collector singleton
+        // is accessible (it is always constructed in-process).
+        return ProbeResult::healthy();
+    }
+
 private:
     observability::MetricsCollector& collector_;
 };

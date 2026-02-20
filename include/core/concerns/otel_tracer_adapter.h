@@ -135,6 +135,24 @@ public:
         return initialized_;
     }
 
+    // Lifecycle hooks
+    void flush() override {
+        // Spans are exported asynchronously; shutdown/restart would be
+        // destructive.  A best-effort flush is performed via the OTLP
+        // exporter's internal queue drain – no public API available here,
+        // so this is intentionally a no-op at the adapter level.
+    }
+
+    ProbeResult isHealthy() const override {
+        if (!initialized_) {
+            return ProbeResult::unhealthy("tracer not initialized");
+        }
+        if (circuit_breaker_->getState() == sharding::CircuitBreaker::State::OPEN) {
+            return ProbeResult::unhealthy("tracing exporter circuit-breaker OPEN");
+        }
+        return ProbeResult::healthy();
+    }
+
     /** Expose circuit-breaker state for monitoring. */
     sharding::CircuitBreaker::State circuitBreakerState() const {
         return circuit_breaker_->getState();
