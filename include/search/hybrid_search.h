@@ -158,12 +158,22 @@ public:
     const Config& getConfig() const { return config_; }
     void setConfig(const Config& config) { config_ = config; }
 
+    /**
+     * @brief Normalize scores in [min, max] to [0, 1].
+     *
+     * When all scores are equal (range == 0):
+     *  - score > 0 → all normalized to 1.0
+     *  - score == 0 → all normalized to 0.0
+     *
+     * @param results  Result list whose BM25 or vector scores are modified in place.
+     * @param is_bm25  True to normalize bm25_score; false to normalize vector_score.
+     */
+    static void normalizeScores(std::vector<Result>& results, bool is_bm25);
+
 private:
     SecondaryIndexManager* fulltext_index_;
     VectorIndexManager* vector_index_;
     Config config_;
-    
-    void normalizeScores(std::vector<Result>& results, bool is_bm25);
 };
 
 } // namespace themis
