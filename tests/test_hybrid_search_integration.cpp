@@ -1,5 +1,5 @@
 /**
- * @file integration_test_search.cpp
+ * @file test_hybrid_search_integration.cpp
  * @brief Integration tests for HybridSearch using real RocksDB, SecondaryIndexManager,
  *        and VectorIndexManager backends.
  *
