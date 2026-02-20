@@ -433,9 +433,15 @@ ProductionValidator::ValidationResult ProductionValidator::runLoadTest() {
         double sum = 0;
         for (double v : latencies) sum += v;
         result.avg_latency_ms = sum / latencies.size();
-        result.p50_latency_ms = latencies[latencies.size() * 50 / 100];
-        result.p95_latency_ms = latencies[static_cast<size_t>(std::ceil(latencies.size() * 0.95)) - 1];
-        result.p99_latency_ms = latencies[static_cast<size_t>(std::ceil(latencies.size() * 0.99)) - 1];
+        // Use consistent ceil-based percentile for p50, p95, p99
+        auto pct_idx = [&](double p) -> size_t {
+            size_t n   = latencies.size();
+            size_t idx = static_cast<size_t>(std::ceil(n * p));
+            return std::min(idx, n) - 1;  // clamp to valid range
+        };
+        result.p50_latency_ms = latencies[pct_idx(0.50)];
+        result.p95_latency_ms = latencies[pct_idx(0.95)];
+        result.p99_latency_ms = latencies[pct_idx(0.99)];
     }
 
     // Estimate throughput in tokens/sec: assume ~100 tokens per request
@@ -577,7 +583,8 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
             statm >> pages;   // first field is VmSize in pages
             // second field is VmRSS
             statm >> pages;
-            stats.memory_mb = (pages * static_cast<size_t>(::sysconf(_SC_PAGESIZE))) / (1024 * 1024);
+            stats.memory_mb = (pages * static_cast<size_t>(
+                static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)))) / (1024UL * 1024UL);
         }
     }
 

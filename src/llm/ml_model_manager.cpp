@@ -812,14 +812,16 @@ void MLModelManager::updateInstanceMetrics(
     // Update p95/p99 from a fixed-size sliding window of recent latency samples
     instance->latency_window.push_back(latency_ms);
     if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
-        instance->latency_window.erase(instance->latency_window.begin());
+        instance->latency_window.pop_front();  // O(1) with deque
     }
     if (instance->latency_window.size() >= 2) {
-        std::vector<float> sorted = instance->latency_window;
+        std::vector<float> sorted(instance->latency_window.begin(),
+                                  instance->latency_window.end());
         std::sort(sorted.begin(), sorted.end());
         size_t n = sorted.size();
-        size_t idx95 = static_cast<size_t>(std::ceil(0.95 * n)) - 1;
-        size_t idx99 = static_cast<size_t>(std::ceil(0.99 * n)) - 1;
+        // Use std::min to guard against out-of-bounds on tiny windows
+        size_t idx95 = std::min(static_cast<size_t>(std::ceil(0.95 * n)) - 1, n - 1);
+        size_t idx99 = std::min(static_cast<size_t>(std::ceil(0.99 * n)) - 1, n - 1);
         instance->p95_latency_ms = sorted[idx95];
         instance->p99_latency_ms = sorted[idx99];
     }
@@ -1641,14 +1643,16 @@ void MLModelManager::updateInstanceMetrics(
     // Update p95/p99 from a fixed-size sliding window of recent latency samples
     instance->latency_window.push_back(latency_ms);
     if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
-        instance->latency_window.erase(instance->latency_window.begin());
+        instance->latency_window.pop_front();  // O(1) with deque
     }
     if (instance->latency_window.size() >= 2) {
-        std::vector<float> sorted = instance->latency_window;
+        std::vector<float> sorted(instance->latency_window.begin(),
+                                  instance->latency_window.end());
         std::sort(sorted.begin(), sorted.end());
         size_t n = sorted.size();
-        size_t idx95 = static_cast<size_t>(std::ceil(0.95 * n)) - 1;
-        size_t idx99 = static_cast<size_t>(std::ceil(0.99 * n)) - 1;
+        // Use std::min to guard against out-of-bounds on tiny windows
+        size_t idx95 = std::min(static_cast<size_t>(std::ceil(0.95 * n)) - 1, n - 1);
+        size_t idx99 = std::min(static_cast<size_t>(std::ceil(0.99 * n)) - 1, n - 1);
         instance->p95_latency_ms = sorted[idx95];
         instance->p99_latency_ms = sorted[idx99];
     }

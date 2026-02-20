@@ -7,6 +7,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <deque>
 #include <unordered_map>
 #include <unordered_set>
 #include <mutex>
@@ -127,7 +128,7 @@ struct MLModelInstance {
 
     // Sliding window of recent latency samples for percentile computation
     static constexpr size_t kLatencyWindowSize = 200;
-    std::vector<float> latency_window;
+    std::deque<float> latency_window;
     
     // Health
     int consecutive_health_check_failures = 0;
