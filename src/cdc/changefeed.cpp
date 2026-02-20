@@ -531,7 +531,10 @@ size_t Changefeed::applyRetentionPolicy() {
         size_t avg_event_size = stats.total_events > 0 ? 
             (stats.total_size_bytes / stats.total_events) : 1024;
         size_t excess_bytes = stats.total_size_bytes - retention_policy_.max_size_bytes;
-        size_t events_to_delete = (excess_bytes / avg_event_size) + 100; // Add buffer
+        
+        // Add buffer to ensure we get under the limit (account for estimation error)
+        constexpr size_t SIZE_RETENTION_BUFFER_EVENTS = 100;
+        size_t events_to_delete = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUFFER_EVENTS;
         
         uint64_t cutoff_sequence = wm.low_watermark + events_to_delete;
         size_t deleted_by_size = deleteOldEvents(cutoff_sequence);
@@ -572,6 +575,8 @@ void Changefeed::stopRetentionCleanup() {
 }
 
 void Changefeed::retentionCleanupThread() {
+    constexpr int ERROR_RETRY_DELAY_SECONDS = 60;
+    
     while (retention_thread_running_.load()) {
         try {
             // Apply retention policy
@@ -584,8 +589,8 @@ void Changefeed::retentionCleanupThread() {
             });
         } catch (const std::exception& e) {
             THEMIS_ERROR("Error in retention cleanup thread: {}", e.what());
-            // Sleep a bit before retrying to avoid tight loop on persistent errors
-            std::this_thread::sleep_for(std::chrono::seconds(60));
+            // Sleep before retrying to avoid tight loop on persistent errors
+            std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));
         }
     }
     

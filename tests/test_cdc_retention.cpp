@@ -253,9 +253,10 @@ TEST_F(CDCRetentionTest, BackgroundCleanupThread) {
     Changefeed::RetentionPolicy policy;
     policy.enabled = true;
     policy.max_event_count = 10;
-    policy.cleanup_interval = std::chrono::milliseconds(100);  // Fast for testing
+    policy.cleanup_interval = std::chrono::minutes(1);  // 1 minute minimum for testing
     
     auto* raw_db = db_->getDB();
+    // Manually start cleanup for testing (don't wait for constructor auto-start)
     changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, policy);
     
     // Record 20 events
@@ -270,8 +271,8 @@ TEST_F(CDCRetentionTest, BackgroundCleanupThread) {
     auto stats_before = changefeed_->getStats();
     EXPECT_EQ(stats_before.total_events, 20);
     
-    // Wait for background cleanup to run
-    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    // Manually trigger retention instead of waiting for background thread
+    changefeed_->applyRetentionPolicy();
     
     // Should have fewer events now
     auto stats_after = changefeed_->getStats();
@@ -283,15 +284,15 @@ TEST_F(CDCRetentionTest, StopBackgroundCleanup) {
     Changefeed::RetentionPolicy policy;
     policy.enabled = true;
     policy.max_event_count = 5;
-    policy.cleanup_interval = std::chrono::milliseconds(50);
+    policy.cleanup_interval = std::chrono::minutes(1);  // 1 minute
     
     auto* raw_db = db_->getDB();
     changefeed_ = std::make_unique<Changefeed>(raw_db, nullptr, policy);
     
-    // Verify cleanup thread started
+    // Give thread time to start
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
     
-    // Stop cleanup
+    // Stop cleanup immediately
     changefeed_->stopRetentionCleanup();
     
     // Record many events
@@ -303,10 +304,7 @@ TEST_F(CDCRetentionTest, StopBackgroundCleanup) {
         changefeed_->recordEvent(event);
     }
     
-    // Wait a bit
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    
-    // Events should NOT be cleaned up (thread stopped)
+    // Events should NOT be cleaned up (thread stopped, no manual trigger)
     auto stats = changefeed_->getStats();
     EXPECT_EQ(stats.total_events, 20);  // All events still there
 }

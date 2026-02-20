@@ -69,10 +69,12 @@ public:
     };
     
     struct RetentionPolicy {
+        static constexpr size_t DEFAULT_MAX_SIZE_BYTES = 100ULL * 1024 * 1024 * 1024;  // 100GB
+        
         bool enabled = false;                           // Enable automatic retention cleanup
         std::chrono::hours max_age_hours{168};          // Max age (default: 7 days)
         uint64_t max_event_count = 1000000;             // Max events (default: 1M)
-        size_t max_size_bytes = 100ULL * 1024 * 1024 * 1024;  // Max size (default: 100GB)
+        size_t max_size_bytes = DEFAULT_MAX_SIZE_BYTES; // Max size (default: 100GB)
         std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
     };
     
