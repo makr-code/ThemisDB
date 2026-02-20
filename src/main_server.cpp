@@ -1421,7 +1421,7 @@ int main(int argc, char* argv[]) {
                 if (g_wal_grpc_server) {
                     THEMIS_INFO("WAL gRPC Apply service listening on {} (mode: {})", grpc_addr, actual_mode);
                 } else {
-                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
+                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr); // NOPII: grpc_addr is a server bind address, not personal data
                 }
             } else {
                 THEMIS_ERROR("WAL gRPC Apply service NOT started due to TLS configuration errors");

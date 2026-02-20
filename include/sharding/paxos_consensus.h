@@ -13,12 +13,18 @@
 #include <condition_variable>
 #include <thread>
 
+namespace themis::sharding {
+class PaxosWAL;
+class PaxosSnapshotManager;
+}
+
 namespace themisdb {
 namespace sharding {
 
 // Forward declarations (Phase 2.1)
-class PaxosWAL;
-class PaxosSnapshotManager;
+using LSN = themis::sharding::LSN;
+using PaxosWAL = themis::sharding::PaxosWAL;
+using PaxosSnapshotManager = themis::sharding::PaxosSnapshotManager;
 
 /**
  * @brief Paxos proposal number (ballot number)
@@ -278,6 +284,11 @@ private:
     std::atomic<uint64_t> failed_proposals_;
     std::atomic<uint64_t> total_prepares_;
     std::atomic<uint64_t> total_accepts_;
+
+    // Snapshot storage (protected by state_mutex_)
+    nlohmann::json snapshot_data_;
+    uint64_t snapshot_index_{0};
+    uint64_t snapshot_term_{0};
     
     // Phase 2.1: Persistent State (WAL + Snapshots)
     std::unique_ptr<PaxosWAL> wal_;

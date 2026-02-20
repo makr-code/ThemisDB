@@ -21,8 +21,8 @@ void PluginMetrics::PluginStats::updatePercentiles() {
     double sum = std::accumulate(latency_samples.begin(), latency_samples.end(), 0.0);
     avg_call_latency_ms = sum / latency_samples.size();
     
-    // Calculate percentiles (requires sorted data)
-    std::vector<double> sorted = latency_samples;
+    // Calculate percentiles (requires sorted copy of samples)
+    std::vector<double> sorted(latency_samples.begin(), latency_samples.end());
     std::sort(sorted.begin(), sorted.end());
     
     // P95: 95th percentile
@@ -69,11 +69,9 @@ void PluginMetrics::recordCall(const std::string& plugin, std::chrono::microseco
     // Add to sum for accurate reporting
     stats.sum_call_latency_ms += latency_ms;
     
-    // Add to samples (with circular buffer behavior)
+    // Add to samples (FIFO circular buffer, O(1) eviction via deque::pop_front)
     if (stats.latency_samples.size() >= PluginStats::MAX_SAMPLES) {
-        // Remove oldest sample (FIFO)
-        // Note: This is O(n). For high-throughput use cases, consider std::deque
-        stats.latency_samples.erase(stats.latency_samples.begin());
+        stats.latency_samples.pop_front();
     }
     stats.latency_samples.push_back(latency_ms);
     

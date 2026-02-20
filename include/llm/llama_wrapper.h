@@ -222,6 +222,13 @@ public:
         int max_output_length = 100000;        // Maximum response length
         bool require_utf8 = true;              // Enforce UTF-8 encoding
         double min_coherence = 0.3;            // Minimum coherence score (0-1)
+        
+        // Timeouts / Backpressure (Q1 production-readiness)
+        // Maximum wall-clock time (milliseconds) allowed for a single inference
+        // request from submission to last token.  0 means unlimited (default).
+        // Requests that exceed this limit are cancelled and the caller receives
+        // an error response.
+        uint32_t request_timeout_ms = 0;
     };
     
     explicit LlamaWrapper(const Config& config);

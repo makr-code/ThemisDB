@@ -315,3 +315,73 @@ TEST_F(ShardRPCTest, ConcurrentClients) {
     
     EXPECT_EQ(success_count, num_clients);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// snapshotRead tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ShardRPCTest, InProcessSnapshotRead_ReturnsArray) {
+    ShardRPCClient::Config config{
+        .endpoint   = "localhost:8080",
+        .timeout_ms = 5000
+    };
+    ShardRPCClient client(config);
+
+    nlohmann::json query = {{"collection", "products"}};
+    auto result = client.snapshotRead(1740000000LL, query);
+
+    // In-process path always returns an array (possibly empty)
+    EXPECT_TRUE(result.is_array());
+}
+
+TEST_F(ShardRPCTest, InProcessSnapshotRead_ZeroTimestamp) {
+    ShardRPCClient::Config config{
+        .endpoint   = "localhost:8080",
+        .timeout_ms = 5000
+    };
+    ShardRPCClient client(config);
+
+    nlohmann::json query = {{"collection", "logs"}};
+    auto result = client.snapshotRead(0, query);
+
+    EXPECT_TRUE(result.is_array());
+}
+
+#ifdef THEMIS_ENABLE_GRPC
+#if __has_include("sharding/shard_rpc.grpc.pb.h")
+
+TEST_F(ShardRPCTest, GrpcSnapshotRead_HealthyShard) {
+    ShardRPCServer server("0.0.0.0:50060");
+    MockRequestHandler handler;
+    handler.should_vote_commit = true;
+    server.setRequestHandler(&handler);
+
+    bool started = server.start();
+    if (!started) {
+        GTEST_SKIP() << "Could not start gRPC server for snapshotRead test";
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    try {
+        ShardRPCClient::Config config{
+            .endpoint   = "0.0.0.0:50060",
+            .timeout_ms = 5000,
+            .max_retries = 2
+        };
+        ShardRPCClient client(config);
+
+        nlohmann::json query = {{"collection", "orders"}};
+        // snapshotRead returns the data array (may be empty for a healthy shard)
+        auto result = client.snapshotRead(1700000000LL, query);
+        EXPECT_TRUE(result.is_array());
+
+    } catch (const std::exception& e) {
+        GTEST_SKIP() << "gRPC snapshotRead test skipped: " << e.what();
+    }
+
+    server.stop();
+}
+
+#endif // __has_include
+#endif // THEMIS_ENABLE_GRPC

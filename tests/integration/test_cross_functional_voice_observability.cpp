@@ -110,7 +110,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, PhoneCallRecordingWithStorageMetri
         
         // Record metrics for the operation
         metrics.recordContentImport("audio/recording", audio_data.size());
-        metrics.recordQuery("phone_call_transcription", duration_ms, 1);
+        metrics.recordQuery("phone_call_transcription", duration_ms, 1); // NOPII: metric operation type literal, not a phone number
         
         // Record storage metrics
         metrics.recordMemoryUsage(audio_data.size());

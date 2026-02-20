@@ -5,16 +5,21 @@
 #ifndef THEMISDB_SHARDING_METADATA_WAL_H
 #define THEMISDB_SHARDING_METADATA_WAL_H
 
-#include "storage/wal_manager.h"
+#include "sharding/wal_manager.h"
 #include "sharding/metadata_shard.h"
 #include <string>
 #include <memory>
 #include <optional>
 #include <vector>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 namespace themisdb {
 namespace sharding {
+
+using LSN = themis::sharding::LSN;
+using WALEntry = themis::sharding::WALEntry;
+using WALEntryType = themis::sharding::WALEntryType;
 
 /**
  * @brief Metadata WAL entry types
@@ -180,7 +185,7 @@ private:
     LSN writeEntry(const MetadataWALEntry& entry);
     
     MetadataWALConfig config_;
-    std::unique_ptr<themis::storage::WALManager> wal_manager_;
+    std::unique_ptr<themis::sharding::WALManager> wal_manager_;
     std::mutex wal_mutex_;
 };
 

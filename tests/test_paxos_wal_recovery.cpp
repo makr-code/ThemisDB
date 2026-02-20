@@ -353,7 +353,3 @@ TEST_F(PaxosWALTest, SnapshotChecksumVerification) {
     EXPECT_FALSE(snapshot.verifyChecksum());
 }
 
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

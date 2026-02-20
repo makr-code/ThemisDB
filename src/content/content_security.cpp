@@ -200,7 +200,16 @@ const ContentSecurityManager::Metrics& ContentSecurityManager::getMetrics() cons
 }
 
 void ContentSecurityManager::resetMetrics() {
-    metrics_ = Metrics{};
+    metrics_.total_checks.store(0, std::memory_order_relaxed);
+    metrics_.malware_scans.store(0, std::memory_order_relaxed);
+    metrics_.malware_detected.store(0, std::memory_order_relaxed);
+    metrics_.malware_blocked.store(0, std::memory_order_relaxed);
+    metrics_.pii_scans.store(0, std::memory_order_relaxed);
+    metrics_.pii_detected.store(0, std::memory_order_relaxed);
+    metrics_.pii_blocked.store(0, std::memory_order_relaxed);
+    metrics_.abuse_scans.store(0, std::memory_order_relaxed);
+    metrics_.abuse_detected.store(0, std::memory_order_relaxed);
+    metrics_.errors_sanitized.store(0, std::memory_order_relaxed);
 }
 
 // ============================================================================

@@ -84,11 +84,16 @@ public:
     explicit GGUFLoader(RocksDBWrapper* db);
     ~GGUFLoader();
 
-    // Parse GGUF file header and metadata
+    // Parse GGUF file header and metadata.
+    // Returns false and sets getLastError() on failure (including unsupported
+    // quantization formats).
     bool parseFile(const std::string& filepath);
     
     // Get parsed metadata
     const GGUFMetadata& getMetadata() const { return metadata_; }
+    
+    // Returns a human-readable error description when parseFile() returns false.
+    const std::string& getLastError() const { return last_error_; }
     
     // Load tensor data into ThemisDB Blob Store
     // Returns URN of stored model: urn:themis:model:{model_name}:v1
@@ -118,9 +123,22 @@ public:
      */
     bool validateQuantizationMetadata(const std::string& tensor_name) const;
     
+    /**
+     * @brief Check whether a GGML quantization type is supported by this loader.
+     *
+     * Supported formats can be converted to an internal representation for
+     * inference and training.  Unsupported formats produce a clear error from
+     * parseFile() instead of silently returning raw bytes.
+     *
+     * Supported: F32, F16, Q4_K (Q4_K_M), Q8_0
+     * Not supported: Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K, Q2_K, Q3_K
+     */
+    static bool isFormatSupported(GGMLType type);
+    
 private:
     GGUFMetadata metadata_;
     std::string filepath_;
+    std::string last_error_;  // Set on parseFile() failure
     int fd_;  // File descriptor for mmap
     void* mmap_base_;
     size_t mmap_size_;

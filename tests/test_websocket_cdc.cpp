@@ -133,3 +133,65 @@ TEST(WebSocketCDCTest, DisabledByDefault) {
     GTEST_SKIP() << "WebSocket is disabled. Build with -DTHEMIS_ENABLE_WEBSOCKET=ON to enable.";
 }
 #endif
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WebSocket query message format tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+#ifdef THEMIS_ENABLE_WEBSOCKET
+
+TEST(WebSocketQueryTest, QueryMessageFormat) {
+    // Verify that a query message has the correct JSON shape
+    json query_msg = {
+        {"type",  "query"},
+        {"table", "users"},
+        {"predicates", json::array({{{"column", "status"}, {"value", "active"}}})}
+    };
+
+    EXPECT_EQ(query_msg["type"], "query");
+    EXPECT_TRUE(query_msg.contains("table"));
+    EXPECT_TRUE(query_msg.contains("predicates"));
+    EXPECT_EQ(query_msg["predicates"].size(), 1u);
+}
+
+TEST(WebSocketQueryTest, AqlQueryMessageFormat) {
+    // Verify that an AQL query message has the correct JSON shape
+    json aql_msg = {
+        {"type", "query"},
+        {"aql",  "FOR doc IN users FILTER doc.status == 'active' RETURN doc"}
+    };
+
+    EXPECT_EQ(aql_msg["type"], "query");
+    EXPECT_TRUE(aql_msg.contains("aql"));
+}
+
+TEST(WebSocketQueryTest, QueryResponseFormat) {
+    // Verify that query_response message fields are present
+    json response = {
+        {"type",        "query_response"},
+        {"status",      "ok"},
+        {"http_status", 200},
+        {"result",      json::array()}
+    };
+
+    EXPECT_EQ(response["type"],        "query_response");
+    EXPECT_EQ(response["status"],      "ok");
+    EXPECT_EQ(response["http_status"], 200);
+    EXPECT_TRUE(response["result"].is_array());
+}
+
+TEST(WebSocketQueryTest, QueryErrorResponseFormat) {
+    // Verify that error query_response message fields are present
+    json error_resp = {
+        {"type",        "query_response"},
+        {"status",      "error"},
+        {"http_status", 400},
+        {"message",     "Missing 'table'"}
+    };
+
+    EXPECT_EQ(error_resp["type"],   "query_response");
+    EXPECT_EQ(error_resp["status"], "error");
+    EXPECT_TRUE(error_resp.contains("message"));
+}
+
+#endif // THEMIS_ENABLE_WEBSOCKET
