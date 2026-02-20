@@ -239,8 +239,24 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         
         PluginManifest manifest;
         manifest.name = j.value("name", "");
-        manifest.version = j.value("version", "1.0.0");
+        manifest.version = j.value("version", "");
         manifest.description = j.value("description", "");
+
+        // Validate required fields: name and version must be non-empty strings
+        if (manifest.name.empty()) {
+            THEMIS_ERROR("Plugin manifest missing required 'name' field: {}", manifest_path);
+            return std::nullopt;
+        }
+        if (manifest.version.empty()) {
+            THEMIS_ERROR("Plugin manifest missing required 'version' field: {}", manifest_path);
+            return std::nullopt;
+        }
+
+        // Validate that at least one binary platform entry is present
+        if (!j.contains("binary") || !j["binary"].is_object()) {
+            THEMIS_ERROR("Plugin manifest missing required 'binary' section: {}", manifest_path);
+            return std::nullopt;
+        }
         
         // Parse type
         std::string type_str = j.value("type", "custom");
@@ -261,7 +277,7 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         }
         
         // Parse binaries
-        if (j.contains("binary")) {
+        {
             auto& bin = j["binary"];
             manifest.binary_windows = bin.value("windows", "");
             manifest.binary_linux = bin.value("linux", "");
@@ -291,6 +307,9 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         if (j.contains("config_schema")) {
             manifest.config_schema = j["config_schema"].dump();
         }
+
+        // Optional: expected SHA-256 hash of the binary for integrity enforcement
+        manifest.expected_hash = j.value("expected_hash", "");
         
         return manifest;
         
@@ -444,6 +463,28 @@ Result<IThemisPlugin*> PluginManager::loadPlugin(const std::string& name) {
     
     auto& current_entry = it->second;
     
+    // Binary hash enforcement: if the manifest specifies an expected_hash, verify
+    // the on-disk binary matches before attempting to load it.
+    if (!current_entry.manifest.expected_hash.empty()) {
+        std::string actual_hash = calculateFileHash(current_entry.path);
+        if (actual_hash.empty()) {
+            THEMIS_ERROR("Failed to compute hash for plugin binary: {}", current_entry.path);
+            metrics_.recordError(name);
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_LOAD_FAILED,
+                fmt::format("Hash computation failed for plugin '{}'", name));
+        }
+        if (actual_hash != current_entry.manifest.expected_hash) {
+            THEMIS_ERROR("Plugin binary hash mismatch for '{}': "
+                         "expected {}, got {}",
+                         name,
+                         current_entry.manifest.expected_hash,
+                         actual_hash);
+            metrics_.recordError(name);
+            return Err<IThemisPlugin*>(errors::ErrorCode::ERR_PLUGIN_INVALID_SIGNATURE,
+                fmt::format("Binary hash mismatch for plugin '{}' — possible tampering", name));
+        }
+    }
+
     std::string error_message;
     if (!verifyPlugin(current_entry.path, error_message)) {
         THEMIS_ERROR("Plugin verification failed for {}: {}", name, error_message);
