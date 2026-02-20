@@ -235,6 +235,18 @@ public:
     double getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
                         std::string_view weightAttribute = "_weight") const;
 
+    // General string field accessor for edge entities.
+    // Tries key formats: "edge:<graphId>:<edgeId>" and "edge:<edgeId>".
+    // Returns nullopt if the edge or field does not exist.
+    std::optional<std::string> getEdgeField(std::string_view edgeId,
+                                            std::string_view fieldName) const;
+
+    // General string field accessor for vertex (node) entities.
+    // Uses key format: "node:<vertexId>" (KeySchema::makeGraphNodeKey).
+    // Returns nullopt if the vertex or field does not exist.
+    std::optional<std::string> getNodeField(std::string_view vertexId,
+                                            std::string_view fieldName) const;
+
     // Optional: provide FieldEncryption for encrypting sensitive edge fields
     void setFieldEncryption(std::shared_ptr<class FieldEncryption> fe) { field_encryption_ = fe; }
 

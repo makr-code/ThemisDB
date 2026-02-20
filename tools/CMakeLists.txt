@@ -33,6 +33,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/embed_certificate.cpp")
     message(STATUS "embed_certificate tool configured")
 endif()
 
+# PostgreSQL Dump Import CLI
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/import_cli.cpp")
+    message(STATUS "Adding themisdb-import CLI tool")
+    
+    project(ThemisTools LANGUAGES CXX)
+    
+    add_executable(themisdb-import
+        import_cli.cpp
+    )
+    
+    target_compile_features(themisdb-import PRIVATE cxx_std_17)
+    
+    # nlohmann/json is header-only; find it via vcpkg or system
+    find_package(nlohmann_json QUIET)
+    if(nlohmann_json_FOUND)
+        target_link_libraries(themisdb-import PRIVATE nlohmann_json::nlohmann_json)
+    else()
+        # Fallback: assume json.hpp is on the include path
+        message(STATUS "nlohmann_json package not found; assuming json.hpp is on include path")
+    endif()
+    
+    install(TARGETS themisdb-import
+        RUNTIME DESTINATION bin
+        COMPONENT tools
+    )
+    
+    message(STATUS "themisdb-import CLI tool configured")
+endif()
+
 # ============================================================================
 # .NET Admin Tools
 # ============================================================================

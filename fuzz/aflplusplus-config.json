@@ -146,6 +146,30 @@
         "priority": "critical",
         "sanitizers": ["address", "undefined"],
         "coverage_guided": true
+      },
+      {
+        "name": "postgres_importer",
+        "description": "PostgreSQL pg_dump importer – COPY row parser, INSERT VALUES parser, CREATE TABLE DDL parser, UTF-8 validator",
+        "source": "src/importers/postgres_importer.cpp",
+        "harness": "fuzz/harnesses/postgres_importer_harness.cpp",
+        "input_corpus": "fuzz/corpus/importer/",
+        "timeout": 2000,
+        "memory_limit": "512MB",
+        "priority": "high",
+        "sanitizers": [
+          "address",
+          "undefined"
+        ],
+        "coverage_guided": true,
+        "notes": [
+          "Selector byte (data[0] & 0x03) routes to 4 parsers:",
+          "  0 = parseCopyRow via COPY pipeline",
+          "  1 = parseInsertValues via INSERT pipeline",
+          "  2 = parseCreateTable via CREATE TABLE pipeline",
+          "  3 = isValidUtf8 + enforce_utf8 COPY pipeline",
+          "Build: afl-clang-lto++ -DAFL_HARNESS -fsanitize=address,undefined -O2 -I include -o postgres_importer_harness fuzz/harnesses/postgres_importer_harness.cpp -L build/lib -lthemisdb_importers",
+          "LibFuzzer: clang++ -DLIBFUZZER_HARNESS -fsanitize=fuzzer,address,undefined -O2 -I include -o postgres_importer_fuzz fuzz/harnesses/postgres_importer_harness.cpp -L build/lib -lthemisdb_importers"
+        ]
       }
     ],
     "compiler": {

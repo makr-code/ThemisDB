@@ -155,4 +155,20 @@ the scope of the current bookkeeping-level implementation:
 - Sandboxed kernel loading (process/container isolation for JIT compilation)
 - Golden tests for kernel launch paths (need working kernels)
 - GPU query acceleration kernels (vector ops, matrix multiply, parallel scan)
+- GPU spatial acceleration kernels for `GpuBatchBackend::batchIntersects`
+  (CUDA/OpenCL point-in-polygon and segment-intersection; see `TODO(gpu-spatial)`)
+
+## Completed — Geo Spatial Backend
+
+- ✅ `GpuBatchBackend` (`src/geo/gpu_backend_stub.cpp`) replaces the original
+  all-zero stub with a real CPU-implemented geometry predicate and full
+  circuit-breaker / fallback / observability integration
+- ✅ `SpatialBatchInputs` extended with `geoms_a`/`geoms_b` geometry pair vectors
+- ✅ Latency and throughput tracking (`batch_avg_latency_us`, `batch_max_latency_us`,
+  `batch_pairs_processed`) exposed via `GpuBatchBackend::getStats()`
+- ✅ `getGpuSpatialBackend()` factory function exposed in `spatial_backend.h`
+- ✅ Comprehensive tests: geometry correctness, edge-case/degenerate inputs,
+  count-vector mismatch, large-batch stress, concurrent access
+  (`tests/test_geo_gpu_backend.cpp`)
+- ✅ Geo backend operational runbook added (`docs/gpu_runbooks.md §6`)
 

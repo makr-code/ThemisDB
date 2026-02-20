@@ -4,85 +4,100 @@
 
 ### IContext Interface for Contextual Logging
 **Priority:** High  
-**Target Version:** v1.6.0
+**Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/i_context.h`)
 
-Add new interface for context propagation through call chains.
+General context propagation for request/call-chain metadata.  Key features:
+
+- **`IContext`** — abstract interface: `set()`, `get()`, `has()`, `createChild()`, `toTraceContext()`
+- **`SimpleContext`** — thread-safe, `enable_shared_from_this`-based concrete implementation
+- **`context_keys::k*`** — 7 `constexpr string_view` constants (`kTraceId`, `kRequestId`, `kUserId`, `kTenantId`, `kOperation`, `kService`, `kSessionId`)
+- **`toTraceContext()`** bridge — converts the context to `TraceContext` for direct use with `ILogger::logWithContext()`
+- Parent/child chain: children inherit all parent attributes; writes are always local to the child
 
 ```cpp
-class IContext {
-public:
-    virtual void setAttribute(std::string_view key, std::string_view value) = 0;
-    virtual std::optional<std::string> getAttribute(std::string_view key) const = 0;
-    virtual IContextPtr createChild() const = 0;
-};
+// Root context
+auto ctx = SimpleContext::create("trace-abc", "req-42");
+ctx->set(context_keys::kUserId, "u-7");
 
-class ILogger {
-    // New method
-    virtual ILoggerPtr withContext(IContextPtr context) = 0;
-};
+// Sub-operation child
+auto child = ctx->createChild();
+child->set(context_keys::kOperation, "db.query");
+
+// Structured log with full correlation context
+logger.logWithContext(ILogger::Level::INFO, "query done",
+                      child->toTraceContext(), {{"rows", "5"}});
 ```
 
-**Benefits:**
-- Automatic request ID propagation
-- Structured logging context
-- Thread-local context management
+`ILogger` is unchanged — `toTraceContext()` bridges to the existing
+`logWithContext()` API with no interface modifications.
 
----
+
 
 ### Async Interfaces
 **Priority:** High  
-**Target Version:** v1.6.0
+**Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/i_async_logger.h`, `include/core/concerns/i_async_cache.h`)
 
-Add async variants of synchronous interfaces for non-blocking operations.
+`IAsyncLogger` and `IAsyncCache` extend their synchronous counterparts with
+`std::future`-returning methods for non-blocking dispatch on hot paths.
+Default implementations wrap the synchronous methods with `std::async` so
+existing `ILogger`/`ICache` implementations gain async variants for free.
+`NoOpAsyncLogger` and `NoOpAsyncCache` use deferred futures (no real threads)
+for fast, zero-overhead testing.
 
 ```cpp
-class IAsyncLogger : public ILogger {
-public:
-    virtual std::future<void> infoAsync(std::string_view msg) = 0;
-    virtual std::future<void> errorAsync(std::string_view msg) = 0;
-};
+// IAsyncLogger — fire-and-forget or awaitable
+IAsyncLogger& logger = ...;
+logger.infoAsync("Request received");          // fire-and-forget
+auto f = logger.errorAsync("Fatal error");
+f.get();                                       // await completion
 
-class IAsyncCache : public ICache {
-public:
-    virtual std::future<std::optional<std::string>> getAsync(std::string_view key) = 0;
-    virtual std::future<void> setAsync(std::string_view key, std::string_view value) = 0;
-};
+// IAsyncCache — non-blocking get + write
+IAsyncCache& cache = ...;
+auto fut = cache.getAsync("user:42");
+// ... do other work while I/O is in-flight ...
+auto entry = fut.get();
+if (entry) { /* cache hit */ }
+cache.putAsync("user:42", updated_entry, 30000);
 ```
 
-**Use Cases:**
-- Non-blocking logging in critical paths
-- Async cache warming
-- Background metric updates
+Any class that implements `ILogger` can opt in to async dispatch simply by
+inheriting from `IAsyncLogger` and implementing the same sync pure-virtuals
+— no additional overrides required.
 
----
+
 
 ### Type-Safe Metrics Labels
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/metric_labels.h`)
 
-Replace string-based labels with type-safe label sets.
+`MetricLabels` is a fluent builder that converts implicitly to `IMetrics::Labels`
+so it can be passed to any existing `IMetrics` method without changes at the
+call site.  Predefined label-name constants in the `labels::` namespace prevent
+typos at compile time.
 
 ```cpp
-struct MetricLabels {
-    std::string endpoint;
-    std::string method;
-    int status_code;
-};
+// Inline (ad-hoc labels)
+metrics.incrementCounter("http_requests_total", 1,
+    MetricLabels()
+        .add(labels::kMethod,   "GET")
+        .add(labels::kStatus,   "200")
+        .add(labels::kEndpoint, "/api/v1/query"));
 
-class IMetrics {
-    // Current (string-based)
-    virtual void incrementCounter(std::string_view name, double value = 1.0) = 0;
-    
-    // Proposed (type-safe)
-    template<typename Labels>
-    void incrementCounter(std::string_view name, const Labels& labels, double value = 1.0);
+// Domain-specific labels struct
+struct HttpRequestLabels {
+    std::string method;
+    std::string status;
+
+    IMetrics::Labels toMetricLabels() const {
+        return MetricLabels()
+            .add(labels::kMethod, method)
+            .add(labels::kStatus, status);
+    }
 };
 ```
 
-**Benefits:**
-- Compile-time label validation
-- Prevents typos in label names
-- Better IDE autocomplete
+`IMetrics::Labels` (`std::map<std::string, std::string>`) is unchanged — all
+existing code compiles without modification.
 
 ---
 
@@ -139,32 +154,17 @@ class ICache {
 
 ### Health Check Interface
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Status:** ✅ Implemented in v1.6.0
 
-Add standardized health check interface for all concerns.
+All four concern interfaces (`ILogger`, `ITracer`, `IMetrics`, `ICache`) now
+expose an `isHealthy()` probe returning a `ProbeResult{ok, message}`.
+`ConcernsContext::healthCheck()` and `readinessCheck()` aggregate all four
+results into a `HealthStatus`.  `MonitoringApiHandler::handleLiveness()` and
+`handleReadiness()` include per-concern health details in the JSON response
+when a `ConcernsContext` is injected.
 
-```cpp
-enum class HealthStatus {
-    Healthy,
-    Degraded,
-    Unhealthy
-};
-
-class IHealthCheckable {
-public:
-    virtual HealthStatus checkHealth() const = 0;
-    virtual std::string getHealthDetail() const = 0;
-};
-
-// All concerns implement IHealthCheckable
-class ILogger : public IHealthCheckable { /* ... */ };
-class ITracer : public IHealthCheckable { /* ... */ };
-```
-
-**Use Cases:**
-- Kubernetes liveness/readiness probes
-- Circuit breaker integration
-- Automatic failover
+See `include/core/concerns/lifecycle.h` and the "Lifecycle Management"
+section of `include/core/concerns/README.md` for API details.
 
 ---
 
@@ -358,14 +358,15 @@ class GenericHandler {
 
 ### Issue #1: Header Inclusion Order Sensitivity
 **Severity:** Medium  
-**Reported:** v1.5.0
+**Reported:** v1.5.0  
+**Status:** ✅ Fixed in v1.6.0
 
-Some headers require specific inclusion order.
-
-**Workaround:** Include `concerns_context.h` first  
-**Fix:** Add proper include guards and forward declarations
-
-**Planned Fix:** v1.6.0
+All headers already carried `#pragma once`.  The only remaining sensitivity
+was that `concerns_context.h` directly included `lifecycle.h` even though
+each of the four interface headers (`i_logger.h`, `i_tracer.h`, `i_metrics.h`,
+`i_cache.h`) already transitively pull it in.  The redundant direct include
+has been removed; all headers are now fully self-contained and can be included
+in any order.
 
 ---
 
@@ -569,16 +570,16 @@ class MyClass {
 We welcome contributions in the following areas:
 
 ### High-Impact, Beginner-Friendly
-- [ ] Add missing Doxygen comments to interfaces
-- [ ] Create example programs for each interface
-- [ ] Add `noexcept` specifications
-- [ ] Fix include order dependencies
+- [x] Add missing Doxygen comments to interfaces (all pure-virtual methods in `ILogger`, `ITracer`, `IMetrics`, `ICache` now documented)
+- [x] Create example programs for each interface (`examples/concerns_example.cpp` — covers `ILogger`, `ITracer`, `IMetrics`, `ICache`, `IContext`, `MetricLabels`, lifecycle hooks, and `ConcernsContext` aggregation)
+- [x] Add `noexcept` specifications (done for lifecycle methods: `flush()`, `shutdown()`, `HealthStatus::isHealthy()`, `LatencyTimer::elapsedMs()`, `TraceContext::empty()`, and all NoOp implementations)
+- [x] Fix include order dependencies (removed redundant `lifecycle.h` from `concerns_context.h`; all headers are now self-contained and order-independent)
 
 ### Medium Complexity
-- [ ] Implement IContext interface
-- [ ] Add type-safe metrics labels
-- [ ] Create async interface variants
-- [ ] Health check interface
+- [x] Implement IContext interface (`SimpleContext` + `context_keys::k*` in `include/core/concerns/i_context.h`; bridges to `logWithContext()` via `toTraceContext()`)
+- [x] Add type-safe metrics labels (`MetricLabels` fluent builder + `labels::k*` constants in `include/core/concerns/metric_labels.h`; implicitly converts to `IMetrics::Labels` so existing code is unchanged)
+- [x] Create async interface variants (`IAsyncLogger` and `IAsyncCache` in `i_async_logger.h`/`i_async_cache.h`; default impls wrap sync methods with `std::async`; NoOp variants use deferred futures)
+- [x] Health check interface (implemented in v1.6.0)
 
 ### Advanced Topics
 - [ ] Compile-time DI framework

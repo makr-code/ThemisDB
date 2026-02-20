@@ -2,113 +2,77 @@
 
 ## Planned Features
 
-### Parallel Graph Execution
+### Parallel Graph Execution ✅ DONE
 **Priority:** High  
 **Target Version:** v1.7.0
 
 Enable parallel execution of graph traversals for improved performance on large graphs.
 
-**Features:**
-- Multi-threaded BFS/DFS traversal
-- Parallel subgraph exploration
+**Implemented Features:**
+- ✅ Multi-threaded BFS (level-parallel frontier expansion via `std::async`)
+- ✅ Parallel Δ-Stepping Dijkstra (bucket-based parallelism, no global locks)
+- ✅ Configurable thread pool size (`num_threads`, 0 = auto-detect)
+- ✅ Thread-safe adjacency access via `GraphIndexManager::outAdjacency`
+
+**Planned (not yet implemented):**
 - Work-stealing queue for load balancing
-- Thread-safe result aggregation
-- Configurable thread pool size
-
-**Benefits:**
-- 40-60% reduction in query time for large graphs (>10K nodes)
-- Better CPU utilization on multi-core systems
-- Scalability for enterprise workloads
-- Reduced latency for complex pattern matching
-
-**API:**
-```cpp
-GraphQueryOptimizer::QueryConstraints constraints;
-constraints.enable_parallel = true;
-constraints.num_threads = 8;
-
-// Optimizer automatically parallelizes when beneficial
-auto plan = optimizer.optimizeKHopNeighborhood("start", 5, constraints);
-if (plan->enable_parallel) {
-    // Execution uses thread pool
-    auto result = optimizer.executeBFS("start", 5, constraints);
-}
-```
-
-**Implementation:**
-- Use thread pool from core module
-- Partition graph by node ranges or subgraphs
-- Implement parallel frontier expansion
-- Use lock-free data structures for visited sets
-- Aggregate results with minimal synchronization
-
-**Challenges:**
-- Thread-safe adjacency access
-- Load balancing for skewed graphs
-- Result ordering consistency
-- Overhead for small graphs
+- Lock-free visited sets for BFS
 
 ---
 
-### Adaptive Cost Model
+### Adaptive Cost Model ✅ DONE
 **Priority:** High  
 **Target Version:** v1.7.0
 
 Automatically improve cost estimates based on actual execution statistics.
 
-**Features:**
-- Learning from execution history
-- Per-pattern cost model refinement
-- Per-graph statistics tracking
-- Automatic model re-calibration
-- Confidence intervals for estimates
+**Implemented:** See `GraphQueryOptimizer::AlgorithmCostModel` below.
 
-**Benefits:**
-- Improved algorithm selection accuracy
-- Better plan quality over time
-- Reduced query time through better plans
-- Self-tuning system without manual intervention
+**Features:**
+- ✅ Learning from execution history (EMA per algorithm)
+- ✅ Per-algorithm cost model with confidence level
+- ✅ Automatic model re-calibration via `recordExecution`
+- ✅ `exportCostModel()` / `importCostModel()` for persistence
+- ✅ Disabled when `enableAdaptiveLearning(false)` is called
+- Persistence to disk (use `exportCostModel()` + file I/O)
+- Decay of old statistics (future enhancement)
+- Separate models per graph type/size (future)
 
 **API:**
 ```cpp
 GraphQueryOptimizer optimizer(graph_mgr);
-optimizer.enableAdaptiveLearning(true);
+// Adaptive learning is enabled by default
 
-// After many executions, cost estimates improve
-auto plan1 = optimizer.optimizeShortestPath("A", "B");  // Initial estimate: 100ms
-execute(plan1);  // Actual: 150ms -> update model
+// After many executions, cost estimates improve automatically
+optimizer.executeBFS("A", 5, c);   // observed ~8ms → EMA updates
+optimizer.executeBFS("A", 5, c);   // EMA converges towards actual timing
 
-auto plan2 = optimizer.optimizeShortestPath("C", "D");  // Improved estimate: 145ms
-execute(plan2);  // Actual: 148ms -> converging
+// Export learned model to persist across restarts
+std::string model_json = optimizer.exportCostModel();
+// e.g. {"BFS":{"ema_cost_ms":8.1,"exec_count":2,"confidence":0.02}}
 
-// Export learned model
-auto model = optimizer.exportCostModel();
-save_to_file(model, "graph_cost_model.json");
+// Import model in another instance (seeds with pre-learned data)
+GraphQueryOptimizer optimizer2(graph_mgr2);
+optimizer2.importCostModel(model_json);
 
-// Import model in another instance
-optimizer2.importCostModel(model);
+// Disable adaptive learning if deterministic plans are required
+optimizer.enableAdaptiveLearning(false);
+bool is_on = optimizer.isAdaptiveLearningEnabled(); // false
 ```
 
 **Learning Algorithm:**
-```cpp
-// Update cost estimate based on actual execution
-void updateCostEstimate(Algorithm algo, double estimated, double actual) {
-    // Exponential moving average
-    double alpha = 0.1;  // Learning rate
-    cost_estimates[algo] = alpha * actual + (1 - alpha) * cost_estimates[algo];
-    
-    // Track confidence
-    execution_count[algo]++;
-    confidence[algo] = min(1.0, execution_count[algo] / 100.0);
-}
+```
+ema_cost_ms = alpha * observed_ms + (1 - alpha) * ema_cost_ms   (alpha = 0.1)
+confidence  = min(1.0, exec_count / 100)
+blended_cost = (1 - confidence) * base_cost + confidence * (ema_cost_ms * 10)
 ```
 
 **Implementation:**
-- Store execution statistics in memory
-- Persist statistics to disk periodically
-- Use exponential moving average for estimates
-- Decay old statistics over time
-- Separate models per graph type/size
+- `AlgorithmCostModel` struct: EMA cost, execution count, confidence
+- `recordExecution()` calls `AlgorithmCostModel::update(ms)` for the executed algorithm
+- `estimateCost()` blends the learned EMA cost (scaled from ms to cost units) proportional to confidence
+- `exportCostModel()` serialises all entries to a JSON string
+- `importCostModel()` deserialises with unknown-algorithm and malformed-JSON safety
 
 ---
 
@@ -222,64 +186,61 @@ auto result = optimizer.executeBFS("start", 10, constraints);
 
 ---
 
-### Advanced Constraint Types
+### Advanced Constraint Types (Partially Implemented)
 **Priority:** Medium  
 **Target Version:** v1.7.0
 
 Extend PathConstraints with more sophisticated constraint types.
 
 **Features:**
-- **Temporal Constraints**: Path valid at specific time
-- **Weight Constraints**: Min/max total path weight
-- **Probability Constraints**: Min probability for uncertain graphs
-- **Resource Constraints**: Capacity limits on paths
-- **Semantic Constraints**: Ontology-based path rules
-- **Geo-Fence Constraints**: Spatial boundaries for paths
+- **Node Property Constraints** ✅ DONE – `addNodePropertyConstraint(key, value)` prunes BFS traversal
+- **Weight Constraints** ✅ DONE – `addMaxWeight(threshold)` prunes BFS; `addMinWeight(threshold)` rejects at acceptance
+- **Temporal Constraints**: Path valid at specific time ⏳ Planned
+- **Probability Constraints**: Min probability for uncertain graphs ⏳ Planned
+- **Resource Constraints**: Capacity limits on paths ⏳ Planned
+- **Semantic Constraints**: Ontology-based path rules ⏳ Planned
+- **Geo-Fence Constraints**: Spatial boundaries for paths ⏳ Planned
 
-**Benefits:**
-- Support complex real-world scenarios
-- Enable domain-specific path finding
-- Better modeling of business rules
-- Integration with other data models
-
-**API:**
+**Implemented API:**
 ```cpp
 PathConstraints constraints(&graph_mgr);
 
-// Temporal constraint
-constraints.addTemporalConstraint(
-    start_time_ms,
-    end_time_ms,
-    TemporalMode::VALID_DURING  // or VALID_AT
-);
+// Node property constraint (v1.7.0)
+constraints.addNodePropertyConstraint("country", "USA");
+// → Only traverse nodes where node.country == "USA"
 
-// Weight constraint
-constraints.addMaxWeight(100.0);  // Total path weight <= 100
-constraints.addMinWeight(10.0);   // Total path weight >= 10
-
-// Resource constraint
-constraints.addResourceCapacity("bandwidth", 1000);  // Max 1000 units
-
-// Geo-fence constraint
-constraints.addGeoFence(
-    center_lat, center_lon, radius_km,
-    GeoFenceMode::MUST_STAY_INSIDE  // or MUST_PASS_THROUGH
-);
-
-// Semantic constraint
-constraints.addSemanticRule(
-    ontology,
-    "path must satisfy rule: IsA(node, Customer) AND HasRelation(node, Premium)"
-);
+// Weight constraints (v1.7.0)
+constraints.addMaxWeight(100.0);  // Total path weight <= 100 (BFS pruning)
+constraints.addMinWeight(10.0);   // Total path weight >= 10 (acceptance check)
 
 auto paths = constraints.findConstrainedPaths("start", "end", 10);
 ```
 
-**Implementation:**
-- Extend Constraint struct with new types
-- Implement validation logic for each type
-- Integrate with temporal graph, property graph
-- Optimize constraint checking during traversal
+**Planned API (not yet implemented):**
+```cpp
+// Temporal constraint
+constraints.addTemporalConstraint(
+    start_time_ms,
+    end_time_ms,
+    TemporalMode::VALID_DURING
+);
+
+// Resource constraint
+constraints.addResourceCapacity("bandwidth", 1000);
+
+// Geo-fence constraint
+constraints.addGeoFence(
+    center_lat, center_lon, radius_km,
+    GeoFenceMode::MUST_STAY_INSIDE
+);
+```
+
+**Implementation Notes:**
+- `getNodeField(vertexId, fieldName)` added to `GraphIndexManager` (uses `node:<pk>` key format)
+- `ConstraintType::MAX_WEIGHT` / `MIN_WEIGHT` added to `PathConstraints::ConstraintType` enum
+- `Constraint::double_value` field stores threshold for weight constraints
+- BFS pruner checks `MAX_WEIGHT` after each edge weight accumulation
+- `validatePath` enforces `NODE_PROPERTY` for all nodes; weight constraints handled by `findConstrainedPaths`
 
 ---
 
@@ -544,9 +505,11 @@ Process graphs as streams of edge insertions/deletions.
 ## Implementation Priorities
 
 **v1.7.0 (Q3 2026):**
-1. Parallel Graph Execution
-2. Adaptive Cost Model
-3. Advanced Constraint Types
+1. ✅ Parallel Graph Execution (BFS + Dijkstra Δ-Stepping)
+2. ✅ Adaptive Cost Model
+3. ✅ Advanced Constraint Types
+4. ✅ Latency Histogram & Prometheus Scrape Endpoint
+5. ✅ Query Rate Limiter (per-second budget, ERR_GRAPH_RATE_LIMIT_EXCEEDED)
 
 **v1.8.0 (Q1 2027):**
 1. Distributed Graph Queries
@@ -560,6 +523,222 @@ Process graphs as streams of edge insertions/deletions.
 1. Multi-Layer Graph Support
 2. Graph ML Integration
 3. Graph Visualization
+
+## Implemented Features (v1.7.0)
+
+### Query Timeout / SLO Enforcement ✅ DONE
+
+`QueryConstraints::timeout_ms` – when set to a non-zero value BFS and DFS
+traversals abort after the given number of milliseconds and return
+`ERR_QUERY_TIMEOUT`. This provides a first line of defence for SLO budgets.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints constraints;
+constraints.timeout_ms = 500; // abort after 500 ms
+auto result = optimizer.executeBFS("start", 5, constraints);
+if (!result) {
+    // result.error().code == ERR_QUERY_TIMEOUT
+}
+```
+
+### Aggregate Observability Metrics ✅ DONE
+
+`GraphQueryOptimizer::getQueryMetrics()` returns a `GraphQueryMetrics` snapshot
+with cumulative counters that can be scraped by a Prometheus exporter or
+forwarded to an OpenTelemetry collector:
+
+| Metric                              | Description                              |
+|-------------------------------------|------------------------------------------|
+| `total_queries`                     | Total traversal executions since startup |
+| `failed_queries`                    | Executions that returned no paths        |
+| `timed_out_queries`                 | Executions aborted by `timeout_ms`       |
+| `total_execution_time_ms`           | Sum of all execution durations (ms)      |
+| `max_execution_time_ms`             | Peak single-query duration (ms)          |
+| `total_nodes_explored`              | Cumulative nodes visited                 |
+| `total_edges_traversed`             | Cumulative edges traversed               |
+| `plan_cache_hits` / `misses`        | Plan-cache efficiency counters           |
+
+See `docs/graph_roadmap.md` for the full observability checklist.
+
+### Graph-Specific Structured Error Codes ✅ DONE
+
+Six dedicated error codes added to `errors::ErrorCode` in range **6400-6499**,
+each registered with full metadata (category, severity, solution, keywords):
+
+| Code | Constant                        | Meaning                                         |
+|------|---------------------------------|-------------------------------------------------|
+| 6400 | `ERR_GRAPH_NO_SUCH_VERTEX`      | Vertex not found in graph                       |
+| 6401 | `ERR_GRAPH_NO_SUCH_EDGE`        | Edge not found in graph                         |
+| 6402 | `ERR_GRAPH_CONSTRAINT_CONFLICT` | Contradictory path constraints                  |
+| 6403 | `ERR_GRAPH_PATH_NOT_FOUND`      | No path satisfies constraints                   |
+| 6404 | `ERR_GRAPH_CYCLE_DETECTED`      | Cycle in acyclic-required traversal             |
+| 6405 | `ERR_GRAPH_DEPTH_EXCEEDED`      | Traversal depth limit exceeded                  |
+
+`executeBFS`/`executeDFS` now return `ERR_GRAPH_NO_SUCH_VERTEX` instead of the
+generic `ERR_QUERY_EXECUTION_FAILED` for unknown vertex lookups.
+
+### Explain / Dry-Run Query API ✅ DONE
+
+`GraphQueryOptimizer::explainConstrainedPath()` – returns an `OptimizationPlan`
+without executing any traversal, enabling callers to inspect the chosen algorithm,
+cost estimate, and constraint summary before committing to actual graph traversal.
+Does **not** increment `getQueryMetrics().total_queries`.
+
+```cpp
+themis::graph::PathConstraints constraints(&graph_mgr);
+constraints.addRequiredNode("checkpoint");
+constraints.addMaxLength(6);
+
+// Inspect the plan without touching the graph
+auto plan = optimizer.explainConstrainedPath("start", "end", constraints);
+std::cout << optimizer.explainPlan(plan.value()); // algorithm, cost, constraints
+```
+
+### Parallel BFS (`enable_parallel` + `num_threads`) ✅ DONE
+
+`executeBFS` now supports level-parallel frontier expansion. The BFS is
+rewritten as a level-by-level loop; each level's neighbor lookups are
+dispatched as independent `std::async` tasks when `enable_parallel=true`.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints c;
+c.enable_parallel = true;  // opt-in; default is false (backward-compatible)
+c.num_threads = 4;         // 0 = hardware_concurrency/2, max 16
+auto result = optimizer.executeBFS("start", 5, c);
+```
+
+Produces the same set of reachable nodes as the sequential path (no correctness
+regression). The `num_threads` field defaults to `0` (auto-detect).
+
+### Parallel Dijkstra (Δ-Stepping) ✅ DONE
+
+`GraphQueryOptimizer::executeDijkstra` now uses the Δ-Stepping algorithm when
+`constraints.enable_parallel = true`, giving bucket-based parallelism without
+global locks.
+
+**Algorithm:**
+1. Δ is sampled from the start vertex's first-hop average edge weight (default 1.0).
+2. Vertices are partitioned into buckets of width Δ.
+3. Within each bucket, light-edge (weight ≤ Δ) relaxations are dispatched as
+   `std::async` tasks (one per thread chunk); each task returns a local
+   `vector<RelaxResult>` with no shared writes.
+4. The main thread applies updates serially – no data races on `dist[]` / `parent[]`.
+5. Heavy edges (weight > Δ) are relaxed serially after the bucket is stable.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints c;
+c.enable_parallel = true;   // opt-in; default is false (backward-compatible)
+c.num_threads = 4;          // 0 = hardware_concurrency/2, max 16
+auto result = optimizer.executeDijkstra("A", "D", c);
+// result->totalCost == optimal weighted shortest-path cost
+// result->path      == reconstructed path [A, ..., D]
+```
+
+Produces the same `totalCost` as sequential Dijkstra (verified by
+`Dijkstra_Parallel_ProducesSameResultAsSequential`).
+
+### Edge Property Constraints ✅ DONE
+
+`PathConstraints::addEdgePropertyConstraint(field_name, expected_value)` –
+prunes edges during `findConstrainedPaths` BFS traversal by checking each
+candidate edge's field value against the required value.
+
+```cpp
+PathConstraints c(&graph_mgr);
+c.addEdgePropertyConstraint("type", "follows"); // only traverse "follows" edges
+auto paths = c.findConstrainedPaths("user1", "user5", 10);
+```
+
+`validatePath` also enforces `EDGE_PROPERTY` on complete paths.
+`describeConstraints()` lists each edge property constraint as:
+`"Edge property: <key> = <value>"`.
+
+New backing API: `GraphIndexManager::getEdgeField(edgeId, fieldName)` returns
+an `std::optional<std::string>` without needing the graph ID.
+
+### Adaptive Cost Model ✅ DONE
+
+`GraphQueryOptimizer::AlgorithmCostModel` – per-algorithm EMA cost tracking with
+confidence-weighted blending into `estimateCost()`.
+
+```cpp
+// Enabled by default; runs automatically with each execute* call
+optimizer.executeBFS("start", 5, c);   // records 8.1ms → EMA updates
+
+// Export / import for warm-start across restarts
+std::string json = optimizer.exportCostModel();
+optimizer2.importCostModel(json);
+
+// Opt out for deterministic plans
+optimizer.enableAdaptiveLearning(false);
+```
+
+Key properties:
+- EMA alpha = 0.1 (smoothes out outliers)
+- Confidence = `min(1.0, exec_count / 100)` (0 → purely theoretical, 1 → fully learned)
+- `estimateCost()` blends: `(1 - conf) * base + conf * (ema_ms * 10)`
+- `ExecutionStats::algorithm` field enables `recordExecution` to route to the correct model
+- `exportCostModel()` / `importCostModel()` use JSON; unknown algo keys are silently ignored
+
+### Node Property Constraints ✅ DONE
+
+`PathConstraints::addNodePropertyConstraint(field, value)` – prunes BFS traversal
+and validates complete paths by looking up each node's field in the graph store.
+
+```cpp
+PathConstraints c(&graph_mgr);
+c.addNodePropertyConstraint("country", "USA");
+// BFS skips any next_node whose country field ≠ "USA"
+auto paths = c.findConstrainedPaths("user1", "user5", 10);
+```
+
+Backed by new `GraphIndexManager::getNodeField(vertexId, fieldName)` which reads
+from `node:<pk>` key format (same as `KeySchema::makeGraphNodeKey`).
+
+### Weight Constraints ✅ DONE
+
+`PathConstraints::addMaxWeight(threshold)` and `addMinWeight(threshold)` implement
+total-path-weight constraints backed by `ConstraintType::MAX_WEIGHT` / `MIN_WEIGHT`
+and a new `Constraint::double_value` field.
+
+```cpp
+PathConstraints c(&graph_mgr);
+c.addMaxWeight(10.0);   // BFS prunes states where accumulated cost > 10.0
+c.addMinWeight(2.0);    // Final acceptance rejects paths with cost < 2.0
+auto paths = c.findConstrainedPaths("A", "D", 5);
+```
+
+Edge weights are read from each edge's `_weight` field (default 1.0 when absent).
+
+### Latency Histogram & Prometheus Export ✅ DONE
+
+`GraphQueryMetrics::LatencyHistogram` – 10-bucket fixed-width histogram with
+upper bounds (ms): 1, 5, 10, 25, 50, 100, 250, 500, 1000, +Inf.
+
+```cpp
+const auto& hist = optimizer.getQueryMetrics().latency_histogram;
+double p99 = hist.percentileMs(0.99);
+double p50 = hist.percentileMs(0.50);
+```
+
+`GET /api/v1/graph/metrics/prometheus` exports all counters and the full latency
+histogram in Prometheus text exposition format.  p50, p95, and p99 are also
+exported as computed gauges.
+
+### Query Rate Limiter ✅ DONE
+
+Per-second token-window rate limiting for graph queries.
+
+```cpp
+optimizer.setMaxQueriesPerSecond(200);  // 200 QPS max
+// Excess queries return ERR_GRAPH_RATE_LIMIT_EXCEEDED (6406)
+optimizer.setMaxQueriesPerSecond(0);    // disable
+```
+
+Applies to all five execute methods.  Uses atomic CAS sliding-window for
+thread-safe operation without mutexes.
+
+---
 
 ## Community Requests
 

@@ -9,6 +9,13 @@
 #include <unordered_set>
 #include <chrono>
 #include <sstream>
+#include <future>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <nlohmann/json.hpp>
+#include <limits>
+#include <map>
 
 namespace themis {
 namespace graph {
@@ -38,8 +45,10 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
         auto it = plan_cache_.find(cache_key);
         if (it != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(it->second);
         }
+        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
 
     OptimizationPlan plan;
@@ -81,8 +90,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
         std::pow(statistics_.avg_branching_factor, estimated_depth));
     plan.estimated_time_ms = plan.estimated_cost * 0.1; // Convert cost to time estimate
     
-    // Determine if parallel execution is beneficial
-    plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+    // Determine if parallel execution is beneficial; caller can also force it on
+    plan.enable_parallel = constraints.enable_parallel ||
+                           shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     // Generate explanation
     plan.explanation = explainPlan(plan);
@@ -291,75 +301,182 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     return Ok(plan);
 }
 
+Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::explainConstrainedPath(
+    std::string_view start_vertex,
+    std::string_view end_vertex,
+    const PathConstraints& constraints) {
+    // Pure dry-run: delegate to optimizeConstrainedPath which performs no traversal.
+    // The method is intentionally a thin wrapper so callers can use a distinct API
+    // that makes the "no execution" guarantee clear.
+    return optimizeConstrainedPath(start_vertex, end_vertex, constraints);
+}
+
 Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     std::string_view start_vertex,
     int max_depth,
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    // Rate limit check – before any work is done
+    if (!rate_limiter_.allowQuery()) {
+        return Err<std::vector<std::string>>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "BFS query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
-    
-    std::vector<std::string> result;
-    std::queue<std::pair<std::string, int>> queue;
-    std::unordered_set<std::string> visited;
-    
-    queue.push({std::string(start_vertex), 0});
-    visited.insert(std::string(start_vertex));
-    
-    while (!queue.empty()) {
-        auto [current, depth] = queue.front();
-        queue.pop();
-        
-        result.push_back(current);
-        local_stats.nodes_explored++;
-        
-        if (depth >= max_depth) {
-            continue;
+    local_stats.algorithm = TraversalAlgorithm::BFS;
+
+    // Helper: determine effective thread count for parallel BFS
+    const bool use_parallel = constraints.enable_parallel;
+    const size_t effective_threads = [&]() -> size_t {
+        if (!use_parallel) return 1u;
+        if (constraints.num_threads > 0) {
+            return std::min<size_t>(constraints.num_threads, 16u);
         }
-        
-        // Get neighbors
-        auto [status, neighbors] = graph_manager_.outNeighbors(current);
-        if (!status.ok) {
+        // hardware_concurrency() may return 0 on unsupported platforms; default to 4
+        const size_t hw = std::thread::hardware_concurrency();
+        const size_t base = (hw > 0) ? hw : 8u;
+        return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+    }();
+
+    // Helper: timeout check reused in the loop
+    auto timedOut = [&]() -> bool {
+        if (constraints.timeout_ms == 0) return false;
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time).count();
+        return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
+    };
+
+    std::vector<std::string> result;
+    std::unordered_set<std::string> visited;
+
+    // BFS frontier: current level to expand
+    std::vector<std::string> current_frontier;
+    current_frontier.push_back(std::string(start_vertex));
+    visited.insert(std::string(start_vertex));
+
+    for (int depth = 0; depth <= max_depth; ++depth) {
+        if (current_frontier.empty()) break;
+
+        // Timeout check at the start of each level
+        if (timedOut()) {
+            local_stats.early_terminated = true;
+            metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+            if (stats) { *stats = local_stats; }
+            recordExecution(local_stats);
             return Err<std::vector<std::string>>(
-                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                "Failed to get neighbors: " + status.message
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "BFS query exceeded timeout of " +
+                    std::to_string(constraints.timeout_ms) + "ms"
             );
         }
-        
-        local_stats.edges_traversed += neighbors.size();
-        
-        // Apply edge type filter if specified
-        std::vector<std::string> filtered_neighbors = neighbors;
-        if (constraints.edge_type.has_value()) {
-            // Edge type filtering would be done here
-            // For now, we use all neighbors
+
+        // Add all frontier nodes to result
+        for (const auto& node : current_frontier) {
+            result.push_back(node);
+            local_stats.nodes_explored++;
+            if (constraints.max_results.has_value() &&
+                result.size() >= constraints.max_results.value()) {
+                local_stats.early_terminated = true;
+                break;
+            }
         }
-        
-        for (const auto& neighbor : filtered_neighbors) {
-            if (visited.find(neighbor) == visited.end()) {
-                // Check forbidden vertices
-                if (std::find(constraints.forbidden_vertices.begin(), 
-                            constraints.forbidden_vertices.end(), neighbor) 
-                    != constraints.forbidden_vertices.end()) {
-                    continue;
+        if (local_stats.early_terminated) break;
+
+        if (depth == max_depth) break; // No need to expand last level
+
+        // Build next frontier: expand each node in current_frontier, optionally in parallel
+        std::vector<std::string> next_frontier;
+        bool vertex_error = false;
+        std::string error_vertex;
+
+        if (!use_parallel || current_frontier.size() < effective_threads) {
+            // Sequential expansion
+            for (const auto& node : current_frontier) {
+                auto [status, neighbors] = graph_manager_.outNeighbors(node);
+                if (!status.ok) { vertex_error = true; error_vertex = node; break; }
+                local_stats.edges_traversed += neighbors.size();
+                for (const auto& nb : neighbors) {
+                    if (visited.count(nb)) continue;
+                    if (std::find(constraints.forbidden_vertices.begin(),
+                                  constraints.forbidden_vertices.end(), nb) !=
+                        constraints.forbidden_vertices.end()) continue;
+                    visited.insert(nb);
+                    next_frontier.push_back(nb);
                 }
-                
-                visited.insert(neighbor);
-                queue.push({neighbor, depth + 1});
-                
-                // Early termination check
-                if (constraints.max_results.has_value() && 
-                    result.size() >= constraints.max_results.value()) {
-                    local_stats.early_terminated = true;
+            }
+        } else {
+            // Parallel expansion: split frontier into chunks, one per thread.
+            // Each async task collects its neighbors independently; we merge
+            // after all futures complete, so no shared mutable state races.
+            struct ChunkResult {
+                std::vector<std::string> neighbors; // raw (may have duplicates across chunks)
+                size_t edges_seen = 0;
+                bool error = false;
+                std::string error_vertex;
+            };
+
+            const size_t chunk_size = (current_frontier.size() + effective_threads - 1) / effective_threads;
+            std::vector<std::future<ChunkResult>> futures;
+            std::atomic<bool> any_error{false};
+
+            for (size_t t = 0; t < effective_threads; ++t) {
+                const size_t begin_idx = t * chunk_size;
+                if (begin_idx >= current_frontier.size()) break;
+                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
+
+                futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
+                    ChunkResult cr;
+                    for (size_t i = begin_idx; i < end_idx; ++i) {
+                        if (any_error.load(std::memory_order_relaxed)) break;
+                        const std::string& node = current_frontier[i];
+                        auto [status, neighbors] = graph_manager_.outNeighbors(node);
+                        if (!status.ok) {
+                            any_error.store(true, std::memory_order_relaxed);
+                            cr.error = true;
+                            cr.error_vertex = node;
+                            break;
+                        }
+                        cr.edges_seen += neighbors.size();
+                        for (const auto& nb : neighbors) {
+                            cr.neighbors.push_back(nb);
+                        }
+                    }
+                    return cr;
+                }));
+            }
+
+            // Merge parallel results (de-duplicate using the shared visited set)
+            for (auto& fut : futures) {
+                ChunkResult cr = fut.get();
+                if (cr.error) {
+                    vertex_error = true;
+                    error_vertex = cr.error_vertex;
                     break;
+                }
+                local_stats.edges_traversed += cr.edges_seen;
+                for (const auto& nb : cr.neighbors) {
+                    if (visited.count(nb)) continue;
+                    if (std::find(constraints.forbidden_vertices.begin(),
+                                  constraints.forbidden_vertices.end(), nb) !=
+                        constraints.forbidden_vertices.end()) continue;
+                    visited.insert(nb);
+                    next_frontier.push_back(nb);
                 }
             }
         }
-        
-        if (local_stats.early_terminated) {
-            break;
+
+        if (vertex_error) {
+            return Err<std::vector<std::string>>(
+                errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                error_vertex
+            );
         }
+
+        current_frontier = std::move(next_frontier);
     }
     
     auto end_time = std::chrono::steady_clock::now();
@@ -381,8 +498,16 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    if (!rate_limiter_.allowQuery()) {
+        return Err<std::vector<std::string>>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "DFS query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::DFS;
     
     std::vector<std::string> result;
     std::vector<std::pair<std::string, int>> stack;
@@ -394,6 +519,23 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         auto [current, depth] = stack.back();
         stack.pop_back();
         
+        // Timeout check
+        if (constraints.timeout_ms > 0) {
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time).count();
+            if (elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms)) {
+                local_stats.early_terminated = true;
+                metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+                if (stats) { *stats = local_stats; }
+                recordExecution(local_stats);
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                    "DFS query exceeded timeout of " +
+                        std::to_string(constraints.timeout_ms) + "ms"
+                );
+            }
+        }
+
         if (visited.find(current) != visited.end()) {
             continue;
         }
@@ -409,8 +551,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         auto [status, neighbors] = graph_manager_.outNeighbors(current);
         if (!status.ok) {
             return Err<std::vector<std::string>>(
-                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                "Failed to get neighbors: " + status.message
+                errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                current
             );
         }
         
@@ -447,30 +589,268 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     std::string_view target_vertex,
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
-    
+
+    if (!rate_limiter_.allowQuery()) {
+        return Err<GraphIndexManager::PathResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "Dijkstra query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
-    
-    // Use existing Dijkstra implementation from GraphIndexManager
+    local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
+
+    // -----------------------------------------------------------------------
+    // Parallel path: Δ-Stepping shortest-path algorithm (Phase 3.2)
+    //
+    // Partition tentative distances into buckets of width Δ; light edges
+    // (weight ≤ Δ) are relaxed in parallel via std::async; heavy edges are
+    // relaxed serially after each bucket is cleared.  All dist[] / parent[]
+    // updates are applied by the main thread – no data races.
+    // -----------------------------------------------------------------------
+    if (constraints.enable_parallel) {
+        const std::string start(start_vertex);
+        const std::string target(target_vertex);
+
+        // Effective thread count (mirrors BFS logic)
+        const size_t nthreads = [&]() -> size_t {
+            if (constraints.num_threads > 0) {
+                return std::min<size_t>(constraints.num_threads, 16u);
+            }
+            const size_t hw = std::thread::hardware_concurrency();
+            const size_t base = (hw > 0) ? hw : 8u;
+            return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+        }();
+
+        // Choose Δ: average weight of the start vertex's first-hop edges.
+        // Falls back to 1.0 when there are no outgoing edges.
+        // The minimum of MIN_DELTA (1e-6) prevents division-by-zero when
+        // computing bucket indices as floor(dist / delta).
+        static constexpr double MIN_DELTA = 1e-6;
+        double delta = 1.0;
+        {
+            auto [s, adjs] = graph_manager_.outAdjacency(start);
+            if (s.ok && !adjs.empty()) {
+                double sum = 0.0;
+                for (const auto& adj : adjs) {
+                    sum += graph_manager_.getEdgeWeight("", adj.edgeId, "_weight");
+                }
+                delta = std::max(MIN_DELTA, sum / static_cast<double>(adjs.size()));
+            }
+        }
+
+        std::unordered_map<std::string, double> dist;
+        std::unordered_map<std::string, std::string> parent;
+        dist[start] = 0.0;
+
+        // std::map keeps bucket indices sorted; begin() always returns the
+        // minimum-index non-empty bucket in O(log n).
+        std::map<size_t, std::unordered_set<std::string>> buckets;
+        buckets[0].insert(start);
+
+        // Timeout helper (matches BFS / DFS timeout logic)
+        auto timedOut = [&]() -> bool {
+            if (constraints.timeout_ms == 0) return false;
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time).count();
+            return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
+        };
+
+        // Result type returned by each parallel light-edge relaxation task.
+        // edge_count = total edges examined by the task (light + skipped heavy);
+        // accumulated into edges_traversed by the main thread.
+        struct RelaxResult {
+            std::string vertex;
+            double new_dist;
+            std::string parent_vertex;
+        };
+        struct TaskOutput {
+            std::vector<RelaxResult> relaxations;
+            size_t edge_count = 0;
+        };
+
+        while (!buckets.empty()) {
+            if (timedOut()) {
+                local_stats.early_terminated = true;
+                metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+                if (stats) { *stats = local_stats; }
+                recordExecution(local_stats);
+                return Err<GraphIndexManager::PathResult>(
+                    errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                    "Dijkstra (Δ-stepping) exceeded timeout of " +
+                        std::to_string(constraints.timeout_ms) + "ms"
+                );
+            }
+
+            const size_t bucket_idx = buckets.begin()->first;
+            std::unordered_set<std::string> settled_in_bucket;
+
+            // Inner loop: re-process bucket_idx until it is stable (a vertex
+            // whose light-edge relaxation lands back in bucket_idx causes
+            // another iteration).
+            while (!buckets.empty() && buckets.begin()->first == bucket_idx) {
+                std::vector<std::string> S(buckets.begin()->second.begin(),
+                                           buckets.begin()->second.end());
+                buckets.erase(buckets.begin());
+                settled_in_bucket.insert(S.begin(), S.end());
+                local_stats.nodes_explored += S.size();
+
+                // Chunk S into at most nthreads groups.
+                const size_t chunk_size =
+                    std::max<size_t>(1u, (S.size() + nthreads - 1) / nthreads);
+                std::vector<std::future<TaskOutput>> futures;
+
+                for (size_t cs = 0; cs < S.size(); cs += chunk_size) {
+                    const size_t ce = std::min(cs + chunk_size, S.size());
+                    futures.push_back(std::async(std::launch::async,
+                        [&, cs, ce]() {
+                            TaskOutput out;
+                            for (size_t vi = cs; vi < ce; ++vi) {
+                                const std::string& v = S[vi];
+                                // dist[v] is fixed for S (only updated serially)
+                                auto dit = dist.find(v);
+                                if (dit == dist.end()) continue;
+                                const double d_v = dit->second;
+                                auto [s, adjs] = graph_manager_.outAdjacency(v);
+                                if (!s.ok) continue;
+                                out.edge_count += adjs.size();
+                                for (const auto& adj : adjs) {
+                                    const double w = graph_manager_.getEdgeWeight(
+                                        "", adj.edgeId, "_weight");
+                                    if (w > delta) continue; // heavy – skip
+                                    const double nd = d_v + w;
+                                    auto nit = dist.find(adj.targetPk);
+                                    if (nit == dist.end() || nd < nit->second) {
+                                        out.relaxations.push_back({adj.targetPk, nd, v});
+                                    }
+                                }
+                            }
+                            return out;
+                        }));
+                }
+
+                // Apply updates serially so dist[] / parent[] are never
+                // written from multiple threads simultaneously.
+                // Also accumulate the edge counts from each task.
+                for (auto& fut : futures) {
+                    auto out = fut.get();
+                    local_stats.edges_traversed += out.edge_count;
+                    for (const auto& r : out.relaxations) {
+                        auto it = dist.find(r.vertex);
+                        const double old_d = (it != dist.end())
+                            ? it->second
+                            : std::numeric_limits<double>::infinity();
+                        if (r.new_dist < old_d) {
+                            // Move vertex to the correct (lower) bucket.
+                            if (old_d < std::numeric_limits<double>::infinity()) {
+                                const size_t old_idx =
+                                    static_cast<size_t>(old_d / delta);
+                                auto bit = buckets.find(old_idx);
+                                if (bit != buckets.end()) {
+                                    bit->second.erase(r.vertex);
+                                    if (bit->second.empty()) buckets.erase(bit);
+                                }
+                            }
+                            dist[r.vertex] = r.new_dist;
+                            parent[r.vertex] = r.parent_vertex;
+                            buckets[static_cast<size_t>(r.new_dist / delta)]
+                                .insert(r.vertex);
+                        }
+                    }
+                }
+            }
+
+            // Relax heavy edges (weight > Δ) from all settled vertices.
+            // Light edges were already counted in the parallel phase; here we
+            // count only the heavy-edge traversals to avoid double-counting.
+            for (const auto& v : settled_in_bucket) {
+                auto dit = dist.find(v);
+                if (dit == dist.end()) continue;
+                const double d_v = dit->second;
+                auto [s, adjs] = graph_manager_.outAdjacency(v);
+                if (!s.ok) continue;
+                for (const auto& adj : adjs) {
+                    const double w = graph_manager_.getEdgeWeight(
+                        "", adj.edgeId, "_weight");
+                    if (w <= delta) continue; // light – already counted above
+                    local_stats.edges_traversed++;
+                    const double nd = d_v + w;
+                    auto it = dist.find(adj.targetPk);
+                    const double old_d = (it != dist.end())
+                        ? it->second
+                        : std::numeric_limits<double>::infinity();
+                    if (nd < old_d) {
+                        if (old_d < std::numeric_limits<double>::infinity()) {
+                            const size_t old_idx =
+                                static_cast<size_t>(old_d / delta);
+                            auto bit = buckets.find(old_idx);
+                            if (bit != buckets.end()) {
+                                bit->second.erase(adj.targetPk);
+                                if (bit->second.empty()) buckets.erase(bit);
+                            }
+                        }
+                        dist[adj.targetPk] = nd;
+                        parent[adj.targetPk] = v;
+                        buckets[static_cast<size_t>(nd / delta)].insert(adj.targetPk);
+                    }
+                }
+            }
+
+            // Early exit once target has received its final (optimal) distance.
+            if (settled_in_bucket.count(target)) break;
+        }
+
+        // Reconstruct path from parent[] map.
+        GraphIndexManager::PathResult path_result;
+        auto dit = dist.find(target);
+        if (dit != dist.end()) {
+            path_result.totalCost = dit->second;
+            std::vector<std::string> path;
+            std::string cur = target;
+            while (cur != start) {
+                path.push_back(cur);
+                auto pit = parent.find(cur);
+                if (pit == parent.end()) { path.clear(); break; }
+                cur = pit->second;
+            }
+            if (!path.empty() || target == start) {
+                path.push_back(start);
+                std::reverse(path.begin(), path.end());
+                path_result.path = std::move(path);
+            }
+        }
+
+        auto end_time = std::chrono::steady_clock::now();
+        local_stats.execution_time_ms =
+            std::chrono::duration<double, std::milli>(end_time - start_time).count();
+        local_stats.paths_found = path_result.path.empty() ? 0 : 1;
+        if (stats) { *stats = local_stats; }
+        recordExecution(local_stats);
+        return Ok(path_result);
+    }
+
+    // Sequential path: delegate to the GraphIndexManager's Dijkstra.
     auto [status, path_result] = graph_manager_.dijkstra(start_vertex, target_vertex);
-    
+
     if (!status.ok) {
         return Err<GraphIndexManager::PathResult>(
             errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
             "Dijkstra execution failed: " + status.message
         );
     }
-    
+
     auto end_time = std::chrono::steady_clock::now();
-    local_stats.execution_time_ms = std::chrono::duration<double, std::milli>(end_time - start_time).count();
+    local_stats.execution_time_ms =
+        std::chrono::duration<double, std::milli>(end_time - start_time).count();
     local_stats.nodes_explored = path_result.path.size();
     local_stats.paths_found = path_result.path.empty() ? 0 : 1;
-    
+
     if (stats) {
         *stats = local_stats;
     }
     recordExecution(local_stats);
-    
+
     return Ok(path_result);
 }
 
@@ -481,8 +861,16 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    if (!rate_limiter_.allowQuery()) {
+        return Err<GraphIndexManager::PathResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "A* query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::ASTAR;
     
     // Use existing A* implementation from GraphIndexManager
     auto [status, path_result] = graph_manager_.aStar(start_vertex, target_vertex, heuristic);
@@ -513,8 +901,16 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    if (!rate_limiter_.allowQuery()) {
+        return Err<GraphIndexManager::PathResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "Bidirectional query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
     
     // Implement bidirectional search
     std::unordered_map<std::string, int> forward_distances;
@@ -791,6 +1187,20 @@ double GraphQueryOptimizer::estimateCost(
         double selectivity = estimateEdgeTypeSelectivity(constraints.edge_type.value());
         base_cost *= selectivity; // Reduce cost based on edge type filtering
     }
+
+    // Adaptive cost model: blend learned EMA cost proportional to confidence.
+    // When confidence is 0 (no observations yet) the base_cost is unchanged;
+    // when confidence approaches 1.0 the estimate converges to the observed EMA.
+    if (adaptive_learning_enabled_) {
+        auto it = algo_cost_models_.find(algorithm);
+        if (it != algo_cost_models_.end() && it->second.confidence > 0.0) {
+            const double w = it->second.confidence;
+            // Normalize learned cost to the same scale as base_cost by converting
+            // ms → cost units (inverse of the 0.1 factor used in estimated_time_ms).
+            const double learned_cost = it->second.ema_cost_ms * 10.0;
+            base_cost = (1.0 - w) * base_cost + w * learned_cost;
+        }
+    }
     
     return base_cost;
 }
@@ -916,6 +1326,96 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     // Keep history bounded
     if (execution_history_.size() > MAX_HISTORY_SIZE) {
         execution_history_.erase(execution_history_.begin());
+    }
+
+    // Update cumulative observability metrics
+    metrics_.total_queries.fetch_add(1, std::memory_order_relaxed);
+    if (stats.paths_found == 0 && !stats.early_terminated) {
+        metrics_.failed_queries.fetch_add(1, std::memory_order_relaxed);
+    }
+    auto duration = static_cast<uint64_t>(stats.execution_time_ms);
+    metrics_.total_execution_time_ms.fetch_add(duration, std::memory_order_relaxed);
+    metrics_.total_nodes_explored.fetch_add(stats.nodes_explored, std::memory_order_relaxed);
+    metrics_.total_edges_traversed.fetch_add(stats.edges_traversed, std::memory_order_relaxed);
+
+    // Feed latency histogram for p50/p95/p99 computation
+    metrics_.latency_histogram.record(duration);
+
+    // Update max execution time with a compare-and-swap loop
+    uint64_t current_max = metrics_.max_execution_time_ms.load(std::memory_order_relaxed);
+    while (duration > current_max &&
+           !metrics_.max_execution_time_ms.compare_exchange_weak(
+               current_max, duration,
+               std::memory_order_relaxed, std::memory_order_relaxed)) {
+        // current_max updated by CAS on failure; retry
+    }
+
+    // Adaptive cost model: update per-algorithm EMA with observed execution time
+    if (adaptive_learning_enabled_) {
+        algo_cost_models_[stats.algorithm].update(stats.execution_time_ms);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Adaptive cost model: export / import
+// ─────────────────────────────────────────────────────────────────────────────
+
+static const std::unordered_map<std::string, GraphQueryOptimizer::TraversalAlgorithm>&
+algoNameMap() {
+    static const std::unordered_map<std::string, GraphQueryOptimizer::TraversalAlgorithm> m = {
+        {"BFS",           GraphQueryOptimizer::TraversalAlgorithm::BFS},
+        {"DFS",           GraphQueryOptimizer::TraversalAlgorithm::DFS},
+        {"DIJKSTRA",      GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA},
+        {"ASTAR",         GraphQueryOptimizer::TraversalAlgorithm::ASTAR},
+        {"BIDIRECTIONAL", GraphQueryOptimizer::TraversalAlgorithm::BIDIRECTIONAL},
+    };
+    return m;
+}
+
+static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
+    switch (algo) {
+        case GraphQueryOptimizer::TraversalAlgorithm::BFS:           return "BFS";
+        case GraphQueryOptimizer::TraversalAlgorithm::DFS:           return "DFS";
+        case GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA:      return "DIJKSTRA";
+        case GraphQueryOptimizer::TraversalAlgorithm::ASTAR:         return "ASTAR";
+        case GraphQueryOptimizer::TraversalAlgorithm::BIDIRECTIONAL: return "BIDIRECTIONAL";
+    }
+    return "UNKNOWN";
+}
+
+std::string GraphQueryOptimizer::exportCostModel() const {
+    nlohmann::json j;
+    for (const auto& [algo, model] : algo_cost_models_) {
+        std::string name = algoToName(algo);
+        j[name] = {
+            {"ema_cost_ms",  model.ema_cost_ms},
+            {"exec_count",   model.exec_count},
+            {"confidence",   model.confidence}
+        };
+    }
+    return j.dump();
+}
+
+bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
+    try {
+        auto j = nlohmann::json::parse(json_model);
+        if (!j.is_object()) return false;
+        const auto& name_map = algoNameMap();
+        for (auto& [key, val] : j.items()) {
+            auto it = name_map.find(key);
+            if (it == name_map.end()) continue; // unknown algo – skip
+            if (!val.is_object()) continue;
+            AlgorithmCostModel m;
+            m.ema_cost_ms = val.value("ema_cost_ms", 0.0);
+            m.exec_count  = val.value("exec_count",  static_cast<uint32_t>(0));
+            m.confidence  = val.value("confidence",  0.0);
+            // Clamp to valid range
+            m.confidence = std::max(0.0, std::min(1.0, m.confidence));
+            algo_cost_models_[it->second] = m;
+        }
+        return true;
+    } catch (...) {
+        return false;
     }
 }
 
