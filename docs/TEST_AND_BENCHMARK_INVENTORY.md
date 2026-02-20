@@ -12,7 +12,7 @@
 |-----------|---------------|--------|
 | C++ Benchmarks (Google Benchmark) | 122 | ✅ Vollständig |
 | C++ Tests (Google Test) | 732 | ✅ Vollständig |
-| Go Client Tests & Benchmarks | 6 Test-Dateien + 2 Benchmark-Dateien | ✅ Vollständig |
+| Go Client Tests & Benchmarks | 4 Test-Dateien + 2 Benchmark-Dateien | ✅ Vollständig |
 | Python Skripte & Tools | 9 | ✅ Vollständig |
 | Python Unit Tests | 1 | ✅ Vollständig |
 | **Gesamt** | **872+** | ✅ |
@@ -350,6 +350,12 @@ go test -bench=BenchmarkWireProtocol -benchmem
 | Datei | Pfad | Beschreibung |
 |-------|------|-------------|
 | `test_utils.py` | `tests/rope_visualizer/` | Rope Visualizer Unit Tests |
+
+### 4.5 Beispiel-Clients
+
+| Datei | Pfad | Beschreibung |
+|-------|------|-------------|
+| `themis_client.py` | `examples/23_traveling_salesman/` | TSP-Beispiel Client (Traveling Salesman Problem) |
 
 ---
 

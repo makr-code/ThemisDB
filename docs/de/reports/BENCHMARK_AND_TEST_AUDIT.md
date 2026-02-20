@@ -33,7 +33,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 ### 1.1 Hochpriorisierte Benchmarks
 
 #### Sharding & Distributed Operations
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_shard_routing.cpp`, `bench_sharding_performance.cpp`, `bench_shard_resource_manager.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_shard_routing.cpp`: Routing-Latenz für verschiedene Shard-Topologien
@@ -51,7 +51,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_sharding_core.cpp, test_rebalance_migration.cpp
 
 #### Transaction Manager & SAGA
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_transaction_throughput.cpp`, `bench_saga_compensation.cpp`, `bench_mvcc.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_transaction_throughput.cpp`: ACID Transaction Throughput
@@ -65,7 +65,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_transaction_manager.cpp, test_saga_logger.cpp
 
 #### CDC & Changefeed
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_changefeed_throughput.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_changefeed_throughput.cpp`: Changefeed Event Processing
@@ -79,7 +79,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_http_changefeed.cpp, test_http_changefeed_sse.cpp
 
 #### Timeseries & Retention
-**Status:** ⚠️ Teilweise vorhanden
+**Status:** ✅ Implementiert (`bench_timeseries_ingestion.cpp`, `bench_cycle_metrics.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_timeseries_ingestion.cpp`: Time-Series Write Throughput
@@ -99,7 +99,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 ### 1.2 Mittlere Priorität
 
 #### LLM Integration
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_llm_infrastructure.cpp`, `bench_llm_inference_performance.cpp`, `bench_embedded_llm.cpp`, `bench_llm_response_cache.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_llm_interaction_store.cpp`: LLM Interaction Logging Performance
@@ -113,7 +113,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_prompt_manager.cpp
 
 #### Graph Analytics
-**Status:** ⚠️ Teilweise vorhanden (bench_hybrid_aql_sugar.cpp erwähnt Graph+Geo)
+**Status:** ✅ Implementiert (`bench_graph_traversal.cpp`, `bench_pagerank.cpp`, `bench_gnn_embeddings.cpp`, `bench_graph_query_optimizer.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_graph_traversal.cpp`: Graph Traversal Algorithmen
@@ -131,7 +131,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_graph_analytics.cpp, test_gnn_embeddings.cpp
 
 #### Acceleration Backends
-**Status:** ⚠️ Teilweise vorhanden (bench_simd_distance.cpp für SIMD)
+**Status:** ✅ Implementiert (`bench_gpu_backends.cpp`, `bench_simd_distance.cpp`, `bench_arm_simd.cpp`, `bench_gpu_module.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_gpu_backends.cpp`: GPU Acceleration Performance Vergleich
@@ -146,7 +146,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_acceleration.cpp
 
 #### Content Management
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_content_versioning.cpp`, `bench_text_extraction.cpp`, `bench_image_analysis.cpp`, `bench_diff_engine.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_content_versioning.cpp`: Content Version Management
@@ -166,7 +166,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 ### 1.3 Niedrige Priorität
 
 #### Governance & Policy Engine
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_policy_evaluation.cpp`, `bench_compliance_security_governance.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_policy_evaluation.cpp`: Policy Rule Evaluation
@@ -180,7 +180,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** test_policy_engine_load.cpp, test_http_governance.cpp
 
 #### Import/Export
-**Status:** ❌ Keine Benchmarks vorhanden
+**Status:** ✅ Implementiert (`bench_postgres_e2e.cpp`, `bench_postgres_transactions.cpp`, `bench_data_transfer.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_postgres_import.cpp`: PostgreSQL Import Performance
@@ -192,7 +192,7 @@ Vollständige Inventur aller Dateien: [TEST_AND_BENCHMARK_INVENTORY.md](../../TE
 **Existierende Tests:** Keine spezifischen Tests gefunden
 
 #### Blob Storage Backends
-**Status:** ⚠️ bench_blob_zstd.cpp vorhanden
+**Status:** ✅ Implementiert (`bench_blob_zstd.cpp`, `bench_backend_comparison.cpp`, `bench_storage_performance.cpp`)
 
 **Benötigte Benchmarks:**
 - `bench_blob_backends_comparison.cpp`: S3 vs Azure vs WebDAV vs Filesystem
