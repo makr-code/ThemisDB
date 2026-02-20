@@ -76,6 +76,7 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/mvcc_api_handler.h"
 #include "server/pitr_api_handler.h"
 #include "server/diff_api_handler.h"
 #include "server/pitr_api_handler.h"
@@ -309,6 +310,14 @@ HttpServer::HttpServer(
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
         snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
+
+        // Initialize MVCC API Handler (per-record versioning + HLC)
+        {
+            auto clock = std::make_shared<themis::HybridLogicalClock>();
+            auto mvcc_store = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(std::move(mvcc_store));
+        }
+        THEMIS_INFO("MVCC API Handler initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
         pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
@@ -1698,6 +1707,14 @@ namespace {
     GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
     GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
        
+    // MVCC versioning API
+    MvccKeyGet,              // GET  /api/v1/mvcc/keys/{key}
+    MvccKeyPost,             // POST /api/v1/mvcc/keys/{key}
+    MvccKeyVersionsGet,      // GET  /api/v1/mvcc/keys/{key}/versions
+    MvccKeyVersionsDelete,   // DELETE /api/v1/mvcc/keys/{key}/versions
+    MvccClockGet,            // GET  /api/v1/mvcc/clock
+    MvccStatsGet,            // GET  /api/v1/mvcc/stats
+
         NotFound
     };
 
@@ -1988,11 +2005,24 @@ namespace {
         if (method == http::verb::patch) return Route::SchemaPatch;
     }
 
+    // MVCC versioning API endpoints
+    // Note: /versions suffix checked first to avoid matching it as a key named "versions"
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/versions") == path_only.size() - 9) {
+        if (method == http::verb::get)     return Route::MvccKeyVersionsGet;
+        if (method == http::verb::delete_) return Route::MvccKeyVersionsDelete;
+    }
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
+        if (method == http::verb::get)  return Route::MvccKeyGet;
+        if (method == http::verb::post) return Route::MvccKeyPost;
+    }
+    if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
+    if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
+
         return Route::NotFound;
     }
 }
-
-http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
      // Create span for the entire HTTP request
@@ -3322,6 +3352,83 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+
+        // ─── MVCC versioning API ───────────────────────────────────────────────
+        // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
+        // and populate req.matches so MvccApiHandler::extractKey() works.
+        case Route::MvccKeyGet:
+        case Route::MvccKeyPost: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleGetKey(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handlePutKey(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccKeyVersionsGet:
+        case Route::MvccKeyVersionsDelete: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleListVersions(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handleGcVersions(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccClockGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccStatsGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);

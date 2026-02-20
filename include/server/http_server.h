@@ -598,6 +598,9 @@ private:
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
     std::unique_ptr<server::SnapshotApiHandler> snapshot_api_handler_;
     
+    // MVCC API Handler (per-record versioning + HLC)
+    std::unique_ptr<server::MvccApiHandler> mvcc_api_handler_;
+    
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
     std::unique_ptr<DiffApiHandler> diff_api_handler_;
