@@ -3,6 +3,9 @@
 #include "observability/metrics_collector.h"
 #include "security/pii_redaction_policy.h"
 
+#include <algorithm>
+#include <array>
+#include <map>
 #include <regex>
 #include <string>
 #include <utility>
@@ -25,6 +28,7 @@
 #include <opentelemetry/sdk/trace/tracer_provider_factory.h>
 #include <opentelemetry/sdk/resource/resource.h>
 #include <opentelemetry/trace/provider.h>
+#include <opentelemetry/trace/span_context.h>
 
 namespace otel_sdk = opentelemetry::sdk;
 namespace otel_trace = opentelemetry::trace;
@@ -200,6 +204,147 @@ Tracer::Span Tracer::startChildSpan([[maybe_unused]] const std::string& name,
     return Span(span);
 #else
     return Span();
+#endif
+}
+
+// ============================================================================
+// W3C TraceContext propagation helpers
+// ============================================================================
+namespace {
+
+/// Case-insensitive lookup in a string map.
+std::string headerValue(const std::map<std::string, std::string>& headers,
+                        const std::string& name) {
+    // Exact match first
+    auto it = headers.find(name);
+    if (it != headers.end()) return it->second;
+    // Case-insensitive fallback
+    for (const auto& [k, v] : headers) {
+        if (k.size() == name.size() &&
+            std::equal(k.begin(), k.end(), name.begin(),
+                       [](unsigned char a, unsigned char b) {
+                           return std::tolower(a) == std::tolower(b);
+                       })) {
+            return v;
+        }
+    }
+    return {};
+}
+
+#ifdef THEMIS_ENABLE_TRACING
+/// Parse a W3C `traceparent` header value and fill a SpanContext.
+/// Returns true if parsing succeeded.
+/// Format: version-traceId(32hex)-parentId(16hex)-flags(2hex)
+bool parseTraceparent(const std::string& value,
+                      otel::trace::TraceId& trace_id_out,
+                      otel::trace::SpanId& parent_id_out,
+                      otel::trace::TraceFlags& flags_out) {
+    // W3C spec v00 requires exactly 55 characters: "00-<32hex>-<16hex>-<2hex>"
+    if (value.size() != 55) return false;
+    if (value[2] != '-' || value[35] != '-' || value[52] != '-') return false;
+
+    auto hexByte = [](char hi, char lo, uint8_t& out) -> bool {
+        auto fromHex = [](char c) -> int {
+            if (c >= '0' && c <= '9') return c - '0';
+            if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+            if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+            return -1;
+        };
+        int h = fromHex(hi), l = fromHex(lo);
+        if (h < 0 || l < 0) return false;
+        out = static_cast<uint8_t>((h << 4) | l);
+        return true;
+    };
+
+    // version (must be "00")
+    uint8_t ver{};
+    if (!hexByte(value[0], value[1], ver) || ver != 0) return false;
+
+    // traceId (16 bytes = 32 hex chars) starting at offset 3
+    std::array<uint8_t, 16> tid{};
+    for (int i = 0; i < 16; ++i) {
+        if (!hexByte(value[3 + i * 2], value[3 + i * 2 + 1], tid[i])) return false;
+    }
+
+    // W3C spec: trace-id MUST NOT be all zeros
+    bool all_zeros = true;
+    for (auto b : tid) { if (b != 0) { all_zeros = false; break; } }
+    if (all_zeros) return false;
+
+    // parentId (8 bytes = 16 hex chars) starting at offset 36
+    std::array<uint8_t, 8> pid{};
+    for (int i = 0; i < 8; ++i) {
+        if (!hexByte(value[36 + i * 2], value[36 + i * 2 + 1], pid[i])) return false;
+    }
+
+    // W3C spec: parent-id MUST NOT be all zeros
+    all_zeros = true;
+    for (auto b : pid) { if (b != 0) { all_zeros = false; break; } }
+    if (all_zeros) return false;
+
+    // flags (1 byte = 2 hex chars) starting at offset 53
+    uint8_t flg{};
+    if (!hexByte(value[53], value[54], flg)) return false;
+
+    trace_id_out  = otel::trace::TraceId(tid);
+    parent_id_out = otel::trace::SpanId(pid);
+    flags_out     = otel::trace::TraceFlags(flg);
+    return true;
+}
+#endif // THEMIS_ENABLE_TRACING
+
+} // anonymous namespace
+
+Tracer::Span Tracer::startSpanFromHeaders(
+        [[maybe_unused]] const std::string& name,
+        const std::map<std::string, std::string>& headers) {
+
+    std::string traceparent = headerValue(headers, "traceparent");
+    std::string tracestate  = headerValue(headers, "tracestate");
+
+#ifdef THEMIS_ENABLE_TRACING
+    auto tracer = getTracer();
+    if (tracer && !traceparent.empty()) {
+        otel::trace::TraceId  trace_id;
+        otel::trace::SpanId   parent_id;
+        otel::trace::TraceFlags flags;
+
+        if (parseTraceparent(traceparent, trace_id, parent_id, flags)) {
+            // Build a remote SpanContext representing the upstream span
+            otel::trace::SpanContext remote_ctx(
+                trace_id,
+                parent_id,
+                flags,
+                /*is_remote=*/true);
+
+            otel::trace::StartSpanOptions opts;
+            opts.parent = remote_ctx;
+
+            auto span = tracer->StartSpan(name, opts);
+            if (!tracestate.empty()) {
+                span->SetAttribute("w3c.tracestate", tracestate);
+            }
+            total_spans_++;
+            active_spans_++;
+            THEMIS_DEBUG("W3C TraceContext propagated: traceparent={}", traceparent);
+            return Span(span);
+        } else {
+            THEMIS_WARN("Invalid traceparent header ignored: '{}'", traceparent);
+        }
+    }
+    // Fall through to a regular root span when no valid context is present
+    return startSpan(name);
+#else
+    // Without OTel, start a normal span and record the upstream IDs as attributes
+    // so they appear in structured logs for manual correlation.
+    auto span = startSpan(name);
+    if (!traceparent.empty()) {
+        span.setAttribute("w3c.traceparent", traceparent);
+    }
+    if (!tracestate.empty()) {
+        span.setAttribute("w3c.tracestate", tracestate);
+    }
+    return span;
 #endif
 }
 

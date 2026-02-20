@@ -11,7 +11,9 @@
 #include "themis/license_info.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
+#include "observability/metrics_collector.h"
 #include <ctime>
+#include <sstream>
 #ifndef _WIN32
 #include <sys/resource.h>
 #endif
@@ -398,6 +400,76 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         }}
                     }}
                 }},
+                {"/metrics/html", {
+                    {"get", {
+                        {"summary", "HTML metrics dashboard"},
+                        {"description", "Renders current Prometheus metrics as a human-readable HTML table with dark-mode styling"},
+                        {"operationId", "getMetricsHtml"},
+                        {"tags", json::array({"monitoring"})},
+                        {"responses", {
+                            {"200", {{"description", "HTML metrics dashboard"},
+                                {"content", {{"text/html", {{"schema", {{"type","string"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/api/v1/observability/alerts", {
+                    {"get", {
+                        {"summary", "List active alerts"},
+                        {"description", "Returns the list of currently active (firing or silenced) alerts as a JSON array"},
+                        {"operationId", "getObservabilityAlerts"},
+                        {"tags", json::array({"observability"})},
+                        {"responses", {
+                            {"200", {{"description", "Active alert list"},
+                                {"content", {{"application/json", {{"schema", {
+                                    {"type","object"},
+                                    {"properties", {
+                                        {"alerts", {{"type","array"}}},
+                                        {"count",  {{"type","integer"}}},
+                                        {"alertmanager_enabled", {{"type","boolean"}}}
+                                    }}
+                                }}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/api/v1/observability/alerts/{id}/silence", {
+                    {"post", {
+                        {"summary", "Silence an alert"},
+                        {"description", "Silences the named alert for a configurable duration. Body: {\"duration_minutes\": <int>} (default 60)"},
+                        {"operationId", "silenceObservabilityAlert"},
+                        {"tags", json::array({"observability"})},
+                        {"parameters", json::array({
+                            json{{"name","id"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                        })},
+                        {"requestBody", {
+                            {"required", false},
+                            {"content", {{"application/json", {{"schema", {
+                                {"type","object"},
+                                {"properties", {{"duration_minutes", {{"type","integer"},{"default",60}}}}}
+                            }}}}}}
+                        }},
+                        {"responses", {
+                            {"200", {{"description", "Alert silenced"}}},
+                            {"400", {{"description", "Bad request"}}},
+                            {"404", {{"description", "Alert not found"}}},
+                            {"503", {{"description", "Alertmanager not configured"}}}
+                        }}
+                    }}
+                }},
+                {"/api/v1/observability/health", {
+                    {"get", {
+                        {"summary", "Observability subsystem health"},
+                        {"description", "Returns aggregate health of the observability stack: Alertmanager connectivity, tracing span counters, and MetricsCollector cardinality"},
+                        {"operationId", "getObservabilityHealth"},
+                        {"tags", json::array({"observability"})},
+                        {"responses", {
+                            {"200", {{"description", "Observability health status"},
+                                {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
                 {"/api/openapi.json", {
                     {"get", {
                         {"summary", "OpenAPI specification"},
@@ -548,9 +620,10 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                 json{{"BearerAuth", json::array()}}
             })},
             {"tags", json::array({
-                json{{"name","monitoring"},{"description","Health, metrics and observability endpoints"}},
-                json{{"name","entities"},{"description","Entity CRUD operations"}},
-                json{{"name","query"},{"description","Query execution endpoints"}}
+                json{{"name","monitoring"},   {"description","Health, metrics and observability endpoints"}},
+                json{{"name","observability"},{"description","Operator observability REST API – alerts, silences, health"}},
+                json{{"name","entities"},     {"description","Entity CRUD operations"}},
+                json{{"name","query"},        {"description","Query execution endpoints"}}
             })}
         };
 
@@ -758,7 +831,32 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         uint64_t memtable_bytes = get_u64("memtable_size_bytes");
 
         std::string out;
-        out.reserve(2048);
+        out.reserve(4096);
+
+        // themis_build_info – static info metric with version/build labels
+        {
+            std::string version;
+#ifdef THEMIS_VERSION_STRING
+            version = THEMIS_VERSION_STRING;
+#else
+            version = "unknown";
+#endif
+            auto build_cfg = themis::build_info::getBuildConfiguration();
+            // Sanitize label values: replace '"' and '\n' with '_'
+            auto sanitize = [](std::string s) -> std::string {
+                for (auto& c : s) { if (c == '"' || c == '\n') c = '_'; }
+                return s;
+            };
+            out += "# HELP themis_build_info ThemisDB build information\n";
+            out += "# TYPE themis_build_info gauge\n";
+            out += "themis_build_info{";
+            out += "version=\""     + sanitize(version)                  + "\",";
+            out += "build_type=\""  + sanitize(build_cfg.build_type)     + "\",";
+            out += "compiler=\""    + sanitize(build_cfg.compiler)       + "\",";
+            out += "edition=\""     + sanitize(build_cfg.edition_name)   + "\"";
+            out += "} 1\n\n";
+        }
+
         out += "# HELP process_uptime_seconds Process uptime in seconds\n";
         out += "# TYPE process_uptime_seconds gauge\n";
         out += "process_uptime_seconds " + std::to_string(uptime_seconds) + "\n";
@@ -950,6 +1048,21 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
             THEMIS_WARN("Unknown error while collecting HSM security metrics");
         }
 
+        // Append metrics from the central MetricsCollector (query latency, cache,
+        // TSStore writes, sharding, security, tracing spans, etc.)
+        try {
+            std::string collector_metrics =
+                observability::MetricsCollector::getInstance().getPrometheusMetrics();
+            if (!collector_metrics.empty()) {
+                out += "\n# === ThemisDB Subsystem Metrics (MetricsCollector) ===\n";
+                out += collector_metrics;
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to collect subsystem metrics: {}", e.what());
+        } catch (...) {
+            THEMIS_WARN("Unknown error while collecting subsystem metrics");
+        }
+
         // Return Prometheus format response
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::server, "THEMIS/0.1.0");
@@ -1096,6 +1209,251 @@ json MonitoringApiHandler::buildConcernsJson(
         ok = false;
     }
     return result;
+}
+
+// ============================================================================
+// Operator Observability REST API  (Q1)
+// ============================================================================
+
+http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlerts(
+    const http::request<http::string_body>& req)
+{
+    try {
+        json arr = json::array();
+        if (alertmanager_) {
+            for (const auto& alert : alertmanager_->getActiveAlerts()) {
+                json a;
+                a["alert_id"]   = alert.alert_id;
+                a["alert_name"] = alert.alert_name;
+                a["severity"]   = observability::Alertmanager::severityToString(alert.severity);
+                a["status"]     = observability::Alertmanager::statusToString(alert.status);
+                a["message"]    = alert.message;
+                // ISO-8601 fired_at
+                std::time_t t = std::chrono::system_clock::to_time_t(alert.fired_at);
+                std::tm tm_buf{};
+#if defined(_WIN32)
+                gmtime_s(&tm_buf, &t);
+#else
+                gmtime_r(&t, &tm_buf);
+#endif
+                char ts[32];
+                std::strftime(ts, sizeof(ts), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
+                a["fired_at"] = ts;
+                json labels = json::object();
+                for (const auto& [k, v] : alert.labels) { labels[k] = v; }
+                a["labels"] = labels;
+                arr.push_back(a);
+            }
+        }
+        json body;
+        body["alerts"] = arr;
+        body["count"]  = arr.size();
+        body["alertmanager_enabled"] = (alertmanager_ != nullptr) &&
+                                       alertmanager_->getConfig().enabled;
+        return makeResponse(http::status::ok, body.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+                                 std::string("Failed to list alerts: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleObservabilityAlertSilence(
+    const http::request<http::string_body>& req)
+{
+    try {
+        // Extract alert ID from path: /api/v1/observability/alerts/{id}/silence
+        const std::string target = std::string(req.target());
+        // Find the segment between /alerts/ and /silence
+        const std::string prefix = "/api/v1/observability/alerts/";
+        const std::string suffix = "/silence";
+        if (target.rfind(prefix, 0) != 0) {
+            return makeErrorResponse(http::status::bad_request, "Invalid path", req);
+        }
+        std::string rest = target.substr(prefix.size());
+        auto spos = rest.rfind(suffix);
+        if (spos == std::string::npos) {
+            return makeErrorResponse(http::status::bad_request, "Path must end with /silence", req);
+        }
+        std::string alert_id = rest.substr(0, spos);
+        if (alert_id.empty()) {
+            return makeErrorResponse(http::status::bad_request, "Missing alert ID in path", req);
+        }
+
+        // Parse optional duration from request body
+        int duration_minutes = 60;
+        if (!req.body().empty()) {
+            try {
+                auto j = json::parse(req.body());
+                if (j.contains("duration_minutes") && j["duration_minutes"].is_number_integer()) {
+                    duration_minutes = j["duration_minutes"].get<int>();
+                }
+            } catch (...) {
+                // ignore JSON parse errors; use default duration
+            }
+        }
+        if (duration_minutes <= 0) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "duration_minutes must be a positive integer", req);
+        }
+
+        if (!alertmanager_) {
+            return makeErrorResponse(http::status::service_unavailable,
+                                     "Alertmanager not configured", req);
+        }
+
+        auto result = alertmanager_->silenceAlert(alert_id, duration_minutes);
+        if (!result) {
+            return makeErrorResponse(http::status::bad_gateway,
+                                     "Silence request failed: " + result.error().message, req);
+        }
+
+        json body;
+        body["alert_id"]        = alert_id;
+        body["silenced"]        = true;
+        body["duration_minutes"] = duration_minutes;
+        return makeResponse(http::status::ok, body.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+                                 std::string("Failed to silence alert: ") + e.what(), req);
+    }
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleObservabilityHealth(
+    const http::request<http::string_body>& req)
+{
+    try {
+        json body;
+        body["status"] = "ok";
+
+        // Alertmanager health
+        {
+            json am;
+            if (alertmanager_) {
+                const auto& cfg = alertmanager_->getConfig();
+                am["enabled"]      = cfg.enabled;
+                am["endpoint_url"] = cfg.endpoint_url;
+                am["active_alerts"] = static_cast<int>(
+                    alertmanager_->getActiveAlerts().size());
+                if (cfg.enabled) {
+                    auto conn = alertmanager_->testConnection();
+                    am["reachable"] = conn.has_value();
+                    if (!conn) {
+                        am["error"]  = conn.error().message;
+                        body["status"] = "degraded";
+                    }
+                } else {
+                    am["reachable"] = false;
+                }
+            } else {
+                am["enabled"]   = false;
+                am["reachable"] = false;
+            }
+            body["alertmanager"] = am;
+        }
+
+        // Tracing health
+        {
+            json tracing;
+            tracing["total_spans"]  = Tracer::getTotalSpans();
+            tracing["active_spans"] = Tracer::getActiveSpans();
+            body["tracing"] = tracing;
+        }
+
+        // MetricsCollector health
+        {
+            auto& mc = observability::MetricsCollector::getInstance();
+            json mc_obj;
+            mc_obj["dropped_series"]     = mc.getDroppedSeriesCount();
+            mc_obj["cardinality_limit"]  = static_cast<int64_t>(mc.getCardinalityLimit());
+            body["metrics_collector"] = mc_obj;
+        }
+
+        return makeResponse(http::status::ok, body.dump(), req);
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+                                 std::string("Failed to get observability health: ") + e.what(),
+                                 req);
+    }
+}
+
+// ---------------------------------------------------------------------------
+// /metrics/html  – lightweight human-readable metrics dashboard
+// ---------------------------------------------------------------------------
+
+http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
+    const http::request<http::string_body>& req)
+{
+    try {
+        // Collect raw Prometheus text
+        std::string version;
+#ifdef THEMIS_VERSION_STRING
+        version = THEMIS_VERSION_STRING;
+#else
+        version = "unknown";
+#endif
+        auto uptime_seconds = std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::steady_clock::now() - *start_time_
+        ).count();
+
+        // Build a minimal metrics snapshot for the HTML table
+        // We reuse the text metrics output from handleMetrics() but wrap it in HTML.
+        // Gather a fresh copy via MonitoringApiHandler::handleMetrics() internals is complex,
+        // so we call through the existing implementation.
+        // Build an artificial GET /metrics request to reuse the implementation.
+        http::request<http::string_body> metrics_req{http::verb::get, "/metrics", 11};
+        auto prom_resp = handleMetrics(metrics_req);
+        const std::string prom_text = prom_resp.body();
+
+        // Parse the prometheus text into (name, value) pairs for the table
+        std::vector<std::pair<std::string, std::string>> rows;
+        std::istringstream iss(prom_text);
+        std::string line;
+        while (std::getline(iss, line)) {
+            if (line.empty() || line[0] == '#') continue;
+            auto sp = line.rfind(' ');
+            if (sp == std::string::npos) continue;
+            rows.emplace_back(line.substr(0, sp), line.substr(sp + 1));
+        }
+
+        std::string html;
+        html.reserve(8192);
+        html += "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
+        html += "<meta charset=\"UTF-8\">\n";
+        html += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n";
+        html += "<title>ThemisDB Metrics</title>\n";
+        html += "<style>\n";
+        html += "body{font-family:monospace;background:#1a1a2e;color:#e0e0e0;margin:0;padding:16px}\n";
+        html += "h1{color:#00d4ff;margin-bottom:4px;}\n";
+        html += "p.sub{color:#888;margin-top:0;font-size:0.85em}\n";
+        html += "table{border-collapse:collapse;width:100%;margin-top:12px}\n";
+        html += "th{background:#16213e;color:#00d4ff;padding:6px 12px;text-align:left;";
+        html += "border-bottom:2px solid #0f3460}\n";
+        html += "td{padding:4px 12px;border-bottom:1px solid #0f3460}\n";
+        html += "tr:hover td{background:#16213e}\n";
+        html += ".val{text-align:right;color:#00ff9f}\n";
+        html += "a{color:#00d4ff;text-decoration:none}a:hover{text-decoration:underline}\n";
+        html += "</style>\n</head>\n<body>\n";
+        html += "<h1>ThemisDB Metrics Dashboard</h1>\n";
+        html += "<p class=\"sub\">Version: <b>" + version + "</b> &nbsp;|&nbsp; ";
+        html += "Uptime: <b>" + std::to_string(uptime_seconds) + "s</b> &nbsp;|&nbsp; ";
+        html += "<a href=\"/metrics\">Raw Prometheus</a></p>\n";
+        html += "<table>\n<tr><th>Metric</th><th class=\"val\">Value</th></tr>\n";
+        for (const auto& [name, val] : rows) {
+            html += "<tr><td>" + name + "</td><td class=\"val\">" + val + "</td></tr>\n";
+        }
+        html += "</table>\n</body>\n</html>\n";
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "THEMIS/0.1.0");
+        res.set(http::field::content_type, "text/html; charset=utf-8");
+        res.keep_alive(req.keep_alive());
+        res.body() = html;
+        res.prepare_payload();
+        return res;
+    } catch (const std::exception& e) {
+        return makeErrorResponse(http::status::internal_server_error,
+                                 std::string("Failed to generate metrics HTML: ") + e.what(), req);
+    }
 }
 
 } // namespace server
