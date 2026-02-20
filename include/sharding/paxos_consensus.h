@@ -5,6 +5,7 @@
 #define THEMISDB_SHARDING_PAXOS_CONSENSUS_H
 
 #include "sharding/consensus_module.h"
+#include "sharding/wal_manager.h"
 #include <map>
 #include <set>
 #include <atomic>
@@ -12,8 +13,18 @@
 #include <condition_variable>
 #include <thread>
 
+namespace themis::sharding {
+class PaxosWAL;
+class PaxosSnapshotManager;
+}
+
 namespace themisdb {
 namespace sharding {
+
+// Forward declarations (Phase 2.1)
+using LSN = themis::sharding::LSN;
+using PaxosWAL = themis::sharding::PaxosWAL;
+using PaxosSnapshotManager = themis::sharding::PaxosSnapshotManager;
 
 /**
  * @brief Paxos proposal number (ballot number)
@@ -222,6 +233,16 @@ private:
      */
     void leaderElectionThread();
     
+    /**
+     * @brief Create periodic snapshot (Phase 2.1)
+     */
+    void createPeriodicSnapshot();
+    
+    /**
+     * @brief Recover from WAL and snapshot (Phase 2.1)
+     */
+    bool recoverFromWAL();
+    
     ConsensusConfig config_;
     std::string node_id_;
     std::vector<std::string> cluster_nodes_;
@@ -263,6 +284,12 @@ private:
     std::atomic<uint64_t> failed_proposals_;
     std::atomic<uint64_t> total_prepares_;
     std::atomic<uint64_t> total_accepts_;
+    
+    // Phase 2.1: Persistent State (WAL + Snapshots)
+    std::unique_ptr<PaxosWAL> wal_;
+    std::unique_ptr<PaxosSnapshotManager> snapshot_manager_;
+    std::atomic<uint64_t> operations_since_snapshot_{0};
+    LSN last_applied_lsn_;
 };
 
 } // namespace sharding

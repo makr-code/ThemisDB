@@ -285,7 +285,7 @@ Documents **80 missing C++ implementation files** including:
 ### missing_cpp.txt (382 files)
 Comprehensive list of **382 missing C++ files** across all modules, including everything in analysis_missing.txt plus:
 - All API handlers (admin_api_handler.cpp, audit_api_handler.cpp, etc.)
-- Parsers (aql_parser.cpp, query_parser.cpp)
+- Parsers (aql_parser.cpp)
 - Storage backends (blob_backend_azure.cpp, blob_backend_s3.cpp, etc.)
 - Security components (auth_middleware.cpp, malware_scanner.cpp, pii_detector.cpp)
 - Distributed systems (distributed_trainer.cpp, raft_state.cpp, replication_manager.cpp)
@@ -430,8 +430,7 @@ Documents **137 specific missing files** with full paths in src/ directory.
 
 **Impact:** Medium - Specialized feature
 
-#### 9. **Query & Parsing** (2 files missing)
-- `query_parser.cpp` - Query parser
+#### 9. **Query & Parsing** (1 file missing)
 - `changefeed_buffer.cpp` - Change feed buffering
 
 **Impact:** High - Core functionality

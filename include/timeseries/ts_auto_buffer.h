@@ -70,6 +70,38 @@ struct TSAutoBufferStats {
     size_t current_buffer_memory{0};
     
     std::chrono::steady_clock::time_point last_flush_time;
+
+    TSAutoBufferStats() = default;
+
+    TSAutoBufferStats(const TSAutoBufferStats& other)
+        : points_buffered(other.points_buffered.load())
+        , points_flushed(other.points_flushed.load())
+        , flush_count(other.flush_count.load())
+        , auto_flush_count(other.auto_flush_count.load())
+        , manual_flush_count(other.manual_flush_count.load())
+        , size_triggered_flush(other.size_triggered_flush.load())
+        , time_triggered_flush(other.time_triggered_flush.load())
+        , buffer_overflow_count(other.buffer_overflow_count.load())
+        , current_buffer_size(other.current_buffer_size)
+        , current_buffer_memory(other.current_buffer_memory)
+        , last_flush_time(other.last_flush_time) {}
+
+    TSAutoBufferStats& operator=(const TSAutoBufferStats& other) {
+        if (this != &other) {
+            points_buffered.store(other.points_buffered.load());
+            points_flushed.store(other.points_flushed.load());
+            flush_count.store(other.flush_count.load());
+            auto_flush_count.store(other.auto_flush_count.load());
+            manual_flush_count.store(other.manual_flush_count.load());
+            size_triggered_flush.store(other.size_triggered_flush.load());
+            time_triggered_flush.store(other.time_triggered_flush.load());
+            buffer_overflow_count.store(other.buffer_overflow_count.load());
+            current_buffer_size = other.current_buffer_size;
+            current_buffer_memory = other.current_buffer_memory;
+            last_flush_time = other.last_flush_time;
+        }
+        return *this;
+    }
 };
 
 /**

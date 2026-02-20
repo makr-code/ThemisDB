@@ -46,6 +46,10 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 
 ## Key Components
 
+> **Note on Parser Implementations:** All query parser logic is implemented in `aql_parser.cpp`
+> (and `aql_parser_json.cpp` for JSON query support). There is no separate SQL parser;
+> if SQL support is needed in the future, see the roadmap entry in `FUTURE_ENHANCEMENTS.md`.
+
 ### AQL Parser
 **Location:** `aql_parser.cpp`, `../include/query/aql_parser.h`
 

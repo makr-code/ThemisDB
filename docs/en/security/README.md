@@ -1,9 +1,9 @@
 # 🔒 Security Module - Main Overview
 
 **Category:** 📋 Reports & Documentation  
-**Version:** v1.3.0  
+**Version:** v1.5.1  
 **Status:** ✅ Production Ready  
-**Last Updated:** December 22, 2025
+**Last Updated:** February 2026
 
 ---
 
@@ -38,12 +38,75 @@ The Security Module implements comprehensive security features for ThemisDB, inc
 | MalwareScanner | `malware_scanner.h` | `malware_scanner.cpp` | Content Scanning |
 | CMSSigning | `cms_signing.h` | `cms_signing.cpp` | CMS Signatures |
 | **TimestampAuthority** | `timestamp_authority.h` | `timestamp_authority_openssl.cpp` | **RFC 3161 TSA (Production)** ✅ |
+| **PIIRedactionPolicy** | `pii_redaction_policy.h` | `pii_redaction_policy.cpp` | **PII Redaction – Logs/Traces/Metrics** ✅ |
 
-**Total:** 16 Headers, 16 Source Files, ~8,100 LOC
+**Total:** 17 Headers, 17 Source Files, ~8,500 LOC
 
 ---
 
 ## ✨ Features & Highlights
+
+### 🆕 PII Redaction Policy (v1.5.1) - PRODUCTION READY ✅
+
+**Quick Start:**
+- **[PII_REDACTION_POLICY.md](PII_REDACTION_POLICY.md)** - Full policy document (PII taxonomy, architecture, configuration, developer checklist)
+
+**Features:**
+- ✅ Automatic PII redaction enforced at the infrastructure level (no call-site changes needed)
+- ✅ `PIIRedactingSink` wraps every spdlog sink — all `THEMIS_*` log macros auto-redact
+- ✅ `Tracer::Span::setAttribute(string)` and `recordError()` auto-redact before OTel
+- ✅ `MetricsCollector::makeKey()` auto-redacts label maps before Prometheus export
+- ✅ Configurable per-pattern mode (`partial` / `strict`); global `THEMIS_PII_STRICT=1` override
+- ✅ CI gate: `check_pii_leakage.py` fails the build on new unredacted PII writes
+- ✅ AFL++ fuzz harness with 7-seed corpus and PII dictionary
+- ✅ 18 unit tests covering all three telemetry channels
+
+**PII Categories Covered:**
+
+| Category | Example | Redaction |
+|----------|---------|-----------|
+| Email | `alice@example.com` | Partial |
+| Phone | `+49-123-456789` | Partial |
+| SSN | `123-45-6789` | Strict |
+| Credit Card | `4242-4242-4242-4242` | Strict |
+| IBAN | `DE89370400440532013000` | Strict |
+| IP Address | `192.168.1.42` | Partial |
+
+**Architecture:**
+```
+Application Code  →  Logger / Tracer::Span / MetricsCollector
+                          ↓ (automatic)
+              PIIRedactionPolicy singleton
+                          ↓
+                    PIIDetector pipeline
+                    (RegexEngine + optional NER/Embedding)
+                          ↓
+       spdlog sinks / OTel SDK / Prometheus endpoint
+```
+
+**Configuration:**
+```yaml
+# config/pii_patterns.yaml
+detection_engines:
+  - type: regex
+    patterns:
+      - name: email
+        pattern: "[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}"
+        mode: partial
+```
+
+**Example:**
+```cpp
+// Automatic – no changes needed for new code using Logger/Tracer/MetricsCollector:
+THEMIS_INFO("Invoice sent to {}", recipient);  // 'recipient' auto-redacted by PIIRedactingSink
+
+// Explicit pre-redaction for bare spdlog:: calls before Logger::init():
+auto safe = PIIRedactionPolicy::get().redactForLog(raw_value);
+spdlog::info("Value: {}", safe);
+
+// Strict mode (environment variable or runtime):
+// THEMIS_PII_STRICT=1  or  PIIRedactionPolicy::get().setStrictMode(true);
+```
 
 ### 🆕 RFC 3161 Timestamp Authority (v1.5.0) - PRODUCTION READY ✅
 
@@ -137,6 +200,7 @@ Detailed analysis of encryption across **all data model layers**: Relational, Ve
 | **RBAC/ABAC Policy Engine** | ✅ Production Ready | Ranger-compatible |
 | **Apache Ranger Integration** | ✅ Production Ready | `src/server/ranger_adapter.cpp` |
 | **RFC 3161 Timestamp Authority** | ✅ Production Ready (v1.5.0) | `src/security/timestamp_authority_openssl.cpp` |
+| **PII Redaction Policy** | ✅ Production Ready (v1.5.1) | `src/security/pii_redaction_policy.cpp` |
 | **VaultKeyProvider (KMS)** | ✅ Production Ready | `src/security/vault_key_provider.cpp` |
 | **HSMProvider (PKCS#11)** | ✅ Production Ready | `src/security/hsm_provider_pkcs11.cpp` |
 | **PKI Client (OpenSSL)** | ✅ Production Ready | `src/utils/pki_client.cpp` |
@@ -341,6 +405,15 @@ pkcs11-tool --login --test
 ---
 
 ## 📝 Changelog
+
+### v1.5.1 (February 2026)
+- ✅ **PII Redaction Policy** – `PIIRedactionPolicy` singleton with automatic enforcement
+- ✅ `PIIRedactingSink` – every spdlog sink auto-redacts via `Logger::init()`
+- ✅ `Tracer::Span::setAttribute(string)` / `recordError()` auto-redact PII
+- ✅ `MetricsCollector::makeKey()` auto-redacts Prometheus label values
+- ✅ CI gate: `check_pii_leakage.py` fails on new unredacted PII writes
+- ✅ AFL++ fuzz harness (`pii_redaction`) with corpus seeds and dictionary
+- ✅ Documentation: [PII_REDACTION_POLICY.md](PII_REDACTION_POLICY.md)
 
 ### v1.3.0 (December 2025)
 - ✅ Vector encryption fully implemented (Phase 1 + 2)
