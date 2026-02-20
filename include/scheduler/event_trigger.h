@@ -145,9 +145,26 @@ private:
     bool matchesKeyPrefix(const std::string& key) const;
     bool matchesEventType(Changefeed::ChangeEventType type) const;
     bool matchesCondition(const Changefeed::ChangeEvent& event) const;
-    
+
     // Debouncing
     bool shouldDebounce() const;
+
+    // ── Condition caching ─────────────────────────────────────────────────
+    // Parsed form of a single condition clause (e.g. "key STARTS_WITH foo").
+    struct ParsedClause {
+        std::string field;  // "key" or "value"
+        std::string op;     // "==", "!=", "STARTS_WITH", "ENDS_WITH", "CONTAINS"
+        std::string rhs;    // Right-hand side (unquoted)
+    };
+    // Pre-parsed clauses derived from config_.condition; rebuilt whenever
+    // the condition changes.  Access is guarded by condition_cache_mutex_.
+    mutable std::vector<ParsedClause> parsed_clauses_;
+    mutable bool condition_parsed_{false};
+    mutable std::mutex condition_cache_mutex_;
+
+    // Parse config_.condition into parsed_clauses_; must be called under
+    // condition_cache_mutex_.
+    void rebuildConditionCache_() const;
 };
 
 /**

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cctype>
+#include <unordered_map>
 
 namespace themis {
 
@@ -56,70 +57,6 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
     // Unknown operator – fail-open
     THEMIS_WARN("EventTrigger: unknown condition operator '{}', matching by default", op);
     return true;
-}
-
-// Evaluate one condition clause of the form: <field> <op> <rhs>
-// Returns nullopt on parse failure (caller will fail-open).
-static std::optional<bool> evalClause(const std::string& clause,
-                                       const Changefeed::ChangeEvent& event) {
-    // Tokenise: split on whitespace while respecting quoted strings
-    std::vector<std::string> tokens;
-    {
-        size_t i = 0;
-        const size_t n = clause.size();
-        while (i < n) {
-            // Skip whitespace
-            while (i < n && std::isspace(static_cast<unsigned char>(clause[i]))) ++i;
-            if (i >= n) break;
-
-            if (clause[i] == '"') {
-                // Quoted string
-                size_t j = i + 1;
-                while (j < n && clause[j] != '"') ++j;
-                tokens.push_back(clause.substr(i, j - i + (j < n ? 1 : 0)));
-                i = j + 1;
-            } else {
-                // Unquoted token
-                size_t j = i;
-                while (j < n && !std::isspace(static_cast<unsigned char>(clause[j]))) ++j;
-                tokens.push_back(clause.substr(i, j - i));
-                i = j;
-            }
-        }
-    }
-
-    if (tokens.size() < 3) {
-        return std::nullopt;  // Malformed – fail-open at call-site
-    }
-
-    const std::string& field = tokens[0];
-    const std::string& op    = tokens[1];
-    // The RHS may be multiple tokens (e.g. quoted string with spaces) – join them
-    std::string rhs;
-    for (size_t i = 2; i < tokens.size(); ++i) {
-        if (i > 2) rhs += " ";
-        rhs += tokens[i];
-    }
-    rhs = stripQuotes(rhs);
-
-    // Resolve field value
-    std::string lhs;
-    if (field == "key") {
-        lhs = event.key;
-    } else if (field == "value") {
-        if (!event.value) {
-            // No value for this event (e.g. DELETE) – treat as empty string
-            lhs = "";
-        } else {
-            lhs = *event.value;
-        }
-    } else {
-        // Unknown field – fail-open
-        THEMIS_WARN("EventTrigger: unknown condition field '{}', matching by default", field);
-        return true;
-    }
-
-    return evalOp(lhs, op, rhs);
 }
 
 } // anonymous namespace
@@ -204,17 +141,26 @@ void EventTrigger::stop() {
 
 void EventTrigger::updateConfig(const CDCTriggerConfig& config) {
     if (!config.isValid()) {
-        throw std::invalid_argument("EventTrigger: invalid config - " + 
+        throw std::invalid_argument("EventTrigger: invalid config - " +
                                    config.getValidationError());
     }
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    config_ = config;
-    
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        config_ = config;
+    }
+
+    // Invalidate cached parsed condition so it is rebuilt on next event
+    {
+        std::lock_guard<std::mutex> clock(condition_cache_mutex_);
+        condition_parsed_ = false;
+        parsed_clauses_.clear();
+    }
+
     THEMIS_DEBUG("EventTrigger config updated (key_prefix={}, event_types={}, debounce={}ms)",
-                 config_.key_prefix,
-                 config_.event_types.size(),
-                 config_.debounce_ms);
+                 config.key_prefix,
+                 config.event_types.size(),
+                 config.debounce_ms);
 }
 
 EventTrigger::Stats EventTrigger::getStats() const {
@@ -406,39 +352,104 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
         return true;
     }
 
-    const std::string& condition = *config_.condition;
-
-    // Evaluate simple condition expression against the event.
-    // Multiple clauses joined by AND are supported (split on " AND ").
-    // Any parse failure is treated as a match (fail-open / graceful degradation).
-    static const std::string AND_SEP = " AND ";
-    std::vector<std::string> clauses;
-    size_t pos = 0;
-    while (pos < condition.size()) {
-        size_t found = condition.find(AND_SEP, pos);
-        if (found == std::string::npos) {
-            clauses.push_back(trim(condition.substr(pos)));
-            break;
+    // Ensure clauses are parsed (lazy, cached)
+    {
+        std::lock_guard<std::mutex> clock(condition_cache_mutex_);
+        if (!condition_parsed_) {
+            rebuildConditionCache_();
+            condition_parsed_ = true;
         }
-        clauses.push_back(trim(condition.substr(pos, found - pos)));
-        pos = found + AND_SEP.size();
     }
 
-    for (const auto& clause : clauses) {
-        if (clause.empty()) continue;
-        auto result = evalClause(clause, event);
-        if (!result) {
-            // Parse error – fail-open for this clause, keep checking others
-            THEMIS_DEBUG("EventTrigger: failed to parse condition clause '{}', treating as match", clause);
+    // Evaluate each cached clause; all must pass (AND semantics)
+    for (const auto& clause : parsed_clauses_) {
+        // Resolve LHS
+        std::string lhs;
+        if (clause.field == "key") {
+            lhs = event.key;
+        } else if (clause.field == "value") {
+            lhs = event.value ? *event.value : "";
+        } else {
+            // Unknown field – fail-open
+            THEMIS_WARN("EventTrigger: unknown condition field '{}', matching by default",
+                        clause.field);
             continue;
         }
-        if (!*result) {
-            return false;  // At least one clause did not match
+
+        if (!evalOp(lhs, clause.op, clause.rhs)) {
+            return false;
         }
     }
 
     return true;
 }
+
+void EventTrigger::rebuildConditionCache_() const {
+    // Must be called under condition_cache_mutex_
+    parsed_clauses_.clear();
+
+    if (!config_.condition || config_.condition->empty()) {
+        return;
+    }
+
+    const std::string& condition = *config_.condition;
+    static const std::string AND_SEP = " AND ";
+
+    // Split on AND
+    std::vector<std::string> raw_clauses;
+    size_t pos = 0;
+    while (pos < condition.size()) {
+        size_t found = condition.find(AND_SEP, pos);
+        if (found == std::string::npos) {
+            raw_clauses.push_back(trim(condition.substr(pos)));
+            break;
+        }
+        raw_clauses.push_back(trim(condition.substr(pos, found - pos)));
+        pos = found + AND_SEP.size();
+    }
+
+    for (const auto& raw : raw_clauses) {
+        if (raw.empty()) continue;
+
+        // Tokenise the clause
+        std::vector<std::string> tokens;
+        size_t i = 0;
+        const size_t n = raw.size();
+        while (i < n) {
+            while (i < n && std::isspace(static_cast<unsigned char>(raw[i]))) ++i;
+            if (i >= n) break;
+            if (raw[i] == '"') {
+                size_t j = i + 1;
+                while (j < n && raw[j] != '"') ++j;
+                tokens.push_back(raw.substr(i, j - i + (j < n ? 1 : 0)));
+                i = j + 1;
+            } else {
+                size_t j = i;
+                while (j < n && !std::isspace(static_cast<unsigned char>(raw[j]))) ++j;
+                tokens.push_back(raw.substr(i, j - i));
+                i = j;
+            }
+        }
+
+        if (tokens.size() < 3) {
+            THEMIS_WARN("EventTrigger: malformed condition clause '{}', skipping", raw);
+            continue;
+        }
+
+        ParsedClause pc;
+        pc.field = tokens[0];
+        pc.op    = tokens[1];
+        std::string rhs;
+        for (size_t k = 2; k < tokens.size(); ++k) {
+            if (k > 2) rhs += " ";
+            rhs += tokens[k];
+        }
+        pc.rhs = stripQuotes(rhs);
+
+        parsed_clauses_.push_back(std::move(pc));
+    }
+}
+
 
 bool EventTrigger::shouldDebounce() const {
     if (config_.debounce_ms == 0) {

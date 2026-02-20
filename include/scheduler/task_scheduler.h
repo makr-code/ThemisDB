@@ -111,13 +111,36 @@ struct ScheduledTask {
     // Task state
     bool enabled = true;
     bool running = false;  // Currently executing
-    
+
+    // ── Error categorization ──────────────────────────────────────────────
+    /**
+     * @brief Classification of the most recent execution failure.
+     *
+     * NONE          – no failure / task has never failed
+     * TRANSIENT     – intermittent error; retry may succeed
+     *                 (network timeout, temporary resource exhaustion)
+     * PERMANENT     – error that will not recover without code/config change
+     *                 (e.g. invalid AQL, function not found)
+     * TIMEOUT       – the task exceeded its configured timeout
+     * RESOURCE      – the task was rejected due to resource / rate limits
+     * SECURITY      – rejected by security validation
+     */
+    enum class ErrorCategory {
+        NONE,
+        TRANSIENT,
+        PERMANENT,
+        TIMEOUT,
+        RESOURCE,
+        SECURITY
+    };
+
     // Statistics
     size_t total_executions = 0;
     size_t successful_executions = 0;
     size_t failed_executions = 0;
     double avg_execution_time_ms = 0.0;
     std::string last_error;
+    ErrorCategory last_error_category = ErrorCategory::NONE;
     std::chrono::system_clock::time_point last_success_time;
     std::chrono::system_clock::time_point last_failure_time;
     

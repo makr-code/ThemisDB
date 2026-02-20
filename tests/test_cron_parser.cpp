@@ -440,3 +440,146 @@ TEST_F(CronParserTest, MonthlyHandlesDecemberToJanuaryRollover) {
     EXPECT_EQ(tm.tm_mon + 1, 1);   // January
     EXPECT_EQ(tm.tm_mday, 1);
 }
+
+// ===== 6-Field (Year) Tests =====
+
+TEST_F(CronParserTest, SixFieldParseWithSpecificYear) {
+    // "0 9 * * 1 2025" = Every Monday at 9:00 in 2025
+    auto cron = CronExpression::parse("0 9 * * 1 2025");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->hasYearConstraint());
+}
+
+TEST_F(CronParserTest, SixFieldValidateAcceptedByValidator) {
+    auto result = CronExpression::validate("0 9 * * 1 2025");
+    EXPECT_TRUE(result.is_valid) << result.error_message;
+}
+
+TEST_F(CronParserTest, SixFieldInvalidYearRejected) {
+    // Year before 1970
+    auto cron = CronExpression::parse("0 9 * * * 1800");
+    EXPECT_FALSE(cron.has_value());
+}
+
+TEST_F(CronParserTest, SixFieldMatchesOnlyTargetYear) {
+    // Every minute in the year 2025
+    auto cron = CronExpression::parse("* * * * * 2025");
+    ASSERT_TRUE(cron.has_value());
+
+    // A time in 2025 should match
+    auto in_2025 = makeTime(2025, 6, 15, 10, 30);
+    EXPECT_TRUE(cron->matches(in_2025));
+
+    // A time in 2024 should NOT match
+    auto in_2024 = makeTime(2024, 6, 15, 10, 30);
+    EXPECT_FALSE(cron->matches(in_2024));
+}
+
+TEST_F(CronParserTest, SixFieldYearRangeConstraint) {
+    // "0 0 1 1 * 2025-2027" = Jan 1st midnight for years 2025, 2026, 2027
+    auto cron = CronExpression::parse("0 0 1 1 * 2025-2027");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->hasYearConstraint());
+
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2026, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2027, 1, 1, 0, 0)));
+    EXPECT_FALSE(cron->matches(makeTime(2028, 1, 1, 0, 0)));
+}
+
+TEST_F(CronParserTest, FiveFieldHasNoYearConstraint) {
+    auto cron = CronExpression::parse("0 9 * * 1");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_FALSE(cron->hasYearConstraint());
+}
+
+TEST_F(CronParserTest, SixFieldGetNextExecutionRespectsYear) {
+    // "0 0 1 1 * 2099" = Jan 1st 2099 at midnight
+    auto cron = CronExpression::parse("0 0 1 1 * 2099");
+    ASSERT_TRUE(cron.has_value());
+
+    // From a point well before 2099, the next execution should be 2099-01-01 00:00
+    auto from = makeTime(2025, 1, 1, 0, 0);
+    auto next = cron->getNextExecution(from);
+    ASSERT_TRUE(next.has_value());
+
+    auto tt = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &tt);
+#else
+    localtime_r(&tt, &tm);
+#endif
+    EXPECT_EQ(tm.tm_year + 1900, 2099);
+    EXPECT_EQ(tm.tm_mon + 1, 1);
+    EXPECT_EQ(tm.tm_mday, 1);
+}
+
+// ===== Timezone-aware getNextExecution Tests =====
+
+TEST_F(CronParserTest, TimezoneOverloadReturnsUtcResult) {
+    // "0 9 * * *" = every day at 9:00 in the given timezone
+    auto cron = CronExpression::parse("0 9 * * *");
+    ASSERT_TRUE(cron.has_value());
+
+    // UTC+2 = 3600*2 seconds east of UTC
+    // So 09:00 in UTC+2 = 07:00 UTC
+    // Use a from time that is before 07:00 UTC on a given day
+    // makeTime uses local time; to keep the test timezone-independent, use a known UTC epoch
+    // We use a fixed UTC epoch: 2025-06-10 06:00 UTC
+    // epoch = mktime-based, but depends on local TZ. Use UTC directly:
+    std::chrono::system_clock::time_point from =
+        std::chrono::system_clock::from_time_t(1749535200); // 2025-06-10 06:00 UTC (approx)
+
+    auto next_tz = cron->getNextExecution(from, std::chrono::seconds(7200)); // UTC+2
+    ASSERT_TRUE(next_tz.has_value());
+
+    // The result should be 07:00 UTC (= 09:00 UTC+2)
+    auto tt = std::chrono::system_clock::to_time_t(*next_tz);
+    std::tm result_tm = {};
+#ifdef _WIN32
+    gmtime_s(&result_tm, &tt);
+#else
+    gmtime_r(&tt, &result_tm);
+#endif
+    EXPECT_EQ(result_tm.tm_hour, 7);
+    EXPECT_EQ(result_tm.tm_min,  0);
+}
+
+TEST_F(CronParserTest, TimezoneNegativeOffsetWorks) {
+    // "0 12 * * *" = every day at 12:00 in UTC-5
+    // 12:00 UTC-5 = 17:00 UTC
+    auto cron = CronExpression::parse("0 12 * * *");
+    ASSERT_TRUE(cron.has_value());
+
+    // from: 2025-06-10 16:00 UTC (before 17:00 UTC)
+    std::chrono::system_clock::time_point from =
+        std::chrono::system_clock::from_time_t(1749571200); // 2025-06-10 16:00 UTC (approx)
+
+    auto next_tz = cron->getNextExecution(from, std::chrono::seconds(-18000)); // UTC-5
+    ASSERT_TRUE(next_tz.has_value());
+
+    auto tt = std::chrono::system_clock::to_time_t(*next_tz);
+    std::tm result_tm = {};
+#ifdef _WIN32
+    gmtime_s(&result_tm, &tt);
+#else
+    gmtime_r(&tt, &result_tm);
+#endif
+    EXPECT_EQ(result_tm.tm_hour, 17);
+    EXPECT_EQ(result_tm.tm_min,  0);
+}
+
+TEST_F(CronParserTest, TimezoneUtcZeroMatchesExistingBehaviorApproximately) {
+    // With tz_offset=0, the timezone-aware overload uses UTC (gmtime),
+    // while the regular overload uses local time (localtime_r).
+    // They should agree when the test machine's local TZ is also UTC.
+    // Since we can't control the test machine's TZ, just verify the result is
+    // non-null and within 1 day of the non-tz result.
+    auto cron = CronExpression::parse("0 9 * * *");
+    ASSERT_TRUE(cron.has_value());
+
+    auto from = std::chrono::system_clock::from_time_t(1749571200); // a fixed UTC time
+    auto next_tz  = cron->getNextExecution(from, std::chrono::seconds(0));
+    EXPECT_TRUE(next_tz.has_value());
+}

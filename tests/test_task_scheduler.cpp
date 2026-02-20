@@ -776,3 +776,88 @@ TEST_F(TaskSchedulerTest, ExecuteUnknownTaskReturnsError) {
     auto result = scheduler_->executeTaskNow("totally_unknown_id");
     EXPECT_TRUE(result.contains("error"));
 }
+
+// ===== Error categorization tests =====
+
+TEST_F(TaskSchedulerTest, SuccessfulExecutionClearsErrorCategory) {
+    std::atomic<int> count{0};
+    scheduler_->registerFunction("clear_cat_fn",
+        [&count](const nlohmann::json&) -> nlohmann::json { ++count; return {}; });
+    ScheduledTask task;
+    task.name          = "clear_cat_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "clear_cat_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    std::string id = scheduler_->registerTask(task);
+
+    scheduler_->executeTaskNow(id);
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->last_error_category, ScheduledTask::ErrorCategory::NONE);
+}
+
+TEST_F(TaskSchedulerTest, PermanentErrorCategoryOnMissingFunction) {
+    // Unregistered function → function not found → PERMANENT
+    ScheduledTask task;
+    task.name          = "perm_cat_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "definitely_does_not_exist";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries   = 0;
+    std::string id = scheduler_->registerTask(task);
+
+    scheduler_->executeTaskNow(id);
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->last_error_category, ScheduledTask::ErrorCategory::PERMANENT);
+}
+
+TEST_F(TaskSchedulerTest, TransientErrorCategoryOnGenericException) {
+    scheduler_->registerFunction("transient_fn",
+        [](const nlohmann::json&) -> nlohmann::json {
+            throw std::runtime_error("connection reset");  // transient-sounding
+        });
+    ScheduledTask task;
+    task.name          = "transient_cat_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "transient_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries   = 0;
+    std::string id = scheduler_->registerTask(task);
+
+    scheduler_->executeTaskNow(id);
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->last_error_category, ScheduledTask::ErrorCategory::TRANSIENT);
+}
+
+TEST_F(TaskSchedulerTest, ErrorCategoryResetToNoneOnSubsequentSuccess) {
+    int call = 0;
+    scheduler_->registerFunction("flaky_fn",
+        [&call](const nlohmann::json&) -> nlohmann::json {
+            if (call++ == 0) throw std::runtime_error("temporary blip");
+            return {};
+        });
+    ScheduledTask task;
+    task.name          = "flaky_cat_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "flaky_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries   = 0;
+    std::string id = scheduler_->registerTask(task);
+
+    // First call fails
+    scheduler_->executeTaskNow(id);
+    auto t_fail = scheduler_->getTask(id);
+    ASSERT_NE(t_fail, nullptr);
+    EXPECT_NE(t_fail->last_error_category, ScheduledTask::ErrorCategory::NONE);
+
+    // Second call succeeds
+    scheduler_->executeTaskNow(id);
+    auto t_ok = scheduler_->getTask(id);
+    ASSERT_NE(t_ok, nullptr);
+    EXPECT_EQ(t_ok->last_error_category, ScheduledTask::ErrorCategory::NONE);
+}

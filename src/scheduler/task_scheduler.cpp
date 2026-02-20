@@ -139,7 +139,47 @@ ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
 
 } // anonymous namespace
 
-// ===== TaskScheduler Implementation =====
+// ── Error categorization helper ──────────────────────────────────────────────
+// Classify a failure message into one of the ScheduledTask::ErrorCategory values.
+// This function is intentionally conservative: when in doubt it returns TRANSIENT
+// so that the retry policy is not prematurely abandoned.
+static ScheduledTask::ErrorCategory categorizeError(const std::string& error_message) {
+    // Permanent errors: configuration / code problems that won't fix themselves
+    if (error_message.find("not found") != std::string::npos ||
+        error_message.find("unknown function") != std::string::npos ||
+        error_message.find("invalid argument") != std::string::npos ||
+        error_message.find("syntax error") != std::string::npos ||
+        error_message.find("parse error") != std::string::npos ||
+        error_message.find("no such") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::PERMANENT;
+    }
+    // Timeout errors
+    if (error_message.find("timeout") != std::string::npos ||
+        error_message.find("timed out") != std::string::npos ||
+        error_message.find("deadline exceeded") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::TIMEOUT;
+    }
+    // Security / authorisation errors
+    if (error_message.find("security") != std::string::npos ||
+        error_message.find("injection") != std::string::npos ||
+        error_message.find("forbidden") != std::string::npos ||
+        error_message.find("unauthorized") != std::string::npos ||
+        error_message.find("permission denied") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::SECURITY;
+    }
+    // Resource / rate-limit errors
+    if (error_message.find("rate limit") != std::string::npos ||
+        error_message.find("resource limit") != std::string::npos ||
+        error_message.find("quota") != std::string::npos ||
+        error_message.find("out of memory") != std::string::npos ||
+        error_message.find("too many") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::RESOURCE;
+    }
+    // Default: treat as transient (connection issues, temporary failures, etc.)
+    return ScheduledTask::ErrorCategory::TRANSIENT;
+}
+
+
 
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
                              Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger)
@@ -568,6 +608,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     if (succeeded) {
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
+        task->last_error_category = ScheduledTask::ErrorCategory::NONE;  // Reset on success
 
         if (task->on_success) {
             task->on_success(task_id, result);
@@ -576,6 +617,7 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         result = nlohmann::json{{"error", last_error}};
         task->failed_executions++;
         task->last_error = last_error;
+        task->last_error_category = categorizeError(last_error);
         task->last_failure_time = std::chrono::system_clock::now();
 
         if (task->on_failure) {
@@ -981,6 +1023,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         task->total_executions++;
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
+        task->last_error_category = ScheduledTask::ErrorCategory::NONE;  // Reset on success
         
         // Update moving average of execution time
         task->avg_execution_time_ms = 
@@ -1032,6 +1075,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         // All attempts failed
         task->failed_executions++;
         task->last_error = last_error;
+        task->last_error_category = categorizeError(last_error);
         task->last_failure_time = std::chrono::system_clock::now();
         failed_executions_++;
         
