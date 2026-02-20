@@ -188,7 +188,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 ### Observability
 
-- [ ] Implement `MetricsServer::start()` real HTTP listener.
+- [x] Implement `MetricsServer::start()` real HTTP listener — Pimpl with `httplib::Server`; GET `/metrics`, `/health`, `/ready`, `/models`, `/dashboard`; POST `/admin/models/reload`, `/admin/prompt/simulate`; CORS support; background thread; 7 round-trip HTTP tests added.
 - [ ] Emit `llm_inference_requests_total`, `llm_inference_duration_ms`, `llm_first_token_latency_ms` from the inference hot path — already wired in `LlamaWrapper::generate()` via `LLMMetricsCollector`.
 - [x] Emit `llm_queue_length` from `ContinuousBatchScheduler` — `setMetricsCollector()` added; `recordQueueLength()` called in `scheduleNextBatch()`.
 - [x] Emit `llm_backpressure_drops_total` from `ContinuousBatchScheduler` — counter registered; `recordBackpressureDrop()` called in `submitRequest()` on rejection.

@@ -1,4 +1,5 @@
 #include "llm/grafana_metrics.h"
+#include <httplib.h>
 #include <spdlog/spdlog.h>
 #include <map>
 #include <string>
@@ -7,6 +8,7 @@
 #include <algorithm>
 #include <numeric>
 #include <fstream>
+#include <thread>
 
 namespace themis {
 namespace llm {
@@ -1033,9 +1035,17 @@ bool GrafanaDashboardGenerator::saveDashboard(const std::string& filepath) const
 }
 
 
+// MetricsServer::Impl — holds the httplib server and its listener thread.
+// Defined here (not in the header) to keep <httplib.h> out of grafana_metrics.h.
+struct MetricsServer::Impl {
+    httplib::Server svr;
+    std::thread     thread;
+};
+
 // MetricsServer Implementation
 MetricsServer::MetricsServer(const ServerConfig& config, PrometheusExporter* exporter)
-    : config_(config), exporter_(exporter), running_(false) {
+    : config_(config), exporter_(exporter), running_(false),
+      impl_(std::make_unique<Impl>()) {
     spdlog::debug("MetricsServer initialized");
 }
 
@@ -1048,14 +1058,96 @@ bool MetricsServer::start() {
         spdlog::warn("MetricsServer already running");
         return true;
     }
-    
+
+    // Register GET routes -----------------------------------------------
+    // /metrics
+    impl_->svr.Get(config_.metrics_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            res.set_content(exporter_->handleMetricsRequest(), "text/plain; version=0.0.4");
+        });
+
+    // /health
+    impl_->svr.Get(config_.health_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.health_path, body);
+            res.set_content(body, "application/json");
+        });
+
+    // /ready
+    impl_->svr.Get(config_.ready_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.ready_path, body);
+            const int status = (body.find("\"ready\"") != std::string::npos) ? 200 : 503;
+            res.status = status;
+            res.set_content(body, "application/json");
+        });
+
+    // /models
+    impl_->svr.Get(config_.models_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.models_path, body);
+            res.set_content(body, "application/json");
+        });
+
+    // /dashboard
+    impl_->svr.Get(config_.dashboard_path.c_str(),
+        [](const httplib::Request& /*req*/, httplib::Response& res) {
+            res.set_content("{\"message\":\"Dashboard endpoint\"}", "application/json");
+        });
+
+    // Register POST routes -----------------------------------------------
+    // POST /admin/models/reload
+    impl_->svr.Post(config_.admin_reload_path.c_str(),
+        [this](const httplib::Request& req, httplib::Response& res) {
+            std::string body;
+            handlePost(config_.admin_reload_path, req.body, body);
+            res.set_content(body, "application/json");
+        });
+
+    // POST /admin/prompt/simulate
+    impl_->svr.Post(config_.admin_simulate_path.c_str(),
+        [this](const httplib::Request& req, httplib::Response& res) {
+            std::string body;
+            handlePost(config_.admin_simulate_path, req.body, body);
+            res.set_content(body, "application/json");
+        });
+
+    // CORS: add Access-Control-Allow-Origin header to every response
+    if (config_.enable_cors) {
+        impl_->svr.set_post_routing_handler(
+            [](const httplib::Request& /*req*/, httplib::Response& res) {
+                res.set_header("Access-Control-Allow-Origin", "*");
+            });
+    }
+
+    // Start listening on a background thread
+    const std::string host = config_.host;
+    const int         port = config_.port;
+
+    impl_->thread = std::thread([this, host, port]() {
+        spdlog::info("MetricsServer listening on {}:{}", host, port);
+        if (!impl_->svr.listen(host.c_str(), port)) {
+            spdlog::error("MetricsServer failed to listen on {}:{}", host, port);
+        }
+    });
+
+    // Give the server a moment to bind before we report success.
+    // httplib::Server::is_running() becomes true once listen() has bound.
+    for (int i = 0; i < 50 && !impl_->svr.is_running(); ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    if (!impl_->svr.is_running()) {
+        spdlog::error("MetricsServer did not start within 500 ms on {}:{}", host, port);
+        impl_->thread.detach();
+        return false;
+    }
+
     running_ = true;
-    spdlog::info("Metrics Server started: {}:{}", config_.host, config_.port);
-    
-    // Note: In a real implementation, this would start an HTTP server
-    // For now, we provide a functional interface that can be called programmatically
-    // The metrics can be accessed via getMetricsURL() and exporter_->handleMetricsRequest()
-    
+    spdlog::info("MetricsServer started — metrics at {}", getMetricsURL());
     return true;
 }
 
@@ -1063,9 +1155,14 @@ void MetricsServer::stop() {
     if (!running_) {
         return;
     }
-    
+
+    impl_->svr.stop();
+    if (impl_->thread.joinable()) {
+        impl_->thread.join();
+    }
+
     running_ = false;
-    spdlog::info("Metrics Server stopped");
+    spdlog::info("MetricsServer stopped");
 }
 
 bool MetricsServer::isRunning() const {

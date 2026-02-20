@@ -7,6 +7,7 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include <thread>
 
 namespace themis {
 namespace llm {
@@ -298,8 +299,13 @@ private:
     std::function<std::string()> model_info_cb_;
     std::function<std::string(const std::string&)> reload_cb_;
     std::function<std::string(const std::string&)> simulate_cb_;
+
+    // Pimpl: holds httplib::Server and the background listener thread.
+    // Defined in grafana_metrics.cpp to keep <httplib.h> out of this header.
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
     
-    // HTTP request handling
+    // HTTP request handling (called from httplib route handlers inside Impl)
     void handleRequest(const std::string& path, std::string& response);
     // POST body is passed separately to keep GET paths clean.
     void handlePost(const std::string& path, const std::string& body,

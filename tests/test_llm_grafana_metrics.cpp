@@ -2,6 +2,7 @@
 #include "llm/llama_wrapper.h"
 #include "llm/grafana_metrics.h"
 #include "test_helpers_llm.h"
+#include <httplib.h>
 #include <memory>
 #include <thread>
 #include <chrono>
@@ -349,3 +350,107 @@ TEST_F(MetricsServerHandlerTest, ModelsURL_DifferentFromOtherEndpoints) {
 }
 
 
+
+// ═══════════════════════════════════════════════════════════
+// Real HTTP round-trip tests (requires live MetricsServer)
+// Uses port 19091 to avoid conflicts with the existing fixture (9091).
+// ═══════════════════════════════════════════════════════════
+
+class MetricsServerHTTPTest : public ::testing::Test {
+protected:
+    static constexpr int kPort = 19091;
+
+    void SetUp() override {
+        exporter = std::make_unique<PrometheusExporter>();
+        MetricsServer::ServerConfig cfg;
+        cfg.host        = "127.0.0.1";
+        cfg.port        = kPort;
+        cfg.enable_cors = false;  // keep responses simple for assertions
+        server = std::make_unique<MetricsServer>(cfg, exporter.get());
+        ASSERT_TRUE(server->start()) << "MetricsServer failed to bind port " << kPort;
+    }
+
+    void TearDown() override {
+        server->stop();
+    }
+
+    std::unique_ptr<PrometheusExporter> exporter;
+    std::unique_ptr<MetricsServer>      server;
+};
+
+TEST_F(MetricsServerHTTPTest, HealthEndpoint_Returns200AndOkStatus) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/health");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("\"ok\""), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, ReadyEndpoint_Returns200WhenReady) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/ready");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("\"ready\""), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, MetricsEndpoint_ReturnsPrometheusFormat) {
+    // Record a metric so there is something to scrape.
+    LLMMetricsCollector collector(exporter.get());
+    collector.recordInferenceRequest("test-model");
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/metrics");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("llm_"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, ModelsEndpoint_NoCallback_ReturnsEmptyArray) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/models");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, "[]");
+}
+
+TEST_F(MetricsServerHTTPTest, ModelsEndpoint_WithCallback_ReturnsCallbackJSON) {
+    const std::string expected = R"([{"id":"llama-3b","vram_mb":2048}])";
+    server->setModelInfoCallback([&]() { return expected; });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/models");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, expected);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminReload_NoCallback_Returns501NotImplemented) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Post("/admin/models/reload", "{\"model\":\"llama-3b\"}", "application/json");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("not_implemented"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminSimulate_WithCallback_InvokesCallback) {
+    bool invoked = false;
+    server->setSimulateCallback([&](const std::string& body) {
+        invoked = true;
+        return R"({"allowed":true,"sanitized_prompt":"hello"})";
+    });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Post("/admin/prompt/simulate", R"({"prompt":"hello"})", "application/json");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_TRUE(invoked);
+    EXPECT_NE(res->body.find("allowed"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, UnknownPath_Returns404) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/does_not_exist");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 404);
+}
