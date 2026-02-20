@@ -789,6 +789,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_;
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -1853,6 +1855,8 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_ + " (speculative)";
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -2089,6 +2093,8 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_;
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         

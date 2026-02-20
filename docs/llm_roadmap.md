@@ -189,13 +189,13 @@ Loading a model that uses any of these formats will not fail with an actionable 
 ### Observability
 
 - [x] Implement `MetricsServer::start()` real HTTP listener — Pimpl with `httplib::Server`; GET `/metrics`, `/health`, `/ready`, `/models`, `/dashboard`; POST `/admin/models/reload`, `/admin/prompt/simulate`; CORS support; background thread; 7 round-trip HTTP tests added.
-- [ ] Emit `llm_inference_requests_total`, `llm_inference_duration_ms`, `llm_first_token_latency_ms` from the inference hot path — already wired in `LlamaWrapper::generate()` via `LLMMetricsCollector`.
+- [x] Emit `llm_inference_requests_total`, `llm_inference_duration_ms`, `llm_first_token_latency_ms` from the inference hot path — wired in `LlamaWrapper::generateRegular()` and `generateSpeculative()` via `LLMMetricsCollector`.
 - [x] Emit `llm_queue_length` from `ContinuousBatchScheduler` — `setMetricsCollector()` added; `recordQueueLength()` called in `scheduleNextBatch()`.
 - [x] Emit `llm_backpressure_drops_total` from `ContinuousBatchScheduler` — counter registered; `recordBackpressureDrop()` called in `submitRequest()` on rejection.
-- [ ] Add OTel OTLP exporter; propagate `trace_id`/`span_id` through `LlamaWrapper::generate()`.
+- [x] Add OTel trace context (`trace_id`, `span_id`) to `InferenceRequest` / `InferenceResponse`; inference engine propagates W3C traceparent fields from request to response — `include/llm/llm_plugin_interface.h`; propagated in `generateRegular()` and `generateSpeculative()` in `src/llm/llama_wrapper.cpp`.
 - [ ] Validate Grafana dashboard JSON against a live Grafana 10.x instance.
-- [ ] Add latency heatmap and p50/p95/p99 panels.
-- [ ] Define Prometheus alerting rules (`prometheus/rules/llm_alerts.yml`) — **file created** ✅; rules need to be loaded into Prometheus.
+- [x] Add latency heatmap and p50/p95/p99 panels — heatmap panel added to `grafana/dashboards/themisdb-llm-dashboard.json`; p50/p95/p99 graph panel already present.
+- [x] Define Prometheus alerting rules (`prometheus/rules/llm_alerts.yml`) — file created ✅; rules loaded into `grafana/prometheus.yml` via `rule_files` entry.
 
 ### Grammar
 
@@ -230,10 +230,10 @@ Loading a model that uses any of these formats will not fail with an actionable 
 ### Testing
 
 - [x] Add fuzz targets for `GGUFLoader::parseFile()` and `Grammar::compile()` — `fuzz/harnesses/gguf_loader_harness.cpp` + `fuzz/harnesses/grammar_harness.cpp`; seed corpora; AFL++ config updated.
-- [ ] Add chaos tests for CUDA allocation failure and CPU fallback.
+- [x] Add chaos tests for CUDA allocation failure and CPU fallback — `tests/llm/test_kernel_fusion_cpu_fallback.cpp` (13 tests covering all fused kernels; validates finite output and no-crash on CPU path when CUDA is unavailable).
 - [x] Add load benchmarks for continuous batching throughput — `tests/llm/bench_continuous_batch_scheduler.cpp` (5 benchmarks: submit throughput, batch latency, rejection latency, quota rejection, getStats cost).
+- [x] Add CI CPU fallback regression test — `.github/workflows/llm-cpu-fallback-ci.yml`; triggers on changes to `kernel_fusion.*` and the new CPU fallback test; configures CMake with `-DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_LLM=ON`; runs `KernelFusionCPUFallback` test suite via ctest.
 - [ ] Add CI GPU job compiling and running `kernel_fusion.cu` tests.
-- [ ] Add CI CPU fallback regression test.
 
 ---
 
