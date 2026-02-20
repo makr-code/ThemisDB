@@ -1,6 +1,7 @@
 #include "server/sharding_metrics_handler.h"
 #include "sharding/prometheus_metrics.h"
 #include "sharding/slo_monitor.h"
+#include "sharding/shard_repair_engine.h"
 #include <sstream>
 #include <iomanip>
 
@@ -14,13 +15,26 @@ ShardingMetricsHandler::ShardingMetricsHandler(
     , slo_monitor_(slo_monitor) {
 }
 
+void ShardingMetricsHandler::setRepairEngine(
+    std::shared_ptr<sharding::ShardRepairEngine> repair_engine) {
+    repair_engine_ = std::move(repair_engine);
+}
+
 std::string ShardingMetricsHandler::getMetrics() const {
     if (!metrics_) {
         return "";
     }
     
-    // Get metrics with annotations (HELP and TYPE)
-    return metrics_->getMetricsWithAnnotations();
+    // Base metrics with HELP/TYPE annotations
+    std::string result = metrics_->getMetricsWithAnnotations();
+
+    // Append repair metrics when available
+    std::string repair = getRepairMetrics();
+    if (!repair.empty()) {
+        result += "\n" + repair;
+    }
+
+    return result;
 }
 
 std::string ShardingMetricsHandler::getMetricsPlain() const {
@@ -81,6 +95,13 @@ std::string ShardingMetricsHandler::getSLOMetrics() const {
         << (global_error_budget > 0.1 ? 1.0 : 0.0) << "\n";
     
     return oss.str();
+}
+
+std::string ShardingMetricsHandler::getRepairMetrics() const {
+    if (!repair_engine_) {
+        return "";
+    }
+    return repair_engine_->exportPrometheusMetrics();
 }
 
 } // namespace server

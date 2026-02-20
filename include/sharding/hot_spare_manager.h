@@ -19,6 +19,7 @@
 
 #include "sharding/redundancy_strategy.h"
 #include "sharding/shard_topology.h"
+#include "sharding/shard_repair_engine.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -263,6 +264,13 @@ public:
     
     // Prometheus metrics
     std::string exportPrometheusMetrics() const;
+
+    /**
+     * Attach a ShardRepairEngine so that after a successful failover,
+     * the spare shard is automatically scheduled for full data rebuild
+     * via ShardRepairEngine::triggerRepair(spare_shard_id).
+     */
+    void setRepairEngine(std::shared_ptr<themis::sharding::ShardRepairEngine> engine);
     
 private:
     // Background threads
@@ -323,6 +331,9 @@ private:
     // Statistics
     mutable std::mutex stats_mutex_;
     Stats stats_;
+
+    // Optional repair engine: triggers rebuild via ShardRepairEngine after failover
+    std::shared_ptr<themis::sharding::ShardRepairEngine> repair_engine_;
 };
 
 } // namespace sharding

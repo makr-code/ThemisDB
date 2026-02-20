@@ -14,6 +14,9 @@
 #include <memory>
 
 #include "server/monitoring_api_handler.h"
+#include "core/concerns/concerns_context.h"
+#include "core/concerns/noop_implementations.h"
+#include "core/concerns/lifecycle.h"
 
 namespace http = boost::beast::http;
 using json = nlohmann::json;
@@ -49,6 +52,31 @@ static std::unique_ptr<themis::server::MonitoringApiHandler> make_handler(
         nullptr,  // no sharding metrics
         is_running,
         active_requests
+    );
+}
+
+// Factory that injects a ConcernsContext
+static std::unique_ptr<themis::server::MonitoringApiHandler> make_handler_with_concerns(
+    std::shared_ptr<themis::core::concerns::ConcernsContext> concerns,
+    const std::atomic<bool>* is_running = nullptr
+) {
+    static std::atomic<uint64_t> req_count{0};
+    static std::atomic<uint64_t> err_count{0};
+    static auto start = std::chrono::steady_clock::now();
+
+    return std::make_unique<themis::server::MonitoringApiHandler>(
+        nullptr,  // no storage
+        nullptr,  // no auth
+        &req_count,
+        &err_count,
+        &start,
+        nullptr,  // no secondary index
+        nullptr,  // no schema manager
+        nullptr,  // no sharding metrics
+        is_running,
+        nullptr,  // no active_requests
+        nullptr,  // no active_connections
+        std::move(concerns)
     );
 }
 
@@ -226,4 +254,147 @@ TEST_F(HealthCheckTest, ResponseBodyIsJson) {
 
     EXPECT_EQ(res[http::field::content_type], "application/json");
     EXPECT_NO_THROW(json::parse(res.body()));
+}
+
+// ---------------------------------------------------------------------------
+// ConcernsContext integration tests
+// ---------------------------------------------------------------------------
+
+using namespace themis::core::concerns;
+
+class ConcernsLivenessTest : public ::testing::Test {};
+
+TEST_F(ConcernsLivenessTest, LivenessIncludesConcernsSectionWhenContextProvided) {
+    auto ctx = ConcernsContext::createNoOp();
+    auto handler = make_handler_with_concerns(ctx);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    ASSERT_TRUE(body["checks"].contains("concerns"));
+    auto& concerns = body["checks"]["concerns"];
+    EXPECT_TRUE(concerns.contains("logger"));
+    EXPECT_TRUE(concerns.contains("tracer"));
+    EXPECT_TRUE(concerns.contains("metrics"));
+    EXPECT_TRUE(concerns.contains("cache"));
+}
+
+TEST_F(ConcernsLivenessTest, LivenessReturns200WhenAllConcernsHealthy) {
+    auto ctx = ConcernsContext::createNoOp();
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "alive");
+    EXPECT_TRUE(body["checks"]["concerns"]["logger"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["tracer"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["metrics"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["cache"]["ok"].get<bool>());
+}
+
+TEST_F(ConcernsLivenessTest, LivenessReturns503WhenConcernUnhealthy) {
+    // Create a context where the logger reports unhealthy
+    class UnhealthyLogger : public NoOpLogger {
+    public:
+        ProbeResult isHealthy() const override {
+            return ProbeResult::unhealthy("sink unreachable");
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<UnhealthyLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>()
+    );
+
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "dead");
+    EXPECT_FALSE(body["checks"]["concerns"]["logger"]["ok"].get<bool>());
+    EXPECT_EQ(body["checks"]["concerns"]["logger"]["message"], "sink unreachable");
+}
+
+TEST_F(ConcernsLivenessTest, LivenessWithoutContextHasNoConcernsSection) {
+    auto handler = make_handler();
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    auto body = json::parse(res.body());
+    EXPECT_FALSE(body["checks"].contains("concerns"));
+}
+
+class ConcernsReadinessTest : public ::testing::Test {};
+
+TEST_F(ConcernsReadinessTest, ReadinessIncludesConcernsSectionWhenContextProvided) {
+    auto ctx = ConcernsContext::createNoOp();
+    auto handler = make_handler_with_concerns(ctx);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    ASSERT_TRUE(body["checks"].contains("concerns"));
+    auto& concerns = body["checks"]["concerns"];
+    EXPECT_TRUE(concerns.contains("logger"));
+    EXPECT_TRUE(concerns.contains("tracer"));
+    EXPECT_TRUE(concerns.contains("metrics"));
+    EXPECT_TRUE(concerns.contains("cache"));
+}
+
+TEST_F(ConcernsReadinessTest, ReadinessReturns200WhenAllConcernsReady) {
+    auto ctx = ConcernsContext::createNoOp();
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "ready");
+}
+
+TEST_F(ConcernsReadinessTest, ReadinessReturns503WhenConcernNotReady) {
+    class UnhealthyCache : public NoOpCache {
+    public:
+        ProbeResult isHealthy() const override {
+            return ProbeResult::unhealthy("cache backend unavailable");
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<UnhealthyCache>()
+    );
+
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "not_ready");
+    EXPECT_FALSE(body["checks"]["concerns"]["cache"]["ok"].get<bool>());
+    EXPECT_EQ(body["checks"]["concerns"]["cache"]["message"], "cache backend unavailable");
+}
+
+TEST_F(ConcernsReadinessTest, ReadinessWithoutContextHasNoConcernsSection) {
+    auto handler = make_handler();
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    auto body = json::parse(res.body());
+    EXPECT_FALSE(body["checks"].contains("concerns"));
 }

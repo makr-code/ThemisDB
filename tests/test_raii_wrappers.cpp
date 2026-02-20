@@ -22,7 +22,9 @@
 #endif
 #endif
 
+#if defined(THEMIS_ENABLE_CUDA) || defined(THEMIS_ENABLE_HIP) || defined(THEMIS_ENABLE_OPENCL)
 using namespace themis::acceleration::raii;
+#endif
 
 // ============================================================================
 // CUDA RAII Tests

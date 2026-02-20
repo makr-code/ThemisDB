@@ -332,6 +332,15 @@ bool HotSpareManager::activateSpare(
         spdlog::info("Queued rebuild for spare {}, {} documents to rebuild", 
                      spare_id, documents.size());
     }
+
+    // Notify ShardRepairEngine (if attached) so it can perform erasure-aware
+    // consistency checks and recovery for data that could not be directly
+    // copied from replicas (e.g. parity-only data in RAID-5/6 configurations).
+    if (repair_engine_) {
+        repair_engine_->triggerRepair(spare_id);
+        spdlog::info("ShardRepairEngine repair triggered for newly activated spare {}",
+                     spare_id);
+    }
     
     return true;
 }
@@ -463,6 +472,11 @@ void HotSpareManager::updateConfig(const HotSpareConfig& config) {
     
     config_ = config;
     spdlog::info("HotSpareManager configuration updated");
+}
+
+void HotSpareManager::setRepairEngine(
+    std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
+    repair_engine_ = std::move(engine);
 }
 
 HotSpareManager::Stats HotSpareManager::getStats() const {

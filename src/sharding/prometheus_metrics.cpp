@@ -674,6 +674,35 @@ void PrometheusMetrics::recordTransactionTimeout(const std::string& transaction_
     incrementCounter("themis_transaction_timeouts_total", {{"type", transaction_type}});
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Shard repair / anti-entropy metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+void PrometheusMetrics::recordRepairOperation(bool success, double duration_ms) {
+    incrementCounter("themis_shard_repair_operations_total",
+                     {{"result", success ? "success" : "failure"}});
+    observeHistogram("themis_shard_repair_duration_seconds", duration_ms / 1000.0, {});
+}
+
+void PrometheusMetrics::recordRepairShardStatus(const std::string& shard_id,
+                                                 const std::string& status) {
+    // Use a gauge per (shard, status) pair: value is 1 for the active status, 0 for others.
+    // Known statuses are defined in PrometheusMetrics::RepairShardStatus.
+    static constexpr const char* kKnownStatuses[] = {
+        RepairShardStatus::HEALTHY,
+        RepairShardStatus::DEGRADED,
+        RepairShardStatus::FAILED,
+        RepairShardStatus::REBUILDING,
+    };
+    for (const auto* s : kKnownStatuses) {
+        setGauge("themis_shard_repair_health",
+                 (status == s) ? 1.0 : 0.0,
+                 {{"shard_id", shard_id}, {"status", s}});
+    }
+}
+
+void PrometheusMetrics::recordRepairScan() {
+    incrementCounter("themis_shard_repair_scans_total", {});
 // ─── MVCC / HLC Metrics ───────────────────────────────────────────────────────
 
 void PrometheusMetrics::recordMvccWrite(double latency_ms) {

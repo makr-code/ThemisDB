@@ -1893,6 +1893,96 @@ paths:
         '503': { $ref: '#/components/responses/ServiceUnavailable' }
 
 
+  # ──────────────────────────────────────────────────────────────────────────────
+  # Shard Repair / Anti-Entropy endpoints  (v1.5)
+  # ──────────────────────────────────────────────────────────────────────────────
+  /admin/repair:
+    post:
+      summary: Trigger shard repair / rebuild
+      operationId: triggerShardRepair
+      tags: [Shard Repair]
+      description: |
+        Enqueues an asynchronous repair job for one shard (or all shards when
+        `shard_id` is omitted). The engine will check data consistency via the
+        configured redundancy strategy (RAID-5/6, Mirror) and reconstruct any
+        missing or corrupt chunks.
+
+        Returns a `job_id` that can be polled with `GET /admin/repair/{job_id}`.
+      security:
+        - bearerAuth: [admin]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                shard_id:
+                  type: string
+                  description: Target shard to repair. Omit to repair all shards.
+                  example: shard_3
+      responses:
+        '200':
+          description: Repair job accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepairJobResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /admin/repair/scan:
+    post:
+      summary: Trigger full anti-entropy scan
+      operationId: triggerRepairScan
+      tags: [Shard Repair]
+      description: |
+        Triggers an immediate full cluster-wide anti-entropy scan. All shards are
+        inspected for degraded or missing chunks. Degraded documents are
+        automatically queued for repair if `enable_auto_repair` is set in the
+        engine configuration.
+
+        Returns a `job_id` for status polling.
+      security:
+        - bearerAuth: [admin]
+      responses:
+        '200':
+          description: Scan job accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepairJobResponse'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+
+  /admin/repair/{job_id}:
+    get:
+      summary: Get repair job status
+      operationId: getRepairJobStatus
+      tags: [Shard Repair]
+      description: Poll the status of a repair or scan job by its `job_id`.
+      security:
+        - bearerAuth: [admin]
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: repair-1708450000000-42
+      responses:
+        '200':
+          description: Job status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepairJobStatus'
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
+
   securitySchemes:
     bearerAuth:
       type: http
@@ -1975,6 +2065,12 @@ paths:
         version: { type: string }
         database: { type: string }
         uptime_seconds: { type: integer, format: int64 }
+        repair:
+          $ref: '#/components/schemas/ShardRepairHealth'
+          description: >
+            Present only when a ShardRepairEngine is attached to the server.
+            Gives an overview of per-shard repair state, engine running status,
+            and aggregate repair counters.
       required: [status, version, database, uptime_seconds]
     StatsResponse:
       type: object
@@ -3134,3 +3230,120 @@ paths:
         region_read_quorums:
           type: object
           additionalProperties: { type: integer }
+
+
+    # ──────────────────────────────────────────────────────────────────────────
+    # Shard Repair / Anti-Entropy schemas  (v1.5)
+    # ──────────────────────────────────────────────────────────────────────────
+
+    RepairJobResponse:
+      type: object
+      description: Returned after successfully enqueueing a repair or scan job.
+      properties:
+        job_id:
+          type: string
+          description: Unique identifier for this repair job.
+          example: repair-1708450000000-42
+        status:
+          type: string
+          enum: [queued, running, completed, failed]
+          example: queued
+        shard_id:
+          type: string
+          description: Target shard (empty when repairing all shards).
+          example: shard_3
+      required: [job_id, status]
+
+    RepairJobStatus:
+      type: object
+      description: Current status of a repair or scan job.
+      properties:
+        job_id:
+          type: string
+          example: repair-1708450000000-42
+        status:
+          type: string
+          enum: [queued, running, completed, failed]
+          example: completed
+        shard_id:
+          type: string
+          description: Target shard (empty for full-cluster repairs).
+          example: shard_3
+        document_id:
+          type: string
+          description: Set only for single-document repair jobs.
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        error:
+          type: string
+          description: Error message when status is "failed".
+      required: [job_id, status]
+
+    ShardRepairShardEntry:
+      type: object
+      description: Per-shard health information as reported by ShardRepairEngine.
+      properties:
+        shard_id:
+          type: string
+          example: shard_1
+        status:
+          type: string
+          enum: [healthy, degraded, failed, rebuilding]
+          example: healthy
+        documents_scanned:
+          type: integer
+          format: int64
+        documents_healthy:
+          type: integer
+          format: int64
+        documents_degraded:
+          type: integer
+          format: int64
+        documents_unrecoverable:
+          type: integer
+          format: int64
+        last_error:
+          type: string
+          description: Last error message for this shard, if any.
+      required: [shard_id, status]
+
+    ShardRepairHealth:
+      type: object
+      description: >
+        Repair engine health section included in GET /health when a
+        ShardRepairEngine is attached. Reports aggregate counters and
+        per-shard status.
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, failed]
+          description: Overall cluster-level repair health.
+          example: healthy
+        engine_running:
+          type: boolean
+          example: true
+        total_scans:
+          type: integer
+          format: int64
+        repairs_attempted:
+          type: integer
+          format: int64
+        repairs_successful:
+          type: integer
+          format: int64
+        repairs_failed:
+          type: integer
+          format: int64
+        avg_repair_ms:
+          type: integer
+          format: int64
+          description: Rolling average repair time in milliseconds.
+        shards:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShardRepairShardEntry'
+      required: [status, engine_running, shards]

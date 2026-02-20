@@ -32,6 +32,7 @@ namespace {
 DeviceInfo MakeCPUFallback() {
     DeviceInfo d;
     d.index            = -1;
+    d.device_index     = -1;
     d.name             = "CPU Fallback";
     d.backend          = "CPU_FALLBACK";
     d.total_vram_bytes = edition::GPU_MAX_VRAM_GB > 0
@@ -55,6 +56,7 @@ std::vector<DeviceInfo> EnumerateCUDA() {
         cudaDeviceProp props{};
         DeviceInfo d;
         d.index   = i;
+        d.device_index = i;
         d.backend = "CUDA";
         if (cudaGetDeviceProperties(&props, i) != cudaSuccess) {
             d.is_healthy    = false;
@@ -92,6 +94,7 @@ std::vector<DeviceInfo> EnumerateROCm() {
         hipDeviceProp_t props{};
         DeviceInfo d;
         d.index   = i;
+        d.device_index = i;
         d.backend = "ROCm";
         if (hipGetDeviceProperties(&props, i) != hipSuccess) {
             d.is_healthy    = false;
