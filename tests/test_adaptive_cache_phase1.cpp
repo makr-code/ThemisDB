@@ -529,6 +529,117 @@ TEST_F(AdaptiveCachePhase1Test, ConfigValidationEmptyPath) {
     EXPECT_NE(error.find("l3_db_path"), std::string::npos);
 }
 
+// ============================================================================
+// Phase 2 Tests: Rate Limiting
+// ============================================================================
+
+TEST_F(AdaptiveCachePhase1Test, RateLimitingDisabled) {
+    config_.enable_rate_limiting = false;
+    AdaptiveQueryCache cache(config_);
+    
+    // Should not rate limit when disabled
+    json result = {{"value", 1}};
+    for (int i = 0; i < 100; i++) {
+        std::string fp = cache.generateFingerprint("query" + std::to_string(i), {});
+        EXPECT_TRUE(cache.put(fp, {}, result));
+    }
+    
+    auto metrics = cache.getEnhancedMetrics();
+    EXPECT_EQ(metrics.rate_limited_requests.load(), 0);
+}
+
+TEST_F(AdaptiveCachePhase1Test, RateLimitingEnabled) {
+    config_.enable_rate_limiting = true;
+    config_.max_requests_per_second = 10;  // Very low for testing
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 1}};
+    size_t successful = 0;
+    size_t rate_limited = 0;
+    
+    // Try many requests quickly
+    for (int i = 0; i < 50; i++) {
+        std::string fp = cache.generateFingerprint("query" + std::to_string(i), {});
+        if (cache.put(fp, {}, result)) {
+            successful++;
+        } else {
+            rate_limited++;
+        }
+    }
+    
+    // Should have some rate limited requests
+    auto metrics = cache.getEnhancedMetrics();
+    EXPECT_GT(metrics.rate_limited_requests.load(), 0);
+    EXPECT_LT(successful, 50);  // Not all should succeed
+}
+
+TEST_F(AdaptiveCachePhase1Test, RateLimitingGet) {
+    config_.enable_rate_limiting = true;
+    config_.max_requests_per_second = 5;  // Very low for testing
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 42}};
+    std::string fp = cache.generateFingerprint("test_query", {});
+    cache.put(fp, {}, result);
+    
+    // Try many get requests
+    size_t hits = 0;
+    size_t rate_limited = 0;
+    
+    for (int i = 0; i < 30; i++) {
+        auto cached = cache.get(fp);
+        if (cached.has_value()) {
+            hits++;
+        } else {
+            rate_limited++;
+        }
+    }
+    
+    // Should have some rate limited
+    auto metrics = cache.getEnhancedMetrics();
+    EXPECT_GT(metrics.rate_limited_requests.load(), 0);
+}
+
+TEST_F(AdaptiveCachePhase1Test, RateLimiterTokenBucket) {
+    using namespace themis::cache;
+    
+    RateLimiter::Config config;
+    config.max_requests_per_second = 10;
+    RateLimiter limiter(config);
+    
+    // Should allow initial requests up to capacity
+    int allowed = 0;
+    for (int i = 0; i < 20; i++) {
+        if (limiter.tryAcquire()) {
+            allowed++;
+        }
+    }
+    
+    // Should allow some but not all
+    EXPECT_GT(allowed, 0);
+    EXPECT_LE(allowed, 10);  // At most the rate limit
+}
+
+TEST_F(AdaptiveCachePhase1Test, RateLimiterReset) {
+    using namespace themis::cache;
+    
+    RateLimiter::Config config;
+    config.max_requests_per_second = 5;
+    RateLimiter limiter(config);
+    
+    // Exhaust tokens
+    for (int i = 0; i < 10; i++) {
+        limiter.tryAcquire();
+    }
+    
+    // Should be rate limited
+    EXPECT_FALSE(limiter.tryAcquire());
+    
+    // Reset should restore capacity
+    limiter.reset();
+    EXPECT_TRUE(limiter.tryAcquire());
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

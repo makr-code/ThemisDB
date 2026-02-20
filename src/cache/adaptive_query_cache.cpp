@@ -36,6 +36,14 @@ AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
         THEMIS_INFO("Tenant isolation enabled: {} bytes per tenant", config_.per_tenant_max_bytes);
     }
     
+    // Phase 2: Initialize rate limiter
+    if (config_.enable_rate_limiting) {
+        cache::RateLimiter::Config rl_config;
+        rl_config.max_requests_per_second = config_.max_requests_per_second;
+        rate_limiter_ = std::make_unique<cache::RateLimiter>(rl_config);
+        THEMIS_INFO("Rate limiting enabled: {} requests/sec", config_.max_requests_per_second);
+    }
+    
     // Initialize circuit breaker for L3 (Phase 1: Fault Isolation)
     if (config_.enable_circuit_breaker) {
         cache::CircuitBreaker::Config cb_config;
@@ -115,6 +123,13 @@ std::string AdaptiveQueryCache::generateFingerprint(
 std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     const std::string& fingerprint
 ) {
+    // Phase 2: Check rate limiter
+    if (rate_limiter_ && !rate_limiter_->tryAcquire()) {
+        enhanced_metrics_.rate_limited_requests++;
+        THEMIS_DEBUG("Request rate limited for fingerprint: {}", fingerprint.substr(0, 16));
+        return std::nullopt;
+    }
+    
     int64_t now_ms = getCurrentTimeMs();
     
     // Try L1 (HOT) - fastest path
@@ -312,6 +327,13 @@ bool AdaptiveQueryCache::put(
     const nlohmann::json& query_params,
     const nlohmann::json& result
 ) {
+    // Phase 2: Check rate limiter
+    if (rate_limiter_ && !rate_limiter_->tryAcquire()) {
+        enhanced_metrics_.rate_limited_requests++;
+        THEMIS_DEBUG("Put request rate limited for fingerprint: {}", fingerprint.substr(0, 16));
+        return false;
+    }
+    
     int64_t now_ms = getCurrentTimeMs();
     std::string result_str = result.dump();
     size_t result_size = result_str.size();

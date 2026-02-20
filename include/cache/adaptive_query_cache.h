@@ -242,6 +242,9 @@ private:
     // Circuit breaker for L3 (RocksDB) operations (Phase 1)
     std::unique_ptr<cache::CircuitBreaker> l3_circuit_breaker_;
     
+    // Phase 2: Rate limiter
+    std::unique_ptr<cache::RateLimiter> rate_limiter_;
+    
     // L1: In-memory HashMap
     std::unordered_map<std::string, L1Entry> l1_cache_;
     mutable std::mutex l1_mutex_;

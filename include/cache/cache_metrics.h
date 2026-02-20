@@ -46,6 +46,10 @@ struct CacheMetrics {
     std::atomic<uint64_t> l3_circuit_breaker_trips{0};
     std::atomic<bool> l3_circuit_breaker_open{false};
     
+    // Phase 2: Rate limiting metrics
+    std::atomic<uint64_t> rate_limited_requests{0};
+    std::atomic<uint64_t> backpressure_events{0};
+    
     /**
      * @brief Calculate overall hit rate
      */
@@ -108,6 +112,10 @@ struct CacheMetrics {
         // Circuit breaker
         j["circuit_breaker"]["trips"] = l3_circuit_breaker_trips.load();
         j["circuit_breaker"]["open"] = l3_circuit_breaker_open.load();
+        
+        // Phase 2: Rate limiting
+        j["rate_limiting"]["rejected_requests"] = rate_limited_requests.load();
+        j["backpressure"]["events"] = backpressure_events.load();
         
         return j;
     }
@@ -266,6 +274,84 @@ private:
     std::atomic<uint32_t> success_count_;
     std::atomic<std::chrono::steady_clock::time_point> last_failure_time_;
     std::atomic<uint32_t> half_open_calls_;
+};
+
+/**
+ * @brief Token bucket rate limiter for cache operations
+ * 
+ * Implements token bucket algorithm for rate limiting.
+ * Thread-safe implementation using atomics.
+ */
+class RateLimiter {
+public:
+    struct Config {
+        uint32_t max_requests_per_second = 10000;  // Rate limit
+        uint32_t burst_size = 0;                    // Burst size (0 = same as rate)
+    };
+    
+    explicit RateLimiter(const Config& config = Config())
+        : config_(config)
+        , tokens_(config.max_requests_per_second)
+        , last_refill_time_(std::chrono::steady_clock::now()) {
+        if (config_.burst_size == 0) {
+            config_.burst_size = config_.max_requests_per_second;
+        }
+    }
+    
+    /**
+     * @brief Try to acquire a token for a request
+     * @return true if request is allowed, false if rate limited
+     */
+    bool tryAcquire() {
+        refillTokens();
+        
+        uint32_t current = tokens_.load();
+        while (current > 0) {
+            if (tokens_.compare_exchange_weak(current, current - 1)) {
+                return true;  // Acquired token
+            }
+        }
+        return false;  // Rate limited
+    }
+    
+    /**
+     * @brief Get current available tokens
+     */
+    uint32_t availableTokens() const {
+        return tokens_.load();
+    }
+    
+    /**
+     * @brief Reset rate limiter
+     */
+    void reset() {
+        tokens_ = config_.max_requests_per_second;
+        last_refill_time_ = std::chrono::steady_clock::now();
+    }
+
+private:
+    void refillTokens() {
+        auto now = std::chrono::steady_clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - last_refill_time_.load()
+        );
+        
+        if (elapsed.count() >= 1000) {  // Refill every second
+            uint32_t current = tokens_.load();
+            uint32_t new_tokens = std::min(
+                current + config_.max_requests_per_second,
+                config_.burst_size
+            );
+            
+            if (tokens_.compare_exchange_strong(current, new_tokens)) {
+                last_refill_time_ = now;
+            }
+        }
+    }
+    
+    Config config_;
+    std::atomic<uint32_t> tokens_;
+    std::atomic<std::chrono::steady_clock::time_point> last_refill_time_;
 };
 
 } // namespace cache
