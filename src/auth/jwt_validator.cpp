@@ -370,10 +370,10 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     std::string alg = header.value("alg", "");
     std::string kid = header.value("kid", "");
     
-    // Check algorithm - support RS256 and ES256
-    if (alg != "RS256" && alg != "ES256") {
+    // Check algorithm - support RS256, ES256 and EdDSA
+    if (alg != "RS256" && alg != "ES256" && alg != "EdDSA") {
         utils::Logger::warn("JWT validation failed: Unsupported algorithm: " + alg);
-        throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, ES256)");
+        throw std::runtime_error("Unsupported alg: " + alg + " (supported: RS256, ES256, EdDSA)");
     }
     
     // Check kid revocation
@@ -392,6 +392,7 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     }
     
     claims.email = payload.value("email", "");
+    claims.jti = payload.value("jti", "");         // JWT ID – used for per-token revocation
     claims.tenant_id = payload.value("tenant_id", "");  // Extract tenant_id from JWT
     claims.issuer = payload.value("iss", "");
     if (payload.contains("groups")) {
@@ -471,6 +472,11 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
         utils::Logger::warn("JWT validation failed: Signature verification failed for kid: " + kid);
         throw std::runtime_error("Signature verification failed");
     }
+    // Per-token revocation check: reject if the JTI is in the blacklist
+    if (token_blacklist_ && !claims.jti.empty() && token_blacklist_->isRevoked(claims.jti)) {
+        utils::Logger::warn("JWT validation failed: Token revoked (jti: " + claims.jti + ")");
+        throw std::runtime_error("Token has been revoked");
+    }
     return claims;
 }
 
@@ -493,6 +499,10 @@ bool JWTValidator::hasAccess(const JWTClaims& claims, const std::string& encrypt
         }
     }
     return false;
+}
+
+void JWTValidator::setTokenBlacklist(TokenBlacklist* bl) {
+    token_blacklist_ = bl;
 }
 
 void JWTValidator::revokeKid(const std::string& kid) {

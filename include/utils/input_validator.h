@@ -11,8 +11,10 @@ class InputValidator {
 public:
     explicit InputValidator(std::string schema_dir);
 
-    // Basic JSON schema stub validation: checks required keys and basic types from a simple stub schema
-    // Returns std::nullopt if valid, otherwise an error message
+    // JSON schema validation: checks required fields and basic types from a JSON Schema file.
+    // Loads the schema from <schema_dir>/<schema_name>.json and validates `payload` against it.
+    // Supports "type":"object", "required":[...], and "properties":{k:{"type":"string|object|number|boolean|array"}}.
+    // Returns std::nullopt if valid (or if no schema file is found), otherwise an error message.
     std::optional<std::string> validateJsonStub(
         const nlohmann::json& payload,
         const std::string& schema_name
