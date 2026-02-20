@@ -293,13 +293,19 @@ std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) 
 #endif
             
         case Backend::VULKAN:
-            // TODO: Implement Vulkan backend
-            throw std::runtime_error("Vulkan backend not yet implemented");
-            
+#ifdef THEMIS_ENABLE_VULKAN
+            return std::make_unique<vulkan::FlashAttentionVulkan>(config_);
+#else
+            throw std::runtime_error("Vulkan support not compiled (build with -DTHEMIS_ENABLE_VULKAN=ON)");
+#endif
+
         case Backend::HIP_MI300:
         case Backend::HIP_RDNA:
-            // TODO: Implement HIP backend
-            throw std::runtime_error("HIP backend not yet implemented");
+#ifdef THEMIS_ENABLE_HIP
+            return std::make_unique<hip::FlashAttentionHIP>(config_);
+#else
+            throw std::runtime_error("HIP support not compiled (build with -DTHEMIS_ENABLE_HIP=ON)");
+#endif
             
         case Backend::CPU:
             return std::make_unique<FlashAttentionCPU>(config_);
