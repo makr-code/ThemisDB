@@ -343,14 +343,15 @@ class GenericHandler {
 
 ### Issue #1: Header Inclusion Order Sensitivity
 **Severity:** Medium  
-**Reported:** v1.5.0
+**Reported:** v1.5.0  
+**Status:** ✅ Fixed in v1.6.0
 
-Some headers require specific inclusion order.
-
-**Workaround:** Include `concerns_context.h` first  
-**Fix:** Add proper include guards and forward declarations
-
-**Planned Fix:** v1.6.0
+All headers already carried `#pragma once`.  The only remaining sensitivity
+was that `concerns_context.h` directly included `lifecycle.h` even though
+each of the four interface headers (`i_logger.h`, `i_tracer.h`, `i_metrics.h`,
+`i_cache.h`) already transitively pull it in.  The redundant direct include
+has been removed; all headers are now fully self-contained and can be included
+in any order.
 
 ---
 
@@ -554,10 +555,10 @@ class MyClass {
 We welcome contributions in the following areas:
 
 ### High-Impact, Beginner-Friendly
-- [ ] Add missing Doxygen comments to interfaces
+- [x] Add missing Doxygen comments to interfaces (all pure-virtual methods in `ILogger`, `ITracer`, `IMetrics`, `ICache` now documented)
 - [ ] Create example programs for each interface
 - [x] Add `noexcept` specifications (done for lifecycle methods: `flush()`, `shutdown()`, `HealthStatus::isHealthy()`, `LatencyTimer::elapsedMs()`, `TraceContext::empty()`, and all NoOp implementations)
-- [ ] Fix include order dependencies
+- [x] Fix include order dependencies (removed redundant `lifecycle.h` from `concerns_context.h`; all headers are now self-contained and order-independent)
 
 ### Medium Complexity
 - [ ] Implement IContext interface

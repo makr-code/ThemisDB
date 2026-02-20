@@ -4,7 +4,8 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
-#include "core/concerns/lifecycle.h"
+// lifecycle.h (ProbeResult, HealthStatus) is already transitively included
+// via each of the four interface headers above; no direct include needed.
 #include <memory>
 #include <string>
 
