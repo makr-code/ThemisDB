@@ -5,6 +5,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <filesystem>
+#include <chrono>
 
 namespace fs = std::filesystem;
 
@@ -684,5 +685,102 @@ TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsOnWrongEdgePro
     // Should either return false/error because edge1 doesn't have type="friend"
     // (The method returns error or false on violation)
     EXPECT_FALSE(result.has_value() && *result == true);
+}
+
+
+// ============================================================================
+// Phase 2.3: GET /api/v1/graph/metrics endpoint tests
+// ============================================================================
+
+#include "server/graph_api_handler.h"
+#include <boost/beast/http.hpp>
+
+namespace beast = boost::beast;
+namespace bhttp = beast::http;
+
+class GraphApiHandlerMetricsTest : public ::testing::Test {
+protected:
+    std::string test_db_path_;
+    std::unique_ptr<themis::RocksDBWrapper> db_;
+    std::shared_ptr<themis::GraphIndexManager> graph_mgr_;
+    std::unique_ptr<themis::server::GraphApiHandler> handler_;
+
+    void SetUp() override {
+        test_db_path_ = "./data/themis_graph_metrics_api_test_" +
+                        std::to_string(
+                            std::chrono::steady_clock::now().time_since_epoch().count());
+        std::filesystem::remove_all(test_db_path_);
+
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = test_db_path_;
+        cfg.memtable_size_mb = 16;
+        cfg.block_cache_size_mb = 32;
+        db_ = std::make_unique<themis::RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db_->open());
+
+        graph_mgr_ = std::make_shared<themis::GraphIndexManager>(*db_);
+        ASSERT_TRUE(graph_mgr_->rebuildTopology().ok);
+
+        // GraphApiHandler takes shared_ptr<GraphIndexManager>; auth can be null
+        handler_ = std::make_unique<themis::server::GraphApiHandler>(
+            nullptr, graph_mgr_, nullptr);
+    }
+
+    void TearDown() override {
+        handler_.reset();
+        graph_mgr_.reset();
+        db_->close();
+        std::filesystem::remove_all(test_db_path_);
+    }
+
+    bhttp::request<bhttp::string_body> makeGet(const std::string& target) {
+        bhttp::request<bhttp::string_body> req{bhttp::verb::get, target, 11};
+        req.set(bhttp::field::host, "localhost");
+        return req;
+    }
+};
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_ReturnsOK) {
+    auto req = makeGet("/api/v1/graph/metrics");
+    auto res = handler_->handleMetrics(req);
+    EXPECT_EQ(res.result(), bhttp::status::ok);
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_BodyIsValidJSON) {
+    auto req = makeGet("/api/v1/graph/metrics");
+    auto res = handler_->handleMetrics(req);
+
+    nlohmann::json j;
+    ASSERT_NO_THROW(j = nlohmann::json::parse(res.body()));
+    EXPECT_TRUE(j.is_object());
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_ContainsAllExpectedKeys) {
+    auto req = makeGet("/api/v1/graph/metrics");
+    auto res = handler_->handleMetrics(req);
+
+    auto j = nlohmann::json::parse(res.body());
+    EXPECT_TRUE(j.contains("total_queries"));
+    EXPECT_TRUE(j.contains("failed_queries"));
+    EXPECT_TRUE(j.contains("timed_out_queries"));
+    EXPECT_TRUE(j.contains("total_execution_time_ms"));
+    EXPECT_TRUE(j.contains("max_execution_time_ms"));
+    EXPECT_TRUE(j.contains("avg_execution_time_ms"));
+    EXPECT_TRUE(j.contains("total_nodes_explored"));
+    EXPECT_TRUE(j.contains("total_edges_traversed"));
+    EXPECT_TRUE(j.contains("plan_cache_hits"));
+    EXPECT_TRUE(j.contains("plan_cache_misses"));
+    EXPECT_TRUE(j.contains("error_rate"));
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_InitialCountersAreZero) {
+    auto req = makeGet("/api/v1/graph/metrics");
+    auto res = handler_->handleMetrics(req);
+
+    auto j = nlohmann::json::parse(res.body());
+    EXPECT_EQ(j["total_queries"].get<uint64_t>(), 0u);
+    EXPECT_EQ(j["failed_queries"].get<uint64_t>(), 0u);
+    EXPECT_EQ(j["timed_out_queries"].get<uint64_t>(), 0u);
+    EXPECT_EQ(j["error_rate"].get<double>(), 0.0);
 }
 

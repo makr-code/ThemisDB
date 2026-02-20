@@ -148,14 +148,16 @@ PathConstraints supports 12 constraint types for flexible path finding:
 
 11. **NODE_PROPERTY** - Node must have specific properties
     ```cpp
-    // API defined but validation not yet implemented in traversal
-    // Will be added when property query system is extended
+    // API defined; vertex property store not yet available in current storage model.
+    // Planned for a future release.
     ```
 
 12. **EDGE_PROPERTY** - Edge must have specific properties
     ```cpp
-    // API defined but validation not yet implemented in traversal
-    // Will be added when property query system is extended
+    // ✅ Implemented (v1.7.0)
+    // addEdgePropertyConstraint(field_name, expected_value) prunes edges
+    // during BFS and validates on complete paths.
+    constraints.addEdgePropertyConstraint("type", "follows");
     ```
 
 ### Algorithm Details
@@ -281,7 +283,8 @@ GraphAnalytics analytics(graph_manager);
 ## Implementation Notes
 
 ### Path Constraints Implementation
-- ✅ Constraint validation (all types except property queries)
+- ✅ Constraint validation (all types including EDGE_PROPERTY)
+- ✅ EDGE_PROPERTY: `addEdgePropertyConstraint(key, value)` – early pruning in BFS + `validatePath`
 - ✅ Constrained BFS traversal with early termination
 - ✅ Integration with GraphQueryOptimizer
 - ✅ Integration tests and validation
@@ -314,7 +317,7 @@ GraphAnalytics analytics(graph_manager);
 3. **Early Termination**: Stops exploration when constraints can't be satisfied
 4. **Visited Tracking**: Efficient unordered_set for cycle detection and uniqueness
 5. **Constraint Filtering**: Validates constraints during traversal, not just at completion
-6. **Future Enhancements**: Parallelization and approximation algorithms planned
+6. **Parallel BFS**: Level-parallel frontier expansion via `enable_parallel`/`num_threads` (v1.7.0)
 
 ### GraphAnalytics (Current Implementation)
 - Optimized batch lookups (10-100× faster for large graphs)
@@ -357,6 +360,72 @@ Common error codes for PathConstraints:
 - `ErrorRegistry::ErrorCode::INVALID_STATE`: GraphIndexManager not set
 - `ErrorRegistry::ErrorCode::VALIDATION_FAILED`: Contradictory or unsatisfiable constraints
 - `ErrorRegistry::ErrorCode::NOT_FOUND`: No paths found satisfying constraints
+
+Graph-specific codes (v1.7.0+):
+- `errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX` (6400): Vertex not found during traversal
+- `errors::ErrorCode::ERR_GRAPH_CONSTRAINT_CONFLICT` (6402): Contradictory constraints
+- `errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND` (6403): No satisfying path
+- `errors::ErrorCode::ERR_QUERY_TIMEOUT` (6103): SLO budget exceeded
+
+## Observability
+
+### Query Metrics (`GraphQueryMetrics`)
+
+`GraphQueryOptimizer::getQueryMetrics()` returns a cumulative snapshot of all
+queries executed since the optimizer was constructed:
+
+| Metric | Type | Description |
+|--------|------|-------------|
+| `total_queries` | `std::atomic<uint64_t>` | Total traversal executions |
+| `failed_queries` | `std::atomic<uint64_t>` | Executions that returned no result |
+| `timed_out_queries` | `std::atomic<uint64_t>` | Aborted by `timeout_ms` SLO |
+| `total_execution_time_ms` | `std::atomic<uint64_t>` | Sum of execution durations (ms) |
+| `max_execution_time_ms` | `std::atomic<uint64_t>` | Peak single-query duration (ms) |
+| `total_nodes_explored` | `std::atomic<uint64_t>` | Cumulative nodes visited |
+| `total_edges_traversed` | `std::atomic<uint64_t>` | Cumulative edges traversed |
+| `plan_cache_hits` | `std::atomic<uint64_t>` | Plan-cache hits |
+| `plan_cache_misses` | `std::atomic<uint64_t>` | Plan-cache misses |
+
+Computed helpers: `avgExecutionTimeMs()`, `errorRate()`.
+
+### Admin API Endpoint (`GET /api/v1/graph/metrics`)
+
+The HTTP server exposes the `GraphQueryMetrics` snapshot as JSON for operational
+dashboards and alerting rules:
+
+```http
+GET /api/v1/graph/metrics HTTP/1.1
+```
+
+```json
+{
+  "total_queries": 42,
+  "failed_queries": 1,
+  "timed_out_queries": 0,
+  "total_execution_time_ms": 350,
+  "max_execution_time_ms": 12,
+  "avg_execution_time_ms": 8.35,
+  "total_nodes_explored": 1234,
+  "total_edges_traversed": 5678,
+  "plan_cache_hits": 30,
+  "plan_cache_misses": 12,
+  "error_rate": 0.0238
+}
+```
+
+Prometheus/OTel metric name mappings:
+
+| JSON key | Prometheus name |
+|----------|----------------|
+| `total_queries` | `themis_graph_queries_total` |
+| `failed_queries` | `themis_graph_query_errors_total` |
+| `timed_out_queries` | `themis_graph_query_timeouts_total` |
+| `total_execution_time_ms` | `themis_graph_query_duration_ms_sum` |
+| `max_execution_time_ms` | `themis_graph_query_duration_ms_max` |
+| `total_nodes_explored` | `themis_graph_nodes_explored_total` |
+| `total_edges_traversed` | `themis_graph_edges_traversed_total` |
+| `plan_cache_hits` | `themis_graph_plan_cache_hits_total` |
+| `plan_cache_misses` | `themis_graph_plan_cache_misses_total` |
 
 ## Testing
 
@@ -424,9 +493,10 @@ Part of ThemisDB - Multi-Model Database System
 - ✅ Constraint validation algorithms (DONE)
 - ✅ Constrained BFS traversal (DONE)
 - ✅ Integration with query optimizer (DONE)
-- ⏳ Property-based constraints (NODE_PROPERTY, EDGE_PROPERTY) - API defined, validation pending
+- ✅ EDGE_PROPERTY constraint validation (DONE – v1.7.0)
+- ✅ Parallel BFS (`enable_parallel`, `num_threads`) (DONE – v1.7.0)
+- ⏳ NODE_PROPERTY constraint validation (planned – vertex property store required)
 - ⏳ Performance optimization for massive graphs (>10M nodes)
-- ⏳ Parallel path exploration
 - ⏳ DFS alternative for deep path scenarios
 
 ### Additional Graph Features

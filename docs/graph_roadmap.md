@@ -78,7 +78,7 @@ const auto& m = optimizer.getQueryMetrics();
 
 ## Phase 2: Structured Errors & API Contract
 
-**Status:** ✅ Partially Complete (2.1 + 2.2 done)  
+**Status:** ✅ Complete  
 **Target Version:** v1.7.0
 
 ### 2.1 Graph-Specific Error Codes ✅ DONE
@@ -124,10 +124,32 @@ if (plan) {
 
 Note: `explainConstrainedPath()` does **not** increment `getQueryMetrics().total_queries`.
 
-### 2.3 OpenAPI / Admin Endpoint
+### 2.3 Admin Metrics Endpoint ✅ DONE
 
-Expose `GET /api/v1/graph/metrics` returning the `GraphQueryMetrics` snapshot
-as JSON for operational dashboards and alerting.
+`GET /api/v1/graph/metrics` now returns a JSON snapshot of `GraphQueryMetrics`:
+
+```http
+GET /api/v1/graph/metrics HTTP/1.1
+```
+
+```json
+{
+  "total_queries": 42,
+  "failed_queries": 1,
+  "timed_out_queries": 0,
+  "total_execution_time_ms": 350,
+  "max_execution_time_ms": 12,
+  "avg_execution_time_ms": 8.35,
+  "total_nodes_explored": 1234,
+  "total_edges_traversed": 5678,
+  "plan_cache_hits": 30,
+  "plan_cache_misses": 12,
+  "error_rate": 0.0238
+}
+```
+
+Implemented in `GraphApiHandler::handleMetrics()` in `src/server/graph_api_handler.cpp`.
+Registered as `Route::GraphMetricsGet` in `src/server/http_server.cpp`.
 
 ---
 
@@ -258,11 +280,11 @@ execution statistics and continuously improve algorithm selection.
 | `explainConstrainedPath()` dry-run      | ✅ Done  | graph module |
 | `enable_parallel` + `num_threads` BFS   | ✅ Done  | graph module |
 | `addEdgePropertyConstraint()` pruning   | ✅ Done  | graph module |
+| Admin API `GET /api/v1/graph/metrics`   | ✅ Done  | server       |
 | OTel span export in traversal loops     | 📋 TODO  | observability|
 | Heatmap: nodes-explored per query       | 📋 TODO  | observability|
 | Alerting rule: error_rate > 5%          | 📋 TODO  | ops          |
 | Alerting rule: p99 latency > SLO        | 📋 TODO  | ops          |
-| Admin API `/api/v1/graph/metrics`       | 📋 TODO  | server       |
 
 ---
 
@@ -280,6 +302,7 @@ execution statistics and continuously improve algorithm selection.
 | `enable_parallel` default = false     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Edge property constraint API          | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Edge property constraint validation   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| `GET /api/v1/graph/metrics` endpoint  | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Path constraint validation            | `test_graph_advanced_features.cpp` | ✅ Exists   |
 | Constrained path finding              | `test_path_constraints_direct.cpp` | ✅ Exists   |
 | AQL integration                       | `test_aql_path_constraints.cpp`    | ✅ Exists   |
@@ -300,6 +323,7 @@ The graph module must pass the following CI checks before merging:
 5. **Metrics non-zero** – `total_queries` counter incremented after each execution (including parallel BFS)
 6. **Dry-run API** – `explainConstrainedPath()` returns a plan without incrementing `total_queries`
 7. **Parallel BFS correctness** – `BFS_Parallel_ProducesSameResultAsSequential` test passes
+8. **Metrics endpoint** – `GET /api/v1/graph/metrics` returns JSON with all 11 metric keys
 
 ---
 

@@ -21,6 +21,9 @@ GraphApiHandler::GraphApiHandler(
     , graph_index_(std::move(graph_index))
     , auth_(std::move(auth))
 {
+    if (graph_index_) {
+        optimizer_ = std::make_unique<themis::graph::GraphQueryOptimizer>(*graph_index_);
+    }
 }
 
 http::response<http::string_body> GraphApiHandler::handleTraverse(
@@ -214,6 +217,40 @@ http::response<http::string_body> GraphApiHandler::handleEdgeDelete(
         THEMIS_ERROR("Edge delete error: {}", e.what());
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
+}
+
+http::response<http::string_body> GraphApiHandler::handleMetrics(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handleGraphMetrics");
+    span.setAttribute("http.method", "GET");
+    span.setAttribute("http.path", "/api/v1/graph/metrics");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    const auto& m = optimizer_->getQueryMetrics();
+    json response = {
+        {"total_queries",           m.total_queries.load(std::memory_order_relaxed)},
+        {"failed_queries",          m.failed_queries.load(std::memory_order_relaxed)},
+        {"timed_out_queries",       m.timed_out_queries.load(std::memory_order_relaxed)},
+        {"total_execution_time_ms", m.total_execution_time_ms.load(std::memory_order_relaxed)},
+        {"max_execution_time_ms",   m.max_execution_time_ms.load(std::memory_order_relaxed)},
+        {"avg_execution_time_ms",   m.avgExecutionTimeMs()},
+        {"total_nodes_explored",    m.total_nodes_explored.load(std::memory_order_relaxed)},
+        {"total_edges_traversed",   m.total_edges_traversed.load(std::memory_order_relaxed)},
+        {"plan_cache_hits",         m.plan_cache_hits.load(std::memory_order_relaxed)},
+        {"plan_cache_misses",       m.plan_cache_misses.load(std::memory_order_relaxed)},
+        {"error_rate",              m.errorRate()}
+    };
+
+    span.setAttribute("graph.total_queries",
+        static_cast<int64_t>(m.total_queries.load(std::memory_order_relaxed)));
+    span.setStatus(true);
+    return makeResponse(http::status::ok, response.dump(), req);
 }
 
 std::string GraphApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {

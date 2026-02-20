@@ -1,5 +1,6 @@
 #pragma once
 #include "server/auth_middleware.h"
+#include "graph/graph_query_optimizer.h"
 
 #include <memory>
 #include <string>
@@ -24,12 +25,14 @@ namespace server {
  * - POST /graph/traverse - Execute graph traversal query
  * - POST /graph/edge - Create a graph edge
  * - DELETE /graph/edge/:id - Delete a graph edge
+ * - GET /api/v1/graph/metrics - Aggregate query metrics (observability)
  * 
  * Features:
  * - Graph traversal algorithms (BFS, DFS, shortest path)
  * - Edge creation and deletion
  * - Property graph support
  * - Path finding and pattern matching
+ * - Observability metrics export for Prometheus/OTel
  * 
  * Extracted from http_server.cpp (~150 lines) to improve maintainability.
  */
@@ -69,12 +72,42 @@ public:
      */
     http::response<http::string_body> handleEdgeDelete(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle GET /api/v1/graph/metrics request
+     *
+     * Returns a JSON snapshot of the cumulative query-level observability
+     * metrics collected by the internal GraphQueryOptimizer:
+     *
+     * ```json
+     * {
+     *   "total_queries": 42,
+     *   "failed_queries": 1,
+     *   "timed_out_queries": 0,
+     *   "total_execution_time_ms": 350.5,
+     *   "max_execution_time_ms": 12.3,
+     *   "avg_execution_time_ms": 8.35,
+     *   "total_nodes_explored": 1234,
+     *   "total_edges_traversed": 5678,
+     *   "plan_cache_hits": 30,
+     *   "plan_cache_misses": 12,
+     *   "error_rate": 0.0238
+     * }
+     * ```
+     *
+     * @param req HTTP GET request
+     * @return HTTP 200 response with JSON metrics body
+     */
+    http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<GraphIndexManager> graph_index_;
     std::shared_ptr<themis::AuthMiddleware> auth_;
+    /// Optimizer instance used for query execution and metrics collection.
+    /// Owned by this handler; lazily used for metrics export.
+    std::unique_ptr<themis::graph::GraphQueryOptimizer> optimizer_;
 
-    // Helper methods (to be implemented)
+    // Helper methods
     std::string extractPathParam(const std::string& target, const std::string& prefix);
     http::response<http::string_body> makeErrorResponse(
         http::status status, const std::string& message, const http::request<http::string_body>& req);
