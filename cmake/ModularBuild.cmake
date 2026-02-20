@@ -172,6 +172,10 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/columnar_format.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    # MVCC versioning and HLC timestamping
+    ../src/storage/hlc.cpp
+    ../src/storage/mvcc_store.cpp
+    ../src/storage/raft_mvcc_bridge.cpp
     
     # Metadata management
     ../src/metadata/schema_manager.cpp
@@ -577,6 +581,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     
     # API handlers (always included)
