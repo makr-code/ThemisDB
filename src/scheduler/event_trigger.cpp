@@ -1,10 +1,129 @@
 #include "scheduler/event_trigger.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <sstream>
+#include <cctype>
 
 namespace themis {
 
-// ===== CDCTriggerConfig Implementation =====
+// ===== Simple condition evaluator =====
+//
+// Supported syntax (case-sensitive operators):
+//   key == "value"
+//   key != "value"
+//   key STARTS_WITH "prefix"
+//   key ENDS_WITH "suffix"
+//   key CONTAINS "substring"
+//   value == "v"  (matches event.value when present)
+//   value CONTAINS "s"
+//   ... (same operators applied to "value" field)
+//
+// Unquoted RHS tokens are also accepted.
+// On any parse / evaluation error the condition is treated as a match (fail-open).
+
+namespace {
+
+// Trim leading/trailing whitespace
+static std::string trim(const std::string& s) {
+    size_t start = s.find_first_not_of(" \t\r\n");
+    if (start == std::string::npos) return "";
+    size_t end = s.find_last_not_of(" \t\r\n");
+    return s.substr(start, end - start + 1);
+}
+
+// Strip surrounding double-quotes if present
+static std::string stripQuotes(const std::string& s) {
+    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, s.size() - 2);
+    }
+    return s;
+}
+
+// Evaluate a single simple condition against lhs (the resolved field value)
+static bool evalOp(const std::string& lhs, const std::string& op, const std::string& rhs) {
+    if (op == "==" || op == "=") {
+        return lhs == rhs;
+    } else if (op == "!=") {
+        return lhs != rhs;
+    } else if (op == "STARTS_WITH") {
+        return lhs.size() >= rhs.size() && lhs.compare(0, rhs.size(), rhs) == 0;
+    } else if (op == "ENDS_WITH") {
+        return lhs.size() >= rhs.size() &&
+               lhs.compare(lhs.size() - rhs.size(), rhs.size(), rhs) == 0;
+    } else if (op == "CONTAINS") {
+        return lhs.find(rhs) != std::string::npos;
+    }
+    // Unknown operator – fail-open
+    THEMIS_WARN("EventTrigger: unknown condition operator '{}', matching by default", op);
+    return true;
+}
+
+// Evaluate one condition clause of the form: <field> <op> <rhs>
+// Returns nullopt on parse failure (caller will fail-open).
+static std::optional<bool> evalClause(const std::string& clause,
+                                       const Changefeed::ChangeEvent& event) {
+    // Tokenise: split on whitespace while respecting quoted strings
+    std::vector<std::string> tokens;
+    {
+        size_t i = 0;
+        const size_t n = clause.size();
+        while (i < n) {
+            // Skip whitespace
+            while (i < n && std::isspace(static_cast<unsigned char>(clause[i]))) ++i;
+            if (i >= n) break;
+
+            if (clause[i] == '"') {
+                // Quoted string
+                size_t j = i + 1;
+                while (j < n && clause[j] != '"') ++j;
+                tokens.push_back(clause.substr(i, j - i + (j < n ? 1 : 0)));
+                i = j + 1;
+            } else {
+                // Unquoted token
+                size_t j = i;
+                while (j < n && !std::isspace(static_cast<unsigned char>(clause[j]))) ++j;
+                tokens.push_back(clause.substr(i, j - i));
+                i = j;
+            }
+        }
+    }
+
+    if (tokens.size() < 3) {
+        return std::nullopt;  // Malformed – fail-open at call-site
+    }
+
+    const std::string& field = tokens[0];
+    const std::string& op    = tokens[1];
+    // The RHS may be multiple tokens (e.g. quoted string with spaces) – join them
+    std::string rhs;
+    for (size_t i = 2; i < tokens.size(); ++i) {
+        if (i > 2) rhs += " ";
+        rhs += tokens[i];
+    }
+    rhs = stripQuotes(rhs);
+
+    // Resolve field value
+    std::string lhs;
+    if (field == "key") {
+        lhs = event.key;
+    } else if (field == "value") {
+        if (!event.value) {
+            // No value for this event (e.g. DELETE) – treat as empty string
+            lhs = "";
+        } else {
+            lhs = *event.value;
+        }
+    } else {
+        // Unknown field – fail-open
+        THEMIS_WARN("EventTrigger: unknown condition field '{}', matching by default", field);
+        return true;
+    }
+
+    return evalOp(lhs, op, rhs);
+}
+
+} // anonymous namespace
+
 
 bool CDCTriggerConfig::isValid() const {
     return !key_prefix.empty() && !event_types.empty();
@@ -232,12 +351,38 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
     if (!config_.condition || config_.condition->empty()) {
         return true;
     }
-    
-    // TODO: Implement AQL condition evaluation
-    // For now, always return true if condition is specified
-    // In full implementation, this would evaluate the AQL expression
-    // against the event payload
-    THEMIS_DEBUG("Condition evaluation not yet implemented, matching by default");
+
+    const std::string& condition = *config_.condition;
+
+    // Evaluate simple condition expression against the event.
+    // Multiple clauses joined by AND are supported (split on " AND ").
+    // Any parse failure is treated as a match (fail-open / graceful degradation).
+    static const std::string AND_SEP = " AND ";
+    std::vector<std::string> clauses;
+    size_t pos = 0;
+    while (pos < condition.size()) {
+        size_t found = condition.find(AND_SEP, pos);
+        if (found == std::string::npos) {
+            clauses.push_back(trim(condition.substr(pos)));
+            break;
+        }
+        clauses.push_back(trim(condition.substr(pos, found - pos)));
+        pos = found + AND_SEP.size();
+    }
+
+    for (const auto& clause : clauses) {
+        if (clause.empty()) continue;
+        auto result = evalClause(clause, event);
+        if (!result) {
+            // Parse error – fail-open for this clause, keep checking others
+            THEMIS_DEBUG("EventTrigger: failed to parse condition clause '{}', treating as match", clause);
+            continue;
+        }
+        if (!*result) {
+            return false;  // At least one clause did not match
+        }
+    }
+
     return true;
 }
 

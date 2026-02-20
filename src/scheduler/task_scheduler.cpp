@@ -949,6 +949,24 @@ void TaskScheduler::saveTasks() {
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to save tasks: {}", e.what());
     }
+
+    // Persist anomaly detector baseline so statistics survive a restart
+    if (audit_manager_) {
+        try {
+            std::string anomaly_path = config_.persistence_path + "/anomaly_stats.json";
+            std::ofstream af(anomaly_path);
+            if (af.good()) {
+                af << audit_manager_->exportAnomalyStatistics().dump(2);
+                af.close();
+                #ifndef _WIN32
+                chmod(anomaly_path.c_str(), S_IRUSR | S_IWUSR);
+                #endif
+                THEMIS_DEBUG("Saved anomaly detector statistics to disk");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to save anomaly statistics: {}", e.what());
+        }
+    }
 }
 
 void TaskScheduler::loadTasks() {
@@ -1010,6 +1028,21 @@ void TaskScheduler::loadTasks() {
         THEMIS_INFO("Loaded {} tasks from disk", tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to load tasks: {}", e.what());
+    }
+
+    // Restore anomaly detector baseline statistics
+    if (audit_manager_) {
+        try {
+            std::ifstream af(config_.persistence_path + "/anomaly_stats.json");
+            if (af.good()) {
+                nlohmann::json anomaly_json;
+                af >> anomaly_json;
+                audit_manager_->importAnomalyStatistics(anomaly_json);
+                THEMIS_DEBUG("Restored anomaly detector statistics from disk");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to restore anomaly statistics (non-fatal): {}", e.what());
+        }
     }
 }
 

@@ -363,3 +363,150 @@ TEST_F(EventTriggerTest, ManagerMultipleTriggers) {
     EXPECT_EQ(callback1_count.load(), 1);
     EXPECT_EQ(callback2_count.load(), 1);
 }
+
+// ===== Condition Evaluation Tests =====
+
+// Helper: create a simple ChangeEvent
+static Changefeed::ChangeEvent makeEvent(const std::string& key,
+                                          const std::optional<std::string>& value = std::nullopt) {
+    Changefeed::ChangeEvent event;
+    event.type = Changefeed::ChangeEventType::EVENT_PUT;
+    event.key = key;
+    event.value = value;
+    event.sequence = 1;
+    event.timestamp_ms = 1000;
+    return event;
+}
+
+// Test the condition evaluator indirectly through EventTrigger by counting callbacks
+TEST_F(EventTriggerTest, ConditionEqualMatch) {
+    CDCTriggerConfig config;
+    config.key_prefix = "*";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = R"(key == "users:42")";
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    // Matching event
+    auto ev1 = makeEvent("users:42");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    // Non-matching event
+    auto ev2 = makeEvent("users:99");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, ConditionStartsWith) {
+    CDCTriggerConfig config;
+    config.key_prefix = "*";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = R"(key STARTS_WITH "admin:")";
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    auto ev1 = makeEvent("admin:superuser");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    auto ev2 = makeEvent("user:bob");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, ConditionContains) {
+    CDCTriggerConfig config;
+    config.key_prefix = "*";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = R"(key CONTAINS "error")";
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    auto ev1 = makeEvent("logs:error:404");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    auto ev2 = makeEvent("logs:info:request");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, ConditionNotEqual) {
+    CDCTriggerConfig config;
+    config.key_prefix = "users:";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = R"(key != "users:banned")";
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    auto ev1 = makeEvent("users:alice");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    auto ev2 = makeEvent("users:banned");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, NoConditionMatchesAll) {
+    CDCTriggerConfig config;
+    config.key_prefix = "data:";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    // No condition → all events with matching prefix/type fire
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    auto ev1 = makeEvent("data:a");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    auto ev2 = makeEvent("data:b");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 2);
+}

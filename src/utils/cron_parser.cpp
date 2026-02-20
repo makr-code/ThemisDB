@@ -23,6 +23,39 @@ CronExpression::CronExpression(const std::string& expression,
       weekdays_(std::move(weekdays)) {}
 
 std::optional<CronExpression> CronExpression::parse(const std::string& expression) {
+    // Handle special @-expressions
+    if (!expression.empty() && expression[0] == '@') {
+        std::string special = expression;
+        // Trim whitespace
+        while (!special.empty() && (special.back() == ' ' || special.back() == '\t')) {
+            special.pop_back();
+        }
+
+        if (special == "@yearly" || special == "@annually") {
+            return parse("0 0 1 1 *");
+        } else if (special == "@monthly") {
+            return parse("0 0 1 * *");
+        } else if (special == "@weekly") {
+            return parse("0 0 * * 0");
+        } else if (special == "@daily" || special == "@midnight") {
+            return parse("0 0 * * *");
+        } else if (special == "@hourly") {
+            return parse("0 * * * *");
+        } else if (special == "@reboot") {
+            // @reboot runs once at startup – treat as a valid expression that never
+            // matches during normal scheduling (handled separately by the scheduler).
+            // Represent it internally as an impossible schedule (minute 60, which
+            // never fires) so the object is still valid.
+            auto all_months = parseWildcard(1, 12);
+            auto all_days   = parseWildcard(1, 31);
+            auto all_wdays  = parseWildcard(0, 6);
+            return CronExpression(expression, {60}, {0}, *all_days, *all_months, *all_wdays);
+        } else {
+            THEMIS_ERROR("Unknown special cron expression: {}", expression);
+            return std::nullopt;
+        }
+    }
+
     // Split expression into fields
     std::istringstream iss(expression);
     std::vector<std::string> fields;
@@ -74,6 +107,25 @@ std::optional<CronExpression> CronExpression::parse(const std::string& expressio
 CronValidationResult CronExpression::validate(const std::string& expression) {
     CronValidationResult result;
     
+    // Handle special @-expressions
+    if (!expression.empty() && expression[0] == '@') {
+        std::string special = expression;
+        while (!special.empty() && (special.back() == ' ' || special.back() == '\t')) {
+            special.pop_back();
+        }
+        static const std::set<std::string> VALID_SPECIALS = {
+            "@yearly", "@annually", "@monthly", "@weekly",
+            "@daily", "@midnight", "@hourly", "@reboot"
+        };
+        if (VALID_SPECIALS.count(special)) {
+            result.is_valid = true;
+            return result;
+        }
+        result.error_message = "Unknown special expression '" + special +
+            "'. Valid specials: @yearly, @annually, @monthly, @weekly, @daily, @midnight, @hourly, @reboot";
+        return result;
+    }
+
     // Try to parse - if it succeeds, it's valid
     auto parsed = parse(expression);
     if (parsed) {
@@ -129,6 +181,11 @@ CronValidationResult CronExpression::validate(const std::string& expression) {
 std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExecution(
     const std::chrono::system_clock::time_point& from) const {
     
+    // @reboot is handled externally – never fires via normal scheduling
+    if (expression_ == "@reboot") {
+        return std::nullopt;
+    }
+
     // Start from the next minute
     auto current = advanceToNextMinute(from);
     

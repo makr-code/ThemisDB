@@ -294,3 +294,103 @@ TEST_F(CronParserTest, DescribeWeekdays) {
     auto desc = cron->describe();
     EXPECT_FALSE(desc.empty());
 }
+
+// ===== Special Expression Tests =====
+
+TEST_F(CronParserTest, ParseAtDaily) {
+    auto cron = CronExpression::parse("@daily");
+    ASSERT_TRUE(cron.has_value());
+    // @daily == "0 0 * * *" — runs at midnight
+    auto now = makeTime(2024, 3, 10, 12, 0);
+    auto next = cron->getNextExecution(now);
+    ASSERT_TRUE(next.has_value());
+    auto time_t = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t);
+#else
+    localtime_r(&time_t, &tm);
+#endif
+    EXPECT_EQ(tm.tm_hour, 0);
+    EXPECT_EQ(tm.tm_min, 0);
+}
+
+TEST_F(CronParserTest, ParseAtMidnight) {
+    auto cron = CronExpression::parse("@midnight");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_EQ(cron->getExpression(), "@midnight");
+}
+
+TEST_F(CronParserTest, ParseAtHourly) {
+    auto cron = CronExpression::parse("@hourly");
+    ASSERT_TRUE(cron.has_value());
+    // Should fire every hour at :00
+    auto now = makeTime(2024, 3, 10, 14, 30);
+    auto next = cron->getNextExecution(now);
+    ASSERT_TRUE(next.has_value());
+    auto time_t = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t);
+#else
+    localtime_r(&time_t, &tm);
+#endif
+    EXPECT_EQ(tm.tm_min, 0);
+    EXPECT_EQ(tm.tm_hour, 15);  // next :00 after 14:30 is 15:00
+}
+
+TEST_F(CronParserTest, ParseAtYearly) {
+    auto cron = CronExpression::parse("@yearly");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtAnnually) {
+    auto cron = CronExpression::parse("@annually");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtMonthly) {
+    auto cron = CronExpression::parse("@monthly");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtWeekly) {
+    auto cron = CronExpression::parse("@weekly");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtReboot) {
+    auto cron = CronExpression::parse("@reboot");
+    ASSERT_TRUE(cron.has_value());
+    // @reboot should never fire via getNextExecution (handled by scheduler at startup)
+    auto now = makeTime(2024, 1, 1, 0, 0);
+    auto next = cron->getNextExecution(now);
+    EXPECT_FALSE(next.has_value());
+}
+
+TEST_F(CronParserTest, ValidateAtDaily) {
+    auto result = CronExpression::validate("@daily");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_TRUE(result.error_message.empty());
+}
+
+TEST_F(CronParserTest, ValidateAtHourly) {
+    auto result = CronExpression::validate("@hourly");
+    EXPECT_TRUE(result.is_valid);
+}
+
+TEST_F(CronParserTest, ValidateAtReboot) {
+    auto result = CronExpression::validate("@reboot");
+    EXPECT_TRUE(result.is_valid);
+}
+
+TEST_F(CronParserTest, ValidateUnknownSpecialExpression) {
+    auto result = CronExpression::validate("@unknown_special");
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST_F(CronParserTest, ParseUnknownSpecialExpressionFails) {
+    auto cron = CronExpression::parse("@notvalid");
+    EXPECT_FALSE(cron.has_value());
+}
