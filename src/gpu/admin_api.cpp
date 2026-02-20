@@ -143,5 +143,13 @@ std::string GPUAdminAPI::simulateJson(uint64_t bytes) const {
     return j.str();
 }
 
+// ============================================================================
+// GET /admin/gpu/geo  — GPU spatial backend stats
+// ============================================================================
+
+std::string GPUAdminAPI::getGeoBackendStatsJson() const {
+    return ::themis::geo::getGpuSpatialBackendStatsJson();
+}
+
 } // namespace gpu
 } // namespace themis

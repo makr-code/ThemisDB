@@ -3,6 +3,7 @@
 #include "api/geo_index_hooks.h"
 #include "storage/rocksdb_wrapper.h"
 #include "utils/geo/ewkb.h"
+#include "geo/spatial_backend.h"
 #include <nlohmann/json.hpp>
 
 using namespace themis;
@@ -21,7 +22,11 @@ protected:
         ASSERT_TRUE(db_->open());
         
         spatial_mgr_ = std::make_unique<SpatialIndexManager>(*db_);
-        
+
+        // Wire GPU backend (CPU fallback always available)
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) spatial_mgr_->setExactBackend(gpu_backend);
+
         // Create spatial index for test table
         RTreeConfig rtree_config;
         // NOTE: total_bounds removed from RTreeConfig API

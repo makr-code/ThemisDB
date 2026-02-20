@@ -6,6 +6,7 @@
 #include "index/vector_index.h"
 #include "index/spatial_index.h"
 #include "api/geo_index_hooks.h"
+#include "geo/spatial_backend.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
@@ -31,6 +32,11 @@ protected:
         graphIdx = std::make_unique<GraphIndexManager>(*db);
         vectorIdx = std::make_unique<VectorIndexManager>(*db);
         spatialIdx = std::make_unique<SpatialIndexManager>(*db);
+
+        // Wire GPU backend (CPU fallback always available)
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) spatialIdx->setExactBackend(gpu_backend);
+
         engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), spatialIdx.get());
 
         // Create fulltext index for Content+Geo tests

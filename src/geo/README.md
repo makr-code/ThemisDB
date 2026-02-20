@@ -19,8 +19,6 @@ Geospatial query processing and indexing implementation for ThemisDB.
 ## Documentation
 
 For geospatial documentation, see:
-- [CPU Backend](../../docs/src/geo/cpu_backend.cpp.md)
-- [GPU Backend](../../docs/src/geo/gpu_backend_stub.cpp.md) — device discovery, circuit-breaker fallback, metrics, audit log
-- [Geo Architecture](../../docs/GEO_ARCHITECTURE.md)
-- [Geo Integration](../../docs/geo_integration_readme.md)
-- [Geo Feature Tiering](../../docs/geo_feature_tiering.md)
+- [GPU Backend Runbook](../../docs/gpu_runbooks.md#6-gpu-geospatial-backend-issues) — device discovery, circuit-breaker fallback, metrics, audit log, on-call procedures
+- [GPU Roadmap](../../docs/gpu_roadmap.md) — production readiness status, completed geo backend work, remaining CUDA/ROCm items
+- [Future Enhancements](../../docs/geospatial_future_enhancements.md) — planned geospatial features (full GeoJSON parsing, ST_BUFFER, GPU kernel dispatch)

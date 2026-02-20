@@ -5,6 +5,7 @@
 #include "themis/gpu/memory_manager.h"
 #include "themis/gpu/metrics.h"
 #include "themis/gpu/load_balancer.h"
+#include "geo/spatial_backend.h"
 
 namespace themis {
 namespace gpu {
@@ -81,6 +82,19 @@ public:
      * Returns JSON: { "accepted": true/false, "reason": "..." }
      */
     std::string simulateJson(uint64_t bytes) const;
+
+    /**
+     * @brief Serialise GPU spatial backend (geo) stats to JSON.
+     *
+     * Returns a JSON object with keys:
+     *   backend_name, gpu_present, circuit_open, device_name,
+     *   batch_calls, batch_fallbacks, batch_pairs_processed,
+     *   exact_calls, exact_errors, batch_avg_latency_us,
+     *   batch_max_latency_us
+     *
+     * Suitable for the endpoint: GET /admin/gpu/geo
+     */
+    std::string getGeoBackendStatsJson() const;
 
 private:
     GPUConfig        config_;
