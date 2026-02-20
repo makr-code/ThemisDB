@@ -208,7 +208,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - [x] Return `UnsupportedQuantizationFormat` error (not silent raw bytes) for Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K — implemented in `parseTensorInfo()` via `GGUFLoader::isFormatSupported()`.
 - [x] Gate `GGUFConverter` dispatch on `GGUFConverter::isSupported()`; test each unsupported type — `isFormatSupported()` covers the same type set; tests added.
 - [x] Add unit tests for unsupported format error messages — `ParseFile_RejectsUnsupportedFormat_Q4_0`, `_Q5_K` added to `tests/test_gguf_loader.cpp`.
-- [ ] Document which formats are planned for future support and which will be permanently unsupported.
+- [x] Document which formats are planned for future support and which will be permanently unsupported — `docs/GGUF_SUPPORT.md` updated with 13-row format table and hard-error behavior note.
 
 ### Safety / Policy
 
@@ -221,8 +221,8 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 - [ ] Add `GET /health` (liveness) and `GET /ready` (readiness) endpoints.
 - [ ] Add `GET /models` returning loaded models with memory, session count, and LoRA adapters.
-- [ ] Implement per-request wall-clock timeout (`Config::request_timeout_ms`).
-- [ ] Implement maximum queue depth and structured backpressure rejection.
+- [x] Add `request_timeout_ms` field to `LlamaWrapper::Config` (0 = unlimited) with validation in `validateConfig()`.
+- [x] Implement maximum queue depth and structured backpressure rejection — `SchedulerConfig::max_queue_depth` + `submitRequest()` returns `{}` on overflow; `Stats::rejected_requests` and `Stats::current_queue_depth` added.
 - [ ] Add `POST /admin/models/reload` hot-reload endpoint.
 - [ ] Add `POST /admin/prompt/simulate` dry-run endpoint.
 
