@@ -1115,6 +1115,27 @@ bool MetricsServer::start() {
             res.set_content(body, "application/json");
         });
 
+    // GET /admin/sessions — list active inference sessions
+    impl_->svr.Get(config_.admin_sessions_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.admin_sessions_path, body);
+            res.set_content(body, "application/json");
+        });
+
+    // DELETE /admin/sessions/:id — cancel/remove a specific session
+    // httplib captures the :id segment in req.matches[1].
+    std::string delete_sessions_pattern = config_.admin_sessions_path + "/(.+)";
+    impl_->svr.Delete(delete_sessions_pattern.c_str(),
+        [this](const httplib::Request& req, httplib::Response& res) {
+            // matches[0] = full path, matches[1] = :id
+            const std::string session_id =
+                req.matches.size() > 1 ? std::string(req.matches[1]) : "";
+            std::string body;
+            handleDelete(config_.admin_sessions_path, session_id, body);
+            res.set_content(body, "application/json");
+        });
+
     // CORS: add Access-Control-Allow-Origin header to every response
     if (config_.enable_cors) {
         impl_->svr.set_post_routing_handler(
@@ -1197,6 +1218,10 @@ std::string MetricsServer::getAdminSimulateURL() const {
     return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_simulate_path;
 }
 
+std::string MetricsServer::getAdminSessionsURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_sessions_path;
+}
+
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
@@ -1221,6 +1246,13 @@ void MetricsServer::handleRequest(const std::string& path, std::string& response
         // return an empty JSON array so callers get a valid (if empty) response.
         if (model_info_cb_) {
             response = model_info_cb_();
+        } else {
+            response = "[]";
+        }
+    } else if (path == config_.admin_sessions_path) {
+        // Session list: delegate to the registered callback if present.
+        if (session_list_cb_) {
+            response = session_list_cb_();
         } else {
             response = "[]";
         }
@@ -1254,6 +1286,28 @@ void MetricsServer::handlePost(const std::string& path,
             response = simulate_cb_(body);
         } else {
             response = k_simulate_not_impl;
+        }
+    } else {
+        response = "404 Not Found";
+    }
+}
+
+void MetricsServer::handleDelete(const std::string& path,
+                                 const std::string& resource_id,
+                                 std::string& response) {
+    static constexpr const char* k_sessions_delete_not_impl =
+        R"({"status":"not_implemented","message":"No session-delete callback registered. Wire setSessionDeleteCallback() to ContinuousBatchScheduler::cancelRequest()."})";
+
+    if (path == config_.admin_sessions_path) {
+        // DELETE /admin/sessions/{id} — cancel or remove the named session.
+        if (resource_id.empty()) {
+            response = R"({"status":"error","message":"session_id is required"})";
+            return;
+        }
+        if (session_delete_cb_) {
+            response = session_delete_cb_(resource_id);
+        } else {
+            response = k_sessions_delete_not_impl;
         }
     } else {
         response = "404 Not Found";

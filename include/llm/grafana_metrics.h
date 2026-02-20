@@ -237,6 +237,7 @@ public:
         std::string models_path         = "/models";
         std::string admin_reload_path   = "/admin/models/reload";
         std::string admin_simulate_path = "/admin/prompt/simulate";
+        std::string admin_sessions_path = "/admin/sessions";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -256,6 +257,7 @@ public:
     std::string getModelsURL() const;
     std::string getAdminReloadURL() const;
     std::string getAdminSimulateURL() const;
+    std::string getAdminSessionsURL() const;
 
     /**
      * @brief Register a callback for GET /models.
@@ -291,6 +293,33 @@ public:
     void setSimulateCallback(std::function<std::string(const std::string&)> cb) {
         simulate_cb_ = std::move(cb);
     }
+
+    /**
+     * @brief Register a callback for GET /admin/sessions.
+     *
+     * Should return a JSON array of active inference session objects.
+     * Each session object should include at least: session_id, model_id,
+     * state, queued_at.
+     * nullptr = return "[]".
+     *
+     * @param cb  Callable () -> std::string (JSON array).
+     */
+    void setSessionListCallback(std::function<std::string()> cb) {
+        session_list_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for DELETE /admin/sessions/{id}.
+     *
+     * Invoked with the session_id extracted from the URL path.
+     * Should cancel/remove the named session and return a JSON result.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& session_id) -> std::string.
+     */
+    void setSessionDeleteCallback(std::function<std::string(const std::string&)> cb) {
+        session_delete_cb_ = std::move(cb);
+    }
     
 private:
     ServerConfig config_;
@@ -299,6 +328,8 @@ private:
     std::function<std::string()> model_info_cb_;
     std::function<std::string(const std::string&)> reload_cb_;
     std::function<std::string(const std::string&)> simulate_cb_;
+    std::function<std::string()> session_list_cb_;
+    std::function<std::string(const std::string&)> session_delete_cb_;
 
     // Pimpl: holds httplib::Server and the background listener thread.
     // Defined in grafana_metrics.cpp to keep <httplib.h> out of this header.
@@ -310,6 +341,10 @@ private:
     // POST body is passed separately to keep GET paths clean.
     void handlePost(const std::string& path, const std::string& body,
                     std::string& response);
+    // DELETE handler: path includes the resource prefix (e.g. "/admin/sessions"),
+    // resource_id carries the extracted ID segment (e.g. the session UUID).
+    void handleDelete(const std::string& path, const std::string& resource_id,
+                      std::string& response);
 };
 
 } // namespace monitoring

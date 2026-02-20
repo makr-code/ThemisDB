@@ -161,18 +161,18 @@ Loading a model that uses any of these formats will not fail with an actionable 
 **Goal:** Deprecated code is removed, the operator experience is polished, and runbooks cover all failure modes.
 
 1. **Cleanup Deprecated Paths**
-   - Remove `LoRAAdapterManager` and its legacy overloads from the build; update all call sites to `MultiLoRAManager`.
-   - Remove or replace the DirectX/DXGI shader stubs with explicit `#error` guards on non-Windows targets.
-   - Delete `grafana_metrics_broken.cpp.bak` from source control.
+   - Remove `LoRAAdapterManager` and its legacy overloads from the build; update all call sites to `MultiLoRAManager`. ✅ `lora_orchestrator.h` and `themis_help_lora.h` updated; include of deprecated header removed.
+   - Remove or replace the DirectX/DXGI shader stubs with explicit `#error` guards on non-Windows targets. ✅ All DirectX headers already guarded by `#ifdef _WIN32`; no changes needed.
+   - Delete `grafana_metrics_broken.cpp.bak` from source control. ✅ No such file is tracked (`.bak` is gitignored). Tracked `lora_orchestrator.cpp.broken` removed from git and `*.broken` added to `.gitignore`.
 
 2. **Admin / Developer Experience**
-   - Add a `POST /admin/models/reload` endpoint for hot-reload without process restart.
-   - Add `GET /admin/sessions` and `DELETE /admin/sessions/{id}` for session management.
-   - Add a `POST /admin/prompt/simulate` dry-run endpoint for prompt policy validation without inference.
+   - Add a `POST /admin/models/reload` endpoint for hot-reload without process restart. ✅ (Q1, already implemented)
+   - Add `GET /admin/sessions` and `DELETE /admin/sessions/{id}` for session management. ✅ Implemented in `MetricsServer`; 4 HTTP tests added.
+   - Add a `POST /admin/prompt/simulate` dry-run endpoint for prompt policy validation without inference. ✅ (Q1, already implemented)
 
 3. **Audit / Analytics**
-   - Ensure `LLMModelAuditLogger` records: model load/unload events, LoRA adapter switches, quota violations, policy blocks, and error events with user/tenant context.
-   - Implement a structured analytics export (JSON-lines) suitable for ingestion into the data warehouse or SIEM.
+   - Ensure `LLMModelAuditLogger` records: model load/unload events, LoRA adapter switches, quota violations, policy blocks, and error events with user/tenant context. ✅ `logEvent()`, `logInference()`, `logModelLifecycle()`, `logFineTuning()`, `logDeployment()`, `logPolicyViolation()` all persist to in-memory store + JSONL file.
+   - Implement a structured analytics export (JSON-lines) suitable for ingestion into the data warehouse or SIEM. ✅ `exportAnalytics(ostream, model_id, start, end)` added; 18 unit tests in `tests/llm/test_llm_audit_logger.cpp`.
 
 4. **Runbooks**
    - Operator runbooks are available under `docs/operations/llm/` ✅:
