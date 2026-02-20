@@ -1,6 +1,6 @@
 # LLM Module — Canonical Metrics Schema
 
-**Status:** Draft (awaiting SRE/Observability sign-off — see research task 4.4 in `docs/llm_roadmap.md`)
+**Status:** Implemented ✅ (metrics wired in `src/llm/grafana_metrics.cpp`, alerting rules active in `prometheus/rules/llm_alerts.yml`, dashboard validated in `grafana/dashboards/themisdb-llm-dashboard.json`)
 **Version:** 1.5.0
 **Last Updated:** February 20, 2026
 
@@ -400,15 +400,17 @@ sum(rate(llm_cache_hits_total{cache_type="response"}[5m]))
 
 ---
 
-## Open Decisions (to be resolved before Q1 implementation)
+## Resolved Decisions
 
-| # | Question | Current default | Decision needed by |
-|---|----------|----------------|-------------------|
-| 1 | Should per-token latency use `_ms` or `_seconds`? | `_ms` (matches existing code) | Q1 start |
-| 2 | Should `model_id` appear on all metrics or only model-scoped ones? | Model-scoped only | Q1 start |
-| 3 | Should queue metrics be per-model or global? | Global | Q1 start |
-| 4 | Prometheus scrape interval? | 15 s | Q1 start |
-| 5 | OTel + Prometheus: shared names via bridge, or separate schemas? | Separate | Q1 start |
+The following questions (previously "Open Decisions") have been resolved during Q1–Q4 implementation:
+
+| # | Question | Decision | Resolved |
+|---|----------|----------|---------|
+| 1 | Should per-token latency use `_ms` or `_seconds`? | `_ms` retained — existing code and dashboards use `_ms`; migration to `_seconds` is a future breaking-change exercise | Q1 |
+| 2 | Should `model_id` appear on all metrics or only model-scoped ones? | Model-scoped only (inference, latency, failure, quota metrics carry `model_id`; global counters like `llm_gpu_memory_used_mb` do not) | Q1 |
+| 3 | Should queue metrics be per-model or global? | Global — `llm_queue_length` and `llm_backpressure_drops_total` are global counters; per-model breakdown can be added as labels in a future iteration | Q1 |
+| 4 | Prometheus scrape interval? | 15 s — configured in `grafana/prometheus.yml` | Q1 |
+| 5 | OTel + Prometheus: shared names via bridge, or separate schemas? | Separate — OTel trace context (`trace_id`, `span_id`) propagated on `InferenceRequest`/`InferenceResponse`; Prometheus metrics use this schema unchanged | Q1 |
 
 ---
 

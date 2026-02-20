@@ -20,15 +20,23 @@
  *   6. For fused operations: compare against a simple CPU reference with
  *      relative tolerance 1e-3.
  *
+ * Cross-path correctness tests (Research task 4.5):
+ *   The KernelFusionCrossPathTest fixture runs the same inputs through both
+ *   the CPU fallback path (kernel_fusion.h public API) and the CUDA path
+ *   (kernel_fusion_cuda.h launch functions) and verifies that they agree
+ *   within a relative tolerance of 1e-3.  These tests skip when no GPU is
+ *   available.
+ *
  * Architecture targets (set via -DCMAKE_CUDA_ARCHITECTURES):
  *   sm_80 (A100), sm_86 (RTX 3090 / A30), sm_89 (RTX 4090), sm_90 (H100)
  *
- * @see docs/llm_roadmap.md — Q3 CI checklist
+ * @see docs/llm_roadmap.md — Q3 CI checklist, research task 4.5
  * @see .github/workflows/llm-cuda-gpu-ci.yml
  */
 
 #include <gtest/gtest.h>
 #include "llm/kernel_fusion_cuda.h"
+#include "llm/kernel_fusion.h"
 
 #include <algorithm>
 #include <cmath>
@@ -421,5 +429,231 @@ TEST_F(KernelFusionCUDATest, FusedGatedFFN_OutputFinite) {
 
     EXPECT_TRUE(allFinite(d_out.toHost()))
         << "FusedGatedFFN output has non-finite values";
+#endif
+}
+
+// ===========================================================================
+// Cross-path correctness tests — Research task 4.5
+// ===========================================================================
+// These tests verify that the CPU fallback path (kernel_fusion.cpp) and the
+// CUDA path (kernel_fusion.cu) produce numerically equivalent results for the
+// same inputs.  Tolerance: max relative error < 1e-3 (FP32 attention).
+//
+// Fixture: same skip logic as KernelFusionCUDATest (requires CUDA GPU).
+// ===========================================================================
+
+class KernelFusionCrossPathTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        if (!gpuAvailable()) {
+            GTEST_SKIP() << "No CUDA-capable GPU detected — skipping cross-path "
+                            "correctness tests (Research task 4.5).";
+        }
+    }
+};
+
+// ---------------------------------------------------------------------------
+// Cross-path: FusedLayerNormLinear
+// CPU: fusedLayerNormLinearResidual (residual = zeros → same as no residual)
+// CUDA: launchFusedLayerNormLinear
+// ---------------------------------------------------------------------------
+
+TEST_F(KernelFusionCrossPathTest, FusedLayerNormLinear_CPUMatchesCUDA) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+#else
+    const int B = 2, S = 4, H = 8;
+    const int N = B * S * H;
+    const float eps = 1e-5f;
+
+    std::vector<float> h_in(N), h_w(H*H), h_b(H), h_ln_w(H), h_ln_b(H);
+    // Varied, non-trivial inputs
+    for (int i = 0; i < N; ++i)     h_in[i]  = 0.1f * (i % 7) - 0.3f;
+    for (int i = 0; i < H*H; ++i)   h_w[i]   = 0.05f * ((i % 5) - 2);
+    for (int i = 0; i < H; ++i)     h_b[i]   = 0.01f * i;
+    for (int i = 0; i < H; ++i)     h_ln_w[i]= 1.0f + 0.1f * (i % 3);
+    for (int i = 0; i < H; ++i)     h_ln_b[i]= 0.0f;
+
+    // CPU path (zero residual — isolates the LayerNorm+Linear contribution)
+    std::vector<float> h_zeros(N, 0.0f);
+    std::vector<float> cpu_out(N, 0.0f);
+    themis::llm::kernels::fusedLayerNormLinearResidual(
+        cpu_out.data(), h_in.data(),
+        h_w.data(), h_b.data(),
+        h_zeros.data(),          // residual = 0
+        h_ln_w.data(), h_ln_b.data(),
+        B, S, H, eps);
+
+    // CUDA path
+    DeviceTensor d_in(N), d_w(H*H), d_b(H), d_ln_w(H), d_ln_b(H), d_out(N);
+    ASSERT_TRUE(d_in.ok() && d_w.ok() && d_b.ok()
+                && d_ln_w.ok() && d_ln_b.ok() && d_out.ok());
+    d_in.copyFrom(h_in); d_w.copyFrom(h_w); d_b.copyFrom(h_b);
+    d_ln_w.copyFrom(h_ln_w); d_ln_b.copyFrom(h_ln_b);
+    cudaMemset(d_out.ptr, 0, d_out.bytes);
+
+    using namespace themis::llm::kernels::cuda;
+    launchFusedLayerNormLinear(d_out.ptr, d_in.ptr, d_w.ptr, d_b.ptr,
+                               d_ln_w.ptr, d_ln_b.ptr,
+                               B, S, H, eps, 0);
+    cudaDeviceSynchronize();
+
+    auto cuda_out = d_out.toHost();
+    float err = maxRelError(cpu_out, cuda_out);
+    EXPECT_LE(err, 1e-3f)
+        << "FusedLayerNormLinear CPU↔CUDA max relative error: " << err
+        << " (threshold 1e-3). CPU and CUDA paths produce divergent results.";
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// Cross-path: FusedQKVProjection
+// CPU: fusedAttentionQKV
+// CUDA: launchFusedQKVProjection
+// ---------------------------------------------------------------------------
+
+TEST_F(KernelFusionCrossPathTest, FusedQKVProjection_CPUMatchesCUDA) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+#else
+    const int B = 1, S = 4, H = 8;  // H = hidden_dim; use num_heads=1
+    const int N       = B * S * H;
+    const int W_SIZE  = 3 * H;       // simplified per-element weight (not full matrix)
+
+    std::vector<float> h_in(N), h_w(W_SIZE), h_bias(W_SIZE);
+    for (int i = 0; i < N; ++i)      h_in[i]   = 0.2f * (i % 5) - 0.4f;
+    for (int i = 0; i < W_SIZE; ++i) h_w[i]    = 0.1f * ((i % 7) - 3);
+    for (int i = 0; i < W_SIZE; ++i) h_bias[i] = 0.01f * i;
+
+    // CPU path
+    std::vector<float> cpu_Q(N), cpu_K(N), cpu_V(N);
+    themis::llm::kernels::fusedAttentionQKV(
+        cpu_Q.data(), cpu_K.data(), cpu_V.data(),
+        h_in.data(), h_w.data(), h_bias.data(),
+        B, S, H, /*num_heads=*/1);
+
+    // CUDA path (launchFusedQKVProjection expects weight of size H * 3H for a
+    // full matrix-multiply; the CPU simplified version uses per-element scaling
+    // with a 3H-element weight vector.  We pass a padded weight for CUDA so
+    // both paths operate on the same W/bias.
+    std::vector<float> h_w_full(H * 3 * H, 0.0f);
+    for (int i = 0; i < H; ++i) {
+        h_w_full[i * 3 * H + i]         = h_w[i];         // Q diagonal
+        h_w_full[i * 3 * H + H + i]     = h_w[H + i];     // K diagonal
+        h_w_full[i * 3 * H + 2*H + i]   = h_w[2*H + i];   // V diagonal
+    }
+
+    DeviceTensor d_in(N), d_wf(H*3*H), d_bias(W_SIZE);
+    DeviceTensor d_Q(N), d_K(N), d_V(N);
+    ASSERT_TRUE(d_in.ok() && d_wf.ok() && d_bias.ok()
+                && d_Q.ok() && d_K.ok() && d_V.ok());
+    d_in.copyFrom(h_in); d_wf.copyFrom(h_w_full); d_bias.copyFrom(h_bias);
+
+    using namespace themis::llm::kernels::cuda;
+    launchFusedQKVProjection(d_in.ptr, d_wf.ptr, d_bias.ptr,
+                             d_Q.ptr, d_K.ptr, d_V.ptr,
+                             B, S, H, 0);
+    cudaDeviceSynchronize();
+
+    auto cuda_Q = d_Q.toHost();
+    auto cuda_K = d_K.toHost();
+    auto cuda_V = d_V.toHost();
+
+    EXPECT_LE(maxRelError(cpu_Q, cuda_Q), 1e-3f)
+        << "FusedQKVProjection Q: CPU↔CUDA diverge";
+    EXPECT_LE(maxRelError(cpu_K, cuda_K), 1e-3f)
+        << "FusedQKVProjection K: CPU↔CUDA diverge";
+    EXPECT_LE(maxRelError(cpu_V, cuda_V), 1e-3f)
+        << "FusedQKVProjection V: CPU↔CUDA diverge";
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// Cross-path: FusedGatedFFN
+// CPU: fusedGatedFFN
+// CUDA: launchFusedGatedFFN
+// ---------------------------------------------------------------------------
+
+TEST_F(KernelFusionCrossPathTest, FusedGatedFFN_CPUMatchesCUDA) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+#else
+    const int B = 1, S = 2, H = 8, I = 16;
+    const int N = B * S * H;
+
+    std::vector<float> h_in(N), h_gw(H*I), h_uw(H*I), h_dw(I*H);
+    for (int i = 0; i < N; ++i)    h_in[i] = 0.1f * (i % 5) - 0.2f;
+    for (int i = 0; i < H*I; ++i)  h_gw[i] = 0.03f * ((i % 7) - 3);
+    for (int i = 0; i < H*I; ++i)  h_uw[i] = 0.03f * ((i % 5) - 2);
+    for (int i = 0; i < I*H; ++i)  h_dw[i] = 0.02f * ((i % 3) - 1);
+
+    // CPU path
+    std::vector<float> cpu_out(N, 0.0f);
+    themis::llm::kernels::fusedGatedFFN(
+        cpu_out.data(), h_in.data(),
+        h_gw.data(), h_uw.data(), h_dw.data(),
+        B, S, H, I);
+
+    // CUDA path
+    DeviceTensor d_in(N), d_gw(H*I), d_uw(H*I), d_dw(I*H), d_out(N);
+    ASSERT_TRUE(d_in.ok() && d_gw.ok() && d_uw.ok() && d_dw.ok() && d_out.ok());
+    d_in.copyFrom(h_in); d_gw.copyFrom(h_gw);
+    d_uw.copyFrom(h_uw); d_dw.copyFrom(h_dw);
+    cudaMemset(d_out.ptr, 0, d_out.bytes);
+
+    using namespace themis::llm::kernels::cuda;
+    launchFusedGatedFFN(d_out.ptr, d_in.ptr, d_gw.ptr, d_uw.ptr, d_dw.ptr,
+                        B, S, H, I, 0);
+    cudaDeviceSynchronize();
+
+    auto cuda_out = d_out.toHost();
+    float err = maxRelError(cpu_out, cuda_out);
+    EXPECT_LE(err, 1e-3f)
+        << "FusedGatedFFN CPU↔CUDA max relative error: " << err
+        << " (threshold 1e-3). CPU and CUDA paths produce divergent results.";
+#endif
+}
+
+// ---------------------------------------------------------------------------
+// Cross-path: FlashAttentionForward (CPU naive reference vs CUDA kernel)
+// This is a duplicate of FlashAttentionForward_MatchesCPUReference but
+// labelled under the KernelFusionCrossPathTest fixture so it appears in
+// the cross-path result group in CI output.
+// ---------------------------------------------------------------------------
+
+TEST_F(KernelFusionCrossPathTest, FlashAttentionForward_CPUMatchesCUDA) {
+#ifndef THEMIS_ENABLE_CUDA
+    GTEST_SKIP() << "Built without THEMIS_ENABLE_CUDA";
+#else
+    const int B = 1, H_heads = 2, S = 8, D = 8;
+    const int N = B * H_heads * S * D;
+    const float scale = 1.0f / std::sqrt(static_cast<float>(D));
+
+    std::vector<float> h_Q(N), h_K(N), h_V(N);
+    for (int i = 0; i < N; ++i) {
+        h_Q[i] = 0.1f * ((i % 7) - 3);
+        h_K[i] = 0.1f * ((i % 5) - 2);
+        h_V[i] = 0.1f * (i % 3);
+    }
+
+    // CPU naive reference
+    auto cpu_out = cpuAttentionForward(h_Q, h_K, h_V, B, H_heads, S, D, scale, false);
+
+    // CUDA path
+    DeviceTensor d_Q(N), d_K(N), d_V(N), d_O(N);
+    ASSERT_TRUE(d_Q.ok() && d_K.ok() && d_V.ok() && d_O.ok());
+    d_Q.copyFrom(h_Q); d_K.copyFrom(h_K); d_V.copyFrom(h_V);
+    cudaMemset(d_O.ptr, 0, d_O.bytes);
+
+    using namespace themis::llm::kernels::cuda;
+    launchFlashAttentionForward(d_Q.ptr, d_K.ptr, d_V.ptr, d_O.ptr,
+                                B, H_heads, S, D, scale, false, 0);
+    cudaDeviceSynchronize();
+
+    auto cuda_out = d_O.toHost();
+    float err = maxRelError(cuda_out, cpu_out);
+    EXPECT_LE(err, 1e-3f)
+        << "FlashAttentionForward CPU↔CUDA max relative error: " << err
+        << " (threshold 1e-3).";
 #endif
 }
