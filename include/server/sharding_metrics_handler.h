@@ -8,6 +8,7 @@ namespace themis {
 namespace sharding {
 class PrometheusMetrics;
 class SLOMonitor;
+class ShardRepairEngine;
 }
 
 namespace server {
@@ -15,6 +16,7 @@ namespace server {
 /**
  * Handler for exposing sharding metrics in Prometheus format.
  * Enhanced in Phase 1.5 to include SLO monitoring.
+ * Enhanced in v1.5 to include Shard Repair / Anti-Entropy metrics.
  */
 class ShardingMetricsHandler {
 public:
@@ -24,7 +26,14 @@ public:
     );
 
     /**
-     * Get all sharding metrics in Prometheus format with annotations
+     * Optionally attach a ShardRepairEngine so that its metrics are
+     * appended to the main Prometheus scrape response.
+     */
+    void setRepairEngine(std::shared_ptr<sharding::ShardRepairEngine> repair_engine);
+
+    /**
+     * Get all sharding metrics in Prometheus format with annotations.
+     * Includes repair metrics when a ShardRepairEngine has been set.
      * @return Prometheus-formatted metrics with HELP and TYPE
      */
     std::string getMetrics() const;
@@ -47,9 +56,16 @@ public:
      */
     std::string getSLOMetrics() const;
 
+    /**
+     * Get repair/anti-entropy metrics in Prometheus format.
+     * Returns an empty string when no ShardRepairEngine is attached.
+     */
+    std::string getRepairMetrics() const;
+
 private:
     std::shared_ptr<sharding::PrometheusMetrics> metrics_;
     std::shared_ptr<sharding::SLOMonitor> slo_monitor_;
+    std::shared_ptr<sharding::ShardRepairEngine> repair_engine_;
 };
 
 } // namespace server

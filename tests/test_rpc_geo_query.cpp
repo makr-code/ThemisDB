@@ -8,6 +8,7 @@
 #include "index/spatial_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "api/geo_index_hooks.h"
+#include "geo/spatial_backend.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 
@@ -37,6 +38,14 @@ protected:
         
         // Create RPC service with spatial index
         rpc_service_ = std::make_unique<ThemisRPCService>(db_.get(), spatial_mgr_.get());
+
+        // Wire the GPU spatial backend so the exact-check path is exercised.
+        // getGpuSpatialBackend() returns a non-null singleton and isAvailable()
+        // returns true on CPU-only machines via the CPU fallback path.
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) {
+            spatial_mgr_->setExactBackend(gpu_backend);
+        }
         
         // Insert some test data with geometries
         insertTestData();

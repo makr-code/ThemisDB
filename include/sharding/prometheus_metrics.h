@@ -228,6 +228,29 @@ public:
     void setBlockedTransactions(int count);
     void recordTransactionTimeout(const std::string& transaction_type);
 
+    // Shard repair / anti-entropy metrics
+
+    /// Valid shard health status strings for recordRepairShardStatus().
+    struct RepairShardStatus {
+        static constexpr const char* HEALTHY    = "healthy";
+        static constexpr const char* DEGRADED   = "degraded";
+        static constexpr const char* FAILED     = "failed";
+        static constexpr const char* REBUILDING = "rebuilding";
+    };
+
+    /// Record a completed repair attempt on a document.
+    /// @param success      Whether the repair succeeded.
+    /// @param duration_ms  Wall-clock time of the repair operation in milliseconds.
+    void recordRepairOperation(bool success, double duration_ms);
+
+    /// Update the health gauge for a shard as observed by the repair engine.
+    /// @param shard_id  Shard identifier.
+    /// @param status    One of RepairShardStatus::{HEALTHY,DEGRADED,FAILED,REBUILDING}.
+    ///                  Unknown values are silently ignored (all known gauges are set to 0).
+    void recordRepairShardStatus(const std::string& shard_id, const std::string& status);
+
+    /// Record one anti-entropy scan completion.
+    void recordRepairScan();
     // ==================== MVCC / HLC Metrics ====================
 
     /**

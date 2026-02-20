@@ -248,9 +248,18 @@ HttpServer::HttpServer(
         }
         spatial_index_ = std::make_shared<index::SpatialIndexManager>(*storage_);
         
-        // Wire up exact geometry backend if available
+        // Wire up exact geometry backend.
+        // Prefer the GPU backend (always available via CPU fallback) so that
+        // the circuit-breaker, metrics, and audit log are active even on CPU-only
+        // machines.  Fall back to Boost.Geometry if the GPU backend is absent for
+        // any reason, and log an info message in all cases.
+        auto* gpu_backend = geo::getGpuSpatialBackend();
         auto* boost_backend = geo::getBoostCpuBackend();
-        if (boost_backend && boost_backend->isAvailable()) {
+        if (gpu_backend && gpu_backend->isAvailable()) {
+            spatial_index_->setExactBackend(gpu_backend);
+            THEMIS_INFO("Spatial Index Manager initialized with GPU spatial exact backend (device: {})",
+                        geo::getGpuSpatialBackendStatsJson());
+        } else if (boost_backend && boost_backend->isAvailable()) {
             spatial_index_->setExactBackend(boost_backend);
             THEMIS_INFO("Spatial Index Manager initialized with Boost.Geometry exact backend");
         } else {
@@ -639,7 +648,8 @@ HttpServer::HttpServer(
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
         secondary_index_, schema_manager_.get(), nullptr,
-        &running_, &active_requests_, &active_connections_
+        &running_, &active_requests_, &active_connections_,
+        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
     );
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -1330,7 +1340,15 @@ void HttpServer::stop() {
     }
     threads_.clear();
 
+    // Shutdown core concerns (flush remaining logs/spans/metrics, release resources).
+    // Called last, after the final "stopped gracefully" log, so the logger is still
+    // available for that message.  The logger itself is the final resource torn down
+    // inside concerns_->shutdown().
     THEMIS_INFO("HTTP Server stopped gracefully");
+
+    if (concerns_) {
+        concerns_->shutdown();
+    }
 }
 
 void HttpServer::wait() {
@@ -1545,6 +1563,8 @@ namespace {
         GraphTraversePost,
     GraphEdgePost,
     GraphEdgeDelete,
+    GraphMetricsGet,
+    GraphMetricsPrometheusGet,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -1798,6 +1818,8 @@ namespace {
         if (target == "/graph/traverse" && method == http::verb::post) return Route::GraphTraversePost;
     if (target == "/graph/edge" && method == http::verb::post) return Route::GraphEdgePost;
     if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) return Route::GraphEdgeDelete;
+    if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) return Route::GraphMetricsGet;
+    if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) return Route::GraphMetricsPrometheusGet;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -2424,6 +2446,20 @@ namespace {
         case Route::GraphEdgeDelete:
             if (graph_api_) {
                 response = graph_api_->handleEdgeDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphMetricsGet:
+            if (graph_api_) {
+                response = graph_api_->handleMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphMetricsPrometheusGet:
+            if (graph_api_) {
+                response = graph_api_->handleMetricsPrometheus(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
             }
@@ -6640,8 +6676,7 @@ void HttpServer::Session::armReadTimer() {
 }
 
 void HttpServer::Session::cancelReadTimer() {
-    beast::error_code ec;
-    read_timer_.cancel(ec); // cancels the pending async_wait, if any
+    read_timer_.cancel(); // cancels the pending async_wait, if any
 }
 
 void HttpServer::Session::start() {
@@ -6800,7 +6835,7 @@ void HttpServer::SslSession::armReadTimer() {
 
 void HttpServer::SslSession::cancelReadTimer() {
     beast::error_code ec;
-    read_timer_.cancel(ec);
+    read_timer_.cancel();
 }
 
 void HttpServer::SslSession::start() {

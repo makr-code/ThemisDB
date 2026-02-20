@@ -13,6 +13,7 @@
 #include <vector>
 #include <optional>
 #include <filesystem>
+#include <unordered_map>
 
 namespace themis::rag::judge {
 

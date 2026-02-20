@@ -18,6 +18,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         # Filesystem ingester (PDF/DOCX with OCR support)
         ../src/ingestion/filesystem_ingester.cpp
         
+        # Generic REST API connector
+        ../src/ingestion/api_connector.cpp
+        
         # =====================================================================
         # Training Framework
         # =====================================================================

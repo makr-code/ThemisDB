@@ -5,6 +5,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "geo/spatial_backend.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 
 namespace themis {
@@ -215,6 +216,15 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             response["avg_candidates_per_query"] = static_cast<double>(metrics.mbr_candidate_count.load()) / total_queries;
         } else {
             response["avg_candidates_per_query"] = nullptr;
+        }
+
+        // GPU spatial backend stats (always present; gpu_present=false when no device)
+        try {
+            auto gpu_json_str = geo::getGpuSpatialBackendStatsJson();
+            auto gpu_stats = json::parse(gpu_json_str);
+            response["gpu_backend"] = gpu_stats;
+        } catch (const std::exception& e) {
+            response["gpu_backend"] = nullptr;
         }
         
         res.body() = response.dump();

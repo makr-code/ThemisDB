@@ -230,12 +230,200 @@ TEST(MyComponentTest, PerformOperation) {
 }
 ```
 
-## Migration Strategy
+## Lifecycle Management
+
+Every concern interface (`ILogger`, `ITracer`, `IMetrics`, `ICache`) exposes
+three lifecycle methods that must be honoured in production deployments:
+
+| Method | Purpose |
+|--------|---------|
+| `flush()` | Forward any buffered data to the sink immediately. |
+| `shutdown()` | Flush, then tear down the resource and release connections. |
+| `isHealthy()` | Probe whether the underlying sink/backend is operational. |
+
+`ConcernsContext` provides matching aggregate methods that iterate over all
+four concerns in the correct order:
+
+```cpp
+// Flush pending log/span/metric data without shutting down
+context->flush();
+
+// Graceful shutdown – call in signal handler or atexit()
+context->shutdown();
+```
+
+> **Note:** After `shutdown()` the context must **not** be reused.
+
+### Health and Readiness Probes
+
+```cpp
+// Liveness probe (e.g. Kubernetes /healthz)
+auto health = context->healthCheck();
+if (!health.isHealthy()) {
+    // At least one concern is unhealthy
+    if (!health.logger.ok)  std::cerr << "Logger: " << health.logger.message << "\n";
+    if (!health.tracer.ok)  std::cerr << "Tracer: " << health.tracer.message << "\n";
+    if (!health.metrics.ok) std::cerr << "Metrics: " << health.metrics.message << "\n";
+    if (!health.cache.ok)   std::cerr << "Cache: " << health.cache.message << "\n";
+}
+
+// Readiness probe (e.g. Kubernetes /readyz)
+auto ready = context->readinessCheck();
+if (!ready.isHealthy()) {
+    // Service is not ready to accept traffic
+}
+```
+
+### `ProbeResult` and `HealthStatus`
+
+Defined in `include/core/concerns/lifecycle.h`:
+
+```cpp
+struct ProbeResult {
+    bool ok = true;
+    std::string message;
+
+    static ProbeResult healthy(const std::string& msg = "ok");
+    static ProbeResult unhealthy(const std::string& msg);
+};
+
+struct HealthStatus {
+    ProbeResult logger, tracer, metrics, cache;
+    bool isHealthy() const;  // true iff all four are ok
+};
+```
+
+### Production Deployment Pattern
+
+```cpp
+// 1. Build context
+auto context = ConcernsContext::create(config);
+
+// 2. Register shutdown hook (signal handler or atexit)
+// NOTE: capture context by value (shared_ptr) so it remains valid at exit.
+std::atexit([context]{ context->shutdown(); });
+
+// 3. Expose /healthz endpoint
+httpServer.get("/healthz", [&](auto& req, auto& res) {
+    auto status = context->healthCheck();
+    if (status.isHealthy()) {
+        res.status = 200;
+        res.body   = "ok";
+    } else {
+        res.status = 503;
+        // Populate response with per-concern details
+    }
+});
+
+// 4. Expose /readyz endpoint
+httpServer.get("/readyz", [&](auto& req, auto& res) {
+    auto status = context->readinessCheck();
+    res.status = status.isHealthy() ? 200 : 503;
+});
+```
+
+
 
 1. **Phase 1**: Create concerns abstraction layer (DONE)
 2. **Phase 2**: Update new components to use ConcernsContext
 3. **Phase 3**: Gradually migrate existing components
 4. **Phase 4**: Maintain backward compatibility with existing Logger/Tracer/MetricsCollector
+
+## CI Integration
+
+### Recommended Pattern for CI/CD Pipelines
+
+In CI environments, use a **no-op context** so tests run without external
+dependencies (spdlog file sinks, OTLP collectors, Prometheus endpoints):
+
+```cpp
+// test_main.cpp or test fixture SetUp()
+auto concerns = themis::core::concerns::ConcernsContext::createNoOp();
+// Inject into the component under test
+MyComponent component(concerns);
+```
+
+### Validating Lifecycle Hooks in Tests
+
+After exercising a component, verify that lifecycle hooks are callable and
+leave no dangling state:
+
+```cpp
+TEST(MyComponentTest, LifecycleHooksAreClean) {
+    auto concerns = ConcernsContext::createNoOp();
+    MyComponent component(concerns);
+    component.doWork();
+
+    // Flush should be idempotent and not crash
+    EXPECT_NO_THROW(concerns->flush());
+
+    // Shutdown should be idempotent and not crash
+    EXPECT_NO_THROW(concerns->shutdown());
+}
+```
+
+### Validating Health/Readiness Probes
+
+```cpp
+TEST(MyComponentTest, HealthCheckPassesAfterInit) {
+    auto concerns = ConcernsContext::createNoOp();
+    MyComponent component(concerns);
+
+    auto status = concerns->healthCheck();
+    EXPECT_TRUE(status.isHealthy());
+}
+```
+
+### Simulating Unhealthy Dependencies
+
+Use `ConcernsContext::createCustom()` to inject an implementation that
+reports unhealthy — useful for testing circuit-breaker and retry logic:
+
+```cpp
+class UnhealthyCache : public NoOpCache {
+public:
+    ProbeResult isHealthy() const override {
+        return ProbeResult::unhealthy("cache backend unavailable");
+    }
+};
+
+TEST(MyComponentTest, HandlesUnhealthyCache) {
+    auto concerns = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<UnhealthyCache>()
+    );
+
+    auto status = concerns->healthCheck();
+    EXPECT_FALSE(status.isHealthy());
+    EXPECT_FALSE(status.cache.ok);
+    EXPECT_EQ(status.cache.message, "cache backend unavailable");
+}
+```
+
+### noexcept Contract
+
+The following lifecycle methods are declared `noexcept` and are safe to call
+from destructors, signal handlers, and other non-throwing contexts:
+
+| Method | `noexcept` |
+|--------|-----------|
+| `ILogger::flush()` default | ✅ |
+| `ILogger::shutdown()` default | ✅ |
+| `ITracer::flush()` default | ✅ |
+| `IMetrics::flush()` default | ✅ |
+| `IMetrics::shutdown()` default | ✅ |
+| `ICache::flush()` default | ✅ |
+| `ICache::shutdown()` default | ✅ |
+| `HealthStatus::isHealthy()` | ✅ |
+| `TraceContext::empty()` | ✅ |
+| `LatencyTimer::elapsedMs()` | ✅ |
+| All `NoOp*::flush()` / `shutdown()` | ✅ |
+
+> **Note:** Concrete adapters (spdlog, OpenTelemetry, Prometheus) do NOT
+> declare their lifecycle overrides `noexcept` because they interact with
+> external resources that may throw.
 
 ## Benefits
 
@@ -261,6 +449,11 @@ TEST(MyComponentTest, PerformOperation) {
 - `include/core/concerns/i_tracer.h` - Tracer interface
 - `include/core/concerns/i_metrics.h` - Metrics interface
 - `include/core/concerns/i_cache.h` - Cache interface
+- `include/core/concerns/lifecycle.h` - `ProbeResult` and `HealthStatus` types
+- `include/core/concerns/metric_labels.h` - `MetricLabels` fluent builder and `labels::k*` constants
+- `include/core/concerns/i_context.h` - `IContext` interface, `SimpleContext` impl, and `context_keys::k*` constants
+- `include/core/concerns/i_async_logger.h` - `IAsyncLogger` interface and `NoOpAsyncLogger` impl
+- `include/core/concerns/i_async_cache.h` - `IAsyncCache` interface and `NoOpAsyncCache` impl
 
 ### Implementations
 - `include/core/concerns/spdlog_logger_adapter.h` - Spdlog adapter
@@ -275,6 +468,9 @@ TEST(MyComponentTest, PerformOperation) {
 
 ### Tests
 - `tests/test_concerns_context.cpp` - Comprehensive test suite
+
+### Examples
+- `examples/concerns_example.cpp` - End-to-end demonstration of all interfaces: `ILogger`, `ITracer`, `IMetrics`, `ICache`, `IContext`, `MetricLabels`, lifecycle hooks, health/readiness probes
 
 ## Future Enhancements
 

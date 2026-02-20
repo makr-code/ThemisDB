@@ -256,3 +256,81 @@ p99 latency returns to SLO
 - Review `CPU fallback performance budgets` item in `gpu_roadmap.md`.
 - Consider pre-warming CPU vector index to reduce cold-start latency when
   fallback is triggered.
+
+---
+
+## 6. GPU Geospatial Backend Issues
+
+The `GpuBatchBackend` (`src/geo/gpu_backend_stub.cpp`) handles spatial
+intersection queries for the geo module.  In CI and on machines without a
+GPU it runs entirely on CPU via the circuit-breaker fallback path.
+
+### Symptoms
+
+- Geo intersection queries return all-zero results or empty masks.
+- `themis_gpu_fallback_total{reason="batch_cpu_fallback"}` or
+  `{reason="device_unavailable"}` counters growing.
+- `GpuBatchBackend::getStats().batch_avg_latency_us` unusually high.
+- Geo index queries are slower than expected (backend is falling back).
+
+### Detect
+
+```
+GET /admin/gpu/stats
+# Look for: circuit_open == true, exact_errors > 0, batch_fallbacks climbing
+
+# Or via GPUMetrics snapshot:
+themis_gpu_fallback_total{reason="batch_cpu_fallback"}
+themis_gpu_fallback_total{reason="device_unavailable"}
+```
+
+Check the audit log for `FALLBACK_TO_CPU` and `DEVICE_UNAVAILABLE` events
+tagged `"geo_backend_init"` or `"batchIntersects: cpu fallback"`.
+
+### Diagnose
+
+1. Call `getGpuSpatialBackend()->isAvailable()`.  If `false`:
+   - Check `DeviceDiscovery::HasGPU()` — no GPU present → CPU fallback is
+     expected and correct.
+   - Check `GPUSafeFail::getStatus().state` — if `CIRCUIT_OPEN`, the device
+     has experienced repeated failures.
+2. Inspect `GpuBatchBackend::getStats()` for non-zero `exact_errors`.
+3. Check `SpatialBatchInputs` population: if `geoms_a`/`geoms_b` are empty
+   and `count > 0` the caller is not populating geometry pairs — all mask
+   entries will be 0.  This is a caller bug, not a backend bug.
+4. If `batch_avg_latency_us` is high: large polygons or many pairs per call
+   increase the CPU fallback cost.  Review the caller's batch size vs the
+   configured `gpu_batch_threshold` (default 64).
+
+### Mitigate
+
+- **No GPU / CPU-only environment (expected)**: CPU fallback is intentional.
+  No action required; latency SLO must account for CPU cost.
+- **Circuit breaker open**: follow Runbook 2 (Device Unavailable) to reset
+  the circuit after hardware recovery.
+- **Caller not populating geometry vectors**: fix the call site to set
+  `SpatialBatchInputs::geoms_a` and `geoms_b` alongside `count`.
+- **High latency on large batches**: reduce `count` per call, or split into
+  smaller sub-batches to stay within `fallback_budget_ms`.
+
+### Verify
+
+```cpp
+auto* backend = getGpuSpatialBackend();
+backend->isAvailable();                  // true when GPU present and healthy
+backend->exactIntersects(pt, poly);      // returns correct result
+
+SpatialBatchInputs in;
+in.count = 1;
+in.geoms_a = {pt}; in.geoms_b = {poly};
+auto r = backend->batchIntersects(in);
+assert(r.mask[0] == 1u);                 // hit confirmed
+```
+
+### Follow-up
+
+- Once CUDA/ROCm kernels are available for spatial ops, replace the
+  CPU compute loop in `batchIntersects` with a real kernel launch
+  (see `FUTURE_ENHANCEMENTS §GPU_SPATIAL_KERNELS`).
+- Add per-call latency histogram to `GPUMetrics` when a latency-histogram
+  API is introduced.

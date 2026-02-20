@@ -49,6 +49,59 @@ struct CacheMetrics {
     // Phase 2: Rate limiting metrics
     std::atomic<uint64_t> rate_limited_requests{0};
     std::atomic<uint64_t> backpressure_events{0};
+
+    CacheMetrics() = default;
+
+    CacheMetrics(const CacheMetrics& other) {
+        l1_hits.store(other.l1_hits.load());
+        l2_hits.store(other.l2_hits.load());
+        l3_hits.store(other.l3_hits.load());
+        misses.store(other.misses.load());
+        evictions.store(other.evictions.load());
+        promotions.store(other.promotions.load());
+        demotions.store(other.demotions.load());
+        l3_read_errors.store(other.l3_read_errors.load());
+        l3_write_errors.store(other.l3_write_errors.load());
+        compression_failures.store(other.compression_failures.load());
+        decompression_failures.store(other.decompression_failures.load());
+        size_limit_rejections.store(other.size_limit_rejections.load());
+        total_bytes_cached.store(other.total_bytes_cached.load());
+        total_bytes_compressed.store(other.total_bytes_compressed.load());
+        l1_lookup_time_us.store(other.l1_lookup_time_us.load());
+        l2_lookup_time_us.store(other.l2_lookup_time_us.load());
+        l3_lookup_time_us.store(other.l3_lookup_time_us.load());
+        l3_circuit_breaker_trips.store(other.l3_circuit_breaker_trips.load());
+        l3_circuit_breaker_open.store(other.l3_circuit_breaker_open.load());
+        rate_limited_requests.store(other.rate_limited_requests.load());
+        backpressure_events.store(other.backpressure_events.load());
+    }
+
+    CacheMetrics& operator=(const CacheMetrics& other) {
+        if (this != &other) {
+            l1_hits.store(other.l1_hits.load());
+            l2_hits.store(other.l2_hits.load());
+            l3_hits.store(other.l3_hits.load());
+            misses.store(other.misses.load());
+            evictions.store(other.evictions.load());
+            promotions.store(other.promotions.load());
+            demotions.store(other.demotions.load());
+            l3_read_errors.store(other.l3_read_errors.load());
+            l3_write_errors.store(other.l3_write_errors.load());
+            compression_failures.store(other.compression_failures.load());
+            decompression_failures.store(other.decompression_failures.load());
+            size_limit_rejections.store(other.size_limit_rejections.load());
+            total_bytes_cached.store(other.total_bytes_cached.load());
+            total_bytes_compressed.store(other.total_bytes_compressed.load());
+            l1_lookup_time_us.store(other.l1_lookup_time_us.load());
+            l2_lookup_time_us.store(other.l2_lookup_time_us.load());
+            l3_lookup_time_us.store(other.l3_lookup_time_us.load());
+            l3_circuit_breaker_trips.store(other.l3_circuit_breaker_trips.load());
+            l3_circuit_breaker_open.store(other.l3_circuit_breaker_open.load());
+            rate_limited_requests.store(other.rate_limited_requests.load());
+            backpressure_events.store(other.backpressure_events.load());
+        }
+        return *this;
+    }
     
     /**
      * @brief Calculate overall hit rate
@@ -184,7 +237,7 @@ public:
         if (state_ == State::OPEN) {
             // Check if timeout expired
             auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                now - last_failure_time_
+                now - last_failure_time_.load()
             ).count();
             
             if (elapsed >= config_.timeout_ms) {

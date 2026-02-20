@@ -90,6 +90,12 @@ public:
      */
     void setStreamingMode(bool enabled);
 
+    /**
+     * @brief Configure retry and timeout behaviour
+     * @param config Retry settings (attempts, back-off, timeout)
+     */
+    void setRetryConfig(const RetryConfig& config);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

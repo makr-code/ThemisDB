@@ -27,6 +27,10 @@ public:
     Level getLevel() const override { return level_; }
     void setPattern(const std::string& pattern) override {}
 
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
+
 private:
     Level level_ = Level::INFO;
 };
@@ -60,8 +64,11 @@ public:
         return true;
     }
 
-    void shutdown() override {}
+    void shutdown() noexcept override {}
     bool isInitialized() const override { return true; }
+
+    void flush() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 };
 
 /**
@@ -79,6 +86,10 @@ public:
     void recordSuccess(const std::string& operation, const Labels& labels = {}) override {}
     std::string exportMetrics() const override { return ""; }
     void reset() override {}
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 };
 
 /**
@@ -97,6 +108,10 @@ public:
     double hitRate() const override { return 0.0; }
     void setMaxSize(size_t maxSize) override {}
     void setDefaultTTL(uint64_t ttl_ms) override {}
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 };
 
 } // namespace concerns

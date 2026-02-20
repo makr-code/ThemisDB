@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "index/spatial_index.h"
+#include "geo/spatial_backend.h"
 #include "storage/rocksdb_wrapper.h"
 #include <filesystem>
 #include <memory>
@@ -15,6 +16,10 @@ protected:
         RocksDBWrapper::Config cfg; cfg.db_path = "test_spatial_index_db"; cfg.memtable_size_mb = 16; cfg.block_cache_size_mb = 16;
         db_ = std::make_unique<RocksDBWrapper>(cfg); ASSERT_TRUE(db_->open());
         spatial_mgr_ = std::make_unique<SpatialIndexManager>(*db_);
+
+        // Wire GPU backend (CPU fallback always available)
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) spatial_mgr_->setExactBackend(gpu_backend);
     }
     
     void TearDown() override {

@@ -69,7 +69,7 @@ TEST_F(TSAutoBufferFixture, AddSinglePointSucceeds) {
     cfg.async_flush = false;
     TSAutoBuffer buf(tsstore.get(), cfg);
     auto result = buf.add(makePoint("cpu", "srv01", 42.0));
-    EXPECT_TRUE(result.ok()) << result.error().message();
+    EXPECT_TRUE(result.has_value()) << result.error().message();
 }
 
 TEST_F(TSAutoBufferFixture, ManualFlushEmptiesBuffer) {
@@ -80,7 +80,7 @@ TEST_F(TSAutoBufferFixture, ManualFlushEmptiesBuffer) {
     for (int i = 0; i < 5; ++i) {
         auto r = buf.add(makePoint("mem", "srv02", static_cast<double>(i),
                                    1700000000000LL + i));
-        EXPECT_TRUE(r.ok());
+        EXPECT_TRUE(r.has_value());
     }
     size_t flushed = buf.flush();
     EXPECT_GE(flushed, 5u);
