@@ -282,6 +282,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/pii_redaction_policy.cpp
     # ../src/security/aql_injection_detector.cpp  # Moved to query module (needs AQLParser)
     ../src/utils/audit_logger.cpp
     ../src/utils/lek_manager.cpp

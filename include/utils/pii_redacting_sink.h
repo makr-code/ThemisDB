@@ -9,14 +9,24 @@
  * through PIIRedactionPolicy::get().redactForLog().
  *
  * Design notes:
- * - The wrapper is zero-copy when no PII is detected (the redaction function
- *   returns the original string by value, which the compiler can elide).
+ * - The wrapper is zero-copy when no PII is detected (string comparison short-circuits
+ *   the log_msg rebuild for the common PII-free case).
  * - A thread-local re-entrancy guard prevents infinite recursion in the unlikely
  *   event that PIIRedactionPolicy itself emits a log message during initialisation.
  * - The class is header-only to avoid adding a new translation unit and to stay
  *   consistent with how spdlog ships its sink adapters.
  * - Only the string-value `setAttribute` and `recordError` overloads need
  *   redaction; numeric/boolean overloads cannot contain PII.
+ *
+ * Coverage notes:
+ * - Logger::init() installs this sink AND registers the resulting logger as the
+ *   spdlog global default (spdlog::set_default_logger), so bare spdlog::info()
+ *   calls made after Logger::init() are also covered.
+ * - Bare spdlog::info() / spdlog::warn() calls that fire *before* Logger::init()
+ *   is called (e.g., in static constructors) will use spdlog's built-in default
+ *   logger which has no PII-redacting sink.  This is an inherent limitation of
+ *   the global-logger pattern; mitigate by calling Logger::init() or Logger::get()
+ *   as early as possible in the process lifecycle.
  *
  * Usage (see Logger::init() in logger.cpp):
  * @code
