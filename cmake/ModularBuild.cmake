@@ -172,6 +172,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/columnar_format.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    # MVCC versioning and HLC timestamping
+    ../src/storage/hlc.cpp
+    ../src/storage/mvcc_store.cpp
     
     # Metadata management
     ../src/metadata/schema_manager.cpp
