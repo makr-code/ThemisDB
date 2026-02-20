@@ -621,7 +621,7 @@ HttpServer::HttpServer(
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
         secondary_index_, schema_manager_.get(), nullptr,
-        &running_, &active_requests_
+        &running_, &active_requests_, &active_connections_
     );
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -1486,6 +1486,7 @@ namespace {
         Health,
         HealthLive,    // GET /health/live  – liveness probe
         HealthReady,   // GET /health/ready – readiness probe
+        OpenApi,       // GET /api/openapi.json – OpenAPI 3.0 spec export
         Version,
         Stats,
         CapabilitiesGet,
@@ -1696,6 +1697,7 @@ namespace {
         if (target == "/" || target == "/health") return Route::Health;
         if (target == "/health/live" && method == http::verb::get) return Route::HealthLive;
         if (target == "/health/ready" && method == http::verb::get) return Route::HealthReady;
+        if (target == "/api/openapi.json" && method == http::verb::get) return Route::OpenApi;
         if (target == "/version" && method == http::verb::get) return Route::Version;
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
@@ -2211,6 +2213,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::HealthReady:
             response = monitoring_api_->handleReadiness(req);
+            break;
+        case Route::OpenApi:
+            response = monitoring_api_->handleOpenApi(req);
             break;
         case Route::Version:
             response = monitoring_api_->handleVersion(req);
