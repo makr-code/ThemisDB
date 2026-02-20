@@ -174,7 +174,7 @@ TEST_F(PromptEvaluatorTest, EvaluateBatch_ScoresInRange) {
     EXPECT_LE(agg.overall_score, 1.0);
     EXPECT_GE(agg.mean_similarity, 0.0);
     EXPECT_GE(agg.std_similarity, 0.0);
-    EXPECT_EQ(agg.num_exact_matches, 2u);   // "Paris" and "Berlin" match
+    EXPECT_EQ(agg.num_exact_matches, 2u);   // First two entries match exactly
 }
 
 TEST_F(PromptEvaluatorTest, EvaluateBatch_PassRate) {
