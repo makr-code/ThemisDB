@@ -41,6 +41,24 @@ TransactionState transactionStateFromString(const std::string& str) {
     return TransactionState::INITIATED;
 }
 
+std::string transactionProtocolToString(TransactionProtocol protocol) {
+    switch (protocol) {
+        case TransactionProtocol::TWO_PHASE_COMMIT: return "TWO_PHASE_COMMIT";
+        case TransactionProtocol::THREE_PHASE_COMMIT: return "THREE_PHASE_COMMIT";
+        case TransactionProtocol::SAGA: return "SAGA";
+        case TransactionProtocol::PERCOLATOR: return "PERCOLATOR";
+    }
+    return "TWO_PHASE_COMMIT";
+}
+
+TransactionProtocol transactionProtocolFromString(const std::string& str) {
+    if (str == "TWO_PHASE_COMMIT") return TransactionProtocol::TWO_PHASE_COMMIT;
+    if (str == "THREE_PHASE_COMMIT") return TransactionProtocol::THREE_PHASE_COMMIT;
+    if (str == "SAGA") return TransactionProtocol::SAGA;
+    if (str == "PERCOLATOR") return TransactionProtocol::PERCOLATOR;
+    return TransactionProtocol::TWO_PHASE_COMMIT;
+}
+
 // JSON serialization for ParticipantStatus
 void to_json(nlohmann::json& j, const ParticipantStatus& p) {
     j = nlohmann::json{
@@ -145,7 +163,7 @@ void from_json(const nlohmann::json& j, TransactionSnapshotEntry& e) {
 nlohmann::json TransactionSnapshot::toJson() const {
     nlohmann::json j;
     j["snapshot_id"] = snapshot_id;
-    j["last_applied_lsn"] = last_applied_lsn;
+    j["last_applied_lsn"] = last_applied_lsn.toString();
     j["coordinator_id"] = coordinator_id;
     j["timestamp"] = timestamp;
     j["active_transactions"] = active_transactions;
@@ -158,7 +176,7 @@ std::optional<TransactionSnapshot> TransactionSnapshot::fromJson(const nlohmann:
     try {
         TransactionSnapshot snapshot;
         snapshot.snapshot_id = j.at("snapshot_id").get<uint64_t>();
-        snapshot.last_applied_lsn = j.at("last_applied_lsn").get<LSN>();
+        snapshot.last_applied_lsn = LSN::fromString(j.at("last_applied_lsn").get<std::string>());
         snapshot.coordinator_id = j.at("coordinator_id").get<std::string>();
         snapshot.timestamp = j.at("timestamp").get<uint64_t>();
         snapshot.active_transactions = j.at("active_transactions").get<std::vector<TransactionSnapshotEntry>>();

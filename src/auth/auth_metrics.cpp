@@ -10,6 +10,12 @@ namespace auth {
 
 #ifdef THEMIS_HAS_PROMETHEUS
 
+AuthMetrics::AuthMetrics()
+    : AuthMetrics(std::make_shared<prometheus::Registry>(), Config()) {}
+
+AuthMetrics::AuthMetrics(const Config& config)
+    : AuthMetrics(std::make_shared<prometheus::Registry>(), config) {}
+
 AuthMetrics::AuthMetrics(std::shared_ptr<prometheus::Registry> registry,
                         const Config& config)
     : config_(config)
