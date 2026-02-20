@@ -7,9 +7,14 @@
 #include <optional>
 #include <mutex>
 #include <atomic>
+#include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace themis {
+
+// Forward declaration to avoid pulling in the full AuditLogger header
+namespace utils { class AuditLogger; }
 
 // Simple Ranger-like Policy Engine (MVP)
 // - Subject: users or wildcard "*"
@@ -22,6 +27,13 @@ namespace themis {
 
 class PolicyEngine {
 public:
+    struct Config {
+        /// Maximum number of policies the engine will hold.
+        /// addPolicy() throws std::length_error when the limit is reached.
+        /// 0 means unlimited (default).
+        size_t max_policies = 0;
+    };
+
     struct Policy {
         std::string id;
         std::string name;
@@ -31,7 +43,11 @@ public:
         bool effect_allow = true;                   // allow=true, deny=false
         // Optional conditions
         std::vector<std::string> allowed_ip_prefixes; // any match passes; empty -> ignore
-        // Future: attributes/time windows
+        // ABAC: UTC hour-of-day window (0–23, inclusive on both ends; -1 = no restriction)
+        int time_window_utc_hours_start = -1;
+        int time_window_utc_hours_end   = -1;
+        // ABAC: User-Agent substring allowlist (any match passes; empty = no restriction)
+        std::vector<std::string> allowed_user_agent_patterns;
     };
 
     struct Decision {
@@ -47,11 +63,27 @@ public:
     };
 
     PolicyEngine() = default;
+    explicit PolicyEngine(const Config& config) : config_(config) {}
 
     // Load policies from JSON or YAML file (detected by extension)
     bool loadFromFile(const std::string& path, std::string* err = nullptr);
     // Save policies to JSON file
     bool saveToFile(const std::string& path, std::string* err = nullptr) const;
+
+    /**
+     * @brief Reload policies from the file last passed to loadFromFile().
+     *
+     * Checks whether the file's modification time has changed since the last
+     * load.  If it has, the file is re-read and the in-memory policy set is
+     * atomically replaced.  If the path is empty or the file has not changed
+     * the method is a fast no-op.
+     *
+     * @param err  Optional: populated with a human-readable error string on
+     *             failure (file read error, parse error, etc.).
+     * @return true  if the policies were successfully reloaded (or were already
+     *              up-to-date), false on error.
+     */
+    bool reloadIfChanged(std::string* err = nullptr);
 
     // Replace all policies
     void setPolicies(std::vector<Policy> policies);
@@ -66,9 +98,19 @@ public:
     Decision authorize(const std::string& user_id,
                        const std::string& action,
                        const std::string& resource_path,
-                       const std::optional<std::string>& client_ip = std::nullopt) const;
+                       const std::optional<std::string>& client_ip  = std::nullopt,
+                       const std::optional<std::string>& user_agent = std::nullopt) const;
 
     const Metrics& getMetrics() const { return metrics_; }
+
+    /**
+     * @brief Attach an AuditLogger that will receive POLICY_UPDATED events
+     *        whenever policies are added, removed, or reloaded.
+     *
+     * Pass nullptr to detach.  The PolicyEngine does NOT take ownership; the
+     * caller must ensure the logger outlives the engine.
+     */
+    void setAuditLogger(utils::AuditLogger* logger) { audit_logger_ = logger; }
 
     // JSON helpers
     static nlohmann::json toJson(const Policy& p);
@@ -78,11 +120,19 @@ private:
     bool matchSubject(const Policy& p, const std::string& user_id) const;
     bool matchAction(const Policy& p, const std::string& action) const;
     bool matchResource(const Policy& p, const std::string& resource_path) const;
-    bool matchConditions(const Policy& p, const std::optional<std::string>& client_ip) const;
+    bool matchConditions(const Policy& p,
+                         const std::optional<std::string>& client_ip,
+                         const std::optional<std::string>& user_agent) const;
 
     mutable std::mutex mutex_;
+    Config config_;
     std::vector<Policy> policies_;
     mutable Metrics metrics_;
+    utils::AuditLogger* audit_logger_ = nullptr;  // optional; non-owning
+
+    // Hot-reload state
+    std::string loaded_file_path_;
+    std::chrono::system_clock::time_point last_loaded_mtime_;
 };
 
 } // namespace themis
