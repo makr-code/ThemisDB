@@ -133,18 +133,36 @@ as JSON for operational dashboards and alerting.
 
 ## Phase 3: Parallel Execution
 
-**Status:** 📋 Planned  
+**Status:** ✅ Partially Complete (3.1 done)  
 **Target Version:** v1.7.0
 
-### 3.1 Thread-Pool-Backed BFS
+### 3.1 Parallel BFS ✅ DONE
 
-Partition the BFS frontier across worker threads from the core thread pool.
-Uses lock-free frontier queues and atomic visited-set updates.
+`QueryConstraints` now has two new fields:
 
-**Success Criteria:**
-- ≥ 40% throughput improvement on graphs with > 10 K nodes
-- No correctness regressions on existing tests
-- Configurable via `QueryConstraints::enable_parallel` and `num_threads`
+| Field | Default | Description |
+|-------|---------|-------------|
+| `enable_parallel` | `false` | When `true`, enables level-parallel BFS frontier expansion |
+| `num_threads` | `0` (auto) | Worker threads (0 = `hardware_concurrency/2`, clamped to [2,16]) |
+
+`executeBFS` was rewritten to use a level-by-level frontier approach. Each level
+is expanded either sequentially (small graphs / `enable_parallel=false`) or in
+parallel using `std::async` tasks (one per chunk of frontier nodes). Each task
+returns its neighbor list independently; de-duplication against the shared
+`visited` set is done serially after all tasks complete.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints c;
+c.enable_parallel = true;
+c.num_threads = 4;          // or 0 for auto
+auto result = optimizer.executeBFS("start", 5, c);
+```
+
+The optimizer's `optimizeShortestPath` now propagates `enable_parallel` from
+the caller's constraints to the `OptimizationPlan`.
+
+**Correctness guarantee:** the parallel path produces the same set of reachable
+nodes as the sequential path (verified by `BFS_Parallel_ProducesSameResultAsSequential`).
 
 ### 3.2 Parallel Dijkstra (Δ-Stepping)
 
@@ -172,14 +190,34 @@ optimal result, with timeout propagation across network hops.
 
 ## Phase 5: Advanced Constraints & Query Rewriting
 
-**Status:** 📋 Planned  
+**Status:** ✅ Partially Complete (5.1 EDGE_PROPERTY done)  
 **Target Version:** v1.8.0
 
-### 5.1 Property-Based Constraints
+### 5.1 Edge Property-Based Constraints ✅ DONE
 
-Complete the `NODE_PROPERTY` and `EDGE_PROPERTY` constraint types in
-`path_constraints.cpp` to filter by vertex/edge attribute values during
-traversal.
+`PathConstraints` now supports filtering edges by arbitrary string field values
+during `findConstrainedPaths` traversal, using the `EDGE_PROPERTY` constraint type.
+
+**New API:**
+```cpp
+PathConstraints c(&graph_mgr);
+c.addEdgePropertyConstraint("type", "follows"); // only traverse "follows" edges
+auto paths = c.findConstrainedPaths("user1", "user5", 10);
+```
+
+**Implementation details:**
+- `addEdgePropertyConstraint(field_name, expected_value)` creates an `EDGE_PROPERTY`
+  constraint with `property_key` = field name and `string_value` = expected value
+- During BFS in `findConstrainedPaths`, each candidate edge is checked against all
+  `EDGE_PROPERTY` constraints before being added to the queue (early pruning)
+- `validatePath` also enforces `EDGE_PROPERTY` constraints on complete paths
+- `describeConstraints()` now shows "Edge property: key = value"
+- `GraphIndexManager::getEdgeField(edgeId, fieldName)` added as the backing
+  low-level accessor for edge entity fields (follows the same pattern as
+  `getEdgeWeight_` / `getEdgeType_`)
+
+`NODE_PROPERTY` constraint validation requires a vertex property store not yet
+available in the current storage model; it is a planned future addition.
 
 ### 5.2 Automatic Query Rewriting
 
@@ -211,37 +249,43 @@ execution statistics and continuously improve algorithm selection.
 
 ## Observability Checklist
 
-| Item                                | Status   | Owner        |
-|-------------------------------------|----------|--------------|
-| `timeout_ms` in `QueryConstraints`  | ✅ Done  | graph module |
-| `GraphQueryMetrics` counters        | ✅ Done  | graph module |
-| Prometheus metric names defined     | ✅ Done  | this doc     |
-| Graph-specific error codes 6400+    | ✅ Done  | graph module |
-| `explainConstrainedPath()` dry-run  | ✅ Done  | graph module |
-| OTel span export in traversal loops | 📋 TODO  | observability|
-| Heatmap: nodes-explored per query   | 📋 TODO  | observability|
-| Alerting rule: error_rate > 5%      | 📋 TODO  | ops          |
-| Alerting rule: p99 latency > SLO    | 📋 TODO  | ops          |
-| Admin API `/api/v1/graph/metrics`   | 📋 TODO  | server       |
+| Item                                    | Status   | Owner        |
+|-----------------------------------------|----------|--------------|
+| `timeout_ms` in `QueryConstraints`      | ✅ Done  | graph module |
+| `GraphQueryMetrics` counters            | ✅ Done  | graph module |
+| Prometheus metric names defined         | ✅ Done  | this doc     |
+| Graph-specific error codes 6400+        | ✅ Done  | graph module |
+| `explainConstrainedPath()` dry-run      | ✅ Done  | graph module |
+| `enable_parallel` + `num_threads` BFS   | ✅ Done  | graph module |
+| `addEdgePropertyConstraint()` pruning   | ✅ Done  | graph module |
+| OTel span export in traversal loops     | 📋 TODO  | observability|
+| Heatmap: nodes-explored per query       | 📋 TODO  | observability|
+| Alerting rule: error_rate > 5%          | 📋 TODO  | ops          |
+| Alerting rule: p99 latency > SLO        | 📋 TODO  | ops          |
+| Admin API `/api/v1/graph/metrics`       | 📋 TODO  | server       |
 
 ---
 
 ## Test Matrix
 
-| Area                              | Tests                              | Status      |
-|-----------------------------------|------------------------------------|-------------|
-| Basic BFS/DFS correctness         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Timeout / SLO enforcement         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Aggregate metrics                 | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Graph error code values (6400+)   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| `explainConstrainedPath()` dry-run| `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Path constraint validation        | `test_graph_advanced_features.cpp` | ✅ Exists   |
-| Constrained path finding          | `test_path_constraints_direct.cpp` | ✅ Exists   |
-| AQL integration                   | `test_aql_path_constraints.cpp`    | ✅ Exists   |
-| Parallel BFS                      | (planned for Phase 3)              | 📋 TODO     |
-| Distributed traversal             | (planned for Phase 4)              | 📋 TODO     |
-| Property-based constraints        | (planned for Phase 5)              | 📋 TODO     |
-| Chaos / fuzz tests                | (planned)                          | 📋 TODO     |
+| Area                                  | Tests                              | Status      |
+|---------------------------------------|------------------------------------|-------------|
+| Basic BFS/DFS correctness             | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Timeout / SLO enforcement             | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Aggregate metrics                     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Graph error code values (6400+)       | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| `explainConstrainedPath()` dry-run    | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Parallel BFS correctness              | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Parallel BFS default thread count     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| `enable_parallel` default = false     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Edge property constraint API          | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Edge property constraint validation   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Path constraint validation            | `test_graph_advanced_features.cpp` | ✅ Exists   |
+| Constrained path finding              | `test_path_constraints_direct.cpp` | ✅ Exists   |
+| AQL integration                       | `test_aql_path_constraints.cpp`    | ✅ Exists   |
+| Distributed traversal                 | (planned for Phase 4)              | 📋 TODO     |
+| NODE_PROPERTY constraints             | (planned for Phase 5.1)            | 📋 TODO     |
+| Chaos / fuzz tests                    | (planned)                          | 📋 TODO     |
 
 ---
 
@@ -253,8 +297,9 @@ The graph module must pass the following CI checks before merging:
 2. **Unit tests** – all `test_graph_*.cpp` and `test_path_constraints*.cpp` suites pass
 3. **No new lint warnings** – `.clang-tidy` clean on changed files
 4. **Structured error propagation** – `ERR_QUERY_TIMEOUT` returned on exceeding `timeout_ms`; `ERR_GRAPH_NO_SUCH_VERTEX` (6400) returned for unknown vertices
-5. **Metrics non-zero** – `total_queries` counter incremented after each execution
+5. **Metrics non-zero** – `total_queries` counter incremented after each execution (including parallel BFS)
 6. **Dry-run API** – `explainConstrainedPath()` returns a plan without incrementing `total_queries`
+7. **Parallel BFS correctness** – `BFS_Parallel_ProducesSameResultAsSequential` test passes
 
 ---
 

@@ -9,6 +9,10 @@
 #include <unordered_set>
 #include <chrono>
 #include <sstream>
+#include <future>
+#include <thread>
+#include <mutex>
+#include <atomic>
 
 namespace themis {
 namespace graph {
@@ -83,8 +87,9 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
         std::pow(statistics_.avg_branching_factor, estimated_depth));
     plan.estimated_time_ms = plan.estimated_cost * 0.1; // Convert cost to time estimate
     
-    // Determine if parallel execution is beneficial
-    plan.enable_parallel = shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
+    // Determine if parallel execution is beneficial; caller can also force it on
+    plan.enable_parallel = constraints.enable_parallel ||
+                           shouldUseParallel(plan.algorithm, plan.estimated_nodes_explored);
     
     // Generate explanation
     plan.explanation = explainPlan(plan);
@@ -311,84 +316,155 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
-    
+
+    // Helper: determine effective thread count for parallel BFS
+    const bool use_parallel = constraints.enable_parallel;
+    const size_t effective_threads = [&]() -> size_t {
+        if (!use_parallel) return 1u;
+        if (constraints.num_threads > 0) {
+            return std::min<size_t>(constraints.num_threads, 16u);
+        }
+        // hardware_concurrency() may return 0 on unsupported platforms; default to 4
+        const size_t hw = std::thread::hardware_concurrency();
+        const size_t base = (hw > 0) ? hw : 8u;
+        return std::max<size_t>(2u, std::min<size_t>(base / 2u, 16u));
+    }();
+
+    // Helper: timeout check reused in the loop
+    auto timedOut = [&]() -> bool {
+        if (constraints.timeout_ms == 0) return false;
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start_time).count();
+        return elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms);
+    };
+
     std::vector<std::string> result;
-    std::queue<std::pair<std::string, int>> queue;
     std::unordered_set<std::string> visited;
-    
-    queue.push({std::string(start_vertex), 0});
+
+    // BFS frontier: current level to expand
+    std::vector<std::string> current_frontier;
+    current_frontier.push_back(std::string(start_vertex));
     visited.insert(std::string(start_vertex));
-    
-    while (!queue.empty()) {
-        auto [current, depth] = queue.front();
-        queue.pop();
-        
-        // Timeout check: abort if elapsed time exceeds the SLO budget
-        if (constraints.timeout_ms > 0) {
-            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
-                std::chrono::steady_clock::now() - start_time).count();
-            if (elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms)) {
+
+    for (int depth = 0; depth <= max_depth; ++depth) {
+        if (current_frontier.empty()) break;
+
+        // Timeout check at the start of each level
+        if (timedOut()) {
+            local_stats.early_terminated = true;
+            metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+            if (stats) { *stats = local_stats; }
+            recordExecution(local_stats);
+            return Err<std::vector<std::string>>(
+                errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                "BFS query exceeded timeout of " +
+                    std::to_string(constraints.timeout_ms) + "ms"
+            );
+        }
+
+        // Add all frontier nodes to result
+        for (const auto& node : current_frontier) {
+            result.push_back(node);
+            local_stats.nodes_explored++;
+            if (constraints.max_results.has_value() &&
+                result.size() >= constraints.max_results.value()) {
                 local_stats.early_terminated = true;
-                metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
-                if (stats) { *stats = local_stats; }
-                recordExecution(local_stats);
-                return Err<std::vector<std::string>>(
-                    errors::ErrorCode::ERR_QUERY_TIMEOUT,
-                    "BFS query exceeded timeout of " +
-                        std::to_string(constraints.timeout_ms) + "ms"
-                );
+                break;
+            }
+        }
+        if (local_stats.early_terminated) break;
+
+        if (depth == max_depth) break; // No need to expand last level
+
+        // Build next frontier: expand each node in current_frontier, optionally in parallel
+        std::vector<std::string> next_frontier;
+        bool vertex_error = false;
+        std::string error_vertex;
+
+        if (!use_parallel || current_frontier.size() < effective_threads) {
+            // Sequential expansion
+            for (const auto& node : current_frontier) {
+                auto [status, neighbors] = graph_manager_.outNeighbors(node);
+                if (!status.ok) { vertex_error = true; error_vertex = node; break; }
+                local_stats.edges_traversed += neighbors.size();
+                for (const auto& nb : neighbors) {
+                    if (visited.count(nb)) continue;
+                    if (std::find(constraints.forbidden_vertices.begin(),
+                                  constraints.forbidden_vertices.end(), nb) !=
+                        constraints.forbidden_vertices.end()) continue;
+                    visited.insert(nb);
+                    next_frontier.push_back(nb);
+                }
+            }
+        } else {
+            // Parallel expansion: split frontier into chunks, one per thread.
+            // Each async task collects its neighbors independently; we merge
+            // after all futures complete, so no shared mutable state races.
+            struct ChunkResult {
+                std::vector<std::string> neighbors; // raw (may have duplicates across chunks)
+                size_t edges_seen = 0;
+                bool error = false;
+                std::string error_vertex;
+            };
+
+            const size_t chunk_size = (current_frontier.size() + effective_threads - 1) / effective_threads;
+            std::vector<std::future<ChunkResult>> futures;
+            std::atomic<bool> any_error{false};
+
+            for (size_t t = 0; t < effective_threads; ++t) {
+                const size_t begin_idx = t * chunk_size;
+                if (begin_idx >= current_frontier.size()) break;
+                const size_t end_idx = std::min(begin_idx + chunk_size, current_frontier.size());
+
+                futures.push_back(std::async(std::launch::async, [&, begin_idx, end_idx]() {
+                    ChunkResult cr;
+                    for (size_t i = begin_idx; i < end_idx; ++i) {
+                        if (any_error.load(std::memory_order_relaxed)) break;
+                        const std::string& node = current_frontier[i];
+                        auto [status, neighbors] = graph_manager_.outNeighbors(node);
+                        if (!status.ok) {
+                            any_error.store(true, std::memory_order_relaxed);
+                            cr.error = true;
+                            cr.error_vertex = node;
+                            break;
+                        }
+                        cr.edges_seen += neighbors.size();
+                        for (const auto& nb : neighbors) {
+                            cr.neighbors.push_back(nb);
+                        }
+                    }
+                    return cr;
+                }));
+            }
+
+            // Merge parallel results (de-duplicate using the shared visited set)
+            for (auto& fut : futures) {
+                ChunkResult cr = fut.get();
+                if (cr.error) {
+                    vertex_error = true;
+                    error_vertex = cr.error_vertex;
+                    break;
+                }
+                local_stats.edges_traversed += cr.edges_seen;
+                for (const auto& nb : cr.neighbors) {
+                    if (visited.count(nb)) continue;
+                    if (std::find(constraints.forbidden_vertices.begin(),
+                                  constraints.forbidden_vertices.end(), nb) !=
+                        constraints.forbidden_vertices.end()) continue;
+                    visited.insert(nb);
+                    next_frontier.push_back(nb);
+                }
             }
         }
 
-        result.push_back(current);
-        local_stats.nodes_explored++;
-        
-        if (depth >= max_depth) {
-            continue;
-        }
-        
-        // Get neighbors
-        auto [status, neighbors] = graph_manager_.outNeighbors(current);
-        if (!status.ok) {
+        if (vertex_error) {
             return Err<std::vector<std::string>>(
                 errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
-                current
+                error_vertex
             );
         }
-        
-        local_stats.edges_traversed += neighbors.size();
-        
-        // Apply edge type filter if specified
-        std::vector<std::string> filtered_neighbors = neighbors;
-        if (constraints.edge_type.has_value()) {
-            // Edge type filtering would be done here
-            // For now, we use all neighbors
-        }
-        
-        for (const auto& neighbor : filtered_neighbors) {
-            if (visited.find(neighbor) == visited.end()) {
-                // Check forbidden vertices
-                if (std::find(constraints.forbidden_vertices.begin(), 
-                            constraints.forbidden_vertices.end(), neighbor) 
-                    != constraints.forbidden_vertices.end()) {
-                    continue;
-                }
-                
-                visited.insert(neighbor);
-                queue.push({neighbor, depth + 1});
-                
-                // Early termination check
-                if (constraints.max_results.has_value() && 
-                    result.size() >= constraints.max_results.value()) {
-                    local_stats.early_terminated = true;
-                    break;
-                }
-            }
-        }
-        
-        if (local_stats.early_terminated) {
-            break;
-        }
+
+        current_frontier = std::move(next_frontier);
     }
     
     auto end_time = std::chrono::steady_clock::now();

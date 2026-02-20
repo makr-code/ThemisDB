@@ -631,6 +631,41 @@ auto plan = optimizer.explainConstrainedPath("start", "end", constraints);
 std::cout << optimizer.explainPlan(plan.value()); // algorithm, cost, constraints
 ```
 
+### Parallel BFS (`enable_parallel` + `num_threads`) ✅ DONE
+
+`executeBFS` now supports level-parallel frontier expansion. The BFS is
+rewritten as a level-by-level loop; each level's neighbor lookups are
+dispatched as independent `std::async` tasks when `enable_parallel=true`.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints c;
+c.enable_parallel = true;  // opt-in; default is false (backward-compatible)
+c.num_threads = 4;         // 0 = hardware_concurrency/2, max 16
+auto result = optimizer.executeBFS("start", 5, c);
+```
+
+Produces the same set of reachable nodes as the sequential path (no correctness
+regression). The `num_threads` field defaults to `0` (auto-detect).
+
+### Edge Property Constraints ✅ DONE
+
+`PathConstraints::addEdgePropertyConstraint(field_name, expected_value)` –
+prunes edges during `findConstrainedPaths` BFS traversal by checking each
+candidate edge's field value against the required value.
+
+```cpp
+PathConstraints c(&graph_mgr);
+c.addEdgePropertyConstraint("type", "follows"); // only traverse "follows" edges
+auto paths = c.findConstrainedPaths("user1", "user5", 10);
+```
+
+`validatePath` also enforces `EDGE_PROPERTY` on complete paths.
+`describeConstraints()` lists each edge property constraint as:
+`"Edge property: <key> = <value>"`.
+
+New backing API: `GraphIndexManager::getEdgeField(edgeId, fieldName)` returns
+an `std::optional<std::string>` without needing the graph ID.
+
 ---
 
 ## Community Requests

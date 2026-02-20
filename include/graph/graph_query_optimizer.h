@@ -10,6 +10,8 @@
 #include <functional>
 #include <atomic>
 #include <chrono>
+#include <future>
+#include <mutex>
 
 namespace themis {
 namespace graph {
@@ -83,6 +85,13 @@ public:
         /// Maximum allowed execution time in milliseconds (0 = no limit).
         /// When exceeded, the traversal returns `ERR_QUERY_TIMEOUT` error.
         uint32_t timeout_ms = 0;
+        /// Enable parallel frontier expansion in BFS (Phase 3).
+        /// When true and the graph is sufficiently large, each BFS level's
+        /// neighbor lookups are dispatched to separate threads.
+        bool enable_parallel = false;
+        /// Maximum worker threads for parallel BFS (0 = use hardware_concurrency/2,
+        /// clamped to [2, 16]).  Ignored when enable_parallel = false.
+        uint32_t num_threads = 0;
         
         QueryConstraints() = default;
     };

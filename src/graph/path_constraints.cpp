@@ -44,6 +44,14 @@ void PathConstraints::addRequiredEdge(std::string_view edge_id) {
     constraints_.emplace_back(ConstraintType::REQUIRED_EDGE, std::string(edge_id));
 }
 
+void PathConstraints::addEdgePropertyConstraint(std::string_view field_name,
+                                                std::string_view expected_value) {
+    Constraint c(ConstraintType::EDGE_PROPERTY,
+                 std::string(field_name),
+                 std::string(expected_value));
+    constraints_.push_back(std::move(c));
+}
+
 void PathConstraints::requireAcyclic() {
     constraints_.emplace_back(ConstraintType::NO_CYCLES);
 }
@@ -180,9 +188,24 @@ Result<bool> PathConstraints::validatePath(
                 break;
                 
             case ConstraintType::NODE_PROPERTY:
+                // Node property filtering requires a vertex property store; not yet available.
+                break;
+
             case ConstraintType::EDGE_PROPERTY:
-                // Property constraints would require querying the graph for properties
-                // Not implemented in this minimal version
+                // Validate that every edge in the path satisfies the property constraint.
+                if (graph_mgr_ && constraint.property_key.has_value() &&
+                    constraint.string_value.has_value()) {
+                    const std::string& key      = *constraint.property_key;
+                    const std::string& expected = *constraint.string_value;
+                    for (const auto& edge_id : edges) {
+                        auto field_val = graph_mgr_->getEdgeField(edge_id, key);
+                        if (!field_val.has_value() || *field_val != expected) {
+                            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                "Edge '" + edge_id + "' field '" + key +
+                                "' does not match expected value '" + expected + "'");
+                        }
+                    }
+                }
                 break;
         }
     }
@@ -329,6 +352,21 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
             if (forbidden_edges_.count(edge_id) > 0) {
                 continue;
             }
+
+            // Check EDGE_PROPERTY constraints: prune edges that don't satisfy
+            // the required field value early, before adding to the BFS queue.
+            bool edge_property_ok = true;
+            for (const auto& c : constraints_) {
+                if (c.type == ConstraintType::EDGE_PROPERTY &&
+                    c.property_key.has_value() && c.string_value.has_value()) {
+                    auto field_val = graph_mgr_->getEdgeField(edge_id, *c.property_key);
+                    if (!field_val.has_value() || *field_val != *c.string_value) {
+                        edge_property_ok = false;
+                        break;
+                    }
+                }
+            }
+            if (!edge_property_ok) continue;
             
             // Check unique nodes constraint
             if (require_unique_nodes && current.visited_nodes.count(next_node) > 0) {
@@ -429,6 +467,22 @@ std::string PathConstraints::describeConstraints() const {
                 break;
             case ConstraintType::CUSTOM_PREDICATE:
                 oss << "Custom predicate";
+                break;
+            case ConstraintType::NODE_PROPERTY:
+                if (constraint.property_key.has_value() && constraint.string_value.has_value()) {
+                    oss << "Node property: " << *constraint.property_key
+                        << " = " << *constraint.string_value;
+                } else {
+                    oss << "Node property constraint";
+                }
+                break;
+            case ConstraintType::EDGE_PROPERTY:
+                if (constraint.property_key.has_value() && constraint.string_value.has_value()) {
+                    oss << "Edge property: " << *constraint.property_key
+                        << " = " << *constraint.string_value;
+                } else {
+                    oss << "Edge property constraint";
+                }
                 break;
         }
         oss << "\n";

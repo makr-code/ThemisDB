@@ -589,3 +589,100 @@ TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_BFSForRequiredNode) {
               themis::graph::GraphQueryOptimizer::TraversalAlgorithm::BFS);
 }
 
+
+
+// ============================================================================
+// Phase 3: Parallel BFS Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, BFS_Parallel_ProducesSameResultAsSequential) {
+    // Sequential BFS
+    themis::graph::GraphQueryOptimizer::QueryConstraints seq_c;
+    seq_c.max_depth = 3;
+    seq_c.enable_parallel = false;
+    auto seq_result = optimizer_->executeBFS("A", 3, seq_c);
+    ASSERT_TRUE(seq_result);
+
+    // Parallel BFS
+    themis::graph::GraphQueryOptimizer::QueryConstraints par_c;
+    par_c.max_depth = 3;
+    par_c.enable_parallel = true;
+    par_c.num_threads = 2;
+    auto par_result = optimizer_->executeBFS("A", 3, par_c);
+    ASSERT_TRUE(par_result);
+
+    // Both should find the same set of reachable nodes (order may differ)
+    auto seq_nodes = seq_result.value();
+    auto par_nodes = par_result.value();
+    std::sort(seq_nodes.begin(), seq_nodes.end());
+    std::sort(par_nodes.begin(), par_nodes.end());
+    EXPECT_EQ(seq_nodes, par_nodes);
+}
+
+TEST_F(GraphQueryOptimizerTest, BFS_Parallel_DefaultThreadCount) {
+    // num_threads = 0 means auto; should still succeed
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    c.num_threads = 0;
+    auto result = optimizer_->executeBFS("A", 2, c);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(result.value().empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, BFS_Parallel_IncreasesQueryCounter) {
+    uint64_t before = optimizer_->getQueryMetrics().total_queries.load();
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    c.enable_parallel = true;
+    c.num_threads = 2;
+    optimizer_->executeBFS("A", 2, c);
+    EXPECT_EQ(optimizer_->getQueryMetrics().total_queries.load(), before + 1);
+}
+
+TEST_F(GraphQueryOptimizerTest, QueryConstraints_EnableParallel_Default_False) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    EXPECT_FALSE(c.enable_parallel);
+    EXPECT_EQ(c.num_threads, 0u);
+}
+
+// ============================================================================
+// Phase 5: Edge Property Constraint Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_EdgeProperty_DescribeShows) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addEdgePropertyConstraint("type", "follows");
+
+    const std::string desc = pc.describeConstraints();
+    EXPECT_NE(desc.find("Edge property"), std::string::npos);
+    EXPECT_NE(desc.find("type"), std::string::npos);
+    EXPECT_NE(desc.find("follows"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_EdgeProperty_StoredInConstraintList) {
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addEdgePropertyConstraint("status", "active");
+
+    const auto& constraints = pc.getConstraints();
+    ASSERT_EQ(constraints.size(), 1u);
+    EXPECT_EQ(constraints[0].type,
+              themis::graph::PathConstraints::ConstraintType::EDGE_PROPERTY);
+    ASSERT_TRUE(constraints[0].property_key.has_value());
+    EXPECT_EQ(*constraints[0].property_key, "status");
+    ASSERT_TRUE(constraints[0].string_value.has_value());
+    EXPECT_EQ(*constraints[0].string_value, "active");
+}
+
+TEST_F(GraphQueryOptimizerTest, PathConstraints_ValidatePath_FailsOnWrongEdgeProperty) {
+    // edge1 exists but has no "type" field (the test graph doesn't set it)
+    themis::graph::PathConstraints pc(graph_mgr_.get());
+    pc.addEdgePropertyConstraint("type", "friend");
+
+    // Validate a path using edge1 – it has no "type" field so should fail
+    std::vector<std::string> nodes = {"A", "B"};
+    std::vector<std::string> edges = {"edge1"};
+    auto result = pc.validatePath(nodes, edges);
+    // Should either return false/error because edge1 doesn't have type="friend"
+    // (The method returns error or false on violation)
+    EXPECT_FALSE(result.has_value() && *result == true);
+}
+

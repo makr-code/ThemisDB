@@ -61,10 +61,16 @@ public:
         std::optional<int> int_value;
         std::optional<std::string> string_value;
         std::optional<std::function<bool(const std::vector<std::string>&)>> predicate;
+        /// Property key for NODE_PROPERTY / EDGE_PROPERTY constraints.
+        /// string_value holds the expected property value.
+        std::optional<std::string> property_key;
 
         Constraint(ConstraintType t) : type(t) {}
         Constraint(ConstraintType t, int value) : type(t), int_value(value) {}
         Constraint(ConstraintType t, std::string value) : type(t), string_value(std::move(value)) {}
+        /// Constructor for property constraints: type, property key, expected value
+        Constraint(ConstraintType t, std::string key, std::string value)
+            : type(t), string_value(std::move(value)), property_key(std::move(key)) {}
     };
 
     /**
@@ -121,6 +127,23 @@ public:
     void addRequiredEdge(std::string_view edge_id);
 
     /**
+     * @brief Require every edge in the path to carry a specific field value.
+     *
+     * During `findConstrainedPaths` each candidate edge is looked up in the
+     * graph store and its @p field_name field is compared to @p expected_value
+     * (case-sensitive string comparison). Edges that do not match are pruned.
+     *
+     * Example – only follow edges whose type field equals "follows":
+     * @code
+     *   constraints.addEdgePropertyConstraint("type", "follows");
+     * @endcode
+     *
+     * @param field_name   Name of the edge field to check (e.g. "type", "_weight").
+     * @param expected_value Expected string value for the field.
+     */
+    void addEdgePropertyConstraint(std::string_view field_name, std::string_view expected_value);
+
+    /**
      * @brief Require path to be acyclic
      */
     void requireAcyclic();
@@ -145,7 +168,10 @@ public:
      * 
      * Checks all active constraints and returns true if the path satisfies all of them.
      * Supports: MIN_LENGTH, MAX_LENGTH, FORBIDDEN_NODE, REQUIRED_NODE, FORBIDDEN_EDGE,
-     * REQUIRED_EDGE, NO_CYCLES, UNIQUE_NODES, UNIQUE_EDGES, and CUSTOM_PREDICATE.
+     * REQUIRED_EDGE, NO_CYCLES, UNIQUE_NODES, UNIQUE_EDGES, EDGE_PROPERTY, and CUSTOM_PREDICATE.
+     * 
+     * For EDGE_PROPERTY constraints, the GraphIndexManager must be set (via constructor
+     * or `setGraphManager`) so the edge entity can be fetched.
      * 
      * @param nodes Vector of node IDs in the path
      * @param edges Vector of edge IDs in the path
