@@ -332,7 +332,7 @@ private:
     // Per-connection state
     struct ConnectionState {
         uint64_t connection_id;
-        Priority priority = Priority::MEDIUM;
+        std::atomic<uint8_t> priority{static_cast<uint8_t>(Priority::MEDIUM)};
 
         std::unique_ptr<TokenBucket> token_bucket;  // nullptr = unlimited
 

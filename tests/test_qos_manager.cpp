@@ -74,7 +74,7 @@ TEST_F(TokenBucketTest, ConsumeBlocksUntilTokensAvailable) {
                        .count();
 
     EXPECT_TRUE(ok);
-    EXPECT_GE(elapsed, 400);  // should have waited at least 0.5 s for 5 bytes at 10 B/s
+    EXPECT_GE(elapsed, 400);  // at 10 B/s, 5 bytes takes ~500 ms; allow 400 ms for scheduling jitter
 }
 
 TEST_F(TokenBucketTest, ConsumeTimesOut) {

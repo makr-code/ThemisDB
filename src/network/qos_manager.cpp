@@ -147,14 +147,13 @@ QoSManager::findConnection(uint64_t id) const {
 void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
     auto state            = std::make_shared<ConnectionState>();
     state->connection_id  = connection_id;
-    state->priority       = priority;
+    state->priority.store(static_cast<uint8_t>(priority), std::memory_order_relaxed);
 
     if (config_.default_rate_bps > 0) {
-        state->token_bucket = std::make_unique<TokenBucket>(
-            config_.default_rate_bps,
-            config_.default_burst_bytes > 0 ? config_.default_burst_bytes
-                                            : config_.default_rate_bps / 8  // 1 s burst
-        );
+        uint64_t burst = config_.default_burst_bytes > 0
+                             ? config_.default_burst_bytes
+                             : config_.default_rate_bps / 8;  // 1 s worth of data
+        state->token_bucket = std::make_unique<TokenBucket>(config_.default_rate_bps, burst);
     }
 
     std::lock_guard<std::mutex> lock(connections_mutex_);
@@ -175,9 +174,7 @@ void QoSManager::setPriority(uint64_t connection_id, Priority priority) {
     if (!state) {
         return;
     }
-    // Priority change is safe to do outside the connection lock because it is
-    // a single enum value that is only read atomically in allowSend.
-    state->priority = priority;
+    state->priority.store(static_cast<uint8_t>(priority), std::memory_order_relaxed);
 }
 
 void QoSManager::setTokenBucket(uint64_t connection_id,
@@ -276,7 +273,7 @@ void QoSManager::recordBytesSent(uint64_t connection_id, uint64_t bytes) {
     // Update per-priority counter
     {
         std::lock_guard<std::mutex> lock(priority_stats_mutex_);
-        bytes_per_priority_[state->priority] += bytes;
+        bytes_per_priority_[static_cast<Priority>(state->priority.load(std::memory_order_relaxed))] += bytes;
     }
 }
 
@@ -323,7 +320,7 @@ QoSManager::getConnectionStats(uint64_t connection_id) const {
 
     ConnectionStats cs;
     cs.connection_id        = state->connection_id;
-    cs.priority             = state->priority;
+    cs.priority             = static_cast<Priority>(state->priority.load(std::memory_order_relaxed));
     cs.bytes_sent           = state->bytes_sent.load(std::memory_order_relaxed);
     cs.bytes_received       = state->bytes_received.load(std::memory_order_relaxed);
     cs.bytes_shaped         = state->bytes_shaped.load(std::memory_order_relaxed);
