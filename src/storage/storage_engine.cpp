@@ -1,4 +1,5 @@
 #include "storage/storage_engine.h"
+#include "storage/rocksdb_wrapper.h"
 #include "utils/expected.h"
 #include "utils/tracing.h"
 #include <fmt/format.h>
@@ -250,9 +251,19 @@ Result<void> StorageEngine::open(const std::string& db_path) {
     }
     
     db_path_ = db_path;
+
+    // Open the underlying RocksDB instance.
+    RocksDBWrapper::Config cfg;
+    cfg.db_path    = db_path;
+    cfg.enable_wal = true;
+    rocksdb_ = std::make_shared<RocksDBWrapper>(cfg);
+    if (!rocksdb_->open()) {
+        rocksdb_.reset();
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Failed to open RocksDB at: " + db_path);
+    }
+
     is_open_ = true;
-    
-    // Real implementation would initialize RocksDB here
     return OkVoid();
 }
 
@@ -261,9 +272,12 @@ void StorageEngine::close() {
         return; // Already closed
     }
     
+    if (rocksdb_) {
+        rocksdb_->close();
+        rocksdb_.reset();
+    }
+
     is_open_ = false;
-    
-    // Real implementation would close RocksDB here
 }
 
 Result<void> StorageEngine::put(const std::string& key, const std::string& value) {
@@ -277,7 +291,12 @@ Result<void> StorageEngine::put(const std::string& key, const std::string& value
                        "Storage engine not open");
     }
     
-    // Real implementation would write to RocksDB here
+    if (!rocksdb_->put(key, value)) {
+        span.setStatus(false, "RocksDB put failed");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       "Failed to write key: " + key);
+    }
+
     span.setStatus(true);
     return OkVoid();
 }
@@ -292,8 +311,12 @@ Result<std::string> StorageEngine::get(const std::string& key) {
                                 "Storage engine not open");
     }
     
-    // Real implementation would read from RocksDB here
-    // For now, return key not found
+    std::string out;
+    if (rocksdb_->get(key, out)) {
+        span.setStatus(true);
+        return Ok(std::move(out));
+    }
+
     span.setStatus(false, "Key not found");
     return Err<std::string>(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,
                             fmt::format("Key '{}' not found", key));
@@ -309,8 +332,40 @@ Result<void> StorageEngine::del(const std::string& key) {
                        "Storage engine not open");
     }
     
-    // Real implementation would delete from RocksDB here
+    if (!rocksdb_->del(key)) {
+        span.setStatus(false, "RocksDB del failed");
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
+                       "Failed to delete key: " + key);
+    }
+
     span.setStatus(true);
+    return OkVoid();
+}
+
+Result<void> StorageEngine::scanRange(
+    std::string_view start_key,
+    std::string_view end_key,
+    std::function<bool(std::string_view, std::string_view)> callback)
+{
+    if (!is_open_) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
+    }
+
+    rocksdb_->scanRange(start_key, end_key, std::move(callback));
+    return OkVoid();
+}
+
+Result<void> StorageEngine::scanPrefix(
+    std::string_view prefix,
+    std::function<bool(std::string_view, std::string_view)> callback)
+{
+    if (!is_open_) {
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "Storage engine not open");
+    }
+
+    rocksdb_->scanPrefix(prefix, std::move(callback));
     return OkVoid();
 }
 

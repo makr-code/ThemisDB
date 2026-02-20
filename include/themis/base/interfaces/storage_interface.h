@@ -1,7 +1,9 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 #include <optional>
 #include "utils/expected.h"
@@ -60,6 +62,51 @@ public:
      * @return Result<void> - success or error with details
      */
     virtual Result<void> del(const std::string& key) = 0;
+
+    /**
+     * @brief Scan a key range [start_key, end_key).
+     *
+     * Iterates all keys in sorted order within the range and calls
+     * @p callback for each key-value pair.  Iteration stops when
+     * @p callback returns false or the end of the range is reached.
+     *
+     * The default implementation returns ERR_STORAGE_NOT_IMPLEMENTED.
+     * Concrete engines that support range scans should override this.
+     *
+     * @param start_key  Inclusive lower bound (empty = beginning of keyspace).
+     * @param end_key    Exclusive upper bound (empty = end of keyspace).
+     * @param callback   Called for each key-value pair; return false to stop.
+     * @return Result<void> – ok on success, error on failure.
+     */
+    virtual Result<void> scanRange(
+        std::string_view start_key,
+        std::string_view end_key,
+        std::function<bool(std::string_view key, std::string_view value)> callback)
+    {
+        (void)start_key; (void)end_key; (void)callback;
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "scanRange not implemented");
+    }
+
+    /**
+     * @brief Scan all keys with a given prefix.
+     *
+     * Iterates all keys whose byte representation starts with @p prefix
+     * and calls @p callback for each.  Iteration stops when @p callback
+     * returns false or no more matching keys exist.
+     *
+     * @param prefix    Key prefix to match.
+     * @param callback  Called for each key-value pair; return false to stop.
+     * @return Result<void> – ok on success, error on failure.
+     */
+    virtual Result<void> scanPrefix(
+        std::string_view prefix,
+        std::function<bool(std::string_view key, std::string_view value)> callback)
+    {
+        (void)prefix; (void)callback;
+        return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
+                       "scanPrefix not implemented");
+    }
 };
 
 /// Shared pointer type for IStorageEngine

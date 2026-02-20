@@ -4,8 +4,11 @@
 #include "themis/base/interfaces/query_interface.h"
 #include "themis/base/interfaces/security_interface.h"
 #include "themis/base/interfaces/index_interface.h"
+#include "storage/rocksdb_wrapper.h"
+#include <functional>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <optional>
 
 namespace themis {
@@ -58,7 +61,32 @@ public:
     Result<void> put(const std::string& key, const std::string& value) override;
     Result<std::string> get(const std::string& key) override;
     Result<void> del(const std::string& key) override;
-    
+
+    /**
+     * @brief Scan a key range [start_key, end_key) in sorted order.
+     *
+     * Iterates all keys ≥ start_key and < end_key (pass empty strings for
+     * open-ended bounds) and calls @p callback for each key-value pair.
+     * Returning false from the callback stops iteration early.
+     *
+     * @return Result<void> – ok on success, error on failure.
+     */
+    Result<void> scanRange(
+        std::string_view start_key,
+        std::string_view end_key,
+        std::function<bool(std::string_view key, std::string_view value)> callback
+    ) override;
+
+    /**
+     * @brief Scan all keys with a given prefix.
+     *
+     * @return Result<void> – ok on success, error on failure.
+     */
+    Result<void> scanPrefix(
+        std::string_view prefix,
+        std::function<bool(std::string_view key, std::string_view value)> callback
+    ) override;
+
     /**
      * @brief Apply a filter expression to stored data
      * 
@@ -107,6 +135,10 @@ public:
     static IKeyProviderPtr createDefaultKeyProvider();
     static IIndexManagerPtr createDefaultIndexManager();
 
+    /** Expose the underlying RocksDB wrapper (for advanced operations). */
+    RocksDBWrapper* rawDB() { return rocksdb_.get(); }
+    const RocksDBWrapper* rawDB() const { return rocksdb_.get(); }
+
 private:
     // Injected dependencies (interfaces, not concrete implementations)
     IExpressionEvaluatorPtr evaluator_;
@@ -114,6 +146,9 @@ private:
     IKeyProviderPtr key_provider_;
     IIndexManagerPtr index_manager_;
     
+    // Underlying RocksDB storage
+    std::shared_ptr<RocksDBWrapper> rocksdb_;
+
     // Internal storage state
     std::string db_path_;
     bool is_open_ = false;
