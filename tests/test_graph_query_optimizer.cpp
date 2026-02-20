@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "graph/graph_query_optimizer.h"
+#include "graph/path_constraints.h"
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
@@ -498,5 +499,93 @@ TEST_F(GraphQueryOptimizerTest, Metrics_AvgExecutionTime_AfterQueries) {
     EXPECT_EQ(optimizer_->getQueryMetrics().errorRate(), 0.0);
     // avg execution time should be a non-negative finite value
     EXPECT_GE(optimizer_->getQueryMetrics().avgExecutionTimeMs(), 0.0);
+}
+
+// ============================================================================
+// Graph-Specific Error Codes Tests (Phase 2.1)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, BFS_ValidStartVertex_ReturnsResults) {
+    // A well-known present vertex should return a non-empty result.
+    auto result = optimizer_->executeBFS("A", 2, {});
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(result.value().empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, GraphErrorCode_ERR_GRAPH_NO_SUCH_VERTEX_Value) {
+    // Verify the numeric value of the new error code so callers can rely on it.
+    EXPECT_EQ(static_cast<int>(themis::errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX), 6400);
+}
+
+TEST_F(GraphQueryOptimizerTest, GraphErrorCode_ERR_GRAPH_PATH_NOT_FOUND_Value) {
+    EXPECT_EQ(static_cast<int>(themis::errors::ErrorCode::ERR_GRAPH_PATH_NOT_FOUND), 6403);
+}
+
+TEST_F(GraphQueryOptimizerTest, GraphErrorCode_ERR_GRAPH_CONSTRAINT_CONFLICT_Value) {
+    EXPECT_EQ(static_cast<int>(themis::errors::ErrorCode::ERR_GRAPH_CONSTRAINT_CONFLICT), 6402);
+}
+
+// ============================================================================
+// explainConstrainedPath() Dry-Run Tests (Phase 2.2)
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_ReturnsPlan) {
+    themis::graph::PathConstraints constraints(graph_mgr_.get());
+    constraints.addMinLength(1);
+    constraints.addMaxLength(5);
+
+    auto result = optimizer_->explainConstrainedPath("A", "D", constraints);
+    ASSERT_TRUE(result);
+
+    const auto& plan = result.value();
+    EXPECT_GT(plan.estimated_cost, 0.0);
+    EXPECT_FALSE(plan.explanation.empty());
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_ContainsConstraintInfo) {
+    themis::graph::PathConstraints constraints(graph_mgr_.get());
+    constraints.addMinLength(2);
+    constraints.addMaxLength(4);
+    constraints.addForbiddenNode("X");
+
+    auto result = optimizer_->explainConstrainedPath("A", "D", constraints);
+    ASSERT_TRUE(result);
+
+    // The explanation should mention the constraint count
+    const auto& explanation = result.value().explanation;
+    EXPECT_NE(explanation.find("Constraints"), std::string::npos);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_DoesNotIncrementQueryCounter) {
+    // explainConstrainedPath is a dry-run: it must NOT count as an executed query
+    uint64_t before = optimizer_->getQueryMetrics().total_queries.load();
+
+    themis::graph::PathConstraints constraints(graph_mgr_.get());
+    optimizer_->explainConstrainedPath("A", "D", constraints);
+
+    uint64_t after = optimizer_->getQueryMetrics().total_queries.load();
+    EXPECT_EQ(before, after);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_AlgorithmSelected) {
+    // With min_length = 6, DFS should be selected
+    themis::graph::PathConstraints constraints(graph_mgr_.get());
+    constraints.addMinLength(6);
+
+    auto result = optimizer_->explainConstrainedPath("A", "D", constraints);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().algorithm,
+              themis::graph::GraphQueryOptimizer::TraversalAlgorithm::DFS);
+}
+
+TEST_F(GraphQueryOptimizerTest, ExplainConstrainedPath_BFSForRequiredNode) {
+    // With a required node, BFS should be selected
+    themis::graph::PathConstraints constraints(graph_mgr_.get());
+    constraints.addRequiredNode("B");
+
+    auto result = optimizer_->explainConstrainedPath("A", "D", constraints);
+    ASSERT_TRUE(result);
+    EXPECT_EQ(result.value().algorithm,
+              themis::graph::GraphQueryOptimizer::TraversalAlgorithm::BFS);
 }
 

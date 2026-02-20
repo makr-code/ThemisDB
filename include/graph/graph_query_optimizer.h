@@ -330,6 +330,29 @@ public:
         const class PathConstraints& constraints
     );
 
+    /**
+     * @brief Dry-run explain for a constrained path query (no execution).
+     *
+     * Identical to `optimizeConstrainedPath` but guaranteed to never execute a
+     * traversal. Use this to inspect the chosen algorithm, cost estimate, and
+     * constraint summary before committing to actual graph traversal.
+     *
+     * The returned plan's `explanation` field includes:
+     * - Selected algorithm and reason
+     * - Active constraint count and types
+     * - Estimated cost and time in milliseconds
+     *
+     * @param start_vertex Starting node
+     * @param end_vertex   Target node
+     * @param constraints  PathConstraints with all constraint specifications
+     * @return OptimizationPlan that can be inspected via `explainPlan()`
+     */
+    Result<OptimizationPlan> explainConstrainedPath(
+        std::string_view start_vertex,
+        std::string_view end_vertex,
+        const class PathConstraints& constraints
+    );
+
 private:
     GraphIndexManager& graph_manager_;
     GraphStatistics statistics_;

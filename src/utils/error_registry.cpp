@@ -1399,6 +1399,85 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/security/injection_prevention.md"},
         {"security", "injection", "sql", "aql", "validation", "attack"}
     });
+
+    // Graph Errors (6400-6499)
+    registerError({
+        ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+        "Graph",
+        "Error",
+        "Vertex not found: {}",
+        "The referenced vertex does not exist in the graph.",
+        "1. Verify the vertex ID is correct\n"
+        "2. Ensure the vertex was added before querying\n"
+        "3. Check for typos in the vertex identifier",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "vertex", "not found", "missing"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_NO_SUCH_EDGE,
+        "Graph",
+        "Error",
+        "Edge not found: {}",
+        "The referenced edge does not exist in the graph.",
+        "1. Verify the edge ID is correct\n"
+        "2. Ensure the edge was added before querying\n"
+        "3. Check for typos in the edge identifier",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "edge", "not found", "missing"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_CONSTRAINT_CONFLICT,
+        "Graph",
+        "Error",
+        "Contradictory path constraints: {}",
+        "The path constraints are contradictory and cannot be satisfied simultaneously.",
+        "1. Review path constraints for conflicting requirements\n"
+        "2. Ensure a node/edge is not both required and forbidden\n"
+        "3. Check that min_length <= max_length",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "constraint", "conflict", "path", "contradictory"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_PATH_NOT_FOUND,
+        "Graph",
+        "Error",
+        "No path found from '{}' to '{}'",
+        "No path satisfying all constraints exists between the given vertices.",
+        "1. Verify the graph is connected between the start and end vertices\n"
+        "2. Relax path constraints (increase max_length, remove forbidden nodes)\n"
+        "3. Check if there are any isolated subgraphs",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "path", "not found", "unreachable", "disconnected"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_CYCLE_DETECTED,
+        "Graph",
+        "Error",
+        "Cycle detected at vertex: {}",
+        "A cycle was encountered during a traversal that requires an acyclic path.",
+        "1. Remove the acyclic constraint if cycles are acceptable\n"
+        "2. Use UNIQUE_NODES constraint to avoid revisiting vertices\n"
+        "3. Pre-check the graph for cycles before running acyclic traversals",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "cycle", "acyclic", "path", "loop"}
+    });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_DEPTH_EXCEEDED,
+        "Graph",
+        "Warning",
+        "Query depth exceeded limit of {}",
+        "The graph traversal exceeded the configured maximum depth limit.",
+        "1. Increase the max_depth constraint if deeper traversal is needed\n"
+        "2. Use a more targeted query starting closer to the target vertex\n"
+        "3. Consider using an index for faster traversal",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "depth", "limit", "traversal", "exceeded"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {

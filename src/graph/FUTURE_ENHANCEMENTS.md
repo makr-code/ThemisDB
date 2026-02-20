@@ -597,6 +597,40 @@ forwarded to an OpenTelemetry collector:
 
 See `docs/graph_roadmap.md` for the full observability checklist.
 
+### Graph-Specific Structured Error Codes ✅ DONE
+
+Six dedicated error codes added to `errors::ErrorCode` in range **6400-6499**,
+each registered with full metadata (category, severity, solution, keywords):
+
+| Code | Constant                        | Meaning                                         |
+|------|---------------------------------|-------------------------------------------------|
+| 6400 | `ERR_GRAPH_NO_SUCH_VERTEX`      | Vertex not found in graph                       |
+| 6401 | `ERR_GRAPH_NO_SUCH_EDGE`        | Edge not found in graph                         |
+| 6402 | `ERR_GRAPH_CONSTRAINT_CONFLICT` | Contradictory path constraints                  |
+| 6403 | `ERR_GRAPH_PATH_NOT_FOUND`      | No path satisfies constraints                   |
+| 6404 | `ERR_GRAPH_CYCLE_DETECTED`      | Cycle in acyclic-required traversal             |
+| 6405 | `ERR_GRAPH_DEPTH_EXCEEDED`      | Traversal depth limit exceeded                  |
+
+`executeBFS`/`executeDFS` now return `ERR_GRAPH_NO_SUCH_VERTEX` instead of the
+generic `ERR_QUERY_EXECUTION_FAILED` for unknown vertex lookups.
+
+### Explain / Dry-Run Query API ✅ DONE
+
+`GraphQueryOptimizer::explainConstrainedPath()` – returns an `OptimizationPlan`
+without executing any traversal, enabling callers to inspect the chosen algorithm,
+cost estimate, and constraint summary before committing to actual graph traversal.
+Does **not** increment `getQueryMetrics().total_queries`.
+
+```cpp
+themis::graph::PathConstraints constraints(&graph_mgr);
+constraints.addRequiredNode("checkpoint");
+constraints.addMaxLength(6);
+
+// Inspect the plan without touching the graph
+auto plan = optimizer.explainConstrainedPath("start", "end", constraints);
+std::cout << optimizer.explainPlan(plan.value()); // algorithm, cost, constraints
+```
+
 ---
 
 ## Community Requests

@@ -78,28 +78,51 @@ const auto& m = optimizer.getQueryMetrics();
 
 ## Phase 2: Structured Errors & API Contract
 
-**Status:** 📋 Planned  
+**Status:** ✅ Partially Complete (2.1 + 2.2 done)  
 **Target Version:** v1.7.0
 
-### 2.1 Graph-Specific Error Codes
+### 2.1 Graph-Specific Error Codes ✅ DONE
 
-Extend `errors::ErrorCode` in `include/utils/error_registry.h` with dedicated
-graph error codes, e.g.:
+`errors::ErrorCode` in `include/utils/error_registry.h` extended with dedicated
+graph error codes in range **6400-6499** (6200-6299 was already reserved for API errors):
 
-| Code  | Constant                        | Description                            |
-|-------|---------------------------------|----------------------------------------|
-| 6200  | `ERR_GRAPH_NO_SUCH_VERTEX`      | Referenced vertex does not exist       |
-| 6201  | `ERR_GRAPH_NO_SUCH_EDGE`        | Referenced edge does not exist         |
-| 6202  | `ERR_GRAPH_CONSTRAINT_CONFLICT` | Contradictory path constraints         |
-| 6203  | `ERR_GRAPH_PATH_NOT_FOUND`      | No path satisfies all constraints      |
-| 6204  | `ERR_GRAPH_CYCLE_DETECTED`      | Cycle in acyclic-required traversal    |
-| 6205  | `ERR_GRAPH_DEPTH_EXCEEDED`      | Query depth exceeded configured limit  |
+| Code | Constant                        | Description                                     |
+|------|---------------------------------|-------------------------------------------------|
+| 6400 | `ERR_GRAPH_NO_SUCH_VERTEX`      | Referenced vertex does not exist in the graph   |
+| 6401 | `ERR_GRAPH_NO_SUCH_EDGE`        | Referenced edge does not exist in the graph     |
+| 6402 | `ERR_GRAPH_CONSTRAINT_CONFLICT` | Contradictory path constraints                  |
+| 6403 | `ERR_GRAPH_PATH_NOT_FOUND`      | No path satisfies all constraints               |
+| 6404 | `ERR_GRAPH_CYCLE_DETECTED`      | Cycle encountered in acyclic-required traversal |
+| 6405 | `ERR_GRAPH_DEPTH_EXCEEDED`      | Query depth exceeded configured limit           |
 
-### 2.2 Explain / Dry-Run Query API
+All codes are registered with full `ErrorMetadata` (category, severity, message template,
+solution steps, keywords) in `src/utils/error_registry.cpp`.
 
-Add `explainConstrainedPath()` that returns an `OptimizationPlan` without
-executing the traversal, enabling query introspection before committing to
-execution costs.
+`executeBFS` and `executeDFS` now return `ERR_GRAPH_NO_SUCH_VERTEX` (instead of the
+generic `ERR_QUERY_EXECUTION_FAILED`) when a vertex's adjacency cannot be retrieved.
+
+### 2.2 Explain / Dry-Run Query API ✅ DONE
+
+`explainConstrainedPath()` added to `GraphQueryOptimizer`. It returns an
+`OptimizationPlan` without executing any traversal, enabling query introspection
+before committing to actual graph traversal:
+
+```cpp
+themis::graph::PathConstraints constraints(&graph_mgr);
+constraints.addMinLength(2);
+constraints.addMaxLength(6);
+constraints.addRequiredNode("checkpoint");
+
+// Dry-run: no traversal, no graph I/O
+auto plan = optimizer.explainConstrainedPath("start", "end", constraints);
+if (plan) {
+    std::cout << optimizer.explainPlan(plan.value()); // prints algorithm choice, cost, etc.
+    // Then decide whether to actually execute:
+    auto result = constraints.findConstrainedPaths("start", "end", 5);
+}
+```
+
+Note: `explainConstrainedPath()` does **not** increment `getQueryMetrics().total_queries`.
 
 ### 2.3 OpenAPI / Admin Endpoint
 
@@ -193,29 +216,32 @@ execution statistics and continuously improve algorithm selection.
 | `timeout_ms` in `QueryConstraints`  | ✅ Done  | graph module |
 | `GraphQueryMetrics` counters        | ✅ Done  | graph module |
 | Prometheus metric names defined     | ✅ Done  | this doc     |
+| Graph-specific error codes 6400+    | ✅ Done  | graph module |
+| `explainConstrainedPath()` dry-run  | ✅ Done  | graph module |
 | OTel span export in traversal loops | 📋 TODO  | observability|
 | Heatmap: nodes-explored per query   | 📋 TODO  | observability|
 | Alerting rule: error_rate > 5%      | 📋 TODO  | ops          |
 | Alerting rule: p99 latency > SLO    | 📋 TODO  | ops          |
 | Admin API `/api/v1/graph/metrics`   | 📋 TODO  | server       |
-| Graph-specific structured errors    | 📋 TODO  | graph module |
 
 ---
 
 ## Test Matrix
 
-| Area                          | Tests                              | Status      |
-|-------------------------------|------------------------------------|-------------|
-| Basic BFS/DFS correctness     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Timeout / SLO enforcement     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Aggregate metrics              | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
-| Path constraint validation    | `test_graph_advanced_features.cpp` | ✅ Exists   |
-| Constrained path finding      | `test_path_constraints_direct.cpp` | ✅ Exists   |
-| AQL integration               | `test_aql_path_constraints.cpp`    | ✅ Exists   |
-| Parallel BFS                  | (planned for Phase 3)              | 📋 TODO     |
-| Distributed traversal         | (planned for Phase 4)              | 📋 TODO     |
-| Property-based constraints    | (planned for Phase 5)              | 📋 TODO     |
-| Chaos / fuzz tests            | (planned)                          | 📋 TODO     |
+| Area                              | Tests                              | Status      |
+|-----------------------------------|------------------------------------|-------------|
+| Basic BFS/DFS correctness         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Timeout / SLO enforcement         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Aggregate metrics                 | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Graph error code values (6400+)   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| `explainConstrainedPath()` dry-run| `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Path constraint validation        | `test_graph_advanced_features.cpp` | ✅ Exists   |
+| Constrained path finding          | `test_path_constraints_direct.cpp` | ✅ Exists   |
+| AQL integration                   | `test_aql_path_constraints.cpp`    | ✅ Exists   |
+| Parallel BFS                      | (planned for Phase 3)              | 📋 TODO     |
+| Distributed traversal             | (planned for Phase 4)              | 📋 TODO     |
+| Property-based constraints        | (planned for Phase 5)              | 📋 TODO     |
+| Chaos / fuzz tests                | (planned)                          | 📋 TODO     |
 
 ---
 
@@ -226,8 +252,9 @@ The graph module must pass the following CI checks before merging:
 1. **Build** – `cmake --build` with `-DBUILD_TESTS=ON`
 2. **Unit tests** – all `test_graph_*.cpp` and `test_path_constraints*.cpp` suites pass
 3. **No new lint warnings** – `.clang-tidy` clean on changed files
-4. **Structured error propagation** – `ERR_QUERY_TIMEOUT` returned on exceeding `timeout_ms`
+4. **Structured error propagation** – `ERR_QUERY_TIMEOUT` returned on exceeding `timeout_ms`; `ERR_GRAPH_NO_SUCH_VERTEX` (6400) returned for unknown vertices
 5. **Metrics non-zero** – `total_queries` counter incremented after each execution
+6. **Dry-run API** – `explainConstrainedPath()` returns a plan without incrementing `total_queries`
 
 ---
 

@@ -293,6 +293,16 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeConst
     return Ok(plan);
 }
 
+Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::explainConstrainedPath(
+    std::string_view start_vertex,
+    std::string_view end_vertex,
+    const PathConstraints& constraints) {
+    // Pure dry-run: delegate to optimizeConstrainedPath which performs no traversal.
+    // The method is intentionally a thin wrapper so callers can use a distinct API
+    // that makes the "no execution" guarantee clear.
+    return optimizeConstrainedPath(start_vertex, end_vertex, constraints);
+}
+
 Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     std::string_view start_vertex,
     int max_depth,
@@ -341,8 +351,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         auto [status, neighbors] = graph_manager_.outNeighbors(current);
         if (!status.ok) {
             return Err<std::vector<std::string>>(
-                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                "Failed to get neighbors: " + status.message
+                errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                current
             );
         }
         
@@ -445,8 +455,8 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         auto [status, neighbors] = graph_manager_.outNeighbors(current);
         if (!status.ok) {
             return Err<std::vector<std::string>>(
-                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                "Failed to get neighbors: " + status.message
+                errors::ErrorCode::ERR_GRAPH_NO_SUCH_VERTEX,
+                current
             );
         }
         

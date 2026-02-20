@@ -120,6 +120,14 @@ enum class ErrorCode {
     ERR_PLUGIN_LOAD_FAILED = 6301,
     ERR_PLUGIN_INCOMPATIBLE = 6302,
     ERR_PLUGIN_INVALID_SIGNATURE = 6303,
+
+    // Graph Errors (6400-6499)
+    ERR_GRAPH_NO_SUCH_VERTEX = 6400,    // Referenced vertex does not exist in the graph
+    ERR_GRAPH_NO_SUCH_EDGE = 6401,      // Referenced edge does not exist in the graph
+    ERR_GRAPH_CONSTRAINT_CONFLICT = 6402, // Contradictory path constraints (e.g. node both required and forbidden)
+    ERR_GRAPH_PATH_NOT_FOUND = 6403,    // No path satisfies all constraints
+    ERR_GRAPH_CYCLE_DETECTED = 6404,    // Cycle encountered in acyclic-required traversal
+    ERR_GRAPH_DEPTH_EXCEEDED = 6405,    // Query depth exceeded the configured limit
     
     // Compression Errors (7000-7099)
     ERR_COMPRESSION_FAILED = 7000,
