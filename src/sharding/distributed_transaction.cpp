@@ -28,6 +28,8 @@
 
 #include "sharding/distributed_transaction.h"
 #include "sharding/shard_rpc_client.h"
+#include "sharding/metrics_registry.h"
+#include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
 #include <random>
 #include <sstream>
@@ -35,8 +37,14 @@
 #include <algorithm>
 #include <set>
 #include <map>
+#include <chrono>
 
 namespace themis::sharding {
+
+// Helper: return the configured coordinator ID, falling back to "default"
+static inline std::string coordinatorLabel(const DistributedTransactionCoordinator::Config& cfg) {
+    return cfg.coordinator_id.empty() ? "default" : cfg.coordinator_id;
+}
 
 DistributedTransactionCoordinator::DistributedTransactionCoordinator(
     std::shared_ptr<TrueTime> truetime,
@@ -128,11 +136,20 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         return false;
     }
     
+    const std::string coordinator_id = coordinatorLabel(config_);
+    
     // Phase 1: Prepare
     txn.state = TransactionState::PREPARING;
     lock.unlock();
     
+    auto prepare_start = std::chrono::steady_clock::now();
     bool prepared = preparePhase(txn);
+    auto prepare_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - prepare_start).count();
+    
+    if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+        m->record2PCPreparePhase(coordinator_id, prepare_ms, prepared);
+    }
     
     lock.lock();
     if (!prepared) {
@@ -152,6 +169,11 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         lock.lock();
         txn.state = TransactionState::ABORTED;
         aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+
+        if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+            m->record2PCAbort(coordinator_id, "prepare_phase_failed");
+            m->record2PCTransaction(coordinator_id, false);
+        }
         return false;
     }
     
@@ -176,7 +198,15 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
     txn.state = TransactionState::COMMITTING;
     lock.unlock();
     
+    auto commit_start = std::chrono::steady_clock::now();
     bool committed = retryCommitPhase(txn);
+    auto commit_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - commit_start).count();
+    
+    if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+        m->record2PCCommitPhase(coordinator_id, commit_ms, committed);
+        m->record2PCTransaction(coordinator_id, committed);
+    }
     
     lock.lock();
     if (committed) {
@@ -194,6 +224,10 @@ bool DistributedTransactionCoordinator::commit(const std::string& txn_id) {
         
         THEMIS_ERROR("Transaction {} commit failed after {} retries", 
                     txn_id, txn.commit_retry_count);
+        
+        if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+            m->record2PCAbort(coordinator_id, "commit_phase_failed_after_retries");
+        }
     }
     
     return committed;
@@ -217,6 +251,12 @@ bool DistributedTransactionCoordinator::abort(const std::string& txn_id) {
     
     txn.state = TransactionState::ABORTED;
     aborted_transactions_.fetch_add(1, std::memory_order_relaxed);
+    
+    const std::string coordinator_id = coordinatorLabel(config_);
+    if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+        m->record2PCAbort(coordinator_id, "explicit_abort");
+        m->record2PCTransaction(coordinator_id, false);
+    }
     
     return true;
 }

@@ -4,6 +4,8 @@
 // Two-Phase Commit (2PC) Participant – shard-side handler
 
 #include "sharding/two_phase_commit_participant.h"
+#include "sharding/metrics_registry.h"
+#include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
 #include <chrono>
 #include <stdexcept>
@@ -41,6 +43,7 @@ bool TwoPhaseCommitParticipant::onPrepare(
     const std::string& coordinator_shard_id,
     const std::string& transaction_data
 ) {
+    const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 
     // Idempotency: if we have already prepared (or decided), return stored vote
@@ -102,12 +105,20 @@ bool TwoPhaseCommitParticipant::onPrepare(
 
     total_prepares_.fetch_add(1, std::memory_order_relaxed);
 
+    // Record Prometheus participant response latency
+    const double latency_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - t0).count();
+    if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+        m->record2PCParticipantResponse(shard_id_, "prepare", latency_ms);
+    }
+
     THEMIS_DEBUG("2PC participant [{}] PREPARE {} – vote={}",
                  shard_id_, transaction_id, vote ? "COMMIT" : "ABORT");
     return vote;
 }
 
 bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
+    const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = transactions_.find(transaction_id);
@@ -169,11 +180,19 @@ bool TwoPhaseCommitParticipant::onCommit(const std::string& transaction_id) {
 
     total_commits_.fetch_add(1, std::memory_order_relaxed);
 
+    // Record Prometheus participant response latency
+    const double latency_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - t0).count();
+    if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+        m->record2PCParticipantResponse(shard_id_, "commit", latency_ms);
+    }
+
     THEMIS_DEBUG("2PC participant [{}] COMMIT {} applied successfully", shard_id_, transaction_id);
     return true;
 }
 
 bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
+    const auto t0 = std::chrono::steady_clock::now();
     std::lock_guard<std::mutex> lock(mutex_);
 
     auto it = transactions_.find(transaction_id);
@@ -220,6 +239,13 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
     });
 
     total_aborts_.fetch_add(1, std::memory_order_relaxed);
+
+    // Record Prometheus participant response latency
+    const double latency_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - t0).count();
+    if (auto m = ShardingMetricsRegistry::instance().getMetrics()) {
+        m->record2PCParticipantResponse(shard_id_, "abort", latency_ms);
+    }
 
     THEMIS_DEBUG("2PC participant [{}] ABORT {} completed", shard_id_, transaction_id);
     return true;

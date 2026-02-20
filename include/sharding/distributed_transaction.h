@@ -85,6 +85,7 @@ public:
         uint64_t retry_backoff_base_ms = 100;  // Base delay for exponential backoff
         uint64_t max_backoff_ms = 5000;        // Maximum backoff delay
         bool enable_recovery_log = true;       // Enable transaction recovery logging
+        std::string coordinator_id;            // Identifier for Prometheus labels (default: "default")
     };
     
     /**
