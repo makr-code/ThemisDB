@@ -21,9 +21,9 @@
 - ✅ Admin API and operational tooling (Complete)
 - ✅ Cache warmup with bulk operations (Complete)
 - ✅ Tenant management API (Complete)
+- ✅ Adaptive TTL tuning (Complete)
 - ⏳ PII redaction policies
 - ⏳ Encryption at rest
-- ⏳ Adaptive TTL tuning
 
 ## Current Assessment
 

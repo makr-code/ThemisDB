@@ -32,6 +32,7 @@ Caching implementations for ThemisDB.
   - Cache warmup with bulk operations
   - Tenant management API
   - Health checks and diagnostics
+  - Adaptive TTL tuning based on access patterns
 
 ## Phase 1 Production-Readiness Improvements
 
@@ -186,6 +187,43 @@ auto keys = cache.exportKeys(100);
 for (const auto& key : keys) {
     std::cout << key << std::endl;
 }
+```
+
+### Adaptive TTL Tuning
+
+Automatically adjusts TTL based on entry access patterns using logarithmic scaling:
+
+```cpp
+config.enable_adaptive_ttl = true;
+config.adaptive_ttl_min_seconds = 60;     // 1 minute minimum
+config.adaptive_ttl_max_seconds = 86400;  // 24 hours maximum
+config.adaptive_ttl_scaling_factor = 5.0; // Growth rate
+```
+
+**Algorithm:**
+- Formula: `adaptive_ttl = base_ttl * (1 + log(access_count + 1) / scaling_factor)`
+- Bounds: Clamped to `[min_ttl, max_ttl]`
+- New entries start at min TTL
+- Each cache hit increments access_count and recalculates TTL
+- Logarithmic scaling provides diminishing returns
+
+**Benefits:**
+- Popular queries stay cached longer automatically
+- Unpopular queries expire quickly to free space
+- No manual tuning required
+- Reduces cache churn and database load
+
+**Example TTL Growth:**
+```
+Access Count |  TTL (min=60s, factor=5.0)
+-------------|---------------------------
+     0       |  60s  (minimum)
+     1       |  68s
+     5       |  82s
+    10       |  89s
+    50       | 108s
+  1000       | 143s
+Max bounded  | 86400s (24 hours)
 ```
 
 ## Testing
