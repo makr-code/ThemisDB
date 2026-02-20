@@ -8,9 +8,90 @@
 #include <future>
 #include <chrono>
 #include <sstream>
+#include <iomanip>
+#include <random>
 
 namespace themis {
 namespace ingestion {
+
+// ============================================================================
+// Correlation ID generator (thread-safe, no external UUID lib)
+// ============================================================================
+namespace {
+static std::string generateCorrelationId() {
+    static std::atomic<uint64_t> counter{0};
+    auto ts = std::chrono::steady_clock::now().time_since_epoch().count();
+    auto seq = ++counter;
+    std::ostringstream ss;
+    ss << std::hex << std::setfill('0')
+       << std::setw(16) << static_cast<uint64_t>(ts)
+       << '-'
+       << std::setw(8) << (seq & 0xFFFFFFFF);
+    return ss.str();
+}
+
+/// Map SourceType to a short string label for Prometheus
+static std::string sourceTypeLabel(SourceType t) {
+    switch (t) {
+        case SourceType::HUGGINGFACE: return "HUGGINGFACE";
+        case SourceType::FILESYSTEM:  return "FILESYSTEM";
+        case SourceType::API:         return "API";
+        case SourceType::DATABASE:    return "DATABASE";
+        default:                      return "UNKNOWN";
+    }
+}
+
+/// Map IngestionErrorCode to its integer string for a metric label
+static std::string errorCodeLabel(IngestionErrorCode c) {
+    return std::to_string(static_cast<int>(c));
+}
+} // anonymous namespace
+
+// ============================================================================
+// Token-bucket rate limiter (simple, no external dep)
+// ============================================================================
+class TokenBucket {
+public:
+    explicit TokenBucket(double requests_per_second)
+        : rate_(requests_per_second)
+        , tokens_(requests_per_second > 0.0 ? requests_per_second : 0.0)
+        , last_refill_(std::chrono::steady_clock::now()) {}
+
+    /// Consume one token, blocking until available when rate > 0.
+    void consume() {
+        if (rate_ <= 0.0) return;  // unlimited
+
+        std::unique_lock<std::mutex> lock(mutex_);
+        refill();
+        while (tokens_ < 1.0) {
+            // Calculate wait duration until next token
+            double wait_secs = (1.0 - tokens_) / rate_;
+            auto wait = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::duration<double>(wait_secs));
+            lock.unlock();
+            std::this_thread::sleep_for(wait);
+            lock.lock();
+            refill();
+        }
+        tokens_ -= 1.0;
+    }
+
+    bool isEnabled() const { return rate_ > 0.0; }
+
+private:
+    void refill() {
+        auto now = std::chrono::steady_clock::now();
+        double elapsed =
+            std::chrono::duration<double>(now - last_refill_).count();
+        tokens_ = std::min(rate_, tokens_ + elapsed * rate_);
+        last_refill_ = now;
+    }
+
+    double rate_;
+    double tokens_;
+    std::chrono::steady_clock::time_point last_refill_;
+    std::mutex mutex_;
+};
 
 // ============================================================================
 // Pimpl implementation
@@ -44,6 +125,7 @@ public:
     IngestionStats ingestSource(const std::string& source_id,
                                ProgressCallback progress_callback) {
         IngestionStats stats;
+        stats.correlation_id = generateCorrelationId();
         auto start_time = std::chrono::steady_clock::now();
         
         // Find source configuration
@@ -65,6 +147,15 @@ public:
                            IngestionErrorSeverity::WARNING,
                            "Source disabled: " + source_id, source_id);
             return stats;
+        }
+
+        // Apply rate limiting (token bucket)
+        if (rate_limit_config_.enabled && rate_limit_config_.requests_per_second > 0.0) {
+            if (!token_bucket_) {
+                token_bucket_ = std::make_unique<TokenBucket>(
+                    rate_limit_config_.requests_per_second);
+            }
+            token_bucket_->consume();
         }
         
         // Create connector based on type
@@ -119,13 +210,14 @@ public:
             }
 
             if (dry_run_) {
-                // Dry-run: count documents only, no actual insertion
                 stats.documents_processed = connector->getDocumentCount();
                 stats.documents_failed    = 0;
             } else {
-                // Real ingestion
+                // Preserve the correlation_id assigned at the start of this run;
+                // ingest() returns a fresh IngestionStats that doesn't carry it.
+                const std::string corr_id = stats.correlation_id;
                 stats = connector->ingest(target_collection_, progress_callback);
-                // Quarantine items that failed after all retries
+                stats.correlation_id = corr_id;
                 quarantineFailures(stats, source_id);
             }
             
@@ -150,7 +242,6 @@ public:
         IngestionReport report;
         report.dry_run = dry_run_;
         
-        // Get all enabled sources sorted by priority
         std::vector<SourceConfig> enabled_sources;
         {
             std::lock_guard<std::mutex> lock(mutex_);
@@ -161,7 +252,6 @@ public:
             }
         }
         
-        // Sort by priority (higher first)
         std::sort(enabled_sources.begin(), enabled_sources.end(),
                  [](const SourceConfig& a, const SourceConfig& b) {
                      return a.priority > b.priority;
@@ -207,7 +297,6 @@ public:
             }
         }
 
-        // Attach current quarantine snapshot to the report
         {
             std::lock_guard<std::mutex> lock(mutex_);
             report.quarantine = quarantine_;
@@ -243,6 +332,12 @@ public:
     void setDryRun(bool enabled) { dry_run_ = enabled; }
     bool isDryRun() const { return dry_run_; }
 
+    void setRateLimitConfig(const RateLimitConfig& config) {
+        rate_limit_config_ = config;
+        // Reset bucket so it's rebuilt on next use
+        token_bucket_.reset();
+    }
+
     std::vector<QuarantineEntry> getQuarantineItems() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return quarantine_;
@@ -267,17 +362,12 @@ public:
     }
     
 private:
-    /// Move FATAL errors into the persistent quarantine list
     void quarantineFailures(const IngestionStats& stats,
                             const std::string& source_id) {
         for (const auto& err : stats.errors) {
             if (err.isFatal()) {
                 QuarantineEntry entry;
                 entry.source_id    = source_id;
-                // Use err.details as item path when available (usually contains the
-                // specific file path / URL that failed). Fall back to a descriptive
-                // placeholder rather than the bare source_id to avoid ambiguity when
-                // multiple items from the same source fail with no details.
                 entry.item_path    = err.details.empty()
                     ? ("unknown_item_from_" + source_id)
                     : err.details;
@@ -297,6 +387,8 @@ private:
     bool dry_run_;
     size_t max_threads_;
     RetryConfig retry_config_;
+    RateLimitConfig rate_limit_config_;
+    std::unique_ptr<TokenBucket> token_bucket_;
     std::unordered_map<std::string, SourceConfig> sources_;
     std::vector<QuarantineEntry> quarantine_;
     mutable std::mutex mutex_;
@@ -352,6 +444,10 @@ bool IngestionManager::isDryRun() const {
     return impl_->isDryRun();
 }
 
+void IngestionManager::setRateLimitConfig(const RateLimitConfig& config) {
+    impl_->setRateLimitConfig(config);
+}
+
 std::vector<QuarantineEntry> IngestionManager::getQuarantineItems() const {
     return impl_->getQuarantineItems();
 }
@@ -369,7 +465,6 @@ void IngestionManager::clearQuarantine() {
 // ============================================================================
 
 namespace {
-/// Escape label value for Prometheus exposition format
 static std::string promEscapeLabel(const std::string& s) {
     std::string out;
     out.reserve(s.size());
@@ -382,13 +477,28 @@ static std::string promEscapeLabel(const std::string& s) {
     return out;
 }
 
+/// Write a Prometheus metric line with multiple labels
+static void writeMetricMultiLabel(
+        std::ostream& os,
+        const std::string& name,
+        const std::vector<std::pair<std::string, std::string>>& labels,
+        double value) {
+    os << name << '{';
+    bool first = true;
+    for (const auto& [k, v] : labels) {
+        if (!first) os << ',';
+        os << k << "=\"" << promEscapeLabel(v) << '"';
+        first = false;
+    }
+    os << "} " << value << '\n';
+}
+
 static void writeMetric(std::ostream& os,
-                         const std::string& name,
-                         const std::string& label_key,
-                         const std::string& label_val,
-                         double value) {
-    os << name << '{' << label_key << "=\""
-       << promEscapeLabel(label_val) << "\"} " << value << '\n';
+                        const std::string& name,
+                        const std::string& label_key,
+                        const std::string& label_val,
+                        double value) {
+    writeMetricMultiLabel(os, name, {{label_key, label_val}}, value);
 }
 } // anonymous namespace
 
@@ -396,12 +506,12 @@ std::string IngestionMetricsExporter::exportText(
         const IngestionReport& report) const {
     std::ostringstream os;
 
-    // Per-source metrics
+    // Per-source metrics – use source_type from source_stats key if available
     for (const auto& [sid, stats] : report.source_stats) {
+        // source_type is not directly in IngestionStats, so we pass empty
         os << exportText(stats, sid);
     }
 
-    // Aggregate metrics
     const std::string agg_label = "source_id";
     const std::string agg_val   = "__all__";
 
@@ -438,61 +548,162 @@ std::string IngestionMetricsExporter::exportText(
 
 std::string IngestionMetricsExporter::exportText(
         const IngestionStats& stats,
-        const std::string& source_id) const {
+        const std::string& source_id,
+        const std::string& source_type) const {
     std::ostringstream os;
-    const std::string lk = "source_id";
 
-    os << "# HELP " << prefix_ << "_docs_processed_total "
-       << "Documents successfully processed\n"
-       << "# TYPE " << prefix_ << "_docs_processed_total counter\n";
-    writeMetric(os, prefix_ + "_docs_processed_total",
-                lk, source_id,
-                static_cast<double>(stats.documents_processed));
+    // Base labels always present; source_type added when non-empty
+    std::vector<std::pair<std::string,std::string>> base_labels = {
+        {"source_id", source_id}
+    };
+    if (!source_type.empty()) {
+        base_labels.push_back({"source_type", source_type});
+    }
 
-    os << "# HELP " << prefix_ << "_docs_failed_total "
-       << "Documents that failed to ingest\n"
-       << "# TYPE " << prefix_ << "_docs_failed_total counter\n";
-    writeMetric(os, prefix_ + "_docs_failed_total",
-                lk, source_id,
-                static_cast<double>(stats.documents_failed));
+    auto writeStat = [&](const std::string& suffix,
+                         const std::string& help,
+                         const std::string& type,
+                         double value) {
+        const std::string metric = prefix_ + suffix;
+        os << "# HELP " << metric << ' ' << help << '\n'
+           << "# TYPE " << metric << ' ' << type << '\n';
+        writeMetricMultiLabel(os, metric, base_labels, value);
+    };
 
-    os << "# HELP " << prefix_ << "_bytes_processed_total "
-       << "Bytes processed\n"
-       << "# TYPE " << prefix_ << "_bytes_processed_total counter\n";
-    writeMetric(os, prefix_ + "_bytes_processed_total",
-                lk, source_id,
-                static_cast<double>(stats.bytes_processed));
+    writeStat("_docs_processed_total",
+              "Documents successfully processed", "counter",
+              static_cast<double>(stats.documents_processed));
+    writeStat("_docs_failed_total",
+              "Documents that failed to ingest", "counter",
+              static_cast<double>(stats.documents_failed));
+    writeStat("_bytes_processed_total",
+              "Bytes processed", "counter",
+              static_cast<double>(stats.bytes_processed));
+    writeStat("_elapsed_seconds",
+              "Elapsed ingestion time in seconds", "gauge",
+              stats.elapsed_seconds);
+    writeStat("_retry_total",
+              "Total retried requests", "counter",
+              static_cast<double>(stats.metrics.retry_count));
+    writeStat("_errors_total",
+              "Total errors encountered", "counter",
+              static_cast<double>(stats.metrics.error_count));
+    writeStat("_throughput_docs_per_sec",
+              "Document throughput (docs/second)", "gauge",
+              stats.metrics.throughput_docs_per_sec);
 
-    os << "# HELP " << prefix_ << "_elapsed_seconds "
-       << "Elapsed ingestion time in seconds\n"
-       << "# TYPE " << prefix_ << "_elapsed_seconds gauge\n";
-    writeMetric(os, prefix_ + "_elapsed_seconds",
-                lk, source_id,
-                stats.elapsed_seconds);
+    // Per-error-code breakdown
+    if (!stats.errors.empty()) {
+        const std::string ec_metric = prefix_ + "_errors_by_code_total";
+        os << "# HELP " << ec_metric
+           << " Error count broken down by error_code\n"
+           << "# TYPE " << ec_metric << " counter\n";
 
-    os << "# HELP " << prefix_ << "_retry_total "
-       << "Total retried requests\n"
-       << "# TYPE " << prefix_ << "_retry_total counter\n";
-    writeMetric(os, prefix_ + "_retry_total",
-                lk, source_id,
-                static_cast<double>(stats.metrics.retry_count));
-
-    os << "# HELP " << prefix_ << "_errors_total "
-       << "Total errors encountered\n"
-       << "# TYPE " << prefix_ << "_errors_total counter\n";
-    writeMetric(os, prefix_ + "_errors_total",
-                lk, source_id,
-                static_cast<double>(stats.metrics.error_count));
-
-    os << "# HELP " << prefix_ << "_throughput_docs_per_sec "
-       << "Document throughput (docs/second)\n"
-       << "# TYPE " << prefix_ << "_throughput_docs_per_sec gauge\n";
-    writeMetric(os, prefix_ + "_throughput_docs_per_sec",
-                lk, source_id,
-                stats.metrics.throughput_docs_per_sec);
+        // Count occurrences per error code
+        std::unordered_map<int, size_t> code_counts;
+        for (const auto& err : stats.errors) {
+            code_counts[static_cast<int>(err.code)]++;
+        }
+        for (const auto& [code_int, cnt] : code_counts) {
+            auto labels = base_labels;
+            labels.push_back({"error_code", std::to_string(code_int)});
+            writeMetricMultiLabel(os, ec_metric, labels,
+                                  static_cast<double>(cnt));
+        }
+    }
 
     return os.str();
 }
 
+// ============================================================================
+// IngestionBuilder
+// ============================================================================
+
+IngestionBuilder::IngestionBuilder(const std::string& db_connection)
+    : opts_(std::make_unique<Opts>()) {
+    opts_->db_connection = db_connection;
+}
+
+IngestionBuilder::~IngestionBuilder() = default;
+IngestionBuilder::IngestionBuilder(IngestionBuilder&&) noexcept = default;
+IngestionBuilder& IngestionBuilder::operator=(IngestionBuilder&&) noexcept = default;
+
+IngestionBuilder& IngestionBuilder::withHuggingFaceSource(
+        const std::string& source_id,
+        const std::string& dataset,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::HUGGINGFACE;
+    cfg.location  = dataset;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withFilesystemSource(
+        const std::string& source_id,
+        const std::string& path,
+        std::unordered_map<std::string, std::string> options,
+        int priority) {
+    SourceConfig cfg;
+    cfg.source_id = source_id;
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = path;
+    cfg.options   = std::move(options);
+    cfg.priority  = priority;
+    cfg.enabled   = true;
+    opts_->sources.push_back(std::move(cfg));
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withRetryConfig(const RetryConfig& config) {
+    opts_->retry_config = config;
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withRateLimitConfig(const RateLimitConfig& config) {
+    opts_->rate_limit_config = config;
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withParallelProcessing(bool enabled,
+                                                            size_t max_threads) {
+    opts_->parallel_enabled = enabled;
+    opts_->max_threads      = max_threads;
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withTargetCollection(
+        const std::string& collection) {
+    opts_->target_collection = collection;
+    return *this;
+}
+
+IngestionBuilder& IngestionBuilder::withDryRun(bool enabled) {
+    opts_->dry_run = enabled;
+    return *this;
+}
+
+std::unique_ptr<IngestionManager> IngestionBuilder::build() {
+    auto mgr = std::make_unique<IngestionManager>(opts_->db_connection);
+
+    mgr->setRetryConfig(opts_->retry_config);
+    mgr->setRateLimitConfig(opts_->rate_limit_config);
+    mgr->setParallelProcessing(opts_->parallel_enabled, opts_->max_threads);
+    mgr->setTargetCollection(opts_->target_collection);
+    mgr->setDryRun(opts_->dry_run);
+
+    for (const auto& src : opts_->sources) {
+        mgr->registerSource(src);
+    }
+
+    return mgr;
+}
+
 } // namespace ingestion
 } // namespace themis
+

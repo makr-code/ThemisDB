@@ -31,13 +31,17 @@ ingestion.
 | `IngestionManager` – sequential | ✅ Working |
 | `IngestionManager` – parallel | ✅ Implemented (`std::async` wave scheduler) |
 | `IngestionManager` – dry-run mode | ✅ Implemented (`setDryRun()`) |
+| `IngestionManager` – rate limiting | ✅ Token-bucket (`RateLimitConfig`, `setRateLimitConfig()`) |
 | Structured error codes / severity | ✅ Implemented (`IngestionErrorCode`, `IngestionErrorSeverity`) |
+| Correlation IDs | ✅ Implemented (`IngestionStats::correlation_id`) |
 | Quarantine / Dead-Letter Queue | ✅ Basic in-memory quarantine (`QuarantineEntry`, `getQuarantineItems()`) |
 | Observability metrics | ✅ Basic counters in `IngestionMetrics` |
-| Prometheus text-format exporter | ✅ Implemented (`IngestionMetricsExporter`) |
+| Prometheus text-format exporter | ✅ Implemented (`IngestionMetricsExporter`, `source_type`+`error_code` labels) |
+| Grafana dashboard | ✅ `grafana/ingestion-dashboard.json` |
+| `IngestionBuilder` fluent API | ✅ Implemented |
 | Prometheus / OpenTelemetry push | Not yet integrated |
 | API / Database connector | Stub (not implemented) |
-| Admin / Operator API | Not yet implemented |
+| Admin HTTP Operator API | Not yet implemented |
 
 ---
 
@@ -59,8 +63,9 @@ taxonomy and basic observability.
 - [x] `IngestionErrorSeverity` (INFO, WARNING, ERROR, FATAL)
 - [x] `IngestionError` struct with `isRetryable()` predicate
 - [x] `IngestionStats::addError()` accumulates structured log + backward-compat field
-- [ ] Propagate error list to API / admin endpoint
-- [ ] Add correlation IDs for cross-component tracing
+- [x] `IngestionStats::correlation_id` – unique run ID for cross-component tracing
+- [ ] Propagate error list to Admin HTTP API endpoint
+- [ ] Add structured logging with correlation ID to spdlog
 
 ### 1.3 Real File Format Extraction (FileSystemIngester) ✅ PARTIAL
 - [x] Plain text (`.txt`) – real `std::ifstream` read
@@ -76,12 +81,12 @@ taxonomy and basic observability.
 ### 1.4 Prometheus / OpenTelemetry Hooks ✅ PARTIAL
 - [x] `IngestionMetricsExporter`: converts `IngestionReport` / `IngestionStats` to
   Prometheus text exposition format (no external dependency required)
-- [x] Labels: `source_id`
+- [x] Labels: `source_id`, `source_type` (optional third parameter), `error_code`
 - [x] Metrics: `docs_processed_total`, `docs_failed_total`, `bytes_processed_total`,
   `elapsed_seconds`, `retry_total`, `errors_total`, `throughput_docs_per_sec`,
-  `total_documents`, `total_failures`, `total_time_seconds`, `quarantine_size`
+  `total_documents`, `total_failures`, `total_time_seconds`, `quarantine_size`,
+  `errors_by_code_total` (per-error-code breakdown)
 - [ ] Push to prometheus-cpp registry (already a vcpkg dependency)
-- [ ] Labels: `source_type`, `error_code`
 
 ---
 
@@ -108,10 +113,13 @@ taxonomy and basic observability.
 - [ ] Persist quarantine to RocksDB across restarts
 - [ ] Admin HTTP API to list / retry / dismiss quarantine items
 
-### 2.4 Quota & Rate-Limit Guard
-- [ ] Per-source rate limit: max requests/second, max bytes/hour
-- [ ] Global quota: total memory / CPU reserved for ingestion workers
-- [ ] Emit `CONTENT_RATE_LIMIT_EXCEEDED` / `QUOTA_EXCEEDED` errors on breach
+### 2.4 Quota & Rate-Limit Guard ✅ PARTIAL
+- [x] `RateLimitConfig` struct: `requests_per_second`, `max_bytes_per_hour`, `enabled`
+- [x] Token-bucket rate limiter (`TokenBucket`) in `IngestionManager` with blocking
+  back-pressure
+- [x] `IngestionManager::setRateLimitConfig()` + `IngestionBuilder::withRateLimitConfig()`
+- [ ] Per-source independent buckets (currently global per-manager)
+- [ ] Emit `QUOTA_EXCEEDED` errors on `max_bytes_per_hour` breach
 
 ### 2.5 API & Database Connectors
 - [ ] `ApiConnector`: generic REST/GraphQL source with pagination cursor
@@ -128,10 +136,13 @@ taxonomy and basic observability.
 
 **Goal:** Operational excellence – dashboards, admin API, plug-in DX.
 
-### 3.1 Prometheus / Grafana Dashboard
-- [ ] Pre-built Grafana dashboard JSON for ingestion health
-- [ ] Panels: throughput, error rate, retry rate, active sources, queue depth
-- [ ] Alert rules: error spike, throughput drop, quota breach
+### 3.1 Prometheus / Grafana Dashboard ✅ DONE
+- [x] Pre-built Grafana dashboard JSON: `grafana/ingestion-dashboard.json`
+- [x] Panels: Overview stats (docs, failures, quarantine, retries, throughput),
+  throughput time-series, byte throughput, error rate, retry rate, error-by-code,
+  quarantine size over time, ingestion duration per source
+- [x] Template variable: `source_id` (multi-select) and `DS_PROMETHEUS` datasource
+- [ ] Alert rules: error spike, throughput drop, quota breach (requires Grafana Alerting)
 
 ### 3.2 Admin / Operator API
 - [ ] `GET /ingestion/sources` – list registered sources with status
@@ -151,9 +162,11 @@ taxonomy and basic observability.
 - [x] `IngestionReport::dry_run` flag set when run in dry-run mode
 - [ ] Source preview: return first N documents for inspection
 
-### 3.5 End-to-End Developer Experience
+### 3.5 End-to-End Developer Experience ✅ PARTIAL
+- [x] `IngestionBuilder` fluent API: `withHuggingFaceSource()`, `withFilesystemSource()`,
+  `withRetryConfig()`, `withRateLimitConfig()`, `withParallelProcessing()`,
+  `withTargetCollection()`, `withDryRun()`, `build()`
 - [ ] CLI command: `themis ingest --source hf:lexlms/ger_legal_data --dry-run`
-- [ ] SDK helper: `IngestionBuilder` fluent API
 - [ ] Health-check endpoint: `GET /ingestion/health`
 
 ---

@@ -6,6 +6,7 @@
 #include <functional>
 #include <unordered_map>
 #include <chrono>
+#include <atomic>
 
 namespace themis {
 namespace ingestion {
@@ -116,6 +117,22 @@ struct RetryConfig {
 };
 
 /**
+ * @brief Per-source rate-limit configuration
+ *
+ * Controls the maximum throughput for a single source connector.
+ * The token-bucket algorithm is used: tokens refill at `requests_per_second`
+ * and each request consumes one token.  When the bucket is empty the connector
+ * waits until a token is available (blocking back-pressure).
+ */
+struct RateLimitConfig {
+    double  requests_per_second = 0.0;   ///< 0 = unlimited; token-bucket refill rate
+    size_t  max_bytes_per_hour  = 0;     ///< 0 = unlimited
+    bool    enabled             = false; ///< Must be true to activate
+
+    RateLimitConfig() = default;
+};
+
+/**
  * @brief Lightweight observability metrics collected during ingestion
  */
 struct IngestionMetrics {
@@ -155,9 +172,10 @@ struct IngestionStats {
     size_t documents_failed = 0;
     size_t bytes_processed = 0;
     double elapsed_seconds = 0.0;
-    std::string error_message;        ///< Primary error (for backward compatibility)
+    std::string error_message;          ///< Primary error (for backward compatibility)
     std::vector<IngestionError> errors; ///< Structured error log
     IngestionMetrics metrics;           ///< Observability counters
+    std::string correlation_id;         ///< Unique run ID for distributed tracing
     
     IngestionStats() = default;
 
@@ -331,6 +349,15 @@ public:
      */
     void clearQuarantine();
 
+    /**
+     * @brief Configure per-source rate limiting
+     * @param config Rate-limit settings (requests/sec, bytes/hour)
+     *
+     * When enabled, connectors are throttled to the configured rate.
+     * Excess requests are delayed (blocking back-pressure).
+     */
+    void setRateLimitConfig(const RateLimitConfig& config);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -410,15 +437,144 @@ public:
 
     /**
      * @brief Export a single IngestionStats as Prometheus text
-     * @param stats     The stats to export
-     * @param source_id Label value for the source_id label
+     *
+     * Labels included: `source_id`, `source_type` (if provided).
+     * Error breakdown by code emitted as `errors_by_code_total`.
+     *
+     * @param stats       The stats to export
+     * @param source_id   Label value for the source_id label
+     * @param source_type Optional label value for the source_type label
+     *                    (e.g., "FILESYSTEM", "HUGGINGFACE")
      * @return Prometheus text exposition format string
      */
     std::string exportText(const IngestionStats& stats,
-                           const std::string& source_id) const;
+                           const std::string& source_id,
+                           const std::string& source_type = "") const;
 
 private:
     std::string prefix_ = "themis_ingestion";
+};
+
+// ============================================================================
+// IngestionBuilder – fluent API for configuring IngestionManager
+// ============================================================================
+
+/**
+ * @brief Fluent builder for constructing and configuring an IngestionManager.
+ *
+ * Provides a convenient, chainable API to register sources and configure
+ * behaviour before running ingestion.
+ *
+ * Example usage:
+ * @code
+ * auto mgr = IngestionBuilder("my_db")
+ *     .withHuggingFaceSource("hf_legal", "lexlms/ger_legal_data",
+ *                             {{"split","train"},{"streaming","true"}})
+ *     .withFilesystemSource("custom_docs", "/mnt/documents",
+ *                            {{"recursive","true"}})
+ *     .withRetryConfig({.max_attempts=5, .initial_delay_ms=200.0})
+ *     .withParallelProcessing(true, 4)
+ *     .withTargetCollection("legal_documents")
+ *     .build();
+ *
+ * auto report = mgr->ingestAll();
+ * @endcode
+ */
+class IngestionBuilder {
+public:
+    /**
+     * @brief Construct builder targeting the specified database connection
+     * @param db_connection Database connection string or handle
+     */
+    explicit IngestionBuilder(const std::string& db_connection);
+
+    ~IngestionBuilder();
+
+    // Non-copyable, movable
+    IngestionBuilder(const IngestionBuilder&) = delete;
+    IngestionBuilder& operator=(const IngestionBuilder&) = delete;
+    IngestionBuilder(IngestionBuilder&&) noexcept;
+    IngestionBuilder& operator=(IngestionBuilder&&) noexcept;
+
+    /**
+     * @brief Register a HuggingFace dataset source
+     * @param source_id Unique source identifier
+     * @param dataset   Dataset name (e.g., "lexlms/ger_legal_data")
+     * @param options   Optional key/value options (split, streaming, token, …)
+     * @param priority  Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withHuggingFaceSource(
+        const std::string& source_id,
+        const std::string& dataset,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Register a filesystem source
+     * @param source_id Unique source identifier
+     * @param path      Filesystem path (file or directory)
+     * @param options   Optional key/value options (recursive, format, …)
+     * @param priority  Source priority (default 5)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withFilesystemSource(
+        const std::string& source_id,
+        const std::string& path,
+        std::unordered_map<std::string, std::string> options = {},
+        int priority = 5);
+
+    /**
+     * @brief Set retry configuration
+     * @return *this for chaining
+     */
+    IngestionBuilder& withRetryConfig(const RetryConfig& config);
+
+    /**
+     * @brief Set rate-limit configuration
+     * @return *this for chaining
+     */
+    IngestionBuilder& withRateLimitConfig(const RateLimitConfig& config);
+
+    /**
+     * @brief Enable parallel processing
+     * @param enabled     Whether to use parallel ingestion
+     * @param max_threads Max concurrent sources (0 = hardware_concurrency)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withParallelProcessing(bool enabled,
+                                              size_t max_threads = 0);
+
+    /**
+     * @brief Set the target collection name
+     * @return *this for chaining
+     */
+    IngestionBuilder& withTargetCollection(const std::string& collection);
+
+    /**
+     * @brief Enable dry-run mode (no actual writes)
+     * @return *this for chaining
+     */
+    IngestionBuilder& withDryRun(bool enabled = true);
+
+    /**
+     * @brief Build and return the configured IngestionManager
+     * @return Unique pointer to the fully configured manager
+     */
+    std::unique_ptr<IngestionManager> build();
+
+private:
+    struct Opts {
+        std::string db_connection;
+        std::vector<SourceConfig> sources;
+        RetryConfig retry_config;
+        RateLimitConfig rate_limit_config;
+        bool parallel_enabled = false;
+        size_t max_threads = 0;
+        std::string target_collection = "legal_documents";
+        bool dry_run = false;
+    };
+    std::unique_ptr<Opts> opts_;
 };
 
 } // namespace ingestion
