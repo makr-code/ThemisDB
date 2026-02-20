@@ -335,5 +335,6 @@ For integrators embedding ThemisDB into a larger platform, the following items a
 **Related Documents:**
 - [CORE_MODULE_RUNBOOK.md](RUNBOOKS/CORE_MODULE_RUNBOOK.md)
 - [PRODUCTION_HARDENING_CHECKLIST.md](../security/PRODUCTION_HARDENING_CHECKLIST.md)
-- [Security Overview](../security/security_overview.md)
+- [systemd unit and production drop-in](../../deploy/systemd/)
+- [Kubernetes production Helm values example](examples/k8s_production_values.yaml)
 - [Root SECURITY.md](../../SECURITY.md)

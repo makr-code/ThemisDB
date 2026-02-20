@@ -241,4 +241,9 @@ readinessProbe:
 
 **Document Version:** 1.0  
 **Last Updated:** February 2026  
-**Next Review:** May 2026
+**Next Review:** May 2026  
+**Related Documents:**
+- [SECURITY_POSTURE.md](../SECURITY_POSTURE.md) — security defaults and hardening guide
+- [systemd unit](../../../deploy/systemd/themisdb.service) and [production drop-in](../../../deploy/systemd/themisdb.service.d/production.conf)
+- [Kubernetes production Helm values](../examples/k8s_production_values.yaml)
+- [TROUBLESHOOTING.md](../TROUBLESHOOTING.md)
