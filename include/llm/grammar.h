@@ -6,6 +6,7 @@
 // Forward declaration for llama.cpp types
 struct llama_grammar;
 struct llama_model;
+struct llama_vocab;
 
 namespace themis {
 namespace llm {
@@ -24,8 +25,37 @@ public:
      * @brief Construct a grammar from EBNF text
      * @param ebnf_text EBNF grammar definition
      * @param start_symbol Starting symbol for the grammar (e.g., "root")
+     *
+     * @note This constructor cannot bind the llama vocab because no model is
+     *       provided.  If the llama grammar API is available at runtime the
+     *       grammar is compiled with a null vocab pointer; purely structural
+     *       grammars (balanced brackets, numeric patterns) work, but
+     *       token-filtering rules that require vocab knowledge may not.  To
+     *       guarantee correct token filtering, use the model-aware constructor:
+     *       Grammar(ebnf_text, start_symbol, model).
      */
     Grammar(const std::string& ebnf_text, const std::string& start_symbol);
+    
+    /**
+     * @brief Construct a grammar from EBNF text with explicit model binding
+     *
+     * Uses llama_model_get_vocab() to obtain the vocabulary from @p model and
+     * passes it to llama_grammar_init().  This is the preferred constructor
+     * when a loaded model is available because it enables correct
+     * token-level filtering for all grammar rule types.
+     *
+     * If the llama grammar API is unavailable at runtime (i.e.
+     * themis_llama_grammar_available() returns false), the constructor sets
+     * an error and isValid() returns false — it does NOT fall back to
+     * unconstrained generation silently.
+     *
+     * @param ebnf_text    EBNF grammar definition
+     * @param start_symbol Starting symbol for the grammar (e.g., "root")
+     * @param model        Loaded llama_model whose vocabulary should be used
+     */
+    Grammar(const std::string& ebnf_text,
+            const std::string& start_symbol,
+            const struct llama_model* model);
     
     /**
      * @brief Destructor - frees llama_grammar resources
@@ -80,8 +110,10 @@ private:
     std::string start_symbol_;
     std::string error_;
     
-    // Helper to compile EBNF to llama_grammar
+    // Helper to compile EBNF using a specific vocab pointer (may be nullptr
+    // only when the caller has verified that structural-only rules are used).
     bool compile();
+    bool compileWithVocab(const ::llama_vocab* vocab);
 };
 
 } // namespace llm

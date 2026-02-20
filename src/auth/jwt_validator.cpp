@@ -1,4 +1,5 @@
 #include "auth/jwt_validator.h"
+#include "auth/jwks_validator.h"
 #include "utils/hkdf_helper.h"
 #include "utils/openssl_deleter.h"
 #include "utils/logger.h"
@@ -16,6 +17,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
+#include <thread>
 
 namespace themis {
 namespace auth {
@@ -69,26 +71,78 @@ nlohmann::json JWTValidator::fetchJWKS() {
     if (!jwks_cache_.empty() && now - jwks_cache_time_ < cfg_.cache_ttl) {
         return jwks_cache_;
     }
+    
     std::string response;
-    CURL* curl = curl_easy_init();
-    if (!curl) throw std::runtime_error("Failed to init curl for JWKS fetch");
-    curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
-    CURLcode rc = curl_easy_perform(curl);
+    int attempt = 0;
+    int retry_delay_ms = 100; // Start with 100ms delay
+    CURLcode rc = CURLE_FAILED_INIT;
     long code = 0;
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
-    curl_easy_cleanup(curl);
-    if (rc != CURLE_OK || code != 200) {
-        throw std::runtime_error("JWKS HTTP error: " + std::to_string(code));
+    
+    // Retry with exponential backoff
+    while (attempt < cfg_.jwks_max_retries) {
+        attempt++;
+        
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            utils::Logger::error("Failed to init curl for JWKS fetch");
+            if (attempt < cfg_.jwks_max_retries) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+                retry_delay_ms *= 2; // Exponential backoff
+                continue;
+            }
+            throw std::runtime_error("Failed to init curl for JWKS fetch after " + std::to_string(attempt) + " attempts");
+        }
+        
+        response.clear();
+        curl_easy_setopt(curl, CURLOPT_URL, jwks_url_.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curlWriteToString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, static_cast<long>(cfg_.jwks_timeout_seconds));
+        
+        rc = curl_easy_perform(curl);
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &code);
+        curl_easy_cleanup(curl);
+        
+        if (rc == CURLE_OK && code == 200) {
+            // Success
+            break;
+        }
+        
+        // Log error and retry if not the last attempt
+        if (attempt < cfg_.jwks_max_retries) {
+            utils::Logger::warn("JWKS fetch attempt " + std::to_string(attempt) + " failed (HTTP " + 
+                              std::to_string(code) + ", curl error " + std::to_string(rc) + "), retrying...");
+            std::this_thread::sleep_for(std::chrono::milliseconds(retry_delay_ms));
+            retry_delay_ms *= 2; // Exponential backoff
+        }
     }
+    
+    if (rc != CURLE_OK || code != 200) {
+        utils::Logger::error("JWKS HTTP error after " + std::to_string(attempt) + 
+                           " attempts: HTTP " + std::to_string(code) + ", curl error " + std::to_string(rc));
+        throw std::runtime_error("JWKS HTTP error: " + std::to_string(code) + " (after " + 
+                               std::to_string(attempt) + " attempts)");
+    }
+    
     auto json = nlohmann::json::parse(response);
     if (!json.is_object() || !json.contains("keys")) {
+        utils::Logger::error("Invalid JWKS document (missing keys)");
         throw std::runtime_error("Invalid JWKS document (missing keys)");
     }
+    
+    // Validate JWKS schema (P1 security hardening)
+    JWKSValidator jwks_validator;
+    try {
+        jwks_validator.validateOrThrow(json);
+    } catch (const std::exception& e) {
+        utils::Logger::error("JWKS schema validation failed: {}", e.what());
+        throw std::runtime_error(std::string("JWKS schema validation failed: ") + e.what());
+    }
+    
     jwks_cache_ = json;
     jwks_cache_time_ = now;
+    utils::Logger::info("JWKS fetched successfully on attempt " + std::to_string(attempt));
     return jwks_cache_;
 }
 
@@ -176,6 +230,19 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     if (jwt.rfind("Bearer ", 0) == 0) {
         jwt = jwt.substr(7);
     }
+    
+    // Input validation: Check token size limit
+    if (jwt.size() > MAX_JWT_TOKEN_SIZE) {
+        utils::Logger::warn("JWT validation failed: Token exceeds maximum size");
+        throw std::runtime_error("Token exceeds maximum size limit");
+    }
+    
+    // Input validation: Check for empty token
+    if (jwt.empty()) {
+        utils::Logger::warn("JWT validation failed: Empty token");
+        throw std::runtime_error("Empty token");
+    }
+    
     std::vector<std::string> parts;
     std::stringstream ss(jwt);
     std::string part;
@@ -207,6 +274,13 @@ JWTClaims JWTValidator::parseAndValidate(const std::string& token) {
     
     JWTClaims claims;
     claims.sub = payload.value("sub", "");
+    
+    // Input validation: Check principal/subject length
+    if (claims.sub.size() > MAX_PRINCIPAL_NAME_LENGTH) {
+        utils::Logger::warn("JWT validation failed: Subject exceeds maximum length");
+        throw std::runtime_error("Subject (principal) exceeds maximum length");
+    }
+    
     claims.email = payload.value("email", "");
     claims.tenant_id = payload.value("tenant_id", "");  // Extract tenant_id from JWT
     claims.issuer = payload.value("iss", "");

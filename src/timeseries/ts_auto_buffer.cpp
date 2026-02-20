@@ -268,10 +268,19 @@ void TSAutoBuffer::flushThread() {
 
 TSAutoBufferStats TSAutoBuffer::getStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
-    
-    TSAutoBufferStats stats = stats_;
+
+    TSAutoBufferStats stats;
+    stats.points_buffered.store(stats_.points_buffered.load());
+    stats.points_flushed.store(stats_.points_flushed.load());
+    stats.flush_count.store(stats_.flush_count.load());
+    stats.auto_flush_count.store(stats_.auto_flush_count.load());
+    stats.manual_flush_count.store(stats_.manual_flush_count.load());
+    stats.size_triggered_flush.store(stats_.size_triggered_flush.load());
+    stats.time_triggered_flush.store(stats_.time_triggered_flush.load());
+    stats.buffer_overflow_count.store(stats_.buffer_overflow_count.load());
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
+    stats.last_flush_time = stats_.last_flush_time;
     
     return stats;
 }

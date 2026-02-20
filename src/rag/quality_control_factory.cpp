@@ -1,0 +1,236 @@
+/**
+ * @file quality_control_factory.cpp
+ * @brief Implementation of quality control factory
+ */
+
+#include "rag/quality_control_factory.h"
+#include "utils/logger.h"
+
+namespace themis::rag::judge {
+
+// ═══════════════════════════════════════════════════════════
+// QualityControlFactory Implementation
+// ═══════════════════════════════════════════════════════════
+
+std::unique_ptr<QualityControlPipeline> QualityControlFactory::createBasic(QCMode mode) {
+    QualityControlPipeline::Config config;
+    config.default_mode = mode;
+    config.enable_nli_verification = true;
+    config.enable_geval_scoring = false;
+    config.enable_claim_extraction = true;
+    config.enable_caching = true;
+    
+    THEMIS_INFO("Creating basic quality control pipeline (mode: {})", static_cast<int>(mode));
+    
+    return std::make_unique<QualityControlPipeline>(config);
+}
+
+std::unique_ptr<QualityControlPipeline> QualityControlFactory::createProduction(
+    const SetupConfig& setup_config
+) {
+    THEMIS_INFO("Creating production quality control pipeline");
+    
+    // Create NLI verifier
+    auto nli_verifier = createNLIVerifier(setup_config);
+    
+    // Create G-Eval evaluator if enabled
+    std::shared_ptr<GEvalEvaluator> geval_evaluator;
+    if (setup_config.enable_geval) {
+        geval_evaluator = createGEvalEvaluator();
+    }
+    
+    // Create LLM Judge Client if inference engine available
+    std::shared_ptr<LLMJudgeClient> llm_judge_client;
+    if (setup_config.enable_llm_judge && setup_config.inference_engine) {
+        llm_judge_client = createLLMJudgeClient(setup_config.inference_engine);
+    } else if (setup_config.enable_llm_judge) {
+        THEMIS_WARN("LLM Judge requested but no inference engine provided");
+    }
+    
+    // Configure pipeline
+    QualityControlPipeline::Config config;
+    config.default_mode = setup_config.default_mode;
+    config.enable_nli_verification = setup_config.enable_nli;
+    config.enable_geval_scoring = setup_config.enable_geval;
+    config.enable_claim_extraction = true;
+    config.enable_citation_check = true;
+    config.log_to_continuous_learning = setup_config.log_to_continuous_learning;
+    config.cl_endpoint = setup_config.cl_endpoint;
+    
+    return std::make_unique<QualityControlPipeline>(
+        config,
+        llm_judge_client,
+        geval_evaluator,
+        nli_verifier
+    );
+}
+
+std::unique_ptr<QualityControlPipeline> QualityControlFactory::createLightweight() {
+    THEMIS_INFO("Creating lightweight quality control pipeline (Fast mode)");
+    
+    QualityControlPipeline::Config config;
+    config.default_mode = QCMode::FAST;
+    config.enable_nli_verification = true;
+    config.enable_geval_scoring = false;
+    config.enable_claim_extraction = false;
+    config.enable_citation_check = false;
+    config.fast_timeout_ms = 50;
+    
+    return std::make_unique<QualityControlPipeline>(config);
+}
+
+std::unique_ptr<QualityControlPipeline> QualityControlFactory::createComprehensive(
+    const SetupConfig& setup_config
+) {
+    THEMIS_INFO("Creating comprehensive quality control pipeline (Thorough mode)");
+    
+    SetupConfig comprehensive_config = setup_config;
+    comprehensive_config.default_mode = QCMode::THOROUGH;
+    comprehensive_config.enable_nli = true;
+    comprehensive_config.enable_geval = true;
+    comprehensive_config.enable_llm_judge = true;
+    
+    return createProduction(comprehensive_config);
+}
+
+std::shared_ptr<NLIFaithfulnessVerifier> QualityControlFactory::createNLIVerifier(
+    const SetupConfig& config
+) {
+    NLIFaithfulnessVerifier::Config nli_config;
+    
+    if (!config.nli_model_path.empty()) {
+        nli_config.model_path = config.nli_model_path;
+        nli_config.tokenizer_path = config.nli_tokenizer_path;
+        THEMIS_INFO("NLI Verifier configured with model: {}", config.nli_model_path);
+    } else {
+        THEMIS_INFO("NLI Verifier using heuristic fallback (no model path provided)");
+    }
+    
+    nli_config.enable_caching = config.enable_caching;
+    nli_config.num_threads = config.num_threads;
+    nli_config.use_gpu = config.use_gpu_for_nli;
+    
+    return std::make_shared<NLIFaithfulnessVerifier>(nli_config);
+}
+
+std::shared_ptr<GEvalEvaluator> QualityControlFactory::createGEvalEvaluator() {
+    GEvalEvaluator::Config config;
+    config.num_samples = 3;
+    config.aggregation = AggregationMethod::MEAN;
+    config.temperature = 0.7;
+    config.extract_reasoning = true;
+    
+    THEMIS_INFO("G-Eval Evaluator created with {} samples", config.num_samples);
+    
+    return std::make_shared<GEvalEvaluator>(config);
+}
+
+std::shared_ptr<LLMJudgeClient> QualityControlFactory::createLLMJudgeClient(
+    std::shared_ptr<llm::InferenceEngineEnhanced> inference_engine
+) {
+    if (!inference_engine) {
+        THEMIS_ERROR("Cannot create LLM Judge Client: inference engine is null");
+        return nullptr;
+    }
+    
+    LLMJudgeClient::Config config;
+    config.model_id = "default";
+    config.temperature = 0.3;
+    config.max_tokens = 1024;
+    config.enable_caching = true;
+    config.max_retries = 3;
+    
+    THEMIS_INFO("LLM Judge Client created with model: {}", config.model_id);
+    
+    return std::make_shared<LLMJudgeClient>(config, inference_engine);
+}
+
+// ═══════════════════════════════════════════════════════════
+// RAGJudgeQCConfigurator Implementation
+// ═══════════════════════════════════════════════════════════
+
+RAGJudgeConfig RAGJudgeQCConfigurator::configure(
+    bool enable_nli,
+    bool enable_geval,
+    bool enable_full_pipeline
+) {
+    RAGJudgeConfig config;
+    
+    // Enable quality control features
+    config.use_nli_verifier = enable_nli;
+    config.use_geval_scoring = enable_geval;
+    config.use_quality_control_pipeline = enable_full_pipeline;
+    
+    // Basic RAG Judge settings
+    config.mode = EvaluationMode::BALANCED;
+    config.enable_claim_verification = true;
+    config.enable_citation_check = true;
+    
+    THEMIS_INFO("RAG Judge configured with QC features: NLI={}, G-Eval={}, Pipeline={}",
+                enable_nli, enable_geval, enable_full_pipeline);
+    
+    return config;
+}
+
+RAGJudgeConfig RAGJudgeQCConfigurator::getProductionConfig() {
+    RAGJudgeConfig config;
+    
+    // Production mode - thorough evaluation
+    config.mode = EvaluationMode::THOROUGH;
+    
+    // Enable all quality control features
+    config.use_nli_verifier = true;
+    config.use_geval_scoring = true;
+    config.use_quality_control_pipeline = false;  // Use RAG Judge's own pipeline
+    config.use_llm_judge_client = true;
+    
+    // Enable advanced features
+    config.enable_claim_verification = true;
+    config.enable_citation_check = true;
+    config.enable_ethical_evaluation = true;
+    
+    // Production thresholds
+    config.quality_threshold = 0.75;
+    config.faithfulness_threshold = 0.80;
+    config.ethical_compliance_threshold = 0.70;
+    
+    // Performance optimizations
+    config.cache_evaluations = true;
+    config.max_claims_to_verify = 10;
+    
+    THEMIS_INFO("RAG Judge production config created");
+    
+    return config;
+}
+
+RAGJudgeConfig RAGJudgeQCConfigurator::getDevelopmentConfig() {
+    RAGJudgeConfig config;
+    
+    // Development mode - balanced evaluation
+    config.mode = EvaluationMode::BALANCED;
+    
+    // Enable basic quality control features
+    config.use_nli_verifier = true;
+    config.use_geval_scoring = false;  // Skip G-Eval for speed
+    config.use_quality_control_pipeline = false;
+    config.use_llm_judge_client = false;
+    
+    // Enable basic features
+    config.enable_claim_verification = true;
+    config.enable_citation_check = false;  // Skip citation check for speed
+    config.enable_ethical_evaluation = false;  // Skip ethical for speed
+    
+    // Lenient thresholds for development
+    config.quality_threshold = 0.60;
+    config.faithfulness_threshold = 0.70;
+    
+    // Performance optimizations
+    config.cache_evaluations = true;
+    config.max_claims_to_verify = 5;  // Fewer claims for speed
+    
+    THEMIS_INFO("RAG Judge development config created");
+    
+    return config;
+}
+
+} // namespace themis::rag::judge

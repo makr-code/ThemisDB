@@ -212,14 +212,61 @@ void WebSocketSession::processMessage(const std::string& message) {
             send(response.dump());
         }
         else if (type == "query") {
-            // Handle query request
-            // TODO: Integrate with HttpServer query handlers
-            json response = {
-                {"type", "query_response"},
-                {"status", "not_implemented"},
-                {"message", "Query via WebSocket not yet implemented"}
-            };
-            send(response.dump());
+            // Dispatch to the server's query handler.
+            // WebSocketSession is a friend of HttpServer, so we can access
+            // the private query_api_ member directly.
+            if (!server_ || !server_->query_api_) {
+                json response = {
+                    {"type", "query_response"},
+                    {"status", "error"},
+                    {"message", "Query engine not available"}
+                };
+                send(response.dump());
+                return;
+            }
+
+            // Determine handler variant: "aql" key → AQL, otherwise regular query
+            const bool is_aql = msg.contains("aql");
+
+            // Build a synthetic HTTP POST request from the WebSocket message.
+            // The body is the raw query JSON; strip out the "type" wrapper if present.
+            json query_body = msg;
+            query_body.erase("type");
+
+            http::request<http::string_body> http_req{http::verb::post,
+                                                       is_aql ? "/query/aql" : "/query", 11};
+            http_req.set(http::field::content_type, "application/json");
+            // Forward any Authorization header the WS client may have sent
+            if (msg.contains("authorization"))
+                http_req.set(http::field::authorization, msg["authorization"].get<std::string>());
+            http_req.body() = query_body.dump();
+            http_req.prepare_payload();
+
+            try {
+                http::response<http::string_body> http_resp =
+                    is_aql ? server_->query_api_->handleQueryAql(http_req)
+                           : server_->query_api_->handleQuery(http_req);
+
+                const bool ok = (http_resp.result_int() >= 200 && http_resp.result_int() < 300);
+                json ws_resp;
+                try {
+                    ws_resp = json::parse(http_resp.body());
+                } catch (const json::parse_error&) {
+                    ws_resp = {{"body", http_resp.body()}};
+                }
+                ws_resp["type"]        = "query_response";
+                ws_resp["status"]      = ok ? "ok" : "error";
+                ws_resp["http_status"] = http_resp.result_int();
+                send(ws_resp.dump());
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("WebSocket query error ({}): {}", session_id_, e.what());
+                json response = {
+                    {"type",    "query_response"},
+                    {"status",  "error"},
+                    {"message", e.what()}
+                };
+                send(response.dump());
+            }
         }
         else {
             // Unknown message type

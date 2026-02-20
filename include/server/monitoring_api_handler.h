@@ -13,10 +13,17 @@ namespace themis {
 class RocksDBWrapper;
 class SecondaryIndexManager;
 
+namespace sharding {
+class PrometheusMetrics;
+class SLOMonitor;
+}
+
 namespace server {
 
 namespace beast = boost::beast;
 namespace http = beast::http;
+
+class ShardingMetricsHandler;
 
 } // namespace server
 } // namespace themis
@@ -61,6 +68,7 @@ public:
      * @param start_time Server start time (shared)
      * @param secondary_index Secondary index manager (for stats)
      * @param schema_manager Schema manager (for capabilities, optional)
+     * @param sharding_metrics Sharding metrics handler (for metrics/slo endpoints, optional)
      */
     MonitoringApiHandler(
         std::shared_ptr<RocksDBWrapper> storage,
@@ -69,7 +77,11 @@ public:
         std::atomic<uint64_t>* error_count,
         const std::chrono::steady_clock::time_point* start_time,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
-        ::themis::SchemaManager* schema_manager = nullptr
+        ::themis::SchemaManager* schema_manager = nullptr,
+        std::shared_ptr<ShardingMetricsHandler> sharding_metrics = nullptr,
+        const std::atomic<bool>* is_running = nullptr,
+        const std::atomic<uint64_t>* active_requests = nullptr,
+        const std::atomic<uint64_t>* active_connections = nullptr
     );
 
     /**
@@ -78,6 +90,32 @@ public:
      * @return HTTP response with health status
      */
     http::response<http::string_body> handleHealthCheck(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /health/live request (liveness probe)
+     * Returns 200 if server is running, 503 otherwise.
+     * @param req HTTP request
+     * @return HTTP response with liveness status
+     */
+    http::response<http::string_body> handleLiveness(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /health/ready request (readiness probe)
+     * Returns 200 if storage is accessible and server is ready to serve traffic.
+     * Returns 503 if not ready (e.g. storage unavailable, still starting up).
+     * Reports per-layer status (storage, connections, memory).
+     * @param req HTTP request
+     * @return HTTP response with readiness status
+     */
+    http::response<http::string_body> handleReadiness(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /api/openapi.json request
+     * Returns an OpenAPI 3.0 specification describing the ThemisDB REST API.
+     * @param req HTTP request
+     * @return HTTP response with OpenAPI 3.0 JSON document
+     */
+    http::response<http::string_body> handleOpenApi(const http::request<http::string_body>& req);
 
     /**
      * @brief Handle GET /version request
@@ -113,6 +151,20 @@ public:
      * @return HTTP response with plugin metrics in JSON format
      */
     http::response<http::string_body> handlePluginMetrics(const http::request<http::string_body>& req);
+    
+    /**
+     * @brief Handle GET /metrics/sharding request (Sharding metrics in Prometheus format)
+     * @param req HTTP request
+     * @return HTTP response with sharding metrics
+     */
+    http::response<http::string_body> handleShardingMetrics(const http::request<http::string_body>& req);
+    
+    /**
+     * @brief Handle GET /slo or GET /api/slo request (SLO status in JSON)
+     * @param req HTTP request
+     * @return HTTP response with SLO compliance and error budgets
+     */
+    http::response<http::string_body> handleSLOStatus(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
@@ -122,6 +174,10 @@ private:
     const std::chrono::steady_clock::time_point* start_time_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     ::themis::SchemaManager* schema_manager_;
+    std::shared_ptr<ShardingMetricsHandler> sharding_metrics_;
+    const std::atomic<bool>* is_running_{nullptr};
+    const std::atomic<uint64_t>* active_requests_{nullptr};
+    const std::atomic<uint64_t>* active_connections_{nullptr};
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

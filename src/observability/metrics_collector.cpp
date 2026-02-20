@@ -1,4 +1,5 @@
 #include "observability/metrics_collector.h"
+#include "security/pii_redaction_policy.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -205,6 +206,56 @@ void MetricsCollector::reset() {
     counters_.clear();
     gauges_.clear();
     histograms_.clear();
+    series_count_per_metric_.clear();
+    dropped_series_.store(0);
+}
+
+// ===== Cardinality control =====
+
+void MetricsCollector::setCardinalityLimit(size_t limit) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    cardinality_limit_ = limit;
+}
+
+size_t MetricsCollector::getCardinalityLimit() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return cardinality_limit_;
+}
+
+int64_t MetricsCollector::getDroppedSeriesCount() const {
+    // dropped_series_ is std::atomic<int64_t>; accessed both inside and outside
+    // the mutex.  Callers that need a consistent view of dropped count together
+    // with other counters should hold the mutex themselves.  The atomic read
+    // here is safe for monitoring/metrics purposes without holding the mutex.
+    return dropped_series_.load();
+}
+
+bool MetricsCollector::checkCardinality(const std::string& name, const std::string& key) {
+    if (cardinality_limit_ == 0) return true;
+
+    // If the key already exists in one of the maps it's an existing series - allow it.
+    if (counters_.count(key) || gauges_.count(key) || histograms_.count(key)) {
+        return true;
+    }
+
+    // New series: check per-metric-name count
+    size_t current = series_count_per_metric_[name];
+    if (current >= cardinality_limit_) {
+        dropped_series_++;
+        return false;
+    }
+    series_count_per_metric_[name] = current + 1;
+    return true;
+}
+
+// ===== Exporter health =====
+
+void MetricsCollector::recordExporterFailure(const std::string& exporter_name) {
+    incrementCounter("exporter_failures_total", {{"exporter", exporter_name}});
+}
+
+void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) {
+    incrementCounter("exporter_recoveries_total", {{"exporter", exporter_name}});
 }
 
 // ===== Helper Functions =====
@@ -212,18 +263,21 @@ void MetricsCollector::reset() {
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
     counters_[key]++;
 }
 
 void MetricsCollector::setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
     gauges_[key].store(value);
 }
 
 void MetricsCollector::observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::string key = makeKey(name, labels);
+    if (!checkCardinality(name, key)) return;
     
     if (histograms_.find(key) == histograms_.end()) {
         histograms_[key] = std::make_shared<Histogram>();
@@ -236,7 +290,10 @@ std::string MetricsCollector::makeKey(const std::string& name, const std::map<st
     if (labels.empty()) {
         return name;
     }
-    return name + formatLabels(labels);
+    // Redact PII from label values before they are incorporated into the metric
+    // key or written to the Prometheus endpoint.
+    auto safe_labels = themis::security::PIIRedactionPolicy::get().redactLabels(labels);
+    return name + formatLabels(safe_labels);
 }
 
 std::string MetricsCollector::formatLabels(const std::map<std::string, std::string>& labels) const {

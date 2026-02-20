@@ -103,6 +103,17 @@ if(NOT THEMIS_ENABLE_LLM)
     )
 endif()
 
+if(NOT THEMIS_ENABLE_GPU)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_collective_backends\\.cpp$"
+        ".*test_gpu_vector_index\\.cpp$"
+        ".*test_multi_gpu_vector_index\\.cpp$"
+        ".*test_multi_gpu_training\\.cpp$"
+        ".*test_vram_allocator_null_checks\\.cpp$"
+        ".*test_gpu_lora_layers\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_FLASH_ATTENTION)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_flash_attention.*\\.cpp$"
@@ -129,6 +140,12 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_graph_advanced_features\\.cpp$"
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
+    ".*test_metadata_wal_recovery\\.cpp$"
+    ".*test_module_loader\\.cpp$"
+    ".*test_paxos_wal_recovery\\.cpp$"
+    ".*test_quality_control_pipeline\\.cpp$"
+    ".*test_slo_monitor\\.cpp$"
+    ".*test_jsonl_llm_exporter\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -142,6 +159,14 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
+    ".*test_auth_error\\.cpp$"
+    ".*test_auth_metrics\\.cpp$"
+    ".*test_auth_rate_limiter\\.cpp$"
+    ".*test_jwks_security\\.cpp$"
+    ".*test_kerberos_security\\.cpp$"
+    ".*test_principal_validator\\.cpp$"
+    ".*test_totp_replay_cache\\.cpp$"
+    ".*test_totp_secret_encryption\\.cpp$"
     ".*test_mfa_authenticator.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
     ".*test_adapter_factory\\.cpp$"
@@ -165,6 +190,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
     ".*test_api_version\\.cpp$"
+    ".*test_nli_verifier\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -191,7 +217,19 @@ set(_themis_test_core_libs)
 if(THEMIS_BUILD_MODULAR)
     if(DEFINED THEMIS_CORE_SOURCES AND THEMIS_CORE_SOURCES)
         message(STATUS "THEMIS_BUILD_MODULAR=ON: building themis_tests with THEMIS_CORE_SOURCES for full symbol coverage")
-        target_sources(themis_tests PRIVATE ${THEMIS_CORE_SOURCES})
+        set(_themis_test_core_sources ${THEMIS_CORE_SOURCES})
+        if(TARGET themis_sharding)
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/sharding/.*\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/server/rpc/blob_transfer_handler\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/utils/tracing\\.cpp$")
+            message(STATUS "themis_tests: excluding direct sharding sources (provided by themis_sharding module)")
+        endif()
+        if(TARGET themis_llm)
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/.*\\.cpp$")
+            list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/lora_framework/(gpu_tensor|gpu_lora_layers|flash_lora|paged_optimizer|paged_memory_manager|custom_allreduce|multi_gpu|multi_gpu_trainer|multi_gpu_lora_layer)\\.cpp$")
+            message(STATUS "themis_tests: excluding direct LLM sources (provided by themis_llm module)")
+        endif()
+        target_sources(themis_tests PRIVATE ${_themis_test_core_sources})
         target_compile_definitions(themis_tests PRIVATE
             THEMIS_BASE_EXPORTS
             THEMIS_STORAGE_EXPORTS
@@ -223,6 +261,23 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
         )
+
+        if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
+            list(APPEND _themis_test_extra_sources
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_tensor.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/vram_allocator.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_lora_layers.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/paged_memory_manager.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/custom_allreduce.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_trainer.cpp
+                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_lora_layer.cpp
+                ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
+                ${THEMIS_ROOT_DIR}/src/index/multi_gpu_vector_index.cpp
+            )
+        elseif(THEMIS_ENABLE_GPU)
+            message(STATUS "themis_tests: skipping extra GPU sources (linked via themis_llm module)")
+        endif()
         foreach(_extra_src IN LISTS _themis_test_extra_sources)
             if(EXISTS "${_extra_src}")
                 list(FIND THEMIS_CORE_SOURCES "${_extra_src}" _extra_src_idx)

@@ -1617,12 +1617,25 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POLYGON WKT");
 			}
 			std::string inner = u.substr(a+2, b-(a+2));
-				std::istringstream iss(inner); nlohmann::json ring = nlohmann::json::array(); double x,y,z;
-			while (iss>>x>>y) {
-				if (iss.peek()==' ') { iss.get(); }
-				if (std::isdigit(iss.peek())||iss.peek()=='-'||iss.peek()=='+') { if (iss>>z) ring.push_back({x,y,z}); else ring.push_back({x,y}); }
-				else ring.push_back({x,y});
-				if (iss.peek()==',') iss.get();
+			nlohmann::json ring = nlohmann::json::array();
+			std::stringstream ringStream(inner);
+			std::string pointToken;
+			while (std::getline(ringStream, pointToken, ',')) {
+				pointToken = trim(pointToken);
+				if (pointToken.empty()) continue;
+				std::istringstream pointIss(pointToken);
+				double x, y, z;
+				if (!(pointIss >> x >> y)) {
+					continue;
+				}
+				if (pointIss >> z) {
+					ring.push_back({x, y, z});
+				} else {
+					ring.push_back({x, y});
+				}
+			}
+			if (ring.empty()) {
+				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POLYGON coords");
 			}
 			nlohmann::json coords = nlohmann::json::array(); coords.push_back(ring);
 			nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=coords;
@@ -2460,7 +2473,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				}
 			} else {
 				// Build from table scan
-				const std::string build_prefix = build_for.collection + ":";
+				const std::string build_prefix = KeySchema::makeRelationalKey(build_for.collection, "");
 				
 				// Apply pushed-down filters for build side
 				auto build_filters = single_var_filters.find(build_for.variable);
@@ -2618,7 +2631,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				}
 			} else {
 				// Probe from table scan
-				const std::string probe_prefix = probe_for.collection + ":";
+				const std::string probe_prefix = KeySchema::makeRelationalKey(probe_for.collection, "");
 				db_->scanPrefix(probe_prefix, [&](std::string_view key, std::string_view value) -> bool {
 					std::string pk = KeySchema::extractPrimaryKey(key);
 					std::vector<uint8_t> blob(value.begin(), value.end());
@@ -2725,7 +2738,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			}
 			
 			// Regular table scan
-			const std::string prefix = for_node.collection + ":";
+			const std::string prefix = KeySchema::makeRelationalKey(for_node.collection, "");
 			
 			// Get pushed-down filters for this variable
 			auto push_filters = single_var_filters.find(for_node.variable);
@@ -2828,7 +2841,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	std::unordered_map<std::string, std::vector<nlohmann::json>> groups;
 	
 	// Scan collection
-	const std::string prefix = for_node.collection + ":";
+	const std::string prefix = KeySchema::makeRelationalKey(for_node.collection, "");
 	
 	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
 		std::string pk = KeySchema::extractPrimaryKey(key);

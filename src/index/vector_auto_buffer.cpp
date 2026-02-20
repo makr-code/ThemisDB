@@ -11,9 +11,9 @@ size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity
     // Estimate size of vector data in entity
     // Assumes typical embedding field is a float array
     try {
-        auto& data = entity.getData();
-        if (data.contains("embedding") && data["embedding"].is_array()) {
-            return data["embedding"].size() * sizeof(float);
+        auto embedding = entity.extractVector("embedding");
+        if (embedding.has_value()) {
+            return embedding->size() * sizeof(float);
         }
     } catch (...) {
         // Fallback estimate
@@ -390,10 +390,19 @@ void VectorAutoBuffer::flushThread() {
 
 VectorAutoBufferStats VectorAutoBuffer::getStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
-    
-    VectorAutoBufferStats stats = stats_;
+
+    VectorAutoBufferStats stats;
+    stats.vectors_buffered.store(stats_.vectors_buffered.load());
+    stats.vectors_flushed.store(stats_.vectors_flushed.load());
+    stats.flush_count.store(stats_.flush_count.load());
+    stats.auto_flush_count.store(stats_.auto_flush_count.load());
+    stats.manual_flush_count.store(stats_.manual_flush_count.load());
+    stats.size_triggered_flush.store(stats_.size_triggered_flush.load());
+    stats.time_triggered_flush.store(stats_.time_triggered_flush.load());
+    stats.buffer_overflow_count.store(stats_.buffer_overflow_count.load());
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
+    stats.last_flush_time = stats_.last_flush_time;
     
     return stats;
 }

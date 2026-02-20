@@ -60,7 +60,11 @@ enum class LLMModelAuditEventType {
     PERFORMANCE_DEGRADED,   // Performance below threshold
     OOM_ERROR,              // Out of memory error
     CACHE_HIT,              // Model cache hit
-    CACHE_MISS              // Model cache miss
+    CACHE_MISS,             // Model cache miss
+
+    // Safety / Policy Events (Q1)
+    PROMPT_BLOCKED,         // Prompt blocked by PromptPolicy (hard block rule)
+    PROMPT_REDACTED         // Prompt content redacted by PromptPolicy
 };
 
 /**
@@ -240,6 +244,27 @@ public:
         const std::string& model_id,
         const std::string& deployment_target,
         const json& config = json::object()
+    );
+
+    /**
+     * @brief Log a PromptPolicy violation (PROMPT_BLOCKED or PROMPT_REDACTED).
+     *
+     * Called by the inference path after PromptPolicy::apply() returns a
+     * non-trivial result so that operators can audit safety events alongside
+     * model lifecycle events.
+     *
+     * @param model_id    Model ID that would have processed the prompt.
+     * @param request_id  Request ID for cross-referencing inference logs.
+     * @param rule_name   Policy rule that triggered (PolicyResult::rule_name).
+     * @param reason      Human-readable reason (PolicyResult::reason).
+     * @param was_blocked true → PROMPT_BLOCKED; false → PROMPT_REDACTED.
+     */
+    void logPolicyViolation(
+        const std::string& model_id,
+        const std::string& request_id,
+        const std::string& rule_name,
+        const std::string& reason,
+        bool was_blocked
     );
     
     /**

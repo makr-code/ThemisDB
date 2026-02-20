@@ -73,6 +73,12 @@ public:
     VectorClock() = default;
     explicit VectorClock(const std::string& node_id);
     
+    // Copy / move constructors (mutex is not copied – new instance gets its own mutex)
+    VectorClock(const VectorClock& other);
+    VectorClock(VectorClock&& other) noexcept;
+    VectorClock& operator=(const VectorClock& other);
+    VectorClock& operator=(VectorClock&& other) noexcept;
+    
     // Increment this node's clock
     void increment(const std::string& node_id);
     

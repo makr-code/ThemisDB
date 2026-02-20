@@ -2,11 +2,15 @@
 
 #include "acceleration/compute_backend.h"
 
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/raii/cuda_raii.h"
+#endif
+
 namespace themis {
 namespace acceleration {
 
 // CUDA backend for GPU acceleration (NVIDIA)
-// This is a stub implementation that will be fully implemented when CUDA is enabled
+// Uses RAII wrappers for automatic resource management and exception safety
 class CUDAVectorBackend : public IVectorBackend {
 public:
     CUDAVectorBackend() = default;
@@ -43,7 +47,13 @@ public:
 
 private:
     bool initialized_ = false;
-    void* deviceContext_ = nullptr;  // CUDA context
+    
+#ifdef THEMIS_ENABLE_CUDA
+    // RAII-managed CUDA resources (automatic cleanup)
+    raii::CudaStream stream_;
+#else
+    void* deviceContext_ = nullptr;  // Fallback for non-CUDA builds
+#endif
 };
 
 class CUDAGraphBackend : public IGraphBackend {
