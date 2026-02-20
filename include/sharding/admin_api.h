@@ -3,11 +3,14 @@
 
 #include <string>
 #include <map>
+#include <memory>
 #include <functional>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace sharding {
+
+class ShardRepairEngine;  // forward declaration
 
 /**
  * Admin API for cluster management operations.
@@ -15,7 +18,7 @@ namespace sharding {
  * Provides RESTful HTTP endpoints for:
  * - Topology management (add/remove shards)
  * - Rebalancing operations (trigger/monitor)
- * - Health monitoring
+ * - Health monitoring (includes per-shard repair status when ShardRepairEngine is set)
  * - Routing statistics
  * - Shard repair / anti-entropy (rebuild triggers & status)
  * 
@@ -44,6 +47,13 @@ public:
     void registerStatsHandler(RequestHandler handler);
     /// Register handler for repair / anti-entropy operations.
     void registerRepairHandler(RequestHandler handler);
+
+    /**
+     * Attach a ShardRepairEngine so that GET /admin/health automatically
+     * enriches its response with per-shard repair health reports.
+     * The engine is optional; without it the health response is unchanged.
+     */
+    void setRepairEngine(std::shared_ptr<ShardRepairEngine> engine);
 
     // Handle HTTP request
     nlohmann::json handleRequest(const std::string& method, 
@@ -84,10 +94,13 @@ private:
     RequestHandler health_handler_;
     RequestHandler stats_handler_;
     RequestHandler repair_handler_;
+    std::shared_ptr<ShardRepairEngine> repair_engine_;
 
     bool authorizeRequest(const std::string& operator_cert);
     void auditLog(const std::string& method, const std::string& path, const std::string& operator_cert);
     nlohmann::json createErrorResponse(int code, const std::string& message);
+    /// Build the repair health section for GET /admin/health.
+    nlohmann::json buildRepairHealthJson() const;
 };
 
 } // namespace sharding

@@ -15,6 +15,7 @@
 #include "sharding/shard_repair_engine.h"
 #include "sharding/auto_recovery_manager.h"
 #include "sharding/admin_api.h"
+#include "sharding/hot_spare_manager.h"
 #include "sharding/consistent_hash.h"
 #include "sharding/shard_topology.h"
 #include "sharding/prometheus_metrics.h"
@@ -662,4 +663,106 @@ TEST(ShardRepairPrometheusForwardingTest, RepairOperationForwardedToProm) {
     // Prometheus should now have a repair_operations_total entry
     std::string out = prom->getMetrics();
     EXPECT_NE(out.find("themis_shard_repair_operations_total"), std::string::npos);
+}
+
+// ============================================================================
+// AdminAPI::setRepairEngine + /admin/health integration tests
+// ============================================================================
+
+class AdminAPIHealthRepairTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        topo_cfg_.enable_health_checks = false;
+        topo_cfg_.cluster_name = "health-test";
+        topology_ = std::make_shared<ShardTopology>(topo_cfg_);
+
+        ShardInfo s;
+        s.shard_id = "shard_1";
+        s.primary_endpoint = "localhost:9081";
+        s.is_healthy = true;
+        topology_->addShard(s);
+
+        ring_ = std::make_shared<ConsistentHashRing>();
+        ring_->addShard("shard_1", 150);
+
+        RedundancyConfig rcfg;
+        rcfg.mode = RedundancyMode::MIRROR;
+        strategy_ = std::make_shared<RedundancyStrategy>(rcfg);
+
+        engine_ = makeMinimalEngine(*strategy_, *ring_, *topology_);
+
+        AdminAPI::Config api_cfg;
+        api_cfg.require_signatures = false;
+        api_.reset(new AdminAPI(api_cfg));
+        // Register a minimal health handler that returns a base response
+        api_->registerHealthHandler([](const nlohmann::json&) -> nlohmann::json {
+            return {{"cluster", "ok"}};
+        });
+    }
+
+    ShardTopology::Config topo_cfg_;
+    std::shared_ptr<ShardTopology> topology_;
+    std::shared_ptr<ConsistentHashRing> ring_;
+    std::shared_ptr<RedundancyStrategy> strategy_;
+    std::shared_ptr<ShardRepairEngine> engine_;
+    std::unique_ptr<AdminAPI> api_;
+};
+
+TEST_F(AdminAPIHealthRepairTest, HealthWithoutEngineHasNoRepairKey) {
+    auto resp = api_->handleRequest("GET", "/admin/health", {}, "operator-cert");
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_EQ(resp["cluster"], "ok");
+    EXPECT_FALSE(resp.contains("repair"));
+}
+
+TEST_F(AdminAPIHealthRepairTest, HealthWithEngineIncludesRepairSection) {
+    api_->setRepairEngine(engine_);
+    auto resp = api_->handleRequest("GET", "/admin/health", {}, "operator-cert");
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_TRUE(resp.contains("repair"));
+    EXPECT_TRUE(resp["repair"].contains("status"));
+    EXPECT_TRUE(resp["repair"].contains("engine_running"));
+    EXPECT_TRUE(resp["repair"].contains("shards"));
+}
+
+TEST_F(AdminAPIHealthRepairTest, HealthRepairStatusIsHealthyWithNoScans) {
+    api_->setRepairEngine(engine_);
+    auto resp = api_->handleRequest("GET", "/admin/health", {}, "operator-cert");
+    // No scans performed yet → shards array empty, overall status healthy
+    EXPECT_EQ(resp["repair"]["status"], "healthy");
+    EXPECT_EQ(resp["repair"]["total_scans"], 0u);
+}
+
+TEST_F(AdminAPIHealthRepairTest, HealthWithEngineNoHandlerStillReturnsRepair) {
+    // No health_handler registered but repair engine set
+    AdminAPI::Config api_cfg;
+    api_cfg.require_signatures = false;
+    AdminAPI bare_api(api_cfg);
+    bare_api.setRepairEngine(engine_);
+    auto resp = bare_api.handleRequest("GET", "/admin/health", {}, "operator-cert");
+    // Should still return the repair section (not a 404 error)
+    EXPECT_FALSE(resp.contains("error"));
+    EXPECT_TRUE(resp.contains("repair"));
+}
+
+// ============================================================================
+// HotSpareManager::setRepairEngine tests
+// ============================================================================
+
+TEST(HotSpareManagerRepairTest, SetRepairEngineDoesNotThrow) {
+    ShardTopology::Config topo_cfg;
+    topo_cfg.enable_health_checks = false;
+    auto topology = std::make_shared<ShardTopology>(topo_cfg);
+    RedundancyConfig rcfg;
+    rcfg.mode = RedundancyMode::MIRROR;
+    auto strategy = std::make_shared<RedundancyStrategy>(rcfg);
+
+    HotSpareConfig cfg;
+    cfg.enable = false;
+    HotSpareManager mgr(cfg, *strategy, *topology);
+
+    auto ring = std::make_shared<ConsistentHashRing>();
+    auto engine = makeMinimalEngine(*strategy, *ring, *topology);
+
+    EXPECT_NO_THROW(mgr.setRepairEngine(engine));
 }
