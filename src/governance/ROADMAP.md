@@ -1,7 +1,7 @@
 # Governance Module Roadmap
 
 ## Current Status
-Production-ready for policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, and data classification.
+**Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, and data classification are functional. CCPA compliance and OPA integration are planned.
 
 ## Completed ✅
 - [x] Policy engine for data access control

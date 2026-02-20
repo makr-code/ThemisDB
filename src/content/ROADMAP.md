@@ -1,7 +1,7 @@
 # Content Module Roadmap
 
 ## Current Status
-Production-ready for multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression.
+**Beta** — Multi-format content ingestion, MIME type detection, text extraction, image metadata extraction, geospatial data processing, and zstd compression are functional. PDF extraction, OCR, and audio transcription support are planned.
 
 ## Completed ✅
 - [x] Content manager with ingestion pipeline

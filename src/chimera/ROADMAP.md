@@ -1,7 +1,7 @@
 # Chimera Module Roadmap
 
 ## Current Status
-Production-ready for the ThemisDB reference adapter and adapter factory infrastructure. Vendor-neutral benchmarking architecture is functional for relational, document, vector, and graph operations.
+**Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. PostgreSQL, MongoDB, and Weaviate adapters are planned.
 
 ## Completed ✅
 - [x] Adapter factory with thread-safe singleton registry

@@ -1,7 +1,7 @@
 # Core Module Roadmap
 
 ## Current Status
-Production-ready for dependency injection, cross-cutting concerns management (logging, tracing, metrics, caching), and pluggable adapter infrastructure. Environment-aware factory methods support production, testing, and custom configurations.
+**Beta** — Dependency injection, cross-cutting concerns management (logging, tracing, metrics, caching), and pluggable adapter infrastructure are functional. OpenTelemetry and Prometheus adapters are in progress.
 
 ## Completed ✅
 - [x] ConcernsContext: central DI hub for cross-cutting concerns

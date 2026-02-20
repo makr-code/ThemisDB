@@ -1,7 +1,7 @@
 # Graph Module Roadmap
 
 ## Current Status
-Production-ready for cost-based graph query optimization, constrained path finding, traversal algorithm selection, and adaptive optimization based on execution history.
+**Beta** — Core graph query optimization (cost-based algorithm selection, constrained path finding, traversal algorithm selection, adaptive optimization) is functional. Parallel traversal and distributed graph queries are in progress.
 
 ## Completed ✅
 - [x] Graph query optimizer with cost-based algorithm selection

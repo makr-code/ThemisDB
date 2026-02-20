@@ -1,7 +1,7 @@
 # Geo Module Roadmap
 
 ## Current Status
-Production-ready for CPU-based geospatial queries. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported.
+**Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON import/export and ST_BUFFER are still in progress.
 
 ## Completed ✅
 - [x] CPU-based geospatial backend (exact calculations)

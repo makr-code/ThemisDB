@@ -1,7 +1,7 @@
 # CDC (Change Data Capture) Module Roadmap
 
 ## Current Status
-Production-ready for real-time change notifications, SSE-based event streaming, filtered subscriptions, and historical change replay.
+**Beta** — Real-time change notifications, SSE-based event streaming, filtered subscriptions, and historical change replay are functional. WebSocket transport and Kafka/Kinesis integration are planned.
 
 ## Completed ✅
 - [x] Changefeed implementation for real-time change tracking

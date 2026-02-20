@@ -1,7 +1,7 @@
 # GPU Module Roadmap
 
 ## Current Status
-Production-ready for GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, and query acceleration. Training loop coordination and tensor buffers are implemented.
+**Beta** — GPU memory management, device discovery, safe-fail circuit breaker, audit logging, policy enforcement, kernel validation, metrics, multi-GPU load balancing, and query acceleration are implemented. ROCm parity and multi-node GPU support are still in progress.
 
 ## Completed ✅
 - [x] Edition-aware VRAM allocation with tenant quotas and pre-allocation hints

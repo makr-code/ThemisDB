@@ -1,7 +1,7 @@
 # Exporters Module Roadmap
 
 ## Current Status
-Production-ready for JSONL export optimized for LLM training data, with configurable field selection, batch export, and LoRA adapter metadata generation.
+**Beta** — JSONL export optimized for LLM training data, configurable field selection, batch export, and LoRA adapter metadata generation are functional. Parquet and Apache Arrow export, and Hugging Face Hub push are planned.
 
 ## Completed ✅
 - [x] JSONL exporter for LLM training data
