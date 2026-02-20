@@ -1328,7 +1328,8 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
         // Hash the entire raw row
         return fnv1a64(raw_row.data(), raw_row.size());
     }
-    // Hash only the key column values
+    // Hash only the key column values, separated by a non-printable sentinel
+    static constexpr char kDeltaHashFieldSep = '\x01';
     std::string key_data;
     for (const auto& kc : key_columns) {
         auto it = std::find(schema_columns.begin(), schema_columns.end(), kc);
@@ -1338,7 +1339,6 @@ uint64_t PostgreSQLImporter::computeRowHash(const std::string& raw_row,
                 key_data += values[idx];
             }
         }
-        static constexpr char kDeltaHashFieldSep = '\x01';  // field separator between key columns
         key_data += kDeltaHashFieldSep;
     }
     return fnv1a64(key_data.data(), key_data.size());

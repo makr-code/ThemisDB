@@ -138,7 +138,7 @@ public:
     
     // IThemisPlugin interface
     const char* getName() const override { return "postgres_importer"; }
-    const char* getVersion() const override { return "1.6.0"; }
+    const char* getVersion() const override { return "1.7.0"; }
     plugins::PluginType getType() const override { return plugins::PluginType::IMPORTER; }
     plugins::PluginCapabilities getCapabilities() const override;
     bool initialize(const char* config_json) override;
