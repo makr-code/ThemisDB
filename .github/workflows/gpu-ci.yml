@@ -4,8 +4,11 @@ on:
   pull_request:
     paths:
       - 'src/gpu/**'
+      - 'src/geo/gpu_backend_stub.cpp'
       - 'include/themis/gpu/**'
+      - 'include/geo/spatial_backend.h'
       - 'tests/test_gpu_*.cpp'
+      - 'tests/test_geo_gpu_backend.cpp'
       - 'benchmarks/bench_gpu_module.cpp'
       - '.github/workflows/gpu-ci.yml'
   push:
@@ -14,8 +17,11 @@ on:
       - develop
     paths:
       - 'src/gpu/**'
+      - 'src/geo/gpu_backend_stub.cpp'
       - 'include/themis/gpu/**'
+      - 'include/geo/spatial_backend.h'
       - 'tests/test_gpu_*.cpp'
+      - 'tests/test_geo_gpu_backend.cpp'
       - 'benchmarks/bench_gpu_module.cpp'
       - '.github/workflows/gpu-ci.yml'
   workflow_dispatch:
@@ -79,10 +85,10 @@ jobs:
         run: |
           cd build-${{ matrix.edition }}
           # Only run ctest if GPU test executables exist in the build tree.
-          GPU_TESTS=$(find . -name "test_gpu_*" -type f -executable 2>/dev/null | wc -l)
+          GPU_TESTS=$(find . -type f -executable \( -name "test_gpu_*" -o -name "test_geo_gpu_*" \) 2>/dev/null | wc -l)
           if [ "$GPU_TESTS" -gt 0 ]; then
             ctest --output-on-failure \
-              --tests-regex "^test_gpu_" \
+              --tests-regex "^(test_gpu_|GpuGeoBackend)" \
               --timeout 120 \
               -j4
           else
@@ -133,7 +139,8 @@ jobs:
       - name: Run clang-tidy on GPU sources
         run: |
           TIDY_ERRORS=0
-          for src in src/gpu/*.cpp; do
+          for src in src/gpu/*.cpp src/geo/gpu_backend_stub.cpp; do
+            [ -f "$src" ] || continue
             echo "Analysing: $src"
             clang-tidy "$src" \
               --checks="-*,readability-*,bugprone-*,performance-*" \

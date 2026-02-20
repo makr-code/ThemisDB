@@ -5,17 +5,23 @@
 #include <memory>
 #include <cstdint>
 
+#include "utils/geo/ewkb.h"
+
 namespace themis {
 namespace geo {
 
-// Forward declarations
-struct GeometryInfo;
-
 // Minimal abstraction for compute backends (CPU/GPU) used by Geo exact checks
 struct SpatialBatchInputs {
-    // Placeholder for SoA/AoSoA layouts in the future
-    // e.g., pointers/offsets to coordinates, MBR arrays, candidate id lists
+    /// Number of geometry pairs to test.  When geoms_a / geoms_b are
+    /// populated they must contain exactly `count` elements each.  If the
+    /// vectors are empty, `count` is still used to size the output mask
+    /// (all entries will be 0).
     std::size_t count{0};
+
+    /// First geometry of each pair.  Size must equal count when non-empty.
+    std::vector<GeometryInfo> geoms_a;
+    /// Second geometry of each pair.  Size must equal count when non-empty.
+    std::vector<GeometryInfo> geoms_b;
 };
 
 struct SpatialBatchResults {
@@ -49,6 +55,9 @@ using RegisterGeoPluginFn = void(*)(IGeoRegistry*);
 
 // Get the Boost CPU backend (if available)
 ISpatialComputeBackend* getBoostCpuBackend();
+
+// Get the GPU spatial backend (falls back to CPU when no GPU is present)
+ISpatialComputeBackend* getGpuSpatialBackend();
 
 } // namespace geo
 } // namespace themis

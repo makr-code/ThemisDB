@@ -286,3 +286,177 @@ TEST_F(GpuGeoBackendTest, Cross2D_Perpendicular_NonZero) {
     double c = cross2d(0, 0, 1, 0, 0, 1);
     EXPECT_GT(std::abs(c), kEps);
 }
+
+// ============================================================
+// Backend interface — batchIntersects with real geometry pairs
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_ZeroCount_EmptyMask) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    SpatialBatchInputs in;
+    in.count = 0;
+    auto result = backend->batchIntersects(in);
+    EXPECT_TRUE(result.mask.empty());
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_MaskSizeMatchesCount) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    // Pairs with no geometry → count governs mask size but geoms are empty
+    SpatialBatchInputs in;
+    in.count = 5;
+    auto result = backend->batchIntersects(in);
+    EXPECT_EQ(result.mask.size(), 5u);
+    // No geometry data supplied — all entries must be 0
+    for (auto v : result.mask) EXPECT_EQ(v, 0u);
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_PointPoint_SamePoint_Hit) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    in.count = 1;
+    in.geoms_a.push_back(makePoint(3.0, 4.0));
+    in.geoms_b.push_back(makePoint(3.0, 4.0));
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 1u);
+    EXPECT_EQ(result.mask[0], 1u);
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_PointPoint_DifferentPoints_Miss) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    in.count = 1;
+    in.geoms_a.push_back(makePoint(0.0, 0.0));
+    in.geoms_b.push_back(makePoint(5.0, 5.0));
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 1u);
+    EXPECT_EQ(result.mask[0], 0u);
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_PointInsidePolygon_Hit) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    in.count = 1;
+    in.geoms_a.push_back(makePoint(0.5, 0.5));
+    in.geoms_b.push_back(makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 1u);
+    EXPECT_EQ(result.mask[0], 1u);
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_PointOutsidePolygon_Miss) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    in.count = 1;
+    in.geoms_a.push_back(makePoint(9.0, 9.0));
+    in.geoms_b.push_back(makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 1u);
+    EXPECT_EQ(result.mask[0], 0u);
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_MultiplePairs_MixedResults) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    // Pair 0: same point → hit
+    in.geoms_a.push_back(makePoint(1.0, 1.0));
+    in.geoms_b.push_back(makePoint(1.0, 1.0));
+    // Pair 1: point outside polygon → miss
+    in.geoms_a.push_back(makePoint(10.0, 10.0));
+    in.geoms_b.push_back(makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+    // Pair 2: point inside polygon → hit
+    in.geoms_a.push_back(makePoint(0.5, 0.5));
+    in.geoms_b.push_back(makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}}));
+    in.count = 3;
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 3u);
+    EXPECT_EQ(result.mask[0], 1u);
+    EXPECT_EQ(result.mask[1], 0u);
+    EXPECT_EQ(result.mask[2], 1u);
+}
+
+// ============================================================
+// Backend interface — exactIntersects
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_SamePoint_True) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_TRUE(backend->exactIntersects(makePoint(2.0, 3.0), makePoint(2.0, 3.0)));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_DifferentPoints_False) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_FALSE(backend->exactIntersects(makePoint(0.0, 0.0), makePoint(1.0, 0.0)));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_PointInsidePolygon_True) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_TRUE(backend->exactIntersects(
+        makePoint(0.5, 0.5),
+        makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}})));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_PointOutsidePolygon_False) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_FALSE(backend->exactIntersects(
+        makePoint(5.0, 5.0),
+        makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}})));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_OverlappingPolygons_True) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    auto p1 = makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}});
+    auto p2 = makePolygon({{1,1},{3,1},{3,3},{1,3},{1,1}});
+    EXPECT_TRUE(backend->exactIntersects(p1, p2));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_DisjointPolygons_False) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    auto p1 = makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}});
+    auto p2 = makePolygon({{5,5},{6,5},{6,6},{5,6},{5,5}});
+    EXPECT_FALSE(backend->exactIntersects(p1, p2));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_ExactIntersects_CrossingLineStrings_True) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    auto ls1 = makeLineString({{0,1},{2,1}});
+    auto ls2 = makeLineString({{1,0},{1,2}});
+    EXPECT_TRUE(backend->exactIntersects(ls1, ls2));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_IsAvailable_NoCrash) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    // Should not crash regardless of hardware availability
+    (void)backend->isAvailable();
+    SUCCEED();
+}
+
+TEST_F(GpuGeoBackendTest, Backend_Name_IsGpuSpatial) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    EXPECT_STREQ(backend->name(), "gpu_spatial");
+}
