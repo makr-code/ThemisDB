@@ -142,7 +142,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
     ".*test_metadata_wal_recovery\\.cpp$"
-    ".*test_module_loader\\.cpp$"
     ".*test_paxos_wal_recovery\\.cpp$"
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
