@@ -1,4 +1,5 @@
 #include "observability/metrics_collector.h"
+#include "security/pii_redaction_policy.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -289,7 +290,10 @@ std::string MetricsCollector::makeKey(const std::string& name, const std::map<st
     if (labels.empty()) {
         return name;
     }
-    return name + formatLabels(labels);
+    // Redact PII from label values before they are incorporated into the metric
+    // key or written to the Prometheus endpoint.
+    auto safe_labels = themis::security::PIIRedactionPolicy::get().redactLabels(labels);
+    return name + formatLabels(safe_labels);
 }
 
 std::string MetricsCollector::formatLabels(const std::map<std::string, std::string>& labels) const {

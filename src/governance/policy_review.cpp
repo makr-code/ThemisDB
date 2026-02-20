@@ -1,4 +1,5 @@
 #include "governance/policy_review.h"
+#include "security/pii_redaction_policy.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -769,7 +770,7 @@ void NotificationManager::configure(const NotificationConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
     
-    THEMIS_INFO("Configured notification manager: email={}, webhook={}", 
+    THEMIS_INFO("Configured notification manager: email={}, webhook={}", // NOPII: logging boolean flags, not addresses
                 config_.email_enabled, config_.webhook_enabled);
 }
 
@@ -919,9 +920,9 @@ bool NotificationManager::sendEmail(const Notification& notification) {
         return false;
     }
     
-    // Simulate email sending
-    THEMIS_INFO("Simulated email to {}: {} - {}", 
-                notification.recipient, notification.subject, notification.message);
+    // Simulate email sending – recipient is PII (email address), redact before logging.
+    auto safe_recipient = themis::security::PIIRedactionPolicy::get().redactForLog(notification.recipient);
+    THEMIS_INFO("Simulated email to {}: {} - {}", safe_recipient, notification.subject, notification.message); // NOPII: safe_recipient is already redacted above
     
     return true;
 }
