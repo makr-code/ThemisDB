@@ -1573,6 +1573,7 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
     ../src/network/socket_timeout_manager.cpp
+    ../src/network/qos_manager.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
