@@ -35,30 +35,36 @@ logger.logWithContext(ILogger::Level::INFO, "query done",
 
 ### Async Interfaces
 **Priority:** High  
-**Target Version:** v1.6.0
+**Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/i_async_logger.h`, `include/core/concerns/i_async_cache.h`)
 
-Add async variants of synchronous interfaces for non-blocking operations.
+`IAsyncLogger` and `IAsyncCache` extend their synchronous counterparts with
+`std::future`-returning methods for non-blocking dispatch on hot paths.
+Default implementations wrap the synchronous methods with `std::async` so
+existing `ILogger`/`ICache` implementations gain async variants for free.
+`NoOpAsyncLogger` and `NoOpAsyncCache` use deferred futures (no real threads)
+for fast, zero-overhead testing.
 
 ```cpp
-class IAsyncLogger : public ILogger {
-public:
-    virtual std::future<void> infoAsync(std::string_view msg) = 0;
-    virtual std::future<void> errorAsync(std::string_view msg) = 0;
-};
+// IAsyncLogger — fire-and-forget or awaitable
+IAsyncLogger& logger = ...;
+logger.infoAsync("Request received");          // fire-and-forget
+auto f = logger.errorAsync("Fatal error");
+f.get();                                       // await completion
 
-class IAsyncCache : public ICache {
-public:
-    virtual std::future<std::optional<std::string>> getAsync(std::string_view key) = 0;
-    virtual std::future<void> setAsync(std::string_view key, std::string_view value) = 0;
-};
+// IAsyncCache — non-blocking get + write
+IAsyncCache& cache = ...;
+auto fut = cache.getAsync("user:42");
+// ... do other work while I/O is in-flight ...
+auto entry = fut.get();
+if (entry) { /* cache hit */ }
+cache.putAsync("user:42", updated_entry, 30000);
 ```
 
-**Use Cases:**
-- Non-blocking logging in critical paths
-- Async cache warming
-- Background metric updates
+Any class that implements `ILogger` can opt in to async dispatch simply by
+inheriting from `IAsyncLogger` and implementing the same sync pure-virtuals
+— no additional overrides required.
 
----
+
 
 ### Type-Safe Metrics Labels
 **Priority:** Medium  
@@ -572,7 +578,7 @@ We welcome contributions in the following areas:
 ### Medium Complexity
 - [x] Implement IContext interface (`SimpleContext` + `context_keys::k*` in `include/core/concerns/i_context.h`; bridges to `logWithContext()` via `toTraceContext()`)
 - [x] Add type-safe metrics labels (`MetricLabels` fluent builder + `labels::k*` constants in `include/core/concerns/metric_labels.h`; implicitly converts to `IMetrics::Labels` so existing code is unchanged)
-- [ ] Create async interface variants
+- [x] Create async interface variants (`IAsyncLogger` and `IAsyncCache` in `i_async_logger.h`/`i_async_cache.h`; default impls wrap sync methods with `std::async`; NoOp variants use deferred futures)
 - [x] Health check interface (implemented in v1.6.0)
 
 ### Advanced Topics

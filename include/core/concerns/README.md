@@ -452,6 +452,8 @@ from destructors, signal handlers, and other non-throwing contexts:
 - `include/core/concerns/lifecycle.h` - `ProbeResult` and `HealthStatus` types
 - `include/core/concerns/metric_labels.h` - `MetricLabels` fluent builder and `labels::k*` constants
 - `include/core/concerns/i_context.h` - `IContext` interface, `SimpleContext` impl, and `context_keys::k*` constants
+- `include/core/concerns/i_async_logger.h` - `IAsyncLogger` interface and `NoOpAsyncLogger` impl
+- `include/core/concerns/i_async_cache.h` - `IAsyncCache` interface and `NoOpAsyncCache` impl
 
 ### Implementations
 - `include/core/concerns/spdlog_logger_adapter.h` - Spdlog adapter

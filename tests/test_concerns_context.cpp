@@ -5,10 +5,13 @@
 #include "core/concerns/lifecycle.h"
 #include "core/concerns/metric_labels.h"
 #include "core/concerns/i_context.h"
+#include "core/concerns/i_async_logger.h"
+#include "core/concerns/i_async_cache.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
 #include <chrono>
+#include <atomic>
 
 using namespace themis::core::concerns;
 
@@ -602,4 +605,158 @@ TEST(IContextTest, IntegrationWithLogWithContext) {
         logger.logWithContext(ILogger::Level::INFO, "query completed",
                               ctx->toTraceContext(), {{"rows", "42"}})
     );
+}
+
+// ===== IAsyncLogger / NoOpAsyncLogger Tests =====
+
+TEST(IAsyncLoggerTest, NoOpAsyncLoggerSyncMethodsDoNotThrow) {
+    NoOpAsyncLogger logger;
+    EXPECT_NO_THROW(logger.trace("t"));
+    EXPECT_NO_THROW(logger.debug("d"));
+    EXPECT_NO_THROW(logger.info("i"));
+    EXPECT_NO_THROW(logger.warn("w"));
+    EXPECT_NO_THROW(logger.error("e"));
+    EXPECT_NO_THROW(logger.critical("c"));
+    EXPECT_NO_THROW(logger.log(ILogger::Level::INFO, "l"));
+}
+
+TEST(IAsyncLoggerTest, NoOpAsyncLoggerAsyncMethodsReturnValidFutures) {
+    NoOpAsyncLogger logger;
+
+    auto f_info  = logger.infoAsync("hello");
+    auto f_error = logger.errorAsync("oops");
+    auto f_log   = logger.logAsync(ILogger::Level::WARN, "warn");
+    auto f_struct = logger.logStructuredAsync(ILogger::Level::DEBUG, "debug",
+                                               {{"key", "val"}});
+
+    // Must be able to .get() without throwing
+    EXPECT_NO_THROW(f_info.get());
+    EXPECT_NO_THROW(f_error.get());
+    EXPECT_NO_THROW(f_log.get());
+    EXPECT_NO_THROW(f_struct.get());
+}
+
+TEST(IAsyncLoggerTest, NoOpAsyncLoggerAllLevelAsyncMethods) {
+    NoOpAsyncLogger logger;
+    EXPECT_NO_THROW(logger.traceAsync("t").get());
+    EXPECT_NO_THROW(logger.debugAsync("d").get());
+    EXPECT_NO_THROW(logger.infoAsync("i").get());
+    EXPECT_NO_THROW(logger.warnAsync("w").get());
+    EXPECT_NO_THROW(logger.errorAsync("e").get());
+    EXPECT_NO_THROW(logger.criticalAsync("c").get());
+}
+
+TEST(IAsyncLoggerTest, NoOpAsyncLoggerLifecycle) {
+    NoOpAsyncLogger logger;
+    EXPECT_NO_THROW(logger.flush());
+    EXPECT_NO_THROW(logger.shutdown());
+    EXPECT_TRUE(logger.isHealthy().ok);
+}
+
+TEST(IAsyncLoggerTest, DefaultAsyncImplCallsSyncMethod) {
+    // Verify that the default IAsyncLogger implementation actually invokes
+    // the underlying sync log() method. We use a simple counter logger.
+    class CountingLogger : public IAsyncLogger {
+    public:
+        std::atomic<int> count{0};
+        void log(Level, const std::string&) override { ++count; }
+        void trace(const std::string& m) override { log(Level::TRACE, m); }
+        void debug(const std::string& m) override { log(Level::DEBUG, m); }
+        void info(const std::string& m) override  { log(Level::INFO, m); }
+        void warn(const std::string& m) override  { log(Level::WARN, m); }
+        void error(const std::string& m) override { log(Level::ERROR, m); }
+        void critical(const std::string& m) override { log(Level::CRITICAL, m); }
+        void setLevel(Level) override {}
+        Level getLevel() const override { return Level::INFO; }
+        void setPattern(const std::string&) override {}
+    };
+
+    CountingLogger logger;
+    auto f = logger.infoAsync("hello");
+    f.get(); // wait for the async call to complete; .get() synchronizes-with the async thread
+    EXPECT_EQ(1, logger.count.load());
+
+    logger.errorAsync("oops").get();
+    EXPECT_EQ(2, logger.count.load());
+}
+
+// ===== IAsyncCache / NoOpAsyncCache Tests =====
+
+TEST(IAsyncCacheTest, NoOpAsyncCacheSyncMethodsReturnSafeDefaults) {
+    NoOpAsyncCache cache;
+    EXPECT_FALSE(cache.get("key").has_value());
+    EXPECT_TRUE(cache.put("key", CacheEntry{"v", 1, 0}));
+    EXPECT_EQ(0u, cache.size());
+    EXPECT_EQ(0u, cache.hitCount());
+    EXPECT_EQ(0u, cache.missCount());
+    EXPECT_DOUBLE_EQ(0.0, cache.hitRate());
+    EXPECT_NO_THROW(cache.invalidate("key"));
+    EXPECT_NO_THROW(cache.clear());
+    EXPECT_NO_THROW(cache.invalidatePattern("*"));
+}
+
+TEST(IAsyncCacheTest, NoOpAsyncCacheGetAsyncReturnsMiss) {
+    NoOpAsyncCache cache;
+    auto f = cache.getAsync("user:42");
+    auto result = f.get();
+    EXPECT_FALSE(result.has_value());
+}
+
+TEST(IAsyncCacheTest, NoOpAsyncCachePutAsyncReturnsTrue) {
+    NoOpAsyncCache cache;
+    CacheEntry entry{"data", 1, 0};
+    auto f = cache.putAsync("user:42", entry, 10000);
+    EXPECT_TRUE(f.get());
+}
+
+TEST(IAsyncCacheTest, NoOpAsyncCacheInvalidateAsyncDoesNotThrow) {
+    NoOpAsyncCache cache;
+    EXPECT_NO_THROW(cache.invalidateAsync("user:42").get());
+}
+
+TEST(IAsyncCacheTest, NoOpAsyncCacheLifecycle) {
+    NoOpAsyncCache cache;
+    EXPECT_NO_THROW(cache.flush());
+    EXPECT_NO_THROW(cache.shutdown());
+    EXPECT_TRUE(cache.isHealthy().ok);
+}
+
+TEST(IAsyncCacheTest, DefaultAsyncImplCallsSyncMethod) {
+    // IAsyncCache default methods delegate to InMemoryCacheImpl sync ops.
+    class AsyncInMemoryCache : public IAsyncCache, public InMemoryCacheImpl {
+    public:
+        explicit AsyncInMemoryCache(size_t max) : InMemoryCacheImpl(max, 0) {}
+
+        // Delegate all ICache pure-virtuals to InMemoryCacheImpl
+        std::optional<CacheEntry> get(std::string_view k) const override {
+            return InMemoryCacheImpl::get(k);
+        }
+        bool put(std::string_view k, const CacheEntry& e, uint64_t t) override {
+            return InMemoryCacheImpl::put(k, e, t);
+        }
+        void invalidate(std::string_view k) override { InMemoryCacheImpl::invalidate(k); }
+        void clear() override { InMemoryCacheImpl::clear(); }
+        void invalidatePattern(std::string_view p) override { InMemoryCacheImpl::invalidatePattern(p); }
+        size_t size() const override { return InMemoryCacheImpl::size(); }
+        uint64_t hitCount()  const override { return InMemoryCacheImpl::hitCount(); }
+        uint64_t missCount() const override { return InMemoryCacheImpl::missCount(); }
+        double hitRate() const override { return InMemoryCacheImpl::hitRate(); }
+        void setMaxSize(size_t m) override { InMemoryCacheImpl::setMaxSize(m); }
+        void setDefaultTTL(uint64_t t) override { InMemoryCacheImpl::setDefaultTTL(t); }
+    };
+
+    AsyncInMemoryCache cache(100);
+
+    // Async put
+    CacheEntry entry{"hello", 1, 0};
+    EXPECT_TRUE(cache.putAsync("k1", entry).get());
+
+    // Async get — should find the entry we just put
+    auto result = cache.getAsync("k1").get();
+    ASSERT_TRUE(result.has_value());
+    EXPECT_EQ("hello", result->payload);
+
+    // Async invalidate — entry should be gone
+    cache.invalidateAsync("k1").get();
+    EXPECT_FALSE(cache.getAsync("k1").get().has_value());
 }
