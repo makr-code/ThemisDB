@@ -105,6 +105,16 @@ double TokenBucket::availableBytes() const {
     return std::min(estimated, static_cast<double>(burst_bytes_));
 }
 
+uint64_t TokenBucket::rateBps() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return rate_bps_;
+}
+
+uint64_t TokenBucket::burstBytes() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return burst_bytes_;
+}
+
 // =============================================================================
 // QoSManager
 // =============================================================================
@@ -152,7 +162,7 @@ void QoSManager::registerConnection(uint64_t connection_id, Priority priority) {
         uint64_t burst = config_.default_burst_bytes > 0
                              ? config_.default_burst_bytes
                              : config_.default_rate_bps / 8;  // 1 s worth of data
-        state->token_bucket = std::make_unique<TokenBucket>(config_.default_rate_bps, burst);
+        state->token_bucket = std::make_shared<TokenBucket>(config_.default_rate_bps, burst);
     }
 
     std::lock_guard<std::mutex> lock(connections_mutex_);
@@ -193,7 +203,7 @@ void QoSManager::setTokenBucket(uint64_t connection_id,
     if (state->token_bucket) {
         state->token_bucket->reconfigure(rate_bps, burst);
     } else {
-        state->token_bucket = std::make_unique<TokenBucket>(rate_bps, burst);
+        state->token_bucket = std::make_shared<TokenBucket>(rate_bps, burst);
     }
 }
 
@@ -237,18 +247,23 @@ bool QoSManager::allowSend(uint64_t connection_id,
     }
 
     // --- Token bucket check ---
+    // Snapshot the bucket pointer under the lock, then release before blocking.
+    // TokenBucket is internally thread-safe, so calling consume/tryConsume on
+    // the snapshot without holding token_bucket_mutex is safe.
+    std::shared_ptr<TokenBucket> bucket;
     {
         std::lock_guard<std::mutex> tb_lock(state->token_bucket_mutex);
-        if (state->token_bucket) {
-            bool ok = (timeout.count() > 0)
-                          ? state->token_bucket->consume(bytes, timeout)
-                          : state->token_bucket->tryConsume(bytes);
+        bucket = state->token_bucket;
+    }
+    if (bucket) {
+        bool ok = (timeout.count() > 0)
+                      ? bucket->consume(bytes, timeout)
+                      : bucket->tryConsume(bytes);
 
-            if (!ok) {
-                state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
-                total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
-                return false;
-            }
+        if (!ok) {
+            state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+            total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+            return false;
         }
     }
 

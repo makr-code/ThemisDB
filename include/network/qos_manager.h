@@ -91,10 +91,10 @@ public:
     double availableBytes() const;
 
     /** @brief Configured rate in bps. */
-    uint64_t rateBps() const { return rate_bps_; }
+    uint64_t rateBps() const;
 
     /** @brief Configured burst size in bytes. */
-    uint64_t burstBytes() const { return burst_bytes_; }
+    uint64_t burstBytes() const;
 
 private:
     /** Refill tokens based on elapsed time since last refill. */
@@ -330,7 +330,7 @@ private:
         std::atomic<uint8_t> priority{static_cast<uint8_t>(Priority::MEDIUM)};
 
         mutable std::mutex token_bucket_mutex;  // protects token_bucket
-        std::unique_ptr<TokenBucket> token_bucket;  // nullptr = unlimited
+        std::shared_ptr<TokenBucket> token_bucket;  // nullptr = unlimited
 
         std::atomic<uint64_t> bytes_sent{0};
         std::atomic<uint64_t> bytes_received{0};
