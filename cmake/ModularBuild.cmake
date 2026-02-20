@@ -142,6 +142,7 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
     ../src/acceleration/backend_registry.cpp

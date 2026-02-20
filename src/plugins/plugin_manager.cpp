@@ -338,6 +338,42 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
         std::string filename = entry.path().filename().string();
         if (entry.path().extension() == ".json") {
             auto manifest = loadManifest(entry.path().string());
+            if (!manifest && filename != "plugin.json") {
+                try {
+                    std::ifstream file(entry.path());
+                    json j;
+                    file >> j;
+
+                    PluginManifest legacy;
+                    legacy.name = j.value("name", "");
+                    legacy.version = j.value("version", "1.0.0");
+                    legacy.description = j.value("description", "");
+
+                    if (j.contains("type") && j["type"].is_number_integer()) {
+                        legacy.type = static_cast<PluginType>(j["type"].get<int>());
+                    } else {
+                        std::string type_str = j.value("type", "custom");
+                        if (type_str == "compute_backend") legacy.type = PluginType::COMPUTE_BACKEND;
+                        else if (type_str == "blob_storage") legacy.type = PluginType::BLOB_STORAGE;
+                        else if (type_str == "importer") legacy.type = PluginType::IMPORTER;
+                        else if (type_str == "exporter") legacy.type = PluginType::EXPORTER;
+                        else if (type_str == "hsm_provider") legacy.type = PluginType::HSM_PROVIDER;
+                        else if (type_str == "embedding") legacy.type = PluginType::EMBEDDING;
+                        else legacy.type = PluginType::CUSTOM;
+                    }
+
+                    std::string lib = j.value("library", "");
+                    legacy.binary_windows = lib;
+                    legacy.binary_linux = lib;
+                    legacy.binary_macos = lib;
+
+                    if (!legacy.name.empty()) {
+                        manifest = legacy;
+                    }
+                } catch (...) {
+                    // Fallback parsing failed; keep manifest as nullopt
+                }
+            }
             if (!manifest) continue;
             
             // Determine binary path based on platform
