@@ -16,7 +16,7 @@ ExecStart=/usr/bin/themisdb-server --config /etc/themisdb/config.yaml
 ExecReload=/bin/kill -HUP $MAINPID
 
 # --- Environment file (contains secrets) ---
-# Copy /usr/lib/themisdb/themisdb.env.example to /etc/themisdb/themisdb.env,
+# Copy deploy/systemd/themisdb.env.example to /etc/themisdb/themisdb.env,
 # fill in values, and restrict permissions: chmod 600 /etc/themisdb/themisdb.env
 EnvironmentFile=-/etc/themisdb/themisdb.env
 
