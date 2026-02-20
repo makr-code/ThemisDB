@@ -44,7 +44,16 @@ struct GPUConfig {
     // -----------------------------------------------------------------------
     // Fallback
     // -----------------------------------------------------------------------
-    bool        enable_cpu_fallback = true;
+    bool        enable_cpu_fallback    = true;
+
+    /**
+     * @brief Maximum time the CPU fallback path may take, in milliseconds.
+     *
+     * When > 0 the GPU module records a budget-exceeded warning if a CPU
+     * fallback operation takes longer than this value.  Set to 0 to disable
+     * budget enforcement (no-limit).
+     */
+    uint32_t    fallback_cpu_budget_ms = 0;
 
     // -----------------------------------------------------------------------
     // Audit / Observability

@@ -742,3 +742,116 @@ TEST_F(GPUMemoryManagerTest, Chaos_SimulateMultipleTenantOOMAndRecovery) {
     mgr.DeallocateGPU(3 * mb, "chaos_t2");
     mgr.DeallocateGPU(mb, "chaos_t1");
 }
+
+// ===========================================================================
+// Pre-allocation hint tests
+// ===========================================================================
+
+class GPUMemoryHintTest : public ::testing::Test {
+protected:
+    void SetUp() override    { DrainManager(); }
+    void TearDown() override { DrainManager(); }
+};
+
+TEST_F(GPUMemoryHintTest, ReserveHint_ValidRequest_ReturnsNonZeroId) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    auto h = mgr.ReserveHint(1024, "hint_tag");
+    EXPECT_GT(h.id, 0u);
+    EXPECT_EQ(h.bytes, 1024u);
+    mgr.CancelHint(h.id);
+}
+
+TEST_F(GPUMemoryHintTest, ReserveHint_SetsHintReservedBytes) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    auto h = mgr.ReserveHint(512, "h");
+    ASSERT_GT(h.id, 0u);
+    EXPECT_EQ(mgr.GetHintReservedBytes(), 512u);
+    mgr.CancelHint(h.id);
+    EXPECT_EQ(mgr.GetHintReservedBytes(), 0u);
+}
+
+TEST_F(GPUMemoryHintTest, ReserveHint_BlocksOtherAllocationsWhenFull) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t max = GPUMemoryManager::GetMaxGPUVRAMBytes();
+    // Reserve all available VRAM as a hint.
+    auto h = mgr.ReserveHint(max, "full_hint");
+    ASSERT_GT(h.id, 0u);
+    // Any additional allocation or hint should now fail.
+    EXPECT_FALSE(mgr.TryAllocateGPU(1, "over_hint"));
+    auto h2 = mgr.ReserveHint(1, "over_hint_2");
+    EXPECT_EQ(h2.id, 0u);
+    mgr.CancelHint(h.id);
+}
+
+TEST_F(GPUMemoryHintTest, CancelHint_InvalidId_IsNoOp) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    EXPECT_NO_THROW(mgr.CancelHint(0));
+    EXPECT_NO_THROW(mgr.CancelHint(999999));
+}
+
+TEST_F(GPUMemoryHintTest, ConsumeHint_ConvertsHintToRealAllocation) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    auto h = mgr.ReserveHint(256, "consume_tag");
+    ASSERT_GT(h.id, 0u);
+    const uint64_t before_alloc = mgr.GetStats().allocation_count;
+
+    EXPECT_TRUE(mgr.ConsumeHint(h.id));
+
+    // Hint bytes are no longer in the hint pool.
+    EXPECT_EQ(mgr.GetHintReservedBytes(), 0u);
+    // But they are now tracked as a real allocation.
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 256u);
+    EXPECT_EQ(mgr.GetStats().allocation_count, before_alloc + 1);
+
+    mgr.DeallocateGPU(256u);
+}
+
+TEST_F(GPUMemoryHintTest, ConsumeHint_DoubleConsume_ReturnsFalse) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    auto h = mgr.ReserveHint(128, "dbl");
+    ASSERT_GT(h.id, 0u);
+    EXPECT_TRUE(mgr.ConsumeHint(h.id));
+    EXPECT_FALSE(mgr.ConsumeHint(h.id));
+    mgr.DeallocateGPU(128u);
+}
+
+TEST_F(GPUMemoryHintTest, ConsumeHint_InvalidId_ReturnsFalse) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    EXPECT_FALSE(mgr.ConsumeHint(0));
+    EXPECT_FALSE(mgr.ConsumeHint(999999));
+}
+
+TEST_F(GPUMemoryHintTest, ReserveHint_TenantQuota_EnforcedForHints) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t quota = 1024 * 1024;  // 1 MB
+    mgr.SetTenantQuota("hint_tenant", quota);
+
+    auto h1 = mgr.ReserveHint(quota, "h1", "hint_tenant");
+    EXPECT_GT(h1.id, 0u);
+    // Tenant quota should now be exhausted.
+    auto h2 = mgr.ReserveHint(1, "h2", "hint_tenant");
+    EXPECT_EQ(h2.id, 0u);
+
+    mgr.CancelHint(h1.id);
+    mgr.RemoveTenantQuota("hint_tenant");
+}
+
+TEST_F(GPUMemoryHintTest, ReserveHint_MultipleHints_AggregatedAgainstTenantQuota) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t quota = 1024 * 1024;  // 1 MB
+    mgr.SetTenantQuota("mh_tenant", quota);
+
+    // Reserve half the quota with first hint.
+    auto h1 = mgr.ReserveHint(quota / 2, "h1", "mh_tenant");
+    EXPECT_GT(h1.id, 0u);
+    // Reserve remaining half.
+    auto h2 = mgr.ReserveHint(quota / 2, "h2", "mh_tenant");
+    EXPECT_GT(h2.id, 0u);
+    // Any further reservation should fail — quota fully used by hints.
+    auto h3 = mgr.ReserveHint(1, "h3", "mh_tenant");
+    EXPECT_EQ(h3.id, 0u);
+
+    mgr.CancelHint(h1.id);
+    mgr.CancelHint(h2.id);
+    mgr.RemoveTenantQuota("mh_tenant");
+}

@@ -147,6 +147,56 @@ public:
     void ValidateAllocation(uint64_t size_bytes);
 
     // -----------------------------------------------------------------------
+    // Pre-allocation hints
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Handle returned by ReserveHint().  Use the id to cancel or
+     *        consume the hint.  A zero id indicates failure.
+     */
+    struct HintHandle {
+        uint64_t    id         = 0;     ///< 0 = invalid
+        uint64_t    bytes      = 0;
+        std::string tag;
+        std::string tenant_id;
+    };
+
+    /**
+     * @brief Reserve @p bytes of VRAM headroom for a future allocation.
+     *
+     * The reserved bytes count against the edition limit and against the
+     * tenant quota (if set) so that other callers cannot consume the capacity
+     * before the reservation is consumed or cancelled.
+     *
+     * @return HintHandle with id > 0 on success, id == 0 if the reservation
+     *         cannot be honoured (limit already exceeded).
+     */
+    HintHandle ReserveHint(uint64_t bytes,
+                           const std::string& tag        = "hint",
+                           const std::string& tenant_id  = "");
+
+    /**
+     * @brief Release a previously reserved hint without allocating.
+     *
+     * Safe to call with an invalid (id == 0) handle.
+     */
+    void CancelHint(uint64_t hint_id);
+
+    /**
+     * @brief Convert a hint into a real allocation (atomic swap).
+     *
+     * The reserved bytes remain occupied in the VRAM budget; only their
+     * classification changes from "hint" to "active allocation".
+     *
+     * @return true if the hint was found and converted; false if the hint_id
+     *         was not found (already consumed or cancelled).
+     */
+    bool ConsumeHint(uint64_t hint_id);
+
+    /** @brief Total bytes currently held by outstanding hints. */
+    uint64_t GetHintReservedBytes() const;
+
+    // -----------------------------------------------------------------------
     // Queries
     // -----------------------------------------------------------------------
     uint64_t GetGPUMemoryUsed() const;
@@ -204,6 +254,17 @@ private:
     // the first record whose size_bytes (and tenant_id, if provided) matches
     // is removed.
     std::vector<AllocationRecord> active_allocations_;
+
+    // Pre-allocation hints.
+    struct HintRecord {
+        uint64_t    id         = 0;
+        uint64_t    bytes      = 0;
+        std::string tag;
+        std::string tenant_id;
+    };
+    uint64_t             hint_reserved_bytes_ = 0;
+    uint64_t             next_hint_id_        = 1;
+    std::vector<HintRecord> active_hints_;
 
     // Per-tenant state — keyed by tenant_id.
     struct TenantState {

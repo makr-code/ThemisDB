@@ -199,3 +199,56 @@ TEST(GPUMemoryPoolTest, Concurrent_AllocRelease_NoCounterDrift) {
 
     EXPECT_EQ(pool.freeSlabs(), pool.numSlabs());
 }
+
+// ===========================================================================
+// Zero-on-free tests
+// ===========================================================================
+
+TEST(GPUMemoryPoolZeroOnFreeTest, DefaultIsDisabled) {
+    GPUMemoryPool pool(1024 * 1024, 256 * 1024, 4);
+    EXPECT_FALSE(pool.getZeroOnFree());
+    EXPECT_EQ(pool.getStats().zeroed_slabs, 0u);
+}
+
+TEST(GPUMemoryPoolZeroOnFreeTest, EnableZeroOnFree_SetsFlag) {
+    GPUMemoryPool pool(1024 * 1024, 256 * 1024, 4);
+    pool.setZeroOnFree(true);
+    EXPECT_TRUE(pool.getZeroOnFree());
+}
+
+TEST(GPUMemoryPoolZeroOnFreeTest, Release_IncrementsZeroedSlabsCount) {
+    const uint64_t slab = 256 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+    pool.setZeroOnFree(true);
+
+    uint64_t offset = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "tenant_a", offset));
+    EXPECT_EQ(pool.getStats().zeroed_slabs, 0u);
+
+    EXPECT_TRUE(pool.release(offset));
+    EXPECT_EQ(pool.getStats().zeroed_slabs, 1u);
+}
+
+TEST(GPUMemoryPoolZeroOnFreeTest, Release_NoZeroWhenDisabled) {
+    const uint64_t slab = 256 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+    // zero_on_free defaults to false
+
+    uint64_t offset = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "tenant_b", offset));
+    EXPECT_TRUE(pool.release(offset));
+    EXPECT_EQ(pool.getStats().zeroed_slabs, 0u);
+}
+
+TEST(GPUMemoryPoolZeroOnFreeTest, MultipleReleases_AccumulatesCount) {
+    const uint64_t slab = 128 * 1024;
+    GPUMemoryPool pool(4 * slab, slab, 4);
+    pool.setZeroOnFree(true);
+
+    uint64_t o1 = 0, o2 = 0;
+    ASSERT_TRUE(pool.tryAcquire(slab, "t1", o1));
+    ASSERT_TRUE(pool.tryAcquire(slab, "t2", o2));
+    pool.release(o1);
+    pool.release(o2);
+    EXPECT_EQ(pool.getStats().zeroed_slabs, 2u);
+}

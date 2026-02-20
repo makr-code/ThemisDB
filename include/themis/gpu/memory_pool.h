@@ -53,6 +53,7 @@ public:
         size_t   free_slabs      = 0;  ///< Slabs not currently in use
         size_t   alloc_hits      = 0;  ///< Successful pool allocations
         size_t   alloc_misses    = 0;  ///< Requests that couldn't be served
+        size_t   zeroed_slabs    = 0;  ///< Slabs zeroed on release (zero_on_free)
         float    fragmentation   = 0.0f; ///< 0.0–1.0 wasted / total
     };
 
@@ -74,6 +75,21 @@ public:
     // Disable copy.
     GPUMemoryPool(const GPUMemoryPool&) = delete;
     GPUMemoryPool& operator=(const GPUMemoryPool&) = delete;
+
+    // -----------------------------------------------------------------------
+    // Configuration
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief When enabled, each slab is conceptually zeroed on release.
+     *
+     * In a real CUDA implementation this calls `cudaMemset(ptr, 0, slab_size)`
+     * before returning the slab to the free list, preventing one tenant from
+     * reading another tenant's data.  In the bookkeeping-only simulation the
+     * flag increments a counter that is visible in Stats.
+     */
+    void setZeroOnFree(bool z) noexcept { zero_on_free_ = z; }
+    bool getZeroOnFree()       const noexcept { return zero_on_free_; }
 
     // -----------------------------------------------------------------------
     // Allocation / deallocation
@@ -132,6 +148,8 @@ private:
     uint64_t            wasted_bytes_    = 0;  ///< sum of (slab_size - request) per live slab
     size_t              alloc_hits_      = 0;
     size_t              alloc_misses_    = 0;
+    size_t              zeroed_slabs_    = 0;
+    bool                zero_on_free_    = false;
 };
 
 } // namespace gpu

@@ -85,6 +85,11 @@ bool GPUMemoryPool::release(uint64_t offset) {
             } else {
                 allocated_bytes_ = 0;
             }
+            // Privacy: zero the slab before returning it to the free list.
+            // In a real CUDA pool this calls cudaMemset(device_ptr, 0, slab_size_).
+            if (zero_on_free_) {
+                ++zeroed_slabs_;
+            }
             return true;
         }
     }
@@ -105,6 +110,7 @@ GPUMemoryPool::Stats GPUMemoryPool::getStats() const {
     s.total_slabs     = slabs_.size();
     s.alloc_hits      = alloc_hits_;
     s.alloc_misses    = alloc_misses_;
+    s.zeroed_slabs    = zeroed_slabs_;
     size_t free = 0;
     for (const auto& sl : slabs_) {
         if (sl.is_free) ++free;

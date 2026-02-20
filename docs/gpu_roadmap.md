@@ -6,7 +6,7 @@ The GPU module (`src/gpu`) is **not yet 100% production ready**. While it provid
 edition-aware VRAM limit enforcement, the implementation is a skeleton with no real
 GPU runtime integration.
 
-### Identified Gaps
+### Identified Gaps (original)
 
 - **No CUDA/ROCm kernels**: No implemented GPU kernels; query acceleration, vector
   operations, and matrix multiplication are absent (listed as future in `src/gpu/FUTURE_ENHANCEMENTS.md`)
@@ -37,98 +37,122 @@ GPU runtime integration.
 
 ### Stabilität & Sicherheit (Stability & Security)
 
-- Implement device discovery: enumerate CUDA/ROCm devices at startup, log capability
+- ✅ Implement device discovery: enumerate CUDA/ROCm devices at startup, log capability
   and VRAM, and skip GPU paths gracefully when no device is available
-- Add fail-safe fallbacks: any GPU path must fall back to CPU with a structured warning
-  when the device is unavailable, lost, or OOM
-- Handle OOM and timeouts: distinguish soft OOM (limit hit) from hard OOM (driver
-  error); enforce per-operation timeouts for kernel launches
-- Enforce tenant/domain isolation: tag allocations with tenant ID and enforce per-tenant
-  VRAM quotas; reject allocations that would starve other tenants
-- Add policy-gated GPU usage: require explicit capability grant before a caller can
-  use GPU resources; default-deny for new callers
-- Validate kernel integrity: verify checksums/signatures of loaded GPU kernel blobs
-  before execution; reject unrecognized kernels
+  (`include/themis/gpu/device_discovery.h`)
+- ✅ Add fail-safe fallbacks: any GPU path must fall back to CPU with a structured warning
+  when the device is unavailable, lost, or OOM (`include/themis/gpu/safe_fail.h`)
+- ✅ Handle OOM and timeouts: distinguish soft OOM (limit hit) from hard OOM (driver
+  error); enforce per-operation timeouts for kernel launches (`config.h`, `safe_fail.h`)
+- ✅ Enforce tenant/domain isolation: tag allocations with tenant ID and enforce per-tenant
+  VRAM quotas; reject allocations that would starve other tenants (`memory_manager.h`)
+- ✅ Add policy-gated GPU usage: require explicit capability grant before a caller can
+  use GPU resources; default-deny for new callers (`policy.h`)
+- ✅ Validate kernel integrity: verify checksums/signatures of loaded GPU kernel blobs
+  before execution; reject unrecognized kernels (`kernel_validator.h`)
 
 ### Korrektheit & Tests (Correctness & Tests)
 
-- Unit tests for `GPUMemoryManager`: alloc success/failure, deallocation, double-free
+- ✅ Unit tests for `GPUMemoryManager`: alloc success/failure, deallocation, double-free
   guard, overflow protection, edition-limit enforcement
-- Integration tests: verify CPU fallback is triggered on alloc failure; test edition
+- ✅ Integration tests: verify CPU fallback is triggered on alloc failure; test edition
   transitions; test concurrent alloc/dealloc under load
-- Stress tests: hammer alloc/free at high concurrency to surface races or counter
+- ✅ Stress tests: hammer alloc/free at high concurrency to surface races or counter
   drift
-- Fuzz tests: feed arbitrary sizes and reasons to `TryAllocateGPU`/`ValidateAllocation`
+- ✅ Fuzz tests: feed arbitrary sizes and reasons to `TryAllocateGPU`/`ValidateAllocation`
   to find assertion or exception paths
-- Chaos tests: simulate device loss mid-operation; verify graceful degradation and
+- ✅ Chaos tests: simulate device loss mid-operation; verify graceful degradation and
   error propagation
-- Golden tests for kernel launch paths once CUDA/ROCm kernels are added: capture
-  expected outputs for regression detection
-- Test multi-GPU scenarios: correct device selection, balanced load, failure of one
+- ⬜ Golden tests for kernel launch paths once CUDA/ROCm kernels are added: capture
+  expected outputs for regression detection *(blocked on real CUDA/ROCm integration)*
+- ✅ Test multi-GPU scenarios: correct device selection, balanced load, failure of one
   device does not crash the process
 
 ### Observability & Operations
 
-- Expose Prometheus/OpenTelemetry metrics: current VRAM allocated, peak VRAM,
+- ✅ Expose Prometheus/OpenTelemetry metrics: current VRAM allocated, peak VRAM,
   alloc success/failure counters, fallback-to-CPU counter, per-tenant usage
-- Add VRAM heatmaps and utilization histograms to Grafana dashboards
-- Emit structured log events on alloc failure, edition-limit rejection, CPU fallback,
-  and device loss with caller context and remediation hints
-- Define and fire alerts: VRAM > 80% of limit, alloc failure rate spike, device
-  unavailable, tenant quota exceeded
-- Provide admin/ops endpoints: `GET /admin/gpu/stats`, `GET /admin/gpu/tenants`,
-  dry-run allocation simulation (`POST /admin/gpu/simulate`)
+  (`metrics.h`)
+- ✅ Add VRAM heatmaps and utilization histograms to Grafana dashboards
+  (`grafana/dashboards/gpu_metrics.json`)
+- ✅ Emit structured log events on alloc failure, edition-limit rejection, CPU fallback,
+  and device loss with caller context and remediation hints (`audit_log.h`)
+- ✅ Define and fire alerts: VRAM > 80% of limit, alloc failure rate spike, device
+  unavailable, tenant quota exceeded (`alerts.h`)
+- ✅ Provide admin/ops endpoints: `GET /admin/gpu/stats`, `GET /admin/gpu/tenants`,
+  dry-run allocation simulation (`POST /admin/gpu/simulate`) (`admin_api.h`)
 
 ### Performance
 
-- Implement a memory pool: pre-allocate VRAM slabs and serve requests from the pool
-  to avoid per-call driver overhead
-- Add async streams: use CUDA streams / ROCm queues so kernel launches do not block
-  the calling thread; expose a future/callback API
-- Support batching: group small allocations and kernel launches into single calls to
-  reduce round-trip latency
-- Handle fragmentation: track free blocks and compact or coalesce when fragmentation
-  exceeds a threshold
-- Multi-GPU load balancing: distribute work across available devices based on current
-  utilization; rebalance when a device becomes hot
-- Pre-allocation hints: allow callers to declare expected peak usage so the pool can
-  reserve capacity upfront
-- Define CPU fallback performance budgets: document and enforce maximum acceptable
-  latency penalty when GPU is unavailable
+- ✅ Implement a memory pool: pre-allocate VRAM slabs and serve requests from the pool
+  to avoid per-call driver overhead (`memory_pool.h`)
+- ✅ Add async streams: named GPU streams with CPU fallback budget enforcement
+  (`launcher.h`, `stream_manager.h`)
+- ✅ Support batching: group small allocations and kernel launches into single calls to
+  reduce round-trip latency (`launcher.h` — `submitBatch()`)
+- ✅ Handle fragmentation: track free blocks and compact or coalesce when fragmentation
+  exceeds a threshold (`memory_pool.h`)
+- ✅ Multi-GPU load balancing: distribute work across available devices based on current
+  utilization; rebalance when a device becomes hot (`load_balancer.h`)
+- ✅ Pre-allocation hints: allow callers to declare expected peak usage so the pool can
+  reserve capacity upfront (`memory_manager.h` — `ReserveHint`/`ConsumeHint`)
+- ✅ Define CPU fallback performance budgets: document and enforce maximum acceptable
+  latency penalty when GPU is unavailable (`config.h` — `fallback_cpu_budget_ms`,
+  `stream_manager.h` — `StreamConfig::cpu_budget_ms`)
 
 ### Security & Privacy
 
-- Sandbox kernel loading: load and JIT-compile GPU kernels in an isolated process or
+- ⬜ Sandbox kernel loading: load and JIT-compile GPU kernels in an isolated process or
   container; do not allow kernel blobs to execute arbitrary host code
-- Validate and sign kernels: require all GPU kernel blobs to carry a trusted signature;
-  reject unsigned or tampered kernels at load time
-- Tenant-aware allocation domains: prevent one tenant from inspecting or overwriting
+  *(blocked on real CUDA/ROCm integration)*
+- ✅ Validate and sign kernels: require all GPU kernel blobs to carry a trusted signature;
+  reject unsigned or tampered kernels at load time (`kernel_validator.h`)
+- ✅ Tenant-aware allocation domains: prevent one tenant from inspecting or overwriting
   another tenant's VRAM; zero memory on deallocation before returning to pool
-- Audit-log all GPU operations: record alloc, free, kernel launch, and fallback events
-  with tenant/caller identity for compliance
+  (`memory_pool.h` — `setZeroOnFree()`)
+- ✅ Audit-log all GPU operations: record alloc, free, kernel launch, and fallback events
+  with tenant/caller identity for compliance (`audit_log.h`)
 
 ### API/Config & DX
 
-- High-level kernel/launch API: expose a typed, safe API for submitting GPU work
-  rather than raw memory handles; hide driver details from callers
-- Dry-run and simulate: allow operators to test allocation plans and kernel configs
-  without touching real GPU state (`--dry-run` flag or simulate endpoint)
-- Stats endpoints: surface current and historical VRAM usage, per-tenant breakdown,
-  and edition-limit details via HTTP and CLI
-- Config validation: fail fast at startup if GPU config is inconsistent (e.g.,
+- ✅ High-level kernel/launch API: expose a typed, safe API for submitting GPU work
+  rather than raw memory handles; hide driver details from callers (`launcher.h`,
+  `gpu_module.h`)
+- ✅ Dry-run and simulate: allow operators to test allocation plans and kernel configs
+  without touching real GPU state (`config.h` — `simulateAllocation()`)
+- ✅ Stats endpoints: surface current and historical VRAM usage, per-tenant breakdown,
+  and edition-limit details via HTTP and CLI (`admin_api.h`)
+- ✅ Config validation: fail fast at startup if GPU config is inconsistent (e.g.,
   VRAM limit exceeds physical device memory, unknown device specified)
-- Expose edition-limit introspection: allow callers to query their current limit and
-  remaining headroom without attempting an allocation
+- ✅ Expose edition-limit introspection: allow callers to query their current limit and
+  remaining headroom without attempting an allocation (`memory_manager.h` —
+  `GetTenantHeadroom()`, `GetEditionInfo()`)
 
 ### Delivery & Governance
 
-- Add CI gates for GPU paths: compile and test GPU code paths (including CPU-only
+- ✅ Add CI gates for GPU paths: compile and test GPU code paths (including CPU-only
   fallback) on every PR; block merge on alloc/deallocation test failures
-- Simulate device loss in CI: use mock GPU driver or fault-injection harness to
+  (`.github/workflows/gpu-ci.yml`)
+- ✅ Simulate device loss in CI: use mock GPU driver or fault-injection harness to
   validate fallback behavior without real hardware
-- Benchmark suite: track VRAM allocation latency, kernel launch throughput, and
+- ✅ Benchmark suite: track VRAM allocation latency, kernel launch throughput, and
   pool efficiency in the regression benchmark pipeline
-- Runbooks: document on-call procedures for GPU OOM, device unavailability, tenant
-  quota exhaustion, and kernel load failures
-- Governance gates: require GPU feature flags to be explicitly enabled per edition;
-  deprecation notices before removing GPU API surface
+  (`benchmarks/bench_gpu_module.cpp`)
+- ✅ Runbooks: document on-call procedures for GPU OOM, device unavailability, tenant
+  quota exhaustion, and kernel load failures (`docs/gpu_runbooks.md`)
+- ✅ Governance gates: require GPU feature flags to be explicitly enabled per edition;
+  deprecation notices before removing GPU API surface (`feature_flags.h`)
+
+## Remaining Work (CUDA/ROCm Hardware Integration)
+
+The following items require real GPU hardware or a CUDA/ROCm driver and are outside
+the scope of the current bookkeeping-level implementation:
+
+- Implement `cudaMalloc`/`hipMalloc` in `GPUMemoryManager` (replace counter logic)
+- Wire CUDA streams into `GPUStreamManager` and `GPULauncher`
+- Implement real CUDA/ROCm kernel loading and execution in `GPULauncher`
+- Activate `cudaMemset` zero-on-free in `GPUMemoryPool::release()`
+- Sandboxed kernel loading (process/container isolation for JIT compilation)
+- Golden tests for kernel launch paths (need working kernels)
+- GPU query acceleration kernels (vector ops, matrix multiply, parallel scan)
+

@@ -18,7 +18,9 @@ bool GPUMemoryManager::TryAllocateUnderLock(uint64_t size_bytes,
                                              const std::string& tag,
                                              const std::string& tenant_id) {
     const uint64_t max_vram  = GetMaxGPUVRAMBytes();
-    const uint64_t new_total = gpu_memory_allocated_ + size_bytes;
+    // Hints count against the VRAM budget so that reserved headroom is
+    // protected from other callers.
+    const uint64_t new_total = gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes;
 
     // Check global edition limit.
     if (new_total > max_vram) {
@@ -75,6 +77,103 @@ void GPUMemoryManager::RemoveTenantQuota(const std::string& tenant_id) {
     if (it != tenant_states_.end()) {
         it->second.quota_bytes = 0;
     }
+}
+
+// ============================================================================
+// Pre-allocation hint management
+// ============================================================================
+
+GPUMemoryManager::HintHandle GPUMemoryManager::ReserveHint(
+    uint64_t size_bytes,
+    const std::string& tag,
+    const std::string& tenant_id)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+    const uint64_t max_vram = GetMaxGPUVRAMBytes();
+    // Check that the hint fits within the remaining budget (accounting for
+    // already-allocated bytes and existing hints).
+    if (gpu_memory_allocated_ + hint_reserved_bytes_ + size_bytes > max_vram) {
+        return {0, 0, tag, tenant_id};  // id == 0 → failure
+    }
+    // Check tenant quota if applicable — account for both existing allocations
+    // and outstanding hints for this tenant to prevent over-reservation.
+    if (!tenant_id.empty()) {
+        auto it = tenant_states_.find(tenant_id);
+        if (it != tenant_states_.end() && it->second.quota_bytes > 0) {
+            // Sum up existing hints for this tenant.
+            uint64_t tenant_hint_bytes = 0;
+            for (const auto& h : active_hints_) {
+                if (h.tenant_id == tenant_id) {
+                    tenant_hint_bytes += h.bytes;
+                }
+            }
+            if (it->second.allocated_bytes + tenant_hint_bytes + size_bytes
+                    > it->second.quota_bytes) {
+                return {0, 0, tag, tenant_id};
+            }
+        }
+    }
+    const uint64_t id = next_hint_id_++;
+    active_hints_.push_back({id, size_bytes, tag, tenant_id});
+    hint_reserved_bytes_ += size_bytes;
+    return {id, size_bytes, tag, tenant_id};
+}
+
+void GPUMemoryManager::CancelHint(uint64_t hint_id) {
+    if (hint_id == 0) return;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto it = active_hints_.begin(); it != active_hints_.end(); ++it) {
+        if (it->id == hint_id) {
+            if (hint_reserved_bytes_ >= it->bytes) {
+                hint_reserved_bytes_ -= it->bytes;
+            } else {
+                hint_reserved_bytes_ = 0;
+            }
+            active_hints_.erase(it);
+            return;
+        }
+    }
+}
+
+bool GPUMemoryManager::ConsumeHint(uint64_t hint_id) {
+    if (hint_id == 0) return false;
+    std::lock_guard<std::mutex> lock(mutex_);
+    for (auto it = active_hints_.begin(); it != active_hints_.end(); ++it) {
+        if (it->id == hint_id) {
+            const uint64_t bytes     = it->bytes;
+            const std::string tag    = it->tag;
+            const std::string tenant = it->tenant_id;
+            // Remove from hints.
+            if (hint_reserved_bytes_ >= bytes) {
+                hint_reserved_bytes_ -= bytes;
+            } else {
+                hint_reserved_bytes_ = 0;
+            }
+            active_hints_.erase(it);
+            // Commit as real allocation (no limit re-check needed — the hint
+            // already held this capacity).
+            gpu_memory_allocated_ += bytes;
+            if (gpu_memory_allocated_ > peak_bytes_) {
+                peak_bytes_ = gpu_memory_allocated_;
+            }
+            ++allocation_count_;
+            active_allocations_.push_back({bytes, tag, tenant});
+            if (!tenant.empty()) {
+                auto& ts = tenant_states_[tenant];
+                ts.allocated_bytes += bytes;
+                if (ts.allocated_bytes > ts.peak_bytes) {
+                    ts.peak_bytes = ts.allocated_bytes;
+                }
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+uint64_t GPUMemoryManager::GetHintReservedBytes() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return hint_reserved_bytes_;
 }
 
 // ============================================================================
