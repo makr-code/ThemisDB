@@ -205,6 +205,18 @@ public:
      */
     std::string getSecurityLogPath() const { return config_.security_log_path; }
 
+    /**
+     * @brief Export anomaly detector statistics to JSON for persistence
+     * @return JSON object with all task statistics and configuration
+     */
+    nlohmann::json exportAnomalyStatistics() const;
+
+    /**
+     * @brief Import anomaly detector statistics from JSON (restored after restart)
+     * @param data Previously exported statistics JSON
+     */
+    void importAnomalyStatistics(const nlohmann::json& data);
+
 private:
     std::shared_ptr<utils::AuditLogger> audit_logger_;
     TaskAuditConfig config_;

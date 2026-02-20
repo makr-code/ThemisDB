@@ -48,8 +48,8 @@ __global__ void computeL2DistanceKernel(
         sum += diff * diff;
     }
     
-    // Store sqrt(sum) for L2 distance
-    distances[qIdx * numVectors + vIdx] = sqrtf(sum);
+    // Store squared L2 distance (no sqrt for consistency and performance)
+    distances[qIdx * numVectors + vIdx] = sum;
 }
 
 /**

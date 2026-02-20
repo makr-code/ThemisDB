@@ -488,5 +488,20 @@ void TaskAuditManager::flush() {
     }
 }
 
+nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (anomaly_detector_) {
+        return anomaly_detector_->exportStatistics();
+    }
+    return nlohmann::json::object();
+}
+
+void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (anomaly_detector_) {
+        anomaly_detector_->importStatistics(data);
+    }
+}
+
 } // namespace scheduler
 } // namespace themis

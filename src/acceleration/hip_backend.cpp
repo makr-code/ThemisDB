@@ -4,6 +4,13 @@
 
 #include "acceleration/hip_backend.h"
 #include "acceleration/compute_backend.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
+
+#ifdef THEMIS_ENABLE_HIP
+#include "acceleration/raii/hip_raii.h"
+#endif
+
 #include <iostream>
 #include <vector>
 #include <memory>
@@ -215,17 +222,14 @@ __global__ void topKSelectionKernel(
 struct HIPBackendImpl {
     bool initialized = false;
     int deviceId = 0;
-    hipStream_t stream = nullptr;
+    raii::HipStream stream;  // RAII-managed stream (automatic cleanup)
     HIPVectorBackend::HIPConfig config;
     
     // Device properties
     hipDeviceProp_t deviceProps;
     
-    ~HIPBackendImpl() {
-        if (initialized && stream) {
-            hipStreamDestroy(stream);
-        }
-    }
+    // Destructor no longer needs manual cleanup - RAII handles it
+    ~HIPBackendImpl() = default;
 };
 
 // ============================================================================
@@ -279,15 +283,31 @@ BackendCapabilities HIPVectorBackend::getCapabilities() const {
 }
 
 bool HIPVectorBackend::initialize() {
-    if (impl_->initialized) return true;
+    if (impl_->initialized) {
+        setError(ErrorContext(
+            AccelerationErrorCode::BackendAlreadyInitialized,
+            "HIP",
+            "Backend is already initialized",
+            "Call shutdown() before reinitializing"
+        ));
+        return true;  // Not an error, just already initialized
+    }
     
     std::cout << "HIP Backend: Initializing..." << std::endl;
     
     int deviceCount = 0;
-    HIP_CHECK(hipGetDeviceCount(&deviceCount));
+    hipError_t countErr = hipGetDeviceCount(&deviceCount);
     
-    if (deviceCount == 0) {
-        std::cerr << "No HIP-capable AMD GPUs found" << std::endl;
+    if (countErr != hipSuccess || deviceCount == 0) {
+        // Set structured error context
+        if (deviceCount == 0) {
+            setError(ErrorContextHelpers::createNoDevicesError("HIP"));
+        } else {
+            setError(ErrorContextHelpers::createDriverError("HIP"));
+        }
+        
+        // Keep backward-compatible logging
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
@@ -300,20 +320,48 @@ bool HIPVectorBackend::initialize() {
         
         for (int i = 0; i < deviceCount; i++) {
             hipDeviceProp_t prop;
-            hipGetDeviceProperties(&prop, i);
-            std::cout << "Device " << i << ": " << prop.name 
-                      << " (" << prop.multiProcessorCount << " CUs)" << std::endl;
-            
-            if (prop.multiProcessorCount > maxCUs) {
-                maxCUs = prop.multiProcessorCount;
-                deviceId = i;
+            if (hipGetDeviceProperties(&prop, i) == hipSuccess) {
+                std::cout << "Device " << i << ": " << prop.name 
+                          << " (" << prop.multiProcessorCount << " CUs, " 
+                          << prop.gcnArchName << ")" << std::endl;
+                
+                if (prop.multiProcessorCount > maxCUs) {
+                    maxCUs = prop.multiProcessorCount;
+                    deviceId = i;
+                }
             }
         }
     }
     
     impl_->deviceId = deviceId;
-    HIP_CHECK(hipSetDevice(impl_->deviceId));
-    HIP_CHECK(hipGetDeviceProperties(&impl_->deviceProps, impl_->deviceId));
+    
+    hipError_t setDeviceErr = hipSetDevice(impl_->deviceId);
+    if (setDeviceErr != hipSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DeviceSetFailed,
+            "HIP",
+            "Failed to set device " + std::to_string(impl_->deviceId) + ": " + hipGetErrorString(setDeviceErr),
+            "Check if device exists and is not in exclusive mode"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+    
+    hipError_t propErr = hipGetDeviceProperties(&impl_->deviceProps, impl_->deviceId);
+    if (propErr != hipSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DevicePropertiesQueryFailed,
+            "HIP",
+            "Failed to query device properties: " + std::string(hipGetErrorString(propErr)),
+            "Ensure ROCm runtime is properly installed"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
+    
+    // ROCm runtime version
+    int runtimeVersion = 0;
+    hipRuntimeGetVersion(&runtimeVersion);
     
     std::cout << "HIP Backend: Selected device " << impl_->deviceId 
               << " (" << impl_->deviceProps.name << ")" << std::endl;
@@ -321,6 +369,8 @@ bool HIPVectorBackend::initialize() {
     std::cout << "  Global Memory: " << (impl_->deviceProps.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
     std::cout << "  Warp Size: " << impl_->deviceProps.warpSize << std::endl;
     std::cout << "  GCN Arch: " << impl_->deviceProps.gcnArchName << std::endl;
+    std::cout << "  ROCm Runtime: " << (runtimeVersion / 10000000) << "." 
+              << ((runtimeVersion / 100000) % 100) << std::endl;
     
     // Auto-detect wave size if not specified
     if (impl_->config.waveSize == 0) {
@@ -328,19 +378,24 @@ bool HIPVectorBackend::initialize() {
         std::cout << "  Auto-detected Wave Size: " << impl_->config.waveSize << std::endl;
     }
     
-    // Create stream for async operations
-    HIP_CHECK(hipStreamCreate(&impl_->stream));
+    // Create stream for async operations using RAII
+    try {
+        impl_->stream.create();
+    } catch (const std::exception& e) {
+        setError(ErrorContextHelpers::createQueueError("HIP", e.what()));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
     
+    // Clear error on success
+    clearError();
     impl_->initialized = true;
     return true;
 }
 
 void HIPVectorBackend::shutdown() {
     if (impl_->initialized) {
-        if (impl_->stream) {
-            hipStreamDestroy(impl_->stream);
-            impl_->stream = nullptr;
-        }
+        // stream automatically destroyed by RAII
         impl_->initialized = false;
     }
 }
@@ -382,19 +437,19 @@ std::vector<float> HIPVectorBackend::computeDistances(
         );
         
         if (useL2) {
-            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+            hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                 d_queries, d_vectors, d_distances,
                 numQueries, numVectors, dim
             );
         } else {
             // Cosine distance kernel (default for non-L2)
-            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+            hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                 d_queries, d_vectors, d_distances,
                 numQueries, numVectors, dim
             );
         }
         
-        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
+        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream.get()));
         
         // Copy results back
         std::vector<float> distances(numQueries * numVectors);
@@ -482,19 +537,19 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         
         switch (metric) {
             case DistanceMetric::L2:
-                hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                hipLaunchKernelGGL(computeL2DistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                     d_queries, d_vectors, d_distances,
                     numQueries, numVectors, dim
                 );
                 break;
             case DistanceMetric::COSINE:
-                hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                hipLaunchKernelGGL(computeCosineDistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                     d_queries, d_vectors, d_distances,
                     numQueries, numVectors, dim
                 );
                 break;
             case DistanceMetric::INNER_PRODUCT:
-                hipLaunchKernelGGL(computeInnerProductDistanceKernel, gridSize, blockSize, 0, impl_->stream,
+                hipLaunchKernelGGL(computeInnerProductDistanceKernel, gridSize, blockSize, 0, impl_->stream.get(),
                     d_queries, d_vectors, d_distances,
                     numQueries, numVectors, dim
                 );
@@ -505,12 +560,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> HIPVectorBackend::batchKnnS
         int threadsPerBlock = 256;
         int numBlocks = (numQueries + threadsPerBlock - 1) / threadsPerBlock;
         
-        hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream,
+        hipLaunchKernelGGL(topKSelectionKernel, dim3(numBlocks), dim3(threadsPerBlock), 0, impl_->stream.get(),
             d_distances, d_indices, d_topKDistances,
             numQueries, numVectors, effectiveK
         );
         
-        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream));
+        HIP_CHECK_THROW(hipStreamSynchronize(impl_->stream.get()));
         
         // Copy results back
         std::vector<uint32_t> indices(numQueries * effectiveK);
