@@ -358,7 +358,7 @@ Wenn `themis_mvcc_version_entries` kontinuierlich wächst, wurde GC nicht konfig
 2. Ggf. GC-Watermark erhöhen oder Intervall verkürzen.
 3. `min_versions_to_keep` auf 1 setzen, wenn kein PITR benötigt wird.
 
-### Troubleshooting
+## 18.8 Troubleshooting
 
 | Problem | Symptom | Lösung |
 |---------|---------|--------|
