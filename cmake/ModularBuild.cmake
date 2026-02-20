@@ -340,6 +340,7 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/temporal/retention_manager.cpp
     ../src/temporal/bi_temporal.cpp
     ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/temporal_aggregator.cpp
     
     # Replication
     ../src/replication/replication_manager.cpp

@@ -346,3 +346,116 @@ TEST_F(TemporalConflictResolverTest, TemporalSnapshot_FromJson) {
     EXPECT_EQ(snapshot.source_node_id, "node_a");
     EXPECT_EQ(snapshot.data["field"], "test_value");
 }
+
+// ============================================================================
+// Conflict Audit Trail Tests
+// ============================================================================
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_InitiallyEmpty) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+    EXPECT_TRUE(resolver.getConflictHistory().empty());
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_RecordsResolvedConflicts) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote);
+
+    auto history = resolver.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].winner, "remote");
+    EXPECT_TRUE(history[0].resolved);
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_IncludesUnresolved) {
+    TemporalConflictResolver resolver(ConflictPolicy::MANUAL);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote); // queued, not resolved
+
+    auto history = resolver.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_FALSE(history[0].resolved);
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_AfterManualResolution) {
+    TemporalConflictResolver resolver(ConflictPolicy::MANUAL);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote);
+
+    auto unresolved = resolver.getUnresolvedConflicts();
+    ASSERT_EQ(unresolved.size(), 1u);
+    resolver.resolveManually(unresolved[0].conflict_id, "local");
+
+    auto history = resolver.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_TRUE(history[0].resolved);
+    EXPECT_EQ(history[0].winner, "local");
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_MultipleConflictsAccumulate) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+
+    for (int i = 0; i < 5; ++i) {
+        auto local  = createSnapshot("l", 1000 + i, 0, "node_a", "v");
+        auto remote = createSnapshot("r", 1001 + i, 0, "node_b", "v");
+        resolver.resolve(local, remote);
+    }
+
+    EXPECT_EQ(resolver.getConflictHistory().size(), 5u);
+}
+
+TEST_F(TemporalConflictResolverTest, ExportAuditLog_IsJsonArray) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote);
+
+    auto log = resolver.exportAuditLog();
+    EXPECT_TRUE(log.is_array());
+    ASSERT_EQ(log.size(), 1u);
+
+    EXPECT_TRUE(log[0].contains("conflict_id"));
+    EXPECT_TRUE(log[0].contains("winner"));
+    EXPECT_TRUE(log[0].contains("policy"));
+    EXPECT_TRUE(log[0].contains("resolved"));
+    EXPECT_TRUE(log[0].contains("detected_at_ms"));
+
+    EXPECT_EQ(log[0]["winner"], "remote");
+    EXPECT_EQ(log[0]["policy"], "LWW");
+    EXPECT_EQ(log[0]["resolved"], true);
+}
+
+TEST_F(TemporalConflictResolverTest, ExportAuditLog_EmptyWhenNoConflicts) {
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+    auto log = resolver.exportAuditLog();
+    EXPECT_TRUE(log.is_array());
+    EXPECT_TRUE(log.empty());
+}
+
+TEST_F(TemporalConflictResolverTest, ExportAuditLog_PoliciesEncoded) {
+    // Verify policy names are encoded correctly in the audit log
+    struct TestCase { ConflictPolicy policy; std::string expected_name; };
+    std::vector<TestCase> cases = {
+        {ConflictPolicy::LAST_WRITE_WINS,  "LWW"},
+        {ConflictPolicy::FIRST_WRITE_WINS, "FWW"},
+        {ConflictPolicy::CRDT_MERGE,       "CRDT_MERGE"},
+    };
+
+    for (const auto& tc : cases) {
+        TemporalConflictResolver resolver(tc.policy);
+        auto local  = createSnapshot("l", 1000, 5, "node_a", "v1");
+        auto remote = createSnapshot("r", 1001, 5, "node_b", "v2");
+        resolver.resolve(local, remote);
+
+        auto log = resolver.exportAuditLog();
+        ASSERT_EQ(log.size(), 1u) << "policy=" << tc.expected_name;
+        EXPECT_EQ(log[0]["policy"], tc.expected_name) << "policy=" << tc.expected_name;
+    }
+}

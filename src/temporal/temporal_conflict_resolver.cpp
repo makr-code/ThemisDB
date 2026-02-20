@@ -225,6 +225,54 @@ void TemporalConflictResolver::resolveManually(const std::string& conflict_id, c
     }
 }
 
+std::vector<ConflictRecord> TemporalConflictResolver::getConflictHistory() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ConflictRecord> result = conflict_history_;
+    // Append unresolved conflicts so callers see the complete picture
+    for (const auto& [id, record] : unresolved_conflicts_) {
+        result.push_back(record);
+    }
+    return result;
+}
+
+nlohmann::json TemporalConflictResolver::exportAuditLog() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    nlohmann::json log = nlohmann::json::array();
+
+    auto policyName = [](ConflictPolicy p) -> std::string {
+        switch (p) {
+            case ConflictPolicy::LAST_WRITE_WINS:  return "LWW";
+            case ConflictPolicy::FIRST_WRITE_WINS: return "FWW";
+            case ConflictPolicy::NODE_PRIORITY:    return "NODE_PRIORITY";
+            case ConflictPolicy::MANUAL:           return "MANUAL";
+            case ConflictPolicy::CRDT_MERGE:       return "CRDT_MERGE";
+        }
+        return "UNKNOWN";
+    };
+
+    auto appendEntry = [&](const ConflictRecord& r) {
+        auto detected_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                               r.detected_at.time_since_epoch())
+                               .count();
+        log.push_back({
+            {"conflict_id",    r.conflict_id},
+            {"entity_id",      r.entity_id},
+            {"winner",         r.winner},
+            {"policy",         policyName(r.resolution_policy)},
+            {"resolved",       r.resolved},
+            {"detected_at_ms", detected_ms}
+        });
+    };
+
+    for (const auto& r : conflict_history_) {
+        appendEntry(r);
+    }
+    for (const auto& [id, r] : unresolved_conflicts_) {
+        appendEntry(r);
+    }
+    return log;
+}
+
 nlohmann::json TemporalConflictResolver::getStatistics() const {
     std::lock_guard<std::mutex> lock(mutex_);
     return {

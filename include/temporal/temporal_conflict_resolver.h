@@ -95,6 +95,19 @@ public:
     void resolveManually(const std::string& conflict_id, const std::string& winner);
     
     /**
+     * Get the complete conflict history (resolved + unresolved).
+     * Useful for audit, compliance and replay.
+     */
+    std::vector<ConflictRecord> getConflictHistory() const;
+
+    /**
+     * Export the complete conflict history as a JSON array.
+     * Each entry contains: conflict_id, entity_id, winner, policy, resolved,
+     * detected_at_ms.
+     */
+    nlohmann::json exportAuditLog() const;
+
+    /**
      * Get conflict statistics
      */
     nlohmann::json getStatistics() const;
