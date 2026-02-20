@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 #include <mutex>
 #include <chrono>
 #include <memory>
@@ -118,6 +119,24 @@ public:
     bool isWhitelisted(const std::string& ip) const;
     
     /**
+     * @brief Add IP to blacklist (immediately block all requests from this IP)
+     * @param ip IP address to block
+     */
+    void blacklistIP(const std::string& ip);
+    
+    /**
+     * @brief Remove IP from blacklist
+     * @param ip IP address to unblock
+     */
+    void unblacklistIP(const std::string& ip);
+    
+    /**
+     * @brief Check if IP is blacklisted
+     * @param ip IP address to check
+     */
+    bool isBlacklisted(const std::string& ip) const;
+    
+    /**
      * @brief Update configuration at runtime
      */
     void updateConfig(const RateLimitConfig& config);
@@ -160,6 +179,9 @@ private:
     // Per-user buckets
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>> user_buckets_;
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> user_last_access_;
+    
+    // IP blacklist (blocked regardless of rate limit)
+    std::unordered_set<std::string> blacklisted_ips_;
     
     // Statistics
     mutable Statistics stats_;

@@ -79,6 +79,23 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
                      config_.whitelist_ips.end(), ip) != config_.whitelist_ips.end();
 }
 
+void RateLimiter::blacklistIP(const std::string& ip) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    blacklisted_ips_.insert(ip);
+    THEMIS_WARN("IP added to blacklist: {}", ip);
+}
+
+void RateLimiter::unblacklistIP(const std::string& ip) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    blacklisted_ips_.erase(ip);
+    THEMIS_INFO("IP removed from blacklist: {}", ip);
+}
+
+bool RateLimiter::isBlacklisted(const std::string& ip) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return blacklisted_ips_.count(ip) > 0;
+}
+
 std::shared_ptr<TokenBucket> RateLimiter::getOrCreateBucket(
     const std::string& key,
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>>& buckets
@@ -111,6 +128,13 @@ bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id
     std::lock_guard<std::mutex> lock(mutex_);
     
     stats_.total_requests++;
+    
+    // Check blacklist (always block, regardless of whitelist or rate limits)
+    if (blacklisted_ips_.count(ip) > 0) {
+        stats_.rejected_requests++;
+        THEMIS_WARN("Blocked request from blacklisted IP: {}", ip);
+        return false;
+    }
     
     // Check whitelist
     if (isWhitelisted(ip)) {
@@ -211,6 +235,7 @@ void RateLimiter::reset() {
     ip_last_access_.clear();
     user_buckets_.clear();
     user_last_access_.clear();
+    blacklisted_ips_.clear();
     
     stats_ = Statistics();
     
