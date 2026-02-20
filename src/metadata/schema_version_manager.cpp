@@ -99,6 +99,11 @@ VersionResult<uint64_t> SchemaVersionManager::createSchemaVersion(
             "Failed to persist schema version for '" + std::string(table_name) + "'");
     }
 
+    // Emit audit log entry
+    if (audit_log_) {
+        audit_log_->record(table_name, change.change_type, author, description, new_version);
+    }
+
     spdlog::info("SchemaVersionManager: Recorded version {} for table '{}'",
                  new_version, table_name);
 
@@ -214,6 +219,13 @@ VersionResult<bool> SchemaVersionManager::rollbackToVersion(
     if (!new_ver_result.ok) {
         spdlog::warn("SchemaVersionManager: Rollback applied but failed to record it: {}",
                      new_ver_result.error_message);
+    }
+
+    // Emit dedicated rollback audit entry
+    if (audit_log_) {
+        audit_log_->record(table_name, "rollback", author, rollback_desc,
+                           new_ver_result.ok ? new_ver_result.value : 0,
+                           json{{"rolled_back_to", version}});
     }
 
     spdlog::info("SchemaVersionManager: Rolled back table '{}' to version {}",

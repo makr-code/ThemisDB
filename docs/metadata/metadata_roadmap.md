@@ -26,7 +26,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `tests/test_statistics_collector.cpp` — unit tests covering collection, caching, persistence, and error paths
 - [x] REST endpoint: `GET /api/v1/metadata/stats/:table` and `POST /api/v1/metadata/stats/:table`
 - [ ] Wire `StatisticsCollector` into `QueryEngine` for cost-based optimiser (cardinality estimates)
-- [ ] Prometheus / OpenTelemetry metrics: `themis_stats_collection_duration_ms`, `themis_stats_cache_hits_total`, `themis_stats_errors_total`
+- [x] Prometheus / OpenTelemetry metrics hook interface `IMetricsHook` with `onCollect`, `onCacheHit`, `onCacheMiss`, `onError` – call `setMetricsHook()` to plug in Prometheus / OTel sinks
 - [ ] Configurable automatic refresh schedule (default: hourly)
 
 ### Schema Constraints Enforcement (v1.6.0)
@@ -37,15 +37,16 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `SchemaConstraints::persistTo(db)` / `loadFrom(db)` — durable storage under `config:constraints:` prefix
 - [x] `tests/test_schema_constraints_persistence.cpp` — round-trip persistence tests
 - [x] REST endpoint: `GET /api/v1/metadata/constraints/:table`
+- [x] Batch constraint validation: `POST /api/v1/metadata/constraints/validate/:table` – validates a JSON array of rows and returns HTTP 422 with structured violations
 - [ ] Integrate `SchemaConstraints` into the write path of `RocksDBWrapper` for transparent enforcement
-- [ ] Expose constraint violations as structured HTTP 422 error codes
-- [ ] Prometheus metric: `themis_constraint_violations_total{type, table}`
+- [ ] Prometheus metric: `themis_constraint_violations_total{type, table}` (plug in via `IMetricsHook`)
 
 ### Observability
 
-- [ ] Cache hit-rate metric: `themis_schema_cache_hit_ratio`
-- [ ] Discovery / refresh latency histogram: `themis_schema_discovery_duration_ms`
-- [ ] Structured log fields: `table`, `duration_ms`, `rows_sampled`, `error_code` on every stats collection
+- [x] Structured log fields on every stats collection: `table`, `duration_ms`, `rows_sampled`, `total_rows`, `cols`, `error_code` (spdlog INFO)
+- [x] Metrics hook interface in `StatisticsCollector` — cache-hit, cache-miss, collect-duration, error hooks
+- [ ] Cache hit-rate metric exported to Prometheus / OTel (requires hook implementation)
+- [ ] Discovery / refresh latency histogram exported (requires hook implementation)
 
 ---
 
@@ -76,7 +77,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 
 - [ ] Cross-row `UNIQUE` enforcement via secondary index lookup on write
 - [ ] Cross-table `FOREIGN KEY` enforcement with configurable `ON DELETE / ON UPDATE` actions
-- [ ] Batch constraint validation API for bulk imports
+- [x] Batch constraint validation API: `POST /api/v1/metadata/constraints/validate/:table` — validates JSON array of rows, returns HTTP 422 + structured violations
 
 ---
 
@@ -104,7 +105,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [ ] Big-DB benchmark: schema discovery and stats collection for 10 000-table / 1 000-column schemas
 - [x] Fuzz tests: random/malformed JSON inputs into `SchemaManager::parseTableSchema()` — `tests/test_schema_manager_fuzz.cpp` (40+ edge-case tests)
 - [ ] Chaos tests: stats collection under concurrent writes and RocksDB compaction
-- [ ] Migration regression tests: forward / rollback across 5 schema versions
+- [x] Migration regression tests: forward / rollback across 5 schema versions — `tests/test_schema_migration_regression.cpp`
 
 ---
 
@@ -114,10 +115,11 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 
 ### Admin & Recovery APIs
 
-- [ ] Audit log for schema changes: who changed what and when (stored under `audit:schema:`)
-- [ ] Schema import: `PUT /api/v1/metadata/schema_import` (bulk JSON)
+- [x] Audit log for schema changes: `SchemaAuditLog` stored under `audit:schema:` prefix; wired into `SchemaVersionManager`
+- [x] `GET /api/v1/metadata/audit[/:table]` — per-table or full audit history endpoint
+- [x] Schema import: `PUT /api/v1/metadata/schema_import` (bulk JSON — imports multiple table schemas in one request)
 - [ ] Background consistency checker: periodic scan for orphan keys, missing constraints, stale stats
-- [ ] Recovery runbook: `docs/metadata/recovery_runbook.md`
+- [x] Recovery runbook: `docs/metadata/recovery_runbook.md`
 
 ### Observability Dashboards & Alerts
 
@@ -127,8 +129,9 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 
 ### Operator Documentation
 
-- [ ] `docs/metadata/operations_guide.md` — tuning cache TTL, sample sizes, refresh schedules
-- [ ] `docs/metadata/troubleshooting.md` — common error codes, recovery steps
+- [x] `docs/metadata/operations_guide.md` — tuning cache TTL, sample sizes, refresh schedules, metrics hooks
+- [x] `docs/metadata/troubleshooting.md` — common error codes, recovery steps
+- [x] `docs/metadata/recovery_runbook.md` — 6-scenario recovery guide
 - [ ] API reference auto-generated from OpenAPI spec
 
 ---
@@ -138,11 +141,11 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 | Version | Target | Key Deliverable |
 |---------|--------|-----------------|
 | v1.5.0  | ✅ Done | SchemaManager, cache, JSON export |
-| v1.6.0  | ✅ Done | StatisticsCollector, SchemaConstraints + persistence, REST endpoints |
+| v1.6.0  | ✅ Done | StatisticsCollector (+ OTel hook), SchemaConstraints + persistence + batch validate, REST endpoints |
 | v1.7.0  | ✅ Done | INFORMATION_SCHEMA + REFERENTIAL_CONSTRAINTS, REST endpoints |
-| v1.8.0  | ✅ Done | Schema Versioning, Migration, diff, rollback + REST + runbook |
-| v1.9.0  | ✅ Done | IndexRecommender (auto index recommendations) + REST endpoint |
-| v2.0.0  | Q4 2026 | Admin/Recovery tooling, full observability, CDC integration, AQL functions, CLI |
+| v1.8.0  | ✅ Done | Schema Versioning, diff, rollback + REST + runbook + audit log |
+| v1.9.0  | ✅ Done | IndexRecommender + REST endpoint; schema import; operator docs |
+| v2.0.0  | Q4 2026 | CDC/hot-reload, Grafana dashboards, AQL functions, CLI, background consistency checker |
 
 ---
 

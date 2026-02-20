@@ -70,6 +70,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
 #include "metadata/index_recommender.h"
+#include "metadata/schema_audit_log.h"
 #include "server/transaction_api_handler.h"
 #include "server/distributed_txn_api_handler.h"
 #include "server/wal_api_handler.h"
@@ -541,6 +542,9 @@ private:
     http::response<http::string_body> handleMetadataCollectStats(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetadataGetConstraints(const http::request<http::string_body>& req);
     http::response<http::string_body> handleMetadataIndexRecommendations(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataAuditLog(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataSchemaImport(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataBatchValidate(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaVersionHistory(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaCreateVersion(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaDiff(const http::request<http::string_body>& req);
@@ -795,6 +799,7 @@ private:
     std::unique_ptr<SchemaConstraints>    schema_constraints_;
     std::unique_ptr<SchemaVersionManager> schema_version_mgr_;
     std::unique_ptr<IndexRecommender>     index_recommender_;
+    std::unique_ptr<SchemaAuditLog>       schema_audit_log_;
     
     // Adaptive Index Manager (Sprint C)
     std::shared_ptr<AdaptiveIndexManager> adaptive_index_;

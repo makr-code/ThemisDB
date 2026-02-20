@@ -18,6 +18,7 @@ class StatisticsCollector;
 class SchemaConstraints;
 class SchemaVersionManager;
 class IndexRecommender;
+class SchemaAuditLog;
 
 namespace server {
 
@@ -91,6 +92,9 @@ public:
     /// Attach an IndexRecommender to enable /api/v1/metadata/index_recommendations/* endpoints.
     void setIndexRecommender(IndexRecommender* index_recommender);
 
+    /// Attach a SchemaAuditLog to enable /api/v1/metadata/audit/* endpoints.
+    void setAuditLog(SchemaAuditLog* audit_log);
+
     // ========================================================================
     // Core schema endpoints
     // ========================================================================
@@ -160,6 +164,35 @@ public:
         const http::request<http::string_body>& req);
 
     // ========================================================================
+    // Schema audit endpoint
+    // ========================================================================
+
+    /// GET /api/v1/metadata/audit              – full audit history
+    /// GET /api/v1/metadata/audit/:table       – per-table audit history
+    http::response<http::string_body> handleGetAuditLog(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Schema import endpoint
+    // ========================================================================
+
+    /// PUT /api/v1/metadata/schema_import
+    /// Bulk-import multiple table schemas from a JSON array.
+    /// Body: { "tables": [ <TableSchema JSON>, … ] }
+    http::response<http::string_body> handleSchemaImport(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Batch constraint validation
+    // ========================================================================
+
+    /// POST /api/v1/metadata/constraints/validate/:table
+    /// Validate a batch of rows against the table's registered constraints.
+    /// Body: { "rows": [ { <column>: <value>, … }, … ] }
+    http::response<http::string_body> handleBatchConstraintValidation(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
     // Schema version endpoints
     // ========================================================================
 
@@ -201,6 +234,7 @@ private:
     SchemaConstraints*      schema_constraints_  = nullptr;  ///< Non-owning
     SchemaVersionManager*   version_mgr_         = nullptr;  ///< Non-owning
     IndexRecommender*       index_recommender_   = nullptr;  ///< Non-owning
+    SchemaAuditLog*         audit_log_           = nullptr;  ///< Non-owning
 };
 
 } // namespace server

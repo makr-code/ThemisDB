@@ -101,6 +101,7 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     size_t sample_size)
 {
     if (table_name.empty()) {
+        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
         return StatsResult<TableStats>::failure(
             StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
     }
@@ -108,6 +109,8 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
     if (sample_size == 0) {
         sample_size = kDefaultSampleSize;
     }
+
+    auto collect_start = std::chrono::steady_clock::now();
 
     spdlog::debug("StatisticsCollector: Collecting stats for '{}' (sample={})",
                   table_name, sample_size);
@@ -122,6 +125,14 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
 
     auto it_result = db_.newIterator();
     if (!it_result) {
+        auto duration_ms = std::chrono::duration<double, std::milli>(
+            std::chrono::steady_clock::now() - collect_start).count();
+        spdlog::error("StatisticsCollector: Iterator error: table='{}' duration_ms={:.2f} rows_sampled=0 error_code={}",
+                      table_name, duration_ms, static_cast<int>(StatsErrorCode::ITERATOR_ERROR));
+        if (metrics_hook_) {
+            metrics_hook_->onCollect(table_name, duration_ms, 0, false);
+            metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::ITERATOR_ERROR));
+        }
         return StatsResult<TableStats>::failure(
             StatsErrorCode::ITERATOR_ERROR, "Failed to create RocksDB iterator");
     }
@@ -207,14 +218,23 @@ StatsResult<TableStats> StatisticsCollector::collectStats(
         stats_cache_[stats.table_name] = stats;
     }
 
-    spdlog::info("StatisticsCollector: Collected stats for '{}': {} rows, {} cols sampled",
-                 table_name, total_rows, stats.column_stats.size());
+    auto duration_ms = std::chrono::duration<double, std::milli>(
+        std::chrono::steady_clock::now() - collect_start).count();
+
+    // Structured log: all key fields on one line for log-scraping / alerting
+    spdlog::info("StatisticsCollector: collect table='{}' duration_ms={:.2f} rows_sampled={} total_rows={} cols={} error_code=0",
+                 table_name, duration_ms, row_count, total_rows, stats.column_stats.size());
+
+    if (metrics_hook_) {
+        metrics_hook_->onCollect(table_name, duration_ms, row_count, true);
+    }
 
     return StatsResult<TableStats>::success(stats);
 }
 
 StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_name) {
     if (table_name.empty()) {
+        if (metrics_hook_) metrics_hook_->onError(table_name, static_cast<int>(StatsErrorCode::TABLE_NOT_FOUND));
         return StatsResult<TableStats>::failure(
             StatsErrorCode::TABLE_NOT_FOUND, "Table name cannot be empty");
     }
@@ -224,11 +244,14 @@ StatsResult<TableStats> StatisticsCollector::getStats(std::string_view table_nam
         std::shared_lock<std::shared_mutex> lock(cache_mutex_);
         auto it = stats_cache_.find(std::string(table_name));
         if (it != stats_cache_.end()) {
+            if (metrics_hook_) metrics_hook_->onCacheHit(table_name);
             return StatsResult<TableStats>::success(it->second);
         }
     }
 
-    // Try to load from RocksDB
+    // Cache miss – try to load from RocksDB
+    if (metrics_hook_) metrics_hook_->onCacheMiss(table_name);
+
     auto maybe_stats = loadStats(table_name);
     if (!maybe_stats.has_value()) {
         return StatsResult<TableStats>::failure(

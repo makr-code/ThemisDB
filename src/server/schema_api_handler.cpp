@@ -8,6 +8,7 @@
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
 #include "metadata/index_recommender.h"
+#include "metadata/schema_audit_log.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include <spdlog/spdlog.h>
@@ -30,6 +31,7 @@ SchemaApiHandler::SchemaApiHandler(
     , schema_constraints_(nullptr)
     , version_mgr_(nullptr)
     , index_recommender_(nullptr)
+    , audit_log_(nullptr)
 {
     spdlog::info("SchemaApiHandler initialized");
 }
@@ -533,6 +535,10 @@ void SchemaApiHandler::setIndexRecommender(IndexRecommender* index_recommender) 
     index_recommender_ = index_recommender;
 }
 
+void SchemaApiHandler::setAuditLog(SchemaAuditLog* audit_log) {
+    audit_log_ = audit_log;
+}
+
 // ============================================================================
 // Helper methods
 // ============================================================================
@@ -1012,6 +1018,209 @@ http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendation
         res.prepare_payload();
         return res;
 
+    } catch (const std::exception& e) {
+        return makeError(req, http::status::internal_server_error,
+                         std::string("Internal error: ") + e.what());
+    }
+}
+
+// ============================================================================
+// Audit log endpoint
+// ============================================================================
+
+http::response<http::string_body> SchemaApiHandler::handleGetAuditLog(
+    const http::request<http::string_body>& req)
+{
+    if (!audit_log_) {
+        return makeError(req, http::status::service_unavailable,
+                         "Audit log not available");
+    }
+    try {
+        std::string target = std::string(req.target());
+        std::string base   = "/api/v1/metadata/audit";
+        std::string prefix = base + "/";
+
+        json j;
+        j["status"] = "success";
+
+        if (target == base || target == base + "/") {
+            j["audit"] = audit_log_->fullHistoryToJSON();
+        } else if (target.find(prefix) == 0) {
+            std::string table_name = target.substr(prefix.size());
+            auto qpos = table_name.find('?');
+            if (qpos != std::string::npos) table_name = table_name.substr(0, qpos);
+            if (table_name.empty()) {
+                return makeError(req, http::status::bad_request, "Table name required");
+            }
+            j["table_name"] = table_name;
+            j["audit"]      = audit_log_->historyToJSON(table_name);
+        } else {
+            return makeError(req, http::status::not_found,
+                             "Unknown endpoint: " + target);
+        }
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = j.dump(2);
+        res.prepare_payload();
+        return res;
+
+    } catch (const std::exception& e) {
+        return makeError(req, http::status::internal_server_error,
+                         std::string("Internal error: ") + e.what());
+    }
+}
+
+// ============================================================================
+// Schema import endpoint
+// ============================================================================
+
+http::response<http::string_body> SchemaApiHandler::handleSchemaImport(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_mgr_) {
+        return makeError(req, http::status::service_unavailable,
+                         "Schema manager not available");
+    }
+    try {
+        auto body = json::parse(req.body());
+        if (!body.contains("tables") || !body["tables"].is_array()) {
+            return makeError(req, http::status::bad_request,
+                             "Body must contain a 'tables' array");
+        }
+
+        std::vector<std::string> imported;
+        std::vector<json>        errors;
+
+        for (const auto& schema_json : body["tables"]) {
+            try {
+                auto schema = SchemaManager::parseTableSchema(schema_json);
+                if (schema.name.empty()) {
+                    errors.push_back({{"error", "Table schema missing 'name' field"}});
+                    continue;
+                }
+
+                bool ok = schema_mgr_->setTableSchema(schema.name, schema);
+                if (!ok) {
+                    errors.push_back({{"table", schema.name},
+                                      {"error", "Failed to register schema"}});
+                    continue;
+                }
+
+                // Audit
+                if (audit_log_) {
+                    audit_log_->record(schema.name, "import", "", "bulk schema import", 0,
+                                       {{"source", "schema_import_api"}});
+                }
+                imported.push_back(schema.name);
+
+            } catch (const std::exception& ex) {
+                errors.push_back({{"error", std::string("Parse error: ") + ex.what()}});
+            }
+        }
+
+        json j;
+        j["status"]   = errors.empty() ? "success" : "partial";
+        j["imported"] = imported;
+        j["errors"]   = errors;
+        j["imported_count"] = imported.size();
+        j["error_count"]    = errors.size();
+
+        http::status status = errors.empty() ? http::status::ok
+                                             : http::status::multi_status;
+        http::response<http::string_body> res{status, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = j.dump(2);
+        res.prepare_payload();
+        return res;
+
+    } catch (const json::parse_error& e) {
+        return makeError(req, http::status::bad_request,
+                         std::string("Invalid JSON: ") + e.what());
+    } catch (const std::exception& e) {
+        return makeError(req, http::status::internal_server_error,
+                         std::string("Internal error: ") + e.what());
+    }
+}
+
+// ============================================================================
+// Batch constraint validation
+// ============================================================================
+
+http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidation(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_constraints_) {
+        return makeError(req, http::status::service_unavailable,
+                         "Constraint engine not available");
+    }
+    try {
+        // Extract table name from /api/v1/metadata/constraints/validate/:table
+        std::string target = std::string(req.target());
+        std::string prefix = "/api/v1/metadata/constraints/validate/";
+        std::string table_name;
+        std::string err = extractTableName(target, prefix, table_name);
+        if (!err.empty()) {
+            return makeError(req, http::status::bad_request, err);
+        }
+
+        auto body = json::parse(req.body());
+        if (!body.contains("rows") || !body["rows"].is_array()) {
+            return makeError(req, http::status::bad_request,
+                             "Body must contain a 'rows' array");
+        }
+
+        json valid_rows    = json::array();
+        json invalid_rows  = json::array();
+
+        size_t row_index = 0;
+        for (const auto& row_json : body["rows"]) {
+            // Convert JSON object to string map
+            std::map<std::string, std::string> row;
+            if (row_json.is_object()) {
+                for (auto& [k, v] : row_json.items()) {
+                    if (v.is_string()) row[k] = v.get<std::string>();
+                    else row[k] = v.dump();
+                }
+            }
+
+            auto violations = schema_constraints_->enforce(table_name, row);
+            if (violations.empty()) {
+                valid_rows.push_back({{"index", row_index}, {"row", row_json}});
+            } else {
+                json viol_arr = json::array();
+                for (const auto& v : violations) viol_arr.push_back(v.toJSON());
+                invalid_rows.push_back({{"index", row_index}, {"row", row_json},
+                                        {"violations", viol_arr}});
+            }
+            ++row_index;
+        }
+
+        json j;
+        j["status"]        = invalid_rows.empty() ? "success" : "violations_found";
+        j["table_name"]    = table_name;
+        j["total_rows"]    = row_index;
+        j["valid_count"]   = valid_rows.size();
+        j["invalid_count"] = invalid_rows.size();
+        j["invalid_rows"]  = invalid_rows;
+
+        http::status http_st = invalid_rows.empty() ? http::status::ok
+                                                     : http::status::unprocessable_entity;
+        http::response<http::string_body> res{http_st, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
+        res.body() = j.dump(2);
+        res.prepare_payload();
+        return res;
+
+    } catch (const json::parse_error& e) {
+        return makeError(req, http::status::bad_request,
+                         std::string("Invalid JSON: ") + e.what());
     } catch (const std::exception& e) {
         return makeError(req, http::status::internal_server_error,
                          std::string("Internal error: ") + e.what());

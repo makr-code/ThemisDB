@@ -902,16 +902,21 @@ HttpServer::HttpServer(
                 storage_, secondary_index_, schema_manager_.get());
 
             // Wire metadata sub-components into SchemaApiHandler
-            stats_collector_  = std::make_unique<StatisticsCollector>(*storage_);
+            stats_collector_    = std::make_unique<StatisticsCollector>(*storage_);
             schema_constraints_ = std::make_unique<SchemaConstraints>();
             schema_constraints_->loadFrom(*storage_);  // Reload persisted constraints
             schema_version_mgr_ = std::make_unique<SchemaVersionManager>(*storage_, *schema_manager_);
             index_recommender_  = std::make_unique<IndexRecommender>();
+            schema_audit_log_   = std::make_unique<SchemaAuditLog>(*storage_);
+
+            // Connect audit log to version manager so every version is audited
+            schema_version_mgr_->setAuditLog(schema_audit_log_.get());
 
             schema_api_handler_->setStatisticsCollector(stats_collector_.get());
             schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
             schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
             schema_api_handler_->setIndexRecommender(index_recommender_.get());
+            schema_api_handler_->setAuditLog(schema_audit_log_.get());
 
             THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
@@ -1756,6 +1761,9 @@ namespace {
     MetadataStatsPost,        // POST /api/v1/metadata/stats/:table
     MetadataConstraintsGet,   // GET  /api/v1/metadata/constraints/:table
     MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]
+    MetadataAuditGet,         // GET  /api/v1/metadata/audit[/:table]
+    MetadataSchemaImportPut,  // PUT  /api/v1/metadata/schema_import
+    MetadataBatchValidatePost,// POST /api/v1/metadata/constraints/validate/:table
        
     // Error API
     ErrorApiListGet,          // GET /api/v1/errors
@@ -2100,8 +2108,14 @@ namespace {
     // Metadata extended routes (order: more specific first)
     if (path_only.rfind("/api/v1/metadata/index_recommendations", 0) == 0 && method == http::verb::get)
         return Route::MetadataIndexRecsGet;
+    if (path_only == "/api/v1/metadata/schema_import" && method == http::verb::put)
+        return Route::MetadataSchemaImportPut;
+    if (path_only.rfind("/api/v1/metadata/constraints/validate/", 0) == 0 && method == http::verb::post)
+        return Route::MetadataBatchValidatePost;
     if (path_only.rfind("/api/v1/metadata/constraints/", 0) == 0 && method == http::verb::get)
         return Route::MetadataConstraintsGet;
+    if (path_only.rfind("/api/v1/metadata/audit", 0) == 0 && method == http::verb::get)
+        return Route::MetadataAuditGet;
     if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
         if (method == http::verb::get)  return Route::MetadataStatsGet;
         if (method == http::verb::post) return Route::MetadataStatsPost;
@@ -3463,6 +3477,15 @@ namespace {
             break;
         case Route::MetadataIndexRecsGet:
             response = handleMetadataIndexRecommendations(req);
+            break;
+        case Route::MetadataAuditGet:
+            response = handleMetadataAuditLog(req);
+            break;
+        case Route::MetadataSchemaImportPut:
+            response = handleMetadataSchemaImport(req);
+            break;
+        case Route::MetadataBatchValidatePost:
+            response = handleMetadataBatchValidate(req);
             break;
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
@@ -7779,6 +7802,36 @@ http::response<http::string_body> HttpServer::handleSchemaDiff(
             "Schema API not available", req);
     }
     return schema_api_handler_->handleGetDiff(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataAuditLog(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetAuditLog(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleSchemaImport(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleBatchConstraintValidation(req);
 }
 
 } // namespace server

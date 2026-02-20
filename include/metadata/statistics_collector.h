@@ -116,6 +116,47 @@ public:
     /// Default number of histogram buckets
     static constexpr size_t kDefaultHistogramBuckets = 20;
 
+    // ========================================================================
+    // Metrics hook interface (Prometheus / OpenTelemetry integration)
+    // ========================================================================
+
+    /// Lightweight hook interface for emitting Prometheus / OTel metrics.
+    ///
+    /// Implement this interface and call setMetricsHook() to receive real-time
+    /// stats events.  A no-op default implementation is used when not set.
+    ///
+    /// Metric names follow the `themis_stats_*` convention:
+    ///   - `themis_stats_collection_duration_ms`   – time for one full scan
+    ///   - `themis_stats_cache_hits_total`          – in-memory cache hits
+    ///   - `themis_stats_errors_total`              – collection errors
+    struct IMetricsHook {
+        virtual ~IMetricsHook() = default;
+
+        /// Called after a successful or failed stats collection attempt.
+        /// @param table_name   Affected table
+        /// @param duration_ms  Wall-clock duration in milliseconds
+        /// @param rows_sampled Number of rows actually scanned
+        /// @param success      Whether collection succeeded
+        virtual void onCollect(std::string_view table_name,
+                               double duration_ms,
+                               size_t rows_sampled,
+                               bool   success) = 0;
+
+        /// Called whenever in-memory cache satisfies a getStats() request.
+        virtual void onCacheHit(std::string_view table_name) = 0;
+
+        /// Called whenever getStats() results in a cache miss (loads from RocksDB or re-collects).
+        virtual void onCacheMiss(std::string_view table_name) = 0;
+
+        /// Called on any internal error (iterator failure, parse error, etc.).
+        /// @param error_code  StatsErrorCode cast to int
+        virtual void onError(std::string_view table_name, int error_code) = 0;
+    };
+
+    /// Attach a metrics hook.  The pointer is non-owning; caller manages lifetime.
+    /// Pass nullptr to remove the hook.
+    void setMetricsHook(IMetricsHook* hook) noexcept { metrics_hook_ = hook; }
+
     /// Constructor
     /// @param db RocksDB wrapper for key scanning and persisting statistics
     explicit StatisticsCollector(RocksDBWrapper& db);
@@ -186,9 +227,10 @@ private:
     // Member variables
     // ========================================================================
 
-    RocksDBWrapper& db_;                                        ///< Database reference
-    std::map<std::string, TableStats> stats_cache_;             ///< In-memory cache
-    mutable std::shared_mutex cache_mutex_;                     ///< Read-write lock
+    RocksDBWrapper&  db_;                                        ///< Database reference
+    std::map<std::string, TableStats> stats_cache_;              ///< In-memory cache
+    mutable std::shared_mutex cache_mutex_;                      ///< Read-write lock
+    IMetricsHook* metrics_hook_ = nullptr;                       ///< Optional metrics sink (non-owning)
 };
 
 } // namespace themis

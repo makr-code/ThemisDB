@@ -10,6 +10,7 @@
 #include <chrono>
 #include <nlohmann/json.hpp>
 #include "metadata/schema_manager.h"
+#include "metadata/schema_audit_log.h"
 
 namespace themis {
 
@@ -161,6 +162,10 @@ public:
     /// Export all version history for a table as a JSON array.
     json historyToJSON(std::string_view table_name) const;
 
+    /// Attach an audit log.  If set, every schema change is also recorded there.
+    /// The pointer is non-owning; caller manages the lifetime.
+    void setAuditLog(SchemaAuditLog* audit_log) noexcept { audit_log_ = audit_log; }
+
 private:
     // ========================================================================
     // Internal helpers
@@ -190,6 +195,7 @@ private:
 
     RocksDBWrapper& db_;
     SchemaManager&  schema_mgr_;
+    SchemaAuditLog* audit_log_ = nullptr;  ///< Optional audit log (non-owning)
 };
 
 } // namespace themis
