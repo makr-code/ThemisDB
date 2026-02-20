@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/concerns/lifecycle.h"
 #include <string>
 #include <string_view>
 #include <optional>
@@ -65,6 +66,31 @@ public:
     // Optional: Metrics support (not all implementations need this)
     // Return nullptr if detailed metrics are not available
     virtual const CacheMetrics* getMetrics() const { return nullptr; }
+
+    // Lifecycle hooks
+    /**
+     * @brief Flush any pending writes to the backing store.
+     *
+     * For in-memory caches this is a no-op; for write-through or
+     * write-behind caches, all dirty entries should be persisted.
+     */
+    virtual void flush() {}
+
+    /**
+     * @brief Shut down the cache and release resources.
+     *
+     * Implementations should flush pending writes and free connections
+     * (e.g. to Redis).  The cache is unusable after this call.
+     */
+    virtual void shutdown() {}
+
+    /**
+     * @brief Probe whether the cache backend is reachable and healthy.
+     *
+     * @return ProbeResult with ok=true when the cache is operational,
+     *         ok=false with a descriptive message otherwise.
+     */
+    virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
 };
 
 } // namespace concerns

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/concerns/lifecycle.h"
 #include <string>
 #include <memory>
 #include <map>
@@ -45,6 +46,23 @@ public:
     virtual bool initialize(const std::string& serviceName, const std::string& endpoint) = 0;
     virtual void shutdown() = 0;
     virtual bool isInitialized() const = 0;
+
+    // Lifecycle hooks
+    /**
+     * @brief Flush any pending spans to the exporter.
+     *
+     * Should be called before shutdown() to ensure all in-flight spans
+     * are exported.  Default is a no-op.
+     */
+    virtual void flush() {}
+
+    /**
+     * @brief Probe whether the tracing exporter is reachable and healthy.
+     *
+     * @return ProbeResult with ok=true when the exporter is reachable,
+     *         ok=false (e.g. circuit-breaker OPEN) otherwise.
+     */
+    virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
 };
 
 /**

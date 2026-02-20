@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/concerns/lifecycle.h"
 #include <string>
 #include <memory>
 #include <map>
@@ -99,6 +100,32 @@ public:
     virtual void setLevel(Level level) = 0;
     virtual Level getLevel() const = 0;
     virtual void setPattern(const std::string& pattern) = 0;
+
+    // Lifecycle hooks
+    /**
+     * @brief Flush any buffered log records to the underlying sink.
+     *
+     * Must be called before process exit (or between test cases) to
+     * ensure no messages are lost.  Default is a no-op for backends
+     * that do not buffer.
+     */
+    virtual void flush() {}
+
+    /**
+     * @brief Shut down the logger and release resources.
+     *
+     * After shutdown(), all logging calls are silently dropped.
+     * Default is a no-op.
+     */
+    virtual void shutdown() {}
+
+    /**
+     * @brief Probe whether the logging sink is reachable and healthy.
+     *
+     * @return ProbeResult with ok=true when the sink is accessible,
+     *         ok=false with a descriptive message otherwise.
+     */
+    virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
 
     // Helper methods
     static Level levelFromString(const std::string& level);

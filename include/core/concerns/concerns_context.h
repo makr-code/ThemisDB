@@ -4,6 +4,7 @@
 #include "core/concerns/i_tracer.h"
 #include "core/concerns/i_metrics.h"
 #include "core/concerns/i_cache.h"
+#include "core/concerns/lifecycle.h"
 #include <memory>
 #include <string>
 
@@ -98,6 +99,92 @@ public:
 
     void recordMetric(const std::string& name, double value) {
         metrics_->observeHistogram(name, value);
+    }
+
+    // -------------------------------------------------------------------------
+    // Lifecycle hooks
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Flush all buffered data in every concern.
+     *
+     * Call this when you want to ensure pending log records, spans, and
+     * metric observations have been forwarded to their respective sinks
+     * without fully shutting down.  Safe to call multiple times.
+     */
+    void flush() {
+        logger_->flush();
+        tracer_->flush();
+        metrics_->flush();
+        cache_->flush();
+    }
+
+    /**
+     * @brief Gracefully shut down all concerns and release resources.
+     *
+     * Flushes pending data before tearing down each concern.  After this
+     * call the context must not be used; any further accessor calls have
+     * undefined behaviour.
+     *
+     * Recommended usage:
+     * @code
+     *   // Register at application entry point
+     *   std::atexit([]{ concerns->shutdown(); });
+     *   // Or call explicitly in the signal handler / destructor.
+     * @endcode
+     */
+    void shutdown() {
+        logger_->flush();
+        tracer_->flush();
+        metrics_->flush();
+
+        tracer_->shutdown();
+        metrics_->shutdown();
+        cache_->shutdown();
+        logger_->shutdown();
+    }
+
+    // -------------------------------------------------------------------------
+    // Health / readiness probes
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Run health probes for every concern.
+     *
+     * A concern is "healthy" when its underlying resource (sink, exporter,
+     * backend) is operational.  The aggregate result is unhealthy if any
+     * single concern reports unhealthy.
+     *
+     * Intended for liveness probes (e.g. Kubernetes /healthz).
+     *
+     * @return HealthStatus with per-concern ProbeResult instances.
+     */
+    HealthStatus healthCheck() const {
+        return {
+            logger_->isHealthy(),
+            tracer_->isHealthy(),
+            metrics_->isHealthy(),
+            cache_->isHealthy()
+        };
+    }
+
+    /**
+     * @brief Run readiness probes for every concern.
+     *
+     * A concern is "ready" when it is initialized and capable of
+     * accepting work.  For most in-process concerns readiness equals
+     * health; for remote backends (e.g. a distributed cache) readiness
+     * may require an active connection.
+     *
+     * Intended for readiness probes (e.g. Kubernetes /readyz).
+     *
+     * @return HealthStatus with per-concern ProbeResult instances.
+     */
+    HealthStatus readinessCheck() const {
+        // For current implementations readiness == health.
+        // Remote-backend adapters (Redis, etc.) may override isHealthy()
+        // with a live ping to their backend.
+        return healthCheck();
     }
 
 private:

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/concerns/lifecycle.h"
 #include <string>
 #include <map>
 #include <memory>
@@ -43,6 +44,30 @@ public:
 
     // Reset metrics (for testing)
     virtual void reset() = 0;
+
+    // Lifecycle hooks
+    /**
+     * @brief Flush any pending metric observations to the backend.
+     *
+     * Call before shutdown() to ensure the final snapshot is published.
+     * Default is a no-op.
+     */
+    virtual void flush() {}
+
+    /**
+     * @brief Shut down the metrics backend and release resources.
+     *
+     * Default is a no-op.
+     */
+    virtual void shutdown() {}
+
+    /**
+     * @brief Probe whether the metrics binding/exporter is healthy.
+     *
+     * @return ProbeResult with ok=true when the metrics backend is
+     *         operational, ok=false with a descriptive message otherwise.
+     */
+    virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
 };
 
 /**

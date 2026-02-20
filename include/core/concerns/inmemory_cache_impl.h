@@ -119,6 +119,20 @@ public:
         defaultTTL_ = ttl_ms;
     }
 
+    // Lifecycle hooks
+    void flush() override {
+        // In-memory cache has no backing store to flush.
+    }
+
+    void shutdown() override {
+        clear();
+    }
+
+    ProbeResult isHealthy() const override {
+        // The in-memory cache is always healthy while the object is alive.
+        return ProbeResult::healthy("in-memory cache operational");
+    }
+
 private:
     struct CachedValue {
         CacheEntry entry;

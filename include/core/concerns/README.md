@@ -230,7 +230,99 @@ TEST(MyComponentTest, PerformOperation) {
 }
 ```
 
-## Migration Strategy
+## Lifecycle Management
+
+Every concern interface (`ILogger`, `ITracer`, `IMetrics`, `ICache`) exposes
+three lifecycle methods that must be honoured in production deployments:
+
+| Method | Purpose |
+|--------|---------|
+| `flush()` | Forward any buffered data to the sink immediately. |
+| `shutdown()` | Flush, then tear down the resource and release connections. |
+| `isHealthy()` | Probe whether the underlying sink/backend is operational. |
+
+`ConcernsContext` provides matching aggregate methods that iterate over all
+four concerns in the correct order:
+
+```cpp
+// Flush pending log/span/metric data without shutting down
+context->flush();
+
+// Graceful shutdown – call in signal handler or atexit()
+context->shutdown();
+```
+
+> **Note:** After `shutdown()` the context must **not** be reused.
+
+### Health and Readiness Probes
+
+```cpp
+// Liveness probe (e.g. Kubernetes /healthz)
+auto health = context->healthCheck();
+if (!health.isHealthy()) {
+    // At least one concern is unhealthy
+    if (!health.logger.ok)  std::cerr << "Logger: " << health.logger.message << "\n";
+    if (!health.tracer.ok)  std::cerr << "Tracer: " << health.tracer.message << "\n";
+    if (!health.metrics.ok) std::cerr << "Metrics: " << health.metrics.message << "\n";
+    if (!health.cache.ok)   std::cerr << "Cache: " << health.cache.message << "\n";
+}
+
+// Readiness probe (e.g. Kubernetes /readyz)
+auto ready = context->readinessCheck();
+if (!ready.isHealthy()) {
+    // Service is not ready to accept traffic
+}
+```
+
+### `ProbeResult` and `HealthStatus`
+
+Defined in `include/core/concerns/lifecycle.h`:
+
+```cpp
+struct ProbeResult {
+    bool ok = true;
+    std::string message;
+
+    static ProbeResult healthy(const std::string& msg = "ok");
+    static ProbeResult unhealthy(const std::string& msg);
+};
+
+struct HealthStatus {
+    ProbeResult logger, tracer, metrics, cache;
+    bool isHealthy() const;  // true iff all four are ok
+};
+```
+
+### Production Deployment Pattern
+
+```cpp
+// 1. Build context
+auto context = ConcernsContext::create(config);
+
+// 2. Register shutdown hook (signal handler or atexit)
+// NOTE: capture context by value (shared_ptr) so it remains valid at exit.
+std::atexit([context]{ context->shutdown(); });
+
+// 3. Expose /healthz endpoint
+httpServer.get("/healthz", [&](auto& req, auto& res) {
+    auto status = context->healthCheck();
+    if (status.isHealthy()) {
+        res.status = 200;
+        res.body   = "ok";
+    } else {
+        res.status = 503;
+        // Populate response with per-concern details
+    }
+});
+
+// 4. Expose /readyz endpoint
+httpServer.get("/readyz", [&](auto& req, auto& res) {
+    auto status = context->readinessCheck();
+    res.status = status.isHealthy() ? 200 : 503;
+});
+```
+
+
 
 1. **Phase 1**: Create concerns abstraction layer (DONE)
 2. **Phase 2**: Update new components to use ConcernsContext
@@ -261,6 +353,7 @@ TEST(MyComponentTest, PerformOperation) {
 - `include/core/concerns/i_tracer.h` - Tracer interface
 - `include/core/concerns/i_metrics.h` - Metrics interface
 - `include/core/concerns/i_cache.h` - Cache interface
+- `include/core/concerns/lifecycle.h` - `ProbeResult` and `HealthStatus` types
 
 ### Implementations
 - `include/core/concerns/spdlog_logger_adapter.h` - Spdlog adapter

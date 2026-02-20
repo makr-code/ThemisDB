@@ -2,6 +2,7 @@
 #include "core/concerns/noop_implementations.h"
 #include "core/concerns/spdlog_logger_adapter.h"
 #include "core/concerns/inmemory_cache_impl.h"
+#include "core/concerns/lifecycle.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
@@ -222,6 +223,121 @@ TEST_F(ConcernsContextTest, ConvenienceMethods) {
     context->recordMetric("test_metric", 42.0);
 }
 
+// ===== Lifecycle Hook Tests =====
+
+TEST_F(ConcernsContextTest, FlushDoesNotCrash) {
+    // flush() should be callable without errors on a no-op context
+    EXPECT_NO_THROW(context->flush());
+}
+
+TEST_F(ConcernsContextTest, ShutdownDoesNotCrash) {
+    // shutdown() should be callable without errors on a no-op context
+    auto ctx = ConcernsContext::createNoOp();
+    EXPECT_NO_THROW(ctx->shutdown());
+}
+
+TEST_F(ConcernsContextTest, NoOpLoggerLifecycle) {
+    NoOpLogger logger;
+    EXPECT_NO_THROW(logger.flush());
+    EXPECT_NO_THROW(logger.shutdown());
+    auto result = logger.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+TEST_F(ConcernsContextTest, NoOpTracerLifecycle) {
+    NoOpTracer tracer;
+    EXPECT_NO_THROW(tracer.flush());
+    EXPECT_NO_THROW(tracer.shutdown());
+    auto result = tracer.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+TEST_F(ConcernsContextTest, NoOpMetricsLifecycle) {
+    NoOpMetrics metrics;
+    EXPECT_NO_THROW(metrics.flush());
+    EXPECT_NO_THROW(metrics.shutdown());
+    auto result = metrics.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+TEST_F(ConcernsContextTest, NoOpCacheLifecycle) {
+    NoOpCache cache;
+    EXPECT_NO_THROW(cache.flush());
+    EXPECT_NO_THROW(cache.shutdown());
+    auto result = cache.isHealthy();
+    EXPECT_TRUE(result.ok);
+}
+
+TEST_F(ConcernsContextTest, InMemoryCacheShutdownClearsEntries) {
+    auto cache = std::make_unique<InMemoryCacheImpl>(100, 0);
+    cache->put("k1", CacheEntry{"v1"});
+    cache->put("k2", CacheEntry{"v2"});
+    EXPECT_EQ(2u, cache->size());
+
+    cache->shutdown();
+    EXPECT_EQ(0u, cache->size());
+}
+
+TEST_F(ConcernsContextTest, InMemoryCacheIsHealthy) {
+    auto cache = std::make_unique<InMemoryCacheImpl>(100, 0);
+    auto result = cache->isHealthy();
+    EXPECT_TRUE(result.ok);
+    EXPECT_EQ("in-memory cache operational", result.message);
+}
+
+// ===== Health / Readiness Probe Tests =====
+
+TEST_F(ConcernsContextTest, HealthCheckAllHealthy) {
+    auto status = context->healthCheck();
+    EXPECT_TRUE(status.logger.ok);
+    EXPECT_TRUE(status.tracer.ok);
+    EXPECT_TRUE(status.metrics.ok);
+    EXPECT_TRUE(status.cache.ok);
+    EXPECT_TRUE(status.isHealthy());
+}
+
+TEST_F(ConcernsContextTest, ReadinessCheckAllReady) {
+    auto status = context->readinessCheck();
+    EXPECT_TRUE(status.isHealthy());
+}
+
+TEST_F(ConcernsContextTest, HealthStatusUnhealthyWhenOneConcernFails) {
+    class UnhealthyLogger : public NoOpLogger {
+    public:
+        ProbeResult isHealthy() const override {
+            return ProbeResult::unhealthy("sink not reachable");
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<UnhealthyLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>()
+    );
+
+    auto status = ctx->healthCheck();
+    EXPECT_FALSE(status.logger.ok);
+    EXPECT_EQ("sink not reachable", status.logger.message);
+    EXPECT_FALSE(status.isHealthy());
+}
+
+TEST_F(ConcernsContextTest, ProbeResultHelpers) {
+    auto ok = ProbeResult::healthy("all good");
+    EXPECT_TRUE(ok.ok);
+    EXPECT_EQ("all good", ok.message);
+
+    auto bad = ProbeResult::unhealthy("connection refused");
+    EXPECT_FALSE(bad.ok);
+    EXPECT_EQ("connection refused", bad.message);
+}
+
+TEST_F(ConcernsContextTest, HealthStatusDefaultIsHealthy) {
+    HealthStatus status;
+    // All default-constructed ProbeResults have ok=true
+    EXPECT_TRUE(status.isHealthy());
+}
+
 // ===== Integration Test =====
 
 TEST_F(ConcernsContextTest, FullIntegration) {
@@ -263,4 +379,9 @@ TEST_F(ConcernsContextTest, FullIntegration) {
     
     // Verify cache state
     EXPECT_EQ(1, ctx->cache().size());
+
+    // Verify lifecycle hooks work on a fully-used context
+    EXPECT_NO_THROW(ctx->flush());
+    auto status = ctx->healthCheck();
+    EXPECT_TRUE(status.isHealthy());
 }
