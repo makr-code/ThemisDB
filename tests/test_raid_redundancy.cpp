@@ -1351,6 +1351,169 @@ TEST_F(GeoMirrorTest, WriteQuorumNotMet_FailsCorrectly) {
     EXPECT_NE(wr.error_message.find("Geo-quorum"), std::string::npos);
 }
 
+// ─────────────────────────────────────────────────────────────
+// remove() tests
+// ─────────────────────────────────────────────────────────────
+
+TEST_F(RedundancyStrategyTest, Remove_Mirror_DeletesFromAllReplicas) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'r', 'm', 'd', 'o', 'c'};
+
+    // First write the document
+    auto wr = strategy.write("rm-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+    ASSERT_FALSE(wr.written_shards.empty());
+
+    // Now remove it — must succeed
+    bool removed = strategy.remove("rm-doc1", "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(removed);
+}
+
+TEST_F(GeoMirrorTest, Remove_GeoMirror_DeletesFromLiveRegions) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'g', 'e', 'o', 'r', 'm'};
+
+    auto wr = strategy.write("geo-rm-doc", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+
+    bool removed = strategy.remove("geo-rm-doc", "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(removed);
+}
+
+TEST_F(RedundancyStrategyTest, Remove_NoShard_ReturnsFalse) {
+    // Empty ring — getNode returns nullopt
+    ConsistentHashRing empty_ring(100);
+
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+
+    RedundancyStrategy strategy(config);
+    bool removed = strategy.remove("no-shard-doc", "coll", empty_ring, *topology, createWriteHandler());
+    EXPECT_FALSE(removed);
+}
+
+// ─────────────────────────────────────────────────────────────
+// checkDocumentHealth() tests
+// ─────────────────────────────────────────────────────────────
+
+TEST_F(RedundancyStrategyTest, CheckDocumentHealth_AllReplicasPresent) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'h', 'e', 'a', 'l', 't', 'h'};
+
+    auto wr = strategy.write("health-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+
+    auto health = strategy.checkDocumentHealth("health-doc1", "coll", *ring, *topology, createReadHandler());
+    EXPECT_EQ(health.available_replicas, 3u);
+    EXPECT_TRUE(health.missing_shards.empty());
+    EXPECT_TRUE(health.is_healthy);
+    EXPECT_FALSE(health.can_recover);  // nothing missing — no recovery needed
+}
+
+TEST_F(RedundancyStrategyTest, CheckDocumentHealth_OneMissing_CanRecover) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data = {'d', 'e', 'g', 'r', 'a', 'd', 'e', 'd'};
+
+    auto wr = strategy.write("health-doc2", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+    ASSERT_GE(wr.written_shards.size(), 2u);
+
+    // Simulate one replica going missing by clearing its storage
+    storage->clearShard(wr.written_shards[0]);
+
+    auto health = strategy.checkDocumentHealth("health-doc2", "coll", *ring, *topology, createReadHandler());
+    EXPECT_LT(health.available_replicas, 3u);
+    EXPECT_FALSE(health.is_healthy);
+    EXPECT_TRUE(health.can_recover);
+    EXPECT_FALSE(health.missing_shards.empty());
+}
+
+// ─────────────────────────────────────────────────────────────
+// recoverDocument() tests
+// ─────────────────────────────────────────────────────────────
+
+TEST_F(RedundancyStrategyTest, RecoverDocument_Mirror_RestoresMissingReplica) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    const std::vector<uint8_t> data = {'r', 'e', 'c', 'o', 'v', 'e', 'r'};
+
+    auto wr = strategy.write("recover-doc1", data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success);
+    ASSERT_GE(wr.written_shards.size(), 2u);
+
+    // Erase one replica
+    const std::string erased_shard = wr.written_shards[0];
+    storage->clearShard(erased_shard);
+
+    // Verify it's really gone
+    EXPECT_FALSE(storage->read(erased_shard, "recover-doc1").has_value());
+
+    // Recover
+    bool recovered = strategy.recoverDocument(
+        "recover-doc1", "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_TRUE(recovered);
+
+    // The erased replica should now have the data back
+    auto restored = storage->read(erased_shard, "recover-doc1");
+    EXPECT_TRUE(restored.has_value());
+    if (restored) {
+        EXPECT_EQ(*restored, data);
+    }
+}
+
+TEST_F(RedundancyStrategyTest, RecoverDocument_NoneMode_ReturnsFalse) {
+    // NONE has no redundancy — recovery is impossible
+    RedundancyConfig config;
+    config.mode = RedundancyMode::NONE;
+    config.replication_factor = 1;
+
+    RedundancyStrategy strategy(config);
+    bool recovered = strategy.recoverDocument(
+        "no-recover", "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_FALSE(recovered);
+}
+
+TEST_F(RedundancyStrategyTest, RecoverDocument_AllReplicasMissing_ReturnsFalse) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::MIRROR;
+    config.replication_factor = 3;
+    config.write_concern = WriteConcern::ALL;
+
+    RedundancyStrategy strategy(config);
+    // Don't write anything — all replicas are missing
+    bool recovered = strategy.recoverDocument(
+        "never-written", "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_FALSE(recovered);
+}
+
 TEST_F(RedundancyStrategyTest, DISABLED_StressTest_ManyWrites) {
     // Disabled by default - enable for performance testing
     

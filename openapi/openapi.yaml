@@ -1777,6 +1777,35 @@ paths:
         '400': { $ref: '#/components/responses/BadRequest' }
         '503': { $ref: '#/components/responses/ServiceUnavailable' }
 
+  /api/v1/geo/topology/shard/{shard_id}:
+    delete:
+      summary: Remove a shard from the geo topology
+      tags: [Geo Topology]
+      parameters:
+        - name: shard_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: shard-5
+      responses:
+        '200':
+          description: Shard removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                  shard_id:
+                    type: string
+                  removed:
+                    type: boolean
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
   /api/v1/geo/regions:
     get:
       summary: Per-region aggregated health summary

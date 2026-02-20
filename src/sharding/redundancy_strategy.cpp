@@ -1782,56 +1782,367 @@ void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
 
 bool RedundancyStrategy::remove(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    // Implementation depends on mode
-    // For now, delete from all replicas
-    (void)document_id;
     (void)collection;
-    (void)ring;
-    (void)topology;
-    (void)handler;
-    return true;
+
+    // Determine the set of shards that hold this document
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        spdlog::warn("remove: no primary shard for document {}", document_id);
+        return false;
+    }
+
+    // For GEO_MIRROR evaluate failover state so we know which regions are live
+    if (config_.mode == RedundancyMode::GEO_MIRROR &&
+        config_.geo_replication.enable_geo_failover) {
+        evaluateGeoFailover(topology);
+    }
+
+    // Build the list of shard IDs and the doc-keys to delete
+    // ── MIRROR / GEO_MIRROR: all replicas hold the full document ──
+    // ── STRIPE / STRIPE_MIRROR: each replica holds a chunk key ──
+    // ── PARITY / RAID6: each replica holds a data: or parity: chunk key ──
+
+    std::vector<std::pair<std::string /*shard*/, std::string /*doc_key*/>> targets;
+
+    if (config_.mode == RedundancyMode::STRIPE ||
+        config_.mode == RedundancyMode::STRIPE_MIRROR) {
+
+        auto primary_shard = *primary_opt;
+        auto replicas = ring.getReplicaNodes(document_id,
+            config_.stripe.min_stripe_shards > 0
+                ? config_.stripe.min_stripe_shards - 1
+                : config_.replication_factor - 1);
+        std::vector<std::string> shards{primary_shard};
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        for (size_t i = 0; i < shards.size(); ++i) {
+            targets.emplace_back(shards[i],
+                                 document_id + ":chunk:" + std::to_string(i));
+        }
+
+    } else if (config_.mode == RedundancyMode::PARITY ||
+               config_.mode == RedundancyMode::RAID6) {
+
+        const uint32_t total = config_.erasure_coding.data_shards +
+                               config_.erasure_coding.parity_shards;
+        auto primary_shard = *primary_opt;
+        auto replicas = ring.getReplicaNodes(document_id, total - 1);
+        std::vector<std::string> shards{primary_shard};
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
+            bool is_parity = (i >= config_.erasure_coding.data_shards);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            targets.emplace_back(shards[i], key);
+        }
+
+    } else {
+        // NONE / MIRROR / GEO_MIRROR — full document on every replica
+        std::vector<std::string> shards;
+        shards.push_back(*primary_opt);
+        auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        // For GEO_MIRROR, skip shards that belong to failed-out regions
+        const auto& failed_regions = config_.geo_replication.failed_regions;
+        const std::unordered_set<std::string> failed_set(failed_regions.begin(),
+                                                         failed_regions.end());
+
+        for (const auto& sid : shards) {
+            if (!failed_set.empty()) {
+                auto info = topology.getShard(sid);
+                if (info && failed_set.count(info->region)) continue;
+            }
+            targets.emplace_back(sid, document_id);
+        }
+    }
+
+    if (targets.empty()) {
+        spdlog::warn("remove: no target shards for document {}", document_id);
+        return false;
+    }
+
+    // Delete from all targets in parallel (send a "write" with empty payload
+    // — the WriteHandler interprets an empty payload as a delete command)
+    const std::vector<uint8_t> empty_payload;
+    std::vector<std::future<bool>> futures;
+    futures.reserve(targets.size());
+    for (const auto& [shard_id, doc_key] : targets) {
+        futures.push_back(std::async(std::launch::async,
+            [&handler, shard_id = shard_id, doc_key = doc_key, &empty_payload]() {
+                return handler(shard_id, doc_key, empty_payload);
+            }));
+    }
+
+    uint32_t successes = 0;
+    for (size_t i = 0; i < futures.size(); ++i) {
+        try {
+            if (futures[i].get()) {
+                ++successes;
+            } else {
+                spdlog::warn("remove: delete from shard {} failed for doc {}",
+                             targets[i].first, document_id);
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("remove: delete from shard {} threw: {}",
+                         targets[i].first, e.what());
+        }
+    }
+
+    // Succeed if at least one replica was deleted (soft-delete semantics)
+    return successes > 0;
 }
 
 bool RedundancyStrategy::recoverDocument(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler read_handler,
     WriteHandler write_handler
 ) {
-    (void)document_id;
     (void)collection;
-    (void)ring;
-    (void)topology;
-    (void)read_handler;
-    (void)write_handler;
     stats_recoveries_++;
-    return false;  // Not yet implemented
+
+    // Recovery is only meaningful for modes that have redundant copies or parity
+    if (config_.mode == RedundancyMode::NONE ||
+        config_.mode == RedundancyMode::STRIPE) {
+        // No redundancy — cannot recover
+        return false;
+    }
+
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) return false;
+
+    std::vector<std::string> all_shards{*primary_opt};
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    all_shards.insert(all_shards.end(), replicas.begin(), replicas.end());
+
+    if (config_.mode == RedundancyMode::MIRROR ||
+        config_.mode == RedundancyMode::GEO_MIRROR ||
+        config_.mode == RedundancyMode::STRIPE_MIRROR) {
+
+        // Find a healthy replica that has the document
+        std::optional<std::vector<uint8_t>> source_data;
+        for (const auto& shard_id : all_shards) {
+            auto info = topology.getShard(shard_id);
+            if (info && !info->is_healthy) continue;
+
+            auto data = read_handler(shard_id, document_id);
+            if (data) {
+                source_data = data;
+                break;
+            }
+        }
+
+        if (!source_data) {
+            spdlog::error("recoverDocument: no healthy replica with data for {}",
+                          document_id);
+            return false;
+        }
+
+        // Re-write to any shard that is missing the document
+        uint32_t recovered = 0;
+        for (const auto& shard_id : all_shards) {
+            auto existing = read_handler(shard_id, document_id);
+            if (existing) continue;  // already has the data
+
+            bool ok = false;
+            try {
+                ok = write_handler(shard_id, document_id, *source_data);
+            } catch (const std::exception& e) {
+                spdlog::warn("recoverDocument: write to {} failed: {}",
+                             shard_id, e.what());
+            }
+            if (ok) {
+                ++recovered;
+                spdlog::info("recoverDocument: restored doc {} to shard {}",
+                             document_id, shard_id);
+            }
+        }
+        return recovered > 0;
+    }
+
+    if (config_.mode == RedundancyMode::PARITY ||
+        config_.mode == RedundancyMode::RAID6) {
+
+        if (!erasure_coder_) return false;
+
+        const uint32_t k = config_.erasure_coding.data_shards;
+        const uint32_t m = config_.erasure_coding.parity_shards;
+        const uint32_t total = k + m;
+
+        // Read all available chunks
+        std::vector<std::optional<std::vector<uint8_t>>> chunk_opts(total);
+        std::vector<std::string> chunk_shards(total);
+
+        auto replicas2 = ring.getReplicaNodes(document_id, total - 1);
+        std::vector<std::string> shards{*primary_opt};
+        shards.insert(shards.end(), replicas2.begin(), replicas2.end());
+
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
+            bool is_parity = (i >= k);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            chunk_opts[i] = read_handler(shards[i], key);
+            chunk_shards[i] = shards[i];
+        }
+
+        // Count available chunks
+        uint32_t available = 0;
+        for (const auto& c : chunk_opts) if (c) ++available;
+
+        if (available < k) {
+            spdlog::error("recoverDocument: only {}/{} chunks available for {} (need {})",
+                          available, total, document_id, k);
+            return false;
+        }
+
+        // Reconstruct the missing chunk(s) via erasure decode
+        std::vector<std::vector<uint8_t>> present_chunks;
+        std::vector<int> present_indices;
+        for (uint32_t i = 0; i < total; ++i) {
+            if (chunk_opts[i]) {
+                present_chunks.push_back(*chunk_opts[i]);
+                present_indices.push_back(static_cast<int>(i));
+            }
+        }
+
+        auto recovered_data = erasure_coder_->decode(present_chunks, present_indices, k, m);
+        if (recovered_data.empty()) {
+            spdlog::error("recoverDocument: erasure decode failed for {}", document_id);
+            return false;
+        }
+
+        // Re-encode to get all chunks back, then re-write missing ones
+        auto all_chunks = erasure_coder_->encode(recovered_data, k, m);
+        uint32_t restored = 0;
+        for (size_t i = 0; i < shards.size() && i < all_chunks.size(); ++i) {
+            if (chunk_opts[i]) continue;  // chunk was already present
+
+            bool is_parity = (i >= k);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            try {
+                if (write_handler(shards[i], key, all_chunks[i])) {
+                    ++restored;
+                    spdlog::info("recoverDocument: restored chunk {} of {} to shard {}",
+                                 i, document_id, shards[i]);
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("recoverDocument: write chunk {} to {} failed: {}",
+                             i, shards[i], e.what());
+            }
+        }
+        return restored > 0;
+    }
+
+    return false;
 }
 
 RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)document_id;
     (void)collection;
-    (void)ring;
-    (void)topology;
-    (void)handler;
     DocumentHealth health;
-    health.is_healthy = true;
-    health.available_replicas = 0;
     health.required_replicas = config_.replication_factor;
-    health.can_recover = true;
+    health.is_healthy = false;
+    health.available_replicas = 0;
+    health.can_recover = false;
+
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        return health;  // no shard at all
+    }
+
+    std::vector<std::string> all_shards{*primary_opt};
+    {
+        auto replicas = ring.getReplicaNodes(document_id,
+                                             config_.replication_factor - 1);
+        all_shards.insert(all_shards.end(), replicas.begin(), replicas.end());
+    }
+
+    if (config_.mode == RedundancyMode::STRIPE) {
+        // Each shard holds a unique chunk — read each chunk key
+        for (size_t i = 0; i < all_shards.size(); ++i) {
+            const std::string key = document_id + ":chunk:" + std::to_string(i);
+            auto shard_info = topology.getShard(all_shards[i]);
+            bool shard_healthy = (!shard_info || shard_info->is_healthy);
+            auto chunk = handler(all_shards[i], key);
+            if (chunk) {
+                ++health.available_replicas;
+            } else {
+                if (shard_healthy) {
+                    health.missing_shards.push_back(all_shards[i]);
+                }
+            }
+        }
+        health.is_healthy = (health.available_replicas == all_shards.size());
+        health.can_recover = false;  // STRIPE: no recovery without all chunks
+        return health;
+    }
+
+    if (config_.mode == RedundancyMode::PARITY ||
+        config_.mode == RedundancyMode::RAID6) {
+
+        const uint32_t k = config_.erasure_coding.data_shards;
+        const uint32_t m = config_.erasure_coding.parity_shards;
+        const uint32_t total = k + m;
+        auto replicas = ring.getReplicaNodes(document_id, total - 1);
+        std::vector<std::string> shards{*primary_opt};
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
+            bool is_parity = (i >= k);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            auto chunk = handler(shards[i], key);
+            if (chunk) {
+                ++health.available_replicas;
+            } else {
+                health.missing_shards.push_back(shards[i]);
+            }
+        }
+        health.is_healthy = (health.missing_shards.empty());
+        health.can_recover = (health.available_replicas >= k);
+        return health;
+    }
+
+    // NONE / MIRROR / GEO_MIRROR / STRIPE_MIRROR — full document on each replica
+    for (const auto& shard_id : all_shards) {
+        auto data = handler(shard_id, document_id);
+        if (data) {
+            ++health.available_replicas;
+        } else {
+            auto info = topology.getShard(shard_id);
+            bool shard_healthy = (!info || info->is_healthy);
+            if (shard_healthy) {
+                // Data missing from a healthy shard → needs recovery
+                health.missing_shards.push_back(shard_id);
+            }
+        }
+    }
+
+    // MIRROR / GEO_MIRROR: can recover if at least 1 replica is available and some are missing
+    constexpr uint32_t min_required = 1;
+
+    health.is_healthy   = health.missing_shards.empty();
+    health.can_recover  = (health.available_replicas >= min_required) &&
+                          !health.missing_shards.empty();
     return health;
 }
 

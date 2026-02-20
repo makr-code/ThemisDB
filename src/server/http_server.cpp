@@ -1593,6 +1593,7 @@ namespace {
     GeoRegionsGet,            // GET  /api/v1/geo/regions
     GeoHealthGet,             // GET  /api/v1/geo/health
     GeoTopologyShardPost,     // POST /api/v1/geo/topology/shard
+    GeoTopologyShardDelete,   // DELETE /api/v1/geo/topology/shard/{shard_id}
     GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
     GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
        
@@ -1828,6 +1829,7 @@ namespace {
     if (path_only == "/api/v1/geo/regions"  && method == http::verb::get) return Route::GeoRegionsGet;
     if (path_only == "/api/v1/geo/health"   && method == http::verb::get) return Route::GeoHealthGet;
     if (path_only == "/api/v1/geo/topology/shard" && method == http::verb::post) return Route::GeoTopologyShardPost;
+    if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) return Route::GeoTopologyShardDelete;
     if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
     if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
     
@@ -3099,6 +3101,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::GeoTopologyShardPost:
             response = geo_topology_api_->handleTopologyShardPost(req);
+            break;
+        case Route::GeoTopologyShardDelete:
+            response = geo_topology_api_->handleTopologyShardDelete(req);
             break;
         case Route::GeoConfigGet:
             response = geo_topology_api_->handleConfigGet(req);

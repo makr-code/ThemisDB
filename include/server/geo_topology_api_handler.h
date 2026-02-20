@@ -56,6 +56,10 @@ public:
     http::response<http::string_body> handleTopologyShardPost(
         const http::request<http::string_body>& req);
 
+    /** DELETE /api/v1/geo/topology/shard/{shard_id} — remove a shard from the topology */
+    http::response<http::string_body> handleTopologyShardDelete(
+        const http::request<http::string_body>& req);
+
     /** GET /api/v1/geo/config/{collection} — get GeoReplicationConfig for a collection */
     http::response<http::string_body> handleConfigGet(
         const http::request<http::string_body>& req);

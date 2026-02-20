@@ -269,6 +269,42 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// DELETE /api/v1/geo/topology/shard/{shard_id}
+// ─────────────────────────────────────────────────────────────────────────────
+
+http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardDelete(
+    const http::request<http::string_body>& req)
+{
+    if (!shard_topology_) {
+        return makeErrorResponse(http::status::service_unavailable,
+                                 "Shard topology not available", req);
+    }
+
+    const std::string target   = std::string(req.target());
+    const std::string shard_id = extractTrailingSegment(target,
+                                     "/api/v1/geo/topology/shard/");
+    if (shard_id.empty()) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Missing shard_id in path", req);
+    }
+
+    const auto existing = shard_topology_->getShard(shard_id);
+    if (!existing) {
+        return makeErrorResponse(http::status::not_found,
+                                 "Shard not found: " + shard_id, req);
+    }
+
+    shard_topology_->removeShard(shard_id);
+
+    json response_body = {
+        {"ok",       true},
+        {"shard_id", shard_id},
+        {"removed",  true}
+    };
+    return makeResponse(http::status::ok, response_body.dump(), req);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // GET /api/v1/geo/config/{collection}
 // ─────────────────────────────────────────────────────────────────────────────
 

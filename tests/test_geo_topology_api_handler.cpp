@@ -89,6 +89,12 @@ protected:
         req.prepare_payload();
         return req;
     }
+
+    http::request<http::string_body> makeDelete(const std::string& target) {
+        http::request<http::string_body> req{http::verb::delete_, target, 11};
+        req.set(http::field::host, "localhost");
+        return req;
+    }
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -404,4 +410,76 @@ TEST_F(GeoTopologyApiHandlerTest, ConfigGet_AfterConfigPut_Roundtrip) {
     EXPECT_EQ(j["local_region"].get<std::string>(), "eu-west");
     EXPECT_EQ(j["max_staleness_ms"].get<int>(), 250);
     EXPECT_EQ(j["region_write_quorums"]["eu-west"].get<int>(), 2);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DELETE /api/v1/geo/topology/shard/{shard_id}
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_RemovesExistingShard) {
+    // shard-0 was added in SetUp; verify it exists first
+    ASSERT_TRUE(topology_->getShard("shard-0").has_value());
+
+    auto req  = makeDelete("/api/v1/geo/topology/shard/shard-0");
+    auto resp = handler_->handleTopologyShardDelete(req);
+
+    EXPECT_EQ(resp.result(), http::status::ok);
+
+    auto j = json::parse(resp.body());
+    EXPECT_TRUE(j["ok"].get<bool>());
+    EXPECT_TRUE(j["removed"].get<bool>());
+    EXPECT_EQ(j["shard_id"].get<std::string>(), "shard-0");
+
+    // Topology should no longer contain shard-0
+    EXPECT_FALSE(topology_->getShard("shard-0").has_value());
+}
+
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_NotFound_Returns404) {
+    auto req  = makeDelete("/api/v1/geo/topology/shard/nonexistent-shard");
+    auto resp = handler_->handleTopologyShardDelete(req);
+    EXPECT_EQ(resp.result(), http::status::not_found);
+
+    auto j = json::parse(resp.body());
+    EXPECT_TRUE(j["error"].get<bool>());
+}
+
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_MissingShardIdInPath_BadRequest) {
+    // Path ends at the shard/ prefix with no trailing segment
+    auto req  = makeDelete("/api/v1/geo/topology/shard/");
+    auto resp = handler_->handleTopologyShardDelete(req);
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+}
+
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_NoTopology_ServiceUnavailable) {
+    GeoTopologyApiHandler no_topo(nullptr, redundancy_mgr_, nullptr);
+    auto req  = makeDelete("/api/v1/geo/topology/shard/shard-0");
+    auto resp = no_topo.handleTopologyShardDelete(req);
+    EXPECT_EQ(resp.result(), http::status::service_unavailable);
+}
+
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardDelete_UpdatesRegionCount) {
+    // Before: eu-west has 3 shards (shard-3, shard-4, shard-5)
+    auto before = handler_->handleRegionsGet(makeGet("/api/v1/geo/regions"));
+    auto jb = json::parse(before.body());
+    int eu_west_before = 0;
+    for (const auto& r : jb["regions"]) {
+        if (r["region"].get<std::string>() == "eu-west")
+            eu_west_before = r["total_shards"].get<int>();
+    }
+    EXPECT_EQ(eu_west_before, 3);
+
+    // Delete one eu-west shard
+    auto del_resp = handler_->handleTopologyShardDelete(
+        makeDelete("/api/v1/geo/topology/shard/shard-3"));
+    ASSERT_EQ(del_resp.result(), http::status::ok);
+
+    // After: eu-west should have 2 shards
+    auto after = handler_->handleRegionsGet(makeGet("/api/v1/geo/regions"));
+    auto ja = json::parse(after.body());
+    int eu_west_after = 0;
+    for (const auto& r : ja["regions"]) {
+        if (r["region"].get<std::string>() == "eu-west")
+            eu_west_after = r["total_shards"].get<int>();
+    }
+    EXPECT_EQ(eu_west_after, 2);
 }
