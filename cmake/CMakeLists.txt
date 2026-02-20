@@ -1543,6 +1543,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
+    ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/shard_rpc_server.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>

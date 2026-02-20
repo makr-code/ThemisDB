@@ -23,8 +23,8 @@ void AdminAPI::registerHealthHandler(RequestHandler handler) {
     health_handler_ = handler;
 }
 
-void AdminAPI::registerStatsHandler(RequestHandler handler) {
-    stats_handler_ = handler;
+void AdminAPI::registerRepairHandler(RequestHandler handler) {
+    repair_handler_ = handler;
 }
 
 nlohmann::json AdminAPI::handleRequest(const std::string& method, 
@@ -67,6 +67,24 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
     } else if (path == Endpoints::STATS && method == "GET") {
         if (stats_handler_) {
             return stats_handler_(body);
+        }
+    } else if (path == Endpoints::REPAIR && method == "POST") {
+        if (repair_handler_) {
+            return repair_handler_(body);
+        }
+    } else if (path == Endpoints::REPAIR_SCAN && method == "POST") {
+        if (repair_handler_) {
+            nlohmann::json scan_body = body;
+            scan_body["full_scan"] = true;
+            return repair_handler_(scan_body);
+        }
+    } else if (path.find(Endpoints::REPAIR_STATUS) == 0 && method == "GET") {
+        if (repair_handler_) {
+            // Extract job_id from path: /admin/repair/{job_id}
+            std::string job_id = path.substr(std::string(Endpoints::REPAIR_STATUS).size());
+            nlohmann::json status_body = body;
+            status_body["job_id"] = job_id;
+            return repair_handler_(status_body);
         }
     }
 

@@ -1,0 +1,258 @@
+/**
+ * ThemisDB Shard Repair / Anti-Entropy Engine
+ *
+ * Implements automated repair and anti-entropy mechanisms for Parity
+ * (RAID-5/6) and Mirrored shard setups:
+ *
+ *  - Periodic background consistency checks between shards
+ *  - Automatic detection and queuing of degraded/failed shards
+ *  - On-demand rebuild / health-check triggers (API & CLI)
+ *  - Prometheus-compatible metrics and repair reporting
+ *
+ * Copyright (c) 2025 VCC-URN Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+#pragma once
+
+#include "sharding/redundancy_strategy.h"
+#include "sharding/consistent_hash.h"
+#include "sharding/shard_topology.h"
+
+#include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <functional>
+#include <map>
+#include <mutex>
+#include <queue>
+#include <string>
+#include <thread>
+#include <vector>
+
+namespace themis {
+namespace sharding {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Configuration
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct RepairConfig {
+    /// Interval between periodic anti-entropy scans.
+    std::chrono::seconds scan_interval{300};
+    /// Interval at which the repair worker polls the job queue.
+    std::chrono::seconds repair_poll_interval{30};
+    /// Maximum number of documents repaired concurrently.
+    uint32_t max_concurrent_repairs = 4;
+    /// Maximum documents processed per repair queue drain.
+    uint32_t repair_batch_size = 100;
+    /// Enable automatic background scanning and repair.
+    bool enable_auto_repair = true;
+    /// Enable periodic anti-entropy scans.
+    bool enable_periodic_scan = true;
+    /// Collection name used when scanning (empty = default).
+    std::string default_collection;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Per-shard health status
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum class ShardRepairStatus {
+    HEALTHY,     ///< All monitored documents are intact.
+    DEGRADED,    ///< Some documents are missing replicas / chunks.
+    FAILED,      ///< Shard is unreachable or majority of docs unavailable.
+    REBUILDING   ///< Active repair is running on this shard.
+};
+
+struct ShardHealthReport {
+    std::string shard_id;
+    ShardRepairStatus status = ShardRepairStatus::HEALTHY;
+    uint64_t documents_scanned = 0;
+    uint64_t documents_healthy = 0;
+    uint64_t documents_degraded = 0;
+    uint64_t documents_unrecoverable = 0;
+    std::chrono::system_clock::time_point last_scan;
+    std::chrono::system_clock::time_point last_repair;
+    std::string last_error;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Repair job
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct RepairJob {
+    std::string job_id;
+    /// Target shard (empty = all shards / full cluster scan).
+    std::string shard_id;
+    /// Target document (empty = all documents in shard).
+    std::string document_id;
+    /// Collection context.
+    std::string collection;
+    bool is_full_scan = false;
+
+    std::chrono::system_clock::time_point submitted_at;
+    std::chrono::system_clock::time_point completed_at;
+
+    uint64_t documents_scanned = 0;
+    uint64_t documents_repaired = 0;
+    uint64_t documents_failed = 0;
+
+    bool completed = false;
+    bool success = false;
+    std::string error_message;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Engine metrics
+// ─────────────────────────────────────────────────────────────────────────────
+
+struct RepairMetrics {
+    uint64_t total_scans = 0;
+    uint64_t total_repairs_attempted = 0;
+    uint64_t total_repairs_successful = 0;
+    uint64_t total_repairs_failed = 0;
+    uint64_t total_documents_scanned = 0;
+    std::chrono::milliseconds avg_repair_time_ms{0};
+    std::chrono::system_clock::time_point last_scan_time;
+    std::chrono::system_clock::time_point last_repair_time;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ShardRepairEngine
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Anti-Entropy and Shard Repair Engine.
+ *
+ * Lifecycle:
+ *   1. Construct with a RepairConfig and references to the existing
+ *      RedundancyStrategy, ConsistentHashRing, and ShardTopology.
+ *   2. Provide read / write handlers (lambdas matching the types used by
+ *      RedundancyStrategy) and optionally a document-list provider.
+ *   3. Call start() to launch background threads.
+ *   4. Call triggerRepair() / triggerFullScan() for on-demand operations.
+ *   5. Query getRepairMetrics() / exportPrometheusMetrics() for observability.
+ *   6. Call stop() on shutdown.
+ */
+class ShardRepairEngine {
+public:
+    /// Callback that returns the list of document IDs stored on a shard.
+    using DocumentListProvider =
+        std::function<std::vector<std::string>(const std::string& shard_id)>;
+
+    ShardRepairEngine(const RepairConfig& config,
+                      RedundancyStrategy& strategy,
+                      ConsistentHashRing& ring,
+                      ShardTopology& topology,
+                      RedundancyStrategy::ReadHandler read_handler,
+                      RedundancyStrategy::WriteHandler write_handler);
+
+    ~ShardRepairEngine();
+
+    // ── Lifecycle ────────────────────────────────────────────────────────────
+
+    void start();
+    void stop();
+    bool isRunning() const { return running_.load(); }
+
+    // ── Providers ────────────────────────────────────────────────────────────
+
+    /// Inject a function that lists document IDs for a given shard.
+    void setDocumentListProvider(DocumentListProvider provider);
+
+    // ── On-demand triggers (API / CLI) ────────────────────────────────────────
+
+    /**
+     * Enqueue a repair job for a specific shard (or all shards if empty).
+     * Returns the job ID that can be used with getJobStatus().
+     */
+    std::string triggerRepair(const std::string& shard_id = "");
+
+    /**
+     * Enqueue a full cluster-wide anti-entropy scan + repair.
+     * Returns the job ID.
+     */
+    std::string triggerFullScan();
+
+    /**
+     * Enqueue repair of a single document.
+     * Returns the job ID.
+     */
+    std::string triggerDocumentRepair(const std::string& document_id,
+                                      const std::string& collection = "");
+
+    // ── Status / reporting ────────────────────────────────────────────────────
+
+    RepairJob getJobStatus(const std::string& job_id) const;
+    std::vector<RepairJob> getActiveJobs() const;
+    std::vector<ShardHealthReport> getShardHealthReports() const;
+
+    RepairMetrics getRepairMetrics() const;
+
+    /// Export current metrics in Prometheus text exposition format.
+    std::string exportPrometheusMetrics() const;
+
+private:
+    // ── Background threads ────────────────────────────────────────────────────
+
+    void scanLoop();
+    void repairLoop();
+
+    // ── Internal operations ───────────────────────────────────────────────────
+
+    void performAntiEntropyScan();
+    void executeRepairJob(RepairJob& job);
+    bool repairDocument(const std::string& doc_id, const std::string& collection);
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    std::string generateJobId() const;
+    void updateMetricsAfterRepair(bool success, std::chrono::milliseconds duration);
+
+    // ── Members ───────────────────────────────────────────────────────────────
+
+    RepairConfig config_;
+    RedundancyStrategy& strategy_;
+    ConsistentHashRing& ring_;
+    ShardTopology& topology_;
+    RedundancyStrategy::ReadHandler read_handler_;
+    RedundancyStrategy::WriteHandler write_handler_;
+    DocumentListProvider doc_list_provider_;
+
+    std::atomic<bool> running_{false};
+    std::thread scan_thread_;
+    std::thread repair_thread_;
+
+    // Job registry
+    mutable std::mutex jobs_mutex_;
+    std::map<std::string, RepairJob> jobs_;
+    std::queue<std::string> job_queue_;  // job IDs pending execution
+    std::condition_variable repair_cv_;
+
+    // Per-shard health reports
+    mutable std::mutex health_mutex_;
+    std::map<std::string, ShardHealthReport> shard_health_;
+
+    // Aggregated metrics
+    mutable std::mutex metrics_mutex_;
+    RepairMetrics metrics_;
+
+    // Monotonic counter for job IDs
+    mutable std::atomic<uint64_t> job_counter_{0};
+};
+
+}  // namespace sharding
+}  // namespace themis
+
+// Backward-compatibility alias
+namespace themisdb {
+namespace sharding {
+using themis::sharding::RepairConfig;
+using themis::sharding::RepairJob;
+using themis::sharding::RepairMetrics;
+using themis::sharding::ShardHealthReport;
+using themis::sharding::ShardRepairEngine;
+using themis::sharding::ShardRepairStatus;
+}  // namespace sharding
+}  // namespace themisdb
