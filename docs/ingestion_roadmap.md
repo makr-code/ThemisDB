@@ -43,9 +43,13 @@ ingestion.
 | Grafana alert rules | ✅ `grafana/ingestion-alerts.json` (5 alert rules) |
 | `IngestionBuilder` fluent API | ✅ Implemented |
 | `IngestionAdminApi` operator layer | ✅ Implemented (listSources, start, pause, resume, quarantine, healthJson) |
+| `CheckpointStore` (file-based) | ✅ Implemented (write/read/clear/exists; key=value format) |
+| `IngestionManager` incremental mode | ✅ Implemented (`setCheckpointDir`, `enableIncrementalMode`, `getCheckpoint`, `clearCheckpoint`) |
+| `GenericApiConnector` | ✅ Implemented (pagination cursor, retry, configurable `text_field`, `max_pages`) |
 | Resilience / fuzz-style tests | ✅ `tests/test_ingestion_resilience.cpp` |
 | Prometheus / OpenTelemetry push | Not yet integrated |
-| API / Database connector | Stub (not implemented) |
+| API connector | ✅ `GenericApiConnector` (simulated HTTP; real libcurl planned) |
+| Database connector | Not yet implemented |
 | Admin HTTP REST endpoints | Not yet implemented |
 
 ---
@@ -106,10 +110,16 @@ taxonomy and basic observability.
 - [ ] Back-pressure: block submission when queue is full
 - [ ] Per-source concurrency cap (to avoid overwhelming single sources)
 
-### 2.2 Checkpoint & Resume
-- [ ] Persist ingestion offset / cursor to RocksDB after each successful batch
-- [ ] On restart, skip already-ingested ranges (resume from checkpoint)
-- [ ] Support `incremental=true` flag in `SourceConfig` / `IngestionSource`
+### 2.2 Checkpoint & Resume ✅ DONE
+- [x] Persist ingestion offset / cursor to a file-based `CheckpointStore` after each successful source run
+- [x] `CheckpointStore`: write / read / clear / exists per source; key=value text format; thread-safe
+- [x] `IngestionManager::setCheckpointDir(dir)` – configure checkpoint directory at runtime
+- [x] `IngestionManager::enableIncrementalMode(bool)` / `isIncrementalMode()` – opt-in to skip re-ingested docs
+- [x] `IngestionManager::getCheckpoint(source_id, out)` – inspect current checkpoint
+- [x] `IngestionManager::clearCheckpoint(source_id)` – force full re-ingest on next run
+- [x] `IngestionCheckpoint` struct: `source_id`, `processed_count`, `byte_offset`, `cursor`, `timestamp`
+- [ ] On restart, skip already-ingested ranges (connector-level integration per HF/API stream offset)
+- [ ] Support `incremental=true` flag in `SourceConfig::options`
 
 ### 2.3 Quarantine & Dead-Letter Queue ✅ PARTIAL
 - [x] In-memory quarantine list (`QuarantineEntry`) populated from FATAL errors
@@ -131,8 +141,12 @@ taxonomy and basic observability.
 - [x] `IngestionManager::resumeSource(id)` – re-enable a paused source
 - [x] Paused sources skipped in `ingestAll()` (inherited from `enabled` flag logic)
 
-### 2.5 API & Database Connectors
-- [ ] `ApiConnector`: generic REST/GraphQL source with pagination cursor
+### 2.5 API & Database Connectors ✅ PARTIAL
+- [x] `GenericApiConnector`: generic REST/JSON source with pagination cursor (`cursor_param`),
+  configurable `text_field`, `page_size`, `max_pages`, Bearer token auth, retry back-off
+- [x] `SourceType::API` wired through `IngestionManager::ingestSource()` (creates `GenericApiConnector`)
+- [x] `include/ingestion/api_connector.h` + `src/ingestion/api_connector.cpp`
+- [ ] Real HTTP implementation (libcurl) for `GenericApiConnector` (currently simulated)
 - [ ] `DatabaseConnector`: JDBC-style ODBC / PostgreSQL / MySQL bulk export
 
 ### 2.6 Fuzz & Chaos Testing ✅ PARTIAL

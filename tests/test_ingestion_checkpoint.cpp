@@ -1,0 +1,367 @@
+/**
+ * @file test_ingestion_checkpoint.cpp
+ * @brief Unit tests for CheckpointStore, incremental ingestion mode,
+ *        GenericApiConnector, and IngestionManager checkpoint integration.
+ */
+
+#include <gtest/gtest.h>
+#include "ingestion/ingestion_manager.h"
+#include "ingestion/api_connector.h"
+#include <filesystem>
+#include <fstream>
+
+using namespace themis::ingestion;
+namespace fs = std::filesystem;
+
+// ============================================================================
+// Test fixture – temporary directory for checkpoint files
+// ============================================================================
+
+class CheckpointTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        tmp_dir_ = fs::temp_directory_path() / "themis_cp_test";
+        fs::create_directories(tmp_dir_);
+    }
+    void TearDown() override {
+        std::error_code ec;
+        fs::remove_all(tmp_dir_, ec);
+    }
+
+    fs::path tmp_dir_;
+};
+
+// ============================================================================
+// CheckpointStore – unit tests
+// ============================================================================
+
+TEST_F(CheckpointTest, WriteAndRead) {
+    CheckpointStore store(tmp_dir_.string());
+
+    IngestionCheckpoint cp;
+    cp.source_id       = "hf_legal";
+    cp.processed_count = 5000;
+    cp.byte_offset     = 102400;
+    cp.cursor          = "page_42";
+    cp.timestamp       = "2026-02-20T16:00:00Z";
+
+    ASSERT_TRUE(store.write(cp));
+
+    IngestionCheckpoint out;
+    ASSERT_TRUE(store.read("hf_legal", out));
+
+    EXPECT_EQ(out.source_id,       "hf_legal");
+    EXPECT_EQ(out.processed_count, 5000u);
+    EXPECT_EQ(out.byte_offset,     102400u);
+    EXPECT_EQ(out.cursor,          "page_42");
+    EXPECT_EQ(out.timestamp,       "2026-02-20T16:00:00Z");
+}
+
+TEST_F(CheckpointTest, ExistsAfterWrite) {
+    CheckpointStore store(tmp_dir_.string());
+    EXPECT_FALSE(store.exists("new_source"));
+
+    IngestionCheckpoint cp;
+    cp.source_id = "new_source";
+    store.write(cp);
+
+    EXPECT_TRUE(store.exists("new_source"));
+}
+
+TEST_F(CheckpointTest, ClearRemovesFile) {
+    CheckpointStore store(tmp_dir_.string());
+
+    IngestionCheckpoint cp;
+    cp.source_id = "ephemeral";
+    store.write(cp);
+
+    ASSERT_TRUE(store.exists("ephemeral"));
+    EXPECT_TRUE(store.clear("ephemeral"));
+    EXPECT_FALSE(store.exists("ephemeral"));
+}
+
+TEST_F(CheckpointTest, ClearNonExistentReturnsFalse) {
+    CheckpointStore store(tmp_dir_.string());
+    EXPECT_FALSE(store.clear("ghost_source"));
+}
+
+TEST_F(CheckpointTest, ReadNonExistentReturnsFalse) {
+    CheckpointStore store(tmp_dir_.string());
+    IngestionCheckpoint out;
+    EXPECT_FALSE(store.read("missing", out));
+}
+
+TEST_F(CheckpointTest, OverwriteUpdatesValues) {
+    CheckpointStore store(tmp_dir_.string());
+
+    IngestionCheckpoint cp;
+    cp.source_id       = "my_src";
+    cp.processed_count = 100;
+    store.write(cp);
+
+    cp.processed_count = 200;
+    cp.cursor          = "next_page";
+    store.write(cp);
+
+    IngestionCheckpoint out;
+    ASSERT_TRUE(store.read("my_src", out));
+    EXPECT_EQ(out.processed_count, 200u);
+    EXPECT_EQ(out.cursor,          "next_page");
+}
+
+TEST_F(CheckpointTest, SourceIdWithSpecialCharsIsSanitised) {
+    // Dots and hyphens should be preserved; slashes become underscores
+    CheckpointStore store(tmp_dir_.string());
+    IngestionCheckpoint cp;
+    cp.source_id = "org/dataset-v1.0";
+    ASSERT_TRUE(store.write(cp));
+
+    // Read back using the same source_id string
+    IngestionCheckpoint out;
+    EXPECT_TRUE(store.read("org/dataset-v1.0", out));
+    EXPECT_EQ(out.source_id, "org/dataset-v1.0");
+}
+
+TEST_F(CheckpointTest, EmptyCursorRoundtrips) {
+    CheckpointStore store(tmp_dir_.string());
+    IngestionCheckpoint cp;
+    cp.source_id = "no_cursor";
+    cp.cursor    = "";
+    store.write(cp);
+
+    IngestionCheckpoint out;
+    ASSERT_TRUE(store.read("no_cursor", out));
+    EXPECT_EQ(out.cursor, "");
+}
+
+// ============================================================================
+// IngestionManager – checkpoint integration tests
+// ============================================================================
+
+TEST_F(CheckpointTest, SetCheckpointDirDoesNotCrash) {
+    IngestionManager mgr("test_db");
+    // Just verifying no exception/crash when a valid directory is set
+    EXPECT_NO_THROW(mgr.setCheckpointDir(tmp_dir_.string()));
+}
+
+TEST_F(CheckpointTest, GetCheckpointReturnsFalseWhenNoneSet) {
+    IngestionManager mgr("test_db");
+    IngestionCheckpoint out;
+    // No checkpoint dir set – should return false gracefully
+    EXPECT_FALSE(mgr.getCheckpoint("any_source", out));
+}
+
+TEST_F(CheckpointTest, ClearCheckpointReturnsFalseWhenNoneSet) {
+    IngestionManager mgr("test_db");
+    EXPECT_FALSE(mgr.clearCheckpoint("any_source"));
+}
+
+TEST_F(CheckpointTest, IncrementalModeDefaultOff) {
+    IngestionManager mgr("test_db");
+    EXPECT_FALSE(mgr.isIncrementalMode());
+}
+
+TEST_F(CheckpointTest, IncrementalModeToggle) {
+    IngestionManager mgr("test_db");
+    mgr.enableIncrementalMode(true);
+    EXPECT_TRUE(mgr.isIncrementalMode());
+    mgr.enableIncrementalMode(false);
+    EXPECT_FALSE(mgr.isIncrementalMode());
+}
+
+TEST_F(CheckpointTest, CheckpointWrittenAfterSuccessfulIngestSource) {
+    // Register a real filesystem source with a temp file so ingest() succeeds
+    fs::path data_dir = tmp_dir_ / "docs";
+    fs::create_directories(data_dir);
+    {
+        std::ofstream f(data_dir / "a.txt");
+        f << "hello world";
+    }
+
+    IngestionManager mgr("test_db");
+    mgr.setCheckpointDir(tmp_dir_.string());
+    mgr.enableIncrementalMode(true);
+    mgr.registerSource({
+        "fs_src", SourceType::FILESYSTEM, data_dir.string(), 5, true, {}
+    });
+
+    auto stats = mgr.ingestSource("fs_src");
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_TRUE(stats.errors.empty() || stats.documents_failed == 0u);
+
+    // Checkpoint should now exist
+    IngestionCheckpoint out;
+    ASSERT_TRUE(mgr.getCheckpoint("fs_src", out));
+    EXPECT_EQ(out.source_id, "fs_src");
+    EXPECT_EQ(out.processed_count, 1u);
+}
+
+TEST_F(CheckpointTest, ClearCheckpointViaManager) {
+    fs::path data_dir = tmp_dir_ / "docs2";
+    fs::create_directories(data_dir);
+    { std::ofstream f(data_dir / "x.txt"); f << "data"; }
+
+    IngestionManager mgr("test_db");
+    mgr.setCheckpointDir(tmp_dir_.string());
+    mgr.enableIncrementalMode(true);
+    mgr.registerSource({"fs2", SourceType::FILESYSTEM, data_dir.string(), 5, true, {}});
+    mgr.ingestSource("fs2");
+
+    IngestionCheckpoint out;
+    ASSERT_TRUE(mgr.getCheckpoint("fs2", out));
+    EXPECT_TRUE(mgr.clearCheckpoint("fs2"));
+    EXPECT_FALSE(mgr.getCheckpoint("fs2", out));
+}
+
+// ============================================================================
+// GenericApiConnector – unit tests
+// ============================================================================
+
+TEST(ApiConnectorTest, InitializeWithApiType) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id = "my_api";
+    cfg.type      = SourceType::API;
+    cfg.location  = "https://api.example.com/v1/docs";
+    EXPECT_TRUE(conn.initialize(cfg));
+}
+
+TEST(ApiConnectorTest, InitializeFailsForNonApiType) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id = "fs_source";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = "/tmp";
+    EXPECT_FALSE(conn.initialize(cfg));
+}
+
+TEST(ApiConnectorTest, IsAvailableAfterValidInit) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id = "api1";
+    cfg.type      = SourceType::API;
+    cfg.location  = "https://api.example.com/items";
+    conn.initialize(cfg);
+    // Simulated HTTP always returns 200
+    EXPECT_TRUE(conn.isAvailable());
+}
+
+TEST(ApiConnectorTest, IsAvailableReturnsFalseWithoutEndpoint) {
+    GenericApiConnector conn;
+    // Not initialized – endpoint is empty
+    EXPECT_FALSE(conn.isAvailable());
+}
+
+TEST(ApiConnectorTest, GetDocumentCountFromSimulatedResponse) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id = "api_count";
+    cfg.type      = SourceType::API;
+    cfg.location  = "https://api.example.com/items";
+    conn.initialize(cfg);
+    // Simulated body has "total":6
+    EXPECT_EQ(conn.getDocumentCount(), 6u);
+}
+
+TEST(ApiConnectorTest, IngestReturnsDocumentsFromSimulatedPages) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id             = "api_ingest";
+    cfg.type                  = SourceType::API;
+    cfg.location              = "https://api.example.com/docs";
+    cfg.options["page_size"]  = "3";
+    cfg.options["text_field"] = "text";
+    conn.initialize(cfg);
+    conn.setPageSize(3);
+
+    auto stats = conn.ingest("test_collection", nullptr);
+    EXPECT_GT(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed,    0u);
+}
+
+TEST(ApiConnectorTest, IngestRespectMaxPages) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id            = "api_max_pages";
+    cfg.type                 = SourceType::API;
+    cfg.location             = "https://api.example.com/docs";
+    cfg.options["max_pages"] = "1";
+    cfg.options["page_size"] = "3";
+    conn.initialize(cfg);
+
+    auto stats = conn.ingest("col", nullptr);
+    // With max_pages=1 and 3 docs per simulated page, exactly 3 docs expected
+    EXPECT_EQ(stats.documents_processed, 3u);
+}
+
+TEST(ApiConnectorTest, SetApiKeyDoesNotCrash) {
+    GenericApiConnector conn;
+    EXPECT_NO_THROW(conn.setApiKey("secret-token-abc"));
+}
+
+TEST(ApiConnectorTest, SetPageSizeDoesNotCrash) {
+    GenericApiConnector conn;
+    EXPECT_NO_THROW(conn.setPageSize(50));
+}
+
+TEST(ApiConnectorTest, SetRetryConfigDoesNotCrash) {
+    GenericApiConnector conn;
+    RetryConfig cfg;
+    cfg.max_attempts = 5;
+    EXPECT_NO_THROW(conn.setRetryConfig(cfg));
+}
+
+TEST(ApiConnectorTest, IngestWithProgressCallback) {
+    GenericApiConnector conn;
+    SourceConfig cfg;
+    cfg.source_id            = "api_cb";
+    cfg.type                 = SourceType::API;
+    cfg.location             = "https://api.example.com/docs";
+    cfg.options["max_pages"] = "1";
+    conn.initialize(cfg);
+
+    size_t cb_calls = 0;
+    auto stats = conn.ingest("col", [&](const std::string&, size_t, size_t,
+                                        const std::string&) { ++cb_calls; });
+    EXPECT_GE(cb_calls, 1u);
+}
+
+// ============================================================================
+// IngestionManager – API source wired through connector
+// ============================================================================
+
+TEST(IngestionManagerApiTest, RegisterAndIngestApiSource) {
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id            = "api_src";
+    cfg.type                 = SourceType::API;
+    cfg.location             = "https://api.example.com/items";
+    cfg.options["max_pages"] = "1";
+    cfg.enabled              = true;
+    mgr.registerSource(cfg);
+
+    auto stats = mgr.ingestSource("api_src");
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_GT(stats.documents_processed, 0u);
+}
+
+TEST(IngestionManagerApiTest, DatabaseSourceStillUnsupported) {
+    IngestionManager mgr("test_db");
+    SourceConfig cfg;
+    cfg.source_id = "db_src";
+    cfg.type      = SourceType::DATABASE;
+    cfg.location  = "postgres://localhost/themis";
+    cfg.enabled   = true;
+    mgr.registerSource(cfg);
+
+    auto stats = mgr.ingestSource("db_src");
+    // Should get a CONNECTOR_NOT_SUPPORTED error, not crash
+    bool found_error = false;
+    for (const auto& e : stats.errors) {
+        if (e.code == IngestionErrorCode::CONNECTOR_NOT_SUPPORTED) {
+            found_error = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_error);
+}

@@ -1,6 +1,7 @@
 #include "ingestion/ingestion_manager.h"
 #include "ingestion/huggingface_connector.h"
 #include "ingestion/filesystem_ingester.h"
+#include "ingestion/api_connector.h"
 #include <stdexcept>
 #include <algorithm>
 #include <thread>
@@ -48,6 +49,106 @@ static std::string errorCodeLabel(IngestionErrorCode c) {
     return std::to_string(static_cast<int>(c));
 }
 } // anonymous namespace
+
+// ============================================================================
+// CheckpointStore
+// ============================================================================
+
+namespace {
+/// Sanitise a source_id so it is safe as part of a file name.
+static std::string sanitiseSourceId(const std::string& sid) {
+    std::string out;
+    out.reserve(sid.size());
+    for (char c : sid) {
+        if (std::isalnum(static_cast<unsigned char>(c)) ||
+            c == '-' || c == '_' || c == '.') {
+            out += c;
+        } else {
+            out += '_';
+        }
+    }
+    return out.empty() ? "default" : out;
+}
+
+/// Format a time_point as a simple ISO-8601-like string (UTC).
+static std::string formatTimestamp(std::chrono::system_clock::time_point tp) {
+    auto tt = std::chrono::system_clock::to_time_t(tp);
+    std::tm tm_buf{};
+#ifdef _WIN32
+    gmtime_s(&tm_buf, &tt);
+#else
+    gmtime_r(&tt, &tm_buf);
+#endif
+    char buf[32];
+    std::strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%SZ", &tm_buf);
+    return buf;
+}
+} // anonymous namespace
+
+CheckpointStore::CheckpointStore(const std::string& checkpoint_dir)
+    : dir_(checkpoint_dir) {}
+
+std::string CheckpointStore::checkpointPath(const std::string& source_id) const {
+    namespace fs = std::filesystem;
+    return (fs::path(dir_) / (sanitiseSourceId(source_id) + ".checkpoint")).string();
+}
+
+bool CheckpointStore::write(const IngestionCheckpoint& cp) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    try {
+        std::ofstream f(checkpointPath(cp.source_id), std::ios::trunc);
+        if (!f) return false;
+        f << "source_id="       << cp.source_id       << '\n'
+          << "processed_count=" << cp.processed_count  << '\n'
+          << "byte_offset="     << cp.byte_offset       << '\n'
+          << "cursor="          << cp.cursor            << '\n'
+          << "timestamp="       << cp.timestamp         << '\n';
+        return f.good();
+    } catch (...) {
+        return false;
+    }
+}
+
+bool CheckpointStore::read(const std::string& source_id,
+                            IngestionCheckpoint& out) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    try {
+        std::ifstream f(checkpointPath(source_id));
+        if (!f) return false;
+        out = IngestionCheckpoint{};
+        std::string line;
+        while (std::getline(f, line)) {
+            auto eq = line.find('=');
+            if (eq == std::string::npos) continue;
+            std::string key = line.substr(0, eq);
+            std::string val = line.substr(eq + 1);
+            if (key == "source_id")       out.source_id       = val;
+            else if (key == "processed_count") {
+                try { out.processed_count = std::stoull(val); } catch (...) {}
+            } else if (key == "byte_offset") {
+                try { out.byte_offset = std::stoull(val); } catch (...) {}
+            } else if (key == "cursor")    out.cursor          = val;
+            else if (key == "timestamp")   out.timestamp       = val;
+        }
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
+
+bool CheckpointStore::clear(const std::string& source_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    try {
+        return std::filesystem::remove(checkpointPath(source_id));
+    } catch (...) {
+        return false;
+    }
+}
+
+bool CheckpointStore::exists(const std::string& source_id) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return std::filesystem::exists(checkpointPath(source_id));
+}
 
 // ============================================================================
 // Token-bucket rate limiter (simple, no external dep)
@@ -189,7 +290,20 @@ public:
                     break;
                 }
                 
-                case SourceType::API:
+                case SourceType::API: {
+                    auto api_connector = std::make_unique<GenericApiConnector>();
+                    api_connector->setRetryConfig(retry_config_);
+                    if (!api_connector->initialize(config)) {
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize API connector",
+                                       source_id);
+                        return stats;
+                    }
+                    connector = std::move(api_connector);
+                    break;
+                }
+
                 case SourceType::DATABASE:
                 default:
                     stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
@@ -212,6 +326,30 @@ public:
                 stats.documents_processed = connector->getDocumentCount();
                 stats.documents_failed    = 0;
             } else {
+                // Incremental mode: read checkpoint to get the resume offset.
+                // CheckpointStore is captured as a shared_ptr under the lock so
+                // it remains valid even if setCheckpointDir() is called concurrently.
+                if (incremental_mode_) {
+                    std::shared_ptr<CheckpointStore> cs;
+                    {
+                        std::lock_guard<std::mutex> lock(mutex_);
+                        cs = checkpoint_store_shared_;
+                    }
+                    if (cs) {
+                        IngestionCheckpoint cp;
+                        // checkpoint_offset is available for connector-level
+                        // resume extensions; currently informational.
+                        if (cs->read(source_id, cp)) {
+                            stats.addError(IngestionErrorCode::OK,
+                                           IngestionErrorSeverity::INFO,
+                                           "Resuming from checkpoint: " +
+                                           std::to_string(cp.processed_count) +
+                                           " docs already processed",
+                                           source_id);
+                        }
+                    }
+                }
+
                 // Preserve the correlation_id assigned at the start of this run;
                 // ingest() returns a fresh IngestionStats that doesn't carry it.
                 const std::string corr_id = stats.correlation_id;
@@ -223,6 +361,23 @@ public:
                 if (rate_limit_config_.enabled &&
                     rate_limit_config_.max_bytes_per_hour > 0) {
                     checkRateLimit(source_id, stats.bytes_processed, stats);
+                }
+
+                // Write checkpoint after a successful run
+                if (incremental_mode_ && stats.documents_failed == 0) {
+                    std::shared_ptr<CheckpointStore> cs;
+                    {
+                        std::lock_guard<std::mutex> lock(mutex_);
+                        cs = checkpoint_store_shared_;
+                    }
+                    if (cs) {
+                        IngestionCheckpoint cp;
+                        cp.source_id       = source_id;
+                        cp.processed_count = stats.documents_processed;
+                        cp.timestamp       = formatTimestamp(
+                            std::chrono::system_clock::now());
+                        cs->write(cp);
+                    }
                 }
             }
             
@@ -439,7 +594,44 @@ public:
         }
         return preview;
     }
-    
+
+    // ── Checkpoint / incremental ingestion ───────────────────────────────────
+
+    void setCheckpointDir(const std::string& dir) {
+        // Use shared_ptr so the store can be safely shared with ingestSource()
+        // threads without a race when setCheckpointDir() is called concurrently.
+        auto new_store = std::make_shared<CheckpointStore>(dir);
+        std::lock_guard<std::mutex> lock(mutex_);
+        checkpoint_store_shared_ = std::move(new_store);
+    }
+
+    void enableIncrementalMode(bool enabled) {
+        incremental_mode_ = enabled;
+    }
+
+    bool isIncrementalMode() const { return incremental_mode_; }
+
+    bool getCheckpoint(const std::string& source_id,
+                       IngestionCheckpoint& out) const {
+        std::shared_ptr<CheckpointStore> cs;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            cs = checkpoint_store_shared_;
+        }
+        if (!cs) return false;
+        return cs->read(source_id, out);
+    }
+
+    bool clearCheckpoint(const std::string& source_id) {
+        std::shared_ptr<CheckpointStore> cs;
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            cs = checkpoint_store_shared_;
+        }
+        if (!cs) return false;
+        return cs->clear(source_id);
+    }
+
 private:
     /// Consume a token from the per-source bucket (creates bucket if needed).
     /// Returns false and records a QUOTA_EXCEEDED error if the byte limit is breached.
@@ -524,6 +716,7 @@ private:
     std::string target_collection_;
     bool parallel_enabled_;
     bool dry_run_;
+    bool incremental_mode_ = false;
     size_t max_threads_;
     RetryConfig retry_config_;
     RateLimitConfig rate_limit_config_;
@@ -532,6 +725,7 @@ private:
     std::unordered_map<std::string, ByteWindowTracker> bytes_this_hour_;
     std::unordered_map<std::string, SourceConfig> sources_;
     std::vector<QuarantineEntry> quarantine_;
+    std::shared_ptr<CheckpointStore> checkpoint_store_shared_;  ///< null = no checkpointing
     mutable std::mutex mutex_;
 };
 
@@ -599,6 +793,27 @@ bool IngestionManager::dismissQuarantineItem(const std::string& item_path) {
 
 void IngestionManager::clearQuarantine() {
     impl_->clearQuarantine();
+}
+
+void IngestionManager::setCheckpointDir(const std::string& checkpoint_dir) {
+    impl_->setCheckpointDir(checkpoint_dir);
+}
+
+void IngestionManager::enableIncrementalMode(bool enabled) {
+    impl_->enableIncrementalMode(enabled);
+}
+
+bool IngestionManager::isIncrementalMode() const {
+    return impl_->isIncrementalMode();
+}
+
+bool IngestionManager::getCheckpoint(const std::string& source_id,
+                                      IngestionCheckpoint& out) const {
+    return impl_->getCheckpoint(source_id, out);
+}
+
+bool IngestionManager::clearCheckpoint(const std::string& source_id) {
+    return impl_->clearCheckpoint(source_id);
 }
 
 // ============================================================================

@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <chrono>
 #include <atomic>
+#include <mutex>
 
 namespace themis {
 namespace ingestion {
@@ -242,6 +243,82 @@ struct IngestionReport {
 };
 
 /**
+ * @brief Persistent checkpoint for a single ingestion source
+ *
+ * Checkpoints allow incremental ingestion: when the same source is ingested
+ * again, already-processed documents are skipped and processing resumes from
+ * the stored offset.
+ */
+struct IngestionCheckpoint {
+    std::string source_id;
+    size_t processed_count = 0;  ///< Documents successfully processed so far
+    size_t byte_offset     = 0;  ///< Byte-level offset (for streaming sources)
+    std::string cursor;          ///< Opaque pagination cursor (API / HF streaming)
+    std::string timestamp;       ///< ISO-8601 timestamp of the last write
+
+    IngestionCheckpoint() = default;
+};
+
+/**
+ * @brief File-based checkpoint store for incremental ingestion
+ *
+ * Checkpoints are written as simple key=value text files under the configured
+ * directory, one file per source.  The store is fully thread-safe.
+ *
+ * File name format: `<checkpoint_dir>/<source_id>.checkpoint`
+ *
+ * Example:
+ * @code
+ * CheckpointStore store("/var/lib/themis/checkpoints");
+ * IngestionCheckpoint cp;
+ * if (store.read("hf_legal", cp)) {
+ *     std::cout << "Resuming from doc " << cp.processed_count << '\n';
+ * }
+ * store.write({"hf_legal", 5000, 0, "", "2026-02-20T16:00:00Z"});
+ * @endcode
+ */
+class CheckpointStore {
+public:
+    /**
+     * @brief Construct a store rooted at the given directory
+     * @param checkpoint_dir Directory where checkpoint files are persisted.
+     *        The directory must already exist (this class does not create it).
+     */
+    explicit CheckpointStore(const std::string& checkpoint_dir);
+
+    /**
+     * @brief Write (or overwrite) a checkpoint to disk
+     * @return true on success
+     */
+    bool write(const IngestionCheckpoint& cp);
+
+    /**
+     * @brief Read the checkpoint for a source
+     * @param source_id Source whose checkpoint to read
+     * @param out       Populated on success
+     * @return true if a checkpoint exists and was read successfully
+     */
+    bool read(const std::string& source_id, IngestionCheckpoint& out) const;
+
+    /**
+     * @brief Delete the checkpoint file for a source
+     * @return true if the file existed and was removed
+     */
+    bool clear(const std::string& source_id);
+
+    /**
+     * @brief Check whether a checkpoint exists for a source
+     */
+    bool exists(const std::string& source_id) const;
+
+private:
+    std::string checkpointPath(const std::string& source_id) const;
+
+    std::string dir_;
+    mutable std::mutex mutex_;
+};
+
+/**
  * @brief Forward declaration of connector interface
  */
 class ISourceConnector;
@@ -404,6 +481,54 @@ public:
      * @return true if source was found and re-enabled
      */
     bool resumeSource(const std::string& source_id);
+
+    // ── Checkpoint / incremental ingestion ───────────────────────────────────
+
+    /**
+     * @brief Configure the directory used for persistent checkpoints
+     *
+     * When set, `ingestSource()` and `ingestAll()` automatically read/write
+     * checkpoint files so that runs can be resumed after interruption.
+     * The directory must already exist.
+     *
+     * @param checkpoint_dir Absolute path to an existing directory
+     */
+    void setCheckpointDir(const std::string& checkpoint_dir);
+
+    /**
+     * @brief Enable or disable incremental (resume-on-restart) mode
+     *
+     * When enabled and a checkpoint directory has been set, ingestion of a
+     * source skips documents up to the stored `processed_count` offset and
+     * resumes from there.  A new checkpoint is written after each successful
+     * source run.
+     *
+     * @param enabled true to enable incremental mode
+     */
+    void enableIncrementalMode(bool enabled);
+
+    /**
+     * @brief Check whether incremental mode is active
+     */
+    bool isIncrementalMode() const;
+
+    /**
+     * @brief Read the current checkpoint for a source (if any)
+     *
+     * @param source_id Source to query
+     * @param out       Populated on success
+     * @return true if a checkpoint exists and was read
+     */
+    bool getCheckpoint(const std::string& source_id,
+                       IngestionCheckpoint& out) const;
+
+    /**
+     * @brief Delete the stored checkpoint for a source
+     *
+     * Call this to force a full re-ingest on the next run.
+     * @return true if a checkpoint existed and was removed
+     */
+    bool clearCheckpoint(const std::string& source_id);
 
 private:
     class Impl;

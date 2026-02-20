@@ -206,6 +206,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/ingestion/ingestion_manager.cpp
         ../src/ingestion/huggingface_connector.cpp
         ../src/ingestion/filesystem_ingester.cpp
+        ../src/ingestion/api_connector.cpp
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
