@@ -6,6 +6,7 @@
 #include <chrono>
 #include <vector>
 #include <memory>
+#include <functional>
 
 namespace themis {
 namespace llm {
@@ -232,6 +233,7 @@ public:
         std::string dashboard_path = "/dashboard";
         std::string health_path    = "/health";
         std::string ready_path     = "/ready";
+        std::string models_path    = "/models";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -248,11 +250,28 @@ public:
     std::string getDashboardURL() const;
     std::string getHealthURL() const;
     std::string getReadyURL() const;
+    std::string getModelsURL() const;
+
+    /**
+     * @brief Register a callback that supplies the current model list as a
+     *        pre-serialized JSON string for the GET /models endpoint.
+     *
+     * The callback is invoked synchronously inside handleRequest() so it MUST
+     * be fast and must NOT acquire locks held by the caller thread.
+     *
+     * @param cb  Callable () -> std::string returning a JSON array of model
+     *            objects (e.g. serialized ModelInfo records).  Pass nullptr to
+     *            remove a previously set callback.
+     */
+    void setModelInfoCallback(std::function<std::string()> cb) {
+        model_info_cb_ = std::move(cb);
+    }
     
 private:
     ServerConfig config_;
     PrometheusExporter* exporter_;
     bool running_ = false;
+    std::function<std::string()> model_info_cb_;
     
     // HTTP request handling
     void handleRequest(const std::string& path, std::string& response);

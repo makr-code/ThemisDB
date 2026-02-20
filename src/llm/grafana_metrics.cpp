@@ -1088,6 +1088,10 @@ std::string MetricsServer::getReadyURL() const {
     return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.ready_path;
 }
 
+std::string MetricsServer::getModelsURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.models_path;
+}
+
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
@@ -1095,21 +1099,25 @@ void MetricsServer::handleRequest(const std::string& path, std::string& response
         response = "{\"message\": \"Dashboard endpoint\"}";
     } else if (path == config_.health_path) {
         // Liveness: server is alive as long as the MetricsServer object exists.
-        // Returns 200 OK with a minimal JSON body so load-balancers and k8s
-        // liveness probes can parse it, and so that a plain curl returns
-        // something human-readable.
         if (running_) {
             response = "{\"status\":\"ok\"}";
         } else {
             response = "{\"status\":\"stopped\"}";
         }
     } else if (path == config_.ready_path) {
-        // Readiness: server is ready to serve metrics when it is running AND
-        // the exporter is non-null (basic availability check).
+        // Readiness: server is ready when running AND exporter is non-null.
         if (running_ && exporter_ != nullptr) {
             response = "{\"status\":\"ready\"}";
         } else {
             response = "{\"status\":\"not_ready\"}";
+        }
+    } else if (path == config_.models_path) {
+        // Model list: delegate to the registered callback if present; otherwise
+        // return an empty JSON array so callers get a valid (if empty) response.
+        if (model_info_cb_) {
+            response = model_info_cb_();
+        } else {
+            response = "[]";
         }
     } else {
         response = "404 Not Found";
