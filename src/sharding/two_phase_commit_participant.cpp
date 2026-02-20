@@ -254,9 +254,11 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
 ShardRPCServer::RequestHandler::HealthInfo
 TwoPhaseCommitParticipant::onHealthCheck() {
     HealthInfo info;
+    const auto uptime = std::chrono::steady_clock::now() - start_time_;
     info.is_healthy     = true;
     info.version        = "1.0";
-    info.uptime_seconds = 0;
+    info.uptime_seconds = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::seconds>(uptime).count());
     return info;
 }
 
@@ -394,8 +396,11 @@ nlohmann::json TwoPhaseCommitParticipant::getStatistics() const {
         }
     }
 
+    const auto uptime = std::chrono::steady_clock::now() - start_time_;
     return {
         {"shard_id",               shard_id_},
+        {"uptime_seconds",         static_cast<uint64_t>(
+                                       std::chrono::duration_cast<std::chrono::seconds>(uptime).count())},
         {"total_prepares",         total_prepares_.load()},
         {"total_commits",          total_commits_.load()},
         {"total_aborts",           total_aborts_.load()},

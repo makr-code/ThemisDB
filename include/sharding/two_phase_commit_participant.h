@@ -227,6 +227,9 @@ private:
     std::atomic<uint64_t> total_aborts_{0};
     std::atomic<uint64_t> total_timeouts_{0};
 
+    // Startup time for uptime reporting
+    const std::chrono::steady_clock::time_point start_time_{std::chrono::steady_clock::now()};
+
     // ── Internal helpers ────────────────────────────────────────────────────
 
     void logToWAL(WALEntryType type,
