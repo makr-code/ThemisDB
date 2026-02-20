@@ -8,9 +8,14 @@ This directory contains comprehensive operational documentation for running Them
 - **[DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide for production environments
 - **[LOAD_BALANCER_INTEGRATION.md](LOAD_BALANCER_INTEGRATION.md)** - Load balancer configuration (NGINX, AWS ALB, GCP, Istio, HAProxy)
 
+### Security & Posture
+- **[SECURITY_POSTURE.md](SECURITY_POSTURE.md)** - Security defaults, unsafe modes, and hardening guide (integrators start here)
+- **[SECURITY.md](SECURITY.md)** - Security hardening (GPU, TLS, audit logging, HSM, key rotation)
+
 ### Operational Procedures
 - **[RUNBOOKS.md](RUNBOOKS.md)** - Overview of all operational runbooks
 - **Detailed Runbooks:**
+  - [CORE_MODULE_RUNBOOK.md](RUNBOOKS/CORE_MODULE_RUNBOOK.md) - Required environment variables, failure modes, mitigations
   - [UPGRADE_RUNBOOK.md](RUNBOOKS/UPGRADE_RUNBOOK.md) - Zero-downtime upgrade procedures (Rolling, Blue-Green, Canary)
   - [RESTORE_RUNBOOK.md](RUNBOOKS/RESTORE_RUNBOOK.md) - Backup restoration and PITR
   - [FAILOVER_RUNBOOK.md](RUNBOOKS/FAILOVER_RUNBOOK.md) - Failover and recovery procedures
@@ -108,10 +113,17 @@ Located in [../../prometheus/alerts/](../../prometheus/alerts/):
 ## 📦 Example Configurations
 
 Located in [examples/](examples/):
+- **[k8s_production_values.yaml](examples/k8s_production_values.yaml)** - Production Helm values with TLS, env vars, probes, and autoscaling
 - **single_gpu_setup.yaml** - Single GPU development/testing configuration
 - **multi_gpu_setup.yaml** - Multi-GPU production configuration
 - **distributed_training.yaml** - Distributed training setup
 - **raid_configuration.yaml** - High-availability storage configuration
+
+## 🔐 Security Resources
+
+- **[SECURITY_POSTURE.md](SECURITY_POSTURE.md)** - Explicit security defaults vs. production-hardened settings
+- **[RUNBOOKS/CORE_MODULE_RUNBOOK.md](RUNBOOKS/CORE_MODULE_RUNBOOK.md)** - Required environment variables and failure modes
+- **[deploy/systemd/](../../deploy/systemd/)** - systemd service unit and production drop-in
 
 ## 🔄 Operational Workflows
 
