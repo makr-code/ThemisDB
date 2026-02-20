@@ -1478,6 +1478,20 @@ void ErrorRegistry::registerDefaultErrors() {
         {"/docs/graph_roadmap.md"},
         {"graph", "depth", "limit", "traversal", "exceeded"}
     });
+
+    registerError({
+        ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+        "Graph",
+        "Warning",
+        "Graph query rate limit exceeded (max {} queries/second)",
+        "The query was rejected because the per-second query budget set by "
+        "setMaxQueriesPerSecond() has been exhausted for the current window.",
+        "1. Reduce query frequency or batch multiple queries\n"
+        "2. Increase the rate limit via setMaxQueriesPerSecond()\n"
+        "3. Set max_qps to 0 to disable rate limiting",
+        {"/docs/graph_roadmap.md"},
+        {"graph", "rate", "limit", "qps", "throttle"}
+    });
 }
 
 void ErrorRegistry::registerError(const ErrorMetadata& metadata) {

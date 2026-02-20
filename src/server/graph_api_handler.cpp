@@ -253,7 +253,117 @@ http::response<http::string_body> GraphApiHandler::handleMetrics(
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
-std::string GraphApiHandler::extractPathParam(const std::string& target, const std::string& prefix) {
+http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
+    const http::request<http::string_body>& req
+) {
+    auto span = Tracer::startSpan("handleGraphMetricsPrometheus");
+    span.setAttribute("http.method", "GET");
+    span.setAttribute("http.path", "/api/v1/graph/metrics/prometheus");
+
+    if (!optimizer_) {
+        span.setStatus(false, "optimizer not available");
+        return makeErrorResponse(http::status::service_unavailable,
+            "Graph optimizer not available", req);
+    }
+
+    const auto& m = optimizer_->getQueryMetrics();
+
+    // Build Prometheus text exposition format (text/plain; version=0.0.4)
+    std::string body;
+    body.reserve(2048);
+
+    auto counter = [&](const char* name, const char* help, uint64_t value) {
+        body += "# HELP "; body += name; body += ' '; body += help; body += '\n';
+        body += "# TYPE "; body += name; body += " counter\n";
+        body += name; body += ' '; body += std::to_string(value); body += '\n';
+    };
+    auto gauge = [&](const char* name, const char* help, double value) {
+        body += "# HELP "; body += name; body += ' '; body += help; body += '\n';
+        body += "# TYPE "; body += name; body += " gauge\n";
+        body += name; body += ' '; body += std::to_string(value); body += '\n';
+    };
+
+    counter("themis_graph_queries_total",
+            "Total graph traversal executions since startup",
+            m.total_queries.load(std::memory_order_relaxed));
+    counter("themis_graph_query_errors_total",
+            "Graph traversal executions that returned no result",
+            m.failed_queries.load(std::memory_order_relaxed));
+    counter("themis_graph_query_timeouts_total",
+            "Graph traversal executions aborted by timeout_ms SLO",
+            m.timed_out_queries.load(std::memory_order_relaxed));
+    counter("themis_graph_query_duration_ms_sum",
+            "Sum of all graph query execution durations in milliseconds",
+            m.total_execution_time_ms.load(std::memory_order_relaxed));
+    counter("themis_graph_query_duration_ms_max",
+            "Peak single-query execution duration in milliseconds",
+            m.max_execution_time_ms.load(std::memory_order_relaxed));
+    counter("themis_graph_nodes_explored_total",
+            "Cumulative number of graph nodes visited across all queries",
+            m.total_nodes_explored.load(std::memory_order_relaxed));
+    counter("themis_graph_edges_traversed_total",
+            "Cumulative number of graph edges traversed across all queries",
+            m.total_edges_traversed.load(std::memory_order_relaxed));
+    counter("themis_graph_plan_cache_hits_total",
+            "Plan-cache hit count",
+            m.plan_cache_hits.load(std::memory_order_relaxed));
+    counter("themis_graph_plan_cache_misses_total",
+            "Plan-cache miss count",
+            m.plan_cache_misses.load(std::memory_order_relaxed));
+    gauge("themis_graph_query_error_rate",
+          "Fraction of graph queries that failed (0.0–1.0)",
+          m.errorRate());
+    gauge("themis_graph_query_avg_duration_ms",
+          "Average graph query execution time in milliseconds",
+          m.avgExecutionTimeMs());
+
+    // Latency histogram
+    const uint64_t total = m.total_queries.load(std::memory_order_relaxed);
+    body += "# HELP themis_graph_latency_ms Latency histogram of graph query execution\n";
+    body += "# TYPE themis_graph_latency_ms histogram\n";
+
+    uint64_t cumulative = 0;
+    const char* bound_labels[9] = {"1","5","10","25","50","100","250","500","1000"};
+    for (size_t i = 0; i < 9; ++i) {
+        cumulative += m.latency_histogram.counts[i].load(std::memory_order_relaxed);
+        body += "themis_graph_latency_ms_bucket{le=\"";
+        body += bound_labels[i];
+        body += "\"} ";
+        body += std::to_string(cumulative);
+        body += '\n';
+    }
+    cumulative += m.latency_histogram.counts[9].load(std::memory_order_relaxed);
+    body += "themis_graph_latency_ms_bucket{le=\"+Inf\"} ";
+    body += std::to_string(cumulative); body += '\n';
+    body += "themis_graph_latency_ms_sum ";
+    body += std::to_string(m.total_execution_time_ms.load(std::memory_order_relaxed));
+    body += '\n';
+    body += "themis_graph_latency_ms_count ";
+    body += std::to_string(total); body += '\n';
+
+    // p50 / p95 / p99 computed gauges
+    gauge("themis_graph_latency_p50_ms",
+          "Approximate p50 (median) graph query latency in milliseconds",
+          m.latency_histogram.percentileMs(0.50));
+    gauge("themis_graph_latency_p95_ms",
+          "Approximate p95 graph query latency in milliseconds",
+          m.latency_histogram.percentileMs(0.95));
+    gauge("themis_graph_latency_p99_ms",
+          "Approximate p99 graph query latency in milliseconds",
+          m.latency_histogram.percentileMs(0.99));
+
+    span.setAttribute("graph.total_queries",
+        static_cast<int64_t>(total));
+    span.setStatus(true);
+
+    http::response<http::string_body> res{http::status::ok, req.version()};
+    res.set(http::field::server, "THEMIS/0.1.0");
+    res.set(http::field::content_type, "text/plain; version=0.0.4");
+    res.keep_alive(req.keep_alive());
+    res.body() = std::move(body);
+    res.prepare_payload();
+    return res;
+}
     // Extract parameter from path after prefix
     if (target.size() <= prefix.size()) return "";
     if (target.substr(0, prefix.size()) != prefix) return "";

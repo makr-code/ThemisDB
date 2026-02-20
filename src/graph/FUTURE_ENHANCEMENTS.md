@@ -508,6 +508,8 @@ Process graphs as streams of edge insertions/deletions.
 1. ✅ Parallel Graph Execution (BFS + Dijkstra Δ-Stepping)
 2. ✅ Adaptive Cost Model
 3. ✅ Advanced Constraint Types
+4. ✅ Latency Histogram & Prometheus Scrape Endpoint
+5. ✅ Query Rate Limiter (per-second budget, ERR_GRAPH_RATE_LIMIT_EXCEEDED)
 
 **v1.8.0 (Q1 2027):**
 1. Distributed Graph Queries
@@ -707,6 +709,34 @@ auto paths = c.findConstrainedPaths("A", "D", 5);
 ```
 
 Edge weights are read from each edge's `_weight` field (default 1.0 when absent).
+
+### Latency Histogram & Prometheus Export ✅ DONE
+
+`GraphQueryMetrics::LatencyHistogram` – 10-bucket fixed-width histogram with
+upper bounds (ms): 1, 5, 10, 25, 50, 100, 250, 500, 1000, +Inf.
+
+```cpp
+const auto& hist = optimizer.getQueryMetrics().latency_histogram;
+double p99 = hist.percentileMs(0.99);
+double p50 = hist.percentileMs(0.50);
+```
+
+`GET /api/v1/graph/metrics/prometheus` exports all counters and the full latency
+histogram in Prometheus text exposition format.  p50, p95, and p99 are also
+exported as computed gauges.
+
+### Query Rate Limiter ✅ DONE
+
+Per-second token-window rate limiting for graph queries.
+
+```cpp
+optimizer.setMaxQueriesPerSecond(200);  // 200 QPS max
+// Excess queries return ERR_GRAPH_RATE_LIMIT_EXCEEDED (6406)
+optimizer.setMaxQueriesPerSecond(0);    // disable
+```
+
+Applies to all five execute methods.  Uses atomic CAS sliding-window for
+thread-safe operation without mutexes.
 
 ---
 

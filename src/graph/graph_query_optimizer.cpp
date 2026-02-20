@@ -317,6 +317,14 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    // Rate limit check – before any work is done
+    if (!rate_limiter_.allowQuery()) {
+        return Err<std::vector<std::string>>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "BFS query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BFS;
@@ -490,6 +498,13 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    if (!rate_limiter_.allowQuery()) {
+        return Err<std::vector<std::string>>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "DFS query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::DFS;
@@ -574,6 +589,13 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     std::string_view target_vertex,
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
+
+    if (!rate_limiter_.allowQuery()) {
+        return Err<GraphIndexManager::PathResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "Dijkstra query rejected: rate limit exceeded"
+        );
+    }
 
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
@@ -839,6 +861,13 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    if (!rate_limiter_.allowQuery()) {
+        return Err<GraphIndexManager::PathResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "A* query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::ASTAR;
@@ -872,6 +901,13 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     const QueryConstraints& constraints,
     ExecutionStats* stats) {
     
+    if (!rate_limiter_.allowQuery()) {
+        return Err<GraphIndexManager::PathResult>(
+            errors::ErrorCode::ERR_GRAPH_RATE_LIMIT_EXCEEDED,
+            "Bidirectional query rejected: rate limit exceeded"
+        );
+    }
+
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
     local_stats.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
@@ -1301,6 +1337,9 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     metrics_.total_execution_time_ms.fetch_add(duration, std::memory_order_relaxed);
     metrics_.total_nodes_explored.fetch_add(stats.nodes_explored, std::memory_order_relaxed);
     metrics_.total_edges_traversed.fetch_add(stats.edges_traversed, std::memory_order_relaxed);
+
+    // Feed latency histogram for p50/p95/p99 computation
+    metrics_.latency_histogram.record(duration);
 
     // Update max execution time with a compare-and-swap loop
     uint64_t current_max = metrics_.max_execution_time_ms.load(std::memory_order_relaxed);

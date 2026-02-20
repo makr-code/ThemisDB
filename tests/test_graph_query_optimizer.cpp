@@ -1156,3 +1156,119 @@ TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_SingleHop) {
     EXPECT_EQ(result->path.front(), "A");
     EXPECT_EQ(result->path.back(), "B");
 }
+
+// ============================================================================
+// Phase Obs+RL: Latency histogram, Prometheus endpoint, and query rate limiter
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, LatencyHistogram_PopulatedAfterExecution) {
+    // After a BFS execution, at least one latency bucket should be non-zero
+    GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->executeBFS("A", 3, c);
+
+    const auto& hist = optimizer_->getQueryMetrics().latency_histogram;
+    uint64_t total_buckets = 0;
+    for (size_t i = 0;
+         i < GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBucketCount;
+         ++i) {
+        total_buckets += hist.counts[i].load(std::memory_order_relaxed);
+    }
+    EXPECT_EQ(total_buckets, 1u);
+}
+
+TEST_F(GraphQueryOptimizerTest, LatencyHistogram_PercentileNonNegativeAfterExecution) {
+    GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 5; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+    const auto& hist = optimizer_->getQueryMetrics().latency_histogram;
+    EXPECT_GE(hist.percentileMs(0.50), 0.0);
+    EXPECT_GE(hist.percentileMs(0.95), 0.0);
+    EXPECT_GE(hist.percentileMs(0.99), 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, LatencyHistogram_PercentileZeroBeforeExecution) {
+    // Fresh optimizer: no executions yet – percentile should be 0
+    const auto& hist = optimizer_->getQueryMetrics().latency_histogram;
+    EXPECT_DOUBLE_EQ(hist.percentileMs(0.99), 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, RateLimiter_DefaultIsDisabled) {
+    EXPECT_EQ(optimizer_->getMaxQueriesPerSecond(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, RateLimiter_SetAndGet) {
+    optimizer_->setMaxQueriesPerSecond(50);
+    EXPECT_EQ(optimizer_->getMaxQueriesPerSecond(), 50u);
+    optimizer_->setMaxQueriesPerSecond(0);  // reset
+    EXPECT_EQ(optimizer_->getMaxQueriesPerSecond(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, RateLimiter_HighLimitAllowsQueries) {
+    // Set a high limit – all queries should succeed
+    optimizer_->setMaxQueriesPerSecond(10000);
+    GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 5; ++i) {
+        auto res = optimizer_->executeBFS("A", 2, c);
+        EXPECT_TRUE(res.has_value()) << "query " << i << " should succeed under high rate limit";
+    }
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+TEST_F(GraphQueryOptimizerTest, RateLimiter_ZeroLimitDisabled) {
+    // max_qps = 0 means no limit; even many rapid queries should succeed
+    optimizer_->setMaxQueriesPerSecond(0);
+    GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 20; ++i) {
+        auto res = optimizer_->executeBFS("A", 1, c);
+        EXPECT_TRUE(res.has_value()) << "query " << i << " should pass with no limit";
+    }
+}
+
+TEST_F(GraphQueryOptimizerTest, RateLimiter_ExceededReturnsErrorCode) {
+    // Set limit to 1 query/second – the 2nd rapid call should be rejected
+    optimizer_->setMaxQueriesPerSecond(1);
+    GraphQueryOptimizer::QueryConstraints c;
+
+    // First call should succeed
+    auto first = optimizer_->executeBFS("A", 2, c);
+    // Second call in the same second should be rate-limited
+    auto second = optimizer_->executeBFS("A", 2, c);
+
+    // At least the second call must fail with the rate-limit error
+    EXPECT_FALSE(second.has_value());
+    EXPECT_NE(second.error().message().find("rate limit"), std::string::npos);
+
+    optimizer_->setMaxQueriesPerSecond(0);
+}
+
+// ── Prometheus endpoint tests (extends GraphApiHandlerMetricsTest fixture) ──
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ReturnsOK) {
+    auto req = makeGet("/api/v1/graph/metrics/prometheus");
+    auto res = handler_->handleMetricsPrometheus(req);
+    EXPECT_EQ(res.result(), bhttp::status::ok);
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContentTypeIsTextPlain) {
+    auto req = makeGet("/api/v1/graph/metrics/prometheus");
+    auto res = handler_->handleMetricsPrometheus(req);
+    const std::string ct{res[bhttp::field::content_type]};
+    EXPECT_NE(ct.find("text/plain"), std::string::npos);
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContainsCounterLines) {
+    auto req = makeGet("/api/v1/graph/metrics/prometheus");
+    auto res = handler_->handleMetricsPrometheus(req);
+    const std::string& body = res.body();
+    EXPECT_NE(body.find("themis_graph_queries_total"), std::string::npos);
+    EXPECT_NE(body.find("themis_graph_query_errors_total"), std::string::npos);
+    EXPECT_NE(body.find("themis_graph_latency_ms_bucket"), std::string::npos);
+    EXPECT_NE(body.find("themis_graph_latency_p99_ms"), std::string::npos);
+}
+
+TEST_F(GraphApiHandlerMetricsTest, HandleMetricsPrometheus_ContainsInfBucket) {
+    auto req = makeGet("/api/v1/graph/metrics/prometheus");
+    auto res = handler_->handleMetricsPrometheus(req);
+    EXPECT_NE(res.body().find("+Inf"), std::string::npos);
+}

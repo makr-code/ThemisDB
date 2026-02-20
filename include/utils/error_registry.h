@@ -128,6 +128,7 @@ enum class ErrorCode {
     ERR_GRAPH_PATH_NOT_FOUND = 6403,    // No path satisfies all constraints
     ERR_GRAPH_CYCLE_DETECTED = 6404,    // Cycle encountered in acyclic-required traversal
     ERR_GRAPH_DEPTH_EXCEEDED = 6405,    // Query depth exceeded the configured limit
+    ERR_GRAPH_RATE_LIMIT_EXCEEDED = 6406, // Query rejected: per-second rate budget exhausted
     
     // Compression Errors (7000-7099)
     ERR_COMPRESSION_FAILED = 7000,

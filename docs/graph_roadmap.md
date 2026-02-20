@@ -277,6 +277,88 @@ models from older versions.
 
 ---
 
+## Phase 3.4: Latency Histogram, Prometheus Scrape Endpoint & Query Rate Limiter
+
+**Status:** ✅ Complete  
+**Target Version:** v1.7.0
+
+### 3.4.1 Latency Histogram (p50/p95/p99) ✅ DONE
+
+`GraphQueryMetrics` now contains a nested `LatencyHistogram` struct with 10
+fixed-width buckets (upper bounds in ms: 1, 5, 10, 25, 50, 100, 250, 500, 1000,
++Inf).  `recordExecution` records each query's duration into the histogram so
+that the Prometheus exporter can publish exact bucket counts as well as computed
+p50/p95/p99 gauges.
+
+```cpp
+const auto& hist = optimizer.getQueryMetrics().latency_histogram;
+double p99 = hist.percentileMs(0.99); // approximate p99 latency in ms
+double p50 = hist.percentileMs(0.50); // approximate median latency in ms
+```
+
+### 3.4.2 Prometheus Scrape Endpoint ✅ DONE
+
+`GET /api/v1/graph/metrics/prometheus` returns metrics in the **Prometheus text
+exposition format** (`text/plain; version=0.0.4`) so that a Prometheus server
+can scrape this endpoint without a custom exporter:
+
+```http
+GET /api/v1/graph/metrics/prometheus HTTP/1.1
+```
+
+Sample output:
+```
+# HELP themis_graph_queries_total Total graph traversal executions since startup
+# TYPE themis_graph_queries_total counter
+themis_graph_queries_total 42
+# HELP themis_graph_query_errors_total Graph traversal executions that returned no result
+# TYPE themis_graph_query_errors_total counter
+themis_graph_query_errors_total 1
+...
+# HELP themis_graph_latency_ms Latency histogram of graph query execution
+# TYPE themis_graph_latency_ms histogram
+themis_graph_latency_ms_bucket{le="1"} 5
+themis_graph_latency_ms_bucket{le="5"} 12
+...
+themis_graph_latency_ms_bucket{le="+Inf"} 42
+themis_graph_latency_ms_sum 350
+themis_graph_latency_ms_count 42
+# HELP themis_graph_latency_p99_ms Approximate p99 graph query latency in milliseconds
+# TYPE themis_graph_latency_p99_ms gauge
+themis_graph_latency_p99_ms 87.500000
+```
+
+Implemented in `GraphApiHandler::handleMetricsPrometheus()` in
+`src/server/graph_api_handler.cpp` and registered as
+`Route::GraphMetricsPrometheusGet` in `src/server/http_server.cpp`.
+
+### 3.4.3 Query Rate Limiter ✅ DONE
+
+`GraphQueryOptimizer` now supports per-second query rate limiting via a
+token-window `QueryRateLimiter` struct.  When the budget is exhausted,
+`ERR_GRAPH_RATE_LIMIT_EXCEEDED` (6406) is returned immediately before any
+traversal work begins.
+
+**New API:**
+```cpp
+optimizer.setMaxQueriesPerSecond(100); // limit to 100 QPS
+uint32_t current = optimizer.getMaxQueriesPerSecond(); // 100
+optimizer.setMaxQueriesPerSecond(0);   // disable rate limiting
+```
+
+**Error code:**
+
+| Code | Constant                          | Description                              |
+|------|-----------------------------------|------------------------------------------|
+| 6406 | `ERR_GRAPH_RATE_LIMIT_EXCEEDED`   | Query rejected by rate limiter           |
+
+The rate limiter uses an atomic sliding-window (per-second epoch with CAS reset),
+so it is thread-safe without mutexes.  Applies to all five execute methods:
+`executeBFS`, `executeDFS`, `executeDijkstra`, `executeAStar`,
+`executeBidirectional`.
+
+---
+
 ## Phase 4: Distributed Graph Queries
 
 **Status:** 📋 Planned  
@@ -407,11 +489,13 @@ already implemented in Phase 3.3.
 | Adaptive Cost Model (EMA + export)      | ✅ Done  | graph module |
 | `addNodePropertyConstraint()` pruning   | ✅ Done  | graph module |
 | `addMaxWeight()` / `addMinWeight()`     | ✅ Done  | graph module |
+| Latency histogram (p50/p95/p99)         | ✅ Done  | graph module |
+| Prometheus scrape endpoint              | ✅ Done  | server       |
+| Query rate limiter (max QPS)            | ✅ Done  | graph module |
 | OTel span export in traversal loops     | 📋 TODO  | observability|
 | Heatmap: nodes-explored per query       | 📋 TODO  | observability|
 | Alerting rule: error_rate > 5%          | 📋 TODO  | ops          |
 | Alerting rule: p99 latency > SLO        | 📋 TODO  | ops          |
-
 ---
 
 ## Test Matrix
@@ -445,6 +529,15 @@ already implemented in Phase 3.3.
 | Max/min weight constraint API         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Max weight BFS pruning                | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Min weight acceptance check           | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Latency histogram populated           | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| p50/p95/p99 percentile non-negative   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Rate limiter default disabled         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Rate limiter high limit allows queries| `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Rate limit exceeded returns error     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Prometheus endpoint OK status         | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Prometheus content-type text/plain    | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Prometheus body has counter lines     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Prometheus body has +Inf bucket       | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Path constraint validation            | `test_graph_advanced_features.cpp` | ✅ Exists   |
 | Constrained path finding              | `test_path_constraints_direct.cpp` | ✅ Exists   |
 | AQL integration                       | `test_aql_path_constraints.cpp`    | ✅ Exists   |
@@ -470,6 +563,9 @@ The graph module must pass the following CI checks before merging:
 10. **Node property constraint** – `addNodePropertyConstraint` prunes BFS; `validatePath` enforces for all nodes
 11. **Weight constraints** – `addMaxWeight` prunes BFS states; `addMinWeight` rejects under-weight completed paths
 12. **Parallel Dijkstra correctness** – `Dijkstra_Parallel_ProducesSameResultAsSequential` test passes; `totalCost` matches sequential
+13. **Latency histogram** – at least one bucket non-zero after a BFS execution; `percentileMs(0.99) >= 0`
+14. **Prometheus endpoint** – `GET /api/v1/graph/metrics/prometheus` returns `text/plain` with counter lines and `+Inf` bucket
+15. **Rate limiter** – `setMaxQueriesPerSecond(1)` causes second rapid BFS to return `ERR_GRAPH_RATE_LIMIT_EXCEEDED`
 
 ---
 

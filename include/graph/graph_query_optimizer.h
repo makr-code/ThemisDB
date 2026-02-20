@@ -113,6 +113,65 @@ public:
         std::atomic<uint64_t> plan_cache_hits{0};
         std::atomic<uint64_t> plan_cache_misses{0};
 
+        /**
+         * @brief Fixed-bucket latency histogram for percentile computation.
+         *
+         * 10 buckets with upper bounds (ms): 1, 5, 10, 25, 50, 100, 250, 500, 1000, +Inf.
+         * Each bucket counts queries whose execution time fell into that bucket.
+         * Used to compute approximate p50/p95/p99 latencies for Prometheus export.
+         */
+        struct LatencyHistogram {
+            static constexpr size_t kBucketCount = 10;
+            /// Upper-bound (inclusive, ms) for each of the first 9 buckets; bucket 9 is +Inf.
+            static constexpr uint64_t kBounds[9] = {1, 5, 10, 25, 50, 100, 250, 500, 1000};
+
+            std::atomic<uint64_t> counts[kBucketCount]{};
+
+            /// Record one query with the given execution duration.
+            void record(uint64_t latency_ms) {
+                for (size_t i = 0; i < 9; ++i) {
+                    if (latency_ms <= kBounds[i]) {
+                        counts[i].fetch_add(1, std::memory_order_relaxed);
+                        return;
+                    }
+                }
+                counts[9].fetch_add(1, std::memory_order_relaxed);
+            }
+
+            /**
+             * @brief Compute approximate p-th percentile latency in milliseconds.
+             * @param p Percentile in [0.0, 1.0] (e.g. 0.99 for p99).
+             * @return Approximate percentile latency in ms, or 0.0 if no data.
+             */
+            double percentileMs(double p) const {
+                uint64_t total = 0;
+                for (size_t i = 0; i < kBucketCount; ++i) {
+                    total += counts[i].load(std::memory_order_relaxed);
+                }
+                if (total == 0) return 0.0;
+
+                const uint64_t target = static_cast<uint64_t>(p * static_cast<double>(total));
+                uint64_t cumulative = 0;
+                for (size_t i = 0; i < kBucketCount; ++i) {
+                    uint64_t bc = counts[i].load(std::memory_order_relaxed);
+                    if (cumulative + bc > target) {
+                        // Interpolate within this bucket
+                        const double lower = (i == 0) ? 0.0
+                                           : static_cast<double>(kBounds[i - 1]);
+                        const double upper = (i < 9) ? static_cast<double>(kBounds[i])
+                                           : static_cast<double>(kBounds[8]) * 2.0;
+                        if (bc == 0) return lower;
+                        const double frac =
+                            static_cast<double>(target - cumulative) /
+                            static_cast<double>(bc);
+                        return lower + frac * (upper - lower);
+                    }
+                    cumulative += bc;
+                }
+                return static_cast<double>(kBounds[8]) * 2.0;
+            }
+        } latency_histogram;
+
         /// Returns average execution time in milliseconds, or 0 if no queries.
         double avgExecutionTimeMs() const {
             uint64_t n = total_queries.load(std::memory_order_relaxed);
@@ -128,6 +187,52 @@ public:
                                failed_queries.load(std::memory_order_relaxed)) / n
                          : 0.0;
         }
+    };
+
+    /**
+     * @brief Token-window query rate limiter (per-second sliding window).
+     *
+     * When `max_qps > 0`, `allowQuery()` tracks how many queries have been
+     * issued in the current 1-second epoch and rejects excess calls by
+     * returning `false`.  The window resets atomically when the clock advances
+     * to a new second.
+     *
+     * Thread-safe: all state managed via atomics.
+     */
+    struct QueryRateLimiter {
+        uint32_t max_qps = 0;  ///< 0 = no limit
+
+        /// Returns true if the query is within the rate budget, false otherwise.
+        bool allowQuery() {
+            if (max_qps == 0) return true;
+
+            const uint64_t now_s = static_cast<uint64_t>(
+                std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::steady_clock::now().time_since_epoch()
+                ).count()
+            );
+
+            uint64_t window = window_epoch_s_.load(std::memory_order_relaxed);
+            if (now_s != window) {
+                // Try to advance the epoch and reset the counter for this new second.
+                if (window_epoch_s_.compare_exchange_strong(
+                        window, now_s,
+                        std::memory_order_acq_rel,
+                        std::memory_order_relaxed)) {
+                    query_count_.store(1, std::memory_order_release);
+                    return true;  // first query of this second
+                }
+                // Another thread advanced the window; fall through to count check.
+            }
+
+            const uint64_t count =
+                query_count_.fetch_add(1, std::memory_order_acq_rel);
+            return count < static_cast<uint64_t>(max_qps);
+        }
+
+    private:
+        std::atomic<uint64_t> window_epoch_s_{0};
+        std::atomic<uint64_t> query_count_{0};
     };
 
     /**
@@ -397,6 +502,24 @@ public:
      */
     const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>>&
         getAlgorithmCostModels() const { return algo_cost_models_; }
+
+    // -----------------------------------------------------------------------
+    // Query Rate Limiter (v1.7.0)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Set the maximum number of graph queries allowed per second.
+     *
+     * When set to a non-zero value, each execute* call is checked against the
+     * rate budget before execution starts.  Queries that exceed the limit
+     * return `ERR_GRAPH_RATE_LIMIT_EXCEEDED` (6406) immediately.
+     *
+     * @param max_qps Maximum queries per second (0 = no limit, the default).
+     */
+    void setMaxQueriesPerSecond(uint32_t max_qps) { rate_limiter_.max_qps = max_qps; }
+
+    /// Returns the current max-QPS setting (0 = no limit).
+    uint32_t getMaxQueriesPerSecond() const { return rate_limiter_.max_qps; }
     
     /**
      * @brief Optimize constrained path query using PathConstraints
@@ -457,6 +580,9 @@ private:
     // Adaptive cost model: per-algorithm EMA cost tracking
     bool adaptive_learning_enabled_ = true;
     std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>> algo_cost_models_;
+
+    // Query rate limiter
+    QueryRateLimiter rate_limiter_;
 
     /**
      * Estimate cost for traversal algorithm

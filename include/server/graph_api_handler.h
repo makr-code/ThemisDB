@@ -99,6 +99,32 @@ public:
      */
     http::response<http::string_body> handleMetrics(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Handle GET /api/v1/graph/metrics/prometheus request
+     *
+     * Returns metrics in Prometheus text exposition format (text/plain; version=0.0.4)
+     * so that a Prometheus server can scrape this endpoint directly.
+     *
+     * Example output:
+     * ```
+     * # HELP themis_graph_queries_total Total graph traversal executions
+     * # TYPE themis_graph_queries_total counter
+     * themis_graph_queries_total 42
+     * ...
+     * # HELP themis_graph_latency_ms Latency histogram of graph query execution
+     * # TYPE themis_graph_latency_ms histogram
+     * themis_graph_latency_ms_bucket{le="1"} 5
+     * ...
+     * themis_graph_latency_ms_bucket{le="+Inf"} 42
+     * themis_graph_latency_ms_sum 350
+     * themis_graph_latency_ms_count 42
+     * ```
+     *
+     * @param req HTTP GET request
+     * @return HTTP 200 response with Prometheus text body
+     */
+    http::response<http::string_body> handleMetricsPrometheus(const http::request<http::string_body>& req);
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<GraphIndexManager> graph_index_;
