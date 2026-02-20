@@ -124,7 +124,7 @@ public:
         // In-memory cache has no backing store to flush.
     }
 
-    void shutdown() override {
+    void shutdown() noexcept override {
         clear();
     }
 

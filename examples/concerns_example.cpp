@@ -3,11 +3,13 @@
  *
  * Demonstrates all five cross-cutting concern interfaces introduced in v1.6.0:
  *
- *   ILogger  — structured, context-aware logging
- *   ITracer  — distributed tracing with scoped spans
- *   IMetrics — counters, gauges, histograms and latency tracking
- *   ICache   — key/value caching with TTL and eviction
- *   IContext — request-scoped context propagation
+ *   ILogger       — structured, context-aware logging
+ *   ITracer       — distributed tracing with scoped spans
+ *   IMetrics      — counters, gauges, histograms and latency tracking
+ *   ICache        — key/value caching with TTL and eviction
+ *   IContext      — request-scoped context propagation
+ *   IAsyncLogger  — non-blocking async log dispatch
+ *   IAsyncCache   — non-blocking async cache operations
  *
  * Additional v1.6.0 helpers demonstrated:
  *   MetricLabels  — type-safe fluent label builder
@@ -31,6 +33,8 @@
 #include "core/concerns/inmemory_cache_impl.h"
 #include "core/concerns/metric_labels.h"
 #include "core/concerns/i_context.h"
+#include "core/concerns/i_async_logger.h"
+#include "core/concerns/i_async_cache.h"
 
 #include <iostream>
 #include <memory>
@@ -320,7 +324,65 @@ static void demo_context(ILogger& logger) {
 }
 
 // ---------------------------------------------------------------------------
-// 6. ConcernsContext — aggregate lifecycle and health probes
+// 6. IAsyncLogger and IAsyncCache — non-blocking async dispatch
+// ---------------------------------------------------------------------------
+static void demo_async_interfaces() {
+    section("IAsyncLogger — fire-and-forget logging");
+
+    NoOpAsyncLogger async_logger;
+
+    // Fire-and-forget: the returned future is discarded;
+    // the log record is dispatched asynchronously.
+    async_logger.infoAsync("Service started (async)");
+    async_logger.warnAsync("Cache miss rate elevated (async)");
+
+    // Await completion (useful before shutdown or in tests):
+    auto f = async_logger.errorAsync("Timeout connecting to replica");
+    f.get();  // blocks until the async log call completes
+
+    // All standard level shortcuts are available:
+    async_logger.traceAsync("trace (async)").get();
+    async_logger.debugAsync("debug (async)").get();
+    async_logger.criticalAsync("critical (async)").get();
+
+    // Structured async log:
+    async_logger.logStructuredAsync(ILogger::Level::INFO, "Query completed",
+        {{"rows", "42"}, {"latency_ms", "7"}}).get();
+
+    section("IAsyncLogger — lifecycle");
+
+    async_logger.flush();
+    std::cout << "Async logger healthy: "
+              << (async_logger.isHealthy().ok ? "yes" : "no") << std::endl;
+
+    section("IAsyncCache — non-blocking cache operations");
+
+    NoOpAsyncCache async_cache;
+
+    // Async put — fire and forget write
+    async_cache.putAsync("session:001", CacheEntry{"token-data", 1, 0}, 60000);
+
+    // Async get — start the I/O then do other work
+    auto get_future = async_cache.getAsync("session:001");
+    // ... simulate other work while I/O is in-flight ...
+    auto result = get_future.get();
+    std::cout << "Async get session:001: "
+              << (result.has_value() ? "hit" : "miss (NoOp always misses)")
+              << std::endl;
+
+    // Async invalidate
+    async_cache.invalidateAsync("session:001").get();
+    std::cout << "Async invalidate completed." << std::endl;
+
+    section("IAsyncCache — lifecycle");
+
+    async_cache.flush();
+    std::cout << "Async cache healthy: "
+              << (async_cache.isHealthy().ok ? "yes" : "no") << std::endl;
+}
+
+// ---------------------------------------------------------------------------
+// 7. ConcernsContext — aggregate lifecycle and health probes
 // ---------------------------------------------------------------------------
 static void demo_concerns_context() {
     section("ConcernsContext — createNoOp");
@@ -383,6 +445,7 @@ int main() {
     demo_metrics(metrics);
     demo_cache(cache);
     demo_context(logger);
+    demo_async_interfaces();
     demo_concerns_context();
 
     std::cout << "\n==================================================" << std::endl;

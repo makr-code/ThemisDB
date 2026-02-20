@@ -19,7 +19,7 @@ namespace concerns {
  * ## Default implementations
  *
  * Every async method has a default body that dispatches the corresponding
- * synchronous `ICache` method on a detached `std::async` thread.  Concrete
+ * synchronous `ICache` method on a separate thread via `std::async`.  Concrete
  * classes that already implement `ICache` (e.g. `InMemoryCacheImpl`) can
  * inherit from `IAsyncCache` and get working async variants for free:
  *
