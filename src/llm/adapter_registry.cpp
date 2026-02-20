@@ -42,6 +42,9 @@ AdapterRegistry::AdapterRegistry(std::shared_ptr<storage::SecuritySignatureManag
 // Key construction helpers
 // ============================================================================
 
+// Key construction helpers.
+// These exist as named methods so that a future persistent backend (e.g. RocksDB)
+// can override the namespace without changing callers.
 std::string AdapterRegistry::makeAdapterKey(const std::string& adapter_id) const {
     return std::string(ADAPTER_KEY_PREFIX) + adapter_id;
 }
@@ -56,6 +59,7 @@ std::string AdapterRegistry::makeDomainIndexKey(const std::string& domain) const
 
 // updateIndices is a no-op for the in-memory backend (the maps provide
 // full scan capability without secondary indices).
+// Reserved for a future persistent backend that maintains explicit index tables.
 void AdapterRegistry::updateIndices(const AdapterMetadata& /*metadata*/, bool /*remove*/) {}
 
 // ============================================================================
@@ -193,7 +197,13 @@ AdapterRegistry::ValidationResult AdapterRegistry::validateCompatibility(
 // Signature operations
 // ============================================================================
 
-bool AdapterRegistry::signAdapter(const std::string& adapter_id, const std::string& /*private_key*/) {
+bool AdapterRegistry::signAdapter(const std::string& adapter_id,
+                                   [[maybe_unused]] const std::string& private_key) {
+    // NOTE: Real Ed25519 signing via `private_key` is not yet implemented.
+    // The `content_hash` field is populated, and the `signature` field is a
+    // placeholder token that makes `verifySignature()` deterministic for
+    // testing purposes.  A production implementation must replace this with
+    // an actual Ed25519 signature over `content_hash` using `private_key`.
     std::lock_guard<std::mutex> lock(impl_->mu);
     if (!impl_->adapters.count(adapter_id)) {
         spdlog::warn("AdapterRegistry::signAdapter: adapter '{}' not found", adapter_id);
@@ -271,9 +281,12 @@ std::optional<AdapterMetadata> AdapterRegistry::getVersion(
     const std::string& adapter_base_id,
     const AdapterVersion& version
 ) {
+    // Use a delimiter-aware prefix check to avoid matching "model_v2" when
+    // searching for base id "model" (without a following ':' delimiter).
+    std::string prefix = adapter_base_id + ":";
     std::lock_guard<std::mutex> lock(impl_->mu);
     for (const auto& [id, meta] : impl_->adapters) {
-        if (meta.adapter_id.find(adapter_base_id) == 0 &&
+        if ((meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) &&
             meta.version == version) {
             return meta;
         }
@@ -284,10 +297,12 @@ std::optional<AdapterMetadata> AdapterRegistry::getVersion(
 std::vector<AdapterMetadata> AdapterRegistry::listVersions(
     const std::string& adapter_base_id
 ) {
+    // Same delimiter-aware prefix check used in getVersion().
+    std::string prefix = adapter_base_id + ":";
     std::lock_guard<std::mutex> lock(impl_->mu);
     std::vector<AdapterMetadata> versions;
     for (const auto& [id, meta] : impl_->adapters) {
-        if (meta.adapter_id.find(adapter_base_id) == 0) {
+        if (meta.adapter_id == adapter_base_id || meta.adapter_id.rfind(prefix, 0) == 0) {
             versions.push_back(meta);
         }
     }

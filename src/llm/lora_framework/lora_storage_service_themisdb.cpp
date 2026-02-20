@@ -289,23 +289,41 @@ public:
             return ok;
 
         } else {
-            // Filesystem backend: copy versioned directory over current directory
+            // Filesystem backend: two-phase atomic-swap to protect against data
+            // loss if the copy fails after removal.
+            // Phase 1: copy the versioned snapshot to a temporary directory.
+            // Phase 2: atomically rename/replace the current directory.
             fs::path adapter_dir  = fs::path(config_.filesystem_path) / adapter_id;
             fs::path version_dir  = fs::path(config_.filesystem_path) / (adapter_id + "." + version);
+            fs::path tmp_dir      = fs::path(config_.filesystem_path) / (adapter_id + ".rollback_tmp");
+
             if (!fs::exists(version_dir)) {
                 spdlog::error("LoRAStorage: rollback failed – version dir '{}' not found",
                               version_dir.string());
                 return false;
             }
             try {
-                fs::remove_all(adapter_dir);
-                fs::copy(version_dir, adapter_dir,
+                // Phase 1: copy to tmp (leave original intact)
+                if (fs::exists(tmp_dir)) {
+                    fs::remove_all(tmp_dir);
+                }
+                fs::copy(version_dir, tmp_dir,
                          fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+
+                // Phase 2: atomically replace current with tmp
+                if (fs::exists(adapter_dir)) {
+                    fs::remove_all(adapter_dir);
+                }
+                fs::rename(tmp_dir, adapter_dir);
+
                 spdlog::info("LoRAStorage: adapter '{}' rolled back to version '{}' via filesystem",
                              adapter_id, version);
                 return true;
             } catch (const std::exception& e) {
                 spdlog::error("LoRAStorage: filesystem rollback failed: {}", e.what());
+                // Best-effort cleanup of the tmp directory
+                std::error_code ec;
+                fs::remove_all(tmp_dir, ec);
                 return false;
             }
         }

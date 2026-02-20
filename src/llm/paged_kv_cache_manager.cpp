@@ -212,10 +212,13 @@ PagedKVCacheManager::getBlockInfo(int block_id) const {
 }
 
 size_t PagedKVCacheManager::defragment() {
-    // Identify blocks that have zero references but are not yet in free_block_ids_.
-    // These occur when ref_count reaches zero through decrements but the block
-    // was not returned to the free list (e.g., if releaseBlock was not called).
-    // Build a fast lookup of currently known free blocks.
+    // Thread-safety note: like all other methods in this class, defragment()
+    // assumes external synchronisation (or single-threaded use).  It is the
+    // caller's responsibility to ensure no concurrent allocateBlock(),
+    // releaseBlock(), or freeBlocks() calls are in flight.
+    //
+    // Implementation: scan blocks for ref_count==0 && !is_pinned that are not
+    // already in free_block_ids_ and return them to the free list.
     std::unordered_set<int> known_free(free_block_ids_.begin(), free_block_ids_.end());
 
     size_t reclaimed = 0;
