@@ -355,6 +355,7 @@ size_t SnapshotManager::pruneOldSnapshots() {
         if (pol.protect_latest && i == newest_idx) continue;
 
         bool too_old = (pol.max_age_ms > 0) &&
+                       (now_ms > snapshots[i].timestamp_ms) &&
                        ((now_ms - snapshots[i].timestamp_ms) > pol.max_age_ms);
         bool too_many = (pol.max_snapshots > 0) &&
                         ((snapshots.size() - pruned) > pol.max_snapshots);

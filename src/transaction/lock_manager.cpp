@@ -426,31 +426,70 @@ void LockManager::processWaiters(const std::string& key) {
 }
 
 void LockManager::checkEscalation(TransactionId txn_id, const std::string& key) {
-    // mutex_ must be held
+    // mutex_ must be held.
+    // Escalation: when a transaction holds more than `escalation_threshold_` row-level
+    // locks on the same table, release them and acquire a single INTENT_EXCLUSIVE on the
+    // table instead.  This reduces lock-table memory pressure for bulk operations.
+    //
+    // Key naming convention: keys are expected to follow "table_name:row_identifier"
+    // format (colon-separated). The table prefix is "table_name:". Keys that do not
+    // contain a colon are not eligible for escalation.
     auto txn_it = held_by_txn_.find(txn_id);
     if (txn_it == held_by_txn_.end()) return;
 
-    if (txn_it->second.size() < escalation_threshold_.load(std::memory_order_relaxed)) {
+    // Cache threshold to avoid repeated atomic loads
+    const size_t threshold = escalation_threshold_.load(std::memory_order_relaxed);
+    if (txn_it->second.size() < threshold) {
         return;
     }
 
-    // Simple heuristic: extract table prefix (e.g. "table:key" → "table")
+    // Extract table prefix (e.g. "table:pk" → "table:")
     auto colon_pos = key.find(':');
     if (colon_pos == std::string::npos) return;
 
     std::string table_prefix = key.substr(0, colon_pos + 1);
-    size_t row_count = 0;
+
+    // Count row-level locks on this table
+    std::vector<std::string> row_keys;
     for (const auto& [k, _] : txn_it->second) {
-        if (k.find(table_prefix) == 0) {
-            ++row_count;
+        if (k.find(table_prefix) == 0 && k.size() > table_prefix.size()) {
+            row_keys.push_back(k);
         }
     }
 
-    if (row_count >= escalation_threshold_.load(std::memory_order_relaxed)) {
-        stats_escalations_.fetch_add(1, std::memory_order_relaxed);
-        THEMIS_INFO("LockManager: escalating {} row locks to table lock for txn {} on '{}'",
-                    row_count, txn_id, table_prefix);
+    if (row_keys.size() < threshold) {
+        return;
     }
+
+    // Acquire INTENT_EXCLUSIVE on the table key first (before releasing row locks)
+    std::string table_key = table_prefix + "*";
+    bool table_lock_ok = tryGrantLock(table_key, txn_id, LockType::INTENT_EXCLUSIVE);
+
+    if (!table_lock_ok) {
+        // Another transaction holds an incompatible lock on the table – skip escalation
+        return;
+    }
+
+    // Release individual row locks and remove them from the lock table
+    for (const auto& rk : row_keys) {
+        auto lt_it = lock_table_.find(rk);
+        if (lt_it != lock_table_.end()) {
+            auto& holders = lt_it->second.holders;
+            holders.erase(
+                std::remove_if(holders.begin(), holders.end(),
+                    [txn_id](const LockEntry& e) { return e.holder == txn_id; }),
+                holders.end());
+            processWaiters(rk);
+            if (lt_it->second.holders.empty() && lt_it->second.waiters.empty()) {
+                lock_table_.erase(lt_it);
+            }
+        }
+        txn_it->second.erase(rk);
+    }
+
+    stats_escalations_.fetch_add(1, std::memory_order_relaxed);
+    THEMIS_INFO("LockManager: escalated {} row locks to table lock '{}' for txn {}",
+                row_keys.size(), table_key, txn_id);
 }
 
 } // namespace themis

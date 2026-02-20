@@ -56,8 +56,9 @@ void Saga::clear() {
     THEMIS_DEBUG("SAGA: Clearing {} steps", steps_.size());
     steps_.clear();
     compensated_ = false;
-    metrics_failed_ = 0;
-    metrics_retried_ = 0;
+    // Note: metrics_failed_ and metrics_retried_ are intentionally preserved across
+    // clear() so that getMetrics() reflects the cumulative lifetime counts.
+    // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
 size_t Saga::compensatedCount() const {
@@ -93,6 +94,11 @@ void Saga::compensateWithRetry(int max_retries,
         return;
     }
 
+    static constexpr std::chrono::milliseconds MAX_BACKOFF{30000}; // 30 s cap
+
+    // Clamp input backoff to avoid overflow during doubling
+    backoff_ms = std::min(backoff_ms, MAX_BACKOFF);
+
     THEMIS_INFO("SAGA: Compensating {} steps (max_retries={}, backoff={}ms)",
                 steps_.size(), max_retries, backoff_ms.count());
 
@@ -108,7 +114,8 @@ void Saga::compensateWithRetry(int max_retries,
                     THEMIS_DEBUG("SAGA: Retrying '{}' (attempt {}/{})",
                                  it->operation_name, attempt, max_retries);
                     std::this_thread::sleep_for(current_backoff);
-                    current_backoff *= 2; // Exponential backoff
+                    // Double backoff but cap at MAX_BACKOFF
+                    current_backoff = std::min(current_backoff * 2, MAX_BACKOFF);
                 }
                 it->compensate();
                 it->compensated = true;
