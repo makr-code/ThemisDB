@@ -824,7 +824,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             break;  // Success – no more retries needed
         } catch (const std::exception& e) {
             last_error = e.what();
-            // Honour conditional should_retry if provided
+            // Honor conditional should_retry if provided
             if (policy.should_retry && !policy.should_retry(last_error)) {
                 THEMIS_INFO("Task {} retry skipped by should_retry policy: {}",
                             task->id, last_error);
