@@ -19,6 +19,7 @@
 #include <sstream>
 #include <cctype>
 #include <unordered_set>
+#include <array>
 
 namespace themis::rag::judge {
 
@@ -178,7 +179,7 @@ EvaluationResult RAGJudge::evaluate(const EvaluationInput& input) {
             result.faithfulness_score = evaluateFaithfulness(input);
             result.relevance_score = evaluateRelevance(input);
             result.completeness_score = evaluateCompleteness(input);
-            result.coherence_score = 0.8;  // Placeholder
+            result.coherence_score = evaluateCoherence(input);
             
             // Ethical compliance evaluation
             if (impl_->config.enable_ethical_evaluation) {
@@ -887,8 +888,47 @@ ComparisonResult JudgeEnsemble::compareWithEnsemble(
     const std::string& answer_a,
     const std::string& answer_b
 ) {
-    // TODO: Implement ensemble comparison
-    return impl_->judges[0]->compare(query, documents, answer_a, answer_b);
+    if (impl_->judges.empty()) {
+        return ComparisonResult{};
+    }
+
+    int votes_a = 0;
+    int votes_b = 0;
+    int votes_tie = 0;
+    double conf_a = 0.0;
+    double conf_b = 0.0;
+
+    for (const auto& judge : impl_->judges) {
+        auto r = judge->compare(query, documents, answer_a, answer_b);
+        if (r.winner == ComparisonResult::Winner::ANSWER_A) {
+            ++votes_a;
+            conf_a += r.confidence;
+        } else if (r.winner == ComparisonResult::Winner::ANSWER_B) {
+            ++votes_b;
+            conf_b += r.confidence;
+        } else {
+            ++votes_tie;
+        }
+    }
+
+    ComparisonResult combined;
+    if (votes_a > votes_b && votes_a > votes_tie) {
+        combined.winner = ComparisonResult::Winner::ANSWER_A;
+        combined.confidence = votes_a > 0 ? conf_a / votes_a : 0.5;
+    } else if (votes_b > votes_a && votes_b > votes_tie) {
+        combined.winner = ComparisonResult::Winner::ANSWER_B;
+        combined.confidence = votes_b > 0 ? conf_b / votes_b : 0.5;
+    } else {
+        combined.winner = ComparisonResult::Winner::TIE;
+        combined.confidence = 0.5;
+    }
+
+    std::ostringstream reasoning;
+    reasoning << "Ensemble comparison: A=" << votes_a
+              << " B=" << votes_b << " Tie=" << votes_tie;
+    combined.reasoning = reasoning.str();
+
+    return combined;
 }
 
 void JudgeEnsemble::setVotingStrategy(VotingStrategy strategy) {
@@ -988,24 +1028,118 @@ std::unique_ptr<JudgeEnsemble> RAGJudgeFactory::createEnsemble(
 namespace metrics {
 
 double calculateInterJudgeAgreement(const std::vector<EvaluationResult>& results) {
-    // TODO: Implement proper inter-judge agreement calculation
-    return 0.85;
+    if (results.size() < 2) {
+        return 1.0;
+    }
+
+    // Compute mean and variance of overall scores across all judges
+    double sum = 0.0;
+    for (const auto& r : results) {
+        sum += r.overall_score;
+    }
+    double mean = sum / static_cast<double>(results.size());
+
+    double variance = 0.0;
+    for (const auto& r : results) {
+        double diff = r.overall_score - mean;
+        variance += diff * diff;
+    }
+    variance /= static_cast<double>(results.size());
+
+    // Maximum possible variance for scores in [0, 1] is 0.25 (Bernoulli)
+    // Agreement = 1 - normalized variance
+    static constexpr double kMaxVariance = 0.25;
+    double agreement = 1.0 - std::min(1.0, variance / kMaxVariance);
+    return std::max(0.0, agreement);
 }
 
 double calculateCohensKappa(
     const std::vector<EvaluationResult>& judge1_results,
     const std::vector<EvaluationResult>& judge2_results
 ) {
-    // TODO: Implement Cohen's Kappa calculation
-    return 0.75;
+    if (judge1_results.empty() || judge1_results.size() != judge2_results.size()) {
+        return 0.0;
+    }
+
+    // Bin scores into 5 categories: [0,0.2), [0.2,0.4), [0.4,0.6), [0.6,0.8), [0.8,1.0]
+    static constexpr int kBins = 5;
+    static constexpr double kBinWidth = 1.0 / kBins;
+
+    auto toBin = [](double score) -> int {
+        int bin = static_cast<int>(score / kBinWidth);
+        return std::min(bin, kBins - 1);
+    };
+
+    const size_t n = judge1_results.size();
+
+    // Observed agreement: fraction of items where both judges assign the same bin
+    int agree = 0;
+    for (size_t i = 0; i < n; ++i) {
+        if (toBin(judge1_results[i].overall_score) ==
+            toBin(judge2_results[i].overall_score)) {
+            ++agree;
+        }
+    }
+    double p_o = static_cast<double>(agree) / static_cast<double>(n);
+
+    // Expected agreement by chance: p_e = sum over bins of (p1_k * p2_k)
+    std::array<int, kBins> counts1{};
+    std::array<int, kBins> counts2{};
+    for (size_t i = 0; i < n; ++i) {
+        counts1[toBin(judge1_results[i].overall_score)]++;
+        counts2[toBin(judge2_results[i].overall_score)]++;
+    }
+    double p_e = 0.0;
+    double inv_n2 = 1.0 / (static_cast<double>(n) * static_cast<double>(n));
+    for (int k = 0; k < kBins; ++k) {
+        p_e += counts1[k] * counts2[k] * inv_n2;
+    }
+
+    if (p_e >= 1.0) {
+        return 1.0;
+    }
+    double kappa = (p_o - p_e) / (1.0 - p_e);
+    return std::max(-1.0, std::min(1.0, kappa));
 }
 
 double calculateCalibrationError(
     const std::vector<double>& predictions,
     const std::vector<double>& ground_truth
 ) {
-    // TODO: Implement Expected Calibration Error
-    return 0.1;
+    if (predictions.empty() || predictions.size() != ground_truth.size()) {
+        return 0.0;
+    }
+
+    // Expected Calibration Error (ECE) using M equal-width bins over [0, 1]
+    static constexpr int kBins = 10;
+    static constexpr double kBinWidth = 1.0 / kBins;
+
+    struct Bin {
+        double sum_conf  = 0.0;
+        double sum_truth = 0.0;
+        int    count     = 0;
+    };
+    std::array<Bin, kBins> bins{};
+
+    const size_t n = predictions.size();
+    for (size_t i = 0; i < n; ++i) {
+        double conf = std::max(0.0, std::min(1.0, predictions[i]));
+        int b = static_cast<int>(conf / kBinWidth);
+        b = std::min(b, kBins - 1);
+        bins[b].sum_conf  += conf;
+        bins[b].sum_truth += ground_truth[i];
+        bins[b].count++;
+    }
+
+    double ece = 0.0;
+    for (const auto& bin : bins) {
+        if (bin.count == 0) continue;
+        double avg_conf  = bin.sum_conf  / bin.count;
+        double avg_truth = bin.sum_truth / bin.count;
+        ece += (static_cast<double>(bin.count) / n) *
+               std::abs(avg_conf - avg_truth);
+    }
+    return ece;
 }
 
 } // namespace metrics
