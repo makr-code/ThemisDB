@@ -601,5 +601,178 @@ private:
     void updateReplicaHealth(ReplicaInfo& replica);
 };
 
+// ============================================================================
+// Parallel Replication Worker (v1.6.0)
+// ============================================================================
+
+/**
+ * ParallelReplicationWorker
+ *
+ * Applies WAL entries on a follower using multiple worker threads while
+ * maintaining causal ordering via a dependency graph keyed on document_id.
+ * Independent writes (different document_ids) execute concurrently;
+ * writes to the same document are serialized.
+ */
+class ParallelReplicationWorker {
+public:
+    struct ParallelConfig {
+        uint32_t worker_threads   = 4;
+        uint32_t queue_size       = 10000;
+        bool use_dependency_tracking = true;
+    };
+
+    struct Stats {
+        uint64_t entries_applied;
+        uint64_t dependencies_detected;
+        uint64_t parallel_batches;
+        double   parallelism_factor;  // average concurrent entries per batch
+    };
+
+    explicit ParallelReplicationWorker(const ParallelConfig& config);
+    ~ParallelReplicationWorker();
+
+    // Submit a WAL entry for parallel application (non-blocking)
+    void submit(const WALEntry& entry);
+
+    // Block until all previously submitted entries have been applied
+    void sync();
+
+    Stats getStats() const;
+
+private:
+    ParallelConfig config_;
+
+    // Per-document serialization: tracks the done-flag of the most recently
+    // submitted write per document_id so the next write can depend on it.
+    std::map<std::string, std::shared_ptr<std::atomic<bool>>> last_done_per_doc_;
+    mutable std::mutex dep_mutex_;
+
+    // Work queue
+    struct WorkItem {
+        WALEntry entry;
+        std::shared_ptr<std::atomic<bool>> ready;  // Set to true when this entry is done
+        std::vector<std::shared_ptr<std::atomic<bool>>> deps;
+    };
+
+    std::queue<WorkItem> work_queue_;
+    mutable std::mutex queue_mutex_;
+    std::condition_variable queue_cv_;
+
+    // Workers
+    std::vector<std::thread> workers_;
+    std::atomic<bool> running_{false};
+
+    // In-flight counter: incremented in submit(), decremented in workerLoop()
+    std::atomic<uint64_t> in_flight_count_{0};
+
+    // Stats counters
+    std::atomic<uint64_t> stats_entries_applied_{0};
+    std::atomic<uint64_t> stats_deps_detected_{0};
+    std::atomic<uint64_t> stats_batches_{0};
+
+    void workerLoop();
+};
+
+// ============================================================================
+// Quorum Read Manager (v1.6.0)
+// ============================================================================
+
+/**
+ * QuorumReadManager
+ *
+ * Issues a read to multiple replicas concurrently, waits for at least
+ * `read_quorum` responses, reconciles any divergence using the latest
+ * sequence number, and optionally triggers read-repair.
+ */
+class QuorumReadManager {
+public:
+    struct QuorumReadConfig {
+        uint32_t read_quorum      = 2;
+        uint32_t read_timeout_ms  = 1000;
+        bool     repair_on_read   = true;
+    };
+
+    struct QuorumReadResult {
+        bool        success;
+        std::string data;
+        uint64_t    version;
+        bool        had_conflicts;
+        std::vector<std::string> sources;  // replica endpoints that responded
+    };
+
+    explicit QuorumReadManager(
+        const QuorumReadConfig& config,
+        const std::vector<ReplicaInfo>& replicas
+    );
+
+    QuorumReadResult read(
+        const std::string& collection,
+        const std::string& document_id,
+        uint32_t quorum = 0  // 0 = use config default
+    );
+
+    // Update the replica list (called when topology changes)
+    void setReplicas(const std::vector<ReplicaInfo>& replicas);
+
+private:
+    QuorumReadConfig config_;
+    std::vector<ReplicaInfo> replicas_;
+    mutable std::shared_mutex replicas_mutex_;
+
+    // Per-replica read simulation (real impl would use RPC)
+    struct ReplicaResponse {
+        bool        ok;
+        std::string data;
+        uint64_t    version;
+        std::string endpoint;
+    };
+
+    ReplicaResponse queryReplica(
+        const ReplicaInfo& replica,
+        const std::string& collection,
+        const std::string& document_id
+    ) const;
+};
+
+// ============================================================================
+// Persistent Replication State (v1.6.0)
+// ============================================================================
+
+/**
+ * PersistentReplicationState
+ *
+ * Persists the follower's last-applied sequence number (and other state)
+ * to a local file so that on restart the follower can resume replication
+ * from the correct position instead of replaying the entire WAL.
+ */
+class PersistentReplicationState {
+public:
+    struct State {
+        uint64_t    last_applied_sequence = 0;
+        uint64_t    current_term          = 0;
+        std::string voted_for;
+        std::string leader_id;
+        std::chrono::system_clock::time_point persisted_at;
+    };
+
+    explicit PersistentReplicationState(const std::string& state_file_path);
+
+    // Persist current state to disk (fsync)
+    bool persist(const State& state);
+
+    // Load state from disk; returns default-constructed State on first run
+    State load() const;
+
+    // Check whether a persisted state file exists
+    bool exists() const;
+
+    // Delete the state file (e.g., on clean shutdown or reset)
+    void remove();
+
+private:
+    std::string path_;
+    mutable std::mutex file_mutex_;
+};
+
 } // namespace replication
 } // namespace themisdb

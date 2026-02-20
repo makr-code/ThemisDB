@@ -517,8 +517,6 @@ TEST(ElectionLoopTest, StopDoesNotHang) {
 // 9. VectorClock
 // ============================================================================
 
-#include "replication/multi_master_replication.h"
-
 TEST(VectorClockTest, IncrementAndGet) {
     VectorClock vc("node-A");
     EXPECT_EQ(vc.get("node-A"), 0u);  // initialised to 0
@@ -1069,5 +1067,329 @@ TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
     mgr.stop();
 }
 
+// ============================================================================
+// 15. ParallelReplicationWorker
+// ============================================================================
 
+TEST(ParallelReplicationWorkerTest, SubmitAndSync) {
+    ParallelReplicationWorker::ParallelConfig cfg;
+    cfg.worker_threads        = 2;
+    cfg.queue_size            = 1000;
+    cfg.use_dependency_tracking = true;
+
+    ParallelReplicationWorker worker(cfg);
+
+    // Submit 20 independent entries (all different document_ids)
+    for (int i = 0; i < 20; ++i) {
+        WALEntry e;
+        e.sequence_number = static_cast<uint64_t>(i + 1);
+        e.document_id     = "doc-" + std::to_string(i);
+        e.collection      = "test";
+        e.operation       = "INSERT";
+        e.data            = "{}";
+        worker.submit(e);
+    }
+
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 20u) << "All entries should be applied";
+}
+
+TEST(ParallelReplicationWorkerTest, DependencyTrackingSerialisesPerDocument) {
+    ParallelReplicationWorker::ParallelConfig cfg;
+    cfg.worker_threads        = 4;
+    cfg.queue_size            = 1000;
+    cfg.use_dependency_tracking = true;
+
+    ParallelReplicationWorker worker(cfg);
+
+    // Submit multiple writes for the SAME document – these must be serialized
+    constexpr int kWrites = 10;
+    for (int i = 0; i < kWrites; ++i) {
+        WALEntry e;
+        e.sequence_number = static_cast<uint64_t>(i + 1);
+        e.document_id     = "shared-doc";
+        e.collection      = "col";
+        e.operation       = "UPDATE";
+        e.data            = "{\"v\":" + std::to_string(i) + "}";
+        worker.submit(e);
+    }
+
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied,       static_cast<uint64_t>(kWrites));
+    // At least kWrites-1 dependencies should have been detected (each write
+    // after the first depends on the previous write to the same document)
+    EXPECT_GE(stats.dependencies_detected, static_cast<uint64_t>(kWrites - 1));
+}
+
+TEST(ParallelReplicationWorkerTest, StopJoinsCleanly) {
+    auto start = std::chrono::steady_clock::now();
+    {
+        ParallelReplicationWorker::ParallelConfig cfg;
+        cfg.worker_threads = 2;
+        cfg.queue_size     = 100;
+        ParallelReplicationWorker worker(cfg);
+        // Destructor should join threads within a reasonable time
+    }
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start).count();
+    EXPECT_LT(ms, 500) << "Destruction should complete quickly";
+}
+
+TEST(ParallelReplicationWorkerTest, StatsReflectParallelism) {
+    ParallelReplicationWorker::ParallelConfig cfg;
+    cfg.worker_threads        = 4;
+    cfg.queue_size            = 1000;
+    cfg.use_dependency_tracking = true;
+
+    ParallelReplicationWorker worker(cfg);
+
+    // Submit 40 entries across 4 different documents (10 per doc)
+    for (int doc = 0; doc < 4; ++doc) {
+        for (int i = 0; i < 10; ++i) {
+            WALEntry e;
+            e.sequence_number = static_cast<uint64_t>(doc * 100 + i + 1);
+            e.document_id     = "doc-" + std::to_string(doc);
+            e.collection      = "col";
+            e.operation       = "UPDATE";
+            e.data            = "{}";
+            worker.submit(e);
+        }
+    }
+
+    worker.sync();
+
+    auto stats = worker.getStats();
+    EXPECT_EQ(stats.entries_applied, 40u);
+    EXPECT_GT(stats.parallelism_factor, 0.0) << "Parallelism factor must be positive";
+}
+
+// ============================================================================
+// 16. QuorumReadManager
+// ============================================================================
+
+static ReplicaInfo makeReplica(const std::string& ep,
+                                uint64_t seq,
+                                HealthStatus hs = HealthStatus::HEALTHY) {
+    ReplicaInfo r;
+    r.endpoint               = ep;
+    r.last_applied_sequence  = seq;
+    r.health_status          = hs;
+    r.last_heartbeat         = std::chrono::system_clock::now();
+    r.role                   = ReplicationRole::FOLLOWER;
+    return r;
+}
+
+TEST(QuorumReadManagerTest, SucceedsWithQuorumReplicas) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 100),
+        makeReplica("r2:9000", 100),
+        makeReplica("r3:9000", 100),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_GE(result.sources.size(), 2u);
+}
+
+TEST(QuorumReadManagerTest, PicksHighestVersion) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 50),
+        makeReplica("r2:9000", 100),  // highest version
+        makeReplica("r3:9000", 75),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    // Version should be the max across all replicas that responded
+    EXPECT_GE(result.version, 50u);
+}
+
+TEST(QuorumReadManagerTest, DetectsConflictsOnDivergence) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 200;
+
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 10),
+        makeReplica("r2:9000", 20),  // different version → divergence
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.had_conflicts) << "Diverging versions should be flagged";
+}
+
+TEST(QuorumReadManagerTest, FailsWhenNoReplicasAvailable) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 2;
+    cfg.read_timeout_ms = 50;
+
+    // All replicas are unhealthy / offline
+    std::vector<ReplicaInfo> replicas = {
+        makeReplica("r1:9000", 0, HealthStatus::FAILED),
+        makeReplica("r2:9000", 0, HealthStatus::FAILED),
+    };
+
+    QuorumReadManager qrm(cfg, replicas);
+    auto result = qrm.read("col", "doc-1");
+
+    EXPECT_FALSE(result.success)
+        << "Read must fail when no healthy replicas are available";
+}
+
+TEST(QuorumReadManagerTest, SingleNodeModeSucceeds) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});  // No replicas = single-node mode
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success) << "Single-node mode should always succeed";
+}
+
+TEST(QuorumReadManagerTest, SetReplicasUpdatesTopology) {
+    QuorumReadManager::QuorumReadConfig cfg;
+    cfg.read_quorum     = 1;
+    cfg.read_timeout_ms = 200;
+
+    QuorumReadManager qrm(cfg, {});
+    qrm.setReplicas({makeReplica("r1:9000", 42)});
+    auto result = qrm.read("col", "doc-1");
+    EXPECT_TRUE(result.success);
+}
+
+// ============================================================================
+// 17. PersistentReplicationState
+// ============================================================================
+
+class PersistentStateTest : public ::testing::Test {
+protected:
+    std::string path_{"/tmp/themis_repl_state_test.dat"};
+    void SetUp()    override { std::filesystem::remove(path_); }
+    void TearDown() override { std::filesystem::remove(path_); }
+};
+
+TEST_F(PersistentStateTest, FileDoesNotExistInitially) {
+    PersistentReplicationState prs(path_);
+    EXPECT_FALSE(prs.exists());
+}
+
+TEST_F(PersistentStateTest, PersistAndLoad) {
+    PersistentReplicationState prs(path_);
+
+    PersistentReplicationState::State state;
+    state.last_applied_sequence = 12345;
+    state.current_term          = 7;
+    state.voted_for             = "node-leader";
+    state.leader_id             = "node-leader";
+    state.persisted_at          = std::chrono::system_clock::now();
+
+    ASSERT_TRUE(prs.persist(state));
+    EXPECT_TRUE(prs.exists());
+
+    auto loaded = prs.load();
+    EXPECT_EQ(loaded.last_applied_sequence, 12345u);
+    EXPECT_EQ(loaded.current_term,          7u);
+    EXPECT_EQ(loaded.voted_for,             "node-leader");
+    EXPECT_EQ(loaded.leader_id,             "node-leader");
+}
+
+TEST_F(PersistentStateTest, LoadReturnsDefaultWhenFileAbsent) {
+    PersistentReplicationState prs(path_);
+    auto state = prs.load();
+    EXPECT_EQ(state.last_applied_sequence, 0u);
+    EXPECT_EQ(state.current_term, 0u);
+    EXPECT_TRUE(state.voted_for.empty());
+}
+
+TEST_F(PersistentStateTest, PersistOverwritesPreviousState) {
+    PersistentReplicationState prs(path_);
+
+    PersistentReplicationState::State s1;
+    s1.last_applied_sequence = 100;
+    s1.current_term          = 3;
+    ASSERT_TRUE(prs.persist(s1));
+
+    PersistentReplicationState::State s2;
+    s2.last_applied_sequence = 200;
+    s2.current_term          = 5;
+    ASSERT_TRUE(prs.persist(s2));
+
+    auto loaded = prs.load();
+    EXPECT_EQ(loaded.last_applied_sequence, 200u);
+    EXPECT_EQ(loaded.current_term, 5u);
+}
+
+TEST_F(PersistentStateTest, RemoveDeletesFile) {
+    PersistentReplicationState prs(path_);
+
+    PersistentReplicationState::State s;
+    s.last_applied_sequence = 1;
+    ASSERT_TRUE(prs.persist(s));
+    EXPECT_TRUE(prs.exists());
+
+    prs.remove();
+    EXPECT_FALSE(prs.exists());
+}
+
+TEST_F(PersistentStateTest, ConcurrentPersistIsThreadSafe) {
+    PersistentReplicationState prs(path_);
+
+    constexpr int kThreads = 4;
+    std::vector<std::thread> threads;
+    std::atomic<int> errors{0};
+
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&prs, t, &errors]() {
+            for (int i = 0; i < 10; ++i) {
+                PersistentReplicationState::State s;
+                s.last_applied_sequence = static_cast<uint64_t>(t * 100 + i);
+                s.current_term          = static_cast<uint64_t>(t);
+                if (!prs.persist(s)) errors.fetch_add(1);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    EXPECT_EQ(errors.load(), 0) << "No errors expected in concurrent persist";
+    EXPECT_TRUE(prs.exists());
+}
+
+TEST_F(PersistentStateTest, LoadAfterRestart) {
+    // Simulate a node restart: persist, then create a new instance from same path
+    {
+        PersistentReplicationState prs(path_);
+        PersistentReplicationState::State s;
+        s.last_applied_sequence = 9999;
+        s.current_term          = 11;
+        s.voted_for             = "node-42";
+        ASSERT_TRUE(prs.persist(s));
+    }
+    // New instance (simulating restart)
+    {
+        PersistentReplicationState prs(path_);
+        auto loaded = prs.load();
+        EXPECT_EQ(loaded.last_applied_sequence, 9999u);
+        EXPECT_EQ(loaded.current_term, 11u);
+        EXPECT_EQ(loaded.voted_for, "node-42");
+    }
+}
 

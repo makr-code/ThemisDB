@@ -2708,5 +2708,311 @@ std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
     return {};
 }
 
+// ============================================================================
+// ParallelReplicationWorker Implementation (v1.6.0)
+// ============================================================================
+
+ParallelReplicationWorker::ParallelReplicationWorker(const ParallelConfig& config)
+    : config_(config)
+{
+    running_.store(true);
+    uint32_t n = std::max<uint32_t>(1, config_.worker_threads);
+    workers_.reserve(n);
+    for (uint32_t i = 0; i < n; ++i) {
+        workers_.emplace_back(&ParallelReplicationWorker::workerLoop, this);
+    }
+}
+
+ParallelReplicationWorker::~ParallelReplicationWorker() {
+    running_.store(false);
+    queue_cv_.notify_all();
+    for (auto& t : workers_) {
+        if (t.joinable()) t.join();
+    }
+}
+
+void ParallelReplicationWorker::submit(const WALEntry& entry) {
+    auto done_flag = std::make_shared<std::atomic<bool>>(false);
+
+    WorkItem item;
+    item.entry = entry;
+    item.ready = done_flag;
+
+    if (config_.use_dependency_tracking) {
+        std::lock_guard<std::mutex> dep_lock(dep_mutex_);
+
+        // If there's a previous write to the same document, add its done-flag
+        // as a dependency so this write waits for it to complete.
+        auto it = last_done_per_doc_.find(entry.document_id);
+        if (it != last_done_per_doc_.end()) {
+            item.deps.push_back(it->second);
+            stats_deps_detected_.fetch_add(1);
+        }
+        // Register this write as the latest for this document
+        last_done_per_doc_[entry.document_id] = done_flag;
+    }
+
+    {
+        std::lock_guard<std::mutex> q_lock(queue_mutex_);
+        // Enforce max queue size: drop oldest if full
+        while (work_queue_.size() >= config_.queue_size) {
+            work_queue_.pop();
+        }
+        in_flight_count_.fetch_add(1);
+        work_queue_.push(std::move(item));
+    }
+    queue_cv_.notify_one();
+}
+
+void ParallelReplicationWorker::sync() {
+    // Wait until the queue is drained AND all workers have finished processing
+    while (true) {
+        {
+            std::lock_guard<std::mutex> lock(queue_mutex_);
+            if (work_queue_.empty() && in_flight_count_.load() == 0) break;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+}
+
+ParallelReplicationWorker::Stats ParallelReplicationWorker::getStats() const {
+    Stats s;
+    s.entries_applied      = stats_entries_applied_.load();
+    s.dependencies_detected = stats_deps_detected_.load();
+    s.parallel_batches     = stats_batches_.load();
+    uint64_t batches       = s.parallel_batches;
+    s.parallelism_factor   = (batches > 0)
+        ? static_cast<double>(s.entries_applied) / static_cast<double>(batches)
+        : 0.0;
+    return s;
+}
+
+void ParallelReplicationWorker::workerLoop() {
+    while (running_.load()) {
+        WorkItem item;
+        {
+            std::unique_lock<std::mutex> lock(queue_mutex_);
+            queue_cv_.wait_for(lock, std::chrono::milliseconds(5),
+                [this] { return !running_.load() || !work_queue_.empty(); });
+            if (work_queue_.empty()) continue;
+            item = std::move(work_queue_.front());
+            work_queue_.pop();
+        }
+
+        // Wait for all dependencies to complete
+        for (const auto& dep : item.deps) {
+            while (!dep->load()) {
+                std::this_thread::yield();
+            }
+        }
+
+        // Apply the entry (in production: write to local storage / state machine)
+        // Here we simply mark it done and update stats.
+        item.ready->store(true);
+        stats_entries_applied_.fetch_add(1);
+        stats_batches_.fetch_add(1);
+        in_flight_count_.fetch_sub(1);
+    }
+}
+
+// ============================================================================
+// QuorumReadManager Implementation (v1.6.0)
+// ============================================================================
+
+QuorumReadManager::QuorumReadManager(
+    const QuorumReadConfig& config,
+    const std::vector<ReplicaInfo>& replicas)
+    : config_(config)
+    , replicas_(replicas)
+{
+}
+
+QuorumReadManager::QuorumReadResult QuorumReadManager::read(
+    const std::string& collection,
+    const std::string& document_id,
+    uint32_t quorum)
+{
+    uint32_t required = (quorum == 0) ? config_.read_quorum : quorum;
+
+    std::vector<ReplicaInfo> snapshot;
+    {
+        std::shared_lock<std::shared_mutex> lock(replicas_mutex_);
+        snapshot = replicas_;
+    }
+
+    if (snapshot.empty()) {
+        // No replicas: single-node – return a placeholder success
+        return QuorumReadResult{true, "", 0, false, {}};
+    }
+
+    // Issue reads to all replicas concurrently
+    std::vector<std::future<ReplicaResponse>> futures;
+    futures.reserve(snapshot.size());
+    for (const auto& replica : snapshot) {
+        futures.push_back(std::async(std::launch::async,
+            [this, &replica, &collection, &document_id]() {
+                return queryReplica(replica, collection, document_id);
+            }));
+    }
+
+    // Collect responses up to `required`, respecting timeout
+    auto deadline = std::chrono::steady_clock::now() +
+                    std::chrono::milliseconds(config_.read_timeout_ms);
+
+    std::vector<ReplicaResponse> responses;
+    for (auto& fut : futures) {
+        auto remaining = deadline - std::chrono::steady_clock::now();
+        if (remaining.count() <= 0) break;
+        if (fut.wait_for(remaining) == std::future_status::ready) {
+            auto resp = fut.get();
+            if (resp.ok) responses.push_back(std::move(resp));
+        }
+        if (responses.size() >= required) break;
+    }
+
+    if (responses.size() < required) {
+        THEMIS_WARN("QuorumRead: only {}/{} replicas responded for {}/{}",
+                    responses.size(), required, collection, document_id);
+        return QuorumReadResult{false, "", 0, false, {}};
+    }
+
+    // Reconcile: pick the response with the highest version
+    const ReplicaResponse* best = &responses[0];
+    bool had_conflicts = false;
+    for (const auto& r : responses) {
+        if (r.version != best->version) had_conflicts = true;
+        if (r.version > best->version)  best = &r;
+    }
+
+    // Collect source endpoints
+    QuorumReadResult result;
+    result.success       = true;
+    result.data          = best->data;
+    result.version       = best->version;
+    result.had_conflicts = had_conflicts;
+    for (const auto& r : responses) {
+        result.sources.push_back(r.endpoint);
+    }
+
+    if (had_conflicts) {
+        THEMIS_WARN("QuorumRead: divergence detected for {}/{}, version {}",
+                    collection, document_id, best->version);
+    }
+
+    return result;
+}
+
+void QuorumReadManager::setReplicas(const std::vector<ReplicaInfo>& replicas) {
+    std::unique_lock<std::shared_mutex> lock(replicas_mutex_);
+    replicas_ = replicas;
+}
+
+QuorumReadManager::ReplicaResponse QuorumReadManager::queryReplica(
+    const ReplicaInfo& replica,
+    const std::string& /*collection*/,
+    const std::string& /*document_id*/) const
+{
+    // In production this would send a read RPC to the replica endpoint.
+    // For now simulate: ACTIVE replicas return success with the replica's
+    // last_applied_sequence as the version.
+    ReplicaResponse resp;
+    resp.endpoint = replica.endpoint;
+    resp.ok       = (replica.health_status == HealthStatus::HEALTHY);
+    resp.version  = resp.ok ? replica.last_applied_sequence : 0;
+    resp.data     = "";  // Real data comes from storage layer
+    return resp;
+}
+
+// ============================================================================
+// PersistentReplicationState Implementation (v1.6.0)
+// ============================================================================
+
+PersistentReplicationState::PersistentReplicationState(
+    const std::string& state_file_path)
+    : path_(state_file_path)
+{
+}
+
+bool PersistentReplicationState::persist(const State& state) {
+    std::lock_guard<std::mutex> lock(file_mutex_);
+    try {
+        std::ofstream ofs(path_, std::ios::trunc | std::ios::binary);
+        if (!ofs.is_open()) {
+            THEMIS_ERROR("PersistentReplicationState: cannot open {} for writing", path_);
+            return false;
+        }
+
+        // Simple line-oriented text format: key=value
+        ofs << "last_applied_sequence=" << state.last_applied_sequence << "\n"
+            << "current_term="          << state.current_term          << "\n"
+            << "voted_for="             << state.voted_for             << "\n"
+            << "leader_id="             << state.leader_id             << "\n"
+            << "persisted_at_ms="
+            << std::chrono::duration_cast<std::chrono::milliseconds>(
+                   state.persisted_at.time_since_epoch()).count()
+            << "\n";
+
+        ofs.flush();
+        if (!ofs.good()) {
+            THEMIS_ERROR("PersistentReplicationState: write error for {}", path_);
+            return false;
+        }
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("PersistentReplicationState::persist error: {}", e.what());
+        return false;
+    }
+}
+
+PersistentReplicationState::State PersistentReplicationState::load() const {
+    std::lock_guard<std::mutex> lock(file_mutex_);
+    State state;
+    if (!std::filesystem::exists(path_)) {
+        return state;  // First-run: return default
+    }
+    try {
+        std::ifstream ifs(path_);
+        if (!ifs.is_open()) return state;
+
+        std::string line;
+        while (std::getline(ifs, line)) {
+            auto eq = line.find('=');
+            if (eq == std::string::npos) continue;
+            std::string key = line.substr(0, eq);
+            std::string val = line.substr(eq + 1);
+            if (val.empty()) continue;
+            try {
+                if      (key == "last_applied_sequence")
+                    state.last_applied_sequence = std::stoull(val);
+                else if (key == "current_term")
+                    state.current_term = std::stoull(val);
+                else if (key == "voted_for")
+                    state.voted_for = val;
+                else if (key == "leader_id")
+                    state.leader_id = val;
+                else if (key == "persisted_at_ms") {
+                    uint64_t ms = std::stoull(val);
+                    state.persisted_at = std::chrono::system_clock::time_point(
+                        std::chrono::milliseconds(ms));
+                }
+            } catch (...) {
+                THEMIS_WARN("PersistentReplicationState: failed to parse key={}", key);
+            }
+        }
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("PersistentReplicationState::load error: {}", e.what());
+    }
+    return state;
+}
+
+bool PersistentReplicationState::exists() const {
+    return std::filesystem::exists(path_);
+}
+
+void PersistentReplicationState::remove() {
+    std::lock_guard<std::mutex> lock(file_mutex_);
+    std::filesystem::remove(path_);
+}
+
 } // namespace replication
 } // namespace themisdb
