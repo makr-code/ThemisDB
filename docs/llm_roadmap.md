@@ -129,7 +129,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 4. **Alerting**
    - Define Prometheus alerting rules for: error rate > 1 %, p99 latency > threshold, GPU memory > 90 %, queue depth > 80 % of max.
-   - Store alert rule YAML in `prometheus/rules/llm_alerts.yml`.
+   - Alert rules are defined in `prometheus/rules/llm_alerts.yml` ✅.
    - Add latency heatmap panels to the Grafana dashboard.
 
 ---
@@ -175,8 +175,12 @@ Loading a model that uses any of these formats will not fail with an actionable 
    - Implement a structured analytics export (JSON-lines) suitable for ingestion into the data warehouse or SIEM.
 
 4. **Runbooks**
-   - Write operator runbooks for: GPU OOM recovery, model swap procedure, quota tuning, grammar debugging, and metric scrape troubleshooting.
-   - Store runbooks under `docs/operations/llm/`.
+   - Operator runbooks are available under `docs/operations/llm/` ✅:
+     - `GPU_OOM_RECOVERY.md` — GPU out-of-memory recovery procedure
+     - `MODEL_SWAP_PROCEDURE.md` — model swap and hot-reload guide
+     - `GRAMMAR_DEBUGGING.md` — grammar debugging and EBNF validation guide
+     - `QUOTA_TUNING.md` — scheduler quota and capacity planning guide
+     - `METRICS_SCRAPE_TROUBLESHOOTING.md` — Prometheus scrape troubleshooting guide
 
 ---
 
@@ -190,7 +194,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - [ ] Add OTel OTLP exporter; propagate `trace_id`/`span_id` through `LlamaWrapper::generate()`.
 - [ ] Validate Grafana dashboard JSON against a live Grafana 10.x instance.
 - [ ] Add latency heatmap and p50/p95/p99 panels.
-- [ ] Define Prometheus alerting rules (`prometheus/rules/llm_alerts.yml`).
+- [ ] Define Prometheus alerting rules (`prometheus/rules/llm_alerts.yml`) — **file created** ✅; rules need to be loaded into Prometheus.
 
 ### Grammar
 
@@ -266,7 +270,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
   3. Should queue-depth metrics be per-model or global?
   4. What is the Prometheus scrape interval and retention window?
   5. Should OTel and Prometheus share the same metric names (via the OTel Prometheus bridge) or use separate schemas?
-- **How to validate:** Publish a draft metrics schema in `docs/observability/llm_metrics_schema.md` and obtain sign-off from the observability and SRE teams before implementation begins.
+- **How to validate:** A draft metrics schema is available at `docs/observability/llm_metrics_schema.md` ✅. Obtain sign-off from the observability and SRE teams before implementation begins.
 - **Owner:** Observability / SRE team.
 - **Acceptance criteria:** Metrics schema document approved; at least one dashboard panel and one alerting rule reference the agreed names.
 
@@ -302,4 +306,11 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - `docs/aql_roadmap.md` — AQL/LLM subsystem production-readiness (complementary)
 - `docs/llm/FLASH_ATTENTION_ARCHITECTURE.md` — Flash Attention architecture notes
 - `docs/observability/` — Observability configuration guides
+- `docs/observability/llm_metrics_schema.md` — Canonical LLM metrics schema (draft)
+- `docs/operations/llm/GPU_OOM_RECOVERY.md` — GPU OOM recovery runbook
+- `docs/operations/llm/MODEL_SWAP_PROCEDURE.md` — Model swap procedure runbook
+- `docs/operations/llm/GRAMMAR_DEBUGGING.md` — Grammar debugging guide
+- `docs/operations/llm/QUOTA_TUNING.md` — Quota tuning and capacity planning guide
+- `docs/operations/llm/METRICS_SCRAPE_TROUBLESHOOTING.md` — Metrics scrape troubleshooting
+- `prometheus/rules/llm_alerts.yml` — Prometheus alerting rules for LLM module
 - `docs/TESTING_GUIDE_LLM.md` — LLM testing guide
