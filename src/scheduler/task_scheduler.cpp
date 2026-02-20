@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <deque>
 #include <cctype>
+#include <random>
 
 #ifndef _WIN32
 #include <sys/stat.h>
@@ -59,6 +60,84 @@ static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
         default: return "UNKNOWN";
     }
 }
+
+// ===== Retry Policy Helpers =====
+
+namespace {
+
+/**
+ * @brief Compute the delay before the next retry attempt.
+ *
+ * @param policy  The task's RetryPolicy.
+ * @param attempt 0-based retry index (0 = first retry, after the initial failure).
+ * @return Delay in milliseconds, clamped to policy.max_delay.
+ */
+std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& policy,
+                                             size_t attempt) {
+    double base_ms = static_cast<double>(policy.initial_delay.count());
+    double delay_ms = base_ms;
+
+    switch (policy.strategy) {
+        case ScheduledTask::RetryStrategy::NONE:
+        case ScheduledTask::RetryStrategy::FIXED_DELAY:
+            delay_ms = base_ms;
+            break;
+
+        case ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF:
+            // delay = initial * multiplier^attempt
+            for (size_t i = 0; i < attempt; ++i) {
+                delay_ms *= policy.backoff_multiplier;
+            }
+            break;
+
+        case ScheduledTask::RetryStrategy::LINEAR_BACKOFF:
+            // delay = initial * (attempt + 1)
+            delay_ms = base_ms * static_cast<double>(attempt + 1);
+            break;
+
+        case ScheduledTask::RetryStrategy::JITTER_BACKOFF: {
+            // Exponential base + uniform random jitter in [-jitter, +jitter]
+            for (size_t i = 0; i < attempt; ++i) {
+                delay_ms *= policy.backoff_multiplier;
+            }
+            // Thread-local RNG to avoid contention
+            thread_local std::mt19937 rng{std::random_device{}()};
+            double jitter_range = delay_ms * policy.jitter_factor;
+            std::uniform_real_distribution<double> dist(-jitter_range, jitter_range);
+            delay_ms += dist(rng);
+            if (delay_ms < 0.0) delay_ms = 0.0;
+            break;
+        }
+    }
+
+    // Clamp to max_delay
+    double max_ms = static_cast<double>(policy.max_delay.count());
+    if (delay_ms > max_ms) delay_ms = max_ms;
+
+    return std::chrono::milliseconds(static_cast<int64_t>(delay_ms));
+}
+
+/**
+ * @brief Build an effective RetryPolicy from a ScheduledTask.
+ *
+ * If the task has an explicit retry_policy, use it.
+ * Otherwise fall back to a policy derived from the legacy max_retries field.
+ */
+ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
+    if (task.retry_policy) {
+        return *task.retry_policy;
+    }
+    // Legacy fallback: exponential backoff with max_retries
+    ScheduledTask::RetryPolicy p;
+    p.strategy       = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    p.max_retries    = task.max_retries;
+    p.initial_delay  = std::chrono::milliseconds{1000};
+    p.max_delay      = std::chrono::milliseconds{30000};
+    p.backoff_multiplier = 2.0;
+    return p;
+}
+
+} // anonymous namespace
 
 // ===== TaskScheduler Implementation =====
 
@@ -439,7 +518,10 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
     }
     
     // Execute synchronously with retry logic (same as scheduled execution)
-    const size_t max_attempts = 1 + task->max_retries;
+    const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
+    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                    ? 1
+                                    : 1 + policy.max_retries;
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
@@ -447,15 +529,12 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
 
     for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
         if (attempt > 0) {
-            const uint64_t base_ms = 1000;
-            const uint64_t max_ms  = 30000;
-            uint64_t delay_ms = base_ms;
-            for (size_t i = 1; i < attempt; ++i) {
-                delay_ms = std::min(delay_ms * 2, max_ms);
-            }
-            THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms",
-                        task_id, attempt + 1, max_attempts, delay_ms);
-            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            auto delay = computeRetryDelay(policy, attempt - 1);
+            THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms "
+                        "[strategy={}]",
+                        task_id, attempt + 1, max_attempts, delay.count(),
+                        static_cast<int>(policy.strategy));
+            std::this_thread::sleep_for(delay);
         }
 
         ++attempts_made;
@@ -469,6 +548,12 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
             break;
         } catch (const std::exception& e) {
             last_error = e.what();
+            // Check conditional should_retry if provided
+            if (policy.should_retry && !policy.should_retry(last_error)) {
+                THEMIS_INFO("executeTaskNow task {} retry skipped by should_retry: {}",
+                            task_id, last_error);
+                break;
+            }
             if (attempt + 1 < max_attempts) {
                 THEMIS_WARN("executeTaskNow task {} attempt {}/{} failed: {} (will retry)",
                             task_id, attempt + 1, max_attempts, e.what());
@@ -698,9 +783,11 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         audit_manager_->logAuditEvent(start_event);
     }
 
-    // Retry loop with exponential backoff
-    // Attempts: 1 initial + up to max_retries retries
-    const size_t max_attempts = 1 + task->max_retries;
+    // Retry loop with strategy-based backoff (RetryPolicy)
+    const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
+    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                    ? 1
+                                    : 1 + policy.max_retries;
     std::string last_error;
     bool succeeded = false;
     nlohmann::json result;
@@ -712,21 +799,15 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             break;
         }
 
-        // Exponential backoff before each retry (not before the first attempt)
+        // Compute and apply delay before each retry (not before the first attempt)
         if (attempt > 0) {
-            // backoff = base * 2^(attempt-1), capped at 30 s
-            const uint64_t base_ms = 1000;
-            const uint64_t max_ms  = 30000;
-            uint64_t delay_ms = base_ms;
-            for (size_t i = 1; i < attempt; ++i) {
-                delay_ms = std::min(delay_ms * 2, max_ms);
-            }
+            auto delay = computeRetryDelay(policy, attempt - 1);
 
-            THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms backoff",
-                        task->id, attempt + 1, max_attempts, delay_ms);
+            THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms [strategy={}]",
+                        task->id, attempt + 1, max_attempts, delay.count(),
+                        static_cast<int>(policy.strategy));
 
-            // Use sleep_for instead of cv_.wait_for to avoid associating with tasks_mutex_
-            std::this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+            std::this_thread::sleep_for(delay);
             if (!running_.load()) break;
         }
 
@@ -743,6 +824,12 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             break;  // Success – no more retries needed
         } catch (const std::exception& e) {
             last_error = e.what();
+            // Honour conditional should_retry if provided
+            if (policy.should_retry && !policy.should_retry(last_error)) {
+                THEMIS_INFO("Task {} retry skipped by should_retry policy: {}",
+                            task->id, last_error);
+                break;
+            }
             if (attempt + 1 < max_attempts) {
                 THEMIS_WARN("Task {} attempt {}/{} failed: {} (will retry)",
                             task->id, attempt + 1, max_attempts, e.what());
@@ -995,6 +1082,21 @@ void TaskScheduler::saveTasks() {
         }
         cdc_json["debounce_ms"] = task->cdc_trigger.debounce_ms;
         task_json["cdc_trigger"] = cdc_json;
+
+        // Save retry policy (serialize strategy + parameters; cannot persist should_retry lambda)
+        nlohmann::json retry_json;
+        if (task->retry_policy) {
+            const auto& rp = *task->retry_policy;
+            retry_json["strategy"]           = static_cast<int>(rp.strategy);
+            retry_json["max_retries"]        = rp.max_retries;
+            retry_json["initial_delay_ms"]   = rp.initial_delay.count();
+            retry_json["max_delay_ms"]       = rp.max_delay.count();
+            retry_json["backoff_multiplier"] = rp.backoff_multiplier;
+            retry_json["jitter_factor"]      = rp.jitter_factor;
+            task_json["retry_policy"] = retry_json;
+        } else {
+            task_json["max_retries"] = task->max_retries;
+        }
         
         tasks_json.push_back(task_json);
     }
@@ -1089,6 +1191,23 @@ void TaskScheduler::loadTasks() {
                 if (cdc_json.contains("condition")) {
                     task.cdc_trigger.condition = cdc_json["condition"].get<std::string>();
                 }
+            }
+
+            // Restore retry policy (legacy max_retries if no retry_policy block)
+            if (task_json.contains("retry_policy")) {
+                const auto& rp_json = task_json["retry_policy"];
+                ScheduledTask::RetryPolicy rp;
+                rp.strategy = static_cast<ScheduledTask::RetryStrategy>(
+                    rp_json.value("strategy",
+                                  static_cast<int>(ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF)));
+                rp.max_retries        = rp_json.value("max_retries", size_t{3});
+                rp.initial_delay      = std::chrono::milliseconds(rp_json.value("initial_delay_ms", int64_t{1000}));
+                rp.max_delay          = std::chrono::milliseconds(rp_json.value("max_delay_ms", int64_t{30000}));
+                rp.backoff_multiplier = rp_json.value("backoff_multiplier", 2.0);
+                rp.jitter_factor      = rp_json.value("jitter_factor", 0.1);
+                task.retry_policy = rp;
+            } else {
+                task.max_retries = task_json.value("max_retries", size_t{3});
             }
             
             registerTask(task);
@@ -1232,10 +1351,14 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
                                    std::to_string(min_timeout_ms) + " milliseconds");
     }
     
-    // Validate max_retries
+    // Validate max_retries (legacy field and retry_policy.max_retries)
     const size_t MAX_RETRIES = 10;
     if (task.max_retries > MAX_RETRIES) {
         throw std::invalid_argument("Task max_retries exceeds maximum allowed: " + 
+                                   std::to_string(MAX_RETRIES));
+    }
+    if (task.retry_policy && task.retry_policy->max_retries > MAX_RETRIES) {
+        throw std::invalid_argument("Task retry_policy.max_retries exceeds maximum allowed: " +
                                    std::to_string(MAX_RETRIES));
     }
     

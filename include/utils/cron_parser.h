@@ -15,11 +15,21 @@
  * - Lists: 1,3,5 (specific values)
  * - Steps: *\/15 (every 15 units), 0-30/5 (every 5 from 0 to 30)
  * 
+ * Special expressions:
+ * - @yearly / @annually  – once a year  ("0 0 1 1 *")
+ * - @monthly             – once a month ("0 0 1 * *")
+ * - @weekly              – once a week  ("0 0 * * 0")
+ * - @daily / @midnight   – once a day   ("0 0 * * *")
+ * - @hourly              – once an hour ("0 * * * *")
+ * - @reboot              – at startup   (never fires via getNextExecution)
+ * 
  * Examples:
  * - "0 9-17 * * 1-5" = Weekdays 9-17h every hour
  * - "*\/15 * * * *" = Every 15 minutes
  * - "0 0 1 * *" = First day of month at midnight
  * - "30 2 * * 0" = Every Sunday at 2:30 AM
+ * - "@daily" = Every day at midnight
+ * - "@hourly" = Every hour on the hour
  */
 
 #ifndef THEMIS_CRON_PARSER_H

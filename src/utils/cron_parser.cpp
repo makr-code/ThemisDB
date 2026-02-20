@@ -469,10 +469,26 @@ std::chrono::system_clock::time_point CronExpression::advanceToNextDay(
 
 std::chrono::system_clock::time_point CronExpression::advanceToNextMonth(
     const std::chrono::system_clock::time_point& time) {
-    // TODO: Properly handle calendar month boundaries (28, 29, 30, 31 days)
-    // This is currently unused but kept for future optimization
-    // Current implementation advances minute-by-minute which handles all cases correctly
-    return time + std::chrono::hours(24 * 30);
+    // Advance exactly one calendar month using std::tm so that months with
+    // 28, 29, 30, or 31 days are handled correctly (including leap years).
+    auto time_t_val = std::chrono::system_clock::to_time_t(time);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t_val);
+#else
+    localtime_r(&time_t_val, &tm);
+#endif
+
+    // Roll the month forward by 1 and carry into the year if needed
+    ++tm.tm_mon;  // tm_mon is 0-based
+    if (tm.tm_mon >= 12) {
+        tm.tm_mon = 0;
+        ++tm.tm_year;
+    }
+    // mktime normalises the struct (handles dst transitions too)
+    tm.tm_isdst = -1;
+    time_t next = std::mktime(&tm);
+    return std::chrono::system_clock::from_time_t(next);
 }
 
 } // namespace themis

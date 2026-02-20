@@ -394,3 +394,49 @@ TEST_F(CronParserTest, ParseUnknownSpecialExpressionFails) {
     auto cron = CronExpression::parse("@notvalid");
     EXPECT_FALSE(cron.has_value());
 }
+
+// ===== @monthly next-execution test (exercises advanceToNextMonth) =====
+
+TEST_F(CronParserTest, MonthlyFiresOnFirstDayOfNextMonth) {
+    // @monthly == "0 0 1 * *" – fires at midnight on the 1st of each month
+    auto cron = CronExpression::parse("@monthly");
+    ASSERT_TRUE(cron.has_value());
+
+    // 15 Jan 2024 12:00 → next should be 01 Feb 2024 00:00
+    auto from = makeTime(2024, 1, 15, 12, 0);
+    auto next = cron->getNextExecution(from);
+    ASSERT_TRUE(next.has_value());
+
+    auto time_t_next = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t_next);
+#else
+    localtime_r(&time_t_next, &tm);
+#endif
+    EXPECT_EQ(tm.tm_mon + 1, 2);   // February
+    EXPECT_EQ(tm.tm_mday, 1);
+    EXPECT_EQ(tm.tm_hour, 0);
+    EXPECT_EQ(tm.tm_min, 0);
+}
+
+TEST_F(CronParserTest, MonthlyHandlesDecemberToJanuaryRollover) {
+    auto cron = CronExpression::parse("@monthly");
+    ASSERT_TRUE(cron.has_value());
+
+    // 15 Dec 2024 12:00 → next should be 01 Jan 2025 00:00
+    auto from = makeTime(2024, 12, 15, 12, 0);
+    auto next = cron->getNextExecution(from);
+    ASSERT_TRUE(next.has_value());
+
+    auto time_t_next = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t_next);
+#else
+    localtime_r(&time_t_next, &tm);
+#endif
+    EXPECT_EQ(tm.tm_year + 1900, 2025);
+    EXPECT_EQ(tm.tm_mon + 1, 1);   // January
+    EXPECT_EQ(tm.tm_mday, 1);
+}

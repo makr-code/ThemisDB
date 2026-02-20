@@ -418,3 +418,171 @@ TEST_F(TaskSchedulerTest, AllRetriesExhaustedCountsAsFailed) {
     EXPECT_EQ(t->failed_executions, 1u);
     EXPECT_EQ(t->successful_executions, 0u);
 }
+
+// ===== Advanced RetryPolicy Tests =====
+
+TEST_F(TaskSchedulerTest, RetryPolicyNoneIsEquivalentToZeroRetries) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("single_shot", [&](const nlohmann::json&) -> nlohmann::json {
+        ++call_count;
+        throw std::runtime_error("always fails");
+    });
+
+    ScheduledTask task;
+    task.name = "no_retry_policy_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "single_shot";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy    = ScheduledTask::RetryStrategy::NONE;
+    policy.max_retries = 5;  // Ignored when strategy == NONE
+    task.retry_policy  = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_TRUE(result.contains("error"));
+    EXPECT_EQ(call_count.load(), 1);  // Only 1 attempt regardless of max_retries
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyFixedDelay) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("fixed_delay_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 3) throw std::runtime_error("not yet");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "fixed_delay_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "fixed_delay_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::FIXED_DELAY;
+    policy.max_retries   = 3;
+    policy.initial_delay = std::chrono::milliseconds{10};  // Very short for test speed
+    policy.max_delay     = std::chrono::milliseconds{50};
+    task.retry_policy    = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 3);  // Succeeded on 3rd attempt
+
+    auto t = scheduler_->getTask(id);
+    ASSERT_NE(t, nullptr);
+    EXPECT_EQ(t->successful_executions, 1u);
+    EXPECT_EQ(t->failed_executions, 0u);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyLinearBackoff) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("linear_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 2) throw std::runtime_error("first fail");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "linear_backoff_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "linear_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::LINEAR_BACKOFF;
+    policy.max_retries   = 3;
+    policy.initial_delay = std::chrono::milliseconds{5};
+    policy.max_delay     = std::chrono::milliseconds{50};
+    task.retry_policy    = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 2);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyJitterBackoff) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("jitter_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 2) throw std::runtime_error("first fail");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "jitter_backoff_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "jitter_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy           = ScheduledTask::RetryStrategy::JITTER_BACKOFF;
+    policy.max_retries        = 3;
+    policy.initial_delay      = std::chrono::milliseconds{5};
+    policy.max_delay          = std::chrono::milliseconds{50};
+    policy.backoff_multiplier = 2.0;
+    policy.jitter_factor      = 0.2;
+    task.retry_policy         = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 2);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyConditionalShouldRetry) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("conditional_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        ++call_count;
+        throw std::runtime_error("permanent_error: cannot connect");
+    });
+
+    ScheduledTask task;
+    task.name = "conditional_retry_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "conditional_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+
+    ScheduledTask::RetryPolicy policy;
+    policy.strategy      = ScheduledTask::RetryStrategy::FIXED_DELAY;
+    policy.max_retries   = 5;
+    policy.initial_delay = std::chrono::milliseconds{5};
+    policy.max_delay     = std::chrono::milliseconds{50};
+    // Only retry on "transient" errors; "permanent_error" should not be retried
+    policy.should_retry  = [](const std::string& err) {
+        return err.find("permanent_error") == std::string::npos;
+    };
+    task.retry_policy = policy;
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_TRUE(result.contains("error"));
+    // should_retry returns false on first failure → only 1 attempt total
+    EXPECT_EQ(call_count.load(), 1);
+}
+
+TEST_F(TaskSchedulerTest, RetryPolicyLegacyMaxRetriesStillWorks) {
+    std::atomic<int> call_count{0};
+    scheduler_->registerFunction("legacy_fn", [&](const nlohmann::json&) -> nlohmann::json {
+        if (++call_count < 2) throw std::runtime_error("first fail");
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name = "legacy_retry_task";
+    task.type = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "legacy_fn";
+    task.trigger_type = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries = 2;  // Legacy field; no retry_policy set
+
+    std::string id = scheduler_->registerTask(task);
+    auto result = scheduler_->executeTaskNow(id);
+
+    EXPECT_FALSE(result.contains("error")) << result.dump();
+    EXPECT_EQ(call_count.load(), 2);
+}

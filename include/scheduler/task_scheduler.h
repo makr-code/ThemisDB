@@ -123,8 +123,39 @@ struct ScheduledTask {
     
     // Resource limits
     std::chrono::milliseconds timeout{std::chrono::minutes(10)};  // Execution timeout
-    size_t max_retries = 3;                                        // Max retry attempts on failure
-    
+    size_t max_retries = 3;                                        // Max retry attempts on failure (legacy; overridden by retry_policy when set)
+
+    /**
+     * @brief Retry strategy for failed task executions
+     */
+    enum class RetryStrategy {
+        NONE,                // No retries (equivalent to max_retries = 0)
+        FIXED_DELAY,         // Fixed delay between retries
+        EXPONENTIAL_BACKOFF, // 1s, 2s, 4s, 8s, ... (capped by max_delay)
+        LINEAR_BACKOFF,      // initial_delay, 2*initial_delay, 3*initial_delay, ...
+        JITTER_BACKOFF       // Exponential backoff with ±jitter_factor random jitter
+    };
+
+    /**
+     * @brief Per-task retry configuration
+     *
+     * When retry_policy is set, it takes precedence over max_retries.
+     * Leave unset to use the legacy max_retries + exponential backoff behaviour.
+     */
+    struct RetryPolicy {
+        RetryStrategy strategy = RetryStrategy::EXPONENTIAL_BACKOFF;
+        size_t max_retries = 3;
+        std::chrono::milliseconds initial_delay{1000};  // Delay before first retry
+        std::chrono::milliseconds max_delay{30000};     // Upper cap on delay
+        double backoff_multiplier = 2.0;                // For exponential / linear
+        double jitter_factor = 0.1;                     // ±fraction for jitter (0.1 = ±10%)
+
+        // Optional: return false to skip retry for a given error message
+        std::function<bool(const std::string& error)> should_retry;
+    };
+
+    std::optional<RetryPolicy> retry_policy;  // Advanced retry configuration (optional)
+
     // Hooks for notifications (optional)
     std::function<void(const std::string& task_id, const nlohmann::json& result)> on_success;
     std::function<void(const std::string& task_id, const std::string& error)> on_failure;
