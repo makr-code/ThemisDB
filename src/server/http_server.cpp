@@ -244,9 +244,18 @@ HttpServer::HttpServer(
         }
         spatial_index_ = std::make_shared<index::SpatialIndexManager>(*storage_);
         
-        // Wire up exact geometry backend if available
+        // Wire up exact geometry backend.
+        // Prefer the GPU backend (always available via CPU fallback) so that
+        // the circuit-breaker, metrics, and audit log are active even on CPU-only
+        // machines.  Fall back to Boost.Geometry if the GPU backend is absent for
+        // any reason, and log an info message in all cases.
+        auto* gpu_backend = geo::getGpuSpatialBackend();
         auto* boost_backend = geo::getBoostCpuBackend();
-        if (boost_backend && boost_backend->isAvailable()) {
+        if (gpu_backend && gpu_backend->isAvailable()) {
+            spatial_index_->setExactBackend(gpu_backend);
+            THEMIS_INFO("Spatial Index Manager initialized with GPU spatial exact backend (device: {})",
+                        geo::getGpuSpatialBackendStatsJson());
+        } else if (boost_backend && boost_backend->isAvailable()) {
             spatial_index_->setExactBackend(boost_backend);
             THEMIS_INFO("Spatial Index Manager initialized with Boost.Geometry exact backend");
         } else {
