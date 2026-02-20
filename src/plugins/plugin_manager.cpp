@@ -726,30 +726,50 @@ bool PluginManager::isPluginLoaded(const std::string& name) const {
 
 Result<void> PluginManager::reloadPlugin(const std::string& name) {
     auto start = std::chrono::steady_clock::now();
+
+    // Pre-reload tamper detection: compare current on-disk hash against the
+    // hash recorded at load time to detect unexpected file mutations.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = plugins_.find(name);
+        if (it != plugins_.end() && it->second.loaded && !it->second.file_hash.empty()) {
+            std::string current_hash = calculateFileHash(it->second.path);
+            if (!current_hash.empty() && current_hash != it->second.file_hash) {
+                THEMIS_WARN("Plugin '{}' binary has changed on disk since last load "
+                            "(stored hash: {}..., current hash: {}...); reloading modified binary",
+                            name,
+                            it->second.file_hash.substr(0, 16),
+                            current_hash.substr(0, 16));
+            }
+        }
+    }
+
+    // Notify listeners: about to unload
+    notifyPluginReload(name, PluginReloadPhase::BEFORE_UNLOAD);
+
     // Unload first
     auto unload_result = unloadPlugin(name);
     if (!unload_result) {
         return tl::unexpected(unload_result.error());
     }
-    
+
+    // Brief delay to allow the OS to release file handles before reloading
+    std::this_thread::sleep_for(RELOAD_UNLOAD_DELAY_MS);
+
+    // Notify listeners: unload complete
+    notifyPluginReload(name, PluginReloadPhase::AFTER_UNLOAD);
+
     // Then reload
     auto result = loadPlugin(name);
-    bool success = result.has_value();
-    
-    if (success) {
-        // Record reload metrics (note: loadPlugin already recorded load time)
-        auto end = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-        metrics_.recordReload(name, duration);
-    } else {
-        metrics_.recordError(name);
-    }
-    
+
     if (!result) {
         metrics_.recordError(name);
         return tl::unexpected(result.error());
     }
-    
+
+    // Notify listeners: reload complete
+    notifyPluginReload(name, PluginReloadPhase::AFTER_LOAD);
+
     auto end = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     metrics_.recordReload(name, duration);

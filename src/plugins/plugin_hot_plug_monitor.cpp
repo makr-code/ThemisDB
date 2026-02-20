@@ -2,6 +2,7 @@
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include <filesystem>
+#include <map>
 #include <thread>
 #include <chrono>
 #include <algorithm>
@@ -60,6 +61,17 @@ PluginHotPlugMonitor::~PluginHotPlugMonitor() {
 // ============================================================================
 
 bool PluginHotPlugMonitor::isPluginFile(const std::string& filename) const {
+    // Reject temporary/incomplete files produced by editors, package managers,
+    // and build tools during write operations (e.g. vim swaps, wget .part files).
+    // These files are never valid plugin binaries or manifests.
+    if (filename.starts_with(".") ||
+        filename.ends_with(".tmp") ||
+        filename.ends_with(".part") ||
+        filename.ends_with(".download") ||
+        filename.ends_with("~")) {
+        return false;
+    }
+
     // Check for plugin-related file extensions
     // Note: ends_with is C++20, but this project uses C++20
     return filename.ends_with(".dll") ||
@@ -350,10 +362,10 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
         return;
     }
     
-    // Track files we've seen
-    std::set<std::string> known_files;
+    // Track files we've seen along with their last-write timestamps
+    std::map<std::string, fs::file_time_type> known_files;
     auto scan_directory = [&]() {
-        std::set<std::string> current_files;
+        std::map<std::string, fs::file_time_type> current_files;
         try {
             for (const auto& entry : fs::directory_iterator(watch_directory_)) {
                 // Skip symlinks pointing to non-existent targets
@@ -367,7 +379,11 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
                 if (entry.is_regular_file()) {
                     std::string filename = entry.path().filename().string();
                     if (isPluginFile(filename)) {
-                        current_files.insert(filename);
+                        std::error_code ec;
+                        auto mtime = entry.last_write_time(ec);
+                        if (!ec) {
+                            current_files[filename] = mtime;
+                        }
                     }
                 }
             }
@@ -375,15 +391,18 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
             THEMIS_WARN("Error scanning plugin directory: {}", e.what());
         }
         
-        // Detect new files
-        for (const auto& file : current_files) {
-            if (known_files.find(file) == known_files.end()) {
+        // Detect new files and modified files (by mtime)
+        for (const auto& [file, mtime] : current_files) {
+            auto prev = known_files.find(file);
+            if (prev == known_files.end()) {
                 handleFileEvent(file, FileEvent::CREATED);
+            } else if (prev->second != mtime) {
+                handleFileEvent(file, FileEvent::MODIFIED);
             }
         }
         
         // Detect deleted files
-        for (const auto& file : known_files) {
+        for (const auto& [file, _] : known_files) {
             if (current_files.find(file) == current_files.end()) {
                 handleFileEvent(file, FileEvent::DELETED);
             }
@@ -414,11 +433,6 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
         if (nev > 0) {
             // Directory changed, rescan to detect what changed
             scan_directory();
-            
-            // Also check for modifications
-            for (const auto& file : known_files) {
-                handleFileEvent(file, FileEvent::MODIFIED);
-            }
         }
     }
     
