@@ -18,6 +18,7 @@
 #include <chrono>
 #include <sstream>
 #include <cctype>
+#include <unordered_set>
 
 namespace themis::rag::judge {
 
@@ -723,6 +724,11 @@ bool RAGJudge::hasEthicalCitations(const std::string& text) {
     return false;
 }
 
+// Minimum characters a sentence must have to be treated as a claim
+static constexpr size_t kMinClaimLength = 10;
+// Phrases that mark an opinion rather than a factual claim
+static const char* const kOpinionPhrases[] = {"I think", "I believe"};
+
 std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
     if (answer.empty()) {
         return {};
@@ -740,10 +746,16 @@ std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
             if (start != std::string::npos && end != std::string::npos) {
                 std::string trimmed = current_sentence.substr(start, end - start + 1);
                 // Keep only factual-looking sentences: minimum length, no questions, no opinions
-                if (trimmed.length() > 10 &&
+                bool is_opinion = false;
+                for (const auto* phrase : kOpinionPhrases) {
+                    if (trimmed.find(phrase) != std::string::npos) {
+                        is_opinion = true;
+                        break;
+                    }
+                }
+                if (trimmed.length() > kMinClaimLength &&
                     trimmed.back() != '?' &&
-                    trimmed.find("I think") == std::string::npos &&
-                    trimmed.find("I believe") == std::string::npos) {
+                    !is_opinion) {
                     claims.push_back(trimmed);
                 }
             }
@@ -757,7 +769,7 @@ std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
         size_t end = current_sentence.find_last_not_of(" \t\n\r");
         if (start != std::string::npos && end != std::string::npos) {
             std::string trimmed = current_sentence.substr(start, end - start + 1);
-            if (trimmed.length() > 10) {
+            if (trimmed.length() > kMinClaimLength) {
                 claims.push_back(trimmed);
             }
         }
@@ -787,9 +799,10 @@ double RAGJudge::calculateTermOverlap(
     if (terms1.empty() || terms2.empty()) {
         return 0.0;
     }
+    std::unordered_set<std::string> set2(terms2.begin(), terms2.end());
     int overlap = 0;
     for (const auto& t : terms1) {
-        if (std::find(terms2.begin(), terms2.end(), t) != terms2.end()) {
+        if (set2.count(t)) {
             ++overlap;
         }
     }

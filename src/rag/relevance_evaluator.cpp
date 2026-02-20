@@ -13,6 +13,7 @@
 #include <regex>
 #include <cmath>
 #include <set>
+#include <unordered_map>
 
 namespace themis::rag::judge {
 
@@ -43,12 +44,16 @@ struct RelevanceEvaluator::Impl {
         const std::vector<std::string>& tokens,
         const std::vector<std::string>& vocab
     ) {
+        // Build frequency map in O(token_count), then populate in O(vocab_size)
+        std::unordered_map<std::string, double> freq;
+        for (const auto& t : tokens) {
+            freq[t] += 1.0;
+        }
         std::vector<double> vec(vocab.size(), 0.0);
         for (size_t i = 0; i < vocab.size(); ++i) {
-            for (const auto& t : tokens) {
-                if (t == vocab[i]) {
-                    vec[i] += 1.0;
-                }
+            auto it = freq.find(vocab[i]);
+            if (it != freq.end()) {
+                vec[i] = it->second;
             }
         }
         return vec;

@@ -4,19 +4,26 @@
  */
 
 #include <gtest/gtest.h>
+#include <array>
 #include "rag/knowledge_gap_detector.h"
 
 using namespace themis::rag::knowledge_gap;
 
 // Helper: create N documents with the given similarity score
 static std::vector<RetrievedDocument> makeDocs(size_t count, double similarity) {
+    static const std::array<std::string, 5> kContents = {
+        "The Eiffel Tower is located in Paris, France and was built in 1889.",
+        "Photosynthesis converts sunlight into chemical energy stored in glucose.",
+        "The Treaty of Versailles ended World War I and was signed in 1919.",
+        "Water boils at 100 degrees Celsius at standard atmospheric pressure.",
+        "The human genome contains approximately 3 billion base pairs of DNA."
+    };
     std::vector<RetrievedDocument> docs;
     docs.reserve(count);
     for (size_t i = 0; i < count; ++i) {
         RetrievedDocument d;
         d.id = "doc" + std::to_string(i);
-        d.content = "Document content about the requested topic number " +
-                    std::to_string(i);
+        d.content = kContents[i % kContents.size()];
         d.similarity_score = similarity;
         docs.push_back(d);
     }
