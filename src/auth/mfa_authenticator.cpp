@@ -102,7 +102,7 @@ bool MFAAuthenticator::validateTOTP(
     try {
         secret = base32Decode(secret_base32);
     } catch (const std::exception& e) {
-        spdlog::error("Failed to decode TOTP secret: {}", e.what());
+        spdlog::error("Failed to decode TOTP secret: {}", e.what()); // NOPII: e.what() is an error description, not the secret value
         return false;
     }
     

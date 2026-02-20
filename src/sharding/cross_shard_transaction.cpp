@@ -56,7 +56,7 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
         
         try {
             // Initialize Transaction WAL
-            TransactionWALConfig wal_config;
+            ::sharding::TransactionWALConfig wal_config;
             wal_config.wal_directory = config_.data_dir + "/wal";
             wal_config.snapshot_directory = config_.data_dir + "/snapshots";
             wal_config.segment_size = 16 * 1024 * 1024;  // 16 MB
@@ -195,7 +195,11 @@ bool CrossShardTransactionCoordinator::beginTransaction(
     if (transaction_wal_) {
         try {
             std::vector<std::string> participants;  // Empty at begin, will add later
-            transaction_wal_->logBegin(transaction_id, protocol, participants);
+            transaction_wal_->logBegin(
+                transaction_id,
+                static_cast<::sharding::TransactionProtocol>(protocol),
+                participants
+            );
             operations_since_snapshot_++;
         } catch (const std::exception& e) {
             spdlog::warn("Failed to log BEGIN to WAL: {}", e.what());
@@ -2045,13 +2049,51 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
         spdlog::info("Loaded snapshot {} with {} active transactions", 
                     snapshot.snapshot_id, snapshot.total_transactions);
         
+        auto from_snapshot_protocol = [](::sharding::TransactionProtocol p) -> TransactionProtocol {
+            switch (p) {
+                case ::sharding::TransactionProtocol::TWO_PHASE_COMMIT:
+                    return TransactionProtocol::TWO_PHASE_COMMIT;
+                case ::sharding::TransactionProtocol::THREE_PHASE_COMMIT:
+                    return TransactionProtocol::THREE_PHASE_COMMIT;
+                case ::sharding::TransactionProtocol::SAGA:
+                    return TransactionProtocol::SAGA;
+                case ::sharding::TransactionProtocol::PERCOLATOR:
+                    return TransactionProtocol::PERCOLATOR;
+            }
+            return TransactionProtocol::TWO_PHASE_COMMIT;
+        };
+
+        auto from_snapshot_state = [](::sharding::TransactionState s) -> TransactionState {
+            switch (s) {
+                case ::sharding::TransactionState::INITIATED:
+                    return TransactionState::ACTIVE;
+                case ::sharding::TransactionState::PREPARING:
+                    return TransactionState::PREPARING;
+                case ::sharding::TransactionState::PREPARED:
+                    return TransactionState::PREPARED;
+                case ::sharding::TransactionState::PRE_COMMITTING:
+                case ::sharding::TransactionState::PRE_COMMITTED:
+                case ::sharding::TransactionState::COMMITTING:
+                    return TransactionState::COMMITTING;
+                case ::sharding::TransactionState::COMMITTED:
+                    return TransactionState::COMMITTED;
+                case ::sharding::TransactionState::ABORTING:
+                    return TransactionState::ABORTING;
+                case ::sharding::TransactionState::ABORTED:
+                case ::sharding::TransactionState::COMPENSATING:
+                case ::sharding::TransactionState::COMPENSATED:
+                    return TransactionState::ABORTED;
+            }
+            return TransactionState::UNKNOWN;
+        };
+
         // Restore active transactions from snapshot
         std::lock_guard<std::mutex> lock(transactions_mutex_);
         for (const auto& txn_entry : snapshot.active_transactions) {
             CrossShardTransaction txn;
             txn.transaction_id = txn_entry.transaction_id;
-            txn.protocol = txn_entry.protocol;
-            txn.state = txn_entry.state;
+            txn.protocol = from_snapshot_protocol(txn_entry.protocol);
+            txn.state = from_snapshot_state(txn_entry.state);
             txn.start_time = std::chrono::system_clock::from_time_t(
                 txn_entry.start_timestamp / 1000000000);  // Convert from nanoseconds
             
@@ -2070,17 +2112,17 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
         
         last_applied_lsn_ = snapshot.last_applied_lsn;
         spdlog::info("Restored {} transactions from snapshot, last LSN: {}", 
-                    snapshot.total_transactions, last_applied_lsn_);
+                snapshot.total_transactions, last_applied_lsn_.toString());
     } else {
         spdlog::info("No snapshot found, starting with empty state");
-        last_applied_lsn_ = 0;
+        last_applied_lsn_ = LSN(0, 0);
     }
     
     // Step 2: Replay WAL from last_applied_lsn
     try {
         auto wal_entries = transaction_wal_->readEntries(last_applied_lsn_);
         spdlog::info("Replaying {} WAL entries from LSN {}", 
-                    wal_entries.size(), last_applied_lsn_);
+                wal_entries.size(), last_applied_lsn_.toString());
         
         std::lock_guard<std::mutex> lock(transactions_mutex_);
         for (const auto& entry : wal_entries) {
@@ -2091,11 +2133,11 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
             auto it = transactions_.find(entry.transaction_id);
             
             switch (entry.type) {
-                case TransactionWALEntryType::BEGIN:
+                case ::sharding::TransactionWALEntryType::BEGIN:
                     if (it == transactions_.end()) {
                         CrossShardTransaction txn;
                         txn.transaction_id = entry.transaction_id;
-                        txn.protocol = entry.protocol;
+                        txn.protocol = static_cast<TransactionProtocol>(entry.protocol);
                         txn.state = TransactionState::ACTIVE;
                         txn.start_time = std::chrono::system_clock::from_time_t(
                             entry.timestamp / 1000);
@@ -2104,14 +2146,14 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
                     }
                     break;
                     
-                case TransactionWALEntryType::PREPARE:
+                case ::sharding::TransactionWALEntryType::PREPARE:
                     if (it != transactions_.end()) {
                         it->second.state = TransactionState::PREPARING;
                         spdlog::debug("Replayed PREPARE for transaction {}", entry.transaction_id);
                     }
                     break;
                     
-                case TransactionWALEntryType::PREPARED:
+                case ::sharding::TransactionWALEntryType::PREPARED:
                     if (it != transactions_.end()) {
                         auto& participant = it->second.participants[entry.participant_id];
                         participant.prepared = entry.vote;
@@ -2120,14 +2162,14 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
                     }
                     break;
                     
-                case TransactionWALEntryType::COMMIT:
+                case ::sharding::TransactionWALEntryType::COMMIT:
                     if (it != transactions_.end()) {
                         it->second.state = TransactionState::COMMITTING;
                         spdlog::debug("Replayed COMMIT for transaction {}", entry.transaction_id);
                     }
                     break;
                     
-                case TransactionWALEntryType::COMMITTED:
+                case ::sharding::TransactionWALEntryType::COMMITTED:
                     if (it != transactions_.end()) {
                         auto& participant = it->second.participants[entry.participant_id];
                         participant.committed = true;
@@ -2148,14 +2190,14 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
                     }
                     break;
                     
-                case TransactionWALEntryType::ABORT:
+                case ::sharding::TransactionWALEntryType::ABORT:
                     if (it != transactions_.end()) {
                         it->second.state = TransactionState::ABORTING;
                         spdlog::debug("Replayed ABORT for transaction {}", entry.transaction_id);
                     }
                     break;
                     
-                case TransactionWALEntryType::ABORTED:
+                case ::sharding::TransactionWALEntryType::ABORTED:
                     if (it != transactions_.end()) {
                         it->second.state = TransactionState::ABORTED;
                         it->second.end_time = std::chrono::system_clock::now();
@@ -2163,7 +2205,7 @@ bool CrossShardTransactionCoordinator::recoverFromWAL() {
                     }
                     break;
                     
-                case TransactionWALEntryType::COMPENSATE:
+                case ::sharding::TransactionWALEntryType::COMPENSATE:
                     if (it != transactions_.end()) {
                         spdlog::debug("Replayed COMPENSATE for transaction {}", entry.transaction_id);
                         // SAGA compensation - store in metadata
@@ -2268,16 +2310,52 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
         std::lock_guard<std::mutex> lock(transactions_mutex_);
         
         // Convert active transactions to snapshot format
-        std::vector<TransactionSnapshotEntry> active_txns;
+        auto to_snapshot_protocol = [](TransactionProtocol p) -> ::sharding::TransactionProtocol {
+            switch (p) {
+                case TransactionProtocol::TWO_PHASE_COMMIT:
+                    return ::sharding::TransactionProtocol::TWO_PHASE_COMMIT;
+                case TransactionProtocol::THREE_PHASE_COMMIT:
+                    return ::sharding::TransactionProtocol::THREE_PHASE_COMMIT;
+                case TransactionProtocol::SAGA:
+                    return ::sharding::TransactionProtocol::SAGA;
+                case TransactionProtocol::PERCOLATOR:
+                    return ::sharding::TransactionProtocol::PERCOLATOR;
+            }
+            return ::sharding::TransactionProtocol::TWO_PHASE_COMMIT;
+        };
+
+        auto to_snapshot_state = [](TransactionState s) -> ::sharding::TransactionState {
+            switch (s) {
+                case TransactionState::ACTIVE:
+                    return ::sharding::TransactionState::INITIATED;
+                case TransactionState::PREPARING:
+                    return ::sharding::TransactionState::PREPARING;
+                case TransactionState::PREPARED:
+                    return ::sharding::TransactionState::PREPARED;
+                case TransactionState::COMMITTING:
+                    return ::sharding::TransactionState::COMMITTING;
+                case TransactionState::COMMITTED:
+                    return ::sharding::TransactionState::COMMITTED;
+                case TransactionState::ABORTING:
+                    return ::sharding::TransactionState::ABORTING;
+                case TransactionState::ABORTED:
+                    return ::sharding::TransactionState::ABORTED;
+                case TransactionState::UNKNOWN:
+                    return ::sharding::TransactionState::ABORTING;
+            }
+            return ::sharding::TransactionState::INITIATED;
+        };
+
+        std::vector<::sharding::TransactionSnapshotEntry> active_txns;
         for (const auto& [txn_id, txn] : transactions_) {
             // Only snapshot non-final transactions
             if (txn.state != TransactionState::COMMITTED && 
                 txn.state != TransactionState::ABORTED) {
                 
-                TransactionSnapshotEntry entry;
+                ::sharding::TransactionSnapshotEntry entry;
                 entry.transaction_id = txn.transaction_id;
-                entry.protocol = txn.protocol;
-                entry.state = txn.state;
+                entry.protocol = to_snapshot_protocol(txn.protocol);
+                entry.state = to_snapshot_state(txn.state);
                 entry.start_timestamp = std::chrono::duration_cast<std::chrono::nanoseconds>(
                     txn.start_time.time_since_epoch()).count();
                 entry.coordinator_id = "coordinator-1";  // TODO: Get actual coordinator ID
@@ -2286,7 +2364,7 @@ void CrossShardTransactionCoordinator::createPeriodicSnapshot() {
                 for (const auto& [shard_id, participant] : txn.participants) {
                     entry.participants.push_back(shard_id);
                     
-                    ParticipantStatus status;
+                    ::sharding::ParticipantStatus status;
                     status.participant_id = shard_id;
                     status.prepared = participant.prepared;
                     status.committed = participant.committed;

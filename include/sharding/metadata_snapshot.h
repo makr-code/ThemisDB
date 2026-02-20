@@ -5,7 +5,7 @@
 #ifndef THEMISDB_SHARDING_METADATA_SNAPSHOT_H
 #define THEMISDB_SHARDING_METADATA_SNAPSHOT_H
 
-#include "storage/wal_manager.h"
+#include "sharding/wal_manager.h"
 #include "sharding/metadata_shard.h"
 #include <string>
 #include <memory>
@@ -16,6 +16,8 @@
 
 namespace themisdb {
 namespace sharding {
+
+using LSN = themis::sharding::LSN;
 
 /**
  * @brief Metadata snapshot structure

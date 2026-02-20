@@ -101,7 +101,7 @@ This document tracks the implementation status of AQL functions in ThemisDB.
 5. Process discovery algorithms (alpha, heuristic, inductive)
 6. Conformance checking algorithms
 
-**Note**: A more complete implementation exists in `process_mining_functions.cpp.bak` but uses an older function interface (AQLValue instead of nlohmann::json). This would need to be updated to the current interface before integration.
+**Note**: A more complete implementation previously existed in `process_mining_functions.cpp.bak` (now removed). It used an older function interface (AQLValue instead of nlohmann::json) and would need to be ported to the current interface. The relevant implementation details are described in the requirements above.
 
 **Documentation**: See [Process Mining Functions Header](../include/query/functions/process_mining_functions.h)
 

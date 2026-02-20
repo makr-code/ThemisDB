@@ -62,6 +62,29 @@ void LLMModelAuditLogger::logDeployment(
     spdlog::debug("LLM deployment (stub) model={} target={}", model_id, deployment_target);
 }
 
+void LLMModelAuditLogger::logPolicyViolation(
+    const std::string& model_id,
+    const std::string& request_id,
+    const std::string& rule_name,
+    const std::string& reason,
+    bool was_blocked) {
+    const auto event_type = was_blocked
+        ? LLMModelAuditEventType::PROMPT_BLOCKED
+        : LLMModelAuditEventType::PROMPT_REDACTED;
+
+    json details = {
+        {"request_id", request_id},
+        {"rule_name",  rule_name},
+        {"reason",     reason},
+        {"was_blocked", was_blocked}
+    };
+
+    logEvent(event_type, model_id, details);
+
+    spdlog::info("PromptPolicy audit: model={} request={} rule='{}' blocked={}",
+                 model_id, request_id, rule_name, was_blocked);
+}
+
 std::vector<json> LLMModelAuditLogger::queryLogs(
     const std::string& model_id,
     std::optional<std::chrono::system_clock::time_point> /*start_time*/,

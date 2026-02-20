@@ -36,6 +36,11 @@ class ShardServiceImpl final : public themis::sharding::proto::ShardService::Ser
 public:
     explicit ShardServiceImpl(ShardRPCServer::RequestHandler* handler)
         : handler_(handler) {}
+
+    // Called once Impl is constructed so we can serve shard identity.
+    void setImplRef(const std::string& address) {
+        listen_address_ = address;
+    }
     
     grpc::Status PrepareTransaction(
         grpc::ServerContext* context,
@@ -142,17 +147,44 @@ public:
         return grpc::Status::OK;
     }
     
-    // Additional RPCs (not yet implemented)
     grpc::Status GetShardStatus(
         grpc::ServerContext* context,
         const themis::sharding::proto::StatusRequest* request,
         themis::sharding::proto::StatusResponse* response
     ) override {
-        return grpc::Status(grpc::StatusCode::UNIMPLEMENTED, "GetShardStatus not yet implemented");
+        THEMIS_DEBUG("gRPC GetShardStatus (include_metrics={})", request->include_metrics());
+
+        // shard_id: use the server's listen address as the stable shard identity
+        if (listen_address_.empty()) {
+            return grpc::Status(grpc::StatusCode::FAILED_PRECONDITION,
+                                "Shard identity not yet initialised (setImplRef not called)");
+        }
+        response->set_shard_id(listen_address_);
+
+        // state: derived from health check when handler is available
+        if (handler_) {
+            try {
+                auto health = handler_->onHealthCheck();
+                response->set_state(health.is_healthy ? "healthy" : "unhealthy");
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("GetShardStatus: health check threw: {}", e.what());
+                response->set_state("unknown");
+            }
+        } else {
+            response->set_state("healthy");
+        }
+
+        // Token range: advertise the full uint64 range as a sentinel.
+        // A full ring-aware implementation would query the ConsistentHashRing here.
+        response->set_token_range_start(0);
+        response->set_token_range_end(UINT64_MAX);
+
+        return grpc::Status::OK;
     }
     
 private:
     ShardRPCServer::RequestHandler* handler_;
+    std::string listen_address_;
 };
 
 #endif // THEMIS_HAS_SHARD_GRPC
@@ -198,6 +230,7 @@ bool ShardRPCServer::start() {
 #if THEMIS_HAS_SHARD_GRPC
     try {
         impl_->service = std::make_unique<ShardServiceImpl>(impl_->handler);
+        impl_->service->setImplRef(impl_->listen_address);
         
         grpc::ServerBuilder builder;
         

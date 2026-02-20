@@ -1444,11 +1444,13 @@ set(THEMIS_CORE_SOURCES
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/pii_redaction_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
@@ -1530,8 +1532,14 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
+    ../src/sharding/metadata_wal.cpp
+    ../src/sharding/metadata_snapshot.cpp
     ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/paxos_wal.cpp
+    ../src/sharding/paxos_snapshot.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/transaction_wal.cpp
+    ../src/sharding/transaction_snapshot.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
@@ -1572,7 +1580,11 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/exporter_metrics.cpp
+    ../src/exporters/pii_detector.cpp
+    ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/aql/llm_metrics_collector.cpp
     
     # OLAP Analytics
     ../src/analytics/olap.cpp
