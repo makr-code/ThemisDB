@@ -251,9 +251,9 @@ bool TwoPhaseCommitParticipant::onAbort(const std::string& transaction_id) {
     return true;
 }
 
-ShardRPCServer::RequestHandler::HealthInfo
+ShardRPCServer::HealthInfo
 TwoPhaseCommitParticipant::onHealthCheck() {
-    HealthInfo info;
+    ShardRPCServer::HealthInfo info;
     const auto uptime = std::chrono::steady_clock::now() - start_time_;
     info.is_healthy     = true;
     info.version        = "1.0";

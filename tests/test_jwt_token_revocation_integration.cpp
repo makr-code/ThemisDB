@@ -80,7 +80,7 @@ struct ECKey {
     ECKey& operator=(const ECKey&) = delete;
 
     std::pair<std::vector<uint8_t>, std::vector<uint8_t>> publicKeyCoords() const {
-        EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
+        const EC_KEY* ec = EVP_PKEY_get0_EC_KEY(pkey);
         const EC_POINT* pt = EC_KEY_get0_public_key(ec);
         const EC_GROUP* grp = EC_KEY_get0_group(ec);
         BIGNUM* bx = BN_new(); BIGNUM* by = BN_new();

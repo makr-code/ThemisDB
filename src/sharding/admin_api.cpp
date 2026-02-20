@@ -24,6 +24,10 @@ void AdminAPI::registerHealthHandler(RequestHandler handler) {
     health_handler_ = handler;
 }
 
+void AdminAPI::registerStatsHandler(RequestHandler handler) {
+    stats_handler_ = handler;
+}
+
 void AdminAPI::registerRepairHandler(RequestHandler handler) {
     repair_handler_ = handler;
 }

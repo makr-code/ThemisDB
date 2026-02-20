@@ -14,6 +14,8 @@
 #include <functional>
 #include <chrono>
 #include <optional>
+#include <unordered_map>
+#include <mutex>
 
 namespace themis::rag::judge {
 
@@ -24,7 +26,7 @@ enum class HTTPMethod {
     GET,
     POST,
     PUT,
-    DELETE
+    DELETE_
 };
 
 /**
@@ -176,7 +178,7 @@ private:
     std::unique_ptr<Impl> impl_;
     HTTPMetricsClientConfig config_;
     Statistics stats_;
-    std::mutex stats_mutex_;
+    mutable std::mutex stats_mutex_;
     RequestCallback request_callback_;
     
     HTTPResponse requestWithRetry(

@@ -169,7 +169,7 @@ public:
     /**
      * @brief Handle health-check request
      */
-    HealthInfo onHealthCheck() override;
+    ShardRPCServer::HealthInfo onHealthCheck() override;
 
     // ── Participant-specific API ─────────────────────────────────────────────
 

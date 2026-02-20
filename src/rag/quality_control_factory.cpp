@@ -8,17 +8,38 @@
 
 namespace themis::rag::judge {
 
+namespace {
+
+QualityControlPipeline::Config makePipelineConfigForMode(QCMode mode) {
+    QualityControlPipeline::Config config;
+    switch (mode) {
+        case QCMode::FAST:
+            config.enable_fast_stage = true;
+            config.enable_balanced_stage = false;
+            config.enable_thorough_stage = false;
+            break;
+        case QCMode::BALANCED:
+            config.enable_fast_stage = true;
+            config.enable_balanced_stage = true;
+            config.enable_thorough_stage = false;
+            break;
+        case QCMode::THOROUGH:
+            config.enable_fast_stage = true;
+            config.enable_balanced_stage = true;
+            config.enable_thorough_stage = true;
+            break;
+    }
+    return config;
+}
+
+} // namespace
+
 // ═══════════════════════════════════════════════════════════
 // QualityControlFactory Implementation
 // ═══════════════════════════════════════════════════════════
 
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createBasic(QCMode mode) {
-    QualityControlPipeline::Config config;
-    config.default_mode = mode;
-    config.enable_nli_verification = true;
-    config.enable_geval_scoring = false;
-    config.enable_claim_extraction = true;
-    config.enable_caching = true;
+    auto config = makePipelineConfigForMode(mode);
     
     THEMIS_INFO("Creating basic quality control pipeline (mode: {})", static_cast<int>(mode));
     
@@ -47,34 +68,29 @@ std::unique_ptr<QualityControlPipeline> QualityControlFactory::createProduction(
         THEMIS_WARN("LLM Judge requested but no inference engine provided");
     }
     
-    // Configure pipeline
-    QualityControlPipeline::Config config;
-    config.default_mode = setup_config.default_mode;
-    config.enable_nli_verification = setup_config.enable_nli;
-    config.enable_geval_scoring = setup_config.enable_geval;
-    config.enable_claim_extraction = true;
-    config.enable_citation_check = true;
-    config.log_to_continuous_learning = setup_config.log_to_continuous_learning;
-    config.cl_endpoint = setup_config.cl_endpoint;
-    
-    return std::make_unique<QualityControlPipeline>(
-        config,
-        llm_judge_client,
-        geval_evaluator,
-        nli_verifier
-    );
+    auto config = makePipelineConfigForMode(setup_config.default_mode);
+    config.enable_learning_feedback = setup_config.log_to_continuous_learning;
+    config.learning_orchestrator_url = setup_config.cl_endpoint;
+
+    auto pipeline = std::make_unique<QualityControlPipeline>(config);
+    if (nli_verifier && setup_config.enable_nli) {
+        pipeline->setNLIVerifier(nli_verifier);
+    }
+    if (geval_evaluator && setup_config.enable_geval) {
+        pipeline->setGEvalEvaluator(geval_evaluator);
+    }
+    if (llm_judge_client && setup_config.enable_llm_judge) {
+        pipeline->setLLMJudgeClient(llm_judge_client);
+    }
+
+    return pipeline;
 }
 
 std::unique_ptr<QualityControlPipeline> QualityControlFactory::createLightweight() {
     THEMIS_INFO("Creating lightweight quality control pipeline (Fast mode)");
     
-    QualityControlPipeline::Config config;
-    config.default_mode = QCMode::FAST;
-    config.enable_nli_verification = true;
-    config.enable_geval_scoring = false;
-    config.enable_claim_extraction = false;
-    config.enable_citation_check = false;
-    config.fast_timeout_ms = 50;
+    auto config = makePipelineConfigForMode(QCMode::FAST);
+    config.fast_stage_timeout_ms = 50;
     
     return std::make_unique<QualityControlPipeline>(config);
 }
@@ -100,14 +116,11 @@ std::shared_ptr<NLIFaithfulnessVerifier> QualityControlFactory::createNLIVerifie
     
     if (!config.nli_model_path.empty()) {
         nli_config.model_path = config.nli_model_path;
-        nli_config.tokenizer_path = config.nli_tokenizer_path;
         THEMIS_INFO("NLI Verifier configured with model: {}", config.nli_model_path);
     } else {
         THEMIS_INFO("NLI Verifier using heuristic fallback (no model path provided)");
     }
     
-    nli_config.enable_caching = config.enable_caching;
-    nli_config.num_threads = config.num_threads;
     nli_config.use_gpu = config.use_gpu_for_nli;
     
     return std::make_shared<NLIFaithfulnessVerifier>(nli_config);
@@ -134,15 +147,18 @@ std::shared_ptr<LLMJudgeClient> QualityControlFactory::createLLMJudgeClient(
     }
     
     LLMJudgeClient::Config config;
-    config.model_id = "default";
+    config.model_name = "default";
     config.temperature = 0.3;
     config.max_tokens = 1024;
     config.enable_caching = true;
-    config.max_retries = 3;
+    config.timeout_ms = 30000;
     
-    THEMIS_INFO("LLM Judge Client created with model: {}", config.model_id);
+    auto client = std::make_shared<LLMJudgeClient>(config);
+    client->setInferenceEngine(std::move(inference_engine));
+
+    THEMIS_INFO("LLM Judge Client created with model: {}", config.model_name);
     
-    return std::make_shared<LLMJudgeClient>(config, inference_engine);
+    return client;
 }
 
 // ═══════════════════════════════════════════════════════════

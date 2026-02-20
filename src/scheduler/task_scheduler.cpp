@@ -49,6 +49,11 @@ static void setDefaultAuditContext(scheduler::TaskAuditEvent& event) {
     event.ip_address = DEFAULT_AUDIT_IP;
 }
 
+static void setDefaultAuditContext(scheduler::TaskSecurityEvent& event) {
+    event.user_id = DEFAULT_AUDIT_USER;
+    event.ip_address = DEFAULT_AUDIT_IP;
+}
+
 // Helper function to convert trigger type to string
 static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
     switch (type) {
@@ -822,6 +827,7 @@ std::string TaskScheduler::exportMetrics() const {
     return out.str();
 }
 
+std::vector<ScheduledTask> TaskScheduler::listTasks() const {
 
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     

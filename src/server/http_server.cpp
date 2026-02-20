@@ -2060,6 +2060,8 @@ namespace {
         return Route::NotFound;
     }
 }
+
+http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
      // Create span for the entire HTTP request
