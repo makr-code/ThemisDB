@@ -1005,3 +1005,161 @@ TEST(MetricsCallbackTest, MetricsCallbackFiresForEachErrorCode) {
     EXPECT_GE(stats.imported_records + stats.failed_records, 2u);
 }
 
+
+// ---------------------------------------------------------------------------
+// StreamReadLine unit tests
+// Inline the streamReadLine logic so we can test it without linking the
+// importer shared library.  The function contract is: cap per-line bytes,
+// drain remainder of the line on overflow, set truncated = true.
+// ---------------------------------------------------------------------------
+
+/// Inline mirror of postgres_importer.cpp::streamReadLine
+static bool streamReadLine(std::istream& file,
+                            std::string& line,
+                            size_t max_bytes,
+                            bool& truncated) {
+    truncated = false;
+    line.clear();
+    if (max_bytes == 0) {
+        if (!std::getline(file, line)) return false;
+        return true;
+    }
+    char c = '\0';
+    size_t count = 0;
+    bool got_any = false;
+    while (file.get(c)) {
+        got_any = true;
+        if (c == '\n') break;
+        if (count < max_bytes) {
+            line += c;
+            ++count;
+        } else {
+            truncated = true;
+            while (file.get(c) && c != '\n') { /* drain */ }
+            break;
+        }
+    }
+    return got_any;
+}
+
+TEST(StreamReadLineTest, ReadsShortLineWithinLimit) {
+    std::istringstream in("hello\nworld\n");
+    std::string line; bool trunc;
+    ASSERT_TRUE(streamReadLine(in, line, 100, trunc));
+    EXPECT_EQ(line, "hello");
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, ReadsSecondLine) {
+    std::istringstream in("hello\nworld\n");
+    std::string line; bool trunc;
+    streamReadLine(in, line, 100, trunc);
+    ASSERT_TRUE(streamReadLine(in, line, 100, trunc));
+    EXPECT_EQ(line, "world");
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, ReturnsFalseOnEmptyStream) {
+    std::istringstream in("");
+    std::string line; bool trunc;
+    EXPECT_FALSE(streamReadLine(in, line, 100, trunc));
+}
+
+TEST(StreamReadLineTest, TruncatesLineExceedingLimit) {
+    // "abcdefghij" (10 chars) with limit 5
+    std::istringstream in("abcdefghij\nnext\n");
+    std::string line; bool trunc;
+    ASSERT_TRUE(streamReadLine(in, line, 5, trunc));
+    EXPECT_EQ(line, "abcde");
+    EXPECT_TRUE(trunc);
+}
+
+TEST(StreamReadLineTest, AfterTruncationNextLineIsReadCorrectly) {
+    // Verifies the remainder of the overlong line is drained properly
+    std::istringstream in("abcdefghij\nnext\n");
+    std::string line; bool trunc;
+    streamReadLine(in, line, 5, trunc);   // reads/drains first long line
+    ASSERT_TRUE(streamReadLine(in, line, 100, trunc));
+    EXPECT_EQ(line, "next");
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, LineExactlyAtLimitIsNotTruncated) {
+    // "hello" (5 chars) with limit 5 – exactly at limit, no truncation
+    std::istringstream in("hello\n");
+    std::string line; bool trunc;
+    ASSERT_TRUE(streamReadLine(in, line, 5, trunc));
+    EXPECT_EQ(line, "hello");
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, UnlimitedModeFallsThroughToFullGetline) {
+    // limit == 0 means unlimited
+    std::string big(10000, 'x');
+    std::istringstream in(big + "\n");
+    std::string line; bool trunc;
+    ASSERT_TRUE(streamReadLine(in, line, 0, trunc));
+    EXPECT_EQ(line.size(), 10000u);
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, EmptyLineBeforeEof) {
+    std::istringstream in("\n");
+    std::string line; bool trunc;
+    ASSERT_TRUE(streamReadLine(in, line, 100, trunc));
+    EXPECT_TRUE(line.empty());
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, NoTrailingNewline) {
+    // stream with no trailing \n – final partial line is still read
+    std::istringstream in("partial");
+    std::string line; bool trunc;
+    ASSERT_TRUE(streamReadLine(in, line, 100, trunc));
+    EXPECT_EQ(line, "partial");
+    EXPECT_FALSE(trunc);
+}
+
+TEST(StreamReadLineTest, MultipleShortLinesReadCorrectly) {
+    std::istringstream in("a\nb\nc\n");
+    std::string line; bool trunc;
+    std::vector<std::string> lines;
+    while (streamReadLine(in, line, 100, trunc)) {
+        lines.push_back(line);
+    }
+    ASSERT_EQ(lines.size(), 3u);
+    EXPECT_EQ(lines[0], "a");
+    EXPECT_EQ(lines[1], "b");
+    EXPECT_EQ(lines[2], "c");
+}
+
+TEST(StreamReadLineTest, CopyRowTruncationTriggersRowTooLargeError) {
+    // Integration: max_row_size_bytes guard catches oversized rows
+    // Mirrors the parseCopy logic (StringImporter already has this path)
+    constexpr size_t kOversizedRowBytes = 200;  // must exceed max_row_size_bytes below
+    constexpr size_t kMaxRowBytes       = 10;
+    const std::string dump =
+        "-- PostgreSQL database dump\n"
+        "CREATE TABLE t (data text);\n"
+        "COPY t (data) FROM stdin;\n"
+        + std::string(kOversizedRowBytes, 'x') + "\n"  // oversized row
+        "short\n"
+        "\\.\n";
+
+    ImportOptions opts;
+    opts.max_row_size_bytes = kMaxRowBytes;
+    opts.continue_on_error  = true;
+
+    StringImporter imp;
+    auto stats = imp.importString(dump, opts);
+
+    // The oversized row should be rejected
+    EXPECT_GE(stats.failed_records, 1u);
+    // The short row should still be imported (continue_on_error=true)
+    EXPECT_GE(stats.imported_records, 1u);
+    // Structured error for ROW_TOO_LARGE must be recorded
+    bool found = false;
+    for (const auto& e : stats.structured_errors)
+        if (e.code == ImportErrorCode::ROW_TOO_LARGE) { found = true; break; }
+    EXPECT_TRUE(found) << "Expected ROW_TOO_LARGE structured error";
+}

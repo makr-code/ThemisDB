@@ -1,0 +1,4 @@
+\x00-- selector: parseCopyRow (selector byte 0x00)
+1	hello	true
+2	world	false
+\N	NULL test	\N

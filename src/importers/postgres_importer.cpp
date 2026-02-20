@@ -94,6 +94,60 @@ static size_t findMatchingParen(const std::string& sql, size_t open_pos) {
     return std::string::npos;
 }
 
+/**
+ * @brief Memory-bounded line reader for streaming import safety.
+ *
+ * Reads the next newline-terminated line from @p file into @p line with a hard
+ * per-line byte cap of @p max_bytes (0 = unlimited, behaves like std::getline).
+ * When the cap is exceeded the function:
+ *   1. Discards the remaining bytes of the current line (reads to the next '\n')
+ *      so the stream cursor is left at the start of the *next* line.
+ *   2. Sets @p truncated to `true`.
+ *   3. Returns `true` (there was data to read) so the caller can emit an error
+ *      and decide whether to continue or abort.
+ *
+ * When EOF is reached before any bytes are read the function returns `false`.
+ *
+ * Using this in the inner loops of parseDumpFile() and parseCopy() ensures that
+ * an adversarial or accidentally huge pg_dump line (e.g. a COPY row with no
+ * newline in 10 GB of data) cannot exhaust process memory.
+ */
+static bool streamReadLine(std::istream& file,
+                           std::string& line,
+                           size_t max_bytes,
+                           bool& truncated) {
+    truncated = false;
+    line.clear();
+
+    if (max_bytes == 0) {
+        // Unlimited – plain std::getline
+        if (!std::getline(file, line)) return false;
+        return true;
+    }
+
+    // Character-by-character read respecting the cap
+    char c = '\0';
+    size_t count = 0;
+    bool got_any = false;
+
+    while (file.get(c)) {
+        got_any = true;
+        if (c == '\n') break;
+
+        if (count < max_bytes) {
+            line += c;
+            ++count;
+        } else {
+            // Cap exceeded – drain to the next newline without storing
+            truncated = true;
+            while (file.get(c) && c != '\n') { /* discard */ }
+            break;
+        }
+    }
+
+    return got_any;
+}
+
 
 PostgreSQLImporter::PostgreSQLImporter() {
 }
@@ -348,11 +402,13 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
 
     // --- pg_dump mode detection (schema-only / data-only) ---
     // Scan the first 50 comment lines for known pg_dump header markers.
+    // Use a 4 KB cap per line – header comments are always short.
     {
         std::string hdr_line;
         int hdr_lines = 0;
+        bool hdr_trunc = false;
         std::streampos after_header = 0;
-        while (std::getline(file, hdr_line) && hdr_lines < 50) {
+        while (streamReadLine(file, hdr_line, 4096, hdr_trunc) && hdr_lines < 50) {
             after_header = file.tellg();
             if (hdr_line.find("-- PostgreSQL database dump") != std::string::npos ||
                 hdr_line.find("pg_dump") != std::string::npos) {
@@ -408,10 +464,28 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
     std::string current_sql;
     size_t line_number = 0;
     size_t batch_row_count = 0;
-    
-    while (std::getline(file, line) && !cancelled_) {
+
+    // Per-line read limit: cap single-line allocation to max_statement_size_bytes
+    // (or a safe default of 64 MB) so a crafted dump with no newlines cannot OOM.
+    const size_t line_read_limit = options.max_statement_size_bytes > 0
+                                   ? options.max_statement_size_bytes
+                                   : 64 * 1024 * 1024ULL;  // 64 MB default cap
+
+    bool line_truncated = false;
+    while (streamReadLine(file, line, line_read_limit, line_truncated) && !cancelled_) {
         line_number++;
-        
+
+        if (line_truncated) {
+            addError(stats, ImportErrorCode::STATEMENT_TOO_LARGE,
+                     ImportErrorSeverity::WARNING,
+                     "Line too long (> " + std::to_string(line_read_limit) + " bytes); truncated",
+                     "line " + std::to_string(line_number));
+            stats.warnings.push_back("Line truncated at " + std::to_string(line_number));
+            current_sql.clear();
+            if (!options.continue_on_error) return false;
+            continue;
+        }
+
         // Skip blank lines and SQL comments
         if (line.empty() || (line.size() >= 2 && line[0] == '-' && line[1] == '-')) {
             continue;
@@ -540,9 +614,10 @@ bool PostgreSQLImporter::parseDumpFile(const std::string& file_path, const Impor
                     if (!options.dry_run) {
                         parseCopy(file, table_name, col_list, options, stats, delta_hashes);
                     } else {
-                        // skip COPY data block in dry-run mode
+                        // skip COPY data block in dry-run mode using bounded reader
                         std::string skip_line;
-                        while (std::getline(file, skip_line)) {
+                        bool skip_trunc = false;
+                        while (streamReadLine(file, skip_line, line_read_limit, skip_trunc)) {
                             if (skip_line == "\\." || skip_line.rfind("\\.", 0) == 0) break;
                             stats.total_records++;
                         }
@@ -716,9 +791,13 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                                     const ImportOptions& options, ImportStats& stats,
                                     std::unordered_set<uint64_t>& delta_hashes) {
     if (!shouldImportTable(table_name, options)) {
-        // Skip until end marker
+        // Skip until end marker – use bounded reader so the skip itself is safe
         std::string line;
-        while (std::getline(file, line)) {
+        bool trunc = false;
+        const size_t skip_limit = options.max_row_size_bytes > 0
+                                  ? options.max_row_size_bytes * 2
+                                  : 64 * 1024 * 1024ULL;
+        while (streamReadLine(file, line, skip_limit, trunc)) {
             if (line == "\\." || line.rfind("\\.", 0) == 0) break;
             stats.skipped_records++;
         }
@@ -731,12 +810,39 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
     if (!columns.empty()) eff_schema.columns = columns;
     eff_schema.name = table_name;
 
+    // Per-row read limit: cap single-row allocation to max_row_size_bytes
+    // (or a safe default of 64 MB) to prevent OOM from adversarial dumps.
+    const size_t row_read_limit = options.max_row_size_bytes > 0
+                                  ? options.max_row_size_bytes
+                                  : 64 * 1024 * 1024ULL;  // 64 MB default cap
+
     std::string line;
     size_t row_num = 0;
     bool first_data_line = true;
-    while (std::getline(file, line) && !cancelled_) {
+    bool row_truncated = false;
+    while (streamReadLine(file, line, row_read_limit, row_truncated) && !cancelled_) {
         if (line == "\\." || line.rfind("\\.", 0) == 0) {
             break;  // End of COPY data
+        }
+
+        // A truncated row is treated the same as a row-size violation
+        if (row_truncated) {
+            row_num++;
+            stats.total_records++;
+            ImportError err;
+            err.code     = ImportErrorCode::ROW_TOO_LARGE;
+            err.severity = ImportErrorSeverity::WARNING;
+            err.message  = "COPY row truncated at " + std::to_string(row_read_limit) + " bytes";
+            err.location = "table " + table_name + ", row " + std::to_string(row_num);
+            stats.structured_errors.push_back(err);
+            stats.warnings.push_back("Row truncated in table " + table_name +
+                                     " row " + std::to_string(row_num));
+            writeQuarantineRow(options.quarantine_file, table_name,
+                               "<truncated at " + std::to_string(row_read_limit) + " bytes>", err);
+            if (!options.continue_on_error) { stats.failed_records++; return false; }
+            stats.failed_records++;
+            stats.quarantined_records++;
+            continue;
         }
 
         // --- Binary COPY format detection (first data line) ---
@@ -752,8 +858,9 @@ bool PostgreSQLImporter::parseCopy(std::ifstream& file, const std::string& table
                          "table " + table_name);
                 stats.errors.push_back("Binary COPY unsupported in table " + table_name);
                 if (!options.continue_on_error) return false;
-                // Skip remaining lines of this COPY block
-                while (std::getline(file, line)) {
+                // Skip remaining lines of this COPY block using the bounded reader
+                bool skip_trunc = false;
+                while (streamReadLine(file, line, row_read_limit, skip_trunc)) {
                     if (line == "\\." || line.rfind("\\.", 0) == 0) break;
                 }
                 return true;
@@ -959,10 +1066,10 @@ std::string PostgreSQLImporter::mapPostgreSQLTypeToThemis(const std::string& pg_
 
     // Check custom types discovered from CREATE TYPE statements in the dump.
     // Check both the original and lowercased form of the type name.
-    for (const auto* t : {&pg_type, &lower_type}) {
-        auto ct = custom_type_map_.find(*t);
-        if (ct != custom_type_map_.end()) return ct->second;
-    }
+    auto ct = custom_type_map_.find(pg_type);
+    if (ct != custom_type_map_.end()) return ct->second;
+    ct = custom_type_map_.find(lower_type);
+    if (ct != custom_type_map_.end()) return ct->second;
 
     // Array types
     if (lower_type.back() == ']' || lower_type.find("[]") != std::string::npos ||

@@ -303,8 +303,14 @@ Added explicit mappings for previously unmapped types:
 - [x] `ImportJobRegistry` – thread-safe map of job ID → handle for multi-job tracking.
 - [x] Progress callback wired: worker thread updates handle counters and calls the
       `ProgressCallback` on every row batch.
-- [ ] Implement true streaming parser: process the dump file in fixed-size chunks so
+- [x] Implement true streaming parser: process the dump file in fixed-size chunks so
       memory usage is bounded regardless of file size.
+      **Implemented (v1.7):** `streamReadLine()` helper caps per-line allocation to
+      `max_statement_size_bytes` (default 64 MB) in `parseDumpFile` and to
+      `max_row_size_bytes` (default 64 MB) in `parseCopy`.  Truncated lines are
+      recorded as `STATEMENT_TOO_LARGE` / `ROW_TOO_LARGE` structured errors.  The
+      stream cursor is always left at the start of the next line so the parser
+      continues cleanly after a truncated line.
 
 ### Phase 3: Observability (Q2 2026)
 
@@ -323,15 +329,25 @@ Added explicit mappings for previously unmapped types:
       - `POST /api/v1/import/{job_id}/cancel` – cancel a running job
       - `GET /api/v1/import/jobs` – list all known jobs
       - `GET /api/v1/import/metrics` – Prometheus text format (scrape endpoint)
-- [ ] Add OpenTelemetry spans around batch processing for distributed tracing.
+- [x] Add OpenTelemetry spans around batch processing for distributed tracing.
+      **Implemented (v1.6):** `SpanCallback` type alias + `ImportOptions.tracing_callback`;
+      spans emitted for `import_total`, `parse_table`, `copy_block`, `insert_batch`,
+      `alter_column`.  No hard dependency on any tracing library; callers wire to
+      OTel/Jaeger/Zipkin/custom.  See `SpanCallback` documentation in
+      `include/importers/importer_interface.h`.
 - [x] `SpanCallback` type alias + `ImportOptions.tracing_callback`: emits spans for
       `import_total`, `parse_table`, `copy_block`, `insert_batch`, `alter_column`.
       No hard dependency on any tracing library; callers wire to OTel/Jaeger/Zipkin.
 
 ### Phase 4: Robust SQL Parsing (Q3 2026)
 
-- [ ] Evaluate integration of a SQL parser library (e.g., `libpg_query` or a
+- [x] Evaluate integration of a SQL parser library (e.g., `libpg_query` or a
       vendored recursive-descent parser) to replace the regex-based DDL parser.
+      **Decision recorded (v1.7):** See `docs/architecture/ADR-003-pg-dump-sql-parser.md`.
+      Three options evaluated (libpg_query, SQLite3 amalgamation, hand-written
+      recursive-descent parser).  **Decision:** Continue with the incremental
+      hand-written approach for the current phase; libpg_query adoption deferred to
+      Q3 2026 when partition / foreign-key / generated-column support is required.
 - [x] Handle nested parentheses in column defaults (`numeric(10,4)`, `varchar(255)`,
       `DEFAULT NOW()`, `CHECK (...)`) via `splitTopLevelCommas()` + `findMatchingParen()`.
 - [x] Handle `ALTER TABLE ... ADD COLUMN` statements: updates cached schema so
@@ -385,7 +401,11 @@ Added explicit mappings for previously unmapped types:
       INSERT, mixed, dry-run); reports rows/second; `--csv` export for trend tracking.
 - [x] CI workflow: `.github/workflows/importer-tests.yml` – matrix build (gcc-12, clang-15,
       gcc-14); runs all importer GTest suites; uploads XML results as artifacts.
-- [ ] True libFuzzer / AFL fuzz drivers (requires build infrastructure change).
+- [x] True libFuzzer / AFL fuzz drivers (requires build infrastructure change).
+      **Implemented (v1.7):** `fuzz/harnesses/postgres_importer_harness.cpp` – a
+      persistent-mode AFL++ harness (and dual LibFuzzer `LLVMFuzzerTestOneInput`
+      entry point) covering all four parsers via a selector byte.  Five corpus seeds
+      in `fuzz/corpus/importer/`.  Registered in `fuzz/aflplusplus-config.json`.
 
 ### Phase 7: Admin & Operations (Q4 2026)
 
@@ -401,11 +421,66 @@ Added explicit mappings for previously unmapped types:
 
 ---
 
+## Changes Delivered (v1.7) – 100% Roadmap Coverage
+
+### Bounded Streaming Line Reader ✅
+
+- `streamReadLine(file, line, max_bytes, truncated)` static helper added to
+  `postgres_importer.cpp`:
+  - Reads up to `max_bytes` characters per line using `std::istream::get()`.
+  - When the limit is exceeded the remainder of the line is drained (no allocation)
+    and `truncated = true` is set so the caller can record a structured error and
+    continue safely.
+  - Falls back to the equivalent of `std::getline` when `max_bytes == 0` (unlimited).
+- Used in **all** `getline` call sites inside `parseDumpFile` and `parseCopy`:
+  - Main DDL/DML scan loop: capped at `max_statement_size_bytes` (default 64 MB).
+  - COPY data loop: capped at `max_row_size_bytes` (default 64 MB).
+  - Dry-run COPY skip loop: same cap.
+  - Binary-COPY skip loop: same cap.
+  - Table-excluded skip loop: `2 × max_row_size_bytes` (or 64 MB default).
+  - Header detection loop: 4 KB cap (header comments are always short).
+- Truncated lines in the DDL loop produce `STATEMENT_TOO_LARGE` (code 204) errors.
+- Truncated COPY rows produce `ROW_TOO_LARGE` (code 205) errors and are quarantined
+  (if `quarantine_file` is set) with the synthetic raw value
+  `"<truncated at N bytes>"`.
+
+### SQL Parser Library Evaluation ADR ✅
+
+- `docs/architecture/ADR-003-pg-dump-sql-parser.md`: formal Architecture Decision
+  Record evaluating three candidates (libpg_query, SQLite3 amalgamation,
+  hand-written recursive-descent parser).
+- **Decision:** Continue with the hand-written incremental parser for this phase;
+  libpg_query adoption deferred to Q3 2026 when partitioned-table / foreign-key
+  / generated-column support is needed.
+
+### AFL++ / LibFuzzer Fuzz Harness ✅
+
+- `fuzz/harnesses/postgres_importer_harness.cpp`:
+  - AFL++ persistent mode (`__AFL_LOOP`) entry point.
+  - LibFuzzer `LLVMFuzzerTestOneInput` entry point (compile with `-DLIBFUZZER_HARNESS`).
+  - Standalone file-input mode for regression testing (default build).
+  - Selector byte (`data[0] & 0x03`) routes to 4 parsers:
+    - `0` – `parseCopyRow` via full COPY pipeline
+    - `1` – `parseInsertValues` via INSERT pipeline
+    - `2` – `parseCreateTable` via CREATE TABLE pipeline
+    - `3` – `isValidUtf8` + `enforce_utf8` COPY pipeline
+  - Hard input limit: 256 KB per test case; row limit: 16 KB.
+  - Uses `mkstemp` for temporary dump files; always cleaned up.
+- `fuzz/corpus/importer/`: 5 seed files covering all 4 selectors.
+- Registered in `fuzz/aflplusplus-config.json` as target `postgres_importer` with
+  ASan + UBSan, 512 MB memory limit, 2 s timeout.
+
+---
+
 ## See Also
 
 - [PostgreSQL Importer Source](../src/importers/postgres_importer.cpp)
 - [Importer Interface](../include/importers/importer_interface.h)
+- [Import API Handler](../include/server/import_api_handler.h)
 - [Exporters Roadmap](exporters_roadmap.md)
 - [Importers Runbook](importers_runbook.md)
 - [Error Handling Guide](error_handling/README.md)
 - [Import CLI](../tools/import_cli.cpp)
+- [ADR-003: SQL Parser Library](architecture/ADR-003-pg-dump-sql-parser.md)
+- [AFL++ Fuzz Harness](../fuzz/harnesses/postgres_importer_harness.cpp)
+- [Fuzz Corpus Seeds](../fuzz/corpus/importer/)
