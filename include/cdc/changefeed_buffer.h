@@ -51,6 +51,16 @@ struct ChangefeedBufferConfig {
     // Compression for event payloads
     bool compress_payloads = true;            // Zstd compression for large payloads
     size_t compression_threshold_bytes = 1024;  // Compress payloads > 1KB
+    
+    // Retry and error handling
+    int max_retry_attempts = 3;               // Max retries for failed flushes
+    std::chrono::milliseconds retry_backoff_ms{100};  // Initial backoff for retries
+    bool exponential_backoff = true;          // Use exponential backoff for retries
+    
+    // Rate limiting
+    bool enable_rate_limiting = false;        // Enable rate limiting
+    size_t max_events_per_second = 10000;    // Max events per second (0 = unlimited)
+    std::chrono::milliseconds rate_limit_window{1000};  // Rate limit window
 };
 
 /**
@@ -66,6 +76,11 @@ struct ChangefeedBufferStats {
     std::atomic<uint64_t> time_triggered_flush{0};
     std::atomic<uint64_t> buffer_overflow_count{0};
     std::atomic<uint64_t> compressed_payloads{0};
+    std::atomic<uint64_t> retry_attempts{0};         // Total retry attempts
+    std::atomic<uint64_t> retry_successes{0};        // Successful retries
+    std::atomic<uint64_t> retry_failures{0};         // Failed retries (exhausted)
+    std::atomic<uint64_t> flush_errors{0};           // Total flush errors
+    std::atomic<uint64_t> rate_limited_events{0};    // Events delayed by rate limiting
     
     size_t current_buffer_size{0};
     size_t current_buffer_memory{0};
@@ -234,9 +249,17 @@ private:
     bool shouldFlushBuffer(const EventTypeBuffer& buffer) const;
     bool shouldFlushGlobal() const;
     
+    // Rate limiting helper
+    bool checkRateLimit();
+    
     // Compression helpers
     std::string compressPayload(const std::string& payload);
     std::string decompressPayload(const std::string& compressed);
+    
+    // Rate limiting state
+    std::chrono::steady_clock::time_point rate_limit_window_start_;
+    std::atomic<size_t> events_in_current_window_{0};
+    std::mutex rate_limit_mutex_;
 };
 
 } // namespace themis

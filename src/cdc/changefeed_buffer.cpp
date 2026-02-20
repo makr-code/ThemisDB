@@ -15,6 +15,7 @@ ChangefeedBuffer::ChangefeedBuffer(Changefeed* changefeed,
         throw std::invalid_argument("ChangefeedBuffer: changefeed cannot be null");
     }
     stats_.last_flush_time = std::chrono::steady_clock::now();
+    rate_limit_window_start_ = std::chrono::steady_clock::now();
 }
 
 ChangefeedBuffer::~ChangefeedBuffer() {
@@ -77,6 +78,11 @@ Changefeed::ChangeEvent ChangefeedBuffer::recordEvent(Changefeed::ChangeEvent ev
     if (event.key.empty()) {
         THEMIS_WARN("ChangefeedBuffer: Event key cannot be empty");
         return event;  // Return as-is
+    }
+    
+    // Apply rate limiting if enabled
+    if (config_.enable_rate_limiting) {
+        checkRateLimit();
     }
     
     // Compress large payloads if enabled
@@ -208,44 +214,81 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
     span.setAttribute("event_type", static_cast<int64_t>(event_type));
     span.setAttribute("events", static_cast<int64_t>(buffer.events.size()));
     
-    // Record all events to changefeed
+    // Record all events to changefeed with retry logic
     size_t count = 0;
     size_t failed = 0;
+    
     for (auto& buffered_event : buffer.events) {
-        try {
-            // Decompress if needed
-            Changefeed::ChangeEvent event = buffered_event.event;
-            if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
-                if (event.value.has_value()) {
-                    try {
-                        std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
-                        auto decompressed = utils::zstd_decompress(compressed_data);
-                        if (!decompressed.empty()) {
-                            event.value = std::string(decompressed.begin(), decompressed.end());
-                        } else {
-                            THEMIS_ERROR("Decompression returned empty result for event key={}", event.key);
-                            failed++;
-                            continue;
+        bool recorded = false;
+        int retry_count = 0;
+        
+        while (!recorded && retry_count <= config_.max_retry_attempts) {
+            try {
+                // Decompress if needed
+                Changefeed::ChangeEvent event = buffered_event.event;
+                if (event.metadata.contains("_compressed") && event.metadata["_compressed"] == true) {
+                    if (event.value.has_value()) {
+                        try {
+                            std::vector<uint8_t> compressed_data(event.value->begin(), event.value->end());
+                            auto decompressed = utils::zstd_decompress(compressed_data);
+                            if (!decompressed.empty()) {
+                                event.value = std::string(decompressed.begin(), decompressed.end());
+                            } else {
+                                THEMIS_ERROR("Decompression returned empty result for event key={}", event.key);
+                                stats_.flush_errors++;
+                                break;  // Don't retry decompression errors
+                            }
+                        } catch (const std::exception& e) {
+                            THEMIS_ERROR("Decompression failed for event key={}: {}", event.key, e.what());
+                            stats_.flush_errors++;
+                            break;  // Don't retry decompression errors
                         }
-                    } catch (const std::exception& e) {
-                        THEMIS_ERROR("Decompression failed for event key={}: {}", event.key, e.what());
-                        failed++;
-                        continue;
                     }
+                    event.metadata.erase("_compressed");
                 }
-                event.metadata.erase("_compressed");
+                
+                // Try to record the event
+                changefeed_->recordEvent(event);
+                count++;
+                recorded = true;
+                
+                if (retry_count > 0) {
+                    stats_.retry_successes++;
+                    THEMIS_DEBUG("Successfully recorded event after {} retries", retry_count);
+                }
+            } catch (const std::exception& e) {
+                retry_count++;
+                stats_.retry_attempts++;
+                
+                if (retry_count <= config_.max_retry_attempts) {
+                    // Calculate backoff duration
+                    auto backoff = config_.retry_backoff_ms;
+                    if (config_.exponential_backoff && retry_count > 1) {
+                        backoff = std::chrono::milliseconds(
+                            config_.retry_backoff_ms.count() * (1 << (retry_count - 1))
+                        );
+                    }
+                    
+                    THEMIS_WARN("Failed to record event (attempt {}/{}): {}. Retrying after {}ms",
+                               retry_count, config_.max_retry_attempts + 1, e.what(), backoff.count());
+                    
+                    std::this_thread::sleep_for(backoff);
+                } else {
+                    THEMIS_ERROR("Failed to record event after {} attempts: {}", retry_count, e.what());
+                    stats_.retry_failures++;
+                    stats_.flush_errors++;
+                    failed++;
+                }
             }
-            
-            changefeed_->recordEvent(event);
-            count++;
-        } catch (const std::exception& e) {
-            THEMIS_ERROR("Failed to record event: {}", e.what());
+        }
+        
+        if (!recorded && retry_count > config_.max_retry_attempts) {
             failed++;
         }
     }
     
     if (failed > 0) {
-        THEMIS_WARN("Failed to flush {} out of {} events", failed, buffer.events.size());
+        THEMIS_WARN("Failed to flush {} out of {} events (exhausted retries)", failed, buffer.events.size());
     }
     
     stats_.events_flushed += count;
@@ -354,6 +397,45 @@ std::string ChangefeedBuffer::decompressPayload(const std::string& compressed) {
         return compressed;  // Return original if decompression fails
     }
     return std::string(decompressed.begin(), decompressed.end());
+}
+
+bool ChangefeedBuffer::checkRateLimit() {
+    if (!config_.enable_rate_limiting || config_.max_events_per_second == 0) {
+        return true;  // Rate limiting disabled
+    }
+    
+    std::lock_guard<std::mutex> lock(rate_limit_mutex_);
+    
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        now - rate_limit_window_start_
+    );
+    
+    // Reset window if it has expired
+    if (elapsed >= config_.rate_limit_window) {
+        rate_limit_window_start_ = now;
+        events_in_current_window_.store(0);
+    }
+    
+    // Check if we're within the limit
+    size_t current_count = events_in_current_window_.load();
+    if (current_count >= config_.max_events_per_second) {
+        stats_.rate_limited_events++;
+        
+        // Calculate how long to wait
+        auto wait_time = config_.rate_limit_window - elapsed;
+        if (wait_time.count() > 0) {
+            THEMIS_DEBUG("Rate limit reached, waiting {}ms", wait_time.count());
+            std::this_thread::sleep_for(wait_time);
+            
+            // Reset window after waiting
+            rate_limit_window_start_ = std::chrono::steady_clock::now();
+            events_in_current_window_.store(0);
+        }
+    }
+    
+    events_in_current_window_++;
+    return true;
 }
 
 } // namespace themis
