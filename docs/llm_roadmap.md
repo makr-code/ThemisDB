@@ -188,9 +188,10 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 ### Observability
 
-- [ ] Implement `MetricsServer::start()` HTTP endpoint (remove `// TODO` placeholder).
-- [ ] Emit `llm_inference_requests_total`, `llm_inference_duration_ms`, `llm_first_token_latency_ms` from the inference hot path.
-- [ ] Emit `llm_scheduler_queue_length`, backpressure-drop counter from `ContinuousBatchScheduler`.
+- [ ] Implement `MetricsServer::start()` real HTTP listener.
+- [ ] Emit `llm_inference_requests_total`, `llm_inference_duration_ms`, `llm_first_token_latency_ms` from the inference hot path — already wired in `LlamaWrapper::generate()` via `LLMMetricsCollector`.
+- [x] Emit `llm_queue_length` from `ContinuousBatchScheduler` — `setMetricsCollector()` added; `recordQueueLength()` called in `scheduleNextBatch()`.
+- [x] Emit `llm_backpressure_drops_total` from `ContinuousBatchScheduler` — counter registered; `recordBackpressureDrop()` called in `submitRequest()` on rejection.
 - [ ] Add OTel OTLP exporter; propagate `trace_id`/`span_id` through `LlamaWrapper::generate()`.
 - [ ] Validate Grafana dashboard JSON against a live Grafana 10.x instance.
 - [ ] Add latency heatmap and p50/p95/p99 panels.
@@ -219,7 +220,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 ### Admin / Ops
 
-- [ ] Add `GET /health` (liveness) and `GET /ready` (readiness) endpoints.
+- [x] Add `/health` (liveness) and `/ready` (readiness) handlers in `MetricsServer::handleRequest()` + `getHealthURL()` / `getReadyURL()` — returns JSON bodies; paths configurable in `ServerConfig`.
 - [ ] Add `GET /models` returning loaded models with memory, session count, and LoRA adapters.
 - [x] Add `request_timeout_ms` field to `LlamaWrapper::Config` (0 = unlimited) with validation in `validateConfig()`.
 - [x] Implement maximum queue depth and structured backpressure rejection — `SchedulerConfig::max_queue_depth` + `submitRequest()` returns `{}` on overflow; `Stats::rejected_requests` and `Stats::current_queue_depth` added.
