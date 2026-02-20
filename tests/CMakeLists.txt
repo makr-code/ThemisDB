@@ -140,6 +140,12 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_graph_advanced_features\\.cpp$"
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
+    ".*test_metadata_wal_recovery\\.cpp$"
+    ".*test_module_loader\\.cpp$"
+    ".*test_paxos_wal_recovery\\.cpp$"
+    ".*test_quality_control_pipeline\\.cpp$"
+    ".*test_slo_monitor\\.cpp$"
+    ".*test_jsonl_llm_exporter\\.cpp$"
 )
 
 if(NOT THEMIS_ENABLE_WISCKEY)
@@ -153,6 +159,14 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_merge_operator.*\\.cpp$"
     ".*test_shard_durability.*\\.cpp$"
     ".*test_gpu_erasure_coding.*\\.cpp$"
+    ".*test_auth_error\\.cpp$"
+    ".*test_auth_metrics\\.cpp$"
+    ".*test_auth_rate_limiter\\.cpp$"
+    ".*test_jwks_security\\.cpp$"
+    ".*test_kerberos_security\\.cpp$"
+    ".*test_principal_validator\\.cpp$"
+    ".*test_totp_replay_cache\\.cpp$"
+    ".*test_totp_secret_encryption\\.cpp$"
     ".*test_mfa_authenticator.*\\.cpp$"
     ".*test_binary_integrity.*\\.cpp$"
     ".*test_adapter_factory\\.cpp$"

@@ -242,22 +242,26 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
         manifest.version = j.value("version", "1.0.0");
         manifest.description = j.value("description", "");
         
-        // Parse type
-        std::string type_str = j.value("type", "custom");
-        if (type_str == "compute_backend") {
-            manifest.type = PluginType::COMPUTE_BACKEND;
-        } else if (type_str == "blob_storage") {
-            manifest.type = PluginType::BLOB_STORAGE;
-        } else if (type_str == "importer") {
-            manifest.type = PluginType::IMPORTER;
-        } else if (type_str == "exporter") {
-            manifest.type = PluginType::EXPORTER;
-        } else if (type_str == "hsm_provider") {
-            manifest.type = PluginType::HSM_PROVIDER;
-        } else if (type_str == "embedding") {
-            manifest.type = PluginType::EMBEDDING;
+        // Parse type (string form and legacy integer form)
+        if (j.contains("type") && j["type"].is_number_integer()) {
+            manifest.type = static_cast<PluginType>(j["type"].get<int>());
         } else {
-            manifest.type = PluginType::CUSTOM;
+            std::string type_str = j.value("type", "custom");
+            if (type_str == "compute_backend") {
+                manifest.type = PluginType::COMPUTE_BACKEND;
+            } else if (type_str == "blob_storage") {
+                manifest.type = PluginType::BLOB_STORAGE;
+            } else if (type_str == "importer") {
+                manifest.type = PluginType::IMPORTER;
+            } else if (type_str == "exporter") {
+                manifest.type = PluginType::EXPORTER;
+            } else if (type_str == "hsm_provider") {
+                manifest.type = PluginType::HSM_PROVIDER;
+            } else if (type_str == "embedding") {
+                manifest.type = PluginType::EMBEDDING;
+            } else {
+                manifest.type = PluginType::CUSTOM;
+            }
         }
         
         // Parse binaries
@@ -266,6 +270,14 @@ std::optional<PluginManifest> PluginManager::loadManifest(const std::string& man
             manifest.binary_windows = bin.value("windows", "");
             manifest.binary_linux = bin.value("linux", "");
             manifest.binary_macos = bin.value("macos", "");
+        }
+
+        // Legacy manifest compatibility: single library field
+        if (j.contains("library") && j["library"].is_string()) {
+            std::string lib = j["library"].get<std::string>();
+            if (manifest.binary_windows.empty()) manifest.binary_windows = lib;
+            if (manifest.binary_linux.empty()) manifest.binary_linux = lib;
+            if (manifest.binary_macos.empty()) manifest.binary_macos = lib;
         }
         
         // Parse dependencies
@@ -319,12 +331,12 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
     
     size_t discovered = 0;
     
-    // Recursively scan for plugin.json files
+    // Recursively scan for manifest JSON files
     for (const auto& entry : fs::recursive_directory_iterator(directory)) {
         if (!entry.is_regular_file()) continue;
         
         std::string filename = entry.path().filename().string();
-        if (filename == "plugin.json") {
+        if (entry.path().extension() == ".json") {
             auto manifest = loadManifest(entry.path().string());
             if (!manifest) continue;
             
@@ -348,8 +360,7 @@ Result<size_t> PluginManager::scanPluginDirectory(const std::string& directory) 
             fs::path binary_path = entry.path().parent_path() / binary_name;
             
             if (!fs::exists(binary_path)) {
-                THEMIS_WARN("Plugin binary not found: {}", binary_path.string());
-                continue;
+                THEMIS_WARN("Plugin binary not found (registering manifest only): {}", binary_path.string());
             }
             
             // Register plugin

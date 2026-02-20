@@ -7,9 +7,10 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 #include "transaction_wal.h"
-#include "wal/wal_manager.h"
 
 namespace sharding {
+
+using LSN = themis::sharding::LSN;
 
 // Transaction state for snapshot
 enum class TransactionState {

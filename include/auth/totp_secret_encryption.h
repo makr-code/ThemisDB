@@ -4,6 +4,7 @@
 #include <vector>
 #include <optional>
 #include <memory>
+#include <chrono>
 
 namespace themis {
 namespace auth {

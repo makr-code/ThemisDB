@@ -13,12 +13,18 @@
 #include <condition_variable>
 #include <thread>
 
+namespace themis::sharding {
+class PaxosWAL;
+class PaxosSnapshotManager;
+}
+
 namespace themisdb {
 namespace sharding {
 
 // Forward declarations (Phase 2.1)
-class PaxosWAL;
-class PaxosSnapshotManager;
+using LSN = themis::sharding::LSN;
+using PaxosWAL = themis::sharding::PaxosWAL;
+using PaxosSnapshotManager = themis::sharding::PaxosSnapshotManager;
 
 /**
  * @brief Paxos proposal number (ballot number)
