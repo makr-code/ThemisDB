@@ -59,8 +59,8 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `src/metadata/information_schema.cpp` — derived from `SchemaManager` on demand; no separate persistence
 - [x] `tests/test_information_schema.cpp` — unit tests for all four views and JSON serialisation
 - [x] REST endpoints: `GET /api/v1/information_schema`, `/tables`, `/columns[/:table]`, `/statistics[/:table]`
+- [x] `INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS` view — `ISReferentialConstraint` struct + `getReferentialConstraints()` + `referentialConstraintsToJSON()`
 - [ ] AQL functions: `INFORMATION_SCHEMA_TABLES()`, `INFORMATION_SCHEMA_COLUMNS(tableName)`, etc.
-- [ ] `INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS` view for foreign-key metadata
 
 ### Schema Versioning / Migration / Rollback (v1.8.0)
 
@@ -68,9 +68,9 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `src/metadata/schema_version_manager.cpp` — persistence under `config:schema_version:` prefix; full diff engine
 - [x] `tests/test_schema_version_manager.cpp` — version creation, rollback, diff, and JSON tests
 - [x] REST endpoints: `GET /api/v1/schema/versions/:table`, `POST /api/v1/schema/versions/:table`, `GET /api/v1/schema/diff/:table?from=V&to=V`
+- [x] Runbook: `docs/metadata/schema_migration_runbook.md`
 - [ ] CLI command: `themisdb schema diff <table> <v1> <v2>`
 - [ ] Dry-run mode for migrations: validate without applying changes
-- [ ] Runbook: `docs/metadata/schema_migration_runbook.md`
 
 ### Storage Integration for Constraints
 
@@ -89,7 +89,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `include/metadata/index_recommender.h` — `IndexRecommender` with `recordAccess()`, `recommend()`, `recommendAll()`, benefit-score model
 - [x] `src/metadata/index_recommender.cpp` — thread-safe implementation; ADD/DROP recommendations sorted by benefit score
 - [x] `tests/test_index_recommender.cpp` — unit tests for access recording, scoring, recommendations, and JSON export
-- [ ] REST endpoint: `GET /api/v1/metadata/index_recommendations[/:table]`
+- [x] REST endpoint: `GET /api/v1/metadata/index_recommendations[/:table]`
 - [ ] Wire `IndexRecommender::recordAccess()` into the AQL query execution path
 - [ ] CLI: `themisdb index recommend <table>`
 
@@ -102,7 +102,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 ### Test Coverage Expansion
 
 - [ ] Big-DB benchmark: schema discovery and stats collection for 10 000-table / 1 000-column schemas
-- [ ] Fuzz tests: random JSON schema inputs into `SchemaManager::parseTableSchema()`
+- [x] Fuzz tests: random/malformed JSON inputs into `SchemaManager::parseTableSchema()` — `tests/test_schema_manager_fuzz.cpp` (40+ edge-case tests)
 - [ ] Chaos tests: stats collection under concurrent writes and RocksDB compaction
 - [ ] Migration regression tests: forward / rollback across 5 schema versions
 
@@ -139,10 +139,10 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 |---------|--------|-----------------|
 | v1.5.0  | ✅ Done | SchemaManager, cache, JSON export |
 | v1.6.0  | ✅ Done | StatisticsCollector, SchemaConstraints + persistence, REST endpoints |
-| v1.7.0  | ✅ Done | INFORMATION_SCHEMA views + REST endpoints |
-| v1.8.0  | ✅ Done | Schema Versioning, Migration, diff, rollback + REST endpoints |
-| v1.9.0  | ✅ Done | IndexRecommender (auto index recommendations) |
-| v2.0.0  | Q4 2026 | Admin/Recovery tooling, full observability, CDC integration |
+| v1.7.0  | ✅ Done | INFORMATION_SCHEMA + REFERENTIAL_CONSTRAINTS, REST endpoints |
+| v1.8.0  | ✅ Done | Schema Versioning, Migration, diff, rollback + REST + runbook |
+| v1.9.0  | ✅ Done | IndexRecommender (auto index recommendations) + REST endpoint |
+| v2.0.0  | Q4 2026 | Admin/Recovery tooling, full observability, CDC integration, AQL functions, CLI |
 
 ---
 

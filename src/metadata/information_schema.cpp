@@ -98,8 +98,22 @@ json ISKeyColumnUsage::toJSON() const {
 }
 
 // ============================================================================
-// InformationSchema
+// ISReferentialConstraint
 // ============================================================================
+
+json ISReferentialConstraint::toJSON() const {
+    return {
+        {"constraint_catalog",        constraint_catalog},
+        {"constraint_schema",         constraint_schema},
+        {"constraint_name",           constraint_name},
+        {"unique_constraint_catalog", unique_constraint_catalog},
+        {"unique_constraint_schema",  unique_constraint_schema},
+        {"unique_constraint_name",    unique_constraint_name},
+        {"match_option",              match_option},
+        {"update_rule",               update_rule},
+        {"delete_rule",               delete_rule},
+    };
+}
 
 InformationSchema::InformationSchema(SchemaManager& schema_mgr)
     : schema_mgr_(schema_mgr)
@@ -243,6 +257,41 @@ std::vector<ISKeyColumnUsage> InformationSchema::getKeyColumnUsage(
     return result;
 }
 
+std::vector<ISReferentialConstraint> InformationSchema::getReferentialConstraints(
+    std::optional<std::string_view> table_filter) const
+{
+    auto tables = schema_mgr_.getAllTables();
+    std::vector<ISReferentialConstraint> result;
+
+    for (const auto& t : tables) {
+        if (table_filter.has_value() && t.name != *table_filter) {
+            continue;
+        }
+
+        for (const auto& idx : t.indexes) {
+            // Only FK-like indexes carry referenced table info; in the current
+            // data model we detect them by a naming convention "fk_*".
+            // A full implementation would consult SchemaConstraints for FK definitions.
+            if (idx.name.rfind("fk_", 0) != 0) {
+                continue;
+            }
+
+            ISReferentialConstraint rc;
+            rc.constraint_catalog        = "def";
+            rc.constraint_schema         = "main";
+            rc.constraint_name           = idx.name;
+            rc.unique_constraint_catalog = "def";
+            rc.unique_constraint_schema  = "main";
+            rc.unique_constraint_name    = idx.name + "_pk";  // Inferred
+            rc.match_option              = "NONE";
+            rc.update_rule               = "NO ACTION";
+            rc.delete_rule               = "NO ACTION";
+            result.push_back(std::move(rc));
+        }
+    }
+    return result;
+}
+
 json InformationSchema::toJSON() const {
     json j;
 
@@ -270,6 +319,12 @@ json InformationSchema::toJSON() const {
     }
     j["key_column_usage"] = kcu_arr;
 
+    json rc_arr = json::array();
+    for (const auto& row : getReferentialConstraints()) {
+        rc_arr.push_back(row.toJSON());
+    }
+    j["referential_constraints"] = rc_arr;
+
     return j;
 }
 
@@ -284,6 +339,14 @@ json InformationSchema::tablesToJSON() const {
 json InformationSchema::columnsToJSON(std::string_view table_name) const {
     json arr = json::array();
     for (const auto& row : getColumns(table_name)) {
+        arr.push_back(row.toJSON());
+    }
+    return arr;
+}
+
+json InformationSchema::referentialConstraintsToJSON() const {
+    json arr = json::array();
+    for (const auto& row : getReferentialConstraints()) {
         arr.push_back(row.toJSON());
     }
     return arr;

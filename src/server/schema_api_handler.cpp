@@ -7,6 +7,7 @@
 #include "metadata/statistics_collector.h"
 #include "metadata/schema_constraints.h"
 #include "metadata/schema_version_manager.h"
+#include "metadata/index_recommender.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include <spdlog/spdlog.h>
@@ -28,6 +29,7 @@ SchemaApiHandler::SchemaApiHandler(
     , stats_collector_(nullptr)
     , schema_constraints_(nullptr)
     , version_mgr_(nullptr)
+    , index_recommender_(nullptr)
 {
     spdlog::info("SchemaApiHandler initialized");
 }
@@ -527,6 +529,10 @@ void SchemaApiHandler::setSchemaVersionManager(SchemaVersionManager* version_mgr
     version_mgr_ = version_mgr;
 }
 
+void SchemaApiHandler::setIndexRecommender(IndexRecommender* index_recommender) {
+    index_recommender_ = index_recommender;
+}
+
 // ============================================================================
 // Helper methods
 // ============================================================================
@@ -930,6 +936,78 @@ http::response<http::string_body> SchemaApiHandler::handleGetDiff(
         json j;
         j["status"] = "success";
         j["diff"]   = result.value;
+        res.body() = j.dump(2);
+        res.prepare_payload();
+        return res;
+
+    } catch (const std::exception& e) {
+        return makeError(req, http::status::internal_server_error,
+                         std::string("Internal error: ") + e.what());
+    }
+}
+
+// ============================================================================
+// Index recommendations endpoint
+// ============================================================================
+
+http::response<http::string_body> SchemaApiHandler::handleGetIndexRecommendations(
+    const http::request<http::string_body>& req)
+{
+    if (!index_recommender_) {
+        return makeError(req, http::status::service_unavailable,
+                         "Index recommender not available");
+    }
+
+    try {
+        std::string target = std::string(req.target());
+        std::string base   = "/api/v1/metadata/index_recommendations";
+        std::string prefix = base + "/";
+
+        json j;
+        j["status"] = "success";
+
+        if (target == base || target == base + "/") {
+            // All tables
+            auto all_recs = index_recommender_->recommendAll();
+            json rec_obj = json::object();
+            for (const auto& [table_name, recs] : all_recs) {
+                json rec_arr = json::array();
+                for (const auto& r : recs) {
+                    rec_arr.push_back(r.toJSON());
+                }
+                rec_obj[table_name] = rec_arr;
+            }
+            j["recommendations"] = rec_obj;
+
+        } else if (target.find(prefix) == 0) {
+            // Single table
+            std::string table_name = target.substr(prefix.size());
+            // Strip query string
+            auto qpos = table_name.find('?');
+            if (qpos != std::string::npos) table_name = table_name.substr(0, qpos);
+
+            if (table_name.empty()) {
+                return makeError(req, http::status::bad_request,
+                                 "Table name is required");
+            }
+
+            auto recs = index_recommender_->recommend(table_name);
+            json rec_arr = json::array();
+            for (const auto& r : recs) {
+                rec_arr.push_back(r.toJSON());
+            }
+            j["table_name"]      = table_name;
+            j["recommendations"] = rec_arr;
+
+        } else {
+            return makeError(req, http::status::not_found,
+                             "Unknown endpoint: " + target);
+        }
+
+        http::response<http::string_body> res{http::status::ok, req.version()};
+        res.set(http::field::server, "ThemisDB");
+        res.set(http::field::content_type, "application/json");
+        res.keep_alive(req.keep_alive());
         res.body() = j.dump(2);
         res.prepare_payload();
         return res;

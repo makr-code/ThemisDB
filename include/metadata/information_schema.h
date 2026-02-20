@@ -75,6 +75,21 @@ struct ISKeyColumnUsage {
     json toJSON() const;
 };
 
+/// Row in INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+struct ISReferentialConstraint {
+    std::string constraint_catalog;
+    std::string constraint_schema;
+    std::string constraint_name;           ///< FK constraint name
+    std::string unique_constraint_catalog; ///< Catalog of referenced constraint
+    std::string unique_constraint_schema;
+    std::string unique_constraint_name;    ///< Name of the referenced unique/PK constraint
+    std::string match_option;              ///< "NONE", "PARTIAL", "FULL"
+    std::string update_rule;               ///< "RESTRICT", "CASCADE", "NO ACTION", etc.
+    std::string delete_rule;
+
+    json toJSON() const;
+};
+
 /// InformationSchema - SQL-standard INFORMATION_SCHEMA views
 ///
 /// Provides read-only metadata views modelled after the SQL:2003 standard.
@@ -128,12 +143,20 @@ public:
         std::optional<std::string_view> table_name = std::nullopt
     ) const;
 
+    /// INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS
+    /// Returns foreign-key referential constraint metadata, optionally
+    /// filtered by the referencing table name.
+    std::vector<ISReferentialConstraint> getReferentialConstraints(
+        std::optional<std::string_view> table_name = std::nullopt
+    ) const;
+
     // ========================================================================
     // JSON export helpers (for REST API / AQL integration)
     // ========================================================================
 
     /// Serialize the full INFORMATION_SCHEMA as a JSON object with keys
-    /// "tables", "columns", "statistics", and "key_column_usage".
+    /// "tables", "columns", "statistics", "key_column_usage", and
+    /// "referential_constraints".
     json toJSON() const;
 
     /// Return only the TABLES view as a JSON array.
@@ -141,6 +164,9 @@ public:
 
     /// Return only the COLUMNS view for one table as a JSON array.
     json columnsToJSON(std::string_view table_name) const;
+
+    /// Return only the REFERENTIAL_CONSTRAINTS view as a JSON array.
+    json referentialConstraintsToJSON() const;
 
 private:
     SchemaManager& schema_mgr_;

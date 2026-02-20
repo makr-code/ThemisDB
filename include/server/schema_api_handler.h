@@ -17,6 +17,7 @@ class SchemaManager;
 class StatisticsCollector;
 class SchemaConstraints;
 class SchemaVersionManager;
+class IndexRecommender;
 
 namespace server {
 
@@ -87,6 +88,9 @@ public:
     /// Attach a SchemaVersionManager to enable /api/v1/schema/versions/* endpoints.
     void setSchemaVersionManager(SchemaVersionManager* version_mgr);
 
+    /// Attach an IndexRecommender to enable /api/v1/metadata/index_recommendations/* endpoints.
+    void setIndexRecommender(IndexRecommender* index_recommender);
+
     // ========================================================================
     // Core schema endpoints
     // ========================================================================
@@ -147,6 +151,15 @@ public:
         const http::request<http::string_body>& req);
 
     // ========================================================================
+    // Index recommendations endpoint
+    // ========================================================================
+
+    /// GET /api/v1/metadata/index_recommendations         – all tables
+    /// GET /api/v1/metadata/index_recommendations/:table  – single table
+    http::response<http::string_body> handleGetIndexRecommendations(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
     // Schema version endpoints
     // ========================================================================
 
@@ -183,10 +196,11 @@ private:
 
     std::shared_ptr<RocksDBWrapper>        storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
-    SchemaManager*          schema_mgr_        = nullptr;  ///< Non-owning
-    StatisticsCollector*    stats_collector_   = nullptr;  ///< Non-owning
-    SchemaConstraints*      schema_constraints_ = nullptr; ///< Non-owning
-    SchemaVersionManager*   version_mgr_       = nullptr;  ///< Non-owning
+    SchemaManager*          schema_mgr_          = nullptr;  ///< Non-owning
+    StatisticsCollector*    stats_collector_     = nullptr;  ///< Non-owning
+    SchemaConstraints*      schema_constraints_  = nullptr;  ///< Non-owning
+    SchemaVersionManager*   version_mgr_         = nullptr;  ///< Non-owning
+    IndexRecommender*       index_recommender_   = nullptr;  ///< Non-owning
 };
 
 } // namespace server

@@ -900,7 +900,20 @@ HttpServer::HttpServer(
             schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
                 storage_, secondary_index_, schema_manager_.get());
-            THEMIS_INFO("SchemaManager and Schema API Handler initialized");
+
+            // Wire metadata sub-components into SchemaApiHandler
+            stats_collector_  = std::make_unique<StatisticsCollector>(*storage_);
+            schema_constraints_ = std::make_unique<SchemaConstraints>();
+            schema_constraints_->loadFrom(*storage_);  // Reload persisted constraints
+            schema_version_mgr_ = std::make_unique<SchemaVersionManager>(*storage_, *schema_manager_);
+            index_recommender_  = std::make_unique<IndexRecommender>();
+
+            schema_api_handler_->setStatisticsCollector(stats_collector_.get());
+            schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
+            schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
+            schema_api_handler_->setIndexRecommender(index_recommender_.get());
+
+            THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
         }
@@ -1732,6 +1745,17 @@ namespace {
     SchemaGetTable,           // GET /api/v1/schema/tables/:name
     SchemaPut,                // PUT /api/v1/schema/:tablename
     SchemaPatch,              // PATCH /api/v1/schema/:tablename
+    // Schema versioning
+    SchemaVersionsGet,        // GET  /api/v1/schema/versions/:table
+    SchemaVersionsPost,       // POST /api/v1/schema/versions/:table
+    SchemaDiffGet,            // GET  /api/v1/schema/diff/:table?from=V&to=V
+    // INFORMATION_SCHEMA
+    InformationSchemaGet,     // GET /api/v1/information_schema[/...]
+    // Metadata extended
+    MetadataStatsGet,         // GET  /api/v1/metadata/stats/:table
+    MetadataStatsPost,        // POST /api/v1/metadata/stats/:table
+    MetadataConstraintsGet,   // GET  /api/v1/metadata/constraints/:table
+    MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]
        
     // Error API
     ErrorApiListGet,          // GET /api/v1/errors
@@ -2054,10 +2078,33 @@ namespace {
     if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
     if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
     if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
+
+    // Schema versioning routes (must come before the generic SchemaPut/Patch catch)
+    if (path_only.rfind("/api/v1/schema/versions/", 0) == 0) {
+        if (method == http::verb::get)  return Route::SchemaVersionsGet;
+        if (method == http::verb::post) return Route::SchemaVersionsPost;
+    }
+    if (path_only.rfind("/api/v1/schema/diff/", 0) == 0 && method == http::verb::get)
+        return Route::SchemaDiffGet;
+
     if (path_only.rfind("/api/v1/schema/", 0) == 0 && path_only != "/api/v1/schema/" && 
         path_only != "/api/v1/schema/tables" && path_only.find("/api/v1/schema/tables/") != 0) {
         if (method == http::verb::put) return Route::SchemaPut;
         if (method == http::verb::patch) return Route::SchemaPatch;
+    }
+
+    // INFORMATION_SCHEMA routes
+    if (path_only.rfind("/api/v1/information_schema", 0) == 0 && method == http::verb::get)
+        return Route::InformationSchemaGet;
+
+    // Metadata extended routes (order: more specific first)
+    if (path_only.rfind("/api/v1/metadata/index_recommendations", 0) == 0 && method == http::verb::get)
+        return Route::MetadataIndexRecsGet;
+    if (path_only.rfind("/api/v1/metadata/constraints/", 0) == 0 && method == http::verb::get)
+        return Route::MetadataConstraintsGet;
+    if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
+        if (method == http::verb::get)  return Route::MetadataStatsGet;
+        if (method == http::verb::post) return Route::MetadataStatsPost;
     }
 
     // MVCC versioning API endpoints
@@ -3392,6 +3439,30 @@ namespace {
             break;
         case Route::SchemaPatch:
             response = handleSchemaPatch(req);
+            break;
+        case Route::SchemaVersionsGet:
+            response = handleSchemaVersionHistory(req);
+            break;
+        case Route::SchemaVersionsPost:
+            response = handleSchemaCreateVersion(req);
+            break;
+        case Route::SchemaDiffGet:
+            response = handleSchemaDiff(req);
+            break;
+        case Route::InformationSchemaGet:
+            response = handleMetadataInformationSchema(req);
+            break;
+        case Route::MetadataStatsGet:
+            response = handleMetadataGetStats(req);
+            break;
+        case Route::MetadataStatsPost:
+            response = handleMetadataCollectStats(req);
+            break;
+        case Route::MetadataConstraintsGet:
+            response = handleMetadataGetConstraints(req);
+            break;
+        case Route::MetadataIndexRecsGet:
+            response = handleMetadataIndexRecommendations(req);
             break;
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
@@ -7624,6 +7695,90 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
             "Schema API not available", req);
     }
     return schema_api_handler_->handlePatchSchema(req);
+}
+
+// ============================================================================
+// Metadata extended handler shims
+// ============================================================================
+
+http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetInformationSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataCollectStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCollectStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetConstraints(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetIndexRecommendations(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetVersionHistory(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCreateVersion(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaDiff(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetDiff(req);
 }
 
 } // namespace server
