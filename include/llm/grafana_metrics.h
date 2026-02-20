@@ -229,11 +229,13 @@ public:
         std::string host = "0.0.0.0";
         int port = 9090;
         bool enable_cors = true;
-        std::string metrics_path   = "/metrics";
-        std::string dashboard_path = "/dashboard";
-        std::string health_path    = "/health";
-        std::string ready_path     = "/ready";
-        std::string models_path    = "/models";
+        std::string metrics_path        = "/metrics";
+        std::string dashboard_path      = "/dashboard";
+        std::string health_path         = "/health";
+        std::string ready_path          = "/ready";
+        std::string models_path         = "/models";
+        std::string admin_reload_path   = "/admin/models/reload";
+        std::string admin_simulate_path = "/admin/prompt/simulate";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -251,20 +253,42 @@ public:
     std::string getHealthURL() const;
     std::string getReadyURL() const;
     std::string getModelsURL() const;
+    std::string getAdminReloadURL() const;
+    std::string getAdminSimulateURL() const;
 
     /**
-     * @brief Register a callback that supplies the current model list as a
-     *        pre-serialized JSON string for the GET /models endpoint.
-     *
-     * The callback is invoked synchronously inside handleRequest() so it MUST
-     * be fast and must NOT acquire locks held by the caller thread.
-     *
-     * @param cb  Callable () -> std::string returning a JSON array of model
-     *            objects (e.g. serialized ModelInfo records).  Pass nullptr to
-     *            remove a previously set callback.
+     * @brief Register a callback for GET /models.
+     * Callable () -> std::string (JSON array). nullptr = return "[]".
      */
     void setModelInfoCallback(std::function<std::string()> cb) {
         model_info_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for POST /admin/models/reload.
+     *
+     * Invoked with the raw POST body.  Should trigger a hot-reload of the
+     * model named in the body and return a JSON result string.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& body) -> std::string.
+     */
+    void setReloadCallback(std::function<std::string(const std::string&)> cb) {
+        reload_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for POST /admin/prompt/simulate.
+     *
+     * Invoked with the raw POST body (a JSON object with "prompt" and
+     * optionally "model_id").  Should perform a dry-run policy check +
+     * tokenization and return a JSON result string.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& body) -> std::string.
+     */
+    void setSimulateCallback(std::function<std::string(const std::string&)> cb) {
+        simulate_cb_ = std::move(cb);
     }
     
 private:
@@ -272,9 +296,14 @@ private:
     PrometheusExporter* exporter_;
     bool running_ = false;
     std::function<std::string()> model_info_cb_;
+    std::function<std::string(const std::string&)> reload_cb_;
+    std::function<std::string(const std::string&)> simulate_cb_;
     
     // HTTP request handling
     void handleRequest(const std::string& path, std::string& response);
+    // POST body is passed separately to keep GET paths clean.
+    void handlePost(const std::string& path, const std::string& body,
+                    std::string& response);
 };
 
 } // namespace monitoring

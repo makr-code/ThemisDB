@@ -5,6 +5,12 @@
 namespace themis {
 namespace llm {
 
+// Rough estimate of characters per token.  This is model-dependent (e.g. ~3.5
+// for English prose in Llama-style tokenizers, 4 is a safe conservative
+// upper bound for ASCII text).  A future improvement is to expose this in
+// SchedulerConfig so operators can tune it per model.
+static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
+
 ContinuousBatchScheduler::ContinuousBatchScheduler(
     const SchedulerConfig& config,
     PagedKVCache* kv_cache
@@ -54,6 +60,24 @@ std::string ContinuousBatchScheduler::submitRequest(
             return {};  // Empty string signals rejection to caller
         }
     }
+
+    // Per-user / per-model token quota check.  Estimated prompt tokens are
+    // charged here (conservative pre-charge); actual tokens should also be
+    // consumed via quota_manager_->consume() after the response is ready.
+    if (quota_manager_) {
+        const std::string& user_id  = request.request_id;  // best available key at ingestion
+        const std::string& model_id = request.model_id;
+        const size_t estimated = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE + request.max_tokens;
+        auto qr = quota_manager_->check(user_id, model_id, estimated);
+        if (!qr.allowed) {
+            stats_.rejected_requests++;
+            spdlog::warn("ContinuousBatchScheduler: quota exceeded — {}",
+                         qr.reason);
+            return {};
+        }
+        // Pre-charge the estimated tokens; callers should adjust via consume()
+        quota_manager_->consume(user_id, model_id, estimated);
+    }
     
     auto scheduled = std::make_shared<ScheduledRequest>();
     scheduled->request_id = generateRequestId();
@@ -65,7 +89,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     scheduled->sequence_id = next_sequence_id_.fetch_add(1, std::memory_order_relaxed);
     
     // Estimate prompt tokens (simplified)
-    scheduled->total_prompt_tokens = request.prompt.length() / 4;  // Rough estimate
+    scheduled->total_prompt_tokens = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE;
     
     // Add to queue and lookup
     waiting_queue_.push(scheduled);

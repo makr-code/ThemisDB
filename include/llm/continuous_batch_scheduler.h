@@ -3,6 +3,7 @@
 #include "llm/llm_plugin_interface.h"
 #include "llm/paged_kv_cache.h"
 #include "llm/grafana_metrics.h"
+#include "llm/token_quota_manager.h"
 #include <vector>
 #include <queue>
 #include <mutex>
@@ -134,6 +135,15 @@ public:
         std::lock_guard<std::mutex> lock(mutex_);
         metrics_collector_ = collector;
     }
+
+    // Attach a TokenQuotaManager for per-user/per-model token-per-minute
+    // enforcement.  submitRequest() will call check() and, on success,
+    // consume() on the manager.  Pass nullptr to disable quota checks.
+    // Ownership is NOT transferred.
+    void setQuotaManager(TokenQuotaManager* quota) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        quota_manager_ = quota;
+    }
     
     // Request submission
     std::string submitRequest(
@@ -191,6 +201,8 @@ private:
     PagedKVCache* kv_cache_;
     // Optional metrics collector — not owned, may be nullptr
     monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
+    // Optional quota manager — not owned, may be nullptr
+    TokenQuotaManager* quota_manager_ = nullptr;
     
     // Request queues by priority
     std::priority_queue<

@@ -1092,6 +1092,14 @@ std::string MetricsServer::getModelsURL() const {
     return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.models_path;
 }
 
+std::string MetricsServer::getAdminReloadURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_reload_path;
+}
+
+std::string MetricsServer::getAdminSimulateURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_simulate_path;
+}
+
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
@@ -1118,6 +1126,37 @@ void MetricsServer::handleRequest(const std::string& path, std::string& response
             response = model_info_cb_();
         } else {
             response = "[]";
+        }
+    } else {
+        response = "404 Not Found";
+    }
+}
+
+void MetricsServer::handlePost(const std::string& path,
+                               const std::string& body,
+                               std::string& response) {
+    // Default responses when no callback is registered — extracted to
+    // constants so both branches stay consistent and are easy to update.
+    static constexpr const char* k_reload_not_impl =
+        R"({"status":"not_implemented","message":"No reload callback registered. Wire setReloadCallback() to LlamaWrapper::loadModel()."})";
+    static constexpr const char* k_simulate_not_impl =
+        R"({"status":"not_implemented","message":"No simulate callback registered. Wire setSimulateCallback() to PromptPolicy::apply() + tokenizer.estimateTokens()."})";
+
+    if (path == config_.admin_reload_path) {
+        // POST /admin/models/reload — trigger a hot-reload of the requested
+        // model.  The caller provides the model ID (or file path) in the body.
+        if (reload_cb_) {
+            response = reload_cb_(body);
+        } else {
+            response = k_reload_not_impl;
+        }
+    } else if (path == config_.admin_simulate_path) {
+        // POST /admin/prompt/simulate — dry-run policy check + tokenization.
+        // Body: JSON {"prompt":"<text>","model_id":"<optional>"}
+        if (simulate_cb_) {
+            response = simulate_cb_(body);
+        } else {
+            response = k_simulate_not_impl;
         }
     } else {
         response = "404 Not Found";
