@@ -7,6 +7,10 @@
 #include <memory>
 #include <cstdint>
 #include <mutex>
+#include <thread>
+#include <condition_variable>
+#include <atomic>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 // Forward declarations for RocksDB types
@@ -63,22 +67,40 @@ public:
         std::optional<std::string> key_prefix; // Filter by key prefix
         std::optional<ChangeEventType> event_type;   // Filter by event type
     };
+    
+    struct RetentionPolicy {
+        bool enabled = false;                           // Enable automatic retention cleanup
+        std::chrono::hours max_age_hours{168};          // Max age (default: 7 days)
+        uint64_t max_event_count = 1000000;             // Max events (default: 1M)
+        size_t max_size_bytes = 100ULL * 1024 * 1024 * 1024;  // Max size (default: 100GB)
+        std::chrono::minutes cleanup_interval{60};      // Cleanup interval (default: 1 hour)
+    };
+    
+    struct Watermarks {
+        uint64_t low_watermark;   // Oldest event sequence
+        uint64_t high_watermark;  // Newest event sequence
+        int64_t oldest_timestamp_ms;  // Timestamp of oldest event
+        int64_t newest_timestamp_ms;  // Timestamp of newest event
+    };
 
     struct Stats {
         uint64_t total_events;
         uint64_t latest_sequence;
         size_t total_size_bytes;
+        Watermarks watermarks;  // Watermark information
     };
 
     /**
      * @brief Construct Changefeed
      * @param db RocksDB TransactionDB instance (not owned)
      * @param cf Optional column family handle (nullptr = default CF)
+     * @param retention Retention policy (optional)
      */
     explicit Changefeed(rocksdb::TransactionDB* db, 
-                        rocksdb::ColumnFamilyHandle* cf = nullptr);
+                        rocksdb::ColumnFamilyHandle* cf = nullptr,
+                        RetentionPolicy retention = RetentionPolicy{});
 
-    ~Changefeed() = default;
+    ~Changefeed();
 
     /**
      * @brief Record a change event
@@ -106,6 +128,12 @@ public:
      * @return Stats struct
      */
     Stats getStats() const;
+    
+    /**
+     * @brief Get watermark information
+     * @return Watermarks struct
+     */
+    Watermarks getWatermarks() const;
 
     /**
      * @brief Clear all events (admin operation)
@@ -118,10 +146,34 @@ public:
      * @return Number of events deleted
      */
     size_t deleteOldEvents(uint64_t before_sequence);
+    
+    /**
+     * @brief Delete events older than given timestamp
+     * @param before_timestamp_ms Delete events with timestamp < this value
+     * @return Number of events deleted
+     */
+    size_t deleteOldEventsByTimestamp(int64_t before_timestamp_ms);
+    
+    /**
+     * @brief Apply retention policy (delete old events based on configured policy)
+     * @return Number of events deleted
+     */
+    size_t applyRetentionPolicy();
+    
+    /**
+     * @brief Start background retention cleanup thread
+     */
+    void startRetentionCleanup();
+    
+    /**
+     * @brief Stop background retention cleanup thread
+     */
+    void stopRetentionCleanup();
 
 private:
     rocksdb::TransactionDB* db_;
     rocksdb::ColumnFamilyHandle* cf_;
+    RetentionPolicy retention_policy_;
 
     static constexpr const char* KEY_PREFIX = "changefeed:";
     static constexpr const char* SEQUENCE_KEY = "changefeed_sequence";
@@ -134,6 +186,14 @@ private:
     
     // Mutex to protect sequence generation (prevents race conditions in read-modify-write)
     mutable std::mutex sequence_mutex_;
+    
+    // Retention cleanup thread
+    std::atomic<bool> retention_thread_running_{false};
+    std::thread retention_thread_;
+    std::condition_variable retention_cv_;
+    std::mutex retention_mutex_;
+    
+    void retentionCleanupThread();
 };
 
 } // namespace themis
