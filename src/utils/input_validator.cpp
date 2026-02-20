@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <regex>
 
 namespace themis {
 namespace utils {
@@ -63,23 +64,125 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
     return true;
 }
 
+// Validate a single JSON value against a JSON Schema property descriptor.
+// Supports: type, minLength, maxLength, minimum, maximum, exclusiveMinimum,
+//           exclusiveMaximum, pattern, enum.
+// Returns an error message on failure, std::nullopt on success.
+static std::optional<std::string> validatePropertyConstraints(
+    const std::string& field_name,
+    const nlohmann::json& value,
+    const nlohmann::json& prop)
+{
+    // --- type check ---
+    if (prop.contains("type") && prop["type"].is_string()) {
+        const std::string t = prop["type"].get<std::string>();
+        bool type_ok = false;
+        if      (t == "string")  type_ok = value.is_string();
+        else if (t == "object")  type_ok = value.is_object();
+        else if (t == "number")  type_ok = value.is_number();
+        else if (t == "integer") type_ok = value.is_number_integer();
+        else if (t == "boolean") type_ok = value.is_boolean();
+        else if (t == "array")   type_ok = value.is_array();
+        else if (t == "null")    type_ok = value.is_null();
+        else                     type_ok = true; // unknown type – accept
+        if (!type_ok) {
+            return "field '" + field_name + "' must be " + t;
+        }
+    }
+
+    // --- enum check ---
+    if (prop.contains("enum") && prop["enum"].is_array()) {
+        bool found = false;
+        for (const auto& allowed : prop["enum"]) {
+            if (value == allowed) { found = true; break; }
+        }
+        if (!found) {
+            return "field '" + field_name + "' value not in allowed enum list";
+        }
+    }
+
+    // --- string-specific constraints ---
+    if (value.is_string()) {
+        const std::string& s = value.get_ref<const std::string&>();
+        if (prop.contains("minLength") && prop["minLength"].is_number_integer()) {
+            auto min_len = prop["minLength"].get<size_t>();
+            if (s.size() < min_len) {
+                return "field '" + field_name + "' is shorter than minLength " +
+                       std::to_string(min_len);
+            }
+        }
+        if (prop.contains("maxLength") && prop["maxLength"].is_number_integer()) {
+            auto max_len = prop["maxLength"].get<size_t>();
+            if (s.size() > max_len) {
+                return "field '" + field_name + "' exceeds maxLength " +
+                       std::to_string(max_len);
+            }
+        }
+        if (prop.contains("pattern") && prop["pattern"].is_string()) {
+            try {
+                std::regex re(prop["pattern"].get<std::string>(),
+                              std::regex::ECMAScript | std::regex::optimize);
+                if (!std::regex_search(s, re)) {
+                    return "field '" + field_name + "' does not match required pattern";
+                }
+            } catch (const std::regex_error&) {
+                return "schema error: invalid pattern for field '" + field_name + "'";
+            }
+        }
+    }
+
+    // --- numeric constraints ---
+    if (value.is_number()) {
+        double v = value.get<double>();
+        if (prop.contains("minimum") && prop["minimum"].is_number()) {
+            double mn = prop["minimum"].get<double>();
+            if (v < mn) {
+                return "field '" + field_name + "' is less than minimum " +
+                       std::to_string(mn);
+            }
+        }
+        if (prop.contains("maximum") && prop["maximum"].is_number()) {
+            double mx = prop["maximum"].get<double>();
+            if (v > mx) {
+                return "field '" + field_name + "' exceeds maximum " +
+                       std::to_string(mx);
+            }
+        }
+        if (prop.contains("exclusiveMinimum") && prop["exclusiveMinimum"].is_number()) {
+            double emn = prop["exclusiveMinimum"].get<double>();
+            if (v <= emn) {
+                return "field '" + field_name + "' must be > " + std::to_string(emn);
+            }
+        }
+        if (prop.contains("exclusiveMaximum") && prop["exclusiveMaximum"].is_number()) {
+            double emx = prop["exclusiveMaximum"].get<double>();
+            if (v >= emx) {
+                return "field '" + field_name + "' must be < " + std::to_string(emx);
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
 std::optional<std::string> InputValidator::validateJsonStub(
     const nlohmann::json& payload,
     const std::string& schema_name
 ) const {
     auto schema = loadSchema(schema_name);
     if (!schema.has_value()) {
-        return std::nullopt; // no schema -> accept (stub mode)
+        return std::nullopt; // no schema file present -> accept
     }
-    // Very small subset: {"type":"object","required":[...],"properties":{k:{"type":"string|object|number|boolean"}}}
     try {
         if (!schema->is_object()) return std::string("invalid schema format");
         if (schema->contains("type") && (*schema)["type"].is_string()) {
             if ((*schema)["type"].get<std::string>() != "object") {
-                return std::string("only object schemas supported in stub");
+                return std::string("only top-level object schemas are supported");
             }
         }
         if (!payload.is_object()) return std::string("payload must be object");
+
+        // --- required fields ---
         if (schema->contains("required") && (*schema)["required"].is_array()) {
             for (const auto& k : (*schema)["required"]) {
                 if (!k.is_string()) continue;
@@ -89,22 +192,34 @@ std::optional<std::string> InputValidator::validateJsonStub(
                 }
             }
         }
+
+        // --- per-property constraints ---
         if (schema->contains("properties") && (*schema)["properties"].is_object()) {
-            for (auto it = (*schema)["properties"].begin(); it != (*schema)["properties"].end(); ++it) {
+            for (auto it = (*schema)["properties"].begin();
+                 it != (*schema)["properties"].end(); ++it) {
                 const std::string key = it.key();
                 const auto& prop = it.value();
                 if (!payload.contains(key)) continue;
-                if (prop.contains("type") && prop["type"].is_string()) {
-                    const std::string t = prop["type"].get<std::string>();
-                    const auto& v = payload.at(key);
-                    if (t == "string" && !v.is_string()) return std::string("field '") + key + "' must be string";
-                    if (t == "object" && !v.is_object()) return std::string("field '") + key + "' must be object";
-                    if (t == "number" && !v.is_number()) return std::string("field '") + key + "' must be number";
-                    if (t == "boolean" && !v.is_boolean()) return std::string("field '") + key + "' must be boolean";
-                    if (t == "array" && !v.is_array()) return std::string("field '") + key + "' must be array";
+                if (auto err = validatePropertyConstraints(key, payload.at(key), prop)) {
+                    return err;
                 }
             }
         }
+
+        // --- additionalProperties: false ---
+        if (schema->contains("additionalProperties") &&
+            schema->at("additionalProperties").is_boolean() &&
+            !schema->at("additionalProperties").get<bool>()) {
+            if (schema->contains("properties") && (*schema)["properties"].is_object()) {
+                const auto& props = (*schema)["properties"];
+                for (const auto& [key, _] : payload.items()) {
+                    if (!props.contains(key)) {
+                        return "additional property not allowed: '" + key + "'";
+                    }
+                }
+            }
+        }
+
         return std::nullopt;
     } catch (...) {
         return std::string("schema validation error");
