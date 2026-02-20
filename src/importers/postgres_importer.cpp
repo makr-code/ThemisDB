@@ -4,6 +4,8 @@
 #include <sstream>
 #include <chrono>
 #include <algorithm>
+#include <thread>
+#include <future>
 
 namespace themis {
 namespace importers {
@@ -117,6 +119,69 @@ ImportStats PostgreSQLImporter::importData(
     }
 
     return stats;
+}
+
+std::shared_ptr<ImportHandle> PostgreSQLImporter::importDataAsync(
+    const std::string& source_path,
+    const ImportOptions& options
+) {
+    auto handle = std::make_shared<ImportHandle>();
+
+    // Generate a simple unique ID: epoch-ms + pointer suffix
+    {
+        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        handle->id = "import-" + std::to_string(ms) + "-" +
+                     std::to_string(reinterpret_cast<uintptr_t>(handle.get()) & 0xFFFF);
+    }
+    handle->started_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+    handle->running.store(true);
+    handle->setStage("pending");
+
+    // Promise/future pair for the final stats
+    auto promise = std::make_shared<std::promise<ImportStats>>();
+    handle->future = promise->get_future().share();
+
+    // Build a progress callback that updates the live counters on the handle
+    std::weak_ptr<ImportHandle> weak_handle = handle;
+    ProgressCallback progress_cb = [weak_handle](const std::string& stage,
+                                                  size_t current, size_t total) {
+        if (auto h = weak_handle.lock()) {
+            h->current_records.store(current);
+            h->total_records.store(total);
+            h->setStage(stage);
+        }
+    };
+
+    // Launch worker thread
+    std::thread([this, source_path, options, progress_cb, handle, promise]() mutable {
+        ImportStats stats;
+        try {
+            stats = this->importData(source_path, options, progress_cb);
+        } catch (const std::exception& e) {
+            ImportError err;
+            err.code     = ImportErrorCode::UNKNOWN;
+            err.severity = ImportErrorSeverity::CRITICAL;
+            err.message  = std::string("Unhandled exception in async import: ") + e.what();
+            stats.structured_errors.push_back(err);
+            stats.errors.push_back(err.message);
+        } catch (...) {
+            ImportError err;
+            err.code     = ImportErrorCode::UNKNOWN;
+            err.severity = ImportErrorSeverity::CRITICAL;
+            err.message  = "Unknown exception in async import worker";
+            stats.structured_errors.push_back(err);
+            stats.errors.push_back(err.message);
+        }
+        handle->running.store(false);
+        handle->setStage("completed");
+        handle->finished_at_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch()).count();
+        promise->set_value(std::move(stats));
+    }).detach();
+
+    return handle;
 }
 
 void PostgreSQLImporter::cancel() {

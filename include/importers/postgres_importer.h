@@ -35,6 +35,10 @@ public:
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
     ) override;
+    std::shared_ptr<ImportHandle> importDataAsync(
+        const std::string& source_path,
+        const ImportOptions& options
+    ) override;
     void cancel() override;
     json getSourceSchema(const std::string& source_path) override;
     

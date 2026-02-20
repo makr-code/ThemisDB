@@ -228,11 +228,20 @@ Added explicit mappings for previously unmapped types:
 
 - [x] Add checkpoint/resume support: persist byte offset to a JSON file so imports can
       be resumed after interruption.
+- [x] Expose async import API (`importDataAsync`) returning a `shared_ptr<ImportHandle>`.
+      The handle exposes:
+      - `std::shared_future<ImportStats>` for the final result
+      - `std::atomic<size_t> current_records / total_records` for live progress
+      - `getStatus()` → `PENDING | RUNNING | COMPLETED | CANCELLED | FAILED`
+      - `getStage()` → current human-readable step
+      - `started_at_ms / finished_at_ms` (epoch ms)
+      The background worker is launched in a detached `std::thread`; all fields are
+      written from the worker and read safely by any observer thread.
+- [x] `ImportJobRegistry` – thread-safe map of job ID → handle for multi-job tracking.
+- [x] Progress callback wired: worker thread updates handle counters and calls the
+      `ProgressCallback` on every row batch.
 - [ ] Implement true streaming parser: process the dump file in fixed-size chunks so
       memory usage is bounded regardless of file size.
-- [ ] Expose an async import API (`importDataAsync`) returning a future/handle that
-      callers can poll or cancel.
-- [ ] Emit per-batch progress events through the `ProgressCallback`.
 
 ### Phase 3: Observability (Q2 2026)
 
@@ -244,8 +253,14 @@ Added explicit mappings for previously unmapped types:
       `themisdb_import_errors_total{code}`,
       `themisdb_import_tables_total`.
       See the [runbook](importers_runbook.md) for PrometheusMetrics wiring example.
+- [x] Prometheus REST endpoint via `ImportApiHandler` (`httplib`, same pattern as
+      `branch_api_handler.cpp`).  Routes:
+      - `POST /api/v1/import/postgresql` – start async import, returns job handle JSON
+      - `GET /api/v1/import/{job_id}/status` – live progress + final stats
+      - `POST /api/v1/import/{job_id}/cancel` – cancel a running job
+      - `GET /api/v1/import/jobs` – list all known jobs
+      - `GET /api/v1/import/metrics` – Prometheus text format (scrape endpoint)
 - [ ] Add OpenTelemetry spans around batch processing for distributed tracing.
-- [ ] Provide a REST endpoint (via the existing HTTP server) for live import status.
 
 ### Phase 4: Robust SQL Parsing (Q3 2026)
 

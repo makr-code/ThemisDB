@@ -6,6 +6,10 @@
 #include <functional>
 #include <map>
 #include <cstdint>
+#include <atomic>
+#include <mutex>
+#include <future>
+#include <chrono>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -129,6 +133,39 @@ struct ImportStats {
 };
 
 /**
+ * @brief Progress Callback
+ */
+using ProgressCallback = std::function<void(const std::string& stage, size_t current, size_t total)>;
+
+/**
+ * @brief Metrics Callback for Prometheus / OpenTelemetry integration.
+ *
+ * Called by the importer at key points so callers can wire any metrics backend
+ * without the importer having a hard dependency on a specific library.
+ *
+ * Standard metric names emitted:
+ *   "themisdb_import_rows_total"     labels: table, status ("imported"|"failed"|"skipped")
+ *   "themisdb_import_duration_seconds" labels: table
+ *   "themisdb_import_errors_total"   labels: table, code (ImportErrorCode as uint32 string)
+ *   "themisdb_import_tables_total"   labels: (none)
+ *
+ * Example wiring to PrometheusMetrics:
+ * @code
+ *   auto& prom = PrometheusMetrics::instance();
+ *   opts.metrics_callback = [&](const std::string& metric,
+ *                               const std::map<std::string,std::string>& labels,
+ *                               double value) {
+ *       prom.addToCounter(metric, static_cast<int64_t>(value), labels);
+ *   };
+ * @endcode
+ */
+using MetricsCallback = std::function<void(
+    const std::string& metric,
+    const std::map<std::string, std::string>& labels,
+    double value
+)>;
+
+/**
  * @brief Import Options
  */
 struct ImportOptions {
@@ -188,38 +225,136 @@ struct ImportOptions {
     }
 };
 
-/**
- * @brief Progress Callback
- */
-using ProgressCallback = std::function<void(const std::string& stage, size_t current, size_t total)>;
+// ============================================================================
+// Async import API
+// ============================================================================
 
 /**
- * @brief Metrics Callback for Prometheus / OpenTelemetry integration.
- *
- * Called by the importer at key points so callers can wire any metrics backend
- * without the importer having a hard dependency on a specific library.
- *
- * Standard metric names emitted:
- *   "themisdb_import_rows_total"     labels: table, status ("imported"|"failed"|"skipped")
- *   "themisdb_import_duration_seconds" labels: table
- *   "themisdb_import_errors_total"   labels: table, code (ImportErrorCode as uint32 string)
- *   "themisdb_import_tables_total"   labels: (none)
- *
- * Example wiring to PrometheusMetrics:
- * @code
- *   auto& prom = PrometheusMetrics::instance();
- *   opts.metrics_callback = [&](const std::string& metric,
- *                               const std::map<std::string,std::string>& labels,
- *                               double value) {
- *       prom.addToCounter(metric, static_cast<int64_t>(value), labels);
- *   };
- * @endcode
+ * @brief Async import status
  */
-using MetricsCallback = std::function<void(
-    const std::string& metric,
-    const std::map<std::string, std::string>& labels,
-    double value
-)>;
+enum class ImportStatus {
+    PENDING,    ///< Job submitted, not yet started
+    RUNNING,    ///< Import in progress
+    COMPLETED,  ///< Import finished successfully (or with skipped/failed rows)
+    CANCELLED,  ///< Cancelled via cancel()
+    FAILED      ///< Fatal error stopped the import
+};
+
+/**
+ * @brief Live handle for an in-progress or completed async import.
+ *
+ * Returned by `IImporter::importDataAsync()`.  All fields are thread-safe:
+ * the importer worker thread writes to the atomic counters while the caller
+ * or HTTP handler thread reads them.
+ */
+struct ImportHandle {
+    std::string id;           ///< Unique job ID (UUID-like string)
+
+    // Live progress – updated by the worker thread
+    std::atomic<size_t> current_records{0};    ///< Records processed so far
+    std::atomic<size_t> total_records{0};      ///< Estimated total (0 = unknown)
+    std::atomic<bool>   running{false};
+
+    // Human-readable current stage, e.g. "parsing", "copying table users"
+    std::string         stage;
+    mutable std::mutex  stage_mutex;
+
+    // Final result – available once running == false
+    std::shared_future<ImportStats> future;
+
+    // Start / end timestamps (epoch milliseconds)
+    int64_t started_at_ms  = 0;
+    int64_t finished_at_ms = 0;
+
+    ImportHandle() = default;
+    // Non-copyable (contains mutexes and atomics)
+    ImportHandle(const ImportHandle&) = delete;
+    ImportHandle& operator=(const ImportHandle&) = delete;
+
+    ImportStatus getStatus() const {
+        if (running.load()) return ImportStatus::RUNNING;
+        if (!future.valid()) return ImportStatus::PENDING;
+        using fs = std::future_status;
+        if (future.wait_for(std::chrono::seconds(0)) != fs::ready) return ImportStatus::RUNNING;
+        return ImportStatus::COMPLETED;
+    }
+
+    std::string getStage() const {
+        std::lock_guard<std::mutex> lk(stage_mutex);
+        return stage;
+    }
+
+    void setStage(const std::string& s) {
+        std::lock_guard<std::mutex> lk(stage_mutex);
+        stage = s;
+    }
+
+    json toJson() const {
+        std::string st;
+        switch (getStatus()) {
+            case ImportStatus::PENDING:    st = "pending";    break;
+            case ImportStatus::RUNNING:    st = "running";    break;
+            case ImportStatus::COMPLETED:  st = "completed";  break;
+            case ImportStatus::CANCELLED:  st = "cancelled";  break;
+            case ImportStatus::FAILED:     st = "failed";     break;
+        }
+        json j{
+            {"id",              id},
+            {"status",          st},
+            {"stage",           getStage()},
+            {"current_records", current_records.load()},
+            {"total_records",   total_records.load()},
+            {"started_at_ms",   started_at_ms},
+            {"finished_at_ms",  finished_at_ms}
+        };
+        if (getStatus() == ImportStatus::COMPLETED &&
+            future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+            try {
+                // shared_future::get() may be called multiple times safely;
+                // it returns a const reference to the stored value.
+                j["stats"] = future.get().toJson();
+            } catch (...) {}
+        }
+        return j;
+    }
+};
+
+/**
+ * @brief Thread-safe registry of active and recently completed import jobs.
+ *
+ * Holds shared_ptr<ImportHandle> entries keyed by job ID.  Jobs are kept in
+ * the registry after completion so status queries can retrieve final stats.
+ */
+class ImportJobRegistry {
+public:
+    void add(std::shared_ptr<ImportHandle> handle) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        jobs_[handle->id] = std::move(handle);
+    }
+
+    std::shared_ptr<ImportHandle> get(const std::string& id) const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        auto it = jobs_.find(id);
+        return (it != jobs_.end()) ? it->second : nullptr;
+    }
+
+    std::vector<std::shared_ptr<ImportHandle>> all() const {
+        std::lock_guard<std::mutex> lk(mutex_);
+        std::vector<std::shared_ptr<ImportHandle>> out;
+        out.reserve(jobs_.size());
+        for (auto& [k, v] : jobs_) out.push_back(v);
+        return out;
+    }
+
+    void remove(const std::string& id) {
+        std::lock_guard<std::mutex> lk(mutex_);
+        jobs_.erase(id);
+    }
+
+private:
+    mutable std::mutex mutex_;
+    std::map<std::string, std::shared_ptr<ImportHandle>> jobs_;
+};
 
 /**
  * @brief Base Importer Interface
@@ -257,7 +392,7 @@ public:
     virtual bool validateSource(const std::string& source_path, std::vector<std::string>& errors) = 0;
     
     /**
-     * @brief Import data from source
+     * @brief Import data from source (synchronous)
      * @param source_path Path to source
      * @param options Import options
      * @param progress_callback Optional progress callback
@@ -267,6 +402,28 @@ public:
         const std::string& source_path,
         const ImportOptions& options,
         ProgressCallback progress_callback = nullptr
+    ) = 0;
+
+    /**
+     * @brief Import data from source (asynchronous)
+     *
+     * Launches a background thread and returns an `ImportHandle` immediately.
+     * Callers can poll `handle->getStatus()` and read live progress from
+     * `handle->current_records`.  When `getStatus() == COMPLETED` the full
+     * `ImportStats` is available via `handle->future.get()`.
+     *
+     * **Lifetime requirement**: The `IImporter` instance must outlive all
+     * pending `ImportHandle` futures.  In practice, hold the importer via a
+     * `shared_ptr<IImporter>` whose lifetime is at least as long as the handle
+     * (e.g., store both in the same owning object or `ImportJobRegistry`).
+     *
+     * @param source_path Path to source
+     * @param options Import options
+     * @return Shared handle; call `cancel()` then inspect `future` when done.
+     */
+    virtual std::shared_ptr<ImportHandle> importDataAsync(
+        const std::string& source_path,
+        const ImportOptions& options
     ) = 0;
     
     /**
