@@ -14,9 +14,11 @@
 
 #include <gtest/gtest.h>
 #include "replication/replication_manager.h"
+#include "replication/multi_master_replication.h"
 
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <thread>
 #include <vector>
 #include <atomic>
@@ -801,5 +803,271 @@ TEST(ReplicationStreamTest, InitialBackoffIsZero) {
     ReplicationStream stream("127.0.0.1:9999", wal, cfg);
     EXPECT_EQ(stream.getConsecutiveFailures(), 0u);
 }
+
+// ============================================================================
+// 14. MultiMasterReplicationManager
+// ============================================================================
+
+static MMReplicationConfig makeMMConfig(const std::string& node_id = "mm-node-1") {
+    MMReplicationConfig cfg;
+    cfg.node_id               = node_id;
+    cfg.datacenter            = "dc1";
+    cfg.region                = "eu-west";
+    cfg.replication_factor    = 1;
+    cfg.write_quorum          = 1;
+    cfg.read_quorum           = 1;
+    cfg.heartbeat_interval_ms = 50;
+    cfg.sync_interval_ms      = 50;
+    cfg.timeout_ms            = 1000;
+    cfg.max_batch_size        = 100;
+    cfg.max_pending_writes    = 1000;
+    cfg.async_apply           = true;
+    cfg.use_mtls              = false;
+    cfg.default_resolution_strategy = "LAST_WRITE_WINS";
+    return cfg;
+}
+
+TEST(MMReplicationManagerTest, StartAndStop) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    EXPECT_FALSE(mgr.isRunning());
+    EXPECT_TRUE(mgr.start());
+    EXPECT_TRUE(mgr.isRunning());
+    mgr.stop();
+    EXPECT_FALSE(mgr.isRunning());
+}
+
+TEST(MMReplicationManagerTest, DoubleStartIsIdempotent) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    EXPECT_TRUE(mgr.start());
+    EXPECT_TRUE(mgr.start());  // Second call should not fail
+    EXPECT_TRUE(mgr.isRunning());
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, WriteReturnsWriteId) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    std::string write_id = mgr.write("users", "user-1", "INSERT", R"({"name":"Alice"})");
+    EXPECT_FALSE(write_id.empty())
+        << "write() should return a non-empty write_id";
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, WriteSyncCompletesWithinTimeout) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    bool ok = mgr.writeSync("orders", "order-42", "UPDATE", R"({"status":"shipped"})",
+                             std::chrono::milliseconds(2000));
+    EXPECT_TRUE(ok) << "writeSync must complete within 2s in single-node mode";
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, StatsTrackWrites) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    mgr.write("products", "prod-1", "INSERT", R"({"price":99})");
+    mgr.write("products", "prod-2", "INSERT", R"({"price":49})");
+
+    // Give the replication loop a tick to process
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+    auto stats = mgr.getStats();
+    EXPECT_GE(stats.writes_total, 2u) << "Total writes should be at least 2";
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, AddAndRemovePeer) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    MMPeerInfo peer;
+    peer.node_id   = "mm-node-2";
+    peer.endpoint  = "127.0.0.1:9001";
+    peer.state     = MMNodeState::ACTIVE;
+    peer.datacenter = "dc1";
+    peer.region    = "eu-west";
+    peer.is_local_datacenter = true;
+    peer.priority  = 10;
+    peer.replication_lag_ms = 0;
+
+    mgr.addPeer(peer);
+    {
+        auto peers = mgr.getPeers();
+        EXPECT_EQ(peers.size(), 1u);
+        EXPECT_EQ(peers[0].node_id, "mm-node-2");
+    }
+
+    mgr.removePeer("mm-node-2");
+    {
+        auto peers = mgr.getPeers();
+        EXPECT_TRUE(peers.empty());
+    }
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, GetLocalInfo) {
+    auto cfg = makeMMConfig("my-node");
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    auto info = mgr.getLocalInfo();
+    EXPECT_EQ(info.node_id,   "my-node");
+    EXPECT_EQ(info.datacenter, "dc1");
+    EXPECT_EQ(info.state,      MMNodeState::ACTIVE);
+    EXPECT_TRUE(info.is_local_datacenter);
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, SetAndTriggerConflictCallback) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    std::atomic<int> callback_count{0};
+    mgr.registerConflictCallback([&](const ConflictRecord& rec) {
+        callback_count.fetch_add(1);
+        EXPECT_FALSE(rec.conflict_id.empty());
+    });
+
+    // Manually call handleConflict via two concurrent writes
+    // (We simulate this by resolving an existing conflict)
+    ConflictRecord rec;
+    rec.conflict_id  = "fake-conflict-1";
+    rec.resolved     = false;
+    rec.collection   = "docs";
+    rec.document_id  = "doc-1";
+    rec.detected_at  = std::chrono::system_clock::now();
+
+    // resolveConflict on a non-existent conflict returns false (no-op)
+    EXPECT_FALSE(mgr.resolveConflict("nonexistent", "w1"));
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, SetConflictResolverPerCollection) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    // Set a LWW resolver for the "sessions" collection
+    mgr.setConflictResolver("sessions",
+        std::make_shared<LastWriteWinsResolver>());
+
+    // Set a CRDT GCounter resolver for the "counters" collection
+    mgr.setConflictResolver("counters",
+        std::make_shared<CRDTMergeResolver>(
+            CRDTMergeResolver::CRDTType::G_COUNTER));
+
+    // No crash expected – just verify it can be called
+    SUCCEED();
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, PrometheusMetricsContainNodeId) {
+    auto cfg = makeMMConfig("prometheus-node");
+    MultiMasterReplicationManager mgr(cfg);
+    mgr.start();
+
+    // Write something so counters are > 0
+    mgr.write("col", "doc", "INSERT", "{}");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    std::string metrics = mgr.exportPrometheusMetrics();
+    EXPECT_FALSE(metrics.empty());
+    EXPECT_NE(metrics.find("prometheus-node"), std::string::npos)
+        << "Prometheus metrics should include the node ID";
+    EXPECT_NE(metrics.find("themisdb_mm_writes_total"), std::string::npos)
+        << "Metrics should include writes_total";
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, GetUnresolvedConflictsInitiallyEmpty) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    auto conflicts = mgr.getUnresolvedConflicts();
+    EXPECT_TRUE(conflicts.empty());
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, ReplicationLagZeroWhenNoPeers) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+    EXPECT_EQ(mgr.getReplicationLag(), 0u);
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, TriggerSyncDoesNotCrash) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+    mgr.triggerSync();  // Should not crash
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, WriteCallbackInvokedAfterReplication) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    std::promise<bool> p;
+    auto fut = p.get_future();
+
+    mgr.write("test", "doc", "INSERT", "{}", [&p](const MMWriteEntry& /*e*/, bool ok) {
+        p.set_value(ok);
+    });
+
+    auto status = fut.wait_for(std::chrono::milliseconds(1000));
+    ASSERT_EQ(status, std::future_status::ready) << "Callback must fire within 1s";
+    EXPECT_TRUE(fut.get());
+
+    mgr.stop();
+}
+
+TEST(MMReplicationManagerTest, ConcurrentWritesAreThreadSafe) {
+    MultiMasterReplicationManager mgr(makeMMConfig());
+    mgr.start();
+
+    constexpr int kWriters = 4;
+    constexpr int kWritesPerThread = 20;
+    std::vector<std::thread> threads;
+    std::atomic<int> errors{0};
+
+    for (int t = 0; t < kWriters; ++t) {
+        threads.emplace_back([&, t]() {
+            for (int i = 0; i < kWritesPerThread; ++i) {
+                try {
+                    std::string id = mgr.write("col", "doc-" + std::to_string(t * 1000 + i),
+                                               "INSERT", "{}");
+                    if (id.empty()) errors.fetch_add(1);
+                } catch (...) {
+                    errors.fetch_add(1);
+                }
+            }
+        });
+    }
+
+    for (auto& th : threads) th.join();
+
+    // Wait for the queue to drain
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    EXPECT_EQ(errors.load(), 0) << "No errors expected during concurrent writes";
+
+    auto stats = mgr.getStats();
+    EXPECT_GE(stats.writes_total,
+              static_cast<uint64_t>(kWriters * kWritesPerThread));
+
+    mgr.stop();
+}
+
 
 

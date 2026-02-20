@@ -19,6 +19,7 @@
 #include <sstream>
 #include <iomanip>
 #include <set>
+#include <future>
 
 namespace themisdb {
 namespace replication {
@@ -2111,6 +2112,600 @@ MMWriteEntry CustomResolver::resolve(
     // Fallback to LWW
     LastWriteWinsResolver lwr;
     return lwr.resolve(document_id, conflicting_writes);
+}
+
+
+// ============================================================================
+// MultiMasterReplicationManager Implementation
+// ============================================================================
+
+// Helper: generate a short unique ID (write_id)
+static std::string generateWriteId(const std::string& node_id) {
+    static std::atomic<uint64_t> seq{0};
+    uint64_t ts = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::system_clock::now().time_since_epoch()
+        ).count()
+    );
+    return node_id + "-" + std::to_string(ts) + "-" + std::to_string(seq.fetch_add(1));
+}
+
+// -------------------------
+// Constructor / Destructor
+// -------------------------
+
+MultiMasterReplicationManager::MultiMasterReplicationManager(
+    const MMReplicationConfig& config)
+    : config_(config)
+    , vector_clock_(std::make_unique<VectorClock>(config.node_id))
+    , hlc_(std::make_unique<HybridLogicalClock>(config.node_id))
+    , default_resolver_(std::make_shared<LastWriteWinsResolver>())
+{
+}
+
+MultiMasterReplicationManager::~MultiMasterReplicationManager() {
+    stop();
+}
+
+// -------------------------
+// Lifecycle
+// -------------------------
+
+bool MultiMasterReplicationManager::start() {
+    if (running_.exchange(true)) {
+        return true;  // Already running
+    }
+
+    replication_thread_ = std::thread(&MultiMasterReplicationManager::replicationLoop, this);
+    heartbeat_thread_   = std::thread(&MultiMasterReplicationManager::heartbeatLoop,   this);
+    sync_thread_        = std::thread(&MultiMasterReplicationManager::syncLoop,        this);
+
+    THEMIS_INFO("MultiMasterReplicationManager started (node_id={})", config_.node_id);
+    return true;
+}
+
+void MultiMasterReplicationManager::stop() {
+    if (!running_.exchange(false)) {
+        return;  // Already stopped
+    }
+
+    writes_cv_.notify_all();
+
+    if (replication_thread_.joinable()) replication_thread_.join();
+    if (heartbeat_thread_.joinable())   heartbeat_thread_.join();
+    if (sync_thread_.joinable())        sync_thread_.join();
+
+    THEMIS_INFO("MultiMasterReplicationManager stopped (node_id={})", config_.node_id);
+}
+
+bool MultiMasterReplicationManager::isRunning() const {
+    return running_.load();
+}
+
+// -------------------------
+// Write Operations
+// -------------------------
+
+std::string MultiMasterReplicationManager::write(
+    const std::string& collection,
+    const std::string& document_id,
+    const std::string& operation,
+    const std::string& data,
+    WriteCallback callback)
+{
+    if (!running_.load()) {
+        THEMIS_ERROR("MMReplicationManager not running – write rejected");
+        return {};
+    }
+
+    MMWriteEntry entry;
+    entry.write_id    = generateWriteId(config_.node_id);
+    entry.origin_node = config_.node_id;
+    entry.collection  = collection;
+    entry.document_id = document_id;
+    entry.operation   = operation;
+    entry.data        = data;
+    entry.hlc         = hlc_->now();
+
+    // Stamp with our vector clock and advance it
+    {
+        vector_clock_->increment(config_.node_id);
+        entry.vector_clock = *vector_clock_;
+    }
+
+    // Compute simple checksum (SHA-256 of content)
+    {
+        std::string content = operation + collection + document_id + data;
+        unsigned char hash[SHA256_DIGEST_LENGTH];
+        SHA256(reinterpret_cast<const unsigned char*>(content.c_str()), content.size(), hash);
+        std::ostringstream oss;
+        for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i)
+            oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
+        entry.checksum = oss.str();
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(writes_mutex_);
+        pending_writes_.push(entry);
+        if (callback) {
+            write_callbacks_[entry.write_id] = std::move(callback);
+        }
+    }
+    writes_cv_.notify_one();
+    stats_writes_total_.fetch_add(1);
+
+    THEMIS_INFO("MM write queued: write_id={} collection={} doc={} op={}",
+                entry.write_id, collection, document_id, operation);
+    return entry.write_id;
+}
+
+bool MultiMasterReplicationManager::writeSync(
+    const std::string& collection,
+    const std::string& document_id,
+    const std::string& operation,
+    const std::string& data,
+    std::chrono::milliseconds timeout)
+{
+    // Use shared_ptr to safely share the promise between this stack frame and
+    // the callback which may execute on a different thread after this call returns.
+    auto promise = std::make_shared<std::promise<bool>>();
+    auto future  = promise->get_future();
+
+    write(collection, document_id, operation, data,
+          [promise](const MMWriteEntry& /*entry*/, bool success) {
+              promise->set_value(success);
+          });
+
+    return future.wait_for(timeout) == std::future_status::ready && future.get();
+}
+
+// -------------------------
+// Read Operations
+// -------------------------
+
+MultiMasterReplicationManager::ReadResult MultiMasterReplicationManager::read(
+    const std::string& collection,
+    const std::string& document_id,
+    uint32_t /*read_quorum*/)
+{
+    // In a full implementation this would query read_quorum peers and merge
+    // results; for now we return a placeholder indicating local state.
+    ReadResult result;
+    result.success     = running_.load();
+    result.source_node = config_.node_id;
+    result.version     = *vector_clock_;
+    result.data        = "";  // Actual storage lookup is outside this module's scope
+
+    return result;
+}
+
+// -------------------------
+// Peer Management
+// -------------------------
+
+void MultiMasterReplicationManager::addPeer(const MMPeerInfo& peer) {
+    std::unique_lock<std::shared_mutex> lock(peers_mutex_);
+    peers_[peer.node_id] = peer;
+    THEMIS_INFO("MM peer added: node_id={} endpoint={}", peer.node_id, peer.endpoint);
+}
+
+void MultiMasterReplicationManager::removePeer(const std::string& node_id) {
+    std::unique_lock<std::shared_mutex> lock(peers_mutex_);
+    peers_.erase(node_id);
+    THEMIS_INFO("MM peer removed: node_id={}", node_id);
+}
+
+std::vector<MMPeerInfo> MultiMasterReplicationManager::getPeers() const {
+    std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+    std::vector<MMPeerInfo> result;
+    result.reserve(peers_.size());
+    for (const auto& [id, info] : peers_) {
+        result.push_back(info);
+    }
+    return result;
+}
+
+MMPeerInfo MultiMasterReplicationManager::getLocalInfo() const {
+    MMPeerInfo info;
+    info.node_id           = config_.node_id;
+    info.datacenter        = config_.datacenter;
+    info.region            = config_.region;
+    info.state             = running_.load() ? MMNodeState::ACTIVE : MMNodeState::OFFLINE;
+    info.replication_lag_ms = getReplicationLag();
+    info.is_local_datacenter = true;
+    info.last_known_clock  = *vector_clock_;
+    return info;
+}
+
+// -------------------------
+// Conflict Management
+// -------------------------
+
+void MultiMasterReplicationManager::registerConflictCallback(ConflictCallback callback) {
+    std::lock_guard<std::mutex> lock(conflicts_mutex_);
+    conflict_callbacks_.push_back(std::move(callback));
+}
+
+void MultiMasterReplicationManager::setConflictResolver(
+    const std::string& collection,
+    std::shared_ptr<ConflictResolver> resolver)
+{
+    std::lock_guard<std::mutex> lock(conflicts_mutex_);
+    resolvers_[collection] = std::move(resolver);
+}
+
+std::vector<ConflictRecord> MultiMasterReplicationManager::getUnresolvedConflicts() const {
+    std::lock_guard<std::mutex> lock(conflicts_mutex_);
+    std::vector<ConflictRecord> result;
+    for (const auto& rec : conflicts_) {
+        if (!rec.resolved) {
+            result.push_back(rec);
+        }
+    }
+    return result;
+}
+
+bool MultiMasterReplicationManager::resolveConflict(
+    const std::string& conflict_id,
+    const std::string& winning_write_id)
+{
+    std::lock_guard<std::mutex> lock(conflicts_mutex_);
+    for (auto& rec : conflicts_) {
+        if (rec.conflict_id == conflict_id && !rec.resolved) {
+            rec.resolved         = true;
+            rec.winning_write_id = winning_write_id;
+            stats_conflicts_resolved_.fetch_add(1);
+            return true;
+        }
+    }
+    return false;
+}
+
+// -------------------------
+// Synchronization
+// -------------------------
+
+void MultiMasterReplicationManager::triggerSync() {
+    // Wake up the sync loop immediately
+    writes_cv_.notify_all();
+}
+
+uint64_t MultiMasterReplicationManager::getReplicationLag() const {
+    std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+    uint64_t max_lag = 0;
+    for (const auto& [id, peer] : peers_) {
+        max_lag = std::max(max_lag, peer.replication_lag_ms);
+    }
+    return max_lag;
+}
+
+// -------------------------
+// Statistics
+// -------------------------
+
+MultiMasterReplicationManager::Stats MultiMasterReplicationManager::getStats() const {
+    Stats s;
+    s.writes_total          = stats_writes_total_.load();
+    s.writes_replicated     = stats_writes_replicated_.load();
+    s.conflicts_detected    = stats_conflicts_detected_.load();
+    s.conflicts_resolved    = stats_conflicts_resolved_.load();
+    s.sync_rounds           = stats_sync_rounds_.load();
+    s.bytes_sent            = stats_bytes_sent_.load();
+    s.bytes_received        = stats_bytes_received_.load();
+
+    {
+        std::lock_guard<std::mutex> lock(writes_mutex_);
+        s.writes_pending = pending_writes_.size();
+    }
+
+    s.avg_replication_latency = std::chrono::milliseconds(0);
+    return s;
+}
+
+std::string MultiMasterReplicationManager::exportPrometheusMetrics() const {
+    auto s = getStats();
+    std::ostringstream oss;
+    oss << "# HELP themisdb_mm_writes_total Total multi-master writes\n"
+        << "# TYPE themisdb_mm_writes_total counter\n"
+        << "themisdb_mm_writes_total{node=\"" << config_.node_id << "\"} " << s.writes_total << "\n"
+        << "# HELP themisdb_mm_writes_replicated Writes successfully replicated\n"
+        << "# TYPE themisdb_mm_writes_replicated counter\n"
+        << "themisdb_mm_writes_replicated{node=\"" << config_.node_id << "\"} " << s.writes_replicated << "\n"
+        << "# HELP themisdb_mm_writes_pending Pending writes in queue\n"
+        << "# TYPE themisdb_mm_writes_pending gauge\n"
+        << "themisdb_mm_writes_pending{node=\"" << config_.node_id << "\"} " << s.writes_pending << "\n"
+        << "# HELP themisdb_mm_conflicts_detected Conflicts detected\n"
+        << "# TYPE themisdb_mm_conflicts_detected counter\n"
+        << "themisdb_mm_conflicts_detected{node=\"" << config_.node_id << "\"} " << s.conflicts_detected << "\n"
+        << "# HELP themisdb_mm_conflicts_resolved Conflicts resolved\n"
+        << "# TYPE themisdb_mm_conflicts_resolved counter\n"
+        << "themisdb_mm_conflicts_resolved{node=\"" << config_.node_id << "\"} " << s.conflicts_resolved << "\n"
+        << "# HELP themisdb_mm_sync_rounds Anti-entropy sync rounds completed\n"
+        << "# TYPE themisdb_mm_sync_rounds counter\n"
+        << "themisdb_mm_sync_rounds{node=\"" << config_.node_id << "\"} " << s.sync_rounds << "\n"
+        << "# HELP themisdb_mm_replication_lag_ms Max replication lag across peers\n"
+        << "# TYPE themisdb_mm_replication_lag_ms gauge\n"
+        << "themisdb_mm_replication_lag_ms{node=\"" << config_.node_id << "\"} " << getReplicationLag() << "\n";
+    return oss.str();
+}
+
+// -------------------------
+// Background Loops
+// -------------------------
+
+void MultiMasterReplicationManager::replicationLoop() {
+    while (running_.load()) {
+        // Drain a batch of pending writes under the lock, then release the
+        // lock before doing any network work to avoid holding it during I/O.
+        std::vector<std::pair<MMWriteEntry, WriteCallback>> batch;
+        {
+            std::unique_lock<std::mutex> lock(writes_mutex_);
+            writes_cv_.wait_for(lock,
+                std::chrono::milliseconds(config_.sync_interval_ms),
+                [this] { return !running_.load() || !pending_writes_.empty(); });
+
+            while (!pending_writes_.empty()) {
+                MMWriteEntry entry = std::move(pending_writes_.front());
+                pending_writes_.pop();
+
+                WriteCallback cb;
+                auto it = write_callbacks_.find(entry.write_id);
+                if (it != write_callbacks_.end()) {
+                    cb = std::move(it->second);
+                    write_callbacks_.erase(it);
+                }
+                batch.emplace_back(std::move(entry), std::move(cb));
+            }
+        }  // lock released here
+
+        // Process the batch without holding writes_mutex_
+        for (auto& [entry, cb] : batch) {
+            bool ok = replicateWrite(entry);
+            if (ok) {
+                stats_writes_replicated_.fetch_add(1);
+            }
+            if (cb) {
+                cb(entry, ok);
+            }
+        }
+    }
+}
+
+void MultiMasterReplicationManager::heartbeatLoop() {
+    while (running_.load()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(config_.heartbeat_interval_ms));
+        if (!running_.load()) break;
+
+        auto now_ts = hlc_->now();
+        // Use unique_lock because we mutate peer.last_heartbeat_hlc
+        std::unique_lock<std::shared_mutex> lock(peers_mutex_);
+        for (auto& [node_id, peer] : peers_) {
+            // In a full implementation: send AppendEntries / heartbeat RPC.
+            // Update last_heartbeat_hlc to the current timestamp.
+            peer.last_heartbeat_hlc = now_ts;
+            (void)node_id;
+        }
+    }
+}
+
+void MultiMasterReplicationManager::syncLoop() {
+    while (running_.load()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(config_.sync_interval_ms));
+        if (!running_.load()) break;
+
+        std::vector<std::string> peer_ids;
+        {
+            std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+            for (const auto& [id, _] : peers_) {
+                peer_ids.push_back(id);
+            }
+        }
+
+        for (const auto& peer_id : peer_ids) {
+            if (!running_.load()) break;
+            antiEntropySync(peer_id);
+        }
+
+        stats_sync_rounds_.fetch_add(1);
+    }
+}
+
+// -------------------------
+// Internal: Replication
+// -------------------------
+
+bool MultiMasterReplicationManager::replicateWrite(const MMWriteEntry& entry) {
+    std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+
+    // Single-node mode: no peers configured means this node is authoritative
+    // on its own; the write is considered locally applied without a quorum check.
+    if (peers_.empty()) {
+        return true;
+    }
+
+    uint32_t quorum  = config_.write_quorum;
+    uint32_t acked   = 0;
+
+    for (const auto& [node_id, peer] : peers_) {
+        if (peer.state == MMNodeState::OFFLINE ||
+            peer.state == MMNodeState::PARTITIONED) {
+            continue;
+        }
+        if (sendToPeer(node_id, entry)) {
+            ++acked;
+        }
+        if (acked >= quorum) break;
+    }
+
+    return acked >= quorum;
+}
+
+bool MultiMasterReplicationManager::sendToPeer(
+    const std::string& node_id,
+    const MMWriteEntry& entry)
+{
+    // In a full implementation this would serialize the entry and send it
+    // over a mTLS connection to the peer node.  For now we simulate success
+    // for ACTIVE peers and record bytes_sent.
+    std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+    auto it = peers_.find(node_id);
+    if (it == peers_.end()) return false;
+
+    if (it->second.state == MMNodeState::OFFLINE ||
+        it->second.state == MMNodeState::PARTITIONED) {
+        return false;
+    }
+
+    auto serialized = entry.serialize();
+    stats_bytes_sent_.fetch_add(serialized.size());
+    (void)node_id;
+    return true;
+}
+
+void MultiMasterReplicationManager::receiveFromPeer(
+    const std::string& node_id,
+    const MMWriteEntry& incoming)
+{
+    // Update our vector clock with the sender's clock
+    vector_clock_->merge(incoming.vector_clock);
+    hlc_->receive(incoming.hlc);
+
+    // Update bytes_received
+    auto serialized = incoming.serialize();
+    stats_bytes_received_.fetch_add(serialized.size());
+
+    // Check for conflict with any recently-seen write for the same document
+    // (In production this would consult a local document store.)
+    bool has_conflict = false;
+    {
+        std::lock_guard<std::mutex> lock(conflicts_mutex_);
+        for (const auto& rec : conflicts_) {
+            if (!rec.resolved &&
+                rec.collection  == incoming.collection &&
+                rec.document_id == incoming.document_id) {
+                has_conflict = true;
+                break;
+            }
+        }
+    }
+
+    if (has_conflict) {
+        THEMIS_WARN("MM conflict detected for doc={}/{} from peer={}",
+                    incoming.collection, incoming.document_id, node_id);
+        // For each unresolved conflict on this document, add the incoming entry
+        std::lock_guard<std::mutex> lock(conflicts_mutex_);
+        for (auto& rec : conflicts_) {
+            if (!rec.resolved &&
+                rec.collection  == incoming.collection &&
+                rec.document_id == incoming.document_id) {
+                rec.conflicting_writes.push_back(incoming);
+                handleConflict(incoming.document_id, rec.conflicting_writes);
+                break;
+            }
+        }
+    }
+}
+
+// -------------------------
+// Internal: Conflict Detection & Resolution
+// -------------------------
+
+bool MultiMasterReplicationManager::detectConflict(
+    const MMWriteEntry& incoming,
+    const MMWriteEntry& existing)
+{
+    // Two writes conflict when their vector clocks are concurrent (neither
+    // happened-before the other).
+    return incoming.vector_clock.isConcurrent(existing.vector_clock);
+}
+
+void MultiMasterReplicationManager::handleConflict(
+    const std::string& document_id,
+    const std::vector<MMWriteEntry>& conflicting_writes)
+{
+    if (conflicting_writes.empty()) return;
+
+    const std::string& collection = conflicting_writes[0].collection;
+
+    // Find the appropriate resolver (collection-specific or default)
+    std::shared_ptr<ConflictResolver> resolver;
+    {
+        std::lock_guard<std::mutex> lock(conflicts_mutex_);
+        auto it = resolvers_.find(collection);
+        resolver = (it != resolvers_.end()) ? it->second : default_resolver_;
+    }
+
+    MMWriteEntry winner = resolver->resolve(document_id, conflicting_writes);
+
+    // Record the conflict
+    ConflictRecord record;
+    record.conflict_id        = generateWriteId(config_.node_id);
+    record.type               = ConflictType::CONCURRENT_UPDATE;
+    record.document_id        = document_id;
+    record.collection         = collection;
+    record.conflicting_writes = conflicting_writes;
+    record.detected_at        = std::chrono::system_clock::now();
+    record.resolved           = true;
+    record.resolution_strategy = (resolver == default_resolver_) ? "LAST_WRITE_WINS" : "CUSTOM";
+    record.winning_write_id   = winner.write_id;
+
+    {
+        std::lock_guard<std::mutex> lock(conflicts_mutex_);
+        conflicts_.push_back(record);
+
+        // Notify registered callbacks
+        for (const auto& cb : conflict_callbacks_) {
+            cb(record);
+        }
+    }
+
+    stats_conflicts_detected_.fetch_add(1);
+    stats_conflicts_resolved_.fetch_add(1);
+}
+
+// -------------------------
+// Internal: Anti-Entropy
+// -------------------------
+
+void MultiMasterReplicationManager::antiEntropySync(const std::string& peer_id) {
+    // Retrieve the peer's known vector clock
+    VectorClock peer_clock;
+    {
+        std::shared_lock<std::shared_mutex> lock(peers_mutex_);
+        auto it = peers_.find(peer_id);
+        if (it == peers_.end()) return;
+        if (it->second.state == MMNodeState::OFFLINE ||
+            it->second.state == MMNodeState::PARTITIONED) {
+            return;
+        }
+        peer_clock = it->second.last_known_clock;
+    }
+
+    // Find any writes that the peer has not seen yet
+    auto missing = getMissingWrites(peer_clock);
+    for (const auto& entry : missing) {
+        sendToPeer(peer_id, entry);
+    }
+
+    // Update the peer's known clock to ours after sync
+    {
+        std::unique_lock<std::shared_mutex> lock(peers_mutex_);
+        auto it = peers_.find(peer_id);
+        if (it != peers_.end()) {
+            it->second.last_known_clock = *vector_clock_;
+        }
+    }
+}
+
+std::vector<MMWriteEntry> MultiMasterReplicationManager::getMissingWrites(
+    const VectorClock& peer_clock)
+{
+    // In a full implementation this would query a local write log and return
+    // all entries whose vector clock happens-after the peer's clock.
+    // For now we return an empty set (the WAL replay path is handled by
+    // ReplicationStream / WALManager on the Raft leader-follower path).
+    (void)peer_clock;
+    return {};
 }
 
 } // namespace replication
