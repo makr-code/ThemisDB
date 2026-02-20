@@ -565,7 +565,7 @@ We welcome contributions in the following areas:
 
 ### High-Impact, Beginner-Friendly
 - [x] Add missing Doxygen comments to interfaces (all pure-virtual methods in `ILogger`, `ITracer`, `IMetrics`, `ICache` now documented)
-- [ ] Create example programs for each interface
+- [x] Create example programs for each interface (`examples/concerns_example.cpp` — covers `ILogger`, `ITracer`, `IMetrics`, `ICache`, `IContext`, `MetricLabels`, lifecycle hooks, and `ConcernsContext` aggregation)
 - [x] Add `noexcept` specifications (done for lifecycle methods: `flush()`, `shutdown()`, `HealthStatus::isHealthy()`, `LatencyTimer::elapsedMs()`, `TraceContext::empty()`, and all NoOp implementations)
 - [x] Fix include order dependencies (removed redundant `lifecycle.h` from `concerns_context.h`; all headers are now self-contained and order-independent)
 

@@ -467,6 +467,9 @@ from destructors, signal handlers, and other non-throwing contexts:
 ### Tests
 - `tests/test_concerns_context.cpp` - Comprehensive test suite
 
+### Examples
+- `examples/concerns_example.cpp` - End-to-end demonstration of all interfaces: `ILogger`, `ITracer`, `IMetrics`, `ICache`, `IContext`, `MetricLabels`, lifecycle hooks, health/readiness probes
+
 ## Future Enhancements
 
 - [ ] Redis cache adapter
