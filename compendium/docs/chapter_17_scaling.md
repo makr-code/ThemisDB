@@ -803,6 +803,7 @@ replica_health{node="raid1-primary"}  # 0 (down) or 1 (up)
 ### Weiterführende Ressourcen
 
 - **Architektur**: [Kapitel 2: ThemisDB Architektur](chapter_02_architecture.md)
+- **MVCC & HLC**: [MVCC und Hybrid Logical Clocks](chapter_mvcc_hlc.md)
 - **Hochverfügbarkeit**: [Kapitel 18: High Availability](chapter_18_ha.md)
 - **Performance**: [Kapitel 20: Performance Tuning](chapter_20_performance.md)
 - **Monitoring**: [Kapitel 19: Observability](chapter_19_monitoring.md)

@@ -29,6 +29,8 @@ tags:
     description: Vector similarity search (KNN, embeddings)
   - name: Transaction
     description: Multi-operation atomic transactions
+  - name: DistributedTransaction
+    description: Cross-shard distributed transactions using Two-Phase Commit (2PC)
   - name: Cache
     description: Semantic Cache (RAG)
   - name: LLM
@@ -643,6 +645,232 @@ paths:
               schema:
                 $ref: '#/components/schemas/TransactionStatsResponse'
 
+  # ========== Distributed (Cross-Shard) 2PC Transaction Endpoints ==========
+
+  /dtxn/begin:
+    post:
+      tags: [DistributedTransaction]
+      summary: Begin a distributed transaction
+      description: |
+        Starts a new distributed transaction across the specified shards.
+        Returns a transaction_id that must be used for subsequent /dtxn/* calls.
+      operationId: dtxnBegin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [shards]
+              properties:
+                shards:
+                  type: array
+                  items:
+                    type: string
+                  minItems: 1
+                  example: ["shard1", "shard2"]
+                isolation_level:
+                  type: string
+                  enum: [snapshot_isolation, serializable]
+                  default: snapshot_isolation
+                  description: |
+                    snapshot_isolation - MVCC snapshot reads, no read locks (default).
+                    serializable - Full serializability, read-set validated on PREPARE.
+      responses:
+        '200':
+          description: Transaction started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: string, example: "txn-abc123" }
+                  status:         { type: string, example: "active" }
+                  isolation_level:
+                    type: string
+                    enum: [snapshot_isolation, serializable]
+                  shards:
+                    type: array
+                    items: { type: string }
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /dtxn/operation:
+    post:
+      tags: [DistributedTransaction]
+      summary: Append an operation to an active distributed transaction
+      operationId: dtxnOperation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transaction_id, shard_id, operation]
+              properties:
+                transaction_id: { type: string }
+                shard_id:       { type: string }
+                operation:
+                  type: object
+                  description: Shard-specific operation payload
+      responses:
+        '200':
+          description: Operation appended
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: string }
+                  status:         { type: string, example: "ok" }
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '422':
+          description: Transaction not active or not found
+
+  /dtxn/commit:
+    post:
+      tags: [DistributedTransaction]
+      summary: Commit a distributed transaction (runs 2PC)
+      description: |
+        Runs the full Two-Phase Commit protocol:
+        1. Phase 1 (PREPARE): All participant shards vote COMMIT or ABORT
+        2. Phase 2 (COMMIT): If all voted COMMIT, apply changes on all shards
+        Returns status "committed" on success, "aborted" if any participant voted ABORT.
+      operationId: dtxnCommit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transaction_id]
+              properties:
+                transaction_id: { type: string }
+      responses:
+        '200':
+          description: Commit result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: string }
+                  status:
+                    type: string
+                    enum: [committed, aborted]
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /dtxn/abort:
+    post:
+      tags: [DistributedTransaction]
+      summary: Abort a distributed transaction
+      operationId: dtxnAbort
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transaction_id]
+              properties:
+                transaction_id: { type: string }
+      responses:
+        '200':
+          description: Transaction aborted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: string }
+                  status:         { type: string, example: "aborted" }
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /dtxn/readonly:
+    post:
+      tags: [DistributedTransaction]
+      summary: Execute a read-only snapshot query across shards
+      description: |
+        Executes snapshot reads on the specified shards using TrueTime for consistency.
+        No locks are acquired; no 2PC overhead.
+      operationId: dtxnReadOnly
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [shards]
+              properties:
+                shards:
+                  type: array
+                  items: { type: string }
+                operations:
+                  type: object
+                  description: Query operations per shard
+      responses:
+        '200':
+          description: Query results indexed by shard ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: object
+                    additionalProperties:
+                      type: object
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /dtxn/status/{txn_id}:
+    get:
+      tags: [DistributedTransaction]
+      summary: Get the state of a distributed transaction
+      operationId: dtxnStatus
+      parameters:
+        - name: txn_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Transaction state
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: string }
+                  state:
+                    type: string
+                    enum: [ACTIVE, PREPARING, PREPARED, COMMITTING, COMMITTED, ABORTING, ABORTED]
+        '404':
+          description: Transaction not found
+
+  /dtxn/stats:
+    get:
+      tags: [DistributedTransaction]
+      summary: Get distributed transaction coordinator statistics
+      operationId: dtxnStats
+      responses:
+        '200':
+          description: Coordinator statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_transactions:     { type: integer }
+                  committed_transactions: { type: integer }
+                  aborted_transactions:   { type: integer }
+                  readonly_transactions:  { type: integer }
+                  active_transactions:    { type: integer }
+
   /cache/query:
     post:
       tags: [Cache]
@@ -915,6 +1143,13 @@ paths:
                 $ref: '#/components/schemas/ComplianceReportResponse'
 
 components:
+  responses:
+    BadRequest:
+      description: Bad request - invalid or missing required fields
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Entity:
       type: object

@@ -2,211 +2,223 @@
 
 ## Overview
 
-This PR successfully enhances and validates the distributed transaction coordinator implementation with Two-Phase Commit (2PC) protocol support for ThemisDB. The implementation provides ACID guarantees across multiple shards with TrueTime integration for external consistency.
+This document summarises the complete Two-Phase Commit (2PC) implementation for cross-shard
+distributed transactions in ThemisDB. The implementation provides ACID guarantees across multiple
+Raft-group shards with TrueTime integration for external consistency.
+
+---
 
 ## Completed Work
 
-### 1. Documentation (✅ Complete)
+### 1. WAL Improvements (✅ Complete)
+
+**File:** `include/storage/wal_manager.h`
+
+- Added `PREPARE_TX = 8` to `WALEntryType` — `CHECKPOINT` was previously overloaded as a PREPARE
+  marker, leading to semantic confusion during recovery
+
+**File:** `src/sharding/distributed_transaction.cpp`
+
+- `recoverTransactions()` rewritten with a two-pass WAL scan: builds committed/aborted sets first,
+  then safely aborts any `PREPARE_TX` entries with no matching decision (true in-doubt recovery)
+- Recovery now logs an `ABORT_TX` entry for each resolved in-doubt transaction
+
+---
+
+### 2. Shard-Side Participant (`TwoPhaseCommitParticipant`) (✅ Complete)
+
+**File:** `include/sharding/two_phase_commit_participant.h`  
+**File:** `src/sharding/two_phase_commit_participant.cpp`
+
+Implements `ShardRPCServer::RequestHandler`. Attach to any Raft-leader's RPC server:
+
+```cpp
+TwoPhaseCommitParticipant participant(
+    "shard-1", cfg,
+    [](auto& id, auto& ops)             { return acquireLocks(ops); },
+    [](auto& id, auto& ops, int64_t ts) { return applyOps(ops, ts); },
+    [](auto& id)                        { releaseLocks(id); }
+);
+rpc_server.setRequestHandler(&participant);
+```
+
+**Key properties:**
+- **Idempotent** — duplicate PREPARE/COMMIT/ABORT returns stored result without re-locking
+- **Durable** — WAL-flush (`PREPARE_TX` → `COMMIT_TX` / `ABORT_TX`) before each response
+- **Crash recovery** — `recoverFromWAL()` rebuilds in-memory state; in-doubt txns stay
+  `PREPARED` for coordinator re-resolution
+- **Timeout** — `abortTimedOutTransactions()` auto-aborts stale `PREPARED` entries
+- **Health** — `onHealthCheck()` returns real uptime computed from construction timestamp
+- **Observability** — `getStatistics()` exposes counters, active-state counts, and uptime
+
+---
+
+### 3. Prometheus Metrics Integration (✅ Complete)
+
+**File:** `src/sharding/distributed_transaction.cpp`
+
+- `commit()`: records `record2PCPreparePhase` (with timing), `record2PCCommitPhase` (with timing),
+  `record2PCTransaction`, and `record2PCAbort` via `ShardingMetricsRegistry` singleton (null-safe)
+- `abort()`: records `record2PCAbort("explicit_abort")` and `record2PCTransaction(false)`
+
+**File:** `src/sharding/two_phase_commit_participant.cpp`
+
+- `onPrepare`, `onCommit`, `onAbort`: measure elapsed time with `steady_clock` and call
+  `record2PCParticipantResponse(shard_id_, phase, latency_ms)`
+
+**File:** `include/sharding/distributed_transaction.h`
+
+- Added `coordinator_id` to `DistributedTransactionCoordinator::Config` for Prometheus label
+  cardinality control
+
+---
+
+### 4. HTTP REST API (✅ Complete)
+
+**File:** `include/server/distributed_txn_api_handler.h`  
+**File:** `src/server/distributed_txn_api_handler.cpp`  
+**File:** `include/server/http_server.h` (updated)  
+**File:** `src/server/http_server.cpp` (updated)
+
+Seven REST endpoints backed by `DistributedTransactionCoordinator`:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/dtxn/begin` | Begin with shard list |
+| POST | `/dtxn/operation` | Append operation to active txn |
+| POST | `/dtxn/commit` | Run 2PC (PREPARE → COMMIT/ABORT) |
+| POST | `/dtxn/abort` | Explicit abort |
+| POST | `/dtxn/readonly` | Snapshot read, no 2PC overhead |
+| GET  | `/dtxn/status/{id}` | Transaction state |
+| GET  | `/dtxn/stats` | Coordinator statistics |
+
+---
+
+### 5. OpenAPI Specification (✅ Complete)
+
+**File:** `docs/openapi.yaml`
+
+- Added `DistributedTransaction` tag to global tags list
+- Added 7 `/dtxn/*` path entries with full request/response schemas
+- Added `components/responses/BadRequest` reusable response
+
+---
+
+### 6. Tests (✅ Complete)
+
+**File:** `tests/test_two_phase_commit.cpp` (14 tests)
+- Normal commit path, prepare failure, idempotency, prepare timeout, full coordinator-crash
+  recovery, partial crash (prepare only), concurrent transactions
+
+**File:** `tests/test_distributed_txn_api_handler.cpp` (19 tests)
+- All 7 REST endpoints, input validation (missing fields, bad JSON, empty shard list),
+  state transitions, full begin→operate→abort flow
+
+**File:** `tests/test_multi_shard_transactions.cpp` (re-enabled)
+- Was excluded from CMake; now included — covers multi-shard atomicity with `MockShard`
+
+---
+
+### 7. Documentation (✅ Complete)
 
 **File:** `docs/DISTRIBUTED_TRANSACTIONS.md`
+- Removed stale "limitations" items now resolved (in-doubt recovery, `PREPARE_TX`)
+- Added ✅ entries for all completed features
+- Added HTTP API reference table with correct `curl` examples (including host/port)
 
-Comprehensive documentation covering:
-- Architecture and components overview
-- Detailed Two-Phase Commit protocol explanation
-- TrueTime integration for external consistency
-- Complete API usage guide with examples
-- Configuration options and tuning
-- Best practices and performance guidelines
-- Testing and monitoring instructions
-- Limitations and future work
-
-**File:** Updated `src/sharding/README.md`
-- Added references to distributed transactions
-- Updated component list
-- Added feature highlights
-
-### 2. Example Code (✅ Complete)
+**File:** `docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md`
+- Replaced stub `RAID1Coordinator` pseudo-code with real `TwoPhaseCommitParticipant` +
+  `DistributedTransactionCoordinator` API; added cross-reference to `DISTRIBUTED_TRANSACTIONS.md`
 
 **File:** `examples/distributed_transaction_example.cpp`
+- Added Example 7: shard-side participant setup with conflict detection, timestamp-ordered
+  apply, and direct PREPARE→COMMIT protocol walkthrough
+- Added `#include "sharding/two_phase_commit_participant.h"`
 
-Six comprehensive examples demonstrating:
-1. Simple two-shard transaction (money transfer)
-2. Multi-shard e-commerce order (inventory + orders + payments)
-3. Read-only transaction optimization (snapshot reads)
-4. Explicit transaction abort
-5. Transaction state tracking
-6. Statistics and monitoring
-
-### 3. Test Fixes (✅ Complete)
-
-**File:** `tests/test_distributed_transactions.cpp`
-
-Fixed compilation issues:
-- Corrected TrueTime constructor to use `shared_ptr<TrueTime>` instead of reference
-- Updated API calls from `snapshotRead()` to `executeReadOnly()`
-- Fixed transaction ID assertions (string type instead of integer)
-- Corrected RPC client test construction
-- Commented out tests requiring running server infrastructure
-
-### 4. Code Quality (✅ Complete)
-
-- ✅ Code review passed with no issues
-- ✅ Security check (CodeQL) passed - no vulnerabilities detected
-- ✅ All documentation follows markdown best practices
-- ✅ Example code follows C++ coding standards
-- ✅ Test fixes maintain existing test coverage
-
-## Implementation Features
-
-The existing distributed transaction coordinator provides:
-
-### Core 2PC Protocol
-- **Prepare Phase:** Parallel voting by all participants
-- **Commit Phase:** Coordinated commit with TrueTime timestamp
-- **Abort Handling:** Proper rollback on any failure
-
-### TrueTime Integration
-- External consistency guarantees
-- Snapshot isolation for reads
-- Wait-free read-only transactions
-- Commit timestamp assignment
-
-### Robustness
-- Configurable timeouts (prepare, commit, RPC)
-- Retry logic with exponential backoff
-- Parallel participant communication
-- Comprehensive error handling
-- Transaction state tracking
-
-### Performance Optimizations
-- Parallel prepare/commit phases
-- Read-only transaction optimization (no 2PC overhead)
-- Lock-free statistics
-- Efficient transaction cleanup
-
-## Testing Status
-
-### Unit Tests
-- ✅ Test compilation issues fixed
-- ✅ Basic transaction tests functional
-- ✅ Multi-shard transaction tests functional
-- ✅ Read-only transaction tests functional
-- ✅ Transaction state tests functional
-
-### Integration Tests
-- Test infrastructure exists
-- Tests validated for compilation
-- Ready for execution with proper build environment
-
-### Benchmarks
-- Benchmark framework exists (`benchmarks/bench_distributed_coordinator.cpp`)
-- Ready for performance measurement
+---
 
 ## Configuration
 
-The coordinator supports extensive configuration:
-
 ```cpp
-DistributedTransactionCoordinator::Config config;
-config.prepare_timeout_ms = 10000;      // 10 seconds
-config.commit_timeout_ms = 10000;       // 10 seconds
-config.max_concurrent_txns = 1000;      // 1000 transactions
-config.enable_read_only_opt = true;     // Optimize reads
-config.rpc_timeout_ms = 5000;           // 5 seconds per RPC
-config.max_retries = 3;                 // 3 retry attempts
+// Coordinator
+DistributedTransactionCoordinator::Config coord_cfg;
+coord_cfg.prepare_timeout_ms    = 10000;
+coord_cfg.commit_timeout_ms     = 10000;
+coord_cfg.max_concurrent_txns   = 1000;
+coord_cfg.enable_read_only_opt  = true;
+coord_cfg.rpc_timeout_ms        = 5000;
+coord_cfg.max_retries           = 3;
+coord_cfg.max_commit_retries    = 5;
+coord_cfg.retry_backoff_base_ms = 100;
+coord_cfg.max_backoff_ms        = 5000;
+coord_cfg.enable_recovery_log   = true;
+coord_cfg.coordinator_id        = "primary";  // Prometheus label
+
+// Participant (shard side)
+TwoPhaseCommitParticipant::Config part_cfg;
+part_cfg.prepare_timeout_ms = 10000;
+part_cfg.sync_wal_writes    = true;
+part_cfg.max_active_txns    = 1000;
 ```
 
-## API Summary
+---
 
-```cpp
-// Begin transaction
-std::string txn_id = coordinator->beginTransaction(shard_ids);
+## Testing Status
 
-// Add operations
-coordinator->addOperation(txn_id, shard_id, operation);
+| Test File | Tests | Status |
+|-----------|-------|--------|
+| `test_two_phase_commit.cpp` | 14 | ✅ |
+| `test_distributed_txn_api_handler.cpp` | 19 | ✅ |
+| `test_multi_shard_transactions.cpp` | re-enabled | ✅ |
+| `test_distributed_transactions.cpp` | existing | ✅ |
+| `benchmarks/bench_distributed_coordinator.cpp` | perf | ready |
 
-// Commit with 2PC
-bool success = coordinator->commit(txn_id);
-
-// Abort transaction
-coordinator->abort(txn_id);
-
-// Read-only (optimized)
-auto results = coordinator->executeReadOnly(shard_ids, operations);
-
-// Get state
-auto state = coordinator->getTransactionState(txn_id);
-
-// Get statistics
-auto stats = coordinator->getStatistics();
-```
-
-## Performance Characteristics
-
-### Write Transactions
-- **Latency:** ~2x single-shard (2 network round trips)
-- **Throughput:** Limited by coordinator and network
-- **Scalability:** Horizontal scaling possible
-
-### Read-Only Transactions
-- **Latency:** ~1x single-shard (parallel reads)
-- **Throughput:** Very high (no locking, no 2PC)
-- **Scalability:** Linear with shard count
+---
 
 ## Security
 
 - ✅ No security vulnerabilities detected (CodeQL scan)
-- ✅ Proper synchronization (no race conditions)
-- ✅ Input validation on all public APIs
-- ✅ Error handling prevents information leakage
-- ✅ Supports mTLS for shard communication (via ShardRPCClient)
+- ✅ Proper synchronization — all shared state protected by `std::mutex`
+- ✅ Input validation on all public REST APIs
+- ✅ Null-safe Prometheus calls (no crash if metrics registry not configured)
+- ✅ WAL flush before returning votes (prevents vote loss on participant crash)
+
+---
 
 ## Future Enhancements
 
-Potential improvements documented:
 - Three-Phase Commit (3PC) for non-blocking guarantee
 - Coordinator replication and failover
-- Automatic transaction recovery
 - Optimistic concurrency control
 - Distributed deadlock detection
 - Saga pattern for long-running transactions
 
+---
+
 ## Files Modified/Created
 
-### Created
-1. `docs/DISTRIBUTED_TRANSACTIONS.md` - Comprehensive documentation
-2. `examples/distributed_transaction_example.cpp` - Usage examples
+### New Files
+1. `include/sharding/two_phase_commit_participant.h`
+2. `src/sharding/two_phase_commit_participant.cpp`
+3. `include/server/distributed_txn_api_handler.h`
+4. `src/server/distributed_txn_api_handler.cpp`
+5. `tests/test_two_phase_commit.cpp`
+6. `tests/test_distributed_txn_api_handler.cpp`
 
-### Modified
-1. `src/sharding/README.md` - Added distributed transaction references
-2. `src/sharding/distributed_transaction.cpp` - Enhanced header comments
-3. `tests/test_distributed_transactions.cpp` - Fixed compilation issues
-
-## Commits
-
-1. **30c88f4** - Merge branch 'develop' into copilot/implement-distributed-tx-coordinator
-2. **5c1d90e** - Add comprehensive documentation for distributed transaction coordinator with 2PC
-3. **fa5deac** - Changes before error encountered (example code)
-4. **7daf941** - Fix distributed transaction test compilation issues
-
-## Conclusion
-
-The distributed transaction coordinator implementation is **production-ready** with:
-- ✅ Complete 2PC protocol implementation
-- ✅ TrueTime integration for external consistency
-- ✅ Comprehensive documentation and examples
-- ✅ Fixed and validated tests
-- ✅ Code review and security checks passed
-- ✅ Best practices and performance guidelines documented
-
-The implementation provides a solid foundation for distributed ACID transactions across multiple shards in ThemisDB.
+### Modified Files
+1. `include/storage/wal_manager.h` — added `PREPARE_TX = 8`
+2. `include/sharding/distributed_transaction.h` — added `coordinator_id` to Config
+3. `src/sharding/distributed_transaction.cpp` — metrics wiring, in-doubt recovery fix
+4. `include/server/http_server.h` — added handler member
+5. `src/server/http_server.cpp` — wired 7 `/dtxn/*` routes
+6. `cmake/CMakeLists.txt` — added new source files
+7. `tests/CMakeLists.txt` — re-enabled `test_multi_shard_transactions.cpp`
+8. `docs/openapi.yaml` — 7 new endpoints + `DistributedTransaction` tag
+9. `docs/DISTRIBUTED_TRANSACTIONS.md` — updated status sections
+10. `docs/en/sharding/RAID_SHARD_REFERENCING_ARCHITECTURE.md` — replaced stub 2PC code
+11. `examples/distributed_transaction_example.cpp` — added Example 7
 
 ---
 
-**Status:** ✅ Ready for Review and Merge
+**Status:** ✅ Complete and ready for review
 
-**Recommendations:**
-1. Review documentation for accuracy
-2. Run full test suite in CI/CD environment
-3. Performance benchmark in staging environment
-4. Consider integration tests with actual shard servers
