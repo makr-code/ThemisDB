@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/gpu/**'
       - 'src/geo/gpu_backend_stub.cpp'
+      - 'src/server/spatial_api_handler.cpp'
       - 'include/themis/gpu/**'
       - 'include/geo/spatial_backend.h'
       - 'tests/test_gpu_*.cpp'
@@ -18,6 +19,7 @@ on:
     paths:
       - 'src/gpu/**'
       - 'src/geo/gpu_backend_stub.cpp'
+      - 'src/server/spatial_api_handler.cpp'
       - 'include/themis/gpu/**'
       - 'include/geo/spatial_backend.h'
       - 'tests/test_gpu_*.cpp'
@@ -107,6 +109,11 @@ jobs:
           grep -q "cpu_fallback\|CPU fallback\|recordFallbackToCPU" src/geo/gpu_backend_stub.cpp && \
             echo "✅ CPU fallback code paths are present (geo backend)" || \
             (echo "❌ CPU fallback code paths missing in geo backend" && exit 1)
+          # Verify observability stats function is present.
+          grep -q "getGpuSpatialBackendStatsJson" src/geo/gpu_backend_stub.cpp \
+            include/geo/spatial_backend.h && \
+            echo "✅ GPU geo backend stats function present" || \
+            (echo "❌ getGpuSpatialBackendStatsJson missing" && exit 1)
 
       - name: Check GPU headers are self-contained
         run: |

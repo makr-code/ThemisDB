@@ -62,5 +62,19 @@ ISpatialComputeBackend* getCpuExactBackend();
 // Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();
 
+/**
+ * @brief Return a JSON string with current GPU spatial backend operational stats.
+ *
+ * The returned object contains:
+ *   backend_name, gpu_present, circuit_open, device_name,
+ *   batch_calls, batch_fallbacks, batch_pairs_processed,
+ *   exact_calls, exact_errors,
+ *   batch_avg_latency_us, batch_max_latency_us
+ *
+ * This free function surfaces the `GpuBatchBackend::Stats` struct without
+ * exposing the concrete class to callers.
+ */
+std::string getGpuSpatialBackendStatsJson();
+
 } // namespace geo
 } // namespace themis

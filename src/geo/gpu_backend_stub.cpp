@@ -18,6 +18,7 @@
 #include <chrono>
 #include <cmath>
 #include <mutex>
+#include <sstream>
 #include <stdexcept>
 
 namespace themis { namespace geo {
@@ -422,6 +423,38 @@ static GpuBatchBackend& getGpuSpatialBackendInstance() {
 
 ISpatialComputeBackend* getGpuSpatialBackend() {
     return &getGpuSpatialBackendInstance();
+}
+
+std::string getGpuSpatialBackendStatsJson() {
+    const auto s = getGpuSpatialBackendInstance().getStats();
+    // Hand-rolled JSON to avoid a nlohmann/json dependency in this TU.
+    auto boolStr = [](bool v) -> const char* { return v ? "true" : "false"; };
+    auto escStr  = [](const std::string& v) -> std::string {
+        std::string out;
+        out.reserve(v.size() + 2);
+        for (char c : v) {
+            if (c == '"')  out += "\\\"";
+            else if (c == '\\') out += "\\\\";
+            else           out += c;
+        }
+        return out;
+    };
+
+    std::ostringstream j;
+    j << "{"
+      << "\"backend_name\":\"gpu_spatial\","
+      << "\"gpu_present\":"           << boolStr(s.gpu_present)          << ","
+      << "\"circuit_open\":"          << boolStr(s.circuit_open)         << ","
+      << "\"device_name\":\""         << escStr(s.device_name)           << "\","
+      << "\"batch_calls\":"           << s.batch_calls                   << ","
+      << "\"batch_fallbacks\":"       << s.batch_fallbacks               << ","
+      << "\"batch_pairs_processed\":" << s.batch_pairs_processed         << ","
+      << "\"exact_calls\":"           << s.exact_calls                   << ","
+      << "\"exact_errors\":"          << s.exact_errors                  << ","
+      << "\"batch_avg_latency_us\":"  << s.batch_avg_latency_us          << ","
+      << "\"batch_max_latency_us\":"  << s.batch_max_latency_us
+      << "}";
+    return j.str();
 }
 
 // Ensure the translation unit is not discarded by the linker.

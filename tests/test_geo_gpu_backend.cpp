@@ -779,3 +779,72 @@ TEST_F(CrossBackendTest, BatchIntersects_PolygonPolygon) {
                   makePolygon({{5,5},{6,5},{6,6},{5,6},{5,5}})};  // disjoint
     expectBatchAgree(in, "BatchPolygonPolygon");
 }
+
+// ============================================================
+// getGpuSpatialBackendStatsJson() — observability free function
+// ============================================================
+
+TEST(GpuSpatialBackendStatsJson, ReturnsValidJson) {
+    std::string json = themis::geo::getGpuSpatialBackendStatsJson();
+    ASSERT_FALSE(json.empty()) << "getGpuSpatialBackendStatsJson() must not return empty string";
+    // Must start with '{' and end with '}'
+    EXPECT_EQ(json.front(), '{');
+    EXPECT_EQ(json.back(), '}');
+}
+
+TEST(GpuSpatialBackendStatsJson, ContainsRequiredKeys) {
+    std::string json = themis::geo::getGpuSpatialBackendStatsJson();
+    // Verify all required keys are present in the JSON string
+    const std::vector<std::string> required_keys = {
+        "\"gpu_present\"", "\"circuit_open\"", "\"device_name\"",
+        "\"batch_calls\"", "\"batch_fallbacks\"", "\"batch_pairs_processed\"",
+        "\"exact_calls\"", "\"exact_errors\"",
+        "\"batch_avg_latency_us\"", "\"batch_max_latency_us\""
+    };
+    for (const auto& key : required_keys) {
+        EXPECT_NE(json.find(key), std::string::npos)
+            << "Missing key: " << key << " in: " << json;
+    }
+}
+
+TEST(GpuSpatialBackendStatsJson, CountersReflectCalls) {
+    // Issue a few operations then verify the counters increase.
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    // Get baseline
+    std::string before = themis::geo::getGpuSpatialBackendStatsJson();
+    auto exactPos  = before.find("\"exact_calls\":");
+    ASSERT_NE(exactPos, std::string::npos);
+
+    // Issue two exact-intersect calls
+    (void)backend->exactIntersects(makePoint(0.5, 0.5),
+                                   makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+    (void)backend->exactIntersects(makePoint(9.0, 9.0),
+                                   makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+
+    std::string after = themis::geo::getGpuSpatialBackendStatsJson();
+    // The JSON string should differ (counters incremented)
+    EXPECT_NE(before, after)
+        << "Stats JSON should change after calling exactIntersects";
+}
+
+TEST(GpuSpatialBackendStatsJson, BatchCallsReflected) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    std::string before = themis::geo::getGpuSpatialBackendStatsJson();
+
+    SpatialBatchInputs in;
+    in.count = 2;
+    in.geoms_a = {makePoint(0.5, 0.5), makePoint(9.0, 9.0)};
+    in.geoms_b = {makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}),
+                  makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}})};
+    (void)backend->batchIntersects(in);
+
+    std::string after = themis::geo::getGpuSpatialBackendStatsJson();
+    EXPECT_NE(before, after)
+        << "Stats JSON should change after calling batchIntersects";
+    // batch_pairs_processed must contain at least 2
+    EXPECT_NE(after.find("\"batch_pairs_processed\":"), std::string::npos);
+}
