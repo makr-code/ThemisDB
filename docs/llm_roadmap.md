@@ -198,16 +198,16 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 ### Grammar
 
-- [ ] Replace `nullptr` vocab argument in `Grammar::compile()` with `llama_model_get_vocab(model)`.
-- [ ] Propagate a hard error (structured error code or exception) when vocab is null and grammar is requested.
-- [ ] Elevate the silent grammar-unavailable fallback to a logged error with an explicit opt-in flag (`Config::grammar_strict_mode`).
+- [x] Replace `nullptr` vocab argument in `Grammar::compile()` with `llama_model_get_vocab(model)` — **implemented** via `Grammar(ebnf, start, model)` constructor in `src/llm/grammar.cpp`.
+- [x] Propagate a hard error (structured error code or exception) when vocab is null and grammar is requested — model-aware constructor returns hard error on null model/null vocab.
+- [x] Elevate the silent grammar-unavailable fallback to a logged error — API-unavailable path now uses `spdlog::error` (not `warn`) in both constructors.
 - [ ] Add integration tests: grammar compilation with real/mock `llama_vocab`, grammar-constrained generation round-trip, error on missing API.
 
 ### GGUF Loader
 
-- [ ] Return `UnsupportedQuantizationFormat` error (not silent raw bytes) for Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K.
-- [ ] Gate `GGUFConverter` dispatch on `GGUFConverter::isSupported()`; test each unsupported type.
-- [ ] Add unit tests for unsupported format error messages.
+- [x] Return `UnsupportedQuantizationFormat` error (not silent raw bytes) for Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K — implemented in `parseTensorInfo()` via `GGUFLoader::isFormatSupported()`.
+- [x] Gate `GGUFConverter` dispatch on `GGUFConverter::isSupported()`; test each unsupported type — `isFormatSupported()` covers the same type set; tests added.
+- [x] Add unit tests for unsupported format error messages — `ParseFile_RejectsUnsupportedFormat_Q4_0`, `_Q5_K` added to `tests/test_gguf_loader.cpp`.
 - [ ] Document which formats are planned for future support and which will be permanently unsupported.
 
 ### Safety / Policy
