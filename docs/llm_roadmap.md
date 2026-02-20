@@ -193,7 +193,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - [x] Emit `llm_queue_length` from `ContinuousBatchScheduler` — `setMetricsCollector()` added; `recordQueueLength()` called in `scheduleNextBatch()`.
 - [x] Emit `llm_backpressure_drops_total` from `ContinuousBatchScheduler` — counter registered; `recordBackpressureDrop()` called in `submitRequest()` on rejection.
 - [x] Add OTel trace context (`trace_id`, `span_id`) to `InferenceRequest` / `InferenceResponse`; inference engine propagates W3C traceparent fields from request to response — `include/llm/llm_plugin_interface.h`; propagated in `generateRegular()` and `generateSpeculative()` in `src/llm/llama_wrapper.cpp`.
-- [ ] Validate Grafana dashboard JSON against a live Grafana 10.x instance.
+- [x] Validate Grafana dashboard JSON against a live Grafana 10.x instance — **automated static validation** added: `scripts/validate_grafana_dashboards.py` checks JSON syntax, required fields, unique panel IDs, gridPos completeness, panel grid overlaps, non-empty PromQL targets, and LLM dashboard-specific panel presence + `llm_*` metric naming; CI workflow at `.github/workflows/validate-grafana-dashboards.yml`. Live Grafana 10.x smoke-test (manual) documented in `docs/operations/llm/METRICS_SCRAPE_TROUBLESHOOTING.md`.
 - [x] Add latency heatmap and p50/p95/p99 panels — heatmap panel added to `grafana/dashboards/themisdb-llm-dashboard.json`; p50/p95/p99 graph panel already present.
 - [x] Define Prometheus alerting rules (`prometheus/rules/llm_alerts.yml`) — file created ✅; rules loaded into `grafana/prometheus.yml` via `rule_files` entry.
 
@@ -233,7 +233,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - [x] Add chaos tests for CUDA allocation failure and CPU fallback — `tests/llm/test_kernel_fusion_cpu_fallback.cpp` (13 tests covering all fused kernels; validates finite output and no-crash on CPU path when CUDA is unavailable).
 - [x] Add load benchmarks for continuous batching throughput — `tests/llm/bench_continuous_batch_scheduler.cpp` (5 benchmarks: submit throughput, batch latency, rejection latency, quota rejection, getStats cost).
 - [x] Add CI CPU fallback regression test — `.github/workflows/llm-cpu-fallback-ci.yml`; triggers on changes to `kernel_fusion.*` and the new CPU fallback test; configures CMake with `-DTHEMIS_ENABLE_CUDA=OFF -DTHEMIS_ENABLE_LLM=ON`; runs `KernelFusionCPUFallback` test suite via ctest.
-- [ ] Add CI GPU job compiling and running `kernel_fusion.cu` tests.
+- [x] Add CI GPU job compiling and running `kernel_fusion.cu` tests — `.github/workflows/llm-cuda-gpu-ci.yml`: **cuda-compile-check** job compiles `kernel_fusion.cu` with nvcc for sm_80/86/89 on `ubuntu-22.04` (no GPU required, runs on every PR); **cuda-kernel-tests** job runs the full correctness suite (`tests/llm/test_kernel_fusion_cuda.cpp`, 7 tests covering forward pass, causal masking, correctness vs CPU reference, fused QKV/LayerNorm/FFN) on a self-hosted `gpu-cuda` runner. Tests skip gracefully on CPU-only machines via `cudaGetDeviceCount()`.
 
 ---
 
