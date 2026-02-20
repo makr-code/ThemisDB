@@ -3,8 +3,8 @@
  * @brief Tests for AQL injection detection in AccessControl
  *
  * These tests verify that AccessControl::detectSQLInjection correctly uses
- * the AQLInjectionDetector (re-enabled in §1.4) plus the heuristic fallback
- * to identify dangerous query patterns.
+ * the AQLInjectionDetector plus the heuristic fallback to identify dangerous
+ * query patterns.
  */
 
 #include <gtest/gtest.h>

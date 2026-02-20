@@ -525,9 +525,15 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
             curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
             curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
             curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);
-            // Allow self-signed certs in dev; production deployments should set CURLOPT_CAINFO
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
             curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+            // Use the configured CA bundle when provided; otherwise libcurl falls
+            // back to the system default bundle.  Warn if neither is available.
+            if (!cfg_.siem_ca_bundle_path.empty()) {
+                curl_easy_setopt(curl, CURLOPT_CAINFO, cfg_.siem_ca_bundle_path.c_str());
+            } else {
+                THEMIS_WARN("Splunk SIEM: siem_ca_bundle_path not set – relying on system CA bundle");
+            }
             // Discard response body
             curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
                              +[](char*, size_t s, size_t n, void*) -> size_t { return s * n; });

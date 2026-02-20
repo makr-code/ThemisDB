@@ -106,6 +106,18 @@ TEST(SiemConfigDefaultsTest, DefaultSplunkToken_Empty) {
     EXPECT_TRUE(cfg.splunk_token.empty());
 }
 
+TEST(SiemConfigDefaultsTest, DefaultCaBundlePath_Empty) {
+    AuditLoggerConfig cfg;
+    // Empty by default – libcurl will fall back to the system CA bundle
+    EXPECT_TRUE(cfg.siem_ca_bundle_path.empty());
+}
+
+TEST(SiemConfigDefaultsTest, CaBundlePath_CanBeSet) {
+    AuditLoggerConfig cfg;
+    cfg.siem_ca_bundle_path = "/etc/ssl/certs/ca-certificates.crt";
+    EXPECT_EQ(cfg.siem_ca_bundle_path, "/etc/ssl/certs/ca-certificates.crt");
+}
+
 // ============================================================================
 // Splunk config
 // ============================================================================
