@@ -8,9 +8,13 @@
 #include <vector>
 #include <optional>
 #include <variant>
+#include <map>
 #include <nlohmann/json.hpp>
 
 namespace themis {
+
+// Forward declaration
+class RocksDBWrapper;
 
 using json = nlohmann::json;
 
@@ -162,6 +166,34 @@ public:
 
     /// Parse constraints from a JSON object produced by toJSON().
     static SchemaConstraints fromJSON(const json& j);
+
+    // ========================================================================
+    // RocksDB persistence
+    // ========================================================================
+
+    /// Persist all constraints to RocksDB under "config:constraints:<table>" keys.
+    /// @param db  RocksDB wrapper to write to
+    /// @return    true if all tables were persisted successfully
+    bool persistTo(RocksDBWrapper& db) const;
+
+    /// Persist constraints for a single table.
+    /// @param db          RocksDB wrapper to write to
+    /// @param table_name  Table whose constraints should be persisted
+    bool persistTableTo(RocksDBWrapper& db, std::string_view table_name) const;
+
+    /// Load constraints for all tables whose keys are found in RocksDB
+    /// under the "config:constraints:" prefix.
+    /// Replaces existing in-memory state.
+    /// @param db  RocksDB wrapper to read from
+    /// @return    Number of tables loaded (0 = none found)
+    size_t loadFrom(RocksDBWrapper& db);
+
+    /// Load constraints for a single table from RocksDB.
+    /// Merges with existing in-memory constraints for that table.
+    /// @param db          RocksDB wrapper to read from
+    /// @param table_name  Table to load
+    /// @return            true if constraints were found and loaded
+    bool loadTableFrom(RocksDBWrapper& db, std::string_view table_name);
 
 private:
     // ========================================================================

@@ -2,6 +2,7 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "metadata/schema_constraints.h"
+#include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 
@@ -443,6 +444,156 @@ std::optional<ConstraintViolation> SchemaConstraints::checkCheck(
     // Unrecognised expression pattern – log and skip silently
     spdlog::trace("SchemaConstraints: Skipping unrecognised CHECK expr '{}'", expr);
     return std::nullopt;
+}
+
+// ============================================================================
+// RocksDB persistence
+// ============================================================================
+
+bool SchemaConstraints::persistTo(RocksDBWrapper& db) const {
+    bool all_ok = true;
+    for (const auto& [table_name, _] : constraints_) {
+        if (!persistTableTo(db, table_name)) {
+            all_ok = false;
+        }
+    }
+    return all_ok;
+}
+
+bool SchemaConstraints::persistTableTo(RocksDBWrapper& db,
+                                        std::string_view table_name) const
+{
+    try {
+        auto t_it = constraints_.find(std::string(table_name));
+        if (t_it == constraints_.end()) {
+            return true;  // Nothing to persist
+        }
+
+        // Serialise just this table's constraints as a JSON object
+        json t_obj = json::object();
+        for (const auto& [col, vec] : t_it->second) {
+            json c_arr = json::array();
+            for (const auto& c : vec) {
+                c_arr.push_back(c.toJSON());
+            }
+            t_obj[col] = c_arr;
+        }
+
+        std::string key   = "config:constraints:" + std::string(table_name);
+        std::string value = t_obj.dump();
+        std::vector<uint8_t> data(value.begin(), value.end());
+
+        if (!db.put(key, data)) {
+            spdlog::error("SchemaConstraints: Failed to persist constraints for '{}'",
+                          table_name);
+            return false;
+        }
+
+        spdlog::debug("SchemaConstraints: Persisted constraints for '{}'", table_name);
+        return true;
+
+    } catch (const std::exception& e) {
+        spdlog::error("SchemaConstraints: Exception persisting constraints for '{}': {}",
+                      table_name, e.what());
+        return false;
+    }
+}
+
+size_t SchemaConstraints::loadFrom(RocksDBWrapper& db) {
+    constraints_.clear();
+
+    size_t loaded = 0;
+    try {
+        auto it_result = db.newIterator();
+        if (!it_result) {
+            spdlog::warn("SchemaConstraints: Failed to create iterator for loading");
+            return 0;
+        }
+        auto& it = it_result.value();
+
+        std::string prefix = "config:constraints:";
+        it->Seek(prefix);
+
+        while (it->Valid()) {
+            std::string key = it->key().ToString();
+            if (key.rfind(prefix, 0) != 0) break;
+
+            std::string table_name = key.substr(prefix.size());
+            if (loadTableFrom(db, table_name)) {
+                ++loaded;
+            }
+            it->Next();
+        }
+
+        if (loaded > 0) {
+            spdlog::info("SchemaConstraints: Loaded constraints for {} table(s)", loaded);
+        }
+
+    } catch (const std::exception& e) {
+        spdlog::error("SchemaConstraints: Exception loading constraints: {}", e.what());
+    }
+
+    return loaded;
+}
+
+bool SchemaConstraints::loadTableFrom(RocksDBWrapper& db,
+                                       std::string_view table_name)
+{
+    try {
+        std::string key = "config:constraints:" + std::string(table_name);
+        auto result = db.get(key);
+        if (!result.has_value() || result->empty()) {
+            return false;
+        }
+
+        std::string raw(result->begin(), result->end());
+        json t_obj = json::parse(raw);
+
+        if (!t_obj.is_object()) return false;
+
+        for (const auto& [col, c_arr] : t_obj.items()) {
+            if (!c_arr.is_array()) continue;
+            for (const auto& cj : c_arr) {
+                ColumnConstraint c;
+                try {
+                    c.kind = kindFromString(cj.value("kind", std::string("NOT_NULL")));
+                } catch (...) {
+                    continue;
+                }
+                c.name = cj.value("name", std::string(""));
+                if (cj.contains("check_expr") && cj["check_expr"].is_string()) {
+                    c.check_expr = cj["check_expr"].get<std::string>();
+                }
+                if (cj.contains("fk_table") && cj["fk_table"].is_string()) {
+                    c.fk_table  = cj["fk_table"].get<std::string>();
+                    c.fk_column = cj.value("fk_column", std::string(""));
+                }
+                if (cj.contains("default_value")) {
+                    const auto& dv = cj["default_value"];
+                    if (dv.is_null()) {
+                        c.default_value = std::monostate{};
+                    } else if (dv.is_string()) {
+                        c.default_value = dv.get<std::string>();
+                    } else if (dv.is_boolean()) {
+                        c.default_value = dv.get<bool>();
+                    } else if (dv.is_number_integer()) {
+                        c.default_value = dv.get<int64_t>();
+                    } else if (dv.is_number_float()) {
+                        c.default_value = dv.get<double>();
+                    }
+                }
+                constraints_[std::string(table_name)][col].push_back(std::move(c));
+            }
+        }
+
+        spdlog::debug("SchemaConstraints: Loaded constraints for table '{}'", table_name);
+        return true;
+
+    } catch (const std::exception& e) {
+        spdlog::warn("SchemaConstraints: Failed to load constraints for '{}': {}",
+                     table_name, e.what());
+        return false;
+    }
 }
 
 } // namespace themis
