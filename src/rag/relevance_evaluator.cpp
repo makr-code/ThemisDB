@@ -13,6 +13,7 @@
 #include <regex>
 #include <cmath>
 #include <set>
+#include <unordered_map>
 
 namespace themis::rag::judge {
 
@@ -22,46 +23,75 @@ struct RelevanceEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
     ResponseParser parser;
-    
-    // Semantic similarity stub - in production would use SBERT
-    double computeSemanticSimilarity(const std::string& text1, const std::string& text2) {
-        // Stub implementation using Jaccard similarity of words
-        // In production, this would use sentence-transformers/all-mpnet-base-v2
-        
-        auto tokenize = [](const std::string& text) {
-            std::set<std::string> tokens;
-            std::istringstream stream(text);
-            std::string word;
-            while (stream >> word) {
-                std::transform(word.begin(), word.end(), word.begin(), ::tolower);
-                // Remove punctuation
-                word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
-                if (word.length() > 2) {
-                    tokens.insert(word);
-                }
+
+    // Tokenize text into lowercase, punctuation-stripped tokens of length > 2
+    static std::vector<std::string> tokenize(const std::string& text) {
+        std::vector<std::string> tokens;
+        std::istringstream stream(text);
+        std::string word;
+        while (stream >> word) {
+            std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+            word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
+            if (word.length() > 2) {
+                tokens.push_back(word);
             }
-            return tokens;
-        };
-        
-        auto tokens1 = tokenize(text1);
-        auto tokens2 = tokenize(text2);
-        
-        if (tokens1.empty() || tokens2.empty()) {
+        }
+        return tokens;
+    }
+
+    // Compute term-frequency vector for a token list over a shared vocabulary
+    static std::vector<double> termFrequencyVector(
+        const std::vector<std::string>& tokens,
+        const std::vector<std::string>& vocab
+    ) {
+        // Build frequency map in O(token_count), then populate in O(vocab_size)
+        std::unordered_map<std::string, double> freq;
+        for (const auto& t : tokens) {
+            freq[t] += 1.0;
+        }
+        std::vector<double> vec(vocab.size(), 0.0);
+        for (size_t i = 0; i < vocab.size(); ++i) {
+            auto it = freq.find(vocab[i]);
+            if (it != freq.end()) {
+                vec[i] = it->second;
+            }
+        }
+        return vec;
+    }
+
+    // Cosine similarity between two equal-length vectors
+    static double cosineSimilarity(
+        const std::vector<double>& a,
+        const std::vector<double>& b
+    ) {
+        double dot = 0.0, na = 0.0, nb = 0.0;
+        for (size_t i = 0; i < a.size(); ++i) {
+            dot += a[i] * b[i];
+            na  += a[i] * a[i];
+            nb  += b[i] * b[i];
+        }
+        if (na < 1e-9 || nb < 1e-9) return 0.0;
+        return dot / (std::sqrt(na) * std::sqrt(nb));
+    }
+
+    // Semantic similarity using TF-cosine (bag-of-words cosine over shared vocab).
+    // Falls back to Jaccard when the vocabulary is empty.
+    double computeSemanticSimilarity(const std::string& text1, const std::string& text2) {
+        auto toks1 = tokenize(text1);
+        auto toks2 = tokenize(text2);
+
+        if (toks1.empty() || toks2.empty()) {
             return 0.0;
         }
-        
-        // Jaccard similarity
-        std::set<std::string> intersection;
-        std::set_intersection(tokens1.begin(), tokens1.end(),
-                            tokens2.begin(), tokens2.end(),
-                            std::inserter(intersection, intersection.begin()));
-        
-        std::set<std::string> union_set;
-        std::set_union(tokens1.begin(), tokens1.end(),
-                      tokens2.begin(), tokens2.end(),
-                      std::inserter(union_set, union_set.begin()));
-        
-        return static_cast<double>(intersection.size()) / union_set.size();
+
+        // Build shared vocabulary
+        std::set<std::string> vocab_set(toks1.begin(), toks1.end());
+        vocab_set.insert(toks2.begin(), toks2.end());
+        std::vector<std::string> vocab(vocab_set.begin(), vocab_set.end());
+
+        auto vec1 = termFrequencyVector(toks1, vocab);
+        auto vec2 = termFrequencyVector(toks2, vocab);
+        return cosineSimilarity(vec1, vec2);
     }
 };
 

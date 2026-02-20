@@ -9,7 +9,11 @@
 #pragma once
 
 #include <chrono>
+#include <deque>
+#include <memory>
+#include <mutex>
 #include <optional>
+#include <ostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -146,6 +150,91 @@ struct RetrievalParams {
     size_t top_k                = 10;
     double similarity_threshold = 0.75;
     double coverage_threshold   = 0.8;
+};
+
+// Forward declaration of EvaluationResult used by LearningMetrics
+struct MetricsSnapshot {
+    double mean_accuracy     = 0.0;
+    double mean_faithfulness = 0.0;
+    double mean_relevance    = 0.0;
+    double mean_completeness = 0.0;
+    double mean_coherence    = 0.0;
+
+    double std_accuracy     = 0.0;
+    double std_faithfulness = 0.0;
+
+    double min_accuracy = 0.0;
+    double max_accuracy = 0.0;
+
+    double trend_accuracy     = 0.0; ///< Linear regression slope over window
+    double trend_faithfulness = 0.0;
+
+    size_t num_evaluations = 0;
+};
+
+/**
+ * @brief Recorded entry for a single RAG evaluation
+ */
+struct EvaluationEntry {
+    double overall_score      = 0.0;
+    double faithfulness_score = 0.0;
+    double relevance_score    = 0.0;
+    double completeness_score = 0.0;
+    double coherence_score    = 0.0;
+    std::chrono::system_clock::time_point timestamp;
+};
+
+/**
+ * @brief Tracks RAG evaluation metrics over a sliding window.
+ *
+ * Thread-safe metrics accumulator that records evaluation results and
+ * computes aggregated statistics (mean, std-dev, trend) for monitoring
+ * and continuous-learning workflows.
+ */
+class LearningMetrics {
+public:
+    /**
+     * @brief Configuration for LearningMetrics
+     */
+    struct Config {
+        size_t window_size = 100; ///< Maximum number of evaluations to retain
+    };
+
+    LearningMetrics();
+    explicit LearningMetrics(const Config& config);
+    ~LearningMetrics();
+
+    /**
+     * @brief Record a new evaluation entry
+     * @param entry Evaluation scores to record
+     */
+    void recordEvaluation(const EvaluationEntry& entry);
+
+    /**
+     * @brief Compute aggregated metrics over the current window
+     * @return Snapshot of statistics
+     */
+    MetricsSnapshot computeMetrics() const;
+
+    /**
+     * @brief Export recorded entries to a CSV file
+     * @param filepath Destination file path
+     */
+    void exportMetrics(const std::string& filepath) const;
+
+    /**
+     * @brief Print a human-readable report to an output stream
+     * @param os Output stream (default: std::cout)
+     */
+    void printReport(std::ostream& os) const;
+
+private:
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+
+    double computeMean(const std::deque<double>& data) const;
+    double computeStdDev(const std::deque<double>& data, double mean) const;
+    double computeTrend(const std::deque<double>& data) const;
 };
 
 } // namespace themis::rag::learning

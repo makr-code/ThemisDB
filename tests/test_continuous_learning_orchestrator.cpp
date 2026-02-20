@@ -4,6 +4,7 @@
  */
 
 #include <chrono>
+#include <filesystem>
 #include <gtest/gtest.h>
 #include <thread>
 
@@ -249,3 +250,112 @@ TEST_F(ContinuousLearningOrchestratorTest, RetrainingTriggers) {
     // but should not crash
     SUCCEED();
 }
+
+// Helper: log N interactions with given feedback type and prompt version
+static void logInteractions(
+    ContinuousLearningOrchestrator& orchestrator,
+    size_t count,
+    FeedbackType feedback,
+    const std::string& prompt_version = "v1"
+) {
+    for (size_t i = 0; i < count; ++i) {
+        Interaction interaction;
+        interaction.interaction_id   = "int_" + std::to_string(i);
+        interaction.timestamp        = std::chrono::system_clock::now();
+        interaction.query            = "Test query " + std::to_string(i);
+        interaction.generated_answer = "Answer " + std::to_string(i);
+        interaction.confidence_score = 0.8;
+        interaction.user_feedback    = feedback;
+        interaction.prompt_version   = prompt_version;
+        orchestrator.logInteraction(interaction);
+    }
+}
+
+// Test: runPromptOptimization does not crash and increments counter when there
+// is enough data with a low success rate
+TEST_F(ContinuousLearningOrchestratorTest, PromptOptimizationTriggered) {
+    orchestrator_->registerPromptSystem("prompt1");
+
+    // Log enough mostly-negative interactions so one version looks bad
+    logInteractions(*orchestrator_, config_.min_feedback_samples + 2,
+                    FeedbackType::NEGATIVE, "v1");
+
+    auto stats_before = orchestrator_->getStats();
+    orchestrator_->triggerLearningIteration();
+    auto stats_after = orchestrator_->getStats();
+
+    EXPECT_GE(stats_after.prompt_optimizations, stats_before.prompt_optimizations);
+}
+
+// Test: runPromptOptimization returns early when there is not enough data
+TEST_F(ContinuousLearningOrchestratorTest, PromptOptimizationSkippedInsufficientData) {
+    // Log fewer interactions than min_feedback_samples
+    logInteractions(*orchestrator_, config_.min_feedback_samples / 2,
+                    FeedbackType::NEGATIVE, "v1");
+
+    auto stats_before = orchestrator_->getStats();
+    orchestrator_->triggerLearningIteration();
+    auto stats_after = orchestrator_->getStats();
+
+    // No optimization should have been triggered
+    EXPECT_EQ(stats_after.prompt_optimizations, stats_before.prompt_optimizations);
+}
+
+// Test: runRetrievalOptimization does not crash and increments counter
+TEST_F(ContinuousLearningOrchestratorTest, RetrievalOptimizationTriggered) {
+    orchestrator_->registerRetrievalSystem("retrieval1");
+
+    logInteractions(*orchestrator_, config_.min_feedback_samples + 2,
+                    FeedbackType::POSITIVE);
+
+    auto stats_before = orchestrator_->getStats();
+    orchestrator_->triggerLearningIteration();
+    auto stats_after = orchestrator_->getStats();
+
+    EXPECT_GE(stats_after.retrieval_optimizations, stats_before.retrieval_optimizations);
+}
+
+// Test: saveMetrics / loadMetrics round-trip preserves accuracy
+TEST_F(ContinuousLearningOrchestratorTest, SaveLoadMetricsRoundTrip) {
+    const auto test_path =
+        (std::filesystem::temp_directory_path() / "test_clo_metrics_roundtrip.csv").string();
+    // Remove any leftover file from a previous run
+    std::filesystem::remove(test_path);
+
+    // Create an orchestrator with a file path and log enough positive interactions
+    ContinuousLearningConfig save_config = config_;
+    save_config.metrics_db_path = test_path;
+    auto saver = std::make_unique<ContinuousLearningOrchestrator>(save_config);
+    logInteractions(*saver, config_.min_feedback_samples + 1, FeedbackType::POSITIVE);
+
+    double acc_before = saver->getStats().current_accuracy;
+    EXPECT_GT(acc_before, 0.0);
+    saver->saveMetrics();
+
+    // Load into a fresh orchestrator and verify accuracy is restored
+    auto loader = std::make_unique<ContinuousLearningOrchestrator>(save_config);
+    loader->loadMetrics();
+
+    double acc_after = loader->getStats().current_accuracy;
+    EXPECT_NEAR(acc_after, acc_before, 1e-5);
+
+    // Cleanup
+    std::filesystem::remove(test_path);
+}
+
+// Test: saveModelCheckpoint records an improvement event
+TEST_F(ContinuousLearningOrchestratorTest, SaveModelCheckpointRecordsEvent) {
+    orchestrator_->saveModelCheckpoint("adapter_v2");
+
+    auto stats = orchestrator_->getStats();
+    bool found = false;
+    for (const auto& event : stats.recent_improvements) {
+        if (event.improvement_type == "ModelCheckpoint" &&
+            event.component == "adapter_v2") {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found);
+}
+

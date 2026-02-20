@@ -342,6 +342,98 @@ TEST_F(RAGJudgeTest, MetricsInterJudgeAgreement) {
     EXPECT_LE(agreement, 1.0);
 }
 
+// Test: Inter-judge agreement is 1.0 when all scores are identical
+TEST_F(RAGJudgeTest, MetricsInterJudgeAgreementPerfect) {
+    std::vector<EvaluationResult> results(3);
+    for (auto& r : results) r.overall_score = 0.7;
+    EXPECT_DOUBLE_EQ(metrics::calculateInterJudgeAgreement(results), 1.0);
+}
+
+// Test: Inter-judge agreement single result returns 1.0
+TEST_F(RAGJudgeTest, MetricsInterJudgeAgreementSingleResult) {
+    std::vector<EvaluationResult> results(1);
+    results[0].overall_score = 0.5;
+    EXPECT_DOUBLE_EQ(metrics::calculateInterJudgeAgreement(results), 1.0);
+}
+
+// Test: Cohen's Kappa – identical raters → kappa = 1
+TEST_F(RAGJudgeTest, MetricsCohensKappaPerfectAgreement) {
+    std::vector<EvaluationResult> j1(4), j2(4);
+    j1[0].overall_score = 0.1; j2[0].overall_score = 0.1;
+    j1[1].overall_score = 0.3; j2[1].overall_score = 0.3;
+    j1[2].overall_score = 0.7; j2[2].overall_score = 0.7;
+    j1[3].overall_score = 0.9; j2[3].overall_score = 0.9;
+    double kappa = metrics::calculateCohensKappa(j1, j2);
+    EXPECT_NEAR(kappa, 1.0, 1e-9);
+}
+
+// Test: Cohen's Kappa range [-1, 1]
+TEST_F(RAGJudgeTest, MetricsCohensKappaRange) {
+    std::vector<EvaluationResult> j1(4), j2(4);
+    j1[0].overall_score = 0.1; j2[0].overall_score = 0.9;
+    j1[1].overall_score = 0.9; j2[1].overall_score = 0.1;
+    j1[2].overall_score = 0.2; j2[2].overall_score = 0.8;
+    j1[3].overall_score = 0.8; j2[3].overall_score = 0.2;
+    double kappa = metrics::calculateCohensKappa(j1, j2);
+    EXPECT_GE(kappa, -1.0);
+    EXPECT_LE(kappa,  1.0);
+}
+
+// Test: Cohen's Kappa mismatched sizes returns 0
+TEST_F(RAGJudgeTest, MetricsCohensKappaMismatchedSizes) {
+    std::vector<EvaluationResult> j1(3), j2(2);
+    EXPECT_DOUBLE_EQ(metrics::calculateCohensKappa(j1, j2), 0.0);
+}
+
+// Test: ECE is 0 when predictions exactly match ground truth
+TEST_F(RAGJudgeTest, MetricsCalibrationErrorPerfect) {
+    std::vector<double> preds  = {0.1, 0.3, 0.5, 0.7, 0.9};
+    std::vector<double> truths = {0.1, 0.3, 0.5, 0.7, 0.9};
+    double ece = metrics::calculateCalibrationError(preds, truths);
+    EXPECT_NEAR(ece, 0.0, 1e-9);
+}
+
+// Test: ECE is positive when predictions systematically overestimate
+TEST_F(RAGJudgeTest, MetricsCalibrationErrorOverconfident) {
+    std::vector<double> preds  = {0.9, 0.9, 0.9, 0.9};
+    std::vector<double> truths = {0.1, 0.2, 0.1, 0.2};
+    double ece = metrics::calculateCalibrationError(preds, truths);
+    EXPECT_GT(ece, 0.0);
+    EXPECT_LE(ece, 1.0);
+}
+
+// Test: ECE empty input returns 0
+TEST_F(RAGJudgeTest, MetricsCalibrationErrorEmpty) {
+    EXPECT_DOUBLE_EQ(metrics::calculateCalibrationError({}, {}), 0.0);
+}
+
+// Test: Ensemble compareWithEnsemble majority vote
+TEST_F(RAGJudgeTest, EnsembleCompareWithEnsembleMajorityVote) {
+    // Three identical judges – they will all agree
+    std::vector<std::shared_ptr<RAGJudge>> judges;
+    judges.push_back(std::make_shared<RAGJudge>(config_));
+    judges.push_back(std::make_shared<RAGJudge>(config_));
+    judges.push_back(std::make_shared<RAGJudge>(config_));
+
+    JudgeEnsemble ensemble(std::move(judges), VotingStrategy::MAJORITY_VOTING);
+
+    std::string query = "What is the capital of France?";
+    auto docs = createTestDocuments();
+    // One answer directly matches docs, one is unrelated
+    std::string answer_a = "Paris is the capital of France, located in Western Europe.";
+    std::string answer_b = "The answer is unknown.";
+
+    auto result = ensemble.compareWithEnsemble(query, docs, answer_a, answer_b);
+    EXPECT_TRUE(
+        result.winner == ComparisonResult::Winner::ANSWER_A ||
+        result.winner == ComparisonResult::Winner::ANSWER_B ||
+        result.winner == ComparisonResult::Winner::TIE
+    );
+    EXPECT_GE(result.confidence, 0.0);
+    EXPECT_LE(result.confidence, 1.0);
+    EXPECT_FALSE(result.reasoning.empty());
+}
+
 // Test: Empty answer
 TEST_F(RAGJudgeTest, EmptyAnswer) {
     RAGJudge judge(config_);
