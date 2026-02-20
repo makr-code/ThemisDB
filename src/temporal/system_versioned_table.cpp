@@ -190,6 +190,120 @@ std::vector<VersionedDocument> SystemVersionedTable::scan(
 }
 
 // ============================================================================
+// Purge / all-key APIs
+// ============================================================================
+
+std::vector<std::string> SystemVersionedTable::getAllKeys() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<std::string> keys;
+    keys.reserve(rows_.size());
+    for (const auto& [k, _] : rows_) {
+        keys.push_back(k);
+    }
+    return keys;
+}
+
+size_t SystemVersionedTable::purgeHistoricalVersions(
+    const std::string& key,
+    const std::function<bool(const VersionedDocument&)>& predicate) {
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return 0;
+    }
+
+    auto& versions = it->second;
+    size_t before = versions.size();
+
+    versions.erase(
+        std::remove_if(versions.begin(), versions.end(),
+                       [&](const VersionedDocument& v) {
+                           // Never remove the current (open-ended) version
+                           if (v.isCurrent()) return false;
+                           return predicate(v);
+                       }),
+        versions.end());
+
+    return before - versions.size();
+}
+
+size_t SystemVersionedTable::purgeHistoricalVersions(
+    const std::function<bool(const VersionedDocument&)>& predicate) {
+
+    // Collect all keys first (lock-free key list not needed – we hold the lock
+    // inside the per-key call; call per-key which locks each time)
+    std::vector<std::string> keys;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        for (const auto& [k, _] : rows_) {
+            keys.push_back(k);
+        }
+    }
+
+    size_t total = 0;
+    for (const auto& k : keys) {
+        total += purgeHistoricalVersions(k, predicate);
+    }
+    return total;
+}
+
+size_t SystemVersionedTable::purgeHistoricalVersionsKeepLatestN(
+    const std::string& key,
+    size_t keep_latest_n) {
+
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = rows_.find(key);
+    if (it == rows_.end()) {
+        return 0;
+    }
+
+    auto& versions = it->second;
+
+    // Collect pointers to historical (closed) versions
+    std::vector<VersionedDocument*> historical;
+    for (auto& v : versions) {
+        if (!v.isCurrent()) {
+            historical.push_back(&v);
+        }
+    }
+
+    if (historical.size() <= keep_latest_n) {
+        return 0;
+    }
+
+    // Sort descending by sys_start (newest first)
+    std::sort(historical.begin(), historical.end(),
+              [](const VersionedDocument* a, const VersionedDocument* b) {
+                  return a->sys_time.start > b->sys_time.start;
+              });
+
+    // Collect raw pointers of the entries to delete (the oldest ones)
+    std::vector<const VersionedDocument*> to_delete_ptrs;
+    to_delete_ptrs.reserve(historical.size() - keep_latest_n);
+    for (size_t i = keep_latest_n; i < historical.size(); ++i) {
+        to_delete_ptrs.push_back(historical[i]);
+    }
+
+    size_t before = versions.size();
+
+    versions.erase(
+        std::remove_if(versions.begin(), versions.end(),
+                       [&](const VersionedDocument& v) {
+                           if (v.isCurrent()) return false;
+                           for (const auto* p : to_delete_ptrs) {
+                               if (p == &v) return true;
+                           }
+                           return false;
+                       }),
+        versions.end());
+
+    return before - versions.size();
+}
+
+// ============================================================================
 // Metadata
 // ============================================================================
 

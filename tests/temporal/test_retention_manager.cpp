@@ -182,3 +182,101 @@ TEST_F(RetentionManagerTest, CumulativeStats_AccumulateAcrossRuns) {
     auto cum = mgr.getCumulativeStats();
     EXPECT_EQ(cum["total_deleted"], 6); // 3 + 3
 }
+
+// ── Physical purge (real deletion) ────────────────────────────────────────────
+
+TEST_F(RetentionManagerTest, EnforceTimeBased_ActuallyDeletesVersions) {
+    SystemVersionedTable t{"employees", "node_a"};
+    populateHistory(t, 3);  // 1 current + 3 historical
+
+    EXPECT_EQ(t.versionCount(), 4u);
+
+    RetentionPolicy policy;
+    policy.type             = RetentionType::TIME_BASED;
+    policy.retention_period = std::chrono::milliseconds(0); // keep nothing
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_EQ(stats.versions_deleted, 3u);
+
+    // Verify the versions are gone from the table itself
+    EXPECT_EQ(t.versionCount(), 1u); // only current remains
+}
+
+TEST_F(RetentionManagerTest, EnforceVersionCount_ActuallyDeletesVersions) {
+    SystemVersionedTable t{"employees", "node_a"};
+    populateHistory(t, 4);  // 1 current + 4 historical, keep 2
+
+    RetentionPolicy policy;
+    policy.type                 = RetentionType::VERSION_COUNT_BASED;
+    policy.max_versions_per_key = 2;
+
+    auto stats = mgr.enforceRetention(t, policy);
+    EXPECT_EQ(stats.versions_deleted, 2u);
+    EXPECT_EQ(t.versionCount(), 3u); // current + 2 historical
+}
+
+TEST_F(RetentionManagerTest, EnforceRetention_IncludesDeletedKeyHistory) {
+    // After deleteRow the key has no current row, but historical versions
+    // should still be enumerable and purgeable via getAllKeys().
+    //
+    // Sequence: insert → update → deleteRow
+    //   insert:    v0 = [T0, ∞)                   → 1 version
+    //   update:    v0 = [T0, T1), v1 = [T1, ∞)    → 2 versions
+    //   deleteRow: v0 = [T0, T1), v1 = [T1, T2)   → 2 versions, 0 current
+    SystemVersionedTable t{"employees", "node_a"};
+    t.insert("emp1", {{"name", "Alice"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    t.update("emp1", {{"name", "Alicia"}});
+    t.deleteRow("emp1"); // closes current; now 2 historical versions, 0 current
+
+    EXPECT_EQ(t.versionCount(), 2u); // both versions are historical
+
+    RetentionPolicy policy;
+    policy.type             = RetentionType::TIME_BASED;
+    policy.retention_period = std::chrono::milliseconds(0);
+
+    auto stats = mgr.enforceRetention(t, policy);
+    // Both historical versions must be examined and deleted
+    EXPECT_EQ(stats.versions_examined, 2u);
+    EXPECT_EQ(stats.versions_deleted,  2u);
+    EXPECT_EQ(t.versionCount(), 0u); // all versions purged
+}
+
+// ── Background Scheduler ──────────────────────────────────────────────────────
+
+TEST_F(RetentionManagerTest, Scheduler_StartsAndStops) {
+    EXPECT_FALSE(mgr.schedulerRunning());
+    mgr.startScheduler();
+    EXPECT_TRUE(mgr.schedulerRunning());
+    mgr.stopScheduler();
+    EXPECT_FALSE(mgr.schedulerRunning());
+}
+
+TEST_F(RetentionManagerTest, Scheduler_StartTwice_IsNoop) {
+    mgr.startScheduler();
+    mgr.startScheduler(); // second call is a no-op
+    EXPECT_TRUE(mgr.schedulerRunning());
+    mgr.stopScheduler();
+}
+
+TEST_F(RetentionManagerTest, Scheduler_EnforcesRetentionInBackground) {
+    SystemVersionedTable t{"employees", "node_a"};
+    populateHistory(t, 3); // 1 current + 3 historical
+
+    RetentionPolicy policy;
+    policy.type             = RetentionType::TIME_BASED;
+    policy.retention_period = std::chrono::milliseconds(0);
+    mgr.setPolicy("employees", policy);
+
+    // Schedule with very short interval so it fires quickly
+    mgr.scheduleTable(t, std::chrono::milliseconds(20));
+    mgr.startScheduler();
+
+    // Wait long enough for the scheduler to run at least once
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    mgr.stopScheduler();
+
+    // Retention should have been enforced: only current version remains
+    EXPECT_EQ(t.versionCount(), 1u);
+}

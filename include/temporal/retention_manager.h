@@ -12,10 +12,14 @@
 
 #include "temporal/temporal_types.h"
 #include "temporal/system_versioned_table.h"
+#include <atomic>
 #include <chrono>
 #include <functional>
+#include <map>
+#include <mutex>
 #include <optional>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace themisdb {
@@ -86,23 +90,20 @@ struct ArchivedRecord {
  * archive for the duration of the process; in production these would be
  * written to cold storage.
  *
- * @note **Read-only analysis in v1.1**: `SystemVersionedTable` is currently
- *       append-only (it has no `purgeVersion()` API).  Therefore
- *       `enforceRetention()` analyses which versions *would* be deleted and
- *       records them in the stats/archive, but does NOT physically remove
- *       them from the table.  A future `purgeVersion()` API on
- *       `SystemVersionedTable` will make enforcement fully destructive.
+ * @note `enforceRetention()` physically removes historical versions that
+ *       violate the policy via `SystemVersionedTable::purgeHistoricalVersions()`.
+ *       The current (live) row is never removed.  If `archive_before_delete`
+ *       is set, a copy is placed in the in-memory archive before deletion.
  *
- * @note **Deleted-key limitation**: Only keys that still have at least one
- *       current (open-ended) row are scanned.  Historical data for fully-
- *       deleted keys is not yet enumerated.  This will be addressed once
- *       `SystemVersionedTable` exposes a full key-list API.
+ * @note **Deleted-key coverage**: `getAllKeys()` is used so that even fully-
+ *       deleted keys (no current row) are included in the retention scan.
  *
  * Thread-safety: all public methods are thread-safe.
  */
 class RetentionManager {
 public:
     RetentionManager() = default;
+    ~RetentionManager();
 
     // ── Policy management ────────────────────────────────────────────────────
 
@@ -116,8 +117,8 @@ public:
 
     /**
      * Apply the registered policy to the given table.
-     * Non-current versions that violate the policy are deleted (and optionally
-     * archived).
+     * Non-current versions that violate the policy are physically deleted
+     * (and optionally archived before deletion).
      */
     RetentionStats enforceRetention(SystemVersionedTable& table);
 
@@ -126,6 +127,38 @@ public:
      */
     RetentionStats enforceRetention(SystemVersionedTable& table,
                                     const RetentionPolicy& policy);
+
+    // ── Background Scheduler ─────────────────────────────────────────────────
+
+    /**
+     * Register a table for periodic background retention enforcement.
+     *
+     * The scheduler runs in a dedicated thread.  Each registered table is
+     * checked every `interval` and the previously-registered policy
+     * (setPolicy) is applied.  The table pointer must remain valid until
+     * stopScheduler() or the RetentionManager is destroyed.
+     *
+     * @param table     Reference to the table to maintain.
+     * @param interval  How often to enforce the policy (minimum 1 millisecond).
+     *
+     * Call startScheduler() once to activate background processing.
+     */
+    void scheduleTable(SystemVersionedTable& table,
+                       std::chrono::milliseconds interval);
+
+    /**
+     * Start the background retention thread.
+     * Calling this more than once is a no-op.
+     */
+    void startScheduler();
+
+    /**
+     * Stop the background retention thread and wait for it to exit.
+     */
+    void stopScheduler();
+
+    /** Return true if the background scheduler is currently running. */
+    bool schedulerRunning() const noexcept;
 
     // ── Archive ──────────────────────────────────────────────────────────────
 
@@ -152,6 +185,20 @@ private:
     size_t total_archived_{0};
 
     mutable std::mutex mutex_;
+
+    // Background scheduler state
+    struct ScheduledTable {
+        SystemVersionedTable* table;
+        std::chrono::milliseconds interval;
+        std::chrono::steady_clock::time_point next_run;
+    };
+    std::vector<ScheduledTable> scheduled_tables_;
+
+    std::thread scheduler_thread_;
+    std::atomic<bool> scheduler_running_{false};
+    std::atomic<bool> scheduler_stop_{false};
+
+    void schedulerLoop();
 
     RetentionStats applyPolicy(SystemVersionedTable& table,
                                const RetentionPolicy& policy);

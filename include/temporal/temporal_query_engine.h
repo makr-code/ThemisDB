@@ -13,6 +13,7 @@
 #include "temporal/system_versioned_table.h"
 #include <functional>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace themisdb {
@@ -96,6 +97,25 @@ public:
     static bool evaluatePredicate(TemporalOperator op,
                                   const TimeRange& lhs,
                                   const TimeRange& rhs) noexcept;
+
+    /**
+     * Temporal AS-OF join between two tables.
+     *
+     * Returns pairs (left_row, right_row) where both rows were current at
+     * the given system time and the join predicate returns true.
+     *
+     * @param left       Left-hand table.
+     * @param right      Right-hand table.
+     * @param as_of      Point-in-time for both tables.
+     * @param predicate  Join condition evaluated on every (left, right) pair.
+     *                   Return true to include the pair in the result.
+     */
+    static std::vector<std::pair<VersionedDocument, VersionedDocument>> joinAsOf(
+        const SystemVersionedTable& left,
+        const SystemVersionedTable& right,
+        Timestamp as_of,
+        const std::function<bool(const VersionedDocument&,
+                                 const VersionedDocument&)>& predicate);
 
     /**
      * Compute the overlap intersection of two time ranges.

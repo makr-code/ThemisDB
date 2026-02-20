@@ -140,3 +140,61 @@ TEST_F(TemporalQueryEngineTest, Intersect_NoOverlap_ReturnsEmptyRange) {
     EXPECT_EQ(result.start, result.end); // empty
 }
 
+
+// ── joinAsOf ──────────────────────────────────────────────────────────────────
+
+TEST_F(TemporalQueryEngineTest, JoinAsOf_MatchingRows_ReturnsJoinedPairs) {
+    SystemVersionedTable employees{"employees", "n"};
+    SystemVersionedTable departments{"departments", "n"};
+
+    employees.insert("emp1", {{"name", "Alice"}, {"dept_id", "d1"}});
+    employees.insert("emp2", {{"name", "Bob"},   {"dept_id", "d2"}});
+    departments.insert("d1", {{"id", "d1"}, {"name", "Engineering"}});
+    departments.insert("d2", {{"id", "d2"}, {"name", "Sales"}});
+
+    auto pairs = TemporalQueryEngine::joinAsOf(
+        employees, departments, kMaxTimestamp,
+        [](const VersionedDocument& emp, const VersionedDocument& dept) {
+            return emp.data.value("dept_id", "") == dept.data.value("id", "");
+        });
+
+    ASSERT_EQ(pairs.size(), 2u);
+    // Verify both employees got matched to a department
+    bool alice_matched = false, bob_matched = false;
+    for (const auto& [emp, dept] : pairs) {
+        if (emp.data["name"] == "Alice" && dept.data["name"] == "Engineering")
+            alice_matched = true;
+        if (emp.data["name"] == "Bob" && dept.data["name"] == "Sales")
+            bob_matched = true;
+    }
+    EXPECT_TRUE(alice_matched);
+    EXPECT_TRUE(bob_matched);
+}
+
+TEST_F(TemporalQueryEngineTest, JoinAsOf_NoMatch_ReturnsEmpty) {
+    SystemVersionedTable t1{"t1", "n"};
+    SystemVersionedTable t2{"t2", "n"};
+    t1.insert("k1", {{"x", 1}});
+    t2.insert("k2", {{"y", 2}});
+
+    auto pairs = TemporalQueryEngine::joinAsOf(
+        t1, t2, kMaxTimestamp,
+        [](const VersionedDocument& l, const VersionedDocument& r) {
+            return l.data.value("x", 0) == r.data.value("y", 0); // no match
+        });
+
+    EXPECT_TRUE(pairs.empty());
+}
+
+TEST_F(TemporalQueryEngineTest, JoinAsOf_EmptyTable_ReturnsEmpty) {
+    SystemVersionedTable t1{"t1", "n"};
+    SystemVersionedTable t2{"t2", "n"};
+    t1.insert("k1", {{"x", 1}});
+    // t2 is empty
+
+    auto pairs = TemporalQueryEngine::joinAsOf(
+        t1, t2, kMaxTimestamp,
+        [](const VersionedDocument&, const VersionedDocument&) { return true; });
+
+    EXPECT_TRUE(pairs.empty());
+}

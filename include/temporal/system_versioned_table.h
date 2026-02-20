@@ -11,6 +11,7 @@
 #pragma once
 
 #include "temporal/temporal_types.h"
+#include <functional>
 #include <map>
 #include <mutex>
 #include <optional>
@@ -75,6 +76,49 @@ public:
      * When as_of == kMaxTimestamp the latest current rows are returned.
      */
     std::vector<VersionedDocument> scan(Timestamp as_of = kMaxTimestamp) const;
+
+    /**
+     * Return all known keys (including keys whose rows have all been deleted).
+     * This allows callers (e.g. RetentionManager) to enumerate every key that
+     * ever had data, not just keys with a currently-alive row.
+     */
+    std::vector<std::string> getAllKeys() const;
+
+    /**
+     * Physically remove all closed (historical) versions for the given key
+     * that match the supplied predicate.
+     *
+     * The current (open-ended) version is NEVER removed.
+     *
+     * @param key       The row key to purge.
+     * @param predicate Return true for versions that should be deleted.
+     * @return          The number of versions actually removed.
+     */
+    size_t purgeHistoricalVersions(
+        const std::string& key,
+        const std::function<bool(const VersionedDocument&)>& predicate);
+
+    /**
+     * Physically keep only the `keep_latest_n` most-recent historical
+     * (closed) versions for a key, deleting the rest.
+     *
+     * The current (open-ended) version is always kept regardless of n.
+     *
+     * @param key           Row key.
+     * @param keep_latest_n Number of historical versions to retain.
+     * @return              Number of versions physically removed.
+     */
+    size_t purgeHistoricalVersionsKeepLatestN(const std::string& key,
+                                              size_t keep_latest_n);
+
+    /**
+     * Convenience overload: purge all historical versions across every known
+     * key that satisfy the predicate.
+     *
+     * @return  Total number of versions removed.
+     */
+    size_t purgeHistoricalVersions(
+        const std::function<bool(const VersionedDocument&)>& predicate);
 
     // ── Metadata ─────────────────────────────────────────────────────────────
 

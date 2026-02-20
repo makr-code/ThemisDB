@@ -44,21 +44,9 @@ std::vector<VersionedDocument> TemporalQueryEngine::queryFromTo(
 
     TimeRange query_range{from, to};
 
-    // Collect all keys and iterate history per key
-    auto current_rows = table.scan(kMaxTimestamp);
-
     std::vector<VersionedDocument> result;
-    // Use a set-like approach: gather all keys from current scan, then
-    // query per-key history across the range.
-    // We reuse the scan of "all current" to get the key set, then ask
-    // for the full history over the range.
-    std::vector<std::string> keys;
-    keys.reserve(current_rows.size());
-    for (const auto& r : current_rows) {
-        keys.push_back(r.key);
-    }
-    // Also gather deleted keys via the full history scan
-    // For simplicity we re-use the per-key API
+    // Use getAllKeys() so that fully-deleted keys are also reachable.
+    auto keys = table.getAllKeys();
     for (const auto& key : keys) {
         auto versions = table.getHistoryInRange(key, query_range);
         for (auto& v : versions) {
@@ -107,6 +95,30 @@ TimeRange TemporalQueryEngine::intersect(const TimeRange& a,
         return {start, start}; // empty range
     }
     return {start, end};
+}
+
+std::vector<std::pair<VersionedDocument, VersionedDocument>>
+TemporalQueryEngine::joinAsOf(
+    const SystemVersionedTable& left,
+    const SystemVersionedTable& right,
+    Timestamp as_of,
+    const std::function<bool(const VersionedDocument&,
+                             const VersionedDocument&)>& predicate) {
+
+    auto left_rows  = left.scan(as_of);
+    auto right_rows = right.scan(as_of);
+
+    std::vector<std::pair<VersionedDocument, VersionedDocument>> result;
+    result.reserve(std::min(left_rows.size(), right_rows.size()));
+
+    for (const auto& l : left_rows) {
+        for (const auto& r : right_rows) {
+            if (predicate(l, r)) {
+                result.emplace_back(l, r);
+            }
+        }
+    }
+    return result;
 }
 
 // ============================================================================

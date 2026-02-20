@@ -168,3 +168,72 @@ TEST_F(SystemVersionedTableTest, Statistics_ReflectsState) {
     EXPECT_EQ(stats["historical_rows"], 1);
     EXPECT_EQ(stats["total_versions"], 2);
 }
+
+// ── getAllKeys ────────────────────────────────────────────────────────────────
+
+TEST_F(SystemVersionedTableTest, GetAllKeys_IncludesDeletedKeys) {
+    table.insert("emp1", {{"name", "Alice"}});
+    table.insert("emp2", {{"name", "Bob"}});
+    table.deleteRow("emp2"); // fully deleted
+
+    auto keys = table.getAllKeys();
+    EXPECT_EQ(keys.size(), 2u); // both keys must be present
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "emp1") != keys.end());
+    EXPECT_TRUE(std::find(keys.begin(), keys.end(), "emp2") != keys.end());
+}
+
+TEST_F(SystemVersionedTableTest, GetAllKeys_EmptyTable_ReturnsEmpty) {
+    EXPECT_TRUE(table.getAllKeys().empty());
+}
+
+// ── purgeHistoricalVersions ───────────────────────────────────────────────────
+
+TEST_F(SystemVersionedTableTest, PurgeHistorical_RemovesMatchingVersions) {
+    table.insert("emp1", {{"name", "Alice"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    table.update("emp1", {{"name", "Alicia"}});
+
+    // Two versions; only one historical
+    EXPECT_EQ(table.versionCount(), 2u);
+
+    // Purge everything that is closed
+    size_t removed = table.purgeHistoricalVersions(
+        "emp1",
+        [](const VersionedDocument&) { return true; });
+
+    EXPECT_EQ(removed, 1u);
+    EXPECT_EQ(table.versionCount(), 1u); // current still present
+    auto current = table.getCurrent("emp1");
+    ASSERT_TRUE(current.has_value());
+    EXPECT_EQ(current->data["name"], "Alicia");
+}
+
+TEST_F(SystemVersionedTableTest, PurgeHistorical_CurrentVersionNeverRemoved) {
+    table.insert("emp1", {{"name", "Alice"}});
+
+    // Attempt to purge even current versions via predicate
+    size_t removed = table.purgeHistoricalVersions(
+        "emp1",
+        [](const VersionedDocument&) { return true; });
+
+    EXPECT_EQ(removed, 0u); // current version is protected
+    EXPECT_EQ(table.versionCount(), 1u);
+}
+
+TEST_F(SystemVersionedTableTest, PurgeHistorical_AllKeys_GlobalPurge) {
+    table.insert("emp1", {{"name", "Alice"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    table.update("emp1", {{"name", "Alicia"}});
+    table.insert("emp2", {{"name", "Bob"}});
+    std::this_thread::sleep_for(std::chrono::milliseconds(2));
+    table.update("emp2", {{"name", "Bobby"}});
+
+    // 4 total versions, 2 historical
+    EXPECT_EQ(table.versionCount(), 4u);
+
+    size_t removed = table.purgeHistoricalVersions(
+        [](const VersionedDocument&) { return true; });
+
+    EXPECT_EQ(removed, 2u);
+    EXPECT_EQ(table.versionCount(), 2u);
+}
