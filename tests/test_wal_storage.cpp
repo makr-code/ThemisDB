@@ -25,7 +25,8 @@ using namespace themis;
 // ─────────────────────────────────────────────────────────────────────────────
 
 static std::string tmpDir(const std::string& suffix) {
-    return "/tmp/themis_wal_test_" + suffix;
+    namespace fs = std::filesystem;
+    return (fs::temp_directory_path() / ("themis_wal_test_" + suffix)).string();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

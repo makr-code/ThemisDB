@@ -27,9 +27,11 @@ using namespace themis;
 class StorageEngineProdTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_path_ = "/tmp/themis_storage_prod_" +
-                   std::to_string(
-                       std::chrono::system_clock::now().time_since_epoch().count());
+        db_path_ = (fs::temp_directory_path() /
+                    ("themis_storage_prod_" +
+                     std::to_string(
+                         std::chrono::system_clock::now().time_since_epoch().count())))
+                       .string();
         fs::remove_all(db_path_);
 
         engine_ = StorageEngine::createDefault();

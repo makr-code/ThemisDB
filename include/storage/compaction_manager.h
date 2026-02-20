@@ -146,7 +146,6 @@ private:
     std::shared_ptr<RocksDBWrapper> db_;
     Config config_;
 
-    mutable std::mutex  mutex_;
     std::atomic<uint64_t> tombstones_{0};
     std::atomic<uint64_t> gc_runs_{0};
     std::atomic<uint64_t> manual_compactions_{0};

@@ -27,9 +27,11 @@ using namespace themis;
 class CompactionManagerTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_path_ = "/tmp/themis_compact_test_" +
-                   std::to_string(
-                       std::chrono::system_clock::now().time_since_epoch().count());
+        db_path_ = (fs::temp_directory_path() /
+                    ("themis_compact_test_" +
+                     std::to_string(
+                         std::chrono::system_clock::now().time_since_epoch().count())))
+                       .string();
         fs::remove_all(db_path_);
 
         RocksDBWrapper::Config cfg;
