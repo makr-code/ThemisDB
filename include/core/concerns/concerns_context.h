@@ -34,6 +34,8 @@ public:
         std::string logFile = "themisdb.log";
         std::string logLevel = "info";
         std::string logPattern = "[%Y-%m-%d %H:%M:%S.%e] [%^%l%$] %v";
+        /// When true, all structured log calls emit single-line JSON objects.
+        bool jsonLogging = false;
         
         // Tracer config
         bool tracingEnabled = false;
@@ -42,6 +44,10 @@ public:
         
         // Metrics config
         bool metricsEnabled = true;
+        /// Maximum number of unique label-set combinations allowed per metric name.
+        /// Prevents unbounded cardinality growth from high-cardinality labels.
+        /// Set to 0 to disable the limit.
+        size_t maxMetricCardinality = 1000;
         
         // Cache config
         size_t cacheMaxSize = 10000;
