@@ -97,12 +97,18 @@ AdaptiveQueryCache::~AdaptiveQueryCache() {
 
 std::string AdaptiveQueryCache::generateFingerprint(
     const std::string& query,
-    const nlohmann::json& params
+    const nlohmann::json& params,
+    const std::string& tenant_id
 ) const {
     // Concatenate query + params for hashing
     std::string input = query;
     if (!params.empty()) {
         input += "::" + params.dump();
+    }
+    
+    // Phase 2: Include tenant_id in fingerprint if provided
+    if (!tenant_id.empty()) {
+        input += "::tenant:" + tenant_id;
     }
     
     // Compute SHA256 hash
@@ -121,8 +127,13 @@ std::string AdaptiveQueryCache::generateFingerprint(
 }
 
 std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
-    const std::string& fingerprint
+    const std::string& fingerprint,
+    const std::string& tenant_id
 ) {
+    // Phase 2: Create tenant-scoped key if tenant isolation enabled
+    std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())
+                      ? makeTenantKey(fingerprint, tenant_id)
+                      : fingerprint;
     // Phase 2: Check rate limiter
     if (rate_limiter_ && !rate_limiter_->tryAcquire()) {
         enhanced_metrics_.rate_limited_requests++;
@@ -135,7 +146,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     // Try L1 (HOT) - fastest path
     {
         std::lock_guard<std::mutex> lock(l1_mutex_);
-        auto it = l1_cache_.find(fingerprint);
+        auto it = l1_cache_.find(key);
         if (it != l1_cache_.end()) {
             auto& entry = it->second;
             
@@ -170,7 +181,7 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
     // Try L2 (WARM) - compressed
     {
         std::lock_guard<std::mutex> lock(l2_mutex_);
-        auto it = l2_cache_.find(fingerprint);
+        auto it = l2_cache_.find(key);
         if (it != l2_cache_.end()) {
             auto& entry = it->second;
             
@@ -205,17 +216,17 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                         if (l1_cache_.size() >= config_.l1_max_entries) {
                             evictLRU(CacheLevel::HOT);
                         }
-                        l1_cache_[fingerprint] = std::move(l1_entry);
+                        l1_cache_[key] = std::move(l1_entry);
                         l2_cache_.erase(it);
                         stats_.promotions++;
                         enhanced_metrics_.promotions++;
                         
-                        THEMIS_DEBUG("Promoted L2->L1: fingerprint={}", fingerprint.substr(0, 16));
+                        THEMIS_DEBUG("Promoted L2->L1: key={}", key.substr(0, 16));
                     }
                     
                     // Return entry
                     CacheEntry cache_entry;
-                    cache_entry.query_fingerprint = fingerprint;
+                    cache_entry.query_fingerprint = key;
                     cache_entry.result = result;
                     cache_entry.level = CacheLevel::WARM;
                     cache_entry.created_at_ms = entry.created_at_ms;
@@ -325,7 +336,8 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
 bool AdaptiveQueryCache::put(
     const std::string& fingerprint,
     const nlohmann::json& query_params,
-    const nlohmann::json& result
+    const nlohmann::json& result,
+    const std::string& tenant_id
 ) {
     // Phase 2: Check rate limiter
     if (rate_limiter_ && !rate_limiter_->tryAcquire()) {
@@ -338,6 +350,13 @@ bool AdaptiveQueryCache::put(
     std::string result_str = result.dump();
     size_t result_size = result_str.size();
     
+    // Phase 2: Check tenant quota
+    if (!checkTenantQuota(tenant_id, result_size)) {
+        THEMIS_WARN("Tenant {} quota exceeded, rejecting entry", tenant_id);
+        enhanced_metrics_.size_limit_rejections++;  // Track as size rejection
+        return false;
+    }
+    
     // Phase 1: Validate entry size
     if (config_.enable_size_limits && !isWithinSizeLimit(result_size)) {
         THEMIS_WARN("Rejected cache entry due to size limit: size={}, max={}",
@@ -345,6 +364,11 @@ bool AdaptiveQueryCache::put(
         enhanced_metrics_.size_limit_rejections++;
         return false;
     }
+    
+    // Phase 2: Create tenant-scoped key if tenant isolation enabled
+    std::string key = (config_.enable_tenant_isolation && !tenant_id.empty())
+                      ? makeTenantKey(fingerprint, tenant_id)
+                      : fingerprint;
     
     // Select cache level based on size
     CacheLevel level = selectCacheLevel(result_size);
@@ -382,9 +406,16 @@ bool AdaptiveQueryCache::put(
         entry.access_count = 1;
         entry.ttl_seconds = ttl_seconds;
         
-        l1_cache_[fingerprint] = std::move(entry);
+        l1_cache_[key] = std::move(entry);
         enhanced_metrics_.total_bytes_cached += result_size;
-        THEMIS_DEBUG("Stored in L1: fingerprint={}, size={}", fingerprint.substr(0, 16), result_size);
+        
+        // Phase 2: Update tenant size tracking
+        if (config_.enable_tenant_isolation && !tenant_id.empty()) {
+            std::lock_guard<std::mutex> lock(tenant_mutex_);
+            tenant_sizes_[tenant_id] += result_size;
+        }
+        
+        THEMIS_DEBUG("Stored in L1: key={}, size={}", key.substr(0, 16), result_size);
         return true;
         
     } else if (level == CacheLevel::WARM && result_size < config_.l2_max_entry_size) {
@@ -891,6 +922,37 @@ bool AdaptiveQueryCache::Config::validate(std::string* error_msg) const {
         if (per_tenant_max_bytes == 0) {
             return set_error("per_tenant_max_bytes must be greater than 0");
         }
+    }
+    
+    return true;
+}
+
+// Phase 2: Tenant isolation helper methods
+std::string AdaptiveQueryCache::makeTenantKey(
+    const std::string& fingerprint,
+    const std::string& tenant_id
+) const {
+    if (tenant_id.empty()) {
+        return fingerprint;
+    }
+    return "tenant:" + tenant_id + ":" + fingerprint;
+}
+
+bool AdaptiveQueryCache::checkTenantQuota(
+    const std::string& tenant_id,
+    size_t additional_bytes
+) {
+    if (!config_.enable_tenant_isolation || tenant_id.empty()) {
+        return true;  // No quotas if isolation disabled
+    }
+    
+    std::lock_guard<std::mutex> lock(tenant_mutex_);
+    size_t current_size = tenant_sizes_[tenant_id];
+    
+    if (current_size + additional_bytes > config_.per_tenant_max_bytes) {
+        THEMIS_WARN("Tenant {} quota exceeded: current={}, additional={}, limit={}",
+                   tenant_id, current_size, additional_bytes, config_.per_tenant_max_bytes);
+        return false;
     }
     
     return true;

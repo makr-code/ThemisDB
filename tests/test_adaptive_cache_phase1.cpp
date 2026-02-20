@@ -640,6 +640,95 @@ TEST_F(AdaptiveCachePhase1Test, RateLimiterReset) {
     EXPECT_TRUE(limiter.tryAcquire());
 }
 
+// ============================================================================
+// Phase 2 Tests: Tenant Isolation
+// ============================================================================
+
+TEST_F(AdaptiveCachePhase1Test, TenantIsolationDisabled) {
+    config_.enable_tenant_isolation = false;
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 1}};
+    
+    // Different tenants should not affect each other when isolation disabled
+    std::string fp = cache.generateFingerprint("query", {});
+    EXPECT_TRUE(cache.put(fp, {}, result, "tenant1"));
+    
+    // Should be accessible without tenant
+    auto cached = cache.get(fp);
+    ASSERT_TRUE(cached.has_value());
+}
+
+TEST_F(AdaptiveCachePhase1Test, TenantIsolationEnabled) {
+    config_.enable_tenant_isolation = true;
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 42}};
+    
+    // Store with tenant1
+    std::string fp = cache.generateFingerprint("query", {}, "tenant1");
+    EXPECT_TRUE(cache.put(fp, {}, result, "tenant1"));
+    
+    // Should be accessible with same tenant
+    auto cached1 = cache.get(fp, "tenant1");
+    ASSERT_TRUE(cached1.has_value());
+    EXPECT_EQ(cached1->result["value"], 42);
+    
+    // Should not be accessible with different tenant
+    auto cached2 = cache.get(fp, "tenant2");
+    EXPECT_FALSE(cached2.has_value());
+}
+
+TEST_F(AdaptiveCachePhase1Test, TenantQuotaEnforcement) {
+    config_.enable_tenant_isolation = true;
+    config_.per_tenant_max_bytes = 1000;  // Small quota for testing
+    AdaptiveQueryCache cache(config_);
+    
+    json large_result;
+    std::string data(1500, 'x');  // Larger than quota
+    large_result["data"] = data;
+    
+    std::string fp = cache.generateFingerprint("query", {}, "tenant1");
+    
+    // Should reject due to quota
+    bool stored = cache.put(fp, {}, large_result, "tenant1");
+    EXPECT_FALSE(stored);
+    
+    auto metrics = cache.getEnhancedMetrics();
+    EXPECT_GT(metrics.size_limit_rejections.load(), 0);
+}
+
+TEST_F(AdaptiveCachePhase1Test, TenantQuotaMultipleEntries) {
+    config_.enable_tenant_isolation = true;
+    config_.per_tenant_max_bytes = 500;  // Small quota
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"data", std::string(100, 'x')}};  // ~100 bytes each
+    
+    // Should be able to add a few entries
+    size_t successful = 0;
+    for (int i = 0; i < 10; i++) {
+        std::string fp = cache.generateFingerprint("query" + std::to_string(i), {}, "tenant1");
+        if (cache.put(fp, {}, result, "tenant1")) {
+            successful++;
+        }
+    }
+    
+    // Should have stopped before quota exceeded
+    EXPECT_GT(successful, 0);
+    EXPECT_LT(successful, 10);
+}
+
+TEST_F(AdaptiveCachePhase1Test, TenantFingerprintIncludesTenantId) {
+    AdaptiveQueryCache cache(config_);
+    
+    // Same query, different tenants should have different fingerprints
+    std::string fp1 = cache.generateFingerprint("SELECT * FROM users", {}, "tenant1");
+    std::string fp2 = cache.generateFingerprint("SELECT * FROM users", {}, "tenant2");
+    
+    EXPECT_NE(fp1, fp2);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

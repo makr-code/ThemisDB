@@ -148,10 +148,12 @@ public:
      * 
      * @param query Query string (AQL, SQL, etc.)
      * @param params Query parameters (bind variables, limits, etc.)
+     * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
      * @return SHA256 fingerprint as hex string
      */
     std::string generateFingerprint(const std::string& query, 
-                                    const nlohmann::json& params = {}) const;
+                                    const nlohmann::json& params = {},
+                                    const std::string& tenant_id = "") const;
     
     /**
      * @brief Get cached query result
@@ -160,9 +162,11 @@ public:
      * Automatically promotes frequently accessed entries to higher levels.
      * 
      * @param fingerprint Query fingerprint (from generateFingerprint)
+     * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
      * @return Cached result if found and not expired, nullopt otherwise
      */
-    std::optional<CacheEntry> get(const std::string& fingerprint);
+    std::optional<CacheEntry> get(const std::string& fingerprint,
+                                   const std::string& tenant_id = "");
     
     /**
      * @brief Store query result in cache
@@ -173,11 +177,13 @@ public:
      * @param fingerprint Query fingerprint
      * @param query_params Original query parameters (for debugging)
      * @param result Query result to cache
+     * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
      * @return True if successfully cached
      */
     bool put(const std::string& fingerprint,
              const nlohmann::json& query_params,
-             const nlohmann::json& result);
+             const nlohmann::json& result,
+             const std::string& tenant_id = "");
     
     /**
      * @brief Invalidate cache entries matching a pattern
@@ -245,6 +251,10 @@ private:
     // Phase 2: Rate limiter
     std::unique_ptr<cache::RateLimiter> rate_limiter_;
     
+    // Phase 2: Tenant isolation - track per-tenant sizes
+    std::unordered_map<std::string, size_t> tenant_sizes_;
+    mutable std::mutex tenant_mutex_;
+    
     // L1: In-memory HashMap
     std::unordered_map<std::string, L1Entry> l1_cache_;
     mutable std::mutex l1_mutex_;
@@ -268,6 +278,11 @@ private:
     
     // Phase 1: Size validation and security
     bool validateEntrySize(size_t size, CacheLevel level) const;
+    bool isWithinSizeLimit(size_t size) const;
+    
+    // Phase 2: Tenant isolation helpers
+    std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
+    bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
     bool isWithinSizeLimit(size_t size) const;
 };
 
