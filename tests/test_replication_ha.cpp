@@ -22,6 +22,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <zstd.h>
 
 using namespace themisdb::replication;
 
@@ -1393,3 +1394,434 @@ TEST_F(PersistentStateTest, LoadAfterRestart) {
     }
 }
 
+
+// ============================================================================
+// 19. CompressedReplicationStream
+// ============================================================================
+
+TEST(CompressedStreamTest, NoneAlgorithmReturnsSameSize) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm = CompressedReplicationStream::CompressionAlgorithm::NONE;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "INSERT"; e.data = std::string(500, 'A');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    EXPECT_EQ(stats.bytes_uncompressed, stats.bytes_compressed)
+        << "NONE should not change byte count";
+    EXPECT_EQ(stats.compression_ratio, 1.0);
+}
+
+TEST(CompressedStreamTest, ZstdCompressesRepeatedData) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm         = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.compression_level = 3;
+    cfg.min_batch_size    = 0;  // Always compress
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    // Highly compressible payload
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "INSERT"; e.data = std::string(4096, 'A');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    EXPECT_GT(stats.compression_ratio, 1.5)
+        << "ZSTD should compress repeated data significantly";
+}
+
+TEST(CompressedStreamTest, LZ4CompressesAndTracksStats) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::LZ4;
+    cfg.min_batch_size = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "UPDATE"; e.data = std::string(2048, 'B');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    EXPECT_EQ(stats.algorithm_used, "LZ4");
+    EXPECT_GT(stats.bytes_uncompressed, 0u);
+    EXPECT_GT(stats.bytes_compressed, 0u);
+}
+
+TEST(CompressedStreamTest, SnappyCompressesAndTracksStats) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::SNAPPY;
+    cfg.min_batch_size = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "UPDATE"; e.data = std::string(2048, 'C');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    EXPECT_EQ(stats.algorithm_used, "SNAPPY");
+    EXPECT_GT(stats.bytes_uncompressed, 0u);
+}
+
+TEST(CompressedStreamTest, AutoSkipsCompressionForSmallBatches) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::AUTO;
+    cfg.min_batch_size = 1024 * 1024;  // 1 MB threshold – tiny batch won't compress
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "INSERT"; e.data = "{}";
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    EXPECT_EQ(stats.algorithm_used, "NONE")
+        << "AUTO should fall back to NONE for tiny payloads";
+    EXPECT_EQ(stats.bytes_uncompressed, stats.bytes_compressed);
+}
+
+TEST(CompressedStreamTest, AutoUsesZstdForLargeBatches) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::AUTO;
+    cfg.min_batch_size = 512;  // Low threshold so test data qualifies
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e;
+    e.sequence_number = 1; e.collection = "c"; e.document_id = "d";
+    e.operation = "INSERT"; e.data = std::string(2048, 'Z');
+    EXPECT_TRUE(stream.sendBatch({e}));
+
+    auto stats = stream.getStats();
+    EXPECT_EQ(stats.algorithm_used, "ZSTD");
+}
+
+TEST(CompressedStreamTest, ResetStatsWorks) {
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm = CompressedReplicationStream::CompressionAlgorithm::NONE;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    WALEntry e; e.sequence_number=1; e.data="hello";
+    stream.sendBatch({e});
+    EXPECT_GT(stream.getStats().bytes_uncompressed, 0u);
+
+    stream.resetStats();
+    EXPECT_EQ(stream.getStats().bytes_uncompressed, 0u);
+}
+
+TEST(CompressedStreamTest, ZstdRoundTrip) {
+    // Build a ZSTD-compressed buffer using the public C API directly,
+    // then verify that CompressedReplicationStream::decompress() recovers it.
+    std::string payload = "Hello, ThemisDB! " + std::string(200, 'X');
+    std::vector<uint8_t> raw(payload.begin(), payload.end());
+
+    // Compress with ZSTD directly
+    size_t bound = ZSTD_compressBound(raw.size());
+    std::vector<uint8_t> compressed(bound);
+    size_t compressed_size = ZSTD_compress(compressed.data(), bound,
+                                           raw.data(), raw.size(), 3);
+    ASSERT_FALSE(ZSTD_isError(compressed_size));
+    compressed.resize(compressed_size);
+
+    // Decompress via the class and verify round-trip
+    CompressedReplicationStream::CompressionConfig cfg;
+    cfg.algorithm      = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    cfg.min_batch_size = 0;
+    CompressedReplicationStream stream("localhost:9001", cfg);
+
+    auto algo = CompressedReplicationStream::CompressionAlgorithm::ZSTD;
+    auto decompressed = stream.decompress(compressed, algo);
+    ASSERT_EQ(decompressed.size(), raw.size());
+    EXPECT_EQ(std::string(decompressed.begin(), decompressed.end()), payload)
+        << "Round-trip compress→decompress must recover original data";
+}
+
+TEST(CompressedStreamTest, DefaultConstructorWorks) {
+    CompressedReplicationStream stream("localhost:9001");
+    WALEntry e; e.sequence_number=1; e.data=std::string(2048,'D');
+    EXPECT_TRUE(stream.sendBatch({e}));
+}
+
+TEST(CompressedStreamTest, EmptyBatchReturnsTrue) {
+    CompressedReplicationStream stream("localhost:9001");
+    EXPECT_TRUE(stream.sendBatch({}));
+}
+
+// ============================================================================
+// 20. BatchedAckTracker
+// ============================================================================
+
+TEST(BatchedAckTrackerTest, RecordAndDequeue) {
+    BatchedAckTracker::AckBatchConfig cfg;
+    cfg.max_batch_size    = 5;
+    cfg.flush_interval_ms = 10;
+    BatchedAckTracker tracker(cfg);
+
+    for (uint64_t i = 1; i <= 5; ++i) tracker.recordApplied(i);
+
+    // Give the flush thread time to run
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    auto batch = tracker.dequeuePendingAcks();
+    ASSERT_TRUE(batch.has_value());
+    EXPECT_EQ(batch->sequences.size(), 5u);
+}
+
+TEST(BatchedAckTrackerTest, HighestAckedTracked) {
+    BatchedAckTracker::AckBatchConfig cfg;
+    cfg.max_batch_size    = 100;
+    cfg.flush_interval_ms = 100;
+    BatchedAckTracker tracker(cfg);
+
+    tracker.recordApplied(10);
+    tracker.recordApplied(5);
+    tracker.recordApplied(20);
+
+    EXPECT_EQ(tracker.getHighestAcked(), 20u);
+}
+
+TEST(BatchedAckTrackerTest, ForceFlushDrainsBuffer) {
+    BatchedAckTracker::AckBatchConfig cfg;
+    cfg.max_batch_size    = 1000;   // Won't auto-flush
+    cfg.flush_interval_ms = 10000; // Very long flush interval
+    BatchedAckTracker tracker(cfg);
+
+    tracker.recordApplied(1);
+    tracker.recordApplied(2);
+    tracker.forceFlush();
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    auto batch = tracker.dequeuePendingAcks();
+    ASSERT_TRUE(batch.has_value());
+    EXPECT_GE(batch->sequences.size(), 1u);
+}
+
+TEST(BatchedAckTrackerTest, StatsBatchSizeIsAccurate) {
+    BatchedAckTracker::AckBatchConfig cfg;
+    cfg.max_batch_size    = 3;
+    cfg.flush_interval_ms = 5;
+    BatchedAckTracker tracker(cfg);
+
+    for (uint64_t i = 1; i <= 9; ++i) tracker.recordApplied(i);
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    auto stats = tracker.getStats();
+    EXPECT_EQ(stats.total_acks_sent, 9u);
+    EXPECT_GT(stats.avg_batch_size, 0.0);
+}
+
+TEST(BatchedAckTrackerTest, DefaultConstructorWorks) {
+    BatchedAckTracker tracker;
+    tracker.recordApplied(42);
+    EXPECT_EQ(tracker.getHighestAcked(), 42u);
+}
+
+TEST(BatchedAckTrackerTest, DestructorJoinsCleanly) {
+    auto start = std::chrono::steady_clock::now();
+    {
+        BatchedAckTracker tracker;
+        tracker.recordApplied(1);
+    }
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start).count();
+    EXPECT_LT(ms, 500) << "Destructor must complete quickly";
+}
+
+// ============================================================================
+// 21. ReplicationAnalytics
+// ============================================================================
+
+TEST(ReplicationAnalyticsTest, RecordAndGetLagHistory) {
+    ReplicationAnalytics analytics;
+    for (int i = 0; i < 10; ++i) analytics.recordLag("r1", 100 * (i + 1));
+
+    auto hist = analytics.getLagHistory("r1", std::chrono::hours(1));
+    EXPECT_EQ(hist.data_points.size(), 10u);
+    EXPECT_GT(hist.avg_lag_ms, 0);
+    EXPECT_GT(hist.max_lag_ms, 0);
+    EXPECT_GE(hist.p95_lag_ms, hist.avg_lag_ms);
+}
+
+TEST(ReplicationAnalyticsTest, LagSpikeInsightGenerated) {
+    ReplicationAnalytics analytics;
+    ReplicationAnalytics::AnalyticsConfig cfg;
+    cfg.lag_spike_threshold_ms = 1000;
+    analytics.setConfig(cfg);
+
+    analytics.recordLag("r1", 5000);  // well above threshold
+
+    auto insights = analytics.getInsights();
+    auto it = std::find_if(insights.begin(), insights.end(),
+        [](const auto& i) { return i.type == "LAG_SPIKE"; });
+    EXPECT_NE(it, insights.end()) << "LAG_SPIKE insight should be generated";
+    EXPECT_EQ(it->metadata.at("replica_id"), "r1");
+}
+
+TEST(ReplicationAnalyticsTest, NoInsightForNormalLag) {
+    ReplicationAnalytics analytics;
+    analytics.recordLag("r1", 10);
+
+    auto insights = analytics.getInsights();
+    EXPECT_TRUE(insights.empty()) << "No insight for normal lag";
+}
+
+TEST(ReplicationAnalyticsTest, SlowReplicaInsightGenerated) {
+    ReplicationAnalytics analytics;
+    ReplicationAnalytics::AnalyticsConfig cfg;
+    cfg.slow_replica_avg_ms = 500;
+    analytics.setConfig(cfg);
+
+    for (int i = 0; i < 20; ++i) analytics.recordLag("r2", 1000);
+
+    auto insights = analytics.getInsights();
+    auto it = std::find_if(insights.begin(), insights.end(),
+        [](const auto& i) { return i.type == "SLOW_REPLICA"; });
+    EXPECT_NE(it, insights.end()) << "SLOW_REPLICA insight should be generated";
+}
+
+TEST(ReplicationAnalyticsTest, BottleneckDetectionNetwork) {
+    ReplicationAnalytics analytics;
+    ReplicationAnalytics::AnalyticsConfig cfg;
+    cfg.slow_replica_avg_ms = 200;
+    analytics.setConfig(cfg);
+
+    // High variance → NETWORK bottleneck
+    analytics.recordLag("r3", 500);
+    analytics.recordLag("r3", 100);
+    analytics.recordLag("r3", 800);
+    analytics.recordLag("r3", 50);
+    analytics.recordLag("r3", 2000);  // Spike
+
+    auto bottlenecks = analytics.detectBottlenecks();
+    EXPECT_FALSE(bottlenecks.empty());
+    bool found = std::any_of(bottlenecks.begin(), bottlenecks.end(),
+        [](const auto& b) { return b.replica_id == "r3"; });
+    EXPECT_TRUE(found);
+}
+
+TEST(ReplicationAnalyticsTest, PrometheusExportContainsLag) {
+    ReplicationAnalytics analytics;
+    analytics.recordLag("node1", 42);
+
+    auto metrics = analytics.exportPrometheusMetrics();
+    EXPECT_NE(metrics.find("themisdb_replication_lag_ms"), std::string::npos);
+    EXPECT_NE(metrics.find("node1"), std::string::npos);
+    EXPECT_NE(metrics.find("42"), std::string::npos);
+}
+
+TEST(ReplicationAnalyticsTest, UnknownReplicaReturnsEmptyHistory) {
+    ReplicationAnalytics analytics;
+    auto hist = analytics.getLagHistory("nonexistent", std::chrono::hours(1));
+    EXPECT_TRUE(hist.data_points.empty());
+    EXPECT_EQ(hist.avg_lag_ms, 0);
+}
+
+TEST(ReplicationAnalyticsTest, ConcurrentRecordIsThreadSafe) {
+    ReplicationAnalytics analytics;
+    constexpr int kThreads = 4;
+    constexpr int kSamples = 100;
+    std::vector<std::thread> threads;
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&analytics, t]() {
+            for (int i = 0; i < kSamples; ++i) {
+                analytics.recordLag("r" + std::to_string(t), i * 10);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+
+    for (int t = 0; t < kThreads; ++t) {
+        auto hist = analytics.getLagHistory("r" + std::to_string(t),
+                                             std::chrono::hours(1));
+        EXPECT_EQ(hist.data_points.size(), static_cast<size_t>(kSamples));
+    }
+}
+
+// ============================================================================
+// 22. ReplicationBenchmark
+// ============================================================================
+
+TEST(ReplicationBenchmarkTest, RunProducesPositiveThroughput) {
+    ReplicationConfig config;
+    config.wal_directory        = "/tmp/themis_bench_wal_test";
+    config.heartbeat_interval_ms = 100;
+    config.batch_size            = 64;
+    std::filesystem::create_directories(config.wal_directory);
+    auto wal = std::make_shared<WALManager>(config);
+
+    ReplicationBenchmark::BenchmarkConfig bcfg;
+    bcfg.num_entries      = 100;
+    bcfg.entry_size_bytes = 128;
+    bcfg.warmup_entries   = 10;
+    bcfg.collection       = "bench_col";
+
+    ReplicationBenchmark bench(wal, bcfg);
+    auto result = bench.run();
+
+    EXPECT_EQ(result.total_entries, 100u);
+    EXPECT_GT(result.writes_per_second, 0.0);
+    EXPECT_GT(result.bytes_written, 0u);
+    EXPECT_GE(result.latency_p50_us, 0);
+    EXPECT_GE(result.latency_p95_us, result.latency_p50_us);
+    EXPECT_GE(result.latency_p99_us, result.latency_p95_us);
+
+    std::filesystem::remove_all(config.wal_directory);
+}
+
+TEST(ReplicationBenchmarkTest, DefaultConstructorWorks) {
+    ReplicationConfig config;
+    config.wal_directory         = "/tmp/themis_bench_default_test";
+    config.heartbeat_interval_ms = 100;
+    config.batch_size            = 64;
+    std::filesystem::create_directories(config.wal_directory);
+    auto wal = std::make_shared<WALManager>(config);
+
+    ReplicationBenchmark bench(wal);
+    // Just check it runs without crashing (full benchmark is slow – use small override)
+    // We only call format here to avoid 10K entries in tests
+    auto result = bench.run();
+    EXPECT_GT(result.writes_per_second, 0.0);
+
+    std::filesystem::remove_all(config.wal_directory);
+}
+
+TEST(ReplicationBenchmarkTest, FormatContainsKeyFields) {
+    ReplicationBenchmark::BenchmarkResult r;
+    r.total_entries     = 5000;
+    r.duration_seconds  = 1.5;
+    r.writes_per_second = 3333.0;
+    r.latency_p50_us    = 10;
+    r.latency_p95_us    = 50;
+    r.latency_p99_us    = 100;
+    r.latency_max_us    = 200;
+    r.bytes_written     = 640000;
+
+    auto s = ReplicationBenchmark::format(r);
+    EXPECT_NE(s.find("5000"),   std::string::npos);
+    EXPECT_NE(s.find("writes"), std::string::npos);
+    EXPECT_NE(s.find("p50"),    std::string::npos);
+    EXPECT_NE(s.find("p99"),    std::string::npos);
+}
+
+TEST(ReplicationBenchmarkTest, LatencyPercentilesAreSorted) {
+    ReplicationConfig config;
+    config.wal_directory         = "/tmp/themis_bench_pct_test";
+    config.heartbeat_interval_ms = 100;
+    config.batch_size            = 64;
+    std::filesystem::create_directories(config.wal_directory);
+    auto wal = std::make_shared<WALManager>(config);
+
+    ReplicationBenchmark::BenchmarkConfig bcfg;
+    bcfg.num_entries    = 200;
+    bcfg.warmup_entries = 20;
+    ReplicationBenchmark bench(wal, bcfg);
+    auto r = bench.run();
+
+    EXPECT_LE(r.latency_p50_us, r.latency_p95_us);
+    EXPECT_LE(r.latency_p95_us, r.latency_p99_us);
+    EXPECT_LE(r.latency_p99_us, r.latency_max_us);
+
+    std::filesystem::remove_all(config.wal_directory);
+}

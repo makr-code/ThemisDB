@@ -28,7 +28,9 @@
 #include <thread>
 #include <optional>
 #include <queue>
+#include <deque>
 #include <map>
+#include <set>
 
 namespace themisdb {
 namespace replication {
@@ -772,6 +774,280 @@ public:
 private:
     std::string path_;
     mutable std::mutex file_mutex_;
+};
+
+// ============================================================================
+// Compressed Replication Stream (v1.6.0)
+// ============================================================================
+
+/**
+ * CompressedReplicationStream
+ *
+ * Wraps a replication batch before sending and decompresses on receive.
+ * Supported algorithms: NONE, LZ4 (fast), ZSTD (best ratio), SNAPPY (fastest).
+ * AUTO selects ZSTD for batches >= min_batch_size, otherwise NONE.
+ */
+class CompressedReplicationStream {
+public:
+    enum class CompressionAlgorithm {
+        NONE,
+        LZ4,     // Fast, moderate compression
+        ZSTD,    // Best compression ratio
+        SNAPPY,  // Very fast, low compression
+        AUTO     // Select based on batch size & data
+    };
+
+    struct CompressionConfig {
+        CompressionAlgorithm algorithm    = CompressionAlgorithm::AUTO;
+        int      compression_level        = 3;   // 1-9 (Zstd); ignored by LZ4/Snappy
+        bool     adaptive                 = true;
+        uint32_t min_batch_size           = 1024; // bytes; skip compression below this
+    };
+
+    struct CompressionStats {
+        uint64_t    bytes_uncompressed = 0;
+        uint64_t    bytes_compressed   = 0;
+        double      compression_ratio  = 1.0;
+        std::string algorithm_used;
+    };
+
+    CompressedReplicationStream(
+        const std::string& endpoint,
+        const CompressionConfig& config
+    );
+
+    // Construct with default compression config
+    explicit CompressedReplicationStream(const std::string& endpoint);
+    // Compress entries and (in production) send over network.
+    // Returns true on success; false on compression error.
+    bool sendBatch(const std::vector<WALEntry>& entries);
+
+    // Decompress a byte buffer received from the network.
+    // Returns the decompressed bytes on success or an empty vector on error.
+    std::vector<uint8_t> decompress(const std::vector<uint8_t>& compressed,
+                                    CompressionAlgorithm algo) const;
+
+    CompressionStats getStats() const;
+
+    // Reset accumulated statistics
+    void resetStats();
+
+private:
+    std::string       endpoint_;
+    CompressionConfig config_;
+
+    mutable std::mutex stats_mutex_;
+    CompressionStats   stats_;
+
+    // Serialize WAL entries to a flat byte buffer
+    std::vector<uint8_t> serializeEntries(const std::vector<WALEntry>& entries) const;
+
+    // Compress a byte buffer using the configured algorithm
+    std::vector<uint8_t> compress(const std::vector<uint8_t>& data,
+                                   CompressionAlgorithm algo) const;
+
+    // Select algorithm for a given payload size (used in AUTO mode)
+    CompressionAlgorithm selectAlgorithm(size_t payload_bytes) const;
+
+    static std::string algorithmName(CompressionAlgorithm algo);
+};
+
+// ============================================================================
+// Batched Acknowledgment Tracker (v1.6.0)
+// ============================================================================
+
+/**
+ * BatchedAckTracker
+ *
+ * Accumulates acknowledgment sequence numbers from followers and flushes
+ * them in a single batch message to reduce network round-trips.
+ *
+ * Usage (on the follower side):
+ *   tracker.recordApplied(entry.sequence_number);
+ *   // Background flush thread calls flush() periodically or on batch fill.
+ *
+ * The leader side dequeues batched ACK payloads via dequeuePendingAcks().
+ */
+class BatchedAckTracker {
+public:
+    struct AckBatchConfig {
+        uint32_t max_batch_size    = 100;     // Flush when >= this many ACKs queued
+        uint32_t flush_interval_ms = 50;      // Flush at least every N ms
+    };
+
+    struct AckBatch {
+        std::vector<uint64_t> sequences;      // Sequence numbers being ACK'd
+        std::chrono::system_clock::time_point created_at;
+    };
+
+    explicit BatchedAckTracker();
+    explicit BatchedAckTracker(const AckBatchConfig& config);
+    ~BatchedAckTracker();
+
+    // Called by the follower when a WAL entry has been applied
+    void recordApplied(uint64_t sequence_number);
+
+    // Dequeue the next pending ACK batch (called by the network sender)
+    // Returns nullopt when no batch is ready
+    std::optional<AckBatch> dequeuePendingAcks();
+
+    // Force an immediate flush of whatever is buffered (called on shutdown)
+    void forceFlush();
+
+    // Get the highest sequence number ACK'd so far
+    uint64_t getHighestAcked() const { return highest_acked_.load(); }
+
+    struct Stats {
+        uint64_t total_acks_sent;
+        uint64_t total_batches_sent;
+        double   avg_batch_size;
+    };
+    Stats getStats() const;
+
+private:
+    AckBatchConfig config_;
+
+    std::vector<uint64_t> pending_;        // ACKs not yet flushed
+    mutable std::mutex    pending_mutex_;
+    std::condition_variable flush_cv_;
+
+    std::queue<AckBatch>  ready_batches_;  // Batches ready for network send
+    mutable std::mutex    ready_mutex_;
+
+    std::atomic<uint64_t> highest_acked_{0};
+    std::atomic<bool>     running_{false};
+    std::thread           flush_thread_;
+
+    // Stats
+    std::atomic<uint64_t> stats_total_acks_{0};
+    std::atomic<uint64_t> stats_total_batches_{0};
+
+    void flushLoop();
+    void flushPending();  // Called with pending_mutex_ held
+};
+
+// ============================================================================
+// Replication Analytics (v1.6.0)
+// ============================================================================
+
+/**
+ * ReplicationAnalytics
+ *
+ * Tracks per-replica replication lag over time and surfaces insights
+ * (LAG_SPIKE, SLOW_REPLICA, NETWORK_ISSUE) with actionable recommendations.
+ * Also performs simple bottleneck classification.
+ */
+class ReplicationAnalytics {
+public:
+    struct Insight {
+        std::string type;            // "LAG_SPIKE" | "SLOW_REPLICA" | "NETWORK_ISSUE"
+        std::string description;
+        std::string recommendation;
+        std::chrono::system_clock::time_point detected_at;
+        std::map<std::string, std::string> metadata;
+    };
+
+    struct LagDataPoint {
+        std::chrono::system_clock::time_point timestamp;
+        int64_t lag_ms;
+    };
+
+    struct LagHistory {
+        std::vector<LagDataPoint> data_points;
+        int64_t avg_lag_ms  = 0;
+        int64_t p95_lag_ms  = 0;
+        int64_t p99_lag_ms  = 0;
+        int64_t max_lag_ms  = 0;
+    };
+
+    struct Bottleneck {
+        std::string replica_id;
+        std::string bottleneck_type;  // "NETWORK" | "DISK_IO" | "CPU"
+        double      severity;         // 0.0 – 1.0
+        std::string details;
+    };
+
+    ReplicationAnalytics();
+
+    // Record a lag observation for a replica (call periodically)
+    void recordLag(const std::string& replica_id, int64_t lag_ms);
+
+    // Get current insights (refreshed on each call)
+    std::vector<Insight> getInsights() const;
+
+    // Get lag history for a replica over the last `duration`
+    LagHistory getLagHistory(const std::string& replica_id,
+                              std::chrono::hours duration) const;
+
+    // Detect bottlenecks across all replicas
+    std::vector<Bottleneck> detectBottlenecks() const;
+
+    // Export summary to Prometheus text format
+    std::string exportPrometheusMetrics() const;
+
+    // Configuration
+    struct AnalyticsConfig {
+        int64_t  lag_spike_threshold_ms  = 5000;  // lag > this triggers LAG_SPIKE
+        int64_t  slow_replica_avg_ms     = 2000;  // avg lag > this = SLOW_REPLICA
+        size_t   max_history_per_replica = 10000; // rolling window
+    };
+    void setConfig(const AnalyticsConfig& config);
+
+private:
+    AnalyticsConfig config_;
+    mutable std::shared_mutex data_mutex_;
+
+    // Per-replica rolling lag history
+    std::map<std::string, std::deque<LagDataPoint>> lag_history_;
+
+    // Compute percentile from a sorted vector
+    static int64_t percentile(const std::vector<int64_t>& sorted, double p);
+};
+
+// ============================================================================
+// Replication Benchmark (v1.6.0)
+// ============================================================================
+
+/**
+ * ReplicationBenchmark
+ *
+ * Measures replication throughput and latency by submitting synthetic
+ * WAL entries through the given WALManager and recording timings.
+ * Reports writes/sec and p50/p95/p99 latency percentiles.
+ */
+class ReplicationBenchmark {
+public:
+    struct BenchmarkConfig {
+        uint32_t num_entries         = 10000;
+        uint32_t entry_size_bytes    = 256;
+        uint32_t warmup_entries      = 500;
+        std::string collection       = "benchmark";
+    };
+
+    struct BenchmarkResult {
+        uint32_t  total_entries;
+        double    duration_seconds;
+        double    writes_per_second;
+        int64_t   latency_p50_us;
+        int64_t   latency_p95_us;
+        int64_t   latency_p99_us;
+        int64_t   latency_max_us;
+        uint64_t  bytes_written;
+    };
+
+    explicit ReplicationBenchmark(std::shared_ptr<WALManager> wal,
+                                   const BenchmarkConfig& config);
+    explicit ReplicationBenchmark(std::shared_ptr<WALManager> wal);
+
+    // Run the benchmark; blocks until complete
+    BenchmarkResult run();
+
+    // Format result as human-readable string
+    static std::string format(const BenchmarkResult& result);
+
+private:
+    std::shared_ptr<WALManager> wal_;
+    BenchmarkConfig config_;
 };
 
 } // namespace replication

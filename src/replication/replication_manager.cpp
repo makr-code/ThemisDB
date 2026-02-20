@@ -20,6 +20,10 @@
 #include <iomanip>
 #include <set>
 #include <future>
+#include <numeric>
+#include <lz4.h>
+#include <zstd.h>
+#include <snappy.h>
 
 namespace themisdb {
 namespace replication {
@@ -3012,6 +3016,581 @@ bool PersistentReplicationState::exists() const {
 void PersistentReplicationState::remove() {
     std::lock_guard<std::mutex> lock(file_mutex_);
     std::filesystem::remove(path_);
+}
+
+// ============================================================================
+// CompressedReplicationStream Implementation (v1.6.0)
+// ============================================================================
+
+CompressedReplicationStream::CompressedReplicationStream(
+    const std::string& endpoint,
+    const CompressionConfig& config)
+    : endpoint_(endpoint)
+    , config_(config)
+{
+}
+
+CompressedReplicationStream::CompressedReplicationStream(const std::string& endpoint)
+    : CompressedReplicationStream(endpoint, CompressionConfig{})
+{
+}
+std::string CompressedReplicationStream::algorithmName(CompressionAlgorithm algo) {
+    switch (algo) {
+        case CompressionAlgorithm::NONE:   return "NONE";
+        case CompressionAlgorithm::LZ4:    return "LZ4";
+        case CompressionAlgorithm::ZSTD:   return "ZSTD";
+        case CompressionAlgorithm::SNAPPY: return "SNAPPY";
+        case CompressionAlgorithm::AUTO:   return "AUTO";
+        default:                           return "UNKNOWN";
+    }
+}
+
+CompressedReplicationStream::CompressionAlgorithm
+CompressedReplicationStream::selectAlgorithm(size_t payload_bytes) const {
+    if (config_.algorithm != CompressionAlgorithm::AUTO) {
+        return config_.algorithm;
+    }
+    // AUTO: skip compression for tiny payloads to avoid overhead
+    if (payload_bytes < config_.min_batch_size) {
+        return CompressionAlgorithm::NONE;
+    }
+    return CompressionAlgorithm::ZSTD;
+}
+
+std::vector<uint8_t> CompressedReplicationStream::serializeEntries(
+    const std::vector<WALEntry>& entries) const
+{
+    // Simple serialization: length-prefixed JSON-like representation
+    std::string buf;
+    for (const auto& e : entries) {
+        buf += std::to_string(e.sequence_number) + "|"
+             + e.collection   + "|"
+             + e.document_id  + "|"
+             + e.operation    + "|"
+             + e.data         + "\n";
+    }
+    return std::vector<uint8_t>(buf.begin(), buf.end());
+}
+
+std::vector<uint8_t> CompressedReplicationStream::compress(
+    const std::vector<uint8_t>& data,
+    CompressionAlgorithm algo) const
+{
+    if (data.empty()) return {};
+
+    switch (algo) {
+        case CompressionAlgorithm::NONE:
+            return data;
+
+        case CompressionAlgorithm::LZ4: {
+            int bound = LZ4_compressBound(static_cast<int>(data.size()));
+            std::vector<uint8_t> out(static_cast<size_t>(bound));
+            int compressed = LZ4_compress_default(
+                reinterpret_cast<const char*>(data.data()),
+                reinterpret_cast<char*>(out.data()),
+                static_cast<int>(data.size()),
+                bound
+            );
+            if (compressed <= 0) {
+                THEMIS_WARN("LZ4 compression failed, falling back to uncompressed");
+                return data;
+            }
+            out.resize(static_cast<size_t>(compressed));
+            return out;
+        }
+
+        case CompressionAlgorithm::ZSTD: {
+            size_t bound = ZSTD_compressBound(data.size());
+            std::vector<uint8_t> out(bound);
+            size_t compressed = ZSTD_compress(
+                out.data(), bound,
+                data.data(), data.size(),
+                config_.compression_level
+            );
+            if (ZSTD_isError(compressed)) {
+                THEMIS_WARN("ZSTD compression error: {}", ZSTD_getErrorName(compressed));
+                return data;
+            }
+            out.resize(compressed);
+            return out;
+        }
+
+        case CompressionAlgorithm::SNAPPY: {
+            std::string input(reinterpret_cast<const char*>(data.data()), data.size());
+            std::string output;
+            snappy::Compress(input.data(), input.size(), &output);
+            return std::vector<uint8_t>(output.begin(), output.end());
+        }
+
+        default:
+            return data;
+    }
+}
+
+std::vector<uint8_t> CompressedReplicationStream::decompress(
+    const std::vector<uint8_t>& compressed,
+    CompressionAlgorithm algo) const
+{
+    if (compressed.empty()) return {};
+
+    switch (algo) {
+        case CompressionAlgorithm::NONE:
+            return compressed;
+
+        case CompressionAlgorithm::LZ4: {
+            // LZ4 format does not store the original size, so we must pre-allocate
+            // a buffer large enough to hold the decompressed output.  We use 4× the
+            // compressed size as a conservative upper bound (typical LZ4 ratios for
+            // text / JSON are 2-4×); the extra 256 bytes guards against very small
+            // compressed inputs whose expansion is dominated by header overhead.
+            // LZ4_decompress_safe will return an error (negative) if the buffer is
+            // too small, at which point the caller should retry with a larger buffer
+            // or fall back to storing the original size alongside the compressed data.
+            std::vector<uint8_t> out(compressed.size() * 4 + 256);
+            int result = LZ4_decompress_safe(
+                reinterpret_cast<const char*>(compressed.data()),
+                reinterpret_cast<char*>(out.data()),
+                static_cast<int>(compressed.size()),
+                static_cast<int>(out.size())
+            );
+            if (result < 0) {
+                THEMIS_ERROR("LZ4 decompression failed");
+                return {};
+            }
+            out.resize(static_cast<size_t>(result));
+            return out;
+        }
+
+        case CompressionAlgorithm::ZSTD: {
+            uint64_t dsize = ZSTD_getFrameContentSize(compressed.data(), compressed.size());
+            if (dsize == ZSTD_CONTENTSIZE_UNKNOWN || dsize == ZSTD_CONTENTSIZE_ERROR) {
+                THEMIS_ERROR("ZSTD: cannot determine decompressed size");
+                return {};
+            }
+            std::vector<uint8_t> out(dsize);
+            size_t result = ZSTD_decompress(
+                out.data(), dsize,
+                compressed.data(), compressed.size()
+            );
+            if (ZSTD_isError(result)) {
+                THEMIS_ERROR("ZSTD decompression error: {}", ZSTD_getErrorName(result));
+                return {};
+            }
+            out.resize(result);
+            return out;
+        }
+
+        case CompressionAlgorithm::SNAPPY: {
+            std::string input(reinterpret_cast<const char*>(compressed.data()),
+                              compressed.size());
+            std::string output;
+            if (!snappy::Uncompress(input.data(), input.size(), &output)) {
+                THEMIS_ERROR("Snappy decompression failed");
+                return {};
+            }
+            return std::vector<uint8_t>(output.begin(), output.end());
+        }
+
+        default:
+            return compressed;
+    }
+}
+
+bool CompressedReplicationStream::sendBatch(const std::vector<WALEntry>& entries) {
+    if (entries.empty()) return true;
+
+    auto raw = serializeEntries(entries);
+    uint64_t uncompressed_size = raw.size();
+
+    auto algo = selectAlgorithm(uncompressed_size);
+    auto compressed = compress(raw, algo);
+    uint64_t compressed_size = compressed.size();
+
+    // In production: send `compressed` over the network to `endpoint_`
+    // Here we simply track statistics and return success.
+
+    {
+        std::lock_guard<std::mutex> lock(stats_mutex_);
+        stats_.bytes_uncompressed += uncompressed_size;
+        stats_.bytes_compressed   += compressed_size;
+        stats_.algorithm_used      = algorithmName(algo);
+        if (stats_.bytes_uncompressed > 0) {
+            stats_.compression_ratio =
+                static_cast<double>(stats_.bytes_uncompressed) /
+                static_cast<double>(stats_.bytes_compressed);
+        }
+    }
+    return true;
+}
+
+CompressedReplicationStream::CompressionStats CompressedReplicationStream::getStats() const {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    return stats_;
+}
+
+void CompressedReplicationStream::resetStats() {
+    std::lock_guard<std::mutex> lock(stats_mutex_);
+    stats_ = CompressionStats{};
+}
+
+// ============================================================================
+// BatchedAckTracker Implementation (v1.6.0)
+// ============================================================================
+
+BatchedAckTracker::BatchedAckTracker()
+    : BatchedAckTracker(AckBatchConfig{})
+{
+}
+
+BatchedAckTracker::BatchedAckTracker(const AckBatchConfig& config)
+    : config_(config)
+{
+    running_.store(true);
+    flush_thread_ = std::thread(&BatchedAckTracker::flushLoop, this);
+}
+
+BatchedAckTracker::~BatchedAckTracker() {
+    running_.store(false);
+    flush_cv_.notify_all();
+    if (flush_thread_.joinable()) flush_thread_.join();
+}
+
+void BatchedAckTracker::recordApplied(uint64_t sequence_number) {
+    {
+        std::lock_guard<std::mutex> lock(pending_mutex_);
+        pending_.push_back(sequence_number);
+        if (sequence_number > highest_acked_.load()) {
+            highest_acked_.store(sequence_number);
+        }
+        if (pending_.size() >= config_.max_batch_size) {
+            flushPending();
+        }
+    }
+    flush_cv_.notify_one();
+}
+
+std::optional<BatchedAckTracker::AckBatch> BatchedAckTracker::dequeuePendingAcks() {
+    std::lock_guard<std::mutex> lock(ready_mutex_);
+    if (ready_batches_.empty()) return std::nullopt;
+    auto batch = std::move(ready_batches_.front());
+    ready_batches_.pop();
+    return batch;
+}
+
+void BatchedAckTracker::forceFlush() {
+    std::lock_guard<std::mutex> lock(pending_mutex_);
+    flushPending();
+}
+
+void BatchedAckTracker::flushPending() {
+    // Called with pending_mutex_ held
+    if (pending_.empty()) return;
+
+    AckBatch batch;
+    batch.sequences   = std::move(pending_);
+    batch.created_at  = std::chrono::system_clock::now();
+    pending_.clear();
+
+    stats_total_acks_.fetch_add(batch.sequences.size());
+    stats_total_batches_.fetch_add(1);
+
+    {
+        std::lock_guard<std::mutex> rlock(ready_mutex_);
+        ready_batches_.push(std::move(batch));
+    }
+}
+
+BatchedAckTracker::Stats BatchedAckTracker::getStats() const {
+    Stats s;
+    s.total_acks_sent    = stats_total_acks_.load();
+    s.total_batches_sent = stats_total_batches_.load();
+    s.avg_batch_size     = (s.total_batches_sent > 0)
+        ? static_cast<double>(s.total_acks_sent) /
+          static_cast<double>(s.total_batches_sent)
+        : 0.0;
+    return s;
+}
+
+void BatchedAckTracker::flushLoop() {
+    while (running_.load()) {
+        {
+            std::unique_lock<std::mutex> lock(pending_mutex_);
+            flush_cv_.wait_for(lock,
+                std::chrono::milliseconds(config_.flush_interval_ms),
+                [this] { return !running_.load() || !pending_.empty(); });
+            flushPending();
+        }
+    }
+    // Final flush on shutdown
+    {
+        std::lock_guard<std::mutex> lock(pending_mutex_);
+        flushPending();
+    }
+}
+
+// ============================================================================
+// ReplicationAnalytics Implementation (v1.6.0)
+// ============================================================================
+
+ReplicationAnalytics::ReplicationAnalytics() = default;
+
+void ReplicationAnalytics::setConfig(const AnalyticsConfig& config) {
+    config_ = config;
+}
+
+void ReplicationAnalytics::recordLag(const std::string& replica_id, int64_t lag_ms) {
+    std::unique_lock<std::shared_mutex> lock(data_mutex_);
+    auto& history = lag_history_[replica_id];
+    history.push_back({std::chrono::system_clock::now(), lag_ms});
+    // Rolling window: drop oldest entries beyond max_history_per_replica
+    while (history.size() > config_.max_history_per_replica) {
+        history.pop_front();
+    }
+}
+
+int64_t ReplicationAnalytics::percentile(const std::vector<int64_t>& sorted, double p) {
+    if (sorted.empty()) return 0;
+    // Caller must pass a sorted vector; index is clamped to valid range.
+    size_t idx = static_cast<size_t>(p / 100.0 * static_cast<double>(sorted.size() - 1));
+    return sorted[std::min(idx, sorted.size() - 1)];
+}
+
+ReplicationAnalytics::LagHistory ReplicationAnalytics::getLagHistory(
+    const std::string& replica_id,
+    std::chrono::hours duration) const
+{
+    std::shared_lock<std::shared_mutex> lock(data_mutex_);
+    LagHistory result;
+
+    auto it = lag_history_.find(replica_id);
+    if (it == lag_history_.end()) return result;
+
+    auto cutoff = std::chrono::system_clock::now() - duration;
+    std::vector<int64_t> values;
+    for (const auto& dp : it->second) {
+        if (dp.timestamp >= cutoff) {
+            result.data_points.push_back(dp);
+            values.push_back(dp.lag_ms);
+        }
+    }
+
+    if (values.empty()) return result;
+
+    std::sort(values.begin(), values.end());  // Sort once; reused by all percentile calls
+    result.max_lag_ms = values.back();
+    result.avg_lag_ms = std::accumulate(values.begin(), values.end(), int64_t{0}) /
+                        static_cast<int64_t>(values.size());
+    result.p95_lag_ms = percentile(values, 95.0);
+    result.p99_lag_ms = percentile(values, 99.0);
+    return result;
+}
+
+std::vector<ReplicationAnalytics::Insight> ReplicationAnalytics::getInsights() const {
+    std::shared_lock<std::shared_mutex> lock(data_mutex_);
+    std::vector<Insight> insights;
+    auto now = std::chrono::system_clock::now();
+
+    for (const auto& [replica_id, history] : lag_history_) {
+        if (history.empty()) continue;
+
+        // Check last data point for spike
+        int64_t last_lag = history.back().lag_ms;
+        if (last_lag > config_.lag_spike_threshold_ms) {
+            Insight ins;
+            ins.type        = "LAG_SPIKE";
+            ins.description = "Replica " + replica_id + " lag is " +
+                              std::to_string(last_lag) + "ms";
+            ins.recommendation = "Check network connectivity to " + replica_id +
+                                 ", consider increasing batch_size";
+            ins.detected_at = now;
+            ins.metadata["replica_id"] = replica_id;
+            ins.metadata["lag_ms"]     = std::to_string(last_lag);
+            insights.push_back(std::move(ins));
+        }
+
+        // Check rolling average for slow replica
+        std::vector<int64_t> values;
+        values.reserve(history.size());
+        for (const auto& dp : history) values.push_back(dp.lag_ms);
+        int64_t avg = std::accumulate(values.begin(), values.end(), int64_t{0}) /
+                      static_cast<int64_t>(values.size());
+
+        if (avg > config_.slow_replica_avg_ms) {
+            Insight ins;
+            ins.type        = "SLOW_REPLICA";
+            ins.description = "Replica " + replica_id + " avg lag is " +
+                              std::to_string(avg) + "ms";
+            ins.recommendation = "Investigate disk I/O or CPU on " + replica_id;
+            ins.detected_at = now;
+            ins.metadata["replica_id"] = replica_id;
+            ins.metadata["avg_lag_ms"] = std::to_string(avg);
+            insights.push_back(std::move(ins));
+        }
+    }
+    return insights;
+}
+
+std::vector<ReplicationAnalytics::Bottleneck> ReplicationAnalytics::detectBottlenecks() const {
+    std::shared_lock<std::shared_mutex> lock(data_mutex_);
+    std::vector<Bottleneck> bottlenecks;
+
+    for (const auto& [replica_id, history] : lag_history_) {
+        if (history.size() < 2) continue;
+
+        // Compute variance in lag as a proxy for the bottleneck type:
+        //  High variance + high avg → NETWORK jitter
+        //  High avg + low variance   → DISK_IO
+        //  Very high avg              → CPU
+        std::vector<int64_t> values;
+        values.reserve(history.size());
+        for (const auto& dp : history) values.push_back(dp.lag_ms);
+
+        int64_t avg = std::accumulate(values.begin(), values.end(), int64_t{0}) /
+                      static_cast<int64_t>(values.size());
+        int64_t max_val = *std::max_element(values.begin(), values.end());
+
+        if (avg <= 0) continue;
+
+        // normalized_range = (max - mean) / mean
+        // A high value indicates large relative spread (typical of network jitter).
+        // This is distinct from the coefficient of variation (stddev/mean); using
+        // the range here avoids an extra O(n) pass while still capturing spikiness.
+        double normalized_range = static_cast<double>(max_val - avg) /
+                                  static_cast<double>(avg);
+
+        Bottleneck b;
+        b.replica_id = replica_id;
+        if (avg > 10000) {
+            b.bottleneck_type = "CPU";
+            b.severity        = std::min(1.0, static_cast<double>(avg) / 30000.0);
+            b.details         = "Extremely high avg lag (" + std::to_string(avg) + "ms)";
+        } else if (normalized_range > 1.5) {
+            b.bottleneck_type = "NETWORK";
+            b.severity        = std::min(1.0, normalized_range / 5.0);
+            b.details         = "High lag spread (normalized_range=" +
+                                std::to_string(static_cast<int>(normalized_range * 100)) + "%)";
+        } else if (avg > config_.slow_replica_avg_ms) {
+            b.bottleneck_type = "DISK_IO";
+            b.severity        = std::min(1.0,
+                                    static_cast<double>(avg) /
+                                    static_cast<double>(config_.slow_replica_avg_ms * 5));
+            b.details         = "Consistently high lag (" + std::to_string(avg) + "ms avg)";
+        } else {
+            continue;  // No bottleneck detected
+        }
+
+        bottlenecks.push_back(std::move(b));
+    }
+    return bottlenecks;
+}
+
+std::string ReplicationAnalytics::exportPrometheusMetrics() const {
+    std::shared_lock<std::shared_mutex> lock(data_mutex_);
+    std::ostringstream oss;
+    oss << "# HELP themisdb_replication_lag_ms Current replication lag\n"
+        << "# TYPE themisdb_replication_lag_ms gauge\n";
+    for (const auto& [replica_id, history] : lag_history_) {
+        if (!history.empty()) {
+            oss << "themisdb_replication_lag_ms{replica=\"" << replica_id << "\"} "
+                << history.back().lag_ms << "\n";
+        }
+    }
+    return oss.str();
+}
+
+// ============================================================================
+// ReplicationBenchmark Implementation (v1.6.0)
+// ============================================================================
+
+ReplicationBenchmark::ReplicationBenchmark(std::shared_ptr<WALManager> wal)
+    : ReplicationBenchmark(std::move(wal), BenchmarkConfig{})
+{
+}
+
+ReplicationBenchmark::ReplicationBenchmark(
+    std::shared_ptr<WALManager> wal,
+    const BenchmarkConfig& config)
+    : wal_(std::move(wal))
+    , config_(config)
+{
+}
+
+ReplicationBenchmark::BenchmarkResult ReplicationBenchmark::run() {
+    // Build a dummy payload of the requested size
+    std::string payload(config_.entry_size_bytes, 'x');
+
+    // Warm up (entries not counted in result)
+    for (uint32_t i = 0; i < config_.warmup_entries; ++i) {
+        WALEntry e;
+        e.sequence_number = 0;
+        e.collection  = config_.collection;
+        e.document_id = "warmup-" + std::to_string(i);
+        e.operation   = "INSERT";
+        e.data        = payload;
+        wal_->append(e);
+    }
+
+    // Measurement run
+    std::vector<int64_t> latencies_us;
+    latencies_us.reserve(config_.num_entries);
+    uint64_t bytes_written = 0;
+
+    auto bench_start = std::chrono::high_resolution_clock::now();
+
+    for (uint32_t i = 0; i < config_.num_entries; ++i) {
+        WALEntry e;
+        e.sequence_number = 0;
+        e.collection  = config_.collection;
+        e.document_id = "bench-" + std::to_string(i);
+        e.operation   = "INSERT";
+        e.data        = payload;
+
+        auto t0 = std::chrono::high_resolution_clock::now();
+        wal_->append(e);
+        auto t1 = std::chrono::high_resolution_clock::now();
+
+        latencies_us.push_back(
+            std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count());
+        bytes_written += config_.entry_size_bytes;
+    }
+
+    auto bench_end = std::chrono::high_resolution_clock::now();
+    double duration_s = std::chrono::duration<double>(bench_end - bench_start).count();
+
+    // Compute percentiles
+    std::sort(latencies_us.begin(), latencies_us.end());
+    auto pct = [&](double p) -> int64_t {
+        if (latencies_us.empty()) return 0;
+        size_t idx = static_cast<size_t>(
+            p / 100.0 * static_cast<double>(latencies_us.size() - 1));
+        return latencies_us[std::min(idx, latencies_us.size() - 1)];
+    };
+
+    BenchmarkResult r;
+    r.total_entries      = config_.num_entries;
+    r.duration_seconds   = duration_s;
+    r.writes_per_second  = (duration_s > 0.0)
+        ? static_cast<double>(config_.num_entries) / duration_s : 0.0;
+    r.latency_p50_us     = pct(50.0);
+    r.latency_p95_us     = pct(95.0);
+    r.latency_p99_us     = pct(99.0);
+    r.latency_max_us     = latencies_us.empty() ? 0 : latencies_us.back();
+    r.bytes_written      = bytes_written;
+    return r;
+}
+
+std::string ReplicationBenchmark::format(const BenchmarkResult& r) {
+    std::ostringstream oss;
+    oss << "=== ReplicationBenchmark Results ===\n"
+        << "Entries:       " << r.total_entries       << "\n"
+        << "Duration:      " << r.duration_seconds    << "s\n"
+        << "Throughput:    " << static_cast<uint64_t>(r.writes_per_second) << " writes/sec\n"
+        << "Bytes written: " << r.bytes_written       << "\n"
+        << "Latency p50:   " << r.latency_p50_us      << " µs\n"
+        << "Latency p95:   " << r.latency_p95_us      << " µs\n"
+        << "Latency p99:   " << r.latency_p99_us      << " µs\n"
+        << "Latency max:   " << r.latency_max_us      << " µs\n";
+    return oss.str();
 }
 
 } // namespace replication
