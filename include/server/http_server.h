@@ -167,6 +167,7 @@ public:
         size_t max_header_size_bytes = 8192; // 8 KB default max header size
         uint32_t request_timeout_ms = 30000; // 30 seconds default
         uint32_t graceful_shutdown_timeout_ms = 30000; // 30 second drain timeout
+        size_t max_connections = 0; // 0 = unlimited; enforce max concurrent TCP connections
         // Feature flags
         bool feature_semantic_cache = false;
         bool feature_llm_store = false;
@@ -300,6 +301,7 @@ private:
     class Session : public std::enable_shared_from_this<Session> {
     public:
         Session(tcp::socket socket, HttpServer* server);
+        ~Session();
         void start();
 
     private:
@@ -320,6 +322,7 @@ private:
     class SslSession : public std::enable_shared_from_this<SslSession> {
     public:
         SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server);
+        ~SslSession();
         void start();
 
     private:
@@ -767,6 +770,7 @@ private:
     std::atomic<uint64_t> request_count_{0};
     std::atomic<uint64_t> error_count_{0};
     std::atomic<uint64_t> active_requests_{0}; // In-flight request counter for graceful shutdown
+    std::atomic<uint64_t> active_connections_{0}; // Open TCP connections
     std::chrono::steady_clock::time_point start_time_;
 
     // Audit rate limiting state

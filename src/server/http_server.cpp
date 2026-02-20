@@ -1391,30 +1391,40 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection.
-        // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
-        if (config_.enable_tls) {
-            std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
-            if (ssl_ctx_) {
-#ifdef THEMIS_ENABLE_HTTP2
-                if (config_.enable_http2) {
-                    std::make_shared<Http2Session>(
-                        std::move(socket),
-                        *ssl_ctx_,
-                        this,
-                        config_.http2_max_concurrent_streams,
-                        config_.http2_initial_window_size
-                    )->start();
-                } else {
-                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-                }
-#else
-                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-#endif
-            }
+        // Enforce max_connections limit: close the socket immediately if exceeded
+        if (config_.max_connections > 0 &&
+            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+            THEMIS_WARN("Max connections ({}) reached – rejecting new connection",
+                config_.max_connections);
+            beast::error_code close_ec;
+            socket.shutdown(tcp::socket::shutdown_both, close_ec);
+            socket.close(close_ec);
         } else {
-            // Plain HTTP/1.1 without TLS
-            std::make_shared<Session>(std::move(socket), this)->start();
+            // Create new session for this connection.
+            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+            if (config_.enable_tls) {
+                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                if (ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+                    if (config_.enable_http2) {
+                        std::make_shared<Http2Session>(
+                            std::move(socket),
+                            *ssl_ctx_,
+                            this,
+                            config_.http2_max_concurrent_streams,
+                            config_.http2_initial_window_size
+                        )->start();
+                    } else {
+                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                    }
+#else
+                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
+                }
+            } else {
+                // Plain HTTP/1.1 without TLS
+                std::make_shared<Session>(std::move(socket), this)->start();
+            }
         }
     }
 
@@ -3305,6 +3315,23 @@ http::response<http::string_body> HttpServer::routeRequest(
     // Propagate request ID to response
     if (!request_id.empty()) {
         response.set("X-Request-ID", request_id);
+    }
+
+    // Emit structured JSON access log line
+    {
+        auto total_dur = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - start
+        );
+        double duration_ms = total_dur.count() / 1000.0;
+        std::string client_ip = extractClientIP(req);
+        THEMIS_INFO("access method={} path={} status={} duration_ms={:.3f} request_id={} client_ip={}",
+            std::string(http::to_string(req.method())),
+            target,
+            response.result_int(),
+            duration_ms,
+            request_id.empty() ? "-" : request_id,
+            client_ip.empty() ? "-" : client_ip
+        );
     }
 
     return response;
@@ -6365,6 +6392,11 @@ HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
     : socket_(std::move(socket))
     , server_(server)
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::Session::~Session() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
 void HttpServer::Session::start() {
@@ -6493,6 +6525,11 @@ HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::SslSession::~SslSession() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
 }
 
 void HttpServer::SslSession::start() {
