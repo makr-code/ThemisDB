@@ -93,6 +93,12 @@ public:
         bool enable_tenant_isolation = false;    // Enable tenant namespacing (opt-in)
         size_t per_tenant_max_bytes = 104857600; // 100MB per tenant default
         
+        // Phase 3: Adaptive TTL tuning
+        bool enable_adaptive_ttl = false;        // Enable adaptive TTL based on access patterns
+        int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
+        int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
+        double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
+        
         /**
          * @brief Validate configuration parameters
          * @return true if config is valid, false otherwise

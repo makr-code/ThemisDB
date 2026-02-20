@@ -861,6 +861,169 @@ TEST_F(AdaptiveCachePhase1Test, AdminAPIInvalidateTenant) {
     }
 }
 
+// ============================================================================
+// Phase 3 Tests: Adaptive TTL Tuning
+// ============================================================================
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLDisabled) {
+    config_.enable_adaptive_ttl = false;
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 1}};
+    std::string fp = cache.generateFingerprint("query", {});
+    
+    EXPECT_TRUE(cache.put(fp, {}, result));
+    
+    // TTL should be tier-specific (L1)
+    auto cached = cache.get(fp);
+    ASSERT_TRUE(cached.has_value());
+    EXPECT_EQ(cached->ttl_seconds, config_.l1_ttl_seconds);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLEnabled) {
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;    // 1 minute
+    config_.adaptive_ttl_max_seconds = 3600;  // 1 hour
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 1}};
+    std::string fp = cache.generateFingerprint("query", {});
+    
+    EXPECT_TRUE(cache.put(fp, {}, result));
+    
+    // Initial TTL should be min
+    auto cached1 = cache.get(fp);
+    ASSERT_TRUE(cached1.has_value());
+    int initial_ttl = cached1->ttl_seconds;
+    EXPECT_GE(initial_ttl, config_.adaptive_ttl_min_seconds);
+    EXPECT_LE(initial_ttl, config_.adaptive_ttl_max_seconds);
+    
+    // Access multiple times to increase access_count
+    for (int i = 0; i < 10; i++) {
+        cache.get(fp);
+    }
+    
+    // TTL should increase with access count
+    auto cached2 = cache.get(fp);
+    ASSERT_TRUE(cached2.has_value());
+    int final_ttl = cached2->ttl_seconds;
+    
+    // TTL should have increased
+    EXPECT_GT(final_ttl, initial_ttl);
+    EXPECT_LE(final_ttl, config_.adaptive_ttl_max_seconds);
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLLogarithmicScaling) {
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 100;
+    config_.adaptive_ttl_max_seconds = 10000;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 1}};
+    std::string fp = cache.generateFingerprint("popular_query", {});
+    
+    cache.put(fp, {}, result);
+    
+    std::vector<int> ttls;
+    
+    // Access 100 times and track TTL growth
+    for (int i = 0; i < 100; i++) {
+        auto cached = cache.get(fp);
+        if (cached.has_value() && i % 10 == 0) {
+            ttls.push_back(cached->ttl_seconds);
+        }
+    }
+    
+    // TTL should grow logarithmically (diminishing returns)
+    // First interval growth should be larger than later intervals
+    EXPECT_GT(ttls.size(), 2);
+    if (ttls.size() >= 3) {
+        int first_growth = ttls[1] - ttls[0];
+        int last_growth = ttls.back() - ttls[ttls.size() - 2];
+        EXPECT_GE(first_growth, last_growth);  // Diminishing growth
+    }
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLBounds) {
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 300;  // 5 minutes max
+    config_.adaptive_ttl_scaling_factor = 2.0;
+    AdaptiveQueryCache cache(config_);
+    
+    json result = {{"value", 1}};
+    std::string fp = cache.generateFingerprint("bounded_query", {});
+    
+    cache.put(fp, {}, result);
+    
+    // Access many times to try to exceed max
+    for (int i = 0; i < 1000; i++) {
+        auto cached = cache.get(fp);
+        if (cached.has_value()) {
+            // Should never exceed max
+            EXPECT_LE(cached->ttl_seconds, config_.adaptive_ttl_max_seconds);
+            // Should never go below min
+            EXPECT_GE(cached->ttl_seconds, config_.adaptive_ttl_min_seconds);
+        }
+    }
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLConfigValidation) {
+    config_.enable_adaptive_ttl = true;
+    
+    // Test invalid: min >= max
+    config_.adaptive_ttl_min_seconds = 1000;
+    config_.adaptive_ttl_max_seconds = 100;
+    std::string error;
+    EXPECT_FALSE(config_.validate(&error));
+    EXPECT_NE(error.find("min_seconds must be less than"), std::string::npos);
+    
+    // Test invalid: zero min
+    config_.adaptive_ttl_min_seconds = 0;
+    config_.adaptive_ttl_max_seconds = 1000;
+    EXPECT_FALSE(config_.validate(&error));
+    
+    // Test invalid: negative scaling factor
+    config_.adaptive_ttl_min_seconds = 100;
+    config_.adaptive_ttl_max_seconds = 1000;
+    config_.adaptive_ttl_scaling_factor = -1.0;
+    EXPECT_FALSE(config_.validate(&error));
+    
+    // Test valid config
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 3600;
+    config_.adaptive_ttl_scaling_factor = 5.0;
+    EXPECT_TRUE(config_.validate(&error));
+}
+
+TEST_F(AdaptiveCachePhase1Test, AdaptiveTTLWithL2Promotion) {
+    config_.enable_adaptive_ttl = true;
+    config_.adaptive_ttl_min_seconds = 60;
+    config_.adaptive_ttl_max_seconds = 3600;
+    config_.l1_max_entry_size = 50;  // Force to L2
+    AdaptiveQueryCache cache(config_);
+    
+    // Create entry that goes to L2
+    std::string large_data(100, 'x');
+    json result = {{"data", large_data}};
+    std::string fp = cache.generateFingerprint("l2_query", {});
+    
+    cache.put(fp, {}, result);
+    
+    // Access multiple times to build access count
+    for (int i = 0; i < 5; i++) {
+        auto cached = cache.get(fp);
+        ASSERT_TRUE(cached.has_value());
+    }
+    
+    // TTL should have been updated with each access
+    auto final = cache.get(fp);
+    ASSERT_TRUE(final.has_value());
+    EXPECT_GT(final->ttl_seconds, config_.adaptive_ttl_min_seconds);
+}
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

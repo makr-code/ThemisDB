@@ -3,6 +3,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <cmath>
 #include <sstream>
 #include <iomanip>
 #include <thread>
@@ -159,6 +160,13 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                 // Cache hit!
                 entry.last_accessed_ms = now_ms;
                 entry.access_count++;
+                
+                // Phase 3: Update TTL based on new access pattern
+                if (config_.enable_adaptive_ttl) {
+                    entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                    entry.created_at_ms = now_ms;  // Reset creation time for new TTL window
+                }
+                
                 stats_.l1_hits++;
                 enhanced_metrics_.l1_hits++;
                 
@@ -200,6 +208,13 @@ std::optional<AdaptiveQueryCache::CacheEntry> AdaptiveQueryCache::get(
                     // Update stats
                     entry.last_accessed_ms = now_ms;
                     entry.access_count++;
+                    
+                    // Phase 3: Update TTL based on new access pattern
+                    if (config_.enable_adaptive_ttl) {
+                        entry.ttl_seconds = calculateAdaptiveTTL(entry.access_count);
+                        entry.created_at_ms = now_ms;  // Reset creation time for new TTL window
+                    }
+                    
                     stats_.l2_hits++;
                     enhanced_metrics_.l2_hits++;
                     
@@ -382,12 +397,19 @@ bool AdaptiveQueryCache::put(
     
     // Calculate adaptive TTL (if enabled)
     int ttl_seconds;
-    if (level == CacheLevel::HOT) {
-        ttl_seconds = config_.l1_ttl_seconds;
-    } else if (level == CacheLevel::WARM) {
-        ttl_seconds = config_.l2_ttl_seconds;
+    if (config_.enable_adaptive_ttl) {
+        // Phase 3: Use adaptive TTL based on future access patterns
+        // For new entries, start with minimum TTL (access_count = 0)
+        ttl_seconds = calculateAdaptiveTTL(0);
     } else {
-        ttl_seconds = config_.l3_ttl_seconds;
+        // Use tier-specific TTL
+        if (level == CacheLevel::HOT) {
+            ttl_seconds = config_.l1_ttl_seconds;
+        } else if (level == CacheLevel::WARM) {
+            ttl_seconds = config_.l2_ttl_seconds;
+        } else {
+            ttl_seconds = config_.l3_ttl_seconds;
+        }
     }
     
     // Store in appropriate level
@@ -729,15 +751,20 @@ int AdaptiveQueryCache::calculateAdaptiveTTL(int64_t access_count) const {
         return config_.l1_ttl_seconds;
     }
     
+    // Phase 3: Adaptive TTL with logarithmic scaling
     // More frequently accessed entries get longer TTL
-    // Formula: TTL = base + (access_count * scale), clamped to [min, max]
-    int base_ttl = config_.l1_ttl_seconds;
-    int ttl = base_ttl + static_cast<int>(access_count * 60);  // +1 minute per access
+    // Formula: TTL = base_ttl * (1 + log(access_count + 1) / scaling_factor)
+    // This provides diminishing returns for very high access counts
     
-    ttl = std::max(ttl, config_.min_ttl_seconds);
-    ttl = std::min(ttl, config_.max_ttl_seconds);
+    int base_ttl = config_.adaptive_ttl_min_seconds;
+    double log_factor = std::log(static_cast<double>(access_count + 1)) / config_.adaptive_ttl_scaling_factor;
+    int adaptive_ttl = static_cast<int>(base_ttl * (1.0 + log_factor));
     
-    return ttl;
+    // Clamp to configured bounds
+    adaptive_ttl = std::max(adaptive_ttl, config_.adaptive_ttl_min_seconds);
+    adaptive_ttl = std::min(adaptive_ttl, config_.adaptive_ttl_max_seconds);
+    
+    return adaptive_ttl;
 }
 
 AdaptiveQueryCache::CacheLevel AdaptiveQueryCache::selectCacheLevel(size_t result_size) const {
@@ -921,6 +948,22 @@ bool AdaptiveQueryCache::Config::validate(std::string* error_msg) const {
     if (enable_tenant_isolation) {
         if (per_tenant_max_bytes == 0) {
             return set_error("per_tenant_max_bytes must be greater than 0");
+        }
+    }
+    
+    // Phase 3: Validate adaptive TTL
+    if (enable_adaptive_ttl) {
+        if (adaptive_ttl_min_seconds <= 0) {
+            return set_error("adaptive_ttl_min_seconds must be greater than 0");
+        }
+        if (adaptive_ttl_max_seconds <= 0) {
+            return set_error("adaptive_ttl_max_seconds must be greater than 0");
+        }
+        if (adaptive_ttl_min_seconds >= adaptive_ttl_max_seconds) {
+            return set_error("adaptive_ttl_min_seconds must be less than adaptive_ttl_max_seconds");
+        }
+        if (adaptive_ttl_scaling_factor <= 0.0) {
+            return set_error("adaptive_ttl_scaling_factor must be greater than 0");
         }
     }
     
