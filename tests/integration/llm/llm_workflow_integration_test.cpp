@@ -19,7 +19,6 @@
 #include "../test_data_generator.h"
 #include "llm/llamacpp_inference_engine.h"
 #include "llm/model_metadata_cache.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include <gtest/gtest.h>
 #include <filesystem>
@@ -223,7 +222,7 @@ TEST_F(LLMWorkflowIntegrationTest, LoRAAdapterSwitching) {
     }
     
     // Step 4: Test adapter switching logic
-    // In real implementation, this would use LoRAAdapterManager
+    // In real implementation, this would use MultiLoRAManager
     std::string current_adapter = "adapter_1";
     EXPECT_EQ(current_adapter, "adapter_1");
     

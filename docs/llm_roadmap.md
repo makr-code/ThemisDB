@@ -72,7 +72,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 **Finding:**
 
-- **LoRA compat shim** (`llama_lora_adapter.cpp` legacy overloads, `LoRAAdapterManager` in `lora_framework/`): The README marks `LoRAAdapterManager` as deprecated in favour of `MultiLoRAManager`. The legacy overloads remain in the build, creating two code paths for the same operation and a risk of inconsistent behaviour.
+- **LoRA compat shim** (`llama_lora_adapter.cpp` legacy overloads, `LoRAAdapterManager` in `lora_framework/`): ✅ Resolved — `LoRAAdapterManager` fully removed in v1.4.0; all call sites migrated to `MultiLoRAManager`.
 - **DirectX / HLSL shader path** (`vision_config.cpp`, DXGI references): References to DirectX shader compilation exist alongside the CUDA/OpenCL paths. On non-Windows targets the DirectX path compiles as a no-op stub, but the dead code adds maintenance burden and confusion.
 - **`grafana_metrics_broken.cpp.bak`**: The `.bak` file is committed to source control, adds noise, and may confuse maintainers about which implementation is canonical.
 
@@ -161,7 +161,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 **Goal:** Deprecated code is removed, the operator experience is polished, and runbooks cover all failure modes.
 
 1. **Cleanup Deprecated Paths**
-   - Remove `LoRAAdapterManager` and its legacy overloads from the build; update all call sites to `MultiLoRAManager`. ✅ `lora_orchestrator.h` and `themis_help_lora.h` updated; include of deprecated header removed.
+   - Remove `LoRAAdapterManager` and its legacy overloads from the build; update all call sites to `MultiLoRAManager`. ✅ Fully removed: `include/llm/lora_framework/lora_adapter_manager.h`, `include/llm/lora_framework/lora_adapter_manager_compat.h`, and `src/llm/lora_framework/lora_adapter_manager.cpp` deleted; all callers in `benchmarks/`, `src/server/`, `src/query/`, `tests/` and CMake build files migrated to `MultiLoRAManager`.
    - Remove or replace the DirectX/DXGI shader stubs with explicit `#error` guards on non-Windows targets. ✅ All DirectX headers already guarded by `#ifdef _WIN32`; no changes needed.
    - Delete `grafana_metrics_broken.cpp.bak` from source control. ✅ No such file is tracked (`.bak` is gitignored). Tracked `lora_orchestrator.cpp.broken` removed from git and `*.broken` added to `.gitignore`.
 
@@ -290,7 +290,7 @@ Loading a model that uses any of these formats will not fail with an actionable 
 | llama.cpp API changes break grammar/LoRA adapters | Medium | High | ✅ llama.cpp pinned at commit `b7974` in `cmake/Dependencies.cmake` (`LLAMA_CPP_GIT_TAG`). `THEMIS_LLAMA_CPP_EXPECTED_COMMIT` compile definition exposed; `LlamaWrapper` constructor compares it against `llama_build_commit()` at startup and emits a `spdlog::warn` on mismatch. |
 | OTel SDK adds significant binary size or latency overhead | Low | Medium | Profile with and without OTel; use compile-time feature flag if needed. |
 | Prompt-safety classifier adds unacceptable latency | Low | Medium | Run classifier asynchronously on a separate thread pool; add latency budget to the policy config. |
-| Removing deprecated LoRA compat shim breaks downstream integrations | Medium | Medium | ✅ Deprecation timeline published in `docs/llm/LORA_ADAPTER_MIGRATION.md` (removal in v2.0.0). Migration guide covers Config field mapping, method mapping, and code examples. `lora_adapter_manager_compat.h` provides a temporary typedef for gradual migration. |
+| Removing deprecated LoRA compat shim breaks downstream integrations | Medium | Medium | ✅ `LoRAAdapterManager` fully removed (v1.4.0). All 12 call sites migrated to `MultiLoRAManager`. Migration reference retained in `docs/llm/LORA_ADAPTER_MIGRATION.md`. |
 
 ---
 

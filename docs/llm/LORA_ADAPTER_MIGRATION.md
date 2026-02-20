@@ -1,41 +1,46 @@
-# LoRA Adapter Manager Migration Guide
+# LoRA Adapter Manager — Migration Complete
 
-**Migrating from `LoRAAdapterManager` to `MultiLoRAManager`**
+**`LoRAAdapterManager` has been fully removed. All code now uses `MultiLoRAManager` directly.**
 
 ---
 
 ## Summary
 
-`LoRAAdapterManager` (declared in `include/llm/lora_framework/lora_adapter_manager.h`) is **deprecated** as of ThemisDB v1.3.0. It will be removed in **v2.0.0**.
+`LoRAAdapterManager` has been **fully removed** as of ThemisDB v1.4.0 (PR: `copilot/analyse-llm-module-gaps`). All call sites have been migrated to `MultiLoRAManager` (`include/llm/multi_lora_manager.h`).
 
-The replacement is `MultiLoRAManager` (declared in `include/llm/multi_lora_manager.h`), which provides:
+Files removed:
+- `include/llm/lora_framework/lora_adapter_manager.h`
+- `include/llm/lora_framework/lora_adapter_manager_compat.h`
+- `src/llm/lora_framework/lora_adapter_manager.cpp`
+
+`MultiLoRAManager` provides:
 
 - **vLLM-style multi-LoRA batching** — multiple adapters active per inference batch
 - **GPU-aware placement** — spreads adapters across multiple GPUs
 - **Adapter fusion** — merge several LoRAs at inference time
 - **Lazy loading** — on-demand loading without blocking the main thread
-- **Quantization support** (v1.4.0) — FP16 / INT8 / INT4 LoRA weights
+- **Quantization support** — FP16 / INT8 / INT4 LoRA weights
 - **Thread-safe API** — all public methods are safe to call concurrently
 
 ---
 
-## Deprecation Timeline
+## Removal Timeline
 
 | Version | Status |
 |---------|--------|
 | v1.3.0 | `LoRAAdapterManager` marked `@deprecated`; `MultiLoRAManager` fully functional |
-| v1.4.0 | `LoRAAdapterManager` header emits `#pragma message` deprecation warning at compile time |
-| v1.5.0 | `LoRAAdapterManager` moved to separate `lora_compat` CMake target (opt-in) |
-| **v2.0.0** | `LoRAAdapterManager` **removed** from the main build; `lora_compat` target removed |
+| **v1.4.0** | ✅ `LoRAAdapterManager` **fully removed**; all call sites migrated to `MultiLoRAManager` |
 
 ---
 
-## Quick Migration Checklist
+## Quick Migration Reference
+
+> **Note:** Migration is complete — all call sites have been updated. This section
+> is retained for reference in case downstream integrations or forks still use the old API.
 
 1. Replace `#include "llm/lora_framework/lora_adapter_manager.h"` with
    `#include "llm/multi_lora_manager.h"`
-2. Change `LoRAAdapterManager` → `MultiLoRAManager` (or use the temporary
-   `LoRAAdapterManager` typedef from `lora_adapter_manager_compat.h`)
+2. Change `LoRAAdapterManager` → `MultiLoRAManager`
 3. Translate `Config` fields (see table below)
 4. Translate method calls (see table below)
 5. Remove calls to `switchAdapterWithFusion()` — the new API handles fusion
@@ -157,30 +162,9 @@ manager->unloadLoRA("sql-expert");
 
 ---
 
-## Temporary Compatibility Shim
-
-If you cannot migrate immediately, you can include the compatibility header which
-typedef's `LoRAAdapterManager` to `MultiLoRAManager`:
-
-```cpp
-// Temporary: use compat shim (will be removed in v2.0.0)
-#include "llm/lora_framework/lora_adapter_manager_compat.h"
-using namespace themis::llm::lora;
-
-LoRAAdapterManager::Config config;  // actually MultiLoRAManager::Config
-auto manager = std::make_unique<LoRAAdapterManager>(config);  // actually MultiLoRAManager
-```
-
-> **Warning:** The `LoRAAdapterManager` typedef is a compile-time alias only.
-> The old *method names* (`loadAdapter`, `switchAdapter`, etc.) are NOT forwarded.
-> You still need to update the method calls even when using the compat shim.
-
----
-
 ## See Also
 
 - `include/llm/multi_lora_manager.h` — full `MultiLoRAManager` API reference
-- `include/llm/lora_framework/lora_adapter_manager_compat.h` — compatibility shim
 - `docs/llm/MULTI_GPU_LORA_ADVANCED.md` — multi-GPU LoRA placement guide
 - `docs/llm/DISTRIBUTED_LORA_TRAINING.md` — distributed LoRA training
 - `docs/llm_roadmap.md` — Q4 cleanup section

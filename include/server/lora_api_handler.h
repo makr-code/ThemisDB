@@ -13,7 +13,6 @@ namespace themis {
 namespace llm {
 namespace lora {
 class LoRAOrchestrator;
-class LoRAAdapterManager;
 class LoRAStorageService;
 class LoRATrainingService;
 }
