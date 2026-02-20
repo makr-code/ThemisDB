@@ -77,6 +77,11 @@ public:
     explicit GorillaDecoder(const std::vector<uint8_t>& data);
     std::optional<std::pair<int64_t,double>> next();
 
+    /// Returns true if a decode error was encountered (truncated/corrupt data)
+    bool hasError() const { return error_; }
+    /// Returns total number of successfully decoded points
+    size_t decodedCount() const { return decoded_count_; }
+
 private:
     bool first_ {true};
     int64_t prev_ts_ {0};
@@ -85,6 +90,8 @@ private:
     int prev_leading_ {64};
     int prev_trailing_ {64};
     BitReader br_;
+    bool error_ {false};
+    size_t decoded_count_ {0};
 };
 
 } // namespace themis

@@ -90,8 +90,33 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
             lock.lock();
         }
         
-        // Add to buffer
         auto& buffer = buffers_[buffer_key];
+
+        // Check per-metric memory limit
+        if (config_.max_memory_per_metric_bytes > 0 &&
+            buffer.memory_bytes >= config_.max_memory_per_metric_bytes) {
+            THEMIS_WARN("Per-metric memory limit reached for {}, rejecting point", buffer_key);
+            stats_.memory_limit_rejected_count++;
+            return ErrVoid(errors::ErrorCode::ERR_API_RESOURCE_EXHAUSTED,
+                           "Per-metric memory limit reached for " + buffer_key);
+        }
+
+        // Deduplication: skip if a point with the same timestamp already exists
+        if (config_.enable_dedup && !buffer.points.empty()) {
+            bool duplicate = false;
+            for (const auto& existing : buffer.points) {
+                if (existing.timestamp_ms == point.timestamp_ms) {
+                    duplicate = true;
+                    break;
+                }
+            }
+            if (duplicate) {
+                stats_.dedup_dropped_count++;
+                return OkVoid();
+            }
+        }
+
+        // Add to buffer
         buffer.add(point);
         
         stats_.points_buffered++;

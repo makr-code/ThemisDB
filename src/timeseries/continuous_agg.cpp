@@ -62,4 +62,36 @@ void ContinuousAggregateManager::refresh(const AggConfig& cfg, int64_t from_ms, 
     }
 }
 
+RollupHierarchy RollupHierarchy::defaultHierarchy(const std::string& metric,
+                                                   const std::optional<std::string>& entity) {
+    return RollupHierarchy{
+        metric,
+        entity,
+        {
+            std::chrono::minutes(1),
+            std::chrono::minutes(5),
+            std::chrono::hours(1),
+            std::chrono::hours(24)
+        }
+    };
+}
+
+void ContinuousAggregateManager::refreshHierarchy(const RollupHierarchy& hierarchy,
+                                                    int64_t from_ms, int64_t to_ms) {
+    if (!store_ || hierarchy.levels.empty()) return;
+
+    // Process each level in order (smallest → largest)
+    // First level reads from raw metric; subsequent levels read from previous level's output
+    std::string source_metric = hierarchy.metric;
+    for (const auto& level_window : hierarchy.levels) {
+        AggConfig cfg;
+        cfg.metric = source_metric;
+        cfg.entity = hierarchy.entity;
+        cfg.window.size = level_window;
+        refresh(cfg, from_ms, to_ms);
+        // Next level reads from this level's output
+        source_metric = derivedMetricName(source_metric, level_window);
+    }
+}
+
 } // namespace themis

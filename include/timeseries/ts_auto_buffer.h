@@ -43,6 +43,10 @@ struct TSAutoBufferConfig {
     
     // Memory management
     size_t max_memory_bytes = 100 * 1024 * 1024;  // 100 MB max buffer memory
+    size_t max_memory_per_metric_bytes = 0;        // 0 = unlimited; per-metric memory cap
+
+    // Deduplication
+    bool enable_dedup = false;                // Deduplicate points with identical timestamp
     
     // Performance tuning
     bool async_flush = true;                  // Flush in background thread
@@ -65,6 +69,8 @@ struct TSAutoBufferStats {
     std::atomic<uint64_t> size_triggered_flush{0};
     std::atomic<uint64_t> time_triggered_flush{0};
     std::atomic<uint64_t> buffer_overflow_count{0};
+    std::atomic<uint64_t> dedup_dropped_count{0};         // Points dropped by deduplication
+    std::atomic<uint64_t> memory_limit_rejected_count{0}; // Points rejected due to per-metric limit
     
     size_t current_buffer_size{0};
     size_t current_buffer_memory{0};
@@ -82,6 +88,8 @@ struct TSAutoBufferStats {
         , size_triggered_flush(other.size_triggered_flush.load())
         , time_triggered_flush(other.time_triggered_flush.load())
         , buffer_overflow_count(other.buffer_overflow_count.load())
+        , dedup_dropped_count(other.dedup_dropped_count.load())
+        , memory_limit_rejected_count(other.memory_limit_rejected_count.load())
         , current_buffer_size(other.current_buffer_size)
         , current_buffer_memory(other.current_buffer_memory)
         , last_flush_time(other.last_flush_time) {}
@@ -96,6 +104,8 @@ struct TSAutoBufferStats {
             size_triggered_flush.store(other.size_triggered_flush.load());
             time_triggered_flush.store(other.time_triggered_flush.load());
             buffer_overflow_count.store(other.buffer_overflow_count.load());
+            dedup_dropped_count.store(other.dedup_dropped_count.load());
+            memory_limit_rejected_count.store(other.memory_limit_rejected_count.load());
             current_buffer_size = other.current_buffer_size;
             current_buffer_memory = other.current_buffer_memory;
             last_flush_time = other.last_flush_time;
