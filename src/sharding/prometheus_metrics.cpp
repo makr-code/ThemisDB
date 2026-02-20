@@ -475,6 +475,205 @@ void PrometheusMetrics::setRaftReadOnlyMode(const std::string& shard_id, bool is
     setGauge("themis_raft_read_only_mode", is_read_only ? 1.0 : 0.0, {{"shard_id", shard_id}});
 }
 
+// ==================== Paxos Consensus Metrics Implementation (Phase 1) ====================
+
+void PrometheusMetrics::setPaxosRole(const std::string& shard_id, const std::string& role) {
+    double role_value = 0.0;
+    if (role == "LEADER") role_value = 3.0;
+    else if (role == "PROPOSER") role_value = 2.0;
+    else if (role == "ACCEPTOR") role_value = 1.0;
+    else if (role == "LEARNER") role_value = 0.5;
+    
+    setGauge("themis_paxos_role", role_value, {{"shard_id", shard_id}, {"role", role}});
+}
+
+void PrometheusMetrics::setPaxosRound(const std::string& shard_id, uint64_t round) {
+    setGauge("themis_paxos_round", static_cast<double>(round), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setPaxosHighestProposal(const std::string& shard_id, uint64_t proposal_number) {
+    setGauge("themis_paxos_highest_proposal", static_cast<double>(proposal_number), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setPaxosCommittedSlot(const std::string& shard_id, uint64_t slot) {
+    setGauge("themis_paxos_committed_slot", static_cast<double>(slot), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosPrepare(const std::string& shard_id, bool success) {
+    incrementCounter("themis_paxos_prepare_total", 
+                    {{"shard_id", shard_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordPaxosPrepareLatency(const std::string& shard_id, double latency_ms) {
+    observeHistogram("themis_paxos_prepare_latency_seconds", latency_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosPromise(const std::string& shard_id, bool received) {
+    incrementCounter("themis_paxos_promise_total", 
+                    {{"shard_id", shard_id}, {"result", received ? "received" : "rejected"}});
+}
+
+void PrometheusMetrics::recordPaxosAccept(const std::string& shard_id, bool success) {
+    incrementCounter("themis_paxos_accept_total", 
+                    {{"shard_id", shard_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordPaxosAcceptLatency(const std::string& shard_id, double latency_ms) {
+    observeHistogram("themis_paxos_accept_latency_seconds", latency_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosAccepted(const std::string& shard_id, bool received) {
+    incrementCounter("themis_paxos_accepted_total", 
+                    {{"shard_id", shard_id}, {"result", received ? "received" : "rejected"}});
+}
+
+void PrometheusMetrics::recordPaxosLearn(const std::string& shard_id, uint64_t slot) {
+    incrementCounter("themis_paxos_learn_total", {{"shard_id", shard_id}});
+    setGauge("themis_paxos_last_learned_slot", static_cast<double>(slot), {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosLearnLatency(const std::string& shard_id, double latency_ms) {
+    observeHistogram("themis_paxos_learn_latency_seconds", latency_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosProposal(const std::string& shard_id, bool success) {
+    incrementCounter("themis_paxos_proposals_total", 
+                    {{"shard_id", shard_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordPaxosProposalDuration(const std::string& shard_id, double duration_ms) {
+    observeHistogram("themis_paxos_proposal_duration_seconds", duration_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosProposalRetry(const std::string& shard_id) {
+    incrementCounter("themis_paxos_proposal_retries_total", {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosProposalConflict(const std::string& shard_id) {
+    incrementCounter("themis_paxos_proposal_conflicts_total", {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosConvergenceTime(const std::string& shard_id, double time_ms) {
+    observeHistogram("themis_paxos_convergence_time_seconds", time_ms / 1000.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::setPaxosQuorumStatus(const std::string& shard_id, bool has_quorum) {
+    setGauge("themis_paxos_has_quorum", has_quorum ? 1.0 : 0.0, {{"shard_id", shard_id}});
+}
+
+void PrometheusMetrics::recordPaxosQuorumLoss(const std::string& shard_id) {
+    incrementCounter("themis_paxos_quorum_loss_total", {{"shard_id", shard_id}});
+}
+
+// ==================== Cross-Shard Transaction Metrics Implementation (Phase 1) ====================
+
+void PrometheusMetrics::record2PCTransaction(const std::string& coordinator_id, bool success) {
+    incrementCounter("themis_2pc_transactions_total", 
+                    {{"coordinator_id", coordinator_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::record2PCPreparePhase(const std::string& coordinator_id, double duration_ms, bool all_prepared) {
+    observeHistogram("themis_2pc_prepare_phase_duration_seconds", duration_ms / 1000.0, 
+                    {{"coordinator_id", coordinator_id}});
+    incrementCounter("themis_2pc_prepare_phase_total", 
+                    {{"coordinator_id", coordinator_id}, {"result", all_prepared ? "all_prepared" : "some_failed"}});
+}
+
+void PrometheusMetrics::record2PCCommitPhase(const std::string& coordinator_id, double duration_ms, bool success) {
+    observeHistogram("themis_2pc_commit_phase_duration_seconds", duration_ms / 1000.0, 
+                    {{"coordinator_id", coordinator_id}});
+    incrementCounter("themis_2pc_commit_phase_total", 
+                    {{"coordinator_id", coordinator_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::record2PCAbort(const std::string& coordinator_id, const std::string& reason) {
+    incrementCounter("themis_2pc_aborts_total", 
+                    {{"coordinator_id", coordinator_id}, {"reason", reason}});
+}
+
+void PrometheusMetrics::record2PCParticipantResponse(const std::string& participant_id, 
+                                                      const std::string& phase, double latency_ms) {
+    observeHistogram("themis_2pc_participant_response_latency_seconds", latency_ms / 1000.0, 
+                    {{"participant_id", participant_id}, {"phase", phase}});
+}
+
+void PrometheusMetrics::record3PCTransaction(const std::string& coordinator_id, bool success) {
+    incrementCounter("themis_3pc_transactions_total", 
+                    {{"coordinator_id", coordinator_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::record3PCPreCommitPhase(const std::string& coordinator_id, double duration_ms, bool success) {
+    observeHistogram("themis_3pc_precommit_phase_duration_seconds", duration_ms / 1000.0, 
+                    {{"coordinator_id", coordinator_id}});
+    incrementCounter("themis_3pc_precommit_phase_total", 
+                    {{"coordinator_id", coordinator_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::record3PCTimeout(const std::string& coordinator_id, const std::string& phase) {
+    incrementCounter("themis_3pc_timeouts_total", 
+                    {{"coordinator_id", coordinator_id}, {"phase", phase}});
+}
+
+void PrometheusMetrics::recordSAGATransaction(const std::string& saga_id, bool success) {
+    incrementCounter("themis_saga_transactions_total", 
+                    {{"saga_id", saga_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordSAGAStep(const std::string& saga_id, int step_number, bool success) {
+    incrementCounter("themis_saga_steps_total", 
+                    {{"saga_id", saga_id}, {"step", std::to_string(step_number)}, 
+                     {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordSAGACompensation(const std::string& saga_id, int step_number, bool success) {
+    incrementCounter("themis_saga_compensations_total", 
+                    {{"saga_id", saga_id}, {"step", std::to_string(step_number)}, 
+                     {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordSAGADuration(const std::string& saga_id, double duration_ms) {
+    observeHistogram("themis_saga_duration_seconds", duration_ms / 1000.0, {{"saga_id", saga_id}});
+}
+
+void PrometheusMetrics::recordPercolatorTransaction(const std::string& transaction_id, bool success) {
+    incrementCounter("themis_percolator_transactions_total", 
+                    {{"transaction_id", transaction_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordPercolatorLockAcquisition(const std::string& transaction_id, double latency_ms, bool success) {
+    observeHistogram("themis_percolator_lock_acquisition_latency_seconds", latency_ms / 1000.0, 
+                    {{"transaction_id", transaction_id}});
+    incrementCounter("themis_percolator_lock_acquisitions_total", 
+                    {{"transaction_id", transaction_id}, {"result", success ? "success" : "failure"}});
+}
+
+void PrometheusMetrics::recordPercolatorLockRelease(const std::string& transaction_id, double latency_ms) {
+    observeHistogram("themis_percolator_lock_release_latency_seconds", latency_ms / 1000.0, 
+                    {{"transaction_id", transaction_id}});
+    incrementCounter("themis_percolator_lock_releases_total", {{"transaction_id", transaction_id}});
+}
+
+void PrometheusMetrics::recordPercolatorWriteIntent(const std::string& transaction_id, int intent_count) {
+    setGauge("themis_percolator_write_intents", static_cast<double>(intent_count), 
+            {{"transaction_id", transaction_id}});
+}
+
+void PrometheusMetrics::recordPercolatorConflict(const std::string& transaction_id) {
+    incrementCounter("themis_percolator_conflicts_total", {{"transaction_id", transaction_id}});
+}
+
+void PrometheusMetrics::setActiveTransactions(int count) {
+    setGauge("themis_active_transactions", static_cast<double>(count), {});
+}
+
+void PrometheusMetrics::setBlockedTransactions(int count) {
+    setGauge("themis_blocked_transactions", static_cast<double>(count), {});
+}
+
+void PrometheusMetrics::recordTransactionTimeout(const std::string& transaction_type) {
+    incrementCounter("themis_transaction_timeouts_total", {{"type", transaction_type}});
+}
+
 void PrometheusMetrics::incrementCounter(const std::string& name, 
                                           const std::map<std::string, std::string>& labels) {
     std::string key = getCounterKey(name, labels);
