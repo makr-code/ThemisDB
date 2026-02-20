@@ -18,6 +18,9 @@ namespace themis {
 
 // Smart pointer type aliases for dependency injection
 using IStorageEnginePtr = std::shared_ptr<IStorageEngine>;
+
+// Forward declaration for StatisticsCollector (avoid including the header)
+class StatisticsCollector;
 using IIndexManagerPtr = std::shared_ptr<IIndexManager>;
 // using IQueryEnginePtr = std::shared_ptr<IQueryEngine>;  // IQueryEngine not defined
 using IExpressionEvaluatorPtr = std::shared_ptr<IExpressionEvaluator>;
@@ -328,6 +331,18 @@ public:
      * @param storage Storage engine instance
      */
     void setStorage(IStorageEnginePtr storage);
+
+    /**
+     * @brief Inject a StatisticsCollector for cardinality-based query optimisation.
+     *
+     * When set, executeAndKeys() and executeAndKeysWithFallback() use the
+     * per-column cardinality/selectivity data stored in the collector to order
+     * equality predicates from most-to-least selective before execution.
+     *
+     * The pointer is non-owning; the caller manages the lifetime.
+     * Pass nullptr to disable statistics-based optimisation.
+     */
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
     
     /**
      * @brief Provide expression evaluator for Storage and Index to use
@@ -626,6 +641,7 @@ private:
     GraphIndexManager* graphIdx_ = nullptr;
     VectorIndexManager* vectorIdx_ = nullptr;  // Optional for Vector+Geo optimization
     SpatialIndexManager* spatialIdx_ = nullptr;  // Optional for Spatial pre-filtering
+    StatisticsCollector* stats_collector_ = nullptr;  ///< Optional; for cardinality-based optimisation
     
     // New interface-based dependencies (used with DI constructors)
     // When these are set, they take precedence over legacy pointers

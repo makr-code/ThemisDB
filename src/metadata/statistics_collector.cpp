@@ -92,6 +92,63 @@ StatisticsCollector::StatisticsCollector(RocksDBWrapper& db)
     spdlog::debug("StatisticsCollector: Initialized");
 }
 
+StatisticsCollector::~StatisticsCollector() {
+    stopRefresh();
+}
+
+void StatisticsCollector::setRefreshInterval(std::chrono::seconds interval) {
+    // Stop any existing thread first
+    stopRefresh();
+
+    refresh_interval_ = interval;
+    if (interval.count() <= 0) {
+        spdlog::debug("StatisticsCollector: auto-refresh disabled");
+        return;
+    }
+
+    stop_refresh_.store(false);
+    refresh_thread_ = std::thread([this] { refreshLoop_(); });
+    spdlog::info("StatisticsCollector: auto-refresh started (interval={}s)", interval.count());
+}
+
+void StatisticsCollector::stopRefresh() noexcept {
+    stop_refresh_.store(true);
+    refresh_cv_.notify_all();
+    if (refresh_thread_.joinable()) {
+        refresh_thread_.join();
+    }
+}
+
+void StatisticsCollector::refreshLoop_() {
+    while (!stop_refresh_.load()) {
+        std::unique_lock<std::mutex> lk(refresh_mutex_);
+        refresh_cv_.wait_for(lk, refresh_interval_,
+                             [this] { return stop_refresh_.load(); });
+
+        if (stop_refresh_.load()) break;
+
+        // Collect the set of known table names (read lock)
+        std::vector<std::string> tables;
+        {
+            std::shared_lock<std::shared_mutex> sl(cache_mutex_);
+            tables.reserve(stats_cache_.size());
+            for (const auto& [name, _] : stats_cache_) {
+                tables.push_back(name);
+            }
+        }
+
+        for (const auto& table : tables) {
+            if (stop_refresh_.load()) break;
+            auto result = collectStats(table);
+            if (!result.ok) {
+                spdlog::warn("StatisticsCollector: auto-refresh failed for '{}': {}",
+                             table, result.error_message);
+            }
+        }
+    }
+    spdlog::debug("StatisticsCollector: auto-refresh thread exited");
+}
+
 // ----------------------------------------------------------------------------
 // Public API
 // ----------------------------------------------------------------------------

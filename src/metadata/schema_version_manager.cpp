@@ -5,6 +5,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <spdlog/spdlog.h>
 #include <iomanip>
+#include <set>
 #include <sstream>
 #include <stdexcept>
 
@@ -383,6 +384,74 @@ std::optional<SchemaChange> SchemaVersionManager::loadChange(
                      version, table_name, e.what());
         return std::nullopt;
     }
+}
+
+// ============================================================================
+// Dry-run validation
+// ============================================================================
+
+VersionResult<bool> SchemaVersionManager::validateMigration(
+    std::string_view table_name,
+    const SchemaManager::TableSchema& new_schema) const
+{
+    // 1. Schema must have a non-empty name
+    if (new_schema.name.empty()) {
+        return VersionResult<bool>::failure(
+            VersionErrorCode::INVALID_VERSION,
+            "Migration validation failed: schema name must not be empty");
+    }
+
+    // 2. Schema must define at least one column/property
+    if (new_schema.properties.empty()) {
+        return VersionResult<bool>::failure(
+            VersionErrorCode::INVALID_VERSION,
+            "Migration validation failed: schema must have at least one column");
+    }
+
+    // 3. Column names must be unique within the new schema
+    std::set<std::string> seen_columns;
+    for (const auto& col : new_schema.properties) {
+        if (col.name.empty()) {
+            return VersionResult<bool>::failure(
+                VersionErrorCode::INVALID_VERSION,
+                "Migration validation failed: column name must not be empty");
+        }
+        if (!seen_columns.insert(col.name).second) {
+            return VersionResult<bool>::failure(
+                VersionErrorCode::INVALID_VERSION,
+                "Migration validation failed: duplicate column '" + col.name + "'");
+        }
+    }
+
+    // 4. If a current version exists, the new schema must differ from it
+    uint64_t current_ver = readCurrentVersion(table_name);
+    if (current_ver > 0) {
+        auto current_change = loadChange(table_name, current_ver);
+        if (current_change.has_value()) {
+            const auto& existing = current_change->snapshot;
+            if (existing.name == new_schema.name &&
+                existing.properties.size() == new_schema.properties.size())
+            {
+                bool identical = true;
+                for (size_t i = 0; i < existing.properties.size() && identical; ++i) {
+                    if (existing.properties[i].name != new_schema.properties[i].name ||
+                        existing.properties[i].type != new_schema.properties[i].type) {
+                        identical = false;
+                    }
+                }
+                if (identical) {
+                    return VersionResult<bool>::failure(
+                        VersionErrorCode::INVALID_VERSION,
+                        "Migration validation failed: new schema is identical to current version "
+                        + std::to_string(current_ver));
+                }
+            }
+        }
+    }
+
+    spdlog::info("SchemaVersionManager: dry-run validation passed for table '{}' ({} columns)",
+                 table_name, new_schema.properties.size());
+    return VersionResult<bool>::success(true);
 }
 
 } // namespace themis

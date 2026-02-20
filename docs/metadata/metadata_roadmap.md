@@ -25,9 +25,9 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `src/metadata/statistics_collector.cpp` — implementation with sampled key scans, equi-height histograms, RocksDB persistence under `stats:` prefix
 - [x] `tests/test_statistics_collector.cpp` — unit tests covering collection, caching, persistence, and error paths
 - [x] REST endpoint: `GET /api/v1/metadata/stats/:table` and `POST /api/v1/metadata/stats/:table`
-- [ ] Wire `StatisticsCollector` into `QueryEngine` for cost-based optimiser (cardinality estimates)
+- [x] Wire `StatisticsCollector` into `QueryEngine` for cost-based optimiser – `setStatisticsCollector()` injects the collector; equality predicates are sorted by ascending selectivity inside `executeAndKeysRangeAware_()`
 - [x] Prometheus / OpenTelemetry metrics hook interface `IMetricsHook` with `onCollect`, `onCacheHit`, `onCacheMiss`, `onError` – call `setMetricsHook()` to plug in Prometheus / OTel sinks
-- [ ] Configurable automatic refresh schedule (default: hourly)
+- [x] Configurable automatic refresh schedule – `setRefreshInterval(std::chrono::seconds)` starts a background thread that re-collects stats for all known tables at the given interval; `stopRefresh()` shuts it down cleanly
 
 ### Schema Constraints Enforcement (v1.6.0)
 
@@ -71,7 +71,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] REST endpoints: `GET /api/v1/schema/versions/:table`, `POST /api/v1/schema/versions/:table`, `GET /api/v1/schema/diff/:table?from=V&to=V`
 - [x] Runbook: `docs/metadata/schema_migration_runbook.md`
 - [ ] CLI command: `themisdb schema diff <table> <v1> <v2>`
-- [ ] Dry-run mode for migrations: validate without applying changes
+- [x] Dry-run mode for migrations: `SchemaVersionManager::validateMigration()` validates name, columns, uniqueness, and idempotency without persisting
 
 ### Storage Integration for Constraints
 
@@ -91,7 +91,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] `src/metadata/index_recommender.cpp` — thread-safe implementation; ADD/DROP recommendations sorted by benefit score
 - [x] `tests/test_index_recommender.cpp` — unit tests for access recording, scoring, recommendations, and JSON export
 - [x] REST endpoint: `GET /api/v1/metadata/index_recommendations[/:table]`
-- [ ] Wire `IndexRecommender::recordAccess()` into the AQL query execution path
+- [x] Wire `IndexRecommender::recordAccess()` into the AQL query execution path – `QueryApiHandler::setIndexRecommender()` injects the recommender; filter/sort predicates are recorded after every successful AQL translation
 - [ ] CLI: `themisdb index recommend <table>`
 
 ### CDC / WAL Integration for Hot Reload
@@ -118,7 +118,7 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [x] Audit log for schema changes: `SchemaAuditLog` stored under `audit:schema:` prefix; wired into `SchemaVersionManager`
 - [x] `GET /api/v1/metadata/audit[/:table]` — per-table or full audit history endpoint
 - [x] Schema import: `PUT /api/v1/metadata/schema_import` (bulk JSON — imports multiple table schemas in one request)
-- [ ] Background consistency checker: periodic scan for orphan keys, missing constraints, stale stats
+- [x] Background consistency checker: `SchemaConsistencyChecker` – checks orphan keys, stale stats, missing constraints; periodic background thread via `startBackgroundCheck(interval)`; wired into HttpServer (6-hour interval)
 - [x] Recovery runbook: `docs/metadata/recovery_runbook.md`
 
 ### Observability Dashboards & Alerts
@@ -141,11 +141,11 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 | Version | Target | Key Deliverable |
 |---------|--------|-----------------|
 | v1.5.0  | ✅ Done | SchemaManager, cache, JSON export |
-| v1.6.0  | ✅ Done | StatisticsCollector (+ OTel hook), SchemaConstraints + persistence + batch validate, REST endpoints |
+| v1.6.0  | ✅ Done | StatisticsCollector (+ OTel hook + auto-refresh + QueryEngine wiring), SchemaConstraints + persistence + batch validate, REST endpoints |
 | v1.7.0  | ✅ Done | INFORMATION_SCHEMA + REFERENTIAL_CONSTRAINTS, REST endpoints |
-| v1.8.0  | ✅ Done | Schema Versioning, diff, rollback + REST + runbook + audit log |
-| v1.9.0  | ✅ Done | IndexRecommender + REST endpoint; schema import; operator docs |
-| v2.0.0  | Q4 2026 | CDC/hot-reload, Grafana dashboards, AQL functions, CLI, background consistency checker |
+| v1.8.0  | ✅ Done | Schema Versioning, diff, rollback + dry-run validate + REST + runbook + audit log |
+| v1.9.0  | ✅ Done | IndexRecommender (wired into AQL path), SchemaConsistencyChecker, schema import, operator docs |
+| v2.0.0  | Q4 2026 | CDC/hot-reload, Grafana dashboards, AQL functions, CLI, cross-row UNIQUE/FK enforcement |
 
 ---
 
@@ -157,5 +157,6 @@ For the gap analysis that generated this roadmap see issue [#1353](https://githu
 - [`include/metadata/schema_constraints.h`](../../include/metadata/schema_constraints.h)
 - [`include/metadata/schema_version_manager.h`](../../include/metadata/schema_version_manager.h)
 - [`include/metadata/index_recommender.h`](../../include/metadata/index_recommender.h)
+- [`include/metadata/schema_consistency_checker.h`](../../include/metadata/schema_consistency_checker.h)
 - [Architecture Guide](../../ARCHITECTURE.md)
 

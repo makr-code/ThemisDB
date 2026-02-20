@@ -9,8 +9,12 @@
 #include <map>
 #include <optional>
 #include <memory>
+#include <atomic>
 #include <chrono>
+#include <condition_variable>
+#include <mutex>
 #include <shared_mutex>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace themis {
@@ -161,13 +165,35 @@ public:
     /// @param db RocksDB wrapper for key scanning and persisting statistics
     explicit StatisticsCollector(RocksDBWrapper& db);
 
-    ~StatisticsCollector() = default;
+    /// Destructor – stops the background refresh thread if running.
+    ~StatisticsCollector();
 
-    // Disable copy, allow move
+    // Disable copy and move (mutex/condition_variable are not movable)
     StatisticsCollector(const StatisticsCollector&) = delete;
     StatisticsCollector& operator=(const StatisticsCollector&) = delete;
-    StatisticsCollector(StatisticsCollector&&) = default;
-    StatisticsCollector& operator=(StatisticsCollector&&) = default;
+    StatisticsCollector(StatisticsCollector&&) = delete;
+    StatisticsCollector& operator=(StatisticsCollector&&) = delete;
+
+    // ========================================================================
+    // Auto-refresh
+    // ========================================================================
+
+    /// Configure the background auto-refresh interval.
+    ///
+    /// When @p interval > 0, a background thread wakes every @p interval seconds
+    /// and calls collectStats() for every table that has already been sampled at
+    /// least once.  Calling this again updates the interval live.
+    /// Passing std::chrono::seconds(0) (the default) stops the background thread.
+    ///
+    /// The background thread does NOT block the caller; it runs at low priority
+    /// and skips a table if collectStats() is already running for it.
+    ///
+    /// Thread-safety: safe to call from any thread.
+    void setRefreshInterval(std::chrono::seconds interval);
+
+    /// Stop the background refresh thread immediately (blocking until it exits).
+    /// Called automatically by the destructor.
+    void stopRefresh() noexcept;
 
     // ========================================================================
     // Public API
@@ -231,6 +257,18 @@ private:
     std::map<std::string, TableStats> stats_cache_;              ///< In-memory cache
     mutable std::shared_mutex cache_mutex_;                      ///< Read-write lock
     IMetricsHook* metrics_hook_ = nullptr;                       ///< Optional metrics sink (non-owning)
+
+    // ========================================================================
+    // Auto-refresh members
+    // ========================================================================
+    std::chrono::seconds   refresh_interval_{0};     ///< 0 = disabled
+    std::thread            refresh_thread_;           ///< Background refresh thread
+    std::atomic<bool>      stop_refresh_{false};      ///< Signal to terminate
+    std::condition_variable refresh_cv_;              ///< Wakes thread on interval/stop
+    std::mutex             refresh_mutex_;            ///< Guards refresh_cv_
+
+    /// Background refresh loop (runs on refresh_thread_).
+    void refreshLoop_();
 };
 
 } // namespace themis

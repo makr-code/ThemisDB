@@ -918,6 +918,20 @@ HttpServer::HttpServer(
             schema_api_handler_->setIndexRecommender(index_recommender_.get());
             schema_api_handler_->setAuditLog(schema_audit_log_.get());
 
+            // Wire IndexRecommender into query handler for access-pattern recording
+            if (query_api_) {
+                query_api_->setIndexRecommender(index_recommender_.get());
+                query_api_->setStatisticsCollector(stats_collector_.get());
+            }
+
+            // Background consistency checker (checks every 6 hours by default)
+            schema_consistency_checker_ = std::make_unique<SchemaConsistencyChecker>(
+                *storage_, *schema_manager_,
+                stats_collector_.get(),
+                schema_constraints_.get()
+            );
+            schema_consistency_checker_->startBackgroundCheck(std::chrono::hours(6));
+
             THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");

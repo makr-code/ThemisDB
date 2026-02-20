@@ -184,6 +184,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_constraints.cpp
     ../src/metadata/schema_version_manager.cpp
     ../src/metadata/index_recommender.cpp
+    ../src/metadata/schema_audit_log.cpp
+    ../src/metadata/schema_consistency_checker.cpp
     
     # Indexes
     ../src/index/secondary_index.cpp

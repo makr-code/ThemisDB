@@ -162,6 +162,24 @@ public:
     /// Export all version history for a table as a JSON array.
     json historyToJSON(std::string_view table_name) const;
 
+    /// Dry-run: validate whether @p new_schema can be applied to @p table_name
+    /// without persisting any changes.
+    ///
+    /// Checks performed:
+    ///   - The new schema has a non-empty "name" field.
+    ///   - The new schema has a "columns" or "properties" array.
+    ///   - No column appears more than once in the new schema.
+    ///   - If the table already has a versioned schema the new schema is not identical.
+    ///
+    /// @param table_name  Table to validate against.
+    /// @param new_schema  Proposed new schema.
+    /// @return VersionResult<bool>: ok=true if the migration is valid.
+    ///         On failure, error_message contains a human-readable explanation.
+    VersionResult<bool> validateMigration(
+        std::string_view table_name,
+        const SchemaManager::TableSchema& new_schema
+    ) const;
+
     /// Attach an audit log.  If set, every schema change is also recorded there.
     /// The pointer is non-owning; caller manages the lifetime.
     void setAuditLog(SchemaAuditLog* audit_log) noexcept { audit_log_ = audit_log; }
