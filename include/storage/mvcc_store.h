@@ -24,7 +24,7 @@ namespace themis {
  *
  *   • Snapshot reads  – read the most-recent version committed before a
  *     given timestamp without taking any lock.
- *   • Linearisable reads – read the absolutely latest committed version.
+ *   • Linearizable reads – read the absolutely latest committed version.
  *   • Version history – iterate all versions of a single key.
  *   • Garbage collection – remove versions older than a watermark.
  *

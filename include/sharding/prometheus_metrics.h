@@ -228,8 +228,43 @@ public:
     void setBlockedTransactions(int count);
     void recordTransactionTimeout(const std::string& transaction_type);
 
+    // ==================== MVCC / HLC Metrics ====================
+
+    /**
+     * @brief Record a completed MVCC write operation.
+     * @param latency_ms Write latency in milliseconds.
+     */
+    void recordMvccWrite(double latency_ms);
+
+    /**
+     * @brief Record a completed MVCC read operation.
+     * @param read_type "latest" for linearizable reads, "snapshot" for
+     *        point-in-time reads.
+     * @param latency_ms Read latency in milliseconds.
+     */
+    void recordMvccRead(const std::string& read_type, double latency_ms);
+
+    /**
+     * @brief Record a completed MVCC garbage-collection run.
+     * @param versions_deleted Number of old version entries removed.
+     */
+    void recordMvccGc(uint64_t versions_deleted);
+
+    /**
+     * @brief Update the gauge tracking total live MVCC version entries.
+     * @param count Current total count of stored versions.
+     */
+    void setMvccVersionCount(int64_t count);
+
+    /**
+     * @brief Record a clock advance (HLC `now()` or `update()` call).
+     * @param type "local" for `now()`, "received" for `update()`.
+     */
+    void recordHlcAdvance(const std::string& type);
+
     // Generic metrics (for extensibility)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
+    void addToCounter(const std::string& name, int64_t amount, const std::map<std::string, std::string>& labels = {});
     void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
     void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
 
