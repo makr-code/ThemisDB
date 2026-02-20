@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <optional>
+#include "index/vector_index.h"
 
 namespace themis {
 
@@ -15,13 +16,15 @@ class VectorIndexManager;
  * 
  * v1.2.0 Feature: Reciprocal Rank Fusion (RRF) for RAG optimization
  * v1.3.0 Update: Real BM25 and Vector index integration
+ * v1.4.0 Update: Configurable vector metric, config validation, normalization fixes
  * 
  * Features:
  * - BM25 fulltext search with scoring
  * - Vector ANN search (HNSW)
  * - Reciprocal Rank Fusion (RRF) for result merging
- * - Linear combination fallback
- * - Score normalization
+ * - Linear combination fallback with pre-normalization
+ * - Score normalization with edge-case handling
+ * - Configurable vector distance metric (COSINE, DOT, L2)
  * 
  * Use Cases:
  * - RAG (Retrieval-Augmented Generation)
@@ -50,8 +53,8 @@ public:
         std::string default_table = "documents";
         std::string default_column = "content";
         
-        // TODO v1.4.0: Add vector_metric configuration
-        // VectorIndexManager::Metric vector_metric = VectorIndexManager::Metric::COSINE;
+        // Vector distance metric used for similarity conversion
+        VectorIndexManager::Metric vector_metric = VectorIndexManager::Metric::COSINE;
     };
     
     struct Result {

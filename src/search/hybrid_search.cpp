@@ -37,8 +37,25 @@ HybridSearch::HybridSearch(
     vector_index_(vector_index),
     config_(config) {
     
-    THEMIS_INFO("HybridSearch initialized (RRF={}, k={})", 
-                config_.use_rrf, config_.k);
+    if (config_.k == 0) {
+        throw std::invalid_argument("HybridSearch: Config::k must be > 0");
+    }
+    if (config_.rrf_k <= 0.0) {
+        throw std::invalid_argument("HybridSearch: Config::rrf_k must be > 0");
+    }
+    if (config_.bm25_weight < 0.0 || config_.vector_weight < 0.0) {
+        throw std::invalid_argument("HybridSearch: weights must be non-negative");
+    }
+    if (config_.default_table.empty()) {
+        throw std::invalid_argument("HybridSearch: Config::default_table must not be empty");
+    }
+    if (config_.default_column.empty()) {
+        throw std::invalid_argument("HybridSearch: Config::default_column must not be empty");
+    }
+
+    THEMIS_INFO("HybridSearch initialized (RRF={}, k={}, metric={})", 
+                config_.use_rrf, config_.k,
+                static_cast<int>(config_.vector_metric));
 }
 
 HybridSearch::~HybridSearch() = default;
@@ -96,11 +113,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     const auto& vec_result = vec_results[i];
                     Result r;
                     r.document_id = vec_result.pk;
-                    // Convert distance to similarity based on metric
-                    // Currently assumes COSINE - should be configurable in future versions
-                    // See: HybridSearch::Config::vector_metric (to be added)
+                    // Convert distance to similarity based on configured metric
                     r.vector_score = distanceToSimilarity(vec_result.distance, 
-                                                          VectorIndexManager::Metric::COSINE);
+                                                          config_.vector_metric);
                     r.vector_rank = static_cast<int>(i + 1);
                     vector_results.push_back(r);
                 }
@@ -114,8 +129,9 @@ std::vector<HybridSearch::Result> HybridSearch::search(
         }
     }
     
-    // Normalize scores if configured
-    if (config_.normalize_scores) {
+    // Normalize scores if configured (for RRF) or always for linear combination
+    // (linear combination requires comparable [0,1] scores for correct weighting)
+    if (config_.normalize_scores || !config_.use_rrf) {
         normalizeScores(bm25_results, true);
         normalizeScores(vector_results, false);
     }
@@ -243,6 +259,16 @@ void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
                 r.bm25_score = (r.bm25_score - min_score) / range;
             } else {
                 r.vector_score = (r.vector_score - min_score) / range;
+            }
+        }
+    } else {
+        // All scores are equal (single result or tied): set to 1.0 if score > 0, 0.0 otherwise
+        double normalized = (max_score > 0.0) ? 1.0 : 0.0;
+        for (auto& r : results) {
+            if (is_bm25) {
+                r.bm25_score = normalized;
+            } else {
+                r.vector_score = normalized;
             }
         }
     }
