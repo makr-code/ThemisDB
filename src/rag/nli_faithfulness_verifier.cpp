@@ -13,6 +13,17 @@
 #include <cmath>
 #include <regex>
 
+// Regex patterns compiled once at program startup to avoid per-call overhead.
+// Positive-complement phrases that begin with a negation word but express
+// addition or intensification rather than logical contradiction.
+static const std::regex kPositivePhrase(
+    R"(\b(?:not only|not just|not even|not yet|never before|no less)\b)",
+    std::regex::icase);
+// Remaining negation words (after kPositivePhrase has been removed).
+static const std::regex kNegationPattern(
+    R"(\b(?:not|never|no|false)\b)",
+    std::regex::icase);
+
 namespace themis::rag::judge {
 
 // ═══════════════════════════════════════════════════════════
@@ -86,13 +97,6 @@ struct NLIFaithfulnessVerifier::Impl {
         // "not yet", "not just", "not even") are excluded first to avoid false
         // positives that occur when a negation word opens a comparative or
         // additive phrase rather than expressing contradiction.
-        static const std::regex kPositivePhrase(
-            R"(\b(?:not only|not just|not even|not yet|never before|no less)\b)",
-            std::regex::icase);
-        static const std::regex kNegationPattern(
-            R"(\b(?:not|never|no|false)\b)",
-            std::regex::icase);
-
         std::string hyp_for_negation =
             std::regex_replace(hypothesis_lower, kPositivePhrase, " ");
         auto neg_begin = std::sregex_iterator(

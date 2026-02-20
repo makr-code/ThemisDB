@@ -40,6 +40,7 @@ namespace themis::rag::judge {
 struct GEvalEvaluator::Impl {
     Config config;
     std::shared_ptr<llm::InferenceEngineEnhanced> llm;
+    std::atomic<uint64_t> req_counter{0};  ///< Per-instance request ID counter
     
     Impl(const Config& cfg) : config(cfg) {
         // Initialize LLM engine with default config
@@ -163,13 +164,14 @@ struct GEvalEvaluator::Impl {
      * score level so that adjacent levels receive decreasing probability mass.
      */
     std::vector<double> probsFromScore(double score_1_to_5) const {
-        // Clamp score to [1, 5]
-        double s = std::max(1.0, std::min(5.0, score_1_to_5));
-        std::vector<double> probs(5, 0.0);
+        // Clamp score to [1, kNumScoreLevels]
+        double s = std::max(1.0, std::min(static_cast<double>(kNumScoreLevels),
+                                          score_1_to_5));
+        std::vector<double> probs(kNumScoreLevels, 0.0);
         double sum = 0.0;
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < static_cast<int>(kNumScoreLevels); ++i) {
             double diff = (i + 1) - s;
-            probs[i] = std::exp(-0.5 * diff * diff);  // Gaussian, σ = 1
+            probs[i] = std::exp(-0.5 * diff * diff);  // Gaussian, variance=1 (σ²=1)
             sum += probs[i];
         }
         for (auto& p : probs) p /= sum;
@@ -219,7 +221,6 @@ struct GEvalEvaluator::Impl {
             req.allow_caching = true;
             req.priority = 0;
 
-            static std::atomic<uint64_t> req_counter{0};
             req.request_id = "geval_" + std::to_string(req_counter.fetch_add(1));
 
             auto response = llm->submit(req).get();
@@ -232,7 +233,9 @@ struct GEvalEvaluator::Impl {
                 std::string tok;
                 size_t idx = 0;
                 while (iss >> tok && idx < response.logprobs.size()) {
-                    if (tok.size() == 1 && tok[0] >= '1' && tok[0] <= '5') {
+                    // kNumScoreLevels ≤ 9 so single-digit check is safe
+                    char max_digit = static_cast<char>('0' + kNumScoreLevels);
+                    if (tok.size() == 1 && tok[0] >= '1' && tok[0] <= max_digit) {
                         double parsed = static_cast<double>(tok[0] - '0');
                         return probsFromScore(parsed);
                     }
@@ -304,13 +307,13 @@ GEvalResult GEvalEvaluator::evaluate(
         result.sample_scores = sample_scores;
         
         // Average probabilities across samples
-        result.token_probabilities.resize(5, 0.0);
+        result.token_probabilities.resize(kNumScoreLevels, 0.0);
         for (const auto& probs : all_probabilities) {
-            for (size_t i = 0; i < 5; i++) {
+            for (size_t i = 0; i < kNumScoreLevels; i++) {
                 result.token_probabilities[i] += probs[i];
             }
         }
-        for (size_t i = 0; i < 5; i++) {
+        for (size_t i = 0; i < kNumScoreLevels; i++) {
             result.token_probabilities[i] /= impl_->config.num_samples;
         }
         
@@ -367,20 +370,22 @@ std::vector<double> GEvalEvaluator::extractTokenProbabilities(
 }
 
 double GEvalEvaluator::computeGEvalScore(const std::vector<double>& probabilities) {
-    if (probabilities.size() != 5) {
-        spdlog::warn("Expected 5 probabilities for levels 1-5, got {}", probabilities.size());
+    if (probabilities.size() != kNumScoreLevels) {
+        spdlog::warn("Expected {} probabilities for levels 1-{}, got {}",
+                     kNumScoreLevels, kNumScoreLevels, probabilities.size());
         return 0.5;  // Default to middle
     }
     
     // Compute expected value: E[score] = Σ(level × P(level))
     double expected_score = 0.0;
     for (size_t i = 0; i < probabilities.size(); i++) {
-        int level = i + 1;  // Levels 1-5
+        int level = static_cast<int>(i) + 1;
         expected_score += level * probabilities[i];
     }
     
-    // Normalize to 0-1 range: (score - 1) / (5 - 1)
-    double normalized = (expected_score - 1.0) / 4.0;
+    // Normalize to 0-1 range: (score - 1) / (kNumScoreLevels - 1)
+    double normalized = (expected_score - 1.0) /
+                        static_cast<double>(kNumScoreLevels - 1);
     
     // Clamp to valid range
     return std::max(0.0, std::min(1.0, normalized));
@@ -402,8 +407,8 @@ double GEvalEvaluator::computeConfidence(const std::vector<double>& probabilitie
         }
     }
     
-    // Maximum entropy for 5 levels
-    double max_entropy = std::log2(5.0);
+    // Maximum entropy for kNumScoreLevels levels
+    double max_entropy = std::log2(static_cast<double>(kNumScoreLevels));
     
     // Normalize: 0 entropy = 1 confidence, max entropy = 0 confidence
     double confidence = 1.0 - (entropy / max_entropy);

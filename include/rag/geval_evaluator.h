@@ -25,6 +25,9 @@ enum class AggregationMethod {
     MODE       ///< Most frequent score
 };
 
+/// Number of discrete score levels used in G-Eval (1 through kNumScoreLevels)
+static constexpr std::size_t kNumScoreLevels = 5;
+
 /**
  * @brief G-Eval evaluation result
  */
