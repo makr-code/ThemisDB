@@ -726,6 +726,43 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 	return 1.0;
 }
 
+std::optional<std::string> GraphIndexManager::getEdgeField(
+	std::string_view edgeId, std::string_view fieldName) const {
+	// Try both storage formats: "edge:<edgeId>" and, for in-memory topology keys,
+	// iterate over all known graphIds.  Prefer the format without graphId for
+	// simplicity (matches the common single-graph use-case).
+	const std::string edgeKey = std::string("edge:") + std::string(edgeId);
+	auto blob = db_.get(edgeKey);
+	if (!blob.has_value()) {
+		// Try the topology keys in the in-memory edge map to find a graphId
+		std::lock_guard<std::mutex> lk(topology_mutex_);
+		for (const auto& [from, adj_list] : outEdges_) {
+			for (const auto& adj : adj_list) {
+				if (adj.edgeId == edgeId && !adj.graphId.empty()) {
+					const std::string edgeKeyWithGid =
+						std::string("edge:") + adj.graphId + ":" + std::string(edgeId);
+					blob = db_.get(edgeKeyWithGid);
+					if (blob.has_value()) break;
+				}
+			}
+			if (blob.has_value()) break;
+		}
+	}
+	if (!blob.has_value()) return std::nullopt;
+
+	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+	return edge.getFieldAsString(fieldName);
+}
+
+std::optional<std::string> GraphIndexManager::getNodeField(
+	std::string_view vertexId, std::string_view fieldName) const {
+	const std::string nodeKey = KeySchema::makeGraphNodeKey(vertexId);
+	auto blob = db_.get(nodeKey);
+	if (!blob.has_value()) return std::nullopt;
+	BaseEntity vertex = BaseEntity::deserialize(std::string(vertexId), *blob);
+	return vertex.getFieldAsString(fieldName);
+}
+
 std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::string_view edgeId) const {
 	// Try both storage formats: with graphId (edge:<graphId>:<edgeId>) and without (edge:<edgeId>)
 	const std::string edgeKeyWithGid = std::string("edge:") + std::string(graphId) + ":" + std::string(edgeId);
