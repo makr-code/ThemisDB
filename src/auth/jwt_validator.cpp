@@ -268,19 +268,19 @@ bool JWTValidator::verifySignatureES256(const std::string& header_payload,
     r_bn.release();
     s_bn.release();
 
-    // Encode to DER
-    unsigned char* der_buf = nullptr;
-    int der_len = i2d_ECDSA_SIG(ecdsa_sig.get(), &der_buf);
-    if (der_len <= 0 || !der_buf) return false;
-    std::vector<uint8_t> der(der_buf, der_buf + der_len);
-    OPENSSL_free(der_buf);
+    // Encode to DER – use unique_ptr with OPENSSL_free to ensure cleanup even
+    // if an early-return path is added in the future.
+    unsigned char* der_raw = nullptr;
+    int der_len = i2d_ECDSA_SIG(ecdsa_sig.get(), &der_raw);
+    if (der_len <= 0 || !der_raw) return false;
+    std::unique_ptr<unsigned char, decltype(&OPENSSL_free)> der_buf(der_raw, &OPENSSL_free);
 
     // Verify using EVP_DigestVerify with SHA-256
     auto mctx = utils::make_evp_md_ctx();
     if (!mctx) return false;
     if (EVP_DigestVerifyInit(mctx.get(), nullptr, EVP_sha256(), nullptr, pkey.get()) != 1) return false;
     if (EVP_DigestVerifyUpdate(mctx.get(), header_payload.data(), header_payload.size()) != 1) return false;
-    return EVP_DigestVerifyFinal(mctx.get(), der.data(), (size_t)der_len) == 1;
+    return EVP_DigestVerifyFinal(mctx.get(), der_buf.get(), (size_t)der_len) == 1;
 }
 
 bool JWTValidator::checkAudience(const nlohmann::json& payload) const {

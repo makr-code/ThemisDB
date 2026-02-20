@@ -80,12 +80,16 @@ struct ECFixture {
             throw std::runtime_error("EC_KEY_generate_key failed");
         pkey = EVP_PKEY_new();
         if (!pkey) throw std::runtime_error("EVP_PKEY_new failed");
+        // EVP_PKEY_set1_EC_KEY increments ec_key's refcount; we keep our own
+        // reference so we can call EC_KEY_get0_public_key() directly on ec_key.
         if (EVP_PKEY_set1_EC_KEY(pkey, ec_key) != 1)
             throw std::runtime_error("EVP_PKEY_set1_EC_KEY failed");
     }
 
     ~ECFixture() {
-        if (pkey) EVP_PKEY_free(pkey);  // also frees ec_key reference
+        // Free our own ec_key reference (EVP_PKEY holds a separate reference)
+        if (ec_key) EC_KEY_free(ec_key);
+        if (pkey) EVP_PKEY_free(pkey);
     }
 
     // Extract raw x,y coordinates (32 bytes each for P-256)
@@ -93,7 +97,11 @@ struct ECFixture {
         const EC_GROUP* grp = EC_KEY_get0_group(ec_key);
         const EC_POINT* pt  = EC_KEY_get0_public_key(ec_key);
         BIGNUM* x = BN_new(); BIGNUM* y = BN_new();
-        EC_POINT_get_affine_coordinates_GFp(grp, pt, x, y, nullptr);
+        if (!x || !y) { BN_free(x); BN_free(y); throw std::runtime_error("BN_new failed"); }
+        if (EC_POINT_get_affine_coordinates_GFp(grp, pt, x, y, nullptr) != 1) {
+            BN_free(x); BN_free(y);
+            throw std::runtime_error("EC_POINT_get_affine_coordinates_GFp failed");
+        }
         std::vector<uint8_t> xb(32, 0), yb(32, 0);
         BN_bn2binpad(x, xb.data(), 32);
         BN_bn2binpad(y, yb.data(), 32);

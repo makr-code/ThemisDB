@@ -100,7 +100,6 @@ TEST_F(PolicyChangeAuditTest, AddPolicy_EmitsAuditEvent) {
 
     engine.addPolicy(makePolicy("p1"));
 
-    // Give the logger a moment (it is synchronous, but flush to file)
     EXPECT_GE(countMatching(log_path_, "POLICY_UPDATED"), 1u)
         << "Expected a POLICY_UPDATED event after addPolicy()";
 }
