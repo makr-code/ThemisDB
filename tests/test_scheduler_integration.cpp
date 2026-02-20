@@ -573,3 +573,171 @@ TEST_F(SchedulerIntegrationTest, OnFailureHookCalledAfterFailedExecution) {
     scheduler_->executeTaskNow(id);
     EXPECT_TRUE(hook_fired.load());
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 11. updateTask
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(SchedulerIntegrationTest, UpdateTaskChangesDescription) {
+    std::atomic<int> count{0};
+    std::string id = registerCountingTask(count, "updatable_task");
+
+    // Verify initial description
+    auto t_before = scheduler_->getTask(id);
+    ASSERT_NE(t_before, nullptr);
+
+    // Update
+    ScheduledTask updated = *t_before;
+    updated.description = "updated description";
+    scheduler_->updateTask(updated);
+
+    auto t_after = scheduler_->getTask(id);
+    ASSERT_NE(t_after, nullptr);
+    EXPECT_EQ(t_after->description, "updated description");
+}
+
+TEST_F(SchedulerIntegrationTest, UpdateTaskPreservesExecutionStats) {
+    std::atomic<int> count{0};
+    std::string id = registerCountingTask(count, "stats_preserve_task");
+
+    // Run a couple of times to build stats
+    scheduler_->executeTaskNow(id);
+    scheduler_->executeTaskNow(id);
+
+    auto t_before = scheduler_->getTask(id);
+    ASSERT_NE(t_before, nullptr);
+    EXPECT_EQ(t_before->total_executions, 2u);
+
+    // Update metadata only
+    ScheduledTask updated = *t_before;
+    updated.description = "after update";
+    scheduler_->updateTask(updated);
+
+    auto t_after = scheduler_->getTask(id);
+    ASSERT_NE(t_after, nullptr);
+    EXPECT_EQ(t_after->total_executions, 2u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 12. Function registration / unregistration
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(SchedulerIntegrationTest, UnregisteredFunctionReturnsErrorOnExecution) {
+    // Register a task that calls a function, then unregister the function
+    scheduler_->registerFunction("temp_fn", [](const nlohmann::json&) -> nlohmann::json {
+        return nlohmann::json{{"ok", true}};
+    });
+
+    ScheduledTask task;
+    task.name          = "temp_fn_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "temp_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;
+    task.max_retries   = 0;
+    std::string id = scheduler_->registerTask(task);
+
+    // Succeeds while function is registered
+    auto ok_result = scheduler_->executeTaskNow(id);
+    EXPECT_FALSE(ok_result.contains("error")) << ok_result.dump();
+
+    // Unregister the function
+    scheduler_->unregisterFunction("temp_fn");
+
+    // Now execution should fail
+    auto err_result = scheduler_->executeTaskNow(id);
+    EXPECT_TRUE(err_result.contains("error")) << err_result.dump();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 13. MANUAL-trigger task should not auto-execute in scheduler loop
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(SchedulerIntegrationTest, ManualTriggerTaskNotExecutedBySchedulerLoop) {
+    std::atomic<int> count{0};
+    scheduler_->registerFunction("manual_only_fn",
+        [&count](const nlohmann::json&) -> nlohmann::json {
+            ++count;
+            return {};
+        });
+
+    ScheduledTask task;
+    task.name          = "manual_only_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "manual_only_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::MANUAL;  // Manual only
+    scheduler_->registerTask(task);
+
+    scheduler_->start();
+    // Let the scheduler loop run for 3 ticks (check_interval=50ms → 150ms)
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    scheduler_->stop();
+
+    // Task should NOT have been auto-executed
+    EXPECT_EQ(count.load(), 0)
+        << "MANUAL trigger task must not be executed by the scheduler loop";
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 14. exportMetrics reflects disabled tasks
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(SchedulerIntegrationTest, ExportMetricsShowsDisabledTaskAsZero) {
+    std::atomic<int> count{0};
+    std::string id = registerCountingTask(count, "disable_metrics_task");
+
+    // Disable the task
+    scheduler_->disableTask(id);
+
+    auto text = scheduler_->exportMetrics();
+    // The task_enabled metric should show 0
+    EXPECT_NE(text.find("themis_scheduler_task_enabled"), std::string::npos) << text;
+    EXPECT_NE(text.find("disable_metrics_task"), std::string::npos) << text;
+    // The active tasks gauge should be 0
+    EXPECT_NE(text.find("themis_scheduler_tasks_active"), std::string::npos) << text;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 15. Scheduler lifecycle under rapid start/stop
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(SchedulerIntegrationTest, RapidStartStopDoesNotCrash) {
+    std::atomic<int> count{0};
+    scheduler_->registerFunction("rapid_fn",
+        [&count](const nlohmann::json&) -> nlohmann::json {
+            ++count;
+            return {};
+        });
+    ScheduledTask task;
+    task.name          = "rapid_task";
+    task.type          = ScheduledTask::TaskType::FUNCTION;
+    task.function_name = "rapid_fn";
+    task.trigger_type  = ScheduledTask::TriggerType::INTERVAL;
+    task.interval      = std::chrono::milliseconds(30);
+    scheduler_->registerTask(task);
+
+    for (int i = 0; i < 5; ++i) {
+        scheduler_->start();
+        std::this_thread::sleep_for(std::chrono::milliseconds(60));
+        scheduler_->stop();
+    }
+
+    // Should complete without crash or deadlock
+    SUCCEED();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 16. getStats total_executions aggregates across multiple tasks
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(SchedulerIntegrationTest, GetStatsTotalExecutionsAggregatesAllTasks) {
+    std::atomic<int> c1{0}, c2{0};
+    std::string id1 = registerCountingTask(c1, "agg_task_1");
+    std::string id2 = registerCountingTask(c2, "agg_task_2");
+
+    scheduler_->executeTaskNow(id1);
+    scheduler_->executeTaskNow(id1);
+    scheduler_->executeTaskNow(id2);
+
+    auto stats = scheduler_->getStats();
+    EXPECT_EQ(stats.total_executions, 3u);
+}

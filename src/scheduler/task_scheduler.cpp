@@ -558,6 +558,10 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
                 THEMIS_WARN("executeTaskNow task {} attempt {}/{} failed: {} (will retry)",
                             task_id, attempt + 1, max_attempts, e.what());
             }
+        } catch (...) {
+            last_error = "unknown non-exception thrown";
+            THEMIS_ERROR("executeTaskNow task {} threw non-exception type", task_id);
+            break;  // Non-std exceptions are never retried
         }
     }
 
@@ -961,6 +965,10 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 THEMIS_WARN("Task {} attempt {}/{} failed: {} (will retry)",
                             task->id, attempt + 1, max_attempts, e.what());
             }
+        } catch (...) {
+            last_error = "unknown non-exception thrown";
+            THEMIS_ERROR("Task {} threw non-exception type; no retry", task->id);
+            break;  // Non-std exceptions are never retried
         }
     }
     

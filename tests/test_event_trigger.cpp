@@ -600,3 +600,101 @@ TEST_F(EventTriggerTest, CircuitRemainsClosedOnSuccessfulCallbacks) {
     EXPECT_EQ(stats.callback_failures, 0u);
     EXPECT_EQ(call_count.load(), 5);
 }
+
+// ===== Additional condition and config tests =====
+
+TEST_F(EventTriggerTest, ConditionEndsWith) {
+    CDCTriggerConfig config;
+    config.key_prefix = "*";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    config.condition = R"(key ENDS_WITH ":admin")";
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    auto ev1 = makeEvent("users:admin");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);   // matches ENDS_WITH ":admin"
+
+    auto ev2 = makeEvent("users:alice");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);   // does NOT match
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, ConditionAndClause) {
+    CDCTriggerConfig config;
+    config.key_prefix = "*";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    // Must start with "orders:" AND contain "urgent"
+    config.condition = R"(key STARTS_WITH "orders:" AND key CONTAINS "urgent")";
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    // Both conditions satisfied
+    auto ev1 = makeEvent("orders:urgent:42");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    // Only first condition satisfied
+    auto ev2 = makeEvent("orders:normal:7");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    // Only second condition satisfied
+    auto ev3 = makeEvent("products:urgent:9");
+    ev3.timestamp_ms = 3000;
+    changefeed_->recordEvent(ev3);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    trigger.stop();
+
+    EXPECT_EQ(count.load(), 1);
+}
+
+TEST_F(EventTriggerTest, UpdateConfigAffectsSubsequentMatching) {
+    CDCTriggerConfig config;
+    config.key_prefix = "old_prefix:";
+    config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+
+    std::atomic<int> count{0};
+    auto cb = [&](const Changefeed::ChangeEvent&) { ++count; };
+
+    EventTrigger trigger(changefeed_.get(), config, cb);
+    trigger.start();
+
+    // Event matching old prefix – should NOT fire yet (trigger is on old_prefix:)
+    auto ev1 = makeEvent("new_prefix:item");
+    ev1.timestamp_ms = 1000;
+    changefeed_->recordEvent(ev1);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+    // Update config to new prefix
+    CDCTriggerConfig new_config;
+    new_config.key_prefix = "new_prefix:";
+    new_config.event_types.insert(Changefeed::ChangeEventType::EVENT_PUT);
+    trigger.updateConfig(new_config);
+
+    // Now an event matching the new prefix should fire
+    auto ev2 = makeEvent("new_prefix:widget");
+    ev2.timestamp_ms = 2000;
+    changefeed_->recordEvent(ev2);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    trigger.stop();
+
+    // Only ev2 should have triggered (ev1 was before config update)
+    EXPECT_EQ(count.load(), 1);
+}
