@@ -110,14 +110,22 @@ std::string LLMIntegration::generate(
         
         // Call token probability callback if provided
         if (options.token_callback && options.include_token_probabilities) {
-            // Simplified: derive pseudo tokens from response text
+            // Walk through response words; use logprobs from the response when
+            // available (InferenceResponse.logprobs stores per-token log-probs),
+            // otherwise fall back to a neutral default of 0.5.
             std::istringstream iss(response.text);
             std::string tok;
             size_t pos = 0;
             while (iss >> tok) {
                 TokenProbability tp;
                 tp.token = tok;
-                tp.probability = 0.8; // Placeholder probability
+                if (!response.logprobs.empty() && pos < response.logprobs.size()) {
+                    // logprobs are natural-log probabilities; convert to probability
+                    tp.probability = static_cast<double>(
+                        std::exp(response.logprobs[pos]));
+                } else {
+                    tp.probability = 0.5;  // neutral default when logprobs unavailable
+                }
                 tp.position = pos++;
                 options.token_callback(tp);
             }

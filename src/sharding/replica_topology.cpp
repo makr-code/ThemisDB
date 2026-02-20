@@ -62,6 +62,14 @@ bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
         if (item.contains("stripe_key")) {
             replica_set.stripe_key = item["stripe_key"].get<uint64_t>();
         }
+
+        // Parse geo placement metadata (for GEO_MIRROR and Raft placement)
+        if (item.contains("region")) {
+            replica_set.region = item["region"].get<std::string>();
+        }
+        if (item.contains("zone")) {
+            replica_set.zone = item["zone"].get<std::string>();
+        }
         
         replica_sets_[replica_set.shard_id] = replica_set;
     }

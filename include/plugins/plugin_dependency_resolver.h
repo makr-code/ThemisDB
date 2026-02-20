@@ -47,15 +47,16 @@ public:
     /**
      * @brief Build dependency graph from plugin entries
      * 
-     * @tparam PluginEntryType Type that has a .manifest field which contains
-     *         a .dependencies field (std::vector<std::string>)
+     * @tparam MapType Any map-like container (std::map or std::unordered_map)
+     *         whose mapped_type has a .manifest field with a
+     *         .dependencies field (std::vector<std::string>)
      *         Example: struct PluginEntry { PluginManifest manifest; ... }
      * @param plugins Map of plugin name to plugin entry
      * @return Complete dependency graph
      */
-    template<typename PluginEntryType>
+    template<typename MapType>
     static DependencyGraph buildGraph(
-        const std::map<std::string, PluginEntryType>& plugins
+        const MapType& plugins
     ) {
         DependencyGraph graph;
         

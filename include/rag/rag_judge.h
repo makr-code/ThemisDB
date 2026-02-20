@@ -149,6 +149,12 @@ struct RAGJudgeConfig {
     bool enable_citation_check = true;           ///< Check source attribution
     size_t max_claims_to_verify = 10;          ///< Limit for performance
     
+    // NEW: Quality Control Integration
+    bool use_llm_judge_client = false;           ///< Use new LLM Judge Client (requires InferenceEngineEnhanced)
+    bool use_nli_verifier = true;                ///< Use NLI model for claim verification
+    bool use_geval_scoring = false;              ///< Use G-Eval probabilistic scoring
+    bool use_quality_control_pipeline = false;   ///< Use full QC pipeline instead of basic judge
+    
     // Performance
     bool cache_evaluations = true;               ///< Cache results for identical inputs
     bool async_evaluation = false;               ///< Run evaluation asynchronously
@@ -330,6 +336,11 @@ private:
     bool verifyClaimAgainstDocuments(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
+    );
+    std::vector<std::string> tokenizeForMatching(const std::string& text);
+    double calculateTermOverlap(
+        const std::vector<std::string>& terms1,
+        const std::vector<std::string>& terms2
     );
     
     std::string generateEvaluationPrompt(

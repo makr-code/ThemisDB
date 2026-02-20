@@ -6,6 +6,7 @@
 #include "core/concerns/noop_implementations.h"
 #include "core/production_mode.h"
 #include "core/config_validator.h"
+#include "observability/metrics_collector.h"
 #include "utils/logger.h"
 
 namespace themis {
@@ -41,8 +42,10 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     auto logLevel = ILogger::levelFromString(config.logLevel);
     utils::Logger::init(config.logFile, static_cast<utils::Logger::Level>(
         static_cast<int>(logLevel)));
-    auto logger = std::make_unique<SpdlogLoggerAdapter>();
-    logger->setPattern(config.logPattern);
+    auto logger = std::make_unique<SpdlogLoggerAdapter>(nullptr, config.jsonLogging);
+    if (!config.jsonLogging) {
+        logger->setPattern(config.logPattern);
+    }
 
     // Initialize tracer
     std::unique_ptr<ITracer> tracer;
@@ -63,6 +66,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     // Initialize metrics
     std::unique_ptr<IMetrics> metrics;
     if (config.metricsEnabled) {
+        if (config.maxMetricCardinality > 0) {
+            observability::MetricsCollector::getInstance().setCardinalityLimit(config.maxMetricCardinality);
+        }
         metrics = std::make_unique<PrometheusMetricsAdapter>();
     } else {
         if (production_mode) {

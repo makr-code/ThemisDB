@@ -5,6 +5,12 @@
 namespace themis {
 namespace llm {
 
+// Rough estimate of characters per token.  This is model-dependent (e.g. ~3.5
+// for English prose in Llama-style tokenizers, 4 is a safe conservative
+// upper bound for ASCII text).  A future improvement is to expose this in
+// SchedulerConfig so operators can tune it per model.
+static constexpr size_t CHARS_PER_TOKEN_ESTIMATE = 4;
+
 ContinuousBatchScheduler::ContinuousBatchScheduler(
     const SchedulerConfig& config,
     PagedKVCache* kv_cache
@@ -39,6 +45,40 @@ std::string ContinuousBatchScheduler::submitRequest(
 ) {
     std::lock_guard<std::mutex> lock(mutex_);
     
+    // Enforce maximum queue depth (backpressure).  Measure combined depth of
+    // waiting queue + active requests so that the limit covers all in-flight
+    // work, not just the waiting queue alone.
+    if (config_.max_queue_depth > 0) {
+        size_t current_depth = waiting_queue_.size() + active_requests_.size();
+        if (current_depth >= config_.max_queue_depth) {
+            stats_.rejected_requests++;
+            if (metrics_collector_) {
+                metrics_collector_->recordBackpressureDrop();
+            }
+            spdlog::warn("ContinuousBatchScheduler: queue full ({}/{}) — request rejected (backpressure)",
+                         current_depth, config_.max_queue_depth);
+            return {};  // Empty string signals rejection to caller
+        }
+    }
+
+    // Per-user / per-model token quota check.  Estimated prompt tokens are
+    // charged here (conservative pre-charge); actual tokens should also be
+    // consumed via quota_manager_->consume() after the response is ready.
+    if (quota_manager_) {
+        const std::string& user_id  = request.request_id;  // best available key at ingestion
+        const std::string& model_id = request.model_id;
+        const size_t estimated = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE + request.max_tokens;
+        auto qr = quota_manager_->check(user_id, model_id, estimated);
+        if (!qr.allowed) {
+            stats_.rejected_requests++;
+            spdlog::warn("ContinuousBatchScheduler: quota exceeded — {}",
+                         qr.reason);
+            return {};
+        }
+        // Pre-charge the estimated tokens; callers should adjust via consume()
+        quota_manager_->consume(user_id, model_id, estimated);
+    }
+    
     auto scheduled = std::make_shared<ScheduledRequest>();
     scheduled->request_id = generateRequestId();
     scheduled->inference_request = request;
@@ -49,7 +89,7 @@ std::string ContinuousBatchScheduler::submitRequest(
     scheduled->sequence_id = next_sequence_id_.fetch_add(1, std::memory_order_relaxed);
     
     // Estimate prompt tokens (simplified)
-    scheduled->total_prompt_tokens = request.prompt.length() / 4;  // Rough estimate
+    scheduled->total_prompt_tokens = request.prompt.length() / CHARS_PER_TOKEN_ESTIMATE;
     
     // Add to queue and lookup
     waiting_queue_.push(scheduled);
@@ -197,6 +237,14 @@ ContinuousBatchScheduler::scheduleNextBatch() {
     stats_.current_batch_size = batch.size();
     stats_.max_batch_size_seen = std::max(stats_.max_batch_size_seen, batch.size());
     stats_.active_requests = active_requests_.size();
+    stats_.current_queue_depth = waiting_queue_.size() + active_requests_.size();
+    
+    // Emit queue-length metric so Prometheus/Grafana can visualise scheduler
+    // pressure in real time.  Called under the scheduler lock so the value is
+    // consistent with stats_.current_queue_depth.
+    if (metrics_collector_) {
+        metrics_collector_->recordQueueLength(stats_.current_queue_depth);
+    }
     
     auto end_time = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
