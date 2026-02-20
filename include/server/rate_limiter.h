@@ -38,14 +38,14 @@ struct RateLimitConfig {
     std::unordered_map<std::string, size_t> custom_limits;
 
     // ── Adaptive throttling ──────────────────────────────────────────────
-    // When an IP exceeds adaptive_rejection_threshold consecutive rejections
-    // within adaptive_window_seconds, its token-bucket refill rate is
-    // multiplied by adaptive_penalty_factor (e.g. 0.5 = halved).
+    // When an IP exceeds adaptive_rejection_threshold rejections within
+    // adaptive_window_seconds, each subsequent request must consume
+    // 2 tokens instead of 1 (2x harder to pass) during the penalty window.
     // The penalty is removed after adaptive_penalty_duration_seconds.
     bool adaptive_throttling_enabled = false;
     uint32_t adaptive_rejection_threshold = 10;   ///< rejections that trigger penalty
     uint32_t adaptive_window_seconds      = 60;   ///< rolling window for counting
-    double   adaptive_penalty_factor      = 0.25; ///< 0 < factor < 1
+    double   adaptive_penalty_factor      = 0.25; ///< reserved for future use
     uint32_t adaptive_penalty_duration_seconds = 120; ///< how long the penalty lasts
 };
 

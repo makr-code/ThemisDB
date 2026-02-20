@@ -124,7 +124,7 @@ TEST_F(PolicyHotReloadTest, ReloadIfChanged_PolicyRemoved_NoLongerEvaluated) {
 
     ASSERT_TRUE(pe.reloadIfChanged());
 
-    // Now there are no policies matching admin/read//secrets → default allow
+    // Now there are no policies matching admin/read/secrets → default allow
     auto d2 = pe.authorize("admin", "read", "/secrets/config");
     EXPECT_TRUE(d2.allowed);  // default when no policies match
 }

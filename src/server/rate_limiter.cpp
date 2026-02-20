@@ -187,7 +187,7 @@ bool RateLimiter::allowRequest(const std::string& ip, const std::string& user_id
                 entry.rejection_times.clear();
                 THEMIS_INFO("Adaptive throttle penalty expired for IP: {}", ip);
             } else {
-                // Still penalised: consume two tokens (makes it ~4x harder to pass)
+                // Still penalised: consume two tokens (2x harder to pass)
                 auto bucket = getOrCreateBucket(ip, ip_buckets_);
                 ip_last_access_[ip] = now;
                 bool passed = bucket->tryConsume(2);
