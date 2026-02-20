@@ -35,6 +35,7 @@ public:
     std::atomic<bool> is_trained{false};
     std::atomic<int64_t> total_queries{0};
     std::atomic<int64_t> successful_queries{0};
+    std::atomic<int64_t> total_latency_us{0};  ///< Cumulative query latency in microseconds
     
     // Feedback storage
     std::vector<FeedbackItem> feedback_buffer;
@@ -161,12 +162,18 @@ public:
             // Update statistics
             total_queries++;
             successful_queries++;
-            
+            auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now() - start).count();
+            total_latency_us += elapsed_us;
+
             return response;
-            
+
         } catch (const std::exception& e) {
             spdlog::error("Query failed: {}", e.what());
             total_queries++;
+            auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now() - start).count();
+            total_latency_us += elapsed_us;
             return "Error: Failed to process your question. Please try again.";
         }
     }
@@ -451,8 +458,10 @@ PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
     metrics.successful_queries = successful;
     metrics.failed_queries = failed;
     metrics.success_rate = success_rate;
-    metrics.average_latency_ms = 0.0;  // TODO: Track actual latency
-    metrics.cache_hit_rate = 0.0;      // TODO: Implement caching
+    metrics.average_latency_ms = (total > 0)
+        ? static_cast<double>(impl_->total_latency_us.load()) / total / 1000.0
+        : 0.0;
+    metrics.cache_hit_rate = 0.0;  // No response cache implemented yet
     
     return metrics;
 }

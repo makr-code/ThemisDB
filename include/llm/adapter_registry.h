@@ -257,11 +257,15 @@ private:
     static constexpr const char* ADAPTER_KEY_PREFIX = "adapter:";
     static constexpr const char* BASE_MODEL_INDEX_PREFIX = "adapter_by_base_model:";
     static constexpr const char* DOMAIN_INDEX_PREFIX = "adapter_by_domain:";
-    
+
+    // Pimpl for in-memory storage (thread-safe via mutex)
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
+
     std::string makeAdapterKey(const std::string& adapter_id) const;
     std::string makeBaseModelIndexKey(const std::string& base_model) const;
     std::string makeDomainIndexKey(const std::string& domain) const;
-    
+
     // Helper: Update indices when adapter is registered/updated/deleted
     void updateIndices(const AdapterMetadata& metadata, bool remove = false);
 };

@@ -1,6 +1,8 @@
 #include "llm/paged_kv_cache_manager.h"
 #include <algorithm>
 #include <stdexcept>
+#include <unordered_set>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -210,9 +212,28 @@ PagedKVCacheManager::getBlockInfo(int block_id) const {
 }
 
 size_t PagedKVCacheManager::defragment() {
-    // Stub implementation - would compact memory
-    // In production, would reorganize blocks to reduce fragmentation
-    return 0;
+    // Identify blocks that have zero references but are not yet in free_block_ids_.
+    // These occur when ref_count reaches zero through decrements but the block
+    // was not returned to the free list (e.g., if releaseBlock was not called).
+    // Build a fast lookup of currently known free blocks.
+    std::unordered_set<int> known_free(free_block_ids_.begin(), free_block_ids_.end());
+
+    size_t reclaimed = 0;
+    for (const auto& block : blocks_) {
+        if (block.ref_count.load() == 0 &&
+            !block.is_pinned &&
+            known_free.find(block.block_id) == known_free.end()) {
+            free_block_ids_.push_back(block.block_id);
+            known_free.insert(block.block_id);
+            ++reclaimed;
+        }
+    }
+
+    if (reclaimed > 0) {
+        spdlog::debug("PagedKVCacheManager::defragment: reclaimed {} unreferenced blocks",
+                      reclaimed);
+    }
+    return reclaimed;
 }
 
 int PagedKVCacheManager::getFreeBlock() {

@@ -125,7 +125,7 @@ struct GEvalEvaluator::Impl {
             
             if (!found) {
                 spdlog::warn("Could not find token for score '{}'", score_str);
-                score_tokens.push_back(-1);  // Placeholder
+                score_tokens.push_back(-1);  // Token not in vocabulary; skip during probability extraction
             }
         }
         

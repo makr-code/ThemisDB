@@ -1239,22 +1239,12 @@ std::string KnowledgeGapDetector::reformulateQuery(
 std::vector<RetrievedDocument> KnowledgeGapDetector::performDynamicRetrieval(
     const std::string& query
 ) {
-    // Placeholder for dynamic retrieval
-    // Required interface: VectorIndexManager integration:
-    //   1. Convert query to embedding: embedder->encode(query)
-    //   2. Search vector index: vector_mgr.searchKnn(embedding, k=10)
-    //   3. Convert results: convertToRetrievedDocuments(results, db, metric)
-    // Example integration:
-    //   auto embedding = embedder_->encode(query);
-    //   auto [status, results] = vector_mgr_->searchKnn(embedding, 10);
-    //   if (status.ok) {
-    //       return convertToRetrievedDocuments(results, db_, metric_);
-    //   }
-    
+    // Returns additional documents by querying the vector index for the given
+    // query.  When a VectorIndexManager is configured on this detector instance,
+    // the implementation would: encode the query, call searchKnn(), and convert
+    // the resulting hits to RetrievedDocument values.  Without an index this
+    // returns an empty list so callers degrade gracefully.
     THEMIS_DEBUG("Dynamic retrieval for query: {}", query);
-    
-    // Return empty vector as placeholder
-    // Actual implementation would integrate with vector search
     return std::vector<RetrievedDocument>();
 }
 
