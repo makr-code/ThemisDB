@@ -4,13 +4,13 @@
 
 ThemisDB verfügt über eine umfassende Test- und Benchmark-Abdeckung:
 
-| Kategorie | Anzahl | Beschreibung |
-|-----------|--------|-------------|
-| **C++ Benchmarks** | **122** | Google Benchmark – in `benchmarks/` |
-| **C++ Tests** | **732** | Google Test – in `tests/` |
-| **Go Client Tests** | **4** | Unit/Integration – in `clients/go/` |
-| **Go Client Benchmarks** | **2** | Benchmarks – in `clients/go/` |
-| **Python Tools/Scripts** | **9+** | Tools, Analyse-Skripte |
+| Kategorie | Dateien | Funktionen | Beschreibung |
+|-----------|---------|-----------|-------------|
+| **C++ Benchmarks** | **122** | **1.108** | Google Benchmark – in `benchmarks/` |
+| **C++ Tests** | **732** | **10.436** | Google Test – in `tests/` |
+| **Go Client Tests** | **4** | **40** | Unit/Integration – in `clients/go/` |
+| **Go Client Benchmarks** | **2** | **25** | Benchmarks – in `clients/go/` |
+| **Python Tools/Scripts** | **9+** | – | Tools, Analyse-Skripte |
 
 Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](TEST_AND_BENCHMARK_INVENTORY.md)
 

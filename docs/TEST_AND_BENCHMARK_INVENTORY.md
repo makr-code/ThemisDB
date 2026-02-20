@@ -8,20 +8,22 @@
 
 ## Übersicht
 
-| Kategorie | Anzahl Dateien | Status |
-|-----------|---------------|--------|
-| C++ Benchmarks (Google Benchmark) | 122 | ✅ Vollständig |
-| C++ Tests (Google Test) | 732 | ✅ Vollständig |
-| Go Client Tests & Benchmarks | 4 Test-Dateien + 2 Benchmark-Dateien | ✅ Vollständig |
-| Python Skripte & Tools | 9 | ✅ Vollständig |
-| Python Unit Tests | 1 | ✅ Vollständig |
-| **Gesamt** | **872+** | ✅ |
+| Kategorie | Dateien | Funktionen/Test-Fälle | Status |
+|-----------|---------|----------------------|--------|
+| C++ Benchmarks (Google Benchmark) | 122 | 1.108 | ✅ Vollständig |
+| C++ Tests (Google Test) | 732 | 10.436 | ✅ Vollständig |
+| Go Client Tests & Benchmarks | 4 Test-Dateien + 2 Benchmark-Dateien | 40 Tests + 25 Benchmarks | ✅ Vollständig |
+| Python Skripte & Tools | 9 | – | ✅ Vollständig |
+| Python Unit Tests | 1 | – | ✅ Vollständig |
+| **Gesamt** | **872+** | **~11.609 Test-Fälle & Benchmarks** | ✅ |
 
 ---
 
 ## 1. C++ Benchmarks (Google Benchmark)
 
 Alle Benchmark-Dateien befinden sich in `benchmarks/`.
+
+**Gesamt: 122 Dateien mit 1.108 Benchmark-Funktionen** (gezählt als `BENCHMARK(…)` / `BENCHMARK_F(…)` Makros, ohne `BENCHMARK_MAIN`)
 
 ### 1.1 Core-Datenbankoperationen
 
@@ -248,13 +250,15 @@ Alle Test-Dateien befinden sich in `tests/`.
 
 ### Zusammenfassung
 
-| Kategorie | Anzahl |
-|-----------|--------|
-| Unit Tests | ~600 |
-| Integration Tests | ~80 |
-| Performance Tests | ~30 |
-| Fuzzing Tests (`fuzz/`) | Separate Suite |
-| **Gesamt** | **732** |
+| Kategorie | Dateien | Test-Funktionen |
+|-----------|---------|----------------|
+| Unit Tests | ~620 | ~9.000 |
+| Integration Tests | ~80 | ~1.200 |
+| Performance Tests | ~30 | ~236 |
+| Fuzzing Tests (`fuzz/`) | Separate Suite | – |
+| **Gesamt** | **732** | **10.436** |
+
+> Gezählt als Anzahl der `TEST(…)`, `TEST_F(…)` und `TEST_P(…)` Makros in `tests/`.
 
 ### Wichtige Test-Module
 
@@ -280,7 +284,9 @@ Alle Test-Dateien befinden sich in `tests/`.
 
 Alle Dateien befinden sich in `clients/go/`.
 
-### 3.1 Test-Dateien
+**Gesamt: 40 Test-Funktionen (`func Test…`) + 25 Benchmark-Funktionen (`func Benchmark…`)**
+
+### 3.1 Test-Dateien (40 Test-Funktionen)
 
 | Datei | Beschreibung | Test-Typ |
 |-------|-------------|---------|
@@ -289,7 +295,7 @@ Alle Dateien befinden sich in `clients/go/`.
 | `tls_config_test.go` | TLS-Konfiguration & Zertifikate | Unit Test |
 | `client_rest_test.go` | REST API Client Tests | Integration Test |
 
-### 3.2 Benchmark-Dateien
+### 3.2 Benchmark-Dateien (25 Benchmark-Funktionen)
 
 | Datei | Beschreibung | Metriken |
 |-------|-------------|---------|

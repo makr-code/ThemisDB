@@ -482,11 +482,20 @@ Um den Fortschritt zu messen, sollten folgende Metriken erfasst werden:
 - **Source-Module:** 23
 
 ### Stand Februar 2026 (Aktualisiertes Audit)
+
+**Dateien:**
 - **C++ Benchmark-Dateien:** 122 (Google Benchmark) in `benchmarks/`
 - **C++ Test-Dateien:** 732 (Google Test) in `tests/`
 - **Go Client Test-Dateien:** 4 Unit/Integration + 2 Benchmarks in `clients/go/`
 - **Python Skripte & Tools:** 9+ in `tools/`, `scripts/`, `benchmarks/chimera/`
 - **Source-Module:** 39
+
+**Funktionen/Test-Fälle (gezählt):**
+- **C++ Benchmark-Funktionen:** 1.108 (`BENCHMARK(…)` / `BENCHMARK_F(…)`)
+- **C++ Test-Funktionen:** 10.436 (`TEST(…)` / `TEST_F(…)` / `TEST_P(…)`)
+- **Go Test-Funktionen:** 40 (`func Test…`)
+- **Go Benchmark-Funktionen:** 25 (`func Benchmark…`)
+- **Gesamt Test-Fälle & Benchmarks:** ~11.609
 - **Gesamtabdeckungsrate:** ~85% (Line Coverage, geschätzt)
 
 Vollständige Inventur: [TEST_AND_BENCHMARK_INVENTORY.md](../../TEST_AND_BENCHMARK_INVENTORY.md)
