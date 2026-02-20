@@ -82,6 +82,24 @@ public:
     // Reset all metrics (for testing)
     void reset();
 
+    // ===== Cardinality control =====
+    /**
+     * @brief Set the maximum number of unique label-set combinations per metric
+     *        name.  When the limit is reached, new series are silently dropped
+     *        and a counter is incremented.  Set to 0 to disable.
+     */
+    void setCardinalityLimit(size_t limit);
+    size_t getCardinalityLimit() const;
+
+    /** Returns the number of metric observations dropped due to cardinality overflow. */
+    int64_t getDroppedSeriesCount() const;
+
+    // ===== Exporter health =====
+    /** Record a transient failure contacting an exporter (OTLP, Pushgateway, etc.). */
+    void recordExporterFailure(const std::string& exporter_name);
+    /** Record that an exporter has recovered after previous failures. */
+    void recordExporterRecovery(const std::string& exporter_name);
+
 private:
     MetricsCollector() = default;
     ~MetricsCollector() = default;
@@ -89,6 +107,13 @@ private:
     friend class LatencyTracker;
     mutable std::mutex mutex_;
     
+    // Cardinality limit (0 = disabled)
+    size_t cardinality_limit_ = 0;
+    // Per-metric-name series tracking for cardinality enforcement
+    std::map<std::string, size_t> series_count_per_metric_;
+    // Total observations dropped due to cardinality overflow
+    std::atomic<int64_t> dropped_series_{0};
+
     // Counters (monotonically increasing)
     std::map<std::string, std::atomic<int64_t>> counters_;
     
@@ -112,6 +137,15 @@ private:
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
     void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
     void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Check whether a new series (name + labels combination) is allowed
+     *        by the cardinality limit.  Returns true if the observation should
+     *        proceed, false if it should be dropped.
+     *
+     * Caller MUST hold mutex_ before calling this.
+     */
+    bool checkCardinality(const std::string& name, const std::string& key);
     
     std::string makeKey(const std::string& name, const std::map<std::string, std::string>& labels) const;
     std::string formatLabels(const std::map<std::string, std::string>& labels) const;
