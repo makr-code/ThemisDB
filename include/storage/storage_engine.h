@@ -58,27 +58,32 @@ public:
      *
      * All latency fields are in **microseconds**.  Counters are monotonically
      * increasing from the moment the engine was last opened.
+     *
+     * **Sentinel values for min latency fields:**
+     * `put_latency_min_us`, `get_latency_min_us`, and `del_latency_min_us` are
+     * initialised to `UINT64_MAX` (no operations observed yet).  Callers should
+     * check the corresponding `_ops` counter and treat `UINT64_MAX` as "no data".
      */
     struct IOMetrics {
         // ── put ──────────────────────────────────────────────────────────
         uint64_t put_ops{0};           ///< Total successful put() calls
         uint64_t put_errors{0};        ///< Total failed put() calls
         uint64_t put_latency_us{0};    ///< Cumulative latency of successful puts (µs)
-        uint64_t put_latency_min_us{UINT64_MAX}; ///< Min put latency (µs); UINT64_MAX if none
+        uint64_t put_latency_min_us{UINT64_MAX}; ///< Min put latency (µs); UINT64_MAX = no data
         uint64_t put_latency_max_us{0};          ///< Max put latency (µs)
 
         // ── get ──────────────────────────────────────────────────────────
         uint64_t get_ops{0};
         uint64_t get_errors{0};
         uint64_t get_latency_us{0};
-        uint64_t get_latency_min_us{UINT64_MAX};
+        uint64_t get_latency_min_us{UINT64_MAX}; ///< UINT64_MAX = no data
         uint64_t get_latency_max_us{0};
 
         // ── del ──────────────────────────────────────────────────────────
         uint64_t del_ops{0};
         uint64_t del_errors{0};
         uint64_t del_latency_us{0};
-        uint64_t del_latency_min_us{UINT64_MAX};
+        uint64_t del_latency_min_us{UINT64_MAX}; ///< UINT64_MAX = no data
         uint64_t del_latency_max_us{0};
 
         /** Average put latency in microseconds (0 if no puts yet). */

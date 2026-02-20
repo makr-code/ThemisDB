@@ -86,7 +86,11 @@ protected:
         ASSERT_FALSE(latest.empty());
         std::fstream f(latest, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(f.is_open());
-        f.seekp(8); // skip magic + sequence number, land in the middle of first entry
+        // Offset 8 is mid-entry: past the 4-byte magic but within the 8-byte
+        // sequence number, so the sequence field is corrupted.  Since the
+        // CRC check covers magic+seq+type+klen+vlen+key+value, corrupting
+        // any of these bytes causes replay to stop at this entry.
+        f.seekp(8);
         char bad = '\xFF';
         f.write(&bad, 1);
     }

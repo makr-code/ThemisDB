@@ -97,10 +97,13 @@ TEST_F(IOMetricsTest, Put_MinMaxMonotone) {
         ASSERT_TRUE(engine_->put("key_" + std::to_string(i), "val").has_value());
     }
     auto m = engine_->ioMetrics();
+    ASSERT_GT(m.put_ops, 0u);
+    // min ≤ avg: min is the smallest individual measurement, avg is the mean
+    EXPECT_LE(static_cast<double>(m.put_latency_min_us), m.avg_put_latency_us());
+    // avg ≤ max: average cannot exceed the largest individual measurement
+    EXPECT_LE(m.avg_put_latency_us(), static_cast<double>(m.put_latency_max_us));
+    // Sanity: min ≤ max
     EXPECT_LE(m.put_latency_min_us, m.put_latency_max_us);
-    double avg = m.avg_put_latency_us();
-    EXPECT_GE(avg, static_cast<double>(m.put_latency_min_us) - 1.0);
-    EXPECT_LE(avg, static_cast<double>(m.put_latency_max_us) + 1.0);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

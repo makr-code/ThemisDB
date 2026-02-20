@@ -8,12 +8,12 @@
 #include "storage/backup_manager.h"
 #include "storage/rocksdb_wrapper.h"
 
+#include <algorithm>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <string>
-#include <thread>
 #include <vector>
 
 namespace fs = std::filesystem;
@@ -171,18 +171,19 @@ TEST_F(SnapshotTest, ListSnapshots_AfterCreate_ReturnsOne) {
 
 TEST_F(SnapshotTest, ListSnapshots_MultipleSnapshots_ReturnsSorted) {
     seedData();
-    // Small sleep between snapshots to get different timestamps in names
     ASSERT_TRUE(mgr_->createSnapshot("snap_a").has_value());
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     ASSERT_TRUE(mgr_->createSnapshot("snap_b").has_value());
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     ASSERT_TRUE(mgr_->createSnapshot("snap_c").has_value());
 
     auto r = mgr_->listSnapshots();
     ASSERT_TRUE(r.has_value());
-    EXPECT_EQ(r->size(), 3u);
-    // Should be sorted alphabetically (= chronologically since names embed timestamps)
+    ASSERT_EQ(r->size(), 3u);
+    // Verify the list is sorted and contains distinct paths
     EXPECT_TRUE(std::is_sorted(r->begin(), r->end()));
+    // All paths must be unique
+    for (size_t i = 0; i + 1 < r->size(); ++i) {
+        EXPECT_NE((*r)[i], (*r)[i + 1]) << "Snapshot paths must be distinct";
+    }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
