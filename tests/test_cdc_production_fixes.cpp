@@ -114,11 +114,11 @@ TEST_F(CDCProductionFixesTest, AtomicSequenceGenerationUnderConcurrency) {
     }
     
     // Verify all sequences are unique (no race condition in sequence generation)
-    EXPECT_EQ(all_sequences.size(), total_events) 
+    EXPECT_EQ(all_sequences.size(), static_cast<size_t>(total_events)) 
         << "Found duplicate sequences! Race condition in sequence generation.";
     
     // Verify sequences are contiguous (no gaps)
-    if (all_sequences.size() == total_events) {
+    if (all_sequences.size() == static_cast<size_t>(total_events)) {
         uint64_t min_seq = *all_sequences.begin();
         uint64_t max_seq = *all_sequences.rbegin();
         EXPECT_EQ(max_seq - min_seq + 1, total_events)
@@ -265,7 +265,7 @@ TEST_F(CDCProductionFixesTest, CompressionErrorHandling) {
     buffer.stop();
     
     // All events should succeed (compression failures fall back to uncompressed)
-    EXPECT_EQ(successful, payloads.size());
+    EXPECT_EQ(successful, static_cast<int>(payloads.size()));
 }
 
 TEST_F(CDCProductionFixesTest, DecompressionErrorHandling) {

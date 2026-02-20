@@ -261,11 +261,13 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                 stats_.retry_attempts++;
                 
                 if (retry_count <= config_.max_retry_attempts) {
-                    // Calculate backoff duration
+                    // Calculate backoff duration with maximum cap
                     auto backoff = config_.retry_backoff_ms;
                     if (config_.exponential_backoff && retry_count > 1) {
+                        // Cap exponential backoff to prevent overflow (max 30 seconds)
+                        int exponent = std::min(retry_count - 1, 8);  // 2^8 = 256
                         backoff = std::chrono::milliseconds(
-                            config_.retry_backoff_ms.count() * (1 << (retry_count - 1))
+                            std::min(config_.retry_backoff_ms.count() * (1 << exponent), 30000LL)
                         );
                     }
                     
@@ -277,7 +279,7 @@ size_t ChangefeedBuffer::flushBuffer(Changefeed::ChangeEventType event_type, Eve
                     THEMIS_ERROR("Failed to record event after {} attempts: {}", retry_count, e.what());
                     stats_.retry_failures++;
                     stats_.flush_errors++;
-                    failed++;
+                    // Note: failed++ will be done below if !recorded
                 }
             }
         }
