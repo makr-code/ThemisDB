@@ -92,7 +92,7 @@ if (plan.has_value()) {
 
 ### Supported Constraint Types
 
-PathConstraints supports 12 constraint types for flexible path finding:
+PathConstraints supports 14 constraint types for flexible path finding:
 
 1. **MIN_LENGTH** - Minimum number of nodes in path
    ```cpp
@@ -148,8 +148,10 @@ PathConstraints supports 12 constraint types for flexible path finding:
 
 11. **NODE_PROPERTY** - Node must have specific properties
     ```cpp
-    // API defined; vertex property store not yet available in current storage model.
-    // Planned for a future release.
+    // ✅ Implemented (v1.7.0)
+    // addNodePropertyConstraint(field_name, expected_value) prunes next-nodes
+    // during BFS traversal and validates on complete paths.
+    constraints.addNodePropertyConstraint("country", "USA");
     ```
 
 12. **EDGE_PROPERTY** - Edge must have specific properties
@@ -158,6 +160,20 @@ PathConstraints supports 12 constraint types for flexible path finding:
     // addEdgePropertyConstraint(field_name, expected_value) prunes edges
     // during BFS and validates on complete paths.
     constraints.addEdgePropertyConstraint("type", "follows");
+    ```
+
+13. **MAX_WEIGHT** - Total path weight must not exceed threshold
+    ```cpp
+    // ✅ Implemented (v1.7.0)
+    // BFS prunes states whose accumulated edge-weight cost exceeds the threshold.
+    constraints.addMaxWeight(100.0);
+    ```
+
+14. **MIN_WEIGHT** - Total path weight must meet minimum threshold
+    ```cpp
+    // ✅ Implemented (v1.7.0)
+    // Completed paths whose total weight is below the threshold are rejected.
+    constraints.addMinWeight(10.0);
     ```
 
 ### Algorithm Details
@@ -283,8 +299,11 @@ GraphAnalytics analytics(graph_manager);
 ## Implementation Notes
 
 ### Path Constraints Implementation
-- ✅ Constraint validation (all types including EDGE_PROPERTY)
+- ✅ Constraint validation (all 14 types: MIN_LENGTH, MAX_LENGTH, FORBIDDEN_NODE, REQUIRED_NODE, FORBIDDEN_EDGE, REQUIRED_EDGE, NO_CYCLES, UNIQUE_NODES, UNIQUE_EDGES, CUSTOM_PREDICATE, NODE_PROPERTY, EDGE_PROPERTY, MAX_WEIGHT, MIN_WEIGHT)
 - ✅ EDGE_PROPERTY: `addEdgePropertyConstraint(key, value)` – early pruning in BFS + `validatePath`
+- ✅ NODE_PROPERTY: `addNodePropertyConstraint(key, value)` – early pruning in BFS + `validatePath`
+- ✅ MAX_WEIGHT: BFS prunes states whose accumulated cost exceeds threshold
+- ✅ MIN_WEIGHT: completed paths below the threshold are rejected at acceptance
 - ✅ Constrained BFS traversal with early termination
 - ✅ Integration with GraphQueryOptimizer
 - ✅ Integration tests and validation
@@ -385,8 +404,41 @@ queries executed since the optimizer was constructed:
 | `total_edges_traversed` | `std::atomic<uint64_t>` | Cumulative edges traversed |
 | `plan_cache_hits` | `std::atomic<uint64_t>` | Plan-cache hits |
 | `plan_cache_misses` | `std::atomic<uint64_t>` | Plan-cache misses |
+| `latency_histogram` | `LatencyHistogram` | 10-bucket fixed-width histogram (ms: 1,5,10,25,50,100,250,500,1000,+Inf) |
 
 Computed helpers: `avgExecutionTimeMs()`, `errorRate()`.
+
+**Latency percentiles:**
+```cpp
+const auto& hist = optimizer.getQueryMetrics().latency_histogram;
+double p50 = hist.percentileMs(0.50); // approximate median
+double p99 = hist.percentileMs(0.99); // approximate p99
+```
+
+### Prometheus Scrape Endpoint (`GET /api/v1/graph/metrics/prometheus`)
+
+Returns metrics in **Prometheus text exposition format** (`text/plain; version=0.0.4`) for
+direct Prometheus scraping without a custom exporter:
+
+```
+themis_graph_queries_total 42
+themis_graph_query_errors_total 1
+themis_graph_latency_ms_bucket{le="1"} 5
+...
+themis_graph_latency_ms_bucket{le="+Inf"} 42
+themis_graph_latency_p99_ms 87.500000
+```
+
+### Query Rate Limiter
+
+`setMaxQueriesPerSecond(uint32_t)` limits the maximum number of graph queries
+per second across all five execute methods. Excess queries return
+`ERR_GRAPH_RATE_LIMIT_EXCEEDED` (6406) immediately:
+
+```cpp
+optimizer.setMaxQueriesPerSecond(200); // 200 QPS limit
+optimizer.setMaxQueriesPerSecond(0);   // disable (default)
+```
 
 ### Admin API Endpoint (`GET /api/v1/graph/metrics`)
 
@@ -439,8 +491,20 @@ Comprehensive test coverage includes:
 - ✅ Integration with GraphQueryOptimizer via `optimizeConstrainedPath()`
 - ✅ Correctness tests with known graphs
 - ✅ Edge case handling (empty paths, contradictory constraints, etc.)
+- ✅ Query timeout / SLO enforcement (BFS/DFS/Dijkstra)
+- ✅ Aggregate metrics and plan cache hit/miss counters
+- ✅ Graph error codes 6400–6406
+- ✅ `explainConstrainedPath()` dry-run (no query counter increment)
+- ✅ Parallel BFS / Parallel Dijkstra (Δ-Stepping) correctness
+- ✅ Adaptive cost model: EMA update, export/import roundtrip
+- ✅ EDGE_PROPERTY / NODE_PROPERTY / weight constraint API and pruning
+- ✅ Latency histogram percentiles
+- ✅ Rate limiter (set/get, high-limit allows, exceeded returns 6406)
+- ✅ `GET /api/v1/graph/metrics` JSON endpoint
+- ✅ `GET /api/v1/graph/metrics/prometheus` Prometheus endpoint
 
 ### Test Location
+- Optimizer + metrics + constraint tests: `tests/test_graph_query_optimizer.cpp`
 - Integration tests: `test_path_constraints_optimizer_integration.cpp`
 - See `docs/ARCHIVED/implementation-summaries/INTEGRATION_TEST_REPORT.md` for details
 
@@ -495,13 +559,14 @@ Part of ThemisDB - Multi-Model Database System
 - ✅ Integration with query optimizer (DONE)
 - ✅ EDGE_PROPERTY constraint validation (DONE – v1.7.0)
 - ✅ Parallel BFS (`enable_parallel`, `num_threads`) (DONE – v1.7.0)
-- ⏳ NODE_PROPERTY constraint validation (planned – vertex property store required)
+- ✅ NODE_PROPERTY constraint validation (DONE – v1.7.0, backed by `getNodeField`)
+- ✅ Weight constraints (MAX_WEIGHT / MIN_WEIGHT) (DONE – v1.7.0)
 - ⏳ Performance optimization for massive graphs (>10M nodes)
 - ⏳ DFS alternative for deep path scenarios
 
 ### Additional Graph Features
 - **Temporal Path Analysis**: Time-aware path constraints
-- **Weighted Constraints**: Advanced cost functions for edge/node weights
+- ✅ **Weighted Constraints**: `addMaxWeight()` / `addMinWeight()` (DONE – v1.7.0)
 - **Approximate Algorithms**: Fast approximations for massive graphs
 - **Streaming Constraints**: Real-time constraint evaluation
 - **A* with Constraints**: Heuristic-guided constrained path finding
