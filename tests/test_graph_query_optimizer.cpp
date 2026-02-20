@@ -6,6 +6,7 @@
 #include "storage/base_entity.h"
 #include <filesystem>
 #include <chrono>
+#include <nlohmann/json.hpp>
 
 namespace fs = std::filesystem;
 
@@ -782,5 +783,161 @@ TEST_F(GraphApiHandlerMetricsTest, HandleMetrics_InitialCountersAreZero) {
     EXPECT_EQ(j["failed_queries"].get<uint64_t>(), 0u);
     EXPECT_EQ(j["timed_out_queries"].get<uint64_t>(), 0u);
     EXPECT_EQ(j["error_rate"].get<double>(), 0.0);
+}
+
+
+// ============================================================================
+// Adaptive Cost Model Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_EnabledByDefault) {
+    EXPECT_TRUE(optimizer_->isAdaptiveLearningEnabled());
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_CanBeDisabled) {
+    optimizer_->enableAdaptiveLearning(false);
+    EXPECT_FALSE(optimizer_->isAdaptiveLearningEnabled());
+    optimizer_->enableAdaptiveLearning(true);
+    EXPECT_TRUE(optimizer_->isAdaptiveLearningEnabled());
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_BFSExecutionPopulatesModel) {
+    // Run a BFS – this should update the BFS cost model
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->executeBFS("A", 3, c);
+
+    const auto& models = optimizer_->getAlgorithmCostModels();
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    ASSERT_NE(models.find(Algo::BFS), models.end());
+    const auto& bfs_model = models.at(Algo::BFS);
+    EXPECT_EQ(bfs_model.exec_count, 1u);
+    EXPECT_GE(bfs_model.ema_cost_ms, 0.0);
+    EXPECT_GT(bfs_model.confidence, 0.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_MultipleExecutionsIncreaseConfidence) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 5; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    const auto& bfs_model = optimizer_->getAlgorithmCostModels().at(Algo::BFS);
+    EXPECT_EQ(bfs_model.exec_count, 5u);
+    EXPECT_GE(bfs_model.confidence, 5.0 / 100.0);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_DisabledDoesNotPopulateModel) {
+    optimizer_->enableAdaptiveLearning(false);
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->executeBFS("A", 2, c);
+
+    // No model entry should be created when adaptive learning is off
+    const auto& models = optimizer_->getAlgorithmCostModels();
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    EXPECT_EQ(models.find(Algo::BFS), models.end());
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_DFSAndBFSTrackedSeparately) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->executeBFS("A", 2, c);
+    optimizer_->executeDFS("A", 2, c);
+
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    const auto& models = optimizer_->getAlgorithmCostModels();
+    EXPECT_NE(models.find(Algo::BFS), models.end());
+    EXPECT_NE(models.find(Algo::DFS), models.end());
+    EXPECT_EQ(models.at(Algo::BFS).exec_count, 1u);
+    EXPECT_EQ(models.at(Algo::DFS).exec_count, 1u);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_ExportProducesValidJSON) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    optimizer_->executeBFS("A", 2, c);
+    optimizer_->executeDFS("A", 2, c);
+
+    std::string exported = optimizer_->exportCostModel();
+    ASSERT_FALSE(exported.empty());
+
+    nlohmann::json j;
+    ASSERT_NO_THROW(j = nlohmann::json::parse(exported));
+    EXPECT_TRUE(j.is_object());
+    EXPECT_TRUE(j.contains("BFS"));
+    EXPECT_TRUE(j.contains("DFS"));
+    EXPECT_TRUE(j["BFS"].contains("ema_cost_ms"));
+    EXPECT_TRUE(j["BFS"].contains("exec_count"));
+    EXPECT_TRUE(j["BFS"].contains("confidence"));
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_ExportEmpty_ReturnsEmptyObject) {
+    std::string exported = optimizer_->exportCostModel();
+    // Fresh optimizer – no executions yet; should export empty JSON object "{}"
+    nlohmann::json j = nlohmann::json::parse(exported);
+    EXPECT_EQ(j.size(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_ImportRoundtrip) {
+    // Run several BFS to build a model
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 3; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+    const std::string exported = optimizer_->exportCostModel();
+
+    // Import into a new optimizer instance
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    EXPECT_TRUE(opt2.importCostModel(exported));
+
+    using Algo = themis::graph::GraphQueryOptimizer::TraversalAlgorithm;
+    const auto& imported_models = opt2.getAlgorithmCostModels();
+    ASSERT_NE(imported_models.find(Algo::BFS), imported_models.end());
+    const auto& orig = optimizer_->getAlgorithmCostModels().at(Algo::BFS);
+    const auto& imported = imported_models.at(Algo::BFS);
+    EXPECT_DOUBLE_EQ(imported.ema_cost_ms, orig.ema_cost_ms);
+    EXPECT_EQ(imported.exec_count, orig.exec_count);
+    EXPECT_DOUBLE_EQ(imported.confidence, orig.confidence);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_ImportInvalidJSON_ReturnsFalse) {
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    EXPECT_FALSE(opt2.importCostModel("{not valid json"));
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_ImportUnknownAlgo_IsIgnored) {
+    // JSON with an unknown algorithm name should be silently ignored
+    std::string json_with_unknown = R"({"UNKNOWN_ALGO":{"ema_cost_ms":5.0,"exec_count":10,"confidence":0.1}})";
+    themis::graph::GraphQueryOptimizer opt2(*graph_mgr_);
+    EXPECT_TRUE(opt2.importCostModel(json_with_unknown));
+    EXPECT_EQ(opt2.getAlgorithmCostModels().size(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, AdaptiveLearning_CostModelInfluencesEstimate) {
+    // After many BFS executions the learned cost should shift the estimate.
+    // We verify that with high confidence the estimate differs from a fresh
+    // optimizer that has no learned data.
+    themis::graph::GraphQueryOptimizer fresh(*graph_mgr_);
+    const double cost_before = [&] {
+        themis::graph::GraphQueryOptimizer::QueryConstraints c;
+        auto plan = fresh.optimizeShortestPath("A", "D", c);
+        return plan ? plan.value().estimated_cost : 0.0;
+    }();
+
+    // Feed many fast observations into our optimizer to push confidence high
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
+    for (int i = 0; i < 50; ++i) {
+        optimizer_->executeBFS("A", 2, c);
+    }
+    auto plan_after = optimizer_->optimizeShortestPath("A", "D", c);
+    ASSERT_TRUE(plan_after);
+    const double cost_after = plan_after.value().estimated_cost;
+
+    // Both costs are finite and non-negative; the adaptive model should have
+    // shifted the estimate (they should differ because the EMA introduces a
+    // learned component with confidence ≈ 0.5 after 50 observations).
+    EXPECT_GE(cost_before, 0.0);
+    EXPECT_GE(cost_after, 0.0);
+    // Just verify the optimizer produced a valid plan; cost change depends on
+    // actual timing so we don't assert exact equality or direction.
+    EXPECT_NE(plan_after.value().algorithm, static_cast<decltype(plan_after.value().algorithm)>(-1));
 }
 

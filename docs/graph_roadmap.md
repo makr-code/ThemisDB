@@ -18,9 +18,9 @@ This roadmap tracks the phased approach to making ThemisDB's graph module produc
 
 ---
 
-## Phase 1: Observability & SLO Support (Current)
+## Phase 1: Observability & SLO Support
 
-**Status:** 🚧 In Progress  
+**Status:** ✅ Complete  
 **Target Version:** v1.7.0
 
 ### 1.1 Query Timeout / SLO Budget ✅ DONE
@@ -153,9 +153,9 @@ Registered as `Route::GraphMetricsGet` in `src/server/http_server.cpp`.
 
 ---
 
-## Phase 3: Parallel Execution
+## Phase 3: Parallel Execution & Adaptive Cost Model
 
-**Status:** ✅ Partially Complete (3.1 done)  
+**Status:** ✅ Partially Complete (3.1 + 3.3 done)  
 **Target Version:** v1.7.0
 
 ### 3.1 Parallel BFS ✅ DONE
@@ -190,6 +190,53 @@ nodes as the sequential path (verified by `BFS_Parallel_ProducesSameResultAsSequ
 
 Implement the Δ-stepping shortest-path algorithm for weighted graphs,
 exploiting bucket-based parallelism without global locks.
+
+### 3.3 Adaptive Cost Model ✅ DONE
+
+`GraphQueryOptimizer` now maintains a per-algorithm EMA (Exponential Moving
+Average) cost model that automatically calibrates cost estimates towards
+observed execution times.
+
+**New APIs:**
+
+| API | Description |
+|-----|-------------|
+| `enableAdaptiveLearning(bool)` | Enable / disable (default: enabled) |
+| `isAdaptiveLearningEnabled()` | Query current state |
+| `exportCostModel()` | Serialise learned model to JSON string |
+| `importCostModel(json_str)` | Seed optimizer with pre-learned data |
+| `getAlgorithmCostModels()` | Inspect per-algorithm EMA, count, confidence |
+
+**`AlgorithmCostModel` struct:**
+```cpp
+struct AlgorithmCostModel {
+    double ema_cost_ms;   // EMA of observed durations
+    uint32_t exec_count;  // Number of observations
+    double confidence;    // [0,1] – grows to 1.0 at 100 observations
+};
+```
+
+**Blending into `estimateCost`:**
+```
+blended = (1 - confidence) * theory_cost + confidence * (ema_ms * 10)
+```
+When confidence is 0 (no data), plans are purely theory-driven. As observations
+accumulate the estimate converges to actual observed performance.
+
+**Persistence:**
+```cpp
+// Save after a workload run
+std::ofstream f("graph_model.json");
+f << optimizer.exportCostModel();
+
+// Load in the next process to skip the warm-up period
+GraphQueryOptimizer opt2(graph_mgr);
+std::string json = read_file("graph_model.json");
+opt2.importCostModel(json);
+```
+
+`importCostModel` silently skips unknown algorithm names and is safe to use with
+models from older versions.
 
 ---
 
@@ -264,8 +311,9 @@ available (safe-fail).
 **Status:** 🔬 Research  
 **Target Version:** v2.0.0
 
-Use the adaptive cost model from `FUTURE_ENHANCEMENTS.md` to learn per-graph
-execution statistics and continuously improve algorithm selection.
+Use learned multi-graph execution statistics and graph topology embeddings to
+continuously improve algorithm selection beyond the per-algorithm EMA model
+already implemented in Phase 3.3.
 
 ---
 
@@ -281,6 +329,7 @@ execution statistics and continuously improve algorithm selection.
 | `enable_parallel` + `num_threads` BFS   | ✅ Done  | graph module |
 | `addEdgePropertyConstraint()` pruning   | ✅ Done  | graph module |
 | Admin API `GET /api/v1/graph/metrics`   | ✅ Done  | server       |
+| Adaptive Cost Model (EMA + export)      | ✅ Done  | graph module |
 | OTel span export in traversal loops     | 📋 TODO  | observability|
 | Heatmap: nodes-explored per query       | 📋 TODO  | observability|
 | Alerting rule: error_rate > 5%          | 📋 TODO  | ops          |
@@ -303,6 +352,12 @@ execution statistics and continuously improve algorithm selection.
 | Edge property constraint API          | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Edge property constraint validation   | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | `GET /api/v1/graph/metrics` endpoint  | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Adaptive learning enabled/disabled    | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| EMA model populated by executions     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Separate per-algo model tracking      | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Export / import roundtrip             | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Invalid JSON import returns false     | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
+| Unknown algo import silently ignored  | `test_graph_query_optimizer.cpp`   | ✅ Exists   |
 | Path constraint validation            | `test_graph_advanced_features.cpp` | ✅ Exists   |
 | Constrained path finding              | `test_path_constraints_direct.cpp` | ✅ Exists   |
 | AQL integration                       | `test_aql_path_constraints.cpp`    | ✅ Exists   |
@@ -324,6 +379,7 @@ The graph module must pass the following CI checks before merging:
 6. **Dry-run API** – `explainConstrainedPath()` returns a plan without incrementing `total_queries`
 7. **Parallel BFS correctness** – `BFS_Parallel_ProducesSameResultAsSequential` test passes
 8. **Metrics endpoint** – `GET /api/v1/graph/metrics` returns JSON with all 11 metric keys
+9. **Adaptive cost model** – EMA updated after each execution; export/import roundtrip is lossless
 
 ---
 

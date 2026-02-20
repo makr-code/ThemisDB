@@ -50,65 +50,59 @@ if (plan->enable_parallel) {
 
 ---
 
-### Adaptive Cost Model
+### Adaptive Cost Model ✅ DONE
 **Priority:** High  
 **Target Version:** v1.7.0
 
 Automatically improve cost estimates based on actual execution statistics.
 
-**Features:**
-- Learning from execution history
-- Per-pattern cost model refinement
-- Per-graph statistics tracking
-- Automatic model re-calibration
-- Confidence intervals for estimates
+**Implemented:** See `GraphQueryOptimizer::AlgorithmCostModel` below.
 
-**Benefits:**
-- Improved algorithm selection accuracy
-- Better plan quality over time
-- Reduced query time through better plans
-- Self-tuning system without manual intervention
+**Features:**
+- ✅ Learning from execution history (EMA per algorithm)
+- ✅ Per-algorithm cost model with confidence level
+- ✅ Automatic model re-calibration via `recordExecution`
+- ✅ `exportCostModel()` / `importCostModel()` for persistence
+- ✅ Disabled when `enableAdaptiveLearning(false)` is called
+- Persistence to disk (use `exportCostModel()` + file I/O)
+- Decay of old statistics (future enhancement)
+- Separate models per graph type/size (future)
 
 **API:**
 ```cpp
 GraphQueryOptimizer optimizer(graph_mgr);
-optimizer.enableAdaptiveLearning(true);
+// Adaptive learning is enabled by default
 
-// After many executions, cost estimates improve
-auto plan1 = optimizer.optimizeShortestPath("A", "B");  // Initial estimate: 100ms
-execute(plan1);  // Actual: 150ms -> update model
+// After many executions, cost estimates improve automatically
+optimizer.executeBFS("A", 5, c);   // observed ~8ms → EMA updates
+optimizer.executeBFS("A", 5, c);   // EMA converges towards actual timing
 
-auto plan2 = optimizer.optimizeShortestPath("C", "D");  // Improved estimate: 145ms
-execute(plan2);  // Actual: 148ms -> converging
+// Export learned model to persist across restarts
+std::string model_json = optimizer.exportCostModel();
+// e.g. {"BFS":{"ema_cost_ms":8.1,"exec_count":2,"confidence":0.02}}
 
-// Export learned model
-auto model = optimizer.exportCostModel();
-save_to_file(model, "graph_cost_model.json");
+// Import model in another instance (seeds with pre-learned data)
+GraphQueryOptimizer optimizer2(graph_mgr2);
+optimizer2.importCostModel(model_json);
 
-// Import model in another instance
-optimizer2.importCostModel(model);
+// Disable adaptive learning if deterministic plans are required
+optimizer.enableAdaptiveLearning(false);
+bool is_on = optimizer.isAdaptiveLearningEnabled(); // false
 ```
 
 **Learning Algorithm:**
-```cpp
-// Update cost estimate based on actual execution
-void updateCostEstimate(Algorithm algo, double estimated, double actual) {
-    // Exponential moving average
-    double alpha = 0.1;  // Learning rate
-    cost_estimates[algo] = alpha * actual + (1 - alpha) * cost_estimates[algo];
-    
-    // Track confidence
-    execution_count[algo]++;
-    confidence[algo] = min(1.0, execution_count[algo] / 100.0);
-}
+```
+ema_cost_ms = alpha * observed_ms + (1 - alpha) * ema_cost_ms   (alpha = 0.1)
+confidence  = min(1.0, exec_count / 100)
+blended_cost = (1 - confidence) * base_cost + confidence * (ema_cost_ms * 10)
 ```
 
 **Implementation:**
-- Store execution statistics in memory
-- Persist statistics to disk periodically
-- Use exponential moving average for estimates
-- Decay old statistics over time
-- Separate models per graph type/size
+- `AlgorithmCostModel` struct: EMA cost, execution count, confidence
+- `recordExecution()` calls `AlgorithmCostModel::update(ms)` for the executed algorithm
+- `estimateCost()` blends the learned EMA cost (scaled from ms to cost units) proportional to confidence
+- `exportCostModel()` serialises all entries to a JSON string
+- `importCostModel()` deserialises with unknown-algorithm and malformed-JSON safety
 
 ---
 
@@ -665,6 +659,30 @@ auto paths = c.findConstrainedPaths("user1", "user5", 10);
 
 New backing API: `GraphIndexManager::getEdgeField(edgeId, fieldName)` returns
 an `std::optional<std::string>` without needing the graph ID.
+
+### Adaptive Cost Model ✅ DONE
+
+`GraphQueryOptimizer::AlgorithmCostModel` – per-algorithm EMA cost tracking with
+confidence-weighted blending into `estimateCost()`.
+
+```cpp
+// Enabled by default; runs automatically with each execute* call
+optimizer.executeBFS("start", 5, c);   // records 8.1ms → EMA updates
+
+// Export / import for warm-start across restarts
+std::string json = optimizer.exportCostModel();
+optimizer2.importCostModel(json);
+
+// Opt out for deterministic plans
+optimizer.enableAdaptiveLearning(false);
+```
+
+Key properties:
+- EMA alpha = 0.1 (smoothes out outliers)
+- Confidence = `min(1.0, exec_count / 100)` (0 → purely theoretical, 1 → fully learned)
+- `estimateCost()` blends: `(1 - conf) * base + conf * (ema_ms * 10)`
+- `ExecutionStats::algorithm` field enables `recordExecution` to route to the correct model
+- `exportCostModel()` / `importCostModel()` use JSON; unknown algo keys are silently ignored
 
 ---
 

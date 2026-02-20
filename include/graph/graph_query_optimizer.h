@@ -162,6 +162,8 @@ public:
         bool early_terminated = false;
         size_t cache_hits = 0;
         size_t cache_misses = 0;
+        /// Algorithm that produced this execution; used by the adaptive cost model.
+        TraversalAlgorithm algorithm = TraversalAlgorithm::BFS;
     };
 
     explicit GraphQueryOptimizer(GraphIndexManager& graph_manager);
@@ -320,6 +322,81 @@ public:
      * or admin dashboards.
      */
     const GraphQueryMetrics& getQueryMetrics() const { return metrics_; }
+
+    // -----------------------------------------------------------------------
+    // Adaptive Cost Model (v1.7.0)
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Per-algorithm learned cost model entry.
+     *
+     * Tracks an exponential-moving-average (EMA) of observed execution times
+     * and a confidence level that grows towards 1.0 as more observations
+     * accumulate (saturates at 100 executions).
+     */
+    struct AlgorithmCostModel {
+        double ema_cost_ms = 0.0;   ///< EMA of observed execution durations (ms)
+        uint32_t exec_count = 0;    ///< Number of observations so far
+        double confidence = 0.0;    ///< [0, 1] – blended into cost estimates
+
+        static constexpr double LEARNING_RATE = 0.1;  ///< EMA alpha
+        static constexpr uint32_t MAX_CONF_OBS = 100; ///< Observations for confidence = 1.0
+
+        /// Update EMA with a new observation.
+        void update(double observed_ms) {
+            if (exec_count == 0) {
+                ema_cost_ms = observed_ms;
+            } else {
+                ema_cost_ms = LEARNING_RATE * observed_ms +
+                              (1.0 - LEARNING_RATE) * ema_cost_ms;
+            }
+            ++exec_count;
+            confidence = std::min(1.0, static_cast<double>(exec_count) / MAX_CONF_OBS);
+        }
+    };
+
+    /**
+     * @brief Enable or disable adaptive cost-model learning.
+     *
+     * When enabled (the default), each call to `recordExecution` that carries
+     * a known algorithm tag updates the per-algorithm EMA cost.  The learned
+     * cost is then blended into `estimateCost` proportional to its confidence
+     * level so that initial plans are still theory-driven, but converge towards
+     * actual observed behaviour over time.
+     */
+    void enableAdaptiveLearning(bool enable) { adaptive_learning_enabled_ = enable; }
+
+    /// Returns whether adaptive learning is currently enabled.
+    bool isAdaptiveLearningEnabled() const { return adaptive_learning_enabled_; }
+
+    /**
+     * @brief Export the current learned cost model as a JSON string.
+     *
+     * The returned string is a JSON object mapping algorithm names to their
+     * current `ema_cost_ms`, `exec_count`, and `confidence`.  It can be saved
+     * to disk and reloaded via `importCostModel` to seed a new optimizer
+     * instance with pre-learned data.
+     *
+     * @return JSON string representation of all per-algorithm cost models.
+     */
+    std::string exportCostModel() const;
+
+    /**
+     * @brief Import a previously exported cost model from a JSON string.
+     *
+     * Unknown algorithm names or malformed JSON are silently ignored so that
+     * a model trained on one version can be loaded safely on a newer version.
+     *
+     * @param json_model JSON string as returned by `exportCostModel`.
+     * @return true if the string parsed successfully; false on JSON errors.
+     */
+    bool importCostModel(std::string_view json_model);
+
+    /**
+     * @brief Return a snapshot of all per-algorithm learned cost models.
+     */
+    const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>>&
+        getAlgorithmCostModels() const { return algo_cost_models_; }
     
     /**
      * @brief Optimize constrained path query using PathConstraints
@@ -376,6 +453,10 @@ private:
 
     // Cumulative observability metrics
     mutable GraphQueryMetrics metrics_;
+
+    // Adaptive cost model: per-algorithm EMA cost tracking
+    bool adaptive_learning_enabled_ = true;
+    std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>> algo_cost_models_;
 
     /**
      * Estimate cost for traversal algorithm

@@ -13,6 +13,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace graph {
@@ -316,6 +317,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
     
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::BFS;
 
     // Helper: determine effective thread count for parallel BFS
     const bool use_parallel = constraints.enable_parallel;
@@ -488,6 +490,7 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
     
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::DFS;
     
     std::vector<std::string> result;
     std::vector<std::pair<std::string, int>> stack;
@@ -572,6 +575,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeDijkstra(
     
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::DIJKSTRA;
     
     // Use existing Dijkstra implementation from GraphIndexManager
     auto [status, path_result] = graph_manager_.dijkstra(start_vertex, target_vertex);
@@ -605,6 +609,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeAStar(
     
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::ASTAR;
     
     // Use existing A* implementation from GraphIndexManager
     auto [status, path_result] = graph_manager_.aStar(start_vertex, target_vertex, heuristic);
@@ -637,6 +642,7 @@ Result<GraphIndexManager::PathResult> GraphQueryOptimizer::executeBidirectional(
     
     auto start_time = std::chrono::steady_clock::now();
     ExecutionStats local_stats;
+    local_stats.algorithm = TraversalAlgorithm::BIDIRECTIONAL;
     
     // Implement bidirectional search
     std::unordered_map<std::string, int> forward_distances;
@@ -913,6 +919,20 @@ double GraphQueryOptimizer::estimateCost(
         double selectivity = estimateEdgeTypeSelectivity(constraints.edge_type.value());
         base_cost *= selectivity; // Reduce cost based on edge type filtering
     }
+
+    // Adaptive cost model: blend learned EMA cost proportional to confidence.
+    // When confidence is 0 (no observations yet) the base_cost is unchanged;
+    // when confidence approaches 1.0 the estimate converges to the observed EMA.
+    if (adaptive_learning_enabled_) {
+        auto it = algo_cost_models_.find(algorithm);
+        if (it != algo_cost_models_.end() && it->second.confidence > 0.0) {
+            const double w = it->second.confidence;
+            // Normalize learned cost to the same scale as base_cost by converting
+            // ms → cost units (inverse of the 0.1 factor used in estimated_time_ms).
+            const double learned_cost = it->second.ema_cost_ms * 10.0;
+            base_cost = (1.0 - w) * base_cost + w * learned_cost;
+        }
+    }
     
     return base_cost;
 }
@@ -1057,6 +1077,74 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
                current_max, duration,
                std::memory_order_relaxed, std::memory_order_relaxed)) {
         // current_max updated by CAS on failure; retry
+    }
+
+    // Adaptive cost model: update per-algorithm EMA with observed execution time
+    if (adaptive_learning_enabled_) {
+        algo_cost_models_[stats.algorithm].update(stats.execution_time_ms);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Adaptive cost model: export / import
+// ─────────────────────────────────────────────────────────────────────────────
+
+static const std::unordered_map<std::string, GraphQueryOptimizer::TraversalAlgorithm>&
+algoNameMap() {
+    static const std::unordered_map<std::string, GraphQueryOptimizer::TraversalAlgorithm> m = {
+        {"BFS",           GraphQueryOptimizer::TraversalAlgorithm::BFS},
+        {"DFS",           GraphQueryOptimizer::TraversalAlgorithm::DFS},
+        {"DIJKSTRA",      GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA},
+        {"ASTAR",         GraphQueryOptimizer::TraversalAlgorithm::ASTAR},
+        {"BIDIRECTIONAL", GraphQueryOptimizer::TraversalAlgorithm::BIDIRECTIONAL},
+    };
+    return m;
+}
+
+static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
+    switch (algo) {
+        case GraphQueryOptimizer::TraversalAlgorithm::BFS:           return "BFS";
+        case GraphQueryOptimizer::TraversalAlgorithm::DFS:           return "DFS";
+        case GraphQueryOptimizer::TraversalAlgorithm::DIJKSTRA:      return "DIJKSTRA";
+        case GraphQueryOptimizer::TraversalAlgorithm::ASTAR:         return "ASTAR";
+        case GraphQueryOptimizer::TraversalAlgorithm::BIDIRECTIONAL: return "BIDIRECTIONAL";
+    }
+    return "UNKNOWN";
+}
+
+std::string GraphQueryOptimizer::exportCostModel() const {
+    nlohmann::json j;
+    for (const auto& [algo, model] : algo_cost_models_) {
+        std::string name = algoToName(algo);
+        j[name] = {
+            {"ema_cost_ms",  model.ema_cost_ms},
+            {"exec_count",   model.exec_count},
+            {"confidence",   model.confidence}
+        };
+    }
+    return j.dump();
+}
+
+bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
+    try {
+        auto j = nlohmann::json::parse(json_model);
+        if (!j.is_object()) return false;
+        const auto& name_map = algoNameMap();
+        for (auto& [key, val] : j.items()) {
+            auto it = name_map.find(key);
+            if (it == name_map.end()) continue; // unknown algo – skip
+            if (!val.is_object()) continue;
+            AlgorithmCostModel m;
+            m.ema_cost_ms = val.value("ema_cost_ms", 0.0);
+            m.exec_count  = val.value("exec_count",  static_cast<uint32_t>(0));
+            m.confidence  = val.value("confidence",  0.0);
+            // Clamp to valid range
+            m.confidence = std::max(0.0, std::min(1.0, m.confidence));
+            algo_cost_models_[it->second] = m;
+        }
+        return true;
+    } catch (...) {
+        return false;
     }
 }
 
