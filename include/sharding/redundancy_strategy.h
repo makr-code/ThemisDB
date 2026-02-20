@@ -376,6 +376,8 @@ public:
 
 /**
  * Reed-Solomon Erasure Coder
+ * Uses a systematic Vandermonde-based encoding matrix for full multi-chunk
+ * erasure recovery (up to parity_shards simultaneous failures).
  */
 class ReedSolomonCoder : public ErasureCoder {
 public:
@@ -397,9 +399,15 @@ private:
     uint8_t gf_mul(uint8_t a, uint8_t b);
     uint8_t gf_inv(uint8_t a);
     uint8_t gf_div(uint8_t a, uint8_t b);
+    uint8_t gf_pow(uint8_t a, uint8_t exp);
     void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
                        const std::vector<uint8_t>& vec,
                        std::vector<uint8_t>& result);
+    // Build Vandermonde parity matrix (parity_shards x data_shards)
+    // V[p][j] = gf_pow(p+1, j)
+    std::vector<std::vector<uint8_t>> buildVandermondeMatrix(uint32_t rows, uint32_t cols);
+    // Gaussian elimination in GF(2^8) for matrix inversion
+    bool invertMatrix(std::vector<std::vector<uint8_t>>& matrix);
 };
 
 /**

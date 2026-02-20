@@ -1,0 +1,262 @@
+# ThemisDB — Production Helm Values Example
+#
+# This file provides a production-ready starting point for deploying ThemisDB
+# with the official Helm chart (helm/themisdb/).
+#
+# Usage:
+#   helm install themisdb ./helm/themisdb \
+#     --namespace production \
+#     --values docs/production/examples/k8s_production_values.yaml \
+#     --set "themisdb.adminToken=$(openssl rand -base64 32)"
+#
+# IMPORTANT: Never commit real secret values to this file.
+# Use --set-string for secrets or reference an external Secrets store
+# (Vault, AWS Secrets Manager, GCP Secret Manager, SOPS, etc.).
+#
+# Required Kubernetes Secret (create before installing):
+#   kubectl create secret generic themisdb-secrets \
+#     --namespace production \
+#     --from-literal=THEMIS_TOKEN_ADMIN="$(openssl rand -base64 32)" \
+#     --from-literal=THEMIS_VAULT_TOKEN="<vault-token>"
+
+# ---------------------------------------------------------------------------
+# Replica count — minimum 3 for production HA
+# ---------------------------------------------------------------------------
+replicaCount: 3
+
+# ---------------------------------------------------------------------------
+# Image
+# ---------------------------------------------------------------------------
+image:
+  repository: ghcr.io/makr-code/themisdb
+  pullPolicy: IfNotPresent
+  tag: ""  # defaults to chart appVersion; pin to a specific version in production
+
+# ---------------------------------------------------------------------------
+# Pod security context
+# ---------------------------------------------------------------------------
+podSecurityContext:
+  fsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# ---------------------------------------------------------------------------
+# Service
+# ---------------------------------------------------------------------------
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  metricsPort: 4318
+
+# ---------------------------------------------------------------------------
+# Ingress (TLS termination at ingress controller)
+# ---------------------------------------------------------------------------
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts:
+    - host: themisdb.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: themisdb-tls
+      hosts:
+        - themisdb.example.com
+
+# ---------------------------------------------------------------------------
+# Resource requests and limits
+# ---------------------------------------------------------------------------
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+
+# ---------------------------------------------------------------------------
+# Persistence — use a storage class with encryption at rest
+# ---------------------------------------------------------------------------
+persistence:
+  enabled: true
+  storageClass: "encrypted-ssd"   # replace with your encrypted storage class
+  accessMode: ReadWriteOnce
+  size: 100Gi
+
+# ---------------------------------------------------------------------------
+# Health probes
+# ---------------------------------------------------------------------------
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8081
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: 8081
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+startupProbe:
+  httpGet:
+    path: /health
+    port: 8081
+  failureThreshold: 12
+  periodSeconds: 10
+
+# ---------------------------------------------------------------------------
+# Autoscaling
+# ---------------------------------------------------------------------------
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+# ---------------------------------------------------------------------------
+# Node scheduling
+# ---------------------------------------------------------------------------
+nodeSelector:
+  kubernetes.io/os: linux
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: themisdb
+        topologyKey: kubernetes.io/hostname
+
+# ---------------------------------------------------------------------------
+# ThemisDB configuration
+# ---------------------------------------------------------------------------
+themisdb:
+  logLevel: info
+
+  # Production environment variables.
+  # Secrets are loaded from the 'themisdb-secrets' Kubernetes Secret.
+  # Non-sensitive values are set inline below.
+  env:
+    # --- Mode (REQUIRED) ---
+    - name: THEMIS_PRODUCTION_MODE
+      value: "1"
+    - name: THEMIS_ENVIRONMENT
+      value: "production"
+
+    # --- Admin token (from Secret) ---
+    - name: THEMIS_TOKEN_ADMIN
+      valueFrom:
+        secretKeyRef:
+          name: themisdb-secrets
+          key: THEMIS_TOKEN_ADMIN
+
+    # --- TLS (certs mounted from Secret volume below) ---
+    - name: THEMIS_PKI_CERTIFICATE
+      value: /etc/themisdb/tls/tls.crt
+    - name: THEMIS_PKI_PRIVATE_KEY
+      value: /etc/themisdb/tls/tls.key
+
+    # --- Vault key management ---
+    - name: THEMIS_VAULT_ADDR
+      value: "https://vault.example.com:8200"   # replace with your Vault address
+    - name: THEMIS_VAULT_TRANSIT_MOUNT
+      value: "transit"
+    - name: THEMIS_VAULT_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: themisdb-secrets
+          key: THEMIS_VAULT_TOKEN
+
+    # --- Data safety ---
+    - name: THEMIS_PII_STRICT
+      value: "1"
+    - name: THEMIS_DISABLE_AUTO_DOWNLOAD
+      value: "1"
+
+    # --- WAL gRPC mTLS (required for multi-node) ---
+    - name: THEMIS_WAL_GRPC_ENABLE_MTLS
+      value: "1"
+    - name: THEMIS_WAL_GRPC_REQUIRE_CLIENT_CERT
+      value: "1"
+    - name: THEMIS_WAL_GRPC_CERT_PATH
+      value: /etc/themisdb/wal-tls/tls.crt
+    - name: THEMIS_WAL_GRPC_KEY_PATH
+      value: /etc/themisdb/wal-tls/tls.key
+    - name: THEMIS_WAL_GRPC_CA_CERT_PATH
+      value: /etc/themisdb/wal-tls/ca.crt
+
+    # --- Health endpoint ---
+    - name: THEMIS_HEALTH_PORT
+      value: "8081"
+    - name: THEMIS_HEALTH_BIND_ADDRESS
+      value: "0.0.0.0"
+
+    # --- Audit ---
+    - name: THEMIS_AUDIT_RATE_LIMIT
+      value: "10000"
+
+    # --- Unsafe debug variables MUST be absent ---
+    # THEMIS_ALLOW_HSM_STUB    — must NOT be set
+    # THEMIS_DEBUG_ENC_DIR     — must NOT be set
+    # THEMIS_DEBUG_PKI         — must NOT be set
+    # THEMIS_PII_FORCE_INIT_FAIL — must NOT be set
+
+  # TLS secret volumes
+  tlsSecret: themisdb-tls       # must contain tls.crt and tls.key
+  walTlsSecret: themisdb-wal-tls # must contain tls.crt, tls.key, ca.crt
+
+  # Application config file
+  config: |
+    {
+      "storage": {
+        "path": "/data/themisdb",
+        "enable_wal": true
+      },
+      "server": {
+        "port": 8080,
+        "host": "0.0.0.0"
+      },
+      "logging": {
+        "level": "info",
+        "audit": {
+          "enabled": true
+        }
+      }
+    }
+
+# ---------------------------------------------------------------------------
+# Metrics / Prometheus
+# ---------------------------------------------------------------------------
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    interval: 30s
+    scrapeTimeout: 10s

@@ -1268,6 +1268,7 @@ set(THEMIS_CORE_SOURCES
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
@@ -1529,6 +1530,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/secure_transport_client.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/two_phase_commit_participant.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
@@ -1543,6 +1545,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
+    ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/shard_rpc_server.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>
