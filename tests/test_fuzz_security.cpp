@@ -53,9 +53,9 @@ std::string allPrintableAscii() {
     return s;
 }
 
-// Build a string with common injection payloads
-std::vector<std::string> injectionPayloads() {
-    return {
+// Build a static list of common injection payloads (created once, returned by ref)
+const std::vector<std::string>& injectionPayloads() {
+    static const std::vector<std::string> payloads = {
         "' OR '1'='1",
         "'; DROP TABLE users; --",
         "UNION SELECT * FROM secrets",
@@ -70,10 +70,11 @@ std::vector<std::string> injectionPayloads() {
         "$(whoami)",           // Shell injection
         std::string(65536, 'A'), // Huge string
         "\n\r\t\b\f",         // Control characters
-        "\u202e\u200b\u00a0",  // Unicode control/invisible chars
+        "\xe2\x80\xae\xe2\x80\x8b\xc2\xa0",  // Unicode control/invisible chars (UTF-8)
         repeat('/', 1000),     // Many slashes
         repeat('\x01', 512),   // Non-printable bytes
     };
+    return payloads;
 }
 
 } // anonymous namespace
@@ -486,7 +487,7 @@ TEST(PasswordHashFuzzTest, Register_ValidComplexPasswords_NeverCrash) {
         "P@$$w0rd_secure!",
         allPrintableAscii().substr(0, 20) + "A1!",  // printable ascii subset
         "MultiLine\nPassword123!",
-        "Unicode\u00e9\u00e0Pass1!",
+        "Unicode\xc3\xa9\xc3\xa0Pass1!",  // UTF-8 bytes for é à
     };
     int uid = 0;
     for (const auto& pw : valid_passwords) {

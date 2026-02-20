@@ -446,6 +446,14 @@ def _print_summary() -> None:
 # ---------------------------------------------------------------------------
 
 def main() -> int:
+    """
+    Run all penetration checks and return exit code.
+
+    Design note: when the target server is unreachable, the script exits with
+    code 0 rather than 1.  This makes it safe to include in CI pipelines where
+    no live server is provisioned – the tests are simply skipped.  Run with a
+    live target to obtain meaningful pass/fail results.
+    """
     global _fail_fast, DEFAULT_HOST, DEFAULT_PORT, USE_TLS, TOKEN, VERBOSE
 
     parser = argparse.ArgumentParser(
