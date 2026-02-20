@@ -21,6 +21,7 @@ public:
     void warn(const std::string& message) override {}
     void error(const std::string& message) override {}
     void critical(const std::string& message) override {}
+    void logStructured(Level level, const std::string& message, const Fields& fields = {}) override {}
     
     void setLevel(Level level) override { level_ = level; }
     Level getLevel() const override { return level_; }

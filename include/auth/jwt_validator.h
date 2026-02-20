@@ -37,13 +37,25 @@ struct JWTClaims {
  * - Validate signature using JWKS from Keycloak
  * - Check expiration and issuer
  * - Extract claims for access control
+ * - Kid revocation/denylist support
+ * - Metrics and logging on validation failures
  */
+
+// Input validation limits
+constexpr size_t MAX_JWT_TOKEN_SIZE = 16 * 1024;  // 16KB max token size
+constexpr size_t MAX_PRINCIPAL_NAME_LENGTH = 256; // 256 chars max for principal names
+constexpr int DEFAULT_JWKS_TIMEOUT_SECONDS = 5;   // 5 second timeout for JWKS fetch
+constexpr int MAX_JWKS_RETRY_ATTEMPTS = 3;        // Max 3 retry attempts for JWKS
+
 struct JWTValidatorConfig {
     std::string jwks_url;               // Keycloak JWKS endpoint
     std::string expected_issuer;        // optional: exact match required if set
     std::string expected_audience;      // optional: must be contained in aud if set
     std::chrono::seconds cache_ttl{600};
     std::chrono::seconds clock_skew{60};
+    std::vector<std::string> revoked_kids;  // Kid denylist for revoked keys
+    int jwks_timeout_seconds{DEFAULT_JWKS_TIMEOUT_SECONDS};  // JWKS fetch timeout
+    int jwks_max_retries{MAX_JWKS_RETRY_ATTEMPTS};            // JWKS fetch max retries
 };
 
 class JWTValidator {
@@ -85,6 +97,19 @@ public:
      * @param encryption_context Context used for encryption (user_id or group name)
      */
     static bool hasAccess(const JWTClaims& claims, const std::string& encryption_context);
+    
+    /**
+     * @brief Add a key ID to the revocation list
+     * @param kid Key ID to revoke
+     */
+    void revokeKid(const std::string& kid);
+    
+    /**
+     * @brief Check if a key ID is revoked
+     * @param kid Key ID to check
+     * @return true if the kid is revoked
+     */
+    bool isKidRevoked(const std::string& kid) const;
 
 private:
     std::vector<uint8_t> decodeBase64Url(const std::string& input);
@@ -105,6 +130,7 @@ private:
     std::string jwks_url_;
     nlohmann::json jwks_cache_;
     std::chrono::system_clock::time_point jwks_cache_time_;
+    std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
 };
 
 } // namespace auth

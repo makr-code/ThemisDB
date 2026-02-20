@@ -387,15 +387,23 @@ float LocalityAwareRouter::calculateNetworkScore(const std::string& shard_id) co
         return 0.5f; // Unknown location
     }
     
-    // Same datacenter = 1.0 (best)
-    // Different datacenter = 0.5
-    // Different region = 0.1
-    if (shard_info->datacenter == local_info->datacenter) {
+    // 3-tier scoring using region, zone, and datacenter:
+    // Same zone (most local)           = 1.0
+    // Same region, different zone      = 0.8
+    // Same datacenter, different region = 0.5
+    // Different datacenter/region      = 0.1
+    if (!shard_info->zone.empty() && !local_info->zone.empty() &&
+        shard_info->zone == local_info->zone) {
         return 1.0f;
-    } else {
-        // Simple heuristic: different datacenter
+    }
+    if (!shard_info->region.empty() && !local_info->region.empty() &&
+        shard_info->region == local_info->region) {
+        return 0.8f;
+    }
+    if (shard_info->datacenter == local_info->datacenter) {
         return 0.5f;
     }
+    return 0.1f;
 }
 
 std::string LocalityAwareRouter::makeCacheKey(

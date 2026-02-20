@@ -6,6 +6,8 @@
 #include <chrono>
 #include <vector>
 #include <memory>
+#include <functional>
+#include <thread>
 
 namespace themis {
 namespace llm {
@@ -129,6 +131,9 @@ public:
     void recordQueueLength(size_t length);
     void recordPreemptions(size_t count);
     void recordSchedulingLatency(double latency_ms);
+    // Increments llm_backpressure_drops_total when the scheduler rejects a
+    // request because max_queue_depth has been reached.
+    void recordBackpressureDrop();
     
     // Quantization metrics
     void recordQuantizationFormat(const std::string& model_id, const std::string& format);
@@ -225,8 +230,13 @@ public:
         std::string host = "0.0.0.0";
         int port = 9090;
         bool enable_cors = true;
-        std::string metrics_path = "/metrics";
-        std::string dashboard_path = "/dashboard";
+        std::string metrics_path        = "/metrics";
+        std::string dashboard_path      = "/dashboard";
+        std::string health_path         = "/health";
+        std::string ready_path          = "/ready";
+        std::string models_path         = "/models";
+        std::string admin_reload_path   = "/admin/models/reload";
+        std::string admin_simulate_path = "/admin/prompt/simulate";
     };
     
     explicit MetricsServer(const ServerConfig& config,
@@ -238,17 +248,68 @@ public:
     void stop();
     bool isRunning() const;
     
-    // Get server URL
+    // Get server URLs
     std::string getMetricsURL() const;
     std::string getDashboardURL() const;
+    std::string getHealthURL() const;
+    std::string getReadyURL() const;
+    std::string getModelsURL() const;
+    std::string getAdminReloadURL() const;
+    std::string getAdminSimulateURL() const;
+
+    /**
+     * @brief Register a callback for GET /models.
+     * Callable () -> std::string (JSON array). nullptr = return "[]".
+     */
+    void setModelInfoCallback(std::function<std::string()> cb) {
+        model_info_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for POST /admin/models/reload.
+     *
+     * Invoked with the raw POST body.  Should trigger a hot-reload of the
+     * model named in the body and return a JSON result string.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& body) -> std::string.
+     */
+    void setReloadCallback(std::function<std::string(const std::string&)> cb) {
+        reload_cb_ = std::move(cb);
+    }
+
+    /**
+     * @brief Register a callback for POST /admin/prompt/simulate.
+     *
+     * Invoked with the raw POST body (a JSON object with "prompt" and
+     * optionally "model_id").  Should perform a dry-run policy check +
+     * tokenization and return a JSON result string.
+     * nullptr = return a "not implemented" JSON body.
+     *
+     * @param cb  Callable (const std::string& body) -> std::string.
+     */
+    void setSimulateCallback(std::function<std::string(const std::string&)> cb) {
+        simulate_cb_ = std::move(cb);
+    }
     
 private:
     ServerConfig config_;
     PrometheusExporter* exporter_;
     bool running_ = false;
+    std::function<std::string()> model_info_cb_;
+    std::function<std::string(const std::string&)> reload_cb_;
+    std::function<std::string(const std::string&)> simulate_cb_;
+
+    // Pimpl: holds httplib::Server and the background listener thread.
+    // Defined in grafana_metrics.cpp to keep <httplib.h> out of this header.
+    struct Impl;
+    std::unique_ptr<Impl> impl_;
     
-    // HTTP request handling
+    // HTTP request handling (called from httplib route handlers inside Impl)
     void handleRequest(const std::string& path, std::string& response);
+    // POST body is passed separately to keep GET paths clean.
+    void handlePost(const std::string& path, const std::string& body,
+                    std::string& response);
 };
 
 } // namespace monitoring

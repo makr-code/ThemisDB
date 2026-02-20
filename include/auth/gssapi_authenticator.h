@@ -18,6 +18,11 @@
 namespace themis {
 namespace auth {
 
+// Input validation limits for GSSAPI
+constexpr size_t MAX_GSSAPI_TOKEN_SIZE = 64 * 1024;  // 64KB max for GSSAPI tokens
+constexpr size_t MAX_KERBEROS_PRINCIPAL_LENGTH = 256; // 256 chars max for Kerberos principals
+constexpr int DEFAULT_GSSAPI_CONTEXT_TIMEOUT = 30;    // 30 second timeout for GSSAPI context
+
 /**
  * @brief Configuration for Kerberos/GSSAPI authentication
  */
@@ -27,6 +32,7 @@ struct KerberosConfig {
     std::string keytab_file;            // Path to keytab file
     std::string krb5_config;            // Path to krb5.conf (optional)
     bool fallback_to_basic = true;      // Allow fallback to basic auth if Kerberos fails
+    int context_timeout_seconds{DEFAULT_GSSAPI_CONTEXT_TIMEOUT}; // GSSAPI context timeout
     
     // Principal to role mapping
     struct PrincipalMapping {

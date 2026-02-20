@@ -425,3 +425,76 @@ TEST_F(PaxosConsensusTest, LeaderElection) {
     
     module->stop();
 }
+// ─────────────────────────────────────────────────────────────────────────────
+// Snapshot tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(PaxosConsensusTest, TakeSnapshot_Succeeds) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json state = {{"collection", "orders"}, {"count", 100}};
+    EXPECT_TRUE(module->takeSnapshot(state));
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_GE(status["snapshot_index"].get<uint64_t>(), 0u);
+
+    module->stop();
+}
+
+TEST_F(PaxosConsensusTest, TakeSnapshot_NotRunning_Fails) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    // Do NOT call start()
+    nlohmann::json state = {{"key", "value"}};
+    EXPECT_FALSE(module->takeSnapshot(state));
+}
+
+TEST_F(PaxosConsensusTest, RestoreSnapshot_ValidData_Succeeds) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json snap = {
+        {"collection", "users"},
+        {"_snapshot_index", uint64_t(7)},
+        {"_snapshot_term",  uint64_t(3)}
+    };
+    EXPECT_TRUE(module->restoreSnapshot(snap));
+
+    auto status = module->getStatus();
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 7u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(),  3u);
+
+    module->stop();
+}
+
+TEST_F(PaxosConsensusTest, RestoreSnapshot_EmptyData_Fails) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    EXPECT_FALSE(module->restoreSnapshot(nlohmann::json{}));
+
+    module->stop();
+}
+
+TEST_F(PaxosConsensusTest, GetStatus_IncludesSnapshotFields) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_TRUE(status.contains("snapshot_term"));
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 0u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(),  0u);
+
+    module->stop();
+}

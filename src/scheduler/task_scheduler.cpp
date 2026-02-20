@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <deque>
 #include <cctype>
+#include <random>
 
 #ifndef _WIN32
 #include <sys/stat.h>
@@ -60,7 +61,125 @@ static std::string getTriggerTypeString(ScheduledTask::TriggerType type) {
     }
 }
 
-// ===== TaskScheduler Implementation =====
+// ===== Retry Policy Helpers =====
+
+namespace {
+
+/**
+ * @brief Compute the delay before the next retry attempt.
+ *
+ * @param policy  The task's RetryPolicy.
+ * @param attempt 0-based retry index (0 = first retry, after the initial failure).
+ * @return Delay in milliseconds, clamped to policy.max_delay.
+ */
+std::chrono::milliseconds computeRetryDelay(const ScheduledTask::RetryPolicy& policy,
+                                             size_t attempt) {
+    double base_ms = static_cast<double>(policy.initial_delay.count());
+    double delay_ms = base_ms;
+
+    switch (policy.strategy) {
+        case ScheduledTask::RetryStrategy::NONE:
+        case ScheduledTask::RetryStrategy::FIXED_DELAY:
+            delay_ms = base_ms;
+            break;
+
+        case ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF:
+            // delay = initial * multiplier^attempt
+            for (size_t i = 0; i < attempt; ++i) {
+                delay_ms *= policy.backoff_multiplier;
+            }
+            break;
+
+        case ScheduledTask::RetryStrategy::LINEAR_BACKOFF:
+            // delay = initial * (attempt + 1)
+            delay_ms = base_ms * static_cast<double>(attempt + 1);
+            break;
+
+        case ScheduledTask::RetryStrategy::JITTER_BACKOFF: {
+            // Exponential base + uniform random jitter in [-jitter, +jitter]
+            for (size_t i = 0; i < attempt; ++i) {
+                delay_ms *= policy.backoff_multiplier;
+            }
+            // Thread-local RNG to avoid contention
+            thread_local std::mt19937 rng{std::random_device{}()};
+            double jitter_range = delay_ms * policy.jitter_factor;
+            std::uniform_real_distribution<double> dist(-jitter_range, jitter_range);
+            delay_ms += dist(rng);
+            if (delay_ms < 0.0) delay_ms = 0.0;
+            break;
+        }
+    }
+
+    // Clamp to max_delay
+    double max_ms = static_cast<double>(policy.max_delay.count());
+    if (delay_ms > max_ms) delay_ms = max_ms;
+
+    return std::chrono::milliseconds(static_cast<int64_t>(delay_ms));
+}
+
+/**
+ * @brief Build an effective RetryPolicy from a ScheduledTask.
+ *
+ * If the task has an explicit retry_policy, use it.
+ * Otherwise fall back to a policy derived from the legacy max_retries field.
+ */
+ScheduledTask::RetryPolicy effectiveRetryPolicy(const ScheduledTask& task) {
+    if (task.retry_policy) {
+        return *task.retry_policy;
+    }
+    // Legacy fallback: exponential backoff with max_retries
+    ScheduledTask::RetryPolicy p;
+    p.strategy       = ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF;
+    p.max_retries    = task.max_retries;
+    p.initial_delay  = std::chrono::milliseconds{1000};
+    p.max_delay      = std::chrono::milliseconds{30000};
+    p.backoff_multiplier = 2.0;
+    return p;
+}
+
+} // anonymous namespace
+
+// ── Error categorization helper ──────────────────────────────────────────────
+// Classify a failure message into one of the ScheduledTask::ErrorCategory values.
+// This function is intentionally conservative: when in doubt it returns TRANSIENT
+// so that the retry policy is not prematurely abandoned.
+static ScheduledTask::ErrorCategory categorizeError(const std::string& error_message) {
+    // Permanent errors: configuration / code problems that won't fix themselves
+    if (error_message.find("not found") != std::string::npos ||
+        error_message.find("unknown function") != std::string::npos ||
+        error_message.find("invalid argument") != std::string::npos ||
+        error_message.find("syntax error") != std::string::npos ||
+        error_message.find("parse error") != std::string::npos ||
+        error_message.find("no such") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::PERMANENT;
+    }
+    // Timeout errors
+    if (error_message.find("timeout") != std::string::npos ||
+        error_message.find("timed out") != std::string::npos ||
+        error_message.find("deadline exceeded") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::TIMEOUT;
+    }
+    // Security / authorisation errors
+    if (error_message.find("security") != std::string::npos ||
+        error_message.find("injection") != std::string::npos ||
+        error_message.find("forbidden") != std::string::npos ||
+        error_message.find("unauthorized") != std::string::npos ||
+        error_message.find("permission denied") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::SECURITY;
+    }
+    // Resource / rate-limit errors
+    if (error_message.find("rate limit") != std::string::npos ||
+        error_message.find("resource limit") != std::string::npos ||
+        error_message.find("quota") != std::string::npos ||
+        error_message.find("out of memory") != std::string::npos ||
+        error_message.find("too many") != std::string::npos) {
+        return ScheduledTask::ErrorCategory::RESOURCE;
+    }
+    // Default: treat as transient (connection issues, temporary failures, etc.)
+    return ScheduledTask::ErrorCategory::TRANSIENT;
+}
+
+
 
 TaskScheduler::TaskScheduler(QueryEngine* query_engine, const Config& config, 
                              Changefeed* changefeed, std::shared_ptr<utils::AuditLogger> audit_logger)
@@ -438,34 +557,76 @@ nlohmann::json TaskScheduler::executeTaskNow(const std::string& task_id) {
         );
     }
     
-    // Execute synchronously
+    // Execute synchronously with retry logic (same as scheduled execution)
+    const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
+    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                    ? 1
+                                    : 1 + policy.max_retries;
+    std::string last_error;
+    bool succeeded = false;
     nlohmann::json result;
-    try {
-        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
-            result = executeAqlQuery(task->aql_query);
-        } else {
-            result = executeFunction(task->function_name, task->parameters);
+    size_t attempts_made = 0;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        if (attempt > 0) {
+            auto delay = computeRetryDelay(policy, attempt - 1);
+            THEMIS_INFO("executeTaskNow: retrying task {} (attempt {}/{}) after {}ms "
+                        "[strategy={}]",
+                        task_id, attempt + 1, max_attempts, delay.count(),
+                        static_cast<int>(policy.strategy));
+            std::this_thread::sleep_for(delay);
         }
-        
+
+        ++attempts_made;
+        try {
+            if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                result = executeAqlQuery(task->aql_query);
+            } else {
+                result = executeFunction(task->function_name, task->parameters);
+            }
+            succeeded = true;
+            break;
+        } catch (const std::exception& e) {
+            last_error = e.what();
+            // Check conditional should_retry if provided
+            if (policy.should_retry && !policy.should_retry(last_error)) {
+                THEMIS_INFO("executeTaskNow task {} retry skipped by should_retry: {}",
+                            task_id, last_error);
+                break;
+            }
+            if (attempt + 1 < max_attempts) {
+                THEMIS_WARN("executeTaskNow task {} attempt {}/{} failed: {} (will retry)",
+                            task_id, attempt + 1, max_attempts, e.what());
+            }
+        } catch (...) {
+            last_error = "unknown non-exception thrown";
+            THEMIS_ERROR("executeTaskNow task {} threw non-exception type", task_id);
+            break;  // Non-std exceptions are never retried
+        }
+    }
+
+    if (succeeded) {
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
-        
+        task->last_error_category = ScheduledTask::ErrorCategory::NONE;  // Reset on success
+
         if (task->on_success) {
             task->on_success(task_id, result);
         }
-    } catch (const std::exception& e) {
-        result = nlohmann::json{{"error", e.what()}};
+    } else {
+        result = nlohmann::json{{"error", last_error}};
         task->failed_executions++;
-        task->last_error = e.what();
+        task->last_error = last_error;
+        task->last_error_category = categorizeError(last_error);
         task->last_failure_time = std::chrono::system_clock::now();
-        
+
         if (task->on_failure) {
-            task->on_failure(task_id, e.what());
+            task->on_failure(task_id, last_error);
         }
-        
-        span.recordError(e.what());
+
+        span.recordError(last_error);
     }
-    
+
     task->total_executions++;
     total_executions_++;
     
@@ -534,7 +695,134 @@ TaskScheduler::Stats TaskScheduler::getStats() const {
     return stats;
 }
 
-std::vector<ScheduledTask> TaskScheduler::listTasks() const {
+std::string TaskScheduler::exportMetrics() const {
+    std::ostringstream out;
+
+    // Helper lambda for Prometheus text format (gauge metric with HELP + TYPE)
+    auto write_gauge = [&](const std::string& name, const std::string& help,
+                           double value) {
+        out << "# HELP " << name << " " << help << "\n";
+        out << "# TYPE " << name << " gauge\n";
+        out << name << " " << value << "\n";
+    };
+
+    // Capture snapshot under the lock
+    size_t registered_tasks, active_tasks, running_tasks;
+    size_t total_exec, failed_exec;
+    std::vector<ScheduledTask> task_snapshot;
+
+    {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        registered_tasks = tasks_.size();
+        active_tasks = std::count_if(tasks_.begin(), tasks_.end(),
+                                     [](const auto& p) { return p.second->enabled; });
+        {
+            std::lock_guard<std::mutex> rlock(running_mutex_);
+            running_tasks = running_task_threads_.size();
+        }
+        total_exec   = total_executions_.load();
+        failed_exec  = failed_executions_.load();
+
+        task_snapshot.reserve(tasks_.size());
+        for (const auto& [id, task] : tasks_) {
+            task_snapshot.push_back(*task);
+        }
+    }
+
+    // ── Scheduler-level gauges ────────────────────────────────────────────
+    write_gauge("themis_scheduler_tasks_registered",
+                "Total number of registered scheduled tasks.",
+                static_cast<double>(registered_tasks));
+
+    write_gauge("themis_scheduler_tasks_active",
+                "Number of enabled (active) scheduled tasks.",
+                static_cast<double>(active_tasks));
+
+    write_gauge("themis_scheduler_tasks_running",
+                "Number of task instances currently executing.",
+                static_cast<double>(running_tasks));
+
+    // ── Scheduler-level counters ──────────────────────────────────────────
+    out << "# HELP themis_scheduler_executions_total"
+           " Total number of task execution attempts.\n";
+    out << "# TYPE themis_scheduler_executions_total counter\n";
+    out << "themis_scheduler_executions_total{status=\"success\"} "
+        << (total_exec - failed_exec) << "\n";
+    out << "themis_scheduler_executions_total{status=\"failure\"} "
+        << failed_exec << "\n";
+
+    // ── Per-task metrics ──────────────────────────────────────────────────
+    if (!task_snapshot.empty()) {
+        // Counters per task
+        out << "# HELP themis_scheduler_task_executions_total"
+               " Execution count per task.\n";
+        out << "# TYPE themis_scheduler_task_executions_total counter\n";
+        for (const auto& t : task_snapshot) {
+            // Sanitize label values (replace " and \ which are illegal in labels)
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            std::string labels = "task_id=\"" + t.id + "\",task_name=\"" + safe_name + "\"";
+            out << "themis_scheduler_task_executions_total{"
+                << labels << ",status=\"success\"} "
+                << t.successful_executions << "\n";
+            out << "themis_scheduler_task_executions_total{"
+                << labels << ",status=\"failure\"} "
+                << t.failed_executions << "\n";
+        }
+
+        // Avg execution duration gauge per task
+        out << "# HELP themis_scheduler_task_execution_duration_ms"
+               " Moving-average execution duration per task in milliseconds.\n";
+        out << "# TYPE themis_scheduler_task_execution_duration_ms gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            out << "themis_scheduler_task_execution_duration_ms"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << t.avg_execution_time_ms << "\n";
+        }
+
+        // Last-run timestamp (unix epoch seconds) per task
+        out << "# HELP themis_scheduler_task_last_run_timestamp_seconds"
+               " Unix timestamp of the last execution for each task.\n";
+        out << "# TYPE themis_scheduler_task_last_run_timestamp_seconds gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            double last_run_sec = 0.0;
+            if (t.last_run_ms > 0) {
+                last_run_sec = static_cast<double>(t.last_run_ms) / 1000.0;
+            }
+            out << "themis_scheduler_task_last_run_timestamp_seconds"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << last_run_sec << "\n";
+        }
+
+        // Enabled flag (1 = enabled, 0 = disabled)
+        out << "# HELP themis_scheduler_task_enabled"
+               " Whether a task is currently enabled (1) or disabled (0).\n";
+        out << "# TYPE themis_scheduler_task_enabled gauge\n";
+        for (const auto& t : task_snapshot) {
+            std::string safe_name = t.name;
+            for (char& c : safe_name) {
+                if (c == '"' || c == '\\' || c == '\n') c = '_';
+            }
+            out << "themis_scheduler_task_enabled"
+                << "{task_id=\"" << t.id << "\",task_name=\"" << safe_name << "\"} "
+                << (t.enabled ? 1 : 0) << "\n";
+        }
+    }
+
+    return out.str();
+}
+
+
     std::lock_guard<std::mutex> lock(tasks_mutex_);
     
     std::vector<ScheduledTask> result;
@@ -667,26 +955,75 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         
         audit_manager_->logAuditEvent(start_event);
     }
-    
-    try {
-        nlohmann::json result;
-        
-        if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
-            span.setAttribute("task_type", "aql");
-            result = executeAqlQuery(task->aql_query);
-        } else {
-            span.setAttribute("task_type", "function");
-            result = executeFunction(task->function_name, task->parameters);
+
+    // Retry loop with strategy-based backoff (RetryPolicy)
+    const ScheduledTask::RetryPolicy policy = effectiveRetryPolicy(*task);
+    const size_t max_attempts = (policy.strategy == ScheduledTask::RetryStrategy::NONE)
+                                    ? 1
+                                    : 1 + policy.max_retries;
+    std::string last_error;
+    bool succeeded = false;
+    nlohmann::json result;
+    size_t attempts_made = 0;
+
+    for (size_t attempt = 0; attempt < max_attempts; ++attempt) {
+        // Abort if scheduler is stopping
+        if (!running_.load()) {
+            break;
         }
-        
-        auto end = std::chrono::steady_clock::now();
-        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+
+        // Compute and apply delay before each retry (not before the first attempt)
+        if (attempt > 0) {
+            auto delay = computeRetryDelay(policy, attempt - 1);
+
+            THEMIS_INFO("Retrying task {} (attempt {}/{}) after {}ms [strategy={}]",
+                        task->id, attempt + 1, max_attempts, delay.count(),
+                        static_cast<int>(policy.strategy));
+
+            std::this_thread::sleep_for(delay);
+            if (!running_.load()) break;
+        }
+
+        ++attempts_made;
+        try {
+            if (task->type == ScheduledTask::TaskType::AQL_QUERY) {
+                span.setAttribute("task_type", "aql");
+                result = executeAqlQuery(task->aql_query);
+            } else {
+                span.setAttribute("task_type", "function");
+                result = executeFunction(task->function_name, task->parameters);
+            }
+            succeeded = true;
+            break;  // Success – no more retries needed
+        } catch (const std::exception& e) {
+            last_error = e.what();
+            // Honor conditional should_retry if provided
+            if (policy.should_retry && !policy.should_retry(last_error)) {
+                THEMIS_INFO("Task {} retry skipped by should_retry policy: {}",
+                            task->id, last_error);
+                break;
+            }
+            if (attempt + 1 < max_attempts) {
+                THEMIS_WARN("Task {} attempt {}/{} failed: {} (will retry)",
+                            task->id, attempt + 1, max_attempts, e.what());
+            }
+        } catch (...) {
+            last_error = "unknown non-exception thrown";
+            THEMIS_ERROR("Task {} threw non-exception type; no retry", task->id);
+            break;  // Non-std exceptions are never retried
+        }
+    }
+    
+    auto end = std::chrono::steady_clock::now();
+    double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
+
+    if (succeeded) {
         // Update statistics
         task->last_run_ms = getCurrentTimeMs();
         task->total_executions++;
         task->successful_executions++;
         task->last_success_time = std::chrono::system_clock::now();
+        task->last_error_category = ScheduledTask::ErrorCategory::NONE;  // Reset on success
         
         // Update moving average of execution time
         task->avg_execution_time_ms = 
@@ -694,9 +1031,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             / task->total_executions;
         
         updateNextRun(*task);
-        
         total_executions_++;
-        
         span.setAttribute("execution_time_ms", elapsed_ms);
         
         THEMIS_DEBUG("Executed task {} ({}): {:.2f}ms",
@@ -713,7 +1048,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             completion_event.task_description = task->description;
             completion_event.event_type = scheduler::TaskEventType::TASK_COMPLETED;
             completion_event.trigger_type = start_event.trigger_type;
-            // TODO: completion_setDefaultAuditContext(completion_event);
+            setDefaultAuditContext(completion_event);
             completion_event.success = true;
             
             // Resource usage (basic metrics)
@@ -736,20 +1071,19 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         if (task->on_success) {
             task->on_success(task->id, result);
         }
-        
-    } catch (const std::exception& e) {
-        auto end = std::chrono::steady_clock::now();
-        double elapsed_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        
+    } else {
+        // All attempts failed
         task->failed_executions++;
-        task->last_error = e.what();
+        task->last_error = last_error;
+        task->last_error_category = categorizeError(last_error);
         task->last_failure_time = std::chrono::system_clock::now();
         failed_executions_++;
         
         updateNextRun(*task);
         
-        span.recordError(e.what());
-        THEMIS_ERROR("Failed to execute task {}: {}", task->id, e.what());
+        span.recordError(last_error);
+        THEMIS_ERROR("Task {} failed after {} attempt(s): {}",
+                     task->id, max_attempts, last_error);
         
         // Log audit event for failure
         if (audit_manager_) {
@@ -762,10 +1096,11 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
             failure_event.task_description = task->description;
             failure_event.event_type = scheduler::TaskEventType::TASK_FAILED;
             failure_event.trigger_type = start_event.trigger_type;
-            // TODO: failure_setDefaultAuditContext(failure_event);
+            setDefaultAuditContext(failure_event);
             failure_event.success = false;
-            failure_event.error_message = e.what();
+            failure_event.error_message = last_error;
             failure_event.error_type = "EXECUTION_ERROR";
+            failure_event.metadata["attempts_made"] = attempts_made;
             
             // Resource usage
             failure_event.resource_usage.execution_time_ms = elapsed_ms;
@@ -782,7 +1117,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
                 security_event.task_name = task->name;
                 security_event.event_type = scheduler::TaskSecurityEventType::EXCESSIVE_FAILURES;
                 security_event.severity = "HIGH";
-                // TODO: security_setDefaultAuditContext(security_event);
+                setDefaultAuditContext(security_event);
                 security_event.violation_type = "excessive_failures";
                 security_event.description = "Task showing excessive failure rate: " + anomaly_metrics.description;
                 security_event.details["anomaly_score"] = anomaly_metrics.overall_score;
@@ -795,7 +1130,7 @@ void TaskScheduler::executeTask(std::shared_ptr<ScheduledTask> task) {
         }
         
         if (task->on_failure) {
-            task->on_failure(task->id, e.what());
+            task->on_failure(task->id, last_error);
         }
     }
     
@@ -926,6 +1261,21 @@ void TaskScheduler::saveTasks() {
         }
         cdc_json["debounce_ms"] = task->cdc_trigger.debounce_ms;
         task_json["cdc_trigger"] = cdc_json;
+
+        // Save retry policy (serialize strategy + parameters; cannot persist should_retry lambda)
+        nlohmann::json retry_json;
+        if (task->retry_policy) {
+            const auto& rp = *task->retry_policy;
+            retry_json["strategy"]           = static_cast<int>(rp.strategy);
+            retry_json["max_retries"]        = rp.max_retries;
+            retry_json["initial_delay_ms"]   = rp.initial_delay.count();
+            retry_json["max_delay_ms"]       = rp.max_delay.count();
+            retry_json["backoff_multiplier"] = rp.backoff_multiplier;
+            retry_json["jitter_factor"]      = rp.jitter_factor;
+            task_json["retry_policy"] = retry_json;
+        } else {
+            task_json["max_retries"] = task->max_retries;
+        }
         
         tasks_json.push_back(task_json);
     }
@@ -948,6 +1298,24 @@ void TaskScheduler::saveTasks() {
         THEMIS_DEBUG("Saved {} tasks to disk with secure permissions", tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to save tasks: {}", e.what());
+    }
+
+    // Persist anomaly detector baseline so statistics survive a restart
+    if (audit_manager_) {
+        try {
+            std::string anomaly_path = config_.persistence_path + "/anomaly_stats.json";
+            std::ofstream af(anomaly_path);
+            if (af.good()) {
+                af << audit_manager_->exportAnomalyStatistics().dump(2);
+                af.close();
+                #ifndef _WIN32
+                chmod(anomaly_path.c_str(), S_IRUSR | S_IWUSR);
+                #endif
+                THEMIS_DEBUG("Saved anomaly detector statistics to disk");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to save anomaly statistics: {}", e.what());
+        }
     }
 }
 
@@ -1003,6 +1371,23 @@ void TaskScheduler::loadTasks() {
                     task.cdc_trigger.condition = cdc_json["condition"].get<std::string>();
                 }
             }
+
+            // Restore retry policy (legacy max_retries if no retry_policy block)
+            if (task_json.contains("retry_policy")) {
+                const auto& rp_json = task_json["retry_policy"];
+                ScheduledTask::RetryPolicy rp;
+                rp.strategy = static_cast<ScheduledTask::RetryStrategy>(
+                    rp_json.value("strategy",
+                                  static_cast<int>(ScheduledTask::RetryStrategy::EXPONENTIAL_BACKOFF)));
+                rp.max_retries        = rp_json.value("max_retries", size_t{3});
+                rp.initial_delay      = std::chrono::milliseconds(rp_json.value("initial_delay_ms", int64_t{1000}));
+                rp.max_delay          = std::chrono::milliseconds(rp_json.value("max_delay_ms", int64_t{30000}));
+                rp.backoff_multiplier = rp_json.value("backoff_multiplier", 2.0);
+                rp.jitter_factor      = rp_json.value("jitter_factor", 0.1);
+                task.retry_policy = rp;
+            } else {
+                task.max_retries = task_json.value("max_retries", size_t{3});
+            }
             
             registerTask(task);
         }
@@ -1010,6 +1395,21 @@ void TaskScheduler::loadTasks() {
         THEMIS_INFO("Loaded {} tasks from disk", tasks_.size());
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to load tasks: {}", e.what());
+    }
+
+    // Restore anomaly detector baseline statistics
+    if (audit_manager_) {
+        try {
+            std::ifstream af(config_.persistence_path + "/anomaly_stats.json");
+            if (af.good()) {
+                nlohmann::json anomaly_json;
+                af >> anomaly_json;
+                audit_manager_->importAnomalyStatistics(anomaly_json);
+                THEMIS_DEBUG("Restored anomaly detector statistics from disk");
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to restore anomaly statistics (non-fatal): {}", e.what());
+        }
     }
 }
 
@@ -1130,10 +1530,14 @@ void TaskScheduler::validateResourceLimits(const ScheduledTask& task) const {
                                    std::to_string(min_timeout_ms) + " milliseconds");
     }
     
-    // Validate max_retries
+    // Validate max_retries (legacy field and retry_policy.max_retries)
     const size_t MAX_RETRIES = 10;
     if (task.max_retries > MAX_RETRIES) {
         throw std::invalid_argument("Task max_retries exceeds maximum allowed: " + 
+                                   std::to_string(MAX_RETRIES));
+    }
+    if (task.retry_policy && task.retry_policy->max_retries > MAX_RETRIES) {
+        throw std::invalid_argument("Task retry_policy.max_retries exceeds maximum allowed: " +
                                    std::to_string(MAX_RETRIES));
     }
     

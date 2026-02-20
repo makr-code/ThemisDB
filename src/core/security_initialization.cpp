@@ -1,6 +1,9 @@
 #include "core/security_initialization.h"
+#include "core/production_mode.h"
+#include "core/config_validator.h"
 #include "security/mock_key_provider.h"
 #include "security/vault_key_provider.h"
+#include "security/hsm_provider.h"
 #include "security/hsm_key_provider_adapter.h"
 #include <fstream>
 #include <sstream>
@@ -15,8 +18,29 @@ SecurityLayerBuilder& SecurityLayerBuilder::withKeyProvider(
     KeyProviderType type,
     const std::string& config_json)
 {
-    // Key provider initialization deferred - to be implemented with proper interface design
-    // For now, this is a placeholder to maintain API compatibility
+    // Parse and validate configuration
+    nlohmann::json config;
+    
+    try {
+        if (!config_json.empty() && config_json != "{}") {
+            config = nlohmann::json::parse(config_json);
+        }
+    } catch (const std::exception& e) {
+        throw std::runtime_error("Failed to parse key provider config JSON: " + std::string(e.what()));
+    }
+    
+    // Validate configuration based on type
+    if (type == KeyProviderType::VAULT) {
+        auto validation = core::ConfigValidator::validateVaultConfig(config);
+        if (!validation.valid) {
+            throw std::runtime_error("Invalid Vault configuration:\n" + validation.formatErrors());
+        }
+    }
+    
+    // Store provider type and config for later initialization in build()
+    key_provider_type_ = type;
+    key_provider_config_ = config_json;
+    
     return *this;
 }
 
@@ -57,16 +81,45 @@ SecurityLayerBuilder& SecurityLayerBuilder::withJWT(
 SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     SecurityLayer layer;
     
-    // Note: Key provider initialization deferred - to be properly implemented in future
-    // For now, security layer can be used with external key management
+    bool production_mode = core::ProductionMode::isEnabled();
+    
+    // Create or validate key provider
+    IKeyProviderPtr key_provider_impl;
+    
+    if (key_provider_type_.has_value()) {
+        // User explicitly configured a key provider
+        key_provider_impl = createKeyProvider(key_provider_type_.value(), key_provider_config_);
+        
+        // In production, reject mock/local providers
+        if (production_mode && key_provider_type_.value() == KeyProviderType::LOCAL) {
+            throw std::runtime_error(
+                "Production mode violation: LOCAL (mock) key provider is not allowed in production. "
+                "Use VAULT or HSM key provider instead. "
+                "Set THEMIS_PRODUCTION_MODE=0 or THEMIS_ENVIRONMENT=development for testing."
+            );
+        }
+    } else {
+        // No key provider configured
+        if (production_mode) {
+            throw std::runtime_error(
+                "Production mode violation: No key provider configured. "
+                "Call withKeyProvider() with VAULT or HSM configuration before build(). "
+                "Mock/default key providers are not allowed in production."
+            );
+        } else {
+            // In development, allow default mock provider
+            key_provider_impl = std::make_shared<MockKeyProvider>();
+        }
+    }
+    
+    // Cast to KeyProvider interface
+    auto key_provider_concrete = std::dynamic_pointer_cast<KeyProvider>(key_provider_impl);
+    if (!key_provider_concrete) {
+        throw std::runtime_error("Key provider does not implement KeyProvider interface");
+    }
     
     // Create field encryption
-    auto key_provider_impl = std::dynamic_pointer_cast<KeyProvider>(key_provider_);
-    if (!key_provider_impl) {
-        // If it's not a KeyProvider, create a default mock
-        key_provider_impl = std::make_shared<MockKeyProvider>();
-    }
-    auto field_enc = std::make_shared<FieldEncryption>(key_provider_impl);
+    auto field_enc = std::make_shared<FieldEncryption>(key_provider_concrete);
     if (!encryption_config_.empty()) {
         field_enc->setEncryptionConfig(encryption_config_);
     }
@@ -89,10 +142,25 @@ SecurityLayerBuilder::SecurityLayer SecurityLayerBuilder::build() {
     
     // Create JWT validator
     if (jwt_configured_) {
+        // Validate JWT configuration
+        auto validation = core::ConfigValidator::validateJWTConfig(jwt_config_, production_mode);
+        if (!validation.valid) {
+            throw std::runtime_error("Invalid JWT configuration:\n" + validation.formatErrors());
+        }
+        
         layer.jwt = std::make_shared<auth::JWTValidator>(jwt_config_);
     } else {
-        // Create a default validator with empty config
-        layer.jwt = std::make_shared<auth::JWTValidator>("");
+        // No JWT configured
+        if (production_mode) {
+            throw std::runtime_error(
+                "Production mode violation: No JWT validation configured. "
+                "Call withJWT() with proper configuration before build(). "
+                "JWT validation is required in production mode."
+            );
+        } else {
+            // Create a default validator with empty config (for development)
+            layer.jwt = std::make_shared<auth::JWTValidator>("");
+        }
     }
     
     return layer;
@@ -145,6 +213,11 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             if (config.contains("kv_mount_path")) {
                 vault_config.kv_mount_path = config["kv_mount_path"].get<std::string>();
             }
+            if (config.contains("tls_skip_verify")) {
+                vault_config.verify_ssl = !config["tls_skip_verify"].get<bool>();
+            }
+            // Note: namespace and role are Vault Enterprise features not yet in the config struct
+            // They are validated but not used until VaultKeyProvider::Config is extended
             
             if (vault_config.vault_addr.empty() || vault_config.vault_token.empty()) {
                 throw std::runtime_error("VAULT key provider requires vault_addr and vault_token in config");
@@ -153,29 +226,54 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             return std::make_shared<VaultKeyProvider>(vault_config);
         }
         
-        // HSM case commented out due to missing dependencies
-        // case KeyProviderType::HSM: {
-        //     // HSM configuration
-        //     std::string library_path;
-        //     std::string slot_id;
-        //     std::string pin;
-        //     
-        //     if (config.contains("library_path")) {
-        //         library_path = config["library_path"].get<std::string>();
-        //     }
-        //     if (config.contains("slot_id")) {
-        //         slot_id = config["slot_id"].get<std::string>();
-        //     }
-        //     if (config.contains("pin")) {
-        //         pin = config["pin"].get<std::string>();
-        //     }
-        //     
-        //     if (library_path.empty()) {
-        //         throw std::runtime_error("HSM key provider requires library_path in config");
-        //     }
-        //     
-        //     return std::make_shared<HSMKeyProviderAdapter>(library_path, slot_id, pin);
-        // }
+        case KeyProviderType::HSM: {
+            // Check if HSM support is enabled
+            const char* hsm_enabled = std::getenv("THEMIS_HSM_ENABLED");
+            if (!hsm_enabled || std::string(hsm_enabled) != "1") {
+                throw std::runtime_error(
+                    "HSM key provider is not enabled. "
+                    "Set THEMIS_HSM_ENABLED=1 to enable HSM support. "
+                    "Note: HSM support requires PKCS#11 libraries to be installed."
+                );
+            }
+            
+            // HSM configuration
+            std::string library_path;
+            std::string slot_id;
+            std::string pin;
+            
+            if (config.contains("library_path")) {
+                library_path = config["library_path"].get<std::string>();
+            }
+            if (config.contains("slot_id")) {
+                slot_id = config["slot_id"].get<std::string>();
+            }
+            if (config.contains("pin")) {
+                pin = config["pin"].get<std::string>();
+            }
+            
+            if (library_path.empty()) {
+                throw std::runtime_error("HSM key provider requires library_path in config");
+            }
+            
+            try {
+                security::HSMConfig hsm_config;
+                hsm_config.library_path = library_path;
+                if (!slot_id.empty()) {
+                    hsm_config.slot_id = static_cast<uint32_t>(std::stoul(slot_id));
+                }
+                hsm_config.pin = pin;
+
+                auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+                if (!hsm->initialize()) {
+                    throw std::runtime_error("HSM provider initialization failed");
+                }
+
+                return std::make_shared<security::HSMKeyProviderAdapter>(hsm);
+            } catch (const std::exception& e) {
+                throw std::runtime_error("Failed to initialize HSM key provider: " + std::string(e.what()));
+            }
+        }
         
         default:
             throw std::runtime_error("Unknown key provider type");

@@ -365,8 +365,36 @@ nlohmann::json TaskAnomalyDetector::exportStatistics() const {
         task_json["failure_rate"] = stats.failure_rate;
         task_json["recent_failure_rate"] = stats.recent_failure_rate;
         task_json["mean_execution_time_ms"] = stats.mean_execution_time_ms;
+        task_json["stddev_execution_time_ms"] = stats.stddev_execution_time_ms;
+        task_json["min_execution_time_ms"] = stats.min_execution_time_ms;
+        task_json["max_execution_time_ms"] = stats.max_execution_time_ms;
         task_json["executions_per_hour"] = stats.executions_per_hour;
-        
+        task_json["mean_cpu_time_ms"] = stats.mean_cpu_time_ms;
+        task_json["mean_memory_bytes"] = stats.mean_memory_bytes;
+
+        // Persist raw deque data so baseline survives restarts
+        auto dequeToJson = [](const std::deque<double>& d) {
+            nlohmann::json arr = nlohmann::json::array();
+            for (double v : d) arr.push_back(v);
+            return arr;
+        };
+        task_json["execution_durations"] = dequeToJson(stats.execution_durations);
+        task_json["cpu_usage"]           = dequeToJson(stats.cpu_usage);
+        task_json["memory_usage"]        = dequeToJson(stats.memory_usage);
+
+        // Persist execution timestamps as milliseconds since epoch
+        nlohmann::json ts_arr = nlohmann::json::array();
+        for (const auto& tp : stats.execution_times) {
+            ts_arr.push_back(std::chrono::duration_cast<std::chrono::milliseconds>(
+                tp.time_since_epoch()).count());
+        }
+        task_json["execution_times_ms"] = ts_arr;
+
+        // Persist execution results (success/failure booleans)
+        nlohmann::json res_arr = nlohmann::json::array();
+        for (bool b : stats.execution_results) res_arr.push_back(b);
+        task_json["execution_results"] = res_arr;
+
         j["tasks"][task_id] = task_json;
     }
     
@@ -379,15 +407,78 @@ void TaskAnomalyDetector::importStatistics(const nlohmann::json& data) {
     // Import configuration if present
     if (data.contains("config")) {
         const auto& cfg = data["config"];
-        if (cfg.contains("frequency_threshold")) {
+        if (cfg.contains("frequency_threshold"))
             config_.frequency_threshold = cfg["frequency_threshold"];
-        }
-        // ... import other config fields as needed
+        if (cfg.contains("pattern_threshold"))
+            config_.pattern_threshold = cfg["pattern_threshold"];
+        if (cfg.contains("resource_threshold"))
+            config_.resource_threshold = cfg["resource_threshold"];
+        if (cfg.contains("failure_rate_threshold"))
+            config_.failure_rate_threshold = cfg["failure_rate_threshold"];
+        if (cfg.contains("overall_threshold"))
+            config_.overall_threshold = cfg["overall_threshold"];
+        if (cfg.contains("min_samples"))
+            config_.min_samples = cfg["min_samples"];
     }
-    
-    // Note: Full import of historical data would require serializing
-    // the entire deque structures, which we skip for simplicity.
-    // This import only restores summary statistics.
+
+    // Restore per-task statistics including the raw deque data for baseline detection
+    if (!data.contains("tasks")) return;
+
+    for (const auto& [task_id, task_json] : data["tasks"].items()) {
+        TaskStatistics& stats = task_stats_[task_id];
+
+        if (task_json.contains("total_executions"))
+            stats.total_executions = task_json["total_executions"];
+        if (task_json.contains("total_failures"))
+            stats.total_failures = task_json["total_failures"];
+        if (task_json.contains("failure_rate"))
+            stats.failure_rate = task_json["failure_rate"];
+        if (task_json.contains("recent_failure_rate"))
+            stats.recent_failure_rate = task_json["recent_failure_rate"];
+        if (task_json.contains("mean_execution_time_ms"))
+            stats.mean_execution_time_ms = task_json["mean_execution_time_ms"];
+        if (task_json.contains("stddev_execution_time_ms"))
+            stats.stddev_execution_time_ms = task_json["stddev_execution_time_ms"];
+        if (task_json.contains("min_execution_time_ms"))
+            stats.min_execution_time_ms = task_json["min_execution_time_ms"];
+        if (task_json.contains("max_execution_time_ms"))
+            stats.max_execution_time_ms = task_json["max_execution_time_ms"];
+        if (task_json.contains("executions_per_hour"))
+            stats.executions_per_hour = task_json["executions_per_hour"];
+        if (task_json.contains("mean_cpu_time_ms"))
+            stats.mean_cpu_time_ms = task_json["mean_cpu_time_ms"];
+        if (task_json.contains("mean_memory_bytes"))
+            stats.mean_memory_bytes = task_json["mean_memory_bytes"];
+
+        // Restore raw deques
+        auto jsonToDequeDouble = [](const nlohmann::json& arr) {
+            std::deque<double> d;
+            for (const auto& v : arr) d.push_back(v.get<double>());
+            return d;
+        };
+
+        if (task_json.contains("execution_durations"))
+            stats.execution_durations = jsonToDequeDouble(task_json["execution_durations"]);
+        if (task_json.contains("cpu_usage"))
+            stats.cpu_usage = jsonToDequeDouble(task_json["cpu_usage"]);
+        if (task_json.contains("memory_usage"))
+            stats.memory_usage = jsonToDequeDouble(task_json["memory_usage"]);
+
+        if (task_json.contains("execution_times_ms")) {
+            stats.execution_times.clear();
+            for (const auto& ms : task_json["execution_times_ms"]) {
+                stats.execution_times.push_back(
+                    std::chrono::system_clock::time_point(
+                        std::chrono::milliseconds(ms.get<int64_t>())));
+            }
+        }
+
+        if (task_json.contains("execution_results")) {
+            stats.execution_results.clear();
+            for (const auto& b : task_json["execution_results"])
+                stats.execution_results.push_back(b.get<bool>());
+        }
+    }
 }
 
 // Helper methods

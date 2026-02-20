@@ -122,7 +122,7 @@ static void BM_PhoneCallProcessingWithFullMetrics(benchmark::State& state) {
         
         auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         metrics.recordContentImport("audio/call", audio_size);
-        metrics.recordQuery("phone_call_processing", duration_ms, 1);
+        metrics.recordQuery("phone_call_processing", duration_ms, 1); // NOPII: metric operation type literal, not a phone number
         metrics.recordMemoryUsage(audio_size);
         
         benchmark::DoNotOptimize(result);
