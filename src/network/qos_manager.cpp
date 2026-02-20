@@ -4,7 +4,6 @@
 #include "network/qos_manager.h"
 
 #include <algorithm>
-#include <stdexcept>
 #include <thread>
 
 namespace themis {
@@ -190,7 +189,7 @@ void QoSManager::setTokenBucket(uint64_t connection_id,
         burst = rate_bps / 8;  // Default burst = 1 second of sustained rate
     }
 
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::lock_guard<std::mutex> lock(state->token_bucket_mutex);
     if (state->token_bucket) {
         state->token_bucket->reconfigure(rate_bps, burst);
     } else {
@@ -203,7 +202,7 @@ void QoSManager::clearTokenBucket(uint64_t connection_id) {
     if (!state) {
         return;
     }
-    std::lock_guard<std::mutex> lock(connections_mutex_);
+    std::lock_guard<std::mutex> lock(state->token_bucket_mutex);
     state->token_bucket.reset();
 }
 
@@ -238,15 +237,18 @@ bool QoSManager::allowSend(uint64_t connection_id,
     }
 
     // --- Token bucket check ---
-    if (state->token_bucket) {
-        bool ok = (timeout.count() > 0)
-                      ? state->token_bucket->consume(bytes, timeout)
-                      : state->token_bucket->tryConsume(bytes);
+    {
+        std::lock_guard<std::mutex> tb_lock(state->token_bucket_mutex);
+        if (state->token_bucket) {
+            bool ok = (timeout.count() > 0)
+                          ? state->token_bucket->consume(bytes, timeout)
+                          : state->token_bucket->tryConsume(bytes);
 
-        if (!ok) {
-            state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
-            total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
-            return false;
+            if (!ok) {
+                state->bytes_shaped.fetch_add(bytes, std::memory_order_relaxed);
+                total_bytes_shaped_.fetch_add(bytes, std::memory_order_relaxed);
+                return false;
+            }
         }
     }
 
@@ -326,10 +328,16 @@ QoSManager::getConnectionStats(uint64_t connection_id) const {
     cs.bytes_shaped         = state->bytes_shaped.load(std::memory_order_relaxed);
     cs.queue_depth          = state->queue_depth.load(std::memory_order_relaxed);
     cs.backpressure_events  = state->backpressure_events.load(std::memory_order_relaxed);
-    cs.has_token_bucket     = (state->token_bucket != nullptr);
-    if (cs.has_token_bucket) {
-        cs.token_bucket_rate_bps    = state->token_bucket->rateBps();
-        cs.token_bucket_burst_bytes = state->token_bucket->burstBytes();
+    cs.has_token_bucket     = false;
+    cs.token_bucket_rate_bps    = 0;
+    cs.token_bucket_burst_bytes = 0;
+    {
+        std::lock_guard<std::mutex> tb_lock(state->token_bucket_mutex);
+        cs.has_token_bucket = (state->token_bucket != nullptr);
+        if (cs.has_token_bucket) {
+            cs.token_bucket_rate_bps    = state->token_bucket->rateBps();
+            cs.token_bucket_burst_bytes = state->token_bucket->burstBytes();
+        }
     }
     return cs;
 }

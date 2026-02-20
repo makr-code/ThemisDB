@@ -236,10 +236,10 @@ TEST_F(QoSManagerTest, GetAllConnectionStats) {
 
 TEST_F(QoSManagerTest, BackpressureCallbackFired) {
     std::atomic<int> cb_count{0};
-    uint64_t cb_conn_id = 0;
+    std::atomic<uint64_t> cb_conn_id{0};
     qos_->setBackpressureCallback([&](uint64_t id, uint64_t) {
         cb_count.fetch_add(1);
-        cb_conn_id = id;
+        cb_conn_id.store(id, std::memory_order_relaxed);
     });
 
     qos_->registerConnection(kConnId, Priority::MEDIUM);
@@ -247,7 +247,7 @@ TEST_F(QoSManagerTest, BackpressureCallbackFired) {
     qos_->allowSend(kConnId, 100, 0ms);     // triggers backpressure
 
     EXPECT_GE(cb_count.load(), 1);
-    EXPECT_EQ(cb_conn_id, kConnId);
+    EXPECT_EQ(cb_conn_id.load(), kConnId);
 }
 
 TEST_F(QoSManagerTest, ClearTokenBucketRestoresUnlimited) {

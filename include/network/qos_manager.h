@@ -6,14 +6,11 @@
 
 #include <atomic>
 #include <chrono>
-#include <condition_variable>
 #include <cstdint>
 #include <functional>
 #include <map>
 #include <memory>
 #include <mutex>
-#include <queue>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -38,8 +35,6 @@ enum class Priority : uint8_t {
     MEDIUM   = 2,
     LOW      = 3,
 };
-
-static constexpr size_t kNumPriorityLevels = 4;
 
 // =============================================================================
 // TokenBucket – per-connection token bucket rate limiter
@@ -174,7 +169,7 @@ public:
     QoSManager();
     ~QoSManager();
 
-    // Non-copyable, non-movable (owns background thread)
+    // Non-copyable, non-movable
     QoSManager(const QoSManager&)            = delete;
     QoSManager& operator=(const QoSManager&) = delete;
     QoSManager(QoSManager&&)                 = delete;
@@ -322,8 +317,8 @@ public:
      * @brief Set a callback invoked when backpressure is triggered.
      *
      * The callback receives the connection_id and the number of bytes that
-     * could not be sent.  It is called under the connection's internal lock,
-     * so it must be fast and non-blocking.
+     * could not be sent.  It is invoked while holding an internal callback
+     * mutex, so it must be fast and non-blocking.
      */
     void setBackpressureCallback(
         std::function<void(uint64_t /*connection_id*/, uint64_t /*bytes*/)> cb);
@@ -334,6 +329,7 @@ private:
         uint64_t connection_id;
         std::atomic<uint8_t> priority{static_cast<uint8_t>(Priority::MEDIUM)};
 
+        mutable std::mutex token_bucket_mutex;  // protects token_bucket
         std::unique_ptr<TokenBucket> token_bucket;  // nullptr = unlimited
 
         std::atomic<uint64_t> bytes_sent{0};
