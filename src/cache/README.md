@@ -27,6 +27,11 @@ Caching implementations for ThemisDB.
   - Token bucket rate limiting
   - Tenant isolation and namespace enforcement
   - Per-tenant size quotas
+- **Phase 3 Operational Excellence (2026):**
+  - Admin API for operations and monitoring
+  - Cache warmup with bulk operations
+  - Tenant management API
+  - Health checks and diagnostics
 
 ## Phase 1 Production-Readiness Improvements
 
@@ -139,15 +144,65 @@ auto cached = cache.get(fp, "tenant_abc");
 auto denied = cache.get(fp, "tenant_xyz");  // Returns nullopt
 ```
 
+## Phase 3 Operational Excellence
+
+Admin API for production operations and monitoring:
+
+### Admin API Methods
+
+**Per-Tier Statistics:**
+```cpp
+json stats = cache.getStatsByTier();
+// Returns entries, utilization, and hits per tier (L1, L2, L3)
+```
+
+**Health Status:**
+```cpp
+json health = cache.getHealthStatus();
+// Returns health status with warnings (high utilization, circuit breaker, low hit rate)
+```
+
+**Tenant Management:**
+```cpp
+// Get tenant usage
+json tenant_stats = cache.getTenantStats();
+
+// Invalidate all entries for a tenant
+size_t count = cache.invalidateTenant("tenant_123");
+```
+
+**Cache Warmup:**
+```cpp
+// Bulk insert for startup warmup
+std::vector<std::tuple<std::string, json, json, std::string>> entries;
+// ... populate entries ...
+size_t cached = cache.bulkPut(entries);
+```
+
+**Debug & Diagnostics:**
+```cpp
+// Export sample cache keys
+auto keys = cache.exportKeys(100);
+for (const auto& key : keys) {
+    std::cout << key << std::endl;
+}
+```
+
 ## Testing
 
-Phase 1 & 2 improvements include comprehensive test coverage:
+Phase 1, 2 & 3 improvements include comprehensive test coverage:
 
 ```bash
-# Run Phase 1 & 2 tests
+# Run all cache tests (includes Phase 1, 2 & 3)
 ./build/tests/test_adaptive_cache_phase1
 
-# Run all cache tests
+# Run integration tests
+./build/tests/test_adaptive_cache_integration
+
+# Run fuzz tests
+./build/tests/test_adaptive_cache_fuzz
+
+# Run all cache module tests
 ./build/tests/test_adaptive_query_cache
 ./build/tests/test_bounded_lru_cache
 ./build/tests/test_embedding_cache
