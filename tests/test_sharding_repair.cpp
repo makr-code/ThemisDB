@@ -65,9 +65,13 @@ protected:
         ASSERT_GE(recovered.size(), original.size());
 
         // First original.size() bytes must match
+        std::string dropped_str;
+        for (auto idx : drop_indices) {
+            dropped_str += std::to_string(idx) + " ";
+        }
         for (size_t i = 0; i < original.size(); ++i) {
             EXPECT_EQ(recovered[i], original[i])
-                << "Mismatch at byte " << i << " (dropped chunks: ";
+                << "Mismatch at byte " << i << " (dropped chunks: " << dropped_str << ")";
         }
     }
 };

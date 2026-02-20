@@ -502,12 +502,11 @@ void ShardRepairEngine::updateMetricsAfterRepair(bool success,
     } else {
         ++metrics_.total_repairs_failed;
     }
-    // Rolling average
-    uint64_t total_time = metrics_.avg_repair_time_ms.count() *
-                          (metrics_.total_repairs_attempted - 1);
-    metrics_.avg_repair_time_ms = std::chrono::milliseconds(
-        (total_time + static_cast<uint64_t>(duration.count())) /
-        metrics_.total_repairs_attempted);
+    // Cumulative moving average: avg_n = avg_{n-1} + (x_n - avg_{n-1}) / n
+    // Avoids the overflow that would occur when computing avg * (n-1).
+    int64_t delta = duration.count() - metrics_.avg_repair_time_ms.count();
+    metrics_.avg_repair_time_ms += std::chrono::milliseconds(
+        delta / static_cast<int64_t>(metrics_.total_repairs_attempted));
 }
 
 }  // namespace sharding
