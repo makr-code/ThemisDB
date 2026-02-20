@@ -58,31 +58,36 @@ public:
 
 ### Type-Safe Metrics Labels
 **Priority:** Medium  
-**Target Version:** v1.7.0
+**Status:** ✅ Implemented in v1.6.0 (`include/core/concerns/metric_labels.h`)
 
-Replace string-based labels with type-safe label sets.
+`MetricLabels` is a fluent builder that converts implicitly to `IMetrics::Labels`
+so it can be passed to any existing `IMetrics` method without changes at the
+call site.  Predefined label-name constants in the `labels::` namespace prevent
+typos at compile time.
 
 ```cpp
-struct MetricLabels {
-    std::string endpoint;
-    std::string method;
-    int status_code;
-};
+// Inline (ad-hoc labels)
+metrics.incrementCounter("http_requests_total", 1,
+    MetricLabels()
+        .add(labels::kMethod,   "GET")
+        .add(labels::kStatus,   "200")
+        .add(labels::kEndpoint, "/api/v1/query"));
 
-class IMetrics {
-    // Current (string-based)
-    virtual void incrementCounter(std::string_view name, double value = 1.0) = 0;
-    
-    // Proposed (type-safe)
-    template<typename Labels>
-    void incrementCounter(std::string_view name, const Labels& labels, double value = 1.0);
+// Domain-specific labels struct
+struct HttpRequestLabels {
+    std::string method;
+    std::string status;
+
+    IMetrics::Labels toMetricLabels() const {
+        return MetricLabels()
+            .add(labels::kMethod, method)
+            .add(labels::kStatus, status);
+    }
 };
 ```
 
-**Benefits:**
-- Compile-time label validation
-- Prevents typos in label names
-- Better IDE autocomplete
+`IMetrics::Labels` (`std::map<std::string, std::string>`) is unchanged — all
+existing code compiles without modification.
 
 ---
 
@@ -562,7 +567,7 @@ We welcome contributions in the following areas:
 
 ### Medium Complexity
 - [ ] Implement IContext interface
-- [ ] Add type-safe metrics labels
+- [x] Add type-safe metrics labels (`MetricLabels` fluent builder + `labels::k*` constants in `include/core/concerns/metric_labels.h`; implicitly converts to `IMetrics::Labels` so existing code is unchanged)
 - [ ] Create async interface variants
 - [x] Health check interface (implemented in v1.6.0)
 

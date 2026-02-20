@@ -450,6 +450,7 @@ from destructors, signal handlers, and other non-throwing contexts:
 - `include/core/concerns/i_metrics.h` - Metrics interface
 - `include/core/concerns/i_cache.h` - Cache interface
 - `include/core/concerns/lifecycle.h` - `ProbeResult` and `HealthStatus` types
+- `include/core/concerns/metric_labels.h` - `MetricLabels` fluent builder and `labels::k*` constants
 
 ### Implementations
 - `include/core/concerns/spdlog_logger_adapter.h` - Spdlog adapter

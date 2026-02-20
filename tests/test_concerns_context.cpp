@@ -3,6 +3,7 @@
 #include "core/concerns/spdlog_logger_adapter.h"
 #include "core/concerns/inmemory_cache_impl.h"
 #include "core/concerns/lifecycle.h"
+#include "core/concerns/metric_labels.h"
 #include <gtest/gtest.h>
 #include <memory>
 #include <thread>
@@ -384,4 +385,99 @@ TEST_F(ConcernsContextTest, FullIntegration) {
     EXPECT_NO_THROW(ctx->flush());
     auto status = ctx->healthCheck();
     EXPECT_TRUE(status.isHealthy());
+}
+
+// ===== MetricLabels Tests =====
+
+using namespace themis::core::concerns;
+
+TEST(MetricLabelsTest, EmptyByDefault) {
+    MetricLabels ml;
+    EXPECT_TRUE(ml.empty());
+    EXPECT_EQ(0u, ml.size());
+}
+
+TEST(MetricLabelsTest, AddSingleLabel) {
+    MetricLabels ml;
+    ml.add("method", "GET");
+    EXPECT_EQ(1u, ml.size());
+    EXPECT_FALSE(ml.empty());
+}
+
+TEST(MetricLabelsTest, FluentChaining) {
+    auto ml = MetricLabels()
+        .add(labels::kMethod,   "POST")
+        .add(labels::kStatus,   "201")
+        .add(labels::kEndpoint, "/api/v1/doc");
+    EXPECT_EQ(3u, ml.size());
+}
+
+TEST(MetricLabelsTest, ToLabelsReturnsCorrectMap) {
+    auto ml = MetricLabels()
+        .add(labels::kMethod, "GET")
+        .add(labels::kStatus, "200");
+
+    IMetrics::Labels m = ml.toLabels();
+    ASSERT_EQ(2u, m.size());
+    EXPECT_EQ("GET", m.at(std::string(labels::kMethod)));
+    EXPECT_EQ("200", m.at(std::string(labels::kStatus)));
+}
+
+TEST(MetricLabelsTest, ImplicitConversionToLabels) {
+    // MetricLabels must be usable wherever IMetrics::Labels is expected
+    MetricLabels ml;
+    ml.add(labels::kOperation, "SELECT");
+    ml.add(labels::kTable,     "users");
+
+    IMetrics::Labels m = ml;  // implicit conversion
+    EXPECT_EQ("SELECT", m.at(std::string(labels::kOperation)));
+    EXPECT_EQ("users",  m.at(std::string(labels::kTable)));
+}
+
+TEST(MetricLabelsTest, DuplicateKeyOverwritesPrevious) {
+    MetricLabels ml;
+    ml.add(labels::kStatus, "200");
+    ml.add(labels::kStatus, "404");  // overwrite
+
+    IMetrics::Labels m = ml.toLabels();
+    EXPECT_EQ(1u, m.size());
+    EXPECT_EQ("404", m.at(std::string(labels::kStatus)));
+}
+
+TEST(MetricLabelsTest, PredefinedConstantsHaveExpectedValues) {
+    EXPECT_EQ("method",       labels::kMethod);
+    EXPECT_EQ("status",       labels::kStatus);
+    EXPECT_EQ("endpoint",     labels::kEndpoint);
+    EXPECT_EQ("operation",    labels::kOperation);
+    EXPECT_EQ("table",        labels::kTable);
+    EXPECT_EQ("database",     labels::kDatabase);
+    EXPECT_EQ("service",      labels::kService);
+    EXPECT_EQ("env",          labels::kEnv);
+    EXPECT_EQ("instance",     labels::kInstance);
+    EXPECT_EQ("error",        labels::kError);
+    EXPECT_EQ("result",       labels::kResult);
+    EXPECT_EQ("cache_name",   labels::kCacheName);
+    EXPECT_EQ("cache_result", labels::kCacheResult);
+}
+
+TEST(MetricLabelsTest, PassedToNoOpMetricsWithoutCrash) {
+    // Verify the builder integrates end-to-end with IMetrics methods
+    NoOpMetrics metrics;
+    EXPECT_NO_THROW(
+        metrics.incrementCounter("http_requests_total", 1,
+            MetricLabels()
+                .add(labels::kMethod,   "GET")
+                .add(labels::kStatus,   "200")
+                .add(labels::kEndpoint, "/health"))
+    );
+    EXPECT_NO_THROW(
+        metrics.recordLatency("db.query", 5.0,
+            MetricLabels().add(labels::kOperation, "SELECT"))
+    );
+    EXPECT_NO_THROW(
+        metrics.recordError("cache.get",
+            MetricLabels()
+                .add(labels::kCacheResult, "miss")
+                .add(labels::kCacheName,   "semantic"))
+    );
 }
