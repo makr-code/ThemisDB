@@ -15,6 +15,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <chrono>
 #include <cmath>
 #include <mutex>
 #include <stdexcept>
@@ -176,6 +177,7 @@ public:
     // that operators can observe behaviour in production.
     // ------------------------------------------------------------------
     SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
+        const auto t0 = std::chrono::steady_clock::now();
         ++batch_calls_;
         SpatialBatchResults out;
         out.mask.assign(in.count, 0u);
@@ -226,6 +228,20 @@ public:
                 out.mask[i] = 0u;
             }
         }
+
+        // Record latency and throughput.
+        const uint64_t elapsed_ns = static_cast<uint64_t>(
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                std::chrono::steady_clock::now() - t0).count());
+        batch_latency_ns_total_ += elapsed_ns;
+        batch_pairs_processed_  += static_cast<uint64_t>(n);
+        // Update max latency with a lock-free compare-exchange loop.
+        uint64_t cur = batch_latency_ns_max_.load(std::memory_order_relaxed);
+        while (elapsed_ns > cur &&
+               !batch_latency_ns_max_.compare_exchange_weak(
+                   cur, elapsed_ns,
+                   std::memory_order_relaxed, std::memory_order_relaxed)) {}
+
         return out;
     }
 
@@ -258,25 +274,36 @@ public:
     // Stats (for admin/ops)
     // ------------------------------------------------------------------
     struct Stats {
-        uint64_t batch_calls     = 0;
-        uint64_t batch_fallbacks = 0;
-        uint64_t exact_calls     = 0;
-        uint64_t exact_errors    = 0;
-        bool     gpu_present     = false;
-        bool     circuit_open    = false;
+        uint64_t batch_calls          = 0;
+        uint64_t batch_fallbacks      = 0;
+        uint64_t batch_pairs_processed = 0;
+        uint64_t exact_calls          = 0;
+        uint64_t exact_errors         = 0;
+        bool     gpu_present          = false;
+        bool     circuit_open         = false;
         std::string device_name;
+        /// Average batch call latency in microseconds (0 when no calls yet).
+        double   batch_avg_latency_us = 0.0;
+        /// Maximum single batch call latency in microseconds.
+        double   batch_max_latency_us = 0.0;
     };
 
     Stats getStats() const {
         auto status = safe_fail_.getStatus();
+        const uint64_t calls = batch_calls_.load();
+        const uint64_t ns_total = batch_latency_ns_total_.load();
+        const uint64_t ns_max   = batch_latency_ns_max_.load();
         return Stats{
-            batch_calls_.load(),
+            calls,
             batch_fallbacks_.load(),
+            batch_pairs_processed_.load(),
             exact_calls_.load(),
             exact_errors_.load(),
             gpu_device_present_,
             status.state == themis::gpu::GPUSafeFail::State::CIRCUIT_OPEN,
-            gpu_device_present_ ? active_device_.name : "(none)"
+            gpu_device_present_ ? active_device_.name : "(none)",
+            calls > 0 ? static_cast<double>(ns_total) / static_cast<double>(calls) * 0.001 : 0.0,
+            static_cast<double>(ns_max) * 0.001
         };
     }
 
@@ -377,6 +404,9 @@ private:
 
     std::atomic<uint64_t> batch_calls_{0};
     std::atomic<uint64_t> batch_fallbacks_{0};
+    std::atomic<uint64_t> batch_pairs_processed_{0};
+    std::atomic<uint64_t> batch_latency_ns_total_{0};
+    std::atomic<uint64_t> batch_latency_ns_max_{0};
     std::atomic<uint64_t> exact_calls_{0};
     std::atomic<uint64_t> exact_errors_{0};
 };

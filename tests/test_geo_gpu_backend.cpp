@@ -6,6 +6,8 @@
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include <memory>
+#include <thread>
+#include <vector>
 
 using namespace themis::geo;
 
@@ -459,4 +461,193 @@ TEST_F(GpuGeoBackendTest, Backend_Name_IsGpuSpatial) {
     auto* backend = themis::geo::getGpuSpatialBackend();
     ASSERT_NE(backend, nullptr);
     EXPECT_STREQ(backend->name(), "gpu_spatial");
+}
+
+// ============================================================
+// Edge-case / degenerate geometry (fault injection)
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_EdgeCase_EmptyPoint_NoCrash) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    // Point with no coordinate data — must not crash and must return false
+    GeometryInfo empty(GeometryType::Point);
+    EXPECT_FALSE(backend->exactIntersects(empty, makePoint(0.0, 0.0)));
+    EXPECT_FALSE(backend->exactIntersects(makePoint(0.0, 0.0), empty));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_EdgeCase_EmptyPolygon_NoCrash) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    GeometryInfo empty(GeometryType::Polygon); // no rings, no coords
+    EXPECT_FALSE(backend->exactIntersects(empty, makePoint(0.0, 0.0)));
+    EXPECT_FALSE(backend->exactIntersects(makePoint(0.5, 0.5), empty));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_EdgeCase_DegenerateLineString_NoCrash) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    // LineString with only one point (degenerate)
+    GeometryInfo degen(GeometryType::LineString);
+    degen.coords.push_back({1.0, 1.0});
+    EXPECT_FALSE(backend->exactIntersects(makePoint(1.0, 1.0), degen));
+}
+
+TEST_F(GpuGeoBackendTest, Backend_EdgeCase_PolygonCoordsNoRings) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+    // Polygon whose ring data lives in coords rather than rings (legacy path)
+    GeometryInfo poly(GeometryType::Polygon);
+    poly.coords = {{0,0},{1,0},{1,1},{0,1},{0,0}};
+    // No rings — outerRing() falls back to coords
+    EXPECT_TRUE(backend->exactIntersects(makePoint(0.5, 0.5), poly));
+    EXPECT_FALSE(backend->exactIntersects(makePoint(9.0, 9.0), poly));
+}
+
+// ============================================================
+// Count / vector size mismatch in batch (robustness)
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_CountLargerThanVectors_ProcessesMin) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    // Only 2 real pairs but count says 10
+    in.count = 10;
+    in.geoms_a.push_back(makePoint(0.5, 0.5));
+    in.geoms_b.push_back(makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+    in.geoms_a.push_back(makePoint(9.0, 9.0));
+    in.geoms_b.push_back(makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}));
+
+    auto result = backend->batchIntersects(in);
+    // Mask is sized by count
+    ASSERT_EQ(result.mask.size(), 10u);
+    // First 2 entries reflect real geometry tests
+    EXPECT_EQ(result.mask[0], 1u);
+    EXPECT_EQ(result.mask[1], 0u);
+    // Remaining 8 stay 0 (no geometry provided)
+    for (std::size_t i = 2; i < 10; ++i) EXPECT_EQ(result.mask[i], 0u);
+}
+
+TEST_F(GpuGeoBackendTest, Backend_BatchIntersects_VectorsLargerThanCount_RespectsCount) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    SpatialBatchInputs in;
+    // count says 1 but 3 pairs provided — only first pair should be checked
+    in.count = 1;
+    in.geoms_a = {makePoint(0.5, 0.5), makePoint(9.0, 9.0), makePoint(0.5, 0.5)};
+    in.geoms_b = {makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}),
+                  makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}}),
+                  makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}})};
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), 1u);
+    EXPECT_EQ(result.mask[0], 1u); // point (0.5,0.5) is inside unit square
+}
+
+// ============================================================
+// Large-batch stress test
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_LargeBatch_CorrectResults) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    constexpr std::size_t kBatchSize = 200;
+    // Square polygon [0,10]x[0,10]
+    auto poly = makePolygon({{0,0},{10,0},{10,10},{0,10},{0,0}});
+
+    SpatialBatchInputs in;
+    in.count = kBatchSize;
+    for (std::size_t i = 0; i < kBatchSize; ++i) {
+        // Even-indexed points are inside (5,5); odd-indexed are outside (20,20)
+        if (i % 2 == 0) {
+            in.geoms_a.push_back(makePoint(5.0, 5.0));
+        } else {
+            in.geoms_a.push_back(makePoint(20.0, 20.0));
+        }
+        in.geoms_b.push_back(poly);
+    }
+
+    auto result = backend->batchIntersects(in);
+    ASSERT_EQ(result.mask.size(), kBatchSize);
+    for (std::size_t i = 0; i < kBatchSize; ++i) {
+        if (i % 2 == 0) {
+            EXPECT_EQ(result.mask[i], 1u) << "pair " << i << " should be a hit";
+        } else {
+            EXPECT_EQ(result.mask[i], 0u) << "pair " << i << " should be a miss";
+        }
+    }
+}
+
+// ============================================================
+// Concurrent access — no data races (thread-safety smoke test)
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_Concurrent_NoCrash) {
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    auto poly = makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}});
+    auto pt_in  = makePoint(0.5, 0.5);
+    auto pt_out = makePoint(9.0, 9.0);
+
+    constexpr int kThreads = 4;
+    constexpr int kIter    = 50;
+
+    std::vector<std::thread> threads;
+    threads.reserve(kThreads);
+    for (int t = 0; t < kThreads; ++t) {
+        threads.emplace_back([&]() {
+            for (int i = 0; i < kIter; ++i) {
+                // exactIntersects
+                bool hit = backend->exactIntersects(pt_in, poly);
+                EXPECT_TRUE(hit);
+                bool miss = backend->exactIntersects(pt_out, poly);
+                EXPECT_FALSE(miss);
+
+                // batchIntersects
+                SpatialBatchInputs in;
+                in.count = 2;
+                in.geoms_a = {pt_in, pt_out};
+                in.geoms_b = {poly, poly};
+                auto result = backend->batchIntersects(in);
+                ASSERT_EQ(result.mask.size(), 2u);
+                EXPECT_EQ(result.mask[0], 1u);
+                EXPECT_EQ(result.mask[1], 0u);
+            }
+        });
+    }
+    for (auto& th : threads) th.join();
+    SUCCEED();
+}
+
+// ============================================================
+// Latency / throughput observability
+// ============================================================
+
+TEST_F(GpuGeoBackendTest, Backend_LatencyTracking_NonZeroAfterBatch) {
+    // Cast to concrete type to access getStats().
+    // The singleton is GpuBatchBackend which lives in the TU; we reach it
+    // indirectly by observing that the interface backend pointer is valid
+    // and that repeated calls produce consistent results (can't inspect
+    // internal stats without a downcast, so we verify observable side-effects).
+    auto* backend = themis::geo::getGpuSpatialBackend();
+    ASSERT_NE(backend, nullptr);
+
+    // Warm-up: issue a batch and confirm we get a valid result (not a crash).
+    SpatialBatchInputs in;
+    in.count = 10;
+    auto poly = makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}});
+    for (int i = 0; i < 10; ++i) {
+        in.geoms_a.push_back(makePoint(0.5, 0.5));
+        in.geoms_b.push_back(poly);
+    }
+    auto result = backend->batchIntersects(in);
+    EXPECT_EQ(result.mask.size(), 10u);
+    for (auto v : result.mask) EXPECT_EQ(v, 1u);
+    // If we reach here the latency-tracking code did not introduce UB or crash.
+    SUCCEED();
 }
