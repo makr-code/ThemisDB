@@ -1226,9 +1226,11 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     std::vector<std::future<bool>> futures;
     futures.reserve(target_shards.size());
     for (const auto& shard_id : target_shards) {
-        futures.push_back(std::async(std::launch::async, [&handler, &shard_id, &document_id, &data]() {
-            return handler(shard_id, document_id, data);
-        }));
+        // Capture shard_id by value to avoid dangling reference to the loop variable
+        futures.push_back(std::async(std::launch::async,
+            [&handler, shard_id, &document_id, &data]() {
+                return handler(shard_id, document_id, data);
+            }));
     }
 
     std::vector<std::string> written_shards, failed_shards;
@@ -1255,13 +1257,11 @@ WriteResult RedundancyStrategy::writeGeoMirror(
 
     // Check per-region quorums if configured
     if (!geo.region_write_quorums.empty()) {
+        // Build O(1) failed-region lookup set once
+        std::unordered_set<std::string> failed_set(geo.failed_regions.begin(),
+                                                   geo.failed_regions.end());
         for (const auto& [region, required] : geo.region_write_quorums) {
-            // Skip regions that have been failed-out
-            bool region_failed = false;
-            for (const auto& fr : geo.failed_regions) {
-                if (fr == region) { region_failed = true; break; }
-            }
-            if (region_failed) continue;
+            if (failed_set.count(region)) continue;  // region is failed-out
 
             uint32_t region_acks = 0;
             for (const auto& shard_id : written_shards) {

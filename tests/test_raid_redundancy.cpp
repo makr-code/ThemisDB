@@ -1305,6 +1305,52 @@ TEST(ReplicaTopologyGeoTest, EmptyRegionNotIncluded) {
 // Stress Tests
 // ═══════════════════════════════════════════════════════════
 
+TEST_F(GeoMirrorTest, ParallelWrite_AllShardsReceiveData) {
+    // This test directly exercises the parallel async write path in writeGeoMirror
+    // and validates that all region shards receive the data (no dangling-reference
+    // UB from the former &shard_id lambda capture).
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::ALL;
+    config.geo_replication.region_write_quorums = {{"us-east", 3}, {"eu-west", 3}};
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data(256, 0x42);
+
+    auto wr = strategy.write("parallel-doc", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success);
+
+    // All 6 shards should have been written to
+    for (int i = 0; i < static_cast<int>(config.replication_factor); ++i) {
+        const std::string sid = "shard-" + std::to_string(i);
+        auto stored = storage->read(sid, "parallel-doc");
+        EXPECT_TRUE(stored.has_value()) << "Shard " << sid << " did not receive the write";
+    }
+}
+
+TEST_F(GeoMirrorTest, WriteQuorumNotMet_FailsCorrectly) {
+    // Mark enough us-east shards unhealthy that us-east quorum cannot be met
+    topology->updateHealth("shard-0", false);
+    topology->updateHealth("shard-1", false);
+    topology->updateHealth("shard-2", false);
+
+    RedundancyConfig config;
+    config.mode = RedundancyMode::GEO_MIRROR;
+    config.replication_factor = 6;
+    config.write_concern = WriteConcern::MAJORITY;
+    // Require 2 acks in us-east, but all 3 us-east shards are unhealthy
+    config.geo_replication.region_write_quorums = {{"us-east", 2}};
+
+    RedundancyStrategy strategy(config);
+    std::vector<uint8_t> data(32, 0xCC);
+
+    auto wr = strategy.write("quorum-fail-doc", data, "coll", *ring, *topology, createWriteHandler());
+    // The write should fail because us-east quorum cannot be satisfied
+    EXPECT_FALSE(wr.success);
+    EXPECT_NE(wr.error_message.find("Geo-quorum"), std::string::npos);
+}
+
 TEST_F(RedundancyStrategyTest, DISABLED_StressTest_ManyWrites) {
     // Disabled by default - enable for performance testing
     

@@ -287,6 +287,17 @@ TEST_F(GeoTopologyApiHandlerTest, TopologyShardPost_InvalidJson_BadRequest) {
     EXPECT_EQ(resp.result(), http::status::bad_request);
 }
 
+TEST_F(GeoTopologyApiHandlerTest, TopologyShardPost_EmptyShardId_BadRequest) {
+    const std::string body = R"({"shard_id": "", "region": "us-east"})";
+    auto req  = makePost("/api/v1/geo/topology/shard", body);
+    auto resp = handler_->handleTopologyShardPost(req);
+    EXPECT_EQ(resp.result(), http::status::bad_request);
+    auto j = json::parse(resp.body());
+    EXPECT_TRUE(j["error"].get<bool>());
+    // Error message must mention the validation failure
+    EXPECT_NE(j["message"].get<std::string>().find("shard_id"), std::string::npos);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // GET /api/v1/geo/config/{collection}
 // ─────────────────────────────────────────────────────────────────────────────
@@ -301,6 +312,9 @@ TEST_F(GeoTopologyApiHandlerTest, ConfigGet_DefaultConfig) {
     EXPECT_EQ(j["collection"].get<std::string>(), "mycollection");
     EXPECT_TRUE(j.contains("replication_factor"));
     EXPECT_TRUE(j.contains("replication_mode"));
+    // Mode must be a non-hardcoded reflection of the actual config
+    EXPECT_TRUE(j.contains("mode"));
+    EXPECT_FALSE(j["mode"].get<std::string>().empty());
 }
 
 TEST_F(GeoTopologyApiHandlerTest, ConfigGet_MissingCollection_BadRequest) {

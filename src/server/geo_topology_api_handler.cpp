@@ -219,6 +219,10 @@ http::response<http::string_body> GeoTopologyApiHandler::handleTopologyShardPost
         }
 
         const std::string shard_id = j["shard_id"].get<std::string>();
+        if (shard_id.empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                                     "Field 'shard_id' must not be empty", req);
+        }
 
         // Load existing shard info or create new entry
         sharding::ShardInfo info;
@@ -298,6 +302,18 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
                 repl_mode = "async"; break;
         }
 
+        // Redundancy mode string
+        std::string mode_str;
+        switch (config.mode) {
+            case sharding::RedundancyMode::GEO_MIRROR:    mode_str = "geo_mirror";    break;
+            case sharding::RedundancyMode::MIRROR:        mode_str = "mirror";        break;
+            case sharding::RedundancyMode::STRIPE:        mode_str = "stripe";        break;
+            case sharding::RedundancyMode::STRIPE_MIRROR: mode_str = "stripe_mirror"; break;
+            case sharding::RedundancyMode::PARITY:        mode_str = "parity";        break;
+            case sharding::RedundancyMode::RAID6:         mode_str = "raid6";         break;
+            default:                                      mode_str = "none";          break;
+        }
+
         json write_quorums = json::object();
         for (const auto& [r, q] : geo.region_write_quorums)
             write_quorums[r] = q;
@@ -308,7 +324,7 @@ http::response<http::string_body> GeoTopologyApiHandler::handleConfigGet(
 
         json response_body = {
             {"collection",             collection},
-            {"mode",                   "geo_mirror"},
+            {"mode",                   mode_str},
             {"replication_factor",     config.replication_factor},
             {"replication_mode",       repl_mode},
             {"local_region",           geo.local_region},
