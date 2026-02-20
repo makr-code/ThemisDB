@@ -102,7 +102,9 @@ public:
         auto start_time = std::chrono::steady_clock::now();
         
         if (!fs::exists(path_)) {
-            stats.error_message = "Path does not exist: " + path_;
+            stats.addError(IngestionErrorCode::FILE_NOT_FOUND,
+                           IngestionErrorSeverity::FATAL,
+                           "Path does not exist: " + path_);
             return stats;
         }
         
@@ -141,7 +143,6 @@ public:
                     
                     if (!content.empty()) {
                         // In production: Insert into target_collection
-                        // For now, just count as processed
                         stats.documents_processed++;
                         stats.bytes_processed += content.size();
                     }
@@ -157,15 +158,25 @@ public:
                     
                 } catch (const std::exception& e) {
                     stats.documents_failed++;
-                    // Continue with next file
+                    stats.addError(IngestionErrorCode::PROCESSING_FAILED,
+                                   IngestionErrorSeverity::WARNING,
+                                   "Failed to process file: " + file_path.string(),
+                                   config_.source_id,
+                                   e.what());
                 }
             }
             
             auto end_time = std::chrono::steady_clock::now();
             stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
+            if (stats.elapsed_seconds > 0.0 && stats.documents_processed > 0) {
+                stats.metrics.throughput_docs_per_sec =
+                    static_cast<double>(stats.documents_processed) / stats.elapsed_seconds;
+            }
             
         } catch (const std::exception& e) {
-            stats.error_message = "Ingestion failed: " + std::string(e.what());
+            stats.addError(IngestionErrorCode::INTERNAL_ERROR,
+                           IngestionErrorSeverity::FATAL,
+                           "Ingestion failed: " + std::string(e.what()));
         }
         
         return stats;

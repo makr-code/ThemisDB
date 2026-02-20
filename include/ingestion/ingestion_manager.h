@@ -5,6 +5,7 @@
 #include <memory>
 #include <functional>
 #include <unordered_map>
+#include <chrono>
 
 namespace themis {
 namespace ingestion {
@@ -17,6 +18,113 @@ enum class SourceType {
     FILESYSTEM,     ///< Local file system (PDF, DOCX, etc.)
     API,            ///< REST/SOAP API (future)
     DATABASE        ///< Legacy database exports (future)
+};
+
+/**
+ * @brief Structured error codes for ingestion operations
+ */
+enum class IngestionErrorCode {
+    OK = 0,
+
+    // Source / configuration errors (1000-1099)
+    SOURCE_NOT_FOUND        = 1000,
+    SOURCE_UNAVAILABLE      = 1001,
+    SOURCE_NOT_CONFIGURED   = 1002,
+    SOURCE_DISABLED         = 1003,
+    CONNECTOR_INIT_FAILED   = 1004,
+    CONNECTOR_NOT_SUPPORTED = 1005,
+
+    // Network / HTTP errors (1100-1199)
+    HTTP_REQUEST_FAILED     = 1100,
+    HTTP_UNAUTHORIZED       = 1101,
+    HTTP_NOT_FOUND          = 1102,
+    HTTP_RATE_LIMITED       = 1103,
+    HTTP_SERVER_ERROR       = 1104,
+    HTTP_TIMEOUT            = 1105,
+
+    // File / IO errors (1200-1299)
+    FILE_NOT_FOUND          = 1200,
+    FILE_READ_ERROR         = 1201,
+    FILE_FORMAT_UNSUPPORTED = 1202,
+    FILE_ENCODING_ERROR     = 1203,
+
+    // Processing errors (1300-1399)
+    PROCESSING_FAILED       = 1300,
+    PARSING_FAILED          = 1301,
+    EXTRACTION_FAILED       = 1302,
+    OCR_FAILED              = 1303,
+
+    // Retry/quota errors (1400-1499)
+    RETRY_EXHAUSTED         = 1400,
+    QUOTA_EXCEEDED          = 1401,
+
+    // Internal errors (1900-1999)
+    INTERNAL_ERROR          = 1900,
+    UNKNOWN_ERROR           = 1999
+};
+
+/**
+ * @brief Error severity classification
+ */
+enum class IngestionErrorSeverity {
+    INFO,       ///< Informational – not a failure
+    WARNING,    ///< Degraded operation, non-fatal
+    ERROR,      ///< Single item/source failure
+    FATAL       ///< Whole ingestion run aborted
+};
+
+/**
+ * @brief Structured ingestion error
+ */
+struct IngestionError {
+    IngestionErrorCode   code     = IngestionErrorCode::OK;
+    IngestionErrorSeverity severity = IngestionErrorSeverity::ERROR;
+    std::string          message;         ///< Human-readable message
+    std::string          source_id;       ///< Originating source (if known)
+    std::string          details;         ///< Technical detail for logs
+
+    IngestionError() = default;
+
+    IngestionError(IngestionErrorCode c, IngestionErrorSeverity sev,
+                   const std::string& msg, const std::string& sid = "",
+                   const std::string& det = "")
+        : code(c), severity(sev), message(msg), source_id(sid), details(det) {}
+
+    bool isOk()      const { return code == IngestionErrorCode::OK; }
+    bool isFatal()   const { return severity == IngestionErrorSeverity::FATAL; }
+    bool isWarning() const { return severity == IngestionErrorSeverity::WARNING; }
+
+    /** @brief Returns true for codes that should trigger a retry */
+    bool isRetryable() const {
+        return code == IngestionErrorCode::HTTP_TIMEOUT
+            || code == IngestionErrorCode::HTTP_SERVER_ERROR
+            || code == IngestionErrorCode::HTTP_RATE_LIMITED;
+    }
+};
+
+/**
+ * @brief Retry / back-off configuration for connectors
+ */
+struct RetryConfig {
+    int    max_attempts      = 3;     ///< Maximum total attempts (1 = no retry)
+    double initial_delay_ms  = 500.0; ///< First back-off delay (ms)
+    double backoff_factor    = 2.0;   ///< Exponential multiplier per attempt
+    double max_delay_ms      = 30000.0; ///< Cap on per-attempt delay (ms)
+    int    timeout_ms        = 30000; ///< Per-request timeout (ms)
+
+    RetryConfig() = default;
+};
+
+/**
+ * @brief Lightweight observability metrics collected during ingestion
+ */
+struct IngestionMetrics {
+    size_t retry_count      = 0;  ///< Total retries across all requests
+    size_t timeout_count    = 0;  ///< Requests that timed out
+    size_t error_count      = 0;  ///< Total individual errors encountered
+    double throughput_docs_per_sec = 0.0; ///< Documents / second
+
+    IngestionMetrics() = default;
 };
 
 /**
@@ -47,9 +155,25 @@ struct IngestionStats {
     size_t documents_failed = 0;
     size_t bytes_processed = 0;
     double elapsed_seconds = 0.0;
-    std::string error_message;
+    std::string error_message;        ///< Primary error (for backward compatibility)
+    std::vector<IngestionError> errors; ///< Structured error log
+    IngestionMetrics metrics;           ///< Observability counters
     
     IngestionStats() = default;
+
+    /** @brief Record a structured error and update backward-compat field */
+    void addError(IngestionErrorCode code,
+                  IngestionErrorSeverity severity,
+                  const std::string& message,
+                  const std::string& source_id = "",
+                  const std::string& details   = "") {
+        IngestionError err{code, severity, message, source_id, details};
+        errors.push_back(err);
+        metrics.error_count++;
+        if (error_message.empty() && err.severity >= IngestionErrorSeverity::ERROR) {
+            error_message = message;
+        }
+    }
 };
 
 /**
@@ -149,6 +273,12 @@ public:
      * @param max_threads Maximum number of threads (0 = auto)
      */
     void setParallelProcessing(bool enabled, size_t max_threads = 0);
+
+    /**
+     * @brief Configure retry behaviour for connectors
+     * @param config Retry and timeout settings
+     */
+    void setRetryConfig(const RetryConfig& config);
 
 private:
     class Impl;

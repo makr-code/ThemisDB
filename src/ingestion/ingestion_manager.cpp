@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <thread>
 #include <mutex>
+#include <future>
 #include <chrono>
 
 namespace themis {
@@ -50,14 +51,18 @@ public:
             std::lock_guard<std::mutex> lock(mutex_);
             auto it = sources_.find(source_id);
             if (it == sources_.end()) {
-                stats.error_message = "Source not found: " + source_id;
+                stats.addError(IngestionErrorCode::SOURCE_NOT_FOUND,
+                               IngestionErrorSeverity::ERROR,
+                               "Source not found: " + source_id, source_id);
                 return stats;
             }
             config = it->second;
         }
         
         if (!config.enabled) {
-            stats.error_message = "Source disabled: " + source_id;
+            stats.addError(IngestionErrorCode::SOURCE_DISABLED,
+                           IngestionErrorSeverity::WARNING,
+                           "Source disabled: " + source_id, source_id);
             return stats;
         }
         
@@ -68,8 +73,12 @@ public:
             switch (config.type) {
                 case SourceType::HUGGINGFACE: {
                     auto hf_connector = std::make_unique<HuggingFaceConnector>();
+                    hf_connector->setRetryConfig(retry_config_);
                     if (!hf_connector->initialize(config)) {
-                        stats.error_message = "Failed to initialize HuggingFace connector";
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize HuggingFace connector",
+                                       source_id);
                         return stats;
                     }
                     connector = std::move(hf_connector);
@@ -79,7 +88,10 @@ public:
                 case SourceType::FILESYSTEM: {
                     auto fs_ingester = std::make_unique<FileSystemIngester>();
                     if (!fs_ingester->initialize(config)) {
-                        stats.error_message = "Failed to initialize filesystem ingester";
+                        stats.addError(IngestionErrorCode::CONNECTOR_INIT_FAILED,
+                                       IngestionErrorSeverity::ERROR,
+                                       "Failed to initialize filesystem ingester",
+                                       source_id);
                         return stats;
                     }
                     connector = std::move(fs_ingester);
@@ -89,14 +101,19 @@ public:
                 case SourceType::API:
                 case SourceType::DATABASE:
                 default:
-                    stats.error_message = "Connector type not yet implemented: " + 
-                                        std::to_string(static_cast<int>(config.type));
+                    stats.addError(IngestionErrorCode::CONNECTOR_NOT_SUPPORTED,
+                                   IngestionErrorSeverity::ERROR,
+                                   "Connector type not yet implemented: " +
+                                   std::to_string(static_cast<int>(config.type)),
+                                   source_id);
                     return stats;
             }
             
             // Check availability
             if (!connector->isAvailable()) {
-                stats.error_message = "Source not available: " + source_id;
+                stats.addError(IngestionErrorCode::SOURCE_UNAVAILABLE,
+                               IngestionErrorSeverity::ERROR,
+                               "Source not available: " + source_id, source_id);
                 return stats;
             }
             
@@ -105,9 +122,16 @@ public:
             
             auto end_time = std::chrono::steady_clock::now();
             stats.elapsed_seconds = std::chrono::duration<double>(end_time - start_time).count();
+            if (stats.elapsed_seconds > 0.0 && stats.documents_processed > 0) {
+                stats.metrics.throughput_docs_per_sec =
+                    static_cast<double>(stats.documents_processed) / stats.elapsed_seconds;
+            }
             
         } catch (const std::exception& e) {
-            stats.error_message = "Exception during ingestion: " + std::string(e.what());
+            stats.addError(IngestionErrorCode::INTERNAL_ERROR,
+                           IngestionErrorSeverity::FATAL,
+                           "Exception during ingestion: " + std::string(e.what()),
+                           source_id);
         }
         
         return stats;
@@ -132,14 +156,49 @@ public:
                  [](const SourceConfig& a, const SourceConfig& b) {
                      return a.priority > b.priority;
                  });
-        
-        // Ingest each source
-        for (const auto& config : enabled_sources) {
-            auto stats = ingestSource(config.source_id, progress_callback);
-            report.source_stats[config.source_id] = stats;
-            report.total_documents += stats.documents_processed;
-            report.total_failures += stats.documents_failed;
-            report.total_time_seconds += stats.elapsed_seconds;
+
+        if (parallel_enabled_ && enabled_sources.size() > 1) {
+            // Parallel ingestion: launch one future per source, bounded by max_threads_
+            const size_t concurrency =
+                std::min(max_threads_, enabled_sources.size());
+
+            std::vector<std::future<std::pair<std::string, IngestionStats>>> futures;
+            futures.reserve(enabled_sources.size());
+
+            // Semaphore-like throttle: submit in waves of `concurrency`
+            size_t submitted = 0;
+            while (submitted < enabled_sources.size()) {
+                size_t wave_end = std::min(submitted + concurrency,
+                                           enabled_sources.size());
+                for (size_t i = submitted; i < wave_end; ++i) {
+                    const auto& cfg = enabled_sources[i];
+                    futures.push_back(
+                        std::async(std::launch::async,
+                            [this, cfg, progress_callback]() {
+                                return std::make_pair(
+                                    cfg.source_id,
+                                    ingestSource(cfg.source_id, progress_callback));
+                            }));
+                }
+                // Collect wave results before starting next wave
+                for (size_t i = submitted; i < wave_end; ++i) {
+                    auto [sid, stats] = futures[i].get();
+                    report.source_stats[sid] = stats;
+                    report.total_documents += stats.documents_processed;
+                    report.total_failures  += stats.documents_failed;
+                    report.total_time_seconds += stats.elapsed_seconds;
+                }
+                submitted = wave_end;
+            }
+        } else {
+            // Sequential ingestion
+            for (const auto& config : enabled_sources) {
+                auto stats = ingestSource(config.source_id, progress_callback);
+                report.source_stats[config.source_id] = stats;
+                report.total_documents += stats.documents_processed;
+                report.total_failures  += stats.documents_failed;
+                report.total_time_seconds += stats.elapsed_seconds;
+            }
         }
         
         return report;
@@ -164,12 +223,17 @@ public:
             max_threads_ = max_threads;
         }
     }
+
+    void setRetryConfig(const RetryConfig& config) {
+        retry_config_ = config;
+    }
     
 private:
     std::string db_connection_;
     std::string target_collection_;
     bool parallel_enabled_;
     size_t max_threads_;
+    RetryConfig retry_config_;
     std::unordered_map<std::string, SourceConfig> sources_;
     mutable std::mutex mutex_;
 };
@@ -210,5 +274,10 @@ void IngestionManager::setParallelProcessing(bool enabled, size_t max_threads) {
     impl_->setParallelProcessing(enabled, max_threads);
 }
 
+void IngestionManager::setRetryConfig(const RetryConfig& config) {
+    impl_->setRetryConfig(config);
+}
+
 } // namespace ingestion
 } // namespace themis
+
