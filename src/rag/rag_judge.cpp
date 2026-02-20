@@ -17,6 +17,7 @@
 #include <numeric>
 #include <chrono>
 #include <sstream>
+#include <cctype>
 
 namespace themis::rag::judge {
 
@@ -723,27 +724,97 @@ bool RAGJudge::hasEthicalCitations(const std::string& text) {
 }
 
 std::vector<std::string> RAGJudge::extractClaims(const std::string& answer) {
-    // TODO: Implement proper claim extraction using LLM
-    // Placeholder: Split by sentences
+    if (answer.empty()) {
+        return {};
+    }
+
     std::vector<std::string> claims;
-    std::istringstream stream(answer);
-    std::string sentence;
-    while (std::getline(stream, sentence, '.')) {
-        if (!sentence.empty()) {
-            claims.push_back(sentence);
+    std::string current_sentence;
+
+    for (char c : answer) {
+        current_sentence += c;
+        if (c == '.' || c == '!' || c == '?') {
+            // Trim leading/trailing whitespace
+            size_t start = current_sentence.find_first_not_of(" \t\n\r");
+            size_t end = current_sentence.find_last_not_of(" \t\n\r");
+            if (start != std::string::npos && end != std::string::npos) {
+                std::string trimmed = current_sentence.substr(start, end - start + 1);
+                // Keep only factual-looking sentences: minimum length, no questions, no opinions
+                if (trimmed.length() > 10 &&
+                    trimmed.back() != '?' &&
+                    trimmed.find("I think") == std::string::npos &&
+                    trimmed.find("I believe") == std::string::npos) {
+                    claims.push_back(trimmed);
+                }
+            }
+            current_sentence.clear();
         }
     }
+
+    // Include any trailing text without terminal punctuation
+    if (!current_sentence.empty()) {
+        size_t start = current_sentence.find_first_not_of(" \t\n\r");
+        size_t end = current_sentence.find_last_not_of(" \t\n\r");
+        if (start != std::string::npos && end != std::string::npos) {
+            std::string trimmed = current_sentence.substr(start, end - start + 1);
+            if (trimmed.length() > 10) {
+                claims.push_back(trimmed);
+            }
+        }
+    }
+
     return claims;
+}
+
+std::vector<std::string> RAGJudge::tokenizeForMatching(const std::string& text) {
+    std::vector<std::string> tokens;
+    std::istringstream stream(text);
+    std::string word;
+    while (stream >> word) {
+        std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+        word.erase(std::remove_if(word.begin(), word.end(), ::ispunct), word.end());
+        if (word.length() > 2) {
+            tokens.push_back(word);
+        }
+    }
+    return tokens;
+}
+
+double RAGJudge::calculateTermOverlap(
+    const std::vector<std::string>& terms1,
+    const std::vector<std::string>& terms2
+) {
+    if (terms1.empty() || terms2.empty()) {
+        return 0.0;
+    }
+    int overlap = 0;
+    for (const auto& t : terms1) {
+        if (std::find(terms2.begin(), terms2.end(), t) != terms2.end()) {
+            ++overlap;
+        }
+    }
+    int total = static_cast<int>(std::max(terms1.size(), terms2.size()));
+    return static_cast<double>(overlap) / total;
 }
 
 bool RAGJudge::verifyClaimAgainstDocuments(
     const std::string& claim,
     const std::vector<RetrievedDocument>& documents
 ) {
-    // TODO: Implement proper claim verification using LLM
-    // Placeholder: Simple substring search
+    if (claim.empty() || documents.empty()) {
+        return false;
+    }
+
+    auto claim_terms = tokenizeForMatching(claim);
+
     for (const auto& doc : documents) {
+        // Fast path: exact substring match
         if (doc.content.find(claim) != std::string::npos) {
+            return true;
+        }
+        // Semantic path: term overlap
+        auto doc_terms = tokenizeForMatching(doc.content);
+        if (calculateTermOverlap(claim_terms, doc_terms) >= 0.6) {
             return true;
         }
     }

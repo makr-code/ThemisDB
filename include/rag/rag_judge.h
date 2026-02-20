@@ -337,6 +337,11 @@ private:
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
     );
+    std::vector<std::string> tokenizeForMatching(const std::string& text);
+    double calculateTermOverlap(
+        const std::vector<std::string>& terms1,
+        const std::vector<std::string>& terms2
+    );
     
     std::string generateEvaluationPrompt(
         const EvaluationInput& input,
