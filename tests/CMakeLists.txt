@@ -80,6 +80,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_gradient_checkpointing\\.cpp$"
         ".*test_inference_engine_enhanced\\.cpp$"
         ".*test_kernel_fusion\\.cpp$"
+        ".*test_kernel_fusion_cpu_fallback\\.cpp$"
+        ".*test_kernel_fusion_cuda\\.cpp$"
         ".*test_model_loader_async\\.cpp$"
         ".*test_phase1_flash_attention\\.cpp$"
         ".*test_phase1_kv_cache_reuse\\.cpp$"

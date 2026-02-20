@@ -3,7 +3,7 @@
  * @brief Comprehensive unit tests for LoRA Framework with complete coverage
  * 
  * This file provides 100% test coverage for the LoRA framework including:
- * - LoRAAdapterManager (lifecycle, caching, hot-swapping, memory management)
+ * - Adapter Management (lifecycle, caching, hot-swapping, memory management — via MultiLoRAManager)
  * - LoRAStorageService (storage backends, versioning, graph operations)
  * - LoRATrainingService (on-the-fly, batch, callbacks, error handling)
  * - MultiLoRAManager (multi-adapter, quantization, multi-GPU support)
@@ -24,7 +24,6 @@
 #include <gtest/gtest.h>
 
 // LoRA Framework headers
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_orchestrator.h"
@@ -288,7 +287,7 @@ TEST_F(LoRAFrameworkComprehensiveTest, StorageService_SpecialCharacters_InID) {
 }
 
 // ============================================================================
-// LoRAAdapterManager Tests - Lifecycle & Caching
+// Adapter Management Tests - Lifecycle & Caching (using MultiLoRAManager)
 // ============================================================================
 
 TEST_F(LoRAFrameworkComprehensiveTest, AdapterManager_LoadUnload_BasicLifecycle) {

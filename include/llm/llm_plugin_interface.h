@@ -108,6 +108,15 @@ struct InferenceRequest {
     std::string prompt;
     std::string model_id = "default";
     std::string request_id;      // Optional request identifier for tracing
+
+    // OpenTelemetry distributed tracing context (W3C Trace Context format).
+    // Populated by the caller when the request originates from a traced parent
+    // span.  If non-empty, the inference engine propagates these values into
+    // the response so downstream systems can correlate spans.
+    // Format: lowercase hex — trace_id is 32 hex chars (128-bit),
+    //                         span_id  is 16 hex chars (64-bit).
+    std::string trace_id;        ///< W3C traceparent trace-id (128-bit hex, 32 chars)
+    std::string span_id;         ///< W3C traceparent parent-id (64-bit hex, 16 chars)
     
     // Generation parameters
     int max_tokens = 512;
@@ -144,6 +153,13 @@ struct InferenceResponse {
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
     bool cache_hit = false;        // Whether response came from cache
+
+    // OpenTelemetry trace context propagated from the originating request.
+    // The inference engine copies trace_id/span_id from InferenceRequest so
+    // callers and observability pipelines can correlate the response to its
+    // parent trace without accessing the original request object.
+    std::string trace_id;        ///< W3C traceparent trace-id (echoed from request)
+    std::string span_id;         ///< W3C traceparent parent-id (echoed from request)
     
     // Statistics
     int tokens_generated = 0;

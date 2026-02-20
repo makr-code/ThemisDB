@@ -44,6 +44,9 @@ struct FlashAttentionConfig {
     bool enable_tensor_cores = true;
     bool enable_warp_specialization = true;
     
+    // Transformer depth — used by KVCacheManager to compute block byte size
+    int num_layers = 32;
+
     // KV-Cache options
     bool use_paged_kv_cache = true;
     size_t kv_block_size = 16;  // Tokens per block

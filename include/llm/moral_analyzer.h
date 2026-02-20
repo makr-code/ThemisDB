@@ -435,11 +435,13 @@ public:
      * 
      * @param decision The ethical decision to store
      * @param scenario_embedding Optional embedding vector for similarity search
+     * @param user_id Identity of the actor storing the decision (used in audit log)
      * @return Status indicating success or failure
      */
     Status storeDecision(
         const EthicalDecision& decision,
-        const std::vector<float>& scenario_embedding = {}
+        const std::vector<float>& scenario_embedding = {},
+        const std::string& user_id = "ethics_system"
     );
     
     /**

@@ -29,6 +29,7 @@ public:
     std::shared_ptr<lora::LoRAAuditLogger> lora_audit;
     std::shared_ptr<LLMModelAuditLogger> llm_audit;
     std::unique_ptr<LlamaWrapper> llama_wrapper;
+    std::unique_ptr<LoRATrainingService> training_service;
     
     // State
     std::string current_adapter_version;
@@ -69,6 +70,12 @@ public:
         llama_config.enable_response_cache = true;
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
+
+        // Initialize LoRA training service
+        LoRATrainingService::Config training_cfg;
+        training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        training_cfg.default_hyperparameters = cfg.hyperparameters;
+        training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
         spdlog::info("ThemisHelpLoRA initialized with adapter: {}", config.adapter_id);
         spdlog::info("LlamaWrapper initialized for LLM inference");
@@ -303,9 +310,22 @@ bool ThemisHelpLoRA::trainFromFeedback() {
             {{"source", "user_feedback"}}
         );
 
-        // TODO: Implement actual training via LoRA training service
-        // This should call lora_trainer_->train(training_config) with the feedback buffer
-        spdlog::warn("Training skipped: LoRA training implementation pending");
+        // Convert feedback buffer to training data and call LoRATrainingService
+        TrainingData training_data;
+        training_data.dataset_name = "user_feedback_" + impl_->config.adapter_id;
+        for (const auto& item : impl_->feedback_buffer) {
+            TrainingDataSample sample;
+            sample.input = item.question;
+            sample.output = item.correction.empty() ? item.answer : item.correction;
+            sample.metadata = {{"user_id", item.user_id},
+                               {"feedback_type", static_cast<int>(item.feedback_type)}};
+            training_data.samples.push_back(std::move(sample));
+        }
+        TrainingResult train_result = impl_->training_service->trainOnTheFly(
+            impl_->config.adapter_id, training_data);
+        if (!train_result.success) {
+            throw std::runtime_error("LoRA training failed: " + train_result.error_message);
+        }
 
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -324,7 +344,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
             static_cast<int>(num_samples),
-            0.85f,  // Simulated final loss
+            train_result.final_loss,
             0.0f,
             {
                 {"source", "user_feedback"},
@@ -386,10 +406,16 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
             {{"source", "documentation_corpus"}}
         );
 
-        // TODO: Implement actual documentation corpus training
-        // This should process the 1151 documentation files and train the adapter
-        spdlog::warn("Documentation training skipped: Implementation pending");
-        spdlog::info("Would process 1151 documentation files for training");
+        // Train the adapter using the documentation corpus path from config
+        TrainingData doc_data;
+        doc_data.dataset_name = "documentation_corpus_" + impl_->config.adapter_id;
+        doc_data.metadata = {{"source", "documentation_corpus"},
+                             {"docs_database_path", impl_->config.docs_database_path}};
+        TrainingResult train_result = impl_->training_service->trainOnTheFly(
+            impl_->config.adapter_id, doc_data);
+        if (!train_result.success) {
+            throw std::runtime_error("Documentation corpus training failed: " + train_result.error_message);
+        }
 
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -401,7 +427,7 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
             1151,
-            0.78f,  // Simulated final loss
+            train_result.final_loss,
             0.0f,
             {
                 {"source", "documentation_corpus"},

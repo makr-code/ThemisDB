@@ -7,7 +7,6 @@
 
 #include "query/functions/lora_functions.h"
 #include "llm/lora_framework/lora_orchestrator.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include <set>
