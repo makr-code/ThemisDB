@@ -79,6 +79,11 @@ public:
         /// If true, revokePassiveKey() is also called automatically when a
         /// passive key's grace period expires on the next checkAndRotate() call.
         bool auto_revoke_expired_passive = false;
+
+        /// Maximum total number of tracked keys (ACTIVE + PASSIVE + REVOKED).
+        /// rotateActiveKey() throws std::length_error when reached.
+        /// 0 means unlimited (default).
+        size_t max_keys = 0;
     };
 
     /**

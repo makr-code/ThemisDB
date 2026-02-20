@@ -56,6 +56,12 @@ uint32_t SecretManager::storeSecret(const std::string& name,
             "use rotateSecret() to change its value");
     }
 
+    if (policy_.max_secrets > 0 && secrets_.size() >= policy_.max_secrets) {
+        throw std::length_error(
+            "SecretManager: max_secrets limit (" +
+            std::to_string(policy_.max_secrets) + ") reached");
+    }
+
     SecretEntry entry;
     entry.name = name;
     entry.next_version = 1;
@@ -129,6 +135,14 @@ uint32_t SecretManager::rotateSecret(const std::string& name,
     }
 
     SecretEntry& entry = it->second;
+
+    if (policy_.max_versions_per_secret > 0 &&
+            entry.versions.size() >= policy_.max_versions_per_secret) {
+        throw std::length_error(
+            "SecretManager: max_versions_per_secret limit (" +
+            std::to_string(policy_.max_versions_per_secret) +
+            ") reached for secret '" + name + "'");
+    }
 
     // Demote current ACTIVE → RETIRING
     auto now = std::chrono::system_clock::now();

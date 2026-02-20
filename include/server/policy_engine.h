@@ -27,6 +27,13 @@ namespace utils { class AuditLogger; }
 
 class PolicyEngine {
 public:
+    struct Config {
+        /// Maximum number of policies the engine will hold.
+        /// addPolicy() throws std::length_error when the limit is reached.
+        /// 0 means unlimited (default).
+        size_t max_policies = 0;
+    };
+
     struct Policy {
         std::string id;
         std::string name;
@@ -56,6 +63,7 @@ public:
     };
 
     PolicyEngine() = default;
+    explicit PolicyEngine(const Config& config) : config_(config) {}
 
     // Load policies from JSON or YAML file (detected by extension)
     bool loadFromFile(const std::string& path, std::string* err = nullptr);
@@ -117,6 +125,7 @@ private:
                          const std::optional<std::string>& user_agent) const;
 
     mutable std::mutex mutex_;
+    Config config_;
     std::vector<Policy> policies_;
     mutable Metrics metrics_;
     utils::AuditLogger* audit_logger_ = nullptr;  // optional; non-owning

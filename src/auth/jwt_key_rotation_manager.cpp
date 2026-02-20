@@ -23,6 +23,14 @@ void JWTKeyRotationManager::rotateActiveKey(
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
+        // Enforce max_keys resource limit (new key will be added)
+        if (config_.max_keys > 0 && keys_.size() >= config_.max_keys &&
+                keys_.find(new_kid) == keys_.end()) {
+            throw std::length_error(
+                "JWTKeyRotationManager: max_keys limit (" +
+                std::to_string(config_.max_keys) + ") reached");
+        }
+
         // Demote any currently ACTIVE key to PASSIVE
         for (auto& [kid, info] : keys_) {
             if (info.status == JWKKeyInfo::Status::ACTIVE) {

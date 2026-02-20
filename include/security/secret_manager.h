@@ -23,6 +23,10 @@ struct SecretRotationPolicy {
     std::chrono::seconds retiring_grace_period{86400LL};  // 1 day
     /// When true, checkAndRevoke() automatically revokes expired RETIRING versions
     bool auto_revoke_expired_retiring = true;
+    /// Maximum number of named secrets that can be stored. 0 means unlimited.
+    size_t max_secrets = 0;
+    /// Maximum number of versions kept per secret (including REVOKED). 0 means unlimited.
+    size_t max_versions_per_secret = 0;
 };
 
 /**
