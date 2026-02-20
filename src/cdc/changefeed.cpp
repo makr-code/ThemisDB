@@ -1,4 +1,5 @@
 #include "cdc/changefeed.h"
+#include "cdc/cdc_error.h"
 #include "utils/logger.h"
 #include <rocksdb/utilities/transaction_db.h>
 #include <rocksdb/utilities/transaction.h>
@@ -6,6 +7,7 @@
 #include <chrono>
 
 namespace themis {
+using namespace themis::cdc;
 
 // ===== ChangeEvent JSON Serialization =====
 
@@ -63,11 +65,21 @@ Changefeed::ChangeEvent Changefeed::ChangeEvent::fromJson(const nlohmann::json& 
 // ===== Changefeed Implementation =====
 
 Changefeed::Changefeed(rocksdb::TransactionDB* db, 
-                       rocksdb::ColumnFamilyHandle* cf)
-    : db_(db), cf_(cf) {
+                       rocksdb::ColumnFamilyHandle* cf,
+                       RetentionPolicy retention)
+    : db_(db), cf_(cf), retention_policy_(std::move(retention)) {
     if (!db_) {
         throw std::invalid_argument("Changefeed: db cannot be null");
     }
+    
+    // Start retention cleanup if enabled
+    if (retention_policy_.enabled) {
+        startRetentionCleanup();
+    }
+}
+
+Changefeed::~Changefeed() {
+    stopRetentionCleanup();
 }
 
 std::string Changefeed::makeKey(uint64_t sequence) const {
@@ -78,8 +90,9 @@ std::string Changefeed::makeKey(uint64_t sequence) const {
 }
 
 uint64_t Changefeed::nextSequence() {
-    // Simple atomic increment using RocksDB merge operator would be ideal,
-    // but for MVP we'll do a read-modify-write with a transaction
+    // Protect read-modify-write sequence with mutex to prevent race conditions
+    // TODO: Consider using RocksDB merge operator for better performance
+    std::lock_guard<std::mutex> lock(sequence_mutex_);
     
     std::string seq_value;
     rocksdb::ReadOptions read_opts;
@@ -100,10 +113,16 @@ uint64_t Changefeed::nextSequence() {
     rocksdb::WriteOptions write_opts;
     std::string next_seq_str = std::to_string(next_seq);
     
+    rocksdb::Status write_status;
     if (cf_) {
-        db_->Put(write_opts, cf_, SEQUENCE_KEY, next_seq_str);
+        write_status = db_->Put(write_opts, cf_, SEQUENCE_KEY, next_seq_str);
     } else {
-        db_->Put(write_opts, SEQUENCE_KEY, next_seq_str);
+        write_status = db_->Put(write_opts, SEQUENCE_KEY, next_seq_str);
+    }
+    
+    if (!write_status.ok()) {
+        THEMIS_ERROR("Failed to update sequence counter: {}", write_status.ToString());
+        throw error::sequenceGenerationFailed(write_status.ToString());
     }
     
     return next_seq;
@@ -135,7 +154,7 @@ Changefeed::ChangeEvent Changefeed::recordEvent(ChangeEvent event) {
     
     if (!s.ok()) {
         THEMIS_ERROR("Failed to record change event {}: {}", event.sequence, s.ToString());
-        throw std::runtime_error("Failed to record change event: " + s.ToString());
+        throw error::eventRecordFailed(s.ToString());
     }
     
     THEMIS_DEBUG("Recorded change event {} (type={}, key={})", 
@@ -254,6 +273,7 @@ bool Changefeed::waitForEvents(uint64_t from_sequence, uint32_t timeout_ms) cons
 Changefeed::Stats Changefeed::getStats() const {
     Stats stats{};
     stats.latest_sequence = getLatestSequence();
+    stats.watermarks = getWatermarks();
     
     rocksdb::ReadOptions read_opts;
     std::unique_ptr<rocksdb::Iterator> it;
@@ -368,6 +388,215 @@ size_t Changefeed::deleteOldEvents(uint64_t before_sequence) {
     
     THEMIS_INFO("Deleted {} old change events (before sequence {})", count, before_sequence);
     return count;
+}
+
+Changefeed::Watermarks Changefeed::getWatermarks() const {
+    Watermarks wm{};
+    wm.low_watermark = 0;
+    wm.high_watermark = 0;
+    wm.oldest_timestamp_ms = 0;
+    wm.newest_timestamp_ms = 0;
+    
+    rocksdb::ReadOptions read_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+    
+    // Find first (oldest) event
+    it->Seek(KEY_PREFIX);
+    if (it->Valid()) {
+        std::string key = it->key().ToString();
+        if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) == 0) {
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent event = ChangeEvent::fromJson(j);
+                wm.low_watermark = event.sequence;
+                wm.oldest_timestamp_ms = event.timestamp_ms;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to parse oldest event: {}", e.what());
+            }
+        }
+    }
+    
+    // Find last (newest) event - iterate to end
+    it->SeekToLast();
+    while (it->Valid()) {
+        std::string key = it->key().ToString();
+        if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) == 0) {
+            try {
+                nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+                ChangeEvent event = ChangeEvent::fromJson(j);
+                wm.high_watermark = event.sequence;
+                wm.newest_timestamp_ms = event.timestamp_ms;
+                break;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("Failed to parse newest event: {}", e.what());
+                it->Prev();
+            }
+        } else {
+            it->Prev();
+        }
+    }
+    
+    return wm;
+}
+
+size_t Changefeed::deleteOldEventsByTimestamp(int64_t before_timestamp_ms) {
+    rocksdb::ReadOptions read_opts;
+    rocksdb::WriteOptions write_opts;
+    std::unique_ptr<rocksdb::Iterator> it;
+    
+    if (cf_) {
+        it.reset(db_->NewIterator(read_opts, cf_));
+    } else {
+        it.reset(db_->NewIterator(read_opts));
+    }
+    
+    it->Seek(KEY_PREFIX);
+    
+    size_t count = 0;
+    for (; it->Valid(); it->Next()) {
+        std::string key = it->key().ToString();
+        
+        if (key.compare(0, strlen(KEY_PREFIX), KEY_PREFIX) != 0) {
+            break;
+        }
+        
+        try {
+            nlohmann::json j = nlohmann::json::parse(it->value().ToString());
+            ChangeEvent event = ChangeEvent::fromJson(j);
+            
+            if (event.timestamp_ms < before_timestamp_ms) {
+                rocksdb::Status s;
+                if (cf_) {
+                    s = db_->Delete(write_opts, cf_, key);
+                } else {
+                    s = db_->Delete(write_opts, key);
+                }
+                
+                if (s.ok()) {
+                    count++;
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Failed to parse change event for deletion: {}", e.what());
+            continue;
+        }
+    }
+    
+    THEMIS_INFO("Deleted {} old change events (before timestamp {})", count, before_timestamp_ms);
+    return count;
+}
+
+size_t Changefeed::applyRetentionPolicy() {
+    if (!retention_policy_.enabled) {
+        return 0;
+    }
+    
+    size_t total_deleted = 0;
+    
+    // Get current stats
+    auto stats = getStats();
+    auto wm = stats.watermarks;
+    
+    // Apply time-based retention
+    if (retention_policy_.max_age_hours.count() > 0) {
+        auto now = std::chrono::system_clock::now().time_since_epoch();
+        auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(now).count();
+        auto cutoff_ms = now_ms - std::chrono::duration_cast<std::chrono::milliseconds>(
+            retention_policy_.max_age_hours
+        ).count();
+        
+        size_t deleted_by_time = deleteOldEventsByTimestamp(cutoff_ms);
+        total_deleted += deleted_by_time;
+        THEMIS_DEBUG("Retention: deleted {} events older than {}ms", deleted_by_time, cutoff_ms);
+    }
+    
+    // Apply count-based retention
+    if (stats.total_events > retention_policy_.max_event_count) {
+        // Delete oldest events to get under the limit
+        size_t to_delete = stats.total_events - retention_policy_.max_event_count;
+        uint64_t cutoff_sequence = wm.low_watermark + to_delete;
+        
+        size_t deleted_by_count = deleteOldEvents(cutoff_sequence);
+        total_deleted += deleted_by_count;
+        THEMIS_DEBUG("Retention: deleted {} events to maintain count limit", deleted_by_count);
+    }
+    
+    // Apply size-based retention
+    if (stats.total_size_bytes > retention_policy_.max_size_bytes) {
+        // Estimate how many events to delete based on average event size
+        size_t avg_event_size = stats.total_events > 0 ? 
+            (stats.total_size_bytes / stats.total_events) : 1024;
+        size_t excess_bytes = stats.total_size_bytes - retention_policy_.max_size_bytes;
+        
+        // Add buffer to ensure we get under the limit (account for estimation error)
+        constexpr size_t SIZE_RETENTION_BUFFER_EVENTS = 100;
+        size_t events_to_delete = (excess_bytes / avg_event_size) + SIZE_RETENTION_BUFFER_EVENTS;
+        
+        uint64_t cutoff_sequence = wm.low_watermark + events_to_delete;
+        size_t deleted_by_size = deleteOldEvents(cutoff_sequence);
+        total_deleted += deleted_by_size;
+        THEMIS_DEBUG("Retention: deleted {} events to maintain size limit", deleted_by_size);
+    }
+    
+    if (total_deleted > 0) {
+        THEMIS_INFO("Retention policy applied: deleted {} total events", total_deleted);
+    }
+    
+    return total_deleted;
+}
+
+void Changefeed::startRetentionCleanup() {
+    if (retention_thread_running_.exchange(true)) {
+        THEMIS_WARN("Retention cleanup thread already running");
+        return;
+    }
+    
+    retention_thread_ = std::thread(&Changefeed::retentionCleanupThread, this);
+    THEMIS_INFO("Started retention cleanup thread (interval: {}min)", 
+                retention_policy_.cleanup_interval.count());
+}
+
+void Changefeed::stopRetentionCleanup() {
+    if (!retention_thread_running_.exchange(false)) {
+        return;
+    }
+    
+    retention_cv_.notify_all();
+    
+    if (retention_thread_.joinable()) {
+        retention_thread_.join();
+    }
+    
+    THEMIS_INFO("Stopped retention cleanup thread");
+}
+
+void Changefeed::retentionCleanupThread() {
+    constexpr int ERROR_RETRY_DELAY_SECONDS = 60;
+    
+    while (retention_thread_running_.load()) {
+        try {
+            // Apply retention policy
+            applyRetentionPolicy();
+            
+            // Wait for next cleanup interval
+            std::unique_lock<std::mutex> lock(retention_mutex_);
+            retention_cv_.wait_for(lock, retention_policy_.cleanup_interval, [this]() {
+                return !retention_thread_running_.load();
+            });
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error in retention cleanup thread: {}", e.what());
+            // Sleep before retrying to avoid tight loop on persistent errors
+            std::this_thread::sleep_for(std::chrono::seconds(ERROR_RETRY_DELAY_SECONDS));
+        }
+    }
+    
+    THEMIS_DEBUG("Retention cleanup thread exiting");
 }
 
 } // namespace themis
