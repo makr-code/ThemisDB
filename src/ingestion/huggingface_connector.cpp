@@ -2,9 +2,11 @@
 #include <stdexcept>
 #include <sstream>
 #include <chrono>
+#include <thread>
 
-// Note: For actual HTTP requests, libcurl would be used in production
-// This implementation provides the structure with simulated HTTP calls
+// Note: For actual HTTP requests, libcurl would be used in production.
+// This implementation provides the structure with simulated HTTP calls and
+// production-ready retry / back-off logic.
 
 namespace themis {
 namespace ingestion {
@@ -19,12 +21,16 @@ struct HttpResponse {
 // Simulated HTTP client (would use libcurl in production)
 class HttpClient {
 public:
-    static HttpResponse get(const std::string& url, const std::string& auth_token = "") {
+    // Note: timeout_ms will be passed to curl_easy_setopt(CURLOPT_TIMEOUT_MS)
+    // once libcurl is integrated; currently unused in the simulated implementation.
+    static HttpResponse get(const std::string& url, const std::string& auth_token = "",
+                            int /*timeout_ms*/ = 30000) {
         HttpResponse response;
         
         // In production, this would use libcurl:
         // CURL* curl = curl_easy_init();
         // curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        // curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, timeout_ms);
         // if (!auth_token.empty()) {
         //     std::string auth_header = "Authorization: Bearer " + auth_token;
         //     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -38,6 +44,57 @@ public:
         return response;
     }
 };
+
+// Helper: perform an HTTP GET with exponential back-off retry
+static HttpResponse getWithRetry(const std::string& url,
+                                 const std::string& auth_token,
+                                 const RetryConfig& retry_cfg,
+                                 IngestionStats& stats) {
+    HttpResponse response;
+    double delay_ms = retry_cfg.initial_delay_ms;
+
+    for (int attempt = 1; attempt <= retry_cfg.max_attempts; ++attempt) {
+        response = HttpClient::get(url, auth_token, retry_cfg.timeout_ms);
+
+        if (response.status_code == 200) {
+            return response;  // success
+        }
+
+        // Map HTTP status to error code for retry decision
+        IngestionErrorCode code = IngestionErrorCode::HTTP_REQUEST_FAILED;
+        if (response.status_code == 401 || response.status_code == 403) {
+            code = IngestionErrorCode::HTTP_UNAUTHORIZED;
+        } else if (response.status_code == 404) {
+            code = IngestionErrorCode::HTTP_NOT_FOUND;
+        } else if (response.status_code == 429) {
+            code = IngestionErrorCode::HTTP_RATE_LIMITED;
+        } else if (response.status_code >= 500) {
+            code = IngestionErrorCode::HTTP_SERVER_ERROR;
+        }
+
+        IngestionError err{code, IngestionErrorSeverity::WARNING,
+                           "HTTP " + std::to_string(response.status_code) +
+                           " on attempt " + std::to_string(attempt) +
+                           " for: " + url};
+
+        bool retryable = err.isRetryable();
+        stats.errors.push_back(err);
+        stats.metrics.error_count++;
+
+        if (!retryable || attempt == retry_cfg.max_attempts) {
+            break;
+        }
+
+        // Back-off before next attempt
+        stats.metrics.retry_count++;
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(static_cast<int>(delay_ms)));
+        delay_ms = std::min(delay_ms * retry_cfg.backoff_factor,
+                            retry_cfg.max_delay_ms);
+    }
+
+    return response;
+}
 
 // Pimpl implementation
 class HuggingFaceConnector::Impl {
@@ -83,11 +140,10 @@ public:
         
         try {
             // Check HuggingFace Hub API availability
-            // API endpoint: https://huggingface.co/api/datasets/{dataset_name}
             std::string api_url = "https://huggingface.co/api/datasets/" + dataset_name_;
             
             // Make HTTP request (simulated)
-            auto response = HttpClient::get(api_url, api_token_);
+            auto response = HttpClient::get(api_url, api_token_, retry_config_.timeout_ms);
             
             // Check if dataset exists (200 OK)
             return response.status_code == 200;
@@ -103,13 +159,10 @@ public:
         }
         
         try {
-            // Query dataset metadata from HF Hub API
-            // API endpoint: https://huggingface.co/api/datasets/{dataset}/metadata
             std::string api_url = "https://huggingface.co/api/datasets/" + 
                                 dataset_name_ + "/metadata";
             
-            // Make HTTP request (simulated)
-            auto response = HttpClient::get(api_url, api_token_);
+            auto response = HttpClient::get(api_url, api_token_, retry_config_.timeout_ms);
             
             if (response.status_code == 200) {
                 // Parse JSON response to get row count
@@ -117,7 +170,6 @@ public:
                 // auto json = nlohmann::json::parse(response.body);
                 // return json["rows"].get<size_t>();
                 
-                // Simulated: Return placeholder count
                 return 12000;  // Would be parsed from API response
             }
             
@@ -134,74 +186,77 @@ public:
         auto start_time = std::chrono::steady_clock::now();
         
         if (dataset_name_.empty()) {
-            stats.error_message = "No dataset name specified";
+            stats.addError(IngestionErrorCode::SOURCE_NOT_CONFIGURED,
+                           IngestionErrorSeverity::FATAL,
+                           "No dataset name specified");
             return stats;
         }
         
         try {
-            // 1. Construct HuggingFace Hub API endpoint
-            // API: https://huggingface.co/datasets/{dataset}/data/{split}
             std::string split = split_.empty() ? "train" : split_;
             std::string api_url = "https://huggingface.co/datasets/" + 
                                 dataset_name_ + "/data/" + split;
             
-            // 2. Check if streaming or batch download
             if (streaming_enabled_) {
-                // Streaming mode - download in chunks
                 stats = ingestStreaming(api_url, target_collection, progress_callback);
             } else {
-                // Batch mode - download entire dataset
                 stats = ingestBatch(api_url, target_collection, progress_callback);
             }
             
             auto end_time = std::chrono::steady_clock::now();
             stats.elapsed_seconds = 
                 std::chrono::duration<double>(end_time - start_time).count();
+            if (stats.elapsed_seconds > 0.0 && stats.documents_processed > 0) {
+                stats.metrics.throughput_docs_per_sec =
+                    static_cast<double>(stats.documents_processed) / stats.elapsed_seconds;
+            }
             
         } catch (const std::exception& e) {
-            stats.error_message = "Ingestion failed: " + std::string(e.what());
+            stats.addError(IngestionErrorCode::INTERNAL_ERROR,
+                           IngestionErrorSeverity::FATAL,
+                           "Ingestion failed: " + std::string(e.what()));
         }
         
         return stats;
     }
     
 private:
-    // Helper: Streaming ingestion
+    // Helper: Streaming ingestion with retry
     IngestionStats ingestStreaming(const std::string& api_url,
-                                  const std::string& target_collection,
+                                  const std::string& /*target_collection*/,
                                   ProgressCallback callback) {
         IngestionStats stats;
         
-        // In production, this would:
-        // 1. Open streaming connection to HF Hub
-        // 2. Read data in chunks (e.g., 1000 rows at a time)
-        // 3. Parse each chunk (JSON/Parquet)
-        // 4. Insert into target_collection
-        // 5. Report progress via callback
-        
-        // Simulated streaming ingestion
         size_t total_docs = getDocumentCount();
         size_t processed = 0;
         
         while (processed < total_docs) {
             size_t chunk_size = std::min(batch_size_, total_docs - processed);
             
-            // Simulate downloading and processing a chunk
-            // In production: HTTP GET with range headers
-            // auto response = HttpClient::get(api_url + "?offset=" + std::to_string(processed) + 
-            //                                "&limit=" + std::to_string(chunk_size), api_token_);
-            
+            std::string chunk_url = api_url +
+                "?offset=" + std::to_string(processed) +
+                "&limit="  + std::to_string(chunk_size);
+
+            auto response = getWithRetry(chunk_url, api_token_, retry_config_, stats);
+
+            if (response.status_code != 200) {
+                // Non-retryable failure: record and abort streaming
+                stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
+                               IngestionErrorSeverity::ERROR,
+                               "Streaming chunk failed at offset " +
+                               std::to_string(processed));
+                stats.documents_failed += (total_docs - processed);
+                break;
+            }
+
             // Parse and insert documents
-            // For each document in chunk:
-            //   - Parse JSON/Parquet
-            //   - Extract text and metadata
-            //   - Insert into target_collection
-            
+            // In production: parse JSON/Parquet from response.body
             stats.documents_processed += chunk_size;
-            stats.bytes_processed += chunk_size * 1024;  // Simulated size
+            stats.bytes_processed += response.body.size() > 0
+                                     ? response.body.size()
+                                     : chunk_size * 1024;
             processed += chunk_size;
             
-            // Progress callback
             if (callback && processed % (batch_size_ * 10) == 0) {
                 callback(config_.source_id, processed, total_docs,
                         "Downloaded " + std::to_string(processed) + " documents");
@@ -211,38 +266,32 @@ private:
         return stats;
     }
     
-    // Helper: Batch ingestion
+    // Helper: Batch ingestion with retry
     IngestionStats ingestBatch(const std::string& api_url,
-                              const std::string& target_collection,
-                              ProgressCallback callback) {
+                               const std::string& /*target_collection*/,
+                               ProgressCallback callback) {
         IngestionStats stats;
         
-        // In production, this would:
-        // 1. Download entire dataset as single file
-        // 2. Parse format (JSON/Parquet/CSV)
-        // 3. Batch insert into target_collection
-        
-        // Make HTTP request to download dataset
-        // auto response = HttpClient::get(api_url, api_token_);
-        
-        // if (response.status_code == 200) {
-        //     // Parse response body
-        //     // auto json = nlohmann::json::parse(response.body);
-        //     // for (auto& doc : json["data"]) {
-        //     //     // Insert document
-        //     //     stats.documents_processed++;
-        //     // }
-        // }
-        
-        // Simulated batch processing
-        size_t total_docs = getDocumentCount();
-        stats.documents_processed = total_docs;
-        stats.bytes_processed = total_docs * 1024;  // Simulated size
-        
-        // Report completion
-        if (callback) {
-            callback(config_.source_id, total_docs, total_docs,
-                    "Completed batch ingestion");
+        auto response = getWithRetry(api_url, api_token_, retry_config_, stats);
+
+        if (response.status_code == 200) {
+            size_t total_docs = getDocumentCount();
+            // In production: parse JSON/Parquet from response.body
+            stats.documents_processed = total_docs;
+            stats.bytes_processed = response.body.size() > 0
+                                    ? response.body.size()
+                                    : total_docs * 1024;
+            
+            if (callback) {
+                callback(config_.source_id, total_docs, total_docs,
+                        "Completed batch ingestion");
+            }
+        } else {
+            stats.addError(IngestionErrorCode::HTTP_REQUEST_FAILED,
+                           IngestionErrorSeverity::ERROR,
+                           "Batch download failed with HTTP " +
+                           std::to_string(response.status_code));
+            stats.documents_failed = getDocumentCount();
         }
         
         return stats;
@@ -261,6 +310,10 @@ public:
         streaming_enabled_ = enabled;
     }
 
+    void setRetryConfig(const RetryConfig& config) {
+        retry_config_ = config;
+    }
+
 private:
     SourceConfig config_;
     std::string dataset_name_;
@@ -268,6 +321,7 @@ private:
     std::string api_token_;
     size_t batch_size_;
     bool streaming_enabled_;
+    RetryConfig retry_config_;
 };
 
 // Public API implementation
@@ -306,5 +360,10 @@ void HuggingFaceConnector::setStreamingMode(bool enabled) {
     impl_->setStreamingMode(enabled);
 }
 
+void HuggingFaceConnector::setRetryConfig(const RetryConfig& config) {
+    impl_->setRetryConfig(config);
+}
+
 } // namespace ingestion
 } // namespace themis
+
