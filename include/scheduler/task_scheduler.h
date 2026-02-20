@@ -111,20 +111,74 @@ struct ScheduledTask {
     // Task state
     bool enabled = true;
     bool running = false;  // Currently executing
-    
+
+    // ── Error categorization ──────────────────────────────────────────────
+    /**
+     * @brief Classification of the most recent execution failure.
+     *
+     * NONE          – no failure / task has never failed
+     * TRANSIENT     – intermittent error; retry may succeed
+     *                 (network timeout, temporary resource exhaustion)
+     * PERMANENT     – error that will not recover without code/config change
+     *                 (e.g. invalid AQL, function not found)
+     * TIMEOUT       – the task exceeded its configured timeout
+     * RESOURCE      – the task was rejected due to resource / rate limits
+     * SECURITY      – rejected by security validation
+     */
+    enum class ErrorCategory {
+        NONE,
+        TRANSIENT,
+        PERMANENT,
+        TIMEOUT,
+        RESOURCE,
+        SECURITY
+    };
+
     // Statistics
     size_t total_executions = 0;
     size_t successful_executions = 0;
     size_t failed_executions = 0;
     double avg_execution_time_ms = 0.0;
     std::string last_error;
+    ErrorCategory last_error_category = ErrorCategory::NONE;
     std::chrono::system_clock::time_point last_success_time;
     std::chrono::system_clock::time_point last_failure_time;
     
     // Resource limits
     std::chrono::milliseconds timeout{std::chrono::minutes(10)};  // Execution timeout
-    size_t max_retries = 3;                                        // Max retry attempts on failure
-    
+    size_t max_retries = 3;                                        // Max retry attempts on failure (legacy; overridden by retry_policy when set)
+
+    /**
+     * @brief Retry strategy for failed task executions
+     */
+    enum class RetryStrategy {
+        NONE,                // No retries (equivalent to max_retries = 0)
+        FIXED_DELAY,         // Fixed delay between retries
+        EXPONENTIAL_BACKOFF, // 1s, 2s, 4s, 8s, ... (capped by max_delay)
+        LINEAR_BACKOFF,      // initial_delay, 2*initial_delay, 3*initial_delay, ...
+        JITTER_BACKOFF       // Exponential backoff with ±jitter_factor random jitter
+    };
+
+    /**
+     * @brief Per-task retry configuration
+     *
+     * When retry_policy is set, it takes precedence over max_retries.
+     * Leave unset to use the legacy max_retries + exponential backoff behaviour.
+     */
+    struct RetryPolicy {
+        RetryStrategy strategy = RetryStrategy::EXPONENTIAL_BACKOFF;
+        size_t max_retries = 3;
+        std::chrono::milliseconds initial_delay{1000};  // Delay before first retry
+        std::chrono::milliseconds max_delay{30000};     // Upper cap on delay
+        double backoff_multiplier = 2.0;                // For exponential / linear
+        double jitter_factor = 0.1;                     // ±fraction for jitter (0.1 = ±10%)
+
+        // Optional: return false to skip retry for a given error message
+        std::function<bool(const std::string& error)> should_retry;
+    };
+
+    std::optional<RetryPolicy> retry_policy;  // Advanced retry configuration (optional)
+
     // Hooks for notifications (optional)
     std::function<void(const std::string& task_id, const nlohmann::json& result)> on_success;
     std::function<void(const std::string& task_id, const std::string& error)> on_failure;
@@ -313,7 +367,26 @@ public:
      * @brief Get scheduler statistics
      */
     Stats getStats() const;
-    
+
+    /**
+     * @brief Export current scheduler metrics in Prometheus text format
+     *
+     * Returns a string in Prometheus exposition format (text/plain; version=0.0.4)
+     * suitable for scraping by a Prometheus server or any compatible monitoring tool.
+     *
+     * Metrics exported:
+     *   - themis_scheduler_tasks_registered        (gauge)
+     *   - themis_scheduler_tasks_active            (gauge)
+     *   - themis_scheduler_tasks_running           (gauge)
+     *   - themis_scheduler_executions_total        (counter, label: status=success|failure)
+     *   - themis_scheduler_task_executions_total   (counter, per task, labels: task_id, task_name, status)
+     *   - themis_scheduler_task_execution_duration_ms (gauge, per task)
+     *   - themis_scheduler_task_last_run_timestamp (gauge, per task, unix seconds)
+     *
+     * @return Prometheus text exposition string (never empty)
+     */
+    std::string exportMetrics() const;
+
     /**
      * @brief List all registered tasks
      */
