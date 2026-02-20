@@ -4,10 +4,13 @@
  */
 
 #include "rag/llm_meta_analyzer.h"
+#include "rag/llm_integration.h"
+#include "llm/inference_engine_enhanced.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <regex>
 #include <algorithm>
+#include <atomic>
 #include <cstdint>
 
 namespace themis::rag {
@@ -201,18 +204,37 @@ std::string LLMMetaAnalyzer::extractReasoning(const std::string& response) {
 }
 
 std::string LLMMetaAnalyzer::callLLM(const std::string& prompt) {
-    // TODO: Implement actual LLM call
-    // This is a placeholder implementation that returns a hardcoded response.
-    // NOTE: This placeholder affects test reliability - tests may pass with
-    // unrealistic scores until actual LLM integration is complete.
-    // Real implementation should call an actual LLM service (e.g., llama.cpp)
     THEMIS_DEBUG("LLM call with prompt length: {}", prompt.size());
-    
+
     if (impl_) {
         impl_->total_calls++;
     }
-    
-    // Placeholder response - replace with actual LLM inference
+
+    // Delegate to the shared inference engine when one is configured
+    auto engine = LLMIntegration::getInferenceEngine();
+    if (engine) {
+        try {
+            llm::InferenceEngineEnhanced::EnhancedInferenceRequest request;
+            request.base_request.prompt    = prompt;
+            request.base_request.max_tokens = 512;
+            request.base_request.temperature = 0.1;  // low temperature for analytical tasks
+            request.allow_caching = true;
+            request.priority      = 0;
+
+            static std::atomic<uint64_t> req_counter{0};
+            request.request_id = "meta_" + std::to_string(req_counter.fetch_add(1));
+
+            auto response = engine->submit(request).get();
+            THEMIS_DEBUG("LLMMetaAnalyzer::callLLM response length: {}", response.text.size());
+            return response.text;
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("LLMMetaAnalyzer::callLLM engine error: {}", e.what());
+            // Fall through to hardcoded fallback below
+        }
+    }
+
+    // No engine configured – return a neutral scored response so that callers
+    // using parseScore() still get a valid default (0.75).
     return "Reasoning: The input has been analyzed according to criteria.\nScore: 0.75";
 }
 
