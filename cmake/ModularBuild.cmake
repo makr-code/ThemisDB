@@ -334,8 +334,15 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
     
-    # Temporal conflict resolution
+    # Temporal conflict resolution and production-readiness modules
     ../src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/system_versioned_table.cpp
+    ../src/temporal/temporal_query_engine.cpp
+    ../src/temporal/temporal_index.cpp
+    ../src/temporal/retention_manager.cpp
+    ../src/temporal/bi_temporal.cpp
+    ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/temporal_aggregator.cpp
     
     # Replication
     ../src/replication/replication_manager.cpp
