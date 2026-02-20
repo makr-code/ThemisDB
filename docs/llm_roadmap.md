@@ -286,11 +286,11 @@ Loading a model that uses any of these formats will not fail with an actionable 
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|------------|--------|------------|
-| No CUDA CI runner available | Medium | High (Q3 milestone blocked) | Evaluate GitHub Actions CUDA runner; fall back to correctness tests using CPU emulation or a cloud spot instance. |
-| llama.cpp API changes break grammar/LoRA adapters | Medium | High | Pin llama.cpp version in `vcpkg.json`; add version compatibility checks at startup. |
+| No CUDA CI runner available | Medium | High (Q3 milestone blocked) | ✅ `llm-cuda-gpu-ci.yml`: `cuda-compile-check` job runs on every PR (standard runner); `cuda-kernel-tests` job uses self-hosted `gpu-cuda` runner on demand. |
+| llama.cpp API changes break grammar/LoRA adapters | Medium | High | ✅ llama.cpp pinned at commit `b7974` in `cmake/Dependencies.cmake` (`LLAMA_CPP_GIT_TAG`). `THEMIS_LLAMA_CPP_EXPECTED_COMMIT` compile definition exposed; `LlamaWrapper` constructor compares it against `llama_build_commit()` at startup and emits a `spdlog::warn` on mismatch. |
 | OTel SDK adds significant binary size or latency overhead | Low | Medium | Profile with and without OTel; use compile-time feature flag if needed. |
 | Prompt-safety classifier adds unacceptable latency | Low | Medium | Run classifier asynchronously on a separate thread pool; add latency budget to the policy config. |
-| Removing deprecated LoRA compat shim breaks downstream integrations | Medium | Medium | Announce deprecation timeline; provide migration guide from `LoRAAdapterManager` to `MultiLoRAManager`. |
+| Removing deprecated LoRA compat shim breaks downstream integrations | Medium | Medium | ✅ Deprecation timeline published in `docs/llm/LORA_ADAPTER_MIGRATION.md` (removal in v2.0.0). Migration guide covers Config field mapping, method mapping, and code examples. `lora_adapter_manager_compat.h` provides a temporary typedef for gradual migration. |
 
 ---
 
@@ -304,8 +304,9 @@ Loading a model that uses any of these formats will not fail with an actionable 
 - `docs/GRAMMAR_IMPLEMENTATION_COMPLETE.md` — Grammar implementation summary
 - `docs/aql_roadmap.md` — AQL/LLM subsystem production-readiness (complementary)
 - `docs/llm/FLASH_ATTENTION_ARCHITECTURE.md` — Flash Attention architecture notes
+- `docs/llm/LORA_ADAPTER_MIGRATION.md` — Migration guide from `LoRAAdapterManager` to `MultiLoRAManager` (deprecation timeline, Config + method mapping)
 - `docs/observability/` — Observability configuration guides
-- `docs/observability/llm_metrics_schema.md` — Canonical LLM metrics schema (draft)
+- `docs/observability/llm_metrics_schema.md` — Canonical LLM metrics schema
 - `docs/operations/llm/GPU_OOM_RECOVERY.md` — GPU OOM recovery runbook
 - `docs/operations/llm/MODEL_SWAP_PROCEDURE.md` — Model swap procedure runbook
 - `docs/operations/llm/GRAMMAR_DEBUGGING.md` — Grammar debugging guide
