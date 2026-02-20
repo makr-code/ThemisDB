@@ -29,7 +29,9 @@ MonitoringApiHandler::MonitoringApiHandler(
     const std::chrono::steady_clock::time_point* start_time,
     std::shared_ptr<SecondaryIndexManager> secondary_index,
     ::themis::SchemaManager* schema_manager,
-    std::shared_ptr<ShardingMetricsHandler> sharding_metrics
+    std::shared_ptr<ShardingMetricsHandler> sharding_metrics,
+    const std::atomic<bool>* is_running,
+    const std::atomic<uint64_t>* active_requests
 )
     : storage_(std::move(storage))
     , auth_(std::move(auth))
@@ -39,6 +41,8 @@ MonitoringApiHandler::MonitoringApiHandler(
     , secondary_index_(std::move(secondary_index))
     , schema_manager_(schema_manager)
     , sharding_metrics_(std::move(sharding_metrics))
+    , is_running_(is_running)
+    , active_requests_(active_requests)
 {
 }
 
@@ -78,8 +82,64 @@ http::response<http::string_body> MonitoringApiHandler::handleHealthCheck(
     return makeResponse(http::status::ok, response.dump(), req);
 }
 
-http::response<http::string_body> MonitoringApiHandler::handleVersion(
+http::response<http::string_body> MonitoringApiHandler::handleLiveness(
     const http::request<http::string_body>& req
+) {
+    // Liveness probe: server process is running and not deadlocked
+    bool alive = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
+
+    json response = {
+        {"status", alive ? "alive" : "dead"},
+        {"checks", {
+            {"server_running", alive}
+        }}
+    };
+
+    auto status = alive ? http::status::ok : http::status::service_unavailable;
+    return makeResponse(status, response.dump(), req);
+}
+
+http::response<http::string_body> MonitoringApiHandler::handleReadiness(
+    const http::request<http::string_body>& req
+) {
+    // Readiness probe: server is ready to accept traffic
+    bool server_running = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
+
+    // Check storage availability
+    bool storage_ok = false;
+    std::string storage_error;
+    if (storage_) {
+        try {
+            // Lightweight storage ping: check if DB is open
+            storage_ok = (storage_->getRawDB() != nullptr);
+        } catch (const std::exception& e) {
+            storage_error = e.what();
+            storage_ok = false;
+        }
+    } else {
+        // No storage configured - not a readiness failure for lightweight deployments
+        storage_ok = true;
+    }
+
+    bool ready = server_running && storage_ok;
+
+    json response = {
+        {"status", ready ? "ready" : "not_ready"},
+        {"checks", {
+            {"server_running", server_running},
+            {"storage_available", storage_ok}
+        }}
+    };
+
+    if (!storage_error.empty()) {
+        response["checks"]["storage_error"] = storage_error;
+    }
+
+    auto status = ready ? http::status::ok : http::status::service_unavailable;
+    return makeResponse(status, response.dump(), req);
+}
+
+
 ) {
     // Implementation moved from http_server.cpp handleVersion()
     try {

@@ -78,7 +78,9 @@ public:
         const std::chrono::steady_clock::time_point* start_time,
         std::shared_ptr<SecondaryIndexManager> secondary_index,
         ::themis::SchemaManager* schema_manager = nullptr,
-        std::shared_ptr<ShardingMetricsHandler> sharding_metrics = nullptr
+        std::shared_ptr<ShardingMetricsHandler> sharding_metrics = nullptr,
+        const std::atomic<bool>* is_running = nullptr,
+        const std::atomic<uint64_t>* active_requests = nullptr
     );
 
     /**
@@ -87,6 +89,23 @@ public:
      * @return HTTP response with health status
      */
     http::response<http::string_body> handleHealthCheck(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /health/live request (liveness probe)
+     * Returns 200 if server is running, 503 otherwise.
+     * @param req HTTP request
+     * @return HTTP response with liveness status
+     */
+    http::response<http::string_body> handleLiveness(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle GET /health/ready request (readiness probe)
+     * Returns 200 if storage is accessible and server is ready to serve traffic.
+     * Returns 503 if not ready (e.g. storage unavailable, still starting up).
+     * @param req HTTP request
+     * @return HTTP response with readiness status
+     */
+    http::response<http::string_body> handleReadiness(const http::request<http::string_body>& req);
 
     /**
      * @brief Handle GET /version request
@@ -146,6 +165,8 @@ private:
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
     ::themis::SchemaManager* schema_manager_;
     std::shared_ptr<ShardingMetricsHandler> sharding_metrics_;
+    const std::atomic<bool>* is_running_{nullptr};
+    const std::atomic<uint64_t>* active_requests_{nullptr};
 
     // Helper methods (to be implemented)
     http::response<http::string_body> makeErrorResponse(

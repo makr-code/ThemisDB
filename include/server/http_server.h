@@ -164,7 +164,9 @@ public:
         uint16_t port = 8080;
         size_t num_threads = std::thread::hardware_concurrency();
         size_t max_request_size_mb = 10;
+        size_t max_header_size_bytes = 8192; // 8 KB default max header size
         uint32_t request_timeout_ms = 30000; // 30 seconds default
+        uint32_t graceful_shutdown_timeout_ms = 30000; // 30 second drain timeout
         // Feature flags
         bool feature_semantic_cache = false;
         bool feature_llm_store = false;
@@ -752,6 +754,7 @@ private:
     // Metrics
     std::atomic<uint64_t> request_count_{0};
     std::atomic<uint64_t> error_count_{0};
+    std::atomic<uint64_t> active_requests_{0}; // In-flight request counter for graceful shutdown
     std::chrono::steady_clock::time_point start_time_;
 
     // Audit rate limiting state

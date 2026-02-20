@@ -620,7 +620,8 @@ HttpServer::HttpServer(
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
-        secondary_index_, schema_manager_.get()
+        secondary_index_, schema_manager_.get(), nullptr,
+        &running_, &active_requests_
     );
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -1230,9 +1231,22 @@ void HttpServer::stop() {
     beast::error_code ec;
     acceptor_.close(ec);
 
-    // Give active requests time to complete
-    THEMIS_INFO("Waiting for active requests to complete...");
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    // Drain active requests with configurable timeout
+    THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);
+    {
+        const auto drain_deadline = std::chrono::steady_clock::now()
+            + std::chrono::milliseconds(config_.graceful_shutdown_timeout_ms);
+        while (active_requests_.load(std::memory_order_acquire) > 0
+               && std::chrono::steady_clock::now() < drain_deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        auto remaining = active_requests_.load(std::memory_order_acquire);
+        if (remaining > 0) {
+            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight – forcing close", remaining);
+        } else {
+            THEMIS_INFO("All active requests completed");
+        }
+    }
 
     // Flush and cleanup Sprint A/B features
     if (semantic_cache_) {
@@ -1386,6 +1400,8 @@ namespace {
 
     enum class Route {
         Health,
+        HealthLive,    // GET /health/live  – liveness probe
+        HealthReady,   // GET /health/ready – readiness probe
         Version,
         Stats,
         CapabilitiesGet,
@@ -1594,7 +1610,9 @@ namespace {
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (target == "/" || target == "/health") return Route::Health;
-    if (target == "/version" && method == http::verb::get) return Route::Version;
+        if (target == "/health/live" && method == http::verb::get) return Route::HealthLive;
+        if (target == "/health/ready" && method == http::verb::get) return Route::HealthReady;
+        if (target == "/version" && method == http::verb::get) return Route::Version;
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
@@ -1881,16 +1899,61 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Increment request counter
     request_count_.fetch_add(1, std::memory_order_relaxed);
-    
+
+    // Track in-flight requests for graceful shutdown draining
+    active_requests_.fetch_add(1, std::memory_order_acquire);
+    // RAII guard to decrement on all exit paths
+    struct ActiveRequestGuard {
+        std::atomic<uint64_t>& counter;
+        ~ActiveRequestGuard() { counter.fetch_sub(1, std::memory_order_release); }
+    } active_guard{active_requests_};
+
     // Handle CORS preflight early
     if (method == http::verb::options) {
         return makePreflightResponse(req);
+    }
+
+    // Extract or generate request ID for tracing
+    std::string request_id;
+    auto req_id_it = req.find("X-Request-ID");
+    if (req_id_it != req.end() && !req_id_it->value().empty()) {
+        request_id = std::string(req_id_it->value());
+    } else {
+        // Generate a simple request ID from timestamp + counter
+        request_id = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()
+        ) + "-" + std::to_string(request_count_.load(std::memory_order_relaxed));
+    }
+    span.setAttribute("request.id", request_id);
+
+    // Enforce max header size limit
+    if (config_.max_header_size_bytes > 0) {
+        size_t header_bytes = 0;
+        for (auto const& field : req) {
+            header_bytes += field.name_string().size() + field.value().size() + 4; // 2 for ": " + 2 for "\r\n"
+        }
+        if (header_bytes > config_.max_header_size_bytes) {
+            http::response<http::string_body> res{http::status::request_header_fields_too_large, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set("X-Request-ID", request_id);
+            nlohmann::json body = {
+                {"error", "Request Header Fields Too Large"},
+                {"message", "Total header size exceeds maximum allowed"},
+                {"max_bytes", config_.max_header_size_bytes},
+                {"actual_bytes", header_bytes},
+                {"status_code", 431}
+            };
+            res.body() = body.dump();
+            res.prepare_payload();
+            return res;
+        }
     }
 
     // Enforce request body size limit (after OPTIONS preflight)
     if (req.body().size() > max_body_bytes_) {
         http::response<http::string_body> res{http::status::payload_too_large, req.version()};
         res.set(http::field::content_type, "application/json");
+        res.set("X-Request-ID", request_id);
         nlohmann::json body = {
             {"error", "Payload Too Large"},
             {"message", "Request body exceeds maximum size"},
@@ -2058,6 +2121,12 @@ http::response<http::string_body> HttpServer::routeRequest(
         switch (classifyRoute(req)) {
             case Route::Health:
                 response = monitoring_api_->handleHealthCheck(req);
+            break;
+        case Route::HealthLive:
+            response = monitoring_api_->handleLiveness(req);
+            break;
+        case Route::HealthReady:
+            response = monitoring_api_->handleReadiness(req);
             break;
         case Route::Version:
             response = monitoring_api_->handleVersion(req);
@@ -3157,6 +3226,11 @@ http::response<http::string_body> HttpServer::routeRequest(
         auto end = std::chrono::steady_clock::now();
         auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         recordLatency(dur);
+    }
+
+    // Propagate request ID to response
+    if (!request_id.empty()) {
+        response.set("X-Request-ID", request_id);
     }
 
     return response;
