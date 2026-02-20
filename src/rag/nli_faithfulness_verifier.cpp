@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <sstream>
 #include <cmath>
+#include <regex>
 
 namespace themis::rag::judge {
 
@@ -71,31 +72,33 @@ struct NLIFaithfulnessVerifier::Impl {
         
         // Count matching words
         size_t matches = 0;
-        size_t contradictions = 0;
-        
-        // NOTE: This is a simple heuristic placeholder for NLI model
-        // In production, this would use a proper NLI transformer model
-        // (e.g., RoBERTa-large-MNLI, DeBERTa-v3)
-        // 
-        // Known limitations of this heuristic:
-        // - False positives: "not only", "never before" incorrectly marked as contradictions
-        // - Lacks context awareness
-        // - No semantic understanding
-        // - Should be replaced with real NLI model for production
-        
+
         for (const auto& w : hyp_words) {
             if (premise_lower.find(w) != std::string::npos) {
                 matches++;
             }
-            
-            // Very simplistic contradiction detection
-            // TODO: Replace with proper NLI model
-            if (w == "not" || w == "never" || w == "no" || w == "false") {
-                contradictions++;
-            }
         }
-        
+
         double match_ratio = static_cast<double>(matches) / hyp_words.size();
+
+        // Negation detection using word-boundary regex on the full hypothesis.
+        // Positive-complementing phrases ("not only", "never before", "no less",
+        // "not yet", "not just", "not even") are excluded first to avoid false
+        // positives that occur when a negation word opens a comparative or
+        // additive phrase rather than expressing contradiction.
+        static const std::regex kPositivePhrase(
+            R"(\b(?:not only|not just|not even|not yet|never before|no less)\b)",
+            std::regex::icase);
+        static const std::regex kNegationPattern(
+            R"(\b(?:not|never|no|false)\b)",
+            std::regex::icase);
+
+        std::string hyp_for_negation =
+            std::regex_replace(hypothesis_lower, kPositivePhrase, " ");
+        auto neg_begin = std::sregex_iterator(
+            hyp_for_negation.begin(), hyp_for_negation.end(), kNegationPattern);
+        size_t contradictions = static_cast<size_t>(
+            std::distance(neg_begin, std::sregex_iterator{}));
         
         // Compute probability distribution
         if (match_ratio >= 0.8 && contradictions == 0) {

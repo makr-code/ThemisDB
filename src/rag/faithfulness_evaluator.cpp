@@ -41,8 +41,7 @@ struct FaithfulnessEvaluator::Impl {
             }
         }
         
-        // Fallback: Stub implementation using simple text matching
-        // In production, this would call RoBERTa-large-MNLI or similar
+        // Fallback: term-overlap heuristic when no NLI verifier is configured
         
         std::string claim_lower = claim;
         std::string doc_lower = document;
