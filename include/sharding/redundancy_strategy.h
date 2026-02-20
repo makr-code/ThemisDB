@@ -393,8 +393,9 @@ public:
     ) override;
     
 private:
-    // Galois Field operations
+    // Galois Field GF(2^8) operations with irreducible polynomial x^8+x^4+x^3+x^2+1 (0x1d)
     uint8_t gf_mul(uint8_t a, uint8_t b);
+    uint8_t gf_inv(uint8_t a);
     uint8_t gf_div(uint8_t a, uint8_t b);
     void gf_matrix_mul(const std::vector<std::vector<uint8_t>>& matrix,
                        const std::vector<uint8_t>& vec,

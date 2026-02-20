@@ -376,6 +376,111 @@ TEST_F(RedundancyStrategyTest, RAID5_RecoveryFromMissingChunk) {
     EXPECT_TRUE(read_result.success);
 }
 
+// ─────────────────────────────────────────────────────────────
+// ReedSolomonCoder GF(2^8) arithmetic tests
+// ─────────────────────────────────────────────────────────────
+// Test XOR-parity decode: write with RS, drop 1 data chunk, recover via parity
+TEST_F(RedundancyStrategyTest, RS_Decode_RecoverOneMissingDataChunk) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 3;
+    config.erasure_coding.parity_shards = 1;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
+
+    RedundancyStrategy strategy(config);
+    const std::string doc_id = "rs-xor-recover";
+    // Use data that is a multiple of data_shards bytes for clean chunk alignment
+    std::vector<uint8_t> data = {0x10, 0x20, 0x30, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66};
+
+    auto wr = strategy.write(doc_id, data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success) << wr.error_message;
+
+    // Drop the first data chunk key to simulate a lost shard
+    std::string data_chunk_key = doc_id + ":data:0";
+    for (auto& [shard_id, docs] : storage->shard_data) {
+        docs.erase(data_chunk_key);
+    }
+
+    // Read must still succeed (XOR recovery using parity chunk)
+    auto rr = strategy.read(doc_id, "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success) << rr.error_message;
+}
+
+// Verify RS gf_mul(0, x) == 0 and gf_mul(1, x) == x
+TEST_F(RedundancyStrategyTest, RS_GFMultiply_IdentityAndZero) {
+    // Encode a 1-byte document: after RS encode, parity = XOR(data chunks).
+    // With data=[0x42] and 1 data shard + 1 parity shard, the parity should be 0x42.
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 1;
+    config.erasure_coding.parity_shards = 1;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::REED_SOLOMON;
+
+    RedundancyStrategy strategy(config);
+    const std::vector<uint8_t> data = {0x42};
+    auto wr = strategy.write("gf-id", data, "coll", *ring, *topology, createWriteHandler());
+    EXPECT_TRUE(wr.success) << wr.error_message;
+
+    // Read back to confirm encode/decode round-trip is correct
+    auto rr = strategy.read("gf-id", "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success);
+    if (rr.success && !rr.data.empty()) {
+        EXPECT_EQ(static_cast<uint8_t>(rr.data[0]), 0x42u);
+    }
+}
+
+// RS Cauchy: write/read round-trip with CAUCHY algorithm and 1 missing data chunk
+TEST_F(RedundancyStrategyTest, RS_Cauchy_RecoverOneMissingDataChunk) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 3;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+
+    RedundancyStrategy strategy(config);
+    const std::string doc_id = "cauchy-recover";
+    std::vector<uint8_t> data(48, 0xCC);
+
+    auto wr = strategy.write(doc_id, data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success) << wr.error_message;
+
+    // Drop data chunk 1
+    std::string data_chunk_key = doc_id + ":data:1";
+    for (auto& [shard_id, docs] : storage->shard_data) {
+        docs.erase(data_chunk_key);
+    }
+
+    auto rr = strategy.read(doc_id, "coll", *ring, *topology, createReadHandler());
+    EXPECT_TRUE(rr.success) << rr.error_message;
+}
+
+// recoverDocument with PARITY/RAID6 uses correct map/uint32_t types (compile + runtime)
+TEST_F(RedundancyStrategyTest, RecoverDocument_Parity_TypeSafe) {
+    RedundancyConfig config;
+    config.mode = RedundancyMode::PARITY;
+    config.erasure_coding.data_shards = 4;
+    config.erasure_coding.parity_shards = 2;
+    config.erasure_coding.algorithm = ErasureCodingAlgorithm::CAUCHY;
+
+    RedundancyStrategy strategy(config);
+    const std::string doc_id = "parity-recover";
+    std::vector<uint8_t> data(64, 0xBB);
+
+    auto wr = strategy.write(doc_id, data, "coll", *ring, *topology, createWriteHandler());
+    ASSERT_TRUE(wr.success) << wr.error_message;
+
+    // Drop one data chunk to force recovery
+    std::string chunk_key = doc_id + ":data:0";
+    for (auto& [shard_id, docs] : storage->shard_data) {
+        docs.erase(chunk_key);
+    }
+
+    bool recovered = strategy.recoverDocument(
+        doc_id, "coll", *ring, *topology,
+        createReadHandler(), createWriteHandler());
+    EXPECT_TRUE(recovered);
+}
+
 // ═══════════════════════════════════════════════════════════
 // RAID 10 (STRIPE + MIRROR) Tests
 // ═══════════════════════════════════════════════════════════

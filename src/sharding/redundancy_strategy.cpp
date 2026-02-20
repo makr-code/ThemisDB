@@ -265,37 +265,113 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    // Simplified reconstruction
-    // In production, implement proper Reed-Solomon decoding
-    (void)missing_indices;
-    (void)parity_shards;
-    
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
-    
-    // For now, if all data chunks are available, just concatenate them
-    std::vector<uint8_t> recovered;
+
+    // Fast path: all data chunks present — just concatenate
+    bool all_data_available = true;
     for (uint32_t i = 0; i < data_shards; ++i) {
-        if (available_chunks.count(i)) {
+        if (available_chunks.find(i) == available_chunks.end()) {
+            all_data_available = false;
+            break;
+        }
+    }
+
+    if (all_data_available) {
+        std::vector<uint8_t> recovered;
+        for (uint32_t i = 0; i < data_shards; ++i) {
             const auto& chunk = available_chunks.at(i);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
         }
+        return recovered;
     }
-    
-    return recovered;
+
+    // XOR-parity recovery: each parity chunk = XOR of all data chunks.
+    // Since all parity chunks encode the same XOR equation, we can recover
+    // 1 missing data chunk total (RAID-5 style), regardless of parity shard count.
+    std::vector<uint32_t> missing_data;
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        if (available_chunks.find(i) == available_chunks.end()) {
+            missing_data.push_back(i);
+        }
+    }
+
+    if (missing_data.size() > 1) {
+        throw std::runtime_error("XOR parity cannot recover more than 1 missing data chunk");
+    }
+
+    // Find an available parity chunk
+    std::optional<std::vector<uint8_t>> parity_chunk;
+    for (uint32_t i = data_shards; i < data_shards + parity_shards; ++i) {
+        auto it = available_chunks.find(i);
+        if (it != available_chunks.end()) {
+            parity_chunk = it->second;
+            break;
+        }
+    }
+
+    if (!parity_chunk) {
+        throw std::runtime_error("No parity chunk available for recovery");
+    }
+
+    const size_t chunk_size = parity_chunk->size();
+    const uint32_t missing_idx = missing_data[0];
+
+    // Reconstruct missing chunk: start with parity, XOR all present data chunks
+    std::vector<uint8_t> reconstructed = *parity_chunk;
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        if (i == missing_idx) continue;
+        auto it = available_chunks.find(i);
+        if (it == available_chunks.end()) continue;
+        const auto& chunk = it->second;
+        for (size_t j = 0; j < chunk_size && j < reconstructed.size(); ++j) {
+            reconstructed[j] ^= chunk[j];
+        }
+    }
+
+    // Build the full ordered data result
+    std::vector<uint8_t> result;
+    result.reserve(data_shards * chunk_size);
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        if (i == missing_idx) {
+            result.insert(result.end(), reconstructed.begin(), reconstructed.end());
+        } else {
+            const auto& chunk = available_chunks.at(i);
+            result.insert(result.end(), chunk.begin(), chunk.end());
+        }
+    }
+    return result;
 }
 
 uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
-    // Simplified Galois Field multiplication
-    // In production, use lookup tables
-    return a * b;  // Placeholder
+    // Galois Field GF(2^8) multiplication using Russian Peasant algorithm
+    // Irreducible polynomial: x^8 + x^4 + x^3 + x^2 + 1 (0x1d)
+    uint8_t p = 0;
+    for (int i = 0; i < 8; i++) {
+        if (b & 1) p ^= a;
+        const uint8_t hi = a & 0x80;
+        a <<= 1;
+        if (hi) a ^= 0x1d;
+        b >>= 1;
+    }
+    return p;
+}
+
+uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
+    if (a == 0) return 0;
+    // Fermat's Little Theorem for finite fields: a^(p-1) = 1 in GF(p),
+    // so a^(2^8 - 2) = a^(-1) in GF(2^8).
+    uint8_t result = 1;
+    for (int i = 7; i >= 0; i--) {
+        result = gf_mul(result, result);
+        if ((254 >> i) & 1) result = gf_mul(result, a);
+    }
+    return result;
 }
 
 uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
-    // Simplified Galois Field division
-    (void)b;
-    return a / 1;  // Placeholder
+    return gf_mul(a, gf_inv(b));
 }
 
 void ReedSolomonCoder::gf_matrix_mul(
@@ -303,11 +379,15 @@ void ReedSolomonCoder::gf_matrix_mul(
     const std::vector<uint8_t>& vec,
     std::vector<uint8_t>& result
 ) {
-    // Matrix multiplication in Galois Field
-    // Placeholder implementation
-    (void)matrix;
-    (void)vec;
-    (void)result;
+    const size_t rows = matrix.size();
+    result.assign(rows, 0);
+    for (size_t i = 0; i < rows; i++) {
+        uint8_t sum = 0;
+        for (size_t j = 0; j < matrix[i].size() && j < vec.size(); j++) {
+            sum ^= gf_mul(matrix[i][j], vec[j]);
+        }
+        result[i] = sum;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -836,38 +916,11 @@ WriteResult RedundancyStrategy::writeMirror(
         return result;
     }
     
-    // Write to all shards
+    // Write to all shards in parallel
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     std::vector<std::string> failed_shards;
 
-    // Fast-path: single target write should be synchronous to avoid async overhead
-    // and potential blocking behavior in local/unit-test environments.
-    if (target_shards.size() == 1) {
-        bool ok = false;
-        try {
-            ok = handler(target_shards[0], document_id, data);
-        } catch (const std::exception& e) {
-            spdlog::warn("Write to shard {} failed: {}", target_shards[0], e.what());
-            ok = false;
-        }
-
-        if (ok) {
-            written_shards.push_back(target_shards[0]);
-        } else {
-            failed_shards.push_back(target_shards[0]);
-        }
-
-        WriteResult result;
-        result.success = ok;
-        result.document_id = document_id;
-        result.written_shards = written_shards;
-        result.failed_shards = failed_shards;
-        result.acknowledgements = ok ? 1 : 0;
-        result.error_message = ok ? "" : "Write concern not met";
-        return result;
-    }
-    
     for (const auto& shard_id : target_shards) {
         futures.push_back(std::async(std::launch::async, [&, shard_id]() {
             return handler(shard_id, document_id, data);
@@ -2006,17 +2059,18 @@ bool RedundancyStrategy::recoverDocument(
             return false;
         }
 
-        // Reconstruct the missing chunk(s) via erasure decode
-        std::vector<std::vector<uint8_t>> present_chunks;
-        std::vector<int> present_indices;
+        // Build the map and missing-indices vector required by decode()
+        std::map<uint32_t, std::vector<uint8_t>> available_map;
+        std::vector<uint32_t> missing_idx_vec;
         for (uint32_t i = 0; i < total; ++i) {
             if (chunk_opts[i]) {
-                present_chunks.push_back(*chunk_opts[i]);
-                present_indices.push_back(static_cast<int>(i));
+                available_map[i] = *chunk_opts[i];
+            } else {
+                missing_idx_vec.push_back(i);
             }
         }
 
-        auto recovered_data = erasure_coder_->decode(present_chunks, present_indices, k, m);
+        auto recovered_data = erasure_coder_->decode(available_map, missing_idx_vec, k, m);
         if (recovered_data.empty()) {
             spdlog::error("recoverDocument: erasure decode failed for {}", document_id);
             return false;
