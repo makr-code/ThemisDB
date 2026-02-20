@@ -89,6 +89,9 @@
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_applier.h"
+#include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
+#include "server/distributed_txn_api_handler.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -745,7 +748,24 @@ HttpServer::HttpServer(
         storage_, tx_manager_, auth_
     );
     THEMIS_INFO("Transaction API Handler initialized");
-    
+
+    // Initialize Distributed Transaction (2PC) API Handler
+    {
+        themis::sharding::TrueTime::Config tt_cfg;
+        tt_cfg.base_uncertainty_us = 1000;
+        auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+        themis::sharding::DistributedTransactionCoordinator::Config dtxn_cfg;
+        dtxn_cfg.enable_recovery_log = false; // WAL dir not configured at server init time;
+                                              // configure via DistributedTransactionCoordinator::Config
+                                              // to enable durable recovery logging in production
+        auto dtxn_coordinator = std::make_shared<
+            themis::sharding::DistributedTransactionCoordinator>(truetime, dtxn_cfg);
+        distributed_txn_api_ = std::make_unique<themis::server::DistributedTxnApiHandler>(
+            dtxn_coordinator
+        );
+    }
+    THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
+
     // Initialize WAL API Handler
     wal_api_ = std::make_unique<themis::server::WALApiHandler>(
         storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
@@ -1571,6 +1591,14 @@ namespace {
         TransactionCommitPost,
         TransactionRollbackPost,
         TransactionStatsGet,
+        // Distributed (cross-shard) 2PC transaction endpoints
+        DtxnBeginPost,
+        DtxnOperationPost,
+        DtxnCommitPost,
+        DtxnAbortPost,
+        DtxnReadOnlyPost,
+        DtxnStatusGet,
+        DtxnStatsGet,
         ContentImportPost,
         ContentGet,
         ContentBlobGet,
@@ -1942,6 +1970,15 @@ namespace {
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
         if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
         if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        if (target == "/dtxn/begin"    && method == http::verb::post) return Route::DtxnBeginPost;
+        if (target == "/dtxn/operation" && method == http::verb::post) return Route::DtxnOperationPost;
+        if (target == "/dtxn/commit"   && method == http::verb::post) return Route::DtxnCommitPost;
+        if (target == "/dtxn/abort"    && method == http::verb::post) return Route::DtxnAbortPost;
+        if (target == "/dtxn/readonly" && method == http::verb::post) return Route::DtxnReadOnlyPost;
+        if (target.rfind("/dtxn/status/", 0) == 0 && method == http::verb::get) return Route::DtxnStatusGet;
+        if (target == "/dtxn/stats"    && method == http::verb::get)  return Route::DtxnStatsGet;
 
         // Content API
         if (target == "/content/import" && method == http::verb::post) return Route::ContentImportPost;
@@ -3130,6 +3167,30 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
             break;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        case Route::DtxnBeginPost:
+            response = distributed_txn_api_->handleBegin(req);
+            break;
+        case Route::DtxnOperationPost:
+            response = distributed_txn_api_->handleOperation(req);
+            break;
+        case Route::DtxnCommitPost:
+            response = distributed_txn_api_->handleCommit(req);
+            break;
+        case Route::DtxnAbortPost:
+            response = distributed_txn_api_->handleAbort(req);
+            break;
+        case Route::DtxnReadOnlyPost:
+            response = distributed_txn_api_->handleReadOnly(req);
+            break;
+        case Route::DtxnStatusGet:
+            response = distributed_txn_api_->handleStatus(req);
+            break;
+        case Route::DtxnStatsGet:
+            response = distributed_txn_api_->handleStats(req);
+            break;
+
         case Route::ContentImportPost:
             {
                 if (validator_) {

@@ -67,6 +67,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
 #include "server/transaction_api_handler.h"
+#include "server/distributed_txn_api_handler.h"
 #include "server/wal_api_handler.h"
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
@@ -716,6 +717,9 @@ private:
     
     // Transaction API Handler
     std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
+    
+    // Distributed (cross-shard) Transaction API Handler
+    std::unique_ptr<themis::server::DistributedTxnApiHandler> distributed_txn_api_;
     
     // WAL API Handler
     std::unique_ptr<themis::server::WALApiHandler> wal_api_;
