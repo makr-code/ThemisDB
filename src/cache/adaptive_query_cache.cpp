@@ -19,8 +19,22 @@ constexpr int RETRY_BACKOFF_MULTIPLIER = 2;    // Exponential backoff multiplier
 AdaptiveQueryCache::AdaptiveQueryCache(const Config& config)
     : config_(config) {
     
+    // Phase 2: Validate configuration on startup
+    std::string validation_error;
+    if (!config_.validate(&validation_error)) {
+        throw std::invalid_argument("Invalid cache configuration: " + validation_error);
+    }
+    
     THEMIS_INFO("AdaptiveQueryCache initialized: L1={} entries, L2={} entries, L3=RocksDB",
                 config_.l1_max_entries, config_.l2_max_entries);
+    
+    // Phase 2: Log configuration for observability
+    if (config_.enable_rate_limiting) {
+        THEMIS_INFO("Rate limiting enabled: {} requests/sec", config_.max_requests_per_second);
+    }
+    if (config_.enable_tenant_isolation) {
+        THEMIS_INFO("Tenant isolation enabled: {} bytes per tenant", config_.per_tenant_max_bytes);
+    }
     
     // Initialize circuit breaker for L3 (Phase 1: Fault Isolation)
     if (config_.enable_circuit_breaker) {
@@ -756,6 +770,108 @@ bool AdaptiveQueryCache::validateEntrySize(size_t size, CacheLevel level) const 
         default:
             return false;
     }
+}
+
+// Phase 2: Config validation
+bool AdaptiveQueryCache::Config::validate(std::string* error_msg) const {
+    auto set_error = [error_msg](const std::string& msg) {
+        if (error_msg) *error_msg = msg;
+        return false;
+    };
+    
+    // Validate L1 configuration
+    if (l1_max_entries == 0) {
+        return set_error("l1_max_entries must be greater than 0");
+    }
+    if (l1_max_entry_size == 0) {
+        return set_error("l1_max_entry_size must be greater than 0");
+    }
+    if (l1_ttl_seconds < 0) {
+        return set_error("l1_ttl_seconds must be non-negative");
+    }
+    
+    // Validate L2 configuration
+    if (l2_max_entries == 0) {
+        return set_error("l2_max_entries must be greater than 0");
+    }
+    if (l2_max_entry_size == 0) {
+        return set_error("l2_max_entry_size must be greater than 0");
+    }
+    if (l2_ttl_seconds < 0) {
+        return set_error("l2_ttl_seconds must be non-negative");
+    }
+    if (l2_compression_level < 1 || l2_compression_level > 22) {
+        return set_error("l2_compression_level must be between 1 and 22 (Zstd valid range)");
+    }
+    
+    // Validate L3 configuration
+    if (l3_ttl_seconds < 0) {
+        return set_error("l3_ttl_seconds must be non-negative");
+    }
+    if (l3_db_path.empty()) {
+        return set_error("l3_db_path must not be empty");
+    }
+    
+    // Validate adaptive TTL
+    if (enable_adaptive_ttl) {
+        if (min_ttl_seconds < 0) {
+            return set_error("min_ttl_seconds must be non-negative");
+        }
+        if (max_ttl_seconds < min_ttl_seconds) {
+            return set_error("max_ttl_seconds must be >= min_ttl_seconds");
+        }
+    }
+    
+    // Validate eviction policy
+    if (frequency_weight < 0.0f || frequency_weight > 1.0f) {
+        return set_error("frequency_weight must be between 0.0 and 1.0");
+    }
+    
+    // Validate size limits
+    if (enable_size_limits) {
+        if (max_total_entry_size == 0) {
+            return set_error("max_total_entry_size must be greater than 0");
+        }
+        if (l1_max_entry_size > max_total_entry_size) {
+            return set_error("l1_max_entry_size must be <= max_total_entry_size");
+        }
+        if (l2_max_entry_size > max_total_entry_size) {
+            return set_error("l2_max_entry_size must be <= max_total_entry_size");
+        }
+    }
+    
+    // Validate circuit breaker
+    if (enable_circuit_breaker) {
+        if (cb_failure_threshold == 0) {
+            return set_error("cb_failure_threshold must be greater than 0");
+        }
+        if (cb_timeout_ms == 0) {
+            return set_error("cb_timeout_ms must be greater than 0");
+        }
+    }
+    
+    // Phase 2: Validate rate limiting
+    if (enable_rate_limiting) {
+        if (max_requests_per_second == 0) {
+            return set_error("max_requests_per_second must be greater than 0");
+        }
+    }
+    
+    // Phase 2: Validate backpressure
+    if (enable_backpressure) {
+        if (l3_write_queue_size == 0) {
+            return set_error("l3_write_queue_size must be greater than 0");
+        }
+    }
+    
+    // Phase 2: Validate tenant isolation
+    if (enable_tenant_isolation) {
+        if (per_tenant_max_bytes == 0) {
+            return set_error("per_tenant_max_bytes must be greater than 0");
+        }
+    }
+    
+    return true;
 }
 
 } // namespace themis

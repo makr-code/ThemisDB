@@ -82,6 +82,22 @@ public:
         bool enable_circuit_breaker = true;
         uint32_t cb_failure_threshold = 5;      // Failures before opening
         uint32_t cb_timeout_ms = 60000;         // 1 minute timeout
+        
+        // Phase 2: Rate limiting & backpressure
+        bool enable_rate_limiting = false;       // Enable rate limiting (opt-in)
+        uint32_t max_requests_per_second = 10000; // Global rate limit
+        bool enable_backpressure = true;         // Enable backpressure
+        size_t l3_write_queue_size = 1000;       // Max queued L3 writes
+        
+        // Phase 2: Tenant isolation
+        bool enable_tenant_isolation = false;    // Enable tenant namespacing (opt-in)
+        size_t per_tenant_max_bytes = 104857600; // 100MB per tenant default
+        
+        /**
+         * @brief Validate configuration parameters
+         * @return true if config is valid, false otherwise
+         */
+        bool validate(std::string* error_msg = nullptr) const;
     };
     
     struct CacheEntry {
