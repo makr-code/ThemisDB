@@ -35,7 +35,8 @@ MonitoringApiHandler::MonitoringApiHandler(
     std::shared_ptr<ShardingMetricsHandler> sharding_metrics,
     const std::atomic<bool>* is_running,
     const std::atomic<uint64_t>* active_requests,
-    const std::atomic<uint64_t>* active_connections
+    const std::atomic<uint64_t>* active_connections,
+    std::shared_ptr<core::concerns::ConcernsContext> concerns
 )
     : storage_(std::move(storage))
     , auth_(std::move(auth))
@@ -48,6 +49,7 @@ MonitoringApiHandler::MonitoringApiHandler(
     , is_running_(is_running)
     , active_requests_(active_requests)
     , active_connections_(active_connections)
+    , concerns_(std::move(concerns))
 {
 }
 
@@ -93,11 +95,19 @@ http::response<http::string_body> MonitoringApiHandler::handleLiveness(
     // Liveness probe: server process is running and not deadlocked
     bool alive = (is_running_ == nullptr) || is_running_->load(std::memory_order_relaxed);
 
+    json checks = {
+        {"server_running", alive}
+    };
+
+    // --- Core concerns health (logger, tracer, metrics, cache) ---
+    if (concerns_) {
+        auto health = concerns_->healthCheck();
+        checks["concerns"] = buildConcernsJson(health, alive);
+    }
+
     json response = {
         {"status", alive ? "alive" : "dead"},
-        {"checks", {
-            {"server_running", alive}
-        }}
+        {"checks", checks}
     };
 
     auto status = alive ? http::status::ok : http::status::service_unavailable;
@@ -162,6 +172,12 @@ http::response<http::string_body> MonitoringApiHandler::handleReadiness(
 
     if (rss_bytes >= 0) {
         checks["memory_rss_bytes"] = rss_bytes;
+    }
+
+    // --- Layer 4: Core concerns readiness (logger, tracer, metrics, cache) ---
+    if (concerns_) {
+        auto readiness = concerns_->readinessCheck();
+        checks["concerns"] = buildConcernsJson(readiness, ready);
     }
 
     json response = {
@@ -1063,6 +1079,23 @@ http::response<http::string_body> MonitoringApiHandler::handleSLOStatus(
         return makeErrorResponse(http::status::internal_server_error, 
                                  std::string("Failed to get SLO status: ") + e.what(), req);
     }
+}
+
+// static
+json MonitoringApiHandler::buildConcernsJson(
+    const core::concerns::HealthStatus& status, bool& ok)
+{
+    // Build a per-concern JSON object and update the caller's `ok` flag.
+    json result = {
+        {"logger",  {{"ok", status.logger.ok},  {"message", status.logger.message}}},
+        {"tracer",  {{"ok", status.tracer.ok},  {"message", status.tracer.message}}},
+        {"metrics", {{"ok", status.metrics.ok}, {"message", status.metrics.message}}},
+        {"cache",   {{"ok", status.cache.ok},   {"message", status.cache.message}}}
+    };
+    if (!status.isHealthy()) {
+        ok = false;
+    }
+    return result;
 }
 
 } // namespace server

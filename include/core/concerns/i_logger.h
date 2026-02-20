@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/concerns/lifecycle.h"
 #include <string>
 #include <memory>
 #include <map>
@@ -20,7 +21,7 @@ struct TraceContext {
     std::string trace_id;    ///< OpenTelemetry trace id (hex string)
     std::string request_id;  ///< Per-request/RPC correlation id
 
-    bool empty() const { return trace_id.empty() && request_id.empty(); }
+    bool empty() const noexcept { return trace_id.empty() && request_id.empty(); }
 };
 
 /**
@@ -51,14 +52,43 @@ public:
 
     virtual ~ILogger() = default;
 
+    // -----------------------------------------------------------------------
     // Core logging methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Emit a log record at the specified severity level.
+     *
+     * This is the single dispatch point used by all severity-specific
+     * helpers.  Implementations must be thread-safe.
+     *
+     * @param level   Severity level for the message.
+     * @param message Human-readable log text.
+     */
     virtual void log(Level level, const std::string& message) = 0;
-    
+
+    /// @brief Log at TRACE level (most verbose, diagnostic detail).
+    /// @param message Human-readable log text.
     virtual void trace(const std::string& message) = 0;
+
+    /// @brief Log at DEBUG level (developer-facing diagnostic detail).
+    /// @param message Human-readable log text.
     virtual void debug(const std::string& message) = 0;
+
+    /// @brief Log at INFO level (normal operational events).
+    /// @param message Human-readable log text.
     virtual void info(const std::string& message) = 0;
+
+    /// @brief Log at WARN level (unexpected but recoverable condition).
+    /// @param message Human-readable log text.
     virtual void warn(const std::string& message) = 0;
+
+    /// @brief Log at ERROR level (failure that requires attention).
+    /// @param message Human-readable log text.
     virtual void error(const std::string& message) = 0;
+
+    /// @brief Log at CRITICAL level (severe failure, may require restart).
+    /// @param message Human-readable log text.
     virtual void critical(const std::string& message) = 0;
 
     /**
@@ -95,13 +125,76 @@ public:
         logStructured(level, message, merged);
     }
 
+    // -----------------------------------------------------------------------
     // Configuration methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Set the minimum severity level; records below this level are dropped.
+     * @param level New minimum level.
+     */
     virtual void setLevel(Level level) = 0;
+
+    /**
+     * @brief Return the current minimum severity level.
+     * @return Active minimum level.
+     */
     virtual Level getLevel() const = 0;
+
+    /**
+     * @brief Set the spdlog-compatible format pattern for log lines.
+     *
+     * Has no effect on backends that do not support format patterns.
+     * @param pattern Format string, e.g. `"[%Y-%m-%d %H:%M:%S] [%^%l%$] %v"`.
+     */
     virtual void setPattern(const std::string& pattern) = 0;
 
+    // Lifecycle hooks
+    /**
+     * @brief Flush any buffered log records to the underlying sink.
+     *
+     * Must be called before process exit (or between test cases) to
+     * ensure no messages are lost.  Default is a no-op for backends
+     * that do not buffer.
+     */
+    virtual void flush() noexcept {}
+
+    /**
+     * @brief Shut down the logger and release resources.
+     *
+     * After shutdown(), all logging calls are silently dropped.
+     * Default is a no-op.
+     */
+    virtual void shutdown() noexcept {}
+
+    /**
+     * @brief Probe whether the logging sink is reachable and healthy.
+     *
+     * @return ProbeResult with ok=true when the sink is accessible,
+     *         ok=false with a descriptive message otherwise.
+     */
+    virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
+
+    // -----------------------------------------------------------------------
     // Helper methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Convert a case-insensitive string name to a Level enum value.
+     *
+     * Accepts "trace", "debug", "info", "warn", "error", "critical".
+     * Returns Level::INFO for unrecognised strings.
+     *
+     * @param level String representation of the level.
+     * @return Corresponding Level enum value.
+     */
     static Level levelFromString(const std::string& level);
+
+    /**
+     * @brief Convert a Level enum value to its string name.
+     * @param level Level to convert.
+     * @return Null-terminated string (e.g. "info"), lifetime is static.
+     */
     static const char* levelToString(Level level);
 };
 

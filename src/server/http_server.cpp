@@ -639,7 +639,8 @@ HttpServer::HttpServer(
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
         secondary_index_, schema_manager_.get(), nullptr,
-        &running_, &active_requests_, &active_connections_
+        &running_, &active_requests_, &active_connections_,
+        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
     );
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
@@ -1330,7 +1331,15 @@ void HttpServer::stop() {
     }
     threads_.clear();
 
+    // Shutdown core concerns (flush remaining logs/spans/metrics, release resources).
+    // Called last, after the final "stopped gracefully" log, so the logger is still
+    // available for that message.  The logger itself is the final resource torn down
+    // inside concerns_->shutdown().
     THEMIS_INFO("HTTP Server stopped gracefully");
+
+    if (concerns_) {
+        concerns_->shutdown();
+    }
 }
 
 void HttpServer::wait() {

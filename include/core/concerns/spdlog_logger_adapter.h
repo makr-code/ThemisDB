@@ -112,6 +112,25 @@ public:
         if (logger_) logger_->set_pattern(pattern);
     }
 
+    // Lifecycle hooks
+    void flush() override {
+        if (logger_) logger_->flush();
+    }
+
+    void shutdown() override {
+        if (logger_) {
+            logger_->flush();
+            logger_.reset();
+        }
+    }
+
+    ProbeResult isHealthy() const override {
+        if (!logger_) {
+            return ProbeResult::unhealthy("logger sink is null");
+        }
+        return ProbeResult::healthy();
+    }
+
     /** Enable or disable JSON-mode at runtime. */
     void setJsonMode(bool enabled) { json_mode_ = enabled; }
     bool jsonMode() const { return json_mode_; }
