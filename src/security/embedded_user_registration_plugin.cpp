@@ -1,8 +1,12 @@
 #include "security/user_registration_plugin.h"
 #include "utils/logger.h"
 #include <openssl/evp.h>
+#include <openssl/rand.h>
+#include <openssl/crypto.h>
 #include <sstream>
 #include <iomanip>
+#include <stdexcept>
+#include <vector>
 #include <unordered_map>
 #include <mutex>
 
@@ -282,28 +286,101 @@ private:
     }
     
     std::string hashPassword(const std::string& password) const {
-        // SHA-256 hash (should be upgraded to bcrypt/Argon2 for production)
+        // PBKDF2-SHA256 with a random 16-byte salt and 100,000 iterations.
+        // Format: "pbkdf2$<hex-salt>$<hex-dk>"
+        // This is far more resistant to brute-force than plain SHA-256.
+        constexpr int SALT_LEN = 16;
+        constexpr int DK_LEN   = 32;   // 256-bit derived key
+        constexpr int ITER     = 100000;
+
+        unsigned char salt[SALT_LEN];
+        if (RAND_bytes(salt, SALT_LEN) != 1) {
+            throw std::runtime_error("RAND_bytes failed for password salt");
+        }
+
+        unsigned char dk[DK_LEN];
+        if (PKCS5_PBKDF2_HMAC(password.c_str(),
+                               static_cast<int>(password.size()),
+                               salt, SALT_LEN,
+                               ITER,
+                               EVP_sha256(),
+                               DK_LEN, dk) != 1) {
+            throw std::runtime_error("PBKDF2 failed for password hashing");
+        }
+
+        auto toHex = [](const unsigned char* data, int len) {
+            std::ostringstream ss;
+            for (int i = 0; i < len; ++i)
+                ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(data[i]);
+            return ss.str();
+        };
+
+        return "pbkdf2$" + toHex(salt, SALT_LEN) + "$" + toHex(dk, DK_LEN);
+    }
+    
+    bool verifyPassword(const std::string& password, const std::string& stored_hash) const {
+        // Support both legacy SHA-256 hashes (plain 64-char hex) and new PBKDF2 hashes.
+        if (stored_hash.rfind("pbkdf2$", 0) == 0) {
+            // Parse "pbkdf2$<hex-salt>$<hex-dk>"
+            constexpr int SALT_HEX_LEN = 32; // 16 bytes * 2
+            constexpr int DK_LEN       = 32;
+            constexpr int ITER         = 100000;
+
+            // Expected format: "pbkdf2$" (7) + salt_hex (32) + "$" (1) + dk_hex (64) = 104 chars total
+            if (stored_hash.size() != 7u + SALT_HEX_LEN + 1u + 64u) {
+                return false;
+            }
+
+            std::string salt_hex = stored_hash.substr(7, SALT_HEX_LEN);
+            std::string dk_hex   = stored_hash.substr(7 + SALT_HEX_LEN + 1);
+
+            auto fromHex = [](const std::string& hex, std::vector<unsigned char>& out) {
+                out.resize(hex.size() / 2);
+                for (size_t i = 0; i < out.size(); ++i) {
+                    out[i] = static_cast<unsigned char>(
+                        std::stoul(hex.substr(i * 2, 2), nullptr, 16));
+                }
+            };
+
+            std::vector<unsigned char> salt, stored_dk;
+            fromHex(salt_hex, salt);
+            fromHex(dk_hex, stored_dk);
+
+            unsigned char computed_dk[DK_LEN];
+            if (PKCS5_PBKDF2_HMAC(password.c_str(),
+                                   static_cast<int>(password.size()),
+                                   salt.data(), static_cast<int>(salt.size()),
+                                   ITER,
+                                   EVP_sha256(),
+                                   DK_LEN, computed_dk) != 1) {
+                return false;
+            }
+
+            // Constant-time comparison to prevent timing attacks
+            return CRYPTO_memcmp(computed_dk, stored_dk.data(), DK_LEN) == 0;
+        }
+
+        // Legacy SHA-256 path: plain 64-char hex (for passwords stored before upgrade)
         unsigned char hash[EVP_MAX_MD_SIZE];
-        unsigned int hash_len = 0;
-        
+        unsigned int  hash_len = 0;
         EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
         EVP_DigestInit_ex(mdctx, EVP_sha256(), nullptr);
         EVP_DigestUpdate(mdctx, password.c_str(), password.length());
         EVP_DigestFinal_ex(mdctx, hash, &hash_len);
         EVP_MD_CTX_free(mdctx);
-        
-        std::stringstream ss;
-        for (unsigned int i = 0; i < hash_len; i++) {
+
+        std::ostringstream ss;
+        for (unsigned int i = 0; i < hash_len; ++i)
             ss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(hash[i]);
-        }
-        
-        return ss.str();
-    }
-    
-    bool verifyPassword(const std::string& password, const std::string& hash) const {
-        return hashPassword(password) == hash;
+
+        return ss.str() == stored_hash;
     }
 };
+
+// Factory function (declared in user_registration_plugin.h)
+std::shared_ptr<IUserRegistrationPlugin> createEmbeddedUserRegistrationPlugin() {
+    return std::make_shared<EmbeddedUserRegistrationPlugin>();
+}
 
 } // namespace security
 } // namespace themis
