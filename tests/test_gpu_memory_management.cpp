@@ -614,3 +614,131 @@ TEST_F(GPUMemoryManagerTest, Concurrent_TenantIsolation_NoLeakage) {
         << "Tenant quota exceeded during concurrent access";
     EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
 }
+
+// ---------------------------------------------------------------------------
+// Fuzz-style tests — arbitrary sizes fed to TryAllocateGPU / ValidateAllocation
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUMemoryManagerTest, Fuzz_ArbitrarySizes_NeverCrash) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const std::vector<uint64_t> sizes = {
+        0,
+        1,
+        1023,
+        1024,
+        1ULL * 1024 * 1024,            // 1 MB
+        512ULL * 1024 * 1024,          // 512 MB
+        1ULL * 1024 * 1024 * 1024,     // 1 GB
+        16ULL * 1024 * 1024 * 1024,    // 16 GB
+        100ULL * 1024 * 1024 * 1024,   // 100 GB (exceeds any edition)
+        UINT64_MAX / 2,
+        UINT64_MAX - 1,
+        UINT64_MAX,
+    };
+    for (uint64_t sz : sizes) {
+        // Must not crash or throw — only return true/false.
+        bool result = mgr.TryAllocateGPU(sz, "fuzz");
+        // Cleanup any successful allocation.
+        if (result) mgr.DeallocateGPU(sz);
+        // UINT64_MAX should never be allocated.
+        if (sz == UINT64_MAX) EXPECT_FALSE(result);
+    }
+}
+
+TEST_F(GPUMemoryManagerTest, Fuzz_ValidateAllocation_LargeRequest_ThrowsNotCrash) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t big = UINT64_MAX;
+    EXPECT_THROW(mgr.ValidateAllocation(big), std::runtime_error);
+}
+
+TEST_F(GPUMemoryManagerTest, Fuzz_DeallocLargerThanAllocated_ClampsToZero) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    const uint64_t mb = 1024ULL * 1024ULL;
+    ASSERT_TRUE(mgr.TryAllocateGPU(mb, "small"));
+    // Deallocate 1000x the allocated amount — must not underflow.
+    mgr.DeallocateGPU(mb * 1000);
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
+}
+
+TEST_F(GPUMemoryManagerTest, Fuzz_EmptyTag_Handled) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    const uint64_t mb = 1024ULL * 1024ULL;
+    EXPECT_TRUE(mgr.TryAllocateGPU(mb, ""));  // empty tag must not crash
+    mgr.DeallocateGPU(mb);
+}
+
+TEST_F(GPUMemoryManagerTest, Fuzz_LongTag_Handled) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    const uint64_t mb = 1024ULL * 1024ULL;
+    const std::string long_tag(10000, 'x');
+    EXPECT_TRUE(mgr.TryAllocateGPU(mb, long_tag));
+    mgr.DeallocateGPU(mb);
+}
+
+// ---------------------------------------------------------------------------
+// Chaos tests — simulate device loss mid-operation
+// ---------------------------------------------------------------------------
+
+TEST_F(GPUMemoryManagerTest, Chaos_SimulateDeviceLoss_FallsBackGracefully) {
+    // Simulate: some allocations succeed, then "device is lost" → all
+    // subsequent TryAllocateGPU return false.  After recovery (DeallocateGPU
+    // drains), allocations succeed again.
+    auto& mgr = GPUMemoryManager::GetInstance();
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() == 0) {
+        GTEST_SKIP() << "GPU not available in this edition";
+    }
+    const uint64_t mb = 1024ULL * 1024ULL;
+
+    // Phase 1: normal ops.
+    ASSERT_TRUE(mgr.TryAllocateGPU(mb, "phase1"));
+
+    // Phase 2: "device lost" — forcibly fill VRAM to simulate total OOM.
+    const uint64_t remaining =
+        GPUMemoryManager::GetMaxGPUVRAMBytes() - mgr.GetGPUMemoryUsed();
+    if (remaining > 0) {
+        mgr.TryAllocateGPU(remaining, "fill_for_device_loss");
+    }
+    // Now VRAM is at limit — further alloc must fail.
+    EXPECT_FALSE(mgr.TryAllocateGPU(mb, "after_loss"));
+
+    // Phase 3: recovery — drain all and verify allocations work again.
+    mgr.DeallocateGPU(mgr.GetGPUMemoryUsed());
+    EXPECT_EQ(mgr.GetGPUMemoryUsed(), 0u);
+    EXPECT_TRUE(mgr.TryAllocateGPU(mb, "recovered"));
+    mgr.DeallocateGPU(mb);
+}
+
+TEST_F(GPUMemoryManagerTest, Chaos_SimulateMultipleTenantOOMAndRecovery) {
+    auto& mgr = GPUMemoryManager::GetInstance();
+    const uint64_t mb = 1024ULL * 1024ULL;
+    if (GPUMemoryManager::GetMaxGPUVRAMBytes() < 10 * mb) {
+        GTEST_SKIP() << "Edition limit too small for chaos test";
+    }
+    mgr.SetTenantQuota("chaos_t1", 3 * mb);
+    mgr.SetTenantQuota("chaos_t2", 3 * mb);
+
+    // Fill both tenants.
+    ASSERT_TRUE(mgr.TryAllocateGPU(3 * mb, "fill", "chaos_t1"));
+    ASSERT_TRUE(mgr.TryAllocateGPU(3 * mb, "fill", "chaos_t2"));
+
+    // Both at quota — no further allocs succeed for either.
+    EXPECT_FALSE(mgr.TryAllocateGPU(mb, "over", "chaos_t1"));
+    EXPECT_FALSE(mgr.TryAllocateGPU(mb, "over", "chaos_t2"));
+
+    // Recovery: release t1.
+    mgr.DeallocateGPU(3 * mb, "chaos_t1");
+    EXPECT_TRUE(mgr.TryAllocateGPU(mb, "post_recovery", "chaos_t1"));
+
+    // Cleanup.
+    mgr.DeallocateGPU(3 * mb, "chaos_t2");
+    mgr.DeallocateGPU(mb, "chaos_t1");
+}
