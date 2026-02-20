@@ -4,10 +4,10 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <functional>
 #include <mutex>
 #include <chrono>
 #include <memory>
-#include <vector>
 
 namespace themis {
 namespace server {
@@ -95,6 +95,26 @@ private:
 };
 
 /**
+ * @brief Anomaly event fired by RateLimiter when suspicious behaviour is detected.
+ *
+ * Callers register a callback via RateLimiter::setAnomalyCallback() to receive
+ * these events and forward them to their alerting / SIEM pipeline.
+ */
+struct AnomalyEvent {
+    enum class Type {
+        ADAPTIVE_THROTTLE_TRIGGERED, ///< IP exceeded rejection threshold; penalty applied
+        IP_BLACKLISTED,              ///< IP was programmatically added to the blacklist
+    };
+    Type        type;
+    std::string ip;
+    std::string detail;
+    std::chrono::system_clock::time_point timestamp;
+};
+
+/// Callback invoked (with mutex NOT held) on each detected anomaly.
+using AnomalyCallback = std::function<void(const AnomalyEvent&)>;
+
+/**
  * @brief Rate Limiter with per-IP and per-user tracking
  * 
  * Features:
@@ -103,6 +123,7 @@ private:
  * - Configurable limits and whitelists
  * - Thread-safe
  * - Automatic cleanup of old buckets
+ * - Anomaly detection callbacks for SIEM / alerting integration
  */
 class RateLimiter {
 public:
@@ -129,6 +150,15 @@ public:
      */
     bool isWhitelisted(const std::string& ip) const;
     
+    /**
+     * @brief Register a callback invoked whenever an anomaly is detected.
+     *
+     * The callback is invoked outside of the internal mutex so it is safe to
+     * perform I/O (e.g. write to an audit log or send to a SIEM) without risk
+     * of deadlock.  Pass nullptr or an empty function to deregister.
+     */
+    void setAnomalyCallback(AnomalyCallback callback);
+
     /**
      * @brief Add IP to blacklist (immediately block all requests from this IP)
      * @param ip IP address to block
@@ -212,6 +242,13 @@ private:
     std::unordered_map<std::string, AdaptiveEntry> adaptive_state_;
 
     void recordRejectionForAdaptive(const std::string& ip);
+
+    // Anomaly detection callback – protected by a dedicated mutex so that
+    // fireAnomaly() can be called while mutex_ is held without risk of deadlock.
+    mutable std::mutex callback_mutex_;
+    AnomalyCallback anomaly_callback_;
+    // Fire the anomaly callback (safe to call while mutex_ is held).
+    void fireAnomaly(AnomalyEvent::Type type, const std::string& ip, const std::string& detail) const;
     
     // Statistics
     mutable Statistics stats_;

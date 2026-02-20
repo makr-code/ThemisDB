@@ -79,10 +79,33 @@ bool RateLimiter::isWhitelisted(const std::string& ip) const {
                      config_.whitelist_ips.end(), ip) != config_.whitelist_ips.end();
 }
 
+void RateLimiter::setAnomalyCallback(AnomalyCallback callback) {
+    std::lock_guard<std::mutex> lock(callback_mutex_);
+    anomaly_callback_ = std::move(callback);
+}
+
+void RateLimiter::fireAnomaly(AnomalyEvent::Type type,
+                               const std::string& ip,
+                               const std::string& detail) const {
+    // Use a separate mutex so this is safe to call while mutex_ is held.
+    AnomalyCallback cb;
+    {
+        std::lock_guard<std::mutex> lock(callback_mutex_);
+        cb = anomaly_callback_;
+    }
+    if (cb) {
+        AnomalyEvent ev{type, ip, detail, std::chrono::system_clock::now()};
+        cb(ev);
+    }
+}
+
 void RateLimiter::blacklistIP(const std::string& ip) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    blacklisted_ips_.insert(ip);
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        blacklisted_ips_.insert(ip);
+    }
     THEMIS_WARN("IP added to blacklist: {}", ip);
+    fireAnomaly(AnomalyEvent::Type::IP_BLACKLISTED, ip, "IP manually blacklisted");
 }
 
 void RateLimiter::unblacklistIP(const std::string& ip) {
@@ -127,6 +150,10 @@ void RateLimiter::recordRejectionForAdaptive(const std::string& ip) {
         THEMIS_WARN("Adaptive throttle penalty applied to IP: {} ({} rejections in {}s)",
                     ip, entry.rejection_times.size(),
                     config_.adaptive_window_seconds);
+        // Fire anomaly callback while mutex_ is held; callback_mutex_ is separate.
+        fireAnomaly(AnomalyEvent::Type::ADAPTIVE_THROTTLE_TRIGGERED, ip,
+                    "adaptive penalty: " + std::to_string(entry.rejection_times.size()) +
+                    " rejections in " + std::to_string(config_.adaptive_window_seconds) + "s");
     }
 }
 

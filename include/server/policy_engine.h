@@ -36,7 +36,11 @@ public:
         bool effect_allow = true;                   // allow=true, deny=false
         // Optional conditions
         std::vector<std::string> allowed_ip_prefixes; // any match passes; empty -> ignore
-        // Future: attributes/time windows
+        // ABAC: UTC hour-of-day window (0–23, inclusive on both ends; -1 = no restriction)
+        int time_window_utc_hours_start = -1;
+        int time_window_utc_hours_end   = -1;
+        // ABAC: User-Agent substring allowlist (any match passes; empty = no restriction)
+        std::vector<std::string> allowed_user_agent_patterns;
     };
 
     struct Decision {
@@ -86,7 +90,8 @@ public:
     Decision authorize(const std::string& user_id,
                        const std::string& action,
                        const std::string& resource_path,
-                       const std::optional<std::string>& client_ip = std::nullopt) const;
+                       const std::optional<std::string>& client_ip  = std::nullopt,
+                       const std::optional<std::string>& user_agent = std::nullopt) const;
 
     const Metrics& getMetrics() const { return metrics_; }
 
@@ -107,7 +112,9 @@ private:
     bool matchSubject(const Policy& p, const std::string& user_id) const;
     bool matchAction(const Policy& p, const std::string& action) const;
     bool matchResource(const Policy& p, const std::string& resource_path) const;
-    bool matchConditions(const Policy& p, const std::optional<std::string>& client_ip) const;
+    bool matchConditions(const Policy& p,
+                         const std::optional<std::string>& client_ip,
+                         const std::optional<std::string>& user_agent) const;
 
     mutable std::mutex mutex_;
     std::vector<Policy> policies_;

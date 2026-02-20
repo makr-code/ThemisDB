@@ -1,5 +1,6 @@
 #include "server/policy_engine.h"
 #include "utils/audit_logger.h"
+#include <ctime>
 #include <fstream>
 #include <filesystem>
 #include <yaml-cpp/yaml.h>
@@ -62,6 +63,11 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
                     }
                     if (n["allowed_ip_prefixes"]) {
                         for (const auto& ip : n["allowed_ip_prefixes"]) p.allowed_ip_prefixes.push_back(ip.as<std::string>());
+                    }
+                    if (n["time_window_utc_hours_start"]) p.time_window_utc_hours_start = n["time_window_utc_hours_start"].as<int>(-1);
+                    if (n["time_window_utc_hours_end"])   p.time_window_utc_hours_end   = n["time_window_utc_hours_end"].as<int>(-1);
+                    if (n["allowed_user_agent_patterns"]) {
+                        for (const auto& ua : n["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.as<std::string>());
                     }
                     return p;
                 } catch (...) {
@@ -221,7 +227,8 @@ std::vector<PolicyEngine::Policy> PolicyEngine::listPolicies() const {
 PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
                                                const std::string& action,
                                                const std::string& resource_path,
-                                               const std::optional<std::string>& client_ip) const {
+                                               const std::optional<std::string>& client_ip,
+                                               const std::optional<std::string>& user_agent) const {
     metrics_.policy_eval_total++;
     std::lock_guard<std::mutex> lock(mutex_);
 
@@ -236,7 +243,7 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
         if (!matchSubject(p, user_id)) continue;
         if (!matchAction(p, action)) continue;
         if (!matchResource(p, resource_path)) continue;
-        if (!matchConditions(p, client_ip)) continue;
+        if (!matchConditions(p, client_ip, user_agent)) continue;
 
         if (p.effect_allow) {
             metrics_.policy_allow_total++;
@@ -270,7 +277,10 @@ bool PolicyEngine::matchResource(const Policy& p, const std::string& resource_pa
     return false;
 }
 
-bool PolicyEngine::matchConditions(const Policy& p, const std::optional<std::string>& client_ip) const {
+bool PolicyEngine::matchConditions(const Policy& p,
+                                   const std::optional<std::string>& client_ip,
+                                   const std::optional<std::string>& user_agent) const {
+    // IP condition
     if (!p.allowed_ip_prefixes.empty()) {
         if (!client_ip) return false; // IP required to evaluate
         bool ok = false;
@@ -279,6 +289,41 @@ bool PolicyEngine::matchConditions(const Policy& p, const std::optional<std::str
         }
         if (!ok) return false;
     }
+
+    // ABAC time-window condition (UTC hour of day)
+    if (p.time_window_utc_hours_start >= 0 && p.time_window_utc_hours_end >= 0) {
+        std::time_t now_t = std::chrono::system_clock::to_time_t(
+            std::chrono::system_clock::now());
+        std::tm utc_tm{};
+#if defined(_WIN32)
+        gmtime_s(&utc_tm, &now_t);
+#else
+        gmtime_r(&now_t, &utc_tm);
+#endif
+        int hour = utc_tm.tm_hour;
+        bool in_window = false;
+        if (p.time_window_utc_hours_start <= p.time_window_utc_hours_end) {
+            // Normal range, e.g. 08–18
+            in_window = (hour >= p.time_window_utc_hours_start &&
+                         hour <= p.time_window_utc_hours_end);
+        } else {
+            // Overnight range, e.g. 22–06
+            in_window = (hour >= p.time_window_utc_hours_start ||
+                         hour <= p.time_window_utc_hours_end);
+        }
+        if (!in_window) return false;
+    }
+
+    // ABAC user-agent allowlist (substring match)
+    if (!p.allowed_user_agent_patterns.empty()) {
+        if (!user_agent) return false; // UA required when patterns configured
+        bool ok = false;
+        for (const auto& pat : p.allowed_user_agent_patterns) {
+            if (user_agent->find(pat) != std::string::npos) { ok = true; break; }
+        }
+        if (!ok) return false;
+    }
+
     return true;
 }
 
@@ -291,6 +336,9 @@ json PolicyEngine::toJson(const Policy& p) {
     j["resources"] = p.resources;
     j["effect"] = p.effect_allow ? "allow" : "deny";
     if (!p.allowed_ip_prefixes.empty()) j["allowed_ip_prefixes"] = p.allowed_ip_prefixes;
+    if (p.time_window_utc_hours_start >= 0) j["time_window_utc_hours_start"] = p.time_window_utc_hours_start;
+    if (p.time_window_utc_hours_end   >= 0) j["time_window_utc_hours_end"]   = p.time_window_utc_hours_end;
+    if (!p.allowed_user_agent_patterns.empty()) j["allowed_user_agent_patterns"] = p.allowed_user_agent_patterns;
     return j;
 }
 
@@ -305,6 +353,9 @@ std::optional<PolicyEngine::Policy> PolicyEngine::fromJson(const json& j) {
         std::string eff = j.value("effect", std::string("allow"));
         p.effect_allow = (eff == "allow");
         if (j.contains("allowed_ip_prefixes")) for (const auto& ip : j["allowed_ip_prefixes"]) p.allowed_ip_prefixes.push_back(ip.get<std::string>());
+        p.time_window_utc_hours_start = j.value("time_window_utc_hours_start", -1);
+        p.time_window_utc_hours_end   = j.value("time_window_utc_hours_end",   -1);
+        if (j.contains("allowed_user_agent_patterns")) for (const auto& ua : j["allowed_user_agent_patterns"]) p.allowed_user_agent_patterns.push_back(ua.get<std::string>());
         return p;
     } catch (...) {
         return std::nullopt;
