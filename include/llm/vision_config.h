@@ -74,6 +74,7 @@ struct VisionResourceLimits {
     std::chrono::seconds max_inference_time; ///< Max inference time
     std::chrono::seconds max_model_load_time; ///< Max model load time
     std::chrono::seconds request_timeout;     ///< Request timeout
+    int cpu_inference_threads = 4;       ///< CPU threads for image encoding (clip_image_encode)
 };
 
 /**

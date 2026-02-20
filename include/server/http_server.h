@@ -116,6 +116,7 @@ class PITRApiHandler;
 class BranchApiHandler;
 class MergeApiHandler;
 class SnapshotApiHandler;  // Moved here to match namespace
+class MvccApiHandler;
 }
 
 namespace sharding {

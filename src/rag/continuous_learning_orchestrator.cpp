@@ -5,6 +5,7 @@
 
 #include "rag/continuous_learning_orchestrator.h"
 #include "rag/bayesian_optimizer.h"
+#include "utils/logger.h"
 
 #include <algorithm>
 #include <atomic>

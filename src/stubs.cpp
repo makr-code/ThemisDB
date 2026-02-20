@@ -89,3 +89,4 @@ std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
 }
 
 } // namespace themis::security
+

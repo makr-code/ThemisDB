@@ -158,6 +158,7 @@ set(THEMIS_BASE_SOURCES
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
+    ../src/base/module_sandbox.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -176,6 +177,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
     ../src/storage/raft_mvcc_bridge.cpp
+    ../src/sharding/distributed_time_coordinator.cpp
     
     # Metadata management
     ../src/metadata/schema_manager.cpp
@@ -294,13 +296,13 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
     ../src/security/pii_redaction_policy.cpp
-    # ../src/security/aql_injection_detector.cpp  # Moved to query module (needs AQLParser)
     ../src/utils/audit_logger.cpp
     ../src/utils/lek_manager.cpp
     ../src/utils/saga_logger.cpp
     
     # Authentication
     ../src/auth/jwt_validator.cpp
+    ../src/auth/token_blacklist.cpp
     ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
@@ -373,6 +375,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/metrics_registry.cpp
     ../src/sharding/health_check.cpp
     ../src/sharding/admin_api.cpp
+    ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/cloud_agent.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
@@ -478,7 +481,6 @@ set(THEMIS_LLM_SOURCES
     
     # LoRA framework (core subset)
     ../src/llm/lora_framework/lora_orchestrator.cpp
-    ../src/llm/lora_framework/lora_adapter_manager.cpp
     ../src/llm/lora_framework/lora_storage_service.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp
@@ -648,6 +650,8 @@ set(THEMIS_NETWORK_SOURCES
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/alertmanager.cpp

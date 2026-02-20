@@ -454,3 +454,52 @@ TEST_F(MetricsServerHTTPTest, UnknownPath_Returns404) {
     ASSERT_NE(res, nullptr);
     EXPECT_EQ(res->status, 404);
 }
+
+// ─── Admin Sessions endpoint tests (Q4 Admin/DX) ───────────────────────────
+
+TEST_F(MetricsServerHTTPTest, AdminSessions_NoCallback_ReturnsEmptyArray) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/admin/sessions");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, "[]");
+}
+
+TEST_F(MetricsServerHTTPTest, AdminSessions_WithCallback_ReturnsCallbackJSON) {
+    const std::string expected =
+        R"([{"session_id":"s1","model_id":"llama-3b","state":"running"}])";
+    server->setSessionListCallback([&]() { return expected; });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Get("/admin/sessions");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(res->body, expected);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminSessionsURL_ContainsAdminSessionsPath) {
+    EXPECT_NE(server->getAdminSessionsURL().find("/admin/sessions"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminDeleteSession_NoCallback_ReturnsNotImplemented) {
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Delete("/admin/sessions/some-session-id");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_NE(res->body.find("not_implemented"), std::string::npos);
+}
+
+TEST_F(MetricsServerHTTPTest, AdminDeleteSession_WithCallback_InvokesCallbackWithId) {
+    std::string captured_id;
+    server->setSessionDeleteCallback([&](const std::string& id) {
+        captured_id = id;
+        return R"({"status":"deleted","session_id":")" + id + "\"}";
+    });
+
+    httplib::Client cli("127.0.0.1", kPort);
+    auto res = cli.Delete("/admin/sessions/my-session-uuid");
+    ASSERT_NE(res, nullptr);
+    EXPECT_EQ(res->status, 200);
+    EXPECT_EQ(captured_id, "my-session-uuid");
+    EXPECT_NE(res->body.find("deleted"), std::string::npos);
+}

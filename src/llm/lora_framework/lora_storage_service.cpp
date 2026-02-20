@@ -40,8 +40,12 @@ public:
             if (config_.backend == Backend::FileSystem) {
                 return saveToFilesystem(adapter_id, weights, metadata);
             }
-            // TODO: Implement ThemisDB and S3 backends
-            spdlog::error("Backend not yet implemented");
+            // ThemisDB and S3 backends are only available in the full-build
+            // configuration (lora_storage_service_themisdb.cpp, linked via
+            // cmake/CMakeLists.txt). This file provides the FileSystem-only
+            // fallback used by the modular build (cmake/ModularBuild.cmake).
+            spdlog::error("Backend '{}' not supported in this build configuration; use FileSystem backend or link against lora_storage_service_themisdb.cpp",
+                          backendToString(config_.backend));
             return false;
         } catch (const std::exception& e) {
             spdlog::error("Failed to save adapter {}: {}", adapter_id, e.what());
@@ -54,8 +58,10 @@ public:
             if (config_.backend == Backend::FileSystem) {
                 return loadFromFilesystem(adapter_id);
             }
-            // TODO: Implement ThemisDB and S3 backends
-            spdlog::error("Backend not yet implemented");
+            // ThemisDB and S3 backends are only available in the full-build
+            // configuration (lora_storage_service_themisdb.cpp).
+            spdlog::error("Backend '{}' not supported in this build configuration; use FileSystem backend or link against lora_storage_service_themisdb.cpp",
+                          backendToString(config_.backend));
             return std::nullopt;
         } catch (const std::exception& e) {
             spdlog::error("Failed to load adapter {}: {}", adapter_id, e.what());
@@ -68,8 +74,10 @@ public:
             if (config_.backend == Backend::FileSystem) {
                 return loadMetadataFromFilesystem(adapter_id);
             }
-            // TODO: Implement ThemisDB and S3 backends
-            spdlog::error("Backend not yet implemented");
+            // ThemisDB and S3 backends are only available in the full-build
+            // configuration (lora_storage_service_themisdb.cpp).
+            spdlog::error("Backend '{}' not supported in this build configuration; use FileSystem backend or link against lora_storage_service_themisdb.cpp",
+                          backendToString(config_.backend));
             return std::nullopt;
         } catch (const std::exception& e) {
             spdlog::error("Failed to load metadata for {}: {}", adapter_id, e.what());
@@ -88,8 +96,10 @@ public:
                 }
                 return false;
             }
-            // TODO: Implement ThemisDB and S3 backends
-            spdlog::error("Backend not yet implemented");
+            // ThemisDB and S3 backends are only available in the full-build
+            // configuration (lora_storage_service_themisdb.cpp).
+            spdlog::error("Backend '{}' not supported in this build configuration; use FileSystem backend or link against lora_storage_service_themisdb.cpp",
+                          backendToString(config_.backend));
             return false;
         } catch (const std::exception& e) {
             spdlog::error("Failed to delete adapter {}: {}", adapter_id, e.what());

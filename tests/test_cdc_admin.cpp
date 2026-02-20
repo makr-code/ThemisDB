@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include "cdc/cdc_admin.h"
 #include "cdc/changefeed.h"
-#include "themis_log.h"
 #include <memory>
 #include <rocksdb/db.h>
 #include <filesystem>
@@ -203,7 +202,6 @@ TEST_F(CDCAdminTest, MultiplePurgeOperations) {
 }
 
 int main(int argc, char** argv) {
-    themis_log_init();
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

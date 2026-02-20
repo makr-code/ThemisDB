@@ -1,6 +1,5 @@
 #pragma once
 
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
@@ -107,7 +106,7 @@ public:
      */
     struct Config {
         // Adapter manager config
-        LoRAAdapterManager::Config adapter_config;
+        MultiLoRAManager::Config adapter_config;
         
         // Storage config
         LoRAStorageService::Config storage_config;

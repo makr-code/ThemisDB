@@ -6,6 +6,7 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/index/graph_auto_buffer.cpp
     ../src/server/http_type_adapter.cpp
     ../src/base/module_loader.cpp
+    ../src/base/module_sandbox.cpp
 )
 
 # LLM-adjacent features are only added when LLM is enabled

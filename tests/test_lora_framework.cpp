@@ -226,7 +226,7 @@ TEST_F(LoRAFrameworkTest, StorageService_VaultConfiguration) {
 }
 
 // ============================================================================
-// LoRAAdapterManager Tests
+// Adapter Management Tests (using MultiLoRAManager)
 // ============================================================================
 
 TEST_F(LoRAFrameworkTest, AdapterManager_LoadAndUnload) {

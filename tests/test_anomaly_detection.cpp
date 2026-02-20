@@ -19,7 +19,7 @@ using namespace themis::server;
 // ──────────────────────────────────────────────────────────────────────────────
 
 struct CollectedEvents {
-    std::mutex              mtx;
+    mutable std::mutex      mtx;
     std::vector<AnomalyEvent> events;
 
     void clear() {
@@ -70,7 +70,7 @@ TEST_F(RateLimiterAnomalyTest, CallbackFiredOnBlacklist) {
     rl.blacklistIP("1.2.3.4");
 
     ASSERT_EQ(collected.size(), 1u);
-    auto& ev = collected.at(0);
+    auto ev = collected.at(0);
     EXPECT_EQ(ev.type, AnomalyEvent::Type::IP_BLACKLISTED);
     EXPECT_EQ(ev.ip,   "1.2.3.4");
     EXPECT_FALSE(ev.detail.empty());

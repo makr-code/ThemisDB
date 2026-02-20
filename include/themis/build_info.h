@@ -10,6 +10,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <utility>
 #include "themis/edition.h"
 
@@ -85,6 +86,63 @@ std::vector<std::string> getCompiledModules();
  * Get list of all supported but not compiled modules
  */
 std::vector<std::string> getDisabledModules();
+
+// ============================================================================
+// BUILD REPRODUCIBILITY (Phase 1 - v1.7.0)
+// ============================================================================
+
+/**
+ * @brief Reproducibility information for build auditing and CI verification
+ *
+ * Captures the exact source-code revision, toolchain version, and key
+ * dependency hashes so that a binary can be unambiguously traced back to
+ * a specific source snapshot.
+ */
+struct ReproducibilityInfo {
+    std::string git_commit;        ///< Full SHA-1 of HEAD at build time
+    std::string git_commit_date;   ///< ISO-8601 author date of HEAD
+    std::string git_branch;        ///< Branch name (or "(detached)")
+    bool        git_dirty = false; ///< True if working tree had uncommitted changes
+    std::string build_host;        ///< Hostname of the build machine
+    std::string build_user;        ///< OS username that invoked the build
+    std::string toolchain;         ///< "compiler-id/version" e.g. "GCC/13.2.0"
+    std::map<std::string, std::string> dependencies; ///< dep-name → version/hash
+    std::string binary_hash;       ///< SHA-256 of the current executable (filled at runtime)
+};
+
+/**
+ * @brief Collect reproducibility metadata embedded at compile time.
+ *
+ * cmake/CMakeLists.txt captures git HEAD, branch, dirty flag, and build-host
+ * via `execute_process()` and injects them as compile definitions
+ * (THEMIS_GIT_COMMIT, THEMIS_GIT_BRANCH, THEMIS_GIT_DIRTY,
+ *  THEMIS_BUILD_HOST, THEMIS_BUILD_USER).  Those definitions are read here.
+ */
+ReproducibilityInfo getReproducibilityInfo();
+
+/**
+ * @brief Write a JSON build-manifest to @p output_path.
+ *
+ * The manifest contains all fields of ReproducibilityInfo plus the full
+ * BuildConfiguration.  It is suitable for archiving alongside a release
+ * binary and for automated CI reproducibility checks.
+ *
+ * @param output_path  Destination file path (will be created or overwritten).
+ * @return true on success, false on I/O error.
+ */
+bool exportBuildManifest(const std::string& output_path);
+
+/**
+ * @brief Verify that the build manifest at @p manifest_path matches the
+ *        current binary's embedded build metadata.
+ *
+ * Compares git_commit, toolchain, and key compile flags.  Useful in CI to
+ * assert that a binary was built from the expected commit.
+ *
+ * @param manifest_path  Path to a previously generated manifest JSON file.
+ * @return true if all compared fields match, false otherwise.
+ */
+bool verifyBuildManifest(const std::string& manifest_path);
 
 } // namespace build_info
 } // namespace themis

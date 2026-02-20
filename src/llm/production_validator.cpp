@@ -583,8 +583,15 @@ ProductionValidator::LiveStats ProductionValidator::getLiveStats() const {
             statm >> pages;   // first field is VmSize in pages
             // second field is VmRSS
             statm >> pages;
-            stats.memory_mb = (pages * static_cast<size_t>(
-                static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)))) / (1024UL * 1024UL);
+#ifdef _WIN32
+            SYSTEM_INFO sys_info;
+            GetSystemInfo(&sys_info);
+            const size_t page_size = static_cast<size_t>(sys_info.dwPageSize);
+#else
+            const size_t page_size = static_cast<size_t>(
+                static_cast<unsigned long>(::sysconf(_SC_PAGESIZE)));
+#endif
+            stats.memory_mb = (pages * page_size) / (1024UL * 1024UL);
         }
     }
 
