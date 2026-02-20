@@ -38,8 +38,10 @@ Result<GraphQueryOptimizer::OptimizationPlan> GraphQueryOptimizer::optimizeShort
         auto cache_key = generatePlanCacheKey(QueryPattern::SHORTEST_PATH, start_vertex, target_vertex, constraints);
         auto it = plan_cache_.find(cache_key);
         if (it != plan_cache_.end()) {
+            metrics_.plan_cache_hits.fetch_add(1, std::memory_order_relaxed);
             return Ok(it->second);
         }
+        metrics_.plan_cache_misses.fetch_add(1, std::memory_order_relaxed);
     }
 
     OptimizationPlan plan;
@@ -311,6 +313,23 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeBFS(
         auto [current, depth] = queue.front();
         queue.pop();
         
+        // Timeout check: abort if elapsed time exceeds the SLO budget
+        if (constraints.timeout_ms > 0) {
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time).count();
+            if (elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms)) {
+                local_stats.early_terminated = true;
+                metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+                if (stats) { *stats = local_stats; }
+                recordExecution(local_stats);
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                    "BFS query exceeded timeout of " +
+                        std::to_string(constraints.timeout_ms) + "ms"
+                );
+            }
+        }
+
         result.push_back(current);
         local_stats.nodes_explored++;
         
@@ -394,6 +413,23 @@ Result<std::vector<std::string>> GraphQueryOptimizer::executeDFS(
         auto [current, depth] = stack.back();
         stack.pop_back();
         
+        // Timeout check
+        if (constraints.timeout_ms > 0) {
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - start_time).count();
+            if (elapsed > static_cast<decltype(elapsed)>(constraints.timeout_ms)) {
+                local_stats.early_terminated = true;
+                metrics_.timed_out_queries.fetch_add(1, std::memory_order_relaxed);
+                if (stats) { *stats = local_stats; }
+                recordExecution(local_stats);
+                return Err<std::vector<std::string>>(
+                    errors::ErrorCode::ERR_QUERY_TIMEOUT,
+                    "DFS query exceeded timeout of " +
+                        std::to_string(constraints.timeout_ms) + "ms"
+                );
+            }
+        }
+
         if (visited.find(current) != visited.end()) {
             continue;
         }
@@ -916,6 +952,25 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
     // Keep history bounded
     if (execution_history_.size() > MAX_HISTORY_SIZE) {
         execution_history_.erase(execution_history_.begin());
+    }
+
+    // Update cumulative observability metrics
+    metrics_.total_queries.fetch_add(1, std::memory_order_relaxed);
+    if (stats.paths_found == 0 && !stats.early_terminated) {
+        metrics_.failed_queries.fetch_add(1, std::memory_order_relaxed);
+    }
+    auto duration = static_cast<uint64_t>(stats.execution_time_ms);
+    metrics_.total_execution_time_ms.fetch_add(duration, std::memory_order_relaxed);
+    metrics_.total_nodes_explored.fetch_add(stats.nodes_explored, std::memory_order_relaxed);
+    metrics_.total_edges_traversed.fetch_add(stats.edges_traversed, std::memory_order_relaxed);
+
+    // Update max execution time with a compare-and-swap loop
+    uint64_t current_max = metrics_.max_execution_time_ms.load(std::memory_order_relaxed);
+    while (duration > current_max &&
+           !metrics_.max_execution_time_ms.compare_exchange_weak(
+               current_max, duration,
+               std::memory_order_relaxed, std::memory_order_relaxed)) {
+        // current_max updated by CAS on failure; retry
     }
 }
 

@@ -420,3 +420,83 @@ TEST_F(GraphQueryOptimizerTest, MultipleQueries_ConsistentPerformance) {
     const auto& history = optimizer_->getExecutionHistory();
     EXPECT_EQ(history.size(), 10u);
 }
+
+// ============================================================================
+// Timeout / SLO Enforcement Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, BFS_ZeroTimeout_NoAbort) {
+    // timeout_ms = 0 means no limit; query should succeed normally
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    constraints.max_depth = 3;
+    constraints.timeout_ms = 0;
+    auto result = optimizer_->executeBFS("A", 3, constraints);
+    EXPECT_TRUE(result);
+}
+
+TEST_F(GraphQueryOptimizerTest, DFS_ZeroTimeout_NoAbort) {
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    constraints.max_depth = 3;
+    constraints.timeout_ms = 0;
+    auto result = optimizer_->executeDFS("A", 3, constraints);
+    EXPECT_TRUE(result);
+}
+
+TEST_F(GraphQueryOptimizerTest, BFS_LargeTimeout_Succeeds) {
+    // A generous timeout should not abort a small-graph traversal
+    themis::graph::GraphQueryOptimizer::QueryConstraints constraints;
+    constraints.max_depth = 3;
+    constraints.timeout_ms = 60000; // 60 seconds
+    auto result = optimizer_->executeBFS("A", 3, constraints);
+    EXPECT_TRUE(result);
+}
+
+// ============================================================================
+// Aggregate Observability Metrics Tests
+// ============================================================================
+
+TEST_F(GraphQueryOptimizerTest, Metrics_TotalQueriesIncrement) {
+    uint64_t before = optimizer_->getQueryMetrics().total_queries.load();
+    optimizer_->executeBFS("A", 2, {});
+    uint64_t after = optimizer_->getQueryMetrics().total_queries.load();
+    EXPECT_EQ(after, before + 1);
+}
+
+TEST_F(GraphQueryOptimizerTest, Metrics_TotalNodesExplored_NonZero) {
+    optimizer_->executeBFS("A", 2, {});
+    EXPECT_GT(optimizer_->getQueryMetrics().total_nodes_explored.load(), 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, Metrics_MultipleQueries_Accumulate) {
+    const int N = 5;
+    for (int i = 0; i < N; ++i) {
+        optimizer_->executeBFS("A", 1, {});
+    }
+    EXPECT_GE(optimizer_->getQueryMetrics().total_queries.load(),
+              static_cast<uint64_t>(N));
+}
+
+TEST_F(GraphQueryOptimizerTest, Metrics_PlanCacheHit_Counted) {
+    // First call: cache miss
+    optimizer_->optimizeShortestPath("A", "D");
+    uint64_t misses_after_first =
+        optimizer_->getQueryMetrics().plan_cache_misses.load();
+    EXPECT_GT(misses_after_first, 0u);
+
+    // Second identical call: cache hit
+    optimizer_->optimizeShortestPath("A", "D");
+    uint64_t hits_after_second =
+        optimizer_->getQueryMetrics().plan_cache_hits.load();
+    EXPECT_GT(hits_after_second, 0u);
+}
+
+TEST_F(GraphQueryOptimizerTest, Metrics_AvgExecutionTime_AfterQueries) {
+    for (int i = 0; i < 3; ++i) {
+        optimizer_->executeBFS("A", 2, {});
+    }
+    // All three queries should succeed, so error rate must be 0
+    EXPECT_EQ(optimizer_->getQueryMetrics().errorRate(), 0.0);
+    // avg execution time should be a non-negative finite value
+    EXPECT_GE(optimizer_->getQueryMetrics().avgExecutionTimeMs(), 0.0);
+}
+

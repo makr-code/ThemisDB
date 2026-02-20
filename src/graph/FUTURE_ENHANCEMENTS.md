@@ -561,6 +561,44 @@ Process graphs as streams of edge insertions/deletions.
 2. Graph ML Integration
 3. Graph Visualization
 
+## Implemented Features (v1.7.0)
+
+### Query Timeout / SLO Enforcement ✅ DONE
+
+`QueryConstraints::timeout_ms` – when set to a non-zero value BFS and DFS
+traversals abort after the given number of milliseconds and return
+`ERR_QUERY_TIMEOUT`. This provides a first line of defence for SLO budgets.
+
+```cpp
+GraphQueryOptimizer::QueryConstraints constraints;
+constraints.timeout_ms = 500; // abort after 500 ms
+auto result = optimizer.executeBFS("start", 5, constraints);
+if (!result) {
+    // result.error().code == ERR_QUERY_TIMEOUT
+}
+```
+
+### Aggregate Observability Metrics ✅ DONE
+
+`GraphQueryOptimizer::getQueryMetrics()` returns a `GraphQueryMetrics` snapshot
+with cumulative counters that can be scraped by a Prometheus exporter or
+forwarded to an OpenTelemetry collector:
+
+| Metric                              | Description                              |
+|-------------------------------------|------------------------------------------|
+| `total_queries`                     | Total traversal executions since startup |
+| `failed_queries`                    | Executions that returned no paths        |
+| `timed_out_queries`                 | Executions aborted by `timeout_ms`       |
+| `total_execution_time_ms`           | Sum of all execution durations (ms)      |
+| `max_execution_time_ms`             | Peak single-query duration (ms)          |
+| `total_nodes_explored`              | Cumulative nodes visited                 |
+| `total_edges_traversed`             | Cumulative edges traversed               |
+| `plan_cache_hits` / `misses`        | Plan-cache efficiency counters           |
+
+See `docs/graph_roadmap.md` for the full observability checklist.
+
+---
+
 ## Community Requests
 
 Track user-requested features:

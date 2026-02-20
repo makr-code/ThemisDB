@@ -8,6 +8,8 @@
 #include <optional>
 #include <unordered_map>
 #include <functional>
+#include <atomic>
+#include <chrono>
 
 namespace themis {
 namespace graph {
@@ -78,8 +80,45 @@ public:
         bool unique_edges = false;
         std::vector<std::string> forbidden_vertices;
         std::vector<std::string> required_vertices;
+        /// Maximum allowed execution time in milliseconds (0 = no limit).
+        /// When exceeded, the traversal returns `ERR_QUERY_TIMEOUT` error.
+        uint32_t timeout_ms = 0;
         
         QueryConstraints() = default;
+    };
+
+    /**
+     * @brief Aggregate observability metrics for graph query execution.
+     *
+     * All counters are cumulative since the optimizer was constructed.
+     * Thread-safe: uses atomic operations for counter updates.
+     */
+    struct GraphQueryMetrics {
+        std::atomic<uint64_t> total_queries{0};
+        std::atomic<uint64_t> failed_queries{0};
+        std::atomic<uint64_t> timed_out_queries{0};
+        std::atomic<uint64_t> total_execution_time_ms{0};
+        std::atomic<uint64_t> max_execution_time_ms{0};
+        std::atomic<uint64_t> total_nodes_explored{0};
+        std::atomic<uint64_t> total_edges_traversed{0};
+        std::atomic<uint64_t> plan_cache_hits{0};
+        std::atomic<uint64_t> plan_cache_misses{0};
+
+        /// Returns average execution time in milliseconds, or 0 if no queries.
+        double avgExecutionTimeMs() const {
+            uint64_t n = total_queries.load(std::memory_order_relaxed);
+            return n > 0 ? static_cast<double>(
+                               total_execution_time_ms.load(std::memory_order_relaxed)) / n
+                         : 0.0;
+        }
+
+        /// Returns the fraction of queries that failed (0.0–1.0).
+        double errorRate() const {
+            uint64_t n = total_queries.load(std::memory_order_relaxed);
+            return n > 0 ? static_cast<double>(
+                               failed_queries.load(std::memory_order_relaxed)) / n
+                         : 0.0;
+        }
     };
 
     /**
@@ -263,6 +302,15 @@ public:
     const std::vector<ExecutionStats>& getExecutionHistory() const { 
         return execution_history_; 
     }
+
+    /**
+     * @brief Return cumulative observability metrics for this optimizer instance.
+     *
+     * Metrics cover all queries executed since construction, including counts,
+     * timings, cache efficiency, and error rates. Useful for Prometheus export
+     * or admin dashboards.
+     */
+    const GraphQueryMetrics& getQueryMetrics() const { return metrics_; }
     
     /**
      * @brief Optimize constrained path query using PathConstraints
@@ -293,6 +341,9 @@ private:
     // Execution history for adaptive optimization
     std::vector<ExecutionStats> execution_history_;
     static constexpr size_t MAX_HISTORY_SIZE = 1000;
+
+    // Cumulative observability metrics
+    mutable GraphQueryMetrics metrics_;
 
     /**
      * Estimate cost for traversal algorithm
