@@ -33,6 +33,8 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <set>
+#include <map>
 
 namespace themis::sharding {
 
@@ -609,12 +611,10 @@ void DistributedTransactionCoordinator::logPreparedStateForRecovery(
         });
     }
     
-    // Write PREPARED state to WAL for audit trail
-    // Note: Using CHECKPOINT type for PREPARED state as a temporary solution
-    // until WALEntryType is extended with a dedicated PREPARE_TX type
+    // Write PREPARED state to WAL for in-doubt recovery
     try {
         WALEntry entry;
-        entry.type = WALEntryType::CHECKPOINT; // CHECKPOINT used as marker for PREPARED state
+        entry.type = WALEntryType::PREPARE_TX;
         entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()
         ).count();
@@ -654,39 +654,86 @@ void DistributedTransactionCoordinator::recoverTransactions() {
         
         THEMIS_INFO("Found {} WAL entries to process", entries.size());
         
-        // Process committed transactions for recovery audit
-        // Note: This implementation logs transactions after successful commit,
-        // so PREPARED state recovery (completing in-doubt transactions) is not
-        // currently implemented. PREPARED logging serves as an audit trail.
+        // Two passes: first build the committed set, then find in-doubt transactions
+        std::set<std::string> committed_ids;
+        std::set<std::string> aborted_ids;
+        std::map<std::string, nlohmann::json> prepared_entries; // txn_id -> prepared data
+        
         int recovered_count = 0;
         for (const auto& entry : entries) {
-            if (entry.type == WALEntryType::COMMIT_TX) {
-                try {
-                    // Extract transaction data
+            try {
+                if (entry.type == WALEntryType::COMMIT_TX) {
                     std::string txn_id = entry.data["transaction_id"];
-                    int state_int = entry.data["state"];
-                    TransactionState state = static_cast<TransactionState>(state_int);
-                    
-                    // Only process successfully committed transactions
-                    if (state == TransactionState::COMMITTED) {
-                        THEMIS_INFO("Recovered committed transaction: {}", txn_id);
-                        recovered_count++;
-                        
-                        // Transaction was committed successfully
-                        // Participants have already applied changes
-                    }
-                    
-                } catch (const std::exception& e) {
-                    THEMIS_ERROR("Failed to recover transaction from WAL entry: {}", e.what());
+                    committed_ids.insert(txn_id);
+                } else if (entry.type == WALEntryType::ABORT_TX) {
+                    std::string txn_id = entry.data["transaction_id"];
+                    aborted_ids.insert(txn_id);
+                } else if (entry.type == WALEntryType::PREPARE_TX) {
+                    std::string txn_id = entry.data["transaction_id"];
+                    prepared_entries[txn_id] = entry.data;
                 }
+            } catch (const std::exception& e) {
+                THEMIS_ERROR("Failed to parse WAL entry: {}", e.what());
             }
-            // Note: PREPARED state entries (logged as BEGIN_TX) are currently
-            // used for audit trail only. Full in-doubt transaction recovery
-            // (querying participants and completing commit/abort) will be
-            // implemented in a future enhancement.
         }
         
-        THEMIS_INFO("Transaction recovery complete - recovered {} transactions", 
+        // Recover in-doubt transactions: prepared but no commit/abort decision logged
+        for (const auto& [txn_id, prepared_data] : prepared_entries) {
+            if (committed_ids.count(txn_id)) {
+                THEMIS_INFO("Recovered committed transaction: {}", txn_id);
+                recovered_count++;
+            } else if (aborted_ids.count(txn_id)) {
+                THEMIS_INFO("In-doubt transaction {} was aborted before crash", txn_id);
+            } else {
+                // In-doubt transaction: prepared but no decision recorded
+                // Safe default is to abort (participants will clean up on timeout)
+                THEMIS_WARN("In-doubt transaction {} found (prepared, no commit/abort) - aborting for safety", txn_id);
+                
+                DistributedTransaction recovery_txn;
+                recovery_txn.transaction_id = txn_id;
+                recovery_txn.state = TransactionState::ABORTING;
+                
+                if (prepared_data.contains("participants")) {
+                    for (const auto& p : prepared_data["participants"]) {
+                        TransactionParticipant participant;
+                        participant.shard_id = p.value("shard_id", "");
+                        participant.endpoint = p.value("endpoint", "");
+                        recovery_txn.participants.push_back(participant);
+                    }
+                }
+                
+                for (auto& participant : recovery_txn.participants) {
+                    if (!sendAbort(participant, txn_id)) {
+                        THEMIS_ERROR("Recovery: failed to send ABORT to shard {} for in-doubt txn {}",
+                                    participant.shard_id, txn_id);
+                    }
+                }
+                
+                // Log abort decision
+                WALEntry abort_entry;
+                abort_entry.type = WALEntryType::ABORT_TX;
+                abort_entry.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch()
+                ).count();
+                abort_entry.transaction_id = txn_id;
+                abort_entry.data = {
+                    {"transaction_id", txn_id},
+                    {"state", static_cast<int>(TransactionState::ABORTED)},
+                    {"reason", "in-doubt recovery on coordinator restart"}
+                };
+                
+                try {
+                    wal_manager_->append(abort_entry);
+                    wal_manager_->flush();
+                } catch (const std::exception& e) {
+                    THEMIS_ERROR("Failed to log abort for in-doubt transaction {}: {}", txn_id, e.what());
+                }
+                
+                recovered_count++;
+            }
+        }
+        
+        THEMIS_INFO("Transaction recovery complete - processed {} transactions", 
                    recovered_count);
         
     } catch (const std::exception& e) {
