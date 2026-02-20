@@ -1695,11 +1695,10 @@ size_t LoRATrainingService::estimateMemoryUsage(
     // - NF4: ~4 GB (85% reduction)
     // - INT8: ~7 GB (75% reduction)
     
-    // This is a simplified estimation
-    // TODO: In production, parse the model file to get actual parameter count
-    // TODO: Support reading parameter count from model metadata
-    size_t estimated_params = 7'000'000'000;  // 7B parameters as example placeholder
-    
+    // This is a simplified estimation; actual parameter count is auto-detected
+    // from the GGUF header (general.model_size / llama.block_count) below.
+    size_t estimated_params = 7'000'000'000;  // 7B fallback when GGUF detection fails
+
     // Auto-detect parameter count from GGUF model file
     try {
         if (std::filesystem::exists(model_path)) {
