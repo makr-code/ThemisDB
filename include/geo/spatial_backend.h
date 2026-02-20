@@ -56,6 +56,9 @@ using RegisterGeoPluginFn = void(*)(IGeoRegistry*);
 // Get the Boost CPU backend (if available)
 ISpatialComputeBackend* getBoostCpuBackend();
 
+// Get the built-in CPU exact backend (always available, no Boost dependency)
+ISpatialComputeBackend* getCpuExactBackend();
+
 // Get the GPU spatial backend (falls back to CPU when no GPU is present)
 ISpatialComputeBackend* getGpuSpatialBackend();
 

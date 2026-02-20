@@ -173,6 +173,16 @@ static void register_builtin_cpu_backend() {
 #endif
 }
 
+// Public factory: returns the built-in CPU exact backend singleton.
+static CpuExactBackend& getCpuExactBackendInstance() {
+    static CpuExactBackend instance;
+    return instance;
+}
+
+ISpatialComputeBackend* getCpuExactBackend() {
+    return &getCpuExactBackendInstance();
+}
+
 // Ensure the object file isn't discarded
 static int s_geo_cpu_backend_anchor = (register_builtin_cpu_backend(), 0);
 

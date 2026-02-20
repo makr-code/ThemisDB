@@ -101,8 +101,12 @@ jobs:
           # Ensure the module compiles even when GPU hardware is absent.
           grep -r "enable_cpu_fallback" src/gpu/ include/themis/gpu/ | wc -l | \
             xargs -I{} test {} -gt 0 && \
-            echo "✅ CPU fallback code paths are present" || \
-            (echo "❌ CPU fallback code paths missing" && exit 1)
+            echo "✅ CPU fallback code paths are present (gpu module)" || \
+            (echo "❌ CPU fallback code paths missing in gpu module" && exit 1)
+          # Geo backend: verify it falls back to CPU predicate when no GPU device.
+          grep -q "cpu_fallback\|CPU fallback\|recordFallbackToCPU" src/geo/gpu_backend_stub.cpp && \
+            echo "✅ CPU fallback code paths are present (geo backend)" || \
+            (echo "❌ CPU fallback code paths missing in geo backend" && exit 1)
 
       - name: Check GPU headers are self-contained
         run: |
@@ -187,9 +191,9 @@ jobs:
 
       - name: Confirm chaos/fault test files exist
         run: |
-          CHAOS_TESTS=$(find tests/ -name "test_gpu_*.cpp" | \
-            xargs grep -l "forceFailed\|CIRCUIT_OPEN\|chaos\|device_loss" 2>/dev/null | wc -l)
-          echo "GPU test files with chaos/fault scenarios: $CHAOS_TESTS"
+          CHAOS_TESTS=$(find tests/ \( -name "test_gpu_*.cpp" -o -name "test_geo_gpu_backend.cpp" \) | \
+            xargs grep -l "forceFailed\|CIRCUIT_OPEN\|chaos\|device_loss\|EdgeCase\|degenerate" 2>/dev/null | wc -l)
+          echo "GPU/geo test files with chaos/fault scenarios: $CHAOS_TESTS"
           test "$CHAOS_TESTS" -gt 0 || \
             echo "⚠️  No dedicated chaos test files yet — see docs/gpu_roadmap.md"
           echo "✅ Device-loss simulation check complete"

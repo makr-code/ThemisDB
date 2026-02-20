@@ -83,16 +83,13 @@ public:
     SpatialBatchResults batchIntersects(const SpatialBatchInputs& in) override {
         SpatialBatchResults out;
         out.mask.assign(in.count, 0u);
-        
-        // Note: This is a stub implementation showing the structure.
-        // In a full implementation, the input would contain:
-        // - Query geometry (parsed)
-        // - Candidate PKs and their blobs
-        // - Database handle to load geometries
-        //
-        // For now, we return empty results as the integration with
-        // SpatialIndexManager::searchIntersects needs to be completed.
-        
+
+        // Process geometry pairs when they are provided.
+        std::size_t n = std::min({in.count, in.geoms_a.size(), in.geoms_b.size()});
+        for (std::size_t i = 0; i < n; ++i) {
+            out.mask[i] = exactIntersects(in.geoms_a[i], in.geoms_b[i]) ? 1u : 0u;
+        }
+
         return out;
     }
     

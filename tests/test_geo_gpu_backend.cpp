@@ -6,6 +6,7 @@
 #include "geo/spatial_backend.h"
 #include "utils/geo/ewkb.h"
 #include <memory>
+#include <string_view>
 #include <thread>
 #include <vector>
 
@@ -650,4 +651,131 @@ TEST_F(GpuGeoBackendTest, Backend_LatencyTracking_NonZeroAfterBatch) {
     for (auto v : result.mask) EXPECT_EQ(v, 1u);
     // If we reach here the latency-tracking code did not introduce UB or crash.
     SUCCEED();
+}
+
+// ============================================================
+// Cross-backend verification
+// GPU backend results must agree with the reference CPU backend
+// for every supported geometry type combination.
+// ============================================================
+
+class CrossBackendTest : public ::testing::Test {
+protected:
+    // Non-owning raw pointers to singletons; validity asserted in SetUp().
+    themis::geo::ISpatialComputeBackend* gpu = themis::geo::getGpuSpatialBackend();
+    themis::geo::ISpatialComputeBackend* cpu = themis::geo::getCpuExactBackend();
+
+    void SetUp() override {
+        ASSERT_NE(gpu, nullptr) << "GPU backend must be non-null";
+        ASSERT_NE(cpu, nullptr) << "CPU backend must be non-null";
+    }
+
+    void expectAgree(const GeometryInfo& a, const GeometryInfo& b,
+                     std::string_view label) {
+        bool gpu_result = gpu->exactIntersects(a, b);
+        bool cpu_result = cpu->exactIntersects(a, b);
+        EXPECT_EQ(gpu_result, cpu_result)
+            << label << ": GPU=" << gpu_result << " CPU=" << cpu_result;
+    }
+
+    void expectBatchAgree(const SpatialBatchInputs& in, std::string_view label) {
+        auto gpu_r = gpu->batchIntersects(in);
+        auto cpu_r = cpu->batchIntersects(in);
+        ASSERT_EQ(gpu_r.mask.size(), cpu_r.mask.size())
+            << label << ": mask size mismatch";
+        for (std::size_t i = 0; i < gpu_r.mask.size(); ++i) {
+            EXPECT_EQ(gpu_r.mask[i], cpu_r.mask[i])
+                << label << "[" << i << "]: GPU=" << (int)gpu_r.mask[i]
+                << " CPU=" << (int)cpu_r.mask[i];
+        }
+    }
+};
+
+// ---- exactIntersects cross-check ----
+
+TEST_F(CrossBackendTest, ExactIntersects_PointPoint_Same) {
+    expectAgree(makePoint(1.0, 2.0), makePoint(1.0, 2.0),
+                "PointPoint_Same");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_PointPoint_Different) {
+    expectAgree(makePoint(1.0, 2.0), makePoint(3.0, 4.0),
+                "PointPoint_Different");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_PointInsidePolygon) {
+    auto poly = makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}});
+    expectAgree(makePoint(1.0, 1.0), poly, "PointInsidePolygon");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_PointOutsidePolygon) {
+    auto poly = makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}});
+    expectAgree(makePoint(5.0, 5.0), poly, "PointOutsidePolygon");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_PolygonPoint_Symmetric) {
+    auto poly = makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}});
+    expectAgree(poly, makePoint(1.0, 1.0), "PolygonPoint_Symmetric");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_PointOnBoundary_Consistent) {
+    auto poly = makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}});
+    // Both backends must give the same answer for boundary point (may be
+    // true or false depending on edge handling, but they must agree).
+    bool gpu_r = gpu->exactIntersects(makePoint(1.0, 0.0), poly);
+    bool cpu_r = cpu->exactIntersects(makePoint(1.0, 0.0), poly);
+    EXPECT_EQ(gpu_r, cpu_r) << "boundary point: GPU=" << gpu_r << " CPU=" << cpu_r;
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_OverlappingPolygons) {
+    auto p1 = makePolygon({{0,0},{3,0},{3,3},{0,3},{0,0}});
+    auto p2 = makePolygon({{1,1},{4,1},{4,4},{1,4},{1,1}});
+    expectAgree(p1, p2, "OverlappingPolygons");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_DisjointPolygons) {
+    auto p1 = makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}});
+    auto p2 = makePolygon({{5,5},{6,5},{6,6},{5,6},{5,5}});
+    expectAgree(p1, p2, "DisjointPolygons");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_ContainedPolygon) {
+    auto outer = makePolygon({{0,0},{10,0},{10,10},{0,10},{0,0}});
+    auto inner = makePolygon({{2,2},{4,2},{4,4},{2,4},{2,2}});
+    expectAgree(outer, inner, "ContainedPolygon");
+}
+
+TEST_F(CrossBackendTest, ExactIntersects_EmptyPoint_Both) {
+    GeometryInfo empty(GeometryType::Point);
+    expectAgree(empty, makePoint(0.0, 0.0), "EmptyPoint_A");
+    expectAgree(makePoint(0.0, 0.0), empty, "EmptyPoint_B");
+}
+
+// ---- batchIntersects cross-check ----
+
+TEST_F(CrossBackendTest, BatchIntersects_EmptyBatch) {
+    SpatialBatchInputs in;
+    in.count = 0;
+    expectBatchAgree(in, "EmptyBatch");
+}
+
+TEST_F(CrossBackendTest, BatchIntersects_MixedResults) {
+    auto poly = makePolygon({{0,0},{4,0},{4,4},{0,4},{0,0}});
+    SpatialBatchInputs in;
+    in.count = 4;
+    // hit, miss, hit, miss
+    in.geoms_a = {makePoint(2.0,2.0), makePoint(9.0,9.0),
+                  makePoint(1.0,1.0), makePoint(-1.0,-1.0)};
+    in.geoms_b = {poly, poly, poly, poly};
+    expectBatchAgree(in, "BatchMixedResults");
+}
+
+TEST_F(CrossBackendTest, BatchIntersects_PolygonPolygon) {
+    SpatialBatchInputs in;
+    in.count = 2;
+    in.geoms_a = {makePolygon({{0,0},{2,0},{2,2},{0,2},{0,0}}),
+                  makePolygon({{0,0},{1,0},{1,1},{0,1},{0,0}})};
+    in.geoms_b = {makePolygon({{1,1},{3,1},{3,3},{1,3},{1,1}}),   // overlaps
+                  makePolygon({{5,5},{6,5},{6,6},{5,6},{5,5}})};  // disjoint
+    expectBatchAgree(in, "BatchPolygonPolygon");
 }
