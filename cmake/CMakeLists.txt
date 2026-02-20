@@ -588,8 +588,74 @@ add_compile_definitions(
 )
 
 # ============================================================================
-# LICENSE DATA EMBEDDING (v1.4.0+)
+# BUILD REPRODUCIBILITY – Git commit metadata (v1.7.0+)
 # ============================================================================
+# Capture the current HEAD commit, branch, dirty flag, and build environment
+# so that any binary can be traced back to its exact source revision.
+
+find_package(Git QUIET)
+
+set(_THEMIS_GIT_COMMIT      "unknown")
+set(_THEMIS_GIT_COMMIT_DATE "unknown")
+set(_THEMIS_GIT_BRANCH      "unknown")
+set(_THEMIS_GIT_DIRTY       0)
+
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%H
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT_DATE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status --porcelain
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _git_dirty_output
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(_git_dirty_output)
+        set(_THEMIS_GIT_DIRTY 1)
+    endif()
+endif()
+
+# Build host / user (best-effort)
+cmake_host_system_information(RESULT _THEMIS_BUILD_HOST QUERY HOSTNAME)
+if(DEFINED ENV{USER})
+    set(_THEMIS_BUILD_USER "$ENV{USER}")
+elseif(DEFINED ENV{USERNAME})
+    set(_THEMIS_BUILD_USER "$ENV{USERNAME}")
+else()
+    set(_THEMIS_BUILD_USER "unknown")
+endif()
+
+message(STATUS "Build reproducibility: commit=${_THEMIS_GIT_COMMIT} branch=${_THEMIS_GIT_BRANCH} dirty=${_THEMIS_GIT_DIRTY}")
+
+add_compile_definitions(
+    "THEMIS_GIT_COMMIT=\"${_THEMIS_GIT_COMMIT}\""
+    "THEMIS_GIT_COMMIT_DATE=\"${_THEMIS_GIT_COMMIT_DATE}\""
+    "THEMIS_GIT_BRANCH=\"${_THEMIS_GIT_BRANCH}\""
+    "THEMIS_GIT_DIRTY=${_THEMIS_GIT_DIRTY}"
+    "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\""
+    "THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
+)
+
+
 # Allows embedding company/license data into the binary at build time.
 # This supports both offline deployments and CI/CD pipelines.
 # 
@@ -1572,6 +1638,8 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
     ../src/network/qos_manager.cpp
     

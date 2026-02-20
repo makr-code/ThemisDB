@@ -158,6 +158,7 @@ set(THEMIS_BASE_SOURCES
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
+    ../src/base/module_sandbox.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -640,6 +641,8 @@ set(THEMIS_NETWORK_SOURCES
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/alertmanager.cpp
