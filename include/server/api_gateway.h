@@ -361,6 +361,20 @@ private:
         const std::string& message,
         const http::request<http::string_body>& req
     );
+
+    /**
+     * @brief Create a successful JSON response
+     *
+     * @param status HTTP status code
+     * @param body   JSON body string
+     * @param req    Original request
+     * @return HTTP response
+     */
+    http::response<http::string_body> makeResponse(
+        http::status status,
+        const std::string& body,
+        const http::request<http::string_body>& req
+    );
     
     /**
      * @brief Record request metrics
