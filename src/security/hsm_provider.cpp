@@ -26,6 +26,7 @@
 #else
 
 #include "security/hsm_provider.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <chrono>
@@ -54,6 +55,14 @@ HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
 bool HSMProvider::initialize() {
     if (initialized_) return true;
+
+    // Runtime license gate: HSM is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("hsm", license_error)) {
+        last_error_ = "HSM unavailable: " + license_error;
+        THEMIS_ERROR("{}", last_error_);
+        return false;
+    }
     
     // SECURITY HARDENING: Check for explicit opt-in to use stub provider
     // This prevents accidental production deployment with insecure stub

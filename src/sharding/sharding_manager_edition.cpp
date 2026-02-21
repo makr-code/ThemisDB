@@ -30,6 +30,7 @@
 #include <mutex>
 #include <stdexcept>
 #include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 
 namespace themis {
 namespace sharding {
@@ -169,9 +170,9 @@ private:
 // SHARDING UTILITY FUNCTIONS - EDITION-AWARE
 // ============================================================================
 
-// Check if multi-node replication is available
+// Check if multi-node replication is available (compile-time + runtime license gate)
 inline bool CanUseMultiNodeReplication() {
-    return edition::FEATURE_MULTI_MASTER;
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("multi_master");
 }
 
 // Get node replication strategy based on edition

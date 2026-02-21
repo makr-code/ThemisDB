@@ -19,6 +19,7 @@
 
 #include "security/encryption.h"
 #include "security/mock_key_provider.h"
+#include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
@@ -373,6 +374,13 @@ EncryptedBlob FieldEncryption::encrypt(const std::string& plaintext, const std::
 }
 
 EncryptedBlob FieldEncryption::encrypt(const std::vector<uint8_t>& plaintext, const std::string& key_id) {
+    // Runtime license gate: field-level encryption is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance()
+            .isFeatureAllowed("field_encryption", license_error)) {
+        throw std::runtime_error("Field encryption unavailable: " + license_error);
+    }
+
     auto start_time = std::chrono::high_resolution_clock::now();
     
     try {
