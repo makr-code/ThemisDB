@@ -401,3 +401,61 @@ TEST_F(MergeEngineTest, ComplexMergeMultipleKeys) {
     EXPECT_EQ(result.stats.conflicts_detected, 0); // No overlapping keys
     EXPECT_GT(result.changes_applied.size(), 0);
 }
+// Test 13: Detect ADD_ADD conflict (same key added on both branches)
+TEST_F(MergeEngineTest, DetectAddAddConflict) {
+    // Base state: no key exists for users:5
+    auto base_seq = recordPut("users:0", "base");
+
+    // Source branch: add users:5
+    auto source_seq = recordPut("users:5", "Eve from Source");
+
+    // Target branch: also add users:5 with a different value (conflict!)
+    auto target_seq = recordPut("users:5", "Eve from Target");
+
+    MergeEngine::MergeOptions options;
+    options.dry_run = true;
+
+    auto result = merge_engine_->merge(base_seq, source_seq, target_seq, options);
+
+    EXPECT_EQ(result.stats.conflicts_detected, 1);
+    ASSERT_EQ(result.conflicts.size(), 1);
+    EXPECT_EQ(result.conflicts[0].key, "users:5");
+}
+
+// Test 14: Merge with DELETE_DELETE on same key (auto-resolvable)
+TEST_F(MergeEngineTest, AutoResolveModifyModifyWithSameValue) {
+    auto base_seq = recordPut("cfg:1", "v1");
+
+    // Both branches apply the same value (idempotent) - should auto-resolve
+    recordPut("cfg:1", "v2");
+    auto source_seq = changefeed_->getLatestSequence();
+
+    recordPut("cfg:1", "v2"); // same value as source
+    auto target_seq = changefeed_->getLatestSequence();
+
+    MergeEngine::MergeOptions options;
+    options.strategy = MergeEngine::MergeStrategy::THEIRS;
+    options.dry_run = true;
+
+    auto result = merge_engine_->merge(base_seq, source_seq, target_seq, options);
+
+    EXPECT_TRUE(result.success);
+}
+
+// Test 15: Merge stats are populated correctly
+TEST_F(MergeEngineTest, MergeStatsPopulated) {
+    auto base_seq = recordPut("stat:1", "a");
+
+    auto source_seq = recordPut("stat:1", "b");
+    auto target_seq = recordPut("stat:2", "c");
+
+    MergeEngine::MergeOptions options;
+    options.strategy = MergeEngine::MergeStrategy::THEIRS;
+    options.dry_run = true;
+
+    auto result = merge_engine_->merge(base_seq, source_seq, target_seq, options);
+
+    EXPECT_TRUE(result.success);
+    // At least one change should have been applied or detected
+    EXPECT_GE(result.stats.changes_applied + result.stats.conflicts_detected, 1u);
+}
