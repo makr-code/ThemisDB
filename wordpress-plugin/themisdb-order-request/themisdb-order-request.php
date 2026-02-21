@@ -71,6 +71,7 @@ require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-payment-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-api.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-portal.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-renewal.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-pdf-generator.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-email-handler.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-epserver-api.php';
@@ -134,6 +135,14 @@ function themisdb_order_request_activate() {
     if (!get_option('themisdb_license_admin_secret')) {
         add_option('themisdb_license_admin_secret', ''); // Optional extra admin secret for admin endpoints
     }
+    if (!get_option('themisdb_license_renewal_reminder_days')) {
+        add_option('themisdb_license_renewal_reminder_days', '30'); // Days before expiry to send renewal reminder
+    }
+
+    // Schedule daily renewal reminder cron job
+    if (!wp_next_scheduled('themisdb_license_renewal_check')) {
+        wp_schedule_event(time(), 'daily', 'themisdb_license_renewal_check');
+    }
     
     // Flush rewrite rules
     flush_rewrite_rules();
@@ -144,10 +153,25 @@ register_activation_hook(__FILE__, 'themisdb_order_request_activate');
  * Deactivation hook
  */
 function themisdb_order_request_deactivate() {
+    // Clear the renewal reminder cron job
+    $timestamp = wp_next_scheduled('themisdb_license_renewal_check');
+    if ($timestamp) {
+        wp_unschedule_event($timestamp, 'themisdb_license_renewal_check');
+    }
     // Flush rewrite rules
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'themisdb_order_request_deactivate');
+
+/**
+ * Renewal reminder cron hook
+ */
+add_action('themisdb_license_renewal_check', 'themisdb_run_license_renewal_check');
+function themisdb_run_license_renewal_check() {
+    if (class_exists('ThemisDB_License_Renewal')) {
+        ThemisDB_License_Renewal::send_renewal_reminders();
+    }
+}
 
 /**
  * Enqueue frontend scripts and styles

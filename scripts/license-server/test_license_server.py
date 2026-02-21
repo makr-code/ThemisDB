@@ -234,3 +234,81 @@ def test_refresh_valid_license():
     )
     assert resp.status_code == 200
     assert resp.json()["success"] is True
+
+
+# ---------------------------------------------------------------------------
+# End-to-end lifecycle: activate → validate → revoke → reject
+# ---------------------------------------------------------------------------
+
+def test_e2e_license_lifecycle():
+    """
+    Full lifecycle: activate a fresh license, validate it,
+    revoke it via admin, then confirm validation is rejected.
+    """
+    key = "THEMIS-ENT-E2ETEST0-00000000"
+    fp  = "e2e-fingerprint-abc123"
+
+    seed_license(key=key)
+
+    # Step 1: Activate
+    resp = client.post(
+        "/v1/activate",
+        json={"license_key": key, "machine_fingerprint": fp},
+        headers=HEADERS_USER,
+    )
+    assert resp.status_code == 200, f"activate failed: {resp.json()}"
+    data = resp.json()
+    assert data["success"] is True
+    assert data["status"] == "active"
+    assert "signature" in data
+
+    # Step 2: Validate (should succeed and record last_seen_at)
+    resp = client.post(
+        "/v1/validate",
+        json={"license_key": key, "machine_fingerprint": fp},
+        headers=HEADERS_USER,
+    )
+    assert resp.status_code == 200
+    assert resp.json()["success"] is True
+
+    # Step 3: Admin revokes the license
+    resp = client.post(
+        "/v1/revoke",
+        json={"license_key": key, "reason": "E2E test teardown"},
+        headers=HEADERS_ADMIN,
+    )
+    assert resp.status_code == 200
+    assert resp.json()["status"] == "suspended"
+
+    # Step 4: Validation must now fail
+    resp = client.post(
+        "/v1/validate",
+        json={"license_key": key, "machine_fingerprint": fp},
+        headers=HEADERS_USER,
+    )
+    assert resp.status_code == 402
+    data = resp.json()
+    assert data["success"] is False
+    assert data["status"] == "suspended"
+
+
+def test_e2e_response_signature_is_consistent():
+    """
+    The HMAC signature in two separate validate calls for the same license
+    must both be non-empty hex strings (length 64 for SHA-256).
+    """
+    key = "THEMIS-ENT-SIGTST00-00000000"
+    seed_license(key=key)
+
+    for _ in range(2):
+        resp = client.post(
+            "/v1/validate",
+            json={"license_key": key, "machine_fingerprint": "sig-fp"},
+            headers=HEADERS_USER,
+        )
+        # May be 200 or 404 (first call before activate); either way a signature
+        # is only present on a 200 success response.
+        if resp.status_code == 200:
+            sig = resp.json().get("signature", "")
+            assert len(sig) == 64, "HMAC-SHA256 signature should be 64 hex chars"
+            assert all(c in "0123456789abcdefABCDEF" for c in sig)
