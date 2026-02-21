@@ -679,3 +679,127 @@ TEST_F(LoRAOrchestratorProvenanceTest, MerkleChainHashLinkage) {
     EXPECT_NE(s1.entry_hash, s2.entry_hash);
 }
 
+
+
+// ============================================================================
+// LoRAAuditLogger → LoRAProvenanceManager bridge tests
+// ============================================================================
+
+#include "llm/lora_framework/lora_audit_logger.h"
+#include "utils/audit_logger.h"
+
+using namespace themis::utils;
+
+class LoRAAuditLoggerBridgeTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        AuditLoggerConfig cfg;
+        cfg.enabled = true;
+        logger = std::make_unique<LoRAAuditLogger>(cfg);
+
+        provenance_mgr = std::make_shared<LoRAProvenanceManager>();
+        logger->setProvenanceManager(provenance_mgr);
+    }
+
+    std::unique_ptr<LoRAAuditLogger> logger;
+    std::shared_ptr<LoRAProvenanceManager> provenance_mgr;
+};
+
+TEST_F(LoRAAuditLoggerBridgeTest, LogInferenceAppendsToMerkleChain) {
+    LoRAInferenceAudit audit;
+    audit.request_id      = "req-001";
+    audit.session_id      = "sess-001";
+    audit.user_id         = "user-001";
+    audit.base_model_id   = "mistral-7b";
+    audit.adapter_id      = "test-bridge-adapter";
+    audit.adapter_version = "v1.0";
+    audit.adapter_hash    = std::string(64, 'a');
+    audit.prompt          = "Hello, world!";
+    audit.response        = "Hi there!";
+    audit.success         = true;
+
+    logger->logInference(audit);
+
+    auto log = provenance_mgr->getAuditLog("test-bridge-adapter");
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0].request_id, "req-001");
+    EXPECT_FALSE(log[0].entry_hash.empty());
+    EXPECT_TRUE(log[0].previous_hash.empty()); // genesis entry
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, MultipleInferencesFormChain) {
+    for (int i = 0; i < 3; ++i) {
+        LoRAInferenceAudit audit;
+        audit.request_id    = "req-" + std::to_string(i);
+        audit.adapter_id    = "chain-adapter";
+        audit.adapter_hash  = std::string(64, static_cast<char>('0' + i));
+        audit.prompt        = "prompt " + std::to_string(i);
+        audit.response      = "resp "   + std::to_string(i);
+        audit.success       = true;
+        logger->logInference(audit);
+    }
+
+    auto log = provenance_mgr->getAuditLog("chain-adapter");
+    ASSERT_EQ(log.size(), 3u);
+    EXPECT_EQ(log[1].previous_hash, log[0].entry_hash);
+    EXPECT_EQ(log[2].previous_hash, log[1].entry_hash);
+    EXPECT_TRUE(provenance_mgr->verifyAuditChain("chain-adapter"));
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, NoProvenanceMgrDoesNotCrash) {
+    // Disconnect the provenance manager – logInference must still succeed
+    logger->setProvenanceManager(nullptr);
+
+    LoRAInferenceAudit audit;
+    audit.adapter_id = "no-mgr-adapter";
+    audit.adapter_hash = std::string(64, 'x');
+    audit.prompt = "test";
+    audit.response = "ok";
+    EXPECT_NO_THROW(logger->logInference(audit));
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, QueryHashAndResponseHashAreNonEmpty) {
+    LoRAInferenceAudit audit;
+    audit.adapter_id   = "hash-check-adapter";
+    audit.adapter_hash = std::string(64, 'h');
+    audit.prompt       = "non-empty prompt";
+    audit.response     = "non-empty response";
+    audit.success      = true;
+    logger->logInference(audit);
+
+    auto log = provenance_mgr->getAuditLog("hash-check-adapter");
+    ASSERT_EQ(log.size(), 1u);
+    EXPECT_EQ(log[0].query_hash.size(),    64u);  // SHA-256 hex = 64 chars
+    EXPECT_EQ(log[0].response_hash.size(), 64u);
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, LogProvenanceAttached_EmitsEvent) {
+    LoRAProvenanceRecord rec;
+    rec.dataset_hash        = std::string(64, 'd');
+    rec.base_model_hash     = std::string(64, 'm');
+    rec.adapter_weights_hash = std::string(64, 'w');
+    rec.trainer_id          = "trainer-x";
+    rec.rfc3161_timestamp   = "dummytoken";
+
+    // Should not throw; event is logged via logEvent()
+    EXPECT_NO_THROW(logger->logProvenanceAttached("prov-adapter", rec));
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, LogSnapshotCreated_EmitsEvent) {
+    AdapterSnapshot snap;
+    snap.snapshot_id       = "snap-001";
+    snap.adapter_id        = "snap-adapter";
+    snap.version           = "v1.0";
+    snap.weights_hash      = std::string(64, 's');
+    snap.timestamp         = "2026-02-21T00:00:00Z";
+
+    EXPECT_NO_THROW(logger->logSnapshotCreated("snap-adapter", snap));
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, LogAuditChainVerified_ValidChain) {
+    EXPECT_NO_THROW(logger->logAuditChainVerified("verify-adapter", true, 42));
+}
+
+TEST_F(LoRAAuditLoggerBridgeTest, LogAuditChainVerified_TamperedChain) {
+    EXPECT_NO_THROW(logger->logAuditChainVerified("tamper-adapter", false, 7));
+}
