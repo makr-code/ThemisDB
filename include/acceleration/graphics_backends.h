@@ -27,6 +27,8 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/metrics/backend_metrics.h"
+#include <memory>
 
 namespace themis {
 namespace acceleration {
@@ -107,6 +109,7 @@ private:
     bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
+    metrics::BackendMetrics metrics_{"vulkan"};
 };
 
 // OpenGL Compute Shaders backend (legacy support)

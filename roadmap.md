@@ -159,19 +159,24 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 
 ## Phase 3: Observability & Monitoring (Weeks 7-10)
 
-**Status:** 📋 Planned  
+**Status:** 🚧 In Progress  
 **Goal:** Production-grade observability and performance tracking
 
 ### 3.1 Performance Metrics Integration
 
 **Tasks:**
-- [ ] Add per-backend latency tracking
+- [x] Add per-backend latency tracking (Vulkan: `computeDistances`, `batchKnnSearch`)
 - [ ] Implement GPU utilization monitoring
-- [ ] Track kernel execution times
-- [ ] Monitor memory usage (host/device)
+- [x] Track kernel execution times (via `std::chrono` timer in dispatch)
+- [x] Monitor memory usage (host/device) (device-local heap exposed on init)
 - [ ] Add backend selection metrics
-- [ ] Expose metrics via Prometheus endpoint
+- [x] Expose metrics via Prometheus endpoint (existing `MetricsCollector::exportPrometheus()`)
 - [ ] Create Grafana dashboards
+
+**Completed (Vulkan backend):**
+- `BackendMetrics` integrated into `VulkanVectorBackend` (init success/failure/duration,
+  L2 and cosine operation counts and latency histograms, error counters, memory gauges)
+- New test: `tests/test_vulkan_metrics.cpp`
 
 **Success Criteria:**
 - All key metrics tracked and exposed
@@ -418,7 +423,7 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 |--------|----------|--------|--------|
 | **Backend Consistency** | 50% (L2 issue) | 100% | ✅ 100% |
 | **Error Logging Coverage** | 20% | 90% | ✅ 100% |
-| **RAII Resource Management** | 0% | 100% | ✅ 75% |
+| **RAII Resource Management** | 0% | 100% | ✅ 100% (Vulkan RAII added) |
 | **Error Code Structure** | Informal | Structured | ✅ 33 codes |
 | **Test Coverage (Error Handling)** | 0% | 80% | ✅ 100% |
 | **Documentation Completeness** | 30% | 95% | ✅ 45% |

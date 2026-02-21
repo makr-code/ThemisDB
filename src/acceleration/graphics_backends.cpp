@@ -32,6 +32,7 @@
 #include <memory>
 #include <stdexcept>
 #include <cstring>
+#include <chrono>
 
 #ifdef THEMIS_ENABLE_VULKAN
 #include <vulkan/vulkan.h>
@@ -630,20 +631,28 @@ bool VulkanVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_VULKAN
     if (initialized_) return true;
 
+    auto initStart = std::chrono::steady_clock::now();
+
     if (!impl_) impl_ = std::make_unique<VulkanVectorBackendImpl>();
 
     if (!impl_->createInstance()) {
         std::cerr << "[Vulkan] vkCreateInstance failed – no Vulkan ICD?" << std::endl;
+        metrics_.recordInitFailure();
+        metrics_.recordError("vkCreateInstance_failed");
         return false;
     }
     if (!impl_->selectPhysicalDevice()) {
         std::cerr << "[Vulkan] No suitable physical device found" << std::endl;
         impl_->cleanup();
+        metrics_.recordInitFailure();
+        metrics_.recordError("no_physical_device");
         return false;
     }
     if (!impl_->createLogicalDevice()) {
         std::cerr << "[Vulkan] vkCreateDevice failed" << std::endl;
         impl_->cleanup();
+        metrics_.recordInitFailure();
+        metrics_.recordError("vkCreateDevice_failed");
         return false;
     }
 
@@ -664,12 +673,33 @@ bool VulkanVectorBackend::initialize() {
         std::cerr << "[Vulkan] Compute pipelines unavailable – "
                      "compile shaders with: glslc shader.comp -o shader.spv" << std::endl;
         impl_->cleanup();
+        metrics_.recordInitFailure();
+        metrics_.recordError("shader_load_failed");
         return false;
     }
+
+    double initSeconds = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - initStart).count();
 
     std::cout << "[Vulkan] Initialized: " << impl_->deviceProps.deviceName << std::endl;
     initialized_ = true;
     clearError();
+
+    metrics_.recordInitSuccess();
+    metrics_.recordInitDuration(initSeconds);
+    metrics_.setDeviceCount(1);
+    metrics_.setActiveDeviceIndex(0);
+
+    // Expose device-local memory to metrics
+    for (uint32_t i = 0; i < impl_->memoryProps.memoryHeapCount; ++i) {
+        if (impl_->memoryProps.memoryHeaps[i].flags &
+            VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) {
+            metrics_.setDeviceMemoryAvailable(
+                static_cast<double>(impl_->memoryProps.memoryHeaps[i].size));
+            break;
+        }
+    }
+
     return true;
 #else
     return false;
@@ -696,17 +726,29 @@ std::vector<float> VulkanVectorBackend::computeDistances(
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
         std::cerr << "[Vulkan] computeDistances: backend not initialized" << std::endl;
+        metrics_.recordError("not_initialized");
         return {};
     }
+    auto opStart = std::chrono::steady_clock::now();
     try {
-        return impl_->dispatch(queries,
-                               static_cast<uint32_t>(numQueries),
-                               vectors,
-                               static_cast<uint32_t>(numVectors),
-                               static_cast<uint32_t>(dim),
-                               useL2);
+        auto result = impl_->dispatch(queries,
+                                      static_cast<uint32_t>(numQueries),
+                                      vectors,
+                                      static_cast<uint32_t>(numVectors),
+                                      static_cast<uint32_t>(dim),
+                                      useL2);
+        double elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - opStart).count();
+        if (useL2) {
+            metrics_.recordL2DistanceOperation(elapsed, numQueries * numVectors);
+        } else {
+            metrics_.recordCosineOperation(elapsed, numQueries * numVectors);
+        }
+        return result;
     } catch (const std::exception& e) {
         std::cerr << "[Vulkan] computeDistances error: " << e.what() << std::endl;
+        metrics_.recordError("dispatch_failed");
+        metrics_.recordKernelLaunchFailure();
         return {};
     }
 #else
@@ -726,10 +768,12 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
 #ifdef THEMIS_ENABLE_VULKAN
     if (!initialized_ || !impl_) {
         std::cerr << "[Vulkan] batchKnnSearch: backend not initialized" << std::endl;
+        metrics_.recordError("not_initialized");
         return {};
     }
 
     // Compute all pairwise distances on the GPU
+    auto opStart = std::chrono::steady_clock::now();
     std::vector<float> distances;
     try {
         distances = impl_->dispatch(queries,
@@ -738,8 +782,17 @@ std::vector<std::vector<std::pair<uint32_t, float>>> VulkanVectorBackend::batchK
                                     static_cast<uint32_t>(numVectors),
                                     static_cast<uint32_t>(dim),
                                     useL2);
+        double elapsed = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - opStart).count();
+        if (useL2) {
+            metrics_.recordL2DistanceOperation(elapsed, numQueries * numVectors);
+        } else {
+            metrics_.recordCosineOperation(elapsed, numQueries * numVectors);
+        }
     } catch (const std::exception& e) {
         std::cerr << "[Vulkan] batchKnnSearch dispatch error: " << e.what() << std::endl;
+        metrics_.recordError("dispatch_failed");
+        metrics_.recordKernelLaunchFailure();
         return {};
     }
 
