@@ -50,6 +50,14 @@ public:
         const std::string& schema_name
     ) const;
 
+    // JSON schema validation against an in-memory JSON Schema Draft-7 object.
+    // Same keyword support as validateJsonStub.
+    // Returns std::nullopt if valid, otherwise an error message.
+    static std::optional<std::string> validateJson(
+        const nlohmann::json& payload,
+        const nlohmann::json& schema
+    );
+
     // Validate AQL request payload (expects keys like {"query": "...", "bindVars": {...}})
     // Performs minimal checks: required fields, max length, disallowed characters/patterns
     std::optional<std::string> validateAqlRequest(const nlohmann::json& payload) const;
