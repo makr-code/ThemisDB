@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Graph adjacency index implementation
+// Graph adjacency index implementation
 
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"

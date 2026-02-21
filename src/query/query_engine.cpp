@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Parallel Query Engine implementation
+// Parallel Query Engine implementation
 
 #define _USE_MATH_DEFINES
 #include <iostream>

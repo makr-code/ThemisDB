@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "analytics/nlp_text_analyzer.h"
+#include "analytics/nlp_text_analyzer.h"
 
 #include <algorithm>
 #include <cctype>

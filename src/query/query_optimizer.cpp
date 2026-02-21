@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// Cost-based Query Optimizer implementation
+// Cost-based Query Optimizer implementation
 
 #include "query/query_optimizer.h"
 #include "query/adaptive_optimizer.h"

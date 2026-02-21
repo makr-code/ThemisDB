@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "exporters/jsonl_llm_exporter.h"
+#include "exporters/jsonl_llm_exporter.h"
 #include "exporters/exporter_errors.h"
 #include "exporters/exporter_metrics.h"
 #include "exporters/pii_detector.h"

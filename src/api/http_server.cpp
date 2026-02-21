@@ -23,7 +23,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿// DEPRECATED - HTTP server stub (legacy placeholder)
+// DEPRECATED - HTTP server stub (legacy placeholder)
 // 
 // This file is not used in the build. The actual HTTP server implementation
 // is located in src/server/http_server.cpp (11,000+ lines).

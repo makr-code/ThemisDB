@@ -17,32 +17,32 @@
 - [x] Lazy initialization for optional components
 
 ## In Progress 🚧
-- [ ] OpenTelemetry tracer adapter (Target: Q2 2026)
-- [ ] Prometheus metrics adapter (Target: Q2 2026)
-- [ ] Context propagation across async boundaries (Target: Q3 2026)
+- [I] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
+- [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
+- [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] OpenTelemetry trace and span propagation
-- [ ] Prometheus-compatible metrics adapter
-- [ ] Structured log correlation (trace ID injection into log records)
-- [ ] Health check interface in ConcernsContext
-- [ ] Configuration-driven adapter selection (no code changes needed)
-- [ ] Dynamic log level adjustment at runtime
+- [I] OpenTelemetry trace and span propagation (Issue: #1407)
+- [I] Prometheus-compatible metrics adapter (Issue: #1408)
+- [I] Structured log correlation (trace ID injection into log records) (Issue: #1409)
+- [I] Health check interface in ConcernsContext (Issue: #1410)
+- [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
+- [I] Dynamic log level adjustment at runtime (Issue: #1412)
 
 ### Long-term (6-12 months)
-- [ ] Jaeger/Zipkin tracing backend adapters
-- [ ] Distributed context propagation (W3C TraceContext standard)
-- [ ] Circuit breaker interface as a first-class concern
-- [ ] Feature flag interface (enable/disable features without redeployment)
-- [ ] Secrets interface for credential injection into components
-- [ ] Audit event interface for compliance logging
+- [I] Jaeger/Zipkin tracing backend adapters (Issue: #1413)
+- [I] Distributed context propagation (W3C TraceContext standard) (Issue: #1414)
+- [I] Circuit breaker interface as a first-class concern (Issue: #1415)
+- [I] Feature flag interface (enable/disable features without redeployment) (Issue: #1416)
+- [I] Secrets interface for credential injection into components (Issue: #1417)
+- [I] Audit event interface for compliance logging (Issue: #1418)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1419)
 - [x] Integration tests (DI context, adapter injection, factory methods)
-- [ ] Performance benchmarks (DI overhead, logging throughput)
+- [I] Performance benchmarks (DI overhead, logging throughput) (Issue: #1420)
 - [x] Security audit (no credential storage in context)
 - [x] Documentation complete
 - [x] API stability guaranteed for ConcernsContext and core interfaces

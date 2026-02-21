@@ -1,22 +1,37 @@
 # Acceleration Module
 
-GPU and hardware acceleration implementations for ThemisDB.
+Hardware acceleration layer for compute-heavy ThemisDB workloads with CUDA, Vulkan and portable backend options.
 
-## Components
+## Current Delivery State
 
-- **cuda/** - NVIDIA CUDA implementations for GPU-accelerated operations
-- **vulkan/** - Vulkan compute implementations for cross-platform GPU acceleration
+- Module is in pre-production hardening.
+- Several roadmap items are already tracked on GitHub (`[I]`) and synchronized from `ROADMAP.md`.
+- Backends are present in source, but production coverage still depends on full kernel completion, runtime capability negotiation and cross-backend parity testing.
 
-## Features
+## Backend Surface
 
-- Vector similarity search acceleration
-- Geospatial query acceleration
-- Parallel graph algorithms
-- Matrix operations for embeddings
+- `cuda/` + `cuda_backend.cpp` + `vector_kernels.cu`: NVIDIA CUDA path (primary for ANN/geospatial kernels).
+- `vulkan/` + `vulkan_backend_full.cpp`: cross-vendor compute shader path.
+- Additional backend entry points (OpenCL, HIP, oneAPI, Metal, DirectX, NCCL/RCCL, ZLUDA) are staged in module sources for phased enablement.
+
+## Consolidated Roadmap Inputs
+
+- Execution roadmap and statuses: `ROADMAP.md`
+- Detailed implementation constraints: `future_enhancements.md`
+- GitHub issue generation uses both files to build non-stub implementation tickets with phases, acceptance criteria and risk constraints.
+
+## Implementation Contract
+
+Every roadmap implementation item is expected to carry:
+
+- concrete subsystem/file scope
+- runtime behavior and fallback expectations
+- validation/error handling requirements
+- unit/integration/performance test requirements
+- measurable targets (latency/throughput/parity)
 
 ## Documentation
 
-For detailed acceleration documentation, see:
 - [CUDA Backend](../../docs/performance/CUDA_BACKEND.md)
 - [Vulkan Backend](../../docs/performance/VULKAN_BACKEND.md)
 - [Hardware Acceleration Plan](../../docs/performance/HARDWARE_ACCELERATION.md)

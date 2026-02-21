@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#pragma once
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
 #include "index/temporal_graph.h"

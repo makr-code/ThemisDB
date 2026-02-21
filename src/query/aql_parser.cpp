@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "query/aql_parser.h"
+#include "query/aql_parser.h"
 #include "utils/error_registry.h"
 #include <cctype>
 #include <optional>

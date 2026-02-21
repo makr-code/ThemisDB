@@ -21,7 +21,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] JSON query support (`aql_parser_json.cpp`)
 
 ## In Progress 🚧
-- [ ] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026)
+- [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #1421)
 - [ ] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026)
 - [ ] Incremental view maintenance for materialized CTEs (Target: Q3 2026)
 
