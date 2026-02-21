@@ -179,6 +179,31 @@ TEST_F(APIVersionManagerTest, ResolveVersionValid) {
     EXPECT_EQ(version.patch, 0);
 }
 
+// Docs: "v1" resolves to latest minor.patch for major == 1 (API_VERSIONING.md line 42)
+TEST_F(APIVersionManagerTest, ResolveVersionMajorOnly) {
+    auto version = manager.resolveVersion("v1");
+    // Must resolve to current (latest) version, not v1.0.0
+    EXPECT_EQ(version, manager.getCurrentVersion())
+        << "v1 should resolve to latest supported version, not v1.0.0";
+    EXPECT_EQ(version.major, 1);
+}
+
+// Docs: "v1.4" resolves to latest patch for major.minor == 1.4 (API_VERSIONING.md line 41)
+TEST_F(APIVersionManagerTest, ResolveVersionMajorMinorOnly) {
+    auto version = manager.resolveVersion("v1.4");
+    EXPECT_EQ(version.major, 1);
+    EXPECT_EQ(version.minor, 4);
+    // Must be the latest patch for 1.4.x, which equals the current patch
+    EXPECT_EQ(version.patch, APIVersionConfig::CURRENT_PATCH)
+        << "v1.4 should resolve to latest patch for minor 4, not v1.4.0";
+}
+
+// Major-only with no matching major falls back to current
+TEST_F(APIVersionManagerTest, ResolveVersionUnknownMajorFallsBack) {
+    auto version = manager.resolveVersion("v9");
+    EXPECT_EQ(version, manager.getCurrentVersion());
+}
+
 TEST_F(APIVersionManagerTest, ResolveVersionInvalid) {
     auto version = manager.resolveVersion("invalid");
     // Should fall back to current version
@@ -294,4 +319,45 @@ TEST(APIVersionEdgeCases, PartialVersionComparison) {
     
     EXPECT_TRUE(v1_4 < v1_4_1);
     EXPECT_FALSE(v1_4 > v1_4_1);
+}
+
+// ---------------------------------------------------------------------------
+// APIVersionManager / version endpoint contract
+// These tests verify the fields that are exposed via GET /version
+// ---------------------------------------------------------------------------
+
+TEST(APIVersionEndpointContract, CurrentVersionMatchesConfig) {
+    APIVersionManager mgr;
+    auto cur = mgr.getCurrentVersion();
+    EXPECT_EQ(cur.major, APIVersionConfig::CURRENT_MAJOR);
+    EXPECT_EQ(cur.minor, APIVersionConfig::CURRENT_MINOR);
+    EXPECT_EQ(cur.patch, APIVersionConfig::CURRENT_PATCH);
+}
+
+TEST(APIVersionEndpointContract, MinimumVersionMatchesConfig) {
+    APIVersionManager mgr;
+    auto min = mgr.getMinimumVersion();
+    EXPECT_EQ(min.major, APIVersionConfig::MINIMUM_MAJOR);
+    EXPECT_EQ(min.minor, APIVersionConfig::MINIMUM_MINOR);
+    EXPECT_EQ(min.patch, APIVersionConfig::MINIMUM_PATCH);
+}
+
+TEST(APIVersionEndpointContract, SupportedVersionsContainCurrentAndMinimum) {
+    APIVersionManager mgr;
+    auto supported = mgr.getSupportedVersions();
+    ASSERT_FALSE(supported.empty());
+
+    auto cur = mgr.getCurrentVersion();
+    auto min = mgr.getMinimumVersion();
+
+    EXPECT_NE(std::find(supported.begin(), supported.end(), cur), supported.end())
+        << "current version must be in supported_api_versions";
+    EXPECT_NE(std::find(supported.begin(), supported.end(), min), supported.end())
+        << "minimum version must be in supported_api_versions";
+}
+
+TEST(APIVersionEndpointContract, CurrentVersionToStringHasVPrefix) {
+    APIVersionManager mgr;
+    auto s = mgr.getCurrentVersion().toString();
+    EXPECT_EQ(s[0], 'v') << "version string must start with 'v'";
 }

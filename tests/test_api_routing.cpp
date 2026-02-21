@@ -152,42 +152,42 @@ TEST(APIVersionStringTest, ToStringZeroVersion) {
 // APIVersionManager
 // ---------------------------------------------------------------------------
 
-class APIVersionManagerTest : public ::testing::Test {
+class APIVersionManagerRoutingTest : public ::testing::Test {
 protected:
     APIVersionManager mgr_;
 };
 
-TEST_F(APIVersionManagerTest, HasCurrentVersion) {
+TEST_F(APIVersionManagerRoutingTest, HasCurrentVersion) {
     auto v = mgr_.getCurrentVersion();
     EXPECT_GT(v.major + v.minor + v.patch, 0u);  // Not all-zero
 }
 
-TEST_F(APIVersionManagerTest, HasMinimumVersion) {
+TEST_F(APIVersionManagerRoutingTest, HasMinimumVersion) {
     auto min_v = mgr_.getMinimumVersion();
     auto cur_v = mgr_.getCurrentVersion();
     EXPECT_LE(min_v, cur_v);
 }
 
-TEST_F(APIVersionManagerTest, CurrentVersionIsSupported) {
+TEST_F(APIVersionManagerRoutingTest, CurrentVersionIsSupported) {
     EXPECT_TRUE(mgr_.isVersionSupported(mgr_.getCurrentVersion()));
 }
 
-TEST_F(APIVersionManagerTest, ReturnsCurrentVersionForLatestKeyword) {
+TEST_F(APIVersionManagerRoutingTest, ReturnsCurrentVersionForLatestKeyword) {
     auto resolved = mgr_.resolveVersion("latest");
     EXPECT_EQ(resolved, mgr_.getCurrentVersion());
 }
 
-TEST_F(APIVersionManagerTest, SupportedVersionsListNotEmpty) {
+TEST_F(APIVersionManagerRoutingTest, SupportedVersionsListNotEmpty) {
     auto versions = mgr_.getSupportedVersions();
     EXPECT_FALSE(versions.empty());
 }
 
-TEST_F(APIVersionManagerTest, ReturnsCurrentVersionForEmptyHeader) {
+TEST_F(APIVersionManagerRoutingTest, ReturnsCurrentVersionForEmptyHeader) {
     auto resolved = mgr_.resolveVersion("");
     EXPECT_EQ(resolved, mgr_.getCurrentVersion());
 }
 
-TEST_F(APIVersionManagerTest, ReturnsCurrentVersionForInvalidHeader) {
+TEST_F(APIVersionManagerRoutingTest, ReturnsCurrentVersionForInvalidHeader) {
     auto resolved = mgr_.resolveVersion("garbage");
     EXPECT_EQ(resolved, mgr_.getCurrentVersion());
 }
