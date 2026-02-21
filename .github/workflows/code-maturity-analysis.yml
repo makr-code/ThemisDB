@@ -49,12 +49,14 @@ jobs:
           git config user.name 'ThemisDB Version Bot'
           git config user.email 'bot@themisdb.local'
 
-      - name: Commit updated files
+      - name: Commit updated files and push safely
         run: |
           git add -A
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
             git commit -m "🤖 Auto-update: Code maturity analysis & versioning [skip ci]"
-            git push
+            # Fetch latest changes and rebase before pushing
+            git pull --rebase origin develop
+            git push origin develop
           fi
