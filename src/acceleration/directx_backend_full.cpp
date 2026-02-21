@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            directx_backend_full.cpp                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:26                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:37:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,11 @@
     • Quality Score:   94.0/100                                       ║
     • Total Lines:     453                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e089f2026  2025-11-20  Complete priority-based GPU backend selection: CUDA > HIP... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

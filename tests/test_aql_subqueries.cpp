@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_aql_subqueries.cpp                            ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:30                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:41:59                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     413                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7d467f118  2026-01-24  Remove columnar storage and optimization issue templates ║
+    • 8605a9d91  2025-11-22  Refactor: Update tracer initialization and improve argume... ║
+    • 246f1e038  2025-11-17  feat: Implement Phase 3 & 4 - Full Subquery and CTE Support ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

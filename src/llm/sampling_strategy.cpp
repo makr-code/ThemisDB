@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            sampling_strategy.cpp                              ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   87.0/100                                       ║
     • Total Lines:     250                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c7a9e2b5c  2026-01-17  Update LLM integration and model storage logic ║
+    • b0c289066  2026-01-15  Implement token sampling strategies using llama.cpp API (... ║
+    • f582b3a5d  2026-01-15  LLM/LoRA System Analysis: Critical Gaps, Production Roadm... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

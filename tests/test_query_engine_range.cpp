@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_query_engine_range.cpp                        ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:31                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:45:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     114                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 3d10e1f01  2026-01-25  Refactor test cases to improve status variable naming ║
+    • 49733f3f8  2026-01-05  Refactor replication and test code, fix JWT test issues ║
+    • 507ce1eb8  2025-10-29  Initial commit: Themis - C++ Database System (formerly VC... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

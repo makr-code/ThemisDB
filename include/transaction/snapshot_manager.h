@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            snapshot_manager.h                                 ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:25                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     281                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2c691dfc7  2026-01-12  Phase 1 & 2: Implement Named Snapshots and Structured Dif... ║
+    • 504bdf506  2026-01-12  feat: Named Snapshots (Semantic Tagging) for MVCC System ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

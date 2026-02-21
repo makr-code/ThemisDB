@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            tsstore.h                                          ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:25                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:35:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   100.0/100                                      ║
     • Total Lines:     286                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cd55ad885  2026-01-22  Add comprehensive monitoring and metrics for time series ... ║
+    • 4c61f2086  2026-01-22  Phase 3: Migrate TSStore, PluginManager, IndexManager, an... ║
+    • 11eee63e0  2025-12-15  Document time series storage methods: singular entities v... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

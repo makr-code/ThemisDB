@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            async_ingestion_worker.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:27                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:38:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   93.0/100                                       ║
     • Total Lines:     895                                            ║
     • Open Issues:     TODOs: 2, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb52ef4f5  2026-02-12  Add HuggingFace Dataset Ingestion Plugin with Streaming a... ║
+    • 77ca4cc65  2026-02-12  feat: Plugin-based multi-source ingestion for AsyncIngest... ║
+    • ac1328d4d  2026-01-11  Add archive ingestion plugin with async worker for develo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

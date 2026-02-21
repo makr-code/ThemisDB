@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_type.cpp                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:27                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:38:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,12 @@
     • Quality Score:   95.0/100                                       ║
     • Total Lines:     641                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ac1328d4d  2026-01-11  Add archive ingestion plugin with async worker for develo... ║
+    • 507ce1eb8  2025-10-29  Initial commit: Themis - C++ Database System (formerly VC... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

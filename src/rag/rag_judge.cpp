@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rag_judge.cpp                                      ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:58                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   97.0/100                                       ║
     • Total Lines:     1200                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 5d480af8c  2026-02-20  RAG module: replace all stubs with real implementations; ... ║
+    • 5e5c1d175  2026-02-19  Implement post-generation quality control with LLM-as-Jud... ║
+    • 7ff413ebb  2026-02-17  Add test certificates for CA and plugin signer ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

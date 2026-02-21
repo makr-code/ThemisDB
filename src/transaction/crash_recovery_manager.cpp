@@ -3,15 +3,19 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            crash_recovery_manager.cpp                         ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-21 07:42:29                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 08:41:08                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   100.0/100                                      ║
-    • Total Lines:     476                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     495                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

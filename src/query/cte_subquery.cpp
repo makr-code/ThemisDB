@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cte_subquery.cpp                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 08:39:42                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -12,6 +12,13 @@
     • Quality Score:   90.0/100                                       ║
     • Total Lines:     651                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 5150323a3  2026-02-12  Remove unused variable warnings: Replace pragma directive... ║
+    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
+    • ce7781536  2026-02-05  GAP-002: Migrate QueryEngine error handling to Result<T> ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
