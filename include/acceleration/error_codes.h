@@ -139,6 +139,25 @@ enum class AccelerationErrorCode : uint32_t {
     ProgramLinkingFailed = 504,
     
     // ========================================================================
+    // Validation Errors (600-699)
+    // ========================================================================
+    
+    /// Generic input validation failure
+    InputValidationFailed = 601,
+    
+    /// Invalid tensor/array shape (wrong rank, zero dimension, etc.)
+    InvalidInputShape = 602,
+    
+    /// Unsupported data type or precision mode
+    InvalidInputDtype = 603,
+    
+    /// Batch size exceeds backend or device limit
+    BatchSizeExceeded = 604,
+    
+    /// Input values out of valid numeric range (NaN, Inf, overflow)
+    InputRangeViolation = 605,
+
+    // ========================================================================
     // Configuration Errors (400-499)
     // ========================================================================
     
@@ -172,7 +191,7 @@ enum class AccelerationErrorCode : uint32_t {
 };
 
 /**
- * Convert error code to human-readable string
+ * Convert error code to its symbolic name (enum identifier string)
  */
 inline const char* errorCodeToString(AccelerationErrorCode code) {
     switch (code) {
@@ -181,82 +200,94 @@ inline const char* errorCodeToString(AccelerationErrorCode code) {
             
         // Initialization errors
         case AccelerationErrorCode::NoDevicesFound:
-            return "No devices found";
+            return "NoDevicesFound";
         case AccelerationErrorCode::DriverNotInstalled:
-            return "Driver not installed";
+            return "DriverNotInstalled";
         case AccelerationErrorCode::DeviceNotSupported:
-            return "Device not supported";
+            return "DeviceNotSupported";
         case AccelerationErrorCode::ContextCreationFailed:
-            return "Context creation failed";
+            return "ContextCreationFailed";
         case AccelerationErrorCode::QueueCreationFailed:
-            return "Queue creation failed";
+            return "QueueCreationFailed";
         case AccelerationErrorCode::DeviceSetFailed:
-            return "Device set failed";
+            return "DeviceSetFailed";
         case AccelerationErrorCode::DevicePropertiesQueryFailed:
-            return "Device properties query failed";
+            return "DevicePropertiesQueryFailed";
         case AccelerationErrorCode::RuntimeVersionIncompatible:
-            return "Runtime version incompatible";
+            return "RuntimeVersionIncompatible";
         case AccelerationErrorCode::PlatformNotAvailable:
-            return "Platform not available";
+            return "PlatformNotAvailable";
             
         // Resource errors
         case AccelerationErrorCode::OutOfDeviceMemory:
-            return "Out of device memory";
+            return "OutOfDeviceMemory";
         case AccelerationErrorCode::OutOfHostMemory:
-            return "Out of host memory";
+            return "OutOfHostMemory";
         case AccelerationErrorCode::AllocationFailed:
-            return "Allocation failed";
+            return "AllocationFailed";
         case AccelerationErrorCode::MemoryCopyFailed:
-            return "Memory copy failed";
+            return "MemoryCopyFailed";
         case AccelerationErrorCode::BufferCreationFailed:
-            return "Buffer creation failed";
+            return "BufferCreationFailed";
         case AccelerationErrorCode::InvalidMemoryAccess:
-            return "Invalid memory access";
+            return "InvalidMemoryAccess";
             
         // Runtime errors
         case AccelerationErrorCode::KernelLaunchFailed:
-            return "Kernel launch failed";
+            return "KernelLaunchFailed";
         case AccelerationErrorCode::KernelExecutionFailed:
-            return "Kernel execution failed";
+            return "KernelExecutionFailed";
         case AccelerationErrorCode::SynchronizationFailed:
-            return "Synchronization failed";
+            return "SynchronizationFailed";
         case AccelerationErrorCode::OperationTimeout:
-            return "Operation timeout";
+            return "OperationTimeout";
         case AccelerationErrorCode::DeviceLost:
-            return "Device lost";
+            return "DeviceLost";
             
         // Kernel compilation errors
         case AccelerationErrorCode::KernelCompilationFailed:
-            return "Kernel compilation failed";
+            return "KernelCompilationFailed";
         case AccelerationErrorCode::KernelNotFound:
-            return "Kernel not found";
+            return "KernelNotFound";
         case AccelerationErrorCode::InvalidKernelArguments:
-            return "Invalid kernel arguments";
+            return "InvalidKernelArguments";
         case AccelerationErrorCode::ProgramLinkingFailed:
-            return "Program linking failed";
+            return "ProgramLinkingFailed";
+            
+        // Validation errors
+        case AccelerationErrorCode::InputValidationFailed:
+            return "InputValidationFailed";
+        case AccelerationErrorCode::InvalidInputShape:
+            return "InvalidInputShape";
+        case AccelerationErrorCode::InvalidInputDtype:
+            return "InvalidInputDtype";
+        case AccelerationErrorCode::BatchSizeExceeded:
+            return "BatchSizeExceeded";
+        case AccelerationErrorCode::InputRangeViolation:
+            return "InputRangeViolation";
             
         // Configuration errors
         case AccelerationErrorCode::InvalidConfiguration:
-            return "Invalid configuration";
+            return "InvalidConfiguration";
         case AccelerationErrorCode::FeatureNotSupported:
-            return "Feature not supported";
+            return "FeatureNotSupported";
         case AccelerationErrorCode::InvalidParameter:
-            return "Invalid parameter";
+            return "InvalidParameter";
         case AccelerationErrorCode::BackendNotInitialized:
-            return "Backend not initialized";
+            return "BackendNotInitialized";
         case AccelerationErrorCode::BackendAlreadyInitialized:
-            return "Backend already initialized";
+            return "BackendAlreadyInitialized";
             
         // Generic errors
         case AccelerationErrorCode::UnknownError:
-            return "Unknown error";
+            return "UnknownError";
         case AccelerationErrorCode::InternalError:
-            return "Internal error";
+            return "InternalError";
         case AccelerationErrorCode::NotImplemented:
-            return "Not implemented";
+            return "NotImplemented";
             
         default:
-            return "Unknown error code";
+            return "UnknownErrorCode";
     }
 }
 
@@ -305,6 +336,14 @@ inline bool isConfigurationError(AccelerationErrorCode code) {
 inline bool isKernelError(AccelerationErrorCode code) {
     uint32_t c = static_cast<uint32_t>(code);
     return c >= 500 && c < 600;
+}
+
+/**
+ * Check if error code is a validation error
+ */
+inline bool isValidationError(AccelerationErrorCode code) {
+    uint32_t c = static_cast<uint32_t>(code);
+    return c >= 600 && c < 700;
 }
 
 } // namespace acceleration

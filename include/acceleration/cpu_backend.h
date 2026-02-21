@@ -53,7 +53,10 @@ public:
         return caps;
     }
     
-    bool initialize() override { return true; }
+    bool initialize() override {
+        clearError();
+        return true;
+    }
     void shutdown() override {}
     
     // IVectorBackend interface
@@ -104,7 +107,10 @@ public:
         return caps;
     }
     
-    bool initialize() override { return true; }
+    bool initialize() override {
+        clearError();
+        return true;
+    }
     void shutdown() override {}
     
     // IGraphBackend interface
@@ -148,7 +154,10 @@ public:
         return caps;
     }
     
-    bool initialize() override { return true; }
+    bool initialize() override {
+        clearError();
+        return true;
+    }
     void shutdown() override {}
     
     // IGeoBackend interface
