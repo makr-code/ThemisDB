@@ -20,25 +20,25 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [x] Grammar-constrained generation with runtime API detection
 
 ## In Progress 🚧
-- [ ] Streaming token output (SSE / chunked response) (Target: Q2 2026)
-- [ ] Per-request timeout and cancellation propagation (Target: Q2 2026)
-- [ ] Unified metrics dashboard for both engines (Target: Q3 2026)
+- [I] Streaming token output (SSE / chunked response) (Target: Q2 2026) (Issue: #1918)
+- [I] Per-request timeout and cancellation propagation (Target: Q2 2026) (Issue: #1992)
+- [I] Unified metrics dashboard for both engines (Target: Q3 2026) (Issue: #1932)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] OpenAI-compatible `/v1/chat/completions` passthrough adapter
-- [ ] Function / tool calling support (JSON schema binding)
-- [ ] Model hot-swap without engine restart
-- [ ] Request deduplication cache (same prompt → cached response)
-- [ ] Per-model resource quotas (memory, concurrency)
+- [I] OpenAI-compatible `/v1/chat/completions` passthrough adapter (Issue: #1921)
+- [I] Function / tool calling support (JSON schema binding) (Issue: #1922)
+- [I] Model hot-swap without engine restart (Issue: #1923)
+- [I] Request deduplication cache (same prompt → cached response) (Issue: #1924)
+- [I] Per-model resource quotas (memory, concurrency) (Issue: #1925)
 
 ### Long-term (6-12 months)
-- [ ] Speculative decoding for latency reduction
-- [ ] Multi-modal input support (image + text)
-- [ ] Federated inference across distributed nodes
-- [ ] LoRA adapter hot-loading at inference time
-- [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
+- [I] Speculative decoding for latency reduction (Issue: #1934)
+- [I] Multi-modal input support (image + text) (Issue: #1927)
+- [I] Federated inference across distributed nodes (Issue: #1928)
+- [I] LoRA adapter hot-loading at inference time (Issue: #1929)
+- [I] Model quantization pipeline integration (GGUF, AWQ, GPTQ) (Issue: #1937)
 
 ## Implementation Phases
 
@@ -53,25 +53,25 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [x] Grammar-constrained generation with runtime API detection
 
 ### Phase 2: Streaming & Shared Worker Pool (Status: In Progress 🚧)
-- [~] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026)
-- [~] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026)
+- [I] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026) (Issue: #1944)
+- [I] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026) (Issue: #1945)
 - [ ] Per-request timeout and cancellation propagation (Target: Q2 2026)
 - [ ] Unified metrics dashboard for both engines (Target: Q3 2026)
 
 ### Phase 3: Ecosystem & Performance (Status: Planned 📋)
-- [ ] OpenAI-compatible `/v1/chat/completions` REST adapter
+- [I] OpenAI-compatible `/v1/chat/completions` REST adapter (Issue: #1933)
 - [ ] Speculative decoding for latency reduction
-- [ ] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`)
-- [ ] Multi-model routing based on prompt content or metadata tags
+- [I] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`) (Issue: #1935)
+- [I] Multi-model routing based on prompt content or metadata tags (Issue: #1936)
 - [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (single-model and multi-model scenarios)
-- [ ] Performance benchmarks (tokens/sec, latency p99)
-- [ ] Security audit (prompt injection mitigation, API key handling)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [I] Unit tests coverage > 80% (Issue: #1938)
+- [I] Integration tests (single-model and multi-model scenarios) (Issue: #1939)
+- [I] Performance benchmarks (tokens/sec, latency p99) (Issue: #1940)
+- [I] Security audit (prompt injection mitigation, API key handling) (Issue: #1941)
+- [I] Documentation complete (Issue: #1942)
+- [I] API stability guaranteed (Issue: #1943)
 
 ## Known Issues & Limitations
 - Both engines maintain independent worker threads; no shared thread pool yet.

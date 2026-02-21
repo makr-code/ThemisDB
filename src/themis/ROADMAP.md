@@ -14,25 +14,25 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [x] Wire protocol server headers
 
 ## In Progress 🚧
-- [ ] `build_info.cpp` – build metadata collection and formatting (Target: Q2 2026, v1.7.0)
-- [ ] `license_info.cpp` – embedded license validation and Ed25519 signature verification (Target: Q2 2026, v1.7.0)
-- [ ] `module_loader.cpp` – secure shared-library loading with hash/signature checks (Target: Q3 2026, v1.7.0)
+- [?] `build_info.cpp` – build metadata collection and formatting (Target: Q2 2026, v1.7.0)
+- [?] `license_info.cpp` – embedded license validation and Ed25519 signature verification (Target: Q2 2026, v1.7.0)
+- [?] `module_loader.cpp` – secure shared-library loading with hash/signature checks (Target: Q3 2026, v1.7.0)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/`
-- [ ] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
-- [ ] `getBuildConfiguration()` – aggregate build metadata at runtime
-- [ ] `isModuleCompiledIn()` – runtime module availability check
-- [ ] SHA-256 hash verification for loaded modules
+- [I] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #1974)
+- [?] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
+- [?] `getBuildConfiguration()` – aggregate build metadata at runtime
+- [?] `isModuleCompiledIn()` – runtime module availability check
+- [?] SHA-256 hash verification for loaded modules
 
 ### Long-term (6-12 months)
-- [ ] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
-- [ ] Authenticode (Windows) and GPG (Linux) signature verification for modules
-- [ ] Zone.Identifier / quarantine detection (Windows)
-- [ ] Dynamic feature flag gating per edition at runtime
-- [ ] Module dependency resolution and load-order management
+- [?] Full modularization of monolithic build (split into loadable `.so` / `.dll` modules)
+- [?] Authenticode (Windows) and GPG (Linux) signature verification for modules
+- [?] Zone.Identifier / quarantine detection (Windows)
+- [?] Dynamic feature flag gating per edition at runtime
+- [?] Module dependency resolution and load-order management
 
 ## Implementation Phases
 
@@ -45,9 +45,9 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [x] Wire protocol server headers
 
 ### Phase 2: Core Implementation Files (Status: In Progress 🚧)
-- [~] `build_info.cpp` – build metadata collection and formatting (v1.7.0)
-- [~] `license_info.cpp` – embedded license validation and Ed25519 signature verification (v1.7.0)
-- [~] `module_loader.cpp` – secure shared-library loading with hash/signature checks (v1.7.0)
+- [?] `build_info.cpp` – build metadata collection and formatting (v1.7.0)
+- [?] `license_info.cpp` – embedded license validation and Ed25519 signature verification (v1.7.0)
+- [?] `module_loader.cpp` – secure shared-library loading with hash/signature checks (v1.7.0)
 
 ### Phase 3: Wire Protocol & Edition Manager (Status: Planned 📋)
 - [ ] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/`
@@ -64,12 +64,12 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 - [ ] Module dependency resolution and load-order management
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (module load, license validation, build info)
-- [ ] Performance benchmarks (module load time, license check overhead)
-- [ ] Security audit (signature verification, constant-time license comparison)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (module load, license validation, build info)
+- [?] Performance benchmarks (module load time, license check overhead)
+- [?] Security audit (signature verification, constant-time license comparison)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - The `src/themis/` directory is currently empty; the monolithic build distributes this logic elsewhere.

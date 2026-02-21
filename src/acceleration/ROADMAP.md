@@ -74,18 +74,18 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Added documentation cross-references (`CUDA_BACKEND.md`, `VULKAN_BACKEND.md`)
 
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
-- [~] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`)
-- [~] Implement Vulkan compute shaders for cross-platform GPU pipeline
-- [~] Implement runtime device capability detection (`acceleration/device_manager.cpp`)
-- [~] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
-- [ ] Integrate with geo module GPU backend via `GeoAccelerationBridge`
+- [!] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461)
+- [!] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
+- [I] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #1463)
+- [!] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`) (Issue: #1464)
+- [!] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #1455)
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
-- [ ] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`)
-- [ ] Implement multi-GPU sharding for large embedding datasets
-- [ ] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm`
-- [ ] Implement CUDA graph capture for recurring query workloads
-- [ ] Add benchmark harness comparing CUDA vs CPU throughput per operation type
+- [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)
+- [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
+- [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
+- [!] Implement CUDA graph capture for recurring query workloads (Issue: #1459)
+- [I] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)

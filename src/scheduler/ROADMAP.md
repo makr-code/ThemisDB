@@ -21,25 +21,25 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
 - [x] < 1% CPU overhead; 50–200 ms task startup latency
 
 ## In Progress 🚧
-- [ ] Full cron expression parsing (v1.5.0) (Target: Q2 2026)
-- [ ] Distributed task coordination across nodes (Target: Q2 2026)
-- [ ] Task dependency DAG execution (Target: Q3 2026)
+- [?] Full cron expression parsing (v1.5.0) (Target: Q2 2026)
+- [?] Distributed task coordination across nodes (Target: Q2 2026)
+- [?] Task dependency DAG execution (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Web UI for task management (create, monitor, pause, delete)
-- [ ] Task retry policies (max attempts, exponential back-off)
-- [ ] Scheduled task output persistence (store results in ThemisDB)
-- [ ] Task execution history with searchable audit log
-- [ ] Alert on task failure or SLA breach
+- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2002)
+- [?] Task retry policies (max attempts, exponential back-off)
+- [?] Scheduled task output persistence (store results in ThemisDB)
+- [?] Task execution history with searchable audit log
+- [?] Alert on task failure or SLA breach
 
 ### Long-term (6-12 months)
-- [ ] Distributed cron leader election (one runner per cluster)
-- [ ] Workflow engine (multi-step DAG with conditional branching)
-- [ ] Event-triggered tasks (changefeed → task execution)
-- [ ] Dynamic task scaling based on queue depth
-- [ ] Integration with external schedulers (Kubernetes CronJob, Airflow)
+- [?] Distributed cron leader election (one runner per cluster)
+- [?] Workflow engine (multi-step DAG with conditional branching)
+- [?] Event-triggered tasks (changefeed → task execution)
+- [?] Dynamic task scaling based on queue depth
+- [?] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Implementation Phases
 
@@ -75,12 +75,12 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
 - [ ] Integration with external schedulers (Kubernetes CronJob, Airflow)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (task persistence, retention lifecycle)
-- [ ] Performance benchmarks (scheduler overhead, retention throughput)
-- [ ] Security audit (AQL injection prevention, resource limit enforcement)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (task persistence, retention lifecycle)
+- [?] Performance benchmarks (scheduler overhead, retention throughput)
+- [?] Security audit (AQL injection prevention, resource limit enforcement)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Cron expression parsing supports simple intervals only in v1.x; full cron syntax planned for v1.5.0.

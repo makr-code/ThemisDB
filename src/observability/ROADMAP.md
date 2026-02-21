@@ -19,25 +19,25 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] PagerDuty/Slack notification routing
 
 ## In Progress 🚧
-- [ ] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
-- [ ] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
-- [ ] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
+- [?] OpenTelemetry SDK direct export (OTLP gRPC/HTTP) (Target: Q2 2026)
+- [?] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
+- [I] Adaptive sampling rate for high-frequency spans (Target: Q3 2026) (Issue: #1963)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Exemplars on Prometheus histograms (link traces to metrics)
-- [ ] Custom user-defined alert rules via API
-- [ ] Per-tenant metric namespacing
-- [ ] Structured log search API (query logs like data)
-- [ ] Real-time query cost estimator dashboard
+- [I] Exemplars on Prometheus histograms (link traces to metrics) (Issue: #1995)
+- [?] Custom user-defined alert rules via API
+- [?] Per-tenant metric namespacing
+- [?] Structured log search API (query logs like data)
+- [?] Real-time query cost estimator dashboard
 
 ### Long-term (6-12 months)
-- [ ] eBPF-based low-overhead kernel-level tracing
-- [ ] Anomaly detection on metrics time-series (ML-based)
-- [ ] Distributed flame graph generation across nodes
-- [ ] Metrics federation across multiple ThemisDB clusters
-- [ ] SLO/SLA compliance reporting with burn-rate alerts
+- [?] eBPF-based low-overhead kernel-level tracing
+- [?] Anomaly detection on metrics time-series (ML-based)
+- [?] Distributed flame graph generation across nodes
+- [?] Metrics federation across multiple ThemisDB clusters
+- [?] SLO/SLA compliance reporting with burn-rate alerts
 
 ## Implementation Phases
 
@@ -54,7 +54,7 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [x] Grafana dashboard integration and PagerDuty/Slack notification routing
 
 ### Phase 2: Native OTLP Export & Continuous Profiling (Status: In Progress 🚧)
-- [~] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
+- [?] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
 - [~] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
 - [ ] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
 
@@ -67,12 +67,12 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [ ] SLO/SLA compliance reporting with burn-rate alerts
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (Prometheus scrape, Grafana dashboard rendering)
-- [ ] Performance benchmarks (metrics overhead < 1% CPU)
-- [ ] Security audit (metrics endpoint authentication, trace data PII)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (Prometheus scrape, Grafana dashboard rendering)
+- [?] Performance benchmarks (metrics overhead < 1% CPU)
+- [?] Security audit (metrics endpoint authentication, trace data PII)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - OTLP export is not yet implemented; traces use internal span propagation only.

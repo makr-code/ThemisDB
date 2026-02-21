@@ -21,25 +21,25 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [x] Compliance features (eIDAS, GDPR-related controls)
 
 ## In Progress 🚧
-- [ ] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026)
-- [ ] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026)
-- [ ] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026)
+- [?] Attribute-Based Access Control (ABAC) alongside RBAC (Target: Q2 2026)
+- [?] Hardware Security Module (HSM) direct PKCS#11 integration (Target: Q2 2026)
+- [?] FIPS 140-2 / 140-3 validated cryptography mode (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
-- [ ] Session token revocation list with real-time invalidation
-- [ ] Anomaly detection on authentication patterns (brute-force, credential stuffing)
-- [ ] Row-level security policies in AQL execution
-- [ ] Secret scanning pre-commit hook for CI pipelines
+- [I] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #1972)
+- [?] Session token revocation list with real-time invalidation
+- [?] Anomaly detection on authentication patterns (brute-force, credential stuffing)
+- [?] Row-level security policies in AQL execution
+- [?] Secret scanning pre-commit hook for CI pipelines
 
 ### Long-term (6-12 months)
-- [ ] Zero-trust network policy enforcement (per-request identity verification)
-- [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
-- [ ] Dynamic data masking for PII fields in query results
-- [ ] SOC 2 Type II compliance evidence collection
-- [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
+- [?] Zero-trust network policy enforcement (per-request identity verification)
+- [?] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
+- [?] Dynamic data masking for PII fields in query results
+- [?] SOC 2 Type II compliance evidence collection
+- [?] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
 ## Implementation Phases
 
@@ -78,12 +78,12 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (TLS handshake, key rotation, RBAC enforcement)
-- [ ] Performance benchmarks (encryption overhead, auth latency)
-- [ ] Security audit (penetration testing, CVE dependency scan)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (TLS handshake, key rotation, RBAC enforcement)
+- [?] Performance benchmarks (encryption overhead, auth latency)
+- [?] Security audit (penetration testing, CVE dependency scan)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - HSM integration is partially abstracted; direct PKCS#11 binding is in progress.

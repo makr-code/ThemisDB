@@ -15,25 +15,25 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [x] Plugin signer tool (`tools/plugin_signer/`)
 
 ## In Progress 🚧
-- [ ] Plugin hot-reload without server restart (Target: Q2 2026)
-- [ ] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026)
-- [ ] Plugin marketplace / registry integration (Target: Q3 2026)
+- [?] Plugin hot-reload without server restart (Target: Q2 2026)
+- [!] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #1997)
+- [?] Plugin marketplace / registry integration (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Plugin configuration schema validation (JSON Schema)
-- [ ] Per-plugin resource quotas (CPU time, memory)
-- [ ] Plugin health monitoring and automatic restart on crash
-- [ ] Plugin API versioning with compatibility matrix
-- [ ] First-party importer plugins (MySQL, SQLite, MongoDB)
+- [?] Plugin configuration schema validation (JSON Schema)
+- [?] Per-plugin resource quotas (CPU time, memory)
+- [?] Plugin health monitoring and automatic restart on crash
+- [?] Plugin API versioning with compatibility matrix
+- [?] First-party importer plugins (MySQL, SQLite, MongoDB)
 
 ### Long-term (6-12 months)
-- [ ] WebAssembly (WASM) plugin runtime for sandboxed execution
-- [ ] Remote plugin loading from OCI registries
-- [ ] Plugin capability permissions model (fine-grained access control)
-- [ ] Plugin SDK (C++, Python, Go bindings)
-- [ ] Community plugin repository with security scanning
+- [?] WebAssembly (WASM) plugin runtime for sandboxed execution
+- [?] Remote plugin loading from OCI registries
+- [?] Plugin capability permissions model (fine-grained access control)
+- [?] Plugin SDK (C++, Python, Go bindings)
+- [?] Community plugin repository with security scanning
 
 ## Implementation Phases
 
@@ -47,25 +47,25 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 - [x] Basic per-plugin resource accounting
 
 ### Phase 2: Signing Hardening & Permissions (Status: In Progress 🚧)
-- [~] Ed25519 manifest signing workflow (`plugins/manifest_signer.cpp`) with key-rotation support (Target: Q2 2026)
-- [~] Capability-based permission model (fine-grained access control per plugin) (Target: Q2 2026)
+- [?] Ed25519 manifest signing workflow (`plugins/manifest_signer.cpp`) with key-rotation support (Target: Q2 2026)
+- [?] Capability-based permission model (fine-grained access control per plugin) (Target: Q2 2026)
 - [ ] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026)
 - [ ] Plugin hot-reload without server restart (Target: Q3 2026)
 
 ### Phase 3: WASM Sandbox & Ecosystem (Status: Planned 📋)
-- [ ] WebAssembly (WASM) plugin runtime via Wasmtime for sandbox isolation
-- [ ] Plugin metrics dashboard (call latency, error rate per plugin)
+- [?] WebAssembly (WASM) plugin runtime via Wasmtime for sandbox isolation
+- [?] Plugin metrics dashboard (call latency, error rate per plugin)
 - [ ] Remote plugin loading from OCI registries
-- [ ] Plugin SDK with C++, Python, and Go bindings
-- [ ] Community plugin repository with automated security scanning
+- [?] Plugin SDK with C++, Python, and Go bindings
+- [?] Community plugin repository with automated security scanning
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (load, sign, verify, unload lifecycle)
-- [ ] Performance benchmarks (plugin call overhead)
-- [ ] Security audit (signature enforcement, sandbox escape prevention)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (load, sign, verify, unload lifecycle)
+- [?] Performance benchmarks (plugin call overhead)
+- [?] Security audit (signature enforcement, sandbox escape prevention)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Hot-reload is not yet supported; plugin updates require server restart.

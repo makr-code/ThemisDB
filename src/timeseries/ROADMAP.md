@@ -16,25 +16,25 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] RocksDB-backed persistence
 
 ## In Progress 🚧
-- [ ] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
-- [ ] Out-of-order write support with configurable late-arrival window (Target: Q2 2026)
-- [ ] Distributed time series partitioning across shards (Target: Q3 2026)
+- [?] Adaptive compression selection per series (Gorilla vs. Delta-of-delta vs. RLE) (Target: Q2 2026)
+- [I] Out-of-order write support with configurable late-arrival window (Target: Q2 2026) (Issue: #1976)
+- [?] Distributed time series partitioning across shards (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Columnar storage layout for analytical scan queries
-- [ ] Downsampling policies (min/max/avg/sum per window)
-- [ ] Time series anomaly detection (Z-score, IQR-based)
-- [ ] Gap-filling functions (forward fill, linear interpolation)
-- [ ] Multi-series JOIN queries with aligned timestamps
+- [?] Columnar storage layout for analytical scan queries
+- [?] Downsampling policies (min/max/avg/sum per window)
+- [?] Time series anomaly detection (Z-score, IQR-based)
+- [?] Gap-filling functions (forward fill, linear interpolation)
+- [?] Multi-series JOIN queries with aligned timestamps
 
 ### Long-term (6-12 months)
-- [ ] Tiered storage (hot/warm/cold) with automatic migration
-- [ ] Streaming ingestion via Kafka connector
-- [ ] Prometheus remote-write endpoint compatibility
-- [ ] InfluxDB line protocol ingestion compatibility
-- [ ] Time series forecasting (ARIMA, Holt-Winters) as built-in functions
+- [?] Tiered storage (hot/warm/cold) with automatic migration
+- [?] Streaming ingestion via Kafka connector
+- [?] Prometheus remote-write endpoint compatibility
+- [?] InfluxDB line protocol ingestion compatibility
+- [?] Time series forecasting (ARIMA, Holt-Winters) as built-in functions
 
 ## Implementation Phases
 
@@ -47,25 +47,25 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 - [x] Configurable compression strategy registry
 
 ### Phase 2: Incremental Aggregation & Downsampling (Status: In Progress 🚧)
-- [~] Incremental continuous aggregation (avoid full recompute on append) (Target: Q2 2026)
-- [~] Multi-tier downsampling policies (1s → 1m → 1h → 1d) (Target: Q2 2026)
-- [ ] Adaptive TSAutoBuffer flush based on write pressure (Target: Q2 2026)
+- [?] Incremental continuous aggregation (avoid full recompute on append) (Target: Q2 2026)
+- [?] Multi-tier downsampling policies (1s → 1m → 1h → 1d) (Target: Q2 2026)
+- [?] Adaptive TSAutoBuffer flush based on write pressure (Target: Q2 2026)
 - [ ] Out-of-order write support with configurable late-arrival window (Target: Q3 2026)
 
 ### Phase 3: SIMD, Encryption & Export (Status: Planned 📋)
-- [ ] SIMD Gorilla decoder (AVX2) for accelerated bulk decompression
-- [ ] Chunk-level encryption at rest with per-series key derivation
-- [ ] Parquet export bridge for analytical pipeline integration
+- [?] SIMD Gorilla decoder (AVX2) for accelerated bulk decompression
+- [?] Chunk-level encryption at rest with per-series key derivation
+- [?] Parquet export bridge for analytical pipeline integration
 - [ ] Columnar storage layout for analytical scan queries
 - [ ] Prometheus remote-write endpoint compatibility
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
-- [ ] Performance benchmarks (ingestion rate, query latency, compression ratio)
-- [ ] Security audit (time series key namespace isolation per tenant)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (compression round-trip, retention enforcement, aggregation accuracy)
+- [?] Performance benchmarks (ingestion rate, query latency, compression ratio)
+- [?] Security audit (time series key namespace isolation per tenant)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Out-of-order writes are not currently handled; data must arrive in timestamp order.

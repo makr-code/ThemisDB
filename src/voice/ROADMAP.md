@@ -20,14 +20,14 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Key point and summary extraction
 
 ## In Progress 🚧
-- [ ] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026)
-- [ ] Wake-word detection for hands-free activation (Target: Q2 2026)
-- [ ] Multi-speaker diarization improvements (Target: Q3 2026)
+- [~] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026)
+- [~] Wake-word detection for hands-free activation (Target: Q2 2026)
+- [~] Multi-speaker diarization improvements (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Voice command macros (user-defined shortcuts to AQL queries)
+- [I] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
 - [ ] Language detection and automatic locale switching
 - [ ] Noise suppression preprocessing (RNNoise integration)
 - [ ] WebSocket audio streaming endpoint for browser clients

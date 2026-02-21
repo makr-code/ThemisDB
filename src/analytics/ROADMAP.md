@@ -23,29 +23,29 @@ Production-ready for core OLAP, data export, process mining, text analytics, and
 - [x] Thread-safe OLAPEngine for concurrent queries
 
 ## In Progress 🚧
-- [ ] Complex Event Processing (CEP) full engine implementation (Target: Q2 2026)
-- [ ] Streaming aggregation windows (tumbling, sliding, session, hopping) (Target: Q2 2026)
-- [ ] Incremental materialized views (Target: Q3 2026)
+- [I] Complex Event Processing (CEP) full engine implementation (Target: Q2 2026) (Issue: #1443)
+- [I] Streaming aggregation windows (tumbling, sliding, session, hopping) (Target: Q2 2026) (Issue: #1454)
+- [I] Incremental materialized views (Target: Q3 2026) (Issue: #1480)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] CEP: EPL (Event Processing Language) parser
-- [ ] CEP: Stateful pattern matching with checkpointing
-- [ ] CEP: Backpressure handling and buffer management
-- [ ] GPU-accelerated OLAP aggregations (CUDA)
-- [ ] Real-time anomaly detection engine
-- [ ] Zero-copy Arrow data transfer optimizations
-- [ ] Arrow Flight RPC support for remote analytics
+- [I] CEP: EPL (Event Processing Language) parser (Issue: #1466)
+- [I] CEP: Stateful pattern matching with checkpointing (Issue: #1467)
+- [I] CEP: Backpressure handling and buffer management (Issue: #1468)
+- [I] GPU-accelerated OLAP aggregations (CUDA) (Issue: #1469)
+- [I] Real-time anomaly detection engine (Issue: #1470)
+- [I] Zero-copy Arrow data transfer optimizations (Issue: #1471)
+- [I] Arrow Flight RPC support for remote analytics (Issue: #1472)
 
 ### Long-term (6-12 months)
-- [ ] Predictive analytics and time-series forecasting
-- [ ] AutoML integration for automated model selection
-- [ ] Advanced graph analytics: betweenness centrality, Louvain community detection
-- [ ] Integration with external ML tools (ONNX Runtime, TensorFlow Serving)
-- [ ] Model serving and online inference pipeline
-- [ ] Multi-language NLP support (beyond English)
-- [ ] Full morphological lemmatization
+- [I] Predictive analytics and time-series forecasting (Issue: #1473)
+- [I] AutoML integration for automated model selection (Issue: #1485)
+- [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
+- [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
+- [I] Model serving and online inference pipeline (Issue: #1477)
+- [I] Multi-language NLP support (beyond English) (Issue: #1478)
+- [I] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
 
@@ -65,24 +65,24 @@ Production-ready for core OLAP, data export, process mining, text analytics, and
 - [x] Thread-safe OLAPEngine for concurrent queries
 
 ### Phase 2: Streaming & Incremental Analytics (Status: In Progress 🚧)
-- [~] CEP full engine implementation in `analytics/cep_engine.cpp` (Target: Q2 2026)
-- [~] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp` (Target: Q2 2026)
+- [I] CEP full engine implementation in `analytics/cep_engine.cpp` (Target: Q2 2026) (Issue: #1489)
+- [I] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp` (Target: Q2 2026) (Issue: #1490)
 - [ ] Incremental materialized views (Target: Q3 2026)
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
-- [ ] Columnar execution engine with vectorized operator pipeline
-- [ ] LLVM-JIT compilation for hot aggregation paths
-- [ ] Distributed analytics sharding across cluster nodes
-- [ ] Predictive analytics and time-series forecasting integration
+- [I] Columnar execution engine with vectorized operator pipeline (Issue: #1481)
+- [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
+- [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
+- [I] Predictive analytics and time-series forecasting integration (Issue: #1484)
 - [ ] AutoML integration for automated model selection
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1486)
 - [x] Integration tests (query module, index module, CDC)
-- [ ] CEP engine integration tests
+- [I] CEP engine integration tests (Issue: #1487)
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
-- [ ] Security audit (LLM API key handling, data export sanitization)
+- [I] Security audit (LLM API key handling, data export sanitization) (Issue: #1488)
 - [x] Documentation complete (API docs, OLAP guide, process mining guide)
 - [x] API stability guaranteed for OLAP, export, and process mining
 

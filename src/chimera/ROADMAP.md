@@ -17,27 +17,27 @@
 - [x] Result type conversions and error handling
 
 ## In Progress 🚧
-- [ ] PostgreSQL vendor adapter implementation (Target: Q2 2026)
-- [ ] MongoDB vendor adapter implementation (Target: Q2 2026)
-- [ ] Benchmark result normalization and scoring framework (Target: Q3 2026)
+- [I] PostgreSQL vendor adapter implementation (Target: Q2 2026) (Issue: #1629)
+- [I] MongoDB vendor adapter implementation (Target: Q2 2026) (Issue: #1630)
+- [I] Benchmark result normalization and scoring framework (Target: Q3 2026) (Issue: #1985)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] PostgreSQL adapter (relational + pgvector)
-- [ ] MongoDB adapter (document + Atlas Vector Search)
-- [ ] Weaviate adapter (native vector database)
-- [ ] Qdrant adapter (native vector database)
-- [ ] Unified benchmark harness (workload definitions, warm-up, run, report)
-- [ ] Adapter capability matrix (which operations each system supports)
+- [I] PostgreSQL adapter (relational + pgvector) (Issue: #1632)
+- [I] MongoDB adapter (document + Atlas Vector Search) (Issue: #1633)
+- [I] Weaviate adapter (native vector database) (Issue: #1645)
+- [I] Qdrant adapter (native vector database) (Issue: #1646)
+- [I] Unified benchmark harness (workload definitions, warm-up, run, report) (Issue: #1647)
+- [I] Adapter capability matrix (which operations each system supports) (Issue: #1648)
 
 ### Long-term (6-12 months)
-- [ ] Neo4j adapter (native graph database)
-- [ ] Pinecone adapter (managed vector search)
-- [ ] Elasticsearch adapter (full-text + vector)
-- [ ] Cassandra adapter (wide-column)
-- [ ] Cross-system query federation for hybrid benchmarks
-- [ ] Automated benchmark CI pipeline with regression tracking
+- [I] Neo4j adapter (native graph database) (Issue: #1650)
+- [I] Pinecone adapter (managed vector search) (Issue: #1639)
+- [I] Elasticsearch adapter (full-text + vector) (Issue: #1640)
+- [I] Cassandra adapter (wide-column) (Issue: #1641)
+- [I] Cross-system query federation for hybrid benchmarks (Issue: #1642)
+- [I] Automated benchmark CI pipeline with regression tracking (Issue: #1643)
 
 ## Implementation Phases
 
@@ -53,8 +53,8 @@
 - [x] Result type conversions and error handling
 
 ### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
-- [~] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026)
-- [~] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026)
+- [I] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026) (Issue: #1656)
+- [I] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026) (Issue: #1657)
 - [ ] Benchmark result normalization and scoring framework (Target: Q3 2026)
 
 ### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
@@ -62,16 +62,16 @@
 - [ ] Qdrant adapter (native vector database)
 - [ ] Unified benchmark harness (workload definitions, warm-up, run, report)
 - [ ] Adapter capability matrix (which operations each system supports)
-- [ ] Benchmark result aggregation and reporting dashboard
+- [I] Benchmark result aggregation and reporting dashboard (Issue: #1649)
 - [ ] Neo4j adapter (native graph database)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1651)
 - [x] Integration tests (adapter factory, ThemisDB adapter)
-- [ ] Performance benchmarks (adapter overhead measurement)
-- [ ] Security audit (connection credential handling)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [I] Performance benchmarks (adapter overhead measurement) (Issue: #1652)
+- [I] Security audit (connection credential handling) (Issue: #1653)
+- [I] Documentation complete (Issue: #1654)
+- [I] API stability guaranteed (Issue: #1655)
 
 ## Known Issues & Limitations
 - Only the ThemisDB reference adapter is currently implemented

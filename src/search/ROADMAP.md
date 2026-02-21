@@ -24,25 +24,25 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [x] ResultRanker – configurable score aggregation
 
 ## In Progress 🚧
-- [ ] LLM-based query rewriting for improved recall (Target: Q2 2026)
-- [ ] Faceted search with dynamic facet counting (Target: Q2 2026)
-- [ ] Highlight / snippet generation for matched terms (Target: Q3 2026)
+- [?] LLM-based query rewriting for improved recall (Target: Q2 2026)
+- [?] Faceted search with dynamic facet counting (Target: Q2 2026)
+- [?] Highlight / snippet generation for matched terms (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Multi-field boosting (title > body > tags)
-- [ ] Negative keyword filtering (`NOT` operator)
-- [ ] Configurable re-ranking with LLM feedback loop
-- [ ] Search analytics (top queries, zero-result queries)
-- [ ] Spelling correction suggestions
+- [I] Multi-field boosting (title > body > tags) (Issue: #1971)
+- [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
+- [?] Configurable re-ranking with LLM feedback loop
+- [?] Search analytics (top queries, zero-result queries)
+- [?] Spelling correction suggestions
 
 ### Long-term (6-12 months)
-- [ ] Neural sparse retrieval (SPLADE / BERT-based)
-- [ ] Cross-lingual semantic search (multilingual embeddings)
-- [ ] Personalized ranking based on user interaction history
-- [ ] Distributed search across shards with result merging
-- [ ] Autocomplete / type-ahead query suggestions
+- [?] Neural sparse retrieval (SPLADE / BERT-based)
+- [?] Cross-lingual semantic search (multilingual embeddings)
+- [?] Personalized ranking based on user interaction history
+- [?] Distributed search across shards with result merging
+- [?] Autocomplete / type-ahead query suggestions
 
 ## Implementation Phases
 
@@ -78,12 +78,12 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [ ] Autocomplete / type-ahead query suggestions
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (BM25 correctness, hybrid recall@10)
-- [ ] Performance benchmarks (QPS, index build time, latency p99)
-- [ ] Security audit (query injection, resource exhaustion on large datasets)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (BM25 correctness, hybrid recall@10)
+- [?] Performance benchmarks (QPS, index build time, latency p99)
+- [?] Security audit (query injection, resource exhaustion on large datasets)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Synonym expansion dictionary must be manually provided; no automatic synonym discovery.

@@ -24,25 +24,25 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [x] Prometheus metrics export
 
 ## In Progress 🚧
-- [ ] Raft leader lease reads for linearizable read-scale-out (Target: Q2 2026)
-- [ ] Replication topology visualizer (web UI) (Target: Q2 2026)
-- [ ] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026)
+- [?] Raft leader lease reads for linearizable read-scale-out (Target: Q2 2026)
+- [?] Replication topology visualizer (web UI) (Target: Q2 2026)
+- [?] Compressed WAL shipping (Zstd) for bandwidth reduction (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Witness node support (vote-only, no data) for quorum in 2-node clusters
-- [ ] Replication slot management API (pause/resume individual slots)
-- [ ] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
-- [ ] Automated lag-based read traffic shifting
-- [ ] Cross-cluster logical replication (publish/subscribe model)
+- [!] Witness node support (vote-only, no data) for quorum in 2-node clusters (Issue: #2001)
+- [?] Replication slot management API (pause/resume individual slots)
+- [?] CDC event filtering by operation type (INSERT/UPDATE/DELETE)
+- [?] Automated lag-based read traffic shifting
+- [?] Cross-cluster logical replication (publish/subscribe model)
 
 ### Long-term (6-12 months)
-- [ ] Full Raft v2 implementation (joint consensus for membership changes)
-- [ ] Multi-region active-active with bounded staleness guarantees
-- [ ] Schema-aware CDC with Avro/Protobuf schema registry integration
-- [ ] Conflict-free Replicated Data Types (CRDT) library expansion
-- [ ] Kubernetes operator for automated topology management
+- [?] Full Raft v2 implementation (joint consensus for membership changes)
+- [?] Multi-region active-active with bounded staleness guarantees
+- [?] Schema-aware CDC with Avro/Protobuf schema registry integration
+- [?] Conflict-free Replicated Data Types (CRDT) library expansion
+- [?] Kubernetes operator for automated topology management
 
 ## Implementation Phases
 
@@ -84,12 +84,12 @@ v1.x – Production-grade high-availability infrastructure. Leader-follower repl
 - [ ] Kubernetes operator for automated topology management
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (failover, lag detection, PITR restoration)
-- [ ] Performance benchmarks (replication lag p99, WAL throughput)
-- [ ] Security audit (WAL encryption in transit, CDC stream authentication)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (failover, lag detection, PITR restoration)
+- [?] Performance benchmarks (replication lag p99, WAL throughput)
+- [?] Security audit (WAL encryption in transit, CDC stream authentication)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Raft implementation is Raft-like (not a full specification-compliant implementation); joint consensus for membership changes is planned.

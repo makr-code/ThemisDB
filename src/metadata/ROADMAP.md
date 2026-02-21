@@ -19,25 +19,25 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 - [x] AQL integration for metadata queries
 
 ## In Progress 🚧
-- [ ] Schema diff and migration script generation (Target: Q2 2026)
-- [ ] Real-time schema change notifications via changefeeds (Target: Q2 2026)
-- [ ] Adaptive TTL based on table mutation rate (Target: Q3 2026)
+- [I] Schema diff and migration script generation (Target: Q2 2026) (Issue: #1946)
+- [I] Real-time schema change notifications via changefeeds (Target: Q2 2026) (Issue: #1947)
+- [I] Adaptive TTL based on table mutation rate (Target: Q3 2026) (Issue: #1948)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Column-level statistics histograms for improved query planning
-- [ ] Cross-collection relationship graph (ER diagram export)
-- [ ] Metadata API endpoint (`GET /api/v1/schema`)
-- [ ] Schema validation against user-defined constraints
-- [ ] Index usage tracking (which indexes are queried most)
+- [I] Column-level statistics histograms for improved query planning (Issue: #1949)
+- [I] Cross-collection relationship graph (ER diagram export) (Issue: #1993)
+- [?] Metadata API endpoint (`GET /api/v1/schema`)
+- [?] Schema validation against user-defined constraints
+- [?] Index usage tracking (which indexes are queried most)
 
 ### Long-term (6-12 months)
-- [ ] Distributed metadata catalog across shards
-- [ ] Schema registry with compatibility enforcement (forward/backward)
-- [ ] Auto-generated OpenAPI schema from stored documents
-- [ ] Integration with external data catalogs (Apache Atlas, DataHub)
-- [ ] Column lineage and data provenance tracking
+- [I] Distributed metadata catalog across shards (Issue: #1961)
+- [?] Schema registry with compatibility enforcement (forward/backward)
+- [?] Auto-generated OpenAPI schema from stored documents
+- [?] Integration with external data catalogs (Apache Atlas, DataHub)
+- [?] Column lineage and data provenance tracking
 
 ## Implementation Phases
 
@@ -61,18 +61,18 @@ v1.x – Production-ready schema introspection layer with thread-safe caching, i
 ### Phase 3: Distributed Catalog & Lineage (Status: Planned 📋)
 - [ ] Column-level statistics histograms for improved query planning
 - [ ] Distributed metadata catalog across shards
-- [ ] Schema registry with forward/backward compatibility enforcement
+- [?] Schema registry with forward/backward compatibility enforcement
 - [ ] Cross-collection relationship graph (ER diagram export)
 - [ ] Column lineage and data provenance tracking
 - [ ] Integration with external data catalogs (Apache Atlas, DataHub)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (schema discovery, INFORMATION_SCHEMA queries)
-- [ ] Performance benchmarks (cache hit rate, scan latency)
-- [ ] Security audit (metadata access control, information disclosure)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (schema discovery, INFORMATION_SCHEMA queries)
+- [?] Performance benchmarks (cache hit rate, scan latency)
+- [?] Security audit (metadata access control, information disclosure)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Full table scan required on first load; large databases may experience slow initial discovery.

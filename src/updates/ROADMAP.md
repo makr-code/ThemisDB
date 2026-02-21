@@ -21,25 +21,25 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [x] Update scheduling and notification system
 
 ## In Progress 🚧
-- [ ] Delta (binary diff) updates to reduce download size (Target: Q2 2026)
-- [ ] Canary rollout mode (update a fraction of nodes first) (Target: Q2 2026)
-- [ ] Update pre-flight health checks (disk space, memory, dependency versions) (Target: Q3 2026)
+- [?] Delta (binary diff) updates to reduce download size (Target: Q2 2026)
+- [?] Canary rollout mode (update a fraction of nodes first) (Target: Q2 2026)
+- [?] Update pre-flight health checks (disk space, memory, dependency versions) (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] In-place schema migration without data copy for additive changes
-- [ ] Migration dry-run with detailed change preview
-- [ ] Notification webhooks (Slack, PagerDuty) on update success/failure
-- [ ] Automatic rollback on post-update health check failure
-- [ ] Update history log (who, when, from/to version)
+- [I] In-place schema migration without data copy for additive changes (Issue: #1979)
+- [?] Migration dry-run with detailed change preview
+- [?] Notification webhooks (Slack, PagerDuty) on update success/failure
+- [?] Automatic rollback on post-update health check failure
+- [?] Update history log (who, when, from/to version)
 
 ### Long-term (6-12 months)
-- [ ] Kubernetes operator integration (rolling update coordination)
-- [ ] Blue/green deployment support (run two versions simultaneously)
-- [ ] Multi-node coordinated update with replication-safe sequencing
-- [ ] Update bundle signing with hardware-backed keys (HSM)
-- [ ] Schema migration testing framework (apply to staging before production)
+- [?] Kubernetes operator integration (rolling update coordination)
+- [?] Blue/green deployment support (run two versions simultaneously)
+- [?] Multi-node coordinated update with replication-safe sequencing
+- [?] Update bundle signing with hardware-backed keys (HSM)
+- [?] Schema migration testing framework (apply to staging before production)
 
 ## Implementation Phases
 
@@ -76,12 +76,12 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 - [ ] Schema migration testing framework (apply to staging before production)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (download, verify, apply, rollback lifecycle)
-- [ ] Performance benchmarks (migration duration, downtime measurement)
-- [ ] Security audit (signature verification, path traversal in update bundles)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (download, verify, apply, rollback lifecycle)
+- [?] Performance benchmarks (migration duration, downtime measurement)
+- [?] Security audit (signature verification, path traversal in update bundles)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - HotReloadEngine is single-threaded; concurrent updates are not allowed.

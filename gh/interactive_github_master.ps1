@@ -127,6 +127,89 @@ function Resolve-MilestoneTitle {
     return ""
 }
 
+function Normalize-MarkdownLine {
+    param(
+        [string]$Text,
+        [int]$MaxLength = 0
+    )
+
+    if ([string]::IsNullOrWhiteSpace($Text)) {
+        return ""
+    }
+
+    $value = $Text -replace "`r", " " -replace "`n", " "
+    $value = [regex]::Replace($value, '[^\x20-\x7E]', ' ')
+    $value = ($value -replace "\s+", " ").Trim()
+
+    if ($MaxLength -gt 0 -and $value.Length -gt $MaxLength) {
+        return ($value.Substring(0, $MaxLength - 3) + "...")
+    }
+
+    return $value
+}
+
+function Expand-RoadmapStepLines {
+    param(
+        [string]$Step,
+        [string]$PrimaryPrefix,
+        [string]$SubPrefix,
+        [switch]$SkipHeader,
+        [int]$MaxSubItems = 6,
+        [int]$MaxPrimaryLength = 140,
+        [int]$MaxSubLength = 140
+    )
+
+    $normalizedStep = Normalize-MarkdownLine -Text $Step
+    if ([string]::IsNullOrWhiteSpace($normalizedStep)) {
+        return @()
+    }
+
+    $header = $normalizedStep
+    $detailParts = @()
+
+    $phaseWithStatusMatch = [regex]::Match($normalizedStep, '^(Phase\s+\d+:\s*.+?\(Status:\s*[^\)]+\)):\s*(.+)$', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+    $phaseBasicMatch = [regex]::Match($normalizedStep, '^(Phase\s+\d+:\s*[^:]+):\s*(.+)$', [System.Text.RegularExpressions.RegexOptions]::IgnoreCase)
+
+    if ($phaseWithStatusMatch.Success) {
+        $header = Normalize-MarkdownLine -Text $phaseWithStatusMatch.Groups[1].Value -MaxLength $MaxPrimaryLength
+        $detailParts = @($phaseWithStatusMatch.Groups[2].Value -split ';' | ForEach-Object { Normalize-MarkdownLine -Text $_ -MaxLength $MaxSubLength } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    } elseif ($phaseBasicMatch.Success) {
+        $header = Normalize-MarkdownLine -Text $phaseBasicMatch.Groups[1].Value -MaxLength $MaxPrimaryLength
+        $detailParts = @($phaseBasicMatch.Groups[2].Value -split ';' | ForEach-Object { Normalize-MarkdownLine -Text $_ -MaxLength $MaxSubLength } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    } else {
+        $parts = @($normalizedStep -split ';' | ForEach-Object { Normalize-MarkdownLine -Text $_ -MaxLength $MaxSubLength } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+        if ($parts.Count -gt 1) {
+            $header = Normalize-MarkdownLine -Text $parts[0] -MaxLength $MaxPrimaryLength
+            $detailParts = @($parts | Select-Object -Skip 1)
+        } else {
+            $header = Normalize-MarkdownLine -Text $normalizedStep -MaxLength $MaxPrimaryLength
+        }
+    }
+
+    $cleanDetailParts = @()
+    foreach ($part in $detailParts) {
+        $cleanPart = Normalize-MarkdownLine -Text ($part -replace '^\[\s*[xX~ !IPp\?]\s*\]\s*', '') -MaxLength $MaxSubLength
+        if (-not [string]::IsNullOrWhiteSpace($cleanPart)) {
+            $cleanDetailParts += $cleanPart
+        }
+    }
+    $detailParts = $cleanDetailParts
+
+    $lines = @()
+    if (-not $SkipHeader) {
+        $lines += "$PrimaryPrefix$header"
+    }
+    foreach ($part in ($detailParts | Select-Object -First $MaxSubItems)) {
+        $lines += "$SubPrefix$part"
+    }
+
+    if ($lines.Count -eq 0 -and -not [string]::IsNullOrWhiteSpace($header)) {
+        $lines += "$PrimaryPrefix$header"
+    }
+
+    return $lines
+}
+
 function Get-OrCreateMilestoneNumber {
     param(
         [string]$Repo,
@@ -830,6 +913,7 @@ function New-GitHubIssue {
                 Number = $issueNumber
                 Url = $issueUrl
                 Error = ""
+                IsRateLimited = $false
             }
         } else {
             $errorText = "$result"
@@ -875,6 +959,7 @@ function New-GitHubIssue {
                         Number = $issueNumber
                         Url = $issueUrl
                         Error = ""
+                        IsRateLimited = $false
                     }
                 }
 
@@ -886,6 +971,7 @@ function New-GitHubIssue {
                     Number = 0
                     Url = ""
                     Error = "Fallback without labels failed"
+                    IsRateLimited = ($errorText -match 'secondary rate limit' -or $fallbackResult -match 'secondary rate limit' -or $errorText -match 'HTTP 403' -or $fallbackResult -match 'HTTP 403')
                 }
             }
 
@@ -896,6 +982,7 @@ function New-GitHubIssue {
                 Number = 0
                 Url = ""
                 Error = "$errorText"
+                IsRateLimited = ($errorText -match 'secondary rate limit' -or $errorText -match 'HTTP 403')
             }
         }
         
@@ -907,6 +994,7 @@ function New-GitHubIssue {
             Number = 0
             Url = ""
             Error = "$_"
+            IsRateLimited = ("$_" -match 'secondary rate limit' -or "$_" -match 'HTTP 403')
         }
     }
 }
@@ -1157,7 +1245,7 @@ function Get-RoadmapIssueContext {
         $phaseSteps = @()
         for ($p = 0; $p -lt $lines.Count; $p++) {
             if ($lines[$p] -match '^\s*#{2,6}\s*(Phase\s+\d+.*)\s*$') {
-                $phaseTitle = $matches[1].Trim()
+                $phaseTitle = Normalize-MarkdownLine -Text $matches[1].Trim() -MaxLength 140
                 $phaseItems = @()
 
                 for ($k = $p + 1; $k -lt $lines.Count; $k++) {
@@ -1167,6 +1255,8 @@ function Get-RoadmapIssueContext {
 
                     if ($lines[$k] -match '^\s*[-*]\s+' -or $lines[$k] -match '^\s*\d+\.\s+') {
                         $clean = ($lines[$k] -replace '^\s*[-*]\s+', '' -replace '^\s*\d+\.\s+', '').Trim()
+                        $clean = ($clean -replace '^\[[^\]]\]\s+', '').Trim()
+                        $clean = Normalize-MarkdownLine -Text $clean -MaxLength 180
                         if (-not [string]::IsNullOrWhiteSpace($clean)) {
                             $phaseItems += $clean
                         }
@@ -1619,6 +1709,7 @@ function New-ModuleIssuesAI {
     $created = 0
     $failed = 0
     $current = 0
+    $stoppedByRateLimit = $false
     $issueLabels = @($ModuleName, "enhancement", "priority:medium")
 
     $labelsReady = Ensure-LabelsExist -Repo $Repository -Labels $issueLabels -DryRun:$DryRun
@@ -1669,28 +1760,55 @@ function New-ModuleIssuesAI {
                 if ($milestoneNumber -gt 0) {
                     Write-Host "    Milestone zugewiesen: $milestoneTitle (#$milestoneNumber)" -ForegroundColor Gray
                 }
+            } else {
+                Write-Host "    Hinweis: kein Target/MilestonePrefix -> kein Milestone" -ForegroundColor DarkYellow
             }
         }
 
         $relationshipBlock = ""
-        if ($EnableRelationships -and $candidate) {
-            $candidateType = if ($candidate.WorkType) { $candidate.WorkType.ToUpper() } else { "WORK" }
-            $candidateNumber = if ($candidate.number) { "#$($candidate.number)" } else { "" }
-            $candidateUrl = if ($candidate.url) { "$($candidate.url)" } else { "" }
+        if ($EnableRelationships) {
+            $relationshipLines = @()
+
+            if ($candidate) {
+                $candidateType = if ($candidate.WorkType) { $candidate.WorkType.ToUpper() } else { "WORK" }
+                $candidateNumber = if ($candidate.number) { "#$($candidate.number)" } else { "" }
+                $candidateUrl = if ($candidate.url) { "$($candidate.url)" } else { "" }
+
+                $relationshipLines += "- Potential relation to $candidateType $candidateNumber"
+                if (-not [string]::IsNullOrWhiteSpace($candidateUrl)) {
+                    $relationshipLines += "- URL: $candidateUrl"
+                }
+            } else {
+                $relationshipLines += "- No direct overlap identified in pre-check."
+            }
+
+            $relationshipLines += "- Relationship is for coordination only; do not expand this issue scope."
 
             $relationshipBlock = @"
-**Related Work:**
-- Potential relation to $candidateType $candidateNumber
-$(if (-not [string]::IsNullOrWhiteSpace($candidateUrl)) { "- URL: $candidateUrl" } else { "" })
+## Related Work
+$($relationshipLines -join "`n")
 
 "@
         }
 
+    $scopeBoundaryBlock = @"
+## Scope Boundary
+- In scope: implement only this roadmap item: "$item"
+- Out of scope: any other roadmap checklist item, even from the same module/section
+- Related issues/PRs are references only; implementation remains isolated to this issue
+- If additional work is required, open/link a follow-up issue instead of extending this issue
+
+"@
+
         $phaseBlock = ""
         if ($context -and $context.PhaseSteps -and $context.PhaseSteps.Count -gt 0) {
-            $phaseLines = @($context.PhaseSteps | ForEach-Object { "- $_" })
-            $phaseBlock = @"
-**Implementation Phases:**
+            $phaseLines = @()
+            foreach ($phaseStep in $context.PhaseSteps) {
+                $phaseLines += Expand-RoadmapStepLines -Step $phaseStep -PrimaryPrefix "" -SubPrefix "- " -MaxSubItems 6 -MaxPrimaryLength 120 -MaxSubLength 140
+            }
+
+                $phaseBlock = @"
+## Implementation Phases
 $($phaseLines -join "`n")
 
 "@
@@ -1700,24 +1818,27 @@ $($phaseLines -join "`n")
         if ($context) {
             $contextLines = @()
             if (-not [string]::IsNullOrWhiteSpace($context.SectionTitle)) {
-                $contextLines += "- Roadmap section: $($context.SectionTitle)"
+                $contextLines += "- Roadmap section: $(Normalize-MarkdownLine -Text $context.SectionTitle)"
             }
             if (-not [string]::IsNullOrWhiteSpace($context.Target)) {
-                $contextLines += "- Target: $($context.Target)"
+                $contextLines += "- Target: $(Normalize-MarkdownLine -Text $context.Target)"
             }
             if (-not [string]::IsNullOrWhiteSpace($milestoneTitle)) {
-                $contextLines += "- Planned milestone: $milestoneTitle"
+                $contextLines += "- Planned milestone: $(Normalize-MarkdownLine -Text $milestoneTitle)"
             }
             if ($context.EnhancementHints -and $context.EnhancementHints.Count -gt 0) {
                 $hintSample = @($context.EnhancementHints | Select-Object -First 3)
                 foreach ($h in $hintSample) {
-                    $contextLines += "- Enhancement hint: $h"
+                    $normalizedHint = Normalize-MarkdownLine -Text $h -MaxLength 160
+                    if (-not [string]::IsNullOrWhiteSpace($normalizedHint)) {
+                        $contextLines += "- Enhancement hint: $normalizedHint"
+                    }
                 }
             }
 
             if ($contextLines.Count -gt 0) {
                 $contextBlock = @"
-**Implementation Context:**
+## Implementation Context
 $($contextLines -join "`n")
 
 "@
@@ -1726,7 +1847,18 @@ $($contextLines -join "`n")
 
         $taskLines = @()
         if ($context -and $context.PhaseSteps -and $context.PhaseSteps.Count -gt 0) {
-            $taskLines = @($context.PhaseSteps | ForEach-Object { "- [ ] $_" })
+            foreach ($phaseStep in $context.PhaseSteps) {
+                $taskLines += Expand-RoadmapStepLines -Step $phaseStep -PrimaryPrefix "- [ ] " -SubPrefix "- [ ] " -SkipHeader -MaxSubItems 6 -MaxPrimaryLength 120 -MaxSubLength 140
+            }
+
+            if ($taskLines.Count -eq 0) {
+                $taskLines = @(
+                    "- [ ] Implement production-ready functionality (no stubs)",
+                    "- [ ] Add robust error handling and input validation",
+                    "- [ ] Add or extend automated tests",
+                    "- [ ] Update module documentation and usage examples"
+                )
+            }
         } else {
             $taskLines = @(
                 "- [ ] Design implementation architecture and interfaces",
@@ -1761,10 +1893,25 @@ $($contextLines -join "`n")
 
         $riskBlock = ""
         if ($riskLines.Count -gt 0) {
-            $riskPreview = @($riskLines | Select-Object -First 8)
-            $riskBlock = @"
-**Constraints & Risks:**
-    $($riskPreview -join "`n")
+            $riskPreview = @()
+            foreach ($risk in ($riskLines | Select-Object -First 8)) {
+                $normalizedRisk = Normalize-MarkdownLine -Text ($risk -replace '^-\s*', '')
+                if ([string]::IsNullOrWhiteSpace($normalizedRisk)) { continue }
+
+                $riskParts = @($normalizedRisk -split ';' | ForEach-Object { Normalize-MarkdownLine -Text $_ } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+                if ($riskParts.Count -le 1) {
+                    $riskPreview += "- $normalizedRisk"
+                    continue
+                }
+
+                foreach ($part in ($riskParts | Select-Object -First 6)) {
+                    $riskPreview += "- $part"
+                }
+            }
+
+                $riskBlock = @"
+        ## Constraints & Risks
+$($riskPreview -join "`n")
 
 "@
         }
@@ -1772,61 +1919,77 @@ $($contextLines -join "`n")
                 $ruleRefs = Get-DesignRuleReferences -ModuleName $ModuleName
                 $ruleRefLines = @()
                 if ($ruleRefs.Count -gt 0) {
-                        $ruleRefLines = @($ruleRefs | ForEach-Object { "  - $_" })
+                    $ruleRefLines = @($ruleRefs | ForEach-Object { "  - [ ] $_" })
                 } else {
-                        $ruleRefLines = @("  - docs/ (module-specific design and implementation guides)")
+                    $ruleRefLines = @("  - [ ] docs/ (module-specific design and implementation guides)")
                 }
 
                 $workflowBlock = @"
-**Mandatory Delivery Workflow (ThemisDB Rules):**
+## Mandatory Delivery Workflow (ThemisDB Rules)
 - [ ] Phase 0: Existing code review before implementation
-    - [ ] Identify existing files/symbols/interfaces and document reuse plan
-    - [ ] Verify no duplicate implementation of existing functionality
-    - [ ] Record affected files and integration points before coding
+  - [ ] Identify existing files/symbols/interfaces and document reuse plan
+  - [ ] Verify no duplicate implementation of existing functionality
+  - [ ] Record affected files and integration points before coding
+- [ ] Scope gate (must pass before coding)
+  - [ ] Confirm implementation target is only the single issue description
+  - [ ] Confirm no additional roadmap items are implemented in this issue/PR
+  - [ ] Any newly discovered work is split into separate linked issue(s)
 - [ ] Design and implementation rules reviewed from:
 $($ruleRefLines -join "`n")
 - [ ] Architecture and compatibility validation
-    - [ ] Confirm behavior compatibility with existing APIs unless breaking change is explicitly declared
-    - [ ] Confirm telemetry/logging/metrics integration follows existing module patterns
+  - [ ] Confirm behavior compatibility with existing APIs unless breaking change is explicitly declared
+  - [ ] Confirm telemetry/logging/metrics integration follows existing module patterns
 - [ ] Code review gate before completion
-    - [ ] Self-review against roadmap acceptance criteria
-    - [ ] Cross-check for overlap/duplication with existing implementations
+  - [ ] Self-review against roadmap acceptance criteria
+  - [ ] Cross-check for overlap/duplication with existing implementations
 - [ ] Validation gate
-    - [ ] Unit + integration tests updated/added
-    - [ ] Performance impact measured against baseline
+  - [ ] Unit + integration tests updated/added
+  - [ ] Performance impact measured against baseline
 
 "@
         
         # Generiere Body
         $body = @"
-**Module:** $ModuleName
+# [$ModuleName] $optimizedTitle
 
-**Description:**
-$item
+## Summary
+- Module: $ModuleName
+- Item: $item
+$(if (-not [string]::IsNullOrWhiteSpace($target)) { "- Target: $target" } else { "" })
+$(if (-not [string]::IsNullOrWhiteSpace($milestoneTitle)) { "- Milestone: $milestoneTitle" } else { "" })
 
 $(if ($isUncertain) {
-"**Uncertainty Note:**
-Potential overlap with existing GitHub work item. Please verify manually before implementation.
+"## Uncertainty Note
+- Potential overlap with existing GitHub work item.
+- Verify manually before implementation.
 "
 } else { "" })
 
 $contextBlock
 $phaseBlock
 $relationshipBlock
+$scopeBoundaryBlock
 $workflowBlock
 
-**Implementation Tasks:**
+## Implementation Tasks
 $($taskLines -join "`n")
 
-**Acceptance Criteria:**
+## Acceptance Criteria
 $($acceptanceLines -join "`n")
 
 $riskBlock
 
-**Generated by:** AI-powered GitHub Management Script
-$(if ($UseAI) { "**AI Model:** $script:OllamaModel" } else { "" })
-**Source Roadmap:** $RoadmapPath
+## Metadata
+- Generated by: AI-powered GitHub Management Script
+$(if ($UseAI) { "- AI Model: $script:OllamaModel" } else { "" })
+- Source Roadmap: $RoadmapPath (context only, not scope authorization for additional items)
 "@
+
+    $body = [regex]::Replace($body, '(?m)^\s{4,}(?=##\s)', '')
+    $body = [regex]::Replace($body, '(?m)^\s{4,}(?=-\s)', '')
+    $body = [regex]::Replace($body, '(?m)^\s{4,}(?=-\s\[\s?[xX]?\s?\])', '')
+    $body = [regex]::Replace($body, '(?m)^\s{2,}(?=(\*\*[^\n]+\*\*))', '')
+    $body = [regex]::Replace($body, '(?m)\n{3,}', "`n`n")
 
         if ($DryRun) {
             if ($EnableMilestones) {
@@ -1874,6 +2037,12 @@ $(if ($UseAI) { "**AI Model:** $script:OllamaModel" } else { "" })
         } else {
             $failed++
 
+            if ($issueResult.ContainsKey("IsRateLimited") -and $issueResult.IsRateLimited) {
+                Write-Host "    Abbruch fuer Modul '$ModuleName': GitHub Secondary Rate Limit erkannt. Keine ROADMAP-Statusaenderung auf [?]." -ForegroundColor Yellow
+                $stoppedByRateLimit = $true
+                break
+            }
+
             $null = Set-RoadmapItemStatus `
                 -RoadmapPath $RoadmapPath `
                 -ItemTitle $item `
@@ -1889,6 +2058,9 @@ $(if ($UseAI) { "**AI Model:** $script:OllamaModel" } else { "" })
     Write-Host "  Erstellt: $created" -ForegroundColor Green
     if ($failed -gt 0) {
         Write-Host "  Fehlgeschlagen: $failed" -ForegroundColor Red
+    }
+    if ($stoppedByRateLimit) {
+        Write-Host "  Hinweis: Lauf wegen GitHub Secondary Rate Limit vorzeitig beendet." -ForegroundColor Yellow
     }
     Write-Host "  =============================================================" -ForegroundColor Green
     
