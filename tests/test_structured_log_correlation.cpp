@@ -14,6 +14,7 @@
 #include "core/concerns/spdlog_logger_adapter.h"
 #include "core/concerns/noop_implementations.h"
 #include <gtest/gtest.h>
+#include <atomic>
 #include <memory>
 #include <string>
 #include <sstream>
@@ -26,7 +27,7 @@ using namespace themis::core::concerns;
 // TraceContext
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(TraceContextTest, DefaultIsEmpty) {
+TEST(StructLogTraceContextTest, DefaultIsEmpty) {
     TraceContext tc;
     EXPECT_TRUE(tc.empty());
     EXPECT_TRUE(tc.trace_id.empty());
@@ -34,25 +35,25 @@ TEST(TraceContextTest, DefaultIsEmpty) {
     EXPECT_TRUE(tc.request_id.empty());
 }
 
-TEST(TraceContextTest, NotEmptyWithTraceId) {
+TEST(StructLogTraceContextTest, NotEmptyWithTraceId) {
     TraceContext tc;
     tc.trace_id = "abc123";
     EXPECT_FALSE(tc.empty());
 }
 
-TEST(TraceContextTest, NotEmptyWithSpanId) {
+TEST(StructLogTraceContextTest, NotEmptyWithSpanId) {
     TraceContext tc;
     tc.span_id = "dead0001";
     EXPECT_FALSE(tc.empty());
 }
 
-TEST(TraceContextTest, NotEmptyWithRequestId) {
+TEST(StructLogTraceContextTest, NotEmptyWithRequestId) {
     TraceContext tc;
     tc.request_id = "req-99";
     EXPECT_FALSE(tc.empty());
 }
 
-TEST(TraceContextTest, AllFieldsSettable) {
+TEST(StructLogTraceContextTest, AllFieldsSettable) {
     TraceContext tc;
     tc.trace_id   = "trace-111";
     tc.span_id    = "span-222";
@@ -97,7 +98,7 @@ public:
     std::vector<Record> records;
 };
 
-TEST(LogWithContextDefaultTest, InjectsTraceId) {
+TEST(StructLogILoggerDefaultTest, InjectsTraceId) {
     CapturingLogger logger;
     TraceContext ctx;
     ctx.trace_id = "abc";
@@ -106,7 +107,7 @@ TEST(LogWithContextDefaultTest, InjectsTraceId) {
     EXPECT_EQ("abc", logger.records[0].fields.at("trace_id"));
 }
 
-TEST(LogWithContextDefaultTest, InjectsSpanId) {
+TEST(StructLogILoggerDefaultTest, InjectsSpanId) {
     CapturingLogger logger;
     TraceContext ctx;
     ctx.span_id = "111";
@@ -115,7 +116,7 @@ TEST(LogWithContextDefaultTest, InjectsSpanId) {
     EXPECT_EQ("111", logger.records[0].fields.at("span_id"));
 }
 
-TEST(LogWithContextDefaultTest, InjectsRequestId) {
+TEST(StructLogILoggerDefaultTest, InjectsRequestId) {
     CapturingLogger logger;
     TraceContext ctx;
     ctx.request_id = "req-42";
@@ -124,7 +125,7 @@ TEST(LogWithContextDefaultTest, InjectsRequestId) {
     EXPECT_EQ("req-42", logger.records[0].fields.at("request_id"));
 }
 
-TEST(LogWithContextDefaultTest, InjectsAllThreeIds) {
+TEST(StructLogILoggerDefaultTest, InjectsAllThreeIds) {
     CapturingLogger logger;
     TraceContext ctx{"t-1", "s-2", "r-3"};
     logger.logWithContext(ILogger::Level::WARN, "msg", ctx, {{"extra", "val"}});
@@ -136,7 +137,7 @@ TEST(LogWithContextDefaultTest, InjectsAllThreeIds) {
     EXPECT_EQ("val",   f.at("extra"));
 }
 
-TEST(LogWithContextDefaultTest, EmptyContextDoesNotInjectFields) {
+TEST(StructLogILoggerDefaultTest, EmptyContextDoesNotInjectFields) {
     CapturingLogger logger;
     TraceContext ctx; // all empty
     logger.logWithContext(ILogger::Level::INFO, "msg", ctx);
@@ -144,7 +145,7 @@ TEST(LogWithContextDefaultTest, EmptyContextDoesNotInjectFields) {
     EXPECT_TRUE(logger.records[0].fields.empty());
 }
 
-TEST(LogWithContextDefaultTest, UserFieldsNotOverwrittenByContextIds) {
+TEST(StructLogILoggerDefaultTest, UserFieldsNotOverwrittenByContextIds) {
     CapturingLogger logger;
     TraceContext ctx{"t-1", "s-1", "r-1"};
     // User supplies their own trace_id — ILogger default does NOT overwrite it
@@ -167,14 +168,18 @@ static std::pair<std::shared_ptr<SpdlogLoggerAdapter>, std::shared_ptr<std::ostr
 makeSpdlogAdapter(bool json_mode = false) {
     auto oss  = std::make_shared<std::ostringstream>();
     auto sink = std::make_shared<spdlog::sinks::ostream_sink_st>(*oss);
-    auto inner = std::make_shared<spdlog::logger>("test", sink);
+    // Use a unique name per call to avoid spdlog duplicate-logger warnings
+    // when multiple tests run in the same process.
+    static std::atomic<int> counter{0};
+    std::string name = "struct_log_test_" + std::to_string(++counter);
+    auto inner = std::make_shared<spdlog::logger>(name, sink);
     inner->set_level(spdlog::level::trace);
     inner->set_pattern("%v"); // emit just the message, no timestamp noise
     auto adapter = std::make_shared<SpdlogLoggerAdapter>(inner, json_mode);
     return {adapter, oss};
 }
 
-TEST(SpdlogAdapterPlainTextTest, PrependTraceId) {
+TEST(StructLogSpdlogPlainTextTest, PrependTraceId) {
     auto [adapter, oss] = makeSpdlogAdapter();
     TraceContext ctx;
     ctx.trace_id = "abc123";
@@ -184,7 +189,7 @@ TEST(SpdlogAdapterPlainTextTest, PrependTraceId) {
     EXPECT_NE(std::string::npos, out.find("hello"));
 }
 
-TEST(SpdlogAdapterPlainTextTest, PrependSpanId) {
+TEST(StructLogSpdlogPlainTextTest, PrependSpanId) {
     auto [adapter, oss] = makeSpdlogAdapter();
     TraceContext ctx;
     ctx.span_id = "dead0001";
@@ -192,7 +197,7 @@ TEST(SpdlogAdapterPlainTextTest, PrependSpanId) {
     EXPECT_NE(std::string::npos, oss->str().find("[span=dead0001]"));
 }
 
-TEST(SpdlogAdapterPlainTextTest, PrependRequestId) {
+TEST(StructLogSpdlogPlainTextTest, PrependRequestId) {
     auto [adapter, oss] = makeSpdlogAdapter();
     TraceContext ctx;
     ctx.request_id = "req-7";
@@ -200,7 +205,7 @@ TEST(SpdlogAdapterPlainTextTest, PrependRequestId) {
     EXPECT_NE(std::string::npos, oss->str().find("[req=req-7]"));
 }
 
-TEST(SpdlogAdapterPlainTextTest, PrependAllThreeIds) {
+TEST(StructLogSpdlogPlainTextTest, PrependAllThreeIds) {
     auto [adapter, oss] = makeSpdlogAdapter();
     TraceContext ctx{"t-1", "s-2", "r-3"};
     adapter->logWithContext(ILogger::Level::INFO, "op", ctx);
@@ -211,7 +216,7 @@ TEST(SpdlogAdapterPlainTextTest, PrependAllThreeIds) {
     EXPECT_NE(std::string::npos, out.find("op"));
 }
 
-TEST(SpdlogAdapterPlainTextTest, EmptyContextProducesNoPrefix) {
+TEST(StructLogSpdlogPlainTextTest, EmptyContextProducesNoPrefix) {
     auto [adapter, oss] = makeSpdlogAdapter();
     TraceContext ctx; // all empty
     adapter->logWithContext(ILogger::Level::INFO, "plain", ctx);
@@ -222,7 +227,7 @@ TEST(SpdlogAdapterPlainTextTest, EmptyContextProducesNoPrefix) {
     EXPECT_NE(std::string::npos, out.find("plain"));
 }
 
-TEST(SpdlogAdapterPlainTextTest, UserFieldsAppendedAfterMessage) {
+TEST(StructLogSpdlogPlainTextTest, UserFieldsAppendedAfterMessage) {
     auto [adapter, oss] = makeSpdlogAdapter();
     TraceContext ctx;
     ctx.trace_id = "t";
@@ -235,7 +240,7 @@ TEST(SpdlogAdapterPlainTextTest, UserFieldsAppendedAfterMessage) {
 // SpdlogLoggerAdapter::logWithContext() — JSON mode
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(SpdlogAdapterJsonTest, TraceIdAppearsInJson) {
+TEST(StructLogSpdlogJsonTest, TraceIdAppearsInJson) {
     auto [adapter, oss] = makeSpdlogAdapter(/*json_mode=*/true);
     TraceContext ctx{"tr-abc", "", ""};
     adapter->logWithContext(ILogger::Level::INFO, "ok", ctx);
@@ -244,7 +249,7 @@ TEST(SpdlogAdapterJsonTest, TraceIdAppearsInJson) {
     EXPECT_NE(std::string::npos, out.find("tr-abc"));
 }
 
-TEST(SpdlogAdapterJsonTest, SpanIdAppearsInJson) {
+TEST(StructLogSpdlogJsonTest, SpanIdAppearsInJson) {
     auto [adapter, oss] = makeSpdlogAdapter(true);
     TraceContext ctx{"", "sp-001", ""};
     adapter->logWithContext(ILogger::Level::INFO, "ok", ctx);
@@ -253,7 +258,7 @@ TEST(SpdlogAdapterJsonTest, SpanIdAppearsInJson) {
     EXPECT_NE(std::string::npos, out.find("sp-001"));
 }
 
-TEST(SpdlogAdapterJsonTest, RequestIdAppearsInJson) {
+TEST(StructLogSpdlogJsonTest, RequestIdAppearsInJson) {
     auto [adapter, oss] = makeSpdlogAdapter(true);
     TraceContext ctx{"", "", "rq-55"};
     adapter->logWithContext(ILogger::Level::INFO, "ok", ctx);
@@ -262,7 +267,7 @@ TEST(SpdlogAdapterJsonTest, RequestIdAppearsInJson) {
     EXPECT_NE(std::string::npos, out.find("rq-55"));
 }
 
-TEST(SpdlogAdapterJsonTest, AllThreeIdsInJson) {
+TEST(StructLogSpdlogJsonTest, AllThreeIdsInJson) {
     auto [adapter, oss] = makeSpdlogAdapter(true);
     TraceContext ctx{"tr-1", "sp-2", "rq-3"};
     adapter->logWithContext(ILogger::Level::WARN, "warn", ctx);
@@ -272,7 +277,7 @@ TEST(SpdlogAdapterJsonTest, AllThreeIdsInJson) {
     EXPECT_NE(std::string::npos, out.find("rq-3"));
 }
 
-TEST(SpdlogAdapterJsonTest, UserFieldsAlsoPresentInJson) {
+TEST(StructLogSpdlogJsonTest, UserFieldsAlsoPresentInJson) {
     auto [adapter, oss] = makeSpdlogAdapter(true);
     TraceContext ctx{"tr", "", ""};
     adapter->logWithContext(ILogger::Level::INFO, "op", ctx, {{"db.table", "users"}});
@@ -280,7 +285,7 @@ TEST(SpdlogAdapterJsonTest, UserFieldsAlsoPresentInJson) {
     EXPECT_NE(std::string::npos, out.find("users"));
 }
 
-TEST(SpdlogAdapterJsonTest, OutputIsValidJsonObject) {
+TEST(StructLogSpdlogJsonTest, OutputIsValidJsonObject) {
     auto [adapter, oss] = makeSpdlogAdapter(true);
     TraceContext ctx{"tr-x", "sp-y", "rq-z"};
     adapter->logWithContext(ILogger::Level::INFO, "event", ctx, {{"key", "val"}});
@@ -297,7 +302,7 @@ TEST(SpdlogAdapterJsonTest, OutputIsValidJsonObject) {
 // IContext::toTraceContext() — backward compatibility (no span_id)
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(SimpleContextTraceContextTest, TraceIdAndRequestIdPopulated) {
+TEST(StructLogSimpleContextTest, TraceIdAndRequestIdPopulated) {
     auto ctx = SimpleContext::create("t-abc", "r-123");
     TraceContext tc = ctx->toTraceContext();
     EXPECT_EQ("t-abc", tc.trace_id);
@@ -306,7 +311,7 @@ TEST(SimpleContextTraceContextTest, TraceIdAndRequestIdPopulated) {
     EXPECT_TRUE(tc.span_id.empty());
 }
 
-TEST(SimpleContextTraceContextTest, EmptyContextProducesEmptyTraceContext) {
+TEST(StructLogSimpleContextTest, EmptyContextProducesEmptyTraceContext) {
     auto ctx = SimpleContext::create();
     TraceContext tc = ctx->toTraceContext();
     EXPECT_TRUE(tc.empty());
@@ -316,12 +321,12 @@ TEST(SimpleContextTraceContextTest, EmptyContextProducesEmptyTraceContext) {
 // ConcernsContext::logWithTrace()
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST(ConcernsContextLogWithTraceTest, DoesNotThrow) {
+TEST(StructLogConcernsContextTest, DoesNotThrow) {
     auto ctx = ConcernsContext::createNoOp();
     EXPECT_NO_THROW(ctx->logWithTrace(ILogger::Level::INFO, "hello"));
 }
 
-TEST(ConcernsContextLogWithTraceTest, DoesNotThrowWithFields) {
+TEST(StructLogConcernsContextTest, DoesNotThrowWithFields) {
     auto ctx = ConcernsContext::createNoOp();
     EXPECT_NO_THROW(
         ctx->logWithTrace(ILogger::Level::ERROR, "db error",
@@ -329,7 +334,7 @@ TEST(ConcernsContextLogWithTraceTest, DoesNotThrowWithFields) {
     );
 }
 
-TEST(ConcernsContextLogWithTraceTest, InvokesLoggerLogWithContext) {
+TEST(StructLogConcernsContextTest, InvokesLoggerLogWithContext) {
     // Use a CapturingLogger to verify that logWithTrace() calls logWithContext().
     class TraceCapture : public ILogger {
     public:

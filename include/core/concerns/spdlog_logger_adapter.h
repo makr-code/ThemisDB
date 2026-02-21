@@ -162,7 +162,7 @@ public:
         }
     }
 
-
+    void setLevel(Level level) override {
         if (!logger_) return;
         logger_->set_level(toSpdlogLevel(level));
     }
