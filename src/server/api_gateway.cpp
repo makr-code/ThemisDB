@@ -27,6 +27,7 @@
 #include "server/api_gateway.h"
 #include "server/api_version_config.h"
 #include "server/rate_limiter_v2.h"
+#include "sharding/urn.h"
 #include <chrono>
 #include <ctime>
 #include <sstream>
@@ -174,12 +175,14 @@ http::response<http::string_body> APIGateway::handleRequest(
                 
             case RouteTarget::SHARD:
                 distributed_requests_++;
-                // Extract shard ID from request path/URN
-                // For now, fallback to local execution if extraction fails
                 if (shard_router_) {
-                    // TODO: Extract URN from request and route to appropriate shard
-                    // For now, use local execution as fallback
-                    response = executeLocal(req, local_handler);
+                    auto urn = extractUrnFromPath(std::string(req.target()));
+                    if (urn) {
+                        response = dispatchShardOperation(*urn, req);
+                    } else {
+                        // No valid URN — fall back to local execution
+                        response = executeLocal(req, local_handler);
+                    }
                 } else {
                     response = executeLocal(req, local_handler);
                 }
@@ -355,6 +358,76 @@ void APIGateway::registerDeprecation(
     }
 }
 
+std::optional<sharding::URN> APIGateway::extractUrnFromPath(const std::string& path) const {
+    // Check for /entities/{urn} convention first
+    const std::string entities_prefix = "/entities/";
+    auto urn_pos = path.find(entities_prefix);
+    if (urn_pos != std::string::npos) {
+        std::string urn_str = path.substr(urn_pos + entities_prefix.size());
+        auto qpos = urn_str.find('?');
+        if (qpos != std::string::npos) {
+            urn_str = urn_str.substr(0, qpos);
+        }
+        return sharding::URN::parse(urn_str);
+    }
+
+    // Fallback: look for any urn:themis: segment anywhere in the path
+    const std::string urn_marker = "urn:themis:";
+    auto marker_pos = path.find(urn_marker);
+    if (marker_pos != std::string::npos) {
+        std::string urn_str = path.substr(marker_pos);
+        auto qpos = urn_str.find('?');
+        if (qpos != std::string::npos) {
+            urn_str = urn_str.substr(0, qpos);
+        }
+        return sharding::URN::parse(urn_str);
+    }
+
+    return std::nullopt;
+}
+
+http::response<http::string_body> APIGateway::dispatchShardOperation(
+    const sharding::URN& urn,
+    const http::request<http::string_body>& req
+) {
+    nlohmann::json result_body;
+    bool ok = false;
+
+    if (req.method() == http::verb::get) {
+        auto data = shard_router_->get(urn);
+        if (data) {
+            result_body = *data;
+            ok = true;
+        }
+    } else if (req.method() == http::verb::put ||
+               req.method() == http::verb::post) {
+        nlohmann::json body;
+        if (!req.body().empty()) {
+            try {
+                body = nlohmann::json::parse(req.body());
+            } catch (const nlohmann::json::parse_error& e) {
+                spdlog::warn("APIGateway: invalid JSON in request body: {}", e.what());
+                return makeErrorResponse(http::status::bad_request,
+                    std::string("Invalid JSON: ") + e.what(), req);
+            }
+        }
+        ok = shard_router_->put(urn, body);
+        if (ok) result_body = {{"status", "ok"}};
+    } else if (req.method() == http::verb::delete_) {
+        ok = shard_router_->del(urn);
+        if (ok) result_body = {{"status", "deleted"}};
+    }
+
+    if (ok) {
+        http::response<http::string_body> response{http::status::ok, req.version()};
+        response.set(http::field::content_type, "application/json");
+        response.body() = result_body.dump();
+        response.prepare_payload();
+        return response;
+    }
+    return makeErrorResponse(http::status::not_found, "Entity not found or shard error", req);
+}
+
 APIGateway::RouteTarget APIGateway::determineRouteTarget(
     const http::request<http::string_body>& req
 ) {
@@ -510,28 +583,38 @@ http::response<http::string_body> APIGateway::executeRemote(
     }
     
     try {
-        // Execute request on remote shard via shard router
-        // Note: This requires full URN extraction and routing logic
-        // which depends on the specific request format
-        
-        // For now, this is a placeholder for future implementation
-        // In production, this would:
-        // 1. Extract URN or entity ID from request
-        // 2. Resolve to shard location via URN resolver
-        // 3. Execute request via remote executor
-        // 4. Record success/failure in circuit breaker
-        
-        spdlog::warn("Remote shard execution called but not fully implemented");
-        return makeErrorResponse(http::status::internal_server_error,
-                                "Remote shard execution requires additional configuration", req);
-        
-    } catch (const std::exception& e) {
-        spdlog::error("Remote execution failed: {}", e.what());
-        
-        // Record failure in circuit breaker
+        // Extract URN from path and dispatch via shard router
+        auto urn = extractUrnFromPath(std::string(req.target()));
+        if (urn) {
+            auto response = dispatchShardOperation(*urn, req);
+            bool success = (response.result() == http::status::ok);
+            if (config_.enable_circuit_breaker) {
+                auto cb = getCircuitBreaker(shard_id);
+                if (success) {
+                    cb->recordSuccess();
+                } else {
+                    cb->recordFailure();
+                }
+            }
+            return response;
+        }
+
+        // No URN found — forward as a generic query
+        auto query_result = shard_router_->executeQuery(std::string(req.target()));
         if (config_.enable_circuit_breaker) {
-            auto cb = getCircuitBreaker(shard_id);
-            cb->recordFailure();
+            getCircuitBreaker(shard_id)->recordSuccess();
+        }
+        http::response<http::string_body> response{http::status::ok, req.version()};
+        response.set(http::field::content_type, "application/json");
+        response.body() = query_result.dump();
+        response.prepare_payload();
+        return response;
+
+    } catch (const std::exception& e) {
+        spdlog::error("Remote execution failed for shard '{}': {}", shard_id, e.what());
+        
+        if (config_.enable_circuit_breaker) {
+            getCircuitBreaker(shard_id)->recordFailure();
         }
         
         return makeErrorResponse(http::status::service_unavailable,

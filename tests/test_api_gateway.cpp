@@ -260,3 +260,78 @@ TEST_F(APIGatewayTest, DeprecationHeadersOnDeprecatedEndpoint) {
     EXPECT_NE(response.find(APIHeaders::LINK), response.end());
 }
 
+/**
+ * @brief Test that entity paths without a shard router fall back to local execution
+ */
+TEST_F(APIGatewayTest, ShardRouteWithoutRouterFallsBackToLocal) {
+    namespace http = boost::beast::http;
+
+    // Enable sharding but provide no shard router (gateway constructed without one)
+    APIGateway::Config config;
+    config.gateway_id = "shard-fallback-gateway";
+    config.datacenter = "test-dc";
+    config.enable_sharding = true;
+    config.enable_query_federation = false;
+    config.enable_rate_limiting = false;
+    config.enable_load_shedding = false;
+
+    auto gw = std::make_unique<APIGateway>(
+        config, auth_, rate_limiter_, load_shedder_
+        // shard_router = nullptr (default)
+    );
+
+    http::request<http::string_body> req{http::verb::get,
+        "/entities/urn:themis:relational:ns:users:550e8400-e29b-41d4-a716-446655440000", 11};
+    req.set(http::field::host, "localhost");
+
+    bool local_called = false;
+    auto local_handler = [&local_called](const http::request<http::string_body>& r) {
+        local_called = true;
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"id":"fallback"})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gw->handleRequest(req, local_handler);
+    // Without a shard router the gateway must fall back to local execution
+    EXPECT_EQ(response.result(), http::status::ok);
+    EXPECT_TRUE(local_called);
+}
+
+/**
+ * @brief Test that non-URN entity paths fall back to local execution
+ */
+TEST_F(APIGatewayTest, ShardRouteWithInvalidUrnFallsBackToLocal) {
+    namespace http = boost::beast::http;
+
+    APIGateway::Config config;
+    config.gateway_id = "shard-invalid-urn-gateway";
+    config.datacenter = "test-dc";
+    config.enable_sharding = true;
+    config.enable_rate_limiting = false;
+    config.enable_load_shedding = false;
+
+    auto gw = std::make_unique<APIGateway>(
+        config, auth_, rate_limiter_, load_shedder_
+    );
+
+    // Path with /entities/ but no valid URN
+    http::request<http::string_body> req{http::verb::get,
+        "/entities/not-a-urn", 11};
+    req.set(http::field::host, "localhost");
+
+    bool local_called = false;
+    auto local_handler = [&local_called](const http::request<http::string_body>& r) {
+        local_called = true;
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"fallback":true})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gw->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    EXPECT_TRUE(local_called);
+}
+

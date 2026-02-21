@@ -379,7 +379,37 @@ private:
         const std::string& message,
         const http::request<http::string_body>& req
     );
-    
+
+    /**
+     * @brief Extract a urn:themis: URN from an HTTP request path
+     *
+     * Looks for either:
+     *  - /entities/{urn}   (entity endpoints)
+     *  - any path segment that starts with urn:themis:
+     *
+     * Query strings are stripped before returning.
+     *
+     * @param path HTTP target path (e.g. "/entities/urn:themis:...")
+     * @return Parsed URN if found and valid, std::nullopt otherwise
+     */
+    std::optional<sharding::URN> extractUrnFromPath(const std::string& path) const;
+
+    /**
+     * @brief Dispatch a shard operation using the shard router
+     *
+     * Performs GET/PUT/POST/DELETE on the shard router using the resolved URN,
+     * then wraps the result in an HTTP response. Falls back to a 404 response
+     * when the operation fails.
+     *
+     * @param urn     Resolved URN for the target entity
+     * @param req     Incoming HTTP request (method + body used)
+     * @return HTTP response (200 on success, 404/400 on failure)
+     */
+    http::response<http::string_body> dispatchShardOperation(
+        const sharding::URN& urn,
+        const http::request<http::string_body>& req
+    );
+
     /**
      * @brief Record request metrics
      * 
