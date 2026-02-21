@@ -33,6 +33,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         
         # Incremental LoRA training
         ../src/training/incremental_lora_trainer.cpp
+        
+        # End-to-end training pipeline orchestrator (Phase 7)
+        ../src/training/training_pipeline.cpp
     )
     
     # =========================================================================

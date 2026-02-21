@@ -1,3 +1,22 @@
+"""
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            analyze_workflows.py                               ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:17                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     528                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+"""
+
 #!/usr/bin/env python3
 """
 Workflow Inventory Analyzer for ThemisDB CI/CD Workflows
@@ -281,6 +300,8 @@ class WorkflowAnalyzer:
             # Categorization logic
             if 'release' in filename_lower or 'release' in name_lower:
                 categories['Release'].append(workflow)
+            elif 'maturity' in filename_lower or 'versioning' in filename_lower:
+                categories['Code Quality & Versioning'].append(workflow)
             elif 'security' in filename_lower or 'owasp' in filename_lower or 'audit' in filename_lower:
                 categories['Security & Compliance'].append(workflow)
             elif 'docs' in filename_lower or 'documentation' in filename_lower or 'wiki' in filename_lower:

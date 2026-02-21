@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            transaction_manager.h                              ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     293                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 ﻿#pragma once
 
 #include <string>
@@ -91,6 +110,34 @@ public:
         // Abschluss
         Status commit();
         void rollback();
+
+        // ── Savepoints ───────────────────────────────────────────────────────
+
+        /**
+         * @brief Record a savepoint at the current write position.
+         *
+         * Savepoints are stacked (LIFO).  Multiple calls to setSavePoint()
+         * create multiple nested savepoints.
+         *
+         * Returns an error if the transaction is not active.
+         */
+        Status setSavePoint();
+
+        /**
+         * @brief Rollback all writes since the most recent setSavePoint().
+         *
+         * Pops the latest savepoint.  Returns an error if there is no
+         * outstanding savepoint or the transaction is not active.
+         */
+        Status rollbackToSavePoint();
+
+        /**
+         * @brief Discard (commit) the most recent savepoint without undoing writes.
+         *
+         * Returns an error if there is no outstanding savepoint or the
+         * transaction is not active.
+         */
+        Status popSavePoint();
         
         // SAGA support
         Saga& getSaga() { return *saga_; }

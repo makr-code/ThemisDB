@@ -1,9 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_optimizer.h                                  ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     118                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <optional>
 #include <chrono>
+#include <unordered_map>
+#include <mutex>
+#include <atomic>
+#include <cstdint>
 
 namespace themis {
 
@@ -22,6 +45,8 @@ struct AggConfig;
  * - Multi-level aggregate selection (1m → 1h → 1d)
  * - Fallback to raw data when aggregates unavailable
  * - Query rewrite explanations
+ * - Predicate filter support for tag-based pre-filtering
+ * - Query result plan caching for repeated identical queries
  * 
  * Example:
  *   Query: SELECT avg(cpu_usage) FROM server01 WHERE time >= now() - 7d
@@ -32,11 +57,30 @@ struct AggConfig;
  */
 class TSQueryOptimizer {
 public:
+    /**
+     * @brief Predicate filter for tag-based pre-filtering
+     *
+     * Specifies tag key/value constraints that the optimizer can push down
+     * to reduce the amount of data scanned.
+     */
+    struct PredicateFilter {
+        std::string tag_key;           ///< Tag key to filter on (e.g., "region")
+        std::string tag_value;         ///< Required value (e.g., "us-east")
+        bool required = true;          ///< If true, only return points matching this filter
+
+        // Convenience factory
+        static PredicateFilter eq(const std::string& key, const std::string& value) {
+            return {key, value, true};
+        }
+    };
+
     struct OptimizationHint {
         bool use_aggregates = true;  // Try to use pre-aggregates
         int64_t min_window_for_agg_ms = 3600000;  // Min time range to use aggregates (1 hour)
         size_t max_raw_points = 10000;  // Max raw points before forcing aggregates
         bool explain = false;  // Return optimization plan
+        std::vector<PredicateFilter> predicates;  ///< Optional tag predicates to push down
+        bool use_cache = true;  ///< Whether to use/populate the query plan cache
     };
     
     struct QueryPlan {
@@ -47,6 +91,7 @@ public:
         size_t estimated_points;
         double estimated_speedup = 1.0;  // Speedup factor vs raw query
         std::string explanation;
+        std::vector<PredicateFilter> active_predicates;  ///< Predicates included in this plan
     };
     
     explicit TSQueryOptimizer(TSStore* store);
@@ -102,13 +147,83 @@ public:
         std::chrono::milliseconds window
     );
 
+    // ========== Query Plan Cache ==========
+
+    /**
+     * Clear the internal query plan cache.
+     */
+    void clearCache();
+
+    /**
+     * Returns the number of plans currently in the cache.
+     */
+    size_t cacheSize() const;
+
+    /**
+     * Returns total cache hits since creation or last reset.
+     */
+    uint64_t cacheHits() const { return cache_hits_.load(); }
+
+    /**
+     * Returns total cache misses since creation or last reset.
+     */
+    uint64_t cacheMisses() const { return cache_misses_.load(); }
+
+    // ========== Index-Aware Query Planning ==========
+
+    /**
+     * @brief Known index type hints for a metric.
+     *
+     * When the caller knows that a particular index is available for a metric,
+     * it can register the hint so the optimizer can factor index access cost
+     * into the query plan.
+     */
+    enum class IndexType {
+        None,        ///< No secondary index
+        TimeRange,   ///< RocksDB column-family per time-chunk (Hypertable)
+        Bloom,       ///< Bloom filter on entity/tag fields
+        Inverted     ///< Full inverted index on tags
+    };
+
+    struct IndexHint {
+        std::string metric;
+        IndexType   type = IndexType::None;
+        double      selectivity = 1.0; ///< Estimated fraction of rows selected (0.0 – 1.0)
+    };
+
+    /**
+     * Register an index hint for a metric.
+     * When the optimizer builds a plan for this metric, it considers the
+     * registered index to estimate the effective scan cost.
+     */
+    void registerIndexHint(IndexHint hint);
+
+    /**
+     * Retrieve the registered index hint for a metric (if any).
+     */
+    std::optional<IndexHint> getIndexHint(const std::string& metric) const;
+
 private:
     TSStore* store_;
     
     // Common aggregate window sizes (in increasing order)
     static const std::vector<std::chrono::milliseconds> COMMON_WINDOWS;
     
+    // Cache hit/miss counters — atomic for thread safety
+    mutable std::mutex cache_mutex_;
+    std::unordered_map<std::string, QueryPlan> plan_cache_;
+    mutable std::atomic<uint64_t> cache_hits_{0};
+    mutable std::atomic<uint64_t> cache_misses_{0};
+
+    // Index hints registry
+    mutable std::mutex index_mutex_;
+    std::unordered_map<std::string, IndexHint> index_hints_;
+
     // Helpers
+    std::string buildCacheKey(const std::string& metric,
+                               const std::optional<std::string>& entity,
+                               int64_t from_ms, int64_t to_ms,
+                               const OptimizationHint& hint) const;
     size_t estimateRawPointCount(int64_t time_range_ms) const;
     size_t estimateAggregatePointCount(int64_t time_range_ms, std::chrono::milliseconds window) const;
     bool shouldUseAggregate(size_t raw_points, size_t agg_points, const OptimizationHint& hint) const;

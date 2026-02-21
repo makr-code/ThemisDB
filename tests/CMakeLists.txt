@@ -254,6 +254,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
+        ../src/training/training_pipeline.cpp
     )
 endif()
 
@@ -1106,6 +1107,119 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
     message(STATUS "  Utilities Comprehensive: error handling, PII detection, stemming, OLAP engine")
 else()
     message(STATUS "Utilities comprehensive tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_utilities_comprehensive.cpp")
+endif()
+
+# ============================================================================
+# Utils Production Readiness Tests (Phases 1–8)
+# ============================================================================
+
+# Phase 1 – Logger production tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_logger_production.cpp")
+    message(STATUS "Adding Logger production tests (Phase 1)")
+    add_executable(test_logger_production test_logger_production.cpp)
+    target_link_libraries(test_logger_production PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_logger_production PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LoggerProductionTests COMMAND test_logger_production)
+    set_tests_properties(LoggerProductionTests PROPERTIES
+        LABELS "utils;logging;production;phase1;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Logger Production: JSON logging, rotation, PII redaction, metrics")
+endif()
+
+# Phase 2 – Tracing production tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_production.cpp")
+    message(STATUS "Adding Tracing production tests (Phase 2)")
+    add_executable(test_tracing_production test_tracing_production.cpp)
+    target_link_libraries(test_tracing_production PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_tracing_production PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME TracingProductionTests COMMAND test_tracing_production)
+    set_tests_properties(TracingProductionTests PROPERTIES
+        LABELS "utils;tracing;baggage;sampling;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Tracing Production: Baggage, SamplingStrategy, W3C propagation")
+endif()
+
+# Phase 2 – Sampling strategy unit tests (replaces stub)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_sampling_strategy.cpp")
+    message(STATUS "Adding Sampling Strategy tests (Phase 2)")
+    add_executable(test_sampling_strategy test_sampling_strategy.cpp)
+    target_link_libraries(test_sampling_strategy PRIVATE
+        ${TEST_LIBS}
+        themis_core
+    )
+    target_compile_definitions(test_sampling_strategy PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SamplingStrategyTests COMMAND test_sampling_strategy)
+    set_tests_properties(SamplingStrategyTests PROPERTIES
+        LABELS "utils;tracing;sampling;phase2;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  Sampling Strategy: ALWAYS_ON/OFF, PROBABILITY, PARENT_BASED")
+endif()
+
+# Phase 3 – Audit Logger production tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_audit_logger_production.cpp")
+    message(STATUS "Adding Audit Logger production tests (Phase 3)")
+    add_executable(test_audit_logger_production test_audit_logger_production.cpp)
+    target_link_libraries(test_audit_logger_production PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        OpenSSL::Crypto
+        Threads::Threads
+    )
+    target_compile_definitions(test_audit_logger_production PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME AuditLoggerProductionTests COMMAND test_audit_logger_production)
+    set_tests_properties(AuditLoggerProductionTests PROPERTIES
+        LABELS "utils;audit;search;compliance;phase3;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  Audit Logger Production: search API, compliance reporting, retention")
+endif()
+
+# Phase 5 – LEK Manager lifecycle tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_lek_manager_lifecycle.cpp")
+    message(STATUS "Adding LEK Manager lifecycle tests (Phase 5)")
+    add_executable(test_lek_manager_lifecycle test_lek_manager_lifecycle.cpp)
+    target_link_libraries(test_lek_manager_lifecycle PRIVATE
+        ${TEST_LIBS}
+        themis_core
+    )
+    target_compile_definitions(test_lek_manager_lifecycle PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME LEKManagerLifecycleTests COMMAND test_lek_manager_lifecycle)
+    set_tests_properties(LEKManagerLifecycleTests PROPERTIES
+        LABELS "utils;lek;key-management;expiry;revocation;phase5;unit"
+        TIMEOUT 30
+    )
+    message(STATUS "  LEK Manager Lifecycle: expiry, revocation, migration")
+endif()
+
+# Phase 7 – SelfAwareness production tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_self_awareness_production.cpp")
+    message(STATUS "Adding SelfAwareness production tests (Phase 7)")
+    add_executable(test_self_awareness_production test_self_awareness_production.cpp)
+    target_link_libraries(test_self_awareness_production PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        yaml-cpp::yaml-cpp
+        Threads::Threads
+    )
+    target_compile_definitions(test_self_awareness_production PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME SelfAwarenessProductionTests COMMAND test_self_awareness_production)
+    set_tests_properties(SelfAwarenessProductionTests PROPERTIES
+        LABELS "utils;self-awareness;snapshot;anomaly;phase7;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  SelfAwareness Production: snapshot persistence, anomaly detection")
 endif()
 
 # Graph Index Comprehensive Tests

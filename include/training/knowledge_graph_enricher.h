@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            knowledge_graph_enricher.h                         ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     176                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -158,6 +177,14 @@ public:
      * @param aql_query AQL query template with placeholders
      */
     void setCustomQuery(const std::string& query_name, const std::string& aql_query);
+
+    /**
+     * @brief Get AQL query template by name (Phase 6)
+     * @param query_name Built-in name ("find_provisions", "find_case_law",
+     *                   "find_similar", "update_context", "fetch_all") or custom name
+     * @return AQL query template string, or empty string if not found
+     */
+    std::string getQueryTemplate(const std::string& query_name) const;
 
 private:
     class Impl;
