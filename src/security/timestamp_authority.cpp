@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            timestamp_authority.cpp                            ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   35.0/100                                       ║
+    • Total Lines:     190                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Minimal stub implementation for TimestampAuthority.
 // Deterministic, non-cryptographic timestamps (no OpenSSL / CURL).
 #ifndef THEMIS_USE_OPENSSL_TSA
