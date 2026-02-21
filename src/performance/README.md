@@ -12,6 +12,18 @@ The Performance module provides ThemisDB's comprehensive optimization infrastruc
 **Adaptive**: Runtime feature toggles allow dynamic optimization without recompilation
 **Observable**: Comprehensive metrics and profiling for performance analysis
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `benchmark_runner.cpp` | Benchmark execution harness and result reporting |
+| `performance_profiler.cpp` | Query and operation profiling with hardware counters |
+| `metrics_collector.cpp` | Resource metrics collection (CPU, memory, I/O, GPU) |
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Core benchmarking and performance profiling operational; JIT compilation integration planned.
+
 ## Scope
 
 **In Scope:**

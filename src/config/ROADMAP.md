@@ -1,4 +1,5 @@
 # Config Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 Production-ready for legacy-to-new config path resolution with LRU caching, path validation, deprecation metadata, and thread-safe metrics. Runtime hot-reload and YAML/JSON parsing are out of scope for this module.
@@ -34,6 +35,31 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [ ] Runtime hot-reload of resolved path cache on SIGHUP
 - [ ] Config audit trail: log which paths were accessed and when
 - [ ] Multi-environment config overlay (dev/staging/prod path sets)
+
+## Implementation Phases
+
+### Phase 1: Legacy Path Resolution and Caching (Status: Completed)
+- [x] Built legacy-to-new path mapping table with 60+ entries across all config categories
+- [x] Implemented filesystem fallback: tries new path first, emits deprecation warning on fallback
+- [x] Implemented LRU cache with capacity 1000 and TTL 5 min for resolved paths
+- [x] Added typed exception hierarchy (`ConfigNotFoundException`, `ConfigPathException`, etc.)
+- [x] Implemented thread-safe metrics counters using `std::atomic` (hits, misses, legacy fallbacks)
+
+### Phase 2: Security and API Hardening (Status: Completed)
+- [x] Added path traversal prevention with `..` normalization and absolute-path rejection
+- [x] Added deprecation and removal-date metadata per mapped path
+- [x] Added migration guide URL per deprecated path
+- [x] Implemented `tryResolve()` optional API returning `std::nullopt` on missing path
+
+### Phase 3: Metadata Completion and Validation Hardening (Status: In Progress)
+- [~] Complete `METADATA_TABLE` entries for all 60+ mapped paths in `config/path_mapping_metadata.h`
+- [~] Harden absolute path validation to reject symlinks outside the config root
+
+### Phase 4: Tooling and Observability (Status: Planned)
+- [ ] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate
+- [ ] Build deprecation report CLI to scan a deployment and list all legacy paths in use
+- [ ] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`)
+- [ ] Add multi-environment config overlay support (dev/staging/prod path sets)
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

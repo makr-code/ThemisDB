@@ -1,5 +1,7 @@
 # LLM Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and InferenceEngineEnhanced serve distinct use cases; shared InferenceHandle extracted to eliminate circular dependencies.
 
@@ -36,6 +38,31 @@ v1.15.0 – Production-ready dual-engine architecture. AsyncInferenceEngine and 
 - [ ] Multi-modal input support (image + text)
 - [ ] Federated inference across distributed nodes
 - [ ] LoRA adapter hot-loading at inference time
+- [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
+
+## Implementation Phases
+
+### Phase 1: Dual-Engine Architecture (Status: Completed ✅)
+- [x] AsyncInferenceEngine – lightweight async wrapper for single-model inference
+- [x] InferenceEngineEnhanced – enterprise multi-model engine with KV-cache and load balancing
+- [x] InferenceHandle extracted to `include/llm/inference_handle.h` (circular-dependency fix)
+- [x] Priority queue and worker thread pool for request scheduling
+- [x] Dynamic batching for improved throughput
+- [x] Context caching (KV-cache reuse across requests)
+- [x] Multi-model load balancing with backpressure handling
+- [x] Grammar-constrained generation with runtime API detection
+
+### Phase 2: Streaming & Shared Worker Pool (Status: In Progress 🚧)
+- [~] Streaming token output via SSE / chunked responses (`llm/streaming_handler.cpp`) (Target: Q2 2026)
+- [~] Shared worker pool between AsyncInferenceEngine and InferenceEngineEnhanced (Target: Q2 2026)
+- [ ] Per-request timeout and cancellation propagation (Target: Q2 2026)
+- [ ] Unified metrics dashboard for both engines (Target: Q3 2026)
+
+### Phase 3: Ecosystem & Performance (Status: Planned 📋)
+- [ ] OpenAI-compatible `/v1/chat/completions` REST adapter
+- [ ] Speculative decoding for latency reduction
+- [ ] LoRA adapter hot-loading at inference time (`llm/adapter_registry.cpp`)
+- [ ] Multi-model routing based on prompt content or metadata tags
 - [ ] Model quantization pipeline integration (GGUF, AWQ, GPTQ)
 
 ## Production Readiness Checklist

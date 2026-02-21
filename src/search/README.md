@@ -2,6 +2,27 @@
 
 Full-text and semantic search capabilities for ThemisDB.
 
+## Module Purpose
+
+Implements full-text and hybrid search for ThemisDB, providing inverted index management, BM25 relevance scoring, and hybrid vector+keyword search capabilities.
+
+## Subsystem Scope
+
+**In scope:** Inverted index construction and management, BM25/TF-IDF scoring, hybrid search (vector similarity + keyword), search result ranking and pagination.
+
+**Out of scope:** Vector index construction (handled by index module), language-specific stemming/stopwords (handled by utils module), LLM-based query expansion (handled by aql module).
+
+## Relevant Interfaces
+
+- `inverted_index.cpp` — inverted index construction and lookup
+- `bm25_scorer.cpp` — BM25 relevance scoring
+- `hybrid_search.cpp` — combined vector and keyword search
+- `search_engine.cpp` — query dispatch and result ranking
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Inverted index and BM25 scoring operational; hybrid vector+keyword search in progress.
+
 ## Components
 
 - **Hybrid Search**: Combines BM25 (lexical) and vector (semantic) search with Reciprocal Rank Fusion (RRF)

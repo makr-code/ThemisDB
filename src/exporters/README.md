@@ -2,6 +2,26 @@
 
 Data export functionality for ThemisDB.
 
+## Module Purpose
+
+Provides data export functionality for ThemisDB, primarily JSONL export optimized for LLM training with LoRA adapter metadata generation and vLLM multi-LoRA integration.
+
+## Subsystem Scope
+
+**In scope:** JSONL export for LLM training, configurable field selection, batch export, LoRA adapter metadata, vLLM multi-LoRA integration.
+
+**Out of scope:** Data transformation (handled by content module), import functionality (handled by importers module), data compression (delegated to utils/zstd).
+
+## Relevant Interfaces
+
+- `jsonl_llm_exporter.cpp` — primary JSONL export with LLM training format
+- `export_pipeline.cpp` — export orchestration
+- `lora_metadata_writer.cpp` — LoRA adapter metadata generation
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — JSONL/LoRA export operational; Parquet export and streaming export in progress.
+
 ## Components
 
 - JSONL exporter for LLM training data
