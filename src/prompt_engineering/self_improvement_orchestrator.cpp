@@ -27,6 +27,7 @@
 #include "prompt_engineering/prompt_optimizer.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "prompt_engineering/prompt_evaluator.h"
+#include "prompt_engineering/feedback_collector.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <random>
@@ -111,37 +112,49 @@ SelfImprovementOrchestrator::SelfImprovementOrchestrator(
 }
 
 std::vector<OptimizationResult> SelfImprovementOrchestrator::runAutoOptimization() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    std::vector<OptimizationResult> results;
-    
-    if (!tracker_) {
-        THEMIS_ERROR("PromptPerformanceTracker not available");
-        return results;
-    }
-    
-    // Get all tracked prompts
-    auto all_metrics = tracker_->getAllMetrics();
-    
-    THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
-    
-    for (const auto& metrics : all_metrics) {
-        // Check if this prompt should be optimized
-        if (shouldOptimize(metrics.prompt_id)) {
+    // Collect candidate prompt IDs and their test cases while holding the lock.
+    // The actual optimization is run without the lock to avoid holding it during
+    // a potentially long-running operation.
+    std::vector<std::pair<std::string, std::vector<TestCase>>> candidates;
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+
+        if (!tracker_) {
+            THEMIS_ERROR("PromptPerformanceTracker not available");
+            return {};
+        }
+
+        auto all_metrics = tracker_->getAllMetrics();
+        THEMIS_INFO("Running auto-optimization check on {} prompts", all_metrics.size());
+
+        for (const auto& metrics : all_metrics) {
+            if (!shouldOptimize(metrics.prompt_id)) {
+                continue;
+            }
+
             THEMIS_INFO("Triggering optimization for prompt: {}", metrics.prompt_id);
-            
-            // For auto-optimization, we need to create test cases
-            // In production, these would come from historical successful queries
-            // For now, we'll skip prompts without test cases
-            // This is a hook for future integration
-            
-            THEMIS_DEBUG("Auto-optimization requires test cases - skipping {}", metrics.prompt_id);
-            
-            // Record that we attempted optimization
-            last_optimization_[metrics.prompt_id] = std::chrono::system_clock::now();
+
+            // Build synthetic test cases from historical positive-feedback entries.
+            auto test_cases = buildTestCasesFromFeedback(metrics.prompt_id, 50);
+
+            if (test_cases.empty()) {
+                THEMIS_DEBUG("No feedback-derived test cases for '{}' – deferring",
+                             metrics.prompt_id);
+                last_optimization_[metrics.prompt_id] = std::chrono::system_clock::now();
+                continue;
+            }
+
+            candidates.emplace_back(metrics.prompt_id, std::move(test_cases));
         }
     }
-    
+
+    // Run each optimization without holding the mutex.
+    std::vector<OptimizationResult> results;
+    results.reserve(candidates.size());
+    for (auto& [prompt_id, test_cases] : candidates) {
+        results.push_back(optimizePrompt(prompt_id, test_cases));
+    }
     return results;
 }
 
@@ -609,6 +622,40 @@ void SelfImprovementOrchestrator::deployOptimizedVersion(
     manager_->createTemplate(updated_template);
     
     THEMIS_INFO("Deployed optimized version for prompt: {}", prompt_id);
+}
+
+std::vector<TestCase> SelfImprovementOrchestrator::buildTestCasesFromFeedback(
+    const std::string& prompt_id,
+    size_t max_cases
+) const {
+    // Note: caller may hold mutex_; FeedbackCollector has its own lock.
+    if (!feedback_collector_) {
+        return {};
+    }
+
+    // Pull positive feedback entries – these represent successful query/response
+    // pairs that can serve as reference examples for evaluation.
+    auto positive = feedback_collector_->getFeedback(
+        prompt_id,
+        max_cases,
+        FeedbackType::USER_POSITIVE
+    );
+
+    std::vector<TestCase> test_cases;
+    test_cases.reserve(positive.size());
+
+    for (const auto& entry : positive) {
+        if (entry.query.empty()) continue;
+
+        TestCase tc;
+        tc.input           = entry.query;
+        tc.expected_output = entry.response;  // Best known response for this query
+        test_cases.push_back(std::move(tc));
+    }
+
+    THEMIS_DEBUG("Built {} synthetic test cases from feedback for prompt '{}'",
+                 test_cases.size(), prompt_id);
+    return test_cases;
 }
 
 } // namespace prompt_engineering

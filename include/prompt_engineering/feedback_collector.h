@@ -310,6 +310,8 @@ private:
     rocksdb::ColumnFamilyHandle* cf_ = nullptr;
     
     static constexpr const char* KEY_PREFIX = "feedback:";
+    /// Secondary time-based index prefix: "idx:time:{prompt_id}:{ts_us}:{id}" → entry_key
+    static constexpr const char* IDX_TIME_PREFIX = "idx:time:";
     
     /**
      * @brief Generate unique feedback ID
@@ -317,14 +319,27 @@ private:
     std::string generateId() const;
     
     /**
-     * @brief Persist feedback to RocksDB
+     * @brief Persist feedback to RocksDB (primary key + time-based secondary index)
      */
     void persist(const FeedbackEntry& entry);
+
+    /**
+     * @brief Remove primary record and its secondary index entry from RocksDB
+     */
+    void deleteFromDB(const FeedbackEntry& entry);
     
     /**
      * @brief Load feedback from RocksDB
      */
     void loadFromDB();
+    
+    /**
+     * @brief Build a zero-padded microsecond timestamp string for use in index keys
+     *
+     * The zero-padding ensures lexicographic order equals chronological order.
+     */
+    static std::string formatTimestampKey(
+        const std::chrono::system_clock::time_point& tp);
     
     /**
      * @brief Calculate feedback statistics

@@ -34,7 +34,6 @@
 #include <cmath>
 #include <numeric>
 #include <unordered_set>
-
 namespace themis {
 namespace prompt_engineering {
 
@@ -364,20 +363,44 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
     const std::chrono::system_clock::time_point& end
 ) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    // When a DB is available, use the time-keyed secondary index for an O(log n)
+    // range scan instead of scanning all in-memory entries.
+    if (db_) {
+        std::vector<FeedbackEntry> result;
+        std::string range_start = std::string(IDX_TIME_PREFIX) + prompt_id + ":"
+                                + formatTimestampKey(start) + ":";
+        // Upper bound: one past the end timestamp
+        auto end_plus = end + std::chrono::microseconds(1);
+        std::string range_end   = std::string(IDX_TIME_PREFIX) + prompt_id + ":"
+                                + formatTimestampKey(end_plus) + ":";
+        db_->scanRange(range_start, range_end,
+            [&](std::string_view /*idx_key*/, std::string_view primary_key) -> bool {
+                std::optional<std::vector<uint8_t>> raw = db_->get(primary_key);
+                if (raw.has_value()) {
+                    try {
+                        auto j = nlohmann::json::parse(
+                            std::string(raw->begin(), raw->end()));
+                        result.push_back(FeedbackEntry::fromJson(j));
+                    } catch (...) {}
+                }
+                return true;
+            });
+        return result;
+    }
+
+    // Fallback: linear scan of in-memory entries
     auto it = feedback_.find(prompt_id);
     if (it == feedback_.end()) {
         return {};
     }
     
     std::vector<FeedbackEntry> result;
-    
     for (const auto& entry : it->second) {
         if (entry.timestamp >= start && entry.timestamp <= end) {
             result.push_back(entry);
         }
     }
-    
     return result;
 }
 
@@ -398,10 +421,32 @@ size_t FeedbackCollector::pruneOldFeedback(
         entries.erase(it, entries.end());
     }
     
-    // Also delete from DB if available
+    // Also delete from DB if available: delete both primary records and index entries
     if (db_ && deleted > 0) {
-        // In production, implement DB cleanup
-        THEMIS_DEBUG("Pruned {} old feedback entries (DB cleanup not implemented)", deleted);
+        // Collect entries to delete by scanning; we need the full entry to
+        // also remove the time-index key.
+        std::vector<FeedbackEntry> to_delete;
+        std::string prefix = KEY_PREFIX;
+        db_->scanPrefix(prefix, [&](std::string_view, std::string_view value) -> bool {
+            try {
+                auto j = nlohmann::json::parse(std::string(value));
+                if (!j.contains("timestamp") || !j["timestamp"].is_number()) {
+                    return true;  // malformed entry, skip
+                }
+                auto ts = std::chrono::system_clock::from_time_t(
+                    j["timestamp"].get<std::time_t>());
+                if (ts < older_than) {
+                    to_delete.push_back(FeedbackEntry::fromJson(j));
+                }
+            } catch (const nlohmann::json::exception& e) {
+                THEMIS_WARN("Skipping malformed feedback entry during prune: {}", e.what());
+            }
+            return true;
+        });
+        for (const auto& e : to_delete) {
+            deleteFromDB(e);
+        }
+        THEMIS_DEBUG("Pruned {} old feedback entries from DB", to_delete.size());
     }
     
     THEMIS_INFO("Pruned {} old feedback entries", deleted);
@@ -420,11 +465,22 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
     size_t count = it->second.size();
     feedback_.erase(it);
     
-    // Delete from DB if available
+    // Delete from DB if available: delete both primary records and index entries
     if (db_) {
-        // In production, implement DB cleanup
-        THEMIS_DEBUG("Cleared {} feedback entries for prompt '{}' (DB cleanup not implemented)",
-                     count, prompt_id);
+        std::string prompt_prefix = std::string(KEY_PREFIX) + prompt_id + ":";
+        // Collect full entries so we can also remove the secondary index keys
+        std::vector<FeedbackEntry> to_delete;
+        db_->scanPrefix(prompt_prefix, [&](std::string_view, std::string_view value) -> bool {
+            try {
+                auto j = nlohmann::json::parse(std::string(value));
+                to_delete.push_back(FeedbackEntry::fromJson(j));
+            } catch (...) {}
+            return true;
+        });
+        for (const auto& e : to_delete) {
+            deleteFromDB(e);
+        }
+        THEMIS_DEBUG("Deleted {} feedback DB entries for prompt '{}'", to_delete.size(), prompt_id);
     }
     
     THEMIS_INFO("Cleared {} feedback entries for prompt '{}'", count, prompt_id);
@@ -573,16 +629,54 @@ std::string FeedbackCollector::generateId() const {
     return oss.str();
 }
 
+// static
+std::string FeedbackCollector::formatTimestampKey(
+    const std::chrono::system_clock::time_point& tp
+) {
+    // Zero-padded 20-digit microseconds since epoch ensures lexicographic == chronological order.
+    auto us = std::chrono::duration_cast<std::chrono::microseconds>(
+                  tp.time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(20) << us;
+    return oss.str();
+}
+
 void FeedbackCollector::persist(const FeedbackEntry& entry) {
     if (!db_) return;
     
-    std::string key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
+    // Primary record: feedback:{prompt_id}:{entry_id} → JSON
+    std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
     std::string value = entry.toJson().dump();
     std::vector<uint8_t> bytes(value.begin(), value.end());
     
-    if (!db_->put(key, bytes)) {
+    if (!db_->put(primary_key, bytes)) {
         THEMIS_ERROR("Failed to persist feedback entry: {}", entry.id);
+        return;
     }
+
+    // Secondary time index: idx:time:{prompt_id}:{ts_us}:{entry_id} → primary_key
+    // Lexicographic key order == timestamp order, enabling O(log n) range scans.
+    std::string idx_key = std::string(IDX_TIME_PREFIX)
+                        + entry.prompt_id + ":"
+                        + formatTimestampKey(entry.timestamp) + ":"
+                        + entry.id;
+    // Use vector<uint8_t> to match the overload used for the primary record.
+    std::string idx_val = primary_key;
+    std::vector<uint8_t> idx_bytes(idx_val.begin(), idx_val.end());
+    db_->put(idx_key, idx_bytes);
+}
+
+void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
+    if (!db_) return;
+
+    std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
+    db_->del(primary_key);
+
+    std::string idx_key = std::string(IDX_TIME_PREFIX)
+                        + entry.prompt_id + ":"
+                        + formatTimestampKey(entry.timestamp) + ":"
+                        + entry.id;
+    db_->del(idx_key);
 }
 
 void FeedbackCollector::loadFromDB() {
