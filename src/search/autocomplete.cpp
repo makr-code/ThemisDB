@@ -87,16 +87,15 @@ std::vector<Suggestion> AutocompleteEngine::suggestByPrefix(const std::string& p
         return {};
     }
 
-    // Upper bound: prefix with the last byte incremented (covers all strings
-    // that start with prefix in the index key space)
-    std::string upper_bound = prefix;
-    upper_bound.back() = static_cast<char>(
-        static_cast<unsigned char>(upper_bound.back()) + 1);
+    // Upper bound: prefix + '\xff' covers all strings that start with prefix
+    // (all ASCII/UTF-8 field values with this prefix sort before it, and using
+    // an appended byte avoids the last-byte overflow when prefix ends with '\xff').
+    std::string upper_bound = prefix + '\xff';
 
     auto [st, pks] = index_->scanKeysRange(
         table, column,
         prefix, upper_bound,
-        true, false, // [prefix, upper_bound)
+        true, false, // [prefix, prefix+'\xff')
         limit
     );
 

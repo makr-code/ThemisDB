@@ -23,8 +23,6 @@ FacetedSearch::computeFacet(const std::string& table,
     FacetResult result;
     result.field = column;
 
-    // Build a PK filter set if candidates were provided
-    const std::unordered_set<std::string> pk_filter(candidate_pks.begin(), candidate_pks.end());
     const bool has_filter = !candidate_pks.empty();
 
     // Get all PKs that have a secondary-index entry for this column via open range scan
@@ -41,11 +39,11 @@ FacetedSearch::computeFacet(const std::string& table,
         return {SecondaryIndexManager::Status::OK(), result};
     }
 
-    // Determine the working PK universe
+    // Determine the working PK universe: candidate_pks when a filter is active,
+    // all indexed PKs otherwise.
     const std::vector<std::string>& working_pks = has_filter ? candidate_pks : all_pks;
 
     for (const auto& pk : working_pks) {
-        if (has_filter && !pk_filter.count(pk)) continue;
 
         // Fetch the entity by its primary key to read the column value
         auto [es, entities] = index_->scanEntitiesEqual(table, "id", pk);
