@@ -416,8 +416,8 @@ function Get-ExistingIssuesForModule {
             return @()
         }
         
-        $issues = $issuesJson | ConvertFrom-Json
-        $prs = $prsJson | ConvertFrom-Json
+        $issues = @($issuesJson | ConvertFrom-Json)
+        $prs = @($prsJson | ConvertFrom-Json)
 
         foreach ($issue in $issues) {
             $issue | Add-Member -NotePropertyName WorkType -NotePropertyValue "issue" -Force
@@ -427,7 +427,7 @@ function Get-ExistingIssuesForModule {
             $pr | Add-Member -NotePropertyName WorkType -NotePropertyValue "pr" -Force
         }
 
-        $existingWork = @($issues + $prs)
+        $existingWork = @($issues) + @($prs)
         
         Write-Host " $($existingWork.Count) gefunden (Issues: $($issues.Count), PRs: $($prs.Count))" -ForegroundColor Green
         
