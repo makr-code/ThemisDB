@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.9                                              ║
-  Last Modified:   2026-02-21 13:48:15                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-02-21 13:56:32                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 52032bbf8  2026-02-21  [aql] Confidence scoring for generated AQL queries (#1427) ║
     • 5ec52ecf5  2026-02-21  feat(aql): Batch NL-to-AQL translation for offline worklo... ║
     • bd6a94514  2026-02-21  [aql] Multi-turn conversation context for iterative AQL q... ║
     • afade9ae9  2026-02-21  [aql] Interactive AQL query builder, validator, template ... ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
