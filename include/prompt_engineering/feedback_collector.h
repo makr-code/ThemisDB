@@ -82,6 +82,7 @@ struct FeedbackEntry {
     nlohmann::json metadata;             ///< Additional context
     double severity = 0.5;               ///< Severity score (0.0-1.0)
     std::chrono::system_clock::time_point timestamp;  ///< When recorded
+    std::string checksum;                ///< FNV-1a 64-bit audit checksum of key fields
     
     /**
      * @brief Convert entry to JSON
@@ -92,6 +93,11 @@ struct FeedbackEntry {
      * @brief Parse entry from JSON
      */
     static FeedbackEntry fromJson(const nlohmann::json& j);
+
+    /**
+     * @brief Compute a simple audit checksum over key fields
+     */
+    std::string computeChecksum() const;
 };
 
 /**
@@ -254,6 +260,39 @@ public:
      */
     size_t clearFeedback(const std::string& prompt_id);
     
+    /**
+     * @brief Get feedback entries for a specific prompt (paginated)
+     * 
+     * Supports efficient chunked access to large feedback archives.
+     * 
+     * @param prompt_id Prompt template ID
+     * @param offset Number of entries to skip (0-based)
+     * @param page_size Maximum entries per page (0 = all remaining)
+     * @param type_filter Optional filter by feedback type
+     * @return Vector of feedback entries for the requested page
+     */
+    std::vector<FeedbackEntry> getFeedbackPaged(
+        const std::string& prompt_id,
+        size_t offset,
+        size_t page_size,
+        std::optional<FeedbackType> type_filter = std::nullopt
+    ) const;
+
+    /**
+     * @brief Detect outlier feedback entries by severity
+     * 
+     * Returns entries whose severity deviates more than @p z_threshold
+     * standard deviations from the mean.
+     * 
+     * @param prompt_id Prompt template ID
+     * @param z_threshold Z-score threshold (default 2.0)
+     * @return Vector of outlier entries
+     */
+    std::vector<FeedbackEntry> detectOutliers(
+        const std::string& prompt_id,
+        double z_threshold = 2.0
+    ) const;
+
     /**
      * @brief Get summary across all prompts
      * @return JSON object with aggregate statistics

@@ -25,10 +25,15 @@
 #include "prompt_engineering/prompt_evaluator.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <numeric>
 #include <sstream>
 #include <cmath>
 #include <cctype>
 #include <unordered_set>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace themis {
 namespace prompt_engineering {
@@ -235,33 +240,130 @@ bool PromptEvaluator::isStatisticallySignificant(
     if (baseline_scores.empty() || new_scores.empty()) {
         return false;
     }
-    
+
+    const size_t n1 = baseline_scores.size();
+    const size_t n2 = new_scores.size();
+
     // Compute means
-    double baseline_mean = 0.0;
+    double mean1 = 0.0;
+    for (double s : baseline_scores) mean1 += s;
+    mean1 /= n1;
+
+    double mean2 = 0.0;
+    for (double s : new_scores) mean2 += s;
+    mean2 /= n2;
+
+    // No improvement at all
+    if (mean2 <= mean1) {
+        return false;
+    }
+
+    // Compute sample variances (unbiased, n-1)
+    double var1 = 0.0;
     for (double s : baseline_scores) {
-        baseline_mean += s;
+        double d = s - mean1;
+        var1 += d * d;
     }
-    baseline_mean /= baseline_scores.size();
-    
-    double new_mean = 0.0;
+    var1 = (n1 > 1) ? var1 / (n1 - 1) : 0.0;
+
+    double var2 = 0.0;
     for (double s : new_scores) {
-        new_mean += s;
+        double d = s - mean2;
+        var2 += d * d;
     }
-    new_mean /= new_scores.size();
-    
-    // Handle division by zero case
-    if (std::abs(baseline_mean) < 1e-10) {
-        // If baseline is essentially zero, any positive new mean is an improvement
-        return new_mean > 0.05;
+    var2 = (n2 > 1) ? var2 / (n2 - 1) : 0.0;
+
+    double se1 = var1 / n1;
+    double se2 = var2 / n2;
+    double se_total = se1 + se2;
+
+    if (se_total < 1e-14) {
+        // Zero variance – deterministic scores, rely on mean difference
+        return mean2 > mean1 + 1e-10;
     }
-    
-    // Simple check: new mean must be significantly higher
-    // For a full implementation, use proper t-test
-    double improvement = (new_mean - baseline_mean) / baseline_mean;
-    
-    // Require at least 5% improvement for statistical significance
-    // (simplified approximation)
-    return improvement > 0.05;
+
+    // Welch's t-statistic
+    double t_stat = (mean2 - mean1) / std::sqrt(se_total);
+
+    // Welch–Satterthwaite degrees of freedom
+    double se1_sq = se1 * se1;
+    double se2_sq = se2 * se2;
+    double df_denom = (n1 > 1 ? se1_sq / (n1 - 1) : 0.0) +
+                      (n2 > 1 ? se2_sq / (n2 - 1) : 0.0);
+    double df = (df_denom > 1e-14) ? (se_total * se_total) / df_denom : 1.0;
+    if (df < 1.0) df = 1.0;
+
+    // Two-sample one-tailed p-value via the regularised incomplete beta function.
+    // For a one-tailed test at confidence_level (e.g. 0.95), we need p < (1 - confidence_level).
+    // The CDF of Student's t-distribution satisfies:
+    //   p_two_tailed = I(df/(df+t^2), df/2, 1/2)
+    // The incomplete beta function is evaluated using the Lentz continued-fraction
+    // method (Numerical Recipes §6.4), which converges uniformly across all df values.
+    auto incomplete_beta_regularized = [](double x, double a, double b) -> double {
+        // Lentz continued-fraction method (Numerical Recipes §6.4)
+        if (x < 0.0 || x > 1.0) return (x <= 0.0) ? 0.0 : 1.0;
+        if (x == 0.0) return 0.0;
+        if (x == 1.0) return 1.0;
+
+        // Use symmetry: I(x, a, b) = 1 - I(1-x, b, a) when x > (a+1)/(a+b+2)
+        bool use_sym = (x > (a + 1.0) / (a + b + 2.0));
+        double xx = use_sym ? (1.0 - x) : x;
+        double aa = use_sym ? b : a;
+        double bb = use_sym ? a : b;
+
+        // Log of the beta function prefactor
+        auto lgamma_approx = [](double z) -> double {
+            // Stirling series approximation
+            if (z < 0.5) {
+                // Reflection: lgamma(z) = log(pi/sin(pi*z)) - lgamma(1-z)
+                return std::log(M_PI / std::sin(M_PI * z)) - std::lgamma(1.0 - z);
+            }
+            return std::lgamma(z);
+        };
+        double log_beta = lgamma_approx(aa) + lgamma_approx(bb) - lgamma_approx(aa + bb);
+        double front = std::exp(aa * std::log(xx) + bb * std::log(1.0 - xx) - log_beta) / aa;
+
+        // Continued fraction
+        const int MAX_ITER = 200;
+        const double EPS = 3.0e-7;
+        double qab = aa + bb;
+        double qap = aa + 1.0;
+        double qam = aa - 1.0;
+        double c = 1.0, d = 1.0 - qab * xx / qap;
+        if (std::abs(d) < 1e-30) d = 1e-30;
+        d = 1.0 / d;
+        double h = d;
+        for (int m = 1; m <= MAX_ITER; ++m) {
+            double m2 = 2.0 * m;
+            // Even step
+            double dm = m * (bb - m) * xx / ((qam + m2) * (aa + m2));
+            d = 1.0 + dm * d;
+            if (std::abs(d) < 1e-30) d = 1e-30;
+            c = 1.0 + dm / c;
+            if (std::abs(c) < 1e-30) c = 1e-30;
+            d = 1.0 / d;
+            h *= d * c;
+            // Odd step
+            dm = -(aa + m) * (qab + m) * xx / ((aa + m2) * (qap + m2));
+            d = 1.0 + dm * d;
+            if (std::abs(d) < 1e-30) d = 1e-30;
+            c = 1.0 + dm / c;
+            if (std::abs(c) < 1e-30) c = 1e-30;
+            d = 1.0 / d;
+            double delta = d * c;
+            h *= delta;
+            if (std::abs(delta - 1.0) < EPS) break;
+        }
+        double result = front * h;
+        return use_sym ? (1.0 - result) : result;
+    };
+
+    double t2 = t_stat * t_stat;
+    double x = df / (df + t2);
+    double p_two_tailed = incomplete_beta_regularized(x, df / 2.0, 0.5);
+    double p_one_tailed = p_two_tailed / 2.0;  // one-tailed: new > baseline
+
+    return p_one_tailed < (1.0 - confidence_level);
 }
 
 double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) const {

@@ -26,10 +26,13 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <cstdint>
 #include <random>
 #include <sstream>
 #include <iomanip>
 #include <ctime>
+#include <cmath>
+#include <numeric>
 #include <unordered_set>
 
 namespace themis {
@@ -90,6 +93,7 @@ nlohmann::json FeedbackEntry::toJson() const {
     j["feedback_text"] = feedback_text;
     j["metadata"] = metadata;
     j["severity"] = severity;
+    j["checksum"] = checksum;
     
     auto time = std::chrono::system_clock::to_time_t(timestamp);
     j["timestamp"] = time;
@@ -111,6 +115,7 @@ FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
     entry.feedback_text = j.value("feedback_text", "");
     entry.metadata = j.value("metadata", nlohmann::json::object());
     entry.severity = j.value("severity", 0.5);
+    entry.checksum = j.value("checksum", "");
     
     if (j.contains("timestamp")) {
         auto time_val = j["timestamp"].get<std::time_t>();
@@ -118,6 +123,33 @@ FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
     }
     
     return entry;
+}
+
+std::string FeedbackEntry::computeChecksum() const {
+    // FNV-1a 64-bit hash over key audit fields: id, prompt_id, type, query, severity, timestamp
+    // This provides a lightweight audit trail without external crypto dependencies.
+    uint64_t hash = 14695981039346656037ULL;
+    auto fnv_update = [&](const std::string& s) {
+        for (unsigned char c : s) {
+            hash ^= c;
+            hash *= 1099511628211ULL;
+        }
+    };
+    fnv_update(id);
+    fnv_update(prompt_id);
+    fnv_update(feedbackTypeToString(type));
+    fnv_update(query);
+    // Include severity as a fixed-precision string
+    std::ostringstream sev_str;
+    sev_str << std::fixed << std::setprecision(6) << severity;
+    fnv_update(sev_str.str());
+    // Include timestamp as epoch seconds
+    auto ts = std::chrono::system_clock::to_time_t(timestamp);
+    fnv_update(std::to_string(ts));
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0') << std::setw(16) << hash;
+    return oss.str();
 }
 
 // ============================================================================
@@ -180,6 +212,7 @@ std::string FeedbackCollector::recordFeedback(
     entry.severity = std::max(0.0, std::min(1.0, severity));
     entry.metadata = metadata;
     entry.timestamp = std::chrono::system_clock::now();
+    entry.checksum = entry.computeChecksum();
     
     // Store in memory
     feedback_[prompt_id].push_back(entry);
@@ -397,6 +430,88 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
     THEMIS_INFO("Cleared {} feedback entries for prompt '{}'", count, prompt_id);
     
     return count;
+}
+
+std::vector<FeedbackEntry> FeedbackCollector::getFeedbackPaged(
+    const std::string& prompt_id,
+    size_t offset,
+    size_t page_size,
+    std::optional<FeedbackType> type_filter
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = feedback_.find(prompt_id);
+    if (it == feedback_.end()) {
+        return {};
+    }
+
+    std::vector<FeedbackEntry> result;
+    size_t skipped = 0;
+
+    for (const auto& entry : it->second) {
+        if (type_filter.has_value() && entry.type != type_filter.value()) {
+            continue;
+        }
+        if (skipped < offset) {
+            ++skipped;
+            continue;
+        }
+        result.push_back(entry);
+        if (page_size > 0 && result.size() >= page_size) {
+            break;
+        }
+    }
+
+    return result;
+}
+
+std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
+    const std::string& prompt_id,
+    double z_threshold
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = feedback_.find(prompt_id);
+    if (it == feedback_.end()) {
+        return {};
+    }
+
+    const auto& entries = it->second;
+    if (entries.size() < 2) {
+        return {};
+    }
+
+    // Compute mean severity
+    double sum = 0.0;
+    for (const auto& e : entries) {
+        sum += e.severity;
+    }
+    double mean = sum / entries.size();
+
+    // Compute standard deviation
+    double sq_diff_sum = 0.0;
+    for (const auto& e : entries) {
+        double d = e.severity - mean;
+        sq_diff_sum += d * d;
+    }
+    double stddev = std::sqrt(sq_diff_sum / entries.size());
+
+    if (stddev < 1e-10) {
+        return {}; // All severities are identical – no outliers
+    }
+
+    std::vector<FeedbackEntry> outliers;
+    for (const auto& e : entries) {
+        double z = std::abs(e.severity - mean) / stddev;
+        if (z > z_threshold) {
+            outliers.push_back(e);
+        }
+    }
+
+    THEMIS_DEBUG("Detected {} outliers for prompt '{}' (z_threshold={})",
+                 outliers.size(), prompt_id, z_threshold);
+
+    return outliers;
 }
 
 nlohmann::json FeedbackCollector::getSummary() const {
