@@ -77,6 +77,9 @@ struct ContinuousLearningOrchestrator::Impl {
     // ---- Automated Data Selection ----
     std::unique_ptr<themis::training::DataSelectionPipeline>  data_selector;
     std::unique_ptr<themis::training::SelfImprovementModule>  si_module;
+    /// Timestamp of the most recent successful data selection run.
+    std::chrono::system_clock::time_point last_selection_time =
+        std::chrono::system_clock::time_point::min();
 };
 
 ContinuousLearningOrchestrator::ContinuousLearningOrchestrator(const ContinuousLearningConfig &config)
@@ -148,6 +151,24 @@ void ContinuousLearningOrchestrator::stopLearningLoop() {
 }
 
 void ContinuousLearningOrchestrator::triggerLearningIteration() {
+    // Periodic data re-selection: run pipeline if SelfImprovementModule says it is due.
+    // Both the check and the update are performed under the same lock acquisition
+    // to prevent a TOCTOU race where two threads could both observe the period as
+    // elapsed and both launch a selection run.
+    if (impl_->si_module && impl_->data_selector) {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (impl_->si_module->needsReselection(impl_->last_selection_time)) {
+            std::vector<themis::training::DataSample> candidates;
+            auto sel_result = impl_->data_selector->run(candidates);
+            // Update timestamp only on success to avoid suppressing the next
+            // scheduled run when the pipeline reports a failure.
+            if (sel_result.success) {
+                impl_->last_selection_time = std::chrono::system_clock::now();
+            }
+            (void)sel_result; // consumed by retraining in full impl
+        }
+    }
+
     // Run all learning strategies
     runLoRARetraining();
     runPromptOptimization();
@@ -407,6 +428,11 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                 // (here we pass an empty list; the pipeline still runs all stages)
                 std::vector<themis::training::DataSample> candidates;
                 auto sel_result = impl_->data_selector->run(candidates);
+                // Update timestamp only on success so a failed run doesn't
+                // prevent the next scheduled re-selection attempt.
+                if (sel_result.success) {
+                    impl_->last_selection_time = std::chrono::system_clock::now();
+                }
                 (void)sel_result; // selected_samples fed to trainer in full impl
 
                 // Apply adaptive threshold rules using current monitoring metrics
@@ -425,6 +451,25 @@ void ContinuousLearningOrchestrator::runLoRARetraining() {
                     themis::training::DataSelectionMetrics metrics;
                     metrics.training_accuracy    = impl_->stats.current_accuracy;
                     metrics.inference_latency_ms = 0.0; // populated from monitoring in full impl
+
+                    // Check rollback condition before retraining
+                    if (impl_->config.enable_auto_rollback &&
+                            impl_->si_module->needsRollback(metrics)) {
+                        spdlog::warn("CLO: rollback condition triggered for adapter '{}'; "
+                                     "skipping retraining cycle", adapter_id);
+
+                        ImprovementEvent rollback_event;
+                        rollback_event.timestamp        = std::chrono::system_clock::now();
+                        rollback_event.component        = adapter_id;
+                        rollback_event.improvement_type = "RollbackTriggered";
+                        rollback_event.metric_before    = metrics.training_accuracy;
+                        rollback_event.metric_after     = metrics.training_accuracy;
+                        rollback_event.description      = "Automated rollback: quality/accuracy "
+                                                          "below threshold";
+                        impl_->stats.recent_improvements.push_back(rollback_event);
+                        continue; // Skip retraining for this adapter
+                    }
+
                     auto updated_cfg = impl_->si_module->applyAdaptiveRules(
                         impl_->data_selector->getConfig(), metrics);
                     impl_->data_selector->setConfig(updated_cfg);
@@ -620,7 +665,12 @@ ContinuousLearningOrchestrator::runDataSelectionForAdapter(
         impl_->data_selector->setConfig(updated_cfg);
     }
 
-    return impl_->data_selector->run(candidate_samples);
+    auto result = impl_->data_selector->run(candidate_samples);
+    // last_selection_time is updated while impl_->mutex is held (lock_guard above).
+    if (result.success) {
+        impl_->last_selection_time = std::chrono::system_clock::now();
+    }
+    return result;
 }
 
 const themis::training::LoRADataSelectionConfig&
