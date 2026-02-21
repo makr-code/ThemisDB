@@ -45,6 +45,9 @@ namespace themis::server {
 namespace beast = boost::beast;
 namespace http = beast::http;
 
+// Bring nested AuthMiddleware types into scope for use in this namespace
+using AuthContext = AuthMiddleware::AuthContext;
+
 /**
  * @brief API Gateway - Unified entry point for all API requests
  * 
@@ -227,6 +230,21 @@ public:
     void registerHandler(
         const std::string& pattern,
         std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
+    );
+
+    /**
+     * @brief Register a deprecated API endpoint
+     * 
+     * Delegates to the internal APIVersionManager so callers can register
+     * endpoint deprecations that will cause the gateway to emit Deprecation,
+     * Sunset, and Link headers for the affected versions.
+     * 
+     * @param endpoint Endpoint path (e.g., "/api/v1/old-endpoint")
+     * @param info Deprecation details
+     */
+    void registerDeprecation(
+        const std::string& endpoint,
+        const APIDeprecationInfo& info
     );
 
 private:

@@ -24,15 +24,14 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-// Disable legacy API Gateway tests
+// Re-enabled API Gateway tests
 #include <gtest/gtest.h>
-#if 0
 
-#include <gtest/gtest.h>
 #include "server/api_gateway.h"
 #include "server/auth_middleware.h"
 #include "server/rate_limiter.h"
 #include "server/load_shedder.h"
+#include <chrono>
 #include <memory>
 
 using namespace themis::server;
@@ -46,14 +45,16 @@ protected:
         // Create minimal dependencies
         auth_ = std::make_shared<AuthMiddleware>();
         rate_limiter_ = std::make_shared<RateLimiter>();
-        load_shedder_ = std::make_shared<LoadShedder>();
+        load_shedder_ = std::make_shared<LoadShedder>(LoadShedder::Config{});
         
-        // Create gateway with default config
+        // Create gateway with default config (disable rate/load checks for tests)
         APIGateway::Config config;
         config.gateway_id = "test-gateway";
         config.datacenter = "test-dc";
         config.enable_sharding = false;
         config.enable_query_federation = false;
+        config.enable_rate_limiting = false;
+        config.enable_load_shedding = false;
         
         gateway_ = std::make_unique<APIGateway>(
             config,
@@ -156,7 +157,7 @@ TEST_F(APIGatewayTest, FederatedQueryWithoutRouter) {
     AuthContext auth_ctx;
     auth_ctx.user_id = "test-user";
     
-    // Should throw error because shard router is not configured
+    // Should throw error because query federation is not enabled
     EXPECT_THROW(
         gateway_->executeFederatedQuery("FOR doc IN collection RETURN doc", auth_ctx),
         std::exception
@@ -197,8 +198,65 @@ TEST_F(APIGatewayTest, HealthStatusWithErrors) {
     // (detailed testing would require mocking request failures)
 }
 
-#endif // legacy API Gateway tests
+/**
+ * @brief Test that no deprecation headers appear for non-deprecated endpoints
+ */
+TEST_F(APIGatewayTest, NoDeprecationHeaderForFreshEndpoint) {
+    namespace http = boost::beast::http;
 
-TEST(APIGatewayTest, DISABLED_APIGatewayLegacy) {
-    GTEST_SKIP() << "API Gateway tests disabled in this configuration";
+    http::request<http::string_body> req{http::verb::get, "/api/v1/entities", 11};
+    req.set(http::field::host, "localhost");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result": []})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    // API-Version header must be present (versioning is enabled by default)
+    EXPECT_NE(response.find(APIHeaders::API_VERSION), response.end());
+    // No deprecation header for a non-deprecated endpoint
+    EXPECT_EQ(response.find(APIHeaders::DEPRECATION_WARNING), response.end());
+    EXPECT_EQ(response.find(APIHeaders::SUNSET), response.end());
 }
+
+/**
+ * @brief Test that Deprecation and Sunset headers appear for deprecated endpoints
+ */
+TEST_F(APIGatewayTest, DeprecationHeadersOnDeprecatedEndpoint) {
+    namespace http = boost::beast::http;
+
+    // Register a deprecation for this endpoint
+    APIDeprecationInfo info;
+    info.deprecated_in = APIVersion{1, 0, 0};
+    info.removed_in = APIVersion{2, 0, 0};
+    info.deprecation_date = std::chrono::system_clock::now();
+    info.removal_date = std::chrono::system_clock::now() + std::chrono::hours(24 * 365); // ~1 year
+    info.reason = "Replaced by /api/v2/entities";
+    info.migration_guide_url = "https://docs.themisdb.com/migration/v1-to-v2";
+    info.alternative = "/api/v2/entities";
+    gateway_->registerDeprecation("/api/v1/old-endpoint", info);
+
+    http::request<http::string_body> req{http::verb::get, "/api/v1/old-endpoint", 11};
+    req.set(http::field::host, "localhost");
+
+    auto local_handler = [](const http::request<http::string_body>& r) {
+        http::response<http::string_body> resp{http::status::ok, r.version()};
+        resp.body() = R"({"result": []})";
+        resp.prepare_payload();
+        return resp;
+    };
+
+    auto response = gateway_->handleRequest(req, local_handler);
+    EXPECT_EQ(response.result(), http::status::ok);
+    // Deprecation header must be present
+    EXPECT_NE(response.find(APIHeaders::DEPRECATION_WARNING), response.end());
+    // Sunset header (RFC 8594) must be present
+    EXPECT_NE(response.find(APIHeaders::SUNSET), response.end());
+    // Link header pointing to migration guide must be present
+    EXPECT_NE(response.find(APIHeaders::LINK), response.end());
+}
+

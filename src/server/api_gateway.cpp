@@ -129,10 +129,21 @@ http::response<http::string_body> APIGateway::handleRequest(
     
     try {
         // 1. Authentication check
-        if (auth_ && !auth_->authenticate(req)) {
-            rate_limited_requests_++;
-            return makeErrorResponse(http::status::unauthorized, 
-                                    "Authentication failed", req);
+        if (auth_ && auth_->isEnabled()) {
+            bool auth_ok = false;
+            auto auth_header = req.find(http::field::authorization);
+            if (auth_header != req.end()) {
+                auto token = AuthMiddleware::extractBearerToken(auth_header->value());
+                if (token) {
+                    auto result = auth_->validateToken(*token);
+                    auth_ok = result.authorized;
+                }
+            }
+            if (!auth_ok) {
+                rate_limited_requests_++;
+                return makeErrorResponse(http::status::unauthorized,
+                                        "Authentication failed", req);
+            }
         }
         
         // 2. Rate limiting check
@@ -335,6 +346,15 @@ void APIGateway::registerHandler(
     handlers_[pattern] = std::move(handler);
 }
 
+void APIGateway::registerDeprecation(
+    const std::string& endpoint,
+    const APIDeprecationInfo& info
+) {
+    if (version_manager_) {
+        version_manager_->registerDeprecation(endpoint, info);
+    }
+}
+
 APIGateway::RouteTarget APIGateway::determineRouteTarget(
     const http::request<http::string_body>& req
 ) {
@@ -437,7 +457,7 @@ bool APIGateway::checkLoadShedding(const http::request<http::string_body>& req) 
         return true;
     }
     
-    return load_shedder_->shouldAcceptRequest();
+    return !load_shedder_->shouldReject(LoadShedder::Priority::NORMAL);
 }
 
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
