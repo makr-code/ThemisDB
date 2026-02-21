@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            let_evaluator.h                                    ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:51                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     173                                            ║
+    • Total Lines:     186                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,6 +32,10 @@
 #include <optional>
 #include <nlohmann/json.hpp>
 #include "query/aql_parser.h"
+
+namespace themis {
+    class SecondaryIndexManager;
+}
 
 namespace themis {
 namespace query {
@@ -56,6 +60,12 @@ namespace query {
 class LetEvaluator {
 public:
     LetEvaluator() = default;
+
+    /// Wire a SecondaryIndexManager so that FULLTEXT/PHRASE/FUZZY AQL functions
+    /// can call through to the real index.  Caller retains ownership.
+    void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) {
+        secondary_idx_mgr_ = mgr;
+    }
 
     /**
      * @brief Evaluiert einen LET-Node und speichert das Binding
@@ -107,6 +117,9 @@ public:
 private:
     // Variable bindings: Variable Name → JSON Value
     std::unordered_map<std::string, nlohmann::json> bindings_;
+
+    // Optional secondary index manager for FULLTEXT/PHRASE/FUZZY AQL functions
+    themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 
     // Helper: Evaluiert Field Access (z.B. doc.age, doc.address.city)
     nlohmann::json evaluateFieldAccess(

@@ -963,6 +963,42 @@ else()
 endif()
 
 # ============================================================================
+# Inverted Index (standalone full-text search module) Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
+    message(STATUS "Adding InvertedIndex unit tests")
+
+    add_executable(test_inverted_index
+        test_inverted_index.cpp
+    )
+
+    target_link_libraries(test_inverted_index PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_inverted_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME InvertedIndexTests COMMAND test_inverted_index)
+
+    set_tests_properties(InvertedIndexTests PROPERTIES
+        LABELS "index;fulltext;inverted;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  InvertedIndex: create/drop, index/deindex, BM25 search, phrase, fuzzy")
+else()
+    message(STATUS "InvertedIndex tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
+endif()
+
+# ============================================================================
 # Fulltext Phrase and Fuzzy Search Tests
 # ============================================================================
 
@@ -1199,6 +1235,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_production.cpp")
         TIMEOUT 60
     )
     message(STATUS "  Tracing Production: Baggage, SamplingStrategy, W3C propagation")
+endif()
+
+# Phase 2 – OpenTelemetry tracer adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
+    message(STATUS "Adding OtelTracerAdapter unit tests (Phase 2)")
+    add_executable(test_otel_tracer_adapter test_otel_tracer_adapter.cpp)
+    target_link_libraries(test_otel_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_otel_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelTracerAdapterTests COMMAND test_otel_tracer_adapter)
+    set_tests_properties(OtelTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;otel;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
 # Phase 2 – Sampling strategy unit tests (replaces stub)

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.h                              ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:56                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     458                                            ║
+    • Total Lines:     607                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -100,6 +100,43 @@ public:
         uint64_t getDurationMs() const;
         bool isFinished() const { return finished_.load(std::memory_order_acquire); }
 
+        // ── Transaction timeout ───────────────────────────────────────────────
+
+        /**
+         * @brief Set a timeout for this transaction.
+         *
+         * Once the transaction has been active for longer than @p timeout,
+         * all further write operations and commit() will return an error,
+         * and the background monitor in TransactionManager will automatically
+         * roll it back.
+         *
+         * @param timeout  Maximum lifetime; pass 0 to disable the timeout.
+         */
+        void setTimeout(std::chrono::milliseconds timeout) {
+            // Clamp to 0: a negative duration is treated the same as "no timeout".
+            auto ms = timeout.count();
+            timeout_ms_.store(ms > 0 ? static_cast<uint64_t>(ms) : 0u,
+                              std::memory_order_relaxed);
+        }
+
+        /**
+         * @brief Return the configured timeout (0 = no timeout).
+         */
+        std::chrono::milliseconds getTimeout() const {
+            return std::chrono::milliseconds(timeout_ms_.load(std::memory_order_relaxed));
+        }
+
+        /**
+         * @brief Return true if the transaction has exceeded its timeout.
+         *
+         * Always returns false when no timeout is set (timeout == 0).
+         */
+        bool isTimedOut() const {
+            uint64_t tms = timeout_ms_.load(std::memory_order_relaxed);
+            if (tms == 0) return false;
+            return getDurationMs() >= tms;
+        }
+
         // Relational
         Status putEntity(std::string_view table, const BaseEntity& entity);
         Status eraseEntity(std::string_view table, std::string_view pk);
@@ -126,6 +163,12 @@ public:
          * create multiple nested savepoints.
          *
          * Returns an error if the transaction is not active.
+         *
+         * @warning Do NOT mix this anonymous stack API with the named savepoint
+         *          API (createSavepoint / rollbackToSavepoint / releaseSavepoint).
+         *          Both share the same underlying RocksDB savepoint stack.  Using
+         *          both on the same Transaction will corrupt the named-savepoint
+         *          bookkeeping and produce undefined behaviour.
          */
         Status setSavePoint();
 
@@ -134,6 +177,8 @@ public:
          *
          * Pops the latest savepoint.  Returns an error if there is no
          * outstanding savepoint or the transaction is not active.
+         *
+         * @warning Do not mix with the named savepoint API. See setSavePoint().
          */
         Status rollbackToSavePoint();
 
@@ -142,8 +187,58 @@ public:
          *
          * Returns an error if there is no outstanding savepoint or the
          * transaction is not active.
+         *
+         * @warning Do not mix with the named savepoint API. See setSavePoint().
          */
         Status popSavePoint();
+
+        // ── Named savepoints (partial rollback) ──────────────────────────────
+
+        /**
+         * @brief Create a named savepoint at the current write position.
+         *
+         * Named savepoints allow rolling back to a specific, labelled point
+         * rather than relying on LIFO stack ordering.  Multiple savepoints
+         * may be active simultaneously; each name must be unique within the
+         * transaction.
+         *
+         * @param name  Non-empty identifier for the savepoint.
+         * @return      Error if the transaction is not active or the name is
+         *              already in use.
+         */
+        Status createSavepoint(std::string_view name);
+
+        /**
+         * @brief Rollback all writes made after the named savepoint.
+         *
+         * The named savepoint and any savepoints created after it are all
+         * removed.  An error is returned if no savepoint with @p name exists
+         * or the transaction is not active.
+         *
+         * @param name  Name of the target savepoint.
+         */
+        Status rollbackToSavepoint(std::string_view name);
+
+        /**
+         * @brief Discard the named savepoint (and any newer ones) without
+         *        rolling back any writes.
+         *
+         * Equivalent to SQL "RELEASE SAVEPOINT".  Returns an error if no
+         * savepoint with @p name exists or the transaction is not active.
+         *
+         * @param name  Name of the savepoint to release.
+         */
+        Status releaseSavepoint(std::string_view name);
+
+        /**
+         * @brief Return the names of all active savepoints in creation order.
+         */
+        std::vector<std::string> getSavepoints() const;
+
+        /**
+         * @brief Return true if a savepoint with the given name exists.
+         */
+        bool hasSavepoint(std::string_view name) const;
         
         // SAGA support
         Saga& getSaga() { return *saga_; }
@@ -160,16 +255,66 @@ public:
         std::unique_ptr<class RocksDBWrapper::TransactionWrapper> mvcc_txn_; // MVCC Transaction
         std::unique_ptr<Saga> saga_; // SAGA pattern for compensating actions
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
+        std::atomic<uint64_t> timeout_ms_{0}; ///< 0 = no timeout
+        std::atomic<uint64_t> finished_duration_ms_{0}; ///< wall-clock duration captured at commit/rollback time
+
+        /// Record the current wall-clock duration into finished_duration_ms_.
+        /// Must be called while the caller holds exclusive ownership (i.e. after
+        /// the finished_ CAS succeeds but before releasing the transaction).
+        void captureDuration() noexcept;
+
+        struct SavepointEntry {
+            std::string name;
+            size_t saga_step_count{0}; ///< SAGA step count at the time the savepoint was created
+        };
+        std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
     };
 
     // Session-based transaction management
     TransactionId beginTransaction(IsolationLevel isolation = IsolationLevel::ReadCommitted);
     std::shared_ptr<Transaction> getTransaction(TransactionId id);
     Status commitTransaction(TransactionId id);
-    void rollbackTransaction(TransactionId id);
+    /**
+     * @brief Roll back an active session transaction.
+     *
+     * @return true  if the transaction was found in the active map and rolled back.
+     * @return false if no active transaction with this ID exists (already completed).
+     */
+    bool rollbackTransaction(TransactionId id);
     
     // Direct transaction (legacy API)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);
+
+    // ── Transaction timeout ───────────────────────────────────────────────────
+
+    /**
+     * @brief Set the default timeout applied to every new transaction.
+     *
+     * When a non-zero timeout is set, every transaction created via
+     * beginTransaction() or begin() has its timeout pre-configured to this
+     * value.  Existing active transactions are not affected.
+     *
+     * The background monitor in the TransactionManager automatically rolls
+     * back any active transaction that has exceeded its timeout.
+     *
+     * @param timeout  Default timeout; pass 0 ms to disable (no timeout).
+     */
+    void setDefaultTransactionTimeout(std::chrono::milliseconds timeout);
+
+    /**
+     * @brief Return the currently configured default transaction timeout.
+     *
+     * Returns 0 ms when no default timeout is set.
+     */
+    std::chrono::milliseconds getDefaultTransactionTimeout() const;
+
+    /**
+     * @brief Return the number of transactions automatically rolled back
+     *        due to timeout since the manager was created.
+     */
+    uint64_t getTimeoutCount() const {
+        return total_timed_out_.load(std::memory_order_relaxed);
+    }
     
     // Statistics
     struct Stats {
@@ -410,6 +555,11 @@ private:
     
     // Helper to update statistics with sequence lock protocol
     void updateStatsWithSeqLock(std::function<void()> update);
+
+    // Transaction timeout
+    std::atomic<uint64_t> default_transaction_timeout_ms_{0}; ///< 0 = no default timeout
+    void timeoutExpiredTransactions(); ///< roll back active transactions that exceeded their timeout
+    void applyDefaultTimeout(Transaction& txn) const; ///< apply default timeout if configured
     
     // Deadlock detection state
     std::atomic<bool> deadlock_detection_enabled_{false};

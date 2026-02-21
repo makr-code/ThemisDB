@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:23:07                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:43:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     4354                                           ║
+    • Total Lines:     4379                                           ║
     • Open Issues:     TODOs: 1, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +30,7 @@
 #include <iostream>
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
+#include "query/query_plan_visualizer.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
 #include "query/let_evaluator.h"
@@ -2610,6 +2611,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				
 					// Process LET bindings using LetEvaluator to ensure nested references resolve correctly
 					query::LetEvaluator letEval;
+					if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 					nlohmann::json currentDoc;
 					currentDoc[build_for.variable] = build_doc;
 					currentDoc[probe_for.variable] = doc;
@@ -2709,6 +2711,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			if (depth >= for_nodes.size()) {
 				// Process LET bindings using LetEvaluator
 				query::LetEvaluator letEval;
+				if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 				nlohmann::json currentDoc; // Aggregate all bindings for LET evaluation
 				for (const auto& [var, val] : ctx.bindings) {
 					currentDoc[var] = val;
@@ -4348,6 +4351,28 @@ Result<void> QueryEngine::executeCTEs(
     
     span.setStatus(true);
     return OkVoid();
+}
+
+// ============================================================================
+// Query Plan Visualisation
+// ============================================================================
+
+query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) const {
+    QueryOptimizer::Plan plan;
+    if (secIdx_ != nullptr) {
+        QueryOptimizer opt(*secIdx_);
+        plan = opt.chooseOrderForAndQuery(q);
+    } else {
+        // No index manager: emit an un-optimised plan with the original predicate order.
+        for (const auto& pred : q.predicates) {
+            plan.orderedPredicates.push_back(pred);
+            QueryOptimizer::Estimation est;
+            est.pred = pred;
+            est.estimatedCount = 0;
+            plan.details.push_back(est);
+        }
+    }
+    return query::QueryPlanVisualizer::buildPlan(q, plan);
 }
 
 } // namespace themis

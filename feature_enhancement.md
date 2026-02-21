@@ -1,20 +1,20 @@
 # ThemisDB - Code Maturity Analysis
 
-**Last Updated:** 2026-02-21 18:23:32 UTC  
-**Analyzed Files:** 3960  
-**Average Maturity Score:** 96.5/100
+**Last Updated:** 2026-02-21 19:43:26 UTC  
+**Analyzed Files:** 3969  
+**Average Maturity Score:** 96.6/100
 
 ## 📊 Overall Statistics
 
 | Metric | Count |
 |--------|-------|
-| 🔴 Stubs Found | 4610 |
-| 📝 TODOs/FIXMEs | 422 |
-| 🎭 Simulations/Mocks | 1277 |
+| 🔴 Stubs Found | 4615 |
+| 📝 TODOs/FIXMEs | 419 |
+| 🎭 Simulations/Mocks | 1280 |
 
 ## 📈 Maturity Distribution
 
-- **🟢 PRODUCTION-READY**: 3875 file(s)
+- **🟢 PRODUCTION-READY**: 3884 file(s)
 - **🟡 RELEASE-CANDIDATE**: 55 file(s)
 - **🟠 BETA**: 14 file(s)
 - **🔴 ALPHA**: 10 file(s)
@@ -22,7 +22,7 @@
 
 ## 📁 Detailed File Analysis
 
-### `.tools/extract_gtest_failures.py` (v0.0.17)
+### `.tools/extract_gtest_failures.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -33,7 +33,7 @@
 
 ---
 
-### `.tools/openssl_repro.cpp` (v0.0.17)
+### `.tools/openssl_repro.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44,7 +44,7 @@
 
 ---
 
-### `.tools/openssl_repro2.cpp` (v0.0.17)
+### `.tools/openssl_repro2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -55,7 +55,7 @@
 
 ---
 
-### `.tools/print_wsl_logs.py` (v0.0.17)
+### `.tools/print_wsl_logs.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -66,7 +66,7 @@
 
 ---
 
-### `.tools/run_wsl_failed_tests.py` (v0.0.17)
+### `.tools/run_wsl_failed_tests.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -77,7 +77,7 @@
 
 ---
 
-### `.tools/show_reruns.py` (v0.0.17)
+### `.tools/show_reruns.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -88,7 +88,7 @@
 
 ---
 
-### `adapters/chimera/example_usage.cpp` (v0.0.17)
+### `adapters/chimera/example_usage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -99,7 +99,7 @@
 
 ---
 
-### `adapters/chimera/postgresql_adapter.hpp` (v0.0.17)
+### `adapters/chimera/postgresql_adapter.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -110,7 +110,7 @@
 
 ---
 
-### `adapters/chimera/template_adapter.hpp` (v0.0.17)
+### `adapters/chimera/template_adapter.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -122,7 +122,7 @@
 
 ---
 
-### `adapters/chimera/themisdb_adapter.hpp` (v0.0.17)
+### `adapters/chimera/themisdb_adapter.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -133,7 +133,7 @@
 
 ---
 
-### `adapters/chimera/weaviate_adapter.hpp` (v0.0.17)
+### `adapters/chimera/weaviate_adapter.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -144,7 +144,7 @@
 
 ---
 
-### `adapters/covina_fastapi_ingestion/app.py` (v0.0.17)
+### `adapters/covina_fastapi_ingestion/app.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -155,7 +155,7 @@
 
 ---
 
-### `adapters/covina_fastapi_ingestion/processors/__init__.py` (v0.0.17)
+### `adapters/covina_fastapi_ingestion/processors/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -166,7 +166,7 @@
 
 ---
 
-### `adapters/covina_fastapi_ingestion/processors/text.py` (v0.0.17)
+### `adapters/covina_fastapi_ingestion/processors/text.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -177,7 +177,7 @@
 
 ---
 
-### `adapters/covina_fastapi_ingestion/themis_client.py` (v0.0.17)
+### `adapters/covina_fastapi_ingestion/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -188,7 +188,7 @@
 
 ---
 
-### `adapters/vcc_base/__init__.py` (v0.0.17)
+### `adapters/vcc_base/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -199,7 +199,7 @@
 
 ---
 
-### `adapters/vcc_base/config.py` (v0.0.17)
+### `adapters/vcc_base/config.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -210,7 +210,7 @@
 
 ---
 
-### `adapters/vcc_base/processors.py` (v0.0.17)
+### `adapters/vcc_base/processors.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -221,7 +221,7 @@
 
 ---
 
-### `adapters/vcc_base/themis_client.py` (v0.0.17)
+### `adapters/vcc_base/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -232,7 +232,7 @@
 
 ---
 
-### `adapters/vcc_base/utils.py` (v0.0.17)
+### `adapters/vcc_base/utils.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -246,7 +246,7 @@
 
 ---
 
-### `adapters/vcc_clara_ingestion/app.py` (v0.0.17)
+### `adapters/vcc_clara_ingestion/app.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -257,7 +257,7 @@
 
 ---
 
-### `adapters/vcc_veritas/app.py` (v0.0.17)
+### `adapters/vcc_veritas/app.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -268,7 +268,7 @@
 
 ---
 
-### `artifacts/debug/debug_http_aql_simple.cpp` (v0.0.17)
+### `artifacts/debug/debug_http_aql_simple.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -286,7 +286,7 @@
 
 ---
 
-### `artifacts/debug/test_http_aql_debug.cpp` (v0.0.17)
+### `artifacts/debug/test_http_aql_debug.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -300,7 +300,7 @@
 
 ---
 
-### `benchmarks/analyze_benchmarks.py` (v0.0.17)
+### `benchmarks/analyze_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -311,7 +311,7 @@
 
 ---
 
-### `benchmarks/analyze_raid_benchmarks.py` (v0.0.17)
+### `benchmarks/analyze_raid_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -325,7 +325,7 @@
 
 ---
 
-### `benchmarks/analyze_results.py` (v0.0.17)
+### `benchmarks/analyze_results.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -336,7 +336,7 @@
 
 ---
 
-### `benchmarks/baseline_manager.py` (v0.0.17)
+### `benchmarks/baseline_manager.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -347,7 +347,7 @@
 
 ---
 
-### `benchmarks/bench_advanced_patterns.cpp` (v0.0.17)
+### `benchmarks/bench_advanced_patterns.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -361,7 +361,7 @@
 
 ---
 
-### `benchmarks/bench_approximate_radius_search.cpp` (v0.0.17)
+### `benchmarks/bench_approximate_radius_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -372,7 +372,7 @@
 
 ---
 
-### `benchmarks/bench_aql_functions.cpp` (v0.0.17)
+### `benchmarks/bench_aql_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -383,7 +383,7 @@
 
 ---
 
-### `benchmarks/bench_arm_memory.cpp` (v0.0.17)
+### `benchmarks/bench_arm_memory.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -394,7 +394,7 @@
 
 ---
 
-### `benchmarks/bench_arm_simd.cpp` (v0.0.17)
+### `benchmarks/bench_arm_simd.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -405,7 +405,7 @@
 
 ---
 
-### `benchmarks/bench_async_io_multiscan.cpp` (v0.0.17)
+### `benchmarks/bench_async_io_multiscan.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -416,7 +416,7 @@
 
 ---
 
-### `benchmarks/bench_auto_buffers.cpp` (v0.0.17)
+### `benchmarks/bench_auto_buffers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -427,7 +427,7 @@
 
 ---
 
-### `benchmarks/bench_backend_comparison.cpp` (v0.0.17)
+### `benchmarks/bench_backend_comparison.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -438,7 +438,7 @@
 
 ---
 
-### `benchmarks/bench_batch_insert.cpp` (v0.0.17)
+### `benchmarks/bench_batch_insert.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -452,7 +452,7 @@
 
 ---
 
-### `benchmarks/bench_binary_quantization.cpp` (v0.0.17)
+### `benchmarks/bench_binary_quantization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -463,7 +463,7 @@
 
 ---
 
-### `benchmarks/bench_blob_zstd.cpp` (v0.0.17)
+### `benchmarks/bench_blob_zstd.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -474,7 +474,7 @@
 
 ---
 
-### `benchmarks/bench_branch_manager.cpp` (v0.0.17)
+### `benchmarks/bench_branch_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -485,7 +485,7 @@
 
 ---
 
-### `benchmarks/bench_changefeed_throughput.cpp` (v0.0.17)
+### `benchmarks/bench_changefeed_throughput.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -499,7 +499,7 @@
 
 ---
 
-### `benchmarks/bench_compliance_security_governance.cpp` (v0.0.17)
+### `benchmarks/bench_compliance_security_governance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (52.0/100)
 
@@ -517,7 +517,7 @@
 
 ---
 
-### `benchmarks/bench_comprehensive.cpp` (v0.0.17)
+### `benchmarks/bench_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -535,7 +535,7 @@
 
 ---
 
-### `benchmarks/bench_compression.cpp` (v0.0.17)
+### `benchmarks/bench_compression.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -546,7 +546,7 @@
 
 ---
 
-### `benchmarks/bench_content_versioning.cpp` (v0.0.17)
+### `benchmarks/bench_content_versioning.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -561,7 +561,7 @@
 
 ---
 
-### `benchmarks/bench_core_performance.cpp` (v0.0.17)
+### `benchmarks/bench_core_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -572,7 +572,7 @@
 
 ---
 
-### `benchmarks/bench_cross_functional_end_to_end.cpp` (v0.0.17)
+### `benchmarks/bench_cross_functional_end_to_end.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -587,7 +587,7 @@
 
 ---
 
-### `benchmarks/bench_crud.cpp` (v0.0.17)
+### `benchmarks/bench_crud.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -598,7 +598,7 @@
 
 ---
 
-### `benchmarks/bench_cycle_metrics.cpp` (v0.0.17)
+### `benchmarks/bench_cycle_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -614,7 +614,7 @@
 
 ---
 
-### `benchmarks/bench_data_transfer.cpp` (v0.0.17)
+### `benchmarks/bench_data_transfer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -628,7 +628,7 @@
 
 ---
 
-### `benchmarks/bench_diff_engine.cpp` (v0.0.17)
+### `benchmarks/bench_diff_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -639,7 +639,7 @@
 
 ---
 
-### `benchmarks/bench_distributed_coordinator.cpp` (v0.0.17)
+### `benchmarks/bench_distributed_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -650,7 +650,7 @@
 
 ---
 
-### `benchmarks/bench_docker_raid_comprehensive.cpp` (v0.0.17)
+### `benchmarks/bench_docker_raid_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (53.0/100)
 
@@ -668,7 +668,7 @@
 
 ---
 
-### `benchmarks/bench_embedded_llm.cpp` (v0.0.17)
+### `benchmarks/bench_embedded_llm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -679,7 +679,7 @@
 
 ---
 
-### `benchmarks/bench_embedding_cache_performance.cpp` (v0.0.17)
+### `benchmarks/bench_embedding_cache_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -693,7 +693,7 @@
 
 ---
 
-### `benchmarks/bench_encryption.cpp` (v0.0.17)
+### `benchmarks/bench_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -707,7 +707,7 @@
 
 ---
 
-### `benchmarks/bench_ethics_ai_plugin.cpp` (v0.0.17)
+### `benchmarks/bench_ethics_ai_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -718,7 +718,7 @@
 
 ---
 
-### `benchmarks/bench_extended_context.cpp` (v0.0.17)
+### `benchmarks/bench_extended_context.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -734,7 +734,7 @@
 
 ---
 
-### `benchmarks/bench_flash_attention.cpp` (v0.0.17)
+### `benchmarks/bench_flash_attention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -745,7 +745,7 @@
 
 ---
 
-### `benchmarks/bench_fused_kernels.cpp` (v0.0.17)
+### `benchmarks/bench_fused_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -759,7 +759,7 @@
 
 ---
 
-### `benchmarks/bench_fused_lora_kernels.cpp` (v0.0.17)
+### `benchmarks/bench_fused_lora_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -770,7 +770,7 @@
 
 ---
 
-### `benchmarks/bench_gnn_embeddings.cpp` (v0.0.17)
+### `benchmarks/bench_gnn_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -781,7 +781,7 @@
 
 ---
 
-### `benchmarks/bench_gorilla_codec.cpp` (v0.0.15)
+### `benchmarks/bench_gorilla_codec.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -792,7 +792,7 @@
 
 ---
 
-### `benchmarks/bench_gossip_config.cpp` (v0.0.17)
+### `benchmarks/bench_gossip_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -803,7 +803,7 @@
 
 ---
 
-### `benchmarks/bench_gpu_backends.cpp` (v0.0.17)
+### `benchmarks/bench_gpu_backends.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -814,7 +814,7 @@
 
 ---
 
-### `benchmarks/bench_gpu_erasure.cpp` (v0.0.17)
+### `benchmarks/bench_gpu_erasure.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -825,7 +825,7 @@
 
 ---
 
-### `benchmarks/bench_gpu_module.cpp` (v0.0.17)
+### `benchmarks/bench_gpu_module.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -839,7 +839,7 @@
 
 ---
 
-### `benchmarks/bench_gpu_training_cycle.cpp` (v0.0.17)
+### `benchmarks/bench_gpu_training_cycle.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -853,7 +853,7 @@
 
 ---
 
-### `benchmarks/bench_gpu_vector_index.cpp` (v0.0.17)
+### `benchmarks/bench_gpu_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -864,7 +864,7 @@
 
 ---
 
-### `benchmarks/bench_gpu_vram_allocation.cpp` (v0.0.17)
+### `benchmarks/bench_gpu_vram_allocation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (78.0/100)
 
@@ -882,7 +882,7 @@
 
 ---
 
-### `benchmarks/bench_graph_query_optimizer.cpp` (v0.0.17)
+### `benchmarks/bench_graph_query_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -893,7 +893,7 @@
 
 ---
 
-### `benchmarks/bench_graph_traversal.cpp` (v0.0.17)
+### `benchmarks/bench_graph_traversal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -904,7 +904,7 @@
 
 ---
 
-### `benchmarks/bench_hnsw_prefilter_minimal.cpp` (v0.0.17)
+### `benchmarks/bench_hnsw_prefilter_minimal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -915,7 +915,7 @@
 
 ---
 
-### `benchmarks/bench_hotspots_micro.cpp` (v0.0.17)
+### `benchmarks/bench_hotspots_micro.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -926,7 +926,7 @@
 
 ---
 
-### `benchmarks/bench_hsm_provider.cpp` (v0.0.17)
+### `benchmarks/bench_hsm_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -939,7 +939,7 @@
 
 ---
 
-### `benchmarks/bench_hybrid_aql_sugar.cpp` (v0.0.17)
+### `benchmarks/bench_hybrid_aql_sugar.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -950,7 +950,7 @@
 
 ---
 
-### `benchmarks/bench_hybrid_vector_geo.cpp` (v0.0.17)
+### `benchmarks/bench_hybrid_vector_geo.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -964,7 +964,7 @@
 
 ---
 
-### `benchmarks/bench_image_analysis.cpp` (v0.0.17)
+### `benchmarks/bench_image_analysis.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (58.0/100)
 
@@ -982,7 +982,7 @@
 
 ---
 
-### `benchmarks/bench_image_analysis_latency.cpp` (v0.0.17)
+### `benchmarks/bench_image_analysis_latency.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -1000,7 +1000,7 @@
 
 ---
 
-### `benchmarks/bench_importer_throughput.cpp` (v0.0.17)
+### `benchmarks/bench_importer_throughput.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -1015,7 +1015,7 @@
 
 ---
 
-### `benchmarks/bench_index_rebuild.cpp` (v0.0.17)
+### `benchmarks/bench_index_rebuild.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1026,7 +1026,7 @@
 
 ---
 
-### `benchmarks/bench_ingestion_kv.cpp` (v0.0.17)
+### `benchmarks/bench_ingestion_kv.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1037,7 +1037,7 @@
 
 ---
 
-### `benchmarks/bench_insert_profiling.cpp` (v0.0.17)
+### `benchmarks/bench_insert_profiling.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -1051,7 +1051,7 @@
 
 ---
 
-### `benchmarks/bench_knowledge_gap_detector_phase2.cpp` (v0.0.17)
+### `benchmarks/bench_knowledge_gap_detector_phase2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1062,7 +1062,7 @@
 
 ---
 
-### `benchmarks/bench_learned_quantization.cpp` (v0.0.17)
+### `benchmarks/bench_learned_quantization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1073,7 +1073,7 @@
 
 ---
 
-### `benchmarks/bench_legal_lora_pipeline.cpp` (v0.0.17)
+### `benchmarks/bench_legal_lora_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -1091,7 +1091,7 @@
 
 ---
 
-### `benchmarks/bench_llm_inference_performance.cpp` (v0.0.17)
+### `benchmarks/bench_llm_inference_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -1109,7 +1109,7 @@
 
 ---
 
-### `benchmarks/bench_llm_infrastructure.cpp` (v0.0.17)
+### `benchmarks/bench_llm_infrastructure.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (72.0/100)
 
@@ -1124,7 +1124,7 @@
 
 ---
 
-### `benchmarks/bench_llm_judge_integration.cpp` (v0.0.17)
+### `benchmarks/bench_llm_judge_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (73.0/100)
 
@@ -1142,7 +1142,7 @@
 
 ---
 
-### `benchmarks/bench_llm_raid_pipeline.cpp` (v0.0.17)
+### `benchmarks/bench_llm_raid_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -1157,7 +1157,7 @@
 
 ---
 
-### `benchmarks/bench_llm_real_models.cpp` (v0.0.17)
+### `benchmarks/bench_llm_real_models.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -1169,7 +1169,7 @@
 
 ---
 
-### `benchmarks/bench_llm_response_cache.cpp` (v0.0.17)
+### `benchmarks/bench_llm_response_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -1181,7 +1181,7 @@
 
 ---
 
-### `benchmarks/bench_locality_aware_router.cpp` (v0.0.17)
+### `benchmarks/bench_locality_aware_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1192,7 +1192,7 @@
 
 ---
 
-### `benchmarks/bench_lock_contention.cpp` (v0.0.17)
+### `benchmarks/bench_lock_contention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1203,7 +1203,7 @@
 
 ---
 
-### `benchmarks/bench_lora_auto_binding.cpp` (v0.0.17)
+### `benchmarks/bench_lora_auto_binding.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1219,7 +1219,7 @@
 
 ---
 
-### `benchmarks/bench_lora_gpu.cpp` (v0.0.17)
+### `benchmarks/bench_lora_gpu.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -1233,7 +1233,7 @@
 
 ---
 
-### `benchmarks/bench_lora_inline.cpp` (v0.0.17)
+### `benchmarks/bench_lora_inline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1244,7 +1244,7 @@
 
 ---
 
-### `benchmarks/bench_lora_training.cpp` (v0.0.17)
+### `benchmarks/bench_lora_training.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1255,7 +1255,7 @@
 
 ---
 
-### `benchmarks/bench_lossy_vs_lossless.cpp` (v0.0.17)
+### `benchmarks/bench_lossy_vs_lossless.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -1269,7 +1269,7 @@
 
 ---
 
-### `benchmarks/bench_metrics_collector.cpp` (v0.0.17)
+### `benchmarks/bench_metrics_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -1284,7 +1284,7 @@
 
 ---
 
-### `benchmarks/bench_mixed_precision_perf.cpp` (v0.0.17)
+### `benchmarks/bench_mixed_precision_perf.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1295,7 +1295,7 @@
 
 ---
 
-### `benchmarks/bench_mmdb.cpp` (v0.0.17)
+### `benchmarks/bench_mmdb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -1309,7 +1309,7 @@
 
 ---
 
-### `benchmarks/bench_multi_gpu_lora_advanced.cpp` (v0.0.17)
+### `benchmarks/bench_multi_gpu_lora_advanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1320,7 +1320,7 @@
 
 ---
 
-### `benchmarks/bench_multi_gpu_scaling.cpp` (v0.0.17)
+### `benchmarks/bench_multi_gpu_scaling.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -1334,7 +1334,7 @@
 
 ---
 
-### `benchmarks/bench_multi_lora_fusion.cpp` (v0.0.17)
+### `benchmarks/bench_multi_lora_fusion.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -1345,7 +1345,7 @@
 
 ---
 
-### `benchmarks/bench_mvcc.cpp` (v0.0.17)
+### `benchmarks/bench_mvcc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1356,7 +1356,7 @@
 
 ---
 
-### `benchmarks/bench_olap_analytics.cpp` (v0.0.17)
+### `benchmarks/bench_olap_analytics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1367,7 +1367,7 @@
 
 ---
 
-### `benchmarks/bench_olap_performance.cpp` (v0.0.17)
+### `benchmarks/bench_olap_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1378,7 +1378,7 @@
 
 ---
 
-### `benchmarks/bench_pagerank.cpp` (v0.0.17)
+### `benchmarks/bench_pagerank.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1389,7 +1389,7 @@
 
 ---
 
-### `benchmarks/bench_phase1_flash_attention.cpp` (v0.0.17)
+### `benchmarks/bench_phase1_flash_attention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (73.0/100)
 
@@ -1407,7 +1407,7 @@
 
 ---
 
-### `benchmarks/bench_plugin_hot_plug.cpp` (v0.0.17)
+### `benchmarks/bench_plugin_hot_plug.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1418,7 +1418,7 @@
 
 ---
 
-### `benchmarks/bench_plugin_system.cpp` (v0.0.17)
+### `benchmarks/bench_plugin_system.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -1432,7 +1432,7 @@
 
 ---
 
-### `benchmarks/bench_policy_evaluation.cpp` (v0.0.17)
+### `benchmarks/bench_policy_evaluation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -1446,7 +1446,7 @@
 
 ---
 
-### `benchmarks/bench_postgres_e2e.cpp` (v0.0.17)
+### `benchmarks/bench_postgres_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -1460,7 +1460,7 @@
 
 ---
 
-### `benchmarks/bench_postgres_protocol.cpp` (v0.0.17)
+### `benchmarks/bench_postgres_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1471,7 +1471,7 @@
 
 ---
 
-### `benchmarks/bench_postgres_transactions.cpp` (v0.0.17)
+### `benchmarks/bench_postgres_transactions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -1488,7 +1488,7 @@
 
 ---
 
-### `benchmarks/bench_process_mining.cpp` (v0.0.17)
+### `benchmarks/bench_process_mining.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1499,7 +1499,7 @@
 
 ---
 
-### `benchmarks/bench_product_quantization.cpp` (v0.0.17)
+### `benchmarks/bench_product_quantization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1513,7 +1513,7 @@
 
 ---
 
-### `benchmarks/bench_qlora_gpu_kernels.cpp` (v0.0.17)
+### `benchmarks/bench_qlora_gpu_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -1524,7 +1524,7 @@
 
 ---
 
-### `benchmarks/bench_query.cpp` (v0.0.17)
+### `benchmarks/bench_query.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1535,7 +1535,7 @@
 
 ---
 
-### `benchmarks/bench_rag_ethics.cpp` (v0.0.17)
+### `benchmarks/bench_rag_ethics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -1549,7 +1549,7 @@
 
 ---
 
-### `benchmarks/bench_raid_lora.cpp` (v0.0.17)
+### `benchmarks/bench_raid_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -1563,7 +1563,7 @@
 
 ---
 
-### `benchmarks/bench_random_access_prefetch.cpp` (v0.0.17)
+### `benchmarks/bench_random_access_prefetch.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1577,7 +1577,7 @@
 
 ---
 
-### `benchmarks/bench_residual_quantization.cpp` (v0.0.17)
+### `benchmarks/bench_residual_quantization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1588,7 +1588,7 @@
 
 ---
 
-### `benchmarks/bench_rotary_embeddings.cpp` (v0.0.17)
+### `benchmarks/bench_rotary_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1599,7 +1599,7 @@
 
 ---
 
-### `benchmarks/bench_saga_compensation.cpp` (v0.0.17)
+### `benchmarks/bench_saga_compensation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -1615,7 +1615,7 @@
 
 ---
 
-### `benchmarks/bench_sanity.cpp` (v0.0.17)
+### `benchmarks/bench_sanity.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1626,7 +1626,7 @@
 
 ---
 
-### `benchmarks/bench_shard_resource_manager.cpp` (v0.0.17)
+### `benchmarks/bench_shard_resource_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1637,7 +1637,7 @@
 
 ---
 
-### `benchmarks/bench_shard_routing.cpp` (v0.0.17)
+### `benchmarks/bench_shard_routing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1648,7 +1648,7 @@
 
 ---
 
-### `benchmarks/bench_sharding_performance.cpp` (v0.0.17)
+### `benchmarks/bench_sharding_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (78.0/100)
 
@@ -1669,7 +1669,7 @@
 
 ---
 
-### `benchmarks/bench_simd_distance.cpp` (v0.0.17)
+### `benchmarks/bench_simd_distance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1680,7 +1680,7 @@
 
 ---
 
-### `benchmarks/bench_simple_insert_test.cpp` (v0.0.17)
+### `benchmarks/bench_simple_insert_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -1694,7 +1694,7 @@
 
 ---
 
-### `benchmarks/bench_snapshot_manager.cpp` (v0.0.17)
+### `benchmarks/bench_snapshot_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1705,7 +1705,7 @@
 
 ---
 
-### `benchmarks/bench_spatial_index.cpp` (v0.0.17)
+### `benchmarks/bench_spatial_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1716,7 +1716,7 @@
 
 ---
 
-### `benchmarks/bench_storage_performance.cpp` (v0.0.17)
+### `benchmarks/bench_storage_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1730,7 +1730,7 @@
 
 ---
 
-### `benchmarks/bench_stream_protocol.cpp` (v0.0.17)
+### `benchmarks/bench_stream_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1741,7 +1741,7 @@
 
 ---
 
-### `benchmarks/bench_text_extraction.cpp` (v0.0.17)
+### `benchmarks/bench_text_extraction.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (74.0/100)
 
@@ -1759,7 +1759,7 @@
 
 ---
 
-### `benchmarks/bench_timeseries_ingestion.cpp` (v0.0.17)
+### `benchmarks/bench_timeseries_ingestion.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -1773,7 +1773,7 @@
 
 ---
 
-### `benchmarks/bench_tpcc.cpp` (v0.0.17)
+### `benchmarks/bench_tpcc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -1787,7 +1787,7 @@
 
 ---
 
-### `benchmarks/bench_tpch.cpp` (v0.0.17)
+### `benchmarks/bench_tpch.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -1798,7 +1798,7 @@
 
 ---
 
-### `benchmarks/bench_transaction_throughput.cpp` (v0.0.17)
+### `benchmarks/bench_transaction_throughput.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1809,7 +1809,7 @@
 
 ---
 
-### `benchmarks/bench_v1_3_0_features.cpp` (v0.0.17)
+### `benchmarks/bench_v1_3_0_features.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -1826,7 +1826,7 @@
 
 ---
 
-### `benchmarks/bench_v1_3_4_optimizations.cpp` (v0.0.17)
+### `benchmarks/bench_v1_3_4_optimizations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1837,7 +1837,7 @@
 
 ---
 
-### `benchmarks/bench_vector_compression_lossless.cpp` (v0.0.17)
+### `benchmarks/bench_vector_compression_lossless.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -1851,7 +1851,7 @@
 
 ---
 
-### `benchmarks/bench_vector_prefilter.cpp` (v0.0.17)
+### `benchmarks/bench_vector_prefilter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1862,7 +1862,7 @@
 
 ---
 
-### `benchmarks/bench_vector_search.cpp` (v0.0.17)
+### `benchmarks/bench_vector_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1873,7 +1873,7 @@
 
 ---
 
-### `benchmarks/bench_video_processor.cpp` (v0.0.17)
+### `benchmarks/bench_video_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1884,7 +1884,7 @@
 
 ---
 
-### `benchmarks/bench_voice_assistant.cpp` (v0.0.17)
+### `benchmarks/bench_voice_assistant.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1895,7 +1895,7 @@
 
 ---
 
-### `benchmarks/bench_vulkan_lora.cpp` (v0.0.17)
+### `benchmarks/bench_vulkan_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1906,7 +1906,7 @@
 
 ---
 
-### `benchmarks/bench_wal_apply_grpc.cpp` (v0.0.17)
+### `benchmarks/bench_wal_apply_grpc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (65.0/100)
 
@@ -1921,7 +1921,7 @@
 
 ---
 
-### `benchmarks/bench_wal_stress.cpp` (v0.0.17)
+### `benchmarks/bench_wal_stress.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -1932,7 +1932,7 @@
 
 ---
 
-### `benchmarks/bench_ycsb.cpp` (v0.0.17)
+### `benchmarks/bench_ycsb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1943,7 +1943,7 @@
 
 ---
 
-### `benchmarks/benchmark_5gb_polyglot.py` (v0.0.17)
+### `benchmarks/benchmark_5gb_polyglot.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1954,7 +1954,7 @@
 
 ---
 
-### `benchmarks/benchmark_batch_operations.py` (v0.0.17)
+### `benchmarks/benchmark_batch_operations.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -1965,7 +1965,7 @@
 
 ---
 
-### `benchmarks/benchmark_hybrid_search.cpp` (v0.0.13)
+### `benchmarks/benchmark_hybrid_search.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -1976,7 +1976,7 @@
 
 ---
 
-### `benchmarks/benchmark_image_analysis.cpp` (v0.0.17)
+### `benchmarks/benchmark_image_analysis.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -1994,7 +1994,7 @@
 
 ---
 
-### `benchmarks/bottleneck_analysis.py` (v0.0.17)
+### `benchmarks/bottleneck_analysis.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2005,7 +2005,7 @@
 
 ---
 
-### `benchmarks/chimera/__init__.py` (v0.0.17)
+### `benchmarks/chimera/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -2016,7 +2016,7 @@
 
 ---
 
-### `benchmarks/chimera/chimera_example.cpp` (v0.0.17)
+### `benchmarks/chimera/chimera_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2027,7 +2027,7 @@
 
 ---
 
-### `benchmarks/chimera/citations.py` (v0.0.17)
+### `benchmarks/chimera/citations.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2038,7 +2038,7 @@
 
 ---
 
-### `benchmarks/chimera/colors.py` (v0.0.17)
+### `benchmarks/chimera/colors.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2049,7 +2049,7 @@
 
 ---
 
-### `benchmarks/chimera/demo.py` (v0.0.17)
+### `benchmarks/chimera/demo.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -2066,7 +2066,7 @@
 
 ---
 
-### `benchmarks/chimera/demo_multi_vendor.py` (v0.0.17)
+### `benchmarks/chimera/demo_multi_vendor.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2082,7 +2082,7 @@
 
 ---
 
-### `benchmarks/chimera/neutrality_linter.py` (v0.0.17)
+### `benchmarks/chimera/neutrality_linter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2093,7 +2093,7 @@
 
 ---
 
-### `benchmarks/chimera/reporter.py` (v0.0.17)
+### `benchmarks/chimera/reporter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2104,7 +2104,7 @@
 
 ---
 
-### `benchmarks/chimera/statistics.py` (v0.0.17)
+### `benchmarks/chimera/statistics.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2115,7 +2115,7 @@
 
 ---
 
-### `benchmarks/chimera/test_chimera.py` (v0.0.17)
+### `benchmarks/chimera/test_chimera.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2126,7 +2126,7 @@
 
 ---
 
-### `benchmarks/chimera/test_database_adapters.py` (v0.0.17)
+### `benchmarks/chimera/test_database_adapters.py` (v0.0.23)
 
 **Maturity Level:** ⚫ DRAFT (0.0/100)
 
@@ -2148,7 +2148,7 @@
 
 ---
 
-### `benchmarks/chimera/test_llm_rag_ethics.py` (v0.0.17)
+### `benchmarks/chimera/test_llm_rag_ethics.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2166,7 +2166,7 @@
 
 ---
 
-### `benchmarks/competitor_implementations.py` (v0.0.17)
+### `benchmarks/competitor_implementations.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2177,7 +2177,7 @@
 
 ---
 
-### `benchmarks/complete_benchmark_suite.py` (v0.0.17)
+### `benchmarks/complete_benchmark_suite.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2191,7 +2191,7 @@
 
 ---
 
-### `benchmarks/comprehensive_crud_benchmark.py` (v0.0.17)
+### `benchmarks/comprehensive_crud_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2202,7 +2202,7 @@
 
 ---
 
-### `benchmarks/docker_benchmarks_unified.py` (v0.0.17)
+### `benchmarks/docker_benchmarks_unified.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2213,7 +2213,7 @@
 
 ---
 
-### `benchmarks/enterprise_comparison_suite.py` (v0.0.17)
+### `benchmarks/enterprise_comparison_suite.py` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (61.0/100)
 
@@ -2232,7 +2232,7 @@
 
 ---
 
-### `benchmarks/example_scientific_foundation.py` (v0.0.17)
+### `benchmarks/example_scientific_foundation.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2243,7 +2243,7 @@
 
 ---
 
-### `benchmarks/export_csv.py` (v0.0.17)
+### `benchmarks/export_csv.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -2254,7 +2254,7 @@
 
 ---
 
-### `benchmarks/generate_benchmark_report.py` (v0.0.17)
+### `benchmarks/generate_benchmark_report.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2265,7 +2265,7 @@
 
 ---
 
-### `benchmarks/generate_comparison_report.py` (v0.0.17)
+### `benchmarks/generate_comparison_report.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2276,7 +2276,7 @@
 
 ---
 
-### `benchmarks/hardware_constraints_analyzer.py` (v0.0.17)
+### `benchmarks/hardware_constraints_analyzer.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2290,7 +2290,7 @@
 
 ---
 
-### `benchmarks/hardware_constraints_integration.py` (v0.0.17)
+### `benchmarks/hardware_constraints_integration.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2301,7 +2301,7 @@
 
 ---
 
-### `benchmarks/hardware_scaling_benchmark.py` (v0.0.17)
+### `benchmarks/hardware_scaling_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2312,7 +2312,7 @@
 
 ---
 
-### `benchmarks/llm_nlp_integration_test_suite.py` (v0.0.17)
+### `benchmarks/llm_nlp_integration_test_suite.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -2330,7 +2330,7 @@
 
 ---
 
-### `benchmarks/metrics_exporter.py` (v0.0.17)
+### `benchmarks/metrics_exporter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2341,7 +2341,7 @@
 
 ---
 
-### `benchmarks/multi_protocol_support.py` (v0.0.17)
+### `benchmarks/multi_protocol_support.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2353,7 +2353,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_huge_pages.cpp` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_huge_pages.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -2368,7 +2368,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_huge_pages.py` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_huge_pages.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -2383,7 +2383,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_lirs_cache.cpp` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_lirs_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -2397,7 +2397,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_mimalloc.cpp` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_mimalloc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -2411,7 +2411,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_mimalloc.py` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_mimalloc.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -2426,7 +2426,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_rcu_index.cpp` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_rcu_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -2437,7 +2437,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_rcu_index.py` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_rcu_index.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -2451,7 +2451,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/benchmark_safe_fail.cpp` (v0.0.17)
+### `benchmarks/performance_optimizations/benchmark_safe_fail.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -2465,7 +2465,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp` (v0.0.17)
+### `benchmarks/performance_optimizations/phase2/benchmark_phase2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -2476,7 +2476,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/run_all_validations.py` (v0.0.17)
+### `benchmarks/performance_optimizations/run_all_validations.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2487,7 +2487,7 @@
 
 ---
 
-### `benchmarks/performance_optimizations/validate_optimization.py` (v0.0.17)
+### `benchmarks/performance_optimizations/validate_optimization.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -2507,7 +2507,7 @@
 
 ---
 
-### `benchmarks/performance_regression_detector.py` (v0.0.17)
+### `benchmarks/performance_regression_detector.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2518,7 +2518,7 @@
 
 ---
 
-### `benchmarks/performance_tracker.py` (v0.0.17)
+### `benchmarks/performance_tracker.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2529,7 +2529,7 @@
 
 ---
 
-### `benchmarks/quickstart.py` (v0.0.17)
+### `benchmarks/quickstart.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2540,7 +2540,7 @@
 
 ---
 
-### `benchmarks/raid_sharding_test_suite.py` (v0.0.17)
+### `benchmarks/raid_sharding_test_suite.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2558,7 +2558,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/__init__.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -2569,7 +2569,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/chromadb_adapter.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/chromadb_adapter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2583,7 +2583,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/neo4j_adapter.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/neo4j_adapter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2594,7 +2594,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/postgresql_adapter.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/postgresql_adapter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -2610,7 +2610,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/themisdb_adapter.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/adapters/themisdb_adapter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2621,7 +2621,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/benchmarks/__init__.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/benchmarks/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -2632,7 +2632,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/benchmarks/base_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/benchmarks/base_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -2647,7 +2647,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/datasets/__init__.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/datasets/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -2658,7 +2658,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/datasets/huggingface_loader.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/datasets/huggingface_loader.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2669,7 +2669,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/extended_benchmark_simplified.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/extended_benchmark_simplified.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2685,7 +2685,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/extended_models_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/extended_models_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2696,7 +2696,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/extended_polyglot_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/extended_polyglot_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2707,7 +2707,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/fair_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/fair_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2718,7 +2718,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/generate_benchmark_protocol.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/generate_benchmark_protocol.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2729,7 +2729,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/generate_html_report.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/generate_html_report.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2740,7 +2740,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/generate_report.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/generate_report.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2751,7 +2751,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/load_wikipedia_dataset.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/load_wikipedia_dataset.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2767,7 +2767,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/polyglot_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/polyglot_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2778,7 +2778,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/run_benchmarks.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/run_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2789,7 +2789,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/setup_datasets.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/setup_datasets.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2800,7 +2800,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/simple_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/simple_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2811,7 +2811,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/simplified_polyglot_benchmark.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/simplified_polyglot_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2825,7 +2825,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/verify_benchmark_protocol.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/scripts/verify_benchmark_protocol.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2836,7 +2836,7 @@
 
 ---
 
-### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/setup_data.py` (v0.0.17)
+### `benchmarks/results_analysis_reports/comparative_benchmarks_20251204/setup_data.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2847,7 +2847,7 @@
 
 ---
 
-### `benchmarks/run_benchmark_orchestrator.py` (v0.0.17)
+### `benchmarks/run_benchmark_orchestrator.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2858,7 +2858,7 @@
 
 ---
 
-### `benchmarks/run_complete_benchmarks.py` (v0.0.17)
+### `benchmarks/run_complete_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2873,7 +2873,7 @@
 
 ---
 
-### `benchmarks/run_docker_benchmarks.py` (v0.0.17)
+### `benchmarks/run_docker_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2884,7 +2884,7 @@
 
 ---
 
-### `benchmarks/run_multi_shard_raid_benchmark.py` (v0.0.17)
+### `benchmarks/run_multi_shard_raid_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2898,7 +2898,7 @@
 
 ---
 
-### `benchmarks/scientific_benchmark_runner.py` (v0.0.17)
+### `benchmarks/scientific_benchmark_runner.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2913,7 +2913,7 @@
 
 ---
 
-### `benchmarks/scientific_crud_benchmark.py` (v0.0.17)
+### `benchmarks/scientific_crud_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2924,7 +2924,7 @@
 
 ---
 
-### `benchmarks/scientific_enterprise_integration.py` (v0.0.17)
+### `benchmarks/scientific_enterprise_integration.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2935,7 +2935,7 @@
 
 ---
 
-### `benchmarks/scripts/load_test_data.py` (v0.0.17)
+### `benchmarks/scripts/load_test_data.py` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (68.0/100)
 
@@ -2953,7 +2953,7 @@
 
 ---
 
-### `benchmarks/specialized_benchmarks.py` (v0.0.17)
+### `benchmarks/specialized_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2964,7 +2964,7 @@
 
 ---
 
-### `benchmarks/specialized_comparative_benchmarks.py` (v0.0.17)
+### `benchmarks/specialized_comparative_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -2975,7 +2975,7 @@
 
 ---
 
-### `benchmarks/standard_benchmarks.py` (v0.0.17)
+### `benchmarks/standard_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -2993,7 +2993,7 @@
 
 ---
 
-### `benchmarks/standard_benchmarks_integration.py` (v0.0.17)
+### `benchmarks/standard_benchmarks_integration.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3004,7 +3004,7 @@
 
 ---
 
-### `benchmarks/summary_analysis.py` (v0.0.17)
+### `benchmarks/summary_analysis.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -3015,7 +3015,7 @@
 
 ---
 
-### `benchmarks/themis_complete_with_constraints.py` (v0.0.17)
+### `benchmarks/themis_complete_with_constraints.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3026,7 +3026,7 @@
 
 ---
 
-### `benchmarks/unified_benchmark_suite.py` (v0.0.17)
+### `benchmarks/unified_benchmark_suite.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3037,7 +3037,7 @@
 
 ---
 
-### `benchmarks/validate_code_optimizations.py` (v0.0.17)
+### `benchmarks/validate_code_optimizations.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3048,7 +3048,7 @@
 
 ---
 
-### `benchmarks/validate_infrastructure.py` (v0.0.17)
+### `benchmarks/validate_infrastructure.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3059,7 +3059,7 @@
 
 ---
 
-### `benchmarks/validate_optimizations.py` (v0.0.17)
+### `benchmarks/validate_optimizations.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3070,7 +3070,7 @@
 
 ---
 
-### `benchmarks/wikipedia_stress_runner.py` (v0.0.17)
+### `benchmarks/wikipedia_stress_runner.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3084,7 +3084,7 @@
 
 ---
 
-### `benchmarks/wikipedia_stress_test.py` (v0.0.17)
+### `benchmarks/wikipedia_stress_test.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3095,7 +3095,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/CircuitBreaker.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/CircuitBreaker.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3106,7 +3106,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/ClientConfig.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/ClientConfig.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3117,7 +3117,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/IsolationLevel.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/IsolationLevel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -3128,7 +3128,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/Llm/LlmInteraction.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/Llm/LlmInteraction.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3139,7 +3139,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/Llm/LlmInteractionResult.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/Llm/LlmInteractionResult.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -3150,7 +3150,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/Llm/LlmMessage.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/Llm/LlmMessage.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -3161,7 +3161,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/Llm/ReasoningStep.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/Llm/ReasoningStep.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -3172,7 +3172,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/ThemisClient.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/ThemisClient.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3183,7 +3183,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/Transaction.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/Transaction.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3194,7 +3194,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/TransactionOptions.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/TransactionOptions.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -3205,7 +3205,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3216,7 +3216,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/obj/Debug/net6.0/ThemisDB.Client.AssemblyInfo.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/obj/Debug/net6.0/ThemisDB.Client.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -3230,7 +3230,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/obj/Debug/net6.0/ThemisDB.Client.GlobalUsings.g.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/obj/Debug/net6.0/ThemisDB.Client.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3241,7 +3241,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3252,7 +3252,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/obj/Debug/net8.0/ThemisDB.Client.AssemblyInfo.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/obj/Debug/net8.0/ThemisDB.Client.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -3266,7 +3266,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client/obj/Debug/net8.0/ThemisDB.Client.GlobalUsings.g.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client/obj/Debug/net8.0/ThemisDB.Client.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3277,7 +3277,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/ThemisClientTests.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/ThemisClientTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3288,7 +3288,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net6.0/.NETCoreApp,Version=v6.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3299,7 +3299,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net6.0/ThemisDB.Client.Tests.AssemblyInfo.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net6.0/ThemisDB.Client.Tests.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -3313,7 +3313,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net6.0/ThemisDB.Client.Tests.GlobalUsings.g.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net6.0/ThemisDB.Client.Tests.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3324,7 +3324,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3335,7 +3335,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net8.0/ThemisDB.Client.Tests.AssemblyInfo.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net8.0/ThemisDB.Client.Tests.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -3349,7 +3349,7 @@
 
 ---
 
-### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net8.0/ThemisDB.Client.Tests.GlobalUsings.g.cs` (v0.0.17)
+### `clients/csharp/ThemisDB.Client.Tests/obj/Debug/net8.0/ThemisDB.Client.Tests.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3360,7 +3360,7 @@
 
 ---
 
-### `clients/php/examples/basic_crud.php` (v0.0.17)
+### `clients/php/examples/basic_crud.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3371,7 +3371,7 @@
 
 ---
 
-### `clients/php/examples/graph_operations.php` (v0.0.17)
+### `clients/php/examples/graph_operations.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3382,7 +3382,7 @@
 
 ---
 
-### `clients/php/examples/transactions.php` (v0.0.17)
+### `clients/php/examples/transactions.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3393,7 +3393,7 @@
 
 ---
 
-### `clients/php/examples/vector_search.php` (v0.0.17)
+### `clients/php/examples/vector_search.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -3408,7 +3408,7 @@
 
 ---
 
-### `clients/php/src/Llm/LlmInteraction.php` (v0.0.17)
+### `clients/php/src/Llm/LlmInteraction.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3419,7 +3419,7 @@
 
 ---
 
-### `clients/php/src/Llm/LlmInteractionResult.php` (v0.0.17)
+### `clients/php/src/Llm/LlmInteractionResult.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3430,7 +3430,7 @@
 
 ---
 
-### `clients/php/src/Llm/LlmMessage.php` (v0.0.17)
+### `clients/php/src/Llm/LlmMessage.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3441,7 +3441,7 @@
 
 ---
 
-### `clients/php/src/Llm/ReasoningStep.php` (v0.0.17)
+### `clients/php/src/Llm/ReasoningStep.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3452,7 +3452,7 @@
 
 ---
 
-### `clients/php/src/ThemisClient.php` (v0.0.17)
+### `clients/php/src/ThemisClient.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3463,7 +3463,7 @@
 
 ---
 
-### `clients/php/src/Transaction.php` (v0.0.17)
+### `clients/php/src/Transaction.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3474,7 +3474,7 @@
 
 ---
 
-### `clients/php/tests/ThemisClientTest.php` (v0.0.17)
+### `clients/php/tests/ThemisClientTest.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3485,7 +3485,7 @@
 
 ---
 
-### `clients/python/tests/conftest.py` (v0.0.17)
+### `clients/python/tests/conftest.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -3496,7 +3496,7 @@
 
 ---
 
-### `clients/python/tests/test_benchmarks.py` (v0.0.17)
+### `clients/python/tests/test_benchmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3511,7 +3511,7 @@
 
 ---
 
-### `clients/python/tests/test_rest_api.py` (v0.0.17)
+### `clients/python/tests/test_rest_api.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3529,7 +3529,7 @@
 
 ---
 
-### `clients/python/tests/test_topology.py` (v0.0.17)
+### `clients/python/tests/test_topology.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3540,7 +3540,7 @@
 
 ---
 
-### `clients/python/tests/test_transaction.py` (v0.0.17)
+### `clients/python/tests/test_transaction.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3556,7 +3556,7 @@
 
 ---
 
-### `clients/python/themis/__init__.py` (v0.0.17)
+### `clients/python/themis/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3567,7 +3567,7 @@
 
 ---
 
-### `clients/python/themis/async_client.py` (v0.0.17)
+### `clients/python/themis/async_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3578,7 +3578,7 @@
 
 ---
 
-### `clients/python/themis/themis_native.py` (v0.0.17)
+### `clients/python/themis/themis_native.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3589,7 +3589,7 @@
 
 ---
 
-### `clients/python/themisdb/buffered_client.py` (v0.0.17)
+### `clients/python/themisdb/buffered_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3600,7 +3600,7 @@
 
 ---
 
-### `clients/wordpress-integration-example/themisdb-llm-integration.php` (v0.0.17)
+### `clients/wordpress-integration-example/themisdb-llm-integration.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3611,7 +3611,7 @@
 
 ---
 
-### `compendium/debug_anchors.py` (v0.0.17)
+### `compendium/debug_anchors.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -3626,7 +3626,7 @@
 
 ---
 
-### `compendium/debug_mermaid.py` (v0.0.17)
+### `compendium/debug_mermaid.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -3640,7 +3640,7 @@
 
 ---
 
-### `compendium/fix_markdown_figures.py` (v0.0.17)
+### `compendium/fix_markdown_figures.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3651,7 +3651,7 @@
 
 ---
 
-### `compendium/generate_test_pdf.py` (v0.0.17)
+### `compendium/generate_test_pdf.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -3662,7 +3662,7 @@
 
 ---
 
-### `compendium/step1_generate_svgs.py` (v0.0.17)
+### `compendium/step1_generate_svgs.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3673,7 +3673,7 @@
 
 ---
 
-### `compendium/step2_generate_html.py` (v0.0.17)
+### `compendium/step2_generate_html.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3684,7 +3684,7 @@
 
 ---
 
-### `compendium/step3_generate_pdf.py` (v0.0.17)
+### `compendium/step3_generate_pdf.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3695,7 +3695,7 @@
 
 ---
 
-### `compendium/step4_add_bookmarks.py` (v0.0.17)
+### `compendium/step4_add_bookmarks.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3706,7 +3706,7 @@
 
 ---
 
-### `compendium/step5_cleanup.py` (v0.0.17)
+### `compendium/step5_cleanup.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -3720,7 +3720,7 @@
 
 ---
 
-### `compendium/test_regex.py` (v0.0.17)
+### `compendium/test_regex.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -3731,7 +3731,7 @@
 
 ---
 
-### `compendium/validate_debug_yaml.py` (v0.0.17)
+### `compendium/validate_debug_yaml.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -3749,7 +3749,7 @@
 
 ---
 
-### `examples/01_hello_world/main.py` (v0.0.17)
+### `examples/01_hello_world/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3760,7 +3760,7 @@
 
 ---
 
-### `examples/01_hello_world/themis_client.py` (v0.0.17)
+### `examples/01_hello_world/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3771,7 +3771,7 @@
 
 ---
 
-### `examples/02_todo_app/main.py` (v0.0.17)
+### `examples/02_todo_app/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3782,7 +3782,7 @@
 
 ---
 
-### `examples/02_todo_app/models.py` (v0.0.17)
+### `examples/02_todo_app/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3793,7 +3793,7 @@
 
 ---
 
-### `examples/02_todo_app/themis_client.py` (v0.0.17)
+### `examples/02_todo_app/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3804,7 +3804,7 @@
 
 ---
 
-### `examples/03_contact_manager/main.py` (v0.0.17)
+### `examples/03_contact_manager/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3815,7 +3815,7 @@
 
 ---
 
-### `examples/03_contact_manager/models.py` (v0.0.17)
+### `examples/03_contact_manager/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3826,7 +3826,7 @@
 
 ---
 
-### `examples/03_contact_manager/themis_client.py` (v0.0.17)
+### `examples/03_contact_manager/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3837,7 +3837,7 @@
 
 ---
 
-### `examples/04_inventory_system/main.py` (v0.0.17)
+### `examples/04_inventory_system/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3848,7 +3848,7 @@
 
 ---
 
-### `examples/04_inventory_system/models.py` (v0.0.17)
+### `examples/04_inventory_system/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3859,7 +3859,7 @@
 
 ---
 
-### `examples/04_inventory_system/themis_client.py` (v0.0.17)
+### `examples/04_inventory_system/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3870,7 +3870,7 @@
 
 ---
 
-### `examples/05_time_series_monitor/main.py` (v0.0.17)
+### `examples/05_time_series_monitor/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3881,7 +3881,7 @@
 
 ---
 
-### `examples/05_time_series_monitor/models.py` (v0.0.17)
+### `examples/05_time_series_monitor/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3892,7 +3892,7 @@
 
 ---
 
-### `examples/05_time_series_monitor/themis_client.py` (v0.0.17)
+### `examples/05_time_series_monitor/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3903,7 +3903,7 @@
 
 ---
 
-### `examples/06_graph_social_network/main.py` (v0.0.17)
+### `examples/06_graph_social_network/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3914,7 +3914,7 @@
 
 ---
 
-### `examples/06_graph_social_network/models.py` (v0.0.17)
+### `examples/06_graph_social_network/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3925,7 +3925,7 @@
 
 ---
 
-### `examples/06_graph_social_network/themis_client.py` (v0.0.17)
+### `examples/06_graph_social_network/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3936,7 +3936,7 @@
 
 ---
 
-### `examples/07_vector_search_documents/main.py` (v0.0.17)
+### `examples/07_vector_search_documents/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3947,7 +3947,7 @@
 
 ---
 
-### `examples/07_vector_search_documents/models.py` (v0.0.17)
+### `examples/07_vector_search_documents/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3958,7 +3958,7 @@
 
 ---
 
-### `examples/07_vector_search_documents/themis_client.py` (v0.0.17)
+### `examples/07_vector_search_documents/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3969,7 +3969,7 @@
 
 ---
 
-### `examples/08_dms_erp_system/main.py` (v0.0.17)
+### `examples/08_dms_erp_system/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3981,7 +3981,7 @@
 
 ---
 
-### `examples/08_dms_erp_system/models.py` (v0.0.17)
+### `examples/08_dms_erp_system/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -3992,7 +3992,7 @@
 
 ---
 
-### `examples/08_dms_erp_system/themis_client.py` (v0.0.17)
+### `examples/08_dms_erp_system/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4003,7 +4003,7 @@
 
 ---
 
-### `examples/09_iot_sensor_network/main.py` (v0.0.17)
+### `examples/09_iot_sensor_network/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4014,7 +4014,7 @@
 
 ---
 
-### `examples/09_iot_sensor_network/models.py` (v0.0.17)
+### `examples/09_iot_sensor_network/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4025,7 +4025,7 @@
 
 ---
 
-### `examples/09_iot_sensor_network/themis_client.py` (v0.0.17)
+### `examples/09_iot_sensor_network/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4036,7 +4036,7 @@
 
 ---
 
-### `examples/10_drone_image_analysis/main.py` (v0.0.17)
+### `examples/10_drone_image_analysis/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4050,7 +4050,7 @@
 
 ---
 
-### `examples/10_drone_image_analysis/models.py` (v0.0.17)
+### `examples/10_drone_image_analysis/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4061,7 +4061,7 @@
 
 ---
 
-### `examples/10_drone_image_analysis/themis_client.py` (v0.0.17)
+### `examples/10_drone_image_analysis/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4072,7 +4072,7 @@
 
 ---
 
-### `examples/11_blog_wiki/main.py` (v0.0.17)
+### `examples/11_blog_wiki/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4083,7 +4083,7 @@
 
 ---
 
-### `examples/11_blog_wiki/models.py` (v0.0.17)
+### `examples/11_blog_wiki/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4094,7 +4094,7 @@
 
 ---
 
-### `examples/11_blog_wiki/themis_client.py` (v0.0.17)
+### `examples/11_blog_wiki/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4105,7 +4105,7 @@
 
 ---
 
-### `examples/12_expense_tracker/main.py` (v0.0.17)
+### `examples/12_expense_tracker/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4116,7 +4116,7 @@
 
 ---
 
-### `examples/12_expense_tracker/themis_client.py` (v0.0.17)
+### `examples/12_expense_tracker/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4127,7 +4127,7 @@
 
 ---
 
-### `examples/13_recipe_manager/main.py` (v0.0.17)
+### `examples/13_recipe_manager/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4138,7 +4138,7 @@
 
 ---
 
-### `examples/13_recipe_manager/themis_client.py` (v0.0.17)
+### `examples/13_recipe_manager/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4149,7 +4149,7 @@
 
 ---
 
-### `examples/14_ecommerce_catalog/main.py` (v0.0.17)
+### `examples/14_ecommerce_catalog/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4160,7 +4160,7 @@
 
 ---
 
-### `examples/14_ecommerce_catalog/themis_client.py` (v0.0.17)
+### `examples/14_ecommerce_catalog/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4171,7 +4171,7 @@
 
 ---
 
-### `examples/15_event_management/main.py` (v0.0.17)
+### `examples/15_event_management/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4182,7 +4182,7 @@
 
 ---
 
-### `examples/15_event_management/themis_client.py` (v0.0.17)
+### `examples/15_event_management/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4193,7 +4193,7 @@
 
 ---
 
-### `examples/16_kanban_board/main.py` (v0.0.17)
+### `examples/16_kanban_board/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4204,7 +4204,7 @@
 
 ---
 
-### `examples/16_kanban_board/themis_client.py` (v0.0.17)
+### `examples/16_kanban_board/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4215,7 +4215,7 @@
 
 ---
 
-### `examples/17_crm/main.py` (v0.0.17)
+### `examples/17_crm/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4226,7 +4226,7 @@
 
 ---
 
-### `examples/17_crm/themis_client.py` (v0.0.17)
+### `examples/17_crm/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4237,7 +4237,7 @@
 
 ---
 
-### `examples/18_realtime_chat/main.py` (v0.0.17)
+### `examples/18_realtime_chat/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4248,7 +4248,7 @@
 
 ---
 
-### `examples/18_realtime_chat/themis_client.py` (v0.0.17)
+### `examples/18_realtime_chat/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4259,7 +4259,7 @@
 
 ---
 
-### `examples/19_recommendation_engine/main.py` (v0.0.17)
+### `examples/19_recommendation_engine/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4270,7 +4270,7 @@
 
 ---
 
-### `examples/19_recommendation_engine/themis_client.py` (v0.0.17)
+### `examples/19_recommendation_engine/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4281,7 +4281,7 @@
 
 ---
 
-### `examples/20_smart_home/main.py` (v0.0.17)
+### `examples/20_smart_home/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4292,7 +4292,7 @@
 
 ---
 
-### `examples/20_smart_home/themis_client.py` (v0.0.17)
+### `examples/20_smart_home/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4303,7 +4303,7 @@
 
 ---
 
-### `examples/21_coding_platform/code_indexer.py` (v0.0.17)
+### `examples/21_coding_platform/code_indexer.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -4321,7 +4321,7 @@
 
 ---
 
-### `examples/21_coding_platform/main.py` (v0.0.17)
+### `examples/21_coding_platform/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4336,7 +4336,7 @@
 
 ---
 
-### `examples/21_coding_platform/models.py` (v0.0.17)
+### `examples/21_coding_platform/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4347,7 +4347,7 @@
 
 ---
 
-### `examples/21_coding_platform/themis_client.py` (v0.0.17)
+### `examples/21_coding_platform/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -4365,7 +4365,7 @@
 
 ---
 
-### `examples/21_coding_platform/web_scraper.py` (v0.0.17)
+### `examples/21_coding_platform/web_scraper.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -4383,7 +4383,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Generators/AqlQueryHelper.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Generators/AqlQueryHelper.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4394,7 +4394,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Generators/MermaidDfdGenerator.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Generators/MermaidDfdGenerator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -4405,7 +4405,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Generators/MermaidErdGenerator.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Generators/MermaidErdGenerator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -4416,7 +4416,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/DataFlowDiagram.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/DataFlowDiagram.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4427,7 +4427,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/DatabaseSchema.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/DatabaseSchema.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -4438,7 +4438,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/Entity.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/Entity.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -4449,7 +4449,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/Relationship.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Models/Relationship.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -4460,7 +4460,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Parsers/JsonSchemaParser.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Parsers/JsonSchemaParser.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -4471,7 +4471,7 @@
 
 ---
 
-### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Program.cs` (v0.0.17)
+### `examples/22_aql_diagram_tool/ThemisDB.AqlDiagramTool/Program.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -4482,7 +4482,7 @@
 
 ---
 
-### `examples/23_traveling_salesman/main.py` (v0.0.17)
+### `examples/23_traveling_salesman/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4493,7 +4493,7 @@
 
 ---
 
-### `examples/23_traveling_salesman/models.py` (v0.0.17)
+### `examples/23_traveling_salesman/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4504,7 +4504,7 @@
 
 ---
 
-### `examples/23_traveling_salesman/themis_client.py` (v0.0.17)
+### `examples/23_traveling_salesman/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4515,7 +4515,7 @@
 
 ---
 
-### `examples/23_traveling_salesman/tsp_algorithms.py` (v0.0.17)
+### `examples/23_traveling_salesman/tsp_algorithms.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4526,7 +4526,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ai_synthesizer.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ai_synthesizer.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4537,7 +4537,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/argument_models.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/argument_models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4548,7 +4548,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/complete_self_improving_ethics_loop.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/complete_self_improving_ethics_loop.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4562,7 +4562,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/debate_chat.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/debate_chat.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4573,7 +4573,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/demo_ethics_evaluation.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/demo_ethics_evaluation.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4584,7 +4584,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethical_discourse_engine.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethical_discourse_engine.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4595,7 +4595,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethical_scenarios_loader.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethical_scenarios_loader.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4609,7 +4609,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethics_ai_production_deployment.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethics_ai_production_deployment.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4620,7 +4620,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethics_benchmark.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethics_benchmark.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4631,7 +4631,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethics_evaluation_metrics.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethics_evaluation_metrics.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4642,7 +4642,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethics_monitoring_dashboard.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethics_monitoring_dashboard.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -4659,7 +4659,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/ethics_prompt_optimization_framework.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/ethics_prompt_optimization_framework.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4674,7 +4674,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/example_basic_usage.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/example_basic_usage.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4685,7 +4685,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/example_complete_workflow.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/example_complete_workflow.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4696,7 +4696,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/knowledge_researcher.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/knowledge_researcher.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4707,7 +4707,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/llm_backends.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/llm_backends.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4718,7 +4718,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/lora_training_with_optimized_prompts.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/lora_training_with_optimized_prompts.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -4736,7 +4736,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/main.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/main.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4747,7 +4747,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/main_old.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/main_old.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4758,7 +4758,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/models.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4769,7 +4769,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/moral_engine.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/moral_engine.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4784,7 +4784,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/news_researcher.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/news_researcher.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4795,7 +4795,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/philosophy_loader.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/philosophy_loader.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4806,7 +4806,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/rag_context_engine.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/rag_context_engine.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -4824,7 +4824,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/standalone/gui_dialectic.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/standalone/gui_dialectic.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4835,7 +4835,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/standalone/standalone_moral_dialectic.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/standalone/standalone_moral_dialectic.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4846,7 +4846,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/test_ethics_evaluation_metrics.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/test_ethics_evaluation_metrics.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4857,7 +4857,7 @@
 
 ---
 
-### `examples/24_moral_philosophy_debates/themis_client.py` (v0.0.17)
+### `examples/24_moral_philosophy_debates/themis_client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4868,7 +4868,7 @@
 
 ---
 
-### `examples/adaptive_batching_example.cpp` (v0.0.17)
+### `examples/adaptive_batching_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -4886,7 +4886,7 @@
 
 ---
 
-### `examples/adaptive_retention_example.cpp` (v0.0.17)
+### `examples/adaptive_retention_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4897,7 +4897,7 @@
 
 ---
 
-### `examples/api_gateway_example.cpp` (v0.0.17)
+### `examples/api_gateway_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -4908,7 +4908,7 @@
 
 ---
 
-### `examples/archive_pipeline.py` (v0.0.17)
+### `examples/archive_pipeline.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -4923,7 +4923,7 @@
 
 ---
 
-### `examples/chat_formatting_example.cpp` (v0.0.17)
+### `examples/chat_formatting_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -4934,7 +4934,7 @@
 
 ---
 
-### `examples/complete_integration_example.cpp` (v0.0.17)
+### `examples/complete_integration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -4950,7 +4950,7 @@
 
 ---
 
-### `examples/complete_self_improvement_example.cpp` (v0.0.17)
+### `examples/complete_self_improvement_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -4966,7 +4966,7 @@
 
 ---
 
-### `examples/concerns_example.cpp` (v0.0.17)
+### `examples/concerns_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (82.0/100)
 
@@ -4990,7 +4990,7 @@
 
 ---
 
-### `examples/continuous_learning_example.cpp` (v0.0.17)
+### `examples/continuous_learning_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -5007,7 +5007,7 @@
 
 ---
 
-### `examples/continuous_learning_integration_example.cpp` (v0.0.17)
+### `examples/continuous_learning_integration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5024,7 +5024,7 @@
 
 ---
 
-### `examples/cron_and_cdc_scheduler_example.cpp` (v0.0.17)
+### `examples/cron_and_cdc_scheduler_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -5039,7 +5039,7 @@
 
 ---
 
-### `examples/data_retention_downsampling_example.cpp` (v0.0.17)
+### `examples/data_retention_downsampling_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5050,7 +5050,7 @@
 
 ---
 
-### `examples/distributed_sharding/distributed_sharding_example.cpp` (v0.0.17)
+### `examples/distributed_sharding/distributed_sharding_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -5061,7 +5061,7 @@
 
 ---
 
-### `examples/distributed_transaction_example.cpp` (v0.0.17)
+### `examples/distributed_transaction_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5072,7 +5072,7 @@
 
 ---
 
-### `examples/domain_prompts_usage_example.cpp` (v0.0.17)
+### `examples/domain_prompts_usage_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5083,7 +5083,7 @@
 
 ---
 
-### `examples/e2e_qlora_training_example.py` (v0.0.17)
+### `examples/e2e_qlora_training_example.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5097,7 +5097,7 @@
 
 ---
 
-### `examples/embedded_llm_examples.cpp` (v0.0.17)
+### `examples/embedded_llm_examples.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5108,7 +5108,7 @@
 
 ---
 
-### `examples/example_ai_auditing.cpp` (v0.0.17)
+### `examples/example_ai_auditing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5119,7 +5119,7 @@
 
 ---
 
-### `examples/example_approximate_radius_search.cpp` (v0.0.17)
+### `examples/example_approximate_radius_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5130,7 +5130,7 @@
 
 ---
 
-### `examples/example_distributed_lora_training.cpp` (v0.0.17)
+### `examples/example_distributed_lora_training.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5141,7 +5141,7 @@
 
 ---
 
-### `examples/example_index_manager_di.cpp` (v0.0.17)
+### `examples/example_index_manager_di.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -5155,7 +5155,7 @@
 
 ---
 
-### `examples/example_llm_metrics.cpp` (v0.0.17)
+### `examples/example_llm_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -5167,7 +5167,7 @@
 
 ---
 
-### `examples/example_multi_ssd_configuration.cpp` (v0.0.17)
+### `examples/example_multi_ssd_configuration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -5178,7 +5178,7 @@
 
 ---
 
-### `examples/example_pki_lora.cpp` (v0.0.17)
+### `examples/example_pki_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5189,7 +5189,7 @@
 
 ---
 
-### `examples/example_vector_encryption.cpp` (v0.0.17)
+### `examples/example_vector_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -5203,7 +5203,7 @@
 
 ---
 
-### `examples/feedback_collection_example.cpp` (v0.0.17)
+### `examples/feedback_collection_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -5219,7 +5219,7 @@
 
 ---
 
-### `examples/feedback_plugins/feedback_validator.py` (v0.0.17)
+### `examples/feedback_plugins/feedback_validator.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5233,7 +5233,7 @@
 
 ---
 
-### `examples/future_works_integration_example.cpp` (v0.0.17)
+### `examples/future_works_integration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -5247,7 +5247,7 @@
 
 ---
 
-### `examples/geo/example_3d.cpp` (v0.0.17)
+### `examples/geo/example_3d.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5258,7 +5258,7 @@
 
 ---
 
-### `examples/gnn/gnn_embeddings_example.cpp` (v0.0.17)
+### `examples/gnn/gnn_embeddings_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5269,7 +5269,7 @@
 
 ---
 
-### `examples/gpu_vector_index_example.cpp` (v0.0.17)
+### `examples/gpu_vector_index_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5280,7 +5280,7 @@
 
 ---
 
-### `examples/gradient_checkpointing_example.cpp` (v0.0.17)
+### `examples/gradient_checkpointing_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5291,7 +5291,7 @@
 
 ---
 
-### `examples/hot_reload_example.cpp` (v0.0.17)
+### `examples/hot_reload_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5302,7 +5302,7 @@
 
 ---
 
-### `examples/hot_spare_example.cpp` (v0.0.17)
+### `examples/hot_spare_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -5316,7 +5316,7 @@
 
 ---
 
-### `examples/hsm_security_integration_example.cpp` (v0.0.17)
+### `examples/hsm_security_integration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (61.0/100)
 
@@ -5331,7 +5331,7 @@
 
 ---
 
-### `examples/huggingface_ingestion_example.cpp` (v0.0.17)
+### `examples/huggingface_ingestion_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -5349,7 +5349,7 @@
 
 ---
 
-### `examples/hybrid_retention_usage_example.cpp` (v0.0.17)
+### `examples/hybrid_retention_usage_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5360,7 +5360,7 @@
 
 ---
 
-### `examples/image_analysis/image_analysis_example.cpp` (v0.0.17)
+### `examples/image_analysis/image_analysis_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5371,7 +5371,7 @@
 
 ---
 
-### `examples/learnable_rope_example.cpp` (v0.0.17)
+### `examples/learnable_rope_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5382,7 +5382,7 @@
 
 ---
 
-### `examples/legal_lora_training/test_auto_labeler_basic.cpp` (v0.0.17)
+### `examples/legal_lora_training/test_auto_labeler_basic.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5393,7 +5393,7 @@
 
 ---
 
-### `examples/legal_lora_training/train_legal_lora.cpp` (v0.0.17)
+### `examples/legal_lora_training/train_legal_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5404,7 +5404,7 @@
 
 ---
 
-### `examples/llm/multi_gpu_example.cpp` (v0.0.17)
+### `examples/llm/multi_gpu_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -5418,7 +5418,7 @@
 
 ---
 
-### `examples/lora_rope_example.cpp` (v0.0.17)
+### `examples/lora_rope_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -5429,7 +5429,7 @@
 
 ---
 
-### `examples/lora_sync/example_lora_sync.cpp` (v0.0.17)
+### `examples/lora_sync/example_lora_sync.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5440,7 +5440,7 @@
 
 ---
 
-### `examples/lora_training_example.cpp` (v0.0.17)
+### `examples/lora_training_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -5454,7 +5454,7 @@
 
 ---
 
-### `examples/migration/contentfs_migration_example.cpp` (v0.0.17)
+### `examples/migration/contentfs_migration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -5472,7 +5472,7 @@
 
 ---
 
-### `examples/migration/index_manager_migration_example.cpp` (v0.0.17)
+### `examples/migration/index_manager_migration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5487,7 +5487,7 @@
 
 ---
 
-### `examples/migration/tsstore_migration_example.cpp` (v0.0.17)
+### `examples/migration/tsstore_migration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5501,7 +5501,7 @@
 
 ---
 
-### `examples/moral_analyzer_example.cpp` (v0.0.17)
+### `examples/moral_analyzer_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5512,7 +5512,7 @@
 
 ---
 
-### `examples/multi_gpu_vector_index_example.cpp` (v0.0.17)
+### `examples/multi_gpu_vector_index_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -5523,7 +5523,7 @@
 
 ---
 
-### `examples/multi_vector_search_example.cpp` (v0.0.17)
+### `examples/multi_vector_search_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5537,7 +5537,7 @@
 
 ---
 
-### `examples/performance/usage_example.cpp` (v0.0.17)
+### `examples/performance/usage_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -5555,7 +5555,7 @@
 
 ---
 
-### `examples/phi3_lora_training_example.cpp` (v0.0.17)
+### `examples/phi3_lora_training_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5566,7 +5566,7 @@
 
 ---
 
-### `examples/phi3_query_example.cpp` (v0.0.17)
+### `examples/phi3_query_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5577,7 +5577,7 @@
 
 ---
 
-### `examples/prompt_optimization_example.cpp` (v0.0.17)
+### `examples/prompt_optimization_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5588,7 +5588,7 @@
 
 ---
 
-### `examples/qlora_poc_example.py` (v0.0.17)
+### `examples/qlora_poc_example.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5604,7 +5604,7 @@
 
 ---
 
-### `examples/quality_control_demo.cpp` (v0.0.17)
+### `examples/quality_control_demo.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5615,7 +5615,7 @@
 
 ---
 
-### `examples/rag_knowledge_gap_integration.cpp` (v0.0.17)
+### `examples/rag_knowledge_gap_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -5631,7 +5631,7 @@
 
 ---
 
-### `examples/railway/railway_base_data_generator.cpp` (v0.0.17)
+### `examples/railway/railway_base_data_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -5645,7 +5645,7 @@
 
 ---
 
-### `examples/rope_visualization/advanced_analysis_example.py` (v0.0.17)
+### `examples/rope_visualization/advanced_analysis_example.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5656,7 +5656,7 @@
 
 ---
 
-### `examples/rope_visualization/basic_visualization_example.py` (v0.0.17)
+### `examples/rope_visualization/basic_visualization_example.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -5667,7 +5667,7 @@
 
 ---
 
-### `examples/rope_visualization/cli_usage_demo.py` (v0.0.17)
+### `examples/rope_visualization/cli_usage_demo.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5678,7 +5678,7 @@
 
 ---
 
-### `examples/security/access_control_example.cpp` (v0.0.17)
+### `examples/security/access_control_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5689,7 +5689,7 @@
 
 ---
 
-### `examples/sharding_demo.cpp` (v0.0.17)
+### `examples/sharding_demo.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5700,7 +5700,7 @@
 
 ---
 
-### `examples/simple_qc_integration_example.cpp` (v0.0.17)
+### `examples/simple_qc_integration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5715,7 +5715,7 @@
 
 ---
 
-### `examples/task_scheduler_integration_example.cpp` (v0.0.17)
+### `examples/task_scheduler_integration_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5726,7 +5726,7 @@
 
 ---
 
-### `examples/test_optimization_standalone.cpp` (v0.0.17)
+### `examples/test_optimization_standalone.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -5740,7 +5740,7 @@
 
 ---
 
-### `examples/themis_help_lora_example.cpp` (v0.0.17)
+### `examples/themis_help_lora_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5751,7 +5751,7 @@
 
 ---
 
-### `examples/timestamp_authority_example.cpp` (v0.0.17)
+### `examples/timestamp_authority_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -5762,7 +5762,7 @@
 
 ---
 
-### `examples/version_control_example.cpp` (v0.0.17)
+### `examples/version_control_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -5777,7 +5777,7 @@
 
 ---
 
-### `examples/voice_assistant_example.py` (v0.0.17)
+### `examples/voice_assistant_example.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5788,7 +5788,7 @@
 
 ---
 
-### `examples/vulkan_vector_search_example.cpp` (v0.0.17)
+### `examples/vulkan_vector_search_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -5799,7 +5799,7 @@
 
 ---
 
-### `fuzz/harnesses/aql_parser_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/aql_parser_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5814,7 +5814,7 @@
 
 ---
 
-### `fuzz/harnesses/gguf_loader_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/gguf_loader_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -5829,7 +5829,7 @@
 
 ---
 
-### `fuzz/harnesses/grammar_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/grammar_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -5840,7 +5840,7 @@
 
 ---
 
-### `fuzz/harnesses/http_parser_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/http_parser_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5851,7 +5851,7 @@
 
 ---
 
-### `fuzz/harnesses/jwt_rbac_config_harness.cpp` (v0.0.13)
+### `fuzz/harnesses/jwt_rbac_config_harness.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -5865,7 +5865,7 @@
 
 ---
 
-### `fuzz/harnesses/pii_redaction_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/pii_redaction_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -5878,7 +5878,7 @@
 
 ---
 
-### `fuzz/harnesses/postgres_importer_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/postgres_importer_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5892,7 +5892,7 @@
 
 ---
 
-### `fuzz/harnesses/security_input_validator_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/security_input_validator_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -5905,7 +5905,7 @@
 
 ---
 
-### `fuzz/harnesses/security_policy_engine_harness.cpp` (v0.0.17)
+### `fuzz/harnesses/security_policy_engine_harness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -5919,7 +5919,7 @@
 
 ---
 
-### `grafana/compliance_exporter.py` (v0.0.17)
+### `grafana/compliance_exporter.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5930,7 +5930,18 @@
 
 ---
 
-### `include/acceleration/compute_backend.h` (v0.0.17)
+### `include/acceleration/compute_backend.h` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `include/acceleration/cpu_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5941,7 +5952,7 @@
 
 ---
 
-### `include/acceleration/cpu_backend.h` (v0.0.17)
+### `include/acceleration/cuda_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5952,18 +5963,7 @@
 
 ---
 
-### `include/acceleration/cuda_backend.h` (v0.0.17)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
-
----
-
-### `include/acceleration/error_codes.h` (v0.0.17)
+### `include/acceleration/error_codes.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -5977,7 +5977,7 @@
 
 ---
 
-### `include/acceleration/error_context.h` (v0.0.17)
+### `include/acceleration/error_context.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5988,7 +5988,7 @@
 
 ---
 
-### `include/acceleration/faiss_gpu_backend.h` (v0.0.17)
+### `include/acceleration/faiss_gpu_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -5999,7 +5999,7 @@
 
 ---
 
-### `include/acceleration/graphics_backends.h` (v0.0.17)
+### `include/acceleration/graphics_backends.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6010,7 +6010,7 @@
 
 ---
 
-### `include/acceleration/hip_backend.h` (v0.0.17)
+### `include/acceleration/hip_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6021,7 +6021,7 @@
 
 ---
 
-### `include/acceleration/kernel_invocation.h` (v0.0.3)
+### `include/acceleration/kernel_invocation.h` (v0.0.9)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6032,7 +6032,7 @@
 
 ---
 
-### `include/acceleration/metrics/backend_metrics.h` (v0.0.17)
+### `include/acceleration/metrics/backend_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -6043,7 +6043,7 @@
 
 ---
 
-### `include/acceleration/metrics/metrics_collector.h` (v0.0.17)
+### `include/acceleration/metrics/metrics_collector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6054,7 +6054,7 @@
 
 ---
 
-### `include/acceleration/nccl_vector_backend.h` (v0.0.17)
+### `include/acceleration/nccl_vector_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6067,7 +6067,7 @@
 
 ---
 
-### `include/acceleration/plugin_loader.h` (v0.0.17)
+### `include/acceleration/plugin_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6078,7 +6078,7 @@
 
 ---
 
-### `include/acceleration/plugin_security.h` (v0.0.17)
+### `include/acceleration/plugin_security.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6089,7 +6089,7 @@
 
 ---
 
-### `include/acceleration/raii/cuda_raii.h` (v0.0.17)
+### `include/acceleration/raii/cuda_raii.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6100,7 +6100,7 @@
 
 ---
 
-### `include/acceleration/raii/hip_raii.h` (v0.0.17)
+### `include/acceleration/raii/hip_raii.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6111,7 +6111,7 @@
 
 ---
 
-### `include/acceleration/raii/opencl_raii.h` (v0.0.17)
+### `include/acceleration/raii/opencl_raii.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6122,7 +6122,7 @@
 
 ---
 
-### `include/acceleration/rccl_vector_backend.h` (v0.0.17)
+### `include/acceleration/rccl_vector_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6135,7 +6135,7 @@
 
 ---
 
-### `include/acceleration/vllm_resource_manager.h` (v0.0.17)
+### `include/acceleration/vllm_resource_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6146,7 +6146,7 @@
 
 ---
 
-### `include/analytics/analytics_export.h` (v0.0.17)
+### `include/analytics/analytics_export.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6158,18 +6158,7 @@
 
 ---
 
-### `include/analytics/anomaly_detection.h` (v0.0.2)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
-
----
-
-### `include/analytics/arrow_export.h` (v0.0.17)
+### `include/analytics/anomaly_detection.h` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6180,7 +6169,7 @@
 
 ---
 
-### `include/analytics/cep_engine.h` (v0.0.17)
+### `include/analytics/arrow_export.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6191,7 +6180,7 @@
 
 ---
 
-### `include/analytics/diff_engine.h` (v0.0.17)
+### `include/analytics/cep_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6202,18 +6191,7 @@
 
 ---
 
-### `include/analytics/incremental_view.h` (v0.0.2)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
-
----
-
-### `include/analytics/llm_process_analyzer.h` (v0.0.17)
+### `include/analytics/diff_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6224,7 +6202,7 @@
 
 ---
 
-### `include/analytics/nlp_text_analyzer.h` (v0.0.17)
+### `include/analytics/incremental_view.h` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6235,7 +6213,7 @@
 
 ---
 
-### `include/analytics/olap.h` (v0.0.17)
+### `include/analytics/llm_process_analyzer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6246,7 +6224,7 @@
 
 ---
 
-### `include/analytics/process_mining.h` (v0.0.17)
+### `include/analytics/nlp_text_analyzer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6257,7 +6235,7 @@
 
 ---
 
-### `include/analytics/process_pattern_matcher.h` (v0.0.17)
+### `include/analytics/olap.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6268,18 +6246,7 @@
 
 ---
 
-### `include/analytics/streaming_window.h` (v0.0.2)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
-
----
-
-### `include/api/audit_logger.h` (v0.0.17)
+### `include/analytics/process_mining.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6290,7 +6257,7 @@
 
 ---
 
-### `include/api/geo_index_hooks.h` (v0.0.17)
+### `include/analytics/process_pattern_matcher.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6301,7 +6268,7 @@
 
 ---
 
-### `include/api/graphql.h` (v0.0.17)
+### `include/analytics/streaming_window.h` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6312,7 +6279,40 @@
 
 ---
 
-### `include/api/graphql_cache.h` (v0.0.17)
+### `include/api/audit_logger.h` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `include/api/geo_index_hooks.h` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `include/api/graphql.h` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `include/api/graphql_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6326,7 +6326,7 @@
 
 ---
 
-### `include/api/graphql_metrics.h` (v0.0.17)
+### `include/api/graphql_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6337,7 +6337,7 @@
 
 ---
 
-### `include/api/persisted_queries.h` (v0.0.17)
+### `include/api/persisted_queries.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6348,7 +6348,7 @@
 
 ---
 
-### `include/api/rate_limiter.h` (v0.0.17)
+### `include/api/rate_limiter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6359,7 +6359,7 @@
 
 ---
 
-### `include/aql/aql_confidence_scorer.h` (v0.0.9)
+### `include/aql/aql_confidence_scorer.h` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6370,7 +6370,7 @@
 
 ---
 
-### `include/aql/aql_conversation_context.h` (v0.0.9)
+### `include/aql/aql_conversation_context.h` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6381,7 +6381,7 @@
 
 ---
 
-### `include/aql/aql_query_builder.h` (v0.0.9)
+### `include/aql/aql_query_builder.h` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6392,7 +6392,7 @@
 
 ---
 
-### `include/aql/aql_query_template_library.h` (v0.0.9)
+### `include/aql/aql_query_template_library.h` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6403,7 +6403,7 @@
 
 ---
 
-### `include/aql/aql_query_validator.h` (v0.0.9)
+### `include/aql/aql_query_validator.h` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6414,7 +6414,7 @@
 
 ---
 
-### `include/aql/aql_syntax_highlighter.h` (v0.0.6)
+### `include/aql/aql_syntax_highlighter.h` (v0.0.12)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6425,7 +6425,7 @@
 
 ---
 
-### `include/aql/docs_assistant_functions.h` (v0.0.17)
+### `include/aql/docs_assistant_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6436,7 +6436,7 @@
 
 ---
 
-### `include/aql/llm_aql_handler.h` (v0.0.17)
+### `include/aql/llm_aql_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6447,7 +6447,7 @@
 
 ---
 
-### `include/aql/llm_error_codes.h` (v0.0.17)
+### `include/aql/llm_error_codes.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6458,7 +6458,7 @@
 
 ---
 
-### `include/aql/llm_metrics_collector.h` (v0.0.17)
+### `include/aql/llm_metrics_collector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6469,7 +6469,7 @@
 
 ---
 
-### `include/aql/llm_timeout_manager.h` (v0.0.17)
+### `include/aql/llm_timeout_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6483,7 +6483,7 @@
 
 ---
 
-### `include/auth/auth_error.h` (v0.0.17)
+### `include/auth/auth_error.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6494,7 +6494,7 @@
 
 ---
 
-### `include/auth/auth_metrics.h` (v0.0.17)
+### `include/auth/auth_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6506,7 +6506,7 @@
 
 ---
 
-### `include/auth/auth_rate_limiter.h` (v0.0.17)
+### `include/auth/auth_rate_limiter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6517,7 +6517,7 @@
 
 ---
 
-### `include/auth/gssapi_authenticator.h` (v0.0.17)
+### `include/auth/gssapi_authenticator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6528,7 +6528,7 @@
 
 ---
 
-### `include/auth/jwks_security.h` (v0.0.17)
+### `include/auth/jwks_security.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6539,7 +6539,7 @@
 
 ---
 
-### `include/auth/jwks_validator.h` (v0.0.17)
+### `include/auth/jwks_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6550,7 +6550,7 @@
 
 ---
 
-### `include/auth/jwt_key_rotation_manager.h` (v0.0.17)
+### `include/auth/jwt_key_rotation_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6561,7 +6561,7 @@
 
 ---
 
-### `include/auth/jwt_validator.h` (v0.0.17)
+### `include/auth/jwt_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6572,7 +6572,7 @@
 
 ---
 
-### `include/auth/kerberos_security.h` (v0.0.17)
+### `include/auth/kerberos_security.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6583,7 +6583,7 @@
 
 ---
 
-### `include/auth/mfa_authenticator.h` (v0.0.17)
+### `include/auth/mfa_authenticator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6594,7 +6594,7 @@
 
 ---
 
-### `include/auth/principal_validator.h` (v0.0.17)
+### `include/auth/principal_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6605,7 +6605,7 @@
 
 ---
 
-### `include/auth/token_blacklist.h` (v0.0.17)
+### `include/auth/token_blacklist.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6616,7 +6616,7 @@
 
 ---
 
-### `include/auth/totp_replay_cache.h` (v0.0.17)
+### `include/auth/totp_replay_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6627,7 +6627,7 @@
 
 ---
 
-### `include/auth/totp_secret_encryption.h` (v0.0.17)
+### `include/auth/totp_secret_encryption.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6638,7 +6638,7 @@
 
 ---
 
-### `include/cache/adaptive_query_cache.h` (v0.0.17)
+### `include/cache/adaptive_query_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6649,7 +6649,7 @@
 
 ---
 
-### `include/cache/aligned_vector_allocator.h` (v0.0.17)
+### `include/cache/aligned_vector_allocator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6660,7 +6660,7 @@
 
 ---
 
-### `include/cache/arc_cache.h` (v0.0.16)
+### `include/cache/arc_cache.h` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6671,7 +6671,7 @@
 
 ---
 
-### `include/cache/bounded_lru_cache.h` (v0.0.17)
+### `include/cache/bounded_lru_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6682,7 +6682,7 @@
 
 ---
 
-### `include/cache/cache_metrics.h` (v0.0.17)
+### `include/cache/cache_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6693,7 +6693,7 @@
 
 ---
 
-### `include/cache/cache_provider.h` (v0.0.17)
+### `include/cache/cache_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6704,7 +6704,7 @@
 
 ---
 
-### `include/cache/embedding_cache.h` (v0.0.17)
+### `include/cache/embedding_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6715,7 +6715,7 @@
 
 ---
 
-### `include/cache/enhanced_query_cache.h` (v0.0.17)
+### `include/cache/enhanced_query_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6726,7 +6726,7 @@
 
 ---
 
-### `include/cache/l1_tinylfu_cache.h` (v0.0.17)
+### `include/cache/l1_tinylfu_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6737,7 +6737,7 @@
 
 ---
 
-### `include/cache/request_coalescer.h` (v0.0.17)
+### `include/cache/request_coalescer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6748,7 +6748,7 @@
 
 ---
 
-### `include/cache/result_cache.h` (v0.0.17)
+### `include/cache/result_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6759,7 +6759,7 @@
 
 ---
 
-### `include/cache/semantic_cache.h` (v0.0.17)
+### `include/cache/semantic_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6770,7 +6770,7 @@
 
 ---
 
-### `include/cdc/cdc_admin.h` (v0.0.17)
+### `include/cdc/cdc_admin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6781,7 +6781,7 @@
 
 ---
 
-### `include/cdc/cdc_error.h` (v0.0.17)
+### `include/cdc/cdc_error.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6792,7 +6792,7 @@
 
 ---
 
-### `include/cdc/cdc_metrics.h` (v0.0.17)
+### `include/cdc/cdc_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6803,7 +6803,7 @@
 
 ---
 
-### `include/cdc/changefeed.h` (v0.0.17)
+### `include/cdc/changefeed.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6814,7 +6814,7 @@
 
 ---
 
-### `include/cdc/changefeed_buffer.h` (v0.0.17)
+### `include/cdc/changefeed_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6825,7 +6825,7 @@
 
 ---
 
-### `include/cdc/tenant_buffer_manager.h` (v0.0.17)
+### `include/cdc/tenant_buffer_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6836,7 +6836,7 @@
 
 ---
 
-### `include/chimera/database_adapter.hpp` (v0.0.17)
+### `include/chimera/database_adapter.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6847,7 +6847,7 @@
 
 ---
 
-### `include/chimera/themisdb_adapter.hpp` (v0.0.17)
+### `include/chimera/themisdb_adapter.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -6858,7 +6858,7 @@
 
 ---
 
-### `include/content/archive_processor.h` (v0.0.17)
+### `include/content/archive_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -6874,7 +6874,7 @@
 
 ---
 
-### `include/content/async_ingestion_worker.h` (v0.0.17)
+### `include/content/async_ingestion_worker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6885,7 +6885,7 @@
 
 ---
 
-### `include/content/audio_processor.h` (v0.0.17)
+### `include/content/audio_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -6896,7 +6896,7 @@
 
 ---
 
-### `include/content/cad_processor.h` (v0.0.17)
+### `include/content/cad_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -6907,7 +6907,7 @@
 
 ---
 
-### `include/content/content_errors.h` (v0.0.17)
+### `include/content/content_errors.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6918,7 +6918,7 @@
 
 ---
 
-### `include/content/content_fs.h` (v0.0.17)
+### `include/content/content_fs.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -6929,7 +6929,7 @@
 
 ---
 
-### `include/content/content_logger.h` (v0.0.17)
+### `include/content/content_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6944,7 +6944,7 @@
 
 ---
 
-### `include/content/content_manager.h` (v0.0.17)
+### `include/content/content_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6955,7 +6955,7 @@
 
 ---
 
-### `include/content/content_metrics.h` (v0.0.17)
+### `include/content/content_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6966,7 +6966,7 @@
 
 ---
 
-### `include/content/content_plugin_interface.h` (v0.0.17)
+### `include/content/content_plugin_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6977,7 +6977,7 @@
 
 ---
 
-### `include/content/content_policy.h` (v0.0.17)
+### `include/content/content_policy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -6988,7 +6988,7 @@
 
 ---
 
-### `include/content/content_processor.h` (v0.0.17)
+### `include/content/content_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7002,7 +7002,7 @@
 
 ---
 
-### `include/content/content_security.h` (v0.0.17)
+### `include/content/content_security.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7015,7 +7015,7 @@
 
 ---
 
-### `include/content/content_type.h` (v0.0.17)
+### `include/content/content_type.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7026,7 +7026,7 @@
 
 ---
 
-### `include/content/content_validator.h` (v0.0.17)
+### `include/content/content_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7037,7 +7037,7 @@
 
 ---
 
-### `include/content/geo_processor.h` (v0.0.17)
+### `include/content/geo_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -7048,7 +7048,7 @@
 
 ---
 
-### `include/content/image_processor.h` (v0.0.17)
+### `include/content/image_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -7059,7 +7059,7 @@
 
 ---
 
-### `include/content/ingestion_plugin.h` (v0.0.17)
+### `include/content/ingestion_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7070,7 +7070,7 @@
 
 ---
 
-### `include/content/mime_detector.h` (v0.0.17)
+### `include/content/mime_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7081,7 +7081,7 @@
 
 ---
 
-### `include/content/mock_clip_processor.h` (v0.0.17)
+### `include/content/mock_clip_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -7095,7 +7095,7 @@
 
 ---
 
-### `include/content/office_processor.h` (v0.0.17)
+### `include/content/office_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7106,7 +7106,7 @@
 
 ---
 
-### `include/content/pdf_processor.h` (v0.0.17)
+### `include/content/pdf_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7117,7 +7117,7 @@
 
 ---
 
-### `include/content/pipeline/async_bulk_uploader.h` (v0.0.17)
+### `include/content/pipeline/async_bulk_uploader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7128,7 +7128,7 @@
 
 ---
 
-### `include/content/pipeline/bulk_upload_interface.h` (v0.0.17)
+### `include/content/pipeline/bulk_upload_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7139,7 +7139,7 @@
 
 ---
 
-### `include/content/pipeline/content_chunker.h` (v0.0.17)
+### `include/content/pipeline/content_chunker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7150,7 +7150,7 @@
 
 ---
 
-### `include/content/pipeline/multimodal_chunker.h` (v0.0.17)
+### `include/content/pipeline/multimodal_chunker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7161,7 +7161,7 @@
 
 ---
 
-### `include/content/pipeline/zstd_compression.h` (v0.0.17)
+### `include/content/pipeline/zstd_compression.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7172,7 +7172,7 @@
 
 ---
 
-### `include/content/stt_processor.h` (v0.0.17)
+### `include/content/stt_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7183,7 +7183,7 @@
 
 ---
 
-### `include/content/tts_processor.h` (v0.0.17)
+### `include/content/tts_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7194,7 +7194,7 @@
 
 ---
 
-### `include/content/version_manager.h` (v0.0.17)
+### `include/content/version_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7205,7 +7205,7 @@
 
 ---
 
-### `include/content/video_processor.h` (v0.0.17)
+### `include/content/video_processor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -7216,7 +7216,7 @@
 
 ---
 
-### `include/core/concerns/cache_strategies.h` (v0.0.17)
+### `include/core/concerns/cache_strategies.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7227,7 +7227,7 @@
 
 ---
 
-### `include/core/concerns/concerns_context.h` (v0.0.17)
+### `include/core/concerns/concerns_context.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7241,7 +7241,7 @@
 
 ---
 
-### `include/core/concerns/eviction_strategies.h` (v0.0.17)
+### `include/core/concerns/eviction_strategies.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7252,7 +7252,7 @@
 
 ---
 
-### `include/core/concerns/i_async_cache.h` (v0.0.17)
+### `include/core/concerns/i_async_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7263,7 +7263,7 @@
 
 ---
 
-### `include/core/concerns/i_async_logger.h` (v0.0.17)
+### `include/core/concerns/i_async_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7279,7 +7279,7 @@
 
 ---
 
-### `include/core/concerns/i_cache.h` (v0.0.17)
+### `include/core/concerns/i_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7293,7 +7293,7 @@
 
 ---
 
-### `include/core/concerns/i_context.h` (v0.0.17)
+### `include/core/concerns/i_context.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7305,7 +7305,7 @@
 
 ---
 
-### `include/core/concerns/i_logger.h` (v0.0.17)
+### `include/core/concerns/i_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7315,17 +7315,17 @@
   - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🎭 SIMULATION** (1 occurrences):
-  - Line 58: `* mock loggers and runtime switching of logging implementations.`
+  - Line 62: `* mock loggers and runtime switching of logging implementations.`
 
 **🐛 DEBUG** (4 occurrences):
-  - Line 72: `DEBUG,`
-  - Line 100: `/// @brief Log at DEBUG level (developer-facing diagnostic detail).`
-  - Line 102: `virtual void debug(const std::string& message) = 0;`
-  - Line 211: `* Accepts "trace", "debug", "info", "warn", "error", "critical".`
+  - Line 76: `DEBUG,`
+  - Line 104: `/// @brief Log at DEBUG level (developer-facing diagnostic detail).`
+  - Line 106: `virtual void debug(const std::string& message) = 0;`
+  - Line 215: `* Accepts "trace", "debug", "info", "warn", "error", "critical".`
 
 ---
 
-### `include/core/concerns/i_metrics.h` (v0.0.17)
+### `include/core/concerns/i_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7339,7 +7339,7 @@
 
 ---
 
-### `include/core/concerns/i_tracer.h` (v0.0.17)
+### `include/core/concerns/i_tracer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7353,7 +7353,7 @@
 
 ---
 
-### `include/core/concerns/inmemory_cache_impl.h` (v0.0.17)
+### `include/core/concerns/inmemory_cache_impl.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -7364,7 +7364,7 @@
 
 ---
 
-### `include/core/concerns/lifecycle.h` (v0.0.17)
+### `include/core/concerns/lifecycle.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7375,7 +7375,7 @@
 
 ---
 
-### `include/core/concerns/metric_labels.h` (v0.0.17)
+### `include/core/concerns/metric_labels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7386,7 +7386,7 @@
 
 ---
 
-### `include/core/concerns/noop_implementations.h` (v0.0.17)
+### `include/core/concerns/noop_implementations.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7400,7 +7400,7 @@
 
 ---
 
-### `include/core/concerns/otel_tracer_adapter.h` (v0.0.17)
+### `include/core/concerns/otel_tracer_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7411,7 +7411,7 @@
 
 ---
 
-### `include/core/concerns/prometheus_metrics_adapter.h` (v0.0.17)
+### `include/core/concerns/prometheus_metrics_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -7422,7 +7422,7 @@
 
 ---
 
-### `include/core/concerns/spdlog_logger_adapter.h` (v0.0.17)
+### `include/core/concerns/spdlog_logger_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7440,7 +7440,7 @@
 
 ---
 
-### `include/core/concerns/strategic_cache_impl.h` (v0.0.17)
+### `include/core/concerns/strategic_cache_impl.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7451,7 +7451,7 @@
 
 ---
 
-### `include/core/config_validator.h` (v0.0.17)
+### `include/core/config_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7466,7 +7466,7 @@
 
 ---
 
-### `include/core/index_initialization.h` (v0.0.17)
+### `include/core/index_initialization.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7477,7 +7477,7 @@
 
 ---
 
-### `include/core/production_mode.h` (v0.0.17)
+### `include/core/production_mode.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7488,7 +7488,7 @@
 
 ---
 
-### `include/core/query_engine_builder.h` (v0.0.17)
+### `include/core/query_engine_builder.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7499,7 +7499,7 @@
 
 ---
 
-### `include/core/security_initialization.h` (v0.0.17)
+### `include/core/security_initialization.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7510,7 +7510,7 @@
 
 ---
 
-### `include/core/storage_initialization.h` (v0.0.17)
+### `include/core/storage_initialization.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7521,7 +7521,7 @@
 
 ---
 
-### `include/document/document_manager_deprecated.h` (v0.0.17)
+### `include/document/document_manager_deprecated.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -7532,7 +7532,7 @@
 
 ---
 
-### `include/document/encrypted_entities.h` (v0.0.17)
+### `include/document/encrypted_entities.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7543,7 +7543,7 @@
 
 ---
 
-### `include/exporters/exporter_errors.h` (v0.0.17)
+### `include/exporters/exporter_errors.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7554,7 +7554,7 @@
 
 ---
 
-### `include/exporters/exporter_interface.h` (v0.0.17)
+### `include/exporters/exporter_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7565,7 +7565,7 @@
 
 ---
 
-### `include/exporters/exporter_metrics.h` (v0.0.17)
+### `include/exporters/exporter_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7576,7 +7576,7 @@
 
 ---
 
-### `include/exporters/jsonl_llm_exporter.h` (v0.0.17)
+### `include/exporters/jsonl_llm_exporter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7587,7 +7587,7 @@
 
 ---
 
-### `include/exporters/pii_detector.h` (v0.0.17)
+### `include/exporters/pii_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7598,7 +7598,7 @@
 
 ---
 
-### `include/exporters/stream_writer.h` (v0.0.17)
+### `include/exporters/stream_writer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7609,7 +7609,7 @@
 
 ---
 
-### `include/geo/geo_ops_ext.h` (v0.0.17)
+### `include/geo/geo_ops_ext.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -7620,7 +7620,7 @@
 
 ---
 
-### `include/geo/spatial_backend.h` (v0.0.17)
+### `include/geo/spatial_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7631,7 +7631,7 @@
 
 ---
 
-### `include/governance/compliance_reporter.h` (v0.0.17)
+### `include/governance/compliance_reporter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7642,7 +7642,7 @@
 
 ---
 
-### `include/governance/compliance_reporting.h` (v0.0.17)
+### `include/governance/compliance_reporting.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7653,7 +7653,7 @@
 
 ---
 
-### `include/governance/policy_coordinator.h` (v0.0.17)
+### `include/governance/policy_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7664,7 +7664,7 @@
 
 ---
 
-### `include/governance/policy_engine.h` (v0.0.17)
+### `include/governance/policy_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -7675,7 +7675,7 @@
 
 ---
 
-### `include/governance/policy_manager.h` (v0.0.17)
+### `include/governance/policy_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7686,7 +7686,7 @@
 
 ---
 
-### `include/governance/policy_manager_versioned.h` (v0.0.17)
+### `include/governance/policy_manager_versioned.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7697,7 +7697,7 @@
 
 ---
 
-### `include/governance/policy_review.h` (v0.0.17)
+### `include/governance/policy_review.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7708,7 +7708,7 @@
 
 ---
 
-### `include/governance/policy_template.h` (v0.0.17)
+### `include/governance/policy_template.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7719,7 +7719,7 @@
 
 ---
 
-### `include/governance/policy_validation.h` (v0.0.17)
+### `include/governance/policy_validation.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7730,7 +7730,7 @@
 
 ---
 
-### `include/governance/policy_validator.h` (v0.0.17)
+### `include/governance/policy_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7741,7 +7741,7 @@
 
 ---
 
-### `include/governance/policy_version_history.h` (v0.0.17)
+### `include/governance/policy_version_history.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7752,7 +7752,7 @@
 
 ---
 
-### `include/governance/review_scheduler.h` (v0.0.17)
+### `include/governance/review_scheduler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7763,7 +7763,7 @@
 
 ---
 
-### `include/graph/graph_query_optimizer.h` (v0.0.17)
+### `include/graph/graph_query_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7774,7 +7774,7 @@
 
 ---
 
-### `include/graph/path_constraints.h` (v0.0.17)
+### `include/graph/path_constraints.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7785,7 +7785,7 @@
 
 ---
 
-### `include/importers/importer_interface.h` (v0.0.17)
+### `include/importers/importer_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7796,7 +7796,7 @@
 
 ---
 
-### `include/importers/postgres_importer.h` (v0.0.17)
+### `include/importers/postgres_importer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -7807,7 +7807,7 @@
 
 ---
 
-### `include/index/adaptive_index.h` (v0.0.17)
+### `include/index/adaptive_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7818,7 +7818,7 @@
 
 ---
 
-### `include/index/advanced_vector_index.h` (v0.0.17)
+### `include/index/advanced_vector_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7829,7 +7829,7 @@
 
 ---
 
-### `include/index/approximate_radius_search.h` (v0.0.17)
+### `include/index/approximate_radius_search.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7840,7 +7840,7 @@
 
 ---
 
-### `include/index/binary_quantizer.h` (v0.0.17)
+### `include/index/binary_quantizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7851,7 +7851,7 @@
 
 ---
 
-### `include/index/edge_types.h` (v0.0.17)
+### `include/index/edge_types.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7862,7 +7862,7 @@
 
 ---
 
-### `include/index/gnn_embeddings.h` (v0.0.17)
+### `include/index/gnn_embeddings.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7873,7 +7873,7 @@
 
 ---
 
-### `include/index/gpu_vector_index.h` (v0.0.17)
+### `include/index/gpu_vector_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -7887,7 +7887,7 @@
 
 ---
 
-### `include/index/graph_analytics.h` (v0.0.17)
+### `include/index/graph_analytics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7898,7 +7898,7 @@
 
 ---
 
-### `include/index/graph_auto_buffer.h` (v0.0.17)
+### `include/index/graph_auto_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7909,7 +7909,7 @@
 
 ---
 
-### `include/index/graph_index.h` (v0.0.17)
+### `include/index/graph_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -7920,7 +7920,7 @@
 
 ---
 
-### `include/index/hnsw_layer_optimizer.h` (v0.0.17)
+### `include/index/hnsw_layer_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7931,7 +7931,7 @@
 
 ---
 
-### `include/index/hnsw_parameter_tuner.h` (v0.0.17)
+### `include/index/hnsw_parameter_tuner.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7942,7 +7942,7 @@
 
 ---
 
-### `include/index/hnsw_production_defaults.h` (v0.0.17)
+### `include/index/hnsw_production_defaults.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7953,7 +7953,7 @@
 
 ---
 
-### `include/index/index_manager.h` (v0.0.17)
+### `include/index/index_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7967,7 +7967,18 @@
 
 ---
 
-### `include/index/learnable_rope.h` (v0.0.17)
+### `include/index/inverted_index.h` (v0.0.2)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+
+---
+
+### `include/index/learnable_rope.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7978,7 +7989,7 @@
 
 ---
 
-### `include/index/learned_quantizer.h` (v0.0.17)
+### `include/index/learned_quantizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -7989,7 +8000,7 @@
 
 ---
 
-### `include/index/lora_rope.h` (v0.0.17)
+### `include/index/lora_rope.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8000,7 +8011,7 @@
 
 ---
 
-### `include/index/multi_gpu_vector_index.h` (v0.0.17)
+### `include/index/multi_gpu_vector_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8011,7 +8022,7 @@
 
 ---
 
-### `include/index/multi_vector_search.h` (v0.0.17)
+### `include/index/multi_vector_search.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8022,7 +8033,7 @@
 
 ---
 
-### `include/index/process_graph.h` (v0.0.17)
+### `include/index/process_graph.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8033,7 +8044,7 @@
 
 ---
 
-### `include/index/product_quantizer.h` (v0.0.17)
+### `include/index/product_quantizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8044,7 +8055,7 @@
 
 ---
 
-### `include/index/property_graph.h` (v0.0.17)
+### `include/index/property_graph.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8055,7 +8066,7 @@
 
 ---
 
-### `include/index/residual_quantizer.h` (v0.0.17)
+### `include/index/residual_quantizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8066,7 +8077,7 @@
 
 ---
 
-### `include/index/rotary_embeddings.h` (v0.0.17)
+### `include/index/rotary_embeddings.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8077,7 +8088,7 @@
 
 ---
 
-### `include/index/rotary_embeddings_gpu.h` (v0.0.17)
+### `include/index/rotary_embeddings_gpu.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8088,7 +8099,7 @@
 
 ---
 
-### `include/index/secondary_index.h` (v0.0.17)
+### `include/index/secondary_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -8099,7 +8110,7 @@
 
 ---
 
-### `include/index/secondary_index_metadata_cache.h` (v0.0.17)
+### `include/index/secondary_index_metadata_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8110,7 +8121,7 @@
 
 ---
 
-### `include/index/spatial_index.h` (v0.0.17)
+### `include/index/spatial_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8121,7 +8132,7 @@
 
 ---
 
-### `include/index/temporal_graph.h` (v0.0.17)
+### `include/index/temporal_graph.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8132,7 +8143,7 @@
 
 ---
 
-### `include/index/vector_auto_buffer.h` (v0.0.17)
+### `include/index/vector_auto_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8143,7 +8154,7 @@
 
 ---
 
-### `include/index/vector_index.h` (v0.0.17)
+### `include/index/vector_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8154,7 +8165,7 @@
 
 ---
 
-### `include/index/vector_index_manager.h` (v0.0.17)
+### `include/index/vector_index_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -8165,7 +8176,7 @@
 
 ---
 
-### `include/ingestion/api_connector.h` (v0.0.17)
+### `include/ingestion/api_connector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8176,7 +8187,7 @@
 
 ---
 
-### `include/ingestion/filesystem_ingester.h` (v0.0.17)
+### `include/ingestion/filesystem_ingester.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8187,7 +8198,7 @@
 
 ---
 
-### `include/ingestion/huggingface_connector.h` (v0.0.17)
+### `include/ingestion/huggingface_connector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8198,7 +8209,7 @@
 
 ---
 
-### `include/ingestion/ingestion_manager.h` (v0.0.17)
+### `include/ingestion/ingestion_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8209,7 +8220,7 @@
 
 ---
 
-### `include/llm/adapter_compatibility.h` (v0.0.17)
+### `include/llm/adapter_compatibility.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8220,7 +8231,7 @@
 
 ---
 
-### `include/llm/adapter_deployment_manager.h` (v0.0.17)
+### `include/llm/adapter_deployment_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -8231,7 +8242,7 @@
 
 ---
 
-### `include/llm/adapter_load_balancer.h` (v0.0.17)
+### `include/llm/adapter_load_balancer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8242,7 +8253,7 @@
 
 ---
 
-### `include/llm/adapter_registry.h` (v0.0.17)
+### `include/llm/adapter_registry.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8253,7 +8264,7 @@
 
 ---
 
-### `include/llm/adaptive_vram_allocator.h` (v0.0.17)
+### `include/llm/adaptive_vram_allocator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8264,7 +8275,7 @@
 
 ---
 
-### `include/llm/ai_decision_auditor.h` (v0.0.17)
+### `include/llm/ai_decision_auditor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8275,7 +8286,7 @@
 
 ---
 
-### `include/llm/applications/themis_help_lora.h` (v0.0.17)
+### `include/llm/applications/themis_help_lora.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8286,7 +8297,7 @@
 
 ---
 
-### `include/llm/aql_train_parser.h` (v0.0.17)
+### `include/llm/aql_train_parser.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8297,7 +8308,7 @@
 
 ---
 
-### `include/llm/async_inference_engine.h` (v0.0.17)
+### `include/llm/async_inference_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8308,7 +8319,7 @@
 
 ---
 
-### `include/llm/attention/cuda/flash_attention_cuda.h` (v0.0.17)
+### `include/llm/attention/cuda/flash_attention_cuda.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8319,7 +8330,7 @@
 
 ---
 
-### `include/llm/attention/flash_attention.h` (v0.0.17)
+### `include/llm/attention/flash_attention.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8330,7 +8341,7 @@
 
 ---
 
-### `include/llm/attention/flash_attention_config.h` (v0.0.17)
+### `include/llm/attention/flash_attention_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -8341,7 +8352,7 @@
 
 ---
 
-### `include/llm/attention/hip/flash_attention_hip.h` (v0.0.17)
+### `include/llm/attention/hip/flash_attention_hip.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -8352,7 +8363,7 @@
 
 ---
 
-### `include/llm/attention/kv_cache_manager.h` (v0.0.17)
+### `include/llm/attention/kv_cache_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8363,7 +8374,7 @@
 
 ---
 
-### `include/llm/attention/vulkan/flash_attention_vulkan.h` (v0.0.17)
+### `include/llm/attention/vulkan/flash_attention_vulkan.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -8374,7 +8385,7 @@
 
 ---
 
-### `include/llm/batch_generator.h` (v0.0.17)
+### `include/llm/batch_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8385,7 +8396,7 @@
 
 ---
 
-### `include/llm/block_table.h` (v0.0.17)
+### `include/llm/block_table.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -8396,7 +8407,7 @@
 
 ---
 
-### `include/llm/byzantine_detector.h` (v0.0.17)
+### `include/llm/byzantine_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -8407,7 +8418,7 @@
 
 ---
 
-### `include/llm/constitutional_reasoning_engine.h` (v0.0.17)
+### `include/llm/constitutional_reasoning_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8418,7 +8429,7 @@
 
 ---
 
-### `include/llm/continuous_batch_scheduler.h` (v0.0.17)
+### `include/llm/continuous_batch_scheduler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8429,7 +8440,7 @@
 
 ---
 
-### `include/llm/distributed_training_coordinator.h` (v0.0.17)
+### `include/llm/distributed_training_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -8440,7 +8451,7 @@
 
 ---
 
-### `include/llm/docs_assistant.h` (v0.0.17)
+### `include/llm/docs_assistant.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8451,7 +8462,7 @@
 
 ---
 
-### `include/llm/embedded_llm.h` (v0.0.17)
+### `include/llm/embedded_llm.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8462,7 +8473,7 @@
 
 ---
 
-### `include/llm/ethical_guidelines_manager.h` (v0.0.17)
+### `include/llm/ethical_guidelines_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8473,7 +8484,7 @@
 
 ---
 
-### `include/llm/ethics_aware_confidence_detector.h` (v0.0.17)
+### `include/llm/ethics_aware_confidence_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8484,7 +8495,7 @@
 
 ---
 
-### `include/llm/explanation_generator.h` (v0.0.17)
+### `include/llm/explanation_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8495,7 +8506,7 @@
 
 ---
 
-### `include/llm/feedback_store.h` (v0.0.17)
+### `include/llm/feedback_store.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8506,7 +8517,7 @@
 
 ---
 
-### `include/llm/fewshot_optimizer.h` (v0.0.17)
+### `include/llm/fewshot_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8517,7 +8528,7 @@
 
 ---
 
-### `include/llm/gguf_loader.h` (v0.0.17)
+### `include/llm/gguf_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8528,7 +8539,7 @@
 
 ---
 
-### `include/llm/gguf_st_adapter.h` (v0.0.17)
+### `include/llm/gguf_st_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8539,7 +8550,7 @@
 
 ---
 
-### `include/llm/gpu_memory_manager.h` (v0.0.17)
+### `include/llm/gpu_memory_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -8550,7 +8561,7 @@
 
 ---
 
-### `include/llm/gpu_safe_fail.h` (v0.0.17)
+### `include/llm/gpu_safe_fail.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8561,7 +8572,7 @@
 
 ---
 
-### `include/llm/grafana_metrics.h` (v0.0.17)
+### `include/llm/grafana_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8576,7 +8587,7 @@
 
 ---
 
-### `include/llm/grammar.h` (v0.0.17)
+### `include/llm/grammar.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8587,7 +8598,7 @@
 
 ---
 
-### `include/llm/grammar_cache.h` (v0.0.17)
+### `include/llm/grammar_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8598,7 +8609,7 @@
 
 ---
 
-### `include/llm/i_feedback_plugin.h` (v0.0.17)
+### `include/llm/i_feedback_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8609,7 +8620,7 @@
 
 ---
 
-### `include/llm/i_llm_plugin.h` (v0.0.17)
+### `include/llm/i_llm_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -8620,7 +8631,7 @@
 
 ---
 
-### `include/llm/inference_engine_enhanced.h` (v0.0.17)
+### `include/llm/inference_engine_enhanced.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8631,7 +8642,7 @@
 
 ---
 
-### `include/llm/inference_handle.h` (v0.0.17)
+### `include/llm/inference_handle.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -8642,7 +8653,7 @@
 
 ---
 
-### `include/llm/inline_training_engine.h` (v0.0.17)
+### `include/llm/inline_training_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8653,7 +8664,7 @@
 
 ---
 
-### `include/llm/kernel_fusion.h` (v0.0.17)
+### `include/llm/kernel_fusion.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -8664,7 +8675,7 @@
 
 ---
 
-### `include/llm/kernel_fusion_cuda.h` (v0.0.17)
+### `include/llm/kernel_fusion_cuda.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8675,7 +8686,7 @@
 
 ---
 
-### `include/llm/kv_cache_buffer.h` (v0.0.17)
+### `include/llm/kv_cache_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -8686,7 +8697,7 @@
 
 ---
 
-### `include/llm/lazy_model_loader.h` (v0.0.17)
+### `include/llm/lazy_model_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -8697,7 +8708,7 @@
 
 ---
 
-### `include/llm/llama_resource_manager.h` (v0.0.17)
+### `include/llm/llama_resource_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8708,7 +8719,7 @@
 
 ---
 
-### `include/llm/llama_wrapper.h` (v0.0.17)
+### `include/llm/llama_wrapper.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -8725,7 +8736,7 @@
 
 ---
 
-### `include/llm/llamacpp_inference_engine.h` (v0.0.17)
+### `include/llm/llamacpp_inference_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8736,7 +8747,7 @@
 
 ---
 
-### `include/llm/llamacpp_training_backend.h` (v0.0.17)
+### `include/llm/llamacpp_training_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -8747,7 +8758,7 @@
 
 ---
 
-### `include/llm/llm_interaction_store.h` (v0.0.17)
+### `include/llm/llm_interaction_store.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8758,7 +8769,7 @@
 
 ---
 
-### `include/llm/llm_model_audit_logger.h` (v0.0.17)
+### `include/llm/llm_model_audit_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8769,7 +8780,7 @@
 
 ---
 
-### `include/llm/llm_model_storage.h` (v0.0.17)
+### `include/llm/llm_model_storage.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8783,7 +8794,7 @@
 
 ---
 
-### `include/llm/llm_plugin_interface.h` (v0.0.17)
+### `include/llm/llm_plugin_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8794,7 +8805,7 @@
 
 ---
 
-### `include/llm/llm_plugin_manager.h` (v0.0.17)
+### `include/llm/llm_plugin_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8805,7 +8816,7 @@
 
 ---
 
-### `include/llm/llm_prefix_cache.h` (v0.0.17)
+### `include/llm/llm_prefix_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8816,7 +8827,7 @@
 
 ---
 
-### `include/llm/llm_response_cache.h` (v0.0.17)
+### `include/llm/llm_response_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8827,7 +8838,7 @@
 
 ---
 
-### `include/llm/lora_framework/adapter_consistency_checker.h` (v0.0.17)
+### `include/llm/lora_framework/adapter_consistency_checker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8838,7 +8849,7 @@
 
 ---
 
-### `include/llm/lora_framework/adapter_sync_manager.h` (v0.0.17)
+### `include/llm/lora_framework/adapter_sync_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8849,7 +8860,7 @@
 
 ---
 
-### `include/llm/lora_framework/adaptive_batcher.h` (v0.0.17)
+### `include/llm/lora_framework/adaptive_batcher.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8860,7 +8871,7 @@
 
 ---
 
-### `include/llm/lora_framework/base_model_adapter.h` (v0.0.17)
+### `include/llm/lora_framework/base_model_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8871,7 +8882,7 @@
 
 ---
 
-### `include/llm/lora_framework/cpu_fused_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/cpu_fused_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8882,7 +8893,7 @@
 
 ---
 
-### `include/llm/lora_framework/cuda_bf16_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/cuda_bf16_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8893,7 +8904,7 @@
 
 ---
 
-### `include/llm/lora_framework/cuda_flash_lora_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/cuda_flash_lora_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8904,7 +8915,7 @@
 
 ---
 
-### `include/llm/lora_framework/cuda_fp16_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/cuda_fp16_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8915,7 +8926,7 @@
 
 ---
 
-### `include/llm/lora_framework/cuda_fused_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/cuda_fused_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8926,7 +8937,7 @@
 
 ---
 
-### `include/llm/lora_framework/cuda_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/cuda_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8937,7 +8948,7 @@
 
 ---
 
-### `include/llm/lora_framework/custom_allreduce.h` (v0.0.17)
+### `include/llm/lora_framework/custom_allreduce.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8948,7 +8959,7 @@
 
 ---
 
-### `include/llm/lora_framework/data_loader.h` (v0.0.17)
+### `include/llm/lora_framework/data_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8959,7 +8970,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_buffer.h` (v0.0.17)
+### `include/llm/lora_framework/directx_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8970,7 +8981,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_context.h` (v0.0.17)
+### `include/llm/lora_framework/directx_context.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8981,7 +8992,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_descriptors.h` (v0.0.17)
+### `include/llm/lora_framework/directx_descriptors.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -8992,7 +9003,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/directx_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9003,7 +9014,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_pipeline.h` (v0.0.17)
+### `include/llm/lora_framework/directx_pipeline.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9014,7 +9025,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_shader.h` (v0.0.17)
+### `include/llm/lora_framework/directx_shader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9025,7 +9036,7 @@
 
 ---
 
-### `include/llm/lora_framework/directx_shader_utils.h` (v0.0.17)
+### `include/llm/lora_framework/directx_shader_utils.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -9036,7 +9047,7 @@
 
 ---
 
-### `include/llm/lora_framework/distributed_dataloader.h` (v0.0.17)
+### `include/llm/lora_framework/distributed_dataloader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9047,7 +9058,7 @@
 
 ---
 
-### `include/llm/lora_framework/distributed_trainer.h` (v0.0.17)
+### `include/llm/lora_framework/distributed_trainer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9058,7 +9069,7 @@
 
 ---
 
-### `include/llm/lora_framework/embedding_provider.h` (v0.0.17)
+### `include/llm/lora_framework/embedding_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9069,7 +9080,7 @@
 
 ---
 
-### `include/llm/lora_framework/feedback_plugin.h` (v0.0.17)
+### `include/llm/lora_framework/feedback_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9080,7 +9091,7 @@
 
 ---
 
-### `include/llm/lora_framework/flash_lora.h` (v0.0.17)
+### `include/llm/lora_framework/flash_lora.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9091,7 +9102,7 @@
 
 ---
 
-### `include/llm/lora_framework/gguf_converter.h` (v0.0.17)
+### `include/llm/lora_framework/gguf_converter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9102,7 +9113,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_data_loader.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_data_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9113,7 +9124,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_embedding_layer.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_embedding_layer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9124,7 +9135,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_lora_layers.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_lora_layers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9135,7 +9146,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_memory.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_memory.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9146,7 +9157,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_tensor.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_tensor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9157,7 +9168,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_training_loop.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_training_loop.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9171,7 +9182,7 @@
 
 ---
 
-### `include/llm/lora_framework/gpu_utilization_monitor.h` (v0.0.17)
+### `include/llm/lora_framework/gpu_utilization_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9182,7 +9193,7 @@
 
 ---
 
-### `include/llm/lora_framework/gradient_checkpointing.h` (v0.0.17)
+### `include/llm/lora_framework/gradient_checkpointing.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9193,7 +9204,7 @@
 
 ---
 
-### `include/llm/lora_framework/gradient_utils.h` (v0.0.17)
+### `include/llm/lora_framework/gradient_utils.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9204,7 +9215,7 @@
 
 ---
 
-### `include/llm/lora_framework/hip_fused_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/hip_fused_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9215,7 +9226,7 @@
 
 ---
 
-### `include/llm/lora_framework/hip_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/hip_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9226,7 +9237,7 @@
 
 ---
 
-### `include/llm/lora_framework/llama_tokenizer.h` (v0.0.17)
+### `include/llm/lora_framework/llama_tokenizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9237,7 +9248,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_audit_logger.h` (v0.0.17)
+### `include/llm/lora_framework/lora_audit_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9248,7 +9259,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_config.h` (v0.0.17)
+### `include/llm/lora_framework/lora_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9259,7 +9270,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_feedback.h` (v0.0.17)
+### `include/llm/lora_framework/lora_feedback.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9270,7 +9281,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_feedback_storage.h` (v0.0.17)
+### `include/llm/lora_framework/lora_feedback_storage.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9281,7 +9292,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_graph.h` (v0.0.17)
+### `include/llm/lora_framework/lora_graph.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9295,7 +9306,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_layers.h` (v0.0.17)
+### `include/llm/lora_framework/lora_layers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9306,7 +9317,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_metrics.h` (v0.0.17)
+### `include/llm/lora_framework/lora_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -9318,7 +9329,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_orchestrator.h` (v0.0.17)
+### `include/llm/lora_framework/lora_orchestrator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9329,7 +9340,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_provenance.h` (v0.0.10)
+### `include/llm/lora_framework/lora_provenance.h` (v0.0.16)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9340,7 +9351,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_storage_service.h` (v0.0.17)
+### `include/llm/lora_framework/lora_storage_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9351,7 +9362,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_training_config.h` (v0.0.17)
+### `include/llm/lora_framework/lora_training_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9362,7 +9373,7 @@
 
 ---
 
-### `include/llm/lora_framework/lora_training_service.h` (v0.0.17)
+### `include/llm/lora_framework/lora_training_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9373,7 +9384,7 @@
 
 ---
 
-### `include/llm/lora_framework/lr_scheduler.h` (v0.0.17)
+### `include/llm/lora_framework/lr_scheduler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9384,7 +9395,7 @@
 
 ---
 
-### `include/llm/lora_framework/mixed_precision.h` (v0.0.17)
+### `include/llm/lora_framework/mixed_precision.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9395,7 +9406,7 @@
 
 ---
 
-### `include/llm/lora_framework/model_compatibility.h` (v0.0.17)
+### `include/llm/lora_framework/model_compatibility.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9406,7 +9417,7 @@
 
 ---
 
-### `include/llm/lora_framework/multi_gpu.h` (v0.0.17)
+### `include/llm/lora_framework/multi_gpu.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9417,7 +9428,7 @@
 
 ---
 
-### `include/llm/lora_framework/multi_gpu_lora_layer.h` (v0.0.17)
+### `include/llm/lora_framework/multi_gpu_lora_layer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9428,7 +9439,7 @@
 
 ---
 
-### `include/llm/lora_framework/multi_gpu_trainer.h` (v0.0.17)
+### `include/llm/lora_framework/multi_gpu_trainer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9439,7 +9450,7 @@
 
 ---
 
-### `include/llm/lora_framework/nccl_backend.h` (v0.0.17)
+### `include/llm/lora_framework/nccl_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9450,7 +9461,7 @@
 
 ---
 
-### `include/llm/lora_framework/paged_memory_manager.h` (v0.0.17)
+### `include/llm/lora_framework/paged_memory_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9461,7 +9472,7 @@
 
 ---
 
-### `include/llm/lora_framework/paged_optimizer.h` (v0.0.17)
+### `include/llm/lora_framework/paged_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9472,7 +9483,7 @@
 
 ---
 
-### `include/llm/lora_framework/quantization.h` (v0.0.17)
+### `include/llm/lora_framework/quantization.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9483,7 +9494,7 @@
 
 ---
 
-### `include/llm/lora_framework/quantization_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/quantization_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9494,7 +9505,7 @@
 
 ---
 
-### `include/llm/lora_framework/quantized_model.h` (v0.0.17)
+### `include/llm/lora_framework/quantized_model.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9505,7 +9516,7 @@
 
 ---
 
-### `include/llm/lora_framework/rccl_backend.h` (v0.0.17)
+### `include/llm/lora_framework/rccl_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9516,7 +9527,7 @@
 
 ---
 
-### `include/llm/lora_framework/resource_profiler.h` (v0.0.17)
+### `include/llm/lora_framework/resource_profiler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9527,7 +9538,7 @@
 
 ---
 
-### `include/llm/lora_framework/sequence_packer.h` (v0.0.17)
+### `include/llm/lora_framework/sequence_packer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9538,7 +9549,7 @@
 
 ---
 
-### `include/llm/lora_framework/tensor_dtype.h` (v0.0.17)
+### `include/llm/lora_framework/tensor_dtype.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -9555,7 +9566,7 @@
 
 ---
 
-### `include/llm/lora_framework/training_service_registry.h` (v0.0.17)
+### `include/llm/lora_framework/training_service_registry.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9566,7 +9577,7 @@
 
 ---
 
-### `include/llm/lora_framework/vram_allocator.h` (v0.0.17)
+### `include/llm/lora_framework/vram_allocator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9577,7 +9588,7 @@
 
 ---
 
-### `include/llm/lora_framework/vulkan_buffer.h` (v0.0.17)
+### `include/llm/lora_framework/vulkan_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9589,7 +9600,7 @@
 
 ---
 
-### `include/llm/lora_framework/vulkan_context.h` (v0.0.17)
+### `include/llm/lora_framework/vulkan_context.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9604,7 +9615,7 @@
 
 ---
 
-### `include/llm/lora_framework/vulkan_kernels.h` (v0.0.17)
+### `include/llm/lora_framework/vulkan_kernels.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9615,7 +9626,7 @@
 
 ---
 
-### `include/llm/lora_framework/vulkan_pipeline.h` (v0.0.17)
+### `include/llm/lora_framework/vulkan_pipeline.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9627,7 +9638,7 @@
 
 ---
 
-### `include/llm/lora_metadata_cache.h` (v0.0.17)
+### `include/llm/lora_metadata_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9638,7 +9649,7 @@
 
 ---
 
-### `include/llm/lora_router.h` (v0.0.17)
+### `include/llm/lora_router.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9649,7 +9660,7 @@
 
 ---
 
-### `include/llm/lora_security_validator.h` (v0.0.17)
+### `include/llm/lora_security_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9660,7 +9671,7 @@
 
 ---
 
-### `include/llm/meta_prompt_generator.h` (v0.0.17)
+### `include/llm/meta_prompt_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9671,7 +9682,7 @@
 
 ---
 
-### `include/llm/mixed_precision_inference.h` (v0.0.17)
+### `include/llm/mixed_precision_inference.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9682,7 +9693,7 @@
 
 ---
 
-### `include/llm/ml_model_manager.h` (v0.0.17)
+### `include/llm/ml_model_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9693,7 +9704,7 @@
 
 ---
 
-### `include/llm/model_downloader.h` (v0.0.17)
+### `include/llm/model_downloader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9704,7 +9715,7 @@
 
 ---
 
-### `include/llm/model_loader.h` (v0.0.17)
+### `include/llm/model_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9715,7 +9726,7 @@
 
 ---
 
-### `include/llm/model_metadata_cache.h` (v0.0.17)
+### `include/llm/model_metadata_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9726,7 +9737,7 @@
 
 ---
 
-### `include/llm/moral_analyzer.h` (v0.0.17)
+### `include/llm/moral_analyzer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9737,7 +9748,7 @@
 
 ---
 
-### `include/llm/multi_gpu_memory_coordinator.h` (v0.0.17)
+### `include/llm/multi_gpu_memory_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9748,7 +9759,7 @@
 
 ---
 
-### `include/llm/multi_lora_manager.h` (v0.0.17)
+### `include/llm/multi_lora_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9759,7 +9770,7 @@
 
 ---
 
-### `include/llm/multi_model_training_data.h` (v0.0.17)
+### `include/llm/multi_model_training_data.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9770,7 +9781,7 @@
 
 ---
 
-### `include/llm/multi_perspective_generator.h` (v0.0.17)
+### `include/llm/multi_perspective_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9781,7 +9792,7 @@
 
 ---
 
-### `include/llm/paged_block_manager.h` (v0.0.17)
+### `include/llm/paged_block_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9792,7 +9803,7 @@
 
 ---
 
-### `include/llm/paged_kv_cache.h` (v0.0.17)
+### `include/llm/paged_kv_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -9803,7 +9814,7 @@
 
 ---
 
-### `include/llm/paged_kv_cache_manager.h` (v0.0.17)
+### `include/llm/paged_kv_cache_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9814,7 +9825,7 @@
 
 ---
 
-### `include/llm/production_validator.h` (v0.0.17)
+### `include/llm/production_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9828,7 +9839,7 @@
 
 ---
 
-### `include/llm/prompt_evaluator.h` (v0.0.17)
+### `include/llm/prompt_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9839,7 +9850,7 @@
 
 ---
 
-### `include/llm/prompt_manager.h` (v0.0.17)
+### `include/llm/prompt_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -9850,7 +9861,7 @@
 
 ---
 
-### `include/llm/prompt_optimizer.h` (v0.0.17)
+### `include/llm/prompt_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9861,7 +9872,7 @@
 
 ---
 
-### `include/llm/prompt_policy.h` (v0.0.17)
+### `include/llm/prompt_policy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9872,7 +9883,7 @@
 
 ---
 
-### `include/llm/sampling_strategy.h` (v0.0.17)
+### `include/llm/sampling_strategy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9883,7 +9894,7 @@
 
 ---
 
-### `include/llm/security/signature_verifier.h` (v0.0.17)
+### `include/llm/security/signature_verifier.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9894,7 +9905,7 @@
 
 ---
 
-### `include/llm/token_quota_manager.h` (v0.0.17)
+### `include/llm/token_quota_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9905,7 +9916,7 @@
 
 ---
 
-### `include/llm/training_data_iterator.h` (v0.0.17)
+### `include/llm/training_data_iterator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9916,7 +9927,7 @@
 
 ---
 
-### `include/llm/vision_config.h` (v0.0.17)
+### `include/llm/vision_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9927,7 +9938,7 @@
 
 ---
 
-### `include/llm/vision_encoder.h` (v0.0.17)
+### `include/llm/vision_encoder.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9938,7 +9949,7 @@
 
 ---
 
-### `include/llm/vision_resource_monitor.h` (v0.0.17)
+### `include/llm/vision_resource_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9949,7 +9960,7 @@
 
 ---
 
-### `include/metadata/index_recommender.h` (v0.0.17)
+### `include/metadata/index_recommender.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9960,7 +9971,7 @@
 
 ---
 
-### `include/metadata/information_schema.h` (v0.0.17)
+### `include/metadata/information_schema.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9971,7 +9982,7 @@
 
 ---
 
-### `include/metadata/schema_audit_log.h` (v0.0.17)
+### `include/metadata/schema_audit_log.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9982,7 +9993,7 @@
 
 ---
 
-### `include/metadata/schema_consistency_checker.h` (v0.0.17)
+### `include/metadata/schema_consistency_checker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -9993,7 +10004,7 @@
 
 ---
 
-### `include/metadata/schema_constraints.h` (v0.0.17)
+### `include/metadata/schema_constraints.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10004,7 +10015,7 @@
 
 ---
 
-### `include/metadata/schema_manager.h` (v0.0.17)
+### `include/metadata/schema_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10015,7 +10026,7 @@
 
 ---
 
-### `include/metadata/schema_version_manager.h` (v0.0.17)
+### `include/metadata/schema_version_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10026,7 +10037,7 @@
 
 ---
 
-### `include/metadata/statistics_collector.h` (v0.0.17)
+### `include/metadata/statistics_collector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10037,7 +10048,7 @@
 
 ---
 
-### `include/network/qos_manager.h` (v0.0.17)
+### `include/network/qos_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10048,7 +10059,7 @@
 
 ---
 
-### `include/network/socket_timeout_manager.h` (v0.0.17)
+### `include/network/socket_timeout_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10059,7 +10070,7 @@
 
 ---
 
-### `include/network/wire_protocol_connection_pool.h` (v0.0.17)
+### `include/network/wire_protocol_connection_pool.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10070,7 +10081,7 @@
 
 ---
 
-### `include/network/wire_protocol_helpers.h` (v0.0.17)
+### `include/network/wire_protocol_helpers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10081,7 +10092,7 @@
 
 ---
 
-### `include/network/wire_protocol_performance.h` (v0.0.17)
+### `include/network/wire_protocol_performance.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10092,7 +10103,7 @@
 
 ---
 
-### `include/network/wire_protocol_server.h` (v0.0.17)
+### `include/network/wire_protocol_server.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10103,7 +10114,7 @@
 
 ---
 
-### `include/observability/alertmanager.h` (v0.0.17)
+### `include/observability/alertmanager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10114,7 +10125,7 @@
 
 ---
 
-### `include/observability/metrics_collector.h` (v0.0.17)
+### `include/observability/metrics_collector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10125,7 +10136,7 @@
 
 ---
 
-### `include/observability/performance_analyzer.h` (v0.0.17)
+### `include/observability/performance_analyzer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10136,7 +10147,7 @@
 
 ---
 
-### `include/observability/query_profiler.h` (v0.0.17)
+### `include/observability/query_profiler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10147,7 +10158,7 @@
 
 ---
 
-### `include/observability/storage_profiler.h` (v0.0.17)
+### `include/observability/storage_profiler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10158,7 +10169,7 @@
 
 ---
 
-### `include/performance/alignment_examples.h` (v0.0.17)
+### `include/performance/alignment_examples.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10169,7 +10180,7 @@
 
 ---
 
-### `include/performance/alignment_helpers.h` (v0.0.17)
+### `include/performance/alignment_helpers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10180,7 +10191,7 @@
 
 ---
 
-### `include/performance/allocator.h` (v0.0.17)
+### `include/performance/allocator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10191,7 +10202,7 @@
 
 ---
 
-### `include/performance/cicada.h` (v0.0.17)
+### `include/performance/cicada.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10202,7 +10213,7 @@
 
 ---
 
-### `include/performance/cycle_metrics.h` (v0.0.17)
+### `include/performance/cycle_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10213,7 +10224,7 @@
 
 ---
 
-### `include/performance/cycle_metrics_config.h` (v0.0.17)
+### `include/performance/cycle_metrics_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10224,7 +10235,7 @@
 
 ---
 
-### `include/performance/dostoevsky.h` (v0.0.17)
+### `include/performance/dostoevsky.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -10235,7 +10246,7 @@
 
 ---
 
-### `include/performance/expected_cycles.h` (v0.0.17)
+### `include/performance/expected_cycles.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10246,7 +10257,7 @@
 
 ---
 
-### `include/performance/feature_flags.h` (v0.0.17)
+### `include/performance/feature_flags.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10257,7 +10268,7 @@
 
 ---
 
-### `include/performance/feature_flags_examples.h` (v0.0.17)
+### `include/performance/feature_flags_examples.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -10268,7 +10279,7 @@
 
 ---
 
-### `include/performance/huge_pages.h` (v0.0.17)
+### `include/performance/huge_pages.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10279,7 +10290,7 @@
 
 ---
 
-### `include/performance/ligra.h` (v0.0.17)
+### `include/performance/ligra.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -10290,7 +10301,7 @@
 
 ---
 
-### `include/performance/lirs_cache.h` (v0.0.17)
+### `include/performance/lirs_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10301,7 +10312,7 @@
 
 ---
 
-### `include/performance/lockfree_metrics_buffer.h` (v0.0.17)
+### `include/performance/lockfree_metrics_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10312,7 +10323,7 @@
 
 ---
 
-### `include/performance/phase2_feature_flags.h` (v0.0.17)
+### `include/performance/phase2_feature_flags.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -10323,7 +10334,7 @@
 
 ---
 
-### `include/performance/phase3/bao.h` (v0.0.17)
+### `include/performance/phase3/bao.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -10334,7 +10345,7 @@
 
 ---
 
-### `include/performance/phase3/bwtree.h` (v0.0.17)
+### `include/performance/phase3/bwtree.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10345,7 +10356,7 @@
 
 ---
 
-### `include/performance/phase3/diskann.h` (v0.0.17)
+### `include/performance/phase3/diskann.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -10356,7 +10367,7 @@
 
 ---
 
-### `include/performance/phase3/feature_flags.h` (v0.0.17)
+### `include/performance/phase3/feature_flags.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -10367,7 +10378,7 @@
 
 ---
 
-### `include/performance/phase3/gunrock.h` (v0.0.17)
+### `include/performance/phase3/gunrock.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -10378,7 +10389,7 @@
 
 ---
 
-### `include/performance/phase3/splinterdb.h` (v0.0.17)
+### `include/performance/phase3/splinterdb.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -10389,7 +10400,7 @@
 
 ---
 
-### `include/performance/prefetch_hints.h` (v0.0.17)
+### `include/performance/prefetch_hints.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10400,7 +10411,7 @@
 
 ---
 
-### `include/performance/rabitq.h` (v0.0.17)
+### `include/performance/rabitq.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10411,7 +10422,7 @@
 
 ---
 
-### `include/performance/rcu.h` (v0.0.17)
+### `include/performance/rcu.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10422,7 +10433,7 @@
 
 ---
 
-### `include/performance/rcu_hash_table.h` (v0.0.17)
+### `include/performance/rcu_hash_table.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10433,7 +10444,7 @@
 
 ---
 
-### `include/performance/runtime_config.h` (v0.0.17)
+### `include/performance/runtime_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10444,7 +10455,7 @@
 
 ---
 
-### `include/performance/wisckey.h` (v0.0.17)
+### `include/performance/wisckey.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -10455,7 +10466,7 @@
 
 ---
 
-### `include/plugins/ai/ai_plugin_generator.h` (v0.0.17)
+### `include/plugins/ai/ai_plugin_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10466,7 +10477,7 @@
 
 ---
 
-### `include/plugins/ethics_ai/ethics_ai_plugin_interface.h` (v0.0.17)
+### `include/plugins/ethics_ai/ethics_ai_plugin_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10477,7 +10488,7 @@
 
 ---
 
-### `include/plugins/ethics_ai/ethics_ai_types.h` (v0.0.17)
+### `include/plugins/ethics_ai/ethics_ai_types.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10488,7 +10499,7 @@
 
 ---
 
-### `include/plugins/huggingface_ingestion_plugin.h` (v0.0.17)
+### `include/plugins/huggingface_ingestion_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10499,7 +10510,7 @@
 
 ---
 
-### `include/plugins/image_analysis_interface.h` (v0.0.17)
+### `include/plugins/image_analysis_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10513,7 +10524,7 @@
 
 ---
 
-### `include/plugins/image_analysis_manager.h` (v0.0.17)
+### `include/plugins/image_analysis_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10524,7 +10535,7 @@
 
 ---
 
-### `include/plugins/plugin_api.h` (v0.0.17)
+### `include/plugins/plugin_api.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10535,7 +10546,7 @@
 
 ---
 
-### `include/plugins/plugin_dependency_resolver.h` (v0.0.17)
+### `include/plugins/plugin_dependency_resolver.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10546,7 +10557,7 @@
 
 ---
 
-### `include/plugins/plugin_health_monitor.h` (v0.0.17)
+### `include/plugins/plugin_health_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10557,7 +10568,7 @@
 
 ---
 
-### `include/plugins/plugin_hot_plug_monitor.h` (v0.0.17)
+### `include/plugins/plugin_hot_plug_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10568,7 +10579,7 @@
 
 ---
 
-### `include/plugins/plugin_interface.h` (v0.0.17)
+### `include/plugins/plugin_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10579,7 +10590,7 @@
 
 ---
 
-### `include/plugins/plugin_manager.h` (v0.0.17)
+### `include/plugins/plugin_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10590,7 +10601,7 @@
 
 ---
 
-### `include/plugins/plugin_metrics.h` (v0.0.17)
+### `include/plugins/plugin_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10601,7 +10612,7 @@
 
 ---
 
-### `include/plugins/plugin_registry.h` (v0.0.17)
+### `include/plugins/plugin_registry.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10612,7 +10623,7 @@
 
 ---
 
-### `include/plugins/rpc_plugin_interface.h` (v0.0.17)
+### `include/plugins/rpc_plugin_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10623,7 +10634,7 @@
 
 ---
 
-### `include/plugins/self_healing_plugin.h` (v0.0.17)
+### `include/plugins/self_healing_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10637,7 +10648,7 @@
 
 ---
 
-### `include/projects/DocumentManager/document_manager.h` (v0.0.17)
+### `include/projects/DocumentManager/document_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10651,7 +10662,7 @@
 
 ---
 
-### `include/prompt_engineering/feedback_collector.h` (v0.0.17)
+### `include/prompt_engineering/feedback_collector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10662,7 +10673,7 @@
 
 ---
 
-### `include/prompt_engineering/meta_prompt_generator.h` (v0.0.17)
+### `include/prompt_engineering/meta_prompt_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10673,7 +10684,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_engineering_integration.h` (v0.0.17)
+### `include/prompt_engineering/prompt_engineering_integration.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10684,7 +10695,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_engineering_metrics.h` (v0.0.17)
+### `include/prompt_engineering/prompt_engineering_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10695,7 +10706,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_evaluator.h` (v0.0.17)
+### `include/prompt_engineering/prompt_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10706,7 +10717,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_manager.h` (v0.0.17)
+### `include/prompt_engineering/prompt_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -10717,7 +10728,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_optimizer.h` (v0.0.17)
+### `include/prompt_engineering/prompt_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10728,7 +10739,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_performance_tracker.h` (v0.0.17)
+### `include/prompt_engineering/prompt_performance_tracker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10739,7 +10750,7 @@
 
 ---
 
-### `include/prompt_engineering/prompt_version_control.h` (v0.0.17)
+### `include/prompt_engineering/prompt_version_control.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10750,7 +10761,7 @@
 
 ---
 
-### `include/prompt_engineering/self_improvement_orchestrator.h` (v0.0.17)
+### `include/prompt_engineering/self_improvement_orchestrator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10761,7 +10772,7 @@
 
 ---
 
-### `include/query/adaptive_optimizer.h` (v0.0.17)
+### `include/query/adaptive_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10772,7 +10783,7 @@
 
 ---
 
-### `include/query/aql_parser.h` (v0.0.17)
+### `include/query/aql_parser.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -10783,18 +10794,7 @@
 
 ---
 
-### `include/query/aql_runner.h` (v0.0.17)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
-
----
-
-### `include/query/aql_translator.h` (v0.0.17)
+### `include/query/aql_runner.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10805,7 +10805,7 @@
 
 ---
 
-### `include/query/cte_cache.h` (v0.0.17)
+### `include/query/aql_translator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10816,7 +10816,18 @@
 
 ---
 
-### `include/query/cte_subquery.h` (v0.0.17)
+### `include/query/cte_cache.h` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `include/query/cte_subquery.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10830,7 +10841,7 @@
 
 ---
 
-### `include/query/functions/ai_ml_functions.h` (v0.0.17)
+### `include/query/functions/ai_ml_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -10841,7 +10852,7 @@
 
 ---
 
-### `include/query/functions/array_functions.h` (v0.0.17)
+### `include/query/functions/array_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10852,7 +10863,7 @@
 
 ---
 
-### `include/query/functions/collection_functions.h` (v0.0.17)
+### `include/query/functions/collection_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10863,7 +10874,7 @@
 
 ---
 
-### `include/query/functions/crs_functions.h` (v0.0.17)
+### `include/query/functions/crs_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10877,7 +10888,7 @@
 
 ---
 
-### `include/query/functions/date_functions.h` (v0.0.17)
+### `include/query/functions/date_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10888,7 +10899,7 @@
 
 ---
 
-### `include/query/functions/document_functions.h` (v0.0.17)
+### `include/query/functions/document_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10899,7 +10910,7 @@
 
 ---
 
-### `include/query/functions/ethics_functions.h` (v0.0.17)
+### `include/query/functions/ethics_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10910,7 +10921,7 @@
 
 ---
 
-### `include/query/functions/file_functions.h` (v0.0.17)
+### `include/query/functions/file_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10921,7 +10932,7 @@
 
 ---
 
-### `include/query/functions/fulltext_functions.h` (v0.0.17)
+### `include/query/functions/fulltext_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10932,7 +10943,7 @@
 
 ---
 
-### `include/query/functions/function_adapter.h` (v0.0.17)
+### `include/query/functions/function_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10943,7 +10954,7 @@
 
 ---
 
-### `include/query/functions/function_registry.h` (v0.0.17)
+### `include/query/functions/function_registry.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10954,7 +10965,7 @@
 
 ---
 
-### `include/query/functions/geo_functions.h` (v0.0.17)
+### `include/query/functions/geo_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10965,7 +10976,7 @@
 
 ---
 
-### `include/query/functions/graph_extensions.h` (v0.0.17)
+### `include/query/functions/graph_extensions.h` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (25.0/100)
 
@@ -10987,7 +10998,7 @@
 
 ---
 
-### `include/query/functions/graph_functions.h` (v0.0.17)
+### `include/query/functions/graph_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -10998,7 +11009,7 @@
 
 ---
 
-### `include/query/functions/holiday_provider.h` (v0.0.17)
+### `include/query/functions/holiday_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11009,7 +11020,7 @@
 
 ---
 
-### `include/query/functions/json_path_functions.h` (v0.0.17)
+### `include/query/functions/json_path_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11020,7 +11031,7 @@
 
 ---
 
-### `include/query/functions/lora_functions.h` (v0.0.17)
+### `include/query/functions/lora_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11031,7 +11042,7 @@
 
 ---
 
-### `include/query/functions/math_functions.h` (v0.0.17)
+### `include/query/functions/math_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11042,7 +11053,7 @@
 
 ---
 
-### `include/query/functions/process_functions.h` (v0.0.17)
+### `include/query/functions/process_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11054,7 +11065,7 @@
 
 ---
 
-### `include/query/functions/process_mining_functions.h` (v0.0.17)
+### `include/query/functions/process_mining_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11065,7 +11076,7 @@
 
 ---
 
-### `include/query/functions/relational_functions.h` (v0.0.17)
+### `include/query/functions/relational_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11076,7 +11087,7 @@
 
 ---
 
-### `include/query/functions/retention_functions.h` (v0.0.17)
+### `include/query/functions/retention_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11093,7 +11104,7 @@
 
 ---
 
-### `include/query/functions/security_functions.h` (v0.0.17)
+### `include/query/functions/security_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11104,7 +11115,7 @@
 
 ---
 
-### `include/query/functions/string_functions.h` (v0.0.17)
+### `include/query/functions/string_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11115,7 +11126,7 @@
 
 ---
 
-### `include/query/functions/vector_functions.h` (v0.0.17)
+### `include/query/functions/vector_functions.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11126,7 +11137,7 @@
 
 ---
 
-### `include/query/let_evaluator.h` (v0.0.17)
+### `include/query/let_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11137,7 +11148,7 @@
 
 ---
 
-### `include/query/optimizer_cost_model.h` (v0.0.17)
+### `include/query/optimizer_cost_model.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -11148,7 +11159,7 @@
 
 ---
 
-### `include/query/query_cache.h` (v0.0.17)
+### `include/query/query_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11159,7 +11170,7 @@
 
 ---
 
-### `include/query/query_cache_manager.h` (v0.0.17)
+### `include/query/query_cache_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11170,7 +11181,7 @@
 
 ---
 
-### `include/query/query_engine.h` (v0.0.17)
+### `include/query/query_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11178,12 +11189,12 @@
 
 **🔴 STUB** (3 occurrences):
   - Line 14: `• Open Issues:     TODOs: 0, Stubs: 3                             ║`
-  - Line 684: `// Minimal stub implementation matching IExpressionEvaluator`
-  - Line 694: `// Note: Implementation is currently a stub for Phase 3`
+  - Line 703: `// Minimal stub implementation matching IExpressionEvaluator`
+  - Line 713: `// Note: Implementation is currently a stub for Phase 3`
 
 ---
 
-### `include/query/query_federation.h` (v0.0.17)
+### `include/query/query_federation.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11194,7 +11205,7 @@
 
 ---
 
-### `include/query/query_optimizer.h` (v0.0.17)
+### `include/query/query_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11207,7 +11218,13 @@
 
 ---
 
-### `include/query/result_stream.h` (v0.0.17)
+### `include/query/query_plan_visualizer.h` (v0.0.1)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+---
+
+### `include/query/result_stream.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11218,7 +11235,7 @@
 
 ---
 
-### `include/query/semantic_cache.h` (v0.0.17)
+### `include/query/semantic_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -11229,7 +11246,7 @@
 
 ---
 
-### `include/query/statistical_aggregator.h` (v0.0.17)
+### `include/query/statistical_aggregator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11240,7 +11257,7 @@
 
 ---
 
-### `include/query/subquery_optimizer.h` (v0.0.17)
+### `include/query/subquery_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11251,7 +11268,7 @@
 
 ---
 
-### `include/query/window_evaluator.h` (v0.0.17)
+### `include/query/window_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11262,7 +11279,7 @@
 
 ---
 
-### `include/query/workload_cache_strategy.h` (v0.0.17)
+### `include/query/workload_cache_strategy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11273,7 +11290,7 @@
 
 ---
 
-### `include/rag/ab_testing_framework.h` (v0.0.17)
+### `include/rag/ab_testing_framework.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11284,7 +11301,7 @@
 
 ---
 
-### `include/rag/batch_evaluator.h` (v0.0.17)
+### `include/rag/batch_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11295,7 +11312,7 @@
 
 ---
 
-### `include/rag/bayesian_optimizer.h` (v0.0.17)
+### `include/rag/bayesian_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11306,7 +11323,7 @@
 
 ---
 
-### `include/rag/bias_detector.h` (v0.0.17)
+### `include/rag/bias_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11317,7 +11334,7 @@
 
 ---
 
-### `include/rag/calibration_manager.h` (v0.0.17)
+### `include/rag/calibration_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11328,7 +11345,7 @@
 
 ---
 
-### `include/rag/claim_extractor.h` (v0.0.17)
+### `include/rag/claim_extractor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11339,7 +11356,7 @@
 
 ---
 
-### `include/rag/coherence_evaluator.h` (v0.0.17)
+### `include/rag/coherence_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11350,7 +11367,7 @@
 
 ---
 
-### `include/rag/completeness_evaluator.h` (v0.0.17)
+### `include/rag/completeness_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11361,7 +11378,7 @@
 
 ---
 
-### `include/rag/continuous_learning_client.h` (v0.0.17)
+### `include/rag/continuous_learning_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11372,7 +11389,7 @@
 
 ---
 
-### `include/rag/continuous_learning_orchestrator.h` (v0.0.17)
+### `include/rag/continuous_learning_orchestrator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11384,7 +11401,7 @@
 
 ---
 
-### `include/rag/cot_evaluator.h` (v0.0.17)
+### `include/rag/cot_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11395,7 +11412,7 @@
 
 ---
 
-### `include/rag/evaluation_cache.h` (v0.0.17)
+### `include/rag/evaluation_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11406,7 +11423,7 @@
 
 ---
 
-### `include/rag/faithfulness_evaluator.h` (v0.0.17)
+### `include/rag/faithfulness_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11417,7 +11434,7 @@
 
 ---
 
-### `include/rag/geval_evaluator.h` (v0.0.17)
+### `include/rag/geval_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11428,7 +11445,7 @@
 
 ---
 
-### `include/rag/http_metrics_client.h` (v0.0.17)
+### `include/rag/http_metrics_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11439,7 +11456,7 @@
 
 ---
 
-### `include/rag/judge_config.h` (v0.0.17)
+### `include/rag/judge_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11450,7 +11467,7 @@
 
 ---
 
-### `include/rag/judge_ensemble.h` (v0.0.17)
+### `include/rag/judge_ensemble.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -11461,7 +11478,7 @@
 
 ---
 
-### `include/rag/knowledge_gap_detector.h` (v0.0.17)
+### `include/rag/knowledge_gap_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11472,7 +11489,7 @@
 
 ---
 
-### `include/rag/learning_metrics.h` (v0.0.17)
+### `include/rag/learning_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11483,7 +11500,7 @@
 
 ---
 
-### `include/rag/llm_integration.h` (v0.0.17)
+### `include/rag/llm_integration.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11494,7 +11511,7 @@
 
 ---
 
-### `include/rag/llm_judge_client.h` (v0.0.17)
+### `include/rag/llm_judge_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11505,7 +11522,7 @@
 
 ---
 
-### `include/rag/llm_judge_integration.h` (v0.0.17)
+### `include/rag/llm_judge_integration.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -11524,7 +11541,7 @@
 
 ---
 
-### `include/rag/llm_meta_analyzer.h` (v0.0.17)
+### `include/rag/llm_meta_analyzer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11535,7 +11552,7 @@
 
 ---
 
-### `include/rag/nli_faithfulness_verifier.h` (v0.0.17)
+### `include/rag/nli_faithfulness_verifier.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11546,7 +11563,7 @@
 
 ---
 
-### `include/rag/onnx_model_loader.h` (v0.0.17)
+### `include/rag/onnx_model_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11557,7 +11574,7 @@
 
 ---
 
-### `include/rag/pairwise_comparator.h` (v0.0.17)
+### `include/rag/pairwise_comparator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11568,7 +11585,7 @@
 
 ---
 
-### `include/rag/prompt_templates.h` (v0.0.17)
+### `include/rag/prompt_templates.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11579,7 +11596,7 @@
 
 ---
 
-### `include/rag/quality_control_factory.h` (v0.0.17)
+### `include/rag/quality_control_factory.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11590,7 +11607,7 @@
 
 ---
 
-### `include/rag/quality_control_pipeline.h` (v0.0.17)
+### `include/rag/quality_control_pipeline.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11601,7 +11618,7 @@
 
 ---
 
-### `include/rag/rag_integration_helpers.h` (v0.0.17)
+### `include/rag/rag_integration_helpers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11615,7 +11632,7 @@
 
 ---
 
-### `include/rag/rag_judge.h` (v0.0.17)
+### `include/rag/rag_judge.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11626,7 +11643,7 @@
 
 ---
 
-### `include/rag/relevance_evaluator.h` (v0.0.17)
+### `include/rag/relevance_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11637,7 +11654,7 @@
 
 ---
 
-### `include/rag/response_parser.h` (v0.0.17)
+### `include/rag/response_parser.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11648,7 +11665,7 @@
 
 ---
 
-### `include/rag/rubric_evaluator.h` (v0.0.17)
+### `include/rag/rubric_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11659,7 +11676,7 @@
 
 ---
 
-### `include/raid_data_pusher.h` (v0.0.17)
+### `include/raid_data_pusher.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -11670,7 +11687,7 @@
 
 ---
 
-### `include/replication/multi_master_replication.h` (v0.0.17)
+### `include/replication/multi_master_replication.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11681,7 +11698,7 @@
 
 ---
 
-### `include/replication/replication_manager.h` (v0.0.17)
+### `include/replication/replication_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11696,7 +11713,7 @@
 
 ---
 
-### `include/scheduler/event_trigger.h` (v0.0.17)
+### `include/scheduler/event_trigger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11707,7 +11724,7 @@
 
 ---
 
-### `include/scheduler/hybrid_retention_manager.h` (v0.0.17)
+### `include/scheduler/hybrid_retention_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11718,7 +11735,7 @@
 
 ---
 
-### `include/scheduler/task_anomaly_detector.h` (v0.0.17)
+### `include/scheduler/task_anomaly_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11729,7 +11746,7 @@
 
 ---
 
-### `include/scheduler/task_audit_event.h` (v0.0.17)
+### `include/scheduler/task_audit_event.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11740,7 +11757,7 @@
 
 ---
 
-### `include/scheduler/task_audit_manager.h` (v0.0.17)
+### `include/scheduler/task_audit_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11751,7 +11768,7 @@
 
 ---
 
-### `include/scheduler/task_scheduler.h` (v0.0.17)
+### `include/scheduler/task_scheduler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11765,7 +11782,7 @@
 
 ---
 
-### `include/search/autocomplete.h` (v0.0.13)
+### `include/search/autocomplete.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11776,7 +11793,7 @@
 
 ---
 
-### `include/search/faceted_search.h` (v0.0.13)
+### `include/search/faceted_search.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11787,7 +11804,7 @@
 
 ---
 
-### `include/search/fuzzy_matcher.h` (v0.0.13)
+### `include/search/fuzzy_matcher.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11798,7 +11815,7 @@
 
 ---
 
-### `include/search/hybrid_search.h` (v0.0.17)
+### `include/search/hybrid_search.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11809,7 +11826,7 @@
 
 ---
 
-### `include/search/learning_to_rank.h` (v0.0.13)
+### `include/search/learning_to_rank.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11820,7 +11837,7 @@
 
 ---
 
-### `include/search/multi_modal_search.h` (v0.0.13)
+### `include/search/multi_modal_search.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11831,7 +11848,7 @@
 
 ---
 
-### `include/search/query_expander.h` (v0.0.13)
+### `include/search/query_expander.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11842,7 +11859,7 @@
 
 ---
 
-### `include/search/search_analytics.h` (v0.0.13)
+### `include/search/search_analytics.h` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11853,7 +11870,7 @@
 
 ---
 
-### `include/security/access_control.h` (v0.0.17)
+### `include/security/access_control.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11864,7 +11881,7 @@
 
 ---
 
-### `include/security/access_control_manager.h` (v0.0.17)
+### `include/security/access_control_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11875,7 +11892,7 @@
 
 ---
 
-### `include/security/aql_injection_detector.h` (v0.0.17)
+### `include/security/aql_injection_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11886,7 +11903,7 @@
 
 ---
 
-### `include/security/binary_manifest.h` (v0.0.17)
+### `include/security/binary_manifest.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11897,7 +11914,7 @@
 
 ---
 
-### `include/security/cms_signing.h` (v0.0.17)
+### `include/security/cms_signing.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -11908,7 +11925,7 @@
 
 ---
 
-### `include/security/crypto_capabilities.h` (v0.0.17)
+### `include/security/crypto_capabilities.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11919,7 +11936,7 @@
 
 ---
 
-### `include/security/encryption.h` (v0.0.17)
+### `include/security/encryption.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11930,7 +11947,7 @@
 
 ---
 
-### `include/security/hsm_key_provider_adapter.h` (v0.0.17)
+### `include/security/hsm_key_provider_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11941,7 +11958,7 @@
 
 ---
 
-### `include/security/hsm_provider.h` (v0.0.17)
+### `include/security/hsm_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -11955,7 +11972,7 @@
 
 ---
 
-### `include/security/hsm_security_checker.h` (v0.0.17)
+### `include/security/hsm_security_checker.h` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (45.0/100)
 
@@ -11970,7 +11987,7 @@
 
 ---
 
-### `include/security/hsm_security_metrics.h` (v0.0.17)
+### `include/security/hsm_security_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (66.0/100)
 
@@ -11985,7 +12002,7 @@
 
 ---
 
-### `include/security/key_provider.h` (v0.0.17)
+### `include/security/key_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -11996,7 +12013,7 @@
 
 ---
 
-### `include/security/malware_scanner.h` (v0.0.17)
+### `include/security/malware_scanner.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12007,7 +12024,7 @@
 
 ---
 
-### `include/security/manifest_signer.h` (v0.0.17)
+### `include/security/manifest_signer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12018,7 +12035,7 @@
 
 ---
 
-### `include/security/mock_key_provider.h` (v0.0.17)
+### `include/security/mock_key_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12029,7 +12046,7 @@
 
 ---
 
-### `include/security/output_encoding.h` (v0.0.17)
+### `include/security/output_encoding.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12040,7 +12057,7 @@
 
 ---
 
-### `include/security/pii_redaction_policy.h` (v0.0.17)
+### `include/security/pii_redaction_policy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12054,7 +12071,7 @@
 
 ---
 
-### `include/security/pkcs11_minimal.h` (v0.0.17)
+### `include/security/pkcs11_minimal.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12065,7 +12082,7 @@
 
 ---
 
-### `include/security/pki_key_provider.h` (v0.0.17)
+### `include/security/pki_key_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12076,7 +12093,7 @@
 
 ---
 
-### `include/security/rbac.h` (v0.0.17)
+### `include/security/rbac.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12087,7 +12104,7 @@
 
 ---
 
-### `include/security/secret_manager.h` (v0.0.17)
+### `include/security/secret_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12098,7 +12115,7 @@
 
 ---
 
-### `include/security/signing.h` (v0.0.17)
+### `include/security/signing.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12109,7 +12126,7 @@
 
 ---
 
-### `include/security/signing_provider.h` (v0.0.17)
+### `include/security/signing_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -12120,7 +12137,7 @@
 
 ---
 
-### `include/security/timestamp_authority.h` (v0.0.17)
+### `include/security/timestamp_authority.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12131,7 +12148,7 @@
 
 ---
 
-### `include/security/transport_security_checker.h` (v0.0.17)
+### `include/security/transport_security_checker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12142,7 +12159,7 @@
 
 ---
 
-### `include/security/usb_admin_authenticator.h` (v0.0.17)
+### `include/security/usb_admin_authenticator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12153,7 +12170,7 @@
 
 ---
 
-### `include/security/user_registration_plugin.h` (v0.0.17)
+### `include/security/user_registration_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12164,7 +12181,7 @@
 
 ---
 
-### `include/security/vault_key_provider.h` (v0.0.17)
+### `include/security/vault_key_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12175,7 +12192,7 @@
 
 ---
 
-### `include/security/vault_signing_provider.h` (v0.0.17)
+### `include/security/vault_signing_provider.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12186,7 +12203,7 @@
 
 ---
 
-### `include/security/vcc_pki_client.h` (v0.0.17)
+### `include/security/vcc_pki_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12197,7 +12214,7 @@
 
 ---
 
-### `include/security/vram_secure_clear.h` (v0.0.17)
+### `include/security/vram_secure_clear.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12208,7 +12225,7 @@
 
 ---
 
-### `include/server/admin_api_handler.h` (v0.0.17)
+### `include/server/admin_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12219,7 +12236,7 @@
 
 ---
 
-### `include/server/api_auth_config.h` (v0.0.17)
+### `include/server/api_auth_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12230,7 +12247,7 @@
 
 ---
 
-### `include/server/api_gateway.h` (v0.0.17)
+### `include/server/api_gateway.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12241,7 +12258,7 @@
 
 ---
 
-### `include/server/api_version.h` (v0.0.17)
+### `include/server/api_version.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12252,7 +12269,7 @@
 
 ---
 
-### `include/server/api_version_config.h` (v0.0.17)
+### `include/server/api_version_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -12263,7 +12280,7 @@
 
 ---
 
-### `include/server/audit_api_handler.h` (v0.0.17)
+### `include/server/audit_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12274,7 +12291,7 @@
 
 ---
 
-### `include/server/auth_middleware.h` (v0.0.17)
+### `include/server/auth_middleware.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12285,7 +12302,7 @@
 
 ---
 
-### `include/server/auth_scope_mapper.h` (v0.0.17)
+### `include/server/auth_scope_mapper.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12296,7 +12313,7 @@
 
 ---
 
-### `include/server/bpmn_api_handler.h` (v0.0.17)
+### `include/server/bpmn_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12307,7 +12324,7 @@
 
 ---
 
-### `include/server/branch_api_handler.h` (v0.0.17)
+### `include/server/branch_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12318,7 +12335,7 @@
 
 ---
 
-### `include/server/buffer_api_handler.h` (v0.0.17)
+### `include/server/buffer_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12329,7 +12346,7 @@
 
 ---
 
-### `include/server/buffer_binary_protocol.h` (v0.0.17)
+### `include/server/buffer_binary_protocol.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12340,7 +12357,7 @@
 
 ---
 
-### `include/server/cache_api_handler.h` (v0.0.17)
+### `include/server/cache_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12351,7 +12368,7 @@
 
 ---
 
-### `include/server/changefeed_api_handler.h` (v0.0.17)
+### `include/server/changefeed_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12362,7 +12379,7 @@
 
 ---
 
-### `include/server/classification_api_handler.h` (v0.0.17)
+### `include/server/classification_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12373,7 +12390,7 @@
 
 ---
 
-### `include/server/compliance_reporting_api_handler.h` (v0.0.17)
+### `include/server/compliance_reporting_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -12384,7 +12401,7 @@
 
 ---
 
-### `include/server/content_api_handler.h` (v0.0.17)
+### `include/server/content_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12395,7 +12412,7 @@
 
 ---
 
-### `include/server/diff_api_handler.h` (v0.0.17)
+### `include/server/diff_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12406,7 +12423,7 @@
 
 ---
 
-### `include/server/distributed_txn_api_handler.h` (v0.0.17)
+### `include/server/distributed_txn_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12417,7 +12434,7 @@
 
 ---
 
-### `include/server/entity_api_handler.h` (v0.0.17)
+### `include/server/entity_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12428,7 +12445,7 @@
 
 ---
 
-### `include/server/error_api_handler.h` (v0.0.17)
+### `include/server/error_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12439,7 +12456,7 @@
 
 ---
 
-### `include/server/ethics_api_handler.h` (v0.0.17)
+### `include/server/ethics_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12450,7 +12467,7 @@
 
 ---
 
-### `include/server/export_api_handler.h` (v0.0.17)
+### `include/server/export_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12461,7 +12478,7 @@
 
 ---
 
-### `include/server/feedback_api_handler.h` (v0.0.17)
+### `include/server/feedback_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12472,7 +12489,7 @@
 
 ---
 
-### `include/server/geo_topology_api_handler.h` (v0.0.17)
+### `include/server/geo_topology_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12483,7 +12500,7 @@
 
 ---
 
-### `include/server/graph_api_handler.h` (v0.0.17)
+### `include/server/graph_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12494,7 +12511,7 @@
 
 ---
 
-### `include/server/health_error_service.h` (v0.0.17)
+### `include/server/health_error_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12505,7 +12522,7 @@
 
 ---
 
-### `include/server/hot_reload_api_handler.h` (v0.0.17)
+### `include/server/hot_reload_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12516,7 +12533,7 @@
 
 ---
 
-### `include/server/http2_session.h` (v0.0.17)
+### `include/server/http2_session.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12527,7 +12544,7 @@
 
 ---
 
-### `include/server/http3_session.h` (v0.0.17)
+### `include/server/http3_session.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12538,7 +12555,7 @@
 
 ---
 
-### `include/server/http_server.h` (v0.0.17)
+### `include/server/http_server.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12549,7 +12566,7 @@
 
 ---
 
-### `include/server/http_type_adapter.h` (v0.0.17)
+### `include/server/http_type_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12567,7 +12584,7 @@
 
 ---
 
-### `include/server/import_api_handler.h` (v0.0.17)
+### `include/server/import_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12578,7 +12595,7 @@
 
 ---
 
-### `include/server/index_api_handler.h` (v0.0.17)
+### `include/server/index_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12589,7 +12606,7 @@
 
 ---
 
-### `include/server/keys_api_handler.h` (v0.0.17)
+### `include/server/keys_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12600,7 +12617,7 @@
 
 ---
 
-### `include/server/llm_api_handler.h` (v0.0.17)
+### `include/server/llm_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12611,7 +12628,7 @@
 
 ---
 
-### `include/server/llm_grpc_service.h` (v0.0.17)
+### `include/server/llm_grpc_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12622,7 +12639,7 @@
 
 ---
 
-### `include/server/load_shedder.h` (v0.0.17)
+### `include/server/load_shedder.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12633,7 +12650,7 @@
 
 ---
 
-### `include/server/lora_api_handler.h` (v0.0.17)
+### `include/server/lora_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12644,7 +12661,7 @@
 
 ---
 
-### `include/server/mcp_server.h` (v0.0.17)
+### `include/server/mcp_server.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12655,7 +12672,7 @@
 
 ---
 
-### `include/server/merge_api_handler.h` (v0.0.17)
+### `include/server/merge_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12666,7 +12683,7 @@
 
 ---
 
-### `include/server/monitoring_api_handler.h` (v0.0.17)
+### `include/server/monitoring_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12677,7 +12694,7 @@
 
 ---
 
-### `include/server/mqtt_session.h` (v0.0.17)
+### `include/server/mqtt_session.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12688,7 +12705,7 @@
 
 ---
 
-### `include/server/mvcc_api_handler.h` (v0.0.17)
+### `include/server/mvcc_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12699,7 +12716,7 @@
 
 ---
 
-### `include/server/pii_api_handler.h` (v0.0.17)
+### `include/server/pii_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12710,7 +12727,7 @@
 
 ---
 
-### `include/server/pitr_api_handler.h` (v0.0.17)
+### `include/server/pitr_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12721,7 +12738,7 @@
 
 ---
 
-### `include/server/pitr_grpc_service.h` (v0.0.17)
+### `include/server/pitr_grpc_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12732,7 +12749,7 @@
 
 ---
 
-### `include/server/pki_api_handler.h` (v0.0.17)
+### `include/server/pki_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12743,7 +12760,7 @@
 
 ---
 
-### `include/server/policy_api_handler.h` (v0.0.17)
+### `include/server/policy_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12754,7 +12771,7 @@
 
 ---
 
-### `include/server/policy_engine.h` (v0.0.17)
+### `include/server/policy_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12768,7 +12785,7 @@
 
 ---
 
-### `include/server/policy_manager_api_handler.h` (v0.0.17)
+### `include/server/policy_manager_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12779,7 +12796,7 @@
 
 ---
 
-### `include/server/policy_template_api_handler.h` (v0.0.17)
+### `include/server/policy_template_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12790,7 +12807,7 @@
 
 ---
 
-### `include/server/policy_validation_api_handler.h` (v0.0.17)
+### `include/server/policy_validation_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -12801,7 +12818,7 @@
 
 ---
 
-### `include/server/policy_versioning_api_handler.h` (v0.0.17)
+### `include/server/policy_versioning_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12812,7 +12829,7 @@
 
 ---
 
-### `include/server/postgres_session.h` (v0.0.17)
+### `include/server/postgres_session.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12823,7 +12840,7 @@
 
 ---
 
-### `include/server/profiling_api_handler.h` (v0.0.17)
+### `include/server/profiling_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12834,7 +12851,7 @@
 
 ---
 
-### `include/server/prompt_api_handler.h` (v0.0.17)
+### `include/server/prompt_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12845,7 +12862,7 @@
 
 ---
 
-### `include/server/prompt_engineering_api_handler.h` (v0.0.17)
+### `include/server/prompt_engineering_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12856,7 +12873,7 @@
 
 ---
 
-### `include/server/prompt_engineering_grpc_service.h` (v0.0.17)
+### `include/server/prompt_engineering_grpc_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -12870,7 +12887,7 @@
 
 ---
 
-### `include/server/query_api_handler.h` (v0.0.17)
+### `include/server/query_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12881,7 +12898,7 @@
 
 ---
 
-### `include/server/ranger_adapter.h` (v0.0.17)
+### `include/server/ranger_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -12892,7 +12909,7 @@
 
 ---
 
-### `include/server/rate_limiter.h` (v0.0.17)
+### `include/server/rate_limiter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12903,7 +12920,7 @@
 
 ---
 
-### `include/server/rate_limiter_v2.h` (v0.0.17)
+### `include/server/rate_limiter_v2.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12914,7 +12931,7 @@
 
 ---
 
-### `include/server/reports_api_handler.h` (v0.0.17)
+### `include/server/reports_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12925,7 +12942,7 @@
 
 ---
 
-### `include/server/request_validation_middleware.h` (v0.0.4)
+### `include/server/request_validation_middleware.h` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12936,7 +12953,7 @@
 
 ---
 
-### `include/server/retention_api_handler.h` (v0.0.17)
+### `include/server/retention_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12947,7 +12964,7 @@
 
 ---
 
-### `include/server/review_scheduling_api_handler.h` (v0.0.17)
+### `include/server/review_scheduling_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -12958,7 +12975,7 @@
 
 ---
 
-### `include/server/rope_api_handler.h` (v0.0.17)
+### `include/server/rope_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12969,7 +12986,7 @@
 
 ---
 
-### `include/server/rpc/blob_transfer_handler.h` (v0.0.17)
+### `include/server/rpc/blob_transfer_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12980,7 +12997,7 @@
 
 ---
 
-### `include/server/rpc/differential_update_engine.h` (v0.0.17)
+### `include/server/rpc/differential_update_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -12991,7 +13008,7 @@
 
 ---
 
-### `include/server/rpc/snapshot_transfer_handler.h` (v0.0.17)
+### `include/server/rpc/snapshot_transfer_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13002,7 +13019,7 @@
 
 ---
 
-### `include/server/rpc_service_impl.h` (v0.0.17)
+### `include/server/rpc_service_impl.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13013,7 +13030,7 @@
 
 ---
 
-### `include/server/saga_api_handler.h` (v0.0.17)
+### `include/server/saga_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -13024,7 +13041,7 @@
 
 ---
 
-### `include/server/schema_api_handler.h` (v0.0.17)
+### `include/server/schema_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13035,7 +13052,7 @@
 
 ---
 
-### `include/server/sharding_metrics_handler.h` (v0.0.17)
+### `include/server/sharding_metrics_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13046,7 +13063,7 @@
 
 ---
 
-### `include/server/snapshot_api_handler.h` (v0.0.17)
+### `include/server/snapshot_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13057,7 +13074,7 @@
 
 ---
 
-### `include/server/spatial_api_handler.h` (v0.0.17)
+### `include/server/spatial_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13068,7 +13085,7 @@
 
 ---
 
-### `include/server/sse_connection_manager.h` (v0.0.17)
+### `include/server/sse_connection_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13079,7 +13096,7 @@
 
 ---
 
-### `include/server/task_scheduler_api_handler.h` (v0.0.17)
+### `include/server/task_scheduler_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -13090,7 +13107,7 @@
 
 ---
 
-### `include/server/tenant_manager.h` (v0.0.17)
+### `include/server/tenant_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13101,7 +13118,7 @@
 
 ---
 
-### `include/server/themis_core_grpc_service.h` (v0.0.17)
+### `include/server/themis_core_grpc_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13112,7 +13129,7 @@
 
 ---
 
-### `include/server/timeseries_api_handler.h` (v0.0.17)
+### `include/server/timeseries_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13123,7 +13140,7 @@
 
 ---
 
-### `include/server/transaction_api_handler.h` (v0.0.17)
+### `include/server/transaction_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13134,7 +13151,7 @@
 
 ---
 
-### `include/server/update_api_handler.h` (v0.0.17)
+### `include/server/update_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13145,7 +13162,7 @@
 
 ---
 
-### `include/server/vector_api_handler.h` (v0.0.17)
+### `include/server/vector_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13156,7 +13173,7 @@
 
 ---
 
-### `include/server/voice_api_handler.h` (v0.0.17)
+### `include/server/voice_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13167,7 +13184,7 @@
 
 ---
 
-### `include/server/wal_api_handler.h` (v0.0.17)
+### `include/server/wal_api_handler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13178,7 +13195,7 @@
 
 ---
 
-### `include/server/wal_grpc_service.h` (v0.0.17)
+### `include/server/wal_grpc_service.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -13190,7 +13207,7 @@
 
 ---
 
-### `include/server/websocket_session.h` (v0.0.17)
+### `include/server/websocket_session.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13201,7 +13218,7 @@
 
 ---
 
-### `include/sharding/adaptive_shard_router.h` (v0.0.17)
+### `include/sharding/adaptive_shard_router.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13212,7 +13229,7 @@
 
 ---
 
-### `include/sharding/admin_api.h` (v0.0.17)
+### `include/sharding/admin_api.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13223,7 +13240,7 @@
 
 ---
 
-### `include/sharding/admin_operations.h` (v0.0.17)
+### `include/sharding/admin_operations.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13234,7 +13251,7 @@
 
 ---
 
-### `include/sharding/auto_rebalancer.h` (v0.0.17)
+### `include/sharding/auto_rebalancer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13245,7 +13262,7 @@
 
 ---
 
-### `include/sharding/auto_recovery_manager.h` (v0.0.17)
+### `include/sharding/auto_recovery_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -13257,7 +13274,7 @@
 
 ---
 
-### `include/sharding/backpressure_protocol.h` (v0.0.17)
+### `include/sharding/backpressure_protocol.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13268,7 +13285,7 @@
 
 ---
 
-### `include/sharding/capability_matcher.h` (v0.0.17)
+### `include/sharding/capability_matcher.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13279,7 +13296,7 @@
 
 ---
 
-### `include/sharding/circuit_breaker.h` (v0.0.17)
+### `include/sharding/circuit_breaker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13290,7 +13307,7 @@
 
 ---
 
-### `include/sharding/cloud_agent.h` (v0.0.17)
+### `include/sharding/cloud_agent.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13301,7 +13318,7 @@
 
 ---
 
-### `include/sharding/consensus_factory.h` (v0.0.17)
+### `include/sharding/consensus_factory.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13312,7 +13329,7 @@
 
 ---
 
-### `include/sharding/consensus_module.h` (v0.0.17)
+### `include/sharding/consensus_module.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13323,7 +13340,7 @@
 
 ---
 
-### `include/sharding/consistent_hash.h` (v0.0.17)
+### `include/sharding/consistent_hash.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13334,7 +13351,7 @@
 
 ---
 
-### `include/sharding/cross_shard_transaction.h` (v0.0.17)
+### `include/sharding/cross_shard_transaction.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13345,7 +13362,7 @@
 
 ---
 
-### `include/sharding/data_migrator.h` (v0.0.17)
+### `include/sharding/data_migrator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13356,7 +13373,7 @@
 
 ---
 
-### `include/sharding/distributed_coordinator.h` (v0.0.17)
+### `include/sharding/distributed_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -13367,7 +13384,7 @@
 
 ---
 
-### `include/sharding/distributed_time_coordinator.h` (v0.0.17)
+### `include/sharding/distributed_time_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13382,7 +13399,7 @@
 
 ---
 
-### `include/sharding/distributed_transaction.h` (v0.0.17)
+### `include/sharding/distributed_transaction.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13393,7 +13410,7 @@
 
 ---
 
-### `include/sharding/gossip_config_manager.h` (v0.0.17)
+### `include/sharding/gossip_config_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13404,7 +13421,7 @@
 
 ---
 
-### `include/sharding/gossip_consensus_adapter.h` (v0.0.17)
+### `include/sharding/gossip_consensus_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13415,7 +13432,7 @@
 
 ---
 
-### `include/sharding/gossip_protocol.h` (v0.0.17)
+### `include/sharding/gossip_protocol.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13426,7 +13443,7 @@
 
 ---
 
-### `include/sharding/gpu_erasure_coder.h` (v0.0.17)
+### `include/sharding/gpu_erasure_coder.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13437,7 +13454,7 @@
 
 ---
 
-### `include/sharding/health_check.h` (v0.0.17)
+### `include/sharding/health_check.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -13448,7 +13465,7 @@
 
 ---
 
-### `include/sharding/health_monitor.h` (v0.0.17)
+### `include/sharding/health_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13462,7 +13479,7 @@
 
 ---
 
-### `include/sharding/hot_spare_manager.h` (v0.0.17)
+### `include/sharding/hot_spare_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13473,7 +13490,7 @@
 
 ---
 
-### `include/sharding/locality_aware_router.h` (v0.0.17)
+### `include/sharding/locality_aware_router.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -13484,7 +13501,7 @@
 
 ---
 
-### `include/sharding/metadata_shard.h` (v0.0.17)
+### `include/sharding/metadata_shard.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13495,7 +13512,7 @@
 
 ---
 
-### `include/sharding/metadata_snapshot.h` (v0.0.17)
+### `include/sharding/metadata_snapshot.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13506,7 +13523,7 @@
 
 ---
 
-### `include/sharding/metadata_wal.h` (v0.0.17)
+### `include/sharding/metadata_wal.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13517,7 +13534,7 @@
 
 ---
 
-### `include/sharding/metrics_registry.h` (v0.0.17)
+### `include/sharding/metrics_registry.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13528,7 +13545,7 @@
 
 ---
 
-### `include/sharding/mtls_client.h` (v0.0.17)
+### `include/sharding/mtls_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13539,7 +13556,7 @@
 
 ---
 
-### `include/sharding/mtls_connection_pool.h` (v0.0.17)
+### `include/sharding/mtls_connection_pool.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13550,7 +13567,7 @@
 
 ---
 
-### `include/sharding/multi_primary_coordinator.h` (v0.0.17)
+### `include/sharding/multi_primary_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13561,7 +13578,7 @@
 
 ---
 
-### `include/sharding/operational_metrics.h` (v0.0.17)
+### `include/sharding/operational_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13572,7 +13589,7 @@
 
 ---
 
-### `include/sharding/orphan_detector.h` (v0.0.17)
+### `include/sharding/orphan_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13583,7 +13600,7 @@
 
 ---
 
-### `include/sharding/partition_detector.h` (v0.0.17)
+### `include/sharding/partition_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13594,7 +13611,7 @@
 
 ---
 
-### `include/sharding/paxos_consensus.h` (v0.0.17)
+### `include/sharding/paxos_consensus.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13605,7 +13622,7 @@
 
 ---
 
-### `include/sharding/paxos_snapshot.h` (v0.0.17)
+### `include/sharding/paxos_snapshot.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13616,7 +13633,7 @@
 
 ---
 
-### `include/sharding/paxos_wal.h` (v0.0.17)
+### `include/sharding/paxos_wal.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13627,7 +13644,7 @@
 
 ---
 
-### `include/sharding/pki_shard_certificate.h` (v0.0.17)
+### `include/sharding/pki_shard_certificate.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13638,7 +13655,7 @@
 
 ---
 
-### `include/sharding/predictive_detector.h` (v0.0.17)
+### `include/sharding/predictive_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -13649,7 +13666,7 @@
 
 ---
 
-### `include/sharding/prometheus_metrics.h` (v0.0.17)
+### `include/sharding/prometheus_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13660,7 +13677,7 @@
 
 ---
 
-### `include/sharding/quorum_manager.h` (v0.0.17)
+### `include/sharding/quorum_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13671,7 +13688,7 @@
 
 ---
 
-### `include/sharding/raft_configuration.h` (v0.0.17)
+### `include/sharding/raft_configuration.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -13682,7 +13699,7 @@
 
 ---
 
-### `include/sharding/raft_consensus.h` (v0.0.17)
+### `include/sharding/raft_consensus.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13693,7 +13710,7 @@
 
 ---
 
-### `include/sharding/raft_consensus_adapter.h` (v0.0.17)
+### `include/sharding/raft_consensus_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13704,7 +13721,7 @@
 
 ---
 
-### `include/sharding/raft_log.h` (v0.0.17)
+### `include/sharding/raft_log.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13715,7 +13732,7 @@
 
 ---
 
-### `include/sharding/raft_shard_manager.h` (v0.0.17)
+### `include/sharding/raft_shard_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13726,7 +13743,7 @@
 
 ---
 
-### `include/sharding/raft_state.h` (v0.0.17)
+### `include/sharding/raft_state.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13737,7 +13754,7 @@
 
 ---
 
-### `include/sharding/raft_wal_integration.h` (v0.0.17)
+### `include/sharding/raft_wal_integration.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -13748,7 +13765,7 @@
 
 ---
 
-### `include/sharding/raid_optimizations.h` (v0.0.17)
+### `include/sharding/raid_optimizations.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13759,7 +13776,7 @@
 
 ---
 
-### `include/sharding/rebalance_operation.h` (v0.0.17)
+### `include/sharding/rebalance_operation.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -13770,7 +13787,7 @@
 
 ---
 
-### `include/sharding/redundancy_strategy.h` (v0.0.17)
+### `include/sharding/redundancy_strategy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13781,7 +13798,7 @@
 
 ---
 
-### `include/sharding/remote_executor.h` (v0.0.17)
+### `include/sharding/remote_executor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13792,7 +13809,7 @@
 
 ---
 
-### `include/sharding/replica_consistency.h` (v0.0.17)
+### `include/sharding/replica_consistency.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13803,7 +13820,7 @@
 
 ---
 
-### `include/sharding/replica_topology.h` (v0.0.17)
+### `include/sharding/replica_topology.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13814,7 +13831,7 @@
 
 ---
 
-### `include/sharding/replication_coordinator.h` (v0.0.17)
+### `include/sharding/replication_coordinator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13825,7 +13842,7 @@
 
 ---
 
-### `include/sharding/secure_transport_client.h` (v0.0.17)
+### `include/sharding/secure_transport_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13836,7 +13853,7 @@
 
 ---
 
-### `include/sharding/shard_capabilities.h` (v0.0.17)
+### `include/sharding/shard_capabilities.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13847,7 +13864,7 @@
 
 ---
 
-### `include/sharding/shard_durability.h` (v0.0.17)
+### `include/sharding/shard_durability.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13858,7 +13875,7 @@
 
 ---
 
-### `include/sharding/shard_load_detector.h` (v0.0.17)
+### `include/sharding/shard_load_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13869,7 +13886,7 @@
 
 ---
 
-### `include/sharding/shard_repair_engine.h` (v0.0.17)
+### `include/sharding/shard_repair_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13880,7 +13897,7 @@
 
 ---
 
-### `include/sharding/shard_resource_manager.h` (v0.0.17)
+### `include/sharding/shard_resource_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -13891,7 +13908,7 @@
 
 ---
 
-### `include/sharding/shard_router.h` (v0.0.17)
+### `include/sharding/shard_router.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13902,7 +13919,7 @@
 
 ---
 
-### `include/sharding/shard_rpc_client.h` (v0.0.17)
+### `include/sharding/shard_rpc_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13916,7 +13933,7 @@
 
 ---
 
-### `include/sharding/shard_rpc_client_adapter.h` (v0.0.4)
+### `include/sharding/shard_rpc_client_adapter.h` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13927,7 +13944,7 @@
 
 ---
 
-### `include/sharding/shard_rpc_server.h` (v0.0.17)
+### `include/sharding/shard_rpc_server.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13938,7 +13955,7 @@
 
 ---
 
-### `include/sharding/shard_topology.h` (v0.0.17)
+### `include/sharding/shard_topology.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13949,7 +13966,7 @@
 
 ---
 
-### `include/sharding/signed_request.h` (v0.0.17)
+### `include/sharding/signed_request.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13960,7 +13977,7 @@
 
 ---
 
-### `include/sharding/slo_monitor.h` (v0.0.17)
+### `include/sharding/slo_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -13971,7 +13988,7 @@
 
 ---
 
-### `include/sharding/stream_protocol.h` (v0.0.17)
+### `include/sharding/stream_protocol.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -13982,7 +13999,7 @@
 
 ---
 
-### `include/sharding/transaction_snapshot.h` (v0.0.17)
+### `include/sharding/transaction_snapshot.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -13993,7 +14010,7 @@
 
 ---
 
-### `include/sharding/transaction_wal.h` (v0.0.17)
+### `include/sharding/transaction_wal.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14004,7 +14021,7 @@
 
 ---
 
-### `include/sharding/truetime.h` (v0.0.17)
+### `include/sharding/truetime.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14015,7 +14032,7 @@
 
 ---
 
-### `include/sharding/two_phase_commit_coordinator.h` (v0.0.4)
+### `include/sharding/two_phase_commit_coordinator.h` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14026,7 +14043,7 @@
 
 ---
 
-### `include/sharding/two_phase_commit_participant.h` (v0.0.17)
+### `include/sharding/two_phase_commit_participant.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14037,7 +14054,7 @@
 
 ---
 
-### `include/sharding/urn.h` (v0.0.17)
+### `include/sharding/urn.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14048,7 +14065,7 @@
 
 ---
 
-### `include/sharding/urn_resolver.h` (v0.0.17)
+### `include/sharding/urn_resolver.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14059,7 +14076,7 @@
 
 ---
 
-### `include/sharding/wal_applier.h` (v0.0.17)
+### `include/sharding/wal_applier.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14070,7 +14087,7 @@
 
 ---
 
-### `include/sharding/wal_manager.h` (v0.0.17)
+### `include/sharding/wal_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14081,7 +14098,7 @@
 
 ---
 
-### `include/sharding/wal_shipper.h` (v0.0.17)
+### `include/sharding/wal_shipper.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14092,7 +14109,7 @@
 
 ---
 
-### `include/sharding/write_concern.h` (v0.0.17)
+### `include/sharding/write_concern.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14103,7 +14120,7 @@
 
 ---
 
-### `include/storage/backup_manager.h` (v0.0.17)
+### `include/storage/backup_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -14118,7 +14135,7 @@
 
 ---
 
-### `include/storage/base_entity.h` (v0.0.17)
+### `include/storage/base_entity.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14129,7 +14146,7 @@
 
 ---
 
-### `include/storage/batch_write_optimizer.h` (v0.0.17)
+### `include/storage/batch_write_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14140,7 +14157,7 @@
 
 ---
 
-### `include/storage/blob_backend_filesystem.h` (v0.0.17)
+### `include/storage/blob_backend_filesystem.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14151,7 +14168,7 @@
 
 ---
 
-### `include/storage/blob_redundancy_manager.h` (v0.0.17)
+### `include/storage/blob_redundancy_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14162,7 +14179,7 @@
 
 ---
 
-### `include/storage/blob_storage_backend.h` (v0.0.17)
+### `include/storage/blob_storage_backend.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14173,7 +14190,7 @@
 
 ---
 
-### `include/storage/blob_storage_manager.h` (v0.0.17)
+### `include/storage/blob_storage_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14184,7 +14201,7 @@
 
 ---
 
-### `include/storage/columnar_format.h` (v0.0.17)
+### `include/storage/columnar_format.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14195,7 +14212,7 @@
 
 ---
 
-### `include/storage/compaction_manager.h` (v0.0.16)
+### `include/storage/compaction_manager.h` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14206,7 +14223,7 @@
 
 ---
 
-### `include/storage/compressed_storage.h` (v0.0.17)
+### `include/storage/compressed_storage.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14217,7 +14234,7 @@
 
 ---
 
-### `include/storage/compression_strategy.h` (v0.0.17)
+### `include/storage/compression_strategy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14228,7 +14245,7 @@
 
 ---
 
-### `include/storage/database_connection_manager.h` (v0.0.17)
+### `include/storage/database_connection_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14239,7 +14256,7 @@
 
 ---
 
-### `include/storage/disk_space_monitor.h` (v0.0.17)
+### `include/storage/disk_space_monitor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14250,7 +14267,7 @@
 
 ---
 
-### `include/storage/hlc.h` (v0.0.17)
+### `include/storage/hlc.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14261,7 +14278,7 @@
 
 ---
 
-### `include/storage/index_maintenance.h` (v0.0.17)
+### `include/storage/index_maintenance.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14272,7 +14289,7 @@
 
 ---
 
-### `include/storage/key_schema.h` (v0.0.17)
+### `include/storage/key_schema.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14283,7 +14300,7 @@
 
 ---
 
-### `include/storage/merge_operators.h` (v0.0.17)
+### `include/storage/merge_operators.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14294,7 +14311,7 @@
 
 ---
 
-### `include/storage/mvcc_store.h` (v0.0.17)
+### `include/storage/mvcc_store.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14305,7 +14322,7 @@
 
 ---
 
-### `include/storage/nlp_metadata_extractor.h` (v0.0.17)
+### `include/storage/nlp_metadata_extractor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14316,7 +14333,7 @@
 
 ---
 
-### `include/storage/pitr_manager.h` (v0.0.17)
+### `include/storage/pitr_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14327,7 +14344,7 @@
 
 ---
 
-### `include/storage/raft_mvcc_bridge.h` (v0.0.17)
+### `include/storage/raft_mvcc_bridge.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14338,7 +14355,7 @@
 
 ---
 
-### `include/storage/rocksdb_wrapper.h` (v0.0.17)
+### `include/storage/rocksdb_wrapper.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14353,7 +14370,7 @@
 
 ---
 
-### `include/storage/security_signature.h` (v0.0.17)
+### `include/storage/security_signature.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14364,7 +14381,7 @@
 
 ---
 
-### `include/storage/security_signature_manager.h` (v0.0.17)
+### `include/storage/security_signature_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14375,7 +14392,7 @@
 
 ---
 
-### `include/storage/storage_audit_logger.h` (v0.0.16)
+### `include/storage/storage_audit_logger.h` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14386,7 +14403,7 @@
 
 ---
 
-### `include/storage/storage_engine.h` (v0.0.17)
+### `include/storage/storage_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14397,7 +14414,7 @@
 
 ---
 
-### `include/storage/transaction_retry_manager.h` (v0.0.17)
+### `include/storage/transaction_retry_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14411,7 +14428,7 @@
 
 ---
 
-### `include/storage/wal_storage.h` (v0.0.16)
+### `include/storage/wal_storage.h` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14422,7 +14439,7 @@
 
 ---
 
-### `include/temporal/bi_temporal.h` (v0.0.17)
+### `include/temporal/bi_temporal.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14433,7 +14450,7 @@
 
 ---
 
-### `include/temporal/retention_manager.h` (v0.0.17)
+### `include/temporal/retention_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14444,7 +14461,7 @@
 
 ---
 
-### `include/temporal/snapshot_manager.h` (v0.0.17)
+### `include/temporal/snapshot_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14455,7 +14472,7 @@
 
 ---
 
-### `include/temporal/system_versioned_table.h` (v0.0.17)
+### `include/temporal/system_versioned_table.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14466,7 +14483,7 @@
 
 ---
 
-### `include/temporal/temporal_aggregator.h` (v0.0.17)
+### `include/temporal/temporal_aggregator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14477,7 +14494,7 @@
 
 ---
 
-### `include/temporal/temporal_conflict_resolver.h` (v0.0.17)
+### `include/temporal/temporal_conflict_resolver.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14488,7 +14505,7 @@
 
 ---
 
-### `include/temporal/temporal_index.h` (v0.0.17)
+### `include/temporal/temporal_index.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14499,7 +14516,7 @@
 
 ---
 
-### `include/temporal/temporal_query_engine.h` (v0.0.17)
+### `include/temporal/temporal_query_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14510,7 +14527,7 @@
 
 ---
 
-### `include/temporal/temporal_types.h` (v0.0.17)
+### `include/temporal/temporal_types.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14521,7 +14538,7 @@
 
 ---
 
-### `include/themis/base/export.h` (v0.0.17)
+### `include/themis/base/export.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14532,7 +14549,7 @@
 
 ---
 
-### `include/themis/base/interfaces/index_interface.h` (v0.0.17)
+### `include/themis/base/interfaces/index_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14546,7 +14563,7 @@
 
 ---
 
-### `include/themis/base/interfaces/query_interface.h` (v0.0.17)
+### `include/themis/base/interfaces/query_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14557,7 +14574,7 @@
 
 ---
 
-### `include/themis/base/interfaces/security_interface.h` (v0.0.17)
+### `include/themis/base/interfaces/security_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14568,7 +14585,7 @@
 
 ---
 
-### `include/themis/base/interfaces/storage_interface.h` (v0.0.17)
+### `include/themis/base/interfaces/storage_interface.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14579,7 +14596,7 @@
 
 ---
 
-### `include/themis/base/module_loader.h` (v0.0.17)
+### `include/themis/base/module_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14593,7 +14610,7 @@
 
 ---
 
-### `include/themis/base/module_sandbox.h` (v0.0.17)
+### `include/themis/base/module_sandbox.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14604,7 +14621,7 @@
 
 ---
 
-### `include/themis/build_info.h` (v0.0.17)
+### `include/themis/build_info.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14615,7 +14632,7 @@
 
 ---
 
-### `include/themis/edition.h` (v0.0.17)
+### `include/themis/edition.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14626,7 +14643,7 @@
 
 ---
 
-### `include/themis/export.h` (v0.0.17)
+### `include/themis/export.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14637,7 +14654,7 @@
 
 ---
 
-### `include/themis/gpu/admin_api.h` (v0.0.17)
+### `include/themis/gpu/admin_api.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14653,7 +14670,7 @@
 
 ---
 
-### `include/themis/gpu/alerts.h` (v0.0.17)
+### `include/themis/gpu/alerts.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14664,7 +14681,7 @@
 
 ---
 
-### `include/themis/gpu/audit_log.h` (v0.0.17)
+### `include/themis/gpu/audit_log.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14675,7 +14692,7 @@
 
 ---
 
-### `include/themis/gpu/config.h` (v0.0.17)
+### `include/themis/gpu/config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -14690,7 +14707,7 @@
 
 ---
 
-### `include/themis/gpu/device_discovery.h` (v0.0.17)
+### `include/themis/gpu/device_discovery.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14704,7 +14721,7 @@
 
 ---
 
-### `include/themis/gpu/feature_flags.h` (v0.0.17)
+### `include/themis/gpu/feature_flags.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14715,7 +14732,7 @@
 
 ---
 
-### `include/themis/gpu/gpu_module.h` (v0.0.17)
+### `include/themis/gpu/gpu_module.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14726,7 +14743,7 @@
 
 ---
 
-### `include/themis/gpu/kernel_validator.h` (v0.0.17)
+### `include/themis/gpu/kernel_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14737,7 +14754,7 @@
 
 ---
 
-### `include/themis/gpu/launcher.h` (v0.0.17)
+### `include/themis/gpu/launcher.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14748,7 +14765,7 @@
 
 ---
 
-### `include/themis/gpu/load_balancer.h` (v0.0.17)
+### `include/themis/gpu/load_balancer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14759,7 +14776,7 @@
 
 ---
 
-### `include/themis/gpu/memory_manager.h` (v0.0.17)
+### `include/themis/gpu/memory_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14770,7 +14787,7 @@
 
 ---
 
-### `include/themis/gpu/memory_pool.h` (v0.0.17)
+### `include/themis/gpu/memory_pool.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14784,7 +14801,7 @@
 
 ---
 
-### `include/themis/gpu/metrics.h` (v0.0.17)
+### `include/themis/gpu/metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14795,7 +14812,7 @@
 
 ---
 
-### `include/themis/gpu/policy.h` (v0.0.17)
+### `include/themis/gpu/policy.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14806,7 +14823,7 @@
 
 ---
 
-### `include/themis/gpu/query_accelerator.h` (v0.0.17)
+### `include/themis/gpu/query_accelerator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14818,7 +14835,7 @@
 
 ---
 
-### `include/themis/gpu/safe_fail.h` (v0.0.17)
+### `include/themis/gpu/safe_fail.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14829,7 +14846,7 @@
 
 ---
 
-### `include/themis/gpu/stream_manager.h` (v0.0.17)
+### `include/themis/gpu/stream_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14840,7 +14857,7 @@
 
 ---
 
-### `include/themis/gpu/tensor_buffer.h` (v0.0.17)
+### `include/themis/gpu/tensor_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14851,7 +14868,7 @@
 
 ---
 
-### `include/themis/gpu/training_loop.h` (v0.0.17)
+### `include/themis/gpu/training_loop.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14862,7 +14879,7 @@
 
 ---
 
-### `include/themis/license_info.h` (v0.0.17)
+### `include/themis/license_info.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14873,7 +14890,7 @@
 
 ---
 
-### `include/themis/network/wire_protocol_server.hpp` (v0.0.17)
+### `include/themis/network/wire_protocol_server.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14884,7 +14901,7 @@
 
 ---
 
-### `include/themis/network/wire_protocol_v2.hpp` (v0.0.17)
+### `include/themis/network/wire_protocol_v2.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14895,7 +14912,7 @@
 
 ---
 
-### `include/themis/runtime_license_gate.h` (v0.0.11)
+### `include/themis/runtime_license_gate.h` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14906,7 +14923,7 @@
 
 ---
 
-### `include/themis_export.h` (v0.0.17)
+### `include/themis_export.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -14917,7 +14934,7 @@
 
 ---
 
-### `include/timeseries/aggregate_scheduler.h` (v0.0.17)
+### `include/timeseries/aggregate_scheduler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14928,7 +14945,7 @@
 
 ---
 
-### `include/timeseries/aggregates.h` (v0.0.17)
+### `include/timeseries/aggregates.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14939,7 +14956,7 @@
 
 ---
 
-### `include/timeseries/continuous_agg.h` (v0.0.17)
+### `include/timeseries/continuous_agg.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14950,7 +14967,7 @@
 
 ---
 
-### `include/timeseries/gorilla.h` (v0.0.17)
+### `include/timeseries/gorilla.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -14961,7 +14978,7 @@
 
 ---
 
-### `include/timeseries/hypertable.h` (v0.0.17)
+### `include/timeseries/hypertable.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14972,7 +14989,7 @@
 
 ---
 
-### `include/timeseries/query_optimizer.h` (v0.0.17)
+### `include/timeseries/query_optimizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14983,7 +15000,7 @@
 
 ---
 
-### `include/timeseries/retention.h` (v0.0.17)
+### `include/timeseries/retention.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -14994,7 +15011,7 @@
 
 ---
 
-### `include/timeseries/timeseries.h` (v0.0.17)
+### `include/timeseries/timeseries.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15005,7 +15022,7 @@
 
 ---
 
-### `include/timeseries/timeseries_metrics.h` (v0.0.17)
+### `include/timeseries/timeseries_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15016,7 +15033,7 @@
 
 ---
 
-### `include/timeseries/ts_auto_buffer.h` (v0.0.17)
+### `include/timeseries/ts_auto_buffer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15027,7 +15044,7 @@
 
 ---
 
-### `include/timeseries/tsstore.h` (v0.0.17)
+### `include/timeseries/tsstore.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15038,7 +15055,7 @@
 
 ---
 
-### `include/training/auto_labeler.h` (v0.0.17)
+### `include/training/auto_labeler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15049,7 +15066,7 @@
 
 ---
 
-### `include/training/incremental_lora_trainer.h` (v0.0.17)
+### `include/training/incremental_lora_trainer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15060,7 +15077,7 @@
 
 ---
 
-### `include/training/knowledge_graph_enricher.h` (v0.0.17)
+### `include/training/knowledge_graph_enricher.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15071,7 +15088,7 @@
 
 ---
 
-### `include/training/lora_data_selection.h` (v0.0.9)
+### `include/training/lora_data_selection.h` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15082,7 +15099,7 @@
 
 ---
 
-### `include/training/training_pipeline.h` (v0.0.17)
+### `include/training/training_pipeline.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15093,7 +15110,7 @@
 
 ---
 
-### `include/transaction/branch_manager.h` (v0.0.17)
+### `include/transaction/branch_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15104,7 +15121,7 @@
 
 ---
 
-### `include/transaction/crash_recovery_manager.h` (v0.0.15)
+### `include/transaction/crash_recovery_manager.h` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15115,7 +15132,7 @@
 
 ---
 
-### `include/transaction/isolation_level.h` (v0.0.15)
+### `include/transaction/isolation_level.h` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15126,7 +15143,7 @@
 
 ---
 
-### `include/transaction/lock_manager.h` (v0.0.15)
+### `include/transaction/lock_manager.h` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15137,7 +15154,7 @@
 
 ---
 
-### `include/transaction/merge_engine.h` (v0.0.17)
+### `include/transaction/merge_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15148,7 +15165,7 @@
 
 ---
 
-### `include/transaction/saga.h` (v0.0.17)
+### `include/transaction/saga.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15159,7 +15176,7 @@
 
 ---
 
-### `include/transaction/snapshot_manager.h` (v0.0.17)
+### `include/transaction/snapshot_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15170,7 +15187,7 @@
 
 ---
 
-### `include/transaction/transaction_manager.h` (v0.0.17)
+### `include/transaction/transaction_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15181,7 +15198,7 @@
 
 ---
 
-### `include/updates/hot_reload_engine.h` (v0.0.17)
+### `include/updates/hot_reload_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15192,7 +15209,7 @@
 
 ---
 
-### `include/updates/manifest_database.h` (v0.0.17)
+### `include/updates/manifest_database.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15203,7 +15220,7 @@
 
 ---
 
-### `include/updates/release_manifest.h` (v0.0.17)
+### `include/updates/release_manifest.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15214,7 +15231,7 @@
 
 ---
 
-### `include/updates/update_state_machine.h` (v0.0.15)
+### `include/updates/update_state_machine.h` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15225,7 +15242,7 @@
 
 ---
 
-### `include/updates/updates_config.h` (v0.0.17)
+### `include/updates/updates_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15236,7 +15253,7 @@
 
 ---
 
-### `include/utils/audit_logger.h` (v0.0.17)
+### `include/utils/audit_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15247,7 +15264,7 @@
 
 ---
 
-### `include/utils/batch_operation_manager.h` (v0.0.17)
+### `include/utils/batch_operation_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15258,7 +15275,7 @@
 
 ---
 
-### `include/utils/capability_auto_generator.h` (v0.0.17)
+### `include/utils/capability_auto_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15269,7 +15286,7 @@
 
 ---
 
-### `include/utils/clock.h` (v0.0.17)
+### `include/utils/clock.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15280,7 +15297,7 @@
 
 ---
 
-### `include/utils/compression_metrics.h` (v0.0.17)
+### `include/utils/compression_metrics.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -15291,7 +15308,7 @@
 
 ---
 
-### `include/utils/concurrent_cache.h` (v0.0.17)
+### `include/utils/concurrent_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15302,7 +15319,7 @@
 
 ---
 
-### `include/utils/cron_parser.h` (v0.0.17)
+### `include/utils/cron_parser.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15313,7 +15330,7 @@
 
 ---
 
-### `include/utils/cursor.h` (v0.0.17)
+### `include/utils/cursor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15324,7 +15341,7 @@
 
 ---
 
-### `include/utils/error_registry.h` (v0.0.17)
+### `include/utils/error_registry.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -15335,7 +15352,7 @@
 
 ---
 
-### `include/utils/expected.h` (v0.0.17)
+### `include/utils/expected.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15346,7 +15363,7 @@
 
 ---
 
-### `include/utils/file_utils.h` (v0.0.17)
+### `include/utils/file_utils.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15357,7 +15374,7 @@
 
 ---
 
-### `include/utils/geo/ewkb.h` (v0.0.17)
+### `include/utils/geo/ewkb.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15368,7 +15385,7 @@
 
 ---
 
-### `include/utils/geo/validator.h` (v0.0.17)
+### `include/utils/geo/validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15379,7 +15396,7 @@
 
 ---
 
-### `include/utils/grpc_channel_pool.h` (v0.0.17)
+### `include/utils/grpc_channel_pool.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15390,7 +15407,7 @@
 
 ---
 
-### `include/utils/hkdf_cache.h` (v0.0.17)
+### `include/utils/hkdf_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15401,7 +15418,7 @@
 
 ---
 
-### `include/utils/hkdf_helper.h` (v0.0.17)
+### `include/utils/hkdf_helper.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15412,7 +15429,7 @@
 
 ---
 
-### `include/utils/http_client_pool.h` (v0.0.17)
+### `include/utils/http_client_pool.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15423,7 +15440,7 @@
 
 ---
 
-### `include/utils/input_validator.h` (v0.0.17)
+### `include/utils/input_validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -15435,7 +15452,7 @@
 
 ---
 
-### `include/utils/lek_manager.h` (v0.0.17)
+### `include/utils/lek_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15446,7 +15463,7 @@
 
 ---
 
-### `include/utils/logger.h` (v0.0.17)
+### `include/utils/logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -15462,7 +15479,7 @@
 
 ---
 
-### `include/utils/logger_impl.h` (v0.0.17)
+### `include/utils/logger_impl.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -15477,7 +15494,7 @@
 
 ---
 
-### `include/utils/lossless_vector_compression.h` (v0.0.17)
+### `include/utils/lossless_vector_compression.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15488,7 +15505,7 @@
 
 ---
 
-### `include/utils/lossless_vector_integration.h` (v0.0.17)
+### `include/utils/lossless_vector_integration.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15499,7 +15516,7 @@
 
 ---
 
-### `include/utils/memory/pool_allocator.h` (v0.0.17)
+### `include/utils/memory/pool_allocator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -15515,7 +15532,7 @@
 
 ---
 
-### `include/utils/memory_utils.h` (v0.0.17)
+### `include/utils/memory_utils.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15526,7 +15543,7 @@
 
 ---
 
-### `include/utils/normalizer.h` (v0.0.17)
+### `include/utils/normalizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15537,7 +15554,7 @@
 
 ---
 
-### `include/utils/openssl_deleter.h` (v0.0.17)
+### `include/utils/openssl_deleter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15548,7 +15565,7 @@
 
 ---
 
-### `include/utils/pii_detection_engine.h` (v0.0.17)
+### `include/utils/pii_detection_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15559,7 +15576,7 @@
 
 ---
 
-### `include/utils/pii_detector.h` (v0.0.17)
+### `include/utils/pii_detector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15570,7 +15587,7 @@
 
 ---
 
-### `include/utils/pii_pseudonymizer.h` (v0.0.17)
+### `include/utils/pii_pseudonymizer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15581,7 +15598,7 @@
 
 ---
 
-### `include/utils/pii_redacting_sink.h` (v0.0.17)
+### `include/utils/pii_redacting_sink.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15592,7 +15609,7 @@
 
 ---
 
-### `include/utils/pki_client.h` (v0.0.17)
+### `include/utils/pki_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -15604,7 +15621,7 @@
 
 ---
 
-### `include/utils/pointer_utils.h` (v0.0.17)
+### `include/utils/pointer_utils.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15618,7 +15635,7 @@
 
 ---
 
-### `include/utils/regex_detection_engine.h` (v0.0.17)
+### `include/utils/regex_detection_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -15629,7 +15646,7 @@
 
 ---
 
-### `include/utils/retention_manager.h` (v0.0.17)
+### `include/utils/retention_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15640,7 +15657,7 @@
 
 ---
 
-### `include/utils/safe_access.h` (v0.0.17)
+### `include/utils/safe_access.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15651,7 +15668,7 @@
 
 ---
 
-### `include/utils/safe_arithmetic.h` (v0.0.17)
+### `include/utils/safe_arithmetic.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15662,7 +15679,7 @@
 
 ---
 
-### `include/utils/safe_cast.h` (v0.0.17)
+### `include/utils/safe_cast.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15673,7 +15690,7 @@
 
 ---
 
-### `include/utils/saga_logger.h` (v0.0.17)
+### `include/utils/saga_logger.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15684,7 +15701,7 @@
 
 ---
 
-### `include/utils/self_awareness.h` (v0.0.17)
+### `include/utils/self_awareness.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15695,7 +15712,7 @@
 
 ---
 
-### `include/utils/serialization.h` (v0.0.17)
+### `include/utils/serialization.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15706,7 +15723,7 @@
 
 ---
 
-### `include/utils/simd_distance.h` (v0.0.17)
+### `include/utils/simd_distance.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15717,7 +15734,7 @@
 
 ---
 
-### `include/utils/stemmer.h` (v0.0.17)
+### `include/utils/stemmer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15728,7 +15745,7 @@
 
 ---
 
-### `include/utils/stopwords.h` (v0.0.17)
+### `include/utils/stopwords.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15739,7 +15756,7 @@
 
 ---
 
-### `include/utils/string_utils.h` (v0.0.17)
+### `include/utils/string_utils.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15750,7 +15767,7 @@
 
 ---
 
-### `include/utils/thread_pool_manager.h` (v0.0.17)
+### `include/utils/thread_pool_manager.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15761,7 +15778,7 @@
 
 ---
 
-### `include/utils/thread_safety.h` (v0.0.17)
+### `include/utils/thread_safety.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15772,7 +15789,7 @@
 
 ---
 
-### `include/utils/tracing.h` (v0.0.17)
+### `include/utils/tracing.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15783,7 +15800,7 @@
 
 ---
 
-### `include/utils/type_conversion.h` (v0.0.17)
+### `include/utils/type_conversion.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15801,7 +15818,7 @@
 
 ---
 
-### `include/utils/unaligned_access.h` (v0.0.17)
+### `include/utils/unaligned_access.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15812,7 +15829,7 @@
 
 ---
 
-### `include/utils/update_checker.h` (v0.0.17)
+### `include/utils/update_checker.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15823,7 +15840,7 @@
 
 ---
 
-### `include/utils/zstd_codec.h` (v0.0.17)
+### `include/utils/zstd_codec.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15834,7 +15851,7 @@
 
 ---
 
-### `include/voice/audio_preprocessing.h` (v0.0.12)
+### `include/voice/audio_preprocessing.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15845,7 +15862,7 @@
 
 ---
 
-### `include/voice/voice_accessibility.h` (v0.0.12)
+### `include/voice/voice_accessibility.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15856,7 +15873,7 @@
 
 ---
 
-### `include/voice/voice_assistant.h` (v0.0.17)
+### `include/voice/voice_assistant.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15867,7 +15884,7 @@
 
 ---
 
-### `include/voice/voice_audio_storage.h` (v0.0.12)
+### `include/voice/voice_audio_storage.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15878,7 +15895,7 @@
 
 ---
 
-### `include/voice/voice_batch_processor.h` (v0.0.12)
+### `include/voice/voice_batch_processor.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -15892,7 +15909,7 @@
 
 ---
 
-### `include/voice/voice_error_handler.h` (v0.0.12)
+### `include/voice/voice_error_handler.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15903,7 +15920,7 @@
 
 ---
 
-### `include/voice/voice_intent_detector.h` (v0.0.12)
+### `include/voice/voice_intent_detector.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15914,7 +15931,7 @@
 
 ---
 
-### `include/voice/voice_meeting_support.h` (v0.0.12)
+### `include/voice/voice_meeting_support.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15925,7 +15942,7 @@
 
 ---
 
-### `include/voice/voice_model_cache.h` (v0.0.12)
+### `include/voice/voice_model_cache.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -15937,7 +15954,7 @@
 
 ---
 
-### `include/voice/voice_security.h` (v0.0.12)
+### `include/voice/voice_security.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15948,7 +15965,7 @@
 
 ---
 
-### `include/voice/voice_session_manager.h` (v0.0.12)
+### `include/voice/voice_session_manager.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15959,7 +15976,7 @@
 
 ---
 
-### `include/voice/voice_tts_customizer.h` (v0.0.12)
+### `include/voice/voice_tts_customizer.h` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -15970,7 +15987,7 @@
 
 ---
 
-### `plugins/ethics_ai/argument_store.cpp` (v0.0.17)
+### `plugins/ethics_ai/argument_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -15985,7 +16002,7 @@
 
 ---
 
-### `plugins/ethics_ai/argument_store.h` (v0.0.17)
+### `plugins/ethics_ai/argument_store.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -15996,7 +16013,7 @@
 
 ---
 
-### `plugins/ethics_ai/discourse_engine.cpp` (v0.0.17)
+### `plugins/ethics_ai/discourse_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16007,7 +16024,7 @@
 
 ---
 
-### `plugins/ethics_ai/discourse_engine.h` (v0.0.17)
+### `plugins/ethics_ai/discourse_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16018,7 +16035,7 @@
 
 ---
 
-### `plugins/ethics_ai/ethics_ai_plugin.cpp` (v0.0.17)
+### `plugins/ethics_ai/ethics_ai_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16029,7 +16046,7 @@
 
 ---
 
-### `plugins/ethics_ai/ethics_ai_types.cpp` (v0.0.17)
+### `plugins/ethics_ai/ethics_ai_types.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16040,7 +16057,7 @@
 
 ---
 
-### `plugins/ethics_ai/ethics_aql_queries.h` (v0.0.17)
+### `plugins/ethics_ai/ethics_aql_queries.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16051,7 +16068,7 @@
 
 ---
 
-### `plugins/ethics_ai/ethics_base_entity_adapter.h` (v0.0.17)
+### `plugins/ethics_ai/ethics_base_entity_adapter.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16062,7 +16079,7 @@
 
 ---
 
-### `plugins/ethics_ai/ethics_evaluator.cpp` (v0.0.17)
+### `plugins/ethics_ai/ethics_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16073,7 +16090,7 @@
 
 ---
 
-### `plugins/ethics_ai/ethics_evaluator.h` (v0.0.17)
+### `plugins/ethics_ai/ethics_evaluator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16084,7 +16101,7 @@
 
 ---
 
-### `plugins/ethics_ai/examples/example_basic_usage.cpp` (v0.0.17)
+### `plugins/ethics_ai/examples/example_basic_usage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -16095,7 +16112,7 @@
 
 ---
 
-### `plugins/ethics_ai/philosophy_loader.cpp` (v0.0.17)
+### `plugins/ethics_ai/philosophy_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16106,7 +16123,7 @@
 
 ---
 
-### `plugins/ethics_ai/philosophy_loader.h` (v0.0.17)
+### `plugins/ethics_ai/philosophy_loader.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16117,7 +16134,7 @@
 
 ---
 
-### `plugins/ethics_ai/rag_context_engine.cpp` (v0.0.17)
+### `plugins/ethics_ai/rag_context_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (78.0/100)
 
@@ -16138,7 +16155,7 @@
 
 ---
 
-### `plugins/ethics_ai/rag_context_engine.h` (v0.0.17)
+### `plugins/ethics_ai/rag_context_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16149,7 +16166,7 @@
 
 ---
 
-### `plugins/image_analysis/onnx_clip/onnx_clip_plugin.h` (v0.0.17)
+### `plugins/image_analysis/onnx_clip/onnx_clip_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -16160,7 +16177,7 @@
 
 ---
 
-### `plugins/rpc/grpc/grpc_plugin.cpp` (v0.0.17)
+### `plugins/rpc/grpc/grpc_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16171,7 +16188,7 @@
 
 ---
 
-### `plugins/rpc/grpc/grpc_plugin.h` (v0.0.17)
+### `plugins/rpc/grpc/grpc_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16182,7 +16199,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/include/encryption_backend_interface.hpp` (v0.0.17)
+### `plugins/user_storage_encrypted/include/encryption_backend_interface.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16193,7 +16210,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/include/gocryptfs_backend.hpp` (v0.0.17)
+### `plugins/user_storage_encrypted/include/gocryptfs_backend.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16204,7 +16221,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/include/key_rotation_scheduler.hpp` (v0.0.17)
+### `plugins/user_storage_encrypted/include/key_rotation_scheduler.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16215,7 +16232,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/include/multi_level_storage.hpp` (v0.0.17)
+### `plugins/user_storage_encrypted/include/multi_level_storage.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -16229,7 +16246,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/include/security_level.hpp` (v0.0.17)
+### `plugins/user_storage_encrypted/include/security_level.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16240,7 +16257,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/include/user_models.hpp` (v0.0.17)
+### `plugins/user_storage_encrypted/include/user_models.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16251,7 +16268,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/src/gocryptfs_backend.cpp` (v0.0.17)
+### `plugins/user_storage_encrypted/src/gocryptfs_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (71.0/100)
 
@@ -16269,7 +16286,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/src/key_rotation_scheduler.cpp` (v0.0.17)
+### `plugins/user_storage_encrypted/src/key_rotation_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16280,7 +16297,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/src/multi_level_storage.cpp` (v0.0.17)
+### `plugins/user_storage_encrypted/src/multi_level_storage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -16300,7 +16317,7 @@
 
 ---
 
-### `plugins/user_storage_encrypted/tests/test_multi_level_storage.cpp` (v0.0.17)
+### `plugins/user_storage_encrypted/tests/test_multi_level_storage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16317,7 +16334,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/App.xaml.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -16331,7 +16348,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Converters/Converters.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Converters/Converters.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -16343,7 +16360,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/MainWindow.xaml.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16354,7 +16371,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Models/Models.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Models/Models.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16365,7 +16382,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Cost/MLCostEstimator.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Cost/MLCostEstimator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16376,7 +16393,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Cost/RailwayCostDatabase.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Cost/RailwayCostDatabase.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16387,7 +16404,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Map/MapTypes.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Map/MapTypes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16398,7 +16415,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Map/RailwayMapRenderer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Map/RailwayMapRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -16412,7 +16429,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Map/RenderingBackend.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Map/RenderingBackend.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -16431,7 +16448,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Network/GTFSImporter.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Network/GTFSImporter.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16442,7 +16459,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Network/MultiCriteriaOptimizer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Network/MultiCriteriaOptimizer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16453,7 +16470,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Network/NetworkBottleneckAnalyzer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Network/NetworkBottleneckAnalyzer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16464,7 +16481,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Network/RailwayNetworkAnalyzer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Network/RailwayNetworkAnalyzer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16475,7 +16492,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Optimization/CrossingAnalyzer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Optimization/CrossingAnalyzer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16486,7 +16503,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Optimization/GeoSpatialAnalyzer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Optimization/GeoSpatialAnalyzer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -16504,7 +16521,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Optimization/SettlementAnalyzer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Optimization/SettlementAnalyzer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16515,7 +16532,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/RealData/RealDataProvider.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/RealData/RealDataProvider.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -16529,7 +16546,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/DesignTableManager.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/DesignTableManager.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16540,7 +16557,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/FeatureTreeManager.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/FeatureTreeManager.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16551,7 +16568,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/GridAndGuidesRenderer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/GridAndGuidesRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -16566,7 +16583,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/Layer3DManager.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/Layer3DManager.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16577,7 +16594,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/Object3DRenderer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/Object3DRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -16589,7 +16606,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/Rendering3DServiceStub.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/Rendering3DServiceStub.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -16607,7 +16624,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Rendering/TerrainRenderer3D.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Rendering/TerrainRenderer3D.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -16623,7 +16640,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Services.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Services.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -16644,7 +16661,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Signaling/ConflictDetector.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Signaling/ConflictDetector.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16655,7 +16672,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Signaling/ETCSLevel2Simulator.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Signaling/ETCSLevel2Simulator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16670,7 +16687,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Signaling/SignalPlacementOptimizer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Signaling/SignalPlacementOptimizer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -16681,7 +16698,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Signaling/UIC406CapacityCalculator.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Signaling/UIC406CapacityCalculator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16692,7 +16709,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Station/StationLayoutOptimizer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Station/StationLayoutOptimizer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -16707,7 +16724,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Station/TrackAssignmentOptimizer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Station/TrackAssignmentOptimizer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -16718,7 +16735,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Timetabling/PESPTimetableOptimizer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Timetabling/PESPTimetableOptimizer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16729,7 +16746,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Timetabling/RobustnessAnalyzer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Timetabling/RobustnessAnalyzer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -16745,7 +16762,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Timetabling/RollingStockScheduler.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Timetabling/RollingStockScheduler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -16756,7 +16773,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Timetabling/SATScheduler.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Timetabling/SATScheduler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16767,7 +16784,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/VectorData/VectorDataServiceStub.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/VectorData/VectorDataServiceStub.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -16784,7 +16801,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Visualization/Railway3DRenderingEngine.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Visualization/Railway3DRenderingEngine.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -16795,7 +16812,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/Services/Visualization/RailwayControlVisualizer.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/Services/Visualization/RailwayControlVisualizer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -16813,7 +16830,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/ViewModels/ComponentViewModels.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/ViewModels/ComponentViewModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -16824,7 +16841,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/ViewModels/MainViewModel.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -16838,7 +16855,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF/src/Services/Data/DataSeedService.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF/src/Services/Data/DataSeedService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -16859,7 +16876,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/ChangeFeedServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/ChangeFeedServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16870,7 +16887,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/DataPipelineServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/DataPipelineServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -16885,7 +16902,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/DelayPredictionServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/DelayPredictionServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16896,7 +16913,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/EnergyManagementServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/EnergyManagementServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -16907,7 +16924,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/EnergyOptimizationMLServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/EnergyOptimizationMLServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16918,7 +16935,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/GeoSpatialAnalyzerTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/GeoSpatialAnalyzerTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16929,7 +16946,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/GridAndGuidesRendererTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/GridAndGuidesRendererTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16940,7 +16957,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/IntelligentCacheServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/IntelligentCacheServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16951,7 +16968,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/MapServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/MapServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16962,7 +16979,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/PredictiveMaintenanceServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/PredictiveMaintenanceServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -16973,7 +16990,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/Rendering3DServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/Rendering3DServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -16987,7 +17004,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/ThemisDbServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/ThemisDbServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17002,7 +17019,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/Services/VectorDataServiceTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/Services/VectorDataServiceTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17013,7 +17030,7 @@
 
 ---
 
-### `projects/RailwayMonitor.WPF.Tests/ViewModels/MainViewModelTests.cs` (v0.0.17)
+### `projects/RailwayMonitor.WPF.Tests/ViewModels/MainViewModelTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -17030,7 +17047,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/AuditLogEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/AuditLogEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17041,7 +17058,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/ClassificationEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/ClassificationEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17052,7 +17069,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/KeysEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/KeysEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17063,7 +17080,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/PiiEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/PiiEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17074,7 +17091,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/ReportsEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/ReportsEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17085,7 +17102,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/RetentionEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/RetentionEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17096,7 +17113,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/SagaEndpoint.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/Endpoints/SagaEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17107,7 +17124,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/MockThemisApiClient.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/MockThemisApiClient.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -17121,7 +17138,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/ApiClient/ThemisApiClient.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/ApiClient/ThemisApiClient.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17132,7 +17149,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/AuditLogModels.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/AuditLogModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17143,7 +17160,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/ClassificationModels.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/ClassificationModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17154,7 +17171,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/Common.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/Common.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17165,7 +17182,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/KeysModels.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/KeysModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17176,7 +17193,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/PiiModels.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/PiiModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17187,7 +17204,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/ReportsModels.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/ReportsModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17198,7 +17215,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/RetentionModels.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/RetentionModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17209,7 +17226,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/SAGABatchDetail.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/SAGABatchDetail.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17220,7 +17237,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/SAGABatchInfo.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/SAGABatchInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17231,7 +17248,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/SAGABatchListResponse.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/SAGABatchListResponse.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17242,7 +17259,7 @@
 
 ---
 
-### `projects/Themis.AdminTools.Shared/Models/SAGAVerificationResult.cs` (v0.0.17)
+### `projects/Themis.AdminTools.Shared/Models/SAGAVerificationResult.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17253,7 +17270,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/App.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (29.0/100)
 
@@ -17275,7 +17292,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/ClassificationCommands.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/ClassificationCommands.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17286,7 +17303,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/CreateClassification/CreateClassificationCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/CreateClassification/CreateClassificationCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17297,7 +17314,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/CreateClassification/CreateClassificationCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/CreateClassification/CreateClassificationCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -17312,7 +17329,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/CreateClassification/CreateClassificationCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/CreateClassification/CreateClassificationCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17323,7 +17340,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/DeleteClassification/DeleteClassificationCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/DeleteClassification/DeleteClassificationCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17334,7 +17351,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/DeleteClassification/DeleteClassificationCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/DeleteClassification/DeleteClassificationCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17345,7 +17362,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/UpdateClassification/UpdateClassificationCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/UpdateClassification/UpdateClassificationCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17356,7 +17373,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/UpdateClassification/UpdateClassificationCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/UpdateClassification/UpdateClassificationCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17367,7 +17384,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Commands/UpdateClassification/UpdateClassificationCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Commands/UpdateClassification/UpdateClassificationCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17378,7 +17395,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Handlers/ClassificationHandlers.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Handlers/ClassificationHandlers.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17389,7 +17406,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Messages/ClassificationDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Messages/ClassificationDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17400,7 +17417,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Queries/ClassificationQueries.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Queries/ClassificationQueries.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17411,7 +17428,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Queries/GetAllClassifications/GetAllClassificationsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Queries/GetAllClassifications/GetAllClassificationsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17422,7 +17439,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Queries/GetAllClassifications/GetAllClassificationsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Queries/GetAllClassifications/GetAllClassificationsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17433,7 +17450,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Queries/GetClassificationById/GetClassificationByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Queries/GetClassificationById/GetClassificationByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17444,7 +17461,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Classification/Queries/GetClassificationById/GetClassificationByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Classification/Queries/GetClassificationById/GetClassificationByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17455,7 +17472,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CollaborationCommands.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CollaborationCommands.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17466,7 +17483,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CreateCollaboration/CreateCollaborationCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CreateCollaboration/CreateCollaborationCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17477,7 +17494,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CreateCollaboration/CreateCollaborationCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CreateCollaboration/CreateCollaborationCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17488,7 +17505,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CreateCollaboration/CreateCollaborationCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/CreateCollaboration/CreateCollaborationCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17499,7 +17516,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/DeleteCollaboration/DeleteCollaborationCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/DeleteCollaboration/DeleteCollaborationCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17510,7 +17527,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/DeleteCollaboration/DeleteCollaborationCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/DeleteCollaboration/DeleteCollaborationCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17521,7 +17538,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/UpdateCollaboration/UpdateCollaborationCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/UpdateCollaboration/UpdateCollaborationCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17532,7 +17549,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/UpdateCollaboration/UpdateCollaborationCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/UpdateCollaboration/UpdateCollaborationCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17543,7 +17560,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Commands/UpdateCollaboration/UpdateCollaborationCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Commands/UpdateCollaboration/UpdateCollaborationCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17554,7 +17571,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Handlers/CollaborationCommandHandlers.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Handlers/CollaborationCommandHandlers.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17565,7 +17582,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Messages/CollaborationDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Messages/CollaborationDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17576,7 +17593,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Queries/CollaborationQueries.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Queries/CollaborationQueries.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17587,7 +17604,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetAllCollaborations/GetAllCollaborationsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetAllCollaborations/GetAllCollaborationsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17598,7 +17615,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetAllCollaborations/GetAllCollaborationsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetAllCollaborations/GetAllCollaborationsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17609,7 +17626,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetCollaborationById/GetCollaborationByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetCollaborationById/GetCollaborationByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17620,7 +17637,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetCollaborationById/GetCollaborationByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Collaboration/Queries/GetCollaborationById/GetCollaborationByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17631,7 +17648,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Commands/ICreateCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Commands/ICreateCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17642,7 +17659,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Commands/IDeleteCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Commands/IDeleteCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17653,7 +17670,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Commands/IUpdateCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Commands/IUpdateCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17664,7 +17681,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Interfaces/IThemisRepository.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Interfaces/IThemisRepository.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17675,7 +17692,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Messages/BaseEntityDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Messages/BaseEntityDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17686,7 +17703,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Messages/IEntityDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Messages/IEntityDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17697,7 +17714,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Queries/IGetAllQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Queries/IGetAllQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -17708,7 +17725,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Queries/IGetByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Queries/IGetByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17719,7 +17736,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Common/Result.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Common/Result.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -17730,7 +17747,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/ApproveCosigningStep/ApproveCosigningStepCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/ApproveCosigningStep/ApproveCosigningStepCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17741,7 +17758,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/ApproveCosigningStep/ApproveCosigningStepCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/ApproveCosigningStep/ApproveCosigningStepCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17752,7 +17769,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/ApproveCosigningStep/ApproveCosigningStepCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/ApproveCosigningStep/ApproveCosigningStepCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -17763,7 +17780,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/CreateCosigning/CreateCosigningCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/CreateCosigning/CreateCosigningCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17774,7 +17791,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/CreateCosigning/CreateCosigningCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/CreateCosigning/CreateCosigningCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17785,7 +17802,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/CreateCosigning/CreateCosigningCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/CreateCosigning/CreateCosigningCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17796,7 +17813,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/DeleteCosigning/DeleteCosigningCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/DeleteCosigning/DeleteCosigningCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17807,7 +17824,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/DeleteCosigning/DeleteCosigningCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/DeleteCosigning/DeleteCosigningCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17818,7 +17835,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/UpdateCosigning/UpdateCosigningCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/UpdateCosigning/UpdateCosigningCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17829,7 +17846,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/UpdateCosigning/UpdateCosigningCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/UpdateCosigning/UpdateCosigningCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17840,7 +17857,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Commands/UpdateCosigning/UpdateCosigningCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Commands/UpdateCosigning/UpdateCosigningCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17851,7 +17868,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Messages/CosigningDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Messages/CosigningDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17862,7 +17879,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetAllCosignings/GetAllCosigningsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetAllCosignings/GetAllCosigningsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17873,7 +17890,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetAllCosignings/GetAllCosigningsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetAllCosignings/GetAllCosigningsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17884,7 +17901,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetCosigningById/GetCosigningByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetCosigningById/GetCosigningByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17895,7 +17912,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetCosigningById/GetCosigningByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Cosigning/Queries/GetCosigningById/GetCosigningByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -17906,7 +17923,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/CreateDocument/CreateDocumentCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/CreateDocument/CreateDocumentCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17917,7 +17934,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/CreateDocument/CreateDocumentCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/CreateDocument/CreateDocumentCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17928,7 +17945,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/CreateDocument/CreateDocumentCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/CreateDocument/CreateDocumentCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17939,7 +17956,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/DeleteDocument/DeleteDocumentCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/DeleteDocument/DeleteDocumentCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17950,7 +17967,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/DeleteDocument/DeleteDocumentCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/DeleteDocument/DeleteDocumentCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17961,7 +17978,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/DeleteDocument/DeleteDocumentCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/DeleteDocument/DeleteDocumentCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17972,7 +17989,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/UpdateDocument/UpdateDocumentCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/UpdateDocument/UpdateDocumentCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17983,7 +18000,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/UpdateDocument/UpdateDocumentCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/UpdateDocument/UpdateDocumentCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -17994,7 +18011,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Commands/UpdateDocument/UpdateDocumentCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Commands/UpdateDocument/UpdateDocumentCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18005,7 +18022,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/EventHandlers/DocumentsRefreshRequestedEventHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/EventHandlers/DocumentsRefreshRequestedEventHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18016,7 +18033,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/EventHandlers/DocumentsRefreshUIHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/EventHandlers/DocumentsRefreshUIHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18027,7 +18044,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/EventHandlers/TestDataGeneratedEventHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/EventHandlers/TestDataGeneratedEventHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18038,7 +18055,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Messages/DocumentDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Messages/DocumentDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18049,7 +18066,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetAllDocuments/GetAllDocumentsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetAllDocuments/GetAllDocumentsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18060,7 +18077,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetAllDocuments/GetAllDocumentsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetAllDocuments/GetAllDocumentsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18071,7 +18088,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetAllDocuments/GetAllDocumentsQueryValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetAllDocuments/GetAllDocumentsQueryValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18082,7 +18099,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocument/GetDocumentQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocument/GetDocumentQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18093,7 +18110,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocument/GetDocumentQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocument/GetDocumentQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18104,7 +18121,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocumentById/GetDocumentByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocumentById/GetDocumentByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18115,7 +18132,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocumentById/GetDocumentByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocumentById/GetDocumentByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18126,7 +18143,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocumentById/GetDocumentByIdQueryValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocumentById/GetDocumentByIdQueryValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18137,7 +18154,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocuments/GetDocumentsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocuments/GetDocumentsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18148,7 +18165,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocuments/GetDocumentsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Documents/Queries/GetDocuments/GetDocumentsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18159,7 +18176,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/AddToFavorites/AddToFavoritesCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/AddToFavorites/AddToFavoritesCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18170,7 +18187,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/AddToFavorites/AddToFavoritesCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/AddToFavorites/AddToFavoritesCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18181,7 +18198,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/AddToFavorites/AddToFavoritesCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/AddToFavorites/AddToFavoritesCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18192,7 +18209,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/CreateFavorite/CreateFavoriteCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/CreateFavorite/CreateFavoriteCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18203,7 +18220,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/CreateFavorite/CreateFavoriteCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/CreateFavorite/CreateFavoriteCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18214,7 +18231,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/CreateFavorite/CreateFavoriteCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/CreateFavorite/CreateFavoriteCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18225,7 +18242,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/DeleteFavorite/DeleteFavoriteCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/DeleteFavorite/DeleteFavoriteCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18236,7 +18253,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/DeleteFavorite/DeleteFavoriteCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/DeleteFavorite/DeleteFavoriteCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18247,7 +18264,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/RemoveFromFavorites/RemoveFromFavoritesCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/RemoveFromFavorites/RemoveFromFavoritesCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18258,7 +18275,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Commands/RemoveFromFavorites/RemoveFromFavoritesCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Commands/RemoveFromFavorites/RemoveFromFavoritesCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18269,7 +18286,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Messages/FavoriteDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Messages/FavoriteDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18280,7 +18297,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetFavorites/GetFavoritesQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetFavorites/GetFavoritesQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18291,7 +18308,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetFavorites/GetFavoritesQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetFavorites/GetFavoritesQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18302,7 +18319,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetUserFavorites/GetUserFavoritesQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetUserFavorites/GetUserFavoritesQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18313,7 +18330,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetUserFavorites/GetUserFavoritesQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Queries/GetUserFavorites/GetUserFavoritesQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18324,7 +18341,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Queries/IsFavorite/IsFavoriteQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Queries/IsFavorite/IsFavoriteQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18335,7 +18352,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Favorites/Queries/IsFavorite/IsFavoriteQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Favorites/Queries/IsFavorite/IsFavoriteQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18346,7 +18363,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItem/CreateInboxItemCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItem/CreateInboxItemCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18357,7 +18374,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItem/CreateInboxItemCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItem/CreateInboxItemCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18368,7 +18385,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItem/CreateInboxItemCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItem/CreateInboxItemCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18379,7 +18396,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItemV2/CreateInboxItemV2Command.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItemV2/CreateInboxItemV2Command.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18390,7 +18407,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItemV2/CreateInboxItemV2CommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItemV2/CreateInboxItemV2CommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18401,7 +18418,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItemV2/CreateInboxItemV2CommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/CreateInboxItemV2/CreateInboxItemV2CommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18412,7 +18429,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/DeleteInboxItem/DeleteInboxItemCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/DeleteInboxItem/DeleteInboxItemCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18423,7 +18440,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/DeleteInboxItem/DeleteInboxItemCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/DeleteInboxItem/DeleteInboxItemCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18434,7 +18451,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/UpdateInboxItem/UpdateInboxItemCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/UpdateInboxItem/UpdateInboxItemCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18445,7 +18462,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/UpdateInboxItem/UpdateInboxItemCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/UpdateInboxItem/UpdateInboxItemCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18456,7 +18473,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Commands/UpdateInboxItem/UpdateInboxItemCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Commands/UpdateInboxItem/UpdateInboxItemCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18467,7 +18484,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Messages/InboxItemDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Messages/InboxItemDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18478,7 +18495,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetAllInboxItems/GetAllInboxItemsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetAllInboxItems/GetAllInboxItemsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18489,7 +18506,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetAllInboxItems/GetAllInboxItemsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetAllInboxItems/GetAllInboxItemsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18500,7 +18517,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItemById/GetInboxItemByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItemById/GetInboxItemByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18511,7 +18528,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItemById/GetInboxItemByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItemById/GetInboxItemByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18522,7 +18539,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItems/GetInboxItemsQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItems/GetInboxItemsQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18533,7 +18550,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItems/GetInboxItemsQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Inbox/Queries/GetInboxItems/GetInboxItemsQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18544,7 +18561,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetNavigationPath/GetNavigationPathQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetNavigationPath/GetNavigationPathQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18555,7 +18572,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetNavigationPath/GetNavigationPathQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetNavigationPath/GetNavigationPathQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18566,7 +18583,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetRelatedEntities/GetRelatedEntitiesQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetRelatedEntities/GetRelatedEntitiesQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18577,7 +18594,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetRelatedEntities/GetRelatedEntitiesQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Navigation/Queries/GetRelatedEntities/GetRelatedEntitiesQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18588,7 +18605,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/CreateReminder/CreateReminderCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/CreateReminder/CreateReminderCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18599,7 +18616,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/CreateReminder/CreateReminderCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/CreateReminder/CreateReminderCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18610,7 +18627,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/CreateReminder/CreateReminderCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/CreateReminder/CreateReminderCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18621,7 +18638,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/DeleteReminder/DeleteReminderCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/DeleteReminder/DeleteReminderCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18632,7 +18649,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/DeleteReminder/DeleteReminderCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/DeleteReminder/DeleteReminderCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18643,7 +18660,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/DeleteReminder/DeleteReminderCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/DeleteReminder/DeleteReminderCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18654,7 +18671,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/UpdateReminder/UpdateReminderCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/UpdateReminder/UpdateReminderCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18665,7 +18682,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/UpdateReminder/UpdateReminderCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/UpdateReminder/UpdateReminderCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18676,7 +18693,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Commands/UpdateReminder/UpdateReminderCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Commands/UpdateReminder/UpdateReminderCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18687,7 +18704,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Messages/ReminderDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Messages/ReminderDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18698,7 +18715,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetAllReminders/GetAllRemindersQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetAllReminders/GetAllRemindersQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18709,7 +18726,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetAllReminders/GetAllRemindersQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetAllReminders/GetAllRemindersQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18720,7 +18737,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetAllReminders/GetAllRemindersQueryValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetAllReminders/GetAllRemindersQueryValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18731,7 +18748,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetDueReminders/GetDueRemindersQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetDueReminders/GetDueRemindersQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18742,7 +18759,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetDueReminders/GetDueRemindersQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetDueReminders/GetDueRemindersQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18753,7 +18770,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetReminderById/GetReminderByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetReminderById/GetReminderByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18764,7 +18781,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetReminderById/GetReminderByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetReminderById/GetReminderByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18775,7 +18792,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetReminderById/GetReminderByIdQueryValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Reminders/Queries/GetReminderById/GetReminderByIdQueryValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18786,7 +18803,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/CreateTask/CreateTaskCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/CreateTask/CreateTaskCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18797,7 +18814,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/CreateTask/CreateTaskCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/CreateTask/CreateTaskCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -18811,7 +18828,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/CreateTask/CreateTaskCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/CreateTask/CreateTaskCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18822,7 +18839,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/DeleteTask/DeleteTaskCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/DeleteTask/DeleteTaskCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18833,7 +18850,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/DeleteTask/DeleteTaskCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/DeleteTask/DeleteTaskCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -18847,7 +18864,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/UpdateTask/UpdateTaskCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/UpdateTask/UpdateTaskCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18858,7 +18875,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/UpdateTask/UpdateTaskCommandHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/UpdateTask/UpdateTaskCommandHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -18872,7 +18889,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Commands/UpdateTask/UpdateTaskCommandValidator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Commands/UpdateTask/UpdateTaskCommandValidator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18883,7 +18900,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Messages/TaskItemDto.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Messages/TaskItemDto.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18894,7 +18911,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetAllTasks/GetAllTasksQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetAllTasks/GetAllTasksQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18905,7 +18922,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetAllTasks/GetAllTasksQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetAllTasks/GetAllTasksQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18916,7 +18933,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetMyTasks/GetMyTasksQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetMyTasks/GetMyTasksQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -18927,7 +18944,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetMyTasks/GetMyTasksQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetMyTasks/GetMyTasksQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -18938,7 +18955,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetTaskById/GetTaskByIdQuery.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetTaskById/GetTaskByIdQuery.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -18949,7 +18966,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetTaskById/GetTaskByIdQueryHandler.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Application/Tasks/Queries/GetTaskById/GetTaskByIdQueryHandler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -18963,7 +18980,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Common/RelayCommand.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Common/RelayCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -18974,7 +18991,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Controls/GeoToolbar.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Controls/GeoToolbar.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -18985,7 +19002,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Controls/GraphLegend.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Controls/GraphLegend.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -18996,7 +19013,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Converters/TimelineConverters.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Converters/TimelineConverters.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (73.0/100)
 
@@ -19014,7 +19031,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Converters/ValueConverters.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Converters/ValueConverters.cs` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (22.0/100)
 
@@ -19029,7 +19046,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Classification/ClassificationModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Classification/ClassificationModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19040,7 +19057,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Collaboration/Comment.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Collaboration/Comment.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19051,7 +19068,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Collaboration/DocumentLock.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Collaboration/DocumentLock.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19062,7 +19079,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Collaboration/UserPresence.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Collaboration/UserPresence.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19073,7 +19090,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Events/DocumentCreatedEvent.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Events/DocumentCreatedEvent.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19084,7 +19101,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Events/DocumentDomainEvents.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Events/DocumentDomainEvents.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -19095,7 +19112,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Events/DocumentsRefreshRequestedEvent.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Events/DocumentsRefreshRequestedEvent.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -19106,7 +19123,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Events/TestDataGeneratedEvent.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Events/TestDataGeneratedEvent.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19117,7 +19134,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Domain/Exceptions/DocumentNotFoundException.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Domain/Exceptions/DocumentNotFoundException.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19128,7 +19145,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Examples/DirectXRendererUsageExample.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Examples/DirectXRendererUsageExample.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -19146,7 +19163,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/AIChat/Services/AIAssistantService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/AIChat/Services/AIAssistantService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -19160,7 +19177,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/AIChat/ViewModels/AIChatViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/AIChat/ViewModels/AIChatViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19171,7 +19188,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/AIChat/Views/AIChatView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/AIChat/Views/AIChatView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -19182,7 +19199,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Dashboard/Services/DashboardService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Dashboard/Services/DashboardService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -19199,7 +19216,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Dashboard/ViewModels/DashboardPreviewViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Dashboard/ViewModels/DashboardPreviewViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19210,7 +19227,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Dashboard/ViewModels/DashboardViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Dashboard/ViewModels/DashboardViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (74.0/100)
 
@@ -19232,7 +19249,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Dashboard/Views/DashboardPreviewView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Dashboard/Views/DashboardPreviewView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19243,7 +19260,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Dashboard/Views/DashboardView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Dashboard/Views/DashboardView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -19254,7 +19271,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/DocumentBrowser/ViewModels/DocumentBrowserNodeViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/DocumentBrowser/ViewModels/DocumentBrowserNodeViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -19265,7 +19282,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/DocumentBrowser/ViewModels/DocumentBrowserSimpleViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/DocumentBrowser/ViewModels/DocumentBrowserSimpleViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19276,7 +19293,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/DocumentBrowser/ViewModels/DocumentBrowserViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/DocumentBrowser/ViewModels/DocumentBrowserViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -19294,7 +19311,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/DocumentBrowser/Views/DocumentBrowserSimpleView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/DocumentBrowser/Views/DocumentBrowserSimpleView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19305,7 +19322,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/DocumentBrowser/Views/DocumentBrowserView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/DocumentBrowser/Views/DocumentBrowserView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19316,7 +19333,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Services/QueryService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Services/QueryService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -19332,7 +19349,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Services/SchemaService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Services/SchemaService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19346,7 +19363,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/ERDQueryEditor/ViewModels/ERDViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/ERDQueryEditor/ViewModels/ERDViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -19361,7 +19378,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/ERDQueryEditor/ViewModels/QueryEditorViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/ERDQueryEditor/ViewModels/QueryEditorViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -19377,7 +19394,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Views/ERDView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Views/ERDView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19388,7 +19405,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Views/QueryEditorView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/ERDQueryEditor/Views/QueryEditorView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19399,7 +19416,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Favorites/ViewModels/FavoritesViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Favorites/ViewModels/FavoritesViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -19417,7 +19434,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Favorites/Views/FavoritesPanelView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Favorites/Views/FavoritesPanelView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -19428,7 +19445,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Gantt/Services/GanttService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Gantt/Services/GanttService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19439,7 +19456,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Gantt/ViewModels/GanttViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Gantt/ViewModels/GanttViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19453,7 +19470,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Gantt/Views/GanttView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Gantt/Views/GanttView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19464,7 +19481,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Geo/Services/GeoServices.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Geo/Services/GeoServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -19479,7 +19496,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Geo/ViewModels/GeoViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Geo/ViewModels/GeoViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19490,7 +19507,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Geo/Views/GeoView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Geo/Views/GeoView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19508,7 +19525,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Graph/Services/GraphVisualizationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Graph/Services/GraphVisualizationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -19519,7 +19536,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Graph/ViewModels/GraphViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Graph/ViewModels/GraphViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19530,7 +19547,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Graph/Views/GraphView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Graph/Views/GraphView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19548,7 +19565,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Graph/Views/GraphView3D.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Graph/Views/GraphView3D.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19562,7 +19579,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/IMetadataBindingService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/IMetadataBindingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19573,7 +19590,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/IMetadataLayoutService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/IMetadataLayoutService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19584,7 +19601,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/ISmartMetadataLayoutEngine.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/ISmartMetadataLayoutEngine.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19595,7 +19612,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/MetadataBindingService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/MetadataBindingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -19616,7 +19633,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/MetadataFormGeneratorService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/MetadataFormGeneratorService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -19632,7 +19649,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/MetadataLayoutService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/MetadataLayoutService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19643,7 +19660,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Services/SmartMetadataLayoutEngine.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Services/SmartMetadataLayoutEngine.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19654,7 +19671,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/ViewModels/MetadataFormViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/ViewModels/MetadataFormViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19668,7 +19685,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/MetadataForm/Views/MetadataFormView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/MetadataForm/Views/MetadataFormView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19679,7 +19696,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/TaskBasket/ViewModels/TaskBasketViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/TaskBasket/ViewModels/TaskBasketViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19694,7 +19711,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/TaskBasket/ViewModels/TasksRightSidebarEnhancedViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/TaskBasket/ViewModels/TasksRightSidebarEnhancedViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19715,7 +19732,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/TaskBasket/ViewModels/TasksRightSidebarViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/TaskBasket/ViewModels/TasksRightSidebarViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -19737,7 +19754,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/TaskBasket/Views/TaskBasketView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/TaskBasket/Views/TaskBasketView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -19748,7 +19765,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/TaskBasket/Views/TaskCardView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/TaskBasket/Views/TaskCardView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19759,7 +19776,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Features/Timeline/Views/TimelineViewImproved.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Features/Timeline/Views/TimelineViewImproved.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19770,7 +19787,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/GlobalUsings.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/GlobalUsings.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19781,7 +19798,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Infrastructure/BackgroundJobs/DocumentLockCleanupService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Infrastructure/BackgroundJobs/DocumentLockCleanupService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19792,7 +19809,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Infrastructure/MachineLearning/DocumentClassifier.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Infrastructure/MachineLearning/DocumentClassifier.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19806,7 +19823,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Infrastructure/MachineLearning/MetadataExtractor.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Infrastructure/MachineLearning/MetadataExtractor.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19817,7 +19834,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Infrastructure/Persistence/ThemisRepository.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Infrastructure/Persistence/ThemisRepository.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19828,7 +19845,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Infrastructure/SignalR/SignalRConfiguration.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Infrastructure/SignalR/SignalRConfiguration.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19842,7 +19859,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Infrastructure/SignalR/SignalRService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Infrastructure/SignalR/SignalRService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19853,7 +19870,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/AIAssistantModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/AIAssistantModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19864,7 +19881,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/AdministrativeStructure.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/AdministrativeStructure.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19875,7 +19892,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/CacheModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/CacheModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19886,7 +19903,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/CalendarModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/CalendarModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -19897,7 +19914,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/DashboardModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/DashboardModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19908,7 +19925,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/Document.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/Document.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19919,7 +19936,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/DocumentPreviewModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/DocumentPreviewModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19930,7 +19947,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/DocumentRevision.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/DocumentRevision.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -19941,7 +19958,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/DocumentTreeModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/DocumentTreeModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19952,7 +19969,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/DynamicMetadataModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/DynamicMetadataModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19963,7 +19980,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/GanttModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/GanttModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19974,7 +19991,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/GeoModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/GeoModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -19985,7 +20002,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/GraphModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/GraphModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20001,7 +20018,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/HelpSystemModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/HelpSystemModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20012,7 +20029,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/LLMModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/LLMModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20023,7 +20040,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/MessengerModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/MessengerModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20034,7 +20051,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/MetadataBadgeModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/MetadataBadgeModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20045,7 +20062,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/MetadataFieldGroup.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/MetadataFieldGroup.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20056,7 +20073,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/NotificationModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/NotificationModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20067,7 +20084,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/OutboxModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/OutboxModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20078,7 +20095,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/OutlookTaskModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/OutlookTaskModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20089,7 +20106,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/Phase1Models.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/Phase1Models.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20100,7 +20117,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/Phase3ComplianceModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/Phase3ComplianceModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20111,7 +20128,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/ProcessWatchModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/ProcessWatchModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20122,7 +20139,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/SchemaModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/SchemaModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20133,7 +20150,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/TimelineModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/TimelineModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20144,7 +20161,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Models/TreeViewSettings.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Models/TreeViewSettings.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20155,7 +20172,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/AdministrativeStructureService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/AdministrativeStructureService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -20166,7 +20183,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/AnimationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/AnimationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20177,7 +20194,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ApplicationStateService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ApplicationStateService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20188,7 +20205,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/AsyncEnumerableHelper.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/AsyncEnumerableHelper.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -20199,7 +20216,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/AuditLoggingService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/AuditLoggingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -20213,7 +20230,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/AuthenticationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/AuthenticationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20227,7 +20244,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/CacheService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/CacheService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20241,7 +20258,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/CalendarIntegrationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/CalendarIntegrationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20252,7 +20269,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/Classification/ClassificationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/Classification/ClassificationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20263,7 +20280,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/Classification/IClassificationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/Classification/IClassificationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20274,7 +20291,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/CollaborationServices.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/CollaborationServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20285,7 +20302,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ConnectionMonitorService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ConnectionMonitorService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -20296,7 +20313,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ContextMenuService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ContextMenuService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20307,7 +20324,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DialogService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DialogService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -20318,7 +20335,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/AdvancedDirectX3DGraphRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/AdvancedDirectX3DGraphRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -20336,7 +20353,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/AdvancedEffectsRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/AdvancedEffectsRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20347,7 +20364,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/AdvancedOptimizationEngine.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/AdvancedOptimizationEngine.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20358,7 +20375,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/BufferManagement.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/BufferManagement.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20376,7 +20393,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/DirectXCore.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/DirectXCore.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -20394,7 +20411,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/DirectXServiceCollectionExtensions.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/DirectXServiceCollectionExtensions.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20405,7 +20422,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/EnhancedDirectX3DGraphRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/EnhancedDirectX3DGraphRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -20423,7 +20440,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/GPUHardwareIntegration.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/GPUHardwareIntegration.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20438,7 +20455,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/LoadTestRunner.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/LoadTestRunner.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -20452,7 +20469,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/MeshGenerator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/MeshGenerator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -20463,7 +20480,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/NodePickingSystem.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/NodePickingSystem.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20481,7 +20498,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/OSMMapManager.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/OSMMapManager.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20499,7 +20516,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/OSMMapRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/OSMMapRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -20517,7 +20534,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/PerformanceTestingFramework.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/PerformanceTestingFramework.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20528,7 +20545,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/ProductionReleaseConfig.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/ProductionReleaseConfig.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -20539,7 +20556,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/RenderingPipeline.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/RenderingPipeline.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20550,7 +20567,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectX/ShaderPipeline.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectX/ShaderPipeline.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -20573,7 +20590,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DirectXServiceCollectionExtensions.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DirectXServiceCollectionExtensions.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20584,7 +20601,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DocumentManagerOptions.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DocumentManagerOptions.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20598,7 +20615,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DocumentPreviewService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DocumentPreviewService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -20616,7 +20633,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DocumentTreeService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DocumentTreeService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20627,7 +20644,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DsmDataContracts.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DsmDataContracts.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20638,7 +20655,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DsmInMemoryStores.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DsmInMemoryStores.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -20650,7 +20667,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DsmLocalDataStore.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DsmLocalDataStore.cs` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (38.0/100)
 
@@ -20669,7 +20686,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DsmTimelineAggregationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DsmTimelineAggregationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20680,7 +20697,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DynamicAssemblyLoader.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DynamicAssemblyLoader.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -20698,7 +20715,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/DynamicMetadataEmbeddingService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/DynamicMetadataEmbeddingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (65.0/100)
 
@@ -20721,7 +20738,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/EnhancedNotificationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/EnhancedNotificationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -20732,7 +20749,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/FormAuditService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/FormAuditService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -20743,7 +20760,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/FormConfigurationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/FormConfigurationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20754,7 +20771,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/FormFieldLabelingService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/FormFieldLabelingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -20765,7 +20782,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/FormSubmissionHistoryService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/FormSubmissionHistoryService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20776,7 +20793,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/FormTemplateService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/FormTemplateService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20787,7 +20804,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/FormUICustomizationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/FormUICustomizationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20798,7 +20815,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/HelpService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/HelpService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20809,7 +20826,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/IFilePreviewPlugin.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/IFilePreviewPlugin.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20824,7 +20841,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/IServices.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/IServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20835,7 +20852,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/KeyboardNavigationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/KeyboardNavigationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20846,7 +20863,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/KeyboardShortcutService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/KeyboardShortcutService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20857,7 +20874,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/LLMServices.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/LLMServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -20869,7 +20886,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/MessengerIntegrationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/MessengerIntegrationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -20880,7 +20897,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/MetadataBadgeAggregator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/MetadataBadgeAggregator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20891,7 +20908,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/MetadataBadgeServices.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/MetadataBadgeServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20905,7 +20922,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/MissingServiceImplementations.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/MissingServiceImplementations.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -20920,7 +20937,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/NoOpNotificationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/NoOpNotificationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -20931,7 +20948,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/OfficeIntegrationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/OfficeIntegrationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20942,7 +20959,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/OllamaContentGeneratorService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/OllamaContentGeneratorService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20953,7 +20970,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/OllamaService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/OllamaService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -20969,7 +20986,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/OsmMapRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/OsmMapRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -20980,7 +20997,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/OutboxService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/OutboxService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -20996,7 +21013,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/OutlookTaskService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/OutlookTaskService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21007,7 +21024,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/Phase1ServiceImplementations.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/Phase1ServiceImplementations.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -21021,7 +21038,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/Phase1ServiceImplementations2.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/Phase1ServiceImplementations2.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21032,7 +21049,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/Phase1Services.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/Phase1Services.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21043,7 +21060,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/Phase3ComplianceServices.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/Phase3ComplianceServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21054,7 +21071,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ProcessLinkingService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ProcessLinkingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21065,7 +21082,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ProcessWatchService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ProcessWatchService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21080,7 +21097,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/RevisionService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/RevisionService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -21091,7 +21108,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/RoleBasedPermissionService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/RoleBasedPermissionService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21102,7 +21119,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/SeamlessIntegrationOrchestrator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/SeamlessIntegrationOrchestrator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -21116,7 +21133,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ServiceConstants.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ServiceConstants.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21127,7 +21144,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ServiceImplementations.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ServiceImplementations.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21138,7 +21155,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/SettingsService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/SettingsService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21153,7 +21170,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/SmartFormConfigurationDocumentation.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/SmartFormConfigurationDocumentation.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21164,7 +21181,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/SmartFormConfigurationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/SmartFormConfigurationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21175,7 +21192,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/SmartFormService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/SmartFormService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21189,7 +21206,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/StatusMonitorService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/StatusMonitorService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21200,7 +21217,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ThemeService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ThemeService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21215,7 +21232,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ThemisApiClient.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ThemisApiClient.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21226,7 +21243,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ThemisDBService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ThemisDBService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -21242,7 +21259,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ThemisDbSeeder.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ThemisDbSeeder.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21256,7 +21273,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/ThemisTestDataGenerator.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/ThemisTestDataGenerator.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21267,7 +21284,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Services/TimelineAggregationService.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Services/TimelineAggregationService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21278,7 +21295,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/SplashScreen.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/SplashScreen.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21289,7 +21306,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/TestData/TestDataGeneratorCli.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/TestData/TestDataGeneratorCli.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21300,7 +21317,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Tests/Classification/DocumentClassifierTests.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Tests/Classification/DocumentClassifierTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21315,7 +21332,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Tests/Classification/MetadataExtractorTests.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Tests/Classification/MetadataExtractorTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -21330,7 +21347,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Tests/Collaboration/CommentTests.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Tests/Collaboration/CommentTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -21347,7 +21364,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Tests/Collaboration/DocumentLockingTests.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Tests/Collaboration/DocumentLockingTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (76.0/100)
 
@@ -21365,7 +21382,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Tests/Integration/CollaborationIntegrationTests.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Tests/Integration/CollaborationIntegrationTests.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (72.0/100)
 
@@ -21383,7 +21400,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/UI/FormRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/UI/FormRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21394,7 +21411,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/UI/MetadataCompactDisplay.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/UI/MetadataCompactDisplay.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21405,7 +21422,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/UI/MetadataFormView.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/UI/MetadataFormView.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21416,7 +21433,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/UI/MetadataGroupedAccordion.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/UI/MetadataGroupedAccordion.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -21427,7 +21444,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/UI/MetadataSummaryPanel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/UI/MetadataSummaryPanel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21438,7 +21455,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/UI/SmartFormRenderer.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/UI/SmartFormRenderer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21449,7 +21466,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/AuditLogViewerViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/AuditLogViewerViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21460,7 +21477,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/BreadcrumbViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/BreadcrumbViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21471,7 +21488,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/DocumentCollaborationViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/DocumentCollaborationViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -21482,7 +21499,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/DocumentPreviewViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/DocumentPreviewViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -21503,7 +21520,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/InboxViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/InboxViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -21520,7 +21537,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/MainViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21531,7 +21548,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/Navigation/IntelligentBreadcrumbViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/Navigation/IntelligentBreadcrumbViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21545,7 +21562,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/ProcessLinkingDialogViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/ProcessLinkingDialogViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21560,7 +21577,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/Settings/TreeViewSettingsViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/Settings/TreeViewSettingsViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21571,7 +21588,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/TestDataGeneratorViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/TestDataGeneratorViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -21583,7 +21600,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/TimelineRulerViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/TimelineRulerViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21594,7 +21611,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/TimelineViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/TimelineViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21605,7 +21622,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/UserSwitcherViewModel.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/UserSwitcherViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -21619,7 +21636,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/ViewModels/ViewModels.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/ViewModels/ViewModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21630,7 +21647,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/AuditLogViewerView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/AuditLogViewerView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21641,7 +21658,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/BreadcrumbView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/BreadcrumbView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21652,7 +21669,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Collaboration/DocumentCollaborationView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Collaboration/DocumentCollaborationView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21663,7 +21680,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/FullDashboardSimpleView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/FullDashboardSimpleView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21674,7 +21691,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Inbox/InboxView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Inbox/InboxView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21685,7 +21702,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/MainWindow.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21700,7 +21717,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Navigation/IntelligentBreadcrumbView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Navigation/IntelligentBreadcrumbView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21711,7 +21728,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Navigation/TimelineRulerView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Navigation/TimelineRulerView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21722,7 +21739,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/PlaceholderViews.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/PlaceholderViews.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21733,7 +21750,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Preview/DocumentPreviewView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Preview/DocumentPreviewView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21744,7 +21761,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/ProcessLinkingDialog.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/ProcessLinkingDialog.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21755,7 +21772,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Settings/SettingsDialog.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Settings/SettingsDialog.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -21766,7 +21783,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Settings/TreeViewSettingsView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Settings/TreeViewSettingsView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21777,7 +21794,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/ShortcutsOverlay.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/ShortcutsOverlay.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21788,7 +21805,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/TestDataGeneratorWindow.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/TestDataGeneratorWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -21799,7 +21816,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Timeline/TimelineView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Timeline/TimelineView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -21810,7 +21827,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/TimelineSimpleView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/TimelineSimpleView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21821,7 +21838,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/UserSwitcherView.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/UserSwitcherView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21832,7 +21849,7 @@
 
 ---
 
-### `projects/Themis.DocumentManager/Views/Windows/AuditLogViewerWindow.xaml.cs` (v0.0.17)
+### `projects/Themis.DocumentManager/Views/Windows/AuditLogViewerWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21843,7 +21860,7 @@
 
 ---
 
-### `projects/llm-code-translator/examples/basic_example.cpp` (v0.0.17)
+### `projects/llm-code-translator/examples/basic_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21854,7 +21871,7 @@
 
 ---
 
-### `projects/llm-code-translator/examples/basic_usage.cpp` (v0.0.17)
+### `projects/llm-code-translator/examples/basic_usage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21865,7 +21882,7 @@
 
 ---
 
-### `projects/llm-code-translator/examples/complete_pipeline_example.cpp` (v0.0.17)
+### `projects/llm-code-translator/examples/complete_pipeline_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -21879,7 +21896,7 @@
 
 ---
 
-### `projects/llm-code-translator/examples/direct_execution_example.cpp` (v0.0.17)
+### `projects/llm-code-translator/examples/direct_execution_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21893,7 +21910,7 @@
 
 ---
 
-### `projects/llm-code-translator/examples/jit_compilation_example.cpp` (v0.0.17)
+### `projects/llm-code-translator/examples/jit_compilation_example.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21904,7 +21921,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/direct_execution_engine.h` (v0.0.17)
+### `projects/llm-code-translator/src/direct_execution_engine.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21915,7 +21932,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/direct_executor.cpp` (v0.0.17)
+### `projects/llm-code-translator/src/direct_executor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21926,7 +21943,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/direct_executor.h` (v0.0.17)
+### `projects/llm-code-translator/src/direct_executor.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -21940,7 +21957,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/execution_plan.cpp` (v0.0.17)
+### `projects/llm-code-translator/src/execution_plan.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21951,7 +21968,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/execution_plan.h` (v0.0.17)
+### `projects/llm-code-translator/src/execution_plan.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21962,7 +21979,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/jit_compiler.h` (v0.0.17)
+### `projects/llm-code-translator/src/jit_compiler.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21976,7 +21993,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/llm_code_translator.h` (v0.0.17)
+### `projects/llm-code-translator/src/llm_code_translator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -21987,7 +22004,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/prompt_to_plan.cpp` (v0.0.17)
+### `projects/llm-code-translator/src/prompt_to_plan.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -21998,7 +22015,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/prompt_to_plan.h` (v0.0.17)
+### `projects/llm-code-translator/src/prompt_to_plan.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22009,7 +22026,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/vllm_client.cpp` (v0.0.17)
+### `projects/llm-code-translator/src/vllm_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22020,7 +22037,7 @@
 
 ---
 
-### `projects/llm-code-translator/src/vllm_client.h` (v0.0.17)
+### `projects/llm-code-translator/src/vllm_client.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22031,7 +22048,7 @@
 
 ---
 
-### `scripts/cleanup_milestones.py` (v0.0.9)
+### `scripts/cleanup_milestones.py` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22042,7 +22059,7 @@
 
 ---
 
-### `scripts/compendium/generate_pdf_all_themes.py` (v0.0.17)
+### `scripts/compendium/generate_pdf_all_themes.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22056,7 +22073,7 @@
 
 ---
 
-### `scripts/compendium/generate_pdf_rendered.py` (v0.0.17)
+### `scripts/compendium/generate_pdf_rendered.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22071,7 +22088,7 @@
 
 ---
 
-### `scripts/compendium/generate_pdf_svg.py` (v0.0.17)
+### `scripts/compendium/generate_pdf_svg.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22085,7 +22102,7 @@
 
 ---
 
-### `scripts/compendium/generate_pdf_weasyprint.py` (v0.0.17)
+### `scripts/compendium/generate_pdf_weasyprint.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22096,7 +22113,7 @@
 
 ---
 
-### `scripts/compendium/generate_pdf_with_mermaid.py` (v0.0.17)
+### `scripts/compendium/generate_pdf_with_mermaid.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22107,7 +22124,7 @@
 
 ---
 
-### `scripts/compendium/generate_themed_pdfs.py` (v0.0.17)
+### `scripts/compendium/generate_themed_pdfs.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22118,7 +22135,7 @@
 
 ---
 
-### `scripts/create_missing_issues.py` (v0.0.17)
+### `scripts/create_missing_issues.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22129,7 +22146,7 @@
 
 ---
 
-### `scripts/cross-compile-reviewer.py` (v0.0.17)
+### `scripts/cross-compile-reviewer.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22144,7 +22161,7 @@
 
 ---
 
-### `scripts/docs-lint.py` (v0.0.17)
+### `scripts/docs-lint.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22155,7 +22172,7 @@
 
 ---
 
-### `scripts/fix_cmake_paths.py` (v0.0.17)
+### `scripts/fix_cmake_paths.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -22166,7 +22183,7 @@
 
 ---
 
-### `scripts/fix_doc_links.py` (v0.0.17)
+### `scripts/fix_doc_links.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22177,7 +22194,7 @@
 
 ---
 
-### `scripts/generate_docs_database.py` (v0.0.17)
+### `scripts/generate_docs_database.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22188,7 +22205,7 @@
 
 ---
 
-### `scripts/generate_docs_database_backup.py` (v0.0.17)
+### `scripts/generate_docs_database_backup.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22206,7 +22223,7 @@
 
 ---
 
-### `scripts/generate_docs_rocksdb.py` (v0.0.17)
+### `scripts/generate_docs_rocksdb.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22217,7 +22234,7 @@
 
 ---
 
-### `scripts/generate_docs_rocksdb_backup.py` (v0.0.17)
+### `scripts/generate_docs_rocksdb_backup.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22228,7 +22245,7 @@
 
 ---
 
-### `scripts/generate_legal_rocksdb.py` (v0.0.17)
+### `scripts/generate_legal_rocksdb.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22239,7 +22256,7 @@
 
 ---
 
-### `scripts/ingest_legal_training_data.py` (v0.0.17)
+### `scripts/ingest_legal_training_data.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22250,7 +22267,7 @@
 
 ---
 
-### `scripts/license-server/app.py` (v0.0.11)
+### `scripts/license-server/app.py` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22261,7 +22278,7 @@
 
 ---
 
-### `scripts/license-server/test_license_server.py` (v0.0.11)
+### `scripts/license-server/test_license_server.py` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22275,7 +22292,7 @@
 
 ---
 
-### `scripts/link-check.py` (v0.0.17)
+### `scripts/link-check.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22286,7 +22303,7 @@
 
 ---
 
-### `scripts/pre-commit-cross-compile.py` (v0.0.17)
+### `scripts/pre-commit-cross-compile.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -22297,7 +22314,7 @@
 
 ---
 
-### `scripts/raid_endurance_test.py` (v0.0.17)
+### `scripts/raid_endurance_test.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22308,7 +22325,7 @@
 
 ---
 
-### `scripts/railway/asset_management.py` (v0.0.17)
+### `scripts/railway/asset_management.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22319,7 +22336,7 @@
 
 ---
 
-### `scripts/railway/cep_rules_engine.py` (v0.0.17)
+### `scripts/railway/cep_rules_engine.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22330,7 +22347,7 @@
 
 ---
 
-### `scripts/railway/db_real_data_integration.py` (v0.0.17)
+### `scripts/railway/db_real_data_integration.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22344,7 +22361,7 @@
 
 ---
 
-### `scripts/railway/digital_twin.py` (v0.0.17)
+### `scripts/railway/digital_twin.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -22362,7 +22379,7 @@
 
 ---
 
-### `scripts/railway/import_railway_network.py` (v0.0.17)
+### `scripts/railway/import_railway_network.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22373,7 +22390,7 @@
 
 ---
 
-### `scripts/railway/simple_network_generator.py` (v0.0.17)
+### `scripts/railway/simple_network_generator.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22387,7 +22404,7 @@
 
 ---
 
-### `scripts/railway/train_simulator.py` (v0.0.17)
+### `scripts/railway/train_simulator.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22405,7 +22422,7 @@
 
 ---
 
-### `scripts/toc-check.py` (v0.0.17)
+### `scripts/toc-check.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22416,7 +22433,7 @@
 
 ---
 
-### `scripts/tools/demo_compliance.py` (v0.0.17)
+### `scripts/tools/demo_compliance.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22427,7 +22444,7 @@
 
 ---
 
-### `scripts/train_failure_model.py` (v0.0.17)
+### `scripts/train_failure_model.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22438,7 +22455,7 @@
 
 ---
 
-### `scripts/validate_config_mapping.py` (v0.0.17)
+### `scripts/validate_config_mapping.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22449,7 +22466,7 @@
 
 ---
 
-### `scripts/validate_grafana_dashboards.py` (v0.0.17)
+### `scripts/validate_grafana_dashboards.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22460,7 +22477,7 @@
 
 ---
 
-### `scripts/verification/create_issues_from_gaps.py` (v0.0.17)
+### `scripts/verification/create_issues_from_gaps.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -22478,7 +22495,7 @@
 
 ---
 
-### `scripts/verification/generate_verification_report.py` (v0.0.17)
+### `scripts/verification/generate_verification_report.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -22494,7 +22511,7 @@
 
 ---
 
-### `scripts/verification/verify_documentation_todos.py` (v0.0.17)
+### `scripts/verification/verify_documentation_todos.py` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (67.0/100)
 
@@ -22512,7 +22529,7 @@
 
 ---
 
-### `scripts/verify-readme-links.py` (v0.0.17)
+### `scripts/verify-readme-links.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22523,7 +22540,7 @@
 
 ---
 
-### `scripts/verify_pdf.py` (v0.0.17)
+### `scripts/verify_pdf.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22534,7 +22551,7 @@
 
 ---
 
-### `sdks/python/themis_llm/__init__.py` (v0.0.17)
+### `sdks/python/themis_llm/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -22545,7 +22562,7 @@
 
 ---
 
-### `sdks/python/themis_llm/client.py` (v0.0.17)
+### `sdks/python/themis_llm/client.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22556,7 +22573,7 @@
 
 ---
 
-### `sdks/python/themis_llm/exceptions.py` (v0.0.17)
+### `sdks/python/themis_llm/exceptions.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22567,7 +22584,7 @@
 
 ---
 
-### `sdks/python/themis_llm/models.py` (v0.0.17)
+### `sdks/python/themis_llm/models.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22578,7 +22595,7 @@
 
 ---
 
-### `security/pentest/report_generator.py` (v0.0.17)
+### `security/pentest/report_generator.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22589,7 +22606,7 @@
 
 ---
 
-### `security/pentest/tests/auth_tests.py` (v0.0.17)
+### `security/pentest/tests/auth_tests.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -22603,7 +22620,7 @@
 
 ---
 
-### `src/acceleration/backend_registry.cpp` (v0.0.17)
+### `src/acceleration/backend_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22614,7 +22631,7 @@
 
 ---
 
-### `src/acceleration/cpu_backend.cpp` (v0.0.17)
+### `src/acceleration/cpu_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22625,7 +22642,7 @@
 
 ---
 
-### `src/acceleration/cpu_backend_mt.cpp` (v0.0.17)
+### `src/acceleration/cpu_backend_mt.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22636,7 +22653,7 @@
 
 ---
 
-### `src/acceleration/cpu_backend_tbb.cpp` (v0.0.17)
+### `src/acceleration/cpu_backend_tbb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22647,7 +22664,7 @@
 
 ---
 
-### `src/acceleration/cuda_backend.cpp` (v0.0.17)
+### `src/acceleration/cuda_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (35.0/100)
 
@@ -22662,7 +22679,7 @@
 
 ---
 
-### `src/acceleration/directx_backend_full.cpp` (v0.0.17)
+### `src/acceleration/directx_backend_full.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -22676,7 +22693,7 @@
 
 ---
 
-### `src/acceleration/faiss_gpu_backend.cpp` (v0.0.17)
+### `src/acceleration/faiss_gpu_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -22693,7 +22710,7 @@
 
 ---
 
-### `src/acceleration/graphics_backends.cpp` (v0.0.17)
+### `src/acceleration/graphics_backends.cpp` (v0.0.23)
 
 **Maturity Level:** ⚫ DRAFT (0.0/100)
 
@@ -22708,7 +22725,7 @@
 
 ---
 
-### `src/acceleration/hip_backend.cpp` (v0.0.17)
+### `src/acceleration/hip_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -22722,7 +22739,7 @@
 
 ---
 
-### `src/acceleration/nccl_vector_backend.cpp` (v0.0.17)
+### `src/acceleration/nccl_vector_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -22739,7 +22756,7 @@
 
 ---
 
-### `src/acceleration/oneapi_backend.cpp` (v0.0.17)
+### `src/acceleration/oneapi_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -22751,7 +22768,7 @@
 
 ---
 
-### `src/acceleration/opencl_backend.cpp` (v0.0.17)
+### `src/acceleration/opencl_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -22763,7 +22780,7 @@
 
 ---
 
-### `src/acceleration/plugin_loader.cpp` (v0.0.17)
+### `src/acceleration/plugin_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22774,7 +22791,7 @@
 
 ---
 
-### `src/acceleration/plugin_security.cpp` (v0.0.17)
+### `src/acceleration/plugin_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -22790,7 +22807,7 @@
 
 ---
 
-### `src/acceleration/rccl_vector_backend.cpp` (v0.0.17)
+### `src/acceleration/rccl_vector_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -22807,7 +22824,7 @@
 
 ---
 
-### `src/acceleration/vllm_resource_manager.cpp` (v0.0.17)
+### `src/acceleration/vllm_resource_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22818,7 +22835,7 @@
 
 ---
 
-### `src/acceleration/vulkan_backend_full.cpp` (v0.0.17)
+### `src/acceleration/vulkan_backend_full.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -22832,7 +22849,7 @@
 
 ---
 
-### `src/acceleration/zluda_backend.cpp` (v0.0.17)
+### `src/acceleration/zluda_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22843,7 +22860,7 @@
 
 ---
 
-### `src/analytics/analytics_export.cpp` (v0.0.17)
+### `src/analytics/analytics_export.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (65.0/100)
 
@@ -22864,18 +22881,18 @@
 
 ---
 
-### `src/analytics/anomaly_detection.cpp` (v0.0.2)
+### `src/analytics/anomaly_detection.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 ---
 
-### `src/analytics/arrow_export.cpp` (v0.0.17)
+### `src/analytics/arrow_export.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -22886,23 +22903,23 @@
 
 ---
 
-### `src/analytics/cep_engine.cpp` (v0.0.2)
+### `src/analytics/cep_engine.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🐛 DEBUG** (3 occurrences):
-  - Line 1295: `spdlog::debug("CEP ACTION type={} rule='{}'",`
-  - Line 1650: `spdlog::debug("CEPEngine: stream '{}' created", config.stream_id);`
-  - Line 1955: `spdlog::debug("CEP metrics: recv={} proc={} drop={} alerts={} streams={} rules={}",`
+  - Line 1299: `spdlog::debug("CEP ACTION type={} rule='{}'",`
+  - Line 1654: `spdlog::debug("CEPEngine: stream '{}' created", config.stream_id);`
+  - Line 1959: `spdlog::debug("CEP metrics: recv={} proc={} drop={} alerts={} streams={} rules={}",`
 
 ---
 
-### `src/analytics/diff_engine.cpp` (v0.0.17)
+### `src/analytics/diff_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -22920,18 +22937,18 @@
 
 ---
 
-### `src/analytics/incremental_view.cpp` (v0.0.2)
+### `src/analytics/incremental_view.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 ---
 
-### `src/analytics/llm_process_analyzer.cpp` (v0.0.17)
+### `src/analytics/llm_process_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -22945,7 +22962,7 @@
 
 ---
 
-### `src/analytics/nlp_text_analyzer.cpp` (v0.0.17)
+### `src/analytics/nlp_text_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -22960,7 +22977,7 @@
 
 ---
 
-### `src/analytics/olap.cpp` (v0.0.17)
+### `src/analytics/olap.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -22974,7 +22991,7 @@
 
 ---
 
-### `src/analytics/process_mining.cpp` (v0.0.17)
+### `src/analytics/process_mining.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -22986,7 +23003,7 @@
 
 ---
 
-### `src/analytics/process_pattern_matcher.cpp` (v0.0.17)
+### `src/analytics/process_pattern_matcher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23001,21 +23018,21 @@
 
 ---
 
-### `src/analytics/streaming_window.cpp` (v0.0.2)
+### `src/analytics/streaming_window.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🐛 DEBUG** (1 occurrences):
-  - Line 324: `spdlog::debug("TumblingWindow: dropped late record (event={} < watermark={})", ev_us, wm);`
+  - Line 328: `spdlog::debug("TumblingWindow: dropped late record (event={} < watermark={})", ev_us, wm);`
 
 ---
 
-### `src/api/geo_index_hooks.cpp` (v0.0.17)
+### `src/api/geo_index_hooks.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23026,7 +23043,7 @@
 
 ---
 
-### `src/api/graphql.cpp` (v0.0.17)
+### `src/api/graphql.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23037,7 +23054,7 @@
 
 ---
 
-### `src/api/http_server.cpp` (v0.0.17)
+### `src/api/http_server.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -23049,7 +23066,7 @@
 
 ---
 
-### `src/aql/aql_confidence_scorer.cpp` (v0.0.9)
+### `src/aql/aql_confidence_scorer.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23060,7 +23077,7 @@
 
 ---
 
-### `src/aql/aql_conversation_context.cpp` (v0.0.9)
+### `src/aql/aql_conversation_context.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23071,7 +23088,7 @@
 
 ---
 
-### `src/aql/aql_query_builder.cpp` (v0.0.9)
+### `src/aql/aql_query_builder.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23082,7 +23099,7 @@
 
 ---
 
-### `src/aql/aql_query_template_library.cpp` (v0.0.9)
+### `src/aql/aql_query_template_library.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23093,7 +23110,7 @@
 
 ---
 
-### `src/aql/aql_query_validator.cpp` (v0.0.9)
+### `src/aql/aql_query_validator.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23104,7 +23121,7 @@
 
 ---
 
-### `src/aql/aql_syntax_highlighter.cpp` (v0.0.6)
+### `src/aql/aql_syntax_highlighter.cpp` (v0.0.12)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23115,7 +23132,7 @@
 
 ---
 
-### `src/aql/docs_assistant_functions.cpp` (v0.0.17)
+### `src/aql/docs_assistant_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23133,7 +23150,7 @@
 
 ---
 
-### `src/aql/llm_aql_handler.cpp` (v0.0.17)
+### `src/aql/llm_aql_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23148,11 +23165,11 @@
 **🐛 DEBUG** (3 occurrences):
   - Line 315: `spdlog::debug("LLM INFER completed: model={}, latency={}ms, input_tokens={}, output_tokens={}",`
   - Line 513: `spdlog::debug("LLM RAG completed: collection={}, retrieved_docs={}, latency={}ms",`
-  - Line 976: `spdlog::debug("AQL confidence score: overall={:.2f} structural={:.2f} completeness={:.2f} schema_mat`
+  - Line 978: `spdlog::debug("AQL confidence score: overall={:.2f} structural={:.2f} completeness={:.2f} schema_mat`
 
 ---
 
-### `src/aql/llm_metrics_collector.cpp` (v0.0.17)
+### `src/aql/llm_metrics_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23163,7 +23180,7 @@
 
 ---
 
-### `src/auth/auth_error.cpp` (v0.0.17)
+### `src/auth/auth_error.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23174,7 +23191,7 @@
 
 ---
 
-### `src/auth/auth_metrics.cpp` (v0.0.17)
+### `src/auth/auth_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23185,7 +23202,7 @@
 
 ---
 
-### `src/auth/auth_rate_limiter.cpp` (v0.0.17)
+### `src/auth/auth_rate_limiter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23196,7 +23213,7 @@
 
 ---
 
-### `src/auth/gssapi_authenticator.cpp` (v0.0.17)
+### `src/auth/gssapi_authenticator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23207,7 +23224,7 @@
 
 ---
 
-### `src/auth/jwks_security.cpp` (v0.0.17)
+### `src/auth/jwks_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23218,7 +23235,7 @@
 
 ---
 
-### `src/auth/jwks_validator.cpp` (v0.0.17)
+### `src/auth/jwks_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23229,7 +23246,7 @@
 
 ---
 
-### `src/auth/jwt_key_rotation_manager.cpp` (v0.0.17)
+### `src/auth/jwt_key_rotation_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23240,7 +23257,7 @@
 
 ---
 
-### `src/auth/jwt_validator.cpp` (v0.0.17)
+### `src/auth/jwt_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23251,7 +23268,7 @@
 
 ---
 
-### `src/auth/kerberos_security.cpp` (v0.0.17)
+### `src/auth/kerberos_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23262,7 +23279,7 @@
 
 ---
 
-### `src/auth/mfa_authenticator.cpp` (v0.0.17)
+### `src/auth/mfa_authenticator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -23279,7 +23296,7 @@
 
 ---
 
-### `src/auth/principal_validator.cpp` (v0.0.17)
+### `src/auth/principal_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23290,7 +23307,7 @@
 
 ---
 
-### `src/auth/token_blacklist.cpp` (v0.0.17)
+### `src/auth/token_blacklist.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23301,7 +23318,7 @@
 
 ---
 
-### `src/auth/totp_replay_cache.cpp` (v0.0.17)
+### `src/auth/totp_replay_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -23315,7 +23332,7 @@
 
 ---
 
-### `src/auth/totp_secret_encryption.cpp` (v0.0.17)
+### `src/auth/totp_secret_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23326,7 +23343,7 @@
 
 ---
 
-### `src/base/module_loader.cpp` (v0.0.17)
+### `src/base/module_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -23344,7 +23361,7 @@
 
 ---
 
-### `src/base/module_sandbox.cpp` (v0.0.17)
+### `src/base/module_sandbox.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23355,7 +23372,7 @@
 
 ---
 
-### `src/cache/adaptive_query_cache.cpp` (v0.0.17)
+### `src/cache/adaptive_query_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23366,7 +23383,7 @@
 
 ---
 
-### `src/cache/bounded_lru_cache.cpp` (v0.0.17)
+### `src/cache/bounded_lru_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23377,7 +23394,7 @@
 
 ---
 
-### `src/cache/embedding_cache.cpp` (v0.0.17)
+### `src/cache/embedding_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23388,7 +23405,7 @@
 
 ---
 
-### `src/cache/semantic_cache.cpp` (v0.0.17)
+### `src/cache/semantic_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23399,7 +23416,7 @@
 
 ---
 
-### `src/cdc/cdc_admin.cpp` (v0.0.17)
+### `src/cdc/cdc_admin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23410,7 +23427,7 @@
 
 ---
 
-### `src/cdc/changefeed.cpp` (v0.0.17)
+### `src/cdc/changefeed.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -23424,7 +23441,7 @@
 
 ---
 
-### `src/cdc/changefeed_buffer.cpp` (v0.0.17)
+### `src/cdc/changefeed_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23435,7 +23452,7 @@
 
 ---
 
-### `src/cdc/tenant_buffer_manager.cpp` (v0.0.17)
+### `src/cdc/tenant_buffer_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23446,7 +23463,7 @@
 
 ---
 
-### `src/chimera/adapter_factory.cpp` (v0.0.17)
+### `src/chimera/adapter_factory.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23457,7 +23474,7 @@
 
 ---
 
-### `src/chimera/themisdb_adapter.cpp` (v0.0.17)
+### `src/chimera/themisdb_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (57.0/100)
 
@@ -23472,7 +23489,7 @@
 
 ---
 
-### `src/config/config_errors.h` (v0.0.17)
+### `src/config/config_errors.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -23483,7 +23500,7 @@
 
 ---
 
-### `src/config/config_path_resolver.cpp` (v0.0.17)
+### `src/config/config_path_resolver.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -23497,7 +23514,7 @@
 
 ---
 
-### `src/config/config_path_resolver.h` (v0.0.17)
+### `src/config/config_path_resolver.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -23508,7 +23525,7 @@
 
 ---
 
-### `src/config/lru_cache.h` (v0.0.17)
+### `src/config/lru_cache.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -23519,7 +23536,7 @@
 
 ---
 
-### `src/config/path_mapping_metadata.h` (v0.0.17)
+### `src/config/path_mapping_metadata.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -23530,7 +23547,7 @@
 
 ---
 
-### `src/content/archive_processor.cpp` (v0.0.17)
+### `src/content/archive_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -23548,7 +23565,7 @@
 
 ---
 
-### `src/content/async_ingestion_worker.cpp` (v0.0.17)
+### `src/content/async_ingestion_worker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -23563,7 +23580,7 @@
 
 ---
 
-### `src/content/audio_processor.cpp` (v0.0.17)
+### `src/content/audio_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23574,7 +23591,7 @@
 
 ---
 
-### `src/content/cad_processor.cpp` (v0.0.17)
+### `src/content/cad_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23585,7 +23602,7 @@
 
 ---
 
-### `src/content/content_errors.cpp` (v0.0.17)
+### `src/content/content_errors.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23596,7 +23613,7 @@
 
 ---
 
-### `src/content/content_fs.cpp` (v0.0.17)
+### `src/content/content_fs.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23607,7 +23624,7 @@
 
 ---
 
-### `src/content/content_logger.cpp` (v0.0.17)
+### `src/content/content_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -23625,7 +23642,7 @@
 
 ---
 
-### `src/content/content_manager.cpp` (v0.0.17)
+### `src/content/content_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -23639,7 +23656,7 @@
 
 ---
 
-### `src/content/content_manager_llm.cpp` (v0.0.17)
+### `src/content/content_manager_llm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -23650,7 +23667,7 @@
 
 ---
 
-### `src/content/content_metrics.cpp` (v0.0.17)
+### `src/content/content_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23661,7 +23678,7 @@
 
 ---
 
-### `src/content/content_policy.cpp` (v0.0.17)
+### `src/content/content_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23672,7 +23689,7 @@
 
 ---
 
-### `src/content/content_security.cpp` (v0.0.17)
+### `src/content/content_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -23685,7 +23702,7 @@
 
 ---
 
-### `src/content/content_type.cpp` (v0.0.17)
+### `src/content/content_type.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23696,7 +23713,7 @@
 
 ---
 
-### `src/content/content_validator.cpp` (v0.0.17)
+### `src/content/content_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23707,7 +23724,7 @@
 
 ---
 
-### `src/content/geo_processor.cpp` (v0.0.17)
+### `src/content/geo_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23718,7 +23735,7 @@
 
 ---
 
-### `src/content/image_processor.cpp` (v0.0.17)
+### `src/content/image_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23729,7 +23746,7 @@
 
 ---
 
-### `src/content/ingestion_plugin.cpp` (v0.0.17)
+### `src/content/ingestion_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23740,7 +23757,7 @@
 
 ---
 
-### `src/content/mime_detector.cpp` (v0.0.17)
+### `src/content/mime_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23751,7 +23768,7 @@
 
 ---
 
-### `src/content/mock_clip_processor.cpp` (v0.0.17)
+### `src/content/mock_clip_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -23765,7 +23782,7 @@
 
 ---
 
-### `src/content/office_processor.cpp` (v0.0.17)
+### `src/content/office_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23776,7 +23793,7 @@
 
 ---
 
-### `src/content/pdf_processor.cpp` (v0.0.17)
+### `src/content/pdf_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23787,7 +23804,7 @@
 
 ---
 
-### `src/content/pipeline/async_bulk_uploader.cpp` (v0.0.17)
+### `src/content/pipeline/async_bulk_uploader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23798,7 +23815,7 @@
 
 ---
 
-### `src/content/pipeline/bulk_upload_interface.cpp` (v0.0.17)
+### `src/content/pipeline/bulk_upload_interface.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23809,7 +23826,7 @@
 
 ---
 
-### `src/content/pipeline/content_chunker.cpp` (v0.0.17)
+### `src/content/pipeline/content_chunker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23820,7 +23837,7 @@
 
 ---
 
-### `src/content/pipeline/multimodal_chunker.cpp` (v0.0.17)
+### `src/content/pipeline/multimodal_chunker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23831,7 +23848,7 @@
 
 ---
 
-### `src/content/pipeline/zstd_compression.cpp` (v0.0.17)
+### `src/content/pipeline/zstd_compression.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -23845,7 +23862,7 @@
 
 ---
 
-### `src/content/stt_processor.cpp` (v0.0.17)
+### `src/content/stt_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23859,7 +23876,7 @@
 
 ---
 
-### `src/content/text_processor.cpp` (v0.0.17)
+### `src/content/text_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -23873,7 +23890,7 @@
 
 ---
 
-### `src/content/tts_processor.cpp` (v0.0.17)
+### `src/content/tts_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -23884,7 +23901,7 @@
 
 ---
 
-### `src/content/version_manager.cpp` (v0.0.17)
+### `src/content/version_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23895,7 +23912,7 @@
 
 ---
 
-### `src/content/video_processor.cpp` (v0.0.17)
+### `src/content/video_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (63.0/100)
 
@@ -23919,7 +23936,7 @@
 
 ---
 
-### `src/core/concerns/concerns_context.cpp` (v0.0.17)
+### `src/core/concerns/concerns_context.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23930,7 +23947,7 @@
 
 ---
 
-### `src/core/concerns/i_logger.cpp` (v0.0.17)
+### `src/core/concerns/i_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -23945,7 +23962,7 @@
 
 ---
 
-### `src/core/security_initialization.cpp` (v0.0.17)
+### `src/core/security_initialization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -23962,7 +23979,7 @@
 
 ---
 
-### `src/demo_encryption.cpp` (v0.0.17)
+### `src/demo_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (60.0/100)
 
@@ -23980,7 +23997,7 @@
 
 ---
 
-### `src/exporters/exporter_metrics.cpp` (v0.0.17)
+### `src/exporters/exporter_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -23991,7 +24008,7 @@
 
 ---
 
-### `src/exporters/jsonl_llm_exporter.cpp` (v0.0.17)
+### `src/exporters/jsonl_llm_exporter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24002,7 +24019,7 @@
 
 ---
 
-### `src/exporters/pii_detector.cpp` (v0.0.17)
+### `src/exporters/pii_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -24016,7 +24033,7 @@
 
 ---
 
-### `src/exporters/stream_writer.cpp` (v0.0.17)
+### `src/exporters/stream_writer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24027,7 +24044,7 @@
 
 ---
 
-### `src/geo/boost_cpu_exact_backend.cpp` (v0.0.17)
+### `src/geo/boost_cpu_exact_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -24038,7 +24055,7 @@
 
 ---
 
-### `src/geo/cpu_backend.cpp` (v0.0.17)
+### `src/geo/cpu_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24050,7 +24067,7 @@
 
 ---
 
-### `src/geo/gpu_backend_stub.cpp` (v0.0.17)
+### `src/geo/gpu_backend_stub.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -24065,7 +24082,7 @@
 
 ---
 
-### `src/governance/compliance_reporter.cpp` (v0.0.17)
+### `src/governance/compliance_reporter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24076,7 +24093,7 @@
 
 ---
 
-### `src/governance/compliance_reporting.cpp` (v0.0.17)
+### `src/governance/compliance_reporting.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24087,7 +24104,7 @@
 
 ---
 
-### `src/governance/policy_coordinator.cpp` (v0.0.17)
+### `src/governance/policy_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24098,7 +24115,7 @@
 
 ---
 
-### `src/governance/policy_engine.cpp` (v0.0.17)
+### `src/governance/policy_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24109,7 +24126,7 @@
 
 ---
 
-### `src/governance/policy_manager.cpp` (v0.0.17)
+### `src/governance/policy_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24120,7 +24137,7 @@
 
 ---
 
-### `src/governance/policy_manager_versioned.cpp` (v0.0.17)
+### `src/governance/policy_manager_versioned.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24131,7 +24148,7 @@
 
 ---
 
-### `src/governance/policy_review.cpp` (v0.0.17)
+### `src/governance/policy_review.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -24146,7 +24163,7 @@
 
 ---
 
-### `src/governance/policy_template.cpp` (v0.0.17)
+### `src/governance/policy_template.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24157,7 +24174,7 @@
 
 ---
 
-### `src/governance/policy_validation.cpp` (v0.0.17)
+### `src/governance/policy_validation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24168,7 +24185,7 @@
 
 ---
 
-### `src/governance/policy_validator.cpp` (v0.0.17)
+### `src/governance/policy_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24179,7 +24196,7 @@
 
 ---
 
-### `src/governance/policy_version_history.cpp` (v0.0.17)
+### `src/governance/policy_version_history.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24190,7 +24207,7 @@
 
 ---
 
-### `src/governance/review_scheduler.cpp` (v0.0.17)
+### `src/governance/review_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24201,7 +24218,7 @@
 
 ---
 
-### `src/gpu/admin_api.cpp` (v0.0.17)
+### `src/gpu/admin_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -24215,7 +24232,7 @@
 
 ---
 
-### `src/gpu/alerts.cpp` (v0.0.17)
+### `src/gpu/alerts.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24226,7 +24243,7 @@
 
 ---
 
-### `src/gpu/audit_log.cpp` (v0.0.17)
+### `src/gpu/audit_log.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24237,7 +24254,7 @@
 
 ---
 
-### `src/gpu/config.cpp` (v0.0.17)
+### `src/gpu/config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -24251,7 +24268,7 @@
 
 ---
 
-### `src/gpu/device_discovery.cpp` (v0.0.17)
+### `src/gpu/device_discovery.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24262,7 +24279,7 @@
 
 ---
 
-### `src/gpu/feature_flags.cpp` (v0.0.17)
+### `src/gpu/feature_flags.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24273,7 +24290,7 @@
 
 ---
 
-### `src/gpu/gpu_memory_manager_edition.cpp` (v0.0.17)
+### `src/gpu/gpu_memory_manager_edition.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24284,7 +24301,7 @@
 
 ---
 
-### `src/gpu/gpu_module.cpp` (v0.0.17)
+### `src/gpu/gpu_module.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24295,7 +24312,7 @@
 
 ---
 
-### `src/gpu/kernel_validator.cpp` (v0.0.17)
+### `src/gpu/kernel_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24306,7 +24323,7 @@
 
 ---
 
-### `src/gpu/launcher.cpp` (v0.0.17)
+### `src/gpu/launcher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24317,7 +24334,7 @@
 
 ---
 
-### `src/gpu/load_balancer.cpp` (v0.0.17)
+### `src/gpu/load_balancer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24328,7 +24345,7 @@
 
 ---
 
-### `src/gpu/memory_pool.cpp` (v0.0.17)
+### `src/gpu/memory_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24339,7 +24356,7 @@
 
 ---
 
-### `src/gpu/metrics.cpp` (v0.0.17)
+### `src/gpu/metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24350,7 +24367,7 @@
 
 ---
 
-### `src/gpu/policy.cpp` (v0.0.17)
+### `src/gpu/policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24361,7 +24378,7 @@
 
 ---
 
-### `src/gpu/query_accelerator.cpp` (v0.0.17)
+### `src/gpu/query_accelerator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -24376,7 +24393,7 @@
 
 ---
 
-### `src/gpu/safe_fail.cpp` (v0.0.17)
+### `src/gpu/safe_fail.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24387,7 +24404,7 @@
 
 ---
 
-### `src/gpu/stream_manager.cpp` (v0.0.17)
+### `src/gpu/stream_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24398,7 +24415,7 @@
 
 ---
 
-### `src/gpu/tensor_buffer.cpp` (v0.0.17)
+### `src/gpu/tensor_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24409,7 +24426,7 @@
 
 ---
 
-### `src/gpu/training_loop.cpp` (v0.0.17)
+### `src/gpu/training_loop.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24420,7 +24437,7 @@
 
 ---
 
-### `src/graph/graph_query_optimizer.cpp` (v0.0.17)
+### `src/graph/graph_query_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24431,7 +24448,7 @@
 
 ---
 
-### `src/graph/path_constraints.cpp` (v0.0.17)
+### `src/graph/path_constraints.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24442,7 +24459,7 @@
 
 ---
 
-### `src/importers/postgres_importer.cpp` (v0.0.17)
+### `src/importers/postgres_importer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (78.0/100)
 
@@ -24460,7 +24477,7 @@
 
 ---
 
-### `src/index/adaptive_index.cpp` (v0.0.17)
+### `src/index/adaptive_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -24474,7 +24491,7 @@
 
 ---
 
-### `src/index/advanced_vector_index.cpp` (v0.0.17)
+### `src/index/advanced_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -24487,7 +24504,7 @@
 
 ---
 
-### `src/index/approximate_radius_search.cpp` (v0.0.17)
+### `src/index/approximate_radius_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24498,7 +24515,7 @@
 
 ---
 
-### `src/index/binary_quantizer.cpp` (v0.0.17)
+### `src/index/binary_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24509,7 +24526,7 @@
 
 ---
 
-### `src/index/edge_types.cpp` (v0.0.17)
+### `src/index/edge_types.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24520,7 +24537,7 @@
 
 ---
 
-### `src/index/gnn_embeddings.cpp` (v0.0.17)
+### `src/index/gnn_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24531,7 +24548,7 @@
 
 ---
 
-### `src/index/gpu_vector_index.cpp` (v0.0.17)
+### `src/index/gpu_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -24546,7 +24563,7 @@
 
 ---
 
-### `src/index/gpu_vector_index_vulkan.cpp` (v0.0.17)
+### `src/index/gpu_vector_index_vulkan.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -24562,7 +24579,7 @@
 
 ---
 
-### `src/index/graph_analytics.cpp` (v0.0.17)
+### `src/index/graph_analytics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24573,7 +24590,7 @@
 
 ---
 
-### `src/index/graph_auto_buffer.cpp` (v0.0.17)
+### `src/index/graph_auto_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24584,7 +24601,7 @@
 
 ---
 
-### `src/index/graph_index.cpp` (v0.0.17)
+### `src/index/graph_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24595,7 +24612,7 @@
 
 ---
 
-### `src/index/hnsw_layer_optimizer.cpp` (v0.0.17)
+### `src/index/hnsw_layer_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24606,7 +24623,7 @@
 
 ---
 
-### `src/index/hnsw_parameter_tuner.cpp` (v0.0.17)
+### `src/index/hnsw_parameter_tuner.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -24620,7 +24637,7 @@
 
 ---
 
-### `src/index/hnsw_production_defaults.cpp` (v0.0.17)
+### `src/index/hnsw_production_defaults.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -24634,7 +24651,7 @@
 
 ---
 
-### `src/index/index_manager.cpp` (v0.0.17)
+### `src/index/index_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24645,7 +24662,18 @@
 
 ---
 
-### `src/index/learnable_rope.cpp` (v0.0.17)
+### `src/index/inverted_index.cpp` (v0.0.2)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+
+---
+
+### `src/index/learnable_rope.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24656,7 +24684,7 @@
 
 ---
 
-### `src/index/learned_quantizer.cpp` (v0.0.17)
+### `src/index/learned_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -24670,7 +24698,7 @@
 
 ---
 
-### `src/index/lora_rope.cpp` (v0.0.17)
+### `src/index/lora_rope.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24681,7 +24709,7 @@
 
 ---
 
-### `src/index/multi_gpu_vector_index.cpp` (v0.0.17)
+### `src/index/multi_gpu_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -24696,7 +24724,7 @@
 
 ---
 
-### `src/index/multi_vector_search.cpp` (v0.0.17)
+### `src/index/multi_vector_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24707,7 +24735,7 @@
 
 ---
 
-### `src/index/process_graph.cpp` (v0.0.17)
+### `src/index/process_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -24720,7 +24748,7 @@
 
 ---
 
-### `src/index/product_quantizer.cpp` (v0.0.17)
+### `src/index/product_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24731,7 +24759,7 @@
 
 ---
 
-### `src/index/property_graph.cpp` (v0.0.17)
+### `src/index/property_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -24745,7 +24773,7 @@
 
 ---
 
-### `src/index/residual_quantizer.cpp` (v0.0.17)
+### `src/index/residual_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24756,7 +24784,7 @@
 
 ---
 
-### `src/index/rotary_embeddings.cpp` (v0.0.17)
+### `src/index/rotary_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24767,7 +24795,7 @@
 
 ---
 
-### `src/index/rotary_embeddings_gpu_cpu.cpp` (v0.0.17)
+### `src/index/rotary_embeddings_gpu_cpu.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24778,7 +24806,7 @@
 
 ---
 
-### `src/index/rotary_embeddings_hip.cpp` (v0.0.17)
+### `src/index/rotary_embeddings_hip.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -24789,7 +24817,7 @@
 
 ---
 
-### `src/index/secondary_index.cpp` (v0.0.17)
+### `src/index/secondary_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24800,7 +24828,7 @@
 
 ---
 
-### `src/index/spatial_index.cpp` (v0.0.17)
+### `src/index/spatial_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24811,7 +24839,7 @@
 
 ---
 
-### `src/index/temporal_graph.cpp` (v0.0.17)
+### `src/index/temporal_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24822,7 +24850,7 @@
 
 ---
 
-### `src/index/vector_auto_buffer.cpp` (v0.0.17)
+### `src/index/vector_auto_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24833,7 +24861,7 @@
 
 ---
 
-### `src/index/vector_index.cpp` (v0.0.17)
+### `src/index/vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (63.0/100)
 
@@ -24851,7 +24879,7 @@
 
 ---
 
-### `src/ingestion/api_connector.cpp` (v0.0.17)
+### `src/ingestion/api_connector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -24866,7 +24894,7 @@
 
 ---
 
-### `src/ingestion/filesystem_ingester.cpp` (v0.0.17)
+### `src/ingestion/filesystem_ingester.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -24877,7 +24905,7 @@
 
 ---
 
-### `src/ingestion/huggingface_connector.cpp` (v0.0.17)
+### `src/ingestion/huggingface_connector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24888,7 +24916,7 @@
 
 ---
 
-### `src/ingestion/ingestion_manager.cpp` (v0.0.17)
+### `src/ingestion/ingestion_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -24899,7 +24927,7 @@
 
 ---
 
-### `src/llm/adapter_load_balancer.cpp` (v0.0.17)
+### `src/llm/adapter_load_balancer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24910,7 +24938,7 @@
 
 ---
 
-### `src/llm/adapter_registry.cpp` (v0.0.17)
+### `src/llm/adapter_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -24928,7 +24956,7 @@
 
 ---
 
-### `src/llm/adaptive_vram_allocator.cpp` (v0.0.17)
+### `src/llm/adaptive_vram_allocator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -24942,7 +24970,7 @@
 
 ---
 
-### `src/llm/ai_decision_auditor.cpp` (v0.0.17)
+### `src/llm/ai_decision_auditor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -24953,7 +24981,7 @@
 
 ---
 
-### `src/llm/applications/themis_help_lora.cpp` (v0.0.17)
+### `src/llm/applications/themis_help_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -24972,7 +25000,7 @@
 
 ---
 
-### `src/llm/async_inference_engine.cpp` (v0.0.17)
+### `src/llm/async_inference_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -24993,7 +25021,7 @@
 
 ---
 
-### `src/llm/attention/flash_attention.cpp` (v0.0.17)
+### `src/llm/attention/flash_attention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -25004,7 +25032,7 @@
 
 ---
 
-### `src/llm/attention/kv_cache_manager.cpp` (v0.0.17)
+### `src/llm/attention/kv_cache_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25015,7 +25043,7 @@
 
 ---
 
-### `src/llm/block_table.cpp` (v0.0.17)
+### `src/llm/block_table.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25026,7 +25054,7 @@
 
 ---
 
-### `src/llm/byzantine_detector.cpp` (v0.0.17)
+### `src/llm/byzantine_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -25040,7 +25068,7 @@
 
 ---
 
-### `src/llm/constitutional_reasoning_engine.cpp` (v0.0.17)
+### `src/llm/constitutional_reasoning_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -25051,7 +25079,7 @@
 
 ---
 
-### `src/llm/continuous_batch_scheduler.cpp` (v0.0.17)
+### `src/llm/continuous_batch_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -25069,7 +25097,7 @@
 
 ---
 
-### `src/llm/distributed_training_coordinator.cpp` (v0.0.17)
+### `src/llm/distributed_training_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (50.0/100)
 
@@ -25094,7 +25122,7 @@
 
 ---
 
-### `src/llm/docs_assistant.cpp` (v0.0.17)
+### `src/llm/docs_assistant.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -25108,7 +25136,7 @@
 
 ---
 
-### `src/llm/embedded_llm.cpp` (v0.0.17)
+### `src/llm/embedded_llm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25119,7 +25147,7 @@
 
 ---
 
-### `src/llm/ethical_guidelines_manager.cpp` (v0.0.17)
+### `src/llm/ethical_guidelines_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25130,7 +25158,7 @@
 
 ---
 
-### `src/llm/ethics_aware_confidence_detector.cpp` (v0.0.17)
+### `src/llm/ethics_aware_confidence_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -25141,7 +25169,7 @@
 
 ---
 
-### `src/llm/explanation_generator.cpp` (v0.0.17)
+### `src/llm/explanation_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25152,7 +25180,7 @@
 
 ---
 
-### `src/llm/feedback_plugin_basic.cpp` (v0.0.17)
+### `src/llm/feedback_plugin_basic.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25163,7 +25191,7 @@
 
 ---
 
-### `src/llm/feedback_store.cpp` (v0.0.17)
+### `src/llm/feedback_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -25178,7 +25206,7 @@
 
 ---
 
-### `src/llm/fewshot_optimizer.cpp` (v0.0.17)
+### `src/llm/fewshot_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -25189,7 +25217,7 @@
 
 ---
 
-### `src/llm/gguf_loader.cpp` (v0.0.17)
+### `src/llm/gguf_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -25204,7 +25232,7 @@
 
 ---
 
-### `src/llm/gpu_memory_manager.cpp` (v0.0.17)
+### `src/llm/gpu_memory_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (52.0/100)
 
@@ -25229,7 +25257,7 @@
 
 ---
 
-### `src/llm/gpu_safe_fail.cpp` (v0.0.17)
+### `src/llm/gpu_safe_fail.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -25243,7 +25271,7 @@
 
 ---
 
-### `src/llm/grafana_metrics.cpp` (v0.0.17)
+### `src/llm/grafana_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -25266,7 +25294,7 @@
 
 ---
 
-### `src/llm/grammar.cpp` (v0.0.17)
+### `src/llm/grammar.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25277,7 +25305,7 @@
 
 ---
 
-### `src/llm/grammar_cache.cpp` (v0.0.17)
+### `src/llm/grammar_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -25295,7 +25323,7 @@
 
 ---
 
-### `src/llm/inference_engine_enhanced.cpp` (v0.0.17)
+### `src/llm/inference_engine_enhanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -25318,7 +25346,7 @@
 
 ---
 
-### `src/llm/inference_handle.cpp` (v0.0.17)
+### `src/llm/inference_handle.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25329,7 +25357,7 @@
 
 ---
 
-### `src/llm/kernel_fusion.cpp` (v0.0.17)
+### `src/llm/kernel_fusion.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25340,7 +25368,7 @@
 
 ---
 
-### `src/llm/kv_cache_buffer.cpp` (v0.0.17)
+### `src/llm/kv_cache_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -25355,7 +25383,7 @@
 
 ---
 
-### `src/llm/llama_grammar_adapter.cpp` (v0.0.17)
+### `src/llm/llama_grammar_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -25367,7 +25395,7 @@
 
 ---
 
-### `src/llm/llama_lora_adapter.cpp` (v0.0.17)
+### `src/llm/llama_lora_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -25387,7 +25415,7 @@
 
 ---
 
-### `src/llm/llama_resource_manager.cpp` (v0.0.17)
+### `src/llm/llama_resource_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (82.0/100)
 
@@ -25408,7 +25436,7 @@
 
 ---
 
-### `src/llm/llama_wrapper.cpp` (v0.0.17)
+### `src/llm/llama_wrapper.cpp` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (34.0/100)
 
@@ -25436,7 +25464,7 @@
 
 ---
 
-### `src/llm/llamacpp_inference_engine.cpp` (v0.0.17)
+### `src/llm/llamacpp_inference_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -25452,7 +25480,7 @@
 
 ---
 
-### `src/llm/llm_interaction_store.cpp` (v0.0.17)
+### `src/llm/llm_interaction_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25463,7 +25491,7 @@
 
 ---
 
-### `src/llm/llm_model_audit_logger.cpp` (v0.0.17)
+### `src/llm/llm_model_audit_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25481,7 +25509,7 @@
 
 ---
 
-### `src/llm/llm_model_storage.cpp` (v0.0.17)
+### `src/llm/llm_model_storage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -25498,7 +25526,7 @@
 
 ---
 
-### `src/llm/llm_plugin_manager.cpp` (v0.0.17)
+### `src/llm/llm_plugin_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -25512,7 +25540,7 @@
 
 ---
 
-### `src/llm/llm_prefix_cache.cpp` (v0.0.17)
+### `src/llm/llm_prefix_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -25526,7 +25554,7 @@
 
 ---
 
-### `src/llm/llm_response_cache.cpp` (v0.0.17)
+### `src/llm/llm_response_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25537,7 +25565,7 @@
 
 ---
 
-### `src/llm/lora_framework/adapter_consistency_checker.cpp` (v0.0.17)
+### `src/llm/lora_framework/adapter_consistency_checker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -25548,7 +25576,7 @@
 
 ---
 
-### `src/llm/lora_framework/adapter_sync_manager.cpp` (v0.0.17)
+### `src/llm/lora_framework/adapter_sync_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25563,7 +25591,7 @@
 
 ---
 
-### `src/llm/lora_framework/adaptive_batcher.cpp` (v0.0.17)
+### `src/llm/lora_framework/adaptive_batcher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -25581,7 +25609,7 @@
 
 ---
 
-### `src/llm/lora_framework/axolotl_bridge.py` (v0.0.17)
+### `src/llm/lora_framework/axolotl_bridge.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -25595,7 +25623,7 @@
 
 ---
 
-### `src/llm/lora_framework/base_model_adapter.cpp` (v0.0.17)
+### `src/llm/lora_framework/base_model_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -25609,7 +25637,7 @@
 
 ---
 
-### `src/llm/lora_framework/custom_allreduce.cpp` (v0.0.17)
+### `src/llm/lora_framework/custom_allreduce.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -25626,7 +25654,7 @@
 
 ---
 
-### `src/llm/lora_framework/data_loader.cpp` (v0.0.17)
+### `src/llm/lora_framework/data_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -25640,7 +25668,7 @@
 
 ---
 
-### `src/llm/lora_framework/directx_buffer.cpp` (v0.0.17)
+### `src/llm/lora_framework/directx_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25651,7 +25679,7 @@
 
 ---
 
-### `src/llm/lora_framework/directx_context.cpp` (v0.0.17)
+### `src/llm/lora_framework/directx_context.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -25666,7 +25694,7 @@
 
 ---
 
-### `src/llm/lora_framework/directx_descriptors.cpp` (v0.0.17)
+### `src/llm/lora_framework/directx_descriptors.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25677,7 +25705,7 @@
 
 ---
 
-### `src/llm/lora_framework/directx_pipeline.cpp` (v0.0.17)
+### `src/llm/lora_framework/directx_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25688,7 +25716,7 @@
 
 ---
 
-### `src/llm/lora_framework/directx_shader.cpp` (v0.0.17)
+### `src/llm/lora_framework/directx_shader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25699,7 +25727,7 @@
 
 ---
 
-### `src/llm/lora_framework/distributed_dataloader.cpp` (v0.0.17)
+### `src/llm/lora_framework/distributed_dataloader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -25713,7 +25741,7 @@
 
 ---
 
-### `src/llm/lora_framework/distributed_trainer.cpp` (v0.0.17)
+### `src/llm/lora_framework/distributed_trainer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -25733,7 +25761,7 @@
 
 ---
 
-### `src/llm/lora_framework/embedding_provider.cpp` (v0.0.17)
+### `src/llm/lora_framework/embedding_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -25748,7 +25776,7 @@
 
 ---
 
-### `src/llm/lora_framework/feedback_plugin.cpp` (v0.0.17)
+### `src/llm/lora_framework/feedback_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25759,7 +25787,7 @@
 
 ---
 
-### `src/llm/lora_framework/flash_lora.cpp` (v0.0.17)
+### `src/llm/lora_framework/flash_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -25773,7 +25801,7 @@
 
 ---
 
-### `src/llm/lora_framework/gguf_converter.cpp` (v0.0.17)
+### `src/llm/lora_framework/gguf_converter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -25784,7 +25812,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_data_loader.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_data_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -25800,7 +25828,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_embedding_layer.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_embedding_layer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -25821,7 +25849,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_lora_layers.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_lora_layers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -25839,7 +25867,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_memory.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_memory.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -25854,7 +25882,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_tensor.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_tensor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -25874,7 +25902,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_training_loop.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_training_loop.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -25899,7 +25927,7 @@
 
 ---
 
-### `src/llm/lora_framework/gpu_utilization_monitor.cpp` (v0.0.17)
+### `src/llm/lora_framework/gpu_utilization_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -25921,7 +25949,7 @@
 
 ---
 
-### `src/llm/lora_framework/gradient_checkpointing.cpp` (v0.0.17)
+### `src/llm/lora_framework/gradient_checkpointing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -25939,7 +25967,7 @@
 
 ---
 
-### `src/llm/lora_framework/gradient_utils.cpp` (v0.0.17)
+### `src/llm/lora_framework/gradient_utils.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -25954,7 +25982,7 @@
 
 ---
 
-### `src/llm/lora_framework/kernels/cpu_fused_kernels.cpp` (v0.0.17)
+### `src/llm/lora_framework/kernels/cpu_fused_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -25965,7 +25993,7 @@
 
 ---
 
-### `src/llm/lora_framework/kernels/directx_kernels.cpp` (v0.0.17)
+### `src/llm/lora_framework/kernels/directx_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -25984,7 +26012,7 @@
 
 ---
 
-### `src/llm/lora_framework/kernels/hip_fused_kernels.cpp` (v0.0.17)
+### `src/llm/lora_framework/kernels/hip_fused_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -25995,7 +26023,7 @@
 
 ---
 
-### `src/llm/lora_framework/kernels/hip_kernels.cpp` (v0.0.17)
+### `src/llm/lora_framework/kernels/hip_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -26009,7 +26037,7 @@
 
 ---
 
-### `src/llm/lora_framework/kernels/vulkan_kernels.cpp` (v0.0.17)
+### `src/llm/lora_framework/kernels/vulkan_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (68.0/100)
 
@@ -26030,7 +26058,7 @@
 
 ---
 
-### `src/llm/lora_framework/llama_tokenizer.cpp` (v0.0.17)
+### `src/llm/lora_framework/llama_tokenizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26041,7 +26069,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_audit_logger.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_audit_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -26055,7 +26083,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_feedback_storage.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_feedback_storage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -26073,7 +26101,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_layers.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_layers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (70.0/100)
 
@@ -26091,7 +26119,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_orchestrator.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_orchestrator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26102,7 +26130,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_provenance.cpp` (v0.0.10)
+### `src/llm/lora_framework/lora_provenance.cpp` (v0.0.16)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -26119,7 +26147,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_storage_service.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_storage_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -26130,7 +26158,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_storage_service_themisdb.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_storage_service_themisdb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -26155,7 +26183,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_training_config.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_training_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26166,7 +26194,7 @@
 
 ---
 
-### `src/llm/lora_framework/lora_training_service.cpp` (v0.0.17)
+### `src/llm/lora_framework/lora_training_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -26190,7 +26218,7 @@
 
 ---
 
-### `src/llm/lora_framework/lr_scheduler.cpp` (v0.0.17)
+### `src/llm/lora_framework/lr_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -26204,7 +26232,7 @@
 
 ---
 
-### `src/llm/lora_framework/mixed_precision.cpp` (v0.0.17)
+### `src/llm/lora_framework/mixed_precision.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -26227,7 +26255,7 @@
 
 ---
 
-### `src/llm/lora_framework/model_compatibility.cpp` (v0.0.17)
+### `src/llm/lora_framework/model_compatibility.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -26241,7 +26269,7 @@
 
 ---
 
-### `src/llm/lora_framework/multi_gpu.cpp` (v0.0.17)
+### `src/llm/lora_framework/multi_gpu.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26252,7 +26280,7 @@
 
 ---
 
-### `src/llm/lora_framework/multi_gpu_lora_layer.cpp` (v0.0.17)
+### `src/llm/lora_framework/multi_gpu_lora_layer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26263,7 +26291,7 @@
 
 ---
 
-### `src/llm/lora_framework/multi_gpu_trainer.cpp` (v0.0.17)
+### `src/llm/lora_framework/multi_gpu_trainer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26274,7 +26302,7 @@
 
 ---
 
-### `src/llm/lora_framework/nccl_backend.cpp` (v0.0.17)
+### `src/llm/lora_framework/nccl_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -26291,7 +26319,7 @@
 
 ---
 
-### `src/llm/lora_framework/paged_memory_manager.cpp` (v0.0.17)
+### `src/llm/lora_framework/paged_memory_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26302,7 +26330,7 @@
 
 ---
 
-### `src/llm/lora_framework/paged_optimizer.cpp` (v0.0.17)
+### `src/llm/lora_framework/paged_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -26316,7 +26344,7 @@
 
 ---
 
-### `src/llm/lora_framework/quantization.cpp` (v0.0.17)
+### `src/llm/lora_framework/quantization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -26335,7 +26363,7 @@
 
 ---
 
-### `src/llm/lora_framework/quantized_model.cpp` (v0.0.17)
+### `src/llm/lora_framework/quantized_model.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -26353,7 +26381,7 @@
 
 ---
 
-### `src/llm/lora_framework/rccl_backend.cpp` (v0.0.17)
+### `src/llm/lora_framework/rccl_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -26370,7 +26398,7 @@
 
 ---
 
-### `src/llm/lora_framework/resource_profiler.cpp` (v0.0.17)
+### `src/llm/lora_framework/resource_profiler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -26383,7 +26411,7 @@
 
 ---
 
-### `src/llm/lora_framework/sequence_packer.cpp` (v0.0.17)
+### `src/llm/lora_framework/sequence_packer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -26399,7 +26427,7 @@
 
 ---
 
-### `src/llm/lora_framework/training_service_registry.cpp` (v0.0.17)
+### `src/llm/lora_framework/training_service_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26410,7 +26438,7 @@
 
 ---
 
-### `src/llm/lora_framework/vram_allocator.cpp` (v0.0.17)
+### `src/llm/lora_framework/vram_allocator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -26430,7 +26458,7 @@
 
 ---
 
-### `src/llm/lora_framework/vulkan_buffer.cpp` (v0.0.17)
+### `src/llm/lora_framework/vulkan_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26441,7 +26469,7 @@
 
 ---
 
-### `src/llm/lora_framework/vulkan_context.cpp` (v0.0.17)
+### `src/llm/lora_framework/vulkan_context.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -26458,7 +26486,7 @@
 
 ---
 
-### `src/llm/lora_framework/vulkan_pipeline.cpp` (v0.0.17)
+### `src/llm/lora_framework/vulkan_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26469,7 +26497,7 @@
 
 ---
 
-### `src/llm/lora_metadata_cache.cpp` (v0.0.17)
+### `src/llm/lora_metadata_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26480,7 +26508,7 @@
 
 ---
 
-### `src/llm/lora_router.cpp` (v0.0.17)
+### `src/llm/lora_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -26496,7 +26524,7 @@
 
 ---
 
-### `src/llm/lora_security_validator.cpp` (v0.0.17)
+### `src/llm/lora_security_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -26519,7 +26547,7 @@
 
 ---
 
-### `src/llm/meta_prompt_generator.cpp` (v0.0.17)
+### `src/llm/meta_prompt_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -26530,7 +26558,7 @@
 
 ---
 
-### `src/llm/mixed_precision_inference.cpp` (v0.0.17)
+### `src/llm/mixed_precision_inference.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -26542,7 +26570,7 @@
 
 ---
 
-### `src/llm/ml_model_manager.cpp` (v0.0.17)
+### `src/llm/ml_model_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (73.0/100)
 
@@ -26564,7 +26592,7 @@
 
 ---
 
-### `src/llm/model_downloader.cpp` (v0.0.17)
+### `src/llm/model_downloader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26575,7 +26603,7 @@
 
 ---
 
-### `src/llm/model_loader.cpp` (v0.0.17)
+### `src/llm/model_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -26592,7 +26620,7 @@
 
 ---
 
-### `src/llm/model_metadata_cache.cpp` (v0.0.17)
+### `src/llm/model_metadata_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26603,7 +26631,7 @@
 
 ---
 
-### `src/llm/moral_analyzer.cpp` (v0.0.17)
+### `src/llm/moral_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -26614,7 +26642,7 @@
 
 ---
 
-### `src/llm/multi_gpu_memory_coordinator.cpp` (v0.0.17)
+### `src/llm/multi_gpu_memory_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (77.0/100)
 
@@ -26638,7 +26666,7 @@
 
 ---
 
-### `src/llm/multi_lora_manager.cpp` (v0.0.17)
+### `src/llm/multi_lora_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (24.0/100)
 
@@ -26663,7 +26691,7 @@
 
 ---
 
-### `src/llm/multi_perspective_generator.cpp` (v0.0.17)
+### `src/llm/multi_perspective_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -26674,7 +26702,7 @@
 
 ---
 
-### `src/llm/paged_block_manager.cpp` (v0.0.17)
+### `src/llm/paged_block_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26685,7 +26713,7 @@
 
 ---
 
-### `src/llm/paged_kv_cache.cpp` (v0.0.17)
+### `src/llm/paged_kv_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26696,7 +26724,7 @@
 
 ---
 
-### `src/llm/paged_kv_cache_manager.cpp` (v0.0.17)
+### `src/llm/paged_kv_cache_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -26710,7 +26738,7 @@
 
 ---
 
-### `src/llm/production_validator.cpp` (v0.0.17)
+### `src/llm/production_validator.cpp` (v0.0.23)
 
 **Maturity Level:** ⚫ DRAFT (13.0/100)
 
@@ -26742,7 +26770,7 @@
 
 ---
 
-### `src/llm/prompt_evaluator.cpp` (v0.0.17)
+### `src/llm/prompt_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -26753,7 +26781,7 @@
 
 ---
 
-### `src/llm/prompt_manager.cpp` (v0.0.17)
+### `src/llm/prompt_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26764,7 +26792,7 @@
 
 ---
 
-### `src/llm/prompt_optimizer.cpp` (v0.0.17)
+### `src/llm/prompt_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -26775,7 +26803,7 @@
 
 ---
 
-### `src/llm/prompt_policy.cpp` (v0.0.17)
+### `src/llm/prompt_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -26789,7 +26817,7 @@
 
 ---
 
-### `src/llm/sampling_strategy.cpp` (v0.0.17)
+### `src/llm/sampling_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -26807,7 +26835,7 @@
 
 ---
 
-### `src/llm/security/signature_verifier.cpp` (v0.0.17)
+### `src/llm/security/signature_verifier.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (78.0/100)
 
@@ -26828,7 +26856,7 @@
 
 ---
 
-### `src/llm/token_quota_manager.cpp` (v0.0.17)
+### `src/llm/token_quota_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -26843,7 +26871,7 @@
 
 ---
 
-### `src/llm/vision_config.cpp` (v0.0.17)
+### `src/llm/vision_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -26857,7 +26885,7 @@
 
 ---
 
-### `src/llm/vision_encoder.cpp` (v0.0.17)
+### `src/llm/vision_encoder.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (79.0/100)
 
@@ -26880,7 +26908,7 @@
 
 ---
 
-### `src/llm/vision_resource_monitor.cpp` (v0.0.17)
+### `src/llm/vision_resource_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -26898,7 +26926,7 @@
 
 ---
 
-### `src/main.cpp` (v0.0.17)
+### `src/main.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -26912,7 +26940,7 @@
 
 ---
 
-### `src/main_server.cpp` (v0.0.17)
+### `src/main_server.cpp` (v0.0.23)
 
 **Maturity Level:** ⚫ DRAFT (1.0/100)
 
@@ -26935,7 +26963,7 @@
 
 ---
 
-### `src/metadata/index_recommender.cpp` (v0.0.17)
+### `src/metadata/index_recommender.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26946,7 +26974,7 @@
 
 ---
 
-### `src/metadata/information_schema.cpp` (v0.0.17)
+### `src/metadata/information_schema.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26957,7 +26985,7 @@
 
 ---
 
-### `src/metadata/schema_audit_log.cpp` (v0.0.17)
+### `src/metadata/schema_audit_log.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -26968,7 +26996,7 @@
 
 ---
 
-### `src/metadata/schema_consistency_checker.cpp` (v0.0.17)
+### `src/metadata/schema_consistency_checker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -26984,7 +27012,7 @@
 
 ---
 
-### `src/metadata/schema_constraints.cpp` (v0.0.17)
+### `src/metadata/schema_constraints.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -27000,7 +27028,7 @@
 
 ---
 
-### `src/metadata/schema_manager.cpp` (v0.0.17)
+### `src/metadata/schema_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -27018,7 +27046,7 @@
 
 ---
 
-### `src/metadata/schema_version_manager.cpp` (v0.0.17)
+### `src/metadata/schema_version_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27029,7 +27057,7 @@
 
 ---
 
-### `src/metadata/statistics_collector.cpp` (v0.0.17)
+### `src/metadata/statistics_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -27047,7 +27075,7 @@
 
 ---
 
-### `src/network/qos_manager.cpp` (v0.0.17)
+### `src/network/qos_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27058,7 +27086,7 @@
 
 ---
 
-### `src/network/socket_timeout_manager.cpp` (v0.0.17)
+### `src/network/socket_timeout_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -27076,7 +27104,7 @@
 
 ---
 
-### `src/network/wire_protocol_connection_pool.cpp` (v0.0.17)
+### `src/network/wire_protocol_connection_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -27091,7 +27119,7 @@
 
 ---
 
-### `src/network/wire_protocol_helpers.cpp` (v0.0.17)
+### `src/network/wire_protocol_helpers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (71.0/100)
 
@@ -27109,7 +27137,7 @@
 
 ---
 
-### `src/network/wire_protocol_performance.cpp` (v0.0.17)
+### `src/network/wire_protocol_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27120,7 +27148,7 @@
 
 ---
 
-### `src/network/wire_protocol_server.cpp` (v0.0.17)
+### `src/network/wire_protocol_server.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -27138,7 +27166,7 @@
 
 ---
 
-### `src/network/wire_protocol_v2.cpp` (v0.0.17)
+### `src/network/wire_protocol_v2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27149,7 +27177,7 @@
 
 ---
 
-### `src/observability/alertmanager.cpp` (v0.0.17)
+### `src/observability/alertmanager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27160,7 +27188,7 @@
 
 ---
 
-### `src/observability/metrics_collector.cpp` (v0.0.17)
+### `src/observability/metrics_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27171,7 +27199,7 @@
 
 ---
 
-### `src/observability/performance_analyzer.cpp` (v0.0.17)
+### `src/observability/performance_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27182,7 +27210,7 @@
 
 ---
 
-### `src/observability/query_profiler.cpp` (v0.0.17)
+### `src/observability/query_profiler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27193,7 +27221,7 @@
 
 ---
 
-### `src/observability/storage_profiler.cpp` (v0.0.17)
+### `src/observability/storage_profiler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27204,7 +27232,7 @@
 
 ---
 
-### `src/performance/async_metrics_exporter.cpp` (v0.0.17)
+### `src/performance/async_metrics_exporter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -27215,7 +27243,7 @@
 
 ---
 
-### `src/performance/chimera_exporter.cpp` (v0.0.17)
+### `src/performance/chimera_exporter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -27226,7 +27254,7 @@
 
 ---
 
-### `src/performance/cicada.cpp` (v0.0.17)
+### `src/performance/cicada.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27237,7 +27265,7 @@
 
 ---
 
-### `src/performance/cycle_metrics.cpp` (v0.0.17)
+### `src/performance/cycle_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27248,7 +27276,7 @@
 
 ---
 
-### `src/performance/dostoevsky.cpp` (v0.0.17)
+### `src/performance/dostoevsky.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27259,7 +27287,7 @@
 
 ---
 
-### `src/performance/ligra.cpp` (v0.0.17)
+### `src/performance/ligra.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27270,7 +27298,7 @@
 
 ---
 
-### `src/performance/phase2_feature_flags.cpp` (v0.0.17)
+### `src/performance/phase2_feature_flags.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27281,7 +27309,7 @@
 
 ---
 
-### `src/performance/phase3/bao.cpp` (v0.0.17)
+### `src/performance/phase3/bao.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -27295,7 +27323,7 @@
 
 ---
 
-### `src/performance/phase3/bwtree.cpp` (v0.0.17)
+### `src/performance/phase3/bwtree.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -27309,7 +27337,7 @@
 
 ---
 
-### `src/performance/phase3/diskann.cpp` (v0.0.17)
+### `src/performance/phase3/diskann.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27320,7 +27348,7 @@
 
 ---
 
-### `src/performance/phase3/feature_flags.cpp` (v0.0.17)
+### `src/performance/phase3/feature_flags.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27331,7 +27359,7 @@
 
 ---
 
-### `src/performance/phase3/gunrock.cpp` (v0.0.17)
+### `src/performance/phase3/gunrock.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27342,7 +27370,7 @@
 
 ---
 
-### `src/performance/phase3/splinterdb.cpp` (v0.0.17)
+### `src/performance/phase3/splinterdb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27353,7 +27381,7 @@
 
 ---
 
-### `src/performance/prometheus_exporter.cpp` (v0.0.17)
+### `src/performance/prometheus_exporter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -27364,7 +27392,7 @@
 
 ---
 
-### `src/performance/rabitq.cpp` (v0.0.17)
+### `src/performance/rabitq.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27375,7 +27403,7 @@
 
 ---
 
-### `src/performance/wisckey.cpp` (v0.0.17)
+### `src/performance/wisckey.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -27391,7 +27419,7 @@
 
 ---
 
-### `src/plugins/huggingface_ingestion_plugin.cpp` (v0.0.17)
+### `src/plugins/huggingface_ingestion_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -27405,7 +27433,7 @@
 
 ---
 
-### `src/plugins/plugin_health_monitor.cpp` (v0.0.17)
+### `src/plugins/plugin_health_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27416,7 +27444,7 @@
 
 ---
 
-### `src/plugins/plugin_hot_plug_monitor.cpp` (v0.0.17)
+### `src/plugins/plugin_hot_plug_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -27430,7 +27458,7 @@
 
 ---
 
-### `src/plugins/plugin_manager.cpp` (v0.0.17)
+### `src/plugins/plugin_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27441,7 +27469,7 @@
 
 ---
 
-### `src/plugins/plugin_metrics.cpp` (v0.0.17)
+### `src/plugins/plugin_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27452,7 +27480,7 @@
 
 ---
 
-### `src/plugins/plugin_registry.cpp` (v0.0.17)
+### `src/plugins/plugin_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27463,7 +27491,7 @@
 
 ---
 
-### `src/plugins/plugin_system_edition.cpp` (v0.0.17)
+### `src/plugins/plugin_system_edition.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27474,7 +27502,7 @@
 
 ---
 
-### `src/plugins/rpc_service_registry.cpp` (v0.0.17)
+### `src/plugins/rpc_service_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27485,7 +27513,7 @@
 
 ---
 
-### `src/prompt_engineering/feedback_collector.cpp` (v0.0.17)
+### `src/prompt_engineering/feedback_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27496,7 +27524,7 @@
 
 ---
 
-### `src/prompt_engineering/meta_prompt_generator.cpp` (v0.0.17)
+### `src/prompt_engineering/meta_prompt_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27507,7 +27535,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_engineering_integration.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_engineering_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27518,7 +27546,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_engineering_metrics.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_engineering_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27529,7 +27557,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_evaluator.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27540,7 +27568,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_manager.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27551,7 +27579,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_optimizer.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27562,7 +27590,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_performance_tracker.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_performance_tracker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27573,7 +27601,7 @@
 
 ---
 
-### `src/prompt_engineering/prompt_version_control.cpp` (v0.0.17)
+### `src/prompt_engineering/prompt_version_control.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27584,7 +27612,7 @@
 
 ---
 
-### `src/prompt_engineering/self_improvement_orchestrator.cpp` (v0.0.17)
+### `src/prompt_engineering/self_improvement_orchestrator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27595,7 +27623,7 @@
 
 ---
 
-### `src/query/adaptive_optimizer.cpp` (v0.0.17)
+### `src/query/adaptive_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -27609,7 +27637,7 @@
 
 ---
 
-### `src/query/aql_parser.cpp` (v0.0.17)
+### `src/query/aql_parser.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -27623,7 +27651,7 @@
 
 ---
 
-### `src/query/aql_parser_json.cpp` (v0.0.17)
+### `src/query/aql_parser_json.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27634,7 +27662,18 @@
 
 ---
 
-### `src/query/aql_runner.cpp` (v0.0.17)
+### `src/query/aql_runner.cpp` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `src/query/aql_translator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27645,7 +27684,7 @@
 
 ---
 
-### `src/query/aql_translator.cpp` (v0.0.17)
+### `src/query/cte_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27656,18 +27695,7 @@
 
 ---
 
-### `src/query/cte_cache.cpp` (v0.0.17)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
-
----
-
-### `src/query/cte_subquery.cpp` (v0.0.17)
+### `src/query/cte_subquery.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -27679,7 +27707,7 @@
 
 ---
 
-### `src/query/functions/ethics_functions.cpp` (v0.0.17)
+### `src/query/functions/ethics_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (55.0/100)
 
@@ -27701,23 +27729,18 @@
 
 ---
 
-### `src/query/functions/fulltext_functions.cpp` (v0.0.17)
+### `src/query/functions/fulltext_functions.cpp` (v0.0.23)
 
-**Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 3, Stubs: 1                             ║`
-
-**📝 TODO** (3 occurrences):
-  - Line 234: `// TODO: Wire to SecondaryIndexManager->scanFulltext()`
-  - Line 272: `// TODO: Wire to SecondaryIndexManager->scanFulltextPhrase()`
-  - Line 310: `// TODO: Wire to SecondaryIndexManager->scanFulltextFuzzy()`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 ---
 
-### `src/query/functions/function_registry.cpp` (v0.0.17)
+### `src/query/functions/function_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27731,7 +27754,7 @@
 
 ---
 
-### `src/query/functions/lora_functions.cpp` (v0.0.17)
+### `src/query/functions/lora_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -27746,7 +27769,7 @@
 
 ---
 
-### `src/query/functions/process_mining_functions.cpp` (v0.0.17)
+### `src/query/functions/process_mining_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27757,7 +27780,7 @@
 
 ---
 
-### `src/query/let_evaluator.cpp` (v0.0.17)
+### `src/query/let_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27768,7 +27791,7 @@
 
 ---
 
-### `src/query/optimizer_cost_model.cpp` (v0.0.17)
+### `src/query/optimizer_cost_model.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27779,7 +27802,7 @@
 
 ---
 
-### `src/query/query_cache.cpp` (v0.0.17)
+### `src/query/query_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27790,7 +27813,7 @@
 
 ---
 
-### `src/query/query_cache_manager.cpp` (v0.0.17)
+### `src/query/query_cache_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27801,7 +27824,7 @@
 
 ---
 
-### `src/query/query_engine.cpp` (v0.0.17)
+### `src/query/query_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (68.0/100)
 
@@ -27809,25 +27832,25 @@
 
 **🔴 STUB** (3 occurrences):
   - Line 14: `• Open Issues:     TODOs: 1, Stubs: 3                             ║`
-  - Line 114: `// Stubbed: full expression evaluation will be added in a later phase.`
-  - Line 123: `return "aql-stub";`
+  - Line 115: `// Stubbed: full expression evaluation will be added in a later phase.`
+  - Line 124: `return "aql-stub";`
 
 **📝 TODO** (1 occurrences):
-  - Line 3442: `// TODO: Add edge type filtering once exposed in TraversalQuery struct`
+  - Line 3445: `// TODO: Add edge type filtering once exposed in TraversalQuery struct`
 
 **🐛 DEBUG** (3 occurrences):
-  - Line 1400: `spdlog::debug("ST_Within extractPoint: Failed to parse string as JSON - {}", e.what());`
-  - Line 1426: `spdlog::debug("ST_Within extractMBR: Failed to parse string as JSON - {}", e.what());`
-  - Line 1462: `spdlog::debug("ST_Within: Failed to extract MBR (backward compat: failing open, returning true)");`
+  - Line 1401: `spdlog::debug("ST_Within extractPoint: Failed to parse string as JSON - {}", e.what());`
+  - Line 1427: `spdlog::debug("ST_Within extractMBR: Failed to parse string as JSON - {}", e.what());`
+  - Line 1463: `spdlog::debug("ST_Within: Failed to extract MBR (backward compat: failing open, returning true)");`
 
 **🔒 HARDCODED** (3 occurrences):
-  - Line 312: `// Create a temporary query with only the structural predicates`
-  - Line 400: `// Create a temporary query with only the structural predicates`
-  - Line 545: `// Create a temporary query with only the structural predicates`
+  - Line 313: `// Create a temporary query with only the structural predicates`
+  - Line 401: `// Create a temporary query with only the structural predicates`
+  - Line 546: `// Create a temporary query with only the structural predicates`
 
 ---
 
-### `src/query/query_federation.cpp` (v0.0.17)
+### `src/query/query_federation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -27848,7 +27871,7 @@
 
 ---
 
-### `src/query/query_optimizer.cpp` (v0.0.17)
+### `src/query/query_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (77.0/100)
 
@@ -27874,7 +27897,13 @@
 
 ---
 
-### `src/query/result_stream.cpp` (v0.0.17)
+### `src/query/query_plan_visualizer.cpp` (v0.0.1)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+---
+
+### `src/query/result_stream.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27885,7 +27914,7 @@
 
 ---
 
-### `src/query/semantic_cache.cpp` (v0.0.17)
+### `src/query/semantic_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27896,7 +27925,7 @@
 
 ---
 
-### `src/query/statistical_aggregator.cpp` (v0.0.17)
+### `src/query/statistical_aggregator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27907,7 +27936,7 @@
 
 ---
 
-### `src/query/window_evaluator.cpp` (v0.0.17)
+### `src/query/window_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27918,7 +27947,7 @@
 
 ---
 
-### `src/query/workload_cache_strategy.cpp` (v0.0.17)
+### `src/query/workload_cache_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -27929,7 +27958,7 @@
 
 ---
 
-### `src/rag/ab_testing_framework.cpp` (v0.0.17)
+### `src/rag/ab_testing_framework.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27940,7 +27969,7 @@
 
 ---
 
-### `src/rag/bayesian_optimizer.cpp` (v0.0.17)
+### `src/rag/bayesian_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27951,7 +27980,7 @@
 
 ---
 
-### `src/rag/bias_detector.cpp` (v0.0.17)
+### `src/rag/bias_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27962,7 +27991,7 @@
 
 ---
 
-### `src/rag/claim_extractor.cpp` (v0.0.17)
+### `src/rag/claim_extractor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27973,7 +28002,7 @@
 
 ---
 
-### `src/rag/coherence_evaluator.cpp` (v0.0.17)
+### `src/rag/coherence_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27984,7 +28013,7 @@
 
 ---
 
-### `src/rag/completeness_evaluator.cpp` (v0.0.17)
+### `src/rag/completeness_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -27995,7 +28024,7 @@
 
 ---
 
-### `src/rag/continuous_learning_client.cpp` (v0.0.17)
+### `src/rag/continuous_learning_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28006,7 +28035,7 @@
 
 ---
 
-### `src/rag/continuous_learning_orchestrator.cpp` (v0.0.17)
+### `src/rag/continuous_learning_orchestrator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -28017,7 +28046,7 @@
 
 ---
 
-### `src/rag/cot_evaluator.cpp` (v0.0.17)
+### `src/rag/cot_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28028,7 +28057,7 @@
 
 ---
 
-### `src/rag/faithfulness_evaluator.cpp` (v0.0.17)
+### `src/rag/faithfulness_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -28040,7 +28069,7 @@
 
 ---
 
-### `src/rag/geval_evaluator.cpp` (v0.0.17)
+### `src/rag/geval_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -28054,7 +28083,7 @@
 
 ---
 
-### `src/rag/http_metrics_client.cpp` (v0.0.17)
+### `src/rag/http_metrics_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28065,7 +28094,7 @@
 
 ---
 
-### `src/rag/judge_config.cpp` (v0.0.17)
+### `src/rag/judge_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28076,7 +28105,7 @@
 
 ---
 
-### `src/rag/judge_ensemble.cpp` (v0.0.17)
+### `src/rag/judge_ensemble.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28087,7 +28116,7 @@
 
 ---
 
-### `src/rag/knowledge_gap_detector.cpp` (v0.0.17)
+### `src/rag/knowledge_gap_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28098,7 +28127,7 @@
 
 ---
 
-### `src/rag/learning_metrics.cpp` (v0.0.17)
+### `src/rag/learning_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28109,7 +28138,7 @@
 
 ---
 
-### `src/rag/llm_integration.cpp` (v0.0.17)
+### `src/rag/llm_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -28121,7 +28150,7 @@
 
 ---
 
-### `src/rag/llm_judge_client.cpp` (v0.0.17)
+### `src/rag/llm_judge_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28132,7 +28161,7 @@
 
 ---
 
-### `src/rag/llm_judge_integration.cpp` (v0.0.17)
+### `src/rag/llm_judge_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (62.0/100)
 
@@ -28151,7 +28180,7 @@
 
 ---
 
-### `src/rag/llm_meta_analyzer.cpp` (v0.0.17)
+### `src/rag/llm_meta_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -28165,7 +28194,7 @@
 
 ---
 
-### `src/rag/nli_faithfulness_verifier.cpp` (v0.0.17)
+### `src/rag/nli_faithfulness_verifier.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -28176,7 +28205,7 @@
 
 ---
 
-### `src/rag/onnx_model_loader.cpp` (v0.0.17)
+### `src/rag/onnx_model_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28187,7 +28216,7 @@
 
 ---
 
-### `src/rag/pairwise_comparator.cpp` (v0.0.17)
+### `src/rag/pairwise_comparator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28198,7 +28227,7 @@
 
 ---
 
-### `src/rag/prompt_templates.cpp` (v0.0.17)
+### `src/rag/prompt_templates.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28209,7 +28238,7 @@
 
 ---
 
-### `src/rag/quality_control_factory.cpp` (v0.0.17)
+### `src/rag/quality_control_factory.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28220,7 +28249,7 @@
 
 ---
 
-### `src/rag/quality_control_pipeline.cpp` (v0.0.17)
+### `src/rag/quality_control_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28231,7 +28260,7 @@
 
 ---
 
-### `src/rag/rag_judge.cpp` (v0.0.17)
+### `src/rag/rag_judge.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28242,7 +28271,7 @@
 
 ---
 
-### `src/rag/relevance_evaluator.cpp` (v0.0.17)
+### `src/rag/relevance_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28253,7 +28282,7 @@
 
 ---
 
-### `src/rag/response_parser.cpp` (v0.0.17)
+### `src/rag/response_parser.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28264,7 +28293,7 @@
 
 ---
 
-### `src/rag/rubric_evaluator.cpp` (v0.0.17)
+### `src/rag/rubric_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28275,7 +28304,7 @@
 
 ---
 
-### `src/replication/replication_manager.cpp` (v0.0.17)
+### `src/replication/replication_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -28294,7 +28323,7 @@
 
 ---
 
-### `src/scheduler/event_trigger.cpp` (v0.0.17)
+### `src/scheduler/event_trigger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28305,7 +28334,7 @@
 
 ---
 
-### `src/scheduler/hybrid_retention_manager.cpp` (v0.0.17)
+### `src/scheduler/hybrid_retention_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28316,7 +28345,7 @@
 
 ---
 
-### `src/scheduler/task_anomaly_detector.cpp` (v0.0.17)
+### `src/scheduler/task_anomaly_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28327,7 +28356,7 @@
 
 ---
 
-### `src/scheduler/task_audit_event.cpp` (v0.0.17)
+### `src/scheduler/task_audit_event.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28338,7 +28367,7 @@
 
 ---
 
-### `src/scheduler/task_audit_manager.cpp` (v0.0.17)
+### `src/scheduler/task_audit_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28349,7 +28378,7 @@
 
 ---
 
-### `src/scheduler/task_scheduler.cpp` (v0.0.17)
+### `src/scheduler/task_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -28370,7 +28399,7 @@
 
 ---
 
-### `src/search/autocomplete.cpp` (v0.0.13)
+### `src/search/autocomplete.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28381,7 +28410,7 @@
 
 ---
 
-### `src/search/faceted_search.cpp` (v0.0.13)
+### `src/search/faceted_search.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28392,7 +28421,7 @@
 
 ---
 
-### `src/search/fuzzy_matcher.cpp` (v0.0.13)
+### `src/search/fuzzy_matcher.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28403,7 +28432,7 @@
 
 ---
 
-### `src/search/hybrid_search.cpp` (v0.0.17)
+### `src/search/hybrid_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28414,7 +28443,7 @@
 
 ---
 
-### `src/search/learning_to_rank.cpp` (v0.0.13)
+### `src/search/learning_to_rank.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28425,7 +28454,7 @@
 
 ---
 
-### `src/search/multi_modal_search.cpp` (v0.0.13)
+### `src/search/multi_modal_search.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28436,7 +28465,7 @@
 
 ---
 
-### `src/search/query_expander.cpp` (v0.0.13)
+### `src/search/query_expander.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28447,7 +28476,7 @@
 
 ---
 
-### `src/search/search_analytics.cpp` (v0.0.13)
+### `src/search/search_analytics.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28458,7 +28487,7 @@
 
 ---
 
-### `src/security/access_control.cpp` (v0.0.17)
+### `src/security/access_control.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28469,7 +28498,7 @@
 
 ---
 
-### `src/security/access_control_manager.cpp` (v0.0.17)
+### `src/security/access_control_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28480,7 +28509,7 @@
 
 ---
 
-### `src/security/aql_injection_detector.cpp` (v0.0.17)
+### `src/security/aql_injection_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -28494,7 +28523,7 @@
 
 ---
 
-### `src/security/arrow_user_registration_plugin.cpp` (v0.0.17)
+### `src/security/arrow_user_registration_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -28511,7 +28540,7 @@
 
 ---
 
-### `src/security/binary_manifest.cpp` (v0.0.17)
+### `src/security/binary_manifest.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28522,7 +28551,7 @@
 
 ---
 
-### `src/security/cms_signing.cpp` (v0.0.17)
+### `src/security/cms_signing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28533,7 +28562,7 @@
 
 ---
 
-### `src/security/embedded_user_registration_plugin.cpp` (v0.0.17)
+### `src/security/embedded_user_registration_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -28544,7 +28573,7 @@
 
 ---
 
-### `src/security/encrypted_field.cpp` (v0.0.17)
+### `src/security/encrypted_field.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28555,7 +28584,7 @@
 
 ---
 
-### `src/security/field_encryption.cpp` (v0.0.17)
+### `src/security/field_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -28573,7 +28602,7 @@
 
 ---
 
-### `src/security/hsm_key_provider_adapter.cpp` (v0.0.17)
+### `src/security/hsm_key_provider_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -28587,7 +28616,7 @@
 
 ---
 
-### `src/security/hsm_provider.cpp` (v0.0.17)
+### `src/security/hsm_provider.cpp` (v0.0.23)
 
 **Maturity Level:** ⚫ DRAFT (0.0/100)
 
@@ -28602,7 +28631,7 @@
 
 ---
 
-### `src/security/hsm_provider_pkcs11.cpp` (v0.0.17)
+### `src/security/hsm_provider_pkcs11.cpp` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (35.0/100)
 
@@ -28617,7 +28646,7 @@
 
 ---
 
-### `src/security/key_cache.cpp` (v0.0.17)
+### `src/security/key_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28628,7 +28657,7 @@
 
 ---
 
-### `src/security/keyprovider_signing.cpp` (v0.0.17)
+### `src/security/keyprovider_signing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28639,7 +28668,7 @@
 
 ---
 
-### `src/security/malware_scanner.cpp` (v0.0.17)
+### `src/security/malware_scanner.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -28650,7 +28679,7 @@
 
 ---
 
-### `src/security/manifest_signer.cpp` (v0.0.17)
+### `src/security/manifest_signer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -28664,7 +28693,7 @@
 
 ---
 
-### `src/security/mock_key_provider.cpp` (v0.0.17)
+### `src/security/mock_key_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28675,7 +28704,7 @@
 
 ---
 
-### `src/security/pii_redaction_policy.cpp` (v0.0.17)
+### `src/security/pii_redaction_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -28689,7 +28718,7 @@
 
 ---
 
-### `src/security/pki_key_provider.cpp` (v0.0.17)
+### `src/security/pki_key_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28700,7 +28729,7 @@
 
 ---
 
-### `src/security/rbac.cpp` (v0.0.17)
+### `src/security/rbac.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28711,7 +28740,7 @@
 
 ---
 
-### `src/security/secret_manager.cpp` (v0.0.17)
+### `src/security/secret_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -28722,7 +28751,7 @@
 
 ---
 
-### `src/security/timestamp_authority.cpp` (v0.0.17)
+### `src/security/timestamp_authority.cpp` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (30.0/100)
 
@@ -28737,7 +28766,7 @@
 
 ---
 
-### `src/security/timestamp_authority_openssl.cpp` (v0.0.17)
+### `src/security/timestamp_authority_openssl.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -28749,7 +28778,7 @@
 
 ---
 
-### `src/security/usb_admin_authenticator.cpp` (v0.0.17)
+### `src/security/usb_admin_authenticator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -28764,7 +28793,7 @@
 
 ---
 
-### `src/security/user_registration_plugin.cpp` (v0.0.17)
+### `src/security/user_registration_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28775,7 +28804,7 @@
 
 ---
 
-### `src/security/vault_key_provider.cpp` (v0.0.17)
+### `src/security/vault_key_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28786,7 +28815,7 @@
 
 ---
 
-### `src/security/vault_signing_provider.cpp` (v0.0.17)
+### `src/security/vault_signing_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -28803,7 +28832,7 @@
 
 ---
 
-### `src/security/vcc_pki_client.cpp` (v0.0.17)
+### `src/security/vcc_pki_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28814,7 +28843,7 @@
 
 ---
 
-### `src/security/vram_secure_clear.cpp` (v0.0.17)
+### `src/security/vram_secure_clear.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -28832,7 +28861,7 @@
 
 ---
 
-### `src/security/webdav_user_registration_plugin.cpp` (v0.0.17)
+### `src/security/webdav_user_registration_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -28848,7 +28877,7 @@
 
 ---
 
-### `src/server/admin_api_handler.cpp` (v0.0.17)
+### `src/server/admin_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28859,7 +28888,7 @@
 
 ---
 
-### `src/server/api_auth_config.cpp` (v0.0.17)
+### `src/server/api_auth_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28870,7 +28899,7 @@
 
 ---
 
-### `src/server/api_gateway.cpp` (v0.0.17)
+### `src/server/api_gateway.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -28880,11 +28909,11 @@
   - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🐛 DEBUG** (1 occurrences):
-  - Line 750: `spdlog::debug("Metric: {} {} duration_ms={}", metric_name,`
+  - Line 746: `spdlog::debug("Metric: {} {} duration_ms={}", metric_name,`
 
 ---
 
-### `src/server/api_version.cpp` (v0.0.17)
+### `src/server/api_version.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28895,7 +28924,7 @@
 
 ---
 
-### `src/server/audit_api_handler.cpp` (v0.0.17)
+### `src/server/audit_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28906,7 +28935,7 @@
 
 ---
 
-### `src/server/auth_middleware.cpp` (v0.0.17)
+### `src/server/auth_middleware.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -28924,7 +28953,7 @@
 
 ---
 
-### `src/server/bpmn_api_handler.cpp` (v0.0.17)
+### `src/server/bpmn_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -28939,7 +28968,7 @@
 
 ---
 
-### `src/server/branch_api_handler.cpp` (v0.0.17)
+### `src/server/branch_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28950,7 +28979,7 @@
 
 ---
 
-### `src/server/buffer_api_handler.cpp` (v0.0.17)
+### `src/server/buffer_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28961,7 +28990,7 @@
 
 ---
 
-### `src/server/buffer_binary_protocol.cpp` (v0.0.17)
+### `src/server/buffer_binary_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28972,7 +29001,7 @@
 
 ---
 
-### `src/server/cache_api_handler.cpp` (v0.0.17)
+### `src/server/cache_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -28983,7 +29012,7 @@
 
 ---
 
-### `src/server/changefeed_api_handler.cpp` (v0.0.17)
+### `src/server/changefeed_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -28997,7 +29026,7 @@
 
 ---
 
-### `src/server/classification_api_handler.cpp` (v0.0.17)
+### `src/server/classification_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29008,7 +29037,7 @@
 
 ---
 
-### `src/server/compliance_reporting_api_handler.cpp` (v0.0.17)
+### `src/server/compliance_reporting_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29019,7 +29048,7 @@
 
 ---
 
-### `src/server/content_api_handler.cpp` (v0.0.17)
+### `src/server/content_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29030,7 +29059,7 @@
 
 ---
 
-### `src/server/diff_api_handler.cpp` (v0.0.17)
+### `src/server/diff_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29041,7 +29070,7 @@
 
 ---
 
-### `src/server/distributed_txn_api_handler.cpp` (v0.0.17)
+### `src/server/distributed_txn_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29052,7 +29081,7 @@
 
 ---
 
-### `src/server/entity_api_handler.cpp` (v0.0.17)
+### `src/server/entity_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29063,7 +29092,7 @@
 
 ---
 
-### `src/server/error_api_handler.cpp` (v0.0.17)
+### `src/server/error_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29074,7 +29103,7 @@
 
 ---
 
-### `src/server/ethics_api_handler.cpp` (v0.0.17)
+### `src/server/ethics_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29088,7 +29117,7 @@
 
 ---
 
-### `src/server/export_api_handler.cpp` (v0.0.17)
+### `src/server/export_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29099,7 +29128,7 @@
 
 ---
 
-### `src/server/feedback_api_handler.cpp` (v0.0.17)
+### `src/server/feedback_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29110,7 +29139,7 @@
 
 ---
 
-### `src/server/geo_topology_api_handler.cpp` (v0.0.17)
+### `src/server/geo_topology_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -29121,7 +29150,7 @@
 
 ---
 
-### `src/server/graph_api_handler.cpp` (v0.0.17)
+### `src/server/graph_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29132,7 +29161,7 @@
 
 ---
 
-### `src/server/health_error_service.cpp` (v0.0.17)
+### `src/server/health_error_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29143,7 +29172,7 @@
 
 ---
 
-### `src/server/hot_reload_api_handler.cpp` (v0.0.17)
+### `src/server/hot_reload_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29154,7 +29183,7 @@
 
 ---
 
-### `src/server/http2_session.cpp` (v0.0.17)
+### `src/server/http2_session.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29168,7 +29197,7 @@
 
 ---
 
-### `src/server/http3_session.cpp` (v0.0.17)
+### `src/server/http3_session.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29179,7 +29208,7 @@
 
 ---
 
-### `src/server/http_server.cpp` (v0.0.17)
+### `src/server/http_server.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -29199,7 +29228,7 @@
 
 ---
 
-### `src/server/http_type_adapter.cpp` (v0.0.17)
+### `src/server/http_type_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29213,7 +29242,7 @@
 
 ---
 
-### `src/server/import_api_handler.cpp` (v0.0.17)
+### `src/server/import_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29224,7 +29253,7 @@
 
 ---
 
-### `src/server/index_api_handler.cpp` (v0.0.17)
+### `src/server/index_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29235,7 +29264,7 @@
 
 ---
 
-### `src/server/keys_api_handler.cpp` (v0.0.17)
+### `src/server/keys_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29246,7 +29275,7 @@
 
 ---
 
-### `src/server/llm_api_handler.cpp` (v0.0.17)
+### `src/server/llm_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29260,7 +29289,7 @@
 
 ---
 
-### `src/server/llm_grpc_service.cpp` (v0.0.17)
+### `src/server/llm_grpc_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -29279,7 +29308,7 @@
 
 ---
 
-### `src/server/load_shedder.cpp` (v0.0.17)
+### `src/server/load_shedder.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29290,7 +29319,7 @@
 
 ---
 
-### `src/server/lora_api_handler.cpp` (v0.0.17)
+### `src/server/lora_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -29307,7 +29336,7 @@
 
 ---
 
-### `src/server/mcp_server.cpp` (v0.0.17)
+### `src/server/mcp_server.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (66.0/100)
 
@@ -29328,7 +29357,7 @@
 
 ---
 
-### `src/server/merge_api_handler.cpp` (v0.0.17)
+### `src/server/merge_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29339,7 +29368,7 @@
 
 ---
 
-### `src/server/monitoring_api_handler.cpp` (v0.0.17)
+### `src/server/monitoring_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29350,7 +29379,7 @@
 
 ---
 
-### `src/server/mqtt_session.cpp` (v0.0.17)
+### `src/server/mqtt_session.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29361,7 +29390,7 @@
 
 ---
 
-### `src/server/mvcc_api_handler.cpp` (v0.0.17)
+### `src/server/mvcc_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29372,7 +29401,7 @@
 
 ---
 
-### `src/server/pii_api_handler.cpp` (v0.0.17)
+### `src/server/pii_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29383,7 +29412,7 @@
 
 ---
 
-### `src/server/pitr_api_handler.cpp` (v0.0.17)
+### `src/server/pitr_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29394,7 +29423,7 @@
 
 ---
 
-### `src/server/pitr_grpc_service.cpp` (v0.0.17)
+### `src/server/pitr_grpc_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -29409,7 +29438,7 @@
 
 ---
 
-### `src/server/pki_api_handler.cpp` (v0.0.17)
+### `src/server/pki_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29420,7 +29449,7 @@
 
 ---
 
-### `src/server/policy_api_handler.cpp` (v0.0.17)
+### `src/server/policy_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29431,7 +29460,7 @@
 
 ---
 
-### `src/server/policy_engine.cpp` (v0.0.17)
+### `src/server/policy_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29442,7 +29471,7 @@
 
 ---
 
-### `src/server/policy_manager_api_handler.cpp` (v0.0.17)
+### `src/server/policy_manager_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29453,7 +29482,7 @@
 
 ---
 
-### `src/server/policy_template_api_handler.cpp` (v0.0.17)
+### `src/server/policy_template_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29464,7 +29493,7 @@
 
 ---
 
-### `src/server/policy_validation_api_handler.cpp` (v0.0.17)
+### `src/server/policy_validation_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29475,7 +29504,7 @@
 
 ---
 
-### `src/server/policy_versioning_api_handler.cpp` (v0.0.17)
+### `src/server/policy_versioning_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29486,7 +29515,7 @@
 
 ---
 
-### `src/server/postgres_session.cpp` (v0.0.17)
+### `src/server/postgres_session.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -29503,7 +29532,7 @@
 
 ---
 
-### `src/server/profiling_api_handler.cpp` (v0.0.17)
+### `src/server/profiling_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29514,7 +29543,7 @@
 
 ---
 
-### `src/server/prompt_api_handler.cpp` (v0.0.17)
+### `src/server/prompt_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29525,7 +29554,7 @@
 
 ---
 
-### `src/server/prompt_engineering_api_handler.cpp` (v0.0.17)
+### `src/server/prompt_engineering_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -29536,7 +29565,7 @@
 
 ---
 
-### `src/server/prompt_engineering_grpc_service.cpp` (v0.0.17)
+### `src/server/prompt_engineering_grpc_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -29550,7 +29579,7 @@
 
 ---
 
-### `src/server/query_api_handler.cpp` (v0.0.17)
+### `src/server/query_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -29564,7 +29593,7 @@
 
 ---
 
-### `src/server/ranger_adapter.cpp` (v0.0.17)
+### `src/server/ranger_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29575,7 +29604,7 @@
 
 ---
 
-### `src/server/rate_limiter.cpp` (v0.0.17)
+### `src/server/rate_limiter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29586,7 +29615,7 @@
 
 ---
 
-### `src/server/rate_limiter_v2.cpp` (v0.0.17)
+### `src/server/rate_limiter_v2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29597,7 +29626,7 @@
 
 ---
 
-### `src/server/reports_api_handler.cpp` (v0.0.17)
+### `src/server/reports_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29608,7 +29637,7 @@
 
 ---
 
-### `src/server/request_validation_middleware.cpp` (v0.0.4)
+### `src/server/request_validation_middleware.cpp` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29619,7 +29648,7 @@
 
 ---
 
-### `src/server/retention_api_handler.cpp` (v0.0.17)
+### `src/server/retention_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29630,7 +29659,7 @@
 
 ---
 
-### `src/server/review_scheduling_api_handler.cpp` (v0.0.17)
+### `src/server/review_scheduling_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29641,7 +29670,7 @@
 
 ---
 
-### `src/server/rope_api_handler.cpp` (v0.0.17)
+### `src/server/rope_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29652,7 +29681,7 @@
 
 ---
 
-### `src/server/rpc/blob_transfer_handler.cpp` (v0.0.17)
+### `src/server/rpc/blob_transfer_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29666,7 +29695,7 @@
 
 ---
 
-### `src/server/rpc/differential_update_engine.cpp` (v0.0.17)
+### `src/server/rpc/differential_update_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29680,7 +29709,7 @@
 
 ---
 
-### `src/server/rpc/rpc_service_impl.cpp` (v0.0.17)
+### `src/server/rpc/rpc_service_impl.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29691,7 +29720,7 @@
 
 ---
 
-### `src/server/rpc/snapshot_transfer_handler.cpp` (v0.0.17)
+### `src/server/rpc/snapshot_transfer_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -29707,7 +29736,7 @@
 
 ---
 
-### `src/server/saga_api_handler.cpp` (v0.0.17)
+### `src/server/saga_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29718,7 +29747,7 @@
 
 ---
 
-### `src/server/schema_api_handler.cpp` (v0.0.17)
+### `src/server/schema_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -29735,7 +29764,7 @@
 
 ---
 
-### `src/server/sharding_metrics_handler.cpp` (v0.0.17)
+### `src/server/sharding_metrics_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29746,7 +29775,7 @@
 
 ---
 
-### `src/server/snapshot_api_handler.cpp` (v0.0.17)
+### `src/server/snapshot_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29757,7 +29786,7 @@
 
 ---
 
-### `src/server/spatial_api_handler.cpp` (v0.0.17)
+### `src/server/spatial_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29768,7 +29797,7 @@
 
 ---
 
-### `src/server/sse_connection_manager.cpp` (v0.0.17)
+### `src/server/sse_connection_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29779,7 +29808,7 @@
 
 ---
 
-### `src/server/tenant_manager.cpp` (v0.0.17)
+### `src/server/tenant_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29790,7 +29819,7 @@
 
 ---
 
-### `src/server/themis_core_grpc_service.cpp` (v0.0.17)
+### `src/server/themis_core_grpc_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -29805,7 +29834,7 @@
 
 ---
 
-### `src/server/timeseries_api_handler.cpp` (v0.0.17)
+### `src/server/timeseries_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29816,7 +29845,7 @@
 
 ---
 
-### `src/server/transaction_api_handler.cpp` (v0.0.17)
+### `src/server/transaction_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29827,7 +29856,7 @@
 
 ---
 
-### `src/server/update_api_handler.cpp` (v0.0.17)
+### `src/server/update_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29838,7 +29867,7 @@
 
 ---
 
-### `src/server/vector_api_handler.cpp` (v0.0.17)
+### `src/server/vector_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29852,7 +29881,7 @@
 
 ---
 
-### `src/server/voice_api_handler.cpp` (v0.0.17)
+### `src/server/voice_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -29863,7 +29892,7 @@
 
 ---
 
-### `src/server/wal_api_handler.cpp` (v0.0.17)
+### `src/server/wal_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29874,7 +29903,7 @@
 
 ---
 
-### `src/server/wal_grpc_service.cpp` (v0.0.17)
+### `src/server/wal_grpc_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -29886,7 +29915,7 @@
 
 ---
 
-### `src/server/websocket_session.cpp` (v0.0.17)
+### `src/server/websocket_session.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29897,7 +29926,7 @@
 
 ---
 
-### `src/sharding/adaptive_shard_router.cpp` (v0.0.17)
+### `src/sharding/adaptive_shard_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29911,7 +29940,7 @@
 
 ---
 
-### `src/sharding/admin_api.cpp` (v0.0.17)
+### `src/sharding/admin_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29922,7 +29951,7 @@
 
 ---
 
-### `src/sharding/admin_operations.cpp` (v0.0.17)
+### `src/sharding/admin_operations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29933,7 +29962,7 @@
 
 ---
 
-### `src/sharding/auto_rebalancer.cpp` (v0.0.17)
+### `src/sharding/auto_rebalancer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29944,7 +29973,7 @@
 
 ---
 
-### `src/sharding/capability_matcher.cpp` (v0.0.17)
+### `src/sharding/capability_matcher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29955,7 +29984,7 @@
 
 ---
 
-### `src/sharding/circuit_breaker.cpp` (v0.0.17)
+### `src/sharding/circuit_breaker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -29969,7 +29998,7 @@
 
 ---
 
-### `src/sharding/cloud_agent.cpp` (v0.0.17)
+### `src/sharding/cloud_agent.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29980,7 +30009,7 @@
 
 ---
 
-### `src/sharding/consensus_factory.cpp` (v0.0.17)
+### `src/sharding/consensus_factory.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -29991,7 +30020,7 @@
 
 ---
 
-### `src/sharding/consistent_hash.cpp` (v0.0.17)
+### `src/sharding/consistent_hash.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30002,7 +30031,7 @@
 
 ---
 
-### `src/sharding/cross_shard_transaction.cpp` (v0.0.17)
+### `src/sharding/cross_shard_transaction.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (64.0/100)
 
@@ -30028,7 +30057,7 @@
 
 ---
 
-### `src/sharding/data_migrator.cpp` (v0.0.17)
+### `src/sharding/data_migrator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30039,7 +30068,7 @@
 
 ---
 
-### `src/sharding/distributed_coordinator.cpp` (v0.0.17)
+### `src/sharding/distributed_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30050,7 +30079,7 @@
 
 ---
 
-### `src/sharding/distributed_time_coordinator.cpp` (v0.0.17)
+### `src/sharding/distributed_time_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30061,7 +30090,7 @@
 
 ---
 
-### `src/sharding/distributed_transaction.cpp` (v0.0.17)
+### `src/sharding/distributed_transaction.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30072,7 +30101,7 @@
 
 ---
 
-### `src/sharding/gossip_config_manager.cpp` (v0.0.17)
+### `src/sharding/gossip_config_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -30084,7 +30113,7 @@
 
 ---
 
-### `src/sharding/gossip_consensus_adapter.cpp` (v0.0.17)
+### `src/sharding/gossip_consensus_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -30102,7 +30131,7 @@
 
 ---
 
-### `src/sharding/gossip_protocol.cpp` (v0.0.17)
+### `src/sharding/gossip_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -30116,7 +30145,7 @@
 
 ---
 
-### `src/sharding/gpu_erasure_coder.cpp` (v0.0.17)
+### `src/sharding/gpu_erasure_coder.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -30127,7 +30156,7 @@
 
 ---
 
-### `src/sharding/gpu_erasure_coder_opencl.cpp` (v0.0.17)
+### `src/sharding/gpu_erasure_coder_opencl.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -30139,7 +30168,7 @@
 
 ---
 
-### `src/sharding/health_check.cpp` (v0.0.17)
+### `src/sharding/health_check.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30150,7 +30179,7 @@
 
 ---
 
-### `src/sharding/health_monitor.cpp` (v0.0.17)
+### `src/sharding/health_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -30164,7 +30193,7 @@
 
 ---
 
-### `src/sharding/hot_spare_manager.cpp` (v0.0.17)
+### `src/sharding/hot_spare_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -30175,7 +30204,7 @@
 
 ---
 
-### `src/sharding/locality_aware_router.cpp` (v0.0.17)
+### `src/sharding/locality_aware_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30186,7 +30215,7 @@
 
 ---
 
-### `src/sharding/metadata_shard.cpp` (v0.0.17)
+### `src/sharding/metadata_shard.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30197,7 +30226,7 @@
 
 ---
 
-### `src/sharding/metadata_snapshot.cpp` (v0.0.17)
+### `src/sharding/metadata_snapshot.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -30211,7 +30240,7 @@
 
 ---
 
-### `src/sharding/metadata_wal.cpp` (v0.0.17)
+### `src/sharding/metadata_wal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -30226,7 +30255,7 @@
 
 ---
 
-### `src/sharding/metrics_registry.cpp` (v0.0.17)
+### `src/sharding/metrics_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30237,7 +30266,7 @@
 
 ---
 
-### `src/sharding/mtls_client.cpp` (v0.0.17)
+### `src/sharding/mtls_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30248,7 +30277,7 @@
 
 ---
 
-### `src/sharding/mtls_connection_pool.cpp` (v0.0.17)
+### `src/sharding/mtls_connection_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -30260,7 +30289,7 @@
 
 ---
 
-### `src/sharding/multi_primary_coordinator.cpp` (v0.0.17)
+### `src/sharding/multi_primary_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30271,7 +30300,7 @@
 
 ---
 
-### `src/sharding/operational_metrics.cpp` (v0.0.17)
+### `src/sharding/operational_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30282,7 +30311,7 @@
 
 ---
 
-### `src/sharding/orphan_detector.cpp` (v0.0.17)
+### `src/sharding/orphan_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -30297,7 +30326,7 @@
 
 ---
 
-### `src/sharding/partition_detector.cpp` (v0.0.17)
+### `src/sharding/partition_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30308,7 +30337,7 @@
 
 ---
 
-### `src/sharding/paxos_consensus.cpp` (v0.0.17)
+### `src/sharding/paxos_consensus.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (44.0/100)
 
@@ -30337,7 +30366,7 @@
 
 ---
 
-### `src/sharding/paxos_snapshot.cpp` (v0.0.17)
+### `src/sharding/paxos_snapshot.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30348,7 +30377,7 @@
 
 ---
 
-### `src/sharding/paxos_wal.cpp` (v0.0.17)
+### `src/sharding/paxos_wal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -30364,7 +30393,7 @@
 
 ---
 
-### `src/sharding/pki_shard_certificate.cpp` (v0.0.17)
+### `src/sharding/pki_shard_certificate.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -30378,7 +30407,7 @@
 
 ---
 
-### `src/sharding/predictive_detector.cpp` (v0.0.17)
+### `src/sharding/predictive_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -30389,7 +30418,7 @@
 
 ---
 
-### `src/sharding/prometheus_metrics.cpp` (v0.0.17)
+### `src/sharding/prometheus_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30400,7 +30429,7 @@
 
 ---
 
-### `src/sharding/quorum_manager.cpp` (v0.0.17)
+### `src/sharding/quorum_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30411,7 +30440,7 @@
 
 ---
 
-### `src/sharding/raft_configuration.cpp` (v0.0.17)
+### `src/sharding/raft_configuration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30422,7 +30451,7 @@
 
 ---
 
-### `src/sharding/raft_consensus.cpp` (v0.0.17)
+### `src/sharding/raft_consensus.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30433,7 +30462,7 @@
 
 ---
 
-### `src/sharding/raft_consensus_adapter.cpp` (v0.0.17)
+### `src/sharding/raft_consensus_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30444,7 +30473,7 @@
 
 ---
 
-### `src/sharding/raft_log.cpp` (v0.0.17)
+### `src/sharding/raft_log.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30455,7 +30484,7 @@
 
 ---
 
-### `src/sharding/raft_shard_manager.cpp` (v0.0.17)
+### `src/sharding/raft_shard_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30466,7 +30495,7 @@
 
 ---
 
-### `src/sharding/raft_state.cpp` (v0.0.17)
+### `src/sharding/raft_state.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30477,7 +30506,7 @@
 
 ---
 
-### `src/sharding/raft_wal_integration.cpp` (v0.0.17)
+### `src/sharding/raft_wal_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -30491,7 +30520,7 @@
 
 ---
 
-### `src/sharding/rebalance_operation.cpp` (v0.0.17)
+### `src/sharding/rebalance_operation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30502,7 +30531,7 @@
 
 ---
 
-### `src/sharding/redundancy_strategy.cpp` (v0.0.17)
+### `src/sharding/redundancy_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30516,7 +30545,7 @@
 
 ---
 
-### `src/sharding/remote_executor.cpp` (v0.0.17)
+### `src/sharding/remote_executor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30527,7 +30556,7 @@
 
 ---
 
-### `src/sharding/replica_consistency.cpp` (v0.0.17)
+### `src/sharding/replica_consistency.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30538,7 +30567,7 @@
 
 ---
 
-### `src/sharding/replica_topology.cpp` (v0.0.17)
+### `src/sharding/replica_topology.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30549,7 +30578,7 @@
 
 ---
 
-### `src/sharding/replication_coordinator.cpp` (v0.0.17)
+### `src/sharding/replication_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30560,7 +30589,7 @@
 
 ---
 
-### `src/sharding/secure_transport_client.cpp` (v0.0.17)
+### `src/sharding/secure_transport_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -30580,7 +30609,7 @@
 
 ---
 
-### `src/sharding/shard_durability.cpp` (v0.0.17)
+### `src/sharding/shard_durability.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30591,7 +30620,7 @@
 
 ---
 
-### `src/sharding/shard_load_detector.cpp` (v0.0.17)
+### `src/sharding/shard_load_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30602,7 +30631,7 @@
 
 ---
 
-### `src/sharding/shard_repair_engine.cpp` (v0.0.17)
+### `src/sharding/shard_repair_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30616,7 +30645,7 @@
 
 ---
 
-### `src/sharding/shard_resource_manager.cpp` (v0.0.17)
+### `src/sharding/shard_resource_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -30630,7 +30659,7 @@
 
 ---
 
-### `src/sharding/shard_router.cpp` (v0.0.17)
+### `src/sharding/shard_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -30644,7 +30673,7 @@
 
 ---
 
-### `src/sharding/shard_rpc_client.cpp` (v0.0.17)
+### `src/sharding/shard_rpc_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (44.0/100)
 
@@ -30666,7 +30695,7 @@
 
 ---
 
-### `src/sharding/shard_rpc_server.cpp` (v0.0.17)
+### `src/sharding/shard_rpc_server.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -30677,7 +30706,7 @@
 
 ---
 
-### `src/sharding/shard_topology.cpp` (v0.0.17)
+### `src/sharding/shard_topology.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30688,7 +30717,7 @@
 
 ---
 
-### `src/sharding/sharding_manager_edition.cpp` (v0.0.17)
+### `src/sharding/sharding_manager_edition.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30699,7 +30728,7 @@
 
 ---
 
-### `src/sharding/signed_request.cpp` (v0.0.17)
+### `src/sharding/signed_request.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30710,7 +30739,7 @@
 
 ---
 
-### `src/sharding/slo_monitor.cpp` (v0.0.17)
+### `src/sharding/slo_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30721,7 +30750,7 @@
 
 ---
 
-### `src/sharding/stream_protocol.cpp` (v0.0.17)
+### `src/sharding/stream_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -30739,7 +30768,7 @@
 
 ---
 
-### `src/sharding/transaction_snapshot.cpp` (v0.0.17)
+### `src/sharding/transaction_snapshot.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -30754,7 +30783,7 @@
 
 ---
 
-### `src/sharding/transaction_wal.cpp` (v0.0.17)
+### `src/sharding/transaction_wal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -30772,7 +30801,7 @@
 
 ---
 
-### `src/sharding/truetime.cpp` (v0.0.17)
+### `src/sharding/truetime.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30783,7 +30812,7 @@
 
 ---
 
-### `src/sharding/two_phase_commit_coordinator.cpp` (v0.0.4)
+### `src/sharding/two_phase_commit_coordinator.cpp` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30794,7 +30823,7 @@
 
 ---
 
-### `src/sharding/two_phase_commit_participant.cpp` (v0.0.17)
+### `src/sharding/two_phase_commit_participant.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30805,7 +30834,7 @@
 
 ---
 
-### `src/sharding/urn.cpp` (v0.0.17)
+### `src/sharding/urn.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30816,7 +30845,7 @@
 
 ---
 
-### `src/sharding/urn_resolver.cpp` (v0.0.17)
+### `src/sharding/urn_resolver.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30827,7 +30856,7 @@
 
 ---
 
-### `src/sharding/wal_applier.cpp` (v0.0.17)
+### `src/sharding/wal_applier.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30838,7 +30867,7 @@
 
 ---
 
-### `src/sharding/wal_manager.cpp` (v0.0.17)
+### `src/sharding/wal_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30849,7 +30878,7 @@
 
 ---
 
-### `src/sharding/wal_shipper.cpp` (v0.0.17)
+### `src/sharding/wal_shipper.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30860,7 +30889,7 @@
 
 ---
 
-### `src/storage/backup_manager.cpp` (v0.0.17)
+### `src/storage/backup_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (45.0/100)
 
@@ -30886,7 +30915,7 @@
 
 ---
 
-### `src/storage/base_entity.cpp` (v0.0.17)
+### `src/storage/base_entity.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30897,7 +30926,7 @@
 
 ---
 
-### `src/storage/batch_write_optimizer.cpp` (v0.0.17)
+### `src/storage/batch_write_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30908,7 +30937,7 @@
 
 ---
 
-### `src/storage/blob_backend_azure.cpp` (v0.0.17)
+### `src/storage/blob_backend_azure.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -30919,7 +30948,7 @@
 
 ---
 
-### `src/storage/blob_backend_filesystem.cpp` (v0.0.17)
+### `src/storage/blob_backend_filesystem.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30930,7 +30959,7 @@
 
 ---
 
-### `src/storage/blob_backend_s3.cpp` (v0.0.17)
+### `src/storage/blob_backend_s3.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -30941,7 +30970,7 @@
 
 ---
 
-### `src/storage/blob_backend_webdav.cpp` (v0.0.17)
+### `src/storage/blob_backend_webdav.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -30952,7 +30981,7 @@
 
 ---
 
-### `src/storage/blob_redundancy_manager.cpp` (v0.0.17)
+### `src/storage/blob_redundancy_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -30970,7 +30999,7 @@
 
 ---
 
-### `src/storage/columnar_format.cpp` (v0.0.17)
+### `src/storage/columnar_format.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -30984,7 +31013,7 @@
 
 ---
 
-### `src/storage/compaction_manager.cpp` (v0.0.16)
+### `src/storage/compaction_manager.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -30995,7 +31024,7 @@
 
 ---
 
-### `src/storage/compressed_storage.cpp` (v0.0.17)
+### `src/storage/compressed_storage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31006,7 +31035,7 @@
 
 ---
 
-### `src/storage/compression_strategy.cpp` (v0.0.17)
+### `src/storage/compression_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31017,7 +31046,7 @@
 
 ---
 
-### `src/storage/database_connection_manager.cpp` (v0.0.17)
+### `src/storage/database_connection_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -31035,7 +31064,7 @@
 
 ---
 
-### `src/storage/disk_space_monitor.cpp` (v0.0.17)
+### `src/storage/disk_space_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31046,7 +31075,7 @@
 
 ---
 
-### `src/storage/hlc.cpp` (v0.0.17)
+### `src/storage/hlc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31057,7 +31086,7 @@
 
 ---
 
-### `src/storage/index_maintenance.cpp` (v0.0.17)
+### `src/storage/index_maintenance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -31072,7 +31101,7 @@
 
 ---
 
-### `src/storage/key_schema.cpp` (v0.0.17)
+### `src/storage/key_schema.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31083,7 +31112,7 @@
 
 ---
 
-### `src/storage/merge_operators.cpp` (v0.0.17)
+### `src/storage/merge_operators.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31094,7 +31123,7 @@
 
 ---
 
-### `src/storage/mvcc_store.cpp` (v0.0.17)
+### `src/storage/mvcc_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31105,7 +31134,7 @@
 
 ---
 
-### `src/storage/nlp_metadata_extractor.cpp` (v0.0.17)
+### `src/storage/nlp_metadata_extractor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -31116,7 +31145,7 @@
 
 ---
 
-### `src/storage/pitr_manager.cpp` (v0.0.17)
+### `src/storage/pitr_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31127,7 +31156,7 @@
 
 ---
 
-### `src/storage/raft_mvcc_bridge.cpp` (v0.0.17)
+### `src/storage/raft_mvcc_bridge.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -31143,7 +31172,7 @@
 
 ---
 
-### `src/storage/rocksdb_wrapper.cpp` (v0.0.17)
+### `src/storage/rocksdb_wrapper.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -31162,7 +31191,7 @@
 
 ---
 
-### `src/storage/security_signature.cpp` (v0.0.17)
+### `src/storage/security_signature.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31173,7 +31202,7 @@
 
 ---
 
-### `src/storage/security_signature_manager.cpp` (v0.0.17)
+### `src/storage/security_signature_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -31187,7 +31216,7 @@
 
 ---
 
-### `src/storage/storage_audit_logger.cpp` (v0.0.16)
+### `src/storage/storage_audit_logger.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31198,7 +31227,7 @@
 
 ---
 
-### `src/storage/storage_engine.cpp` (v0.0.17)
+### `src/storage/storage_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -31214,7 +31243,7 @@
 
 ---
 
-### `src/storage/transaction_retry_manager.cpp` (v0.0.17)
+### `src/storage/transaction_retry_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31225,7 +31254,7 @@
 
 ---
 
-### `src/storage/wal_storage.cpp` (v0.0.16)
+### `src/storage/wal_storage.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31236,7 +31265,7 @@
 
 ---
 
-### `src/stubs.cpp` (v0.0.17)
+### `src/stubs.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -31251,7 +31280,7 @@
 
 ---
 
-### `src/temporal/bi_temporal.cpp` (v0.0.17)
+### `src/temporal/bi_temporal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31262,7 +31291,7 @@
 
 ---
 
-### `src/temporal/retention_manager.cpp` (v0.0.17)
+### `src/temporal/retention_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31273,7 +31302,7 @@
 
 ---
 
-### `src/temporal/snapshot_manager.cpp` (v0.0.17)
+### `src/temporal/snapshot_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31284,7 +31313,7 @@
 
 ---
 
-### `src/temporal/system_versioned_table.cpp` (v0.0.17)
+### `src/temporal/system_versioned_table.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31295,7 +31324,7 @@
 
 ---
 
-### `src/temporal/temporal_aggregator.cpp` (v0.0.17)
+### `src/temporal/temporal_aggregator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31306,7 +31335,7 @@
 
 ---
 
-### `src/temporal/temporal_conflict_resolver.cpp` (v0.0.17)
+### `src/temporal/temporal_conflict_resolver.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31317,7 +31346,7 @@
 
 ---
 
-### `src/temporal/temporal_index.cpp` (v0.0.17)
+### `src/temporal/temporal_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31328,7 +31357,7 @@
 
 ---
 
-### `src/temporal/temporal_query_engine.cpp` (v0.0.17)
+### `src/temporal/temporal_query_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -31339,7 +31368,7 @@
 
 ---
 
-### `src/timeseries/aggregate_scheduler.cpp` (v0.0.17)
+### `src/timeseries/aggregate_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31350,7 +31379,7 @@
 
 ---
 
-### `src/timeseries/aggregate_scheduler_helper.cpp` (v0.0.17)
+### `src/timeseries/aggregate_scheduler_helper.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31361,7 +31390,7 @@
 
 ---
 
-### `src/timeseries/aggregates.cpp` (v0.0.17)
+### `src/timeseries/aggregates.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31372,7 +31401,7 @@
 
 ---
 
-### `src/timeseries/continuous_agg.cpp` (v0.0.17)
+### `src/timeseries/continuous_agg.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31383,7 +31412,7 @@
 
 ---
 
-### `src/timeseries/gorilla.cpp` (v0.0.17)
+### `src/timeseries/gorilla.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31394,7 +31423,7 @@
 
 ---
 
-### `src/timeseries/hypertable.cpp` (v0.0.17)
+### `src/timeseries/hypertable.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31405,7 +31434,7 @@
 
 ---
 
-### `src/timeseries/query_optimizer.cpp` (v0.0.17)
+### `src/timeseries/query_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31416,7 +31445,7 @@
 
 ---
 
-### `src/timeseries/retention.cpp` (v0.0.17)
+### `src/timeseries/retention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31427,7 +31456,7 @@
 
 ---
 
-### `src/timeseries/timeseries.cpp` (v0.0.17)
+### `src/timeseries/timeseries.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31438,7 +31467,7 @@
 
 ---
 
-### `src/timeseries/timeseries_metrics.cpp` (v0.0.17)
+### `src/timeseries/timeseries_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31449,7 +31478,7 @@
 
 ---
 
-### `src/timeseries/ts_auto_buffer.cpp` (v0.0.17)
+### `src/timeseries/ts_auto_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31460,7 +31489,7 @@
 
 ---
 
-### `src/timeseries/tsstore.cpp` (v0.0.17)
+### `src/timeseries/tsstore.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -31474,7 +31503,7 @@
 
 ---
 
-### `src/training/auto_labeler.cpp` (v0.0.17)
+### `src/training/auto_labeler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -31488,7 +31517,7 @@
 
 ---
 
-### `src/training/incremental_lora_trainer.cpp` (v0.0.17)
+### `src/training/incremental_lora_trainer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -31504,7 +31533,7 @@
 
 ---
 
-### `src/training/knowledge_graph_enricher.cpp` (v0.0.17)
+### `src/training/knowledge_graph_enricher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31515,7 +31544,7 @@
 
 ---
 
-### `src/training/lora_data_selection.cpp` (v0.0.9)
+### `src/training/lora_data_selection.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31529,7 +31558,7 @@
 
 ---
 
-### `src/training/training_pipeline.cpp` (v0.0.17)
+### `src/training/training_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -31543,7 +31572,7 @@
 
 ---
 
-### `src/transaction/branch_manager.cpp` (v0.0.17)
+### `src/transaction/branch_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31554,7 +31583,7 @@
 
 ---
 
-### `src/transaction/crash_recovery_manager.cpp` (v0.0.15)
+### `src/transaction/crash_recovery_manager.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31565,7 +31594,7 @@
 
 ---
 
-### `src/transaction/lock_manager.cpp` (v0.0.15)
+### `src/transaction/lock_manager.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31576,7 +31605,7 @@
 
 ---
 
-### `src/transaction/merge_engine.cpp` (v0.0.17)
+### `src/transaction/merge_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -31591,7 +31620,7 @@
 
 ---
 
-### `src/transaction/saga.cpp` (v0.0.17)
+### `src/transaction/saga.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -31601,15 +31630,15 @@
   - Line 14: `• Open Issues:     TODOs: 2, Stubs: 1                             ║`
 
 **📝 TODO** (2 occurrences):
-  - Line 251: `// TODO: Need access to RocksDB for creating compensation batch`
-  - Line 267: `// TODO: Store edge details for proper compensation`
+  - Line 258: `// TODO: Need access to RocksDB for creating compensation batch`
+  - Line 274: `// TODO: Store edge details for proper compensation`
 
 **🔒 HARDCODED** (1 occurrences):
-  - Line 248: `// Create a temporary batch for compensation`
+  - Line 255: `// Create a temporary batch for compensation`
 
 ---
 
-### `src/transaction/snapshot_manager.cpp` (v0.0.17)
+### `src/transaction/snapshot_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31620,7 +31649,7 @@
 
 ---
 
-### `src/transaction/transaction_manager.cpp` (v0.0.17)
+### `src/transaction/transaction_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31631,7 +31660,7 @@
 
 ---
 
-### `src/updates/hot_reload_engine.cpp` (v0.0.17)
+### `src/updates/hot_reload_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31642,7 +31671,7 @@
 
 ---
 
-### `src/updates/manifest_database.cpp` (v0.0.17)
+### `src/updates/manifest_database.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (73.0/100)
 
@@ -31663,7 +31692,7 @@
 
 ---
 
-### `src/updates/release_manifest.cpp` (v0.0.17)
+### `src/updates/release_manifest.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31674,7 +31703,7 @@
 
 ---
 
-### `src/updates/update_state_machine.cpp` (v0.0.15)
+### `src/updates/update_state_machine.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31685,7 +31714,7 @@
 
 ---
 
-### `src/updates/updates_config.cpp` (v0.0.17)
+### `src/updates/updates_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31696,7 +31725,7 @@
 
 ---
 
-### `src/utils/audit_logger.cpp` (v0.0.17)
+### `src/utils/audit_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -31710,7 +31739,7 @@
 
 ---
 
-### `src/utils/boost_throw_exception.cpp` (v0.0.17)
+### `src/utils/boost_throw_exception.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31721,7 +31750,7 @@
 
 ---
 
-### `src/utils/build_info.cpp` (v0.0.17)
+### `src/utils/build_info.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -31736,7 +31765,7 @@
 
 ---
 
-### `src/utils/capability_auto_generator.cpp` (v0.0.17)
+### `src/utils/capability_auto_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -31752,7 +31781,7 @@
 
 ---
 
-### `src/utils/compression_metrics.cpp` (v0.0.17)
+### `src/utils/compression_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31763,7 +31792,7 @@
 
 ---
 
-### `src/utils/cron_parser.cpp` (v0.0.17)
+### `src/utils/cron_parser.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31774,7 +31803,7 @@
 
 ---
 
-### `src/utils/cursor.cpp` (v0.0.17)
+### `src/utils/cursor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31785,7 +31814,7 @@
 
 ---
 
-### `src/utils/error_registry.cpp` (v0.0.17)
+### `src/utils/error_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -31798,7 +31827,7 @@
 
 ---
 
-### `src/utils/file_utils.cpp` (v0.0.17)
+### `src/utils/file_utils.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31809,7 +31838,7 @@
 
 ---
 
-### `src/utils/geo/ewkb.cpp` (v0.0.17)
+### `src/utils/geo/ewkb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31820,7 +31849,7 @@
 
 ---
 
-### `src/utils/grpc_channel_pool.cpp` (v0.0.17)
+### `src/utils/grpc_channel_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -31834,7 +31863,7 @@
 
 ---
 
-### `src/utils/hkdf_cache.cpp` (v0.0.17)
+### `src/utils/hkdf_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31845,7 +31874,7 @@
 
 ---
 
-### `src/utils/hkdf_helper.cpp` (v0.0.17)
+### `src/utils/hkdf_helper.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31856,7 +31885,7 @@
 
 ---
 
-### `src/utils/http_client_pool.cpp` (v0.0.17)
+### `src/utils/http_client_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31867,7 +31896,7 @@
 
 ---
 
-### `src/utils/input_validator.cpp` (v0.0.17)
+### `src/utils/input_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -31879,7 +31908,7 @@
 
 ---
 
-### `src/utils/lek_manager.cpp` (v0.0.17)
+### `src/utils/lek_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31890,7 +31919,7 @@
 
 ---
 
-### `src/utils/license_info.cpp` (v0.0.17)
+### `src/utils/license_info.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31901,7 +31930,7 @@
 
 ---
 
-### `src/utils/logger.cpp` (v0.0.17)
+### `src/utils/logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -31917,7 +31946,7 @@
 
 ---
 
-### `src/utils/memory/pool_allocator.cpp` (v0.0.17)
+### `src/utils/memory/pool_allocator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31928,7 +31957,7 @@
 
 ---
 
-### `src/utils/normalizer.cpp` (v0.0.17)
+### `src/utils/normalizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31939,7 +31968,7 @@
 
 ---
 
-### `src/utils/pii_detection_engine.cpp` (v0.0.17)
+### `src/utils/pii_detection_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31950,7 +31979,7 @@
 
 ---
 
-### `src/utils/pii_detector.cpp` (v0.0.17)
+### `src/utils/pii_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31961,7 +31990,7 @@
 
 ---
 
-### `src/utils/pii_pseudonymizer.cpp` (v0.0.17)
+### `src/utils/pii_pseudonymizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31972,7 +32001,7 @@
 
 ---
 
-### `src/utils/pki_client.cpp` (v0.0.17)
+### `src/utils/pki_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (84.0/100)
 
@@ -31988,7 +32017,7 @@
 
 ---
 
-### `src/utils/regex_detection_engine.cpp` (v0.0.17)
+### `src/utils/regex_detection_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -31999,7 +32028,7 @@
 
 ---
 
-### `src/utils/retention_manager.cpp` (v0.0.17)
+### `src/utils/retention_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32010,7 +32039,7 @@
 
 ---
 
-### `src/utils/runtime_license_gate.cpp` (v0.0.11)
+### `src/utils/runtime_license_gate.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32021,7 +32050,7 @@
 
 ---
 
-### `src/utils/saga_logger.cpp` (v0.0.17)
+### `src/utils/saga_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32032,7 +32061,7 @@
 
 ---
 
-### `src/utils/self_awareness.cpp` (v0.0.17)
+### `src/utils/self_awareness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -32049,7 +32078,7 @@
 
 ---
 
-### `src/utils/serialization.cpp` (v0.0.17)
+### `src/utils/serialization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32060,7 +32089,7 @@
 
 ---
 
-### `src/utils/simd_distance.cpp` (v0.0.17)
+### `src/utils/simd_distance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32071,7 +32100,7 @@
 
 ---
 
-### `src/utils/stemmer.cpp` (v0.0.17)
+### `src/utils/stemmer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32082,7 +32111,7 @@
 
 ---
 
-### `src/utils/stopwords.cpp` (v0.0.17)
+### `src/utils/stopwords.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32093,7 +32122,7 @@
 
 ---
 
-### `src/utils/thread_pool_manager.cpp` (v0.0.17)
+### `src/utils/thread_pool_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -32113,7 +32142,7 @@
 
 ---
 
-### `src/utils/tracing.cpp` (v0.0.17)
+### `src/utils/tracing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32124,7 +32153,7 @@
 
 ---
 
-### `src/utils/update_checker.cpp` (v0.0.17)
+### `src/utils/update_checker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32135,7 +32164,7 @@
 
 ---
 
-### `src/utils/zstd_codec.cpp` (v0.0.17)
+### `src/utils/zstd_codec.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32146,7 +32175,7 @@
 
 ---
 
-### `src/version.h` (v0.0.17)
+### `src/version.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32157,7 +32186,7 @@
 
 ---
 
-### `src/voice/audio_preprocessing.cpp` (v0.0.12)
+### `src/voice/audio_preprocessing.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32168,7 +32197,7 @@
 
 ---
 
-### `src/voice/voice_accessibility.cpp` (v0.0.12)
+### `src/voice/voice_accessibility.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32179,7 +32208,7 @@
 
 ---
 
-### `src/voice/voice_assistant.cpp` (v0.0.17)
+### `src/voice/voice_assistant.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32190,7 +32219,7 @@
 
 ---
 
-### `src/voice/voice_assistant_llm.cpp` (v0.0.17)
+### `src/voice/voice_assistant_llm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32201,7 +32230,7 @@
 
 ---
 
-### `src/voice/voice_audio_storage.cpp` (v0.0.12)
+### `src/voice/voice_audio_storage.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32212,7 +32241,7 @@
 
 ---
 
-### `src/voice/voice_batch_processor.cpp` (v0.0.12)
+### `src/voice/voice_batch_processor.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32223,7 +32252,7 @@
 
 ---
 
-### `src/voice/voice_error_handler.cpp` (v0.0.12)
+### `src/voice/voice_error_handler.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32234,7 +32263,7 @@
 
 ---
 
-### `src/voice/voice_intent_detector.cpp` (v0.0.12)
+### `src/voice/voice_intent_detector.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32245,7 +32274,7 @@
 
 ---
 
-### `src/voice/voice_meeting_support.cpp` (v0.0.12)
+### `src/voice/voice_meeting_support.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32256,7 +32285,7 @@
 
 ---
 
-### `src/voice/voice_model_cache.cpp` (v0.0.12)
+### `src/voice/voice_model_cache.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32267,7 +32296,7 @@
 
 ---
 
-### `src/voice/voice_security.cpp` (v0.0.12)
+### `src/voice/voice_security.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -32281,7 +32310,7 @@
 
 ---
 
-### `src/voice/voice_session_manager.cpp` (v0.0.12)
+### `src/voice/voice_session_manager.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32292,7 +32321,7 @@
 
 ---
 
-### `src/voice/voice_tts_customizer.cpp` (v0.0.12)
+### `src/voice/voice_tts_customizer.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -32303,18 +32332,7 @@
 
 ---
 
-### `tests/analytics/test_anomaly_detection.cpp` (v0.0.2)
-
-**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
-
-**Issues Found:**
-
-**🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
-
----
-
-### `tests/analytics/test_arrow_export.cpp` (v0.0.17)
+### `tests/analytics/test_anomaly_detection.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32325,32 +32343,43 @@
 
 ---
 
-### `tests/analytics/test_cep_engine.cpp` (v0.0.2)
+### `tests/analytics/test_arrow_export.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 ---
 
-### `tests/analytics/test_incremental_view.cpp` (v0.0.2)
+### `tests/analytics/test_cep_engine.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `tests/analytics/test_incremental_view.cpp` (v0.0.8)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🎭 SIMULATION** (1 occurrences):
-  - Line 616: `// Simulate incremental changes without touching source collection`
+  - Line 620: `// Simulate incremental changes without touching source collection`
 
 ---
 
-### `tests/analytics/test_process_mining_llm.cpp` (v0.0.17)
+### `tests/analytics/test_process_mining_llm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32364,32 +32393,32 @@
 
 ---
 
-### `tests/analytics/test_process_pattern_matcher.cpp` (v0.0.2)
+### `tests/analytics/test_process_pattern_matcher.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🔒 HARDCODED** (1 occurrences):
-  - Line 27: `* via the public API.  For methods that require a live DB, a temporary`
+  - Line 31: `* via the public API.  For methods that require a live DB, a temporary`
 
 ---
 
-### `tests/analytics/test_streaming_window.cpp` (v0.0.2)
+### `tests/analytics/test_streaming_window.cpp` (v0.0.8)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
 **Issues Found:**
 
 **🔴 STUB** (1 occurrences):
-  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 ---
 
-### `tests/byzantine_attacks.h` (v0.0.17)
+### `tests/byzantine_attacks.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -32404,7 +32433,7 @@
 
 ---
 
-### `tests/chimera/adapter_test_utils.hpp` (v0.0.17)
+### `tests/chimera/adapter_test_utils.hpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32415,7 +32444,7 @@
 
 ---
 
-### `tests/chimera/test_adapter_factory.cpp` (v0.0.17)
+### `tests/chimera/test_adapter_factory.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32429,7 +32458,7 @@
 
 ---
 
-### `tests/db/test_concurrent_operations.cpp` (v0.0.17)
+### `tests/db/test_concurrent_operations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32441,7 +32470,7 @@
 
 ---
 
-### `tests/db/test_data_consistency.cpp` (v0.0.17)
+### `tests/db/test_data_consistency.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32456,7 +32485,7 @@
 
 ---
 
-### `tests/db/test_index_performance.cpp` (v0.0.17)
+### `tests/db/test_index_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32467,7 +32496,7 @@
 
 ---
 
-### `tests/db/test_transaction_isolation.cpp` (v0.0.17)
+### `tests/db/test_transaction_isolation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32479,7 +32508,7 @@
 
 ---
 
-### `tests/debug_graph_keys_test.cpp` (v0.0.17)
+### `tests/debug_graph_keys_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32490,7 +32519,7 @@
 
 ---
 
-### `tests/exporters/test_jsonl_llm_exporter.cpp` (v0.0.17)
+### `tests/exporters/test_jsonl_llm_exporter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32501,7 +32530,7 @@
 
 ---
 
-### `tests/fixtures/mock_shard_cluster.cpp` (v0.0.17)
+### `tests/fixtures/mock_shard_cluster.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -32518,7 +32547,7 @@
 
 ---
 
-### `tests/fixtures/mock_shard_cluster.h` (v0.0.17)
+### `tests/fixtures/mock_shard_cluster.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -32536,7 +32565,7 @@
 
 ---
 
-### `tests/geo/test_aql_st_functions.cpp` (v0.0.17)
+### `tests/geo/test_aql_st_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32547,7 +32576,7 @@
 
 ---
 
-### `tests/geo/test_aql_st_queryengine.cpp` (v0.0.17)
+### `tests/geo/test_aql_st_queryengine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32558,7 +32587,7 @@
 
 ---
 
-### `tests/geo/test_geo_3d_functions.cpp` (v0.0.17)
+### `tests/geo/test_geo_3d_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32569,7 +32598,7 @@
 
 ---
 
-### `tests/geo/test_geo_ewkb.cpp` (v0.0.17)
+### `tests/geo/test_geo_ewkb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32580,7 +32609,7 @@
 
 ---
 
-### `tests/geo/test_spatial_index.cpp` (v0.0.17)
+### `tests/geo/test_spatial_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32594,7 +32623,7 @@
 
 ---
 
-### `tests/integration/end_to_end/full_query_flow_e2e_test.cpp` (v0.0.17)
+### `tests/integration/end_to_end/full_query_flow_e2e_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32609,7 +32638,7 @@
 
 ---
 
-### `tests/integration/llm/llm_workflow_integration_test.cpp` (v0.0.17)
+### `tests/integration/llm/llm_workflow_integration_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32620,7 +32649,7 @@
 
 ---
 
-### `tests/integration/rpc/rpc_service_integration_test.cpp` (v0.0.17)
+### `tests/integration/rpc/rpc_service_integration_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32634,7 +32663,7 @@
 
 ---
 
-### `tests/integration/security/encryption_key_rotation_integration_test.cpp` (v0.0.17)
+### `tests/integration/security/encryption_key_rotation_integration_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32652,7 +32681,7 @@
 
 ---
 
-### `tests/integration/storage/backup_recovery_integration_test.cpp` (v0.0.17)
+### `tests/integration/storage/backup_recovery_integration_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32663,7 +32692,7 @@
 
 ---
 
-### `tests/integration/test_content_processing.cpp` (v0.0.17)
+### `tests/integration/test_content_processing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -32681,7 +32710,7 @@
 
 ---
 
-### `tests/integration/test_cross_functional_plugin_query_metrics.cpp` (v0.0.17)
+### `tests/integration/test_cross_functional_plugin_query_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32696,7 +32725,7 @@
 
 ---
 
-### `tests/integration/test_cross_functional_voice_observability.cpp` (v0.0.17)
+### `tests/integration/test_cross_functional_voice_observability.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32712,7 +32741,7 @@
 
 ---
 
-### `tests/integration/test_data_generator.h` (v0.0.17)
+### `tests/integration/test_data_generator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32723,7 +32752,7 @@
 
 ---
 
-### `tests/integration/test_distributed_training_e2e.cpp` (v0.0.17)
+### `tests/integration/test_distributed_training_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32741,7 +32770,7 @@
 
 ---
 
-### `tests/integration/test_fixture.h` (v0.0.17)
+### `tests/integration/test_fixture.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -32757,7 +32786,7 @@
 
 ---
 
-### `tests/integration/test_graphql_e2e.cpp` (v0.0.17)
+### `tests/integration/test_graphql_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32775,7 +32804,7 @@
 
 ---
 
-### `tests/integration/test_helpers.h` (v0.0.17)
+### `tests/integration/test_helpers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32786,7 +32815,7 @@
 
 ---
 
-### `tests/integration/test_process_mining_e2e.cpp` (v0.0.17)
+### `tests/integration/test_process_mining_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -32809,7 +32838,7 @@
 
 ---
 
-### `tests/integration/test_rpc_database_operations.cpp` (v0.0.17)
+### `tests/integration/test_rpc_database_operations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32820,7 +32849,7 @@
 
 ---
 
-### `tests/llm/bench_continuous_batch_scheduler.cpp` (v0.0.17)
+### `tests/llm/bench_continuous_batch_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32831,7 +32860,7 @@
 
 ---
 
-### `tests/llm/bench_model_loading_from_themisdb.cpp` (v0.0.17)
+### `tests/llm/bench_model_loading_from_themisdb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -32846,7 +32875,7 @@
 
 ---
 
-### `tests/llm/test_extended_context.cpp` (v0.0.17)
+### `tests/llm/test_extended_context.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32857,7 +32886,7 @@
 
 ---
 
-### `tests/llm/test_gpu_lora_integration.cpp` (v0.0.17)
+### `tests/llm/test_gpu_lora_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32868,7 +32897,7 @@
 
 ---
 
-### `tests/llm/test_grammar_integration.cpp` (v0.0.17)
+### `tests/llm/test_grammar_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32879,7 +32908,7 @@
 
 ---
 
-### `tests/llm/test_inference_performance.cpp` (v0.0.17)
+### `tests/llm/test_inference_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32897,7 +32926,7 @@
 
 ---
 
-### `tests/llm/test_inference_quality.cpp` (v0.0.17)
+### `tests/llm/test_inference_quality.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32911,7 +32940,7 @@
 
 ---
 
-### `tests/llm/test_kernel_fusion_cpu_fallback.cpp` (v0.0.17)
+### `tests/llm/test_kernel_fusion_cpu_fallback.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32922,7 +32951,7 @@
 
 ---
 
-### `tests/llm/test_kernel_fusion_cuda.cpp` (v0.0.17)
+### `tests/llm/test_kernel_fusion_cuda.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32933,7 +32962,7 @@
 
 ---
 
-### `tests/llm/test_llama_cpp_tokenizer.cpp` (v0.0.17)
+### `tests/llm/test_llama_cpp_tokenizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32944,7 +32973,7 @@
 
 ---
 
-### `tests/llm/test_llama_wrapper_state.cpp` (v0.0.17)
+### `tests/llm/test_llama_wrapper_state.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32957,7 +32986,7 @@
 
 ---
 
-### `tests/llm/test_llm_audit_logger.cpp` (v0.0.17)
+### `tests/llm/test_llm_audit_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32968,7 +32997,7 @@
 
 ---
 
-### `tests/llm/test_llm_validator.cpp` (v0.0.17)
+### `tests/llm/test_llm_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32981,7 +33010,7 @@
 
 ---
 
-### `tests/llm/test_lora_adapter_application.cpp` (v0.0.17)
+### `tests/llm/test_lora_adapter_application.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -32997,7 +33026,7 @@
 
 ---
 
-### `tests/llm/test_lora_adapters.cpp` (v0.0.17)
+### `tests/llm/test_lora_adapters.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33012,7 +33041,7 @@
 
 ---
 
-### `tests/llm/test_lora_auto_binding.cpp` (v0.0.17)
+### `tests/llm/test_lora_auto_binding.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33030,7 +33059,7 @@
 
 ---
 
-### `tests/llm/test_model_loader_async.cpp` (v0.0.17)
+### `tests/llm/test_model_loader_async.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33041,7 +33070,7 @@
 
 ---
 
-### `tests/llm/test_model_loader_error_handling.cpp` (v0.0.17)
+### `tests/llm/test_model_loader_error_handling.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33052,7 +33081,7 @@
 
 ---
 
-### `tests/llm/test_model_loading_best_practices.cpp` (v0.0.17)
+### `tests/llm/test_model_loading_best_practices.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33069,7 +33098,7 @@
 
 ---
 
-### `tests/llm/test_model_loading_from_themisdb.cpp` (v0.0.17)
+### `tests/llm/test_model_loading_from_themisdb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33086,7 +33115,7 @@
 
 ---
 
-### `tests/llm/test_real_embeddings.cpp` (v0.0.17)
+### `tests/llm/test_real_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33103,7 +33132,7 @@
 
 ---
 
-### `tests/mock_user_registration_plugin.h` (v0.0.17)
+### `tests/mock_user_registration_plugin.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -33120,7 +33149,7 @@
 
 ---
 
-### `tests/penetration_tests.py` (v0.0.17)
+### `tests/penetration_tests.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33131,7 +33160,7 @@
 
 ---
 
-### `tests/performance/phase3/test_bao.cpp` (v0.0.17)
+### `tests/performance/phase3/test_bao.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33145,7 +33174,7 @@
 
 ---
 
-### `tests/performance/phase3/test_bwtree.cpp` (v0.0.17)
+### `tests/performance/phase3/test_bwtree.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33159,7 +33188,7 @@
 
 ---
 
-### `tests/performance/phase3/test_diskann.cpp` (v0.0.17)
+### `tests/performance/phase3/test_diskann.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33170,7 +33199,7 @@
 
 ---
 
-### `tests/performance/phase3/test_gunrock.cpp` (v0.0.17)
+### `tests/performance/phase3/test_gunrock.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33181,7 +33210,7 @@
 
 ---
 
-### `tests/performance/phase3/test_splinterdb.cpp` (v0.0.17)
+### `tests/performance/phase3/test_splinterdb.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33195,7 +33224,7 @@
 
 ---
 
-### `tests/performance/test_cycle_metrics.cpp` (v0.0.17)
+### `tests/performance/test_cycle_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33206,7 +33235,7 @@
 
 ---
 
-### `tests/performance/test_wire_perf_benchmark.cpp` (v0.0.17)
+### `tests/performance/test_wire_perf_benchmark.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33217,7 +33246,7 @@
 
 ---
 
-### `tests/query/test_pagerank.cpp` (v0.0.17)
+### `tests/query/test_pagerank.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33228,7 +33257,7 @@
 
 ---
 
-### `tests/rope_visualizer/test_utils.py` (v0.0.17)
+### `tests/rope_visualizer/test_utils.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33239,7 +33268,7 @@
 
 ---
 
-### `tests/security/test_access_control_manager.cpp` (v0.0.17)
+### `tests/security/test_access_control_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33253,7 +33282,7 @@
 
 ---
 
-### `tests/security/test_input_validation_security.cpp` (v0.0.17)
+### `tests/security/test_input_validation_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33267,7 +33296,7 @@
 
 ---
 
-### `tests/security/test_security_negative_integration.cpp` (v0.0.13)
+### `tests/security/test_security_negative_integration.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33278,7 +33307,7 @@
 
 ---
 
-### `tests/temporal/test_bi_temporal.cpp` (v0.0.17)
+### `tests/temporal/test_bi_temporal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33292,7 +33321,7 @@
 
 ---
 
-### `tests/temporal/test_retention_manager.cpp` (v0.0.17)
+### `tests/temporal/test_retention_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33303,7 +33332,7 @@
 
 ---
 
-### `tests/temporal/test_snapshot_manager.cpp` (v0.0.17)
+### `tests/temporal/test_snapshot_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33314,7 +33343,7 @@
 
 ---
 
-### `tests/temporal/test_system_versioned_table.cpp` (v0.0.17)
+### `tests/temporal/test_system_versioned_table.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33325,7 +33354,7 @@
 
 ---
 
-### `tests/temporal/test_temporal_aggregator.cpp` (v0.0.17)
+### `tests/temporal/test_temporal_aggregator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33336,7 +33365,7 @@
 
 ---
 
-### `tests/temporal/test_temporal_conflict_resolver.cpp` (v0.0.17)
+### `tests/temporal/test_temporal_conflict_resolver.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33347,7 +33376,7 @@
 
 ---
 
-### `tests/temporal/test_temporal_index.cpp` (v0.0.17)
+### `tests/temporal/test_temporal_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33358,7 +33387,7 @@
 
 ---
 
-### `tests/temporal/test_temporal_query_engine.cpp` (v0.0.17)
+### `tests/temporal/test_temporal_query_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33369,7 +33398,7 @@
 
 ---
 
-### `tests/test_ab_testing_framework.cpp` (v0.0.17)
+### `tests/test_ab_testing_framework.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33380,7 +33409,7 @@
 
 ---
 
-### `tests/test_access_control.cpp` (v0.0.17)
+### `tests/test_access_control.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33396,7 +33425,7 @@
 
 ---
 
-### `tests/test_access_control_injection.cpp` (v0.0.17)
+### `tests/test_access_control_injection.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33407,7 +33436,7 @@
 
 ---
 
-### `tests/test_adapter_sync.cpp` (v0.0.17)
+### `tests/test_adapter_sync.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33418,7 +33447,7 @@
 
 ---
 
-### `tests/test_adaptive_cache_fuzz.cpp` (v0.0.17)
+### `tests/test_adaptive_cache_fuzz.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33429,7 +33458,7 @@
 
 ---
 
-### `tests/test_adaptive_cache_integration.cpp` (v0.0.17)
+### `tests/test_adaptive_cache_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33440,7 +33469,7 @@
 
 ---
 
-### `tests/test_adaptive_cache_phase1.cpp` (v0.0.17)
+### `tests/test_adaptive_cache_phase1.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33451,7 +33480,7 @@
 
 ---
 
-### `tests/test_adaptive_index.cpp` (v0.0.17)
+### `tests/test_adaptive_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33466,7 +33495,7 @@
 
 ---
 
-### `tests/test_adaptive_optimizer.cpp` (v0.0.17)
+### `tests/test_adaptive_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33477,7 +33506,7 @@
 
 ---
 
-### `tests/test_adaptive_query_cache.cpp` (v0.0.17)
+### `tests/test_adaptive_query_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33491,7 +33520,7 @@
 
 ---
 
-### `tests/test_adaptive_shard_router.cpp` (v0.0.17)
+### `tests/test_adaptive_shard_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33506,7 +33535,7 @@
 
 ---
 
-### `tests/test_adaptive_throttling_comprehensive.cpp` (v0.0.17)
+### `tests/test_adaptive_throttling_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33517,7 +33546,7 @@
 
 ---
 
-### `tests/test_advanced_vector_integration.cpp` (v0.0.17)
+### `tests/test_advanced_vector_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33528,7 +33557,7 @@
 
 ---
 
-### `tests/test_ai_decision_auditor.cpp` (v0.0.17)
+### `tests/test_ai_decision_auditor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33542,7 +33571,7 @@
 
 ---
 
-### `tests/test_aligned_vector_cache.cpp` (v0.0.17)
+### `tests/test_aligned_vector_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33553,7 +33582,7 @@
 
 ---
 
-### `tests/test_alignment_helpers.cpp` (v0.0.17)
+### `tests/test_alignment_helpers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33568,7 +33597,7 @@
 
 ---
 
-### `tests/test_anomaly_detection.cpp` (v0.0.17)
+### `tests/test_anomaly_detection.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33579,7 +33608,7 @@
 
 ---
 
-### `tests/test_api_auth_config.cpp` (v0.0.17)
+### `tests/test_api_auth_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33590,7 +33619,7 @@
 
 ---
 
-### `tests/test_api_gateway.cpp` (v0.0.17)
+### `tests/test_api_gateway.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33601,7 +33630,7 @@
 
 ---
 
-### `tests/test_api_routing.cpp` (v0.0.17)
+### `tests/test_api_routing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33612,7 +33641,7 @@
 
 ---
 
-### `tests/test_api_version.cpp` (v0.0.17)
+### `tests/test_api_version.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33623,7 +33652,7 @@
 
 ---
 
-### `tests/test_approximate_radius_search_integration.cpp` (v0.0.17)
+### `tests/test_approximate_radius_search_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -33634,7 +33663,7 @@
 
 ---
 
-### `tests/test_aql_bm25.cpp` (v0.0.17)
+### `tests/test_aql_bm25.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33645,7 +33674,7 @@
 
 ---
 
-### `tests/test_aql_confidence_scorer.cpp` (v0.0.9)
+### `tests/test_aql_confidence_scorer.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33656,7 +33685,7 @@
 
 ---
 
-### `tests/test_aql_conversation_context.cpp` (v0.0.9)
+### `tests/test_aql_conversation_context.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33672,7 +33701,19 @@
 
 ---
 
-### `tests/test_aql_fulltext_hybrid.cpp` (v0.0.17)
+### `tests/test_aql_explain.cpp` (v0.0.1)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🎭 SIMULATION** (2 occurrences):
+  - Line 3: `// without touching any real storage (null storage / mock index manager).`
+  - Line 21: `// Minimal mock implementations (no real storage / indexes needed for EXPLAIN)`
+
+---
+
+### `tests/test_aql_fulltext_hybrid.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33683,7 +33724,7 @@
 
 ---
 
-### `tests/test_aql_functions.cpp` (v0.0.17)
+### `tests/test_aql_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33694,7 +33735,7 @@
 
 ---
 
-### `tests/test_aql_general_traversal.cpp` (v0.0.17)
+### `tests/test_aql_general_traversal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33705,7 +33746,7 @@
 
 ---
 
-### `tests/test_aql_injection_detector.cpp` (v0.0.17)
+### `tests/test_aql_injection_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33716,7 +33757,7 @@
 
 ---
 
-### `tests/test_aql_join_minimal.cpp` (v0.0.17)
+### `tests/test_aql_join_minimal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -33727,7 +33768,7 @@
 
 ---
 
-### `tests/test_aql_let.cpp` (v0.0.17)
+### `tests/test_aql_let.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33738,7 +33779,7 @@
 
 ---
 
-### `tests/test_aql_let_st.cpp` (v0.0.17)
+### `tests/test_aql_let_st.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33749,7 +33790,7 @@
 
 ---
 
-### `tests/test_aql_or.cpp` (v0.0.17)
+### `tests/test_aql_or.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33760,7 +33801,7 @@
 
 ---
 
-### `tests/test_aql_or_not.cpp` (v0.0.17)
+### `tests/test_aql_or_not.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33771,7 +33812,7 @@
 
 ---
 
-### `tests/test_aql_parser.cpp` (v0.0.17)
+### `tests/test_aql_parser.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33782,7 +33823,7 @@
 
 ---
 
-### `tests/test_aql_path_constraints.cpp` (v0.0.17)
+### `tests/test_aql_path_constraints.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33793,7 +33834,7 @@
 
 ---
 
-### `tests/test_aql_proximity.cpp` (v0.0.17)
+### `tests/test_aql_proximity.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33804,7 +33845,7 @@
 
 ---
 
-### `tests/test_aql_proximity_dispatch.cpp` (v0.0.17)
+### `tests/test_aql_proximity_dispatch.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33815,7 +33856,7 @@
 
 ---
 
-### `tests/test_aql_proximity_let.cpp` (v0.0.17)
+### `tests/test_aql_proximity_let.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33826,7 +33867,7 @@
 
 ---
 
-### `tests/test_aql_query_builder.cpp` (v0.0.9)
+### `tests/test_aql_query_builder.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33837,7 +33878,7 @@
 
 ---
 
-### `tests/test_aql_query_template_library.cpp` (v0.0.9)
+### `tests/test_aql_query_template_library.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33848,7 +33889,7 @@
 
 ---
 
-### `tests/test_aql_query_validator.cpp` (v0.0.9)
+### `tests/test_aql_query_validator.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33859,7 +33900,7 @@
 
 ---
 
-### `tests/test_aql_shortest_path.cpp` (v0.0.17)
+### `tests/test_aql_shortest_path.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33870,7 +33911,7 @@
 
 ---
 
-### `tests/test_aql_shortest_path_dispatch.cpp` (v0.0.17)
+### `tests/test_aql_shortest_path_dispatch.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33881,7 +33922,7 @@
 
 ---
 
-### `tests/test_aql_shortestpath.cpp` (v0.0.17)
+### `tests/test_aql_shortestpath.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33892,7 +33933,7 @@
 
 ---
 
-### `tests/test_aql_similarity.cpp` (v0.0.17)
+### `tests/test_aql_similarity.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33903,7 +33944,7 @@
 
 ---
 
-### `tests/test_aql_similarity_dispatch.cpp` (v0.0.17)
+### `tests/test_aql_similarity_dispatch.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33914,7 +33955,7 @@
 
 ---
 
-### `tests/test_aql_similarity_let.cpp` (v0.0.17)
+### `tests/test_aql_similarity_let.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33925,7 +33966,7 @@
 
 ---
 
-### `tests/test_aql_st_predicates.cpp` (v0.0.17)
+### `tests/test_aql_st_predicates.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33940,7 +33981,7 @@
 
 ---
 
-### `tests/test_aql_subqueries.cpp` (v0.0.17)
+### `tests/test_aql_subqueries.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33951,7 +33992,7 @@
 
 ---
 
-### `tests/test_aql_syntax_highlighter.cpp` (v0.0.6)
+### `tests/test_aql_syntax_highlighter.cpp` (v0.0.12)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33962,7 +34003,7 @@
 
 ---
 
-### `tests/test_aql_translator.cpp` (v0.0.17)
+### `tests/test_aql_translator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33973,7 +34014,7 @@
 
 ---
 
-### `tests/test_aql_with_clause.cpp` (v0.0.17)
+### `tests/test_aql_with_clause.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33984,7 +34025,7 @@
 
 ---
 
-### `tests/test_arc_cache.cpp` (v0.0.16)
+### `tests/test_arc_cache.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -33995,7 +34036,7 @@
 
 ---
 
-### `tests/test_archive_processor.cpp` (v0.0.17)
+### `tests/test_archive_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34010,7 +34051,7 @@
 
 ---
 
-### `tests/test_argument_store.cpp` (v0.0.17)
+### `tests/test_argument_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34021,7 +34062,7 @@
 
 ---
 
-### `tests/test_async_io_multiscan.cpp` (v0.0.17)
+### `tests/test_async_io_multiscan.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34035,7 +34076,7 @@
 
 ---
 
-### `tests/test_audit_lek.cpp` (v0.0.17)
+### `tests/test_audit_lek.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -34046,7 +34087,7 @@
 
 ---
 
-### `tests/test_audit_logger.cpp` (v0.0.17)
+### `tests/test_audit_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34057,7 +34098,7 @@
 
 ---
 
-### `tests/test_audit_logger_production.cpp` (v0.0.15)
+### `tests/test_audit_logger_production.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34068,7 +34109,7 @@
 
 ---
 
-### `tests/test_audit_logging_comprehensive.cpp` (v0.0.17)
+### `tests/test_audit_logging_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34079,7 +34120,7 @@
 
 ---
 
-### `tests/test_auth_error.cpp` (v0.0.17)
+### `tests/test_auth_error.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34090,7 +34131,7 @@
 
 ---
 
-### `tests/test_auth_input_validation.cpp` (v0.0.17)
+### `tests/test_auth_input_validation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34101,7 +34142,7 @@
 
 ---
 
-### `tests/test_auth_metrics.cpp` (v0.0.17)
+### `tests/test_auth_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34112,7 +34153,7 @@
 
 ---
 
-### `tests/test_auth_middleware.cpp` (v0.0.17)
+### `tests/test_auth_middleware.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34126,7 +34167,7 @@
 
 ---
 
-### `tests/test_auth_rate_limiter.cpp` (v0.0.17)
+### `tests/test_auth_rate_limiter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34137,7 +34178,7 @@
 
 ---
 
-### `tests/test_auto_failover_recovery.cpp` (v0.0.17)
+### `tests/test_auto_failover_recovery.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -34158,7 +34199,7 @@
 
 ---
 
-### `tests/test_auto_labeler_production.cpp` (v0.0.17)
+### `tests/test_auto_labeler_production.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34169,7 +34210,7 @@
 
 ---
 
-### `tests/test_autocomplete.cpp` (v0.0.13)
+### `tests/test_autocomplete.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34180,7 +34221,7 @@
 
 ---
 
-### `tests/test_backend_consistency.cpp` (v0.0.17)
+### `tests/test_backend_capability_contract.cpp` (v0.0.3)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34191,7 +34232,7 @@
 
 ---
 
-### `tests/test_backend_errors.cpp` (v0.0.17)
+### `tests/test_backend_consistency.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34202,7 +34243,7 @@
 
 ---
 
-### `tests/test_backup_manager_enhanced.cpp` (v0.0.17)
+### `tests/test_backend_errors.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34213,7 +34254,7 @@
 
 ---
 
-### `tests/test_backup_restore.cpp` (v0.0.17)
+### `tests/test_backup_manager_enhanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34224,7 +34265,18 @@
 
 ---
 
-### `tests/test_backup_restore_integration.cpp` (v0.0.17)
+### `tests/test_backup_restore.cpp` (v0.0.23)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `tests/test_backup_restore_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34238,7 +34290,7 @@
 
 ---
 
-### `tests/test_base_entity.cpp` (v0.0.17)
+### `tests/test_base_entity.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34249,7 +34301,7 @@
 
 ---
 
-### `tests/test_base_interfaces.cpp` (v0.0.17)
+### `tests/test_base_interfaces.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34265,7 +34317,7 @@
 
 ---
 
-### `tests/test_batch_nl_to_aql_translation.cpp` (v0.0.9)
+### `tests/test_batch_nl_to_aql_translation.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34279,7 +34331,7 @@
 
 ---
 
-### `tests/test_batch_operation_manager.cpp` (v0.0.17)
+### `tests/test_batch_operation_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34290,7 +34342,7 @@
 
 ---
 
-### `tests/test_batch_write_optimizer.cpp` (v0.0.17)
+### `tests/test_batch_write_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34301,7 +34353,7 @@
 
 ---
 
-### `tests/test_bayesian_optimizer.cpp` (v0.0.17)
+### `tests/test_bayesian_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34315,7 +34367,7 @@
 
 ---
 
-### `tests/test_binary_integrity.cpp` (v0.0.17)
+### `tests/test_binary_integrity.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34333,7 +34385,7 @@
 
 ---
 
-### `tests/test_binary_protocol_buffers.cpp` (v0.0.17)
+### `tests/test_binary_protocol_buffers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34347,7 +34399,7 @@
 
 ---
 
-### `tests/test_binary_quantizer.cpp` (v0.0.17)
+### `tests/test_binary_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34358,7 +34410,7 @@
 
 ---
 
-### `tests/test_blob_storage.cpp` (v0.0.17)
+### `tests/test_blob_storage.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34369,7 +34421,7 @@
 
 ---
 
-### `tests/test_blob_transfer_checkpoint.cpp` (v0.0.17)
+### `tests/test_blob_transfer_checkpoint.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34384,7 +34436,7 @@
 
 ---
 
-### `tests/test_bounded_lru_cache.cpp` (v0.0.17)
+### `tests/test_bounded_lru_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34395,7 +34447,7 @@
 
 ---
 
-### `tests/test_bpmn_wire_protocol.cpp` (v0.0.17)
+### `tests/test_bpmn_wire_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34409,7 +34461,7 @@
 
 ---
 
-### `tests/test_branch_integration.cpp` (v0.0.17)
+### `tests/test_branch_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34420,7 +34472,7 @@
 
 ---
 
-### `tests/test_branch_manager.cpp` (v0.0.17)
+### `tests/test_branch_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34431,7 +34483,7 @@
 
 ---
 
-### `tests/test_build_info.cpp` (v0.0.17)
+### `tests/test_build_info.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34448,7 +34500,7 @@
 
 ---
 
-### `tests/test_byzantine_detector.cpp` (v0.0.17)
+### `tests/test_byzantine_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34459,7 +34511,7 @@
 
 ---
 
-### `tests/test_capability_matcher.cpp` (v0.0.17)
+### `tests/test_capability_matcher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34470,7 +34522,7 @@
 
 ---
 
-### `tests/test_cdc_admin.cpp` (v0.0.17)
+### `tests/test_cdc_admin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34484,7 +34536,7 @@
 
 ---
 
-### `tests/test_cdc_error_codes.cpp` (v0.0.17)
+### `tests/test_cdc_error_codes.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34495,7 +34547,7 @@
 
 ---
 
-### `tests/test_cdc_metrics.cpp` (v0.0.17)
+### `tests/test_cdc_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -34513,7 +34565,7 @@
 
 ---
 
-### `tests/test_cdc_production_fixes.cpp` (v0.0.17)
+### `tests/test_cdc_production_fixes.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34524,7 +34576,7 @@
 
 ---
 
-### `tests/test_cdc_retention.cpp` (v0.0.17)
+### `tests/test_cdc_retention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34535,7 +34587,7 @@
 
 ---
 
-### `tests/test_changefeed_ordering.cpp` (v0.0.17)
+### `tests/test_changefeed_ordering.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34546,7 +34598,7 @@
 
 ---
 
-### `tests/test_chaos_network.cpp` (v0.0.17)
+### `tests/test_chaos_network.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34564,7 +34616,7 @@
 
 ---
 
-### `tests/test_chaos_scheduler.cpp` (v0.0.17)
+### `tests/test_chaos_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34575,7 +34627,7 @@
 
 ---
 
-### `tests/test_circuit_breaker.cpp` (v0.0.17)
+### `tests/test_circuit_breaker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34586,7 +34638,7 @@
 
 ---
 
-### `tests/test_claim_extractor.cpp` (v0.0.17)
+### `tests/test_claim_extractor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34602,7 +34654,7 @@
 
 ---
 
-### `tests/test_cloud_agent.cpp` (v0.0.17)
+### `tests/test_cloud_agent.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34617,7 +34669,7 @@
 
 ---
 
-### `tests/test_cloud_storage_backup_comprehensive.cpp` (v0.0.17)
+### `tests/test_cloud_storage_backup_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -34640,7 +34692,7 @@
 
 ---
 
-### `tests/test_cms_signing.cpp` (v0.0.17)
+### `tests/test_cms_signing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34651,7 +34703,7 @@
 
 ---
 
-### `tests/test_collective_backends.cpp` (v0.0.17)
+### `tests/test_collective_backends.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34664,7 +34716,7 @@
 
 ---
 
-### `tests/test_columnar_format.cpp` (v0.0.17)
+### `tests/test_columnar_format.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34678,7 +34730,7 @@
 
 ---
 
-### `tests/test_community_detection_aql.cpp` (v0.0.17)
+### `tests/test_community_detection_aql.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34689,7 +34741,7 @@
 
 ---
 
-### `tests/test_community_detection_functions.cpp` (v0.0.17)
+### `tests/test_community_detection_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34700,7 +34752,7 @@
 
 ---
 
-### `tests/test_compaction_manager.cpp` (v0.0.16)
+### `tests/test_compaction_manager.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34711,7 +34763,7 @@
 
 ---
 
-### `tests/test_compliance_reporting.cpp` (v0.0.17)
+### `tests/test_compliance_reporting.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34722,7 +34774,7 @@
 
 ---
 
-### `tests/test_compliance_security_governance.cpp` (v0.0.17)
+### `tests/test_compliance_security_governance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34736,7 +34788,7 @@
 
 ---
 
-### `tests/test_composite_index.cpp` (v0.0.17)
+### `tests/test_composite_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34747,7 +34799,7 @@
 
 ---
 
-### `tests/test_compression_strategy.cpp` (v0.0.17)
+### `tests/test_compression_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34758,7 +34810,7 @@
 
 ---
 
-### `tests/test_concerns_context.cpp` (v0.0.17)
+### `tests/test_concerns_context.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -34781,7 +34833,7 @@
 
 ---
 
-### `tests/test_concurrency_race_detection.cpp` (v0.0.17)
+### `tests/test_concurrency_race_detection.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34795,7 +34847,7 @@
 
 ---
 
-### `tests/test_concurrent_cache.cpp` (v0.0.17)
+### `tests/test_concurrent_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34806,7 +34858,7 @@
 
 ---
 
-### `tests/test_config.h` (v0.0.17)
+### `tests/test_config.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34817,7 +34869,7 @@
 
 ---
 
-### `tests/test_config_path_resolver.cpp` (v0.0.17)
+### `tests/test_config_path_resolver.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34831,7 +34883,7 @@
 
 ---
 
-### `tests/test_consensus_module.cpp` (v0.0.17)
+### `tests/test_consensus_module.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34842,7 +34894,7 @@
 
 ---
 
-### `tests/test_consistent_hash_distribution.cpp` (v0.0.17)
+### `tests/test_consistent_hash_distribution.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34853,7 +34905,7 @@
 
 ---
 
-### `tests/test_constitutional_reasoning.cpp` (v0.0.17)
+### `tests/test_constitutional_reasoning.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34864,7 +34916,7 @@
 
 ---
 
-### `tests/test_content_errors.cpp` (v0.0.17)
+### `tests/test_content_errors.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34875,7 +34927,7 @@
 
 ---
 
-### `tests/test_content_features.cpp` (v0.0.17)
+### `tests/test_content_features.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34886,7 +34938,7 @@
 
 ---
 
-### `tests/test_content_fs.cpp` (v0.0.17)
+### `tests/test_content_fs.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34897,7 +34949,7 @@
 
 ---
 
-### `tests/test_content_fulltext_index.cpp` (v0.0.17)
+### `tests/test_content_fulltext_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34913,7 +34965,7 @@
 
 ---
 
-### `tests/test_content_logger.cpp` (v0.0.17)
+### `tests/test_content_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34927,7 +34979,7 @@
 
 ---
 
-### `tests/test_content_metrics.cpp` (v0.0.17)
+### `tests/test_content_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34938,7 +34990,7 @@
 
 ---
 
-### `tests/test_content_pipeline.cpp` (v0.0.17)
+### `tests/test_content_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34949,7 +35001,7 @@
 
 ---
 
-### `tests/test_content_policy.cpp` (v0.0.17)
+### `tests/test_content_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34963,7 +35015,7 @@
 
 ---
 
-### `tests/test_content_policy_manual.cpp` (v0.0.17)
+### `tests/test_content_policy_manual.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -34974,7 +35026,7 @@
 
 ---
 
-### `tests/test_content_security.cpp` (v0.0.17)
+### `tests/test_content_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34988,7 +35040,7 @@
 
 ---
 
-### `tests/test_continuous_agg.cpp` (v0.0.17)
+### `tests/test_continuous_agg.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -34999,7 +35051,7 @@
 
 ---
 
-### `tests/test_continuous_agg_comprehensive.cpp` (v0.0.15)
+### `tests/test_continuous_agg_comprehensive.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35013,7 +35065,7 @@
 
 ---
 
-### `tests/test_continuous_batch_scheduler.cpp` (v0.0.17)
+### `tests/test_continuous_batch_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35028,7 +35080,7 @@
 
 ---
 
-### `tests/test_continuous_learning_client.cpp` (v0.0.17)
+### `tests/test_continuous_learning_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35042,7 +35094,7 @@
 
 ---
 
-### `tests/test_continuous_learning_orchestrator.cpp` (v0.0.17)
+### `tests/test_continuous_learning_orchestrator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35053,7 +35105,7 @@
 
 ---
 
-### `tests/test_cpu_backend_exact.cpp` (v0.0.17)
+### `tests/test_cpu_backend_exact.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35065,7 +35117,7 @@
 
 ---
 
-### `tests/test_crash_recovery_direct.cpp` (v0.0.17)
+### `tests/test_crash_recovery_direct.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35076,7 +35128,7 @@
 
 ---
 
-### `tests/test_crash_recovery_manager.cpp` (v0.0.15)
+### `tests/test_crash_recovery_manager.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35090,7 +35142,7 @@
 
 ---
 
-### `tests/test_cron_parser.cpp` (v0.0.17)
+### `tests/test_cron_parser.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35101,7 +35153,7 @@
 
 ---
 
-### `tests/test_cross_shard_coordinator.cpp` (v0.0.17)
+### `tests/test_cross_shard_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35112,7 +35164,7 @@
 
 ---
 
-### `tests/test_cross_shard_distribution.cpp` (v0.0.17)
+### `tests/test_cross_shard_distribution.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35130,7 +35182,7 @@
 
 ---
 
-### `tests/test_cte_cache.cpp` (v0.0.17)
+### `tests/test_cte_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35141,7 +35193,7 @@
 
 ---
 
-### `tests/test_cte_error_handling.cpp` (v0.0.17)
+### `tests/test_cte_error_handling.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35155,7 +35207,7 @@
 
 ---
 
-### `tests/test_cursor.cpp` (v0.0.17)
+### `tests/test_cursor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35166,7 +35218,7 @@
 
 ---
 
-### `tests/test_data_loader.cpp` (v0.0.17)
+### `tests/test_data_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35177,7 +35229,7 @@
 
 ---
 
-### `tests/test_database_connection_manager.cpp` (v0.0.17)
+### `tests/test_database_connection_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35193,7 +35245,7 @@
 
 ---
 
-### `tests/test_deadlock_detection.cpp` (v0.0.17)
+### `tests/test_deadlock_detection.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35204,7 +35256,7 @@
 
 ---
 
-### `tests/test_debug.cpp` (v0.0.17)
+### `tests/test_debug.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -35216,7 +35268,7 @@
 
 ---
 
-### `tests/test_diff_engine.cpp` (v0.0.17)
+### `tests/test_diff_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35227,7 +35279,7 @@
 
 ---
 
-### `tests/test_directx_backend.cpp` (v0.0.17)
+### `tests/test_directx_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35238,7 +35290,7 @@
 
 ---
 
-### `tests/test_disk_space_monitor.cpp` (v0.0.17)
+### `tests/test_disk_space_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35252,7 +35304,7 @@
 
 ---
 
-### `tests/test_distributed_coordinator.cpp` (v0.0.17)
+### `tests/test_distributed_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35263,7 +35315,7 @@
 
 ---
 
-### `tests/test_distributed_time_coordinator.cpp` (v0.0.17)
+### `tests/test_distributed_time_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35279,7 +35331,7 @@
 
 ---
 
-### `tests/test_distributed_tracing.cpp` (v0.0.17)
+### `tests/test_distributed_tracing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35295,7 +35347,7 @@
 
 ---
 
-### `tests/test_distributed_training_coordinator.cpp` (v0.0.17)
+### `tests/test_distributed_training_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35310,7 +35362,7 @@
 
 ---
 
-### `tests/test_distributed_transactions.cpp` (v0.0.17)
+### `tests/test_distributed_transactions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35325,7 +35377,7 @@
 
 ---
 
-### `tests/test_distributed_txn_api_handler.cpp` (v0.0.17)
+### `tests/test_distributed_txn_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35336,7 +35388,7 @@
 
 ---
 
-### `tests/test_docs_assistant_aql.cpp` (v0.0.17)
+### `tests/test_docs_assistant_aql.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35347,7 +35399,7 @@
 
 ---
 
-### `tests/test_domain_durability.cpp` (v0.0.17)
+### `tests/test_domain_durability.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35361,7 +35413,7 @@
 
 ---
 
-### `tests/test_embedded_llm.cpp` (v0.0.17)
+### `tests/test_embedded_llm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35377,7 +35429,7 @@
 
 ---
 
-### `tests/test_embedding_cache.cpp` (v0.0.17)
+### `tests/test_embedding_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35388,7 +35440,7 @@
 
 ---
 
-### `tests/test_encryption.cpp` (v0.0.17)
+### `tests/test_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35399,7 +35451,7 @@
 
 ---
 
-### `tests/test_encryption_e2e.cpp` (v0.0.17)
+### `tests/test_encryption_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35413,7 +35465,7 @@
 
 ---
 
-### `tests/test_enhanced_backup.cpp` (v0.0.17)
+### `tests/test_enhanced_backup.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35424,7 +35476,7 @@
 
 ---
 
-### `tests/test_enhanced_plugin_security.cpp` (v0.0.17)
+### `tests/test_enhanced_plugin_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35438,7 +35490,7 @@
 
 ---
 
-### `tests/test_enhanced_query_cache.cpp` (v0.0.17)
+### `tests/test_enhanced_query_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -35450,7 +35502,7 @@
 
 ---
 
-### `tests/test_entity_api_raid_integration.cpp` (v0.0.17)
+### `tests/test_entity_api_raid_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35469,7 +35521,7 @@
 
 ---
 
-### `tests/test_env.cpp` (v0.0.17)
+### `tests/test_env.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -35480,7 +35532,7 @@
 
 ---
 
-### `tests/test_error_codes.cpp` (v0.0.17)
+### `tests/test_error_codes.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35492,7 +35544,7 @@
 
 ---
 
-### `tests/test_error_registry.cpp` (v0.0.17)
+### `tests/test_error_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35503,7 +35555,7 @@
 
 ---
 
-### `tests/test_ethical_guidelines_manager.cpp` (v0.0.17)
+### `tests/test_ethical_guidelines_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35514,7 +35566,7 @@
 
 ---
 
-### `tests/test_ethics_ai_types.cpp` (v0.0.17)
+### `tests/test_ethics_ai_types.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35525,7 +35577,7 @@
 
 ---
 
-### `tests/test_ethics_aware_confidence_detector.cpp` (v0.0.17)
+### `tests/test_ethics_aware_confidence_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35539,7 +35591,7 @@
 
 ---
 
-### `tests/test_ethics_evaluator.cpp` (v0.0.17)
+### `tests/test_ethics_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35550,7 +35602,7 @@
 
 ---
 
-### `tests/test_ethics_plugin_integration.cpp` (v0.0.17)
+### `tests/test_ethics_plugin_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35564,7 +35616,7 @@
 
 ---
 
-### `tests/test_event_trigger.cpp` (v0.0.17)
+### `tests/test_event_trigger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35575,7 +35627,7 @@
 
 ---
 
-### `tests/test_eviction_strategies.cpp` (v0.0.17)
+### `tests/test_eviction_strategies.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35586,7 +35638,7 @@
 
 ---
 
-### `tests/test_expected.cpp` (v0.0.17)
+### `tests/test_expected.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35597,7 +35649,7 @@
 
 ---
 
-### `tests/test_explanation_generator.cpp` (v0.0.17)
+### `tests/test_explanation_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35608,7 +35660,7 @@
 
 ---
 
-### `tests/test_faceted_search.cpp` (v0.0.13)
+### `tests/test_faceted_search.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35619,7 +35671,7 @@
 
 ---
 
-### `tests/test_feedback_collector.cpp` (v0.0.17)
+### `tests/test_feedback_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35630,7 +35682,7 @@
 
 ---
 
-### `tests/test_feedback_collector_scaling.cpp` (v0.0.11)
+### `tests/test_feedback_collector_scaling.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35641,7 +35693,7 @@
 
 ---
 
-### `tests/test_feedback_store.cpp` (v0.0.17)
+### `tests/test_feedback_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35655,7 +35707,7 @@
 
 ---
 
-### `tests/test_fewshot_optimizer.cpp` (v0.0.17)
+### `tests/test_fewshot_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35666,7 +35718,7 @@
 
 ---
 
-### `tests/test_field_encryption_batch.cpp` (v0.0.17)
+### `tests/test_field_encryption_batch.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -35681,7 +35733,7 @@
 
 ---
 
-### `tests/test_filtered_vector_search.cpp` (v0.0.17)
+### `tests/test_filtered_vector_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35699,7 +35751,7 @@
 
 ---
 
-### `tests/test_flash_attention_correctness.cpp` (v0.0.17)
+### `tests/test_flash_attention_correctness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35710,7 +35762,7 @@
 
 ---
 
-### `tests/test_flash_lora.cpp` (v0.0.17)
+### `tests/test_flash_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35721,7 +35773,7 @@
 
 ---
 
-### `tests/test_fulltext_phrase_fuzzy.cpp` (v0.0.17)
+### `tests/test_fulltext_phrase_fuzzy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35732,7 +35784,7 @@
 
 ---
 
-### `tests/test_fused_kernels.cpp` (v0.0.17)
+### `tests/test_fused_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35743,7 +35795,7 @@
 
 ---
 
-### `tests/test_fused_lora_kernels.cpp` (v0.0.17)
+### `tests/test_fused_lora_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -35754,7 +35806,7 @@
 
 ---
 
-### `tests/test_fuzz_core.cpp` (v0.0.17)
+### `tests/test_fuzz_core.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35765,7 +35817,7 @@
 
 ---
 
-### `tests/test_fuzz_security.cpp` (v0.0.17)
+### `tests/test_fuzz_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35776,7 +35828,7 @@
 
 ---
 
-### `tests/test_fuzzy_matcher.cpp` (v0.0.13)
+### `tests/test_fuzzy_matcher.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35787,7 +35839,7 @@
 
 ---
 
-### `tests/test_gap008_backup_automation.cpp` (v0.0.17)
+### `tests/test_gap008_backup_automation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -35802,7 +35854,7 @@
 
 ---
 
-### `tests/test_gap008_observability.cpp` (v0.0.17)
+### `tests/test_gap008_observability.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35814,7 +35866,7 @@
 
 ---
 
-### `tests/test_general_traversal.cpp` (v0.0.17)
+### `tests/test_general_traversal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35825,7 +35877,7 @@
 
 ---
 
-### `tests/test_generic_plugin_registry.cpp` (v0.0.17)
+### `tests/test_generic_plugin_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -35836,7 +35888,7 @@
 
 ---
 
-### `tests/test_geo_gpu_backend.cpp` (v0.0.17)
+### `tests/test_geo_gpu_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35847,7 +35899,7 @@
 
 ---
 
-### `tests/test_geo_index_integration.cpp` (v0.0.17)
+### `tests/test_geo_index_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35861,7 +35913,7 @@
 
 ---
 
-### `tests/test_geo_processor_gdal.cpp` (v0.0.17)
+### `tests/test_geo_processor_gdal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -35872,7 +35924,7 @@
 
 ---
 
-### `tests/test_geo_topology_api_handler.cpp` (v0.0.17)
+### `tests/test_geo_topology_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35886,7 +35938,7 @@
 
 ---
 
-### `tests/test_geo_validator.cpp` (v0.0.17)
+### `tests/test_geo_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35897,7 +35949,7 @@
 
 ---
 
-### `tests/test_geval.cpp` (v0.0.17)
+### `tests/test_geval.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35909,7 +35961,7 @@
 
 ---
 
-### `tests/test_gguf_loader.cpp` (v0.0.17)
+### `tests/test_gguf_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -35927,7 +35979,7 @@
 
 ---
 
-### `tests/test_gnn_embeddings.cpp` (v0.0.17)
+### `tests/test_gnn_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35938,7 +35990,7 @@
 
 ---
 
-### `tests/test_gorilla.cpp` (v0.0.17)
+### `tests/test_gorilla.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35952,7 +36004,7 @@
 
 ---
 
-### `tests/test_gorilla_codec_edge_cases.cpp` (v0.0.17)
+### `tests/test_gorilla_codec_edge_cases.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35966,7 +36018,7 @@
 
 ---
 
-### `tests/test_gorilla_error_recovery.cpp` (v0.0.15)
+### `tests/test_gorilla_error_recovery.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35977,7 +36029,7 @@
 
 ---
 
-### `tests/test_gorilla_probe.cpp` (v0.0.17)
+### `tests/test_gorilla_probe.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35988,7 +36040,7 @@
 
 ---
 
-### `tests/test_gossip_config_manager.cpp` (v0.0.17)
+### `tests/test_gossip_config_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -35999,7 +36051,7 @@
 
 ---
 
-### `tests/test_gpu_admin_api.cpp` (v0.0.17)
+### `tests/test_gpu_admin_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36010,7 +36062,7 @@
 
 ---
 
-### `tests/test_gpu_alerts.cpp` (v0.0.17)
+### `tests/test_gpu_alerts.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36021,7 +36073,7 @@
 
 ---
 
-### `tests/test_gpu_audit_log.cpp` (v0.0.17)
+### `tests/test_gpu_audit_log.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36032,7 +36084,7 @@
 
 ---
 
-### `tests/test_gpu_config.cpp` (v0.0.17)
+### `tests/test_gpu_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36043,7 +36095,7 @@
 
 ---
 
-### `tests/test_gpu_device_discovery.cpp` (v0.0.17)
+### `tests/test_gpu_device_discovery.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36054,7 +36106,7 @@
 
 ---
 
-### `tests/test_gpu_erasure_coding.cpp` (v0.0.17)
+### `tests/test_gpu_erasure_coding.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36068,7 +36120,7 @@
 
 ---
 
-### `tests/test_gpu_feature_flags.cpp` (v0.0.17)
+### `tests/test_gpu_feature_flags.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36079,7 +36131,7 @@
 
 ---
 
-### `tests/test_gpu_kernel_validator.cpp` (v0.0.17)
+### `tests/test_gpu_kernel_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36090,7 +36142,7 @@
 
 ---
 
-### `tests/test_gpu_launcher.cpp` (v0.0.17)
+### `tests/test_gpu_launcher.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36101,7 +36153,7 @@
 
 ---
 
-### `tests/test_gpu_load_balancer.cpp` (v0.0.17)
+### `tests/test_gpu_load_balancer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36115,7 +36167,7 @@
 
 ---
 
-### `tests/test_gpu_lora_layers.cpp` (v0.0.17)
+### `tests/test_gpu_lora_layers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36126,7 +36178,7 @@
 
 ---
 
-### `tests/test_gpu_memory_management.cpp` (v0.0.17)
+### `tests/test_gpu_memory_management.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36142,7 +36194,7 @@
 
 ---
 
-### `tests/test_gpu_memory_pool.cpp` (v0.0.17)
+### `tests/test_gpu_memory_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36153,7 +36205,7 @@
 
 ---
 
-### `tests/test_gpu_metrics.cpp` (v0.0.17)
+### `tests/test_gpu_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36164,7 +36216,7 @@
 
 ---
 
-### `tests/test_gpu_module.cpp` (v0.0.17)
+### `tests/test_gpu_module.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36175,7 +36227,7 @@
 
 ---
 
-### `tests/test_gpu_policy.cpp` (v0.0.17)
+### `tests/test_gpu_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36186,7 +36238,7 @@
 
 ---
 
-### `tests/test_gpu_query_accelerator.cpp` (v0.0.17)
+### `tests/test_gpu_query_accelerator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36197,7 +36249,7 @@
 
 ---
 
-### `tests/test_gpu_safe_fail.cpp` (v0.0.17)
+### `tests/test_gpu_safe_fail.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36212,7 +36264,7 @@
 
 ---
 
-### `tests/test_gpu_safe_fail_module.cpp` (v0.0.17)
+### `tests/test_gpu_safe_fail_module.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36223,7 +36275,7 @@
 
 ---
 
-### `tests/test_gpu_stream_manager.cpp` (v0.0.17)
+### `tests/test_gpu_stream_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36234,7 +36286,7 @@
 
 ---
 
-### `tests/test_gpu_tensor.cpp` (v0.0.17)
+### `tests/test_gpu_tensor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36245,7 +36297,7 @@
 
 ---
 
-### `tests/test_gpu_training_loop.cpp` (v0.0.17)
+### `tests/test_gpu_training_loop.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36256,7 +36308,7 @@
 
 ---
 
-### `tests/test_gpu_vector_index.cpp` (v0.0.17)
+### `tests/test_gpu_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36267,7 +36319,7 @@
 
 ---
 
-### `tests/test_gpu_vram_allocation.cpp` (v0.0.17)
+### `tests/test_gpu_vram_allocation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36278,7 +36330,7 @@
 
 ---
 
-### `tests/test_graceful_shutdown.cpp` (v0.0.17)
+### `tests/test_graceful_shutdown.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36292,7 +36344,7 @@
 
 ---
 
-### `tests/test_gradient_checkpointing.cpp` (v0.0.17)
+### `tests/test_gradient_checkpointing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36303,7 +36355,7 @@
 
 ---
 
-### `tests/test_graph_advanced_features.cpp` (v0.0.17)
+### `tests/test_graph_advanced_features.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36314,7 +36366,7 @@
 
 ---
 
-### `tests/test_graph_analytics.cpp` (v0.0.17)
+### `tests/test_graph_analytics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36328,7 +36380,7 @@
 
 ---
 
-### `tests/test_graph_bfs_fix.cpp` (v0.0.17)
+### `tests/test_graph_bfs_fix.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -36339,7 +36391,7 @@
 
 ---
 
-### `tests/test_graph_edge_encryption.cpp` (v0.0.17)
+### `tests/test_graph_edge_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36354,7 +36406,7 @@
 
 ---
 
-### `tests/test_graph_index.cpp` (v0.0.17)
+### `tests/test_graph_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36365,7 +36417,7 @@
 
 ---
 
-### `tests/test_graph_index_comprehensive.cpp` (v0.0.17)
+### `tests/test_graph_index_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -36377,7 +36429,7 @@
 
 ---
 
-### `tests/test_graph_query_optimizer.cpp` (v0.0.17)
+### `tests/test_graph_query_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36388,7 +36440,7 @@
 
 ---
 
-### `tests/test_graph_type_filtering.cpp` (v0.0.17)
+### `tests/test_graph_type_filtering.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36402,7 +36454,7 @@
 
 ---
 
-### `tests/test_graphql.cpp` (v0.0.17)
+### `tests/test_graphql.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36413,7 +36465,7 @@
 
 ---
 
-### `tests/test_graphql_cache_security.cpp` (v0.0.17)
+### `tests/test_graphql_cache_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36424,7 +36476,7 @@
 
 ---
 
-### `tests/test_graphql_error_masking.cpp` (v0.0.17)
+### `tests/test_graphql_error_masking.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36435,7 +36487,7 @@
 
 ---
 
-### `tests/test_graphql_limits.cpp` (v0.0.17)
+### `tests/test_graphql_limits.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36446,7 +36498,7 @@
 
 ---
 
-### `tests/test_graphql_p1_features.cpp` (v0.0.17)
+### `tests/test_graphql_p1_features.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36460,7 +36512,7 @@
 
 ---
 
-### `tests/test_group_dek.cpp` (v0.0.17)
+### `tests/test_group_dek.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -36481,7 +36533,7 @@
 
 ---
 
-### `tests/test_grpc_channel_pool.cpp` (v0.0.17)
+### `tests/test_grpc_channel_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36492,7 +36544,7 @@
 
 ---
 
-### `tests/test_gssapi_authenticator.cpp` (v0.0.17)
+### `tests/test_gssapi_authenticator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36503,7 +36555,7 @@
 
 ---
 
-### `tests/test_ha_enhancements.cpp` (v0.0.17)
+### `tests/test_ha_enhancements.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36514,7 +36566,7 @@
 
 ---
 
-### `tests/test_health_checks.cpp` (v0.0.17)
+### `tests/test_health_checks.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36525,7 +36577,7 @@
 
 ---
 
-### `tests/test_health_error_service.cpp` (v0.0.17)
+### `tests/test_health_error_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36536,7 +36588,7 @@
 
 ---
 
-### `tests/test_health_monitor_http.cpp` (v0.0.17)
+### `tests/test_health_monitor_http.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36554,7 +36606,7 @@
 
 ---
 
-### `tests/test_helpers_llm.h` (v0.0.17)
+### `tests/test_helpers_llm.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36565,7 +36617,7 @@
 
 ---
 
-### `tests/test_hkdf_cache.cpp` (v0.0.17)
+### `tests/test_hkdf_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36579,7 +36631,7 @@
 
 ---
 
-### `tests/test_hnsw_incremental_reindex.cpp` (v0.0.3)
+### `tests/test_hnsw_incremental_reindex.cpp` (v0.0.9)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36589,14 +36641,14 @@
   - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
 **🎭 SIMULATION** (1 occurrences):
-  - Line 204: `// Simulate out-of-band storage changes:`
+  - Line 207: `// Simulate out-of-band storage changes:`
 
 **🔒 HARDCODED** (1 occurrences):
-  - Line 29: `* using a real (temporary) RocksDB instance.  Seven test scenarios are covered:`
+  - Line 32: `* using a real (temporary) RocksDB instance.  Seven test scenarios are covered:`
 
 ---
 
-### `tests/test_hnsw_layer_optimizer.cpp` (v0.0.17)
+### `tests/test_hnsw_layer_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36607,7 +36659,7 @@
 
 ---
 
-### `tests/test_hnsw_parameter_tuner.cpp` (v0.0.17)
+### `tests/test_hnsw_parameter_tuner.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36618,7 +36670,7 @@
 
 ---
 
-### `tests/test_hnsw_production_defaults.cpp` (v0.0.17)
+### `tests/test_hnsw_production_defaults.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36629,7 +36681,7 @@
 
 ---
 
-### `tests/test_hot_spare.cpp` (v0.0.17)
+### `tests/test_hot_spare.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36646,7 +36698,7 @@
 
 ---
 
-### `tests/test_hsm_key_provider_adapter.cpp` (v0.0.17)
+### `tests/test_hsm_key_provider_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36657,7 +36709,7 @@
 
 ---
 
-### `tests/test_hsm_provider.cpp` (v0.0.17)
+### `tests/test_hsm_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🔴 ALPHA (36.0/100)
 
@@ -36672,7 +36724,7 @@
 
 ---
 
-### `tests/test_hsm_provider_stub.cpp` (v0.0.17)
+### `tests/test_hsm_provider_stub.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -36683,7 +36735,7 @@
 
 ---
 
-### `tests/test_hsm_security_checker.cpp` (v0.0.17)
+### `tests/test_hsm_security_checker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (46.0/100)
 
@@ -36698,7 +36750,7 @@
 
 ---
 
-### `tests/test_hsm_security_metrics.cpp` (v0.0.17)
+### `tests/test_hsm_security_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (63.0/100)
 
@@ -36716,7 +36768,7 @@
 
 ---
 
-### `tests/test_hsm_startup_integration.cpp` (v0.0.17)
+### `tests/test_hsm_startup_integration.cpp` (v0.0.23)
 
 **Maturity Level:** ⚫ DRAFT (0.0/100)
 
@@ -36731,7 +36783,7 @@
 
 ---
 
-### `tests/test_hsm_stub_gating.cpp` (v0.0.17)
+### `tests/test_hsm_stub_gating.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (46.0/100)
 
@@ -36746,7 +36798,7 @@
 
 ---
 
-### `tests/test_http2_protocol.cpp` (v0.0.17)
+### `tests/test_http2_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36757,7 +36809,7 @@
 
 ---
 
-### `tests/test_http2_server_push.cpp` (v0.0.17)
+### `tests/test_http2_server_push.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36768,7 +36820,7 @@
 
 ---
 
-### `tests/test_http3_protocol.cpp` (v0.0.17)
+### `tests/test_http3_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36779,7 +36831,7 @@
 
 ---
 
-### `tests/test_http_adaptive_index.cpp` (v0.0.17)
+### `tests/test_http_adaptive_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36794,7 +36846,7 @@
 
 ---
 
-### `tests/test_http_aql.cpp` (v0.0.17)
+### `tests/test_http_aql.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36812,7 +36864,7 @@
 
 ---
 
-### `tests/test_http_aql_collect.cpp` (v0.0.17)
+### `tests/test_http_aql_collect.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36823,7 +36875,7 @@
 
 ---
 
-### `tests/test_http_aql_fulltext_or.cpp` (v0.0.17)
+### `tests/test_http_aql_fulltext_or.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36834,7 +36886,7 @@
 
 ---
 
-### `tests/test_http_aql_fulltext_score.cpp` (v0.0.17)
+### `tests/test_http_aql_fulltext_score.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36845,7 +36897,7 @@
 
 ---
 
-### `tests/test_http_aql_graph.cpp` (v0.0.17)
+### `tests/test_http_aql_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36856,7 +36908,7 @@
 
 ---
 
-### `tests/test_http_aql_join.cpp` (v0.0.17)
+### `tests/test_http_aql_join.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36867,7 +36919,7 @@
 
 ---
 
-### `tests/test_http_aql_let.cpp` (v0.0.17)
+### `tests/test_http_aql_let.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36878,7 +36930,7 @@
 
 ---
 
-### `tests/test_http_audit.cpp` (v0.0.17)
+### `tests/test_http_audit.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36889,7 +36941,7 @@
 
 ---
 
-### `tests/test_http_buffer_api.cpp` (v0.0.17)
+### `tests/test_http_buffer_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -36900,7 +36952,7 @@
 
 ---
 
-### `tests/test_http_changefeed.cpp` (v0.0.17)
+### `tests/test_http_changefeed.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36911,7 +36963,7 @@
 
 ---
 
-### `tests/test_http_changefeed_governance.cpp` (v0.0.17)
+### `tests/test_http_changefeed_governance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36922,7 +36974,7 @@
 
 ---
 
-### `tests/test_http_changefeed_sse.cpp` (v0.0.17)
+### `tests/test_http_changefeed_sse.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36933,7 +36985,7 @@
 
 ---
 
-### `tests/test_http_changefeed_sse_extended.cpp` (v0.0.17)
+### `tests/test_http_changefeed_sse_extended.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36944,7 +36996,7 @@
 
 ---
 
-### `tests/test_http_client_pool.cpp` (v0.0.17)
+### `tests/test_http_client_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36955,7 +37007,7 @@
 
 ---
 
-### `tests/test_http_config.cpp` (v0.0.17)
+### `tests/test_http_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36969,7 +37021,7 @@
 
 ---
 
-### `tests/test_http_content.cpp` (v0.0.17)
+### `tests/test_http_content.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36988,7 +37040,7 @@
 
 ---
 
-### `tests/test_http_error_api.cpp` (v0.0.17)
+### `tests/test_http_error_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -36999,7 +37051,7 @@
 
 ---
 
-### `tests/test_http_fusion_search.cpp` (v0.0.17)
+### `tests/test_http_fusion_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37010,7 +37062,7 @@
 
 ---
 
-### `tests/test_http_governance.cpp` (v0.0.17)
+### `tests/test_http_governance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37021,7 +37073,7 @@
 
 ---
 
-### `tests/test_http_hybrid_search.cpp` (v0.0.17)
+### `tests/test_http_hybrid_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37032,7 +37084,7 @@
 
 ---
 
-### `tests/test_http_index_endpoints.cpp` (v0.0.17)
+### `tests/test_http_index_endpoints.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37043,7 +37095,7 @@
 
 ---
 
-### `tests/test_http_invalid_utf8.cpp` (v0.0.17)
+### `tests/test_http_invalid_utf8.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37054,7 +37106,7 @@
 
 ---
 
-### `tests/test_http_pii_lazy_init.cpp` (v0.0.17)
+### `tests/test_http_pii_lazy_init.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37065,7 +37117,7 @@
 
 ---
 
-### `tests/test_http_pii_manager.cpp` (v0.0.17)
+### `tests/test_http_pii_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37076,7 +37128,7 @@
 
 ---
 
-### `tests/test_http_pii_manager_new.cpp` (v0.0.17)
+### `tests/test_http_pii_manager_new.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37092,7 +37144,7 @@
 
 ---
 
-### `tests/test_http_policies_export.cpp` (v0.0.17)
+### `tests/test_http_policies_export.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37106,7 +37158,7 @@
 
 ---
 
-### `tests/test_http_query_range.cpp` (v0.0.17)
+### `tests/test_http_query_range.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37117,7 +37169,7 @@
 
 ---
 
-### `tests/test_http_range_index.cpp` (v0.0.17)
+### `tests/test_http_range_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37128,7 +37180,7 @@
 
 ---
 
-### `tests/test_http_retention_api.cpp` (v0.0.17)
+### `tests/test_http_retention_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37139,7 +37191,7 @@
 
 ---
 
-### `tests/test_http_rope.cpp` (v0.0.17)
+### `tests/test_http_rope.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37150,7 +37202,7 @@
 
 ---
 
-### `tests/test_http_server_network.cpp` (v0.0.17)
+### `tests/test_http_server_network.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37161,7 +37213,7 @@
 
 ---
 
-### `tests/test_http_timeseries.cpp` (v0.0.17)
+### `tests/test_http_timeseries.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37172,7 +37224,7 @@
 
 ---
 
-### `tests/test_http_vector.cpp` (v0.0.17)
+### `tests/test_http_vector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37183,7 +37235,7 @@
 
 ---
 
-### `tests/test_http_vector_largescale.cpp` (v0.0.17)
+### `tests/test_http_vector_largescale.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37194,7 +37246,7 @@
 
 ---
 
-### `tests/test_huge_pages.cpp` (v0.0.17)
+### `tests/test_huge_pages.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (88.0/100)
 
@@ -37212,7 +37264,7 @@
 
 ---
 
-### `tests/test_huggingface_plugin.cpp` (v0.0.17)
+### `tests/test_huggingface_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37226,7 +37278,7 @@
 
 ---
 
-### `tests/test_hybrid_debug.cpp` (v0.0.17)
+### `tests/test_hybrid_debug.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37237,7 +37289,7 @@
 
 ---
 
-### `tests/test_hybrid_optimizations.cpp` (v0.0.17)
+### `tests/test_hybrid_optimizations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37248,7 +37300,7 @@
 
 ---
 
-### `tests/test_hybrid_queries.cpp` (v0.0.17)
+### `tests/test_hybrid_queries.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37263,7 +37315,7 @@
 
 ---
 
-### `tests/test_hybrid_retention_manager.cpp` (v0.0.17)
+### `tests/test_hybrid_retention_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37274,7 +37326,7 @@
 
 ---
 
-### `tests/test_hybrid_search.cpp` (v0.0.13)
+### `tests/test_hybrid_search.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37285,7 +37337,7 @@
 
 ---
 
-### `tests/test_hybrid_search_integration.cpp` (v0.0.13)
+### `tests/test_hybrid_search_integration.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37299,7 +37351,7 @@
 
 ---
 
-### `tests/test_hypertable_comprehensive.cpp` (v0.0.15)
+### `tests/test_hypertable_comprehensive.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37310,7 +37362,7 @@
 
 ---
 
-### `tests/test_idempotent_migration.cpp` (v0.0.17)
+### `tests/test_idempotent_migration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37326,7 +37378,7 @@
 
 ---
 
-### `tests/test_image_analysis_interface.cpp` (v0.0.17)
+### `tests/test_image_analysis_interface.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -37344,7 +37396,7 @@
 
 ---
 
-### `tests/test_image_analysis_quality.cpp` (v0.0.17)
+### `tests/test_image_analysis_quality.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37358,7 +37410,7 @@
 
 ---
 
-### `tests/test_importer_async_api.cpp` (v0.0.17)
+### `tests/test_importer_async_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37376,7 +37428,7 @@
 
 ---
 
-### `tests/test_index_maintenance.cpp` (v0.0.17)
+### `tests/test_index_maintenance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37387,7 +37439,7 @@
 
 ---
 
-### `tests/test_index_manager_di.cpp` (v0.0.17)
+### `tests/test_index_manager_di.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37398,7 +37450,7 @@
 
 ---
 
-### `tests/test_index_recommender.cpp` (v0.0.17)
+### `tests/test_index_recommender.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37409,7 +37461,7 @@
 
 ---
 
-### `tests/test_index_stats.cpp` (v0.0.17)
+### `tests/test_index_stats.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37420,7 +37472,7 @@
 
 ---
 
-### `tests/test_inference_engine_enhanced.cpp` (v0.0.17)
+### `tests/test_inference_engine_enhanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -37443,7 +37495,7 @@
 
 ---
 
-### `tests/test_information_schema.cpp` (v0.0.17)
+### `tests/test_information_schema.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37454,7 +37506,7 @@
 
 ---
 
-### `tests/test_ingestion_builder.cpp` (v0.0.17)
+### `tests/test_ingestion_builder.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37465,7 +37517,7 @@
 
 ---
 
-### `tests/test_ingestion_checkpoint.cpp` (v0.0.17)
+### `tests/test_ingestion_checkpoint.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37479,7 +37531,7 @@
 
 ---
 
-### `tests/test_ingestion_errors.cpp` (v0.0.17)
+### `tests/test_ingestion_errors.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37490,7 +37542,7 @@
 
 ---
 
-### `tests/test_ingestion_features.cpp` (v0.0.17)
+### `tests/test_ingestion_features.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37505,7 +37557,7 @@
 
 ---
 
-### `tests/test_ingestion_manager_adapter.cpp` (v0.0.17)
+### `tests/test_ingestion_manager_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37525,7 +37577,7 @@
 
 ---
 
-### `tests/test_ingestion_pipeline.cpp` (v0.0.17)
+### `tests/test_ingestion_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37536,7 +37588,7 @@
 
 ---
 
-### `tests/test_ingestion_resilience.cpp` (v0.0.17)
+### `tests/test_ingestion_resilience.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37550,7 +37602,7 @@
 
 ---
 
-### `tests/test_input_validation_comprehensive.cpp` (v0.0.17)
+### `tests/test_input_validation_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37564,7 +37616,7 @@
 
 ---
 
-### `tests/test_input_validator.cpp` (v0.0.17)
+### `tests/test_input_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37581,7 +37633,18 @@
 
 ---
 
-### `tests/test_io_metrics.cpp` (v0.0.16)
+### `tests/test_inverted_index.cpp` (v0.0.2)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 0                             ║`
+
+---
+
+### `tests/test_io_metrics.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37592,7 +37655,7 @@
 
 ---
 
-### `tests/test_json_path_functions.cpp` (v0.0.17)
+### `tests/test_json_path_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -37603,7 +37666,7 @@
 
 ---
 
-### `tests/test_json_schema_validation_comprehensive.cpp` (v0.0.17)
+### `tests/test_json_schema_validation_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37614,7 +37677,7 @@
 
 ---
 
-### `tests/test_jwks_security.cpp` (v0.0.17)
+### `tests/test_jwks_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37625,7 +37688,7 @@
 
 ---
 
-### `tests/test_jwks_validator.cpp` (v0.0.17)
+### `tests/test_jwks_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37636,7 +37699,7 @@
 
 ---
 
-### `tests/test_jwt_eddsa_comprehensive.cpp` (v0.0.17)
+### `tests/test_jwt_eddsa_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37647,7 +37710,7 @@
 
 ---
 
-### `tests/test_jwt_es256_comprehensive.cpp` (v0.0.17)
+### `tests/test_jwt_es256_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37658,7 +37721,7 @@
 
 ---
 
-### `tests/test_jwt_integration.cpp` (v0.0.17)
+### `tests/test_jwt_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37669,7 +37732,7 @@
 
 ---
 
-### `tests/test_jwt_key_rotation_comprehensive.cpp` (v0.0.17)
+### `tests/test_jwt_key_rotation_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37680,7 +37743,7 @@
 
 ---
 
-### `tests/test_jwt_management_comprehensive.cpp` (v0.0.17)
+### `tests/test_jwt_management_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37691,7 +37754,7 @@
 
 ---
 
-### `tests/test_jwt_rotation_unit.cpp` (v0.0.17)
+### `tests/test_jwt_rotation_unit.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37702,7 +37765,7 @@
 
 ---
 
-### `tests/test_jwt_token_revocation_integration.cpp` (v0.0.17)
+### `tests/test_jwt_token_revocation_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37713,7 +37776,7 @@
 
 ---
 
-### `tests/test_jwt_validation_hardening.cpp` (v0.0.17)
+### `tests/test_jwt_validation_hardening.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37724,7 +37787,7 @@
 
 ---
 
-### `tests/test_jwt_validator.cpp` (v0.0.17)
+### `tests/test_jwt_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37735,7 +37798,7 @@
 
 ---
 
-### `tests/test_k_shortest_paths.cpp` (v0.0.17)
+### `tests/test_k_shortest_paths.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37749,7 +37812,7 @@
 
 ---
 
-### `tests/test_kerberos_security.cpp` (v0.0.17)
+### `tests/test_kerberos_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37764,7 +37827,7 @@
 
 ---
 
-### `tests/test_kernel_fusion.cpp` (v0.0.17)
+### `tests/test_kernel_fusion.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37775,7 +37838,7 @@
 
 ---
 
-### `tests/test_kernel_invocation_interfaces.cpp` (v0.0.3)
+### `tests/test_kernel_invocation_interfaces.cpp` (v0.0.9)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (70.0/100)
 
@@ -37783,14 +37846,14 @@
 
 **🔴 STUB** (10 occurrences):
   - Line 14: `• Open Issues:     TODOs: 0, Stubs: 10                            ║`
-  - Line 178: `static int stub_l2(const float*, const float*, float*, int, int, int, void*) { return 0; }`
-  - Line 179: `static int stub_cos(const float*, const float*, float*, int, int, int, void*) { return 1; }`
-  - Line 180: `static int stub_ip(const float*, const float*, float*, int, int, int, void*) { return 2; }`
-  - Line 183: `d.launchL2Distance   = stub_l2;`
+  - Line 181: `static int stub_l2(const float*, const float*, float*, int, int, int, void*) { return 0; }`
+  - Line 182: `static int stub_cos(const float*, const float*, float*, int, int, int, void*) { return 1; }`
+  - Line 183: `static int stub_ip(const float*, const float*, float*, int, int, int, void*) { return 2; }`
+  - Line 186: `d.launchL2Distance   = stub_l2;`
 
 ---
 
-### `tests/test_key_schema.cpp` (v0.0.17)
+### `tests/test_key_schema.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37801,7 +37864,7 @@
 
 ---
 
-### `tests/test_keyprovider_signing.cpp` (v0.0.17)
+### `tests/test_keyprovider_signing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -37819,7 +37882,7 @@
 
 ---
 
-### `tests/test_knowledge_gap_detector.cpp` (v0.0.17)
+### `tests/test_knowledge_gap_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37830,7 +37893,7 @@
 
 ---
 
-### `tests/test_knowledge_graph_production.cpp` (v0.0.17)
+### `tests/test_knowledge_graph_production.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37841,7 +37904,7 @@
 
 ---
 
-### `tests/test_kv_cache_buffer.cpp` (v0.0.17)
+### `tests/test_kv_cache_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37859,7 +37922,7 @@
 
 ---
 
-### `tests/test_lazy_reencryption.cpp` (v0.0.17)
+### `tests/test_lazy_reencryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37877,7 +37940,7 @@
 
 ---
 
-### `tests/test_learnable_rope.cpp` (v0.0.17)
+### `tests/test_learnable_rope.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37891,7 +37954,7 @@
 
 ---
 
-### `tests/test_learned_quantizer.cpp` (v0.0.17)
+### `tests/test_learned_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37902,7 +37965,7 @@
 
 ---
 
-### `tests/test_learning_to_rank.cpp` (v0.0.13)
+### `tests/test_learning_to_rank.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37913,7 +37976,7 @@
 
 ---
 
-### `tests/test_legal_lora_pipeline.cpp` (v0.0.17)
+### `tests/test_legal_lora_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37924,7 +37987,7 @@
 
 ---
 
-### `tests/test_legal_modality_analyzer.cpp` (v0.0.17)
+### `tests/test_legal_modality_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37935,7 +37998,7 @@
 
 ---
 
-### `tests/test_legal_training_schema.cpp` (v0.0.17)
+### `tests/test_legal_training_schema.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37953,7 +38016,7 @@
 
 ---
 
-### `tests/test_lek_manager_lifecycle.cpp` (v0.0.15)
+### `tests/test_lek_manager_lifecycle.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37964,7 +38027,7 @@
 
 ---
 
-### `tests/test_lib_arrow_integration.cpp` (v0.0.17)
+### `tests/test_lib_arrow_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37979,7 +38042,7 @@
 
 ---
 
-### `tests/test_lib_boost_integration.cpp` (v0.0.17)
+### `tests/test_lib_boost_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -37990,7 +38053,7 @@
 
 ---
 
-### `tests/test_lib_hnsw_integration.cpp` (v0.0.17)
+### `tests/test_lib_hnsw_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38004,7 +38067,7 @@
 
 ---
 
-### `tests/test_lib_json_integration.cpp` (v0.0.17)
+### `tests/test_lib_json_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38015,7 +38078,7 @@
 
 ---
 
-### `tests/test_lib_openssl_integration.cpp` (v0.0.17)
+### `tests/test_lib_openssl_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38026,7 +38089,7 @@
 
 ---
 
-### `tests/test_lib_rocksdb_integration.cpp` (v0.0.17)
+### `tests/test_lib_rocksdb_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38040,7 +38103,7 @@
 
 ---
 
-### `tests/test_lib_spdlog_integration.cpp` (v0.0.17)
+### `tests/test_lib_spdlog_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38061,7 +38124,7 @@
 
 ---
 
-### `tests/test_lib_tbb_integration.cpp` (v0.0.17)
+### `tests/test_lib_tbb_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38072,7 +38135,7 @@
 
 ---
 
-### `tests/test_lib_yaml_advanced.cpp` (v0.0.17)
+### `tests/test_lib_yaml_advanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38083,7 +38146,7 @@
 
 ---
 
-### `tests/test_lib_zstd_integration.cpp` (v0.0.17)
+### `tests/test_lib_zstd_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38097,7 +38160,7 @@
 
 ---
 
-### `tests/test_license_client.cpp` (v0.0.17)
+### `tests/test_license_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38108,7 +38171,7 @@
 
 ---
 
-### `tests/test_license_validation.cpp` (v0.0.11)
+### `tests/test_license_validation.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38119,7 +38182,7 @@
 
 ---
 
-### `tests/test_lirs_cache.cpp` (v0.0.17)
+### `tests/test_lirs_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38133,7 +38196,7 @@
 
 ---
 
-### `tests/test_llama_resource_manager.cpp` (v0.0.17)
+### `tests/test_llama_resource_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38144,7 +38207,7 @@
 
 ---
 
-### `tests/test_llama_tokenizer.cpp` (v0.0.17)
+### `tests/test_llama_tokenizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38155,7 +38218,7 @@
 
 ---
 
-### `tests/test_llm_api_handler_feedback.cpp` (v0.0.17)
+### `tests/test_llm_api_handler_feedback.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38169,7 +38232,7 @@
 
 ---
 
-### `tests/test_llm_api_handler_jwt.cpp` (v0.0.17)
+### `tests/test_llm_api_handler_jwt.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38180,7 +38243,7 @@
 
 ---
 
-### `tests/test_llm_aql_handler.cpp` (v0.0.17)
+### `tests/test_llm_aql_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38194,7 +38257,7 @@
 
 ---
 
-### `tests/test_llm_caching.cpp` (v0.0.17)
+### `tests/test_llm_caching.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38205,7 +38268,7 @@
 
 ---
 
-### `tests/test_llm_feedback.cpp` (v0.0.17)
+### `tests/test_llm_feedback.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38216,7 +38279,7 @@
 
 ---
 
-### `tests/test_llm_grafana_metrics.cpp` (v0.0.17)
+### `tests/test_llm_grafana_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -38238,7 +38301,7 @@
 
 ---
 
-### `tests/test_llm_integration.cpp` (v0.0.17)
+### `tests/test_llm_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38249,7 +38312,7 @@
 
 ---
 
-### `tests/test_llm_judge_integration.cpp` (v0.0.17)
+### `tests/test_llm_judge_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38267,7 +38330,7 @@
 
 ---
 
-### `tests/test_llm_lora_inline.cpp` (v0.0.17)
+### `tests/test_llm_lora_inline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38278,7 +38341,7 @@
 
 ---
 
-### `tests/test_llm_metrics.cpp` (v0.0.17)
+### `tests/test_llm_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38296,7 +38359,7 @@
 
 ---
 
-### `tests/test_llm_plugin.cpp` (v0.0.17)
+### `tests/test_llm_plugin.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38316,7 +38379,7 @@
 
 ---
 
-### `tests/test_llm_prefix_cache.cpp` (v0.0.17)
+### `tests/test_llm_prefix_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38327,7 +38390,7 @@
 
 ---
 
-### `tests/test_llm_raid_data_push.cpp` (v0.0.17)
+### `tests/test_llm_raid_data_push.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38338,7 +38401,7 @@
 
 ---
 
-### `tests/test_llm_raid_pipeline.cpp` (v0.0.17)
+### `tests/test_llm_raid_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38349,7 +38412,7 @@
 
 ---
 
-### `tests/test_llm_resilience.cpp` (v0.0.17)
+### `tests/test_llm_resilience.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38363,7 +38426,7 @@
 
 ---
 
-### `tests/test_llm_response_cache.cpp` (v0.0.17)
+### `tests/test_llm_response_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38378,7 +38441,7 @@
 
 ---
 
-### `tests/test_llm_response_cache_metrics.cpp` (v0.0.17)
+### `tests/test_llm_response_cache_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38393,7 +38456,7 @@
 
 ---
 
-### `tests/test_llm_validation.cpp` (v0.0.17)
+### `tests/test_llm_validation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38404,7 +38467,7 @@
 
 ---
 
-### `tests/test_llm_vision_encoder.cpp` (v0.0.17)
+### `tests/test_llm_vision_encoder.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38415,7 +38478,7 @@
 
 ---
 
-### `tests/test_llm_vision_integration.cpp` (v0.0.17)
+### `tests/test_llm_vision_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38426,7 +38489,7 @@
 
 ---
 
-### `tests/test_locality_aware_router.cpp` (v0.0.17)
+### `tests/test_locality_aware_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38440,7 +38503,7 @@
 
 ---
 
-### `tests/test_lock_manager.cpp` (v0.0.15)
+### `tests/test_lock_manager.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38451,7 +38514,7 @@
 
 ---
 
-### `tests/test_logger_production.cpp` (v0.0.15)
+### `tests/test_logger_production.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38469,7 +38532,7 @@
 
 ---
 
-### `tests/test_long_running_stress.cpp` (v0.0.17)
+### `tests/test_long_running_stress.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38487,7 +38550,7 @@
 
 ---
 
-### `tests/test_lora_adapter.cpp` (v0.0.17)
+### `tests/test_lora_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38498,7 +38561,7 @@
 
 ---
 
-### `tests/test_lora_api_handler.cpp` (v0.0.17)
+### `tests/test_lora_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38509,7 +38572,7 @@
 
 ---
 
-### `tests/test_lora_aql_functions.cpp` (v0.0.17)
+### `tests/test_lora_aql_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38520,7 +38583,7 @@
 
 ---
 
-### `tests/test_lora_data_selection.cpp` (v0.0.9)
+### `tests/test_lora_data_selection.cpp` (v0.0.15)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38535,7 +38598,7 @@
 
 ---
 
-### `tests/test_lora_encryption_integration.cpp` (v0.0.17)
+### `tests/test_lora_encryption_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38546,7 +38609,7 @@
 
 ---
 
-### `tests/test_lora_failure_scenarios.cpp` (v0.0.17)
+### `tests/test_lora_failure_scenarios.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -38557,7 +38620,7 @@
 
 ---
 
-### `tests/test_lora_feedback.cpp` (v0.0.17)
+### `tests/test_lora_feedback.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38571,7 +38634,7 @@
 
 ---
 
-### `tests/test_lora_framework.cpp` (v0.0.17)
+### `tests/test_lora_framework.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38587,7 +38650,7 @@
 
 ---
 
-### `tests/test_lora_framework_comprehensive.cpp` (v0.0.17)
+### `tests/test_lora_framework_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (83.0/100)
 
@@ -38605,7 +38668,7 @@
 
 ---
 
-### `tests/test_lora_gpu.cpp` (v0.0.17)
+### `tests/test_lora_gpu.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38616,7 +38679,7 @@
 
 ---
 
-### `tests/test_lora_layers.cpp` (v0.0.17)
+### `tests/test_lora_layers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38628,7 +38691,7 @@
 
 ---
 
-### `tests/test_lora_llama_integration.cpp` (v0.0.17)
+### `tests/test_lora_llama_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38639,7 +38702,7 @@
 
 ---
 
-### `tests/test_lora_optimizer.cpp` (v0.0.17)
+### `tests/test_lora_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38651,7 +38714,7 @@
 
 ---
 
-### `tests/test_lora_pki_integration.cpp` (v0.0.17)
+### `tests/test_lora_pki_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38663,7 +38726,7 @@
 
 ---
 
-### `tests/test_lora_provenance.cpp` (v0.0.10)
+### `tests/test_lora_provenance.cpp` (v0.0.16)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38674,7 +38737,7 @@
 
 ---
 
-### `tests/test_lora_rope.cpp` (v0.0.17)
+### `tests/test_lora_rope.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38685,7 +38748,7 @@
 
 ---
 
-### `tests/test_lora_router.cpp` (v0.0.17)
+### `tests/test_lora_router.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38696,7 +38759,7 @@
 
 ---
 
-### `tests/test_lora_security.cpp` (v0.0.17)
+### `tests/test_lora_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38713,7 +38776,7 @@
 
 ---
 
-### `tests/test_lora_storage_integration.cpp` (v0.0.17)
+### `tests/test_lora_storage_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38725,7 +38788,7 @@
 
 ---
 
-### `tests/test_lora_storage_key_provider.cpp` (v0.0.17)
+### `tests/test_lora_storage_key_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38737,7 +38800,7 @@
 
 ---
 
-### `tests/test_lora_trainer_production.cpp` (v0.0.17)
+### `tests/test_lora_trainer_production.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38748,7 +38811,7 @@
 
 ---
 
-### `tests/test_lora_training_integration.cpp` (v0.0.17)
+### `tests/test_lora_training_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38759,7 +38822,7 @@
 
 ---
 
-### `tests/test_lora_versioning.cpp` (v0.0.17)
+### `tests/test_lora_versioning.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38771,7 +38834,7 @@
 
 ---
 
-### `tests/test_lru_cache.cpp` (v0.0.17)
+### `tests/test_lru_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38782,7 +38845,7 @@
 
 ---
 
-### `tests/test_mcp_integration.cpp` (v0.0.17)
+### `tests/test_mcp_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38796,7 +38859,7 @@
 
 ---
 
-### `tests/test_mcp_protocol.cpp` (v0.0.17)
+### `tests/test_mcp_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38807,7 +38870,7 @@
 
 ---
 
-### `tests/test_merge_engine.cpp` (v0.0.17)
+### `tests/test_merge_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38818,7 +38881,7 @@
 
 ---
 
-### `tests/test_merge_operator_append.cpp` (v0.0.17)
+### `tests/test_merge_operator_append.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38829,7 +38892,7 @@
 
 ---
 
-### `tests/test_merge_operator_counter.cpp` (v0.0.17)
+### `tests/test_merge_operator_counter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38840,7 +38903,7 @@
 
 ---
 
-### `tests/test_merge_operator_max.cpp` (v0.0.17)
+### `tests/test_merge_operator_max.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38851,7 +38914,7 @@
 
 ---
 
-### `tests/test_merge_operator_set.cpp` (v0.0.17)
+### `tests/test_merge_operator_set.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38862,7 +38925,7 @@
 
 ---
 
-### `tests/test_merge_operators_integration.cpp` (v0.0.17)
+### `tests/test_merge_operators_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38878,7 +38941,7 @@
 
 ---
 
-### `tests/test_meta_prompt_generator.cpp` (v0.0.17)
+### `tests/test_meta_prompt_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38889,7 +38952,7 @@
 
 ---
 
-### `tests/test_meta_prompt_llm_provider.cpp` (v0.0.11)
+### `tests/test_meta_prompt_llm_provider.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -38904,7 +38967,7 @@
 
 ---
 
-### `tests/test_metadata_shard.cpp` (v0.0.17)
+### `tests/test_metadata_shard.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38915,7 +38978,7 @@
 
 ---
 
-### `tests/test_metadata_wal_recovery.cpp` (v0.0.17)
+### `tests/test_metadata_wal_recovery.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38933,7 +38996,7 @@
 
 ---
 
-### `tests/test_metrics.cpp` (v0.0.17)
+### `tests/test_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38944,7 +39007,7 @@
 
 ---
 
-### `tests/test_metrics_api.cpp` (v0.0.17)
+### `tests/test_metrics_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38958,7 +39021,7 @@
 
 ---
 
-### `tests/test_metrics_collector.cpp` (v0.0.17)
+### `tests/test_metrics_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38973,7 +39036,7 @@
 
 ---
 
-### `tests/test_mfa_authenticator.cpp` (v0.0.17)
+### `tests/test_mfa_authenticator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -38984,7 +39047,7 @@
 
 ---
 
-### `tests/test_mime_detector_standalone.cpp` (v0.0.17)
+### `tests/test_mime_detector_standalone.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -38996,7 +39059,7 @@
 
 ---
 
-### `tests/test_minimal.cpp` (v0.0.17)
+### `tests/test_minimal.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -39007,7 +39070,7 @@
 
 ---
 
-### `tests/test_mixed_precision_gpu.cpp` (v0.0.17)
+### `tests/test_mixed_precision_gpu.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39024,7 +39087,7 @@
 
 ---
 
-### `tests/test_ml_model_manager.cpp` (v0.0.17)
+### `tests/test_ml_model_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -39036,7 +39099,7 @@
 
 ---
 
-### `tests/test_mock_clip.cpp` (v0.0.17)
+### `tests/test_mock_clip.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39050,7 +39113,7 @@
 
 ---
 
-### `tests/test_model_loader_async.cpp` (v0.0.17)
+### `tests/test_model_loader_async.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39061,7 +39124,7 @@
 
 ---
 
-### `tests/test_module_loader.cpp` (v0.0.17)
+### `tests/test_module_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39072,7 +39135,7 @@
 
 ---
 
-### `tests/test_module_sandbox.cpp` (v0.0.17)
+### `tests/test_module_sandbox.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39083,7 +39146,7 @@
 
 ---
 
-### `tests/test_monitoring_ops.cpp` (v0.0.17)
+### `tests/test_monitoring_ops.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39097,7 +39160,7 @@
 
 ---
 
-### `tests/test_mqtt_protocol.cpp` (v0.0.17)
+### `tests/test_mqtt_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39108,7 +39171,7 @@
 
 ---
 
-### `tests/test_mtls_client.cpp` (v0.0.17)
+### `tests/test_mtls_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39119,7 +39182,7 @@
 
 ---
 
-### `tests/test_mtls_connection_pool.cpp` (v0.0.17)
+### `tests/test_mtls_connection_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39132,7 +39195,7 @@
 
 ---
 
-### `tests/test_multi_gpu_lora.cpp` (v0.0.17)
+### `tests/test_multi_gpu_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39146,7 +39209,7 @@
 
 ---
 
-### `tests/test_multi_gpu_lora_advanced.cpp` (v0.0.17)
+### `tests/test_multi_gpu_lora_advanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39162,7 +39225,7 @@
 
 ---
 
-### `tests/test_multi_gpu_management.cpp` (v0.0.17)
+### `tests/test_multi_gpu_management.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39173,7 +39236,7 @@
 
 ---
 
-### `tests/test_multi_gpu_training.cpp` (v0.0.17)
+### `tests/test_multi_gpu_training.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39189,7 +39252,7 @@
 
 ---
 
-### `tests/test_multi_gpu_vector_index.cpp` (v0.0.17)
+### `tests/test_multi_gpu_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39200,7 +39263,7 @@
 
 ---
 
-### `tests/test_multi_lora_fusion.cpp` (v0.0.17)
+### `tests/test_multi_lora_fusion.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39214,7 +39277,7 @@
 
 ---
 
-### `tests/test_multi_modal_search.cpp` (v0.0.13)
+### `tests/test_multi_modal_search.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39229,7 +39292,7 @@
 
 ---
 
-### `tests/test_multi_perspective_generator.cpp` (v0.0.17)
+### `tests/test_multi_perspective_generator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -39241,7 +39304,7 @@
 
 ---
 
-### `tests/test_multi_range_scan.cpp` (v0.0.16)
+### `tests/test_multi_range_scan.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39252,7 +39315,7 @@
 
 ---
 
-### `tests/test_multi_shard_transactions.cpp` (v0.0.17)
+### `tests/test_multi_shard_transactions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39270,7 +39333,7 @@
 
 ---
 
-### `tests/test_multi_vector_search.cpp` (v0.0.17)
+### `tests/test_multi_vector_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39284,7 +39347,7 @@
 
 ---
 
-### `tests/test_mvcc.cpp` (v0.0.17)
+### `tests/test_mvcc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39298,7 +39361,7 @@
 
 ---
 
-### `tests/test_mvcc_api_handler.cpp` (v0.0.17)
+### `tests/test_mvcc_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39315,7 +39378,7 @@
 
 ---
 
-### `tests/test_mvcc_store.cpp` (v0.0.17)
+### `tests/test_mvcc_store.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39329,7 +39392,7 @@
 
 ---
 
-### `tests/test_mvcc_wal_integration.cpp` (v0.0.16)
+### `tests/test_mvcc_wal_integration.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39340,7 +39403,7 @@
 
 ---
 
-### `tests/test_network_protocol_chaos.cpp` (v0.0.17)
+### `tests/test_network_protocol_chaos.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -39358,7 +39421,7 @@
 
 ---
 
-### `tests/test_network_timeout.cpp` (v0.0.17)
+### `tests/test_network_timeout.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39373,7 +39436,7 @@
 
 ---
 
-### `tests/test_new_aql_functions.cpp` (v0.0.17)
+### `tests/test_new_aql_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (82.0/100)
 
@@ -39388,7 +39451,7 @@
 
 ---
 
-### `tests/test_nl_to_aql_translation.cpp` (v0.0.17)
+### `tests/test_nl_to_aql_translation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39399,7 +39462,7 @@
 
 ---
 
-### `tests/test_nli_verifier.cpp` (v0.0.17)
+### `tests/test_nli_verifier.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39411,7 +39474,7 @@
 
 ---
 
-### `tests/test_nlp_integration.cpp` (v0.0.17)
+### `tests/test_nlp_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39425,7 +39488,7 @@
 
 ---
 
-### `tests/test_nlp_metadata_extractor.cpp` (v0.0.17)
+### `tests/test_nlp_metadata_extractor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -39437,7 +39500,7 @@
 
 ---
 
-### `tests/test_nlp_text_analyzer.cpp` (v0.0.17)
+### `tests/test_nlp_text_analyzer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -39449,7 +39512,7 @@
 
 ---
 
-### `tests/test_normalization.cpp` (v0.0.17)
+### `tests/test_normalization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39460,7 +39523,7 @@
 
 ---
 
-### `tests/test_observability_hardening.cpp` (v0.0.17)
+### `tests/test_observability_hardening.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39474,7 +39537,7 @@
 
 ---
 
-### `tests/test_office_processor.cpp` (v0.0.17)
+### `tests/test_office_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39485,7 +39548,7 @@
 
 ---
 
-### `tests/test_olap.cpp` (v0.0.17)
+### `tests/test_olap.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39496,7 +39559,7 @@
 
 ---
 
-### `tests/test_olap_extended.cpp` (v0.0.17)
+### `tests/test_olap_extended.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39510,7 +39573,7 @@
 
 ---
 
-### `tests/test_onnx_model_loader.cpp` (v0.0.17)
+### `tests/test_onnx_model_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39525,7 +39588,7 @@
 
 ---
 
-### `tests/test_openapi_export.cpp` (v0.0.17)
+### `tests/test_openapi_export.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39536,7 +39599,7 @@
 
 ---
 
-### `tests/test_openssl_raii.cpp` (v0.0.17)
+### `tests/test_openssl_raii.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39550,7 +39613,7 @@
 
 ---
 
-### `tests/test_openssl_simple.cpp` (v0.0.17)
+### `tests/test_openssl_simple.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -39562,7 +39625,7 @@
 
 ---
 
-### `tests/test_optimizer_cost_model.cpp` (v0.0.17)
+### `tests/test_optimizer_cost_model.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39573,7 +39636,7 @@
 
 ---
 
-### `tests/test_optimizer_v1_5_x_integration.cpp` (v0.0.17)
+### `tests/test_optimizer_v1_5_x_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39584,7 +39647,7 @@
 
 ---
 
-### `tests/test_optional_enhancements.cpp` (v0.0.17)
+### `tests/test_optional_enhancements.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39595,7 +39658,18 @@
 
 ---
 
-### `tests/test_paged_attention.cpp` (v0.0.17)
+### `tests/test_otel_tracer_adapter.cpp` (v0.0.5)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+**Issues Found:**
+
+**🔴 STUB** (1 occurrences):
+  - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
+
+---
+
+### `tests/test_paged_attention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39609,7 +39683,7 @@
 
 ---
 
-### `tests/test_paged_optimizer.cpp` (v0.0.17)
+### `tests/test_paged_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -39621,7 +39695,7 @@
 
 ---
 
-### `tests/test_partition_detection.cpp` (v0.0.17)
+### `tests/test_partition_detection.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39635,7 +39709,7 @@
 
 ---
 
-### `tests/test_password_hashing_comprehensive.cpp` (v0.0.17)
+### `tests/test_password_hashing_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39646,7 +39720,7 @@
 
 ---
 
-### `tests/test_path_constraints_direct.cpp` (v0.0.17)
+### `tests/test_path_constraints_direct.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39657,7 +39731,7 @@
 
 ---
 
-### `tests/test_path_mapping_metadata.cpp` (v0.0.17)
+### `tests/test_path_mapping_metadata.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39668,7 +39742,7 @@
 
 ---
 
-### `tests/test_paxos_consensus.cpp` (v0.0.17)
+### `tests/test_paxos_consensus.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39679,7 +39753,7 @@
 
 ---
 
-### `tests/test_paxos_wal_recovery.cpp` (v0.0.17)
+### `tests/test_paxos_wal_recovery.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39697,7 +39771,7 @@
 
 ---
 
-### `tests/test_performance_allocator.cpp` (v0.0.17)
+### `tests/test_performance_allocator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39708,7 +39782,7 @@
 
 ---
 
-### `tests/test_performance_feature_flags.cpp` (v0.0.17)
+### `tests/test_performance_feature_flags.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39722,7 +39796,7 @@
 
 ---
 
-### `tests/test_performance_helpers.h` (v0.0.17)
+### `tests/test_performance_helpers.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39733,7 +39807,7 @@
 
 ---
 
-### `tests/test_phase1_flash_attention.cpp` (v0.0.17)
+### `tests/test_phase1_flash_attention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39744,7 +39818,7 @@
 
 ---
 
-### `tests/test_phase1_kv_cache_reuse.cpp` (v0.0.17)
+### `tests/test_phase1_kv_cache_reuse.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -39762,7 +39836,7 @@
 
 ---
 
-### `tests/test_phase2_optimizations.cpp` (v0.0.17)
+### `tests/test_phase2_optimizations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -39773,7 +39847,7 @@
 
 ---
 
-### `tests/test_phi3_integration.cpp` (v0.0.17)
+### `tests/test_phi3_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39789,7 +39863,7 @@
 
 ---
 
-### `tests/test_philosophy_loader.cpp` (v0.0.17)
+### `tests/test_philosophy_loader.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39800,7 +39874,7 @@
 
 ---
 
-### `tests/test_phrase_search.cpp` (v0.0.17)
+### `tests/test_phrase_search.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39811,7 +39885,7 @@
 
 ---
 
-### `tests/test_pii_detector.cpp` (v0.0.17)
+### `tests/test_pii_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39822,7 +39896,7 @@
 
 ---
 
-### `tests/test_pii_redaction_policy.cpp` (v0.0.17)
+### `tests/test_pii_redaction_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39837,7 +39911,7 @@
 
 ---
 
-### `tests/test_pii_soft_delete.cpp` (v0.0.17)
+### `tests/test_pii_soft_delete.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39848,7 +39922,7 @@
 
 ---
 
-### `tests/test_pitr_manager.cpp` (v0.0.17)
+### `tests/test_pitr_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39862,7 +39936,7 @@
 
 ---
 
-### `tests/test_pitr_manager_comprehensive.cpp` (v0.0.17)
+### `tests/test_pitr_manager_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39876,7 +39950,7 @@
 
 ---
 
-### `tests/test_pki_api_handler.cpp` (v0.0.17)
+### `tests/test_pki_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39892,7 +39966,7 @@
 
 ---
 
-### `tests/test_pki_client.cpp` (v0.0.17)
+### `tests/test_pki_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -39907,7 +39981,7 @@
 
 ---
 
-### `tests/test_pki_client_rest.cpp` (v0.0.17)
+### `tests/test_pki_client_rest.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39918,7 +39992,7 @@
 
 ---
 
-### `tests/test_pki_eidas.cpp` (v0.0.17)
+### `tests/test_pki_eidas.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -39932,7 +40006,7 @@
 
 ---
 
-### `tests/test_pki_shard_certificate.cpp` (v0.0.17)
+### `tests/test_pki_shard_certificate.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39944,7 +40018,7 @@
 
 ---
 
-### `tests/test_plugin_dependency_resolver.cpp` (v0.0.17)
+### `tests/test_plugin_dependency_resolver.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39955,7 +40029,7 @@
 
 ---
 
-### `tests/test_plugin_hot_plug.cpp` (v0.0.17)
+### `tests/test_plugin_hot_plug.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39966,7 +40040,7 @@
 
 ---
 
-### `tests/test_plugin_hot_reload_enhanced.cpp` (v0.0.17)
+### `tests/test_plugin_hot_reload_enhanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39980,7 +40054,7 @@
 
 ---
 
-### `tests/test_plugin_lifecycle.cpp` (v0.0.17)
+### `tests/test_plugin_lifecycle.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -39995,7 +40069,7 @@
 
 ---
 
-### `tests/test_plugin_manager.cpp` (v0.0.17)
+### `tests/test_plugin_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40007,7 +40081,7 @@
 
 ---
 
-### `tests/test_plugin_manager_comprehensive.cpp` (v0.0.17)
+### `tests/test_plugin_manager_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40019,7 +40093,7 @@
 
 ---
 
-### `tests/test_plugin_metrics.cpp` (v0.0.17)
+### `tests/test_plugin_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40030,7 +40104,7 @@
 
 ---
 
-### `tests/test_plugin_metrics_integration.cpp` (v0.0.17)
+### `tests/test_plugin_metrics_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40046,7 +40120,7 @@
 
 ---
 
-### `tests/test_plugin_security_implementation.cpp` (v0.0.17)
+### `tests/test_plugin_security_implementation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40063,7 +40137,7 @@
 
 ---
 
-### `tests/test_pointer_utils.cpp` (v0.0.17)
+### `tests/test_pointer_utils.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40081,7 +40155,7 @@
 
 ---
 
-### `tests/test_policy_abac_conditions.cpp` (v0.0.17)
+### `tests/test_policy_abac_conditions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40092,7 +40166,7 @@
 
 ---
 
-### `tests/test_policy_change_auditing.cpp` (v0.0.17)
+### `tests/test_policy_change_auditing.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40103,7 +40177,7 @@
 
 ---
 
-### `tests/test_policy_coordinator.cpp` (v0.0.17)
+### `tests/test_policy_coordinator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40117,7 +40191,7 @@
 
 ---
 
-### `tests/test_policy_engine_comprehensive.cpp` (v0.0.17)
+### `tests/test_policy_engine_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40128,7 +40202,7 @@
 
 ---
 
-### `tests/test_policy_engine_hotreload.cpp` (v0.0.17)
+### `tests/test_policy_engine_hotreload.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40139,7 +40213,7 @@
 
 ---
 
-### `tests/test_policy_engine_load.cpp` (v0.0.17)
+### `tests/test_policy_engine_load.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40150,7 +40224,7 @@
 
 ---
 
-### `tests/test_policy_integration_e2e.cpp` (v0.0.17)
+### `tests/test_policy_integration_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40164,7 +40238,7 @@
 
 ---
 
-### `tests/test_policy_manager.cpp` (v0.0.17)
+### `tests/test_policy_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40178,7 +40252,7 @@
 
 ---
 
-### `tests/test_policy_manager_api_handler.cpp` (v0.0.17)
+### `tests/test_policy_manager_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40189,7 +40263,7 @@
 
 ---
 
-### `tests/test_policy_review.cpp` (v0.0.17)
+### `tests/test_policy_review.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40200,7 +40274,7 @@
 
 ---
 
-### `tests/test_policy_template.cpp` (v0.0.17)
+### `tests/test_policy_template.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40214,7 +40288,7 @@
 
 ---
 
-### `tests/test_policy_validation.cpp` (v0.0.17)
+### `tests/test_policy_validation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40228,7 +40302,7 @@
 
 ---
 
-### `tests/test_policy_versioning.cpp` (v0.0.17)
+### `tests/test_policy_versioning.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40239,7 +40313,7 @@
 
 ---
 
-### `tests/test_policy_yaml.cpp` (v0.0.17)
+### `tests/test_policy_yaml.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40250,7 +40324,7 @@
 
 ---
 
-### `tests/test_pool_allocator.cpp` (v0.0.17)
+### `tests/test_pool_allocator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40261,7 +40335,7 @@
 
 ---
 
-### `tests/test_postgres_copy_protocol.cpp` (v0.0.17)
+### `tests/test_postgres_copy_protocol.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40272,7 +40346,7 @@
 
 ---
 
-### `tests/test_postgres_importer_advanced.cpp` (v0.0.17)
+### `tests/test_postgres_importer_advanced.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40286,7 +40360,7 @@
 
 ---
 
-### `tests/test_postgres_importer_chaos.cpp` (v0.0.17)
+### `tests/test_postgres_importer_chaos.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40297,7 +40371,7 @@
 
 ---
 
-### `tests/test_postgres_importer_complex_ddl.cpp` (v0.0.17)
+### `tests/test_postgres_importer_complex_ddl.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40312,7 +40386,7 @@
 
 ---
 
-### `tests/test_postgres_importer_datatypes.cpp` (v0.0.17)
+### `tests/test_postgres_importer_datatypes.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40326,7 +40400,7 @@
 
 ---
 
-### `tests/test_postgres_importer_integration.cpp` (v0.0.17)
+### `tests/test_postgres_importer_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40337,7 +40411,7 @@
 
 ---
 
-### `tests/test_postgres_importer_robustness.cpp` (v0.0.17)
+### `tests/test_postgres_importer_robustness.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40348,7 +40422,7 @@
 
 ---
 
-### `tests/test_postgres_prepared_statements.cpp` (v0.0.17)
+### `tests/test_postgres_prepared_statements.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40359,7 +40433,7 @@
 
 ---
 
-### `tests/test_postgres_transactions.cpp` (v0.0.17)
+### `tests/test_postgres_transactions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40370,7 +40444,7 @@
 
 ---
 
-### `tests/test_postgres_wire.cpp` (v0.0.17)
+### `tests/test_postgres_wire.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40385,7 +40459,7 @@
 
 ---
 
-### `tests/test_predictive_detector.cpp` (v0.0.17)
+### `tests/test_predictive_detector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40396,7 +40470,7 @@
 
 ---
 
-### `tests/test_principal_validator.cpp` (v0.0.17)
+### `tests/test_principal_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40407,7 +40481,7 @@
 
 ---
 
-### `tests/test_process_graph.cpp` (v0.0.17)
+### `tests/test_process_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40425,7 +40499,7 @@
 
 ---
 
-### `tests/test_process_mining_extended.cpp` (v0.0.17)
+### `tests/test_process_mining_extended.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40436,7 +40510,7 @@
 
 ---
 
-### `tests/test_product_quantizer.cpp` (v0.0.17)
+### `tests/test_product_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40447,7 +40521,7 @@
 
 ---
 
-### `tests/test_production_mode_enforcement.cpp` (v0.0.17)
+### `tests/test_production_mode_enforcement.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40458,7 +40532,7 @@
 
 ---
 
-### `tests/test_production_training.cpp` (v0.0.17)
+### `tests/test_production_training.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40470,7 +40544,7 @@
 
 ---
 
-### `tests/test_production_validator.cpp` (v0.0.17)
+### `tests/test_production_validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40485,7 +40559,7 @@
 
 ---
 
-### `tests/test_prometheus_metrics_integration.cpp` (v0.0.17)
+### `tests/test_prometheus_metrics_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40496,7 +40570,7 @@
 
 ---
 
-### `tests/test_prompt_engineering_api_handler.cpp` (v0.0.17)
+### `tests/test_prompt_engineering_api_handler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40507,7 +40581,7 @@
 
 ---
 
-### `tests/test_prompt_engineering_grpc_service.cpp` (v0.0.17)
+### `tests/test_prompt_engineering_grpc_service.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40518,7 +40592,7 @@
 
 ---
 
-### `tests/test_prompt_engineering_integration.cpp` (v0.0.17)
+### `tests/test_prompt_engineering_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40529,7 +40603,7 @@
 
 ---
 
-### `tests/test_prompt_engineering_metrics.cpp` (v0.0.17)
+### `tests/test_prompt_engineering_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40540,7 +40614,7 @@
 
 ---
 
-### `tests/test_prompt_engineering_metrics_persistence.cpp` (v0.0.11)
+### `tests/test_prompt_engineering_metrics_persistence.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40551,7 +40625,7 @@
 
 ---
 
-### `tests/test_prompt_evaluator.cpp` (v0.0.17)
+### `tests/test_prompt_evaluator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40562,7 +40636,7 @@
 
 ---
 
-### `tests/test_prompt_evaluator_embedding.cpp` (v0.0.11)
+### `tests/test_prompt_evaluator_embedding.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40574,7 +40648,7 @@
 
 ---
 
-### `tests/test_prompt_evaluator_ttest.cpp` (v0.0.11)
+### `tests/test_prompt_evaluator_ttest.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40585,7 +40659,7 @@
 
 ---
 
-### `tests/test_prompt_manager.cpp` (v0.0.17)
+### `tests/test_prompt_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40596,7 +40670,7 @@
 
 ---
 
-### `tests/test_prompt_manager_validation.cpp` (v0.0.11)
+### `tests/test_prompt_manager_validation.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40607,7 +40681,7 @@
 
 ---
 
-### `tests/test_prompt_optimizer.cpp` (v0.0.17)
+### `tests/test_prompt_optimizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40623,7 +40697,7 @@
 
 ---
 
-### `tests/test_prompt_performance_tracker.cpp` (v0.0.17)
+### `tests/test_prompt_performance_tracker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40634,7 +40708,7 @@
 
 ---
 
-### `tests/test_prompt_policy.cpp` (v0.0.17)
+### `tests/test_prompt_policy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40645,7 +40719,7 @@
 
 ---
 
-### `tests/test_prompt_version_control.cpp` (v0.0.17)
+### `tests/test_prompt_version_control.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40656,7 +40730,7 @@
 
 ---
 
-### `tests/test_prompt_version_control_diff.cpp` (v0.0.11)
+### `tests/test_prompt_version_control_diff.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40667,7 +40741,7 @@
 
 ---
 
-### `tests/test_property_graph.cpp` (v0.0.17)
+### `tests/test_property_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40678,7 +40752,7 @@
 
 ---
 
-### `tests/test_qlora.cpp` (v0.0.17)
+### `tests/test_qlora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40692,7 +40766,7 @@
 
 ---
 
-### `tests/test_qlora_gpu_kernels.cpp` (v0.0.17)
+### `tests/test_qlora_gpu_kernels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40703,7 +40777,7 @@
 
 ---
 
-### `tests/test_qlora_integration.cpp` (v0.0.17)
+### `tests/test_qlora_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40723,7 +40797,7 @@
 
 ---
 
-### `tests/test_qlora_training_integration.cpp` (v0.0.17)
+### `tests/test_qlora_training_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40734,7 +40808,7 @@
 
 ---
 
-### `tests/test_qos_manager.cpp` (v0.0.17)
+### `tests/test_qos_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40745,7 +40819,7 @@
 
 ---
 
-### `tests/test_quality_control_pipeline.cpp` (v0.0.17)
+### `tests/test_quality_control_pipeline.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40756,7 +40830,7 @@
 
 ---
 
-### `tests/test_quantization.cpp` (v0.0.17)
+### `tests/test_quantization.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40767,7 +40841,7 @@
 
 ---
 
-### `tests/test_query_cache.cpp` (v0.0.17)
+### `tests/test_query_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40778,7 +40852,7 @@
 
 ---
 
-### `tests/test_query_engine.cpp` (v0.0.17)
+### `tests/test_query_engine.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40789,7 +40863,7 @@
 
 ---
 
-### `tests/test_query_engine_di.cpp` (v0.0.17)
+### `tests/test_query_engine_di.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40803,7 +40877,7 @@
 
 ---
 
-### `tests/test_query_engine_error_handling.cpp` (v0.0.17)
+### `tests/test_query_engine_error_handling.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40815,7 +40889,7 @@
 
 ---
 
-### `tests/test_query_engine_join.cpp` (v0.0.17)
+### `tests/test_query_engine_join.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40827,7 +40901,7 @@
 
 ---
 
-### `tests/test_query_engine_range.cpp` (v0.0.17)
+### `tests/test_query_engine_range.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40838,7 +40912,7 @@
 
 ---
 
-### `tests/test_query_expander.cpp` (v0.0.13)
+### `tests/test_query_expander.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40849,7 +40923,7 @@
 
 ---
 
-### `tests/test_query_federation.cpp` (v0.0.17)
+### `tests/test_query_federation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40861,7 +40935,7 @@
 
 ---
 
-### `tests/test_query_optimizer_vector_geo.cpp` (v0.0.17)
+### `tests/test_query_optimizer_vector_geo.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40872,7 +40946,7 @@
 
 ---
 
-### `tests/test_query_or.cpp` (v0.0.17)
+### `tests/test_query_or.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40883,7 +40957,13 @@
 
 ---
 
-### `tests/test_quorum_writes.cpp` (v0.0.17)
+### `tests/test_query_plan_visualizer.cpp` (v0.0.1)
+
+**Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
+
+---
+
+### `tests/test_quorum_writes.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40894,7 +40974,7 @@
 
 ---
 
-### `tests/test_raft_configuration.cpp` (v0.0.17)
+### `tests/test_raft_configuration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40906,7 +40986,7 @@
 
 ---
 
-### `tests/test_raft_consensus.cpp` (v0.0.17)
+### `tests/test_raft_consensus.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40920,7 +41000,7 @@
 
 ---
 
-### `tests/test_raft_consensus_adapter.cpp` (v0.0.17)
+### `tests/test_raft_consensus_adapter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40938,7 +41018,7 @@
 
 ---
 
-### `tests/test_raft_log.cpp` (v0.0.17)
+### `tests/test_raft_log.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40950,7 +41030,7 @@
 
 ---
 
-### `tests/test_raft_mvcc_bridge.cpp` (v0.0.17)
+### `tests/test_raft_mvcc_bridge.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40965,7 +41045,7 @@
 
 ---
 
-### `tests/test_raft_shard_manager.cpp` (v0.0.17)
+### `tests/test_raft_shard_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40976,7 +41056,7 @@
 
 ---
 
-### `tests/test_raft_state.cpp` (v0.0.17)
+### `tests/test_raft_state.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -40987,7 +41067,7 @@
 
 ---
 
-### `tests/test_raft_wal_integration.cpp` (v0.0.17)
+### `tests/test_raft_wal_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -40999,7 +41079,7 @@
 
 ---
 
-### `tests/test_rag_aql_integration.cpp` (v0.0.17)
+### `tests/test_rag_aql_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41010,7 +41090,7 @@
 
 ---
 
-### `tests/test_rag_ethics.cpp` (v0.0.17)
+### `tests/test_rag_ethics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41026,7 +41106,7 @@
 
 ---
 
-### `tests/test_rag_judge.cpp` (v0.0.17)
+### `tests/test_rag_judge.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41037,7 +41117,7 @@
 
 ---
 
-### `tests/test_rag_judge_phase1.cpp` (v0.0.17)
+### `tests/test_rag_judge_phase1.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41051,7 +41131,7 @@
 
 ---
 
-### `tests/test_rag_judge_phase2.cpp` (v0.0.17)
+### `tests/test_rag_judge_phase2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41062,7 +41142,7 @@
 
 ---
 
-### `tests/test_rag_judge_phase3.cpp` (v0.0.17)
+### `tests/test_rag_judge_phase3.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41074,7 +41154,7 @@
 
 ---
 
-### `tests/test_rag_judge_phase4.cpp` (v0.0.17)
+### `tests/test_rag_judge_phase4.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41085,7 +41165,7 @@
 
 ---
 
-### `tests/test_raid5_backup.cpp` (v0.0.17)
+### `tests/test_raid5_backup.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41097,7 +41177,7 @@
 
 ---
 
-### `tests/test_raid_integration.cpp` (v0.0.17)
+### `tests/test_raid_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41111,7 +41191,7 @@
 
 ---
 
-### `tests/test_raid_lora_integration.cpp` (v0.0.17)
+### `tests/test_raid_lora_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41126,7 +41206,7 @@
 
 ---
 
-### `tests/test_raid_redundancy.cpp` (v0.0.17)
+### `tests/test_raid_redundancy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -41144,7 +41224,7 @@
 
 ---
 
-### `tests/test_raii_wrappers.cpp` (v0.0.17)
+### `tests/test_raii_wrappers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41159,7 +41239,7 @@
 
 ---
 
-### `tests/test_range_index.cpp` (v0.0.17)
+### `tests/test_range_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41170,7 +41250,7 @@
 
 ---
 
-### `tests/test_rate_limiter.cpp` (v0.0.17)
+### `tests/test_rate_limiter.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41184,7 +41264,7 @@
 
 ---
 
-### `tests/test_rate_limiting_comprehensive.cpp` (v0.0.17)
+### `tests/test_rate_limiting_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41195,7 +41275,7 @@
 
 ---
 
-### `tests/test_rbac_comprehensive.cpp` (v0.0.17)
+### `tests/test_rbac_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41206,7 +41286,7 @@
 
 ---
 
-### `tests/test_rcu_index.cpp` (v0.0.17)
+### `tests/test_rcu_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41217,7 +41297,7 @@
 
 ---
 
-### `tests/test_rebalance_migration.cpp` (v0.0.17)
+### `tests/test_rebalance_migration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41228,7 +41308,7 @@
 
 ---
 
-### `tests/test_recursive_ctes.cpp` (v0.0.17)
+### `tests/test_recursive_ctes.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41240,7 +41320,7 @@
 
 ---
 
-### `tests/test_recursive_path_query.cpp` (v0.0.17)
+### `tests/test_recursive_path_query.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41251,7 +41331,7 @@
 
 ---
 
-### `tests/test_replication_ha.cpp` (v0.0.17)
+### `tests/test_replication_ha.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -41269,7 +41349,7 @@
 
 ---
 
-### `tests/test_request_limits.cpp` (v0.0.17)
+### `tests/test_request_limits.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41280,7 +41360,7 @@
 
 ---
 
-### `tests/test_request_validation_middleware.cpp` (v0.0.4)
+### `tests/test_request_validation_middleware.cpp` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41291,7 +41371,7 @@
 
 ---
 
-### `tests/test_residual_quantizer.cpp` (v0.0.17)
+### `tests/test_residual_quantizer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41302,7 +41382,7 @@
 
 ---
 
-### `tests/test_resource_limits_comprehensive.cpp` (v0.0.17)
+### `tests/test_resource_limits_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41313,7 +41393,7 @@
 
 ---
 
-### `tests/test_result_stream.cpp` (v0.0.17)
+### `tests/test_result_stream.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41324,7 +41404,7 @@
 
 ---
 
-### `tests/test_retention_aql_functions.cpp` (v0.0.17)
+### `tests/test_retention_aql_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41336,7 +41416,7 @@
 
 ---
 
-### `tests/test_retention_async.cpp` (v0.0.15)
+### `tests/test_retention_async.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41347,7 +41427,7 @@
 
 ---
 
-### `tests/test_retention_manager.cpp` (v0.0.17)
+### `tests/test_retention_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41358,7 +41438,7 @@
 
 ---
 
-### `tests/test_rocksdb_high_parallel_tuning.cpp` (v0.0.17)
+### `tests/test_rocksdb_high_parallel_tuning.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41369,7 +41449,7 @@
 
 ---
 
-### `tests/test_rocksdb_metrics.cpp` (v0.0.17)
+### `tests/test_rocksdb_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41381,7 +41461,7 @@
 
 ---
 
-### `tests/test_rocksdb_stats_json.cpp` (v0.0.17)
+### `tests/test_rocksdb_stats_json.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41392,7 +41472,7 @@
 
 ---
 
-### `tests/test_rocksdb_wrapper_comprehensive.cpp` (v0.0.17)
+### `tests/test_rocksdb_wrapper_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41403,7 +41483,7 @@
 
 ---
 
-### `tests/test_rotary_embeddings.cpp` (v0.0.17)
+### `tests/test_rotary_embeddings.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41417,7 +41497,7 @@
 
 ---
 
-### `tests/test_rotary_embeddings_gpu.cpp` (v0.0.17)
+### `tests/test_rotary_embeddings_gpu.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41428,7 +41508,7 @@
 
 ---
 
-### `tests/test_rpc_geo_query.cpp` (v0.0.17)
+### `tests/test_rpc_geo_query.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41442,7 +41522,7 @@
 
 ---
 
-### `tests/test_rrf_fusion.cpp` (v0.0.13)
+### `tests/test_rrf_fusion.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41453,7 +41533,7 @@
 
 ---
 
-### `tests/test_runtime_license_gate.cpp` (v0.0.11)
+### `tests/test_runtime_license_gate.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41464,7 +41544,7 @@
 
 ---
 
-### `tests/test_safe_access.cpp` (v0.0.17)
+### `tests/test_safe_access.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41475,7 +41555,7 @@
 
 ---
 
-### `tests/test_safe_arithmetic.cpp` (v0.0.17)
+### `tests/test_safe_arithmetic.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41492,7 +41572,7 @@
 
 ---
 
-### `tests/test_safe_cast.cpp` (v0.0.17)
+### `tests/test_safe_cast.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41503,7 +41583,7 @@
 
 ---
 
-### `tests/test_saga_concurrent_execution.cpp` (v0.0.17)
+### `tests/test_saga_concurrent_execution.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41517,7 +41597,7 @@
 
 ---
 
-### `tests/test_saga_logger.cpp` (v0.0.17)
+### `tests/test_saga_logger.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41528,7 +41608,7 @@
 
 ---
 
-### `tests/test_sampling_strategy.cpp` (v0.0.17)
+### `tests/test_sampling_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41539,7 +41619,7 @@
 
 ---
 
-### `tests/test_savepoints.cpp` (v0.0.16)
+### `tests/test_savepoints.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41550,7 +41630,7 @@
 
 ---
 
-### `tests/test_scan_counters.cpp` (v0.0.16)
+### `tests/test_scan_counters.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41561,7 +41641,7 @@
 
 ---
 
-### `tests/test_scheduler_integration.cpp` (v0.0.17)
+### `tests/test_scheduler_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41572,7 +41652,7 @@
 
 ---
 
-### `tests/test_schema_consistency_checker.cpp` (v0.0.17)
+### `tests/test_schema_consistency_checker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41583,7 +41663,7 @@
 
 ---
 
-### `tests/test_schema_constraints.cpp` (v0.0.17)
+### `tests/test_schema_constraints.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41594,7 +41674,7 @@
 
 ---
 
-### `tests/test_schema_constraints_persistence.cpp` (v0.0.17)
+### `tests/test_schema_constraints_persistence.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41605,7 +41685,7 @@
 
 ---
 
-### `tests/test_schema_encryption.cpp` (v0.0.17)
+### `tests/test_schema_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41617,7 +41697,7 @@
 
 ---
 
-### `tests/test_schema_manager.cpp` (v0.0.17)
+### `tests/test_schema_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41633,7 +41713,7 @@
 
 ---
 
-### `tests/test_schema_manager_fuzz.cpp` (v0.0.17)
+### `tests/test_schema_manager_fuzz.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41644,7 +41724,7 @@
 
 ---
 
-### `tests/test_schema_migration_regression.cpp` (v0.0.17)
+### `tests/test_schema_migration_regression.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41655,7 +41735,7 @@
 
 ---
 
-### `tests/test_schema_version_dryrun.cpp` (v0.0.17)
+### `tests/test_schema_version_dryrun.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41666,7 +41746,7 @@
 
 ---
 
-### `tests/test_schema_version_manager.cpp` (v0.0.17)
+### `tests/test_schema_version_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41677,7 +41757,7 @@
 
 ---
 
-### `tests/test_score_normalization.cpp` (v0.0.13)
+### `tests/test_score_normalization.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41688,7 +41768,7 @@
 
 ---
 
-### `tests/test_search_analytics.cpp` (v0.0.13)
+### `tests/test_search_analytics.cpp` (v0.0.19)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41699,7 +41779,7 @@
 
 ---
 
-### `tests/test_secondary_index.cpp` (v0.0.17)
+### `tests/test_secondary_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41713,7 +41793,7 @@
 
 ---
 
-### `tests/test_secret_manager_comprehensive.cpp` (v0.0.17)
+### `tests/test_secret_manager_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41724,7 +41804,7 @@
 
 ---
 
-### `tests/test_secure_transport_client.cpp` (v0.0.17)
+### `tests/test_secure_transport_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41735,7 +41815,7 @@
 
 ---
 
-### `tests/test_security_di.cpp` (v0.0.17)
+### `tests/test_security_di.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41752,7 +41832,7 @@
 
 ---
 
-### `tests/test_security_signature_standalone.cpp` (v0.0.17)
+### `tests/test_security_signature_standalone.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41764,7 +41844,7 @@
 
 ---
 
-### `tests/test_self_awareness_production.cpp` (v0.0.15)
+### `tests/test_self_awareness_production.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41778,7 +41858,7 @@
 
 ---
 
-### `tests/test_self_improvement_auto_optimize.cpp` (v0.0.11)
+### `tests/test_self_improvement_auto_optimize.cpp` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41789,7 +41869,7 @@
 
 ---
 
-### `tests/test_self_improvement_orchestrator.cpp` (v0.0.17)
+### `tests/test_self_improvement_orchestrator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41800,7 +41880,7 @@
 
 ---
 
-### `tests/test_semantic_cache.cpp` (v0.0.17)
+### `tests/test_semantic_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41811,7 +41891,7 @@
 
 ---
 
-### `tests/test_shard_communication.cpp` (v0.0.17)
+### `tests/test_shard_communication.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41822,7 +41902,7 @@
 
 ---
 
-### `tests/test_shard_durability.cpp` (v0.0.17)
+### `tests/test_shard_durability.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41833,7 +41913,7 @@
 
 ---
 
-### `tests/test_shard_resilience.cpp` (v0.0.17)
+### `tests/test_shard_resilience.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (85.0/100)
 
@@ -41851,7 +41931,7 @@
 
 ---
 
-### `tests/test_shard_resource_manager.cpp` (v0.0.17)
+### `tests/test_shard_resource_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41862,7 +41942,7 @@
 
 ---
 
-### `tests/test_shard_rpc_grpc.cpp` (v0.0.17)
+### `tests/test_shard_rpc_grpc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41879,7 +41959,7 @@
 
 ---
 
-### `tests/test_shard_rpc_mtls_config.cpp` (v0.0.17)
+### `tests/test_shard_rpc_mtls_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41890,7 +41970,7 @@
 
 ---
 
-### `tests/test_sharding_chaos.cpp` (v0.0.17)
+### `tests/test_sharding_chaos.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41905,7 +41985,7 @@
 
 ---
 
-### `tests/test_sharding_core.cpp` (v0.0.17)
+### `tests/test_sharding_core.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41916,7 +41996,7 @@
 
 ---
 
-### `tests/test_sharding_e2e.cpp` (v0.0.17)
+### `tests/test_sharding_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (89.0/100)
 
@@ -41934,7 +42014,7 @@
 
 ---
 
-### `tests/test_sharding_integration.cpp` (v0.0.17)
+### `tests/test_sharding_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41950,7 +42030,7 @@
 
 ---
 
-### `tests/test_sharding_repair.cpp` (v0.0.17)
+### `tests/test_sharding_repair.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41961,7 +42041,7 @@
 
 ---
 
-### `tests/test_siem_integration_comprehensive.cpp` (v0.0.17)
+### `tests/test_siem_integration_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -41975,7 +42055,7 @@
 
 ---
 
-### `tests/test_signature_simple.cpp` (v0.0.17)
+### `tests/test_signature_simple.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -41987,7 +42067,7 @@
 
 ---
 
-### `tests/test_signature_verifier.cpp` (v0.0.17)
+### `tests/test_signature_verifier.cpp` (v0.0.23)
 
 **Maturity Level:** 🟠 BETA (47.0/100)
 
@@ -42002,7 +42082,7 @@
 
 ---
 
-### `tests/test_signed_request.cpp` (v0.0.17)
+### `tests/test_signed_request.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42013,7 +42093,7 @@
 
 ---
 
-### `tests/test_slo_monitor.cpp` (v0.0.17)
+### `tests/test_slo_monitor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42024,7 +42104,7 @@
 
 ---
 
-### `tests/test_snapshot.cpp` (v0.0.16)
+### `tests/test_snapshot.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42036,7 +42116,7 @@
 
 ---
 
-### `tests/test_snapshot_integration.cpp` (v0.0.17)
+### `tests/test_snapshot_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42051,7 +42131,7 @@
 
 ---
 
-### `tests/test_snapshot_manager.cpp` (v0.0.17)
+### `tests/test_snapshot_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42062,7 +42142,7 @@
 
 ---
 
-### `tests/test_snapshot_transfer_security.cpp` (v0.0.17)
+### `tests/test_snapshot_transfer_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42073,7 +42153,7 @@
 
 ---
 
-### `tests/test_socket_timeout.cpp` (v0.0.17)
+### `tests/test_socket_timeout.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42088,7 +42168,7 @@
 
 ---
 
-### `tests/test_sparse_geo_index.cpp` (v0.0.17)
+### `tests/test_sparse_geo_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42102,7 +42182,7 @@
 
 ---
 
-### `tests/test_spatial_index_atomic.cpp` (v0.0.17)
+### `tests/test_spatial_index_atomic.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42119,7 +42199,7 @@
 
 ---
 
-### `tests/test_statistical_aggregations.cpp` (v0.0.17)
+### `tests/test_statistical_aggregations.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -42131,7 +42211,7 @@
 
 ---
 
-### `tests/test_statistics_auto_refresh.cpp` (v0.0.17)
+### `tests/test_statistics_auto_refresh.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42142,7 +42222,7 @@
 
 ---
 
-### `tests/test_statistics_collector.cpp` (v0.0.17)
+### `tests/test_statistics_collector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42156,7 +42236,7 @@
 
 ---
 
-### `tests/test_stats_api.cpp` (v0.0.17)
+### `tests/test_stats_api.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42167,7 +42247,7 @@
 
 ---
 
-### `tests/test_stemming.cpp` (v0.0.17)
+### `tests/test_stemming.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42178,7 +42258,7 @@
 
 ---
 
-### `tests/test_stopwords.cpp` (v0.0.17)
+### `tests/test_stopwords.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42189,7 +42269,7 @@
 
 ---
 
-### `tests/test_storage_audit_logger.cpp` (v0.0.16)
+### `tests/test_storage_audit_logger.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42200,7 +42280,7 @@
 
 ---
 
-### `tests/test_storage_engine_di.cpp` (v0.0.17)
+### `tests/test_storage_engine_di.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42212,7 +42292,7 @@
 
 ---
 
-### `tests/test_storage_engine_prod.cpp` (v0.0.16)
+### `tests/test_storage_engine_prod.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42223,7 +42303,7 @@
 
 ---
 
-### `tests/test_storage_fuzz.cpp` (v0.0.16)
+### `tests/test_storage_fuzz.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42237,7 +42317,7 @@
 
 ---
 
-### `tests/test_storage_latency_bench.cpp` (v0.0.16)
+### `tests/test_storage_latency_bench.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42248,7 +42328,7 @@
 
 ---
 
-### `tests/test_strategic_cache.cpp` (v0.0.17)
+### `tests/test_strategic_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42262,7 +42342,7 @@
 
 ---
 
-### `tests/test_stream_protocol_extended.cpp` (v0.0.17)
+### `tests/test_stream_protocol_extended.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42276,7 +42356,7 @@
 
 ---
 
-### `tests/test_stt_wav_pcm.cpp` (v0.0.17)
+### `tests/test_stt_wav_pcm.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -42287,7 +42367,7 @@
 
 ---
 
-### `tests/test_task_audit.cpp` (v0.0.17)
+### `tests/test_task_audit.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42304,7 +42384,7 @@
 
 ---
 
-### `tests/test_task_scheduler.cpp` (v0.0.17)
+### `tests/test_task_scheduler.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42318,7 +42398,7 @@
 
 ---
 
-### `tests/test_task_scheduler_siem_integration.cpp` (v0.0.17)
+### `tests/test_task_scheduler_siem_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42338,7 +42418,7 @@
 
 ---
 
-### `tests/test_task_scheduler_triggers.cpp` (v0.0.17)
+### `tests/test_task_scheduler_triggers.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42349,7 +42429,7 @@
 
 ---
 
-### `tests/test_temporal_aggregation.cpp` (v0.0.17)
+### `tests/test_temporal_aggregation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42360,7 +42440,7 @@
 
 ---
 
-### `tests/test_temporal_aggregation_property.cpp` (v0.0.17)
+### `tests/test_temporal_aggregation_property.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42371,7 +42451,7 @@
 
 ---
 
-### `tests/test_temporal_graph.cpp` (v0.0.17)
+### `tests/test_temporal_graph.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42382,7 +42462,7 @@
 
 ---
 
-### `tests/test_tenant_buffer_manager.cpp` (v0.0.17)
+### `tests/test_tenant_buffer_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42393,7 +42473,7 @@
 
 ---
 
-### `tests/test_tenant_manager.cpp` (v0.0.17)
+### `tests/test_tenant_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42407,7 +42487,7 @@
 
 ---
 
-### `tests/test_text_processor.cpp` (v0.0.17)
+### `tests/test_text_processor.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42418,7 +42498,7 @@
 
 ---
 
-### `tests/test_thread_pool_manager.cpp` (v0.0.17)
+### `tests/test_thread_pool_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42429,7 +42509,7 @@
 
 ---
 
-### `tests/test_thread_safety_stress.cpp` (v0.0.17)
+### `tests/test_thread_safety_stress.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42444,7 +42524,7 @@
 
 ---
 
-### `tests/test_timerange_query.cpp` (v0.0.17)
+### `tests/test_timerange_query.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42455,7 +42535,7 @@
 
 ---
 
-### `tests/test_timeseries_metrics.cpp` (v0.0.17)
+### `tests/test_timeseries_metrics.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42466,7 +42546,7 @@
 
 ---
 
-### `tests/test_timeseries_retention.cpp` (v0.0.17)
+### `tests/test_timeseries_retention.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -42478,7 +42558,7 @@
 
 ---
 
-### `tests/test_timestamp_authority.cpp` (v0.0.17)
+### `tests/test_timestamp_authority.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -42495,7 +42575,7 @@
 
 ---
 
-### `tests/test_tls_hot_reload.cpp` (v0.0.17)
+### `tests/test_tls_hot_reload.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42509,7 +42589,7 @@
 
 ---
 
-### `tests/test_token_blacklist_comprehensive.cpp` (v0.0.17)
+### `tests/test_token_blacklist_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42520,7 +42600,7 @@
 
 ---
 
-### `tests/test_token_quota_manager.cpp` (v0.0.17)
+### `tests/test_token_quota_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42531,7 +42611,7 @@
 
 ---
 
-### `tests/test_totp_replay_cache.cpp` (v0.0.17)
+### `tests/test_totp_replay_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42542,7 +42622,7 @@
 
 ---
 
-### `tests/test_totp_secret_encryption.cpp` (v0.0.17)
+### `tests/test_totp_secret_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42553,7 +42633,7 @@
 
 ---
 
-### `tests/test_tracing_integration.cpp` (v0.0.17)
+### `tests/test_tracing_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42567,7 +42647,7 @@
 
 ---
 
-### `tests/test_tracing_production.cpp` (v0.0.15)
+### `tests/test_tracing_production.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42578,7 +42658,7 @@
 
 ---
 
-### `tests/test_training_convergence.cpp` (v0.0.17)
+### `tests/test_training_convergence.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -42590,7 +42670,7 @@
 
 ---
 
-### `tests/test_training_pipeline_e2e.cpp` (v0.0.17)
+### `tests/test_training_pipeline_e2e.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42601,7 +42681,7 @@
 
 ---
 
-### `tests/test_training_service_registry.cpp` (v0.0.17)
+### `tests/test_training_service_registry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42616,7 +42696,7 @@
 
 ---
 
-### `tests/test_transaction_isolation.cpp` (v0.0.17)
+### `tests/test_transaction_isolation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42630,7 +42710,7 @@
 
 ---
 
-### `tests/test_transaction_isolation_levels.cpp` (v0.0.17)
+### `tests/test_transaction_isolation_levels.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42644,7 +42724,7 @@
 
 ---
 
-### `tests/test_transaction_manager.cpp` (v0.0.17)
+### `tests/test_transaction_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42655,7 +42735,7 @@
 
 ---
 
-### `tests/test_transaction_manager_comprehensive.cpp` (v0.0.17)
+### `tests/test_transaction_manager_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42666,7 +42746,7 @@
 
 ---
 
-### `tests/test_transaction_retry.cpp` (v0.0.17)
+### `tests/test_transaction_retry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -42677,7 +42757,7 @@
 
 ---
 
-### `tests/test_transaction_timeout.cpp` (v0.0.4)
+### `tests/test_transaction_timeout.cpp` (v0.0.10)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42686,9 +42766,12 @@
 **🔴 STUB** (1 occurrences):
   - Line 14: `• Open Issues:     TODOs: 0, Stubs: 1                             ║`
 
+**🎭 SIMULATION** (1 occurrences):
+  - Line 235: `// Simulate what the monitor does: commit should fail because the txn is expired.`
+
 ---
 
-### `tests/test_transport_security_checker.cpp` (v0.0.17)
+### `tests/test_transport_security_checker.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42704,7 +42787,7 @@
 
 ---
 
-### `tests/test_truetime_basic.cpp` (v0.0.17)
+### `tests/test_truetime_basic.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -42716,7 +42799,7 @@
 
 ---
 
-### `tests/test_ts_auto_buffer.cpp` (v0.0.17)
+### `tests/test_ts_auto_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42727,7 +42810,7 @@
 
 ---
 
-### `tests/test_ts_auto_buffer_advanced.cpp` (v0.0.15)
+### `tests/test_ts_auto_buffer_advanced.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42738,7 +42821,7 @@
 
 ---
 
-### `tests/test_ts_integration.cpp` (v0.0.15)
+### `tests/test_ts_integration.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42753,7 +42836,7 @@
 
 ---
 
-### `tests/test_ts_observability.cpp` (v0.0.15)
+### `tests/test_ts_observability.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42764,7 +42847,7 @@
 
 ---
 
-### `tests/test_ts_query_optimizer.cpp` (v0.0.15)
+### `tests/test_ts_query_optimizer.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42775,7 +42858,7 @@
 
 ---
 
-### `tests/test_tsstore.cpp` (v0.0.17)
+### `tests/test_tsstore.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -42787,7 +42870,7 @@
 
 ---
 
-### `tests/test_ttl_fulltext_index.cpp` (v0.0.17)
+### `tests/test_ttl_fulltext_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42798,7 +42881,7 @@
 
 ---
 
-### `tests/test_two_phase_commit.cpp` (v0.0.17)
+### `tests/test_two_phase_commit.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42813,7 +42896,7 @@
 
 ---
 
-### `tests/test_type_conversion_safety.cpp` (v0.0.17)
+### `tests/test_type_conversion_safety.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42828,7 +42911,7 @@
 
 ---
 
-### `tests/test_unique_index.cpp` (v0.0.17)
+### `tests/test_unique_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42839,7 +42922,7 @@
 
 ---
 
-### `tests/test_updates_production.cpp` (v0.0.15)
+### `tests/test_updates_production.cpp` (v0.0.21)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42853,7 +42936,7 @@
 
 ---
 
-### `tests/test_usb_admin_authenticator.cpp` (v0.0.17)
+### `tests/test_usb_admin_authenticator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42867,7 +42950,7 @@
 
 ---
 
-### `tests/test_user_key_derivation.cpp` (v0.0.17)
+### `tests/test_user_key_derivation.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -42878,7 +42961,7 @@
 
 ---
 
-### `tests/test_utilities_comprehensive.cpp` (v0.0.17)
+### `tests/test_utilities_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42889,7 +42972,7 @@
 
 ---
 
-### `tests/test_vault_key_provider.cpp` (v0.0.17)
+### `tests/test_vault_key_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42900,7 +42983,7 @@
 
 ---
 
-### `tests/test_vault_key_provider_retry.cpp` (v0.0.17)
+### `tests/test_vault_key_provider_retry.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42914,7 +42997,7 @@
 
 ---
 
-### `tests/test_vault_signing_provider.cpp` (v0.0.17)
+### `tests/test_vault_signing_provider.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -42933,7 +43016,7 @@
 
 ---
 
-### `tests/test_vault_signing_provider_errors.cpp` (v0.0.17)
+### `tests/test_vault_signing_provider_errors.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42944,7 +43027,7 @@
 
 ---
 
-### `tests/test_vcc_pki_client.cpp` (v0.0.17)
+### `tests/test_vcc_pki_client.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42955,7 +43038,7 @@
 
 ---
 
-### `tests/test_vector_advanced_features.cpp` (v0.0.17)
+### `tests/test_vector_advanced_features.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -42966,7 +43049,7 @@
 
 ---
 
-### `tests/test_vector_auto_buffer.cpp` (v0.0.17)
+### `tests/test_vector_auto_buffer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42977,7 +43060,7 @@
 
 ---
 
-### `tests/test_vector_compression_lossless.cpp` (v0.0.17)
+### `tests/test_vector_compression_lossless.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -42992,7 +43075,7 @@
 
 ---
 
-### `tests/test_vector_encryption_integration.cpp` (v0.0.17)
+### `tests/test_vector_encryption_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43007,7 +43090,7 @@
 
 ---
 
-### `tests/test_vector_encryption_phase1.cpp` (v0.0.17)
+### `tests/test_vector_encryption_phase1.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43018,7 +43101,7 @@
 
 ---
 
-### `tests/test_vector_filtered_standalone.cpp` (v0.0.17)
+### `tests/test_vector_filtered_standalone.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43029,7 +43112,7 @@
 
 ---
 
-### `tests/test_vector_index.cpp` (v0.0.17)
+### `tests/test_vector_index.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43040,7 +43123,7 @@
 
 ---
 
-### `tests/test_vector_index_comprehensive.cpp` (v0.0.17)
+### `tests/test_vector_index_comprehensive.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -43052,7 +43135,7 @@
 
 ---
 
-### `tests/test_vector_metadata_encryption_edge_cases.cpp` (v0.0.17)
+### `tests/test_vector_metadata_encryption_edge_cases.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -43064,7 +43147,7 @@
 
 ---
 
-### `tests/test_vector_stats_standalone.cpp` (v0.0.17)
+### `tests/test_vector_stats_standalone.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43075,7 +43158,7 @@
 
 ---
 
-### `tests/test_video_processor_extended.cpp` (v0.0.17)
+### `tests/test_video_processor_extended.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43089,7 +43172,7 @@
 
 ---
 
-### `tests/test_voice_assistant.cpp` (v0.0.17)
+### `tests/test_voice_assistant.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -43101,7 +43184,7 @@
 
 ---
 
-### `tests/test_voice_production.cpp` (v0.0.12)
+### `tests/test_voice_production.cpp` (v0.0.18)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43115,7 +43198,7 @@
 
 ---
 
-### `tests/test_vram_allocator_null_checks.cpp` (v0.0.17)
+### `tests/test_vram_allocator_null_checks.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43129,7 +43212,7 @@
 
 ---
 
-### `tests/test_vram_secure_clear.cpp` (v0.0.17)
+### `tests/test_vram_secure_clear.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -43141,7 +43224,7 @@
 
 ---
 
-### `tests/test_vulkan_backend.cpp` (v0.0.17)
+### `tests/test_vulkan_backend.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43152,7 +43235,7 @@
 
 ---
 
-### `tests/test_vulkan_lora.cpp` (v0.0.17)
+### `tests/test_vulkan_lora.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -43164,7 +43247,7 @@
 
 ---
 
-### `tests/test_wal_archiving.cpp` (v0.0.17)
+### `tests/test_wal_archiving.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43178,7 +43261,7 @@
 
 ---
 
-### `tests/test_wal_backup_manager.cpp` (v0.0.17)
+### `tests/test_wal_backup_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -43190,7 +43273,7 @@
 
 ---
 
-### `tests/test_wal_chaos.cpp` (v0.0.16)
+### `tests/test_wal_chaos.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43201,7 +43284,7 @@
 
 ---
 
-### `tests/test_wal_grpc_apply.cpp` (v0.0.17)
+### `tests/test_wal_grpc_apply.cpp` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (75.0/100)
 
@@ -43216,7 +43299,7 @@
 
 ---
 
-### `tests/test_wal_manager.cpp` (v0.0.17)
+### `tests/test_wal_manager.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43227,7 +43310,7 @@
 
 ---
 
-### `tests/test_wal_manifest_corruption.cpp` (v0.0.17)
+### `tests/test_wal_manifest_corruption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43238,7 +43321,7 @@
 
 ---
 
-### `tests/test_wal_replication.cpp` (v0.0.17)
+### `tests/test_wal_replication.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43252,7 +43335,7 @@
 
 ---
 
-### `tests/test_wal_replication_integration.cpp` (v0.0.17)
+### `tests/test_wal_replication_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (86.0/100)
 
@@ -43270,7 +43353,7 @@
 
 ---
 
-### `tests/test_wal_storage.cpp` (v0.0.16)
+### `tests/test_wal_storage.cpp` (v0.0.22)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43281,7 +43364,7 @@
 
 ---
 
-### `tests/test_websocket_cdc.cpp` (v0.0.17)
+### `tests/test_websocket_cdc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43292,7 +43375,7 @@
 
 ---
 
-### `tests/test_window_functions.cpp` (v0.0.17)
+### `tests/test_window_functions.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43303,7 +43386,7 @@
 
 ---
 
-### `tests/test_wire_protocol_connection_pool.cpp` (v0.0.17)
+### `tests/test_wire_protocol_connection_pool.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43314,7 +43397,7 @@
 
 ---
 
-### `tests/test_wire_protocol_integration.cpp` (v0.0.17)
+### `tests/test_wire_protocol_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43326,7 +43409,7 @@
 
 ---
 
-### `tests/test_wire_protocol_performance.cpp` (v0.0.17)
+### `tests/test_wire_protocol_performance.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43337,7 +43420,7 @@
 
 ---
 
-### `tests/test_wire_protocol_v2.cpp` (v0.0.17)
+### `tests/test_wire_protocol_v2.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43348,7 +43431,7 @@
 
 ---
 
-### `tests/test_wisckey_gc.cpp` (v0.0.17)
+### `tests/test_wisckey_gc.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43359,7 +43442,7 @@
 
 ---
 
-### `tests/test_workload_cache_strategy.cpp` (v0.0.17)
+### `tests/test_workload_cache_strategy.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43370,7 +43453,7 @@
 
 ---
 
-### `tests/test_workload_driven_cache.cpp` (v0.0.17)
+### `tests/test_workload_driven_cache.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43385,7 +43468,7 @@
 
 ---
 
-### `tests/test_write_amplification_config.cpp` (v0.0.17)
+### `tests/test_write_amplification_config.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43396,7 +43479,7 @@
 
 ---
 
-### `tests/test_yaml_config_integration.cpp` (v0.0.17)
+### `tests/test_yaml_config_integration.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43407,7 +43490,7 @@
 
 ---
 
-### `tests/test_zstd_compression_security.cpp` (v0.0.17)
+### `tests/test_zstd_compression_security.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -43425,7 +43508,7 @@
 
 ---
 
-### `tests/update_checker_test.cpp` (v0.0.17)
+### `tests/update_checker_test.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43436,7 +43519,7 @@
 
 ---
 
-### `tests/utils/mock_clock.h` (v0.0.17)
+### `tests/utils/mock_clock.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (87.0/100)
 
@@ -43454,7 +43537,7 @@
 
 ---
 
-### `tests/utils/raid_simulator.cpp` (v0.0.17)
+### `tests/utils/raid_simulator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43465,7 +43548,7 @@
 
 ---
 
-### `tests/utils/raid_simulator.h` (v0.0.17)
+### `tests/utils/raid_simulator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43479,7 +43562,7 @@
 
 ---
 
-### `tests/utils/shard_failure_injector.cpp` (v0.0.17)
+### `tests/utils/shard_failure_injector.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43490,7 +43573,7 @@
 
 ---
 
-### `tests/utils/shard_failure_injector.h` (v0.0.17)
+### `tests/utils/shard_failure_injector.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43505,7 +43588,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/AuditLogEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/AuditLogEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43516,7 +43599,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/ClassificationEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/ClassificationEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43527,7 +43610,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/KeysEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/KeysEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43538,7 +43621,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/PiiEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/PiiEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43549,7 +43632,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/ReportsEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/ReportsEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43560,7 +43643,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/RetentionEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/RetentionEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43571,7 +43654,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/SagaEndpoint.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/Endpoints/SagaEndpoint.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43582,7 +43665,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/MockThemisApiClient.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/MockThemisApiClient.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -43596,7 +43679,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/ApiClient/ThemisApiClient.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/ApiClient/ThemisApiClient.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43607,7 +43690,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/AuditLogModels.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/AuditLogModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43618,7 +43701,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/ClassificationModels.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/ClassificationModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43629,7 +43712,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/Common.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/Common.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43640,7 +43723,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/KeysModels.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/KeysModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43651,7 +43734,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/PiiModels.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/PiiModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43662,7 +43745,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/ReportsModels.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/ReportsModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43673,7 +43756,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/RetentionModels.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/RetentionModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43684,7 +43767,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/SAGABatchDetail.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/SAGABatchDetail.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43695,7 +43778,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/SAGABatchInfo.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/SAGABatchInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43706,7 +43789,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/SAGABatchListResponse.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/SAGABatchListResponse.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43717,7 +43800,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/Models/SAGAVerificationResult.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/Models/SAGAVerificationResult.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43728,7 +43811,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43739,7 +43822,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/obj/Debug/net8.0-windows/Themis.AdminTools.Shared.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/obj/Debug/net8.0-windows/Themis.AdminTools.Shared.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43750,7 +43833,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/obj/Release/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/obj/Release/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43761,7 +43844,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/obj/Release/net8.0-windows/Themis.AdminTools.Shared.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/obj/Release/net8.0-windows/Themis.AdminTools.Shared.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43772,7 +43855,7 @@
 
 ---
 
-### `tools/Themis.AdminTools.Shared/obj/Release/net8.0-windows/Themis.AdminTools.Shared.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.AdminTools.Shared/obj/Release/net8.0-windows/Themis.AdminTools.Shared.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43783,7 +43866,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/App.xaml.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -43794,7 +43877,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -43805,7 +43888,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Converters/ValueConverters.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Converters/ValueConverters.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -43820,7 +43903,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Infrastructure/Result.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Infrastructure/Result.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -43831,7 +43914,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Infrastructure/ServiceContainer.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Infrastructure/ServiceContainer.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43842,7 +43925,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -43853,7 +43936,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Models/AqlQueryModel.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Models/AqlQueryModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43864,7 +43947,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Models/ConnectionModels.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Models/ConnectionModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -43875,7 +43958,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Models/GeoModels.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Models/GeoModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43886,7 +43969,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Models/GraphModels.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Models/GraphModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43897,7 +43980,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Models/SchemaModels.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Models/SchemaModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43908,7 +43991,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Models/VectorModels.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Models/VectorModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43919,7 +44002,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Services/AqlQueryService.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Services/AqlQueryService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -43930,7 +44013,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Services/HelpService.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Services/HelpService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -43941,7 +44024,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Services/IHelpService.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Services/IHelpService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43952,7 +44035,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Services/IServices.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Services/IServices.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -43963,7 +44046,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Services/QueryHistoryService.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Services/QueryHistoryService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -43974,7 +44057,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Services/SchemaService.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Services/SchemaService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -43985,7 +44068,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -43996,7 +44079,7 @@
 
 ---
 
-### `tools/Themis.AqlQueryBuilder/Views/EnhancedMainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.AqlQueryBuilder/Views/EnhancedMainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -44007,7 +44090,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/App.xaml.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44018,7 +44101,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/ViewModels/MainWindowViewModel.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/ViewModels/MainWindowViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44029,7 +44112,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/Views/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/Views/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44040,7 +44123,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44051,7 +44134,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44062,7 +44145,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44073,7 +44156,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Themis.AuditLogViewer.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Themis.AuditLogViewer.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -44087,7 +44170,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Themis.AuditLogViewer.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Themis.AuditLogViewer.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44098,7 +44181,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44109,7 +44192,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44120,7 +44203,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44131,7 +44214,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44142,7 +44225,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/Themis.AuditLogViewer.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/Themis.AuditLogViewer.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44153,7 +44236,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/Themis.AuditLogViewer.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/Themis.AuditLogViewer.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44164,7 +44247,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44175,7 +44258,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44186,7 +44269,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44197,7 +44280,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Themis.AuditLogViewer.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Themis.AuditLogViewer.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44208,7 +44291,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Themis.AuditLogViewer.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Themis.AuditLogViewer.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44219,7 +44302,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44230,7 +44313,7 @@
 
 ---
 
-### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.AuditLogViewer/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44241,7 +44324,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/App.xaml.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44252,7 +44335,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/Models/DataClassification.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/Models/DataClassification.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44263,7 +44346,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44274,7 +44357,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/Views/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/Views/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44285,7 +44368,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44296,7 +44379,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44307,7 +44390,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44318,7 +44401,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Themis.ClassificationDashboard.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Themis.ClassificationDashboard.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -44332,7 +44415,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Themis.ClassificationDashboard.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Themis.ClassificationDashboard.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44343,7 +44426,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44354,7 +44437,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44365,7 +44448,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44376,7 +44459,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -44387,7 +44470,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Themis.ClassificationDashboard.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Themis.ClassificationDashboard.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44398,7 +44481,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Themis.ClassificationDashboard.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Themis.ClassificationDashboard.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44409,7 +44492,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44420,7 +44503,7 @@
 
 ---
 
-### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.ClassificationDashboard/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44431,7 +44514,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/App.xaml.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44442,7 +44525,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/Models/ComplianceReport.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/Models/ComplianceReport.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44453,7 +44536,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44464,7 +44547,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/Views/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/Views/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44475,7 +44558,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44486,7 +44569,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44497,7 +44580,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44508,7 +44591,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Themis.ComplianceReports.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Themis.ComplianceReports.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -44522,7 +44605,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Themis.ComplianceReports.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Themis.ComplianceReports.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44533,7 +44616,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44544,7 +44627,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44555,7 +44638,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44566,7 +44649,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -44577,7 +44660,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Themis.ComplianceReports.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Themis.ComplianceReports.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44588,7 +44671,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Themis.ComplianceReports.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Themis.ComplianceReports.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44599,7 +44682,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44610,7 +44693,7 @@
 
 ---
 
-### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.ComplianceReports/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44621,7 +44704,7 @@
 
 ---
 
-### `tools/Themis.GISViewer.ControlPanel/App.xaml.cs` (v0.0.17)
+### `tools/Themis.GISViewer.ControlPanel/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44632,7 +44715,7 @@
 
 ---
 
-### `tools/Themis.GISViewer.ControlPanel/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.GISViewer.ControlPanel/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44643,7 +44726,7 @@
 
 ---
 
-### `tools/Themis.GISViewer.ControlPanel/Services/PluginService.cs` (v0.0.17)
+### `tools/Themis.GISViewer.ControlPanel/Services/PluginService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -44657,7 +44740,7 @@
 
 ---
 
-### `tools/Themis.GISViewer.ControlPanel/Services/ThemisDBService.cs` (v0.0.17)
+### `tools/Themis.GISViewer.ControlPanel/Services/ThemisDBService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44668,7 +44751,7 @@
 
 ---
 
-### `tools/Themis.GISViewer.ControlPanel/Services/UnrealEngineConnector.cs` (v0.0.17)
+### `tools/Themis.GISViewer.ControlPanel/Services/UnrealEngineConnector.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44679,7 +44762,7 @@
 
 ---
 
-### `tools/Themis.GISViewer.ControlPanel/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.GISViewer.ControlPanel/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (69.0/100)
 
@@ -44700,7 +44783,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/App.xaml.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44711,7 +44794,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Controls/AqlQueryBuilderControl.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Controls/AqlQueryBuilderControl.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -44722,7 +44805,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Controls/ImpactGraphControl.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Controls/ImpactGraphControl.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -44733,7 +44816,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Controls/LlmQueryAssistant.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Controls/LlmQueryAssistant.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -44744,7 +44827,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Controls/Model3DImporter.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Controls/Model3DImporter.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44755,7 +44838,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Models/DocumentChange.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Models/DocumentChange.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -44766,7 +44849,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Models/ImpactAnalysisResult.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Models/ImpactAnalysisResult.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -44777,7 +44860,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Models/LayerMetadata.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Models/LayerMetadata.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -44788,7 +44871,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Models/NodeImpact.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Models/NodeImpact.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -44799,7 +44882,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Services/ImpactAnalysisService.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Services/ImpactAnalysisService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -44810,7 +44893,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44821,7 +44904,7 @@
 
 ---
 
-### `tools/Themis.ImpactAnalysisViewer/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.ImpactAnalysisViewer/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44832,7 +44915,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/App.xaml.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44843,7 +44926,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Converters/ValueConverters.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Converters/ValueConverters.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (80.0/100)
 
@@ -44857,7 +44940,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Models/AnalysisModels.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Models/AnalysisModels.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44868,7 +44951,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Models/AppSettings.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Models/AppSettings.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44879,7 +44962,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/RealIngestionRunner.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/RealIngestionRunner.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -44890,7 +44973,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/AnalysisServiceImplementations.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/AnalysisServiceImplementations.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (90.0/100)
 
@@ -44907,7 +44990,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/AnalysisServiceInterfaces.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/AnalysisServiceInterfaces.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -44918,7 +45001,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/EmbeddingService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/EmbeddingService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -44929,7 +45012,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/GraphQueryService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/GraphQueryService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -44940,7 +45023,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/GrpcThemisService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/GrpcThemisService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -44951,7 +45034,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/LRUCacheService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/LRUCacheService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -44962,7 +45045,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/LlamaHttpService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/LlamaHttpService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -44976,7 +45059,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/LlmStatusService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/LlmStatusService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -44987,7 +45070,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/LoadTestRunner.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/LoadTestRunner.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -45001,7 +45084,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/PerformanceProfiler.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/PerformanceProfiler.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45012,7 +45095,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/PollyHttpResilienceService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/PollyHttpResilienceService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -45023,7 +45106,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/RealIngestionService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/RealIngestionService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -45034,7 +45117,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/ServiceImplementations.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/ServiceImplementations.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -45050,7 +45133,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/ServiceInterfaces.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/ServiceInterfaces.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45061,7 +45144,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/ThemisApiService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/ThemisApiService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -45072,7 +45155,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/ThemisConnectionServiceGrpc.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/ThemisConnectionServiceGrpc.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -45086,7 +45169,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Services/VectorQueryService.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Services/VectorQueryService.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -45097,7 +45180,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/BaseViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/BaseViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45108,7 +45191,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/CacheStatisticsViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/CacheStatisticsViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45119,7 +45202,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/GraphQueryDialogViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/GraphQueryDialogViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -45130,7 +45213,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/LoadTestViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/LoadTestViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -45141,7 +45224,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/MainWindowViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/MainWindowViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (92.0/100)
 
@@ -45157,7 +45240,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/RelayCommand.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/RelayCommand.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45168,7 +45251,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/SettingsDialogViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/SettingsDialogViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45179,7 +45262,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/VectorQueryDialogViewModel.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/VectorQueryDialogViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -45190,7 +45273,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/ViewModels/ViewModelBase.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/ViewModels/ViewModelBase.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -45201,7 +45284,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Views/FileDetailsView.xaml.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Views/FileDetailsView.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45212,7 +45295,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -45229,7 +45312,7 @@
 
 ---
 
-### `tools/Themis.IngestionTool/Views/SettingsDialog.xaml.cs` (v0.0.17)
+### `tools/Themis.IngestionTool/Views/SettingsDialog.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45240,7 +45323,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/App.xaml.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45251,7 +45334,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/Models/KeyRotationInfo.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/Models/KeyRotationInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45262,7 +45345,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45273,7 +45356,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/Views/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/Views/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45284,7 +45367,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45295,7 +45378,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45306,7 +45389,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45317,7 +45400,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Themis.KeyRotationDashboard.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Themis.KeyRotationDashboard.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -45331,7 +45414,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Themis.KeyRotationDashboard.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Themis.KeyRotationDashboard.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45342,7 +45425,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45353,7 +45436,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45364,7 +45447,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45375,7 +45458,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -45386,7 +45469,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Themis.KeyRotationDashboard.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Themis.KeyRotationDashboard.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45397,7 +45480,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Themis.KeyRotationDashboard.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Themis.KeyRotationDashboard.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45408,7 +45491,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45419,7 +45502,7 @@
 
 ---
 
-### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.KeyRotationDashboard/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45430,7 +45513,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/App.xaml.cs` (v0.0.17)
+### `tools/Themis.PIIManager/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45441,7 +45524,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/Models/PiiMapping.cs` (v0.0.17)
+### `tools/Themis.PIIManager/Models/PiiMapping.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45452,7 +45535,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.PIIManager/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -45466,7 +45549,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/Views/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.PIIManager/Views/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45477,7 +45560,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.PIIManager/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45488,7 +45571,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45499,7 +45582,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -45510,7 +45593,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Themis.PIIManager.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Themis.PIIManager.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -45524,7 +45607,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Themis.PIIManager.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Themis.PIIManager.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45535,7 +45618,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45546,7 +45629,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45557,7 +45640,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45568,7 +45651,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -45579,7 +45662,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Themis.PIIManager.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Themis.PIIManager.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45590,7 +45673,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Themis.PIIManager.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Themis.PIIManager.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45601,7 +45684,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45612,7 +45695,7 @@
 
 ---
 
-### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.PIIManager/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45623,7 +45706,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/App.xaml.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45634,7 +45717,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/Models/RetentionPolicy.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/Models/RetentionPolicy.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45645,7 +45728,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45656,7 +45739,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/Views/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/Views/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45667,7 +45750,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/Views/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/Views/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45678,7 +45761,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45689,7 +45772,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45700,7 +45783,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Themis.RetentionManager.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Themis.RetentionManager.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -45714,7 +45797,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Themis.RetentionManager.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Themis.RetentionManager.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45725,7 +45808,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45736,7 +45819,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Debug/net8.0-windows/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45747,7 +45830,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45758,7 +45841,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -45769,7 +45852,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Themis.RetentionManager.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Themis.RetentionManager.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45780,7 +45863,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Themis.RetentionManager.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Themis.RetentionManager.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45791,7 +45874,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Views/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45802,7 +45885,7 @@
 
 ---
 
-### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.RetentionManager/obj/Release/net8.0-windows/win-x64/Views/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45813,7 +45896,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/AboutWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/AboutWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45824,7 +45907,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/App.xaml.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/App.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45835,7 +45918,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45846,7 +45929,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/Converters/ValueConverters.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/Converters/ValueConverters.cs` (v0.0.23)
 
 **Maturity Level:** 🟡 RELEASE-CANDIDATE (70.0/100)
 
@@ -45861,7 +45944,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/MainWindow.xaml.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/MainWindow.xaml.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45872,7 +45955,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/ViewModels/MainViewModel.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/ViewModels/MainViewModel.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45883,7 +45966,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45894,7 +45977,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45905,7 +45988,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/App.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45916,7 +45999,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/GeneratedInternalTypeHelper.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/GeneratedInternalTypeHelper.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45927,7 +46010,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -45938,7 +46021,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -45952,7 +46035,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45963,7 +46046,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_1sz1m4b5_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_1sz1m4b5_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -45977,7 +46060,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_1sz1m4b5_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_1sz1m4b5_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -45988,7 +46071,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_aboi3s0w_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_aboi3s0w_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46002,7 +46085,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_aboi3s0w_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_aboi3s0w_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46013,7 +46096,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_bgfmc4wh_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_bgfmc4wh_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46027,7 +46110,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_bgfmc4wh_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_bgfmc4wh_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46038,7 +46121,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_esgg4vdh_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_esgg4vdh_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46052,7 +46135,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_esgg4vdh_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_esgg4vdh_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46063,7 +46146,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_gl1faee3_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_gl1faee3_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46077,7 +46160,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_gl1faee3_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_gl1faee3_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46088,7 +46171,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_jefekf0o_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_jefekf0o_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46102,7 +46185,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_jefekf0o_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_jefekf0o_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46113,7 +46196,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_kogcgjlp_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_kogcgjlp_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46127,7 +46210,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_kogcgjlp_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_kogcgjlp_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46138,7 +46221,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_mvyhwfbc_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_mvyhwfbc_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46152,7 +46235,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_mvyhwfbc_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_mvyhwfbc_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46163,7 +46246,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_ndbovtvf_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_ndbovtvf_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46177,7 +46260,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_ndbovtvf_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_ndbovtvf_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46188,7 +46271,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_o2uvaptn_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_o2uvaptn_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46202,7 +46285,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_o2uvaptn_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_o2uvaptn_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46213,7 +46296,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_r4kswj0c_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_r4kswj0c_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46227,7 +46310,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_r4kswj0c_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_r4kswj0c_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46238,7 +46321,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_rngkqx2n_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_rngkqx2n_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46252,7 +46335,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_rngkqx2n_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_rngkqx2n_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46263,7 +46346,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_urra244u_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_urra244u_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46277,7 +46360,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_urra244u_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_urra244u_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46288,7 +46371,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_wzjnehst_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_wzjnehst_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46302,7 +46385,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_wzjnehst_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_wzjnehst_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46313,7 +46396,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_x5mzh1o5_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_x5mzh1o5_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (94.0/100)
 
@@ -46327,7 +46410,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_x5mzh1o5_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Debug/net8.0-windows/Themis.SAGAVerifier_x5mzh1o5_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46338,7 +46421,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46349,7 +46432,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/AboutWindow.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/AboutWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46360,7 +46443,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/App.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46371,7 +46454,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/GeneratedInternalTypeHelper.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/GeneratedInternalTypeHelper.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46382,7 +46465,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/MainWindow.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/MainWindow.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46393,7 +46476,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46404,7 +46487,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46415,7 +46498,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier_iie3e3pg_wpftmp.AssemblyInfo.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier_iie3e3pg_wpftmp.AssemblyInfo.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46426,7 +46509,7 @@
 
 ---
 
-### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier_iie3e3pg_wpftmp.GlobalUsings.g.cs` (v0.0.17)
+### `tools/Themis.SAGAVerifier/obj/Release/net8.0-windows/win-x64/Themis.SAGAVerifier_iie3e3pg_wpftmp.GlobalUsings.g.cs` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46437,7 +46520,7 @@
 
 ---
 
-### `tools/aggregate_shard_results.py` (v0.0.17)
+### `tools/aggregate_shard_results.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46448,7 +46531,7 @@
 
 ---
 
-### `tools/capability_generator.py` (v0.0.17)
+### `tools/capability_generator.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46463,7 +46546,7 @@
 
 ---
 
-### `tools/ci/analyze_workflows.py` (v0.0.17)
+### `tools/ci/analyze_workflows.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46474,7 +46557,7 @@
 
 ---
 
-### `tools/ci/parse_build_errors.py` (v0.0.17)
+### `tools/ci/parse_build_errors.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46485,7 +46568,7 @@
 
 ---
 
-### `tools/compare_hyperscaler.py` (v0.0.17)
+### `tools/compare_hyperscaler.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46496,7 +46579,7 @@
 
 ---
 
-### `tools/compiler_diagnostics/__init__.py` (v0.0.17)
+### `tools/compiler_diagnostics/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -46507,7 +46590,7 @@
 
 ---
 
-### `tools/compiler_diagnostics/diagnostic_scanner.py` (v0.0.17)
+### `tools/compiler_diagnostics/diagnostic_scanner.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46518,7 +46601,7 @@
 
 ---
 
-### `tools/compiler_diagnostics/issue_tracker.py` (v0.0.17)
+### `tools/compiler_diagnostics/issue_tracker.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46529,7 +46612,7 @@
 
 ---
 
-### `tools/compiler_diagnostics/source_audit.py` (v0.0.17)
+### `tools/compiler_diagnostics/source_audit.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46540,7 +46623,7 @@
 
 ---
 
-### `tools/compiler_diagnostics/symbol_checker.py` (v0.0.17)
+### `tools/compiler_diagnostics/symbol_checker.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46551,7 +46634,7 @@
 
 ---
 
-### `tools/compiler_diagnostics/warning_report.py` (v0.0.17)
+### `tools/compiler_diagnostics/warning_report.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46562,7 +46645,7 @@
 
 ---
 
-### `tools/debug_graph_keys.cpp` (v0.0.17)
+### `tools/debug_graph_keys.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46573,7 +46656,7 @@
 
 ---
 
-### `tools/embed_certificate.cpp` (v0.0.17)
+### `tools/embed_certificate.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46584,7 +46667,7 @@
 
 ---
 
-### `tools/fault_injector.py` (v0.0.17)
+### `tools/fault_injector.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -46599,7 +46682,7 @@
 
 ---
 
-### `tools/gnn/export_to_onnx.py` (v0.0.17)
+### `tools/gnn/export_to_onnx.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46614,7 +46697,7 @@
 
 ---
 
-### `tools/gnn/gnn_example.py` (v0.0.17)
+### `tools/gnn/gnn_example.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46625,7 +46708,7 @@
 
 ---
 
-### `tools/gnn/train_gnn.py` (v0.0.17)
+### `tools/gnn/train_gnn.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46636,7 +46719,7 @@
 
 ---
 
-### `tools/import_cli.cpp` (v0.0.17)
+### `tools/import_cli.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46647,7 +46730,7 @@
 
 ---
 
-### `tools/ingest.py` (v0.0.17)
+### `tools/ingest.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46661,7 +46744,7 @@
 
 ---
 
-### `tools/ldap_export.py` (v0.0.17)
+### `tools/ldap_export.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46672,7 +46755,7 @@
 
 ---
 
-### `tools/link_ownership.py` (v0.0.17)
+### `tools/link_ownership.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46687,7 +46770,7 @@
 
 ---
 
-### `tools/lora_provenance_cli.cpp` (v0.0.10)
+### `tools/lora_provenance_cli.cpp` (v0.0.16)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46698,7 +46781,7 @@
 
 ---
 
-### `tools/migrate_vector_encryption.cpp` (v0.0.17)
+### `tools/migrate_vector_encryption.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -46712,7 +46795,7 @@
 
 ---
 
-### `tools/namespace_analyzer.py` (v0.0.17)
+### `tools/namespace_analyzer.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46723,7 +46806,7 @@
 
 ---
 
-### `tools/plugin_signer/sign_plugin.py` (v0.0.17)
+### `tools/plugin_signer/sign_plugin.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46734,7 +46817,7 @@
 
 ---
 
-### `tools/publish_wiki.py` (v0.0.17)
+### `tools/publish_wiki.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46745,7 +46828,7 @@
 
 ---
 
-### `tools/rope_visualizer/__init__.py` (v0.0.17)
+### `tools/rope_visualizer/__init__.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -46756,7 +46839,7 @@
 
 ---
 
-### `tools/rope_visualizer/cli.py` (v0.0.17)
+### `tools/rope_visualizer/cli.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46767,7 +46850,7 @@
 
 ---
 
-### `tools/rope_visualizer/utils.py` (v0.0.17)
+### `tools/rope_visualizer/utils.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46778,7 +46861,7 @@
 
 ---
 
-### `tools/rope_visualizer/visualizer.py` (v0.0.17)
+### `tools/rope_visualizer/visualizer.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46789,7 +46872,7 @@
 
 ---
 
-### `tools/shard_bench.py` (v0.0.17)
+### `tools/shard_bench.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -46804,7 +46887,7 @@
 
 ---
 
-### `tools/shard_loader.py` (v0.0.17)
+### `tools/shard_loader.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46818,7 +46901,7 @@
 
 ---
 
-### `tools/sign_pii_engine.py` (v0.0.17)
+### `tools/sign_pii_engine.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46835,7 +46918,7 @@
 
 ---
 
-### `tools/sign_plugin_manifest.py` (v0.0.17)
+### `tools/sign_plugin_manifest.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46846,7 +46929,7 @@
 
 ---
 
-### `tools/themis_docs_builder/include/docs_builder.h` (v0.0.17)
+### `tools/themis_docs_builder/include/docs_builder.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46857,7 +46940,7 @@
 
 ---
 
-### `tools/themis_docs_builder/include/document_parser.h` (v0.0.17)
+### `tools/themis_docs_builder/include/document_parser.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46868,7 +46951,7 @@
 
 ---
 
-### `tools/themis_docs_builder/include/rocksdb_writer.h` (v0.0.17)
+### `tools/themis_docs_builder/include/rocksdb_writer.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46879,7 +46962,7 @@
 
 ---
 
-### `tools/themis_docs_builder/include/validator.h` (v0.0.17)
+### `tools/themis_docs_builder/include/validator.h` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46890,7 +46973,7 @@
 
 ---
 
-### `tools/themis_docs_builder/src/docs_builder.cpp` (v0.0.17)
+### `tools/themis_docs_builder/src/docs_builder.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (91.0/100)
 
@@ -46906,7 +46989,7 @@
 
 ---
 
-### `tools/themis_docs_builder/src/document_parser.cpp` (v0.0.17)
+### `tools/themis_docs_builder/src/document_parser.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46920,7 +47003,7 @@
 
 ---
 
-### `tools/themis_docs_builder/src/main.cpp` (v0.0.17)
+### `tools/themis_docs_builder/src/main.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46931,7 +47014,7 @@
 
 ---
 
-### `tools/themis_docs_builder/src/rocksdb_writer.cpp` (v0.0.17)
+### `tools/themis_docs_builder/src/rocksdb_writer.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (93.0/100)
 
@@ -46946,7 +47029,7 @@
 
 ---
 
-### `tools/themis_docs_builder/src/validator.cpp` (v0.0.17)
+### `tools/themis_docs_builder/src/validator.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46960,7 +47043,7 @@
 
 ---
 
-### `tools/themis_model_cli.cpp` (v0.0.17)
+### `tools/themis_model_cli.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (97.0/100)
 
@@ -46971,7 +47054,7 @@
 
 ---
 
-### `tools/themis_profiler.py` (v0.0.17)
+### `tools/themis_profiler.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -46982,7 +47065,7 @@
 
 ---
 
-### `tools/txn_smoke.cpp` (v0.0.17)
+### `tools/txn_smoke.cpp` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -46993,7 +47076,7 @@
 
 ---
 
-### `tools/wordpress_category_extractor.py` (v0.0.17)
+### `tools/wordpress_category_extractor.py` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47004,7 +47087,7 @@
 
 ---
 
-### `wordpress-plugin/includes/class-themisdb-plugin-updater.php` (v0.0.17)
+### `wordpress-plugin/includes/class-themisdb-plugin-updater.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47015,7 +47098,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-architecture-diagrams/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-architecture-diagrams/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47026,7 +47109,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-architecture-diagrams/templates/diagram.php` (v0.0.17)
+### `wordpress-plugin/themisdb-architecture-diagrams/templates/diagram.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47037,7 +47120,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-architecture-diagrams/themisdb-architecture-diagrams.php` (v0.0.17)
+### `wordpress-plugin/themisdb-architecture-diagrams/themisdb-architecture-diagrams.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47048,7 +47131,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-architecture-diagrams/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-architecture-diagrams/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47059,7 +47142,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-benchmark-visualizer/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-benchmark-visualizer/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47070,7 +47153,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-benchmark-visualizer/templates/visualizer.php` (v0.0.17)
+### `wordpress-plugin/themisdb-benchmark-visualizer/templates/visualizer.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47081,7 +47164,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-benchmark-visualizer/themisdb-benchmark-visualizer.php` (v0.0.17)
+### `wordpress-plugin/themisdb-benchmark-visualizer/themisdb-benchmark-visualizer.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47092,7 +47175,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-benchmark-visualizer/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-benchmark-visualizer/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47103,7 +47186,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-compendium-downloads/includes/class-compendium-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-compendium-downloads/includes/class-compendium-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47114,7 +47197,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-compendium-downloads/includes/class-compendium-downloads.php` (v0.0.17)
+### `wordpress-plugin/themisdb-compendium-downloads/includes/class-compendium-downloads.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47125,7 +47208,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-compendium-downloads/includes/class-compendium-widget.php` (v0.0.17)
+### `wordpress-plugin/themisdb-compendium-downloads/includes/class-compendium-widget.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47136,7 +47219,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-compendium-downloads/themisdb-compendium-downloads.php` (v0.0.17)
+### `wordpress-plugin/themisdb-compendium-downloads/themisdb-compendium-downloads.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47150,7 +47233,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-docker-downloads/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-docker-downloads/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47161,7 +47244,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-docker-downloads/includes/class-dockerhub-api.php` (v0.0.17)
+### `wordpress-plugin/themisdb-docker-downloads/includes/class-dockerhub-api.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47172,7 +47255,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-docker-downloads/includes/class-shortcodes.php` (v0.0.17)
+### `wordpress-plugin/themisdb-docker-downloads/includes/class-shortcodes.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47183,7 +47266,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-docker-downloads/themisdb-docker-downloads.php` (v0.0.17)
+### `wordpress-plugin/themisdb-docker-downloads/themisdb-docker-downloads.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47194,7 +47277,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-downloads/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-downloads/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47205,7 +47288,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-downloads/includes/class-github-api.php` (v0.0.17)
+### `wordpress-plugin/themisdb-downloads/includes/class-github-api.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47216,7 +47299,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-downloads/includes/class-markdown-converter.php` (v0.0.17)
+### `wordpress-plugin/themisdb-downloads/includes/class-markdown-converter.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47227,7 +47310,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-downloads/includes/class-shortcodes.php` (v0.0.17)
+### `wordpress-plugin/themisdb-downloads/includes/class-shortcodes.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47238,7 +47321,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-downloads/includes/class-taxonomy-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-downloads/includes/class-taxonomy-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47249,7 +47332,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-downloads/themisdb-downloads.php` (v0.0.17)
+### `wordpress-plugin/themisdb-downloads/themisdb-downloads.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47260,7 +47343,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47271,7 +47354,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/includes/class-feature-matrix.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/includes/class-feature-matrix.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47282,7 +47365,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/includes/class-shortcode.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/includes/class-shortcode.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47293,7 +47376,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47304,7 +47387,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/templates/matrix.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/templates/matrix.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47315,7 +47398,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/themisdb-feature-matrix.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/themisdb-feature-matrix.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47329,7 +47412,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-feature-matrix/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-feature-matrix/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47340,7 +47423,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-formula-renderer/includes/class-formula-library.php` (v0.0.17)
+### `wordpress-plugin/themisdb-formula-renderer/includes/class-formula-library.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -47351,7 +47434,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-formula-renderer/includes/class-formula-renderer.php` (v0.0.17)
+### `wordpress-plugin/themisdb-formula-renderer/includes/class-formula-renderer.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47362,7 +47445,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-formula-renderer/includes/class-shortcodes.php` (v0.0.17)
+### `wordpress-plugin/themisdb-formula-renderer/includes/class-shortcodes.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47373,7 +47456,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-formula-renderer/themisdb-formula-renderer.php` (v0.0.17)
+### `wordpress-plugin/themisdb-formula-renderer/themisdb-formula-renderer.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47384,7 +47467,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-gallery/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-gallery/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47395,7 +47478,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-gallery/includes/class-gutenberg-block.php` (v0.0.17)
+### `wordpress-plugin/themisdb-gallery/includes/class-gutenberg-block.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47406,7 +47489,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-gallery/includes/class-image-api.php` (v0.0.17)
+### `wordpress-plugin/themisdb-gallery/includes/class-image-api.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47417,7 +47500,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-gallery/includes/class-media-handler.php` (v0.0.17)
+### `wordpress-plugin/themisdb-gallery/includes/class-media-handler.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47428,7 +47511,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-gallery/includes/class-shortcodes.php` (v0.0.17)
+### `wordpress-plugin/themisdb-gallery/includes/class-shortcodes.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47439,7 +47522,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-gallery/themisdb-gallery.php` (v0.0.17)
+### `wordpress-plugin/themisdb-gallery/themisdb-gallery.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47450,7 +47533,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47461,7 +47544,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-auth-system.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-auth-system.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47472,7 +47555,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-contract-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-contract-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47483,7 +47566,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-database.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-database.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (99.0/100)
 
@@ -47494,7 +47577,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-email-handler.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-email-handler.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47505,7 +47588,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-epserver-api.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-epserver-api.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47516,7 +47599,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-license-api.php` (v0.0.11)
+### `wordpress-plugin/themisdb-order-request/includes/class-license-api.php` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47527,7 +47610,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-license-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-license-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47538,7 +47621,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-license-portal.php` (v0.0.11)
+### `wordpress-plugin/themisdb-order-request/includes/class-license-portal.php` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47549,7 +47632,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-license-renewal.php` (v0.0.11)
+### `wordpress-plugin/themisdb-order-request/includes/class-license-renewal.php` (v0.0.17)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47560,7 +47643,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-order-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-order-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47571,7 +47654,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-payment-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-payment-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47582,7 +47665,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-pdf-generator.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-pdf-generator.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47593,7 +47676,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/includes/class-shortcodes.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/includes/class-shortcodes.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47604,7 +47687,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/themisdb-order-request.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/themisdb-order-request.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47615,7 +47698,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-order-request/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-order-request/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47626,7 +47709,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-query-playground/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-query-playground/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47637,7 +47720,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-query-playground/templates/playground.php` (v0.0.17)
+### `wordpress-plugin/themisdb-query-playground/templates/playground.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47648,7 +47731,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-query-playground/themisdb-query-playground.php` (v0.0.17)
+### `wordpress-plugin/themisdb-query-playground/themisdb-query-playground.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47659,7 +47742,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-query-playground/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-query-playground/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47670,7 +47753,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-release-timeline/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-release-timeline/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47681,7 +47764,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-release-timeline/templates/timeline.php` (v0.0.17)
+### `wordpress-plugin/themisdb-release-timeline/templates/timeline.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47692,7 +47775,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-release-timeline/themisdb-release-timeline.php` (v0.0.17)
+### `wordpress-plugin/themisdb-release-timeline/themisdb-release-timeline.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47703,7 +47786,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-release-timeline/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-release-timeline/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47714,7 +47797,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47725,7 +47808,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-analytics.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-analytics.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47736,7 +47819,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-category-hierarchy.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-category-hierarchy.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47747,7 +47830,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-custom-taxonomies.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-custom-taxonomies.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47758,7 +47841,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-metabox.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-metabox.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47769,7 +47852,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-seo.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-seo.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47780,7 +47863,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-taxonomy-extractor.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-taxonomy-extractor.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47791,7 +47874,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-taxonomy-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-taxonomy-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47802,7 +47885,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-template-handler.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-template-handler.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47813,7 +47896,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-term-meta.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-term-meta.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47824,7 +47907,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-tfidf.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-tfidf.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47835,7 +47918,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-tree-view.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-tree-view.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47846,7 +47929,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-widget.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/includes/class-widget.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47857,7 +47940,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/templates/taxonomy-archive.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/templates/taxonomy-archive.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47868,7 +47951,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/themisdb-taxonomy-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/themisdb-taxonomy-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47882,7 +47965,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -47893,7 +47976,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-taxonomy-manager/verify-implementation.php` (v0.0.17)
+### `wordpress-plugin/themisdb-taxonomy-manager/verify-implementation.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (81.0/100)
 
@@ -47911,7 +47994,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47922,7 +48005,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/calculator.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/calculator.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47933,7 +48016,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/sections/ai.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/sections/ai.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47944,7 +48027,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/sections/infrastructure.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/sections/infrastructure.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47955,7 +48038,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/sections/operations.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/sections/operations.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47966,7 +48049,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/sections/personnel.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/sections/personnel.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47977,7 +48060,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/templates/sections/workload.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/templates/sections/workload.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (95.0/100)
 
@@ -47988,7 +48071,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/themisdb-tco-calculator.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/themisdb-tco-calculator.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -47999,7 +48082,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-tco-calculator/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-tco-calculator/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48010,7 +48093,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-test-dashboard/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-test-dashboard/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48021,7 +48104,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-test-dashboard/templates/dashboard.php` (v0.0.17)
+### `wordpress-plugin/themisdb-test-dashboard/templates/dashboard.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48032,7 +48115,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-test-dashboard/themisdb-test-dashboard.php` (v0.0.17)
+### `wordpress-plugin/themisdb-test-dashboard/themisdb-test-dashboard.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (98.0/100)
 
@@ -48048,7 +48131,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-test-dashboard/uninstall.php` (v0.0.17)
+### `wordpress-plugin/themisdb-test-dashboard/uninstall.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48059,7 +48142,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-admin.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-admin.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48070,7 +48153,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-github-sync.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-github-sync.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48081,7 +48164,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-markdown-converter.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-markdown-converter.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48092,7 +48175,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-search.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-search.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48103,7 +48186,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-version-manager.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-version-manager.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48114,7 +48197,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-wiki.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-wiki.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48125,7 +48208,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/includes/class-wikilinks.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/includes/class-wikilinks.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48136,7 +48219,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/templates/admin-settings.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/templates/admin-settings.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48147,7 +48230,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/templates/archive-themisdb_wiki.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/templates/archive-themisdb_wiki.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48158,7 +48241,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/templates/single-themisdb_wiki.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/templates/single-themisdb_wiki.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (96.0/100)
 
@@ -48169,7 +48252,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/themisdb-wiki-integration.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/themisdb-wiki-integration.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48180,7 +48263,7 @@
 
 ---
 
-### `wordpress-plugin/themisdb-wiki-integration/wordpress_doc_importer.php` (v0.0.17)
+### `wordpress-plugin/themisdb-wiki-integration/wordpress_doc_importer.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48191,7 +48274,7 @@
 
 ---
 
-### `wordpress-plugins/persistent-podcast-player/persistent-podcast-player.php` (v0.0.17)
+### `wordpress-plugins/persistent-podcast-player/persistent-podcast-player.php` (v0.0.23)
 
 **Maturity Level:** 🟢 PRODUCTION-READY (100.0/100)
 
@@ -48204,6 +48287,6 @@
 
 ## 🎯 Recommended Actions
 
-1. **Implement 4610 stub(s)** - Replace placeholder code with real implementations
-2. **Resolve 422 TODO(s)** - Complete pending work items
-3. **Replace 1277 simulation(s)** - Integrate real services/data
+1. **Implement 4615 stub(s)** - Replace placeholder code with real implementations
+2. **Resolve 419 TODO(s)** - Complete pending work items
+3. **Replace 1280 simulation(s)** - Integrate real services/data

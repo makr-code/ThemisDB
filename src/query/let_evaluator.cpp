@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            let_evaluator.cpp                                  ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:23:07                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:43:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1515                                           ║
+    • Total Lines:     1520                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -429,6 +429,11 @@ nlohmann::json LetEvaluator::evaluateFunctionCall(
             // Copy LET bindings to function context
             for (const auto& [varName, varValue] : bindings_) {
                 ctx.setVariable(varName, varValue);
+            }
+
+            // Wire secondary index manager if available (enables FULLTEXT/PHRASE/FUZZY)
+            if (secondary_idx_mgr_) {
+                ctx.setSecondaryIndexManager(secondary_idx_mgr_);
             }
             
             // Call the function through registry

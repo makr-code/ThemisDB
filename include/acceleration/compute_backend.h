@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:45                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     245                                            ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     334                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bf5228e16  2026-02-21  feat(acceleration): add CapabilityRequirements, satisfies... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -53,16 +53,107 @@ enum class BackendType {
     AUTO        // Auto-detect best available
 };
 
-// Acceleration capabilities
+// Floating-point and quantisation precision modes.
+// Values are stable bitmask flags; combine with bitwise OR.
+enum class PrecisionMode : uint32_t {
+    NONE = 0,
+    FP32 = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
+    FP16 = 1u << 1,   ///< 16-bit IEEE 754 half precision
+    BF16 = 1u << 2,   ///< bfloat16
+    INT8 = 1u << 3,   ///< 8-bit integer quantisation
+};
+
+inline constexpr PrecisionMode operator|(PrecisionMode a, PrecisionMode b) noexcept {
+    return static_cast<PrecisionMode>(static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
+}
+inline constexpr bool hasPrecision(PrecisionMode modes, PrecisionMode flag) noexcept {
+    return (static_cast<uint32_t>(modes) & static_cast<uint32_t>(flag)) != 0;
+}
+
+/// Returns the bitmask bit position for a DistanceMetric value.
+/// Bit i is set when DistanceMetric(i) is supported.
+inline constexpr uint32_t metricBit(DistanceMetric m) noexcept {
+    return 1u << static_cast<uint32_t>(m);
+}
+
+// Capability contract for a compute backend.
+// Fields are grouped: operation support, precision matrix, metric matrix, device info.
 struct BackendCapabilities {
+    // Operation support
     bool supportsVectorOps = false;
     bool supportsGraphOps = false;
     bool supportsGeoOps = false;
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
+
+    // Precision feature matrix: OR of PrecisionMode flags.
+    // Must include at least PrecisionMode::FP32 for any vector or geo backend.
+    PrecisionMode supportedPrecisions = PrecisionMode::NONE;
+
+    // Distance-metric feature matrix: bitmask using metricBit(DistanceMetric).
+    // Set bit i if the backend supports DistanceMetric(i) in its ANN dispatch.
+    uint32_t supportedMetrics = 0;
+
+    // Device info
     size_t maxMemoryBytes = 0;      // Available VRAM/memory
     int computeUnits = 0;            // Number of compute units/SMs
     std::string deviceName;
+};
+
+// Backend health status — returned by IComputeBackend::getHealthStatus()
+struct BackendHealthStatus {
+    // Overall health: "healthy" | "degraded" | "unhealthy"
+    std::string status;
+
+    // True when the backend has been successfully initialized and is ready
+    // to accept work (liveness probe + readiness probe combined)
+    bool healthy  = false;
+    bool ready    = false;  // initialized and compute pipelines loaded
+    bool alive    = false;  // backend process/driver is reachable
+
+    // Human-readable description of the current state
+    std::string message;
+
+    // List of actionable issue descriptions (empty when healthy)
+    std::vector<std::string> issues;
+
+    // Device/driver information (populated when alive)
+    std::string deviceName;
+    std::string driverInfo;
+
+    // Memory snapshot (0 when unavailable)
+    size_t memoryUsedBytes      = 0;
+    size_t memoryAvailableBytes = 0;
+
+    // Convenience builder helpers
+    static BackendHealthStatus makeHealthy(const std::string& device = "") {
+        BackendHealthStatus s;
+        s.status  = "healthy";
+        s.healthy = s.ready = s.alive = true;
+        s.message    = "Backend is operational";
+        s.deviceName = device;
+        return s;
+    }
+
+    static BackendHealthStatus makeDegraded(const std::string& issue) {
+        BackendHealthStatus s;
+        s.status  = "degraded";
+        s.healthy = false;
+        s.ready   = false;
+        s.alive   = true;
+        s.message = issue;
+        s.issues.push_back(issue);
+        return s;
+    }
+
+    static BackendHealthStatus makeUnhealthy(const std::string& issue) {
+        BackendHealthStatus s;
+        s.status  = "unhealthy";
+        s.healthy = s.ready = s.alive = false;
+        s.message = issue;
+        s.issues.push_back(issue);
+        return s;
+    }
 };
 
 // Base interface for compute backends
@@ -87,6 +178,23 @@ public:
     // Returns error context with details, code, and troubleshooting hint
     virtual ErrorContext getLastError() const {
         return lastError_;
+    }
+
+    // Health check (Phase 3.3)
+    // Returns the current health and readiness status of this backend.
+    // Default implementation derives status from isAvailable() + getLastError().
+    virtual BackendHealthStatus getHealthStatus() const {
+        if (!isAvailable()) {
+            return BackendHealthStatus::makeUnhealthy(
+                std::string(name()) + " is not available on this system");
+        }
+        const auto& err = lastError_;
+        if (!err.isSuccess()) {
+            return BackendHealthStatus::makeDegraded(
+                std::string(name()) + " error: " + err.message);
+        }
+        return BackendHealthStatus::makeHealthy(
+            getCapabilities().deviceName);
     }
     
 protected:
@@ -227,6 +335,60 @@ public:
     
     // List all available backends
     std::vector<BackendType> getAvailableBackends() const;
+
+    // Returns the ordered fallback chain used when selecting the best backend.
+    // The first element has the highest priority; BackendType::CPU is always last.
+    // All getBestXBackend() methods traverse this chain in order.
+    static const std::vector<BackendType>& getFallbackOrder() noexcept;
+
+    // ---------------------------------------------------------------------------
+    // Capability-driven selection
+    // ---------------------------------------------------------------------------
+
+    /// Minimum capability requirements for capability-driven backend selection.
+    /// Zero / NONE / false fields are "don't-care" — they impose no constraint.
+    struct CapabilityRequirements {
+        bool needsVectorOps = false;        ///< Must support vector (ANN) operations
+        bool needsGraphOps  = false;        ///< Must support graph traversal operations
+        bool needsGeoOps    = false;        ///< Must support geospatial operations
+        bool needsBatch     = false;        ///< Must support batch processing
+        bool needsAsync     = false;        ///< Must support asynchronous execution
+
+        /// All listed PrecisionMode flags must be present in supportedPrecisions.
+        PrecisionMode requiredPrecisions = PrecisionMode::NONE;
+
+        /// All listed DistanceMetric bits (via metricBit()) must be present in
+        /// supportedMetrics.
+        uint32_t requiredMetrics = 0;
+    };
+
+    /// Returns true if @p caps satisfies every field in @p reqs.
+    static inline bool satisfies(const BackendCapabilities& caps,
+                                  const CapabilityRequirements& reqs) noexcept {
+        if (reqs.needsVectorOps && !caps.supportsVectorOps) return false;
+        if (reqs.needsGraphOps  && !caps.supportsGraphOps)  return false;
+        if (reqs.needsGeoOps    && !caps.supportsGeoOps)    return false;
+        if (reqs.needsBatch     && !caps.supportsBatchProcessing) return false;
+        if (reqs.needsAsync     && !caps.supportsAsync)     return false;
+        const auto reqP = static_cast<uint32_t>(reqs.requiredPrecisions);
+        const auto hasP = static_cast<uint32_t>(caps.supportedPrecisions);
+        if ((reqP & hasP) != reqP) return false;
+        if ((reqs.requiredMetrics & caps.supportedMetrics) != reqs.requiredMetrics) return false;
+        return true;
+    }
+
+    /// Returns the highest-priority available backend (per getFallbackOrder())
+    /// whose capabilities satisfy @p reqs, or nullptr if none do.
+    IComputeBackend* selectBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IVectorBackend instances.
+    IVectorBackend* selectVectorBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IGraphBackend instances.
+    IGraphBackend* selectGraphBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IGeoBackend instances.
+    IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
     
     // Shutdown all backends
     void shutdownAll();

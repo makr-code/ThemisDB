@@ -392,3 +392,4 @@ build/.audit-reports/*.log
 # Keep the audit directory structure
 !build/.audit-reports/.gitkeep
 !build/.audit-reports/README.md
+a.out

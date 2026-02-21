@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-**Beta** — Dependency injection, cross-cutting concerns management (logging, tracing, metrics, caching), and pluggable adapter infrastructure are functional. OpenTelemetry and Prometheus adapters are in progress.
+**Beta** — Dependency injection, cross-cutting concerns management (logging, tracing, metrics, caching), and pluggable adapter infrastructure are functional. OpenTelemetry and Prometheus adapters are implemented.
 
 ## Completed ✅
 - [x] ConcernsContext: central DI hub for cross-cutting concerns
@@ -17,9 +17,12 @@
 - [x] Thread-safe immutable context after creation
 - [x] Environment variable detection for production mode
 - [x] Lazy initialization for optional components
+- [x] OpenTelemetry tracer adapter with circuit-breaker guarded OTLP export
+- [x] Prometheus metrics adapter — all IMetrics methods forwarded to MetricsCollector
+- [x] Structured log correlation — `span_id` in TraceContext; `ConcernsContext::logWithTrace()` auto-injects active trace/span IDs; SpdlogLoggerAdapter prepends `[trace=…][span=…][req=…]` in plain-text mode
 
 ## In Progress 🚧
-- [I] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
+- [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
 - [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
@@ -59,7 +62,8 @@
 - [I] Prometheus metrics adapter (`core/adapters/prometheus_metrics.cpp`, Target: Q2 2026) (Issue: #1709)
 - [ ] Context propagation across async boundaries (Target: Q3 2026)
 
-### Phase 3: Advanced Concerns & Runtime Flexibility (Status: Planned 📋)
+### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
+- [x] Structured log correlation (trace ID + span ID injection into log records)
 - [ ] Health check interface in ConcernsContext
 - [ ] Structured log correlation (trace ID injection into log records)
 - [!] Async context propagation (W3C TraceContext standard) (Issue: #1705)
@@ -76,7 +80,6 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
-- OpenTelemetry adapter not yet implemented; tracing is a no-op by default
 - Prometheus adapter not yet implemented; metrics are in-memory only
 - Context propagation across async/thread boundaries requires manual passing
 - Feature flags are not yet a first-class concern in the DI system

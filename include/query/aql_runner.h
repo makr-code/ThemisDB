@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_runner.h                                       ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:51                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     45                                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     66                                             ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -41,5 +41,26 @@ namespace themis {
 // Returns Result<nlohmann::json> for unified error handling.
 // GAP-002: Migrated from std::pair<Status, json> to Result<json>
 Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine);
+
+// ── Query plan visualisation (EXPLAIN / EXPLAIN ANALYZE) ─────────────────────
+//
+// All three functions parse and translate the AQL query but stop before execution;
+// they return the optimised query plan instead.  Non-conjunctive query forms
+// (graph traversal, vector+geo, OR queries, …) fall back to a single SeqScan node
+// that describes the query type.
+
+/// Returns the execution plan as a JSON object (EXPLAIN format).
+/// Set @p analyze=true to include an `actual_time_ms` / `actual_rows` skeleton
+/// (populated with sentinel values −1 / 0 since no execution is performed here).
+Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine,
+                                  bool analyze = false);
+
+/// Returns the execution plan as indented text (PostgreSQL-style EXPLAIN output).
+Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine,
+                                   bool analyze = false);
+
+/// Returns the execution plan as a Graphviz DOT digraph string.
+/// The output can be piped to `dot -Tpng -o plan.png` for a visual diagram.
+Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine);
 
 } // namespace themis

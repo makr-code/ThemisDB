@@ -1273,6 +1273,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
+    ../src/index/inverted_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp
@@ -1329,6 +1330,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/query_plan_visualizer.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -2172,6 +2174,7 @@ if(THEMIS_ENABLE_DIRECTX OR THEMIS_ENABLE_VULKAN OR THEMIS_ENABLE_OPENGL)
         if(Vulkan_FOUND)
             target_compile_definitions(themis_core PUBLIC THEMIS_ENABLE_VULKAN)
             target_include_directories(themis_core PRIVATE ${Vulkan_INCLUDE_DIRS})
+            target_link_libraries(themis_core PRIVATE Vulkan::Vulkan)
             message(STATUS "Vulkan acceleration enabled")
             message(STATUS "  Vulkan Version: ${Vulkan_VERSION}")
         else()

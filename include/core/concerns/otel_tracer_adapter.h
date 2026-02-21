@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:49                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     194                                            ║
+    • Total Lines:     204                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -54,7 +54,7 @@ public:
     };
 
     explicit OpenTelemetryTracerAdapter(
-        const CircuitBreakerConfig& cb_config = CircuitBreakerConfig{})
+        const CircuitBreakerConfig& cb_config)
     {
         sharding::CircuitBreaker::Config cfg;
         cfg.failure_threshold = cb_config.failure_threshold;
@@ -62,6 +62,9 @@ public:
         cfg.success_threshold = cb_config.success_threshold;
         circuit_breaker_ = std::make_unique<sharding::CircuitBreaker>(cfg);
     }
+
+    /// Construct with default circuit-breaker settings.
+    OpenTelemetryTracerAdapter() : OpenTelemetryTracerAdapter(CircuitBreakerConfig{}) {}
 
     class OtelSpanAdapter : public ISpan {
     public:
@@ -100,7 +103,11 @@ public:
             return span_.isValid();
         }
 
+        /// Explicitly end the span on destruction (RAII guarantee).
+        ~OtelSpanAdapter() override { span_.end(); }
+
         themis::Tracer::Span& getSpan() { return span_; }
+        const themis::Tracer::Span& getSpan() const { return span_; }
 
     private:
         themis::Tracer::Span span_;
@@ -128,7 +135,7 @@ public:
         std::unique_ptr<OtelSpanAdapter> span_ptr;
         if (otelParent) {
             span_ptr = std::make_unique<OtelSpanAdapter>(
-                themis::Tracer::startChildSpan(name, const_cast<OtelSpanAdapter*>(otelParent)->getSpan())
+                themis::Tracer::startChildSpan(name, otelParent->getSpan())
             );
         } else {
             span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
@@ -142,6 +149,12 @@ public:
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {
+        if (initialized_) {
+            // Already successfully initialized; avoid re-calling the global
+            // Tracer which would return false (already initialized) and trip
+            // the circuit breaker erroneously.
+            return true;
+        }
         bool ok = themis::Tracer::initialize(serviceName, endpoint);
         if (ok) {
             circuit_breaker_->recordSuccess();

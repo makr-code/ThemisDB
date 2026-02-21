@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saga.h                                             ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:56                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     174                                            ║
+    • Total Lines:     185                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -88,6 +88,17 @@ public:
 
     /// Clear all steps (called after successful commit)
     void clear();
+    
+    /**
+     * @brief Discard all steps with index >= @p n, without compensating them.
+     *
+     * Used by the named-savepoint layer to remove SAGA entries that correspond
+     * to writes already undone by a RocksDB savepoint rollback.  Must only be
+     * called while the transaction is still active (i.e. before compensate()).
+     *
+     * @param n  Target size; if >= stepCount() this is a no-op.
+     */
+    void trimToSize(size_t n);
     
     /// Get number of recorded steps
     size_t stepCount() const { return steps_.size(); }

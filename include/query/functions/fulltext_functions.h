@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            fulltext_functions.h                               ║
-  Version:         0.0.17                                             ║
-  Last Modified:   2026-02-21 18:22:51                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     63                                             ║
+    • Total Lines:     65                                             ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 29b72e1f3  2026-02-21  feat(query): add HIGHLIGHT and FULLTEXT_SNIPPET AQL funct... ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -45,13 +45,15 @@ class FunctionRegistry;
  * @brief Register all fulltext search functions with the function registry
  * 
  * Registers the following functions:
- * - FULLTEXT: Full-text search with scoring (placeholder, awaits SecondaryIndexManager integration)
- * - PHRASE: Exact phrase matching (placeholder, awaits SecondaryIndexManager integration)
- * - FUZZY: Fuzzy matching with Levenshtein distance (placeholder, awaits SecondaryIndexManager integration)
- * - NGRAM_MATCH: N-gram similarity calculation (fully implemented)
- * - TOKENS: Text tokenization (fully implemented)
- * - SOUNDEX: Soundex phonetic encoding (fully implemented)
- * - METAPHONE: Metaphone phonetic encoding (fully implemented)
+ * - FULLTEXT:         BM25-scored full-text search (wired to SecondaryIndexManager::scanFulltextWithScores)
+ * - PHRASE:           Exact phrase matching (wired to SecondaryIndexManager::scanFulltextPhrase)
+ * - FUZZY:            Fuzzy matching with Levenshtein distance (wired to SecondaryIndexManager::scanFulltextFuzzy)
+ * - HIGHLIGHT:        Wrap query terms in source text with configurable HTML/markup tags
+ * - FULLTEXT_SNIPPET: Extract and highlight a context window around the best query-term cluster
+ * - NGRAM_MATCH:      N-gram similarity calculation (fully implemented)
+ * - TOKENS:           Text tokenization (fully implemented)
+ * - SOUNDEX:          Soundex phonetic encoding (fully implemented)
+ * - METAPHONE:        Metaphone phonetic encoding (fully implemented)
  * - DOUBLE_METAPHONE: Double Metaphone encoding (fully implemented)
  * 
  * @param registry The function registry to register functions with
