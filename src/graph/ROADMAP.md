@@ -18,27 +18,27 @@
 - [x] Integration with AQL for graph query execution
 
 ## In Progress 🚧
-- [ ] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026)
-- [ ] Query plan reuse across structurally similar queries (Target: Q2 2026)
-- [ ] Cost model calibration from real execution feedback (Target: Q3 2026)
+- [I] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
+- [I] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #1834)
+- [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2094)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Parallel multi-source traversal for large fan-out queries
-- [ ] Adaptive plan selection using execution feedback (cost model learning)
-- [ ] Subgraph isomorphism queries (pattern matching)
-- [ ] Incremental graph query execution on live updates
-- [ ] Plan cache eviction with size and TTL controls
-- [ ] EXPLAIN output in AQL for graph query plans
+- [I] Parallel multi-source traversal for large fan-out queries (Issue: #1811)
+- [I] Adaptive plan selection using execution feedback (cost model learning) (Issue: #1812)
+- [I] Subgraph isomorphism queries (pattern matching) (Issue: #1824)
+- [I] Incremental graph query execution on live updates (Issue: #1825)
+- [I] Plan cache eviction with size and TTL controls (Issue: #1827)
+- [I] EXPLAIN output in AQL for graph query plans (Issue: #1816)
 
 ### Long-term (6-12 months)
-- [ ] Distributed graph query execution across shards
-- [ ] Temporal graph query optimization (time-ranged traversals)
-- [ ] Property graph schema-aware optimizer hints
-- [ ] GPU-accelerated BFS/DFS for massive graphs
-- [ ] Integration with analytics module for graph algorithm reuse
-- [ ] Graph query result streaming for large path sets
+- [I] Distributed graph query execution across shards (Issue: #1826)
+- [I] Temporal graph query optimization (time-ranged traversals) (Issue: #1828)
+- [I] Property graph schema-aware optimizer hints (Issue: #1819)
+- [I] GPU-accelerated BFS/DFS for massive graphs (Issue: #1829)
+- [I] Integration with analytics module for graph algorithm reuse (Issue: #1821)
+- [I] Graph query result streaming for large path sets (Issue: #1822)
 
 ## Implementation Phases
 
@@ -54,7 +54,7 @@
 - [x] Integration with AQL for graph query execution
 
 ### Phase 2: Parallel Traversal & Adaptive Planning (Status: In Progress 🚧)
-- [~] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026)
+- [I] Parallel multi-source BFS/DFS for large graphs (`graph/parallel_traversal.cpp`, Target: Q2 2026) (Issue: #1833)
 - [~] Query plan reuse across structurally similar queries (Target: Q2 2026)
 - [ ] Cost model calibration from real execution feedback (Target: Q3 2026)
 
@@ -67,10 +67,10 @@
 - [ ] GPU-accelerated BFS/DFS for massive graphs
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1830)
 - [x] Integration tests (query optimizer, constrained path finding, AQL integration)
-- [ ] Performance benchmarks (traversal latency vs graph size)
-- [ ] Security audit (query injection via path constraints)
+- [I] Performance benchmarks (traversal latency vs graph size) (Issue: #1831)
+- [I] Security audit (query injection via path constraints) (Issue: #1832)
 - [x] Documentation complete
 - [x] API stability guaranteed for graph query optimizer and path finder
 

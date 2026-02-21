@@ -21,25 +21,25 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Audit logging for vector operations
 
 ## In Progress 🚧
-- [I] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
+- [I] Full-text inverted index integration (Target: Q2 2026) (Issue: #1888)
 - [I] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
 - [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] DiskANN / ScaNN alternative ANN algorithms
-- [ ] Index statistics export to metadata module
-- [ ] Partial / filtered indexes on secondary index manager
-- [ ] Online index rebuild with minimal read impact
-- [ ] Configurable GPU memory budget per index
+- [I] DiskANN / ScaNN alternative ANN algorithms (Issue: #1865)
+- [I] Index statistics export to metadata module (Issue: #1866)
+- [I] Partial / filtered indexes on secondary index manager (Issue: #1880)
+- [I] Online index rebuild with minimal read impact (Issue: #1868)
+- [I] Configurable GPU memory budget per index (Issue: #1869)
 
 ### Long-term (6-12 months)
-- [ ] Distributed vector index across shards
-- [ ] Learned index structures (ML-based B-tree replacement)
-- [ ] Multi-tenancy index isolation
-- [ ] Cold/warm tier index migration
-- [ ] Index compression using sparse encoding
+- [I] Distributed vector index across shards (Issue: #1879)
+- [I] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
+- [I] Multi-tenancy index isolation (Issue: #1872)
+- [!] Cold/warm tier index migration (Issue: #2098)
+- [I] Index compression using sparse encoding (Issue: #1874)
 
 ## Implementation Phases
 
@@ -63,20 +63,20 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026)
 
 ### Phase 3: Learned Structures & GPU Build (Status: Planned 📋)
-- [ ] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes
+- [I] DiskANN / ScaNN alternative ANN algorithms for on-disk indexes (Issue: #1876)
 - [ ] Learned index structures (ML-based B-tree replacement)
-- [ ] GPU-accelerated index build for large-scale vector datasets
+- [I] GPU-accelerated index build for large-scale vector datasets (Issue: #1878)
 - [ ] Distributed vector index across shards
 - [ ] Partial / filtered indexes on secondary index manager
 - [ ] Cold/warm tier index migration
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (HNSW recall@10, spatial correctness)
-- [ ] Performance benchmarks (QPS, recall, memory)
-- [ ] Security audit (GPU memory safety, RocksDB key prefix isolation)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [I] Unit tests coverage > 80% (Issue: #1882)
+- [I] Integration tests (HNSW recall@10, spatial correctness) (Issue: #1883)
+- [I] Performance benchmarks (QPS, recall, memory) (Issue: #1884)
+- [I] Security audit (GPU memory safety, RocksDB key prefix isolation) (Issue: #1885)
+- [I] Documentation complete (Issue: #1886)
+- [I] API stability guaranteed (Issue: #1887)
 
 ## Known Issues & Limitations
 - GPU acceleration requires Vulkan/CUDA drivers; falls back to CPU automatically.

@@ -17,27 +17,27 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 
 ## In Progress 🚧
-- [ ] OAuth 2.0 device authorization flow (Target: Q2 2026)
-- [ ] SAML 2.0 identity provider integration (Target: Q2 2026)
-- [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
+- [I] OAuth 2.0 device authorization flow (Target: Q2 2026) (Issue: #1527)
+- [I] SAML 2.0 identity provider integration (Target: Q2 2026) (Issue: #1553)
+- [I] Attribute-based access control (ABAC) engine (Target: Q3 2026) (Issue: #1542)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] OAuth 2.0 PKCE flow for public clients
-- [ ] API key authentication (static key + secret)
-- [ ] Session management and revocation endpoint
-- [ ] WebAuthn/FIDO2 hardware token support
-- [ ] Audit logging for all authentication events
-- [ ] Configurable password policy enforcement
+- [I] OAuth 2.0 PKCE flow for public clients (Issue: #1543)
+- [I] API key authentication (static key + secret) (Issue: #1544)
+- [I] Session management and revocation endpoint (Issue: #1983)
+- [I] WebAuthn/FIDO2 hardware token support (Issue: #1533)
+- [I] Audit logging for all authentication events (Issue: #1534)
+- [I] Configurable password policy enforcement (Issue: #2013)
 
 ### Long-term (6-12 months)
-- [ ] SAML 2.0 SP-initiated and IdP-initiated SSO
-- [ ] LDAP/Active Directory direct bind authentication
-- [ ] Fine-grained ABAC with policy expressions (OPA integration)
-- [ ] Certificate-based mutual TLS (mTLS) authentication
-- [ ] Federated identity across multiple realms
-- [ ] Zero-trust access model with continuous verification
+- [I] SAML 2.0 SP-initiated and IdP-initiated SSO (Issue: #1536)
+- [I] LDAP/Active Directory direct bind authentication (Issue: #1537)
+- [I] Fine-grained ABAC with policy expressions (OPA integration) (Issue: #1538)
+- [!] Certificate-based mutual TLS (mTLS) authentication (Issue: #2081)
+- [I] Federated identity across multiple realms (Issue: #1540)
+- [I] Zero-trust access model with continuous verification (Issue: #1541)
 
 ## Implementation Phases
 
@@ -52,7 +52,7 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [x] Fallback from Kerberos to basic authentication
 
 ### Phase 2: Extended Identity Protocols (Status: In Progress 🚧)
-- [~] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026)
+- [I] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026) (Issue: #1552)
 - [~] SAML 2.0 identity provider integration (Target: Q2 2026)
 - [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
 
@@ -66,9 +66,9 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [ ] Certificate-based mutual TLS (mTLS) authentication
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1550)
 - [x] Integration tests (JWT, Kerberos, MFA flows)
-- [ ] Performance benchmarks (token validation latency)
+- [I] Performance benchmarks (token validation latency) (Issue: #1551)
 - [x] Security audit (JWT validation, Kerberos keytab handling)
 - [x] Documentation complete (configuration, flows, examples)
 - [x] API stability guaranteed for JWT, Kerberos, and MFA
