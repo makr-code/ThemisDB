@@ -27,6 +27,7 @@
 #pragma once
 
 #include "storage/security_signature_manager.h"
+#include "llm/lora_framework/lora_provenance.h"
 #include <string>
 #include <vector>
 #include <optional>
@@ -278,11 +279,38 @@ public:
     
     RegistryStats getStats() const;
     
+    // Provenance Integration
+    
+    /// Attach a cryptographic provenance record to a registered adapter.
+    /// Returns false if the adapter does not exist.
+    bool attachProvenance(const std::string& adapter_id,
+                          const lora::LoRAProvenanceRecord& record);
+
+    /// Retrieve the provenance record attached to an adapter.
+    std::optional<lora::LoRAProvenanceRecord> getProvenanceRecord(
+        const std::string& adapter_id) const;
+
+    /// Record one inference event in the Merkle-chained audit log for an adapter.
+    /// Populates entry_id, timestamp, previous_hash and entry_hash automatically.
+    lora::InferenceAuditEntry recordInferenceAudit(
+        const std::string& adapter_id,
+        lora::InferenceAuditEntry entry);
+
+    /// Retrieve the full Merkle-chained inference audit log for an adapter.
+    std::vector<lora::InferenceAuditEntry> getInferenceAuditLog(
+        const std::string& adapter_id) const;
+
+    /// Verify the integrity of the Merkle audit chain for an adapter.
+    bool verifyAuditChain(const std::string& adapter_id) const;
+
 private:
     std::shared_ptr<storage::SecuritySignatureManager> sig_manager_;
     static constexpr const char* ADAPTER_KEY_PREFIX = "adapter:";
     static constexpr const char* BASE_MODEL_INDEX_PREFIX = "adapter_by_base_model:";
     static constexpr const char* DOMAIN_INDEX_PREFIX = "adapter_by_domain:";
+
+    // Provenance manager for cryptographic audit and MVCC snapshots
+    lora::LoRAProvenanceManager provenance_mgr_;
 
     // Pimpl for in-memory storage (thread-safe via mutex)
     struct Impl;

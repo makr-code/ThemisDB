@@ -41,7 +41,7 @@ using namespace themis::llm::lora;
 /**
  * @brief LoRA AQL Functions - Native LoRA Operations in AQL
  * 
- * Provides seven AQL functions for LoRA framework operations:
+ * Provides eleven AQL functions for LoRA framework operations:
  * 
  * 1. LORA_TRAIN(adapter_id, base_model, dataset, config) -> object
  *    Train a LoRA adapter on a dataset
@@ -63,6 +63,18 @@ using namespace themis::llm::lora;
  * 
  * 7. LORA_LINEAGE(adapter_id, depth) -> array<object>
  *    Get adapter version history
+ * 
+ * 8. LORA_PROVENANCE(adapter_id) -> object
+ *    Retrieve cryptographic provenance record (hashes, CA chain, RFC 3161 token)
+ * 
+ * 9. LORA_AUDIT_LOG(adapter_id, limit) -> array<object>
+ *    Retrieve Merkle-chained inference audit log entries
+ * 
+ * 10. LORA_SNAPSHOTS(adapter_id) -> array<object>
+ *     List MVCC snapshots for point-in-time recovery
+ * 
+ * 11. LORA_VERIFY_CHAIN(adapter_id) -> object
+ *     Verify integrity of the Merkle audit chain
  */
 
 // ============================================================================
@@ -302,6 +314,140 @@ public:
  * ```
  */
 class LoraLineageFunction : public IFunction {
+public:
+    FunctionSignature signature() const override;
+    nlohmann::json execute(
+        const std::vector<nlohmann::json>& args,
+        const FunctionContext& context
+    ) const override;
+};
+
+// ============================================================================
+// LORA_PROVENANCE Function
+// ============================================================================
+
+/**
+ * @brief Retrieve the cryptographic provenance record for a LoRA adapter.
+ *
+ * Signature: LORA_PROVENANCE(adapter_id: string) -> object
+ *
+ * Returns the full provenance record including SHA-256 artefact hashes,
+ * trainer identity, CA/eIDAS certificate chain, and RFC 3161 timestamp.
+ * Returns null when no provenance record has been attached.
+ *
+ * Example:
+ * ```aql
+ * LET prov = LORA_PROVENANCE("legal-lora-v2")
+ * FILTER prov != null
+ * RETURN {
+ *   adapter_id:     "legal-lora-v2",
+ *   dataset_hash:   prov.dataset_hash,
+ *   base_model_hash: prov.base_model_hash,
+ *   trainer:        prov.trainer_id,
+ *   timestamp:      prov.created_at
+ * }
+ * ```
+ */
+class LoraProvenanceFunction : public IFunction {
+public:
+    FunctionSignature signature() const override;
+    nlohmann::json execute(
+        const std::vector<nlohmann::json>& args,
+        const FunctionContext& context
+    ) const override;
+};
+
+// ============================================================================
+// LORA_AUDIT_LOG Function
+// ============================================================================
+
+/**
+ * @brief Retrieve the Merkle-chained inference audit log for a LoRA adapter.
+ *
+ * Signature: LORA_AUDIT_LOG(adapter_id: string, limit: number) -> array<object>
+ *
+ * Returns ordered audit entries (oldest first), each containing entry_id,
+ * previous_hash, entry_hash, query_hash, response_hash, model_hash,
+ * adapter_hash, and timestamp.
+ *
+ * Example:
+ * ```aql
+ * FOR entry IN LORA_AUDIT_LOG("legal-lora-v2", 100)
+ *   FILTER entry.timestamp >= "2026-01-01T00:00:00Z"
+ *   RETURN {
+ *     entry_id:      entry.entry_id,
+ *     query_hash:    entry.query_hash,
+ *     response_hash: entry.response_hash,
+ *     adapter_hash:  entry.adapter_hash,
+ *     timestamp:     entry.timestamp
+ *   }
+ * ```
+ */
+class LoraAuditLogFunction : public IFunction {
+public:
+    FunctionSignature signature() const override;
+    nlohmann::json execute(
+        const std::vector<nlohmann::json>& args,
+        const FunctionContext& context
+    ) const override;
+};
+
+// ============================================================================
+// LORA_SNAPSHOTS Function
+// ============================================================================
+
+/**
+ * @brief List all MVCC snapshots for a LoRA adapter.
+ *
+ * Signature: LORA_SNAPSHOTS(adapter_id: string) -> array<object>
+ *
+ * Returns snapshots ordered oldest-first, each with snapshot_id, version,
+ * weights_hash, timestamp, parent_snapshot_id, and embedded provenance.
+ *
+ * Example:
+ * ```aql
+ * FOR snap IN LORA_SNAPSHOTS("legal-lora-v2")
+ *   RETURN {
+ *     id:           snap.snapshot_id,
+ *     version:      snap.version,
+ *     weights_hash: snap.weights_hash,
+ *     taken_at:     snap.timestamp,
+ *     parent:       snap.parent_snapshot_id
+ *   }
+ * ```
+ */
+class LoraSnapshotsFunction : public IFunction {
+public:
+    FunctionSignature signature() const override;
+    nlohmann::json execute(
+        const std::vector<nlohmann::json>& args,
+        const FunctionContext& context
+    ) const override;
+};
+
+// ============================================================================
+// LORA_VERIFY_CHAIN Function
+// ============================================================================
+
+/**
+ * @brief Verify the integrity of the Merkle audit chain for a LoRA adapter.
+ *
+ * Signature: LORA_VERIFY_CHAIN(adapter_id: string) -> object
+ *
+ * Recomputes every entry_hash and checks previous_hash linkage.
+ * Returns an object with fields:
+ *   - chain_valid (bool)   true when every link is intact
+ *   - entry_count (number) number of entries checked
+ *   - message (string)     human-readable result
+ *
+ * Example:
+ * ```aql
+ * LET result = LORA_VERIFY_CHAIN("legal-lora-v2")
+ * FILTER result.chain_valid == false
+ * RETURN CONCAT("INTEGRITY FAILURE: ", result.message)
+ * ```
+ */
+class LoraVerifyChainFunction : public IFunction {
 public:
     FunctionSignature signature() const override;
     nlohmann::json execute(

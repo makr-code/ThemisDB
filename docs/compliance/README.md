@@ -10,6 +10,12 @@ This directory contains compliance-related documentation for ThemisDB, supportin
 - **Status:** Active for v1.4.1+
 - **Review:** Annual or upon significant changes
 
+### LoRA Adapter Provenance and Audit
+- **File:** [LORA_PROVENANCE_AUDIT.md](LORA_PROVENANCE_AUDIT.md)
+- **Purpose:** Cryptographic auditability for LoRA adapters (eIDAS, GDPR, ISO 27001, SOC 2)
+- **Status:** Active for v1.5.0+
+- **Covers:** Provenance records, Merkle-chained inference audit log, MVCC snapshots, external adapter validation, compliance matrix, threat model, operational runbook
+
 ### Breach Notification Plan
 - **File:** See [BREACH_NOTIFICATION_PLAN.md](../security/BREACH_NOTIFICATION_PLAN.md) in security docs
 - **Purpose:** GDPR Articles 33-34 compliance

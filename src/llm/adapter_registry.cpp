@@ -386,5 +386,43 @@ AdapterRegistry::RegistryStats AdapterRegistry::getStats() const {
     return stats;
 }
 
+// ============================================================================
+// Provenance Integration
+// ============================================================================
+
+bool AdapterRegistry::attachProvenance(const std::string& adapter_id,
+                                        const lora::LoRAProvenanceRecord& record) {
+    // Verify the adapter exists before accepting provenance
+    {
+        std::lock_guard<std::mutex> lock(impl_->mu);
+        if (!impl_->adapters.count(adapter_id)) {
+            spdlog::warn("AdapterRegistry::attachProvenance: adapter '{}' not found",
+                         adapter_id);
+            return false;
+        }
+    }
+    return provenance_mgr_.storeProvenance(adapter_id, record);
+}
+
+std::optional<lora::LoRAProvenanceRecord> AdapterRegistry::getProvenanceRecord(
+    const std::string& adapter_id) const {
+    return provenance_mgr_.getProvenance(adapter_id);
+}
+
+lora::InferenceAuditEntry AdapterRegistry::recordInferenceAudit(
+    const std::string& adapter_id,
+    lora::InferenceAuditEntry entry) {
+    return provenance_mgr_.appendAuditEntry(adapter_id, std::move(entry));
+}
+
+std::vector<lora::InferenceAuditEntry> AdapterRegistry::getInferenceAuditLog(
+    const std::string& adapter_id) const {
+    return provenance_mgr_.getAuditLog(adapter_id);
+}
+
+bool AdapterRegistry::verifyAuditChain(const std::string& adapter_id) const {
+    return provenance_mgr_.verifyAuditChain(adapter_id);
+}
+
 } // namespace llm
 } // namespace themis
