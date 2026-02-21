@@ -13,47 +13,18 @@
 #include <deque>
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/lock_manager.h"
+#include "transaction/isolation_level.h"
 
 namespace themis {
 
 class BaseEntity;
+
+// Forward declaration for Phase 8 crash recovery
+namespace transaction { class CrashRecoveryManager; }
 class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class Saga;
-
-/// Isolation levels for transactions.
-///
-/// Listed in increasing strictness order.
-/// - READ_UNCOMMITTED: Lowest isolation; no extra read locks acquired. At the RocksDB
-///                     storage layer this maps to READ_COMMITTED (RocksDB never exposes
-///                     uncommitted writes). Higher layers treat this level as a hint to
-///                     skip optimistic conflict checks. Callers should expect: no dirty
-///                     reads (guaranteed by storage), but non-repeatable reads and
-///                     phantom reads are possible.
-/// - READ_COMMITTED:   Only committed data is visible. Default for most workloads.
-///                     Non-repeatable reads and phantom reads are possible.
-/// - REPEATABLE_READ:  Snapshot isolation – the transaction sees a consistent snapshot
-///                     of data as of its start time. Non-repeatable reads are prevented;
-///                     phantom reads are prevented for the rows read at start.
-/// - SERIALIZABLE:     Full serializability via Snapshot Isolation + write-conflict
-///                     detection (SSI). Also prevents phantom reads and write skew.
-///                     Slowest but safest. May abort more transactions due to conflicts.
-///
-/// Note: value 2 is intentionally reserved (gap between READ_COMMITTED=1 and
-/// REPEATABLE_READ=3) to preserve backward compatibility with the legacy Snapshot=3
-/// alias.
-enum class IsolationLevel {
-    // Legacy aliases preserved for backward compatibility
-    ReadCommitted  = 1, ///< Same as READ_COMMITTED
-    Snapshot       = 3, ///< Same as REPEATABLE_READ (snapshot isolation)
-
-    // Standard SQL names
-    READ_UNCOMMITTED = 0, ///< Lowest isolation; no extra read locks (RocksDB still prevents true dirty reads)
-    READ_COMMITTED   = 1, ///< Only committed values visible (default)
-    REPEATABLE_READ  = 3, ///< Snapshot isolation – no non-repeatable reads
-    SERIALIZABLE     = 4  ///< SSI – also prevents phantom reads and write skew
-};
 
 /// TransactionManager: ACID-ähnliche, atomare Multi-Layer-Updates via RocksDB WriteBatch
 ///
@@ -267,6 +238,54 @@ public:
     LockManager& getLockManager() { return lock_manager_; }
     const LockManager& getLockManager() const { return lock_manager_; }
 
+    // ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────
+
+    /**
+     * @brief Enable transaction WAL (Write-Ahead Log) for crash recovery.
+     *
+     * Once enabled, every beginTransaction / commit / rollback call is logged
+     * to the WAL file so that a subsequent recover() call can undo any
+     * in-flight transactions that were active when the process crashed.
+     *
+     * @param wal_path      Path to the WAL file (created if absent).
+     * @param sync_on_write fsync after every WAL append (safe but slower).
+     */
+    void enableCrashRecovery(const std::string& wal_path,
+                              bool sync_on_write = true);
+
+    /**
+     * @brief Check whether the WAL contains in-flight transactions that
+     *        need to be recovered.
+     *
+     * Should be called at startup before the first beginTransaction().
+     * Returns false if WAL is disabled or clean.
+     */
+    bool needsCrashRecovery() const;
+
+    /**
+     * @brief Perform crash recovery.
+     *
+     * Scans the WAL file, identifies uncommitted transactions, and undoes
+     * their operations by writing old values back to the database.
+     * A CHECKPOINT is appended so the next startup skips already-recovered
+     * entries.
+     *
+     * @return Result summary (in-flight count, rolled-back count, etc.).
+     */
+    transaction::CrashRecoveryManager::RecoveryResult crashRecover();
+
+    /**
+     * @brief Access the underlying CrashRecoveryManager (for testing/monitoring).
+     *
+     * Returns nullptr when crash recovery is disabled.
+     */
+    transaction::CrashRecoveryManager* getCrashRecoveryManager() {
+        return crash_recovery_mgr_.get();
+    }
+    const transaction::CrashRecoveryManager* getCrashRecoveryManager() const {
+        return crash_recovery_mgr_.get();
+    }
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
@@ -275,6 +294,9 @@ private:
 
     // Shared lock manager (Phase 1: Lock Management)
     LockManager lock_manager_;
+
+    // Phase 8: WAL-based crash recovery
+    std::unique_ptr<transaction::CrashRecoveryManager> crash_recovery_mgr_;
 
     // Session management
     mutable std::mutex sessions_mutex_;

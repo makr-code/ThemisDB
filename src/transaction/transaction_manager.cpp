@@ -1,4 +1,5 @@
 ﻿#include "transaction/transaction_manager.h"
+#include "transaction/crash_recovery_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -334,7 +335,12 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
                isolation == IsolationLevel::REPEATABLE_READ   ? "REPEATABLE_READ"   :
                isolation == IsolationLevel::SERIALIZABLE      ? "SERIALIZABLE"      :
                                                                 "UNKNOWN");
-    
+
+    // Phase 8: WAL – log transaction begin for crash recovery
+    if (crash_recovery_mgr_) {
+        crash_recovery_mgr_->logBegin(txn_id, isolation);
+    }
+
     return txn_id;
 }
 
@@ -365,12 +371,16 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
             total_committed_.fetch_add(1, std::memory_order_relaxed);
         });
         THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
+        // Phase 8: WAL – log commit
+        if (crash_recovery_mgr_) crash_recovery_mgr_->logCommit(id);
     } else {
         // SOLUTION 2B: Update statistics with sequence lock
         updateStatsWithSeqLock([this]() {
             total_aborted_.fetch_add(1, std::memory_order_relaxed);
         });
         THEMIS_WARN("Transaction {} commit failed: {}", id, status.message);
+        // Phase 8: WAL – log abort (commit failed → transaction is rolled back)
+        if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     }
     
     moveToCompleted(id);
@@ -394,6 +404,8 @@ void TransactionManager::rollbackTransaction(TransactionId id) {
         total_aborted_.fetch_add(1, std::memory_order_relaxed);
     });
     THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
+    // Phase 8: WAL – log abort
+    if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     
     moveToCompleted(id);
 }
@@ -839,3 +851,31 @@ void TransactionManager::Transaction::rollback() {
 }
 
 } // namespace themis
+
+// ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
+
+void TransactionManager::enableCrashRecovery(const std::string& wal_path,
+                                              bool sync_on_write) {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    crash_recovery_mgr_ = std::make_unique<transaction::CrashRecoveryManager>(
+        wal_path, sync_on_write);
+    THEMIS_INFO("CrashRecoveryManager enabled (wal_path='{}', sync={})",
+                wal_path, sync_on_write);
+}
+
+bool TransactionManager::needsCrashRecovery() const {
+    if (!crash_recovery_mgr_) return false;
+    return crash_recovery_mgr_->needsRecovery();
+}
+
+transaction::CrashRecoveryManager::RecoveryResult
+TransactionManager::crashRecover() {
+    if (!crash_recovery_mgr_) {
+        transaction::CrashRecoveryManager::RecoveryResult r;
+        r.success = true;
+        r.message = "Crash recovery not enabled (call enableCrashRecovery first).";
+        return r;
+    }
+    return crash_recovery_mgr_->recover(db_);
+}
+
