@@ -382,14 +382,14 @@ TEST(QueryPlanVisualizerTest, AllNodeTypes_NamedCorrectly) {
 // ============================================================================
 
 // Build a linear chain of n Filter nodes to exercise the depth guard.
-static std::shared_ptr<QueryPlanNode> makeDeepChain(int depth) {
+static std::shared_ptr<QueryPlanNode> makeDeepFilterChain(int depth) {
     auto node = std::make_shared<QueryPlanNode>();
     node->type = PlanNodeType::Filter;
     node->description = "filter_d" + std::to_string(depth);
     node->estimated_cost = 1.0;
     node->estimated_rows = 1;
     if (depth > 0) {
-        node->children.push_back(makeDeepChain(depth - 1));
+        node->children.push_back(makeDeepFilterChain(depth - 1));
     }
     return node;
 }
@@ -401,7 +401,7 @@ TEST(QueryPlanVisualizerTest, DeepTree_ToText_DoesNotCrash) {
     root.description = "Return";
     root.estimated_cost = 1.0;
     root.estimated_rows = 1;
-    root.children.push_back(makeDeepChain(200));  // 200 > 128
+    root.children.push_back(makeDeepFilterChain(200));  // 200 > 128
 
     // Must complete without stack overflow / crash
     std::string text = QueryPlanVisualizer::toText(root, false);
@@ -415,7 +415,7 @@ TEST(QueryPlanVisualizerTest, DeepTree_ToJSON_DoesNotCrash) {
     root.description = "Return";
     root.estimated_cost = 1.0;
     root.estimated_rows = 1;
-    root.children.push_back(makeDeepChain(200));
+    root.children.push_back(makeDeepFilterChain(200));
 
     auto j = QueryPlanVisualizer::toJSON(root, false);
     EXPECT_TRUE(j.contains("plan"));
@@ -427,7 +427,7 @@ TEST(QueryPlanVisualizerTest, DeepTree_ToDOT_DoesNotCrash) {
     root.description = "Return";
     root.estimated_cost = 1.0;
     root.estimated_rows = 1;
-    root.children.push_back(makeDeepChain(200));
+    root.children.push_back(makeDeepFilterChain(200));
 
     std::string dot = QueryPlanVisualizer::toDOT(root);
     EXPECT_NE(dot.find("digraph QueryPlan"), std::string::npos);

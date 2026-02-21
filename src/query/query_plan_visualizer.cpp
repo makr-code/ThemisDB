@@ -67,15 +67,13 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
 
     QueryPlanNode* current_parent = &return_node;
 
-    for (size_t j = 0; j < n; ++j) {
-        // i counts DOWN from n-1 to 0 → builds most-selective deepest
-        const size_t i = n - 1 - j;
-        const auto& pred = plan.orderedPredicates[i];
+    for (int i = static_cast<int>(n) - 1; i >= 0; --i) {
+        const auto& pred = plan.orderedPredicates[static_cast<size_t>(i)];
 
         // Selectivity: fraction of proxy_scan_rows that pass this predicate.
         const double selectivity =
-            (proxy_scan_rows > 0 && plan.details.size() > i)
-                ? std::min(1.0, static_cast<double>(plan.details[i].estimatedCount) /
+            (proxy_scan_rows > 0 && static_cast<size_t>(i) < plan.details.size())
+                ? std::min(1.0, static_cast<double>(plan.details[static_cast<size_t>(i)].estimatedCount) /
                                     static_cast<double>(proxy_scan_rows))
                 : 1.0;
 
@@ -83,8 +81,8 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
         filter_node->type = PlanNodeType::Filter;
         filter_node->description = pred.column + " == " + pred.value;
         filter_node->selectivity = std::min(1.0, std::max(0.0, selectivity));
-        filter_node->estimated_rows = plan.details.size() > i
-            ? plan.details[i].estimatedCount : 0;
+        filter_node->estimated_rows = static_cast<size_t>(i) < plan.details.size()
+            ? plan.details[static_cast<size_t>(i)].estimatedCount : 0;
         // Heuristic: each filter contributes proportionally to total cost
         filter_node->estimated_cost = 50.0 + 10.0 * static_cast<double>(i);
         filter_node->attributes.push_back(pred.column);
