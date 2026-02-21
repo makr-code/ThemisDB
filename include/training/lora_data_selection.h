@@ -144,6 +144,15 @@ struct SelectionAuditEntry {
     std::vector<std::string> selected_ids; ///< IDs of selected samples
 
     SelectionAuditEntry() : timestamp(std::chrono::system_clock::now()) {}
+
+    /**
+     * @brief Serialize to a single JSON Lines (JSONL) string.
+     *
+     * Produces one compact JSON object per call, suitable for appending to a
+     * `.jsonl` file.  Uses a self-contained serializer – no external JSON
+     * library dependency.
+     */
+    std::string toJSONL() const;
 };
 
 // ============================================================================
@@ -303,6 +312,22 @@ private:
 // ============================================================================
 
 /**
+ * @brief A single adaptive rule loaded from SelfImprovementModule.yaml.
+ *
+ * Each rule watches one monitoring @p metric, compares it against a
+ * @p condition threshold, and applies an @p action (adjusting a config
+ * field by @p delta) when the condition is met.
+ */
+struct AdaptiveRule {
+    std::string metric;     ///< Monitored metric name (e.g. "avg_quality_score")
+    std::string condition;  ///< Comparison operator + threshold (e.g. "< 0.60")
+    std::string action;     ///< Field to adjust (e.g. "decrease_max_toxicity_score")
+    double      delta = 0.0;///< Amount to add to the target field when triggered
+
+    AdaptiveRule() = default;
+};
+
+/**
  * @brief Configuration for the adaptive self-improvement module.
  *
  * Controls automatic periodic re-selection and threshold adaptation.
@@ -314,7 +339,115 @@ struct SelfImprovementConfig {
     double latency_target_ms       = 5000.0;  ///< Target max inference latency
     bool   accuracy_monitoring     = true;    ///< Track accuracy metrics
 
+    std::vector<AdaptiveRule> adaptive_rules; ///< Rules loaded from YAML
+
     SelfImprovementConfig() = default;
+
+    /**
+     * @brief Load configuration from a YAML file.
+     *
+     * Reads the `self_improvement:` section (or a custom @p section) from
+     * the file at @p path.  Uses the same built-in line parser as
+     * `LoRADataSelectionConfig::loadFromYAML()`.
+     *
+     * @throws std::runtime_error if the file cannot be opened.
+     */
+    static SelfImprovementConfig loadFromYAML(
+        const std::string& path,
+        const std::string& section = "self_improvement");
+
+    /**
+     * @brief Parse configuration from an in-memory YAML string.
+     */
+    static SelfImprovementConfig fromYAMLString(
+        const std::string& yaml_text,
+        const std::string& section = "self_improvement");
+};
+
+// ============================================================================
+// Monitoring metrics snapshot
+// ============================================================================
+
+/**
+ * @brief Runtime monitoring metrics used by the self-improvement module
+ *        to decide whether adaptive thresholds should be adjusted.
+ */
+struct DataSelectionMetrics {
+    double avg_quality_score    = 0.0;
+    double avg_difficulty_score = 0.0;
+    double diversity_score      = 0.0;   ///< Average type-token ratio of selected set
+    double filter_rejection_rate= 0.0;   ///< Fraction of candidates rejected by Stage 1
+    double dedup_removal_rate   = 0.0;   ///< Fraction removed by Stage 2
+    double training_accuracy    = 0.0;   ///< Last known training accuracy
+    double inference_latency_ms = 0.0;   ///< Last observed inference latency
+    double duplicate_ratio      = 0.0;   ///< Fraction of near-duplicates detected
+
+    DataSelectionMetrics() = default;
+};
+
+// ============================================================================
+// SelfImprovementModule
+// ============================================================================
+
+/**
+ * @brief Applies adaptive threshold adjustment rules to a
+ *        @ref LoRADataSelectionConfig based on observed monitoring metrics.
+ *
+ * Intended usage (e.g., from a background thread or scheduler):
+ * @code
+ * SelfImprovementModule module(si_config);
+ *
+ * DataSelectionMetrics m;
+ * m.avg_quality_score    = 0.55; // below 0.60 threshold
+ * m.inference_latency_ms = 4200;
+ *
+ * LoRADataSelectionConfig updated = module.applyAdaptiveRules(current_cfg, m);
+ * pipeline.setConfig(updated);   // live-reload
+ * @endcode
+ */
+class SelfImprovementModule {
+public:
+    explicit SelfImprovementModule(const SelfImprovementConfig& config);
+    ~SelfImprovementModule();
+
+    SelfImprovementModule(const SelfImprovementModule&) = delete;
+    SelfImprovementModule& operator=(const SelfImprovementModule&) = delete;
+
+    /**
+     * @brief Evaluate all adaptive rules against @p metrics.
+     *
+     * For each rule whose condition is satisfied, the corresponding field in
+     * a copy of @p current_config is adjusted by the rule's delta.  The
+     * modified copy is returned; the original is never mutated.
+     *
+     * @param current_config  Config snapshot to start from.
+     * @param metrics         Current monitoring metrics.
+     * @return Updated config (unchanged if no rules triggered, or if
+     *         `threshold_auto_adjust` is false).
+     */
+    LoRADataSelectionConfig applyAdaptiveRules(
+        const LoRADataSelectionConfig& current_config,
+        const DataSelectionMetrics&    metrics) const;
+
+    /**
+     * @brief Return how many rules were triggered on the last call to
+     *        `applyAdaptiveRules()`.
+     */
+    size_t lastTriggeredRuleCount() const;
+
+    /**
+     * @brief Update the self-improvement configuration (live reload).
+     */
+    void setConfig(const SelfImprovementConfig& config);
+
+    /**
+     * @brief Get the current self-improvement configuration.
+     */
+    const SelfImprovementConfig& getConfig() const;
+
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl_;
 };
 
 } // namespace training

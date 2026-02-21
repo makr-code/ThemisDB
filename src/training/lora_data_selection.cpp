@@ -752,5 +752,329 @@ LoRADataSelectionConfig LoRADataSelectionConfig::fromYAMLString(
     return yaml_detail::parseYAMLText(yaml_text, section);
 }
 
+// ============================================================================
+// SelectionAuditEntry – JSONL serialization
+// ============================================================================
+
+static std::string jsonEscape(const std::string& s) {
+    std::string out;
+    out.reserve(s.size() + 4);
+    for (unsigned char c : s) {
+        if      (c == '"')  out += "\\\"";
+        else if (c == '\\') out += "\\\\";
+        else if (c == '\n') out += "\\n";
+        else if (c == '\r') out += "\\r";
+        else if (c == '\t') out += "\\t";
+        else if (c < 0x20)  out += "\\u00" + std::string(1, "0123456789abcdef"[c >> 4])
+                                           + std::string(1, "0123456789abcdef"[c & 0xf]);
+        else                out += static_cast<char>(c);
+    }
+    return out;
+}
+
+std::string SelectionAuditEntry::toJSONL() const {
+    // Convert timestamp to Unix epoch seconds
+    auto epoch_sec = static_cast<long long>(
+        std::chrono::duration_cast<std::chrono::seconds>(
+            timestamp.time_since_epoch()).count());
+
+    // Build selected_ids JSON array inline
+    std::string ids_arr = "[";
+    for (size_t i = 0; i < selected_ids.size(); ++i) {
+        if (i > 0) ids_arr += ',';
+        ids_arr += '"';
+        ids_arr += jsonEscape(selected_ids[i]);
+        ids_arr += '"';
+    }
+    ids_arr += ']';
+
+    std::ostringstream oss;
+    oss << '{'
+        << "\"pipeline_version\":\"" << jsonEscape(pipeline_version) << "\","
+        << "\"timestamp\":"          << epoch_sec                    << ","
+        << "\"config_hash\":\""      << jsonEscape(config_hash)      << "\","
+        << "\"input_sample_count\":" << input_sample_count           << ","
+        << "\"output_sample_count\":"<< output_sample_count          << ","
+        << "\"filtered_by_quality\":"<< filtered_by_quality          << ","
+        << "\"filtered_by_dedup\":"  << filtered_by_dedup            << ","
+        << "\"filtered_by_cluster\":"<< filtered_by_cluster          << ","
+        << "\"selected_ids\":"       << ids_arr
+        << '}';
+    return oss.str();
+}
+
+// ============================================================================
+// SelfImprovementConfig – YAML loading
+// ============================================================================
+
+namespace yaml_detail {
+
+static SelfImprovementConfig parseSelfImprovementYAML(
+        const std::string& text,
+        const std::string& section) {
+    SelfImprovementConfig cfg;
+    std::istringstream iss(text);
+    std::string line;
+
+    enum class State { OUTSIDE, IN_SECTION, IN_ADAPTIVE_RULES, IN_RULE };
+    State state = State::OUTSIDE;
+    AdaptiveRule current_rule;
+
+    auto commitRule = [&]() {
+        if (!current_rule.metric.empty())
+            cfg.adaptive_rules.push_back(current_rule);
+        current_rule = AdaptiveRule{};
+    };
+
+    while (std::getline(iss, line)) {
+        line = trimRight(removeComment(line));
+        if (line.empty()) continue;
+
+        size_t indent = 0;
+        while (indent < line.size() && line[indent] == ' ') ++indent;
+        const std::string content = line.substr(indent);
+
+        if (indent == 0) {
+            if (state == State::IN_ADAPTIVE_RULES ||
+                state == State::IN_RULE) commitRule();
+            state = (content == section + ":") ? State::IN_SECTION
+                                               : State::OUTSIDE;
+            continue;
+        }
+
+        if (state == State::OUTSIDE) continue;
+
+        if (indent == 2) {
+            if (state == State::IN_ADAPTIVE_RULES ||
+                state == State::IN_RULE) commitRule();
+            state = State::IN_SECTION;
+
+            auto colon = content.find(':');
+            if (colon == std::string::npos) continue;
+            const std::string key = content.substr(0, colon);
+            const std::string val = stripQuotes(trimLeft(content.substr(colon + 1)));
+
+            if (key == "adaptive_rules" && val.empty()) {
+                state = State::IN_ADAPTIVE_RULES;
+            } else if (!val.empty()) {
+                try {
+                    if      (key == "enabled")                cfg.enabled               = (val == "true");
+                    else if (key == "period_seconds")         cfg.period_seconds        = std::stoull(val);
+                    else if (key == "threshold_auto_adjust")  cfg.threshold_auto_adjust = (val == "true");
+                    else if (key == "latency_target_ms")      cfg.latency_target_ms     = std::stod(val);
+                    else if (key == "accuracy_monitoring")    cfg.accuracy_monitoring   = (val == "true");
+                } catch (const std::invalid_argument& e) {
+                    throw std::runtime_error(
+                        "SelfImprovementConfig: invalid value for key '" + key +
+                        "' (value='" + val + "'): " + e.what());
+                } catch (const std::out_of_range& e) {
+                    throw std::runtime_error(
+                        "SelfImprovementConfig: value out of range for key '" + key +
+                        "' (value='" + val + "'): " + e.what());
+                }
+            }
+            continue;
+        }
+
+        // indent==4: new list item (`- metric: ...`), indent==6: continuation fields
+        if ((indent == 4 || indent == 6) &&
+            (state == State::IN_ADAPTIVE_RULES || state == State::IN_RULE)) {
+            if (indent == 4 && content.size() >= 2 && content.substr(0, 2) == "- ") {
+                // Start of a new rule
+                commitRule();
+                state = State::IN_RULE;
+                // Parse the first key-value on the same line
+                std::string rest = trimLeft(content.substr(2));
+                auto colon = rest.find(':');
+                if (colon != std::string::npos) {
+                    const std::string key = rest.substr(0, colon);
+                    const std::string val = stripQuotes(trimLeft(rest.substr(colon + 1)));
+                    if      (key == "metric")    current_rule.metric    = val;
+                    else if (key == "condition") current_rule.condition = val;
+                    else if (key == "action")    current_rule.action    = val;
+                    else if (key == "delta") {
+                        try { current_rule.delta = std::stod(val); }
+                        catch (const std::exception& e) {
+                            throw std::runtime_error(
+                                "AdaptiveRule: invalid delta value '" + val + "': " + e.what());
+                        }
+                    }
+                }
+            } else if (state == State::IN_RULE) {
+                // Continuation key-value in the same rule (indent 4 or 6)
+                auto colon = content.find(':');
+                if (colon != std::string::npos) {
+                    const std::string key = content.substr(0, colon);
+                    const std::string val = stripQuotes(trimLeft(content.substr(colon + 1)));
+                    if      (key == "metric")    current_rule.metric    = val;
+                    else if (key == "condition") current_rule.condition = val;
+                    else if (key == "action")    current_rule.action    = val;
+                    else if (key == "delta") {
+                        try { current_rule.delta = std::stod(val); }
+                        catch (const std::exception& e) {
+                            throw std::runtime_error(
+                                "AdaptiveRule: invalid delta value '" + val + "': " + e.what());
+                        }
+                    }
+                }
+            }
+            continue;
+        }
+    }
+    // Commit the last in-flight rule
+    if (!current_rule.metric.empty()) cfg.adaptive_rules.push_back(current_rule);
+
+    return cfg;
+}
+
+} // namespace yaml_detail
+
+SelfImprovementConfig SelfImprovementConfig::loadFromYAML(
+        const std::string& path,
+        const std::string& section) {
+    std::ifstream f(path);
+    if (!f.is_open())
+        throw std::runtime_error("SelfImprovementConfig: cannot open file: " + path);
+    std::ostringstream buf;
+    buf << f.rdbuf();
+    return yaml_detail::parseSelfImprovementYAML(buf.str(), section);
+}
+
+SelfImprovementConfig SelfImprovementConfig::fromYAMLString(
+        const std::string& yaml_text,
+        const std::string& section) {
+    return yaml_detail::parseSelfImprovementYAML(yaml_text, section);
+}
+
+// ============================================================================
+// SelfImprovementModule – adaptive threshold adjustment
+// ============================================================================
+
+class SelfImprovementModule::Impl {
+public:
+    explicit Impl(const SelfImprovementConfig& cfg) : cfg_(cfg) {}
+
+    // Evaluate a single rule condition against observed metric value.
+    // Supported conditions: "< N", "> N", "<= N", ">= N", "== N"
+    static bool evaluateCondition(const std::string& condition,
+                                   double metric_value) {
+        // Find operator boundary
+        size_t i = 0;
+        while (i < condition.size() &&
+               (condition[i] == '<' || condition[i] == '>' ||
+                condition[i] == '=' || condition[i] == ' ')) ++i;
+        // Extract operator part (before first digit or minus sign)
+        std::string op;
+        size_t j = 0;
+        while (j < condition.size() && condition[j] == ' ') ++j;
+        while (j < condition.size() &&
+               (condition[j] == '<' || condition[j] == '>' ||
+                condition[j] == '=' || condition[j] == '!')) {
+            op += condition[j++];
+        }
+        while (j < condition.size() && condition[j] == ' ') ++j;
+        double threshold = 0.0;
+        if (j >= condition.size()) return false; // malformed condition: no threshold
+        try { threshold = std::stod(condition.substr(j)); }
+        catch (...) { return false; } // malformed threshold: treat as not triggered
+
+        if (op == "<")  return metric_value <  threshold;
+        if (op == ">")  return metric_value >  threshold;
+        if (op == "<=") return metric_value <= threshold;
+        if (op == ">=") return metric_value >= threshold;
+        if (op == "==" || op == "=") return std::abs(metric_value - threshold) < 1e-9;
+        return false;
+    }
+
+    // Retrieve the monitored metric value by name
+    static double getMetric(const DataSelectionMetrics& m,
+                             const std::string& name) {
+        if (name == "avg_quality_score")     return m.avg_quality_score;
+        if (name == "avg_difficulty_score")  return m.avg_difficulty_score;
+        if (name == "diversity_score")       return m.diversity_score;
+        if (name == "filter_rejection_rate") return m.filter_rejection_rate;
+        if (name == "dedup_removal_rate")    return m.dedup_removal_rate;
+        if (name == "duplicate_ratio")       return m.duplicate_ratio;
+        if (name == "training_accuracy")     return m.training_accuracy;
+        if (name == "inference_latency_ms")  return m.inference_latency_ms;
+        return 0.0;
+    }
+
+    // Apply a triggered rule action to the config copy
+    static void applyAction(LoRADataSelectionConfig& cfg,
+                             const std::string& action,
+                             double delta) {
+        // Actions encode both the direction (increase/decrease) and the field
+        auto contains = [&](const std::string& s) {
+            return action.find(s) != std::string::npos;
+        };
+        if (contains("max_toxicity_score"))
+            cfg.max_toxicity_score  = std::clamp(cfg.max_toxicity_score  + delta, 0.0, 1.0);
+        else if (contains("minhash_threshold"))
+            cfg.minhash_threshold   = std::clamp(cfg.minhash_threshold   + delta, 0.0, 1.0);
+        else if (contains("hard_ratio")) {
+            cfg.hard_ratio = std::clamp(cfg.hard_ratio + delta, 0.0, 1.0);
+            // Side-effect: rebalance medium_ratio so easy+medium+hard sum to 1.
+            // This keeps the curriculum ratios consistent after a hard_ratio change.
+            cfg.medium_ratio = std::clamp(1.0 - cfg.easy_ratio - cfg.hard_ratio, 0.0, 1.0);
+        } else if (contains("target_samples"))
+            cfg.target_samples      = static_cast<size_t>(
+                std::max<double>(1.0, static_cast<double>(cfg.target_samples) + delta));
+        else if (contains("easy_ratio"))
+            cfg.easy_ratio          = std::clamp(cfg.easy_ratio          + delta, 0.0, 1.0);
+        else if (contains("medium_ratio"))
+            cfg.medium_ratio        = std::clamp(cfg.medium_ratio        + delta, 0.0, 1.0);
+    }
+
+    LoRADataSelectionConfig applyAdaptiveRules(
+            const LoRADataSelectionConfig& cfg,
+            const DataSelectionMetrics& metrics) {
+        last_triggered_ = 0;
+        if (!cfg_.enabled || !cfg_.threshold_auto_adjust)
+            return cfg;
+
+        LoRADataSelectionConfig updated = cfg;
+        for (const auto& rule : cfg_.adaptive_rules) {
+            double val = getMetric(metrics, rule.metric);
+            if (evaluateCondition(rule.condition, val)) {
+                applyAction(updated, rule.action, rule.delta);
+                ++last_triggered_;
+            }
+        }
+        return updated;
+    }
+
+    size_t lastTriggeredRuleCount() const { return last_triggered_; }
+    void setConfig(const SelfImprovementConfig& cfg) { cfg_ = cfg; }
+    const SelfImprovementConfig& getConfig() const    { return cfg_; }
+
+private:
+    SelfImprovementConfig cfg_;
+    size_t last_triggered_ = 0;
+};
+
+SelfImprovementModule::SelfImprovementModule(const SelfImprovementConfig& config)
+    : impl_(std::make_unique<Impl>(config)) {}
+
+SelfImprovementModule::~SelfImprovementModule() = default;
+
+LoRADataSelectionConfig SelfImprovementModule::applyAdaptiveRules(
+        const LoRADataSelectionConfig& current_config,
+        const DataSelectionMetrics& metrics) const {
+    return impl_->applyAdaptiveRules(current_config, metrics);
+}
+
+size_t SelfImprovementModule::lastTriggeredRuleCount() const {
+    return impl_->lastTriggeredRuleCount();
+}
+
+void SelfImprovementModule::setConfig(const SelfImprovementConfig& config) {
+    impl_->setConfig(config);
+}
+
+const SelfImprovementConfig& SelfImprovementModule::getConfig() const {
+    return impl_->getConfig();
+}
+
 } // namespace training
 } // namespace themis

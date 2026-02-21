@@ -563,3 +563,282 @@ TEST(YAMLLoadingTest, LoadFromYAML_ActualConfigFile) {
     EXPECT_GT(cfg.domain_keywords.count("legal"), 0u);
     EXPECT_FALSE(cfg.domain_keywords.at("legal").empty());
 }
+
+// ============================================================================
+// SelectionAuditEntry – JSONL serialization
+// ============================================================================
+
+TEST(AuditEntryTest, ToJSONL_ContainsAllFields) {
+    SelectionAuditEntry entry;
+    entry.pipeline_version  = "1.0";
+    entry.config_hash       = "abc123";
+    entry.input_sample_count  = 100;
+    entry.output_sample_count = 40;
+    entry.filtered_by_quality = 30;
+    entry.filtered_by_dedup   = 20;
+    entry.filtered_by_cluster = 10;
+    entry.selected_ids        = {"id_1", "id_2", "id_3"};
+
+    std::string jsonl = entry.toJSONL();
+
+    EXPECT_NE(jsonl.find("\"pipeline_version\":\"1.0\""),  std::string::npos);
+    EXPECT_NE(jsonl.find("\"config_hash\":\"abc123\""),    std::string::npos);
+    EXPECT_NE(jsonl.find("\"input_sample_count\":100"),    std::string::npos);
+    EXPECT_NE(jsonl.find("\"output_sample_count\":40"),    std::string::npos);
+    EXPECT_NE(jsonl.find("\"filtered_by_quality\":30"),    std::string::npos);
+    EXPECT_NE(jsonl.find("\"filtered_by_dedup\":20"),      std::string::npos);
+    EXPECT_NE(jsonl.find("\"filtered_by_cluster\":10"),    std::string::npos);
+    EXPECT_NE(jsonl.find("\"id_1\""),                      std::string::npos);
+    EXPECT_NE(jsonl.find("\"id_2\""),                      std::string::npos);
+    EXPECT_NE(jsonl.find("\"id_3\""),                      std::string::npos);
+    EXPECT_NE(jsonl.find("\"timestamp\":"),                std::string::npos);
+}
+
+TEST(AuditEntryTest, ToJSONL_IsValidSingleLine) {
+    SelectionAuditEntry entry;
+    entry.selected_ids = {"a", "b"};
+    std::string jsonl = entry.toJSONL();
+
+    // No newlines inside the JSON object
+    EXPECT_EQ(jsonl.find('\n'), std::string::npos);
+    EXPECT_EQ(jsonl.find('\r'), std::string::npos);
+    // Starts and ends with braces
+    EXPECT_EQ(jsonl.front(), '{');
+    EXPECT_EQ(jsonl.back(), '}');
+}
+
+TEST(AuditEntryTest, ToJSONL_EmptySelectedIds) {
+    SelectionAuditEntry entry;
+    std::string jsonl = entry.toJSONL();
+    EXPECT_NE(jsonl.find("\"selected_ids\":[]"), std::string::npos);
+}
+
+TEST(AuditEntryTest, ToJSONL_SpecialCharsEscaped) {
+    SelectionAuditEntry entry;
+    entry.config_hash = "hash\"with\\special\nchars";
+    std::string jsonl = entry.toJSONL();
+    // The double-quote inside config_hash must be escaped
+    EXPECT_NE(jsonl.find("\\\""), std::string::npos);
+}
+
+TEST(AuditEntryTest, FullPipeline_AuditEntryIsJSONL) {
+    LoRADataSelectionConfig cfg;
+    cfg.min_length_tokens = 50;
+    cfg.required_language = "";  // accept any language so all samples pass quality filter
+    cfg.target_samples    = 5;
+    cfg.audit             = true;
+
+    DataSelectionPipeline pipeline(cfg);
+    std::vector<DataSample> input;
+    for (int i = 0; i < 10; ++i) {
+        DataSample s("d" + std::to_string(i),
+                     std::string(320, 'a'));
+        // Add spaces to create token count ≥ 50
+        for (size_t j = 4; j < s.text.size(); j += 5) s.text[j] = ' ';
+        input.push_back(s);
+    }
+
+    auto result = pipeline.run(input);
+    if (result.success) {
+        std::string jsonl = result.audit_entry.toJSONL();
+        EXPECT_EQ(jsonl.front(), '{');
+        EXPECT_EQ(jsonl.back(), '}');
+        EXPECT_NE(jsonl.find("\"pipeline_version\""), std::string::npos);
+    }
+}
+
+// ============================================================================
+// SelfImprovementConfig – YAML loading
+// ============================================================================
+
+static const char* kSelfImprovementYAML = R"yaml(
+self_improvement:
+  enabled: true
+  period_seconds: 3600
+  threshold_auto_adjust: true
+  latency_target_ms: 3000
+  accuracy_monitoring: false
+  adaptive_rules:
+    - metric: "avg_quality_score"
+      condition: "< 0.60"
+      action: "decrease_max_toxicity_score"
+      delta: -0.05
+    - metric: "inference_latency_ms"
+      condition: "> 5000"
+      action: "decrease_target_samples"
+      delta: -500
+)yaml";
+
+TEST(SelfImprovementYAMLTest, LoadScalarFields) {
+    auto cfg = SelfImprovementConfig::fromYAMLString(kSelfImprovementYAML);
+    EXPECT_TRUE(cfg.enabled);
+    EXPECT_EQ(cfg.period_seconds, 3600u);
+    EXPECT_TRUE(cfg.threshold_auto_adjust);
+    EXPECT_DOUBLE_EQ(cfg.latency_target_ms, 3000.0);
+    EXPECT_FALSE(cfg.accuracy_monitoring);
+}
+
+TEST(SelfImprovementYAMLTest, LoadAdaptiveRules) {
+    auto cfg = SelfImprovementConfig::fromYAMLString(kSelfImprovementYAML);
+    ASSERT_EQ(cfg.adaptive_rules.size(), 2u);
+
+    EXPECT_EQ(cfg.adaptive_rules[0].metric,    "avg_quality_score");
+    EXPECT_EQ(cfg.adaptive_rules[0].condition, "< 0.60");
+    EXPECT_EQ(cfg.adaptive_rules[0].action,    "decrease_max_toxicity_score");
+    EXPECT_DOUBLE_EQ(cfg.adaptive_rules[0].delta, -0.05);
+
+    EXPECT_EQ(cfg.adaptive_rules[1].metric,    "inference_latency_ms");
+    EXPECT_EQ(cfg.adaptive_rules[1].condition, "> 5000");
+    EXPECT_EQ(cfg.adaptive_rules[1].action,    "decrease_target_samples");
+    EXPECT_DOUBLE_EQ(cfg.adaptive_rules[1].delta, -500.0);
+}
+
+TEST(SelfImprovementYAMLTest, EmptyInputReturnsDefaults) {
+    auto cfg = SelfImprovementConfig::fromYAMLString("");
+    EXPECT_TRUE(cfg.enabled);
+    EXPECT_TRUE(cfg.adaptive_rules.empty());
+}
+
+TEST(SelfImprovementYAMLTest, LoadFromFile_Nonexistent_Throws) {
+    EXPECT_THROW(
+        SelfImprovementConfig::loadFromYAML("/nonexistent/path.yaml"),
+        std::runtime_error);
+}
+
+TEST(SelfImprovementYAMLTest, LoadFromActualFile) {
+    std::string src_path = __FILE__;
+    auto sep = src_path.rfind('/');
+    std::string repo_root = (sep != std::string::npos)
+                           ? src_path.substr(0, sep - std::string("tests").size())
+                           : "./";
+    const std::string path = repo_root + "config/lora/SelfImprovementModule.yaml";
+
+    SelfImprovementConfig cfg;
+    EXPECT_NO_THROW(cfg = SelfImprovementConfig::loadFromYAML(path));
+    EXPECT_TRUE(cfg.enabled);
+    EXPECT_GT(cfg.period_seconds, 0u);
+    EXPECT_FALSE(cfg.adaptive_rules.empty());
+}
+
+// ============================================================================
+// SelfImprovementModule – adaptive threshold adjustment
+// ============================================================================
+
+class SelfImprovementModuleTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        cfg_ = SelfImprovementConfig::fromYAMLString(kSelfImprovementYAML);
+    }
+    SelfImprovementConfig cfg_;
+};
+
+TEST_F(SelfImprovementModuleTest, Construction) {
+    EXPECT_NO_THROW(SelfImprovementModule module(cfg_));
+}
+
+TEST_F(SelfImprovementModuleTest, GetConfig) {
+    SelfImprovementModule module(cfg_);
+    EXPECT_EQ(module.getConfig().period_seconds, cfg_.period_seconds);
+}
+
+TEST_F(SelfImprovementModuleTest, ApplyRules_NoTrigger) {
+    SelfImprovementModule module(cfg_);
+    LoRADataSelectionConfig base;
+    base.max_toxicity_score = 0.3;
+    base.target_samples     = 5000;
+
+    DataSelectionMetrics m;
+    m.avg_quality_score    = 0.80; // above 0.60 → rule 0 NOT triggered
+    m.inference_latency_ms = 2000; // below 5000 → rule 1 NOT triggered
+
+    auto updated = module.applyAdaptiveRules(base, m);
+    EXPECT_EQ(module.lastTriggeredRuleCount(), 0u);
+    EXPECT_DOUBLE_EQ(updated.max_toxicity_score, 0.3);
+    EXPECT_EQ(updated.target_samples, 5000u);
+}
+
+TEST_F(SelfImprovementModuleTest, ApplyRules_QualityRuleTriggered) {
+    SelfImprovementModule module(cfg_);
+    LoRADataSelectionConfig base;
+    base.max_toxicity_score = 0.3;
+    base.target_samples     = 5000;
+
+    DataSelectionMetrics m;
+    m.avg_quality_score    = 0.50; // below 0.60 → rule 0 TRIGGERED (delta=-0.05)
+    m.inference_latency_ms = 2000;
+
+    auto updated = module.applyAdaptiveRules(base, m);
+    EXPECT_GE(module.lastTriggeredRuleCount(), 1u);
+    // max_toxicity_score should have decreased by 0.05
+    EXPECT_NEAR(updated.max_toxicity_score, 0.25, 1e-9);
+}
+
+TEST_F(SelfImprovementModuleTest, ApplyRules_LatencyRuleTriggered) {
+    SelfImprovementModule module(cfg_);
+    LoRADataSelectionConfig base;
+    base.max_toxicity_score = 0.3;
+    base.target_samples     = 5000;
+
+    DataSelectionMetrics m;
+    m.avg_quality_score    = 0.80;
+    m.inference_latency_ms = 7000; // above 5000 → rule 1 TRIGGERED (delta=-500)
+
+    auto updated = module.applyAdaptiveRules(base, m);
+    EXPECT_GE(module.lastTriggeredRuleCount(), 1u);
+    EXPECT_EQ(updated.target_samples, 4500u);
+}
+
+TEST_F(SelfImprovementModuleTest, ApplyRules_BothRulesTriggered) {
+    SelfImprovementModule module(cfg_);
+    LoRADataSelectionConfig base;
+    base.max_toxicity_score = 0.3;
+    base.target_samples     = 5000;
+
+    DataSelectionMetrics m;
+    m.avg_quality_score    = 0.50; // triggers quality rule
+    m.inference_latency_ms = 7000; // triggers latency rule
+
+    auto updated = module.applyAdaptiveRules(base, m);
+    EXPECT_EQ(module.lastTriggeredRuleCount(), 2u);
+    EXPECT_NEAR(updated.max_toxicity_score, 0.25, 1e-9);
+    EXPECT_EQ(updated.target_samples, 4500u);
+}
+
+TEST_F(SelfImprovementModuleTest, ApplyRules_DisabledDoesNotAdjust) {
+    cfg_.threshold_auto_adjust = false;
+    SelfImprovementModule module(cfg_);
+    LoRADataSelectionConfig base;
+    base.max_toxicity_score = 0.3;
+
+    DataSelectionMetrics m;
+    m.avg_quality_score = 0.40; // would trigger quality rule
+
+    auto updated = module.applyAdaptiveRules(base, m);
+    EXPECT_EQ(module.lastTriggeredRuleCount(), 0u);
+    EXPECT_DOUBLE_EQ(updated.max_toxicity_score, 0.3);
+}
+
+TEST_F(SelfImprovementModuleTest, ApplyRules_OriginalNotMutated) {
+    SelfImprovementModule module(cfg_);
+    LoRADataSelectionConfig base;
+    base.max_toxicity_score = 0.3;
+    base.target_samples     = 5000;
+
+    DataSelectionMetrics m;
+    m.avg_quality_score    = 0.50;
+    m.inference_latency_ms = 7000;
+
+    (void)module.applyAdaptiveRules(base, m);
+
+    // Original config must not be mutated
+    EXPECT_DOUBLE_EQ(base.max_toxicity_score, 0.3);
+    EXPECT_EQ(base.target_samples, 5000u);
+}
+
+TEST_F(SelfImprovementModuleTest, SetConfig_LiveReload) {
+    SelfImprovementModule module(cfg_);
+    SelfImprovementConfig new_cfg;
+    new_cfg.period_seconds = 7200;
+    module.setConfig(new_cfg);
+    EXPECT_EQ(module.getConfig().period_seconds, 7200u);
+}
