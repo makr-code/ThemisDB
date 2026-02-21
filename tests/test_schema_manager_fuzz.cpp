@@ -214,8 +214,7 @@ TEST(SchemaManagerFuzzTest, EmojiName) {
 }
 
 TEST(SchemaManagerFuzzTest, NullBytesInName) {
-    std::string null_name = "abc\x00def";
-    null_name.resize(7);
+    std::string null_name("abc\0def", 7);
     json j = {{"name", null_name}, {"type", "relational"}};
     EXPECT_NO_THROW(tryParse(j));
 }

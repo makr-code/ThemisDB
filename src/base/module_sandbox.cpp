@@ -11,6 +11,7 @@
 
 #ifdef _WIN32
 #  include <windows.h>
+#  include <jobapi2.h>
 #else
 #  include <dlfcn.h>
 #  include <fstream>
@@ -374,9 +375,9 @@ SandboxStats ModuleSandbox::stats() const {
 #elif defined(_WIN32)
     if (platform_->job_object) {
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION ji{};
-        if (GetInformationJobObject(platform_->job_object,
-                                     JobObjectExtendedLimitInformation,
-                                     &ji, sizeof(ji))) {
+        if (QueryInformationJobObject(platform_->job_object,
+                                      JobObjectExtendedLimitInformation,
+                                      &ji, sizeof(ji), nullptr)) {
             s.peak_memory_bytes = ji.PeakJobMemoryUsed;
         }
     }

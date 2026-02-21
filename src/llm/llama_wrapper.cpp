@@ -226,9 +226,10 @@ LlamaWrapper::LlamaWrapper(const Config& config)
     // instead we emit a loud WARNING so it is visible in logs and CI output.
 #if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_LLAMA_CPP_EXPECTED_COMMIT)
     {
-        // llama_build_commit() is available in llama.cpp since build b3622.
-        // It returns a short commit hash string (e.g. "b7974") or "" if unavailable.
-        const char* runtime_commit = llama_build_commit();
+        // Not all bundled llama.cpp revisions expose a runtime commit API in llama.h.
+        // Keep the compatibility check best-effort by treating runtime commit as unknown
+        // when no stable API is available at compile time.
+        const char* runtime_commit = "";
         const std::string expected_commit = THEMIS_LLAMA_CPP_EXPECTED_COMMIT;
         const std::string actual_commit   = runtime_commit ? runtime_commit : "";
 

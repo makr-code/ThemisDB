@@ -84,11 +84,11 @@ public:
     }
 
     // Lifecycle hooks
-    void flush() override {
+    void flush() noexcept override {
         // MetricsCollector is pull-based (Prometheus scrapes); no push needed.
     }
 
-    void shutdown() override {
+    void shutdown() noexcept override {
         collector_.reset();
     }
 

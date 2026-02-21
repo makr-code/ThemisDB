@@ -6,6 +6,8 @@ env-*/
 compendium/chrome/
 compendium/temp
 build-*/
+llm_cache/
+logs/
 
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md

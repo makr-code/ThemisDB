@@ -141,17 +141,15 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getHistory(std::string_view table_
     std::string prefix = tablePrefix(table_name);
 
     try {
-        auto entries = db_.getKeysWithPrefix(prefix);
-        for (const auto& key : entries) {
-            auto val = db_.get(key);
-            if (!val.has_value()) continue;
+        db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(*val);
+                auto j = json::parse(value.begin(), value.end());
                 result.push_back(SchemaAuditEntry::fromJSON(j));
             } catch (const std::exception& ex) {
-                spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", key, ex.what());
+                spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", std::string(key), ex.what());
             }
-        }
+            return true;
+        });
     } catch (const std::exception& e) {
         spdlog::warn("SchemaAuditLog: Failed to read history for '{}': {}", table_name, e.what());
     }
@@ -168,17 +166,15 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getFullHistory() const {
     std::string prefix = std::string(kKeyPrefix);
 
     try {
-        auto entries = db_.getKeysWithPrefix(prefix);
-        for (const auto& key : entries) {
-            auto val = db_.get(key);
-            if (!val.has_value()) continue;
+        db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(*val);
+                auto j = json::parse(value.begin(), value.end());
                 result.push_back(SchemaAuditEntry::fromJSON(j));
             } catch (const std::exception& ex) {
-                spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", key, ex.what());
+                spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", std::string(key), ex.what());
             }
-        }
+            return true;
+        });
     } catch (const std::exception& e) {
         spdlog::warn("SchemaAuditLog: Failed to read full audit history: {}", e.what());
     }

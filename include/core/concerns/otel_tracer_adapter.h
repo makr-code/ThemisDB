@@ -136,7 +136,7 @@ public:
     }
 
     // Lifecycle hooks
-    void flush() override {
+    void flush() noexcept override {
         // Spans are exported asynchronously; shutdown/restart would be
         // destructive.  A best-effort flush is performed via the OTLP
         // exporter's internal queue drain – no public API available here,

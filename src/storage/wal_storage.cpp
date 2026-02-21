@@ -14,11 +14,31 @@
 #include <sstream>
 #include <stdexcept>
 #include <iomanip>
+#include <limits>
 
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/stat.h>
+
+#if defined(_WIN32)
+#include <io.h>
+#include <cstddef>
+using ssize_t = std::ptrdiff_t;
+#define THEMIS_OS_OPEN  _open
+#define THEMIS_OS_CLOSE _close
+#define THEMIS_OS_FSYNC _commit
+#define THEMIS_OS_FSTAT _fstat64
+#define THEMIS_OS_WRITE _write
+using themis_os_stat_t = struct _stat64;
+#else
+#include <unistd.h>
 #include <sys/uio.h>
+#define THEMIS_OS_OPEN  open
+#define THEMIS_OS_CLOSE close
+#define THEMIS_OS_FSYNC fsync
+#define THEMIS_OS_FSTAT fstat
+#define THEMIS_OS_WRITE write
+using themis_os_stat_t = struct stat;
+#endif
 
 namespace themis {
 
@@ -117,8 +137,8 @@ WALStorage::WALStorage(const Config& cfg) : config_(cfg) {}
 
 WALStorage::~WALStorage() {
     if (fd_ >= 0) {
-        ::fsync(fd_);
-        ::close(fd_);
+        ::THEMIS_OS_FSYNC(fd_);
+        ::THEMIS_OS_CLOSE(fd_);
         fd_ = -1;
     }
 }
@@ -256,14 +276,14 @@ Result<void> WALStorage::replaySegment(const std::string& path,
 
 Result<void> WALStorage::openNewSegment() {
     if (fd_ >= 0) {
-        ::fsync(fd_);
-        ::close(fd_);
+        ::THEMIS_OS_FSYNC(fd_);
+        ::THEMIS_OS_CLOSE(fd_);
         fd_ = -1;
     }
 
     std::string path = config_.dir + "/" + segmentName(current_segment_);
     // O_APPEND ensures atomic position tracking; O_CREAT creates if absent.
-    fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0644);
+    fd_ = ::THEMIS_OS_OPEN(path.c_str(), O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd_ < 0) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                        "cannot open WAL segment '" + path + "': " +
@@ -271,8 +291,8 @@ Result<void> WALStorage::openNewSegment() {
     }
 
     // Determine how many bytes are already in the file.
-    struct stat st{};
-    if (::fstat(fd_, &st) == 0) {
+    themis_os_stat_t st{};
+    if (::THEMIS_OS_FSTAT(fd_, &st) == 0) {
         segment_bytes_ = static_cast<uint64_t>(st.st_size);
     } else {
         segment_bytes_ = 0;
@@ -325,15 +345,34 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
     uint8_t crc_buf[4];
     encode_u32(crc_buf, crc);
 
-    // Write header, key, value, CRC atomically (best-effort via gather I/O).
-    struct iovec iov[4];
-    iov[0].iov_base = hdr;          iov[0].iov_len = HEADER_SIZE;
-    iov[1].iov_base = const_cast<char*>(key.data());   iov[1].iov_len = klen;
-    iov[2].iov_base = const_cast<char*>(value.data()); iov[2].iov_len = vlen;
-    iov[3].iov_base = crc_buf;      iov[3].iov_len = 4;
+    auto write_all = [this](const void* buf, size_t len) -> ssize_t {
+        const char* p = static_cast<const char*>(buf);
+        size_t remaining = len;
+        ssize_t total_written = 0;
+        while (remaining > 0) {
+            size_t chunk = std::min(remaining, static_cast<size_t>(std::numeric_limits<int>::max()));
+            int n = static_cast<int>(::THEMIS_OS_WRITE(fd_, p, static_cast<unsigned int>(chunk)));
+            if (n <= 0) {
+                return -1;
+            }
+            p += n;
+            remaining -= static_cast<size_t>(n);
+            total_written += static_cast<ssize_t>(n);
+        }
+        return total_written;
+    };
 
     ssize_t total = static_cast<ssize_t>(HEADER_SIZE + klen + vlen + 4);
-    ssize_t written = ::writev(fd_, iov, 4);
+    ssize_t written = 0;
+    ssize_t n1 = write_all(hdr, HEADER_SIZE);
+    ssize_t n2 = write_all(key.data(), klen);
+    ssize_t n3 = write_all(value.data(), vlen);
+    ssize_t n4 = write_all(crc_buf, 4);
+    if (n1 < 0 || n2 < 0 || n3 < 0 || n4 < 0) {
+        written = -1;
+    } else {
+        written = n1 + n2 + n3 + n4;
+    }
     if (written != total) {
         return Err<uint64_t>(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                              "WAL write failed (expected " + std::to_string(total) +
@@ -347,7 +386,7 @@ Result<uint64_t> WALStorage::appendEntry(EntryType type,
 
 void WALStorage::syncIfRequired() {
     if (config_.fsync_on_write) {
-        ::fsync(fd_);
+        ::THEMIS_OS_FSYNC(fd_);
     }
 }
 
@@ -403,7 +442,7 @@ size_t WALStorage::segmentCount() const {
 
 Result<void> WALStorage::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (fd_ >= 0 && ::fsync(fd_) != 0) {
+    if (fd_ >= 0 && ::THEMIS_OS_FSYNC(fd_) != 0) {
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_DISK_FULL,
                        "WAL fsync failed: " + std::string(std::strerror(errno)));
     }

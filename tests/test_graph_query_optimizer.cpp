@@ -1095,7 +1095,7 @@ TEST_F(GraphQueryOptimizerTest, WeightConstraint_MinWeight_AcceptsHeavyEnoughPat
 TEST_F(GraphQueryOptimizerTest, Dijkstra_Sequential_FindsShortestPath) {
     // Graph: A-(1.0)->B-(1.0)->C-(1.0)->D  and  A-(2.0)->C
     // Shortest A→D: cost 3.0
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     auto result = optimizer_->executeDijkstra("A", "D", c);
     ASSERT_TRUE(result.has_value());
     EXPECT_DOUBLE_EQ(result->totalCost, 3.0);
@@ -1106,12 +1106,12 @@ TEST_F(GraphQueryOptimizerTest, Dijkstra_Sequential_FindsShortestPath) {
 
 TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_ProducesSameResultAsSequential) {
     // Sequential baseline
-    GraphQueryOptimizer::QueryConstraints seq_c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints seq_c;
     auto seq = optimizer_->executeDijkstra("A", "D", seq_c);
     ASSERT_TRUE(seq.has_value());
 
     // Parallel Δ-stepping must yield the same optimal cost and path endpoints
-    GraphQueryOptimizer::QueryConstraints par_c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints par_c;
     par_c.enable_parallel = true;
     auto par = optimizer_->executeDijkstra("A", "D", par_c);
     ASSERT_TRUE(par.has_value());
@@ -1123,7 +1123,7 @@ TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_ProducesSameResultAsSequential
 }
 
 TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_ExplicitThreadCount) {
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     c.enable_parallel = true;
     c.num_threads = 2;
     auto result = optimizer_->executeDijkstra("A", "C", c);
@@ -1138,7 +1138,7 @@ TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_ExplicitThreadCount) {
 TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_UpdatesMetrics) {
     const uint64_t before = optimizer_->getQueryMetrics().total_queries.load();
 
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     c.enable_parallel = true;
     optimizer_->executeDijkstra("A", "D", c);
 
@@ -1147,7 +1147,7 @@ TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_UpdatesMetrics) {
 
 TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_SingleHop) {
     // Shortest A→B: cost 1.0, direct edge
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     c.enable_parallel = true;
     auto result = optimizer_->executeDijkstra("A", "B", c);
     ASSERT_TRUE(result.has_value());
@@ -1163,13 +1163,13 @@ TEST_F(GraphQueryOptimizerTest, Dijkstra_Parallel_SingleHop) {
 
 TEST_F(GraphQueryOptimizerTest, LatencyHistogram_PopulatedAfterExecution) {
     // After a BFS execution, at least one latency bucket should be non-zero
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     optimizer_->executeBFS("A", 3, c);
 
     const auto& hist = optimizer_->getQueryMetrics().latency_histogram;
     uint64_t total_buckets = 0;
     for (size_t i = 0;
-         i < GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBucketCount;
+            i < themis::graph::GraphQueryOptimizer::GraphQueryMetrics::LatencyHistogram::kBucketCount;
          ++i) {
         total_buckets += hist.counts[i].load(std::memory_order_relaxed);
     }
@@ -1177,7 +1177,7 @@ TEST_F(GraphQueryOptimizerTest, LatencyHistogram_PopulatedAfterExecution) {
 }
 
 TEST_F(GraphQueryOptimizerTest, LatencyHistogram_PercentileNonNegativeAfterExecution) {
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     for (int i = 0; i < 5; ++i) {
         optimizer_->executeBFS("A", 2, c);
     }
@@ -1207,7 +1207,7 @@ TEST_F(GraphQueryOptimizerTest, RateLimiter_SetAndGet) {
 TEST_F(GraphQueryOptimizerTest, RateLimiter_HighLimitAllowsQueries) {
     // Set a high limit – all queries should succeed
     optimizer_->setMaxQueriesPerSecond(10000);
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     for (int i = 0; i < 5; ++i) {
         auto res = optimizer_->executeBFS("A", 2, c);
         EXPECT_TRUE(res.has_value()) << "query " << i << " should succeed under high rate limit";
@@ -1218,7 +1218,7 @@ TEST_F(GraphQueryOptimizerTest, RateLimiter_HighLimitAllowsQueries) {
 TEST_F(GraphQueryOptimizerTest, RateLimiter_ZeroLimitDisabled) {
     // max_qps = 0 means no limit; even many rapid queries should succeed
     optimizer_->setMaxQueriesPerSecond(0);
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
     for (int i = 0; i < 20; ++i) {
         auto res = optimizer_->executeBFS("A", 1, c);
         EXPECT_TRUE(res.has_value()) << "query " << i << " should pass with no limit";
@@ -1228,7 +1228,7 @@ TEST_F(GraphQueryOptimizerTest, RateLimiter_ZeroLimitDisabled) {
 TEST_F(GraphQueryOptimizerTest, RateLimiter_ExceededReturnsErrorCode) {
     // Set limit to 1 query/second – the 2nd rapid call should be rejected
     optimizer_->setMaxQueriesPerSecond(1);
-    GraphQueryOptimizer::QueryConstraints c;
+    themis::graph::GraphQueryOptimizer::QueryConstraints c;
 
     // First call should succeed
     auto first = optimizer_->executeBFS("A", 2, c);

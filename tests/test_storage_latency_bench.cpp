@@ -36,25 +36,22 @@ protected:
         db_path_ = (fs::temp_directory_path() /
                     ("themis_latbench_" + std::to_string(ts))).string();
 
-        RocksDBWrapper::Config cfg;
-        cfg.db_path           = db_path_;
-        cfg.enable_wal        = false; // disable RocksDB WAL to measure pure storage operations
-        cfg.enable_statistics = true;
-        cfg.memtable_size_mb  = 64;
-        cfg.block_cache_size_mb = 64;
+        engine_ = StorageEngine::createDefault();
+        ASSERT_TRUE(engine_->open(db_path_).has_value());
 
-        db_ = std::make_shared<RocksDBWrapper>(cfg);
-        ASSERT_TRUE(db_->open());
-
-        engine_ = std::make_unique<StorageEngine>(db_);
-        compaction_ = std::make_unique<CompactionManager>(db_);
+        auto* raw_db = engine_->rawDB();
+        ASSERT_NE(raw_db, nullptr);
+        db_alias_ = std::shared_ptr<RocksDBWrapper>(raw_db, [](RocksDBWrapper*) {});
+        compaction_ = std::make_unique<CompactionManager>(db_alias_);
     }
 
     void TearDown() override {
-        engine_.reset();
         compaction_.reset();
-        db_->close();
-        db_.reset();
+        db_alias_.reset();
+        if (engine_) {
+            engine_->close();
+            engine_.reset();
+        }
         fs::remove_all(db_path_);
     }
 
@@ -81,8 +78,8 @@ protected:
     }
 
     std::string db_path_;
-    std::shared_ptr<RocksDBWrapper> db_;
-    std::unique_ptr<StorageEngine> engine_;
+    std::shared_ptr<RocksDBWrapper> db_alias_;
+    std::shared_ptr<StorageEngine> engine_;
     std::unique_ptr<CompactionManager> compaction_;
 };
 

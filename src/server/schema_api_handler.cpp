@@ -1179,12 +1179,21 @@ http::response<http::string_body> SchemaApiHandler::handleBatchConstraintValidat
 
         size_t row_index = 0;
         for (const auto& row_json : body["rows"]) {
-            // Convert JSON object to string map
-            std::map<std::string, std::string> row;
+            // Convert JSON object to ColumnValue map
+            std::map<std::string, ColumnValue> row;
             if (row_json.is_object()) {
                 for (auto& [k, v] : row_json.items()) {
-                    if (v.is_string()) row[k] = v.get<std::string>();
-                    else row[k] = v.dump();
+                    if (v.is_null()) {
+                        row[k] = std::monostate{};
+                    } else if (v.is_boolean()) {
+                        row[k] = v.get<bool>();
+                    } else if (v.is_number_integer() || v.is_number_unsigned()) {
+                        row[k] = static_cast<int64_t>(v.get<int64_t>());
+                    } else if (v.is_number_float()) {
+                        row[k] = v.get<double>();
+                    } else {
+                        row[k] = v.dump();
+                    }
                 }
             }
 

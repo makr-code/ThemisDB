@@ -15,8 +15,26 @@
 #include <iomanip>
 
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/stat.h>
+
+#if defined(_WIN32)
+#include <io.h>
+#include <cstddef>
+#ifndef O_CLOEXEC
+#define O_CLOEXEC 0
+#endif
+using ssize_t = std::ptrdiff_t;
+#define THEMIS_OS_OPEN  _open
+#define THEMIS_OS_CLOSE _close
+#define THEMIS_OS_WRITE _write
+#define THEMIS_OS_FSYNC _commit
+#else
+#include <unistd.h>
+#define THEMIS_OS_OPEN  open
+#define THEMIS_OS_CLOSE close
+#define THEMIS_OS_WRITE write
+#define THEMIS_OS_FSYNC fsync
+#endif
 
 namespace themis {
 
@@ -65,8 +83,8 @@ StorageAuditLogger::StorageAuditLogger(const Config& cfg) : config_(cfg) {}
 
 StorageAuditLogger::~StorageAuditLogger() {
     if (fd_ >= 0) {
-        ::fsync(fd_);
-        ::close(fd_);
+        ::THEMIS_OS_FSYNC(fd_);
+        ::THEMIS_OS_CLOSE(fd_);
         fd_ = -1;
     }
 }
@@ -75,17 +93,13 @@ StorageAuditLogger::~StorageAuditLogger() {
 Result<std::unique_ptr<StorageAuditLogger>>
 StorageAuditLogger::open(const Config& config) {
     if (config.dir.empty()) {
-        return ErrResult<std::unique_ptr<StorageAuditLogger>>(
-            errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-            "StorageAuditLogger: config.dir must not be empty");
+        return tl::unexpected(Error{});
     }
 
     std::error_code ec;
     fs::create_directories(config.dir, ec);
     if (ec) {
-        return ErrResult<std::unique_ptr<StorageAuditLogger>>(
-            errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-            "StorageAuditLogger: cannot create directory: " + ec.message());
+        return tl::unexpected(Error{});
     }
 
     auto logger = std::unique_ptr<StorageAuditLogger>(
@@ -93,9 +107,7 @@ StorageAuditLogger::open(const Config& config) {
 
     auto res = logger->openOrCreate();
     if (!res.has_value()) {
-        return ErrResult<std::unique_ptr<StorageAuditLogger>>(
-            errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-            "StorageAuditLogger: open failed: " + res.error().message());
+        return tl::unexpected(Error{});
     }
 
     return logger;
@@ -122,11 +134,9 @@ Result<void> StorageAuditLogger::openOrCreate() {
     segment_bytes_  = 0;
 
     std::string path = (fs::path(config_.dir) / segmentName(new_id)).string();
-    fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
+    fd_ = ::THEMIS_OS_OPEN(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
     if (fd_ < 0) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-                       std::string("StorageAuditLogger: open failed: ") +
-                       std::strerror(errno));
+        return tl::unexpected(Error{});
     }
     return OkVoid();
 }
@@ -185,11 +195,9 @@ Result<void> StorageAuditLogger::writeEntry(Event event,
     oss << '\n';
 
     std::string line = oss.str();
-    ssize_t written = ::write(fd_, line.data(), line.size());
+    ssize_t written = static_cast<ssize_t>(::THEMIS_OS_WRITE(fd_, line.data(), static_cast<unsigned int>(line.size())));
     if (written < 0 || static_cast<size_t>(written) != line.size()) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-                       std::string("StorageAuditLogger: write failed: ") +
-                       std::strerror(errno));
+        return tl::unexpected(Error{});
     }
     last_seq_ = next_seq_++;
     segment_bytes_ += static_cast<uint64_t>(written);
@@ -201,8 +209,8 @@ Result<void> StorageAuditLogger::rotateIfNeeded() {
     if (segment_bytes_ < config_.max_file_bytes) return OkVoid();
 
     if (fd_ >= 0) {
-        ::fsync(fd_);
-        ::close(fd_);
+        ::THEMIS_OS_FSYNC(fd_);
+        ::THEMIS_OS_CLOSE(fd_);
         fd_ = -1;
     }
 
@@ -212,18 +220,16 @@ Result<void> StorageAuditLogger::rotateIfNeeded() {
     segment_bytes_ = 0;
 
     std::string path = (fs::path(config_.dir) / segmentName(new_id)).string();
-    fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
+    fd_ = ::THEMIS_OS_OPEN(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC, 0644);
     if (fd_ < 0) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-                       std::string("StorageAuditLogger: rotate open failed: ") +
-                       std::strerror(errno));
+        return tl::unexpected(Error{});
     }
     return OkVoid();
 }
 
 void StorageAuditLogger::syncIfRequired() {
     if (config_.sync_on_write && fd_ >= 0) {
-        ::fsync(fd_);
+        ::THEMIS_OS_FSYNC(fd_);
     }
 }
 
@@ -243,10 +249,8 @@ size_t StorageAuditLogger::segmentCount() const {
 
 Result<void> StorageAuditLogger::flush() {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (fd_ >= 0 && ::fsync(fd_) != 0) {
-        return ErrVoid(errors::ErrorCode::ERR_STORAGE_ENGINE_ERROR,
-                       std::string("StorageAuditLogger: fsync failed: ") +
-                       std::strerror(errno));
+    if (fd_ >= 0 && ::THEMIS_OS_FSYNC(fd_) != 0) {
+        return tl::unexpected(Error{});
     }
     return OkVoid();
 }

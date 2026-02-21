@@ -500,7 +500,7 @@ public:
     /**
      * @brief Return a snapshot of all per-algorithm learned cost models.
      */
-    const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>>&
+    const std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<TraversalAlgorithm>>&
         getAlgorithmCostModels() const { return algo_cost_models_; }
 
     // -----------------------------------------------------------------------
@@ -579,7 +579,7 @@ private:
 
     // Adaptive cost model: per-algorithm EMA cost tracking
     bool adaptive_learning_enabled_ = true;
-    std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>> algo_cost_models_;
+    std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<TraversalAlgorithm>> algo_cost_models_;
 
     // Query rate limiter
     QueryRateLimiter rate_limiter_;

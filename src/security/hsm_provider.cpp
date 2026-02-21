@@ -10,10 +10,20 @@
 #include "utils/logger.h"
 #include <sstream>
 #include <chrono>
+#include <atomic>
+#include <algorithm>
 
 namespace themis { namespace security {
 
-class HSMProvider::Impl { };
+class HSMProvider::Impl {
+public:
+    std::atomic<uint64_t> sign_count{0};
+    std::atomic<uint64_t> verify_count{0};
+    std::atomic<uint64_t> sign_errors{0};
+    std::atomic<uint64_t> verify_errors{0};
+    std::atomic<uint64_t> total_sign_time_us{0};
+    std::atomic<uint64_t> total_verify_time_us{0};
+};
 
 static std::string to_hex(const std::vector<uint8_t>& data) {
     static const char* d = "0123456789abcdef";
@@ -101,8 +111,13 @@ HSMSignatureResult HSMProvider::sign(const std::vector<uint8_t>& data, const std
 }
 
 HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const std::string& key_label) {
+    auto start = std::chrono::steady_clock::now();
     HSMSignatureResult r;
-    if (!initialized_) { r.error_message = "HSM stub not initialized"; return r; }
+    if (!initialized_) {
+        r.error_message = "HSM stub not initialized";
+        impl_->sign_errors.fetch_add(1, std::memory_order_relaxed);
+        return r;
+    }
     THEMIS_WARN("HSMProvider STUB signing - NOT cryptographically secure!");
     r.success = true;
     r.signature_b64 = pseudo_b64(hash);
@@ -111,13 +126,26 @@ HSMSignatureResult HSMProvider::signHash(const std::vector<uint8_t>& hash, const
     r.cert_serial = "STUB-CERT";
     r.timestamp_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
+    const uint64_t elapsed = static_cast<uint64_t>(std::max<int64_t>(1,
+        std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start).count()));
+    impl_->sign_count.fetch_add(1, std::memory_order_relaxed);
+    impl_->total_sign_time_us.fetch_add(elapsed, std::memory_order_relaxed);
     return r;
 }
 
 bool HSMProvider::verify(const std::vector<uint8_t>& data, const std::string& signature_b64, const std::string& key_label) {
+    auto start = std::chrono::steady_clock::now();
     auto expected = pseudo_b64(data);
     bool ok = (expected == signature_b64);
     THEMIS_DEBUG("HSMProvider stub verify key='{}' ok={}", key_label.empty()?config_.key_label:key_label, ok);
+    const uint64_t elapsed = static_cast<uint64_t>(std::max<int64_t>(1,
+        std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start).count()));
+    if (ok) {
+        impl_->verify_count.fetch_add(1, std::memory_order_relaxed);
+    } else {
+        impl_->verify_errors.fetch_add(1, std::memory_order_relaxed);
+    }
+    impl_->total_verify_time_us.fetch_add(elapsed, std::memory_order_relaxed);
     return ok;
 }
 
@@ -153,19 +181,32 @@ std::optional<std::string> HSMProvider::getCertificate(const std::string& key_la
 bool HSMProvider::isReady() const { return initialized_; }
 
 std::string HSMProvider::getTokenInfo() const {
-    std::ostringstream oss; oss << "HSM STUB label=" << config_.key_label << " ready=" << (initialized_?"true":"false");
+    std::ostringstream oss; oss << "HSM stub label=" << config_.key_label << " ready=" << (initialized_?"true":"false");
     return oss.str();
 }
 
 std::string HSMProvider::getLastError() const { return last_error_; }
 
 HSMPerformanceStats HSMProvider::getStats() const {
-    // Stub: return empty stats
-    return HSMPerformanceStats{};
+    HSMPerformanceStats stats;
+    stats.sign_count = impl_->sign_count.load(std::memory_order_relaxed);
+    stats.verify_count = impl_->verify_count.load(std::memory_order_relaxed);
+    stats.sign_errors = impl_->sign_errors.load(std::memory_order_relaxed);
+    stats.verify_errors = impl_->verify_errors.load(std::memory_order_relaxed);
+    stats.total_sign_time_us = impl_->total_sign_time_us.load(std::memory_order_relaxed);
+    stats.total_verify_time_us = impl_->total_verify_time_us.load(std::memory_order_relaxed);
+    stats.pool_size = 1;
+    stats.pool_round_robin_hits = 0;
+    return stats;
 }
 
 void HSMProvider::resetStats() {
-    // Stub: no-op
+    impl_->sign_count.store(0, std::memory_order_relaxed);
+    impl_->verify_count.store(0, std::memory_order_relaxed);
+    impl_->sign_errors.store(0, std::memory_order_relaxed);
+    impl_->verify_errors.store(0, std::memory_order_relaxed);
+    impl_->total_sign_time_us.store(0, std::memory_order_relaxed);
+    impl_->total_verify_time_us.store(0, std::memory_order_relaxed);
 }
 
 bool HSMProvider::isStubProvider() const {

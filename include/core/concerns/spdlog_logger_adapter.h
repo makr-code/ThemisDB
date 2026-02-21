@@ -113,11 +113,11 @@ public:
     }
 
     // Lifecycle hooks
-    void flush() override {
+    void flush() noexcept override {
         if (logger_) logger_->flush();
     }
 
-    void shutdown() override {
+    void shutdown() noexcept override {
         if (logger_) {
             logger_->flush();
             logger_.reset();

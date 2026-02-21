@@ -128,7 +128,8 @@ public:
     std::optional<CacheEntry> get(std::string_view) const override {
         return std::nullopt;
     }
-    bool put(std::string_view, const CacheEntry&, uint64_t) override {
+    bool put(std::string_view, const CacheEntry&, uint64_t ttl_ms = 0) override {
+        (void)ttl_ms;
         return true;
     }
     void invalidate(std::string_view) override {}

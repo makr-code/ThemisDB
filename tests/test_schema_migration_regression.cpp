@@ -40,7 +40,7 @@ protected:
     void SetUp() override {
         db_path = makeTempDbPath("migration_regression_");
         RocksDBWrapper::Config cfg;
-        cfg.path = db_path;
+        cfg.db_path = db_path;
         db = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db->open());
 
@@ -67,7 +67,7 @@ protected:
         s.name = table;
         s.type = "relational";
         for (const auto& col : columns) {
-            SchemaManager::PropertyDef p;
+            SchemaManager::PropertyInfo p;
             p.name    = col;
             p.type    = "string";
             p.indexed = false;
