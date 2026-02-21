@@ -262,6 +262,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/process_mining.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/diff_engine.cpp
+    ../src/analytics/cep_engine.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
