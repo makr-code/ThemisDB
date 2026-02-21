@@ -1,0 +1,43 @@
+name: Milestone Cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry-run only (no changes, just show what would be done)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  issues: write
+
+jobs:
+  cleanup:
+    name: Remove module prefixes from milestones
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run milestone cleanup
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DRY_RUN="${{ github.event.inputs.dry_run }}"
+          echo "Dry-run mode: $DRY_RUN"
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "=== DRY-RUN: Zeige modulabhängige Milestones (keine Änderungen) ==="
+            gh api "repos/${{ github.repository }}/milestones?state=open&per_page=100" \
+              --jq '.[] | select(.title | test("^[\\w]+ - ")) | "  • \"" + .title + "\" (#" + (.number|tostring) + ")"'
+          else
+            python scripts/cleanup_milestones.py
+          fi
