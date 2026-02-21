@@ -324,6 +324,13 @@ set(THEMIS_SECURITY_SOURCES
     ../src/index/vector_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES

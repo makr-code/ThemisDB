@@ -1427,8 +1427,15 @@ set(THEMIS_CORE_SOURCES
     # Spatial index
     ../src/index/spatial_index.cpp
     
-    # Hybrid search (BM25 + Vector)
+    # Hybrid search (BM25 + Vector) and v1.5.0 search components
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
