@@ -21,7 +21,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Audit logging for vector operations
 
 ## In Progress 🚧
-- [I] Full-text inverted index integration (Target: Q2 2026) (Issue: #1888)
+- [x] Full-text inverted index integration (Target: Q2 2026) (Issue: #1433)
 - [I] Automated index advisor with workload replay (Target: Q2 2026) (Issue: #1434)
 - [P] HNSW incremental re-indexing without full rebuild (Target: Q3 2026) (Issue: #1435)
 
@@ -58,7 +58,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 - [x] Audit logging for vector operations
 
 ### Phase 2: Full-Text & Automated Advisor (Status: In Progress 🚧)
-- [~] Full-text inverted index integration (Target: Q2 2026)
+- [x] Full-text inverted index integration (Target: Q2 2026)
 - [~] Automated index advisor with workload replay (Target: Q2 2026)
 - [x] HNSW incremental re-indexing without full rebuild (Target: Q3 2026)
 
@@ -81,7 +81,7 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 ## Known Issues & Limitations
 - GPU acceleration requires Vulkan/CUDA drivers; falls back to CPU automatically.
 - HNSW incremental re-indexing implemented via `VectorIndexManager::incrementalReindex()`.
-- Full-text search is out of scope for the current release.
+- Full-text search is implemented via `InvertedIndex` (standalone) and `SecondaryIndexManager` (integrated).
 
 ## Breaking Changes
 - `IndexManager` factory API (`createDefault()`) is stable from v1.x.

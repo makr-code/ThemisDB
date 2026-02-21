@@ -2610,6 +2610,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				
 					// Process LET bindings using LetEvaluator to ensure nested references resolve correctly
 					query::LetEvaluator letEval;
+					if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 					nlohmann::json currentDoc;
 					currentDoc[build_for.variable] = build_doc;
 					currentDoc[probe_for.variable] = doc;
@@ -2709,6 +2710,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			if (depth >= for_nodes.size()) {
 				// Process LET bindings using LetEvaluator
 				query::LetEvaluator letEval;
+				if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 				nlohmann::json currentDoc; // Aggregate all bindings for LET evaluation
 				for (const auto& [var, val] : ctx.bindings) {
 					currentDoc[var] = val;

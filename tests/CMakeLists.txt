@@ -963,6 +963,42 @@ else()
 endif()
 
 # ============================================================================
+# Inverted Index (standalone full-text search module) Tests
+# ============================================================================
+
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
+    message(STATUS "Adding InvertedIndex unit tests")
+
+    add_executable(test_inverted_index
+        test_inverted_index.cpp
+    )
+
+    target_link_libraries(test_inverted_index PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        nlohmann_json::nlohmann_json
+        RocksDB::rocksdb
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_inverted_index PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    add_test(NAME InvertedIndexTests COMMAND test_inverted_index)
+
+    set_tests_properties(InvertedIndexTests PROPERTIES
+        LABELS "index;fulltext;inverted;unit"
+        TIMEOUT 120
+    )
+
+    message(STATUS "  InvertedIndex: create/drop, index/deindex, BM25 search, phrase, fuzzy")
+else()
+    message(STATUS "InvertedIndex tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_inverted_index.cpp")
+endif()
+
+# ============================================================================
 # Fulltext Phrase and Fuzzy Search Tests
 # ============================================================================
 

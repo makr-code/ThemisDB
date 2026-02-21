@@ -1273,6 +1273,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
+    ../src/index/inverted_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp

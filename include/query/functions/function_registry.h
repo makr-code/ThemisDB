@@ -38,6 +38,7 @@
 namespace themis {
     class GraphIndexManager;
     class GraphAnalytics;
+    class SecondaryIndexManager;
 }
 
 namespace themis {
@@ -223,6 +224,10 @@ public:
     void setGraphAnalytics(themis::GraphAnalytics* analytics) { graph_analytics_ = analytics; }
     themis::GraphAnalytics* getGraphAnalytics() const { return graph_analytics_; }
 
+    // Full-text / secondary index access (for FULLTEXT, PHRASE, FUZZY functions)
+    void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) { secondary_idx_mgr_ = mgr; }
+    themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -230,6 +235,7 @@ private:
     std::string user_id_;
     themis::GraphIndexManager* graph_mgr_ = nullptr;
     themis::GraphAnalytics* graph_analytics_ = nullptr;
+    themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 };
 
 // ============================================================================
