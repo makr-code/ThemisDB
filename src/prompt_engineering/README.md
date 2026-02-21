@@ -35,7 +35,9 @@ CRUD store for `PromptTemplate` objects backed by an optional RocksDB column fam
 
 **Features:**
 - Thread-safe reads and writes via TBB `concurrent_hash_map`
-- `loadFromYAML()` — bulk-load prompt templates from a YAML configuration file
+- `validateTemplate()` — static validation of required fields (`name`, `content`, `version`), metadata type, and warnings for missing optional fields; returns a `ValidationResult` with lists of errors and warnings
+- `createTemplate()` — validates before inserting; returns empty-id sentinel on validation failure
+- `loadFromYAML()` — bulk-load prompt templates from a YAML configuration file; skips and logs invalid entries
 - `getPromptWithContext()` — retrieve a template and substitute `{key}` variables in one call
 - `buildContextFromSchema()` — populate context variables from a `SchemaManager` snapshot (table names, row counts, capabilities)
 - RocksDB persistence with `scanPrefix` for listing all stored templates
@@ -49,6 +51,9 @@ Records and stores user and system feedback events against named prompt IDs. Com
 - Ten `FeedbackType` values: `USER_POSITIVE`, `USER_NEGATIVE`, `HALLUCINATION_DETECTED`, `TIMEOUT`, `PARSE_ERROR`, `VALIDATION_FAILED`, `CONTEXT_MISSING`, `AMBIGUOUS_OUTPUT`, `SECURITY_ISSUE`, `PERFORMANCE_ISSUE`
 - Per-prompt `FeedbackStats`: positive/negative ratios, hallucination count, counts by type
 - `analyzeFailurePatterns()` — extracts recurring failure patterns above a minimum occurrence threshold
+- `getFeedbackPaged(offset, page_size, type_filter)` — chunked read API for large feedback archives
+- `detectOutliers(z_threshold)` — Z-score based anomaly detection over severity scores
+- `FeedbackEntry::checksum` — FNV-1a 64-bit audit checksum automatically computed on record
 - Time-range queries, age-based pruning, and bulk clear per prompt
 - RocksDB persistence with structured JSON encoding
 
@@ -58,12 +63,13 @@ Records and stores user and system feedback events against named prompt IDs. Com
 Computes quality scores for prompt outputs by comparing them against expected results.
 
 **Features:**
-- **Semantic similarity** — token overlap-based similarity scoring
+- **Semantic similarity** — Jaccard token-overlap similarity scoring
 - **Exact match** — normalized string equality
-- **Partial match** — longest common subsequence ratio
+- **Partial match** — normalized Levenshtein distance
 - **Relevance** — keyword coverage metric
 - **Weighted score** — configurable linear combination of the four metrics
 - Batch evaluation (`evaluateBatch`) with per-case breakdowns and pass/fail counts
+- `isStatisticallySignificant()` — proper Welch's two-sample t-test with Welch–Satterthwaite degrees of freedom and p-value via the Lentz continued-fraction regularised incomplete-beta CDF
 
 ### PromptOptimizer
 **Location:** `prompt_optimizer.cpp`
@@ -82,10 +88,14 @@ Iteratively improves a prompt using a provided evaluation function and an option
 Generates structured meta-prompts that instruct an LLM to rewrite an underperforming prompt. Produces a formatted markdown prompt containing the original prompt, performance feedback, improvement instructions, constraints, and optional examples.
 
 **Features:**
-- Multiple improvement strategies (conservative, aggressive, rewrite, targeted)
+- Multiple improvement strategies (iterative, analytical, creative)
 - Configurable `include_constraints` and `include_examples` flags
 - `generateAnalysisPrompt()` — generate a prompt for analyzing failure patterns
-- `generateABTestPrompt()` — generate two variant prompts for A/B comparison
+- `generateImprovementSuggestions()` — produce targeted suggestions based on identified weaknesses
+- **Pluggable LLM integration** via `ILLMProvider` interface:
+  - `setLLMProvider(provider)` — inject any LLM backend for real-time prompt improvement
+  - `clearLLMProvider()` / `hasLLMProvider()` — manage the provider lifecycle
+  - Graceful fallback to template-based generation on LLM error or empty response
 
 ### PromptVersionControl
 **Location:** `prompt_version_control.cpp`
@@ -133,6 +143,15 @@ Prometheus text-format metrics for the entire prompt engineering subsystem.
 - `*_optimization_duration_ms_total`, `*_optimization_iterations_total`
 - `*_feedback_total` (by type), `*_performance_success_rate`, `*_performance_latency_ms`
 - `*_abtest_*` counters, `*_version_commits_total`
+
+**Persistence:**
+- `snapshotToJson()` — serialize all counter values to JSON for crash-safe restart recovery
+- `restoreFromJson(snapshot)` — restore counter values from a snapshot
+
+**Alerting:**
+- `setAlertConfig(AlertConfig)` — configure thresholds (max failure rate, max hallucination count)
+- `setAlertCallback(fn)` — register a callback fired whenever a threshold is breached
+- Alerts fire automatically in `recordPromptExecution()` and `recordHallucinationDetection()`
 
 ### PromptEngineeringIntegration
 **Location:** `prompt_engineering_integration.cpp`
@@ -227,12 +246,18 @@ auto exec_result = integration.execute("sql_generation_v1",
 
 ## Production Readiness
 
-**Current Status: Beta**
+**Current Status: Production-Ready (v1.x)**
 
-- All components are individually functional; integration facade is wiring them together
-- RocksDB persistence is implemented for Manager, FeedbackCollector, VersionControl, and PerformanceTracker
-- Known limitations:
-  - `SelfImprovementOrchestrator::runAutoOptimization()` requires callers to supply test cases; without them, candidate prompts are detected but not optimized
-  - `PromptEvaluator` uses token-overlap heuristics rather than true embedding-based semantic similarity; integrate a vector model for production accuracy
-  - A/B test statistical significance uses a simplified z-test approximation; validate with your expected traffic volumes
-  - Background worker optimization interval defaults to 1 hour; tune via `IntegrationConfig::background_worker_interval`
+All components are individually tested and the integration facade wires them together. The following capabilities are production-hardened:
+
+- **Template validation**: `PromptManager::validateTemplate()` enforces required fields and metadata structure before any template is stored. `loadFromYAML()` skips and logs invalid entries.
+- **Feedback scalability**: `FeedbackCollector::getFeedbackPaged()` provides chunked read access for large feedback archives. `detectOutliers()` identifies anomalous severity values via Z-score. Each entry carries an FNV-1a audit checksum for compliance.
+- **Pluggable LLM integration**: `ILLMProvider` interface allows injecting any LLM backend (OpenAI, Cohere, local models) into `MetaPromptGenerator` for real-time prompt improvement. Falls back gracefully to template-based generation on error.
+- **Statistical evaluation**: `PromptEvaluator::isStatisticallySignificant()` implements a proper Welch's two-sample t-test with Welch–Satterthwaite degrees of freedom and p-value via the Lentz continued-fraction incomplete-beta CDF.
+- **A/B test statistics**: `SelfImprovementOrchestrator::analyzeABTest()` uses the standard normal CDF (`std::erfc`) for accurate two-proportion z-test p-values.
+- **Metrics persistence**: `PromptEngineeringMetrics::snapshotToJson()` / `restoreFromJson()` enable crash-safe counter persistence to any key-value store.
+- **Threshold alerting**: `setAlertConfig()` / `setAlertCallback()` fire pluggable callbacks when failure rate or hallucination count breach thresholds.
+
+Known limitations (by design):
+  - Full LLM-based evaluation in `SelfImprovementOrchestrator::optimizePrompt()` requires callers to execute the prompt through their LLM and supply a custom `eval_fn`; the built-in fallback uses `PromptEvaluator` for structural similarity as a proxy.
+  - Background worker optimization interval defaults to 1 hour; tune via `IntegrationConfig::background_worker_interval`.
