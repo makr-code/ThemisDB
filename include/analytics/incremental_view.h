@@ -287,8 +287,8 @@ private:
         double welford_mean = 0.0;
         double welford_m2   = 0.0;
 
-        // COUNT_DISTINCT
-        std::set<std::string> distinct_values;
+        // COUNT_DISTINCT — reference-counted to handle duplicate field values correctly
+        std::map<std::string, int> distinct_ref_counts;
 
         // FIRST / LAST (stored as string representation)
         FieldValue first_val{nullptr};

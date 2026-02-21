@@ -197,6 +197,38 @@ TEST(IncrementalViewTest, InsertCountDistinctAggregation) {
     EXPECT_EQ(getDouble(r, "EU", "dc"), 3.0);
 }
 
+TEST(IncrementalViewTest, CountDistinctRefCountDeleteDuplicate) {
+    // When the same distinct value appears multiple times, deleting one
+    // instance should NOT decrement distinct count if others remain.
+    ViewDefinition def = sales_view("dc_refcount");
+    def.aggregations = {{"dc", ViewAggFunc::COUNT_DISTINCT, "product"}};
+    IncrementalView view(def);
+
+    // Insert "X" three times and "Y" once
+    for (int i = 0; i < 3; ++i) {
+        view.applyChange(insert_rec("sales", {{"region", std::string("EU")}, {"product", std::string("X")}}));
+    }
+    view.applyChange(insert_rec("sales", {{"region", std::string("EU")}, {"product", std::string("Y")}}));
+
+    auto r = view.query();
+    EXPECT_EQ(getDouble(r, "EU", "dc"), 2.0); // X and Y
+
+    // Delete one instance of "X" — X still present twice, distinct count stays 2
+    view.applyChange(delete_rec("sales", {{"region", std::string("EU")}, {"product", std::string("X")}}));
+    r = view.query();
+    EXPECT_EQ(getDouble(r, "EU", "dc"), 2.0);
+
+    // Delete second instance of "X"
+    view.applyChange(delete_rec("sales", {{"region", std::string("EU")}, {"product", std::string("X")}}));
+    r = view.query();
+    EXPECT_EQ(getDouble(r, "EU", "dc"), 2.0); // X still has one copy left
+
+    // Delete last instance of "X"
+    view.applyChange(delete_rec("sales", {{"region", std::string("EU")}, {"product", std::string("X")}}));
+    r = view.query();
+    EXPECT_EQ(getDouble(r, "EU", "dc"), 1.0); // only Y remains distinct
+}
+
 TEST(IncrementalViewTest, InsertFirstLastAggregation) {
     ViewDefinition def = sales_view("fl_view");
     def.aggregations = {

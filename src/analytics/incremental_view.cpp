@@ -95,51 +95,6 @@ int64_t nowMicros() {
 // AggState
 // ============================================================================
 
-// For COUNT_DISTINCT we need a reference-counted map so that removing a value
-// that appears multiple times does not prematurely erase it from distinct_values.
-// We embed a private map in AggState.
-// We define a separate struct to avoid exposing impl details in the header.
-// The header declares only the public fields; we shadow distinct_values here.
-
-// To support proper distinct-count decrement, we use a std::map<string,int>
-// inside a struct that wraps AggState. But the header already declared
-// std::set<std::string> distinct_values; so we re-use that as a cache of
-// currently known distinct values and maintain a separate count_ map locally
-// per AggState instance.
-//
-// Simpler approach: distinct_values is a multiset in practice (counting
-// duplicates), so when count drops to 0 we remove from the set.
-// We replace std::set with a hidden map<string,int> by allocating it
-// alongside. Since we can't change the header, we use a static thread_local
-// companion map indexed by the AggState pointer. That is too complex.
-//
-// Cleanest backward-compatible approach: keep distinct_values as a
-// std::set<std::string> but maintain a separate private reference-count map
-// as a static companion structure. Since AggState is not exported beyond this
-// TU, we can simply change the interpretation: distinct_values stores each
-// unique value exactly once; we maintain a separate std::map<std::string,int>
-// ref-count member. Since the header is under our control (we created it),
-// we can add a private field. The header uses std::set<std::string> — we'll
-// keep that as the "distinct set" and add a parallel map in the .cpp by
-// using a global companion. But that's messy.
-//
-// SIMPLEST: just use std::map<std::string,int> ref_counts inside AggState
-// in addition to distinct_values.  The header declares a std::set so we use
-// that set to represent distinct values (each value in the set = present ≥1 time).
-// We add a companion map<string,int> ref_counts IN THE IMPLEMENTATION (via a
-// separate structure).
-//
-// We own the header so we can just add the field there.  We already included
-// the header above. Let's simply proceed with the set-based distinct tracking
-// and accept that "remove" only does a no-op if the value is not in the set
-// (which is correct for non-duplicate keys). For non-primary-key data, the
-// reference-count approach would be needed; but for GROUP BY views this is
-// a valid simplification.
-//
-// In practice, for a true production system the source field values that are
-// being COUNT_DISTINCTed will come from a field in each record, and we'll
-// track a multiset (allowing duplicates):
-
 void IncrementalView::AggState::add(const FieldValue& v, int sign) {
     double d = fieldValueToDouble(v);
     std::string s = fieldValueToStr(v);
@@ -152,9 +107,9 @@ void IncrementalView::AggState::add(const FieldValue& v, int sign) {
         // MIN/MAX sorted structure
         min_max_values.insert(d);
 
-        // COUNT_DISTINCT: add to set unconditionally (set ignores duplicates)
-        // We track distinct via multiset semantics: add always, remove removes one
-        distinct_values.insert(s); // for distinct count, we track unique entries
+        // COUNT_DISTINCT: reference-counted so duplicate field values
+        // don't disappear prematurely on a single DELETE.
+        distinct_ref_counts[s]++;
 
         // FIRST/LAST
         last_val = v;
@@ -176,9 +131,11 @@ void IncrementalView::AggState::add(const FieldValue& v, int sign) {
         auto it = min_max_values.find(d);
         if (it != min_max_values.end()) min_max_values.erase(it);
 
-        // COUNT_DISTINCT: remove from set
-        auto sit = distinct_values.find(s);
-        if (sit != distinct_values.end()) distinct_values.erase(sit);
+        // COUNT_DISTINCT: decrement ref count; erase when it reaches 0
+        auto rit = distinct_ref_counts.find(s);
+        if (rit != distinct_ref_counts.end()) {
+            if (--rit->second <= 0) distinct_ref_counts.erase(rit);
+        }
 
         // Welford: Chan's update for removal (numerically stable)
         if (count > 0) {
@@ -220,7 +177,7 @@ FieldValue IncrementalView::AggState::result(ViewAggFunc func) const {
                 ? welford_m2 / static_cast<double>(count - 1)
                 : 0.0;
         case ViewAggFunc::COUNT_DISTINCT:
-            return static_cast<int64_t>(distinct_values.size());
+            return static_cast<int64_t>(distinct_ref_counts.size());
         case ViewAggFunc::FIRST:
             return has_first ? first_val : FieldValue{nullptr};
         case ViewAggFunc::LAST:
