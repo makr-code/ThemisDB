@@ -22,6 +22,7 @@
 #define THEMISDB_SHARDING_TWO_PHASE_COMMIT_COORDINATOR_H
 
 #include "sharding/shard_rpc_server.h"
+#include "sharding/shard_rpc_client.h"
 #include "sharding/wal_manager.h"
 #include <string>
 #include <map>
@@ -142,6 +143,21 @@ public:
     // ── Participant management ────────────────────────────────────────────────
 
     /**
+     * @brief Register a remote participant shard by network endpoint.
+     *
+     * Creates a ShardRPCClientAdapter internally that translates
+     * RequestHandler calls into ShardRPCClient network calls.
+     * The adapter's lifetime is tied to this coordinator instance.
+     *
+     * @param shard_id   Unique identifier of the shard
+     * @param rpc_config ShardRPCClient configuration (endpoint, TLS, timeouts)
+     */
+    void registerParticipantByEndpoint(
+        const std::string&           shard_id,
+        const ShardRPCClient::Config& rpc_config
+    );
+
+    /**
      * @brief Register a participant shard.
      *
      * Participants must remain valid for the lifetime of the coordinator
@@ -222,6 +238,9 @@ private:
     mutable std::mutex mutex_;
     std::map<std::string, ShardRPCServer::RequestHandler*> participants_;
     std::map<std::string, CoordinatorTxnRecord>            transactions_;
+
+    // Adapters created by registerParticipantByEndpoint() – owned by the coordinator
+    std::map<std::string, std::unique_ptr<ShardRPCServer::RequestHandler>> owned_adapters_;
 
     // WAL for coordinator durability
     std::unique_ptr<WALManager> wal_;

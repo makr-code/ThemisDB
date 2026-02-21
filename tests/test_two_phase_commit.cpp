@@ -700,3 +700,126 @@ TEST_F(TwoPhaseCommitCoordinatorTest, ConcurrentCoordinatorTransactionsAreSafe) 
     auto stats = coord_->getStatistics();
     EXPECT_EQ(stats["total_transactions"].get<uint64_t>(), static_cast<uint64_t>(N));
 }
+
+// =============================================================================
+// ShardRPCClientAdapter tests
+// =============================================================================
+
+#include "sharding/shard_rpc_client_adapter.h"
+
+/**
+ * The adapter wraps a ShardRPCClient and exposes the RequestHandler interface.
+ * The ShardRPCClient in this environment uses the in-process simulation path
+ * when the endpoint is not a valid gRPC host, so the tests verify adapter
+ * construction and the protocol translation logic.
+ */
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Adapter construction
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ShardRPCClientAdapterTest, ConstructWithConfig) {
+    ShardRPCClient::Config cfg;
+    cfg.endpoint     = "localhost:50051";
+    cfg.timeout_ms   = 1000;
+    cfg.max_retries  = 0; // no retries so tests are fast
+
+    // Construction must not throw
+    EXPECT_NO_THROW(ShardRPCClientAdapter adapter(cfg));
+}
+
+TEST(ShardRPCClientAdapterTest, HealthCheckReturnsStructuredInfo) {
+    ShardRPCClient::Config cfg;
+    cfg.endpoint     = "localhost:0"; // unreachable
+    cfg.timeout_ms   = 50;
+    cfg.max_retries  = 0;
+
+    ShardRPCClientAdapter adapter(cfg);
+
+    // HealthInfo must always be populated (not crash); is_healthy may be false
+    auto info = adapter.onHealthCheck();
+    // No assertion on is_healthy – network is not available in tests
+    (void)info;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Adapter payload parsing: malformed data → ABORT vote
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ShardRPCClientAdapterTest, MalformedPayloadVotesAbort) {
+    ShardRPCClient::Config cfg;
+    cfg.endpoint    = "localhost:0";
+    cfg.timeout_ms  = 50;
+    cfg.max_retries = 0;
+
+    ShardRPCClientAdapter adapter(cfg);
+
+    // Invalid JSON → must return false (ABORT vote) without crashing
+    bool vote = adapter.onPrepare("txn-bad", "coord", "{not-valid-json!!!}");
+    EXPECT_FALSE(vote);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Coordinator: registerParticipantByEndpoint
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(TwoPhaseCommitCoordinatorEndpointTest, RegisterByEndpointIncreasesCount) {
+    TwoPhaseCommitCoordinator::Config cfg;
+    cfg.wal_directory   = "";
+    cfg.sync_wal_writes = false;
+
+    TwoPhaseCommitCoordinator coord("coord-ep", cfg);
+    EXPECT_EQ(coord.participantCount(), 0u);
+
+    ShardRPCClient::Config rpc_cfg;
+    rpc_cfg.endpoint    = "shard-a:50051";
+    rpc_cfg.timeout_ms  = 500;
+    rpc_cfg.max_retries = 0;
+
+    coord.registerParticipantByEndpoint("shard-a", rpc_cfg);
+    EXPECT_EQ(coord.participantCount(), 1u);
+
+    coord.registerParticipantByEndpoint("shard-b", rpc_cfg);
+    EXPECT_EQ(coord.participantCount(), 2u);
+}
+
+TEST(TwoPhaseCommitCoordinatorEndpointTest, UnregisterRemovesEndpointParticipant) {
+    TwoPhaseCommitCoordinator::Config cfg;
+    cfg.wal_directory   = "";
+    cfg.sync_wal_writes = false;
+
+    TwoPhaseCommitCoordinator coord("coord-ep2", cfg);
+
+    ShardRPCClient::Config rpc_cfg;
+    rpc_cfg.endpoint    = "shard-x:50051";
+    rpc_cfg.timeout_ms  = 500;
+    rpc_cfg.max_retries = 0;
+
+    coord.registerParticipantByEndpoint("shard-x", rpc_cfg);
+    EXPECT_EQ(coord.participantCount(), 1u);
+
+    EXPECT_TRUE(coord.unregisterParticipant("shard-x"));
+    EXPECT_EQ(coord.participantCount(), 0u);
+}
+
+TEST(TwoPhaseCommitCoordinatorEndpointTest, RegisterByEndpointCanBeOverwritten) {
+    TwoPhaseCommitCoordinator::Config cfg;
+    cfg.wal_directory   = "";
+    cfg.sync_wal_writes = false;
+
+    TwoPhaseCommitCoordinator coord("coord-ep3", cfg);
+
+    ShardRPCClient::Config rpc_cfg;
+    rpc_cfg.endpoint    = "shard-y:50051";
+    rpc_cfg.timeout_ms  = 500;
+    rpc_cfg.max_retries = 0;
+
+    coord.registerParticipantByEndpoint("shard-y", rpc_cfg);
+
+    // Re-register same shard with different endpoint (update)
+    rpc_cfg.endpoint = "shard-y-new:50052";
+    coord.registerParticipantByEndpoint("shard-y", rpc_cfg);
+
+    // Count should still be 1 (overwrite, not duplicate)
+    EXPECT_EQ(coord.participantCount(), 1u);
+}

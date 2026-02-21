@@ -4,6 +4,7 @@
 // Two-Phase Commit (2PC) Coordinator – cross-shard transaction driver
 
 #include "sharding/two_phase_commit_coordinator.h"
+#include "sharding/shard_rpc_client_adapter.h"
 #include "sharding/metrics_registry.h"
 #include "sharding/prometheus_metrics.h"
 #include "utils/logger.h"
@@ -52,7 +53,20 @@ void TwoPhaseCommitCoordinator::registerParticipant(
 
 bool TwoPhaseCommitCoordinator::unregisterParticipant(const std::string& shard_id) {
     std::lock_guard<std::mutex> lock(mutex_);
+    owned_adapters_.erase(shard_id); // also remove any owned adapter
     return participants_.erase(shard_id) > 0;
+}
+
+void TwoPhaseCommitCoordinator::registerParticipantByEndpoint(
+    const std::string&            shard_id,
+    const ShardRPCClient::Config& rpc_config
+) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    auto adapter = std::make_unique<ShardRPCClientAdapter>(rpc_config);
+    participants_[shard_id] = adapter.get();
+    owned_adapters_[shard_id] = std::move(adapter);
+    THEMIS_DEBUG("2PC coordinator [{}] registered remote participant shard {} at {}",
+                 coordinator_id_, shard_id, rpc_config.endpoint);
 }
 
 size_t TwoPhaseCommitCoordinator::participantCount() const {
