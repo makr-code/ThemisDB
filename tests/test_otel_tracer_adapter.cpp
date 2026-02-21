@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_otel_tracer_adapter.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 19:14:55                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 19:20:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     381                                            ║
+    • Total Lines:     382                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
     • 3e76a7f7e  2026-02-21  feat(core): add OpenTelemetry tracer adapter tests, Scope... ║
