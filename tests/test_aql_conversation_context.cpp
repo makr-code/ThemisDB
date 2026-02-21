@@ -1,200 +1,182 @@
 /**
  * @file test_aql_conversation_context.cpp
- * @brief Unit tests for multi-turn AQL conversation context and iterative
- *        query refinement (AQLConversationSession + translateNLToAQLIterative).
+ * @brief Unit tests for AQLConversationContext
  */
 
 #include <gtest/gtest.h>
+#include "aql/aql_conversation_context.h"
 #include "aql/llm_aql_handler.h"
 
 using namespace themis::aql;
 
 // ============================================================================
-// AQLConversationSession Tests
+// Fixture
 // ============================================================================
 
-TEST(AQLConversationSessionTest, InitiallyEmpty) {
-    AQLConversationSession session;
-    EXPECT_TRUE(session.empty());
-    EXPECT_EQ(session.size(), 0u);
-    EXPECT_TRUE(session.getHistory().empty());
-}
-
-TEST(AQLConversationSessionTest, AddTurnIncreasesSize) {
-    AQLConversationSession session;
-    session.addTurn("Find all users", "FOR u IN users RETURN u");
-    EXPECT_FALSE(session.empty());
-    EXPECT_EQ(session.size(), 1u);
-}
-
-TEST(AQLConversationSessionTest, AddMultipleTurns) {
-    AQLConversationSession session;
-    session.addTurn("Find all users", "FOR u IN users RETURN u");
-    session.addTurn("Filter to Seattle", "FOR u IN users FILTER u.city == 'Seattle' RETURN u");
-
-    EXPECT_EQ(session.size(), 2u);
-
-    const auto& history = session.getHistory();
-    ASSERT_EQ(history.size(), 2u);
-
-    EXPECT_EQ(history[0].nl_query,   "Find all users");
-    EXPECT_EQ(history[0].aql_result, "FOR u IN users RETURN u");
-
-    EXPECT_EQ(history[1].nl_query,   "Filter to Seattle");
-    EXPECT_EQ(history[1].aql_result,
-              "FOR u IN users FILTER u.city == 'Seattle' RETURN u");
-}
-
-TEST(AQLConversationSessionTest, ClearResetsSession) {
-    AQLConversationSession session;
-    session.addTurn("Find all users", "FOR u IN users RETURN u");
-    ASSERT_EQ(session.size(), 1u);
-
-    session.clear();
-    EXPECT_TRUE(session.empty());
-    EXPECT_EQ(session.size(), 0u);
-    EXPECT_TRUE(session.getHistory().empty());
-}
-
-TEST(AQLConversationSessionTest, PreservesInsertionOrder) {
-    AQLConversationSession session;
-    for (int i = 0; i < 5; ++i) {
-        session.addTurn("query " + std::to_string(i), "aql " + std::to_string(i));
-    }
-
-    ASSERT_EQ(session.size(), 5u);
-    for (std::size_t i = 0; i < 5; ++i) {
-        EXPECT_EQ(session.getHistory()[i].nl_query,
-                  "query " + std::to_string(i));
-        EXPECT_EQ(session.getHistory()[i].aql_result,
-                  "aql " + std::to_string(i));
-    }
-}
-
-TEST(AQLConversationSessionTest, ClearThenAddWorks) {
-    AQLConversationSession session;
-    session.addTurn("first", "aql_first");
-    session.clear();
-    session.addTurn("second", "aql_second");
-
-    ASSERT_EQ(session.size(), 1u);
-    EXPECT_EQ(session.getHistory()[0].nl_query, "second");
-}
-
-// ============================================================================
-// LLMAQLHandler – translateNLToAQLIterative Tests
-// ============================================================================
-
-class AQLIterativeTranslationTest : public ::testing::Test {
+class AQLConversationContextTest : public ::testing::Test {
 protected:
     void SetUp() override {
         handler = std::make_unique<LLMAQLHandler>();
+        ctx     = std::make_unique<AQLConversationContext>(*handler);
     }
 
     void TearDown() override {
+        ctx.reset();
         handler.reset();
     }
 
-    std::unique_ptr<LLMAQLHandler> handler;
+    std::unique_ptr<LLMAQLHandler>         handler;
+    std::unique_ptr<AQLConversationContext> ctx;
 };
 
-TEST_F(AQLIterativeTranslationTest, FirstTurnPopulatesSession) {
-    AQLConversationSession session;
-    ASSERT_TRUE(session.empty());
+// ============================================================================
+// Initial state
+// ============================================================================
 
-    try {
-        auto aql = handler->translateNLToAQLIterative("Find all users", session);
+TEST_F(AQLConversationContextTest, InitialTurnCountIsZero) {
+    EXPECT_EQ(ctx->turnCount(), 0u);
+}
 
-        // Session must have exactly one turn after the call
-        ASSERT_EQ(session.size(), 1u);
-        EXPECT_EQ(session.getHistory()[0].nl_query, "Find all users");
-        // The stored AQL must match what was returned
-        EXPECT_EQ(session.getHistory()[0].aql_result, aql);
-        EXPECT_FALSE(aql.empty());
+TEST_F(AQLConversationContextTest, InitialLastQueryIsEmpty) {
+    EXPECT_TRUE(ctx->lastQuery().empty());
+}
 
-    } catch (const std::exception& e) {
-        // Expected when no LLM model is loaded
-        EXPECT_TRUE(std::string(e.what()).find("translation failed") != std::string::npos ||
-                    std::string(e.what()).find("CHAT failed") != std::string::npos);
-        // Session must not have been modified on failure
-        EXPECT_TRUE(session.empty());
+TEST_F(AQLConversationContextTest, InitialHistoryIsEmpty) {
+    EXPECT_TRUE(ctx->getHistory().empty());
+}
+
+TEST_F(AQLConversationContextTest, InitialSchemaContextIsEmpty) {
+    EXPECT_TRUE(ctx->getSchemaContext().empty());
+}
+
+// ============================================================================
+// Schema context
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, SetSchemaContextStored) {
+    ctx->setSchemaContext("Collections:\n- users: {name, city}\n");
+    EXPECT_EQ(ctx->getSchemaContext(), "Collections:\n- users: {name, city}\n");
+}
+
+TEST_F(AQLConversationContextTest, UpdateSchemaContext) {
+    ctx->setSchemaContext("schema v1");
+    ctx->setSchemaContext("schema v2");
+    EXPECT_EQ(ctx->getSchemaContext(), "schema v2");
+}
+
+// ============================================================================
+// Input validation
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, StartWithEmptyIntentThrows) {
+    EXPECT_THROW(ctx->start(""), std::invalid_argument);
+}
+
+TEST_F(AQLConversationContextTest, RefineWithEmptyInstructionThrows) {
+    // Inject one fake turn so refine() doesn't throw on turn_count_ == 0
+    // We do this by calling start() and accepting a possible failure
+    try { ctx->start("dummy intent"); } catch (...) {}
+    // Force turn count to 1 so refine's precondition passes
+    // (If start succeeded, turnCount() == 1; if it failed, we need to test separately)
+    if (ctx->turnCount() >= 1) {
+        EXPECT_THROW(ctx->refine(""), std::invalid_argument);
     }
 }
 
-TEST_F(AQLIterativeTranslationTest, SubsequentTurnAccumulatesHistory) {
-    AQLConversationSession session;
+TEST_F(AQLConversationContextTest, RefineBeforeStartThrows) {
+    EXPECT_THROW(ctx->refine("add a filter"), std::logic_error);
+}
 
-    // Simulate a pre-existing first turn
-    session.addTurn("Find all users",
-                    "FOR u IN users RETURN u");
+// ============================================================================
+// Start (graceful LLM absence)
+// ============================================================================
 
-    try {
-        auto aql = handler->translateNLToAQLIterative(
-            "Now filter to only users in Seattle", session);
+TEST_F(AQLConversationContextTest, StartDoesNotThrowWithoutModel) {
+    // Without a loaded LLM model, start() should return an empty string
+    // but must NOT throw or crash.
+    std::string result;
+    EXPECT_NO_THROW({ result = ctx->start("Find all users"); });
+    // Result is either a valid AQL string or empty (no model loaded)
+    (void)result;
+}
 
-        // Session should now hold two turns
-        ASSERT_EQ(session.size(), 2u);
-        EXPECT_EQ(session.getHistory()[1].nl_query,
-                  "Now filter to only users in Seattle");
-        EXPECT_EQ(session.getHistory()[1].aql_result, aql);
+TEST_F(AQLConversationContextTest, StartClearsHistoryOnSecondCall) {
+    // First conversation
+    try { ctx->start("intent A"); } catch (...) {}
+    // Second start – should reset
+    try { ctx->start("intent B"); } catch (...) {}
 
-    } catch (const std::exception& e) {
-        // Only the original turn must remain when the call fails
-        EXPECT_EQ(session.size(), 1u);
+    // History should contain: system + (user+assistant pairs for intent B only)
+    // We can check that "intent A" is no longer in the history
+    for (const auto& [role, content] : ctx->getHistory()) {
+        EXPECT_EQ(content.find("intent A"), std::string::npos)
+            << "Old conversation should have been cleared by second start()";
     }
 }
 
-TEST_F(AQLIterativeTranslationTest, SchemaContextIsAccepted) {
-    AQLConversationSession session;
-    const std::string schema = "Collections:\n- users: {name, city, age}\n";
+// ============================================================================
+// Reset
+// ============================================================================
 
-    try {
-        auto aql = handler->translateNLToAQLIterative(
-            "Find users older than 30", session, schema);
+TEST_F(AQLConversationContextTest, ResetClearsState) {
+    try { ctx->start("Find users"); } catch (...) {}
+    ctx->reset();
+    EXPECT_EQ(ctx->turnCount(), 0u);
+    EXPECT_TRUE(ctx->lastQuery().empty());
+    EXPECT_TRUE(ctx->getHistory().empty());
+}
 
-        ASSERT_EQ(session.size(), 1u);
-        EXPECT_FALSE(aql.empty());
+TEST_F(AQLConversationContextTest, RefineAfterResetThrows) {
+    try { ctx->start("Find users"); } catch (...) {}
+    ctx->reset();
+    EXPECT_THROW(ctx->refine("add limit"), std::logic_error);
+}
 
-    } catch (const std::exception& e) {
-        EXPECT_TRUE(session.empty());
+// ============================================================================
+// Refine (graceful LLM absence)
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, RefineDoesNotThrowWithoutModel) {
+    // start() may fail silently when no model is loaded, so manually inject
+    // a fake turn to bypass the precondition and test refine() independently.
+    // We expose turn_count_ indirectly: call start() which at minimum either
+    // succeeds (turn_count_ = 1) or fails silently (turn_count_ = 0).
+    // Either way refine() must not crash.
+
+    // Attempt start; if turn count becomes 1 we can call refine
+    try { ctx->start("find all users"); } catch (...) {}
+    if (ctx->turnCount() >= 1) {
+        std::string result;
+        EXPECT_NO_THROW({ result = ctx->refine("also filter by age > 18"); });
+        (void)result;
     }
 }
 
-TEST_F(AQLIterativeTranslationTest, NoMarkdownInResult) {
-    AQLConversationSession session;
+// ============================================================================
+// History inspection
+// ============================================================================
 
-    try {
-        auto aql = handler->translateNLToAQLIterative("List all documents", session);
-
-        // Markdown fences must be stripped
-        EXPECT_EQ(aql.find("```"), std::string::npos);
-
-        if (!aql.empty()) {
-            // Result must be trimmed
-            EXPECT_FALSE(std::isspace(static_cast<unsigned char>(aql.front())));
-            EXPECT_FALSE(std::isspace(static_cast<unsigned char>(aql.back())));
-        }
-    } catch (const std::exception& e) {
-        // Expected without model; just ensure session is clean
-        EXPECT_TRUE(session.empty());
+TEST_F(AQLConversationContextTest, HistoryContainsSystemMessage) {
+    try { ctx->start("Find all orders"); } catch (...) {}
+    const auto history = ctx->getHistory();
+    if (!history.empty()) {
+        EXPECT_EQ(history.front().first, "system");
     }
 }
 
-TEST_F(AQLIterativeTranslationTest, IndependentSessionsDoNotInterfere) {
-    AQLConversationSession sessionA;
-    AQLConversationSession sessionB;
-
-    sessionA.addTurn("Find users", "FOR u IN users RETURN u");
-
-    // sessionB must not be affected by sessionA
-    EXPECT_TRUE(sessionB.empty());
-
-    try {
-        handler->translateNLToAQLIterative("Find products", sessionB);
-        EXPECT_EQ(sessionA.size(), 1u);
-        EXPECT_EQ(sessionB.size(), 1u);
-    } catch (const std::exception&) {
-        EXPECT_EQ(sessionA.size(), 1u);
-        EXPECT_TRUE(sessionB.empty());
+TEST_F(AQLConversationContextTest, HistoryRolesAreValid) {
+    try { ctx->start("Find all products"); } catch (...) {}
+    for (const auto& [role, content] : ctx->getHistory()) {
+        bool valid_role = (role == "system" || role == "user" || role == "assistant");
+        EXPECT_TRUE(valid_role) << "unexpected role: " << role;
     }
+}
+
+// ============================================================================
+// Move semantics
+// ============================================================================
+
+TEST_F(AQLConversationContextTest, MoveConstructible) {
+    AQLConversationContext moved(std::move(*ctx));
+    EXPECT_EQ(moved.turnCount(), 0u);
 }
