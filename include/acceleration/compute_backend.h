@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            compute_backend.h                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-21 14:07:27                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-02-21 16:52:43                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -31,6 +31,7 @@
 #include <memory>
 #include <cstdint>
 #include "acceleration/error_context.h"
+#include "acceleration/kernel_invocation.h"
 
 namespace themis {
 namespace acceleration {
@@ -133,6 +134,11 @@ public:
         size_t k,
         bool useL2 = true
     ) = 0;
+
+    // Populate the frozen kernel dispatch table for this backend.
+    // Backends override this to expose their kernel function pointers.
+    // Null entries in the returned table indicate unsupported operations.
+    virtual ANNKernelDispatch populateANNDispatch() const { return {}; }
 };
 
 // Graph operations backend interface
@@ -183,6 +189,11 @@ public:
         const double* polygonCoords,
         size_t numPolygonVertices
     ) = 0;
+
+    // Populate the frozen kernel dispatch table for this backend.
+    // Backends override this to expose their kernel function pointers.
+    // Null entries in the returned table indicate unsupported operations.
+    virtual GeoKernelDispatch populateGeoDispatch() const { return {}; }
 };
 
 // Forward declaration

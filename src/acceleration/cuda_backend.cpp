@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-21 14:07:47                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-02-21 16:52:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 13                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #include "acceleration/cuda_backend.h"
 #include "acceleration/error_codes.h"
 #include "acceleration/error_context.h"
+#include "acceleration/kernel_invocation.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -64,6 +65,28 @@ void launchTopKKernel(
     int numVectors,
     int k,
     cudaStream_t stream
+);
+
+// Geo kernel launchers from cuda/geo_kernels.cu (conform to frozen interface)
+int launchGeoDistanceKernel(
+    const double* d_lats1,
+    const double* d_lons1,
+    const double* d_lats2,
+    const double* d_lons2,
+    float* d_distances,
+    int count,
+    themis::acceleration::GeoDistanceFormula formula,
+    void* opaque_stream
+);
+
+int launchGeoContainmentKernel(
+    const double* d_point_lats,
+    const double* d_point_lons,
+    int numPoints,
+    const double* d_polygon_coords,
+    int numPolygonVertices,
+    uint8_t* d_results,
+    void* opaque_stream
 );
 }
 
@@ -517,6 +540,86 @@ std::vector<bool> CUDAGeoBackend::batchPointInPolygon(
     size_t /*numPolygonVertices*/
 ) {
     return {}; // Stub
+}
+
+} // namespace acceleration
+
+// ============================================================================
+// CUDAVectorBackend::populateANNDispatch
+//
+// Adapts the legacy void-return CUDA launchers from cuda/vector_kernels.cu
+// to the frozen ANNDistanceFn / ANNTopKFn signatures (return int, 0=success).
+// Under THEMIS_ENABLE_CUDA the wrappers call the real kernels; otherwise all
+// slots remain null so the BackendRegistry falls back to the CPU table.
+// ============================================================================
+
+#ifdef THEMIS_ENABLE_CUDA
+
+namespace {
+
+static int cuda_ann_l2_dispatch(
+    const float* d_queries, const float* d_vectors, float* d_distances,
+    int numQueries, int numVectors, int dim, void* opaque_stream)
+{
+    launchL2DistanceKernel(d_queries, d_vectors, d_distances,
+                           numQueries, numVectors, dim,
+                           static_cast<cudaStream_t>(opaque_stream));
+    return static_cast<int>(cudaGetLastError());
+}
+
+static int cuda_ann_cosine_dispatch(
+    const float* d_queries, const float* d_vectors, float* d_distances,
+    int numQueries, int numVectors, int dim, void* opaque_stream)
+{
+    launchCosineDistanceKernel(d_queries, d_vectors, d_distances,
+                               numQueries, numVectors, dim,
+                               static_cast<cudaStream_t>(opaque_stream));
+    return static_cast<int>(cudaGetLastError());
+}
+
+static int cuda_ann_topk_dispatch(
+    const float* d_distances, uint32_t* d_topk_indices, float* d_topk_dists,
+    int numQueries, int numVectors, int topK, void* opaque_stream)
+{
+    // Guard: the legacy launcher uses int* for indices.  Verify they are the
+    // same size so the reinterpret_cast below is safe.
+    static_assert(sizeof(uint32_t) == sizeof(int),
+                  "uint32_t and int must have the same size for index cast");
+    launchTopKKernel(d_distances,
+                     reinterpret_cast<int*>(d_topk_indices), d_topk_dists,
+                     numQueries, numVectors, topK,
+                     static_cast<cudaStream_t>(opaque_stream));
+    return static_cast<int>(cudaGetLastError());
+}
+
+} // anonymous namespace
+
+#endif // THEMIS_ENABLE_CUDA
+
+namespace acceleration {
+
+ANNKernelDispatch CUDAVectorBackend::populateANNDispatch() const {
+#ifdef THEMIS_ENABLE_CUDA
+    ANNKernelDispatch d;
+    d.launchL2Distance   = cuda_ann_l2_dispatch;
+    d.launchCosine       = cuda_ann_cosine_dispatch;
+    // Inner-product not yet implemented for CUDA — slot remains null (CPU fallback)
+    d.launchTopK         = cuda_ann_topk_dispatch;
+    return d;
+#else
+    return {}; // No CUDA — all null; BackendRegistry falls back to CPU table
+#endif
+}
+
+GeoKernelDispatch CUDAGeoBackend::populateGeoDispatch() const {
+#ifdef THEMIS_ENABLE_CUDA
+    GeoKernelDispatch d;
+    d.launchDistance    = launchGeoDistanceKernel;
+    d.launchContainment = launchGeoContainmentKernel;
+    return d;
+#else
+    return {}; // No CUDA — all null; BackendRegistry falls back to CPU table
+#endif
 }
 
 } // namespace acceleration

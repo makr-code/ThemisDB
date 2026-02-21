@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.h                                      ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-21 14:07:33                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-02-21 16:52:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     944                                            ║
+    • Total Lines:     956                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 397f3a597  2026-02-21  Refactor header includes and documentation updates across... ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -104,6 +104,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
+#include "server/request_validation_middleware.h"
 #include "server/policy_engine.h"
 #include "server/ranger_adapter.h"
 #include "utils/pii_pseudonymizer.h"
@@ -349,6 +350,14 @@ public:
     /// @return the current ConcernsContext (may be nullptr).
     std::shared_ptr<core::concerns::ConcernsContext> getConcerns() const {
         return concerns_;
+    }
+
+    /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
+    RequestValidationMiddleware* getRequestValidator() {
+        return request_validator_.get();
+    }
+    const RequestValidationMiddleware* getRequestValidator() const {
+        return request_validator_.get();
     }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -859,6 +868,9 @@ private:
     
     // Rate Limiter for DoS protection
     std::unique_ptr<RateLimiter> rate_limiter_;
+
+    // Request body validation (JSON Schema per endpoint)
+    std::unique_ptr<RequestValidationMiddleware> request_validator_;
 
     // Input validation & sanitization
     std::unique_ptr<themis::utils::InputValidator> validator_;
