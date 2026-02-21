@@ -23,25 +23,25 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [x] JSON query support (`aql_parser_json.cpp`)
 
 ## In Progress 🚧
-- [I] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026) (Issue: #1421)
-- [I] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026) (Issue: #1430)
+- [?] SQL dialect compatibility layer (SELECT/INSERT/UPDATE/DELETE passthrough) (Target: Q2 2026)
+- [?] Query plan visualization API (EXPLAIN / EXPLAIN ANALYZE) (Target: Q2 2026)
 - [I] Incremental view maintenance for materialized CTEs (Target: Q3 2026) (Issue: #1431)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
 - [I] Query result type annotations for client SDK code generation (Issue: #1432)
-- [ ] Per-query resource limits (max rows, max memory, timeout)
-- [ ] Query cancellation via request ID
-- [ ] Parallel scan for large collection full-table queries
-- [ ] User-defined functions (UDF) registration API
+- [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #2116)
+- [?] Query cancellation via request ID
+- [?] Parallel scan for large collection full-table queries
+- [?] User-defined functions (UDF) registration API
 
 ### Long-term (6-12 months)
-- [ ] Vectorized execution engine (column-store style batch processing)
-- [ ] Adaptive query re-optimization on runtime statistics
-- [ ] Cross-cluster federated AQL with cost estimation
-- [ ] Multi-statement transaction AQL (BEGIN/COMMIT in query)
-- [ ] SPARQL compatibility for RDF / knowledge-graph queries
+- [?] Vectorized execution engine (column-store style batch processing)
+- [?] Adaptive query re-optimization on runtime statistics
+- [?] Cross-cluster federated AQL with cost estimation
+- [?] Multi-statement transaction AQL (BEGIN/COMMIT in query)
+- [?] SPARQL compatibility for RDF / knowledge-graph queries
 
 ## Implementation Phases
 
@@ -80,12 +80,12 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 - [ ] SPARQL compatibility for RDF / knowledge-graph queries
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (multi-model queries, optimizer plan correctness)
-- [ ] Performance benchmarks (QPS, optimizer overhead, cache hit rate)
-- [ ] Security audit (AQL injection prevention, resource exhaustion)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (multi-model queries, optimizer plan correctness)
+- [?] Performance benchmarks (QPS, optimizer overhead, cache hit rate)
+- [?] Security audit (AQL injection prevention, resource exhaustion)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - AQLParser instances are NOT thread-safe; create per-thread or protect with a mutex.

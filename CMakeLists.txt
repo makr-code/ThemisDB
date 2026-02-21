@@ -67,7 +67,7 @@ include(cmake/PreloadTargets.cmake)
 include(cmake/editions/EditionDefaults.cmake)
 
 # 7. Feature configuration (LLM, GPU, Network, Security, Tools, Optimizations)
-include(cmake/Features/FeatureDefaults.cmake)
+include(cmake/features/FeatureDefaults.cmake)
 
 # 7.5. Edition-Feature Matrix Validation (ensures features are compatible with edition)
 include(cmake/EditionMatrix.cmake)

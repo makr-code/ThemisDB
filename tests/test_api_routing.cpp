@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_api_routing.cpp                               ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:45                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-02-21 19:20:18                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -152,42 +152,42 @@ TEST(APIVersionStringTest, ToStringZeroVersion) {
 // APIVersionManager
 // ---------------------------------------------------------------------------
 
-class APIVersionManagerTest : public ::testing::Test {
+class APIVersionManagerRoutingTest : public ::testing::Test {
 protected:
     APIVersionManager mgr_;
 };
 
-TEST_F(APIVersionManagerTest, HasCurrentVersion) {
+TEST_F(APIVersionManagerRoutingTest, HasCurrentVersion) {
     auto v = mgr_.getCurrentVersion();
     EXPECT_GT(v.major + v.minor + v.patch, 0u);  // Not all-zero
 }
 
-TEST_F(APIVersionManagerTest, HasMinimumVersion) {
+TEST_F(APIVersionManagerRoutingTest, HasMinimumVersion) {
     auto min_v = mgr_.getMinimumVersion();
     auto cur_v = mgr_.getCurrentVersion();
     EXPECT_LE(min_v, cur_v);
 }
 
-TEST_F(APIVersionManagerTest, CurrentVersionIsSupported) {
+TEST_F(APIVersionManagerRoutingTest, CurrentVersionIsSupported) {
     EXPECT_TRUE(mgr_.isVersionSupported(mgr_.getCurrentVersion()));
 }
 
-TEST_F(APIVersionManagerTest, ReturnsCurrentVersionForLatestKeyword) {
+TEST_F(APIVersionManagerRoutingTest, ReturnsCurrentVersionForLatestKeyword) {
     auto resolved = mgr_.resolveVersion("latest");
     EXPECT_EQ(resolved, mgr_.getCurrentVersion());
 }
 
-TEST_F(APIVersionManagerTest, SupportedVersionsListNotEmpty) {
+TEST_F(APIVersionManagerRoutingTest, SupportedVersionsListNotEmpty) {
     auto versions = mgr_.getSupportedVersions();
     EXPECT_FALSE(versions.empty());
 }
 
-TEST_F(APIVersionManagerTest, ReturnsCurrentVersionForEmptyHeader) {
+TEST_F(APIVersionManagerRoutingTest, ReturnsCurrentVersionForEmptyHeader) {
     auto resolved = mgr_.resolveVersion("");
     EXPECT_EQ(resolved, mgr_.getCurrentVersion());
 }
 
-TEST_F(APIVersionManagerTest, ReturnsCurrentVersionForInvalidHeader) {
+TEST_F(APIVersionManagerRoutingTest, ReturnsCurrentVersionForInvalidHeader) {
     auto resolved = mgr_.resolveVersion("garbage");
     EXPECT_EQ(resolved, mgr_.getCurrentVersion());
 }

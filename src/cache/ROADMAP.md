@@ -20,27 +20,27 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Per-tenant size quotas
 
 ## In Progress 🚧
-- [ ] Admin API for cache operations and monitoring (Target: Q2 2026)
-- [ ] Cache warmup with bulk operations (Target: Q2 2026)
-- [ ] Tenant management API (Target: Q2 2026)
-- [ ] Health checks and cache diagnostics endpoint (Target: Q3 2026)
-- [ ] Adaptive TTL tuning based on access patterns (Target: Q3 2026)
+- [I] Admin API for cache operations and monitoring (Target: Q2 2026) (Issue: #1577)
+- [I] Cache warmup with bulk operations (Target: Q2 2026) (Issue: #1578)
+- [I] Tenant management API (Target: Q2 2026) (Issue: #1579)
+- [I] Health checks and cache diagnostics endpoint (Target: Q3 2026) (Issue: #1580)
+- [I] Adaptive TTL tuning based on access patterns (Target: Q3 2026) (Issue: #1581)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Admin API: inspect, evict, and reload cache entries via HTTP
-- [ ] Bulk warmup from query logs or snapshot
-- [ ] Tenant-level cache statistics dashboard
-- [ ] Configurable eviction policies beyond LRU (LFU, ARC)
-- [ ] Cache hit rate SLO alerting
+- [I] Admin API: inspect, evict, and reload cache entries via HTTP (Issue: #1582)
+- [I] Bulk warmup from query logs or snapshot (Issue: #1583)
+- [I] Tenant-level cache statistics dashboard (Issue: #1584)
+- [I] Configurable eviction policies beyond LRU (LFU, ARC) (Issue: #1585)
+- [I] Cache hit rate SLO alerting (Issue: #1586)
 
 ### Long-term (6-12 months)
-- [ ] Distributed cache coordination across nodes (Redis-compatible protocol)
-- [ ] Write-through cache mode for read-heavy workloads
-- [ ] Predictive pre-fetching based on query history
-- [ ] Cache replication for high-availability deployments
-- [ ] GDPR-aware cache invalidation (PII purge propagation)
+- [I] Distributed cache coordination across nodes (Redis-compatible protocol) (Issue: #1587)
+- [I] Write-through cache mode for read-heavy workloads (Issue: #1588)
+- [I] Predictive pre-fetching based on query history (Issue: #1589)
+- [I] Cache replication for high-availability deployments (Issue: #1590)
+- [I] GDPR-aware cache invalidation (PII purge propagation) (Issue: #1591)
 
 ## Implementation Phases
 
@@ -61,24 +61,24 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [x] Implemented per-tenant size quotas with configurable byte limits
 
 ### Phase 3: Operational Excellence and Admin API (Status: In Progress)
-- [~] Implement Admin API for cache inspection, eviction, and reload (`cache/admin_api.cpp`)
-- [~] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`)
-- [~] Implement tenant management API (list tenants, per-tenant stats, quota updates)
-- [~] Add `/health` endpoint reporting per-tier status and circuit breaker state
-- [~] Implement adaptive TTL tuning based on per-key access frequency
+- [I] Implement Admin API for cache inspection, eviction, and reload (`cache/admin_api.cpp`) (Issue: #1599)
+- [I] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`) (Issue: #1600)
+- [I] Implement tenant management API (list tenants, per-tenant stats, quota updates) (Issue: #1601)
+- [I] Add `/health` endpoint reporting per-tier status and circuit breaker state (Issue: #1602)
+- [I] Implement adaptive TTL tuning based on per-key access frequency (Issue: #1603)
 
 ### Phase 4: Distributed Cache and Predictive Features (Status: Planned)
-- [ ] Implement Redis-compatible distributed cache coordination protocol
-- [ ] Add write-through cache mode for read-heavy workloads
-- [ ] Implement predictive pre-fetching based on query sequence history
-- [ ] Add cache replication for high-availability multi-node deployments
+- [I] Implement Redis-compatible distributed cache coordination protocol (Issue: #1592)
+- [I] Add write-through cache mode for read-heavy workloads (Issue: #1593)
+- [I] Implement predictive pre-fetching based on query sequence history (Issue: #1594)
+- [I] Add cache replication for high-availability multi-node deployments (Issue: #1595)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1596)
 - [x] Integration tests (L1/L2/L3 pipeline, circuit breaker, tenant isolation)
-- [ ] Performance benchmarks
+- [I] Performance benchmarks (Issue: #1597)
 - [x] Security audit (tenant isolation, namespace enforcement)
-- [ ] Documentation complete
+- [I] Documentation complete (Issue: #1598)
 - [x] API stability guaranteed for cache read/write/invalidate
 
 ## Known Issues & Limitations

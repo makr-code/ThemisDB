@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.cpp                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:39                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-02-21 19:20:14                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     701                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     835                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • deb41540b  2026-02-21  Code audit: fix 4 bugs found in review (query-string, mut... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,10 +27,10 @@
 #include "server/api_gateway.h"
 #include "server/api_version_config.h"
 #include "server/rate_limiter_v2.h"
-#include "core/error_codes.h"
 #include "sharding/urn.h"
 #include <chrono>
 #include <ctime>
+#include <mutex>
 #include <sstream>
 #include <spdlog/spdlog.h>
 
@@ -71,7 +71,7 @@ APIGateway::APIGateway(
     std::shared_ptr<RateLimiter> rate_limiter,
     std::shared_ptr<LoadShedder> load_shedder,
     std::shared_ptr<sharding::ShardRouter> shard_router,
-    std::shared_ptr<observability::PrometheusMetrics> metrics
+    std::shared_ptr<sharding::PrometheusMetrics> metrics
 ) : config_(config),
     auth_(std::move(auth)),
     rate_limiter_(std::move(rate_limiter)),
@@ -101,7 +101,7 @@ APIGateway::APIGateway(
     std::shared_ptr<PerClientRateLimiter> rate_limiter_v2,
     std::shared_ptr<LoadShedder> load_shedder,
     std::shared_ptr<sharding::ShardRouter> shard_router,
-    std::shared_ptr<observability::PrometheusMetrics> metrics
+    std::shared_ptr<sharding::PrometheusMetrics> metrics
 ) : config_(config),
     auth_(std::move(auth)),
     rate_limiter_(nullptr),
@@ -134,10 +134,21 @@ http::response<http::string_body> APIGateway::handleRequest(
     
     try {
         // 1. Authentication check
-        if (auth_ && !auth_->authenticate(req)) {
-            rate_limited_requests_++;
-            return makeErrorResponse(http::status::unauthorized, 
-                                    "Authentication failed", req);
+        if (auth_ && auth_->isEnabled()) {
+            bool auth_ok = false;
+            auto auth_header = req.find(http::field::authorization);
+            if (auth_header != req.end()) {
+                auto token = AuthMiddleware::extractBearerToken(auth_header->value());
+                if (token) {
+                    auto result = auth_->validateToken(*token);
+                    auth_ok = result.authorized;
+                }
+            }
+            if (!auth_ok) {
+                rate_limited_requests_++;
+                return makeErrorResponse(http::status::unauthorized,
+                                        "Authentication failed", req);
+            }
         }
         
         // 2. Rate limiting check
@@ -169,72 +180,11 @@ http::response<http::string_body> APIGateway::handleRequest(
             case RouteTarget::SHARD:
                 distributed_requests_++;
                 if (shard_router_) {
-                    // Extract entity key from path: /entities/{key}
-                    const std::string_view target_sv = req.target();
-                    auto pos = target_sv.find(kEntitiesPrefix);
-                    if (pos != std::string_view::npos) {
-                        auto key_sv = target_sv.substr(pos + kEntitiesPrefix.size());
-                        // Strip query string if present
-                        auto qpos = key_sv.find('?');
-                        if (qpos != std::string_view::npos) { key_sv = key_sv.substr(0, qpos); }
-                        const std::string raw_key(key_sv);
-
-                        // Try to parse as URN (urn:themis:…); fall back to local otherwise
-                        auto urn_opt = sharding::URN::parse(raw_key);
-                        if (urn_opt.has_value()) {
-                            const auto& urn = *urn_opt;
-                            const auto method = req.method();
-                            if (method == http::verb::get) {
-                                auto data = shard_router_->get(urn);
-                                if (data.has_value()) {
-                                    response = makeResponse(http::status::ok,
-                                        data->dump(), req);
-                                } else {
-                                    response = makeErrorResponse(http::status::not_found,
-                                        "Entity not found: " + raw_key, req);
-                                }
-                            } else if (method == http::verb::put ||
-                                       method == http::verb::post) {
-                                nlohmann::json body;
-                                if (!req.body().empty()) {
-                                    try {
-                                        body = nlohmann::json::parse(req.body());
-                                    } catch (const nlohmann::json::exception& je) {
-                                        response = makeErrorResponse(
-                                            http::status::bad_request,
-                                            std::string("Invalid JSON body: ") + je.what(), req);
-                                        break;
-                                    }
-                                }
-                                bool ok = shard_router_->put(urn, body);
-                                if (ok) {
-                                    response = makeResponse(http::status::ok,
-                                        R"({"status":"ok"})", req);
-                                } else {
-                                    response = makeErrorResponse(
-                                        http::status::internal_server_error,
-                                        "Failed to write to shard", req);
-                                }
-                            } else if (method == http::verb::delete_) {
-                                bool ok = shard_router_->del(urn);
-                                if (ok) {
-                                    response = makeResponse(http::status::ok,
-                                        R"({"status":"deleted"})", req);
-                                } else {
-                                    response = makeErrorResponse(
-                                        http::status::internal_server_error,
-                                        "Failed to delete from shard", req);
-                                }
-                            } else {
-                                response = makeErrorResponse(
-                                    http::status::method_not_allowed,
-                                    "Method not allowed for shard routing", req);
-                            }
-                        } else {
-                            // Key is not a URN — execute locally
-                            response = executeLocal(req, local_handler);
-                        }
+                    auto urn = extractUrnFromPath(std::string(req.target()));
+                    if (urn) {
+                        response = dispatchShardOperation(*urn, req);
                     } else {
+                        // No valid URN — fall back to local execution
                         response = executeLocal(req, local_handler);
                     }
                 } else {
@@ -403,6 +353,85 @@ void APIGateway::registerHandler(
     handlers_[pattern] = std::move(handler);
 }
 
+void APIGateway::registerDeprecation(
+    const std::string& endpoint,
+    const APIDeprecationInfo& info
+) {
+    if (version_manager_) {
+        version_manager_->registerDeprecation(endpoint, info);
+    }
+}
+
+std::optional<sharding::URN> APIGateway::extractUrnFromPath(const std::string& path) const {
+    // Check for /entities/{urn} convention first
+    const std::string entities_prefix = "/entities/";
+    auto urn_pos = path.find(entities_prefix);
+    if (urn_pos != std::string::npos) {
+        std::string urn_str = path.substr(urn_pos + entities_prefix.size());
+        auto qpos = urn_str.find('?');
+        if (qpos != std::string::npos) {
+            urn_str = urn_str.substr(0, qpos);
+        }
+        return sharding::URN::parse(urn_str);
+    }
+
+    // Fallback: look for any urn:themis: segment anywhere in the path
+    const std::string urn_marker = "urn:themis:";
+    auto marker_pos = path.find(urn_marker);
+    if (marker_pos != std::string::npos) {
+        std::string urn_str = path.substr(marker_pos);
+        auto qpos = urn_str.find('?');
+        if (qpos != std::string::npos) {
+            urn_str = urn_str.substr(0, qpos);
+        }
+        return sharding::URN::parse(urn_str);
+    }
+
+    return std::nullopt;
+}
+
+http::response<http::string_body> APIGateway::dispatchShardOperation(
+    const sharding::URN& urn,
+    const http::request<http::string_body>& req
+) {
+    nlohmann::json result_body;
+    bool ok = false;
+
+    if (req.method() == http::verb::get) {
+        auto data = shard_router_->get(urn);
+        if (data) {
+            result_body = *data;
+            ok = true;
+        }
+    } else if (req.method() == http::verb::put ||
+               req.method() == http::verb::post) {
+        nlohmann::json body;
+        if (!req.body().empty()) {
+            try {
+                body = nlohmann::json::parse(req.body());
+            } catch (const nlohmann::json::parse_error& e) {
+                spdlog::warn("APIGateway: invalid JSON in request body: {}", e.what());
+                return makeErrorResponse(http::status::bad_request,
+                    std::string("Invalid JSON: ") + e.what(), req);
+            }
+        }
+        ok = shard_router_->put(urn, body);
+        if (ok) result_body = {{"status", "ok"}};
+    } else if (req.method() == http::verb::delete_) {
+        ok = shard_router_->del(urn);
+        if (ok) result_body = {{"status", "deleted"}};
+    }
+
+    if (ok) {
+        http::response<http::string_body> response{http::status::ok, req.version()};
+        response.set(http::field::content_type, "application/json");
+        response.body() = result_body.dump();
+        response.prepare_payload();
+        return response;
+    }
+    return makeErrorResponse(http::status::not_found, "Entity not found or shard error", req);
+}
+
 APIGateway::RouteTarget APIGateway::determineRouteTarget(
     const http::request<http::string_body>& req
 ) {
@@ -505,12 +534,13 @@ bool APIGateway::checkLoadShedding(const http::request<http::string_body>& req) 
         return true;
     }
     
-    return load_shedder_->shouldAcceptRequest();
+    return !load_shedder_->shouldReject(LoadShedder::Priority::NORMAL);
 }
 
 std::shared_ptr<sharding::CircuitBreaker> APIGateway::getCircuitBreaker(
     const std::string& backend_id
 ) {
+    std::lock_guard<std::mutex> lock(circuit_breakers_mutex_);
     auto it = circuit_breakers_.find(backend_id);
     if (it != circuit_breakers_.end()) {
         return it->second;
@@ -558,82 +588,38 @@ http::response<http::string_body> APIGateway::executeRemote(
     }
     
     try {
-        // Extract entity key / URN from the request path
-        const std::string_view target_sv = req.target();
-        auto pos = target_sv.find(kEntitiesPrefix);
-        if (pos == std::string_view::npos) {
-            return makeErrorResponse(http::status::bad_request,
-                "Remote shard routing requires an /entities/{urn} path", req);
-        }
-
-        auto key_sv = target_sv.substr(pos + kEntitiesPrefix.size());
-        auto qpos = key_sv.find('?');
-        if (qpos != std::string_view::npos) { key_sv = key_sv.substr(0, qpos); }
-        const std::string raw_key(key_sv);
-
-        auto urn_opt = sharding::URN::parse(raw_key);
-        if (!urn_opt.has_value()) {
-            return makeErrorResponse(http::status::bad_request,
-                "Could not parse URN from path: " + raw_key, req);
-        }
-        const auto& urn = *urn_opt;
-
-        http::response<http::string_body> response;
-        const auto method = req.method();
-
-        if (method == http::verb::get) {
-            auto data = shard_router_->get(urn);
-            if (data.has_value()) {
-                response = makeResponse(http::status::ok, data->dump(), req);
-            } else {
-                response = makeErrorResponse(http::status::not_found,
-                    "Entity not found on shard: " + raw_key, req);
-            }
-        } else if (method == http::verb::put || method == http::verb::post) {
-            nlohmann::json body;
-            if (!req.body().empty()) {
-                try {
-                    body = nlohmann::json::parse(req.body());
-                } catch (const nlohmann::json::exception& je) {
-                    return makeErrorResponse(http::status::bad_request,
-                        std::string("Invalid JSON body: ") + je.what(), req);
+        // Extract URN from path and dispatch via shard router
+        auto urn = extractUrnFromPath(std::string(req.target()));
+        if (urn) {
+            auto response = dispatchShardOperation(*urn, req);
+            bool success = (response.result() == http::status::ok);
+            if (config_.enable_circuit_breaker) {
+                auto cb = getCircuitBreaker(shard_id);
+                if (success) {
+                    cb->recordSuccess();
+                } else {
+                    cb->recordFailure();
                 }
             }
-            bool ok = shard_router_->put(urn, body);
-            if (ok) {
-                response = makeResponse(http::status::ok, R"({"status":"ok"})", req);
-            } else {
-                response = makeErrorResponse(http::status::internal_server_error,
-                    "Failed to write entity to remote shard", req);
-            }
-        } else if (method == http::verb::delete_) {
-            bool ok = shard_router_->del(urn);
-            if (ok) {
-                response = makeResponse(http::status::ok, R"({"status":"deleted"})", req);
-            } else {
-                response = makeErrorResponse(http::status::internal_server_error,
-                    "Failed to delete entity from remote shard", req);
-            }
-        } else {
-            return makeErrorResponse(http::status::method_not_allowed,
-                "Method not allowed for shard routing", req);
+            return response;
         }
 
-        // Record success in circuit breaker
+        // No URN found — forward as a generic query
+        auto query_result = shard_router_->executeQuery(std::string(req.target()));
         if (config_.enable_circuit_breaker) {
-            auto cb = getCircuitBreaker(shard_id);
-            cb->recordSuccess();
+            getCircuitBreaker(shard_id)->recordSuccess();
         }
-
+        http::response<http::string_body> response{http::status::ok, req.version()};
+        response.set(http::field::content_type, "application/json");
+        response.body() = query_result.dump();
+        response.prepare_payload();
         return response;
-        
+
     } catch (const std::exception& e) {
-        spdlog::error("Remote execution failed: {}", e.what());
+        spdlog::error("Remote execution failed for shard '{}': {}", shard_id, e.what());
         
-        // Record failure in circuit breaker
         if (config_.enable_circuit_breaker) {
-            auto cb = getCircuitBreaker(shard_id);
-            cb->recordFailure();
+            getCircuitBreaker(shard_id)->recordFailure();
         }
         
         return makeErrorResponse(http::status::service_unavailable,
@@ -650,8 +636,18 @@ http::response<http::string_body> APIGateway::executeScatterGather(
     }
     
     try {
-        // Parse request body as query
-        nlohmann::json req_body = nlohmann::json::parse(req.body());
+        // Parse request body as query — body is required for scatter-gather
+        if (req.body().empty()) {
+            return makeErrorResponse(http::status::bad_request,
+                                    "Request body with 'query' field required for scatter-gather", req);
+        }
+        nlohmann::json req_body;
+        try {
+            req_body = nlohmann::json::parse(req.body());
+        } catch (const nlohmann::json::parse_error&) {
+            return makeErrorResponse(http::status::bad_request,
+                                    "Request body must be valid JSON", req);
+        }
         std::string query = req_body.value("query", "");
         
         if (query.empty()) {
@@ -799,8 +795,12 @@ void APIGateway::addDeprecationHeaders(
         return;
     }
     
-    // Extract endpoint path
+    // Extract endpoint path — strip query string so ?page=1 doesn't break lookup
     std::string endpoint = std::string(req.target());
+    auto qpos = endpoint.find('?');
+    if (qpos != std::string::npos) {
+        endpoint = endpoint.substr(0, qpos);
+    }
     
     // Check if endpoint is deprecated
     auto deprecation = version_manager_->getDeprecationInfo(endpoint, version);

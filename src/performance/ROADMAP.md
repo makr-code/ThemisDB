@@ -22,25 +22,25 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [x] Benchmark infrastructure
 
 ## In Progress 🚧
-- [ ] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026)
-- [ ] Auto-tuner for HNSW `ef_construction` and `M` based on workload (Target: Q2 2026)
-- [ ] NUMA topology detection and automatic thread pinning (Target: Q3 2026)
+- [?] GPU metrics integration with CUDA Nsight-compatible export (Target: Q2 2026)
+- [?] Auto-tuner for HNSW `ef_construction` and `M` based on workload (Target: Q2 2026)
+- [?] NUMA topology detection and automatic thread pinning (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] AVX-512 SIMD path for vector distance computations
-- [ ] Adaptive batch size tuning for LLM inference
-- [ ] Per-query cost model integration with query optimizer
-- [ ] Memory pressure monitoring with automatic cache eviction
-- [ ] Jemalloc integration as alternative allocator
+- [I] AVX-512 SIMD path for vector distance computations (Issue: #1964)
+- [I] Adaptive batch size tuning for LLM inference (Issue: #1996)
+- [!] Per-query cost model integration with query optimizer (Issue: #2110)
+- [?] Memory pressure monitoring with automatic cache eviction
+- [?] Jemalloc integration as alternative allocator
 
 ### Long-term (6-12 months)
-- [ ] ML-based workload predictor for proactive resource scaling
-- [ ] Hardware performance counter (PMU) integration for cache miss analysis
-- [ ] Cross-module performance regression detection in CI
-- [ ] DPDK / io_uring zero-copy I/O path for network performance
-- [ ] Persistent memory (Optane) aware storage layout
+- [?] ML-based workload predictor for proactive resource scaling
+- [?] Hardware performance counter (PMU) integration for cache miss analysis
+- [?] Cross-module performance regression detection in CI
+- [?] DPDK / io_uring zero-copy I/O path for network performance
+- [?] Persistent memory (Optane) aware storage layout
 
 ## Implementation Phases
 
@@ -80,12 +80,12 @@ v1.x – Comprehensive research-driven performance optimization infrastructure i
 - [ ] Persistent memory (Optane) aware storage layout
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (cycle timer accuracy, lock-free buffer correctness)
-- [ ] Performance benchmarks (overhead < 1 ns per measurement point)
-- [ ] Security audit (timing side-channels via cycle counters)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (cycle timer accuracy, lock-free buffer correctness)
+- [?] Performance benchmarks (overhead < 1 ns per measurement point)
+- [?] Security audit (timing side-channels via cycle counters)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - SPSC ring buffer requires single-producer/single-consumer discipline; misuse causes data races.

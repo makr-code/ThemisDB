@@ -133,6 +133,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_path_resolver.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/boost_throw_exception.cpp
@@ -364,6 +365,8 @@ set(THEMIS_SECURITY_SOURCES
 set(THEMIS_TRANSACTION_SOURCES
     # Transaction management
     ../src/transaction/transaction_manager.cpp
+    ../src/transaction/lock_manager.cpp
+    ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
     
@@ -657,6 +660,8 @@ set(THEMIS_NETWORK_SOURCES
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
     ../src/server/load_shedder.cpp
+    ../src/server/api_version.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp

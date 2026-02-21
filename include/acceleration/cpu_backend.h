@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cpu_backend.h                                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:21                                ║
+  Version:         0.0.21                                             ║
+  Last Modified:   2026-02-21 19:19:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     191                                            ║
+    • Total Lines:     199                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e9a58a36c  2026-02-21  feat(acceleration): define error taxonomy for device sele... ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 4255551f1  2026-02-21  feat(acceleration): define backend capability contract wi... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -49,16 +49,20 @@ public:
         caps.supportsGeoOps = false;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = false;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                              | metricBit(DistanceMetric::COSINE)
+                              | metricBit(DistanceMetric::INNER_PRODUCT);
         caps.deviceName = "CPU (Fallback)";
         return caps;
     }
-    
+
     bool initialize() override {
         clearError();
         return true;
     }
     void shutdown() override {}
-    
+
     // IVectorBackend interface
     std::vector<float> computeDistances(
         const float* queries,
@@ -105,16 +109,18 @@ public:
         caps.supportsGeoOps = false;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = false;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = 0; // graph ops do not use distance metrics
         caps.deviceName = "CPU (Fallback)";
         return caps;
     }
-    
+
     bool initialize() override {
         clearError();
         return true;
     }
     void shutdown() override {}
-    
+
     // IGraphBackend interface
     std::vector<std::vector<uint32_t>> batchBFS(
         const uint32_t* adjacency,
@@ -152,6 +158,8 @@ public:
         caps.supportsGeoOps = true;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = false;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = 0; // geo ops do not use ANN distance metrics
         caps.deviceName = "CPU (Fallback)";
         return caps;
     }
