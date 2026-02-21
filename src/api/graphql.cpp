@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graphql.cpp                                        ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-21 14:07:47                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-02-21 16:52:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -867,9 +867,110 @@ std::string Schema::toSDL() const {
     return oss.str();
 }
 
-// ============================================================================
-// ThemisSchemaBuilder Implementation
-// ============================================================================
+std::shared_ptr<Value> Schema::introspect(const Field& field) const {
+    if (!introspection_enabled_) {
+        return Value::null();
+    }
+
+    if (field.name == "__schema") {
+        // Return schema-level introspection
+        ValueMap schema_obj;
+
+        // types array
+        ValueList type_list;
+        for (const auto& [name, type] : types_) {
+            ValueMap type_obj;
+            type_obj["name"] = Value::string(name);
+            type_obj["description"] = Value::string(type.description);
+
+            std::string kind_str;
+            switch (type.kind) {
+                case TypeDefinition::Kind::Scalar:      kind_str = "SCALAR"; break;
+                case TypeDefinition::Kind::Object:      kind_str = "OBJECT"; break;
+                case TypeDefinition::Kind::Interface:   kind_str = "INTERFACE"; break;
+                case TypeDefinition::Kind::Union:       kind_str = "UNION"; break;
+                case TypeDefinition::Kind::Enum:        kind_str = "ENUM"; break;
+                case TypeDefinition::Kind::InputObject: kind_str = "INPUT_OBJECT"; break;
+            }
+            type_obj["kind"] = Value::string(kind_str);
+
+            // fields
+            ValueList field_list;
+            for (const auto& fd : type.fields) {
+                ValueMap field_obj;
+                field_obj["name"] = Value::string(fd.name);
+                field_obj["description"] = Value::string(fd.description);
+
+                ValueMap type_ref;
+                type_ref["name"] = Value::string(fd.type.name);
+                type_ref["kind"] = Value::string(fd.type.is_list ? "LIST" : "SCALAR");
+                field_obj["type"] = Value::object(std::move(type_ref));
+                field_list.push_back(Value::object(std::move(field_obj)));
+            }
+            type_obj["fields"] = Value::list(std::move(field_list));
+
+            type_list.push_back(Value::object(std::move(type_obj)));
+        }
+        schema_obj["types"] = Value::list(std::move(type_list));
+        schema_obj["queryType"] = Value::object({{"name", Value::string(query_type_)}});
+        if (!mutation_type_.empty()) {
+            schema_obj["mutationType"] = Value::object({{"name", Value::string(mutation_type_)}});
+        } else {
+            schema_obj["mutationType"] = Value::null();
+        }
+        if (!subscription_type_.empty()) {
+            schema_obj["subscriptionType"] = Value::object({{"name", Value::string(subscription_type_)}});
+        } else {
+            schema_obj["subscriptionType"] = Value::null();
+        }
+        return Value::object(std::move(schema_obj));
+    }
+
+    if (field.name == "__type") {
+        // Look up a specific type by name
+        auto name_it = field.arguments.find("name");
+        if (name_it == field.arguments.end() || !name_it->second->isString()) {
+            return Value::null();
+        }
+        const std::string& type_name = name_it->second->asString();
+        const TypeDefinition* type = getType(type_name);
+        if (!type) {
+            return Value::null();
+        }
+
+        ValueMap type_obj;
+        type_obj["name"] = Value::string(type->name);
+        type_obj["description"] = Value::string(type->description);
+
+        std::string kind_str;
+        switch (type->kind) {
+            case TypeDefinition::Kind::Scalar:      kind_str = "SCALAR"; break;
+            case TypeDefinition::Kind::Object:      kind_str = "OBJECT"; break;
+            case TypeDefinition::Kind::Interface:   kind_str = "INTERFACE"; break;
+            case TypeDefinition::Kind::Union:       kind_str = "UNION"; break;
+            case TypeDefinition::Kind::Enum:        kind_str = "ENUM"; break;
+            case TypeDefinition::Kind::InputObject: kind_str = "INPUT_OBJECT"; break;
+        }
+        type_obj["kind"] = Value::string(kind_str);
+
+        ValueList field_list;
+        for (const auto& fd : type->fields) {
+            ValueMap field_obj;
+            field_obj["name"] = Value::string(fd.name);
+            field_obj["description"] = Value::string(fd.description);
+            ValueMap type_ref;
+            type_ref["name"] = Value::string(fd.type.name);
+            type_ref["kind"] = Value::string(fd.type.is_list ? "LIST" : "SCALAR");
+            field_obj["type"] = Value::object(std::move(type_ref));
+            field_list.push_back(Value::object(std::move(field_obj)));
+        }
+        type_obj["fields"] = Value::list(std::move(field_list));
+
+        return Value::object(std::move(type_obj));
+    }
+
+    return Value::null();
+}
 
 Schema ThemisSchemaBuilder::build() {
     Schema schema;

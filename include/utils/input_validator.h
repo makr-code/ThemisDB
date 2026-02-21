@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            input_validator.h                                  ║
-  Version:         0.0.11                                             ║
-  Last Modified:   2026-02-21 14:07:36                                ║
+  Version:         0.0.14                                             ║
+  Last Modified:   2026-02-21 16:52:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     74                                             ║
+    • Total Lines:     82                                             ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -49,6 +49,14 @@ public:
         const nlohmann::json& payload,
         const std::string& schema_name
     ) const;
+
+    // JSON schema validation against an in-memory JSON Schema Draft-7 object.
+    // Same keyword support as validateJsonStub.
+    // Returns std::nullopt if valid, otherwise an error message.
+    static std::optional<std::string> validateJson(
+        const nlohmann::json& payload,
+        const nlohmann::json& schema
+    );
 
     // Validate AQL request payload (expects keys like {"query": "...", "bindVars": {...}})
     // Performs minimal checks: required fields, max length, disallowed characters/patterns
