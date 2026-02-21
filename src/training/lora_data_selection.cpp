@@ -7,6 +7,7 @@
 #include <cctype>
 #include <chrono>
 #include <cmath>
+#include <filesystem>
 #include <fstream>
 #include <map>
 #include <mutex>
@@ -15,10 +16,6 @@
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
-
-#if !defined(_WIN32) && !defined(_WIN64)
-#  include <sys/stat.h>   // mkdir
-#endif
 
 namespace themis {
 namespace training {
@@ -248,29 +245,21 @@ static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
 /**
  * @brief Append a JSONL audit record to @p path (thread-safe).
  *
- * Creates parent directories if they don't exist (best-effort, POSIX and
- * Windows).  If the append fails, the error is swallowed so the caller's
+ * Creates parent directories if they don't exist (best-effort, portable).
+ * If the append fails, the error is swallowed so the caller's
  * pipeline result is not affected.
  */
 static void appendAuditJSONL(const std::string& path,
                               const std::string& jsonl_line) {
     if (path.empty()) return;
 
-    // Create parent directories (best-effort, POSIX + Windows)
+    // Create parent directories (best-effort, portable via <filesystem>)
     auto slash = path.rfind('/');
     if (slash != std::string::npos) {
-        std::string dir = path.substr(0, slash);
-        // Walk and create each segment
-        for (size_t i = 1; i <= dir.size(); ++i) {
-            if (i == dir.size() || dir[i] == '/') {
-                std::string seg = dir.substr(0, i);
-#if defined(_WIN32) || defined(_WIN64)
-                (void)_mkdir(seg.c_str());  // Windows: no mode argument
-#else
-                mkdir(seg.c_str(), 0755);
-#endif
-            }
-        }
+        std::error_code ec;
+        std::filesystem::create_directories(
+            std::filesystem::path(path).parent_path(), ec);
+        // Best-effort: ignore ec so pipeline results are unaffected
     }
 
     // Global mutex for concurrent callers writing to the same file.
@@ -741,8 +730,15 @@ static std::string stripQuotes(const std::string& s) {
 }
 
 static std::string removeComment(const std::string& s) {
-    auto pos = s.find('#');
-    return (pos == std::string::npos) ? s : s.substr(0, pos);
+    bool in_single = false, in_double = false;
+    for (size_t i = 0; i < s.size(); ++i) {
+        char c = s[i];
+        if      (c == '\'' && !in_double) in_single = !in_single;
+        else if (c == '"'  && !in_single) in_double = !in_double;
+        else if (c == '#'  && !in_single && !in_double)
+            return s.substr(0, i);
+    }
+    return s;
 }
 
 // Assign a scalar YAML value to the matching field of cfg.

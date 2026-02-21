@@ -522,6 +522,18 @@ lora_data_selection:
     EXPECT_EQ(cfg.max_length_tokens, 9000u);
 }
 
+TEST(YAMLLoadingTest, FromYAMLString_HashInsideQuotedValueNotStripped) {
+    // A '#' inside a quoted string must NOT be treated as a comment start.
+    const char* yaml_hash_in_string = R"yaml(
+lora_data_selection:
+  audit_log_path: "logs/selection#audit.jsonl"
+  required_language: "de"
+)yaml";
+    auto cfg = LoRADataSelectionConfig::fromYAMLString(yaml_hash_in_string);
+    EXPECT_EQ(cfg.audit_log_path, "logs/selection#audit.jsonl");
+    EXPECT_EQ(cfg.required_language, "de");
+}
+
 TEST(YAMLLoadingTest, FromYAMLString_OtherSectionsIgnored) {
     const char* multi_section = R"yaml(
 other_section:
