@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            input_validator.h                                  ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:20                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-02-21 16:34:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -49,6 +49,14 @@ public:
         const nlohmann::json& payload,
         const std::string& schema_name
     ) const;
+
+    // JSON schema validation against an in-memory JSON Schema Draft-7 object.
+    // Same keyword support as validateJsonStub.
+    // Returns std::nullopt if valid, otherwise an error message.
+    static std::optional<std::string> validateJson(
+        const nlohmann::json& payload,
+        const nlohmann::json& schema
+    );
 
     // Validate AQL request payload (expects keys like {"query": "...", "bindVars": {...}})
     // Performs minimal checks: required fields, max length, disallowed characters/patterns

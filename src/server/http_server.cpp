@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.13                                             ║
+  Last Modified:   2026-02-21 16:34:48                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1144,6 +1144,105 @@ HttpServer::HttpServer(
     }
     validator_ = std::make_unique<themis::utils::InputValidator>(schema_dir);
     THEMIS_INFO("InputValidator initialized with schema dir: {}", schema_dir);
+
+    // ----------------------------------------------------------------------------
+    // Request validation middleware (JSON Schema per endpoint)
+    // ----------------------------------------------------------------------------
+    request_validator_ = std::make_unique<RequestValidationMiddleware>();
+
+    // Register JSON Schema Draft-7 for core write endpoints.
+    // Schemas validate required fields, types and basic constraints.
+    // Operators can register additional schemas via getRequestValidator().
+
+    // Validation limits used in endpoint schemas
+    constexpr int MAX_QUERY_LIMIT       = 10000;  // max rows per query request
+    constexpr int MAX_AQL_QUERY_CHARS   = 100000; // max AQL query string length
+
+    // Reusable property definitions
+    const nlohmann::json entity_key_prop   = {{"type", "string"}, {"minLength", 1}, {"maxLength", 512}};
+    const nlohmann::json entity_data_prop  = {{"type", "object"}};
+    const nlohmann::json entity_tags_prop  = {{"type", "array"}};
+    const nlohmann::json entity_ttl_prop   = {{"type", "integer"}, {"minimum", 0}};
+
+    // POST /entities – create entity (key required in body)
+    request_validator_->registerSchema("POST", "/entities", {
+        {"type", "object"},
+        {"required", {"key"}},
+        {"properties", {
+            {"key",  entity_key_prop},
+            {"data", entity_data_prop},
+            {"tags", entity_tags_prop},
+            {"ttl",  entity_ttl_prop}
+        }}
+    });
+
+    // PUT /entities/<key> – upsert entity body (key is in the URL path, not in the body)
+    request_validator_->registerSchema("PUT", "/entities/", {
+        {"type", "object"},
+        {"properties", {
+            {"data", entity_data_prop},
+            {"tags", entity_tags_prop},
+            {"ttl",  entity_ttl_prop}
+        }}
+    });
+
+    // POST /query – structured query
+    request_validator_->registerSchema("POST", "/query", {
+        {"type", "object"},
+        {"required", {"query"}},
+        {"properties", {
+            {"query",   {{"type", "string"}, {"minLength", 1}}},
+            {"limit",   {{"type", "integer"}, {"minimum", 1}, {"maximum", MAX_QUERY_LIMIT}}},
+            {"offset",  {{"type", "integer"}, {"minimum", 0}}},
+            {"filters", {{"type", "object"}}},
+            {"sort",    {{"type", "array"}}}
+        }}
+    });
+
+    // AQL query schema (shared by /query/aql and /api/aql)
+    const nlohmann::json aql_schema = {
+        {"type", "object"},
+        {"required", {"query"}},
+        {"properties", {
+            {"query",    {{"type", "string"}, {"minLength", 1}, {"maxLength", MAX_AQL_QUERY_CHARS}}},
+            {"bindVars", {{"type", "object"}}}
+        }}
+    };
+    // POST /query/aql and POST /api/aql – further validated by validateAqlRequest
+    request_validator_->registerSchema("POST", "/query/aql", aql_schema);
+    request_validator_->registerSchema("POST", "/api/aql",   aql_schema);
+
+    // POST /index/create – create index
+    request_validator_->registerSchema("POST", "/index/create", {
+        {"type", "object"},
+        {"required", {"field"}},
+        {"properties", {
+            {"field",   {{"type", "string"}, {"minLength", 1}, {"maxLength", 256}}},
+            {"type",    {{"type", "string"}}},
+            {"options", {{"type", "object"}}}
+        }}
+    });
+
+    // POST /api/v1/transactions – begin transaction
+    request_validator_->registerSchema("POST", "/api/v1/transactions", {
+        {"type", "object"},
+        {"properties", {
+            {"isolation_level", {{"type", "string"}}},
+            {"timeout_ms",      {{"type", "integer"}, {"minimum", 0}}}
+        }}
+    });
+
+    // DELETE /vector/by-filter – carries a body with filter criteria
+    request_validator_->registerSchema("DELETE", "/vector/by-filter", {
+        {"type", "object"},
+        {"required", {"filter"}},
+        {"properties", {
+            {"filter", {{"type", "object"}}}
+        }}
+    });
+
+    THEMIS_INFO("RequestValidationMiddleware initialized with {} endpoint schemas",
+                request_validator_->schemaCount());
 
     // ----------------------------------------------------------------------------
     // Input validation limits
@@ -2466,6 +2565,30 @@ http::response<http::string_body> HttpServer::routeRequest(
         }
     }
     */
+
+    // Request body validation (JSON Schema per endpoint)
+    // Validate all methods that may carry a body (POST, PUT, PATCH, DELETE).
+    // Safe methods (GET, HEAD) and OPTIONS are always skipped.
+    if (request_validator_ &&
+        method != http::verb::get   &&
+        method != http::verb::head  &&
+        method != http::verb::options) {
+        std::string path_without_query = target;
+        auto query_pos = path_without_query.find('?');
+        if (query_pos != std::string::npos) path_without_query = path_without_query.substr(0, query_pos);
+
+        auto validation_result = request_validator_->validate(
+            std::string(http::to_string(method)), path_without_query, req.body());
+
+        if (!validation_result.valid) {
+            span.setStatus(false, "validation_error");
+            auto validation_end_time = std::chrono::steady_clock::now();
+            auto validation_duration = std::chrono::duration_cast<std::chrono::microseconds>(
+                validation_end_time - start);
+            recordLatency(validation_duration);
+            return makeErrorResponse(http::status::bad_request, validation_result.error_message, req);
+        }
+    }
 
     http::response<http::string_body> response;
 
