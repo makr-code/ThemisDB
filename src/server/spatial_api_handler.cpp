@@ -208,9 +208,9 @@ http::response<http::string_body> SpatialApiHandler::handleIndexRebuild(
                     auto ins = spatial_index_->insert(table, pk, sidecar);
                     if (ins.ok) { ++indexed; } else { ++skipped; }
                 } catch (const std::exception& ex) {
-                        THEMIS_WARN("SpatialRebuild: skipping key={} – {}", key, ex.what());
-                        ++skipped;
-                    }
+                    THEMIS_WARN("SpatialRebuild: skipping key={} – {}", key, ex.what());
+                    ++skipped;
+                }
                 return true; // continue scan
             });
         }

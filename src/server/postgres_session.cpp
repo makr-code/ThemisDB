@@ -463,6 +463,13 @@ void PostgresSession::handleExecute(const std::string& portal, int32_t maxRows) 
                         sendRowDescription(fields);
                     }
 
+                    // Guard: skip AQL execution if table name could not be determined
+                    if (info.tableName.empty()) {
+                        sendCommandComplete("SELECT 0");
+                        portalData.resultsComplete = true;
+                        return;
+                    }
+
                     // Build a simple AQL: FOR doc IN <table> [FILTER …] RETURN doc
                     std::string aql = "FOR doc IN " + info.tableName + " RETURN doc";
                     if (!info.whereClause.empty()) {

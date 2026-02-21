@@ -30,6 +30,8 @@
 #include "index/secondary_index.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -200,10 +202,26 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/x-ndjson");
         
-        // Add filename based on theme and date range
+        // Build a safe filename: strip all characters that could break the
+        // Content-Disposition header value or inject HTTP header fields.
+        // Allow only alphanumeric, hyphen, underscore, and period.
+        auto sanitize_filename_part = [](const std::string& raw) -> std::string {
+            std::string safe;
+            safe.reserve(raw.size());
+            std::copy_if(raw.begin(), raw.end(), std::back_inserter(safe),
+                [](unsigned char c) {
+                    return std::isalnum(c) || c == '-' || c == '_' || c == '.';
+                });
+            return safe;
+        };
+
         std::string filename = "export_" + export_id;
-        if (request_json.contains("theme")) {
-            filename += "_" + request_json["theme"].get<std::string>();
+        if (request_json.contains("theme") && request_json["theme"].is_string()) {
+            const std::string safe_theme =
+                sanitize_filename_part(request_json["theme"].get<std::string>());
+            if (!safe_theme.empty()) {
+                filename += "_" + safe_theme;
+            }
         }
         filename += ".jsonl";
         
