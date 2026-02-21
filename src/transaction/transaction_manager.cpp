@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:43                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-02-21 18:44:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -980,8 +980,6 @@ TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
     return Status::OK();
 }
 
-} // namespace themis
-
 // ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
 
 void TransactionManager::enableCrashRecovery(const std::string& wal_path,
@@ -1008,4 +1006,6 @@ TransactionManager::crashRecover() {
     }
     return crash_recovery_mgr_->recover(db_);
 }
+
+} // namespace themis
 

@@ -17,27 +17,27 @@
 - [x] Structured audit log for GPU/CPU backend switches
 
 ## In Progress 🚧
-- [ ] Full GeoJSON parsing (all geometry types) (Target: Q2 2026)
-- [ ] ST_BUFFER operation implementation (Target: Q2 2026)
-- [ ] CUDA kernel dispatch for GPU backend (Target: Q3 2026)
+- [I] Full GeoJSON parsing (all geometry types) (Target: Q2 2026) (Issue: #1734)
+- [I] ST_BUFFER operation implementation (Target: Q2 2026) (Issue: #1735)
+- [I] CUDA kernel dispatch for GPU backend (Target: Q3 2026) (Issue: #1736)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon)
-- [ ] ST_BUFFER: expand geometry by a fixed distance
-- [ ] ST_UNION and ST_DIFFERENCE geometry operations
-- [ ] Spatial JOIN support (find all pairs within distance)
-- [ ] R-tree index integration for CPU backend
-- [ ] Configurable precision mode (exact vs. approximate)
+- [I] Complete GeoJSON spec coverage (GeometryCollection, MultiPolygon) (Issue: #1737)
+- [I] ST_BUFFER: expand geometry by a fixed distance (Issue: #1738)
+- [I] ST_UNION and ST_DIFFERENCE geometry operations (Issue: #1739)
+- [I] Spatial JOIN support (find all pairs within distance) (Issue: #1740)
+- [I] R-tree index integration for CPU backend (Issue: #1741)
+- [I] Configurable precision mode (exact vs. approximate) (Issue: #1742)
 
 ### Long-term (6-12 months)
-- [ ] ROCm/HIP GPU backend for AMD hardware
-- [ ] Spherical geometry support (WGS-84 ellipsoid)
-- [ ] Raster data query support (elevation, heatmaps)
-- [ ] Temporal-spatial queries (location at time T)
-- [ ] Clustering algorithms: DBSCAN, k-means for geo points
-- [ ] Tile server integration for map visualization
+- [I] ROCm/HIP GPU backend for AMD hardware (Issue: #1743)
+- [I] Spherical geometry support (WGS-84 ellipsoid) (Issue: #1744)
+- [I] Raster data query support (elevation, heatmaps) (Issue: #1745)
+- [I] Temporal-spatial queries (location at time T) (Issue: #1746)
+- [I] Clustering algorithms: DBSCAN, k-means for geo points (Issue: #1747)
+- [I] Tile server integration for map visualization (Issue: #1748)
 
 ## Implementation Phases
 
@@ -49,21 +49,21 @@
 - [x] Added structured audit log for backend selection events (GPU vs CPU)
 
 ### Phase 2: GPU Backend Stub and Device Detection (Status: In Progress)
-- [~] Implemented GPU backend stub with automatic CPU fallback (`geo/gpu_backend_stub.cpp`)
-- [~] Implemented circuit-breaker fallback when no CUDA-capable device is present
-- [~] Implement runtime GPU device discovery and capability reporting (`geo/device_detector.cpp`)
+- [I] Implemented GPU backend stub with automatic CPU fallback (`geo/gpu_backend_stub.cpp`) (Issue: #1756)
+- [I] Implemented circuit-breaker fallback when no CUDA-capable device is present (Issue: #1757)
+- [I] Implement runtime GPU device discovery and capability reporting (`geo/device_detector.cpp`) (Issue: #1758)
 
 ### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
-- [ ] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon`
-- [ ] Implement R-tree spatial index for sub-linear CPU query performance
-- [ ] Implement `ST_BUFFER` operation expanding geometry by a fixed distance
-- [ ] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`)
-- [ ] Implement spatial JOIN finding all point pairs within a configurable distance threshold
+- [I] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon` (Issue: #1749)
+- [I] Implement R-tree spatial index for sub-linear CPU query performance (Issue: #1750)
+- [I] Implement `ST_BUFFER` operation expanding geometry by a fixed distance (Issue: #1751)
+- [!] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`) (Issue: #1752)
+- [I] Implement spatial JOIN finding all point pairs within a configurable distance threshold (Issue: #1753)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1754)
 - [x] Integration tests (CPU backend, GPU fallback, S2/H3 indexing)
-- [ ] Performance benchmarks (CPU vs GPU throughput)
+- [I] Performance benchmarks (CPU vs GPU throughput) (Issue: #1755)
 - [x] Security audit (no code execution from geometry inputs)
 - [x] Documentation complete (GPU runbook, roadmap, future enhancements)
 - [x] API stability guaranteed for spatial query API

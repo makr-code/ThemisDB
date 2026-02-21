@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            graph_query_optimizer.h                            ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:23                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-02-21 18:43:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -605,7 +605,7 @@ private:
 
     // Adaptive cost model: per-algorithm EMA cost tracking
     bool adaptive_learning_enabled_ = true;
-    std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<int>> algo_cost_models_;
+    std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<TraversalAlgorithm>> algo_cost_models_;
 
     // Query rate limiter
     QueryRateLimiter rate_limiter_;

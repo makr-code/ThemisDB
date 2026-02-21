@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:22                                ║
+  Version:         0.0.18                                             ║
+  Last Modified:   2026-02-21 18:43:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     298                                            ║
+    • Total Lines:     300                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0aa583b3a  2026-02-21  Add crash recovery & robustness fixes    ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 9f4b4c45b  2026-02-21  [aql] AQL syntax highlighting, error annotation, and prom... ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -191,6 +191,8 @@ public:
     AQLTranslationResult translateNLToAQLWithConfidence(
         const std::string& nl_query,
         const std::string& schema_context = ""
+    );
+
     // Batch NL-to-AQL Translation for offline workloads
     /**
      * @brief Single request for batch NL-to-AQL translation

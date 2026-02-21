@@ -21,25 +21,25 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [x] Prometheus metrics for connection and request statistics
 
 ## In Progress 🚧
-- [ ] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
-- [ ] UDP-based fast-path for read-only queries (Target: Q3 2026)
-- [ ] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
+- [?] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
+- [I] UDP-based fast-path for read-only queries (Target: Q3 2026) (Issue: #1962)
+- [I] QUIC/HTTP3 transport layer integration (Target: Q3 2026) (Issue: #1994)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Connection multiplexing (multiple logical streams per TCP connection)
-- [ ] Adaptive I/O thread scaling based on connection load
-- [ ] Per-tenant network bandwidth quotas
-- [ ] Connection-level compression (LZ4, Zstd)
-- [ ] Structured network audit log (connection open/close/auth events)
+- [!] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2106)
+- [?] Adaptive I/O thread scaling based on connection load
+- [?] Per-tenant network bandwidth quotas
+- [?] Connection-level compression (LZ4, Zstd)
+- [?] Structured network audit log (connection open/close/auth events)
 
 ### Long-term (6-12 months)
-- [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
-- [ ] RDMA support for ultra-low-latency inter-node communication
-- [ ] IPv6 dual-stack support
-- [ ] gRPC native transport (separate from server module)
-- [ ] Network topology-aware routing for geo-distributed clusters
+- [?] Service mesh integration (Istio/Envoy sidecar compatibility)
+- [?] RDMA support for ultra-low-latency inter-node communication
+- [?] IPv6 dual-stack support
+- [I] gRPC native transport (separate from server module) (Issue: #2024)
+- [?] Network topology-aware routing for geo-distributed clusters
 
 ## Implementation Phases
 
@@ -71,12 +71,12 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (TLS handshake, rate limiting, failover)
-- [ ] Performance benchmarks (connections/sec, throughput, latency p99)
-- [ ] Security audit (TLS configuration, DoS resilience)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (TLS handshake, rate limiting, failover)
+- [?] Performance benchmarks (connections/sec, throughput, latency p99)
+- [?] Security audit (TLS configuration, DoS resilience)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - WebSocket and UDP transports are not yet implemented.

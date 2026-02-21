@@ -17,24 +17,24 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Coverage of AI/ML, security, compliance, performance, platform, networking, and monitoring categories
 
 ## In Progress 🚧
-- [ ] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026)
-- [ ] Deprecation warning aggregation report (list all legacy paths in use) (Target: Q2 2026)
+- [I] Migration tooling to batch-rename legacy config files to new paths (Target: Q2 2026) (Issue: #1658)
+- [I] Deprecation warning aggregation report (list all legacy paths in use) (Target: Q2 2026) (Issue: #1659)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] CLI tool to scan deployment and report all legacy config paths in use
-- [ ] Automatic legacy path migration script with dry-run mode
-- [ ] Configurable LRU cache size and TTL via environment variable
-- [ ] Metrics export to Prometheus endpoint
-- [ ] Warning threshold alerting when legacy fallback rate exceeds threshold
+- [I] CLI tool to scan deployment and report all legacy config paths in use (Issue: #1660)
+- [I] Automatic legacy path migration script with dry-run mode (Issue: #1661)
+- [I] Configurable LRU cache size and TTL via environment variable (Issue: #1662)
+- [I] Metrics export to Prometheus endpoint (Issue: #1663)
+- [I] Warning threshold alerting when legacy fallback rate exceeds threshold (Issue: #1664)
 
 ### Long-term (6-12 months)
-- [ ] Complete removal of all deprecated legacy path mappings (post-migration)
-- [ ] Integration with config validation (JSON Schema / YAML schema)
-- [ ] Runtime hot-reload of resolved path cache on SIGHUP
-- [ ] Config audit trail: log which paths were accessed and when
-- [ ] Multi-environment config overlay (dev/staging/prod path sets)
+- [I] Complete removal of all deprecated legacy path mappings (post-migration) (Issue: #1665)
+- [I] Integration with config validation (JSON Schema / YAML schema) (Issue: #1666)
+- [I] Runtime hot-reload of resolved path cache on SIGHUP (Issue: #1667)
+- [I] Config audit trail: log which paths were accessed and when (Issue: #1668)
+- [I] Multi-environment config overlay (dev/staging/prod path sets) (Issue: #1669)
 
 ## Implementation Phases
 
@@ -52,19 +52,19 @@ Production-ready for legacy-to-new config path resolution with LRU caching, path
 - [x] Implemented `tryResolve()` optional API returning `std::nullopt` on missing path
 
 ### Phase 3: Metadata Completion and Validation Hardening (Status: In Progress)
-- [~] Complete `METADATA_TABLE` entries for all 60+ mapped paths in `config/path_mapping_metadata.h`
-- [~] Harden absolute path validation to reject symlinks outside the config root
+- [I] Complete `METADATA_TABLE` entries for all 60+ mapped paths in `config/path_mapping_metadata.h` (Issue: #1676)
+- [I] Harden absolute path validation to reject symlinks outside the config root (Issue: #1677)
 
 ### Phase 4: Tooling and Observability (Status: Planned)
-- [ ] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate
-- [ ] Build deprecation report CLI to scan a deployment and list all legacy paths in use
-- [ ] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`)
-- [ ] Add multi-environment config overlay support (dev/staging/prod path sets)
+- [I] Implement Prometheus metrics exporter for hit rate, miss rate, and legacy fallback rate (Issue: #1670)
+- [I] Build deprecation report CLI to scan a deployment and list all legacy paths in use (Issue: #1671)
+- [I] Make LRU cache size and TTL configurable via environment variables (`THEMIS_CONFIG_CACHE_SIZE`, `THEMIS_CONFIG_CACHE_TTL`) (Issue: #1672)
+- [I] Add multi-environment config overlay support (dev/staging/prod path sets) (Issue: #1673)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1674)
 - [x] Integration tests (path resolution, LRU cache, fallback, metadata)
-- [ ] Performance benchmarks (cache hit rate, resolution latency)
+- [I] Performance benchmarks (cache hit rate, resolution latency) (Issue: #1675)
 - [x] Security audit (path traversal prevention)
 - [x] Documentation complete
 - [x] API stability guaranteed for ConfigPathResolver

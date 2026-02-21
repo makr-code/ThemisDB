@@ -24,25 +24,25 @@ v1.x – Comprehensive shared utilities library. Logging, audit trail, PII detec
 - [x] Geospatial utilities
 
 ## In Progress 🚧
-- [ ] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026)
-- [ ] Structured log query API (search logs like data) (Target: Q2 2026)
-- [ ] LEK rotation automation without manual intervention (Target: Q3 2026)
+- [!] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026) (Issue: #2131)
+- [?] Structured log query API (search logs like data) (Target: Q2 2026)
+- [?] LEK rotation automation without manual intervention (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] LZ4 codec as faster alternative to Zstd for hot-path data
-- [ ] Consistent hashing utility for distributed key routing
-- [ ] Bloom filter utility for probabilistic membership checks
-- [ ] Rate limiter utility (token bucket, shared across modules)
-- [ ] ISO 8601 / RFC 3339 timestamp parsing and formatting helpers
+- [?] LZ4 codec as faster alternative to Zstd for hot-path data
+- [?] Consistent hashing utility for distributed key routing
+- [?] Bloom filter utility for probabilistic membership checks
+- [?] Rate limiter utility (token bucket, shared across modules)
+- [?] ISO 8601 / RFC 3339 timestamp parsing and formatting helpers
 
 ### Long-term (6-12 months)
-- [ ] Multi-language stemmer support (German, French, Spanish)
-- [ ] Geospatial index helper (H3 / S2 cell encoding)
-- [ ] Log aggregation sink (ship to Elasticsearch / Loki)
-- [ ] Differential privacy utilities for analytics exports
-- [ ] Cryptographic utility consolidation (move scattered crypto helpers here)
+- [?] Multi-language stemmer support (German, French, Spanish)
+- [?] Geospatial index helper (H3 / S2 cell encoding)
+- [?] Log aggregation sink (ship to Elasticsearch / Loki)
+- [?] Differential privacy utilities for analytics exports
+- [?] Cryptographic utility consolidation (move scattered crypto helpers here)
 
 ## Implementation Phases
 
@@ -64,25 +64,25 @@ v1.x – Comprehensive shared utilities library. Logging, audit trail, PII detec
 - [x] Geospatial utilities (bounding-box and distance helpers)
 
 ### Phase 2: Streaming PII & High-Throughput Logging (Status: In Progress 🚧)
-- [~] Streaming PII pipeline for large documents (chunked scan, no full in-memory load) (Target: Q2 2026)
-- [~] Sampled logger for high-throughput paths (probabilistic drop with rate counter) (Target: Q2 2026)
+- [?] Streaming PII pipeline for large documents (chunked scan, no full in-memory load) (Target: Q2 2026)
+- [?] Sampled logger for high-throughput paths (probabilistic drop with rate counter) (Target: Q2 2026)
 - [ ] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026)
 - [ ] LEK rotation automation without manual intervention (Target: Q3 2026)
 
 ### Phase 3: Tamper-Evidence & Compaction (Status: Planned 📋)
-- [ ] Tamper-evident audit hash chain (SHA-256 Merkle chain linking audit records)
-- [ ] HKDF cache with TTL-based eviction to bound memory growth
-- [ ] SAGA log compaction – merge completed saga entries to bounded archive
-- [ ] Geospatial utility hardening: H3 / S2 cell encoding, polygon containment
-- [ ] Cryptographic utility consolidation (centralise scattered crypto helpers in utils)
+- [?] Tamper-evident audit hash chain (SHA-256 Merkle chain linking audit records)
+- [?] HKDF cache with TTL-based eviction to bound memory growth
+- [?] SAGA log compaction – merge completed saga entries to bounded archive
+- [?] Geospatial utility hardening: H3 / S2 cell encoding, polygon containment
+- [?] Cryptographic utility consolidation (centralise scattered crypto helpers in utils)
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (audit log integrity, PII redaction correctness, ZSTD round-trip)
-- [ ] Performance benchmarks (compression throughput, stemmer latency)
-- [ ] Security audit (PII detector false-negative rate, LEK key material handling)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (audit log integrity, PII redaction correctness, ZSTD round-trip)
+- [?] Performance benchmarks (compression throughput, stemmer latency)
+- [?] Security audit (PII detector false-negative rate, LEK key material handling)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - PII detection relies on regex patterns; false-negative rate is higher than ML-based approaches.
