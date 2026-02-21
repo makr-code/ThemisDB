@@ -76,7 +76,14 @@ using json = nlohmann::json;
  * Health & Monitoring:
  * - GET    /api/v1/llm/lora/stats - Get framework statistics
  * - GET    /api/v1/llm/lora/health - Health check
- * 
+ *
+ * Provenance, Snapshots, and Audit Log:
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/provenance - Get cryptographic provenance record
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/provenance - Attach provenance record
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/audit      - Get Merkle-chained audit log
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/snapshots  - List MVCC snapshots
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/verify     - Verify Merkle audit chain integrity
+ *
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
  */
 class LoRAApiHandler {
