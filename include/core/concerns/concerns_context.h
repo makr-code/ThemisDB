@@ -128,6 +128,26 @@ public:
         metrics_->observeHistogram(name, value);
     }
 
+    /**
+     * @brief Emit a structured log record with the active trace/span IDs
+     *        automatically injected.
+     *
+     * Fetches the current thread's OpenTelemetry trace-id and span-id via
+     * `Tracer::getCurrentTraceId()` / `Tracer::getCurrentSpanId()` and
+     * forwards them together with @p fields to `ILogger::logWithContext()`.
+     *
+     * Use this instead of `logInfo()` / `logError()` when you want log lines
+     * to be correlated with the active distributed trace without manually
+     * building a `TraceContext`.
+     *
+     * @param level   Severity level.
+     * @param message Human-readable log text.
+     * @param fields  Optional additional structured key/value fields.
+     */
+    void logWithTrace(ILogger::Level level,
+                      const std::string& message,
+                      const ILogger::Fields& fields = {});
+
     // -------------------------------------------------------------------------
     // Lifecycle hooks
     // -------------------------------------------------------------------------

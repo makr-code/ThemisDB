@@ -116,6 +116,52 @@ public:
         }
     }
 
+    /**
+     * @brief Emit a structured log line with trace/span/request context.
+     *
+     * In JSON mode the three correlation IDs are emitted as explicit fields
+     * immediately after "message", guaranteeing they appear even when
+     * @p fields does not contain them.
+     *
+     * In plain-text mode a `[trace=…][span=…][req=…]` prefix is prepended to
+     * the message so operators can `grep` for a trace-id without a log query
+     * language.
+     */
+    void logWithContext(Level level,
+                        const std::string& message,
+                        const TraceContext& ctx,
+                        const Fields& fields = {}) override {
+        if (!logger_) return;
+        if (json_mode_) {
+            // Merge correlation IDs first so they appear before user fields
+            // when iterating a sorted map in buildJsonLine().
+            Fields merged;
+            if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
+            if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
+            if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
+            // User-supplied fields may override the above if they share a key.
+            merged.insert(fields.begin(), fields.end());
+            std::string json = buildJsonLine(level, message, merged);
+            logger_->log(toSpdlogLevel(level), json);
+        } else {
+            // Plain text: prepend correlation prefix for easy grep.
+            std::ostringstream oss;
+            if (!ctx.trace_id.empty())
+                oss << "[trace=" << ctx.trace_id << "]";
+            if (!ctx.span_id.empty())
+                oss << "[span=" << ctx.span_id << "]";
+            if (!ctx.request_id.empty())
+                oss << "[req=" << ctx.request_id << "]";
+            std::string prefix = oss.str();
+            std::string full_msg = prefix.empty() ? message
+                                                  : prefix + " " + message;
+            for (const auto& [k, v] : fields) {
+                full_msg += " " + k + "=" + redact(k, v);
+            }
+            logger_->log(toSpdlogLevel(level), full_msg);
+        }
+    }
+
     void setLevel(Level level) override {
         if (!logger_) return;
         logger_->set_level(toSpdlogLevel(level));

@@ -34,6 +34,7 @@
 #include "core/config_validator.h"
 #include "observability/metrics_collector.h"
 #include "utils/logger.h"
+#include "utils/tracing.h"
 
 namespace themis {
 namespace core {
@@ -150,6 +151,15 @@ std::shared_ptr<ConcernsContext> ConcernsContext::createNoOp() {
         std::make_unique<NoOpMetrics>(),
         std::make_unique<NoOpCache>()
     ));
+}
+
+void ConcernsContext::logWithTrace(ILogger::Level level,
+                                    const std::string& message,
+                                    const ILogger::Fields& fields) {
+    TraceContext ctx;
+    ctx.trace_id   = themis::Tracer::getCurrentTraceId();
+    ctx.span_id    = themis::Tracer::getCurrentSpanId();
+    logger_->logWithContext(level, message, ctx, fields);
 }
 
 } // namespace concerns
