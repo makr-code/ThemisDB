@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            branch_manager.h                                   ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:38:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     431                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • d153a4f5f  2026-02-15  Add test configuration management and YAML integration ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_BRANCH_MANAGER_H
 #define THEMIS_BRANCH_MANAGER_H
 
@@ -272,6 +298,58 @@ public:
      */
     static std::string getDefaultBranch();
 
+    // ---- Phase 5: Branch History ----
+
+    /**
+     * @brief A single entry in a branch's history log.
+     */
+    struct BranchHistoryEntry {
+        std::string event_type;   ///< "created", "switched_to", "merged_from", "deleted"
+        std::string branch_name;  ///< Branch this event concerns
+        std::string details;      ///< Human-readable detail string
+        std::string performed_by; ///< Actor that triggered the event
+        int64_t     timestamp_ms{0};
+        uint64_t    sequence{0};  ///< Changefeed sequence at event time
+
+        json toJson() const;
+        static BranchHistoryEntry fromJson(const json& j);
+    };
+
+    /**
+     * @brief Get the history log for @p branch_name.
+     *
+     * Returns events recorded for the branch in chronological order
+     * (oldest first).
+     *
+     * @param branch_name Branch to query.
+     * @param limit       Maximum entries (0 = all).
+     * @return Vector of history entries.
+     */
+    std::vector<BranchHistoryEntry> getBranchHistory(
+        const std::string& branch_name, size_t limit = 0) const;
+
+    // ---- Phase 5: Branch GC ----
+
+    /**
+     * @brief Cleanup policy for pruning stale merged branches.
+     */
+    struct BranchGCPolicy {
+        int64_t max_age_ms{0};       ///< 0 = no age limit; prune branches older than this
+        bool    only_merged{true};   ///< Only prune branches that have been merged
+        bool    protect_default{true}; ///< Never prune the default branch
+    };
+
+    /**
+     * @brief Set the GC policy used by pruneMergedBranches().
+     */
+    void setBranchGCPolicy(const BranchGCPolicy& policy);
+
+    /**
+     * @brief Delete branches that satisfy the GC policy.
+     * @return Number of branches deleted.
+     */
+    size_t pruneMergedBranches();
+
 private:
     RocksDBWrapper& db_;
     Changefeed& changefeed_;
@@ -280,11 +358,13 @@ private:
     
     mutable std::mutex mutex_;
     std::string active_branch_;
-    
+    BranchGCPolicy gc_policy_;
+
     // Key prefixes for branch storage in RocksDB
-    static constexpr const char* BRANCH_PREFIX = "branch:";
+    static constexpr const char* BRANCH_PREFIX   = "branch:";
+    static constexpr const char* BRANCH_HIST_PREFIX = "branch_hist:";
     static constexpr const char* ACTIVE_BRANCH_KEY = "branch:_active";
-    static constexpr const char* DEFAULT_BRANCH = "main";
+    static constexpr const char* DEFAULT_BRANCH  = "main";
     
     /**
      * @brief Make RocksDB key for a branch
@@ -325,6 +405,24 @@ private:
      * @brief Check if branch is fully merged into another branch
      */
     bool isBranchMerged(const std::string& branch_name, const std::string& target_branch) const;
+
+    /**
+     * @brief Append a history entry for @p branch_name.
+     * May be called with or without mutex_ held; it does NOT acquire mutex_
+     * itself (uses the underlying db_ which is thread-safe independently).
+     */
+    void appendHistory(const BranchHistoryEntry& entry);
+
+    /**
+     * @brief Serialize a history entry to bytes.
+     */
+    std::vector<uint8_t> serializeHistory(const BranchHistoryEntry& entry) const;
+
+    /**
+     * @brief Deserialize a history entry from bytes.
+     */
+    std::optional<BranchHistoryEntry> deserializeHistory(
+        const std::vector<uint8_t>& data) const;
 };
 
 } // namespace transaction

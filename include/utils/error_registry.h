@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            error_registry.h                                   ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:38:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     287                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • 5f378814d  2026-02-21  TimeSeries Module – Production Readiness Roadmap (All 7 P... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -114,6 +140,7 @@ enum class ErrorCode {
     ERR_API_UNAUTHORIZED = 6201,
     ERR_API_RATE_LIMIT = 6202,
     ERR_API_INTERNAL_ERROR = 6203,
+    ERR_API_RESOURCE_EXHAUSTED = 6204,
     
     // Plugin Errors (6300-6399)
     ERR_PLUGIN_NOT_FOUND = 6300,
@@ -203,7 +230,32 @@ public:
     std::vector<ErrorMetadata> getErrorsByCategory(const std::string& category) const;
     std::vector<ErrorMetadata> searchErrors(const std::string& query) const;
     std::vector<std::string> getAllCategories() const;
-    
+
+    /**
+     * @brief Get the recovery hint (solution) for a given error code.
+     *
+     * Convenience shorthand for `getError(code).solution`.
+     * Returns an empty string for unknown error codes.
+     */
+    std::string getRecoveryHint(ErrorCode code) const;
+
+    /**
+     * @brief Format an error message using its template and the provided args.
+     *
+     * Safe wrapper around fmt::vformat.  Falls back to the raw template if
+     * formatting fails (e.g., mismatched argument count).
+     */
+    template<typename... Args>
+    std::string formatError(ErrorCode code, Args&&... args) const {
+        auto metadata = getError(code);
+        try {
+            return fmt::vformat(metadata.message_template,
+                                fmt::make_format_args(args...));
+        } catch (...) {
+            return metadata.message_template;
+        }
+    }
+
     json toJSON() const;
     
 private:

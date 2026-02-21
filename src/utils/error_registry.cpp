@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            error_registry.cpp                                 ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:43:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     1607                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a1001ccd5  2026-02-20  feat(graph): production readiness – parallel execution, o... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/error_registry.h"
 #include "utils/string_utils.h"
 #include <algorithm>
@@ -1571,6 +1597,10 @@ json ErrorRegistry::toJSON() const {
     }
     
     return result;
+}
+
+std::string ErrorRegistry::getRecoveryHint(ErrorCode code) const {
+    return getError(code).solution;
 }
 
 } // namespace errors

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            retention_manager.h                                ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:38:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     279                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ea2e59ae9  2026-02-12  Add const-correctness to interfaces and eliminate unneces... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "expected.h"
@@ -7,6 +33,10 @@
 #include <memory>
 #include <vector>
 #include <map>
+#include <atomic>
+#include <condition_variable>
+#include <mutex>
+#include <thread>
 #include <nlohmann/json.hpp>
 
 namespace vcc {
@@ -171,6 +201,62 @@ public:
      */
     const std::string& getLastError() const { return last_error_; }
 
+    // -----------------------------------------------------------------------
+    // Phase 4: Async Background Job
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Compliance metrics snapshot.
+     */
+    struct ComplianceMetrics {
+        size_t total_entities_in_violation = 0; ///< Entities past retention deadline
+        size_t entities_archived            = 0;
+        size_t entities_purged              = 0;
+        size_t policies_active              = 0;
+        std::chrono::system_clock::time_point last_run;
+        bool   last_run_success             = false;
+    };
+
+    /**
+     * @brief Start an asynchronous background retention-enforcement job.
+     *
+     * The background thread wakes up every @p interval, calls
+     * @p entity_provider for each registered policy, and applies archive /
+     * purge handlers as appropriate.  Call stopBackgroundJob() to stop it.
+     *
+     * Only one background job may run at a time.  Calling startBackgroundJob()
+     * while a job is already running is a no-op.
+     *
+     * @param interval       How often to run the retention check.
+     * @param entity_provider Callback that provides entities to check.
+     * @param archive_handler Archive implementation.
+     * @param purge_handler   Purge implementation.
+     */
+    void startBackgroundJob(
+        std::chrono::seconds interval,
+        std::function<std::vector<std::pair<std::string,
+            std::chrono::system_clock::time_point>>(const std::string&)> entity_provider,
+        std::function<bool(const std::string&)> archive_handler,
+        std::function<bool(const std::string&)> purge_handler);
+
+    /**
+     * @brief Stop the background retention-enforcement job.
+     *
+     * Blocks until the current iteration finishes, then joins the thread.
+     * Safe to call even if no background job is running.
+     */
+    void stopBackgroundJob();
+
+    /**
+     * @brief Return true if a background job is currently running.
+     */
+    bool isBackgroundJobRunning() const;
+
+    /**
+     * @brief Get the latest compliance metrics.
+     */
+    ComplianceMetrics getComplianceMetrics() const;
+
 private:
     std::map<std::string, RetentionPolicy> policies_;
     std::vector<RetentionAction> action_history_;
@@ -179,6 +265,15 @@ private:
     bool audit_enabled_;
 
     void logAction(const RetentionAction& action);
+
+    // Background job state
+    std::atomic<bool>    bg_running_{false};
+    std::thread          bg_thread_;
+    std::mutex           bg_mutex_;
+    std::condition_variable bg_cv_;
+    bool                 bg_stop_{false};
+    ComplianceMetrics    compliance_metrics_;
+    mutable std::mutex   metrics_mutex_;
 };
 
 } // namespace vcc

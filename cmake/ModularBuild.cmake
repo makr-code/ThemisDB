@@ -173,6 +173,12 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/columnar_format.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    # WAL for durability and crash recovery
+    ../src/storage/wal_storage.cpp
+    # Compaction and GC management
+    ../src/storage/compaction_manager.cpp
+    # Storage Audit Logger
+    ../src/storage/storage_audit_logger.cpp
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
@@ -218,6 +224,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+    ../src/updates/update_state_machine.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
@@ -333,6 +340,13 @@ set(THEMIS_SECURITY_SOURCES
     ../src/index/vector_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -715,6 +729,9 @@ function(themis_build_modular)
         if(NOT TARGET opentelemetry-cpp::otlp_http_exporter)
             message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::otlp_http_exporter' not found. Ensure opentelemetry-cpp was found with otlp-http feature.")
         endif()
+    endif()
+    if(TARGET CURL::libcurl)
+        list(APPEND _themis_base_deps CURL::libcurl)
     endif()
 
     themis_add_module(base

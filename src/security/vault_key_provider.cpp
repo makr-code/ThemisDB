@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vault_key_provider.cpp                             ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:42:26                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     743                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • ddb5f9bb0  2026-02-21  Security CI hardening: negative test suite, sanitizers, s... ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • cd30d9ee9  2025-11-16  Stabilize WSL tests: Vault helper, policy override, index... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "security/vault_key_provider.h"
 #include "security/key_provider.h"
 #include <nlohmann/json.hpp>
@@ -332,7 +358,11 @@ std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::stri
         key_b64 = j["data"]["key"].get<std::string>();
     }
     
-    return base64_decode(key_b64);
+    auto key_bytes = base64_decode(key_b64);
+    if (key_bytes.empty()) {
+        throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
+    }
+    return key_bytes;
 }
 
 KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& json_response) {

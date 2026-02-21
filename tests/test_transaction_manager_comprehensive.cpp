@@ -1,5 +1,107 @@
-#include <gtest/gtest.h>
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_transaction_manager_comprehensive.cpp         ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:47:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     107                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 51a0daab8  2026-02-21  feat(transaction): Phase 8 – Durability & Crash-Recovery ... ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 5d9c957f4  2026-01-24  Refactor test stubs and add new LLM model audit logger im... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
 
-TEST(DISABLED_Stub_transactionmanagercomprehensive, Skipped) {
-    GTEST_SKIP() << "Disabled: test_transaction_manager_comprehensive.cpp stubbed for build unblock.";
+#include <gtest/gtest.h>
+#include "transaction/transaction_manager.h"
+#include "transaction/lock_manager.h"
+#include <string>
+
+using namespace themis;
+
+// ---------------------------------------------------------------------------
+// IsolationLevel enum tests
+// ---------------------------------------------------------------------------
+
+TEST(TransactionManagerComprehensive, IsolationLevelEnumValues) {
+    EXPECT_EQ(static_cast<int>(IsolationLevel::READ_UNCOMMITTED), 0);
+    EXPECT_EQ(static_cast<int>(IsolationLevel::READ_COMMITTED),   1);
+    EXPECT_EQ(static_cast<int>(IsolationLevel::REPEATABLE_READ),  3);
+    EXPECT_EQ(static_cast<int>(IsolationLevel::SERIALIZABLE),     4);
 }
+
+TEST(TransactionManagerComprehensive, LegacyIsolationLevelAliases) {
+    // ReadCommitted == READ_COMMITTED
+    EXPECT_EQ(static_cast<int>(IsolationLevel::ReadCommitted),
+              static_cast<int>(IsolationLevel::READ_COMMITTED));
+    // Snapshot == REPEATABLE_READ
+    EXPECT_EQ(static_cast<int>(IsolationLevel::Snapshot),
+              static_cast<int>(IsolationLevel::REPEATABLE_READ));
+}
+
+// ---------------------------------------------------------------------------
+// LockManager integration (exposed via getLockManager())
+// ---------------------------------------------------------------------------
+
+TEST(TransactionManagerComprehensive, LockManagerAccessible) {
+    // LockManager should be accessible without creating a full DB setup
+    LockManager lm;
+
+    auto r1 = lm.acquireLock(1, "row:1", LockType::SHARED);
+    EXPECT_EQ(r1.status, LockStatus::GRANTED);
+
+    auto r2 = lm.acquireLock(2, "row:1", LockType::SHARED);
+    EXPECT_EQ(r2.status, LockStatus::GRANTED);
+
+    // Exclusive should block while both shared holders exist
+    auto r3 = lm.acquireLock(3, "row:1", LockType::EXCLUSIVE,
+                              std::chrono::milliseconds(20));
+    EXPECT_EQ(r3.status, LockStatus::TIMEOUT);
+
+    lm.releaseAllLocks(1);
+    lm.releaseAllLocks(2);
+
+    // Now exclusive should succeed
+    auto r4 = lm.acquireLock(3, "row:1", LockType::EXCLUSIVE);
+    EXPECT_EQ(r4.status, LockStatus::GRANTED);
+}
+
+TEST(TransactionManagerComprehensive, LockManagerTwoPL) {
+    LockManager lm;
+
+    lm.acquireLock(10, "row:A", LockType::SHARED);
+    EXPECT_FALSE(lm.isInShrinkingPhase(10));
+
+    lm.beginShrinkingPhase(10);
+    EXPECT_TRUE(lm.isInShrinkingPhase(10));
+
+    // In shrinking phase no new locks allowed
+    auto res = lm.acquireLock(10, "row:B", LockType::SHARED,
+                               std::chrono::milliseconds(10));
+    EXPECT_EQ(res.status, LockStatus::DENIED);
+}
+
+TEST(TransactionManagerComprehensive, LockManagerStatistics) {
+    LockManager lm;
+    lm.acquireLock(1, "k1", LockType::EXCLUSIVE);
+    lm.acquireLock(2, "k2", LockType::SHARED);
+    lm.acquireLock(3, "k2", LockType::EXCLUSIVE, std::chrono::milliseconds(10)); // timeout
+
+    auto stats = lm.getStats();
+    EXPECT_GE(stats.total_acquired,  2u);
+    EXPECT_GE(stats.total_timeouts,  1u);
+    EXPECT_EQ(stats.current_held,    2u);
+}
+

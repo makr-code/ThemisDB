@@ -1,7 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            self_awareness.cpp                                 ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:43:19                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     583                                            ║
+    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 235d2ca7f  2026-02-10  Refactor tests and update dependencies   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/self_awareness.h"
 #include <yaml-cpp/yaml.h>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include <ctime>
 #include <thread>
 
@@ -459,14 +487,79 @@ nlohmann::json SelfAwareness::Snapshot::toJSON() const {
 
 // Persist snapshot
 void SelfAwareness::persistSnapshot(const Snapshot& snapshot) {
-    // TODO: Implement persistence to disk
-    // Create directory if not exists
-    // Write JSON to file with timestamp
+    try {
+        std::filesystem::create_directories(config_.snapshot_directory);
+        
+        // Filename: snapshot_<unix_ms>.json
+        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            snapshot.timestamp.time_since_epoch()).count();
+        std::string filename = config_.snapshot_directory + "/snapshot_" +
+                               std::to_string(ms) + ".json";
+        
+        std::ofstream ofs(filename);
+        if (ofs) {
+            ofs << snapshot.toJSON().dump(2) << "\n";
+        }
+    } catch (const std::exception&) {
+        // Snapshot persistence is best-effort; do not propagate errors
+    }
 }
 
 // Load snapshots
 void SelfAwareness::loadSnapshots() {
-    // TODO: Load snapshots from disk
+    try {
+        if (!std::filesystem::exists(config_.snapshot_directory)) {
+            return;
+        }
+
+        // Collect snapshot files sorted by name (which encodes timestamp)
+        std::vector<std::filesystem::path> files;
+        for (const auto& entry : std::filesystem::directory_iterator(config_.snapshot_directory)) {
+            if (entry.is_regular_file() &&
+                entry.path().filename().string().rfind("snapshot_", 0) == 0) {
+                files.push_back(entry.path());
+            }
+        }
+        std::sort(files.begin(), files.end());
+
+        // Load the most recent max_snapshots_retained files
+        if (files.size() > config_.max_snapshots_retained) {
+            files.erase(files.begin(),
+                        files.begin() + static_cast<std::ptrdiff_t>(
+                            files.size() - config_.max_snapshots_retained));
+        }
+
+        for (const auto& path : files) {
+            try {
+                std::ifstream ifs(path);
+                if (!ifs) continue;
+                std::string content((std::istreambuf_iterator<char>(ifs)),
+                                     std::istreambuf_iterator<char>());
+                auto j = nlohmann::json::parse(content);
+
+                Snapshot s;
+                // Restore timestamp from JSON (stored as ctime string)
+                if (j.contains("timestamp")) {
+                    // best-effort: timestamp_epoch_ms is stored in filename
+                    auto fname = path.stem().string(); // "snapshot_<ms>"
+                    auto sep = fname.rfind('_');
+                    if (sep != std::string::npos) {
+                        try {
+                            auto epoch_ms = std::stoll(fname.substr(sep + 1));
+                            s.timestamp = std::chrono::system_clock::time_point(
+                                std::chrono::milliseconds(epoch_ms));
+                        } catch (...) {}
+                    }
+                }
+                s.triggered_by = j.value("triggered_by", "loaded");
+                snapshots_.push_back(std::move(s));
+            } catch (const std::exception&) {
+                // Skip malformed files
+            }
+        }
+    } catch (const std::exception&) {
+        // Snapshot loading is best-effort
+    }
 }
 
 // Prune snapshots

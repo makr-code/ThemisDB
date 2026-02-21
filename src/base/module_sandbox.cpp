@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            module_sandbox.cpp                                 ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:40:39                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     414                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3089438e7  2026-02-21  Add RocksDB option files and manifest for caching ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b6c51ef3e  2026-02-20  Themis Core Framework – Production Readiness (All 7 Phase... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // ThemisDB Module Sandbox & ABI Checker – Implementation
 //
 // AbiChecker: deep ABI compatibility validation for hot-reload
@@ -374,9 +400,9 @@ SandboxStats ModuleSandbox::stats() const {
 #elif defined(_WIN32)
     if (platform_->job_object) {
         JOBOBJECT_EXTENDED_LIMIT_INFORMATION ji{};
-        if (GetInformationJobObject(platform_->job_object,
-                                     JobObjectExtendedLimitInformation,
-                                     &ji, sizeof(ji))) {
+        if (QueryInformationJobObject(platform_->job_object,
+                                      JobObjectExtendedLimitInformation,
+                                      &ji, sizeof(ji), nullptr)) {
             s.peak_memory_bytes = ji.PeakJobMemoryUsed;
         }
     }

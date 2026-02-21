@@ -1,7 +1,33 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            logger_impl.h                                      ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 10:38:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     64                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3089438e7  2026-02-21  Add RocksDB option files and manifest for caching ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9cb3159dc  2026-02-21  Utils Module – Production Readiness (Phases 1–8) (#1344) ║
+    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
 
-#include <spdlog/spdlog.h>
+#pragma once
+
 #include <fmt/format.h>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace utils {
@@ -10,6 +36,8 @@ template<typename FormatString, typename... Args>
 void Logger::trace(FormatString&& fmt, Args&&... args) {
     if (logger_) {
         logger_->trace(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        metrics_.trace_count.fetch_add(1, std::memory_order_relaxed);
+        metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
@@ -17,6 +45,8 @@ template<typename FormatString, typename... Args>
 void Logger::debug(FormatString&& fmt, Args&&... args) {
     if (logger_) {
         logger_->debug(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        metrics_.debug_count.fetch_add(1, std::memory_order_relaxed);
+        metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
@@ -24,6 +54,8 @@ template<typename FormatString, typename... Args>
 void Logger::info(FormatString&& fmt, Args&&... args) {
     if (logger_) {
         logger_->info(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        metrics_.info_count.fetch_add(1, std::memory_order_relaxed);
+        metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
@@ -31,6 +63,8 @@ template<typename FormatString, typename... Args>
 void Logger::warn(FormatString&& fmt, Args&&... args) {
     if (logger_) {
         logger_->warn(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        metrics_.warn_count.fetch_add(1, std::memory_order_relaxed);
+        metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
@@ -38,6 +72,8 @@ template<typename FormatString, typename... Args>
 void Logger::error(FormatString&& fmt, Args&&... args) {
     if (logger_) {
         logger_->error(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        metrics_.error_count.fetch_add(1, std::memory_order_relaxed);
+        metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
@@ -45,6 +81,8 @@ template<typename FormatString, typename... Args>
 void Logger::critical(FormatString&& fmt, Args&&... args) {
     if (logger_) {
         logger_->critical(fmt::runtime(std::forward<FormatString>(fmt)), std::forward<Args>(args)...);
+        metrics_.critical_count.fetch_add(1, std::memory_order_relaxed);
+        metrics_.total_count.fetch_add(1, std::memory_order_relaxed);
     }
 }
 
