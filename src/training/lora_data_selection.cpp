@@ -4,6 +4,7 @@
 #include "training/lora_data_selection.h"
 
 #include <algorithm>
+#include <cctype>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -634,6 +635,64 @@ const LoRADataSelectionConfig& DataSelectionPipeline::getConfig() const {
     return impl_->getConfig();
 }
 
+DataSelectionMetrics DataSelectionPipeline::computeMetrics(
+        const DataSelectionResult& result) {
+    DataSelectionMetrics m;
+
+    const auto& ae = result.audit_entry;
+
+    // Rejection rates (fraction removed at each stage relative to total input)
+    if (ae.input_sample_count > 0) {
+        m.filter_rejection_rate = static_cast<double>(ae.filtered_by_quality) /
+                                  static_cast<double>(ae.input_sample_count);
+        m.dedup_removal_rate    = static_cast<double>(ae.filtered_by_dedup) /
+                                  static_cast<double>(ae.input_sample_count);
+    }
+
+    if (ae.input_sample_count > 1) {
+        m.duplicate_ratio = m.dedup_removal_rate;
+    }
+
+    // Quality and difficulty averages from selected samples
+    if (!result.selected_samples.empty()) {
+        double q_sum = 0.0, d_sum = 0.0, ttr_sum = 0.0;
+        for (const auto& s : result.selected_samples) {
+            q_sum   += s.quality_score;
+            d_sum   += s.difficulty_score;
+            // Approximate diversity via type-token ratio.
+            // Tokens are normalised (lowercase, punctuation stripped) so that
+            // "Word," and "word" count as the same type, giving a more accurate
+            // measure of vocabulary diversity.  TTR in [0, 1]: higher → more diverse.
+            std::unordered_set<std::string> types;
+            std::istringstream ss(s.text);
+            std::string tok;
+            size_t total_tokens = 0;
+            while (ss >> tok) {
+                // Lowercase + strip leading/trailing ASCII punctuation
+                std::string norm;
+                norm.reserve(tok.size());
+                for (char c : tok) {
+                    if (std::isalpha(static_cast<unsigned char>(c)))
+                        norm += static_cast<char>(
+                            std::tolower(static_cast<unsigned char>(c)));
+                    else if (std::isdigit(static_cast<unsigned char>(c)))
+                        norm += c;
+                }
+                if (!norm.empty()) { types.insert(norm); ++total_tokens; }
+            }
+            ttr_sum += (total_tokens > 0)
+                       ? static_cast<double>(types.size()) / total_tokens
+                       : 0.0;
+        }
+        double n = static_cast<double>(result.selected_samples.size());
+        m.avg_quality_score    = q_sum   / n;
+        m.avg_difficulty_score = d_sum   / n;
+        m.diversity_score      = ttr_sum / n;
+    }
+
+    return m;
+}
+
 // ============================================================================
 // LoRADataSelectionConfig – YAML loading (built-in line parser)
 // ============================================================================
@@ -914,11 +973,17 @@ static SelfImprovementConfig parseSelfImprovementYAML(
                 state = State::IN_ADAPTIVE_RULES;
             } else if (!val.empty()) {
                 try {
-                    if      (key == "enabled")                cfg.enabled               = (val == "true");
-                    else if (key == "period_seconds")         cfg.period_seconds        = std::stoull(val);
-                    else if (key == "threshold_auto_adjust")  cfg.threshold_auto_adjust = (val == "true");
-                    else if (key == "latency_target_ms")      cfg.latency_target_ms     = std::stod(val);
-                    else if (key == "accuracy_monitoring")    cfg.accuracy_monitoring   = (val == "true");
+                    if      (key == "enabled")                    cfg.enabled                       = (val == "true");
+                    else if (key == "period_seconds")             cfg.period_seconds                = std::stoull(val);
+                    else if (key == "threshold_auto_adjust")      cfg.threshold_auto_adjust         = (val == "true");
+                    else if (key == "latency_target_ms")          cfg.latency_target_ms             = std::stod(val);
+                    else if (key == "accuracy_monitoring")        cfg.accuracy_monitoring           = (val == "true");
+                    else if (key == "accuracy_rollback_threshold") cfg.accuracy_rollback_threshold  = std::stod(val);
+                    else if (key == "min_avg_quality_score")      cfg.min_avg_quality_score         = std::stod(val);
+                    else if (key == "max_error_rate")             cfg.max_error_rate                = std::stod(val);
+                    else if (key == "cooldown_hours")             cfg.cooldown_hours                = std::stoull(val);
+                    else if (key == "diversity_monitoring")       cfg.diversity_monitoring          = (val == "true");
+                    else if (key == "min_diversity_score")        cfg.min_diversity_score           = std::stod(val);
                 } catch (const std::invalid_argument& e) {
                     throw std::runtime_error(
                         "SelfImprovementConfig: invalid value for key '" + key +
@@ -1100,6 +1165,32 @@ public:
         return updated;
     }
 
+    bool needsRollback(const DataSelectionMetrics& metrics) const {
+        if (!cfg_.enabled) return false;
+
+        // Accuracy drop beyond rollback threshold
+        if (cfg_.accuracy_monitoring) {
+            double drop = 1.0 - metrics.training_accuracy;
+            if (drop > cfg_.accuracy_rollback_threshold) return true;
+        }
+
+        // Average quality below minimum
+        if (metrics.avg_quality_score < cfg_.min_avg_quality_score) return true;
+
+        // Diversity below minimum
+        if (cfg_.diversity_monitoring &&
+                metrics.diversity_score < cfg_.min_diversity_score) return true;
+
+        return false;
+    }
+
+    bool needsReselection(
+            std::chrono::system_clock::time_point last_selection_time) const {
+        if (!cfg_.enabled) return false;
+        auto elapsed = std::chrono::system_clock::now() - last_selection_time;
+        return elapsed >= std::chrono::seconds(cfg_.period_seconds);
+    }
+
     size_t lastTriggeredRuleCount() const { return last_triggered_; }
     void setConfig(const SelfImprovementConfig& cfg) { cfg_ = cfg; }
     const SelfImprovementConfig& getConfig() const    { return cfg_; }
@@ -1122,6 +1213,15 @@ LoRADataSelectionConfig SelfImprovementModule::applyAdaptiveRules(
 
 size_t SelfImprovementModule::lastTriggeredRuleCount() const {
     return impl_->lastTriggeredRuleCount();
+}
+
+bool SelfImprovementModule::needsRollback(const DataSelectionMetrics& metrics) const {
+    return impl_->needsRollback(metrics);
+}
+
+bool SelfImprovementModule::needsReselection(
+        std::chrono::system_clock::time_point last_selection_time) const {
+    return impl_->needsReselection(last_selection_time);
 }
 
 void SelfImprovementModule::setConfig(const SelfImprovementConfig& config) {

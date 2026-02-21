@@ -190,6 +190,32 @@ using SelectionProgressCallback =
                        const std::string& message)>;
 
 // ============================================================================
+// Monitoring metrics snapshot
+// (Defined here so DataSelectionPipeline::computeMetrics can reference it)
+// ============================================================================
+
+/**
+ * @brief Runtime monitoring metrics used by the self-improvement module
+ *        to decide whether adaptive thresholds should be adjusted.
+ */
+struct DataSelectionMetrics {
+    double avg_quality_score     = 0.0;
+    double avg_difficulty_score  = 0.0;
+    /// Average type-token ratio (TTR) of the selected sample set.
+    /// Range [0, 1]: higher values indicate greater vocabulary diversity.
+    /// Computed by `DataSelectionPipeline::computeMetrics()` using
+    /// normalised (lowercased, punctuation-stripped) tokens.
+    double diversity_score       = 0.0;
+    double filter_rejection_rate = 0.0;   ///< Fraction of candidates rejected by Stage 1
+    double dedup_removal_rate    = 0.0;   ///< Fraction removed by Stage 2
+    double training_accuracy     = 0.0;   ///< Last known training accuracy
+    double inference_latency_ms  = 0.0;   ///< Last observed inference latency
+    double duplicate_ratio       = 0.0;   ///< Fraction of near-duplicates detected
+
+    DataSelectionMetrics() = default;
+};
+
+// ============================================================================
 // Pipeline
 // ============================================================================
 
@@ -304,6 +330,20 @@ public:
      */
     const LoRADataSelectionConfig& getConfig() const;
 
+    /**
+     * @brief Derive a @ref DataSelectionMetrics snapshot from a completed
+     *        pipeline result.
+     *
+     * Computes per-stage rejection rates and average quality/difficulty/
+     * diversity scores from the returned samples.  Useful for feeding the
+     * result directly into @ref SelfImprovementModule::applyAdaptiveRules()
+     * and @ref SelfImprovementModule::needsRollback().
+     *
+     * @param result  The result returned by a previous `run()` call.
+     * @return Populated metrics snapshot (all fields 0.0 for empty results).
+     */
+    static DataSelectionMetrics computeMetrics(const DataSelectionResult& result);
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;
@@ -341,6 +381,16 @@ struct SelfImprovementConfig {
     double latency_target_ms       = 5000.0;  ///< Target max inference latency
     bool   accuracy_monitoring     = true;    ///< Track accuracy metrics
 
+    // ---- Rollback thresholds ----
+    double accuracy_rollback_threshold = 0.10; ///< Trigger rollback when accuracy drops > this
+    double min_avg_quality_score       = 0.50; ///< Minimum acceptable avg quality score
+    double max_error_rate              = 0.05; ///< Maximum acceptable error rate
+    size_t cooldown_hours              = 6;    ///< Minimum hours between rollbacks
+
+    // ---- Diversity monitoring ----
+    bool   diversity_monitoring  = true;
+    double min_diversity_score   = 0.30; ///< Minimum acceptable type-token ratio
+
     std::vector<AdaptiveRule> adaptive_rules; ///< Rules loaded from YAML
 
     SelfImprovementConfig() = default;
@@ -364,27 +414,6 @@ struct SelfImprovementConfig {
     static SelfImprovementConfig fromYAMLString(
         const std::string& yaml_text,
         const std::string& section = "self_improvement");
-};
-
-// ============================================================================
-// Monitoring metrics snapshot
-// ============================================================================
-
-/**
- * @brief Runtime monitoring metrics used by the self-improvement module
- *        to decide whether adaptive thresholds should be adjusted.
- */
-struct DataSelectionMetrics {
-    double avg_quality_score    = 0.0;
-    double avg_difficulty_score = 0.0;
-    double diversity_score      = 0.0;   ///< Average type-token ratio of selected set
-    double filter_rejection_rate= 0.0;   ///< Fraction of candidates rejected by Stage 1
-    double dedup_removal_rate   = 0.0;   ///< Fraction removed by Stage 2
-    double training_accuracy    = 0.0;   ///< Last known training accuracy
-    double inference_latency_ms = 0.0;   ///< Last observed inference latency
-    double duplicate_ratio      = 0.0;   ///< Fraction of near-duplicates detected
-
-    DataSelectionMetrics() = default;
 };
 
 // ============================================================================
@@ -436,6 +465,34 @@ public:
      *        `applyAdaptiveRules()`.
      */
     size_t lastTriggeredRuleCount() const;
+
+    /**
+     * @brief Decide whether the current metrics warrant a rollback.
+     *
+     * Returns true when any of the following holds:
+     *  - `training_accuracy` has dropped by more than
+     *    `accuracy_rollback_threshold` relative to a baseline of 1.0 – i.e.
+     *    `(1.0 - metrics.training_accuracy) > accuracy_rollback_threshold`
+     *  - `avg_quality_score < min_avg_quality_score`
+     *  - `diversity_monitoring` is true and
+     *    `diversity_score < min_diversity_score`
+     *
+     * Always returns false when `enabled` is false.
+     *
+     * @param metrics  Current monitoring snapshot.
+     */
+    bool needsRollback(const DataSelectionMetrics& metrics) const;
+
+    /**
+     * @brief Decide whether a new data selection run is due.
+     *
+     * Returns true when `enabled` is true and at least `period_seconds`
+     * have elapsed since @p last_selection_time.
+     *
+     * @param last_selection_time  Time-point of the most recent pipeline run.
+     */
+    bool needsReselection(
+        std::chrono::system_clock::time_point last_selection_time) const;
 
     /**
      * @brief Update the self-improvement configuration (live reload).

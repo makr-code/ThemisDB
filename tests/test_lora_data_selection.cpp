@@ -1070,3 +1070,247 @@ TEST_F(AuditPersistenceTest, LoadFromYAML_AuditLogPathParsed) {
     EXPECT_TRUE(cfg.audit);
     EXPECT_EQ(cfg.audit_log_path, "logs/lora_data_selection_audit.jsonl");
 }
+
+// ============================================================================
+// SelfImprovementModule – rollback and reselection scheduling
+// ============================================================================
+
+class RollbackAndSchedulingTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        cfg_.enabled                       = true;
+        cfg_.threshold_auto_adjust         = true;
+        cfg_.accuracy_monitoring           = true;
+        cfg_.accuracy_rollback_threshold   = 0.10; // 10 % drop
+        cfg_.min_avg_quality_score         = 0.50;
+        cfg_.diversity_monitoring          = true;
+        cfg_.min_diversity_score           = 0.30;
+        cfg_.period_seconds                = 3600; // 1 hour
+    }
+
+    SelfImprovementConfig cfg_;
+};
+
+TEST_F(RollbackAndSchedulingTest, NeedsRollback_AccuracyDrop) {
+    SelfImprovementModule module(cfg_);
+    DataSelectionMetrics m;
+    m.training_accuracy  = 0.80; // drop = 1.0 - 0.80 = 0.20 > 0.10
+    m.avg_quality_score  = 0.75;
+    m.diversity_score    = 0.50;
+    EXPECT_TRUE(module.needsRollback(m));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsRollback_LowQuality) {
+    SelfImprovementModule module(cfg_);
+    DataSelectionMetrics m;
+    m.training_accuracy  = 0.95; // fine
+    m.avg_quality_score  = 0.40; // below min_avg_quality_score=0.50
+    m.diversity_score    = 0.50;
+    EXPECT_TRUE(module.needsRollback(m));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsRollback_LowDiversity) {
+    SelfImprovementModule module(cfg_);
+    DataSelectionMetrics m;
+    m.training_accuracy  = 0.95;
+    m.avg_quality_score  = 0.75;
+    m.diversity_score    = 0.20; // below min_diversity_score=0.30
+    EXPECT_TRUE(module.needsRollback(m));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsRollback_AllGood) {
+    SelfImprovementModule module(cfg_);
+    DataSelectionMetrics m;
+    m.training_accuracy  = 0.95; // drop = 0.05 ≤ 0.10
+    m.avg_quality_score  = 0.80;
+    m.diversity_score    = 0.55;
+    EXPECT_FALSE(module.needsRollback(m));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsRollback_Disabled_AlwaysFalse) {
+    cfg_.enabled = false;
+    SelfImprovementModule module(cfg_);
+    DataSelectionMetrics m;
+    m.training_accuracy  = 0.50; // would normally trigger
+    m.avg_quality_score  = 0.10;
+    m.diversity_score    = 0.05;
+    EXPECT_FALSE(module.needsRollback(m));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsReselection_PastDue) {
+    SelfImprovementModule module(cfg_);
+    // last selection was 2 hours ago, period is 1 hour → due
+    auto two_hours_ago = std::chrono::system_clock::now() -
+                         std::chrono::seconds(7200);
+    EXPECT_TRUE(module.needsReselection(two_hours_ago));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsReselection_NotYetDue) {
+    SelfImprovementModule module(cfg_);
+    // last selection was 10 seconds ago, period is 1 hour → not due
+    auto ten_seconds_ago = std::chrono::system_clock::now() -
+                           std::chrono::seconds(10);
+    EXPECT_FALSE(module.needsReselection(ten_seconds_ago));
+}
+
+TEST_F(RollbackAndSchedulingTest, NeedsReselection_Disabled_AlwaysFalse) {
+    cfg_.enabled = false;
+    SelfImprovementModule module(cfg_);
+    auto long_ago = std::chrono::system_clock::now() -
+                    std::chrono::hours(48);
+    EXPECT_FALSE(module.needsReselection(long_ago));
+}
+
+// ============================================================================
+// DataSelectionPipeline::computeMetrics
+// ============================================================================
+
+TEST(ComputeMetricsTest, EmptyResult_ReturnsZeros) {
+    DataSelectionResult result;
+    result.success = true;
+    auto m = DataSelectionPipeline::computeMetrics(result);
+    EXPECT_DOUBLE_EQ(m.avg_quality_score,    0.0);
+    EXPECT_DOUBLE_EQ(m.diversity_score,      0.0);
+    EXPECT_DOUBLE_EQ(m.filter_rejection_rate,0.0);
+}
+
+TEST(ComputeMetricsTest, FilterRejectionRate) {
+    DataSelectionResult result;
+    result.success = true;
+    result.audit_entry.input_sample_count  = 100;
+    result.audit_entry.filtered_by_quality = 30;
+    result.audit_entry.filtered_by_dedup   = 10;
+    auto m = DataSelectionPipeline::computeMetrics(result);
+    EXPECT_DOUBLE_EQ(m.filter_rejection_rate, 0.30);
+    EXPECT_DOUBLE_EQ(m.dedup_removal_rate,    0.10);
+}
+
+TEST(ComputeMetricsTest, QualityScoreAveraged) {
+    DataSelectionResult result;
+    result.success = true;
+    result.audit_entry.input_sample_count = 3;
+
+    DataSample s1; s1.quality_score = 0.6; s1.text = "hello world test";
+    DataSample s2; s2.quality_score = 0.8; s2.text = "another unique sample text";
+    DataSample s3; s3.quality_score = 1.0; s3.text = "third distinct sample item";
+    result.selected_samples = {s1, s2, s3};
+
+    auto m = DataSelectionPipeline::computeMetrics(result);
+    EXPECT_NEAR(m.avg_quality_score, (0.6 + 0.8 + 1.0) / 3.0, 1e-9);
+    EXPECT_GT(m.diversity_score, 0.0);
+}
+
+TEST(ComputeMetricsTest, FullPipeline_MetricsFromRun) {
+    // Build 20 samples with distinct text so pipeline has something to work with
+    std::vector<DataSample> samples;
+    for (int i = 0; i < 20; ++i) {
+        DataSample s;
+        s.id   = "s" + std::to_string(i);
+        s.text = "Sample text number " + std::to_string(i) +
+                 " with multiple unique words for diversity testing";
+        samples.push_back(s);
+    }
+    LoRADataSelectionConfig cfg;
+    cfg.min_length_tokens = 1;
+    cfg.required_language = "";
+    cfg.audit             = true;
+    DataSelectionPipeline pipeline(cfg);
+    auto result = pipeline.run(samples);
+    ASSERT_TRUE(result.success);
+
+    auto m = DataSelectionPipeline::computeMetrics(result);
+    // With 20 input samples, filter/dedup rates should be in [0,1]
+    EXPECT_GE(m.filter_rejection_rate, 0.0);
+    EXPECT_LE(m.filter_rejection_rate, 1.0);
+    EXPECT_GE(m.diversity_score,       0.0);
+}
+
+// ============================================================================
+// YAML parsing of new SelfImprovementConfig fields
+// ============================================================================
+
+TEST(SelfImprovementYAMLNewFieldsTest, ParsesRollbackFields) {
+    const std::string yaml = R"(
+self_improvement:
+  enabled: true
+  accuracy_rollback_threshold: 0.12
+  min_avg_quality_score: 0.45
+  max_error_rate: 0.03
+  cooldown_hours: 8
+  diversity_monitoring: true
+  min_diversity_score: 0.25
+)";
+    auto cfg = SelfImprovementConfig::fromYAMLString(yaml);
+    EXPECT_TRUE(cfg.enabled);
+    EXPECT_NEAR(cfg.accuracy_rollback_threshold, 0.12, 1e-9);
+    EXPECT_NEAR(cfg.min_avg_quality_score,       0.45, 1e-9);
+    EXPECT_NEAR(cfg.max_error_rate,              0.03, 1e-9);
+    EXPECT_EQ(cfg.cooldown_hours,                8u);
+    EXPECT_TRUE(cfg.diversity_monitoring);
+    EXPECT_NEAR(cfg.min_diversity_score,         0.25, 1e-9);
+}
+
+TEST(SelfImprovementYAMLNewFieldsTest, LoadFromActualFile_HasRollbackDefaults) {
+    std::string src_path = __FILE__;
+    auto sep = src_path.rfind('/');
+    std::string repo_root = (sep != std::string::npos)
+                           ? src_path.substr(0, sep - std::string("tests").size())
+                           : "./";
+    const std::string path = repo_root + "config/lora/SelfImprovementModule.yaml";
+
+    SelfImprovementConfig cfg;
+    ASSERT_NO_THROW(cfg = SelfImprovementConfig::loadFromYAML(path));
+    // Defaults from YAML file
+    EXPECT_NEAR(cfg.accuracy_rollback_threshold, 0.10, 1e-9);
+    EXPECT_NEAR(cfg.min_avg_quality_score,       0.50, 1e-9);
+    EXPECT_NEAR(cfg.min_diversity_score,         0.30, 1e-9);
+}
+
+// ============================================================================
+// Performance benchmark: <5 min / 5000 samples
+// ============================================================================
+
+TEST(PerformanceBenchmarkTest, FiveThousandSamplesUnderFiveMinutes) {
+    // Generate 5000 synthetic samples using generic vocabulary so the test is
+    // language- and domain-agnostic.  Each sample has ~20 unique words to
+    // exercise the full pipeline without depending on specific keywords.
+    static const char* const kWords[] = {
+        "alpha", "bravo", "charlie", "delta", "echo", "foxtrot", "golf",
+        "hotel", "india", "juliet", "kilo", "lima", "mike", "november",
+        "oscar", "papa", "quebec", "romeo", "sierra", "tango"
+    };
+    std::vector<DataSample> samples;
+    samples.reserve(5000);
+    for (int i = 0; i < 5000; ++i) {
+        DataSample s;
+        s.id   = "bench_" + std::to_string(i);
+        // Build a sentence of ~20 words; include the index to ensure samples
+        // are not near-duplicates of each other.
+        std::string text;
+        for (const auto* w : kWords)
+            text += std::string(w) + " ";
+        text += std::to_string(i);
+        s.text = std::move(text);
+        samples.push_back(s);
+    }
+
+    LoRADataSelectionConfig cfg;
+    cfg.min_length_tokens = 5;
+    cfg.required_language = "";  // no language filter in benchmark
+    cfg.target_samples    = 5000;
+    cfg.audit             = false; // skip file I/O
+    cfg.audit_log_path    = "";
+
+    DataSelectionPipeline pipeline(cfg);
+
+    auto t0 = std::chrono::steady_clock::now();
+    auto result = pipeline.run(samples);
+    auto elapsed_s = std::chrono::duration_cast<std::chrono::seconds>(
+        std::chrono::steady_clock::now() - t0).count();
+
+    ASSERT_TRUE(result.success);
+    // Acceptance criterion from the feature issue: <5 min = 300 seconds
+    EXPECT_LT(elapsed_s, 300)
+        << "Pipeline ran " << elapsed_s << " s for 5000 samples (limit: 300 s)";
+    EXPECT_LT(result.elapsed_seconds, 300.0);
+}
