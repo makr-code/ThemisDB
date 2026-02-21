@@ -36,6 +36,49 @@ namespace themis {
 namespace aql {
 
 /**
+ * @brief Represents a single turn in a multi-turn AQL conversation
+ *
+ * Stores the natural language query and the resulting AQL from one turn,
+ * providing context for subsequent iterative refinements.
+ */
+struct ConversationTurn {
+    std::string nl_query;   ///< Natural language query from the user
+    std::string aql_result; ///< AQL query generated for this turn
+};
+
+/**
+ * @brief Manages conversation history for iterative AQL query refinement
+ *
+ * Maintains an ordered list of turns so that follow-up questions can
+ * reference previous queries and their results, enabling the LLM to
+ * understand the user's intent across multiple refinement steps.
+ */
+class AQLConversationSession {
+public:
+    /**
+     * @brief Record a completed turn in the session
+     * @param nl_query The natural language query that was issued
+     * @param aql_result The AQL query that was generated
+     */
+    void addTurn(const std::string& nl_query, const std::string& aql_result);
+
+    /// Return the full ordered history of turns
+    const std::vector<ConversationTurn>& getHistory() const;
+
+    /// Reset the session, discarding all history
+    void clear();
+
+    /// True when the session has no turns
+    bool empty() const;
+
+    /// Number of completed turns in the session
+    std::size_t size() const;
+
+private:
+    std::vector<ConversationTurn> history_;
+};
+
+/**
  * @brief Handler for LLM-specific AQL commands
  * 
  * Provides execution logic for all LLM commands in AQL:
@@ -111,6 +154,25 @@ public:
      */
     std::string translateNLToAQL(
         const std::string& nl_query,
+        const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Translate a natural language query to AQL using multi-turn context
+     *
+     * Sends the full conversation history together with the new query so the
+     * LLM can refine previously generated AQL.  The resulting turn is
+     * automatically appended to @p session.
+     *
+     * @param nl_query  Natural language query for this turn
+     * @param session   Session that holds (and will be updated with) the turn history
+     * @param schema_context Optional database schema for better translation
+     * @return AQL query generated for this turn
+     * @throws std::runtime_error if translation fails
+     */
+    std::string translateNLToAQLIterative(
+        const std::string& nl_query,
+        AQLConversationSession& session,
         const std::string& schema_context = ""
     );
 

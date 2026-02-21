@@ -41,6 +41,35 @@
 namespace themis {
 namespace aql {
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AQLConversationSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+void AQLConversationSession::addTurn(
+    const std::string& nl_query,
+    const std::string& aql_result
+) {
+    history_.push_back({nl_query, aql_result});
+}
+
+const std::vector<ConversationTurn>& AQLConversationSession::getHistory() const {
+    return history_;
+}
+
+void AQLConversationSession::clear() {
+    history_.clear();
+}
+
+bool AQLConversationSession::empty() const {
+    return history_.empty();
+}
+
+std::size_t AQLConversationSession::size() const {
+    return history_.size();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 class LLMAQLHandler::Impl {
 public:
     Impl() 
@@ -724,6 +753,91 @@ std::string LLMAQLHandler::translateNLToAQL(
     } catch (const std::exception& e) {
         throw std::runtime_error(
             std::string("NL to AQL translation failed: ") + e.what()
+        );
+    }
+}
+
+std::string LLMAQLHandler::translateNLToAQLIterative(
+    const std::string& nl_query,
+    AQLConversationSession& session,
+    const std::string& schema_context
+) {
+    try {
+        // Build the system prompt (identical to single-turn translation)
+        std::ostringstream system_prompt;
+        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+        if (!schema_context.empty()) {
+            system_prompt << "Database schema:\n" << schema_context << "\n\n";
+        } else {
+            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+            system_prompt << "Graph structures use edges to connect nodes.\n\n";
+        }
+
+        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+        system_prompt << "Requirements:\n";
+        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+        system_prompt << "- When refining a previous query, build on it rather than starting over\n";
+        system_prompt << "- Optimize for performance\n\n";
+
+        // Populate the message list with prior turns so the LLM has full context
+        std::vector<llm::ChatMessage> messages;
+        messages.emplace_back("system", system_prompt.str());
+
+        for (const auto& turn : session.getHistory()) {
+            // Present each historical turn as a user/assistant exchange
+            std::ostringstream user_msg;
+            user_msg << "Natural language query: " << turn.nl_query << "\n\n"
+                     << "Generate the corresponding AQL query:";
+            messages.emplace_back("user", user_msg.str());
+            messages.emplace_back("assistant", turn.aql_result);
+        }
+
+        // Append the current query
+        std::ostringstream user_prompt;
+        user_prompt << "Natural language query: " << nl_query << "\n\n"
+                    << "Generate the corresponding AQL query:";
+        messages.emplace_back("user", user_prompt.str());
+
+        auto response = executeChat(messages);
+
+        // Strip optional markdown fences (same cleanup as translateNLToAQL)
+        std::string aql_query = response;
+        size_t start_marker = aql_query.find("```");
+        if (start_marker != std::string::npos) {
+            size_t query_start = aql_query.find('\n', start_marker);
+            if (query_start != std::string::npos) {
+                query_start++;
+                size_t end_marker = aql_query.find("```", query_start);
+                if (end_marker != std::string::npos) {
+                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+                }
+            }
+        }
+
+        // Trim whitespace
+        auto trim = [](std::string& s) {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }).base(), s.end());
+        };
+        trim(aql_query);
+
+        // Record this turn in the session so future calls inherit the context
+        session.addTurn(nl_query, aql_query);
+
+        return aql_query;
+
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("NL to AQL iterative translation failed: ") + e.what()
         );
     }
 }
