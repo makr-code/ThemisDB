@@ -4,6 +4,15 @@
 
 The Chimera module provides the core implementation for the **CHIMERA** (Comprehensive Hybrid Inferencing & Multi-model Evaluation Resource Assessment) benchmark suite's vendor-neutral database adapter architecture. This module enables fair, unbiased benchmarking of diverse database systems (relational, document, graph, vector, hybrid) through a unified interface. Named after the mythological creature with multiple forms, Chimera adapts to any database system's native capabilities while providing consistent benchmarking metrics.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `adapter_factory.cpp` | Thread-safe singleton adapter registry |
+| `themisdb_adapter.cpp` | ThemisDB reference implementation adapter |
+| `adapters/postgres_adapter.cpp` | PostgreSQL adapter (planned) |
+| `benchmark_harness.cpp` | Benchmark execution and result collection |
+
 ## Scope
 
 **In Scope:**
