@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_transaction_timeout.cpp                       ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-21 16:53:16                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     270                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //

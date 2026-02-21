@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_query_validator.cpp                            ║
-  Version:         0.0.5                                              ║
-  Last Modified:   2026-02-21 16:34:42                                ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-21 16:52:56                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     282                                            ║
+    • Total Lines:     283                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • afade9ae9  2026-02-21  [aql] Interactive AQL query builder, validator, template ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -1,3 +1,25 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_request_validation_middleware.cpp             ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-21 16:53:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     370                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "server/request_validation_middleware.h"
 #include <nlohmann/json.hpp>

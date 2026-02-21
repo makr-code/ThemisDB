@@ -4,8 +4,17 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            request_validation_middleware.h                    ║
   Version:         0.0.1                                              ║
-  Last Modified:   2026-02-21 15:00:00                                ║
+  Last Modified:   2026-02-21 16:52:49                                ║
   Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     205                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            aql_syntax_highlighter.h                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 16:34:18                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 16:52:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     147                                            ║
+    • Total Lines:     148                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 9f4b4c45b  2026-02-21  [aql] AQL syntax highlighting, error annotation, and prom... ║
 ╠═════════════════════════════════════════════════════════════════════╣
