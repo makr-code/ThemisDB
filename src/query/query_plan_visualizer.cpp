@@ -3,11 +3,16 @@
 
 #include "query/query_plan_visualizer.h"
 
+#include <algorithm>
+#include <functional>
 #include <sstream>
 #include <iomanip>
 
 namespace themis {
 namespace query {
+
+// Maximum recursion depth for plan tree rendering (guards against deep/cyclic trees).
+static constexpr int kMaxPlanDepth = 128;
 
 // ============================================================================
 // Helpers
@@ -39,24 +44,40 @@ std::string QueryPlanVisualizer::planNodeTypeName(PlanNodeType type) {
 
 QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
                                               const QueryOptimizer::Plan& plan) {
-    // Outermost node: Return
+    // Outermost node: Return. Use the most-selective count as the final output estimate.
     QueryPlanNode return_node;
     return_node.type = PlanNodeType::Return;
     return_node.description = "Return";
     return_node.estimated_rows = plan.details.empty() ? 0 : plan.details.front().estimatedCount;
     return_node.estimated_cost = 10.0;
 
-    // If there are ordered predicates, build a filter chain leading down to a scan.
-    // The first predicate (most selective) is closest to the scan; each subsequent
-    // predicate wraps the previous one as a parent Filter node.
+    // Build filter chain in REVERSE predicate order so that the most-selective
+    // predicate (smallest estimatedCount, orderedPredicates[0]) ends up deepest
+    // in the tree (closest to the scan).  Data flows bottom-up:
+    //   Scan → Filter[most-selective] → … → Filter[least-selective] → Return
+    //
+    // orderedPredicates is sorted ascending: [0] = most selective, [n-1] = least.
+    // Iterating from [n-1] down to [0] builds the chain in the correct display
+    // order (top = least-selective child of Return, bottom = most-selective
+    // parent of Scan).
+    const size_t n = plan.orderedPredicates.size();
+    // Use the least-selective predicate's count as a proxy for the scan size.
+    const size_t proxy_scan_rows =
+        plan.details.empty() ? 0 : plan.details.back().estimatedCount;
+
     QueryPlanNode* current_parent = &return_node;
 
-    for (size_t i = 0; i < plan.orderedPredicates.size(); ++i) {
+    for (size_t j = 0; j < n; ++j) {
+        // i counts DOWN from n-1 to 0 → builds most-selective deepest
+        const size_t i = n - 1 - j;
         const auto& pred = plan.orderedPredicates[i];
-        const double selectivity = (plan.details.size() > i && plan.details[i].estimatedCount > 0)
-            ? (static_cast<double>(plan.details[i].estimatedCount) /
-               std::max<size_t>(1, plan.details.empty() ? 1 : plan.details.front().estimatedCount))
-            : 1.0;
+
+        // Selectivity: fraction of proxy_scan_rows that pass this predicate.
+        const double selectivity =
+            (proxy_scan_rows > 0 && plan.details.size() > i)
+                ? std::min(1.0, static_cast<double>(plan.details[i].estimatedCount) /
+                                    static_cast<double>(proxy_scan_rows))
+                : 1.0;
 
         auto filter_node = std::make_shared<QueryPlanNode>();
         filter_node->type = PlanNodeType::Filter;
@@ -110,6 +131,11 @@ QueryPlanNode QueryPlanVisualizer::buildPlan(const ConjunctiveQuery& query,
 
 void QueryPlanVisualizer::toTextImpl(const QueryPlanNode& node, bool analyze,
                                       std::string& out, int depth) {
+    if (depth > kMaxPlanDepth) {
+        out += std::string(4, ' ') + "<max depth exceeded>\n";
+        return;
+    }
+
     // Indent
     for (int i = 0; i < depth; ++i) {
         out += (i < depth - 1) ? "    " : "  -> ";
@@ -176,6 +202,16 @@ std::string QueryPlanVisualizer::toText(const QueryPlanNode& root, bool analyze)
 // ============================================================================
 
 nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool analyze) {
+    return toJSONImpl(node, analyze, 0);
+}
+
+nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool analyze, int depth) {
+    if (depth > kMaxPlanDepth) {
+        nlohmann::json j;
+        j["error"] = "max depth exceeded";
+        return j;
+    }
+
     nlohmann::json j;
     j["type"] = planNodeTypeName(node.type);
     j["description"] = node.description;
@@ -198,7 +234,7 @@ nlohmann::json QueryPlanVisualizer::toJSONImpl(const QueryPlanNode& node, bool a
 
     nlohmann::json children_arr = nlohmann::json::array();
     for (const auto& child : node.children) {
-        children_arr.push_back(toJSONImpl(*child, analyze));
+        children_arr.push_back(toJSONImpl(*child, analyze, depth + 1));
     }
     j["children"] = children_arr;
     return j;
@@ -215,19 +251,40 @@ nlohmann::json QueryPlanVisualizer::toJSON(const QueryPlanNode& root, bool analy
 // DOT rendering (Graphviz)
 // ============================================================================
 
-// Escape double-quotes and backslashes in a DOT label string.
+// Escape characters that would produce invalid or misleading DOT quoted strings:
+//   " and \ need escaping per DOT syntax.
+//   \n, \r, \t are invalid bare bytes inside a quoted string; replace with
+//   their DOT escape sequences (\\n etc.) which Graphviz renders as printable.
 static std::string dotEscape(const std::string& s) {
     std::string result;
     result.reserve(s.size());
     for (char c : s) {
-        if (c == '"' || c == '\\') result += '\\';
-        result += c;
+        switch (c) {
+            case '"':  result += "\\\""; break;
+            case '\\': result += "\\\\"; break;
+            case '\n': result += "\\n";  break;
+            case '\r': result += "\\r";  break;
+            case '\t': result += "\\t";  break;
+            default:   result += c;      break;
+        }
     }
     return result;
 }
 
 void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
                                      std::string& nodes_out, std::string& edges_out) {
+    toDOTImpl(node, id_counter, nodes_out, edges_out, 0);
+}
+
+void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
+                                     std::string& nodes_out, std::string& edges_out, int depth) {
+    if (depth > kMaxPlanDepth) {
+        int my_id = id_counter++;
+        nodes_out += "  n" + std::to_string(my_id) +
+                     " [label=\"<max depth exceeded>\" shape=diamond];\n";
+        return;
+    }
+
     int my_id = id_counter++;
 
     // Node shape: box for scan/join, ellipse for filter/sort
@@ -255,7 +312,7 @@ void QueryPlanVisualizer::toDOTImpl(const QueryPlanNode& node, int& id_counter,
 
     for (const auto& child : node.children) {
         int child_id = id_counter;
-        toDOTImpl(*child, id_counter, nodes_out, edges_out);
+        toDOTImpl(*child, id_counter, nodes_out, edges_out, depth + 1);
         edges_out += "  n" + std::to_string(my_id)
                   + " -> n" + std::to_string(child_id) + ";\n";
     }

@@ -106,8 +106,11 @@ private:
     static void toTextImpl(const QueryPlanNode& node, bool analyze,
                            std::string& out, int depth);
     static nlohmann::json toJSONImpl(const QueryPlanNode& node, bool analyze);
+    static nlohmann::json toJSONImpl(const QueryPlanNode& node, bool analyze, int depth);
     static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
                           std::string& nodes_out, std::string& edges_out);
+    static void toDOTImpl(const QueryPlanNode& node, int& id_counter,
+                          std::string& nodes_out, std::string& edges_out, int depth);
 
     static std::string planNodeTypeName(PlanNodeType type);
 };

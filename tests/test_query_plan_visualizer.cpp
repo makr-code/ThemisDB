@@ -72,10 +72,13 @@ TEST(QueryPlanVisualizerTest, BuildPlan_WithPredicates_UsesIndexScan) {
     q.predicates.push_back({"city", "Berlin"});
     q.predicates.push_back({"age", "30"});
 
+    // orderedPredicates sorted ascending: city=200 (less selective) comes FIRST
+    // because optimizer sorted [0]=most selective (smallest count).
+    // Here: age=50 more selective than city=200, so orderedPredicates[0]=age, [1]=city.
     QueryOptimizer::Plan plan;
-    plan.orderedPredicates = {{"city", "Berlin"}, {"age", "30"}};
-    QueryOptimizer::Estimation e1; e1.pred = {"city", "Berlin"}; e1.estimatedCount = 200;
-    QueryOptimizer::Estimation e2; e2.pred = {"age", "30"};       e2.estimatedCount = 50;
+    plan.orderedPredicates = {{"age", "30"}, {"city", "Berlin"}};
+    QueryOptimizer::Estimation e1; e1.pred = {"age", "30"};       e1.estimatedCount = 50;
+    QueryOptimizer::Estimation e2; e2.pred = {"city", "Berlin"};  e2.estimatedCount = 200;
     plan.details = {e1, e2};
 
     QueryPlanNode root = QueryPlanVisualizer::buildPlan(q, plan);
@@ -86,13 +89,70 @@ TEST(QueryPlanVisualizerTest, BuildPlan_WithPredicates_UsesIndexScan) {
     EXPECT_EQ(root.children.front()->type, PlanNodeType::Filter);
 
     // Leaf should be an IndexScan (because predicates are present)
-    // Walk to the leaf
+    // Walk to the deepest leaf
     const QueryPlanNode* node = &root;
     while (!node->children.empty()) {
         node = node->children.front().get();
     }
     EXPECT_EQ(node->type, PlanNodeType::IndexScan);
     EXPECT_TRUE(node->index_name.has_value());
+}
+
+TEST(QueryPlanVisualizerTest, BuildPlan_MostSelectiveFilterDeepest) {
+    // Verify that the most-selective predicate (smallest estimatedCount) is
+    // placed DEEPEST in the tree (closest to the scan), not at the top.
+    ConjunctiveQuery q;
+    q.table = "events";
+    // orderedPredicates: [0]=most selective (type=10), [1]=less selective (region=500)
+    QueryOptimizer::Plan plan;
+    plan.orderedPredicates = {{"type", "click"}, {"region", "EU"}};
+    QueryOptimizer::Estimation es; es.pred = {"type", "click"};  es.estimatedCount = 10;
+    QueryOptimizer::Estimation el; el.pred = {"region", "EU"};   el.estimatedCount = 500;
+    plan.details = {es, el};
+
+    QueryPlanNode root = QueryPlanVisualizer::buildPlan(q, plan);
+
+    // The first filter (direct child of Return) should be the LEAST selective
+    // (region/EU, estimatedCount=500) because it is applied last in execution.
+    ASSERT_FALSE(root.children.empty());
+    const QueryPlanNode& first_filter = *root.children.front();
+    EXPECT_EQ(first_filter.type, PlanNodeType::Filter);
+    EXPECT_NE(first_filter.description.find("region"), std::string::npos)
+        << "Least-selective filter should be closest to Return";
+
+    // The deepest filter (parent of scan) should be the MOST selective (type/click)
+    const QueryPlanNode* node = &root;
+    while (node->children.size() == 1 &&
+           node->children.front()->type == PlanNodeType::Filter) {
+        node = node->children.front().get();
+    }
+    EXPECT_NE(node->description.find("type"), std::string::npos)
+        << "Most-selective filter should be closest to scan";
+}
+
+TEST(QueryPlanVisualizerTest, BuildPlan_SelectivityLessThanOne_ForSelectiveFilters) {
+    // With 2+ predicates, the most-selective filter should have selectivity < 1.
+    ConjunctiveQuery q;
+    q.table = "logs";
+    QueryOptimizer::Plan plan;
+    plan.orderedPredicates = {{"level", "ERROR"}, {"service", "api"}};
+    QueryOptimizer::Estimation e_sel; e_sel.pred = {"level", "ERROR"};  e_sel.estimatedCount = 5;
+    QueryOptimizer::Estimation e_less; e_less.pred = {"service", "api"}; e_less.estimatedCount = 1000;
+    plan.details = {e_sel, e_less};
+
+    QueryPlanNode root = QueryPlanVisualizer::buildPlan(q, plan);
+
+    // Walk to the deepest filter (most selective)
+    const QueryPlanNode* node = &root;
+    const QueryPlanNode* deepest_filter = nullptr;
+    while (!node->children.empty() &&
+           node->children.front()->type == PlanNodeType::Filter) {
+        node = node->children.front().get();
+        deepest_filter = node;
+    }
+    ASSERT_NE(deepest_filter, nullptr);
+    EXPECT_LT(deepest_filter->selectivity, 1.0)
+        << "Most-selective filter should have selectivity < 1";
 }
 
 TEST(QueryPlanVisualizerTest, BuildPlan_TotalCostPositive) {
@@ -256,20 +316,29 @@ TEST(QueryPlanVisualizerTest, ToDOT_EmptyPlan_ValidOutput) {
 TEST(QueryPlanVisualizerTest, ToDOT_EscapesSpecialCharsInLabels) {
     QueryPlanNode node;
     node.type = PlanNodeType::Filter;
-    // Description with special DOT characters
-    node.description = R"(col == "value")";
+    // Description with characters that must be escaped in DOT label strings
+    node.description = "col == \"value\"\nwith newline\ttab";
     node.estimated_cost = 50.0;
     node.estimated_rows = 100;
 
     std::string dot = QueryPlanVisualizer::toDOT(node);
-    // The label must not contain unescaped double-quotes that would break DOT format
-    // Find the label= portion and check it is properly closed
-    auto label_pos = dot.find("label=\"");
-    ASSERT_NE(label_pos, std::string::npos);
-    // After label=" there should be an escaped version without bare "
-    // The overall DOT string must still form a valid digraph
+
+    // The overall DOT string must form a valid digraph
     EXPECT_NE(dot.find("digraph QueryPlan"), std::string::npos);
     EXPECT_NE(dot.find('}'), std::string::npos);
+
+    // Raw double-quotes, newlines and tabs must NOT appear bare inside the label
+    auto label_pos = dot.find("label=\"");
+    ASSERT_NE(label_pos, std::string::npos);
+    // Extract everything after label=" up to the closing " shape= portion
+    std::string after_label = dot.substr(label_pos + 7);
+    auto close_pos = after_label.find("\" shape=");
+    ASSERT_NE(close_pos, std::string::npos);
+    std::string label_content = after_label.substr(0, close_pos);
+
+    // Must not contain bare newline or bare tab
+    EXPECT_EQ(label_content.find('\n'), std::string::npos) << "Raw newline in DOT label";
+    EXPECT_EQ(label_content.find('\t'), std::string::npos) << "Raw tab in DOT label";
 }
 
 // ============================================================================
@@ -306,4 +375,61 @@ TEST(QueryPlanVisualizerTest, AllNodeTypes_NamedCorrectly) {
         EXPECT_EQ(j["plan"]["type"].get<std::string>(), expected_name)
             << "Node type name mismatch for " << expected_name;
     }
+}
+
+// ============================================================================
+// Tests: recursion depth guard
+// ============================================================================
+
+// Build a linear chain of n Filter nodes to exercise the depth guard.
+static std::shared_ptr<QueryPlanNode> makeDeepChain(int depth) {
+    auto node = std::make_shared<QueryPlanNode>();
+    node->type = PlanNodeType::Filter;
+    node->description = "filter_d" + std::to_string(depth);
+    node->estimated_cost = 1.0;
+    node->estimated_rows = 1;
+    if (depth > 0) {
+        node->children.push_back(makeDeepChain(depth - 1));
+    }
+    return node;
+}
+
+TEST(QueryPlanVisualizerTest, DeepTree_ToText_DoesNotCrash) {
+    // Build a tree that exceeds kMaxPlanDepth (128); renderers should truncate.
+    QueryPlanNode root;
+    root.type = PlanNodeType::Return;
+    root.description = "Return";
+    root.estimated_cost = 1.0;
+    root.estimated_rows = 1;
+    root.children.push_back(makeDeepChain(200));  // 200 > 128
+
+    // Must complete without stack overflow / crash
+    std::string text = QueryPlanVisualizer::toText(root, false);
+    EXPECT_NE(text.find("EXPLAIN"), std::string::npos);
+    EXPECT_NE(text.find("max depth exceeded"), std::string::npos);
+}
+
+TEST(QueryPlanVisualizerTest, DeepTree_ToJSON_DoesNotCrash) {
+    QueryPlanNode root;
+    root.type = PlanNodeType::Return;
+    root.description = "Return";
+    root.estimated_cost = 1.0;
+    root.estimated_rows = 1;
+    root.children.push_back(makeDeepChain(200));
+
+    auto j = QueryPlanVisualizer::toJSON(root, false);
+    EXPECT_TRUE(j.contains("plan"));
+}
+
+TEST(QueryPlanVisualizerTest, DeepTree_ToDOT_DoesNotCrash) {
+    QueryPlanNode root;
+    root.type = PlanNodeType::Return;
+    root.description = "Return";
+    root.estimated_cost = 1.0;
+    root.estimated_rows = 1;
+    root.children.push_back(makeDeepChain(200));
+
+    std::string dot = QueryPlanVisualizer::toDOT(root);
+    EXPECT_NE(dot.find("digraph QueryPlan"), std::string::npos);
+    EXPECT_NE(dot.find("max depth exceeded"), std::string::npos);
 }
