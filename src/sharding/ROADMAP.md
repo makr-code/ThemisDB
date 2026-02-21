@@ -22,17 +22,17 @@ Sharding is a database architecture pattern that involves breaking a database in
 - [x] Admin API endpoints (shard status, force-repair, rebalance trigger)
 
 ### Phase 3: RPC Integration & Persistent State (Status: In Progress 🚧)
-- [~] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
-- [~] Persistent Paxos acceptor state (survives process restart) (Target: Q2 2026)
-- [ ] Complete metadata shard implementation with consistent hashing (Target: Q3 2026)
-- [ ] End-to-end cross-shard query routing layer (Target: Q3 2026)
+- [?] Full RPC integration for cross-shard read/write operations (`sharding/rpc/`) (Target: Q2 2026)
+- [?] Persistent Paxos acceptor state (survives process restart) (Target: Q2 2026)
+- [?] Complete metadata shard implementation with consistent hashing (Target: Q3 2026)
+- [?] End-to-end cross-shard query routing layer (Target: Q3 2026)
 
 ### Phase 4: Hardening & Adaptive Rebalancing (Status: Planned 📋)
-- [ ] gRPC transport with mTLS for all inter-shard RPC channels
-- [ ] Adaptive rebalancer driven by per-shard access-pattern telemetry
-- [ ] Reed-Solomon repair parallelisation across repair workers
-- [ ] Raft snapshot compaction to bound log growth
-- [ ] Chaos-engineering test suite (shard partition, node failure injection)
+- [?] gRPC transport with mTLS for all inter-shard RPC channels
+- [?] Adaptive rebalancer driven by per-shard access-pattern telemetry
+- [?] Reed-Solomon repair parallelisation across repair workers
+- [?] Raft snapshot compaction to bound log growth
+- [?] Chaos-engineering test suite (shard partition, node failure injection)
 
 ## Conclusion
 Implementing sharding requires careful planning and execution. Following this roadmap will help ensure that the ThemisDB sharding architecture is robust, scalable, and ready for production deployment.

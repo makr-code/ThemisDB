@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:43                                ║
+  Version:         0.0.22                                             ║
+  Last Modified:   2026-02-21 19:29:07                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     1011                                           ║
+    • Total Lines:     1219                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ba92369d6  2026-02-21  fix(transaction): freeze getDurationMs after commit/rollb... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +33,7 @@
 #include "index/vector_index.h"
 #include "transaction/saga.h"
 #include "utils/logger.h"
+#include <algorithm>
 #include <functional>
 #include <thread>
 
@@ -349,6 +350,7 @@ TransactionManager::TransactionId TransactionManager::generateTransactionId() {
 TransactionManager::TransactionId TransactionManager::beginTransaction(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
     auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    applyDefaultTimeout(*txn);
     
     {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
@@ -417,13 +419,13 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
     return status;
 }
 
-void TransactionManager::rollbackTransaction(TransactionId id) {
+bool TransactionManager::rollbackTransaction(TransactionId id) {
     std::shared_ptr<Transaction> txn;
     {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         auto it = active_transactions_.find(id);
         if (it == active_transactions_.end()) {
-            return;  // Already completed or doesn't exist
+            return false;  // Already completed or doesn't exist
         }
         txn = it->second;
     }
@@ -438,6 +440,7 @@ void TransactionManager::rollbackTransaction(TransactionId id) {
     if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     
     moveToCompleted(id);
+    return true;
 }
 
 void TransactionManager::moveToCompleted(TransactionId id) {
@@ -630,7 +633,9 @@ TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolati
     updateStatsWithSeqLock([this]() {
         total_begun_.fetch_add(1, std::memory_order_relaxed);
     });
-    return Transaction(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    Transaction txn(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    applyDefaultTimeout(txn);
+    return txn;
 }
 
 // ==== Transaction ==== 
@@ -673,22 +678,41 @@ TransactionManager::Transaction::~Transaction() {
     // Use atomic load to check if finished
     if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
         THEMIS_WARN("Transaction {} destructed without commit/rollback; rolling back implicitly", id_);
+        // Capture duration before the implicit rollback so that getDurationMs() returns
+        // the actual run time rather than "time since start" after the object is destroyed.
+        captureDuration();
         mvcc_txn_->rollback();
         saga_->compensate();
     }
 }
 
+void TransactionManager::Transaction::captureDuration() noexcept {
+    finished_duration_ms_.store(
+        static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now() - start_time_).count()),
+        std::memory_order_relaxed);
+}
+
 uint64_t TransactionManager::Transaction::getDurationMs() const {
+    // Once the transaction is finished, return the frozen duration captured at
+    // commit/rollback time.  Without this, getStats() would report ever-growing
+    // durations for transactions sitting in completed_transactions_.
+    if (finished_.load(std::memory_order_acquire)) {
+        return finished_duration_ms_.load(std::memory_order_relaxed);
+    }
     auto now = std::chrono::system_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time_);
-    return duration.count();
+    return static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time_).count());
 }
 
 TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
     : id_(other.id_), db_(other.db_), secIdx_(other.secIdx_), graphIdx_(other.graphIdx_), 
       vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),
       mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
-      finished_(other.finished_.load(std::memory_order_acquire)) {
+      finished_(other.finished_.load(std::memory_order_acquire)),
+      timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
+      finished_duration_ms_(other.finished_duration_ms_.load(std::memory_order_acquire)),
+      savepoints_(std::move(other.savepoints_)) {
     other.finished_.store(true, std::memory_order_release);
 }
 
@@ -702,6 +726,9 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         // Diese werden in Konstruktor initialisiert und bleiben über Lebensdauer konstant.
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
+        savepoints_ = std::move(other.savepoints_);
+        timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
+        finished_duration_ms_.store(other.finished_duration_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
         other.finished_.store(true, std::memory_order_release);
     }
@@ -710,6 +737,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
 
 TransactionManager::Status TransactionManager::Transaction::putEntity(std::string_view table, const BaseEntity& entity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("putEntity: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("putEntity: transaction timed out");
     
     // Serialize entity
     auto serialized = entity.serialize();
@@ -731,6 +759,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
 
 TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::string_view table, std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("eraseEntity: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("eraseEntity: transaction timed out");
     
     std::string key = std::string("entity:") + std::string(table) + ":" + std::string(pk);
     
@@ -750,6 +779,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
 
 TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addEdge: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("addEdge: transaction timed out");
     
     // Graph edges stored with MVCC
     std::string edge_key = "graph:edge:" + edgeEntity.getPrimaryKey();
@@ -770,6 +800,7 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
 
 TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
     
     std::string edge_key = "graph:edge:" + std::string(edgeId);
     
@@ -788,16 +819,10 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
 
 TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("addVector: transaction timed out");
     
-    // Add SAGA compensating action for vector cache
     std::string pk = entity.getPrimaryKey();
-    saga_->addStep("vectorAdd:" + pk, [this, pk]() {
-        auto status = vecIdx_.removeByPk(pk);
-        if (!status.ok) {
-            THEMIS_WARN("SAGA: Vector remove compensation failed for '{}': {}", pk, status.message);
-        }
-    });
-    
+
     // Store vector entity in MVCC transaction
     std::string vector_key = "vector:" + pk;
     auto serialized = entity.serialize();
@@ -810,22 +835,48 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
     if (!st.ok) {
         return Status::Error(st.message);
     }
+
+    // Register SAGA compensating action AFTER both writes succeeded so that
+    // a failed addVector (e.g. MVCC conflict) does not leave a spurious step
+    // in the SAGA queue.
+    saga_->addStep("vectorAdd:" + pk, [this, pk]() {
+        auto status = vecIdx_.removeByPk(pk);
+        if (!status.ok) {
+            THEMIS_WARN("SAGA: Vector remove compensation failed for '{}': {}", pk, status.message);
+        }
+    });
     
     return Status::OK();
 }
 
 TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
     
-    // Capture old vector for compensation (MVCC: read before write)
+    // Capture old vector BEFORE the write.  If we read after the put(), the MVCC
+    // read-your-own-writes buffer would return the new value instead of the original.
     std::string pk = entity.getPrimaryKey();
     std::string vector_key = "vector:" + pk;
-    
     auto old_data = mvcc_txn_->get(vector_key);
+
+    // Update vector entity in MVCC transaction
+    auto serialized = entity.serialize();
+    if (!mvcc_txn_->put(vector_key, serialized)) {
+        return Status::Error("updateVector: MVCC conflict detected");
+    }
+    
+    // Update vector index using MVCC transaction
+    auto st = vecIdx_.updateEntity(entity, *mvcc_txn_, vectorField);
+    if (!st.ok) {
+        return Status::Error(st.message);
+    }
+
+    // Register SAGA compensating action AFTER both writes succeeded so that
+    // a failed updateVector (e.g. MVCC conflict) does not leave a spurious step
+    // in the SAGA queue.
     if (old_data) {
         // Old vector exists: capture for restoration
         auto old_entity = BaseEntity::deserialize(pk, *old_data);
-        
         saga_->addStep("vectorUpdate:" + pk, [this, old_entity = std::move(old_entity), vectorField = std::string(vectorField)]() {
             THEMIS_DEBUG("SAGA: Restoring old vector for '{}'", old_entity.getPrimaryKey());
             auto status = vecIdx_.updateEntity(old_entity, vectorField);
@@ -841,33 +892,38 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
         });
     }
     
-    // Update vector entity in MVCC transaction
-    auto serialized = entity.serialize();
-    if (!mvcc_txn_->put(vector_key, serialized)) {
-        return Status::Error("updateVector: MVCC conflict detected");
-    }
-    
-    // Update vector index using MVCC transaction
-    auto st = vecIdx_.updateEntity(entity, *mvcc_txn_, vectorField);
-    if (!st.ok) {
-        return Status::Error(st.message);
-    }
-    
     return Status::OK();
 }
 
 TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
     
-    // Capture old vector before removal for compensation
+    // Capture old vector BEFORE the delete.  If we read after del(), the MVCC
+    // read-your-own-writes buffer would return nothing instead of the original value.
     std::string pk_str(pk);
     std::string vector_key = "vector:" + pk_str;
-    
     auto old_data = mvcc_txn_->get(vector_key);
+
+    // Delete vector entity from MVCC transaction
+    if (!mvcc_txn_->del(vector_key)) {
+        return Status::Error("removeVector: MVCC conflict detected");
+    }
+    
+    // Update vector index using MVCC transaction
+    auto st = vecIdx_.removeByPk(pk, *mvcc_txn_);
+    if (!st.ok) {
+        return Status::Error(st.message);
+    }
+
+    // Register SAGA compensating action AFTER both writes succeeded so that
+    // a failed removeVector (e.g. MVCC conflict) does not leave a spurious step
+    // in the SAGA queue.  Without this guard, a failed del() would queue a
+    // restore step that calls addEntity() on a vector that was never deleted,
+    // potentially inserting a duplicate index entry.
     if (old_data) {
         // Old vector exists: capture for restoration
         auto old_entity = BaseEntity::deserialize(pk_str, *old_data);
-        
         saga_->addStep("vectorRemove:" + pk_str, [this, old_entity = std::move(old_entity)]() {
             THEMIS_DEBUG("SAGA: Restoring removed vector for '{}'", old_entity.getPrimaryKey());
             auto status = vecIdx_.addEntity(old_entity, "embedding");
@@ -882,17 +938,6 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
         });
     }
     
-    // Delete vector entity from MVCC transaction
-    if (!mvcc_txn_->del(vector_key)) {
-        return Status::Error("removeVector: MVCC conflict detected");
-    }
-    
-    // Update vector index using MVCC transaction
-    auto st = vecIdx_.removeByPk(pk, *mvcc_txn_);
-    if (!st.ok) {
-        return Status::Error(st.message);
-    }
-    
     return Status::OK();
 }
 
@@ -902,9 +947,23 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     if (!finished_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         return Status::Error("commit: Transaktion bereits abgeschlossen");
     }
-    
+
+    // Capture the actual run duration now that we are the exclusive owner.
+    // getDurationMs() returns this frozen value once finished_ is true, so that
+    // Stats::avg_duration_ms / max_duration_ms reflect real transaction runtimes
+    // rather than "time since start" measured at arbitrary query time.
+    captureDuration();
+
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
         return Status::Error("commit: keine aktive Transaktion");
+    }
+
+    // Timeout check: refuse commit on an expired transaction
+    if (isTimedOut()) {
+        THEMIS_WARN("Transaction {} timed out ({} ms), aborting commit", id_, getDurationMs());
+        mvcc_txn_->rollback();
+        saga_->compensate();
+        return Status::Error("commit: transaction timed out");
     }
     
     THEMIS_DEBUG("Committing MVCC transaction {} with {} SAGA steps (duration: {} ms)", 
@@ -930,6 +989,9 @@ void TransactionManager::Transaction::rollback() {
         THEMIS_WARN("Transaction {} already finished, rollback skipped", id_);
         return;
     }
+
+    // Capture the actual run duration now that we are the exclusive owner.
+    captureDuration();
     
     THEMIS_DEBUG("Rolling back MVCC transaction {} with {} SAGA steps", id_, saga_->stepCount());
     
@@ -980,6 +1042,150 @@ TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
     return Status::OK();
 }
 
+TransactionManager::Status TransactionManager::Transaction::createSavepoint(std::string_view name) {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("createSavepoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("createSavepoint: no active transaction");
+    }
+    if (name.empty()) {
+        return Status::Error("createSavepoint: savepoint name must not be empty");
+    }
+    std::string sname(name);
+    for (const auto& e : savepoints_) {
+        if (e.name == sname) {
+            return Status::Error("createSavepoint: savepoint '" + sname + "' already exists");
+        }
+    }
+    // Reserve capacity BEFORE calling setSavePoint() so that push_back below cannot
+    // throw std::bad_alloc.  If setSavePoint were called first and push_back threw,
+    // the RocksDB savepoint stack would have an extra entry not tracked by savepoints_,
+    // corrupting all subsequent savepoint operations.
+    savepoints_.reserve(savepoints_.size() + 1);
+    mvcc_txn_->setSavePoint();
+    savepoints_.push_back({std::move(sname), saga_->stepCount()});
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::rollbackToSavepoint(std::string_view name) {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("rollbackToSavepoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("rollbackToSavepoint: no active transaction");
+    }
+    std::string sname(name);
+    auto it = std::find_if(savepoints_.begin(), savepoints_.end(),
+                           [&sname](const SavepointEntry& e) { return e.name == sname; });
+    if (it == savepoints_.end()) {
+        return Status::Error("rollbackToSavepoint: no savepoint named '" + sname + "'");
+    }
+    // Pop all anonymous savepoints above the target (collapse their write deltas
+    // into the target's delta so that the subsequent rollback undoes them all).
+    size_t num_above = static_cast<size_t>(savepoints_.end() - it) - 1;
+    for (size_t i = 0; i < num_above; ++i) {
+        mvcc_txn_->popSavePoint();
+    }
+    // Rollback to (and pop) the target savepoint itself.
+    if (!mvcc_txn_->rollbackToSavePoint()) {
+        // The num_above pops above have already been executed — the corresponding
+        // entries in savepoints_ no longer have a backing RocksDB savepoint.
+        // Remove them so that savepoints_ stays in sync with the RocksDB stack,
+        // preventing future rollbackToSavepoint/releaseSavepoint from popping
+        // the wrong number of savepoints.
+        savepoints_.erase(it + 1, savepoints_.end());
+        return Status::Error("rollbackToSavepoint: rollback failed for '" + sname + "'");
+    }
+    // Discard SAGA steps added after the savepoint was created.
+    saga_->trimToSize(it->saga_step_count);
+    savepoints_.erase(it, savepoints_.end());
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::releaseSavepoint(std::string_view name) {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("releaseSavepoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("releaseSavepoint: no active transaction");
+    }
+    std::string sname(name);
+    auto it = std::find_if(savepoints_.begin(), savepoints_.end(),
+                           [&sname](const SavepointEntry& e) { return e.name == sname; });
+    if (it == savepoints_.end()) {
+        return Status::Error("releaseSavepoint: no savepoint named '" + sname + "'");
+    }
+    // Pop the target savepoint and every savepoint above it (writes are preserved).
+    size_t num_to_pop = static_cast<size_t>(savepoints_.end() - it);
+    for (size_t i = 0; i < num_to_pop; ++i) {
+        mvcc_txn_->popSavePoint();
+    }
+    savepoints_.erase(it, savepoints_.end());
+    return Status::OK();
+}
+
+std::vector<std::string> TransactionManager::Transaction::getSavepoints() const {
+    std::vector<std::string> names;
+    names.reserve(savepoints_.size());
+    for (const auto& e : savepoints_) {
+        names.push_back(e.name);
+    }
+    return names;
+}
+
+bool TransactionManager::Transaction::hasSavepoint(std::string_view name) const {
+    std::string sname(name);
+    return std::any_of(savepoints_.begin(), savepoints_.end(),
+                       [&sname](const SavepointEntry& e) { return e.name == sname; });
+}
+
+// ── Transaction timeout ───────────────────────────────────────────────────────
+
+void TransactionManager::applyDefaultTimeout(Transaction& txn) const {
+    uint64_t tms = default_transaction_timeout_ms_.load(std::memory_order_relaxed);
+    if (tms > 0) {
+        txn.setTimeout(std::chrono::milliseconds(tms));
+    }
+}
+
+void TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds timeout) {
+    // Clamp to 0: a negative duration is treated the same as "no timeout".
+    auto ms = timeout.count();
+    default_transaction_timeout_ms_.store(ms > 0 ? static_cast<uint64_t>(ms) : 0u,
+                                          std::memory_order_relaxed);
+    THEMIS_INFO("Default transaction timeout set to {} ms", ms > 0 ? ms : 0);
+}
+
+std::chrono::milliseconds TransactionManager::getDefaultTransactionTimeout() const {
+    return std::chrono::milliseconds(
+        default_transaction_timeout_ms_.load(std::memory_order_relaxed));
+}
+
+void TransactionManager::timeoutExpiredTransactions() {
+    // Collect IDs of timed-out transactions while holding the lock (read-only scan),
+    // then release the lock before calling rollbackTransaction() to avoid re-entrancy.
+    std::vector<TransactionId> expired;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        for (const auto& [id, txn] : active_transactions_) {
+            if (txn && !txn->isFinished() && txn->isTimedOut()) {
+                expired.push_back(id);
+            }
+        }
+    }
+    for (TransactionId id : expired) {
+        THEMIS_WARN("Transaction {} exceeded its timeout — auto-rolling back", id);
+        if (rollbackTransaction(id)) {
+            // Only count transactions that were actually rolled back by the monitor.
+            // If the transaction was already completed by user code between the scan
+            // and this call, rollbackTransaction returns false and we must not inflate
+            // the counter.
+            total_timed_out_.fetch_add(1, std::memory_order_relaxed);
+        }
+    }
+}
+
 } // namespace themis
 
 // ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
@@ -1008,4 +1214,6 @@ TransactionManager::crashRecover() {
     }
     return crash_recovery_mgr_->recover(db_);
 }
+
+} // namespace themis
 

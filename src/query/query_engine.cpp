@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.cpp                                   ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:39                                ║
+  Version:         0.0.22                                             ║
+  Last Modified:   2026-02-21 19:29:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   68.0/100                                       ║
-    • Total Lines:     4354                                           ║
+    • Total Lines:     4356                                           ║
     • Open Issues:     TODOs: 1, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -2611,6 +2611,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				
 					// Process LET bindings using LetEvaluator to ensure nested references resolve correctly
 					query::LetEvaluator letEval;
+					if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 					nlohmann::json currentDoc;
 					currentDoc[build_for.variable] = build_doc;
 					currentDoc[probe_for.variable] = doc;
@@ -2710,6 +2711,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			if (depth >= for_nodes.size()) {
 				// Process LET bindings using LetEvaluator
 				query::LetEvaluator letEval;
+				if (secIdx_) letEval.setSecondaryIndexManager(secIdx_);
 				nlohmann::json currentDoc; // Aggregate all bindings for LET evaluation
 				for (const auto& [var, val] : ctx.bindings) {
 					currentDoc[var] = val;

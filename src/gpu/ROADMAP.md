@@ -27,27 +27,27 @@
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 
 ## In Progress 🚧
-- [ ] ROCm/HIP backend parity with CUDA feature set (Target: Q2 2026)
-- [ ] GPU memory defragmentation routine (Target: Q2 2026)
-- [ ] Multi-node GPU cluster coordination (Target: Q3 2026)
+- [I] ROCm/HIP backend parity with CUDA feature set (Target: Q2 2026) (Issue: #1783)
+- [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #1807)
+- [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2092)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] ROCm/HIP full feature parity (memory manager, kernel validator, launcher)
-- [ ] GPU memory defragmentation for long-running workloads
-- [ ] CUDA graph capture for recurring query execution patterns
-- [ ] FP16/BF16 Tensor Core support in query accelerator
-- [ ] Per-GPU thermal and power telemetry in metrics registry
-- [ ] GPU profiling integration (NVIDIA Nsight, ROCm Profiler)
+- [I] ROCm/HIP full feature parity (memory manager, kernel validator, launcher) (Issue: #1786)
+- [I] GPU memory defragmentation for long-running workloads (Issue: #1787)
+- [I] CUDA graph capture for recurring query execution patterns (Issue: #1801)
+- [I] FP16/BF16 Tensor Core support in query accelerator (Issue: #1789)
+- [I] Per-GPU thermal and power telemetry in metrics registry (Issue: #1790)
+- [I] GPU profiling integration (NVIDIA Nsight, ROCm Profiler) (Issue: #1791)
 
 ### Long-term (6-12 months)
-- [ ] Multi-node GPU cluster with NVLink/InfiniBand topology awareness
-- [ ] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
-- [ ] Unified memory support (CPU+GPU shared address space)
-- [ ] Dynamic GPU time-slicing for multi-tenant isolation
-- [ ] WASM-based GPU kernel sandbox for untrusted third-party kernels
-- [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
+- [I] Multi-node GPU cluster with NVLink/InfiniBand topology awareness (Issue: #1792)
+- [I] GPU-accelerated ANN (vector similarity) via cuVS/RAFT (Issue: #1804)
+- [I] Unified memory support (CPU+GPU shared address space) (Issue: #1794)
+- [I] Dynamic GPU time-slicing for multi-tenant isolation (Issue: #1795)
+- [I] WASM-based GPU kernel sandbox for untrusted third-party kernels (Issue: #1796)
+- [I] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series (Issue: #1803)
 
 ## Implementation Phases
 
@@ -68,20 +68,20 @@
 - [x] Training loop coordinator with batch iteration, loss tracking, and early stopping
 
 ### Phase 2: Backend Parity & Cluster Coordination (Status: In Progress 🚧)
-- [~] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026)
+- [I] ROCm/HIP backend parity with CUDA feature set (`gpu/rocm_backend.cpp`, Target: Q2 2026) (Issue: #1806)
 - [~] GPU memory defragmentation routine (Target: Q2 2026)
 - [ ] Multi-node GPU cluster coordination (Target: Q3 2026)
 
 ### Phase 3: Advanced Hardware & Topology (Status: Planned 📋)
-- [ ] Vulkan compute backend for cross-vendor GPU support
-- [ ] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe)
+- [I] Vulkan compute backend for cross-vendor GPU support (Issue: #1799)
+- [I] Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe) (Issue: #1800)
 - [ ] CUDA Graph capture for recurring query execution patterns
-- [ ] NVLink topology-aware scheduling for multi-GPU jobs
+- [I] NVLink topology-aware scheduling for multi-GPU jobs (Issue: #1802)
 - [ ] MIG (Multi-Instance GPU) partitioning support for NVIDIA A/H series
 - [ ] GPU-accelerated ANN (vector similarity) via cuVS/RAFT
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
+- [I] Unit tests coverage > 80% (Issue: #1805)
 - [x] Integration tests (device discovery, circuit breaker, memory allocation, load balancer)
 - [x] Performance benchmarks (GPU vs CPU throughput, memory allocation latency)
 - [x] Security audit (kernel whitelist, capability gate, tenant isolation)

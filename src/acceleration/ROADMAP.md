@@ -34,7 +34,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 ## Implementation Phases
 
 ### Phase 1: Design / API-Vertrag
-- [I] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)
+- [P] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)
 - [P] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
 - [I] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)
 
@@ -81,11 +81,11 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [ ] Integrate with geo module GPU backend via `GeoAccelerationBridge`
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
-- [ ] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`)
-- [ ] Implement multi-GPU sharding for large embedding datasets
-- [ ] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm`
-- [ ] Implement CUDA graph capture for recurring query workloads
-- [ ] Add benchmark harness comparing CUDA vs CPU throughput per operation type
+- [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)
+- [I] Implement multi-GPU sharding for large embedding datasets (Issue: #1457)
+- [I] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm` (Issue: #1458)
+- [!] Implement CUDA graph capture for recurring query workloads (Issue: #1459)
+- [I] Add benchmark harness comparing CUDA vs CPU throughput per operation type (Issue: #1460)
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)

@@ -28,7 +28,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ## In Progress 🚧
 - [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)
 - [I] GraphQL endpoint for schema-driven API access (Target: Q2 2026) (Issue: #1437)
-- [I] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026) (Issue: #1438)
+- [?] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026)
 
 ## Planned Features 📋
 
@@ -40,11 +40,11 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] WebSocket binary frame support for wire protocol upgrade
 
 ### Long-term (6-12 months)
-- [ ] gRPC-web proxy for browser clients
-- [ ] Serverless function hosting (run user code in-process)
-- [ ] Edge caching integration (CDN cache-control header management)
-- [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
-- [ ] HTTP/3 datagram support for real-time low-latency streams
+- [?] gRPC-web proxy for browser clients
+- [?] Serverless function hosting (run user code in-process)
+- [?] Edge caching integration (CDN cache-control header management)
+- [?] Service mesh sidecar proxy mode (Envoy xDS compatibility)
+- [?] HTTP/3 datagram support for real-time low-latency streams
 
 ## Implementation Phases
 
@@ -87,12 +87,12 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] HTTP/3 datagram support for real-time low-latency streams
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (all 40+ endpoints, TLS, auth, rate limiting)
-- [ ] Performance benchmarks (req/sec, p99 latency, concurrent connections)
-- [ ] Security audit (header injection, CORS misconfiguration, DoS vectors)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (all 40+ endpoints, TLS, auth, rate limiting)
+- [?] Performance benchmarks (req/sec, p99 latency, concurrent connections)
+- [?] Security audit (header injection, CORS misconfiguration, DoS vectors)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - HTTP/3 is implemented but not yet hardened for high-throughput production workloads.

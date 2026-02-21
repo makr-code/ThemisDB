@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_version.cpp                                    ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:39                                ║
+  Version:         0.0.22                                             ║
+  Last Modified:   2026-02-21 19:29:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     199                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 343985cbc  2026-02-21  Fix resolveVersion: v1 → latest, v1.4 → latest patch (doc... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -149,18 +149,70 @@ APIVersion APIVersionManager::resolveVersion(const std::string& version_header) 
         // No version specified, use current
         return current_version_;
     }
-    
+
+    // Detect how many version components the client specified so we can resolve
+    // partial versions to the latest matching release:
+    //   "v1"     → latest minor.patch for major == 1
+    //   "v1.4"   → latest patch for major == 1, minor == 4
+    //   "v1.4.1" → exact match
+    // Strip leading 'v'/'V' for component counting
+    std::string stripped = version_header;
+    if (!stripped.empty() && (stripped[0] == 'v' || stripped[0] == 'V')) {
+        stripped = stripped.substr(1);
+    }
+    auto dot1 = stripped.find('.');
+    auto dot2 = (dot1 != std::string::npos) ? stripped.find('.', dot1 + 1) : std::string::npos;
+
     auto parsed = APIVersion::parse(version_header);
     if (!parsed) {
         spdlog::warn("Invalid API version format: '{}', using current version", version_header);
         return current_version_;
     }
-    
+
+    // Major-only (e.g. "v1"): resolve to latest supported minor.patch for that major
+    if (dot1 == std::string::npos) {
+        uint32_t req_major = parsed->major;
+        APIVersion best{req_major, 0, 0};
+        bool found = false;
+        for (const auto& v : supported_versions_) {
+            if (v.major == req_major) {
+                if (!found || v > best) {
+                    best = v;
+                    found = true;
+                }
+            }
+        }
+        if (found) return best;
+        spdlog::warn("No supported version found for major {}, using current version", req_major);
+        return current_version_;
+    }
+
+    // Major.minor-only (e.g. "v1.4"): resolve to latest supported patch for that major.minor
+    if (dot2 == std::string::npos) {
+        uint32_t req_major = parsed->major;
+        uint32_t req_minor = parsed->minor;
+        APIVersion best{req_major, req_minor, 0};
+        bool found = false;
+        for (const auto& v : supported_versions_) {
+            if (v.major == req_major && v.minor == req_minor) {
+                if (!found || v.patch > best.patch) {
+                    best = v;
+                    found = true;
+                }
+            }
+        }
+        if (found) return best;
+        spdlog::warn("No supported version found for {}.{}, using current version",
+                     req_major, req_minor);
+        return current_version_;
+    }
+
+    // Full version (e.g. "v1.4.1"): exact match
     if (!isVersionSupported(*parsed)) {
         spdlog::warn("Unsupported API version: {}, using current version", parsed->toString());
         return current_version_;
     }
-    
+
     return *parsed;
 }
 
