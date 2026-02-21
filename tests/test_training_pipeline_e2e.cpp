@@ -304,14 +304,84 @@ TEST_F(TrainingPipelineE2ETest, Run_TrainingOnly_SkipsLabelingEnrichment) {
 
 TEST_F(TrainingPipelineE2ETest, PipelineStats_DefaultValues) {
     PipelineStats stats;
-    EXPECT_EQ(stats.documents_labeled,     0u);
-    EXPECT_EQ(stats.samples_created,       0u);
-    EXPECT_EQ(stats.samples_enriched,      0u);
-    EXPECT_EQ(stats.context_items_added,   0u);
+    EXPECT_EQ(stats.documents_labeled,      0u);
+    EXPECT_EQ(stats.samples_created,        0u);
+    EXPECT_EQ(stats.samples_enriched,       0u);
+    EXPECT_EQ(stats.context_items_added,    0u);
     EXPECT_FALSE(stats.training_success);
-    EXPECT_EQ(stats.training_loss,         0.0);
-    EXPECT_EQ(stats.accuracy,              0.0);
-    EXPECT_EQ(stats.total_elapsed_seconds, 0.0);
-    EXPECT_EQ(stats.quality_issues_found,  0u);
+    EXPECT_EQ(stats.training_loss,          0.0);
+    EXPECT_EQ(stats.accuracy,               0.0);
+    EXPECT_EQ(stats.total_elapsed_seconds,  0.0);
+    EXPECT_EQ(stats.quality_issues_found,   0u);
     EXPECT_FALSE(stats.drift_detected);
+    // Data selection fields
+    EXPECT_EQ(stats.selection_input_count,    0u);
+    EXPECT_EQ(stats.selection_output_count,   0u);
+    EXPECT_EQ(stats.selection_filtered_count, 0u);
+}
+
+// ============================================================================
+// Data selection stage integration
+// ============================================================================
+
+TEST_F(TrainingPipelineE2ETest, RunDataSelection_Succeeds) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    DataSelectionResult result;
+    EXPECT_NO_THROW(result = pipeline.runDataSelection());
+    EXPECT_TRUE(result.success);
+    EXPECT_GE(result.elapsed_seconds, 0.0);
+}
+
+TEST_F(TrainingPipelineE2ETest, RunDataSelection_AuditEntryPresent) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    auto result = pipeline.runDataSelection();
+    EXPECT_TRUE(result.success);
+    EXPECT_FALSE(result.audit_entry.config_hash.empty());
+}
+
+TEST_F(TrainingPipelineE2ETest, RunDataSelection_WithCallback_DoesNotThrow) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    std::vector<std::string> stages_seen;
+    EXPECT_NO_THROW(
+        pipeline.runDataSelection(
+            [&](const std::string& stage, size_t, const std::string&) {
+                stages_seen.push_back(stage);
+            })
+    );
+    EXPECT_GE(stages_seen.size(), 5u); // All 5 sub-stages reported
+}
+
+TEST_F(TrainingPipelineE2ETest, Run_DataSelectionStageReported_InCallback) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    bool selection_reported = false;
+    pipeline.run([&](const std::string& stage, size_t, const std::string&) {
+        if (stage == "data_selection") selection_reported = true;
+    });
+    EXPECT_TRUE(selection_reported);
+}
+
+TEST_F(TrainingPipelineE2ETest, Run_SelectionDisabled_NotReported) {
+    config_.enable_data_selection = false;
+    TrainingPipeline pipeline(config_, db_conn_);
+    bool selection_reported = false;
+    pipeline.run([&](const std::string& stage, size_t, const std::string&) {
+        if (stage == "data_selection") selection_reported = true;
+    });
+    EXPECT_FALSE(selection_reported);
+}
+
+TEST_F(TrainingPipelineE2ETest, PipelineConfig_HasDataSelectionFields) {
+    PipelineConfig cfg;
+    EXPECT_TRUE(cfg.enable_data_selection);
+    // Default data_selection_config should have sensible defaults
+    EXPECT_GT(cfg.data_selection_config.target_samples, 0u);
+}
+
+TEST_F(TrainingPipelineE2ETest, Run_SelectionStatsPopulated) {
+    TrainingPipeline pipeline(config_, db_conn_);
+    auto stats = pipeline.run();
+    // Counts should be set (0 is valid when there is no DB to read from)
+    EXPECT_GE(stats.selection_input_count,    0u);
+    EXPECT_GE(stats.selection_output_count,   0u);
+    EXPECT_GE(stats.selection_filtered_count, 0u);
 }

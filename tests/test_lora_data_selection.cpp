@@ -420,3 +420,146 @@ TEST(SelfImprovementConfigTest, DefaultValues) {
     EXPECT_DOUBLE_EQ(cfg.latency_target_ms, 5000.0);
     EXPECT_TRUE(cfg.accuracy_monitoring);
 }
+
+// ============================================================================
+// YAML loading – fromYAMLString
+// ============================================================================
+
+static const char* kMinimalYAML = R"yaml(
+lora_data_selection:
+  min_length_tokens: 100
+  max_length_tokens: 8000
+  required_language: "en"
+  max_toxicity_score: 0.2
+  enable_pii_check: false
+  minhash_threshold: 0.90
+  minhash_num_perm: 64
+  embedding_model: "some-model"
+  clustering_k_ratio: 30
+  perplexity_model: "gpt2-small"
+  perplexity_weight: 0.5
+  diversity_weight: 0.2
+  domain_relevance_weight: 0.3
+  easy_ratio: 0.15
+  medium_ratio: 0.65
+  hard_ratio: 0.20
+  target_samples: 2000
+  audit: false
+  domain_keywords:
+    legal:
+      - "Vertrag"
+      - "Klausel"
+    tech:
+      - "API"
+      - "Datenbank"
+)yaml";
+
+TEST(YAMLLoadingTest, FromYAMLString_ScalarFields) {
+    auto cfg = LoRADataSelectionConfig::fromYAMLString(kMinimalYAML);
+    EXPECT_EQ(cfg.min_length_tokens,   100u);
+    EXPECT_EQ(cfg.max_length_tokens,   8000u);
+    EXPECT_EQ(cfg.required_language,   "en");
+    EXPECT_DOUBLE_EQ(cfg.max_toxicity_score, 0.2);
+    EXPECT_FALSE(cfg.enable_pii_check);
+    EXPECT_DOUBLE_EQ(cfg.minhash_threshold, 0.90);
+    EXPECT_EQ(cfg.minhash_num_perm,    64u);
+    EXPECT_EQ(cfg.embedding_model,     "some-model");
+    EXPECT_EQ(cfg.clustering_k_ratio,  30u);
+    EXPECT_EQ(cfg.perplexity_model,    "gpt2-small");
+    EXPECT_DOUBLE_EQ(cfg.perplexity_weight,        0.5);
+    EXPECT_DOUBLE_EQ(cfg.diversity_weight,         0.2);
+    EXPECT_DOUBLE_EQ(cfg.domain_relevance_weight,  0.3);
+    EXPECT_DOUBLE_EQ(cfg.easy_ratio,    0.15);
+    EXPECT_DOUBLE_EQ(cfg.medium_ratio,  0.65);
+    EXPECT_DOUBLE_EQ(cfg.hard_ratio,    0.20);
+    EXPECT_EQ(cfg.target_samples, 2000u);
+    EXPECT_FALSE(cfg.audit);
+}
+
+TEST(YAMLLoadingTest, FromYAMLString_DomainKeywords) {
+    auto cfg = LoRADataSelectionConfig::fromYAMLString(kMinimalYAML);
+
+    ASSERT_TRUE(cfg.domain_keywords.count("legal") > 0);
+    const auto& legal_kw = cfg.domain_keywords.at("legal");
+    EXPECT_EQ(legal_kw.size(), 2u);
+    EXPECT_EQ(legal_kw[0], "Vertrag");
+    EXPECT_EQ(legal_kw[1], "Klausel");
+
+    ASSERT_TRUE(cfg.domain_keywords.count("tech") > 0);
+    const auto& tech_kw = cfg.domain_keywords.at("tech");
+    EXPECT_EQ(tech_kw.size(), 2u);
+    EXPECT_EQ(tech_kw[0], "API");
+    EXPECT_EQ(tech_kw[1], "Datenbank");
+}
+
+TEST(YAMLLoadingTest, FromYAMLString_EmptyInputReturnsDefaults) {
+    auto cfg = LoRADataSelectionConfig::fromYAMLString("");
+    // Should return a default-constructed config
+    EXPECT_EQ(cfg.min_length_tokens, LoRADataSelectionConfig{}.min_length_tokens);
+    EXPECT_EQ(cfg.required_language, LoRADataSelectionConfig{}.required_language);
+}
+
+TEST(YAMLLoadingTest, FromYAMLString_WrongSectionReturnsDefaults) {
+    auto cfg = LoRADataSelectionConfig::fromYAMLString(
+        kMinimalYAML, "non_existent_section");
+    EXPECT_EQ(cfg.min_length_tokens, LoRADataSelectionConfig{}.min_length_tokens);
+    EXPECT_TRUE(cfg.domain_keywords.empty());
+}
+
+TEST(YAMLLoadingTest, FromYAMLString_CommentsIgnored) {
+    const char* yaml_with_comments = R"yaml(
+# top-level comment
+lora_data_selection:
+  min_length_tokens: 75  # inline comment
+  max_length_tokens: 9000
+)yaml";
+    auto cfg = LoRADataSelectionConfig::fromYAMLString(yaml_with_comments);
+    EXPECT_EQ(cfg.min_length_tokens, 75u);
+    EXPECT_EQ(cfg.max_length_tokens, 9000u);
+}
+
+TEST(YAMLLoadingTest, FromYAMLString_OtherSectionsIgnored) {
+    const char* multi_section = R"yaml(
+other_section:
+  some_key: 999
+lora_data_selection:
+  min_length_tokens: 42
+another_section:
+  other: value
+)yaml";
+    auto cfg = LoRADataSelectionConfig::fromYAMLString(multi_section);
+    EXPECT_EQ(cfg.min_length_tokens, 42u);
+}
+
+TEST(YAMLLoadingTest, LoadFromYAML_NonexistentFileThrows) {
+    EXPECT_THROW(
+        LoRADataSelectionConfig::loadFromYAML("/nonexistent/path/config.yaml"),
+        std::runtime_error);
+}
+
+TEST(YAMLLoadingTest, LoadFromYAML_ActualConfigFile) {
+    // Resolve path relative to the test source file so it works in any clone.
+    // __FILE__ is  …/tests/test_lora_data_selection.cpp
+    // The config is …/config/lora/LoRATrainerConfig.yaml
+    std::string src_path = __FILE__;
+    auto sep = src_path.rfind('/');
+    std::string repo_root = (sep != std::string::npos)
+                           ? src_path.substr(0, sep - std::string("tests").size())
+                           : "./";
+    const std::string config_path = repo_root + "config/lora/LoRATrainerConfig.yaml";
+
+    LoRADataSelectionConfig cfg;
+    EXPECT_NO_THROW(cfg = LoRADataSelectionConfig::loadFromYAML(config_path));
+
+    // Verify key values match LoRATrainerConfig.yaml
+    EXPECT_EQ(cfg.min_length_tokens, 50u);
+    EXPECT_EQ(cfg.max_length_tokens, 10000u);
+    EXPECT_EQ(cfg.required_language, "de");
+    EXPECT_DOUBLE_EQ(cfg.minhash_threshold, 0.95);
+    EXPECT_EQ(cfg.target_samples, 5000u);
+    EXPECT_TRUE(cfg.audit);
+
+    // Domain keywords should include legal domain
+    EXPECT_GT(cfg.domain_keywords.count("legal"), 0u);
+    EXPECT_FALSE(cfg.domain_keywords.at("legal").empty());
+}

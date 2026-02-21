@@ -25,6 +25,7 @@
 #include "training/auto_labeler.h"
 #include "training/knowledge_graph_enricher.h"
 #include "training/incremental_lora_trainer.h"
+#include "training/lora_data_selection.h"
 
 #include <string>
 #include <vector>
@@ -54,6 +55,11 @@ struct PipelineStats {
     double training_loss         = 0.0;
     double accuracy              = 0.0;
     std::string adapter_version;
+
+    // Data selection stage
+    size_t selection_input_count    = 0;  ///< Candidates fed to the selection pipeline
+    size_t selection_output_count   = 0;  ///< Samples passing all selection stages
+    size_t selection_filtered_count = 0;  ///< Samples removed by selection stages
 
     // Timing
     double total_elapsed_seconds = 0.0;
@@ -106,12 +112,14 @@ struct PipelineConfig {
     AutoLabelConfig          labeler_config;
     EnrichmentConfig         enricher_config;
     IncrementalTrainingConfig trainer_config;
+    LoRADataSelectionConfig  data_selection_config;  ///< Automated data selection settings
 
-    bool enable_labeling   = true;   ///< Run auto-labeling stage
-    bool enable_enrichment = true;   ///< Run graph enrichment stage
-    bool enable_training   = true;   ///< Run LoRA training stage
-    bool enable_quality_checks = true; ///< Run data-quality checks
-    bool enable_drift_detection = true; ///< Run label-drift detection
+    bool enable_labeling        = true;   ///< Run auto-labeling stage
+    bool enable_enrichment      = true;   ///< Run graph enrichment stage
+    bool enable_data_selection  = true;   ///< Run automated data selection stage
+    bool enable_training        = true;   ///< Run LoRA training stage
+    bool enable_quality_checks  = true;   ///< Run data-quality checks
+    bool enable_drift_detection = true;   ///< Run label-drift detection
 
     double min_quality_score = 0.7;  ///< Minimum overall quality score [0..1]
     double drift_threshold   = 0.2;  ///< Maximum acceptable drift score [0..1]
@@ -171,6 +179,19 @@ public:
      * @brief Run only the enrichment stage
      */
     EnrichmentStats runEnrichment(EnrichmentCallback callback = nullptr);
+
+    /**
+     * @brief Run only the automated data selection stage
+     *
+     * Executes all five selection sub-stages (quality filter, deduplication,
+     * clustering, scoring, curriculum sampling) on the current training
+     * collection and returns the selection result with audit entry.
+     *
+     * @param callback Optional per-stage progress callback.
+     * @return Selection result including selected samples and provenance.
+     */
+    DataSelectionResult runDataSelection(
+        SelectionProgressCallback callback = nullptr);
 
     /**
      * @brief Run only the training stage

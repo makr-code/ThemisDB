@@ -69,6 +69,35 @@ struct LoRADataSelectionConfig {
     bool audit = true;            ///< Record provenance audit entry
 
     LoRADataSelectionConfig() = default;
+
+    /**
+     * @brief Load configuration from a YAML file.
+     *
+     * Reads the @p section block (default: `lora_data_selection`) from the
+     * YAML file at @p path and fills a new config object.
+     *
+     * Uses a built-in line-by-line parser – no external yaml-cpp dependency.
+     * Supports live-reload: call again at any time to obtain an updated config.
+     *
+     * @param path    Path to the YAML configuration file.
+     * @param section Top-level YAML key containing the data-selection block.
+     * @throws std::runtime_error if the file cannot be opened.
+     */
+    static LoRADataSelectionConfig loadFromYAML(
+        const std::string& path,
+        const std::string& section = "lora_data_selection");
+
+    /**
+     * @brief Parse configuration from an in-memory YAML string.
+     *
+     * Useful for unit testing or when the YAML content is already loaded.
+     *
+     * @param yaml_text YAML text containing the data-selection section.
+     * @param section   Top-level key to read (default: `lora_data_selection`).
+     */
+    static LoRADataSelectionConfig fromYAMLString(
+        const std::string& yaml_text,
+        const std::string& section = "lora_data_selection");
 };
 
 // ============================================================================

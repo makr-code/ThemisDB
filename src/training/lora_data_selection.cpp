@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <fstream>
 #include <map>
 #include <numeric>
 #include <sstream>
@@ -576,6 +577,179 @@ void DataSelectionPipeline::setConfig(const LoRADataSelectionConfig& config) {
 
 const LoRADataSelectionConfig& DataSelectionPipeline::getConfig() const {
     return impl_->getConfig();
+}
+
+// ============================================================================
+// LoRADataSelectionConfig – YAML loading (built-in line parser)
+// ============================================================================
+namespace yaml_detail {
+
+static std::string trimRight(std::string s) {
+    while (!s.empty() && (s.back() == ' ' || s.back() == '\t' || s.back() == '\r'))
+        s.pop_back();
+    return s;
+}
+
+static std::string trimLeft(const std::string& s) {
+    size_t i = 0;
+    while (i < s.size() && (s[i] == ' ' || s[i] == '\t')) ++i;
+    return s.substr(i);
+}
+
+static std::string stripQuotes(const std::string& s) {
+    if (s.size() >= 2 &&
+        ((s.front() == '"' && s.back() == '"') ||
+         (s.front() == '\'' && s.back() == '\'')))
+        return s.substr(1, s.size() - 2);
+    return s;
+}
+
+static std::string removeComment(const std::string& s) {
+    auto pos = s.find('#');
+    return (pos == std::string::npos) ? s : s.substr(0, pos);
+}
+
+// Assign a scalar YAML value to the matching field of cfg.
+static void applyScalar(LoRADataSelectionConfig& cfg,
+                         const std::string& key,
+                         const std::string& raw_val) {
+    std::string val = stripQuotes(trimLeft(raw_val));
+    if (val.empty()) return;
+    try {
+        if (key == "min_length_tokens")        cfg.min_length_tokens        = std::stoull(val);
+        else if (key == "max_length_tokens")   cfg.max_length_tokens        = std::stoull(val);
+        else if (key == "required_language")   cfg.required_language        = val;
+        else if (key == "max_toxicity_score")  cfg.max_toxicity_score       = std::stod(val);
+        else if (key == "enable_pii_check")    cfg.enable_pii_check         = (val == "true");
+        else if (key == "minhash_threshold")   cfg.minhash_threshold        = std::stod(val);
+        else if (key == "minhash_num_perm")    cfg.minhash_num_perm         = std::stoull(val);
+        else if (key == "embedding_model")     cfg.embedding_model          = val;
+        else if (key == "clustering_k_ratio")  cfg.clustering_k_ratio       = std::stoull(val);
+        else if (key == "perplexity_model")    cfg.perplexity_model         = val;
+        else if (key == "perplexity_weight")   cfg.perplexity_weight        = std::stod(val);
+        else if (key == "diversity_weight")    cfg.diversity_weight         = std::stod(val);
+        else if (key == "domain_relevance_weight") cfg.domain_relevance_weight = std::stod(val);
+        else if (key == "easy_ratio")          cfg.easy_ratio               = std::stod(val);
+        else if (key == "medium_ratio")        cfg.medium_ratio             = std::stod(val);
+        else if (key == "hard_ratio")          cfg.hard_ratio               = std::stod(val);
+        else if (key == "target_samples")      cfg.target_samples           = std::stoull(val);
+        else if (key == "audit")               cfg.audit                    = (val == "true");
+    } catch (const std::invalid_argument& e) {
+        throw std::runtime_error(
+            "LoRADataSelectionConfig: invalid value for key '" + key +
+            "' (value='" + val + "'): " + e.what());
+    } catch (const std::out_of_range& e) {
+        throw std::runtime_error(
+            "LoRADataSelectionConfig: value out of range for key '" + key +
+            "' (value='" + val + "'): " + e.what());
+    }
+}
+
+/**
+ * Line-by-line YAML parser for the lora_data_selection section.
+ *
+ * Handles the exact schema defined in LoRATrainerConfig.yaml:
+ *  - scalar key:value pairs at indent 2
+ *  - domain_keywords subsection at indent 4 with list items at indent 6
+ */
+static LoRADataSelectionConfig parseYAMLText(const std::string& text,
+                                              const std::string& section) {
+    LoRADataSelectionConfig cfg;
+    std::istringstream iss(text);
+    std::string line;
+
+    enum class State { OUTSIDE, IN_SECTION, IN_DOMAIN_KEYWORDS, IN_DOMAIN_LIST };
+    State state = State::OUTSIDE;
+    std::string current_domain;
+
+    while (std::getline(iss, line)) {
+        line = trimRight(removeComment(line));
+        if (line.empty()) continue;
+
+        size_t indent = 0;
+        while (indent < line.size() && line[indent] == ' ') ++indent;
+        const std::string content = line.substr(indent);
+
+        // Top-level line
+        if (indent == 0) {
+            state = (content == section + ":") ? State::IN_SECTION : State::OUTSIDE;
+            current_domain.clear();
+            continue;
+        }
+
+        if (state == State::OUTSIDE) continue;
+
+        if (indent == 2) {
+            // Return from any nested state
+            state = State::IN_SECTION;
+            current_domain.clear();
+
+            auto colon = content.find(':');
+            if (colon == std::string::npos) continue;
+            const std::string key = content.substr(0, colon);
+            const std::string val = content.substr(colon + 1);
+
+            if (key == "domain_keywords" && trimLeft(val).empty()) {
+                state = State::IN_DOMAIN_KEYWORDS;
+            } else {
+                applyScalar(cfg, key, val);
+            }
+            continue;
+        }
+
+        if (indent == 4 && state == State::IN_DOMAIN_KEYWORDS) {
+            auto colon = content.find(':');
+            if (colon != std::string::npos) {
+                current_domain = content.substr(0, colon);
+                cfg.domain_keywords.emplace(current_domain,
+                                             std::vector<std::string>{});
+                state = State::IN_DOMAIN_LIST;
+            }
+            continue;
+        }
+
+        if (indent == 4 && state == State::IN_DOMAIN_LIST) {
+            // Another domain entry at same indent
+            auto colon = content.find(':');
+            if (colon != std::string::npos) {
+                current_domain = content.substr(0, colon);
+                cfg.domain_keywords.emplace(current_domain,
+                                             std::vector<std::string>{});
+            }
+            continue;
+        }
+
+        if (indent == 6 && state == State::IN_DOMAIN_LIST &&
+                !current_domain.empty()) {
+            // List item: - "keyword"
+            if (content.size() > 2 && content.substr(0, 2) == "- ") {
+                std::string kw = stripQuotes(trimLeft(content.substr(2)));
+                cfg.domain_keywords[current_domain].push_back(kw);
+            }
+            continue;
+        }
+    }
+
+    return cfg;
+}
+
+} // namespace yaml_detail
+
+LoRADataSelectionConfig LoRADataSelectionConfig::loadFromYAML(
+        const std::string& path,
+        const std::string& section) {
+    std::ifstream f(path);
+    if (!f.is_open())
+        throw std::runtime_error("LoRADataSelectionConfig: cannot open file: " + path);
+    std::ostringstream buf;
+    buf << f.rdbuf();
+    return yaml_detail::parseYAMLText(buf.str(), section);
+}
+
+LoRADataSelectionConfig LoRADataSelectionConfig::fromYAMLString(
+        const std::string& yaml_text,
+        const std::string& section) {
+    return yaml_detail::parseYAMLText(yaml_text, section);
 }
 
 } // namespace training
