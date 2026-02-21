@@ -134,7 +134,9 @@ std::vector<Token> tokenize(const std::string& expr) {
             if (c == '-') ++i;
             while (i < expr.size() && (std::isdigit(static_cast<unsigned char>(expr[i])) || expr[i] == '.')) ++i;
             std::string ns = expr.substr(start, i - start);
-            tokens.push_back({TokType::NUMBER, ns, std::stod(ns)});
+            double num_val = 0.0;
+            try { num_val = std::stod(ns); } catch (...) {}
+            tokens.push_back({TokType::NUMBER, ns, num_val});
         } else if (c == '"' || c == '\'') {
             char quote = c; ++i;
             size_t start = i;
@@ -289,6 +291,7 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t>& data) {
     std::string part;
     int idx = 0;
     while (std::getline(iss, part, '|')) {
+        try {
         switch (idx++) {
             case 0: ev.event_id = part; break;
             case 1: ev.type = static_cast<EventType>(std::stoul(part)); break;
@@ -312,6 +315,9 @@ std::optional<Event> Event::deserialize(const std::vector<uint8_t>& data) {
                     }
                 }
                 break;
+        }
+        } catch (...) {
+            // Silently ignore malformed fields during deserialization
         }
     }
     if (ev.event_id.empty()) return std::nullopt;
@@ -1473,7 +1479,7 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             }
 
             if (m[3].matched) {
-                pc.within = std::chrono::milliseconds(std::stoul(m[3]));
+                try { pc.within = std::chrono::milliseconds(std::stoul(m[3])); } catch (...) {}
             }
             cfg.pattern = std::move(pc);
         }
@@ -1491,30 +1497,39 @@ std::optional<RuleConfig> RuleEngine::parseEPL(const std::string& epl) {
             else if (wt == "SLIDING") wc.type = WindowType::SLIDING;
             else if (wt == "SESSION") wc.type = WindowType::SESSION;
             else if (wt == "HOPPING") wc.type = WindowType::HOPPING;
-            else if (wt == "COUNT")   { wc.type = WindowType::COUNT; wc.count = std::stoul(m[2]); }
+            else if (wt == "COUNT")   {
+                wc.type = WindowType::COUNT;
+                try { wc.count = std::stoul(m[2]); } catch (...) {}
+            }
 
             if (wt != "COUNT") {
+                try {
                 uint64_t sz = std::stoul(m[2]);
                 std::string unit = m[3]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                 wc.size = (unit == "s")
                     ? std::chrono::milliseconds(sz * 1000)
                     : std::chrono::milliseconds(sz);
+                } catch (...) {}
             }
 
             if (m[4].matched) {
+                try {
                 uint64_t sl = std::stoul(m[4]);
                 std::string unit = m[5]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                 wc.slide = (unit == "s")
                     ? std::chrono::milliseconds(sl * 1000)
                     : std::chrono::milliseconds(sl);
+                } catch (...) {}
             }
 
             if (m[6].matched) {
+                try {
                 uint64_t gap = std::stoul(m[6]);
                 std::string unit = m[7]; std::transform(unit.begin(), unit.end(), unit.begin(), ::tolower);
                 wc.gap = (unit == "s")
                     ? std::chrono::milliseconds(gap * 1000)
                     : std::chrono::milliseconds(gap);
+                } catch (...) {}
             }
             cfg.window = std::move(wc);
         }
