@@ -281,6 +281,8 @@ class WorkflowAnalyzer:
             # Categorization logic
             if 'release' in filename_lower or 'release' in name_lower:
                 categories['Release'].append(workflow)
+            elif 'maturity' in filename_lower or 'versioning' in filename_lower:
+                categories['Code Quality & Versioning'].append(workflow)
             elif 'security' in filename_lower or 'owasp' in filename_lower or 'audit' in filename_lower:
                 categories['Security & Compliance'].append(workflow)
             elif 'docs' in filename_lower or 'documentation' in filename_lower or 'wiki' in filename_lower:
