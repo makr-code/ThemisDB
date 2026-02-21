@@ -282,7 +282,7 @@ Result<ConjunctiveQuery> parseAndTranslateForExplain(const std::string& aql) {
 Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine, bool analyze) {
     auto qr = parseAndTranslateForExplain(aql);
     if (!qr) {
-        return Err<nlohmann::json>(qr.error().code(), qr.error().context());
+        return Err<nlohmann::json>(qr.error().code(), qr.error().message());
     }
     auto plan_node = engine.buildExplainPlan(*qr);
     return Ok(query::QueryPlanVisualizer::toJSON(plan_node, analyze));
@@ -291,7 +291,7 @@ Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine, b
 Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine, bool analyze) {
     auto qr = parseAndTranslateForExplain(aql);
     if (!qr) {
-        return Err<std::string>(qr.error().code(), qr.error().context());
+        return Err<std::string>(qr.error().code(), qr.error().message());
     }
     auto plan_node = engine.buildExplainPlan(*qr);
     return Ok(query::QueryPlanVisualizer::toText(plan_node, analyze));
@@ -300,7 +300,7 @@ Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine, 
 Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine) {
     auto qr = parseAndTranslateForExplain(aql);
     if (!qr) {
-        return Err<std::string>(qr.error().code(), qr.error().context());
+        return Err<std::string>(qr.error().code(), qr.error().message());
     }
     auto plan_node = engine.buildExplainPlan(*qr);
     return Ok(query::QueryPlanVisualizer::toDOT(plan_node));
