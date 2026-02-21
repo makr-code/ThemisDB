@@ -488,3 +488,101 @@ TEST_F(LoRAProvenanceManagerTest, VerifyAuditChain_TamperedEntry) {
         EXPECT_EQ(entry.entry_hash, entry.computeContentHash());
     }
 }
+
+// ============================================================================
+// AdapterRegistry provenance integration tests
+// ============================================================================
+
+#include "llm/adapter_registry.h"
+// SecuritySignatureManager is required by AdapterRegistry's constructor
+#include "storage/security_signature_manager.h"
+
+using namespace themis::llm;
+
+class AdapterRegistryProvenanceTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // A null sig_manager is acceptable for unit tests that don't exercise signing
+        registry = std::make_unique<AdapterRegistry>(nullptr);
+
+        // Register a minimal adapter so provenance can be attached
+        AdapterMetadata meta;
+        meta.adapter_id      = "test-adapter";
+        meta.base_model_name = "mistral-7b";
+        meta.domain          = "legal";
+        registry->registerAdapter(meta);
+    }
+
+    std::unique_ptr<AdapterRegistry> registry;
+};
+
+TEST_F(AdapterRegistryProvenanceTest, AttachAndRetrieveProvenance) {
+    lora::LoRAProvenanceRecord prov;
+    prov.dataset_hash        = std::string(64, 'd');
+    prov.base_model_hash     = std::string(64, 'm');
+    prov.adapter_weights_hash = std::string(64, 'w');
+    prov.trainer_id          = "trainer-registry";
+
+    EXPECT_TRUE(registry->attachProvenance("test-adapter", prov));
+
+    auto opt = registry->getProvenanceRecord("test-adapter");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_EQ(opt->trainer_id,   "trainer-registry");
+    EXPECT_EQ(opt->dataset_hash, prov.dataset_hash);
+}
+
+TEST_F(AdapterRegistryProvenanceTest, AttachProvenance_UnknownAdapterFails) {
+    lora::LoRAProvenanceRecord prov;
+    prov.trainer_id = "t";
+    EXPECT_FALSE(registry->attachProvenance("nonexistent", prov));
+}
+
+TEST_F(AdapterRegistryProvenanceTest, GetProvenance_NoneAttached) {
+    auto opt = registry->getProvenanceRecord("test-adapter");
+    EXPECT_FALSE(opt.has_value());
+}
+
+TEST_F(AdapterRegistryProvenanceTest, RecordInferenceAudit_ChainedEntries) {
+    lora::InferenceAuditEntry e1, e2;
+    e1.query_hash    = std::string(64, 'q');
+    e1.response_hash = std::string(64, 'r');
+    e1.model_hash    = std::string(64, 'm');
+    e1.adapter_hash  = std::string(64, 'a');
+
+    e2.query_hash    = std::string(64, 'Q');
+    e2.response_hash = std::string(64, 'R');
+    e2.model_hash    = std::string(64, 'M');
+    e2.adapter_hash  = std::string(64, 'A');
+
+    auto s1 = registry->recordInferenceAudit("test-adapter", e1);
+    auto s2 = registry->recordInferenceAudit("test-adapter", e2);
+
+    EXPECT_FALSE(s1.entry_hash.empty());
+    EXPECT_EQ(s2.previous_hash, s1.entry_hash);
+}
+
+TEST_F(AdapterRegistryProvenanceTest, GetInferenceAuditLog_Count) {
+    for (int i = 0; i < 3; ++i) {
+        lora::InferenceAuditEntry e;
+        e.query_hash = std::string(64, static_cast<char>('a' + i));
+        registry->recordInferenceAudit("test-adapter", e);
+    }
+
+    auto log = registry->getInferenceAuditLog("test-adapter");
+    EXPECT_EQ(log.size(), 3u);
+}
+
+TEST_F(AdapterRegistryProvenanceTest, VerifyAuditChain_ValidChain) {
+    for (int i = 0; i < 4; ++i) {
+        lora::InferenceAuditEntry e;
+        e.query_hash = std::string(64, static_cast<char>('0' + i));
+        registry->recordInferenceAudit("test-adapter", e);
+    }
+
+    EXPECT_TRUE(registry->verifyAuditChain("test-adapter"));
+}
+
+TEST_F(AdapterRegistryProvenanceTest, VerifyAuditChain_EmptyIsValid) {
+    EXPECT_TRUE(registry->verifyAuditChain("test-adapter"));
+}
+
