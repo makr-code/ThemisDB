@@ -33,12 +33,14 @@
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <cstdint>
 #include <random>
 #include <sstream>
 #include <iomanip>
 #include <ctime>
+#include <cmath>
+#include <numeric>
 #include <unordered_set>
-
 namespace themis {
 namespace prompt_engineering {
 
@@ -97,6 +99,7 @@ nlohmann::json FeedbackEntry::toJson() const {
     j["feedback_text"] = feedback_text;
     j["metadata"] = metadata;
     j["severity"] = severity;
+    j["checksum"] = checksum;
     
     auto time = std::chrono::system_clock::to_time_t(timestamp);
     j["timestamp"] = time;
@@ -118,6 +121,7 @@ FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
     entry.feedback_text = j.value("feedback_text", "");
     entry.metadata = j.value("metadata", nlohmann::json::object());
     entry.severity = j.value("severity", 0.5);
+    entry.checksum = j.value("checksum", "");
     
     if (j.contains("timestamp")) {
         auto time_val = j["timestamp"].get<std::time_t>();
@@ -125,6 +129,33 @@ FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
     }
     
     return entry;
+}
+
+std::string FeedbackEntry::computeChecksum() const {
+    // FNV-1a 64-bit hash over key audit fields: id, prompt_id, type, query, severity, timestamp
+    // This provides a lightweight audit trail without external crypto dependencies.
+    uint64_t hash = 14695981039346656037ULL;
+    auto fnv_update = [&](const std::string& s) {
+        for (unsigned char c : s) {
+            hash ^= c;
+            hash *= 1099511628211ULL;
+        }
+    };
+    fnv_update(id);
+    fnv_update(prompt_id);
+    fnv_update(feedbackTypeToString(type));
+    fnv_update(query);
+    // Include severity as a fixed-precision string
+    std::ostringstream sev_str;
+    sev_str << std::fixed << std::setprecision(6) << severity;
+    fnv_update(sev_str.str());
+    // Include timestamp as epoch seconds
+    auto ts = std::chrono::system_clock::to_time_t(timestamp);
+    fnv_update(std::to_string(ts));
+
+    std::ostringstream oss;
+    oss << std::hex << std::setfill('0') << std::setw(16) << hash;
+    return oss.str();
 }
 
 // ============================================================================
@@ -187,6 +218,7 @@ std::string FeedbackCollector::recordFeedback(
     entry.severity = std::max(0.0, std::min(1.0, severity));
     entry.metadata = metadata;
     entry.timestamp = std::chrono::system_clock::now();
+    entry.checksum = entry.computeChecksum();
     
     // Store in memory
     feedback_[prompt_id].push_back(entry);
@@ -338,20 +370,44 @@ std::vector<FeedbackEntry> FeedbackCollector::getFeedbackInTimeRange(
     const std::chrono::system_clock::time_point& end
 ) const {
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
+    // When a DB is available, use the time-keyed secondary index for an O(log n)
+    // range scan instead of scanning all in-memory entries.
+    if (db_) {
+        std::vector<FeedbackEntry> result;
+        std::string range_start = std::string(IDX_TIME_PREFIX) + prompt_id + ":"
+                                + formatTimestampKey(start) + ":";
+        // Upper bound: one past the end timestamp
+        auto end_plus = end + std::chrono::microseconds(1);
+        std::string range_end   = std::string(IDX_TIME_PREFIX) + prompt_id + ":"
+                                + formatTimestampKey(end_plus) + ":";
+        db_->scanRange(range_start, range_end,
+            [&](std::string_view /*idx_key*/, std::string_view primary_key) -> bool {
+                std::optional<std::vector<uint8_t>> raw = db_->get(primary_key);
+                if (raw.has_value()) {
+                    try {
+                        auto j = nlohmann::json::parse(
+                            std::string(raw->begin(), raw->end()));
+                        result.push_back(FeedbackEntry::fromJson(j));
+                    } catch (...) {}
+                }
+                return true;
+            });
+        return result;
+    }
+
+    // Fallback: linear scan of in-memory entries
     auto it = feedback_.find(prompt_id);
     if (it == feedback_.end()) {
         return {};
     }
     
     std::vector<FeedbackEntry> result;
-    
     for (const auto& entry : it->second) {
         if (entry.timestamp >= start && entry.timestamp <= end) {
             result.push_back(entry);
         }
     }
-    
     return result;
 }
 
@@ -372,10 +428,32 @@ size_t FeedbackCollector::pruneOldFeedback(
         entries.erase(it, entries.end());
     }
     
-    // Also delete from DB if available
+    // Also delete from DB if available: delete both primary records and index entries
     if (db_ && deleted > 0) {
-        // In production, implement DB cleanup
-        THEMIS_DEBUG("Pruned {} old feedback entries (DB cleanup not implemented)", deleted);
+        // Collect entries to delete by scanning; we need the full entry to
+        // also remove the time-index key.
+        std::vector<FeedbackEntry> to_delete;
+        std::string prefix = KEY_PREFIX;
+        db_->scanPrefix(prefix, [&](std::string_view, std::string_view value) -> bool {
+            try {
+                auto j = nlohmann::json::parse(std::string(value));
+                if (!j.contains("timestamp") || !j["timestamp"].is_number()) {
+                    return true;  // malformed entry, skip
+                }
+                auto ts = std::chrono::system_clock::from_time_t(
+                    j["timestamp"].get<std::time_t>());
+                if (ts < older_than) {
+                    to_delete.push_back(FeedbackEntry::fromJson(j));
+                }
+            } catch (const nlohmann::json::exception& e) {
+                THEMIS_WARN("Skipping malformed feedback entry during prune: {}", e.what());
+            }
+            return true;
+        });
+        for (const auto& e : to_delete) {
+            deleteFromDB(e);
+        }
+        THEMIS_DEBUG("Pruned {} old feedback entries from DB", to_delete.size());
     }
     
     THEMIS_INFO("Pruned {} old feedback entries", deleted);
@@ -394,16 +472,109 @@ size_t FeedbackCollector::clearFeedback(const std::string& prompt_id) {
     size_t count = it->second.size();
     feedback_.erase(it);
     
-    // Delete from DB if available
+    // Delete from DB if available: delete both primary records and index entries
     if (db_) {
-        // In production, implement DB cleanup
-        THEMIS_DEBUG("Cleared {} feedback entries for prompt '{}' (DB cleanup not implemented)",
-                     count, prompt_id);
+        std::string prompt_prefix = std::string(KEY_PREFIX) + prompt_id + ":";
+        // Collect full entries so we can also remove the secondary index keys
+        std::vector<FeedbackEntry> to_delete;
+        db_->scanPrefix(prompt_prefix, [&](std::string_view, std::string_view value) -> bool {
+            try {
+                auto j = nlohmann::json::parse(std::string(value));
+                to_delete.push_back(FeedbackEntry::fromJson(j));
+            } catch (...) {}
+            return true;
+        });
+        for (const auto& e : to_delete) {
+            deleteFromDB(e);
+        }
+        THEMIS_DEBUG("Deleted {} feedback DB entries for prompt '{}'", to_delete.size(), prompt_id);
     }
     
     THEMIS_INFO("Cleared {} feedback entries for prompt '{}'", count, prompt_id);
     
     return count;
+}
+
+std::vector<FeedbackEntry> FeedbackCollector::getFeedbackPaged(
+    const std::string& prompt_id,
+    size_t offset,
+    size_t page_size,
+    std::optional<FeedbackType> type_filter
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = feedback_.find(prompt_id);
+    if (it == feedback_.end()) {
+        return {};
+    }
+
+    std::vector<FeedbackEntry> result;
+    size_t skipped = 0;
+
+    for (const auto& entry : it->second) {
+        if (type_filter.has_value() && entry.type != type_filter.value()) {
+            continue;
+        }
+        if (skipped < offset) {
+            ++skipped;
+            continue;
+        }
+        result.push_back(entry);
+        if (page_size > 0 && result.size() >= page_size) {
+            break;
+        }
+    }
+
+    return result;
+}
+
+std::vector<FeedbackEntry> FeedbackCollector::detectOutliers(
+    const std::string& prompt_id,
+    double z_threshold
+) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto it = feedback_.find(prompt_id);
+    if (it == feedback_.end()) {
+        return {};
+    }
+
+    const auto& entries = it->second;
+    if (entries.size() < 2) {
+        return {};
+    }
+
+    // Compute mean severity
+    double sum = 0.0;
+    for (const auto& e : entries) {
+        sum += e.severity;
+    }
+    double mean = sum / entries.size();
+
+    // Compute standard deviation
+    double sq_diff_sum = 0.0;
+    for (const auto& e : entries) {
+        double d = e.severity - mean;
+        sq_diff_sum += d * d;
+    }
+    double stddev = std::sqrt(sq_diff_sum / entries.size());
+
+    if (stddev < 1e-10) {
+        return {}; // All severities are identical – no outliers
+    }
+
+    std::vector<FeedbackEntry> outliers;
+    for (const auto& e : entries) {
+        double z = std::abs(e.severity - mean) / stddev;
+        if (z > z_threshold) {
+            outliers.push_back(e);
+        }
+    }
+
+    THEMIS_DEBUG("Detected {} outliers for prompt '{}' (z_threshold={})",
+                 outliers.size(), prompt_id, z_threshold);
+
+    return outliers;
 }
 
 nlohmann::json FeedbackCollector::getSummary() const {
@@ -465,16 +636,54 @@ std::string FeedbackCollector::generateId() const {
     return oss.str();
 }
 
+// static
+std::string FeedbackCollector::formatTimestampKey(
+    const std::chrono::system_clock::time_point& tp
+) {
+    // Zero-padded 20-digit microseconds since epoch ensures lexicographic == chronological order.
+    auto us = std::chrono::duration_cast<std::chrono::microseconds>(
+                  tp.time_since_epoch()).count();
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(20) << us;
+    return oss.str();
+}
+
 void FeedbackCollector::persist(const FeedbackEntry& entry) {
     if (!db_) return;
     
-    std::string key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
+    // Primary record: feedback:{prompt_id}:{entry_id} → JSON
+    std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
     std::string value = entry.toJson().dump();
     std::vector<uint8_t> bytes(value.begin(), value.end());
     
-    if (!db_->put(key, bytes)) {
+    if (!db_->put(primary_key, bytes)) {
         THEMIS_ERROR("Failed to persist feedback entry: {}", entry.id);
+        return;
     }
+
+    // Secondary time index: idx:time:{prompt_id}:{ts_us}:{entry_id} → primary_key
+    // Lexicographic key order == timestamp order, enabling O(log n) range scans.
+    std::string idx_key = std::string(IDX_TIME_PREFIX)
+                        + entry.prompt_id + ":"
+                        + formatTimestampKey(entry.timestamp) + ":"
+                        + entry.id;
+    // Use vector<uint8_t> to match the overload used for the primary record.
+    std::string idx_val = primary_key;
+    std::vector<uint8_t> idx_bytes(idx_val.begin(), idx_val.end());
+    db_->put(idx_key, idx_bytes);
+}
+
+void FeedbackCollector::deleteFromDB(const FeedbackEntry& entry) {
+    if (!db_) return;
+
+    std::string primary_key = std::string(KEY_PREFIX) + entry.prompt_id + ":" + entry.id;
+    db_->del(primary_key);
+
+    std::string idx_key = std::string(IDX_TIME_PREFIX)
+                        + entry.prompt_id + ":"
+                        + formatTimestampKey(entry.timestamp) + ":"
+                        + entry.id;
+    db_->del(idx_key);
 }
 
 void FeedbackCollector::loadFromDB() {
@@ -561,56 +770,119 @@ std::vector<FailedQueryPattern> FeedbackCollector::extractPatterns(
     const std::vector<FeedbackEntry>& entries,
     size_t min_occurrences
 ) const {
-    // Simple pattern extraction based on query keywords
-    // In production, use more sophisticated NLP techniques
-    
+    if (entries.empty()) return {};
+
+    // --- Step 1: tokenise and normalise ---
+    // Common English stop words that carry no discriminative signal.
+    static const std::unordered_set<std::string> STOP_WORDS = {
+        "a","an","the","and","or","but","in","on","at","to","for","of","with",
+        "by","from","up","about","into","through","during","before","after",
+        "is","are","was","were","be","been","being","have","has","had","do",
+        "does","did","will","would","could","should","may","might","shall",
+        "that","this","these","those","it","its","i","you","he","she","we",
+        "they","what","which","who","how","when","where","why","not","no",
+        "can","as","if","so","than","then","there","also","just","more","all"
+    };
+
+    auto tokenise = [&](const std::string& text) {
+        std::vector<std::string> tokens;
+        std::string cur;
+        for (unsigned char c : text) {
+            if (std::isalnum(c)) {
+                cur += static_cast<char>(std::tolower(c));
+            } else if (!cur.empty()) {
+                if (STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+                    tokens.push_back(cur);
+                }
+                cur.clear();
+            }
+        }
+        if (!cur.empty() && STOP_WORDS.find(cur) == STOP_WORDS.end() && cur.size() >= 2) {
+            tokens.push_back(cur);
+        }
+        return tokens;
+    };
+
+    // --- Step 2: compute TF-IDF-style term frequency per document and DF ---
+    // document = one FeedbackEntry.query
+    const size_t num_docs = entries.size();
+
+    // document_frequency[term] = number of documents containing the term
+    std::unordered_map<std::string, size_t> document_frequency;
+    // per_entry_tokens[i] = token list for entries[i]
+    std::vector<std::vector<std::string>> per_entry_tokens(num_docs);
+
+    for (size_t i = 0; i < num_docs; ++i) {
+        auto tokens = tokenise(entries[i].query);
+        per_entry_tokens[i] = tokens;
+        // Count document frequency (each token counted once per document)
+        std::unordered_set<std::string> seen(tokens.begin(), tokens.end());
+        for (const auto& t : seen) {
+            document_frequency[t]++;
+        }
+    }
+
+    // --- Step 3: for each entry compute its most discriminative keyword ---
+    // Score = TF * log(N / DF + 1).  The keyword with the highest score
+    // becomes the representative for the pattern.
+    auto best_keyword = [&](size_t entry_idx) -> std::string {
+        const auto& tokens = per_entry_tokens[entry_idx];
+        if (tokens.empty()) return "[empty]";
+
+        // TF: raw count within this query
+        std::unordered_map<std::string, size_t> tf;
+        for (const auto& t : tokens) tf[t]++;
+
+        std::string best_term;
+        double best_score = -1.0;
+        for (const auto& [term, count] : tf) {
+            double tfidf = static_cast<double>(count)
+                         * std::log(static_cast<double>(num_docs + 1)
+                                    / static_cast<double>(document_frequency[term] + 1));
+            if (tfidf > best_score) {
+                best_score = tfidf;
+                best_term  = term;
+            }
+        }
+        return best_term.empty() ? "[empty]" : best_term;
+    };
+
+    // --- Step 4: group entries by their best keyword (pattern) ---
     std::unordered_map<std::string, FailedQueryPattern> patterns;
-    
-    for (const auto& entry : entries) {
-        // Extract first few words as a simple pattern
-        std::string pattern;
-        std::istringstream iss(entry.query);
-        std::string word;
-        int word_count = 0;
-        while (iss >> word && word_count < 3) {
-            if (word_count > 0) pattern += " ";
-            pattern += word;
-            word_count++;
-        }
-        
-        if (pattern.empty()) {
-            pattern = "[empty]";
-        }
-        
-        auto& p = patterns[pattern];
-        p.pattern = pattern;
+    for (size_t i = 0; i < num_docs; ++i) {
+        const auto& entry = entries[i];
+        std::string key   = best_keyword(i);
+
+        auto& p = patterns[key];
+        p.pattern = key;
         p.occurrences++;
-        
+
         if (p.examples.size() < 5) {
             p.examples.push_back(entry.query);
         }
-        
-        // Track primary type and severity
+
+        // Incremental average severity; most-common type wins
         if (p.occurrences == 1) {
             p.primary_type = entry.type;
             p.avg_severity = entry.severity;
         } else {
-            p.avg_severity = (p.avg_severity * (p.occurrences - 1) + entry.severity) / p.occurrences;
+            p.avg_severity = (p.avg_severity * (p.occurrences - 1) + entry.severity)
+                           / p.occurrences;
         }
     }
-    
-    // Filter by minimum occurrences
+
+    // --- Step 5: filter by min_occurrences and sort ---
     std::vector<FailedQueryPattern> result;
-    for (const auto& [pattern_str, pattern] : patterns) {
-        if (pattern.occurrences >= min_occurrences) {
-            result.push_back(pattern);
+    result.reserve(patterns.size());
+    for (const auto& [key, pat] : patterns) {
+        if (pat.occurrences >= min_occurrences) {
+            result.push_back(pat);
         }
     }
-    
-    // Sort by occurrences (descending)
+
     std::sort(result.begin(), result.end(),
               [](const auto& a, const auto& b) { return a.occurrences > b.occurrences; });
-    
+
     return result;
 }
 

@@ -88,6 +88,16 @@ public:
     // Assign an experiment id to a template (stores in metadata["experiment_id"])
     bool assignExperiment(const std::string& id, const std::string& experiment_id);
 
+    // Validation result for a prompt template
+    struct ValidationResult {
+        bool valid = true;
+        std::vector<std::string> errors;   ///< List of validation errors
+        std::vector<std::string> warnings; ///< Non-fatal warnings
+    };
+
+    // Validate a template; returns ValidationResult with detailed error reporting
+    static ValidationResult validateTemplate(const PromptTemplate& t);
+
     // Load prompts from YAML configuration file
     // Returns number of prompts loaded successfully
     size_t loadFromYAML(const std::string& yaml_path);

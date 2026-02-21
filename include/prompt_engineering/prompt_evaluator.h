@@ -38,11 +38,38 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+#include <functional>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace prompt_engineering {
+
+/**
+ * @brief Abstract interface for pluggable embedding providers
+ *
+ * Implement this to integrate any embedding model (OpenAI text-embedding-3,
+ * Sentence Transformers, local models, etc.) into PromptEvaluator for
+ * semantically accurate similarity scoring.
+ */
+class IEmbeddingProvider {
+public:
+    virtual ~IEmbeddingProvider() = default;
+
+    /**
+     * @brief Compute an embedding vector for the given text
+     *
+     * @param text Input text to embed
+     * @return Dense embedding vector (any dimension); empty vector on error
+     */
+    virtual std::vector<double> embed(const std::string& text) const = 0;
+
+    /**
+     * @brief Human-readable name of this provider (for logging / metrics)
+     */
+    virtual std::string name() const = 0;
+};
 
 /**
  * @brief Evaluation metrics for a single test case
@@ -194,8 +221,64 @@ public:
      */
     void setConfig(const EvaluatorConfig& config) { config_ = config; }
 
+    // -------------------------------------------------------------------------
+    // Pluggable embedding provider
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Attach a pluggable embedding provider for semantic similarity
+     *
+     * When set, @c evaluateSingle() and @c computeEmbeddingSimilarity() will
+     * use cosine similarity of embedding vectors instead of Jaccard token
+     * overlap for the semantic similarity metric.
+     *
+     * @param provider Shared pointer to an IEmbeddingProvider implementation
+     */
+    void setEmbeddingProvider(std::shared_ptr<IEmbeddingProvider> provider) {
+        embedding_provider_ = std::move(provider);
+    }
+
+    /**
+     * @brief Remove the attached embedding provider (fall back to Jaccard)
+     */
+    void clearEmbeddingProvider() { embedding_provider_.reset(); }
+
+    /**
+     * @brief Returns true if a live embedding provider is attached
+     */
+    bool hasEmbeddingProvider() const { return embedding_provider_ != nullptr; }
+
+    /**
+     * @brief Compute embedding-based cosine similarity between two strings
+     *
+     * Requires an embedding provider to be set via @c setEmbeddingProvider().
+     * Returns -1.0 if no provider is available or the embed call returns an
+     * empty/mismatched vector.
+     *
+     * @param s1 First string
+     * @param s2 Second string
+     * @return Cosine similarity in [0, 1], or -1.0 on failure
+     */
+    double computeEmbeddingSimilarity(
+        const std::string& s1,
+        const std::string& s2
+    ) const;
+
+    /**
+     * @brief Compute cosine similarity of two dense vectors (static helper)
+     *
+     * @param v1 First embedding vector
+     * @param v2 Second embedding vector (must have same dimension)
+     * @return Cosine similarity in [0, 1], or 0.0 on empty/mismatched vectors
+     */
+    static double computeCosineSimilarity(
+        const std::vector<double>& v1,
+        const std::vector<double>& v2
+    );
+
 private:
     EvaluatorConfig config_;
+    std::shared_ptr<IEmbeddingProvider> embedding_provider_;  ///< Optional embedding model
     
     /**
      * @brief Compute weighted score from individual metrics

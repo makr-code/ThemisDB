@@ -91,21 +91,44 @@ MetaPromptResult MetaPromptGenerator::generateImprovementPrompt(
     meta_prompt << "Include explanations of key changes made.\n\n";
     
     result.meta_prompt = meta_prompt.str();
+
+    // If a live LLM provider is attached, invoke it to get a real improved prompt
+    if (llm_provider_) {
+        THEMIS_DEBUG("Calling LLM provider '{}' for real-time improvement", llm_provider_->name());
+        try {
+            std::string llm_response = llm_provider_->complete(result.meta_prompt);
+            if (!llm_response.empty()) {
+                result.improvement_suggestion = llm_response;
+                result.metadata["llm_provider"] = llm_provider_->name();
+                result.metadata["llm_generated"] = true;
+                THEMIS_DEBUG("LLM provider returned {} chars", llm_response.size());
+                // key_insights remain from the template-based path below
+            } else {
+                THEMIS_WARN("LLM provider '{}' returned empty response – falling back to template",
+                            llm_provider_->name());
+            }
+        } catch (const std::exception& ex) {
+            THEMIS_ERROR("LLM provider '{}' threw: {} – falling back to template",
+                         llm_provider_->name(), ex.what());
+        }
+    }
     
-    // Generate specific improvement suggestions
-    result.improvement_suggestion = "Consider the following improvements:\n";
-    if (score < 0.5) {
-        result.improvement_suggestion += "- Clarify the task objectives\n";
-        result.improvement_suggestion += "- Add step-by-step instructions\n";
-        result.improvement_suggestion += "- Include concrete examples\n";
-    } else if (score < 0.7) {
-        result.improvement_suggestion += "- Refine edge case handling\n";
-        result.improvement_suggestion += "- Specify output format more clearly\n";
-        result.improvement_suggestion += "- Add constraint specifications\n";
-    } else {
-        result.improvement_suggestion += "- Optimize for conciseness\n";
-        result.improvement_suggestion += "- Ensure consistent formatting\n";
-        result.improvement_suggestion += "- Fine-tune language for clarity\n";
+    // Generate specific improvement suggestions (template-based fallback / additional hints)
+    if (!result.metadata.value("llm_generated", false)) {
+        result.improvement_suggestion = "Consider the following improvements:\n";
+        if (score < 0.5) {
+            result.improvement_suggestion += "- Clarify the task objectives\n";
+            result.improvement_suggestion += "- Add step-by-step instructions\n";
+            result.improvement_suggestion += "- Include concrete examples\n";
+        } else if (score < 0.7) {
+            result.improvement_suggestion += "- Refine edge case handling\n";
+            result.improvement_suggestion += "- Specify output format more clearly\n";
+            result.improvement_suggestion += "- Add constraint specifications\n";
+        } else {
+            result.improvement_suggestion += "- Optimize for conciseness\n";
+            result.improvement_suggestion += "- Ensure consistent formatting\n";
+            result.improvement_suggestion += "- Fine-tune language for clarity\n";
+        }
     }
     
     // Extract key insights

@@ -55,6 +55,7 @@ class PromptPerformanceTracker;
 class PromptOptimizer;
 class PromptManager;
 class PromptEvaluator;
+class FeedbackCollector;
 struct TestCase;
 
 /**
@@ -267,6 +268,20 @@ public:
      * @brief Update configuration
      */
     void setConfig(const ImprovementConfig& config);
+
+    /**
+     * @brief Attach a FeedbackCollector for synthetic test-case generation
+     *
+     * When set, @c runAutoOptimization() will build test cases from historical
+     * positive-feedback entries (query → response) instead of skipping prompts
+     * that have no externally supplied test cases.
+     *
+     * @param collector Shared pointer to the FeedbackCollector instance
+     */
+    void setFeedbackCollector(std::shared_ptr<FeedbackCollector> collector) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        feedback_collector_ = std::move(collector);
+    }
     
     /**
      * @brief Check if a prompt should be optimized
@@ -281,6 +296,7 @@ private:
     std::shared_ptr<PromptOptimizer> optimizer_;
     std::shared_ptr<PromptManager> manager_;
     std::shared_ptr<PromptEvaluator> evaluator_;
+    std::shared_ptr<FeedbackCollector> feedback_collector_;  ///< Optional, for auto test-case synthesis
     
     mutable std::mutex mutex_;
     
@@ -312,6 +328,22 @@ private:
      * @brief Deploy optimized prompt version
      */
     void deployOptimizedVersion(const std::string& prompt_id, const std::string& version);
+
+    /**
+     * @brief Build synthetic test cases from positive historical feedback
+     *
+     * Uses query→response pairs from @c USER_POSITIVE feedback as training
+     * examples so that @c runAutoOptimization() does not need external test
+     * data.
+     *
+     * @param prompt_id Prompt template ID
+     * @param max_cases Maximum number of test cases to return (0 = all)
+     * @return Vector of synthetic TestCase objects; empty if no feedback available
+     */
+    std::vector<TestCase> buildTestCasesFromFeedback(
+        const std::string& prompt_id,
+        size_t max_cases = 50
+    ) const;
 };
 
 } // namespace prompt_engineering

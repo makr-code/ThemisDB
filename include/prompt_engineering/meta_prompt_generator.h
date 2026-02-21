@@ -38,10 +38,35 @@
 
 #include <string>
 #include <vector>
+#include <functional>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 namespace themis {
 namespace prompt_engineering {
+
+/**
+ * @brief Abstract interface for pluggable LLM providers
+ * 
+ * Implement this to integrate any LLM (OpenAI, Cohere, local models, etc.)
+ * into the MetaPromptGenerator for real prompt auto-optimisation.
+ */
+class ILLMProvider {
+public:
+    virtual ~ILLMProvider() = default;
+
+    /**
+     * @brief Send a prompt to the underlying LLM and return its response
+     * @param prompt The complete prompt text to send
+     * @return The LLM-generated response, or an empty string on error
+     */
+    virtual std::string complete(const std::string& prompt) const = 0;
+
+    /**
+     * @brief Human-readable name of this provider (for logging / metrics)
+     */
+    virtual std::string name() const = 0;
+};
 
 /**
  * @brief Configuration for meta-prompt generation
@@ -136,8 +161,34 @@ public:
      */
     void setConfig(const MetaPromptConfig& config) { config_ = config; }
 
+    /**
+     * @brief Attach a pluggable LLM provider for real-time prompt improvement
+     * 
+     * When set, @c generateImprovementPrompt will invoke the provider with
+     * the generated meta-prompt and return the LLM's improved prompt text
+     * instead of the static template.
+     * 
+     * @param provider Shared pointer to an ILLMProvider implementation
+     */
+    void setLLMProvider(std::shared_ptr<ILLMProvider> provider) {
+        llm_provider_ = std::move(provider);
+    }
+
+    /**
+     * @brief Remove the attached LLM provider (fall back to template-based generation)
+     */
+    void clearLLMProvider() {
+        llm_provider_.reset();
+    }
+
+    /**
+     * @brief Returns true if a live LLM provider is attached
+     */
+    bool hasLLMProvider() const { return llm_provider_ != nullptr; }
+
 private:
     MetaPromptConfig config_;
+    std::shared_ptr<ILLMProvider> llm_provider_;  ///< Optional pluggable LLM
     
     /**
      * @brief Build improvement instructions based on feedback

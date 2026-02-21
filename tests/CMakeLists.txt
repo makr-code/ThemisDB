@@ -244,6 +244,21 @@ message(STATUS "Building ${TEST_SOURCE_COUNT} test files after feature gating")
 
 add_executable(themis_tests ${ALL_TEST_SOURCES})
 
+# Re-include prompt_engineering production-readiness tests that were excluded
+# by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
+# These tests are fully functional and cover the validation / scaling / LLM /
+# statistical and metrics improvements added in the production-readiness pass.
+target_sources(themis_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager_validation.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator_ttest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator_embedding.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_metrics_persistence.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_collector_scaling.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_meta_prompt_llm_provider.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_self_improvement_auto_optimize.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_version_control_diff.cpp
+)
+
 # Ensure legal training tests link even when the feature is disabled in themis_core
 if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
     target_sources(themis_tests PRIVATE
