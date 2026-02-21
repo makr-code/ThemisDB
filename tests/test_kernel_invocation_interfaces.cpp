@@ -258,3 +258,140 @@ TEST(KernelInvocationInterfaces, CPUGeoBackendPointInPolygon) {
 
     backend.shutdown();
 }
+
+// =============================================================================
+// Dispatch table population — CPU backend
+// =============================================================================
+
+TEST(KernelInvocationInterfaces, CPUVectorBackend_PopulateANNDispatch_AllSlotsNonNull) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    ANNKernelDispatch d = backend.populateANNDispatch();
+
+    EXPECT_NE(d.launchL2Distance,   nullptr);
+    EXPECT_NE(d.launchCosine,       nullptr);
+    EXPECT_NE(d.launchInnerProduct, nullptr);
+    EXPECT_NE(d.launchTopK,         nullptr);
+
+    backend.shutdown();
+}
+
+TEST(KernelInvocationInterfaces, CPUVectorBackend_ANNDispatch_L2_CorrectResult) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    ANNKernelDispatch d = backend.populateANNDispatch();
+    ASSERT_NE(d.launchL2Distance, nullptr);
+
+    // Query [1,0,0] vs vectors [1,0,0], [0,1,0]: expected squared-L2 = 0, 2
+    const float queries[] = {1.f, 0.f, 0.f};
+    const float vectors[] = {1.f, 0.f, 0.f,  0.f, 1.f, 0.f};
+    float distances[2] = {};
+
+    const int rc = d.launchL2Distance(queries, vectors, distances,
+                                      /*numQueries=*/1, /*numVectors=*/2, /*dim=*/3,
+                                      /*stream=*/nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NEAR(distances[0], 0.f, 1e-5f);
+    EXPECT_NEAR(distances[1], 2.f, 1e-5f);
+
+    backend.shutdown();
+}
+
+TEST(KernelInvocationInterfaces, CPUVectorBackend_ANNDispatch_TopK_SelectsSmallest) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    ANNKernelDispatch d = backend.populateANNDispatch();
+    ASSERT_NE(d.launchTopK, nullptr);
+
+    // One query row with 4 distances: 3.f, 1.f, 4.f, 0.f  → top-2 are idx 3 (0.f) and idx 1 (1.f)
+    const float distances[4] = {3.f, 1.f, 4.f, 0.f};
+    uint32_t indices[2] = {};
+    float    dists[2]   = {};
+
+    const int rc = d.launchTopK(distances, indices, dists,
+                                /*numQueries=*/1, /*numVectors=*/4, /*topK=*/2,
+                                /*stream=*/nullptr);
+    EXPECT_EQ(rc, 0);
+    // Results should be sorted ascending by distance
+    EXPECT_EQ(indices[0], 3u);   // distance 0.f
+    EXPECT_NEAR(dists[0], 0.f, 1e-5f);
+    EXPECT_EQ(indices[1], 1u);   // distance 1.f
+    EXPECT_NEAR(dists[1], 1.f, 1e-5f);
+
+    backend.shutdown();
+}
+
+TEST(KernelInvocationInterfaces, CPUGeoBackend_PopulateGeoDispatch_AllSlotsNonNull) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+
+    EXPECT_NE(d.launchDistance,    nullptr);
+    EXPECT_NE(d.launchContainment, nullptr);
+
+    backend.shutdown();
+}
+
+TEST(KernelInvocationInterfaces, CPUGeoBackend_GeoDispatch_HaversineDistance) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+    ASSERT_NE(d.launchDistance, nullptr);
+
+    // Paris (48.8566, 2.3522) to London (51.5074, -0.1278) ≈ 340 km
+    const double lats1[] = {48.8566};
+    const double lons1[] = {2.3522};
+    const double lats2[] = {51.5074};
+    const double lons2[] = {-0.1278};
+    float dist = 0.f;
+
+    const int rc = d.launchDistance(lats1, lons1, lats2, lons2, &dist,
+                                    /*count=*/1,
+                                    GeoDistanceFormula::HAVERSINE,
+                                    /*stream=*/nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_NEAR(dist, 340.f, 10.f);
+
+    backend.shutdown();
+}
+
+TEST(KernelInvocationInterfaces, CPUGeoBackend_GeoDispatch_PointInPolygon) {
+    CPUGeoBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    GeoKernelDispatch d = backend.populateGeoDispatch();
+    ASSERT_NE(d.launchContainment, nullptr);
+
+    // Square polygon corners: (0,0),(0,2),(2,2),(2,0) — interleaved [lat,lon]
+    const double polygon[] = {0.0, 0.0, 0.0, 2.0, 2.0, 2.0, 2.0, 0.0};
+    const double pLats[]   = {1.0, 3.0};
+    const double pLons[]   = {1.0, 3.0};
+    uint8_t results[2]     = {0, 0};
+
+    const int rc = d.launchContainment(pLats, pLons, /*numPoints=*/2,
+                                       polygon, /*numVertices=*/4,
+                                       results, /*stream=*/nullptr);
+    EXPECT_EQ(rc, 0);
+    EXPECT_EQ(results[0], 1u);  // (1,1) inside
+    EXPECT_EQ(results[1], 0u);  // (3,3) outside
+
+    backend.shutdown();
+}
+
+TEST(KernelInvocationInterfaces, ANNDispatch_DistanceLauncherFor_RoutesCorrectly) {
+    CPUVectorBackend backend;
+    ASSERT_TRUE(backend.initialize());
+
+    ANNKernelDispatch d = backend.populateANNDispatch();
+
+    EXPECT_EQ(d.distanceLauncherFor(DistanceMetric::L2),            d.launchL2Distance);
+    EXPECT_EQ(d.distanceLauncherFor(DistanceMetric::COSINE),        d.launchCosine);
+    EXPECT_EQ(d.distanceLauncherFor(DistanceMetric::INNER_PRODUCT), d.launchInnerProduct);
+
+    backend.shutdown();
+}

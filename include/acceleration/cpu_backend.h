@@ -75,6 +75,8 @@ public:
         size_t k,
         bool useL2 = true
     ) override;
+
+    ANNKernelDispatch populateANNDispatch() const override;
     
 protected:
     // Allow derived classes to call these helper methods
@@ -168,6 +170,8 @@ public:
         const double* polygonCoords,
         size_t numPolygonVertices
     ) override;
+
+    GeoKernelDispatch populateGeoDispatch() const override;
 
 protected:
     double haversineDistance(double lat1, double lon1, double lat2, double lon2) const;
