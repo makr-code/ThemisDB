@@ -35,6 +35,23 @@
 namespace themis {
 namespace acceleration {
 
+// The canonical fallback chain: highest priority first, CPU always last.
+// All getBestXBackend() methods traverse this list in order.
+static const std::vector<BackendType> kFallbackOrder = {
+    BackendType::CUDA,
+    BackendType::HIP,
+    BackendType::ZLUDA,
+    BackendType::VULKAN,
+    BackendType::DIRECTX,
+    BackendType::ROCM,
+    BackendType::ONEAPI,
+    BackendType::METAL,
+    BackendType::OPENCL,
+    BackendType::OPENGL,
+    BackendType::WEBGPU,
+    BackendType::CPU,
+};
+
 // Singleton instance
 BackendRegistry::BackendRegistry() : pluginLoader_(std::make_unique<PluginLoader>()) {
     // Always register CPU backends (fallback)
@@ -130,35 +147,46 @@ IComputeBackend* BackendRegistry::getBackend(BackendType type) const {
     return nullptr;
 }
 
+// static
+const std::vector<BackendType>& BackendRegistry::getFallbackOrder() noexcept {
+    return kFallbackOrder;
+}
+
+// Internal helper: traverse kFallbackOrder and return the first backend that
+// satisfies reqs and can be downcast to T*. T must be IComputeBackend or a
+// subtype (IVectorBackend, IGraphBackend, IGeoBackend).
+template <typename T>
+static T* selectTyped(const std::vector<std::unique_ptr<IComputeBackend>>& backends,
+                      const BackendRegistry::CapabilityRequirements& reqs) {
+    for (auto type : kFallbackOrder) {
+        for (const auto& backend : backends) {
+            if (backend->type() == type && BackendRegistry::satisfies(backend->getCapabilities(), reqs)) {
+                T* typed = dynamic_cast<T*>(backend.get());
+                if (typed) return typed;
+            }
+        }
+    }
+    return nullptr;
+}
+
+IComputeBackend* BackendRegistry::selectBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IComputeBackend>(backends_, reqs);
+}
+
+IVectorBackend* BackendRegistry::selectVectorBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IVectorBackend>(backends_, reqs);
+}
+
+IGraphBackend* BackendRegistry::selectGraphBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IGraphBackend>(backends_, reqs);
+}
+
+IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IGeoBackend>(backends_, reqs);
+}
+
 IVectorBackend* BackendRegistry::getBestVectorBackend() const {
-    // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
-    // CUDA: Best performance on NVIDIA
-    // HIP: Native AMD solution
-    // ZLUDA: CUDA compatibility on AMD
-    // Vulkan: Modern cross-platform
-    // DirectX: Windows-native
-    // ROCm: AMD compute platform
-    // OneAPI: Intel cross-platform
-    // Metal: Apple hardware
-    // OpenCL: Generic cross-platform
-    // OpenGL: Legacy support
-    // WebGPU: Browser-based (experimental)
-    static const BackendType priority[] = {
-        BackendType::CUDA,
-        BackendType::HIP,
-        BackendType::ZLUDA,
-        BackendType::VULKAN,
-        BackendType::DIRECTX,
-        BackendType::ROCM,
-        BackendType::ONEAPI,
-        BackendType::METAL,
-        BackendType::OPENCL,
-        BackendType::OPENGL,
-        BackendType::WEBGPU,
-        BackendType::CPU
-    };
-    
-    for (auto type : priority) {
+    for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsVectorOps) {
                 auto* vectorBackend = dynamic_cast<IVectorBackend*>(backend.get());
@@ -168,28 +196,11 @@ IVectorBackend* BackendRegistry::getBestVectorBackend() const {
             }
         }
     }
-    
     return nullptr;
 }
 
 IGraphBackend* BackendRegistry::getBestGraphBackend() const {
-    // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
-    static const BackendType priority[] = {
-        BackendType::CUDA,
-        BackendType::HIP,
-        BackendType::ZLUDA,
-        BackendType::VULKAN,
-        BackendType::DIRECTX,
-        BackendType::ROCM,
-        BackendType::ONEAPI,
-        BackendType::METAL,
-        BackendType::OPENCL,
-        BackendType::OPENGL,
-        BackendType::WEBGPU,
-        BackendType::CPU
-    };
-    
-    for (auto type : priority) {
+    for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsGraphOps) {
                 auto* graphBackend = dynamic_cast<IGraphBackend*>(backend.get());
@@ -199,28 +210,11 @@ IGraphBackend* BackendRegistry::getBestGraphBackend() const {
             }
         }
     }
-    
     return nullptr;
 }
 
 IGeoBackend* BackendRegistry::getBestGeoBackend() const {
-    // Priority order: CUDA > HIP > ZLUDA > Vulkan > DirectX > ROCm > OneAPI > Metal > OpenCL > OpenGL > WebGPU > CPU
-    static const BackendType priority[] = {
-        BackendType::CUDA,
-        BackendType::HIP,
-        BackendType::ZLUDA,
-        BackendType::VULKAN,
-        BackendType::DIRECTX,
-        BackendType::ROCM,
-        BackendType::ONEAPI,
-        BackendType::METAL,
-        BackendType::OPENCL,
-        BackendType::OPENGL,
-        BackendType::WEBGPU,
-        BackendType::CPU
-    };
-    
-    for (auto type : priority) {
+    for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
             if (backend->type() == type && backend->getCapabilities().supportsGeoOps) {
                 auto* geoBackend = dynamic_cast<IGeoBackend*>(backend.get());
@@ -230,7 +224,6 @@ IGeoBackend* BackendRegistry::getBestGeoBackend() const {
             }
         }
     }
-    
     return nullptr;
 }
 

@@ -49,16 +49,20 @@ public:
         caps.supportsGeoOps = false;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = false;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                              | metricBit(DistanceMetric::COSINE)
+                              | metricBit(DistanceMetric::INNER_PRODUCT);
         caps.deviceName = "CPU (Fallback)";
         return caps;
     }
-    
+
     bool initialize() override {
         clearError();
         return true;
     }
     void shutdown() override {}
-    
+
     // IVectorBackend interface
     std::vector<float> computeDistances(
         const float* queries,
@@ -105,16 +109,18 @@ public:
         caps.supportsGeoOps = false;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = false;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = 0; // graph ops do not use distance metrics
         caps.deviceName = "CPU (Fallback)";
         return caps;
     }
-    
+
     bool initialize() override {
         clearError();
         return true;
     }
     void shutdown() override {}
-    
+
     // IGraphBackend interface
     std::vector<std::vector<uint32_t>> batchBFS(
         const uint32_t* adjacency,
@@ -152,6 +158,8 @@ public:
         caps.supportsGeoOps = true;
         caps.supportsBatchProcessing = true;
         caps.supportsAsync = false;
+        caps.supportedPrecisions = PrecisionMode::FP32;
+        caps.supportedMetrics = 0; // geo ops do not use ANN distance metrics
         caps.deviceName = "CPU (Fallback)";
         return caps;
     }
