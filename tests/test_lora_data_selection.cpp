@@ -842,3 +842,115 @@ TEST_F(SelfImprovementModuleTest, SetConfig_LiveReload) {
     module.setConfig(new_cfg);
     EXPECT_EQ(module.getConfig().period_seconds, 7200u);
 }
+
+// ============================================================================
+// ContinuousLearningOrchestrator config integration
+// ============================================================================
+// These tests validate that LoRADataSelectionConfig and SelfImprovementConfig
+// can be embedded in a CLO-style configuration struct and used for live-reload,
+// matching the pattern implemented in ContinuousLearningOrchestrator.
+// We test the training types directly without pulling in the CLO's heavy deps.
+
+struct CLOStyleConfig {
+    themis::training::LoRADataSelectionConfig data_selection_config;
+    themis::training::SelfImprovementConfig   self_improvement_config;
+    std::string lora_trainer_config_path;
+    std::string self_improvement_config_path;
+};
+
+class CLODataSelectionIntegrationTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        cfg_.data_selection_config.target_samples = 100;
+        cfg_.data_selection_config.required_language = "";
+        cfg_.self_improvement_config.enabled = true;
+        cfg_.self_improvement_config.threshold_auto_adjust = true;
+
+        // One rule: reduce target_samples when latency is high
+        themis::training::AdaptiveRule rule;
+        rule.metric    = "inference_latency_ms";
+        rule.condition = "> 6000";
+        rule.action    = "decrease_target_samples";
+        rule.delta     = -10.0;
+        cfg_.self_improvement_config.adaptive_rules.push_back(rule);
+    }
+
+    CLOStyleConfig cfg_;
+};
+
+TEST_F(CLODataSelectionIntegrationTest, PipelineInitFromConfig) {
+    DataSelectionPipeline pipeline(cfg_.data_selection_config);
+    EXPECT_EQ(pipeline.getConfig().target_samples, 100u);
+}
+
+TEST_F(CLODataSelectionIntegrationTest, ModuleInitFromConfig) {
+    SelfImprovementModule module(cfg_.self_improvement_config);
+    EXPECT_EQ(module.getConfig().adaptive_rules.size(), 1u);
+}
+
+TEST_F(CLODataSelectionIntegrationTest, LiveReloadConfigPath) {
+    std::string src_path = __FILE__;
+    auto sep = src_path.rfind('/');
+    std::string repo_root = (sep != std::string::npos)
+                           ? src_path.substr(0, sep - std::string("tests").size())
+                           : "./";
+    cfg_.lora_trainer_config_path      = repo_root + "config/lora/LoRATrainerConfig.yaml";
+    cfg_.self_improvement_config_path  = repo_root + "config/lora/SelfImprovementModule.yaml";
+
+    // Simulate CLO constructor live-reload
+    auto ds_cfg = cfg_.data_selection_config;
+    if (!cfg_.lora_trainer_config_path.empty()) {
+        EXPECT_NO_THROW(
+            ds_cfg = LoRADataSelectionConfig::loadFromYAML(cfg_.lora_trainer_config_path));
+    }
+    EXPECT_EQ(ds_cfg.target_samples, 5000u);
+
+    auto si_cfg = cfg_.self_improvement_config;
+    if (!cfg_.self_improvement_config_path.empty()) {
+        EXPECT_NO_THROW(
+            si_cfg = SelfImprovementConfig::loadFromYAML(cfg_.self_improvement_config_path));
+    }
+    EXPECT_FALSE(si_cfg.adaptive_rules.empty());
+}
+
+TEST_F(CLODataSelectionIntegrationTest, AdaptiveRuleAppliedBeforeRetraining) {
+    DataSelectionPipeline pipeline(cfg_.data_selection_config);
+    SelfImprovementModule module(cfg_.self_improvement_config);
+
+    // Simulate CLO's runLoRARetraining adaptive step
+    DataSelectionMetrics metrics;
+    metrics.inference_latency_ms = 7000.0; // triggers the rule
+
+    auto updated = module.applyAdaptiveRules(pipeline.getConfig(), metrics);
+    pipeline.setConfig(updated);
+
+    EXPECT_EQ(module.lastTriggeredRuleCount(), 1u);
+    // target_samples decreased from 100 by 10
+    EXPECT_EQ(pipeline.getConfig().target_samples, 90u);
+}
+
+TEST_F(CLODataSelectionIntegrationTest, SelectionRunCalled_EmptyCandidates) {
+    DataSelectionPipeline pipeline(cfg_.data_selection_config);
+    DataSelectionResult result;
+    EXPECT_NO_THROW(result = pipeline.run({}));
+    EXPECT_TRUE(result.success);
+    EXPECT_TRUE(result.selected_samples.empty());
+}
+
+TEST_F(CLODataSelectionIntegrationTest, AuditEntryGeneratedForRetraining) {
+    DataSelectionPipeline pipeline(cfg_.data_selection_config);
+    auto result = pipeline.run({});
+    // JSONL must be non-empty and valid
+    std::string jsonl = result.audit_entry.toJSONL();
+    EXPECT_FALSE(jsonl.empty());
+    EXPECT_EQ(jsonl.front(), '{');
+    EXPECT_EQ(jsonl.back(), '}');
+}
+
+TEST_F(CLODataSelectionIntegrationTest, SetDataSelectionConfig_LiveReload) {
+    DataSelectionPipeline pipeline(cfg_.data_selection_config);
+    LoRADataSelectionConfig new_cfg;
+    new_cfg.target_samples = 999;
+    pipeline.setConfig(new_cfg);
+    EXPECT_EQ(pipeline.getConfig().target_samples, 999u);
+}
