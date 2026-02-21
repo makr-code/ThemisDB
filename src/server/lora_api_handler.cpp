@@ -1164,8 +1164,13 @@ http::response<http::string_body> LoRAApiHandler::handleGetProvenance(
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
 
-    const std::string adapter_id = extractPathParameter(req.target(),
-                                                         std::string(kAdaptersPrefix));
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/provenance";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
@@ -1187,8 +1192,13 @@ http::response<http::string_body> LoRAApiHandler::handleAttachProvenance(
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
 
-    const std::string adapter_id = extractPathParameter(req.target(),
-                                                         std::string(kAdaptersPrefix));
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/provenance";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
@@ -1220,8 +1230,13 @@ http::response<http::string_body> LoRAApiHandler::handleGetAuditLog(
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
 
-    const std::string adapter_id = extractPathParameter(req.target(),
-                                                         std::string(kAdaptersPrefix));
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/audit";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
@@ -1246,8 +1261,13 @@ http::response<http::string_body> LoRAApiHandler::handleListSnapshots(
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
 
-    const std::string adapter_id = extractPathParameter(req.target(),
-                                                         std::string(kAdaptersPrefix));
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/snapshots";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }
@@ -1272,8 +1292,13 @@ http::response<http::string_body> LoRAApiHandler::handleVerifyAuditChain(
         return createErrorResponse(http::status::service_unavailable, "Orchestrator not available");
     }
 
-    const std::string adapter_id = extractPathParameter(req.target(),
-                                                         std::string(kAdaptersPrefix));
+    std::string_view target = req.target();
+    constexpr std::string_view suffix = "/verify";
+    if (!target.starts_with(kAdaptersPrefix) || !target.ends_with(suffix)) {
+        return createErrorResponse(http::status::bad_request, "Invalid endpoint");
+    }
+    const std::string adapter_id{target.substr(kAdaptersPrefix.length(),
+        target.length() - (kAdaptersPrefix.length() + suffix.length()))};
     if (adapter_id.empty()) {
         return createErrorResponse(http::status::bad_request, "Missing adapter_id");
     }

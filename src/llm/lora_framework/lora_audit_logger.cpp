@@ -80,7 +80,9 @@ public:
                 e.request_id    = audit.request_id;
                 e.query_hash    = LoRAProvenanceManager::sha256Hex(audit.prompt);
                 e.response_hash = LoRAProvenanceManager::sha256Hex(audit.response);
-                e.model_hash    = audit.adapter_hash;  // re-use adapter_hash as combined id
+                // Use the base model id as the model identifier; the actual weight
+                // hash is not available here without loading the weights file.
+                e.model_hash    = LoRAProvenanceManager::sha256Hex(audit.base_model_id);
                 e.adapter_hash  = audit.adapter_hash;
                 e.metadata      = {
                     {"base_model_id",  audit.base_model_id},

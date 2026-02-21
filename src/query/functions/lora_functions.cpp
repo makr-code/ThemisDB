@@ -793,7 +793,7 @@ nlohmann::json LoraAuditLogFunction::execute(
 ) const {
     try {
         const std::string adapter_id = args[0].get<std::string>();
-        const int limit = args.size() > 1 ? args[1].get<int>() : 100;
+        const int limit = (args.size() > 1) ? std::max(0, args[1].get<int>()) : 100;
 
         auto orchestrator = getLoRAOrchestrator();
         const auto entries = orchestrator->getInferenceAuditLog(adapter_id);
