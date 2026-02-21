@@ -157,6 +157,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include "server/http2_session.h"
 #endif
 
+#ifdef THEMIS_ENABLE_HTTP3
+#include "server/http3_session.h"
+#endif
+
 #ifdef THEMIS_ENABLE_WEBSOCKET
 #include "server/websocket_session.h"
 #endif
@@ -1321,6 +1325,34 @@ void HttpServer::start() {
         }
     }
 
+#ifdef THEMIS_ENABLE_HTTP3
+    // Start HTTP/3 (QUIC) handler on UDP port
+    if (config_.enable_http3) {
+        try {
+            if (!config_.enable_tls) {
+                THEMIS_WARN("HTTP/3 requires TLS; enable_http3 ignored because enable_tls=false");
+            } else {
+                uint16_t h3_port = config_.http3_port != 0 ? config_.http3_port : config_.port;
+                auto* ssl_ctx_raw = Http3Handler::createSslContext(
+                    config_.tls_cert_path, config_.tls_key_path);
+                if (ssl_ctx_raw) {
+                    http3_handler_ = std::make_shared<Http3Handler>(
+                        ioc_, config_.host, h3_port, this,
+                        ssl_ctx_raw,
+                        config_.http3_max_idle_timeout_ms);
+                    http3_handler_->start();
+                    THEMIS_INFO("HTTP/3 (QUIC) handler started on UDP {}:{}", config_.host, h3_port);
+                } else {
+                    THEMIS_ERROR("HTTP/3: Failed to create SSL context; HTTP/3 disabled");
+                }
+            }
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Failed to start HTTP/3 handler: {}; HTTP/3 disabled", e.what());
+            // Non-fatal: HTTP/1.1 and HTTP/2 continue
+        }
+    }
+#endif
+
 #ifdef THEMIS_VERSION_STRING
     THEMIS_INFO("🎉 ThemisDB {} is now READY for operations", THEMIS_VERSION_STRING);
 #else
@@ -1352,6 +1384,19 @@ void HttpServer::stop() {
     // Stop accepting new connections
     beast::error_code ec;
     acceptor_.close(ec);
+
+#ifdef THEMIS_ENABLE_HTTP3
+    // Stop HTTP/3 QUIC handler
+    if (http3_handler_) {
+        try {
+            http3_handler_->stop();
+            http3_handler_.reset();
+            THEMIS_INFO("HTTP/3 handler stopped");
+        } catch (const std::exception& e) {
+            THEMIS_ERROR("Error stopping HTTP/3 handler: {}", e.what());
+        }
+    }
+#endif
 
     // Drain active requests with configurable timeout
     THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);

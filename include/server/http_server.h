@@ -170,6 +170,10 @@ namespace server {
 
 // Forward declare SSE manager so member can exist without header
 class SseConnectionManager;
+#ifdef THEMIS_ENABLE_HTTP3
+class Http3Handler;
+class Http3Session;
+#endif
 
 namespace beast = boost::beast;
 namespace http = beast::http;
@@ -358,6 +362,9 @@ public:
     // Friend classes for protocol handlers
     friend class Http2Session;
     friend class WebSocketSession;
+#ifdef THEMIS_ENABLE_HTTP3
+    friend class Http3Session;
+#endif
 
 private:
     // Session class for handling individual connections
@@ -861,6 +868,10 @@ private:
     tcp::acceptor acceptor_;
     std::unique_ptr<boost::asio::ssl::context> ssl_ctx_; // SSL context for TLS connections
     mutable std::mutex ssl_ctx_mutex_; // Protects ssl_ctx_ during hot-reload
+
+#ifdef THEMIS_ENABLE_HTTP3
+    std::shared_ptr<Http3Handler> http3_handler_; // HTTP/3 QUIC handler (UDP)
+#endif
     
     // Thread pool
     std::vector<std::thread> threads_;
