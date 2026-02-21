@@ -2,6 +2,28 @@
 
 Time series data management and compression implementation for ThemisDB.
 
+## Module Purpose
+
+Provides time series data management and compression for ThemisDB, offering Gorilla compression, continuous aggregation, retention management, and automatic batching for high-frequency single-point inserts.
+
+## Subsystem Scope
+
+**In scope:** Time series storage (TSStore), Gorilla delta-delta compression, continuous aggregation for downsampling, time-based retention, TSAutoBuffer for auto-batching.
+
+**Out of scope:** General temporal data (handled by temporal module), event streaming (handled by cdc module), raw metrics collection (handled by observability module).
+
+## Relevant Interfaces
+
+- `tsstore.h/cpp` — time series storage backend
+- `gorilla.h/cpp` — Gorilla compression codec
+- `continuous_agg.h/cpp` — continuous aggregation engine
+- `retention.h/cpp` — retention policy enforcement
+- `ts_auto_buffer.h/cpp` — automatic batching buffer
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — TSStore, Gorilla compression, and continuous aggregation operational; SIMD-accelerated decoder and chunk encryption planned.
+
 ## Components
 
 - **Time series storage** (`tsstore.h/cpp`)

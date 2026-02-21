@@ -2,6 +2,27 @@
 
 LLM interaction storage and chain-of-thought feature implementation for ThemisDB.
 
+## Module Purpose
+
+Implements LLM interaction storage and chain-of-thought features for ThemisDB. Provides two inference engines: AsyncInferenceEngine (lightweight async wrapper for single LLM plugin) and InferenceEngineEnhanced (enterprise multi-model engine with context caching, batch processing, and load balancing).
+
+## Subsystem Scope
+
+**In scope:** Async inference request management, priority queue, context caching (KV-cache reuse), dynamic batching, multi-model load balancing, InferenceHandle for request tracking.
+
+**Out of scope:** LLM model weights and serving (external), prompt template management (handled by prompt_engineering module), RAG pipeline orchestration (handled by rag module).
+
+## Relevant Interfaces
+
+- `async_inference_engine.cpp` — lightweight async inference wrapper
+- `inference_engine_enhanced.cpp` — enterprise multi-model engine
+- `include/llm/inference_handle.h` — async request handle
+- `llm_api_handler.cpp` (server) — API integration point
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Both inference engines operational; streaming token output and OpenAI-compatible adapter in progress.
+
 ## Architecture Overview
 
 ThemisDB provides **two distinct inference engines** serving different purposes:

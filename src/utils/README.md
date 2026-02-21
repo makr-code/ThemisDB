@@ -2,6 +2,30 @@
 
 Utility functions and shared components for ThemisDB.
 
+## Module Purpose
+
+Provides shared utility functions and cross-cutting infrastructure components used across all ThemisDB modules, including audit logging, PII detection, text processing, cryptographic helpers, tracing, compression, and pagination.
+
+## Subsystem Scope
+
+**In scope:** Audit logger, cursor/pagination, HKDF key derivation, LEK manager, structured logger, text normalizer, PII detection and pseudonymization, PKI client, retention manager, SAGA logger, serialization helpers, stemmer/stopwords, distributed tracing, ZSTD codec, geospatial utilities.
+
+**Out of scope:** Business logic, module-specific data models, high-level orchestration.
+
+## Relevant Interfaces
+
+- `audit_logger.cpp` — structured audit trail
+- `pii_detector.cpp` — PII detection and pseudonymization
+- `hkdf_helper.cpp` — HKDF key derivation
+- `tracing.cpp` — distributed trace propagation
+- `zstd_codec.cpp` — ZSTD compression
+- `stemmer.cpp` — text stemming
+- `lek_manager.cpp` — Local Encryption Key management
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — All core utilities operational; streaming PII pipeline and tamper-evident audit chain in progress.
+
 ## Components
 
 - Audit logger
