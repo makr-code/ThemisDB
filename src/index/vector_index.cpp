@@ -803,6 +803,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 					idToPk_.push_back(pk);
 				} else {
 					id = id_it->second; // reuse label of a previously deleted entry
+					idToPk_[id] = pk;   // update reverse mapping to the new PK
 				}
 				try { appr->addPoint(new_vec.data(), id); } catch (...) {}
 			}
