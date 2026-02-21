@@ -69,6 +69,8 @@ require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-order-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-contract-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-payment-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-manager.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-api.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-portal.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-pdf-generator.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-email-handler.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-epserver-api.php';
@@ -90,6 +92,10 @@ function themisdb_order_request_init() {
     
     // Initialize shortcodes
     new ThemisDB_Order_Shortcodes();
+
+    // Initialize license REST API and customer portal
+    new ThemisDB_License_API();
+    new ThemisDB_License_Portal();
     
     // Load text domain for translations
     load_plugin_textdomain('themisdb-order-request', false, dirname(plugin_basename(__FILE__)) . '/languages');
@@ -121,6 +127,12 @@ function themisdb_order_request_activate() {
     }
     if (!get_option('themisdb_order_legal_compliance')) {
         add_option('themisdb_order_legal_compliance', '1'); // Enable legal compliance checks
+    }
+    if (!get_option('themisdb_license_api_key')) {
+        add_option('themisdb_license_api_key', ''); // Set via Settings → ThemisDB License API
+    }
+    if (!get_option('themisdb_license_admin_secret')) {
+        add_option('themisdb_license_admin_secret', ''); // Optional extra admin secret for admin endpoints
     }
     
     // Flush rewrite rules
