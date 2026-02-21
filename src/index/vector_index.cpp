@@ -711,7 +711,9 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 		return {Status::Error("incrementalReindex: Manager nicht initialisiert"), stats};
 
 	// --- Phase 1: scan storage and collect current vectors ---
-	const std::string prefix = objectName_ + ":";
+	// Use the same key prefix as addEntity() stores:
+	// KeySchema::makeVectorKey(objectName_, pk) = "vec:<objectName>:<pk>"
+	const std::string prefix = KeySchema::makeVectorKey(objectName_, "");
 	std::unordered_map<std::string, std::vector<float>> storage_vectors;
 
 	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
@@ -783,6 +785,10 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 			}
 		}
 #endif
+		// Remove from PK→label mapping so getVectorCount() stays accurate.
+		// We intentionally keep idToPk_ entries as holes (label slots) so Phase 3
+		// can reuse the label when a new PK arrives, avoiding unbounded label growth.
+		pkToId_.erase(pk);
 		++stats.removed;
 	}
 
@@ -829,13 +835,15 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 
 	// --- Phase 4: auto full-rebuild when soft-deleted label ratio is too high ---
 	if (rebuild_threshold > 0.0f && rebuild_threshold <= 1.0f) {
-		size_t total_labels = pkToId_.size();
-		size_t alive        = cache_.size();
-		size_t deleted      = (total_labels > alive) ? (total_labels - alive) : 0;
-		float  ratio        = (total_labels > 0)
-		                          ? (static_cast<float>(deleted) / static_cast<float>(total_labels))
-		                          : 0.0f;
-		if (ratio > rebuild_threshold && total_labels > 0) {
+		// idToPk_.size() = total ever-allocated labels (including holes for deleted entries)
+		// pkToId_.size() = currently active labels
+		size_t total_ever  = idToPk_.size();
+		size_t active      = pkToId_.size();
+		size_t holes       = (total_ever > active) ? (total_ever - active) : 0;
+		float  ratio       = (total_ever > 0)
+		                         ? (static_cast<float>(holes) / static_cast<float>(total_ever))
+		                         : 0.0f;
+		if (ratio > rebuild_threshold && total_ever > 0) {
 			THEMIS_INFO("incrementalReindex: deleted ratio {:.1f}% > threshold {:.1f}%, full rebuild",
 			            ratio * 100.0f, rebuild_threshold * 100.0f);
 			auto s = rebuildFromStorage();

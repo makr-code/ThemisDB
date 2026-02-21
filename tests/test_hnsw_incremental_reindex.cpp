@@ -17,6 +17,7 @@
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 #include <chrono>
 #include <filesystem>
 #include <memory>
@@ -69,17 +70,17 @@ struct IncrementalReindexFixture : ::testing::Test {
         std::filesystem::remove_all(db_path);
     }
 
-    // Convenience: write an entity directly into RocksDB using the scan-compatible
-    // key format (objectName:pk), which is what rebuildFromStorage/incrementalReindex
-    // scan for when using prefix objectName + ":".
+    // Convenience: write an entity directly into RocksDB using the canonical
+    // key format that addEntity() uses: KeySchema::makeVectorKey(objectName, pk)
+    // = "vec:<objectName>:<pk>", matching the scan prefix in incrementalReindex().
     void storeDirect(const BaseEntity& e) {
-        std::string key = "items:" + e.getPrimaryKey();
+        std::string key = KeySchema::makeVectorKey("items", e.getPrimaryKey());
         ASSERT_TRUE(db->put(key, e.serialize()));
     }
 
-    // Convenience: delete an entity directly from RocksDB (same scan-compatible format).
+    // Convenience: delete an entity directly from RocksDB (canonical key format).
     void deleteDirect(const std::string& pk) {
-        ASSERT_TRUE(db->del("items:" + pk));
+        ASSERT_TRUE(db->del(KeySchema::makeVectorKey("items", pk)));
     }
 };
 
@@ -290,12 +291,11 @@ TEST_F(MaintenanceFixture, WithVIM_ReturnsJobStatus) {
 
 // Test 10: vectorIncrementalReindex stats flow through job message
 TEST_F(MaintenanceFixture, StatsFlowThroughJobMessage) {
-    // Add a vector, then remove its scan-visible storage key so
-    // incrementalReindex sees it in cache but not in the storage scan → "removed".
-    // The scan in incrementalReindex uses prefix "things:" (objectName + ":"), so
-    // we delete the key "things:gone" to make it invisible to the scan.
+    // Add a vector via addEntity (stored at "vec:things:gone"),
+    // then delete that canonical key so incrementalReindex sees it in cache
+    // but not in the storage scan → counted as "removed".
     ASSERT_TRUE(vim->addEntity(makeEntity("gone", {1,0,0,0,0,0,0,0})).ok);
-    db->del("things:gone");
+    db->del(KeySchema::makeVectorKey("things", "gone")); // canonical key format
 
     auto result = maint->vectorIncrementalReindex(0.0f); // disable auto full-rebuild
     ASSERT_TRUE(result.has_value());
