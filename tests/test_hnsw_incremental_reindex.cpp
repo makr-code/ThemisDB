@@ -69,13 +69,15 @@ struct IncrementalReindexFixture : ::testing::Test {
         std::filesystem::remove_all(db_path);
     }
 
-    // Convenience: write an entity directly into RocksDB under the "items:" prefix.
+    // Convenience: write an entity directly into RocksDB using the scan-compatible
+    // key format (objectName:pk), which is what rebuildFromStorage/incrementalReindex
+    // scan for when using prefix objectName + ":".
     void storeDirect(const BaseEntity& e) {
         std::string key = "items:" + e.getPrimaryKey();
         ASSERT_TRUE(db->put(key, e.serialize()));
     }
 
-    // Convenience: delete a key directly from RocksDB.
+    // Convenience: delete an entity directly from RocksDB (same scan-compatible format).
     void deleteDirect(const std::string& pk) {
         ASSERT_TRUE(db->del("items:" + pk));
     }
@@ -208,6 +210,99 @@ TEST_F(IncrementalReindexFixture, IdempotentOnSecondCall) {
     ASSERT_TRUE(s2.ok);
     EXPECT_EQ(st2.added + st2.removed + st2.updated, 0u);
     EXPECT_EQ(st2.unchanged, 1u);
+}
+
+} // namespace
+} // namespace themis
+
+// ---------------------------------------------------------------------------
+// IndexMaintenanceManager integration tests
+// ---------------------------------------------------------------------------
+#include "storage/index_maintenance.h"
+
+namespace themis {
+namespace {
+
+struct MaintenanceFixture : ::testing::Test {
+    static constexpr int kDim = 8;
+
+    std::string db_path;
+    std::shared_ptr<RocksDBWrapper>          db;   // shared for IndexMaintenanceManager
+    std::shared_ptr<VectorIndexManager>      vim;
+    std::unique_ptr<IndexMaintenanceManager> maint;
+
+    void SetUp() override {
+        db_path = makeTempPath("maint");
+        RocksDBWrapper::Config cfg;
+        cfg.db_path       = db_path;
+        cfg.enable_blobdb = false;
+        db = std::make_shared<RocksDBWrapper>(cfg);
+        ASSERT_TRUE(db->open());
+
+        vim = std::make_shared<VectorIndexManager>(*db);
+        auto s = vim->init("things", kDim, VectorIndexManager::Metric::L2,
+                           /*M=*/4, /*efC=*/50, /*efS=*/16);
+        ASSERT_TRUE(s.ok) << s.message;
+
+        maint = std::make_unique<IndexMaintenanceManager>(db);
+        maint->setVectorIndexManager(vim);
+    }
+
+    void TearDown() override {
+        maint.reset();
+        vim.reset();
+        db.reset();
+        std::filesystem::remove_all(db_path);
+    }
+};
+
+// Test 8: vectorIncrementalReindex without VIM set → error
+TEST(MaintenanceVectorReindex, WithoutVIM_ReturnsError) {
+    std::string path = makeTempPath("novim");
+    RocksDBWrapper::Config cfg;
+    cfg.db_path       = path;
+    cfg.enable_blobdb = false;
+    auto db = std::make_shared<RocksDBWrapper>(cfg);
+    ASSERT_TRUE(db->open());
+
+    IndexMaintenanceManager maint(db);
+    auto result = maint.vectorIncrementalReindex();
+    EXPECT_FALSE(result.has_value());
+
+    db->close();
+    std::filesystem::remove_all(path);
+}
+
+// Test 9: vectorIncrementalReindex with VIM set → OK job returned
+TEST_F(MaintenanceFixture, WithVIM_ReturnsJobStatus) {
+    ASSERT_TRUE(vim->addEntity(makeEntity("m1", {1,0,0,0,0,0,0,0})).ok);
+
+    auto result = maint->vectorIncrementalReindex();
+    ASSERT_TRUE(result.has_value()) << "Expected successful job";
+    const auto& job = *result;
+
+    EXPECT_FALSE(job.job_id.empty());
+    EXPECT_TRUE(job.is_completed);
+    EXPECT_FALSE(job.is_failed);
+    EXPECT_EQ(job.operation, MaintenanceOperation::VECTOR_INCREMENTAL_REINDEX);
+    EXPECT_GT(job.duration_ms, 0u);
+}
+
+// Test 10: vectorIncrementalReindex stats flow through job message
+TEST_F(MaintenanceFixture, StatsFlowThroughJobMessage) {
+    // Add a vector, then remove its scan-visible storage key so
+    // incrementalReindex sees it in cache but not in the storage scan → "removed".
+    // The scan in incrementalReindex uses prefix "things:" (objectName + ":"), so
+    // we delete the key "things:gone" to make it invisible to the scan.
+    ASSERT_TRUE(vim->addEntity(makeEntity("gone", {1,0,0,0,0,0,0,0})).ok);
+    db->del("things:gone");
+
+    auto result = maint->vectorIncrementalReindex(0.0f); // disable auto full-rebuild
+    ASSERT_TRUE(result.has_value());
+    const auto& job = *result;
+
+    // The result_summary field carries the stats summary
+    EXPECT_NE(job.result_summary.find("removed=1"), std::string::npos);
 }
 
 } // namespace

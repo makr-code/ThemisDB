@@ -42,6 +42,7 @@ namespace themis {
 // Forward declarations
 class RocksDBWrapper;
 class IndexManager;
+class VectorIndexManager;
 
 /**
  * @brief Index fragmentation levels
@@ -56,11 +57,12 @@ enum class FragmentationLevel {
  * @brief Maintenance operation types
  */
 enum class MaintenanceOperation {
-    INDEX_REBUILD,           // Full reconstruction for high fragmentation
-    INDEX_REORGANIZATION,    // In-place defragmentation
-    STATISTICS_UPDATE,       // Refresh cardinality information
-    ORPHAN_ENTRY_CLEANUP,    // Remove dead entries
-    CONSISTENCY_CHECK        // Validation and repair
+    INDEX_REBUILD,                // Full reconstruction for high fragmentation
+    INDEX_REORGANIZATION,         // In-place defragmentation
+    STATISTICS_UPDATE,            // Refresh cardinality information
+    ORPHAN_ENTRY_CLEANUP,         // Remove dead entries
+    CONSISTENCY_CHECK,            // Validation and repair
+    VECTOR_INCREMENTAL_REINDEX    // Incremental HNSW re-index without full rebuild
 };
 
 /**
@@ -103,6 +105,7 @@ struct MaintenanceJobStatus {
     bool is_failed = false;
     double progress_percentage = 0.0;
     std::string error_message;
+    std::string result_summary;  ///< Human-readable summary of the completed operation (non-error)
     uint64_t start_time_ms = 0;
     uint64_t end_time_ms = 0;
     uint64_t duration_ms = 0;
@@ -290,6 +293,29 @@ public:
      */
     Result<void> triggerMaintenanceCheck();
 
+    // ===== Vector Index Integration =====
+
+    /**
+     * @brief Set the VectorIndexManager for HNSW maintenance operations
+     * @param vector_index Shared pointer to the vector index manager
+     */
+    void setVectorIndexManager(std::shared_ptr<VectorIndexManager> vector_index);
+
+    /**
+     * @brief Run incremental HNSW re-index (sync in-memory index with storage)
+     * 
+     * Delegates to VectorIndexManager::incrementalReindex().  If no
+     * VectorIndexManager has been set via setVectorIndexManager(), returns an
+     * error without performing any operation.
+     *
+     * @param rebuild_threshold Deleted-label ratio that triggers a full rebuild (0–1).
+     * @param vector_field      Name of the vector field in stored entities.
+     * @return Result with job status or error
+     */
+    Result<MaintenanceJobStatus> vectorIncrementalReindex(
+        float rebuild_threshold = 0.20f,
+        std::string_view vector_field = "embedding");
+
 private:
     // Background maintenance thread
     void maintenanceThreadFunc();
@@ -311,6 +337,7 @@ private:
     // Members
     std::shared_ptr<RocksDBWrapper> db_wrapper_;
     std::shared_ptr<IndexManager> index_manager_;
+    std::shared_ptr<VectorIndexManager> vector_index_manager_; ///< Optional; for HNSW incremental reindex
     
     MaintenancePolicy policy_;
     
