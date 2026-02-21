@@ -392,8 +392,3 @@ TEST(AllBackends, ErrorCodeIntegration) {
     // At least one backend should be tested
     EXPECT_GE(backends_tested.size(), 1);
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
