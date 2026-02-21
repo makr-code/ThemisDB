@@ -13,6 +13,7 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] **FeedbackCollector scalability** – `getFeedbackPaged()` chunked API, `detectOutliers()` Z-score anomaly detection, FNV-1a audit checksum on every entry
 - [x] PromptEvaluator – semantic similarity, exact match, partial match, relevance scoring
 - [x] **PromptEvaluator statistical significance** – proper Welch's two-sample t-test replacing naive 5% threshold
+- [x] **PromptEvaluator embedding interface** – `IEmbeddingProvider` interface; `setEmbeddingProvider()` / cosine similarity / graceful Jaccard fallback
 - [x] PromptOptimizer – iterative improvement with pluggable eval/improvement functions
 - [x] MetaPromptGenerator – LLM-assisted prompt rewriting
 - [x] **MetaPromptGenerator LLM integration** – `ILLMProvider` interface; `setLLMProvider()` / graceful fallback
@@ -53,10 +54,12 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [x] Feedback paging API for large archives
 - [x] Audit trail (checksum) on feedback entries
 - [x] Pluggable LLM interface for MetaPromptGenerator
+- [x] Pluggable embedding interface for PromptEvaluator
 - [x] Welch's t-test for statistical significance
 - [x] Proper normal CDF for A/B test z-test p-values
 - [x] Metrics snapshot/restore for crash recovery
 - [x] Threshold-based alerting with pluggable callbacks
+- [x] All prompt_engineering sources compiled in the build
 - [ ] Unit tests coverage > 80%
 - [ ] Integration tests (version control round-trip, A/B statistical significance)
 - [ ] Performance benchmarks (optimization loop latency, concurrent access)

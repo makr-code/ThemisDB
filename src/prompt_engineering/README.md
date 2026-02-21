@@ -63,13 +63,18 @@ Records and stores user and system feedback events against named prompt IDs. Com
 Computes quality scores for prompt outputs by comparing them against expected results.
 
 **Features:**
-- **Semantic similarity** — Jaccard token-overlap similarity scoring
+- **Semantic similarity** — Jaccard token-overlap similarity (baseline, zero dependencies)
 - **Exact match** — normalized string equality
 - **Partial match** — normalized Levenshtein distance
 - **Relevance** — keyword coverage metric
 - **Weighted score** — configurable linear combination of the four metrics
 - Batch evaluation (`evaluateBatch`) with per-case breakdowns and pass/fail counts
 - `isStatisticallySignificant()` — proper Welch's two-sample t-test with Welch–Satterthwaite degrees of freedom and p-value via the Lentz continued-fraction regularised incomplete-beta CDF
+- **Pluggable embedding provider** via `IEmbeddingProvider` interface:
+  - `setEmbeddingProvider(provider)` — inject any embedding model (OpenAI, Sentence Transformers, local)
+  - `computeEmbeddingSimilarity(s1, s2)` — cosine similarity of provider embeddings; returns -1.0 on error (graceful fallback to Jaccard in `evaluateSingle()`)
+  - `computeCosineSimilarity(v1, v2)` — static helper for cosine similarity of dense vectors
+  - `clearEmbeddingProvider()` / `hasEmbeddingProvider()` — lifecycle management
 
 ### PromptOptimizer
 **Location:** `prompt_optimizer.cpp`

@@ -49,8 +49,18 @@ EvaluationMetrics PromptEvaluator::evaluateSingle(
     const std::string& expected
 ) const {
     EvaluationMetrics metrics;
-    
-    metrics.semantic_similarity = computeSemanticSimilarity(output, expected);
+
+    // Use embedding-based cosine similarity when a provider is available;
+    // fall back to Jaccard token overlap otherwise.
+    if (embedding_provider_) {
+        double emb_sim = computeEmbeddingSimilarity(output, expected);
+        metrics.semantic_similarity = (emb_sim >= 0.0) ? emb_sim
+                                                       : computeSemanticSimilarity(output, expected);
+        metrics.details["embedding_provider"] = embedding_provider_->name();
+    } else {
+        metrics.semantic_similarity = computeSemanticSimilarity(output, expected);
+    }
+
     metrics.exact_match = computeExactMatch(output, expected);
     metrics.partial_match = computePartialMatch(output, expected);
     metrics.relevance = computeRelevance(output, expected);
@@ -443,6 +453,61 @@ size_t PromptEvaluator::levenshteinDistance(
     }
     
     return dp[m][n];
+}
+
+double PromptEvaluator::computeCosineSimilarity(
+    const std::vector<double>& v1,
+    const std::vector<double>& v2
+) {
+    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
+        return 0.0;
+    }
+
+    double dot = 0.0, norm1 = 0.0, norm2 = 0.0;
+    for (size_t i = 0; i < v1.size(); ++i) {
+        dot   += v1[i] * v2[i];
+        norm1 += v1[i] * v1[i];
+        norm2 += v2[i] * v2[i];
+    }
+
+    double denom = std::sqrt(norm1) * std::sqrt(norm2);
+    if (denom < 1e-12) {
+        return 0.0;
+    }
+
+    // Clamp to [0, 1]: well-trained text embedding models typically keep
+    // cosine similarity in [0, 1], but some models may produce negative values
+    // for semantically distant texts, and floating-point drift can push near-1
+    // values slightly above 1.  Clamping ensures a consistent [0, 1] range for
+    // scoring regardless of model characteristics.
+    double cosine = dot / denom;
+    return std::max(0.0, std::min(1.0, cosine));
+}
+
+double PromptEvaluator::computeEmbeddingSimilarity(
+    const std::string& s1,
+    const std::string& s2
+) const {
+    if (!embedding_provider_) {
+        return -1.0;  // Signal: no provider, caller should use Jaccard fallback
+    }
+
+    try {
+        auto v1 = embedding_provider_->embed(s1);
+        auto v2 = embedding_provider_->embed(s2);
+
+        if (v1.empty() || v2.empty()) {
+            THEMIS_WARN("Embedding provider '{}' returned empty vector – falling back",
+                        embedding_provider_->name());
+            return -1.0;
+        }
+
+        return computeCosineSimilarity(v1, v2);
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR("Embedding provider '{}' threw: {} – falling back to Jaccard",
+                     embedding_provider_->name(), ex.what());
+        return -1.0;
+    }
 }
 
 } // namespace prompt_engineering
