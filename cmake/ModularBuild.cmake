@@ -266,6 +266,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/cep_engine.cpp
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
+    ../src/analytics/anomaly_detection.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
