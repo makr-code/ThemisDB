@@ -1,5 +1,6 @@
 #pragma once
 
+#include "aql/aql_query_validator.h"
 #include <string>
 #include <vector>
 #include <memory>
@@ -128,6 +129,16 @@ public:
      * @brief Check whether the query structure is valid (clauses in correct order)
      */
     bool isValid() const;
+
+    /**
+     * @brief Validate the current builder state using AQLQueryValidator.
+     *
+     * Returns a ValidationResult containing all structural and lint issues found.
+     * Does not require an LLM connection.
+     *
+     * @return ValidationResult with errors, warnings, and hints
+     */
+    ValidationResult validate() const;
 
     // =========================================================================
     // Suggestions

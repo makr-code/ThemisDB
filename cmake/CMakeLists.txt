@@ -1807,6 +1807,7 @@ if(THEMIS_ENABLE_LLM)
     ../src/server/llm_api_handler.cpp
     ../src/aql/llm_aql_handler.cpp
     ../src/aql/aql_query_builder.cpp
+    ../src/aql/aql_query_validator.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers

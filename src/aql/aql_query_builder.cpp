@@ -1,4 +1,5 @@
 #include "aql/aql_query_builder.h"
+#include "aql/aql_query_validator.h"
 #include "aql/llm_aql_handler.h"
 
 #include <sstream>
@@ -238,6 +239,11 @@ bool AQLQueryBuilder::isValid() const {
         return false;
     }
     return true;
+}
+
+ValidationResult AQLQueryBuilder::validate() const {
+    AQLQueryValidator validator;
+    return validator.validate(*this);
 }
 
 // ============================================================================

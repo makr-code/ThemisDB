@@ -266,6 +266,7 @@ set(THEMIS_QUERY_SOURCES
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
     ../src/aql/aql_query_builder.cpp
+    ../src/aql/aql_query_validator.cpp
     
     # Security: AQL injection detection (uses AQLParser)
     ../src/security/aql_injection_detector.cpp
