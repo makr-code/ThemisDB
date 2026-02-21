@@ -25,6 +25,7 @@
  */
 
 #include "acceleration/cpu_backend.h"
+#include "acceleration/kernel_invocation.h"
 #include <cmath>
 #include <algorithm>
 #include <queue>
@@ -277,6 +278,190 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(
     }
     
     return results;
+}
+
+// ============================================================================
+// CPU Kernel Dispatch — frozen interface implementations
+// ============================================================================
+// These static functions match the ANNDistanceFn / ANNTopKFn / GeoDistanceFn /
+// GeoContainmentFn typedefs from kernel_invocation.h exactly.  They are
+// registered via populateANNDispatch() / populateGeoDispatch() so the
+// BackendRegistry can call them through the dispatch tables without knowing
+// the backend type at compile time.
+// ============================================================================
+
+namespace {
+
+// ---------------------------------------------------------------------------
+// File-local haversine helper (avoids calling 'this' from a static function)
+// ---------------------------------------------------------------------------
+inline double haversine_km(double lat1, double lon1, double lat2, double lon2) noexcept {
+    constexpr double R   = 6371.0;
+    constexpr double kPi = 3.141592653589793238462643383279502884;
+    lat1 *= kPi / 180.0;
+    lon1 *= kPi / 180.0;
+    lat2 *= kPi / 180.0;
+    lon2 *= kPi / 180.0;
+    const double dlat = lat2 - lat1;
+    const double dlon = lon2 - lon1;
+    const double a = std::sin(dlat / 2) * std::sin(dlat / 2) +
+                     std::cos(lat1) * std::cos(lat2) *
+                     std::sin(dlon / 2) * std::sin(dlon / 2);
+    return R * 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+}
+
+// ---------------------------------------------------------------------------
+// ANN dispatch functions
+// ---------------------------------------------------------------------------
+
+static int cpu_ann_l2_distance(
+    const float* queries, const float* vectors, float* distances,
+    int numQueries, int numVectors, int dim, void* /*stream*/)
+{
+    for (int q = 0; q < numQueries; ++q) {
+        for (int v = 0; v < numVectors; ++v) {
+            float sum = 0.f;
+            for (int d = 0; d < dim; ++d) {
+                float diff = queries[q * dim + d] - vectors[v * dim + d];
+                sum += diff * diff;
+            }
+            distances[q * numVectors + v] = sum;
+        }
+    }
+    return 0;
+}
+
+static int cpu_ann_cosine_distance(
+    const float* queries, const float* vectors, float* distances,
+    int numQueries, int numVectors, int dim, void* /*stream*/)
+{
+    // Minimum denominator (|a|*|b|) below which cosine is undefined: treat as max distance.
+    constexpr float kCosineEpsilon = 1e-10f;
+    for (int q = 0; q < numQueries; ++q) {
+        for (int v = 0; v < numVectors; ++v) {
+            float dot = 0.f, nq = 0.f, nv = 0.f;
+            for (int d = 0; d < dim; ++d) {
+                float qv = queries[q * dim + d];
+                float vv = vectors[v * dim + d];
+                dot += qv * vv;
+                nq  += qv * qv;
+                nv  += vv * vv;
+            }
+            const float denom = std::sqrt(nq) * std::sqrt(nv);
+            distances[q * numVectors + v] = (denom > kCosineEpsilon) ? 1.f - dot / denom : 1.f;
+        }
+    }
+    return 0;
+}
+
+static int cpu_ann_inner_product(
+    const float* queries, const float* vectors, float* distances,
+    int numQueries, int numVectors, int dim, void* /*stream*/)
+{
+    // Negative inner product so that smaller is better (consistent with L2/cosine)
+    for (int q = 0; q < numQueries; ++q) {
+        for (int v = 0; v < numVectors; ++v) {
+            float dot = 0.f;
+            for (int d = 0; d < dim; ++d) {
+                dot += queries[q * dim + d] * vectors[v * dim + d];
+            }
+            distances[q * numVectors + v] = -dot;
+        }
+    }
+    return 0;
+}
+
+static int cpu_ann_topk(
+    const float* distances, uint32_t* topk_indices, float* topk_dists,
+    int numQueries, int numVectors, int topK, void* /*stream*/)
+{
+    using Pair = std::pair<float, uint32_t>; // (distance, index)
+    for (int q = 0; q < numQueries; ++q) {
+        const float* row = distances + q * numVectors;
+        // Max-heap of size topK: keeps the topK smallest distances
+        std::priority_queue<Pair> heap;
+        for (int v = 0; v < numVectors; ++v) {
+            heap.emplace(row[v], static_cast<uint32_t>(v));
+            if (static_cast<int>(heap.size()) > topK) {
+                heap.pop();
+            }
+        }
+        // Drain heap in ascending order
+        int slot = static_cast<int>(heap.size()) - 1;
+        while (!heap.empty()) {
+            topk_indices[q * topK + slot] = heap.top().second;
+            topk_dists  [q * topK + slot] = heap.top().first;
+            heap.pop();
+            --slot;
+        }
+    }
+    return 0;
+}
+
+// ---------------------------------------------------------------------------
+// Geospatial dispatch functions
+// ---------------------------------------------------------------------------
+
+static int cpu_geo_distance(
+    const double* lats1, const double* lons1,
+    const double* lats2, const double* lons2,
+    float* out_distances, int count,
+    GeoDistanceFormula /*formula*/,  // Vincenty falls back to Haversine (CPU impl)
+    void* /*stream*/)
+{
+    for (int i = 0; i < count; ++i) {
+        out_distances[i] = static_cast<float>(
+            haversine_km(lats1[i], lons1[i], lats2[i], lons2[i]));
+    }
+    return 0;
+}
+
+static int cpu_geo_containment(
+    const double* point_lats, const double* point_lons, int numPoints,
+    const double* polygon_coords, int numVertices,
+    uint8_t* results, void* /*stream*/)
+{
+    for (int p = 0; p < numPoints; ++p) {
+        const double testLat = point_lats[p];
+        const double testLon = point_lons[p];
+        bool inside = false;
+        int  j = numVertices - 1;
+        for (int i = 0; i < numVertices; ++i) {
+            const double lat_i = polygon_coords[i * 2];
+            const double lon_i = polygon_coords[i * 2 + 1];
+            const double lat_j = polygon_coords[j * 2];
+            const double lon_j = polygon_coords[j * 2 + 1];
+            if (((lon_i > testLon) != (lon_j > testLon)) &&
+                (testLat < (lat_j - lat_i) * (testLon - lon_i) / (lon_j - lon_i) + lat_i)) {
+                inside = !inside;
+            }
+            j = i;
+        }
+        results[p] = inside ? 1u : 0u;
+    }
+    return 0;
+}
+
+} // anonymous namespace
+
+// ---------------------------------------------------------------------------
+// Public dispatch-population methods
+// ---------------------------------------------------------------------------
+
+ANNKernelDispatch CPUVectorBackend::populateANNDispatch() const {
+    ANNKernelDispatch d;
+    d.launchL2Distance   = cpu_ann_l2_distance;
+    d.launchCosine       = cpu_ann_cosine_distance;
+    d.launchInnerProduct = cpu_ann_inner_product;
+    d.launchTopK         = cpu_ann_topk;
+    return d;
+}
+
+GeoKernelDispatch CPUGeoBackend::populateGeoDispatch() const {
+    GeoKernelDispatch d;
+    d.launchDistance    = cpu_geo_distance;
+    d.launchContainment = cpu_geo_containment;
+    return d;
 }
 
 } // namespace acceleration

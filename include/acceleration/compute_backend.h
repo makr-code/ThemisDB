@@ -31,6 +31,7 @@
 #include <memory>
 #include <cstdint>
 #include "acceleration/error_context.h"
+#include "acceleration/kernel_invocation.h"
 
 namespace themis {
 namespace acceleration {
@@ -133,6 +134,11 @@ public:
         size_t k,
         bool useL2 = true
     ) = 0;
+
+    // Populate the frozen kernel dispatch table for this backend.
+    // Backends override this to expose their kernel function pointers.
+    // Null entries in the returned table indicate unsupported operations.
+    virtual ANNKernelDispatch populateANNDispatch() const { return {}; }
 };
 
 // Graph operations backend interface
@@ -183,6 +189,11 @@ public:
         const double* polygonCoords,
         size_t numPolygonVertices
     ) = 0;
+
+    // Populate the frozen kernel dispatch table for this backend.
+    // Backends override this to expose their kernel function pointers.
+    // Null entries in the returned table indicate unsupported operations.
+    virtual GeoKernelDispatch populateGeoDispatch() const { return {}; }
 };
 
 // Forward declaration
