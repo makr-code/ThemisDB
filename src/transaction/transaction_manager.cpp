@@ -774,15 +774,30 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
     
-    // Capture old vector for compensation (MVCC: read before write)
+    // Capture old vector BEFORE the write.  If we read after the put(), the MVCC
+    // read-your-own-writes buffer would return the new value instead of the original.
     std::string pk = entity.getPrimaryKey();
     std::string vector_key = "vector:" + pk;
-    
     auto old_data = mvcc_txn_->get(vector_key);
+
+    // Update vector entity in MVCC transaction
+    auto serialized = entity.serialize();
+    if (!mvcc_txn_->put(vector_key, serialized)) {
+        return Status::Error("updateVector: MVCC conflict detected");
+    }
+    
+    // Update vector index using MVCC transaction
+    auto st = vecIdx_.updateEntity(entity, *mvcc_txn_, vectorField);
+    if (!st.ok) {
+        return Status::Error(st.message);
+    }
+
+    // Register SAGA compensating action AFTER both writes succeeded so that
+    // a failed updateVector (e.g. MVCC conflict) does not leave a spurious step
+    // in the SAGA queue.
     if (old_data) {
         // Old vector exists: capture for restoration
         auto old_entity = BaseEntity::deserialize(pk, *old_data);
-        
         saga_->addStep("vectorUpdate:" + pk, [this, old_entity = std::move(old_entity), vectorField = std::string(vectorField)]() {
             THEMIS_DEBUG("SAGA: Restoring old vector for '{}'", old_entity.getPrimaryKey());
             auto status = vecIdx_.updateEntity(old_entity, vectorField);
@@ -798,18 +813,6 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
         });
     }
     
-    // Update vector entity in MVCC transaction
-    auto serialized = entity.serialize();
-    if (!mvcc_txn_->put(vector_key, serialized)) {
-        return Status::Error("updateVector: MVCC conflict detected");
-    }
-    
-    // Update vector index using MVCC transaction
-    auto st = vecIdx_.updateEntity(entity, *mvcc_txn_, vectorField);
-    if (!st.ok) {
-        return Status::Error(st.message);
-    }
-    
     return Status::OK();
 }
 
@@ -817,15 +820,31 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
     if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
     
-    // Capture old vector before removal for compensation
+    // Capture old vector BEFORE the delete.  If we read after del(), the MVCC
+    // read-your-own-writes buffer would return nothing instead of the original value.
     std::string pk_str(pk);
     std::string vector_key = "vector:" + pk_str;
-    
     auto old_data = mvcc_txn_->get(vector_key);
+
+    // Delete vector entity from MVCC transaction
+    if (!mvcc_txn_->del(vector_key)) {
+        return Status::Error("removeVector: MVCC conflict detected");
+    }
+    
+    // Update vector index using MVCC transaction
+    auto st = vecIdx_.removeByPk(pk, *mvcc_txn_);
+    if (!st.ok) {
+        return Status::Error(st.message);
+    }
+
+    // Register SAGA compensating action AFTER both writes succeeded so that
+    // a failed removeVector (e.g. MVCC conflict) does not leave a spurious step
+    // in the SAGA queue.  Without this guard, a failed del() would queue a
+    // restore step that calls addEntity() on a vector that was never deleted,
+    // potentially inserting a duplicate index entry.
     if (old_data) {
         // Old vector exists: capture for restoration
         auto old_entity = BaseEntity::deserialize(pk_str, *old_data);
-        
         saga_->addStep("vectorRemove:" + pk_str, [this, old_entity = std::move(old_entity)]() {
             THEMIS_DEBUG("SAGA: Restoring removed vector for '{}'", old_entity.getPrimaryKey());
             auto status = vecIdx_.addEntity(old_entity, "embedding");
@@ -838,17 +857,6 @@ TransactionManager::Status TransactionManager::Transaction::removeVector(std::st
         saga_->addStep("vectorRemove:" + pk_str, [pk_str]() {
             THEMIS_DEBUG("SAGA: Vector remove compensation skipped (no old data) for '{}'", pk_str);
         });
-    }
-    
-    // Delete vector entity from MVCC transaction
-    if (!mvcc_txn_->del(vector_key)) {
-        return Status::Error("removeVector: MVCC conflict detected");
-    }
-    
-    // Update vector index using MVCC transaction
-    auto st = vecIdx_.removeByPk(pk, *mvcc_txn_);
-    if (!st.ok) {
-        return Status::Error(st.message);
     }
     
     return Status::OK();
