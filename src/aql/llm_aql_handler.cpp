@@ -25,6 +25,7 @@
  */
 
 #include "aql/llm_aql_handler.h"
+#include "aql/aql_confidence_scorer.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
@@ -763,6 +764,25 @@ std::string LLMAQLHandler::executeChat(
             std::string("LLM CHAT failed: ") + e.what()
         );
     }
+}
+
+LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidence(
+    const std::string& nl_query,
+    const std::string& schema_context
+) {
+    AQLTranslationResult result;
+    result.aql_query = translateNLToAQL(nl_query, schema_context);
+
+    AQLConfidenceScorer scorer;
+    result.confidence = scorer.score(result.aql_query, nl_query, schema_context);
+
+    spdlog::debug("AQL confidence score: overall={:.2f} structural={:.2f} completeness={:.2f} schema_match={:.2f}",
+        result.confidence.overall_confidence,
+        result.confidence.structural_score,
+        result.confidence.completeness_score,
+        result.confidence.schema_match_score);
+
+    return result;
 }
 
 } // namespace aql

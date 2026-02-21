@@ -26,7 +26,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] Query template library for common AQL patterns
 - [ ] Interactive AQL query builder with LLM suggestions
 - [ ] Batch NL-to-AQL translation for offline workloads
-- [ ] Confidence scoring for generated AQL queries
+- [x] Confidence scoring for generated AQL queries
 - [ ] Multi-turn conversation context for iterative query refinement
 
 ### Long-term (6-12 months)
@@ -53,11 +53,11 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [~] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
 - [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
 
-### Phase 3: Advanced Tooling & Intelligence (Status: Planned 📋)
+### Phase 3: Advanced Tooling & Intelligence (Status: In Progress 🚧)
 - [ ] AQL syntax highlighting and error annotation in LLM responses
 - [ ] Query template library for common AQL patterns
 - [ ] Interactive AQL query builder with LLM suggestions
-- [ ] Confidence scoring for generated AQL queries
+- [x] Confidence scoring for generated AQL queries (`aql/aql_confidence_scorer.cpp`, `LLMAQLHandler::translateNLToAQLWithConfidence`)
 - [ ] Multi-turn conversation context for iterative query refinement
 - [ ] Schema-aware query generation using live collection metadata
 

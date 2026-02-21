@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include "aql/aql_confidence_scorer.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
@@ -110,6 +111,26 @@ public:
      * @throws std::runtime_error if translation fails
      */
     std::string translateNLToAQL(
+        const std::string& nl_query,
+        const std::string& schema_context = ""
+    );
+
+    /**
+     * @brief Result of a natural-language-to-AQL translation with confidence scoring
+     */
+    struct AQLTranslationResult {
+        std::string aql_query;           ///< Generated AQL query
+        AQLConfidenceScore confidence;   ///< Confidence score for the generated query
+    };
+
+    /**
+     * @brief Translate natural language query to AQL and attach a confidence score
+     * @param nl_query        Natural language query
+     * @param schema_context  Optional database schema context
+     * @return AQLTranslationResult containing the query and its confidence score
+     * @throws std::runtime_error if translation fails
+     */
+    AQLTranslationResult translateNLToAQLWithConfidence(
         const std::string& nl_query,
         const std::string& schema_context = ""
     );

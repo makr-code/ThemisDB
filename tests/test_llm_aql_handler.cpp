@@ -317,4 +317,42 @@ TEST_F(LLMAQLHandlerTest, CacheStatsExecution) {
     }
 }
 
+// ============================================================================
+// Confidence Scoring Tests
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithConfidenceReturnsResult) {
+    try {
+        auto result = handler->translateNLToAQLWithConfidence("Find all users");
+        // If translation succeeded, both fields must be populated
+        EXPECT_FALSE(result.aql_query.empty());
+        EXPECT_GE(result.confidence.overall_confidence, 0.0f);
+        EXPECT_LE(result.confidence.overall_confidence, 1.0f);
+    } catch (const std::exception& e) {
+        // Expected to fail without a loaded LLM model
+        std::string msg = e.what();
+        EXPECT_TRUE(msg.find("translation failed") != std::string::npos ||
+                    msg.find("CHAT failed") != std::string::npos);
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithConfidenceUsesSchemaContext) {
+    const std::string schema = R"(
+Collections:
+- users: {name, email, city}
+- posts: {title, content}
+)";
+    try {
+        auto result = handler->translateNLToAQLWithConfidence(
+            "Find all posts by users in Seattle", schema);
+        EXPECT_FALSE(result.aql_query.empty());
+        EXPECT_GE(result.confidence.overall_confidence, 0.0f);
+        EXPECT_LE(result.confidence.overall_confidence, 1.0f);
+    } catch (const std::exception& e) {
+        std::string msg = e.what();
+        EXPECT_TRUE(msg.find("translation failed") != std::string::npos ||
+                    msg.find("CHAT failed") != std::string::npos);
+    }
+}
+
 // Run tests

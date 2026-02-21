@@ -1805,7 +1805,9 @@ if(THEMIS_ENABLE_LLM)
     list(APPEND THEMIS_CORE_SOURCES
         # Server/API (HTTP + optional gRPC)
     ../src/server/llm_api_handler.cpp
+    # AQL handlers (LLM-enabled path)
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/aql_confidence_scorer.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
