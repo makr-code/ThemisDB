@@ -94,6 +94,11 @@ TEST(InvertedIndexKeySchema, TFKey) {
               "fttf:users:bio:foo:pk1");
 }
 
+TEST(InvertedIndexKeySchema, RevKey) {
+    EXPECT_EQ(InvertedIndex::makeRevKey("users", "bio", "pk1"),
+              "ftrev:users:bio:pk1");
+}
+
 TEST(InvertedIndexKeySchema, DocLenKey) {
     EXPECT_EQ(InvertedIndex::makeDocLenKey("users", "bio", "pk1"),
               "ftdlen:users:bio:pk1");

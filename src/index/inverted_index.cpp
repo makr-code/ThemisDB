@@ -65,6 +65,13 @@ std::string InvertedIndex::makeDocLenKey(std::string_view table,
            std::string(pk);
 }
 
+std::string InvertedIndex::makeRevKey(std::string_view table,
+                                      std::string_view column,
+                                      std::string_view pk) {
+    return "ftrev:" + std::string(table) + ":" + std::string(column) + ":" +
+           std::string(pk);
+}
+
 // ============================================================================
 // Index lifecycle
 // ============================================================================
@@ -197,17 +204,35 @@ std::vector<std::string> InvertedIndex::tokenize(std::string_view text,
 
 void InvertedIndex::removePostings_(std::string_view table,
                                     std::string_view column,
-                                    std::string_view pk,
-                                    std::string_view text,
-                                    const Config& config) {
-    auto tokens = tokenize(text, config);
-    std::unordered_set<std::string> unique(tokens.begin(), tokens.end());
-    for (const auto& tok : unique) {
-        if (tok.empty()) continue;
-        db_.del(makeIndexKey(table, column, tok, pk));
-        db_.del(makeTFKey(table, column, tok, pk));
+                                    std::string_view pk) {
+    // Read the reverse-index key to discover which tokens are currently stored
+    // for this pk, then delete each posting + TF entry.
+    auto revKey = makeRevKey(table, column, pk);
+    auto val = db_.get(revKey);
+    if (val && !val->empty()) {
+        try {
+            std::string s(val->begin(), val->end());
+            auto j = nlohmann::json::parse(s);
+            if (j.is_array()) {
+                for (const auto& item : j) {
+                    if (!item.is_string()) continue;
+                    const auto tok = item.get<std::string>();
+                    if (tok.empty()) continue;
+                    db_.del(makeIndexKey(table, column, tok, pk));
+                    db_.del(makeTFKey(table, column, tok, pk));
+                }
+            }
+        } catch (...) {
+            // Log and continue: a corrupt or missing reverse-index key means we
+            // cannot clean up stale posting entries for this pk, but we must not
+            // crash.  The stale entries will be invisible to callers (unreachable
+            // through normal queries) and cleaned up by a future deindex() call.
+            THEMIS_WARN("InvertedIndex::removePostings_: failed to parse reverse-index "
+                        "key for {}.{} pk={}", table, column, pk);
+        }
     }
     db_.del(makeDocLenKey(table, column, pk));
+    db_.del(revKey);
 }
 
 InvertedIndex::Status InvertedIndex::index(std::string_view table,
@@ -221,8 +246,8 @@ InvertedIndex::Status InvertedIndex::index(std::string_view table,
 
     auto config = getConfig(table, column).value_or(Config{});
 
-    // Remove stale entries before re-indexing (upsert semantics)
-    removePostings_(table, column, pk, text, config);
+    // Remove previous posting entries (upsert semantics via reverse-index key)
+    removePostings_(table, column, pk);
 
     if (text.empty()) return Status::OK();
 
@@ -240,12 +265,21 @@ InvertedIndex::Status InvertedIndex::index(std::string_view table,
     }
 
     std::vector<uint8_t> pkBytes(pk.begin(), pk.end());
+
+    // Build JSON array of indexed tokens for the reverse-index key
+    nlohmann::json revTokens = nlohmann::json::array();
     for (const auto& [tok, cnt] : tf) {
         db_.put(makeIndexKey(table, column, tok, pk), pkBytes);
         std::string s = std::to_string(cnt);
         std::vector<uint8_t> v(s.begin(), s.end());
         db_.put(makeTFKey(table, column, tok, pk), v);
+        revTokens.push_back(tok);
     }
+
+    // Persist the reverse-index key so removePostings_ can find these tokens later
+    std::string revStr = revTokens.dump();
+    std::vector<uint8_t> revBytes(revStr.begin(), revStr.end());
+    db_.put(makeRevKey(table, column, pk), revBytes);
 
     return Status::OK();
 }
@@ -253,14 +287,13 @@ InvertedIndex::Status InvertedIndex::index(std::string_view table,
 InvertedIndex::Status InvertedIndex::deindex(std::string_view table,
                                              std::string_view column,
                                              std::string_view pk,
-                                             std::string_view text) {
+                                             std::string_view /*text_deprecated*/) {
     if (!exists(table, column))
         return Status::Error("InvertedIndex::deindex: no index for " +
                              std::string(table) + "." + std::string(column));
     if (pk.empty()) return Status::Error("InvertedIndex::deindex: pk must not be empty");
 
-    auto config = getConfig(table, column).value_or(Config{});
-    removePostings_(table, column, pk, text, config);
+    removePostings_(table, column, pk);
     return Status::OK();
 }
 
@@ -492,14 +525,18 @@ InvertedIndex::searchFuzzy(std::string_view table, std::string_view column,
     std::unordered_map<std::string, double> pkScores;
 
     db_.scanPrefix(prefix, [&](std::string_view key, std::string_view) {
-        std::string keyStr(key);
-        size_t thirdColon = keyStr.find(':', prefix.size());
-        if (thirdColon == std::string::npos) return true;
-        size_t fourthColon = keyStr.find(':', thirdColon + 1);
-        if (fourthColon == std::string::npos) return true;
+        // Key format: ftidx:table:column:token:pk
+        // The prefix already contains "ftidx:table:column:", so the remaining
+        // part is "token:pk".  Use rfind to locate the last ':' which is the
+        // separator between token and pk (tokens never contain ':' because the
+        // tokeniser splits on punctuation).
+        size_t lastColon = key.rfind(':');
+        if (lastColon == std::string_view::npos || lastColon <= prefix.size())
+            return true;
 
-        std::string tok = keyStr.substr(prefix.size(), thirdColon - prefix.size());
-        std::string pk  = keyStr.substr(fourthColon + 1);
+        std::string tok(key.substr(prefix.size(), lastColon - prefix.size()));
+        std::string pk(key.substr(lastColon + 1));
+        if (tok.empty() || pk.empty()) return true;
 
         for (const auto& qt : queryTokens) {
             int dist = levenshtein(qt, tok);

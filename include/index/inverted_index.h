@@ -68,7 +68,8 @@ public:
     Status create(std::string_view table, std::string_view column,
                   const Config& config = {});
 
-    /** Remove the index metadata key (posting data is NOT purged here). */
+    /** Remove the index metadata key (posting data is NOT purged here).
+     *  Call deindex() for each document before dropping to avoid orphaned keys. */
     Status drop(std::string_view table, std::string_view column);
 
     /** Return true if the index metadata key exists. */
@@ -97,8 +98,10 @@ public:
     /**
      * @brief Remove a document's posting entries.
      *
-     * @p text must match what was passed to index() so that the token set
-     * can be reconstructed for deletion.
+     * The @p text parameter is retained for API backward compatibility but is
+     * **no longer used** internally.  Removal is driven entirely by the
+     * `ftrev:<table>:<column>:<pk>` reverse-index key written by index().
+     * Callers may pass an empty string.
      *
      * @return Error if the index does not exist.
      */
@@ -171,6 +174,12 @@ public:
                                      std::string_view column,
                                      std::string_view pk);
 
+    /// Reverse-index key: stores the set of tokens currently indexed for a pk.
+    /// Key: ftrev:<table>:<column>:<pk>  →  JSON array of token strings.
+    static std::string makeRevKey(std::string_view table,
+                                  std::string_view column,
+                                  std::string_view pk);
+
 private:
     RocksDBWrapper& db_;
 
@@ -179,10 +188,9 @@ private:
         std::string_view table, std::string_view column,
         std::string_view query, size_t limit) const;
 
-    // Remove all posting data for a given pk (used during upsert).
+    // Remove all posting data for a given pk using the stored reverse-index key.
     void removePostings_(std::string_view table, std::string_view column,
-                         std::string_view pk, std::string_view text,
-                         const Config& config);
+                         std::string_view pk);
 };
 
 } // namespace themis
