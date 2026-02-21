@@ -340,6 +340,13 @@ set(THEMIS_SECURITY_SOURCES
     ../src/index/vector_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -722,6 +729,9 @@ function(themis_build_modular)
         if(NOT TARGET opentelemetry-cpp::otlp_http_exporter)
             message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::otlp_http_exporter' not found. Ensure opentelemetry-cpp was found with otlp-http feature.")
         endif()
+    endif()
+    if(TARGET CURL::libcurl)
+        list(APPEND _themis_base_deps CURL::libcurl)
     endif()
 
     themis_add_module(base

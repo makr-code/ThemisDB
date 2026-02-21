@@ -35,6 +35,13 @@ on:
       - 'wordpress-plugin/themisdb-order-request/includes/class-license-api.php'
       - 'wordpress-plugin/themisdb-order-request/includes/class-license-portal.php'
       - 'wordpress-plugin/themisdb-order-request/includes/class-license-renewal.php'
+      - 'tests/security/test_security_negative_integration.cpp'
+      - 'src/auth/jwt_validator.cpp'
+      - 'src/security/rbac.cpp'
+      - 'src/security/vault_key_provider.cpp'
+      - 'include/auth/jwt_validator.h'
+      - 'include/security/rbac.h'
+      - 'include/security/vault_key_provider.h'
       - '.github/workflows/themis-core-ci.yml'
   pull_request:
     paths:
@@ -68,6 +75,13 @@ on:
       - 'wordpress-plugin/themisdb-order-request/includes/class-license-api.php'
       - 'wordpress-plugin/themisdb-order-request/includes/class-license-portal.php'
       - 'wordpress-plugin/themisdb-order-request/includes/class-license-renewal.php'
+      - 'tests/security/test_security_negative_integration.cpp'
+      - 'src/auth/jwt_validator.cpp'
+      - 'src/security/rbac.cpp'
+      - 'src/security/vault_key_provider.cpp'
+      - 'include/auth/jwt_validator.h'
+      - 'include/security/rbac.h'
+      - 'include/security/vault_key_provider.h'
       - '.github/workflows/themis-core-ci.yml'
   workflow_dispatch:   # Allow manual trigger from the Actions UI
 
@@ -210,6 +224,34 @@ jobs:
             --gtest_output="xml:fuzz_core_results.xml" \
             2>&1 | tee fuzz_core_output.txt
 
+      # ── Security negative tests (required for merge) ─────────────────────
+      # These tests verify that JWT, RBAC, and Vault components correctly
+      # reject invalid inputs, misconfigurations, and attack attempts.
+      # They are self-contained and require no external services.
+      - name: Run JWT negative tests (required)
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="JWTNegativeTest*:JWTValidationTest*:JWTValidatorTest*:KidRevocationTest*" \
+            --gtest_output="xml:jwt_negative_results.xml" \
+            2>&1 | tee jwt_negative_output.txt
+
+      - name: Run RBAC negative tests (required)
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="RBACNegativeTest*:RBACTest*:PermissionTest*:RBACBuiltinRolesTest*:RBACInheritanceTest*:RBACSerializationTest*" \
+            --gtest_output="xml:rbac_negative_results.xml" \
+            2>&1 | tee rbac_negative_output.txt
+
+      - name: Run Vault negative tests (required)
+        run: |
+          cd build
+          ./tests/themis_tests \
+            --gtest_filter="VaultNegativeTest*:VaultSigningProviderErrorTest*" \
+            --gtest_output="xml:vault_negative_results.xml" \
+            2>&1 | tee vault_negative_output.txt
+
       - name: Run wire performance benchmarks
         run: |
           cd build
@@ -301,9 +343,24 @@ jobs:
 
       - name: Run all core-framework tests for coverage
         run: |
+          # Core framework tests
+          CORE_FILTER="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*"
+          CORE_FILTER="${CORE_FILTER}:BuildManifest*:WireV2*:V2Frame*:V2Stream*:V2Connection*"
+          CORE_FILTER="${CORE_FILTER}:V2Server*:WireProtocolMetrics*:PayloadBufferPool*"
+          CORE_FILTER="${CORE_FILTER}:CompressionAdvisor*:AbiChecker*:ModuleSandbox*"
+          CORE_FILTER="${CORE_FILTER}:ModuleLoader*:LicenseClient*"
+          CORE_FILTER="${CORE_FILTER}:FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*"
+          CORE_FILTER="${CORE_FILTER}:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*"
+          CORE_FILTER="${CORE_FILTER}:WirePerfBenchmark*"
+          # Security negative tests
+          SEC_FILTER="JWTNegativeTest*:JWTValidationTest*:JWTValidatorTest*:KidRevocationTest*"
+          SEC_FILTER="${SEC_FILTER}:RBACNegativeTest*:RBACTest*:PermissionTest*"
+          SEC_FILTER="${SEC_FILTER}:RBACBuiltinRolesTest*:RBACInheritanceTest*:RBACSerializationTest*"
+          SEC_FILTER="${SEC_FILTER}:VaultNegativeTest*:VaultSigningProviderErrorTest*"
           cd build
           ./tests/themis_tests \
             --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*:WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*:WireProtocolMetrics*:PayloadBufferPool*:CompressionAdvisor*:AbiChecker*:ModuleSandbox*:ModuleLoader*:LicenseClient*:RuntimeLicenseGate*:RuntimeLicenseGateInit*:FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*:WirePerfBenchmark*" \
+            --gtest_filter="${CORE_FILTER}:${SEC_FILTER}" \
             2>&1 | tee coverage_test_output.txt || true
 
       - name: Capture lcov data
