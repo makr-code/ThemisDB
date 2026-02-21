@@ -1,5 +1,7 @@
 # Chimera Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 **Alpha** — ThemisDB reference adapter and adapter factory infrastructure are functional. Vendor-neutral benchmarking architecture supports relational, document, vector, and graph operations. PostgreSQL, MongoDB, and Weaviate adapters are planned.
 
@@ -36,6 +38,32 @@
 - [ ] Cassandra adapter (wide-column)
 - [ ] Cross-system query federation for hybrid benchmarks
 - [ ] Automated benchmark CI pipeline with regression tracking
+
+## Implementation Phases
+
+### Phase 1: Adapter Infrastructure & Reference Implementation (Status: Completed ✅)
+- [x] Adapter factory with thread-safe singleton registry (`chimera/adapter_factory.cpp`)
+- [x] Dynamic adapter registration without recompilation
+- [x] ThemisDB reference adapter implementation (`chimera/adapters/themisdb_adapter.cpp`)
+- [x] Base adapter infrastructure and connection management
+- [x] Multi-model operation wrappers: relational, vector, graph, document
+- [x] Transaction coordination interfaces
+- [x] System information and metrics collection
+- [x] Alphabetic vendor-neutral ordering of registered systems
+- [x] Result type conversions and error handling
+
+### Phase 2: Vendor Adapters & Benchmarking (Status: In Progress 🚧)
+- [~] PostgreSQL vendor adapter (`chimera/adapters/postgres_adapter.cpp`, Target: Q2 2026)
+- [~] MongoDB vendor adapter (`chimera/adapters/mongodb_adapter.cpp`, Target: Q2 2026)
+- [ ] Benchmark result normalization and scoring framework (Target: Q3 2026)
+
+### Phase 3: Ecosystem Expansion & Reporting (Status: Planned 📋)
+- [ ] Weaviate adapter (native vector database)
+- [ ] Qdrant adapter (native vector database)
+- [ ] Unified benchmark harness (workload definitions, warm-up, run, report)
+- [ ] Adapter capability matrix (which operations each system supports)
+- [ ] Benchmark result aggregation and reporting dashboard
+- [ ] Neo4j adapter (native graph database)
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%
