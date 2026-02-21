@@ -27,6 +27,8 @@
 #pragma once
 
 #include "acceleration/compute_backend.h"
+#include "acceleration/metrics/backend_metrics.h"
+#include <memory>
 
 namespace themis {
 namespace acceleration {
@@ -83,6 +85,7 @@ public:
     BackendCapabilities getCapabilities() const override;
     bool initialize() override;
     void shutdown() override;
+    BackendHealthStatus getHealthStatus() const override;
     
     std::vector<float> computeDistances(
         const float* queries,
@@ -107,6 +110,7 @@ private:
     bool initialized_ = false;
     class VulkanVectorBackendImpl;
     std::unique_ptr<VulkanVectorBackendImpl> impl_;
+    metrics::BackendMetrics metrics_{"vulkan"};
 };
 
 // OpenGL Compute Shaders backend (legacy support)
