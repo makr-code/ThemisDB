@@ -27,7 +27,6 @@
 #include "server/api_gateway.h"
 #include "server/api_version_config.h"
 #include "server/rate_limiter_v2.h"
-#include "core/error_codes.h"
 #include <chrono>
 #include <ctime>
 #include <sstream>
@@ -67,7 +66,7 @@ APIGateway::APIGateway(
     std::shared_ptr<RateLimiter> rate_limiter,
     std::shared_ptr<LoadShedder> load_shedder,
     std::shared_ptr<sharding::ShardRouter> shard_router,
-    std::shared_ptr<observability::PrometheusMetrics> metrics
+    std::shared_ptr<sharding::PrometheusMetrics> metrics
 ) : config_(config),
     auth_(std::move(auth)),
     rate_limiter_(std::move(rate_limiter)),
@@ -97,7 +96,7 @@ APIGateway::APIGateway(
     std::shared_ptr<PerClientRateLimiter> rate_limiter_v2,
     std::shared_ptr<LoadShedder> load_shedder,
     std::shared_ptr<sharding::ShardRouter> shard_router,
-    std::shared_ptr<observability::PrometheusMetrics> metrics
+    std::shared_ptr<sharding::PrometheusMetrics> metrics
 ) : config_(config),
     auth_(std::move(auth)),
     rate_limiter_(nullptr),

@@ -33,7 +33,7 @@
 #include "server/api_version.h"
 #include "sharding/shard_router.h"
 #include "sharding/circuit_breaker.h"
-#include "observability/prometheus_metrics.h"
+#include "sharding/prometheus_metrics.h"
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -137,7 +137,7 @@ public:
         std::shared_ptr<RateLimiter> rate_limiter,
         std::shared_ptr<LoadShedder> load_shedder,
         std::shared_ptr<sharding::ShardRouter> shard_router = nullptr,
-        std::shared_ptr<observability::PrometheusMetrics> metrics = nullptr
+        std::shared_ptr<sharding::PrometheusMetrics> metrics = nullptr
     );
     
     /**
@@ -156,7 +156,7 @@ public:
         std::shared_ptr<PerClientRateLimiter> rate_limiter_v2,
         std::shared_ptr<LoadShedder> load_shedder,
         std::shared_ptr<sharding::ShardRouter> shard_router = nullptr,
-        std::shared_ptr<observability::PrometheusMetrics> metrics = nullptr
+        std::shared_ptr<sharding::PrometheusMetrics> metrics = nullptr
     );
     
     /**
@@ -236,7 +236,7 @@ private:
     std::shared_ptr<PerClientRateLimiter> rate_limiter_v2_;  // V2 (preferred)
     std::shared_ptr<LoadShedder> load_shedder_;
     std::shared_ptr<sharding::ShardRouter> shard_router_;
-    std::shared_ptr<observability::PrometheusMetrics> metrics_;
+    std::shared_ptr<sharding::PrometheusMetrics> metrics_;
     std::shared_ptr<APIVersionManager> version_manager_;
     
     // Circuit breakers per backend
