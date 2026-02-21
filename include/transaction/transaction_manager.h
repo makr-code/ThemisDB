@@ -194,12 +194,31 @@ public:
     void cleanupOldTransactions(std::chrono::seconds max_age = std::chrono::hours(1));
     
     // Deadlock detection
+
+    /// Victim-selection policy for deadlock resolution.
+    /// When a cycle is detected one transaction is aborted to break the deadlock.
+    enum class DeadlockVictimPolicy {
+        YOUNGEST,  ///< Abort the transaction with the highest (newest) ID (default)
+        OLDEST,    ///< Abort the transaction with the lowest (oldest) ID
+        LEAST_EXPENSIVE, ///< Abort the transaction that holds the fewest locks
+    };
+
     struct DeadlockInfo {
         std::vector<TransactionId> cycle;  // Transaction IDs involved in deadlock
         std::chrono::system_clock::time_point detected_at;
         TransactionId victim_id;  // Transaction chosen to abort
+        DeadlockVictimPolicy policy_used{DeadlockVictimPolicy::YOUNGEST};
     };
-    
+
+    /// Aggregate metrics for deadlock events.
+    struct DeadlockMetrics {
+        uint64_t total_detected{0};     ///< Total deadlock cycles detected
+        uint64_t total_resolved{0};     ///< Successfully resolved (victim aborted)
+        double   avg_cycle_length{0.0}; ///< Average number of transactions per cycle
+        uint64_t max_cycle_length{0};   ///< Largest cycle seen
+        DeadlockVictimPolicy active_policy{DeadlockVictimPolicy::YOUNGEST};
+    };
+
     /**
      * @brief Enable or disable deadlock detection
      * 
@@ -213,7 +232,17 @@ public:
      * @param timeout_ms timeout in milliseconds
      */
     void setDeadlockTimeout(std::chrono::milliseconds timeout_ms);
-    
+
+    /**
+     * @brief Set the victim-selection policy for deadlock resolution.
+     */
+    void setDeadlockVictimPolicy(DeadlockVictimPolicy policy);
+
+    /**
+     * @brief Get current victim-selection policy.
+     */
+    DeadlockVictimPolicy getDeadlockVictimPolicy() const;
+
     /**
      * @brief Get recent deadlocks
      * 
@@ -228,6 +257,11 @@ public:
      * @return total number of deadlocks detected
      */
     uint64_t getDeadlockCount() const { return total_deadlocks_.load(std::memory_order_relaxed); }
+
+    /**
+     * @brief Get detailed deadlock metrics.
+     */
+    DeadlockMetrics getDeadlockMetrics() const;
 
     /// Access the shared LockManager for external lock operations.
     LockManager& getLockManager() { return lock_manager_; }
@@ -268,6 +302,13 @@ private:
     std::atomic<bool> deadlock_detection_enabled_{false};
     std::atomic<uint64_t> deadlock_timeout_ms_{1000};
     std::atomic<uint64_t> total_deadlocks_{0};
+
+    // Victim selection policy (stored as underlying int for atomic access)
+    std::atomic<int> victim_policy_{static_cast<int>(DeadlockVictimPolicy::YOUNGEST)};
+
+    // Cumulative deadlock metrics
+    std::atomic<uint64_t> deadlock_total_cycle_len_{0};  // sum of all cycle lengths
+    std::atomic<uint64_t> deadlock_max_cycle_len_{0};    // largest cycle seen
     
     // Lock tracking for deadlock detection
     struct LockInfo {

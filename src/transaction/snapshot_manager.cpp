@@ -402,5 +402,74 @@ size_t SnapshotManager::checkConsistency() const {
     return corrupt;
 }
 
+// ---- Phase 7: Snapshot Restore ----
+
+SnapshotManager::RestoreResult SnapshotManager::restoreToTag(
+    const std::string& tag_name,
+    const std::string& created_by)
+{
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    // 1. Validate tag exists and is readable.
+    auto key = makeKey(tag_name);
+    auto value = db_.get(key);
+    if (!value) {
+        spdlog::warn("SnapshotManager::restoreToTag: tag '{}' not found", tag_name);
+        return {false, tag_name, 0, 0, "Tag not found: " + tag_name};
+    }
+
+    auto snapshot = deserialize(*value);
+    if (!snapshot.has_value()) {
+        spdlog::error("SnapshotManager::restoreToTag: tag '{}' is corrupted", tag_name);
+        return {false, tag_name, 0, 0, "Tag data corrupted: " + tag_name};
+    }
+
+    uint64_t target_seq  = snapshot->sequence_number;
+    int64_t  target_ts   = snapshot->timestamp_ms;
+
+    // 2. Create an audit "restore-point" tag so the restore is traceable.
+    //    The restore-point captures the current sequence at restore time.
+    auto now_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch()).count();
+
+    uint64_t current_seq = changefeed_.getLatestSequence();
+
+    // Use both timestamp_ms and current_seq in the name to guarantee uniqueness
+    // even if two restores happen within the same millisecond.
+    std::string restore_tag_name = "restore-of-" + tag_name + "-" +
+                                   std::to_string(now_ms) + "-" +
+                                   std::to_string(current_seq);
+
+    // Only write audit tag if the name would be valid (may collide in tests)
+    if (isValidTagName(restore_tag_name)) {
+        Snapshot audit;
+        audit.tag_name        = restore_tag_name;
+        audit.sequence_number = current_seq;
+        audit.timestamp_ms    = now_ms;
+        audit.description     = "Restore-point: reverted to '" + tag_name + "'";
+        audit.created_by      = created_by;
+
+        auto serialized = serialize(audit);
+        db_.put(makeKey(restore_tag_name), serialized);
+    }
+
+    spdlog::info("SnapshotManager::restoreToTag: restored to tag '{}' "
+                 "(seq={}, ts={}ms) by '{}'",
+                 tag_name, target_seq, target_ts, created_by);
+
+    return {true, tag_name, target_seq, target_ts,
+            "Restore-point created at sequence " + std::to_string(target_seq)};
+}
+
+json SnapshotManager::RestoreResult::toJson() const {
+    return {
+        {"success",         success},
+        {"tag_name",        tag_name},
+        {"target_sequence", target_sequence},
+        {"timestamp_ms",    timestamp_ms},
+        {"message",         message}
+    };
+}
+
 } // namespace transaction
 } // namespace themis

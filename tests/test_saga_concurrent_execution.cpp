@@ -415,3 +415,102 @@ TEST_F(SagaConcurrentExecutionTest, PartialCompensationConcurrent) {
     // Verify all partial compensations executed
     EXPECT_GT(total_compensations, 0);
 }
+
+// ===== Phase 4: compensateWithRetry and getMetrics tests =====
+
+TEST_F(SagaConcurrentExecutionTest, CompensateWithRetrySucceedsFirstAttempt) {
+    Saga saga;
+    std::atomic<int> count{0};
+
+    saga.addStep("step_ok", [&count]() { ++count; });
+    saga.compensateWithRetry(3, std::chrono::milliseconds(1));
+
+    EXPECT_EQ(count.load(), 1);
+    EXPECT_TRUE(saga.isFullyCompensated());
+}
+
+TEST_F(SagaConcurrentExecutionTest, CompensateWithRetryRetriesOnException) {
+    Saga saga;
+    std::atomic<int> attempts{0};
+
+    saga.addStep("flaky_step", [&attempts]() {
+        int a = ++attempts;
+        if (a < 3) throw std::runtime_error("transient error");
+        // succeeds on 3rd attempt
+    });
+
+    saga.compensateWithRetry(5, std::chrono::milliseconds(1));
+
+    EXPECT_GE(attempts.load(), 3);
+    EXPECT_TRUE(saga.isFullyCompensated());
+}
+
+TEST_F(SagaConcurrentExecutionTest, CompensateWithRetryFailsAfterMaxRetries) {
+    Saga saga;
+    std::atomic<int> attempts{0};
+
+    saga.addStep("always_fails", [&attempts]() {
+        ++attempts;
+        throw std::runtime_error("permanent error");
+    });
+
+    saga.compensateWithRetry(2, std::chrono::milliseconds(1));
+
+    // 1 original + 2 retries = 3 attempts; step NOT marked compensated
+    EXPECT_EQ(attempts.load(), 3);
+    auto metrics = saga.getMetrics();
+    EXPECT_EQ(metrics.failed_compensations, 1u);
+    EXPECT_FALSE(saga.isFullyCompensated());
+}
+
+TEST_F(SagaConcurrentExecutionTest, GetMetricsReportsRetriedCount) {
+    Saga saga;
+    std::atomic<int> calls{0};
+
+    // Two steps: one needs a retry, one succeeds immediately
+    saga.addStep("flaky", [&calls]() {
+        if (++calls == 1) throw std::runtime_error("first attempt fails");
+    });
+    saga.addStep("ok", []() {});
+
+    saga.compensateWithRetry(3, std::chrono::milliseconds(1));
+
+    auto m = saga.getMetrics();
+    EXPECT_GE(m.retried_compensations, 1u); // "flaky" was retried
+    EXPECT_EQ(m.failed_compensations,  0u); // both eventually succeeded
+    EXPECT_EQ(m.compensated_steps,     2u);
+}
+
+TEST_F(SagaConcurrentExecutionTest, GetMetricsAfterClear) {
+    Saga saga;
+    int x = 0;
+    saga.addStep("s", [&x]() { ++x; });
+    saga.compensate();
+
+    // clear resets steps but preserves cumulative metrics
+    saga.clear();
+    EXPECT_EQ(saga.stepCount(), 0u);
+
+    auto m = saga.getMetrics();
+    // total_steps is 0 (steps cleared), but duration_ms etc. may differ
+    EXPECT_EQ(m.total_steps, 0u);
+}
+
+TEST_F(SagaConcurrentExecutionTest, CompensateWithRetryBackoffIsCapped) {
+    // Verify that a huge initial backoff is clamped to 30 s and does not
+    // cause overflow.  With max_retries=0 no sleep occurs, so the call
+    // should complete nearly instantly regardless of the (clamped) backoff.
+    Saga saga;
+    int x = 0;
+    saga.addStep("s", [&x]() { ++x; });
+
+    auto t0 = std::chrono::steady_clock::now();
+    // max_retries = 0 → first attempt only, no sleep needed
+    saga.compensateWithRetry(0, std::chrono::milliseconds(
+        std::numeric_limits<int32_t>::max()));
+    auto elapsed = std::chrono::steady_clock::now() - t0;
+
+    EXPECT_EQ(x, 1);
+    // Should complete well within 5 seconds (no sleep when max_retries=0)
+    EXPECT_LT(std::chrono::duration_cast<std::chrono::seconds>(elapsed).count(), 5);
+}

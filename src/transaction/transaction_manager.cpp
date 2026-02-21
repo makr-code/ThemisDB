@@ -57,6 +57,33 @@ void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms
     }
 }
 
+void TransactionManager::setDeadlockVictimPolicy(DeadlockVictimPolicy policy) {
+    victim_policy_.store(static_cast<int>(policy), std::memory_order_relaxed);
+    const char* name =
+        policy == DeadlockVictimPolicy::YOUNGEST        ? "YOUNGEST"        :
+        policy == DeadlockVictimPolicy::OLDEST          ? "OLDEST"          :
+        policy == DeadlockVictimPolicy::LEAST_EXPENSIVE ? "LEAST_EXPENSIVE" : "UNKNOWN";
+    THEMIS_INFO("Deadlock victim policy set to {}", name);
+}
+
+TransactionManager::DeadlockVictimPolicy TransactionManager::getDeadlockVictimPolicy() const {
+    return static_cast<DeadlockVictimPolicy>(victim_policy_.load(std::memory_order_relaxed));
+}
+
+TransactionManager::DeadlockMetrics TransactionManager::getDeadlockMetrics() const {
+    DeadlockMetrics m;
+    m.total_detected  = total_deadlocks_.load(std::memory_order_relaxed);
+    m.total_resolved  = m.total_detected; // every detected deadlock is resolved
+    m.max_cycle_length = deadlock_max_cycle_len_.load(std::memory_order_relaxed);
+    if (m.total_detected > 0) {
+        m.avg_cycle_length = static_cast<double>(
+            deadlock_total_cycle_len_.load(std::memory_order_relaxed)) /
+            static_cast<double>(m.total_detected);
+    }
+    m.active_policy = getDeadlockVictimPolicy();
+    return m;
+}
+
 std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(std::chrono::seconds max_age) const {
     std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
     
@@ -199,17 +226,64 @@ bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) 
 
 void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle) {
     if (cycle.empty()) return;
-    
-    // Choose victim: youngest transaction (highest ID)
-    TransactionId victim_id = *std::max_element(cycle.begin(), cycle.end());
-    
-    THEMIS_WARN("Deadlock resolution: aborting transaction {} (youngest in cycle)", victim_id);
+
+    auto policy = static_cast<DeadlockVictimPolicy>(
+        victim_policy_.load(std::memory_order_relaxed));
+
+    TransactionId victim_id;
+
+    switch (policy) {
+        case DeadlockVictimPolicy::OLDEST:
+            // Abort the transaction with the smallest (oldest) ID
+            victim_id = *std::min_element(cycle.begin(), cycle.end());
+            THEMIS_WARN("Deadlock resolution: aborting transaction {} (oldest in cycle)", victim_id);
+            break;
+
+        case DeadlockVictimPolicy::LEAST_EXPENSIVE: {
+            // Abort the transaction that holds the fewest locks (cheapest to restart)
+            victim_id = cycle[0];
+            size_t min_locks = std::numeric_limits<size_t>::max();
+            {
+                std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
+                for (TransactionId txn : cycle) {
+                    size_t cnt = 0;
+                    for (const auto& [key, info] : held_locks_) {
+                        if (info.holder == txn) ++cnt;
+                    }
+                    if (cnt < min_locks) {
+                        min_locks = cnt;
+                        victim_id = txn;
+                    }
+                }
+            }
+            THEMIS_WARN("Deadlock resolution: aborting transaction {} (fewest locks={})", victim_id, min_locks);
+            break;
+        }
+
+        case DeadlockVictimPolicy::YOUNGEST:
+        default:
+            // Abort the transaction with the highest (newest) ID
+            victim_id = *std::max_element(cycle.begin(), cycle.end());
+            THEMIS_WARN("Deadlock resolution: aborting transaction {} (youngest in cycle)", victim_id);
+            break;
+    }
+
+    // Update cumulative metrics
+    uint64_t cycle_len = static_cast<uint64_t>(cycle.size());
+    deadlock_total_cycle_len_.fetch_add(cycle_len, std::memory_order_relaxed);
+    // Update max cycle length atomically using compare_exchange_strong to avoid
+    // spurious failures on architectures where weak CAS is unreliable.
+    uint64_t prev = deadlock_max_cycle_len_.load(std::memory_order_relaxed);
+    while (cycle_len > prev &&
+           !deadlock_max_cycle_len_.compare_exchange_strong(prev, cycle_len,
+               std::memory_order_relaxed, std::memory_order_relaxed)) {}
     
     // Record deadlock info
     DeadlockInfo info;
     info.cycle = cycle;
     info.detected_at = std::chrono::system_clock::now();
     info.victim_id = victim_id;
+    info.policy_used = policy;
     
     {
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
