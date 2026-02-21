@@ -267,6 +267,55 @@ public:
     // The first element has the highest priority; BackendType::CPU is always last.
     // All getBestXBackend() methods traverse this chain in order.
     static const std::vector<BackendType>& getFallbackOrder() noexcept;
+
+    // ---------------------------------------------------------------------------
+    // Capability-driven selection
+    // ---------------------------------------------------------------------------
+
+    /// Minimum capability requirements for capability-driven backend selection.
+    /// Zero / NONE / false fields are "don't-care" — they impose no constraint.
+    struct CapabilityRequirements {
+        bool needsVectorOps = false;        ///< Must support vector (ANN) operations
+        bool needsGraphOps  = false;        ///< Must support graph traversal operations
+        bool needsGeoOps    = false;        ///< Must support geospatial operations
+        bool needsBatch     = false;        ///< Must support batch processing
+        bool needsAsync     = false;        ///< Must support asynchronous execution
+
+        /// All listed PrecisionMode flags must be present in supportedPrecisions.
+        PrecisionMode requiredPrecisions = PrecisionMode::NONE;
+
+        /// All listed DistanceMetric bits (via metricBit()) must be present in
+        /// supportedMetrics.
+        uint32_t requiredMetrics = 0;
+    };
+
+    /// Returns true if @p caps satisfies every field in @p reqs.
+    static inline bool satisfies(const BackendCapabilities& caps,
+                                  const CapabilityRequirements& reqs) noexcept {
+        if (reqs.needsVectorOps && !caps.supportsVectorOps) return false;
+        if (reqs.needsGraphOps  && !caps.supportsGraphOps)  return false;
+        if (reqs.needsGeoOps    && !caps.supportsGeoOps)    return false;
+        if (reqs.needsBatch     && !caps.supportsBatchProcessing) return false;
+        if (reqs.needsAsync     && !caps.supportsAsync)     return false;
+        const auto reqP = static_cast<uint32_t>(reqs.requiredPrecisions);
+        const auto hasP = static_cast<uint32_t>(caps.supportedPrecisions);
+        if ((reqP & hasP) != reqP) return false;
+        if ((reqs.requiredMetrics & caps.supportedMetrics) != reqs.requiredMetrics) return false;
+        return true;
+    }
+
+    /// Returns the highest-priority available backend (per getFallbackOrder())
+    /// whose capabilities satisfy @p reqs, or nullptr if none do.
+    IComputeBackend* selectBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IVectorBackend instances.
+    IVectorBackend* selectVectorBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IGraphBackend instances.
+    IGraphBackend* selectGraphBackendFor(const CapabilityRequirements& reqs) const;
+
+    /// Like selectBackendFor() but restricted to IGeoBackend instances.
+    IGeoBackend* selectGeoBackendFor(const CapabilityRequirements& reqs) const;
     
     // Shutdown all backends
     void shutdownAll();

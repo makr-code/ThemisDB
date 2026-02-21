@@ -233,3 +233,157 @@ TEST(BackendCapabilityContract, RegistryBestGeoBackendReturnsCPU_WhenNoGPU) {
     ASSERT_NE(geo, nullptr);
     EXPECT_EQ(geo->type(), BackendType::CPU);
 }
+
+// =============================================================================
+// satisfies() static helper
+// =============================================================================
+
+TEST(BackendCapabilityContract, Satisfies_EmptyRequirementsAlwaysPass) {
+    // An empty requirements object imposes no constraints; every backend satisfies it.
+    BackendCapabilities caps;
+    caps.supportsVectorOps = true;
+    caps.supportedPrecisions = PrecisionMode::FP32;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2);
+
+    BackendRegistry::CapabilityRequirements reqs; // all false / NONE / 0
+    EXPECT_TRUE(BackendRegistry::satisfies(caps, reqs));
+}
+
+TEST(BackendCapabilityContract, Satisfies_VectorOpsRequired_Pass) {
+    BackendCapabilities caps;
+    caps.supportsVectorOps = true;
+    caps.supportedPrecisions = PrecisionMode::FP32;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2);
+
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    EXPECT_TRUE(BackendRegistry::satisfies(caps, reqs));
+}
+
+TEST(BackendCapabilityContract, Satisfies_VectorOpsRequired_Fail) {
+    BackendCapabilities caps;
+    caps.supportsVectorOps = false; // backend doesn't have it
+
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    EXPECT_FALSE(BackendRegistry::satisfies(caps, reqs));
+}
+
+TEST(BackendCapabilityContract, Satisfies_PrecisionRequired_Pass) {
+    BackendCapabilities caps;
+    caps.supportedPrecisions = PrecisionMode::FP32 | PrecisionMode::FP16;
+
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.requiredPrecisions = PrecisionMode::FP32; // only FP32 required — OK
+    EXPECT_TRUE(BackendRegistry::satisfies(caps, reqs));
+}
+
+TEST(BackendCapabilityContract, Satisfies_PrecisionRequired_Fail) {
+    BackendCapabilities caps;
+    caps.supportedPrecisions = PrecisionMode::FP32; // no FP16
+
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.requiredPrecisions = PrecisionMode::FP32 | PrecisionMode::FP16;
+    EXPECT_FALSE(BackendRegistry::satisfies(caps, reqs));
+}
+
+TEST(BackendCapabilityContract, Satisfies_MetricRequired_Pass) {
+    BackendCapabilities caps;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2)
+                          | metricBit(DistanceMetric::COSINE)
+                          | metricBit(DistanceMetric::INNER_PRODUCT);
+
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.requiredMetrics = metricBit(DistanceMetric::L2)
+                         | metricBit(DistanceMetric::COSINE);
+    EXPECT_TRUE(BackendRegistry::satisfies(caps, reqs));
+}
+
+TEST(BackendCapabilityContract, Satisfies_MetricRequired_Fail) {
+    BackendCapabilities caps;
+    caps.supportedMetrics = metricBit(DistanceMetric::L2); // only L2
+
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.requiredMetrics = metricBit(DistanceMetric::L2)
+                         | metricBit(DistanceMetric::COSINE); // needs cosine too
+    EXPECT_FALSE(BackendRegistry::satisfies(caps, reqs));
+}
+
+// =============================================================================
+// selectBackendFor() — capability-driven selection
+// =============================================================================
+
+TEST(BackendCapabilityContract, SelectBackendFor_VectorOps_ReturnsCPU_WhenNoGPU) {
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+
+    auto* b = BackendRegistry::instance().selectBackendFor(reqs);
+    ASSERT_NE(b, nullptr);
+    EXPECT_EQ(b->type(), BackendType::CPU);
+}
+
+TEST(BackendCapabilityContract, SelectVectorBackendFor_FP32_ReturnsCPU) {
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+    reqs.requiredMetrics = metricBit(DistanceMetric::L2);
+
+    auto* vb = BackendRegistry::instance().selectVectorBackendFor(reqs);
+    ASSERT_NE(vb, nullptr);
+    EXPECT_EQ(vb->type(), BackendType::CPU);
+}
+
+TEST(BackendCapabilityContract, SelectGeoBackendFor_FP32_ReturnsCPU) {
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsGeoOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP32;
+
+    auto* geo = BackendRegistry::instance().selectGeoBackendFor(reqs);
+    ASSERT_NE(geo, nullptr);
+    EXPECT_EQ(geo->type(), BackendType::CPU);
+}
+
+TEST(BackendCapabilityContract, SelectGraphBackendFor_ReturnsCPU) {
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsGraphOps = true;
+
+    auto* gb = BackendRegistry::instance().selectGraphBackendFor(reqs);
+    ASSERT_NE(gb, nullptr);
+    EXPECT_EQ(gb->type(), BackendType::CPU);
+}
+
+TEST(BackendCapabilityContract, SelectBackendFor_ImpossibleRequirements_ReturnsNull) {
+    // No backend supports async on CPU; asking for both vector + async
+    // should return nullptr when only CPU backends are present.
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    reqs.needsAsync     = true; // CPU backends don't expose async
+
+    auto* b = BackendRegistry::instance().selectBackendFor(reqs);
+    EXPECT_EQ(b, nullptr);
+}
+
+TEST(BackendCapabilityContract, SelectVectorBackendFor_FP16_ReturnsNull_WhenNoGPU) {
+    // CPU backends only declare FP32; requesting FP16 must return nullptr.
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps = true;
+    reqs.requiredPrecisions = PrecisionMode::FP16;
+
+    auto* vb = BackendRegistry::instance().selectVectorBackendFor(reqs);
+    EXPECT_EQ(vb, nullptr);
+}
+
+TEST(BackendCapabilityContract, SelectBackendFor_AllMetrics_ReturnsCPU) {
+    // CPU vector backend declares all three ANN metrics.
+    BackendRegistry::CapabilityRequirements reqs;
+    reqs.needsVectorOps  = true;
+    reqs.requiredMetrics = metricBit(DistanceMetric::L2)
+                         | metricBit(DistanceMetric::COSINE)
+                         | metricBit(DistanceMetric::INNER_PRODUCT);
+
+    auto* vb = BackendRegistry::instance().selectVectorBackendFor(reqs);
+    ASSERT_NE(vb, nullptr);
+    EXPECT_EQ(vb->type(), BackendType::CPU);
+}
+

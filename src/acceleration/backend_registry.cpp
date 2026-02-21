@@ -152,6 +152,39 @@ const std::vector<BackendType>& BackendRegistry::getFallbackOrder() noexcept {
     return kFallbackOrder;
 }
 
+// Internal helper: traverse kFallbackOrder and return the first backend that
+// satisfies reqs and can be downcast to T*. T must be IComputeBackend or a
+// subtype (IVectorBackend, IGraphBackend, IGeoBackend).
+template <typename T>
+static T* selectTyped(const std::vector<std::unique_ptr<IComputeBackend>>& backends,
+                      const BackendRegistry::CapabilityRequirements& reqs) {
+    for (auto type : kFallbackOrder) {
+        for (const auto& backend : backends) {
+            if (backend->type() == type && BackendRegistry::satisfies(backend->getCapabilities(), reqs)) {
+                T* typed = dynamic_cast<T*>(backend.get());
+                if (typed) return typed;
+            }
+        }
+    }
+    return nullptr;
+}
+
+IComputeBackend* BackendRegistry::selectBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IComputeBackend>(backends_, reqs);
+}
+
+IVectorBackend* BackendRegistry::selectVectorBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IVectorBackend>(backends_, reqs);
+}
+
+IGraphBackend* BackendRegistry::selectGraphBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IGraphBackend>(backends_, reqs);
+}
+
+IGeoBackend* BackendRegistry::selectGeoBackendFor(const CapabilityRequirements& reqs) const {
+    return selectTyped<IGeoBackend>(backends_, reqs);
+}
+
 IVectorBackend* BackendRegistry::getBestVectorBackend() const {
     for (auto type : kFallbackOrder) {
         for (const auto& backend : backends_) {
