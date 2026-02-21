@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_llm_aql_handler.cpp                           ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-02-21 12:09:29                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-02-21 14:08:15                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     320                                            ║
+    • Total Lines:     358                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 52032bbf8  2026-02-21  [aql] Confidence scoring for generated AQL queries (#1427) ║
+    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -508,6 +508,41 @@ TEST_F(LLMAQLHandlerTest, FormatLLMResponseNonAQLBlockUnchanged) {
     auto result = handler->formatLLMResponse(response, /*use_ansi=*/false);
     EXPECT_NE(result.text.find("\"key\""), std::string::npos);
     EXPECT_TRUE(result.annotations.empty());
+// Confidence Scoring Tests
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithConfidenceReturnsResult) {
+    try {
+        auto result = handler->translateNLToAQLWithConfidence("Find all users");
+        // If translation succeeded, both fields must be populated
+        EXPECT_FALSE(result.aql_query.empty());
+        EXPECT_GE(result.confidence.overall_confidence, 0.0f);
+        EXPECT_LE(result.confidence.overall_confidence, 1.0f);
+    } catch (const std::exception& e) {
+        // Expected to fail without a loaded LLM model
+        std::string msg = e.what();
+        EXPECT_TRUE(msg.find("translation failed") != std::string::npos ||
+                    msg.find("CHAT failed") != std::string::npos);
+    }
+}
+
+TEST_F(LLMAQLHandlerTest, TranslateNLToAQLWithConfidenceUsesSchemaContext) {
+    const std::string schema = R"(
+Collections:
+- users: {name, email, city}
+- posts: {title, content}
+)";
+    try {
+        auto result = handler->translateNLToAQLWithConfidence(
+            "Find all posts by users in Seattle", schema);
+        EXPECT_FALSE(result.aql_query.empty());
+        EXPECT_GE(result.confidence.overall_confidence, 0.0f);
+        EXPECT_LE(result.confidence.overall_confidence, 1.0f);
+    } catch (const std::exception& e) {
+        std::string msg = e.what();
+        EXPECT_TRUE(msg.find("translation failed") != std::string::npos ||
+                    msg.find("CHAT failed") != std::string::npos);
+    }
 }
 
 // Run tests

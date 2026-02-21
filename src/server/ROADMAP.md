@@ -1,3 +1,5 @@
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 # Server Module Roadmap
 
 ## Current Status
@@ -24,9 +26,9 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [x] Throughput: 50K–200K req/sec; p50 < 5 ms, p99 < 50 ms
 
 ## In Progress 🚧
-- [ ] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026)
-- [ ] GraphQL endpoint for schema-driven API access (Target: Q2 2026)
-- [ ] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026)
+- [I] HTTP/3 QUIC performance tuning and production hardening (Target: Q2 2026) (Issue: #1436)
+- [I] GraphQL endpoint for schema-driven API access (Target: Q2 2026) (Issue: #1437)
+- [I] API versioning strategy (deprecation headers, sunset dates) (Target: Q3 2026) (Issue: #1438)
 
 ## Planned Features 📋
 
@@ -38,6 +40,46 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 - [ ] WebSocket binary frame support for wire protocol upgrade
 
 ### Long-term (6-12 months)
+- [ ] gRPC-web proxy for browser clients
+- [ ] Serverless function hosting (run user code in-process)
+- [ ] Edge caching integration (CDN cache-control header management)
+- [ ] Service mesh sidecar proxy mode (Envoy xDS compatibility)
+- [ ] HTTP/3 datagram support for real-time low-latency streams
+
+## Implementation Phases
+
+### Phase 1: Multi-Protocol Server & Core API (Status: Completed ✅)
+- [x] `HTTPServer` – multi-protocol async I/O server (HTTP/1.1, HTTP/2, HTTP/3) on Boost.Beast/Asio
+- [x] TLS 1.3 with modern cipher suites
+- [x] 40+ specialized REST API handlers
+- [x] WebSocket support for real-time notifications and changefeeds
+- [x] MQTT broker integration for IoT use cases
+- [x] PostgreSQL wire protocol for SQL client compatibility
+- [x] gRPC services for high-performance RPC
+- [x] API Gateway (routing, versioning, load balancing)
+- [x] JWT, Kerberos, API token, and USB admin authentication
+- [x] Rate limiting (token bucket, sliding window, distributed)
+- [x] Load shedding and circuit breaking
+- [x] Server-Sent Events (SSE) for changefeeds
+- [x] Multi-tenancy with tenant isolation
+- [x] Apache Ranger policy enforcement integration
+- [x] Response compression (Gzip, Brotli, Zstd)
+- [x] Model Context Protocol (MCP) server for AI integrations
+- [x] Graceful shutdown and connection draining
+
+### Phase 2: HTTP/3 Hardening & GraphQL (Status: In Progress 🚧)
+- [~] HTTP/3 QUIC performance tuning and production hardening
+- [~] GraphQL endpoint for schema-driven API access
+- [~] API versioning strategy (deprecation headers, sunset dates)
+
+### Phase 3: OpenAPI & Request Validation (Status: Planned 📋)
+- [ ] OpenAPI 3.1 spec auto-generation from handler annotations
+- [ ] Request validation middleware (JSON Schema per endpoint)
+- [ ] Response streaming for large result sets (chunked transfer)
+- [ ] Per-tenant custom domain routing
+- [ ] WebSocket binary frame support for wire protocol upgrade
+
+### Phase 4: gRPC-Web, Serverless & Service Mesh (Status: Planned 📋)
 - [ ] gRPC-web proxy for browser clients
 - [ ] Serverless function hosting (run user code in-process)
 - [ ] Edge caching integration (CDN cache-control header management)

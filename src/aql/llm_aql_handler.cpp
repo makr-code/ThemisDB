@@ -3,28 +3,29 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.cpp                                ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-02-21 12:09:00                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-02-21 14:07:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   91.0/100                                       ║
-    • Total Lines:     769                                            ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     933                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 52032bbf8  2026-02-21  [aql] Confidence scoring for generated AQL queries (#1427) ║
+    • 5ec52ecf5  2026-02-21  feat(aql): Batch NL-to-AQL translation for offline worklo... ║
+    • bd6a94514  2026-02-21  [aql] Multi-turn conversation context for iterative AQL q... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "aql/llm_aql_handler.h"
+#include "aql/aql_confidence_scorer.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
 #include "aql/llm_metrics_collector.h"
@@ -153,6 +154,34 @@ void sanitizePromptInput(
 }
 
 } // anonymous namespace
+// ─────────────────────────────────────────────────────────────────────────────
+// AQLConversationSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+void AQLConversationSession::addTurn(
+    const std::string& nl_query,
+    const std::string& aql_result
+) {
+    history_.push_back({nl_query, aql_result});
+}
+
+const std::vector<ConversationTurn>& AQLConversationSession::getHistory() const {
+    return history_;
+}
+
+void AQLConversationSession::clear() {
+    history_.clear();
+}
+
+bool AQLConversationSession::empty() const {
+    return history_.empty();
+}
+
+std::size_t AQLConversationSession::size() const {
+    return history_.size();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 class LLMAQLHandler::Impl {
 public:
@@ -869,6 +898,28 @@ std::string LLMAQLHandler::translateNLToAQL(
     }
 }
 
+std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLToAQL(
+    const std::vector<BatchNLToAQLRequest>& requests
+) {
+    std::vector<BatchNLToAQLResult> results;
+    results.reserve(requests.size());
+
+    for (const auto& req : requests) {
+        BatchNLToAQLResult result;
+        try {
+            result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+            result.success = true;
+        } catch (const std::exception& e) {
+            result.aql_query.clear();
+            result.error = e.what();
+            result.success = false;
+        }
+        results.push_back(std::move(result));
+    }
+
+    return results;
+}
+
 std::string LLMAQLHandler::executeChat(
     const std::vector<llm::ChatMessage>& messages,
     const std::string& model_id,
@@ -912,6 +963,116 @@ HighlightedResponse LLMAQLHandler::formatLLMResponse(
 ) const {
     AQLSyntaxHighlighter highlighter(use_ansi);
     return highlighter.formatLLMResponse(llm_response);
+LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidence(
+    const std::string& nl_query,
+    const std::string& schema_context
+) {
+    AQLTranslationResult result;
+    result.aql_query = translateNLToAQL(nl_query, schema_context);
+
+    AQLConfidenceScorer scorer;
+    result.confidence = scorer.score(result.aql_query, nl_query, schema_context);
+
+    spdlog::debug("AQL confidence score: overall={:.2f} structural={:.2f} completeness={:.2f} schema_match={:.2f}",
+        result.confidence.overall_confidence,
+        result.confidence.structural_score,
+        result.confidence.completeness_score,
+        result.confidence.schema_match_score);
+
+    return result;
+LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
+    const std::string& aql_query,
+    const std::string& original_intent,
+    const std::string& schema_context
+) {
+    // Default result for when the LLM is unavailable
+    QueryConfidenceScore unavailable;
+    unavailable.score       = -1.0f;
+    unavailable.explanation = "LLM unavailable; confidence scoring requires a loaded model";
+
+    if (aql_query.empty()) {
+        QueryConfidenceScore empty_result;
+        empty_result.score       = 0.0f;
+        empty_result.explanation = "Query is empty";
+        empty_result.suggestions.push_back("Provide a non-empty AQL query");
+        return empty_result;
+    }
+
+    try {
+        // Build a structured prompt that asks the LLM to respond in a parseable format
+        std::ostringstream prompt;
+        prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
+
+        if (!schema_context.empty()) {
+            prompt << "Database schema:\n" << schema_context << "\n\n";
+        }
+
+        if (!original_intent.empty()) {
+            prompt << "The user intended: \"" << original_intent << "\"\n\n";
+        }
+
+        prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
+        prompt << "Evaluate this AQL query on a scale from 0.0 to 1.0 and respond in EXACTLY "
+               << "this format (no extra text):\n"
+               << "SCORE: <float between 0.0 and 1.0>\n"
+               << "EXPLANATION: <one sentence>\n"
+               << "SUGGESTION: <one improvement per line, or 'None' if no improvements>\n";
+
+        const std::string response = executeInfer(prompt.str());
+
+        QueryConfidenceScore result;
+        result.score = -1.0f;
+
+        // Parse the structured response
+        std::istringstream ss(response);
+        std::string line;
+        bool in_suggestions = false;
+        while (std::getline(ss, line)) {
+            // Trim leading/trailing whitespace
+            auto trim_ws = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }).base(), s.end());
+            };
+            trim_ws(line);
+            if (line.empty()) continue;
+
+            if (line.size() >= 7 && line.substr(0, 7) == "SCORE: ") {
+                try {
+                    result.score = std::stof(line.substr(7));
+                    // Clamp to [0, 1]
+                    result.score = std::max(0.0f, std::min(1.0f, result.score));
+                } catch (...) {
+                    result.score = -1.0f;
+                }
+                in_suggestions = false;
+            } else if (line.size() >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
+                result.explanation = line.substr(13);
+                in_suggestions = false;
+            } else if (line.size() >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
+                in_suggestions = true;
+                std::string suggestion = line.substr(12);
+                if (suggestion != "None" && !suggestion.empty()) {
+                    result.suggestions.push_back(suggestion);
+                }
+            } else if (in_suggestions && !line.empty() && line != "None") {
+                result.suggestions.push_back(line);
+            }
+        }
+
+        // If we failed to parse a score, return unavailable
+        if (result.score < 0.0f && result.explanation.empty()) {
+            return unavailable;
+        }
+        return result;
+
+    } catch (const std::exception& e) {
+        spdlog::warn("LLMAQLHandler::scoreQueryConfidence failed: {}", e.what());
+        return unavailable;
+    }
 }
 
 } // namespace aql

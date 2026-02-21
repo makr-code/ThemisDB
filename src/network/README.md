@@ -4,6 +4,19 @@
 
 The Network module implements ThemisDB's high-performance, secure networking layer for distributed communication, client connections, and inter-node messaging. It provides TCP/IP socket management, connection pooling, TLS/mTLS security, protocol handling, and distributed communication patterns optimized for low latency and high throughput.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `tcp_server.cpp` | Core TCP server with async I/O and connection management |
+| `connection_manager.cpp` | Connection pool lifecycle and health tracking |
+| `protocol_handler.cpp` | Wire protocol parsing and message framing |
+| `tls_config.cpp` | TLS/mTLS configuration and certificate management |
+
+## Current Delivery Status
+
+**Maturity:** 🔴 Alpha — Network layer and peer communication infrastructure operational; production TLS and peer discovery in progress.
+
 ## Scope
 
 **In Scope:**

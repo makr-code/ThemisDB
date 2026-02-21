@@ -2,21 +2,28 @@
 
 ## Current Assessment
 
-The `src/content` subsystem is **NOT 100% production-ready**. While the subsystem implements core functionality for content ingestion, processing, and transformation across multiple formats (PDF, Office, CAD, audio, video, images, archives, geospatial), significant gaps remain that must be addressed before deploying to production environments.
+The content management subsystem (`src/content/`, `include/content/`) provides comprehensive functionality for ingesting, processing, versioning, and managing diverse content types (text, images, audio, CAD, GEO, structured data). However, several critical gaps prevent it from being **100% production ready**:
 
 ### Identified Gaps
 
-- **Input/Schema Validation**: No systematic validation framework for content payloads; missing size limits, format verification, and content schema enforcement
-- **Content Safety & Compliance**: No PII detection, abuse content filtering, or malware scanning; missing compliance checks for GDPR/CCPA
-- **Rate Limiting & Backpressure**: No clear rate limiting or backpressure mechanisms for ingestion pipelines; no queue depth limits or admission control
-- **Resource Budgets**: Unclear memory/latency budgets for processing operations; no limits on concurrent processing or worker pool sizing
-- **Observability Gaps**: Missing metrics for latency, throughput, error rates; no distributed tracing spans; no operational dashboards or alerts
-- **Error Handling**: Lacks structured error codes and retry/backoff policies for downstream dependencies; errors not sanitized for external exposure
-- **Security/Privacy**: Missing authorization controls for content operations; no tenant isolation for multi-tenant scenarios; no redaction/encryption guidance for sensitive content
-- **Supply-Chain Security**: No verification of content handler/parser dependencies; missing integrity checks for binary processors (FFmpeg, GDAL)
-- **Caching/TTL Policies**: No defined caching strategy for processed content; missing TTL policies or warmup/preload strategies
-- **Test Coverage**: Unit/integration/fuzz/property tests not visible for parsers/transformers; no regression tests or compatibility matrices for format versions
-- **Versioning/Migration**: Upgrade/migration strategy for content formats and indexes unclear; no deprecation timeline for format support
+- **VersionManager: In-Memory Storage**: Uses `std::unordered_map` for version storage (see `version_manager.cpp:50`); no persistence to RocksDB
+- **No Version Retention Policy**: No automatic cleanup, version limits, or storage quota management for versions
+- **No Atomic Operations**: ContentFS operations lack transaction guarantees; partial failures could leave inconsistent state
+- **No Deduplication Enforcement**: ContentMeta includes `hash_sha256` field but no global deduplication logic is implemented
+- **No Storage Quota Management**: No per-user, per-tenant, or global storage limits enforced
+- **ContentPolicy: No Runtime Updates**: Policy changes require restart; no hot-reload or API for dynamic policy updates
+- **No Rate Limiting**: AsyncIngestionWorker lacks rate limiting per user/tenant; vulnerable to abuse
+- **No Telemetry**: Missing metrics for ingestion throughput, queue depth, processing latency, storage usage
+- **No Distributed Tracing**: No OpenTelemetry spans for content operations (upload, processing, retrieval)
+- **Insufficient Error Handling**: Many operations use generic exceptions; lacks structured error types with context
+- **No Content Lifecycle Management**: No TTL, archival, or cold storage migration for old/unused content
+- **No Integrity Validation**: No periodic content hash verification to detect corruption
+- **Thread Safety Gaps**: ContentManager operations lack documented concurrency guarantees
+- **No Observability**: No audit logs for content access, modification, deletion
+- **No Backup/Restore**: No tools for exporting/importing content with metadata preservation
+- **Missing Plugin Validation**: AsyncIngestionWorker plugins lack schema validation and sandboxing
+- **No Content Search Pagination**: Search operations may load all results into memory
+- **No Disaster Recovery**: No replication strategy or multi-region content sync
 
 ---
 
@@ -24,293 +31,271 @@ The `src/content` subsystem is **NOT 100% production-ready**. While the subsyste
 
 ### Stabilität & Sicherheit (Stability & Security)
 
-#### Input Validation & Limits
+- **Persistent Version Storage**
+  - Migrate VersionManager from in-memory map to RocksDB-backed storage
+  - Use key schema: `version:<content_id>:<version_num>` for version metadata
+  - Implement atomic version creation with timestamp-ordered keys
 
-- Enforce maximum content size limits per content type (configurable defaults)
-- Validate MIME types against allowlist; reject unsupported formats
-- Implement schema validation for structured content (JSON, XML)
-- Add format-specific validation (PDF version, Office format, image dimensions)
-- Enforce maximum processing time per content item with timeouts
+- **Version Retention & Quota Management**
+  - Add configurable version retention policy (e.g., keep last N versions, or versions from last M days)
+  - Implement storage quota per user/tenant with configurable limits
+  - Add automatic version pruning based on retention policy
+  - Provide admin API to query and adjust quotas
 
-#### Content Safety & PII Scanning
+- **Atomic Content Operations**
+  - Wrap ContentFS multi-key operations (metadata + blob + chunks) in RocksDB transactions
+  - Ensure rollback on partial failure (e.g., metadata written but blob failed)
+  - Add idempotency keys for upload operations to prevent duplicate ingestion
 
-- Integrate PII detection for text-based content (SSN, credit cards, email addresses)
-- Add abuse content filtering (profanity, hate speech, adult content)
-- Implement malware scanning for uploaded files (ClamAV or similar)
-- Add compliance checks for GDPR/CCPA (data residency, consent tracking)
-- Support content redaction policies (automatic masking of sensitive data)
+- **Global Content Deduplication**
+  - Implement reference-counted storage based on `hash_sha256`
+  - Store blobs at `blob:<sha256>` with reference count
+  - ContentMeta points to blob hash; delete blob only when refcount reaches zero
+  - Add dedup statistics (space saved, duplicate uploads blocked)
 
-#### Rate Limiting & Backpressure
+- **Storage Quota Enforcement**
+  - Track storage usage per user/tenant in separate counters (`quota:<user_id>:used`)
+  - Reject uploads that would exceed quota with clear error messages
+  - Provide admin dashboard for quota monitoring and adjustment
+  - Support quota grace periods and soft/hard limits
 
-- Implement per-user/tenant rate limiting for ingestion operations
-- Add queue depth limits with rejection policies (fail-fast vs. backpressure)
-- Implement admission control based on system load (CPU, memory, I/O)
-- Add circuit breakers for downstream dependencies (storage, LLM services)
-- Support priority queuing for critical content
+- **Dynamic Content Policy Updates**
+  - Store ContentPolicy in RocksDB (`config:content_policy`)
+  - Add HTTP API endpoint to update policy dynamically (`PUT /admin/content-policy`)
+  - Implement policy validation and rollback on invalid updates
+  - Broadcast policy changes to all worker nodes (pub/sub or polling)
 
-#### Authorization & Tenant Isolation
+- **Rate Limiting for Ingestion**
+  - Implement token bucket or sliding window rate limiter per user/tenant
+  - Add configurable limits for requests/minute and bytes/minute
+  - Return HTTP 429 (Too Many Requests) with Retry-After header
+  - Track rate limit violations in audit logs
 
-- Implement scope-based authorization for content operations (`content:read`, `content:write`, `content:admin`)
-- Enforce tenant isolation for content storage and processing
-- Add role-based access control (RBAC) for content management
-- Audit all content access and modification operations
-- Support fine-grained permissions (collection-level, document-level)
+- **Content Integrity Verification**
+  - Add periodic background job to verify stored content hashes
+  - Detect and alert on hash mismatches (corruption)
+  - Support manual verification via admin API
+  - Integrate with backup/restore workflows
 
-#### Safe Defaults & Secure Configuration
-
-- Disable dangerous format features by default (macros, scripts)
-- Sandbox content processors (chroot, containers, seccomp)
-- Set conservative resource limits (memory, CPU, file handles)
-- Enable secure defaults for network operations (TLS, certificate validation)
-- Provide security hardening guidelines for production deployments
+- **Thread-Safety Guarantees**
+  - Document thread-safety model for ContentManager, ContentFS, VersionManager
+  - Add reader-writer locks where needed (e.g., ContentPolicy updates)
+  - Ensure AsyncIngestionWorker job queue is lock-free or uses fine-grained locking
+  - Add thread sanitizer checks to CI pipeline
 
 ---
 
 ### Korrektheit & Tests (Correctness & Tests)
 
-#### Unit Tests for Parsers/Transformers
+- **Unit Tests for VersionManager**
+  - Test version creation, retrieval, history queries
+  - Test edge cases: empty history, duplicate versions, concurrent creation
+  - Test persistence: verify versions survive restart (after migration to RocksDB)
 
-- Add unit tests for each content processor (PDF, Office, CAD, audio, video)
-- Test error handling paths and edge cases
-- Mock external dependencies for fast, deterministic tests
-- Validate content extraction accuracy against known samples
+- **Integration Tests for ContentFS**
+  - Test atomic operations: verify rollback on partial failure
+  - Test chunked vs. non-chunked storage with various sizes
+  - Test range reads with edge cases (offset beyond size, zero-length, etc.)
+  - Test concurrent uploads and retrieval
 
-#### Integration Tests for Content Pipelines
+- **Deduplication Tests**
+  - Test identical content uploaded by different users
+  - Test reference counting: verify blob deletion only when refcount = 0
+  - Test space savings calculation
 
-- End-to-end tests for ingestion → processing → indexing workflows
-- Test multi-stage pipelines (e.g., video → frames → embedding)
-- Validate error propagation and rollback behavior
-- Test async processing with queue workers
+- **Policy Validation Tests**
+  - Test ContentPolicy with allow/deny lists, size limits
+  - Test dynamic policy updates without restart
+  - Test policy enforcement across all ingestion paths
 
-#### Fuzz Testing for Format Parsers
+- **AsyncIngestionWorker Tests**
+  - Test job queuing, prioritization, cancellation
+  - Test worker thread lifecycle (start, stop, graceful shutdown)
+  - Test failure handling and retry logic
+  - Test progress tracking and callbacks
 
-- Fuzz test each content processor with malformed inputs
-- Test for crashes, hangs, infinite loops, or memory leaks
-- Validate robustness against adversarial/corrupted files
-- Use AFL, libFuzzer, or Honggfuzz for automated fuzzing
+- **Rate Limiting Tests**
+  - Test rate limit enforcement per user/tenant
+  - Test burst handling and token bucket refill
+  - Test rate limit reset after time window
 
-#### Property-Based Tests
+- **Fuzz Testing**
+  - Fuzz MIME type detection with malformed files
+  - Fuzz content chunking with random byte sequences
+  - Fuzz JSON metadata parsing
+  - Fuzz archive extraction (ZIP, TAR, 7Z) with malicious payloads
 
-- Generate random valid content payloads and verify invariants
-- Test round-trip conversion (e.g., PDF → text → indexed → retrieved)
-- Validate that processing is deterministic (same input → same output)
-- Test boundary conditions (zero-size, max-size, empty fields)
-
-#### Regression & Compatibility Tests
-
-- Maintain test suite with historical format versions (PDF 1.4–2.0, Office 2003–2021)
-- Test backward compatibility for format upgrades
-- Validate that processing results remain stable across releases
-- Add CI gates to prevent regressions in extraction quality
+- **Regression Tests**
+  - Add CI validation for ContentPolicy schema
+  - Test that all content processors (PDF, image, audio, CAD) handle edge cases
+  - Test malware scanner integration with known malicious samples (disabled by default)
 
 ---
 
 ### Observability & Operations (Observability & Operations)
 
-#### Metrics (Prometheus/OpenTelemetry)
+- **Metrics (Prometheus/OpenTelemetry)**
+  - Ingestion metrics: `content_ingestion_requests_total`, `content_ingestion_bytes_total`
+  - Processing metrics: `content_processing_duration_seconds`, `content_processing_failures_total`
+  - Storage metrics: `content_storage_used_bytes`, `content_storage_dedup_savings_bytes`
+  - Queue metrics: `content_ingestion_queue_depth`, `content_ingestion_queue_wait_time_seconds`
+  - Version metrics: `content_versions_total`, `content_version_storage_bytes`
+  - Policy metrics: `content_policy_rejections_total` (by reason)
+  - Rate limit metrics: `content_rate_limit_exceeded_total`
 
-- **Throughput**: Content items processed per second (by type)
-- **Latency**: Processing time per content item (p50, p95, p99)
-- **Error Rate**: Failed processing attempts (by type and error code)
-- **Queue Depth**: Items pending in ingestion queues
-- **Resource Utilization**: Memory, CPU, I/O per worker
-- **Cache Hit Rate**: Processed content cache effectiveness
-- **Format Distribution**: Histogram of content types ingested
+- **Tracing Spans**
+  - Add OpenTelemetry spans for all content operations:
+    - `content.upload` (with size, mime_type, user_id attributes)
+    - `content.process` (with processor type, duration)
+    - `content.version.create`
+    - `content.dedup.check`
+    - `content.chunk` (with chunk count, embedding dimension)
+  - Include parent/child relationships for archives and structured content
 
-#### Distributed Tracing
+- **Audit Logs**
+  - Log all content lifecycle events: upload, update, delete, access
+  - Include user context, timestamps, IP addresses, request IDs
+  - Support log export to SIEM systems (JSON format)
+  - Add retention policy for audit logs (default: 90 days)
 
-- Add OpenTelemetry spans for each processing stage
-- Trace content ingestion end-to-end (upload → storage → processing → indexing)
-- Include content ID, type, size, and processing duration in spans
-- Support trace context propagation across async workers
-- Provide flame graphs for latency analysis
+- **Alerts for Anomalies**
+  - Alert on ingestion failures exceeding threshold (e.g., >5% failure rate)
+  - Alert on storage quota approaching limit (e.g., >80% used)
+  - Alert on malware detection (immediate notification)
+  - Alert on content corruption detected during integrity checks
+  - Alert on rate limit abuse (sustained violations)
 
-#### Dashboards & Alerts
-
-- Create Grafana dashboards for content pipeline health
-- Alert on high error rates (>5% failure rate)
-- Alert on high latency (p95 > SLO)
-- Alert on queue depth exceeding thresholds
-- Alert on resource exhaustion (memory/CPU saturation)
-- Provide operational runbooks for common alerts
-
-#### Structured Logging
-
-- Use structured logging (JSON) for all content operations
-- Include correlation IDs for request tracing
-- Log content metadata (ID, type, size, user/tenant)
-- Sanitize logs to prevent PII leakage
-- Support log aggregation (ELK, Loki, Splunk)
+- **Admin Dashboard**
+  - Visualize storage usage by user/tenant/content type
+  - Display ingestion queue depth and processing throughput
+  - Show top content consumers (by storage, by upload frequency)
+  - List failed ingestion jobs with error details
+  - Show deduplication statistics (space saved, duplicate count)
 
 ---
 
-### Performance (Performance)
+### API/Config & DX (Developer Experience)
 
-#### Caching & TTL Policies
+- **Structured Error Types**
+  - Replace generic `std::runtime_error` with specific error types:
+    - `ContentNotFoundError`, `QuotaExceededError`, `PolicyViolationError`
+    - `DuplicateContentError`, `CorruptedContentError`, `IngestionFailedError`
+  - Include error context: content ID, user ID, quota limits, policy rule violated
+  - Provide actionable error messages with remediation steps
 
-- Implement LRU cache for processed content (text extracts, embeddings)
-- Define TTL policies for content types (e.g., 24h for transient, 7d for stable)
-- Support cache invalidation on content updates
-- Add cache hit/miss metrics
+- **Content Search API Enhancements**
+  - Add pagination support (cursor-based or offset/limit)
+  - Add support for streaming large result sets
+  - Add faceted search (filter by category, mime_type, date range)
+  - Add full-text search within content (leveraging fulltext index)
 
-#### Batching & Throughput Optimization
+- **Admin API for Content Management**
+  - `GET /admin/content/stats` - Global content statistics
+  - `GET /admin/content/quota/:user_id` - Query user quota and usage
+  - `PUT /admin/content/quota/:user_id` - Update user quota
+  - `POST /admin/content/verify-integrity` - Trigger integrity check
+  - `DELETE /admin/content/prune-versions` - Manually prune old versions
 
-- Batch content processing operations where possible
-- Use vectorized/SIMD operations for format parsing
-- Optimize memory allocations (pooling, arenas)
-- Parallelize independent processing stages
+- **Content Lifecycle Policies**
+  - Add TTL configuration per content category (e.g., temp files expire after 7 days)
+  - Support archival to cold storage (S3 Glacier, Azure Archive) after N days of inactivity
+  - Provide API to extend TTL or restore archived content
 
-#### Warmup & Preload Strategies
+- **Plugin SDK Improvements**
+  - Add JSON Schema validation for plugin configuration
+  - Provide plugin lifecycle hooks: `onRegister`, `onUnregister`, `onError`
+  - Add plugin health checks and auto-restart on failure
+  - Support plugin versioning and compatibility checks
 
-- Preload frequently accessed content into cache on startup
-- Support background preloading of high-priority content
-- Implement cache warming strategies (LRU-based, user-based)
-
-#### Memory & Latency SLOs
-
-- Define memory budget per content processor (e.g., 512MB per worker)
-- Set latency SLOs (e.g., p95 < 5s for PDFs, p95 < 30s for videos)
-- Monitor and enforce SLOs in production
-- Provide performance tuning guidelines
+- **Dry-Run Mode for Ingestion**
+  - Add `--dry-run` flag to ingestion API
+  - Validate content without storing (check policy, malware, quota)
+  - Return detailed report: estimated storage, processing time, policy violations
 
 ---
 
 ### Security/Privacy (Security/Privacy)
 
-#### Data Redaction & Masking
+- **Content Encryption at Rest**
+  - Encrypt content blobs using AES-256-GCM with per-tenant keys
+  - Store encryption metadata in ContentMeta (`encrypted`, `encryption_type`, `key_id`)
+  - Integrate with key management systems (KMS, Vault)
+  - Support key rotation without re-encrypting all content (envelope encryption)
 
-- Provide APIs for automatic PII redaction in content
-- Support configurable redaction policies (full, partial, hash-based)
-- Redact sensitive data in logs and error messages
-- Support GDPR "right to be forgotten" (content deletion)
+- **Access Control for Content**
+  - Implement role-based access control (RBAC) for content operations
+  - Support per-content ACLs (owner, readers, writers)
+  - Audit all content access attempts (authorized and denied)
+  - Integrate with external identity providers (OAuth2, SAML)
 
-#### Encryption at Rest & In Transit
+- **Malware Scanning Enforcement**
+  - Make malware scanning mandatory for all ingested content (configurable)
+  - Quarantine detected threats with admin notification
+  - Support multiple malware scanner backends (ClamAV, VirusTotal API)
+  - Add malware signature update monitoring and alerts
 
-- Encrypt content at rest (AES-256-GCM)
-- Use TLS 1.3 for all network operations
-- Support client-side encryption for sensitive content
-- Provide key rotation and management guidance
+- **Content Redaction/Sanitization**
+  - Support PII redaction in text content (regex-based or ML-based)
+  - Add watermarking for sensitive content (images, documents)
+  - Provide audit trail for redaction operations
 
-#### Supply-Chain Security for Content Handlers
-
-- Verify integrity of binary dependencies (FFmpeg, LibreOffice, GDAL)
-- Use cryptographic signatures for processor binaries
-- Pin dependency versions in build manifests
-- Scan dependencies for known vulnerabilities (CVE checks)
-- Provide SBOM (Software Bill of Materials) for content processors
-
-#### Authorization & Audit
-
-- Audit all content access and modification operations
-- Log failed authorization attempts
-- Support compliance reporting (SOC 2, ISO 27001)
-- Provide tamper-evident audit logs
-
----
-
-### API/Config & DX (API/Config & Developer Experience)
-
-#### Configuration Validation
-
-- Validate content processor configs at startup
-- Provide JSON schema for configuration files
-- Support config hot-reloading without restart
-- Add config linting and validation tools
-
-#### Feature Flags
-
-- Use feature flags for experimental content processors
-- Support gradual rollout of new format support
-- Provide flag-based A/B testing for processing pipelines
-- Allow per-tenant feature enablement
-
-#### Structured Errors
-
-- Define error code taxonomy (e.g., `CONTENT_FORMAT_UNSUPPORTED`, `CONTENT_SIZE_EXCEEDED`)
-- Return structured error objects with codes, messages, and metadata
-- Include correlation IDs for error tracing
-- Sanitize errors to prevent information leakage
-
-#### Admin Operations
-
-- Provide admin APIs for content reprocessing/reindexing
-- Support bulk content purge operations
-- Add admin tools for content migration/export
-- Provide content audit and statistics APIs
-
-#### Schema & Version Metadata
-
-- Embed version metadata in processed content
-- Track content processor versions used for each item
-- Support schema evolution for content indexes
-- Provide compatibility guarantees for schema changes
-
----
-
-### Daten- & Änderungsmanagement (Data & Change Management)
-
-#### Versioning for Content Formats/Indexes
-
-- Version content processor implementations
-- Track format support matrix (which versions are supported)
-- Provide migration paths for index schema changes
-- Support parallel processing with old/new processors during migration
-
-#### Migration & Upgrade Strategies
-
-- Provide automated migration scripts for index upgrades
-- Support zero-downtime upgrades with blue/green deployments
-- Validate data integrity before/after migrations
-- Rollback support for failed migrations
-
-#### Deprecation Timelines
-
-- Define deprecation policy for content format support
-- Provide 6-12 month notice for format deprecation
-- Document migration paths for deprecated formats
-- Support gradual deprecation phases (warn → error → removal)
-
-#### Backward Compatibility
-
-- Maintain backward compatibility for at least 2 major versions
-- Test compatibility with legacy content on each release
-- Provide compatibility shims where needed
-- Document breaking changes and migration steps
+- **Secure Plugin Execution**
+  - Run ingestion plugins in sandboxed environments (containers, seccomp)
+  - Limit plugin resource usage (CPU, memory, network)
+  - Validate plugin signatures before loading
+  - Isolate plugin failures to prevent system-wide crashes
 
 ---
 
 ### Delivery & Governance (Delivery & Governance)
 
-#### CI Gates & Quality Checks
+- **CI Gates for Content Policy**
+  - Add CI check to validate ContentPolicy JSON schema
+  - Ensure all MIME types have explicit allow/deny rules
+  - Fail build on invalid policy configuration
 
-- Add lint checks for content processor code
-- Run unit/integration/fuzz tests on each commit
-- Perform static analysis (SAST) for security vulnerabilities
-- Enforce code coverage thresholds (>80%)
+- **Performance Benchmarks**
+  - Add CI benchmarks for ingestion throughput (files/sec, MB/sec)
+  - Track regression in processing latency (P50, P95, P99)
+  - Benchmark deduplication overhead
+  - Benchmark vector embedding generation time
 
-#### Canary Deployments & Feature Flags
+- **Feature Flags for New Features**
+  - Add feature flags for: deduplication, rate limiting, encryption, archival
+  - Support gradual rollout per environment (dev, staging, prod)
+  - Allow runtime toggling via admin API
 
-- Use canary deployments for new content processor versions
-- Monitor error rates during canary phase
-- Rollback automatically on elevated error rates
-- Support per-tenant canary enablement
+- **Runbooks for Operations**
+  - Document ingestion failure troubleshooting
+  - Provide rollback procedures for content policy changes
+  - Include disaster recovery procedures (backup, restore, replication)
+  - Add monitoring and alerting setup guide
 
-#### Runbooks & Operational Guides
+- **Backup & Restore Tools**
+  - CLI tool to export content with metadata (`themis-content-export`)
+  - Support incremental backups (only changed content since last backup)
+  - CLI tool to restore content from backup (`themis-content-restore`)
+  - Verify content integrity during restore (hash validation)
 
-- Provide operational runbooks for common failures
-- Document troubleshooting steps for each content processor
-- Create incident response guides
-- Maintain on-call playbooks for content pipeline incidents
-
-#### Security Scanning
-
-- Scan content processor dependencies for CVEs
-- Perform container security scanning (Trivy, Grype)
-- Run SAST/DAST on content handling code
-- Integrate security checks into CI/CD pipeline
+- **Multi-Region Replication**
+  - Add support for content replication across regions
+  - Implement eventual consistency model for replicated content
+  - Provide conflict resolution strategies (last-write-wins, versioning)
+  - Add replication lag monitoring and alerts
 
 ---
 
-## Summary
+## Implementation Priority
 
-The content subsystem requires significant hardening across security, observability, testing, and operational readiness. This roadmap provides a structured, actionable plan to close production gaps and achieve 100% readiness. Prioritize Stabilität & Sicherheit and Observability & Operations for initial rollout, followed by comprehensive testing and data management capabilities.
+1. **High Priority** (Weeks 1-4): Persistent version storage, atomic operations, structured errors, basic metrics, thread-safety documentation
+2. **Medium Priority** (Weeks 5-8): Deduplication, storage quotas, dynamic policy updates, rate limiting, audit logs, unit/integration tests
+3. **Low Priority** (Weeks 9-12): Content encryption, ACLs, lifecycle policies, backup/restore, multi-region replication, admin dashboard
+
+## Related Documentation
+
+- [Content Manager Source Code](../src/content/content_manager.cpp)
+- [Version Manager Source Code](../src/content/version_manager.cpp)
+- [ContentFS Source Code](../src/content/content_fs.cpp)
+- [Async Ingestion Worker Source Code](../src/content/async_ingestion_worker.cpp)
+- [Architecture Overview](de/architecture/ARCHITECTURE_OVERVIEW.md)
+- [Security Framework](../SECURITY.md)

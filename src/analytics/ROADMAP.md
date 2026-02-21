@@ -1,5 +1,7 @@
 # Analytics Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 Production-ready for core OLAP, data export, process mining, text analytics, and LLM integration. Complex Event Processing (CEP) is a header-only stub awaiting full implementation.
 
@@ -44,6 +46,35 @@ Production-ready for core OLAP, data export, process mining, text analytics, and
 - [ ] Model serving and online inference pipeline
 - [ ] Multi-language NLP support (beyond English)
 - [ ] Full morphological lemmatization
+
+## Implementation Phases
+
+### Phase 1: Core Analytics Engine (Status: Completed ✅)
+- [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS (`analytics/olap_engine.cpp`)
+- [x] Window functions: ROW_NUMBER, SUM OVER, AVG OVER with frame specifications
+- [x] Statistical aggregations (COUNT, SUM, AVG, MIN, MAX, STDDEV, VARIANCE, MEDIAN, PERCENTILE)
+- [x] Hash-based aggregation with result caching
+- [x] Columnar Arrow RecordBatch storage always available
+- [x] JSON, CSV, Parquet, and Feather export (`analytics/exporters/`)
+- [x] Process mining: Alpha Miner, Heuristic Miner, Inductive Miner (`analytics/process_mining/`)
+- [x] Conformance checking (token replay and alignment-based)
+- [x] NLP text analyzer: tokenization, TF-IDF, NER, sentiment, keyword extraction (`analytics/nlp_analyzer.cpp`)
+- [x] LLM process analyzer with OpenAI, Anthropic, Azure OpenAI, llama.cpp providers
+- [x] Diff engine (changefeed-backed git-like diffs, `analytics/diff_engine.cpp`)
+- [x] SIMD-accelerated aggregations (AVX2) in `analytics/simd_aggregations.cpp`
+- [x] Thread-safe OLAPEngine for concurrent queries
+
+### Phase 2: Streaming & Incremental Analytics (Status: In Progress 🚧)
+- [~] CEP full engine implementation in `analytics/cep_engine.cpp` (Target: Q2 2026)
+- [~] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp` (Target: Q2 2026)
+- [ ] Incremental materialized views (Target: Q3 2026)
+
+### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
+- [ ] Columnar execution engine with vectorized operator pipeline
+- [ ] LLVM-JIT compilation for hot aggregation paths
+- [ ] Distributed analytics sharding across cluster nodes
+- [ ] Predictive analytics and time-series forecasting integration
+- [ ] AutoML integration for automated model selection
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)

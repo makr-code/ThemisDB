@@ -2,6 +2,26 @@
 
 Data import functionality for ThemisDB.
 
+## Module Purpose
+
+Provides data import functionality for ThemisDB, currently supporting PostgreSQL with schema mapping, batch import, and incremental import support.
+
+## Subsystem Scope
+
+**In scope:** PostgreSQL database import with schema mapping, batch import operations, incremental import via change tracking.
+
+**Out of scope:** Data transformation beyond schema mapping (handled by content module), export functionality (handled by exporters module), CDC-based ongoing sync (handled by cdc module).
+
+## Relevant Interfaces
+
+- `postgres_importer.cpp` — PostgreSQL source connector with schema mapping
+- `import_pipeline.cpp` — import orchestration and batching
+- `schema_mapper.cpp` — source-to-ThemisDB schema translation
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — PostgreSQL importer operational; MySQL, MongoDB, and flat-file importers planned.
+
 ## Components
 
 - PostgreSQL importer

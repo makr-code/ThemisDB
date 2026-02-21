@@ -121,6 +121,29 @@ if(NOT THEMIS_ENABLE_FLASH_ATTENTION)
     )
 endif()
 
+# Data selection pipeline tests belong to the legal training feature, not LLM.
+# When THEMIS_ENABLE_LLM is OFF its broad ".*test_lora.*\.cpp$" exclusion would
+# incorrectly exclude test_lora_data_selection.cpp, so we add it back explicitly
+# when legal training is enabled.
+if(NOT THEMIS_ENABLE_LLM AND THEMIS_ENABLE_LEGAL_TRAINING)
+    # Re-include: remove the data-selection and training-pipeline e2e tests from
+    # the LLM-based exclusion list by explicitly adding them back to ALL_TEST_SOURCES.
+    # (list(FILTER … EXCLUDE) has already run; we add them back before the
+    # add_executable call.)
+    list(APPEND ALL_TEST_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_lora_data_selection.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_training_pipeline_e2e.cpp"
+    )
+    list(REMOVE_DUPLICATES ALL_TEST_SOURCES)
+endif()
+
+if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
+    list(APPEND TEST_EXCLUDE_PATTERNS
+        ".*test_lora_data_selection\\.cpp$"
+        ".*test_training_pipeline_e2e\\.cpp$"
+    )
+endif()
+
 if(NOT THEMIS_ENABLE_CONTENT)
     list(APPEND TEST_EXCLUDE_PATTERNS
         ".*test_office_processor\\.cpp$"
@@ -270,6 +293,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
         ../src/training/training_pipeline.cpp
+        ../src/training/lora_data_selection.cpp
     )
 endif()
 

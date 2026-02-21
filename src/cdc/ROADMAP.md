@@ -1,4 +1,5 @@
 # CDC (Change Data Capture) Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 **Beta** — Real-time change notifications, SSE-based event streaming, filtered subscriptions, and historical change replay are functional. WebSocket transport and Kafka/Kinesis integration are planned.
@@ -34,6 +35,27 @@
 - [ ] GDPR-aware change log redaction (PII field scrubbing)
 - [ ] CDC-based materialized view maintenance
 - [ ] Change stream compression for high-volume feeds
+
+## Implementation Phases
+
+### Phase 1: Changefeed and SSE Streaming (Status: Completed)
+- [x] Implemented changefeed engine tracking insert/update/delete events per collection
+- [x] Implemented Server-Sent Events (SSE) streaming transport (`cdc/sse_transport.cpp`)
+- [x] Implemented persistent change log with append-only storage
+- [x] Implemented subscription management with per-collection and per-key filters
+- [x] Implemented historical change replay from stored change log offset
+- [x] Integrated with analytics diff engine for before/after document snapshots
+
+### Phase 2: WebSocket Transport and Delivery Guarantees (Status: In Progress)
+- [~] Implement WebSocket transport as alternative to SSE (`cdc/ws_transport.cpp`)
+- [~] Implement change log compaction to merge superseded entries by key
+- [~] Implement at-least-once delivery with consumer acknowledgement and redelivery
+
+### Phase 3: Consumer Groups and Enterprise Integration (Status: Planned)
+- [ ] Implement consumer group semantics with offset tracking per group (`cdc/consumer_group.cpp`)
+- [ ] Implement Kafka-compatible producer interface for enterprise CDC pipelines
+- [ ] Add Debezium-compatible change event envelope format
+- [ ] Implement GDPR-aware change log redaction for configured PII fields
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

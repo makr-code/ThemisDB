@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            llm_aql_handler.h                                  ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-02-21 12:08:41                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-02-21 14:07:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     137                                            ║
+    • Total Lines:     264                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 52032bbf8  2026-02-21  [aql] Confidence scoring for generated AQL queries (#1427) ║
+    • 5ec52ecf5  2026-02-21  feat(aql): Batch NL-to-AQL translation for offline worklo... ║
+    • bd6a94514  2026-02-21  [aql] Multi-turn conversation context for iterative AQL q... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,7 @@
 #pragma once
 
 #include "aql/aql_syntax_highlighter.h"
+#include "aql/aql_confidence_scorer.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
@@ -35,6 +36,49 @@
 
 namespace themis {
 namespace aql {
+
+/**
+ * @brief Represents a single turn in a multi-turn AQL conversation
+ *
+ * Stores the natural language query and the resulting AQL from one turn,
+ * providing context for subsequent iterative refinements.
+ */
+struct ConversationTurn {
+    std::string nl_query;   ///< Natural language query from the user
+    std::string aql_result; ///< AQL query generated for this turn
+};
+
+/**
+ * @brief Manages conversation history for iterative AQL query refinement
+ *
+ * Maintains an ordered list of turns so that follow-up questions can
+ * reference previous queries and their results, enabling the LLM to
+ * understand the user's intent across multiple refinement steps.
+ */
+class AQLConversationSession {
+public:
+    /**
+     * @brief Record a completed turn in the session
+     * @param nl_query The natural language query that was issued
+     * @param aql_result The AQL query that was generated
+     */
+    void addTurn(const std::string& nl_query, const std::string& aql_result);
+
+    /// Return the full ordered history of turns
+    const std::vector<ConversationTurn>& getHistory() const;
+
+    /// Reset the session, discarding all history
+    void clear();
+
+    /// True when the session has no turns
+    bool empty() const;
+
+    /// Number of completed turns in the session
+    std::size_t size() const;
+
+private:
+    std::vector<ConversationTurn> history_;
+};
 
 /**
  * @brief Handler for LLM-specific AQL commands
@@ -129,6 +173,56 @@ public:
         const std::string& schema_context = ""
     );
 
+    /**
+     * @brief Result of a natural-language-to-AQL translation with confidence scoring
+     */
+    struct AQLTranslationResult {
+        std::string aql_query;           ///< Generated AQL query
+        AQLConfidenceScore confidence;   ///< Confidence score for the generated query
+    };
+
+    /**
+     * @brief Translate natural language query to AQL and attach a confidence score
+     * @param nl_query        Natural language query
+     * @param schema_context  Optional database schema context
+     * @return AQLTranslationResult containing the query and its confidence score
+     * @throws std::runtime_error if translation fails
+     */
+    AQLTranslationResult translateNLToAQLWithConfidence(
+        const std::string& nl_query,
+        const std::string& schema_context = ""
+    // Batch NL-to-AQL Translation for offline workloads
+    /**
+     * @brief Single request for batch NL-to-AQL translation
+     */
+    struct BatchNLToAQLRequest {
+        std::string nl_query;       ///< Natural language query
+        std::string schema_context; ///< Optional database schema context
+    };
+
+    /**
+     * @brief Result of a single NL-to-AQL translation within a batch
+     */
+    struct BatchNLToAQLResult {
+        std::string aql_query; ///< Translated AQL query; empty when translation failed
+        std::string error;     ///< Error message if translation failed; empty on success
+        bool success;          ///< true if translation succeeded
+    };
+
+    /**
+     * @brief Translate a batch of natural language queries to AQL for offline workloads.
+     *
+     * Processes every request in order and returns one result per request.
+     * Individual translation failures are captured in the result's @c error field
+     * so that a single failure does not abort the entire batch.
+     *
+     * @param requests Vector of NL queries with optional schema contexts
+     * @return Vector of results in the same order as the input requests
+     */
+    std::vector<BatchNLToAQLResult> translateBatchNLToAQL(
+        const std::vector<BatchNLToAQLRequest>& requests
+    );
+
     // Conversation/Chat Support
     /**
      * @brief Execute chat interaction with message history
@@ -162,6 +256,38 @@ public:
         const std::string& llm_response,
         bool use_ansi = true
     ) const;
+    // =========================================================================
+    // Confidence scoring
+    // =========================================================================
+
+    /**
+     * @brief Score the quality and correctness of a generated AQL query.
+     *
+     * Asks the LLM to rate the query on a scale from 0.0 to 1.0 and to
+     * provide a brief explanation and improvement suggestions.
+     *
+     * When no LLM model is loaded the method returns a default result with
+     * score = -1.0 indicating that scoring is unavailable.
+     */
+    struct QueryConfidenceScore {
+        float                    score;       ///< 0.0 (worst) to 1.0 (best); -1.0 = unavailable
+        std::string              explanation; ///< Why this score was assigned
+        std::vector<std::string> suggestions; ///< Concrete improvement suggestions
+    };
+
+    /**
+     * @brief Score a generated AQL query.
+     * @param aql_query      The AQL query to evaluate
+     * @param original_intent Natural-language intent used to generate the query
+     *                        (empty string if unknown)
+     * @param schema_context  Optional schema description used during generation
+     * @return QueryConfidenceScore (score = -1.0 when LLM unavailable)
+     */
+    QueryConfidenceScore scoreQueryConfidence(
+        const std::string& aql_query,
+        const std::string& original_intent  = "",
+        const std::string& schema_context   = ""
+    );
 
 private:
     class Impl;

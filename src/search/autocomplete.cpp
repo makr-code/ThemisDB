@@ -3,27 +3,29 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            autocomplete.cpp                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 12:09:05                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-02-21 14:07:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     192                                            ║
+    • Total Lines:     195                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 397f3a597  2026-02-21  Refactor header includes and documentation updates across... ║
+    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 1f4de1436  2026-02-21  Search module: v1.4.0 hardening + v1.5.0 feature set (7 n... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "search/autocomplete.h"
+#include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <stdexcept>

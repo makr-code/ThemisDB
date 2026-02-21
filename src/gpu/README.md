@@ -2,6 +2,28 @@
 
 GPU utility functions and memory management for ThemisDB.
 
+## Module Purpose
+
+Provides GPU compute integration for ThemisDB, implementing VRAM management with tenant quotas, multi-GPU load balancing, circuit breaker safe-fail, kernel validation, and parallel query acceleration.
+
+## Subsystem Scope
+
+**In scope:** VRAM allocation and tenant quotas, CUDA/ROCm device enumeration, circuit breaker with GPU→CPU fallback, audit event log, capability gate, kernel whitelist, Prometheus metrics, multi-GPU load balancer, parallel scan/filter/sort/aggregate/join.
+
+**Out of scope:** GPU kernel implementations for specific algorithms (handled by acceleration module), model training orchestration (handled by training module).
+
+## Relevant Interfaces
+
+- `gpu_memory_manager.cpp` — VRAM slab allocator with tenant quotas
+- `circuit_breaker.cpp` — GPU→CPU safe-fail
+- `device_enumerator.cpp` — CUDA/ROCm device discovery
+- `gpu_query_accelerator.cpp` — parallel query operations
+- `gpu_metrics.cpp` — Prometheus metrics
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — VRAM management, circuit breaker, and parallel query acceleration operational; ROCm parity and multi-node coordination in progress.
+
 ## Components
 
 | Header | Source | Description |

@@ -1,5 +1,7 @@
 # Training Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabeler, IncrementalLoRATrainer, and KnowledgeGraphEnricher are production-ready with checkpoint/resume, adapter versioning, and graph-context enrichment.
 
@@ -40,6 +42,33 @@ v1.x – Domain-specific AI fine-tuning toolchain for legal text. LegalAutoLabel
 - [ ] Domain adaptation beyond legal (medical, financial)
 - [ ] Federated learning for privacy-preserving cross-institution training
 - [ ] Model distillation from large to small adapters
+
+## Implementation Phases
+
+### Phase 1: Auto-Labeling & LoRA Training Pipeline (Status: Completed ✅)
+- [x] LegalAutoLabeler – NLP modality extraction from legal documents
+- [x] `labelAll()`, `labelDocument()`, `labelQuery()` public APIs
+- [x] Low-confidence sample flagging and human-review queue with `updateSampleConfidence()`
+- [x] IncrementalLoRATrainer – full LoRA lifecycle (train, evaluate, deploy, rollback)
+- [x] INITIAL and INCREMENTAL training modes with configurable rank/alpha/lr
+- [x] Checkpoint save and resume (`resumeFromCheckpoint()`)
+- [x] Adapter version management (`deployVersion`, `rollbackVersion`, `listVersions`)
+- [x] KnowledgeGraphEnricher – AQL graph traversal context enrichment (`findRelatedProvisions`, `findRelatedCaseLaw`)
+- [x] Confidence-threshold filtering for automatic sample acceptance
+- [x] Pimpl pattern for ABI stability across all three components
+
+### Phase 2: Adapter Management & Multi-Domain (Status: In Progress 🚧)
+- [~] Adapter version management: atomic deploy/rollback with integrity verification (Target: Q2 2026)
+- [~] Multi-domain support beyond German legal text (medical, financial) (Target: Q2 2026)
+- [ ] Automated hyperparameter search (LoRA rank and learning rate sweep) (Target: Q2 2026)
+- [ ] Adapter serving integration with the LLM inference layer (Target: Q3 2026)
+
+### Phase 3: Multi-Modality & Provenance (Status: Planned 📋)
+- [ ] Multi-modality parser for code snippets and tabular data (`training/modality_parser.cpp`)
+- [ ] LoRA checkpoint manager with deduplication and storage quota enforcement
+- [ ] Confidence auto-calibration (Platt scaling / isotonic regression)
+- [ ] Provenance tracking – record source document and extraction path per training sample
+- [ ] Active learning loop (auto-select most informative unlabelled samples)
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

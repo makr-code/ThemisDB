@@ -1,5 +1,7 @@
 # AQL Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 Production-ready for LLM-assisted AQL query generation, natural language to AQL translation, and documentation assistance. Core AQL parsing and execution are handled by the query module.
 
@@ -14,7 +16,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] AQL syntax highlighting and error annotation in LLM responses (`AQLSyntaxHighlighter`)
 
 ## In Progress 🚧
-- [x] AQL query validation and linting before LLM submission (`annotateErrors()` called inside `translateNLToAQL()`)
+- [x] AQL query validation and linting before LLM submission (Target: Q2 2026)
 - [ ] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
 - [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
 
@@ -25,6 +27,8 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] Query template library for common AQL patterns
 - [ ] Interactive AQL query builder with LLM suggestions
 - [ ] Batch NL-to-AQL translation for offline workloads
+- [x] Confidence scoring for generated AQL queries
+- [x] Batch NL-to-AQL translation for offline workloads
 - [ ] Confidence scoring for generated AQL queries
 - [ ] Multi-turn conversation context for iterative query refinement
 
@@ -35,6 +39,30 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] AQL function documentation auto-generation from C++ headers
 - [ ] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL
 - [ ] Integration with query optimizer for cost-aware suggestions
+
+## Implementation Phases
+
+### Phase 1: LLM-Assisted AQL Foundation (Status: Completed ✅)
+- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing (`aql/llm_aql_handler.cpp`)
+- [x] Natural language to AQL translation via LLM integration
+- [x] AQL documentation assistant for function lookup and explanation
+- [x] Query explanation and profiling assistance
+- [x] LLM command handler infrastructure (request routing, response parsing)
+- [x] Multi-paradigm AQL support: documents, graphs, vectors, geospatial, timeseries
+- [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
+
+### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
+- [~] AQL query validation and linting before LLM submission (`aql/query_validator.cpp`, Target: Q2 2026)
+- [~] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
+- [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
+
+### Phase 3: Advanced Tooling & Intelligence (Status: In Progress 🚧)
+- [ ] AQL syntax highlighting and error annotation in LLM responses
+- [ ] Query template library for common AQL patterns
+- [ ] Interactive AQL query builder with LLM suggestions
+- [x] Confidence scoring for generated AQL queries (`aql/aql_confidence_scorer.cpp`, `LLMAQLHandler::translateNLToAQLWithConfidence`)
+- [ ] Multi-turn conversation context for iterative query refinement
+- [ ] Schema-aware query generation using live collection metadata
 
 ## Production Readiness Checklist
 - [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)

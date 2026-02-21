@@ -1,4 +1,5 @@
 # Governance Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 **Beta** — Policy-based data access control, GDPR/HIPAA compliance rule evaluation, automated data retention, and data classification are functional. CCPA compliance and OPA integration are planned.
@@ -33,6 +34,26 @@
 - [ ] AI/ML model governance (training data lineage, bias auditing)
 - [ ] Cross-tenant governance policy inheritance
 - [ ] Automated data masking for sensitive fields in query results
+
+## Implementation Phases
+
+### Phase 1: Policy Engine and Compliance Rules (Status: Completed)
+- [x] Implemented policy engine for attribute-based data access control (`governance/policy_engine.cpp`)
+- [x] Implemented GDPR and HIPAA compliance rule evaluation at query time
+- [x] Implemented automated data retention policy enforcement with configurable TTLs
+- [x] Implemented data classification and labeling for PII, PHI, and confidential fields
+- [x] Integrated audit trail recording all governance enforcement events
+
+### Phase 2: Policy Versioning and Reporting (Status: In Progress)
+- [~] Implement policy versioning with rollback support (`governance/policy_manager_versioned.cpp`)
+- [~] Implement compliance report generation summarizing rule evaluations per time window
+- [~] Implement policy conflict detection for overlapping access control rules
+
+### Phase 3: Hot-Reload, CCPA, and OPA Integration (Status: Planned)
+- [ ] Implement policy hot-reload on config file change without service restart
+- [ ] Implement CCPA/CPRA data subject rights enforcement (right-to-delete, right-to-know)
+- [ ] Implement automated data masking for configured sensitive fields in query results
+- [ ] Integrate Open Policy Agent (OPA) as an alternative policy evaluation engine
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

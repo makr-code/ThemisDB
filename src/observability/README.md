@@ -2,6 +2,27 @@
 
 Comprehensive monitoring, tracing, and performance analysis implementation for ThemisDB with Prometheus and Grafana integration.
 
+## Module Purpose
+
+Provides the metrics, distributed tracing, and structured logging infrastructure for ThemisDB, enabling production monitoring via Prometheus and OpenTelemetry.
+
+## Subsystem Scope
+
+**In scope:** Prometheus-compatible metrics collection and export, OpenTelemetry distributed tracing, structured logging aggregation, health check endpoints, alerting rules.
+
+**Out of scope:** Log storage (external Elasticsearch/Loki), alerting backend (external Alertmanager/PagerDuty), dashboarding (external Grafana).
+
+## Relevant Interfaces
+
+- `metrics_collector.cpp` — Prometheus metric collection and exposition
+- `tracer.cpp` — OpenTelemetry span management
+- `log_aggregator.cpp` — structured log collection
+- Health endpoints
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Prometheus metrics and structured logging operational; OpenTelemetry tracing integration in progress.
+
 ## Table of Contents
 
 1. [Overview](#overview)

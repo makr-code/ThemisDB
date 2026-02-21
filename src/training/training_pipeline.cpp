@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            training_pipeline.cpp                              ║
-  Version:         0.0.8                                              ║
-  Last Modified:   2026-02-21 12:09:11                                ║
+  Version:         0.0.11                                             ║
+  Last Modified:   2026-02-21 14:07:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   95.0/100                                       ║
-    • Total Lines:     316                                            ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     365                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 9fef6e0b5  2026-02-21  feat: Automated Quality & Diversity Pipeline for LoRA Tra... ║
+    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -75,7 +75,8 @@ public:
         , db_connection_(db_connection)
         , labeler_(std::make_unique<LegalAutoLabeler>(config.labeler_config, db_connection))
         , enricher_(std::make_unique<KnowledgeGraphEnricher>(config.enricher_config, db_connection))
-        , trainer_(std::make_unique<IncrementalLoRATrainer>(config.trainer_config, db_connection)) {
+        , trainer_(std::make_unique<IncrementalLoRATrainer>(config.trainer_config, db_connection))
+        , data_selector_(std::make_unique<DataSelectionPipeline>(config.data_selection_config)) {
     }
 
     ~Impl() = default;
@@ -152,6 +153,30 @@ public:
             if (callback) callback("drift", 1, "Drift detection: " + dr.summary);
         }
 
+        // Stage 3c: Automated data selection (Quality & Diversity Layer)
+        if (config_.enable_data_selection) {
+            metrics.beginStage("data_selection");
+            if (callback) callback("data_selection", 0, "Starting automated data selection");
+
+            DataSelectionResult sel = runDataSelection(
+                [&](const std::string& sub, size_t cnt, const std::string& msg) {
+                    if (callback) callback("data_selection", cnt, sub + ": " + msg);
+                });
+
+            stats.selection_input_count    = sel.audit_entry.input_sample_count;
+            stats.selection_output_count   = sel.selected_samples.size();
+            stats.selection_filtered_count =
+                sel.audit_entry.input_sample_count - sel.selected_samples.size();
+
+            metrics.endStage("data_selection");
+
+            if (callback)
+                callback("data_selection",
+                         static_cast<size_t>(sel.selected_samples.size()),
+                         "Data selection complete: " +
+                         std::to_string(sel.selected_samples.size()) + " samples selected");
+        }
+
         // Stage 4: LoRA training
         if (config_.enable_training) {
             metrics.beginStage("training");
@@ -195,6 +220,24 @@ public:
 
     TrainingResult runTraining(TrainingCallback callback) {
         return trainer_->train(TrainingMode::INITIAL, callback);
+    }
+
+    // -------------------------------------------------------------------------
+    // Data selection stage (Quality & Diversity Layer)
+    // -------------------------------------------------------------------------
+    DataSelectionResult runDataSelection(SelectionProgressCallback callback) {
+        // In production: load candidate samples via AQL query:
+        //   FOR sample IN @collection
+        //     RETURN {id: sample._key, text: CONCAT(sample.input, " ", sample.output)}
+        //
+        // In simulation: run with an empty candidate list so the pipeline
+        // executes all stages and produces a valid (empty) result.
+        std::vector<DataSample> candidates;
+
+        // Allow live config reload on each call
+        data_selector_->setConfig(config_.data_selection_config);
+
+        return data_selector_->run(candidates, std::move(callback));
     }
 
     // -------------------------------------------------------------------------
@@ -266,6 +309,7 @@ private:
     std::unique_ptr<LegalAutoLabeler>       labeler_;
     std::unique_ptr<KnowledgeGraphEnricher> enricher_;
     std::unique_ptr<IncrementalLoRATrainer> trainer_;
+    std::unique_ptr<DataSelectionPipeline>  data_selector_;
     PipelineStats                           last_stats_;
     size_t                                  scheduled_interval_hours_ = 0;
     PipelineCallback                        scheduled_callback_;
@@ -290,6 +334,11 @@ LabelingStats TrainingPipeline::runLabeling(LabelingCallback callback) {
 
 EnrichmentStats TrainingPipeline::runEnrichment(EnrichmentCallback callback) {
     return impl_->runEnrichment(callback);
+}
+
+DataSelectionResult TrainingPipeline::runDataSelection(
+        SelectionProgressCallback callback) {
+    return impl_->runDataSelection(std::move(callback));
 }
 
 TrainingResult TrainingPipeline::runTraining(TrainingCallback callback) {

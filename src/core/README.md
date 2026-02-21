@@ -4,6 +4,16 @@
 
 The Core module provides the foundational cross-cutting concerns infrastructure for ThemisDB. It implements a sophisticated Dependency Injection framework that enables pluggable implementations of observability, caching, and security features throughout the database engine.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `concerns_context.h` / `concerns_context.cpp` | Central DI hub for all cross-cutting concerns |
+| `i_logger.h` / `spdlog_adapter.cpp` | Logger interface and spdlog production adapter |
+| `i_tracer.h` | Distributed tracing interface |
+| `i_metrics.h` | Metrics collection interface |
+| `i_cache.h` | Cache abstraction interface |
+
 ## Scope
 
 **In Scope:**

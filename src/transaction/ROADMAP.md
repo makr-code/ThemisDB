@@ -1,3 +1,5 @@
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 # Transaction Module Roadmap
 
 ## Current Status
@@ -20,9 +22,9 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] Changefeed integration for CDC
 
 ## In Progress 🚧
-- [ ] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026)
-- [ ] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026)
-- [ ] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026)
+- [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
+- [I] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
+- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #1441)
 
 ## Planned Features 📋
 
@@ -34,6 +36,42 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [ ] Per-tenant transaction isolation namespace
 
 ### Long-term (6-12 months)
+- [ ] Distributed SAGA orchestration across multiple nodes
+- [ ] Global transaction manager for multi-region ACID guarantees
+- [ ] Calvin protocol for deterministic distributed transactions
+- [ ] Time-travel queries against snapshot history
+- [ ] Branch merge conflict resolution UI
+
+## Implementation Phases
+
+### Phase 1: ACID Engine & SAGA Pattern (Status: Completed ✅)
+- [x] `TransactionManager` – ACID guarantees via RocksDB `WriteBatch`
+- [x] Isolation levels: ReadCommitted (default) and Snapshot
+- [x] MVCC via RocksDB native transactions
+- [x] Atomic multi-layer updates (relational, graph, vector, secondary indexes)
+- [x] SAGA pattern with compensating actions for distributed transactions
+- [x] Deadlock detection via background lock wait-graph analysis
+- [x] Configurable deadlock timeout
+- [x] Transaction statistics with lock-free sequence lock pattern
+- [x] Session-based long-lived transaction lifecycle
+- [x] `BranchManager` – Git-like branching and merging
+- [x] `MergeEngine` – conflict-aware branch merge
+- [x] `SnapshotManager` – named snapshots/tags for PITR
+- [x] Changefeed integration for CDC
+
+### Phase 2: Serializable Isolation & Two-Phase Commit (Status: In Progress 🚧)
+- [~] Serializable isolation level (full SSI via predicate locking)
+- [~] Two-phase commit (2PC) coordinator for cross-shard transactions
+- [~] Transaction savepoints (partial rollback within a transaction)
+
+### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
+- [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
+- [ ] Transaction timeout with automatic rollback
+- [ ] Bulk transaction API (batch insert/update without per-row overhead)
+- [ ] Transaction explain (show locks acquired, MVCC version chain)
+- [ ] Per-tenant transaction isolation namespace
+
+### Phase 4: Distributed SAGA & Global Transaction Manager (Status: Planned 📋)
 - [ ] Distributed SAGA orchestration across multiple nodes
 - [ ] Global transaction manager for multi-region ACID guarantees
 - [ ] Calvin protocol for deterministic distributed transactions

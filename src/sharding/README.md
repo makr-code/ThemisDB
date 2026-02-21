@@ -2,6 +2,27 @@
 
 Horizontal scaling and sharding implementation for ThemisDB v1.4+.
 
+## Module Purpose
+
+Implements horizontal scaling and distributed sharding for ThemisDB, providing pluggable consensus algorithms (Raft, Gossip, Multi-Paxos), cross-shard SAGA transactions, automatic shard rebalancing, and the ShardRepairEngine for self-healing shard topology.
+
+## Subsystem Scope
+
+**In scope:** Hash-based and range-based shard routing, pluggable consensus (Raft, Gossip, Paxos), cross-shard SAGA transactions, shard rebalancing and repair, virtual node management.
+
+**Out of scope:** Data replication at the storage layer (handled by replication module), network transport (handled by rpc module), query planning (handled by aql module).
+
+## Relevant Interfaces
+
+- `shard_manager.cpp` — shard topology and routing management
+- `consensus_factory.cpp` — runtime consensus algorithm selection (Raft/Gossip/Paxos)
+- `cross_shard_transaction_coordinator.cpp` — cross-shard SAGA/2PC/3PC transactions
+- `shard_repair_engine.cpp` — self-healing shard repair and rebalancing
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Pluggable consensus (Raft/Gossip/Paxos), cross-shard transactions, ShardRepairEngine operational; full RPC integration and Paxos state persistence in progress.
+
 ## Components
 
 ### Core Infrastructure
