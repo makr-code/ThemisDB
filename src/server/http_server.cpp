@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.16                                             ║
-  Last Modified:   2026-02-21 17:20:26                                ║
+  Version:         0.0.17                                             ║
+  Last Modified:   2026-02-21 18:23:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
     • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
     • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 284e0d104  2026-02-21  Add request validation middleware with JSON Schema per en... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝

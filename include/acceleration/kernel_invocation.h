@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            kernel_invocation.h                                ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 17:20:00                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 18:22:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     226                                            ║
+    • Total Lines:     227                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 6d203e11f  2026-02-21  Freeze ANN & geospatial kernel invocation interfaces; wir... ║
 ╠═════════════════════════════════════════════════════════════════════╣
