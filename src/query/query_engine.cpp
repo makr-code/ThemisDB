@@ -15,6 +15,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include "metadata/statistics_collector.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/simd_distance.h"
@@ -2158,11 +2159,32 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysRangeAware");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
+
+	// Cardinality-based predicate reordering: if statistics are available,
+	// sort equality predicates by ascending selectivity (most selective first)
+	// so that early intersection cuts down the candidate set as fast as possible.
+	std::vector<PredicateEq> ordered_predicates = q.predicates;
+	if (stats_collector_ && !ordered_predicates.empty()) {
+		auto stats_result = stats_collector_->getStats(q.table);
+		if (stats_result.ok) {
+			const auto& tbl_stats = stats_result.value;
+			std::stable_sort(ordered_predicates.begin(), ordered_predicates.end(),
+				[&tbl_stats](const PredicateEq& a, const PredicateEq& b) {
+					double sel_a = 1.0, sel_b = 1.0;
+					auto it_a = tbl_stats.column_stats.find(a.column);
+					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
+					auto it_b = tbl_stats.column_stats.find(b.column);
+					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
+					return sel_a < sel_b;  // lower selectivity = more discriminating
+				});
+		}
+	}
+
 	// 1) Hole Listen für alle Gleichheitsprädikate
 	std::vector<std::vector<std::string>> lists;
-	lists.reserve(q.predicates.size() + q.rangePredicates.size());
+	lists.reserve(ordered_predicates.size() + q.rangePredicates.size());
 
-	for (const auto& p : q.predicates) {
+	for (const auto& p : ordered_predicates) {
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);

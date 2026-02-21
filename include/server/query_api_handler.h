@@ -18,6 +18,8 @@ class SemanticCache;
 class FieldEncryption;
 class KeyProvider;
 class AuthMiddleware;
+class IndexRecommender;
+class StatisticsCollector;
 
 namespace prompt_engineering {
 class PromptManager;
@@ -112,6 +114,27 @@ public:
      */
     http::response<http::string_body> handleQueryEnhanced(const http::request<http::string_body>& req);
 
+    /**
+     * @brief Inject a StatisticsCollector for cardinality-based predicate ordering.
+     *
+     * When set, every local QueryEngine created by this handler receives the
+     * collector so that equality predicates are sorted by selectivity before
+     * execution.  The pointer is non-owning; the caller manages lifetime.
+     */
+    void setStatisticsCollector(StatisticsCollector* sc) noexcept { stats_collector_ = sc; }
+
+    /**
+     * @brief Inject an IndexRecommender for access-pattern recording.
+     *
+     * When set, every successful AQL translation records the accessed columns
+     * in the recommender so that `GET /api/v1/metadata/index_recommendations`
+     * can suggest beneficial indexes.
+     *
+     * The pointer is non-owning; the caller manages the lifetime.
+     * Pass nullptr to disable recording.
+     */
+    void setIndexRecommender(IndexRecommender* rec) noexcept { index_recommender_ = rec; }
+
 private:
     std::shared_ptr<RocksDBWrapper> storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
@@ -124,6 +147,8 @@ private:
     std::shared_ptr<::themis::AuthMiddleware> auth_;
     bool feature_llm_query_enhancement_{false};
     bool feature_llm_store_{false};
+    IndexRecommender*   index_recommender_{nullptr};   ///< Optional; non-owning
+    StatisticsCollector* stats_collector_{nullptr};    ///< Optional; non-owning
 
     // Helper methods
     http::response<http::string_body> makeErrorResponse(

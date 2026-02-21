@@ -1255,8 +1255,15 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
     ../src/storage/batch_write_optimizer.cpp
+    ../src/storage/wal_storage.cpp
+    ../src/storage/compaction_manager.cpp
     
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
+    ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/index_recommender.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp

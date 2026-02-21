@@ -254,6 +254,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
+        ../src/training/training_pipeline.cpp
     )
 endif()
 

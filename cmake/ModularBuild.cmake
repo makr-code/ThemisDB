@@ -173,6 +173,12 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/columnar_format.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    # WAL for durability and crash recovery
+    ../src/storage/wal_storage.cpp
+    # Compaction and GC management
+    ../src/storage/compaction_manager.cpp
+    # Storage Audit Logger
+    ../src/storage/storage_audit_logger.cpp
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp
@@ -181,6 +187,13 @@ set(THEMIS_STORAGE_SOURCES
     
     # Metadata management
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
+    ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/index_recommender.cpp
+    ../src/metadata/schema_audit_log.cpp
+    ../src/metadata/schema_consistency_checker.cpp
     
     # Indexes
     ../src/index/secondary_index.cpp
