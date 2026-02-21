@@ -20,25 +20,25 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Fluent IngestionBuilder API
 
 ## In Progress 🚧
-- [ ] PDF and DOCX binary format ingestion via external converters (Target: Q2 2026)
-- [ ] Cursor-based pagination support alongside offset/limit (Target: Q2 2026)
-- [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
+- [I] PDF and DOCX binary format ingestion via external converters (Target: Q2 2026) (Issue: #1889)
+- [I] Cursor-based pagination support alongside offset/limit (Target: Q2 2026) (Issue: #1903)
+- [!] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026) (Issue: #2100)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Kafka consumer source connector
-- [ ] S3/GCS/Azure Blob object-storage source
-- [ ] JDBC-compatible database source
-- [ ] Web crawler / sitemap ingestion source
-- [ ] Per-source schema validation before write
+- [I] Kafka consumer source connector (Issue: #1892)
+- [I] S3/GCS/Azure Blob object-storage source (Issue: #1893)
+- [I] JDBC-compatible database source (Issue: #1894)
+- [I] Web crawler / sitemap ingestion source (Issue: #1895)
+- [I] Per-source schema validation before write (Issue: #1896)
 
 ### Long-term (6-12 months)
-- [ ] Distributed ingestion coordinator across nodes
-- [ ] Change-data-capture (CDC) source for live database streams
-- [ ] Plugin API for third-party source connectors
-- [ ] Dynamic source reconfiguration without restart
-- [ ] End-to-end ingestion lineage tracking
+- [I] Distributed ingestion coordinator across nodes (Issue: #1897)
+- [I] Change-data-capture (CDC) source for live database streams (Issue: #1907)
+- [I] Plugin API for third-party source connectors (Issue: #1908)
+- [I] Dynamic source reconfiguration without restart (Issue: #1900)
+- [I] End-to-end ingestion lineage tracking (Issue: #1901)
 
 ## Implementation Phases
 
@@ -55,26 +55,26 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [x] Prometheus-compatible metrics (docs_processed, errors, throughput)
 
 ### Phase 2: HTTP Hardening & Binary Formats (Status: In Progress 🚧)
-- [~] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026)
-- [~] Per-document quarantine retry with exponential back-off (Target: Q2 2026)
-- [~] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026)
+- [I] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026) (Issue: #1915)
+- [I] Per-document quarantine retry with exponential back-off (Target: Q2 2026) (Issue: #1916)
+- [I] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026) (Issue: #1917)
 - [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
 - [ ] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
 
 ### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
-- [ ] Kafka consumer source connector (`ingestion/kafka_connector.cpp`)
-- [ ] S3 / GCS / Azure Blob object-storage source connector
-- [ ] Distributed ingestion coordinator across nodes (work-stealing thread pool)
+- [I] Kafka consumer source connector (`ingestion/kafka_connector.cpp`) (Issue: #1904)
+- [I] S3 / GCS / Azure Blob object-storage source connector (Issue: #1905)
+- [I] Distributed ingestion coordinator across nodes (work-stealing thread pool) (Issue: #1906)
 - [ ] Change-data-capture (CDC) source for live database streams
 - [ ] Plugin API for third-party source connectors
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (filesystem, HuggingFace, generic API)
-- [ ] Performance benchmarks (docs/sec, MB/sec)
-- [ ] Security audit (path traversal, API key storage)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [I] Unit tests coverage > 80% (Issue: #1909)
+- [I] Integration tests (filesystem, HuggingFace, generic API) (Issue: #1910)
+- [I] Performance benchmarks (docs/sec, MB/sec) (Issue: #1911)
+- [I] Security audit (path traversal, API key storage) (Issue: #1912)
+- [I] Documentation complete (Issue: #1913)
+- [I] API stability guaranteed (Issue: #1914)
 
 ## Known Issues & Limitations
 - PDF/DOCX require external converters; not handled natively.

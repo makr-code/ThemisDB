@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            query_engine.h                                     ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:25                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     772                                            ║
+    • Total Lines:     791                                            ║
     • Open Issues:     TODOs: 0, Stubs: 3                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ece79254  2026-02-21  feat(query): wire QueryPlanVisualizer into AQL pipeline v... ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -55,7 +55,7 @@ using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
 using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
-namespace query { struct Expression; struct Query; class CTECache; }
+namespace query { struct Expression; struct Query; class CTECache; struct QueryPlanNode; }
 
 struct RecursivePathQuery {
     std::string start_node;
@@ -660,6 +660,25 @@ public:
     Result<std::vector<ContentSearchResult>> executeContentSearch(
         const ContentSearchQuery& q
     ) const;
+
+    // ------------------------------------------------------------------
+    // Query Plan Visualisation
+    // ------------------------------------------------------------------
+
+    /// Build an execution plan tree for the given conjunctive query.
+    /// Uses the internal SecondaryIndexManager to estimate predicate selectivity
+    /// and order predicates optimally, then constructs a QueryPlanNode tree via
+    /// QueryPlanVisualizer::buildPlan().
+    ///
+    /// The returned QueryPlanNode can be rendered as text, JSON, or DOT using
+    /// QueryPlanVisualizer::toText() / toJSON() / toDOT().
+    ///
+    /// If the engine has no attached SecondaryIndexManager, all estimates default
+    /// to zero and the optimizer still produces a structurally valid plan tree.
+    ///
+    /// @param q  The logical AND query whose plan is requested.
+    /// @returns  Root node of the execution plan tree.
+    query::QueryPlanNode buildExplainPlan(const ConjunctiveQuery& q) const;
 
 private:
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor

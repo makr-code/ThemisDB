@@ -1273,6 +1273,7 @@ set(THEMIS_CORE_SOURCES
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
+    ../src/index/inverted_index.cpp
     ../src/index/graph_index.cpp
     ../src/index/temporal_graph.cpp
     ../src/index/property_graph.cpp
@@ -1329,6 +1330,7 @@ set(THEMIS_CORE_SOURCES
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_runner.cpp
+    ../src/query/query_plan_visualizer.cpp
     ../src/query/let_evaluator.cpp
     ../src/query/window_evaluator.cpp
     ../src/query/cte_subquery.cpp
@@ -1404,6 +1406,8 @@ set(THEMIS_CORE_SOURCES
     ../src/server/rate_limiter.cpp
     ../src/server/rate_limiter_v2.cpp
     ../src/server/load_shedder.cpp
+    ../src/server/api_version.cpp
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_gateway.cpp>
     ../src/server/update_api_handler.cpp
     ../src/server/hot_reload_api_handler.cpp
     ../src/server/export_api_handler.cpp

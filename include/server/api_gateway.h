@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.h                                      ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:26                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:55                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     381                                            ║
+    • Total Lines:     431                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,8 +33,9 @@
 #include "server/api_version.h"
 #include "sharding/shard_router.h"
 #include "sharding/circuit_breaker.h"
-#include "observability/prometheus_metrics.h"
+#include "sharding/prometheus_metrics.h"
 #include <memory>
+#include <mutex>
 #include <string>
 #include <unordered_map>
 #include <boost/beast/http.hpp>
@@ -44,6 +45,9 @@ namespace themis::server {
 
 namespace beast = boost::beast;
 namespace http = beast::http;
+
+// Bring nested AuthMiddleware types into scope for use in this namespace
+using AuthContext = AuthMiddleware::AuthContext;
 
 /**
  * @brief API Gateway - Unified entry point for all API requests
@@ -137,7 +141,7 @@ public:
         std::shared_ptr<RateLimiter> rate_limiter,
         std::shared_ptr<LoadShedder> load_shedder,
         std::shared_ptr<sharding::ShardRouter> shard_router = nullptr,
-        std::shared_ptr<observability::PrometheusMetrics> metrics = nullptr
+        std::shared_ptr<sharding::PrometheusMetrics> metrics = nullptr
     );
     
     /**
@@ -156,7 +160,7 @@ public:
         std::shared_ptr<PerClientRateLimiter> rate_limiter_v2,
         std::shared_ptr<LoadShedder> load_shedder,
         std::shared_ptr<sharding::ShardRouter> shard_router = nullptr,
-        std::shared_ptr<observability::PrometheusMetrics> metrics = nullptr
+        std::shared_ptr<sharding::PrometheusMetrics> metrics = nullptr
     );
     
     /**
@@ -229,6 +233,21 @@ public:
         std::function<http::response<http::string_body>(const http::request<http::string_body>&)> handler
     );
 
+    /**
+     * @brief Register a deprecated API endpoint
+     * 
+     * Delegates to the internal APIVersionManager so callers can register
+     * endpoint deprecations that will cause the gateway to emit Deprecation,
+     * Sunset, and Link headers for the affected versions.
+     * 
+     * @param endpoint Endpoint path (e.g., "/api/v1/old-endpoint")
+     * @param info Deprecation details
+     */
+    void registerDeprecation(
+        const std::string& endpoint,
+        const APIDeprecationInfo& info
+    );
+
 private:
     Config config_;
     std::shared_ptr<AuthMiddleware> auth_;
@@ -236,11 +255,12 @@ private:
     std::shared_ptr<PerClientRateLimiter> rate_limiter_v2_;  // V2 (preferred)
     std::shared_ptr<LoadShedder> load_shedder_;
     std::shared_ptr<sharding::ShardRouter> shard_router_;
-    std::shared_ptr<observability::PrometheusMetrics> metrics_;
+    std::shared_ptr<sharding::PrometheusMetrics> metrics_;
     std::shared_ptr<APIVersionManager> version_manager_;
     
     // Circuit breakers per backend
     std::unordered_map<std::string, std::shared_ptr<sharding::CircuitBreaker>> circuit_breakers_;
+    mutable std::mutex circuit_breakers_mutex_;
     
     // Registered handlers
     std::unordered_map<std::string, 
@@ -363,19 +383,35 @@ private:
     );
 
     /**
-     * @brief Create a successful JSON response
+     * @brief Extract a urn:themis: URN from an HTTP request path
      *
-     * @param status HTTP status code
-     * @param body   JSON body string
-     * @param req    Original request
-     * @return HTTP response
+     * Looks for either:
+     *  - /entities/{urn}   (entity endpoints)
+     *  - any path segment that starts with urn:themis:
+     *
+     * Query strings are stripped before returning.
+     *
+     * @param path HTTP target path (e.g. "/entities/urn:themis:...")
+     * @return Parsed URN if found and valid, std::nullopt otherwise
      */
-    http::response<http::string_body> makeResponse(
-        http::status status,
-        const std::string& body,
+    std::optional<sharding::URN> extractUrnFromPath(const std::string& path) const;
+
+    /**
+     * @brief Dispatch a shard operation using the shard router
+     *
+     * Performs GET/PUT/POST/DELETE on the shard router using the resolved URN,
+     * then wraps the result in an HTTP response. Falls back to a 404 response
+     * when the operation fails.
+     *
+     * @param urn     Resolved URN for the target entity
+     * @param req     Incoming HTTP request (method + body used)
+     * @return HTTP response (200 on success, 404/400 on failure)
+     */
+    http::response<http::string_body> dispatchShardOperation(
+        const sharding::URN& urn,
         const http::request<http::string_body>& req
     );
-    
+
     /**
      * @brief Record request metrics
      * 

@@ -37,13 +37,13 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [ ] Arrow Flight RPC support for remote analytics
 
 ### Long-term (6-12 months)
-- [ ] Predictive analytics and time-series forecasting
-- [ ] AutoML integration for automated model selection
-- [ ] Advanced graph analytics: betweenness centrality, Louvain community detection
-- [ ] Integration with external ML tools (ONNX Runtime, TensorFlow Serving)
-- [ ] Model serving and online inference pipeline
-- [ ] Multi-language NLP support (beyond English)
-- [ ] Full morphological lemmatization
+- [I] Predictive analytics and time-series forecasting (Issue: #1473)
+- [I] AutoML integration for automated model selection (Issue: #1485)
+- [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
+- [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
+- [I] Model serving and online inference pipeline (Issue: #1477)
+- [I] Multi-language NLP support (beyond English) (Issue: #1478)
+- [I] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
 
@@ -68,10 +68,10 @@ Production-ready for core OLAP, data export, process mining, text analytics, LLM
 - [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
-- [ ] Columnar execution engine with vectorized operator pipeline
-- [ ] LLVM-JIT compilation for hot aggregation paths
-- [ ] Distributed analytics sharding across cluster nodes
-- [ ] Predictive analytics and time-series forecasting integration
+- [I] Columnar execution engine with vectorized operator pipeline (Issue: #1481)
+- [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
+- [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
+- [I] Predictive analytics and time-series forecasting integration (Issue: #1484)
 - [ ] AutoML integration for automated model selection
 
 ## Production Readiness Checklist

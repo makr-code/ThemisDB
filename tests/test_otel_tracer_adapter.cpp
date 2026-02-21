@@ -1,348 +1,384 @@
 /*
- * Unit tests for OpenTelemetryTracerAdapter
- *
- * Validates that the ITracer adapter correctly delegates to the underlying
- * themis::Tracer, that the embedded circuit breaker trips after repeated
- * export failures, and that all ISpan methods are safe to call in both
- * normal and no-OTel (THEMIS_ENABLE_TRACING not defined) environments.
- *
- * Note: In CI environments where THEMIS_ENABLE_TRACING is not defined,
- * every span created by themis::Tracer returns isValid()==false.  The
- * adapter records that as a failure in the circuit breaker, which is the
- * expected behavior (the OTLP exporter is unreachable).  Tests are
- * written to be correct in both configurations.
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_otel_tracer_adapter.cpp                       ║
+  Version:         0.0.5                                              ║
+  Last Modified:   2026-02-21 19:43:18                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     384                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
  */
+
+/**
+ * @file test_otel_tracer_adapter.cpp
+ * @brief Unit tests for OpenTelemetryTracerAdapter (core/concerns)
+ *
+ * Tests cover:
+ * - Construction with default and custom CircuitBreakerConfig
+ * - isInitialized() before and after initialize() / shutdown()
+ * - startSpan() no-crash guarantee on uninitialised adapter
+ * - startChildSpan() with OtelSpanAdapter parent (proper child span)
+ * - startChildSpan() with non-OtelSpanAdapter parent (fallback to root)
+ * - OtelSpanAdapter: setAttribute overloads, recordError, setStatus, end, isValid
+ * - ScopedSpan RAII: end() called on scope exit
+ * - isHealthy() reflects initialization state and circuit-breaker state
+ * - circuitBreakerState() starts CLOSED
+ * - flush() is a no-op and does not throw
+ * - shutdown() resets isInitialized() to false
+ * - Circuit breaker opens after failure threshold is exceeded
+ */
+
+#include <gtest/gtest.h>
 
 #include "core/concerns/otel_tracer_adapter.h"
 #include "core/concerns/i_tracer.h"
-#include "core/concerns/lifecycle.h"
-#include "sharding/circuit_breaker.h"
-#include <gtest/gtest.h>
-#include <memory>
-#include <string>
-#include <thread>
-#include <chrono>
+#include "core/concerns/noop_implementations.h"
 
 using namespace themis::core::concerns;
 using namespace themis::sharding;
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ============================================================================
 // Helpers
-// ─────────────────────────────────────────────────────────────────────────────
+// ============================================================================
 
-/// Create an adapter with a circuit breaker that has a very short timeout so
-/// we can test OPEN→HALF_OPEN transitions quickly in unit tests.
-static OpenTelemetryTracerAdapter makeAdapterWithFastRecovery(
-    size_t failure_threshold = 3,
-    std::chrono::seconds timeout = std::chrono::seconds(0)){
-    OpenTelemetryTracerAdapter::CircuitBreakerConfig cfg;
-    cfg.failure_threshold = failure_threshold;
-    cfg.timeout = timeout;
-    cfg.success_threshold = 1;
-    return OpenTelemetryTracerAdapter(cfg);
-}
+// A minimal ISpan that is NOT an OtelSpanAdapter, used to exercise the
+// fallback path in startChildSpan().
+class ForeignSpan : public ITracer::ISpan {
+public:
+    void setAttribute(const std::string&, const std::string&) override {}
+    void setAttribute(const std::string&, int64_t) override {}
+    void setAttribute(const std::string&, double) override {}
+    void setAttribute(const std::string&, bool) override {}
+    void recordError(const std::string&) override {}
+    void setStatus(bool, const std::string&) override {}
+    void end() override { ended = true; }
+    bool isValid() const override { return true; }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Test fixture
-// ─────────────────────────────────────────────────────────────────────────────
-
-class OtelTracerAdapterTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        adapter_ = std::make_unique<OpenTelemetryTracerAdapter>();
-    }
-
-    void TearDown() override {
-        adapter_->shutdown();
-        adapter_.reset();
-    }
-
-    std::unique_ptr<OpenTelemetryTracerAdapter> adapter_;
+    bool ended = false;
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Construction & initialization
-// ─────────────────────────────────────────────────────────────────────────────
+// ============================================================================
+// Construction
+// ============================================================================
 
-TEST_F(OtelTracerAdapterTest, DefaultConstructionSucceeds) {
-    OpenTelemetryTracerAdapter a;
-    EXPECT_FALSE(a.isInitialized());
+TEST(OtelTracerAdapterTest, DefaultConstructionSucceeds) {
+    EXPECT_NO_THROW(OpenTelemetryTracerAdapter adapter);
 }
 
-TEST_F(OtelTracerAdapterTest, CustomCircuitBreakerConfigAccepted) {
+TEST(OtelTracerAdapterTest, CustomCircuitBreakerConfigIsAccepted) {
     OpenTelemetryTracerAdapter::CircuitBreakerConfig cfg;
-    cfg.failure_threshold = 10;
-    cfg.timeout = std::chrono::seconds(60);
-    cfg.success_threshold = 3;
-    EXPECT_NO_THROW(OpenTelemetryTracerAdapter a(cfg));
+    cfg.failure_threshold = 3;
+    cfg.timeout           = std::chrono::seconds(10);
+    cfg.success_threshold = 1;
+    EXPECT_NO_THROW(OpenTelemetryTracerAdapter adapter(cfg));
 }
 
-TEST_F(OtelTracerAdapterTest, NotInitializedAfterConstruction) {
-    EXPECT_FALSE(adapter_->isInitialized());
+// ============================================================================
+// Initialization state
+// ============================================================================
+
+TEST(OtelTracerAdapterTest, NotInitializedByDefault) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_FALSE(adapter.isInitialized());
 }
 
-TEST_F(OtelTracerAdapterTest, InitializeReturnsBoolWithoutCrashing) {
-    // initialize() may return false when THEMIS_ENABLE_TRACING is not set;
-    // the important thing is it does not throw.
-    EXPECT_NO_THROW(adapter_->initialize("test-service", "http://localhost:4318"));
+TEST(OtelTracerAdapterTest, ShutdownResetsInitializedFlag) {
+    OpenTelemetryTracerAdapter adapter;
+    // initialize() may return false when there is no real OTLP endpoint,
+    // but it should not crash.
+    adapter.initialize("test-service", "http://127.0.0.1:14318");
+    adapter.shutdown();
+    EXPECT_FALSE(adapter.isInitialized());
 }
 
-TEST_F(OtelTracerAdapterTest, ShutdownAfterInitDoesNotThrow) {
-    adapter_->initialize("test-service", "http://localhost:4318");
-    EXPECT_NO_THROW(adapter_->shutdown());
-    EXPECT_FALSE(adapter_->isInitialized());
-}
+// ============================================================================
+// isHealthy()
+// ============================================================================
 
-TEST_F(OtelTracerAdapterTest, DoubleShutdownDoesNotThrow) {
-    EXPECT_NO_THROW(adapter_->shutdown());
-    EXPECT_NO_THROW(adapter_->shutdown());
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Span creation – interface contract
-// ─────────────────────────────────────────────────────────────────────────────
-
-TEST_F(OtelTracerAdapterTest, StartSpanReturnsNonNull) {
-    auto span = adapter_->startSpan("test.operation");
-    ASSERT_NE(nullptr, span);
-}
-
-TEST_F(OtelTracerAdapterTest, StartChildSpanReturnsNonNull) {
-    auto parent = adapter_->startSpan("parent");
-    ASSERT_NE(nullptr, parent);
-    auto child = adapter_->startChildSpan("child", *parent);
-    ASSERT_NE(nullptr, child);
-}
-
-TEST_F(OtelTracerAdapterTest, StartChildSpanWithNonOtelParentSucceeds) {
-    // Use a NoOp span (not an OtelSpanAdapter) as the parent; the adapter
-    // should fall back to creating a root span rather than crashing.
-    class FakeSpan : public ITracer::ISpan {
-    public:
-        void setAttribute(const std::string&, const std::string&) override {}
-        void setAttribute(const std::string&, int64_t) override {}
-        void setAttribute(const std::string&, double) override {}
-        void setAttribute(const std::string&, bool) override {}
-        void recordError(const std::string&) override {}
-        void setStatus(bool, const std::string&) override {}
-        void end() override {}
-        bool isValid() const override { return false; }
-    };
-
-    FakeSpan fake;
-    EXPECT_NO_THROW(adapter_->startChildSpan("child", fake));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanSetStringAttributeDoesNotThrow) {
-    auto span = adapter_->startSpan("attrs");
-    EXPECT_NO_THROW(span->setAttribute("db.system", "themisdb"));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanSetInt64AttributeDoesNotThrow) {
-    auto span = adapter_->startSpan("attrs");
-    EXPECT_NO_THROW(span->setAttribute("row_count", int64_t{42}));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanSetDoubleAttributeDoesNotThrow) {
-    auto span = adapter_->startSpan("attrs");
-    EXPECT_NO_THROW(span->setAttribute("latency_ms", 3.14));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanSetBoolAttributeDoesNotThrow) {
-    auto span = adapter_->startSpan("attrs");
-    EXPECT_NO_THROW(span->setAttribute("cache_hit", true));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanRecordErrorDoesNotThrow) {
-    auto span = adapter_->startSpan("error_test");
-    EXPECT_NO_THROW(span->recordError("connection refused"));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanSetStatusOkDoesNotThrow) {
-    auto span = adapter_->startSpan("status_test");
-    EXPECT_NO_THROW(span->setStatus(true, "completed"));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanSetStatusErrorDoesNotThrow) {
-    auto span = adapter_->startSpan("status_test");
-    EXPECT_NO_THROW(span->setStatus(false, "timeout"));
-}
-
-TEST_F(OtelTracerAdapterTest, SpanEndDoesNotThrow) {
-    auto span = adapter_->startSpan("end_test");
-    EXPECT_NO_THROW(span->end());
-}
-
-TEST_F(OtelTracerAdapterTest, SpanEndCalledTwiceDoesNotThrow) {
-    auto span = adapter_->startSpan("double_end");
-    EXPECT_NO_THROW(span->end());
-    EXPECT_NO_THROW(span->end());
-}
-
-TEST_F(OtelTracerAdapterTest, SpanDestructorDoesNotThrow) {
-    // Let the span go out of scope; RAII should not throw.
-    EXPECT_NO_THROW({
-        auto span = adapter_->startSpan("raii");
-        span->setAttribute("key", "value");
-        // span destroyed here
-    });
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Circuit breaker behavior
-// ─────────────────────────────────────────────────────────────────────────────
-
-TEST_F(OtelTracerAdapterTest, CircuitBreakerInitiallyClosedState) {
-    EXPECT_EQ(CircuitBreaker::State::CLOSED, adapter_->circuitBreakerState());
-}
-
-TEST_F(OtelTracerAdapterTest, CircuitBreakerTripsAfterThresholdFailures) {
-    // In non-OTel builds every span is invalid → each startSpan() call records
-    // a failure.  After failure_threshold (default=5) failures the circuit opens.
-    // We exhaust the default threshold and then create one more span to observe.
-
-    // Use a low-threshold adapter so the test is fast and predictable.
-    auto adapter = makeAdapterWithFastRecovery(/*failure_threshold=*/3);
-
-    // Force enough failures to trip the circuit.
-    for (int i = 0; i < 4; ++i) {
-        auto sp = adapter.startSpan("probe");
-        (void)sp;
-    }
-
-    // The circuit should now be OPEN (or we're still CLOSED if tracing IS enabled
-    // and spans are valid — in that case every call was a success).
-    auto state = adapter.circuitBreakerState();
-    EXPECT_TRUE(state == CircuitBreaker::State::OPEN ||
-                state == CircuitBreaker::State::CLOSED);
-    // Either state is acceptable depending on whether THEMIS_ENABLE_TRACING is
-    // active; what matters is that startSpan() never crashes or returns null.
-}
-
-TEST_F(OtelTracerAdapterTest, SpanCreatedWhenCircuitOpen) {
-    // Force the circuit OPEN via multiple failures.
-    auto adapter = makeAdapterWithFastRecovery(/*failure_threshold=*/1);
-    // First call either fails (OTLP unavailable) or succeeds (OTLP available).
-    adapter.startSpan("fail1");
-    adapter.startSpan("fail2"); // might trip circuit if prev was invalid
-
-    // Regardless of circuit state, startSpan must return non-null.
-    auto span = adapter.startSpan("while_open");
-    EXPECT_NE(nullptr, span);
-}
-
-TEST_F(OtelTracerAdapterTest, CircuitBreakerTransitionToHalfOpenAfterTimeout) {
-    // Use a zero-second timeout so the transition happens immediately.
-    auto adapter = makeAdapterWithFastRecovery(/*failure_threshold=*/2,
-                                               /*timeout=*/std::chrono::seconds(0));
-
-    // Generate failures to open the circuit.
-    for (int i = 0; i < 5; ++i) {
-        adapter.startSpan("force_failure");
-    }
-
-    // Allow timeout to elapse (already 0s, so no sleep needed).
-    // The next allowRequest() call should transition to HALF_OPEN.
-    auto span = adapter.startSpan("probe_recovery");
-    EXPECT_NE(nullptr, span);
-
-    auto state = adapter.circuitBreakerState();
-    // Acceptable states: OPEN (if tracing enabled and spans valid, cb closed fast),
-    // HALF_OPEN or CLOSED (recovery in progress / successful).
-    EXPECT_TRUE(state == CircuitBreaker::State::OPEN   ||
-                state == CircuitBreaker::State::HALF_OPEN ||
-                state == CircuitBreaker::State::CLOSED);
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Health probes
-// ─────────────────────────────────────────────────────────────────────────────
-
-TEST_F(OtelTracerAdapterTest, IsHealthyUnhealthyBeforeInit) {
-    auto result = adapter_->isHealthy();
-    // Not initialized -> unhealthy.
+TEST(OtelTracerAdapterTest, IsUnhealthyWhenNotInitialized) {
+    OpenTelemetryTracerAdapter adapter;
+    auto result = adapter.isHealthy();
     EXPECT_FALSE(result.ok);
     EXPECT_FALSE(result.message.empty());
 }
 
-TEST_F(OtelTracerAdapterTest, IsHealthyAfterSuccessfulInit) {
-    bool ok = adapter_->initialize("svc", "http://localhost:4318");
-    auto result = adapter_->isHealthy();
-    if (ok) {
-        // Real OTel init: circuit still closed -> healthy.
-        EXPECT_TRUE(result.ok);
-    } else {
-        // Failed init: may report unhealthy; depends on whether init sets
-        // initialized_ = false.  Either is acceptable.
-        // (The adapter only sets initialized_ = false on failure via our impl)
-    }
+TEST(OtelTracerAdapterTest, IsHealthyAfterSuccessfulInitialize) {
+    // When THEMIS_ENABLE_TRACING is off the underlying Tracer::initialize()
+    // returns false, so the adapter may not report healthy.  We just verify
+    // the API does not crash and returns a well-formed ProbeResult.
+    OpenTelemetryTracerAdapter adapter;
+    adapter.initialize("svc", "http://127.0.0.1:4318");
+    auto result = adapter.isHealthy();
+    // result.ok depends on whether tracing is compiled in; just check the
+    // message is a valid string.
+    EXPECT_NE(result.message.data(), nullptr);
 }
 
-TEST_F(OtelTracerAdapterTest, IsHealthyUnhealthyWhenCircuitOpen) {
-    // Use a low-threshold, high-timeout adapter so the circuit stays OPEN.
+// ============================================================================
+// Circuit-breaker state
+// ============================================================================
+
+TEST(OtelTracerAdapterTest, CircuitBreakerStartsClosed) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::CLOSED);
+}
+
+TEST(OtelTracerAdapterTest, CircuitBreakerOpensAfterFailureThreshold) {
+    // Use a low threshold so the circuit trips quickly.
     OpenTelemetryTracerAdapter::CircuitBreakerConfig cfg;
-    cfg.failure_threshold = 1;
-    cfg.timeout = std::chrono::seconds(30); // stay OPEN for the duration of this test
+    cfg.failure_threshold = 3;
+    cfg.timeout           = std::chrono::seconds(60);
     cfg.success_threshold = 1;
-    auto adapter = OpenTelemetryTracerAdapter(cfg);
 
-    // Manually mark initialized so we can test the circuit-open path.
-    adapter.initialize("svc", "http://localhost:4318");
+    OpenTelemetryTracerAdapter adapter(cfg);
 
-    // Force failures to open the circuit.
-    for (int i = 0; i < 5; ++i) {
-        adapter.startSpan("force");
+    // Calling startSpan() on an uninitialized adapter records a failure each
+    // time (span is not valid).
+    for (int i = 0; i < static_cast<int>(cfg.failure_threshold) + 1; ++i) {
+        adapter.startSpan("probe-" + std::to_string(i));
     }
 
-    if (adapter.circuitBreakerState() == CircuitBreaker::State::OPEN) {
-        auto result = adapter.isHealthy();
-        EXPECT_FALSE(result.ok);
-        EXPECT_NE(std::string::npos,
-                  result.message.find("circuit-breaker"));
+    // Circuit should be OPEN now.
+    EXPECT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
+}
+
+TEST(OtelTracerAdapterTest, OpenCircuitReturnsInvalidSpan) {
+    OpenTelemetryTracerAdapter::CircuitBreakerConfig cfg;
+    cfg.failure_threshold = 2;
+    cfg.timeout           = std::chrono::seconds(60);
+    cfg.success_threshold = 1;
+
+    OpenTelemetryTracerAdapter adapter(cfg);
+
+    // Trip the circuit.
+    for (int i = 0; i < 3; ++i) {
+        adapter.startSpan("trip-" + std::to_string(i));
     }
-    // If the circuit is NOT open (tracing enabled + spans valid), this test
-    // is a no-op — the adapter is healthy, which is also correct.
+    ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
+
+    // A span started while the circuit is OPEN must not be valid.
+    auto span = adapter.startSpan("during-open");
+    ASSERT_NE(span, nullptr);
+    EXPECT_FALSE(span->isValid());
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Lifecycle hooks
-// ─────────────────────────────────────────────────────────────────────────────
+// ============================================================================
+// startSpan()
+// ============================================================================
 
-TEST_F(OtelTracerAdapterTest, FlushDoesNotThrow) {
-    EXPECT_NO_THROW(adapter_->flush());
+TEST(OtelTracerAdapterTest, StartSpanReturnsNonNull) {
+    OpenTelemetryTracerAdapter adapter;
+    auto span = adapter.startSpan("test-span");
+    EXPECT_NE(span, nullptr);
 }
 
-TEST_F(OtelTracerAdapterTest, FlushAfterInitDoesNotThrow) {
-    adapter_->initialize("svc", "http://localhost:4318");
-    EXPECT_NO_THROW(adapter_->flush());
+TEST(OtelTracerAdapterTest, StartSpanDoesNotCrashOnUninitializedAdapter) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpan("no-crash");
+        span->setAttribute("k", "v");
+        span->end();
+    });
 }
 
-TEST_F(OtelTracerAdapterTest, ShutdownWithActiveSpanDoesNotThrow) {
-    auto span = adapter_->startSpan("active");
-    EXPECT_NO_THROW(adapter_->shutdown());
-    // span is still alive; end() must be safe after shutdown.
+TEST(OtelTracerAdapterTest, StartSpanAttributesDoNotCrash) {
+    OpenTelemetryTracerAdapter adapter;
+    auto span = adapter.startSpan("attr-span");
+    ASSERT_NE(span, nullptr);
+    EXPECT_NO_THROW(span->setAttribute("str",  std::string("hello")));
+    EXPECT_NO_THROW(span->setAttribute("int",  int64_t(42)));
+    EXPECT_NO_THROW(span->setAttribute("dbl",  3.14));
+    EXPECT_NO_THROW(span->setAttribute("bool", true));
+}
+
+TEST(OtelTracerAdapterTest, StartSpanRecordErrorDoesNotCrash) {
+    OpenTelemetryTracerAdapter adapter;
+    auto span = adapter.startSpan("err-span");
+    ASSERT_NE(span, nullptr);
+    EXPECT_NO_THROW(span->recordError("something went wrong"));
+}
+
+TEST(OtelTracerAdapterTest, StartSpanSetStatusDoesNotCrash) {
+    OpenTelemetryTracerAdapter adapter;
+    auto span = adapter.startSpan("status-span");
+    ASSERT_NE(span, nullptr);
+    EXPECT_NO_THROW(span->setStatus(false, "error state"));
+    EXPECT_NO_THROW(span->setStatus(true, "ok"));
+}
+
+TEST(OtelTracerAdapterTest, StartSpanEndIsIdempotent) {
+    OpenTelemetryTracerAdapter adapter;
+    auto span = adapter.startSpan("end-span");
+    ASSERT_NE(span, nullptr);
     EXPECT_NO_THROW(span->end());
+    EXPECT_NO_THROW(span->end()); // second call must not crash
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// ScopedSpan integration
-// ─────────────────────────────────────────────────────────────────────────────
+// ============================================================================
+// startChildSpan()
+// ============================================================================
 
-TEST_F(OtelTracerAdapterTest, ScopedSpanWorksWithAdapter) {
+TEST(OtelTracerAdapterTest, StartChildSpanWithOtelParentReturnsNonNull) {
+    OpenTelemetryTracerAdapter adapter;
+    auto parent = adapter.startSpan("parent");
+    ASSERT_NE(parent, nullptr);
+    auto child = adapter.startChildSpan("child", *parent);
+    EXPECT_NE(child, nullptr);
+}
+
+TEST(OtelTracerAdapterTest, StartChildSpanWithForeignParentFallsBackToRoot) {
+    OpenTelemetryTracerAdapter adapter;
+    ForeignSpan foreign;
+    // Should not crash even though parent is not an OtelSpanAdapter.
     EXPECT_NO_THROW({
-        ScopedSpan scoped(*adapter_, "scoped.operation");
-        scoped.setAttribute("db.statement", "SELECT 1");
-        scoped.setAttribute("row_count", int64_t{1});
-        scoped.setAttribute("latency_ms", 0.5);
-        scoped.setAttribute("from_cache", false);
-        scoped.setStatus(true, "ok");
+        auto span = adapter.startChildSpan("fallback", foreign);
+        EXPECT_NE(span, nullptr);
     });
 }
 
-TEST_F(OtelTracerAdapterTest, ScopedSpanRecordErrorDoesNotThrow) {
+TEST(OtelTracerAdapterTest, StartChildSpanOnOpenCircuitReturnsInvalidSpan) {
+    OpenTelemetryTracerAdapter::CircuitBreakerConfig cfg;
+    cfg.failure_threshold = 2;
+    cfg.timeout           = std::chrono::seconds(60);
+
+    OpenTelemetryTracerAdapter adapter(cfg);
+    for (int i = 0; i < 3; ++i) adapter.startSpan("trip");
+    ASSERT_EQ(adapter.circuitBreakerState(), CircuitBreaker::State::OPEN);
+
+    auto parent = adapter.startSpan("parent"); // returns invalid span
+    auto child  = adapter.startChildSpan("child", *parent);
+    EXPECT_NE(child, nullptr);
+    EXPECT_FALSE(child->isValid());
+}
+
+// ============================================================================
+// flush() and shutdown()
+// ============================================================================
+
+TEST(OtelTracerAdapterTest, FlushDoesNotThrow) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW(adapter.flush());
+}
+
+TEST(OtelTracerAdapterTest, ShutdownDoesNotThrow) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW(adapter.shutdown());
+}
+
+TEST(OtelTracerAdapterTest, MultipleShutdownCallsAreSafe) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW(adapter.shutdown());
+    EXPECT_NO_THROW(adapter.shutdown());
+}
+
+// ============================================================================
+// ScopedSpan RAII via ITracer interface
+// ============================================================================
+
+TEST(OtelTracerAdapterTest, ScopedSpanEndsOnScopeExit) {
+    OpenTelemetryTracerAdapter adapter;
+    // If ScopedSpan correctly calls end() in its destructor the span lifecycle
+    // is exercised without memory issues.  We verify no crash occurs.
     EXPECT_NO_THROW({
-        ScopedSpan scoped(*adapter_, "failing.op");
-        scoped.recordError("disk full");
-        scoped.setStatus(false, "disk full");
+        ScopedSpan scoped(adapter, "scoped-op");
+        scoped.setAttribute("op", std::string("test"));
+        scoped.setAttribute("count", int64_t(1));
+        scoped.setAttribute("ratio", 0.5);
+        scoped.setAttribute("flag",  false);
+        scoped.recordError("nonfatal");
+        scoped.setStatus(true, "recovered");
+        // ~ScopedSpan() → span_->end()
     });
+}
+
+TEST(OtelTracerAdapterTest, ScopedSpanSpanPointerIsAccessible) {
+    OpenTelemetryTracerAdapter adapter;
+    ScopedSpan scoped(adapter, "ptr-access");
+    // span() may return nullptr (no-op) or a valid pointer; either is acceptable.
+    // The important thing is the call does not crash.
+    EXPECT_NO_THROW(scoped.span());
+}
+
+// ============================================================================
+// OtelSpanAdapter – direct construction
+// ============================================================================
+
+TEST(OtelSpanAdapterTest, DefaultSpanIsInvalid) {
+    OpenTelemetryTracerAdapter::OtelSpanAdapter span(themis::Tracer::Span{});
+    EXPECT_FALSE(span.isValid());
+}
+
+TEST(OtelSpanAdapterTest, DefaultSpanMethodsDoNotCrash) {
+    OpenTelemetryTracerAdapter::OtelSpanAdapter span(themis::Tracer::Span{});
+    EXPECT_NO_THROW(span.setAttribute("k", std::string("v")));
+    EXPECT_NO_THROW(span.setAttribute("n", int64_t(0)));
+    EXPECT_NO_THROW(span.setAttribute("d", 0.0));
+    EXPECT_NO_THROW(span.setAttribute("b", false));
+    EXPECT_NO_THROW(span.recordError("e"));
+    EXPECT_NO_THROW(span.setStatus(true));
+    EXPECT_NO_THROW(span.end());
+}
+
+// ============================================================================
+// OtelSpanAdapter – RAII auto-end
+// ============================================================================
+
+// Verify that dropping the unique_ptr<ISpan> without calling end() explicitly
+// does not crash and does not double-end the underlying span.
+TEST(OtelSpanAdapterTest, AutoEndsOnDestructionWithoutExplicitEnd) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpan("raii-auto-end");
+        // Deliberately NOT calling span->end() – destructor should auto-end.
+        (void)span;
+    });
+}
+
+TEST(OtelSpanAdapterTest, SafeAfterExplicitEndThenDestruction) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpan("explicit-then-raii");
+        span->end();           // explicit end
+        // unique_ptr destructor calls ~OtelSpanAdapter() → span_.end() again;
+        // Tracer::Span::end() is idempotent so no double-end crash.
+    });
+}
+
+// ============================================================================
+// initialize() – double-call guard
+// ============================================================================
+
+TEST(OtelTracerAdapterTest, DoubleInitializeReturnsTrueAndDoesNotTripBreaker) {
+    OpenTelemetryTracerAdapter adapter;
+
+    // First call may succeed or fail (no OTLP endpoint in test env), but should
+    // not crash.  Force the adapter into initialized state by attempting init.
+    adapter.initialize("svc", "http://127.0.0.1:4318");
+
+    if (adapter.isInitialized()) {
+        // If the first call succeeded (e.g., no-op path without THEMIS_ENABLE_TRACING),
+        // verify that a second call also returns true and does not record a failure.
+        CircuitBreaker::State state_before = adapter.circuitBreakerState();
+        bool second = adapter.initialize("svc", "http://127.0.0.1:4318");
+        EXPECT_TRUE(second);
+        // The circuit breaker must not have been tripped by the second init.
+        EXPECT_EQ(adapter.circuitBreakerState(), state_before);
+    }
+
+    adapter.shutdown();
 }

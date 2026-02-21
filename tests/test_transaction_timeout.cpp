@@ -3,19 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_transaction_timeout.cpp                       ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 17:07:56                                ║
+  Version:         0.0.10                                             ║
+  Last Modified:   2026-02-21 19:43:22                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     292                                            ║
+    • Total Lines:     369                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -42,252 +45,325 @@
 #include "index/secondary_index.h"
 #include "index/graph_index.h"
 #include "index/vector_index.h"
-#include <chrono>
+
 #include <filesystem>
 #include <thread>
+#include <chrono>
 
-using namespace themis;
 namespace fs = std::filesystem;
+using namespace themis;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Test Fixture
+// Fixture
 // ─────────────────────────────────────────────────────────────────────────────
 
 class TransactionTimeoutTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        db_path_ = fs::temp_directory_path() /
-                   ("themis_txn_timeout_" +
-                    std::to_string(std::chrono::system_clock::now()
-                                       .time_since_epoch()
-                                       .count()));
+        db_path_ = (fs::temp_directory_path() /
+                    ("themis_txn_timeout_" +
+                     std::to_string(std::chrono::system_clock::now()
+                                        .time_since_epoch().count())))
+                       .string();
+        fs::remove_all(db_path_);
 
         RocksDBWrapper::Config cfg;
-        cfg.db_path            = db_path_.string();
-        cfg.enable_wal         = false;
-        cfg.memtable_size_mb   = 16;
-        cfg.block_cache_size_mb = 16;
-
-        db_      = std::make_unique<RocksDBWrapper>(cfg);
+        cfg.db_path    = db_path_;
+        cfg.enable_wal = true;
+        db_            = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db_->open());
 
         sec_idx_   = std::make_unique<SecondaryIndexManager>(*db_);
         graph_idx_ = std::make_unique<GraphIndexManager>(*db_);
         vec_idx_   = std::make_unique<VectorIndexManager>(*db_);
-
-        txn_mgr_ = std::make_unique<TransactionManager>(
+        mgr_       = std::make_unique<TransactionManager>(
             *db_, *sec_idx_, *graph_idx_, *vec_idx_);
     }
 
     void TearDown() override {
-        txn_mgr_.reset();
+        mgr_.reset();
         vec_idx_.reset();
-        graph_idx_.reset();
         sec_idx_.reset();
-        db_->close();
-        db_.reset();
+        graph_idx_.reset();
+        if (db_) { db_->close(); db_.reset(); }
         fs::remove_all(db_path_);
     }
 
-    fs::path db_path_;
-    std::unique_ptr<RocksDBWrapper>        db_;
-    std::unique_ptr<SecondaryIndexManager> sec_idx_;
-    std::unique_ptr<GraphIndexManager>     graph_idx_;
-    std::unique_ptr<VectorIndexManager>    vec_idx_;
-    std::unique_ptr<TransactionManager>    txn_mgr_;
+    std::string                             db_path_;
+    std::unique_ptr<RocksDBWrapper>         db_;
+    std::unique_ptr<SecondaryIndexManager>  sec_idx_;
+    std::unique_ptr<GraphIndexManager>      graph_idx_;
+    std::unique_ptr<VectorIndexManager>     vec_idx_;
+    std::unique_ptr<TransactionManager>     mgr_;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Default timeout is disabled
+// Transaction::setTimeout / getTimeout / isTimedOut
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, DefaultTimeoutIsDisabled) {
-    EXPECT_EQ(txn_mgr_->getTransactionTimeout().count(), 0);
+TEST_F(TransactionTimeoutTest, NoTimeout_IsNotTimedOut) {
+    auto txn = mgr_->begin();
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    EXPECT_FALSE(txn.isTimedOut());
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, SetTimeout_GetTimeout) {
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::milliseconds(500));
+    EXPECT_EQ(txn.getTimeout(), std::chrono::milliseconds(500));
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, LongTimeout_IsNotTimedOut) {
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::hours(1));
+    EXPECT_FALSE(txn.isTimedOut());
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, ZeroTimeout_AfterSet_IsNotTimedOut) {
+    // Timeout disabled (0 ms) means never timed out
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::milliseconds(0));
+    EXPECT_FALSE(txn.isTimedOut());
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, NegativeTimeout_TreatedAsDisabled) {
+    // Negative chrono value must be clamped to 0 (disabled), not wrapped to a huge uint64_t
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::milliseconds(-1));
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    EXPECT_FALSE(txn.isTimedOut());
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, NegativeDefaultTimeout_TreatedAsDisabled) {
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(-500));
+    EXPECT_EQ(mgr_->getDefaultTransactionTimeout().count(), 0);
+    // New transactions must not inherit a phantom timeout
+    auto txn = mgr_->begin();
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, VeryShortTimeout_IsTimedOut) {
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::milliseconds(1));
+    // Sleep to ensure timeout elapsed
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    EXPECT_TRUE(txn.isTimedOut());
+    txn.rollback();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// setTransactionTimeout / getTransactionTimeout round-trip
+// commit() rejected when timed out
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, SetAndGetTimeout) {
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(500));
-    EXPECT_EQ(txn_mgr_->getTransactionTimeout().count(), 500);
+TEST_F(TransactionTimeoutTest, Commit_AfterTimeout_ReturnsError) {
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::milliseconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(0));
-    EXPECT_EQ(txn_mgr_->getTransactionTimeout().count(), 0);
+    auto st = txn.commit();
+    EXPECT_FALSE(st.ok);
+    EXPECT_NE(st.message.find("timed out"), std::string::npos);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// abortTimedOutTransactions with timeout disabled → 0 aborted
+// Default transaction timeout on TransactionManager
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, NoAbortWhenTimeoutDisabled) {
-    auto id = txn_mgr_->beginTransaction();
-    EXPECT_NE(id, 0u);
+TEST_F(TransactionTimeoutTest, DefaultTimeout_InitiallyZero) {
+    EXPECT_EQ(mgr_->getDefaultTransactionTimeout().count(), 0);
+}
 
-    // Timeout disabled (0) → manual sweep aborts nothing
-    size_t aborted = txn_mgr_->abortTimedOutTransactions();
-    EXPECT_EQ(aborted, 0u);
-    EXPECT_EQ(txn_mgr_->getTimedOutCount(), 0u);
+TEST_F(TransactionTimeoutTest, SetDefaultTimeout_GetDefaultTimeout) {
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(2000));
+    EXPECT_EQ(mgr_->getDefaultTransactionTimeout(), std::chrono::milliseconds(2000));
+}
 
-    txn_mgr_->rollbackTransaction(id);
+TEST_F(TransactionTimeoutTest, DefaultTimeout_AppliedToNewTransactions) {
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(5000));
+
+    auto txn = mgr_->begin();
+    EXPECT_EQ(txn.getTimeout(), std::chrono::milliseconds(5000));
+    txn.rollback();
+}
+
+TEST_F(TransactionTimeoutTest, DefaultTimeout_AppliedToSessionTransactions) {
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(3000));
+
+    auto txn_id = mgr_->beginTransaction();
+    auto txn = mgr_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+    EXPECT_EQ(txn->getTimeout(), std::chrono::milliseconds(3000));
+    mgr_->rollbackTransaction(txn_id);
+}
+
+TEST_F(TransactionTimeoutTest, SetDefaultTimeout_ZeroDisablesTimeout) {
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(5000));
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(0));
+    EXPECT_EQ(mgr_->getDefaultTransactionTimeout().count(), 0);
+
+    auto txn = mgr_->begin();
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    txn.rollback();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// abortTimedOutTransactions manually sweeps expired transactions
+// Automatic rollback via timeoutExpiredTransactions (background monitor)
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, ManualSweepAbortsExpiredTransaction) {
-    // Set a very short timeout
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(50));
+TEST_F(TransactionTimeoutTest, ExpiredTransaction_AutoRolledBack) {
+    // Set a very short default timeout so the transaction expires immediately
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
+    auto txn_id = mgr_->beginTransaction();
 
-    auto id = txn_mgr_->beginTransaction();
-    ASSERT_NE(id, 0u);
+    // Wait for timeout to elapse
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
 
-    // Transaction has not expired yet
-    EXPECT_EQ(txn_mgr_->abortTimedOutTransactions(), 0u);
+    // The deadlock-detector thread runs every deadlock_timeout_ms (default 1 s).
+    // Rather than waiting 1 s in a test, call the helper via the documented
+    // public interface: rollbackTransaction rolls back expired transactions when
+    // called. But the key observable side-effect is that a subsequent commit
+    // on the same transaction ID fails (already moved to completed).
+    // We verify via getTimeoutCount() after a manual trigger.
+    EXPECT_TRUE(mgr_->getTransaction(txn_id) != nullptr); // still active before monitor runs
 
-    // Wait for expiry
-    std::this_thread::sleep_for(std::chrono::milliseconds(80));
+    // Simulate what the monitor does: commit should fail because the txn is expired.
+    auto st = mgr_->commitTransaction(txn_id);
+    // Either the commit was refused (timed-out error) or the txn was already
+    // rolled back. Either way it must not succeed.
+    EXPECT_FALSE(st.ok);
+}
 
-    size_t aborted = txn_mgr_->abortTimedOutTransactions();
-    EXPECT_GE(aborted, 1u);
-    EXPECT_GE(txn_mgr_->getTimedOutCount(), 1u);
+TEST_F(TransactionTimeoutTest, GetTimeoutCount_InitiallyZero) {
+    EXPECT_EQ(mgr_->getTimeoutCount(), 0u);
+}
 
-    // Transaction should now be finished
-    auto txn = txn_mgr_->getTransaction(id);
-    if (txn) {
-        EXPECT_TRUE(txn->isFinished());
-    }
+TEST_F(TransactionTimeoutTest, GetTimeoutCount_IncrementsOnAutoRollback) {
+    // Set a very short deadlock-detector interval so the background monitor fires quickly
+    mgr_->setDeadlockTimeout(std::chrono::milliseconds(10));
+
+    // Short transaction timeout so the transaction expires immediately
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
+    auto txn_id = mgr_->beginTransaction();
+    std::this_thread::sleep_for(std::chrono::milliseconds(5)); // let it expire
+
+    // Directly verify the transaction is timed out
+    auto txn = mgr_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+    EXPECT_TRUE(txn->isTimedOut());
+
+    // Wait long enough for the background monitor to run (10 ms interval + margin)
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+    // The monitor should have auto-rolled back the transaction and incremented the counter
+    EXPECT_GE(mgr_->getTimeoutCount(), 1u);
+    // The transaction must have been moved out of active
+    EXPECT_EQ(mgr_->getTransaction(txn_id), nullptr);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Transaction committed before timeout is not aborted
+// A transaction without timeout should still commit successfully
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, CommittedTransactionNotAborted) {
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(200));
+TEST_F(TransactionTimeoutTest, NoTimeout_CommitSucceeds) {
+    auto txn = mgr_->begin();
+    EXPECT_EQ(txn.getTimeout().count(), 0);
+    auto st = txn.commit();
+    EXPECT_TRUE(st.ok);
+}
 
-    auto id = txn_mgr_->beginTransaction();
-    ASSERT_NE(id, 0u);
-
-    // Commit well before the timeout
-    auto status = txn_mgr_->commitTransaction(id);
-    EXPECT_TRUE(status.ok);
-
-    // Wait past the timeout
-    std::this_thread::sleep_for(std::chrono::milliseconds(250));
-
-    size_t aborted = txn_mgr_->abortTimedOutTransactions();
-    // The committed transaction must NOT be counted
-    EXPECT_EQ(aborted, 0u);
-    EXPECT_EQ(txn_mgr_->getTimedOutCount(), 0u);
+TEST_F(TransactionTimeoutTest, LongTimeout_CommitSucceeds) {
+    auto txn = mgr_->begin();
+    txn.setTimeout(std::chrono::hours(1));
+    auto st = txn.commit();
+    EXPECT_TRUE(st.ok);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Rolled-back transaction before timeout is not double-aborted
+// Stats struct includes total_timed_out
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, RolledBackTransactionNotDoubleAborted) {
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(50));
-
-    auto id = txn_mgr_->beginTransaction();
-    ASSERT_NE(id, 0u);
-
-    // Explicit rollback before timeout
-    txn_mgr_->rollbackTransaction(id);
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(80));
-
-    // Sweep should not count already-finished transaction
-    size_t aborted = txn_mgr_->abortTimedOutTransactions();
-    EXPECT_EQ(aborted, 0u);
-    EXPECT_EQ(txn_mgr_->getTimedOutCount(), 0u);
+TEST_F(TransactionTimeoutTest, GetStats_InitialTimedOutIsZero) {
+    auto stats = mgr_->getStats();
+    EXPECT_EQ(stats.total_timed_out, 0u);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// getTimedOutCount tracks multiple expirations
-// ─────────────────────────────────────────────────────────────────────────────
-
-TEST_F(TransactionTimeoutTest, TimedOutCountAccumulates) {
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(50));
-
-    auto id1 = txn_mgr_->beginTransaction();
-    auto id2 = txn_mgr_->beginTransaction();
-    ASSERT_NE(id1, 0u);
-    ASSERT_NE(id2, 0u);
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(80));
-
-    size_t aborted = txn_mgr_->abortTimedOutTransactions();
-    EXPECT_EQ(aborted, 2u);
-    EXPECT_EQ(txn_mgr_->getTimedOutCount(), 2u);
+TEST_F(TransactionTimeoutTest, GetStatsLockFree_InitialTimedOutIsZero) {
+    auto stats = mgr_->getStatsLockFree();
+    EXPECT_EQ(stats.total_timed_out, 0u);
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Stats.total_timed_out is populated
-// ─────────────────────────────────────────────────────────────────────────────
-
-TEST_F(TransactionTimeoutTest, StatsTotalTimedOut) {
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(50));
-
-    auto id = txn_mgr_->beginTransaction();
-    ASSERT_NE(id, 0u);
-    std::this_thread::sleep_for(std::chrono::milliseconds(80));
-    txn_mgr_->abortTimedOutTransactions();
-
-    auto stats = txn_mgr_->getStats();
+TEST_F(TransactionTimeoutTest, GetStats_TimedOutAppearsAfterAutoRollback) {
+    mgr_->setDeadlockTimeout(std::chrono::milliseconds(10));
+    mgr_->setDefaultTransactionTimeout(std::chrono::milliseconds(1));
+    mgr_->beginTransaction();
+    // Sleep long enough for the transaction to expire and the background monitor to run
+    std::this_thread::sleep_for(std::chrono::milliseconds(105));
+    auto stats = mgr_->getStats();
     EXPECT_GE(stats.total_timed_out, 1u);
+    EXPECT_GE(stats.total_aborted, 1u);
+    // timed_out is a subset of aborted
+    EXPECT_LE(stats.total_timed_out, stats.total_aborted);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Auto-abort via background detector loop
+// getDurationMs() is frozen after commit/rollback (Bug 7 regression test)
 // ─────────────────────────────────────────────────────────────────────────────
 
-TEST_F(TransactionTimeoutTest, BackgroundLoopAbortsExpiredTransaction) {
-    // The deadlock detector loop wakes every deadlock_timeout_ms (default 1000 ms).
-    // Shorten it by setting deadlock timeout to a small value via setDeadlockTimeout
-    // so the background thread fires quickly.
-    txn_mgr_->setDeadlockTimeout(std::chrono::milliseconds(100));
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(50));
+TEST_F(TransactionTimeoutTest, GetDurationMs_FrozenAfterCommit) {
+    auto txn_id = mgr_->beginTransaction();
+    auto txn = mgr_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
 
-    auto id = txn_mgr_->beginTransaction();
-    ASSERT_NE(id, 0u);
+    // Duration is live while active
+    EXPECT_FALSE(txn->isFinished());
+    auto live_dur = txn->getDurationMs();
+    EXPECT_GE(live_dur, 0u);
 
-    // Wait enough time for:
-    //   - The transaction to expire (50 ms)
-    //   - The background loop to fire at least once (100 ms interval)
-    //   - Some margin
-    std::this_thread::sleep_for(std::chrono::milliseconds(400));
+    mgr_->commitTransaction(txn_id);
 
-    EXPECT_GE(txn_mgr_->getTimedOutCount(), 1u);
+    // After commit the transaction is finished; getDurationMs() must return
+    // the frozen value captured at commit time, NOT a value that keeps growing.
+    auto dur_after = txn->getDurationMs();
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    auto dur_later = txn->getDurationMs();
 
-    auto txn = txn_mgr_->getTransaction(id);
-    if (txn) {
-        EXPECT_TRUE(txn->isFinished());
-    }
+    EXPECT_EQ(dur_after, dur_later)
+        << "getDurationMs() must be frozen after commit";
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Disabling timeout after expiry does not abort already-started transaction
-// ─────────────────────────────────────────────────────────────────────────────
+TEST_F(TransactionTimeoutTest, GetDurationMs_FrozenAfterRollback) {
+    auto txn_id = mgr_->beginTransaction();
+    auto txn = mgr_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
 
-TEST_F(TransactionTimeoutTest, DisablingTimeoutStopsFutureSweeps) {
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(50));
+    mgr_->rollbackTransaction(txn_id);
 
-    auto id1 = txn_mgr_->beginTransaction();
-    std::this_thread::sleep_for(std::chrono::milliseconds(80));
+    auto dur_after = txn->getDurationMs();
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    auto dur_later = txn->getDurationMs();
 
-    // Disable timeout before sweeping
-    txn_mgr_->setTransactionTimeout(std::chrono::milliseconds(0));
+    EXPECT_EQ(dur_after, dur_later)
+        << "getDurationMs() must be frozen after rollback";
+}
 
-    size_t aborted = txn_mgr_->abortTimedOutTransactions();
-    EXPECT_EQ(aborted, 0u);
+TEST_F(TransactionTimeoutTest, GetStats_AvgDuration_DoesNotGrowAfterCommit) {
+    // Run a transaction and commit it, then check that stats.avg_duration_ms
+    // does NOT keep growing after the transaction finishes.
+    auto txn_id = mgr_->beginTransaction();
+    mgr_->commitTransaction(txn_id);
 
-    // The transaction is still active (no timeout sweep happened)
-    auto txn = txn_mgr_->getTransaction(id1);
-    if (txn) {
-        EXPECT_FALSE(txn->isFinished());
-    }
-    txn_mgr_->rollbackTransaction(id1);
+    auto stats1 = mgr_->getStats();
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    auto stats2 = mgr_->getStats();
+
+    EXPECT_EQ(stats1.avg_duration_ms, stats2.avg_duration_ms)
+        << "avg_duration_ms must not grow after all transactions have finished";
+    EXPECT_EQ(stats1.max_duration_ms, stats2.max_duration_ms)
+        << "max_duration_ms must not grow after all transactions have finished";
 }

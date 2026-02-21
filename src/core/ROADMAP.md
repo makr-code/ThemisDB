@@ -22,6 +22,8 @@
 - [x] Structured log correlation — `span_id` in TraceContext; `ConcernsContext::logWithTrace()` auto-injects active trace/span IDs; SpdlogLoggerAdapter prepends `[trace=…][span=…][req=…]` in plain-text mode
 
 ## In Progress 🚧
+- [x] OpenTelemetry tracer adapter (Target: Q2 2026) (Issue: #1404)
+- [I] Prometheus metrics adapter (Target: Q2 2026) (Issue: #1405)
 - [I] Context propagation across async boundaries (Target: Q3 2026) (Issue: #1406)
 
 ## Planned Features 📋
@@ -29,7 +31,7 @@
 ### Short-term (Next 3-6 months)
 - [I] OpenTelemetry trace and span propagation (Issue: #1407)
 - [I] Prometheus-compatible metrics adapter (Issue: #1408)
-- [I] Structured log correlation (trace ID injection into log records) (Issue: #1409) — **completed**
+- [I] Structured log correlation (trace ID injection into log records) (Issue: #2087)
 - [I] Health check interface in ConcernsContext (Issue: #1410)
 - [I] Configuration-driven adapter selection (no code changes needed) (Issue: #1411)
 - [I] Dynamic log level adjustment at runtime (Issue: #1412)
@@ -55,17 +57,18 @@
 - [x] Environment variable detection for production mode
 - [x] Lazy initialization for optional components
 
-### Phase 2: Observability Adapters (Status: Complete ✅)
-- [x] OpenTelemetry tracer adapter (`core/concerns/otel_tracer_adapter.h`, circuit-breaker guarded)
-- [x] Prometheus metrics adapter (`core/concerns/prometheus_metrics_adapter.h`, all IMetrics methods implemented)
+### Phase 2: Observability Adapters (Status: In Progress 🚧)
+- [I] OpenTelemetry tracer adapter (`core/adapters/otel_tracer.cpp`, Target: Q2 2026) (Issue: #1708)
+- [I] Prometheus metrics adapter (`core/adapters/prometheus_metrics.cpp`, Target: Q2 2026) (Issue: #1709)
 - [ ] Context propagation across async boundaries (Target: Q3 2026)
 
 ### Phase 3: Advanced Concerns & Runtime Flexibility (Status: In Progress 🚧)
 - [x] Structured log correlation (trace ID + span ID injection into log records)
 - [ ] Health check interface in ConcernsContext
-- [ ] Async context propagation (W3C TraceContext standard)
-- [ ] Plugin-based adapter loading (no recompile needed)
-- [ ] Feature flag interface for runtime enable/disable
+- [ ] Structured log correlation (trace ID injection into log records)
+- [!] Async context propagation (W3C TraceContext standard) (Issue: #1705)
+- [I] Plugin-based adapter loading (no recompile needed) (Issue: #1706)
+- [I] Feature flag interface for runtime enable/disable (Issue: #1707)
 - [ ] Secrets interface for credential injection into components
 
 ## Production Readiness Checklist
@@ -77,6 +80,7 @@
 - [x] API stability guaranteed for ConcernsContext and core interfaces
 
 ## Known Issues & Limitations
+- Prometheus adapter not yet implemented; metrics are in-memory only
 - Context propagation across async/thread boundaries requires manual passing
 - Feature flags are not yet a first-class concern in the DI system
 
