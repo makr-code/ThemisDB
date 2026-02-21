@@ -1788,6 +1788,7 @@ namespace {
         VectorIndexConfigGet,
         VectorIndexConfigPut,
         VectorIndexStatsGet,
+        VectorIndexIncrementalReindexPost,
         // RoPE endpoints
         RopeConfigPost,
         RopeConfigGet,
@@ -2111,7 +2112,8 @@ namespace {
         if (target == "/vector/index/load" && method == http::verb::post) return Route::VectorIndexLoadPost;
         if (target == "/vector/index/config" && method == http::verb::get) return Route::VectorIndexConfigGet;
         if (target == "/vector/index/config" && method == http::verb::put) return Route::VectorIndexConfigPut;
-    if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        if (target == "/vector/index/stats" && method == http::verb::get) return Route::VectorIndexStatsGet;
+        if (target == "/vector/index/incremental-reindex" && method == http::verb::post) return Route::VectorIndexIncrementalReindexPost;
         // RoPE endpoints - /api/v1/vector-index/{index_name}/rope/*
         if (path_only.find("/api/v1/vector-index/") == 0 && path_only.find("/rope/config") != std::string::npos) {
             if (method == http::verb::post) return Route::RopeConfigPost;
@@ -3260,6 +3262,13 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::VectorIndexStatsGet:
             if (vector_api_) {
                 response = vector_api_->handleIndexStats(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
+            }
+            break;
+        case Route::VectorIndexIncrementalReindexPost:
+            if (vector_api_) {
+                response = vector_api_->handleIncrementalReindex(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Vector API not available", req);
             }

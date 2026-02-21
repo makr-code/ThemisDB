@@ -65,6 +65,7 @@ struct AuthContext {
  * - GET /vector/index/config - Get vector index configuration
  * - PUT /vector/index/config - Update vector index configuration
  * - GET /vector/index/stats - Get vector index statistics
+ * - POST /vector/index/incremental-reindex - Incremental HNSW re-index without full rebuild
  * 
  * Features:
  * - HNSW-based vector similarity search
@@ -149,6 +150,18 @@ public:
      * @return HTTP response with index statistics
      */
     http::response<http::string_body> handleIndexStats(const http::request<http::string_body>& req);
+
+    /**
+     * @brief Handle POST /vector/index/incremental-reindex request
+     * 
+     * Syncs the in-memory HNSW index with current storage without a full rebuild.
+     * Accepts optional JSON body:
+     *   { "rebuild_threshold": 0.20, "vector_field": "embedding" }
+     * 
+     * @param req HTTP request (body optional)
+     * @return HTTP response with IncrementalReindexStats as JSON
+     */
+    http::response<http::string_body> handleIncrementalReindex(const http::request<http::string_body>& req);
 
 private:
     std::shared_ptr<RocksDBWrapper> storage_;

@@ -704,6 +704,160 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 	return Status::OK();
 }
 
+std::pair<VectorIndexManager::Status, VectorIndexManager::IncrementalReindexStats>
+VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view vectorField) {
+	IncrementalReindexStats stats;
+	if (objectName_.empty() || dim_ <= 0)
+		return {Status::Error("incrementalReindex: Manager nicht initialisiert"), stats};
+
+	// --- Phase 1: scan storage and collect current vectors ---
+	// Use the same key prefix as addEntity() stores:
+	// KeySchema::makeVectorKey(objectName_, pk) = "vec:<objectName>:<pk>"
+	const std::string prefix = KeySchema::makeVectorKey(objectName_, "");
+	std::unordered_map<std::string, std::vector<float>> storage_vectors;
+
+	db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
+		std::string pk = KeySchema::extractPrimaryKey(key);
+		std::vector<uint8_t> bytes(value.begin(), value.end());
+		try {
+			BaseEntity e = BaseEntity::deserialize(pk, bytes);
+			std::vector<float> v;
+
+			// Mirror the extraction logic used in rebuildFromStorage
+			auto encFieldOpt = e.getField("embedding_encrypted");
+			if (encFieldOpt) {
+				try {
+					const auto* enc_str = std::get_if<std::string>(&(*encFieldOpt));
+					if (enc_str && !enc_str->empty()) {
+						auto enc_field = EncryptedField<std::vector<float>>::fromBase64(*enc_str);
+						v = enc_field.decrypt();
+					}
+				} catch (const std::exception& ex) {
+					THEMIS_WARN("incrementalReindex: decrypt failed for pk={}: {}", pk, ex.what());
+					return true;
+				}
+			} else if (auto lv = experimental::VectorCompressionHelper::decompressVector(e); lv.has_value()) {
+				v = std::move(*lv);
+			} else {
+				auto vecOpt = e.extractVector(std::string(vectorField));
+				if (vecOpt && vecOpt->size() == static_cast<size_t>(dim_)) {
+					v = *vecOpt;
+				} else {
+					auto qbufOpt  = e.getField("embedding_q");
+					auto scaleOpt = e.getFieldAsDouble("embedding_scale");
+					if (!qbufOpt || !scaleOpt) return true;
+					const auto* qv = std::get_if<std::vector<uint8_t>>(&(*qbufOpt));
+					if (!qv || qv->size() != static_cast<size_t>(dim_)) return true;
+					v.resize(dim_);
+					float s = static_cast<float>(*scaleOpt);
+					for (size_t i = 0; i < qv->size(); ++i) {
+						int8_t code = static_cast<int8_t>((*qv)[i]);
+						v[i] = static_cast<float>(code) * s;
+					}
+				}
+			}
+
+			if (v.empty() || v.size() != static_cast<size_t>(dim_)) return true;
+			if (metric_ == Metric::COSINE && !isVectorEncryptionEnabled()) normalizeL2(v);
+			storage_vectors.emplace(std::move(pk), std::move(v));
+			++stats.total_scanned;
+		} catch (...) {
+			THEMIS_WARN("incrementalReindex: deserialization failed for pk={}", pk);
+		}
+		return true;
+	});
+
+	// --- Phase 2: remove vectors deleted from storage ---
+	std::vector<std::string> to_delete;
+	for (const auto& [pk, cached_vec] : cache_) {
+		(void)cached_vec;
+		if (storage_vectors.find(pk) == storage_vectors.end())
+			to_delete.push_back(pk);
+	}
+	for (const auto& pk : to_delete) {
+		cache_.erase(pk);
+#ifdef THEMIS_HNSW_ENABLED
+		if (useHnsw_) {
+			auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+			auto it = pkToId_.find(pk);
+			if (it != pkToId_.end()) {
+				try { appr->markDelete(it->second); } catch (...) {}
+			}
+		}
+#endif
+		// Remove from PK→label mapping so getVectorCount() stays accurate.
+		// We intentionally keep idToPk_ entries as holes (label slots) so Phase 3
+		// can reuse the label when a new PK arrives, avoiding unbounded label growth.
+		pkToId_.erase(pk);
+		++stats.removed;
+	}
+
+	// --- Phase 3: add new vectors and update changed vectors ---
+	for (const auto& [pk, new_vec] : storage_vectors) {
+		auto cache_it = cache_.find(pk);
+		if (cache_it == cache_.end()) {
+			// New vector: add to cache and HNSW
+			cache_[pk] = new_vec;
+#ifdef THEMIS_HNSW_ENABLED
+			if (useHnsw_ && !isHnswEncryptionEnabled()) {
+				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+				size_t id;
+				auto id_it = pkToId_.find(pk);
+				if (id_it == pkToId_.end()) {
+					id = idToPk_.size();
+					pkToId_[pk] = id;
+					idToPk_.push_back(pk);
+				} else {
+					id = id_it->second; // reuse label of a previously deleted entry
+					idToPk_[id] = pk;   // update reverse mapping to the new PK
+				}
+				try { appr->addPoint(new_vec.data(), id); } catch (...) {}
+			}
+#endif
+			++stats.added;
+		} else if (cache_it->second != new_vec) {
+			// Changed vector: update cache and HNSW in-place
+			cache_it->second = new_vec;
+#ifdef THEMIS_HNSW_ENABLED
+			if (useHnsw_ && !isHnswEncryptionEnabled()) {
+				auto* appr = static_cast<hnswlib::HierarchicalNSW<float>*>(hnswIndex_);
+				auto id_it = pkToId_.find(pk);
+				if (id_it != pkToId_.end()) {
+					try { appr->addPoint(new_vec.data(), id_it->second); } catch (...) {}
+				}
+			}
+#endif
+			++stats.updated;
+		} else {
+			++stats.unchanged;
+		}
+	}
+
+	// --- Phase 4: auto full-rebuild when soft-deleted label ratio is too high ---
+	if (rebuild_threshold > 0.0f && rebuild_threshold <= 1.0f) {
+		// idToPk_.size() = total ever-allocated labels (including holes for deleted entries)
+		// pkToId_.size() = currently active labels
+		size_t total_ever  = idToPk_.size();
+		size_t active      = pkToId_.size();
+		size_t holes       = (total_ever > active) ? (total_ever - active) : 0;
+		float  ratio       = (total_ever > 0)
+		                         ? (static_cast<float>(holes) / static_cast<float>(total_ever))
+		                         : 0.0f;
+		if (ratio > rebuild_threshold && total_ever > 0) {
+			THEMIS_INFO("incrementalReindex: deleted ratio {:.1f}% > threshold {:.1f}%, full rebuild",
+			            ratio * 100.0f, rebuild_threshold * 100.0f);
+			auto s = rebuildFromStorage();
+			if (!s.ok) return {s, stats};
+			stats.full_rebuild_triggered = true;
+		}
+	}
+
+	THEMIS_INFO("incrementalReindex: added={} removed={} updated={} unchanged={} scanned={}{}",
+	            stats.added, stats.removed, stats.updated, stats.unchanged, stats.total_scanned,
+	            stats.full_rebuild_triggered ? " [full rebuild]" : "");
+	return {Status::OK(), stats};
+}
+
 VectorIndexManager::Status VectorIndexManager::addEntity(const BaseEntity& e, std::string_view vectorField) {
 	if (objectName_.empty()) return Status::Error("addEntity: Manager nicht initialisiert");
 	const std::string& pk = e.getPrimaryKey();
