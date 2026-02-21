@@ -53,13 +53,48 @@ enum class BackendType {
     AUTO        // Auto-detect best available
 };
 
-// Acceleration capabilities
+// Floating-point and quantisation precision modes.
+// Values are stable bitmask flags; combine with bitwise OR.
+enum class PrecisionMode : uint32_t {
+    NONE = 0,
+    FP32 = 1u << 0,   ///< 32-bit IEEE 754 single precision (always required)
+    FP16 = 1u << 1,   ///< 16-bit IEEE 754 half precision
+    BF16 = 1u << 2,   ///< bfloat16
+    INT8 = 1u << 3,   ///< 8-bit integer quantisation
+};
+
+inline constexpr PrecisionMode operator|(PrecisionMode a, PrecisionMode b) noexcept {
+    return static_cast<PrecisionMode>(static_cast<uint32_t>(a) | static_cast<uint32_t>(b));
+}
+inline constexpr bool hasPrecision(PrecisionMode modes, PrecisionMode flag) noexcept {
+    return (static_cast<uint32_t>(modes) & static_cast<uint32_t>(flag)) != 0;
+}
+
+/// Returns the bitmask bit position for a DistanceMetric value.
+/// Bit i is set when DistanceMetric(i) is supported.
+inline constexpr uint32_t metricBit(DistanceMetric m) noexcept {
+    return 1u << static_cast<uint32_t>(m);
+}
+
+// Capability contract for a compute backend.
+// Fields are grouped: operation support, precision matrix, metric matrix, device info.
 struct BackendCapabilities {
+    // Operation support
     bool supportsVectorOps = false;
     bool supportsGraphOps = false;
     bool supportsGeoOps = false;
     bool supportsBatchProcessing = false;
     bool supportsAsync = false;
+
+    // Precision feature matrix: OR of PrecisionMode flags.
+    // Must include at least PrecisionMode::FP32 for any vector or geo backend.
+    PrecisionMode supportedPrecisions = PrecisionMode::NONE;
+
+    // Distance-metric feature matrix: bitmask using metricBit(DistanceMetric).
+    // Set bit i if the backend supports DistanceMetric(i) in its ANN dispatch.
+    uint32_t supportedMetrics = 0;
+
+    // Device info
     size_t maxMemoryBytes = 0;      // Available VRAM/memory
     int computeUnits = 0;            // Number of compute units/SMs
     std::string deviceName;
@@ -227,6 +262,11 @@ public:
     
     // List all available backends
     std::vector<BackendType> getAvailableBackends() const;
+
+    // Returns the ordered fallback chain used when selecting the best backend.
+    // The first element has the highest priority; BackendType::CPU is always last.
+    // All getBestXBackend() methods traverse this chain in order.
+    static const std::vector<BackendType>& getFallbackOrder() noexcept;
     
     // Shutdown all backends
     void shutdownAll();
