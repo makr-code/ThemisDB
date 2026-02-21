@@ -73,12 +73,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # MINIMAL edition – GCC 12
-          - edition: MINIMAL
-            compiler: gcc-12
-            cc: gcc-12
-            cxx: g++-12
-          # COMMUNITY edition – GCC 12 (default)
+          # COMMUNITY edition – GCC 12 (default edition)
+          # NOTE: MINIMAL edition forces THEMIS_BUILD_TESTS=OFF, so security
+          #       tests are not applicable; use the 'edition-build-check' job
+          #       below to verify MINIMAL compiles correctly.
           - edition: COMMUNITY
             compiler: gcc-12
             cc: gcc-12
@@ -195,14 +193,16 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ${{ env.APT_DEPS }} \
-            clang-15 clang++-15
+            gcc-12 g++-12 clang-15 clang++-15
 
       - name: Build GTest from source (if needed)
         run: |
           if [ ! -f /usr/lib/libgtest.a ] && \
              [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ]; then
             cd /usr/src/gtest
-            sudo cmake -DCMAKE_BUILD_TYPE=Release .
+            sudo cmake -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_C_COMPILER=gcc-12 \
+              -DCMAKE_CXX_COMPILER=g++-12 .
             sudo make -j$(nproc)
             sudo cp lib/*.a /usr/lib/ 2>/dev/null || true
           fi
@@ -259,7 +259,60 @@ jobs:
           retention-days: 30
 
   # ───────────────────────────────────────────────────────────────────────────
-  # 3. Static analysis with clang-tidy
+  # 3. Edition build check: verify all three editions compile without errors
+  #    MINIMAL is included here because it disables THEMIS_BUILD_TESTS, so the
+  #    security-negative-tests job cannot run against it; a compile-only check
+  #    is sufficient to verify the MINIMAL edition doesn't regress on security
+  #    source changes.
+  # ───────────────────────────────────────────────────────────────────────────
+  edition-build-check:
+    name: Edition compile check (${{ matrix.edition }})
+    runs-on: ubuntu-22.04
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        edition: [MINIMAL, COMMUNITY, ENTERPRISE]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            cmake ninja-build gcc-12 g++-12 \
+            libssl-dev libcurl4-openssl-dev \
+            libboost-all-dev libnlohmann-json3-dev \
+            pkg-config git
+
+      - name: Configure (${{ matrix.edition }} edition)
+        env:
+          CC:  gcc-12
+          CXX: g++-12
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_COMPILER=gcc-12 \
+            -DCMAKE_CXX_COMPILER=g++-12 \
+            -DTHEMIS_EDITION=${{ matrix.edition }} \
+            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_ENABLE_GPU=OFF \
+            -DTHEMIS_ENABLE_TRACING=OFF \
+            -DTHEMIS_ENABLE_GRPC=OFF \
+            -S cmake
+
+      - name: Build themis_core (security sources included)
+        run: cmake --build build --target themis_core -- -j$(nproc)
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # 4. Static analysis with clang-tidy
   # ───────────────────────────────────────────────────────────────────────────
   static-analysis:
     name: Static analysis (clang-tidy)
@@ -348,7 +401,7 @@ jobs:
           retention-days: 30
 
   # ───────────────────────────────────────────────────────────────────────────
-  # 4. Fuzz smoke-test (libFuzzer, short time limit suitable for CI)
+  # 5. Fuzz smoke-test (libFuzzer, short time limit suitable for CI)
   # ───────────────────────────────────────────────────────────────────────────
   fuzz-smoke-test:
     name: Fuzz smoke test (JWT + RBAC config)
