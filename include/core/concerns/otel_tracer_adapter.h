@@ -54,7 +54,7 @@ public:
     };
 
     explicit OpenTelemetryTracerAdapter(
-        const CircuitBreakerConfig& cb_config = CircuitBreakerConfig{})
+        const CircuitBreakerConfig& cb_config)
     {
         sharding::CircuitBreaker::Config cfg;
         cfg.failure_threshold = cb_config.failure_threshold;
@@ -62,6 +62,9 @@ public:
         cfg.success_threshold = cb_config.success_threshold;
         circuit_breaker_ = std::make_unique<sharding::CircuitBreaker>(cfg);
     }
+
+    /// Construct with default circuit-breaker settings.
+    OpenTelemetryTracerAdapter() : OpenTelemetryTracerAdapter(CircuitBreakerConfig{}) {}
 
     class OtelSpanAdapter : public ISpan {
     public:
