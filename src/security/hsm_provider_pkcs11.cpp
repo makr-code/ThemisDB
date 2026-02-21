@@ -3,17 +3,17 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider_pkcs11.cpp                            ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 07:18:14                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 07:42:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   40.0/100                                       ║
-    • Total Lines:     749                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 12                            ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   35.0/100                                       ║
+    • Total Lines:     768                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 13                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
+  Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
