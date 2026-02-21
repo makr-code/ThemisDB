@@ -1,7 +1,6 @@
 #include "server/lora_api_handler.h"
 #include "auth/jwt_validator.h"
 #include "llm/lora_framework/lora_orchestrator.h"
-#include "llm/lora_framework/lora_adapter_manager.h"
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
 #include "llm/lora_framework/lora_config.h"

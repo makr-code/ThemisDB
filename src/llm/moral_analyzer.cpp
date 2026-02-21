@@ -700,11 +700,9 @@ MoralAnalyzer::retrieveSimilarScenarios(
 
 MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     const EthicalDecision& decision,
-    const std::vector<float>& scenario_embedding
+    const std::vector<float>& scenario_embedding,
+    const std::string& user_id
 ) {
-    // NOTE: In production, pass user_id as parameter for proper audit attribution
-    // For now, use system identifier (can be customized in production deployment)
-    std::string user_id = "ethics_system";  // TODO: Accept as parameter
     
     // 1. GRAPH STORAGE: Store full decision structure with reasoning chains
     BaseEntity decision_entity(decision.decision_id);

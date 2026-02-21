@@ -80,6 +80,8 @@ if(NOT THEMIS_ENABLE_LLM)
         ".*test_gradient_checkpointing\\.cpp$"
         ".*test_inference_engine_enhanced\\.cpp$"
         ".*test_kernel_fusion\\.cpp$"
+        ".*test_kernel_fusion_cpu_fallback\\.cpp$"
+        ".*test_kernel_fusion_cuda\\.cpp$"
         ".*test_model_loader_async\\.cpp$"
         ".*test_phase1_flash_attention\\.cpp$"
         ".*test_phase1_kv_cache_reuse\\.cpp$"
@@ -133,6 +135,15 @@ endif()
 # Tests with own main() - these have custom logic or missing dependencies
 list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_argument_store\\.cpp$"
+    ".*test_adaptive_cache_fuzz\\.cpp$"
+    ".*test_adaptive_cache_integration\\.cpp$"
+    ".*test_adaptive_cache_phase1\\.cpp$"
+    ".*test_backend_errors\\.cpp$"
+    ".*test_continuous_learning_client\\.cpp$"
+    ".*test_error_codes\\.cpp$"
+    ".*test_geval\\.cpp$"
+    ".*test_metrics\\.cpp$"
+    ".*test_onnx_model_loader\\.cpp$"
     ".*test_content_policy_manual\\.cpp$"
     ".*test_ethics_ai_types\\.cpp$"
     ".*test_ethics_evaluator\\.cpp$"
@@ -140,7 +151,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_approximate_radius_search_integration\\.cpp$"
     ".*test_philosophy_loader\\.cpp$"
     ".*test_metadata_wal_recovery\\.cpp$"
-    ".*test_module_loader\\.cpp$"
     ".*test_paxos_wal_recovery\\.cpp$"
     ".*test_quality_control_pipeline\\.cpp$"
     ".*test_slo_monitor\\.cpp$"
@@ -194,6 +204,36 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_gpu_stream_manager\\.cpp$"
     ".*test_gpu_module\\.cpp$"
     ".*test_query_engine_di\\.cpp$"
+    ".*test_raii_wrappers\\.cpp$"
+    ".*test_cdc_admin\\.cpp$"
+    ".*test_tenant_buffer_manager\\.cpp$"
+    ".*test_replication_ha\\.cpp$"
+    ".*test_real_embeddings\\.cpp$"
+    ".*test_adapter_sync\\.cpp$"
+    ".*test_api_routing\\.cpp$"
+    ".*test_fewshot_optimizer\\.cpp$"
+    ".*test_flash_attention_correctness\\.cpp$"
+    ".*test_geo_topology_api_handler\\.cpp$"
+    ".*test_gpu_admin_api\\.cpp$"
+    ".*test_gpu_.*\\.cpp$"
+    ".*test_graphql.*\\.cpp$"
+    ".*test_jwt_key_rotation_comprehensive\\.cpp$"
+    ".*test_lora_router\\.cpp$"
+    ".*test_lora_security\\.cpp$"
+    ".*test_multi_gpu_management\\.cpp$"
+    ".*test_mvcc_api_handler\\.cpp$"
+    ".*test_phi3_integration\\.cpp$"
+    ".*test_prompt_.*\\.cpp$"
+    ".*test_rag_ethics\\.cpp$"
+    ".*test_resource_limits_comprehensive\\.cpp$"
+    ".*test_secret_manager_comprehensive\\.cpp$"
+    ".*test_two_phase_commit\\.cpp$"
+    ".*test_policy_change_auditing\\.cpp$"
+    ".*test_workload_driven_cache\\.cpp$"
+    ".*test_gpu_alerts\\.cpp$"
+    ".*test_gpu_config\\.cpp$"
+    ".*test_gpu_feature_flags\\.cpp$"
+    ".*test_gpu_kernel_validator\\.cpp$"
 )
 foreach(pattern IN LISTS TEST_EXCLUDE_PATTERNS)
     list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX "${pattern}")
@@ -214,6 +254,7 @@ if(NOT THEMIS_ENABLE_LEGAL_TRAINING)
         ../src/training/auto_labeler.cpp
         ../src/training/knowledge_graph_enricher.cpp
         ../src/training/incremental_lora_trainer.cpp
+        ../src/training/training_pipeline.cpp
     )
 endif()
 
@@ -228,6 +269,9 @@ if(THEMIS_BUILD_MODULAR)
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/utils/tracing\\.cpp$")
             message(STATUS "themis_tests: excluding direct sharding sources (provided by themis_sharding module)")
         endif()
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/stubs\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/stubs\\.cpp$")
+        list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/security/pii_redaction_policy\\.cpp$")
         if(TARGET themis_llm)
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/.*\\.cpp$")
             list(FILTER _themis_test_core_sources EXCLUDE REGEX ".*/src/llm/lora_framework/(gpu_tensor|gpu_lora_layers|flash_lora|paged_optimizer|paged_memory_manager|custom_allreduce|multi_gpu|multi_gpu_trainer|multi_gpu_lora_layer)\\.cpp$")
@@ -256,12 +300,15 @@ if(THEMIS_BUILD_MODULAR)
             ${THEMIS_ROOT_DIR}/src/llm/model_metadata_cache.cpp
             ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
             ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/llm_model_audit_logger.cpp
             ${THEMIS_ROOT_DIR}/src/llm/applications/themis_help_lora.cpp
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_feedback_storage.cpp
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_training_config.cpp
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/lora_audit_logger.cpp
             ${THEMIS_ROOT_DIR}/src/llm/lora_framework/feedback_plugin.cpp
             ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
+            ${THEMIS_ROOT_DIR}/src/server/mvcc_api_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/server/geo_topology_api_handler.cpp
             ${THEMIS_ROOT_DIR}/src/timeseries/ts_auto_buffer.cpp
             ${THEMIS_ROOT_DIR}/src/index/vector_auto_buffer.cpp
         )

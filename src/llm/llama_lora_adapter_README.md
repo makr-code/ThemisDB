@@ -153,7 +153,6 @@ if (!themis_llama_lora_available()) {
 
 - **MultiLoRAManager**: Full integration with vLLM-style multi-LoRA support
 - **LlamaWrapper**: Compatible with lazy model loading
-- **LoRAAdapterManager**: Backward compatible with deprecated manager
 
 ## Performance
 
@@ -207,7 +206,6 @@ Potential improvements for future versions:
 ## Related Components
 
 - `multi_lora_manager.cpp`: High-level LoRA management (vLLM-style)
-- `lora_adapter_manager.cpp`: Legacy adapter management (deprecated)
 - `llama_wrapper.cpp`: llama.cpp integration layer
 - `lora_framework/`: LoRA training and storage infrastructure
 

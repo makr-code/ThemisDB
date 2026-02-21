@@ -46,12 +46,12 @@ void ONNXModelLoader::initializeDefaultModels() {
 
 std::optional<ONNXModelInfo> ONNXModelLoader::loadModel(const std::string& model_path) {
     if (model_path.empty()) {
-        THEMIS_LOG_ERROR("Empty model path provided");
+        THEMIS_ERROR("Empty model path provided");
         return std::nullopt;
     }
     
     if (!std::filesystem::exists(model_path)) {
-        THEMIS_LOG_ERROR("Model file not found: {}", model_path);
+        THEMIS_ERROR("Model file not found: {}", model_path);
         return std::nullopt;
     }
     
@@ -71,7 +71,7 @@ std::optional<ONNXModelInfo> ONNXModelLoader::loadModel(const std::string& model
         impl_->cache[info.model_name] = info;
     }
     
-    THEMIS_LOG_INFO("Loaded ONNX model: {} ({} bytes)", info.model_name, info.model_size_bytes);
+    THEMIS_INFO("Loaded ONNX model: {} ({} bytes)", info.model_name, info.model_size_bytes);
     return info;
 }
 
@@ -87,7 +87,7 @@ std::optional<ONNXModelInfo> ONNXModelLoader::loadOrDownloadModel(
         // Verify checksum if provided
         if (!expected_checksum.empty() && config_.verify_checksum) {
             if (!validateModelChecksum(cached_path, expected_checksum)) {
-                THEMIS_LOG_WARN("Cached model checksum mismatch: {}", model_name);
+                THEMIS_WARN("Cached model checksum mismatch: {}", model_name);
                 // Fall through to re-download
             } else {
                 return loadModel(cached_path);
@@ -101,13 +101,13 @@ std::optional<ONNXModelInfo> ONNXModelLoader::loadOrDownloadModel(
     if (config_.auto_download && !model_url.empty()) {
         std::string dest_path = config_.cache_dir + "/" + model_name + ".onnx";
         
-        THEMIS_LOG_INFO("Downloading model: {} from {}", model_name, model_url);
+        THEMIS_INFO("Downloading model: {} from {}", model_name, model_url);
         
         if (downloadFile(model_url, dest_path, config_.download_timeout_sec)) {
             // Verify checksum if provided
             if (!expected_checksum.empty() && config_.verify_checksum) {
                 if (!validateModelChecksum(dest_path, expected_checksum)) {
-                    THEMIS_LOG_ERROR("Downloaded model checksum mismatch: {}", model_name);
+                    THEMIS_ERROR("Downloaded model checksum mismatch: {}", model_name);
                     std::filesystem::remove(dest_path);
                     return std::nullopt;
                 }
@@ -115,12 +115,12 @@ std::optional<ONNXModelInfo> ONNXModelLoader::loadOrDownloadModel(
             
             return loadModel(dest_path);
         } else {
-            THEMIS_LOG_ERROR("Failed to download model: {}", model_name);
+            THEMIS_ERROR("Failed to download model: {}", model_name);
             return std::nullopt;
         }
     }
     
-    THEMIS_LOG_ERROR("Model not found and auto_download disabled: {}", model_name);
+    THEMIS_ERROR("Model not found and auto_download disabled: {}", model_name);
     return std::nullopt;
 }
 

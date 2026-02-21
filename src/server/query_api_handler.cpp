@@ -31,6 +31,8 @@
 #include "server/auth_middleware.h"
 #include "security/encryption.h"
 #include "security/pki_key_provider.h"
+#include "metadata/index_recommender.h"
+#include "metadata/statistics_collector.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/hkdf_helper.h"
@@ -191,6 +193,7 @@ http::response<http::string_body> QueryApiHandler::handleQuery(
     q.fulltextPredicate = {};
     q.spatialPredicate = {};
         themis::QueryEngine engine(*storage_, *secondary_index_);
+        if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
 
         // Optional plan/explain info
         std::string exec_mode;
@@ -556,6 +559,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
             themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
             themis::QueryEngine engine(*storage_, *secondary_index_);
+            if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
             
             auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
             std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
@@ -690,7 +694,46 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 "AQL translation error: " + translate_result.error_message, req);
         }
         translateSpan.setStatus(true);
-        
+
+    // Record column access patterns for IndexRecommender (non-blocking; best-effort)
+    if (index_recommender_) {
+        // Selectivity weights passed to IndexRecommender.
+        // kFilterEqSelectivity (0.5): average assumed selectivity for equality predicates
+        //   (i.e. roughly half the rows match).  Real cardinality data from
+        //   StatisticsCollector is not available at translation time.
+        // kFilterRangeSelectivity (0.3): range predicates are assumed more selective
+        //   than equality on average.
+        // kSortSelectivity (1.0): ORDER BY does not filter rows, so it contributes
+        //   maximum selectivity weight (non-discriminating → score 0 benefit).
+        static constexpr double kFilterEqSelectivity    = 0.5;
+        static constexpr double kFilterRangeSelectivity = 0.3;
+        static constexpr double kSortSelectivity        = 1.0;
+
+        auto recordFromConjunct = [&](const themis::ConjunctiveQuery& cq) {
+            for (const auto& p : cq.predicates) {
+                index_recommender_->recordAccess(cq.table, p.column,
+                    IndexRecommender::AccessType::FILTER, kFilterEqSelectivity);
+            }
+            for (const auto& rp : cq.rangePredicates) {
+                index_recommender_->recordAccess(cq.table, rp.column,
+                    IndexRecommender::AccessType::FILTER, kFilterRangeSelectivity);
+            }
+            if (cq.orderBy.has_value()) {
+                index_recommender_->recordAccess(cq.table, cq.orderBy->column,
+                    IndexRecommender::AccessType::SORT, kSortSelectivity);
+            }
+        };
+
+        if (translate_result.disjunctive.has_value()) {
+            for (const auto& disjunct : translate_result.disjunctive->disjuncts) {
+                recordFromConjunct(disjunct);
+            }
+        } else {
+            recordFromConjunct(translate_result.query);
+        }
+        index_recommender_->recordQuery();
+    }
+
     // If traversal present, execute via GraphIndexManager
         if (translate_result.traversal.has_value()) {
             auto traversalSpan = Tracer::startSpan("aql.traversal");
@@ -1413,6 +1456,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                         themis::ConjunctiveQuery q1; q1.table = table1; q1.predicates = eq1; q1.rangePredicates = r1;
                         themis::ConjunctiveQuery q2; q2.table = table2; q2.predicates = eq2; q2.rangePredicates = r2;
                         themis::QueryEngine engine(*storage_, *secondary_index_);
+                        if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
                         
                         auto result1 = allow_full_scan ? engine.executeAndEntitiesWithFallback(q1, optimize) : engine.executeAndEntities(q1);
                         std::pair<themis::QueryEngine::Status, std::vector<themis::BaseEntity>> res1;
@@ -1888,6 +1932,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
             orSpan.setAttribute("or.disjunct_count", static_cast<int64_t>(dq.disjuncts.size()));
             
             themis::QueryEngine engine(*storage_, *secondary_index_);
+            if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
             // Nutze Fallback-Variante, damit OR-Queries auch ohne passende Indizes funktionieren
             auto result = engine.executeOrKeysWithFallback(dq, optimize);
             std::pair<themis::QueryEngine::Status, std::vector<std::string>> statusKeys;
@@ -2016,6 +2061,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
                 joinSpan.setAttribute("join.filter_count", static_cast<int64_t>(jq.filters.size()));
                 
                 themis::QueryEngine engine(*storage_, *secondary_index_);
+                if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
                 auto res = engine.executeJoin(
                     jq.for_nodes,
                     jq.filters,
@@ -2268,6 +2314,7 @@ http::response<http::string_body> QueryApiHandler::handleQueryAql(
         
         // Execute query
         themis::QueryEngine engine(*storage_, *secondary_index_);
+        if (stats_collector_) engine.setStatisticsCollector(stats_collector_);
         
         std::string exec_mode;
         nlohmann::json plan_json;

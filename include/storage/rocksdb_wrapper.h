@@ -543,6 +543,9 @@ public:
     /// Get raw RocksDB pointer for advanced operations
     rocksdb::TransactionDB* getRawDB() { return db_.get(); }
     const rocksdb::TransactionDB* getRawDB() const { return db_.get(); }
+    // Backward-compatible alias used by older tests/adapters
+    rocksdb::TransactionDB* getDB() { return getRawDB(); }
+    const rocksdb::TransactionDB* getDB() const { return getRawDB(); }
 
 private:
     // RAII helper to track active operations and prevent close during operations

@@ -1,0 +1,63 @@
+name: Validate Grafana Dashboards
+
+# Static validation of all Grafana dashboard JSON files under grafana/.
+# Checks:
+#  - JSON syntax
+#  - Required dashboard fields (title, panels)
+#  - Unique panel IDs
+#  - Panel structure (type, title, gridPos with h/w/x/y)
+#  - Grid overlap detection
+#  - Non-empty PromQL targets on query panels
+#  - LLM dashboard: required panels present, all metrics use 'llm_' prefix
+#
+# Live Grafana smoke-test (importing dashboards into a real Grafana 10.x
+# instance and verifying panel rendering) is a MANUAL step performed by
+# the observability team before each release.
+# See: docs/operations/llm/METRICS_SCRAPE_TROUBLESHOOTING.md
+#
+# See: docs/llm_roadmap.md — Observability checklist
+
+on:
+  pull_request:
+    paths:
+      - 'grafana/**/*.json'
+      - 'scripts/validate_grafana_dashboards.py'
+      - '.github/workflows/validate-grafana-dashboards.yml'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'grafana/**/*.json'
+      - 'scripts/validate_grafana_dashboards.py'
+      - '.github/workflows/validate-grafana-dashboards.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-dashboards:
+    name: Validate Grafana Dashboard JSON
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Grafana dashboard validation
+        run: |
+          python3 scripts/validate_grafana_dashboards.py grafana/
+
+      - name: Report validation result
+        if: success()
+        run: |
+          echo "✅ All Grafana dashboard JSON files passed static validation."
+          echo ""
+          echo "NOTE: Live Grafana smoke-testing (Grafana 10.x import + panel render check)"
+          echo "      is a manual step performed by the observability team before each release."
+          echo "      See docs/operations/llm/METRICS_SCRAPE_TROUBLESHOOTING.md for instructions."

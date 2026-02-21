@@ -119,7 +119,7 @@ bool PolicyEngine::loadFromFile(const std::string& path, std::string* err) {
         try {
             auto mtime = std::filesystem::last_write_time(path);
             last_loaded_mtime_ = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-                std::chrono::file_clock::to_sys(mtime));
+                mtime - decltype(mtime)::clock::now() + std::chrono::system_clock::now());
         } catch (...) {
             last_loaded_mtime_ = std::chrono::system_clock::now();
         }
@@ -165,7 +165,7 @@ bool PolicyEngine::reloadIfChanged(std::string* err) {
     try {
         auto ft = std::filesystem::last_write_time(path);
         current_mtime = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-            std::chrono::file_clock::to_sys(ft));
+            ft - decltype(ft)::clock::now() + std::chrono::system_clock::now());
     } catch (const std::exception& e) {
         if (err) *err = std::string("stat failed: ") + e.what();
         return false;

@@ -703,6 +703,7 @@ void PrometheusMetrics::recordRepairShardStatus(const std::string& shard_id,
 
 void PrometheusMetrics::recordRepairScan() {
     incrementCounter("themis_shard_repair_scans_total", {});
+}
 // ─── MVCC / HLC Metrics ───────────────────────────────────────────────────────
 
 void PrometheusMetrics::recordMvccWrite(double latency_ms) {

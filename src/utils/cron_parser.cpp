@@ -307,6 +307,7 @@ std::optional<std::chrono::system_clock::time_point> CronExpression::getNextExec
     return std::nullopt;
 }
 
+bool CronExpression::matches(const std::chrono::system_clock::time_point& time) const {
 
     auto time_t = std::chrono::system_clock::to_time_t(time);
     std::tm tm;

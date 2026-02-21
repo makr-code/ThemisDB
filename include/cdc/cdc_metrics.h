@@ -28,7 +28,9 @@ namespace cdc {
 class LatencyHistogram {
 public:
     LatencyHistogram() : count_(0), sum_micros_(0) {
-        buckets_.fill(0);
+        for (auto& bucket : buckets_) {
+            bucket.store(0, std::memory_order_relaxed);
+        }
     }
     
     /**
@@ -117,10 +119,10 @@ public:
      * @brief Reset histogram
      */
     void reset() {
-        count_ = 0;
-        sum_micros_ = 0;
+        count_.store(0, std::memory_order_relaxed);
+        sum_micros_.store(0, std::memory_order_relaxed);
         for (auto& bucket : buckets_) {
-            bucket = 0;
+            bucket.store(0, std::memory_order_relaxed);
         }
     }
 

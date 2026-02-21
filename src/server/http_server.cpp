@@ -38,6 +38,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
+#include "observability/alertmanager.h"
 #include "security/key_provider.h"
 #include "security/mock_key_provider.h"
 #include "security/pki_key_provider.h"
@@ -160,6 +161,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <functional>
 #include <cmath>
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <limits>
 #include <optional>
@@ -651,6 +653,23 @@ HttpServer::HttpServer(
         &running_, &active_requests_, &active_connections_,
         concerns_   // may be nullptr – MonitoringApiHandler tolerates that
     );
+    // Wire a disabled-by-default Alertmanager so the Operator API is always available.
+    // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
+    {
+        observability::AlertmanagerConfig am_cfg;
+        const char* am_url = std::getenv("THEMIS_ALERTMANAGER_URL");
+        if (am_url && *am_url != '\0') {
+            am_cfg.endpoint_url = am_url;
+            am_cfg.enabled      = true;
+            const char* am_token = std::getenv("THEMIS_ALERTMANAGER_TOKEN");
+            if (am_token && *am_token != '\0') {
+                am_cfg.auth_token = am_token;
+            }
+            THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
+        }
+        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(std::move(alertmanager));
+    }
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
     query_api_ = std::make_unique<themis::server::QueryApiHandler>(
@@ -900,7 +919,39 @@ HttpServer::HttpServer(
             schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
                 storage_, secondary_index_, schema_manager_.get());
-            THEMIS_INFO("SchemaManager and Schema API Handler initialized");
+
+            // Wire metadata sub-components into SchemaApiHandler
+            stats_collector_    = std::make_unique<StatisticsCollector>(*storage_);
+            schema_constraints_ = std::make_unique<SchemaConstraints>();
+            schema_constraints_->loadFrom(*storage_);  // Reload persisted constraints
+            schema_version_mgr_ = std::make_unique<SchemaVersionManager>(*storage_, *schema_manager_);
+            index_recommender_  = std::make_unique<IndexRecommender>();
+            schema_audit_log_   = std::make_unique<SchemaAuditLog>(*storage_);
+
+            // Connect audit log to version manager so every version is audited
+            schema_version_mgr_->setAuditLog(schema_audit_log_.get());
+
+            schema_api_handler_->setStatisticsCollector(stats_collector_.get());
+            schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
+            schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
+            schema_api_handler_->setIndexRecommender(index_recommender_.get());
+            schema_api_handler_->setAuditLog(schema_audit_log_.get());
+
+            // Wire IndexRecommender into query handler for access-pattern recording
+            if (query_api_) {
+                query_api_->setIndexRecommender(index_recommender_.get());
+                query_api_->setStatisticsCollector(stats_collector_.get());
+            }
+
+            // Background consistency checker (checks every 6 hours by default)
+            schema_consistency_checker_ = std::make_unique<SchemaConsistencyChecker>(
+                *storage_, *schema_manager_,
+                stats_collector_.get(),
+                schema_constraints_.get()
+            );
+            schema_consistency_checker_->startBackgroundCheck(std::chrono::hours(6));
+
+            THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
         }
@@ -1544,7 +1595,12 @@ namespace {
         Stats,
         CapabilitiesGet,
         Metrics,
+        MetricsHtml,    // GET /metrics/html – lightweight HTML dashboard
         PluginMetrics,  // GET /api/plugins/metrics
+        // Operator observability API (Q1)
+        ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
+        ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
+        ObservabilityHealthGet,        // GET  /api/v1/observability/health
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1734,6 +1790,20 @@ namespace {
     SchemaGetTable,           // GET /api/v1/schema/tables/:name
     SchemaPut,                // PUT /api/v1/schema/:tablename
     SchemaPatch,              // PATCH /api/v1/schema/:tablename
+    // Schema versioning
+    SchemaVersionsGet,        // GET  /api/v1/schema/versions/:table
+    SchemaVersionsPost,       // POST /api/v1/schema/versions/:table
+    SchemaDiffGet,            // GET  /api/v1/schema/diff/:table?from=V&to=V
+    // INFORMATION_SCHEMA
+    InformationSchemaGet,     // GET /api/v1/information_schema[/...]
+    // Metadata extended
+    MetadataStatsGet,         // GET  /api/v1/metadata/stats/:table
+    MetadataStatsPost,        // POST /api/v1/metadata/stats/:table
+    MetadataConstraintsGet,   // GET  /api/v1/metadata/constraints/:table
+    MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]
+    MetadataAuditGet,         // GET  /api/v1/metadata/audit[/:table]
+    MetadataSchemaImportPut,  // PUT  /api/v1/metadata/schema_import
+    MetadataBatchValidatePost,// POST /api/v1/metadata/constraints/validate/:table
        
     // Error API
     ErrorApiListGet,          // GET /api/v1/errors
@@ -1782,7 +1852,24 @@ namespace {
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
+    if (target == "/metrics/html" && method == http::verb::get) return Route::MetricsHtml;
     if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
+    // Operator observability REST API (Q1)
+    if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
+    if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    {
+        // POST /api/v1/observability/alerts/{id}/silence
+        // path_only must start with the alerts prefix, have a non-empty {id} segment,
+        // and end with the /silence suffix.
+        static constexpr std::string_view kAlertsPrefix{"/api/v1/observability/alerts/"};
+        static constexpr std::string_view kSilenceSuffix{"/silence"};
+        if (method == http::verb::post &&
+            path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
+            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
+            path_only.substr(path_only.size() - kSilenceSuffix.size()) == kSilenceSuffix) {
+            return Route::ObservabilityAlertSilencePost;
+        }
+    }
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
     if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
@@ -2058,10 +2145,39 @@ namespace {
     if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
     if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
     if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
+
+    // Schema versioning routes (must come before the generic SchemaPut/Patch catch)
+    if (path_only.rfind("/api/v1/schema/versions/", 0) == 0) {
+        if (method == http::verb::get)  return Route::SchemaVersionsGet;
+        if (method == http::verb::post) return Route::SchemaVersionsPost;
+    }
+    if (path_only.rfind("/api/v1/schema/diff/", 0) == 0 && method == http::verb::get)
+        return Route::SchemaDiffGet;
+
     if (path_only.rfind("/api/v1/schema/", 0) == 0 && path_only != "/api/v1/schema/" && 
         path_only != "/api/v1/schema/tables" && path_only.find("/api/v1/schema/tables/") != 0) {
         if (method == http::verb::put) return Route::SchemaPut;
         if (method == http::verb::patch) return Route::SchemaPatch;
+    }
+
+    // INFORMATION_SCHEMA routes
+    if (path_only.rfind("/api/v1/information_schema", 0) == 0 && method == http::verb::get)
+        return Route::InformationSchemaGet;
+
+    // Metadata extended routes (order: more specific first)
+    if (path_only.rfind("/api/v1/metadata/index_recommendations", 0) == 0 && method == http::verb::get)
+        return Route::MetadataIndexRecsGet;
+    if (path_only == "/api/v1/metadata/schema_import" && method == http::verb::put)
+        return Route::MetadataSchemaImportPut;
+    if (path_only.rfind("/api/v1/metadata/constraints/validate/", 0) == 0 && method == http::verb::post)
+        return Route::MetadataBatchValidatePost;
+    if (path_only.rfind("/api/v1/metadata/constraints/", 0) == 0 && method == http::verb::get)
+        return Route::MetadataConstraintsGet;
+    if (path_only.rfind("/api/v1/metadata/audit", 0) == 0 && method == http::verb::get)
+        return Route::MetadataAuditGet;
+    if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
+        if (method == http::verb::get)  return Route::MetadataStatsGet;
+        if (method == http::verb::post) return Route::MetadataStatsPost;
     }
 
     // MVCC versioning API endpoints
@@ -2082,12 +2198,21 @@ namespace {
         return Route::NotFound;
     }
 }
+
+http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
-     // Create span for the entire HTTP request
-     auto span = Tracer::startSpan("http_request");
-     span.setAttribute("http.method", std::string(http::to_string(req.method())));
-     span.setAttribute("http.target", std::string(req.target()));
+    // Create root span for this HTTP request.
+    // If the caller supplied a W3C traceparent header, the new span becomes
+    // a child of that upstream trace context (distributed tracing propagation).
+    std::map<std::string, std::string> req_headers;
+    for (auto const& field : req) {
+        req_headers.emplace(std::string(field.name_string()),
+                            std::string(field.value()));
+    }
+    auto span = Tracer::startSpanFromHeaders("http_request", req_headers);
+    span.setAttribute("http.method", std::string(http::to_string(req.method())));
+    span.setAttribute("http.target", std::string(req.target()));
     
     auto start = std::chrono::steady_clock::now();
     
@@ -2343,9 +2468,21 @@ namespace {
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
             break;
+        case Route::MetricsHtml:
+            response = monitoring_api_->handleMetricsHtml(req);
+            break;
         case Route::PluginMetrics:
             // Delegate to MonitoringApiHandler for plugin metrics
             response = monitoring_api_->handlePluginMetrics(req);
+            break;
+        case Route::ObservabilityAlertsGet:
+            response = monitoring_api_->handleObservabilityAlerts(req);
+            break;
+        case Route::ObservabilityAlertSilencePost:
+            response = monitoring_api_->handleObservabilityAlertSilence(req);
+            break;
+        case Route::ObservabilityHealthGet:
+            response = monitoring_api_->handleObservabilityHealth(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);
@@ -3410,6 +3547,39 @@ namespace {
             break;
         case Route::SchemaPatch:
             response = handleSchemaPatch(req);
+            break;
+        case Route::SchemaVersionsGet:
+            response = handleSchemaVersionHistory(req);
+            break;
+        case Route::SchemaVersionsPost:
+            response = handleSchemaCreateVersion(req);
+            break;
+        case Route::SchemaDiffGet:
+            response = handleSchemaDiff(req);
+            break;
+        case Route::InformationSchemaGet:
+            response = handleMetadataInformationSchema(req);
+            break;
+        case Route::MetadataStatsGet:
+            response = handleMetadataGetStats(req);
+            break;
+        case Route::MetadataStatsPost:
+            response = handleMetadataCollectStats(req);
+            break;
+        case Route::MetadataConstraintsGet:
+            response = handleMetadataGetConstraints(req);
+            break;
+        case Route::MetadataIndexRecsGet:
+            response = handleMetadataIndexRecommendations(req);
+            break;
+        case Route::MetadataAuditGet:
+            response = handleMetadataAuditLog(req);
+            break;
+        case Route::MetadataSchemaImportPut:
+            response = handleMetadataSchemaImport(req);
+            break;
+        case Route::MetadataBatchValidatePost:
+            response = handleMetadataBatchValidate(req);
             break;
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
@@ -7642,6 +7812,120 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
             "Schema API not available", req);
     }
     return schema_api_handler_->handlePatchSchema(req);
+}
+
+// ============================================================================
+// Metadata extended handler shims
+// ============================================================================
+
+http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetInformationSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataCollectStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCollectStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetConstraints(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetIndexRecommendations(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetVersionHistory(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCreateVersion(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaDiff(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetDiff(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataAuditLog(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetAuditLog(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleSchemaImport(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleBatchConstraintValidation(req);
 }
 
 } // namespace server

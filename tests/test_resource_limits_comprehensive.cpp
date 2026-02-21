@@ -134,7 +134,7 @@ TEST_F(PolicyEngineLimitTest, LimitErrorMessageContainsCount) {
 
 class JWTKeyRotationLimitTest : public ::testing::Test {
 protected:
-    JWTConfig jwt_cfg_;
+    JWTValidatorConfig jwt_cfg_;
     JWTValidator validator_{jwt_cfg_};
     TokenBlacklist blacklist_;
 };

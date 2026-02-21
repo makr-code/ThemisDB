@@ -21,8 +21,8 @@ using namespace themis::security;
 // ─────────────────────────────────────────────────────────────────────────────
 static SecretManager::RotationPolicy shortGracePolicy() {
     SecretManager::RotationPolicy p;
-    p.max_age                      = std::chrono::milliseconds(50);
-    p.retiring_grace_period        = std::chrono::milliseconds(50);
+    p.max_age                      = std::chrono::seconds(0);
+    p.retiring_grace_period        = std::chrono::seconds(0);
     p.auto_revoke_expired_retiring = true;
     return p;
 }
@@ -292,7 +292,7 @@ TEST(SecretManager, CheckAndRevokeAutoRevokesExpiredRetiring) {
 TEST(SecretManager, CheckAndRevokeNoOpWhenPolicyDisabled) {
     SecretManager::RotationPolicy policy;
     policy.auto_revoke_expired_retiring = false;
-    policy.retiring_grace_period        = std::chrono::milliseconds(1);
+    policy.retiring_grace_period        = std::chrono::seconds(0);
     SecretManager sm(policy);
     sm.storeSecret("k", "v1");
     sm.rotateSecret("k", "v2");

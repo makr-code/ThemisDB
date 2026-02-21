@@ -267,7 +267,7 @@ TEST_F(TokenBlacklistFuzzTest, IsRevoked_InjectionJTIs_NeverCrash) {
 
 TEST_F(TokenBlacklistFuzzTest, Revoke_NullByteJTI_Ignored) {
     // JTI containing null byte – should either be ignored or stored safely
-    std::string jti_with_null = "abc\x00def";
+    std::string jti_with_null("abc\0def", 7);
     EXPECT_NO_THROW(bl_.revoke(jti_with_null, future_));
 }
 

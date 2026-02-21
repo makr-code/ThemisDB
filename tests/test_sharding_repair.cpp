@@ -484,6 +484,11 @@ TEST(PrometheusRepairMetricsTest, RecordRepairScan) {
     EXPECT_NE(out.find("themis_shard_repair_scans_total"), std::string::npos);
 }
 
+static std::shared_ptr<ShardRepairEngine> makeMinimalEngine(
+    RedundancyStrategy& strategy,
+    ConsistentHashRing& ring,
+    ShardTopology& topology);
+
 // ============================================================================
 // ShardingMetricsHandler repair integration tests
 // ============================================================================

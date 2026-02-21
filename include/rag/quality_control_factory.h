@@ -9,6 +9,7 @@
 #pragma once
 
 #include "rag/quality_control_pipeline.h"
+#include "rag/continuous_learning_client.h"
 #include "rag/llm_judge_client.h"
 #include "rag/geval_evaluator.h"
 #include "rag/nli_faithfulness_verifier.h"
