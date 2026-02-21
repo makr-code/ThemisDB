@@ -23,11 +23,11 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 
 ### Short-term (Next 3-6 months)
 - [ ] AQL syntax highlighting and error annotation in LLM responses
-- [x] Query template library for common AQL patterns
-- [x] Interactive AQL query builder with LLM suggestions
-- [ ] Batch NL-to-AQL translation for offline workloads
-- [x] Confidence scoring for generated AQL queries
-- [x] Multi-turn conversation context for iterative query refinement
+- [ ] Query template library for common AQL patterns
+- [ ] Interactive AQL query builder with LLM suggestions
+- [x] Batch NL-to-AQL translation for offline workloads
+- [ ] Confidence scoring for generated AQL queries
+- [ ] Multi-turn conversation context for iterative query refinement
 
 ### Long-term (6-12 months)
 - [ ] AQL auto-complete API for editor integrations (LSP-compatible)

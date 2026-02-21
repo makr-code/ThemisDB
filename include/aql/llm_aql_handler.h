@@ -157,23 +157,36 @@ public:
         const std::string& schema_context = ""
     );
 
+    // Batch NL-to-AQL Translation for offline workloads
     /**
-     * @brief Translate a natural language query to AQL using multi-turn context
-     *
-     * Sends the full conversation history together with the new query so the
-     * LLM can refine previously generated AQL.  The resulting turn is
-     * automatically appended to @p session.
-     *
-     * @param nl_query  Natural language query for this turn
-     * @param session   Session that holds (and will be updated with) the turn history
-     * @param schema_context Optional database schema for better translation
-     * @return AQL query generated for this turn
-     * @throws std::runtime_error if translation fails
+     * @brief Single request for batch NL-to-AQL translation
      */
-    std::string translateNLToAQLIterative(
-        const std::string& nl_query,
-        AQLConversationSession& session,
-        const std::string& schema_context = ""
+    struct BatchNLToAQLRequest {
+        std::string nl_query;       ///< Natural language query
+        std::string schema_context; ///< Optional database schema context
+    };
+
+    /**
+     * @brief Result of a single NL-to-AQL translation within a batch
+     */
+    struct BatchNLToAQLResult {
+        std::string aql_query; ///< Translated AQL query; empty when translation failed
+        std::string error;     ///< Error message if translation failed; empty on success
+        bool success;          ///< true if translation succeeded
+    };
+
+    /**
+     * @brief Translate a batch of natural language queries to AQL for offline workloads.
+     *
+     * Processes every request in order and returns one result per request.
+     * Individual translation failures are captured in the result's @c error field
+     * so that a single failure does not abort the entire batch.
+     *
+     * @param requests Vector of NL queries with optional schema contexts
+     * @return Vector of results in the same order as the input requests
+     */
+    std::vector<BatchNLToAQLResult> translateBatchNLToAQL(
+        const std::vector<BatchNLToAQLRequest>& requests
     );
 
     // Conversation/Chat Support
