@@ -35,7 +35,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 1: Design / API-Vertrag
 - [I] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)
-- [I] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
+- [P] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
 - [I] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)
 
 ### Phase 2: Core-Implementierung
