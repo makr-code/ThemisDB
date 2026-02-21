@@ -210,6 +210,53 @@ TEST(PromptMergeTest, StrategyTheirs_UsesSourceContent) {
     EXPECT_NE(result.merged_content.find("feature-content"), std::string::npos);
 }
 
+TEST(PromptMergeTest, LCA_FindsTrueCommonAncestor) {
+    // Build a diamond history:
+    //   root → v1 (main)
+    //   root → v1 → v2 (main advances again)
+    //   root → v1 → vF (feature branches from v1)
+    //   Merge feature into main: LCA should be v1, not root.
+    auto vc = make_vc();
+    const std::string pid = "m6";
+
+    auto root = commit(vc, pid, "main",    "root\n",      "root");
+    auto v1   = commit(vc, pid, "main",    "root\nv1\n",  "v1", root);
+    // feature branches from v1
+    auto vF   = commit(vc, pid, "feature", "root\nv1\nfeature\n", "feat", v1);
+    // main advances one more commit
+    auto v2   = commit(vc, pid, "main",    "root\nv1\nmain-extra\n", "main-extra", v1);
+
+    auto result = vc.merge(pid, "feature", "main", "auto", "merge");
+    // Both sides changed from v1 (the real LCA):
+    //   feature added  "feature"
+    //   main    added  "main-extra"
+    // These touch different positions, so merge should succeed.
+    EXPECT_TRUE(result.success)
+        << "LCA-based merge should succeed for non-overlapping changes";
+    EXPECT_NE(result.merged_content.find("feature"),    std::string::npos);
+    EXPECT_NE(result.merged_content.find("main-extra"), std::string::npos);
+    (void)vF; (void)v2;
+}
+
+TEST(PromptMergeTest, AppendedLines_PreservedInMerge) {
+    // Both sides append distinct lines after all base content.
+    // The end-of-file insertion fix ensures neither side's appended lines are lost.
+    auto vc = make_vc();
+    const std::string pid = "m7";
+
+    auto base_id = commit(vc, pid, "main",    "common\n",                  "base");
+    auto src_id  = commit(vc, pid, "feature", "common\nfrom-feature\n",    "src", base_id);
+    auto tgt_id  = commit(vc, pid, "main",    "common\nfrom-main\n",       "tgt", base_id);
+
+    auto result = vc.merge(pid, "feature", "main", "auto", "merge");
+    EXPECT_TRUE(result.success);
+    EXPECT_NE(result.merged_content.find("from-feature"), std::string::npos)
+        << "Feature's appended line must survive the merge";
+    EXPECT_NE(result.merged_content.find("from-main"),    std::string::npos)
+        << "Main's appended line must survive the merge";
+    (void)src_id; (void)tgt_id;
+}
+
 // ============================================================================
 // 4.3 TF-IDF pattern extraction
 // ============================================================================

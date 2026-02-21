@@ -494,8 +494,43 @@ MergeResult PromptVersionControl::merge(
     const auto& source_version = source_it->second;
     const auto& target_version = target_it->second;
     
-    // Find common ancestor (simplified: use target's parent)
-    std::string base_id = target_version.parent_version;
+    // Find the true lowest common ancestor (LCA) by walking the parent chain
+    // from each branch and intersecting the two ancestor sets.
+    // This replaces the previous "simplified: use target's parent" heuristic.
+    // A depth cap prevents both performance issues and potential infinite loops
+    // on corrupted data where the parent chain contains a cycle.
+    static constexpr size_t MAX_ANCESTOR_DEPTH = 10000;
+
+    auto collect_ancestors = [&](const std::string& start_id) {
+        // Ordered list (most recent first) so we prefer the closest ancestor.
+        std::vector<std::string> ancestors;
+        std::unordered_set<std::string> visited;  // cycle guard
+        std::string cur = start_id;
+        while (!cur.empty() && ancestors.size() < MAX_ANCESTOR_DEPTH) {
+            if (!visited.insert(cur).second) break;  // cycle detected
+            ancestors.push_back(cur);
+            auto it = versions_.find(cur);
+            if (it == versions_.end()) break;
+            cur = it->second.parent_version;
+        }
+        return ancestors;
+    };
+
+    auto src_ancestors  = collect_ancestors(source_id);
+    auto tgt_ancestors  = collect_ancestors(target_id);
+
+    // Build a set of target-side ancestors for O(1) lookup
+    std::unordered_set<std::string> tgt_set(tgt_ancestors.begin(), tgt_ancestors.end());
+
+    // The first source ancestor that also appears in the target ancestor chain
+    // is the LCA (closest common ancestor).
+    std::string base_id;
+    for (const auto& a : src_ancestors) {
+        if (tgt_set.count(a)) {
+            base_id = a;
+            break;
+        }
+    }
     
     // Apply merge strategy
     if (strategy == "ours") {
@@ -977,11 +1012,15 @@ MergeResult PromptVersionControl::autoMerge(
         std::vector<std::string> insertions_before; // lines inserted before this base line
     };
 
+    // Extra slot to hold lines appended after all base content (end-of-file additions).
+    LineChange src_eof, tgt_eof;
+
     std::vector<LineChange> src_changes(base_lines.size());
     std::vector<LineChange> tgt_changes(base_lines.size());
 
     auto populate_changes = [&](const std::vector<std::pair<char, std::string>>& edits,
-                                std::vector<LineChange>& changes) {
+                                std::vector<LineChange>& changes,
+                                LineChange& eof_slot) {
         size_t base_idx = 0;
         for (const auto& e : edits) {
             if (e.first == ' ') {
@@ -992,16 +1031,18 @@ MergeResult PromptVersionControl::autoMerge(
                     ++base_idx;
                 }
             } else { // '+'
-                size_t insert_at = (base_idx < changes.size()) ? base_idx : changes.size() - 1;
-                if (!changes.empty()) {
-                    changes[insert_at].insertions_before.push_back(e.second);
+                if (base_idx < changes.size()) {
+                    changes[base_idx].insertions_before.push_back(e.second);
+                } else {
+                    // Appended after the last base line
+                    eof_slot.insertions_before.push_back(e.second);
                 }
             }
         }
     };
 
-    populate_changes(src_edits, src_changes);
-    populate_changes(tgt_edits, tgt_changes);
+    populate_changes(src_edits, src_changes, src_eof);
+    populate_changes(tgt_edits, tgt_changes, tgt_eof);
 
     // Merge: for each base line apply changes from src and tgt
     std::vector<std::string> merged;
@@ -1011,14 +1052,13 @@ MergeResult PromptVersionControl::autoMerge(
         const auto& sc = src_changes[i];
         const auto& tc = tgt_changes[i];
 
-        // Non-conflicting insertions: emit both (src first, then tgt)
+        // Non-conflicting insertions: emit both (src first, then tgt).
+        // Build O(1) lookup set to avoid quadratic linear search.
+        std::unordered_set<std::string> sc_ins_set(
+            sc.insertions_before.begin(), sc.insertions_before.end());
         for (const auto& ins : sc.insertions_before) merged.push_back(ins);
         for (const auto& ins : tc.insertions_before) {
-            // Avoid duplicates when both insert the same line
-            if (sc.insertions_before.empty() ||
-                std::find(sc.insertions_before.begin(),
-                          sc.insertions_before.end(), ins)
-                    == sc.insertions_before.end()) {
+            if (!sc_ins_set.count(ins)) {
                 merged.push_back(ins);
             }
         }
@@ -1032,6 +1072,17 @@ MergeResult PromptVersionControl::autoMerge(
         } else {
             // Both kept → emit base line
             merged.push_back(base_lines[i]);
+        }
+    }
+
+    // Emit end-of-file additions from both sides (deduplicating identical lines).
+    // Use an unordered_set for O(1) lookup instead of O(n) linear search.
+    std::unordered_set<std::string> src_eof_set(
+        src_eof.insertions_before.begin(), src_eof.insertions_before.end());
+    for (const auto& ins : src_eof.insertions_before) merged.push_back(ins);
+    for (const auto& ins : tgt_eof.insertions_before) {
+        if (!src_eof_set.count(ins)) {
+            merged.push_back(ins);
         }
     }
 
