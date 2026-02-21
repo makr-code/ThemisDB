@@ -25,6 +25,7 @@
  */
 
 #include "security/rbac.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -308,6 +309,13 @@ bool RBAC::checkPermission(
     const std::string& resource,
     const std::string& action
 ) const {
+    // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
+        THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get all effective permissions (with inheritance)

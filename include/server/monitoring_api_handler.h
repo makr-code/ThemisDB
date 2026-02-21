@@ -258,6 +258,23 @@ public:
         const http::request<http::string_body>& req);
 
     /**
+     * @brief GET /api/v1/license/status
+     * Returns runtime license state as a JSON document:
+     *   - initialized:      whether the RuntimeLicenseGate has been set up
+     *   - status:           "active" | "grace" | "expired" | "invalid" | ...
+     *   - grace_days_remaining: days left in the grace period (0 if not in grace)
+     *   - organization:     licensee organisation name (from embedded license)
+     *   - edition:          "COMMUNITY" | "ENTERPRISE" | "HYPERSCALER"
+     *   - expiry_date:      ISO 8601 date (YYYY-MM-DD), empty if perpetual
+     *   - days_until_expiry: integer; negative means already expired
+     *   - license_key:      first 8 chars + "..." (masked for security)
+     * @param req HTTP request
+     * @return HTTP 200 with JSON license status document
+     */
+    http::response<http::string_body> handleLicenseStatus(
+        const http::request<http::string_body>& req);
+
+    /**
      * @brief Replace the ConcernsContext used for health/readiness probes.
      *
      * Can be called after construction (e.g. from HttpServer::setConcerns()).
