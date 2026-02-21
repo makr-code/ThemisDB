@@ -100,7 +100,11 @@ public:
             return span_.isValid();
         }
 
+        /// Explicitly end the span on destruction (RAII guarantee).
+        ~OtelSpanAdapter() override { span_.end(); }
+
         themis::Tracer::Span& getSpan() { return span_; }
+        const themis::Tracer::Span& getSpan() const { return span_; }
 
     private:
         themis::Tracer::Span span_;
@@ -128,7 +132,7 @@ public:
         std::unique_ptr<OtelSpanAdapter> span_ptr;
         if (otelParent) {
             span_ptr = std::make_unique<OtelSpanAdapter>(
-                themis::Tracer::startChildSpan(name, const_cast<OtelSpanAdapter*>(otelParent)->getSpan())
+                themis::Tracer::startChildSpan(name, otelParent->getSpan())
             );
         } else {
             span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
@@ -142,6 +146,12 @@ public:
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {
+        if (initialized_) {
+            // Already successfully initialized; avoid re-calling the global
+            // Tracer which would return false (already initialized) and trip
+            // the circuit breaker erroneously.
+            return true;
+        }
         bool ok = themis::Tracer::initialize(serviceName, endpoint);
         if (ok) {
             circuit_breaker_->recordSuccess();

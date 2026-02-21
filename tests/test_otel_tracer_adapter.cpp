@@ -307,3 +307,52 @@ TEST(OtelSpanAdapterTest, DefaultSpanMethodsDoNotCrash) {
     EXPECT_NO_THROW(span.setStatus(true));
     EXPECT_NO_THROW(span.end());
 }
+
+// ============================================================================
+// OtelSpanAdapter – RAII auto-end
+// ============================================================================
+
+// Verify that dropping the unique_ptr<ISpan> without calling end() explicitly
+// does not crash and does not double-end the underlying span.
+TEST(OtelSpanAdapterTest, AutoEndsOnDestructionWithoutExplicitEnd) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpan("raii-auto-end");
+        // Deliberately NOT calling span->end() – destructor should auto-end.
+        (void)span;
+    });
+}
+
+TEST(OtelSpanAdapterTest, SafeAfterExplicitEndThenDestruction) {
+    OpenTelemetryTracerAdapter adapter;
+    EXPECT_NO_THROW({
+        auto span = adapter.startSpan("explicit-then-raii");
+        span->end();           // explicit end
+        // unique_ptr destructor calls ~OtelSpanAdapter() → span_.end() again;
+        // Tracer::Span::end() is idempotent so no double-end crash.
+    });
+}
+
+// ============================================================================
+// initialize() – double-call guard
+// ============================================================================
+
+TEST(OtelTracerAdapterTest, DoubleInitializeReturnsTrueAndDoesNotTripBreaker) {
+    OpenTelemetryTracerAdapter adapter;
+
+    // First call may succeed or fail (no OTLP endpoint in test env), but should
+    // not crash.  Force the adapter into initialized state by attempting init.
+    adapter.initialize("svc", "http://127.0.0.1:4318");
+
+    if (adapter.isInitialized()) {
+        // If the first call succeeded (e.g., no-op path without THEMIS_ENABLE_TRACING),
+        // verify that a second call also returns true and does not record a failure.
+        CircuitBreaker::State state_before = adapter.circuitBreakerState();
+        bool second = adapter.initialize("svc", "http://127.0.0.1:4318");
+        EXPECT_TRUE(second);
+        // The circuit breaker must not have been tripped by the second init.
+        EXPECT_EQ(adapter.circuitBreakerState(), state_before);
+    }
+
+    adapter.shutdown();
+}
