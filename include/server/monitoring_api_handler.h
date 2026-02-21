@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.h                           ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:25                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-02-21 11:48:28                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     301                                            ║
+    • Total Lines:     325                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -248,6 +255,23 @@ public:
      * @return HTTP 200 with JSON health document
      */
     http::response<http::string_body> handleObservabilityHealth(
+        const http::request<http::string_body>& req);
+
+    /**
+     * @brief GET /api/v1/license/status
+     * Returns runtime license state as a JSON document:
+     *   - initialized:      whether the RuntimeLicenseGate has been set up
+     *   - status:           "active" | "grace" | "expired" | "invalid" | ...
+     *   - grace_days_remaining: days left in the grace period (0 if not in grace)
+     *   - organization:     licensee organisation name (from embedded license)
+     *   - edition:          "COMMUNITY" | "ENTERPRISE" | "HYPERSCALER"
+     *   - expiry_date:      ISO 8601 date (YYYY-MM-DD), empty if perpetual
+     *   - days_until_expiry: integer; negative means already expired
+     *   - license_key:      first 8 chars + "..." (masked for security)
+     * @param req HTTP request
+     * @return HTTP 200 with JSON license status document
+     */
+    http::response<http::string_body> handleLicenseStatus(
         const http::request<http::string_body>& req);
 
     /**

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            main_server.cpp                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-02-21 11:48:44                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   1.0/100                                        ║
-    • Total Lines:     2220                                           ║
+    • Total Lines:     2274                                           ║
     • Open Issues:     TODOs: 0, Stubs: 19                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -71,6 +78,7 @@
 #include "sharding/metrics_registry.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
+#include "themis/runtime_license_gate.h"
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
@@ -478,6 +486,52 @@ int main(int argc, char* argv[]) {
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to display license information: {}", e.what());
+    }
+
+    // === RUNTIME LICENSE GATE INITIALIZATION ===
+    // Activate the runtime feature gate using the embedded license so that
+    // Enterprise/Hyperscaler feature checks at request time reflect the actual
+    // license validity, not just the compile-time edition flags.
+    try {
+        themis::license::LicenseClientConfig lc_cfg;
+        // Allow offline activation (server_url is empty → offline path).
+        // Operators who deploy with a license server set THEMIS_LICENSE_SERVER_URL
+        // and THEMIS_LICENSE_API_KEY in their environment / config.
+        const char* ls_url = std::getenv("THEMIS_LICENSE_SERVER_URL");
+        const char* ls_key = std::getenv("THEMIS_LICENSE_API_KEY");
+        if (ls_url) lc_cfg.server_url = ls_url;
+        if (ls_key) lc_cfg.api_key    = ls_key;
+        lc_cfg.allow_offline = true;
+
+        themis::license::LicenseClient lc(lc_cfg);
+        auto activation = lc.activate();
+
+        themis::license::RuntimeLicenseGate::instance().initialize(
+            activation, lc.getCachedLicense());
+
+        const std::string& status = activation.status;
+        if (activation.success) {
+            if (status == "grace") {
+                THEMIS_WARN("License: running in grace period ({} days remaining). "
+                            "Ensure the license server is reachable.",
+                            activation.grace_days_remaining);
+            } else {
+                THEMIS_INFO("License gate: runtime validation successful (status: {}).", status);
+            }
+        } else {
+            THEMIS_WARN("License gate: runtime validation failed (status: {}, reason: {}). "
+                        "Enterprise/Hyperscaler features will be blocked.",
+                        status, activation.error_message);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("License gate initialization failed: {}. "
+                    "Enterprise/Hyperscaler features will be blocked.", e.what());
+        // Initialize gate in invalid state so feature checks still work safely.
+        themis::license::LicenseActivationResult failed;
+        failed.success       = false;
+        failed.status        = "invalid";
+        failed.error_message = e.what();
+        themis::license::RuntimeLicenseGate::instance().initialize(failed);
     }
     
     try {

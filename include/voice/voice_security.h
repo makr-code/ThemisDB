@@ -1,0 +1,167 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            voice_security.h                                   ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 11:48:35                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     166                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7cd890bd9  2026-02-21  Voice Module – Production Readiness (All 10 Phases) (#1345) ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Security, privacy, and compliance for Phase 7 production readiness
+#pragma once
+#include <string>
+#include <vector>
+#include <map>
+#include <mutex>
+#include <optional>
+#include <functional>
+#include <nlohmann/json.hpp>
+
+namespace themis { namespace voice {
+using json = nlohmann::json;
+
+// PII types for redaction
+enum class PIIType {
+    PHONE_NUMBER,
+    EMAIL_ADDRESS,
+    CREDIT_CARD,
+    SSN,              // Social Security Number
+    IP_ADDRESS,
+    PERSON_NAME,
+    MEDICAL_INFO,
+    CUSTOM
+};
+
+std::string piiTypeToString(PIIType type);
+
+// Redaction result
+struct RedactionResult {
+    std::string redacted_text;
+    std::vector<std::pair<PIIType, std::string>> found_pii;  // type + original value
+    int redaction_count = 0;
+    bool has_pii = false;
+};
+
+// Consent record
+struct ConsentRecord {
+    std::string user_id;
+    std::string session_id;
+    bool recording_consent = false;
+    bool transcription_consent = false;
+    bool data_retention_consent = false;
+    bool analytics_consent = false;
+    int64_t consent_timestamp_ms = 0;
+    std::string consent_version = "1.0";
+    json custom_consents;
+};
+
+// Audit log entry
+struct VoiceAuditEntry {
+    std::string event_type;
+    std::string session_id;
+    std::string user_id;
+    std::string action;
+    std::string resource;
+    int64_t timestamp_ms = 0;
+    bool success = true;
+    std::string details;
+    json metadata;
+};
+
+// Data deletion request (GDPR/CCPA)
+struct DataDeletionRequest {
+    std::string user_id;
+    std::string reason;
+    bool delete_recordings = true;
+    bool delete_transcripts = true;
+    bool delete_sessions = true;
+    bool delete_analytics = false;
+    int64_t request_timestamp_ms = 0;
+};
+
+// Data deletion result
+struct DataDeletionResult {
+    bool success = false;
+    std::string error_message;
+    size_t recordings_deleted = 0;
+    size_t sessions_deleted = 0;
+    size_t transcripts_deleted = 0;
+    int64_t completion_timestamp_ms = 0;
+};
+
+// Security config
+struct VoiceSecurityConfig {
+    bool enable_pii_redaction = true;
+    bool enable_consent_tracking = true;
+    bool enable_audit_logging = true;
+    bool enable_auto_deletion = false;
+    int64_t data_retention_days = 90;
+    std::vector<PIIType> pii_types_to_redact = {
+        PIIType::PHONE_NUMBER, PIIType::EMAIL_ADDRESS,
+        PIIType::CREDIT_CARD, PIIType::SSN
+    };
+    bool redact_in_transcripts = true;
+    bool redact_in_summaries = true;
+};
+
+// VoiceSecurityManager: Phase 7 production component
+class VoiceSecurityManager {
+public:
+    explicit VoiceSecurityManager(const VoiceSecurityConfig& config = {});
+    ~VoiceSecurityManager() = default;
+
+    // PII Redaction
+    RedactionResult redactPII(const std::string& text);
+    RedactionResult redactPIITypes(const std::string& text, const std::vector<PIIType>& types);
+    bool containsPII(const std::string& text) const;
+
+    // Consent Management
+    bool recordConsent(const ConsentRecord& record);
+    std::optional<ConsentRecord> getConsent(const std::string& user_id) const;
+    bool hasRecordingConsent(const std::string& user_id) const;
+    bool hasTranscriptionConsent(const std::string& user_id) const;
+    bool revokeConsent(const std::string& user_id);
+
+    // Audit Logging
+    void logEvent(const VoiceAuditEntry& entry);
+    void logAccess(const std::string& user_id, const std::string& session_id, const std::string& resource);
+    void logError(const std::string& user_id, const std::string& session_id, const std::string& error);
+    std::vector<VoiceAuditEntry> getAuditLog(const std::string& user_id = "", size_t limit = 100) const;
+
+    // GDPR/CCPA Data Deletion
+    DataDeletionResult deleteUserData(const DataDeletionRequest& request);
+    bool scheduleAutoDelete(const std::string& user_id, int64_t delete_after_ms);
+
+    // Data export (GDPR right to access)
+    json exportUserData(const std::string& user_id) const;
+
+    // Security stats
+    json getSecurityStats() const;
+
+private:
+    VoiceSecurityConfig config_;
+    mutable std::mutex mutex_;
+
+    std::map<std::string, ConsentRecord> consents_;
+    std::vector<VoiceAuditEntry> audit_log_;
+    std::map<std::string, int64_t> auto_delete_schedule_;
+
+    RedactionResult applyPattern(const std::string& text, PIIType type) const;
+    std::string maskValue(const std::string& value, PIIType type) const;
+};
+
+}} // namespace themis::voice

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_engineering_metrics.h                       ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-02-21 11:48:24                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     172                                            ║
+    • Total Lines:     251                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,9 +36,11 @@
 
 #include <string>
 #include <atomic>
+#include <functional>
 #include <mutex>
 #include <map>
 #include <chrono>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 namespace prompt_engineering {
@@ -45,6 +54,9 @@ namespace prompt_engineering {
  * - Performance tracking
  * - Feedback collection
  * - Version control operations
+ *
+ * Supports snapshot/restore for crash-safe persistence and threshold-based
+ * alerting via pluggable callbacks.
  */
 class PromptEngineeringMetrics {
 public:
@@ -52,6 +64,28 @@ public:
         bool enabled = true;
         std::string namespace_prefix = "themis_prompt_engineering";
     };
+
+    /**
+     * @brief Configuration for threshold-based alerting
+     */
+    struct AlertConfig {
+        double max_failure_rate = 0.5;     ///< Fire alert when failure_rate > threshold
+        double min_success_rate = 0.5;     ///< Fire alert when success_rate < threshold
+        int64_t max_hallucinations = 10;   ///< Fire alert when hallucination count exceeds this
+    };
+
+    /**
+     * @brief Alert event passed to the alert callback
+     */
+    struct AlertEvent {
+        std::string metric_name;   ///< Which metric triggered the alert
+        double value;              ///< Current metric value
+        double threshold;          ///< The threshold that was breached
+        std::string message;       ///< Human-readable description
+    };
+
+    /// Signature of the alert callback
+    using AlertCallback = std::function<void(const AlertEvent&)>;
 
     explicit PromptEngineeringMetrics(const Config& config);
     explicit PromptEngineeringMetrics();
@@ -108,8 +142,53 @@ public:
      */
     void reset();
 
+    // -------------------------------------------------------------------------
+    // Persistence: snapshot / restore
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Serialize all current counter values to JSON
+     *
+     * Suitable for persisting to RocksDB, a file, or any key-value store so
+     * metrics survive a process restart.
+     *
+     * @return JSON object with all metric counter values
+     */
+    nlohmann::json snapshotToJson() const;
+
+    /**
+     * @brief Restore counter values from a previously created snapshot
+     *
+     * Overwrites the current in-memory counters.  Unknown keys are ignored.
+     *
+     * @param snapshot JSON object produced by snapshotToJson()
+     */
+    void restoreFromJson(const nlohmann::json& snapshot);
+
+    // -------------------------------------------------------------------------
+    // Alerting
+    // -------------------------------------------------------------------------
+
+    /**
+     * @brief Set threshold configuration for automatic alerting
+     * @param cfg Alert thresholds
+     */
+    void setAlertConfig(const AlertConfig& cfg);
+
+    /**
+     * @brief Register a callback that is invoked whenever an alert threshold is breached
+     *
+     * The callback is called from whichever thread records the triggering metric,
+     * so it must be safe to call from multiple threads (or use internal locking).
+     *
+     * @param cb Callback function
+     */
+    void setAlertCallback(AlertCallback cb);
+
 private:
     Config config_;
+    AlertConfig alert_config_;
+    AlertCallback alert_callback_;  ///< May be null (no alerting)
 
     // Optimization counters
     std::atomic<int64_t> optimization_attempts_{0};

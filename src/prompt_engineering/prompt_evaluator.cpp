@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_evaluator.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.7                                              ║
+  Last Modified:   2026-02-21 11:48:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     347                                            ║
+    • Total Lines:     521                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -25,10 +32,15 @@
 #include "prompt_engineering/prompt_evaluator.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <numeric>
 #include <sstream>
 #include <cmath>
 #include <cctype>
 #include <unordered_set>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace themis {
 namespace prompt_engineering {
@@ -44,8 +56,18 @@ EvaluationMetrics PromptEvaluator::evaluateSingle(
     const std::string& expected
 ) const {
     EvaluationMetrics metrics;
-    
-    metrics.semantic_similarity = computeSemanticSimilarity(output, expected);
+
+    // Use embedding-based cosine similarity when a provider is available;
+    // fall back to Jaccard token overlap otherwise.
+    if (embedding_provider_) {
+        double emb_sim = computeEmbeddingSimilarity(output, expected);
+        metrics.semantic_similarity = (emb_sim >= 0.0) ? emb_sim
+                                                       : computeSemanticSimilarity(output, expected);
+        metrics.details["embedding_provider"] = embedding_provider_->name();
+    } else {
+        metrics.semantic_similarity = computeSemanticSimilarity(output, expected);
+    }
+
     metrics.exact_match = computeExactMatch(output, expected);
     metrics.partial_match = computePartialMatch(output, expected);
     metrics.relevance = computeRelevance(output, expected);
@@ -235,33 +257,130 @@ bool PromptEvaluator::isStatisticallySignificant(
     if (baseline_scores.empty() || new_scores.empty()) {
         return false;
     }
-    
+
+    const size_t n1 = baseline_scores.size();
+    const size_t n2 = new_scores.size();
+
     // Compute means
-    double baseline_mean = 0.0;
+    double mean1 = 0.0;
+    for (double s : baseline_scores) mean1 += s;
+    mean1 /= n1;
+
+    double mean2 = 0.0;
+    for (double s : new_scores) mean2 += s;
+    mean2 /= n2;
+
+    // No improvement at all
+    if (mean2 <= mean1) {
+        return false;
+    }
+
+    // Compute sample variances (unbiased, n-1)
+    double var1 = 0.0;
     for (double s : baseline_scores) {
-        baseline_mean += s;
+        double d = s - mean1;
+        var1 += d * d;
     }
-    baseline_mean /= baseline_scores.size();
-    
-    double new_mean = 0.0;
+    var1 = (n1 > 1) ? var1 / (n1 - 1) : 0.0;
+
+    double var2 = 0.0;
     for (double s : new_scores) {
-        new_mean += s;
+        double d = s - mean2;
+        var2 += d * d;
     }
-    new_mean /= new_scores.size();
-    
-    // Handle division by zero case
-    if (std::abs(baseline_mean) < 1e-10) {
-        // If baseline is essentially zero, any positive new mean is an improvement
-        return new_mean > 0.05;
+    var2 = (n2 > 1) ? var2 / (n2 - 1) : 0.0;
+
+    double se1 = var1 / n1;
+    double se2 = var2 / n2;
+    double se_total = se1 + se2;
+
+    if (se_total < 1e-14) {
+        // Zero variance – deterministic scores, rely on mean difference
+        return mean2 > mean1 + 1e-10;
     }
-    
-    // Simple check: new mean must be significantly higher
-    // For a full implementation, use proper t-test
-    double improvement = (new_mean - baseline_mean) / baseline_mean;
-    
-    // Require at least 5% improvement for statistical significance
-    // (simplified approximation)
-    return improvement > 0.05;
+
+    // Welch's t-statistic
+    double t_stat = (mean2 - mean1) / std::sqrt(se_total);
+
+    // Welch–Satterthwaite degrees of freedom
+    double se1_sq = se1 * se1;
+    double se2_sq = se2 * se2;
+    double df_denom = (n1 > 1 ? se1_sq / (n1 - 1) : 0.0) +
+                      (n2 > 1 ? se2_sq / (n2 - 1) : 0.0);
+    double df = (df_denom > 1e-14) ? (se_total * se_total) / df_denom : 1.0;
+    if (df < 1.0) df = 1.0;
+
+    // Two-sample one-tailed p-value via the regularised incomplete beta function.
+    // For a one-tailed test at confidence_level (e.g. 0.95), we need p < (1 - confidence_level).
+    // The CDF of Student's t-distribution satisfies:
+    //   p_two_tailed = I(df/(df+t^2), df/2, 1/2)
+    // The incomplete beta function is evaluated using the Lentz continued-fraction
+    // method (Numerical Recipes §6.4), which converges uniformly across all df values.
+    auto incomplete_beta_regularized = [](double x, double a, double b) -> double {
+        // Lentz continued-fraction method (Numerical Recipes §6.4)
+        if (x < 0.0 || x > 1.0) return (x <= 0.0) ? 0.0 : 1.0;
+        if (x == 0.0) return 0.0;
+        if (x == 1.0) return 1.0;
+
+        // Use symmetry: I(x, a, b) = 1 - I(1-x, b, a) when x > (a+1)/(a+b+2)
+        bool use_sym = (x > (a + 1.0) / (a + b + 2.0));
+        double xx = use_sym ? (1.0 - x) : x;
+        double aa = use_sym ? b : a;
+        double bb = use_sym ? a : b;
+
+        // Log of the beta function prefactor
+        auto lgamma_approx = [](double z) -> double {
+            // Stirling series approximation
+            if (z < 0.5) {
+                // Reflection: lgamma(z) = log(pi/sin(pi*z)) - lgamma(1-z)
+                return std::log(M_PI / std::sin(M_PI * z)) - std::lgamma(1.0 - z);
+            }
+            return std::lgamma(z);
+        };
+        double log_beta = lgamma_approx(aa) + lgamma_approx(bb) - lgamma_approx(aa + bb);
+        double front = std::exp(aa * std::log(xx) + bb * std::log(1.0 - xx) - log_beta) / aa;
+
+        // Continued fraction
+        const int MAX_ITER = 200;
+        const double EPS = 3.0e-7;
+        double qab = aa + bb;
+        double qap = aa + 1.0;
+        double qam = aa - 1.0;
+        double c = 1.0, d = 1.0 - qab * xx / qap;
+        if (std::abs(d) < 1e-30) d = 1e-30;
+        d = 1.0 / d;
+        double h = d;
+        for (int m = 1; m <= MAX_ITER; ++m) {
+            double m2 = 2.0 * m;
+            // Even step
+            double dm = m * (bb - m) * xx / ((qam + m2) * (aa + m2));
+            d = 1.0 + dm * d;
+            if (std::abs(d) < 1e-30) d = 1e-30;
+            c = 1.0 + dm / c;
+            if (std::abs(c) < 1e-30) c = 1e-30;
+            d = 1.0 / d;
+            h *= d * c;
+            // Odd step
+            dm = -(aa + m) * (qab + m) * xx / ((aa + m2) * (qap + m2));
+            d = 1.0 + dm * d;
+            if (std::abs(d) < 1e-30) d = 1e-30;
+            c = 1.0 + dm / c;
+            if (std::abs(c) < 1e-30) c = 1e-30;
+            d = 1.0 / d;
+            double delta = d * c;
+            h *= delta;
+            if (std::abs(delta - 1.0) < EPS) break;
+        }
+        double result = front * h;
+        return use_sym ? (1.0 - result) : result;
+    };
+
+    double t2 = t_stat * t_stat;
+    double x = df / (df + t2);
+    double p_two_tailed = incomplete_beta_regularized(x, df / 2.0, 0.5);
+    double p_one_tailed = p_two_tailed / 2.0;  // one-tailed: new > baseline
+
+    return p_one_tailed < (1.0 - confidence_level);
 }
 
 double PromptEvaluator::computeWeightedScore(const EvaluationMetrics& metrics) const {
@@ -341,6 +460,61 @@ size_t PromptEvaluator::levenshteinDistance(
     }
     
     return dp[m][n];
+}
+
+double PromptEvaluator::computeCosineSimilarity(
+    const std::vector<double>& v1,
+    const std::vector<double>& v2
+) {
+    if (v1.empty() || v2.empty() || v1.size() != v2.size()) {
+        return 0.0;
+    }
+
+    double dot = 0.0, norm1 = 0.0, norm2 = 0.0;
+    for (size_t i = 0; i < v1.size(); ++i) {
+        dot   += v1[i] * v2[i];
+        norm1 += v1[i] * v1[i];
+        norm2 += v2[i] * v2[i];
+    }
+
+    double denom = std::sqrt(norm1) * std::sqrt(norm2);
+    if (denom < 1e-12) {
+        return 0.0;
+    }
+
+    // Clamp to [0, 1]: well-trained text embedding models typically keep
+    // cosine similarity in [0, 1], but some models may produce negative values
+    // for semantically distant texts, and floating-point drift can push near-1
+    // values slightly above 1.  Clamping ensures a consistent [0, 1] range for
+    // scoring regardless of model characteristics.
+    double cosine = dot / denom;
+    return std::max(0.0, std::min(1.0, cosine));
+}
+
+double PromptEvaluator::computeEmbeddingSimilarity(
+    const std::string& s1,
+    const std::string& s2
+) const {
+    if (!embedding_provider_) {
+        return -1.0;  // Signal: no provider, caller should use Jaccard fallback
+    }
+
+    try {
+        auto v1 = embedding_provider_->embed(s1);
+        auto v2 = embedding_provider_->embed(s2);
+
+        if (v1.empty() || v2.empty()) {
+            THEMIS_WARN("Embedding provider '{}' returned empty vector – falling back",
+                        embedding_provider_->name());
+            return -1.0;
+        }
+
+        return computeCosineSimilarity(v1, v2);
+    } catch (const std::exception& ex) {
+        THEMIS_ERROR("Embedding provider '{}' threw: {} – falling back to Jaccard",
+                     embedding_provider_->name(), ex.what());
+        return -1.0;
+    }
 }
 
 } // namespace prompt_engineering
