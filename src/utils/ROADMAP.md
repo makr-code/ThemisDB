@@ -24,7 +24,7 @@ v1.x – Comprehensive shared utilities library. Logging, audit trail, PII detec
 - [x] Geospatial utilities
 
 ## In Progress 🚧
-- [I] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026) (Issue: #1980)
+- [!] PII detection model upgrade to ML-based NER (replacing regex patterns) (Target: Q2 2026) (Issue: #2131)
 - [?] Structured log query API (search logs like data) (Target: Q2 2026)
 - [?] LEK rotation automation without manual intervention (Target: Q3 2026)
 

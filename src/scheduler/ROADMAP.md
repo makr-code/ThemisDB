@@ -28,7 +28,7 @@ v1.x – Production-ready task scheduler and hybrid retention manager. Cron-like
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2002)
+- [I] Web UI for task management (create, monitor, pause, delete) (Issue: #2120)
 - [?] Task retry policies (max attempts, exponential back-off)
 - [?] Scheduled task output persistence (store results in ThemisDB)
 - [?] Task execution history with searchable audit log

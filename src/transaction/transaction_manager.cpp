@@ -913,8 +913,6 @@ TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
     return Status::OK();
 }
 
-} // namespace themis
-
 // ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
 
 void TransactionManager::enableCrashRecovery(const std::string& wal_path,
@@ -941,4 +939,6 @@ TransactionManager::crashRecover() {
     }
     return crash_recovery_mgr_->recover(db_);
 }
+
+} // namespace themis
 

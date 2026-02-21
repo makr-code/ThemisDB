@@ -191,6 +191,8 @@ public:
     AQLTranslationResult translateNLToAQLWithConfidence(
         const std::string& nl_query,
         const std::string& schema_context = ""
+    );
+
     // Batch NL-to-AQL Translation for offline workloads
     /**
      * @brief Single request for batch NL-to-AQL translation

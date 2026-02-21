@@ -23,7 +23,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [?] Columnar storage layout for analytical scan queries
+- [I] Columnar storage layout for analytical scan queries (Issue: #2007)
 - [?] Downsampling policies (min/max/avg/sum per window)
 - [?] Time series anomaly detection (Z-score, IQR-based)
 - [?] Gap-filling functions (forward fill, linear interpolation)
@@ -32,7 +32,7 @@ v1.x – Production-ready time series storage with Gorilla compression, continuo
 ### Long-term (6-12 months)
 - [?] Tiered storage (hot/warm/cold) with automatic migration
 - [?] Streaming ingestion via Kafka connector
-- [?] Prometheus remote-write endpoint compatibility
+- [I] Prometheus remote-write endpoint compatibility (Issue: #2037)
 - [?] InfluxDB line protocol ingestion compatibility
 - [?] Time series forecasting (ARIMA, Holt-Winters) as built-in functions
 

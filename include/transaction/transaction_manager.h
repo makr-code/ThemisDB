@@ -40,13 +40,12 @@
 #include "storage/rocksdb_wrapper.h"
 #include "transaction/lock_manager.h"
 #include "transaction/isolation_level.h"
+#include "transaction/crash_recovery_manager.h"
 
 namespace themis {
 
 class BaseEntity;
 
-// Forward declaration for Phase 8 crash recovery
-namespace transaction { class CrashRecoveryManager; }
 class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;

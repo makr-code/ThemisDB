@@ -20,7 +20,7 @@
 ## In Progress 🚧
 - [I] Parallel multi-source BFS/DFS for large graphs (Target: Q2 2026) (Issue: #1808)
 - [I] Query plan reuse across structurally similar queries (Target: Q2 2026) (Issue: #1834)
-- [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #1988)
+- [I] Cost model calibration from real execution feedback (Target: Q3 2026) (Issue: #2094)
 
 ## Planned Features 📋
 

@@ -29,7 +29,7 @@
 ## In Progress 🚧
 - [I] ROCm/HIP backend parity with CUDA feature set (Target: Q2 2026) (Issue: #1783)
 - [I] GPU memory defragmentation routine (Target: Q2 2026) (Issue: #1807)
-- [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #1987)
+- [I] Multi-node GPU cluster coordination (Target: Q3 2026) (Issue: #2092)
 
 ## Planned Features 📋
 

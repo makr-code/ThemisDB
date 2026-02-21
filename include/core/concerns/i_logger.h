@@ -32,6 +32,10 @@
 #include <map>
 #include <utility>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace core {
 namespace concerns {

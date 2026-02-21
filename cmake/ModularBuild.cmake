@@ -133,6 +133,7 @@ set(THEMIS_BASE_SOURCES
     ../src/config/config_path_resolver.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     ../src/utils/boost_throw_exception.cpp
@@ -358,6 +359,8 @@ set(THEMIS_SECURITY_SOURCES
 set(THEMIS_TRANSACTION_SOURCES
     # Transaction management
     ../src/transaction/transaction_manager.cpp
+    ../src/transaction/lock_manager.cpp
+    ../src/transaction/crash_recovery_manager.cpp
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
     

@@ -35,7 +35,7 @@ v1.x – Production-ready API surface built on Boost.Beast/Asio. HTTP/1.1, HTTP/
 ### Short-term (Next 3-6 months)
 - [I] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
 - [I] Request validation middleware (JSON Schema per endpoint) (Issue: #1449)
-- [I] Response streaming for large result sets (chunked transfer) (Issue: #1973)
+- [!] Response streaming for large result sets (chunked transfer) (Issue: #2124)
 - [?] Per-tenant custom domain routing
 - [?] WebSocket binary frame support for wire protocol upgrade
 

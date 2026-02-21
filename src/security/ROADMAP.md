@@ -28,7 +28,7 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #1972)
+- [!] JWT / OIDC federated authentication (OAuth 2.0 provider integration) (Issue: #2122)
 - [?] Session token revocation list with real-time invalidation
 - [?] Anomaly detection on authentication patterns (brute-force, credential stuffing)
 - [?] Row-level security policies in AQL execution

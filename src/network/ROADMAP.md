@@ -28,7 +28,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [?] Connection multiplexing (multiple logical streams per TCP connection)
+- [!] Connection multiplexing (multiple logical streams per TCP connection) (Issue: #2106)
 - [?] Adaptive I/O thread scaling based on connection load
 - [?] Per-tenant network bandwidth quotas
 - [?] Connection-level compression (LZ4, Zstd)
@@ -38,7 +38,7 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [?] Service mesh integration (Istio/Envoy sidecar compatibility)
 - [?] RDMA support for ultra-low-latency inter-node communication
 - [?] IPv6 dual-stack support
-- [?] gRPC native transport (separate from server module)
+- [I] gRPC native transport (separate from server module) (Issue: #2024)
 - [?] Network topology-aware routing for geo-distributed clusters
 
 ## Implementation Phases

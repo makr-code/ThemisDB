@@ -36,9 +36,9 @@ v1.x – Production-grade indexing infrastructure. HNSW vector indexing, B-tree/
 
 ### Long-term (6-12 months)
 - [I] Distributed vector index across shards (Issue: #1879)
-- [!] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
+- [I] Learned index structures (ML-based B-tree replacement) (Issue: #1990)
 - [I] Multi-tenancy index isolation (Issue: #1872)
-- [I] Cold/warm tier index migration (Issue: #1881)
+- [!] Cold/warm tier index migration (Issue: #2098)
 - [I] Index compression using sparse encoding (Issue: #1874)
 
 ## Implementation Phases

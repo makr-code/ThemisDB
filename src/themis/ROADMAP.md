@@ -21,7 +21,7 @@ v1.6.x – Implementation directory is currently empty pending the v1.7.0 modula
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #1974)
+- [I] `wire_protocol_server.cpp` – move wire protocol implementation from `src/server/` (Issue: #2128)
 - [?] `edition_manager.cpp` – Community / Enterprise / Cloud edition feature gating
 - [?] `getBuildConfiguration()` – aggregate build metadata at runtime
 - [?] `isModuleCompiledIn()` – runtime module availability check

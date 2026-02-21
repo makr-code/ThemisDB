@@ -50,6 +50,7 @@ namespace server {
 
 namespace beast = boost::beast;
 namespace http = beast::http;
+using json = nlohmann::json;
 
 class ShardingMetricsHandler;
 

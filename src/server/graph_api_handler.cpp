@@ -390,6 +390,11 @@ http::response<http::string_body> GraphApiHandler::handleMetricsPrometheus(
     res.prepare_payload();
     return res;
 }
+
+std::string GraphApiHandler::extractPathParam(
+    const std::string& target,
+    const std::string& prefix
+) {
     // Extract parameter from path after prefix
     if (target.size() <= prefix.size()) return "";
     if (target.substr(0, prefix.size()) != prefix) return "";

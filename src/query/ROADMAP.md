@@ -31,7 +31,7 @@ v1.x – Production-grade AQL query engine with cost-based optimizer, multi-mode
 
 ### Short-term (Next 3-6 months)
 - [I] Query result type annotations for client SDK code generation (Issue: #1432)
-- [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #1999)
+- [I] Per-query resource limits (max rows, max memory, timeout) (Issue: #2116)
 - [?] Query cancellation via request ID
 - [?] Parallel scan for large collection full-table queries
 - [?] User-defined functions (UDF) registration API

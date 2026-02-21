@@ -33,7 +33,7 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 ### Short-term (Next 3-6 months)
 - [I] Multi-field boosting (title > body > tags) (Issue: #1971)
 - [I] Negative keyword filtering (`NOT` operator) (Issue: #2003)
-- [?] Configurable re-ranking with LLM feedback loop
+- [I] Configurable re-ranking with LLM feedback loop (Issue: #2113)
 - [?] Search analytics (top queries, zero-result queries)
 - [?] Spelling correction suggestions
 

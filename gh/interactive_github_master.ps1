@@ -27,7 +27,17 @@ param(
     [string]$MilestonePrefix = "",
     [switch]$IncludeUnknownForCreation = $false,
     [string]$OnlyItem = "",
-    [string[]]$KeepSubBulletsForStatus = @()
+    [string[]]$KeepSubBulletsForStatus = @(),
+    [ValidateRange(0, 600)]
+    [int]$DelayBetweenIssuesSec = 0,
+    [ValidateRange(0, 600)]
+    [int]$DelayBetweenModulesSec = 0,
+    [ValidateRange(0, 1800)]
+    [int]$RateLimitCooldownSec = 120,
+    [ValidateRange(0, 10)]
+    [int]$RateLimitMaxRetries = 1,
+    [ValidateRange(0, 60)]
+    [int]$RateLimitJitterSec = 5
 )
 
 # ============================================================================
@@ -88,6 +98,11 @@ function Show-Usage {
     Write-Host "    -IncludeUnknownForCreation ([!] Eintraege ebenfalls verarbeiten)" -ForegroundColor White
     Write-Host "    -OnlyItem <text>          (nur passendes ROADMAP-Item verarbeiten)" -ForegroundColor White
     Write-Host "    -KeepSubBulletsForStatus  (Statusliste ohne Unterpunkt-Loeschung, z.B. P)" -ForegroundColor White
+    Write-Host "    -DelayBetweenIssuesSec    (Wartezeit zwischen Issue-Erstellungen)" -ForegroundColor White
+    Write-Host "    -DelayBetweenModulesSec   (Wartezeit zwischen Modulen bei create-all-issues)" -ForegroundColor White
+    Write-Host "    -RateLimitCooldownSec     (Cooldown bei GitHub Secondary Rate Limit)" -ForegroundColor White
+    Write-Host "    -RateLimitMaxRetries      (Retry-Anzahl bei Secondary Rate Limit je Item)" -ForegroundColor White
+    Write-Host "    -RateLimitJitterSec       (zusaetzlicher Zufalls-Jitter fuer Cooldown)" -ForegroundColor White
     Write-Host "    -Help                     (diese Hilfe anzeigen)" -ForegroundColor White
     Write-Host ""
     Write-Host "  Beispiele:" -ForegroundColor Green
@@ -1561,7 +1576,11 @@ function New-ModuleIssuesAI {
         [switch]$EnableRelationships,
         [string]$MilestonePrefix = "",
         [switch]$IncludeUnknownForCreation,
-        [string]$OnlyItem = ""
+        [string]$OnlyItem = "",
+        [int]$DelayBetweenIssuesSec = 0,
+        [int]$RateLimitCooldownSec = 120,
+        [int]$RateLimitMaxRetries = 1,
+        [int]$RateLimitJitterSec = 5
     )
     
     Show-Banner "AI-Enhanced Issue-Erstellung: $ModuleName"
@@ -1721,6 +1740,11 @@ function New-ModuleIssuesAI {
     }
     
     foreach ($itemData in $itemsToCreate) {
+        if ($current -gt 0 -and $DelayBetweenIssuesSec -gt 0) {
+            Write-Host "  Warte $DelayBetweenIssuesSec Sekunden vor naechstem Item (Pacing) ..." -ForegroundColor DarkGray
+            Start-Sleep -Seconds $DelayBetweenIssuesSec
+        }
+
         if ($MaxIssues -gt 0 -and $current -ge $MaxIssues) {
             Write-Host "  MaxIssues erreicht ($MaxIssues), stoppe weitere Erstellung." -ForegroundColor Gray
             break
@@ -2013,12 +2037,37 @@ $(if ($UseAI) { "- AI Model: $script:OllamaModel" } else { "" })
         
         $suggestedLabels = $issueLabels
         
-        $issueResult = New-GitHubIssue `
-            -Repo $Repository `
-            -Title "[$ModuleName] $optimizedTitle" `
-            -Body $body `
-            -Labels $suggestedLabels `
-            -MilestoneNumber $milestoneNumber
+        $maxAttempts = [Math]::Max(1, $RateLimitMaxRetries + 1)
+        $attempt = 0
+        $issueResult = $null
+
+        do {
+            $attempt++
+
+            $issueResult = New-GitHubIssue `
+                -Repo $Repository `
+                -Title "[$ModuleName] $optimizedTitle" `
+                -Body $body `
+                -Labels $suggestedLabels `
+                -MilestoneNumber $milestoneNumber
+
+            if ($issueResult.Success) {
+                break
+            }
+
+            $isRateLimitedNow = ($issueResult.ContainsKey("IsRateLimited") -and $issueResult.IsRateLimited)
+            if (-not $isRateLimitedNow) {
+                break
+            }
+
+            if ($attempt -lt $maxAttempts) {
+                $cooldownBase = [Math]::Max(1, $RateLimitCooldownSec)
+                $jitter = if ($RateLimitJitterSec -gt 0) { Get-Random -Minimum 0 -Maximum ($RateLimitJitterSec + 1) } else { 0 }
+                $waitSec = ($cooldownBase * $attempt) + $jitter
+                Write-Host "    Rate-Limit erkannt. Retry $attempt/$maxAttempts nach $waitSec Sekunden ..." -ForegroundColor Yellow
+                Start-Sleep -Seconds $waitSec
+            }
+        } while ($attempt -lt $maxAttempts)
         
         if ($issueResult.Success) {
             $created++
@@ -2051,7 +2100,7 @@ $(if ($UseAI) { "- AI Model: $script:OllamaModel" } else { "" })
         }
         
         Write-Host ""
-        Start-Sleep -Milliseconds 500
+        Start-Sleep -Milliseconds 250
     }
     
     Write-Host "  =============================================================" -ForegroundColor Green
@@ -2294,7 +2343,11 @@ function Start-Main {
                             -EnableRelationships:$EnableRelationships `
                             -MilestonePrefix $MilestonePrefix `
                             -IncludeUnknownForCreation:$IncludeUnknownForCreation `
-                            -OnlyItem $OnlyItem
+                            -OnlyItem $OnlyItem `
+                            -DelayBetweenIssuesSec $DelayBetweenIssuesSec `
+                            -RateLimitCooldownSec $RateLimitCooldownSec `
+                            -RateLimitMaxRetries $RateLimitMaxRetries `
+                            -RateLimitJitterSec $RateLimitJitterSec
                     }
                 }
             }
@@ -2353,7 +2406,11 @@ function Start-Automation {
                 -EnableRelationships:$EnableRelationships `
                 -MilestonePrefix $MilestonePrefix `
                 -IncludeUnknownForCreation:$IncludeUnknownForCreation `
-                -OnlyItem $OnlyItem
+                -OnlyItem $OnlyItem `
+                -DelayBetweenIssuesSec $DelayBetweenIssuesSec `
+                -RateLimitCooldownSec $RateLimitCooldownSec `
+                -RateLimitMaxRetries $RateLimitMaxRetries `
+                -RateLimitJitterSec $RateLimitJitterSec
             return
         }
         "create-all-issues" {
@@ -2382,7 +2439,16 @@ function Start-Automation {
                         -EnableRelationships:$EnableRelationships `
                         -MilestonePrefix $MilestonePrefix `
                         -IncludeUnknownForCreation:$IncludeUnknownForCreation `
-                        -OnlyItem $OnlyItem
+                        -OnlyItem $OnlyItem `
+                        -DelayBetweenIssuesSec $DelayBetweenIssuesSec `
+                        -RateLimitCooldownSec $RateLimitCooldownSec `
+                        -RateLimitMaxRetries $RateLimitMaxRetries `
+                        -RateLimitJitterSec $RateLimitJitterSec
+                }
+
+                if ($DelayBetweenModulesSec -gt 0) {
+                    Write-Host "  Warte $DelayBetweenModulesSec Sekunden vor naechstem Modul ..." -ForegroundColor DarkGray
+                    Start-Sleep -Seconds $DelayBetweenModulesSec
                 }
             }
             return

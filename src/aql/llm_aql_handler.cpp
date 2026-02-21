@@ -963,6 +963,8 @@ HighlightedResponse LLMAQLHandler::formatLLMResponse(
 ) const {
     AQLSyntaxHighlighter highlighter(use_ansi);
     return highlighter.formatLLMResponse(llm_response);
+}
+
 LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidence(
     const std::string& nl_query,
     const std::string& schema_context
@@ -980,6 +982,8 @@ LLMAQLHandler::AQLTranslationResult LLMAQLHandler::translateNLToAQLWithConfidenc
         result.confidence.schema_match_score);
 
     return result;
+}
+
 LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
     const std::string& aql_query,
     const std::string& original_intent,

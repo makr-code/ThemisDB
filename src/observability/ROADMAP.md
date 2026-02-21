@@ -27,15 +27,15 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 
 ### Short-term (Next 3-6 months)
 - [I] Exemplars on Prometheus histograms (link traces to metrics) (Issue: #1995)
-- [?] Custom user-defined alert rules via API
+- [I] Custom user-defined alert rules via API (Issue: #2025)
 - [?] Per-tenant metric namespacing
 - [?] Structured log search API (query logs like data)
 - [?] Real-time query cost estimator dashboard
 
 ### Long-term (6-12 months)
-- [?] eBPF-based low-overhead kernel-level tracing
-- [?] Anomaly detection on metrics time-series (ML-based)
-- [?] Distributed flame graph generation across nodes
+- [I] eBPF-based low-overhead kernel-level tracing (Issue: #2055)
+- [I] Anomaly detection on metrics time-series (ML-based) (Issue: #2097)
+- [I] Distributed flame graph generation across nodes (Issue: #2108)
 - [?] Metrics federation across multiple ThemisDB clusters
 - [?] SLO/SLA compliance reporting with burn-rate alerts
 

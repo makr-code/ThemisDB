@@ -25,7 +25,7 @@ v1.x – Functional data import pipeline with PostgreSQL support; early-stage pr
 - [I] CSV / TSV / Parquet flat-file importer (Issue: #1839)
 - [I] S3-compatible object-storage source (Issue: #1840)
 - [I] Schema auto-detection and validation on import (Issue: #1856)
-- [I] Dry-run mode to preview import without writing data (Issue: #1989)
+- [I] Dry-run mode to preview import without writing data (Issue: #2096)
 
 ### Long-term (6-12 months)
 - [I] Kafka consumer importer for real-time streaming ingestion (Issue: #1843)

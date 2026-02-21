@@ -28,7 +28,7 @@ v1.x – Production-ready zero-downtime update and migration system. HotReloadEn
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [I] In-place schema migration without data copy for additive changes (Issue: #1979)
+- [!] In-place schema migration without data copy for additive changes (Issue: #2130)
 - [?] Migration dry-run with detailed change preview
 - [?] Notification webhooks (Slack, PagerDuty) on update success/failure
 - [?] Automatic rollback on post-update health check failure

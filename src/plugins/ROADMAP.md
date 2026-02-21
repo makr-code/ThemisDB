@@ -16,7 +16,7 @@ v1.x – Core plugin infrastructure implemented. Dynamic loading, manifest valid
 
 ## In Progress 🚧
 - [?] Plugin hot-reload without server restart (Target: Q2 2026)
-- [!] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #1997)
+- [!] Plugin dependency resolution (plugin A requires plugin B) (Target: Q2 2026) (Issue: #2112)
 - [?] Plugin marketplace / registry integration (Target: Q3 2026)
 
 ## Planned Features 📋
