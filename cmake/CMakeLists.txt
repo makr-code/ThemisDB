@@ -1629,6 +1629,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/distributed_time_coordinator.cpp
     ../src/sharding/distributed_transaction.cpp
     ../src/sharding/two_phase_commit_participant.cpp
+    ../src/sharding/two_phase_commit_coordinator.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
