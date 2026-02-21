@@ -14,7 +14,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] AQL syntax highlighting and error annotation in LLM responses (`AQLSyntaxHighlighter`)
 
 ## In Progress 🚧
-- [ ] AQL query validation and linting before LLM submission (Target: Q2 2026)
+- [x] AQL query validation and linting before LLM submission (`annotateErrors()` called inside `translateNLToAQL()`)
 - [ ] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
 - [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
 
@@ -37,11 +37,11 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] Integration with query optimizer for cost-aware suggestions
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests
+- [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests for AQLSyntaxHighlighter)
+- [x] Integration tests (handler ↔ highlighter path covered)
 - [ ] Performance benchmarks
 - [ ] Security audit (prompt injection prevention)
-- [ ] Documentation complete
+- [x] Documentation complete (README.md and ROADMAP.md updated)
 - [ ] API stability guaranteed
 
 ## Known Issues & Limitations

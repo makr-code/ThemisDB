@@ -719,6 +719,26 @@ std::string LLMAQLHandler::translateNLToAQL(
         };
         trim(aql_query);
         
+        // Validate generated AQL and log any structural issues
+        AQLSyntaxHighlighter validator(/*use_ansi=*/false);
+        auto annotations = validator.annotateErrors(aql_query);
+        if (!annotations.empty()) {
+            // Truncate the query preview to avoid overly long log entries
+            constexpr std::size_t MAX_PREVIEW = 100;
+            std::string query_preview = nl_query.size() > MAX_PREVIEW
+                ? nl_query.substr(0, MAX_PREVIEW) + "..."
+                : nl_query;
+            
+            std::ostringstream warn_msg;
+            warn_msg << "NL-to-AQL translation produced " << annotations.size()
+                     << " potential syntax issue(s) for query \"" << query_preview << "\":";
+            for (const auto& ann : annotations) {
+                warn_msg << "\n  Line " << ann.line << ", Col " << ann.column
+                         << ": " << ann.message;
+            }
+            spdlog::warn("{}", warn_msg.str());
+        }
+        
         return aql_query;
         
     } catch (const std::exception& e) {

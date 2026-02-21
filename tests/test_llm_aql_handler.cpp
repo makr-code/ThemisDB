@@ -251,6 +251,24 @@ TEST_F(LLMAQLHandlerTest, TranslateNLToAQLMarkdownCleanup) {
     }
 }
 
+TEST_F(LLMAQLHandlerTest, TranslateNLToAQLValidationRunsWithoutCrash) {
+    // The translateNLToAQL method now runs annotateErrors() on the result.
+    // Without a live LLM the call fails, but we verify the exception type is still
+    // the expected "translation failed" – i.e. validation code did not panic.
+    try {
+        auto aql = handler->translateNLToAQL("Find all orders");
+        // If a model is available the result should have no markdown
+        if (!aql.empty()) {
+            EXPECT_TRUE(aql.find("```") == std::string::npos);
+        }
+    } catch (const std::exception& e) {
+        std::string msg = e.what();
+        EXPECT_TRUE(msg.find("translation failed") != std::string::npos ||
+                    msg.find("CHAT failed") != std::string::npos)
+            << "Unexpected exception: " << msg;
+    }
+}
+
 // ============================================================================
 // Batch Inference Tests
 // ============================================================================

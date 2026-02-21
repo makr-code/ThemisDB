@@ -105,8 +105,17 @@ public:
     // Natural Language to AQL Translation
     /**
      * @brief Translate natural language query to AQL
-     * @param nl_query Natural language query (e.g., "Find all users in Seattle")
-     * @param schema_context Optional database schema context for better translation
+     *
+     * Uses the configured LLM to convert @p nl_query to an executable AQL
+     * statement.  After the LLM response is cleaned up (markdown fences
+     * stripped, whitespace trimmed), the generated AQL is validated with
+     * @c AQLSyntaxHighlighter::annotateErrors().  Any structural issues
+     * (unbalanced brackets, missing IN keyword, etc.) are logged as warnings
+     * but do not prevent the result from being returned – the caller is
+     * responsible for deciding how to handle potentially malformed output.
+     *
+     * @param nl_query        Natural language query (e.g., "Find all users in Seattle")
+     * @param schema_context  Optional database schema context for better translation
      * @return Generated AQL query as string
      * @throws std::runtime_error if translation fails
      */

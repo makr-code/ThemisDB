@@ -367,3 +367,57 @@ TEST_F(AQLFormatLLMResponseTest, LLMExtensionKeywordsHighlighted) {
     EXPECT_TRUE(containsToken(tokens, AQLTokenType::LLM_KEYWORD, "LLM"));
     EXPECT_TRUE(containsToken(tokens, AQLTokenType::LLM_KEYWORD, "INFER"));
 }
+
+// ---------------------------------------------------------------------------
+// "Validate before use" pattern tests  (mirrors translateNLToAQL behaviour)
+// ---------------------------------------------------------------------------
+
+class AQLValidateBeforeUseTest : public ::testing::Test {
+protected:
+    AQLSyntaxHighlighter h{false};
+};
+
+TEST_F(AQLValidateBeforeUseTest, ValidGeneratedQueryPassesClean) {
+    // Simulates a well-formed AQL string that an LLM returned
+    const std::string generated =
+        "FOR user IN users\n"
+        "  FILTER user.city == \"Seattle\"\n"
+        "  SORT user.name ASC\n"
+        "  LIMIT 10\n"
+        "  RETURN user";
+
+    auto errors = h.annotateErrors(generated);
+    EXPECT_TRUE(errors.empty())
+        << "Valid generated AQL should have no structural errors";
+}
+
+TEST_F(AQLValidateBeforeUseTest, BrokenGeneratedQueryIsAnnotated) {
+    // Simulates a partially hallucinated AQL block from an LLM
+    const std::string generated =
+        "FOR doc IN orders\n"
+        "  FILTER doc.total > 100 {\n"  // spurious brace
+        "  RETURN doc";
+
+    auto errors = h.annotateErrors(generated);
+    EXPECT_FALSE(errors.empty())
+        << "Broken generated AQL must produce at least one annotation";
+}
+
+TEST_F(AQLValidateBeforeUseTest, AnnotationsHaveUsefulMessages) {
+    const std::string query_missing_in = "FOR doc RETURN doc.name";
+    auto errors = h.annotateErrors(query_missing_in);
+    ASSERT_FALSE(errors.empty());
+    for (const auto& e : errors) {
+        EXPECT_GE(e.line, 1u);
+        EXPECT_GE(e.column, 1u);
+        EXPECT_FALSE(e.message.empty());
+    }
+}
+
+TEST_F(AQLValidateBeforeUseTest, MultipleErrorsAllReported) {
+    // Two independent errors: missing IN + unclosed parenthesis
+    const std::string query_missing_in_and_unclosed_paren = "FOR doc RETURN (doc.name";
+    auto errors = h.annotateErrors(query_missing_in_and_unclosed_paren);
+    EXPECT_GE(errors.size(), 2u)
+        << "Both the missing IN and the unclosed ( should be reported";
+}

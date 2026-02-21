@@ -43,7 +43,7 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 Handles LLM-specific AQL commands for AI model integration with full implementation of natural language translation, RAG, and chat capabilities.
 
 **Core Features:**
-- **Natural Language to AQL**: `translateNLToAQL()` - Schema-aware query translation
+- **Natural Language to AQL**: `translateNLToAQL()` - Schema-aware query translation with automatic syntax validation of the generated AQL
 - **Chat Interface**: `executeChat()` - Multi-turn conversations with message history
 - **LLM INFER**: Generate text using loaded language models (with model/LoRA selection)
 - **LLM RAG**: Retrieval-Augmented Generation with vector search integration
@@ -61,6 +61,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 - ✅ Markdown cleanup for LLM-generated responses
 - ✅ AQL syntax highlighting and error annotation via `AQLSyntaxHighlighter`
 - ✅ `formatLLMResponse()` method for post-processing arbitrary LLM output
+- ✅ `translateNLToAQL()` validates generated AQL and logs structural issues
 - ✅ Comprehensive test coverage
 
 **Syntax Examples:**
