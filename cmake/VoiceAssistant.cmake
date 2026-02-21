@@ -11,5 +11,8 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         ../src/voice/voice_session_manager.cpp
         ../src/voice/voice_security.cpp
         ../src/voice/voice_error_handler.cpp
+        ../src/voice/voice_tts_customizer.cpp
+        ../src/voice/voice_meeting_support.cpp
+        ../src/voice/voice_audio_storage.cpp
     )
 endif()

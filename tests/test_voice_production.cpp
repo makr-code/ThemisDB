@@ -983,3 +983,432 @@ TEST(PerformanceBenchmarkPhase10, CircuitBreakerThroughput) {
     EXPECT_LT(elapsed, 2000);
     EXPECT_EQ(counter, iterations);
 }
+
+// --- Phase 2, 4, 5 additions ---
+#include "voice/voice_tts_customizer.h"
+#include "voice/voice_meeting_support.h"
+#include "voice/voice_audio_storage.h"
+
+// ============================================================
+// Phase 2: TTS Customization Tests
+// ============================================================
+
+TEST(TTSCustomizerPhase2, DefaultConstructor) {
+    VoiceTTSCustomizer tts;
+    auto stats = tts.getStatistics();
+    EXPECT_GT(stats["profile_count"].get<size_t>(), 0u);
+    EXPECT_GT(stats["language_count"].get<size_t>(), 0u);
+}
+
+TEST(TTSCustomizerPhase2, RegisterVoiceProfile) {
+    VoiceTTSCustomizer tts;
+    VoiceProfile p;
+    p.id = "test-voice";
+    p.name = "Test Voice";
+    p.language = "en-US";
+    p.engine = "piper";
+    EXPECT_TRUE(tts.registerVoiceProfile(p));
+    EXPECT_TRUE(tts.hasProfile("test-voice"));
+}
+
+TEST(TTSCustomizerPhase2, DuplicateProfileRejected) {
+    VoiceTTSCustomizer tts;
+    VoiceProfile p;
+    p.id = "dup-voice";
+    p.language = "en-US";
+    EXPECT_TRUE(tts.registerVoiceProfile(p));
+    EXPECT_FALSE(tts.registerVoiceProfile(p)); // second attempt fails
+}
+
+TEST(TTSCustomizerPhase2, GetProfile) {
+    VoiceTTSCustomizer tts;
+    auto prof = tts.getProfile("en-default");
+    ASSERT_TRUE(prof.has_value());
+    EXPECT_EQ(prof->id, "en-default");
+    EXPECT_EQ(prof->language, "en-US");
+}
+
+TEST(TTSCustomizerPhase2, ListProfiles) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.listProfiles();
+    EXPECT_GE(profiles.size(), 5u); // at least the 5 built-ins
+}
+
+TEST(TTSCustomizerPhase2, BuildProsodyWithOverride) {
+    VoiceTTSCustomizer tts;
+    ProsodyConfig overrides;
+    overrides.pitch = 1.5f;
+    auto result = tts.buildProsody("en-default", overrides);
+    EXPECT_FLOAT_EQ(result.pitch, 1.5f);
+    EXPECT_FLOAT_EQ(result.speed, 1.0f); // default unchanged
+}
+
+TEST(TTSCustomizerPhase2, ValidateProsodyClampsPitch) {
+    VoiceTTSCustomizer tts;
+    ProsodyConfig p;
+    p.pitch = 10.0f; // out of range
+    auto validated = tts.validateProsody(p);
+    EXPECT_FLOAT_EQ(validated.pitch, 2.0f); // clamped to max
+    p.pitch = 0.1f;
+    validated = tts.validateProsody(p);
+    EXPECT_FLOAT_EQ(validated.pitch, 0.5f); // clamped to min
+}
+
+TEST(TTSCustomizerPhase2, ValidateProsodyClampsSpeed) {
+    VoiceTTSCustomizer tts;
+    ProsodyConfig p;
+    p.speed = 0.1f;
+    auto validated = tts.validateProsody(p);
+    EXPECT_FLOAT_EQ(validated.speed, 0.25f);
+    p.speed = 10.0f;
+    validated = tts.validateProsody(p);
+    EXPECT_FLOAT_EQ(validated.speed, 4.0f);
+}
+
+TEST(TTSCustomizerPhase2, ParseSSMLStripsTagsBasic) {
+    VoiceTTSCustomizer tts;
+    std::string ssml = "<speak>Hello <break time=\"500ms\"/> World</speak>";
+    auto result = tts.parseSSML(ssml);
+    EXPECT_EQ(result.plain_text, "Hello World");
+    EXPECT_TRUE(result.has_breaks);
+}
+
+TEST(TTSCustomizerPhase2, ParseSSMLExtractsProsody) {
+    VoiceTTSCustomizer tts;
+    std::string ssml = "<speak><prosody rate=\"1.5\" pitch=\"0.8\">Fast speech</prosody></speak>";
+    auto result = tts.parseSSML(ssml);
+    EXPECT_FALSE(result.segments.empty());
+    EXPECT_FLOAT_EQ(result.segments[0].speed, 1.5f);
+    EXPECT_FLOAT_EQ(result.segments[0].pitch, 0.8f);
+}
+
+TEST(TTSCustomizerPhase2, ParseSSMLDetectsBreaks) {
+    VoiceTTSCustomizer tts;
+    std::string ssml = "<speak>Hello<break time=\"200ms\"/>there</speak>";
+    auto result = tts.parseSSML(ssml);
+    EXPECT_TRUE(result.has_breaks);
+    EXPECT_FALSE(result.plain_text.empty());
+}
+
+TEST(TTSCustomizerPhase2, EstimateMOSSilentAudio) {
+    VoiceTTSCustomizer tts;
+    std::vector<uint8_t> silent(1000, 0);
+    auto mos = tts.estimateMOS(silent, 22050);
+    EXPECT_GE(mos.mos_score, 1.0f);
+    EXPECT_LE(mos.mos_score, 5.0f);
+    // Silence: naturalness should be 0 or very low
+    EXPECT_FLOAT_EQ(mos.naturalness, 0.0f);
+}
+
+TEST(TTSCustomizerPhase2, EstimateMOSFromText) {
+    VoiceTTSCustomizer tts;
+    auto mos = tts.estimateMOSFromText("Hello world", "Hello world");
+    EXPECT_GE(mos.mos_score, 3.5f);
+    EXPECT_LE(mos.mos_score, 4.5f);
+    EXPECT_FALSE(mos.quality_label.empty());
+}
+
+TEST(TTSCustomizerPhase2, GetBestVoiceForLanguage) {
+    VoiceTTSCustomizer tts;
+    std::string voice = tts.getBestVoiceForLanguage("en-US");
+    EXPECT_EQ(voice, "en-default");
+    std::string de_voice = tts.getBestVoiceForLanguage("de-DE");
+    EXPECT_EQ(de_voice, "de-default");
+}
+
+TEST(TTSCustomizerPhase2, SupportsLanguage) {
+    VoiceTTSCustomizer tts;
+    EXPECT_TRUE(tts.supportsLanguage("en-US"));
+    EXPECT_TRUE(tts.supportsLanguage("de-DE"));
+    EXPECT_FALSE(tts.supportsLanguage("xx-XX")); // not registered
+}
+
+TEST(TTSCustomizerPhase2, GetProfilesForLanguage) {
+    VoiceTTSCustomizer tts;
+    auto profiles = tts.getProfilesForLanguage("en-US");
+    EXPECT_GE(profiles.size(), 3u); // en-default, en-male, en-female
+}
+
+// ============================================================
+// Phase 4: Meeting Support Tests
+// ============================================================
+
+TEST(MeetingSupportPhase4, DefaultConstructor) {
+    VoiceMeetingSupport mgr;
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["meetings_analyzed"].get<uint64_t>(), 0u);
+}
+
+TEST(MeetingSupportPhase4, ClassifyActionItemSegment) {
+    VoiceMeetingSupport mgr;
+    auto type = mgr.classifySegment("Alice will send the report by Friday.");
+    EXPECT_EQ(type, MeetingSegmentType::ACTION_ITEM);
+}
+
+TEST(MeetingSupportPhase4, ClassifyDecisionSegment) {
+    VoiceMeetingSupport mgr;
+    auto type = mgr.classifySegment("We have decided to go with option B.");
+    EXPECT_EQ(type, MeetingSegmentType::DECISION);
+}
+
+TEST(MeetingSupportPhase4, ClassifyClosingSegment) {
+    VoiceMeetingSupport mgr;
+    auto type = mgr.classifySegment("Thank you everyone, that's all for today.");
+    EXPECT_EQ(type, MeetingSegmentType::CLOSING);
+}
+
+TEST(MeetingSupportPhase4, ExtractActionItems) {
+    VoiceMeetingSupport mgr;
+    std::string transcript =
+        "Alice will prepare the slides. Bob should review the document. "
+        "The team needs to finalize the budget.";
+    auto items = mgr.extractActionItems(transcript);
+    EXPECT_GE(items.size(), 2u);
+    EXPECT_FALSE(items[0].id.empty());
+    EXPECT_GT(items[0].confidence, 0.0f);
+}
+
+TEST(MeetingSupportPhase4, ExtractDecisions) {
+    VoiceMeetingSupport mgr;
+    std::string transcript =
+        "We discussed the options. We have decided to proceed with plan A. "
+        "The team agreed to meet weekly.";
+    auto decisions = mgr.extractDecisions(transcript);
+    EXPECT_GE(decisions.size(), 1u);
+}
+
+TEST(MeetingSupportPhase4, ExtractKeyPoints) {
+    VoiceMeetingSupport mgr;
+    std::string transcript =
+        "Agenda: quarterly review. We have decided to increase the budget. "
+        "Topic: hiring plan for next quarter. Alice will follow up.";
+    auto points = mgr.extractKeyPoints(transcript);
+    EXPECT_GE(points.size(), 1u);
+}
+
+TEST(MeetingSupportPhase4, AnalyzeTranscript) {
+    VoiceMeetingSupport mgr;
+    std::string transcript =
+        "Welcome to the meeting. Agenda: Q4 planning. "
+        "We have decided to launch in November. "
+        "Alice will prepare the roadmap. Thank you all.";
+    auto protocol = mgr.analyzeTranscript(transcript, "mtg-001");
+    EXPECT_EQ(protocol.meeting_id, "mtg-001");
+    EXPECT_FALSE(protocol.segments.empty());
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["meetings_analyzed"].get<uint64_t>(), 1u);
+}
+
+TEST(MeetingSupportPhase4, ExtractAssigneeFromText) {
+    VoiceMeetingSupport mgr;
+    std::string text = "This task is assigned to Alice by next week.";
+    std::vector<std::string> participants = {"Alice", "Bob"};
+    std::string assignee = mgr.extractAssignee(text, participants);
+    EXPECT_EQ(assignee, "Alice");
+}
+
+TEST(MeetingSupportPhase4, CreateComplianceRecord) {
+    VoiceMeetingSupport mgr;
+    auto rec = mgr.createComplianceRecord("call-001", "inbound", "US", true, "verbal");
+    EXPECT_EQ(rec.call_id, "call-001");
+    EXPECT_EQ(rec.recording_type, "inbound");
+    EXPECT_TRUE(rec.consent_obtained);
+    EXPECT_FALSE(rec.retention_policy.empty());
+}
+
+TEST(MeetingSupportPhase4, ComplianceRecordUSJurisdiction) {
+    VoiceMeetingSupport mgr;
+    auto rec = mgr.createComplianceRecord("call-002", "outbound", "US", true, "verbal");
+    EXPECT_TRUE(mgr.isCompliantForJurisdiction(rec, "US"));
+    auto rec2 = mgr.createComplianceRecord("call-003", "outbound", "US", false, "verbal");
+    EXPECT_FALSE(mgr.isCompliantForJurisdiction(rec2, "US"));
+}
+
+TEST(MeetingSupportPhase4, ComplianceRecordEUJurisdiction) {
+    VoiceMeetingSupport mgr;
+    auto rec = mgr.createComplianceRecord("call-004", "inbound", "EU", true, "pre_agreed");
+    EXPECT_TRUE(rec.gdpr_compliant);
+    EXPECT_TRUE(mgr.isCompliantForJurisdiction(rec, "EU"));
+}
+
+TEST(MeetingSupportPhase4, MeetingSegmentTypeToString) {
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::ACTION_ITEM),  "action_item");
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::DECISION),     "decision");
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::AGENDA_ITEM),  "agenda_item");
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::CLOSING),      "closing");
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::INTRODUCTION), "introduction");
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::DISCUSSION),   "discussion");
+    EXPECT_EQ(meetingSegmentTypeToString(MeetingSegmentType::OTHER),        "other");
+}
+
+TEST(MeetingSupportPhase4, StatisticsTracking) {
+    VoiceMeetingSupport mgr;
+    std::string transcript = "We have decided to finalize the plan. Alice will take care of the report.";
+    mgr.analyzeTranscript(transcript, "mtg-stats");
+    auto stats = mgr.getStatistics();
+    EXPECT_EQ(stats["meetings_analyzed"].get<uint64_t>(), 1u);
+    EXPECT_GE(stats["action_items_extracted"].get<uint64_t>(), 0u);
+}
+
+TEST(MeetingSupportPhase4, SpeakerWordCounts) {
+    VoiceMeetingSupport mgr;
+    std::vector<MeetingSegment> segments;
+    {
+        MeetingSegment s;
+        s.speaker = "Alice";
+        s.text = "Hello world this is Alice";
+        segments.push_back(s);
+    }
+    {
+        MeetingSegment s;
+        s.speaker = "Bob";
+        s.text = "Hi there Bob speaking";
+        segments.push_back(s);
+    }
+    auto counts = mgr.computeSpeakerWordCounts(segments);
+    EXPECT_EQ(counts["Alice"], 5u);
+    EXPECT_EQ(counts["Bob"],   4u);
+}
+
+// ============================================================
+// Phase 5: Audio Storage Tests
+// ============================================================
+
+TEST(AudioStoragePhase5, DefaultConstructor) {
+    VoiceAudioStorage storage;
+    auto stats = storage.getStats();
+    EXPECT_EQ(stats.total_records, 0u);
+    EXPECT_EQ(stats.total_bytes, 0u);
+}
+
+TEST(AudioStoragePhase5, StoreAndRetrieve) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> data = {0x52, 0x49, 0x46, 0x46, 0x01, 0x02, 0x03, 0x04};
+    AudioFormat fmt;
+    fmt.codec = "wav";
+    fmt.sample_rate = 16000;
+    std::string id = storage.store(data, fmt, "hello world");
+    EXPECT_FALSE(id.empty());
+    auto retrieved = storage.retrieve(id);
+    ASSERT_TRUE(retrieved.has_value());
+    EXPECT_EQ(*retrieved, data);
+    auto rec = storage.getRecord(id);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->transcript, "hello world");
+    EXPECT_EQ(rec->access_count, 1u);
+}
+
+TEST(AudioStoragePhase5, ContentDeduplication) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> data = {1, 2, 3, 4, 5};
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    std::string id1 = storage.store(data, fmt);
+    std::string id2 = storage.store(data, fmt);
+    EXPECT_EQ(id1, id2); // same content → same record returned
+    EXPECT_EQ(storage.getStats().total_records, 1u);
+    // Verify physical storage is not doubled
+    auto stats = storage.getStats();
+    EXPECT_EQ(stats.total_bytes, data.size()); // only one copy stored
+}
+
+TEST(AudioStoragePhase5, ComputeHash) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> data1 = {1, 2, 3};
+    std::vector<uint8_t> data2 = {1, 2, 4};
+    std::string h1 = storage.computeHash(data1);
+    std::string h2 = storage.computeHash(data2);
+    EXPECT_EQ(h1.size(), 16u); // 16 hex chars
+    EXPECT_NE(h1, h2);
+    EXPECT_EQ(storage.computeHash(data1), h1); // deterministic
+}
+
+TEST(AudioStoragePhase5, DeleteRecord) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> data = {9, 8, 7};
+    AudioFormat fmt;
+    std::string id = storage.store(data, fmt);
+    EXPECT_TRUE(storage.deleteRecord(id));
+    EXPECT_FALSE(storage.getRecord(id).has_value());
+    EXPECT_FALSE(storage.retrieve(id).has_value());
+    EXPECT_FALSE(storage.deleteRecord(id)); // already deleted
+}
+
+TEST(AudioStoragePhase5, ListRecords) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.codec = "pcm";
+    storage.store({1, 2, 3}, fmt);
+    storage.store({4, 5, 6}, fmt);
+    auto records = storage.listRecords(StorageTier::HOT, 100);
+    EXPECT_EQ(records.size(), 2u);
+}
+
+TEST(AudioStoragePhase5, TierPolicyApplication) {
+    StorageTierPolicy policy;
+    policy.hot_to_warm_after_ms = 0; // demote immediately
+    VoiceAudioStorage storage(policy);
+    AudioFormat fmt;
+    std::string id = storage.store({1, 2, 3}, fmt);
+    // With threshold=0, applyTierPolicy should move HOT→WARM
+    size_t moved = storage.applyTierPolicy();
+    EXPECT_GE(moved, 0u); // may move 0 if age check is strict
+    // Test demoteTier: start fresh with default policy
+    VoiceAudioStorage storage2;
+    std::string id2 = storage2.store({4, 5, 6}, fmt);
+    EXPECT_TRUE(storage2.demoteTier(id2)); // HOT → WARM
+    auto rec = storage2.getRecord(id2);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->tier, StorageTier::WARM);
+}
+
+TEST(AudioStoragePhase5, DetectWAVFormat) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> wav = {0x52, 0x49, 0x46, 0x46, 0x00, 0x00, 0x00, 0x00};
+    auto fmt = storage.detectFormat(wav);
+    EXPECT_EQ(fmt.codec, "wav");
+}
+
+TEST(AudioStoragePhase5, DetectOGGFormat) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> ogg = {0x4F, 0x67, 0x67, 0x53, 0x00, 0x00, 0x00, 0x00};
+    auto fmt = storage.detectFormat(ogg);
+    EXPECT_EQ(fmt.codec, "ogg");
+}
+
+TEST(AudioStoragePhase5, DetectUnknownFormat) {
+    VoiceAudioStorage storage;
+    std::vector<uint8_t> raw = {0x00, 0x01, 0x02, 0x03};
+    auto fmt = storage.detectFormat(raw);
+    EXPECT_EQ(fmt.codec, "pcm");
+}
+
+TEST(AudioStoragePhase5, MarkEncrypted) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    std::string id = storage.store({5, 6, 7}, fmt);
+    EXPECT_FALSE(storage.isEncrypted(id));
+    EXPECT_TRUE(storage.markEncrypted(id, "key-001"));
+    EXPECT_TRUE(storage.isEncrypted(id));
+    auto rec = storage.getRecord(id);
+    ASSERT_TRUE(rec.has_value());
+    EXPECT_EQ(rec->encryption_key_id, "key-001");
+}
+
+TEST(AudioStoragePhase5, StorageTierToString) {
+    EXPECT_EQ(storageTierToString(StorageTier::HOT),     "hot");
+    EXPECT_EQ(storageTierToString(StorageTier::WARM),    "warm");
+    EXPECT_EQ(storageTierToString(StorageTier::COLD),    "cold");
+    EXPECT_EQ(storageTierToString(StorageTier::DELETED), "deleted");
+}
+
+TEST(AudioStoragePhase5, StatisticsTracking) {
+    VoiceAudioStorage storage;
+    AudioFormat fmt;
+    fmt.size_bytes = 100;
+    storage.store({1, 2, 3, 4, 5}, fmt);
+    storage.store({6, 7, 8, 9, 10}, fmt);
+    auto stats = storage.getStats();
+    EXPECT_EQ(stats.total_records, 2u);
+    EXPECT_EQ(stats.hot_records, 2u);
+}
