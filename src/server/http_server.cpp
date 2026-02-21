@@ -180,6 +180,10 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 
+#include "api/graphql.h"
+#include "server/api_version.h"
+#include "server/api_version_config.h"
+
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <sstream>
@@ -1905,6 +1909,10 @@ namespace {
     MvccClockGet,            // GET  /api/v1/mvcc/clock
     MvccStatsGet,            // GET  /api/v1/mvcc/stats
 
+    // GraphQL endpoint
+    GraphQLPost,             // POST /graphql  or  POST /api/v1/graphql
+    GraphQLSchemaGet,        // GET  /graphql/schema  or  GET /api/v1/graphql/schema
+
         NotFound
     };
 
@@ -2267,6 +2275,12 @@ namespace {
     }
     if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
     if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
+
+    // GraphQL endpoint
+    if ((path_only == "/graphql" || path_only == "/api/v1/graphql") &&
+        method == http::verb::post) return Route::GraphQLPost;
+    if ((path_only == "/graphql/schema" || path_only == "/api/v1/graphql/schema") &&
+        method == http::verb::get) return Route::GraphQLSchemaGet;
 
         return Route::NotFound;
     }
@@ -3769,6 +3783,115 @@ http::response<http::string_body> HttpServer::routeRequest(
                 response = makeErrorResponse(http::status::service_unavailable,
                     "MVCC API not available", req);
             }
+            break;
+        }
+
+        case Route::GraphQLPost: {
+            try {
+                // Parse request body as JSON: {"query":"...", "variables":{}, "operationName":"..."}
+                json body_json = json::object();
+                if (!req.body().empty()) {
+                    body_json = json::parse(req.body());
+                }
+                if (!body_json.contains("query") || !body_json["query"].is_string()) {
+                    response = makeErrorResponse(http::status::bad_request,
+                        "GraphQL request must contain a 'query' field", req);
+                    break;
+                }
+                const std::string gql_query = body_json["query"].get<std::string>();
+
+                // Build variables map
+                graphql::ExecutionContext ctx;
+                // Extract optional operationName
+                std::string op_name;
+                if (body_json.contains("operationName") && body_json["operationName"].is_string()) {
+                    op_name = body_json["operationName"].get<std::string>();
+                }
+                // Populate variables from JSON object
+                if (body_json.contains("variables") && body_json["variables"].is_object()) {
+                    for (auto& [k, v] : body_json["variables"].items()) {
+                        if (v.is_string()) {
+                            ctx.variables[k] = graphql::Value::string(v.get<std::string>());
+                        } else if (v.is_number_integer()) {
+                            ctx.variables[k] = graphql::Value::integer(v.get<int64_t>());
+                        } else if (v.is_number_float()) {
+                            ctx.variables[k] = graphql::Value::floating(v.get<double>());
+                        } else if (v.is_boolean()) {
+                            ctx.variables[k] = graphql::Value::boolean(v.get<bool>());
+                        } else {
+                            ctx.variables[k] = graphql::Value::null();
+                        }
+                    }
+                }
+
+                // Parse GraphQL query
+                auto parse_result = graphql::Parser::parse(gql_query);
+                if (!parse_result.success) {
+                    json errors_array = json::array();
+                    for (const auto& pe : parse_result.errors) {
+                        errors_array.push_back({{"message", pe.toString()}});
+                    }
+                    json err_body = {{"errors", errors_array}};
+                    response = makeResponse(http::status::bad_request, err_body.dump(), req);
+                    break;
+                }
+
+                // Execute
+                graphql::Executor executor;
+                auto exec_result = executor.execute(parse_result.document, ctx, op_name);
+
+                // Build response JSON
+                json result_json = json::object();
+                // Serialize graphql::Value to nlohmann::json without std::function overhead
+                // Uses templated Y-combinator so the lambda can call itself directly
+                auto serialize_value = [&](auto& self,
+                        const std::shared_ptr<graphql::Value>& val) -> json {
+                    if (!val || val->isNull()) return json(nullptr);
+                    if (val->isBool())   return json(val->asBool());
+                    if (val->isInt())    return json(val->asInt());
+                    if (val->isFloat())  return json(val->asFloat());
+                    if (val->isString()) return json(val->asString());
+                    if (val->isEnum())   return json(val->asString());
+                    if (val->isList()) {
+                        json arr = json::array();
+                        for (const auto& item : val->asList())
+                            arr.push_back(self(self, item));
+                        return arr;
+                    }
+                    if (val->isObject()) {
+                        json obj = json::object();
+                        for (const auto& [k, v] : val->asObject())
+                            obj[k] = self(self, v);
+                        return obj;
+                    }
+                    return json(nullptr);
+                };
+                if (exec_result.data) {
+                    result_json["data"] = serialize_value(serialize_value, exec_result.data);
+                } else {
+                    result_json["data"] = json(nullptr);
+                }
+                if (exec_result.hasErrors()) {
+                    json errors_array = json::array();
+                    for (const auto& me : exec_result.errors) {
+                        errors_array.push_back({{"message", me.message}, {"extensions", {{"code", me.code}}}});
+                    }
+                    result_json["errors"] = errors_array;
+                }
+                response = makeResponse(http::status::ok, result_json.dump(), req);
+            } catch (const json::exception& e) {
+                response = makeErrorResponse(http::status::bad_request,
+                    std::string("Invalid JSON in GraphQL request: ") + e.what(), req);
+            }
+            break;
+        }
+
+        case Route::GraphQLSchemaGet: {
+            // Return the GraphQL Schema Definition Language (SDL)
+            auto schema = graphql::ThemisSchemaBuilder::build();
+            std::string sdl = schema.toSDL();
+            response = makeResponse(http::status::ok, sdl, req);
+            response.set(http::field::content_type, "text/plain; charset=utf-8");
             break;
         }
 
@@ -6767,6 +6890,51 @@ void HttpServer::applyGovernanceHeaders(
     res.set("X-Themis-Export", export_perm);
     res.set("X-Themis-Cache", cache_perm);
     res.set("X-Themis-Retention-Days", retention_days);
+
+    // ------------------------------------------------------------------------
+    // API Versioning Headers (RFC 8594 Sunset + custom API-Version)
+    // ------------------------------------------------------------------------
+    {
+        static const APIVersionManager api_version_mgr;
+
+        // Determine requested version from Accept-Version or API-Version request header
+        std::string version_header;
+        auto av_it = req.find(APIHeaders::ACCEPT_VERSION);
+        if (av_it != req.end()) {
+            version_header = std::string(av_it->value());
+        }
+        auto resolved = api_version_mgr.resolveVersion(version_header);
+        // Emit the resolved (actual) API version used
+        res.set(APIHeaders::API_VERSION, resolved.toString());
+
+        // Emit deprecation headers if the endpoint is scheduled for removal
+        auto dep_info = api_version_mgr.getDeprecationInfo(path_only, resolved);
+        if (dep_info.has_value()) {
+            // RFC 8594: Deprecation header (ISO 8601 date of deprecation)
+            {
+                std::time_t dep_t = std::chrono::system_clock::to_time_t(dep_info->deprecation_date);
+                std::tm dep_tm{};
+                portable_gmtime_r_impl(&dep_t, &dep_tm);
+                char buf[64];
+                std::strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &dep_tm);
+                res.set(APIHeaders::DEPRECATION_WARNING, buf);
+            }
+            // RFC 8594: Sunset header (ISO 8601 date of removal)
+            {
+                std::time_t sun_t = std::chrono::system_clock::to_time_t(dep_info->removal_date);
+                std::tm sun_tm{};
+                portable_gmtime_r_impl(&sun_t, &sun_tm);
+                char buf[64];
+                std::strftime(buf, sizeof(buf), "%a, %d %b %Y %H:%M:%S GMT", &sun_tm);
+                res.set(APIHeaders::SUNSET, buf);
+            }
+            // Link to migration guide if available
+            if (!dep_info->migration_guide_url.empty()) {
+                res.set(APIHeaders::LINK,
+                    "<" + dep_info->migration_guide_url + ">; rel=\"deprecation\"");
+            }
+        }
+    }
 
     // ------------------------------------------------------------------------
     // Security Headers (global defaults, safe for JSON APIs)
