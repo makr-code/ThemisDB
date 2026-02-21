@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 #include <optional>
 #include "utils/expected.h"
@@ -106,6 +107,47 @@ public:
         (void)prefix; (void)callback;
         return ErrVoid(errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
                        "scanPrefix not implemented");
+    }
+
+    /**
+     * @brief A single key range for use with scanMultiRange().
+     */
+    struct ScanRange {
+        std::string start_key;  ///< Inclusive lower bound (empty = beginning).
+        std::string end_key;    ///< Exclusive upper bound (empty = end).
+    };
+
+    /**
+     * @brief Scan multiple key ranges in a single call.
+     *
+     * Iterates all provided @p ranges in order, calling @p callback for
+     * every key-value pair encountered.  Ranges are processed sequentially;
+     * overlapping ranges may deliver duplicate entries.
+     *
+     * Returns false from @p callback to stop iteration over the current range
+     * (and all subsequent ranges).
+     *
+     * The default implementation delegates each range to scanRange().
+     *
+     * @param ranges    List of {start_key, end_key} pairs to scan.
+     * @param callback  Called for each key-value pair; return false to stop.
+     * @return Result<void> – ok on success, error on first failure.
+     */
+    virtual Result<void> scanMultiRange(
+        const std::vector<ScanRange>& ranges,
+        std::function<bool(std::string_view key, std::string_view value)> callback)
+    {
+        for (const auto& r : ranges) {
+            bool stop = false;
+            auto res = scanRange(r.start_key, r.end_key,
+                [&](std::string_view k, std::string_view v) -> bool {
+                    if (!callback(k, v)) { stop = true; return false; }
+                    return true;
+                });
+            if (!res.has_value()) return res;
+            if (stop) break;
+        }
+        return OkVoid();
     }
 };
 

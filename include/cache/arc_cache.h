@@ -66,6 +66,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace themis {
 namespace cache {
@@ -93,6 +94,7 @@ public:
         uint64_t evictions_t2{0};  ///< Pages evicted from T2
         uint64_t b1_hits{0};       ///< Ghost hits in B1 (recency side)
         uint64_t b2_hits{0};       ///< Ghost hits in B2 (frequency side)
+        uint64_t pin_skips{0};     ///< Evictions skipped because page was pinned
 
         /** Fraction of lookups that were cache hits (0.0 – 1.0). */
         double hit_rate() const {
@@ -275,6 +277,7 @@ public:
         t2_list_.clear(); t2_map_.clear();
         b1_set_.clear();
         b2_set_.clear();
+        pinned_.clear();
         p_ = 0;
         stats_ = {};
     }
@@ -308,6 +311,42 @@ public:
         return t1_map_.count(key) || t2_map_.count(key);
     }
 
+    // ── Hot-page pinning ─────────────────────────────────────────────────────
+
+    /**
+     * @brief Pin a page so it cannot be evicted.
+     *
+     * Pinned pages are skipped during eviction even when the cache is full.
+     * A page that is not currently in the cache may be pinned in advance;
+     * when it is subsequently inserted it will not be evicted until unpinned.
+     *
+     * @param key Key to pin.
+     */
+    void pin(const K& key) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        pinned_.insert(key);
+    }
+
+    /**
+     * @brief Unpin a page so it becomes eligible for eviction again.
+     *
+     * @param key Key to unpin.
+     */
+    void unpin(const K& key) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        pinned_.erase(key);
+    }
+
+    /**
+     * @brief Return true if @p key is currently pinned.
+     *
+     * @note A pinned page may or may not be present in the cache.
+     */
+    bool isPinned(const K& key) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return pinned_.count(key) != 0;
+    }
+
 private:
     // ── Internal types ───────────────────────────────────────────────────────
 
@@ -329,24 +368,37 @@ private:
      *
      * If |T1| > p (or T2 is empty), evict LRU from T1 → move key to B1.
      * Otherwise evict LRU from T2 → move key to B2.
+     * Pinned pages are skipped (stat: pin_skips incremented once per blocked attempt).
      */
     void evict() {
+        // Try T1 first (respecting ARC policy), skip pinned pages
         if (!t1_list_.empty() &&
             (t1_list_.size() > p_ || t2_list_.empty())) {
-            // Evict from T1
-            auto& lru = t1_list_.back();
-            b1_set_[lru.key] = true;
-            t1_map_.erase(lru.key);
-            t1_list_.pop_back();
-            ++stats_.evictions_t1;
-        } else if (!t2_list_.empty()) {
-            // Evict from T2
-            auto& lru = t2_list_.back();
-            b2_set_[lru.key] = true;
-            t2_map_.erase(lru.key);
-            t2_list_.pop_back();
-            ++stats_.evictions_t2;
+            // Scan from LRU end of T1 for an unpinned candidate
+            for (auto it = t1_list_.rbegin(); it != t1_list_.rend(); ++it) {
+                if (pinned_.count(it->key) == 0) {
+                    b1_set_[it->key] = true;
+                    t1_map_.erase(it->key);
+                    t1_list_.erase(std::next(it).base());
+                    ++stats_.evictions_t1;
+                    return;
+                }
+            }
+            // All T1 candidates were pinned – count as one blocked eviction attempt
+            ++stats_.pin_skips;
         }
+        // Try T2
+        for (auto it = t2_list_.rbegin(); it != t2_list_.rend(); ++it) {
+            if (pinned_.count(it->key) == 0) {
+                b2_set_[it->key] = true;
+                t2_map_.erase(it->key);
+                t2_list_.erase(std::next(it).base());
+                ++stats_.evictions_t2;
+                return;
+            }
+        }
+        // All live pages are pinned – count as one blocked eviction attempt
+        ++stats_.pin_skips;
     }
 
     // ── Data members ─────────────────────────────────────────────────────────
@@ -363,6 +415,9 @@ private:
     // Ghost lists (hold only keys, no data)
     GhostSet b1_set_;         ///< Keys evicted from T1
     GhostSet b2_set_;         ///< Keys evicted from T2
+
+    // Pinned pages (may not be evicted)
+    std::unordered_set<K> pinned_;
 
     mutable std::mutex mutex_;
     Stats stats_;

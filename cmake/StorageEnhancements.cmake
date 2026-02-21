@@ -35,6 +35,9 @@ list(APPEND THEMIS_CORE_SOURCES
     # Compaction and Garbage-Collection manager
     ../src/storage/compaction_manager.cpp
 
+    # Storage Audit Logger (append-only, rotating audit trail)
+    ../src/storage/storage_audit_logger.cpp
+
     # Index Maintenance Automation (Phase 4)
     ../src/storage/index_maintenance.cpp
     

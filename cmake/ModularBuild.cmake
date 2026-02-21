@@ -176,6 +176,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/wal_storage.cpp
     # Compaction and GC management
     ../src/storage/compaction_manager.cpp
+    # Storage Audit Logger
+    ../src/storage/storage_audit_logger.cpp
     # MVCC versioning and HLC timestamping
     ../src/storage/hlc.cpp
     ../src/storage/mvcc_store.cpp

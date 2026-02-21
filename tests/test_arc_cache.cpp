@@ -274,3 +274,85 @@ TEST(ARCCacheTest, LargeCapacity_Works) {
     }
     EXPECT_EQ(c.size(), 5000u);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Hot-page pinning
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST(ARCCachePinTest, PinNotPresent_MarkedPinned) {
+    Cache c(4);
+    c.pin(99);
+    EXPECT_TRUE(c.isPinned(99));
+    EXPECT_FALSE(c.contains(99));
+}
+
+TEST(ARCCachePinTest, UnpinClearsFlag) {
+    Cache c(4);
+    c.pin(1);
+    EXPECT_TRUE(c.isPinned(1));
+    c.unpin(1);
+    EXPECT_FALSE(c.isPinned(1));
+}
+
+TEST(ARCCachePinTest, PinnedPageNotEvicted_WhenCacheFull) {
+    // Capacity = 2; pin key 1, fill with 1 and 2, then add key 3.
+    // Key 1 should NOT be evicted because it is pinned; key 2 should be evicted.
+    Cache c(2);
+    c.put(1, "pinned");
+    c.put(2, "other");
+    c.pin(1);
+
+    // Fill cache – this forces an eviction
+    c.put(3, "new");
+
+    // Pinned key 1 must still be in cache
+    EXPECT_TRUE(c.contains(1));
+    EXPECT_TRUE(c.isPinned(1));
+}
+
+TEST(ARCCachePinTest, UnpinnedPageEvictedNormally) {
+    Cache c(2);
+    c.put(1, "a");
+    c.put(2, "b");
+    // key 1 is at LRU position; not pinned → should be evicted
+    c.put(3, "c");
+    // One of {1,2} should have been evicted; exactly 2 items remain
+    EXPECT_EQ(c.size(), 2u);
+}
+
+TEST(ARCCachePinTest, PinSurvivesClear) {
+    Cache c(4);
+    c.pin(7);
+    c.put(7, "val");
+    c.clear();
+    // clear() removes pinned set and live pages
+    EXPECT_FALSE(c.isPinned(7));
+    EXPECT_FALSE(c.contains(7));
+}
+
+TEST(ARCCachePinTest, PinSkipsStatIncremented) {
+    // Fill cache to capacity, pin both items, try to insert a new one.
+    // Both T1 and T2 pages are pinned → no eviction possible → pin_skips > 0.
+    Cache c(2);
+    c.put(1, "a");
+    c.put(2, "b");
+    c.pin(1);
+    c.pin(2);
+    c.put(3, "c");
+    auto s = c.stats();
+    EXPECT_GT(s.pin_skips, 0u);
+}
+
+TEST(ARCCachePinTest, PinPreventEvictionFromT2) {
+    Cache c(2);
+    // Access key 1 twice to promote it to T2
+    c.put(1, "hot");
+    c.get(1);  // T1 → T2 promotion
+    c.pin(1);
+
+    c.put(2, "other");
+    // Force eviction by adding a third key; key 1 (in T2, pinned) must survive
+    c.put(3, "new");
+    EXPECT_TRUE(c.contains(1));
+}
+
