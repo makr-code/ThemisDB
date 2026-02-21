@@ -48,6 +48,11 @@ TEST(ErrorCodes, ToString) {
     EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::KernelCompilationFailed), "KernelCompilationFailed");
     EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::InvalidConfiguration), "InvalidConfiguration");
     EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::UnknownError), "UnknownError");
+    EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::InputValidationFailed), "InputValidationFailed");
+    EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::InvalidInputShape), "InvalidInputShape");
+    EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::InvalidInputDtype), "InvalidInputDtype");
+    EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::BatchSizeExceeded), "BatchSizeExceeded");
+    EXPECT_STREQ(errorCodeToString(AccelerationErrorCode::InputRangeViolation), "InputRangeViolation");
 }
 
 // Test initialization error categorization
@@ -135,6 +140,22 @@ TEST(ErrorCodes, KernelErrorCategory) {
     EXPECT_FALSE(isKernelError(AccelerationErrorCode::KernelLaunchFailed)); // Runtime, not kernel error
 }
 
+// Test validation error categorization
+TEST(ErrorCodes, ValidationErrorCategory) {
+    // Should be validation errors (600-699)
+    EXPECT_TRUE(isValidationError(AccelerationErrorCode::InputValidationFailed));
+    EXPECT_TRUE(isValidationError(AccelerationErrorCode::InvalidInputShape));
+    EXPECT_TRUE(isValidationError(AccelerationErrorCode::InvalidInputDtype));
+    EXPECT_TRUE(isValidationError(AccelerationErrorCode::BatchSizeExceeded));
+    EXPECT_TRUE(isValidationError(AccelerationErrorCode::InputRangeViolation));
+    
+    // Should NOT be validation errors
+    EXPECT_FALSE(isValidationError(AccelerationErrorCode::Success));
+    EXPECT_FALSE(isValidationError(AccelerationErrorCode::NoDevicesFound));
+    EXPECT_FALSE(isValidationError(AccelerationErrorCode::KernelLaunchFailed));
+    EXPECT_FALSE(isValidationError(AccelerationErrorCode::InvalidConfiguration));
+}
+
 // Test ErrorContext basic properties
 TEST(ErrorContext, BasicProperties) {
     ErrorContext error(
@@ -203,6 +224,9 @@ TEST(ErrorContext, Category) {
     
     ErrorContext kernelError(AccelerationErrorCode::KernelCompilationFailed, "CUDA", "");
     EXPECT_EQ(kernelError.getCategory(), "Kernel");
+    
+    ErrorContext validationError(AccelerationErrorCode::InputValidationFailed, "CUDA", "");
+    EXPECT_EQ(validationError.getCategory(), "Validation");
     
     ErrorContext success(AccelerationErrorCode::Success, "CUDA", "");
     EXPECT_EQ(success.getCategory(), "Success");
@@ -343,6 +367,11 @@ TEST(ErrorCodes, Uniqueness) {
         static_cast<uint32_t>(AccelerationErrorCode::KernelNotFound),
         static_cast<uint32_t>(AccelerationErrorCode::InvalidKernelArguments),
         static_cast<uint32_t>(AccelerationErrorCode::ProgramLinkingFailed),
+        static_cast<uint32_t>(AccelerationErrorCode::InputValidationFailed),
+        static_cast<uint32_t>(AccelerationErrorCode::InvalidInputShape),
+        static_cast<uint32_t>(AccelerationErrorCode::InvalidInputDtype),
+        static_cast<uint32_t>(AccelerationErrorCode::BatchSizeExceeded),
+        static_cast<uint32_t>(AccelerationErrorCode::InputRangeViolation),
         static_cast<uint32_t>(AccelerationErrorCode::UnknownError),
         static_cast<uint32_t>(AccelerationErrorCode::InternalError),
         static_cast<uint32_t>(AccelerationErrorCode::NotImplemented),
@@ -376,12 +405,11 @@ TEST(ErrorCodes, Ranges) {
     EXPECT_GE(static_cast<uint32_t>(AccelerationErrorCode::KernelCompilationFailed), 500);
     EXPECT_LT(static_cast<uint32_t>(AccelerationErrorCode::KernelCompilationFailed), 600);
     
+    // Validation errors: 600-699
+    EXPECT_GE(static_cast<uint32_t>(AccelerationErrorCode::InputValidationFailed), 600);
+    EXPECT_LT(static_cast<uint32_t>(AccelerationErrorCode::InputValidationFailed), 700);
+    
     // Generic errors: 900-999
     EXPECT_GE(static_cast<uint32_t>(AccelerationErrorCode::UnknownError), 900);
     EXPECT_LT(static_cast<uint32_t>(AccelerationErrorCode::UnknownError), 1000);
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

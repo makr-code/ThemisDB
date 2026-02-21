@@ -137,11 +137,13 @@ struct ErrorContext {
      * Get error category as string
      */
     std::string getCategory() const {
+        if (code == AccelerationErrorCode::Success) return "Success";
         if (isInitializationError(code)) return "Initialization";
         if (isResourceError(code)) return "Resource";
         if (isRuntimeError(code)) return "Runtime";
         if (isConfigurationError(code)) return "Configuration";
         if (isKernelError(code)) return "Kernel";
+        if (isValidationError(code)) return "Validation";
         return "Unknown";
     }
 };
@@ -220,6 +222,17 @@ namespace ErrorContextHelpers {
             backendName,
             "Failed to launch kernel '" + kernelName + "': " + details,
             "Check: 1) Kernel arguments are valid, 2) Work group size is appropriate"
+        );
+    }
+
+    inline ErrorContext createValidationError(const std::string& backendName,
+                                              AccelerationErrorCode code,
+                                              const std::string& details) {
+        return ErrorContext(
+            code,
+            backendName,
+            "Validation failed: " + details,
+            "Check input shapes, data types, value ranges and batch sizes before dispatch"
         );
     }
 
