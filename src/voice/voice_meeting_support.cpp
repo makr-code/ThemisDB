@@ -270,13 +270,15 @@ ComplianceRecord VoiceMeetingSupport::createComplianceRecord(
         rec.ccpa_compliant = true;
         rec.retention_policy = "90days";
         rec.regulatory_flags = {{"gdpr", true}, {"ccpa", false}};
-    } else if (jurisdiction == "US/CA" || jurisdiction == "CA") {
+    } else if (jurisdiction == "CA") {
+        // California (CCPA)
         rec.gdpr_compliant = false;
         rec.ccpa_compliant = consent_obtained;
         rec.retention_policy = "365days";
         rec.regulatory_flags = {{"gdpr", false}, {"ccpa", true}};
     } else {
-        // Default US
+        // Default US: CCPA is technically California-only, but consent is still recorded.
+        // ccpa_compliant is set to match consent_obtained for general US record-keeping.
         rec.gdpr_compliant = false;
         rec.ccpa_compliant = consent_obtained;
         rec.retention_policy = "90days";
@@ -294,7 +296,7 @@ bool VoiceMeetingSupport::isCompliantForJurisdiction(
     if (jurisdiction == "EU" || jurisdiction == "EEA") {
         return record.gdpr_compliant && record.consent_obtained;
     }
-    if (jurisdiction == "US/CA" || jurisdiction == "CA") {
+    if (jurisdiction == "CA") {
         return record.ccpa_compliant && record.consent_obtained;
     }
     // Default: consent required

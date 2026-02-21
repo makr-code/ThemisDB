@@ -94,7 +94,8 @@ std::vector<VoiceProfile> VoiceTTSCustomizer::getProfilesForLanguage(const std::
     std::vector<VoiceProfile> result;
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang ||
-            p.language.substr(0, 2) == lang.substr(0, 2)) {
+            (p.language.size() >= 2 && lang.size() >= 2 &&
+             p.language.substr(0, 2) == lang.substr(0, 2))) {
             result.push_back(p);
         }
     }
@@ -320,9 +321,10 @@ std::string VoiceTTSCustomizer::getBestVoiceForLanguage(const std::string& lang_
         return it->second.default_voice_id;
     }
     // Try prefix match (e.g. "en" matches "en-US")
+    if (lang_code.empty() || lang_code.size() < 2) return {};
     std::string prefix = lang_code.substr(0, 2);
     for (const auto& [code, lv] : language_voices_) {
-        if (code.substr(0, 2) == prefix && !lv.default_voice_id.empty()) {
+        if (code.size() >= 2 && code.substr(0, 2) == prefix && !lv.default_voice_id.empty()) {
             return lv.default_voice_id;
         }
     }
@@ -334,7 +336,8 @@ bool VoiceTTSCustomizer::supportsLanguage(const std::string& lang_code) const {
     // Check profile languages
     for (const auto& [id, p] : profiles_) {
         if (p.language == lang_code ||
-            p.language.substr(0, 2) == lang_code.substr(0, 2)) {
+            (p.language.size() >= 2 && lang_code.size() >= 2 &&
+             p.language.substr(0, 2) == lang_code.substr(0, 2))) {
             return true;
         }
     }

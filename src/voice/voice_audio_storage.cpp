@@ -74,14 +74,18 @@ AudioFormat VoiceAudioStorage::detectFormat(const std::vector<uint8_t>& data) co
         }
         // OGG: "OggS"
         if (data[0]=='O' && data[1]=='g' && data[2]=='g' && data[3]=='S') {
-            // 'OpusHead' signature appears at byte offset 28 in the first OGG page
-            // (4 capture pattern + 1 version + 1 type + 8 granule + 4 serial + 4 page seq)
+            // Check for OpusHead signature (8 bytes) in the first OGG page
+            // Typical offset is 28 bytes into the OGG stream.
             static constexpr size_t OGG_OPUS_SIGNATURE_OFFSET = 28;
-            if (data.size() >= OGG_OPUS_SIGNATURE_OFFSET + 4) {
+            if (data.size() >= OGG_OPUS_SIGNATURE_OFFSET + 8) {
                 bool is_opus = (data[OGG_OPUS_SIGNATURE_OFFSET  ]=='O' &&
                                 data[OGG_OPUS_SIGNATURE_OFFSET+1]=='p' &&
                                 data[OGG_OPUS_SIGNATURE_OFFSET+2]=='u' &&
-                                data[OGG_OPUS_SIGNATURE_OFFSET+3]=='s');
+                                data[OGG_OPUS_SIGNATURE_OFFSET+3]=='s' &&
+                                data[OGG_OPUS_SIGNATURE_OFFSET+4]=='H' &&
+                                data[OGG_OPUS_SIGNATURE_OFFSET+5]=='e' &&
+                                data[OGG_OPUS_SIGNATURE_OFFSET+6]=='a' &&
+                                data[OGG_OPUS_SIGNATURE_OFFSET+7]=='d');
                 fmt.codec = is_opus ? "opus" : "ogg";
             } else {
                 fmt.codec = "ogg";

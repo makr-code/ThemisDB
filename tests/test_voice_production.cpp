@@ -1310,6 +1310,14 @@ TEST(AudioStoragePhase5, ContentDeduplication) {
     // Verify physical storage is not doubled
     auto stats = storage.getStats();
     EXPECT_EQ(stats.total_bytes, data.size()); // only one copy stored
+    // Both IDs should retrieve the same audio data
+    auto retrieved1 = storage.retrieve(id1);
+    auto retrieved2 = storage.retrieve(id2);
+    ASSERT_TRUE(retrieved1.has_value());
+    ASSERT_TRUE(retrieved2.has_value());
+    EXPECT_EQ(*retrieved1, data);
+    EXPECT_EQ(*retrieved2, data);
+    EXPECT_EQ(*retrieved1, *retrieved2);
 }
 
 TEST(AudioStoragePhase5, ComputeHash) {
