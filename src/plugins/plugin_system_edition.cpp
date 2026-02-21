@@ -34,6 +34,7 @@
 #include <iomanip>
 #include <filesystem>
 #include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
 
 #ifdef _WIN32
@@ -116,14 +117,9 @@ public:
     // Attempt to load a plugin.
     // Returns false and sets error_out on failure (no exception thrown).
     bool LoadPlugin(const PluginManifest& manifest, std::string& error_out) {
-        // Edition gating: Check if plugins are available
-        if (!ArePluginsSupported()) {
-            error_out = "Plugin system not available in ";
-            error_out += std::string(edition::EDITION_STRING);
-            error_out += " edition.";
-            if (edition::GetEditionType() == edition::EditionType::COMMUNITY) {
-                error_out += " To use plugins, please upgrade to Enterprise Edition or higher.";
-            }
+        // Edition + runtime license gating: Check if plugins are available
+        if (!license::RuntimeLicenseGate::instance()
+                .isFeatureAllowed("enterprise_plugins", error_out)) {
             RecordFailure(manifest, error_out);
             return false;
         }
@@ -368,10 +364,10 @@ inline std::string GetPluginMarketplaceInfo() {
     return result;
 }
 
-// Check if a specific plugin type is available
+// Check if a specific plugin type is available (compile-time + runtime gate)
 inline bool CanUsePluginType(PluginType type) {
     (void)type;  // All plugin types require Enterprise or higher
-    return edition::FEATURE_ENTERPRISE_PLUGINS;
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
 }
 
 // Get installation instructions for plugins
