@@ -25,7 +25,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] AQL syntax highlighting and error annotation in LLM responses
 - [ ] Query template library for common AQL patterns
 - [ ] Interactive AQL query builder with LLM suggestions
-- [ ] Batch NL-to-AQL translation for offline workloads
+- [x] Batch NL-to-AQL translation for offline workloads
 - [ ] Confidence scoring for generated AQL queries
 - [ ] Multi-turn conversation context for iterative query refinement
 

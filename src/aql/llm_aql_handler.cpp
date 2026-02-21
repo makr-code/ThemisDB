@@ -728,6 +728,28 @@ std::string LLMAQLHandler::translateNLToAQL(
     }
 }
 
+std::vector<LLMAQLHandler::BatchNLToAQLResult> LLMAQLHandler::translateBatchNLToAQL(
+    const std::vector<BatchNLToAQLRequest>& requests
+) {
+    std::vector<BatchNLToAQLResult> results;
+    results.reserve(requests.size());
+
+    for (const auto& req : requests) {
+        BatchNLToAQLResult result;
+        try {
+            result.aql_query = translateNLToAQL(req.nl_query, req.schema_context);
+            result.success = true;
+        } catch (const std::exception& e) {
+            result.aql_query.clear();
+            result.error = e.what();
+            result.success = false;
+        }
+        results.push_back(std::move(result));
+    }
+
+    return results;
+}
+
 std::string LLMAQLHandler::executeChat(
     const std::vector<llm::ChatMessage>& messages,
     const std::string& model_id,

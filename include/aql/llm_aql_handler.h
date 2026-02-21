@@ -114,6 +114,38 @@ public:
         const std::string& schema_context = ""
     );
 
+    // Batch NL-to-AQL Translation for offline workloads
+    /**
+     * @brief Single request for batch NL-to-AQL translation
+     */
+    struct BatchNLToAQLRequest {
+        std::string nl_query;       ///< Natural language query
+        std::string schema_context; ///< Optional database schema context
+    };
+
+    /**
+     * @brief Result of a single NL-to-AQL translation within a batch
+     */
+    struct BatchNLToAQLResult {
+        std::string aql_query; ///< Translated AQL query; empty when translation failed
+        std::string error;     ///< Error message if translation failed; empty on success
+        bool success;          ///< true if translation succeeded
+    };
+
+    /**
+     * @brief Translate a batch of natural language queries to AQL for offline workloads.
+     *
+     * Processes every request in order and returns one result per request.
+     * Individual translation failures are captured in the result's @c error field
+     * so that a single failure does not abort the entire batch.
+     *
+     * @param requests Vector of NL queries with optional schema contexts
+     * @return Vector of results in the same order as the input requests
+     */
+    std::vector<BatchNLToAQLResult> translateBatchNLToAQL(
+        const std::vector<BatchNLToAQLRequest>& requests
+    );
+
     // Conversation/Chat Support
     /**
      * @brief Execute chat interaction with message history
