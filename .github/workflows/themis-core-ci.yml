@@ -7,12 +7,14 @@ on:
     paths:
       - 'src/utils/build_info.cpp'
       - 'src/utils/license_info.cpp'
+      - 'src/utils/runtime_license_gate.cpp'
       - 'src/base/module_loader.cpp'
       - 'src/base/module_sandbox.cpp'
       - 'src/network/wire_protocol_v2.cpp'
       - 'src/network/wire_protocol_performance.cpp'
       - 'include/themis/build_info.h'
       - 'include/themis/license_info.h'
+      - 'include/themis/runtime_license_gate.h'
       - 'include/themis/base/module_loader.h'
       - 'include/themis/base/module_sandbox.h'
       - 'include/themis/network/wire_protocol_v2.hpp'
@@ -22,22 +24,30 @@ on:
       - 'cmake/MiscellaneousFeatures.cmake'
       - 'tests/test_build_info.cpp'
       - 'tests/test_license_client.cpp'
+      - 'tests/test_license_validation.cpp'
+      - 'tests/test_runtime_license_gate.cpp'
       - 'tests/test_module_sandbox.cpp'
       - 'tests/test_wire_protocol_v2.cpp'
       - 'tests/test_wire_protocol_performance.cpp'
       - 'tests/test_fuzz_core.cpp'
       - 'tests/performance/test_wire_perf_benchmark.cpp'
+      - 'scripts/license-server/**'
+      - 'wordpress-plugin/themisdb-order-request/includes/class-license-api.php'
+      - 'wordpress-plugin/themisdb-order-request/includes/class-license-portal.php'
+      - 'wordpress-plugin/themisdb-order-request/includes/class-license-renewal.php'
       - '.github/workflows/themis-core-ci.yml'
   pull_request:
     paths:
       - 'src/utils/build_info.cpp'
       - 'src/utils/license_info.cpp'
+      - 'src/utils/runtime_license_gate.cpp'
       - 'src/base/module_loader.cpp'
       - 'src/base/module_sandbox.cpp'
       - 'src/network/wire_protocol_v2.cpp'
       - 'src/network/wire_protocol_performance.cpp'
       - 'include/themis/build_info.h'
       - 'include/themis/license_info.h'
+      - 'include/themis/runtime_license_gate.h'
       - 'include/themis/base/module_loader.h'
       - 'include/themis/base/module_sandbox.h'
       - 'include/themis/network/wire_protocol_v2.hpp'
@@ -47,11 +57,17 @@ on:
       - 'cmake/MiscellaneousFeatures.cmake'
       - 'tests/test_build_info.cpp'
       - 'tests/test_license_client.cpp'
+      - 'tests/test_license_validation.cpp'
+      - 'tests/test_runtime_license_gate.cpp'
       - 'tests/test_module_sandbox.cpp'
       - 'tests/test_wire_protocol_v2.cpp'
       - 'tests/test_wire_protocol_performance.cpp'
       - 'tests/test_fuzz_core.cpp'
       - 'tests/performance/test_wire_perf_benchmark.cpp'
+      - 'scripts/license-server/**'
+      - 'wordpress-plugin/themisdb-order-request/includes/class-license-api.php'
+      - 'wordpress-plugin/themisdb-order-request/includes/class-license-portal.php'
+      - 'wordpress-plugin/themisdb-order-request/includes/class-license-renewal.php'
       - '.github/workflows/themis-core-ci.yml'
   workflow_dispatch:   # Allow manual trigger from the Actions UI
 
@@ -182,7 +198,7 @@ jobs:
         run: |
           cd build
           ./tests/themis_tests \
-            --gtest_filter="LicenseActivation*:LicenseClientConfig*:LicenseClient*" \
+            --gtest_filter="LicenseActivation*:LicenseClientConfig*:LicenseClient*:RuntimeLicenseGate*:RuntimeLicenseGateInit*" \
             --gtest_output="xml:license_results.xml" \
             2>&1 | tee license_output.txt
 
@@ -287,7 +303,7 @@ jobs:
         run: |
           cd build
           ./tests/themis_tests \
-            --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*:WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*:WireProtocolMetrics*:PayloadBufferPool*:CompressionAdvisor*:AbiChecker*:ModuleSandbox*:ModuleLoader*:LicenseClient*:FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*:WirePerfBenchmark*" \
+            --gtest_filter="BuildConfiguration*:BuildInfo*:ModuleQuery*:ReproducibilityInfo*:BuildManifest*:WireV2*:V2Frame*:V2Stream*:V2Connection*:V2Server*:WireProtocolMetrics*:PayloadBufferPool*:CompressionAdvisor*:AbiChecker*:ModuleSandbox*:ModuleLoader*:LicenseClient*:RuntimeLicenseGate*:RuntimeLicenseGateInit*:FuzzWireV2*:FuzzLicenseData*:FuzzBuildInfo*:FuzzAbiChecker*:FuzzBufferPool*:FuzzCompressionAdvisor*:WirePerfBenchmark*" \
             2>&1 | tee coverage_test_output.txt || true
 
       - name: Capture lcov data
@@ -341,12 +357,24 @@ jobs:
             exit 1
           fi
           echo "OK: docs/architecture/THEMIS_CORE_GUIDE.md ($(wc -l < docs/architecture/THEMIS_CORE_GUIDE.md) lines)"
+          # Verify runtime license guides
+          for guide in \
+            docs/en/guides/LICENSE_RUNTIME_GUIDE.md \
+            docs/de/guides/LICENSE_RUNTIME_LEITFADEN.md; do
+            if [ -f "$guide" ]; then
+              echo "OK: $guide ($(wc -l < "$guide") lines)"
+            else
+              echo "MISSING: $guide" >&2
+              exit 1
+            fi
+          done
 
       - name: Verify all referenced headers exist
         run: |
           declare -a headers=(
             "include/themis/build_info.h"
             "include/themis/license_info.h"
+            "include/themis/runtime_license_gate.h"
             "include/themis/base/module_loader.h"
             "include/themis/base/module_sandbox.h"
             "include/themis/network/wire_protocol_v2.hpp"
@@ -377,3 +405,45 @@ jobs:
           if [ "$count" -gt 20 ]; then
             echo "::warning::${count} open TODO/FIXME items in core sources"
           fi
+
+  # ───────────────────────────────────────────────────────────────────────────
+  # 4.  License server Python tests
+  # ───────────────────────────────────────────────────────────────────────────
+  license-server-tests:
+    name: License server tests (Python / FastAPI)
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: scripts/license-server
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'scripts/license-server/requirements.txt'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt pytest
+
+      - name: Run license server tests
+        env:
+          THEMIS_LS_API_KEY: ci-test-api-key-not-secret
+          THEMIS_LS_ADMIN_SECRET: ci-test-admin-secret-not-secret
+        run: python -m pytest test_license_server.py -v --tb=short
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: license-server-test-results
+          path: scripts/license-server/.pytest_cache/
+          retention-days: 14
