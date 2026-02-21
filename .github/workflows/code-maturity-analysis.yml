@@ -39,6 +39,8 @@ jobs:
           pip install gitpython pyyaml
 
       - name: Run code maturity analysis
+        env:
+          MATURITY_MAX_HISTORY: '5'
         run: |
           python .github/scripts/analyze_code_maturity.py --root .
 

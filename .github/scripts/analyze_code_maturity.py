@@ -40,6 +40,9 @@ SUPPORTED_EXTENSIONS: Dict[str, str] = {
     '.php': 'c',
 }
 
+# Maximale Anzahl von Commits in der Revisionshistorie (konfigurierbar via Umgebungsvariable)
+MAX_HISTORY_ENTRIES: int = int(os.getenv('MATURITY_MAX_HISTORY', '5'))
+
 # Verzeichnisse, die von der Analyse ausgeschlossen werden
 EXCLUDE_DIRS: set = {
     '.git',
@@ -260,12 +263,77 @@ def get_git_author() -> str:
         return 'unknown'
 
 
+def get_file_commit_history(
+    filepath: Path,
+    repo_root: Path,
+    max_entries: int = MAX_HISTORY_ENTRIES,
+) -> List[Dict[str, str]]:
+    """
+    Extrahiert die letzten Commits für eine Datei aus der Git-Historie.
+
+    Returns:
+        Liste von Dicts mit: {'sha': str, 'date': str, 'title': str, 'author': str}
+    """
+    try:
+        # Prüfe ob Datei in Git-Historie ist
+        check = subprocess.run(
+            ['git', 'ls-files', '--error-unmatch', str(filepath)],
+            capture_output=True,
+            cwd=repo_root,
+        )
+        if check.returncode != 0:
+            return []
+
+        result = subprocess.run(
+            [
+                'git', 'log',
+                f'-{max_entries}',
+                '--pretty=format:%h|%ad|%s|%an',
+                '--date=short',
+                '--follow',
+                str(filepath),
+            ],
+            capture_output=True,
+            text=True,
+            cwd=repo_root,
+            timeout=10,
+        )
+
+        if result.returncode != 0 or not result.stdout.strip():
+            return []
+
+        history: List[Dict[str, str]] = []
+        for line in result.stdout.strip().split('\n'):
+            if not line:
+                continue
+            parts = line.split('|', maxsplit=3)
+            if len(parts) >= 4:
+                title = parts[2]
+                if len(title) > 60:
+                    title = title[:57] + '...'
+                history.append({
+                    'sha':    parts[0],
+                    'date':   parts[1],
+                    'title':  title,
+                    'author': parts[3],
+                })
+
+        return history
+    except subprocess.TimeoutExpired:
+        print(f'Timeout getting commit history for {filepath}', file=sys.stderr)
+        return []
+    except Exception as exc:
+        print(f'Error getting commit history for {filepath}: {exc}', file=sys.stderr)
+        return []
+
+
 def update_version(
     rel_path: str,
     tracking: Dict[str, Any],
     author: str,
     maturity: str,
     score: float,
+    recent_commits: int = 0,
 ) -> str:
     """
     Ermittelt die neue Version für eine Datei und aktualisiert das Tracking-Dict.
@@ -284,6 +352,7 @@ def update_version(
         'author':         author,
         'maturity_level': maturity,
         'score':          score,
+        'recent_commits': recent_commits,
     }
     return new_version
 
@@ -310,6 +379,7 @@ def _build_header_lines(
     todos: int,
     stubs: int,
     status: str,
+    history: Optional[List[Dict[str, str]]] = None,
 ) -> List[str]:
     """
     Erstellt die Zeilen des formatierten Datei-Headers.
@@ -334,6 +404,17 @@ def _build_header_lines(
         row(f'  • Quality Score:   {score}/100'),
         row(f'  • Total Lines:     {total_lines}'),
         row(f'  • Open Issues:     TODOs: {todos}, Stubs: {stubs}'),
+    ]
+
+    # Revisionshistorie hinzufügen
+    if history:
+        lines.append('╠' + '═' * (_BOX_WIDTH - 2) + '╣')
+        lines.append(row('Revision History:'))
+        for commit in history:
+            commit_text = f'  • {commit["sha"]}  {commit["date"]}  {commit["title"]}'
+            lines.append(row(commit_text))
+
+    lines += [
         '╠' + '═' * (_BOX_WIDTH - 2) + '╣',
         row(f'Status: {status}'),
         '╚' + '═' * (_BOX_WIDTH - 2) + '╝',
@@ -379,6 +460,7 @@ def write_header(
     version: str,
     author: str,
     result: Dict[str, Any],
+    history: Optional[List[Dict[str, str]]] = None,
 ) -> None:
     """Schreibt den formatierten Header in die Datei."""
     try:
@@ -401,6 +483,7 @@ def write_header(
         todos=result['counts']['todo'],
         stubs=result['counts']['stub'],
         status=result['status'],
+        history=history,
     )
 
     if comment_style == 'c':
@@ -568,6 +651,7 @@ def main() -> int:
     files    = find_source_files(root)
 
     results: List[Dict[str, Any]] = []
+    total_commits = 0
     for file_path in files:
         rel = str(file_path.relative_to(root))
         ext = file_path.suffix.lower()
@@ -580,20 +664,28 @@ def main() -> int:
 
         result['path'] = rel
 
+        # Commit-Historie ermitteln (einmal für Header + Tracking)
+        history = get_file_commit_history(file_path, root) if write_headers else []
+        num_commits = len(history)
+
         # Versions-Tracking aktualisieren
         version = update_version(
             rel, tracking, author,
             result['maturity'], result['score'],
+            recent_commits=num_commits,
         )
 
         # Header schreiben
         if write_headers:
-            write_header(file_path, comment_style, version, author, result)
-            print(f'✅ Updated header: {rel}')
+            write_header(file_path, comment_style, version, author, result, history)
+            total_commits += num_commits
+            print(f'✅ Updated header: {rel} ({num_commits} commits in history)')
 
         results.append(result)
 
     print(f'\n📊 Analyzed {len(results)} files')
+    if write_headers:
+        print(f'📈 Total commits in history: {total_commits:,}')
 
     # Report generieren
     generate_report(results, tracking, report_path)
