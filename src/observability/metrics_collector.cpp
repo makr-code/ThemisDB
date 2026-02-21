@@ -284,7 +284,26 @@ void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) 
     incrementCounter("exporter_recoveries_total", {{"exporter", exporter_name}});
 }
 
-// ===== Helper Functions =====
+// ===== Generic metric recording (used by adapters) =====
+
+void MetricsCollector::addCounter(const std::string& name, int64_t delta,
+                                   const std::map<std::string, std::string>& labels) {
+    std::string key = makeKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
+    counters_[key] += delta;
+}
+
+void MetricsCollector::modifyGauge(const std::string& name, double delta,
+                                    const std::map<std::string, std::string>& labels) {
+    std::string key = makeKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
+    // Read current value (treat as 0 if the gauge doesn't exist yet) then add delta.
+    auto it = gauges_.find(key);
+    double current = (it != gauges_.end()) ? it->second.load() : 0.0;
+    gauges_[key].store(current + delta);
+}
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);

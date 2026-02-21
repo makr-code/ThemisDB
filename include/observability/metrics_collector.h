@@ -126,6 +126,42 @@ public:
     /** Record that an exporter has recovered after previous failures. */
     void recordExporterRecovery(const std::string& exporter_name);
 
+    // ===== Generic metric recording (used by adapters) =====
+
+    /**
+     * @brief Add @p delta to a named counter.
+     *
+     * Suitable for use by adapter layers that need a generic counter
+     * with an arbitrary increment step (e.g. PrometheusMetricsAdapter).
+     */
+    void addCounter(const std::string& name, int64_t delta,
+                    const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Set a named gauge to an absolute value.
+     *
+     * Public interface for adapter layers; internally delegates to the
+     * same implementation used by domain-specific record*() methods.
+     */
+    void setGauge(const std::string& name, double value,
+                  const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Add @p delta to a named gauge (positive or negative).
+     *
+     * Performs a thread-safe read-modify-write on the gauge.
+     */
+    void modifyGauge(const std::string& name, double delta,
+                     const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Record an observation in a named histogram.
+     *
+     * Public interface for adapter layers.
+     */
+    void observeHistogram(const std::string& name, double value,
+                          const std::map<std::string, std::string>& labels = {});
+
 private:
     MetricsCollector() = default;
     ~MetricsCollector() = default;
@@ -159,10 +195,8 @@ private:
     };
     std::map<std::string, std::shared_ptr<Histogram>> histograms_;
     
-    // Helper functions
+    // Internal helper: increment a counter by exactly 1 (called by domain-specific record*() methods)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
-    void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
-    void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
 
     /**
      * @brief Check whether a new series (name + labels combination) is allowed
