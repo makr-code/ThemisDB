@@ -2,6 +2,28 @@
 
 Content management, ingestion, and processing implementation for ThemisDB.
 
+## Module Purpose
+
+Provides multi-format content ingestion and processing for ThemisDB, handling JSON documents, images, geospatial data, and text extraction with MIME detection and zstd compression.
+
+## Subsystem Scope
+
+**In scope:** Multi-format content ingestion (JSON, images, documents), MIME type detection, text extraction and processing, image metadata extraction, geospatial data processing, zstd compression.
+
+**Out of scope:** PDF/binary format parsing (planned), full-text indexing (handled by search module), vector embedding generation (handled by LLM/RAG modules).
+
+## Relevant Interfaces
+
+- `content_manager.cpp` — orchestrates ingestion pipeline
+- `content_type.cpp` — MIME detection and type classification
+- `text_processor.cpp` — text extraction
+- `image_processor.cpp` — image metadata
+- `pipeline/` — processing stage pipeline
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Core content ingestion and processing operational; PDF/OCR pipeline and streaming ingestion planned.
+
 ## Components
 
 - Content manager
