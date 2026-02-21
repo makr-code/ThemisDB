@@ -66,13 +66,15 @@ func (b *AQLQueryBuilder) ForRange(variable string, start, end int) *AQLQueryBui
 }
 
 // ForTraversal adds a FOR clause performing a graph traversal.
+// pathVar is only emitted when edgeVar is also non-empty; AQL requires the
+// three-variable form to be vertex, edge, path in that exact order.
 func (b *AQLQueryBuilder) ForTraversal(vertexVar, edgeVar, pathVar string, minDepth, maxDepth int, direction TraversalDirection, startVertex string, edgeCollections ...string) *AQLQueryBuilder {
 	vars := vertexVar
 	if edgeVar != "" {
 		vars += ", " + edgeVar
-	}
-	if pathVar != "" {
-		vars += ", " + pathVar
+		if pathVar != "" {
+			vars += ", " + pathVar
+		}
 	}
 	clause := fmt.Sprintf("FOR %s IN %d..%d %s %s %s",
 		vars, minDepth, maxDepth, direction, startVertex, strings.Join(edgeCollections, ", "))

@@ -156,6 +156,18 @@ func TestAQLQueryBuilder_ForTraversalMultipleEdgeCollections(t *testing.T) {
 	assert.Contains(t, query, "FOR v IN 1..3 ANY 'users/alice' friends, colleagues")
 }
 
+func TestAQLQueryBuilder_ForTraversalPathVarIgnoredWithoutEdgeVar(t *testing.T) {
+	// AQL requires vertex, edge, path in order; pathVar must be silently dropped
+	// when edgeVar is empty so we never emit invalid "FOR v, p IN ..." syntax.
+	query := NewAQLQuery().
+		ForTraversal("v", "", "p", 1, 2, TraversalOutbound, "'users/bob'", "friends").
+		Return("v").
+		Build()
+
+	assert.Contains(t, query, "FOR v IN 1..2 OUTBOUND 'users/bob' friends")
+	assert.NotContains(t, query, ", p")
+}
+
 func TestAQLQueryBuilder_ReturnDistinct(t *testing.T) {
 	query := NewAQLQuery().
 		For("u", "users").

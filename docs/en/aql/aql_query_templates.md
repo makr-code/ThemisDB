@@ -111,7 +111,7 @@ NewAQLQuery().ForTraversal("v", "", "", 1, 3, TraversalAny, "'users/alice'", "fr
 |-----------|-------------|
 | `vertexVar` | Vertex variable name (required) |
 | `edgeVar` | Edge variable name (empty to omit) |
-| `pathVar` | Path variable name (empty to omit) |
+| `pathVar` | Path variable name (empty to omit). Ignored unless `edgeVar` is also non-empty (AQL requires vertex, edge, path in order). |
 | `minDepth` | Minimum traversal depth |
 | `maxDepth` | Maximum traversal depth |
 | `direction` | `TraversalOutbound`, `TraversalInbound`, or `TraversalAny` |
