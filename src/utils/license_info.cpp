@@ -619,6 +619,13 @@ private:
             // The server returns a JSON object whose fields map 1:1 to LicenseData.
             // All fields are optional in the parse — if the server omits one,
             // we fall back to the corresponding value from the embedded license.
+            //
+            // Field name conventions used by each backend:
+            //   FastAPI license-server   WordPress plugin
+            //   ────────────────────     ────────────────
+            //   expiry_date              end_date
+            //   issued_date              start_date
+            //   (both send "edition" and "organization")
             LicenseData refreshed = license;  // start with embedded as baseline
             try {
                 auto j = nlohmann::json::parse(response_body);
@@ -630,14 +637,33 @@ private:
                     refreshed.edition         = j["tier"].get<std::string>();  // alias
                 if (j.contains("organization")   && j["organization"].is_string())
                     refreshed.organization_name = j["organization"].get<std::string>();
-                if (j.contains("end_date")       && j["end_date"].is_string())
+                // Accept "expiry_date" (FastAPI server) or "end_date" (WordPress plugin).
+                if (j.contains("expiry_date")    && j["expiry_date"].is_string())
+                    refreshed.expiry_date     = j["expiry_date"].get<std::string>().substr(0, 10);
+                else if (j.contains("end_date")  && j["end_date"].is_string())
                     refreshed.expiry_date     = j["end_date"].get<std::string>().substr(0, 10);
-                if (j.contains("start_date")     && j["start_date"].is_string())
+                // Accept "issued_date" (FastAPI server) or "start_date" (WordPress plugin).
+                if (j.contains("issued_date")    && j["issued_date"].is_string())
+                    refreshed.issued_date     = j["issued_date"].get<std::string>().substr(0, 10);
+                else if (j.contains("start_date") && j["start_date"].is_string())
                     refreshed.issued_date     = j["start_date"].get<std::string>().substr(0, 10);
                 if (j.contains("status")         && j["status"].is_string())
                     result.status             = j["status"].get<std::string>();
                 else
                     result.status = "active";
+                // Populate LicenseData.signature from the server's HMAC so the
+                // cached license carries the server-signed proof.
+                if (j.contains("signature")      && j["signature"].is_string())
+                    refreshed.signature       = j["signature"].get<std::string>();
+                // Top-level limits (FastAPI server sends max_nodes at top level, not nested).
+                // Parsed first so that a nested "limits" object (WordPress plugin / future)
+                // can override individual values — nested takes priority.
+                if (j.contains("max_nodes")      && j["max_nodes"].is_number_integer())
+                    refreshed.max_nodes      = j["max_nodes"].get<int>();
+                if (j.contains("max_cores")      && j["max_cores"].is_number_integer())
+                    refreshed.max_cores      = j["max_cores"].get<int>();
+                if (j.contains("max_storage_tb") && j["max_storage_tb"].is_number_integer())
+                    refreshed.max_storage_tb = j["max_storage_tb"].get<int>();
                 if (j.contains("limits") && j["limits"].is_object()) {
                     const auto& lim = j["limits"];
                     if (lim.contains("max_nodes")      && lim["max_nodes"].is_number_integer())
