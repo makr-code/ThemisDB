@@ -6,5 +6,16 @@ if(THEMIS_ENABLE_VOICE_ASSISTANT)
         # Voice Assistant Core
         ../src/voice/voice_assistant.cpp
         ../src/voice/voice_assistant_llm.cpp
+        ../src/voice/audio_preprocessing.cpp
+        ../src/voice/voice_intent_detector.cpp
+        ../src/voice/voice_session_manager.cpp
+        ../src/voice/voice_security.cpp
+        ../src/voice/voice_error_handler.cpp
+        ../src/voice/voice_tts_customizer.cpp
+        ../src/voice/voice_meeting_support.cpp
+        ../src/voice/voice_audio_storage.cpp
+        ../src/voice/voice_accessibility.cpp
+        ../src/voice/voice_model_cache.cpp
+        ../src/voice/voice_batch_processor.cpp
     )
 endif()
