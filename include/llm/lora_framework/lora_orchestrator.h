@@ -21,6 +21,7 @@
 
 #include "llm/lora_framework/lora_storage_service.h"
 #include "llm/lora_framework/lora_training_service.h"
+#include "llm/lora_framework/lora_provenance.h"
 #include "llm/lora_framework/adapter_consistency_checker.h"
 #include "llm/multi_lora_manager.h"
 #include <memory>
@@ -441,6 +442,40 @@ public:
      * @return Shared pointer to consistency checker
      */
     std::shared_ptr<AdapterConsistencyChecker> getConsistencyChecker() const;
+
+    // ═══════════════════════════════════════════════════════════
+    // Provenance, Snapshots, and Audit Log
+    // ═══════════════════════════════════════════════════════════
+
+    /// Attach a cryptographic provenance record to an adapter.
+    /// Returns false if the adapter is not registered.
+    bool attachProvenance(const std::string& adapter_id,
+                          const LoRAProvenanceRecord& record);
+
+    /// Retrieve the provenance record for an adapter.
+    std::optional<LoRAProvenanceRecord> getProvenanceRecord(
+        const std::string& adapter_id) const;
+
+    /// Create an MVCC snapshot of the adapter's current state.
+    AdapterSnapshot createAdapterSnapshot(const std::string& adapter_id,
+                                          const std::string& version,
+                                          const std::string& weights_hash);
+
+    /// List all snapshots for an adapter (oldest first).
+    std::vector<AdapterSnapshot> listAdapterSnapshots(
+        const std::string& adapter_id) const;
+
+    /// Append an inference audit entry to the adapter's Merkle chain.
+    InferenceAuditEntry recordInferenceAudit(const std::string& adapter_id,
+                                              InferenceAuditEntry entry);
+
+    /// Retrieve the full Merkle-chained inference audit log.
+    std::vector<InferenceAuditEntry> getInferenceAuditLog(
+        const std::string& adapter_id) const;
+
+    /// Verify the Merkle audit chain integrity.
+    /// Returns true when the chain is intact; false when tampered or corrupt.
+    bool verifyAuditChain(const std::string& adapter_id) const;
 
 private:
     class Impl;

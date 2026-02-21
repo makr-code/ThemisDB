@@ -164,6 +164,22 @@ private:
     
     http::response<http::string_body> handleLoRAHealth(
         const http::request<http::string_body>& req);
+
+    // Provenance, Snapshots, and Audit Log endpoints
+    http::response<http::string_body> handleGetProvenance(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAttachProvenance(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleGetAuditLog(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleListSnapshots(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleVerifyAuditChain(
+        const http::request<http::string_body>& req);
     
     // Helper methods
     bool validateBearerToken(const http::request<http::string_body>& req);

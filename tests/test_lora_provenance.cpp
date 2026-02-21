@@ -586,3 +586,96 @@ TEST_F(AdapterRegistryProvenanceTest, VerifyAuditChain_EmptyIsValid) {
     EXPECT_TRUE(registry->verifyAuditChain("test-adapter"));
 }
 
+// ============================================================================
+// LoRAOrchestrator provenance integration tests
+// ============================================================================
+
+#include "llm/lora_framework/lora_orchestrator.h"
+
+using namespace themis::llm::lora;
+
+class LoRAOrchestratorProvenanceTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        LoRAOrchestrator::Config cfg;
+        orch = std::make_unique<LoRAOrchestrator>(cfg);
+
+        // Register a minimal adapter so provenance can be attached
+        TrainingData td;
+        td.dataset_name = "test-ds";
+        orch->createAdapter("orch-adapter", td);
+    }
+
+    std::unique_ptr<LoRAOrchestrator> orch;
+};
+
+TEST_F(LoRAOrchestratorProvenanceTest, AttachAndRetrieveProvenance) {
+    LoRAProvenanceRecord prov;
+    prov.dataset_hash    = std::string(64, 'd');
+    prov.base_model_hash = std::string(64, 'm');
+    prov.trainer_id      = "trainer-orch";
+
+    EXPECT_TRUE(orch->attachProvenance("orch-adapter", prov));
+
+    auto opt = orch->getProvenanceRecord("orch-adapter");
+    ASSERT_TRUE(opt.has_value());
+    EXPECT_EQ(opt->trainer_id, "trainer-orch");
+}
+
+TEST_F(LoRAOrchestratorProvenanceTest, AttachProvenance_UnknownAdapterFails) {
+    LoRAProvenanceRecord prov;
+    prov.trainer_id = "t";
+    EXPECT_FALSE(orch->attachProvenance("does-not-exist", prov));
+}
+
+TEST_F(LoRAOrchestratorProvenanceTest, CreateAndListSnapshots) {
+    auto snap = orch->createAdapterSnapshot("orch-adapter", "v1.0", std::string(64, 'h'));
+
+    EXPECT_FALSE(snap.snapshot_id.empty());
+    EXPECT_EQ(snap.adapter_id, "orch-adapter");
+    EXPECT_TRUE(snap.parent_snapshot_id.empty());  // first snapshot
+
+    auto list = orch->listAdapterSnapshots("orch-adapter");
+    ASSERT_EQ(list.size(), 1u);
+    EXPECT_EQ(list[0].snapshot_id, snap.snapshot_id);
+}
+
+TEST_F(LoRAOrchestratorProvenanceTest, SnapshotChain) {
+    auto s1 = orch->createAdapterSnapshot("orch-adapter", "v1.0", std::string(64, '1'));
+    auto s2 = orch->createAdapterSnapshot("orch-adapter", "v2.0", std::string(64, '2'));
+
+    EXPECT_EQ(s2.parent_snapshot_id, s1.snapshot_id);
+}
+
+TEST_F(LoRAOrchestratorProvenanceTest, RecordAndVerifyAuditChain) {
+    for (int i = 0; i < 3; ++i) {
+        InferenceAuditEntry e;
+        e.query_hash    = std::string(64, static_cast<char>('a' + i));
+        e.response_hash = std::string(64, static_cast<char>('A' + i));
+        e.model_hash    = std::string(64, 'm');
+        e.adapter_hash  = std::string(64, 'a');
+        orch->recordInferenceAudit("orch-adapter", e);
+    }
+
+    auto log = orch->getInferenceAuditLog("orch-adapter");
+    EXPECT_EQ(log.size(), 3u);
+
+    EXPECT_TRUE(orch->verifyAuditChain("orch-adapter"));
+}
+
+TEST_F(LoRAOrchestratorProvenanceTest, VerifyAuditChain_EmptyIsValid) {
+    EXPECT_TRUE(orch->verifyAuditChain("orch-adapter"));
+}
+
+TEST_F(LoRAOrchestratorProvenanceTest, MerkleChainHashLinkage) {
+    InferenceAuditEntry e1, e2;
+    e1.query_hash = std::string(64, '1');
+    e2.query_hash = std::string(64, '2');
+
+    auto s1 = orch->recordInferenceAudit("orch-adapter", e1);
+    auto s2 = orch->recordInferenceAudit("orch-adapter", e2);
+
+    EXPECT_EQ(s2.previous_hash, s1.entry_hash);
+    EXPECT_NE(s1.entry_hash, s2.entry_hash);
+}
+

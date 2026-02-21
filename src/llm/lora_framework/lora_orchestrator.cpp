@@ -79,6 +79,9 @@ public:
     // Component instances for cross-shard sync
     std::shared_ptr<LoRAStorageService> storage_service;
     std::shared_ptr<AdapterConsistencyChecker> consistency_checker;
+
+    // Provenance manager for cryptographic audit and MVCC snapshots
+    LoRAProvenanceManager provenance_mgr;
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
@@ -509,6 +512,59 @@ std::shared_ptr<LoRAStorageService> LoRAOrchestrator::getStorageService() const 
 
 std::shared_ptr<AdapterConsistencyChecker> LoRAOrchestrator::getConsistencyChecker() const {
     return impl_->consistency_checker;
+}
+
+// ============================================================================
+// Provenance, Snapshots, and Audit Log
+// ============================================================================
+
+bool LoRAOrchestrator::attachProvenance(const std::string& adapter_id,
+                                         const LoRAProvenanceRecord& record) {
+    {
+        std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
+        if (!impl_->adapters.count(adapter_id)) {
+            spdlog::warn("LoRAOrchestrator::attachProvenance: adapter '{}' not registered",
+                         adapter_id);
+            return false;
+        }
+    }
+    return impl_->provenance_mgr.storeProvenance(adapter_id, record);
+}
+
+std::optional<LoRAProvenanceRecord> LoRAOrchestrator::getProvenanceRecord(
+    const std::string& adapter_id) const {
+    return impl_->provenance_mgr.getProvenance(adapter_id);
+}
+
+AdapterSnapshot LoRAOrchestrator::createAdapterSnapshot(
+    const std::string& adapter_id,
+    const std::string& version,
+    const std::string& weights_hash) {
+    // Load current provenance (if any) as the snapshot's provenance
+    LoRAProvenanceRecord prov;
+    auto opt_prov = impl_->provenance_mgr.getProvenance(adapter_id);
+    if (opt_prov) prov = *opt_prov;
+    return impl_->provenance_mgr.createSnapshot(adapter_id, version, weights_hash, prov);
+}
+
+std::vector<AdapterSnapshot> LoRAOrchestrator::listAdapterSnapshots(
+    const std::string& adapter_id) const {
+    return impl_->provenance_mgr.listSnapshots(adapter_id);
+}
+
+InferenceAuditEntry LoRAOrchestrator::recordInferenceAudit(
+    const std::string& adapter_id,
+    InferenceAuditEntry entry) {
+    return impl_->provenance_mgr.appendAuditEntry(adapter_id, std::move(entry));
+}
+
+std::vector<InferenceAuditEntry> LoRAOrchestrator::getInferenceAuditLog(
+    const std::string& adapter_id) const {
+    return impl_->provenance_mgr.getAuditLog(adapter_id);
+}
+
+bool LoRAOrchestrator::verifyAuditChain(const std::string& adapter_id) const {
+    return impl_->provenance_mgr.verifyAuditChain(adapter_id);
 }
 
 } // namespace lora
