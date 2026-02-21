@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            themisdb-order-request.php                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:47:51                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:47                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     172                                            ║
+    • Total Lines:     215                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e7fde96aa  2026-02-18  Add automatic GitHub-based updates for WordPress plugins ... ║
-    • bd0282a02  2026-02-17  WordPress plugins: Security hardening & performance optim... ║
-    • c6716ede7  2026-02-16  Add ThemisDB Order Request Plugin with shortcodes, AJAX h... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -76,6 +76,9 @@ require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-order-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-contract-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-payment-manager.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-manager.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-api.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-portal.php';
+require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-license-renewal.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-pdf-generator.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-email-handler.php';
 require_once THEMISDB_ORDER_PLUGIN_DIR . 'includes/class-epserver-api.php';
@@ -97,6 +100,10 @@ function themisdb_order_request_init() {
     
     // Initialize shortcodes
     new ThemisDB_Order_Shortcodes();
+
+    // Initialize license REST API and customer portal
+    new ThemisDB_License_API();
+    new ThemisDB_License_Portal();
     
     // Load text domain for translations
     load_plugin_textdomain('themisdb-order-request', false, dirname(plugin_basename(__FILE__)) . '/languages');
@@ -129,6 +136,20 @@ function themisdb_order_request_activate() {
     if (!get_option('themisdb_order_legal_compliance')) {
         add_option('themisdb_order_legal_compliance', '1'); // Enable legal compliance checks
     }
+    if (!get_option('themisdb_license_api_key')) {
+        add_option('themisdb_license_api_key', ''); // Set via Settings → ThemisDB License API
+    }
+    if (!get_option('themisdb_license_admin_secret')) {
+        add_option('themisdb_license_admin_secret', ''); // Optional extra admin secret for admin endpoints
+    }
+    if (!get_option('themisdb_license_renewal_reminder_days')) {
+        add_option('themisdb_license_renewal_reminder_days', '30'); // Days before expiry to send renewal reminder
+    }
+
+    // Schedule daily renewal reminder cron job
+    if (!wp_next_scheduled('themisdb_license_renewal_check')) {
+        wp_schedule_event(time(), 'daily', 'themisdb_license_renewal_check');
+    }
     
     // Flush rewrite rules
     flush_rewrite_rules();
@@ -139,10 +160,25 @@ register_activation_hook(__FILE__, 'themisdb_order_request_activate');
  * Deactivation hook
  */
 function themisdb_order_request_deactivate() {
+    // Clear the renewal reminder cron job
+    $timestamp = wp_next_scheduled('themisdb_license_renewal_check');
+    if ($timestamp) {
+        wp_unschedule_event($timestamp, 'themisdb_license_renewal_check');
+    }
     // Flush rewrite rules
     flush_rewrite_rules();
 }
 register_deactivation_hook(__FILE__, 'themisdb_order_request_deactivate');
+
+/**
+ * Renewal reminder cron hook
+ */
+add_action('themisdb_license_renewal_check', 'themisdb_run_license_renewal_check');
+function themisdb_run_license_renewal_check() {
+    if (class_exists('ThemisDB_License_Renewal')) {
+        ThemisDB_License_Renewal::send_renewal_reminders();
+    }
+}
 
 /**
  * Enqueue frontend scripts and styles

@@ -17,6 +17,40 @@ The Analytics module provides comprehensive data analysis capabilities for Themi
 - **Complex Event Processing**: Real-time pattern matching, streaming analytics
 - **Data Export**: Apache Arrow, Parquet, CSV, JSON format support
 
+## Subsystem Scope
+
+**In Scope:**
+- OLAP queries (GROUP BY, CUBE, ROLLUP, window functions)
+- Statistical aggregations (variance, standard deviation, percentiles)
+- Process mining (Alpha, Heuristic, Inductive algorithms)
+- Conformance checking and performance analysis
+- NLP text analysis (sentiment, entity extraction, modality detection)
+- LLM integration for process analysis
+- Diff engine for dataset comparison
+- Columnar Arrow/Parquet storage support
+- SIMD AVX2 acceleration
+
+**Out of Scope:**
+- Raw SQL/AQL parsing (handled by query module)
+- LLM model management (handled by llm module)
+- Data storage and persistence (handled by storage module)
+
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `olap.cpp` | OLAP engine: GROUP BY, CUBE, ROLLUP aggregations |
+| `window_function.cpp` | Window function evaluation (RANK, LAG, LEAD, etc.) |
+| `process_miner.cpp` | Process discovery and conformance checking |
+| `nlp_text_analyzer.cpp` | NLP text analysis, sentiment, entity extraction |
+| `llm_process_analyzer.cpp` | LLM-powered process analysis integration |
+| `diff_engine.cpp` | Dataset diffing and change detection |
+| `cep_engine.cpp` | Complex Event Processing stub (planned) |
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Core OLAP, process mining, and NLP text analysis operational; CEP engine stub awaiting implementation.
+
 ## About This Directory
 
 This directory (`src/analytics/`) contains **implementation files only**. For API documentation, see [`include/analytics/README.md`](../../include/analytics/README.md).

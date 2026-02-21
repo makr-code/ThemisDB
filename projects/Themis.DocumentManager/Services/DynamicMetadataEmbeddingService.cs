@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            DynamicMetadataEmbeddingService.cs                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:37:13                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:57                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
     • Quality Score:   65.0/100                                       ║
-    • Total Lines:     336                                            ║
+    • Total Lines:     343                                            ║
     • Open Issues:     TODOs: 11, Stubs: 1                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 60d127110  2025-12-09  feat: Add comprehensive test report for ThemisDB Document... ║
-    • 36820014e  2025-12-08  Refactor: move Themis.DocumentManager to projects dir ║
-    • dbcaddc5c  2025-12-08  Add dynamic metadata embedding models and service for Off... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ⚠️  Needs Work                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝

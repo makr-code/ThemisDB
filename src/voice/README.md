@@ -2,6 +2,27 @@
 
 Voice/audio interface capabilities for natural language interaction with ThemisDB.
 
+## Module Purpose
+
+Implements a voice query interface for ThemisDB, enabling speech-to-text transcription, natural language query parsing from voice input, and AQL query generation from spoken language.
+
+## Subsystem Scope
+
+**In scope:** Speech-to-text integration (Whisper), voice-to-AQL query generation, audio preprocessing, voice session management.
+
+**Out of scope:** TTS (text-to-speech) output, audio recording hardware interface, language model training.
+
+## Relevant Interfaces
+
+- `voice_processor.cpp` — audio preprocessing and transcription orchestration
+- `speech_to_text.cpp` — Whisper integration
+- `voice_query_generator.cpp` — NL-to-AQL from voice
+- `voice_session.cpp` — session management
+
+## Current Delivery Status
+
+**Maturity:** 🔴 Alpha — Voice query infrastructure scaffolding; Whisper integration and NL-to-AQL pipeline experimental.
+
 ## Architecture Overview
 
 The Voice module provides a comprehensive voice assistant system that combines Speech-to-Text (STT), Text-to-Speech (TTS), and Large Language Model (LLM) capabilities to enable natural language interaction with ThemisDB. It supports voice commands, phone call recording/transcription, meeting protocol generation, and voice-based analytics.

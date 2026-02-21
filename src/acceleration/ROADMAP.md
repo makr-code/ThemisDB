@@ -1,4 +1,5 @@
 # Acceleration Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 Pre-production hardening — backend surface is broad, but production-grade kernel coverage, runtime negotiation and cross-backend validation are still in progress.
@@ -61,6 +62,30 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [I] Publish backend capability matrix and configuration guide (Target: Q4 2026) (Issue: #1395)
 - [I] Publish operational troubleshooting guide for fallback and driver issues (Target: Q4 2026) (Issue: #1396)
 - [I] Final production-readiness review and API stability sign-off (Target: Q4 2026) (Issue: #1397)
+
+## Implementation Phases
+
+### Phase 1: Infrastructure Scaffolding (Status: Completed)
+- [x] Created directory structure for `cuda/` and `vulkan/` backends
+- [x] Implemented vector similarity search stubs (`acceleration/vector_similarity.cpp`)
+- [x] Implemented geospatial query acceleration stubs (`acceleration/geo_stubs.cpp`)
+- [x] Implemented parallel graph algorithm stubs (`acceleration/graph_stubs.cpp`)
+- [x] Implemented matrix operation stubs for embeddings (`acceleration/matrix_ops.cpp`)
+- [x] Added documentation cross-references (`CUDA_BACKEND.md`, `VULKAN_BACKEND.md`)
+
+### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
+- [~] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`)
+- [~] Implement Vulkan compute shaders for cross-platform GPU pipeline
+- [~] Implement runtime device capability detection (`acceleration/device_manager.cpp`)
+- [~] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
+- [ ] Integrate with geo module GPU backend via `GeoAccelerationBridge`
+
+### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
+- [ ] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`)
+- [ ] Implement multi-GPU sharding for large embedding datasets
+- [ ] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm`
+- [ ] Implement CUDA graph capture for recurring query workloads
+- [ ] Add benchmark harness comparing CUDA vs CPU throughput per operation type
 
 ## Production Readiness Checklist
 - [I] Unit tests coverage > 80% (Issue: #1398)

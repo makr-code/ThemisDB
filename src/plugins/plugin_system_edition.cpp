@@ -3,21 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            plugin_system_edition.cpp                          ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:33                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     395                                            ║
+    • Total Lines:     398                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ecea0e543  2026-02-20  Plugin system production-readiness: close all audit gaps ... ║
-    • 176ce3934  2025-12-21  feat: implement multi-edition gating framework (v1.3.5) ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -40,6 +41,7 @@
 #include <iomanip>
 #include <filesystem>
 #include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 #include <openssl/evp.h>
 
 #ifdef _WIN32
@@ -122,14 +124,9 @@ public:
     // Attempt to load a plugin.
     // Returns false and sets error_out on failure (no exception thrown).
     bool LoadPlugin(const PluginManifest& manifest, std::string& error_out) {
-        // Edition gating: Check if plugins are available
-        if (!ArePluginsSupported()) {
-            error_out = "Plugin system not available in ";
-            error_out += std::string(edition::EDITION_STRING);
-            error_out += " edition.";
-            if (edition::GetEditionType() == edition::EditionType::COMMUNITY) {
-                error_out += " To use plugins, please upgrade to Enterprise Edition or higher.";
-            }
+        // Edition + runtime license gating: Check if plugins are available
+        if (!license::RuntimeLicenseGate::instance()
+                .isFeatureAllowed("enterprise_plugins", error_out)) {
             RecordFailure(manifest, error_out);
             return false;
         }
@@ -374,10 +371,10 @@ inline std::string GetPluginMarketplaceInfo() {
     return result;
 }
 
-// Check if a specific plugin type is available
+// Check if a specific plugin type is available (compile-time + runtime gate)
 inline bool CanUsePluginType(PluginType type) {
     (void)type;  // All plugin types require Enterprise or higher
-    return edition::FEATURE_ENTERPRISE_PLUGINS;
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("enterprise_plugins");
 }
 
 // Get installation instructions for plugins

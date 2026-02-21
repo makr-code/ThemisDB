@@ -4,6 +4,16 @@
 
 The Storage module provides ThemisDB's persistent data layer, built on RocksDB for high-performance LSM-tree storage with MVCC support. It handles all aspects of data persistence including key-value storage, blob management, backup/recovery, compression, encryption, and transaction coordination.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `rocksdb_storage.cpp` | RocksDB wrapper with MVCC and BlobDB integration |
+| `mvcc_manager.cpp` | Multi-version concurrency control transaction management |
+| `wal_manager.cpp` | Write-Ahead Log management and replay |
+| `backup_manager.cpp` | Backup creation and point-in-time recovery |
+| `storage_engine.h` | Storage abstraction interface for dependency injection |
+
 ## Scope
 
 **In Scope:**

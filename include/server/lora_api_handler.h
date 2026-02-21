@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_api_handler.h                                 ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:35:00                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     191                                            ║
+    • Total Lines:     221                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f976224a0  2026-02-20  LLM module: production readiness — observability, securit... ║
-    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
-    • 41d30e5ae  2026-02-08  Implement cross-shard LoRA transfer via shared WAL transp... ║
+    • 73544d85b  2026-02-21  feat: Auditable LoRA Adapter Provenance — cryptographic c... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -83,7 +83,14 @@ using json = nlohmann::json;
  * Health & Monitoring:
  * - GET    /api/v1/llm/lora/stats - Get framework statistics
  * - GET    /api/v1/llm/lora/health - Health check
- * 
+ *
+ * Provenance, Snapshots, and Audit Log:
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/provenance - Get cryptographic provenance record
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/provenance - Attach provenance record
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/audit      - Get Merkle-chained audit log
+ * - GET    /api/v1/llm/lora/adapters/{adapter_id}/snapshots  - List MVCC snapshots
+ * - POST   /api/v1/llm/lora/adapters/{adapter_id}/verify     - Verify Merkle audit chain integrity
+ *
  * All endpoints require Bearer Token (JWT) authentication via Authorization header.
  */
 class LoRAApiHandler {
@@ -170,6 +177,22 @@ private:
         const http::request<http::string_body>& req);
     
     http::response<http::string_body> handleLoRAHealth(
+        const http::request<http::string_body>& req);
+
+    // Provenance, Snapshots, and Audit Log endpoints
+    http::response<http::string_body> handleGetProvenance(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleAttachProvenance(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleGetAuditLog(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleListSnapshots(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleVerifyAuditChain(
         const http::request<http::string_body>& req);
     
     // Helper methods

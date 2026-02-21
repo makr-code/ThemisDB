@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:40:21                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1479                                           ║
+    • Total Lines:     1560                                           ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • e1ba78e5d  2026-02-20  observability: production-ready Alertmanager, W3C TraceCo... ║
-    • f57cc26cc  2026-02-20  feat(core): lifecycle hooks, health/readiness probes, and... ║
-    • 6ecc84977  2026-02-20  Server Module: Production Hardening (TLS hot-reload, grac... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -35,6 +35,7 @@
 #include "security/hsm_security_metrics.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "observability/metrics_collector.h"
@@ -492,6 +493,32 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"responses", {
                             {"200", {{"description", "Observability health status"},
                                 {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}}
+                            }
+                        }}
+                    }}
+                }},
+                {"/api/v1/license/status", {
+                    {"get", {
+                        {"summary", "Runtime license status"},
+                        {"description", "Returns the current runtime license state: initialized flag, status string (active/grace/expired/invalid), grace days remaining, masked license key, organization, edition, expiry date, days until expiry, and validity flag."},
+                        {"operationId", "getLicenseStatus"},
+                        {"tags", json::array({"license"})},
+                        {"responses", {
+                            {"200", {{"description", "License status document"},
+                                {"content", {{"application/json", {{"schema", {
+                                    {"type","object"},
+                                    {"properties", {
+                                        {"initialized",          {{"type","boolean"}}},
+                                        {"status",               {{"type","string"}, {"example","active"}}},
+                                        {"grace_days_remaining", {{"type","integer"}}},
+                                        {"license_key",          {{"type","string"}, {"example","THEMIS-EN..."}}},
+                                        {"organization",         {{"type","string"}}},
+                                        {"edition",              {{"type","string"}, {"example","ENTERPRISE"}}},
+                                        {"expiry_date",          {{"type","string"}, {"format","date"}}},
+                                        {"days_until_expiry",    {{"type","integer"}}},
+                                        {"valid",                {{"type","boolean"}}}
+                                    }}
+                                }}}}}}}
                             }
                         }}
                     }}
@@ -1480,6 +1507,53 @@ http::response<http::string_body> MonitoringApiHandler::handleMetricsHtml(
         return makeErrorResponse(http::status::internal_server_error,
                                  std::string("Failed to generate metrics HTML: ") + e.what(), req);
     }
+}
+
+// =============================================================================
+// GET /api/v1/license/status
+// =============================================================================
+
+http::response<http::string_body> MonitoringApiHandler::handleLicenseStatus(
+    const http::request<http::string_body>& req
+) {
+    using namespace themis::license;
+
+    const RuntimeLicenseGate& gate = RuntimeLicenseGate::instance();
+
+    json body;
+    body["initialized"]          = gate.isInitialized();
+    body["status"]               = gate.licenseStatus();
+    body["grace_days_remaining"] = gate.graceDaysRemaining();
+
+    auto lic = gate.currentLicense();
+    if (!lic) {
+        // Fall back to the compile-time embedded license if the gate hasn't
+        // been initialised yet (e.g. very early health probe during startup).
+        lic = getEmbeddedLicense();
+    }
+
+    if (lic) {
+        // Mask the license key: show only the first 8 characters.
+        std::string masked_key = lic->license_key;
+        if (masked_key.size() > 8) {
+            masked_key = masked_key.substr(0, 8) + "...";
+        }
+        body["license_key"]      = masked_key;
+        body["organization"]     = lic->organization_name;
+        body["edition"]          = lic->edition;
+        body["expiry_date"]      = lic->expiry_date;
+        body["days_until_expiry"] = getDaysUntilExpiry(*lic);
+        body["valid"]            = isLicenseValid(*lic);
+    } else {
+        body["license_key"]      = nullptr;
+        body["organization"]     = nullptr;
+        body["edition"]          = edition::EDITION_STRING;
+        body["expiry_date"]      = nullptr;
+        body["days_until_expiry"] = nullptr;
+        body["valid"]            = false;
+    }
+
+    return makeResponse(http::status::ok, body.dump(), req);
 }
 
 } // namespace server

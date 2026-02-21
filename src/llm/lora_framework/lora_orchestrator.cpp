@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_orchestrator.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:02                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     516                                            ║
+    • Total Lines:     579                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • bf88ee182  2026-02-15  Refactor CMake presets and update LLM service constructor... ║
-    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
-    • 41d30e5ae  2026-02-08  Implement cross-shard LoRA transfer via shared WAL transp... ║
+    • 73544d85b  2026-02-21  feat: Auditable LoRA Adapter Provenance — cryptographic c... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -86,6 +86,9 @@ public:
     // Component instances for cross-shard sync
     std::shared_ptr<LoRAStorageService> storage_service;
     std::shared_ptr<AdapterConsistencyChecker> consistency_checker;
+
+    // Provenance manager for cryptographic audit and MVCC snapshots
+    LoRAProvenanceManager provenance_mgr;
 };
 
 LoRAOrchestrator::LoRAOrchestrator(const Config& config) : impl_(std::make_unique<Impl>()) {
@@ -516,6 +519,59 @@ std::shared_ptr<LoRAStorageService> LoRAOrchestrator::getStorageService() const 
 
 std::shared_ptr<AdapterConsistencyChecker> LoRAOrchestrator::getConsistencyChecker() const {
     return impl_->consistency_checker;
+}
+
+// ============================================================================
+// Provenance, Snapshots, and Audit Log
+// ============================================================================
+
+bool LoRAOrchestrator::attachProvenance(const std::string& adapter_id,
+                                         const LoRAProvenanceRecord& record) {
+    {
+        std::shared_lock<std::shared_mutex> lock(impl_->state_mutex);
+        if (!impl_->adapters.count(adapter_id)) {
+            spdlog::warn("LoRAOrchestrator::attachProvenance: adapter '{}' not registered",
+                         adapter_id);
+            return false;
+        }
+    }
+    return impl_->provenance_mgr.storeProvenance(adapter_id, record);
+}
+
+std::optional<LoRAProvenanceRecord> LoRAOrchestrator::getProvenanceRecord(
+    const std::string& adapter_id) const {
+    return impl_->provenance_mgr.getProvenance(adapter_id);
+}
+
+AdapterSnapshot LoRAOrchestrator::createAdapterSnapshot(
+    const std::string& adapter_id,
+    const std::string& version,
+    const std::string& weights_hash) {
+    // Load current provenance (if any) as the snapshot's provenance
+    LoRAProvenanceRecord prov;
+    auto opt_prov = impl_->provenance_mgr.getProvenance(adapter_id);
+    if (opt_prov) prov = *opt_prov;
+    return impl_->provenance_mgr.createSnapshot(adapter_id, version, weights_hash, prov);
+}
+
+std::vector<AdapterSnapshot> LoRAOrchestrator::listAdapterSnapshots(
+    const std::string& adapter_id) const {
+    return impl_->provenance_mgr.listSnapshots(adapter_id);
+}
+
+InferenceAuditEntry LoRAOrchestrator::recordInferenceAudit(
+    const std::string& adapter_id,
+    InferenceAuditEntry entry) {
+    return impl_->provenance_mgr.appendAuditEntry(adapter_id, std::move(entry));
+}
+
+std::vector<InferenceAuditEntry> LoRAOrchestrator::getInferenceAuditLog(
+    const std::string& adapter_id) const {
+    return impl_->provenance_mgr.getAuditLog(adapter_id);
+}
+
+bool LoRAOrchestrator::verifyAuditChain(const std::string& adapter_id) const {
+    return impl_->provenance_mgr.verifyAuditChain(adapter_id);
 }
 
 } // namespace lora

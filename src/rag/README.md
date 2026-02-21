@@ -1,5 +1,26 @@
 # ThemisDB RAG Module Implementation
 
+## Module Purpose
+
+Implements the Retrieval-Augmented Generation pipeline for ThemisDB, combining vector similarity search, LLM inference, and hybrid retrieval to answer queries from stored documents.
+
+## Subsystem Scope
+
+**In scope:** Vector retrieval from ThemisDB index, LLM integration for answer generation, context window management, hybrid search (vector + BM25), re-ranking.
+
+**Out of scope:** LLM model management (handled by llm module), full-text index construction (handled by search module), embedding generation (handled by LLM module).
+
+## Relevant Interfaces
+
+- `rag_pipeline.cpp` — orchestrates retrieval → augmentation → generation
+- `llm_integration.cpp` — LLM connector for RAG
+- `context_manager.cpp` — context window management
+- `retriever.cpp` — vector and hybrid retrieval
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Basic RAG pipeline with vector retrieval and LLM integration operational; hybrid search and re-ranking in progress.
+
 ## Overview
 
 Implementation files for ThemisDB's Retrieval-Augmented Generation (RAG) system providing intelligent document retrieval, quality evaluation, knowledge gap detection, and ethical compliance checking.

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            lora_audit_logger.cpp                              ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:39:02                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   96.0/100                                       ║
-    • Total Lines:     499                                            ║
+    • Total Lines:     588                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ae1e88032  2026-01-15  Add build scripts and comprehensive TODO inventory ║
-    • ea8a13f05  2026-01-15  Add SVG flowchart for observability and regex tests for M... ║
-    • 2d90acb6a  2026-01-15  Add build scripts and documentation generation tools ║
+    • 73544d85b  2026-02-21  feat: Auditable LoRA Adapter Provenance — cryptographic c... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -57,6 +57,11 @@ public:
         spdlog::info("  Encrypt-then-sign: {}", config_.encrypt_then_sign);
         spdlog::info("  Hash chain: {}", config_.enable_hash_chain);
     }
+
+    void setProvenanceMgr(std::shared_ptr<LoRAProvenanceManager> mgr) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        provenance_mgr_ = std::move(mgr);
+    }
     
     void logInference(const LoRAInferenceAudit& audit) {
         if (!enabled_) return;
@@ -75,7 +80,31 @@ public:
             if (audit_logger_) {
                 audit_logger_->logEvent(log_entry);
             }
-            
+
+            // Feed the cryptographic Merkle audit chain (if a provenance manager is set)
+            if (provenance_mgr_) {
+                InferenceAuditEntry e;
+                e.request_id    = audit.request_id;
+                e.query_hash    = LoRAProvenanceManager::sha256Hex(audit.prompt);
+                e.response_hash = LoRAProvenanceManager::sha256Hex(audit.response);
+                // Use the base model id as the model identifier; the actual weight
+                // hash is not available here without loading the weights file.
+                e.model_hash    = LoRAProvenanceManager::sha256Hex(audit.base_model_id);
+                e.adapter_hash  = audit.adapter_hash;
+                e.metadata      = {
+                    {"base_model_id",  audit.base_model_id},
+                    {"adapter_id",     audit.adapter_id},
+                    {"adapter_version",audit.adapter_version},
+                    {"session_id",     audit.session_id},
+                    {"user_id",        audit.user_id}
+                };
+                // The LoRAProvenanceManager uses its own internal mutex, which is
+                // always acquired in the same order (prov_mgr → nothing).  We call
+                // it while holding mutex_ here; this is safe because no code path
+                // acquires mutex_ while already holding the provenance manager's lock.
+                provenance_mgr_->appendAuditEntry(audit.adapter_id, std::move(e));
+            }
+
             // Update statistics
             inference_count_++;
             
@@ -328,7 +357,10 @@ private:
     std::ofstream log_file_;
     mutable std::mutex mutex_;
     bool enabled_;
-    
+
+    // Provenance manager (optional) – set via setProvenanceManager()
+    std::shared_ptr<LoRAProvenanceManager> provenance_mgr_;
+
     // Statistics
     uint64_t inference_count_ = 0;
     uint64_t event_count_ = 0;
@@ -381,6 +413,11 @@ private:
             case LoRAAuditEventType::CACHE_HIT: return "CACHE_HIT";
             case LoRAAuditEventType::CACHE_MISS: return "CACHE_MISS";
             case LoRAAuditEventType::CACHE_EVICTION: return "CACHE_EVICTION";
+            case LoRAAuditEventType::PROVENANCE_ATTACHED:   return "PROVENANCE_ATTACHED";
+            case LoRAAuditEventType::PROVENANCE_VERIFIED:   return "PROVENANCE_VERIFIED";
+            case LoRAAuditEventType::SNAPSHOT_CREATED:      return "SNAPSHOT_CREATED";
+            case LoRAAuditEventType::AUDIT_CHAIN_VERIFIED:  return "AUDIT_CHAIN_VERIFIED";
+            case LoRAAuditEventType::AUDIT_CHAIN_TAMPERED:  return "AUDIT_CHAIN_TAMPERED";
             default: return "UNKNOWN";
         }
     }
@@ -472,6 +509,51 @@ void LoRAAuditLogger::setEnabled(bool enabled) {
 
 void LoRAAuditLogger::flush() {
     impl_->flush();
+}
+
+// ── Provenance & Merkle-chain integration ─────────────────────────────────────
+
+void LoRAAuditLogger::setProvenanceManager(std::shared_ptr<LoRAProvenanceManager> mgr) {
+    impl_->setProvenanceMgr(std::move(mgr));
+}
+
+void LoRAAuditLogger::logProvenanceAttached(const std::string& adapter_id,
+                                              const LoRAProvenanceRecord& record) {
+    json details = {
+        {"dataset_hash",        record.dataset_hash},
+        {"base_model_hash",     record.base_model_hash},
+        {"adapter_weights_hash",record.adapter_weights_hash},
+        {"trainer_id",          record.trainer_id},
+        {"has_rfc3161_token",   !record.rfc3161_timestamp.empty()},
+        {"has_ca_chain",        !record.ca_chain.empty()}
+    };
+    logEvent(LoRAAuditEventType::PROVENANCE_ATTACHED, adapter_id, details);
+}
+
+void LoRAAuditLogger::logSnapshotCreated(const std::string& adapter_id,
+                                          const AdapterSnapshot& snapshot) {
+    json details = {
+        {"snapshot_id",         snapshot.snapshot_id},
+        {"version",             snapshot.version},
+        {"weights_hash",        snapshot.weights_hash},
+        {"parent_snapshot_id",  snapshot.parent_snapshot_id},
+        {"timestamp",           snapshot.timestamp}
+    };
+    logEvent(LoRAAuditEventType::SNAPSHOT_CREATED, adapter_id, details);
+}
+
+void LoRAAuditLogger::logAuditChainVerified(const std::string& adapter_id,
+                                              bool valid,
+                                              std::size_t entry_count) {
+    const auto event_type = valid ? LoRAAuditEventType::AUDIT_CHAIN_VERIFIED
+                                  : LoRAAuditEventType::AUDIT_CHAIN_TAMPERED;
+    json details = {
+        {"chain_valid",  valid},
+        {"entry_count",  entry_count},
+        {"message",      valid ? "Merkle audit chain is intact"
+                               : "Merkle audit chain verification FAILED — possible tampering"}
+    };
+    logEvent(event_type, adapter_id, details);
 }
 
 // Helper functions

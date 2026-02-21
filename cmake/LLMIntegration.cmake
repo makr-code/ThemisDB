@@ -86,6 +86,9 @@ if(THEMIS_ENABLE_LLM)
         # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
         ../src/llm/lora_framework/adapter_consistency_checker.cpp
         ../src/llm/lora_framework/adapter_sync_manager.cpp
+
+        # LoRA Adapter Provenance, Snapshots, and Merkle-chained Audit Log
+        ../src/llm/lora_framework/lora_provenance.cpp
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp

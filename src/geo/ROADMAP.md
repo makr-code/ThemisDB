@@ -1,4 +1,5 @@
 # Geo Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 **Beta** — CPU-based geospatial queries are well-tested. GPU-accelerated backend is implemented with CPU fallback via circuit breaker. S2/H3 cell indexing is supported. Full GeoJSON import/export and ST_BUFFER are still in progress.
@@ -37,6 +38,27 @@
 - [ ] Temporal-spatial queries (location at time T)
 - [ ] Clustering algorithms: DBSCAN, k-means for geo points
 - [ ] Tile server integration for map visualization
+
+## Implementation Phases
+
+### Phase 1: CPU Geospatial Backend (Status: Completed)
+- [x] Implemented CPU-based geospatial backend using Boost.Geometry for exact calculations
+- [x] Implemented `contains`, `intersects`, and `distance` geometry operations
+- [x] Integrated S2 cell indexing for hierarchical spatial lookups
+- [x] Integrated H3 hexagonal grid indexing for uniform spatial binning
+- [x] Added structured audit log for backend selection events (GPU vs CPU)
+
+### Phase 2: GPU Backend Stub and Device Detection (Status: In Progress)
+- [~] Implemented GPU backend stub with automatic CPU fallback (`geo/gpu_backend_stub.cpp`)
+- [~] Implemented circuit-breaker fallback when no CUDA-capable device is present
+- [~] Implement runtime GPU device discovery and capability reporting (`geo/device_detector.cpp`)
+
+### Phase 3: Full GeoJSON, Spatial Index, and CUDA Dispatch (Status: Planned)
+- [ ] Implement full GeoJSON RFC 7946 parsing for all geometry types including `GeometryCollection` and `MultiPolygon`
+- [ ] Implement R-tree spatial index for sub-linear CPU query performance
+- [ ] Implement `ST_BUFFER` operation expanding geometry by a fixed distance
+- [ ] Implement CUDA kernel dispatch for distance and containment on GPU (`cuda/geo_kernels.cu`)
+- [ ] Implement spatial JOIN finding all point pairs within a configurable distance threshold
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

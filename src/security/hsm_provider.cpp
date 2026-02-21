@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hsm_provider.cpp                                   ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:40:06                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  ⚫ DRAFT                                        ║
     • Quality Score:   0.0/100                                        ║
-    • Total Lines:     215                                            ║
+    • Total Lines:     231                                            ║
     • Open Issues:     TODOs: 0, Stubs: 29                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 37da19d1c  2026-02-10  Refactor code structure for improved readability and main... ║
-    • 7d7ce00ef  2026-02-09  Harden HSM stub provider, VaultSigningProvider, and PKCS#... ║
-    • 538d028ac  2026-02-03  FIND-002: HSM stub provider security enforcement (#1037) ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 📝 Draft / Stub                                              ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -33,6 +33,7 @@
 #else
 
 #include "security/hsm_provider.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <chrono>
@@ -61,6 +62,14 @@ HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
 bool HSMProvider::initialize() {
     if (initialized_) return true;
+
+    // Runtime license gate: HSM is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("hsm", license_error)) {
+        last_error_ = "HSM unavailable: " + license_error;
+        THEMIS_ERROR("{}", last_error_);
+        return false;
+    }
     
     // SECURITY HARDENING: Check for explicit opt-in to use stub provider
     // This prevents accidental production deployment with insecure stub

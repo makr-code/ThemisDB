@@ -1,5 +1,7 @@
 # Ingestion Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Production-grade data intake layer. Multi-source ingestion with filesystem, HuggingFace, and generic HTTP API connectors is fully implemented with rate limiting, checkpointing, quarantine, and Prometheus metrics.
 
@@ -37,6 +39,34 @@ v1.x – Production-grade data intake layer. Multi-source ingestion with filesys
 - [ ] Plugin API for third-party source connectors
 - [ ] Dynamic source reconfiguration without restart
 - [ ] End-to-end ingestion lineage tracking
+
+## Implementation Phases
+
+### Phase 1: Core Ingestion Infrastructure (Status: Completed ✅)
+- [x] FileSystemIngester – recursive directory walk with HTML/XML extraction (pugixml)
+- [x] GenericApiConnector – paginated JSON REST with exponential back-off
+- [x] HuggingFaceConnector – dataset split ingestion with API token auth
+- [x] IngestionManager – parallel multi-source orchestration with thread pool
+- [x] IngestionBuilder – fluent configuration API
+- [x] IngestionAdminApi – list, pause, resume, quarantine endpoints
+- [x] Token-bucket rate limiting per source
+- [x] Incremental checkpoint-based ingestion (skip re-processing)
+- [x] Quarantine queue for persistently failing documents
+- [x] Prometheus-compatible metrics (docs_processed, errors, throughput)
+
+### Phase 2: HTTP Hardening & Binary Formats (Status: In Progress 🚧)
+- [~] Replace libcurl stubs with real `curl_easy_perform` calls (`ingestion/api_connector.cpp`) (Target: Q2 2026)
+- [~] Per-document quarantine retry with exponential back-off (Target: Q2 2026)
+- [~] Binary MIME type detection (PDF, DOCX) before dispatch to converters (Target: Q2 2026)
+- [ ] OAuth 2.0 token refresh handling within connectors (Target: Q3 2026)
+- [ ] Cursor-based pagination support alongside offset/limit (Target: Q3 2026)
+
+### Phase 3: Distributed Sources & Connectors (Status: Planned 📋)
+- [ ] Kafka consumer source connector (`ingestion/kafka_connector.cpp`)
+- [ ] S3 / GCS / Azure Blob object-storage source connector
+- [ ] Distributed ingestion coordinator across nodes (work-stealing thread pool)
+- [ ] Change-data-capture (CDC) source for live database streams
+- [ ] Plugin API for third-party source connectors
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

@@ -19,6 +19,15 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 - **Extended for AI**: Native vector similarity, embedding functions, LLM commands
 - **Multi-Paradigm**: Single language for all data models (not just documents/graphs like ArangoDB)
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `llm_aql_handler.cpp` | LLM command handler (INFER/RAG/EMBED/MODEL/LORA) |
+| `nl_to_aql.cpp` | Natural language to AQL translation |
+| `aql_doc_assistant.cpp` | Function lookup and explanation |
+| `query_validator.cpp` | Validation and linting (in progress) |
+
 ## Scope
 
 **In Scope:**

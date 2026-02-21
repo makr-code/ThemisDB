@@ -4,6 +4,16 @@
 
 The Index module provides high-performance indexing infrastructure for ThemisDB, supporting multiple index types across all five data models (relational, document, graph, vector, timeseries). It implements state-of-the-art algorithms including HNSW for vector similarity search, R-tree for spatial queries, and adaptive index recommendations based on query patterns.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `hnsw_index.cpp` | HNSW vector similarity index with GPU acceleration support |
+| `rtree_index.cpp` | R-tree spatial index for geospatial queries |
+| `adaptive_index.cpp` | Automatic index recommendation based on query patterns |
+| `graph_index_manager.cpp` | Graph adjacency list indexing and traversal support |
+| `secondary_index.cpp` | B-tree, range, sparse, and composite secondary indexes |
+
 ## Scope
 
 **In Scope:**

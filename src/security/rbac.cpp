@@ -3,28 +3,29 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            rbac.cpp                                           ║
-  Version:         0.0.4                                              ║
-  Last Modified:   2026-02-21 08:40:07                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     570                                            ║
+    • Total Lines:     585                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • f0e1e982c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 1212c3919  2025-11-18  fix: Windows MSVC build compatibility - namespace qualifi... ║
-    • 244e56430  2025-11-17  Add merge conflict report for feature/complete-database-c... ║
-    • c1eedf00d  2025-11-17  Phase 0.2: R-Tree Spatial Index (table-agnostic for all 5... ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
 #include "security/rbac.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <fstream>
 #include <sstream>
@@ -308,6 +309,13 @@ bool RBAC::checkPermission(
     const std::string& resource,
     const std::string& action
 ) const {
+    // Runtime license gate: RBAC is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("rbac", license_error)) {
+        THEMIS_WARN("RBAC::checkPermission blocked – {}", license_error);
+        return false;
+    }
+
     std::lock_guard<std::mutex> lock(mutex_);
     
     // Get all effective permissions (with inheritance)

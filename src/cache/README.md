@@ -2,6 +2,27 @@
 
 Caching implementations for ThemisDB.
 
+## Module Purpose
+
+Implements multi-level adaptive query result caching for ThemisDB with semantic-aware lookups, circuit breaker fault isolation, tenant isolation, and configurable rate limiting.
+
+## Subsystem Scope
+
+**In scope:** L1 in-memory LRU cache, L2 compressed cache, L3 RocksDB-backed persistent cache, semantic fingerprinting, circuit breaker, rate limiting, tenant namespacing.
+
+**Out of scope:** Query parsing (handled by query module), storage layer (handled by storage module), distributed cache coordination (planned).
+
+## Relevant Interfaces
+
+- `adaptive_query_cache.h/cpp` — main cache facade (L1/L2/L3 pipeline)
+- `semantic_cache.cpp` — vector similarity fingerprinting
+- `embedding_cache.cpp` — embedding result caching
+- `bounded_lru_cache.h` — L1 LRU implementation
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — L1/L2/L3 pipeline, circuit breaker, and tenant isolation complete; Admin API and distributed coordination planned.
+
 ## Components
 
 - Adaptive Query Cache (multi-level: L1/L2/L3)

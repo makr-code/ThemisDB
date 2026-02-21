@@ -1,3 +1,5 @@
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 # Security Module Roadmap
 
 ## Current Status
@@ -33,6 +35,42 @@ v1.x – Enterprise-grade, defense-in-depth security infrastructure. Six distinc
 - [ ] Secret scanning pre-commit hook for CI pipelines
 
 ### Long-term (6-12 months)
+- [ ] Zero-trust network policy enforcement (per-request identity verification)
+- [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
+- [ ] Dynamic data masking for PII fields in query results
+- [ ] SOC 2 Type II compliance evidence collection
+- [ ] Post-quantum cryptography migration path (CRYSTALS-Kyber, Dilithium)
+
+## Implementation Phases
+
+### Phase 1: Transport, Authentication & Data Protection (Status: Completed ✅)
+- [x] Transport security: TLS 1.3 and mutual TLS (mTLS)
+- [x] Authentication: USB admin key, PKI certificates, multi-factor auth
+- [x] RBAC with role hierarchy and permission inheritance
+- [x] Field-level AES-256-GCM encryption (document, array, and VRAM fields)
+- [x] Key management hierarchy (Master Key → KEK → DEK) with HSM support
+- [x] Key rotation (active, deprecated, rotating DEK states)
+- [x] HashiCorp Vault integration for key storage
+- [x] CMS/PKCS#7 signing and eIDAS-compliant timestamping
+- [x] Malware scanner for plugin manifests
+- [x] AQL injection detection
+- [x] `SecurityManager` orchestrator
+- [x] Audit log with tamper-evident chaining
+- [x] Compliance features (eIDAS, GDPR-related controls)
+
+### Phase 2: ABAC & HSM Direct Integration (Status: In Progress 🚧)
+- [~] Attribute-Based Access Control (ABAC) alongside RBAC
+- [~] Hardware Security Module (HSM) direct PKCS#11 integration
+- [~] FIPS 140-2 / 140-3 validated cryptography mode
+
+### Phase 3: Federated Auth & Anomaly Detection (Status: Planned 📋)
+- [ ] JWT / OIDC federated authentication (OAuth 2.0 provider integration)
+- [ ] Session token revocation list with real-time invalidation
+- [ ] Anomaly detection on authentication patterns (brute-force, credential stuffing)
+- [ ] Row-level security policies in AQL execution
+- [ ] Secret scanning pre-commit hook for CI pipelines
+
+### Phase 4: Zero-Trust & Post-Quantum Cryptography (Status: Planned 📋)
 - [ ] Zero-trust network policy enforcement (per-request identity verification)
 - [ ] Confidential computing support (Intel TDX / AMD SEV encrypted enclaves)
 - [ ] Dynamic data masking for PII fields in query results

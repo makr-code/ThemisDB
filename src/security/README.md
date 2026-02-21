@@ -2,6 +2,27 @@
 
 Comprehensive security infrastructure for ThemisDB providing encryption, authentication, authorization, and compliance features.
 
+## Module Purpose
+
+Provides encryption, key management, and PKI integration for ThemisDB, implementing AES-256-GCM field-level encryption, TLS certificate management, and hardware security module (HSM) integration.
+
+## Subsystem Scope
+
+**In scope:** AES-256-GCM field-level encryption, TLS certificate lifecycle management, PKI client integration, key rotation, HSM support.
+
+**Out of scope:** Authentication logic (handled by auth module), audit logging (handled by utils module), policy enforcement (handled by governance module).
+
+## Relevant Interfaces
+
+- `encryption_manager.cpp` — AES-256-GCM encryption/decryption
+- `key_manager.cpp` — key lifecycle management and rotation
+- `pki_client.cpp` — PKI certificate integration
+- `tls_config.cpp` — TLS certificate and cipher configuration
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — AES-256-GCM encryption and TLS operational; HSM integration and automated key rotation in progress.
+
 ## Architecture Overview
 
 ThemisDB's security module implements defense-in-depth with multiple layers:

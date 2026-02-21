@@ -1,5 +1,7 @@
 # Observability Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Enterprise-grade observability stack. Prometheus metrics, query profiling, storage profiling, automated performance analysis, Alertmanager integration, and distributed tracing are all implemented.
 
@@ -35,6 +37,33 @@ v1.x – Enterprise-grade observability stack. Prometheus metrics, query profili
 - [ ] Anomaly detection on metrics time-series (ML-based)
 - [ ] Distributed flame graph generation across nodes
 - [ ] Metrics federation across multiple ThemisDB clusters
+- [ ] SLO/SLA compliance reporting with burn-rate alerts
+
+## Implementation Phases
+
+### Phase 1: Enterprise Observability Stack (Status: Completed ✅)
+- [x] MetricsCollector singleton with Prometheus text-format export at `/metrics` (`observability/metrics_collector.cpp`)
+- [x] QueryProfiler: per-phase and per-operator timing with index usage tracking (`observability/query_profiler.cpp`)
+- [x] StorageProfiler: RocksDB stats, write/read amplification, cache hit rates
+- [x] PerformanceAnalyzer: automated issue detection with optimization recommendations
+- [x] Alertmanager integration (alert routing and notifications)
+- [x] Distributed tracing with span context propagation (OpenTelemetry-compatible, `observability/tracer.cpp`)
+- [x] Structured logging via Core ILogger interface
+- [x] Kubernetes readiness and liveness health probes
+- [x] Telemetry aggregation across shards
+- [x] Grafana dashboard integration and PagerDuty/Slack notification routing
+
+### Phase 2: Native OTLP Export & Continuous Profiling (Status: In Progress 🚧)
+- [~] OpenTelemetry SDK direct export via OTLP gRPC/HTTP (`observability/otlp_exporter.cpp`, Target: Q2 2026)
+- [~] Continuous profiling integration (pprof / async-profiler compatible) (Target: Q2 2026)
+- [ ] Adaptive sampling rate for high-frequency spans (Target: Q3 2026)
+
+### Phase 3: ML-Augmented & Distributed Observability (Status: Planned 📋)
+- [ ] Exemplars on Prometheus histograms (link traces to metrics)
+- [ ] Custom user-defined alert rules via API
+- [ ] eBPF-based low-overhead kernel-level tracing
+- [ ] Anomaly detection on metrics time-series (ML-based)
+- [ ] Distributed flame graph generation across nodes
 - [ ] SLO/SLA compliance reporting with burn-rate alerts
 
 ## Production Readiness Checklist
