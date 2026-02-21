@@ -20,6 +20,8 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] MergeEngine – conflict-aware branch merge
 - [x] SnapshotManager – named snapshots/tags for PITR
 - [x] Changefeed integration for CDC
+- [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
+- [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
 
 ## In Progress 🚧
 - [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)

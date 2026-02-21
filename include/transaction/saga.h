@@ -89,6 +89,17 @@ public:
     /// Clear all steps (called after successful commit)
     void clear();
     
+    /**
+     * @brief Discard all steps with index >= @p n, without compensating them.
+     *
+     * Used by the named-savepoint layer to remove SAGA entries that correspond
+     * to writes already undone by a RocksDB savepoint rollback.  Must only be
+     * called while the transaction is still active (i.e. before compensate()).
+     *
+     * @param n  Target size; if >= stepCount() this is a no-op.
+     */
+    void trimToSize(size_t n);
+    
     /// Get number of recorded steps
     size_t stepCount() const { return steps_.size(); }
     
