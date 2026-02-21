@@ -220,9 +220,11 @@ public:
         // Phase 6: AQL graph traversal (graph_aql::RELATED_PROVISIONS)
         // Production:
         //   FOR doc IN legal_documents FILTER doc._key == @document_id
-        //   FOR provision IN 1..2 OUTBOUND doc references
+        //   FOR provision IN 1..@depth OUTBOUND doc references
         //   LIMIT @max_results RETURN provision._key
-        //
+        //   (max_results bound as @max_results in production AQL query)
+        (void)max_results; // bound as @max_results in production AQL query
+
         // Check custom query override
         auto it = custom_queries_.find("find_provisions");
         (void)it; // used when database is connected
@@ -238,6 +240,8 @@ public:
         if (document_id.empty()) return case_law;
 
         // Phase 6: AQL traversal for case law (graph_aql::RELATED_CASE_LAW)
+        // (max_results bound as @max_results in production AQL query)
+        (void)max_results; // bound as @max_results in production AQL query
         auto it = custom_queries_.find("find_case_law");
         (void)it;
 
@@ -254,6 +258,8 @@ public:
 
         // Phase 6: Vector similarity search (graph_aql::SIMILAR_DOCUMENTS)
         // Uses cosine similarity on pre-computed embeddings
+        // (max_results bound as @max_results in production AQL query)
+        (void)max_results; // bound as @max_results in production AQL query
         auto it = custom_queries_.find("find_similar");
         (void)it;
 

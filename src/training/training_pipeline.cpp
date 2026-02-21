@@ -68,6 +68,7 @@ public:
             if (callback) callback("labeling", 0, "Starting auto-labeling stage");
 
             LabelingStats ls = labeler_->labelAll([&](size_t proc, size_t total, const std::string& msg) {
+                (void)total;
                 if (callback) callback("labeling", proc, msg);
             });
 
@@ -86,6 +87,7 @@ public:
             if (callback) callback("enrichment", 0, "Starting graph enrichment stage");
 
             EnrichmentStats es = enricher_->enrichAll([&](size_t proc, size_t total, const std::string& msg) {
+                (void)total;
                 if (callback) callback("enrichment", proc, msg);
             });
 
@@ -131,6 +133,7 @@ public:
 
             TrainingResult tr = trainer_->train(TrainingMode::INITIAL,
                 [&](size_t epoch, size_t step, double loss, const std::string& msg) {
+                    (void)epoch; (void)loss;
                     if (callback) callback("training", step, msg);
                 });
 
@@ -181,12 +184,14 @@ public:
         //     missing_output = SUM(sample.output == null ? 1 : 0)
         //     low_conf = SUM(sample.confidence < @min_confidence ? 1 : 0)
         //   RETURN {missing_input, missing_output, low_conf}
-        //
+        //   (min_confidence bound as @min_confidence in production AQL query)
+        (void)min_confidence; // bound as @min_confidence in production AQL query
+
         // In test environment: return a clean report
-        report.total_samples   = 0;
-        report.missing_input   = 0;
-        report.missing_output  = 0;
-        report.low_confidence  = 0;
+        report.total_samples    = 0;
+        report.missing_input    = 0;
+        report.missing_output   = 0;
+        report.low_confidence   = 0;
         report.invalid_category = 0;
         report.passes_quality_check = true;
         report.summary = "Quality check passed (0 samples, no issues)";

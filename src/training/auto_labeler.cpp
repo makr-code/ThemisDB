@@ -238,8 +238,10 @@ public:
         //   FOR sample IN @@collection
         //   FILTER sample.confidence < @min_confidence AND sample.needs_review == true
         //   SORT sample.confidence ASC LIMIT 100 RETURN sample
+        //   (min_confidence bound as @min_confidence)
         //
         // Returns empty list when no database is connected (test environment)
+        (void)min_confidence; // bound as @min_confidence in production AQL query
         std::vector<TrainingSample> samples;
         return samples;
     }
