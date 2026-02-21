@@ -256,7 +256,13 @@ public:
     TransactionId beginTransaction(IsolationLevel isolation = IsolationLevel::ReadCommitted);
     std::shared_ptr<Transaction> getTransaction(TransactionId id);
     Status commitTransaction(TransactionId id);
-    void rollbackTransaction(TransactionId id);
+    /**
+     * @brief Roll back an active session transaction.
+     *
+     * @return true  if the transaction was found in the active map and rolled back.
+     * @return false if no active transaction with this ID exists (already completed).
+     */
+    bool rollbackTransaction(TransactionId id);
     
     // Direct transaction (legacy API)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);

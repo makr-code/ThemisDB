@@ -419,13 +419,13 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
     return status;
 }
 
-void TransactionManager::rollbackTransaction(TransactionId id) {
+bool TransactionManager::rollbackTransaction(TransactionId id) {
     std::shared_ptr<Transaction> txn;
     {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
         auto it = active_transactions_.find(id);
         if (it == active_transactions_.end()) {
-            return;  // Already completed or doesn't exist
+            return false;  // Already completed or doesn't exist
         }
         txn = it->second;
     }
@@ -440,6 +440,7 @@ void TransactionManager::rollbackTransaction(TransactionId id) {
     if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     
     moveToCompleted(id);
+    return true;
 }
 
 void TransactionManager::moveToCompleted(TransactionId id) {
@@ -958,6 +959,11 @@ TransactionManager::Status TransactionManager::Transaction::createSavepoint(std:
             return Status::Error("createSavepoint: savepoint '" + sname + "' already exists");
         }
     }
+    // Reserve capacity BEFORE calling setSavePoint() so that push_back below cannot
+    // throw std::bad_alloc.  If setSavePoint were called first and push_back threw,
+    // the RocksDB savepoint stack would have an extra entry not tracked by savepoints_,
+    // corrupting all subsequent savepoint operations.
+    savepoints_.reserve(savepoints_.size() + 1);
     mvcc_txn_->setSavePoint();
     savepoints_.push_back({std::move(sname), saga_->stepCount()});
     return Status::OK();
@@ -1063,8 +1069,13 @@ void TransactionManager::timeoutExpiredTransactions() {
     }
     for (TransactionId id : expired) {
         THEMIS_WARN("Transaction {} exceeded its timeout — auto-rolling back", id);
-        rollbackTransaction(id);
-        total_timed_out_.fetch_add(1, std::memory_order_relaxed);
+        if (rollbackTransaction(id)) {
+            // Only count transactions that were actually rolled back by the monitor.
+            // If the transaction was already completed by user code between the scan
+            // and this call, rollbackTransaction returns false and we must not inflate
+            // the counter.
+            total_timed_out_.fetch_add(1, std::memory_order_relaxed);
+        }
     }
 }
 
