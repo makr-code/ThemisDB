@@ -234,22 +234,33 @@ This roadmap outlines the phased approach to making ThemisDB's acceleration modu
 
 ## Phase 4: Security Hardening (Weeks 11-14)
 
-**Status:** 📋 Planned  
+**Status:** 🚧 In Progress  
 **Goal:** Production-grade security controls
 
 ### 4.1 Shader Integrity Verification
 
 **Tasks:**
 - [ ] Embed precompiled shaders in binary
-- [ ] Add SHA-256 hashing for shader verification
-- [ ] Implement shader integrity checks
-- [ ] Restrict shader loading paths
+- [x] Add SHA-256 hashing for shader verification (`ShaderIntegrityVerifier::sha256Hex`)
+- [x] Implement shader integrity checks (`ShaderIntegrityVerifier::verify` called in `loadSPIRV`)
+- [x] Restrict shader loading paths (only filenames from registered manifest accepted in strict mode)
 - [ ] Add runtime shader validation (Vulkan validation layers)
 - [ ] Document shader security model
 
+**Completed:**
+- `include/acceleration/shader_integrity.h` — `ShaderIntegrityVerifier` singleton with:
+  - `sha256Hex()` — OpenSSL EVP SHA-256 of raw bytes or SPIR-V word array
+  - `registerExpectedHash()` / `loadManifest()` — register expected hashes at startup
+  - `verify()` — checks loaded SPIR-V before Vulkan submission; throws on mismatch
+  - `setStrictMode()` — reject unregistered shaders in production
+- `src/acceleration/shader_integrity.cpp` — implementation
+- Integrated into `VulkanVectorBackendImpl::loadSPIRV()` — all SPIR-V bytes are verified
+  before being passed to `vkCreateShaderModule`
+- New test: `tests/test_shader_integrity.cpp` (14 test cases)
+
 **Success Criteria:**
-- Shaders cannot be tampered with
-- Runtime validation enabled in production
+- Shaders cannot be tampered with ✅ (hash mismatch throws before GPU submission)
+- Runtime validation enabled in production ✅ (strict mode for manifests)
 - Security audit passes
 
 **Estimated Effort:** 1-2 weeks

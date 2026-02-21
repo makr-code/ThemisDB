@@ -25,6 +25,7 @@
  */
 
 #include "acceleration/graphics_backends.h"
+#include "acceleration/shader_integrity.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -146,6 +147,21 @@ public:
         std::vector<uint32_t> buf(sz / sizeof(uint32_t));
         f.seekg(0);
         f.read(reinterpret_cast<char*>(buf.data()), static_cast<std::streamsize>(sz));
+
+        // Phase 4.1: verify shader integrity before handing bytes to Vulkan
+        // Extract just the filename as the registry key
+        std::string name = path;
+        auto slash = path.rfind('/');
+        if (slash == std::string::npos) slash = path.rfind('\\');
+        if (slash != std::string::npos) name = path.substr(slash + 1);
+
+        auto result = ShaderIntegrityVerifier::instance().verify(name, buf);
+        if (!result.passed) {
+            throw std::runtime_error("[ShaderIntegrity] " + result.message);
+        }
+        if (!result.expectedHash.empty()) {
+            std::cout << "[ShaderIntegrity] " << result.message << std::endl;
+        }
         return buf;
     }
 
