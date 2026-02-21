@@ -107,16 +107,21 @@ public:
      * @brief Translate natural language query to AQL
      *
      * Uses the configured LLM to convert @p nl_query to an executable AQL
-     * statement.  After the LLM response is cleaned up (markdown fences
-     * stripped, whitespace trimmed), the generated AQL is validated with
-     * @c AQLSyntaxHighlighter::annotateErrors().  Any structural issues
-     * (unbalanced brackets, missing IN keyword, etc.) are logged as warnings
-     * but do not prevent the result from being returned – the caller is
-     * responsible for deciding how to handle potentially malformed output.
+     * statement.  Both @p nl_query and @p schema_context are sanitized before
+     * being embedded in the LLM prompt: prompt injection attempts (instruction
+     * override phrases, persona hijacking, system-block markers) are rejected
+     * with @c LLMException(PROMPT_INJECTION).  After the LLM response is cleaned
+     * up (markdown fences stripped, whitespace trimmed), the generated AQL is
+     * validated with @c AQLSyntaxHighlighter::annotateErrors().  Structural issues
+     * are logged as warnings but do not prevent the result from being returned.
      *
-     * @param nl_query        Natural language query (e.g., "Find all users in Seattle")
-     * @param schema_context  Optional database schema context for better translation
+     * @param nl_query        Natural language query (e.g., "Find all users in Seattle").
+     *                        Maximum length: @c ValidationLimits::MAX_NL_QUERY_LENGTH.
+     * @param schema_context  Optional database schema context for better translation.
+     *                        Maximum length: @c ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH.
      * @return Generated AQL query as string
+     * @throws LLMException(PROMPT_INJECTION) if either input contains injection patterns
+     * @throws LLMException(PROMPT_TOO_LONG)  if either input exceeds its size limit
      * @throws std::runtime_error if translation fails
      */
     std::string translateNLToAQL(

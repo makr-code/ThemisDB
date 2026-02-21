@@ -46,6 +46,7 @@ enum class LLMErrorCode {
     INVALID_LORA_ID = 1004,
     INVALID_COLLECTION = 1005,
     INVALID_OPTIONS = 1006,
+    PROMPT_INJECTION = 1007,   // Input rejected due to detected prompt injection attempt
     
     // Model errors (2xxx)
     MODEL_NOT_FOUND = 2001,
@@ -156,6 +157,8 @@ private:
                 return "Invalid collection name";
             case LLMErrorCode::INVALID_OPTIONS:
                 return "Invalid options provided";
+            case LLMErrorCode::PROMPT_INJECTION:
+                return "Input rejected: potentially unsafe content detected";
             case LLMErrorCode::MODEL_NOT_FOUND:
                 return "Requested model not found";
             case LLMErrorCode::MODEL_LOAD_FAILED:
@@ -214,6 +217,14 @@ namespace ValidationLimits {
     
     // Default execution timeout in seconds
     constexpr int DEFAULT_TIMEOUT_SECONDS = 300; // 5 minutes
+    
+    // Maximum length for a natural-language query passed to translateNLToAQL()
+    // (4 096 chars ≈ 1 024 tokens – more than enough for any realistic NL query)
+    constexpr size_t MAX_NL_QUERY_LENGTH = 4096;
+    
+    // Maximum length for schema context passed to translateNLToAQL()
+    // (32 768 chars ≈ 8 192 tokens)
+    constexpr size_t MAX_SCHEMA_CONTEXT_LENGTH = 32768;
 }
 
 /**

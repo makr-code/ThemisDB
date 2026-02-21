@@ -62,6 +62,7 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 - ✅ AQL syntax highlighting and error annotation via `AQLSyntaxHighlighter`
 - ✅ `formatLLMResponse()` method for post-processing arbitrary LLM output
 - ✅ `translateNLToAQL()` validates generated AQL and logs structural issues
+- ✅ `translateNLToAQL()` sanitizes `nl_query` and `schema_context` inputs to prevent prompt injection (instruction overrides, persona hijacking, system-block markers, null bytes)
 - ✅ Comprehensive test coverage
 
 **Syntax Examples:**

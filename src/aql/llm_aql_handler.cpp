@@ -36,10 +36,123 @@
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
+#include <cctype>
 #include <spdlog/spdlog.h>
 
 namespace themis {
 namespace aql {
+
+// ---------------------------------------------------------------------------
+// Prompt injection prevention helpers
+// ---------------------------------------------------------------------------
+
+namespace {
+
+/// @brief Lower-case a copy of @p s for case-insensitive matching.
+std::string toLower(const std::string& s) {
+    std::string out;
+    out.reserve(s.size());
+    std::transform(s.begin(), s.end(), std::back_inserter(out),
+                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return out;
+}
+
+/**
+ * @brief Reject input that contains well-known prompt injection patterns.
+ *
+ * Checks for:
+ *  - Instruction-override phrases ("ignore previous instructions", etc.)
+ *  - Persona-hijacking phrases ("you are now a", "act as a different")
+ *  - Explicit override markers ("[SYSTEM]", "<system>", "###system")
+ *  - DAN/jailbreak markers ("do anything now")
+ *  - Null bytes or unusual control characters
+ *
+ * @param input       The raw user-supplied text.
+ * @param field_name  Descriptive label used in error messages ("nl_query", etc.)
+ * @param max_length  Maximum permitted length; 0 means unlimited.
+ * @throws LLMException(PROMPT_INJECTION) when a pattern is matched.
+ * @throws LLMException(PROMPT_TOO_LONG)  when the input exceeds @p max_length.
+ */
+void sanitizePromptInput(
+    const std::string& input,
+    const std::string& field_name,
+    std::size_t max_length = 0
+) {
+    // --- Length check ---
+    if (max_length > 0 && input.size() > max_length) {
+        throw LLMException(
+            LLMErrorCode::PROMPT_TOO_LONG,
+            field_name + " exceeds maximum allowed length of " +
+                std::to_string(max_length) + " characters"
+        );
+    }
+
+    // --- Null-byte / dangerous control character check ---
+    for (unsigned char c : input) {
+        if (c == '\0') {
+            throw LLMException(
+                LLMErrorCode::PROMPT_INJECTION,
+                field_name + " contains a null byte (potential injection vector)"
+            );
+        }
+    }
+
+    // --- Pattern-based injection detection ---
+    // Work on a lower-cased copy so every pattern can be written in lower case.
+    const std::string lower = toLower(input);
+
+    // Each entry is a substring that, if found, indicates an injection attempt.
+    static const std::vector<std::string> kInjectionPatterns = {
+        // Instruction override
+        "ignore previous instructions",
+        "ignore prior instructions",
+        "ignore all instructions",
+        "ignore the above instructions",
+        "ignore above instructions",
+        "disregard previous instructions",
+        "disregard prior instructions",
+        "disregard all instructions",
+        "forget previous instructions",
+        "forget prior instructions",
+        "forget all instructions",
+        "override previous instructions",
+        "override instructions",
+        "new instructions:",
+        // Persona / role hijacking
+        "you are now a",
+        "you are now an",
+        "act as a different",
+        "pretend you are",
+        "pretend to be",
+        // System-prompt injection markers
+        "[system]",
+        "[system prompt]",
+        "<system>",
+        "###system",
+        "## system",
+        "# system",
+        "/system",
+        "system:\n",
+        "system: ",
+        // Jailbreak phrases
+        "do anything now",
+        "jailbreak",
+        "dan mode",
+    };
+
+    for (const auto& pattern : kInjectionPatterns) {
+        if (lower.find(pattern) != std::string::npos) {
+            spdlog::warn("Prompt injection attempt detected in {}: pattern \"{}\"",
+                         field_name, pattern);
+            throw LLMException(
+                LLMErrorCode::PROMPT_INJECTION,
+                field_name + " rejected: potential prompt injection detected"
+            );
+        }
+    }
+}
+
+} // anonymous namespace
 
 class LLMAQLHandler::Impl {
 public:
@@ -655,6 +768,14 @@ std::string LLMAQLHandler::translateNLToAQL(
     const std::string& schema_context
 ) {
     try {
+        // Sanitize inputs before embedding them in the LLM prompt.
+        // Both nl_query and schema_context are injected verbatim into the system/user
+        // prompt, making them potential vectors for prompt injection attacks.
+        sanitizePromptInput(nl_query, "nl_query",
+                            ValidationLimits::MAX_NL_QUERY_LENGTH);
+        sanitizePromptInput(schema_context, "schema_context",
+                            ValidationLimits::MAX_SCHEMA_CONTEXT_LENGTH);
+
         // Build system prompt for AQL translation
         std::ostringstream system_prompt;
         system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";

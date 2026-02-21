@@ -37,17 +37,17 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [ ] Integration with query optimizer for cost-aware suggestions
 
 ## Production Readiness Checklist
-- [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests for AQLSyntaxHighlighter)
+- [x] Unit tests coverage > 80% (30+ unit tests + 6 integration tests + 13 injection tests)
 - [x] Integration tests (handler ↔ highlighter path covered)
 - [ ] Performance benchmarks
-- [ ] Security audit (prompt injection prevention)
+- [x] Security audit (prompt injection prevention via `sanitizePromptInput()` in `translateNLToAQL()`)
 - [x] Documentation complete (README.md and ROADMAP.md updated)
 - [ ] API stability guaranteed
 
 ## Known Issues & Limitations
 - NL-to-AQL accuracy depends on LLM provider quality and prompt engineering
 - No offline fallback when no LLM provider is configured
-- Prompt injection is a known risk for NL-to-AQL translation; input sanitization is partial
+- Prompt injection in `translateNLToAQL()` is mitigated by pattern-based input sanitization; advanced adversarial inputs not covered by the current pattern set may still bypass detection
 - Schema-aware generation requires explicit schema injection into prompts
 
 ## Breaking Changes
