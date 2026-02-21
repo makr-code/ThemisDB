@@ -103,6 +103,313 @@ Diagnostic information about a `search()` call.
 
 ---
 
+### query_expander.h
+**Purpose:** Query expansion, spelling correction, and zero-result fallback
+
+**Key Classes:**
+- `QueryExpander`: Expands a raw user query with synonyms, corrected tokens, and relaxed fallbacks
+- `QueryExpander::Config`: Controls synonym expansion, spelling correction, max expansions
+- `ExpandedQuery`: Output struct with original, corrected, synonyms, relaxed terms, and all_terms
+
+**Usage:**
+```cpp
+#include "search/query_expander.h"
+
+using namespace themis;
+
+QueryExpander::Config cfg;
+cfg.use_synonyms     = true;
+cfg.correct_spelling = true;
+cfg.max_expansions   = 5;
+cfg.max_edit_distance = 2;
+
+QueryExpander expander(cfg);
+expander.addSynonyms("ml", {"machine learning", "artificial intelligence"});
+expander.addVocabulary({"machine", "learning", "database", "index"});
+
+auto expanded = expander.expand("mashine lerning");
+// expanded.corrected  == "machine learning"
+// expanded.synonyms   == {"artificial intelligence"}
+// expanded.all_terms  contains all tokens + synonyms
+
+// Suggest alternative phrasings
+auto alts = expander.suggestAlternatives("machine learning");
+
+// Zero-result fallback: drop last token
+auto relaxed = expander.relaxQuery("machine learning database");
+// relaxed == "machine learning"
+```
+
+**Config Fields:**
+- `use_synonyms`: Expand tokens with registered synonyms (default true)
+- `correct_spelling`: Apply Levenshtein-based spelling correction against vocabulary (default true)
+- `detect_phrases`: Preserve multi-word synonym phrases (default true)
+- `synonym_weight`: Relative weight of synonym terms — informational (default 0.8)
+- `max_expansions`: Maximum synonym terms to add per token (default 5)
+- `max_edit_distance`: Maximum edit distance for spelling correction (default 2)
+
+---
+
+### fuzzy_matcher.h
+**Purpose:** Enhanced fuzzy search with Levenshtein, Soundex, Metaphone, and N-gram algorithms
+
+**Key Classes:**
+- `FuzzyMatcher`: Wraps `SecondaryIndexManager::scanFulltextFuzzy` with algorithm selection and unified scoring
+- `FuzzyMatcher::Config`: Algorithm choice, max distance, N-gram size, phonetic pre-filter
+- `FuzzyMatch`: Single result with document_id, matched_token, score [0,1], and edit_distance
+
+**Usage:**
+```cpp
+#include "search/fuzzy_matcher.h"
+
+using namespace themis;
+
+FuzzyMatcher::Config cfg;
+cfg.algorithm    = FuzzyMatcher::Algorithm::LEVENSHTEIN;
+cfg.max_distance = 2;
+
+FuzzyMatcher matcher(&secondary_index_mgr, cfg);
+auto [status, matches] = matcher.search("douments", "docs", "body");
+for (const auto& m : matches) {
+    std::cout << m.document_id << " score=" << m.score << "\n";
+}
+
+// Static algorithm utilities
+int dist  = FuzzyMatcher::levenshtein("colour", "color");    // 1
+auto sx   = FuzzyMatcher::soundex("Smith");                  // "S530"
+auto mp   = FuzzyMatcher::metaphone("Knight");               // "NT"
+double ng = FuzzyMatcher::ngramSimilarity("database", "databases"); // ~0.89
+```
+
+**Config Fields:**
+- `algorithm`: `LEVENSHTEIN` / `SOUNDEX` / `METAPHONE` / `NGRAM` (default LEVENSHTEIN)
+- `max_distance`: Maximum edit distance or minimum overlap threshold (default 2)
+- `ngram_size`: N-gram size for NGRAM algorithm (default 2)
+- `phonetic_prefilter`: Apply Soundex/Metaphone pre-filter before edit distance (default false)
+
+---
+
+### faceted_search.h
+**Purpose:** Multi-dimensional facet computation for drill-down navigation
+
+**Key Classes:**
+- `FacetedSearch`: Computes per-field value counts and range-bucket facets
+- `FacetResult`: Field name + `value_counts` map + total_docs
+- `FacetedSearch::RangeBucket`: Labelled numeric range (low, high)
+- `FacetedSearch::ActiveFacet`: A field=value drill-down constraint
+
+**Usage:**
+```cpp
+#include "search/faceted_search.h"
+
+using namespace themis;
+
+FacetedSearch facets(&secondary_index_mgr);
+
+// Collect PKs from search results
+std::vector<std::string> pks = {"pk1", "pk2", "pk3"};
+
+// Categorical facet
+auto [st, brand_facet] = facets.computeFacet("products", "brand", pks);
+for (const auto& [val, cnt] : brand_facet.value_counts) {
+    std::cout << val << ": " << cnt << "\n";
+}
+
+// Multiple facets at once
+auto [st2, all_facets] = facets.computeFacets("products", {"brand", "category"}, pks);
+
+// Range facet (price buckets)
+std::vector<FacetedSearch::RangeBucket> buckets = {
+    {"$0-$50",   0,  50},
+    {"$50-$200", 50, 200},
+    {"$200+",   200, 1e9},
+};
+auto [st3, price_facet] = facets.computeRangeFacet("products", "price", buckets, pks);
+
+// Apply filters (intersection)
+std::vector<FacetedSearch::ActiveFacet> filters = {{"brand", "Acme"}};
+auto [st4, filtered_pks] = facets.applyFacetFilters("products", pks, filters);
+```
+
+---
+
+### search_analytics.h
+**Purpose:** Thread-safe query log, performance metrics, and zero-result detection
+
+**Key Classes:**
+- `SearchAnalytics`: Thread-safe event log with configurable capacity (circular eviction)
+- `SearchAnalytics::Config`: `max_events` capacity bound (default 10,000)
+- `SearchEvent`: Recorded query event (query, timestamp, result_count, latency_ms, is_zero_result)
+- `SearchMetrics`: Snapshot of aggregated stats (total/zero queries, avg/p95/p99 latency, top queries)
+
+**Usage:**
+```cpp
+#include "search/search_analytics.h"
+
+using namespace themis;
+
+SearchAnalytics analytics;   // default max_events = 10,000
+
+// Record from your search loop
+auto t0 = std::chrono::steady_clock::now();
+auto results = hs.search(query, vec.data(), vec.size());
+double ms = std::chrono::duration<double, std::milli>(
+    std::chrono::steady_clock::now() - t0).count();
+analytics.record(query, results.size(), ms);
+
+// Zero-result alerting
+auto zero_queries = analytics.getZeroResultQueries(10);
+
+// Aggregated metrics
+SearchMetrics m = analytics.computeMetrics();
+if (m.zero_result_rate > 0.1) {
+    // Alert: more than 10% zero-result rate
+}
+std::cout << "p99 latency: " << m.p99_latency_ms << " ms\n";
+```
+
+**Notes:**
+- **Thread-safe**: all methods protected by an internal `std::mutex`
+- Bounded memory: oldest events are evicted when `max_events` is reached
+
+---
+
+### autocomplete.h
+**Purpose:** Real-time query completion from index prefix scans and popular-query history
+
+**Key Classes:**
+- `AutocompleteEngine`: Combines prefix-index and popular-query suggestions
+- `AutocompleteEngine::Config`: Suggestion count, prefix length, popular boost, deduplication
+- `Suggestion`: text, relevance score, is_popular flag
+
+**Usage:**
+```cpp
+#include "search/autocomplete.h"
+
+using namespace themis;
+
+AutocompleteEngine::Config cfg;
+cfg.max_suggestions  = 10;
+cfg.popular_boost    = 1.5;
+
+AutocompleteEngine ac(&secondary_index_mgr, &analytics, cfg);
+
+// Combined suggestions (prefix + popular)
+auto suggestions = ac.suggest("data", "products", "name");
+
+// Prefix-only (from index)
+auto prefix_only = ac.suggestByPrefix("data", "products", "name", 20);
+
+// Popular-only (from SearchAnalytics query history)
+auto popular_only = ac.suggestPopular("data", 20);
+```
+
+**Config Fields:**
+- `max_suggestions`: Maximum completions returned (default 10)
+- `min_prefix_length`: Minimum prefix length to trigger completion (default 1)
+- `popular_boost`: Score multiplier for popular-query suggestions (default 1.5)
+- `include_popular`: Include popular-query suggestions (default true)
+- `include_prefix`: Include prefix-index suggestions (default true)
+- `deduplicate`: Remove duplicate suggestion texts (default true)
+
+---
+
+### learning_to_rank.h
+**Purpose:** Linear feature-based re-ranker with click-through training and A/B variant selector
+
+**Key Classes:**
+- `LearningToRank`: Dot-product linear scorer, online gradient-descent training, A/B variants
+- `LearningToRank::Config`: Learning rate, click buffer size, L2 regularization
+- `RankingFeatures`: 6-dimensional feature vector (bm25, vector, rrf, recency, click_count, popularity)
+- `RankedResult`: Candidate with features + final_score
+- `ClickEvent`: Click-through event (query, document_id, result_position)
+- `LearningToRank::Variant`: Named scoring function + traffic_fraction for A/B splits
+
+**Usage:**
+```cpp
+#include "search/learning_to_rank.h"
+
+using namespace themis;
+
+LearningToRank::Config cfg;
+cfg.learning_rate  = 0.01;
+cfg.regularization = 0.001;
+LearningToRank ltr(cfg);
+
+// Build candidates from HybridSearch results
+std::vector<RankedResult> candidates;
+for (const auto& r : hs_results) {
+    RankedResult rr;
+    rr.document_id = r.document_id;
+    rr.features.bm25_score   = r.bm25_score;
+    rr.features.vector_score = r.vector_score;
+    rr.features.rrf_score    = r.hybrid_score;
+    candidates.push_back(rr);
+}
+
+// Re-rank using current weights
+auto ranked = ltr.rerank(candidates);
+
+// Record click and train
+ltr.recordClick({"machine learning", "doc_42", 3});
+size_t trained = ltr.train();
+
+// A/B testing
+ltr.registerVariant({"ltr_v2", my_scorer, 0.1});
+auto variant = ltr.selectVariant(session_id);  // deterministic hash routing
+auto ab_ranked = ltr.rerankWithVariant(candidates, variant);
+```
+
+**Config Fields:**
+- `learning_rate`: Gradient-descent step size (default 0.01)
+- `max_click_buffer`: Maximum stored click events before auto-eviction (default 1000)
+- `regularization`: L2 regularization coefficient (default 0.001)
+
+---
+
+### multi_modal_search.h
+**Purpose:** Unified search across text, image, audio, and arbitrary-embedding modalities with RRF fusion
+
+**Key Classes:**
+- `MultiModalSearch`: Dispatches TEXT queries to fulltext index and embedding queries to VectorIndexManager; fuses via RRF
+- `MultiModalSearch::Config`: `k`, `rrf_k`, `candidates_per_modal`
+- `ModalQuery`: Component query (modality, text/embedding, namespace, weight)
+- `MultiModalResult`: document_id, fused score, matched_modality
+- `Modality`: enum `TEXT` / `IMAGE` / `AUDIO` / `CUSTOM`
+
+**Usage:**
+```cpp
+#include "search/multi_modal_search.h"
+
+using namespace themis;
+
+MultiModalSearch::Config cfg;
+cfg.k = 10;
+MultiModalSearch mms(&sec_index_mgr, &vec_index_mgr, cfg);
+
+// Text + image query
+std::vector<ModalQuery> queries = {
+    { Modality::TEXT,  "sunset beach", {},         "text_ns",  0.6 },
+    { Modality::IMAGE, "",    clip_embedding, "image_ns", 1.0 },
+};
+auto results = mms.search(queries, "photos", "caption");
+
+// Convenience: single text + single image
+auto results2 = mms.searchTextAndImage(
+    "sunset over mountains",
+    clip_embedding,
+    "image_ns",
+    "photos", "caption"
+);
+```
+
+**Config Fields:**
+- `k`: Number of fused results to return (default 10)
+- `rrf_k`: RRF smoothing constant (default 60.0)
+- `candidates_per_modal`: How many candidates to fetch per modality before fusion (default 100)
+
+---
+
 ## Integration Points
 
 ### With Index Module
