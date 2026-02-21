@@ -47,6 +47,7 @@
 #include <thread>
 #include <mutex>
 #include <chrono>
+#include <filesystem>
 
 using namespace themis::sharding;
 
@@ -822,4 +823,70 @@ TEST(TwoPhaseCommitCoordinatorEndpointTest, RegisterByEndpointCanBeOverwritten) 
 
     // Count should still be 1 (overwrite, not duplicate)
     EXPECT_EQ(coord.participantCount(), 1u);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Coordinator: recoverInDoubtTransactions
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TwoPhaseCommitCoordinatorTest, RecoverWithoutWALReturnsZero) {
+    // When WAL is disabled (wal_directory=""), recovery is a no-op that returns 0
+    size_t resolved = coord_->recoverInDoubtTransactions();
+    EXPECT_EQ(resolved, 0u);
+}
+
+TEST(TwoPhaseCommitCoordinatorRecoveryTest, RecoverWithWALAfterCleanRun) {
+    // A coordinator that committed all transactions cleanly should report 0
+    // in-doubt transactions on recovery.
+    //
+    // Use a RAII guard to ensure the WAL directory is cleaned up even if
+    // an assertion fails.
+    const auto wal_dir = (std::filesystem::temp_directory_path() /
+                          ("2pc_coord_wal_" +
+                           std::to_string(::getpid()) + "_" +
+                           std::to_string(
+                               std::chrono::steady_clock::now()
+                                   .time_since_epoch()
+                                   .count())))
+                             .string();
+
+    struct WalDirGuard {
+        const std::string& path;
+        ~WalDirGuard() { std::filesystem::remove_all(path); }
+    } guard{wal_dir};
+
+    std::filesystem::create_directories(wal_dir);
+
+    {
+        TwoPhaseCommitCoordinator::Config cfg;
+        cfg.wal_directory   = wal_dir;
+        cfg.sync_wal_writes = false;
+
+        TwoPhaseCommitCoordinator coord("coord-wal-test", cfg);
+
+        TwoPhaseCommitParticipant::Config p_cfg;
+        p_cfg.wal_directory = "";
+        auto participant    = std::make_unique<TwoPhaseCommitParticipant>("shard-wal", p_cfg);
+        coord.registerParticipant("shard-wal", participant.get());
+
+        nlohmann::json ops = nlohmann::json::array();
+        ops.push_back({{"key", "a"}});
+
+        auto outcome = coord.commit("wal-txn-1", {{"shard-wal", ops}});
+        EXPECT_TRUE(outcome.committed());
+    }
+
+    // "Restart": new coordinator instance reads the same WAL
+    {
+        TwoPhaseCommitCoordinator::Config cfg;
+        cfg.wal_directory   = wal_dir;
+        cfg.sync_wal_writes = false;
+
+        TwoPhaseCommitCoordinator coord("coord-wal-test", cfg);
+
+        // All transactions were completed cleanly – nothing to re-drive
+        size_t resolved = coord.recoverInDoubtTransactions();
+        EXPECT_EQ(resolved, 0u);
+    }
+    // guard destructor removes wal_dir
 }
