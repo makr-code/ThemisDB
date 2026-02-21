@@ -358,7 +358,11 @@ std::vector<uint8_t> VaultKeyProvider::parseKeyFromVaultResponse(const std::stri
         key_b64 = j["data"]["key"].get<std::string>();
     }
     
-    return base64_decode(key_b64);
+    auto key_bytes = base64_decode(key_b64);
+    if (key_bytes.empty()) {
+        throw KeyOperationException("Vault returned an empty key - refusing to use zero-length key material");
+    }
+    return key_bytes;
 }
 
 KeyMetadata VaultKeyProvider::parseMetadataFromVaultResponse(const std::string& json_response) {
