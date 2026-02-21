@@ -1,5 +1,7 @@
 # Prompt Engineering Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Full lifecycle management for LLM prompt templates is production-ready. Version control, A/B testing, feedback collection, self-improvement orchestrator, and Prometheus metrics are all implemented.
 
@@ -48,6 +50,32 @@ v1.x – Full lifecycle management for LLM prompt templates is production-ready.
 - [ ] Automated regression detection when base model is upgraded
 - [ ] Prompt chaining and DAG execution
 - [ ] Community prompt library with versioned sharing
+
+## Implementation Phases
+
+### Phase 1: Template Management & Evaluation (Status: Completed ✅)
+- [x] PromptManager – CRUD with RocksDB persistence and YAML bulk-load
+- [x] Context injection (`{placeholder}` variable substitution) and `buildContextFromSchema()`
+- [x] Chain-of-thought (CoT) prompt support with step delimiters
+- [x] RAG prompt construction helpers (retrieved context injection)
+- [x] System prompt management and per-role override
+- [x] FeedbackCollector, PromptEvaluator, PromptOptimizer, MetaPromptGenerator
+- [x] Git-like version control (branches, commits, diffs)
+- [x] A/B testing with statistical significance (p-value)
+- [x] Prometheus-compatible metrics export
+
+### Phase 2: Typed DSL & Context Budget (Status: In Progress 🚧)
+- [~] Typed template DSL with compile-time placeholder validation (Target: Q2 2026)
+- [~] Context window budget manager – enforce token limits before dispatch (Target: Q2 2026)
+- [ ] Prompt injection attack detection layer (Target: Q2 2026)
+- [ ] Multi-modal prompt support (image descriptions alongside text) (Target: Q3 2026)
+
+### Phase 3: Tracing, Regression & Experiments (Status: Planned 📋)
+- [ ] CoT execution tracer – record per-step reasoning chain with latency attribution
+- [ ] Prompt regression suite – detect quality degradation on model upgrade
+- [ ] A/B experiment framework with configurable traffic splits and automated winner selection
+- [ ] Import/export prompt library to JSON / YAML for cross-environment portability
+- [ ] Per-language prompt template variants (i18n support)
 
 ## Production Readiness Checklist
 - [x] Template validation with detailed error reporting

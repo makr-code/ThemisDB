@@ -4,6 +4,16 @@
 
 The Server module provides ThemisDB's complete API surface, network protocol implementations, and client-facing services. Built on Boost.Beast and Boost.Asio, it handles HTTP/1.1, HTTP/2, HTTP/3, WebSocket, MQTT, PostgreSQL wire protocol, and gRPC, exposing a comprehensive REST API with 40+ specialized endpoints for multi-model data operations, governance, and observability.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `server.cpp` | Main server entry point and lifecycle management |
+| `api_handler.cpp` | HTTP request routing and handler dispatch |
+| `llm_api_handler.cpp` | LLM inference API handler (INFER, RAG, EMBED) |
+| `rpc/` | RPC handler infrastructure for gRPC services |
+| `middleware/` | Auth, logging, and rate limiting middleware |
+
 ## Scope
 
 **In Scope:**

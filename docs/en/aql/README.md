@@ -31,6 +31,7 @@ ThemisDB v1.4 bietet umfassende AQL-Dokumentation mit Performance-Optimierung un
 - **[AQL Syntax Guide](AQL_SYNTAX_GUIDE.md)** - Komplette Sprachreferenz mit 50+ Beispielen, Datentypen, Operatoren, Funktionen, Graph/Vector-Operationen
 - **[AQL Best Practices](AQL_BEST_PRACTICES.md)** - Query-Struktur, Index-Nutzung, Performance-Optimierung, Sicherheit, Edge Cases, Testing
 - **[AQL Performance Guide](AQL_PERFORMANCE_GUIDE.md)** - Query Optimizer Internals, Index-Strategien, Execution Plans, Profiling, Monitoring
+- **[AQL Query Templates](aql_query_templates.md)** - Fluent builder and pre-built templates for common AQL patterns (Go client)
 
 ## Source Code Reference
 
@@ -333,6 +334,7 @@ FOR u IN users
 - [Subquery & CTE Reference](../../de/aql/aql_subquery_reference.md) - WITH, scalar subqueries
 - [Pattern Matching](../../de/aql/aql_pattern_matching.md) - Graph patterns without new syntax
 - [EXPLAIN & PROFILE](../../de/aql/aql_explain_profile.md) - Performance analysis
+- [AQL Query Templates](aql_query_templates.md) - Fluent builder and pre-built templates (Go client)
 
 ### ⚙️ Operations & Tooling
 
@@ -349,6 +351,10 @@ FOR u IN users
 ---
 
 ## 📝 Changelog
+
+### v1.4.0 - February 2026
+- ✅ **AQL Query Templates:** Added fluent `AQLQueryBuilder` and 14 pre-built template functions in the Go client
+- ✅ **Documentation:** Added [AQL Query Templates Guide](aql_query_templates.md)
 
 ### v1.3.0 - December 22, 2025
 - ✅ **Template Update:** Standardization to v1.3.0 documentation format

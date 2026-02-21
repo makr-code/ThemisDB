@@ -4,6 +4,15 @@
 
 The Graph module implements ThemisDB's advanced graph database capabilities, providing cost-based query optimization, constrained path finding, and integration with the broader graph infrastructure. It extends the GraphIndexManager with sophisticated query planning, algorithm selection, and constraint-based traversal to enable efficient graph operations across property graphs, temporal graphs, and multi-model queries.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `graph_query_optimizer.cpp` | Cost-based algorithm selection and plan generation |
+| `traversal_engine.cpp` | BFS/DFS/Dijkstra/A* traversal execution |
+| `graph_index_manager.h` | Graph index operations interface |
+| `query_plan_cache.cpp` | Query plan caching and execution statistics |
+
 ## Scope
 
 **In Scope:**

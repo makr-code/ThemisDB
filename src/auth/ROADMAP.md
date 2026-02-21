@@ -1,5 +1,7 @@
 # Auth Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSSAPI, and TOTP-based MFA. RBAC and principal-to-role mapping are implemented.
 
@@ -36,6 +38,32 @@ Production-ready enterprise authentication with JWT/OpenID Connect, Kerberos/GSS
 - [ ] Certificate-based mutual TLS (mTLS) authentication
 - [ ] Federated identity across multiple realms
 - [ ] Zero-trust access model with continuous verification
+
+## Implementation Phases
+
+### Phase 1: Enterprise Authentication Core (Status: Completed ✅)
+- [x] JWT validation with OpenID Connect and Keycloak integration (`auth/jwt_validator.cpp`)
+- [x] RS256 signature verification with JWKS caching and configurable TTL
+- [x] Clock skew tolerance for distributed environments
+- [x] Kerberos/GSSAPI authentication for Active Directory SSO (`auth/kerberos_auth.cpp`)
+- [x] TOTP-based Multi-Factor Authentication with recovery codes (`auth/totp_mfa.cpp`)
+- [x] Principal-to-role mapping and RBAC enforcement
+- [x] Rate limiting for brute force and replay attack prevention
+- [x] Fallback from Kerberos to basic authentication
+
+### Phase 2: Extended Identity Protocols (Status: In Progress 🚧)
+- [~] OAuth 2.0 device authorization flow (`auth/oauth_device_flow.cpp`, Target: Q2 2026)
+- [~] SAML 2.0 identity provider integration (Target: Q2 2026)
+- [ ] Attribute-based access control (ABAC) engine (Target: Q3 2026)
+
+### Phase 3: Zero-Trust & Modern AuthN (Status: Planned 📋)
+- [ ] OAuth 2.0 PKCE flow for public clients
+- [ ] API key authentication (static key + secret)
+- [ ] WebAuthn/FIDO2 hardware token support
+- [ ] Session management and revocation endpoint
+- [ ] Configurable password policy enforcement
+- [ ] Audit logging for all authentication events
+- [ ] Certificate-based mutual TLS (mTLS) authentication
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

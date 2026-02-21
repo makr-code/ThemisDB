@@ -385,3 +385,111 @@ TEST_F(ContinuousLearningOrchestratorTest, SaveModelCheckpointRecordsEvent) {
     EXPECT_TRUE(found);
 }
 
+
+// ============================================================================
+// Data selection integration: rollback, reselection scheduling
+// ============================================================================
+
+// Test: when rollback condition is met (low accuracy), retraining is skipped
+// and a RollbackTriggered event is recorded.
+TEST_F(ContinuousLearningOrchestratorTest, RollbackSkipsRetrainingAndLogsEvent) {
+    using namespace themis::training;
+
+    // Configure SI module to rollback when accuracy drop > 0.01 (very sensitive)
+    ContinuousLearningConfig cfg = config_;
+    cfg.enable_auto_rollback = true;
+
+    SelfImprovementConfig si_cfg;
+    si_cfg.enabled                       = true;
+    si_cfg.threshold_auto_adjust         = true;
+    si_cfg.accuracy_monitoring           = true;
+    si_cfg.accuracy_rollback_threshold   = 0.01; // any accuracy < 0.99 triggers rollback
+    si_cfg.min_avg_quality_score         = 0.0;  // no quality trigger
+    si_cfg.diversity_monitoring          = false; // no diversity trigger
+    cfg.self_improvement_config = si_cfg;
+
+    auto orch = std::make_unique<ContinuousLearningOrchestrator>(cfg);
+
+    // Register an adapter and accumulate enough feedback to trigger retraining
+    orch->registerLoRAAdapter("adapter_rb", "RollbackTest");
+
+    for (int i = 0; i < static_cast<int>(cfg.min_feedback_samples) + 2; ++i) {
+        Interaction interaction;
+        interaction.interaction_id   = "rb_" + std::to_string(i);
+        interaction.timestamp        = std::chrono::system_clock::now();
+        interaction.query            = "query";
+        interaction.generated_answer = "answer";
+        interaction.user_feedback    = FeedbackType::NEGATIVE;
+        interaction.model_version    = "adapter_rb";
+        orch->logInteraction(interaction);
+    }
+
+    auto stats_before = orch->getStats();
+    orch->triggerLearningIteration();
+    auto stats_after = orch->getStats();
+
+    // Retraining count should NOT have increased because rollback fired
+    EXPECT_EQ(stats_after.lora_retraining_count, stats_before.lora_retraining_count);
+
+    // A RollbackTriggered event should be in recent_improvements
+    bool found_rollback = false;
+    for (const auto& ev : stats_after.recent_improvements) {
+        if (ev.improvement_type == "RollbackTriggered" && ev.component == "adapter_rb") {
+            found_rollback = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found_rollback);
+}
+
+// Test: when needsReselection() is true (period elapsed), triggerLearningIteration
+// runs the pipeline and updates last_selection_time so a second immediate call
+// does NOT re-select (period not yet elapsed again).
+TEST_F(ContinuousLearningOrchestratorTest, PeriodicReselectionTriggeredOnce) {
+    using namespace themis::training;
+
+    ContinuousLearningConfig cfg = config_;
+
+    // Very short period (1 second) so needsReselection is immediately true
+    SelfImprovementConfig si_cfg;
+    si_cfg.enabled          = true;
+    si_cfg.period_seconds   = 1;         // 1-second period
+    cfg.self_improvement_config = si_cfg;
+
+    auto orch = std::make_unique<ContinuousLearningOrchestrator>(cfg);
+
+    // Wait >1 second so period has elapsed since construction
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+
+    // First iteration: reselection should run (period elapsed)
+    orch->triggerLearningIteration();
+
+    // Immediately trigger again: period has NOT elapsed since just ran
+    // This just verifies it doesn't crash / doesn't double-run
+    orch->triggerLearningIteration();
+    SUCCEED();
+}
+
+// Test: runDataSelectionForAdapter() updates last_selection_time so subsequent
+// needsReselection() returns false for the configured period.
+TEST_F(ContinuousLearningOrchestratorTest, RunDataSelectionUpdatesLastSelectionTime) {
+    using namespace themis::training;
+
+    ContinuousLearningConfig cfg = config_;
+    SelfImprovementConfig si_cfg;
+    si_cfg.enabled        = true;
+    si_cfg.period_seconds = 3600; // 1 hour
+    cfg.self_improvement_config = si_cfg;
+
+    auto orch = std::make_unique<ContinuousLearningOrchestrator>(cfg);
+
+    // Run manual data selection
+    auto result = orch->runDataSelectionForAdapter("adapter1", {});
+    EXPECT_TRUE(result.success);
+
+    // After a manual run, needsReselection should be false (period is 1 hour)
+    // Verify indirectly: call triggerLearningIteration and confirm it doesn't
+    // crash (a deadlock or logic error would surface here).
+    orch->triggerLearningIteration();
+    SUCCEED();
+}

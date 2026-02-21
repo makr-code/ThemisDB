@@ -4,6 +4,15 @@
 
 The Prompt Engineering module provides a complete lifecycle management system for LLM prompt templates in ThemisDB. It covers prompt creation and storage, version control (branching, diffing, rollback), iterative optimization via meta-prompts, feedback collection, performance tracking, A/B testing, and a self-improvement orchestrator that automatically detects underperforming prompts and triggers optimization cycles. Prometheus metrics and a high-level integration facade are included for production observability.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `prompt_template_manager.cpp` | Template storage and context-variable rendering |
+| `chain_of_thought.cpp` | Chain-of-thought prompt construction |
+| `rag_prompt_builder.cpp` | RAG context injection into prompt templates |
+| `system_prompt_manager.cpp` | System prompt management and versioning |
+
 ## Scope
 
 **In Scope:**

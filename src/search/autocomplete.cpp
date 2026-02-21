@@ -24,6 +24,7 @@
  */
 
 #include "search/autocomplete.h"
+#include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <algorithm>
 #include <stdexcept>

@@ -2,6 +2,26 @@
 
 Base utility functions and common code for ThemisDB.
 
+## Module Purpose
+
+Provides foundational module loading infrastructure for ThemisDB plugins and extensions, including secure DLL/SO/DYLIB loading, digital signature verification, trust level enforcement, and plugin lifecycle management across Windows, Linux, and macOS.
+
+## Subsystem Scope
+
+**In scope:** Cross-platform shared library loading, digital signature and hash verification, trust level classification (TRUSTED/VERIFIED/UNTRUSTED), revocation checking, dev mode for unsigned modules, plugin lifecycle (init/execute/shutdown).
+
+**Out of scope:** Plugin business logic, WASM sandboxing (planned for plugins module), plugin dependency management (planned).
+
+## Relevant Interfaces
+
+- `module_loader.h/cpp` — secure shared library loading
+- `signature_verifier.h/cpp` — digital signature validation
+- `plugin_lifecycle.h/cpp` — init/execute/shutdown lifecycle
+
+## Current Delivery Status
+
+**Maturity:** 🔴 Alpha — Core module loading and signature verification complete; hot-reload and dependency resolution in progress.
+
 ## Components
 
 - **Module Loader**: Secure DLL/shared library loading with signature verification

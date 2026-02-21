@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#include "transaction/transaction_manager.h"
+#include "transaction/transaction_manager.h"
 #include "transaction/crash_recovery_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"

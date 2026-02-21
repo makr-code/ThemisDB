@@ -23,6 +23,16 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 - ➕ Advanced process mining and ethics functions
 - ➕ Query federation across distributed databases
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `aql_parser.cpp` | AQL syntax parsing and AST generation |
+| `query_optimizer.cpp` | Logical query plan optimization |
+| `query_planner.cpp` | Physical execution plan generation |
+| `execution_engine.cpp` | Query plan execution across all data models |
+| `join_executor.cpp` | Join algorithm implementations (hash, merge, nested-loop) |
+
 ## Scope
 
 **In Scope:**

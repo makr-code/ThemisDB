@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#pragma once
+#pragma once
 
 // Windows compatibility
 #ifndef NOMINMAX

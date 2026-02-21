@@ -4,6 +4,15 @@
 
 The Updates module provides ThemisDB's comprehensive update and migration system, enabling zero-downtime schema evolution, version management, and hot-reload capabilities. It handles database schema migrations, release verification, automatic backups, and rollback capabilities to ensure safe and reliable database evolution.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `schema_migrator.cpp` | Schema migration execution and versioned rollback |
+| `update_manager.cpp` | Data update orchestration and release verification |
+| `version_tracker.cpp` | Schema and data version tracking |
+| `migration_registry.cpp` | Migration script registry and dependency ordering |
+
 ## Scope
 
 **In Scope:**

@@ -24,7 +24,7 @@
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 
-﻿#pragma once
+#pragma once
 
 #include "aql_parser.h"
 #include "query_engine.h"

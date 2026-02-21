@@ -16,6 +16,15 @@ The Replication module provides ThemisDB's high-availability and data durability
 - **Replication Lag Monitoring**: Real-time tracking and alerting for replication lag thresholds
 - **Selective Replication**: Filter-based replication for specific collections, tenants, or data patterns
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `raft_node.cpp` | Raft consensus node: leader election and log replication |
+| `replication_log.cpp` | WAL-based replication log management |
+| `snapshot_manager.cpp` | Snapshot creation and restoration for PITR |
+| `leader_election.cpp` | Raft leader election protocol implementation |
+
 ## Scope
 
 **In Scope:**
