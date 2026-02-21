@@ -1,0 +1,582 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 ThemisDB Contributors
+
+#include "training/lora_data_selection.h"
+
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+#include <map>
+#include <numeric>
+#include <sstream>
+#include <stdexcept>
+#include <unordered_map>
+#include <unordered_set>
+
+namespace themis {
+namespace training {
+
+// ============================================================================
+// Helpers
+// ============================================================================
+namespace detail {
+
+// Approximate token count: split on whitespace
+static size_t approximateTokenCount(const std::string& text) {
+    if (text.empty()) return 0;
+    size_t count = 0;
+    bool in_word = false;
+    for (char c : text) {
+        bool is_space = (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+        if (!is_space && !in_word) { ++count; in_word = true; }
+        else if (is_space)          { in_word = false; }
+    }
+    return count;
+}
+
+// Very lightweight language detection based on common German stop words.
+// Returns "de" if text contains enough German indicators, else "other".
+static std::string detectLanguage(const std::string& text) {
+    static const std::vector<std::string> de_tokens = {
+        "der", "die", "das", "und", "ist", "ein", "zu", "von", "mit",
+        "sich", "auf", "nicht", "auch", "als", "bei", "nach", "aus",
+        "durch", "werden", "Vertrag", "Klausel", "Haftung"
+    };
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    int hits = 0;
+    for (const auto& tok : de_tokens) {
+        std::string ltok = tok;
+        std::transform(ltok.begin(), ltok.end(), ltok.begin(), ::tolower);
+        if (lower.find(ltok) != std::string::npos) ++hits;
+    }
+    return (hits >= 3) ? "de" : "other";
+}
+
+// Heuristic toxicity score: counts hostile/offensive term occurrences
+// and maps to [0..1]. Returns 0 for benign text.
+static double computeToxicity(const std::string& text) {
+    static const std::vector<std::string> toxic_markers = {
+        "hass", "beleidigung", "gewalt", "diskriminierung",
+        "hate", "insult", "violence", "discrimination"
+    };
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    int hits = 0;
+    for (const auto& m : toxic_markers) {
+        size_t pos = 0;
+        while ((pos = lower.find(m, pos)) != std::string::npos) {
+            ++hits;
+            pos += m.size();
+        }
+    }
+    // Simple saturation: 5+ hits → score=1.0
+    return std::min(1.0, static_cast<double>(hits) / 5.0);
+}
+
+// Heuristic PII check: returns true if text appears to contain PII.
+static bool containsPII(const std::string& text) {
+    // Look for patterns like email addresses or IBAN-style sequences
+    static const std::vector<std::string> pii_patterns = {
+        "@", "iban", "geburtsdatum", "personalausweis", "sozialversicherung"
+    };
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    for (const auto& p : pii_patterns) {
+        if (lower.find(p) != std::string::npos) return true;
+    }
+    return false;
+}
+
+// Compute a lightweight FNV-1a hash of a string (for MinHash shingle hashing)
+static uint32_t fnv1a(const std::string& s) {
+    uint32_t hash = 2166136261u;
+    for (unsigned char c : s) {
+        hash ^= static_cast<uint32_t>(c);
+        hash *= 16777619u;
+    }
+    return hash;
+}
+
+// Build a MinHash signature (one value per permutation) using word 3-shingles
+static std::vector<uint32_t> buildMinHash(const std::string& text, size_t num_perm) {
+    // Build word-level 3-shingles
+    std::vector<std::string> words;
+    std::istringstream iss(text);
+    std::string w;
+    while (iss >> w) words.push_back(w);
+
+    std::unordered_set<std::string> shingles;
+    for (size_t i = 0; i + 2 < words.size(); ++i) {
+        shingles.insert(words[i] + " " + words[i+1] + " " + words[i+2]);
+    }
+    if (shingles.empty()) {
+        // Degenerate case: use word unigrams
+        for (const auto& ww : words) shingles.insert(ww);
+    }
+
+    // Simulate permutations via (a*hash + b) % p  (universal hashing)
+    // Using fixed seeds for reproducibility
+    std::vector<uint32_t> signature(num_perm, UINT32_MAX);
+    const uint32_t large_prime = 4294967291u;
+    for (const auto& shingle : shingles) {
+        uint32_t h0 = fnv1a(shingle);
+        for (size_t perm = 0; perm < num_perm; ++perm) {
+            uint32_t a = static_cast<uint32_t>(perm * 2654435761u + 1);
+            uint32_t b = static_cast<uint32_t>(perm * 40503u + 7);
+            uint32_t val = static_cast<uint32_t>((static_cast<uint64_t>(a) * h0 + b) % large_prime);
+            if (val < signature[perm]) signature[perm] = val;
+        }
+    }
+    return signature;
+}
+
+// Estimate Jaccard similarity from two MinHash signatures
+static double jaccardEstimate(const std::vector<uint32_t>& a,
+                               const std::vector<uint32_t>& b) {
+    if (a.size() != b.size() || a.empty()) return 0.0;
+    size_t matches = 0;
+    for (size_t i = 0; i < a.size(); ++i) {
+        if (a[i] == b[i]) ++matches;
+    }
+    return static_cast<double>(matches) / static_cast<double>(a.size());
+}
+
+// Compute type-token ratio (TTR) as diversity score
+static double computeTTR(const std::string& text) {
+    std::istringstream iss(text);
+    std::string w;
+    std::unordered_set<std::string> types;
+    size_t tokens = 0;
+    while (iss >> w) {
+        std::transform(w.begin(), w.end(), w.begin(), ::tolower);
+        types.insert(w);
+        ++tokens;
+    }
+    if (tokens == 0) return 0.0;
+    return static_cast<double>(types.size()) / static_cast<double>(tokens);
+}
+
+// Compute BM25 domain relevance score for one sample
+static double computeDomainRelevance(const std::string& text,
+                                      const DomainKeywords& domain_keywords) {
+    if (domain_keywords.empty()) return 0.5; // neutral when no keywords configured
+
+    std::string lower = text;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+
+    double total_score = 0.0;
+    size_t total_keywords = 0;
+
+    for (const auto& [domain, keywords] : domain_keywords) {
+        for (const auto& kw : keywords) {
+            std::string lkw = kw;
+            std::transform(lkw.begin(), lkw.end(), lkw.begin(), ::tolower);
+            size_t pos = 0;
+            int   count = 0;
+            while ((pos = lower.find(lkw, pos)) != std::string::npos) {
+                ++count;
+                pos += lkw.size();
+            }
+            // BM25-like term frequency saturation: tf / (tf + k1)
+            constexpr double k1 = 1.5;
+            total_score += static_cast<double>(count) / (static_cast<double>(count) + k1);
+            ++total_keywords;
+        }
+    }
+    if (total_keywords == 0) return 0.5;
+    return std::min(1.0, total_score / static_cast<double>(total_keywords));
+}
+
+// Pseudo-perplexity estimate from token count and character entropy
+static double computePerplexityScore(const std::string& text) {
+    if (text.empty()) return 1.0;
+
+    // Character frequency
+    std::unordered_map<char, int> freq;
+    for (char c : text) freq[c]++;
+
+    double entropy = 0.0;
+    double n = static_cast<double>(text.size());
+    for (const auto& [c, cnt] : freq) {
+        double p = static_cast<double>(cnt) / n;
+        entropy -= p * std::log2(p);
+    }
+    // Normalize to [0..1]: 8-bit max entropy is log2(256)=8 bits
+    return std::min(1.0, entropy / 8.0);
+}
+
+// Build a compact FNV hash string for the config (provenance fingerprint)
+static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
+    std::ostringstream oss;
+    oss << cfg.min_length_tokens << "|" << cfg.max_length_tokens << "|"
+        << cfg.required_language << "|" << cfg.max_toxicity_score << "|"
+        << cfg.minhash_threshold << "|" << cfg.target_samples;
+    uint32_t h = fnv1a(oss.str());
+    std::ostringstream hex;
+    hex << std::hex << h;
+    return hex.str();
+}
+
+} // namespace detail
+
+// ============================================================================
+// Pimpl implementation
+// ============================================================================
+class DataSelectionPipeline::Impl {
+public:
+    explicit Impl(const LoRADataSelectionConfig& config) : config_(config) {}
+
+    // ---- Stage 1: Quality Filtering ----------------------------------------
+    std::vector<DataSample> filterByQuality(
+            const std::vector<DataSample>& samples) const {
+        std::vector<DataSample> out;
+        out.reserve(samples.size());
+
+        for (auto s : samples) {
+            size_t tok_count = detail::approximateTokenCount(s.text);
+            if (tok_count < config_.min_length_tokens) continue;
+            if (tok_count > config_.max_length_tokens)  continue;
+
+            if (!config_.required_language.empty()) {
+                if (s.language.empty()) s.language = detail::detectLanguage(s.text);
+                if (s.language != config_.required_language) continue;
+            }
+
+            if (detail::computeToxicity(s.text) > config_.max_toxicity_score) continue;
+            if (config_.enable_pii_check && detail::containsPII(s.text))      continue;
+
+            out.push_back(std::move(s));
+        }
+        return out;
+    }
+
+    // ---- Stage 2: Deduplication --------------------------------------------
+    std::vector<DataSample> deduplicate(
+            const std::vector<DataSample>& samples) const {
+        if (samples.empty()) return {};
+
+        // Build MinHash signatures
+        std::vector<std::vector<uint32_t>> sigs;
+        sigs.reserve(samples.size());
+        for (const auto& s : samples) {
+            sigs.push_back(detail::buildMinHash(s.text, config_.minhash_num_perm));
+        }
+
+        // Greedy deduplication: keep first; skip near-duplicates
+        std::vector<bool> is_dup(samples.size(), false);
+        for (size_t i = 0; i < samples.size(); ++i) {
+            if (is_dup[i]) continue;
+            for (size_t j = i + 1; j < samples.size(); ++j) {
+                if (is_dup[j]) continue;
+                double sim = detail::jaccardEstimate(sigs[i], sigs[j]);
+                if (sim >= config_.minhash_threshold) is_dup[j] = true;
+            }
+        }
+
+        std::vector<DataSample> out;
+        out.reserve(samples.size());
+        for (size_t i = 0; i < samples.size(); ++i) {
+            if (!is_dup[i]) out.push_back(samples[i]);
+        }
+        return out;
+    }
+
+    // ---- Stage 3: Cluster-based sampling -----------------------------------
+    std::vector<DataSample> clusterAndSample(
+            const std::vector<DataSample>& samples,
+            size_t k) const {
+        if (samples.empty()) return {};
+
+        if (k == 0) {
+            k = std::max<size_t>(1, config_.target_samples / std::max<size_t>(1, config_.clustering_k_ratio));
+        }
+        k = std::min(k, samples.size());
+
+        // Represent each sample by a lightweight hash-based "embedding":
+        // 8 bucketed values derived from character-level statistics.
+        // This replaces the full HNSW + embedding model call while preserving
+        // diversity-oriented selection behaviour.
+        auto embed = [](const std::string& text) -> std::vector<double> {
+            std::vector<double> v(8, 0.0);
+            if (text.empty()) return v;
+            for (size_t i = 0; i < text.size(); ++i) {
+                v[i % 8] += static_cast<double>(static_cast<unsigned char>(text[i]));
+            }
+            double norm = 0.0;
+            for (double x : v) norm += x * x;
+            norm = std::sqrt(norm);
+            if (norm > 0.0) for (double& x : v) x /= norm;
+            return v;
+        };
+
+        std::vector<std::vector<double>> embeddings;
+        embeddings.reserve(samples.size());
+        for (const auto& s : samples) embeddings.push_back(embed(s.text));
+
+        // K-means: initialise centroids by sampling every (n/k)-th sample
+        size_t n = samples.size();
+        std::vector<std::vector<double>> centroids;
+        centroids.reserve(k);
+        size_t step = std::max<size_t>(1, n / k);
+        for (size_t i = 0; i < k && i * step < n; ++i) {
+            centroids.push_back(embeddings[i * step]);
+        }
+
+        auto distance = [](const std::vector<double>& a,
+                           const std::vector<double>& b) -> double {
+            double d = 0.0;
+            for (size_t i = 0; i < a.size(); ++i) {
+                double diff = a[i] - b[i];
+                d += diff * diff;
+            }
+            return d;
+        };
+
+        // 5 iterations of Lloyd's algorithm
+        std::vector<size_t> assignments(n, 0);
+        for (int iter = 0; iter < 5; ++iter) {
+            // Assign
+            for (size_t i = 0; i < n; ++i) {
+                double best_dist = std::numeric_limits<double>::max();
+                for (size_t c = 0; c < centroids.size(); ++c) {
+                    double d = distance(embeddings[i], centroids[c]);
+                    if (d < best_dist) { best_dist = d; assignments[i] = c; }
+                }
+            }
+            // Update centroids
+            std::vector<std::vector<double>> new_centroids(centroids.size(),
+                                                            std::vector<double>(8, 0.0));
+            std::vector<size_t> counts(centroids.size(), 0);
+            for (size_t i = 0; i < n; ++i) {
+                size_t c = assignments[i];
+                counts[c]++;
+                for (size_t d = 0; d < 8; ++d) new_centroids[c][d] += embeddings[i][d];
+            }
+            for (size_t c = 0; c < centroids.size(); ++c) {
+                if (counts[c] > 0) {
+                    for (double& x : new_centroids[c]) x /= static_cast<double>(counts[c]);
+                    centroids[c] = new_centroids[c];
+                }
+            }
+        }
+
+        // Pick the sample closest to each centroid
+        std::vector<DataSample> out;
+        out.reserve(k);
+        std::vector<bool> selected(n, false);
+        for (size_t c = 0; c < centroids.size(); ++c) {
+            double best_dist = std::numeric_limits<double>::max();
+            size_t best_idx  = n; // sentinel
+            for (size_t i = 0; i < n; ++i) {
+                if (assignments[i] == c) {
+                    double d = distance(embeddings[i], centroids[c]);
+                    if (d < best_dist) { best_dist = d; best_idx = i; }
+                }
+            }
+            if (best_idx < n && !selected[best_idx]) {
+                selected[best_idx] = true;
+                out.push_back(samples[best_idx]);
+            }
+        }
+        return out;
+    }
+
+    // ---- Stage 4: Quality & Difficulty Scoring -----------------------------
+    void scoreQualityAndDifficulty(std::vector<DataSample>& samples) const {
+        for (auto& s : samples) {
+            double perplexity_score = detail::computePerplexityScore(s.text);
+            double ttr_score        = detail::computeTTR(s.text);
+            double domain_score     = detail::computeDomainRelevance(
+                                          s.text, config_.domain_keywords);
+
+            // Weighted combination (weights sum to 1.0 after normalisation)
+            double w_sum = config_.perplexity_weight +
+                           config_.diversity_weight  +
+                           config_.domain_relevance_weight;
+            if (w_sum <= 0.0) w_sum = 1.0;
+
+            s.quality_score = (config_.perplexity_weight   * perplexity_score +
+                                config_.diversity_weight    * ttr_score        +
+                                config_.domain_relevance_weight * domain_score) / w_sum;
+
+            // Difficulty: high perplexity + low domain relevance → harder
+            s.difficulty_score = std::clamp(
+                0.5 * perplexity_score + 0.5 * (1.0 - domain_score), 0.0, 1.0);
+        }
+    }
+
+    // ---- Stage 5: Curriculum Stratified Sampling ---------------------------
+    std::vector<DataSample> stratifiedSample(
+            const std::vector<DataSample>& scored,
+            size_t target) const {
+        if (scored.empty()) return {};
+        if (target == 0) target = config_.target_samples;
+
+        // Sort by difficulty score
+        std::vector<DataSample> sorted = scored;
+        std::sort(sorted.begin(), sorted.end(),
+                  [](const DataSample& a, const DataSample& b) {
+                      return a.difficulty_score < b.difficulty_score;
+                  });
+
+        size_t n = sorted.size();
+        // Partition into easy / medium / hard thirds by score thresholds
+        size_t easy_end   = static_cast<size_t>(n * 0.33);
+        size_t medium_end = static_cast<size_t>(n * 0.66);
+
+        auto take = [](const std::vector<DataSample>& src,
+                       size_t from, size_t to,
+                       size_t count) -> std::vector<DataSample> {
+            if (from >= src.size()) return {};
+            to = std::min(to, src.size());
+            count = std::min(count, to - from);
+            return std::vector<DataSample>(src.begin() + static_cast<ptrdiff_t>(from),
+                                           src.begin() + static_cast<ptrdiff_t>(from + count));
+        };
+
+        // Validate ratios
+        double easy_r   = std::max(0.0, config_.easy_ratio);
+        double medium_r = std::max(0.0, config_.medium_ratio);
+        double hard_r   = std::max(0.0, config_.hard_ratio);
+        double total_r  = easy_r + medium_r + hard_r;
+        if (total_r <= 0.0) total_r = 1.0;
+        easy_r   /= total_r;
+        medium_r /= total_r;
+        hard_r   /= total_r;
+
+        size_t n_easy   = static_cast<size_t>(std::round(target * easy_r));
+        size_t n_medium = static_cast<size_t>(std::round(target * medium_r));
+        size_t n_hard   = target - n_easy - n_medium; // remainder to hard bucket
+
+        std::vector<DataSample> out;
+        out.reserve(target);
+
+        auto easy_samples   = take(sorted, 0,          easy_end,   n_easy);
+        auto medium_samples = take(sorted, easy_end,   medium_end, n_medium);
+        auto hard_samples   = take(sorted, medium_end, n,          n_hard);
+
+        out.insert(out.end(), easy_samples.begin(),   easy_samples.end());
+        out.insert(out.end(), medium_samples.begin(), medium_samples.end());
+        out.insert(out.end(), hard_samples.begin(),   hard_samples.end());
+
+        return out;
+    }
+
+    // ---- Full pipeline run -------------------------------------------------
+    DataSelectionResult run(
+            const std::vector<DataSample>& input,
+            SelectionProgressCallback cb) {
+        DataSelectionResult result;
+        auto t0 = std::chrono::steady_clock::now();
+
+        try {
+            // Stage 1: Quality Filtering
+            auto s1 = filterByQuality(input);
+            if (cb) cb("quality_filter", s1.size(), "Stage 1: quality filtering done");
+
+            // Stage 2: Deduplication
+            auto s2 = deduplicate(s1);
+            if (cb) cb("deduplication", s2.size(), "Stage 2: deduplication done");
+
+            // Stage 3: Cluster-based sampling
+            auto s3 = clusterAndSample(s2, 0);
+            if (cb) cb("clustering", s3.size(), "Stage 3: cluster sampling done");
+
+            // Stage 4: Scoring (in-place)
+            scoreQualityAndDifficulty(s3);
+            if (cb) cb("scoring", s3.size(), "Stage 4: quality/difficulty scoring done");
+
+            // Stage 5: Curriculum stratified sampling
+            auto s5 = stratifiedSample(s3, 0);
+            if (cb) cb("curriculum_sampling", s5.size(), "Stage 5: curriculum sampling done");
+
+            result.selected_samples = std::move(s5);
+            result.success          = true;
+
+            // Audit trail
+            if (config_.audit) {
+                result.audit_entry.pipeline_version  = "1.0";
+                result.audit_entry.timestamp         = std::chrono::system_clock::now();
+                result.audit_entry.config_hash       = detail::hashConfig(config_);
+                result.audit_entry.input_sample_count  = input.size();
+                result.audit_entry.output_sample_count = result.selected_samples.size();
+                result.audit_entry.filtered_by_quality = input.size() - s1.size();
+                result.audit_entry.filtered_by_dedup   = s1.size() - s2.size();
+                result.audit_entry.filtered_by_cluster = s2.size() - s3.size();
+                for (const auto& s : result.selected_samples) {
+                    result.audit_entry.selected_ids.push_back(s.id);
+                }
+            }
+
+        } catch (const std::exception& e) {
+            result.success       = false;
+            result.error_message = "DataSelectionPipeline failed: " + std::string(e.what());
+        }
+
+        auto t1 = std::chrono::steady_clock::now();
+        result.elapsed_seconds =
+            std::chrono::duration<double>(t1 - t0).count();
+
+        return result;
+    }
+
+    void setConfig(const LoRADataSelectionConfig& config) { config_ = config; }
+    const LoRADataSelectionConfig& getConfig() const      { return config_; }
+
+private:
+    LoRADataSelectionConfig config_;
+};
+
+// ============================================================================
+// Public API
+// ============================================================================
+
+DataSelectionPipeline::DataSelectionPipeline(const LoRADataSelectionConfig& config)
+    : impl_(std::make_unique<Impl>(config)) {}
+
+DataSelectionPipeline::~DataSelectionPipeline() = default;
+
+DataSelectionResult DataSelectionPipeline::run(
+        const std::vector<DataSample>& input_samples,
+        SelectionProgressCallback callback) {
+    return impl_->run(input_samples, std::move(callback));
+}
+
+std::vector<DataSample> DataSelectionPipeline::filterByQuality(
+        const std::vector<DataSample>& samples) const {
+    return impl_->filterByQuality(samples);
+}
+
+std::vector<DataSample> DataSelectionPipeline::deduplicate(
+        const std::vector<DataSample>& samples) const {
+    return impl_->deduplicate(samples);
+}
+
+std::vector<DataSample> DataSelectionPipeline::clusterAndSample(
+        const std::vector<DataSample>& samples, size_t k) const {
+    return impl_->clusterAndSample(samples, k);
+}
+
+void DataSelectionPipeline::scoreQualityAndDifficulty(
+        std::vector<DataSample>& samples) const {
+    impl_->scoreQualityAndDifficulty(samples);
+}
+
+std::vector<DataSample> DataSelectionPipeline::stratifiedSample(
+        const std::vector<DataSample>& scored_samples, size_t target) const {
+    return impl_->stratifiedSample(scored_samples, target);
+}
+
+void DataSelectionPipeline::setConfig(const LoRADataSelectionConfig& config) {
+    impl_->setConfig(config);
+}
+
+const LoRADataSelectionConfig& DataSelectionPipeline::getConfig() const {
+    return impl_->getConfig();
+}
+
+} // namespace training
+} // namespace themis

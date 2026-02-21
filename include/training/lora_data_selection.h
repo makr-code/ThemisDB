@@ -1,0 +1,292 @@
+// SPDX-License-Identifier: Apache-2.0
+// Copyright (c) 2026 ThemisDB Contributors
+
+#pragma once
+
+#include <string>
+#include <vector>
+#include <map>
+#include <memory>
+#include <functional>
+#include <chrono>
+
+namespace themis {
+namespace training {
+
+// ============================================================================
+// Configuration
+// ============================================================================
+
+/**
+ * @brief Per-domain keyword list for BM25 domain relevance scoring.
+ */
+using DomainKeywords = std::map<std::string, std::vector<std::string>>;
+
+/**
+ * @brief Complete configuration for the automated LoRA data selection pipeline.
+ *
+ * Matches the YAML schema:
+ * @code
+ * lora_data_selection:
+ *   min_length_tokens: 50
+ *   max_length_tokens: 10000
+ *   required_language: "de"
+ *   max_toxicity_score: 0.3
+ *   minhash_threshold: 0.95
+ *   ...
+ * @endcode
+ */
+struct LoRADataSelectionConfig {
+    // ---- Stage 1: Quality filtering ----
+    size_t min_length_tokens   = 50;          ///< Minimum token count per sample
+    size_t max_length_tokens   = 10000;       ///< Maximum token count per sample
+    std::string required_language = "de";     ///< ISO 639-1 language code
+    double max_toxicity_score  = 0.3;         ///< Max allowed toxicity (0..1)
+    bool   enable_pii_check    = true;        ///< Strip/reject PII samples
+
+    // ---- Stage 2: Deduplication ----
+    double minhash_threshold   = 0.95;        ///< Jaccard threshold for near-duplicate removal
+    size_t minhash_num_perm    = 128;         ///< Number of MinHash permutations
+
+    // ---- Stage 3: Embedding & clustering ----
+    std::string embedding_model = "multilingual-e5-large";
+    size_t clustering_k_ratio   = 50;         ///< k = target_samples / clustering_k_ratio
+
+    // ---- Stage 4: Quality & difficulty scoring ----
+    std::string perplexity_model    = "gpt2";
+    double perplexity_weight        = 0.4;    ///< Weight in combined quality score
+    double diversity_weight         = 0.3;    ///< Weight for token-type ratio (TTR)
+    double domain_relevance_weight  = 0.3;    ///< Weight for BM25 domain relevance
+    DomainKeywords domain_keywords;           ///< Domain → keyword list
+
+    // ---- Stage 5: Curriculum stratified sampling ----
+    double easy_ratio   = 0.1;    ///< Fraction of easy samples (low difficulty)
+    double medium_ratio = 0.7;    ///< Fraction of medium samples
+    double hard_ratio   = 0.2;    ///< Fraction of hard samples (high difficulty)
+    size_t target_samples = 5000; ///< Total samples to select
+
+    // ---- Audit ----
+    bool audit = true;            ///< Record provenance audit entry
+
+    LoRADataSelectionConfig() = default;
+};
+
+// ============================================================================
+// Data sample representation
+// ============================================================================
+
+/**
+ * @brief Single training sample as used by the data selection pipeline.
+ */
+struct DataSample {
+    std::string id;       ///< Unique document / sample identifier
+    std::string text;     ///< Full text content (input + output concatenated or separate)
+    std::string language; ///< Detected language (ISO 639-1)
+
+    // Computed scores (filled during pipeline stages)
+    double quality_score    = 0.0;  ///< Combined quality score [0..1]
+    double difficulty_score = 0.0;  ///< Difficulty estimate [0..1]
+    bool   is_duplicate     = false;
+
+    DataSample() = default;
+    DataSample(std::string id_, std::string text_)
+        : id(std::move(id_)), text(std::move(text_)) {}
+};
+
+// ============================================================================
+// Audit trail
+// ============================================================================
+
+/**
+ * @brief Provenance record written when audit=true.
+ *
+ * Records which samples were selected, when, by which pipeline version,
+ * and the key configuration parameters used.
+ */
+struct SelectionAuditEntry {
+    std::string pipeline_version = "1.0";
+    std::chrono::system_clock::time_point timestamp;
+    std::string config_hash;          ///< SHA-256 / FNV hash of serialized config
+    size_t input_sample_count  = 0;
+    size_t output_sample_count = 0;
+    size_t filtered_by_quality = 0;
+    size_t filtered_by_dedup   = 0;
+    size_t filtered_by_cluster = 0;
+    std::vector<std::string> selected_ids; ///< IDs of selected samples
+
+    SelectionAuditEntry() : timestamp(std::chrono::system_clock::now()) {}
+};
+
+// ============================================================================
+// Pipeline result
+// ============================================================================
+
+/**
+ * @brief Result produced by DataSelectionPipeline::run().
+ */
+struct DataSelectionResult {
+    bool success = false;
+    std::vector<DataSample> selected_samples;
+    SelectionAuditEntry     audit_entry;
+    std::string             error_message;
+    double elapsed_seconds  = 0.0;
+
+    DataSelectionResult() = default;
+};
+
+// ============================================================================
+// Progress callback
+// ============================================================================
+
+/**
+ * @brief Called after each pipeline stage with progress information.
+ * @param stage   Stage name (e.g. "quality_filter", "deduplication", …)
+ * @param count   Number of samples passing this stage so far
+ * @param message Human-readable status message
+ */
+using SelectionProgressCallback =
+    std::function<void(const std::string& stage,
+                       size_t count,
+                       const std::string& message)>;
+
+// ============================================================================
+// Pipeline
+// ============================================================================
+
+/**
+ * @brief Automated multi-stage data selection pipeline for LoRA training.
+ *
+ * Implements the five-stage selection process described in the feature issue:
+ *
+ *  Stage 1 – Quality Filtering:
+ *      Token-length check, language detection, toxicity heuristic, PII check.
+ *
+ *  Stage 2 – Deduplication:
+ *      MinHash / Jaccard near-duplicate removal with configurable threshold.
+ *
+ *  Stage 3 – Vector Clustering:
+ *      Simulated k-means centroid selection for diversity-oriented sampling.
+ *
+ *  Stage 4 – Quality & Difficulty Scoring:
+ *      Combined score from perplexity estimate, type-token ratio (TTR),
+ *      and BM25 domain relevance.
+ *
+ *  Stage 5 – Curriculum Stratified Sampling:
+ *      Partitions scored samples into easy / medium / hard buckets and
+ *      samples according to configured ratios (default 10/70/20 %).
+ *
+ * Configuration is supplied via @ref LoRADataSelectionConfig which maps
+ * directly to the YAML schema in LoRATrainerConfig.yaml.
+ *
+ * Usage:
+ * @code
+ * LoRADataSelectionConfig cfg;
+ * cfg.min_length_tokens   = 50;
+ * cfg.minhash_threshold   = 0.95;
+ * cfg.target_samples      = 5000;
+ * cfg.audit               = true;
+ *
+ * DataSelectionPipeline pipeline(cfg);
+ * auto result = pipeline.run(raw_samples);
+ * if (result.success) {
+ *     // use result.selected_samples for training
+ * }
+ * @endcode
+ */
+class DataSelectionPipeline {
+public:
+    /**
+     * @brief Construct pipeline with the given configuration.
+     */
+    explicit DataSelectionPipeline(const LoRADataSelectionConfig& config);
+    ~DataSelectionPipeline();
+
+    DataSelectionPipeline(const DataSelectionPipeline&) = delete;
+    DataSelectionPipeline& operator=(const DataSelectionPipeline&) = delete;
+
+    /**
+     * @brief Execute all five pipeline stages on @p input_samples.
+     * @param input_samples Raw samples loaded from the training collection.
+     * @param callback      Optional per-stage progress callback.
+     * @return Selection result including selected samples and audit entry.
+     */
+    DataSelectionResult run(
+        const std::vector<DataSample>& input_samples,
+        SelectionProgressCallback callback = nullptr);
+
+    /**
+     * @brief Run only Stage 1: quality filtering.
+     * @return Samples that pass all quality filters.
+     */
+    std::vector<DataSample> filterByQuality(
+        const std::vector<DataSample>& samples) const;
+
+    /**
+     * @brief Run only Stage 2: MinHash deduplication.
+     * @return Samples with duplicates removed.
+     */
+    std::vector<DataSample> deduplicate(
+        const std::vector<DataSample>& samples) const;
+
+    /**
+     * @brief Run only Stage 3: cluster-based diversity sampling.
+     * @param samples   Samples to cluster.
+     * @param k         Number of clusters (computed from config if 0).
+     * @return Centroid-nearest samples covering diverse clusters.
+     */
+    std::vector<DataSample> clusterAndSample(
+        const std::vector<DataSample>& samples,
+        size_t k = 0) const;
+
+    /**
+     * @brief Run only Stage 4: quality/difficulty scoring.
+     * Modifies quality_score and difficulty_score in-place.
+     */
+    void scoreQualityAndDifficulty(std::vector<DataSample>& samples) const;
+
+    /**
+     * @brief Run only Stage 5: curriculum stratified sampling.
+     * @param scored_samples Samples with difficulty_score populated.
+     * @param target         Total samples to return (0 = use config).
+     * @return Stratified subset (easy + medium + hard).
+     */
+    std::vector<DataSample> stratifiedSample(
+        const std::vector<DataSample>& scored_samples,
+        size_t target = 0) const;
+
+    /**
+     * @brief Update the pipeline configuration (live reload support).
+     */
+    void setConfig(const LoRADataSelectionConfig& config);
+
+    /**
+     * @brief Get the current pipeline configuration.
+     */
+    const LoRADataSelectionConfig& getConfig() const;
+
+private:
+    class Impl;
+    std::unique_ptr<Impl> impl_;
+};
+
+// ============================================================================
+// Self-improvement configuration
+// ============================================================================
+
+/**
+ * @brief Configuration for the adaptive self-improvement module.
+ *
+ * Controls automatic periodic re-selection and threshold adaptation.
+ */
+struct SelfImprovementConfig {
+    bool   enabled                 = true;
+    size_t period_seconds          = 86400;   ///< Re-selection period (default: 24 h)
+    bool   threshold_auto_adjust   = true;    ///< Adapt thresholds from monitoring data
+    double latency_target_ms       = 5000.0;  ///< Target max inference latency
+    bool   accuracy_monitoring     = true;    ///< Track accuracy metrics
+
+    SelfImprovementConfig() = default;
+};
+
+} // namespace training
+} // namespace themis
