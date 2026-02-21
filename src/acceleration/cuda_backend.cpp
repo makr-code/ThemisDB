@@ -3,17 +3,17 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            cuda_backend.cpp                                   ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 07:18:12                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 07:42:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
-    • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   40.0/100                                       ║
-    • Total Lines:     497                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 12                            ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   35.0/100                                       ║
+    • Total Lines:     516                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 13                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
-  Status: 🔧 In Progress                                               ║
+  Status: 🚧 Early Development                                         ║
 ╚═════════════════════════════════════════════════════════════════════╝
  */
 

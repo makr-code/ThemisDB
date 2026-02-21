@@ -3,15 +3,15 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            test_hsm_stub_gating.cpp                           ║
-  Version:         0.0.2                                              ║
-  Last Modified:   2026-02-21 07:18:16                                ║
+  Version:         0.0.3                                              ║
+  Last Modified:   2026-02-21 07:42:31                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟠 BETA                                         ║
-    • Quality Score:   51.0/100                                       ║
-    • Total Lines:     199                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 14                            ║
+    • Quality Score:   46.0/100                                       ║
+    • Total Lines:     218                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 15                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: 🔧 In Progress                                               ║
 ╚═════════════════════════════════════════════════════════════════════╝
