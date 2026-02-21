@@ -25,6 +25,7 @@
 
 #include "themis/license_info.h"
 #include "utils/openssl_deleter.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <iomanip>
 #include <ctime>
@@ -614,13 +615,46 @@ private:
         }
 
         if (http_code == 200) {
+            // Parse JSON response body from the license server.
+            // The server returns a JSON object whose fields map 1:1 to LicenseData.
+            // All fields are optional in the parse — if the server omits one,
+            // we fall back to the corresponding value from the embedded license.
+            LicenseData refreshed = license;  // start with embedded as baseline
+            try {
+                auto j = nlohmann::json::parse(response_body);
+                if (j.contains("license_key")    && j["license_key"].is_string())
+                    refreshed.license_key     = j["license_key"].get<std::string>();
+                if (j.contains("edition")        && j["edition"].is_string())
+                    refreshed.edition         = j["edition"].get<std::string>();
+                if (j.contains("tier")           && j["tier"].is_string())
+                    refreshed.edition         = j["tier"].get<std::string>();  // alias
+                if (j.contains("organization")   && j["organization"].is_string())
+                    refreshed.organization_name = j["organization"].get<std::string>();
+                if (j.contains("end_date")       && j["end_date"].is_string())
+                    refreshed.expiry_date     = j["end_date"].get<std::string>().substr(0, 10);
+                if (j.contains("start_date")     && j["start_date"].is_string())
+                    refreshed.issued_date     = j["start_date"].get<std::string>().substr(0, 10);
+                if (j.contains("status")         && j["status"].is_string())
+                    result.status             = j["status"].get<std::string>();
+                else
+                    result.status = "active";
+                if (j.contains("limits") && j["limits"].is_object()) {
+                    const auto& lim = j["limits"];
+                    if (lim.contains("max_nodes")      && lim["max_nodes"].is_number_integer())
+                        refreshed.max_nodes      = lim["max_nodes"].get<int>();
+                    if (lim.contains("max_cores")      && lim["max_cores"].is_number_integer())
+                        refreshed.max_cores      = lim["max_cores"].get<int>();
+                    if (lim.contains("max_storage_tb") && lim["max_storage_tb"].is_number_integer())
+                        refreshed.max_storage_tb = lim["max_storage_tb"].get<int>();
+                }
+            } catch (const nlohmann::json::exception&) {
+                // Malformed JSON response — keep the embedded baseline.
+                result.status = "active";
+            }
             result.success = true;
-            result.status  = "active";
-            // A real implementation would parse the JSON response body
-            // and populate result.refreshed_license.
-            result.refreshed_license = license;
+            result.refreshed_license = refreshed;
             std::lock_guard<std::mutex> lock(cache_mutex_);
-            cached_license_  = license;
+            cached_license_  = refreshed;
             last_check_time_ = std::chrono::steady_clock::now();
         } else if (http_code == 402) {
             result.success       = false;

@@ -1620,6 +1620,7 @@ namespace {
         ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
         ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
         ObservabilityHealthGet,        // GET  /api/v1/observability/health
+        LicenseStatusGet,              // GET  /api/v1/license/status
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1876,6 +1877,7 @@ namespace {
     // Operator observability REST API (Q1)
     if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
     if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    if (target == "/api/v1/license/status"       && method == http::verb::get) return Route::LicenseStatusGet;
     {
         // POST /api/v1/observability/alerts/{id}/silence
         // path_only must start with the alerts prefix, have a non-empty {id} segment,
@@ -2502,6 +2504,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ObservabilityHealthGet:
             response = monitoring_api_->handleObservabilityHealth(req);
+            break;
+        case Route::LicenseStatusGet:
+            response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);
