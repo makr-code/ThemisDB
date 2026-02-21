@@ -30,7 +30,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ### Short-term (Next 3-6 months)
 - [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
-- [ ] Transaction timeout with automatic rollback
+- [x] Transaction timeout with automatic rollback
 - [ ] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [ ] Per-tenant transaction isolation namespace
@@ -66,7 +66,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
 - [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
-- [ ] Transaction timeout with automatic rollback
+- [x] Transaction timeout with automatic rollback
 - [ ] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [ ] Per-tenant transaction isolation namespace
