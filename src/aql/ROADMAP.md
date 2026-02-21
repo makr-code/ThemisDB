@@ -15,7 +15,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] Integration with OpenAI, Anthropic, Azure OpenAI, and llama.cpp providers
 
 ## In Progress 🚧
-- [ ] AQL query validation and linting before LLM submission (Target: Q2 2026)
+- [x] AQL query validation and linting before LLM submission (Target: Q2 2026)
 - [ ] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
 - [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
 

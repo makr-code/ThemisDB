@@ -41,6 +41,35 @@
 namespace themis {
 namespace aql {
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AQLConversationSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+void AQLConversationSession::addTurn(
+    const std::string& nl_query,
+    const std::string& aql_result
+) {
+    history_.push_back({nl_query, aql_result});
+}
+
+const std::vector<ConversationTurn>& AQLConversationSession::getHistory() const {
+    return history_;
+}
+
+void AQLConversationSession::clear() {
+    history_.clear();
+}
+
+bool AQLConversationSession::empty() const {
+    return history_.empty();
+}
+
+std::size_t AQLConversationSession::size() const {
+    return history_.size();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 class LLMAQLHandler::Impl {
 public:
     Impl() 
@@ -784,6 +813,101 @@ std::string LLMAQLHandler::executeChat(
         throw std::runtime_error(
             std::string("LLM CHAT failed: ") + e.what()
         );
+    }
+}
+
+LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
+    const std::string& aql_query,
+    const std::string& original_intent,
+    const std::string& schema_context
+) {
+    // Default result for when the LLM is unavailable
+    QueryConfidenceScore unavailable;
+    unavailable.score       = -1.0f;
+    unavailable.explanation = "LLM unavailable; confidence scoring requires a loaded model";
+
+    if (aql_query.empty()) {
+        QueryConfidenceScore empty_result;
+        empty_result.score       = 0.0f;
+        empty_result.explanation = "Query is empty";
+        empty_result.suggestions.push_back("Provide a non-empty AQL query");
+        return empty_result;
+    }
+
+    try {
+        // Build a structured prompt that asks the LLM to respond in a parseable format
+        std::ostringstream prompt;
+        prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
+
+        if (!schema_context.empty()) {
+            prompt << "Database schema:\n" << schema_context << "\n\n";
+        }
+
+        if (!original_intent.empty()) {
+            prompt << "The user intended: \"" << original_intent << "\"\n\n";
+        }
+
+        prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
+        prompt << "Evaluate this AQL query on a scale from 0.0 to 1.0 and respond in EXACTLY "
+               << "this format (no extra text):\n"
+               << "SCORE: <float between 0.0 and 1.0>\n"
+               << "EXPLANATION: <one sentence>\n"
+               << "SUGGESTION: <one improvement per line, or 'None' if no improvements>\n";
+
+        const std::string response = executeInfer(prompt.str());
+
+        QueryConfidenceScore result;
+        result.score = -1.0f;
+
+        // Parse the structured response
+        std::istringstream ss(response);
+        std::string line;
+        bool in_suggestions = false;
+        while (std::getline(ss, line)) {
+            // Trim leading/trailing whitespace
+            auto trim_ws = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }).base(), s.end());
+            };
+            trim_ws(line);
+            if (line.empty()) continue;
+
+            if (line.size() >= 7 && line.substr(0, 7) == "SCORE: ") {
+                try {
+                    result.score = std::stof(line.substr(7));
+                    // Clamp to [0, 1]
+                    result.score = std::max(0.0f, std::min(1.0f, result.score));
+                } catch (...) {
+                    result.score = -1.0f;
+                }
+                in_suggestions = false;
+            } else if (line.size() >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
+                result.explanation = line.substr(13);
+                in_suggestions = false;
+            } else if (line.size() >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
+                in_suggestions = true;
+                std::string suggestion = line.substr(12);
+                if (suggestion != "None" && !suggestion.empty()) {
+                    result.suggestions.push_back(suggestion);
+                }
+            } else if (in_suggestions && !line.empty() && line != "None") {
+                result.suggestions.push_back(line);
+            }
+        }
+
+        // If we failed to parse a score, return unavailable
+        if (result.score < 0.0f && result.explanation.empty()) {
+            return unavailable;
+        }
+        return result;
+
+    } catch (const std::exception& e) {
+        spdlog::warn("LLMAQLHandler::scoreQueryConfidence failed: {}", e.what());
+        return unavailable;
     }
 }
 
