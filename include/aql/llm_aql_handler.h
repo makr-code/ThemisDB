@@ -26,6 +26,7 @@
 
 #pragma once
 
+#include "aql/aql_syntax_highlighter.h"
 #include "llm/llm_plugin_interface.h"
 #include "llm/llama_wrapper.h"
 #include <string>
@@ -127,6 +128,26 @@ public:
         const std::string& model_id = "",
         const std::unordered_map<std::string, std::string>& options = {}
     );
+
+    // AQL Syntax Highlighting
+    /**
+     * @brief Highlight AQL code blocks inside an LLM response and annotate errors.
+     *
+     * Scans @p llm_response for every @c ```aql … ``` block, applies ANSI
+     * colour highlighting (if @p use_ansi is @c true) to the AQL inside, and
+     * collects structural error annotations (unbalanced brackets, missing IN,
+     * unterminated strings).
+     *
+     * @param llm_response  Raw text returned by an LLM.
+     * @param use_ansi      When @c true (default) ANSI escape sequences are
+     *                      embedded.  Pass @c false for plain-text output.
+     * @return              Struct containing the highlighted text and any
+     *                      AQL syntax errors found.
+     */
+    HighlightedResponse formatLLMResponse(
+        const std::string& llm_response,
+        bool use_ansi = true
+    ) const;
 
 private:
     class Impl;

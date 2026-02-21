@@ -11,6 +11,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 - [x] LLM command handler infrastructure (request routing, response parsing)
 - [x] Support for multi-paradigm AQL (documents, graphs, vectors, geospatial, timeseries)
 - [x] Integration with OpenAI, Anthropic, Azure OpenAI, and llama.cpp providers
+- [x] AQL syntax highlighting and error annotation in LLM responses (`AQLSyntaxHighlighter`)
 
 ## In Progress 🚧
 - [ ] AQL query validation and linting before LLM submission (Target: Q2 2026)
@@ -20,7 +21,7 @@ Production-ready for LLM-assisted AQL query generation, natural language to AQL 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] AQL syntax highlighting and error annotation in LLM responses
+- [x] AQL syntax highlighting and error annotation in LLM responses *(completed)*
 - [ ] Query template library for common AQL patterns
 - [ ] Interactive AQL query builder with LLM suggestions
 - [ ] Batch NL-to-AQL translation for offline workloads

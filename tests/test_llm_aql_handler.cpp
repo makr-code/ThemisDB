@@ -317,4 +317,69 @@ TEST_F(LLMAQLHandlerTest, CacheStatsExecution) {
     }
 }
 
+// ============================================================================
+// AQL Syntax Highlighting Integration Tests
+// ============================================================================
+
+TEST_F(LLMAQLHandlerTest, FormatLLMResponsePassesThroughPlainText) {
+    const std::string plain = "This is a plain text response with no code blocks.";
+    auto result = handler->formatLLMResponse(plain, /*use_ansi=*/false);
+    EXPECT_EQ(result.text, plain);
+    EXPECT_TRUE(result.annotations.empty());
+}
+
+TEST_F(LLMAQLHandlerTest, FormatLLMResponseHighlightsAQLBlock) {
+    const std::string response =
+        "Here is your query:\n"
+        "```aql\n"
+        "FOR doc IN users FILTER doc.active == true RETURN doc\n"
+        "```\n"
+        "Good luck!";
+
+    // Plain-text mode: text is reconstructed faithfully
+    auto result = handler->formatLLMResponse(response, /*use_ansi=*/false);
+    EXPECT_NE(result.text.find("FOR"), std::string::npos);
+    EXPECT_NE(result.text.find("users"), std::string::npos);
+    EXPECT_NE(result.text.find("Good luck!"), std::string::npos);
+    EXPECT_TRUE(result.annotations.empty()) << "Valid AQL should produce no annotations";
+}
+
+TEST_F(LLMAQLHandlerTest, FormatLLMResponseAnnotatesSyntaxErrors) {
+    const std::string response =
+        "```aql\n"
+        "FOR doc RETURN doc\n"  // missing IN keyword
+        "```";
+
+    auto result = handler->formatLLMResponse(response, /*use_ansi=*/false);
+    EXPECT_FALSE(result.annotations.empty()) << "Missing IN should be annotated";
+    bool has_in_error = std::any_of(
+        result.annotations.begin(), result.annotations.end(),
+        [](const themis::aql::AQLAnnotation& a) {
+            return a.message.find("IN") != std::string::npos;
+        });
+    EXPECT_TRUE(has_in_error);
+}
+
+TEST_F(LLMAQLHandlerTest, FormatLLMResponseAnsiModeEmitsEscapes) {
+    const std::string response =
+        "```aql\n"
+        "FOR doc IN users RETURN doc\n"
+        "```";
+
+    auto result = handler->formatLLMResponse(response, /*use_ansi=*/true);
+    // ANSI mode should embed escape sequences for keyword highlighting
+    EXPECT_NE(result.text.find('\x1b'), std::string::npos);
+}
+
+TEST_F(LLMAQLHandlerTest, FormatLLMResponseNonAQLBlockUnchanged) {
+    const std::string response =
+        "```json\n"
+        "{ \"key\": \"value\" }\n"
+        "```";
+
+    auto result = handler->formatLLMResponse(response, /*use_ansi=*/false);
+    EXPECT_NE(result.text.find("\"key\""), std::string::npos);
+    EXPECT_TRUE(result.annotations.empty());
+}
+
 // Run tests

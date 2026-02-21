@@ -27,6 +27,7 @@ The AQL module provides specialized components for AQL (Advanced Query Language)
 - Documentation assistant for AQL functions
 - LLM command handlers (INFER, RAG, EMBED, MODEL, LORA)
 - Query explanation and profiling assistance
+- **AQL syntax highlighting and error annotation for LLM responses**
 
 **Out of Scope:**
 - Core AQL parsing (handled by query module)
@@ -58,6 +59,8 @@ Handles LLM-specific AQL commands for AI model integration with full implementat
 - ✅ Automatic similarity threshold filtering for RAG queries
 - ✅ Multi-format chat support (ChatML, Llama2, Alpaca, Vicuna)
 - ✅ Markdown cleanup for LLM-generated responses
+- ✅ AQL syntax highlighting and error annotation via `AQLSyntaxHighlighter`
+- ✅ `formatLLMResponse()` method for post-processing arbitrary LLM output
 - ✅ Comprehensive test coverage
 
 **Syntax Examples:**
@@ -173,6 +176,61 @@ auto docs = assistant.getFunctionDocs("SIMILARITY");
 // Suggest optimizations
 auto suggestions = assistant.suggestOptimizations(query);
 // Returns: Consider adding an index on 'collection.x' for better performance.
+```
+
+### AQLSyntaxHighlighter
+**Location:** `aql_syntax_highlighter.cpp`, `../include/aql/aql_syntax_highlighter.h`
+
+Tokenizes AQL source text, applies ANSI color highlighting, validates structure, and
+annotates syntax errors in LLM responses that contain AQL code blocks.
+
+**Features:**
+- **Tokenizer**: classifies every character sequence as `KEYWORD`, `LLM_KEYWORD`,
+  `FUNCTION`, `IDENTIFIER`, `STRING`, `NUMBER`, `OPERATOR`, `PUNCTUATION`, or `COMMENT`
+- **Syntax highlighting**: wraps tokens in ANSI escape codes for terminal display
+  (pass `use_ansi = false` for plain-text output)
+- **Error annotation**: structural checks – balanced brackets/braces/parentheses,
+  unterminated string literals, `FOR` clause missing `IN`
+- **LLM response formatter**: scans a full LLM response for ` ```aql ``` ` blocks,
+  highlights each block in place, and returns a merged list of error annotations
+
+**Usage (standalone):**
+
+```cpp
+#include "aql/aql_syntax_highlighter.h"
+
+themis::aql::AQLSyntaxHighlighter h; // ANSI mode by default
+
+// Highlight a single block
+std::string highlighted = h.highlightBlock("FOR doc IN users RETURN doc");
+
+// Validate and annotate errors
+auto errors = h.annotateErrors("FOR doc RETURN { name: doc.name");
+for (const auto& err : errors)
+    std::cerr << "Line " << err.line << ": " << err.message << '\n';
+
+// Process an entire LLM response
+auto result = h.formatLLMResponse(llm_output);
+std::cout << result.text;                           // colored AQL blocks inline
+for (const auto& ann : result.annotations)
+    std::cerr << "AQL error: " << ann.message << '\n';
+```
+
+**Usage (via LLMAQLHandler):**
+
+```cpp
+#include "aql/llm_aql_handler.h"
+
+themis::aql::LLMAQLHandler handler;
+
+// Forward the raw LLM output through the highlighter
+auto result = handler.formatLLMResponse(llm_output);
+std::cout << result.text;
+if (!result.annotations.empty()) {
+    for (const auto& ann : result.annotations)
+        std::cerr << "Syntax error at line " << ann.line
+                  << ": " << ann.message << '\n';
+}
 ```
 
 ## Architecture

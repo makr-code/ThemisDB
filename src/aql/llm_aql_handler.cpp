@@ -765,5 +765,13 @@ std::string LLMAQLHandler::executeChat(
     }
 }
 
+HighlightedResponse LLMAQLHandler::formatLLMResponse(
+    const std::string& llm_response,
+    bool use_ansi
+) const {
+    AQLSyntaxHighlighter highlighter(use_ansi);
+    return highlighter.formatLLMResponse(llm_response);
+}
+
 } // namespace aql
 } // namespace themis
