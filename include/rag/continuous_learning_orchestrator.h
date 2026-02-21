@@ -42,6 +42,7 @@
 #include "ab_testing_framework.h"
 #include "bayesian_optimizer.h"
 #include "learning_metrics.h"
+#include "training/lora_data_selection.h"
 
 namespace themis::rag::learning {
 
@@ -74,6 +75,19 @@ struct ContinuousLearningConfig {
 
     // Learning loop
     std::chrono::seconds learning_loop_interval{3600}; ///< Check every hour
+
+    // ---- Automated Data Selection integration ----
+    /// Configuration for the data selection pipeline executed before retraining.
+    themis::training::LoRADataSelectionConfig data_selection_config;
+
+    /// Adaptive self-improvement rules applied after each selection run.
+    themis::training::SelfImprovementConfig   self_improvement_config;
+
+    /// Path to LoRATrainerConfig.yaml for live-reload (empty = use defaults).
+    std::string lora_trainer_config_path;
+
+    /// Path to SelfImprovementModule.yaml for live-reload (empty = use defaults).
+    std::string self_improvement_config_path;
 };
 
 /**
@@ -171,6 +185,39 @@ class ContinuousLearningOrchestrator {
      * @brief Check if system is improving over time
      */
     bool isSystemImproving() const;
+
+    // ---- Data selection ----
+
+    /**
+     * @brief Run the automated data selection pipeline for a specific adapter.
+     *
+     * Loads (or reloads) configuration from `lora_trainer_config_path` if set,
+     * executes all five data-selection stages on the provided candidate samples,
+     * applies adaptive self-improvement rules to the config for the next run,
+     * and returns the selection result including the JSONL audit entry.
+     *
+     * This is called automatically during `runLoRARetraining()` and can also be
+     * invoked directly for manual testing or scheduled jobs.
+     *
+     * @param adapter_id        Adapter being retrained (used for logging).
+     * @param candidate_samples Raw samples to run the pipeline on.
+     * @param current_metrics   Monitoring metrics for adaptive threshold adjustment.
+     * @return Selection result (selected samples + audit provenance).
+     */
+    themis::training::DataSelectionResult runDataSelectionForAdapter(
+        const std::string& adapter_id,
+        const std::vector<themis::training::DataSample>& candidate_samples,
+        const themis::training::DataSelectionMetrics& current_metrics = {});
+
+    /**
+     * @brief Get the data selection configuration currently in use.
+     */
+    const themis::training::LoRADataSelectionConfig& getDataSelectionConfig() const;
+
+    /**
+     * @brief Update the data selection configuration (live reload).
+     */
+    void setDataSelectionConfig(const themis::training::LoRADataSelectionConfig& cfg);
 
   private:
     struct Impl;
