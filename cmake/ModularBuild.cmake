@@ -263,6 +263,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/diff_engine.cpp
     ../src/analytics/cep_engine.cpp
+    ../src/analytics/streaming_window.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
