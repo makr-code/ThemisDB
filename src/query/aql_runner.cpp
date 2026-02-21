@@ -25,6 +25,7 @@
  */
 
 #include "query/aql_runner.h"
+#include "query/query_plan_visualizer.h"
 #include "storage/base_entity.h"
 #include "analytics/nlp_text_analyzer.h"
 
@@ -220,6 +221,89 @@ Result<nlohmann::json> executeAql(const std::string& aql, QueryEngine& engine) {
     nlohmann::json arr = nlohmann::json::array();
     for (auto& e : entities) arr.push_back(nlohmann::json::parse(e.toJson()));
     return Ok(nlohmann::json({{"type","and"},{"results", arr}}));
+}
+
+// ── Explain helpers ───────────────────────────────────────────────────────────
+
+namespace {
+
+/// Parse + translate an AQL string and return the conjunctive query to be explained.
+/// For non-conjunctive forms (graph traversal, vector+geo, …) a synthetic
+/// ConjunctiveQuery with a descriptive table name and no predicates is returned
+/// so that the visualizer can still emit a meaningful SeqScan node.
+/// Returns Err on parse or translation failure.
+Result<ConjunctiveQuery> parseAndTranslateForExplain(const std::string& aql) {
+    query::AQLParser parser;
+    auto parseResult = parser.parse(aql);
+    if (!parseResult) {
+        return Err<ConjunctiveQuery>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            parseResult.error().message()
+        );
+    }
+    auto tr = AQLTranslator::translate(parseResult.value());
+    if (!tr.success) {
+        return Err<ConjunctiveQuery>(
+            errors::ErrorCode::ERR_QUERY_PARSE_FAILED,
+            tr.error_message
+        );
+    }
+    // Non-conjunctive forms: return a synthetic query that describes the type.
+    if (tr.vector_geo.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[vector+geo] " + tr.query.table;
+        return Ok(q);
+    }
+    if (tr.content_geo.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[content+geo] " + tr.query.table;
+        return Ok(q);
+    }
+    if (tr.disjunctive.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[OR] " + tr.disjunctive->table;
+        return Ok(q);
+    }
+    if (tr.traversal.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[graph-traversal] " + tr.traversal->graphName;
+        return Ok(q);
+    }
+    if (tr.join.has_value()) {
+        ConjunctiveQuery q;
+        q.table = "[join]";
+        return Ok(q);
+    }
+    return Ok(tr.query);
+}
+
+} // anonymous namespace
+
+Result<nlohmann::json> explainAql(const std::string& aql, QueryEngine& engine, bool analyze) {
+    auto qr = parseAndTranslateForExplain(aql);
+    if (!qr) {
+        return Err<nlohmann::json>(qr.error().code(), qr.error().message());
+    }
+    auto plan_node = engine.buildExplainPlan(*qr);
+    return Ok(query::QueryPlanVisualizer::toJSON(plan_node, analyze));
+}
+
+Result<std::string> explainAqlText(const std::string& aql, QueryEngine& engine, bool analyze) {
+    auto qr = parseAndTranslateForExplain(aql);
+    if (!qr) {
+        return Err<std::string>(qr.error().code(), qr.error().message());
+    }
+    auto plan_node = engine.buildExplainPlan(*qr);
+    return Ok(query::QueryPlanVisualizer::toText(plan_node, analyze));
+}
+
+Result<std::string> explainAqlDot(const std::string& aql, QueryEngine& engine) {
+    auto qr = parseAndTranslateForExplain(aql);
+    if (!qr) {
+        return Err<std::string>(qr.error().code(), qr.error().message());
+    }
+    auto plan_node = engine.buildExplainPlan(*qr);
+    return Ok(query::QueryPlanVisualizer::toDOT(plan_node));
 }
 
 } // namespace themis

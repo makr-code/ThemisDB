@@ -30,6 +30,7 @@
 #include <iostream>
 #include "query/query_engine.h"
 #include "query/query_optimizer.h"
+#include "query/query_plan_visualizer.h"
 #include "query/aql_parser.h"
 #include "query/aql_translator.h"
 #include "query/let_evaluator.h"
@@ -4350,6 +4351,28 @@ Result<void> QueryEngine::executeCTEs(
     
     span.setStatus(true);
     return OkVoid();
+}
+
+// ============================================================================
+// Query Plan Visualisation
+// ============================================================================
+
+query::QueryPlanNode QueryEngine::buildExplainPlan(const ConjunctiveQuery& q) const {
+    QueryOptimizer::Plan plan;
+    if (secIdx_ != nullptr) {
+        QueryOptimizer opt(*secIdx_);
+        plan = opt.chooseOrderForAndQuery(q);
+    } else {
+        // No index manager: emit an un-optimised plan with the original predicate order.
+        for (const auto& pred : q.predicates) {
+            plan.orderedPredicates.push_back(pred);
+            QueryOptimizer::Estimation est;
+            est.pred = pred;
+            est.estimatedCount = 0;
+            plan.details.push_back(est);
+        }
+    }
+    return query::QueryPlanVisualizer::buildPlan(q, plan);
 }
 
 } // namespace themis

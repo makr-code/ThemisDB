@@ -55,7 +55,7 @@ using ISecondaryIndexPtr = std::shared_ptr<ISecondaryIndex>;
 using IGraphIndexPtr = std::shared_ptr<IGraphIndex>;
 
 // Minimal forward declarations for early usage
-namespace query { struct Expression; struct Query; class CTECache; }
+namespace query { struct Expression; struct Query; class CTECache; struct QueryPlanNode; }
 
 struct RecursivePathQuery {
     std::string start_node;
@@ -660,6 +660,25 @@ public:
     Result<std::vector<ContentSearchResult>> executeContentSearch(
         const ContentSearchQuery& q
     ) const;
+
+    // ------------------------------------------------------------------
+    // Query Plan Visualisation
+    // ------------------------------------------------------------------
+
+    /// Build an execution plan tree for the given conjunctive query.
+    /// Uses the internal SecondaryIndexManager to estimate predicate selectivity
+    /// and order predicates optimally, then constructs a QueryPlanNode tree via
+    /// QueryPlanVisualizer::buildPlan().
+    ///
+    /// The returned QueryPlanNode can be rendered as text, JSON, or DOT using
+    /// QueryPlanVisualizer::toText() / toJSON() / toDOT().
+    ///
+    /// If the engine has no attached SecondaryIndexManager, all estimates default
+    /// to zero and the optimizer still produces a structurally valid plan tree.
+    ///
+    /// @param q  The logical AND query whose plan is requested.
+    /// @returns  Root node of the execution plan tree.
+    query::QueryPlanNode buildExplainPlan(const ConjunctiveQuery& q) const;
 
 private:
     RocksDBWrapper* db_ = nullptr;  // Changed from reference to pointer to support nullptr in DI constructor
