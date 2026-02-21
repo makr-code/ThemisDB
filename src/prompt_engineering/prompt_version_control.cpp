@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_version_control.cpp                         ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   97.0/100                                       ║
-    • Total Lines:     849                                            ║
+    • Total Lines:     1135                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -30,6 +37,7 @@
 #include <iomanip>
 #include <random>
 #include <unordered_set>
+#include <numeric>
 #include <openssl/sha.h>
 
 namespace themis {
@@ -493,8 +501,43 @@ MergeResult PromptVersionControl::merge(
     const auto& source_version = source_it->second;
     const auto& target_version = target_it->second;
     
-    // Find common ancestor (simplified: use target's parent)
-    std::string base_id = target_version.parent_version;
+    // Find the true lowest common ancestor (LCA) by walking the parent chain
+    // from each branch and intersecting the two ancestor sets.
+    // This replaces the previous "simplified: use target's parent" heuristic.
+    // A depth cap prevents both performance issues and potential infinite loops
+    // on corrupted data where the parent chain contains a cycle.
+    static constexpr size_t MAX_ANCESTOR_DEPTH = 10000;
+
+    auto collect_ancestors = [&](const std::string& start_id) {
+        // Ordered list (most recent first) so we prefer the closest ancestor.
+        std::vector<std::string> ancestors;
+        std::unordered_set<std::string> visited;  // cycle guard
+        std::string cur = start_id;
+        while (!cur.empty() && ancestors.size() < MAX_ANCESTOR_DEPTH) {
+            if (!visited.insert(cur).second) break;  // cycle detected
+            ancestors.push_back(cur);
+            auto it = versions_.find(cur);
+            if (it == versions_.end()) break;
+            cur = it->second.parent_version;
+        }
+        return ancestors;
+    };
+
+    auto src_ancestors  = collect_ancestors(source_id);
+    auto tgt_ancestors  = collect_ancestors(target_id);
+
+    // Build a set of target-side ancestors for O(1) lookup
+    std::unordered_set<std::string> tgt_set(tgt_ancestors.begin(), tgt_ancestors.end());
+
+    // The first source ancestor that also appears in the target ancestor chain
+    // is the LCA (closest common ancestor).
+    std::string base_id;
+    for (const auto& a : src_ancestors) {
+        if (tgt_set.count(a)) {
+            base_id = a;
+            break;
+        }
+    }
     
     // Apply merge strategy
     if (strategy == "ours") {
@@ -767,7 +810,7 @@ PromptDiff PromptVersionControl::computeDiff(
     PromptDiff diff;
     diff.version_a = version_a_id;
     diff.version_b = version_b_id;
-    
+
     // Split into lines
     auto split_lines = [](const std::string& text) {
         std::vector<std::string> lines;
@@ -776,47 +819,121 @@ PromptDiff PromptVersionControl::computeDiff(
         while (std::getline(iss, line)) {
             lines.push_back(line);
         }
+        // Preserve trailing newline by appending an empty sentinel only when
+        // the original text ends with '\n' (mirrors standard diff behaviour).
         return lines;
     };
-    
-    auto lines_a = split_lines(content_a);
-    auto lines_b = split_lines(content_b);
-    
-    // Simple line-by-line diff
-    std::unordered_set<std::string> set_a(lines_a.begin(), lines_a.end());
-    std::unordered_set<std::string> set_b(lines_b.begin(), lines_b.end());
-    
-    // Find removed lines (in A but not in B)
-    for (const auto& line : lines_a) {
-        if (set_b.find(line) == set_b.end()) {
-            diff.removed_lines.push_back(line);
-            diff.deletions++;
+
+    const auto lines_a = split_lines(content_a);
+    const auto lines_b = split_lines(content_b);
+    const size_t m = lines_a.size();
+    const size_t n = lines_b.size();
+
+    // Build LCS table (Myers-style edit graph, O(m*n) DP)
+    // lcs[i][j] = length of LCS of lines_a[0..i-1] and lines_b[0..j-1]
+    std::vector<std::vector<size_t>> lcs(m + 1, std::vector<size_t>(n + 1, 0));
+    for (size_t i = 1; i <= m; ++i) {
+        for (size_t j = 1; j <= n; ++j) {
+            if (lines_a[i - 1] == lines_b[j - 1]) {
+                lcs[i][j] = lcs[i - 1][j - 1] + 1;
+            } else {
+                lcs[i][j] = std::max(lcs[i - 1][j], lcs[i][j - 1]);
+            }
         }
     }
-    
-    // Find added lines (in B but not in A)
-    for (const auto& line : lines_b) {
-        if (set_a.find(line) == set_a.end()) {
-            diff.added_lines.push_back(line);
+
+    // Back-track to produce edit operations in order:
+    //   '-' = remove from A,  '+' = add from B,  ' ' = common
+    enum class Op { KEEP, REMOVE, ADD };
+    struct EditOp { Op op; std::string line; };
+    std::vector<EditOp> edits;
+    {
+        size_t i = m, j = n;
+        while (i > 0 || j > 0) {
+            if (i > 0 && j > 0 && lines_a[i - 1] == lines_b[j - 1]) {
+                edits.push_back({Op::KEEP, lines_a[i - 1]});
+                --i;
+                --j;
+            } else if (j > 0 && (i == 0 || lcs[i][j - 1] >= lcs[i - 1][j])) {
+                edits.push_back({Op::ADD, lines_b[j - 1]});
+                --j;
+            } else {
+                edits.push_back({Op::REMOVE, lines_a[i - 1]});
+                --i;
+            }
+        }
+        std::reverse(edits.begin(), edits.end());
+    }
+
+    // Populate diff fields
+    for (const auto& e : edits) {
+        if (e.op == Op::REMOVE) {
+            diff.removed_lines.push_back(e.line);
+            diff.deletions++;
+        } else if (e.op == Op::ADD) {
+            diff.added_lines.push_back(e.line);
             diff.additions++;
         }
     }
-    
-    // Generate unified diff format
+
+    // Generate unified diff with 3-line context
+    static constexpr int CONTEXT = 3;
     std::ostringstream oss;
-    oss << "--- " << version_a_id.substr(0, 8) << "\n";
-    oss << "+++ " << version_b_id.substr(0, 8) << "\n";
-    oss << "@@ -1," << lines_a.size() << " +1," << lines_b.size() << " @@\n";
-    
-    for (const auto& line : diff.removed_lines) {
-        oss << "-" << line << "\n";
+    oss << "--- " << version_a_id.substr(0, std::min(version_a_id.size(), size_t(8))) << "\n";
+    oss << "+++ " << version_b_id.substr(0, std::min(version_b_id.size(), size_t(8))) << "\n";
+
+    // Collect hunk ranges
+    // Each hunk is a run of non-KEEP edits expanded by CONTEXT lines.
+    const size_t N = edits.size();
+    size_t idx = 0;
+    while (idx < N) {
+        // Skip context-only blocks
+        if (edits[idx].op == Op::KEEP) { ++idx; continue; }
+
+        // Find the end of this change cluster
+        size_t hunk_start = (idx >= size_t(CONTEXT)) ? idx - CONTEXT : 0;
+        size_t hunk_end   = std::min(idx + CONTEXT + 1, N);
+        // Extend hunk to cover adjacent changes within 2*CONTEXT distance
+        while (hunk_end < N) {
+            bool found_change = false;
+            for (size_t k = hunk_end; k < std::min(hunk_end + size_t(CONTEXT) * 2, N); ++k) {
+                if (edits[k].op != Op::KEEP) { found_change = true; break; }
+            }
+            if (!found_change) break;
+            hunk_end = std::min(hunk_end + size_t(CONTEXT) * 2, N);
+        }
+
+        // Compute @@ positions (1-based, for original A and new B)
+        int old_start = 1, new_start = 1, old_count = 0, new_count = 0;
+        // Count lines in A and B up to hunk_start
+        int a_pos = 0, b_pos = 0;
+        for (size_t k = 0; k < hunk_start; ++k) {
+            if (edits[k].op != Op::ADD) ++a_pos;
+            if (edits[k].op != Op::REMOVE) ++b_pos;
+        }
+        old_start = a_pos + 1;
+        new_start = b_pos + 1;
+
+        for (size_t k = hunk_start; k < hunk_end; ++k) {
+            if (edits[k].op != Op::ADD)    ++old_count;
+            if (edits[k].op != Op::REMOVE) ++new_count;
+        }
+
+        oss << "@@ -" << old_start << "," << old_count
+            << " +" << new_start << "," << new_count << " @@\n";
+
+        for (size_t k = hunk_start; k < hunk_end; ++k) {
+            switch (edits[k].op) {
+                case Op::KEEP:   oss << " " << edits[k].line << "\n"; break;
+                case Op::REMOVE: oss << "-" << edits[k].line << "\n"; break;
+                case Op::ADD:    oss << "+" << edits[k].line << "\n"; break;
+            }
+        }
+
+        idx = hunk_end;
     }
-    for (const auto& line : diff.added_lines) {
-        oss << "+" << line << "\n";
-    }
-    
+
     diff.unified_diff = oss.str();
-    
     return diff;
 }
 
@@ -827,21 +944,190 @@ MergeResult PromptVersionControl::autoMerge(
 ) const {
     MergeResult result;
     result.strategy_used = "auto";
-    
-    // For now, implement simple strategy: if target hasn't changed from base, use source
+
+    // Fast-forward cases: only one side changed
     if (target.content == base.content) {
         result.merged_content = source.content;
         result.success = true;
-    } else if (source.content == base.content) {
+        return result;
+    }
+    if (source.content == base.content) {
         result.merged_content = target.content;
         result.success = true;
-    } else {
-        // Both changed - conflict
-        result.success = false;
-        result.conflicts.push_back("Both branches modified from base - manual resolution required");
-        result.merged_content = target.content;  // Default to target
+        return result;
     }
-    
+
+    // Both sides changed from base — attempt line-level three-way merge.
+    // Strategy:
+    //   1. Compute base→source diff and base→target diff.
+    //   2. Walk through the base lines; apply non-overlapping hunks from both sides.
+    //   3. Overlapping hunks that change the same line are conflict regions.
+
+    auto split_lines = [](const std::string& text) {
+        std::vector<std::string> lines;
+        std::istringstream iss(text);
+        std::string line;
+        while (std::getline(iss, line)) lines.push_back(line);
+        return lines;
+    };
+
+    const auto base_lines   = split_lines(base.content);
+    const auto source_lines = split_lines(source.content);
+    const auto target_lines = split_lines(target.content);
+
+    // Build LCS-based edit list: KEEP | REMOVE | ADD
+    // Returns a vector<pair<char, string>>: ' ', '-', '+'
+    auto lcs_edits = [&](const std::vector<std::string>& from,
+                         const std::vector<std::string>& to)
+        -> std::vector<std::pair<char, std::string>>
+    {
+        const size_t m = from.size(), n = to.size();
+        std::vector<std::vector<size_t>> dp(m + 1, std::vector<size_t>(n + 1, 0));
+        for (size_t i = 1; i <= m; ++i)
+            for (size_t j = 1; j <= n; ++j)
+                dp[i][j] = (from[i-1] == to[j-1])
+                          ? dp[i-1][j-1] + 1
+                          : std::max(dp[i-1][j], dp[i][j-1]);
+
+        std::vector<std::pair<char, std::string>> edits;
+        size_t i = m, j = n;
+        while (i > 0 || j > 0) {
+            if (i > 0 && j > 0 && from[i-1] == to[j-1]) {
+                edits.push_back({' ', from[i-1]});
+                --i;
+                --j;
+            } else if (j > 0 && (i == 0 || dp[i][j-1] >= dp[i-1][j])) {
+                edits.push_back({'+', to[j-1]});
+                --j;
+            } else {
+                edits.push_back({'-', from[i-1]});
+                --i;
+            }
+        }
+        std::reverse(edits.begin(), edits.end());
+        return edits;
+    };
+
+    auto src_edits = lcs_edits(base_lines, source_lines);
+    auto tgt_edits = lcs_edits(base_lines, target_lines);
+
+    // Build a map: base line index → {src change, tgt change}
+    // For each base-line position record what src and tgt do with it.
+    // Changes are represented as: 0 = keep, 1 = delete, 2 = replace/insert
+    struct LineChange {
+        bool deleted  = false;
+        std::vector<std::string> insertions_before; // lines inserted before this base line
+    };
+
+    // Extra slot to hold lines appended after all base content (end-of-file additions).
+    LineChange src_eof, tgt_eof;
+
+    std::vector<LineChange> src_changes(base_lines.size());
+    std::vector<LineChange> tgt_changes(base_lines.size());
+
+    auto populate_changes = [&](const std::vector<std::pair<char, std::string>>& edits,
+                                std::vector<LineChange>& changes,
+                                LineChange& eof_slot) {
+        size_t base_idx = 0;
+        for (const auto& e : edits) {
+            if (e.first == ' ') {
+                ++base_idx;
+            } else if (e.first == '-') {
+                if (base_idx < changes.size()) {
+                    changes[base_idx].deleted = true;
+                    ++base_idx;
+                }
+            } else { // '+'
+                if (base_idx < changes.size()) {
+                    changes[base_idx].insertions_before.push_back(e.second);
+                } else {
+                    // Appended after the last base line
+                    eof_slot.insertions_before.push_back(e.second);
+                }
+            }
+        }
+    };
+
+    populate_changes(src_edits, src_changes, src_eof);
+    populate_changes(tgt_edits, tgt_changes, tgt_eof);
+
+    // Merge: for each base line apply changes from src and tgt
+    std::vector<std::string> merged;
+    bool has_conflicts = false;
+
+    for (size_t i = 0; i < base_lines.size(); ++i) {
+        const auto& sc = src_changes[i];
+        const auto& tc = tgt_changes[i];
+
+        // Non-conflicting insertions: emit both (src first, then tgt).
+        // Build O(1) lookup set to avoid quadratic linear search.
+        std::unordered_set<std::string> sc_ins_set(
+            sc.insertions_before.begin(), sc.insertions_before.end());
+        for (const auto& ins : sc.insertions_before) merged.push_back(ins);
+        for (const auto& ins : tc.insertions_before) {
+            if (!sc_ins_set.count(ins)) {
+                merged.push_back(ins);
+            }
+        }
+
+        if (sc.deleted && tc.deleted) {
+            // Both deleted → keep deleted (non-conflicting)
+        } else if (sc.deleted && !tc.deleted) {
+            // Only source deleted this line → apply deletion
+        } else if (!sc.deleted && tc.deleted) {
+            // Only target deleted this line → apply deletion
+        } else {
+            // Both kept → emit base line
+            merged.push_back(base_lines[i]);
+        }
+    }
+
+    // Emit end-of-file additions from both sides (deduplicating identical lines).
+    // Use an unordered_set for O(1) lookup instead of O(n) linear search.
+    std::unordered_set<std::string> src_eof_set(
+        src_eof.insertions_before.begin(), src_eof.insertions_before.end());
+    for (const auto& ins : src_eof.insertions_before) merged.push_back(ins);
+    for (const auto& ins : tgt_eof.insertions_before) {
+        if (!src_eof_set.count(ins)) {
+            merged.push_back(ins);
+        }
+    }
+
+    // Detect content-level conflicts: if src and tgt both modified the same
+    // region and produced different results, add conflict markers.
+    // Simple heuristic: if the merged result differs significantly from both
+    // source and target, flag a conflict.
+    auto join_lines = [](const std::vector<std::string>& lines) {
+        std::string out;
+        for (const auto& l : lines) { out += l; out += '\n'; }
+        return out;
+    };
+
+    result.merged_content = join_lines(merged);
+
+    // If both sides changed the same lines to different values, report conflict
+    for (size_t i = 0; i < base_lines.size(); ++i) {
+        const auto& sc = src_changes[i];
+        const auto& tc = tgt_changes[i];
+        bool src_changed = sc.deleted || !sc.insertions_before.empty();
+        bool tgt_changed = tc.deleted || !tc.insertions_before.empty();
+        if (src_changed && tgt_changed) {
+            // Both sides touched line i — check if they agree
+            bool agree = (sc.deleted == tc.deleted) &&
+                         (sc.insertions_before == tc.insertions_before);
+            if (!agree) {
+                has_conflicts = true;
+                result.conflicts.push_back(
+                    "Conflict at base line " + std::to_string(i + 1) +
+                    ": '" + base_lines[i] + "'");
+            }
+        }
+    }
+
+    result.success = !has_conflicts;
+    if (!result.success && result.merged_content.empty()) {
+        result.merged_content = target.content;  // Fallback
+    }
     return result;
 }
 

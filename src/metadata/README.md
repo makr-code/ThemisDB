@@ -2,6 +2,27 @@
 
 Database metadata and schema introspection for ThemisDB.
 
+## Module Purpose
+
+Manages the ThemisDB metadata catalog, providing schema management, collection metadata, type system definitions, and index metadata tracking.
+
+## Subsystem Scope
+
+**In scope:** Collection and schema metadata management, type system and field definitions, index metadata registry, metadata versioning.
+
+**Out of scope:** Data storage (handled by storage module), index construction (handled by index module), configuration management (handled by config module).
+
+## Relevant Interfaces
+
+- `metadata_manager.cpp` — central metadata catalog
+- `schema_registry.cpp` — schema version management
+- `type_system.cpp` — field type definitions
+- `index_metadata.cpp` — index registry
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Metadata catalog and schema management operational; metadata versioning in progress.
+
 ## Components
 
 - **Schema Manager**: Database self-awareness and schema discovery

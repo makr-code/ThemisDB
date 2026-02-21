@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            class-admin.php                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:33                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     1200                                           ║
+    • Total Lines:     1354                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -101,6 +108,15 @@ class ThemisDB_Order_Admin {
             'themisdb-email-log',
             array($this, 'email_log_page')
         );
+
+        add_submenu_page(
+            'themisdb-orders',
+            __('License Audit Log', 'themisdb-order-request'),
+            __('License Audit Log', 'themisdb-order-request'),
+            'manage_options',
+            'themisdb-license-audit',
+            array($this, 'license_audit_page')
+        );
         
         add_submenu_page(
             'themisdb-orders',
@@ -122,6 +138,9 @@ class ThemisDB_Order_Admin {
         register_setting('themisdb_order_settings', 'themisdb_order_email_from_name');
         register_setting('themisdb_order_settings', 'themisdb_order_pdf_storage');
         register_setting('themisdb_order_settings', 'themisdb_order_legal_compliance');
+        register_setting('themisdb_order_settings', 'themisdb_license_api_key');
+        register_setting('themisdb_order_settings', 'themisdb_license_admin_secret');
+        register_setting('themisdb_order_settings', 'themisdb_license_renewal_reminder_days');
     }
     
     /**
@@ -1025,6 +1044,101 @@ class ThemisDB_Order_Admin {
     }
     
     /**
+     * License Audit Log admin page
+     */
+    public function license_audit_page() {
+        global $wpdb;
+        $table   = $wpdb->prefix . 'themisdb_license_audit_log';
+        $per_page = 50;
+        $page_num = max(1, isset($_GET['paged']) ? absint($_GET['paged']) : 1);
+        $offset   = ($page_num - 1) * $per_page;
+
+        // Ensure table exists before querying
+        if ( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) !== $table ) {
+            echo '<div class="wrap"><h1>' . esc_html__( 'License Audit Log', 'themisdb-order-request' ) . '</h1>';
+            echo '<p>' . esc_html__( 'No audit log entries yet. The log table is created on first REST API call.', 'themisdb-order-request' ) . '</p></div>';
+            return;
+        }
+
+        $total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM $table" );
+        $rows  = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM $table ORDER BY created_at DESC LIMIT %d OFFSET %d",
+                $per_page,
+                $offset
+            ),
+            ARRAY_A
+        );
+
+        $total_pages = (int) ceil( $total / $per_page );
+        ?>
+        <div class="wrap">
+            <h1><?php esc_html_e( 'License Audit Log', 'themisdb-order-request' ); ?></h1>
+            <p class="description">
+                <?php printf(
+                    esc_html__( 'Showing %d of %d total entries.', 'themisdb-order-request' ),
+                    count( $rows ),
+                    $total
+                ); ?>
+            </p>
+
+            <table class="wp-list-table widefat fixed striped">
+                <thead>
+                    <tr>
+                        <th><?php esc_html_e( 'Date / Time', 'themisdb-order-request' ); ?></th>
+                        <th><?php esc_html_e( 'License Key', 'themisdb-order-request' ); ?></th>
+                        <th><?php esc_html_e( 'Action', 'themisdb-order-request' ); ?></th>
+                        <th><?php esc_html_e( 'Result', 'themisdb-order-request' ); ?></th>
+                        <th><?php esc_html_e( 'IP Address', 'themisdb-order-request' ); ?></th>
+                        <th><?php esc_html_e( 'User Agent', 'themisdb-order-request' ); ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ( empty( $rows ) ) : ?>
+                    <tr><td colspan="6"><?php esc_html_e( 'No entries found.', 'themisdb-order-request' ); ?></td></tr>
+                    <?php else : ?>
+                        <?php foreach ( $rows as $row ) : ?>
+                        <tr>
+                            <td><?php echo esc_html( $row['created_at'] ); ?></td>
+                            <td><code><?php echo esc_html( $row['license_key'] ?? '—' ); ?></code></td>
+                            <td><?php echo esc_html( $row['action'] ); ?></td>
+                            <td>
+                                <span class="license-status status-<?php echo esc_attr( $row['result'] ); ?>">
+                                    <?php echo esc_html( $row['result'] ); ?>
+                                </span>
+                            </td>
+                            <td><?php echo esc_html( $row['ip_address'] ?? '—' ); ?></td>
+                            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                                title="<?php echo esc_attr( $row['user_agent'] ?? '' ); ?>">
+                                <?php echo esc_html( $row['user_agent'] ?? '—' ); ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+
+            <?php if ( $total_pages > 1 ) : ?>
+            <div class="tablenav bottom">
+                <div class="tablenav-pages">
+                    <?php
+                    echo paginate_links( array(
+                        'base'      => add_query_arg( 'paged', '%#%' ),
+                        'format'    => '',
+                        'prev_text' => '&laquo;',
+                        'next_text' => '&raquo;',
+                        'total'     => $total_pages,
+                        'current'   => $page_num,
+                    ) );
+                    ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+
+    /**
      * Email log page
      */
     public function email_log_page() {
@@ -1170,6 +1284,46 @@ class ThemisDB_Order_Admin {
                             <input type="checkbox" id="themisdb_order_legal_compliance" name="themisdb_order_legal_compliance" 
                                    value="1" <?php checked(get_option('themisdb_order_legal_compliance'), '1'); ?> />
                             <label for="themisdb_order_legal_compliance"><?php _e('Rechtliche Compliance-Prüfungen aktivieren', 'themisdb-order-request'); ?></label>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2><?php _e('License API Settings', 'themisdb-order-request'); ?></h2>
+                <p class="description"><?php _e('These credentials are used by ThemisDB server instances to validate licenses via the REST API.', 'themisdb-order-request'); ?></p>
+                <table class="form-table">
+                    <tr>
+                        <th><label for="themisdb_license_api_key"><?php _e('License API Key', 'themisdb-order-request'); ?></label></th>
+                        <td>
+                            <input type="password" id="themisdb_license_api_key" name="themisdb_license_api_key"
+                                   value="<?php echo esc_attr(get_option('themisdb_license_api_key')); ?>"
+                                   class="regular-text" autocomplete="new-password" />
+                            <p class="description"><?php echo wp_kses( __('Shared secret sent by ThemisDB servers as <code>Authorization: Bearer &lt;key&gt;</code>. Generate a strong random value (32+ chars).', 'themisdb-order-request'), array( 'code' => array() ) ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="themisdb_license_admin_secret"><?php _e('Admin Secret', 'themisdb-order-request'); ?></label></th>
+                        <td>
+                            <input type="password" id="themisdb_license_admin_secret" name="themisdb_license_admin_secret"
+                                   value="<?php echo esc_attr(get_option('themisdb_license_admin_secret')); ?>"
+                                   class="regular-text" autocomplete="new-password" />
+                            <p class="description"><?php echo wp_kses( __('Additional secret required for admin endpoints (renew, revoke). Sent as <code>X-ThemisDB-Admin-Secret</code> header.', 'themisdb-order-request'), array( 'code' => array() ) ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="themisdb_license_renewal_reminder_days"><?php _e('Renewal Reminder (days)', 'themisdb-order-request'); ?></label></th>
+                        <td>
+                            <input type="number" id="themisdb_license_renewal_reminder_days" name="themisdb_license_renewal_reminder_days"
+                                   value="<?php echo esc_attr(get_option('themisdb_license_renewal_reminder_days', '30')); ?>"
+                                   min="1" max="365" class="small-text" />
+                            <p class="description"><?php _e('Send renewal reminder e-mail this many days before a license expires. A daily cron job checks for upcoming expirations.', 'themisdb-order-request'); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <a href="<?php echo esc_url(admin_url('admin.php?page=themisdb-license-audit')); ?>" class="button">
+                                <?php _e('View License Audit Log', 'themisdb-order-request'); ?>
+                            </a>
                         </td>
                     </tr>
                 </table>

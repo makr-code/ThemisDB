@@ -4,6 +4,15 @@
 
 The Training module provides tools for building and maintaining domain-specific AI fine-tuning datasets and adapters within ThemisDB. It is designed around the legal domain (with German-language legal text as the primary target) and consists of three components: an automatic labeler that extracts structured training samples from legal documents using NLP modality detection, an incremental LoRA trainer that fine-tunes language model adapters with checkpoint/resume support, and a knowledge graph enricher that annotates training samples with graph-traversal context (related provisions, case law, and semantically similar documents).
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `auto_labeler.cpp` | LegalAutoLabeler: structured training sample extraction from legal documents |
+| `lora_trainer.cpp` | Incremental LoRA adapter fine-tuning with checkpoint/resume |
+| `knowledge_graph_enricher.cpp` | AQL-based context enrichment via graph traversal |
+| `adapter_version_manager.cpp` | Adapter version management (deploy, rollback, list versions) |
+
 ## Scope
 
 **In Scope:**

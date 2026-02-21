@@ -2,6 +2,27 @@
 
 Comprehensive authentication and authorization implementation for ThemisDB with enterprise SSO and multi-factor authentication support.
 
+## Module Purpose
+
+Provides enterprise-grade authentication and authorization for ThemisDB, including JWT/OpenID Connect, Kerberos/GSSAPI, TOTP MFA, and RBAC enforcement.
+
+## Subsystem Scope
+
+**In scope:** JWT validation with JWKS, Kerberos/GSSAPI SSO, TOTP MFA with recovery codes, RBAC principal-to-role mapping, brute force rate limiting.
+
+**Out of scope:** User management (external IdP), secrets storage (handled by security module), audit logging (handled by utils module).
+
+## Relevant Interfaces
+
+- `jwt_validator.cpp` — JWT/OpenID Connect validation
+- `kerberos_auth.cpp` — GSSAPI/Kerberos handler
+- `totp_auth.cpp` — TOTP MFA
+- `rbac_enforcer.cpp` — role-based access control
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — JWT, Kerberos, TOTP, and RBAC operational; OAuth 2.0 device flow and SAML 2.0 in progress.
+
 ## Table of Contents
 
 1. [Overview](#overview)

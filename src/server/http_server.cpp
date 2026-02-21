@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            http_server.cpp                                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   84.0/100                                       ║
-    • Total Lines:     7951                                           ║
+    • Total Lines:     7963                                           ║
     • Open Issues:     TODOs: 4, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -1620,6 +1627,7 @@ namespace {
         ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
         ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
         ObservabilityHealthGet,        // GET  /api/v1/observability/health
+        LicenseStatusGet,              // GET  /api/v1/license/status
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1876,6 +1884,7 @@ namespace {
     // Operator observability REST API (Q1)
     if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
     if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    if (target == "/api/v1/license/status"       && method == http::verb::get) return Route::LicenseStatusGet;
     {
         // POST /api/v1/observability/alerts/{id}/silence
         // path_only must start with the alerts prefix, have a non-empty {id} segment,
@@ -2502,6 +2511,9 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::ObservabilityHealthGet:
             response = monitoring_api_->handleObservabilityHealth(req);
+            break;
+        case Route::LicenseStatusGet:
+            response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);

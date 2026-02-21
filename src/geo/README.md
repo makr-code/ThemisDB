@@ -2,6 +2,26 @@
 
 Geospatial query processing and indexing implementation for ThemisDB.
 
+## Module Purpose
+
+Implements geospatial query processing and spatial indexing for ThemisDB, providing 2D/3D spatial queries, geometry operations, and GPU-accelerated spatial processing with CPU fallback.
+
+## Subsystem Scope
+
+**In scope:** CPU-based spatial query processing (contains, intersects, distance), S2/H3 cell indexing, GPU-accelerated backend with CPU fallback, 2D and 3D geometry operations.
+
+**Out of scope:** Full GeoJSON RFC 7946 parsing (planned), R-tree index construction (planned), routing/navigation algorithms.
+
+## Relevant Interfaces
+
+- `cpu_backend.cpp` — primary CPU-based geospatial backend
+- `boost_cpu_exact_backend.cpp` — Boost.Geometry exact computation
+- `gpu_backend_stub.cpp` — GPU stub with CPU fallback
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — CPU geospatial backend operational; GPU backend is stub pending CUDA kernel implementation.
+
 ## Components
 
 - CPU-based geospatial backend (`cpu_backend.cpp`, `boost_cpu_exact_backend.cpp`)

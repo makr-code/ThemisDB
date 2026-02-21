@@ -1,5 +1,7 @@
 # Network Module Roadmap
 
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 ## Current Status
 v1.x – Production-grade networking layer. Binary wire protocol server, connection pooling, TLS/mTLS, circuit breaker, and rate limiting are fully implemented.
 
@@ -38,6 +40,35 @@ v1.x – Production-grade networking layer. Binary wire protocol server, connect
 - [ ] IPv6 dual-stack support
 - [ ] gRPC native transport (separate from server module)
 - [ ] Network topology-aware routing for geo-distributed clusters
+
+## Implementation Phases
+
+### Phase 1: Production Networking Stack (Status: Completed ✅)
+- [x] WireProtocolServer: high-performance binary TCP server on port 8766 (`network/wire_protocol_server.cpp`)
+- [x] Dedicated I/O thread pool and worker thread pool separation
+- [x] Client-side and server-side connection pool management
+- [x] TLS 1.3 and mutual TLS (mTLS) support
+- [x] Per-IP rate limiting (requests/sec and requests/min)
+- [x] Connection limits (global and per-IP)
+- [x] Circuit breaker pattern for socket timeouts
+- [x] Protocol buffer wire format helpers (lightweight parser/serializer)
+- [x] Token-based authentication with configurable auth timeout
+- [x] Health checking, keepalive mechanisms, and automatic retry with back-off
+- [x] Transport security validation (`validateTransportSecurity`)
+- [x] Prometheus metrics for connection and request statistics
+
+### Phase 2: Alternative Transports (Status: In Progress 🚧)
+- [~] WebSocket upgrade support on wire protocol port (Target: Q2 2026)
+- [ ] UDP-based fast-path for read-only queries (Target: Q3 2026)
+- [ ] QUIC/HTTP3 transport layer integration (Target: Q3 2026)
+
+### Phase 3: Advanced Networking & Service Mesh (Status: Planned 📋)
+- [ ] gRPC native transport (separate from server module)
+- [ ] Connection multiplexing (multiple logical streams per TCP connection)
+- [ ] Per-tenant network bandwidth quotas
+- [ ] Connection-level compression (LZ4, Zstd)
+- [ ] Network topology-aware routing for geo-distributed clusters
+- [ ] Service mesh integration (Istio/Envoy sidecar compatibility)
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

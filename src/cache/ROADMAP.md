@@ -1,4 +1,5 @@
 # Cache Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening complete. Phase 3 operational excellence features are in progress.
@@ -40,6 +41,37 @@ Production-ready multi-level cache (L1/L2/L3) with Phase 1 and Phase 2 hardening
 - [ ] Predictive pre-fetching based on query history
 - [ ] Cache replication for high-availability deployments
 - [ ] GDPR-aware cache invalidation (PII purge propagation)
+
+## Implementation Phases
+
+### Phase 1: Multi-Level Cache Core (Status: Completed)
+- [x] Implemented L1 in-memory LRU cache with 1 KB per-entry size limit
+- [x] Implemented L2 compressed cache with 10 KB per-entry size limit
+- [x] Implemented L3 RocksDB-backed persistent cache with configurable size
+- [x] Added automatic cache invalidation on data mutation events
+- [x] Implemented circuit breaker for RocksDB fault isolation (CLOSED/OPEN/HALF_OPEN)
+- [x] Added retry logic with exponential backoff for RocksDB initialization
+- [x] Implemented L3 pattern-based invalidation via iterator-based key scans
+- [x] Added per-tier metrics: hit rate, miss rate, error count, compression ratio
+
+### Phase 2: Security and Tenant Isolation (Status: Completed)
+- [x] Added startup configuration validation with descriptive error messages
+- [x] Implemented token bucket rate limiting per tenant namespace
+- [x] Enforced tenant namespace isolation preventing cross-tenant cache reads
+- [x] Implemented per-tenant size quotas with configurable byte limits
+
+### Phase 3: Operational Excellence and Admin API (Status: In Progress)
+- [~] Implement Admin API for cache inspection, eviction, and reload (`cache/admin_api.cpp`)
+- [~] Implement bulk warmup from query log snapshot (`cache/warmup.cpp`)
+- [~] Implement tenant management API (list tenants, per-tenant stats, quota updates)
+- [~] Add `/health` endpoint reporting per-tier status and circuit breaker state
+- [~] Implement adaptive TTL tuning based on per-key access frequency
+
+### Phase 4: Distributed Cache and Predictive Features (Status: Planned)
+- [ ] Implement Redis-compatible distributed cache coordination protocol
+- [ ] Add write-through cache mode for read-heavy workloads
+- [ ] Implement predictive pre-fetching based on query sequence history
+- [ ] Add cache replication for high-availability multi-node deployments
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%

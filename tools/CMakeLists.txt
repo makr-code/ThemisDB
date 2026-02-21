@@ -62,6 +62,49 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/import_cli.cpp")
     message(STATUS "themisdb-import CLI tool configured")
 endif()
 
+# LoRA Provenance CLI
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lora_provenance_cli.cpp")
+    if(THEMIS_ENABLE_LLM)
+        message(STATUS "Adding lora-provenance CLI tool")
+
+        project(ThemisTools LANGUAGES CXX)
+
+        add_executable(lora-provenance
+            lora_provenance_cli.cpp
+        )
+
+        target_compile_features(lora-provenance PRIVATE cxx_std_17)
+
+        target_include_directories(lora-provenance PRIVATE
+            ${CMAKE_SOURCE_DIR}/include
+        )
+
+        # Link against the main Themis library so lora_provenance.cpp symbols are available
+        if(TARGET themis_core)
+            target_link_libraries(lora-provenance PRIVATE themis_core)
+        endif()
+
+        find_package(nlohmann_json QUIET)
+        if(nlohmann_json_FOUND)
+            target_link_libraries(lora-provenance PRIVATE nlohmann_json::nlohmann_json)
+        endif()
+
+        find_package(OpenSSL QUIET)
+        if(OpenSSL_FOUND)
+            target_link_libraries(lora-provenance PRIVATE OpenSSL::Crypto)
+        endif()
+
+        install(TARGETS lora-provenance
+            RUNTIME DESTINATION bin
+            COMPONENT tools
+        )
+
+        message(STATUS "lora-provenance CLI tool configured")
+    else()
+        message(STATUS "Skipping lora-provenance tool (THEMIS_ENABLE_LLM is OFF)")
+    endif()
+endif()
+
 # ============================================================================
 # .NET Admin Tools
 # ============================================================================

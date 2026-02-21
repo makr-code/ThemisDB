@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            hybrid_search.cpp                                  ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:06                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     270                                            ║
+    • Total Lines:     348                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 1f4de1436  2026-02-21  Search module: v1.4.0 hardening + v1.5.0 feature set (7 n... ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -56,8 +63,40 @@ HybridSearch::HybridSearch(
     vector_index_(vector_index),
     config_(config) {
     
-    THEMIS_INFO("HybridSearch initialized (RRF={}, k={})", 
-                config_.use_rrf, config_.k);
+    if (config_.k == 0) {
+        throw std::invalid_argument("HybridSearch: Config::k must be > 0");
+    }
+    if (config_.max_k == 0) {
+        throw std::invalid_argument("HybridSearch: Config::max_k must be > 0");
+    }
+    if (config_.k > config_.max_k) {
+        throw std::invalid_argument("HybridSearch: Config::k exceeds max_k");
+    }
+    if (config_.max_candidates == 0) {
+        throw std::invalid_argument("HybridSearch: Config::max_candidates must be > 0");
+    }
+    if (config_.k_bm25 > config_.max_candidates) {
+        throw std::invalid_argument("HybridSearch: Config::k_bm25 exceeds max_candidates");
+    }
+    if (config_.k_vector > config_.max_candidates) {
+        throw std::invalid_argument("HybridSearch: Config::k_vector exceeds max_candidates");
+    }
+    if (config_.rrf_k <= 0.0) {
+        throw std::invalid_argument("HybridSearch: Config::rrf_k must be > 0");
+    }
+    if (config_.bm25_weight < 0.0 || config_.vector_weight < 0.0) {
+        throw std::invalid_argument("HybridSearch: weights must be non-negative");
+    }
+    if (config_.default_table.empty()) {
+        throw std::invalid_argument("HybridSearch: Config::default_table must not be empty");
+    }
+    if (config_.default_column.empty()) {
+        throw std::invalid_argument("HybridSearch: Config::default_column must not be empty");
+    }
+
+    THEMIS_INFO("HybridSearch initialized (RRF={}, k={}, metric={})", 
+                config_.use_rrf, config_.k,
+                static_cast<int>(config_.vector_metric));
 }
 
 HybridSearch::~HybridSearch() = default;
@@ -65,10 +104,13 @@ HybridSearch::~HybridSearch() = default;
 std::vector<HybridSearch::Result> HybridSearch::search(
     const std::string& text_query,
     const float* vector_query,
-    size_t vector_dim
+    size_t vector_dim,
+    SearchStats* stats
 ) {
     std::vector<Result> bm25_results;
     std::vector<Result> vector_results;
+    bool bm25_ok = false;
+    bool vector_ok = false;
     
     // BM25 fulltext search
     if (!text_query.empty() && fulltext_index_) {
@@ -90,7 +132,7 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     r.bm25_rank = static_cast<int>(i + 1);
                     bm25_results.push_back(r);
                 }
-                
+                bm25_ok = true;
                 THEMIS_DEBUG("BM25 search returned {} results", bm25_results.size());
             } else {
                 THEMIS_WARN("BM25 search failed: {}", status.message);
@@ -115,15 +157,13 @@ std::vector<HybridSearch::Result> HybridSearch::search(
                     const auto& vec_result = vec_results[i];
                     Result r;
                     r.document_id = vec_result.pk;
-                    // Convert distance to similarity based on metric
-                    // Currently assumes COSINE - should be configurable in future versions
-                    // See: HybridSearch::Config::vector_metric (to be added)
+                    // Convert distance to similarity based on configured metric
                     r.vector_score = distanceToSimilarity(vec_result.distance, 
-                                                          VectorIndexManager::Metric::COSINE);
+                                                          config_.vector_metric);
                     r.vector_rank = static_cast<int>(i + 1);
                     vector_results.push_back(r);
                 }
-                
+                vector_ok = true;
                 THEMIS_DEBUG("Vector search returned {} results", vector_results.size());
             } else {
                 THEMIS_WARN("Vector search failed: {}", status.message);
@@ -132,55 +172,83 @@ std::vector<HybridSearch::Result> HybridSearch::search(
             THEMIS_ERROR("Vector search exception: {}", e.what());
         }
     }
-    
-    // Normalize scores if configured
-    if (config_.normalize_scores) {
+
+    // Detect partial-result condition: both sources were available and attempted,
+    // but exactly one of them failed while the other returned candidates.
+    bool bm25_attempted  = !text_query.empty() && fulltext_index_ != nullptr;
+    bool vector_attempted = vector_query != nullptr && vector_dim > 0 && vector_index_ != nullptr;
+    bool bm25_failed_but_vector_succeeded =
+        bm25_attempted && !bm25_ok && vector_ok && !vector_results.empty();
+    bool vector_failed_but_bm25_succeeded =
+        vector_attempted && !vector_ok && bm25_ok && !bm25_results.empty();
+    bool partial = bm25_failed_but_vector_succeeded || vector_failed_but_bm25_succeeded;
+    if (partial) {
+        THEMIS_WARN("HybridSearch returning partial results: bm25_ok={} vector_ok={}",
+                    bm25_ok, vector_ok);
+    }
+
+    if (stats) {
+        stats->bm25_ok       = bm25_ok;
+        stats->vector_ok     = vector_ok;
+        stats->partial_result = partial;
+        stats->bm25_count    = bm25_results.size();
+        stats->vector_count  = vector_results.size();
+    }
+
+    // Normalize scores if configured (for RRF) or always for linear combination
+    // (linear combination requires comparable [0,1] scores for correct weighting)
+    if (config_.normalize_scores || !config_.use_rrf) {
         normalizeScores(bm25_results, true);
         normalizeScores(vector_results, false);
     }
     
-    // Fuse results
-    if (config_.use_rrf) {
-        auto fused = reciprocalRankFusion(bm25_results, vector_results);
-        THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
-                   bm25_results.size(), vector_results.size(), fused.size());
-        return fused;
-    } else {
-        // Linear combination fallback
-        std::unordered_map<std::string, Result> doc_map;
-        
-        for (const auto& r : bm25_results) {
-            auto& doc = doc_map[r.document_id];
-            doc = r;
-            doc.hybrid_score += config_.bm25_weight * r.bm25_score;
+    // Fuse results – wrapped in a safety-net catch to guarantee search() never throws
+    try {
+        if (config_.use_rrf) {
+            auto fused = reciprocalRankFusion(bm25_results, vector_results);
+            THEMIS_INFO("Hybrid search: {} BM25 + {} vector -> {} fused results",
+                       bm25_results.size(), vector_results.size(), fused.size());
+            return fused;
+        } else {
+            // Linear combination fallback
+            std::unordered_map<std::string, Result> doc_map;
+            
+            for (const auto& r : bm25_results) {
+                auto& doc = doc_map[r.document_id];
+                doc = r;
+                doc.hybrid_score += config_.bm25_weight * r.bm25_score;
+            }
+            
+            for (const auto& r : vector_results) {
+                auto& doc = doc_map[r.document_id];
+                if (doc.document_id.empty()) doc = r;
+                doc.vector_score = r.vector_score;
+                doc.vector_rank = r.vector_rank;
+                doc.hybrid_score += config_.vector_weight * r.vector_score;
+            }
+            
+            std::vector<Result> combined;
+            combined.reserve(doc_map.size());
+            for (const auto& [_, result] : doc_map) {
+                combined.push_back(result);
+            }
+            
+            std::sort(combined.begin(), combined.end(),
+                      [](const Result& a, const Result& b) {
+                          return a.hybrid_score > b.hybrid_score;
+                      });
+            
+            if (combined.size() > config_.k) {
+                combined.resize(config_.k);
+            }
+            
+            THEMIS_INFO("Hybrid search (linear): {} BM25 + {} vector -> {} combined results",
+                       bm25_results.size(), vector_results.size(), combined.size());
+            return combined;
         }
-        
-        for (const auto& r : vector_results) {
-            auto& doc = doc_map[r.document_id];
-            if (doc.document_id.empty()) doc = r;
-            doc.vector_score = r.vector_score;
-            doc.vector_rank = r.vector_rank;
-            doc.hybrid_score += config_.vector_weight * r.vector_score;
-        }
-        
-        std::vector<Result> combined;
-        combined.reserve(doc_map.size());
-        for (const auto& [_, result] : doc_map) {
-            combined.push_back(result);
-        }
-        
-        std::sort(combined.begin(), combined.end(),
-                  [](const Result& a, const Result& b) {
-                      return a.hybrid_score > b.hybrid_score;
-                  });
-        
-        if (combined.size() > config_.k) {
-            combined.resize(config_.k);
-        }
-        
-        THEMIS_INFO("Hybrid search (linear): {} BM25 + {} vector -> {} combined results",
-                   bm25_results.size(), vector_results.size(), combined.size());
-        return combined;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("HybridSearch fusion exception (returning empty): {}", e.what());
+        return {};
     }
 }
 
@@ -262,6 +330,16 @@ void HybridSearch::normalizeScores(std::vector<Result>& results, bool is_bm25) {
                 r.bm25_score = (r.bm25_score - min_score) / range;
             } else {
                 r.vector_score = (r.vector_score - min_score) / range;
+            }
+        }
+    } else {
+        // All scores are equal (single result or tied): set to 1.0 if score > 0, 0.0 otherwise
+        double normalized = (max_score > 0.0) ? 1.0 : 0.0;
+        for (auto& r : results) {
+            if (is_bm25) {
+                r.bm25_score = normalized;
+            } else {
+                r.vector_score = normalized;
             }
         }
     }

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            self_improvement_orchestrator.h                    ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
+    • Total Lines:     350                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -48,6 +55,7 @@ class PromptPerformanceTracker;
 class PromptOptimizer;
 class PromptManager;
 class PromptEvaluator;
+class FeedbackCollector;
 struct TestCase;
 
 /**
@@ -260,6 +268,20 @@ public:
      * @brief Update configuration
      */
     void setConfig(const ImprovementConfig& config);
+
+    /**
+     * @brief Attach a FeedbackCollector for synthetic test-case generation
+     *
+     * When set, @c runAutoOptimization() will build test cases from historical
+     * positive-feedback entries (query → response) instead of skipping prompts
+     * that have no externally supplied test cases.
+     *
+     * @param collector Shared pointer to the FeedbackCollector instance
+     */
+    void setFeedbackCollector(std::shared_ptr<FeedbackCollector> collector) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        feedback_collector_ = std::move(collector);
+    }
     
     /**
      * @brief Check if a prompt should be optimized
@@ -274,6 +296,7 @@ private:
     std::shared_ptr<PromptOptimizer> optimizer_;
     std::shared_ptr<PromptManager> manager_;
     std::shared_ptr<PromptEvaluator> evaluator_;
+    std::shared_ptr<FeedbackCollector> feedback_collector_;  ///< Optional, for auto test-case synthesis
     
     mutable std::mutex mutex_;
     
@@ -305,6 +328,22 @@ private:
      * @brief Deploy optimized prompt version
      */
     void deployOptimizedVersion(const std::string& prompt_id, const std::string& version);
+
+    /**
+     * @brief Build synthetic test cases from positive historical feedback
+     *
+     * Uses query→response pairs from @c USER_POSITIVE feedback as training
+     * examples so that @c runAutoOptimization() does not need external test
+     * data.
+     *
+     * @param prompt_id Prompt template ID
+     * @param max_cases Maximum number of test cases to return (0 = all)
+     * @return Vector of synthetic TestCase objects; empty if no feedback available
+     */
+    std::vector<TestCase> buildTestCasesFromFeedback(
+        const std::string& prompt_id,
+        size_t max_cases = 50
+    ) const;
 };
 
 } // namespace prompt_engineering

@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            prompt_manager.h                                   ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:24                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:45                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     122                                            ║
+    • Total Lines:     139                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -80,6 +87,16 @@ public:
 
     // Assign an experiment id to a template (stores in metadata["experiment_id"])
     bool assignExperiment(const std::string& id, const std::string& experiment_id);
+
+    // Validation result for a prompt template
+    struct ValidationResult {
+        bool valid = true;
+        std::vector<std::string> errors;   ///< List of validation errors
+        std::vector<std::string> warnings; ///< Non-fatal warnings
+    };
+
+    // Validate a template; returns ValidationResult with detailed error reporting
+    static ValidationResult validateTemplate(const PromptTemplate& t);
 
     // Load prompts from YAML configuration file
     // Returns number of prompts loaded successfully

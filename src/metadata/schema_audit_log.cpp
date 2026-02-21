@@ -3,15 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            schema_audit_log.cpp                               ║
-  Version:         0.0.3                                              ║
-  Last Modified:   2026-02-21 07:42:28                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     243                                            ║
+    • Total Lines:     246                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 3089438e7  2026-02-21  Add RocksDB option files and manifest for caching ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -160,17 +167,15 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getHistory(std::string_view table_
     std::string prefix = tablePrefix(table_name);
 
     try {
-        auto entries = db_.getKeysWithPrefix(prefix);
-        for (const auto& key : entries) {
-            auto val = db_.get(key);
-            if (!val.has_value()) continue;
+        db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(*val);
+                auto j = json::parse(value);
                 result.push_back(SchemaAuditEntry::fromJSON(j));
             } catch (const std::exception& ex) {
                 spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", key, ex.what());
             }
-        }
+            return true;
+        });
     } catch (const std::exception& e) {
         spdlog::warn("SchemaAuditLog: Failed to read history for '{}': {}", table_name, e.what());
     }
@@ -187,17 +192,15 @@ std::vector<SchemaAuditEntry> SchemaAuditLog::getFullHistory() const {
     std::string prefix = std::string(kKeyPrefix);
 
     try {
-        auto entries = db_.getKeysWithPrefix(prefix);
-        for (const auto& key : entries) {
-            auto val = db_.get(key);
-            if (!val.has_value()) continue;
+        db_.scanPrefix(prefix, [&](std::string_view key, std::string_view value) {
             try {
-                auto j = json::parse(*val);
+                auto j = json::parse(value);
                 result.push_back(SchemaAuditEntry::fromJSON(j));
             } catch (const std::exception& ex) {
                 spdlog::warn("SchemaAuditLog: Failed to parse entry key='{}': {}", key, ex.what());
             }
-        }
+            return true;
+        });
     } catch (const std::exception& e) {
         spdlog::warn("SchemaAuditLog: Failed to read full audit history: {}", e.what());
     }

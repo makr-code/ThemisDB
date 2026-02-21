@@ -1,3 +1,5 @@
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 # RAG Module Roadmap
 
 ## Current Status
@@ -40,6 +42,38 @@ v1.x – Production-ready Retrieval-Augmented Generation system. 19 implementati
 - [ ] Per-query evaluation report export (JSON / HTML)
 
 ### Long-term (6-12 months)
+- [ ] Agentic RAG with iterative retrieval loops
+- [ ] Knowledge graph-augmented retrieval (entity linking)
+- [ ] Multi-modal RAG (image + text retrieval)
+- [ ] Online learning from evaluation feedback (adaptive retrieval)
+- [ ] Distributed RAG evaluation across multiple judge models
+
+## Implementation Phases
+
+### Phase 1: Evaluation Pipeline & Multi-Judge System (Status: Completed ✅)
+- [x] `RAGJudge` – main orchestrator for multi-dimensional evaluation
+- [x] `KnowledgeGapDetector` – three-level gap detection system
+- [x] LLM integration bridge to `InferenceEngineEnhanced`
+- [x] `FaithfulnessEvaluator`, `RelevanceEvaluator`, `CompletenessEvaluator`, `CoherenceEvaluator`
+- [x] `BiasDetector` – ethical compliance checking
+- [x] `ClaimExtractor`, `ResponseParser`, `PromptTemplates`, `JudgeConfig`
+- [x] `RubricEvaluator`, `JudgeEnsemble`, `PairwiseComparator`
+- [x] `CoTEvaluator`, `GEvalEvaluator` (Liu et al., 2023), `LLMJudgeIntegration`, `LLMMetaAnalyzer`
+- [x] Fast (~100 ms), Balanced (~500 ms), and Thorough (~2 s) evaluation modes
+
+### Phase 2: Streaming Retrieval & Re-Ranking (Status: In Progress 🚧)
+- [~] Streaming retrieval with incremental context window filling
+- [~] Re-ranking layer with cross-encoder model integration
+- [~] Hallucination rate tracking dashboard
+
+### Phase 3: Hybrid Retrieval & Citation Highlighting (Status: Planned 📋)
+- [ ] Hybrid retrieval (BM25 + vector) with configurable RRF weights
+- [ ] Citation highlighting (map answer sentences to source chunks)
+- [ ] Configurable chunk size and overlap for document splitting
+- [ ] Multi-document summarization before context injection
+- [ ] Per-query evaluation report export (JSON / HTML)
+
+### Phase 4: Agentic & Knowledge-Graph RAG (Status: Planned 📋)
 - [ ] Agentic RAG with iterative retrieval loops
 - [ ] Knowledge graph-augmented retrieval (entity linking)
 - [ ] Multi-modal RAG (image + text retrieval)
