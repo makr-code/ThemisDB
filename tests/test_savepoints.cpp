@@ -404,3 +404,77 @@ TEST_F(NamedSavepointTest, OperationsOnFinishedTransaction_ReturnError) {
     EXPECT_FALSE(txn.rollbackToSavepoint("sp").ok);
     EXPECT_FALSE(txn.releaseSavepoint("sp").ok);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SAGA integration: steps added after savepoint are trimmed on rollback
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(NamedSavepointTest, RollbackToSavepoint_TrimsSagaSteps) {
+    auto txn = mgr_->begin();
+
+    // Add a SAGA step before the savepoint
+    int compensated_before = 0;
+    int compensated_after  = 0;
+    txn.getSaga().addStep("before_sp", [&compensated_before]() { ++compensated_before; });
+
+    ASSERT_TRUE(txn.createSavepoint("sp").ok);
+
+    // Add a SAGA step after the savepoint
+    txn.getSaga().addStep("after_sp", [&compensated_after]() { ++compensated_after; });
+
+    EXPECT_EQ(txn.getSaga().stepCount(), 2u);
+
+    // Rollback to savepoint: step added after savepoint must be trimmed
+    EXPECT_TRUE(txn.rollbackToSavepoint("sp").ok);
+    EXPECT_EQ(txn.getSaga().stepCount(), 1u);
+
+    // Full rollback executes only the remaining (before) step
+    txn.rollback();
+    EXPECT_EQ(compensated_before, 1);
+    EXPECT_EQ(compensated_after,  0); // was trimmed, must NOT execute
+}
+
+TEST_F(NamedSavepointTest, ReleaseSavepoint_PreservesSagaSteps) {
+    auto txn = mgr_->begin();
+
+    int compensated = 0;
+    txn.getSaga().addStep("step1", [&compensated]() { ++compensated; });
+
+    ASSERT_TRUE(txn.createSavepoint("sp").ok);
+
+    txn.getSaga().addStep("step2", [&compensated]() { ++compensated; });
+
+    EXPECT_EQ(txn.getSaga().stepCount(), 2u);
+
+    // releaseSavepoint must NOT trim SAGA steps (writes are kept)
+    EXPECT_TRUE(txn.releaseSavepoint("sp").ok);
+    EXPECT_EQ(txn.getSaga().stepCount(), 2u);
+
+    txn.rollback();
+    EXPECT_EQ(compensated, 2); // both steps compensated
+}
+
+TEST_F(NamedSavepointTest, RollbackToSavepoint_MultipleSagaStepsTrimmed) {
+    auto txn = mgr_->begin();
+
+    int before_count = 0;
+    int after_count  = 0;
+
+    txn.getSaga().addStep("pre1", [&before_count]() { ++before_count; });
+    txn.getSaga().addStep("pre2", [&before_count]() { ++before_count; });
+
+    ASSERT_TRUE(txn.createSavepoint("sp").ok);
+
+    txn.getSaga().addStep("post1", [&after_count]() { ++after_count; });
+    txn.getSaga().addStep("post2", [&after_count]() { ++after_count; });
+    txn.getSaga().addStep("post3", [&after_count]() { ++after_count; });
+
+    EXPECT_EQ(txn.getSaga().stepCount(), 5u);
+
+    EXPECT_TRUE(txn.rollbackToSavepoint("sp").ok);
+    EXPECT_EQ(txn.getSaga().stepCount(), 2u);
+
+    txn.rollback();
+    EXPECT_EQ(before_count, 2);
+    EXPECT_EQ(after_count,  0);
+}

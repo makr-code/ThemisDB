@@ -209,7 +209,12 @@ public:
         std::unique_ptr<class RocksDBWrapper::TransactionWrapper> mvcc_txn_; // MVCC Transaction
         std::unique_ptr<Saga> saga_; // SAGA pattern for compensating actions
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
-        std::vector<std::string> savepoint_names_; // named savepoints in creation order
+
+        struct SavepointEntry {
+            std::string name;
+            size_t saga_step_count{0}; ///< SAGA step count at the time the savepoint was created
+        };
+        std::vector<SavepointEntry> savepoints_; ///< named savepoints in creation order
     };
 
     // Session-based transaction management

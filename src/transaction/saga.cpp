@@ -87,6 +87,13 @@ void Saga::clear() {
     // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
+void Saga::trimToSize(size_t n) {
+    if (n >= steps_.size()) return;
+    THEMIS_DEBUG("SAGA: Trimming from {} to {} steps (discarding {} steps)",
+                 steps_.size(), n, steps_.size() - n);
+    steps_.erase(steps_.begin() + static_cast<ptrdiff_t>(n), steps_.end());
+}
+
 size_t Saga::compensatedCount() const {
     return std::count_if(steps_.begin(), steps_.end(), 
                         [](const Step& s) { return s.compensated; });
