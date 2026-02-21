@@ -257,6 +257,12 @@ public:
         std::unique_ptr<Saga> saga_; // SAGA pattern for compensating actions
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
         std::atomic<uint64_t> timeout_ms_{0}; ///< 0 = no timeout
+        std::atomic<uint64_t> finished_duration_ms_{0}; ///< wall-clock duration captured at commit/rollback time
+
+        /// Record the current wall-clock duration into finished_duration_ms_.
+        /// Must be called while the caller holds exclusive ownership (i.e. after
+        /// the finished_ CAS succeeds but before releasing the transaction).
+        void captureDuration() noexcept;
 
         struct SavepointEntry {
             std::string name;

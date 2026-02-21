@@ -617,15 +617,31 @@ TransactionManager::Transaction::~Transaction() {
     // Use atomic load to check if finished
     if (!finished_.load(std::memory_order_acquire) && mvcc_txn_ && mvcc_txn_->isActive()) {
         THEMIS_WARN("Transaction {} destructed without commit/rollback; rolling back implicitly", id_);
+        // Capture duration before the implicit rollback so that getDurationMs() returns
+        // the actual run time rather than "time since start" after the object is destroyed.
+        captureDuration();
         mvcc_txn_->rollback();
         saga_->compensate();
     }
 }
 
+void TransactionManager::Transaction::captureDuration() noexcept {
+    finished_duration_ms_.store(
+        static_cast<uint64_t>(std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now() - start_time_).count()),
+        std::memory_order_relaxed);
+}
+
 uint64_t TransactionManager::Transaction::getDurationMs() const {
+    // Once the transaction is finished, return the frozen duration captured at
+    // commit/rollback time.  Without this, getStats() would report ever-growing
+    // durations for transactions sitting in completed_transactions_.
+    if (finished_.load(std::memory_order_acquire)) {
+        return finished_duration_ms_.load(std::memory_order_relaxed);
+    }
     auto now = std::chrono::system_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time_);
-    return duration.count();
+    return static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time_).count());
 }
 
 TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
@@ -634,6 +650,7 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
       mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
       finished_(other.finished_.load(std::memory_order_acquire)),
       timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
+      finished_duration_ms_(other.finished_duration_ms_.load(std::memory_order_acquire)),
       savepoints_(std::move(other.savepoints_)) {
     other.finished_.store(true, std::memory_order_release);
 }
@@ -650,6 +667,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         saga_ = std::move(other.saga_);
         savepoints_ = std::move(other.savepoints_);
         timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
+        finished_duration_ms_.store(other.finished_duration_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
         other.finished_.store(true, std::memory_order_release);
     }
@@ -868,7 +886,13 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     if (!finished_.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
         return Status::Error("commit: Transaktion bereits abgeschlossen");
     }
-    
+
+    // Capture the actual run duration now that we are the exclusive owner.
+    // getDurationMs() returns this frozen value once finished_ is true, so that
+    // Stats::avg_duration_ms / max_duration_ms reflect real transaction runtimes
+    // rather than "time since start" measured at arbitrary query time.
+    captureDuration();
+
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
         return Status::Error("commit: keine aktive Transaktion");
     }
@@ -904,6 +928,9 @@ void TransactionManager::Transaction::rollback() {
         THEMIS_WARN("Transaction {} already finished, rollback skipped", id_);
         return;
     }
+
+    // Capture the actual run duration now that we are the exclusive owner.
+    captureDuration();
     
     THEMIS_DEBUG("Rolling back MVCC transaction {} with {} SAGA steps", id_, saga_->stepCount());
     

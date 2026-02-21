@@ -281,3 +281,60 @@ TEST_F(TransactionTimeoutTest, GetStats_TimedOutAppearsAfterAutoRollback) {
     // timed_out is a subset of aborted
     EXPECT_LE(stats.total_timed_out, stats.total_aborted);
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// getDurationMs() is frozen after commit/rollback (Bug 7 regression test)
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(TransactionTimeoutTest, GetDurationMs_FrozenAfterCommit) {
+    auto txn_id = mgr_->beginTransaction();
+    auto txn = mgr_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+
+    // Duration is live while active
+    EXPECT_FALSE(txn->isFinished());
+    auto live_dur = txn->getDurationMs();
+    EXPECT_GE(live_dur, 0u);
+
+    mgr_->commitTransaction(txn_id);
+
+    // After commit the transaction is finished; getDurationMs() must return
+    // the frozen value captured at commit time, NOT a value that keeps growing.
+    auto dur_after = txn->getDurationMs();
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    auto dur_later = txn->getDurationMs();
+
+    EXPECT_EQ(dur_after, dur_later)
+        << "getDurationMs() must be frozen after commit";
+}
+
+TEST_F(TransactionTimeoutTest, GetDurationMs_FrozenAfterRollback) {
+    auto txn_id = mgr_->beginTransaction();
+    auto txn = mgr_->getTransaction(txn_id);
+    ASSERT_NE(txn, nullptr);
+
+    mgr_->rollbackTransaction(txn_id);
+
+    auto dur_after = txn->getDurationMs();
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    auto dur_later = txn->getDurationMs();
+
+    EXPECT_EQ(dur_after, dur_later)
+        << "getDurationMs() must be frozen after rollback";
+}
+
+TEST_F(TransactionTimeoutTest, GetStats_AvgDuration_DoesNotGrowAfterCommit) {
+    // Run a transaction and commit it, then check that stats.avg_duration_ms
+    // does NOT keep growing after the transaction finishes.
+    auto txn_id = mgr_->beginTransaction();
+    mgr_->commitTransaction(txn_id);
+
+    auto stats1 = mgr_->getStats();
+    std::this_thread::sleep_for(std::chrono::milliseconds(30));
+    auto stats2 = mgr_->getStats();
+
+    EXPECT_EQ(stats1.avg_duration_ms, stats2.avg_duration_ms)
+        << "avg_duration_ms must not grow after all transactions have finished";
+    EXPECT_EQ(stats1.max_duration_ms, stats2.max_duration_ms)
+        << "max_duration_ms must not grow after all transactions have finished";
+}
