@@ -295,3 +295,44 @@ TEST(APIVersionEdgeCases, PartialVersionComparison) {
     EXPECT_TRUE(v1_4 < v1_4_1);
     EXPECT_FALSE(v1_4 > v1_4_1);
 }
+
+// ---------------------------------------------------------------------------
+// APIVersionManager / version endpoint contract
+// These tests verify the fields that are exposed via GET /version
+// ---------------------------------------------------------------------------
+
+TEST(APIVersionEndpointContract, CurrentVersionMatchesConfig) {
+    APIVersionManager mgr;
+    auto cur = mgr.getCurrentVersion();
+    EXPECT_EQ(cur.major, APIVersionConfig::CURRENT_MAJOR);
+    EXPECT_EQ(cur.minor, APIVersionConfig::CURRENT_MINOR);
+    EXPECT_EQ(cur.patch, APIVersionConfig::CURRENT_PATCH);
+}
+
+TEST(APIVersionEndpointContract, MinimumVersionMatchesConfig) {
+    APIVersionManager mgr;
+    auto min = mgr.getMinimumVersion();
+    EXPECT_EQ(min.major, APIVersionConfig::MINIMUM_MAJOR);
+    EXPECT_EQ(min.minor, APIVersionConfig::MINIMUM_MINOR);
+    EXPECT_EQ(min.patch, APIVersionConfig::MINIMUM_PATCH);
+}
+
+TEST(APIVersionEndpointContract, SupportedVersionsContainCurrentAndMinimum) {
+    APIVersionManager mgr;
+    auto supported = mgr.getSupportedVersions();
+    ASSERT_FALSE(supported.empty());
+
+    auto cur = mgr.getCurrentVersion();
+    auto min = mgr.getMinimumVersion();
+
+    EXPECT_NE(std::find(supported.begin(), supported.end(), cur), supported.end())
+        << "current version must be in supported_api_versions";
+    EXPECT_NE(std::find(supported.begin(), supported.end(), min), supported.end())
+        << "minimum version must be in supported_api_versions";
+}
+
+TEST(APIVersionEndpointContract, CurrentVersionToStringHasVPrefix) {
+    APIVersionManager mgr;
+    auto s = mgr.getCurrentVersion().toString();
+    EXPECT_EQ(s[0], 'v') << "version string must start with 'v'";
+}

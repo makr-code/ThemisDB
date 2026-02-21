@@ -28,6 +28,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
 #include "server/auth_middleware.h"
+#include "server/api_version.h"
 #include "server/sharding_metrics_handler.h"
 #include "metadata/schema_manager.h"
 #include "plugins/plugin_manager.h"
@@ -304,6 +305,37 @@ http::response<http::string_body> MonitoringApiHandler::handleVersion(
             {"compiled_count", modules_compiled.size()},
             {"disabled_count", modules_disabled.size()}
         };
+
+        // Add API versioning information (supported versions, deprecation policy)
+        {
+            APIVersionManager version_mgr;
+            auto current = version_mgr.getCurrentVersion();
+            auto minimum = version_mgr.getMinimumVersion();
+
+            response["api_version"] = {
+                {"major", current.major},
+                {"minor", current.minor},
+                {"patch", current.patch},
+                {"string", current.toString()}
+            };
+
+            response["api_minimum_version"] = {
+                {"major", minimum.major},
+                {"minor", minimum.minor},
+                {"patch", minimum.patch},
+                {"string", minimum.toString()}
+            };
+
+            json supported = json::array();
+            for (const auto& v : version_mgr.getSupportedVersions()) {
+                supported.push_back({
+                    {"major", v.major},
+                    {"minor", v.minor},
+                    {"patch", v.patch}
+                });
+            }
+            response["supported_api_versions"] = supported;
+        }
         
         return makeResponse(http::status::ok, response.dump(2), req);
     } catch (const std::exception& e) {
