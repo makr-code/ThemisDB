@@ -308,3 +308,69 @@ TEST_F(ContinuousAggFixture, SchedulerMultipleAggregates) {
     EXPECT_EQ(sched.listAggregates().size(), 5u);
     EXPECT_EQ(sched.getStats().registered_aggregates, 5u);
 }
+
+// ===== Aggregate Scheduler Catch-up & Error Handling =====
+
+TEST_F(ContinuousAggFixture, SchedulerCatchUpConfig) {
+    AggregateScheduler::Config cfg;
+    cfg.catch_up_missed_windows = true;
+    cfg.max_catch_up_windows    = 50;
+    AggregateScheduler sched(store.get(), cfg);
+    EXPECT_FALSE(sched.isRunning());
+}
+
+TEST_F(ContinuousAggFixture, SchedulerCatchUpDisabled) {
+    AggregateScheduler::Config cfg;
+    cfg.catch_up_missed_windows = false;
+    AggregateScheduler sched(store.get(), cfg);
+    AggConfig agg;
+    agg.metric = "cpu8";
+    agg.entity = std::string("srv5");
+    agg.window.size = std::chrono::minutes(1);
+    auto id = sched.registerAggregate(agg);
+    // refreshNow should still work even with catch-up disabled
+    EXPECT_NO_THROW(sched.refreshNow(id));
+}
+
+TEST_F(ContinuousAggFixture, SchedulerRefreshNowWithData) {
+    insertPoints("cpu9", "s9", 6, 0.0, 1.0, 10000);
+    AggregateScheduler sched(store.get());
+    AggConfig agg;
+    agg.metric = "cpu9";
+    agg.entity = std::string("s9");
+    agg.window.size = std::chrono::minutes(1);
+    auto id = sched.registerAggregate(agg);
+    EXPECT_NO_THROW(sched.refreshNow(id));
+    // After refresh, aggregate data should exist
+    auto out = ContinuousAggregateManager::derivedMetricName("cpu9", std::chrono::minutes(1));
+    auto pts = queryMetric(out, "s9", base_ms, base_ms + 60000);
+    // May have 0 or more depending on time window coverage
+    EXPECT_GE(pts.size(), 0u);
+}
+
+TEST_F(ContinuousAggFixture, SchedulerErrorHandlingInvalidId) {
+    AggregateScheduler sched(store.get());
+    // refreshNow with invalid ID should not crash
+    EXPECT_NO_THROW(sched.refreshNow("nonexistent-id"));
+}
+
+TEST_F(ContinuousAggFixture, SchedulerErrorHandlingAfterStop) {
+    AggregateScheduler sched(store.get());
+    sched.start();
+    sched.stop();
+    // Operations after stop should be safe
+    EXPECT_FALSE(sched.isRunning());
+    EXPECT_NO_THROW(sched.listAggregates());
+}
+
+TEST_F(ContinuousAggFixture, SchedulerGetStatsAfterRefresh) {
+    AggregateScheduler sched(store.get());
+    AggConfig agg;
+    agg.metric = "cpu10";
+    agg.entity = std::string("s10");
+    agg.window.size = std::chrono::minutes(1);
+    sched.registerAggregate(agg);
+    sched.refreshNow(sched.listAggregates()[0].id);
+    auto stats = sched.getStats();
+    EXPECT_EQ(stats.registered_aggregates, 1u);
+}

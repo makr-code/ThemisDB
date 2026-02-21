@@ -209,3 +209,96 @@ TEST_F(QueryOptimizerFixture, OverloadWithoutHintWorks) {
     EXPECT_EQ(plan.from_timestamp_ms, base_ms);
     EXPECT_EQ(plan.to_timestamp_ms, base_ms + 86400000);
 }
+
+// ===== Predicate Filter =====
+
+TEST_F(QueryOptimizerFixture, PredicateFilterInHint) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.predicates.push_back(TSQueryOptimizer::PredicateFilter::eq("region", "us-east"));
+    auto plan = opt.optimizeAggregateQuery("cpu8", std::nullopt, base_ms, base_ms + 3600000, hint);
+    // Predicates should be included in plan
+    EXPECT_EQ(plan.active_predicates.size(), 1u);
+    EXPECT_EQ(plan.active_predicates[0].tag_key, "region");
+    EXPECT_EQ(plan.active_predicates[0].tag_value, "us-east");
+}
+
+TEST_F(QueryOptimizerFixture, PredicateFilterEqFactory) {
+    auto p = TSQueryOptimizer::PredicateFilter::eq("env", "prod");
+    EXPECT_EQ(p.tag_key, "env");
+    EXPECT_EQ(p.tag_value, "prod");
+    EXPECT_TRUE(p.required);
+}
+
+TEST_F(QueryOptimizerFixture, MultiplePredicatesInPlan) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.predicates.push_back(TSQueryOptimizer::PredicateFilter::eq("region", "eu-west"));
+    hint.predicates.push_back(TSQueryOptimizer::PredicateFilter::eq("env", "staging"));
+    auto plan = opt.optimizeAggregateQuery("mem3", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_EQ(plan.active_predicates.size(), 2u);
+}
+
+TEST_F(QueryOptimizerFixture, EmptyPredicatesDoesNotAffectPlan) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    // No predicates
+    auto plan = opt.optimizeAggregateQuery("cpu9", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_TRUE(plan.active_predicates.empty());
+}
+
+// ===== Query Plan Cache =====
+
+TEST_F(QueryOptimizerFixture, CacheInitiallyEmpty) {
+    TSQueryOptimizer opt(store.get());
+    EXPECT_EQ(opt.cacheSize(), 0u);
+    EXPECT_EQ(opt.cacheHits(), 0u);
+    EXPECT_EQ(opt.cacheMisses(), 0u);
+}
+
+TEST_F(QueryOptimizerFixture, CacheStoresPlan) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.use_cache = true;
+    opt.optimizeAggregateQuery("cpu10", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_EQ(opt.cacheSize(), 1u);
+    EXPECT_EQ(opt.cacheMisses(), 1u);
+}
+
+TEST_F(QueryOptimizerFixture, CacheHitOnSecondCall) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.use_cache = true;
+    opt.optimizeAggregateQuery("cpu11", std::nullopt, base_ms, base_ms + 3600000, hint);
+    opt.optimizeAggregateQuery("cpu11", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_EQ(opt.cacheHits(), 1u);
+    EXPECT_EQ(opt.cacheMisses(), 1u);
+}
+
+TEST_F(QueryOptimizerFixture, ClearCacheResetsEntries) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.use_cache = true;
+    opt.optimizeAggregateQuery("cpu12", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_EQ(opt.cacheSize(), 1u);
+    opt.clearCache();
+    EXPECT_EQ(opt.cacheSize(), 0u);
+}
+
+TEST_F(QueryOptimizerFixture, CacheDisabledDoesNotStore) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.use_cache = false;
+    opt.optimizeAggregateQuery("cpu13", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_EQ(opt.cacheSize(), 0u);
+}
+
+TEST_F(QueryOptimizerFixture, DifferentMetricsHaveSeparateCacheEntries) {
+    TSQueryOptimizer opt(store.get());
+    TSQueryOptimizer::OptimizationHint hint;
+    hint.use_cache = true;
+    opt.optimizeAggregateQuery("metricA", std::nullopt, base_ms, base_ms + 3600000, hint);
+    opt.optimizeAggregateQuery("metricB", std::nullopt, base_ms, base_ms + 3600000, hint);
+    EXPECT_EQ(opt.cacheSize(), 2u);
+    EXPECT_EQ(opt.cacheMisses(), 2u);
+}

@@ -185,3 +185,54 @@ TEST_F(HypertableFixture, ShortChunkInterval) {
     EXPECT_TRUE(ht.insert(1700000000LL, R"({"v": 1})"));
     EXPECT_TRUE(ht.insert(1700000000LL + 61, R"({"v": 2})"));
 }
+
+// ===== Chunk Health Metrics & Lifecycle Monitoring =====
+
+TEST_F(HypertableFixture, GetChunkHealthEmptyTable) {
+    Hypertable ht(db.get(), makeConfig("health_empty"));
+    auto health = ht.getChunkHealth();
+    // No data, no chunks tracked → empty health report
+    EXPECT_TRUE(health.empty());
+}
+
+TEST_F(HypertableFixture, GetChunkHealthAfterInsert) {
+    Hypertable ht(db.get(), makeConfig("health_insert"));
+    ht.insert(1700000000LL, R"({"v": 1})");
+    // Should not throw, report can be empty (depends on listChunks implementation)
+    EXPECT_NO_THROW(ht.getChunkHealth());
+}
+
+TEST_F(HypertableFixture, ChunkStatusEnumValues) {
+    // Verify the enum is usable
+    Hypertable::ChunkStatus s = Hypertable::ChunkStatus::Active;
+    EXPECT_EQ(s, Hypertable::ChunkStatus::Active);
+    s = Hypertable::ChunkStatus::Expired;
+    EXPECT_EQ(s, Hypertable::ChunkStatus::Expired);
+    s = Hypertable::ChunkStatus::Compressed;
+    EXPECT_EQ(s, Hypertable::ChunkStatus::Compressed);
+    s = Hypertable::ChunkStatus::Compressible;
+    EXPECT_NE(s, Hypertable::ChunkStatus::Frozen);
+}
+
+TEST_F(HypertableFixture, ChunkHealthStructFields) {
+    Hypertable::ChunkHealth h;
+    h.chunk_name    = "test_chunk";
+    h.status        = Hypertable::ChunkStatus::Active;
+    h.is_healthy    = true;
+    h.row_count     = 100;
+    h.size_bytes    = 4096;
+    h.start_time    = 1700000000LL;
+    h.end_time      = 1700086400LL;
+    h.status_message = "Active chunk";
+    EXPECT_EQ(h.chunk_name, "test_chunk");
+    EXPECT_TRUE(h.is_healthy);
+    EXPECT_EQ(h.row_count, 100u);
+}
+
+TEST_F(HypertableFixture, GetChunkHealthDoesNotCrashWithMultipleInserts) {
+    Hypertable ht(db.get(), makeConfig("health_multi", 3600, 30));
+    for (int i = 0; i < 5; ++i) {
+        ht.insert(1700000000LL + i * 3601, R"({"v": 1})");
+    }
+    EXPECT_NO_THROW(ht.getChunkHealth());
+}

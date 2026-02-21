@@ -5,6 +5,7 @@
 #include "utils/tracing.h"
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 
 namespace themis {
 
@@ -40,11 +41,26 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         span.setAttribute("entity", *entity);
     }
     span.setAttribute("time_range_ms", to_timestamp_ms - from_timestamp_ms);
+
+    // Check query plan cache first
+    if (hint.use_cache) {
+        std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        auto it = plan_cache_.find(cache_key);
+        if (it != plan_cache_.end()) {
+            cache_hits_++;
+            THEMIS_DEBUG("Cache hit for query plan: {}", cache_key);
+            return it->second;
+        }
+        cache_misses_++;
+    }
     
     QueryPlan plan;
     plan.source_metric = metric;
     plan.from_timestamp_ms = from_timestamp_ms;
     plan.to_timestamp_ms = to_timestamp_ms;
+    // Include active predicates in the plan
+    plan.active_predicates = hint.predicates;
     
     int64_t time_range_ms = to_timestamp_ms - from_timestamp_ms;
     size_t raw_points = estimateRawPointCount(time_range_ms);
@@ -54,6 +70,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     if (!hint.use_aggregates) {
         plan.explanation = "Aggregates disabled by hint";
         span.setAttribute("uses_aggregate", false);
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -61,6 +82,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         plan.explanation = "Time range too small for aggregates (< " + 
                           std::to_string(hint.min_window_for_agg_ms / 1000) + "s)";
         span.setAttribute("uses_aggregate", false);
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -71,6 +97,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         plan.explanation = "No suitable aggregate found for metric: " + metric;
         span.setAttribute("uses_aggregate", false);
         span.recordError("No aggregate available");
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -93,6 +124,11 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
         plan.explanation = "Aggregate not cost-effective (raw: " + std::to_string(raw_points) + 
                           " points, agg: " + std::to_string(agg_points) + " points)";
         span.setAttribute("uses_aggregate", false);
+        if (hint.use_cache) {
+            std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            plan_cache_[cache_key] = plan;
+        }
         return plan;
     }
     
@@ -109,6 +145,12 @@ TSQueryOptimizer::QueryPlan TSQueryOptimizer::optimizeAggregateQuery(
     
     THEMIS_DEBUG("Query optimized: {} → {} (speedup: {:.2f}x, raw: {}, agg: {})",
                  metric, agg_metric, plan.estimated_speedup, raw_points, agg_points);
+
+    if (hint.use_cache) {
+        std::string cache_key = buildCacheKey(metric, entity, from_timestamp_ms, to_timestamp_ms, hint);
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        plan_cache_[cache_key] = plan;
+    }
     
     return plan;
 }
@@ -172,6 +214,34 @@ void TSQueryOptimizer::registerAvailableAggregate(
     // For future optimization: Could cache available aggregates
     // to avoid repeated TSStore queries
     THEMIS_DEBUG("Registered aggregate: {} (window: {}ms)", metric, window.count());
+}
+
+// ========== Query Plan Cache ==========
+
+void TSQueryOptimizer::clearCache() {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    plan_cache_.clear();
+}
+
+size_t TSQueryOptimizer::cacheSize() const {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    return plan_cache_.size();
+}
+
+std::string TSQueryOptimizer::buildCacheKey(
+    const std::string& metric,
+    const std::optional<std::string>& entity,
+    int64_t from_ms, int64_t to_ms,
+    const OptimizationHint& hint) const {
+    std::ostringstream oss;
+    oss << metric << "|" << (entity.has_value() ? *entity : "") << "|"
+        << from_ms << "|" << to_ms << "|"
+        << hint.use_aggregates << "|" << hint.min_window_for_agg_ms << "|"
+        << hint.max_raw_points;
+    for (const auto& p : hint.predicates) {
+        oss << "|" << p.tag_key << "=" << p.tag_value;
+    }
+    return oss.str();
 }
 
 // ===== Helpers =====
