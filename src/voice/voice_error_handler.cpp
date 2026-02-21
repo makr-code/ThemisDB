@@ -57,29 +57,29 @@ int64_t VoiceCircuitBreaker::nowMs() const {
         std::chrono::steady_clock::now().time_since_epoch()).count();
 }
 
-bool VoiceCircuitBreaker::canCall() const {
+bool VoiceCircuitBreaker::canCall() {
     std::lock_guard<std::mutex> lock(mutex_);
     switch (state_) {
         case CircuitState::CLOSED:
-            const_cast<uint64_t&>(total_calls_)++;
+            ++total_calls_;
             return true;
 
         case CircuitState::OPEN: {
             // Check if open duration has passed -> transition to HALF_OPEN
             int64_t now = nowMs();
             if (now - last_state_change_ms_ >= config_.open_duration_ms) {
-                const_cast<CircuitState&>(state_) = CircuitState::HALF_OPEN;
-                const_cast<size_t&>(success_count_) = 0;
-                const_cast<int64_t&>(last_state_change_ms_) = now;
-                const_cast<uint64_t&>(total_calls_)++;
+                state_ = CircuitState::HALF_OPEN;
+                success_count_ = 0;
+                last_state_change_ms_ = now;
+                ++total_calls_;
                 return true;
             }
-            const_cast<uint64_t&>(rejected_calls_)++;
+            ++rejected_calls_;
             return false;
         }
 
         case CircuitState::HALF_OPEN:
-            const_cast<uint64_t&>(total_calls_)++;
+            ++total_calls_;
             return true;
     }
     return false;

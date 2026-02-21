@@ -79,7 +79,7 @@ public:
         }
     }
 
-    bool canCall() const;
+    bool canCall();
     void recordSuccess();
     void recordFailure();
     void reset();
