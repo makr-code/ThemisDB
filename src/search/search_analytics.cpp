@@ -36,9 +36,10 @@ void SearchAnalytics::record(const std::string& query,
         // Evict the oldest entry
         events_.erase(events_.begin());
     }
+    const bool is_zero = ev.is_zero_result;
     events_.push_back(std::move(ev));
 
-    if (ev.is_zero_result) {
+    if (is_zero) {
         THEMIS_WARN("SearchAnalytics: zero-result query recorded: '{}'", query);
     }
 }

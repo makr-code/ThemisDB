@@ -97,5 +97,5 @@ public:
 ---
 
 *Last Updated: February 2026*  
-*Current API Version: v1.4.0*  
-*Next Target: v1.5.0*
+*Current API Version: v1.5.0*  
+*Next Target: v1.6.0*

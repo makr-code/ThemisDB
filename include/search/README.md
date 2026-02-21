@@ -217,4 +217,4 @@ HybridSearch search(fulltext_idx, vector_idx, config);
 ---
 
 *Last Updated: February 2026*
-*API Version: v1.4.0*
+*API Version: v1.5.0*

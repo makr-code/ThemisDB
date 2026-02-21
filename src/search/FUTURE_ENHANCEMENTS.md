@@ -18,11 +18,46 @@ The following production-readiness improvements were delivered in v1.4.0:
 
 ---
 
+## Delivered in v1.5.0
+
+The following high-priority features were delivered in v1.5.0:
+
+### QueryExpander (`include/search/query_expander.h`)
+- Synonym expansion with configurable maximum expansion count
+- Per-token spelling correction using Levenshtein edit distance against a
+  user-supplied vocabulary
+- Alternative query generation by substituting tokens with their synonyms
+- Zero-result fallback via `relaxQuery()` (drops the last token)
+- Tests: `tests/test_query_expander.cpp`
+
+### FuzzyMatcher (`include/search/fuzzy_matcher.h`)
+- Levenshtein edit-distance search wrapping `SecondaryIndexManager::scanFulltextFuzzy`
+- Public static utilities: `levenshtein()`, `soundex()`, `metaphone()`, `ngramSimilarity()`
+- Unified [0,1] similarity score across all algorithms
+- Bigram/N-gram overlap (Dice coefficient)
+- Tests: `tests/test_fuzzy_matcher.cpp`
+
+### FacetedSearch (`include/search/faceted_search.h`)
+- `computeFacet()` — value-count facets for a single column
+- `computeFacets()` — multi-column facets in one call
+- `computeRangeFacet()` — numeric range buckets
+- `applyFacetFilters()` — intersect candidate PK sets with active field=value constraints
+- Tests: `tests/test_faceted_search.cpp`
+
+### SearchAnalytics (`include/search/search_analytics.h`)
+- Thread-safe query event logging with configurable max-events cap (circular eviction)
+- `computeMetrics()` — average, p95, p99 latency; zero-result rate; top-20 queries
+- `getZeroResultQueries()` — retrieve most-recent zero-result events for alerting
+- `getRecentEvents()` — retrieve recent event log
+- Tests: `tests/test_search_analytics.cpp`
+
+---
+
 ## Planned Features
 
 ### Query Expansion and Rewriting
 **Priority:** High  
-**Target Version:** v1.5.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
 
 Automatically expand and rewrite queries for better results.
 
@@ -64,7 +99,7 @@ public:
 
 ### Advanced Fuzzy Matching
 **Priority:** Medium  
-**Target Version:** v1.5.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/fuzzy_matcher.h`
 
 Enhanced fuzzy search with phonetic algorithms.
 
@@ -111,7 +146,7 @@ Machine learning-based result ranking.
 
 ### Search Analytics
 **Priority:** High  
-**Target Version:** v1.5.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/search_analytics.h`
 
 Track and analyze search performance.
 
@@ -126,7 +161,7 @@ Track and analyze search performance.
 
 ### Faceted Search
 **Priority:** High  
-**Target Version:** v1.5.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/faceted_search.h`
 
 Multi-dimensional filtering and navigation.
 
@@ -177,5 +212,5 @@ Real-time query suggestions.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.4.0*  
-*Next Review: v1.5.0 Release*
+*Module Version: v1.5.0*  
+*Next Review: v1.6.0 Release*

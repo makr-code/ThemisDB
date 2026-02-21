@@ -188,7 +188,8 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
                 else result += 'K';
                 break;
             case 'D':
-                if (next == 'G' && (upper[i+2] == 'E' || upper[i+2] == 'I' || upper[i+2] == 'Y'))
+                if (next == 'G' && (i+2 < n) &&
+                    (upper[i+2] == 'E' || upper[i+2] == 'I' || upper[i+2] == 'Y'))
                     result += 'J';
                 else result += 'T';
                 break;
@@ -209,13 +210,15 @@ std::string FuzzyMatcher::metaphone(const std::string& word) {
             case 'Q': result += 'K'; break;
             case 'R': result += 'R'; break;
             case 'S':
-                if (next == 'H' || (next == 'I' && (upper[std::min(i+2,n-1)] == 'A' || upper[std::min(i+2,n-1)] == 'O')))
+                if (next == 'H' || (next == 'I' && (i+2 < n) &&
+                    (upper[i+2] == 'A' || upper[i+2] == 'O')))
                     result += 'X';
                 else result += 'S';
                 break;
             case 'T':
                 if (next == 'H') { result += '0'; ++i; }
-                else if (next == 'I' && (upper[std::min(i+2,n-1)] == 'A' || upper[std::min(i+2,n-1)] == 'O'))
+                else if (next == 'I' && (i+2 < n) &&
+                         (upper[i+2] == 'A' || upper[i+2] == 'O'))
                     result += 'X';
                 else result += 'T';
                 break;

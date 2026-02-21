@@ -238,7 +238,11 @@ For detailed implementation documentation, see:
   resource limits (`max_k`, `max_candidates`), score normalization edge-case fixes,
   linear-combination pre-normalization, `SearchStats` for partial-result detection,
   thread-safety and exception-safety documentation, expanded test coverage
-- **v1.5.0**: Planned - Multi-modal search (text + image)
+- **v1.5.0**: `QueryExpander` (synonym expansion, spelling correction, query relaxation),
+  `FuzzyMatcher` (Levenshtein, Soundex, Metaphone, N-gram similarity),
+  `FacetedSearch` (value-count facets, range buckets, drill-down filter intersection),
+  `SearchAnalytics` (thread-safe query logging, p95/p99 latency, zero-result detection)
+- **v1.6.0**: Planned - Multi-modal search (text + image), Learning to Rank, Autocomplete
 
 ## Examples
 
