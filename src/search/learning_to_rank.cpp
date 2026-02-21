@@ -20,13 +20,15 @@ LearningToRank::LearningToRank(const Config& config) : config_(config) {
     if (config_.regularization < 0.0) {
         throw std::invalid_argument("LearningToRank: regularization must be >= 0");
     }
-    // Initialize weights to equal weighting across all features
-    weights_.bm25_score    = 0.4;
-    weights_.vector_score  = 0.4;
-    weights_.rrf_score     = 0.3;
+    // Initialize weights proportionally; sum = 1.0
+    // bm25 and vector are primary signals (each 0.3), rrf is secondary (0.2),
+    // click and popularity are behavioral signals (0.1 each), recency last (0.1)
+    weights_.bm25_score    = 0.3;
+    weights_.vector_score  = 0.3;
+    weights_.rrf_score     = 0.2;
     weights_.recency       = 0.1;
-    weights_.click_count   = 0.2;
-    weights_.popularity    = 0.1;
+    weights_.click_count   = 0.1;
+    weights_.popularity    = 0.0; // starts at zero; grows from training
 }
 
 // ============================================================================

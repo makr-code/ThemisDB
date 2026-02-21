@@ -38,17 +38,28 @@ std::vector<MultiModalResult> MultiModalSearch::search(
 
     std::vector<std::vector<std::pair<std::string, double>>> all_lists;
     std::vector<double> weights;
+    std::vector<std::string> modality_names;
 
     for (const auto& q : queries) {
         auto results = executeModal(q, table, column);
         if (!results.empty()) {
             all_lists.push_back(std::move(results));
             weights.push_back(q.weight > 0.0 ? q.weight : 1.0);
+            // Build a human-readable modality label
+            std::string mod_label;
+            switch (q.modality) {
+                case Modality::TEXT:   mod_label = "text";   break;
+                case Modality::IMAGE:  mod_label = "image";  break;
+                case Modality::AUDIO:  mod_label = "audio";  break;
+                case Modality::CUSTOM: mod_label = "custom"; break;
+            }
+            if (!q.embedding_namespace.empty()) mod_label += ":" + q.embedding_namespace;
+            modality_names.push_back(std::move(mod_label));
         }
     }
 
     if (all_lists.empty()) return {};
-    return fuseRRF(all_lists, weights);
+    return fuseRRF(all_lists, weights, modality_names);
 }
 
 std::vector<MultiModalResult> MultiModalSearch::searchTextAndImage(
@@ -60,14 +71,21 @@ std::vector<MultiModalResult> MultiModalSearch::searchTextAndImage(
     double text_weight,
     double image_weight) const {
 
-    std::vector<ModalQuery> queries;
+    std::vector<std::vector<std::pair<std::string, double>>> all_lists;
+    std::vector<double> weights;
+    std::vector<std::string> modality_names;
 
     if (!text_query.empty()) {
         ModalQuery tq;
         tq.modality = Modality::TEXT;
         tq.text = text_query;
         tq.weight = text_weight;
-        queries.push_back(std::move(tq));
+        auto results = executeModal(tq, table, column);
+        if (!results.empty()) {
+            all_lists.push_back(std::move(results));
+            weights.push_back(text_weight);
+            modality_names.push_back("text");
+        }
     }
 
     if (!image_embedding.empty()) {
@@ -76,10 +94,18 @@ std::vector<MultiModalResult> MultiModalSearch::searchTextAndImage(
         iq.embedding = image_embedding;
         iq.embedding_namespace = image_namespace;
         iq.weight = image_weight;
-        queries.push_back(std::move(iq));
+        auto results = executeModal(iq, table, column);
+        if (!results.empty()) {
+            all_lists.push_back(std::move(results));
+            weights.push_back(image_weight);
+            std::string label = "image";
+            if (!image_namespace.empty()) label += ":" + image_namespace;
+            modality_names.push_back(std::move(label));
+        }
     }
 
-    return search(queries, table, column);
+    if (all_lists.empty()) return {};
+    return fuseRRF(all_lists, weights, modality_names);
 }
 
 // ============================================================================
@@ -156,24 +182,29 @@ std::vector<std::pair<std::string, double>> MultiModalSearch::executeModal(
 
 std::vector<MultiModalResult> MultiModalSearch::fuseRRF(
     const std::vector<std::vector<std::pair<std::string, double>>>& ranked_lists,
-    const std::vector<double>& weights) const {
+    const std::vector<double>& weights,
+    const std::vector<std::string>& modality_names) const {
 
     std::unordered_map<std::string, double> rrf_scores;
     std::unordered_map<std::string, std::string> best_modality;
+    std::unordered_map<std::string, double> best_contribution;
 
     for (size_t list_idx = 0; list_idx < ranked_lists.size(); ++list_idx) {
         const double w = (list_idx < weights.size()) ? weights[list_idx] : 1.0;
         const auto& list = ranked_lists[list_idx];
-        const std::string mod_name = "modal_" + std::to_string(list_idx);
+        const std::string& mod_name = (list_idx < modality_names.size())
+            ? modality_names[list_idx]
+            : "modal_" + std::to_string(list_idx);
 
         for (size_t rank = 0; rank < list.size(); ++rank) {
             const std::string& doc_id = list[rank].first;
             double contribution = w / (config_.rrf_k + static_cast<double>(rank + 1));
             rrf_scores[doc_id] += contribution;
 
-            // Track which modality gave the best contribution
-            auto it = best_modality.find(doc_id);
-            if (it == best_modality.end()) {
+            // Track the modality that contributed the most to this document's score
+            auto it = best_contribution.find(doc_id);
+            if (it == best_contribution.end() || contribution > it->second) {
+                best_contribution[doc_id] = contribution;
                 best_modality[doc_id] = mod_name;
             }
         }

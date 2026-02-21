@@ -146,10 +146,11 @@ private:
         const std::string& column
     ) const;
 
-    // RRF fusion of multiple ranked lists with per-list weights
+    // RRF fusion of multiple ranked lists with per-list weights and modality names
     std::vector<MultiModalResult> fuseRRF(
         const std::vector<std::vector<std::pair<std::string, double>>>& ranked_lists,
-        const std::vector<double>& weights
+        const std::vector<double>& weights,
+        const std::vector<std::string>& modality_names
     ) const;
 };
 

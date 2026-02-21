@@ -241,8 +241,11 @@ For detailed implementation documentation, see:
 - **v1.5.0**: `QueryExpander` (synonym expansion, spelling correction, query relaxation),
   `FuzzyMatcher` (Levenshtein, Soundex, Metaphone, N-gram similarity),
   `FacetedSearch` (value-count facets, range buckets, drill-down filter intersection),
-  `SearchAnalytics` (thread-safe query logging, p95/p99 latency, zero-result detection)
-- **v1.6.0**: Planned - Multi-modal search (text + image), Learning to Rank, Autocomplete
+  `SearchAnalytics` (thread-safe query logging, p95/p99 latency, zero-result detection),
+  `AutocompleteEngine` (prefix-index suggestions, popular-query suggestions),
+  `LearningToRank` (linear re-ranker, click-through training, A/B variant selector),
+  `MultiModalSearch` (text + embedding RRF fusion, searchTextAndImage convenience)
+- **v1.6.0**: Planned - Personalized autocomplete, neural LTR, multi-namespace vector index
 
 ## Examples
 
