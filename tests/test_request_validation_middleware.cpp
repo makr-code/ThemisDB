@@ -208,6 +208,22 @@ TEST_F(RequestValidationMiddlewareTest, PrefixMatchUsed) {
     EXPECT_TRUE(r.valid) << r.error_message;
 }
 
+TEST_F(RequestValidationMiddlewareTest, TrailingSlashPrefix_MatchesSubPath) {
+    // A registered path ending with '/' should match any sub-path that follows
+    nlohmann::json body_schema = {
+        {"type", "object"},
+        {"properties", {
+            {"data", {{"type", "object"}}}
+        }}
+    };
+    mw_.registerSchema("PUT", "/entities/", body_schema);
+    nlohmann::json body = {{"data", {{"x", 1}}}};
+    auto r = mw_.validate("PUT", "/entities/somekey", body);
+    EXPECT_TRUE(r.valid) << r.error_message;
+    auto r2 = mw_.validate("PUT", "/entities/another/deeply/nested", body);
+    EXPECT_TRUE(r2.valid) << r2.error_message;
+}
+
 TEST_F(RequestValidationMiddlewareTest, LongerPrefixWins) {
     // Register two prefixes; longer one should be used
     nlohmann::json loose = {{"type", "object"}};

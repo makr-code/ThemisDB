@@ -104,6 +104,7 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
 #include "server/auth_middleware.h"
+#include "server/request_validation_middleware.h"
 #include "server/policy_engine.h"
 #include "server/ranger_adapter.h"
 #include "utils/pii_pseudonymizer.h"
@@ -345,6 +346,14 @@ public:
     /// @return the current ConcernsContext (may be nullptr).
     std::shared_ptr<core::concerns::ConcernsContext> getConcerns() const {
         return concerns_;
+    }
+
+    /// @return the RequestValidationMiddleware for external schema registration (never nullptr after start()).
+    RequestValidationMiddleware* getRequestValidator() {
+        return request_validator_.get();
+    }
+    const RequestValidationMiddleware* getRequestValidator() const {
+        return request_validator_.get();
     }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -852,6 +861,9 @@ private:
     
     // Rate Limiter for DoS protection
     std::unique_ptr<RateLimiter> rate_limiter_;
+
+    // Request body validation (JSON Schema per endpoint)
+    std::unique_ptr<RequestValidationMiddleware> request_validator_;
 
     // Input validation & sanitization
     std::unique_ptr<themis::utils::InputValidator> validator_;
