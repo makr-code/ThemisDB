@@ -1,4 +1,5 @@
 # Acceleration Module Roadmap
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
 Pre-production — infrastructure scaffolding present; CUDA and Vulkan backends under active development.
@@ -31,6 +32,30 @@ Pre-production — infrastructure scaffolding present; CUDA and Vulkan backends 
 - [ ] Tensor Core utilization for matrix operations (FP16/BF16)
 - [ ] CUDA graph capture for recurring query workloads
 - [ ] OpenCL backend for broad hardware compatibility
+
+## Implementation Phases
+
+### Phase 1: Infrastructure Scaffolding (Status: Completed)
+- [x] Created directory structure for `cuda/` and `vulkan/` backends
+- [x] Implemented vector similarity search stubs (`acceleration/vector_similarity.cpp`)
+- [x] Implemented geospatial query acceleration stubs (`acceleration/geo_stubs.cpp`)
+- [x] Implemented parallel graph algorithm stubs (`acceleration/graph_stubs.cpp`)
+- [x] Implemented matrix operation stubs for embeddings (`acceleration/matrix_ops.cpp`)
+- [x] Added documentation cross-references (`CUDA_BACKEND.md`, `VULKAN_BACKEND.md`)
+
+### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
+- [~] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`)
+- [~] Implement Vulkan compute shaders for cross-platform GPU pipeline
+- [~] Implement runtime device capability detection (`acceleration/device_manager.cpp`)
+- [~] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
+- [ ] Integrate with geo module GPU backend via `GeoAccelerationBridge`
+
+### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
+- [ ] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`)
+- [ ] Implement multi-GPU sharding for large embedding datasets
+- [ ] Enable Tensor Core FP16/BF16 matrix operations via `cublasHgemm`
+- [ ] Implement CUDA graph capture for recurring query workloads
+- [ ] Add benchmark harness comparing CUDA vs CPU throughput per operation type
 
 ## Production Readiness Checklist
 - [ ] Unit tests coverage > 80%
