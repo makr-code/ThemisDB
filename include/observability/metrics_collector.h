@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_collector.h                                ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:24                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:53                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -126,6 +126,42 @@ public:
     /** Record that an exporter has recovered after previous failures. */
     void recordExporterRecovery(const std::string& exporter_name);
 
+    // ===== Generic metric recording (used by adapters) =====
+
+    /**
+     * @brief Add @p delta to a named counter.
+     *
+     * Suitable for use by adapter layers that need a generic counter
+     * with an arbitrary increment step (e.g. PrometheusMetricsAdapter).
+     */
+    void addCounter(const std::string& name, int64_t delta,
+                    const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Set a named gauge to an absolute value.
+     *
+     * Public interface for adapter layers; internally delegates to the
+     * same implementation used by domain-specific record*() methods.
+     */
+    void setGauge(const std::string& name, double value,
+                  const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Add @p delta to a named gauge (positive or negative).
+     *
+     * Performs a thread-safe read-modify-write on the gauge.
+     */
+    void modifyGauge(const std::string& name, double delta,
+                     const std::map<std::string, std::string>& labels = {});
+
+    /**
+     * @brief Record an observation in a named histogram.
+     *
+     * Public interface for adapter layers.
+     */
+    void observeHistogram(const std::string& name, double value,
+                          const std::map<std::string, std::string>& labels = {});
+
 private:
     MetricsCollector() = default;
     ~MetricsCollector() = default;
@@ -159,10 +195,8 @@ private:
     };
     std::map<std::string, std::shared_ptr<Histogram>> histograms_;
     
-    // Helper functions
+    // Internal helper: increment a counter by exactly 1 (called by domain-specific record*() methods)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
-    void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
-    void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
 
     /**
      * @brief Check whether a new series (name + labels combination) is allowed

@@ -1,0 +1,41 @@
+[31;1mSetValueInvocationException: [0m
+[31;1m[36;1mLine |[0m
+[31;1m[36;1m[36;1m   3 | [0m [36;1m$RawUI.CursorPosition = @{X=0;Y=0}[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mException setting "CursorPosition": "Das Handle ist ungültig."[0m
+
+  =============================================================
+  Initialisierung
+  =============================================================
+
+  [1/5] Pruefe Repository... OK
+        C:\VCC\themis
+  [2/5] Pruefe Source-Verzeichnis... OK
+        .\src
+  [3/5] Pruefe GitHub CLI... OK
+  [4/5] Pruefe GitHub Authentifizierung... OK
+  [5/5] Pruefe Ollama... OK
+        Modell: llama3.2
+
+  System bereit!
+[31;1mSetValueInvocationException: [0m
+[31;1m[36;1mLine |[0m
+[31;1m[36;1m[36;1m   3 | [0m [36;1m$RawUI.CursorPosition = @{X=0;Y=0}[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mException setting "CursorPosition": "Das Handle ist ungültig."[0m
+
+  =============================================================
+  AI-Enhanced Issue-Erstellung: server
+  =============================================================
+
+  Pruefe Ollama... OK (Modell: llama3.2)
+
+  Pruefe vorhandene Issues/PRs fuer Modul 'server'... 44 gefunden (Issues: 25, PRs: 19)
+
+  ROADMAP Marker:
+    [I] Issue vorhanden: 10
+
+  OnlyItem Filter aktiv: 'OpenAPI 3.1 spec auto-generation from handler annotations' -> 1 Treffer
+    [DRY RUN] Wuerde ROADMAP aktualisieren: - [I] OpenAPI 3.1 spec auto-generation from handler annotations (Issue: #1448)
+  Keine neuen Issues zu erstellen!
+

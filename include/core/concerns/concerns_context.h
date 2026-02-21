@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            concerns_context.h                                 ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:22                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -127,6 +127,26 @@ public:
     void recordMetric(const std::string& name, double value) {
         metrics_->observeHistogram(name, value);
     }
+
+    /**
+     * @brief Emit a structured log record with the active trace/span IDs
+     *        automatically injected.
+     *
+     * Fetches the current thread's OpenTelemetry trace-id and span-id via
+     * `Tracer::getCurrentTraceId()` / `Tracer::getCurrentSpanId()` and
+     * forwards them together with @p fields to `ILogger::logWithContext()`.
+     *
+     * Use this instead of `logInfo()` / `logError()` when you want log lines
+     * to be correlated with the active distributed trace without manually
+     * building a `TraceContext`.
+     *
+     * @param level   Severity level.
+     * @param message Human-readable log text.
+     * @param fields  Optional additional structured key/value fields.
+     */
+    void logWithTrace(ILogger::Level level,
+                      const std::string& message,
+                      const ILogger::Fields& fields = {});
 
     // -------------------------------------------------------------------------
     // Lifecycle hooks

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            saga.cpp                                           ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:43                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:43:10                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   87.0/100                                       ║
-    • Total Lines:     292                                            ║
+    • Total Lines:     299                                            ║
     • Open Issues:     TODOs: 2, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -85,6 +85,13 @@ void Saga::clear() {
     // Note: metrics_failed_ and metrics_retried_ are intentionally preserved across
     // clear() so that getMetrics() reflects the cumulative lifetime counts.
     // They are only reset by the default constructor (i.e., when a new Saga is created).
+}
+
+void Saga::trimToSize(size_t n) {
+    if (n >= steps_.size()) return;
+    THEMIS_DEBUG("SAGA: Trimming from {} to {} steps (discarding {} steps)",
+                 steps_.size(), n, steps_.size() - n);
+    steps_.erase(steps_.begin() + static_cast<ptrdiff_t>(n), steps_.end());
 }
 
 size_t Saga::compensatedCount() const {

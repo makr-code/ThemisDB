@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            i_logger.h                                         ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:22                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:50                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     229                                            ║
+    • Total Lines:     233                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -32,6 +32,10 @@
 #include <map>
 #include <utility>
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 namespace themis {
 namespace core {
 namespace concerns {
@@ -39,15 +43,18 @@ namespace concerns {
 /**
  * @brief Trace/request context for structured log correlation.
  *
- * Carries a trace_id and request_id that are injected into every structured
- * log event so individual log lines can be correlated with distributed traces
- * and originating HTTP requests.
+ * Carries a trace_id, span_id, and request_id that are injected into every
+ * structured log event so individual log lines can be correlated with
+ * distributed traces and originating HTTP requests.
  */
 struct TraceContext {
     std::string trace_id;    ///< OpenTelemetry trace id (hex string)
+    std::string span_id;     ///< OpenTelemetry span id (hex string)
     std::string request_id;  ///< Per-request/RPC correlation id
 
-    bool empty() const noexcept { return trace_id.empty() && request_id.empty(); }
+    bool empty() const noexcept {
+        return trace_id.empty() && span_id.empty() && request_id.empty();
+    }
 };
 
 /**
@@ -137,8 +144,8 @@ public:
     /**
      * @brief Emit a structured log line with trace/request-id context injected.
      *
-     * Equivalent to logStructured() but also injects ctx.trace_id and
-     * ctx.request_id into the emitted JSON object so log lines can be
+     * Equivalent to logStructured() but also injects ctx.trace_id, ctx.span_id,
+     * and ctx.request_id into the emitted JSON object so log lines can be
      * correlated with distributed traces.
      */
     virtual void logWithContext(Level level,
@@ -146,7 +153,8 @@ public:
                                 const TraceContext& ctx,
                                 const Fields& fields = {}) {
         Fields merged = fields;
-        if (!ctx.trace_id.empty())  merged["trace_id"]   = ctx.trace_id;
+        if (!ctx.trace_id.empty())   merged["trace_id"]   = ctx.trace_id;
+        if (!ctx.span_id.empty())    merged["span_id"]    = ctx.span_id;
         if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
         logStructured(level, message, merged);
     }

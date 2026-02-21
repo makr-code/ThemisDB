@@ -3,8 +3,8 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            metrics_collector.cpp                              ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:38                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:43:05                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
@@ -14,11 +14,11 @@
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -284,7 +284,26 @@ void MetricsCollector::recordExporterRecovery(const std::string& exporter_name) 
     incrementCounter("exporter_recoveries_total", {{"exporter", exporter_name}});
 }
 
-// ===== Helper Functions =====
+// ===== Generic metric recording (used by adapters) =====
+
+void MetricsCollector::addCounter(const std::string& name, int64_t delta,
+                                   const std::map<std::string, std::string>& labels) {
+    std::string key = makeKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
+    counters_[key] += delta;
+}
+
+void MetricsCollector::modifyGauge(const std::string& name, double delta,
+                                    const std::map<std::string, std::string>& labels) {
+    std::string key = makeKey(name, labels);
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!checkCardinality(name, key)) return;
+    // Read current value (treat as 0 if the gauge doesn't exist yet) then add delta.
+    auto it = gauges_.find(key);
+    double current = (it != gauges_.end()) ? it->second.load() : 0.0;
+    gauges_[key].store(current + delta);
+}
 
 void MetricsCollector::incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels) {
     std::string key = makeKey(name, labels);

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            function_registry.h                                ║
-  Version:         0.0.15                                             ║
-  Last Modified:   2026-02-21 17:07:25                                ║
+  Version:         0.0.23                                             ║
+  Last Modified:   2026-02-21 19:42:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     509                                            ║
+    • Total Lines:     515                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 31e8b8df0  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 0d722b04c  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 468bda607  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 8ec7a5768  2026-02-21  feat(query): wire FULLTEXT/PHRASE/FUZZY AQL functions to ... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -38,6 +38,7 @@
 namespace themis {
     class GraphIndexManager;
     class GraphAnalytics;
+    class SecondaryIndexManager;
 }
 
 namespace themis {
@@ -223,6 +224,10 @@ public:
     void setGraphAnalytics(themis::GraphAnalytics* analytics) { graph_analytics_ = analytics; }
     themis::GraphAnalytics* getGraphAnalytics() const { return graph_analytics_; }
 
+    // Full-text / secondary index access (for FULLTEXT, PHRASE, FUZZY functions)
+    void setSecondaryIndexManager(themis::SecondaryIndexManager* mgr) { secondary_idx_mgr_ = mgr; }
+    themis::SecondaryIndexManager* getSecondaryIndexManager() const { return secondary_idx_mgr_; }
+
 private:
     nlohmann::json current_doc_;
     std::unordered_map<std::string, nlohmann::json> variables_;
@@ -230,6 +235,7 @@ private:
     std::string user_id_;
     themis::GraphIndexManager* graph_mgr_ = nullptr;
     themis::GraphAnalytics* graph_analytics_ = nullptr;
+    themis::SecondaryIndexManager* secondary_idx_mgr_ = nullptr;
 };
 
 // ============================================================================
