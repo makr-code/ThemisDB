@@ -179,6 +179,31 @@ TEST_F(APIVersionManagerTest, ResolveVersionValid) {
     EXPECT_EQ(version.patch, 0);
 }
 
+// Docs: "v1" resolves to latest minor.patch for major == 1 (API_VERSIONING.md line 42)
+TEST_F(APIVersionManagerTest, ResolveVersionMajorOnly) {
+    auto version = manager.resolveVersion("v1");
+    // Must resolve to current (latest) version, not v1.0.0
+    EXPECT_EQ(version, manager.getCurrentVersion())
+        << "v1 should resolve to latest supported version, not v1.0.0";
+    EXPECT_EQ(version.major, 1);
+}
+
+// Docs: "v1.4" resolves to latest patch for major.minor == 1.4 (API_VERSIONING.md line 41)
+TEST_F(APIVersionManagerTest, ResolveVersionMajorMinorOnly) {
+    auto version = manager.resolveVersion("v1.4");
+    EXPECT_EQ(version.major, 1);
+    EXPECT_EQ(version.minor, 4);
+    // Must be the latest patch for 1.4.x, which equals the current patch
+    EXPECT_EQ(version.patch, APIVersionConfig::CURRENT_PATCH)
+        << "v1.4 should resolve to latest patch for minor 4, not v1.4.0";
+}
+
+// Major-only with no matching major falls back to current
+TEST_F(APIVersionManagerTest, ResolveVersionUnknownMajorFallsBack) {
+    auto version = manager.resolveVersion("v9");
+    EXPECT_EQ(version, manager.getCurrentVersion());
+}
+
 TEST_F(APIVersionManagerTest, ResolveVersionInvalid) {
     auto version = manager.resolveVersion("invalid");
     // Should fall back to current version
