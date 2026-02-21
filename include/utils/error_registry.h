@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            error_registry.h                                   ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     235                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -114,6 +133,7 @@ enum class ErrorCode {
     ERR_API_UNAUTHORIZED = 6201,
     ERR_API_RATE_LIMIT = 6202,
     ERR_API_INTERNAL_ERROR = 6203,
+    ERR_API_RESOURCE_EXHAUSTED = 6204,
     
     // Plugin Errors (6300-6399)
     ERR_PLUGIN_NOT_FOUND = 6300,

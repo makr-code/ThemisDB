@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hypertable.h                                       ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     161                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -94,6 +113,37 @@ public:
         int64_t end_time
     );
     
+    /**
+     * @brief Chunk health status and lifecycle events
+     */
+    enum class ChunkStatus {
+        Active,      ///< Within retention window, being written to
+        Frozen,      ///< Past current interval but within retention window
+        Compressible,///< Older than compress_threshold, not yet compressed
+        Compressed,  ///< Already compressed
+        Expired      ///< Past retention window, ready to drop
+    };
+
+    struct ChunkHealth {
+        std::string chunk_name;
+        ChunkStatus status = ChunkStatus::Active;
+        bool is_healthy = true;
+        size_t row_count = 0;
+        size_t size_bytes = 0;
+        int64_t start_time = 0;
+        int64_t end_time = 0;
+        std::string status_message;
+    };
+
+    /**
+     * @brief Get health and lifecycle status for all chunks
+     *
+     * Returns a health report for each tracked chunk, including
+     * status (Active / Frozen / Compressible / Compressed / Expired)
+     * and diagnostic messages.
+     */
+    std::vector<ChunkHealth> getChunkHealth();
+
     /**
      * @brief Get list of chunks
      */
