@@ -142,6 +142,7 @@ set(THEMIS_BASE_SOURCES
     # Cross-cutting concerns abstraction layer
     ../src/core/concerns/i_logger.cpp
     ../src/core/concerns/concerns_context.cpp
+    ../src/sharding/circuit_breaker.cpp
     
     # Hardware acceleration (core abstraction layer)
     ../src/acceleration/backend_registry.cpp
@@ -157,6 +158,7 @@ set(THEMIS_BASE_SOURCES
     
     # Module loader (for security verification of modular DLLs)
     ../src/base/module_loader.cpp
+    ../src/base/module_sandbox.cpp
     
     # Stubs for missing symbols
     ../src/stubs.cpp
@@ -171,9 +173,27 @@ set(THEMIS_STORAGE_SOURCES
     ../src/storage/columnar_format.cpp
     # ../src/storage/pitr_manager.cpp  # Temporarily disabled - needs transaction module
     ../src/storage/blob_redundancy_manager.cpp
+    # WAL for durability and crash recovery
+    ../src/storage/wal_storage.cpp
+    # Compaction and GC management
+    ../src/storage/compaction_manager.cpp
+    # Storage Audit Logger
+    ../src/storage/storage_audit_logger.cpp
+    # MVCC versioning and HLC timestamping
+    ../src/storage/hlc.cpp
+    ../src/storage/mvcc_store.cpp
+    ../src/storage/raft_mvcc_bridge.cpp
+    ../src/sharding/distributed_time_coordinator.cpp
     
     # Metadata management
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
+    ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/index_recommender.cpp
+    ../src/metadata/schema_audit_log.cpp
+    ../src/metadata/schema_consistency_checker.cpp
     
     # Indexes
     ../src/index/secondary_index.cpp
@@ -182,6 +202,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
     ../src/index/hnsw_production_defaults.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     ../src/index/advanced_vector_index.cpp
     ../src/index/product_quantizer.cpp
     ../src/index/adaptive_index.cpp
@@ -201,6 +224,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+    ../src/updates/update_state_machine.cpp
 
     # Storage security
     ../src/storage/security_signature.cpp
@@ -241,6 +265,10 @@ set(THEMIS_QUERY_SOURCES
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/aql_query_builder.cpp
+    ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_query_template_library.cpp
+    ../src/aql/aql_conversation_context.cpp
     
     # Security: AQL injection detection (uses AQLParser)
     ../src/security/aql_injection_detector.cpp
@@ -250,7 +278,13 @@ set(THEMIS_QUERY_SOURCES
     
     # Import/Export
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/exporter_metrics.cpp
+    ../src/exporters/pii_detector.cpp
+    ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+
+    # AQL metrics support
+    ../src/aql/llm_metrics_collector.cpp
 )
 
 set(THEMIS_SECURITY_SOURCES
@@ -279,13 +313,15 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/timestamp_authority.cpp
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vcc_pki_client.cpp
-    # ../src/security/aql_injection_detector.cpp  # Moved to query module (needs AQLParser)
+    ../src/security/pii_redaction_policy.cpp
     ../src/utils/audit_logger.cpp
     ../src/utils/lek_manager.cpp
     ../src/utils/saga_logger.cpp
     
     # Authentication
     ../src/auth/jwt_validator.cpp
+    ../src/auth/token_blacklist.cpp
+    ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/server/auth_middleware.cpp
@@ -308,6 +344,13 @@ set(THEMIS_SECURITY_SOURCES
     ../src/index/vector_index.cpp
     # ../src/cache/embedding_cache.cpp  # Temporarily disabled - requires mimalloc
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
 )
 
 set(THEMIS_TRANSACTION_SOURCES
@@ -316,8 +359,15 @@ set(THEMIS_TRANSACTION_SOURCES
     ../src/transaction/saga.cpp
     ../src/transaction/snapshot_manager.cpp
     
-    # Temporal conflict resolution
+    # Temporal conflict resolution and production-readiness modules
     ../src/temporal/temporal_conflict_resolver.cpp
+    ../src/temporal/system_versioned_table.cpp
+    ../src/temporal/temporal_query_engine.cpp
+    ../src/temporal/temporal_index.cpp
+    ../src/temporal/retention_manager.cpp
+    ../src/temporal/bi_temporal.cpp
+    ../src/temporal/snapshot_manager.cpp
+    ../src/temporal/temporal_aggregator.cpp
     
     # Replication
     ../src/replication/replication_manager.cpp
@@ -350,6 +400,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/metrics_registry.cpp
     ../src/sharding/health_check.cpp
     ../src/sharding/admin_api.cpp
+    ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/cloud_agent.cpp
     ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
@@ -357,6 +408,13 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/distributed_coordinator.cpp
     ../src/sharding/shard_resource_manager.cpp
     ../src/sharding/locality_aware_router.cpp
+    ../src/sharding/adaptive_shard_router.cpp
+    ../src/sharding/capability_matcher.cpp
+    ../src/sharding/metadata_shard.cpp
+    ../src/sharding/metadata_wal.cpp
+    ../src/sharding/metadata_snapshot.cpp
+    ../src/cache/bounded_lru_cache.cpp
+    ../src/server/rpc/blob_transfer_handler.cpp
     
     # Raft consensus
     ../src/sharding/raft_configuration.cpp
@@ -364,6 +422,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
     ../src/sharding/raft_consensus.cpp
+    ../src/sharding/raft_shard_manager.cpp
     ../src/sharding/quorum_manager.cpp
     ../src/sharding/partition_detector.cpp
     ../src/sharding/replica_consistency.cpp
@@ -387,7 +446,11 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
     ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/paxos_wal.cpp
+    ../src/sharding/paxos_snapshot.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/transaction_wal.cpp
+    ../src/sharding/transaction_snapshot.cpp
     
     # Redundancy and reliability
     ../src/sharding/redundancy_strategy.cpp
@@ -404,6 +467,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/shard_durability.cpp
     ../src/sharding/operational_metrics.cpp
     ../src/sharding/admin_operations.cpp
+    ../src/sharding/slo_monitor.cpp
 )
 
 set(THEMIS_LLM_SOURCES
@@ -434,6 +498,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/grammar_cache.cpp
     ../src/llm/llm_prefix_cache.cpp
     ../src/llm/continuous_batch_scheduler.cpp
+    ../src/llm/token_quota_manager.cpp
     ../src/llm/grafana_metrics.cpp
     ../src/llm/distributed_training_coordinator.cpp
         ../src/cache/embedding_cache.cpp
@@ -441,7 +506,6 @@ set(THEMIS_LLM_SOURCES
     
     # LoRA framework (core subset)
     ../src/llm/lora_framework/lora_orchestrator.cpp
-    ../src/llm/lora_framework/lora_adapter_manager.cpp
     ../src/llm/lora_framework/lora_storage_service.cpp
     ../src/llm/lora_framework/lora_training_service.cpp
     ../src/llm/lora_framework/adapter_consistency_checker.cpp
@@ -483,6 +547,10 @@ set(THEMIS_LLM_SOURCES
     
     # RAG enhancement modules
     ../src/rag/knowledge_gap_detector.cpp
+    ../src/rag/llm_judge_client.cpp
+    ../src/rag/nli_faithfulness_verifier.cpp
+    ../src/rag/quality_control_pipeline.cpp
+    ../src/rag/geval_evaluator.cpp
     
     # LLM server API handlers (conditional)
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/server/llm_api_handler.cpp>
@@ -547,6 +615,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
     
     # API handlers (always included)
@@ -606,6 +675,8 @@ set(THEMIS_NETWORK_SOURCES
     # Network protocol server
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/alertmanager.cpp
@@ -616,6 +687,10 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/cpu_backend.cpp
     ../src/geo/gpu_backend_stub.cpp
     ../src/geo/boost_cpu_exact_backend.cpp
+    ../src/gpu/device_discovery.cpp
+    ../src/gpu/safe_fail.cpp
+    ../src/gpu/metrics.cpp
+    ../src/gpu/audit_log.cpp
 )
 
 set(THEMIS_GRAPH_SOURCES
@@ -658,13 +733,22 @@ function(themis_build_modular)
         if(NOT TARGET opentelemetry-cpp::otlp_http_exporter)
             message(FATAL_ERROR "Required CMake target 'opentelemetry-cpp::otlp_http_exporter' not found. Ensure opentelemetry-cpp was found with otlp-http feature.")
         endif()
-        list(APPEND _themis_base_deps opentelemetry-cpp::trace opentelemetry-cpp::otlp_http_exporter)
+    endif()
+    if(TARGET CURL::libcurl)
+        list(APPEND _themis_base_deps CURL::libcurl)
     endif()
 
     themis_add_module(base
         SOURCES ${THEMIS_BASE_SOURCES}
         DEPENDENCIES ${_themis_base_deps}
     )
+
+    if(THEMIS_ENABLE_TRACING)
+        target_link_libraries(themis_base PRIVATE
+            opentelemetry-cpp::trace
+            opentelemetry-cpp::otlp_http_exporter
+        )
+    endif()
     
     set(_themis_storage_deps
         themis_base
@@ -755,7 +839,7 @@ function(themis_build_modular)
         # Ensure proto files are generated before compiling sharding sources
         if(TARGET themis_shard_proto)
             add_dependencies(themis_sharding themis_shard_proto)
-            target_link_libraries(themis_sharding PUBLIC themis_shard_proto)
+            target_link_libraries(themis_sharding PRIVATE themis_shard_proto)
             # Add include directory for generated proto headers
             target_include_directories(themis_sharding PRIVATE ${CMAKE_BINARY_DIR}/proto_generated)
             message(STATUS "themis_sharding linked to themis_shard_proto for gRPC inter-shard communication")

@@ -107,4 +107,10 @@ else()
     list(APPEND THEMIS_CORE_SOURCES
         ../src/index/rotary_embeddings_gpu_cpu.cpp
     )
+
+    # Compile NCCL/RCCL vector backend stubs for CPU-only builds
+    list(APPEND THEMIS_CORE_SOURCES
+        ../src/acceleration/nccl_vector_backend.cpp
+        ../src/acceleration/rccl_vector_backend.cpp
+    )
 endif()

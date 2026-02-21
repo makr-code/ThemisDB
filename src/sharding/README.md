@@ -2,6 +2,27 @@
 
 Horizontal scaling and sharding implementation for ThemisDB v1.4+.
 
+## Module Purpose
+
+Implements horizontal scaling and distributed sharding for ThemisDB, providing pluggable consensus algorithms (Raft, Gossip, Multi-Paxos), cross-shard SAGA transactions, automatic shard rebalancing, and the ShardRepairEngine for self-healing shard topology.
+
+## Subsystem Scope
+
+**In scope:** Hash-based and range-based shard routing, pluggable consensus (Raft, Gossip, Paxos), cross-shard SAGA transactions, shard rebalancing and repair, virtual node management.
+
+**Out of scope:** Data replication at the storage layer (handled by replication module), network transport (handled by rpc module), query planning (handled by aql module).
+
+## Relevant Interfaces
+
+- `shard_manager.cpp` — shard topology and routing management
+- `consensus_factory.cpp` — runtime consensus algorithm selection (Raft/Gossip/Paxos)
+- `cross_shard_transaction_coordinator.cpp` — cross-shard SAGA/2PC/3PC transactions
+- `shard_repair_engine.cpp` — self-healing shard repair and rebalancing
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Pluggable consensus (Raft/Gossip/Paxos), cross-shard transactions, ShardRepairEngine operational; full RPC integration and Paxos state persistence in progress.
+
 ## Components
 
 ### Core Infrastructure
@@ -32,6 +53,68 @@ Horizontal scaling and sharding implementation for ThemisDB v1.4+.
 - **Metadata Shard Router** - Consistent hashing for metadata routing
 - Partitioned by type: SCHEMA, INDEX, SHARD_MAP, TRANSACTION_LOG, etc.
 
+### NEW in v1.5+ - Repair / Anti-Entropy Engine
+- **ShardRepairEngine** (`include/sharding/shard_repair_engine.h`) – automated
+  self-healing for Parity (RAID-5/6) and Mirror shard setups.
+- **Improved Reed-Solomon Decoder** – Vandermonde matrix-based erasure recovery
+  supporting up to `parity_shards` simultaneous chunk failures (previously
+  limited to 1).
+
+#### Key capabilities
+| Capability | Details |
+|---|---|
+| Background scan | Configurable periodic anti-entropy scan across all shards |
+| Auto-repair | Degraded documents detected during scan are queued for recovery |
+| On-demand triggers | `triggerRepair(shard_id)`, `triggerFullScan()`, `triggerDocumentRepair(doc_id)` |
+| Per-shard health | `ShardHealthReport` with status enum: `HEALTHY` / `DEGRADED` / `FAILED` / `REBUILDING` |
+| Job tracking | Every trigger returns a `job_id`; `getJobStatus(job_id)` polls progress |
+| Prometheus metrics | `exportPrometheusMetrics()` or via `ShardingMetricsHandler::getRepairMetrics()` |
+
+#### Prometheus metrics exposed
+| Metric | Type | Description |
+|---|---|---|
+| `themis_shard_repair_scans_total` | counter | Anti-entropy scans performed |
+| `themis_shard_repair_attempts_total` | counter | Repair attempts |
+| `themis_shard_repair_successes_total` | counter | Successful repairs |
+| `themis_shard_repair_failures_total` | counter | Failed repair attempts |
+| `themis_shard_repair_documents_scanned_total` | counter | Documents checked |
+| `themis_shard_repair_avg_duration_ms` | gauge | Rolling average repair time (ms) |
+| `themis_shard_health{shard="..."}` | gauge | Per-shard health (0–3) |
+| `themis_shard_degraded_documents{shard="..."}` | gauge | Degraded document count |
+
+#### Admin API endpoints
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/admin/repair` | Trigger repair (body: `{"shard_id":"..."}` or `{}` for all) |
+| `POST` | `/admin/repair/scan` | Trigger full anti-entropy scan |
+| `GET`  | `/admin/repair/{job_id}` | Poll repair job status |
+
+#### Quick start
+```cpp
+#include "sharding/shard_repair_engine.h"
+
+themis::sharding::RepairConfig cfg;
+cfg.scan_interval = std::chrono::seconds(300);   // scan every 5 min
+cfg.enable_auto_repair = true;
+
+auto engine = std::make_shared<themis::sharding::ShardRepairEngine>(
+    cfg, strategy, ring, topology, read_handler, write_handler);
+
+// Provide document list so the scanner knows what to check
+engine->setDocumentListProvider([](const std::string& shard_id) {
+    return myStorage.listDocuments(shard_id);
+});
+
+engine->start();
+
+// On-demand repair
+std::string job_id = engine->triggerRepair("shard_3");
+auto status = engine->getJobStatus(job_id);
+
+// Wire up to existing Prometheus scrape endpoint
+metricsHandler->setRepairEngine(engine);
+```
+
 ## Features
 
 ### Scalability
@@ -52,6 +135,7 @@ Horizontal scaling and sharding implementation for ThemisDB v1.4+.
 - Partition detection and split-brain prevention
 - Deadlock detection and resolution
 - Multi-datacenter support
+- **Self-healing via ShardRepairEngine** (v1.5+)
 
 ## Implementation Status
 
@@ -63,6 +147,12 @@ Horizontal scaling and sharding implementation for ThemisDB v1.4+.
 - Deadlock detection framework
 - Metadata sharding design
 - Comprehensive documentation
+
+### ✅ Completed (v1.5)
+- **ShardRepairEngine** – anti-entropy background scan + repair queue
+- **Vandermonde-based Reed-Solomon decoder** – full multi-chunk recovery
+- **Prometheus metrics integration** for repair health
+- **Admin API repair endpoints** (POST /admin/repair, /admin/repair/scan, GET /admin/repair/{id})
 
 ### 🚧 Partial (requires integration)
 - Full RPC integration for cross-shard operations

@@ -1,10 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            stubs.cpp                                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   75.0/100                                       ║
+    • Total Lines:     118                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 5                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Stub implementations for linking purposes
 // These stubs allow themis_tests to link successfully
 // They are minimal implementations that prevent linker errors
 
 #include <memory>
+#include <map>
 #include <string>
 #include <vector>
+#include "security/pii_redaction_policy.h"
 
 namespace themis::llm::lora {
 
@@ -42,3 +70,49 @@ struct FeedbackStorageService {
 };
 
 } // namespace themis::llm::lora
+
+namespace themis::security {
+
+PIIRedactionPolicy& PIIRedactionPolicy::get() {
+    static PIIRedactionPolicy instance;
+    return instance;
+}
+
+PIIRedactionPolicy::PIIRedactionPolicy() : strict_mode_(false) {}
+
+std::string PIIRedactionPolicy::redactForLog(const std::string& message) const {
+    return message;
+}
+
+std::map<std::string, std::string> PIIRedactionPolicy::redactAttributes(
+    const std::map<std::string, std::string>& attributes) const {
+    return attributes;
+}
+
+std::string PIIRedactionPolicy::redactAttributeValue(const std::string&, const std::string& value) const {
+    return value;
+}
+
+std::map<std::string, std::string> PIIRedactionPolicy::redactLabels(
+    const std::map<std::string, std::string>& labels) const {
+    return labels;
+}
+
+bool PIIRedactionPolicy::reload(const std::string&) {
+    return true;
+}
+
+bool PIIRedactionPolicy::isStrictMode() const {
+    return strict_mode_;
+}
+
+void PIIRedactionPolicy::setStrictMode(bool strict) {
+    strict_mode_ = strict;
+}
+
+std::string PIIRedactionPolicy::applyRedaction(const std::string& text) const {
+    return text;
+}
+
+} // namespace themis::security
+

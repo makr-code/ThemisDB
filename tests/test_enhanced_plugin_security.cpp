@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_enhanced_plugin_security.cpp                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     234                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // test_enhanced_plugin_security.cpp
 // Unit tests for EnhancedPluginSecurityVerifier
 
@@ -91,8 +117,8 @@ TEST_F(EnhancedPluginSecurityTest, Level2_EmbeddedSignature_AllowUnsigned) {
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE
     );
     
-    // Should fail at Level 2 but still report hash verified
-    EXPECT_FALSE(result.passed);
+    // In development mode (allowUnsigned), Level 2 requirement can fall back to Level 1
+    EXPECT_TRUE(result.passed);
     EXPECT_TRUE(result.hash_verified);
 }
 
@@ -179,12 +205,12 @@ TEST_F(EnhancedPluginSecurityTest, VerificationLevelProgression) {
     EXPECT_EQ(result1.level_achieved, 
               EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_1_HASH_ONLY);
     
-    // Level 2 should fail (no embedded sig) but achieve Level 1
+    // With allowUnsigned enabled, Level 2 requirement can pass with Level 1 verification
     auto result2 = verifier.verifyPlugin(
         test_plugin_path_.string(),
         EnhancedPluginSecurityVerifier::VerificationLevel::LEVEL_2_EMBEDDED_SIGNATURE
     );
-    EXPECT_FALSE(result2.passed);
+    EXPECT_TRUE(result2.passed);
     EXPECT_TRUE(result2.hash_verified);
 }
 

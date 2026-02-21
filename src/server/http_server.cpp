@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http_server.cpp                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   84.0/100                                       ║
+    • Total Lines:     7963                                           ║
+    • Open Issues:     TODOs: 4, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Ensure correct WinSock include order on Windows
 #ifdef _WIN32
 #ifndef WIN32_LEAN_AND_MEAN
@@ -38,6 +64,7 @@
 #include "utils/zstd_codec.h"
 #include "utils/cursor.h"
 #include "utils/pii_detector.h"
+#include "observability/alertmanager.h"
 #include "security/key_provider.h"
 #include "security/mock_key_provider.h"
 #include "security/pki_key_provider.h"
@@ -76,6 +103,7 @@
 #include "server/pki_api_handler.h"
 #include "server/classification_api_handler.h"
 #include "server/snapshot_api_handler.h"
+#include "server/mvcc_api_handler.h"
 #include "server/pitr_api_handler.h"
 #include "server/diff_api_handler.h"
 #include "server/pitr_api_handler.h"
@@ -89,6 +117,9 @@
 #include "sharding/health_monitor.h"
 #include "sharding/wal_manager.h"
 #include "sharding/wal_applier.h"
+#include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
+#include "server/distributed_txn_api_handler.h"
 #if !defined(_WIN32)
 #include <time.h>
 #endif
@@ -156,6 +187,7 @@ static inline void portable_gmtime_r_impl(const time_t* t, std::tm* out) {
 #include <functional>
 #include <cmath>
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <limits>
 #include <optional>
@@ -244,9 +276,18 @@ HttpServer::HttpServer(
         }
         spatial_index_ = std::make_shared<index::SpatialIndexManager>(*storage_);
         
-        // Wire up exact geometry backend if available
+        // Wire up exact geometry backend.
+        // Prefer the GPU backend (always available via CPU fallback) so that
+        // the circuit-breaker, metrics, and audit log are active even on CPU-only
+        // machines.  Fall back to Boost.Geometry if the GPU backend is absent for
+        // any reason, and log an info message in all cases.
+        auto* gpu_backend = geo::getGpuSpatialBackend();
         auto* boost_backend = geo::getBoostCpuBackend();
-        if (boost_backend && boost_backend->isAvailable()) {
+        if (gpu_backend && gpu_backend->isAvailable()) {
+            spatial_index_->setExactBackend(gpu_backend);
+            THEMIS_INFO("Spatial Index Manager initialized with GPU spatial exact backend (device: {})",
+                        geo::getGpuSpatialBackendStatsJson());
+        } else if (boost_backend && boost_backend->isAvailable()) {
             spatial_index_->setExactBackend(boost_backend);
             THEMIS_INFO("Spatial Index Manager initialized with Boost.Geometry exact backend");
         } else {
@@ -309,6 +350,14 @@ HttpServer::HttpServer(
         snapshot_manager_ = std::make_unique<transaction::SnapshotManager>(*storage_, *changefeed_);
         snapshot_api_handler_ = std::make_unique<server::SnapshotApiHandler>(*snapshot_manager_);
         THEMIS_INFO("SnapshotManager initialized");
+
+        // Initialize MVCC API Handler (per-record versioning + HLC)
+        {
+            auto clock = std::make_shared<themis::HybridLogicalClock>();
+            auto mvcc_store = std::make_shared<themis::MVCCStore>(storage_, std::move(clock));
+            mvcc_api_handler_ = std::make_unique<server::MvccApiHandler>(std::move(mvcc_store));
+        }
+        THEMIS_INFO("MVCC API Handler initialized");
         
         // Initialize PITRManager (Point-in-Time Recovery feature)
         pitr_manager_ = std::make_unique<PITRManager>(storage_.get(), changefeed_.get(), snapshot_manager_.get());
@@ -616,12 +665,37 @@ HttpServer::HttpServer(
         storage_, spatial_index_, auth_
     );
     THEMIS_INFO("Spatial API Handler initialized");
+
+    // Initialize Geo Topology API Handler
+    geo_topology_api_ = std::make_unique<themis::server::GeoTopologyApiHandler>(
+        shard_topology_, redundancy_manager_, auth_
+    );
+    THEMIS_INFO("Geo Topology API Handler initialized");
     
     // Initialize Monitoring API Handler
     monitoring_api_ = std::make_unique<themis::server::MonitoringApiHandler>(
         storage_, auth_, &request_count_, &error_count_, &start_time_,
-        secondary_index_, schema_manager_.get()
+        secondary_index_, schema_manager_.get(), nullptr,
+        &running_, &active_requests_, &active_connections_,
+        concerns_   // may be nullptr – MonitoringApiHandler tolerates that
     );
+    // Wire a disabled-by-default Alertmanager so the Operator API is always available.
+    // Operators can enable it via the THEMIS_ALERTMANAGER_URL environment variable.
+    {
+        observability::AlertmanagerConfig am_cfg;
+        const char* am_url = std::getenv("THEMIS_ALERTMANAGER_URL");
+        if (am_url && *am_url != '\0') {
+            am_cfg.endpoint_url = am_url;
+            am_cfg.enabled      = true;
+            const char* am_token = std::getenv("THEMIS_ALERTMANAGER_TOKEN");
+            if (am_token && *am_token != '\0') {
+                am_cfg.auth_token = am_token;
+            }
+            THEMIS_INFO("Alertmanager enabled: {}", am_cfg.endpoint_url);
+        }
+        auto alertmanager = std::make_shared<observability::DefaultAlertmanager>(am_cfg);
+        monitoring_api_->setAlertmanager(std::move(alertmanager));
+    }
     THEMIS_INFO("Monitoring API Handler initialized");
     // Initialize Query API Handler
     query_api_ = std::make_unique<themis::server::QueryApiHandler>(
@@ -738,7 +812,24 @@ HttpServer::HttpServer(
         storage_, tx_manager_, auth_
     );
     THEMIS_INFO("Transaction API Handler initialized");
-    
+
+    // Initialize Distributed Transaction (2PC) API Handler
+    {
+        themis::sharding::TrueTime::Config tt_cfg;
+        tt_cfg.base_uncertainty_us = 1000;
+        auto truetime = std::make_shared<themis::sharding::TrueTime>(tt_cfg);
+        themis::sharding::DistributedTransactionCoordinator::Config dtxn_cfg;
+        dtxn_cfg.enable_recovery_log = false; // WAL dir not configured at server init time;
+                                              // configure via DistributedTransactionCoordinator::Config
+                                              // to enable durable recovery logging in production
+        auto dtxn_coordinator = std::make_shared<
+            themis::sharding::DistributedTransactionCoordinator>(truetime, dtxn_cfg);
+        distributed_txn_api_ = std::make_unique<themis::server::DistributedTxnApiHandler>(
+            dtxn_coordinator
+        );
+    }
+    THEMIS_INFO("Distributed Transaction (2PC) API Handler initialized");
+
     // Initialize WAL API Handler
     wal_api_ = std::make_unique<themis::server::WALApiHandler>(
         storage_, wal_applier_, wal_manager_, replication_coordinator_, auth_,
@@ -854,7 +945,39 @@ HttpServer::HttpServer(
             schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
                 storage_, secondary_index_, schema_manager_.get());
-            THEMIS_INFO("SchemaManager and Schema API Handler initialized");
+
+            // Wire metadata sub-components into SchemaApiHandler
+            stats_collector_    = std::make_unique<StatisticsCollector>(*storage_);
+            schema_constraints_ = std::make_unique<SchemaConstraints>();
+            schema_constraints_->loadFrom(*storage_);  // Reload persisted constraints
+            schema_version_mgr_ = std::make_unique<SchemaVersionManager>(*storage_, *schema_manager_);
+            index_recommender_  = std::make_unique<IndexRecommender>();
+            schema_audit_log_   = std::make_unique<SchemaAuditLog>(*storage_);
+
+            // Connect audit log to version manager so every version is audited
+            schema_version_mgr_->setAuditLog(schema_audit_log_.get());
+
+            schema_api_handler_->setStatisticsCollector(stats_collector_.get());
+            schema_api_handler_->setSchemaConstraints(schema_constraints_.get());
+            schema_api_handler_->setSchemaVersionManager(schema_version_mgr_.get());
+            schema_api_handler_->setIndexRecommender(index_recommender_.get());
+            schema_api_handler_->setAuditLog(schema_audit_log_.get());
+
+            // Wire IndexRecommender into query handler for access-pattern recording
+            if (query_api_) {
+                query_api_->setIndexRecommender(index_recommender_.get());
+                query_api_->setStatisticsCollector(stats_collector_.get());
+            }
+
+            // Background consistency checker (checks every 6 hours by default)
+            schema_consistency_checker_ = std::make_unique<SchemaConsistencyChecker>(
+                *storage_, *schema_manager_,
+                stats_collector_.get(),
+                schema_constraints_.get()
+            );
+            schema_consistency_checker_->startBackgroundCheck(std::chrono::hours(6));
+
+            THEMIS_INFO("SchemaManager, Schema API Handler, and metadata sub-components initialized");
         } else {
             THEMIS_WARN("Storage not open, SchemaManager initialization deferred");
         }
@@ -1230,9 +1353,22 @@ void HttpServer::stop() {
     beast::error_code ec;
     acceptor_.close(ec);
 
-    // Give active requests time to complete
-    THEMIS_INFO("Waiting for active requests to complete...");
-    std::this_thread::sleep_for(std::chrono::seconds(2));
+    // Drain active requests with configurable timeout
+    THEMIS_INFO("Draining active requests (timeout={}ms)...", config_.graceful_shutdown_timeout_ms);
+    {
+        const auto drain_deadline = std::chrono::steady_clock::now()
+            + std::chrono::milliseconds(config_.graceful_shutdown_timeout_ms);
+        while (active_requests_.load(std::memory_order_acquire) > 0
+               && std::chrono::steady_clock::now() < drain_deadline) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        auto remaining = active_requests_.load(std::memory_order_acquire);
+        if (remaining > 0) {
+            THEMIS_WARN("Shutdown timeout: {} request(s) still in flight – forcing close", remaining);
+        } else {
+            THEMIS_INFO("All active requests completed");
+        }
+    }
 
     // Flush and cleanup Sprint A/B features
     if (semantic_cache_) {
@@ -1281,7 +1417,15 @@ void HttpServer::stop() {
     }
     threads_.clear();
 
+    // Shutdown core concerns (flush remaining logs/spans/metrics, release resources).
+    // Called last, after the final "stopped gracefully" log, so the logger is still
+    // available for that message.  The logger itself is the final resource torn down
+    // inside concerns_->shutdown().
     THEMIS_INFO("HTTP Server stopped gracefully");
+
+    if (concerns_) {
+        concerns_->shutdown();
+    }
 }
 
 void HttpServer::wait() {
@@ -1291,6 +1435,80 @@ void HttpServer::wait() {
         }
     }
 }
+
+bool HttpServer::reloadTls() {
+    if (!config_.enable_tls) {
+        THEMIS_WARN("TLS hot-reload requested but TLS is not enabled – ignoring");
+        return false;
+    }
+
+    if (config_.tls_cert_path.empty() || config_.tls_key_path.empty()) {
+        THEMIS_ERROR("TLS hot-reload: cert/key paths not configured");
+        return false;
+    }
+
+    THEMIS_INFO("TLS hot-reload: reloading certificate from {} and key from {}",
+        config_.tls_cert_path, config_.tls_key_path);
+
+    try {
+        // Build a fresh SSL context with the same settings
+        auto new_ctx = std::make_unique<boost::asio::ssl::context>(
+            config_.tls_min_version == "TLSv1.2"
+                ? boost::asio::ssl::context::tlsv12_server
+                : boost::asio::ssl::context::tlsv13_server
+        );
+
+        new_ctx->use_certificate_chain_file(config_.tls_cert_path);
+        new_ctx->use_private_key_file(config_.tls_key_path, boost::asio::ssl::context::pem);
+
+        if (!config_.tls_cipher_list.empty()) {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(), config_.tls_cipher_list.c_str());
+        } else {
+            SSL_CTX_set_cipher_list(new_ctx->native_handle(),
+                "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-CHACHA20-POLY1305");
+        }
+
+        new_ctx->set_options(
+            boost::asio::ssl::context::default_workarounds |
+            boost::asio::ssl::context::no_sslv2 |
+            boost::asio::ssl::context::no_sslv3 |
+            boost::asio::ssl::context::no_tlsv1 |
+            boost::asio::ssl::context::no_tlsv1_1 |
+            boost::asio::ssl::context::single_dh_use
+        );
+
+        if (config_.tls_require_client_cert && !config_.tls_ca_cert_path.empty()) {
+            new_ctx->load_verify_file(config_.tls_ca_cert_path);
+            new_ctx->set_verify_mode(
+                boost::asio::ssl::verify_peer |
+                boost::asio::ssl::verify_fail_if_no_peer_cert
+            );
+        } else {
+            new_ctx->set_verify_mode(boost::asio::ssl::verify_none);
+        }
+
+#ifdef THEMIS_ENABLE_HTTP2
+        if (config_.enable_http2) {
+            Http2Handler::configureAlpn(*new_ctx);
+        }
+#endif
+
+        // Swap in the new context under the lock so doAccept and onAccept
+        // always see a consistent ssl_ctx_ pointer.
+        {
+            std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+            ssl_ctx_ = std::move(new_ctx);
+        }
+
+        THEMIS_INFO("TLS hot-reload: certificate reloaded successfully");
+        return true;
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("TLS hot-reload failed: {}", e.what());
+        return false;
+    }
+}
+
+
 
 void HttpServer::doAccept() {
     acceptor_.async_accept(
@@ -1303,30 +1521,40 @@ void HttpServer::onAccept(beast::error_code ec, tcp::socket socket) {
     if (ec) {
         THEMIS_ERROR("Accept error: {}", ec.message());
     } else {
-        // Create new session for this connection
-        if (config_.enable_tls && ssl_ctx_) {
-#ifdef THEMIS_ENABLE_HTTP2
-            // If HTTP/2 is enabled, create HTTP/2 session which will handle ALPN negotiation
-            // and fallback to HTTP/1.1 if HTTP/2 is not negotiated
-            if (config_.enable_http2) {
-                std::make_shared<Http2Session>(
-                    std::move(socket),
-                    *ssl_ctx_,
-                    this,
-                    config_.http2_max_concurrent_streams,
-                    config_.http2_initial_window_size
-                )->start();
-            } else {
-                // TLS without HTTP/2
-                std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-            }
-#else
-            // TLS without HTTP/2 support
-            std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
-#endif
+        // Enforce max_connections limit: close the socket immediately if exceeded
+        if (config_.max_connections > 0 &&
+            active_connections_.load(std::memory_order_relaxed) >= config_.max_connections) {
+            THEMIS_WARN("Max connections ({}) reached – rejecting new connection",
+                config_.max_connections);
+            beast::error_code close_ec;
+            socket.shutdown(tcp::socket::shutdown_both, close_ec);
+            socket.close(close_ec);
         } else {
-            // Plain HTTP/1.1 without TLS
-            std::make_shared<Session>(std::move(socket), this)->start();
+            // Create new session for this connection.
+            // Lock briefly to get a stable reference to ssl_ctx_ (hot-reload may swap it).
+            if (config_.enable_tls) {
+                std::lock_guard<std::mutex> lock(ssl_ctx_mutex_);
+                if (ssl_ctx_) {
+#ifdef THEMIS_ENABLE_HTTP2
+                    if (config_.enable_http2) {
+                        std::make_shared<Http2Session>(
+                            std::move(socket),
+                            *ssl_ctx_,
+                            this,
+                            config_.http2_max_concurrent_streams,
+                            config_.http2_initial_window_size
+                        )->start();
+                    } else {
+                        std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+                    }
+#else
+                    std::make_shared<SslSession>(std::move(socket), *ssl_ctx_, this)->start();
+#endif
+                }
+            } else {
+                // Plain HTTP/1.1 without TLS
+                std::make_shared<Session>(std::move(socket), this)->start();
+            }
         }
     }
 
@@ -1386,11 +1614,20 @@ namespace {
 
     enum class Route {
         Health,
+        HealthLive,    // GET /health/live  – liveness probe
+        HealthReady,   // GET /health/ready – readiness probe
+        OpenApi,       // GET /api/openapi.json – OpenAPI 3.0 spec export
         Version,
         Stats,
         CapabilitiesGet,
         Metrics,
+        MetricsHtml,    // GET /metrics/html – lightweight HTML dashboard
         PluginMetrics,  // GET /api/plugins/metrics
+        // Operator observability API (Q1)
+        ObservabilityAlertsGet,        // GET  /api/v1/observability/alerts
+        ObservabilityAlertSilencePost, // POST /api/v1/observability/alerts/{id}/silence
+        ObservabilityHealthGet,        // GET  /api/v1/observability/health
+        LicenseStatusGet,              // GET  /api/v1/license/status
         Config,
         AdminBackupPost,
         AdminRestorePost,
@@ -1409,6 +1646,8 @@ namespace {
         GraphTraversePost,
     GraphEdgePost,
     GraphEdgeDelete,
+    GraphMetricsGet,
+    GraphMetricsPrometheusGet,
         VectorSearchPost,
     VectorBatchInsertPost,
     VectorDeleteByFilterDelete,
@@ -1464,6 +1703,14 @@ namespace {
         TransactionCommitPost,
         TransactionRollbackPost,
         TransactionStatsGet,
+        // Distributed (cross-shard) 2PC transaction endpoints
+        DtxnBeginPost,
+        DtxnOperationPost,
+        DtxnCommitPost,
+        DtxnAbortPost,
+        DtxnReadOnlyPost,
+        DtxnStatusGet,
+        DtxnStatsGet,
         ContentImportPost,
         ContentGet,
         ContentBlobGet,
@@ -1570,6 +1817,20 @@ namespace {
     SchemaGetTable,           // GET /api/v1/schema/tables/:name
     SchemaPut,                // PUT /api/v1/schema/:tablename
     SchemaPatch,              // PATCH /api/v1/schema/:tablename
+    // Schema versioning
+    SchemaVersionsGet,        // GET  /api/v1/schema/versions/:table
+    SchemaVersionsPost,       // POST /api/v1/schema/versions/:table
+    SchemaDiffGet,            // GET  /api/v1/schema/diff/:table?from=V&to=V
+    // INFORMATION_SCHEMA
+    InformationSchemaGet,     // GET /api/v1/information_schema[/...]
+    // Metadata extended
+    MetadataStatsGet,         // GET  /api/v1/metadata/stats/:table
+    MetadataStatsPost,        // POST /api/v1/metadata/stats/:table
+    MetadataConstraintsGet,   // GET  /api/v1/metadata/constraints/:table
+    MetadataIndexRecsGet,     // GET  /api/v1/metadata/index_recommendations[/:table]
+    MetadataAuditGet,         // GET  /api/v1/metadata/audit[/:table]
+    MetadataSchemaImportPut,  // PUT  /api/v1/metadata/schema_import
+    MetadataBatchValidatePost,// POST /api/v1/metadata/constraints/validate/:table
        
     // Error API
     ErrorApiListGet,          // GET /api/v1/errors
@@ -1581,7 +1842,24 @@ namespace {
     BpmnProcessStartPost,     // POST /api/v1/bpmn/process/start
     BpmnTaskCompletePost,     // POST /api/v1/bpmn/task/:taskId/complete
     BpmnInstanceQueryGet,     // GET /api/v1/bpmn/instance/:instanceId
+
+    // Geo Topology API
+    GeoTopologyGet,           // GET  /api/v1/geo/topology
+    GeoRegionsGet,            // GET  /api/v1/geo/regions
+    GeoHealthGet,             // GET  /api/v1/geo/health
+    GeoTopologyShardPost,     // POST /api/v1/geo/topology/shard
+    GeoTopologyShardDelete,   // DELETE /api/v1/geo/topology/shard/{shard_id}
+    GeoConfigGet,             // GET  /api/v1/geo/config/{collection}
+    GeoConfigPut,             // PUT  /api/v1/geo/config/{collection}
        
+    // MVCC versioning API
+    MvccKeyGet,              // GET  /api/v1/mvcc/keys/{key}
+    MvccKeyPost,             // POST /api/v1/mvcc/keys/{key}
+    MvccKeyVersionsGet,      // GET  /api/v1/mvcc/keys/{key}/versions
+    MvccKeyVersionsDelete,   // DELETE /api/v1/mvcc/keys/{key}/versions
+    MvccClockGet,            // GET  /api/v1/mvcc/clock
+    MvccStatsGet,            // GET  /api/v1/mvcc/stats
+
         NotFound
     };
 
@@ -1594,11 +1872,32 @@ namespace {
         if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
 
         if (target == "/" || target == "/health") return Route::Health;
-    if (target == "/version" && method == http::verb::get) return Route::Version;
+        if (target == "/health/live" && method == http::verb::get) return Route::HealthLive;
+        if (target == "/health/ready" && method == http::verb::get) return Route::HealthReady;
+        if (target == "/api/openapi.json" && method == http::verb::get) return Route::OpenApi;
+        if (target == "/version" && method == http::verb::get) return Route::Version;
     if (target == "/stats" && method == http::verb::get) return Route::Stats;
     if (target == "/api/capabilities" && method == http::verb::get) return Route::CapabilitiesGet;
     if (target == "/metrics" && method == http::verb::get) return Route::Metrics;
+    if (target == "/metrics/html" && method == http::verb::get) return Route::MetricsHtml;
     if (target == "/api/plugins/metrics" && method == http::verb::get) return Route::PluginMetrics;
+    // Operator observability REST API (Q1)
+    if (target == "/api/v1/observability/alerts" && method == http::verb::get) return Route::ObservabilityAlertsGet;
+    if (target == "/api/v1/observability/health" && method == http::verb::get) return Route::ObservabilityHealthGet;
+    if (target == "/api/v1/license/status"       && method == http::verb::get) return Route::LicenseStatusGet;
+    {
+        // POST /api/v1/observability/alerts/{id}/silence
+        // path_only must start with the alerts prefix, have a non-empty {id} segment,
+        // and end with the /silence suffix.
+        static constexpr std::string_view kAlertsPrefix{"/api/v1/observability/alerts/"};
+        static constexpr std::string_view kSilenceSuffix{"/silence"};
+        if (method == http::verb::post &&
+            path_only.rfind(kAlertsPrefix.data(), 0) == 0 &&
+            path_only.size() > kAlertsPrefix.size() + kSilenceSuffix.size() &&
+            path_only.substr(path_only.size() - kSilenceSuffix.size()) == kSilenceSuffix) {
+            return Route::ObservabilityAlertSilencePost;
+        }
+    }
     if (path_only == "/api/v1/wal/apply" && method == http::verb::post) return Route::WalApplyPost;
     if (target == "/config" && (method == http::verb::get || method == http::verb::post)) return Route::Config;
     if (target == "/admin/backup" && method == http::verb::post) return Route::AdminBackupPost;
@@ -1634,6 +1933,8 @@ namespace {
         if (target == "/graph/traverse" && method == http::verb::post) return Route::GraphTraversePost;
     if (target == "/graph/edge" && method == http::verb::post) return Route::GraphEdgePost;
     if (target.rfind("/graph/edge/", 0) == 0 && method == http::verb::delete_) return Route::GraphEdgeDelete;
+    if (path_only == "/api/v1/graph/metrics" && method == http::verb::get) return Route::GraphMetricsGet;
+    if (path_only == "/api/v1/graph/metrics/prometheus" && method == http::verb::get) return Route::GraphMetricsPrometheusGet;
         if (target == "/vector/search" && method == http::verb::post) return Route::VectorSearchPost;
     if (target == "/vector/batch_insert" && method == http::verb::post) return Route::VectorBatchInsertPost;
     if (target == "/vector/by-filter" && method == http::verb::delete_) return Route::VectorDeleteByFilterDelete;
@@ -1808,12 +2109,30 @@ namespace {
     }
     
     if (path_only.rfind("/api/v1/bpmn/instance/", 0) == 0 && method == http::verb::get) return Route::BpmnInstanceQueryGet;
+
+    // Geo Topology API
+    if (path_only == "/api/v1/geo/topology" && method == http::verb::get) return Route::GeoTopologyGet;
+    if (path_only == "/api/v1/geo/regions"  && method == http::verb::get) return Route::GeoRegionsGet;
+    if (path_only == "/api/v1/geo/health"   && method == http::verb::get) return Route::GeoHealthGet;
+    if (path_only == "/api/v1/geo/topology/shard" && method == http::verb::post) return Route::GeoTopologyShardPost;
+    if (path_only.rfind("/api/v1/geo/topology/shard/", 0) == 0 && method == http::verb::delete_) return Route::GeoTopologyShardDelete;
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::get) return Route::GeoConfigGet;
+    if (path_only.rfind("/api/v1/geo/config/", 0) == 0 && method == http::verb::put) return Route::GeoConfigPut;
     
         if (target == "/transaction" && method == http::verb::post) return Route::TransactionPost;
         if (target == "/transaction/begin" && method == http::verb::post) return Route::TransactionBeginPost;
         if (target == "/transaction/commit" && method == http::verb::post) return Route::TransactionCommitPost;
         if (target == "/transaction/rollback" && method == http::verb::post) return Route::TransactionRollbackPost;
         if (target == "/transaction/stats" && method == http::verb::get) return Route::TransactionStatsGet;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        if (target == "/dtxn/begin"    && method == http::verb::post) return Route::DtxnBeginPost;
+        if (target == "/dtxn/operation" && method == http::verb::post) return Route::DtxnOperationPost;
+        if (target == "/dtxn/commit"   && method == http::verb::post) return Route::DtxnCommitPost;
+        if (target == "/dtxn/abort"    && method == http::verb::post) return Route::DtxnAbortPost;
+        if (target == "/dtxn/readonly" && method == http::verb::post) return Route::DtxnReadOnlyPost;
+        if (target.rfind("/dtxn/status/", 0) == 0 && method == http::verb::get) return Route::DtxnStatusGet;
+        if (target == "/dtxn/stats"    && method == http::verb::get)  return Route::DtxnStatsGet;
 
         // Content API
         if (target == "/content/import" && method == http::verb::post) return Route::ContentImportPost;
@@ -1854,11 +2173,55 @@ namespace {
     if (path_only == "/api/v1/schema" && method == http::verb::get) return Route::SchemaGetFull;
     if (path_only == "/api/v1/schema/tables" && method == http::verb::get) return Route::SchemaGetTables;
     if (path_only.rfind("/api/v1/schema/tables/", 0) == 0 && method == http::verb::get) return Route::SchemaGetTable;
+
+    // Schema versioning routes (must come before the generic SchemaPut/Patch catch)
+    if (path_only.rfind("/api/v1/schema/versions/", 0) == 0) {
+        if (method == http::verb::get)  return Route::SchemaVersionsGet;
+        if (method == http::verb::post) return Route::SchemaVersionsPost;
+    }
+    if (path_only.rfind("/api/v1/schema/diff/", 0) == 0 && method == http::verb::get)
+        return Route::SchemaDiffGet;
+
     if (path_only.rfind("/api/v1/schema/", 0) == 0 && path_only != "/api/v1/schema/" && 
         path_only != "/api/v1/schema/tables" && path_only.find("/api/v1/schema/tables/") != 0) {
         if (method == http::verb::put) return Route::SchemaPut;
         if (method == http::verb::patch) return Route::SchemaPatch;
     }
+
+    // INFORMATION_SCHEMA routes
+    if (path_only.rfind("/api/v1/information_schema", 0) == 0 && method == http::verb::get)
+        return Route::InformationSchemaGet;
+
+    // Metadata extended routes (order: more specific first)
+    if (path_only.rfind("/api/v1/metadata/index_recommendations", 0) == 0 && method == http::verb::get)
+        return Route::MetadataIndexRecsGet;
+    if (path_only == "/api/v1/metadata/schema_import" && method == http::verb::put)
+        return Route::MetadataSchemaImportPut;
+    if (path_only.rfind("/api/v1/metadata/constraints/validate/", 0) == 0 && method == http::verb::post)
+        return Route::MetadataBatchValidatePost;
+    if (path_only.rfind("/api/v1/metadata/constraints/", 0) == 0 && method == http::verb::get)
+        return Route::MetadataConstraintsGet;
+    if (path_only.rfind("/api/v1/metadata/audit", 0) == 0 && method == http::verb::get)
+        return Route::MetadataAuditGet;
+    if (path_only.rfind("/api/v1/metadata/stats/", 0) == 0) {
+        if (method == http::verb::get)  return Route::MetadataStatsGet;
+        if (method == http::verb::post) return Route::MetadataStatsPost;
+    }
+
+    // MVCC versioning API endpoints
+    // Note: /versions suffix checked first to avoid matching it as a key named "versions"
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 &&
+        path_only.size() > 18 &&
+        path_only.rfind("/versions") == path_only.size() - 9) {
+        if (method == http::verb::get)     return Route::MvccKeyVersionsGet;
+        if (method == http::verb::delete_) return Route::MvccKeyVersionsDelete;
+    }
+    if (path_only.rfind("/api/v1/mvcc/keys/", 0) == 0 && path_only.size() > 18) {
+        if (method == http::verb::get)  return Route::MvccKeyGet;
+        if (method == http::verb::post) return Route::MvccKeyPost;
+    }
+    if (path_only == "/api/v1/mvcc/clock" && method == http::verb::get) return Route::MvccClockGet;
+    if (path_only == "/api/v1/mvcc/stats"  && method == http::verb::get) return Route::MvccStatsGet;
 
         return Route::NotFound;
     }
@@ -1867,10 +2230,17 @@ namespace {
 http::response<http::string_body> HttpServer::routeRequest(
     const http::request<http::string_body>& req
 ) {
-     // Create span for the entire HTTP request
-     auto span = Tracer::startSpan("http_request");
-     span.setAttribute("http.method", std::string(http::to_string(req.method())));
-     span.setAttribute("http.target", std::string(req.target()));
+    // Create root span for this HTTP request.
+    // If the caller supplied a W3C traceparent header, the new span becomes
+    // a child of that upstream trace context (distributed tracing propagation).
+    std::map<std::string, std::string> req_headers;
+    for (auto const& field : req) {
+        req_headers.emplace(std::string(field.name_string()),
+                            std::string(field.value()));
+    }
+    auto span = Tracer::startSpanFromHeaders("http_request", req_headers);
+    span.setAttribute("http.method", std::string(http::to_string(req.method())));
+    span.setAttribute("http.target", std::string(req.target()));
     
     auto start = std::chrono::steady_clock::now();
     
@@ -1881,16 +2251,61 @@ http::response<http::string_body> HttpServer::routeRequest(
 
     // Increment request counter
     request_count_.fetch_add(1, std::memory_order_relaxed);
-    
+
+    // Track in-flight requests for graceful shutdown draining
+    active_requests_.fetch_add(1, std::memory_order_acquire);
+    // RAII guard to decrement on all exit paths
+    struct ActiveRequestGuard {
+        std::atomic<uint64_t>& counter;
+        ~ActiveRequestGuard() { counter.fetch_sub(1, std::memory_order_release); }
+    } active_guard{active_requests_};
+
     // Handle CORS preflight early
     if (method == http::verb::options) {
         return makePreflightResponse(req);
+    }
+
+    // Extract or generate request ID for tracing
+    std::string request_id;
+    auto req_id_it = req.find("X-Request-ID");
+    if (req_id_it != req.end() && !req_id_it->value().empty()) {
+        request_id = std::string(req_id_it->value());
+    } else {
+        // Generate a simple request ID from timestamp + counter
+        request_id = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count()
+        ) + "-" + std::to_string(request_count_.load(std::memory_order_relaxed));
+    }
+    span.setAttribute("request.id", request_id);
+
+    // Enforce max header size limit
+    if (config_.max_header_size_bytes > 0) {
+        size_t header_bytes = 0;
+        for (auto const& field : req) {
+            header_bytes += field.name_string().size() + field.value().size() + 4; // 2 for ": " + 2 for "\r\n"
+        }
+        if (header_bytes > config_.max_header_size_bytes) {
+            http::response<http::string_body> res{http::status::request_header_fields_too_large, req.version()};
+            res.set(http::field::content_type, "application/json");
+            res.set("X-Request-ID", request_id);
+            nlohmann::json body = {
+                {"error", "Request Header Fields Too Large"},
+                {"message", "Total header size exceeds maximum allowed"},
+                {"max_bytes", config_.max_header_size_bytes},
+                {"actual_bytes", header_bytes},
+                {"status_code", 431}
+            };
+            res.body() = body.dump();
+            res.prepare_payload();
+            return res;
+        }
     }
 
     // Enforce request body size limit (after OPTIONS preflight)
     if (req.body().size() > max_body_bytes_) {
         http::response<http::string_body> res{http::status::payload_too_large, req.version()};
         res.set(http::field::content_type, "application/json");
+        res.set("X-Request-ID", request_id);
         nlohmann::json body = {
             {"error", "Payload Too Large"},
             {"message", "Request body exceeds maximum size"},
@@ -2059,6 +2474,15 @@ http::response<http::string_body> HttpServer::routeRequest(
             case Route::Health:
                 response = monitoring_api_->handleHealthCheck(req);
             break;
+        case Route::HealthLive:
+            response = monitoring_api_->handleLiveness(req);
+            break;
+        case Route::HealthReady:
+            response = monitoring_api_->handleReadiness(req);
+            break;
+        case Route::OpenApi:
+            response = monitoring_api_->handleOpenApi(req);
+            break;
         case Route::Version:
             response = monitoring_api_->handleVersion(req);
             break;
@@ -2072,9 +2496,24 @@ http::response<http::string_body> HttpServer::routeRequest(
             // Delegate to MonitoringApiHandler for Prometheus metrics export
             response = monitoring_api_->handleMetrics(req);
             break;
+        case Route::MetricsHtml:
+            response = monitoring_api_->handleMetricsHtml(req);
+            break;
         case Route::PluginMetrics:
             // Delegate to MonitoringApiHandler for plugin metrics
             response = monitoring_api_->handlePluginMetrics(req);
+            break;
+        case Route::ObservabilityAlertsGet:
+            response = monitoring_api_->handleObservabilityAlerts(req);
+            break;
+        case Route::ObservabilityAlertSilencePost:
+            response = monitoring_api_->handleObservabilityAlertSilence(req);
+            break;
+        case Route::ObservabilityHealthGet:
+            response = monitoring_api_->handleObservabilityHealth(req);
+            break;
+        case Route::LicenseStatusGet:
+            response = monitoring_api_->handleLicenseStatus(req);
             break;
         case Route::WalApplyPost:
             response = wal_api_->handleApply(req);
@@ -2175,6 +2614,20 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::GraphEdgeDelete:
             if (graph_api_) {
                 response = graph_api_->handleEdgeDelete(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphMetricsGet:
+            if (graph_api_) {
+                response = graph_api_->handleMetrics(req);
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
+            }
+            break;
+        case Route::GraphMetricsPrometheusGet:
+            if (graph_api_) {
+                response = graph_api_->handleMetricsPrometheus(req);
             } else {
                 response = makeErrorResponse(http::status::service_unavailable, "Graph API not available", req);
             }
@@ -2948,6 +3401,30 @@ http::response<http::string_body> HttpServer::routeRequest(
         case Route::TransactionStatsGet:
             response = transaction_api_->handleStats(req);
             break;
+
+        // Distributed (cross-shard) 2PC transaction endpoints
+        case Route::DtxnBeginPost:
+            response = distributed_txn_api_->handleBegin(req);
+            break;
+        case Route::DtxnOperationPost:
+            response = distributed_txn_api_->handleOperation(req);
+            break;
+        case Route::DtxnCommitPost:
+            response = distributed_txn_api_->handleCommit(req);
+            break;
+        case Route::DtxnAbortPost:
+            response = distributed_txn_api_->handleAbort(req);
+            break;
+        case Route::DtxnReadOnlyPost:
+            response = distributed_txn_api_->handleReadOnly(req);
+            break;
+        case Route::DtxnStatusGet:
+            response = distributed_txn_api_->handleStatus(req);
+            break;
+        case Route::DtxnStatsGet:
+            response = distributed_txn_api_->handleStats(req);
+            break;
+
         case Route::ContentImportPost:
             {
                 if (validator_) {
@@ -3064,6 +3541,29 @@ http::response<http::string_body> HttpServer::routeRequest(
                     "BPMN process engine not available", req);
             }
             break;
+
+        // ── Geo Topology API ──────────────────────────────────────────────────
+        case Route::GeoTopologyGet:
+            response = geo_topology_api_->handleTopologyGet(req);
+            break;
+        case Route::GeoRegionsGet:
+            response = geo_topology_api_->handleRegionsGet(req);
+            break;
+        case Route::GeoHealthGet:
+            response = geo_topology_api_->handleHealthGet(req);
+            break;
+        case Route::GeoTopologyShardPost:
+            response = geo_topology_api_->handleTopologyShardPost(req);
+            break;
+        case Route::GeoTopologyShardDelete:
+            response = geo_topology_api_->handleTopologyShardDelete(req);
+            break;
+        case Route::GeoConfigGet:
+            response = geo_topology_api_->handleConfigGet(req);
+            break;
+        case Route::GeoConfigPut:
+            response = geo_topology_api_->handleConfigPut(req);
+            break;
         case Route::SchemaGetFull:
             response = handleSchemaGetFull(req);
             break;
@@ -3078,6 +3578,39 @@ http::response<http::string_body> HttpServer::routeRequest(
             break;
         case Route::SchemaPatch:
             response = handleSchemaPatch(req);
+            break;
+        case Route::SchemaVersionsGet:
+            response = handleSchemaVersionHistory(req);
+            break;
+        case Route::SchemaVersionsPost:
+            response = handleSchemaCreateVersion(req);
+            break;
+        case Route::SchemaDiffGet:
+            response = handleSchemaDiff(req);
+            break;
+        case Route::InformationSchemaGet:
+            response = handleMetadataInformationSchema(req);
+            break;
+        case Route::MetadataStatsGet:
+            response = handleMetadataGetStats(req);
+            break;
+        case Route::MetadataStatsPost:
+            response = handleMetadataCollectStats(req);
+            break;
+        case Route::MetadataConstraintsGet:
+            response = handleMetadataGetConstraints(req);
+            break;
+        case Route::MetadataIndexRecsGet:
+            response = handleMetadataIndexRecommendations(req);
+            break;
+        case Route::MetadataAuditGet:
+            response = handleMetadataAuditLog(req);
+            break;
+        case Route::MetadataSchemaImportPut:
+            response = handleMetadataSchemaImport(req);
+            break;
+        case Route::MetadataBatchValidatePost:
+            response = handleMetadataBatchValidate(req);
             break;
         case Route::PoliciesImportRangerPost: {
             // Require admin scope + policy action
@@ -3117,6 +3650,83 @@ http::response<http::string_body> HttpServer::routeRequest(
             }
             break;
         }
+
+        // ─── MVCC versioning API ───────────────────────────────────────────────
+        // Helper: extract the key from a path like /api/v1/mvcc/keys/{key}[/versions]
+        // and populate req.matches so MvccApiHandler::extractKey() works.
+        case Route::MvccKeyGet:
+        case Route::MvccKeyPost: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+))");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleGetKey(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handlePutKey(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccKeyVersionsGet:
+        case Route::MvccKeyVersionsDelete: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                {
+                    static const std::regex re(R"(/api/v1/mvcc/keys/([^/]+)/versions)");
+                    std::smatch m;
+                    if (std::regex_search(httplib_req.path, m, re)) {
+                        httplib_req.matches = m;
+                    }
+                }
+                httplib::Response httplib_res;
+                if (req.method() == http::verb::get) {
+                    mvcc_api_handler_->handleListVersions(httplib_req, httplib_res);
+                } else {
+                    mvcc_api_handler_->handleGcVersions(httplib_req, httplib_res);
+                }
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccClockGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetClock(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+        case Route::MvccStatsGet: {
+            if (mvcc_api_handler_) {
+                auto httplib_req = HttpTypeAdapter::beastToHttplib(req);
+                httplib::Response httplib_res;
+                mvcc_api_handler_->handleGetStats(httplib_req, httplib_res);
+                response = HttpTypeAdapter::httplibToBeast(httplib_res, req.version());
+            } else {
+                response = makeErrorResponse(http::status::service_unavailable,
+                    "MVCC API not available", req);
+            }
+            break;
+        }
+
         case Route::NotFound:
         default:
             response = makeErrorResponse(http::status::not_found, "Endpoint not found", req);
@@ -3157,6 +3767,28 @@ http::response<http::string_body> HttpServer::routeRequest(
         auto end = std::chrono::steady_clock::now();
         auto dur = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         recordLatency(dur);
+    }
+
+    // Propagate request ID to response
+    if (!request_id.empty()) {
+        response.set("X-Request-ID", request_id);
+    }
+
+    // Emit structured JSON access log line
+    {
+        auto total_dur = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - start
+        );
+        double duration_ms = total_dur.count() / 1000.0;
+        std::string client_ip = extractClientIP(req);
+        THEMIS_INFO("access method={} path={} status={} duration_ms={:.3f} request_id={} client_ip={}",
+            std::string(http::to_string(req.method())),
+            target,
+            response.result_int(),
+            duration_ms,
+            request_id.empty() ? "-" : request_id,
+            client_ip.empty() ? "-" : client_ip
+        );
     }
 
     return response;
@@ -6216,7 +6848,36 @@ void HttpServer::ensurePIIPseudonymizer() {
 HttpServer::Session::Session(tcp::socket socket, HttpServer* server)
     : socket_(std::move(socket))
     , server_(server)
+    , read_timer_(socket_.get_executor())
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::Session::~Session() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void HttpServer::Session::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            // Timer fired before I/O completed: cancel the pending socket operation
+            THEMIS_WARN("Request read timeout ({}ms) – closing connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->socket_.shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("Session shutdown on timeout: {}", close_ec.message());
+            self->socket_.close(close_ec);
+            if (close_ec) THEMIS_DEBUG("Session close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::Session::cancelReadTimer() {
+    read_timer_.cancel(); // cancels the pending async_wait, if any
 }
 
 void HttpServer::Session::start() {
@@ -6225,6 +6886,7 @@ void HttpServer::Session::start() {
 
 void HttpServer::Session::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         socket_,
@@ -6239,6 +6901,7 @@ void HttpServer::Session::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         // Client closed connection
@@ -6344,7 +7007,36 @@ void HttpServer::Session::onWrite(
 HttpServer::SslSession::SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server)
     : stream_(std::move(socket), ssl_ctx)
     , server_(server)
+    , read_timer_(stream_.get_executor())
 {
+    server_->active_connections_.fetch_add(1, std::memory_order_relaxed);
+}
+
+HttpServer::SslSession::~SslSession() {
+    server_->active_connections_.fetch_sub(1, std::memory_order_relaxed);
+}
+
+void HttpServer::SslSession::armReadTimer() {
+    if (server_->config_.request_timeout_ms == 0) return;
+    read_timer_.expires_after(
+        std::chrono::milliseconds(server_->config_.request_timeout_ms)
+    );
+    read_timer_.async_wait([self = shared_from_this()](beast::error_code ec) {
+        if (!ec) {
+            THEMIS_WARN("Request read timeout ({}ms) – closing TLS connection",
+                self->server_->config_.request_timeout_ms);
+            beast::error_code close_ec;
+            self->stream_.lowest_layer().shutdown(tcp::socket::shutdown_both, close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession shutdown on timeout: {}", close_ec.message());
+            self->stream_.lowest_layer().close(close_ec);
+            if (close_ec) THEMIS_DEBUG("SslSession close on timeout: {}", close_ec.message());
+        }
+    });
+}
+
+void HttpServer::SslSession::cancelReadTimer() {
+    beast::error_code ec;
+    read_timer_.cancel();
 }
 
 void HttpServer::SslSession::start() {
@@ -6352,6 +7044,8 @@ void HttpServer::SslSession::start() {
 }
 
 void HttpServer::SslSession::doHandshake() {
+    // Arm timeout for TLS handshake as well
+    armReadTimer();
     stream_.async_handshake(
         boost::asio::ssl::stream_base::server,
         beast::bind_front_handler(&SslSession::onHandshake, shared_from_this())
@@ -6359,6 +7053,7 @@ void HttpServer::SslSession::doHandshake() {
 }
 
 void HttpServer::SslSession::onHandshake(beast::error_code ec) {
+    cancelReadTimer();
     if (ec) {
         THEMIS_ERROR("TLS handshake error: {}", ec.message());
         return;
@@ -6388,6 +7083,7 @@ void HttpServer::SslSession::onHandshake(beast::error_code ec) {
 
 void HttpServer::SslSession::doRead() {
     request_ = {};
+    armReadTimer();
 
     http::async_read(
         stream_,
@@ -6402,6 +7098,7 @@ void HttpServer::SslSession::onRead(
     std::size_t bytes_transferred
 ) {
     boost::ignore_unused(bytes_transferred);
+    cancelReadTimer();
 
     if (ec == http::error::end_of_stream) {
         doShutdown();
@@ -7146,6 +7843,120 @@ http::response<http::string_body> HttpServer::handleSchemaPatch(
             "Schema API not available", req);
     }
     return schema_api_handler_->handlePatchSchema(req);
+}
+
+// ============================================================================
+// Metadata extended handler shims
+// ============================================================================
+
+http::response<http::string_body> HttpServer::handleMetadataInformationSchema(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetInformationSchema(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataCollectStats(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCollectStats(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataGetConstraints(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetConstraints(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataIndexRecommendations(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetIndexRecommendations(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaVersionHistory(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetVersionHistory(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaCreateVersion(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleCreateVersion(req);
+}
+
+http::response<http::string_body> HttpServer::handleSchemaDiff(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetDiff(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataAuditLog(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleGetAuditLog(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataSchemaImport(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleSchemaImport(req);
+}
+
+http::response<http::string_body> HttpServer::handleMetadataBatchValidate(
+    const http::request<http::string_body>& req)
+{
+    if (!schema_api_handler_) {
+        return makeErrorResponse(http::status::service_unavailable,
+            "Schema API not available", req);
+    }
+    return schema_api_handler_->handleBatchConstraintValidation(req);
 }
 
 } // namespace server

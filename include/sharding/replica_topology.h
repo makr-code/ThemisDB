@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            replica_topology.h                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     195                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <algorithm>
@@ -7,6 +33,7 @@
 #include <memory>
 #include <mutex>
 #include <cstdint>
+#include <unordered_set>
 #include <nlohmann/json.hpp>
 
 #include "sharding/redundancy_strategy.h"
@@ -29,6 +56,10 @@ struct ShardReplicaSet {
     RedundancyMode redundancy = RedundancyMode::MIRROR;
     uint64_t stripe_key = 0;            // For STRIPE_MIRROR: stripe group identifier
     bool is_healthy = true;
+
+    // Geo placement metadata (used for GEO_MIRROR and Raft placement)
+    std::string region;   // e.g. "us-east", "eu-west"
+    std::string zone;     // e.g. "us-east-1a", "eu-west-1b"
     
     size_t quorum_size() const {
         // Quorum = majority of all members (primary + replicas)
@@ -116,6 +147,39 @@ public:
     size_t getShardCount() const {
         std::lock_guard<std::mutex> lock(mutex_);
         return replica_sets_.size();
+    }
+
+    /**
+     * Get all replica sets whose primary is in a specific region
+     * @param region Region name (e.g. "us-east")
+     * @return Vector of matching ShardReplicaSet values
+     */
+    std::vector<ShardReplicaSet> getReplicaSetsInRegion(const std::string& region) const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::vector<ShardReplicaSet> result;
+        for (const auto& [shard_id, rs] : replica_sets_) {
+            if (rs.region == region) {
+                result.push_back(rs);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get all distinct regions present in the replica topology
+     * @return Sorted list of unique region names
+     */
+    std::vector<std::string> getRegions() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        std::unordered_set<std::string> seen;
+        for (const auto& [shard_id, rs] : replica_sets_) {
+            if (!rs.region.empty()) {
+                seen.insert(rs.region);
+            }
+        }
+        std::vector<std::string> regions(seen.begin(), seen.end());
+        std::sort(regions.begin(), regions.end());
+        return regions;
     }
     
     /**

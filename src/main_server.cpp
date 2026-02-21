@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            main_server.cpp                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   1.0/100                                        ║
+    • Total Lines:     2274                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 19                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // v1.1.0: mimalloc integration (20-40% memory boost, drop-in replacement)
 // NOTE: Mimalloc is lazy-loaded after CRT initialization to avoid crashes during
 // static object construction. This prevents exit code -1073741502 (0xC0000142).
@@ -52,6 +78,7 @@
 #include "sharding/metrics_registry.h"
 #include "themis/build_info.h"
 #include "themis/license_info.h"
+#include "themis/runtime_license_gate.h"
 
 #ifdef THEMIS_ENABLE_LLM
 #include "llm/embedded_llm.h"
@@ -91,6 +118,10 @@ using json = nlohmann::json;
 
 // Global atomic flag for signal handling (async-signal-safe)
 std::atomic<bool> g_shutdown_requested{false};
+#ifndef _WIN32
+// SIGHUP flag for TLS certificate hot-reload (Linux/macOS only)
+std::atomic<bool> g_tls_reload_requested{false};
+#endif
 // Server instance (accessed only from main thread, not from signal handler)
 #ifdef THEMIS_ENABLE_HTTP_SERVER
 std::shared_ptr<server::HttpServer> g_server;
@@ -164,6 +195,13 @@ void signalHandler(int signal) {
         // Set atomic flag to trigger shutdown in main thread
         g_shutdown_requested.store(true, std::memory_order_release);
     }
+#ifndef _WIN32
+    else if (signal == SIGHUP) {
+        const char* msg = "\nReceived SIGHUP, scheduling TLS certificate hot-reload...\n";
+        (void)write(STDERR_FILENO, msg, strlen(msg));
+        g_tls_reload_requested.store(true, std::memory_order_release);
+    }
+#endif
 }
 
 #ifdef _WIN32
@@ -448,6 +486,52 @@ int main(int argc, char* argv[]) {
         }
     } catch (const std::exception& e) {
         THEMIS_WARN("Failed to display license information: {}", e.what());
+    }
+
+    // === RUNTIME LICENSE GATE INITIALIZATION ===
+    // Activate the runtime feature gate using the embedded license so that
+    // Enterprise/Hyperscaler feature checks at request time reflect the actual
+    // license validity, not just the compile-time edition flags.
+    try {
+        themis::license::LicenseClientConfig lc_cfg;
+        // Allow offline activation (server_url is empty → offline path).
+        // Operators who deploy with a license server set THEMIS_LICENSE_SERVER_URL
+        // and THEMIS_LICENSE_API_KEY in their environment / config.
+        const char* ls_url = std::getenv("THEMIS_LICENSE_SERVER_URL");
+        const char* ls_key = std::getenv("THEMIS_LICENSE_API_KEY");
+        if (ls_url) lc_cfg.server_url = ls_url;
+        if (ls_key) lc_cfg.api_key    = ls_key;
+        lc_cfg.allow_offline = true;
+
+        themis::license::LicenseClient lc(lc_cfg);
+        auto activation = lc.activate();
+
+        themis::license::RuntimeLicenseGate::instance().initialize(
+            activation, lc.getCachedLicense());
+
+        const std::string& status = activation.status;
+        if (activation.success) {
+            if (status == "grace") {
+                THEMIS_WARN("License: running in grace period ({} days remaining). "
+                            "Ensure the license server is reachable.",
+                            activation.grace_days_remaining);
+            } else {
+                THEMIS_INFO("License gate: runtime validation successful (status: {}).", status);
+            }
+        } else {
+            THEMIS_WARN("License gate: runtime validation failed (status: {}, reason: {}). "
+                        "Enterprise/Hyperscaler features will be blocked.",
+                        status, activation.error_message);
+        }
+    } catch (const std::exception& e) {
+        THEMIS_WARN("License gate initialization failed: {}. "
+                    "Enterprise/Hyperscaler features will be blocked.", e.what());
+        // Initialize gate in invalid state so feature checks still work safely.
+        themis::license::LicenseActivationResult failed;
+        failed.success       = false;
+        failed.status        = "invalid";
+        failed.error_message = e.what();
+        themis::license::RuntimeLicenseGate::instance().initialize(failed);
     }
     
     try {
@@ -1410,7 +1494,7 @@ int main(int argc, char* argv[]) {
                 if (g_wal_grpc_server) {
                     THEMIS_INFO("WAL gRPC Apply service listening on {} (mode: {})", grpc_addr, actual_mode);
                 } else {
-                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr);
+                    THEMIS_WARN("Failed to start WAL gRPC Apply service (address: {})", grpc_addr); // NOPII: grpc_addr is a server bind address, not personal data
                 }
             } else {
                 THEMIS_ERROR("WAL gRPC Apply service NOT started due to TLS configuration errors");
@@ -1423,6 +1507,10 @@ int main(int argc, char* argv[]) {
         // Setup signal handlers
         std::signal(SIGINT, signalHandler);
         std::signal(SIGTERM, signalHandler);
+#ifndef _WIN32
+        // SIGHUP: reload TLS certificates without restarting
+        std::signal(SIGHUP, signalHandler);
+#endif
         
         // Retention worker (optional, runs in background if enabled in config)
         std::atomic<bool> retention_stop{false};
@@ -2060,6 +2148,22 @@ int main(int argc, char* argv[]) {
         THEMIS_INFO("Server running. Waiting for shutdown signal (Ctrl+C)...");
         while (!g_shutdown_requested.load(std::memory_order_acquire)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+#ifndef _WIN32
+            // Handle SIGHUP: hot-reload TLS certificates
+            if (g_tls_reload_requested.exchange(false, std::memory_order_acq_rel)) {
+#ifdef THEMIS_ENABLE_HTTP_SERVER
+                if (g_server) {
+                    THEMIS_INFO("SIGHUP received - reloading TLS certificates...");
+                    if (g_server->reloadTls()) {
+                        THEMIS_INFO("TLS certificates hot-reloaded successfully");
+                    } else {
+                        THEMIS_WARN("TLS hot-reload failed or TLS not enabled - continuing with current certificates");
+                    }
+                }
+#endif
+            }
+#endif
         }
         
         THEMIS_INFO("Shutdown signal received, initiating graceful shutdown...");

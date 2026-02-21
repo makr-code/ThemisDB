@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_unique_index.cpp                              ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     298                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test suite for unique indexes
 
 #include <gtest/gtest.h>
@@ -19,7 +45,7 @@ protected:
         
         RocksDBWrapper::Config cfg;
         cfg.db_path = testPath_;
-        cfg.enable_blobdb = false; // Tests ben�tigen BlobDB nicht
+        cfg.enable_blobdb = false; // Tests ben�tigen BlobDB nicht
         db_ = std::make_unique<RocksDBWrapper>(cfg);
         ASSERT_TRUE(db_->open());
         
@@ -37,7 +63,7 @@ protected:
     std::unique_ptr<SecondaryIndexManager> mgr_;
 };
 
-// Test 1: Unique Index erstellen und Flag pr�fen
+// Test 1: Unique Index erstellen und Flag pr�fen
 TEST_F(UniqueIndexTest, CreateUniqueIndex) {
     auto st = mgr_->createIndex("users", "email", true);
     ASSERT_TRUE(st.ok) << st.message;
@@ -51,7 +77,7 @@ TEST_F(UniqueIndexTest, CreateUniqueIndex) {
     EXPECT_TRUE(mgr_->hasIndex("users", "city"));
 }
 
-// Test 2: Unique Constraint - erste Einf�gung erfolgreich
+// Test 2: Unique Constraint - erste Einf�gung erfolgreich
 TEST_F(UniqueIndexTest, UniqueFirstInsertSucceeds) {
     auto st = mgr_->createIndex("users", "email", true);
     ASSERT_TRUE(st.ok) << st.message;
@@ -76,7 +102,7 @@ TEST_F(UniqueIndexTest, UniqueDuplicatePrevented) {
     st = mgr_->put("users", user1);
     ASSERT_TRUE(st.ok) << st.message;
     
-    // Versuch, zweiten User mit gleicher Email einzuf�gen
+    // Versuch, zweiten User mit gleicher Email einzuf�gen
     BaseEntity user2("user2");
     user2.setField("email", "alice@example.com"); // Duplikat!
     user2.setField("name", "Alice Clone");
@@ -123,7 +149,7 @@ TEST_F(UniqueIndexTest, UniqueUpdateToNewValueAllowed) {
     EXPECT_TRUE(st.ok) << st.message;
 }
 
-// Test 6: Unique Constraint - Delete erm�glicht Wiedereinf�gung
+// Test 6: Unique Constraint - Delete erm�glicht Wiedereinf�gung
 TEST_F(UniqueIndexTest, UniqueDeleteAllowsReinsertion) {
     auto st = mgr_->createIndex("users", "email", true);
     ASSERT_TRUE(st.ok) << st.message;
@@ -135,7 +161,7 @@ TEST_F(UniqueIndexTest, UniqueDeleteAllowsReinsertion) {
     st = mgr_->put("users", user1);
     ASSERT_TRUE(st.ok) << st.message;
     
-    // L�schen
+    // L�schen
     st = mgr_->erase("users", "user1");
     EXPECT_TRUE(st.ok) << st.message;
     
@@ -179,7 +205,7 @@ TEST_F(UniqueIndexTest, UniqueCompositeIndexDuplicatePrevented) {
     st = mgr_->put("orders", order1);
     ASSERT_TRUE(st.ok) << st.message;
     
-    // Versuch, zweite Order mit gleicher Kombination einzuf�gen
+    // Versuch, zweite Order mit gleicher Kombination einzuf�gen
     BaseEntity order2("order2");
     order2.setField("customer_id", "cust123");
     order2.setField("order_date", "2025-10-27"); // Gleiche Kombination!
@@ -210,7 +236,7 @@ TEST_F(UniqueIndexTest, UniqueCompositePartialMatchAllowed) {
     EXPECT_TRUE(st.ok) << st.message; // Sollte erlaubt sein (Kombination unterschiedlich)
 }
 
-// Test 10: Unique Composite Index - Delete erm�glicht Wiedereinf�gung
+// Test 10: Unique Composite Index - Delete erm�glicht Wiedereinf�gung
 TEST_F(UniqueIndexTest, UniqueCompositeDeleteAllowsReinsertion) {
     auto st = mgr_->createCompositeIndex("orders", {"customer_id", "order_date"}, true);
     ASSERT_TRUE(st.ok) << st.message;
@@ -222,11 +248,11 @@ TEST_F(UniqueIndexTest, UniqueCompositeDeleteAllowsReinsertion) {
     st = mgr_->put("orders", order1);
     ASSERT_TRUE(st.ok) << st.message;
     
-    // L�schen
+    // L�schen
     st = mgr_->erase("orders", "order1");
     EXPECT_TRUE(st.ok) << st.message;
     
-    // Wiedereinf�gung mit gleicher Kombination sollte erlaubt sein
+    // Wiedereinf�gung mit gleicher Kombination sollte erlaubt sein
     BaseEntity order2("order2");
     order2.setField("customer_id", "cust123");
     order2.setField("order_date", "2025-10-27");

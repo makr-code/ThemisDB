@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
+# When building directly from the cmake/ subdirectory (e.g. cmake -S cmake),
+# THEMIS_ROOT_DIR is not yet set.  Default it to the parent of this file.
+if(NOT THEMIS_ROOT_DIR)
+    get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+endif()
+
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
 if(NOT EXISTS "${THEMIS_ROOT_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
@@ -588,8 +594,74 @@ add_compile_definitions(
 )
 
 # ============================================================================
-# LICENSE DATA EMBEDDING (v1.4.0+)
+# BUILD REPRODUCIBILITY – Git commit metadata (v1.7.0+)
 # ============================================================================
+# Capture the current HEAD commit, branch, dirty flag, and build environment
+# so that any binary can be traced back to its exact source revision.
+
+find_package(Git QUIET)
+
+set(_THEMIS_GIT_COMMIT      "unknown")
+set(_THEMIS_GIT_COMMIT_DATE "unknown")
+set(_THEMIS_GIT_BRANCH      "unknown")
+set(_THEMIS_GIT_DIRTY       0)
+
+if(Git_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%H
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} log -1 --format=%ci
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_COMMIT_DATE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _THEMIS_GIT_BRANCH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} status --porcelain
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        OUTPUT_VARIABLE _git_dirty_output
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+    )
+    if(_git_dirty_output)
+        set(_THEMIS_GIT_DIRTY 1)
+    endif()
+endif()
+
+# Build host / user (best-effort)
+cmake_host_system_information(RESULT _THEMIS_BUILD_HOST QUERY HOSTNAME)
+if(DEFINED ENV{USER})
+    set(_THEMIS_BUILD_USER "$ENV{USER}")
+elseif(DEFINED ENV{USERNAME})
+    set(_THEMIS_BUILD_USER "$ENV{USERNAME}")
+else()
+    set(_THEMIS_BUILD_USER "unknown")
+endif()
+
+message(STATUS "Build reproducibility: commit=${_THEMIS_GIT_COMMIT} branch=${_THEMIS_GIT_BRANCH} dirty=${_THEMIS_GIT_DIRTY}")
+
+add_compile_definitions(
+    "THEMIS_GIT_COMMIT=\"${_THEMIS_GIT_COMMIT}\""
+    "THEMIS_GIT_COMMIT_DATE=\"${_THEMIS_GIT_COMMIT_DATE}\""
+    "THEMIS_GIT_BRANCH=\"${_THEMIS_GIT_BRANCH}\""
+    "THEMIS_GIT_DIRTY=${_THEMIS_GIT_DIRTY}"
+    "THEMIS_BUILD_HOST=\"${_THEMIS_BUILD_HOST}\""
+    "THEMIS_BUILD_USER=\"${_THEMIS_BUILD_USER}\""
+)
+
+
 # Allows embedding company/license data into the binary at build time.
 # This supports both offline deployments and CI/CD pipelines.
 # 
@@ -1189,8 +1261,15 @@ set(THEMIS_CORE_SOURCES
     ../src/storage/nlp_metadata_extractor.cpp
     ../src/storage/columnar_format.cpp
     ../src/storage/batch_write_optimizer.cpp
+    ../src/storage/wal_storage.cpp
+    ../src/storage/compaction_manager.cpp
     
     ../src/metadata/schema_manager.cpp
+    ../src/metadata/statistics_collector.cpp
+    ../src/metadata/information_schema.cpp
+    ../src/metadata/schema_constraints.cpp
+    ../src/metadata/schema_version_manager.cpp
+    ../src/metadata/index_recommender.cpp
     ../src/server/schema_api_handler.cpp
     
     ../src/index/secondary_index.cpp
@@ -1214,6 +1293,9 @@ set(THEMIS_CORE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/multi_vector_search.cpp
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_GPU}>:../src/index/multi_gpu_vector_index.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_VULKAN}>:../src/index/gpu_vector_index_vulkan.cpp>
     
     ../src/security/mock_key_provider.cpp
     ../src/security/vault_key_provider.cpp
@@ -1235,6 +1317,8 @@ set(THEMIS_CORE_SOURCES
     ../src/transaction/snapshot_manager.cpp
     ../src/transaction/merge_engine.cpp
     ../src/transaction/branch_manager.cpp
+    ../src/transaction/lock_manager.cpp
+    ../src/transaction/crash_recovery_manager.cpp
     
     ../src/query/query_engine.cpp
     ../src/query/query_optimizer.cpp
@@ -1262,9 +1346,18 @@ set(THEMIS_CORE_SOURCES
     ../src/query/functions/fulltext_functions.cpp
     ../src/prompt_engineering/prompt_manager.cpp
     ../src/prompt_engineering/prompt_engineering_metrics.cpp
+    ../src/prompt_engineering/feedback_collector.cpp
+    ../src/prompt_engineering/prompt_evaluator.cpp
+    ../src/prompt_engineering/meta_prompt_generator.cpp
+    ../src/prompt_engineering/prompt_optimizer.cpp
+    ../src/prompt_engineering/prompt_performance_tracker.cpp
+    ../src/prompt_engineering/prompt_version_control.cpp
+    ../src/prompt_engineering/self_improvement_orchestrator.cpp
+    ../src/prompt_engineering/prompt_engineering_integration.cpp
     
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/distributed_txn_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/api_auth_config.cpp>
     $<$<BOOL:${THEMIS_ENABLE_SSE}>:../src/server/sse_connection_manager.cpp>
@@ -1336,6 +1429,11 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_policy.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_errors.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_validator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_metrics.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_logger.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_security.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_fs.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/version_manager.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_CONTENT}>,$<BOOL:${THEMIS_ENABLE_OFFICE}>>:../src/content/office_processor.cpp>
@@ -1403,6 +1501,7 @@ set(THEMIS_CORE_SOURCES
     ../src/utils/thread_pool_manager.cpp
     ../src/utils/build_info.cpp
     ../src/utils/license_info.cpp
+    ../src/utils/runtime_license_gate.cpp
     ../src/utils/error_registry.cpp
     ../src/utils/memory/pool_allocator.cpp
     
@@ -1411,6 +1510,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+    ../src/updates/update_state_machine.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
@@ -1418,8 +1518,15 @@ set(THEMIS_CORE_SOURCES
     # Spatial index
     ../src/index/spatial_index.cpp
     
-    # Hybrid search (BM25 + Vector)
+    # Hybrid search (BM25 + Vector) and v1.5.0 search components
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
     ../src/security/rbac.cpp
@@ -1436,11 +1543,13 @@ set(THEMIS_CORE_SOURCES
     ../src/security/timestamp_authority_openssl.cpp
     ../src/security/vram_secure_clear.cpp
     ../src/security/vcc_pki_client.cpp
+    ../src/security/pii_redaction_policy.cpp
     ../src/storage/security_signature.cpp
     ../src/storage/security_signature_manager.cpp
     ../src/security/binary_manifest.cpp
     ../src/security/manifest_signer.cpp
     ../src/auth/jwt_validator.cpp
+    ../src/auth/jwks_validator.cpp
     ../src/auth/gssapi_authenticator.cpp
     ../src/governance/policy_engine.cpp
     ../src/governance/policy_manager.cpp
@@ -1502,6 +1611,7 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/raft_state.cpp
     ../src/sharding/raft_wal_integration.cpp
     ../src/sharding/raft_consensus.cpp
+    ../src/sharding/raft_shard_manager.cpp
     ../src/sharding/quorum_manager.cpp
     ../src/sharding/partition_detector.cpp
     ../src/sharding/replica_consistency.cpp
@@ -1518,14 +1628,22 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/secure_transport_client.cpp
     ../src/sharding/distributed_time_coordinator.cpp
     ../src/sharding/distributed_transaction.cpp
+    ../src/sharding/two_phase_commit_participant.cpp
     ../src/sharding/consensus_factory.cpp
     ../src/sharding/raft_consensus_adapter.cpp
     ../src/sharding/gossip_consensus_adapter.cpp
+    ../src/sharding/metadata_wal.cpp
+    ../src/sharding/metadata_snapshot.cpp
     ../src/sharding/paxos_consensus.cpp
+    ../src/sharding/paxos_wal.cpp
+    ../src/sharding/paxos_snapshot.cpp
     ../src/sharding/cross_shard_transaction.cpp
+    ../src/sharding/transaction_wal.cpp
+    ../src/sharding/transaction_snapshot.cpp
     ../src/sharding/redundancy_strategy.cpp
     ../src/sharding/hot_spare_manager.cpp
     ../src/sharding/predictive_detector.cpp
+    ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/shard_rpc_server.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:/src/sharding/gpu_erasure_coder.cu>
@@ -1552,7 +1670,10 @@ set(THEMIS_CORE_SOURCES
     ../src/network/wire_protocol_server.cpp
     ../src/network/wire_protocol_helpers.cpp
     ../src/network/wire_protocol_connection_pool.cpp
+    ../src/network/wire_protocol_v2.cpp
+    ../src/network/wire_protocol_performance.cpp
     ../src/network/socket_timeout_manager.cpp
+    ../src/network/qos_manager.cpp
     
     # Observability (GAP-008: Alertmanager integration)
     ../src/observability/metrics_collector.cpp
@@ -1563,7 +1684,11 @@ set(THEMIS_CORE_SOURCES
     
     # Exporters and Importers
     ../src/exporters/jsonl_llm_exporter.cpp
+    ../src/exporters/exporter_metrics.cpp
+    ../src/exporters/pii_detector.cpp
+    ../src/exporters/stream_writer.cpp
     ../src/importers/postgres_importer.cpp
+    ../src/aql/llm_metrics_collector.cpp
     
     # OLAP Analytics
     ../src/analytics/olap.cpp
@@ -1681,6 +1806,10 @@ if(THEMIS_ENABLE_LLM)
         # Server/API (HTTP + optional gRPC)
     ../src/server/llm_api_handler.cpp
     ../src/aql/llm_aql_handler.cpp
+    ../src/aql/aql_query_builder.cpp
+    ../src/aql/aql_query_validator.cpp
+    ../src/aql/aql_query_template_library.cpp
+    ../src/aql/aql_conversation_context.cpp
 
         # Optional: gRPC service and generated proto headers (guarded by gRPC)
         # Only add when gRPC is available, otherwise skip to prevent missing headers
@@ -1719,18 +1848,33 @@ if(THEMIS_ENABLE_LLM)
     ../src/llm/multi_gpu_memory_coordinator.cpp
     ../src/llm/paged_kv_cache_manager.cpp
     ../src/llm/mixed_precision_inference.cpp
-    # Multi-GPU LoRA Training
-    ../src/llm/lora_framework/multi_gpu.cpp
-    ../src/llm/lora_framework/multi_gpu_trainer.cpp
-    ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
     # Multi-GPU Communication Backends (NCCL/RCCL - stub implementations when not available)
     ../src/llm/lora_framework/nccl_backend.cpp
     ../src/llm/lora_framework/rccl_backend.cpp
     )
+
+    # GPU LoRA/VRAM implementation (GPU-only)
+    if(THEMIS_ENABLE_GPU)
+        list(APPEND THEMIS_CORE_SOURCES
+            ../src/llm/lora_framework/gpu_tensor.cpp
+            ../src/llm/lora_framework/vram_allocator.cpp
+            ../src/llm/lora_framework/gpu_lora_layers.cpp
+            ../src/llm/lora_framework/paged_memory_manager.cpp
+            ../src/llm/lora_framework/custom_allreduce.cpp
+            ../src/llm/lora_framework/multi_gpu.cpp
+            ../src/llm/lora_framework/multi_gpu_trainer.cpp
+            ../src/llm/lora_framework/multi_gpu_lora_layer.cpp
+        )
+    endif()
     
     # RAG enhancement modules (Phase 1: Knowledge Gap Detector)
     list(APPEND THEMIS_CORE_SOURCES
     ../src/rag/knowledge_gap_detector.cpp
+    # Continuous Learning Orchestrator (Phase 2)
+    ../src/rag/learning_metrics.cpp
+    ../src/rag/bayesian_optimizer.cpp
+    ../src/rag/ab_testing_framework.cpp
+    ../src/rag/continuous_learning_orchestrator.cpp
     )
 endif()
 
@@ -2411,7 +2555,9 @@ if(THEMIS_ENABLE_GRPC)
         endif()
 
         # Link to generated shard proto library (generated outside this block)
-        if(TARGET themis_shard_proto)
+        # In modular builds, themis_sharding owns this dependency to avoid
+        # duplicate static proto objects in final executables.
+        if(TARGET themis_shard_proto AND NOT THEMIS_BUILD_MODULAR)
             target_link_libraries(themis_core PUBLIC themis_shard_proto)
         endif()
     else()
@@ -2482,7 +2628,6 @@ if(THEMIS_ENABLE_LLM)
         
         # LoRA Adapter Framework (Issue #319) - RE-ENABLED WITH FIXED APIs
         ../src/llm/lora_framework/lora_orchestrator.cpp       # LoRA CRUD orchestrator
-        ../src/llm/lora_framework/lora_adapter_manager.cpp    # Adapter lifecycle & caching
         # Note: lora_storage_service.cpp removed to avoid duplicate symbol errors
         # Only using lora_storage_service_themisdb.cpp which has complete ThemisDB + FileSystem implementations
         ../src/llm/lora_framework/lora_storage_service_themisdb.cpp  # ThemisDB storage backend (complete implementation)
@@ -2545,6 +2690,15 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/llm_meta_analyzer.cpp          # Base class for LLM-based meta-analysis
         ../src/rag/rag_judge.cpp                  # LLM-as-Judge for RAG quality evaluation
         ../src/rag/knowledge_gap_detector.cpp     # Knowledge gap detection
+        ../src/rag/llm_judge_client.cpp           # LLM Judge Client connecting to InferenceEngineEnhanced
+        ../src/rag/nli_faithfulness_verifier.cpp  # NLI-based faithfulness verification
+        ../src/rag/quality_control_pipeline.cpp   # Multi-stage quality control pipeline
+        
+        # Continuous Learning Orchestrator (Phase 2)
+        ../src/rag/learning_metrics.cpp
+        ../src/rag/bayesian_optimizer.cpp
+        ../src/rag/ab_testing_framework.cpp
+        ../src/rag/continuous_learning_orchestrator.cpp
         
         # P3: Vision Support (Multi-Modal)
         # vision_encoder.cpp is added conditionally below via THEMIS_ENABLE_VISION
@@ -3598,6 +3752,14 @@ if(FALSE)  # Disabled - benchmarks now defined in benchmarks/CMakeLists.txt
             ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/bench_v1_3_0_features.cpp
         )
         target_link_libraries(bench_v1_3_0_features PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
+    endif()
+
+    # Hybrid Search Algorithm Benchmarks (RRF, linear combination, normalizeScores)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_hybrid_search.cpp")
+        add_executable(benchmark_hybrid_search
+            ${CMAKE_CURRENT_SOURCE_DIR}${THEMIS_ROOT_DIR}/benchmarks/benchmark_hybrid_search.cpp
+        )
+        target_link_libraries(benchmark_hybrid_search PRIVATE themis_core benchmark::benchmark benchmark::benchmark_main)
     endif()
 
     # Vector Compression Lossless Benchmark

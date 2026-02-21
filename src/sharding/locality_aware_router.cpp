@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            locality_aware_router.cpp                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     462                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/locality_aware_router.h"
 #include <algorithm>
 #include <numeric>
@@ -387,15 +413,23 @@ float LocalityAwareRouter::calculateNetworkScore(const std::string& shard_id) co
         return 0.5f; // Unknown location
     }
     
-    // Same datacenter = 1.0 (best)
-    // Different datacenter = 0.5
-    // Different region = 0.1
-    if (shard_info->datacenter == local_info->datacenter) {
+    // 3-tier scoring using region, zone, and datacenter:
+    // Same zone (most local)           = 1.0
+    // Same region, different zone      = 0.8
+    // Same datacenter, different region = 0.5
+    // Different datacenter/region      = 0.1
+    if (!shard_info->zone.empty() && !local_info->zone.empty() &&
+        shard_info->zone == local_info->zone) {
         return 1.0f;
-    } else {
-        // Simple heuristic: different datacenter
+    }
+    if (!shard_info->region.empty() && !local_info->region.empty() &&
+        shard_info->region == local_info->region) {
+        return 0.8f;
+    }
+    if (shard_info->datacenter == local_info->datacenter) {
         return 0.5f;
     }
+    return 0.1f;
 }
 
 std::string LocalityAwareRouter::makeCacheKey(

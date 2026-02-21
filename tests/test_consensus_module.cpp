@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_consensus_module.cpp                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     395                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -287,5 +313,83 @@ TEST_F(ConsensusModuleTest, WaitForCommitTimeout) {
     bool committed = module->waitForCommit(999999, std::chrono::milliseconds(100));
     EXPECT_FALSE(committed);
     
+    module->stop();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Gossip snapshot tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(ConsensusModuleTest, GossipTakeSnapshot_Succeeds) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json state = {{"collection", "events"}, {"count", 50}};
+    EXPECT_TRUE(module->takeSnapshot(state));
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_GE(status["snapshot_index"].get<uint64_t>(), 0u);
+
+    module->stop();
+}
+
+TEST_F(ConsensusModuleTest, GossipTakeSnapshot_NotRunning_Fails) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    // Do NOT call start()
+    EXPECT_FALSE(module->takeSnapshot({{"key", "val"}}));
+}
+
+TEST_F(ConsensusModuleTest, GossipRestoreSnapshot_ValidData_Succeeds) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json snap = {
+        {"collection", "logs"},
+        {"_snapshot_index", uint64_t(12)}
+    };
+    EXPECT_TRUE(module->restoreSnapshot(snap));
+
+    auto status = module->getStatus();
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 12u);
+    // Gossip has no term concept — always 0
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(), 0u);
+
+    module->stop();
+}
+
+TEST_F(ConsensusModuleTest, GossipRestoreSnapshot_EmptyData_Fails) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    EXPECT_FALSE(module->restoreSnapshot(nlohmann::json{}));
+
+    module->stop();
+}
+
+TEST_F(ConsensusModuleTest, GossipGetStatus_IncludesSnapshotFields) {
+    config_.type = ConsensusType::GOSSIP;
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_TRUE(status.contains("snapshot_term"));
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 0u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(), 0u);
+
     module->stop();
 }

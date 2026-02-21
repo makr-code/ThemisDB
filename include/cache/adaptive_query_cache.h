@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            adaptive_query_cache.h                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     360                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -8,6 +34,7 @@
 #include <mutex>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
+#include "cache/cache_metrics.h"
 
 namespace themis {
 
@@ -64,14 +91,42 @@ public:
         int l3_ttl_seconds = 86400;            // 24 hours
         std::string l3_db_path = "./themis_query_cache";
         
-        // Adaptive TTL configuration
-        bool enable_adaptive_ttl = true;
-        int min_ttl_seconds = 60;              // 1 minute minimum
-        int max_ttl_seconds = 86400;           // 24 hour maximum
-        
         // Eviction policy
         bool enable_frequency_weighting = true;
         float frequency_weight = 0.3f;         // Weight for frequency in LRU score
+        
+        // Size limits (Phase 1: Security)
+        size_t max_total_entry_size = 10485760; // 10MB absolute max per entry
+        bool enable_size_limits = true;         // Enable size validation
+        
+        // Circuit breaker configuration (Phase 1: Fault Isolation)
+        bool enable_circuit_breaker = true;
+        uint32_t cb_failure_threshold = 5;      // Failures before opening
+        uint32_t cb_timeout_ms = 60000;         // 1 minute timeout
+        
+        // Phase 2: Rate limiting & backpressure
+        bool enable_rate_limiting = false;       // Enable rate limiting (opt-in)
+        uint32_t max_requests_per_second = 10000; // Global rate limit
+        bool enable_backpressure = true;         // Enable backpressure
+        size_t l3_write_queue_size = 1000;       // Max queued L3 writes
+        
+        // Phase 2: Tenant isolation
+        bool enable_tenant_isolation = false;    // Enable tenant namespacing (opt-in)
+        size_t per_tenant_max_bytes = 104857600; // 100MB per tenant default
+        
+        // Phase 3: Adaptive TTL tuning
+        bool enable_adaptive_ttl = false;        // Enable adaptive TTL based on access patterns
+        int min_ttl_seconds = 60;                // Legacy alias for adaptive_ttl_min_seconds
+        int max_ttl_seconds = 86400;             // Legacy alias for adaptive_ttl_max_seconds
+        int adaptive_ttl_min_seconds = 60;       // Minimum TTL (1 minute)
+        int adaptive_ttl_max_seconds = 86400;    // Maximum TTL (24 hours)
+        double adaptive_ttl_scaling_factor = 5.0; // Scaling factor for logarithmic growth
+        
+        /**
+         * @brief Validate configuration parameters
+         * @return true if config is valid, false otherwise
+         */
+        bool validate(std::string* error_msg = nullptr) const;
     };
     
     struct CacheEntry {
@@ -122,10 +177,12 @@ public:
      * 
      * @param query Query string (AQL, SQL, etc.)
      * @param params Query parameters (bind variables, limits, etc.)
+     * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
      * @return SHA256 fingerprint as hex string
      */
     std::string generateFingerprint(const std::string& query, 
-                                    const nlohmann::json& params = {}) const;
+                                    const nlohmann::json& params = {},
+                                    const std::string& tenant_id = "") const;
     
     /**
      * @brief Get cached query result
@@ -134,9 +191,11 @@ public:
      * Automatically promotes frequently accessed entries to higher levels.
      * 
      * @param fingerprint Query fingerprint (from generateFingerprint)
+     * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
      * @return Cached result if found and not expired, nullopt otherwise
      */
-    std::optional<CacheEntry> get(const std::string& fingerprint);
+    std::optional<CacheEntry> get(const std::string& fingerprint,
+                                   const std::string& tenant_id = "");
     
     /**
      * @brief Store query result in cache
@@ -147,11 +206,13 @@ public:
      * @param fingerprint Query fingerprint
      * @param query_params Original query parameters (for debugging)
      * @param result Query result to cache
+     * @param tenant_id Optional tenant ID for namespace isolation (Phase 2)
      * @return True if successfully cached
      */
     bool put(const std::string& fingerprint,
              const nlohmann::json& query_params,
-             const nlohmann::json& result);
+             const nlohmann::json& result,
+             const std::string& tenant_id = "");
     
     /**
      * @brief Invalidate cache entries matching a pattern
@@ -181,9 +242,59 @@ public:
     CacheStats getStats() const;
     
     /**
+     * @brief Get enhanced metrics (Phase 1: Observability)
+     */
+    const cache::CacheMetrics& getEnhancedMetrics() const {
+        return enhanced_metrics_;
+    }
+    
+    /**
      * @brief Get detailed cache information (for monitoring)
      */
     nlohmann::json getDetailedInfo() const;
+    
+    // ========================================================================
+    // Phase 3: Admin API & Operational Tooling
+    // ========================================================================
+    
+    /**
+     * @brief Get statistics by cache tier
+     * @return JSON with per-tier statistics
+     */
+    nlohmann::json getStatsByTier() const;
+    
+    /**
+     * @brief Get cache health status
+     * @return JSON with health information and warnings
+     */
+    nlohmann::json getHealthStatus() const;
+    
+    /**
+     * @brief Export cache keys for debugging
+     * @param max_keys Maximum number of keys to export (default: 100)
+     * @return Vector of cache keys
+     */
+    std::vector<std::string> exportKeys(size_t max_keys = 100) const;
+    
+    /**
+     * @brief Get tenant usage statistics
+     * @return JSON with per-tenant size usage
+     */
+    nlohmann::json getTenantStats() const;
+    
+    /**
+     * @brief Bulk put for cache warmup
+     * @param entries Vector of {fingerprint, params, result, tenant_id} tuples
+     * @return Number of successfully cached entries
+     */
+    size_t bulkPut(const std::vector<std::tuple<std::string, nlohmann::json, nlohmann::json, std::string>>& entries);
+    
+    /**
+     * @brief Invalidate all entries for a specific tenant
+     * @param tenant_id Tenant ID to invalidate
+     * @return Number of entries invalidated
+     */
+    size_t invalidateTenant(const std::string& tenant_id);
 
 private:
     struct L1Entry {
@@ -203,7 +314,18 @@ private:
     };
     
     Config config_;
-    mutable CacheStats stats_;
+    mutable cache::CacheMetrics enhanced_metrics_;  // Enhanced metrics (Phase 1)
+    mutable CacheStats stats_;  // Kept for backward compatibility
+    
+    // Circuit breaker for L3 (RocksDB) operations (Phase 1)
+    std::unique_ptr<cache::CircuitBreaker> l3_circuit_breaker_;
+    
+    // Phase 2: Rate limiter
+    std::unique_ptr<cache::RateLimiter> rate_limiter_;
+    
+    // Phase 2: Tenant isolation - track per-tenant sizes
+    std::unordered_map<std::string, size_t> tenant_sizes_;
+    mutable std::mutex tenant_mutex_;
     
     // L1: In-memory HashMap
     std::unordered_map<std::string, L1Entry> l1_cache_;
@@ -225,6 +347,14 @@ private:
     void promoteEntry(const std::string& fingerprint, const CacheEntry& entry);
     void evictLRU(CacheLevel level);
     double calculateLRUScore(int64_t last_accessed_ms, int64_t access_count) const;
+    
+    // Phase 1: Size validation and security
+    bool validateEntrySize(size_t size, CacheLevel level) const;
+    bool isWithinSizeLimit(size_t size) const;
+    
+    // Phase 2: Tenant isolation helpers
+    std::string makeTenantKey(const std::string& fingerprint, const std::string& tenant_id) const;
+    bool checkTenantQuota(const std::string& tenant_id, size_t additional_bytes);
 };
 
 } // namespace themis

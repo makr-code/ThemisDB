@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            noop_implementations.h                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     145                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "core/concerns/i_logger.h"
@@ -21,10 +47,15 @@ public:
     void warn(const std::string& message) override {}
     void error(const std::string& message) override {}
     void critical(const std::string& message) override {}
+    void logStructured(Level level, const std::string& message, const Fields& fields = {}) override {}
     
     void setLevel(Level level) override { level_ = level; }
     Level getLevel() const override { return level_; }
     void setPattern(const std::string& pattern) override {}
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 
 private:
     Level level_ = Level::INFO;
@@ -59,8 +90,11 @@ public:
         return true;
     }
 
-    void shutdown() override {}
+    void shutdown() noexcept override {}
     bool isInitialized() const override { return true; }
+
+    void flush() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 };
 
 /**
@@ -78,6 +112,10 @@ public:
     void recordSuccess(const std::string& operation, const Labels& labels = {}) override {}
     std::string exportMetrics() const override { return ""; }
     void reset() override {}
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 };
 
 /**
@@ -96,6 +134,10 @@ public:
     double hitRate() const override { return 0.0; }
     void setMaxSize(size_t maxSize) override {}
     void setDefaultTTL(uint64_t ttl_ms) override {}
+
+    void flush() noexcept override {}
+    void shutdown() noexcept override {}
+    ProbeResult isHealthy() const override { return ProbeResult::healthy(); }
 };
 
 } // namespace concerns

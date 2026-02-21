@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ml_model_manager.h                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     511                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_model_storage.h"
@@ -7,7 +33,9 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <deque>
 #include <unordered_map>
+#include <unordered_set>
 #include <mutex>
 #include <thread>
 #include <atomic>
@@ -123,6 +151,10 @@ struct MLModelInstance {
     float p95_latency_ms = 0.0f;
     float p99_latency_ms = 0.0f;
     float requests_per_second = 0.0f;
+
+    // Sliding window of recent latency samples for percentile computation
+    static constexpr size_t kLatencyWindowSize = 200;
+    std::deque<float> latency_window;
     
     // Health
     int consecutive_health_check_failures = 0;
@@ -469,6 +501,10 @@ private:
     
     std::string generateRequestId();
     std::atomic<uint64_t> request_counter_{0};
+
+    // In-flight request cancellation tracking
+    std::unordered_set<std::string> cancelled_requests_;
+    std::mutex cancel_mutex_;
 };
 
 } // namespace llm

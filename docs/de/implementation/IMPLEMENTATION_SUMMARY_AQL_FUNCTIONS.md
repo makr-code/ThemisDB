@@ -8,7 +8,7 @@ Complete and harden AQL implementation areas that are currently incomplete or st
 
 1. Fulltext functions: implement actual execution paths for FULLTEXT, PHRASE, FUZZY, NGRAM_MATCH
 2. Ethics functions: replace stub responses with real implementations or clearly gated not-supported errors
-3. Process-mining functions: move process_mining_functions.cpp.bak into build and wire into registry
+3. Process-mining functions: integrate existing stub with analytics module and implement using nlohmann::json interface
 4. Documentation fixes: fix docs/aql references and ensure documentation paths exist
 
 ## Solution Implemented
@@ -178,7 +178,7 @@ Complete and harden AQL implementation areas that are currently incomplete or st
 
 ### Long-term
 1. Integrate process mining functions with analytics module
-2. Port relevant implementations from process_mining_functions.cpp.bak with updated interface
+2. Implement full process mining functions using the nlohmann::json interface (see process_mining_functions.h for required signatures)
 3. Implement full process discovery algorithms
 4. Add comprehensive conformance checking
 

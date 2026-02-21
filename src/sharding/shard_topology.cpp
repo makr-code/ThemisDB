@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_topology.cpp                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     451                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/shard_topology.h"
 #include "sharding/mtls_client.h"
 #include <nlohmann/json.hpp>
@@ -5,6 +31,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <unordered_set>
 
 namespace themis::sharding {
 
@@ -373,6 +400,52 @@ std::vector<std::string> ShardTopology::getRaftLeaders() const {
     }
     
     return leaders;
+}
+
+std::vector<ShardInfo> ShardTopology::getShardsInRegion(const std::string& region) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ShardInfo> result;
+    for (const auto& [id, info] : shards_) {
+        if (info.region == region) {
+            result.push_back(info);
+        }
+    }
+    return result;
+}
+
+std::vector<ShardInfo> ShardTopology::getHealthyShardsInRegion(const std::string& region) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<ShardInfo> result;
+    for (const auto& [id, info] : shards_) {
+        if (info.region == region && info.is_healthy) {
+            result.push_back(info);
+        }
+    }
+    return result;
+}
+
+std::vector<std::string> ShardTopology::getRegions() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::unordered_set<std::string> seen;
+    for (const auto& [id, info] : shards_) {
+        if (!info.region.empty()) {
+            seen.insert(info.region);
+        }
+    }
+    std::vector<std::string> regions(seen.begin(), seen.end());
+    std::sort(regions.begin(), regions.end());
+    return regions;
+}
+
+bool ShardTopology::regionHasQuorum(const std::string& region, uint32_t required) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    uint32_t healthy = 0;
+    for (const auto& [id, info] : shards_) {
+        if (info.region == region && info.is_healthy) {
+            ++healthy;
+        }
+    }
+    return healthy >= required;
 }
 
 } // namespace themis::sharding

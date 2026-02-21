@@ -1,4 +1,30 @@
-﻿// Graph adjacency index implementation
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_index.cpp                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     2086                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Graph adjacency index implementation
 
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
@@ -724,6 +750,43 @@ double GraphIndexManager::getEdgeWeight(std::string_view graphId, std::string_vi
 	}
 
 	return 1.0;
+}
+
+std::optional<std::string> GraphIndexManager::getEdgeField(
+	std::string_view edgeId, std::string_view fieldName) const {
+	// Try both storage formats: "edge:<edgeId>" and, for in-memory topology keys,
+	// iterate over all known graphIds.  Prefer the format without graphId for
+	// simplicity (matches the common single-graph use-case).
+	const std::string edgeKey = std::string("edge:") + std::string(edgeId);
+	auto blob = db_.get(edgeKey);
+	if (!blob.has_value()) {
+		// Try the topology keys in the in-memory edge map to find a graphId
+		std::lock_guard<std::mutex> lk(topology_mutex_);
+		for (const auto& [from, adj_list] : outEdges_) {
+			for (const auto& adj : adj_list) {
+				if (adj.edgeId == edgeId && !adj.graphId.empty()) {
+					const std::string edgeKeyWithGid =
+						std::string("edge:") + adj.graphId + ":" + std::string(edgeId);
+					blob = db_.get(edgeKeyWithGid);
+					if (blob.has_value()) break;
+				}
+			}
+			if (blob.has_value()) break;
+		}
+	}
+	if (!blob.has_value()) return std::nullopt;
+
+	BaseEntity edge = BaseEntity::deserialize(std::string(edgeId), *blob);
+	return edge.getFieldAsString(fieldName);
+}
+
+std::optional<std::string> GraphIndexManager::getNodeField(
+	std::string_view vertexId, std::string_view fieldName) const {
+	const std::string nodeKey = KeySchema::makeGraphNodeKey(vertexId);
+	auto blob = db_.get(nodeKey);
+	if (!blob.has_value()) return std::nullopt;
+	BaseEntity vertex = BaseEntity::deserialize(std::string(vertexId), *blob);
+	return vertex.getFieldAsString(fieldName);
 }
 
 std::string GraphIndexManager::getEdgeType_(std::string_view graphId, std::string_view edgeId) const {

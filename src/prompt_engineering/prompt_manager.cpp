@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            prompt_manager.cpp                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     414                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "prompt_engineering/prompt_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "metadata/schema_manager.h"
@@ -19,7 +45,52 @@ PromptManager::PromptManager() = default;
 PromptManager::PromptManager(RocksDBWrapper* db, rocksdb::ColumnFamilyHandle* cf)
     : db_(db), cf_(cf) {}
 
+PromptManager::ValidationResult PromptManager::validateTemplate(const PromptTemplate& t) {
+    ValidationResult result;
+
+    // Required: non-empty name
+    if (t.name.empty()) {
+        result.errors.push_back("Template 'name' must not be empty");
+    }
+
+    // Required: non-empty content
+    if (t.content.empty()) {
+        result.errors.push_back("Template 'content' must not be empty");
+    }
+
+    // Required: non-empty version
+    if (t.version.empty()) {
+        result.errors.push_back("Template 'version' must not be empty");
+    }
+
+    // Warn if description is missing
+    if (t.description.empty()) {
+        result.warnings.push_back("Template 'description' is empty – consider adding one");
+    }
+
+    // Validate metadata is object or null (not a raw scalar/array)
+    if (!t.metadata.is_null() && !t.metadata.is_object()) {
+        result.errors.push_back("Template 'metadata' must be a JSON object");
+    }
+
+    result.valid = result.errors.empty();
+    return result;
+}
+
 PromptManager::PromptTemplate PromptManager::createTemplate(PromptManager::PromptTemplate t) {
+    // Validate before inserting
+    auto vr = validateTemplate(t);
+    if (!vr.valid) {
+        for (const auto& err : vr.errors) {
+            THEMIS_ERROR("Template validation error: {}", err);
+        }
+        // Return a sentinel template with an empty id to indicate failure
+        return PromptTemplate{};
+    }
+    for (const auto& warn : vr.warnings) {
+        THEMIS_WARN("Template validation warning: {}", warn);
+    }
+
     // v1.1.0: Lock-free concurrent hash map (no explicit lock needed)
     if (t.id.empty()) t.id = generateId();
     
@@ -212,6 +283,19 @@ size_t PromptManager::loadFromYAML(const std::string& yaml_path) {
                 }
             }
             
+            // Validate before creating
+            auto vr = validateTemplate(pt);
+            if (!vr.valid) {
+                for (const auto& err : vr.errors) {
+                    THEMIS_ERROR("Template '{}' validation error: {}", prompt_id, err);
+                }
+                // Skip invalid templates
+                continue;
+            }
+            for (const auto& warn : vr.warnings) {
+                THEMIS_WARN("Template '{}' validation warning: {}", prompt_id, warn);
+            }
+
             createTemplate(pt);
             loaded++;
             

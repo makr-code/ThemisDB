@@ -1,4 +1,30 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            graph_index.h                                      ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     320                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include "storage/rocksdb_wrapper.h"
 #include "index/temporal_graph.h"
@@ -234,6 +260,18 @@ public:
     // Falls back to 1.0 if attribute doesn't exist or edge not found
     double getEdgeWeight(std::string_view graphId, std::string_view edgeId, 
                         std::string_view weightAttribute = "_weight") const;
+
+    // General string field accessor for edge entities.
+    // Tries key formats: "edge:<graphId>:<edgeId>" and "edge:<edgeId>".
+    // Returns nullopt if the edge or field does not exist.
+    std::optional<std::string> getEdgeField(std::string_view edgeId,
+                                            std::string_view fieldName) const;
+
+    // General string field accessor for vertex (node) entities.
+    // Uses key format: "node:<vertexId>" (KeySchema::makeGraphNodeKey).
+    // Returns nullopt if the vertex or field does not exist.
+    std::optional<std::string> getNodeField(std::string_view vertexId,
+                                            std::string_view fieldName) const;
 
     // Optional: provide FieldEncryption for encrypting sensitive edge fields
     void setFieldEncryption(std::shared_ptr<class FieldEncryption> fe) { field_encryption_ = fe; }

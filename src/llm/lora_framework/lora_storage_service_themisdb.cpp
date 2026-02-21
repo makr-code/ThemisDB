@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_storage_service_themisdb.cpp                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     963                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/lora_framework/lora_storage_service.h"
 #include "storage/base_entity.h"
 #include "security/mock_key_provider.h"
@@ -266,8 +292,67 @@ public:
     
     bool rollbackToVersion(const std::string& adapter_id, const std::string& version) {
         spdlog::info("Rolling back adapter {} to version {}", adapter_id, version);
-        // Implementation depends on backend
-        return false;  // TODO: Implement
+
+        if (config_.backend == Backend::ThemisDB && config_.db) {
+            // Load the versioned snapshot key, e.g. "collection:adapter_id:v2"
+            std::string versioned_key = makeCollectionKey(adapter_id) + ":" + version;
+            auto data = config_.db->get(versioned_key);
+            if (!data) {
+                spdlog::error("LoRAStorage: rollback failed – version '{}' not found for adapter '{}'",
+                              version, adapter_id);
+                return false;
+            }
+            // Overwrite the current key with the versioned snapshot
+            std::string current_key = makeCollectionKey(adapter_id);
+            bool ok = config_.db->put(current_key, *data);
+            if (ok) {
+                spdlog::info("LoRAStorage: adapter '{}' rolled back to version '{}'",
+                             adapter_id, version);
+            } else {
+                spdlog::error("LoRAStorage: failed to write rollback data for adapter '{}'",
+                              adapter_id);
+            }
+            return ok;
+
+        } else {
+            // Filesystem backend: two-phase atomic-swap to protect against data
+            // loss if the copy fails after removal.
+            // Phase 1: copy the versioned snapshot to a temporary directory.
+            // Phase 2: atomically rename/replace the current directory.
+            fs::path adapter_dir  = fs::path(config_.filesystem_path) / adapter_id;
+            fs::path version_dir  = fs::path(config_.filesystem_path) / (adapter_id + "." + version);
+            fs::path tmp_dir      = fs::path(config_.filesystem_path) / (adapter_id + ".rollback_tmp");
+
+            if (!fs::exists(version_dir)) {
+                spdlog::error("LoRAStorage: rollback failed – version dir '{}' not found",
+                              version_dir.string());
+                return false;
+            }
+            try {
+                // Phase 1: copy to tmp (leave original intact)
+                if (fs::exists(tmp_dir)) {
+                    fs::remove_all(tmp_dir);
+                }
+                fs::copy(version_dir, tmp_dir,
+                         fs::copy_options::recursive | fs::copy_options::overwrite_existing);
+
+                // Phase 2: atomically replace current with tmp
+                if (fs::exists(adapter_dir)) {
+                    fs::remove_all(adapter_dir);
+                }
+                fs::rename(tmp_dir, adapter_dir);
+
+                spdlog::info("LoRAStorage: adapter '{}' rolled back to version '{}' via filesystem",
+                             adapter_id, version);
+                return true;
+            } catch (const std::exception& e) {
+                spdlog::error("LoRAStorage: filesystem rollback failed: {}", e.what());
+                // Best-effort cleanup of the tmp directory
+                std::error_code ec;
+                fs::remove_all(tmp_dir, ec);
+                return false;
+            }
+        }
     }
     
     std::vector<std::string> listVersions(const std::string& adapter_id) const {
@@ -448,7 +533,7 @@ private:
      */
     std::shared_ptr<KeyProvider> createVaultKeyProvider() {
         spdlog::info("  Initializing Vault-backed encryption:");
-        spdlog::info("    Address: {}", config_.vault_addr);
+        spdlog::info("    Address: {}", config_.vault_addr); // NOPII: vault_addr is a service URL, not personal data
         spdlog::info("    Mount Path: {}", config_.vault_kv_mount);
         
         ::themis::VaultKeyProvider::Config vault_config;

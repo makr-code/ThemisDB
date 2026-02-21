@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vector_auto_buffer.h                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     323                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Vector Index Auto-Batching Buffer
  * 
@@ -80,6 +106,38 @@ struct VectorAutoBufferStats {
     size_t current_buffer_memory{0};
     
     std::chrono::steady_clock::time_point last_flush_time;
+
+    VectorAutoBufferStats() = default;
+
+    VectorAutoBufferStats(const VectorAutoBufferStats& other)
+        : vectors_buffered(other.vectors_buffered.load())
+        , vectors_flushed(other.vectors_flushed.load())
+        , flush_count(other.flush_count.load())
+        , auto_flush_count(other.auto_flush_count.load())
+        , manual_flush_count(other.manual_flush_count.load())
+        , size_triggered_flush(other.size_triggered_flush.load())
+        , time_triggered_flush(other.time_triggered_flush.load())
+        , buffer_overflow_count(other.buffer_overflow_count.load())
+        , current_buffer_size(other.current_buffer_size)
+        , current_buffer_memory(other.current_buffer_memory)
+        , last_flush_time(other.last_flush_time) {}
+
+    VectorAutoBufferStats& operator=(const VectorAutoBufferStats& other) {
+        if (this != &other) {
+            vectors_buffered.store(other.vectors_buffered.load());
+            vectors_flushed.store(other.vectors_flushed.load());
+            flush_count.store(other.flush_count.load());
+            auto_flush_count.store(other.auto_flush_count.load());
+            manual_flush_count.store(other.manual_flush_count.load());
+            size_triggered_flush.store(other.size_triggered_flush.load());
+            time_triggered_flush.store(other.time_triggered_flush.load());
+            buffer_overflow_count.store(other.buffer_overflow_count.load());
+            current_buffer_size = other.current_buffer_size;
+            current_buffer_memory = other.current_buffer_memory;
+            last_flush_time = other.last_flush_time;
+        }
+        return *this;
+    }
 };
 
 /**

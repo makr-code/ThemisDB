@@ -1,0 +1,80 @@
+# AQL Module Roadmap
+
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
+## Current Status
+Production-ready for LLM-assisted AQL query generation, natural language to AQL translation, and documentation assistance. Core AQL parsing and execution are handled by the query module.
+
+## Completed ✅
+- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing
+- [x] Natural language to AQL translation via LLM integration
+- [x] AQL documentation assistant for function lookup and explanation
+- [x] Query explanation and profiling assistance
+- [x] LLM command handler infrastructure (request routing, response parsing)
+- [x] Support for multi-paradigm AQL (documents, graphs, vectors, geospatial, timeseries)
+- [x] Integration with OpenAI, Anthropic, Azure OpenAI, and llama.cpp providers
+
+## In Progress 🚧
+- [x] AQL query validation and linting before LLM submission (Target: Q2 2026)
+- [ ] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
+- [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
+
+## Planned Features 📋
+
+### Short-term (Next 3-6 months)
+- [ ] AQL syntax highlighting and error annotation in LLM responses
+- [x] Query template library for common AQL patterns
+- [x] Interactive AQL query builder with LLM suggestions
+- [ ] Batch NL-to-AQL translation for offline workloads
+- [x] Confidence scoring for generated AQL queries
+- [x] Multi-turn conversation context for iterative query refinement
+
+### Long-term (6-12 months)
+- [ ] AQL auto-complete API for editor integrations (LSP-compatible)
+- [ ] AQL query migration assistant (ArangoDB AQL → ThemisDB AQL)
+- [ ] Schema-aware query generation using live collection metadata
+- [ ] AQL function documentation auto-generation from C++ headers
+- [ ] Fine-tuned local model (LoRA adapter) for ThemisDB-specific AQL
+- [ ] Integration with query optimizer for cost-aware suggestions
+
+## Implementation Phases
+
+### Phase 1: LLM-Assisted AQL Foundation (Status: Completed ✅)
+- [x] LlmAqlHandler for INFER, RAG, EMBED, MODEL, and LORA command processing (`aql/llm_aql_handler.cpp`)
+- [x] Natural language to AQL translation via LLM integration
+- [x] AQL documentation assistant for function lookup and explanation
+- [x] Query explanation and profiling assistance
+- [x] LLM command handler infrastructure (request routing, response parsing)
+- [x] Multi-paradigm AQL support: documents, graphs, vectors, geospatial, timeseries
+- [x] Provider integration: OpenAI, Anthropic, Azure OpenAI, llama.cpp
+
+### Phase 2: Validation & Developer Experience (Status: In Progress 🚧)
+- [~] AQL query validation and linting before LLM submission (`aql/query_validator.cpp`, Target: Q2 2026)
+- [~] Streaming natural language responses for long AQL explanations (Target: Q2 2026)
+- [ ] Few-shot example library for improved NL-to-AQL accuracy (Target: Q3 2026)
+
+### Phase 3: Advanced Tooling & Intelligence (Status: Planned 📋)
+- [ ] AQL syntax highlighting and error annotation in LLM responses
+- [ ] Query template library for common AQL patterns
+- [ ] Interactive AQL query builder with LLM suggestions
+- [ ] Confidence scoring for generated AQL queries
+- [ ] Multi-turn conversation context for iterative query refinement
+- [ ] Schema-aware query generation using live collection metadata
+
+## Production Readiness Checklist
+- [ ] Unit tests coverage > 80%
+- [ ] Integration tests
+- [ ] Performance benchmarks
+- [ ] Security audit (prompt injection prevention)
+- [ ] Documentation complete
+- [ ] API stability guaranteed
+
+## Known Issues & Limitations
+- NL-to-AQL accuracy depends on LLM provider quality and prompt engineering
+- No offline fallback when no LLM provider is configured
+- Prompt injection is a known risk for NL-to-AQL translation; input sanitization is partial
+- Schema-aware generation requires explicit schema injection into prompts
+
+## Breaking Changes
+- LLM command handler API is stable; new command types will be additive
+- Confidence scoring API will be introduced as a new optional field (non-breaking)

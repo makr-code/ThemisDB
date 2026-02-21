@@ -1,7 +1,36 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ts_auto_buffer.cpp                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     428                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "timeseries/ts_auto_buffer.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include <algorithm>
+#include <fstream>
+#include <filesystem>
+#include <nlohmann/json.hpp>
 
 namespace themis {
 
@@ -90,8 +119,33 @@ Result<void> TSAutoBuffer::add(const TSStore::DataPoint& point) {
             lock.lock();
         }
         
-        // Add to buffer
         auto& buffer = buffers_[buffer_key];
+
+        // Check per-metric memory limit
+        if (config_.max_memory_per_metric_bytes > 0 &&
+            buffer.memory_bytes >= config_.max_memory_per_metric_bytes) {
+            THEMIS_WARN("Per-metric memory limit reached for {}, rejecting point", buffer_key);
+            stats_.memory_limit_rejected_count++;
+            return ErrVoid(errors::ErrorCode::ERR_API_RESOURCE_EXHAUSTED,
+                           "Per-metric memory limit reached for " + buffer_key);
+        }
+
+        // Deduplication: skip if a point with the same timestamp already exists
+        if (config_.enable_dedup && !buffer.points.empty()) {
+            bool duplicate = false;
+            for (const auto& existing : buffer.points) {
+                if (existing.timestamp_ms == point.timestamp_ms) {
+                    duplicate = true;
+                    break;
+                }
+            }
+            if (duplicate) {
+                stats_.dedup_dropped_count++;
+                return OkVoid();
+            }
+        }
+
+        // Add to buffer
         buffer.add(point);
         
         stats_.points_buffered++;
@@ -268,10 +322,19 @@ void TSAutoBuffer::flushThread() {
 
 TSAutoBufferStats TSAutoBuffer::getStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
-    
-    TSAutoBufferStats stats = stats_;
+
+    TSAutoBufferStats stats;
+    stats.points_buffered.store(stats_.points_buffered.load());
+    stats.points_flushed.store(stats_.points_flushed.load());
+    stats.flush_count.store(stats_.flush_count.load());
+    stats.auto_flush_count.store(stats_.auto_flush_count.load());
+    stats.manual_flush_count.store(stats_.manual_flush_count.load());
+    stats.size_triggered_flush.store(stats_.size_triggered_flush.load());
+    stats.time_triggered_flush.store(stats_.time_triggered_flush.load());
+    stats.buffer_overflow_count.store(stats_.buffer_overflow_count.load());
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
+    stats.last_flush_time = stats_.last_flush_time;
     
     return stats;
 }
@@ -283,6 +346,83 @@ void TSAutoBuffer::setConfig(const TSAutoBufferConfig& config) {
     THEMIS_INFO("TSAutoBuffer config updated: max_points={}, flush_interval={}ms",
                 config_.max_points_per_buffer,
                 config_.flush_interval.count());
+}
+
+// ========== WAL Persistence ==========
+
+size_t TSAutoBuffer::persistToWAL(const std::string& wal_path) {
+    std::lock_guard<std::mutex> lock(buffers_mutex_);
+
+    // Serialize all buffered points as newline-delimited JSON
+    std::ofstream ofs(wal_path, std::ios::trunc);
+    if (!ofs.is_open()) {
+        THEMIS_ERROR("TSAutoBuffer::persistToWAL: cannot open '{}'", wal_path);
+        return 0;
+    }
+
+    size_t count = 0;
+    for (const auto& [key, buf] : buffers_) {
+        for (const auto& pt : buf.points) {
+            nlohmann::json entry;
+            entry["metric"]        = pt.metric;
+            entry["entity"]        = pt.entity;
+            entry["timestamp_ms"]  = pt.timestamp_ms;
+            entry["value"]         = pt.value;
+            entry["tags"]          = pt.tags;
+            entry["metadata"]      = pt.metadata;
+            ofs << entry.dump() << "\n";
+            ++count;
+        }
+    }
+    THEMIS_INFO("TSAutoBuffer::persistToWAL: wrote {} points to '{}'", count, wal_path);
+    return count;
+}
+
+ssize_t TSAutoBuffer::restoreFromWAL(const std::string& wal_path) {
+    std::ifstream ifs(wal_path);
+    if (!ifs.is_open()) {
+        THEMIS_WARN("TSAutoBuffer::restoreFromWAL: file '{}' not found", wal_path);
+        return -1;
+    }
+
+    std::vector<TSStore::DataPoint> restored;
+    std::string line;
+    while (std::getline(ifs, line)) {
+        if (line.empty()) continue;
+        try {
+            auto j = nlohmann::json::parse(line);
+            TSStore::DataPoint pt;
+            pt.metric       = j.at("metric").get<std::string>();
+            pt.entity       = j.at("entity").get<std::string>();
+            pt.timestamp_ms = j.at("timestamp_ms").get<int64_t>();
+            pt.value        = j.at("value").get<double>();
+            if (j.contains("tags"))     pt.tags     = j["tags"];
+            if (j.contains("metadata")) pt.metadata = j["metadata"];
+            restored.push_back(std::move(pt));
+        } catch (const std::exception& e) {
+            THEMIS_WARN("TSAutoBuffer::restoreFromWAL: skipping malformed line: {}", e.what());
+        }
+    }
+
+    // Re-enqueue into buffers (bypassing dedup / memory checks intentionally)
+    {
+        std::lock_guard<std::mutex> lock(buffers_mutex_);
+        for (auto& pt : restored) {
+            auto key = makeBufferKey(pt.metric, pt.entity);
+            buffers_[key].add(pt);
+        }
+    }
+
+    THEMIS_INFO("TSAutoBuffer::restoreFromWAL: restored {} points from '{}'",
+                restored.size(), wal_path);
+    return static_cast<ssize_t>(restored.size());
+}
+
+bool TSAutoBuffer::removeWAL(const std::string& wal_path) {
+    if (wal_path.empty()) return true;
+    // Return true if file doesn't exist (already gone = success)
+    if (!std::filesystem::exists(wal_path)) return true;
+    return std::filesystem::remove(wal_path);
 }
 
 } // namespace themis

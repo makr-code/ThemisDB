@@ -1,7 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            i_logger.h                                         ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     229                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
+#include "core/concerns/lifecycle.h"
 #include <string>
 #include <memory>
+#include <map>
 #include <utility>
 
 namespace themis {
@@ -9,14 +37,36 @@ namespace core {
 namespace concerns {
 
 /**
+ * @brief Trace/request context for structured log correlation.
+ *
+ * Carries a trace_id and request_id that are injected into every structured
+ * log event so individual log lines can be correlated with distributed traces
+ * and originating HTTP requests.
+ */
+struct TraceContext {
+    std::string trace_id;    ///< OpenTelemetry trace id (hex string)
+    std::string request_id;  ///< Per-request/RPC correlation id
+
+    bool empty() const noexcept { return trace_id.empty() && request_id.empty(); }
+};
+
+/**
  * @brief Abstract logger interface for dependency injection.
  * 
  * Provides a unified logging interface that can be implemented by various
  * logging backends (spdlog, console, no-op, etc.). Enables testing with
  * mock loggers and runtime switching of logging implementations.
+ *
+ * Structured logging extension:
+ *   - logStructured() emits a JSON-formatted log line with arbitrary key/value
+ *     fields, enabling machine-readable log ingestion.
+ *   - logWithContext() additionally injects a TraceContext so every log line
+ *     carries trace_id and request_id for end-to-end correlation.
  */
 class ILogger {
 public:
+    using Fields = std::map<std::string, std::string>;
+
     enum class Level {
         TRACE,
         DEBUG,
@@ -28,23 +78,149 @@ public:
 
     virtual ~ILogger() = default;
 
+    // -----------------------------------------------------------------------
     // Core logging methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Emit a log record at the specified severity level.
+     *
+     * This is the single dispatch point used by all severity-specific
+     * helpers.  Implementations must be thread-safe.
+     *
+     * @param level   Severity level for the message.
+     * @param message Human-readable log text.
+     */
     virtual void log(Level level, const std::string& message) = 0;
-    
+
+    /// @brief Log at TRACE level (most verbose, diagnostic detail).
+    /// @param message Human-readable log text.
     virtual void trace(const std::string& message) = 0;
+
+    /// @brief Log at DEBUG level (developer-facing diagnostic detail).
+    /// @param message Human-readable log text.
     virtual void debug(const std::string& message) = 0;
+
+    /// @brief Log at INFO level (normal operational events).
+    /// @param message Human-readable log text.
     virtual void info(const std::string& message) = 0;
+
+    /// @brief Log at WARN level (unexpected but recoverable condition).
+    /// @param message Human-readable log text.
     virtual void warn(const std::string& message) = 0;
+
+    /// @brief Log at ERROR level (failure that requires attention).
+    /// @param message Human-readable log text.
     virtual void error(const std::string& message) = 0;
+
+    /// @brief Log at CRITICAL level (severe failure, may require restart).
+    /// @param message Human-readable log text.
     virtual void critical(const std::string& message) = 0;
 
+    /**
+     * @brief Emit a structured (JSON) log line with arbitrary key/value fields.
+     *
+     * Implementations MUST produce a single-line JSON object containing at least
+     * "level" and "message" keys, plus every entry in @p fields.
+     * PII-sensitive field values SHOULD be redacted by the implementation before
+     * they are written to the sink.
+     *
+     * Default implementation falls back to plain log() for backends that do not
+     * override this method.
+     */
+    virtual void logStructured(Level level,
+                               const std::string& message,
+                               const Fields& fields = {}) {
+        log(level, message);
+    }
+
+    /**
+     * @brief Emit a structured log line with trace/request-id context injected.
+     *
+     * Equivalent to logStructured() but also injects ctx.trace_id and
+     * ctx.request_id into the emitted JSON object so log lines can be
+     * correlated with distributed traces.
+     */
+    virtual void logWithContext(Level level,
+                                const std::string& message,
+                                const TraceContext& ctx,
+                                const Fields& fields = {}) {
+        Fields merged = fields;
+        if (!ctx.trace_id.empty())  merged["trace_id"]   = ctx.trace_id;
+        if (!ctx.request_id.empty()) merged["request_id"] = ctx.request_id;
+        logStructured(level, message, merged);
+    }
+
+    // -----------------------------------------------------------------------
     // Configuration methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Set the minimum severity level; records below this level are dropped.
+     * @param level New minimum level.
+     */
     virtual void setLevel(Level level) = 0;
+
+    /**
+     * @brief Return the current minimum severity level.
+     * @return Active minimum level.
+     */
     virtual Level getLevel() const = 0;
+
+    /**
+     * @brief Set the spdlog-compatible format pattern for log lines.
+     *
+     * Has no effect on backends that do not support format patterns.
+     * @param pattern Format string, e.g. `"[%Y-%m-%d %H:%M:%S] [%^%l%$] %v"`.
+     */
     virtual void setPattern(const std::string& pattern) = 0;
 
+    // Lifecycle hooks
+    /**
+     * @brief Flush any buffered log records to the underlying sink.
+     *
+     * Must be called before process exit (or between test cases) to
+     * ensure no messages are lost.  Default is a no-op for backends
+     * that do not buffer.
+     */
+    virtual void flush() noexcept {}
+
+    /**
+     * @brief Shut down the logger and release resources.
+     *
+     * After shutdown(), all logging calls are silently dropped.
+     * Default is a no-op.
+     */
+    virtual void shutdown() noexcept {}
+
+    /**
+     * @brief Probe whether the logging sink is reachable and healthy.
+     *
+     * @return ProbeResult with ok=true when the sink is accessible,
+     *         ok=false with a descriptive message otherwise.
+     */
+    virtual ProbeResult isHealthy() const { return ProbeResult::healthy(); }
+
+    // -----------------------------------------------------------------------
     // Helper methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Convert a case-insensitive string name to a Level enum value.
+     *
+     * Accepts "trace", "debug", "info", "warn", "error", "critical".
+     * Returns Level::INFO for unrecognised strings.
+     *
+     * @param level String representation of the level.
+     * @return Corresponding Level enum value.
+     */
     static Level levelFromString(const std::string& level);
+
+    /**
+     * @brief Convert a Level enum value to its string name.
+     * @param level Level to convert.
+     * @return Null-terminated string (e.g. "info"), lifetime is static.
+     */
     static const char* levelToString(Level level);
 };
 

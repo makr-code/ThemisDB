@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cross_functional_voice_observability.cpp      ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     389                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_cross_functional_voice_observability.cpp
  * @brief Cross-functional integration test: Voice + Observability + Storage
@@ -110,7 +136,7 @@ TEST_F(CrossFunctionalVoiceObservabilityTest, PhoneCallRecordingWithStorageMetri
         
         // Record metrics for the operation
         metrics.recordContentImport("audio/recording", audio_data.size());
-        metrics.recordQuery("phone_call_transcription", duration_ms, 1);
+        metrics.recordQuery("phone_call_transcription", duration_ms, 1); // NOPII: metric operation type literal, not a phone number
         
         // Record storage metrics
         metrics.recordMemoryUsage(audio_data.size());

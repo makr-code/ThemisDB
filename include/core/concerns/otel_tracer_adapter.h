@@ -1,6 +1,33 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            otel_tracer_adapter.h                              ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     194                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 3089438e7  2026-02-21  Add RocksDB option files and manifest for caching ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "core/concerns/i_tracer.h"
+#include "sharding/circuit_breaker.h"
 #include "utils/tracing.h"
 
 namespace themis {
@@ -11,12 +38,34 @@ namespace concerns {
  * @brief OpenTelemetry adapter implementation of ITracer.
  * 
  * Wraps the existing OpenTelemetry-based tracer to implement the ITracer interface.
+ * A circuit breaker guards span-export calls so that a failing or unreachable
+ * OTLP endpoint does not block the critical path.  Once the circuit trips it
+ * transitions to HALF_OPEN after `timeout` seconds to probe recovery.
  */
 class OpenTelemetryTracerAdapter : public ITracer {
 public:
+    /**
+     * @brief Configuration for the circuit breaker that guards OTLP export.
+     */
+    struct CircuitBreakerConfig {
+        size_t failure_threshold = 5;
+        std::chrono::seconds timeout = std::chrono::seconds(30);
+        size_t success_threshold = 2;
+    };
+
+    explicit OpenTelemetryTracerAdapter(
+        const CircuitBreakerConfig& cb_config = CircuitBreakerConfig{})
+    {
+        sharding::CircuitBreaker::Config cfg;
+        cfg.failure_threshold = cb_config.failure_threshold;
+        cfg.timeout           = cb_config.timeout;
+        cfg.success_threshold = cb_config.success_threshold;
+        circuit_breaker_ = std::make_unique<sharding::CircuitBreaker>(cfg);
+    }
+
     class OtelSpanAdapter : public ISpan {
     public:
-        explicit OtelSpanAdapter(themis::Tracer::Span&& span)
+        explicit OtelSpanAdapter(themis::Tracer::Span span)
             : span_(std::move(span)) {}
 
         void setAttribute(const std::string& key, const std::string& value) override {
@@ -58,22 +107,49 @@ public:
     };
 
     std::unique_ptr<ISpan> startSpan(const std::string& name) override {
-        return std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
+        if (!circuit_breaker_->allowRequest()) {
+            // Circuit open: return a no-op span to avoid blocking callers
+            return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
+        }
+        auto span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
+        if (span_ptr->isValid()) {
+            circuit_breaker_->recordSuccess();
+        } else {
+            circuit_breaker_->recordFailure();
+        }
+        return span_ptr;
     }
 
     std::unique_ptr<ISpan> startChildSpan(const std::string& name, const ISpan& parent) override {
+        if (!circuit_breaker_->allowRequest()) {
+            return std::make_unique<OtelSpanAdapter>(themis::Tracer::Span{});
+        }
         auto* otelParent = dynamic_cast<const OtelSpanAdapter*>(&parent);
+        std::unique_ptr<OtelSpanAdapter> span_ptr;
         if (otelParent) {
-            return std::make_unique<OtelSpanAdapter>(
+            span_ptr = std::make_unique<OtelSpanAdapter>(
                 themis::Tracer::startChildSpan(name, const_cast<OtelSpanAdapter*>(otelParent)->getSpan())
             );
+        } else {
+            span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
         }
-        return std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
+        if (span_ptr->isValid()) {
+            circuit_breaker_->recordSuccess();
+        } else {
+            circuit_breaker_->recordFailure();
+        }
+        return span_ptr;
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {
-        initialized_ = themis::Tracer::initialize(serviceName, endpoint);
-        return initialized_;
+        bool ok = themis::Tracer::initialize(serviceName, endpoint);
+        if (ok) {
+            circuit_breaker_->recordSuccess();
+        } else {
+            circuit_breaker_->recordFailure();
+        }
+        initialized_ = ok;
+        return ok;
     }
 
     void shutdown() override {
@@ -85,8 +161,32 @@ public:
         return initialized_;
     }
 
+    // Lifecycle hooks
+    void flush() noexcept override {
+        // Spans are exported asynchronously; shutdown/restart would be
+        // destructive.  A best-effort flush is performed via the OTLP
+        // exporter's internal queue drain – no public API available here,
+        // so this is intentionally a no-op at the adapter level.
+    }
+
+    ProbeResult isHealthy() const override {
+        if (!initialized_) {
+            return ProbeResult::unhealthy("tracer not initialized");
+        }
+        if (circuit_breaker_->getState() == sharding::CircuitBreaker::State::OPEN) {
+            return ProbeResult::unhealthy("tracing exporter circuit-breaker OPEN");
+        }
+        return ProbeResult::healthy();
+    }
+
+    /** Expose circuit-breaker state for monitoring. */
+    sharding::CircuitBreaker::State circuitBreakerState() const {
+        return circuit_breaker_->getState();
+    }
+
 private:
     bool initialized_ = false;
+    std::unique_ptr<sharding::CircuitBreaker> circuit_breaker_;
 };
 
 } // namespace concerns

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gorilla.cpp                                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     292                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "timeseries/gorilla.h"
 #include <cstring>
 #include <limits>
@@ -205,12 +231,15 @@ GorillaDecoder::GorillaDecoder(const std::vector<uint8_t>& data)
     : br_(data) {}
 
 std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
+    if (error_) return std::nullopt;
+
     if (first_) {
         if (br_.eof()) return std::nullopt;
         // First timestamp varint is at byte boundary
         br_.alignToByte();
         if (br_.eof()) return std::nullopt;
         int64_t ts = br_.readZigZag64();
+        if (br_.eof()) { error_ = true; return std::nullopt; }
         uint64_t vbits = br_.readBits(64);
         prev_ts_ = ts;
         prev_dt_ = 0;
@@ -218,6 +247,7 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
         prev_leading_ = 64;
         prev_trailing_ = 64;
         first_ = false;
+        decoded_count_++;
         return std::make_pair(ts, bits_to_dbl(vbits));
     }
 
@@ -231,16 +261,21 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     prev_dt_ = dt;
     prev_ts_ = ts;
 
-    if (br_.eof()) return std::nullopt;
+    if (br_.eof()) { error_ = true; return std::nullopt; }
     bool different = br_.readBit();
     
     uint64_t vbits;
     if (!different) {
         vbits = prev_vbits_;
     } else {
+        if (br_.eof()) { error_ = true; return std::nullopt; }
         int leading = static_cast<int>(br_.readBits(6));
+        if (br_.eof()) { error_ = true; return std::nullopt; }
         int significant = static_cast<int>(br_.readBits(6));
         if (significant == 0) significant = 64;  // 0 encodes 64
+        // Validate leading + significant fits in 64 bits
+        if (leading + significant > 64) { error_ = true; return std::nullopt; }
+        if (br_.eof() && significant > 0) { error_ = true; return std::nullopt; }
         uint64_t payload = br_.readBits(significant);
         int trailing = 64 - leading - significant;
         uint64_t xorv = (payload << trailing);
@@ -250,6 +285,7 @@ std::optional<std::pair<int64_t,double>> GorillaDecoder::next() {
     }
     
     prev_vbits_ = vbits;
+    decoded_count_++;
     return std::make_optional(std::make_pair(ts, bits_to_dbl(vbits)));
 }
 

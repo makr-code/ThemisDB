@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llama_wrapper.h                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     652                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
@@ -222,6 +248,13 @@ public:
         int max_output_length = 100000;        // Maximum response length
         bool require_utf8 = true;              // Enforce UTF-8 encoding
         double min_coherence = 0.3;            // Minimum coherence score (0-1)
+        
+        // Timeouts / Backpressure (Q1 production-readiness)
+        // Maximum wall-clock time (milliseconds) allowed for a single inference
+        // request from submission to last token.  0 means unlimited (default).
+        // Requests that exceed this limit are cancelled and the caller receives
+        // an error response.
+        uint32_t request_timeout_ms = 0;
     };
     
     explicit LlamaWrapper(const Config& config);

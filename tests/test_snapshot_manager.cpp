@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_snapshot_manager.cpp                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     479                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "transaction/snapshot_manager.h"
 #include "cdc/changefeed.h"
@@ -371,4 +397,83 @@ TEST_F(SnapshotManagerTest, DefaultCreatedByValue) {
     auto snapshot = snapshot_manager_->createTag("v1.0.0", "Release 1.0");
     ASSERT_TRUE(snapshot.has_value());
     EXPECT_EQ(snapshot->created_by, "system");
+}
+
+// Tests for Phase 7 additions: GC / Retention Policy & Snapshot Restore
+
+// Test 28: Retention policy prunes old snapshots
+TEST_F(SnapshotManagerTest, RetentionPolicyMaxSnapshots) {
+    snapshot_manager_->createTag("old1", "Old 1", "admin");
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    snapshot_manager_->createTag("old2", "Old 2", "admin");
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    snapshot_manager_->createTag("keep", "Newest", "admin");
+
+    SnapshotManager::RetentionPolicy pol;
+    pol.max_snapshots = 1;
+    pol.protect_latest = true;
+    snapshot_manager_->setRetentionPolicy(pol);
+
+    size_t pruned = snapshot_manager_->pruneOldSnapshots();
+
+    EXPECT_EQ(pruned, 2u);
+    // The newest must survive
+    EXPECT_TRUE(snapshot_manager_->tagExists("keep"));
+}
+
+// Test 29: Consistency check returns 0 on healthy data
+TEST_F(SnapshotManagerTest, ConsistencyCheckHealthy) {
+    snapshot_manager_->createTag("healthy", "Healthy snapshot", "admin");
+    EXPECT_EQ(snapshot_manager_->checkConsistency(), 0u);
+}
+
+// Test 30: restoreToTag returns failure for non-existent tag
+TEST_F(SnapshotManagerTest, RestoreToTagNonExistent) {
+    auto result = snapshot_manager_->restoreToTag("does_not_exist");
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.message.empty());
+}
+
+// Test 31: restoreToTag succeeds for valid tag
+TEST_F(SnapshotManagerTest, RestoreToTagSuccess) {
+    recordEvents(5);
+    auto created = snapshot_manager_->createTag("restore_me", "Before restore", "admin");
+    ASSERT_TRUE(created.has_value());
+
+    auto result = snapshot_manager_->restoreToTag("restore_me", "admin");
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.tag_name, "restore_me");
+    EXPECT_EQ(result.target_sequence, created->sequence_number);
+    EXPECT_GT(result.timestamp_ms, 0);
+    EXPECT_FALSE(result.message.empty());
+}
+
+// Test 32: restoreToTag creates an audit restore-point tag
+TEST_F(SnapshotManagerTest, RestoreToTagCreatesAuditTag) {
+    snapshot_manager_->createTag("target", "Target", "admin");
+    snapshot_manager_->restoreToTag("target", "admin");
+
+    // A "restore-of-target-..." tag should now exist
+    auto tags = snapshot_manager_->listTags();
+    bool found = false;
+    for (const auto& t : tags) {
+        if (t.tag_name.find("restore-of-target-") == 0) {
+            found = true;
+            break;
+        }
+    }
+    EXPECT_TRUE(found) << "Expected audit restore-point tag to be created";
+}
+
+// Test 33: RestoreResult JSON serialization
+TEST_F(SnapshotManagerTest, RestoreResultToJson) {
+    snapshot_manager_->createTag("json_restore", "JSON", "admin");
+    auto result = snapshot_manager_->restoreToTag("json_restore");
+
+    auto j = result.toJson();
+    EXPECT_TRUE(j.contains("success"));
+    EXPECT_TRUE(j.contains("tag_name"));
+    EXPECT_TRUE(j.contains("target_sequence"));
+    EXPECT_TRUE(j.contains("timestamp_ms"));
+    EXPECT_TRUE(j.contains("message"));
 }

@@ -100,15 +100,17 @@ Dieser Index bietet eine Übersicht über die Ordnerstruktur von ThemisDB und er
 
 ### 🧪 Tests & Benchmarks
 
-- **`tests/`** - Unit- und Integrationstests
-- **`benchmarks/`** - Performance-Benchmarks
+- **`tests/`** - Unit- und Integrationstests (732 C++ Test-Dateien)
+- **`benchmarks/`** - Performance-Benchmarks (122 C++ Benchmark-Dateien)
   - [CHIMERA Suite README](benchmarks/chimera/CHIMERA_README.md)
   - [Enterprise Suite README](benchmarks/ENTERPRISE_SUITE_README.md)
   - [RAG Ethics Benchmarks README](benchmarks/BENCH_RAG_ETHICS_README.md)
   - [TPC-H README](benchmarks/tpc/tpc_h_README.md)
-  - **`benchmarks/chimera/`** - CHIMERA Benchmark Framework
+  - **`benchmarks/chimera/`** - CHIMERA Benchmark Framework (inkl. Python-Analyse)
   - **`benchmarks/tpc/`** - TPC-C, TPC-H Benchmarks
+- **`clients/go/`** - Go Client SDK (4 Test-Dateien + 2 Benchmark-Dateien)
 - **`fuzz/`** - Fuzzing-Tests
+- **[docs/TEST_AND_BENCHMARK_INVENTORY.md](docs/TEST_AND_BENCHMARK_INVENTORY.md)** - Vollständige Test & Benchmark Inventur
 
 ### 📦 Clients & SDKs
 

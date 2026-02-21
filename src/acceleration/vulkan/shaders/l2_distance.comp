@@ -42,6 +42,6 @@ void main() {
         sum += diff * diff;
     }
     
-    // Store sqrt(sum) for L2 distance
-    distances[qIdx * pc.numVectors + vIdx] = sqrt(sum);
+    // Store squared L2 distance (no sqrt for consistency and performance)
+    distances[qIdx * pc.numVectors + vIdx] = sum;
 }

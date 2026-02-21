@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            lora_security_validator.h                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:44                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     385                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -6,12 +32,16 @@
 #include <regex>
 #include <unordered_set>
 #include <chrono>
+#include <memory>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 namespace themis {
 namespace llm {
+
+// Forward declaration to avoid a circular include with llm_model_audit_logger.h
+class LLMModelAuditLogger;
 
 /**
  * @file lora_security_validator.h
@@ -189,9 +219,21 @@ public:
      * @param config New configuration
      */
     void setConfig(const LoRASecurityConfig& config);
-    
+
+    /**
+     * @brief Attach an audit logger so that signature verification
+     *        failures and successes are persisted via LLMModelAuditLogger.
+     *
+     * Optional: when not set, security events are only written to spdlog.
+     * The logger is owned externally; the validator keeps a shared_ptr.
+     *
+     * @param logger Shared audit-logger instance (may be nullptr to detach)
+     */
+    void setAuditLogger(const std::shared_ptr<LLMModelAuditLogger>& logger);
+
 private:
     LoRASecurityConfig config_;
+    std::shared_ptr<LLMModelAuditLogger> audit_logger_;
     
     // Helper methods
     bool loadLoRAFile(const std::string& path, std::vector<uint8_t>& data);

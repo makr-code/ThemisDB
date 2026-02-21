@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            snapshot_manager.h                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     288                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_SNAPSHOT_MANAGER_H
 #define THEMIS_SNAPSHOT_MANAGER_H
 
@@ -157,12 +183,81 @@ public:
      */
     static bool isValidTagName(const std::string& tag_name);
 
+    // ---- Phase 7: GC & Retention Policy ----
+
+    /**
+     * @brief Retention policy for automatic snapshot pruning.
+     */
+    struct RetentionPolicy {
+        size_t  max_snapshots{0};          ///< 0 = unlimited
+        int64_t max_age_ms{0};             ///< 0 = unlimited; prune older than this
+        bool    protect_latest{true};      ///< Never prune the newest snapshot
+    };
+
+    /**
+     * @brief Set the retention policy applied during pruneOldSnapshots().
+     */
+    void setRetentionPolicy(const RetentionPolicy& policy);
+
+    /**
+     * @brief Prune snapshots that exceed the current retention policy.
+     *
+     * Removes the oldest snapshots until max_snapshots and max_age_ms
+     * constraints are satisfied. The newest snapshot is never deleted when
+     * protect_latest is true.
+     *
+     * @return Number of snapshots deleted.
+     */
+    size_t pruneOldSnapshots();
+
+    /**
+     * @brief Consistency check: verify all stored snapshots are readable.
+     * @return Number of corrupted/unreadable snapshots found (0 = healthy).
+     */
+    size_t checkConsistency() const;
+
+    // ---- Phase 7: Snapshot Restore ----
+
+    /**
+     * @brief Result of a restore operation.
+     */
+    struct RestoreResult {
+        bool     success{false};
+        std::string tag_name;
+        uint64_t target_sequence{0};   ///< Changefeed sequence of the tag
+        int64_t  timestamp_ms{0};      ///< Unix timestamp of the tag
+        std::string message;           ///< Human-readable status or error
+
+        json toJson() const;
+    };
+
+    /**
+     * @brief Restore the database view to the state captured by @p tag_name.
+     *
+     * This method validates that the tag exists and returns its sequence
+     * number so callers can reset their changefeed position or RocksDB
+     * iterator to replay / re-read data as-of that point in time.
+     *
+     * Full block-level restore (WAL replay) is a Phase 8 concern; this
+     * method covers the Phase 7 "Snapshot-Restore" requirement by:
+     *   1. Verifying the tag is present and readable.
+     *   2. Returning the exact changefeed sequence to restore to.
+     *   3. Creating a "restore-point" tag so the restore is auditable.
+     *
+     * @param tag_name  Named snapshot / tag to restore to.
+     * @param created_by  Optional actor name for audit trail.
+     * @return RestoreResult with target sequence and audit info.
+     */
+    RestoreResult restoreToTag(const std::string& tag_name,
+                               const std::string& created_by = "system");
+
 private:
     RocksDBWrapper& db_;
     Changefeed& changefeed_;
     
     mutable std::mutex mutex_;
-    
+    RetentionPolicy retention_policy_;
+
     // Key prefix for snapshot storage in RocksDB
     static constexpr const char* SNAPSHOT_PREFIX = "snapshot:";
     

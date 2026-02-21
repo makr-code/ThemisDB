@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_paxos_consensus.cpp                           ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     526                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -423,5 +449,78 @@ TEST_F(PaxosConsensusTest, LeaderElection) {
     // In deterministic leader election, the node with smallest ID should be leader
     EXPECT_EQ(leader_id, "node1");
     
+    module->stop();
+}
+// ─────────────────────────────────────────────────────────────────────────────
+// Snapshot tests
+// ─────────────────────────────────────────────────────────────────────────────
+
+TEST_F(PaxosConsensusTest, TakeSnapshot_Succeeds) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json state = {{"collection", "orders"}, {"count", 100}};
+    EXPECT_TRUE(module->takeSnapshot(state));
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_GE(status["snapshot_index"].get<uint64_t>(), 0u);
+
+    module->stop();
+}
+
+TEST_F(PaxosConsensusTest, TakeSnapshot_NotRunning_Fails) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    // Do NOT call start()
+    nlohmann::json state = {{"key", "value"}};
+    EXPECT_FALSE(module->takeSnapshot(state));
+}
+
+TEST_F(PaxosConsensusTest, RestoreSnapshot_ValidData_Succeeds) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    nlohmann::json snap = {
+        {"collection", "users"},
+        {"_snapshot_index", uint64_t(7)},
+        {"_snapshot_term",  uint64_t(3)}
+    };
+    EXPECT_TRUE(module->restoreSnapshot(snap));
+
+    auto status = module->getStatus();
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 7u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(),  3u);
+
+    module->stop();
+}
+
+TEST_F(PaxosConsensusTest, RestoreSnapshot_EmptyData_Fails) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    EXPECT_FALSE(module->restoreSnapshot(nlohmann::json{}));
+
+    module->stop();
+}
+
+TEST_F(PaxosConsensusTest, GetStatus_IncludesSnapshotFields) {
+    auto module = ConsensusFactory::create(config_);
+    ASSERT_NE(module, nullptr);
+    ASSERT_TRUE(module->initialize(config_.node_id, config_.cluster_nodes));
+    ASSERT_TRUE(module->start());
+
+    auto status = module->getStatus();
+    EXPECT_TRUE(status.contains("snapshot_index"));
+    EXPECT_TRUE(status.contains("snapshot_term"));
+    EXPECT_EQ(status["snapshot_index"].get<uint64_t>(), 0u);
+    EXPECT_EQ(status["snapshot_term"].get<uint64_t>(),  0u);
+
     module->stop();
 }

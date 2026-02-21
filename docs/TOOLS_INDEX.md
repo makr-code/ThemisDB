@@ -31,6 +31,8 @@ ThemisDB includes a comprehensive suite of **30+ tools and utilities** for admin
 | txn_smoke.cpp | Development | Transaction smoke tests | C++17 | [Guide](tools/development/txn-smoke.md) |
 | publish_wiki.py | Development | Publish docs to wiki | Python 3.8+ | [Guide](tools/development/publish-wiki.md) |
 | themis_docs_builder | Development | Build documentation site | C++17 | [Guide](tools/development/themis-docs-builder.md) |
+| **LoRA & AI Compliance** |
+| lora-provenance | LoRA | LoRA adapter provenance, audit, and snapshot CLI | C++17 | [Guide](compliance/LORA_PROVENANCE_AUDIT.md) |
 | **Administration Tools** |
 | Themis.AqlQueryBuilder | Admin | Visual AQL query builder | .NET 8.0 | [Guide](tools/admin/aql-query-builder.md) |
 | Themis.AuditLogViewer | Admin | Browse and filter audit logs | .NET 8.0 | [Guide](tools/admin/audit-log-viewer.md) |

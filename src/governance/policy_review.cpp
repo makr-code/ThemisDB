@@ -1,4 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            policy_review.cpp                                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     969                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "governance/policy_review.h"
+#include "security/pii_redaction_policy.h"
 #include "utils/logger.h"
 
 #include <algorithm>
@@ -769,7 +796,7 @@ void NotificationManager::configure(const NotificationConfig& config) {
     std::lock_guard<std::mutex> lock(mutex_);
     config_ = config;
     
-    THEMIS_INFO("Configured notification manager: email={}, webhook={}", 
+    THEMIS_INFO("Configured notification manager: email={}, webhook={}", // NOPII: logging boolean flags, not addresses
                 config_.email_enabled, config_.webhook_enabled);
 }
 
@@ -919,9 +946,9 @@ bool NotificationManager::sendEmail(const Notification& notification) {
         return false;
     }
     
-    // Simulate email sending
-    THEMIS_INFO("Simulated email to {}: {} - {}", 
-                notification.recipient, notification.subject, notification.message);
+    // Simulate email sending – recipient is PII (email address), redact before logging.
+    auto safe_recipient = themis::security::PIIRedactionPolicy::get().redactForLog(notification.recipient);
+    THEMIS_INFO("Simulated email to {}: {} - {}", safe_recipient, notification.subject, notification.message); // NOPII: safe_recipient is already redacted above
     
     return true;
 }

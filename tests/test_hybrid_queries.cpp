@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_hybrid_queries.cpp                            ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:26                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     565                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "query/query_engine.h"
 #include "query/aql_parser.h"
@@ -6,6 +32,7 @@
 #include "index/vector_index.h"
 #include "index/spatial_index.h"
 #include "api/geo_index_hooks.h"
+#include "geo/spatial_backend.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <nlohmann/json.hpp>
@@ -31,6 +58,11 @@ protected:
         graphIdx = std::make_unique<GraphIndexManager>(*db);
         vectorIdx = std::make_unique<VectorIndexManager>(*db);
         spatialIdx = std::make_unique<SpatialIndexManager>(*db);
+
+        // Wire GPU backend (CPU fallback always available)
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) spatialIdx->setExactBackend(gpu_backend);
+
         engine = std::make_unique<QueryEngine>(*db, *secIdx, *graphIdx, vectorIdx.get(), spatialIdx.get());
 
         // Create fulltext index for Content+Geo tests

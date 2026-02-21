@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            jwt_validator.h                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     192                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <nlohmann/json.hpp>
@@ -5,6 +31,9 @@
 #include <vector>
 #include <chrono>
 #include <optional>
+#include <memory>
+
+#include "auth/token_blacklist.h"
 
 namespace themis {
 namespace auth {
@@ -14,6 +43,7 @@ namespace auth {
  */
 struct JWTClaims {
     std::string sub;                          // Subject (user ID)
+    std::string jti;                          // JWT ID – used for per-token revocation
     std::string email;
     std::string tenant_id;                    // Tenant ID from JWT claim
     std::vector<std::string> groups;
@@ -40,6 +70,13 @@ struct JWTClaims {
  * - Kid revocation/denylist support
  * - Metrics and logging on validation failures
  */
+
+// Input validation limits
+constexpr size_t MAX_JWT_TOKEN_SIZE = 16 * 1024;  // 16KB max token size
+constexpr size_t MAX_PRINCIPAL_NAME_LENGTH = 256; // 256 chars max for principal names
+constexpr int DEFAULT_JWKS_TIMEOUT_SECONDS = 5;   // 5 second timeout for JWKS fetch
+constexpr int MAX_JWKS_RETRY_ATTEMPTS = 3;        // Max 3 retry attempts for JWKS
+
 struct JWTValidatorConfig {
     std::string jwks_url;               // Keycloak JWKS endpoint
     std::string expected_issuer;        // optional: exact match required if set
@@ -47,6 +84,8 @@ struct JWTValidatorConfig {
     std::chrono::seconds cache_ttl{600};
     std::chrono::seconds clock_skew{60};
     std::vector<std::string> revoked_kids;  // Kid denylist for revoked keys
+    int jwks_timeout_seconds{DEFAULT_JWKS_TIMEOUT_SECONDS};  // JWKS fetch timeout
+    int jwks_max_retries{MAX_JWKS_RETRY_ATTEMPTS};            // JWKS fetch max retries
 };
 
 class JWTValidator {
@@ -90,6 +129,18 @@ public:
     static bool hasAccess(const JWTClaims& claims, const std::string& encryption_context);
     
     /**
+     * @brief Attach a TokenBlacklist for per-token (JTI) revocation checks.
+     *
+     * When set, parseAndValidate() will extract the "jti" claim from the
+     * token payload and reject any token whose JTI appears in the blacklist.
+     * The validator does NOT take ownership; the caller must ensure the
+     * blacklist outlives the validator.
+     *
+     * @param bl Pointer to the TokenBlacklist (nullptr to detach).
+     */
+    void setTokenBlacklist(TokenBlacklist* bl);
+
+    /**
      * @brief Add a key ID to the revocation list
      * @param kid Key ID to revoke
      */
@@ -110,6 +161,18 @@ private:
     bool verifySignatureRS256(const std::string& header_payload,
                               const std::vector<uint8_t>& signature,
                               const nlohmann::json& jwk);
+    bool verifySignatureES256(const std::string& header_payload,
+                              const std::vector<uint8_t>& signature,
+                              const nlohmann::json& jwk);
+    /**
+     * @brief Verify an EdDSA (Ed25519) JWT signature.
+     *
+     * Expects a JWK of type "OKP" with crv="Ed25519" and a 32-byte base64url-
+     * encoded public key in the "x" field.  Requires OpenSSL ≥ 1.1.1.
+     */
+    bool verifySignatureEdDSA(const std::string& header_payload,
+                              const std::vector<uint8_t>& signature,
+                              const nlohmann::json& jwk);
     bool checkAudience(const nlohmann::json& payload) const;
     
     // testing helper
@@ -122,6 +185,7 @@ private:
     nlohmann::json jwks_cache_;
     std::chrono::system_clock::time_point jwks_cache_time_;
     std::vector<std::string> revoked_kids_runtime_;  // Runtime revocation list
+    TokenBlacklist* token_blacklist_ = nullptr;      // Optional JTI-based revocation
 };
 
 } // namespace auth

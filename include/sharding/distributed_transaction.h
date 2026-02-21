@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            distributed_transaction.h                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     322                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -30,6 +56,17 @@ enum class TransactionState {
 };
 
 /**
+ * @brief Isolation level for distributed transactions
+ *
+ * Controls the read-visibility and locking behaviour applied by
+ * TwoPhaseCommitParticipant::onPrepare() via the validate_and_lock callback.
+ */
+enum class DistributedIsolationLevel {
+    SNAPSHOT_ISOLATION, // MVCC snapshot reads – default; no read locks needed
+    SERIALIZABLE        // Full serializability; read-set validation on prepare
+};
+
+/**
  * @brief Participant in a distributed transaction
  */
 struct TransactionParticipant {
@@ -46,6 +83,7 @@ struct TransactionParticipant {
 struct DistributedTransaction {
     std::string transaction_id;           // Unique transaction ID
     TransactionState state;               // Current state
+    DistributedIsolationLevel isolation_level; // Isolation level
     std::chrono::nanoseconds start_time;  // Transaction start timestamp
     std::chrono::nanoseconds commit_time; // Commit timestamp (TrueTime)
     std::vector<TransactionParticipant> participants;  // Participating shards
@@ -55,6 +93,7 @@ struct DistributedTransaction {
     
     DistributedTransaction()
         : state(TransactionState::ACTIVE)
+        , isolation_level(DistributedIsolationLevel::SNAPSHOT_ISOLATION)
         , start_time(0)
         , commit_time(0)
         , commit_retry_count(0) {}
@@ -85,6 +124,7 @@ public:
         uint64_t retry_backoff_base_ms = 100;  // Base delay for exponential backoff
         uint64_t max_backoff_ms = 5000;        // Maximum backoff delay
         bool enable_recovery_log = true;       // Enable transaction recovery logging
+        std::string coordinator_id;            // Identifier for Prometheus labels (default: "default")
     };
     
     /**
@@ -99,10 +139,14 @@ public:
     
     /**
      * @brief Begin a new distributed transaction
-     * @param shard_ids List of participating shards
+     * @param shard_ids       List of participating shards
+     * @param isolation_level Desired isolation level (default: SNAPSHOT_ISOLATION)
      * @return Transaction ID
      */
-    std::string beginTransaction(const std::vector<std::string>& shard_ids);
+    std::string beginTransaction(
+        const std::vector<std::string>& shard_ids,
+        DistributedIsolationLevel isolation_level = DistributedIsolationLevel::SNAPSHOT_ISOLATION
+    );
     
     /**
      * @brief Add an operation to the transaction

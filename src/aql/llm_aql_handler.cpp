@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_aql_handler.cpp                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     769                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "aql/llm_aql_handler.h"
 #include "aql/llm_error_codes.h"
 #include "aql/llm_timeout_manager.h"
@@ -14,6 +40,35 @@
 
 namespace themis {
 namespace aql {
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AQLConversationSession
+// ─────────────────────────────────────────────────────────────────────────────
+
+void AQLConversationSession::addTurn(
+    const std::string& nl_query,
+    const std::string& aql_result
+) {
+    history_.push_back({nl_query, aql_result});
+}
+
+const std::vector<ConversationTurn>& AQLConversationSession::getHistory() const {
+    return history_;
+}
+
+void AQLConversationSession::clear() {
+    history_.clear();
+}
+
+bool AQLConversationSession::empty() const {
+    return history_.empty();
+}
+
+std::size_t AQLConversationSession::size() const {
+    return history_.size();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 class LLMAQLHandler::Impl {
 public:
@@ -702,6 +757,91 @@ std::string LLMAQLHandler::translateNLToAQL(
     }
 }
 
+std::string LLMAQLHandler::translateNLToAQLIterative(
+    const std::string& nl_query,
+    AQLConversationSession& session,
+    const std::string& schema_context
+) {
+    try {
+        // Build the system prompt (identical to single-turn translation)
+        std::ostringstream system_prompt;
+        system_prompt << "You are an expert in AQL (Application Query Language) for ThemisDB.\n";
+        system_prompt << "ThemisDB AQL is based on ArangoDB's AQL but extended with additional features.\n\n";
+
+        if (!schema_context.empty()) {
+            system_prompt << "Database schema:\n" << schema_context << "\n\n";
+        } else {
+            system_prompt << "ThemisDB is a distributed graph database with AQL support.\n";
+            system_prompt << "Common collections: documents, nodes, edges, users, etc.\n";
+            system_prompt << "Graph structures use edges to connect nodes.\n\n";
+        }
+
+        system_prompt << "Your task: Convert natural language queries to valid AQL.\n";
+        system_prompt << "Requirements:\n";
+        system_prompt << "- Return ONLY the AQL query, no explanations or markdown\n";
+        system_prompt << "- Use proper AQL syntax (FOR, FILTER, SORT, LIMIT, RETURN)\n";
+        system_prompt << "- Handle graph traversals with proper edge syntax if needed\n";
+        system_prompt << "- When refining a previous query, build on it rather than starting over\n";
+        system_prompt << "- Optimize for performance\n\n";
+
+        // Populate the message list with prior turns so the LLM has full context
+        std::vector<llm::ChatMessage> messages;
+        messages.emplace_back("system", system_prompt.str());
+
+        for (const auto& turn : session.getHistory()) {
+            // Present each historical turn as a user/assistant exchange
+            std::ostringstream user_msg;
+            user_msg << "Natural language query: " << turn.nl_query << "\n\n"
+                     << "Generate the corresponding AQL query:";
+            messages.emplace_back("user", user_msg.str());
+            messages.emplace_back("assistant", turn.aql_result);
+        }
+
+        // Append the current query
+        std::ostringstream user_prompt;
+        user_prompt << "Natural language query: " << nl_query << "\n\n"
+                    << "Generate the corresponding AQL query:";
+        messages.emplace_back("user", user_prompt.str());
+
+        auto response = executeChat(messages);
+
+        // Strip optional markdown fences (same cleanup as translateNLToAQL)
+        std::string aql_query = response;
+        size_t start_marker = aql_query.find("```");
+        if (start_marker != std::string::npos) {
+            size_t query_start = aql_query.find('\n', start_marker);
+            if (query_start != std::string::npos) {
+                query_start++;
+                size_t end_marker = aql_query.find("```", query_start);
+                if (end_marker != std::string::npos) {
+                    aql_query = aql_query.substr(query_start, end_marker - query_start);
+                }
+            }
+        }
+
+        // Trim whitespace
+        auto trim = [](std::string& s) {
+            s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }));
+            s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+                return !std::isspace(ch);
+            }).base(), s.end());
+        };
+        trim(aql_query);
+
+        // Record this turn in the session so future calls inherit the context
+        session.addTurn(nl_query, aql_query);
+
+        return aql_query;
+
+    } catch (const std::exception& e) {
+        throw std::runtime_error(
+            std::string("NL to AQL iterative translation failed: ") + e.what()
+        );
+    }
+}
+
 std::string LLMAQLHandler::executeChat(
     const std::vector<llm::ChatMessage>& messages,
     const std::string& model_id,
@@ -736,6 +876,101 @@ std::string LLMAQLHandler::executeChat(
         throw std::runtime_error(
             std::string("LLM CHAT failed: ") + e.what()
         );
+    }
+}
+
+LLMAQLHandler::QueryConfidenceScore LLMAQLHandler::scoreQueryConfidence(
+    const std::string& aql_query,
+    const std::string& original_intent,
+    const std::string& schema_context
+) {
+    // Default result for when the LLM is unavailable
+    QueryConfidenceScore unavailable;
+    unavailable.score       = -1.0f;
+    unavailable.explanation = "LLM unavailable; confidence scoring requires a loaded model";
+
+    if (aql_query.empty()) {
+        QueryConfidenceScore empty_result;
+        empty_result.score       = 0.0f;
+        empty_result.explanation = "Query is empty";
+        empty_result.suggestions.push_back("Provide a non-empty AQL query");
+        return empty_result;
+    }
+
+    try {
+        // Build a structured prompt that asks the LLM to respond in a parseable format
+        std::ostringstream prompt;
+        prompt << "You are an expert in AQL (ArangoDB Query Language) for ThemisDB.\n\n";
+
+        if (!schema_context.empty()) {
+            prompt << "Database schema:\n" << schema_context << "\n\n";
+        }
+
+        if (!original_intent.empty()) {
+            prompt << "The user intended: \"" << original_intent << "\"\n\n";
+        }
+
+        prompt << "AQL query to evaluate:\n```\n" << aql_query << "\n```\n\n";
+        prompt << "Evaluate this AQL query on a scale from 0.0 to 1.0 and respond in EXACTLY "
+               << "this format (no extra text):\n"
+               << "SCORE: <float between 0.0 and 1.0>\n"
+               << "EXPLANATION: <one sentence>\n"
+               << "SUGGESTION: <one improvement per line, or 'None' if no improvements>\n";
+
+        const std::string response = executeInfer(prompt.str());
+
+        QueryConfidenceScore result;
+        result.score = -1.0f;
+
+        // Parse the structured response
+        std::istringstream ss(response);
+        std::string line;
+        bool in_suggestions = false;
+        while (std::getline(ss, line)) {
+            // Trim leading/trailing whitespace
+            auto trim_ws = [](std::string& s) {
+                s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }));
+                s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char c) {
+                    return !std::isspace(c);
+                }).base(), s.end());
+            };
+            trim_ws(line);
+            if (line.empty()) continue;
+
+            if (line.size() >= 7 && line.substr(0, 7) == "SCORE: ") {
+                try {
+                    result.score = std::stof(line.substr(7));
+                    // Clamp to [0, 1]
+                    result.score = std::max(0.0f, std::min(1.0f, result.score));
+                } catch (...) {
+                    result.score = -1.0f;
+                }
+                in_suggestions = false;
+            } else if (line.size() >= 13 && line.substr(0, 13) == "EXPLANATION: ") {
+                result.explanation = line.substr(13);
+                in_suggestions = false;
+            } else if (line.size() >= 12 && line.substr(0, 12) == "SUGGESTION: ") {
+                in_suggestions = true;
+                std::string suggestion = line.substr(12);
+                if (suggestion != "None" && !suggestion.empty()) {
+                    result.suggestions.push_back(suggestion);
+                }
+            } else if (in_suggestions && !line.empty() && line != "None") {
+                result.suggestions.push_back(line);
+            }
+        }
+
+        // If we failed to parse a score, return unavailable
+        if (result.score < 0.0f && result.explanation.empty()) {
+            return unavailable;
+        }
+        return result;
+
+    } catch (const std::exception& e) {
+        spdlog::warn("LLMAQLHandler::scoreQueryConfidence failed: {}", e.what());
+        return unavailable;
     }
 }
 

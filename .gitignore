@@ -14,6 +14,9 @@ build-*/
 **/*.backup
 **/*.bak
 
+# Broken/dead-code stubs
+**/*.broken
+
 # VSCode user-specific settings (keep .vscode/ for enhanced config)
 .vscode/settings.json
 .vscode/launch.json

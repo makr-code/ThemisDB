@@ -1,4 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            admin_api.cpp                                      ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     224                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/admin_api.h"
+#include "sharding/shard_repair_engine.h"
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -25,6 +52,14 @@ void AdminAPI::registerHealthHandler(RequestHandler handler) {
 
 void AdminAPI::registerStatsHandler(RequestHandler handler) {
     stats_handler_ = handler;
+}
+
+void AdminAPI::registerRepairHandler(RequestHandler handler) {
+    repair_handler_ = handler;
+}
+
+void AdminAPI::setRepairEngine(std::shared_ptr<ShardRepairEngine> engine) {
+    repair_engine_ = std::move(engine);
 }
 
 nlohmann::json AdminAPI::handleRequest(const std::string& method, 
@@ -61,12 +96,40 @@ nlohmann::json AdminAPI::handleRequest(const std::string& method,
             return rebalance_handler_(body);
         }
     } else if (path == Endpoints::HEALTH && method == "GET") {
+        nlohmann::json health_response;
         if (health_handler_) {
-            return health_handler_(body);
+            health_response = health_handler_(body);
         }
+        // Enrich with per-shard repair health when a repair engine is attached
+        nlohmann::json repair_health = buildRepairHealthJson();
+        if (!repair_health.empty()) {
+            health_response["repair"] = repair_health;
+        }
+        if (health_response.empty()) {
+            return createErrorResponse(404, "Endpoint not found");
+        }
+        return health_response;
     } else if (path == Endpoints::STATS && method == "GET") {
         if (stats_handler_) {
             return stats_handler_(body);
+        }
+    } else if (path == Endpoints::REPAIR && method == "POST") {
+        if (repair_handler_) {
+            return repair_handler_(body);
+        }
+    } else if (path == Endpoints::REPAIR_SCAN && method == "POST") {
+        if (repair_handler_) {
+            nlohmann::json scan_body = body;
+            scan_body["full_scan"] = true;
+            return repair_handler_(scan_body);
+        }
+    } else if (path.find(Endpoints::REPAIR_STATUS) == 0 && method == "GET") {
+        if (repair_handler_) {
+            // Extract job_id from path: /admin/repair/{job_id}
+            std::string job_id = path.substr(std::string(Endpoints::REPAIR_STATUS).size());
+            nlohmann::json status_body = body;
+            status_body["job_id"] = job_id;
+            return repair_handler_(status_body);
         }
     }
 
@@ -104,6 +167,57 @@ nlohmann::json AdminAPI::createErrorResponse(int code, const std::string& messag
             {"message", message}
         }}
     };
+}
+
+nlohmann::json AdminAPI::buildRepairHealthJson() const {
+    if (!repair_engine_) {
+        return nlohmann::json{};
+    }
+
+    static const char* kStatusStr[] = {"healthy", "degraded", "failed", "rebuilding"};
+
+    auto reports = repair_engine_->getShardHealthReports();
+    auto metrics  = repair_engine_->getRepairMetrics();
+
+    nlohmann::json repair;
+
+    // Overall cluster repair health
+    std::string overall = "healthy";
+    for (const auto& r : reports) {
+        if (r.status == ShardRepairStatus::FAILED) {
+            overall = "failed";
+            break;
+        }
+        if (r.status == ShardRepairStatus::DEGRADED || r.status == ShardRepairStatus::REBUILDING) {
+            overall = "degraded";
+        }
+    }
+    repair["status"] = overall;
+    repair["engine_running"] = repair_engine_->isRunning();
+    repair["total_scans"] = metrics.total_scans;
+    repair["repairs_attempted"] = metrics.total_repairs_attempted;
+    repair["repairs_successful"] = metrics.total_repairs_successful;
+    repair["repairs_failed"] = metrics.total_repairs_failed;
+    repair["avg_repair_ms"] = metrics.avg_repair_time_ms.count();
+
+    nlohmann::json shards = nlohmann::json::array();
+    for (const auto& r : reports) {
+        int status_idx = static_cast<int>(r.status);
+        nlohmann::json shard_entry;
+        shard_entry["shard_id"] = r.shard_id;
+        shard_entry["status"] = kStatusStr[status_idx];
+        shard_entry["documents_scanned"] = r.documents_scanned;
+        shard_entry["documents_healthy"] = r.documents_healthy;
+        shard_entry["documents_degraded"] = r.documents_degraded;
+        shard_entry["documents_unrecoverable"] = r.documents_unrecoverable;
+        if (!r.last_error.empty()) {
+            shard_entry["last_error"] = r.last_error;
+        }
+        shards.push_back(std::move(shard_entry));
+    }
+    repair["shards"] = std::move(shards);
+
+    return repair;
 }
 
 } // namespace sharding

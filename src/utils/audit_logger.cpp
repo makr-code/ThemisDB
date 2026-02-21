@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            audit_logger.cpp                                   ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     1294                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "utils/audit_logger.h"
 #include "utils/logger.h"
 
@@ -7,6 +33,7 @@
 #include <iomanip>
 #include <cmath>
 #include <algorithm>
+#include <curl/curl.h>
 
 #ifdef _WIN32
 #include <winsock2.h>
@@ -212,6 +239,8 @@ std::string AuditLogger::securityEventTypeToString(SecurityEventType type) {
         case SecurityEventType::DATA_WRITE: return "DATA_WRITE";
         case SecurityEventType::DATA_DELETE: return "DATA_DELETE";
         case SecurityEventType::BULK_EXPORT: return "BULK_EXPORT";
+        case SecurityEventType::BULK_IMPORT: return "BULK_IMPORT";
+        case SecurityEventType::BULK_IMPORT_COMPLETED: return "BULK_IMPORT_COMPLETED";
         // Graph & Vector Operations (Phase 1)
         case SecurityEventType::GRAPH_TRAVERSAL: return "GRAPH_TRAVERSAL";
         case SecurityEventType::BULK_NODE_ACCESS: return "BULK_NODE_ACCESS";
@@ -494,17 +523,93 @@ void AuditLogger::forwardToSiem(const nlohmann::json& event) {
 #endif
         
     } else if (cfg_.siem_type == "splunk") {
-        // Splunk HEC (HTTP Event Collector) - would require libcurl
-        THEMIS_WARN("Splunk SIEM forwarding not yet implemented");
-        // TODO: HTTP POST to https://<host>:8088/services/collector/event
-        // with Authorization: Splunk <token>
-        // Body: formatted_message (JSON format)
+        // Splunk HEC (HTTP Event Collector) via libcurl
+        {
+            // Wrap the formatted event in a Splunk HEC envelope
+            nlohmann::json hec_payload;
+            hec_payload["event"] = formatted_message;
+            hec_payload["sourcetype"] = "_json";
+            hec_payload["source"]     = "themisdb";
+            std::string body = hec_payload.dump();
+
+            std::string url = "https://" + cfg_.siem_host + ":" +
+                              std::to_string(cfg_.siem_port) + "/services/collector/event";
+
+            CURL* curl = curl_easy_init();
+            if (!curl) {
+                THEMIS_ERROR("Splunk SIEM: failed to init curl");
+                return;
+            }
+
+            struct curl_slist* headers = nullptr;
+            std::string auth_header = "Authorization: Splunk " + cfg_.splunk_token;
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+            headers = curl_slist_append(headers, auth_header.c_str());
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, static_cast<long>(body.size()));
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
+            curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+            curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+            // Use the configured CA bundle when provided; otherwise libcurl falls
+            // back to the system default bundle.  Warn if neither is available.
+            if (!cfg_.siem_ca_bundle_path.empty()) {
+                curl_easy_setopt(curl, CURLOPT_CAINFO, cfg_.siem_ca_bundle_path.c_str());
+            } else {
+                THEMIS_WARN("Splunk SIEM: siem_ca_bundle_path not set – relying on system CA bundle");
+            }
+            // Discard response body
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
+                             +[](char*, size_t s, size_t n, void*) -> size_t { return s * n; });
+
+            CURLcode rc = curl_easy_perform(curl);
+            if (rc != CURLE_OK) {
+                THEMIS_WARN("Splunk SIEM forward failed: {}", curl_easy_strerror(rc));
+            }
+
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
         
     } else if (cfg_.siem_type == "elastic") {
-        // Elasticsearch integration - would require libcurl
-        THEMIS_WARN("Elasticsearch SIEM forwarding not yet implemented");
-        // TODO: HTTP POST to http://<host>:9200/<index>/_doc
-        // Body: formatted_message (JSON format)
+        // Elasticsearch _doc API via libcurl
+        {
+            std::string url = "http://" + cfg_.siem_host + ":" +
+                              std::to_string(cfg_.siem_port) + "/" +
+                              cfg_.elastic_index + "/_doc";
+
+            CURL* curl = curl_easy_init();
+            if (!curl) {
+                THEMIS_ERROR("Elasticsearch SIEM: failed to init curl");
+                return;
+            }
+
+            struct curl_slist* headers = nullptr;
+            headers = curl_slist_append(headers, "Content-Type: application/json");
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_POST, 1L);
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDS, formatted_message.c_str());
+            curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,
+                             static_cast<long>(formatted_message.size()));
+            curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+            curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
+            curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 3L);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,
+                             +[](char*, size_t s, size_t n, void*) -> size_t { return s * n; });
+
+            CURLcode rc = curl_easy_perform(curl);
+            if (rc != CURLE_OK) {
+                THEMIS_WARN("Elasticsearch SIEM forward failed: {}", curl_easy_strerror(rc));
+            }
+
+            curl_slist_free_all(headers);
+            curl_easy_cleanup(curl);
+        }
     }
 }
 
@@ -1019,6 +1124,170 @@ std::string AuditLogger::formatAsSyslog(const nlohmann::json& event, SecurityEve
     syslog << "Task Scheduler Event: " << securityEventTypeToString(event_type);
     
     return syslog.str();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Phase 3: Audit Search & Compliance Reporting
+// ─────────────────────────────────────────────────────────────────────────────
+
+std::vector<AuditLogger::AuditLogEntry> AuditLogger::searchEntries(
+    const SearchQuery& query) const {
+
+    std::vector<AuditLogEntry> results;
+    if (!std::filesystem::exists(cfg_.log_path)) {
+        return results;
+    }
+
+    std::scoped_lock lk(file_mu_);
+    std::ifstream ifs(cfg_.log_path);
+    std::string line;
+    uint64_t entry_num = 0;
+
+    while (std::getline(ifs, line)) {
+        if (line.empty()) continue;
+        try {
+            auto record = nlohmann::json::parse(line);
+            ++entry_num;
+
+            // Timestamp filter
+            std::chrono::system_clock::time_point ts;
+            if (record.contains("ts")) {
+                auto ms = record["ts"].get<int64_t>();
+                ts = std::chrono::system_clock::time_point(
+                    std::chrono::milliseconds(ms));
+            }
+            if (query.from && ts < *query.from) continue;
+            if (query.to   && ts >= *query.to)  continue;
+
+            // Extract payload for field-based filters (only plaintext entries)
+            nlohmann::json payload;
+            if (record.contains("payload")) {
+                const auto& p = record["payload"];
+                if (p.contains("type") && p["type"] == "plaintext" && p.contains("data")) {
+                    payload = p["data"];
+                }
+            }
+
+            // User filter
+            if (!query.user_id.empty()) {
+                std::string uid = payload.value("user", payload.value("user_id", std::string{}));
+                if (uid != query.user_id) continue;
+            }
+
+            // Action filter
+            if (!query.action.empty()) {
+                std::string action = payload.value("action",
+                    payload.value("event_type", std::string{}));
+                if (action.find(query.action) == std::string::npos) continue;
+            }
+
+            // Resource prefix filter
+            if (!query.resource_prefix.empty()) {
+                std::string resource = payload.value("resource", std::string{});
+                if (resource.substr(0, query.resource_prefix.size()) != query.resource_prefix) {
+                    continue;
+                }
+            }
+
+            AuditLogEntry entry;
+            entry.entry_number = entry_num;
+            entry.timestamp    = ts;
+            entry.record       = std::move(record);
+            results.push_back(std::move(entry));
+
+            if (query.max_results > 0 && results.size() >= query.max_results) break;
+
+        } catch (const std::exception&) {
+            // Skip malformed lines
+        }
+    }
+    return results;
+}
+
+AuditLogger::ComplianceReport AuditLogger::generateComplianceReport(
+    std::chrono::system_clock::time_point from,
+    std::chrono::system_clock::time_point to) {
+
+    ComplianceReport report;
+    report.from = from;
+    report.to   = to;
+    report.chain_intact = verifyChainIntegrity();
+
+    nlohmann::json type_counts = nlohmann::json::object();
+    nlohmann::json user_counts = nlohmann::json::object();
+
+    if (!std::filesystem::exists(cfg_.log_path)) {
+        return report;
+    }
+
+    std::scoped_lock lk(file_mu_);
+    std::ifstream ifs(cfg_.log_path);
+    std::string line;
+
+    while (std::getline(ifs, line)) {
+        if (line.empty()) continue;
+        try {
+            auto record = nlohmann::json::parse(line);
+
+            std::chrono::system_clock::time_point ts;
+            if (record.contains("ts")) {
+                auto ms = record["ts"].get<int64_t>();
+                ts = std::chrono::system_clock::time_point(
+                    std::chrono::milliseconds(ms));
+            }
+            if (ts < from || ts >= to) continue;
+
+            ++report.total_events;
+
+            // Extract plaintext payload for categorisation
+            nlohmann::json payload;
+            if (record.contains("payload")) {
+                const auto& p = record["payload"];
+                if (p.value("type", "") == "plaintext" && p.contains("data")) {
+                    payload = p["data"];
+                }
+            }
+
+            std::string event_type = payload.value("event_type",
+                payload.value("action", std::string{"unknown"}));
+
+            // Count by type
+            type_counts[event_type] = type_counts.value(event_type, 0) + 1;
+
+            // Categorise by event-type string
+            if (event_type.find("LOGIN") != std::string::npos ||
+                event_type.find("TOKEN") != std::string::npos ||
+                event_type.find("LOGOUT") != std::string::npos) {
+                ++report.authentication_events;
+            } else if (event_type.find("DATA_") != std::string::npos ||
+                       event_type.find("BULK_") != std::string::npos) {
+                ++report.data_access_events;
+            } else if (event_type.find("KEY_") != std::string::npos ||
+                       event_type.find("LEK_") != std::string::npos) {
+                ++report.key_management_events;
+            } else if (event_type.find("PII_") != std::string::npos) {
+                ++report.pii_events;
+            }
+
+            // Anything with a "severity" field is a security event
+            if (payload.contains("severity") ||
+                event_type.find("UNAUTHORIZED") != std::string::npos ||
+                event_type.find("DENIED") != std::string::npos) {
+                ++report.security_events;
+            }
+
+            // Track per-user counts
+            std::string user = payload.value("user_id", payload.value("user", std::string{"system"}));
+            user_counts[user] = user_counts.value(user, 0) + 1;
+
+        } catch (const std::exception&) {
+            // Skip malformed lines
+        }
+    }
+
+    report.event_counts_by_type = std::move(type_counts);
+    report.top_users            = std::move(user_counts);
+    return report;
 }
 
 } // namespace utils

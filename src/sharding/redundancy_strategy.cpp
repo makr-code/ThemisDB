@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            redundancy_strategy.cpp                            ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     2557                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB RAID-like Redundancy Strategy Implementation
  * 
@@ -14,6 +40,7 @@
 #include <numeric>
 #include <future>
 #include <cstring>
+#include <unordered_set>
 
 namespace themis {
 namespace sharding {
@@ -46,6 +73,41 @@ bool RedundancyConfig::validate() const {
     if (write_quorum > replication_factor) {
         spdlog::error("Invalid write_quorum: must be <= replication_factor");
         return false;
+    }
+
+    if (mode == RedundancyMode::GEO_MIRROR) {
+        // Each per-region write quorum must not exceed the replication factor
+        for (const auto& [region, q] : geo_replication.region_write_quorums) {
+            if (q == 0) {
+                spdlog::error("GEO_MIRROR: write quorum for region '{}' must be >= 1", region);
+                return false;
+            }
+            if (q > replication_factor) {
+                spdlog::error("GEO_MIRROR: write quorum for region '{}' ({}) exceeds "
+                              "replication_factor ({})", region, q, replication_factor);
+                return false;
+            }
+        }
+        // Same for read quorums
+        for (const auto& [region, q] : geo_replication.region_read_quorums) {
+            if (q == 0) {
+                spdlog::error("GEO_MIRROR: read quorum for region '{}' must be >= 1", region);
+                return false;
+            }
+            if (q > replication_factor) {
+                spdlog::error("GEO_MIRROR: read quorum for region '{}' ({}) exceeds "
+                              "replication_factor ({})", region, q, replication_factor);
+                return false;
+            }
+        }
+        // region_failure_threshold must be in (0, 1]
+        if (geo_replication.enable_geo_failover &&
+            (geo_replication.region_failure_threshold <= 0.0 ||
+             geo_replication.region_failure_threshold > 1.0)) {
+            spdlog::error("GEO_MIRROR: region_failure_threshold must be in (0, 1], got {}",
+                          geo_replication.region_failure_threshold);
+            return false;
+        }
     }
     
     return true;
@@ -180,46 +242,103 @@ WriteResult WriteResult::failed(const std::string& doc_id, const std::string& er
 }
 
 // ═══════════════════════════════════════════════════════════
-// ReedSolomonCoder Implementation (Simplified)
+// ReedSolomonCoder Implementation
+// Systematic Vandermonde-based encoding that supports recovery of up to
+// parity_shards simultaneously lost chunks (data or parity).
 // ═══════════════════════════════════════════════════════════
+
+// Build Vandermonde parity matrix (parity_shards x data_shards).
+// V[p][j] = gf_pow(p+1, j) so each row uses a distinct evaluation point {1,2,...,m}.
+std::vector<std::vector<uint8_t>> ReedSolomonCoder::buildVandermondeMatrix(
+    uint32_t rows, uint32_t cols
+) {
+    if (rows + cols > 255) {
+        throw std::invalid_argument("Too many shards: rows + cols must be <= 255");
+    }
+    std::vector<std::vector<uint8_t>> matrix(rows, std::vector<uint8_t>(cols));
+    for (uint32_t p = 0; p < rows; ++p) {
+        uint8_t base = static_cast<uint8_t>(p + 1);  // evaluation point: 1..m
+        for (uint32_t j = 0; j < cols; ++j) {
+            matrix[p][j] = gf_pow(base, static_cast<uint8_t>(j));
+        }
+    }
+    return matrix;
+}
+
+// Gaussian elimination in GF(2^8) to invert an n×n matrix in-place.
+bool ReedSolomonCoder::invertMatrix(std::vector<std::vector<uint8_t>>& matrix) {
+    const size_t n = matrix.size();
+    // Augment with identity matrix
+    std::vector<std::vector<uint8_t>> aug(n, std::vector<uint8_t>(2 * n, 0));
+    for (size_t i = 0; i < n; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            aug[i][j] = matrix[i][j];
+        }
+        aug[i][n + i] = 1;
+    }
+    for (size_t col = 0; col < n; ++col) {
+        // Find pivot
+        size_t pivot = n;
+        for (size_t row = col; row < n; ++row) {
+            if (aug[row][col] != 0) { pivot = row; break; }
+        }
+        if (pivot == n) return false;
+        std::swap(aug[col], aug[pivot]);
+        uint8_t inv_pivot = gf_inv(aug[col][col]);
+        for (size_t j = 0; j < 2 * n; ++j) {
+            aug[col][j] = gf_mul(aug[col][j], inv_pivot);
+        }
+        for (size_t row = 0; row < n; ++row) {
+            if (row == col || aug[row][col] == 0) continue;
+            uint8_t factor = aug[row][col];
+            for (size_t j = 0; j < 2 * n; ++j) {
+                aug[row][j] ^= gf_mul(factor, aug[col][j]);
+            }
+        }
+    }
+    for (size_t i = 0; i < n; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            matrix[i][j] = aug[i][n + j];
+        }
+    }
+    return true;
+}
 
 std::vector<std::vector<uint8_t>> ReedSolomonCoder::encode(
     const std::vector<uint8_t>& data,
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    std::vector<std::vector<uint8_t>> chunks;
-    
-    // Calculate chunk size
+    // Calculate chunk size (pad last chunk with zeros if needed)
     size_t chunk_size = (data.size() + data_shards - 1) / data_shards;
-    
-    // Split data into chunks
+
+    // Split data into k chunks (data shards)
+    std::vector<std::vector<uint8_t>> chunks;
+    chunks.reserve(data_shards + parity_shards);
     for (uint32_t i = 0; i < data_shards; ++i) {
         size_t offset = i * chunk_size;
-        size_t size = std::min(chunk_size, data.size() - offset);
-        
-        std::vector<uint8_t> chunk(chunk_size, 0);  // Pad with zeros
+        std::vector<uint8_t> chunk(chunk_size, 0);
         if (offset < data.size()) {
-            std::memcpy(chunk.data(), data.data() + offset, size);
+            size_t sz = std::min(chunk_size, data.size() - offset);
+            std::memcpy(chunk.data(), data.data() + offset, sz);
         }
-        chunks.push_back(chunk);
+        chunks.push_back(std::move(chunk));
     }
-    
-    // Generate parity chunks using XOR (simplified Reed-Solomon)
-    // In production, use proper Galois Field arithmetic
-    for (uint32_t i = 0; i < parity_shards; ++i) {
+
+    // Build Vandermonde parity matrix and compute parity chunks
+    auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+    for (uint32_t p = 0; p < parity_shards; ++p) {
         std::vector<uint8_t> parity(chunk_size, 0);
-        
-        // Simple XOR-based parity for now
-        for (const auto& chunk : chunks) {
-            for (size_t j = 0; j < chunk_size; ++j) {
-                parity[j] ^= chunk[j];
+        for (uint32_t j = 0; j < data_shards; ++j) {
+            uint8_t coeff = vandermonde[p][j];
+            if (coeff == 0) continue;
+            for (size_t x = 0; x < chunk_size; ++x) {
+                parity[x] ^= gf_mul(coeff, chunks[j][x]);
             }
         }
-        
-        chunks.push_back(parity);
+        chunks.push_back(std::move(parity));
     }
-    
+
     return chunks;
 }
 
@@ -229,37 +348,129 @@ std::vector<uint8_t> ReedSolomonCoder::decode(
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    // Simplified reconstruction
-    // In production, implement proper Reed-Solomon decoding
-    (void)missing_indices;
-    (void)parity_shards;
-    
+    // Validate that the number of missing chunks does not exceed the fault tolerance
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error("Too many missing chunks: " +
+                                 std::to_string(missing_indices.size()) +
+                                 " missing, but only " + std::to_string(parity_shards) +
+                                 " parity shard(s) available");
+    }
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
     }
-    
-    // For now, if all data chunks are available, just concatenate them
-    std::vector<uint8_t> recovered;
+
+    // Fast path: all data chunks present — just concatenate
+    bool all_data_available = true;
     for (uint32_t i = 0; i < data_shards; ++i) {
-        if (available_chunks.count(i)) {
+        if (available_chunks.find(i) == available_chunks.end()) {
+            all_data_available = false;
+            break;
+        }
+    }
+    if (all_data_available) {
+        std::vector<uint8_t> recovered;
+        for (uint32_t i = 0; i < data_shards; ++i) {
             const auto& chunk = available_chunks.at(i);
             recovered.insert(recovered.end(), chunk.begin(), chunk.end());
         }
+        return recovered;
     }
-    
-    return recovered;
+
+    // Full erasure recovery using Vandermonde matrix inversion.
+    // Build full (k+m) × k encoding matrix:
+    //   Rows 0..k-1:   identity (data chunks)
+    //   Rows k..k+m-1: Vandermonde parity matrix
+    const uint32_t total_shards = data_shards + parity_shards;
+    auto vandermonde = buildVandermondeMatrix(parity_shards, data_shards);
+
+    std::vector<std::vector<uint8_t>> full_matrix(total_shards,
+                                                   std::vector<uint8_t>(data_shards, 0));
+    for (uint32_t i = 0; i < data_shards; ++i) {
+        full_matrix[i][i] = 1;
+    }
+    for (uint32_t p = 0; p < parity_shards; ++p) {
+        full_matrix[data_shards + p] = vandermonde[p];
+    }
+
+    // Select k rows corresponding to available chunks
+    std::vector<uint32_t> available_indices;
+    available_indices.reserve(data_shards);
+    for (const auto& [idx, _] : available_chunks) {
+        if (available_indices.size() < data_shards) {
+            available_indices.push_back(idx);
+        }
+    }
+
+    std::vector<std::vector<uint8_t>> decode_matrix(data_shards,
+                                                     std::vector<uint8_t>(data_shards));
+    for (size_t i = 0; i < data_shards; ++i) {
+        decode_matrix[i] = full_matrix[available_indices[i]];
+    }
+
+    if (!invertMatrix(decode_matrix)) {
+        throw std::runtime_error("Failed to invert decode matrix for Reed-Solomon recovery");
+    }
+
+    // Apply inverse matrix byte-by-byte to recover original data chunks
+    size_t chunk_size = available_chunks.begin()->second.size();
+    std::vector<std::vector<uint8_t>> recovered_data(data_shards,
+                                                      std::vector<uint8_t>(chunk_size, 0));
+    for (size_t x = 0; x < chunk_size; ++x) {
+        std::vector<uint8_t> available_bytes(data_shards);
+        for (size_t i = 0; i < data_shards; ++i) {
+            available_bytes[i] = available_chunks.at(available_indices[i])[x];
+        }
+        std::vector<uint8_t> recovered_bytes;
+        gf_matrix_mul(decode_matrix, available_bytes, recovered_bytes);
+        for (size_t i = 0; i < data_shards; ++i) {
+            recovered_data[i][x] = recovered_bytes[i];
+        }
+    }
+
+    std::vector<uint8_t> result;
+    result.reserve(data_shards * chunk_size);
+    for (const auto& chunk : recovered_data) {
+        result.insert(result.end(), chunk.begin(), chunk.end());
+    }
+    return result;
 }
 
 uint8_t ReedSolomonCoder::gf_mul(uint8_t a, uint8_t b) {
-    // Simplified Galois Field multiplication
-    // In production, use lookup tables
-    return a * b;  // Placeholder
+    // Galois Field GF(2^8) multiplication using Russian Peasant algorithm
+    // Irreducible polynomial: x^8 + x^4 + x^3 + x^2 + 1 (0x1d)
+    uint8_t p = 0;
+    for (int i = 0; i < 8; i++) {
+        if (b & 1) p ^= a;
+        const uint8_t hi = a & 0x80;
+        a <<= 1;
+        if (hi) a ^= 0x1d;
+        b >>= 1;
+    }
+    return p;
+}
+
+uint8_t ReedSolomonCoder::gf_inv(uint8_t a) {
+    if (a == 0) return 0;
+    // Fermat's Little Theorem for finite fields: a^(p-1) = 1 in GF(p),
+    // so a^(2^8 - 2) = a^(-1) in GF(2^8).
+    uint8_t result = 1;
+    for (int i = 7; i >= 0; i--) {
+        result = gf_mul(result, result);
+        if ((254 >> i) & 1) result = gf_mul(result, a);
+    }
+    return result;
 }
 
 uint8_t ReedSolomonCoder::gf_div(uint8_t a, uint8_t b) {
-    // Simplified Galois Field division
-    (void)b;
-    return a / 1;  // Placeholder
+    return gf_mul(a, gf_inv(b));
+}
+
+uint8_t ReedSolomonCoder::gf_pow(uint8_t a, uint8_t exp) {
+    uint8_t result = 1;
+    for (uint8_t i = 0; i < exp; ++i) {
+        result = gf_mul(result, a);
+    }
+    return result;
 }
 
 void ReedSolomonCoder::gf_matrix_mul(
@@ -267,11 +478,15 @@ void ReedSolomonCoder::gf_matrix_mul(
     const std::vector<uint8_t>& vec,
     std::vector<uint8_t>& result
 ) {
-    // Matrix multiplication in Galois Field
-    // Placeholder implementation
-    (void)matrix;
-    (void)vec;
-    (void)result;
+    const size_t rows = matrix.size();
+    result.assign(rows, 0);
+    for (size_t i = 0; i < rows; i++) {
+        uint8_t sum = 0;
+        for (size_t j = 0; j < matrix[i].size() && j < vec.size(); j++) {
+            sum ^= gf_mul(matrix[i][j], vec[j]);
+        }
+        result[i] = sum;
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -496,11 +711,17 @@ std::vector<std::vector<uint8_t>> CauchyReedSolomonCoder::encode(
 
 std::vector<uint8_t> CauchyReedSolomonCoder::decode(
     const std::map<uint32_t, std::vector<uint8_t>>& available_chunks,
-    const std::vector<uint32_t>& missing_indices [[maybe_unused]],
+    const std::vector<uint32_t>& missing_indices,
     uint32_t data_shards,
     uint32_t parity_shards
 ) {
-    (void)missing_indices;
+    // Validate that the number of missing chunks does not exceed the fault tolerance
+    if (missing_indices.size() > parity_shards) {
+        throw std::runtime_error("Too many missing chunks: " +
+                                 std::to_string(missing_indices.size()) +
+                                 " missing, but only " + std::to_string(parity_shards) +
+                                 " parity shard(s) available");
+    }
     // Check if we have enough chunks
     if (available_chunks.size() < data_shards) {
         throw std::runtime_error("Not enough chunks for recovery");
@@ -640,7 +861,7 @@ RedundancyStrategy::RedundancyStrategy(const RedundancyConfig& config)
 
 RedundancyStrategy::~RedundancyStrategy() = default;
 
-void RedundancyStrategy::setRaftShardManager(std::shared_ptr<RaftShardManager> raft_manager) {
+void RedundancyStrategy::setRaftShardManager(std::shared_ptr<themisdb::sharding::RaftShardManager> raft_manager) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
     raft_manager_ = raft_manager;
     spdlog::info("RaftShardManager set for RedundancyStrategy");
@@ -669,8 +890,10 @@ WriteResult RedundancyStrategy::write(
                 result = writeMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::MIRROR:
-            case RedundancyMode::GEO_MIRROR:
                 result = writeMirror(document_id, data, ring, topology, handler);
+                break;
+            case RedundancyMode::GEO_MIRROR:
+                result = writeGeoMirror(document_id, data, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
                 result = writeStripe(document_id, data, ring, topology, handler);
@@ -715,8 +938,10 @@ ReadResult RedundancyStrategy::read(
         switch (config_.mode) {
             case RedundancyMode::NONE:
             case RedundancyMode::MIRROR:
-            case RedundancyMode::GEO_MIRROR:
                 result = readMirror(document_id, ring, topology, handler);
+                break;
+            case RedundancyMode::GEO_MIRROR:
+                result = readGeoMirror(document_id, ring, topology, handler);
                 break;
             case RedundancyMode::STRIPE:
             case RedundancyMode::STRIPE_MIRROR:
@@ -770,12 +995,37 @@ WriteResult RedundancyStrategy::writeMirror(
     
     auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
     target_shards.insert(target_shards.end(), replicas.begin(), replicas.end());
+
+    // Fast path: single target shard should be handled synchronously to avoid
+    // unnecessary async machinery and potential blocking edge cases.
+    if (target_shards.size() == 1) {
+        const auto& shard_id = target_shards.front();
+        bool ok = false;
+        try {
+            ok = handler(shard_id, document_id, data);
+        } catch (const std::exception& e) {
+            spdlog::warn("Write to shard {} failed: {}", shard_id, e.what());
+            ok = false;
+        }
+
+        if (ok) {
+            return WriteResult::successful(document_id, {shard_id}, std::chrono::milliseconds(0));
+        }
+
+        WriteResult result;
+        result.success = false;
+        result.document_id = document_id;
+        result.failed_shards = {shard_id};
+        result.acknowledgements = 0;
+        result.error_message = "Write concern not met";
+        return result;
+    }
     
-    // Write to all shards
+    // Write to all shards in parallel
     std::vector<std::future<bool>> futures;
     std::vector<std::string> written_shards;
     std::vector<std::string> failed_shards;
-    
+
     for (const auto& shard_id : target_shards) {
         futures.push_back(std::async(std::launch::async, [&, shard_id]() {
             return handler(shard_id, document_id, data);
@@ -784,8 +1034,16 @@ WriteResult RedundancyStrategy::writeMirror(
     
     // Wait for writes based on write concern
     uint32_t successful = 0;
+    const auto wait_timeout = config_.replication_timeout;
     for (size_t i = 0; i < futures.size(); ++i) {
         try {
+            auto status = futures[i].wait_for(wait_timeout);
+            if (status != std::future_status::ready) {
+                spdlog::warn("Write to shard {} timed out", target_shards[i]);
+                failed_shards.push_back(target_shards[i]);
+                continue;
+            }
+
             if (futures[i].get()) {
                 written_shards.push_back(target_shards[i]);
                 successful++;
@@ -1065,14 +1323,311 @@ WriteResult RedundancyStrategy::writeGeoMirror(
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    // Similar to mirror but considers geographic distribution
-    // For now, delegate to writeMirror
-    return writeMirror(document_id, data, ring, topology, handler);
+    const auto& geo = config_.geo_replication;
+
+    // Run geo-failover evaluation if enabled
+    if (geo.enable_geo_failover) {
+        evaluateGeoFailover(topology);
+    }
+
+    // Collect candidate shards (primary + replicas)
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        return WriteResult::failed(document_id, "No primary shard available");
+    }
+
+    std::vector<std::string> candidates;
+    candidates.push_back(*primary_opt);
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    candidates.insert(candidates.end(), replicas.begin(), replicas.end());
+
+    // If region_shards placement is configured, build the ordered write targets
+    // by consulting region_write_quorums; fall through to mirror logic if not set.
+    std::vector<std::string> target_shards;
+
+    if (!geo.region_shards.empty() || !geo.region_write_quorums.empty()) {
+        // Build region->candidates mapping from the ring candidates
+        std::map<std::string, std::vector<std::string>> region_candidates;
+        for (const auto& shard_id : candidates) {
+            auto shard_info = topology.getShard(shard_id);
+            std::string region = shard_info ? shard_info->region : "";
+            region_candidates[region].push_back(shard_id);
+        }
+
+        // O(1) lookup set for failed regions
+        const std::unordered_set<std::string> write_failed_set(
+            geo.failed_regions.begin(), geo.failed_regions.end());
+
+        // Prioritise local-region shards first, then remote
+        if (!geo.local_region.empty()) {
+            auto it = region_candidates.find(geo.local_region);
+            if (it != region_candidates.end()) {
+                for (const auto& s : it->second) target_shards.push_back(s);
+            }
+        }
+        for (const auto& [region, shards] : region_candidates) {
+            if (region == geo.local_region) continue;
+            if (!write_failed_set.count(region)) {
+                for (const auto& s : shards) target_shards.push_back(s);
+            }
+        }
+    } else {
+        target_shards = candidates;
+    }
+
+    if (target_shards.empty()) {
+        return WriteResult::failed(document_id, "No healthy shards available after geo-failover");
+    }
+
+    // Perform writes in parallel
+    std::vector<std::future<bool>> futures;
+    futures.reserve(target_shards.size());
+    for (const auto& shard_id : target_shards) {
+        // Capture shard_id by value to avoid dangling reference to the loop variable
+        futures.push_back(std::async(std::launch::async,
+            [&handler, shard_id, &document_id, &data]() {
+                return handler(shard_id, document_id, data);
+            }));
+    }
+
+    std::vector<std::string> written_shards, failed_shards;
+    uint32_t successful = 0;
+    for (size_t i = 0; i < futures.size(); ++i) {
+        try {
+            auto status = futures[i].wait_for(config_.replication_timeout);
+            if (status != std::future_status::ready) {
+                spdlog::warn("GEO_MIRROR: write to shard {} timed out", target_shards[i]);
+                failed_shards.push_back(target_shards[i]);
+                continue;
+            }
+            if (futures[i].get()) {
+                written_shards.push_back(target_shards[i]);
+                successful++;
+            } else {
+                failed_shards.push_back(target_shards[i]);
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("GEO_MIRROR: write to shard {} failed: {}", target_shards[i], e.what());
+            failed_shards.push_back(target_shards[i]);
+        }
+    }
+
+    // Check per-region quorums if configured
+    if (!geo.region_write_quorums.empty()) {
+        // Build O(1) failed-region lookup set once
+        std::unordered_set<std::string> failed_set(geo.failed_regions.begin(),
+                                                   geo.failed_regions.end());
+        for (const auto& [region, required] : geo.region_write_quorums) {
+            if (failed_set.count(region)) continue;  // region is failed-out
+
+            uint32_t region_acks = 0;
+            for (const auto& shard_id : written_shards) {
+                auto info = topology.getShard(shard_id);
+                if (info && info->region == region) ++region_acks;
+            }
+            if (region_acks < required) {
+                WriteResult r;
+                r.success = false;
+                r.document_id = document_id;
+                r.written_shards = written_shards;
+                r.failed_shards = failed_shards;
+                r.acknowledgements = successful;
+                r.error_message = "Geo-quorum not met for region: " + region;
+                return r;
+            }
+        }
+    }
+
+    // Fall back to global write-concern check
+    bool success = false;
+    switch (config_.write_concern) {
+        case WriteConcern::ONE:
+            success = successful >= 1;
+            break;
+        case WriteConcern::MAJORITY:
+            success = successful > (target_shards.size() / 2);
+            break;
+        case WriteConcern::ALL:
+            success = successful == target_shards.size();
+            break;
+        case WriteConcern::QUORUM:
+            success = successful >= config_.write_quorum;
+            break;
+    }
+
+    if (success) {
+        return WriteResult::successful(document_id, written_shards, std::chrono::milliseconds(0));
+    }
+    WriteResult r;
+    r.success = false;
+    r.document_id = document_id;
+    r.written_shards = written_shards;
+    r.failed_shards = failed_shards;
+    r.acknowledgements = successful;
+    r.error_message = "Write concern not met";
+    return r;
 }
 
 // ═══════════════════════════════════════════════════════════
 // Internal Read Methods
 // ═══════════════════════════════════════════════════════════
+
+ReadResult RedundancyStrategy::readGeoMirror(
+    const std::string& document_id,
+    ConsistentHashRing& ring,
+    ShardTopology& topology,
+    ReadHandler handler
+) {
+    const auto& geo = config_.geo_replication;
+
+    // Run geo-failover evaluation if enabled
+    if (geo.enable_geo_failover) {
+        evaluateGeoFailover(topology);
+    }
+
+    // Collect all replica candidates
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        ReadResult r;
+        r.success = false;
+        r.error_message = "No shard available";
+        return r;
+    }
+
+    std::vector<std::string> candidates;
+    candidates.push_back(*primary_opt);
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    candidates.insert(candidates.end(), replicas.begin(), replicas.end());
+
+    // Remove candidates that belong to failed-out regions
+    if (!geo.failed_regions.empty()) {
+        // Build O(1) lookup set once, then filter candidates in a single pass
+        const std::unordered_set<std::string> read_failed_set(
+            geo.failed_regions.begin(), geo.failed_regions.end());
+        candidates.erase(
+            std::remove_if(candidates.begin(), candidates.end(),
+                [&](const std::string& sid) {
+                    auto info = topology.getShard(sid);
+                    return info && read_failed_set.count(info->region);
+                }),
+            candidates.end());
+    }
+
+    if (candidates.empty()) {
+        ReadResult r;
+        r.success = false;
+        r.error_message = "No healthy shards available after geo-failover";
+        return r;
+    }
+
+    // -------------------------------------------------------------------
+    // Per-region read quorum path: contact enough replicas to satisfy the
+    // per-region quorum requirement before returning.
+    // -------------------------------------------------------------------
+    if (!geo.region_read_quorums.empty()) {
+        // Build O(1) lookup set for failed regions (avoids repeated linear scan)
+        std::unordered_set<std::string> failed_set;
+        failed_set.reserve(geo.failed_regions.size());
+        failed_set.insert(geo.failed_regions.begin(), geo.failed_regions.end());
+
+        // Track per-region successes
+        std::map<std::string, uint32_t> region_reads;
+        ReadResult result;
+        result.document_id = document_id;
+        result.chunks_read = 1;
+
+        // Prefer local-region shard first so we can return data quickly
+        std::vector<std::string> ordered = candidates;
+        if (!geo.local_region.empty()) {
+            std::stable_partition(ordered.begin(), ordered.end(),
+                [&](const std::string& sid) {
+                    auto info = topology.getShard(sid);
+                    return info && info->region == geo.local_region;
+                });
+        }
+
+        for (const auto& shard_id : ordered) {
+            auto data_opt = handler(shard_id, document_id);
+            if (data_opt) {
+                auto info = topology.getShard(shard_id);
+                std::string region = info ? info->region : "";
+                region_reads[region]++;
+
+                // Capture the first successful read as the result
+                if (!result.success) {
+                    result.success = true;
+                    result.data = std::string(data_opt->begin(), data_opt->end());
+                    result.source_shard = shard_id;
+                    result.from_replica = (shard_id != *primary_opt);
+                }
+            }
+
+            // Check if all region quorums are satisfied
+            bool all_met = true;
+            for (const auto& [region, required] : geo.region_read_quorums) {
+                // Skip failed-out regions (O(1) lookup)
+                if (failed_set.count(region)) continue;
+
+                auto it = region_reads.find(region);
+                if (it == region_reads.end() || it->second < required) {
+                    all_met = false;
+                    break;
+                }
+            }
+            if (all_met && result.success) break;
+        }
+
+        if (!result.success) {
+            result.error_message = "Failed to read from any geo-replica";
+        }
+        return result;
+    }
+
+    // -------------------------------------------------------------------
+    // Standard single-shard read path (no per-region read quorums)
+    // -------------------------------------------------------------------
+
+    // Select shard based on read preference
+    std::string selected_shard;
+    const auto pref = geo.read_preference;
+    if (pref == ReadPreference::LOCAL_REGION || pref == ReadPreference::FOLLOWER) {
+        selected_shard = selectGeoReadShard(candidates, topology, geo.local_region);
+    } else {
+        selected_shard = selectReadShard(candidates, topology);
+    }
+
+    auto data_opt = handler(selected_shard, document_id);
+
+    ReadResult result;
+    result.document_id = document_id;
+    result.source_shard = selected_shard;
+    result.from_replica = (selected_shard != *primary_opt);
+    result.chunks_read = 1;
+
+    if (data_opt) {
+        result.success = true;
+        result.data = std::string(data_opt->begin(), data_opt->end());
+    } else {
+        // Bounded-staleness / follower-read fallback: try remaining candidates
+        result.success = false;
+        for (const auto& shard_id : candidates) {
+            if (shard_id == selected_shard) continue;
+            data_opt = handler(shard_id, document_id);
+            if (data_opt) {
+                result.success = true;
+                result.data = std::string(data_opt->begin(), data_opt->end());
+                result.source_shard = shard_id;
+                result.from_replica = (shard_id != *primary_opt);
+                break;
+            }
+        }
+        if (!result.success) {
+            result.error_message = "Failed to read from any geo-replica";
+        }
+    }
+
+    return result;
+}
 
 ReadResult RedundancyStrategy::readMirror(
     const std::string& document_id,
@@ -1291,64 +1846,463 @@ std::string RedundancyStrategy::selectReadShard(
                 return available_shards[1];
             }
             return available_shards[0];
-            
+
+        case ReadPreference::FOLLOWER:
+            // Any follower (non-primary); fall through to second shard if available
+            if (available_shards.size() > 1) {
+                return available_shards[1];
+            }
+            return available_shards[0];
+
+        case ReadPreference::LOCAL_REGION:
+            // Prefer local region; handled by selectGeoReadShard - fall back to first
+            return available_shards[0];
+
         default:
             return available_shards[0];
     }
 }
 
+std::string RedundancyStrategy::selectGeoReadShard(
+    const std::vector<std::string>& candidates,
+    ShardTopology& topology,
+    const std::string& local_region
+) {
+    if (candidates.empty()) {
+        throw std::runtime_error("No available shards");
+    }
+
+    if (!local_region.empty()) {
+        // Prefer healthy shards in local_region
+        for (const auto& shard_id : candidates) {
+            auto info = topology.getShard(shard_id);
+            if (info && info->region == local_region && info->is_healthy) {
+                return shard_id;
+            }
+        }
+        // Fall back: any shard in local_region (even if unhealthy marker not yet updated)
+        for (const auto& shard_id : candidates) {
+            auto info = topology.getShard(shard_id);
+            if (info && info->region == local_region) {
+                return shard_id;
+            }
+        }
+    }
+
+    // No local-region shard found – return nearest healthy candidate
+    for (const auto& shard_id : candidates) {
+        auto info = topology.getShard(shard_id);
+        if (info && info->is_healthy) {
+            return shard_id;
+        }
+    }
+
+    return candidates[0];
+}
+
+void RedundancyStrategy::evaluateGeoFailover(ShardTopology& topology) const {
+    const auto& geo = config_.geo_replication;
+    const auto regions = topology.getRegions();
+
+    // Build a snapshot set once so per-region lookup is O(1)
+    std::unordered_set<std::string> failed_set(geo.failed_regions.begin(),
+                                               geo.failed_regions.end());
+
+    for (const auto& region : regions) {
+        const auto all_shards = topology.getShardsInRegion(region);
+        if (all_shards.empty()) continue;
+
+        const auto healthy = topology.getHealthyShardsInRegion(region);
+        double healthy_fraction = static_cast<double>(healthy.size()) /
+                                  static_cast<double>(all_shards.size());
+
+        const bool already_failed = failed_set.count(region) > 0;
+
+        if (healthy_fraction < geo.region_failure_threshold) {
+            if (!already_failed) {
+                spdlog::warn("GEO_MIRROR: region '{}' is below failure threshold "
+                             "({:.0f}% healthy), marking as failed-out", region,
+                             healthy_fraction * 100.0);
+                geo.failed_regions.push_back(region);
+                failed_set.insert(region);
+            }
+        } else {
+            // Recover the region if it has come back above the threshold
+            if (already_failed) {
+                spdlog::info("GEO_MIRROR: region '{}' has recovered ({:.0f}% healthy), "
+                             "removing from failed list", region, healthy_fraction * 100.0);
+                auto& fr = geo.failed_regions;
+                fr.erase(std::remove(fr.begin(), fr.end(), region), fr.end());
+                failed_set.erase(region);
+            }
+        }
+    }
+}
+
 bool RedundancyStrategy::remove(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     WriteHandler handler
 ) {
-    // Implementation depends on mode
-    // For now, delete from all replicas
-    (void)document_id;
     (void)collection;
-    (void)ring;
-    (void)topology;
-    (void)handler;
-    return true;
+
+    // Determine the set of shards that hold this document
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        spdlog::warn("remove: no primary shard for document {}", document_id);
+        return false;
+    }
+
+    // For GEO_MIRROR evaluate failover state so we know which regions are live
+    if (config_.mode == RedundancyMode::GEO_MIRROR &&
+        config_.geo_replication.enable_geo_failover) {
+        evaluateGeoFailover(topology);
+    }
+
+    // Build the list of shard IDs and the doc-keys to delete
+    // ── MIRROR / GEO_MIRROR: all replicas hold the full document ──
+    // ── STRIPE / STRIPE_MIRROR: each replica holds a chunk key ──
+    // ── PARITY / RAID6: each replica holds a data: or parity: chunk key ──
+
+    std::vector<std::pair<std::string /*shard*/, std::string /*doc_key*/>> targets;
+
+    if (config_.mode == RedundancyMode::STRIPE ||
+        config_.mode == RedundancyMode::STRIPE_MIRROR) {
+
+        auto primary_shard = *primary_opt;
+        auto replicas = ring.getReplicaNodes(document_id,
+            config_.stripe.min_stripe_shards > 0
+                ? config_.stripe.min_stripe_shards - 1
+                : config_.replication_factor - 1);
+        std::vector<std::string> shards{primary_shard};
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        for (size_t i = 0; i < shards.size(); ++i) {
+            targets.emplace_back(shards[i],
+                                 document_id + ":chunk:" + std::to_string(i));
+        }
+
+    } else if (config_.mode == RedundancyMode::PARITY ||
+               config_.mode == RedundancyMode::RAID6) {
+
+        const uint32_t total = config_.erasure_coding.data_shards +
+                               config_.erasure_coding.parity_shards;
+        auto primary_shard = *primary_opt;
+        auto replicas = ring.getReplicaNodes(document_id, total - 1);
+        std::vector<std::string> shards{primary_shard};
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
+            bool is_parity = (i >= config_.erasure_coding.data_shards);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            targets.emplace_back(shards[i], key);
+        }
+
+    } else {
+        // NONE / MIRROR / GEO_MIRROR — full document on every replica
+        std::vector<std::string> shards;
+        shards.push_back(*primary_opt);
+        auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        // For GEO_MIRROR, skip shards that belong to failed-out regions
+        const auto& failed_regions = config_.geo_replication.failed_regions;
+        const std::unordered_set<std::string> failed_set(failed_regions.begin(),
+                                                         failed_regions.end());
+
+        for (const auto& sid : shards) {
+            if (!failed_set.empty()) {
+                auto info = topology.getShard(sid);
+                if (info && failed_set.count(info->region)) continue;
+            }
+            targets.emplace_back(sid, document_id);
+        }
+    }
+
+    if (targets.empty()) {
+        spdlog::warn("remove: no target shards for document {}", document_id);
+        return false;
+    }
+
+    // Delete from all targets in parallel (send a "write" with empty payload
+    // — the WriteHandler interprets an empty payload as a delete command)
+    const std::vector<uint8_t> empty_payload;
+    std::vector<std::future<bool>> futures;
+    futures.reserve(targets.size());
+    for (const auto& [shard_id, doc_key] : targets) {
+        futures.push_back(std::async(std::launch::async,
+            [&handler, shard_id = shard_id, doc_key = doc_key, &empty_payload]() {
+                return handler(shard_id, doc_key, empty_payload);
+            }));
+    }
+
+    uint32_t successes = 0;
+    for (size_t i = 0; i < futures.size(); ++i) {
+        try {
+            if (futures[i].get()) {
+                ++successes;
+            } else {
+                spdlog::warn("remove: delete from shard {} failed for doc {}",
+                             targets[i].first, document_id);
+            }
+        } catch (const std::exception& e) {
+            spdlog::warn("remove: delete from shard {} threw: {}",
+                         targets[i].first, e.what());
+        }
+    }
+
+    // Succeed if at least one replica was deleted (soft-delete semantics)
+    return successes > 0;
 }
 
 bool RedundancyStrategy::recoverDocument(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler read_handler,
     WriteHandler write_handler
 ) {
-    (void)document_id;
     (void)collection;
-    (void)ring;
-    (void)topology;
-    (void)read_handler;
-    (void)write_handler;
     stats_recoveries_++;
-    return false;  // Not yet implemented
+
+    // Recovery is only meaningful for modes that have redundant copies or parity
+    if (config_.mode == RedundancyMode::NONE ||
+        config_.mode == RedundancyMode::STRIPE) {
+        // No redundancy — cannot recover
+        return false;
+    }
+
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) return false;
+
+    std::vector<std::string> all_shards{*primary_opt};
+    auto replicas = ring.getReplicaNodes(document_id, config_.replication_factor - 1);
+    all_shards.insert(all_shards.end(), replicas.begin(), replicas.end());
+
+    if (config_.mode == RedundancyMode::MIRROR ||
+        config_.mode == RedundancyMode::GEO_MIRROR ||
+        config_.mode == RedundancyMode::STRIPE_MIRROR) {
+
+        // Find a healthy replica that has the document
+        std::optional<std::vector<uint8_t>> source_data;
+        for (const auto& shard_id : all_shards) {
+            auto info = topology.getShard(shard_id);
+            if (info && !info->is_healthy) continue;
+
+            auto data = read_handler(shard_id, document_id);
+            if (data) {
+                source_data = data;
+                break;
+            }
+        }
+
+        if (!source_data) {
+            spdlog::error("recoverDocument: no healthy replica with data for {}",
+                          document_id);
+            return false;
+        }
+
+        // Re-write to any shard that is missing the document
+        uint32_t recovered = 0;
+        for (const auto& shard_id : all_shards) {
+            auto existing = read_handler(shard_id, document_id);
+            if (existing) continue;  // already has the data
+
+            bool ok = false;
+            try {
+                ok = write_handler(shard_id, document_id, *source_data);
+            } catch (const std::exception& e) {
+                spdlog::warn("recoverDocument: write to {} failed: {}",
+                             shard_id, e.what());
+            }
+            if (ok) {
+                ++recovered;
+                spdlog::info("recoverDocument: restored doc {} to shard {}",
+                             document_id, shard_id);
+            }
+        }
+        return recovered > 0;
+    }
+
+    if (config_.mode == RedundancyMode::PARITY ||
+        config_.mode == RedundancyMode::RAID6) {
+
+        if (!erasure_coder_) return false;
+
+        const uint32_t k = config_.erasure_coding.data_shards;
+        const uint32_t m = config_.erasure_coding.parity_shards;
+        const uint32_t total = k + m;
+
+        // Read all available chunks
+        std::vector<std::optional<std::vector<uint8_t>>> chunk_opts(total);
+        std::vector<std::string> chunk_shards(total);
+
+        auto replicas2 = ring.getReplicaNodes(document_id, total - 1);
+        std::vector<std::string> shards{*primary_opt};
+        shards.insert(shards.end(), replicas2.begin(), replicas2.end());
+
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
+            bool is_parity = (i >= k);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            chunk_opts[i] = read_handler(shards[i], key);
+            chunk_shards[i] = shards[i];
+        }
+
+        // Count available chunks
+        uint32_t available = 0;
+        for (const auto& c : chunk_opts) if (c) ++available;
+
+        if (available < k) {
+            spdlog::error("recoverDocument: only {}/{} chunks available for {} (need {})",
+                          available, total, document_id, k);
+            return false;
+        }
+
+        // Build the map and missing-indices vector required by decode()
+        std::map<uint32_t, std::vector<uint8_t>> available_map;
+        std::vector<uint32_t> missing_idx_vec;
+        for (uint32_t i = 0; i < total; ++i) {
+            if (chunk_opts[i]) {
+                available_map[i] = *chunk_opts[i];
+            } else {
+                missing_idx_vec.push_back(i);
+            }
+        }
+
+        auto recovered_data = erasure_coder_->decode(available_map, missing_idx_vec, k, m);
+        if (recovered_data.empty()) {
+            spdlog::error("recoverDocument: erasure decode failed for {}", document_id);
+            return false;
+        }
+
+        // Re-encode to get all chunks back, then re-write missing ones
+        auto all_chunks = erasure_coder_->encode(recovered_data, k, m);
+        uint32_t restored = 0;
+        for (size_t i = 0; i < shards.size() && i < all_chunks.size(); ++i) {
+            if (chunk_opts[i]) continue;  // chunk was already present
+
+            bool is_parity = (i >= k);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            try {
+                if (write_handler(shards[i], key, all_chunks[i])) {
+                    ++restored;
+                    spdlog::info("recoverDocument: restored chunk {} of {} to shard {}",
+                                 i, document_id, shards[i]);
+                }
+            } catch (const std::exception& e) {
+                spdlog::warn("recoverDocument: write chunk {} to {} failed: {}",
+                             i, shards[i], e.what());
+            }
+        }
+        return restored > 0;
+    }
+
+    return false;
 }
 
 RedundancyStrategy::DocumentHealth RedundancyStrategy::checkDocumentHealth(
     const std::string& document_id,
-    const std::string& collection,
+    const std::string& collection [[maybe_unused]],
     ConsistentHashRing& ring,
     ShardTopology& topology,
     ReadHandler handler
 ) {
-    (void)document_id;
     (void)collection;
-    (void)ring;
-    (void)topology;
-    (void)handler;
     DocumentHealth health;
-    health.is_healthy = true;
-    health.available_replicas = 0;
     health.required_replicas = config_.replication_factor;
-    health.can_recover = true;
+    health.is_healthy = false;
+    health.available_replicas = 0;
+    health.can_recover = false;
+
+    auto primary_opt = ring.getNode(document_id);
+    if (!primary_opt) {
+        return health;  // no shard at all
+    }
+
+    std::vector<std::string> all_shards{*primary_opt};
+    {
+        auto replicas = ring.getReplicaNodes(document_id,
+                                             config_.replication_factor - 1);
+        all_shards.insert(all_shards.end(), replicas.begin(), replicas.end());
+    }
+
+    if (config_.mode == RedundancyMode::STRIPE) {
+        // Each shard holds a unique chunk — read each chunk key
+        for (size_t i = 0; i < all_shards.size(); ++i) {
+            const std::string key = document_id + ":chunk:" + std::to_string(i);
+            auto shard_info = topology.getShard(all_shards[i]);
+            bool shard_healthy = (!shard_info || shard_info->is_healthy);
+            auto chunk = handler(all_shards[i], key);
+            if (chunk) {
+                ++health.available_replicas;
+            } else {
+                if (shard_healthy) {
+                    health.missing_shards.push_back(all_shards[i]);
+                }
+            }
+        }
+        health.is_healthy = (health.available_replicas == all_shards.size());
+        health.can_recover = false;  // STRIPE: no recovery without all chunks
+        return health;
+    }
+
+    if (config_.mode == RedundancyMode::PARITY ||
+        config_.mode == RedundancyMode::RAID6) {
+
+        const uint32_t k = config_.erasure_coding.data_shards;
+        const uint32_t m = config_.erasure_coding.parity_shards;
+        const uint32_t total = k + m;
+        auto replicas = ring.getReplicaNodes(document_id, total - 1);
+        std::vector<std::string> shards{*primary_opt};
+        shards.insert(shards.end(), replicas.begin(), replicas.end());
+
+        for (size_t i = 0; i < shards.size() && i < total; ++i) {
+            bool is_parity = (i >= k);
+            std::string key = document_id +
+                              (is_parity ? ":parity:" : ":data:") +
+                              std::to_string(i);
+            auto chunk = handler(shards[i], key);
+            if (chunk) {
+                ++health.available_replicas;
+            } else {
+                health.missing_shards.push_back(shards[i]);
+            }
+        }
+        health.is_healthy = (health.missing_shards.empty());
+        health.can_recover = (health.available_replicas >= k);
+        return health;
+    }
+
+    // NONE / MIRROR / GEO_MIRROR / STRIPE_MIRROR — full document on each replica
+    for (const auto& shard_id : all_shards) {
+        auto data = handler(shard_id, document_id);
+        if (data) {
+            ++health.available_replicas;
+        } else {
+            auto info = topology.getShard(shard_id);
+            bool shard_healthy = (!info || info->is_healthy);
+            if (shard_healthy) {
+                // Data missing from a healthy shard → needs recovery
+                health.missing_shards.push_back(shard_id);
+            }
+        }
+    }
+
+    // MIRROR / GEO_MIRROR: can recover if at least 1 replica is available and some are missing
+    constexpr uint32_t min_required = 1;
+
+    health.is_healthy   = health.missing_shards.empty();
+    health.can_recover  = (health.available_replicas >= min_required) &&
+                          !health.missing_shards.empty();
     return health;
 }
 
@@ -1449,7 +2403,68 @@ std::string RedundancyStrategy::exportPrometheusMetrics() const {
         ss << "themis_redundancy_erasure_algorithm{mode=\"" << mode_str 
            << "\",algorithm=\"" << algo_str << "\"} 1\n";
     }
-    
+
+    // GEO_MIRROR specific metrics
+    if (config_.mode == RedundancyMode::GEO_MIRROR) {
+        const auto& geo = config_.geo_replication;
+
+        // Replication mode
+        std::string repl_mode_str;
+        switch (geo.replication_mode) {
+            case GeoReplicationConfig::ReplicationMode::SYNC:      repl_mode_str = "sync";      break;
+            case GeoReplicationConfig::ReplicationMode::SEMI_SYNC: repl_mode_str = "semi_sync"; break;
+            case GeoReplicationConfig::ReplicationMode::ASYNC:     repl_mode_str = "async";     break;
+            default:                                               repl_mode_str = "unknown";   break;
+        }
+        ss << "# HELP themis_geo_replication_mode Geo replication mode (info metric)\n";
+        ss << "# TYPE themis_geo_replication_mode gauge\n";
+        ss << "themis_geo_replication_mode{replication_mode=\"" << repl_mode_str << "\"} 1\n";
+
+        // Number of configured region write quorums
+        ss << "# HELP themis_geo_region_write_quorums_total Number of regions with write quorum configured\n";
+        ss << "# TYPE themis_geo_region_write_quorums_total gauge\n";
+        ss << "themis_geo_region_write_quorums_total{mode=\"geo_mirror\"} "
+           << geo.region_write_quorums.size() << "\n";
+
+        // Per-region write quorum values
+        ss << "# HELP themis_geo_region_write_quorum Required write quorum per region\n";
+        ss << "# TYPE themis_geo_region_write_quorum gauge\n";
+        for (const auto& [region, quorum] : geo.region_write_quorums) {
+            ss << "themis_geo_region_write_quorum{region=\"" << region << "\"} " << quorum << "\n";
+        }
+
+        // Per-region read quorum values
+        ss << "# HELP themis_geo_region_read_quorum Required read quorum per region\n";
+        ss << "# TYPE themis_geo_region_read_quorum gauge\n";
+        for (const auto& [region, quorum] : geo.region_read_quorums) {
+            ss << "themis_geo_region_read_quorum{region=\"" << region << "\"} " << quorum << "\n";
+        }
+
+        // Failed regions count
+        ss << "# HELP themis_geo_failed_regions_total Number of regions currently failed-out\n";
+        ss << "# TYPE themis_geo_failed_regions_total gauge\n";
+        ss << "themis_geo_failed_regions_total{mode=\"geo_mirror\"} "
+           << geo.failed_regions.size() << "\n";
+
+        // Per-failed-region marker
+        ss << "# HELP themis_geo_region_failed Whether a region is currently failed-out (1=failed)\n";
+        ss << "# TYPE themis_geo_region_failed gauge\n";
+        for (const auto& region : geo.failed_regions) {
+            ss << "themis_geo_region_failed{region=\"" << region << "\"} 1\n";
+        }
+
+        // Geo-failover enabled flag
+        ss << "# HELP themis_geo_failover_enabled Whether geo-failover is enabled\n";
+        ss << "# TYPE themis_geo_failover_enabled gauge\n";
+        ss << "themis_geo_failover_enabled{mode=\"geo_mirror\"} "
+           << (geo.enable_geo_failover ? 1 : 0) << "\n";
+
+        // Bounded-staleness limit
+        ss << "# HELP themis_geo_max_staleness_ms Maximum accepted replication staleness in ms\n";
+        ss << "# TYPE themis_geo_max_staleness_ms gauge\n";
+        ss << "themis_geo_max_staleness_ms{mode=\"geo_mirror\"} " << geo.max_staleness_ms << "\n";
+    }
+
     return ss.str();
 }
 
@@ -1503,7 +2518,11 @@ std::shared_ptr<RedundancyStrategy> CollectionRedundancyManager::getStrategy(
     }
     
     // Create new strategy
-    auto config = getConfig(collection);
+    RedundancyConfig config = default_config_;
+    auto cfg_it = collection_configs_.find(collection);
+    if (cfg_it != collection_configs_.end()) {
+        config = cfg_it->second;
+    }
     auto strategy = std::make_shared<RedundancyStrategy>(config);
     strategies_[collection] = strategy;
     

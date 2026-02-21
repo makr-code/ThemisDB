@@ -23,6 +23,16 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 - ➕ Advanced process mining and ethics functions
 - ➕ Query federation across distributed databases
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `aql_parser.cpp` | AQL syntax parsing and AST generation |
+| `query_optimizer.cpp` | Logical query plan optimization |
+| `query_planner.cpp` | Physical execution plan generation |
+| `execution_engine.cpp` | Query plan execution across all data models |
+| `join_executor.cpp` | Join algorithm implementations (hash, merge, nested-loop) |
+
 ## Scope
 
 **In Scope:**
@@ -45,6 +55,10 @@ The Query module provides ThemisDB's AQL (Advanced Query Language) query engine,
 - Authentication and authorization (handled by auth module)
 
 ## Key Components
+
+> **Note on Parser Implementations:** All query parser logic is implemented in `aql_parser.cpp`
+> (and `aql_parser_json.cpp` for JSON query support). There is no separate SQL parser;
+> if SQL support is needed in the future, see the roadmap entry in `FUTURE_ENHANCEMENTS.md`.
 
 ### AQL Parser
 **Location:** `aql_parser.cpp`, `../include/query/aql_parser.h`

@@ -1,9 +1,36 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            compute_backend.h                                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     234                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include "acceleration/error_context.h"
 
 namespace themis {
 namespace acceleration {
@@ -53,6 +80,32 @@ public:
     // Lifecycle
     virtual bool initialize() = 0;
     virtual void shutdown() = 0;
+    
+    // Error handling (Phase 2.2b)
+    // Get the last error that occurred in this backend
+    // Returns error context with details, code, and troubleshooting hint
+    virtual ErrorContext getLastError() const {
+        return lastError_;
+    }
+    
+protected:
+    // Helper for backends to set error context
+    // Stores error and optionally logs it
+    void setError(ErrorContext error) {
+        lastError_ = std::move(error);
+    }
+    
+    // Helper to clear error state (on success)
+    void clearError() {
+        lastError_ = ErrorContext(
+            AccelerationErrorCode::Success,
+            name(),
+            ""
+        );
+    }
+    
+    // Last error context (stored for programmatic access)
+    ErrorContext lastError_;
 };
 
 // Vector operations backend interface

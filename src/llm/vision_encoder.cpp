@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vision_encoder.cpp                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   79.0/100                                       ║
+    • Total Lines:     568                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/vision_encoder.h"
 #include "utils/logger.h"
 #include <filesystem>
@@ -233,8 +259,8 @@ std::vector<float> VisionEncoder::encodeImage(const std::string& image_path) {
         size_t embedding_size = getTotalEmbeddingSize();
         std::vector<float> embeddings(embedding_size, 0.0f);
         
-        // Use 4 threads by default - TODO: Make this properly configurable from config
-        int n_threads = 4;
+        // Use the configured number of CPU threads for image encoding
+        int n_threads = config_->getResourceLimits().cpu_inference_threads;
         if (!clip_image_encode(clip_ctx_, n_threads, img_f32, embeddings.data())) {
             clip_image_f32_free(img_f32);
             clip_image_u8_free(img_u8);

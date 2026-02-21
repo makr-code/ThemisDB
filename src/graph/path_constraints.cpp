@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            path_constraints.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     603                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "graph/path_constraints.h"
 #include "index/graph_index.h"
 #include "utils/error_registry.h"
@@ -42,6 +68,30 @@ void PathConstraints::addForbiddenEdge(std::string_view edge_id) {
 void PathConstraints::addRequiredEdge(std::string_view edge_id) {
     required_edges_.insert(std::string(edge_id));
     constraints_.emplace_back(ConstraintType::REQUIRED_EDGE, std::string(edge_id));
+}
+
+void PathConstraints::addEdgePropertyConstraint(std::string_view field_name,
+                                                std::string_view expected_value) {
+    Constraint c(ConstraintType::EDGE_PROPERTY,
+                 std::string(field_name),
+                 std::string(expected_value));
+    constraints_.push_back(std::move(c));
+}
+
+void PathConstraints::addNodePropertyConstraint(std::string_view field_name,
+                                                std::string_view expected_value) {
+    Constraint c(ConstraintType::NODE_PROPERTY,
+                 std::string(field_name),
+                 std::string(expected_value));
+    constraints_.push_back(std::move(c));
+}
+
+void PathConstraints::addMaxWeight(double max_weight) {
+    constraints_.emplace_back(ConstraintType::MAX_WEIGHT, max_weight);
+}
+
+void PathConstraints::addMinWeight(double min_weight) {
+    constraints_.emplace_back(ConstraintType::MIN_WEIGHT, min_weight);
 }
 
 void PathConstraints::requireAcyclic() {
@@ -180,9 +230,44 @@ Result<bool> PathConstraints::validatePath(
                 break;
                 
             case ConstraintType::NODE_PROPERTY:
+                // Validate that every node in the path satisfies the property constraint.
+                if (graph_mgr_ && constraint.property_key.has_value() &&
+                    constraint.string_value.has_value()) {
+                    const std::string& key      = *constraint.property_key;
+                    const std::string& expected = *constraint.string_value;
+                    for (const auto& node_id : nodes) {
+                        auto field_val = graph_mgr_->getNodeField(node_id, key);
+                        if (!field_val.has_value() || *field_val != expected) {
+                            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                "Node '" + node_id + "' field '" + key +
+                                "' does not match expected value '" + expected + "'");
+                        }
+                    }
+                }
+                break;
+
             case ConstraintType::EDGE_PROPERTY:
-                // Property constraints would require querying the graph for properties
-                // Not implemented in this minimal version
+                // Validate that every edge in the path satisfies the property constraint.
+                if (graph_mgr_ && constraint.property_key.has_value() &&
+                    constraint.string_value.has_value()) {
+                    const std::string& key      = *constraint.property_key;
+                    const std::string& expected = *constraint.string_value;
+                    for (const auto& edge_id : edges) {
+                        auto field_val = graph_mgr_->getEdgeField(edge_id, key);
+                        if (!field_val.has_value() || *field_val != expected) {
+                            return makeError(ErrorRegistry::ErrorCode::VALIDATION_FAILED,
+                                "Edge '" + edge_id + "' field '" + key +
+                                "' does not match expected value '" + expected + "'");
+                        }
+                    }
+                }
+                break;
+
+            case ConstraintType::MAX_WEIGHT:
+            case ConstraintType::MIN_WEIGHT:
+                // Weight validation requires the accumulated path cost which is stored
+                // in PathResult::cost, not available here. Callers (findConstrainedPaths)
+                // enforce weight constraints using the PathResult cost directly.
                 break;
         }
     }
@@ -213,7 +298,9 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
     bool require_unique_nodes = false;
     bool require_unique_edges = false;
     bool require_acyclic = false;
-    
+    double max_weight = -1.0; // -1 means unlimited
+    double min_weight = -1.0; // -1 means no minimum
+
     for (const auto& constraint : constraints_) {
         switch (constraint.type) {
             case ConstraintType::MIN_LENGTH:
@@ -230,6 +317,12 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
                 break;
             case ConstraintType::NO_CYCLES:
                 require_acyclic = true;
+                break;
+            case ConstraintType::MAX_WEIGHT:
+                if (constraint.double_value) max_weight = *constraint.double_value;
+                break;
+            case ConstraintType::MIN_WEIGHT:
+                if (constraint.double_value) min_weight = *constraint.double_value;
                 break;
             default:
                 break;
@@ -289,7 +382,11 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
         
         // Check if we reached the target
         if (current_node == end_node) {
-            // Validate path against all constraints
+            // Weight check: reject paths below min_weight threshold
+            if (min_weight >= 0.0 && current.cost < min_weight) {
+                continue; // Path too light – don't accept
+            }
+            // Validate path against all other constraints
             auto validation = validatePath(current.nodes, current.edges);
             
             if (validation.has_value() && *validation) {
@@ -329,6 +426,36 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
             if (forbidden_edges_.count(edge_id) > 0) {
                 continue;
             }
+
+            // Check EDGE_PROPERTY constraints: prune edges that don't satisfy
+            // the required field value early, before adding to the BFS queue.
+            bool edge_property_ok = true;
+            for (const auto& c : constraints_) {
+                if (c.type == ConstraintType::EDGE_PROPERTY &&
+                    c.property_key.has_value() && c.string_value.has_value()) {
+                    auto field_val = graph_mgr_->getEdgeField(edge_id, *c.property_key);
+                    if (!field_val.has_value() || *field_val != *c.string_value) {
+                        edge_property_ok = false;
+                        break;
+                    }
+                }
+            }
+            if (!edge_property_ok) continue;
+
+            // Check NODE_PROPERTY constraints: prune next_node if it doesn't
+            // satisfy all required node-field values.
+            bool node_property_ok = true;
+            for (const auto& c : constraints_) {
+                if (c.type == ConstraintType::NODE_PROPERTY &&
+                    c.property_key.has_value() && c.string_value.has_value()) {
+                    auto field_val = graph_mgr_->getNodeField(next_node, *c.property_key);
+                    if (!field_val.has_value() || *field_val != *c.string_value) {
+                        node_property_ok = false;
+                        break;
+                    }
+                }
+            }
+            if (!node_property_ok) continue;
             
             // Check unique nodes constraint
             if (require_unique_nodes && current.visited_nodes.count(next_node) > 0) {
@@ -359,6 +486,11 @@ Result<std::vector<PathConstraints::PathResult>> PathConstraints::findConstraine
             // Get edge weight for cost calculation
             double edge_weight = graph_mgr_->getEdgeWeight("", edge_id, "_weight");
             next_state.cost = current.cost + edge_weight;
+
+            // Prune states that already exceed the max_weight budget
+            if (max_weight >= 0.0 && next_state.cost > max_weight) {
+                continue;
+            }
             
             queue.push(std::move(next_state));
         }
@@ -429,6 +561,36 @@ std::string PathConstraints::describeConstraints() const {
                 break;
             case ConstraintType::CUSTOM_PREDICATE:
                 oss << "Custom predicate";
+                break;
+            case ConstraintType::NODE_PROPERTY:
+                if (constraint.property_key.has_value() && constraint.string_value.has_value()) {
+                    oss << "Node property: " << *constraint.property_key
+                        << " = " << *constraint.string_value;
+                } else {
+                    oss << "Node property constraint";
+                }
+                break;
+            case ConstraintType::EDGE_PROPERTY:
+                if (constraint.property_key.has_value() && constraint.string_value.has_value()) {
+                    oss << "Edge property: " << *constraint.property_key
+                        << " = " << *constraint.string_value;
+                } else {
+                    oss << "Edge property constraint";
+                }
+                break;
+            case ConstraintType::MAX_WEIGHT:
+                if (constraint.double_value.has_value()) {
+                    oss << "Maximum path weight: " << *constraint.double_value;
+                } else {
+                    oss << "Maximum weight constraint";
+                }
+                break;
+            case ConstraintType::MIN_WEIGHT:
+                if (constraint.double_value.has_value()) {
+                    oss << "Minimum path weight: " << *constraint.double_value;
+                } else {
+                    oss << "Minimum weight constraint";
+                }
                 break;
         }
         oss << "\n";

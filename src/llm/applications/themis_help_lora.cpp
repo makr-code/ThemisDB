@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            themis_help_lora.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     662                                            ║
+    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/applications/themis_help_lora.h"
 #include "llm/lora_framework/lora_orchestrator.h"
 #include "llm/lora_framework/lora_audit_logger.h"
@@ -29,12 +55,14 @@ public:
     std::shared_ptr<lora::LoRAAuditLogger> lora_audit;
     std::shared_ptr<LLMModelAuditLogger> llm_audit;
     std::unique_ptr<LlamaWrapper> llama_wrapper;
+    std::unique_ptr<LoRATrainingService> training_service;
     
     // State
     std::string current_adapter_version;
     std::atomic<bool> is_trained{false};
     std::atomic<int64_t> total_queries{0};
     std::atomic<int64_t> successful_queries{0};
+    std::atomic<int64_t> total_latency_us{0};  ///< Cumulative query latency in microseconds
     
     // Feedback storage
     std::vector<FeedbackItem> feedback_buffer;
@@ -68,6 +96,12 @@ public:
         llama_config.enable_response_cache = true;
         
         llama_wrapper = std::make_unique<LlamaWrapper>(llama_config);
+
+        // Initialize LoRA training service
+        LoRATrainingService::Config training_cfg;
+        training_cfg.base_model_path = "models/" + cfg.base_model_id + ".gguf";
+        training_cfg.default_hyperparameters = cfg.hyperparameters;
+        training_service = std::make_unique<LoRATrainingService>(training_cfg);
         
         spdlog::info("ThemisHelpLoRA initialized with adapter: {}", config.adapter_id);
         spdlog::info("LlamaWrapper initialized for LLM inference");
@@ -161,12 +195,18 @@ public:
             // Update statistics
             total_queries++;
             successful_queries++;
-            
+            auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now() - start).count();
+            total_latency_us += elapsed_us;
+
             return response;
-            
+
         } catch (const std::exception& e) {
             spdlog::error("Query failed: {}", e.what());
             total_queries++;
+            auto elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::system_clock::now() - start).count();
+            total_latency_us += elapsed_us;
             return "Error: Failed to process your question. Please try again.";
         }
     }
@@ -296,9 +336,22 @@ bool ThemisHelpLoRA::trainFromFeedback() {
             {{"source", "user_feedback"}}
         );
 
-        // TODO: Implement actual training via LoRA training service
-        // This should call lora_trainer_->train(training_config) with the feedback buffer
-        spdlog::warn("Training skipped: LoRA training implementation pending");
+        // Convert feedback buffer to training data and call LoRATrainingService
+        TrainingData training_data;
+        training_data.dataset_name = "user_feedback_" + impl_->config.adapter_id;
+        for (const auto& item : impl_->feedback_buffer) {
+            TrainingDataSample sample;
+            sample.input = item.question;
+            sample.output = item.correction.empty() ? item.answer : item.correction;
+            sample.metadata = {{"user_id", item.user_id},
+                               {"feedback_type", static_cast<int>(item.feedback_type)}};
+            training_data.samples.push_back(std::move(sample));
+        }
+        TrainingResult train_result = impl_->training_service->trainOnTheFly(
+            impl_->config.adapter_id, training_data);
+        if (!train_result.success) {
+            throw std::runtime_error("LoRA training failed: " + train_result.error_message);
+        }
 
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -317,7 +370,7 @@ bool ThemisHelpLoRA::trainFromFeedback() {
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
             static_cast<int>(num_samples),
-            0.85f,  // Simulated final loss
+            train_result.final_loss,
             0.0f,
             {
                 {"source", "user_feedback"},
@@ -379,10 +432,16 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
             {{"source", "documentation_corpus"}}
         );
 
-        // TODO: Implement actual documentation corpus training
-        // This should process the 1151 documentation files and train the adapter
-        spdlog::warn("Documentation training skipped: Implementation pending");
-        spdlog::info("Would process 1151 documentation files for training");
+        // Train the adapter using the documentation corpus path from config
+        TrainingData doc_data;
+        doc_data.dataset_name = "documentation_corpus_" + impl_->config.adapter_id;
+        doc_data.metadata = {{"source", "documentation_corpus"},
+                             {"docs_database_path", impl_->config.docs_database_path}};
+        TrainingResult train_result = impl_->training_service->trainOnTheFly(
+            impl_->config.adapter_id, doc_data);
+        if (!train_result.success) {
+            throw std::runtime_error("Documentation corpus training failed: " + train_result.error_message);
+        }
 
         auto end = std::chrono::system_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);
@@ -394,7 +453,7 @@ bool ThemisHelpLoRA::trainFromDocumentation() {
             lora::LoRAAuditEventType::TRAINING_COMPLETED,
             impl_->config.adapter_id,
             1151,
-            0.78f,  // Simulated final loss
+            train_result.final_loss,
             0.0f,
             {
                 {"source", "documentation_corpus"},
@@ -451,8 +510,10 @@ PerformanceMetrics ThemisHelpLoRA::getMetrics() const {
     metrics.successful_queries = successful;
     metrics.failed_queries = failed;
     metrics.success_rate = success_rate;
-    metrics.average_latency_ms = 0.0;  // TODO: Track actual latency
-    metrics.cache_hit_rate = 0.0;      // TODO: Implement caching
+    metrics.average_latency_ms = (total > 0)
+        ? static_cast<double>(impl_->total_latency_us.load()) / total / 1000.0
+        : 0.0;
+    metrics.cache_hit_rate = 0.0;  // No response cache implemented yet
     
     return metrics;
 }

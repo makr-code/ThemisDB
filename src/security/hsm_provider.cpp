@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_provider.cpp                                   ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     231                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 29                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Clean minimal stub implementation of HSMProvider.
 // Provides deterministic, nicht-kryptographische Operationen fuer Developer-Fallback.
 // Wird nur eingebaut, wenn THEMIS_ENABLE_HSM_REAL NICHT definiert ist.
@@ -7,6 +33,7 @@
 #else
 
 #include "security/hsm_provider.h"
+#include "themis/runtime_license_gate.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <chrono>
@@ -35,6 +62,14 @@ HSMProvider& HSMProvider::operator=(HSMProvider&&) noexcept = default;
 
 bool HSMProvider::initialize() {
     if (initialized_) return true;
+
+    // Runtime license gate: HSM is an Enterprise/Hyperscaler feature.
+    std::string license_error;
+    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("hsm", license_error)) {
+        last_error_ = "HSM unavailable: " + license_error;
+        THEMIS_ERROR("{}", last_error_);
+        return false;
+    }
     
     // SECURITY HARDENING: Check for explicit opt-in to use stub provider
     // This prevents accidental production deployment with insecure stub

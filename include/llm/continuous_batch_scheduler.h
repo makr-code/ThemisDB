@@ -1,7 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            continuous_batch_scheduler.h                       ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     278                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "llm/llm_plugin_interface.h"
 #include "llm/paged_kv_cache.h"
+#include "llm/grafana_metrics.h"
+#include "llm/token_quota_manager.h"
 #include <vector>
 #include <queue>
 #include <mutex>
@@ -41,6 +69,12 @@ public:
         size_t max_batch_size = 256;           // Max sequences in batch
         size_t max_concurrent_requests = 128;   // Max pending requests
         size_t max_tokens_per_batch = 8192;    // Total token budget
+        
+        // Backpressure: maximum combined waiting + active requests.
+        // When the queue reaches this depth, submitRequest() returns an empty
+        // string immediately instead of enqueuing the request.
+        // 0 means unlimited (no backpressure).
+        size_t max_queue_depth = 0;
         
         // Scheduling policy
         bool enable_preemption = true;
@@ -120,6 +154,23 @@ public:
     
     ~ContinuousBatchScheduler();
     
+    // Attach a metrics collector for queue-length and backpressure-drop
+    // instrumentation.  May be called at any time after construction; safe to
+    // call nullptr to detach.  Ownership is NOT transferred.
+    void setMetricsCollector(monitoring::LLMMetricsCollector* collector) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        metrics_collector_ = collector;
+    }
+
+    // Attach a TokenQuotaManager for per-user/per-model token-per-minute
+    // enforcement.  submitRequest() will call check() and, on success,
+    // consume() on the manager.  Pass nullptr to disable quota checks.
+    // Ownership is NOT transferred.
+    void setQuotaManager(TokenQuotaManager* quota) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        quota_manager_ = quota;
+    }
+    
     // Request submission
     std::string submitRequest(
         const InferenceRequest& request,
@@ -156,6 +207,8 @@ public:
         size_t completed_requests = 0;
         size_t failed_requests = 0;
         size_t preempted_requests = 0;
+        // Requests shed by backpressure (queue depth limit reached)
+        size_t rejected_requests = 0;
         
         double avg_scheduling_time_ms = 0.0;
         double avg_time_to_first_token_ms = 0.0;
@@ -163,6 +216,8 @@ public:
         
         size_t current_batch_size = 0;
         size_t max_batch_size_seen = 0;
+        // Current combined depth of waiting + active requests
+        size_t current_queue_depth = 0;
     };
     
     Stats getStats() const;
@@ -170,6 +225,10 @@ public:
 private:
     SchedulerConfig config_;
     PagedKVCache* kv_cache_;
+    // Optional metrics collector — not owned, may be nullptr
+    monitoring::LLMMetricsCollector* metrics_collector_ = nullptr;
+    // Optional quota manager — not owned, may be nullptr
+    TokenQuotaManager* quota_manager_ = nullptr;
     
     // Request queues by priority
     std::priority_queue<

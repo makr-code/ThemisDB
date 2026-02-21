@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_deadlock_detection.cpp                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     224                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test deadlock detection in TransactionManager
 // Copyright (c) 2024 ThemisDB. All rights reserved.
 
@@ -113,8 +139,86 @@ TEST_F(DeadlockDetectionTest, NoDeadlockWithSequentialTransactions) {
     EXPECT_EQ(txn_mgr_->getDeadlockCount(), 0);
 }
 
-// Note: Testing actual deadlocks would require simulating concurrent transactions
-// that acquire locks in conflicting order. This is complex with RocksDB's internal
-// locking and would require more sophisticated test infrastructure.
+// ---- Phase 2 additions (Victim-Selection Policies & Metrics) ----
 
+TEST_F(DeadlockDetectionTest, DefaultVictimPolicyIsYoungest) {
+    auto policy = txn_mgr_->getDeadlockVictimPolicy();
+    EXPECT_EQ(policy, TransactionManager::DeadlockVictimPolicy::YOUNGEST);
+}
+
+TEST_F(DeadlockDetectionTest, SetVictimPolicyOldest) {
+    txn_mgr_->setDeadlockVictimPolicy(TransactionManager::DeadlockVictimPolicy::OLDEST);
+    EXPECT_EQ(txn_mgr_->getDeadlockVictimPolicy(),
+              TransactionManager::DeadlockVictimPolicy::OLDEST);
+}
+
+TEST_F(DeadlockDetectionTest, SetVictimPolicyLeastExpensive) {
+    txn_mgr_->setDeadlockVictimPolicy(TransactionManager::DeadlockVictimPolicy::LEAST_EXPENSIVE);
+    EXPECT_EQ(txn_mgr_->getDeadlockVictimPolicy(),
+              TransactionManager::DeadlockVictimPolicy::LEAST_EXPENSIVE);
+}
+
+TEST_F(DeadlockDetectionTest, SetVictimPolicyRoundtrip) {
+    // Cycle through all policies
+    for (auto p : {
+             TransactionManager::DeadlockVictimPolicy::YOUNGEST,
+             TransactionManager::DeadlockVictimPolicy::OLDEST,
+             TransactionManager::DeadlockVictimPolicy::LEAST_EXPENSIVE}) {
+        txn_mgr_->setDeadlockVictimPolicy(p);
+        EXPECT_EQ(txn_mgr_->getDeadlockVictimPolicy(), p);
+    }
+}
+
+TEST_F(DeadlockDetectionTest, InitialDeadlockMetricsAreZero) {
+    auto metrics = txn_mgr_->getDeadlockMetrics();
+    EXPECT_EQ(metrics.total_detected, 0u);
+    EXPECT_EQ(metrics.total_resolved, 0u);
+    EXPECT_DOUBLE_EQ(metrics.avg_cycle_length, 0.0);
+    EXPECT_EQ(metrics.max_cycle_length, 0u);
+    EXPECT_EQ(metrics.active_policy,
+              TransactionManager::DeadlockVictimPolicy::YOUNGEST);
+}
+
+TEST_F(DeadlockDetectionTest, DeadlockMetricsReflectActivePolicy) {
+    txn_mgr_->setDeadlockVictimPolicy(TransactionManager::DeadlockVictimPolicy::OLDEST);
+    auto metrics = txn_mgr_->getDeadlockMetrics();
+    EXPECT_EQ(metrics.active_policy,
+              TransactionManager::DeadlockVictimPolicy::OLDEST);
+}
+
+TEST_F(DeadlockDetectionTest, GetDeadlocksEmptyInitially) {
+    txn_mgr_->setDeadlockDetection(true);
+    auto deadlocks = txn_mgr_->getDeadlocks(std::chrono::seconds(60));
+    EXPECT_TRUE(deadlocks.empty());
+}
+
+TEST_F(DeadlockDetectionTest, GetDeadlocksWithVeryShortAgeReturnsEmpty) {
+    auto deadlocks = txn_mgr_->getDeadlocks(std::chrono::seconds(0));
+    EXPECT_TRUE(deadlocks.empty());
+}
+
+TEST_F(DeadlockDetectionTest, MultipleTransactionsNoInterference) {
+    txn_mgr_->setDeadlockDetection(true);
+    txn_mgr_->setDeadlockTimeout(std::chrono::milliseconds(50));
+
+    // Start many transactions concurrently – none should deadlock since
+    // they do not acquire any locks on each other's resources.
+    std::vector<TransactionManager::TransactionId> ids;
+    for (int i = 0; i < 10; ++i) {
+        ids.push_back(txn_mgr_->beginTransaction());
+    }
+    for (auto id : ids) {
+        txn_mgr_->rollbackTransaction(id);
+    }
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    EXPECT_EQ(txn_mgr_->getDeadlockCount(), 0u);
+}
+
+TEST_F(DeadlockDetectionTest, DeadlockCountAndMetricsConsistent) {
+    // DeadlockCount and metrics.total_detected must agree.
+    auto count   = txn_mgr_->getDeadlockCount();
+    auto metrics = txn_mgr_->getDeadlockMetrics();
+    EXPECT_EQ(count, metrics.total_detected);
+}
 

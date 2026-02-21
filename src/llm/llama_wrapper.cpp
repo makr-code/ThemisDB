@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llama_wrapper.cpp                                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   34.0/100                                       ║
+    • Total Lines:     2721                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/llama_wrapper.h"
 #include "llm/llm_prefix_cache.h"
 #include "llm/llm_response_cache.h"
@@ -124,6 +150,15 @@ void LlamaWrapper::validateConfig(const Config& config) {
         spdlog::info("RoPE scaling validated: {:.1f}x context extension ({} → {} tokens)",
                     scaling_factor, rope_cfg.original_context, rope_cfg.max_context);
     }
+    
+    // Validate timeout
+    if (config.request_timeout_ms > 0) {
+        if (config.request_timeout_ms < 1000) {
+            spdlog::warn("request_timeout_ms ({}) is less than 1 000 ms; very short timeouts may cause spurious failures",
+                         config.request_timeout_ms);
+        }
+        spdlog::info("Request timeout: {} ms", config.request_timeout_ms);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -202,6 +237,49 @@ LlamaWrapper::LlamaWrapper(const Config& config)
                      validator_config.min_length, validator_config.require_utf8, validator_config.min_coherence);
     }
     
+    // ─── llama.cpp runtime version compatibility check ───────────────────────
+    // Compare the commit hash baked in at build time (THEMIS_LLAMA_CPP_EXPECTED_COMMIT,
+    // set by cmake/Dependencies.cmake from LLAMA_CPP_GIT_TAG) against the commit
+    // reported by the linked llama.cpp shared/static library at runtime.
+    //
+    // A mismatch means the linked library was built from a different commit than
+    // the one this code was compiled against.  This can happen when:
+    //  - A system-level llama.cpp package (e.g. from a distro or conda) overrides
+    //    the FetchContent build.
+    //  - A developer manually replaces the library file without rebuilding.
+    //
+    // We do NOT abort on mismatch because the API may still be compatible —
+    // instead we emit a loud WARNING so it is visible in logs and CI output.
+#if defined(THEMIS_ENABLE_LLM) && defined(THEMIS_LLAMA_CPP_EXPECTED_COMMIT)
+    {
+        // llama_build_commit() is available in llama.cpp since build b3622.
+        // It returns a short commit hash string (e.g. "b7974") or "" if unavailable.
+        const char* runtime_commit = llama_build_commit();
+        const std::string expected_commit = THEMIS_LLAMA_CPP_EXPECTED_COMMIT;
+        const std::string actual_commit   = runtime_commit ? runtime_commit : "";
+
+        if (actual_commit.empty()) {
+            spdlog::warn("LlamaWrapper: llama_build_commit() returned empty string — "
+                         "cannot verify runtime version. Expected commit: {}. "
+                         "Ensure the linked llama.cpp is built from the correct commit.",
+                         expected_commit);
+        } else if (actual_commit != expected_commit) {
+            spdlog::warn(
+                "LlamaWrapper: llama.cpp version MISMATCH — "
+                "expected commit '{}' but runtime reports '{}'. "
+                "Grammar constraints, LoRA adapters, and token-sampler APIs may behave "
+                "unexpectedly. Update LLAMA_CPP_GIT_TAG in cmake/Dependencies.cmake or "
+                "ensure the correct library is linked. "
+                "See docs/llm/LORA_ADAPTER_MIGRATION.md for upgrade guidance.",
+                expected_commit, actual_commit);
+        } else {
+            spdlog::info("  llama.cpp version: {} (matches expected {})",
+                         actual_commit, expected_commit);
+        }
+    }
+#endif
+    // ─────────────────────────────────────────────────────────────────────────
+
     spdlog::info("LlamaWrapper initialized:");
     spdlog::info("  GPU layers: {}, Context: {}", 
                  config_.n_gpu_layers, config_.n_ctx);
@@ -780,6 +858,8 @@ InferenceResponse LlamaWrapper::generate(const InferenceRequest& request) {
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_;
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -1844,6 +1924,8 @@ InferenceResponse LlamaWrapper::generateSpeculative(const InferenceRequest& requ
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_ + " (speculative)";
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         
@@ -2080,6 +2162,8 @@ InferenceResponse LlamaWrapper::generateRegular(const InferenceRequest& request)
         
         InferenceResponse response;
         response.request_id = request.request_id;
+        response.trace_id   = request.trace_id;
+        response.span_id    = request.span_id;
         response.model_used = current_model_id_;
         response.tokens_prompt = static_cast<int>(prompt_tokens.size());
         

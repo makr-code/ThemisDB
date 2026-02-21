@@ -1,10 +1,92 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            event_trigger.cpp                                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     585                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "scheduler/event_trigger.h"
 #include "utils/logger.h"
 #include <algorithm>
+#include <sstream>
+#include <cctype>
+#include <unordered_map>
 
 namespace themis {
 
-// ===== CDCTriggerConfig Implementation =====
+// ===== Simple condition evaluator =====
+//
+// Supported syntax (case-sensitive operators):
+//   key == "value"
+//   key != "value"
+//   key STARTS_WITH "prefix"
+//   key ENDS_WITH "suffix"
+//   key CONTAINS "substring"
+//   value == "v"  (matches event.value when present)
+//   value CONTAINS "s"
+//   ... (same operators applied to "value" field)
+//
+// Unquoted RHS tokens are also accepted.
+// On any parse / evaluation error the condition is treated as a match (fail-open).
+
+namespace {
+
+// Trim leading/trailing whitespace
+static std::string trim(const std::string& s) {
+    size_t start = s.find_first_not_of(" \t\r\n");
+    if (start == std::string::npos) return "";
+    size_t end = s.find_last_not_of(" \t\r\n");
+    return s.substr(start, end - start + 1);
+}
+
+// Strip surrounding double-quotes if present
+static std::string stripQuotes(const std::string& s) {
+    if (s.size() >= 2 && s.front() == '"' && s.back() == '"') {
+        return s.substr(1, s.size() - 2);
+    }
+    return s;
+}
+
+// Evaluate a single simple condition against lhs (the resolved field value)
+static bool evalOp(const std::string& lhs, const std::string& op, const std::string& rhs) {
+    if (op == "==") {
+        return lhs == rhs;
+    } else if (op == "!=") {
+        return lhs != rhs;
+    } else if (op == "STARTS_WITH") {
+        return lhs.size() >= rhs.size() && lhs.compare(0, rhs.size(), rhs) == 0;
+    } else if (op == "ENDS_WITH") {
+        return lhs.size() >= rhs.size() &&
+               lhs.compare(lhs.size() - rhs.size(), rhs.size(), rhs) == 0;
+    } else if (op == "CONTAINS") {
+        return lhs.find(rhs) != std::string::npos;
+    }
+    // Unknown operator – fail-open
+    THEMIS_WARN("EventTrigger: unknown condition operator '{}', matching by default", op);
+    return true;
+}
+
+} // anonymous namespace
+
 
 bool CDCTriggerConfig::isValid() const {
     return !key_prefix.empty() && !event_types.empty();
@@ -85,17 +167,26 @@ void EventTrigger::stop() {
 
 void EventTrigger::updateConfig(const CDCTriggerConfig& config) {
     if (!config.isValid()) {
-        throw std::invalid_argument("EventTrigger: invalid config - " + 
+        throw std::invalid_argument("EventTrigger: invalid config - " +
                                    config.getValidationError());
     }
-    
-    std::lock_guard<std::mutex> lock(mutex_);
-    config_ = config;
-    
+
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        config_ = config;
+    }
+
+    // Invalidate cached parsed condition so it is rebuilt on next event
+    {
+        std::lock_guard<std::mutex> clock(condition_cache_mutex_);
+        condition_parsed_ = false;
+        parsed_clauses_.clear();
+    }
+
     THEMIS_DEBUG("EventTrigger config updated (key_prefix={}, event_types={}, debounce={}ms)",
-                 config_.key_prefix,
-                 config_.event_types.size(),
-                 config_.debounce_ms);
+                 config.key_prefix,
+                 config.event_types.size(),
+                 config.debounce_ms);
 }
 
 EventTrigger::Stats EventTrigger::getStats() const {
@@ -104,8 +195,54 @@ EventTrigger::Stats EventTrigger::getStats() const {
     stats.events_matched = events_matched_.load();
     stats.events_debounced = events_debounced_.load();
     stats.triggers_fired = triggers_fired_.load();
+    stats.callback_failures = callback_failures_.load();
+    {
+        std::lock_guard<std::mutex> lock(cb_mutex_);
+        stats.circuit_open = cb_open_;
+    }
     stats.last_trigger_time = last_trigger_time_sys_;
     return stats;
+}
+
+void EventTrigger::setCircuitBreakerConfig(const CircuitBreakerConfig& config) {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    cb_config_ = config;
+}
+
+bool EventTrigger::circuitAllows() {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    if (!cb_open_) {
+        return true;
+    }
+    // Check if cooldown has elapsed → allow a half-open probe
+    auto elapsed = std::chrono::steady_clock::now() - cb_open_since_;
+    if (elapsed >= cb_config_.cooldown) {
+        THEMIS_INFO("EventTrigger circuit breaker: cooldown elapsed, allowing probe");
+        return true;  // Let one call through (half-open)
+    }
+    return false;
+}
+
+void EventTrigger::circuitRecordSuccess() {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    if (cb_open_) {
+        THEMIS_INFO("EventTrigger circuit breaker: closing (callback recovered)");
+    }
+    cb_consecutive_failures_ = 0;
+    cb_open_ = false;
+}
+
+void EventTrigger::circuitRecordFailure() {
+    std::lock_guard<std::mutex> lock(cb_mutex_);
+    ++cb_consecutive_failures_;
+    callback_failures_++;
+    if (!cb_open_ && cb_consecutive_failures_ >= cb_config_.failure_threshold) {
+        cb_open_ = true;
+        cb_open_since_ = std::chrono::steady_clock::now();
+        THEMIS_WARN("EventTrigger circuit breaker: opened after {} consecutive callback failures "
+                    "(cooldown={}s)",
+                    cb_consecutive_failures_, cb_config_.cooldown.count());
+    }
 }
 
 void EventTrigger::listenerLoop() {
@@ -154,15 +291,23 @@ void EventTrigger::listenerLoop() {
                     last_trigger_time_sys_ = std::chrono::system_clock::now();
                 }
                 
-                // Fire callback
+                // Fire callback – guarded by circuit breaker
+                if (!circuitAllows()) {
+                    THEMIS_DEBUG("EventTrigger circuit breaker open: dropping callback for "
+                                 "key={}", event.key);
+                    continue;
+                }
+
                 triggers_fired_++;
                 THEMIS_DEBUG("EventTrigger fired (key={}, type={}, sequence={})",
                             event.key, static_cast<int>(event.type), event.sequence);
                 
                 try {
                     callback_(event);
+                    circuitRecordSuccess();
                 } catch (const std::exception& e) {
                     THEMIS_ERROR("EventTrigger callback failed: {}", e.what());
+                    circuitRecordFailure();
                 }
             }
             
@@ -232,14 +377,105 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
     if (!config_.condition || config_.condition->empty()) {
         return true;
     }
-    
-    // TODO: Implement AQL condition evaluation
-    // For now, always return true if condition is specified
-    // In full implementation, this would evaluate the AQL expression
-    // against the event payload
-    THEMIS_DEBUG("Condition evaluation not yet implemented, matching by default");
+
+    // Ensure clauses are parsed (lazy, cached)
+    {
+        std::lock_guard<std::mutex> clock(condition_cache_mutex_);
+        if (!condition_parsed_) {
+            rebuildConditionCache_();
+            condition_parsed_ = true;
+        }
+    }
+
+    // Evaluate each cached clause; all must pass (AND semantics)
+    for (const auto& clause : parsed_clauses_) {
+        // Resolve LHS
+        std::string lhs;
+        if (clause.field == "key") {
+            lhs = event.key;
+        } else if (clause.field == "value") {
+            lhs = event.value ? *event.value : "";
+        } else {
+            // Unknown field – fail-open
+            THEMIS_WARN("EventTrigger: unknown condition field '{}', matching by default",
+                        clause.field);
+            continue;
+        }
+
+        if (!evalOp(lhs, clause.op, clause.rhs)) {
+            return false;
+        }
+    }
+
     return true;
 }
+
+void EventTrigger::rebuildConditionCache_() const {
+    // Must be called under condition_cache_mutex_
+    parsed_clauses_.clear();
+
+    if (!config_.condition || config_.condition->empty()) {
+        return;
+    }
+
+    const std::string& condition = *config_.condition;
+    static const std::string AND_SEP = " AND ";
+
+    // Split on AND
+    std::vector<std::string> raw_clauses;
+    size_t pos = 0;
+    while (pos < condition.size()) {
+        size_t found = condition.find(AND_SEP, pos);
+        if (found == std::string::npos) {
+            raw_clauses.push_back(trim(condition.substr(pos)));
+            break;
+        }
+        raw_clauses.push_back(trim(condition.substr(pos, found - pos)));
+        pos = found + AND_SEP.size();
+    }
+
+    for (const auto& raw : raw_clauses) {
+        if (raw.empty()) continue;
+
+        // Tokenise the clause
+        std::vector<std::string> tokens;
+        size_t i = 0;
+        const size_t n = raw.size();
+        while (i < n) {
+            while (i < n && std::isspace(static_cast<unsigned char>(raw[i]))) ++i;
+            if (i >= n) break;
+            if (raw[i] == '"') {
+                size_t j = i + 1;
+                while (j < n && raw[j] != '"') ++j;
+                tokens.push_back(raw.substr(i, j - i + (j < n ? 1 : 0)));
+                i = j + 1;
+            } else {
+                size_t j = i;
+                while (j < n && !std::isspace(static_cast<unsigned char>(raw[j]))) ++j;
+                tokens.push_back(raw.substr(i, j - i));
+                i = j;
+            }
+        }
+
+        if (tokens.size() < 3) {
+            THEMIS_WARN("EventTrigger: malformed condition clause '{}', skipping", raw);
+            continue;
+        }
+
+        ParsedClause pc;
+        pc.field = tokens[0];
+        pc.op    = tokens[1];
+        std::string rhs;
+        for (size_t k = 2; k < tokens.size(); ++k) {
+            if (k > 2) rhs += " ";
+            rhs += tokens[k];
+        }
+        pc.rhs = stripQuotes(rhs);
+
+        parsed_clauses_.push_back(std::move(pc));
+    }
+}
+
 
 bool EventTrigger::shouldDebounce() const {
     if (config_.debounce_ms == 0) {

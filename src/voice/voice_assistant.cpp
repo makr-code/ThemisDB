@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            voice_assistant.cpp                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     471                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7cd890bd9  2026-02-21  Voice Module – Production Readiness (All 10 Phases) (#1345) ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file voice_assistant.cpp
  * @brief Voice Assistant Manager Implementation
@@ -421,150 +447,6 @@ json VoiceAssistant::getStatistics() const {
 }
 
 // Private implementation methods
-
-std::string VoiceAssistant::generateLLMResponse(
-    const std::string& user_input,
-    const VoiceSession& session
-) {
-    if (!llm_engine_) {
-        return "I'm sorry, the language model is not available.";
-    }
-    
-    // Build prompt with conversation history
-    std::stringstream prompt;
-    prompt << "You are a helpful voice assistant integrated into ThemisDB. ";
-    prompt << "You help users with database queries, data analysis, and general tasks.\n\n";
-    
-    // Add conversation history (last 5 exchanges)
-    size_t history_start = session.history.size() > 10 ? session.history.size() - 10 : 0;
-    for (size_t i = history_start; i < session.history.size(); ++i) {
-        prompt << session.history[i] << "\n";
-    }
-    
-    prompt << "User: " << user_input << "\n";
-    prompt << "Assistant: ";
-    
-    // Prepare inference request
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 256;
-    request.temperature = 0.7f;
-    request.top_p = 0.9f;
-    request.stop_sequences = {"\nUser:", "\nAssistant:"};
-    
-    // Run inference
-    auto response = llm_wrapper_->infer(request);
-    
-    if (!response.success) {
-        return "I'm sorry, I encountered an error processing your request.";
-    }
-    
-    return response.text;
-}
-
-json VoiceAssistant::generateSummary(const std::string& transcript) {
-    if (!llm_engine_ || transcript.empty()) {
-        return "No summary available";
-    }
-    
-    // Build prompt for summary generation
-    std::stringstream prompt;
-    prompt << "Please provide a concise summary of the following transcript:\n\n";
-    prompt << transcript << "\n\n";
-    prompt << "Summary: ";
-    
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 512;
-    request.temperature = 0.5f;
-    
-    auto response = llm_wrapper_->infer(request);
-    
-    if (response.success) {
-        return response.text;
-    }
-    
-    return "Summary generation failed";
-}
-
-json VoiceAssistant::extractKeyPoints(const std::string& transcript) {
-    if (!llm_engine_ || transcript.empty()) {
-        return json::array();
-    }
-    
-    // Build prompt for key points extraction
-    std::stringstream prompt;
-    prompt << "Extract the key points from the following transcript as a bullet list:\n\n";
-    prompt << transcript << "\n\n";
-    prompt << "Key Points:\n";
-    
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 512;
-    request.temperature = 0.5f;
-    
-    auto response = llm_wrapper_->infer(request);
-    
-    if (response.success) {
-        // Parse bullet points from response
-        json key_points = json::array();
-        std::istringstream iss(response.text);
-        std::string line;
-        while (std::getline(iss, line)) {
-            // Remove bullet point markers
-            if (line.find("- ") == 0 || line.find("* ") == 0) {
-                line = line.substr(2);
-            }
-            if (!line.empty()) {
-                key_points.push_back(line);
-            }
-        }
-        return key_points;
-    }
-    
-    return json::array();
-}
-
-json VoiceAssistant::extractActionItems(const std::string& transcript) {
-    if (!llm_engine_ || transcript.empty()) {
-        return json::array();
-    }
-    
-    // Build prompt for action items extraction
-    std::stringstream prompt;
-    prompt << "Extract action items and tasks from the following transcript:\n\n";
-    prompt << transcript << "\n\n";
-    prompt << "Action Items:\n";
-    
-    llm::InferenceRequest request;
-    request.prompt = prompt.str();
-    request.max_tokens = 512;
-    request.temperature = 0.5f;
-    
-    auto response = llm_wrapper_->infer(request);
-    
-    if (response.success) {
-        // Parse action items from response
-        json action_items = json::array();
-        std::istringstream iss(response.text);
-        std::string line;
-        while (std::getline(iss, line)) {
-            // Remove bullet point markers
-            if (line.find("- ") == 0 || line.find("* ") == 0) {
-                line = line.substr(2);
-            }
-            if (!line.empty()) {
-                json item;
-                item["description"] = line;
-                item["status"] = "pending";
-                action_items.push_back(item);
-            }
-        }
-        return action_items;
-    }
-    
-    return json::array();
-}
 
 std::string VoiceAssistant::createRevisionEntry(
     const std::string& entity_id,

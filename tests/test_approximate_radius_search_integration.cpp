@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_approximate_radius_search_integration.cpp     ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     488                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_approximate_radius_search_integration.cpp
  * @brief Comprehensive integration tests for ApproximateRadiusSearch
@@ -10,6 +36,7 @@
 #include "index/vector_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include <gtest/gtest.h>
 #include <iostream>
 #include <cassert>
 #include <vector>
@@ -438,31 +465,24 @@ void testStatistics() {
     std::cout << "  ✓ Statistics test passed" << std::endl;
 }
 
-int main() {
+TEST(ApproximateRadiusSearchIntegration, ComprehensiveScenarios) {
     std::cout << "\n=== ApproximateRadiusSearch Integration Tests ===" << std::endl;
     std::cout << "Testing production readiness with comprehensive scenarios\n" << std::endl;
-    
-    try {
-        testAllMetrics();
-        testLargeDataset();
-        testBatchSearchPerformance();
-        testAdaptiveTargetCount();
-        testEstimationAccuracy();
-        testErrorHandling();
-        testStatistics();
-        
-        std::cout << "\n✓✓✓ All integration tests passed! ✓✓✓" << std::endl;
-        std::cout << "\nApproximateRadiusSearch Status:" << std::endl;
-        std::cout << "  ✅ search() - Fully functional" << std::endl;
-        std::cout << "  ✅ batchSearch() - Fully functional" << std::endl;
-        std::cout << "  ✅ searchWithTargetCount() - Fully functional" << std::endl;
-        std::cout << "  ✅ estimateResultCount() - Fully functional" << std::endl;
-        std::cout << "  ⚠️  searchById() - NOT_IMPLEMENTED (known limitation)" << std::endl;
-        std::cout << "\nProduction readiness: 4/5 APIs functional" << std::endl;
-        
-        return 0;
-    } catch (const std::exception& e) {
-        std::cerr << "\n✗ Test failed with exception: " << e.what() << std::endl;
-        return 1;
-    }
+
+    testAllMetrics();
+    testLargeDataset();
+    testBatchSearchPerformance();
+    testAdaptiveTargetCount();
+    testEstimationAccuracy();
+    testErrorHandling();
+    testStatistics();
+
+    std::cout << "\n✓✓✓ All integration tests passed! ✓✓✓" << std::endl;
+    std::cout << "\nApproximateRadiusSearch Status:" << std::endl;
+    std::cout << "  ✅ search() - Fully functional" << std::endl;
+    std::cout << "  ✅ batchSearch() - Fully functional" << std::endl;
+    std::cout << "  ✅ searchWithTargetCount() - Fully functional" << std::endl;
+    std::cout << "  ✅ estimateResultCount() - Fully functional" << std::endl;
+    std::cout << "  ⚠️  searchById() - NOT_IMPLEMENTED (known limitation)" << std::endl;
+    std::cout << "\nProduction readiness: 4/5 APIs functional" << std::endl;
 }

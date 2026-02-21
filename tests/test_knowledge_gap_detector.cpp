@@ -1,7 +1,174 @@
-﻿// Disabled: knowledge gap detector tests not runnable in current build.
-#include <gtest/gtest.h>
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_knowledge_gap_detector.cpp                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     174                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
 
-TEST(DISABLED_KnowledgeGapDetector, Skipped)
-{
-    GTEST_SKIP() << "test_knowledge_gap_detector disabled for current build";
+﻿/**
+ * @file test_knowledge_gap_detector.cpp
+ * @brief Unit tests for the Knowledge Gap Detector
+ */
+
+#include <gtest/gtest.h>
+#include <array>
+#include "rag/knowledge_gap_detector.h"
+
+using namespace themis::rag::knowledge_gap;
+
+// Helper: create N documents with the given similarity score
+static std::vector<RetrievedDocument> makeDocs(size_t count, double similarity) {
+    static const std::array<std::string, 5> kContents = {
+        "The Eiffel Tower is located in Paris, France and was built in 1889.",
+        "Photosynthesis converts sunlight into chemical energy stored in glucose.",
+        "The Treaty of Versailles ended World War I and was signed in 1919.",
+        "Water boils at 100 degrees Celsius at standard atmospheric pressure.",
+        "The human genome contains approximately 3 billion base pairs of DNA."
+    };
+    std::vector<RetrievedDocument> docs;
+    docs.reserve(count);
+    for (size_t i = 0; i < count; ++i) {
+        RetrievedDocument d;
+        d.id = "doc" + std::to_string(i);
+        d.content = kContents[i % kContents.size()];
+        d.similarity_score = similarity;
+        docs.push_back(d);
+    }
+    return docs;
 }
+
+class KnowledgeGapDetectorTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        config_.mode = DetectionMode::FAST;
+        config_.min_documents = 2;
+        config_.similarity_threshold = 0.5;
+        config_.enable_query_aspect_analysis = false;
+        config_.enable_self_consistency_check = false;
+        config_.enable_token_probability = false;
+        config_.enable_ethical_gap_detection = false;
+    }
+
+    KnowledgeGapConfig config_;
+};
+
+// ---- Factory tests -------------------------------------------------------
+
+TEST(KnowledgeGapDetectorFactory, CreateFast) {
+    auto detector = KnowledgeGapDetectorFactory::createFast();
+    ASSERT_NE(detector, nullptr);
+    EXPECT_EQ(detector->getConfig().mode, DetectionMode::FAST);
+}
+
+TEST(KnowledgeGapDetectorFactory, CreateBalanced) {
+    auto detector = KnowledgeGapDetectorFactory::createBalanced();
+    ASSERT_NE(detector, nullptr);
+    EXPECT_EQ(detector->getConfig().mode, DetectionMode::BALANCED);
+}
+
+TEST(KnowledgeGapDetectorFactory, CreateThorough) {
+    auto detector = KnowledgeGapDetectorFactory::createThorough();
+    ASSERT_NE(detector, nullptr);
+    EXPECT_EQ(detector->getConfig().mode, DetectionMode::THOROUGH);
+}
+
+// ---- detectPreGeneration tests -------------------------------------------
+
+TEST_F(KnowledgeGapDetectorTest, PreGeneration_InsufficientDocs) {
+    KnowledgeGapDetector detector(config_);
+
+    auto docs = makeDocs(1, 0.9); // fewer than min_documents=2
+    auto result = detector.detectPreGeneration("What is the capital of France?", docs);
+
+    EXPECT_TRUE(result.gap_detected);
+    EXPECT_EQ(result.gap_type, GapType::INSUFFICIENT_DOCS);
+    EXPECT_GT(result.confidence_score, 0.0);
+}
+
+TEST_F(KnowledgeGapDetectorTest, PreGeneration_LowSimilarity) {
+    config_.similarity_threshold = 0.8;
+    KnowledgeGapDetector detector(config_);
+
+    // 3 docs but similarity below threshold
+    auto docs = makeDocs(3, 0.3);
+    auto result = detector.detectPreGeneration("test query", docs);
+
+    EXPECT_TRUE(result.gap_detected);
+    EXPECT_EQ(result.gap_type, GapType::LOW_SIMILARITY);
+}
+
+TEST_F(KnowledgeGapDetectorTest, PreGeneration_NoGap) {
+    KnowledgeGapDetector detector(config_);
+
+    // Enough docs with high similarity
+    auto docs = makeDocs(4, 0.9);
+    auto result = detector.detectPreGeneration("test query", docs);
+
+    EXPECT_FALSE(result.gap_detected);
+    EXPECT_EQ(result.gap_type, GapType::NONE);
+}
+
+// ---- Configuration tests -------------------------------------------------
+
+TEST_F(KnowledgeGapDetectorTest, SetConfigUpdatesThresholds) {
+    KnowledgeGapDetector detector(config_);
+
+    KnowledgeGapConfig new_cfg = config_;
+    new_cfg.similarity_threshold = 0.95;
+    detector.setConfig(new_cfg);
+
+    EXPECT_DOUBLE_EQ(detector.getConfig().similarity_threshold, 0.95);
+}
+
+// ---- Callback test -------------------------------------------------------
+
+TEST_F(KnowledgeGapDetectorTest, GapCallbackIsInvoked) {
+    config_.mode = DetectionMode::THOROUGH;
+    config_.enable_self_consistency_check = false;
+    config_.enable_claim_verification = false;
+    KnowledgeGapDetector detector(config_);
+
+    bool callback_called = false;
+    detector.setGapDetectionCallback([&](const DetectionResult&) {
+        callback_called = true;
+    });
+
+    // Trigger a gap by providing too few documents (0 < min_documents=2)
+    auto docs = makeDocs(0, 0.9);
+    detector.detectGap("query", docs, "answer");
+
+    EXPECT_TRUE(callback_called);
+}
+
+// ---- detectPostGeneration: no gap when answer matches docs ---------------
+
+TEST_F(KnowledgeGapDetectorTest, PostGeneration_NoGapForSimpleAnswer) {
+    config_.enable_claim_verification = false;
+    KnowledgeGapDetector detector(config_);
+
+    auto docs = makeDocs(3, 0.9);
+    auto result = detector.detectPostGeneration("query", docs, "simple answer");
+
+    // With claim verification disabled and good docs, no gap expected
+    EXPECT_FALSE(result.gap_detected);
+}
+

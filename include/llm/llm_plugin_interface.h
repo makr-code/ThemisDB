@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_plugin_interface.h                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:43                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     428                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "plugins/plugin_interface.h"
@@ -108,6 +134,15 @@ struct InferenceRequest {
     std::string prompt;
     std::string model_id = "default";
     std::string request_id;      // Optional request identifier for tracing
+
+    // OpenTelemetry distributed tracing context (W3C Trace Context format).
+    // Populated by the caller when the request originates from a traced parent
+    // span.  If non-empty, the inference engine propagates these values into
+    // the response so downstream systems can correlate spans.
+    // Format: lowercase hex — trace_id is 32 hex chars (128-bit),
+    //                         span_id  is 16 hex chars (64-bit).
+    std::string trace_id;        ///< W3C traceparent trace-id (128-bit hex, 32 chars)
+    std::string span_id;         ///< W3C traceparent parent-id (64-bit hex, 16 chars)
     
     // Generation parameters
     int max_tokens = 512;
@@ -144,6 +179,13 @@ struct InferenceResponse {
     std::string text;              // Generated text
     std::string model_id;          // Model identifier used
     bool cache_hit = false;        // Whether response came from cache
+
+    // OpenTelemetry trace context propagated from the originating request.
+    // The inference engine copies trace_id/span_id from InferenceRequest so
+    // callers and observability pipelines can correlate the response to its
+    // parent trace without accessing the original request object.
+    std::string trace_id;        ///< W3C traceparent trace-id (echoed from request)
+    std::string span_id;         ///< W3C traceparent parent-id (echoed from request)
     
     // Statistics
     int tokens_generated = 0;

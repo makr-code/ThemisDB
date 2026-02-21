@@ -1,0 +1,257 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            content_validator.h                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     257                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+#include "content/content_errors.h"
+#include "content/content_policy.h"
+#include "content/content_type.h"
+#include <string>
+#include <optional>
+#include <chrono>
+#include <functional>
+#include <nlohmann/json.hpp>
+
+namespace themis {
+namespace content {
+
+using json = nlohmann::json;
+
+/**
+ * @brief Configuration for content validation
+ */
+struct ContentValidationConfig {
+    // Size limits
+    uint64_t max_content_size = 100 * 1024 * 1024;  // 100 MB default
+    uint64_t max_text_length = 10 * 1024 * 1024;     // 10 MB for text content
+    
+    // Processing limits
+    std::chrono::seconds max_processing_time{300};    // 5 minutes default
+    std::chrono::seconds extraction_timeout{60};      // 1 minute for extraction
+    std::chrono::seconds chunking_timeout{120};       // 2 minutes for chunking
+    std::chrono::seconds embedding_timeout{180};      // 3 minutes for embeddings
+    
+    // Format validation
+    bool enforce_mime_type_validation = true;
+    bool enforce_format_verification = true;
+    bool check_file_magic_bytes = true;
+    
+    // Content safety
+    bool check_for_malware = true;
+    bool scan_for_pii = false;  // Optional, may have performance impact
+    bool check_for_abuse = false;
+    
+    // Schema validation
+    bool enable_schema_validation = false;
+    std::string schema_path;  // Path to JSON schema for validation
+    
+    json toJson() const;
+    static ContentValidationConfig fromJson(const json& j);
+};
+
+/**
+ * @brief Result of content validation
+ */
+struct ContentValidationResult {
+    ContentError error;  // Error details (OK if validation passed)
+    
+    // Validation metadata
+    std::string mime_type;
+    ContentCategory category;
+    uint64_t content_size = 0;
+    std::chrono::milliseconds validation_time{0};
+    
+    // Specific validation flags
+    bool mime_validated = false;
+    bool size_validated = false;
+    bool format_validated = false;
+    bool policy_validated = false;
+    bool malware_checked = false;
+    
+    json toJson() const;
+};
+
+/**
+ * @brief Content Validator
+ * 
+ * Provides comprehensive input validation for content ingestion.
+ * Validates:
+ * - Content size limits
+ * - MIME type and format
+ * - Policy compliance
+ * - File integrity
+ * - Optional: Schema validation, malware scanning, PII detection
+ * 
+ * Usage:
+ *   ContentValidator validator(config, policy);
+ *   auto result = validator.validate(data, filename, correlation_id);
+ *   if (result.error.failed()) {
+ *       // Handle validation error
+ *   }
+ */
+class ContentValidator {
+public:
+    explicit ContentValidator(
+        const ContentValidationConfig& config = ContentValidationConfig{},
+        const ContentPolicy* policy = nullptr
+    );
+    
+    /**
+     * @brief Validate content before processing
+     * 
+     * @param data Binary content to validate
+     * @param filename Optional filename hint
+     * @param correlation_id Optional correlation ID for tracing
+     * @return ContentValidationResult with detailed validation status
+     */
+    ContentValidationResult validate(
+        const std::string& data,
+        const std::string& filename = "",
+        const std::string& correlation_id = ""
+    );
+    
+    /**
+     * @brief Validate just the MIME type
+     * 
+     * @param mime_type MIME type to validate
+     * @return ContentError (OK if valid)
+     */
+    ContentError validateMimeType(const std::string& mime_type);
+    
+    /**
+     * @brief Validate content size
+     * 
+     * @param size Content size in bytes
+     * @param mime_type Optional MIME type for type-specific limits
+     * @return ContentError (OK if valid)
+     */
+    ContentError validateSize(uint64_t size, const std::string& mime_type = "");
+    
+    /**
+     * @brief Validate content format (magic bytes check)
+     * 
+     * @param data Content data
+     * @param expected_mime MIME type to verify against
+     * @return ContentError (OK if valid)
+     */
+    ContentError validateFormat(
+        const std::string& data,
+        const std::string& expected_mime
+    );
+    
+    /**
+     * @brief Check if processing timeout has been exceeded
+     * 
+     * @param start_time Processing start time
+     * @param operation_type Type of operation (extraction, chunking, etc.)
+     * @return ContentError (OK if within timeout, CONTENT_TIMEOUT otherwise)
+     */
+    ContentError checkTimeout(
+        const std::chrono::steady_clock::time_point& start_time,
+        const std::string& operation_type = "processing"
+    );
+    
+    /**
+     * @brief Get timeout for specific operation
+     * 
+     * @param operation_type Operation type (extraction, chunking, embedding, processing)
+     * @return Timeout duration
+     */
+    std::chrono::seconds getOperationTimeout(const std::string& operation_type) const;
+    
+    /**
+     * @brief Update configuration
+     */
+    void setConfig(const ContentValidationConfig& config);
+    const ContentValidationConfig& getConfig() const;
+    
+    /**
+     * @brief Set content policy
+     */
+    void setPolicy(const ContentPolicy* policy);
+    
+    /**
+     * @brief Validation statistics
+     */
+    struct Stats {
+        uint64_t total_validations = 0;
+        uint64_t successful_validations = 0;
+        uint64_t failed_validations = 0;
+        uint64_t size_violations = 0;
+        uint64_t format_violations = 0;
+        uint64_t policy_violations = 0;
+        uint64_t timeouts = 0;
+        
+        json toJson() const;
+    };
+    const Stats& getStats() const;
+    void resetStats();
+    
+private:
+    ContentValidationConfig config_;
+    const ContentPolicy* policy_;
+    mutable Stats stats_;
+    
+    // Helper methods
+    std::string detectMimeType(const std::string& data, const std::string& filename) const;
+    ContentCategory mimeToCategory(const std::string& mime_type) const;
+    bool checkMagicBytes(const std::string& data, const std::string& mime_type) const;
+    ContentError validateWithPolicy(const std::string& mime_type, uint64_t size);
+};
+
+/**
+ * @brief RAII helper for timeout checking
+ * 
+ * Usage:
+ *   ContentValidator validator(config);
+ *   TimeoutGuard guard(validator, "extraction");
+ *   // ... perform extraction ...
+ *   if (auto err = guard.check(); err.failed()) {
+ *       // Handle timeout
+ *   }
+ */
+class TimeoutGuard {
+public:
+    TimeoutGuard(ContentValidator& validator, const std::string& operation_type);
+    
+    /**
+     * @brief Check if operation has timed out
+     */
+    ContentError check() const;
+    
+    /**
+     * @brief Get elapsed time
+     */
+    std::chrono::milliseconds elapsed() const;
+    
+private:
+    ContentValidator& validator_;
+    std::string operation_type_;
+    std::chrono::steady_clock::time_point start_time_;
+};
+
+} // namespace content
+} // namespace themis

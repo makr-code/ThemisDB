@@ -1,4 +1,30 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            sharding_manager_edition.cpp                       ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     226                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * Sharding Manager with Edition-Specific Node Limits
  * ====================================================
  * Enforces maximum shard node count based on edition at runtime.
@@ -11,6 +37,7 @@
 #include <mutex>
 #include <stdexcept>
 #include "themis/edition.h"
+#include "themis/runtime_license_gate.h"
 
 namespace themis {
 namespace sharding {
@@ -150,9 +177,9 @@ private:
 // SHARDING UTILITY FUNCTIONS - EDITION-AWARE
 // ============================================================================
 
-// Check if multi-node replication is available
+// Check if multi-node replication is available (compile-time + runtime license gate)
 inline bool CanUseMultiNodeReplication() {
-    return edition::FEATURE_MULTI_MASTER;
+    return license::RuntimeLicenseGate::instance().isFeatureAllowed("multi_master");
 }
 
 // Get node replication strategy based on edition

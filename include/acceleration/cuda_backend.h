@@ -1,12 +1,42 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cuda_backend.h                                     ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:41                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     156                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "acceleration/compute_backend.h"
+
+#ifdef THEMIS_ENABLE_CUDA
+#include "acceleration/raii/cuda_raii.h"
+#endif
 
 namespace themis {
 namespace acceleration {
 
 // CUDA backend for GPU acceleration (NVIDIA)
-// This is a stub implementation that will be fully implemented when CUDA is enabled
+// Uses RAII wrappers for automatic resource management and exception safety
 class CUDAVectorBackend : public IVectorBackend {
 public:
     CUDAVectorBackend() = default;
@@ -43,7 +73,13 @@ public:
 
 private:
     bool initialized_ = false;
-    void* deviceContext_ = nullptr;  // CUDA context
+    
+#ifdef THEMIS_ENABLE_CUDA
+    // RAII-managed CUDA resources (automatic cleanup)
+    raii::CudaStream stream_;
+#else
+    void* deviceContext_ = nullptr;  // Fallback for non-CUDA builds
+#endif
 };
 
 class CUDAGraphBackend : public IGraphBackend {

@@ -1,393 +1,336 @@
 # LLM Testing Guide
 
-Complete guide for testing the ThemisDB LLM implementation.
+Complete guide for testing the ThemisDB LLM module (`src/llm`).
+
+**Last Updated:** February 2026 | **Version:** 2.0
+
+---
 
 ## Overview
 
-This guide covers unit tests, integration tests, and benchmarks for the LLaMA.cpp integration.
+This guide covers unit tests, integration tests, chaos/adversarial tests, fuzz harnesses, and benchmarks for the ThemisDB LLM implementation. The test suite exercises the entire stack from kernel-level CUDA operations up through the inference API, prompt-safety policy layer, quota enforcement, and production admin/ops endpoints.
+
+---
 
 ## Test Structure
 
 ```
 tests/
-├── test_embedded_llm.cpp           # Core EmbeddedLLM tests (38 tests)
-├── test_voice_llm_integration.cpp  # Voice Assistant tests (10 tests)
-└── test_content_llm_integration.cpp # Content Analysis tests (8 tests)
+├── test_gguf_loader.cpp                   # GGUF format loading & validation (23 tests)
+├── test_continuous_batch_scheduler.cpp     # Batch scheduler unit tests
+├── test_prompt_policy.cpp                  # Prompt-safety policy (24 adversarial tests)
+├── test_token_quota_manager.cpp            # Per-user/model token quota (22 tests)
+├── test_llm_grafana_metrics.cpp            # MetricsServer HTTP endpoints (29 tests)
+│
+└── llm/
+    ├── test_grammar_integration.cpp        # Grammar API (14 integration tests)
+    ├── test_kernel_fusion_cpu_fallback.cpp # CPU fused-kernel paths (13 chaos tests)
+    ├── test_kernel_fusion_cuda.cpp         # CUDA kernel correctness + cross-path (11 tests)
+    ├── test_llm_audit_logger.cpp           # Audit logger + JSONL export (17 tests)
+    ├── test_llama_wrapper_state.cpp        # LlamaWrapper state machine
+    ├── test_llm_validator.cpp              # Input validation
+    ├── test_lora_adapters.cpp              # LoRA adapter management
+    ├── test_model_loader_async.cpp         # Async model loading
+    ├── test_model_loader_error_handling.cpp# Model loader error paths
+    ├── test_inference_performance.cpp      # Inference latency tests
+    ├── test_inference_quality.cpp          # Output quality / regression
+    └── ... (other LLM sub-component tests)
 
 benchmarks/
-├── bench_embedded_llm.cpp          # Core benchmarks (12 benchmarks)
-├── bench_voice_llm.cpp             # Voice benchmarks (3 benchmarks)
-└── bench_content_llm.cpp           # Content benchmarks (3 benchmarks)
+└── llm/
+    └── bench_continuous_batch_scheduler.cpp  # Scheduler throughput/latency (5 benchmarks)
+
+fuzz/
+└── harnesses/
+    ├── gguf_loader_harness.cpp             # libFuzzer harness for GGUFLoader::parseFile()
+    └── grammar_harness.cpp                 # libFuzzer harness for Grammar::compile()
 ```
-
-## Prerequisites
-
-### Required Files
-- **Model File**: TinyLlama-1.1B GGUF format (~637MB)
-- **Test Data**: Sample documents for content analysis
-
-### Environment Setup
-
-```bash
-# Set model path
-export THEMIS_LLM_MODEL_PATH="models/tinyllama-1.1b-q4_0.gguf"
-
-# Optional: Set test data directory
-export THEMIS_TEST_DATA_DIR="tests/data"
-```
-
-## Building Tests
-
-### CMake Configuration
-
-```bash
-cmake -DCMAKE_BUILD_TYPE=Release \
-      -DTHEMIS_ENABLE_LLM=ON \
-      -DTHEMIS_BUILD_TESTS=ON \
-      -DTHEMIS_BUILD_BENCHMARKS=ON \
-      .
-
-cmake --build . --target all
-```
-
-### Build Targets
-
-```bash
-# Build all tests
-cmake --build . --target tests
-
-# Build specific test
-cmake --build . --target test_embedded_llm
-
-# Build all benchmarks
-cmake --build . --target benchmarks
-```
-
-## Running Tests
-
-### All Tests
-
-```bash
-# Run via CTest
-ctest --output-on-failure
-
-# Or directly
-./build/tests/run_all_tests
-```
-
-### Specific Test Suites
-
-```bash
-# EmbeddedLLM core tests
-./build/tests/test_embedded_llm
-
-# Voice Assistant integration
-./build/tests/test_voice_llm_integration
-
-# Content Analysis integration
-./build/tests/test_content_llm_integration
-
-# With Google Test filters
-./build/tests/test_embedded_llm --gtest_filter=EmbeddedLLMTest.BasicGeneration
-```
-
-### Test Output
-
-```
-[==========] Running 38 tests from 3 test suites.
-[----------] Global test environment set-up.
-[----------] 15 tests from EmbeddedLLMTest
-[ RUN      ] EmbeddedLLMTest.BasicGeneration
-[       OK ] EmbeddedLLMTest.BasicGeneration (145 ms)
-...
-[==========] 38 tests from 3 test suites ran. (15234 ms total)
-[  PASSED  ] 38 tests.
-```
-
-## Running Benchmarks
-
-### Basic Execution
-
-```bash
-# Run all benchmarks
-./build/benchmarks/bench_embedded_llm
-
-# Run with repetitions
-./build/benchmarks/bench_embedded_llm --benchmark_repetitions=10
-
-# Run specific benchmark
-./build/benchmarks/bench_embedded_llm --benchmark_filter=BM_LLM_Generation
-```
-
-### Benchmark Options
-
-```bash
-# JSON output
-./build/benchmarks/bench_embedded_llm \
-    --benchmark_format=json \
-    --benchmark_out=results.json
-
-# CSV output
-./build/benchmarks/bench_embedded_llm \
-    --benchmark_format=csv \
-    --benchmark_out=results.csv
-
-# Custom time unit
-./build/benchmarks/bench_embedded_llm \
-    --benchmark_time_unit=ms
-```
-
-### Benchmark Output
-
-```
-Run on (8 X 3400 MHz CPU s)
-CPU Caches:
-  L1 Data 32 KiB (x4)
-  L1 Instruction 32 KiB (x4)
-  L2 Unified 256 KiB (x4)
-  L3 Unified 8192 KiB (x1)
-Load Average: 1.23, 1.45, 1.67
---------------------------------------------------------------------
-Benchmark                           Time           CPU   Iterations
---------------------------------------------------------------------
-BM_LLM_Generation_Latency/10     45.2 ms       44.8 ms          16
-BM_LLM_Generation_Latency/50      186 ms        185 ms           4
-BM_LLM_Embeddings/10             11.5 μs       11.4 μs       61234
-BM_LLM_Embeddings/100            45.2 μs       44.9 μs       15543
-```
-
-## Test Categories
-
-### 1. Initialization Tests
-- Singleton pattern
-- Configuration loading
-- Resource initialization
-
-### 2. Text Generation Tests
-- Basic generation
-- Parameter variations (max_tokens, temperature)
-- Edge cases (empty prompt, very long)
-- Error handling
-
-### 3. Embeddings Tests
-- Basic embedding generation
-- Normalization verification
-- Consistency checks
-- Batch processing
-
-### 4. Chat Tests
-- Single-turn conversations
-- Multi-turn conversations
-- Chat formats (ChatML, Llama-2, etc.)
-- Role handling (system, user, assistant)
-
-### 5. Streaming Tests
-- Token-by-token delivery
-- Callback functionality
-- SSE format validation
-- MCP format validation
-
-### 6. Thread Safety Tests
-- Concurrent generation
-- Concurrent embeddings
-- Race condition detection
-- Lock contention
-
-### 7. Integration Tests
-- AQL integration
-- MCP server integration
-- HTTP API integration
-- Voice Assistant integration
-- Content Analysis integration
-
-## Test Coverage
-
-Current test coverage:
-
-| Component | Tests | Coverage |
-|-----------|-------|----------|
-| EmbeddedLLM Core | 15 | 95% |
-| Voice Assistant | 10 | 90% |
-| Content Analysis | 8 | 85% |
-| Integration | 5 | 80% |
-| **Total** | **38** | **88%** |
-
-## Performance Baselines
-
-### Text Generation
-- **First Token Latency**: < 50ms
-- **Throughput**: > 50 tokens/sec (CPU), > 100 tokens/sec (GPU)
-- **Total Time (50 tokens)**: < 1s (CPU), < 500ms (GPU)
-
-### Embeddings
-- **Latency**: < 15ms (10 words), < 50ms (100 words)
-- **Throughput**: > 2000 embeddings/sec
-
-### Chat
-- **Latency**: < 1s (single turn), < 2s (5 turns)
-- **Overhead**: ~180ms per additional turn
-
-### Concurrent
-- **Linear Scaling**: Up to 4 threads
-- **Sublinear Scaling**: 4-16 threads
-- **Throughput**: 50 req/sec (1 thread), 150-200 req/sec (8 threads)
-
-## Troubleshooting
-
-### Common Issues
-
-#### 1. Model Not Found
-```
-Error: Failed to load model: File not found
-```
-
-**Solution:**
-```bash
-export THEMIS_LLM_MODEL_PATH=/path/to/model.gguf
-```
-
-#### 2. Out of Memory
-```
-Error: Failed to allocate context
-```
-
-**Solution:**
-- Reduce `n_ctx` in config
-- Reduce `n_gpu_layers` to use less VRAM
-- Use quantized model (Q4_0 instead of F16)
-
-#### 3. Tests Timing Out
-```
-Test timeout after 300 seconds
-```
-
-**Solution:**
-```bash
-# Increase timeout
-ctest --timeout 600
-
-# Or skip slow tests
-ctest -E "SlowTest"
-```
-
-#### 4. Benchmark Variance
-```
-High variance in benchmark results
-```
-
-**Solution:**
-```bash
-# Run more repetitions
-./bench --benchmark_repetitions=20
-
-# Use median instead of mean
-./bench --benchmark_report_aggregates_only=true
-```
-
-## CI/CD Integration
-
-### GitHub Actions Example
-
-```yaml
-name: LLM Tests
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Download Model
-        run: |
-          mkdir -p models
-          wget https://example.com/tinyllama.gguf -O models/tinyllama.gguf
-      
-      - name: Build
-        run: |
-          cmake -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_BUILD_TESTS=ON .
-          cmake --build .
-      
-      - name: Run Tests
-        run: ctest --output-on-failure
-        env:
-          THEMIS_LLM_MODEL_PATH: models/tinyllama.gguf
-```
-
-## Best Practices
-
-### 1. Test Independence
-- Each test should be independent
-- No shared state between tests
-- Clean up resources in TearDown()
-
-### 2. Fast Tests
-- Use small max_tokens in tests
-- Cache model loading across tests
-- Mock heavy operations when possible
-
-### 3. Meaningful Assertions
-- Test behavior, not implementation
-- Use appropriate matchers (EXPECT_GT, EXPECT_NEAR)
-- Add descriptive failure messages
-
-### 4. Benchmark Accuracy
-- Run with `--benchmark_repetitions=10`
-- Report both mean and median
-- Note hardware specifications
-
-## Advanced Topics
-
-### Memory Leak Detection
-
-```bash
-# With Valgrind
-valgrind --leak-check=full ./build/tests/test_embedded_llm
-
-# With Address Sanitizer
-cmake -DCMAKE_CXX_FLAGS="-fsanitize=address" .
-cmake --build .
-./build/tests/test_embedded_llm
-```
-
-### Profiling
-
-```bash
-# CPU profiling with perf
-perf record ./build/benchmarks/bench_embedded_llm
-perf report
-
-# Memory profiling with massif
-valgrind --tool=massif ./build/benchmarks/bench_embedded_llm
-ms_print massif.out.*
-```
-
-### Custom Test Data
-
-```bash
-# Generate test documents
-python scripts/generate_test_data.py --count=100 --output=tests/data
-
-# Run tests with custom data
-THEMIS_TEST_DATA_DIR=tests/data ./build/tests/test_content_llm_integration
-```
-
-## References
-
-- [Google Test Documentation](https://google.github.io/googletest/)
-- [Google Benchmark Documentation](https://github.com/google/benchmark)
-- [llama.cpp Documentation](https://github.com/ggerganov/llama.cpp)
-- [ThemisDB LLM Architecture](./LLAMA_IMPLEMENTATION_SUMMARY.md)
-
-## Support
-
-For issues or questions:
-- GitHub Issues: https://github.com/makr-code/ThemisDB/issues
-- Documentation: docs/llm/
 
 ---
 
-**Last Updated**: January 2026  
-**Version**: 1.0  
-**Author**: ThemisDB Team / GitHub Copilot
+## Prerequisites
+
+### Build Configuration
+
+Tests that require real model files are automatically skipped when no model is available (via `GTEST_SKIP()`). Tests that require a CUDA-capable GPU skip gracefully via `cudaGetDeviceCount()`.
+
+```bash
+# Minimal: run all tests that don't need real models or GPU
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DTHEMIS_ENABLE_LLM=ON \
+      -DTHEMIS_ENABLE_CUDA=OFF \
+      -DTHEMIS_BUILD_TESTS=ON \
+      -B build && cmake --build build -j$(nproc)
+
+# Full: with GPU support (requires CUDA toolkit)
+cmake -DCMAKE_BUILD_TYPE=Release \
+      -DTHEMIS_ENABLE_LLM=ON \
+      -DTHEMIS_ENABLE_CUDA=ON \
+      -DCMAKE_CUDA_ARCHITECTURES="80;86;89" \
+      -DTHEMIS_BUILD_TESTS=ON \
+      -B build && cmake --build build -j$(nproc)
+```
+
+### Optional: Real Model File
+
+Some tests (`test_inference_quality`, `test_real_embeddings`, `test_grammar_integration` when using live vocab) require a GGUF model file:
+
+```bash
+export THEMIS_LLM_MODEL_PATH=/path/to/llama-3.2-1b-q8_0.gguf
+# Or for the smallest viable model:
+export THEMIS_LLM_MODEL_PATH=/path/to/tinyllama-1.1b-q4_0.gguf
+```
+
+---
+
+## Running Tests
+
+### All LLM tests (no GPU, no model file required)
+
+```bash
+cd build
+ctest --output-on-failure -R "LLM|Grammar|GGUF|PromptPolicy|TokenQuota|MetricsServer|AuditLogger|KernelFusion"
+```
+
+### By category
+
+```bash
+# Kernel fusion — CPU fallback path (no GPU needed)
+ctest --output-on-failure -R "KernelFusionCPUFallback"
+
+# Kernel fusion — CUDA paths (skips gracefully without GPU)
+ctest --output-on-failure -R "KernelFusionCUDATest|KernelFusionCrossPath"
+
+# Prompt safety policy
+ctest --output-on-failure -R "PromptPolicyTest"
+
+# Token quota enforcement
+ctest --output-on-failure -R "TokenQuotaManagerTest"
+
+# MetricsServer HTTP endpoints (starts a real HTTP server on 127.0.0.1:19091)
+ctest --output-on-failure -R "MetricsServerHTTPTest"
+
+# Grammar API integration
+ctest --output-on-failure -R "GrammarIntegrationTest"
+
+# Audit logger + JSONL export
+ctest --output-on-failure -R "LLMAuditLoggerTest"
+
+# GGUF loader — format validation + unsupported type errors
+ctest --output-on-failure -R "GGUFLoaderTest"
+```
+
+### Using GTest filters directly
+
+```bash
+./build/tests/themisdb_tests \
+    --gtest_filter="PromptPolicyTest.*:TokenQuotaManagerTest.*:LLMAuditLoggerTest.*"
+```
+
+---
+
+## Test Categories
+
+### 1. Kernel Fusion — CPU Fallback Chaos Tests (`test_kernel_fusion_cpu_fallback.cpp`)
+
+Validates that all fused kernel functions in `kernel_fusion.cpp` produce finite, non-NaN output on the CPU path. Tests exercise:
+
+- `fusedLayerNormLinearResidual` — varied inputs, zero residual, small dimensions
+- `fusedAttentionQKV` — identity-like weights
+- `fusedSoftmaxDropoutAttention` — uniform and peaked attention distributions
+- `fusedGatedFFN` — SiLU gate activation, varied weights
+- `fusedRMSNormLinear` — near-zero inputs for numerical stability
+
+No GPU hardware is required.
+
+### 2. CUDA Kernel Correctness (`test_kernel_fusion_cuda.cpp`)
+
+Tests that require a CUDA GPU (skip automatically on CPU-only machines):
+
+| Test | Description |
+|------|-------------|
+| `FlashAttentionForward_OutputFinite` | Output contains no NaN or Inf |
+| `FlashAttentionForward_MatchesCPUReference` | Max relative error < 1e-3 vs naive CPU reference |
+| `FlashAttentionForward_CausalMaskingApplied` | Causal and non-causal outputs differ |
+| `FusedQKVProjection_OutputFinite` | Q, K, V all finite |
+| `FusedLayerNormLinear_OutputFinite` | No NaN or Inf |
+| `FusedGatedFFN_OutputFinite` | No NaN or Inf |
+
+**Cross-path correctness tests (Research task 4.5):**
+
+| Test | Description |
+|------|-------------|
+| `FusedLayerNormLinear_CPUMatchesCUDA` | CPU fallback and CUDA agree within 1e-3 |
+| `FusedQKVProjection_CPUMatchesCUDA` | CPU and CUDA Q, K, V outputs agree within 1e-3 |
+| `FusedGatedFFN_CPUMatchesCUDA` | CPU and CUDA FFN outputs agree within 1e-3 |
+| `FlashAttentionForward_CPUMatchesCUDA` | CPU naive reference and CUDA kernel agree within 1e-3 |
+
+### 3. Prompt-Safety Policy (`test_prompt_policy.cpp`)
+
+24 adversarial tests covering:
+- Keyword blocking (exact match and substring)
+- Regex-based blocking (phone numbers, credit cards, injection patterns)
+- PII redaction
+- Jailbreak attempt patterns
+- Multi-rule interaction (block + redact in same request)
+- `apply()` result types (ALLOWED, BLOCKED, REDACTED)
+
+### 4. Token Quota Management (`test_token_quota_manager.cpp`)
+
+22 tests covering:
+- Per-user quota enforcement (60-second sliding window)
+- Per-model quota enforcement
+- Quota reset after window expiry
+- Concurrent access from multiple threads
+- Integration with `ContinuousBatchScheduler::submitRequest()`
+
+### 5. MetricsServer HTTP (`test_llm_grafana_metrics.cpp`)
+
+29 tests covering:
+- `GET /metrics` — Prometheus exposition format
+- `GET /health` and `GET /ready` — liveness/readiness
+- `GET /models` — model list (with and without callback)
+- `GET /admin/sessions` — session list (with and without callback)
+- `DELETE /admin/sessions/{id}` — session deletion (with and without callback)
+- `POST /admin/models/reload` — hot-reload (not-implemented fallback)
+- `POST /admin/prompt/simulate` — dry-run policy check (with callback)
+- Unknown path → 404
+
+### 6. Grammar Integration (`test_grammar_integration.cpp`)
+
+14 tests covering:
+- Empty EBNF → structured error
+- Empty start symbol → error
+- Null model pointer → hard error (no silent fallback)
+- API-unavailable path → logged error (not warning)
+- Accessor correctness (`ebnf()`, `startRule()`, `isValid()`)
+- Move semantics
+
+### 7. Audit Logger + JSONL Export (`test_llm_audit_logger.cpp`)
+
+17 tests covering:
+- `logEvent()` appended to in-memory store
+- `queryLogs()` filtering by `model_id`
+- `logPolicyViolation()` — `PROMPT_BLOCKED` / `PROMPT_REDACTED` event types
+- `logInference()` — `INFERENCE_COMPLETED` / `INFERENCE_FAILED`
+- `exportAnalytics()` — valid JSONL output, ISO-8601 timestamps, model filter
+- `getModelStats()` — correct aggregation
+- `setEnabled(false)` — suppresses all writes
+
+### 8. GGUF Loader (`test_gguf_loader.cpp`)
+
+23 tests covering:
+- Valid FP32 and Q4_K_M loading
+- `UnsupportedQuantizationFormat` errors for Q4_0, Q5_K, and other unsupported types
+- Corrupt file header → structured error (no crash)
+- Missing file → structured error
+
+---
+
+## Benchmarks (`tests/llm/bench_continuous_batch_scheduler.cpp`)
+
+Five GTest-based throughput/latency benchmarks:
+
+| Benchmark | Measurement |
+|-----------|-------------|
+| Submit throughput | Requests/second under 1000-request load |
+| Batch latency | `scheduleNextBatch()` time with 64 pending requests |
+| Rejection latency | p99 latency for queue-full rejection |
+| Quota rejection throughput | `TokenQuotaManager` integrated rejection rate |
+| `getStats()` cost | Lock contention under 8-thread concurrent submit |
+
+**SLA targets (CI gate):**
+- `submitRequest()` p99 < 100 µs
+- `scheduleNextBatch()` with 64 items < 5 ms
+- Queue-full rejection p99 < 50 µs
+
+---
+
+## Fuzz Testing (`fuzz/harnesses/`)
+
+Fuzz targets use libFuzzer. Build with `-DTHEMIS_ENABLE_FUZZ=ON`:
+
+```bash
+cmake -DTHEMIS_ENABLE_LLM=ON -DTHEMIS_ENABLE_FUZZ=ON -B build_fuzz
+cmake --build build_fuzz --target gguf_loader_harness grammar_harness
+
+# Run for 60 seconds each
+./build_fuzz/fuzz/gguf_loader_harness -max_total_time=60 fuzz/corpus/gguf/
+./build_fuzz/fuzz/grammar_harness       -max_total_time=60 fuzz/corpus/grammar/
+```
+
+---
+
+## CI Workflows
+
+| Workflow | Triggers | Runner |
+|----------|---------|--------|
+| `llm-cpu-fallback-ci.yml` | Changes to `kernel_fusion.*` | `ubuntu-latest` |
+| `llm-cuda-gpu-ci.yml` (compile check) | Changes to `kernel_fusion.cu` | `ubuntu-22.04` + CUDA 12.4 |
+| `llm-cuda-gpu-ci.yml` (GPU tests) | Push to main/develop, manual | Self-hosted `gpu-cuda` runner |
+| `chimera-tests.yml` | All PRs | `ubuntu-latest` |
+
+---
+
+## Performance Baselines
+
+### Inference (requires real model)
+
+| Metric | CPU target | GPU target (A100) |
+|--------|-----------|-------------------|
+| First token latency (TTFT) | < 2 s (7B Q4_K_M) | < 100 ms (7B Q4_K_M) |
+| Throughput | ≥ 10 tokens/sec (7B Q4_K_M) | ≥ 2 000 tokens/sec (7B Q4_K_M) |
+| p99 end-to-end latency (256 tokens) | < 30 s | < 1 s |
+
+### Scheduler
+
+| Metric | Target |
+|--------|--------|
+| `submitRequest()` p99 | < 100 µs |
+| Queue-full rejection p99 | < 50 µs |
+| `scheduleNextBatch()` (64 requests) | < 5 ms |
+
+---
+
+## Troubleshooting
+
+### Tests that require GPU skip — is that expected?
+
+Yes. All CUDA tests call `cudaGetDeviceCount()` at runtime. If the count is 0 (no GPU driver or hardware), `GTEST_SKIP()` is invoked. The test binary reports these as `SKIPPED`, not `FAILED`.
+
+```
+[  SKIPPED ] KernelFusionCUDATest.FlashAttentionForward_OutputFinite
+Reason: No CUDA-capable GPU detected — skipping CUDA kernel tests.
+```
+
+To run the CUDA tests, provide a machine with an NVIDIA GPU and the appropriate driver.
+
+### MetricsServer tests fail with "address already in use"
+
+The HTTP tests start a real server on port 19091. If a previous test run crashed and left the port bound, kill it:
+
+```bash
+lsof -i :19091 | grep LISTEN | awk '{print $2}' | xargs kill -9
+```
+
+### GGUF unsupported format test fails
+
+The unsupported-format test writes a synthetic GGUF header with an unsupported `GGMLType` value. If it fails, check that `GGUFLoader::isFormatSupported()` covers the type being tested. See `docs/GGUF_SUPPORT.md` for the full format support matrix.
+
+### Grammar null-model test crashes
+
+If `Grammar(ebnf, start, nullptr)` crashes instead of returning an error, check that `src/llm/grammar.cpp` validates the `model` pointer before calling `llama_model_get_vocab()`.
+
+---
+
+## Related Documents
+
+- `docs/llm_roadmap.md` — LLM production-readiness roadmap
+- `docs/GGUF_SUPPORT.md` — GGUF format support matrix
+- `docs/observability/llm_metrics_schema.md` — Canonical LLM metrics schema
+- `docs/operations/llm/` — Operator runbooks (GPU OOM, model swap, quota tuning)
+- `prometheus/rules/llm_alerts.yml` — Prometheus alerting rules
+- `.github/workflows/llm-cpu-fallback-ci.yml` — CPU fallback CI
+- `.github/workflows/llm-cuda-gpu-ci.yml` — CUDA compile + GPU CI
+- `fuzz/harnesses/` — libFuzzer fuzz targets
+

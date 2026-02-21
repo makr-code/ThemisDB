@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gguf_loader.cpp                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   89.0/100                                       ║
+    • Total Lines:     757                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/gguf_loader.h"
 #include "storage/rocksdb_wrapper.h"
 #ifndef _WIN32
@@ -14,6 +40,7 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -40,6 +67,22 @@ std::string TensorMetadata::type_string() const {
     }
 }
 
+// isFormatSupported: returns true for quantization types that the loader can
+// convert to an internal representation.  Unsupported types cause parseFile()
+// to return false with a descriptive error rather than silently returning raw
+// bytes that would produce numerical corruption downstream.
+bool GGUFLoader::isFormatSupported(GGMLType type) {
+    switch (type) {
+        case GGMLType::F32:
+        case GGMLType::F16:
+        case GGMLType::Q4_K:  // Q4_K_M and Q4_K_S share the same enum value
+        case GGMLType::Q8_0:
+            return true;
+        default:
+            return false;
+    }
+}
+
 GGUFLoader::GGUFLoader() 
     : fd_(-1), mmap_base_(nullptr), mmap_size_(0), db_(nullptr) {
 }
@@ -61,6 +104,7 @@ GGUFLoader::~GGUFLoader() {
 
 bool GGUFLoader::parseFile(const std::string& filepath) {
     filepath_ = filepath;
+    last_error_.clear();
 #ifndef _WIN32
     fd_ = open(filepath.c_str(), O_RDONLY);
     if (fd_ < 0) {
@@ -348,6 +392,18 @@ bool GGUFLoader::parseTensorInfo() {
         std::memcpy(&type_raw, data + offset, 4);
         offset += 4;
         tensor.type = static_cast<GGMLType>(type_raw);
+        
+        // Reject unsupported quantization formats immediately.  Silently
+        // continuing would return raw quantized bytes to callers, causing
+        // downstream numerical corruption.
+        if (!isFormatSupported(tensor.type)) {
+            last_error_ = "Unsupported quantization format " + tensor.type_string()
+                          + " in tensor '" + tensor.name + "'"
+                          + ". Supported formats: F32, F16, Q4_K_M, Q8_0."
+                          + " Download a Q4_K_M or Q8_0 variant of this model.";
+            spdlog::error("GGUFLoader: {}", last_error_);
+            return false;
+        }
         
         // Read tensor offset
         if (offset + 8 > mmap_size_) return false;

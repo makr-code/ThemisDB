@@ -904,6 +904,57 @@ if (!result.errors.empty()) {
 
 ---
 
+### SQL Parser Module
+**Priority:** Medium  
+**Target Version:** v2.0.0
+
+Add native SQL query support as an alternative query interface alongside AQL, enabling users
+familiar with standard SQL syntax to interact with ThemisDB without learning AQL.
+
+**Motivation:**
+- Lower adoption barrier for users coming from relational database backgrounds
+- Unified Query Interface: support for multiple query languages (AQL, SQL, GraphQL)
+- Enables integration with existing SQL-based tooling and BI connectors
+
+**Planned Features:**
+- Standard SQL SELECT/INSERT/UPDATE/DELETE syntax
+- SQL-to-AQL transpiler (translate SQL queries into AQL for execution)
+- Support for SQL JOINs, subqueries, GROUP BY, ORDER BY, HAVING
+- Compatibility layer for common SQL dialects (PostgreSQL, MySQL)
+- Plugin architecture for additional query languages (GraphQL, etc.)
+
+**Architecture:**
+```cpp
+class SQLParser {
+public:
+    // Parse a SQL query string into an internal AST
+    Result<SQLASTNode> parse(const std::string& sql_query);
+};
+
+class SQLToAQLTranspiler {
+public:
+    // Translate a SQL AST into an AQL query string for execution
+    Result<std::string> transpile(const SQLASTNode& sql_ast);
+};
+
+// Example usage
+SQLParser sql_parser;
+SQLToAQLTranspiler transpiler;
+
+auto sql_ast = sql_parser.parse("SELECT name, age FROM users WHERE age > 30 ORDER BY name");
+auto aql_query = transpiler.transpile(sql_ast.value());
+// aql_query: "FOR users IN users FILTER users.age > 30 SORT users.name RETURN {name: users.name, age: users.age}"
+auto result = executeAql(aql_query.value(), engine);
+```
+
+**Implementation Notes:**
+- Implement as a standalone module (`src/query/sql_parser.cpp`) separate from AQL parser
+- Full unit and integration test coverage required before merging
+- Performance and security review mandatory
+- See also: top-level `roadmap.md` for cross-module roadmap context
+
+---
+
 ## Known Issues
 
 ### Semantic Cache False Positives

@@ -1,0 +1,109 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            path_mapping_metadata.h                            ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     109                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
+
+#include <string>
+#include <optional>
+#include <chrono>
+
+namespace themis {
+namespace config {
+
+/**
+ * Metadata about a config path mapping, including deprecation information.
+ */
+struct PathMappingMetadata {
+    std::string legacy_path;
+    std::string new_path;
+    std::string category;
+    
+    // Deprecation information
+    std::optional<std::chrono::system_clock::time_point> deprecated_date;
+    std::optional<std::chrono::system_clock::time_point> removal_date;
+    std::optional<std::string> migration_guide_url;
+    
+    /**
+     * Check if this mapping is currently deprecated.
+     */
+    bool isDeprecated() const {
+        if (!deprecated_date.has_value()) {
+            return false;
+        }
+        return std::chrono::system_clock::now() >= *deprecated_date;
+    }
+    
+    /**
+     * Check if removal deadline has passed.
+     */
+    bool isRemovalDue() const {
+        if (!removal_date.has_value()) {
+            return false;
+        }
+        return std::chrono::system_clock::now() >= *removal_date;
+    }
+    
+    /**
+     * Get days until removal (negative if already past removal date).
+     */
+    int daysUntilRemoval() const {
+        if (!removal_date.has_value()) {
+            return -1;
+        }
+        
+        auto now = std::chrono::system_clock::now();
+        auto duration = *removal_date - now;
+        return std::chrono::duration_cast<std::chrono::hours>(duration).count() / 24;
+    }
+    
+    /**
+     * Get formatted deprecation warning message.
+     */
+    std::string getDeprecationMessage() const {
+        std::string msg = "Config path '" + legacy_path + "' is deprecated. ";
+        msg += "Please migrate to: '" + new_path + "'.";
+        
+        if (removal_date.has_value()) {
+            int days = daysUntilRemoval();
+            if (days > 0) {
+                msg += " This path will be removed in " + std::to_string(days) + " days.";
+            } else if (days == 0) {
+                msg += " This path is scheduled for removal TODAY.";
+            } else {
+                msg += " This path was scheduled for removal " + std::to_string(-days) + " days ago.";
+            }
+        }
+        
+        if (migration_guide_url.has_value()) {
+            msg += " Migration guide: " + *migration_guide_url;
+        }
+        
+        return msg;
+    }
+};
+
+} // namespace config
+} // namespace themis

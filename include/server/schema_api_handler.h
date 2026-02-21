@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            schema_api_handler.h                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     268                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 ThemisDB Contributors
 
@@ -14,6 +40,11 @@ namespace themis {
 class RocksDBWrapper;
 class SecondaryIndexManager;
 class SchemaManager;
+class StatisticsCollector;
+class SchemaConstraints;
+class SchemaVersionManager;
+class IndexRecommender;
+class SchemaAuditLog;
 
 namespace server {
 
@@ -22,23 +53,37 @@ namespace http = beast::http;
 
 /**
  * @brief Schema API Handler for HTTP Server
- * 
- * Provides REST endpoints for database schema introspection and self-awareness.
+ *
+ * Provides REST endpoints for database schema introspection and management.
  * Enables external tools and LLM agents to understand database structure.
- * 
+ *
  * Endpoints:
- * - GET /api/v1/schema - Complete schema with all tables and relationships
- * - GET /api/v1/schema/tables - List of all table names
- * - GET /api/v1/schema/tables/:name - Detailed schema for specific table
- * - GET /api/v1/capabilities - Database capabilities and features
- * 
- * Features:
- * - Automatic table discovery from RocksDB
- * - Property type detection
- * - Index metadata
- * - Relationship discovery (graph edges)
- * - Cached responses for performance
- * 
+ * - GET /api/v1/schema                       – Complete schema with all tables
+ * - GET /api/v1/schema/tables                – List of all table names
+ * - GET /api/v1/schema/tables/:name          – Detailed schema for specific table
+ * - GET /api/v1/capabilities                 – Database capabilities
+ * - PUT /api/v1/schema/:name                 – Create/replace table schema
+ * - PATCH /api/v1/schema/:name               – Partial update of table schema
+ *
+ * Information Schema endpoints (require InformationSchema to be set):
+ * - GET /api/v1/information_schema/tables    – INFORMATION_SCHEMA.TABLES view
+ * - GET /api/v1/information_schema/columns   – INFORMATION_SCHEMA.COLUMNS view
+ * - GET /api/v1/information_schema/columns/:table – Columns for one table
+ * - GET /api/v1/information_schema/statistics – INFORMATION_SCHEMA.STATISTICS
+ * - GET /api/v1/information_schema           – All views as one JSON object
+ *
+ * Statistics endpoints (require StatisticsCollector to be set):
+ * - GET /api/v1/metadata/stats/:table        – Statistics for a table
+ * - POST /api/v1/metadata/stats/:table       – Trigger stats collection for a table
+ *
+ * Constraints endpoints (require SchemaConstraints to be set):
+ * - GET /api/v1/metadata/constraints/:table  – Constraints for a table
+ *
+ * Schema version endpoints (require SchemaVersionManager to be set):
+ * - GET /api/v1/schema/versions/:table       – Version history for a table
+ * - POST /api/v1/schema/versions/:table      – Snapshot current schema as new version
+ * - GET /api/v1/schema/diff/:table?from=V&to=V – Diff between two versions
+ *
  * @see SchemaManager for core implementation
  */
 class SchemaApiHandler {
@@ -57,143 +102,167 @@ public:
 
     ~SchemaApiHandler();
 
-    /**
-     * @brief Get complete database schema
-     * GET /api/v1/schema
-     * 
-     * Returns all tables, relationships, and metadata in a single response.
-     * Suitable for comprehensive schema analysis.
-     * 
-     * Response: JSON with full schema
-     * {
-     *   "status": "success",
-     *   "metadata": { "version": "1.5.0", "table_count": 5, ... },
-     *   "tables": [ ... ],
-     *   "relationships": [ ... ]
-     * }
-     */
+    // ========================================================================
+    // Optional component injection (called after construction)
+    // ========================================================================
+
+    /// Attach a StatisticsCollector to enable /api/v1/metadata/stats/* endpoints.
+    void setStatisticsCollector(StatisticsCollector* stats_collector);
+
+    /// Attach a SchemaConstraints instance to enable /api/v1/metadata/constraints/* endpoints.
+    void setSchemaConstraints(SchemaConstraints* schema_constraints);
+
+    /// Attach a SchemaVersionManager to enable /api/v1/schema/versions/* endpoints.
+    void setSchemaVersionManager(SchemaVersionManager* version_mgr);
+
+    /// Attach an IndexRecommender to enable /api/v1/metadata/index_recommendations/* endpoints.
+    void setIndexRecommender(IndexRecommender* index_recommender);
+
+    /// Attach a SchemaAuditLog to enable /api/v1/metadata/audit/* endpoints.
+    void setAuditLog(SchemaAuditLog* audit_log);
+
+    // ========================================================================
+    // Core schema endpoints
+    // ========================================================================
+
+    /// GET /api/v1/schema
     http::response<http::string_body> handleGetSchema(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief Get list of all tables
-     * GET /api/v1/schema/tables
-     * 
-     * Returns lightweight list of table names and basic metadata.
-     * Suitable for populating dropdowns or quick overview.
-     * 
-     * Response: JSON array of table info
-     * {
-     *   "status": "success",
-     *   "tables": [
-     *     {"name": "users", "type": "relational", "row_count": 1000},
-     *     ...
-     *   ]
-     * }
-     */
+    /// GET /api/v1/schema/tables
     http::response<http::string_body> handleGetTables(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief Get detailed schema for specific table
-     * GET /api/v1/schema/tables/:name
-     * 
-     * Returns complete schema for a single table including:
-     * - Property definitions with types
-     * - Secondary indexes
-     * - Row count estimate
-     * 
-     * Response: JSON with table schema
-     * {
-     *   "status": "success",
-     *   "table": {
-     *     "name": "users",
-     *     "type": "relational",
-     *     "properties": [ ... ],
-     *     "indexes": [ ... ],
-     *     "estimated_row_count": 1000
-     *   }
-     * }
-     */
+    /// GET /api/v1/schema/tables/:name
     http::response<http::string_body> handleGetTable(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief Get database capabilities
-     * GET /api/v1/capabilities
-     * 
-     * Returns list of enabled features based on build configuration.
-     * Useful for feature detection and compatibility checks.
-     * 
-     * Response: JSON with capabilities
-     * {
-     *   "status": "success",
-     *   "version": "1.5.0",
-     *   "capabilities": [
-     *     "graph", "vector_search", "timeseries", ...
-     *   ]
-     * }
-     */
+    /// GET /api/v1/capabilities
     http::response<http::string_body> handleGetCapabilities(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief Create or update table schema
-     * PUT /api/v1/schema/:tablename
-     * 
-     * Stores custom schema definition for a table.
-     * Validates schema structure and persists to database.
-     * 
-     * Request: JSON schema definition
-     * {
-     *   "name": "users",
-     *   "type": "relational",
-     *   "properties": [
-     *     {"name": "id", "type": "integer", "indexed": true},
-     *     {"name": "name", "type": "string", "nullable": true}
-     *   ],
-     *   "indexes": [
-     *     {"name": "id", "type": "regular", "unique": true, "columns": ["id"]}
-     *   ]
-     * }
-     * 
-     * Response: Success or validation error
-     */
+    /// PUT /api/v1/schema/:name
     http::response<http::string_body> handlePutSchema(
         const http::request<http::string_body>& req);
 
-    /**
-     * @brief Partially update table schema
-     * PATCH /api/v1/schema/:tablename
-     * 
-     * Updates specific fields of existing schema without replacing entire schema.
-     * Only provided fields are updated, others remain unchanged.
-     * 
-     * Request: Partial JSON schema
-     * {
-     *   "properties": [
-     *     {"name": "email", "type": "string", "indexed": true}
-     *   ]
-     * }
-     * 
-     * Response: Success or validation error
-     */
+    /// PATCH /api/v1/schema/:name
     http::response<http::string_body> handlePatchSchema(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Information Schema endpoints
+    // ========================================================================
+
+    /// GET /api/v1/information_schema  (full dump)
+    /// GET /api/v1/information_schema/tables
+    /// GET /api/v1/information_schema/columns[/:table]
+    /// GET /api/v1/information_schema/statistics[/:table]
+    http::response<http::string_body> handleGetInformationSchema(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Statistics endpoints
+    // ========================================================================
+
+    /// GET  /api/v1/metadata/stats/:table  – return cached statistics
+    /// POST /api/v1/metadata/stats/:table  – trigger collection
+    http::response<http::string_body> handleGetStats(
+        const http::request<http::string_body>& req);
+
+    http::response<http::string_body> handleCollectStats(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Constraints endpoints
+    // ========================================================================
+
+    /// GET /api/v1/metadata/constraints/:table
+    http::response<http::string_body> handleGetConstraints(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Index recommendations endpoint
+    // ========================================================================
+
+    /// GET /api/v1/metadata/index_recommendations         – all tables
+    /// GET /api/v1/metadata/index_recommendations/:table  – single table
+    http::response<http::string_body> handleGetIndexRecommendations(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Schema audit endpoint
+    // ========================================================================
+
+    /// GET /api/v1/metadata/audit              – full audit history
+    /// GET /api/v1/metadata/audit/:table       – per-table audit history
+    http::response<http::string_body> handleGetAuditLog(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Schema import endpoint
+    // ========================================================================
+
+    /// PUT /api/v1/metadata/schema_import
+    /// Bulk-import multiple table schemas from a JSON array.
+    /// Body: { "tables": [ <TableSchema JSON>, … ] }
+    http::response<http::string_body> handleSchemaImport(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Batch constraint validation
+    // ========================================================================
+
+    /// POST /api/v1/metadata/constraints/validate/:table
+    /// Validate a batch of rows against the table's registered constraints.
+    /// Body: { "rows": [ { <column>: <value>, … }, … ] }
+    http::response<http::string_body> handleBatchConstraintValidation(
+        const http::request<http::string_body>& req);
+
+    // ========================================================================
+    // Schema version endpoints
+    // ========================================================================
+
+    /// GET  /api/v1/schema/versions/:table
+    http::response<http::string_body> handleGetVersionHistory(
+        const http::request<http::string_body>& req);
+
+    /// POST /api/v1/schema/versions/:table
+    http::response<http::string_body> handleCreateVersion(
+        const http::request<http::string_body>& req);
+
+    /// GET /api/v1/schema/diff/:table?from=V&to=V
+    http::response<http::string_body> handleGetDiff(
         const http::request<http::string_body>& req);
 
 private:
     /// Extract and validate table name from schema URL
-    /// @param target URL target path
-    /// @param table_name Output parameter for extracted table name
-    /// @return Empty string on success, error message on failure
     std::string extractAndValidateSchemaTableName(
         const std::string& target,
         std::string& table_name) const;
 
-    std::shared_ptr<RocksDBWrapper> storage_;
+    /// Extract table name from a path with given prefix
+    /// e.g. prefix="/api/v1/metadata/stats/", target="/api/v1/metadata/stats/users" → "users"
+    std::string extractTableName(
+        const std::string& target,
+        const std::string& prefix,
+        std::string& table_name) const;
+
+    /// Build a standard error response
+    http::response<http::string_body> makeError(
+        const http::request<http::string_body>& req,
+        http::status status,
+        const std::string& message) const;
+
+    std::shared_ptr<RocksDBWrapper>        storage_;
     std::shared_ptr<SecondaryIndexManager> secondary_index_;
-    SchemaManager* schema_mgr_;  // Non-owning pointer
+    SchemaManager*          schema_mgr_          = nullptr;  ///< Non-owning
+    StatisticsCollector*    stats_collector_     = nullptr;  ///< Non-owning
+    SchemaConstraints*      schema_constraints_  = nullptr;  ///< Non-owning
+    SchemaVersionManager*   version_mgr_         = nullptr;  ///< Non-owning
+    IndexRecommender*       index_recommender_   = nullptr;  ///< Non-owning
+    SchemaAuditLog*         audit_log_           = nullptr;  ///< Non-owning
 };
 
 } // namespace server
 } // namespace themis
+

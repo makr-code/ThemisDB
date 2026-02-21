@@ -1,6 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            paged_kv_cache_manager.cpp                         ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     412                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/paged_kv_cache_manager.h"
 #include <algorithm>
 #include <stdexcept>
+#include <unordered_set>
+#include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
@@ -210,9 +238,31 @@ PagedKVCacheManager::getBlockInfo(int block_id) const {
 }
 
 size_t PagedKVCacheManager::defragment() {
-    // Stub implementation - would compact memory
-    // In production, would reorganize blocks to reduce fragmentation
-    return 0;
+    // Thread-safety note: like all other methods in this class, defragment()
+    // assumes external synchronisation (or single-threaded use).  It is the
+    // caller's responsibility to ensure no concurrent allocateBlock(),
+    // releaseBlock(), or freeBlocks() calls are in flight.
+    //
+    // Implementation: scan blocks for ref_count==0 && !is_pinned that are not
+    // already in free_block_ids_ and return them to the free list.
+    std::unordered_set<int> known_free(free_block_ids_.begin(), free_block_ids_.end());
+
+    size_t reclaimed = 0;
+    for (const auto& block : blocks_) {
+        if (block.ref_count.load() == 0 &&
+            !block.is_pinned &&
+            known_free.find(block.block_id) == known_free.end()) {
+            free_block_ids_.push_back(block.block_id);
+            known_free.insert(block.block_id);
+            ++reclaimed;
+        }
+    }
+
+    if (reclaimed > 0) {
+        spdlog::debug("PagedKVCacheManager::defragment: reclaimed {} unreferenced blocks",
+                      reclaimed);
+    }
+    return reclaimed;
 }
 
 int PagedKVCacheManager::getFreeBlock() {

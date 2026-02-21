@@ -1,91 +1,72 @@
 # Search Module API - Future Enhancements
 
-## Planned API Extensions
+## Delivered in v1.5.0
+
+All features listed below were delivered in v1.5.0.  The actual public API is
+documented in [`README.md`](README.md).
 
 ### Query Expansion API
-**Priority:** High  
-**Target Version:** v1.4.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/query_expander.h`
 
-```cpp
-// search/query_expander.h
-namespace themis {
-
-class QueryExpander {
-public:
-    struct Config {
-        bool use_synonyms = true;
-        bool correct_spelling = true;
-        double synonym_weight = 0.8;
-    };
-    
-    explicit QueryExpander(const Config& config);
-    
-    Result<ExpandedQuery> expand(const std::string& query);
-    Result<std::string> correctSpelling(const std::string& query);
-};
-
-struct ExpandedQuery {
-    std::string original;
-    std::vector<std::string> expanded_terms;
-    std::vector<std::string> synonyms;
-    std::string corrected;
-};
-
-}
-```
+`QueryExpander` provides synonym expansion, Levenshtein-based spelling
+correction, alternative query generation, and zero-result relaxation.
 
 ---
 
 ### Fuzzy Search API
-**Priority:** Medium  
-**Target Version:** v1.4.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/fuzzy_matcher.h`
 
-```cpp
-// search/fuzzy_matcher.h
-namespace themis {
-
-class FuzzyMatcher {
-public:
-    enum class Algorithm {
-        LEVENSHTEIN,
-        SOUNDEX,
-        METAPHONE
-    };
-    
-    Result<std::vector<Match>> fuzzySearch(
-        const std::string& query,
-        size_t max_distance = 2
-    );
-};
-
-}
-```
+`FuzzyMatcher` supports Levenshtein, Soundex, Metaphone, and N-gram
+similarity as a thin wrapper over `SecondaryIndexManager::scanFulltextFuzzy`.
 
 ---
 
 ### Faceted Search API
-**Priority:** High  
-**Target Version:** v1.4.0
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/faceted_search.h`
 
-```cpp
-// search/faceted_search.h
-namespace themis {
+`FacetedSearch` computes categorical value-count facets, numeric range
+bucket facets, and supports active-facet drill-down filter intersection.
 
-class FacetedSearch {
-public:
-    struct FacetResult {
-        std::string field;
-        std::map<std::string, size_t> value_counts;
-    };
-    
-    Result<std::vector<FacetResult>> computeFacets(
-        const std::string& query,
-        const std::vector<std::string>& facet_fields
-    );
-};
+---
 
-}
-```
+### Search Analytics API
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/search_analytics.h`
+
+Thread-safe query log with p95/p99 latency, zero-result rate, and
+per-query frequency tracking.
+
+---
+
+### Autocomplete API
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/autocomplete.h`
+
+`AutocompleteEngine` provides prefix-index suggestions and popular-query
+suggestions, combined and deduplicated.
+
+---
+
+### Learning to Rank API
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/learning_to_rank.h`
+
+Linear feature-vector re-ranker with online click-through training and
+deterministic A/B variant routing.
+
+---
+
+### Multi-Modal Search API
+**Status:** ✅ Delivered in v1.5.0 — see `include/search/multi_modal_search.h`
+
+Unified TEXT + embedding (IMAGE/AUDIO/CUSTOM) search with weighted RRF
+fusion across all modalities.
+
+---
+
+## Planned for v1.6.0
+
+- **Personalized autocomplete**: per-user click-history weighting in `AutocompleteEngine`
+- **Neural LTR**: LambdaMART or small MLP scorer with offline batch training integration
+- **Multi-namespace VectorIndexManager**: one instance per modality namespace
+- **Streaming result delivery**: async/generator API for large `k` values
 
 ---
 
@@ -97,4 +78,5 @@ public:
 ---
 
 *Last Updated: February 2026*  
-*Target API Version: v1.4.0*
+*Current API Version: v1.5.0*  
+*Next Target: v1.6.0*

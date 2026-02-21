@@ -1,4 +1,32 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cuda_backend.cpp                                   ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   35.0/100                                       ║
+    • Total Lines:     523                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "acceleration/cuda_backend.h"
+#include "acceleration/error_codes.h"
+#include "acceleration/error_context.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
@@ -108,43 +136,105 @@ BackendCapabilities CUDAVectorBackend::getCapabilities() const {
 bool CUDAVectorBackend::initialize() {
 #ifdef THEMIS_ENABLE_CUDA
     if (!isAvailable()) {
-        std::cerr << "CUDA: No CUDA-capable device found" << std::endl;
+        // Enhanced error logging: enumerate devices and provide diagnostic info
+        int deviceCount = 0;
+        cudaError_t err = cudaGetDeviceCount(&deviceCount);
+        
+        // Set structured error context
+        if (deviceCount == 0) {
+            setError(ErrorContextHelpers::createNoDevicesError("CUDA"));
+        } else {
+            setError(ErrorContext(
+                AccelerationErrorCode::DriverNotInstalled,
+                "CUDA",
+                "CUDA driver or runtime not accessible: " + std::string(cudaGetErrorString(err)),
+                "Install NVIDIA CUDA driver and runtime"
+            ));
+        }
+        
+        // Keep backward-compatible logging
+        std::cerr << lastError_.format() << std::endl;
         return false;
     }
     
-    // Set device
-    CUDA_CHECK_BOOL(cudaSetDevice(0));
+    // Set device with error context
+    cudaError_t setDeviceErr = cudaSetDevice(0);
+    if (setDeviceErr != cudaSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DeviceSetFailed,
+            "CUDA",
+            "Failed to set device 0: " + std::string(cudaGetErrorString(setDeviceErr)),
+            "Check if device is available and not in exclusive mode"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
     
-    // v1.1.0: Create CUDA stream with low priority for vLLM co-location
-    cudaStream_t stream;
+    try {
+        // v1.1.0: Create CUDA stream with low priority for vLLM co-location using RAII
 #ifdef THEMIS_VLLM_COLOCATION
-    // Non-blocking stream with low priority (doesn't block vLLM)
-    int leastPriority, greatestPriority;
-    CUDA_CHECK_BOOL(cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority));
-    CUDA_CHECK_BOOL(cudaStreamCreateWithPriority(&stream, cudaStreamNonBlocking, leastPriority));
-    std::cout << "CUDA: Created low-priority stream for vLLM co-location (priority=" << leastPriority << ")" << std::endl;
+        // Non-blocking stream with low priority (doesn't block vLLM)
+        int leastPriority, greatestPriority;
+        cudaError_t err = cudaDeviceGetStreamPriorityRange(&leastPriority, &greatestPriority);
+        if (err != cudaSuccess) {
+            setError(ErrorContextHelpers::createQueueError("CUDA", 
+                "Failed to get stream priority range: " + std::string(cudaGetErrorString(err))));
+            std::cerr << lastError_.format() << std::endl;
+            return false;
+        }
+        stream_.createWithPriority(leastPriority, cudaStreamNonBlocking);
+        std::cout << "CUDA: Created low-priority stream for vLLM co-location (priority=" << leastPriority << ")" << std::endl;
 #else
-    // Standard stream for non-vLLM deployments
-    CUDA_CHECK_BOOL(cudaStreamCreate(&stream));
+        // Standard stream for non-vLLM deployments (RAII-managed)
+        stream_.create();
 #endif
-    deviceContext_ = static_cast<void*>(stream);
+    } catch (const std::exception& e) {
+        setError(ErrorContextHelpers::createQueueError("CUDA", std::string(e.what())));
+        std::cerr << lastError_.format() << std::endl;
+        return false;
+    }
     
-    // Query device properties
+    // Query device properties with error handling
     cudaDeviceProp prop;
-    CUDA_CHECK_BOOL(cudaGetDeviceProperties(&prop, 0));
+    cudaError_t propErr = cudaGetDeviceProperties(&prop, 0);
+    if (propErr != cudaSuccess) {
+        setError(ErrorContext(
+            AccelerationErrorCode::DevicePropertiesQueryFailed,
+            "CUDA",
+            "Failed to query device properties: " + std::string(cudaGetErrorString(propErr)),
+            "Ensure CUDA runtime is properly installed and device is accessible"
+        ));
+        std::cerr << lastError_.format() << std::endl;
+        // stream_ automatically cleaned up by RAII destructor
+        return false;
+    }
+    
+    // Runtime version check
+    int runtimeVersion = 0;
+    cudaRuntimeGetVersion(&runtimeVersion);
     
     std::cout << "CUDA Backend initialized successfully:" << std::endl;
     std::cout << "  Device: " << prop.name << std::endl;
     std::cout << "  Compute Capability: " << prop.major << "." << prop.minor << std::endl;
     std::cout << "  Global Memory: " << (prop.totalGlobalMem / (1024*1024*1024)) << " GB" << std::endl;
     std::cout << "  Multiprocessors: " << prop.multiProcessorCount << std::endl;
+    std::cout << "  CUDA Runtime: " << (runtimeVersion / 1000) << "." << ((runtimeVersion % 100) / 10) << std::endl;
 #ifdef THEMIS_VLLM_COLOCATION
     std::cout << "  vLLM Co-Location: ENABLED (low-priority stream, max " << THEMIS_MAX_GPU_VRAM_MB << " MB VRAM)" << std::endl;
 #endif
     
+    // Clear error on success
+    clearError();
     initialized_ = true;
     return true;
 #else
+    setError(ErrorContext(
+        AccelerationErrorCode::FeatureNotSupported,
+        "CUDA",
+        "Not compiled with CUDA support (THEMIS_ENABLE_CUDA not defined)",
+        "Recompile with CUDA support enabled"
+    ));
+    std::cerr << lastError_.format() << std::endl;
     return false;
 #endif
 }
@@ -152,11 +242,7 @@ bool CUDAVectorBackend::initialize() {
 void CUDAVectorBackend::shutdown() {
 #ifdef THEMIS_ENABLE_CUDA
     if (initialized_) {
-        if (deviceContext_) {
-            cudaStream_t stream = static_cast<cudaStream_t>(deviceContext_);
-            cudaStreamDestroy(stream);
-            deviceContext_ = nullptr;
-        }
+        // stream_ automatically destroyed by RAII destructor
         cudaDeviceReset();
         initialized_ = false;
     }
@@ -177,7 +263,8 @@ std::vector<float> CUDAVectorBackend::computeDistances(
         return {};
     }
     
-    cudaStream_t stream = static_cast<cudaStream_t>(deviceContext_);
+    // Use RAII-managed stream
+    cudaStream_t stream = stream_.get();
     
     // Allocate device memory
     float *d_queries, *d_vectors, *d_distances;
@@ -236,7 +323,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> CUDAVectorBackend::batchKnn
         return {};
     }
     
-    cudaStream_t stream = static_cast<cudaStream_t>(deviceContext_);
+    cudaStream_t stream = stream_.get();
     
     // Allocate device memory
     float *d_queries, *d_vectors, *d_distances;

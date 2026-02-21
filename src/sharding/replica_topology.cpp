@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            replica_topology.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     106                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "sharding/replica_topology.h"
 
 #include <algorithm>
@@ -61,6 +87,14 @@ bool ReplicaTopology::loadFromJson(const nlohmann::json& config) {
         // Parse stripe key (for STRIPE_MIRROR)
         if (item.contains("stripe_key")) {
             replica_set.stripe_key = item["stripe_key"].get<uint64_t>();
+        }
+
+        // Parse geo placement metadata (for GEO_MIRROR and Raft placement)
+        if (item.contains("region")) {
+            replica_set.region = item["region"].get<std::string>();
+        }
+        if (item.contains("zone")) {
+            replica_set.zone = item["zone"].get<std::string>();
         }
         
         replica_sets_[replica_set.shard_id] = replica_set;

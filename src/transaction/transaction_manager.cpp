@@ -1,4 +1,31 @@
-﻿#include "transaction/transaction_manager.h"
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            transaction_manager.cpp                            ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     944                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "transaction/transaction_manager.h"
+#include "transaction/crash_recovery_manager.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -55,6 +82,33 @@ void TransactionManager::setDeadlockTimeout(std::chrono::milliseconds timeout_ms
         std::lock_guard<std::mutex> lock(deadlock_detector_mutex_);
         deadlock_detector_cv_.notify_one();
     }
+}
+
+void TransactionManager::setDeadlockVictimPolicy(DeadlockVictimPolicy policy) {
+    victim_policy_.store(static_cast<int>(policy), std::memory_order_relaxed);
+    const char* name =
+        policy == DeadlockVictimPolicy::YOUNGEST        ? "YOUNGEST"        :
+        policy == DeadlockVictimPolicy::OLDEST          ? "OLDEST"          :
+        policy == DeadlockVictimPolicy::LEAST_EXPENSIVE ? "LEAST_EXPENSIVE" : "UNKNOWN";
+    THEMIS_INFO("Deadlock victim policy set to {}", name);
+}
+
+TransactionManager::DeadlockVictimPolicy TransactionManager::getDeadlockVictimPolicy() const {
+    return static_cast<DeadlockVictimPolicy>(victim_policy_.load(std::memory_order_relaxed));
+}
+
+TransactionManager::DeadlockMetrics TransactionManager::getDeadlockMetrics() const {
+    DeadlockMetrics m;
+    m.total_detected  = total_deadlocks_.load(std::memory_order_relaxed);
+    m.total_resolved  = m.total_detected; // every detected deadlock is resolved
+    m.max_cycle_length = deadlock_max_cycle_len_.load(std::memory_order_relaxed);
+    if (m.total_detected > 0) {
+        m.avg_cycle_length = static_cast<double>(
+            deadlock_total_cycle_len_.load(std::memory_order_relaxed)) /
+            static_cast<double>(m.total_detected);
+    }
+    m.active_policy = getDeadlockVictimPolicy();
+    return m;
 }
 
 std::vector<TransactionManager::DeadlockInfo> TransactionManager::getDeadlocks(std::chrono::seconds max_age) const {
@@ -199,17 +253,64 @@ bool TransactionManager::detectDeadlockCycle(std::vector<TransactionId>& cycle) 
 
 void TransactionManager::resolveDeadlock(const std::vector<TransactionId>& cycle) {
     if (cycle.empty()) return;
-    
-    // Choose victim: youngest transaction (highest ID)
-    TransactionId victim_id = *std::max_element(cycle.begin(), cycle.end());
-    
-    THEMIS_WARN("Deadlock resolution: aborting transaction {} (youngest in cycle)", victim_id);
+
+    auto policy = static_cast<DeadlockVictimPolicy>(
+        victim_policy_.load(std::memory_order_relaxed));
+
+    TransactionId victim_id;
+
+    switch (policy) {
+        case DeadlockVictimPolicy::OLDEST:
+            // Abort the transaction with the smallest (oldest) ID
+            victim_id = *std::min_element(cycle.begin(), cycle.end());
+            THEMIS_WARN("Deadlock resolution: aborting transaction {} (oldest in cycle)", victim_id);
+            break;
+
+        case DeadlockVictimPolicy::LEAST_EXPENSIVE: {
+            // Abort the transaction that holds the fewest locks (cheapest to restart)
+            victim_id = cycle[0];
+            size_t min_locks = std::numeric_limits<size_t>::max();
+            {
+                std::lock_guard<std::mutex> lk(lock_tracking_mutex_);
+                for (TransactionId txn : cycle) {
+                    size_t cnt = 0;
+                    for (const auto& [key, info] : held_locks_) {
+                        if (info.holder == txn) ++cnt;
+                    }
+                    if (cnt < min_locks) {
+                        min_locks = cnt;
+                        victim_id = txn;
+                    }
+                }
+            }
+            THEMIS_WARN("Deadlock resolution: aborting transaction {} (fewest locks={})", victim_id, min_locks);
+            break;
+        }
+
+        case DeadlockVictimPolicy::YOUNGEST:
+        default:
+            // Abort the transaction with the highest (newest) ID
+            victim_id = *std::max_element(cycle.begin(), cycle.end());
+            THEMIS_WARN("Deadlock resolution: aborting transaction {} (youngest in cycle)", victim_id);
+            break;
+    }
+
+    // Update cumulative metrics
+    uint64_t cycle_len = static_cast<uint64_t>(cycle.size());
+    deadlock_total_cycle_len_.fetch_add(cycle_len, std::memory_order_relaxed);
+    // Update max cycle length atomically using compare_exchange_strong to avoid
+    // spurious failures on architectures where weak CAS is unreliable.
+    uint64_t prev = deadlock_max_cycle_len_.load(std::memory_order_relaxed);
+    while (cycle_len > prev &&
+           !deadlock_max_cycle_len_.compare_exchange_strong(prev, cycle_len,
+               std::memory_order_relaxed, std::memory_order_relaxed)) {}
     
     // Record deadlock info
     DeadlockInfo info;
     info.cycle = cycle;
     info.detected_at = std::chrono::system_clock::now();
     info.victim_id = victim_id;
+    info.policy_used = policy;
     
     {
         std::lock_guard<std::mutex> lock(lock_tracking_mutex_);
@@ -254,9 +355,18 @@ TransactionManager::TransactionId TransactionManager::beginTransaction(Isolation
     updateStatsWithSeqLock([this]() {
         total_begun_.fetch_add(1, std::memory_order_relaxed);
     });
-    THEMIS_INFO("Transaction {} begun (isolation: {})", txn_id, 
-               isolation == IsolationLevel::ReadCommitted ? "ReadCommitted" : "Snapshot");
-    
+    THEMIS_INFO("Transaction {} begun (isolation: {})", txn_id,
+               isolation == IsolationLevel::READ_UNCOMMITTED  ? "READ_UNCOMMITTED"  :
+               isolation == IsolationLevel::READ_COMMITTED    ? "READ_COMMITTED"    :
+               isolation == IsolationLevel::REPEATABLE_READ   ? "REPEATABLE_READ"   :
+               isolation == IsolationLevel::SERIALIZABLE      ? "SERIALIZABLE"      :
+                                                                "UNKNOWN");
+
+    // Phase 8: WAL – log transaction begin for crash recovery
+    if (crash_recovery_mgr_) {
+        crash_recovery_mgr_->logBegin(txn_id, isolation);
+    }
+
     return txn_id;
 }
 
@@ -287,12 +397,16 @@ TransactionManager::Status TransactionManager::commitTransaction(TransactionId i
             total_committed_.fetch_add(1, std::memory_order_relaxed);
         });
         THEMIS_INFO("Transaction {} committed (duration: {} ms)", id, txn->getDurationMs());
+        // Phase 8: WAL – log commit
+        if (crash_recovery_mgr_) crash_recovery_mgr_->logCommit(id);
     } else {
         // SOLUTION 2B: Update statistics with sequence lock
         updateStatsWithSeqLock([this]() {
             total_aborted_.fetch_add(1, std::memory_order_relaxed);
         });
         THEMIS_WARN("Transaction {} commit failed: {}", id, status.message);
+        // Phase 8: WAL – log abort (commit failed → transaction is rolled back)
+        if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     }
     
     moveToCompleted(id);
@@ -316,6 +430,8 @@ void TransactionManager::rollbackTransaction(TransactionId id) {
         total_aborted_.fetch_add(1, std::memory_order_relaxed);
     });
     THEMIS_INFO("Transaction {} rolled back (duration: {} ms)", id, txn->getDurationMs());
+    // Phase 8: WAL – log abort
+    if (crash_recovery_mgr_) crash_recovery_mgr_->logAbort(id);
     
     moveToCompleted(id);
 }
@@ -460,18 +576,30 @@ TransactionManager::Transaction::Transaction(TransactionId id,
                                              IsolationLevel isolation)
     : id_(id), db_(db), secIdx_(secIdx), graphIdx_(graphIdx), vecIdx_(vecIdx), isolation_(isolation),
       start_time_(std::chrono::system_clock::now()) {
-    // Convert ThemisDB IsolationLevel to RocksDB TransactionIsolationLevel
-    auto rocksdb_isolation = (isolation_ == IsolationLevel::Snapshot) 
+    // Map ThemisDB IsolationLevel to the appropriate RocksDB isolation level.
+    // SERIALIZABLE and REPEATABLE_READ use snapshot isolation at the storage layer;
+    // additional write-conflict checks are performed at commit time.
+    // READ_UNCOMMITTED uses ReadCommitted at the RocksDB level (dirty reads are
+    // prevented by RocksDB itself; the isolation hint is used by higher layers).
+    auto rocksdb_isolation =
+        (isolation_ == IsolationLevel::REPEATABLE_READ ||
+         isolation_ == IsolationLevel::Snapshot        ||
+         isolation_ == IsolationLevel::SERIALIZABLE)
         ? RocksDBWrapper::TransactionIsolationLevel::Snapshot
         : RocksDBWrapper::TransactionIsolationLevel::ReadCommitted;
-    
+
     mvcc_txn_ = db_.beginTransaction(rocksdb_isolation);
     if (!mvcc_txn_) {
         throw std::runtime_error("Failed to create MVCC transaction");
     }
     saga_ = std::make_unique<Saga>();
-    THEMIS_INFO("Transaction {} initialized with MVCC and SAGA support (isolation: {})", 
-               id_, isolation_ == IsolationLevel::Snapshot ? "Snapshot" : "ReadCommitted");
+    THEMIS_INFO("Transaction {} initialized with MVCC and SAGA support (isolation: {})",
+               id_,
+               isolation_ == IsolationLevel::READ_UNCOMMITTED ? "READ_UNCOMMITTED" :
+               isolation_ == IsolationLevel::READ_COMMITTED   ? "READ_COMMITTED"   :
+               isolation_ == IsolationLevel::REPEATABLE_READ  ? "REPEATABLE_READ"  :
+               isolation_ == IsolationLevel::SERIALIZABLE     ? "SERIALIZABLE"     :
+                                                                "UNKNOWN");
 }
 
 TransactionManager::Transaction::~Transaction() {
@@ -748,4 +876,69 @@ void TransactionManager::Transaction::rollback() {
     THEMIS_INFO("Transaction {} rolled back, {} steps compensated", id_, saga_->compensatedCount());
 }
 
+TransactionManager::Status TransactionManager::Transaction::setSavePoint() {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("setSavePoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("setSavePoint: no active transaction");
+    }
+    mvcc_txn_->setSavePoint();
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::rollbackToSavePoint() {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("rollbackToSavePoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("rollbackToSavePoint: no active transaction");
+    }
+    if (!mvcc_txn_->rollbackToSavePoint()) {
+        return Status::Error("rollbackToSavePoint: no savepoint to roll back to");
+    }
+    return Status::OK();
+}
+
+TransactionManager::Status TransactionManager::Transaction::popSavePoint() {
+    if (finished_.load(std::memory_order_acquire)) {
+        return Status::Error("popSavePoint: transaction already finished");
+    }
+    if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
+        return Status::Error("popSavePoint: no active transaction");
+    }
+    if (!mvcc_txn_->popSavePoint()) {
+        return Status::Error("popSavePoint: no savepoint to pop");
+    }
+    return Status::OK();
+}
+
 } // namespace themis
+
+// ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────────
+
+void TransactionManager::enableCrashRecovery(const std::string& wal_path,
+                                              bool sync_on_write) {
+    std::lock_guard<std::mutex> lock(sessions_mutex_);
+    crash_recovery_mgr_ = std::make_unique<transaction::CrashRecoveryManager>(
+        wal_path, sync_on_write);
+    THEMIS_INFO("CrashRecoveryManager enabled (wal_path='{}', sync={})",
+                wal_path, sync_on_write);
+}
+
+bool TransactionManager::needsCrashRecovery() const {
+    if (!crash_recovery_mgr_) return false;
+    return crash_recovery_mgr_->needsRecovery();
+}
+
+transaction::CrashRecoveryManager::RecoveryResult
+TransactionManager::crashRecover() {
+    if (!crash_recovery_mgr_) {
+        transaction::CrashRecoveryManager::RecoveryResult r;
+        r.success = true;
+        r.message = "Crash recovery not enabled (call enableCrashRecovery first).";
+        return r;
+    }
+    return crash_recovery_mgr_->recover(db_);
+}
+

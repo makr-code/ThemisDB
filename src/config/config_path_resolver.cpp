@@ -1,9 +1,47 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            config_path_resolver.cpp                           ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:00                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     379                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "config/config_path_resolver.h"
+#include "config/config_errors.h"
+#include "config/path_mapping_metadata.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 
 namespace themis {
 namespace config {
+
+// ═══════════════════════════════════════════════════════════
+// Static Members Initialization
+// ═══════════════════════════════════════════════════════════
+
+ConfigPathResolver::Metrics ConfigPathResolver::metrics_;
+LRUCacheWithTTL<std::string, std::string> ConfigPathResolver::cache_(1000, 300); // 1000 entries, 5 min TTL
+std::atomic<bool> ConfigPathResolver::caching_enabled_{true};
 
 // ═══════════════════════════════════════════════════════════
 // Path Mapping Table: Legacy → New
@@ -91,43 +129,140 @@ const std::map<std::string, std::string> ConfigPathResolver::PATH_MAPPING = {
 };
 
 // ═══════════════════════════════════════════════════════════
+// Metadata Table with Deprecation Information
+// ═══════════════════════════════════════════════════════════
+
+// Helper to create a date from ISO string (YYYY-MM-DD)
+static std::chrono::system_clock::time_point parseDate(const std::string& iso_date) {
+    // Simple parser for YYYY-MM-DD format
+    // In production, use a proper date parsing library
+    std::tm tm = {};
+    std::istringstream ss(iso_date);
+    ss >> std::get_time(&tm, "%Y-%m-%d");
+    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
+}
+
+const std::map<std::string, PathMappingMetadata> ConfigPathResolver::METADATA_TABLE = {
+    // Example entries with deprecation dates (Phase 1 paths - deprecated June 30, 2026)
+    {
+        "config/lora_training_config.yaml",
+        {
+            "config/lora_training_config.yaml",
+            "config/ai_ml/lora_training_config.yaml",
+            "ai_ml",
+            parseDate("2024-01-01"),  // Deprecated
+            parseDate("2026-06-30"),  // Removal
+            "docs/config_migration_guide.md"
+        }
+    },
+    {
+        "config/pii_patterns.yaml",
+        {
+            "config/pii_patterns.yaml",
+            "config/security/pii_patterns.yaml",
+            "security",
+            parseDate("2024-01-01"),
+            parseDate("2026-06-30"),
+            "docs/config_migration_guide.md"
+        }
+    },
+    // Add more entries as needed for paths with specific deprecation timelines
+};
+
+// ═══════════════════════════════════════════════════════════
 // Public API Implementation
 // ═══════════════════════════════════════════════════════════
 
 std::string ConfigPathResolver::resolve(const std::string& legacy_path) {
     auto result = tryResolve(legacy_path);
     if (result) {
+        metrics_.resolution_hits++;
         return *result;
     }
     
-    throw std::runtime_error("Config file not found: " + legacy_path + 
-                           " (tried both new and legacy paths)");
+    metrics_.resolution_misses++;
+    
+    // Build list of attempted paths for error message
+    std::vector<std::string> attempted_paths;
+    std::string normalized = normalizePath(legacy_path);
+    std::string new_path = mapLegacyToNew(normalized);
+    
+    if (!new_path.empty() && new_path != normalized) {
+        attempted_paths.push_back(new_path);
+    }
+    attempted_paths.push_back(normalized);
+    
+    throw ConfigNotFoundException(legacy_path, attempted_paths);
 }
 
 std::optional<std::string> ConfigPathResolver::tryResolve(const std::string& legacy_path) {
     std::string normalized = normalizePath(legacy_path);
     
+    // Check cache first if enabled
+    if (caching_enabled_.load()) {
+        auto cached = cache_.get(normalized);
+        if (cached) {
+            metrics_.cache_hits++;
+            return *cached;
+        }
+        metrics_.cache_misses++;
+    }
+    
+    // Validate path to prevent security issues
+    try {
+        validatePath(normalized);
+    } catch (const InvalidPathException&) {
+        return std::nullopt;
+    }
+    
     // Try new path first
     std::string new_path = mapLegacyToNew(normalized);
+    std::string resolved_path;
+    
     if (!new_path.empty() && std::filesystem::exists(new_path)) {
         if (normalized != new_path) {
             spdlog::debug("ConfigPathResolver: Using new config path: {} -> {}", 
                          normalized, new_path);
+            metrics_.new_path_hits++;
         }
-        return new_path;
+        resolved_path = new_path;
     }
-    
     // Fall back to legacy path with warning
-    if (std::filesystem::exists(normalized)) {
-        if (!new_path.empty()) {
-            spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
-                        "Please migrate to: {}", normalized, new_path);
+    else if (std::filesystem::exists(normalized)) {
+        if (!new_path.empty() && new_path != normalized) {
+            // Check if we have metadata for more detailed warning
+            auto metadata = getMetadata(normalized);
+            if (metadata && metadata->isDeprecated()) {
+                // Use structured deprecation message
+                if (metadata->isRemovalDue()) {
+                    spdlog::error("ConfigPathResolver: {}", metadata->getDeprecationMessage());
+                } else {
+                    spdlog::warn("ConfigPathResolver: {}", metadata->getDeprecationMessage());
+                }
+            } else {
+                // Fallback to simple warning
+                spdlog::warn("ConfigPathResolver: Using legacy config path: {}. "
+                            "Please migrate to: {}", normalized, new_path);
+            }
+            metrics_.legacy_fallbacks++;
         }
-        return normalized;
+        resolved_path = normalized;
+    }
+    else {
+        // Track unmapped requests
+        if (new_path.empty() || new_path == normalized) {
+            metrics_.unmapped_requests++;
+        }
+        // Neither path exists
+        return std::nullopt;
     }
     
-    // Neither path exists
-    return std::nullopt;
+    // Cache the resolved path if caching is enabled
+    if (caching_enabled_.load()) {
+        cache_.put(normalized, resolved_path);
+    }
+    
+    return resolved_path;
 }
 
 std::string ConfigPathResolver::mapLegacyToNew(const std::string& legacy_path) {
@@ -145,6 +280,29 @@ std::string ConfigPathResolver::mapLegacyToNew(const std::string& legacy_path) {
 bool ConfigPathResolver::isLegacyPath(const std::string& path) {
     std::string normalized = normalizePath(path);
     return PATH_MAPPING.find(normalized) != PATH_MAPPING.end();
+}
+
+std::optional<PathMappingMetadata> ConfigPathResolver::getMetadata(const std::string& legacy_path) {
+    std::string normalized = normalizePath(legacy_path);
+    auto it = METADATA_TABLE.find(normalized);
+    if (it != METADATA_TABLE.end()) {
+        return it->second;
+    }
+    
+    // If not in metadata table, create basic metadata from mapping table
+    auto mapping_it = PATH_MAPPING.find(normalized);
+    if (mapping_it != PATH_MAPPING.end()) {
+        return PathMappingMetadata{
+            normalized,
+            mapping_it->second,
+            inferCategory(mapping_it->second),
+            std::nullopt,  // No deprecation date
+            std::nullopt,  // No removal date
+            std::nullopt   // No migration guide
+        };
+    }
+    
+    return std::nullopt;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -168,6 +326,53 @@ std::string ConfigPathResolver::normalizePath(const std::string& path) {
     }
     
     return normalized;
+}
+
+void ConfigPathResolver::validatePath(const std::string& path) {
+    // Check for path traversal attempts
+    if (path.find("..") != std::string::npos) {
+        throw InvalidPathException(path, "path traversal not allowed");
+    }
+    
+    // Check for absolute paths outside config directory
+    std::filesystem::path fs_path(path);
+    if (fs_path.is_absolute() && !path.starts_with("/config") && 
+        !path.starts_with("config") && path.find(":\\config") == std::string::npos) {
+        // Allow absolute paths that point to config directory
+        // This is a basic check; more sophisticated validation may be needed
+    }
+}
+
+void ConfigPathResolver::resetMetrics() {
+    metrics_.resolution_hits = 0;
+    metrics_.resolution_misses = 0;
+    metrics_.legacy_fallbacks = 0;
+    metrics_.new_path_hits = 0;
+    metrics_.unmapped_requests = 0;
+    metrics_.cache_hits = 0;
+    metrics_.cache_misses = 0;
+}
+
+void ConfigPathResolver::setCachingEnabled(bool enabled) {
+    caching_enabled_.store(enabled);
+    if (!enabled) {
+        cache_.clear();
+    }
+}
+
+std::string ConfigPathResolver::inferCategory(const std::string& new_path) {
+    // Extract category from path (e.g., "config/ai_ml/..." -> "ai_ml")
+    size_t first_slash = new_path.find('/');
+    if (first_slash == std::string::npos) {
+        return "unknown";
+    }
+    
+    size_t second_slash = new_path.find('/', first_slash + 1);
+    if (second_slash == std::string::npos) {
+        return "unknown";
+    }
+    
+    return new_path.substr(first_slash + 1, second_slash - first_slash - 1);
 }
 
 } // namespace config

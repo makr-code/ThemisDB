@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_llama_wrapper_state.cpp                       ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:20                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     293                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_llama_wrapper_state.cpp
  * @brief Unit tests for LlamaWrapper state machine
@@ -240,6 +266,28 @@ TEST_F(LlamaWrapperStateTest, StatePreventsSilentFailures) {
     EXPECT_FALSE(exception_msg.empty());
     EXPECT_TRUE(exception_msg.find("not ready") != std::string::npos ||
                exception_msg.find("UNINITIALIZED") != std::string::npos);
+}
+
+// ═══════════════════════════════════════════════════════════
+// request_timeout_ms config validation tests (Q1)
+// ═══════════════════════════════════════════════════════════
+
+TEST_F(LlamaWrapperStateTest, RequestTimeoutDefault_Zero_NoWarning) {
+    // Default config has request_timeout_ms = 0 (unlimited); construction must succeed
+    EXPECT_EQ(config_.request_timeout_ms, 0u);
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config_));
+}
+
+TEST_F(LlamaWrapperStateTest, RequestTimeoutReasonableValue_Accepted) {
+    config_.request_timeout_ms = 30000;  // 30 s — sensible production value
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config_));
+}
+
+TEST_F(LlamaWrapperStateTest, RequestTimeoutShortValue_AcceptedWithWarning) {
+    // Values < 1 000 ms trigger a warning but must NOT throw; callers are
+    // responsible for choosing appropriate timeouts.
+    config_.request_timeout_ms = 100;
+    EXPECT_NO_THROW(LlamaWrapper wrapper(config_));
 }
 
 

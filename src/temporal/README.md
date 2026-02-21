@@ -2,6 +2,27 @@
 
 Time-series and temporal query support for ThemisDB.
 
+## Module Purpose
+
+Implements temporal and bitemporal data management for ThemisDB, enabling transaction-time and valid-time queries, time travel queries, and bitemporal data versioning.
+
+## Subsystem Scope
+
+**In scope:** Transaction-time tracking, valid-time management, bitemporal query operators, time travel queries, temporal data versioning and retention.
+
+**Out of scope:** Time series storage (handled by timeseries module), event sourcing (handled by cdc module).
+
+## Relevant Interfaces
+
+- `temporal_manager.cpp` — bitemporal data management
+- `time_travel_query.cpp` — historical query execution
+- `bitemporal_index.cpp` — temporal period indexing
+- `temporal_retention.cpp` — temporal data retention
+
+## Current Delivery Status
+
+**Maturity:** 🟡 Beta — Transaction-time tracking and time travel queries operational; bitemporal query operators in progress.
+
 ## Components
 
 - Temporal Conflict Resolver: Resolves conflicts between temporal snapshots using HLC timestamps

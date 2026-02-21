@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            module_loader.h                                    ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     668                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Module loader with DLL signature verification for modular ThemisDB
 // This ensures all themis_* modules are verified before loading
 // See docs/architecture/MODULARIZATION_PLAN.md for details
@@ -9,6 +35,7 @@
 #include <memory>
 #include <optional>
 #include <map>
+#include <functional>
 
 namespace themis {
 namespace modules {
@@ -17,14 +44,206 @@ namespace modules {
 class ModuleSecurityVerifier;
 
 /**
+ * @brief Module load stage for staged loading
+ */
+enum class LoadStage {
+    UNLOADED,       // Module not loaded
+    VERIFYING,      // Signature/hash verification in progress
+    VERIFIED,       // Verification complete
+    VALIDATING,     // ABI/metadata validation in progress
+    VALIDATED,      // Validation complete
+    STAGING,        // Pre-activation staging
+    STAGED,         // Staged and ready for activation
+    ACTIVATING,     // Health checks and activation in progress
+    ACTIVE,         // Fully activated and operational
+    FAILED,         // Load failed at some stage
+    UNLOADING       // Unload in progress
+};
+
+/**
+ * @brief Health check result for module activation
+ */
+struct HealthCheckResult {
+    bool passed = false;
+    std::string checkName;
+    std::string message;
+    uint64_t checkDurationMs = 0;
+    
+    static HealthCheckResult success(const std::string& name, const std::string& msg = "") {
+        HealthCheckResult result;
+        result.passed = true;
+        result.checkName = name;
+        result.message = msg.empty() ? "Health check passed" : msg;
+        return result;
+    }
+    
+    static HealthCheckResult failure(const std::string& name, const std::string& msg) {
+        HealthCheckResult result;
+        result.passed = false;
+        result.checkName = name;
+        result.message = msg;
+        return result;
+    }
+};
+
+/**
+ * @brief Health check function type
+ * 
+ * Health check functions are called before module activation.
+ * They can verify module initialization, resource availability, etc.
+ * 
+ * @param moduleHandle OS-specific module handle
+ * @param moduleName Name of the module being checked
+ * @return Health check result
+ */
+using HealthCheckFunction = std::function<HealthCheckResult(void* moduleHandle, const std::string& moduleName)>;
+
+/**
+ * @brief Module error codes for structured error handling
+ */
+enum class ModuleErrorCode {
+    SUCCESS = 0,
+    
+    // File system errors (1xx)
+    MODULE_NOT_FOUND = 100,
+    MODULE_ALREADY_LOADED = 101,
+    MODULE_DIRECTORY_NOT_FOUND = 102,
+    MODULE_ACCESS_DENIED = 103,
+    
+    // Verification errors (2xx)
+    VERIFICATION_FAILED = 200,
+    SIGNATURE_INVALID = 201,
+    HASH_MISMATCH = 202,
+    CERTIFICATE_REVOKED = 203,
+    CERTIFICATE_EXPIRED = 204,
+    UNTRUSTED_SIGNER = 205,
+    
+    // Loading errors (3xx)
+    LOAD_LIBRARY_FAILED = 300,
+    SYMBOL_NOT_FOUND = 301,
+    INITIALIZATION_FAILED = 302,
+    HEALTH_CHECK_FAILED = 303,
+    STAGING_FAILED = 304,
+    ACTIVATION_FAILED = 305,
+    
+    // Version/ABI errors (4xx)
+    VERSION_INCOMPATIBLE = 400,
+    ABI_INCOMPATIBLE = 401,
+    METADATA_MISSING = 402,
+    METADATA_CORRUPTED = 403,
+    
+    // Policy errors (5xx)
+    POLICY_VIOLATION = 500,
+    BLACKLISTED = 501,
+    QUARANTINED = 502,
+    
+    // Unknown/Internal errors (9xx)
+    INTERNAL_ERROR = 900,
+    UNKNOWN_ERROR = 999
+};
+
+/**
+ * @brief Error category for error handling strategy
+ */
+enum class ErrorCategory {
+    TRANSIENT,      // Temporary failure, retry may succeed
+    PERMANENT,      // Persistent failure, retry unlikely to help
+    RECOVERABLE,    // Can be fixed by user action
+    FATAL           // Unrecoverable, requires system intervention
+};
+
+/**
+ * @brief Module metadata (version, ABI, build info)
+ */
+struct ModuleMetadata {
+    std::string version;        // Semantic version (e.g., "1.2.3")
+    std::string abiVersion;     // ABI version for compatibility checking
+    std::string buildId;        // Build ID / commit hash
+    std::string buildDate;      // Build timestamp
+    std::string compiler;       // Compiler version
+    uint32_t themisMajor = 0;   // ThemisDB major version
+    uint32_t themisMinor = 0;   // ThemisDB minor version
+    uint32_t themisPatch = 0;   // ThemisDB patch version
+    
+    bool isValid() const {
+        return !version.empty() && themisMajor > 0;
+    }
+};
+
+/**
+ * @brief Module failure history for quarantine and backoff
+ */
+struct ModuleFailureHistory {
+    std::string modulePath;
+    std::vector<uint64_t> failureTimestamps;  // Unix timestamps of failures
+    uint32_t consecutiveFailures = 0;
+    uint64_t lastFailureTime = 0;
+    uint64_t quarantineTime = 0;              // When quarantined (0 = not quarantined)
+    uint64_t nextRetryTime = 0;               // Exponential backoff time
+    ModuleErrorCode lastErrorCode = ModuleErrorCode::SUCCESS;
+    std::string lastErrorMessage;
+    
+    bool isQuarantined() const {
+        return quarantineTime > 0;
+    }
+    
+    bool canRetry(uint64_t currentTime) const {
+        return currentTime >= nextRetryTime;
+    }
+};
+
+/**
+ * @brief Module metrics for observability
+ */
+struct ModuleMetrics {
+    // Load statistics
+    uint64_t totalLoadAttempts = 0;
+    uint64_t successfulLoads = 0;
+    uint64_t failedLoads = 0;
+    uint64_t totalUnloads = 0;
+    
+    // Duration statistics (milliseconds)
+    uint64_t totalLoadDurationMs = 0;
+    uint64_t minLoadDurationMs = UINT64_MAX;
+    uint64_t maxLoadDurationMs = 0;
+    
+    // Verification statistics
+    uint64_t verificationSuccesses = 0;
+    uint64_t verificationFailures = 0;
+    
+    // Quarantine statistics
+    uint64_t quarantineEvents = 0;
+    uint64_t quarantineReleases = 0;
+    uint32_t currentlyQuarantined = 0;
+    
+    // Error breakdown
+    std::map<ModuleErrorCode, uint64_t> errorCounts;
+    
+    double getSuccessRate() const {
+        return totalLoadAttempts > 0 
+            ? (double)successfulLoads / totalLoadAttempts 
+            : 0.0;
+    }
+    
+    double getAverageLoadDurationMs() const {
+        return successfulLoads > 0 
+            ? (double)totalLoadDurationMs / successfulLoads 
+            : 0.0;
+    }
+};
+
+/**
  * @brief Module verification result
  */
 struct ModuleVerificationResult {
     bool success = false;
+    ModuleErrorCode errorCode = ModuleErrorCode::SUCCESS;
+    ErrorCategory errorCategory = ErrorCategory::PERMANENT;
     std::string errorMessage;
     std::string moduleHash;
     std::string modulePath;
     uint64_t verificationTimestamp = 0;
+    ModuleMetadata metadata;
     
     // Authenticode information (Windows only)
     std::string authenticodeSigner;  // Certificate subject (e.g., "CN=ThemisDB GmbH")
@@ -38,11 +257,16 @@ struct ModuleVerificationResult {
 struct LoadedModule {
     std::string name;           // e.g., "themis_storage"
     std::string path;           // Full path to DLL/SO
-    std::string version;        // Module version
+    std::string version;        // Module version (from metadata)
     std::string fileHash;       // SHA-256 hash
     void* handle = nullptr;     // OS-specific handle
     bool verified = false;      // Signature verification status
     uint64_t loadTime = 0;      // Unix timestamp
+    uint64_t loadDurationMs = 0; // Load duration in milliseconds
+    ModuleMetadata metadata;    // Full metadata
+    LoadStage currentStage = LoadStage::UNLOADED;  // Current load stage
+    std::vector<HealthCheckResult> healthChecks;   // Health check results
+    bool fullyActivated = false; // True if passed all stages
 };
 
 /**
@@ -140,6 +364,94 @@ public:
     void addBlacklistedHash(const std::string& hash);
     
     /**
+     * @brief Get failure history for a module
+     * @param modulePath Path to module
+     * @return Optional failure history (nullopt if no failures)
+     */
+    std::optional<ModuleFailureHistory> getFailureHistory(const std::string& modulePath) const;
+    
+    /**
+     * @brief Get all quarantined modules
+     * @return Vector of quarantined module paths
+     */
+    std::vector<std::string> getQuarantinedModules() const;
+    
+    /**
+     * @brief Release a module from quarantine
+     * @param modulePath Path to module to release
+     * @return true if released, false if not quarantined
+     */
+    bool releaseFromQuarantine(const std::string& modulePath);
+    
+    /**
+     * @brief Clear failure history for a module
+     * @param modulePath Path to module
+     */
+    void clearFailureHistory(const std::string& modulePath);
+    
+    /**
+     * @brief Get current module metrics
+     * @return Current metrics snapshot
+     */
+    ModuleMetrics getMetrics() const;
+    
+    /**
+     * @brief Reset all metrics to zero
+     */
+    void resetMetrics();
+    
+    /**
+     * @brief Check if ABI is compatible with ThemisDB
+     * @param metadata Module metadata to check
+     * @return true if compatible, false otherwise
+     */
+    bool isABICompatible(const ModuleMetadata& metadata) const;
+    
+    /**
+     * @brief Set quarantine threshold (consecutive failures before quarantine)
+     * @param threshold Number of failures (default: 3)
+     */
+    void setQuarantineThreshold(uint32_t threshold);
+    
+    /**
+     * @brief Set maximum backoff time in seconds
+     * @param maxSeconds Maximum backoff time (default: 300 = 5 minutes)
+     */
+    void setMaxBackoffSeconds(uint32_t maxSeconds);
+    
+    /**
+     * @brief Register a health check function
+     * @param checkName Unique name for this health check
+     * @param checkFunc Health check function
+     */
+    void registerHealthCheck(const std::string& checkName, HealthCheckFunction checkFunc);
+    
+    /**
+     * @brief Clear all registered health checks
+     */
+    void clearHealthChecks();
+    
+    /**
+     * @brief Query current load stage of a module
+     * @param moduleName Name of the module
+     * @return Optional load stage (nullopt if not found)
+     */
+    std::optional<LoadStage> queryModuleStage(const std::string& moduleName) const;
+    
+    /**
+     * @brief Get health check results for a module
+     * @param moduleName Name of the module
+     * @return Vector of health check results
+     */
+    std::vector<HealthCheckResult> getHealthCheckResults(const std::string& moduleName) const;
+    
+    /**
+     * @brief Enable or disable staged loading
+     * @param enable If true, use staged loading; if false, load directly
+     */
+    void setStagedLoadingEnabled(bool enable);
+    
+    /**
      * @brief Export security audit log
      * @param outputPath Path to export JSON audit log
      * @return true if successful, false otherwise
@@ -219,6 +531,23 @@ private:
     std::vector<LoadedModule> loadedModules_;
     std::unique_ptr<ModuleSecurityVerifier> verifier_;
     
+    // Quarantine and backoff tracking
+    std::map<std::string, ModuleFailureHistory> failureHistory_;
+    uint32_t quarantineThreshold_ = 3;     // Failures before quarantine
+    uint32_t maxBackoffSeconds_ = 300;      // 5 minutes max backoff
+    
+    // Metrics tracking
+    ModuleMetrics metrics_;
+    
+    // ThemisDB version for ABI compatibility
+    uint32_t themisABIMajor_ = 1;
+    uint32_t themisABIMinor_ = 0;
+    
+    // Staged loading
+    bool stagedLoadingEnabled_ = true;     // Default: use staged loading
+    std::map<std::string, HealthCheckFunction> healthChecks_;
+    std::map<std::string, ModuleMetadata> metadataCache_;  // Cache to avoid double-loading
+    
     // Platform-specific loading functions
     void* loadLibrary(const std::string& path);
     void unloadLibrary(void* handle);
@@ -229,6 +558,27 @@ private:
     std::string calculateModuleHash(const std::string& modulePath);
     std::string getModuleNameFromPath(const std::string& path);
     bool isThemisModule(const std::string& filename);
+    
+    // Metadata extraction
+    ModuleMetadata extractModuleMetadata(const std::string& modulePath);
+    std::string getErrorMessage(ModuleErrorCode code) const;
+    ErrorCategory categorizeError(ModuleErrorCode code) const;
+    
+    // Quarantine and backoff helpers
+    void recordFailure(const std::string& modulePath, ModuleErrorCode errorCode, const std::string& errorMessage);
+    bool shouldQuarantine(const std::string& modulePath) const;
+    void quarantineModule(const std::string& modulePath);
+    uint64_t calculateBackoffTime(uint32_t consecutiveFailures) const;
+    bool checkQuarantine(const std::string& modulePath, ModuleVerificationResult& result);
+    
+    // Metrics helpers
+    void updateMetrics(bool success, uint64_t durationMs, ModuleErrorCode errorCode);
+    
+    // Staged loading helpers
+    bool updateModuleStage(const std::string& moduleName, LoadStage newStage);
+    bool runHealthChecks(LoadedModule& module, ModuleVerificationResult& result);
+    ModuleMetadata extractMetadataFromHandle(void* handle);
+    ModuleMetadata getCachedMetadata(const std::string& modulePath);
 };
 
 /**

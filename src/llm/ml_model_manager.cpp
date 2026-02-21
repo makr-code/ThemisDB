@@ -1,7 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            ml_model_manager.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   73.0/100                                       ║
+    • Total Lines:     1697                                           ║
+    • Open Issues:     TODOs: 8, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/ml_model_manager.h"
 #include "utils/logger.h"
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 #include <random>
 #include <thread>
 #include <chrono>
@@ -441,9 +468,10 @@ std::string MLModelManager::inferAsync(
 }
 
 bool MLModelManager::cancelInference(const std::string& request_id) {
-    // TODO: Implement request cancellation
-    THEMIS_WARN("Inference cancellation not yet implemented for request: " + request_id);
-    return false;
+    std::lock_guard<std::mutex> lock(cancel_mutex_);
+    cancelled_requests_.insert(request_id);
+    THEMIS_INFO("Cancellation requested for request: " + request_id);
+    return true;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -803,11 +831,26 @@ void MLModelManager::updateInstanceMetrics(
         instance->failed_requests++;
     }
     
-    // Update rolling average latency
-    float alpha = 0.1f;  // Exponential smoothing factor
+    // Update rolling average latency (exponential moving average)
+    float alpha = 0.1f;
     instance->avg_latency_ms = instance->avg_latency_ms * (1.0f - alpha) + latency_ms * alpha;
-    
-    // TODO: Update percentile metrics (requires histogram)
+
+    // Update p95/p99 from a fixed-size sliding window of recent latency samples
+    instance->latency_window.push_back(latency_ms);
+    if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
+        instance->latency_window.pop_front();  // O(1) with deque
+    }
+    if (instance->latency_window.size() >= 2) {
+        std::vector<float> sorted(instance->latency_window.begin(),
+                                  instance->latency_window.end());
+        std::sort(sorted.begin(), sorted.end());
+        size_t n = sorted.size();
+        // Use std::min to guard against out-of-bounds on tiny windows
+        size_t idx95 = std::min(static_cast<size_t>(std::ceil(0.95 * n)) - 1, n - 1);
+        size_t idx99 = std::min(static_cast<size_t>(std::ceil(0.99 * n)) - 1, n - 1);
+        instance->p95_latency_ms = sorted[idx95];
+        instance->p99_latency_ms = sorted[idx99];
+    }
 }
 
 std::string MLModelManager::generateInstanceId(const std::string& model_id) {
@@ -1256,9 +1299,10 @@ std::string MLModelManager::inferAsync(
 }
 
 bool MLModelManager::cancelInference(const std::string& request_id) {
-    // TODO: Implement request cancellation
-    THEMIS_WARN("Inference cancellation not yet implemented for request: " + request_id);
-    return false;
+    std::lock_guard<std::mutex> lock(cancel_mutex_);
+    cancelled_requests_.insert(request_id);
+    THEMIS_INFO("Cancellation requested for request: " + request_id);
+    return true;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1618,11 +1662,26 @@ void MLModelManager::updateInstanceMetrics(
         instance->failed_requests++;
     }
     
-    // Update rolling average latency
-    float alpha = 0.1f;  // Exponential smoothing factor
+    // Update rolling average latency (exponential moving average)
+    float alpha = 0.1f;
     instance->avg_latency_ms = instance->avg_latency_ms * (1.0f - alpha) + latency_ms * alpha;
-    
-    // TODO: Update percentile metrics (requires histogram)
+
+    // Update p95/p99 from a fixed-size sliding window of recent latency samples
+    instance->latency_window.push_back(latency_ms);
+    if (instance->latency_window.size() > MLModelInstance::kLatencyWindowSize) {
+        instance->latency_window.pop_front();  // O(1) with deque
+    }
+    if (instance->latency_window.size() >= 2) {
+        std::vector<float> sorted(instance->latency_window.begin(),
+                                  instance->latency_window.end());
+        std::sort(sorted.begin(), sorted.end());
+        size_t n = sorted.size();
+        // Use std::min to guard against out-of-bounds on tiny windows
+        size_t idx95 = std::min(static_cast<size_t>(std::ceil(0.95 * n)) - 1, n - 1);
+        size_t idx99 = std::min(static_cast<size_t>(std::ceil(0.99 * n)) - 1, n - 1);
+        instance->p95_latency_ms = sorted[idx95];
+        instance->p99_latency_ms = sorted[idx99];
+    }
 }
 
 std::string MLModelManager::generateInstanceId(const std::string& model_id) {

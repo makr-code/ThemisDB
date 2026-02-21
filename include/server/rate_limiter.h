@@ -1,12 +1,39 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rate_limiter.h                                     ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     290                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
+#include <functional>
 #include <mutex>
 #include <chrono>
 #include <memory>
-#include <vector>
 
 namespace themis {
 namespace server {
@@ -35,6 +62,17 @@ struct RateLimitConfig {
     
     // Custom rate limits for specific IPs/users
     std::unordered_map<std::string, size_t> custom_limits;
+
+    // ── Adaptive throttling ──────────────────────────────────────────────
+    // When an IP exceeds adaptive_rejection_threshold rejections within
+    // adaptive_window_seconds, each subsequent request must consume
+    // 2 tokens instead of 1 (2x harder to pass) during the penalty window.
+    // The penalty is removed after adaptive_penalty_duration_seconds.
+    bool adaptive_throttling_enabled = false;
+    uint32_t adaptive_rejection_threshold = 10;   ///< rejections that trigger penalty
+    uint32_t adaptive_window_seconds      = 60;   ///< rolling window for counting
+    double   adaptive_penalty_factor      = 0.25; ///< reserved for future use
+    uint32_t adaptive_penalty_duration_seconds = 120; ///< how long the penalty lasts
 };
 
 /**
@@ -83,6 +121,26 @@ private:
 };
 
 /**
+ * @brief Anomaly event fired by RateLimiter when suspicious behaviour is detected.
+ *
+ * Callers register a callback via RateLimiter::setAnomalyCallback() to receive
+ * these events and forward them to their alerting / SIEM pipeline.
+ */
+struct AnomalyEvent {
+    enum class Type {
+        ADAPTIVE_THROTTLE_TRIGGERED, ///< IP exceeded rejection threshold; penalty applied
+        IP_BLACKLISTED,              ///< IP was programmatically added to the blacklist
+    };
+    Type        type;
+    std::string ip;
+    std::string detail;
+    std::chrono::system_clock::time_point timestamp;
+};
+
+/// Callback invoked (with mutex NOT held) on each detected anomaly.
+using AnomalyCallback = std::function<void(const AnomalyEvent&)>;
+
+/**
  * @brief Rate Limiter with per-IP and per-user tracking
  * 
  * Features:
@@ -91,6 +149,7 @@ private:
  * - Configurable limits and whitelists
  * - Thread-safe
  * - Automatic cleanup of old buckets
+ * - Anomaly detection callbacks for SIEM / alerting integration
  */
 class RateLimiter {
 public:
@@ -118,6 +177,39 @@ public:
     bool isWhitelisted(const std::string& ip) const;
     
     /**
+     * @brief Register a callback invoked whenever an anomaly is detected.
+     *
+     * The callback is invoked outside of the internal mutex so it is safe to
+     * perform I/O (e.g. write to an audit log or send to a SIEM) without risk
+     * of deadlock.  Pass nullptr or an empty function to deregister.
+     */
+    void setAnomalyCallback(AnomalyCallback callback);
+
+    /**
+     * @brief Add IP to blacklist (immediately block all requests from this IP)
+     * @param ip IP address to block
+     */
+    void blacklistIP(const std::string& ip);
+    
+    /**
+     * @brief Remove IP from blacklist
+     * @param ip IP address to unblock
+     */
+    void unblacklistIP(const std::string& ip);
+    
+    /**
+     * @brief Check if IP is blacklisted
+     * @param ip IP address to check
+     */
+    bool isBlacklisted(const std::string& ip) const;
+
+    /**
+     * @brief Return true if an IP is currently under an adaptive throttle penalty.
+     * @param ip IP address to check.
+     */
+    bool isAdaptivelyThrottled(const std::string& ip) const;
+    
+    /**
      * @brief Update configuration at runtime
      */
     void updateConfig(const RateLimitConfig& config);
@@ -131,6 +223,7 @@ public:
         size_t rejected_requests = 0;
         size_t active_ip_buckets = 0;
         size_t active_user_buckets = 0;
+        size_t adaptive_throttle_penalties = 0; ///< IPs currently penalised
     };
     
     Statistics getStatistics() const;
@@ -160,6 +253,28 @@ private:
     // Per-user buckets
     std::unordered_map<std::string, std::shared_ptr<TokenBucket>> user_buckets_;
     std::unordered_map<std::string, std::chrono::steady_clock::time_point> user_last_access_;
+    
+    // IP blacklist (blocked regardless of rate limit)
+    std::unordered_set<std::string> blacklisted_ips_;
+
+    // ── Adaptive throttling state ────────────────────────────────────────
+    struct AdaptiveEntry {
+        // Timestamps of recent rejections within the rolling window
+        std::vector<std::chrono::steady_clock::time_point> rejection_times;
+        // If non-zero, IP is currently penalised
+        std::chrono::steady_clock::time_point penalty_until;
+        bool under_penalty = false;
+    };
+    std::unordered_map<std::string, AdaptiveEntry> adaptive_state_;
+
+    void recordRejectionForAdaptive(const std::string& ip);
+
+    // Anomaly detection callback – protected by a dedicated mutex so that
+    // fireAnomaly() can be called while mutex_ is held without risk of deadlock.
+    mutable std::mutex callback_mutex_;
+    AnomalyCallback anomaly_callback_;
+    // Fire the anomaly callback (safe to call while mutex_ is held).
+    void fireAnomaly(AnomalyEvent::Type type, const std::string& ip, const std::string& detail) const;
     
     // Statistics
     mutable Statistics stats_;

@@ -1,4 +1,30 @@
-﻿#include "transaction/saga.h"
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            saga.cpp                                           ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   87.0/100                                       ║
+    • Total Lines:     292                                            ║
+    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#include "transaction/saga.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "index/secondary_index.h"
@@ -56,6 +82,9 @@ void Saga::clear() {
     THEMIS_DEBUG("SAGA: Clearing {} steps", steps_.size());
     steps_.clear();
     compensated_ = false;
+    // Note: metrics_failed_ and metrics_retried_ are intentionally preserved across
+    // clear() so that getMetrics() reflects the cumulative lifetime counts.
+    // They are only reset by the default constructor (i.e., when a new Saga is created).
 }
 
 size_t Saga::compensatedCount() const {
@@ -82,6 +111,74 @@ int64_t Saga::getDurationMs() const {
     auto now = std::chrono::system_clock::now();
     auto first_step_time = steps_[0].executed_at;
     return std::chrono::duration_cast<std::chrono::milliseconds>(now - first_step_time).count();
+}
+
+void Saga::compensateWithRetry(int max_retries,
+                               std::chrono::milliseconds backoff_ms) {
+    if (compensated_) {
+        THEMIS_WARN("SAGA: Already compensated, skipping");
+        return;
+    }
+
+    static constexpr std::chrono::milliseconds MAX_BACKOFF{30000}; // 30 s cap
+
+    // Clamp input backoff to avoid overflow during doubling
+    backoff_ms = std::min(backoff_ms, MAX_BACKOFF);
+
+    THEMIS_INFO("SAGA: Compensating {} steps (max_retries={}, backoff={}ms)",
+                steps_.size(), max_retries, backoff_ms.count());
+
+    for (auto it = steps_.rbegin(); it != steps_.rend(); ++it) {
+        if (it->compensated) continue;
+
+        bool success = false;
+        std::chrono::milliseconds current_backoff = backoff_ms;
+
+        for (int attempt = 0; attempt <= max_retries; ++attempt) {
+            try {
+                if (attempt > 0) {
+                    THEMIS_DEBUG("SAGA: Retrying '{}' (attempt {}/{})",
+                                 it->operation_name, attempt, max_retries);
+                    std::this_thread::sleep_for(current_backoff);
+                    // Double backoff but cap at MAX_BACKOFF
+                    current_backoff = std::min(current_backoff * 2, MAX_BACKOFF);
+                }
+                it->compensate();
+                it->compensated = true;
+                success = true;
+                if (attempt > 0) {
+                    ++metrics_retried_;
+                }
+                break;
+            } catch (const std::exception& e) {
+                THEMIS_WARN("SAGA: Compensation failed for '{}' (attempt {}): {}",
+                            it->operation_name, attempt + 1, e.what());
+            } catch (...) {
+                THEMIS_WARN("SAGA: Unknown error during compensation of '{}' (attempt {})",
+                            it->operation_name, attempt + 1);
+            }
+        }
+
+        if (!success) {
+            ++metrics_failed_;
+            THEMIS_ERROR("SAGA: Compensation permanently failed for '{}' after {} attempts",
+                         it->operation_name, max_retries + 1);
+        }
+    }
+
+    compensated_ = true;
+    THEMIS_INFO("SAGA: Retry-compensation complete – {}/{} steps, {} retried, {} failed",
+                compensatedCount(), steps_.size(), metrics_retried_, metrics_failed_);
+}
+
+Saga::Metrics Saga::getMetrics() const {
+    Metrics m;
+    m.total_steps            = steps_.size();
+    m.compensated_steps      = compensatedCount();
+    m.failed_compensations   = metrics_failed_;
+    m.retried_compensations  = metrics_retried_;
+    m.duration_ms            = getDurationMs();
+    return m;
 }
 
 // ========== SAGA Operations ==========

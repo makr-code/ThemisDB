@@ -311,28 +311,16 @@ public:
 
 ### 🟢 KATEGORIE 3: Legacy Code (korrekt behandelt)
 
-#### 3.1 Query Parser Placeholder
-**Datei:** `src/query/query_parser.cpp` (5 Zeilen)
-
-**Code:**
-```cpp
-// Legacy placeholder (unused): Query parser
-// Note: The project uses AQL parser (src/query/aql_parser.cpp) and translator.
-// This file remains for historical context and is excluded from the build.
-// If a future SQL parser is desired, replace this file with a real implementation.
-
-namespace themis {
-// intentionally empty
-}
-```
+#### 3.1 Query Parser Placeholder ✅ GELÖSCHT
+**Datei:** `src/query/query_parser.cpp` (entfernt)
 
 **Aktueller Stand:**
 - ✅ AQLParser in `src/query/aql_parser.cpp` voll funktional (1.200+ Zeilen)
 - ✅ AQLTranslator für Query-Übersetzung implementiert
-- ✅ Datei aus Build ausgeschlossen (nicht in CMakeLists.txt)
-- ✅ Kommentar erklärt Status klar
+- ✅ Datei aus Build ausgeschlossen und vollständig entfernt
+- ✅ SQL-Parser-Roadmap-Eintrag in `src/query/FUTURE_ENHANCEMENTS.md` ergänzt
 
-**Empfehlung:** ✅ **Korrekt behandelt** - Kann gelöscht oder als Referenz behalten werden
+**Ergebnis:** ✅ **Gelöscht** - Stub-Datei wurde aus dem Repository entfernt
 
 ---
 

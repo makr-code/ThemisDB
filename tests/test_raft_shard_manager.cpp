@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_raft_shard_manager.cpp                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     299                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -16,9 +42,9 @@ protected:
         RaftShardManager::Config config;
         config.replication_factor = 3;
         config.enable_auto_start = false;  // Manual start for controlled testing
-        config.raft_config.raft_config.election_timeout_min = std::chrono::milliseconds(150);
-        config.raft_config.raft_config.election_timeout_max = std::chrono::milliseconds(300);
-        config.raft_config.raft_config.heartbeat_interval = std::chrono::milliseconds(50);
+        config.raft_config.raft_config.election_timeout_min_ms = 150;
+        config.raft_config.raft_config.election_timeout_max_ms = 300;
+        config.raft_config.raft_config.heartbeat_interval_ms = 50;
         
         manager_ = std::make_unique<RaftShardManager>(config);
     }
@@ -114,10 +140,12 @@ TEST_F(RaftShardManagerTest, GetShardLeader) {
     
     EXPECT_TRUE(manager_->initializeShard(shard_id, replicas));
     
-    // Get shardleader
+    // Before Raft is started/elected, leader should be unknown
     std::string leader = manager_->getShardLeader(shard_id);
-    // Leader may be unknown initially, which is valid behavior
-    EXPECT_TRUE(leader.empty() || !leader.empty());
+    EXPECT_TRUE(leader.empty());
+
+    // Non-existent shard must also report no leader
+    EXPECT_TRUE(manager_->getShardLeader("non_existent_shard").empty());
 }
 
 TEST_F(RaftShardManagerTest, ProposeWriteWithoutStart) {
@@ -155,11 +183,14 @@ TEST_F(RaftShardManagerTest, HasQuorum) {
     std::vector<std::string> replicas = {"shard_001", "shard_002", "shard_003"};
     
     EXPECT_TRUE(manager_->initializeShard(shard_id, replicas));
-    
-    // Initially may or may not have quorum (depends on configuration)
-    // Just verify the method doesn't crash
-    bool has_quorum = manager_->hasQuorum(shard_id);
-    (void)has_quorum;  // Suppress unused warning
+
+    // HasQuorum must be consistent with the shard info view
+    auto info = manager_->getShardRaftInfo(shard_id);
+    ASSERT_TRUE(info.has_value());
+    EXPECT_EQ(manager_->hasQuorum(shard_id), info->has_quorum);
+
+    // Non-existent shard must never report quorum
+    EXPECT_FALSE(manager_->hasQuorum("non_existent_shard"));
 }
 
 TEST_F(RaftShardManagerTest, GetRaftInstance) {
@@ -199,10 +230,11 @@ TEST_F(RaftShardManagerTest, GetShardRaftInfoDetails) {
     EXPECT_EQ(info->last_applied, 0);
     EXPECT_TRUE(info->leader_id.empty());
     
-    // Replica IDs should contain the other shards (not self)
-    // The exact behavior depends on RaftConsensus implementation
-    // For this test, we just verify the field is accessible
-    EXPECT_TRUE(info->replica_ids.empty() || info->replica_ids.size() > 0);
+    // Replica IDs (if present) must be non-empty and not the local shard id
+    for (const auto& replica_id : info->replica_ids) {
+        EXPECT_FALSE(replica_id.empty());
+        EXPECT_NE(replica_id, shard_id);
+    }
 }
 
 TEST_F(RaftShardManagerTest, MultipleShardsConcurrent) {
@@ -236,8 +268,8 @@ protected:
         RaftShardManager::Config config;
         config.replication_factor = 3;
         config.enable_auto_start = true;  // Enable auto-start
-        config.raft_config.raft_config.election_timeout_min = std::chrono::milliseconds(150);
-        config.raft_config.raft_config.election_timeout_max = std::chrono::milliseconds(300);
+        config.raft_config.raft_config.election_timeout_min_ms = 150;
+        config.raft_config.raft_config.election_timeout_max_ms = 300;
         
         manager_ = std::make_unique<RaftShardManager>(config);
     }

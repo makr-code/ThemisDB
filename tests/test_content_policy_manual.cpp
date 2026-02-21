@@ -1,4 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_content_policy_manual.cpp                     ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   99.0/100                                       ║
+    • Total Lines:     145                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <iostream>
+#include <gtest/gtest.h>
 #include "content/content_policy.h"
 #include "content/mime_detector.h"
 
@@ -108,18 +135,11 @@ void testMimeDetector() {
               << (result10.allowed ? "PASS" : "FAIL") << std::endl;
 }
 
-int main() {
+TEST(ContentPolicyManual, SmokeRun) {
     std::cout << "Content Policy System - Manual Tests\n" << std::endl;
-    
-    try {
+    EXPECT_NO_THROW({
         testContentPolicy();
         testMimeDetector();
-        
-        std::cout << "\n=== All Manual Tests Completed ===" << std::endl;
-        return 0;
-    }
-    catch (const std::exception& e) {
-        std::cerr << "\nERROR: " << e.what() << std::endl;
-        return 1;
-    }
+    });
+    std::cout << "\n=== All Manual Tests Completed ===" << std::endl;
 }

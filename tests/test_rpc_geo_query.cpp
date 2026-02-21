@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_rpc_geo_query.cpp                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     333                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_rpc_geo_query.cpp
  * @brief Unit tests for RPC geospatial query functionality
@@ -8,6 +34,7 @@
 #include "index/spatial_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "api/geo_index_hooks.h"
+#include "geo/spatial_backend.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
 
@@ -37,6 +64,14 @@ protected:
         
         // Create RPC service with spatial index
         rpc_service_ = std::make_unique<ThemisRPCService>(db_.get(), spatial_mgr_.get());
+
+        // Wire the GPU spatial backend so the exact-check path is exercised.
+        // getGpuSpatialBackend() returns a non-null singleton and isAvailable()
+        // returns true on CPU-only machines via the CPU fallback path.
+        auto* gpu_backend = geo::getGpuSpatialBackend();
+        if (gpu_backend) {
+            spatial_mgr_->setExactBackend(gpu_backend);
+        }
         
         // Insert some test data with geometries
         insertTestData();

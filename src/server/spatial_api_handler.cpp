@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            spatial_api_handler.cpp                            ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     334                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "server/spatial_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/spatial_index.h"
@@ -5,6 +31,7 @@
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "geo/spatial_backend.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 
 namespace themis {
@@ -215,6 +242,15 @@ http::response<http::string_body> SpatialApiHandler::handleMetrics(
             response["avg_candidates_per_query"] = static_cast<double>(metrics.mbr_candidate_count.load()) / total_queries;
         } else {
             response["avg_candidates_per_query"] = nullptr;
+        }
+
+        // GPU spatial backend stats (always present; gpu_present=false when no device)
+        try {
+            auto gpu_json_str = geo::getGpuSpatialBackendStatsJson();
+            auto gpu_stats = json::parse(gpu_json_str);
+            response["gpu_backend"] = gpu_stats;
+        } catch (const std::exception& e) {
+            response["gpu_backend"] = nullptr;
         }
         
         res.body() = response.dump();

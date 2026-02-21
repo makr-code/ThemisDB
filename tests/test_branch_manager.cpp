@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_branch_manager.cpp                            ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:22                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     598                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "transaction/branch_manager.h"
 #include "transaction/snapshot_manager.h"
@@ -448,6 +474,124 @@ TEST_F(BranchManagerTest, PersistenceAcrossRestart) {
     
     // Check active branch persisted
     EXPECT_EQ(branch_manager_->getActiveBranch(), "feature/test1");
+}
+
+// ---- Phase 5: Branch History tests ----
+
+TEST_F(BranchManagerTest, BranchHistoryRecordedOnCreate) {
+    branch_manager_->createBranch("hist-branch", "main", "History test", "admin");
+
+    auto history = branch_manager_->getBranchHistory("hist-branch");
+    ASSERT_FALSE(history.empty());
+    EXPECT_EQ(history[0].event_type, "created");
+    EXPECT_EQ(history[0].branch_name, "hist-branch");
+    EXPECT_EQ(history[0].performed_by, "admin");
+    EXPECT_GT(history[0].timestamp_ms, 0);
+}
+
+TEST_F(BranchManagerTest, BranchHistoryRecordedOnSwitch) {
+    branch_manager_->createBranch("switch-branch", "main", "Switch test", "admin");
+    branch_manager_->switchBranch("switch-branch");
+
+    auto history = branch_manager_->getBranchHistory("switch-branch");
+    // Should have at least "created" + "switched_to"
+    EXPECT_GE(history.size(), 2u);
+
+    bool found_switch = false;
+    for (const auto& e : history) {
+        if (e.event_type == "switched_to") { found_switch = true; break; }
+    }
+    EXPECT_TRUE(found_switch);
+}
+
+TEST_F(BranchManagerTest, BranchHistoryEmptyForUnknownBranch) {
+    auto history = branch_manager_->getBranchHistory("does_not_exist");
+    EXPECT_TRUE(history.empty());
+}
+
+TEST_F(BranchManagerTest, BranchHistoryLimitRespected) {
+    branch_manager_->createBranch("limit-branch", "main", "Limit test", "admin");
+    branch_manager_->switchBranch("limit-branch");
+    branch_manager_->switchBranch("main");
+    branch_manager_->switchBranch("limit-branch");
+
+    // Requesting only 1 entry
+    auto history = branch_manager_->getBranchHistory("limit-branch", 1);
+    EXPECT_EQ(history.size(), 1u);
+}
+
+TEST_F(BranchManagerTest, BranchHistoryEntryJsonRoundtrip) {
+    BranchManager::BranchHistoryEntry e;
+    e.event_type   = "created";
+    e.branch_name  = "rj-branch";
+    e.details      = "detail";
+    e.performed_by = "user1";
+    e.timestamp_ms = 123456789LL;
+    e.sequence     = 42;
+
+    auto j = e.toJson();
+    auto e2 = BranchManager::BranchHistoryEntry::fromJson(j);
+
+    EXPECT_EQ(e2.event_type,   e.event_type);
+    EXPECT_EQ(e2.branch_name,  e.branch_name);
+    EXPECT_EQ(e2.details,      e.details);
+    EXPECT_EQ(e2.performed_by, e.performed_by);
+    EXPECT_EQ(e2.timestamp_ms, e.timestamp_ms);
+    EXPECT_EQ(e2.sequence,     e.sequence);
+}
+
+// ---- Phase 5: Branch GC tests ----
+
+TEST_F(BranchManagerTest, BranchGCPrunedByAge) {
+    // Create a branch; set max_age_ms = 0 (disabled) first then check
+    branch_manager_->createBranch("gc-branch", "main", "GC test", "admin");
+
+    BranchManager::BranchGCPolicy pol;
+    pol.max_age_ms   = 1;       // prune branches older than 1 ms
+    pol.only_merged  = false;   // prune even unmerged
+    pol.protect_default = true;
+    branch_manager_->setBranchGCPolicy(pol);
+
+    // Sleep a bit so the branch is older than 1 ms
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    size_t pruned = branch_manager_->pruneMergedBranches();
+    EXPECT_GE(pruned, 1u);
+    EXPECT_FALSE(branch_manager_->branchExists("gc-branch"));
+}
+
+TEST_F(BranchManagerTest, BranchGCDoesNotPruneDefaultBranch) {
+    BranchManager::BranchGCPolicy pol;
+    pol.max_age_ms      = 1;
+    pol.only_merged     = false;
+    pol.protect_default = true;
+    branch_manager_->setBranchGCPolicy(pol);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    branch_manager_->pruneMergedBranches();
+
+    // Default branch must survive
+    EXPECT_TRUE(branch_manager_->branchExists("main"));
+}
+
+TEST_F(BranchManagerTest, BranchGCDoesNotPruneActiveBranch) {
+    branch_manager_->createBranch("active-gc", "main", "Active GC", "admin");
+    branch_manager_->switchBranch("active-gc");
+
+    BranchManager::BranchGCPolicy pol;
+    pol.max_age_ms  = 1;
+    pol.only_merged = false;
+    branch_manager_->setBranchGCPolicy(pol);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    branch_manager_->pruneMergedBranches();
+
+    // Active branch must NOT be pruned
+    EXPECT_TRUE(branch_manager_->branchExists("active-gc"));
+
+    // Switch back so teardown can clean up
+    branch_manager_->switchBranch("main");
 }
 
 } // namespace transaction

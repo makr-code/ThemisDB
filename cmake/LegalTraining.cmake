@@ -18,6 +18,9 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         # Filesystem ingester (PDF/DOCX with OCR support)
         ../src/ingestion/filesystem_ingester.cpp
         
+        # Generic REST API connector
+        ../src/ingestion/api_connector.cpp
+        
         # =====================================================================
         # Training Framework
         # =====================================================================
@@ -30,6 +33,12 @@ if(THEMIS_ENABLE_LEGAL_TRAINING)
         
         # Incremental LoRA training
         ../src/training/incremental_lora_trainer.cpp
+        
+        # End-to-end training pipeline orchestrator (Phase 7)
+        ../src/training/training_pipeline.cpp
+
+        # Automated Quality & Diversity data selection pipeline
+        ../src/training/lora_data_selection.cpp
     )
     
     # =========================================================================

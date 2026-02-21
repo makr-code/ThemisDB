@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_cron_parser.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:23                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     611                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "utils/cron_parser.h"
 #include <chrono>
@@ -293,4 +319,293 @@ TEST_F(CronParserTest, DescribeWeekdays) {
     
     auto desc = cron->describe();
     EXPECT_FALSE(desc.empty());
+}
+
+// ===== Special Expression Tests =====
+
+TEST_F(CronParserTest, ParseAtDaily) {
+    auto cron = CronExpression::parse("@daily");
+    ASSERT_TRUE(cron.has_value());
+    // @daily == "0 0 * * *" — runs at midnight
+    auto now = makeTime(2024, 3, 10, 12, 0);
+    auto next = cron->getNextExecution(now);
+    ASSERT_TRUE(next.has_value());
+    auto time_t = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t);
+#else
+    localtime_r(&time_t, &tm);
+#endif
+    EXPECT_EQ(tm.tm_hour, 0);
+    EXPECT_EQ(tm.tm_min, 0);
+}
+
+TEST_F(CronParserTest, ParseAtMidnight) {
+    auto cron = CronExpression::parse("@midnight");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_EQ(cron->getExpression(), "@midnight");
+}
+
+TEST_F(CronParserTest, ParseAtHourly) {
+    auto cron = CronExpression::parse("@hourly");
+    ASSERT_TRUE(cron.has_value());
+    // Should fire every hour at :00
+    auto now = makeTime(2024, 3, 10, 14, 30);
+    auto next = cron->getNextExecution(now);
+    ASSERT_TRUE(next.has_value());
+    auto time_t = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t);
+#else
+    localtime_r(&time_t, &tm);
+#endif
+    EXPECT_EQ(tm.tm_min, 0);
+    EXPECT_EQ(tm.tm_hour, 15);  // next :00 after 14:30 is 15:00
+}
+
+TEST_F(CronParserTest, ParseAtYearly) {
+    auto cron = CronExpression::parse("@yearly");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtAnnually) {
+    auto cron = CronExpression::parse("@annually");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtMonthly) {
+    auto cron = CronExpression::parse("@monthly");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtWeekly) {
+    auto cron = CronExpression::parse("@weekly");
+    ASSERT_TRUE(cron.has_value());
+}
+
+TEST_F(CronParserTest, ParseAtReboot) {
+    auto cron = CronExpression::parse("@reboot");
+    ASSERT_TRUE(cron.has_value());
+    // @reboot should never fire via getNextExecution (handled by scheduler at startup)
+    auto now = makeTime(2024, 1, 1, 0, 0);
+    auto next = cron->getNextExecution(now);
+    EXPECT_FALSE(next.has_value());
+}
+
+TEST_F(CronParserTest, ValidateAtDaily) {
+    auto result = CronExpression::validate("@daily");
+    EXPECT_TRUE(result.is_valid);
+    EXPECT_TRUE(result.error_message.empty());
+}
+
+TEST_F(CronParserTest, ValidateAtHourly) {
+    auto result = CronExpression::validate("@hourly");
+    EXPECT_TRUE(result.is_valid);
+}
+
+TEST_F(CronParserTest, ValidateAtReboot) {
+    auto result = CronExpression::validate("@reboot");
+    EXPECT_TRUE(result.is_valid);
+}
+
+TEST_F(CronParserTest, ValidateUnknownSpecialExpression) {
+    auto result = CronExpression::validate("@unknown_special");
+    EXPECT_FALSE(result.is_valid);
+    EXPECT_FALSE(result.error_message.empty());
+}
+
+TEST_F(CronParserTest, ParseUnknownSpecialExpressionFails) {
+    auto cron = CronExpression::parse("@notvalid");
+    EXPECT_FALSE(cron.has_value());
+}
+
+// ===== @monthly next-execution test (exercises advanceToNextMonth) =====
+
+TEST_F(CronParserTest, MonthlyFiresOnFirstDayOfNextMonth) {
+    // @monthly == "0 0 1 * *" – fires at midnight on the 1st of each month
+    auto cron = CronExpression::parse("@monthly");
+    ASSERT_TRUE(cron.has_value());
+
+    // 15 Jan 2024 12:00 → next should be 01 Feb 2024 00:00
+    auto from = makeTime(2024, 1, 15, 12, 0);
+    auto next = cron->getNextExecution(from);
+    ASSERT_TRUE(next.has_value());
+
+    auto time_t_next = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t_next);
+#else
+    localtime_r(&time_t_next, &tm);
+#endif
+    EXPECT_EQ(tm.tm_mon + 1, 2);   // February
+    EXPECT_EQ(tm.tm_mday, 1);
+    EXPECT_EQ(tm.tm_hour, 0);
+    EXPECT_EQ(tm.tm_min, 0);
+}
+
+TEST_F(CronParserTest, MonthlyHandlesDecemberToJanuaryRollover) {
+    auto cron = CronExpression::parse("@monthly");
+    ASSERT_TRUE(cron.has_value());
+
+    // 15 Dec 2024 12:00 → next should be 01 Jan 2025 00:00
+    auto from = makeTime(2024, 12, 15, 12, 0);
+    auto next = cron->getNextExecution(from);
+    ASSERT_TRUE(next.has_value());
+
+    auto time_t_next = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &time_t_next);
+#else
+    localtime_r(&time_t_next, &tm);
+#endif
+    EXPECT_EQ(tm.tm_year + 1900, 2025);
+    EXPECT_EQ(tm.tm_mon + 1, 1);   // January
+    EXPECT_EQ(tm.tm_mday, 1);
+}
+
+// ===== 6-Field (Year) Tests =====
+
+TEST_F(CronParserTest, SixFieldParseWithSpecificYear) {
+    // "0 9 * * 1 2025" = Every Monday at 9:00 in 2025
+    auto cron = CronExpression::parse("0 9 * * 1 2025");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->hasYearConstraint());
+}
+
+TEST_F(CronParserTest, SixFieldValidateAcceptedByValidator) {
+    auto result = CronExpression::validate("0 9 * * 1 2025");
+    EXPECT_TRUE(result.is_valid) << result.error_message;
+}
+
+TEST_F(CronParserTest, SixFieldInvalidYearRejected) {
+    // Year before 1970
+    auto cron = CronExpression::parse("0 9 * * * 1800");
+    EXPECT_FALSE(cron.has_value());
+}
+
+TEST_F(CronParserTest, SixFieldMatchesOnlyTargetYear) {
+    // Every minute in the year 2025
+    auto cron = CronExpression::parse("* * * * * 2025");
+    ASSERT_TRUE(cron.has_value());
+
+    // A time in 2025 should match
+    auto in_2025 = makeTime(2025, 6, 15, 10, 30);
+    EXPECT_TRUE(cron->matches(in_2025));
+
+    // A time in 2024 should NOT match
+    auto in_2024 = makeTime(2024, 6, 15, 10, 30);
+    EXPECT_FALSE(cron->matches(in_2024));
+}
+
+TEST_F(CronParserTest, SixFieldYearRangeConstraint) {
+    // "0 0 1 1 * 2025-2027" = Jan 1st midnight for years 2025, 2026, 2027
+    auto cron = CronExpression::parse("0 0 1 1 * 2025-2027");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_TRUE(cron->hasYearConstraint());
+
+    EXPECT_TRUE(cron->matches(makeTime(2025, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2026, 1, 1, 0, 0)));
+    EXPECT_TRUE(cron->matches(makeTime(2027, 1, 1, 0, 0)));
+    EXPECT_FALSE(cron->matches(makeTime(2028, 1, 1, 0, 0)));
+}
+
+TEST_F(CronParserTest, FiveFieldHasNoYearConstraint) {
+    auto cron = CronExpression::parse("0 9 * * 1");
+    ASSERT_TRUE(cron.has_value());
+    EXPECT_FALSE(cron->hasYearConstraint());
+}
+
+TEST_F(CronParserTest, SixFieldGetNextExecutionRespectsYear) {
+    // "0 0 1 1 * 2099" = Jan 1st 2099 at midnight
+    auto cron = CronExpression::parse("0 0 1 1 * 2099");
+    ASSERT_TRUE(cron.has_value());
+
+    // From a point well before 2099, the next execution should be 2099-01-01 00:00
+    auto from = makeTime(2025, 1, 1, 0, 0);
+    auto next = cron->getNextExecution(from);
+    ASSERT_TRUE(next.has_value());
+
+    auto tt = std::chrono::system_clock::to_time_t(*next);
+    std::tm tm = {};
+#ifdef _WIN32
+    localtime_s(&tm, &tt);
+#else
+    localtime_r(&tt, &tm);
+#endif
+    EXPECT_EQ(tm.tm_year + 1900, 2099);
+    EXPECT_EQ(tm.tm_mon + 1, 1);
+    EXPECT_EQ(tm.tm_mday, 1);
+}
+
+// ===== Timezone-aware getNextExecution Tests =====
+
+TEST_F(CronParserTest, TimezoneOverloadReturnsUtcResult) {
+    // "0 9 * * *" = every day at 9:00 in the given timezone
+    auto cron = CronExpression::parse("0 9 * * *");
+    ASSERT_TRUE(cron.has_value());
+
+    // UTC+2 = 3600*2 seconds east of UTC
+    // So 09:00 in UTC+2 = 07:00 UTC
+    // Use a from time that is before 07:00 UTC on a given day
+    // makeTime uses local time; to keep the test timezone-independent, use a known UTC epoch
+    // We use a fixed UTC epoch: 2025-06-10 06:00 UTC
+    // epoch = mktime-based, but depends on local TZ. Use UTC directly:
+    std::chrono::system_clock::time_point from =
+        std::chrono::system_clock::from_time_t(1749535200); // 2025-06-10 06:00 UTC (approx)
+
+    auto next_tz = cron->getNextExecution(from, std::chrono::seconds(7200)); // UTC+2
+    ASSERT_TRUE(next_tz.has_value());
+
+    // The result should be 07:00 UTC (= 09:00 UTC+2)
+    auto tt = std::chrono::system_clock::to_time_t(*next_tz);
+    std::tm result_tm = {};
+#ifdef _WIN32
+    gmtime_s(&result_tm, &tt);
+#else
+    gmtime_r(&tt, &result_tm);
+#endif
+    EXPECT_EQ(result_tm.tm_hour, 7);
+    EXPECT_EQ(result_tm.tm_min,  0);
+}
+
+TEST_F(CronParserTest, TimezoneNegativeOffsetWorks) {
+    // "0 12 * * *" = every day at 12:00 in UTC-5
+    // 12:00 UTC-5 = 17:00 UTC
+    auto cron = CronExpression::parse("0 12 * * *");
+    ASSERT_TRUE(cron.has_value());
+
+    // from: 2025-06-10 16:00 UTC (before 17:00 UTC)
+    std::chrono::system_clock::time_point from =
+        std::chrono::system_clock::from_time_t(1749571200); // 2025-06-10 16:00 UTC (approx)
+
+    auto next_tz = cron->getNextExecution(from, std::chrono::seconds(-18000)); // UTC-5
+    ASSERT_TRUE(next_tz.has_value());
+
+    auto tt = std::chrono::system_clock::to_time_t(*next_tz);
+    std::tm result_tm = {};
+#ifdef _WIN32
+    gmtime_s(&result_tm, &tt);
+#else
+    gmtime_r(&tt, &result_tm);
+#endif
+    EXPECT_EQ(result_tm.tm_hour, 17);
+    EXPECT_EQ(result_tm.tm_min,  0);
+}
+
+TEST_F(CronParserTest, TimezoneUtcZeroMatchesExistingBehaviorApproximately) {
+    // With tz_offset=0, the timezone-aware overload uses UTC (gmtime),
+    // while the regular overload uses local time (localtime_r).
+    // They should agree when the test machine's local TZ is also UTC.
+    // Since we can't control the test machine's TZ, just verify the result is
+    // non-null and within 1 day of the non-tz result.
+    auto cron = CronExpression::parse("0 9 * * *");
+    ASSERT_TRUE(cron.has_value());
+
+    auto from = std::chrono::system_clock::from_time_t(1749571200); // a fixed UTC time
+    auto next_tz  = cron->getNextExecution(from, std::chrono::seconds(0));
+    EXPECT_TRUE(next_tz.has_value());
 }

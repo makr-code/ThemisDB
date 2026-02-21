@@ -1,4 +1,30 @@
 /*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            license_info.cpp                                   ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     780                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f68ad6489  2026-02-21  Implement runtime license system: enforcement, provisioni... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/*
  * ThemisDB License Information Implementation
  * ============================================
  * Provides access to compile-time embedded license data.
@@ -6,16 +32,41 @@
 
 #include "themis/license_info.h"
 #include "utils/openssl_deleter.h"
+#include <nlohmann/json.hpp>
 #include <sstream>
 #include <iomanip>
 #include <ctime>
 #include <chrono>
+#include <cstdio>
+#include <cstring>
+#include <mutex>
+#include <array>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+
+// Optional CURL for online license validation
+#if __has_include(<curl/curl.h>)
+#  include <curl/curl.h>
+#  define THEMIS_HAVE_CURL 1
+#endif
+
+// Platform-specific machine fingerprint helpers
+#if defined(__linux__)
+#  include <sys/ioctl.h>
+#  include <sys/socket.h>
+#  include <net/if.h>
+#  include <unistd.h>
+#  include <ifaddrs.h>
+#  include <netinet/in.h>
+#elif defined(_WIN32)
+#  include <windows.h>
+#  include <iphlpapi.h>
+#  pragma comment(lib, "iphlpapi.lib")
+#endif
 
 namespace themis {
 namespace license {
@@ -346,6 +397,383 @@ bool verifyLicenseSignature(const LicenseData& license) {
     }
     
     return valid;
+}
+
+// ============================================================================
+// MACHINE FINGERPRINT HELPERS
+// ============================================================================
+
+// Compute a hex-encoded SHA-256 of the primary MAC address (or a fallback)
+static std::string computeFingerprintHash(const std::string& raw) {
+    unsigned char digest[EVP_MAX_MD_SIZE] = {};
+    unsigned int  dlen = 0;
+    EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+    if (ctx) {
+        EVP_DigestInit_ex(ctx, EVP_sha256(), nullptr);
+        EVP_DigestUpdate(ctx, raw.data(), raw.size());
+        EVP_DigestFinal_ex(ctx, digest, &dlen);
+        EVP_MD_CTX_free(ctx);
+    }
+    std::ostringstream hex;
+    hex << std::hex << std::setfill('0');
+    for (unsigned int i = 0; i < dlen; ++i)
+        hex << std::setw(2) << static_cast<unsigned>(digest[i]);
+    return hex.str();
+}
+
+static std::string getPrimaryMacAddress() {
+#if defined(__linux__)
+    struct ifaddrs* ifa_list = nullptr;
+    if (getifaddrs(&ifa_list) != 0) return "00:00:00:00:00:00";
+
+    std::string result;
+    for (struct ifaddrs* ifa = ifa_list; ifa; ifa = ifa->ifa_next) {
+        if (!ifa->ifa_name) continue;
+        if (std::string(ifa->ifa_name) == "lo") continue;
+
+        int sock = socket(AF_INET, SOCK_DGRAM, 0);
+        if (sock < 0) continue;
+
+        struct ifreq ifr{};
+        std::strncpy(ifr.ifr_name, ifa->ifa_name, IFNAMSIZ - 1);
+        ifr.ifr_name[IFNAMSIZ - 1] = '\0'; // ensure null termination
+        if (ioctl(sock, SIOCGIFHWADDR, &ifr) == 0) {
+            const auto* mac = reinterpret_cast<const unsigned char*>(ifr.ifr_hwaddr.sa_data);
+            char buf[32];
+            std::snprintf(buf, sizeof(buf),
+                "%02x:%02x:%02x:%02x:%02x:%02x",
+                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+            result = buf;
+        }
+        close(sock);
+        if (!result.empty()) break;
+    }
+    freeifaddrs(ifa_list);
+    return result.empty() ? "00:00:00:00:00:00" : result;
+
+#elif defined(_WIN32)
+    IP_ADAPTER_INFO adapter_info[16];
+    DWORD buf_len = sizeof(adapter_info);
+    if (GetAdaptersInfo(adapter_info, &buf_len) != ERROR_SUCCESS)
+        return "00:00:00:00:00:00";
+    const auto* mac = adapter_info[0].Address;
+    char buf[32];
+    std::snprintf(buf, sizeof(buf),
+        "%02x:%02x:%02x:%02x:%02x:%02x",
+        mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+    return buf;
+#else
+    return "00:00:00:00:00:00";
+#endif
+}
+
+// ============================================================================
+// LicenseClient::Impl
+// ============================================================================
+
+class LicenseClient::Impl {
+public:
+    explicit Impl(const LicenseClientConfig& cfg) : cfg_(cfg) {}
+
+    LicenseActivationResult activate() {
+        LicenseActivationResult result;
+
+        // Get embedded license as baseline
+        auto embedded = getEmbeddedLicense();
+        if (!embedded) {
+            result.success       = false;
+            result.status        = "invalid";
+            result.error_message = "No embedded license found";
+            return result;
+        }
+
+#ifdef THEMIS_HAVE_CURL
+        if (!cfg_.server_url.empty()) {
+            return performOnlineRequest("activate", *embedded);
+        }
+#endif
+
+        // Offline path
+        if (!cfg_.allow_offline) {
+            result.success       = false;
+            result.status        = "offline";
+            result.error_message = "Offline activation not permitted";
+            return result;
+        }
+
+        // Fall back to embedded license validation
+        if (isLicenseValid(*embedded)) {
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            cached_license_     = embedded;
+            last_check_time_    = std::chrono::steady_clock::now();
+            result.success      = true;
+            result.status       = "active";
+            result.refreshed_license = embedded;
+        } else {
+            result.success       = false;
+            result.status        = "expired";
+            result.error_message = "Embedded license has expired";
+        }
+        return result;
+    }
+
+    LicenseActivationResult validate() {
+        // Check cache in a scoped block so the mutex is released before activate()
+        {
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+
+            // Return cached result if fresh (< 1 hour)
+            if (cached_license_) {
+                auto age = std::chrono::steady_clock::now() - last_check_time_;
+                if (age < std::chrono::hours(1)) {
+                    LicenseActivationResult result;
+                    result.success = isLicenseValid(*cached_license_);
+                    result.status  = result.success ? "active" : "expired";
+                    result.refreshed_license = cached_license_;
+                    return result;
+                }
+            }
+        } // lock released here
+
+        // Re-validate (calls activate() which may re-acquire the mutex)
+        return activate();
+    }
+
+    std::optional<LicenseData> getCachedLicense() const {
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        return cached_license_;
+    }
+
+    LicenseActivationResult refresh() {
+        {
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            cached_license_ = std::nullopt; // force re-check
+        }
+        return activate();
+    }
+
+    static std::string getMachineFingerprint() {
+        const std::string mac = getPrimaryMacAddress();
+        return computeFingerprintHash("ThemisDB:" + mac);
+    }
+
+private:
+#ifdef THEMIS_HAVE_CURL
+    // CURL response accumulator
+    static size_t curlWriteCallback(void* ptr, size_t size, size_t nmemb, void* userdata) {
+        auto* out = static_cast<std::string*>(userdata);
+        out->append(static_cast<char*>(ptr), size * nmemb);
+        return size * nmemb;
+    }
+
+    LicenseActivationResult performOnlineRequest(const std::string& action,
+                                                  const LicenseData& license) {
+        LicenseActivationResult result;
+
+        CURL* curl = curl_easy_init();
+        if (!curl) {
+            result.success       = false;
+            result.status        = "offline";
+            result.error_message = "curl_easy_init failed";
+            return handleOfflineFallback(license, result);
+        }
+
+        const std::string url = cfg_.server_url + "/" + action;
+
+        // Build minimal JSON body
+        std::ostringstream body;
+        body << "{"
+             << "\"license_key\":\"" << license.license_key << "\","
+             << "\"machine_fingerprint\":\"" << getMachineFingerprint() << "\","
+             << "\"edition\":\"" << license.edition << "\""
+             << "}";
+        const std::string body_str = body.str();
+
+        std::string response_body;
+        curl_easy_setopt(curl, CURLOPT_URL,            url.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS,     body_str.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION,  curlWriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA,      &response_body);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT,
+            static_cast<long>(cfg_.timeout.count()));
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 2L);
+
+        struct curl_slist* headers = nullptr;
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+        if (!cfg_.api_key.empty()) {
+            const std::string auth = "Authorization: Bearer " + cfg_.api_key;
+            headers = curl_slist_append(headers, auth.c_str());
+        }
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+        CURLcode res = curl_easy_perform(curl);
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+
+        curl_slist_free_all(headers);
+        curl_easy_cleanup(curl);
+
+        if (res != CURLE_OK) {
+            result.success       = false;
+            result.status        = "offline";
+            result.error_message = curl_easy_strerror(res);
+            return handleOfflineFallback(license, result);
+        }
+
+        if (http_code == 200) {
+            // Parse JSON response body from the license server.
+            // The server returns a JSON object whose fields map 1:1 to LicenseData.
+            // All fields are optional in the parse — if the server omits one,
+            // we fall back to the corresponding value from the embedded license.
+            //
+            // Field name conventions used by each backend:
+            //   FastAPI license-server   WordPress plugin
+            //   ────────────────────     ────────────────
+            //   expiry_date              end_date
+            //   issued_date              start_date
+            //   (both send "edition" and "organization")
+            LicenseData refreshed = license;  // start with embedded as baseline
+            try {
+                auto j = nlohmann::json::parse(response_body);
+                if (j.contains("license_key")    && j["license_key"].is_string())
+                    refreshed.license_key     = j["license_key"].get<std::string>();
+                if (j.contains("edition")        && j["edition"].is_string())
+                    refreshed.edition         = j["edition"].get<std::string>();
+                if (j.contains("tier")           && j["tier"].is_string())
+                    refreshed.edition         = j["tier"].get<std::string>();  // alias
+                if (j.contains("organization")   && j["organization"].is_string())
+                    refreshed.organization_name = j["organization"].get<std::string>();
+                // Accept "expiry_date" (FastAPI server) or "end_date" (WordPress plugin).
+                if (j.contains("expiry_date")    && j["expiry_date"].is_string())
+                    refreshed.expiry_date     = j["expiry_date"].get<std::string>().substr(0, 10);
+                else if (j.contains("end_date")  && j["end_date"].is_string())
+                    refreshed.expiry_date     = j["end_date"].get<std::string>().substr(0, 10);
+                // Accept "issued_date" (FastAPI server) or "start_date" (WordPress plugin).
+                if (j.contains("issued_date")    && j["issued_date"].is_string())
+                    refreshed.issued_date     = j["issued_date"].get<std::string>().substr(0, 10);
+                else if (j.contains("start_date") && j["start_date"].is_string())
+                    refreshed.issued_date     = j["start_date"].get<std::string>().substr(0, 10);
+                if (j.contains("status")         && j["status"].is_string())
+                    result.status             = j["status"].get<std::string>();
+                else
+                    result.status = "active";
+                // Populate LicenseData.signature from the server's HMAC so the
+                // cached license carries the server-signed proof.
+                if (j.contains("signature")      && j["signature"].is_string())
+                    refreshed.signature       = j["signature"].get<std::string>();
+                // Top-level limits (FastAPI server sends max_nodes at top level, not nested).
+                // Parsed first so that a nested "limits" object (WordPress plugin / future)
+                // can override individual values — nested takes priority.
+                if (j.contains("max_nodes")      && j["max_nodes"].is_number_integer())
+                    refreshed.max_nodes      = j["max_nodes"].get<int>();
+                if (j.contains("max_cores")      && j["max_cores"].is_number_integer())
+                    refreshed.max_cores      = j["max_cores"].get<int>();
+                if (j.contains("max_storage_tb") && j["max_storage_tb"].is_number_integer())
+                    refreshed.max_storage_tb = j["max_storage_tb"].get<int>();
+                if (j.contains("limits") && j["limits"].is_object()) {
+                    const auto& lim = j["limits"];
+                    if (lim.contains("max_nodes")      && lim["max_nodes"].is_number_integer())
+                        refreshed.max_nodes      = lim["max_nodes"].get<int>();
+                    if (lim.contains("max_cores")      && lim["max_cores"].is_number_integer())
+                        refreshed.max_cores      = lim["max_cores"].get<int>();
+                    if (lim.contains("max_storage_tb") && lim["max_storage_tb"].is_number_integer())
+                        refreshed.max_storage_tb = lim["max_storage_tb"].get<int>();
+                }
+            } catch (const nlohmann::json::exception&) {
+                // Malformed JSON response — keep the embedded baseline.
+                result.status = "active";
+            }
+            result.success = true;
+            result.refreshed_license = refreshed;
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            cached_license_  = refreshed;
+            last_check_time_ = std::chrono::steady_clock::now();
+        } else if (http_code == 402) {
+            result.success       = false;
+            result.status        = "expired";
+            result.error_message = "License expired (server response 402)";
+        } else {
+            result.success       = false;
+            result.status        = "invalid";
+            result.error_message = "Server returned HTTP " + std::to_string(http_code);
+        }
+        return result;
+    }
+#endif // THEMIS_HAVE_CURL
+
+    LicenseActivationResult handleOfflineFallback(const LicenseData& license,
+                                                   LicenseActivationResult& base) {
+        if (!cfg_.allow_offline) {
+            base.error_message += " (offline fallback disabled)";
+            return base;
+        }
+
+        // Check grace period using last_check_time_
+        {
+            std::lock_guard<std::mutex> lock(cache_mutex_);
+            if (last_check_time_ != std::chrono::steady_clock::time_point{}) {
+                auto offline_duration = std::chrono::steady_clock::now() - last_check_time_;
+                auto offline_days = std::chrono::duration_cast<std::chrono::hours>(
+                    offline_duration).count() / 24;
+
+                if (offline_days > cfg_.grace_period_days) {
+                    base.success       = false;
+                    base.status        = "expired";
+                    base.error_message = "Grace period exceeded (" +
+                        std::to_string(cfg_.grace_period_days) + " days)";
+                    return base;
+                }
+                base.grace_days_remaining =
+                    cfg_.grace_period_days - static_cast<int>(offline_days);
+            }
+        }
+
+        if (isLicenseValid(license)) {
+            base.success = true;
+            base.status  = "grace";
+            base.refreshed_license = license;
+        } else {
+            base.success       = false;
+            base.status        = "expired";
+            base.error_message = "Embedded license expired during offline grace period";
+        }
+        return base;
+    }
+
+    LicenseClientConfig              cfg_;
+    mutable std::mutex               cache_mutex_;
+    std::optional<LicenseData>       cached_license_;
+    std::chrono::steady_clock::time_point last_check_time_{};
+};
+
+// ============================================================================
+// LicenseClient public API
+// ============================================================================
+
+LicenseClient::LicenseClient(const LicenseClientConfig& config)
+    : impl_(std::make_unique<Impl>(config)) {}
+
+LicenseClient::~LicenseClient() = default;
+
+LicenseActivationResult LicenseClient::activate() {
+    return impl_->activate();
+}
+
+LicenseActivationResult LicenseClient::validate() {
+    return impl_->validate();
+}
+
+std::optional<LicenseData> LicenseClient::getCachedLicense() const {
+    return impl_->getCachedLicense();
+}
+
+LicenseActivationResult LicenseClient::refresh() {
+    return impl_->refresh();
+}
+
+std::string LicenseClient::getMachineFingerprint() {
+    return Impl::getMachineFingerprint();
 }
 
 } // namespace license

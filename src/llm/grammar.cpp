@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            grammar.cpp                                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     207                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/grammar.h"
 #include <spdlog/spdlog.h>
 #include <utility>
@@ -32,8 +58,51 @@ Grammar::Grammar(const std::string& ebnf_text, const std::string& start_symbol)
         return;
     }
     
-    // Compile the grammar
+    // Compile without a vocab pointer.  This works for structural grammars but
+    // may not filter correctly for token-level rules.  Prefer the model-aware
+    // constructor Grammar(ebnf, start, model) when a loaded model is available.
     compile();
+}
+
+Grammar::Grammar(const std::string& ebnf_text,
+                 const std::string& start_symbol,
+                 const struct llama_model* model)
+    : ebnf_text_(ebnf_text)
+    , start_symbol_(start_symbol)
+    , grammar_(nullptr)
+    , error_() {
+    
+    if (ebnf_text_.empty()) {
+        error_ = "EBNF text cannot be empty";
+        return;
+    }
+    
+    if (start_symbol_.empty()) {
+        error_ = "Start symbol cannot be empty";
+        return;
+    }
+    
+    if (!themis_llama_grammar_available()) {
+        // Hard error: the API is required for model-aware compilation.
+        error_ = "Grammar support is unavailable (llama.cpp grammar API not present)";
+        spdlog::error("Grammar compilation failed (model-aware constructor): {}", error_);
+        return;
+    }
+    
+    if (model == nullptr) {
+        error_ = "Grammar compilation failed: model pointer is null; cannot bind vocabulary";
+        spdlog::error("Grammar compilation failed: null model passed to model-aware constructor");
+        return;
+    }
+    
+    const ::llama_vocab* vocab = llama_model_get_vocab(model);
+    if (vocab == nullptr) {
+        error_ = "Grammar compilation failed: llama_model_get_vocab returned null for the provided model";
+        spdlog::error("Grammar compilation failed: llama_model_get_vocab returned null");
+        return;
+    }
+    
+    compileWithVocab(vocab);
 }
 
 Grammar::~Grammar() {
@@ -95,19 +164,22 @@ bool Grammar::compile() {
     // Check if Grammar API is available at runtime
     if (!themis_llama_grammar_available()) {
         error_ = "Grammar support is unavailable (llama.cpp grammar API not present)";
-        spdlog::warn("Grammar compilation skipped: {}", error_);
+        spdlog::error("Grammar compilation failed: {}", error_);
         grammar_ = nullptr;
         return false;
     }
     
+    // Compile without a vocab.  The null vocab path is a known limitation of
+    // this (no-model) constructor: purely structural EBNF rules compile
+    // successfully, but rules requiring token-to-text vocab knowledge may
+    // produce incorrect results.  Use Grammar(ebnf, start, model) for
+    // full correctness.
+    return compileWithVocab(nullptr);
+}
+
+bool Grammar::compileWithVocab(const ::llama_vocab* vocab) {
     try {
-        // Note: llama_grammar_init requires a vocab pointer from a loaded model
-        // For now, we'll pass nullptr and handle this at usage time
-        // The grammar will be fully initialized when used with a specific model
-        // This is a limitation of the current API design
-        
-        // Attempt to compile grammar with null vocab (will work for basic grammars)
-        grammar_ = llama_grammar_init(nullptr, ebnf_text_.c_str(), start_symbol_.c_str());
+        grammar_ = llama_grammar_init(vocab, ebnf_text_.c_str(), start_symbol_.c_str());
         
         if (grammar_ == nullptr) {
             error_ = "Failed to compile grammar: Invalid EBNF syntax or start symbol";
@@ -115,7 +187,11 @@ bool Grammar::compile() {
             return false;
         }
         
-        spdlog::info("✓ Grammar compiled successfully: start_symbol={}", start_symbol_);
+        if (vocab != nullptr) {
+            spdlog::info("Grammar compiled successfully with vocab binding: start_symbol={}", start_symbol_);
+        } else {
+            spdlog::info("Grammar compiled successfully (no vocab binding): start_symbol={}", start_symbol_);
+        }
         return true;
         
     } catch (const std::exception& e) {
@@ -128,3 +204,4 @@ bool Grammar::compile() {
 
 } // namespace llm
 } // namespace themis
+

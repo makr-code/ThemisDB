@@ -1,5 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            flash_attention.cpp                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     384                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/attention/flash_attention.h"
 #include "llm/attention/cuda/flash_attention_cuda.h"
+#ifdef THEMIS_ENABLE_VULKAN
+#include "llm/attention/vulkan/flash_attention_vulkan.h"
+#endif
+#ifdef THEMIS_ENABLE_HIP
+#include "llm/attention/hip/flash_attention_hip.h"
+#include <hip/hip_runtime.h>
+#endif
 #include <stdexcept>
 #include <cstring>
 
@@ -205,13 +238,19 @@ bool FlashAttention::isBackendAvailable(Backend backend) {
 #endif
             
         case Backend::VULKAN:
-            // TODO: Implement Vulkan detection
+#ifdef THEMIS_ENABLE_VULKAN
+            return vulkan::FlashAttentionVulkan::isAvailable();
+#else
             return false;
+#endif
             
         case Backend::HIP_MI300:
         case Backend::HIP_RDNA:
-            // TODO: Implement HIP detection
+#ifdef THEMIS_ENABLE_HIP
+            return hip::FlashAttentionHIP::isAvailable();
+#else
             return false;
+#endif
             
         case Backend::CPU:
             return true;
@@ -280,13 +319,19 @@ std::unique_ptr<IFlashAttention> FlashAttention::createBackend(Backend backend) 
 #endif
             
         case Backend::VULKAN:
-            // TODO: Implement Vulkan backend
-            throw std::runtime_error("Vulkan backend not yet implemented");
-            
+#ifdef THEMIS_ENABLE_VULKAN
+            return std::make_unique<vulkan::FlashAttentionVulkan>(config_);
+#else
+            throw std::runtime_error("Vulkan support not compiled (build with -DTHEMIS_ENABLE_VULKAN=ON)");
+#endif
+
         case Backend::HIP_MI300:
         case Backend::HIP_RDNA:
-            // TODO: Implement HIP backend
-            throw std::runtime_error("HIP backend not yet implemented");
+#ifdef THEMIS_ENABLE_HIP
+            return std::make_unique<hip::FlashAttentionHIP>(config_);
+#else
+            throw std::runtime_error("HIP support not compiled (build with -DTHEMIS_ENABLE_HIP=ON)");
+#endif
             
         case Backend::CPU:
             return std::make_unique<FlashAttentionCPU>(config_);
@@ -307,13 +352,31 @@ Backend FlashAttention::detectCUDABackend() {
 }
 
 Backend FlashAttention::detectVulkanBackend() {
-    // TODO: Implement Vulkan detection
+#ifdef THEMIS_ENABLE_VULKAN
+    return vulkan::FlashAttentionVulkan::isAvailable() ? Backend::VULKAN : Backend::CPU;
+#else
     return Backend::CPU;
+#endif
 }
 
 Backend FlashAttention::detectHIPBackend() {
-    // TODO: Implement HIP detection
+#ifdef THEMIS_ENABLE_HIP
+    if (!hip::FlashAttentionHIP::isAvailable()) {
+        return Backend::CPU;
+    }
+    // Differentiate MI300 (CDNA3: gfx942) from RDNA consumer GPUs
+    hipDeviceProp_t props{};
+    if (hipGetDeviceProperties(&props, 0) == hipSuccess) {
+        // MI300 uses gfx940/gfx941/gfx942 GCN arch names
+        std::string arch = props.gcnArchName;
+        if (arch.find("gfx94") != std::string::npos) {
+            return Backend::HIP_MI300;
+        }
+    }
+    return Backend::HIP_RDNA;
+#else
     return Backend::CPU;
+#endif
 }
 
 } // namespace attention

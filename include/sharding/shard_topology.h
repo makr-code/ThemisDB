@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            shard_topology.h                                   ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:50                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     261                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -21,6 +47,8 @@ struct ShardInfo {
     std::string primary_endpoint;            // themis-shard001.dc1.example.com:8080
     std::vector<std::string> replica_endpoints; // replica nodes
     std::string datacenter;                  // dc1, dc2, us-east-1, eu-west-1
+    std::string region;                      // us-east, eu-west, ap-south (geo region)
+    std::string zone;                        // us-east-1a, eu-west-1b (availability zone)
     std::string rack;                        // rack01, rack02 (locality awareness)
     uint64_t token_start;                    // Consistent Hash Range Start
     uint64_t token_end;                      // Consistent Hash Range End
@@ -183,7 +211,35 @@ public:
      * @return Vector of shard IDs that are leaders
      */
     std::vector<std::string> getRaftLeaders() const;
-    
+
+    /**
+     * Get shards in a specific region
+     * @param region Region name (e.g. "us-east", "eu-west")
+     * @return Vector of ShardInfo for all shards in that region
+     */
+    std::vector<ShardInfo> getShardsInRegion(const std::string& region) const;
+
+    /**
+     * Get healthy shards in a specific region
+     * @param region Region name
+     * @return Vector of healthy ShardInfo for that region
+     */
+    std::vector<ShardInfo> getHealthyShardsInRegion(const std::string& region) const;
+
+    /**
+     * Get all distinct regions present in the topology
+     * @return Sorted list of unique region names
+     */
+    std::vector<std::string> getRegions() const;
+
+    /**
+     * Check if a region has enough healthy shards to meet a quorum requirement
+     * @param region Region name
+     * @param required Minimum number of healthy shards required
+     * @return true if region meets quorum
+     */
+    bool regionHasQuorum(const std::string& region, uint32_t required) const;
+
 private:
     Config config_;
     std::map<std::string, ShardInfo> shards_;

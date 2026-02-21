@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            path_constraints.h                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     305                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "utils/expected.h"
@@ -24,6 +50,7 @@ namespace graph {
  * - Edge property requirements
  * - Forbidden/required nodes and edges
  * - Path uniqueness constraints
+ * - Weight constraints (min/max total path weight)
  * - Custom validation predicates
  * 
  * Implemented using BFS traversal with constraint validation during graph exploration.
@@ -50,7 +77,9 @@ public:
         NO_CYCLES,           // Path must be acyclic
         UNIQUE_NODES,        // All nodes in path must be unique
         UNIQUE_EDGES,        // All edges in path must be unique
-        CUSTOM_PREDICATE     // Custom validation function
+        CUSTOM_PREDICATE,    // Custom validation function
+        MAX_WEIGHT,          // Total path weight must not exceed threshold
+        MIN_WEIGHT           // Total path weight must meet minimum threshold
     };
 
     /**
@@ -61,10 +90,20 @@ public:
         std::optional<int> int_value;
         std::optional<std::string> string_value;
         std::optional<std::function<bool(const std::vector<std::string>&)>> predicate;
+        /// Property key for NODE_PROPERTY / EDGE_PROPERTY constraints.
+        /// string_value holds the expected property value.
+        std::optional<std::string> property_key;
+        /// Threshold value for MAX_WEIGHT / MIN_WEIGHT constraints.
+        std::optional<double> double_value;
 
         Constraint(ConstraintType t) : type(t) {}
         Constraint(ConstraintType t, int value) : type(t), int_value(value) {}
         Constraint(ConstraintType t, std::string value) : type(t), string_value(std::move(value)) {}
+        /// Constructor for property constraints: type, property key, expected value
+        Constraint(ConstraintType t, std::string key, std::string value)
+            : type(t), string_value(std::move(value)), property_key(std::move(key)) {}
+        /// Constructor for weight constraints: type, threshold
+        Constraint(ConstraintType t, double threshold) : type(t), double_value(threshold) {}
     };
 
     /**
@@ -121,6 +160,63 @@ public:
     void addRequiredEdge(std::string_view edge_id);
 
     /**
+     * @brief Require every edge in the path to carry a specific field value.
+     *
+     * During `findConstrainedPaths` each candidate edge is looked up in the
+     * graph store and its @p field_name field is compared to @p expected_value
+     * (case-sensitive string comparison). Edges that do not match are pruned.
+     *
+     * Example – only follow edges whose type field equals "follows":
+     * @code
+     *   constraints.addEdgePropertyConstraint("type", "follows");
+     * @endcode
+     *
+     * @param field_name   Name of the edge field to check (e.g. "type", "_weight").
+     * @param expected_value Expected string value for the field.
+     */
+    void addEdgePropertyConstraint(std::string_view field_name, std::string_view expected_value);
+
+    /**
+     * @brief Require every vertex in the path to carry a specific field value.
+     *
+     * During `findConstrainedPaths` each candidate next-node is looked up in the
+     * graph store and its @p field_name field is compared to @p expected_value
+     * (case-sensitive string comparison). Nodes that do not match are pruned.
+     *
+     * Example – only traverse nodes whose "country" field equals "USA":
+     * @code
+     *   constraints.addNodePropertyConstraint("country", "USA");
+     * @endcode
+     *
+     * @param field_name     Name of the node field to check (e.g. "type", "country").
+     * @param expected_value Expected string value for the field.
+     */
+    void addNodePropertyConstraint(std::string_view field_name, std::string_view expected_value);
+
+    /**
+     * @brief Require the total accumulated path weight to be at most @p max_weight.
+     *
+     * Edge weights are read from the "_weight" field of each edge entity (default 1.0
+     * when the field is absent). Candidate states whose accumulated cost already exceeds
+     * @p max_weight are pruned during BFS traversal, and complete paths are rejected
+     * in `validatePath` when their `PathResult::cost` exceeds the threshold.
+     *
+     * @param max_weight Maximum allowable total path weight (inclusive).
+     */
+    void addMaxWeight(double max_weight);
+
+    /**
+     * @brief Require the total accumulated path weight to be at least @p min_weight.
+     *
+     * Paths whose total edge weight falls below @p min_weight are rejected during
+     * final validation (the constraint cannot be used for BFS pruning because the
+     * cost only increases monotonically).
+     *
+     * @param min_weight Minimum required total path weight (inclusive).
+     */
+    void addMinWeight(double min_weight);
+
+    /**
      * @brief Require path to be acyclic
      */
     void requireAcyclic();
@@ -145,7 +241,11 @@ public:
      * 
      * Checks all active constraints and returns true if the path satisfies all of them.
      * Supports: MIN_LENGTH, MAX_LENGTH, FORBIDDEN_NODE, REQUIRED_NODE, FORBIDDEN_EDGE,
-     * REQUIRED_EDGE, NO_CYCLES, UNIQUE_NODES, UNIQUE_EDGES, and CUSTOM_PREDICATE.
+     * REQUIRED_EDGE, NO_CYCLES, UNIQUE_NODES, UNIQUE_EDGES, EDGE_PROPERTY,
+     * NODE_PROPERTY, MAX_WEIGHT, MIN_WEIGHT, and CUSTOM_PREDICATE.
+     * 
+     * For EDGE_PROPERTY and NODE_PROPERTY constraints, the GraphIndexManager must be
+     * set (via constructor or `setGraphManager`) so entities can be fetched.
      * 
      * @param nodes Vector of node IDs in the path
      * @param edges Vector of edge IDs in the path

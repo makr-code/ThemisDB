@@ -1,4 +1,30 @@
-﻿// Parallel Query Engine implementation
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_engine.cpp                                   ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   68.0/100                                       ║
+    • Total Lines:     4354                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 3                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+// Parallel Query Engine implementation
 
 #define _USE_MATH_DEFINES
 #include <iostream>
@@ -15,6 +41,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include "storage/key_schema.h"
+#include "metadata/statistics_collector.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
 #include "utils/simd_distance.h"
@@ -1617,12 +1644,25 @@ static Result<nlohmann::json> qe_evalFunction(const std::string& funcName,
 				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POLYGON WKT");
 			}
 			std::string inner = u.substr(a+2, b-(a+2));
-				std::istringstream iss(inner); nlohmann::json ring = nlohmann::json::array(); double x,y,z;
-			while (iss>>x>>y) {
-				if (iss.peek()==' ') { iss.get(); }
-				if (std::isdigit(iss.peek())||iss.peek()=='-'||iss.peek()=='+') { if (iss>>z) ring.push_back({x,y,z}); else ring.push_back({x,y}); }
-				else ring.push_back({x,y});
-				if (iss.peek()==',') iss.get();
+			nlohmann::json ring = nlohmann::json::array();
+			std::stringstream ringStream(inner);
+			std::string pointToken;
+			while (std::getline(ringStream, pointToken, ',')) {
+				pointToken = trim(pointToken);
+				if (pointToken.empty()) continue;
+				std::istringstream pointIss(pointToken);
+				double x, y, z;
+				if (!(pointIss >> x >> y)) {
+					continue;
+				}
+				if (pointIss >> z) {
+					ring.push_back({x, y, z});
+				} else {
+					ring.push_back({x, y});
+				}
+			}
+			if (ring.empty()) {
+				return Err<nlohmann::json>(ErrorCode::ERR_QUERY_EXECUTION_FAILED, "Invalid POLYGON coords");
 			}
 			nlohmann::json coords = nlohmann::json::array(); coords.push_back(ring);
 			nlohmann::json poly; poly["type"]="Polygon"; poly["coordinates"]=coords;
@@ -2145,11 +2185,32 @@ QueryEngine::executeAndKeysRangeAware_(const ConjunctiveQuery& q) const {
 	auto span = Tracer::startSpan("QueryEngine.executeAndKeysRangeAware");
 	span.setAttribute("query.table", q.table);
 	span.setAttribute("query.range_count", static_cast<int64_t>(q.rangePredicates.size()));
+
+	// Cardinality-based predicate reordering: if statistics are available,
+	// sort equality predicates by ascending selectivity (most selective first)
+	// so that early intersection cuts down the candidate set as fast as possible.
+	std::vector<PredicateEq> ordered_predicates = q.predicates;
+	if (stats_collector_ && !ordered_predicates.empty()) {
+		auto stats_result = stats_collector_->getStats(q.table);
+		if (stats_result.ok) {
+			const auto& tbl_stats = stats_result.value;
+			std::stable_sort(ordered_predicates.begin(), ordered_predicates.end(),
+				[&tbl_stats](const PredicateEq& a, const PredicateEq& b) {
+					double sel_a = 1.0, sel_b = 1.0;
+					auto it_a = tbl_stats.column_stats.find(a.column);
+					if (it_a != tbl_stats.column_stats.end()) sel_a = it_a->second.selectivity;
+					auto it_b = tbl_stats.column_stats.find(b.column);
+					if (it_b != tbl_stats.column_stats.end()) sel_b = it_b->second.selectivity;
+					return sel_a < sel_b;  // lower selectivity = more discriminating
+				});
+		}
+	}
+
 	// 1) Hole Listen für alle Gleichheitsprädikate
 	std::vector<std::vector<std::string>> lists;
-	lists.reserve(q.predicates.size() + q.rangePredicates.size());
+	lists.reserve(ordered_predicates.size() + q.rangePredicates.size());
 
-	for (const auto& p : q.predicates) {
+	for (const auto& p : ordered_predicates) {
 		auto child = Tracer::startSpan("index.scanEqual");
 		child.setAttribute("index.table", q.table);
 		child.setAttribute("index.column", p.column);
@@ -2460,7 +2521,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				}
 			} else {
 				// Build from table scan
-				const std::string build_prefix = build_for.collection + ":";
+				const std::string build_prefix = KeySchema::makeRelationalKey(build_for.collection, "");
 				
 				// Apply pushed-down filters for build side
 				auto build_filters = single_var_filters.find(build_for.variable);
@@ -2618,7 +2679,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 				}
 			} else {
 				// Probe from table scan
-				const std::string probe_prefix = probe_for.collection + ":";
+				const std::string probe_prefix = KeySchema::makeRelationalKey(probe_for.collection, "");
 				db_->scanPrefix(probe_prefix, [&](std::string_view key, std::string_view value) -> bool {
 					std::string pk = KeySchema::extractPrimaryKey(key);
 					std::vector<uint8_t> blob(value.begin(), value.end());
@@ -2725,7 +2786,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeJoin(
 			}
 			
 			// Regular table scan
-			const std::string prefix = for_node.collection + ":";
+			const std::string prefix = KeySchema::makeRelationalKey(for_node.collection, "");
 			
 			// Get pushed-down filters for this variable
 			auto push_filters = single_var_filters.find(for_node.variable);
@@ -2828,7 +2889,7 @@ Result<std::vector<nlohmann::json>> QueryEngine::executeGroupBy(
 	std::unordered_map<std::string, std::vector<nlohmann::json>> groups;
 	
 	// Scan collection
-	const std::string prefix = for_node.collection + ":";
+	const std::string prefix = KeySchema::makeRelationalKey(for_node.collection, "");
 	
 	db_->scanPrefix(prefix, [&](std::string_view key, std::string_view value) -> bool {
 		std::string pk = KeySchema::extractPrimaryKey(key);

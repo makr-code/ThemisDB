@@ -1,7 +1,34 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            plugin_hot_plug_monitor.cpp                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   91.0/100                                       ║
+    • Total Lines:     588                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "plugins/plugin_hot_plug_monitor.h"
 #include "plugins/plugin_manager.h"
 #include "utils/logger.h"
 #include <filesystem>
+#include <map>
 #include <thread>
 #include <chrono>
 #include <algorithm>
@@ -60,6 +87,17 @@ PluginHotPlugMonitor::~PluginHotPlugMonitor() {
 // ============================================================================
 
 bool PluginHotPlugMonitor::isPluginFile(const std::string& filename) const {
+    // Reject temporary/incomplete files produced by editors, package managers,
+    // and build tools during write operations (e.g. vim swaps, wget .part files).
+    // These files are never valid plugin binaries or manifests.
+    if (filename.starts_with(".") ||
+        filename.ends_with(".tmp") ||
+        filename.ends_with(".part") ||
+        filename.ends_with(".download") ||
+        filename.ends_with("~")) {
+        return false;
+    }
+
     // Check for plugin-related file extensions
     // Note: ends_with is C++20, but this project uses C++20
     return filename.ends_with(".dll") ||
@@ -203,11 +241,11 @@ void PluginHotPlugMonitor::watchDirectoryLinux() {
             if (event->len > 0) {
                 FileEvent file_event;
                 
-                if (event->mask & IN_CREATE) {
+                if (event->mask & (IN_CREATE | IN_MOVED_TO)) {
                     file_event = FileEvent::CREATED;
                 } else if (event->mask & IN_MODIFY) {
                     file_event = FileEvent::MODIFIED;
-                } else if (event->mask & IN_DELETE) {
+                } else if (event->mask & (IN_DELETE | IN_MOVED_FROM)) {
                     file_event = FileEvent::DELETED;
                 } else {
                     // Ignore other events
@@ -282,6 +320,14 @@ void PluginHotPlugMonitor::watchDirectoryWindows() {
                 case FILE_ACTION_REMOVED:
                     event = FileEvent::DELETED;
                     break;
+                case FILE_ACTION_RENAMED_NEW_NAME:
+                    // A rename/move into the directory counts as a new file
+                    event = FileEvent::CREATED;
+                    break;
+                case FILE_ACTION_RENAMED_OLD_NAME:
+                    // A rename/move out of the directory counts as a deletion
+                    event = FileEvent::DELETED;
+                    break;
                 default:
                     // Ignore other actions
                     should_handle = false;
@@ -342,28 +388,47 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
         return;
     }
     
-    // Track files we've seen
-    std::set<std::string> known_files;
+    // Track files we've seen along with their last-write timestamps
+    std::map<std::string, fs::file_time_type> known_files;
     auto scan_directory = [&]() {
-        std::set<std::string> current_files;
-        for (const auto& entry : fs::directory_iterator(watch_directory_)) {
-            if (entry.is_regular_file()) {
-                std::string filename = entry.path().filename().string();
-                if (isPluginFile(filename)) {
-                    current_files.insert(filename);
+        std::map<std::string, fs::file_time_type> current_files;
+        try {
+            for (const auto& entry : fs::directory_iterator(watch_directory_)) {
+                // Skip symlinks pointing to non-existent targets
+                if (entry.is_symlink()) {
+                    std::error_code ec;
+                    if (!fs::exists(entry.path(), ec) || ec) {
+                        THEMIS_WARN("Skipping broken symlink: {}", entry.path().string());
+                        continue;
+                    }
+                }
+                if (entry.is_regular_file()) {
+                    std::string filename = entry.path().filename().string();
+                    if (isPluginFile(filename)) {
+                        std::error_code ec;
+                        auto mtime = entry.last_write_time(ec);
+                        if (!ec) {
+                            current_files[filename] = mtime;
+                        }
+                    }
                 }
             }
+        } catch (const std::exception& e) {
+            THEMIS_WARN("Error scanning plugin directory: {}", e.what());
         }
         
-        // Detect new files
-        for (const auto& file : current_files) {
-            if (known_files.find(file) == known_files.end()) {
+        // Detect new files and modified files (by mtime)
+        for (const auto& [file, mtime] : current_files) {
+            auto prev = known_files.find(file);
+            if (prev == known_files.end()) {
                 handleFileEvent(file, FileEvent::CREATED);
+            } else if (prev->second != mtime) {
+                handleFileEvent(file, FileEvent::MODIFIED);
             }
         }
         
         // Detect deleted files
-        for (const auto& file : known_files) {
+        for (const auto& [file, _] : known_files) {
             if (current_files.find(file) == current_files.end()) {
                 handleFileEvent(file, FileEvent::DELETED);
             }
@@ -394,11 +459,6 @@ void PluginHotPlugMonitor::watchDirectoryMacOS() {
         if (nev > 0) {
             // Directory changed, rescan to detect what changed
             scan_directory();
-            
-            // Also check for modifications
-            for (const auto& file : known_files) {
-                handleFileEvent(file, FileEvent::MODIFIED);
-            }
         }
     }
     
@@ -471,7 +531,7 @@ bool PluginHotPlugMonitor::start() {
     watch_descriptor_ = inotify_add_watch(
         inotify_fd_,
         watch_directory_.c_str(),
-        IN_CREATE | IN_MODIFY | IN_DELETE
+        IN_CREATE | IN_MODIFY | IN_DELETE | IN_MOVED_TO | IN_MOVED_FROM
     );
     
     if (watch_descriptor_ < 0) {

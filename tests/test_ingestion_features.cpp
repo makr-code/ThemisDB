@@ -1,0 +1,450 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_ingestion_features.cpp                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:28                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     450                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file test_ingestion_features.cpp
+ * @brief Unit tests for new ingestion features:
+ *        - JSON text extraction
+ *        - HTML/XML text extraction (without pugixml)
+ *        - QuarantineEntry defaults
+ *        - IngestionReport dry_run / quarantine fields
+ *        - IngestionManager dry-run mode
+ *        - IngestionManager quarantine tracking
+ *        - IngestionMetricsExporter Prometheus text output
+ *        - FileSystemIngester HTML/JSON/CSV files
+ */
+
+#include <gtest/gtest.h>
+#include "ingestion/ingestion_manager.h"
+#include "ingestion/filesystem_ingester.h"
+#include <filesystem>
+#include <fstream>
+#include <string>
+#include <regex>
+
+using namespace themis::ingestion;
+
+// ============================================================================
+// QuarantineEntry – default construction
+// ============================================================================
+
+TEST(QuarantineEntryTest, DefaultValues) {
+    QuarantineEntry entry;
+    EXPECT_TRUE(entry.item_path.empty());
+    EXPECT_TRUE(entry.source_id.empty());
+    EXPECT_EQ(entry.error_code, IngestionErrorCode::UNKNOWN_ERROR);
+    EXPECT_TRUE(entry.error_message.empty());
+    EXPECT_EQ(entry.retry_count, 0u);
+    // timestamp should be close to now
+    auto now = std::chrono::system_clock::now();
+    auto diff = std::chrono::duration_cast<std::chrono::seconds>(
+        now - entry.timestamp).count();
+    EXPECT_LE(std::abs(diff), 10);
+}
+
+TEST(QuarantineEntryTest, FieldAssignment) {
+    QuarantineEntry entry;
+    entry.item_path    = "/data/bad_file.pdf";
+    entry.source_id    = "fs_source";
+    entry.error_code   = IngestionErrorCode::PROCESSING_FAILED;
+    entry.error_message = "Failed to parse PDF";
+    entry.retry_count  = 3;
+
+    EXPECT_EQ(entry.item_path, "/data/bad_file.pdf");
+    EXPECT_EQ(entry.source_id, "fs_source");
+    EXPECT_EQ(entry.error_code, IngestionErrorCode::PROCESSING_FAILED);
+    EXPECT_EQ(entry.error_message, "Failed to parse PDF");
+    EXPECT_EQ(entry.retry_count, 3u);
+}
+
+// ============================================================================
+// IngestionReport – new fields
+// ============================================================================
+
+TEST(IngestionReportTest, DryRunFieldDefault) {
+    IngestionReport report;
+    EXPECT_FALSE(report.dry_run);
+    EXPECT_TRUE(report.quarantine.empty());
+}
+
+TEST(IngestionReportTest, QuarantineVectorUsable) {
+    IngestionReport report;
+    QuarantineEntry e;
+    e.item_path = "test_path";
+    report.quarantine.push_back(e);
+    EXPECT_EQ(report.quarantine.size(), 1u);
+    EXPECT_EQ(report.quarantine[0].item_path, "test_path");
+}
+
+// ============================================================================
+// IngestionManager – dry-run mode
+// ============================================================================
+
+TEST(IngestionManagerDryRunTest, DefaultNotDryRun) {
+    IngestionManager mgr("test_db");
+    EXPECT_FALSE(mgr.isDryRun());
+}
+
+TEST(IngestionManagerDryRunTest, SetDryRunTrue) {
+    IngestionManager mgr("test_db");
+    mgr.setDryRun(true);
+    EXPECT_TRUE(mgr.isDryRun());
+}
+
+TEST(IngestionManagerDryRunTest, SetDryRunToggle) {
+    IngestionManager mgr("test_db");
+    mgr.setDryRun(true);
+    EXPECT_TRUE(mgr.isDryRun());
+    mgr.setDryRun(false);
+    EXPECT_FALSE(mgr.isDryRun());
+}
+
+TEST(IngestionManagerDryRunTest, IngestAllFlagPropagated) {
+    IngestionManager mgr("test_db");
+    mgr.setDryRun(true);
+
+    auto report = mgr.ingestAll();
+    EXPECT_TRUE(report.dry_run);
+}
+
+TEST(IngestionManagerDryRunTest, DryRunNoSourcesReturnsEmptyReport) {
+    IngestionManager mgr("test_db");
+    mgr.setDryRun(true);
+
+    auto report = mgr.ingestAll();
+    EXPECT_TRUE(report.source_stats.empty());
+    EXPECT_EQ(report.total_documents, 0u);
+}
+
+TEST(IngestionManagerDryRunTest, DryRunWithFilesystemSource) {
+    // Create a temp text file
+    auto tmp_dir = std::filesystem::temp_directory_path() / "themis_dryrun_test";
+    std::filesystem::create_directories(tmp_dir);
+    for (int i = 0; i < 3; ++i) {
+        auto p = tmp_dir / ("file" + std::to_string(i) + ".txt");
+        std::ofstream f(p);
+        f << "content " << i << "\n";
+    }
+
+    IngestionManager mgr("test_db");
+    mgr.setDryRun(true);
+
+    SourceConfig cfg;
+    cfg.source_id = "dryrun_fs";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = tmp_dir.string();
+    cfg.options["recursive"] = "false";
+    ASSERT_TRUE(mgr.registerSource(cfg));
+
+    auto report = mgr.ingestAll();
+    EXPECT_TRUE(report.dry_run);
+    // Dry-run should count documents (getDocumentCount = 3) without errors
+    auto it = report.source_stats.find("dryrun_fs");
+    ASSERT_NE(it, report.source_stats.end());
+    EXPECT_EQ(it->second.documents_processed, 3u);
+    EXPECT_TRUE(it->second.errors.empty());
+
+    std::filesystem::remove_all(tmp_dir);
+}
+
+// ============================================================================
+// IngestionManager – quarantine API
+// ============================================================================
+
+TEST(IngestionManagerQuarantineTest, InitiallyEmpty) {
+    IngestionManager mgr("test_db");
+    EXPECT_TRUE(mgr.getQuarantineItems().empty());
+}
+
+TEST(IngestionManagerQuarantineTest, DismissNonExistentReturnsFalse) {
+    IngestionManager mgr("test_db");
+    EXPECT_FALSE(mgr.dismissQuarantineItem("/no/such/path"));
+}
+
+TEST(IngestionManagerQuarantineTest, ClearEmptyIsNoOp) {
+    IngestionManager mgr("test_db");
+    EXPECT_NO_THROW(mgr.clearQuarantine());
+    EXPECT_TRUE(mgr.getQuarantineItems().empty());
+}
+
+// ============================================================================
+// IngestionMetricsExporter – Prometheus text format
+// ============================================================================
+
+TEST(IngestionMetricsExporterTest, DefaultPrefix) {
+    IngestionMetricsExporter exp;
+    IngestionStats stats;
+    stats.documents_processed = 42;
+    stats.documents_failed    = 2;
+    stats.bytes_processed     = 4096;
+    stats.elapsed_seconds     = 1.5;
+    stats.metrics.retry_count  = 3;
+    stats.metrics.error_count  = 2;
+    stats.metrics.throughput_docs_per_sec = 28.0;
+
+    std::string text = exp.exportText(stats, "my_source");
+
+    // Must contain metric names with default prefix
+    EXPECT_NE(text.find("themis_ingestion_docs_processed_total"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_docs_failed_total"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_bytes_processed_total"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_elapsed_seconds"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_retry_total"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_errors_total"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_throughput_docs_per_sec"), std::string::npos);
+
+    // Must include source_id label
+    EXPECT_NE(text.find("source_id=\"my_source\""), std::string::npos);
+
+    // Must contain numeric values
+    EXPECT_NE(text.find("42"), std::string::npos);
+    EXPECT_NE(text.find("4096"), std::string::npos);
+}
+
+TEST(IngestionMetricsExporterTest, CustomPrefix) {
+    IngestionMetricsExporter exp;
+    exp.setPrefix("acme_ingest");
+
+    IngestionStats stats;
+    std::string text = exp.exportText(stats, "src1");
+
+    EXPECT_NE(text.find("acme_ingest_docs_processed_total"), std::string::npos);
+    EXPECT_EQ(text.find("themis_ingestion"), std::string::npos);
+}
+
+TEST(IngestionMetricsExporterTest, ReportExport) {
+    IngestionMetricsExporter exp;
+
+    IngestionReport report;
+    report.total_documents    = 100;
+    report.total_failures     = 5;
+    report.total_time_seconds = 3.0;
+
+    IngestionStats s;
+    s.documents_processed = 95;
+    s.documents_failed    = 5;
+    report.source_stats["src_a"] = s;
+
+    std::string text = exp.exportText(report);
+
+    // Per-source
+    EXPECT_NE(text.find("source_id=\"src_a\""), std::string::npos);
+    // Aggregate
+    EXPECT_NE(text.find("source_id=\"__all__\""), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_total_documents"), std::string::npos);
+    EXPECT_NE(text.find("themis_ingestion_quarantine_size"), std::string::npos);
+}
+
+TEST(IngestionMetricsExporterTest, LabelEscaping) {
+    IngestionMetricsExporter exp;
+    IngestionStats stats;
+
+    // Source ID with special chars that need escaping
+    std::string text = exp.exportText(stats, "src\\with\"quotes");
+
+    // Must not produce broken prometheus labels
+    EXPECT_NE(text.find("source_id=\"src\\\\with\\\"quotes\""), std::string::npos);
+}
+
+TEST(IngestionMetricsExporterTest, HelpsAndTypesPresent) {
+    IngestionMetricsExporter exp;
+    IngestionStats stats;
+    std::string text = exp.exportText(stats, "x");
+
+    // Each metric should have a # HELP and # TYPE line
+    EXPECT_NE(text.find("# HELP"), std::string::npos);
+    EXPECT_NE(text.find("# TYPE"), std::string::npos);
+    EXPECT_NE(text.find("counter"), std::string::npos);
+    EXPECT_NE(text.find("gauge"), std::string::npos);
+}
+
+// ============================================================================
+// FileSystemIngester – new format support
+// ============================================================================
+
+static std::filesystem::path makeTempFile(const std::string& name,
+                                          const std::string& content) {
+    auto p = std::filesystem::temp_directory_path() / name;
+    std::ofstream f(p, std::ios::binary);
+    f << content;
+    return p;
+}
+
+TEST(FileSystemIngesterFormatsTest, JsonFileIngested) {
+    auto p = makeTempFile("test_ingestion.json",
+        R"({"title":"hello world","body":"test content","count":42})");
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "json_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, HtmlFileFallbackIngested) {
+    auto p = makeTempFile("test_ingestion.html",
+        "<html><body><p>Hello ThemisDB</p></body></html>");
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "html_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // HTML either extracted via pugixml or falls back to raw bytes
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, XmlFileIngested) {
+    auto p = makeTempFile("test_ingestion.xml",
+        "<?xml version=\"1.0\"?><root><item>alpha</item><item>beta</item></root>");
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "xml_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, CsvFileIngested) {
+    auto p = makeTempFile("test_ingestion.csv",
+        "id,name,value\n1,alpha,100\n2,beta,200\n");
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "csv_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, MdFileIngested) {
+    auto p = makeTempFile("test_ingestion.md",
+        "# Title\n\nSome **markdown** content.\n");
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "md_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    EXPECT_EQ(stats.documents_processed, 1u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, PdfSkippedWithoutError) {
+    // PDF extraction is not yet implemented; file should be skipped silently
+    auto p = makeTempFile("test_ingestion.pdf", "%PDF-1.4 fake content");
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "pdf_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = p.string();
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // PDF returns empty content → not counted as processed
+    EXPECT_EQ(stats.documents_processed, 0u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+
+    std::filesystem::remove(p);
+}
+
+TEST(FileSystemIngesterFormatsTest, MultiFormatDirectory) {
+    auto tmp_dir = std::filesystem::temp_directory_path()
+                   / "themis_multiformat_test";
+    std::filesystem::create_directories(tmp_dir);
+
+    // Create one file of each supported format
+    {
+        std::ofstream f(tmp_dir / "a.txt"); f << "plain text\n";
+    }
+    {
+        std::ofstream f(tmp_dir / "b.json"); f << "{\"k\":\"v\"}";
+    }
+    {
+        std::ofstream f(tmp_dir / "c.html"); f << "<p>html</p>";
+    }
+    {
+        std::ofstream f(tmp_dir / "d.xml");
+        f << "<root><x>xml</x></root>";
+    }
+    {
+        std::ofstream f(tmp_dir / "e.csv"); f << "a,b\n1,2\n";
+    }
+    {
+        // PDF should be skipped
+        std::ofstream f(tmp_dir / "f.pdf"); f << "%PDF fake";
+    }
+
+    FileSystemIngester ingester;
+    SourceConfig cfg;
+    cfg.source_id = "multi_test";
+    cfg.type      = SourceType::FILESYSTEM;
+    cfg.location  = tmp_dir.string();
+    cfg.options["recursive"] = "false";
+    ASSERT_TRUE(ingester.initialize(cfg));
+
+    auto stats = ingester.ingest("col", nullptr);
+    // txt + json + html + xml + csv = 5 processed; pdf = 0 (empty content)
+    EXPECT_EQ(stats.documents_processed, 5u);
+    EXPECT_EQ(stats.documents_failed, 0u);
+    EXPECT_GT(stats.bytes_processed, 0u);
+    EXPECT_TRUE(stats.errors.empty());
+
+    std::filesystem::remove_all(tmp_dir);
+}

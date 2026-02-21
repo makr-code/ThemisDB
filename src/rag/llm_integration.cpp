@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            llm_integration.cpp                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     538                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file llm_integration.cpp
  * @brief Implementation of LLM Integration utilities for RAG components
@@ -110,14 +136,22 @@ std::string LLMIntegration::generate(
         
         // Call token probability callback if provided
         if (options.token_callback && options.include_token_probabilities) {
-            // Simplified: derive pseudo tokens from response text
+            // Walk through response words; use logprobs from the response when
+            // available (InferenceResponse.logprobs stores per-token log-probs),
+            // otherwise fall back to a neutral default of 0.5.
             std::istringstream iss(response.text);
             std::string tok;
             size_t pos = 0;
             while (iss >> tok) {
                 TokenProbability tp;
                 tp.token = tok;
-                tp.probability = 0.8; // Placeholder probability
+                if (!response.logprobs.empty() && pos < response.logprobs.size()) {
+                    // logprobs are natural-log probabilities; convert to probability
+                    tp.probability = static_cast<double>(
+                        std::exp(response.logprobs[pos]));
+                } else {
+                    tp.probability = 0.5;  // neutral default when logprobs unavailable
+                }
                 tp.position = pos++;
                 options.token_callback(tp);
             }

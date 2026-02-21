@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            task_audit_manager.cpp                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     533                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "scheduler/task_audit_manager.h"
 #include "utils/logger.h"
 #include <fstream>
@@ -485,6 +511,21 @@ void TaskAuditManager::updateConfig(const TaskAuditConfig& config) {
 void TaskAuditManager::flush() {
     if (audit_logger_) {
         audit_logger_->flush();
+    }
+}
+
+nlohmann::json TaskAuditManager::exportAnomalyStatistics() const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (anomaly_detector_) {
+        return anomaly_detector_->exportStatistics();
+    }
+    return nlohmann::json::object();
+}
+
+void TaskAuditManager::importAnomalyStatistics(const nlohmann::json& data) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (anomaly_detector_) {
+        anomaly_detector_->importStatistics(data);
     }
 }
 

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hot_spare_manager.cpp                              ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     918                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Hot Spare Management Implementation
  * 
@@ -332,6 +358,15 @@ bool HotSpareManager::activateSpare(
         spdlog::info("Queued rebuild for spare {}, {} documents to rebuild", 
                      spare_id, documents.size());
     }
+
+    // Notify ShardRepairEngine (if attached) so it can perform erasure-aware
+    // consistency checks and recovery for data that could not be directly
+    // copied from replicas (e.g. parity-only data in RAID-5/6 configurations).
+    if (repair_engine_) {
+        repair_engine_->triggerRepair(spare_id);
+        spdlog::info("ShardRepairEngine repair triggered for newly activated spare {}",
+                     spare_id);
+    }
     
     return true;
 }
@@ -463,6 +498,11 @@ void HotSpareManager::updateConfig(const HotSpareConfig& config) {
     
     config_ = config;
     spdlog::info("HotSpareManager configuration updated");
+}
+
+void HotSpareManager::setRepairEngine(
+    std::shared_ptr<themis::sharding::ShardRepairEngine> engine) {
+    repair_engine_ = std::move(engine);
 }
 
 HotSpareManager::Stats HotSpareManager::getStats() const {

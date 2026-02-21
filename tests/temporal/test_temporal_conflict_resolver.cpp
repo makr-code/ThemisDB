@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_temporal_conflict_resolver.cpp                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:21                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     487                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * Unit tests for Temporal Conflict Resolver
  * 
@@ -231,6 +257,37 @@ TEST_F(TemporalConflictResolverTest, CRDTMerge_FallbackToLWW) {
     EXPECT_EQ(stats["crdt_merges"], 1);
 }
 
+TEST_F(TemporalConflictResolverTest, CRDTMerge_MergesFieldsFromBothSnapshots) {
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+
+    // Local snapshot has field "a" only; remote has field "b" only.
+    // CRDT merge should produce both fields, preferring the newer value
+    // on any shared key.
+    TemporalSnapshot local;
+    local.snapshot_id = "local_multi";
+    local.hlc         = {1000, 5, "node_a"};
+    local.source_node_id = "node_a";
+    local.data        = {{"a", 1}, {"shared", "old"}};
+    local.checksum    = "c1";
+
+    TemporalSnapshot remote;
+    remote.snapshot_id = "remote_multi";
+    remote.hlc         = {1001, 3, "node_b"};
+    remote.source_node_id = "node_b";
+    remote.data        = {{"b", 2}, {"shared", "new"}};
+    remote.checksum    = "c2";
+
+    auto winner = resolver.resolve(local, remote);
+
+    // Both fields should be present
+    ASSERT_TRUE(winner.data.contains("a"));
+    ASSERT_TRUE(winner.data.contains("b"));
+    // Shared field: newer (remote) wins
+    EXPECT_EQ(winner.data["shared"], "new");
+    EXPECT_EQ(winner.data["a"], 1);
+    EXPECT_EQ(winner.data["b"], 2);
+}
+
 // ============================================================================
 // Policy Override Tests
 // ============================================================================
@@ -314,4 +371,117 @@ TEST_F(TemporalConflictResolverTest, TemporalSnapshot_FromJson) {
     EXPECT_EQ(snapshot.hlc.node_id, "node_a");
     EXPECT_EQ(snapshot.source_node_id, "node_a");
     EXPECT_EQ(snapshot.data["field"], "test_value");
+}
+
+// ============================================================================
+// Conflict Audit Trail Tests
+// ============================================================================
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_InitiallyEmpty) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+    EXPECT_TRUE(resolver.getConflictHistory().empty());
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_RecordsResolvedConflicts) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote);
+
+    auto history = resolver.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_EQ(history[0].winner, "remote");
+    EXPECT_TRUE(history[0].resolved);
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_IncludesUnresolved) {
+    TemporalConflictResolver resolver(ConflictPolicy::MANUAL);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote); // queued, not resolved
+
+    auto history = resolver.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_FALSE(history[0].resolved);
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_AfterManualResolution) {
+    TemporalConflictResolver resolver(ConflictPolicy::MANUAL);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote);
+
+    auto unresolved = resolver.getUnresolvedConflicts();
+    ASSERT_EQ(unresolved.size(), 1u);
+    resolver.resolveManually(unresolved[0].conflict_id, "local");
+
+    auto history = resolver.getConflictHistory();
+    ASSERT_EQ(history.size(), 1u);
+    EXPECT_TRUE(history[0].resolved);
+    EXPECT_EQ(history[0].winner, "local");
+}
+
+TEST_F(TemporalConflictResolverTest, ConflictHistory_MultipleConflictsAccumulate) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+
+    for (int i = 0; i < 5; ++i) {
+        auto local  = createSnapshot("l", 1000 + i, 0, "node_a", "v");
+        auto remote = createSnapshot("r", 1001 + i, 0, "node_b", "v");
+        resolver.resolve(local, remote);
+    }
+
+    EXPECT_EQ(resolver.getConflictHistory().size(), 5u);
+}
+
+TEST_F(TemporalConflictResolverTest, ExportAuditLog_IsJsonArray) {
+    TemporalConflictResolver resolver(ConflictPolicy::LAST_WRITE_WINS);
+
+    auto local  = createSnapshot("l1", 1000, 5, "node_a", "v1");
+    auto remote = createSnapshot("r1", 1001, 5, "node_b", "v2");
+    resolver.resolve(local, remote);
+
+    auto log = resolver.exportAuditLog();
+    EXPECT_TRUE(log.is_array());
+    ASSERT_EQ(log.size(), 1u);
+
+    EXPECT_TRUE(log[0].contains("conflict_id"));
+    EXPECT_TRUE(log[0].contains("winner"));
+    EXPECT_TRUE(log[0].contains("policy"));
+    EXPECT_TRUE(log[0].contains("resolved"));
+    EXPECT_TRUE(log[0].contains("detected_at_ms"));
+
+    EXPECT_EQ(log[0]["winner"], "remote");
+    EXPECT_EQ(log[0]["policy"], "LWW");
+    EXPECT_EQ(log[0]["resolved"], true);
+}
+
+TEST_F(TemporalConflictResolverTest, ExportAuditLog_EmptyWhenNoConflicts) {
+    TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+    auto log = resolver.exportAuditLog();
+    EXPECT_TRUE(log.is_array());
+    EXPECT_TRUE(log.empty());
+}
+
+TEST_F(TemporalConflictResolverTest, ExportAuditLog_PoliciesEncoded) {
+    // Verify policy names are encoded correctly in the audit log
+    struct TestCase { ConflictPolicy policy; std::string expected_name; };
+    std::vector<TestCase> cases = {
+        {ConflictPolicy::LAST_WRITE_WINS,  "LWW"},
+        {ConflictPolicy::FIRST_WRITE_WINS, "FWW"},
+        {ConflictPolicy::CRDT_MERGE,       "CRDT_MERGE"},
+    };
+
+    for (const auto& tc : cases) {
+        TemporalConflictResolver resolver(tc.policy);
+        auto local  = createSnapshot("l", 1000, 5, "node_a", "v1");
+        auto remote = createSnapshot("r", 1001, 5, "node_b", "v2");
+        resolver.resolve(local, remote);
+
+        auto log = resolver.exportAuditLog();
+        ASSERT_EQ(log.size(), 1u) << "policy=" << tc.expected_name;
+        EXPECT_EQ(log[0]["policy"], tc.expected_name) << "policy=" << tc.expected_name;
+    }
 }

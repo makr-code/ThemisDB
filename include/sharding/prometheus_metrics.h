@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            prometheus_metrics.h                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     346                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_SHARDING_PROMETHEUS_METRICS_H
 #define THEMIS_SHARDING_PROMETHEUS_METRICS_H
 
@@ -163,8 +189,131 @@ public:
     void recordRaftPartitionHealed(const std::string& shard_id);
     void setRaftReadOnlyMode(const std::string& shard_id, bool is_read_only);
 
+    // ==================== Paxos Consensus Metrics (Phase 1) ====================
+    
+    // Paxos state metrics per shard
+    void setPaxosRole(const std::string& shard_id, const std::string& role); // LEADER/FOLLOWER/PROPOSER/ACCEPTOR/LEARNER
+    void setPaxosRound(const std::string& shard_id, uint64_t round);
+    void setPaxosHighestProposal(const std::string& shard_id, uint64_t proposal_number);
+    void setPaxosCommittedSlot(const std::string& shard_id, uint64_t slot);
+    
+    // Paxos proposal phase metrics
+    void recordPaxosPrepare(const std::string& shard_id, bool success);
+    void recordPaxosPrepareLatency(const std::string& shard_id, double latency_ms);
+    void recordPaxosPromise(const std::string& shard_id, bool received);
+    
+    // Paxos accept phase metrics
+    void recordPaxosAccept(const std::string& shard_id, bool success);
+    void recordPaxosAcceptLatency(const std::string& shard_id, double latency_ms);
+    void recordPaxosAccepted(const std::string& shard_id, bool received);
+    
+    // Paxos learn phase metrics
+    void recordPaxosLearn(const std::string& shard_id, uint64_t slot);
+    void recordPaxosLearnLatency(const std::string& shard_id, double latency_ms);
+    
+    // Paxos proposal metrics
+    void recordPaxosProposal(const std::string& shard_id, bool success);
+    void recordPaxosProposalDuration(const std::string& shard_id, double duration_ms);
+    void recordPaxosProposalRetry(const std::string& shard_id);
+    void recordPaxosProposalConflict(const std::string& shard_id);
+    
+    // Paxos convergence metrics
+    void recordPaxosConvergenceTime(const std::string& shard_id, double time_ms);
+    void setPaxosQuorumStatus(const std::string& shard_id, bool has_quorum);
+    void recordPaxosQuorumLoss(const std::string& shard_id);
+    
+    // ==================== Cross-Shard Transaction Metrics (Phase 1) ====================
+    
+    // 2PC Transaction metrics
+    void record2PCTransaction(const std::string& coordinator_id, bool success);
+    void record2PCPreparePhase(const std::string& coordinator_id, double duration_ms, bool all_prepared);
+    void record2PCCommitPhase(const std::string& coordinator_id, double duration_ms, bool success);
+    void record2PCAbort(const std::string& coordinator_id, const std::string& reason);
+    void record2PCParticipantResponse(const std::string& participant_id, const std::string& phase, double latency_ms);
+    
+    // 3PC Transaction metrics
+    void record3PCTransaction(const std::string& coordinator_id, bool success);
+    void record3PCPreCommitPhase(const std::string& coordinator_id, double duration_ms, bool success);
+    void record3PCTimeout(const std::string& coordinator_id, const std::string& phase);
+    
+    // SAGA Transaction metrics
+    void recordSAGATransaction(const std::string& saga_id, bool success);
+    void recordSAGAStep(const std::string& saga_id, int step_number, bool success);
+    void recordSAGACompensation(const std::string& saga_id, int step_number, bool success);
+    void recordSAGADuration(const std::string& saga_id, double duration_ms);
+    
+    // Percolator Transaction metrics
+    void recordPercolatorTransaction(const std::string& transaction_id, bool success);
+    void recordPercolatorLockAcquisition(const std::string& transaction_id, double latency_ms, bool success);
+    void recordPercolatorLockRelease(const std::string& transaction_id, double latency_ms);
+    void recordPercolatorWriteIntent(const std::string& transaction_id, int intent_count);
+    void recordPercolatorConflict(const std::string& transaction_id);
+    
+    // Transaction coordinator state metrics
+    void setActiveTransactions(int count);
+    void setBlockedTransactions(int count);
+    void recordTransactionTimeout(const std::string& transaction_type);
+
+    // Shard repair / anti-entropy metrics
+
+    /// Valid shard health status strings for recordRepairShardStatus().
+    struct RepairShardStatus {
+        static constexpr const char* HEALTHY    = "healthy";
+        static constexpr const char* DEGRADED   = "degraded";
+        static constexpr const char* FAILED     = "failed";
+        static constexpr const char* REBUILDING = "rebuilding";
+    };
+
+    /// Record a completed repair attempt on a document.
+    /// @param success      Whether the repair succeeded.
+    /// @param duration_ms  Wall-clock time of the repair operation in milliseconds.
+    void recordRepairOperation(bool success, double duration_ms);
+
+    /// Update the health gauge for a shard as observed by the repair engine.
+    /// @param shard_id  Shard identifier.
+    /// @param status    One of RepairShardStatus::{HEALTHY,DEGRADED,FAILED,REBUILDING}.
+    ///                  Unknown values are silently ignored (all known gauges are set to 0).
+    void recordRepairShardStatus(const std::string& shard_id, const std::string& status);
+
+    /// Record one anti-entropy scan completion.
+    void recordRepairScan();
+    // ==================== MVCC / HLC Metrics ====================
+
+    /**
+     * @brief Record a completed MVCC write operation.
+     * @param latency_ms Write latency in milliseconds.
+     */
+    void recordMvccWrite(double latency_ms);
+
+    /**
+     * @brief Record a completed MVCC read operation.
+     * @param read_type "latest" for linearizable reads, "snapshot" for
+     *        point-in-time reads.
+     * @param latency_ms Read latency in milliseconds.
+     */
+    void recordMvccRead(const std::string& read_type, double latency_ms);
+
+    /**
+     * @brief Record a completed MVCC garbage-collection run.
+     * @param versions_deleted Number of old version entries removed.
+     */
+    void recordMvccGc(uint64_t versions_deleted);
+
+    /**
+     * @brief Update the gauge tracking total live MVCC version entries.
+     * @param count Current total count of stored versions.
+     */
+    void setMvccVersionCount(int64_t count);
+
+    /**
+     * @brief Record a clock advance (HLC `now()` or `update()` call).
+     * @param type "local" for `now()`, "received" for `update()`.
+     */
+    void recordHlcAdvance(const std::string& type);
+
     // Generic metrics (for extensibility)
     void incrementCounter(const std::string& name, const std::map<std::string, std::string>& labels = {});
+    void addToCounter(const std::string& name, int64_t amount, const std::map<std::string, std::string>& labels = {});
     void setGauge(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
     void observeHistogram(const std::string& name, double value, const std::map<std::string, std::string>& labels = {});
 

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_range_index.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:36                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     298                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Test suite for range indexes
 
 #include <gtest/gtest.h>
@@ -37,7 +63,7 @@ protected:
     std::unique_ptr<SecondaryIndexManager> mgr_;
 };
 
-// Test 1: Range-Index erstellen und pr�fen
+// Test 1: Range-Index erstellen und pr�fen
 TEST_F(RangeIndexTest, CreateAndDrop) {
     auto st = mgr_->createRangeIndex("users", "age");
     ASSERT_TRUE(st.ok) << st.message;
@@ -52,7 +78,7 @@ TEST_F(RangeIndexTest, CreateAndDrop) {
 
 // Test 2: Automatische Index-Pflege bei Put
 TEST_F(RangeIndexTest, AutomaticIndexMaintenance) {
-    // Erstelle Range-Index und normalen Index f�r Vergleich
+    // Erstelle Range-Index und normalen Index f�r Vergleich
     auto st = mgr_->createRangeIndex("users", "age");
     ASSERT_TRUE(st.ok) << st.message;
     st = mgr_->createIndex("users", "age"); // Auch Equality-Index
@@ -219,7 +245,7 @@ TEST_F(RangeIndexTest, RangeScanReversed) {
     EXPECT_EQ(keys[2], "u20");
 }
 
-// Test 9: Delete entfernt Range-Index-Eintr�ge
+// Test 9: Delete entfernt Range-Index-Eintr�ge
 TEST_F(RangeIndexTest, DeleteRemovesRangeEntry) {
     auto st = mgr_->createRangeIndex("users", "age");
     ASSERT_TRUE(st.ok) << st.message;

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gguf_loader.h                                      ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:42                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     197                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -84,11 +110,16 @@ public:
     explicit GGUFLoader(RocksDBWrapper* db);
     ~GGUFLoader();
 
-    // Parse GGUF file header and metadata
+    // Parse GGUF file header and metadata.
+    // Returns false and sets getLastError() on failure (including unsupported
+    // quantization formats).
     bool parseFile(const std::string& filepath);
     
     // Get parsed metadata
     const GGUFMetadata& getMetadata() const { return metadata_; }
+    
+    // Returns a human-readable error description when parseFile() returns false.
+    const std::string& getLastError() const { return last_error_; }
     
     // Load tensor data into ThemisDB Blob Store
     // Returns URN of stored model: urn:themis:model:{model_name}:v1
@@ -118,9 +149,22 @@ public:
      */
     bool validateQuantizationMetadata(const std::string& tensor_name) const;
     
+    /**
+     * @brief Check whether a GGML quantization type is supported by this loader.
+     *
+     * Supported formats can be converted to an internal representation for
+     * inference and training.  Unsupported formats produce a clear error from
+     * parseFile() instead of silently returning raw bytes.
+     *
+     * Supported: F32, F16, Q4_K (Q4_K_M), Q8_0
+     * Not supported: Q4_0, Q4_1, Q5_0, Q5_1, Q8_1, Q5_K, Q6_K, Q2_K, Q3_K
+     */
+    static bool isFormatSupported(GGMLType type);
+    
 private:
     GGUFMetadata metadata_;
     std::string filepath_;
+    std::string last_error_;  // Set on parseFile() failure
     int fd_;  // File descriptor for mmap
     void* mmap_base_;
     size_t mmap_size_;

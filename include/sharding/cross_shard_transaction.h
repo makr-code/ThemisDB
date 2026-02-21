@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cross_shard_transaction.h                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     473                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -7,6 +33,7 @@
 #include "sharding/consensus_module.h"
 #include "sharding/distributed_transaction.h"
 #include "sharding/truetime.h"
+#include "sharding/wal_manager.h"  // For LSN type
 #include <string>
 #include <vector>
 #include <map>
@@ -15,8 +42,26 @@
 #include <functional>
 #include <nlohmann/json.hpp>
 
+namespace sharding {
+enum class TransactionProtocol;
+enum class TransactionWALEntryType;
+struct TransactionWALEntry;
+struct TransactionWALConfig;
+class TransactionWAL;
+class TransactionSnapshotManager;
+}
+
 namespace themisdb {
 namespace sharding {
+
+// Forward declarations for Phase 2.3.3 integration
+using LSN = themis::sharding::LSN;
+
+using TransactionWAL = ::sharding::TransactionWAL;
+using TransactionWALConfig = ::sharding::TransactionWALConfig;
+using TransactionWALEntryType = ::sharding::TransactionWALEntryType;
+using TransactionWALEntry = ::sharding::TransactionWALEntry;
+using TransactionSnapshotManager = ::sharding::TransactionSnapshotManager;
 
 /**
  * @brief Transaction protocol type
@@ -146,6 +191,12 @@ struct CrossShardTransactionConfig {
     
     // Transaction log path (defaults to /var/lib/themisdb/transaction_log.jsonl)
     std::string transaction_log_path = "/var/lib/themisdb/transaction_log.jsonl";
+    
+    // Persistence settings (Phase 2.3.3 - Transaction Durability)
+    bool enable_persistence = false;                // Enable WAL-based persistence
+    std::string data_dir;                           // Base directory for WAL and snapshots
+    uint64_t snapshot_interval = 1000;              // Create snapshot every N operations
+    size_t max_snapshots = 10;                      // Maximum snapshots to retain
 };
 
 /**
@@ -373,12 +424,28 @@ private:
      */
     bool recoverFromFailure();
     
+    /**
+     * @brief Recover from WAL and snapshot (Phase 2.3.3)
+     */
+    bool recoverFromWAL();
+    
+    /**
+     * @brief Create periodic snapshot of active transactions (Phase 2.3.3)
+     */
+    void createPeriodicSnapshot();
+    
     CrossShardTransactionConfig config_;
     std::shared_ptr<ConsensusModule> consensus_;
     std::shared_ptr<themis::sharding::TrueTime> truetime_;
     
     // Transaction log file
     std::string transaction_log_path_;
+    
+    // Phase 2.3.3: WAL and Snapshot infrastructure
+    std::unique_ptr<TransactionWAL> transaction_wal_;
+    std::unique_ptr<TransactionSnapshotManager> snapshot_manager_;
+    std::atomic<uint64_t> operations_since_snapshot_{0};
+    LSN last_applied_lsn_{0, 0};
     
     // State
     mutable std::mutex transactions_mutex_;

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            multi_master_replication.h                         ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     498                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * ThemisDB Multi-Master Replication
  * 
@@ -72,6 +98,12 @@ class VectorClock {
 public:
     VectorClock() = default;
     explicit VectorClock(const std::string& node_id);
+    
+    // Copy / move constructors (mutex is not copied – new instance gets its own mutex)
+    VectorClock(const VectorClock& other);
+    VectorClock(VectorClock&& other) noexcept;
+    VectorClock& operator=(const VectorClock& other);
+    VectorClock& operator=(VectorClock&& other) noexcept;
     
     // Increment this node's clock
     void increment(const std::string& node_id);

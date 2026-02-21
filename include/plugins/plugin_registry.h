@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            plugin_registry.h                                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     257                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "plugins/plugin_interface.h"
@@ -156,8 +182,8 @@ public:
      */
     template<typename PluginInterface>
     static std::vector<std::string> listPlugins() {
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         std::lock_guard<std::mutex> lock(getMutex());
+        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         
         std::vector<std::string> names;
         for (const auto& [name, _] : type_registry) {
@@ -175,8 +201,8 @@ public:
      */
     template<typename PluginInterface>
     static bool hasPlugin(const std::string& plugin_name) {
-        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         std::lock_guard<std::mutex> lock(getMutex());
+        auto& type_registry = getTypeRegistry(typeid(PluginInterface));
         
         return type_registry.count(plugin_name) > 0;
     }

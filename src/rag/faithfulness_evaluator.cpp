@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            faithfulness_evaluator.cpp                         ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:05                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   92.0/100                                       ║
+    • Total Lines:     324                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file faithfulness_evaluator.cpp
  * @brief Implementation of faithfulness evaluation
@@ -5,6 +31,7 @@
 
 #include "rag/faithfulness_evaluator.h"
 #include "rag/llm_judge_integration.h"
+#include "rag/nli_faithfulness_verifier.h"
 #include "rag/response_parser.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
@@ -20,12 +47,27 @@ using json = nlohmann::json;
 struct FaithfulnessEvaluator::Impl {
     Config config;
     std::unique_ptr<LLMJudgeIntegration> llm_integration;
+    std::shared_ptr<NLIFaithfulnessVerifier> nli_verifier;
     ResponseParser parser;
     
     // NLI stub - in production would use actual NLI model
     SupportLevel checkNLIEntailment(const std::string& claim, const std::string& document) {
-        // Stub implementation using simple text matching
-        // In production, this would call RoBERTa-large-MNLI or similar
+        // Use NLI verifier if available
+        if (nli_verifier) {
+            auto nli_result = nli_verifier->checkEntailment(document, claim);
+            
+            if (nli_result.label == NLILabel::ENTAILMENT) {
+                return SupportLevel::FULLY_SUPPORTED;
+            } else if (nli_result.label == NLILabel::NEUTRAL) {
+                return SupportLevel::PARTIALLY_SUPPORTED;
+            } else if (nli_result.label == NLILabel::CONTRADICTION) {
+                return SupportLevel::CONTRADICTED;
+            } else {
+                return SupportLevel::UNSUPPORTED;
+            }
+        }
+        
+        // Fallback: term-overlap heuristic when no NLI verifier is configured
         
         std::string claim_lower = claim;
         std::string doc_lower = document;
@@ -81,7 +123,13 @@ FaithfulnessEvaluator::FaithfulnessEvaluator(const Config& config)
     llm_config.max_tokens = 512;
     impl_->llm_integration = std::make_unique<LLMJudgeIntegration>(llm_config);
     
-    THEMIS_DEBUG("FaithfulnessEvaluator initialized");
+    // Initialize NLI verifier for faithfulness checking
+    NLIFaithfulnessVerifier::Config nli_config;
+    nli_config.entailment_threshold = 0.7;
+    nli_config.max_claims = config.max_claims_to_extract;
+    impl_->nli_verifier = std::make_shared<NLIFaithfulnessVerifier>(nli_config);
+    
+    THEMIS_DEBUG("FaithfulnessEvaluator initialized with NLI support");
 }
 
 FaithfulnessEvaluator::~FaithfulnessEvaluator() = default;

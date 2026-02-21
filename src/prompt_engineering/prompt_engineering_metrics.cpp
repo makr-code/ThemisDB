@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            prompt_engineering_metrics.cpp                     ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:04                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   97.0/100                                       ║
+    • Total Lines:     687                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file prompt_engineering_metrics.cpp
  * @brief Implementation of Prometheus metrics for prompt engineering
@@ -112,6 +138,23 @@ void PromptEngineeringMetrics::recordPromptExecution(
         prompt_failures_.fetch_add(1, std::memory_order_relaxed);
     }
     prompt_total_latency_ms_.fetch_add(latency_ms, std::memory_order_relaxed);
+
+    // Check alert thresholds
+    if (alert_callback_) {
+        int64_t execs    = prompt_executions_.load(std::memory_order_relaxed);
+        int64_t failures = prompt_failures_.load(std::memory_order_relaxed);
+        if (execs > 0) {
+            double failure_rate = static_cast<double>(failures) / execs;
+            if (failure_rate > alert_config_.max_failure_rate) {
+                AlertEvent ev;
+                ev.metric_name = "prompt_failure_rate";
+                ev.value       = failure_rate;
+                ev.threshold   = alert_config_.max_failure_rate;
+                ev.message     = "Prompt failure rate exceeded threshold";
+                alert_callback_(ev);
+            }
+        }
+    }
 }
 
 void PromptEngineeringMetrics::recordPromptSuccessRate(
@@ -168,7 +211,16 @@ void PromptEngineeringMetrics::recordHallucinationDetection(
     const std::string& prompt_id
 ) {
     if (!config_.enabled) return;
-    hallucination_detections_.fetch_add(1, std::memory_order_relaxed);
+    int64_t count = hallucination_detections_.fetch_add(1, std::memory_order_relaxed) + 1;
+
+    if (alert_callback_ && count > alert_config_.max_hallucinations) {
+        AlertEvent ev;
+        ev.metric_name = "hallucination_count";
+        ev.value       = static_cast<double>(count);
+        ev.threshold   = static_cast<double>(alert_config_.max_hallucinations);
+        ev.message     = "Hallucination count exceeded threshold";
+        alert_callback_(ev);
+    }
 }
 
 void PromptEngineeringMetrics::recordFailedQuery(
@@ -539,6 +591,96 @@ std::string PromptEngineeringMetrics::formatLabels(
     }
     oss << "}";
     return oss.str();
+}
+
+// ============================================================================
+// Persistence: snapshot / restore
+// ============================================================================
+
+nlohmann::json PromptEngineeringMetrics::snapshotToJson() const {
+    nlohmann::json j;
+    j["optimization_attempts"]           = optimization_attempts_.load(std::memory_order_relaxed);
+    j["optimization_successes"]          = optimization_successes_.load(std::memory_order_relaxed);
+    j["optimization_failures"]           = optimization_failures_.load(std::memory_order_relaxed);
+    j["optimization_total_duration_ms"]  = optimization_total_duration_ms_.load(std::memory_order_relaxed);
+    j["optimization_total_iterations"]   = optimization_total_iterations_.load(std::memory_order_relaxed);
+    j["ab_test_starts"]                  = ab_test_starts_.load(std::memory_order_relaxed);
+    j["ab_test_completions"]             = ab_test_completions_.load(std::memory_order_relaxed);
+    j["ab_test_observations"]            = ab_test_observations_.load(std::memory_order_relaxed);
+    j["active_ab_tests"]                 = active_ab_tests_.load(std::memory_order_relaxed);
+    j["prompt_executions"]               = prompt_executions_.load(std::memory_order_relaxed);
+    j["prompt_successes"]                = prompt_successes_.load(std::memory_order_relaxed);
+    j["prompt_failures"]                 = prompt_failures_.load(std::memory_order_relaxed);
+    j["prompt_total_latency_ms"]         = prompt_total_latency_ms_.load(std::memory_order_relaxed);
+    j["feedback_total"]                  = feedback_total_.load(std::memory_order_relaxed);
+    j["feedback_positive"]               = feedback_positive_.load(std::memory_order_relaxed);
+    j["feedback_negative"]               = feedback_negative_.load(std::memory_order_relaxed);
+    j["hallucination_detections"]        = hallucination_detections_.load(std::memory_order_relaxed);
+    j["failed_queries"]                  = failed_queries_.load(std::memory_order_relaxed);
+    j["version_commits"]                 = version_commits_.load(std::memory_order_relaxed);
+    j["version_rollbacks"]               = version_rollbacks_.load(std::memory_order_relaxed);
+    j["branch_creations"]                = branch_creations_.load(std::memory_order_relaxed);
+    j["merge_operations"]                = merge_operations_.load(std::memory_order_relaxed);
+    j["merge_successes"]                 = merge_successes_.load(std::memory_order_relaxed);
+    j["integration_before_calls"]        = integration_before_calls_.load(std::memory_order_relaxed);
+    j["integration_after_calls"]         = integration_after_calls_.load(std::memory_order_relaxed);
+    j["background_worker_cycles"]        = background_worker_cycles_.load(std::memory_order_relaxed);
+    j["background_worker_total_duration_ms"] = background_worker_total_duration_ms_.load(std::memory_order_relaxed);
+    return j;
+}
+
+void PromptEngineeringMetrics::restoreFromJson(const nlohmann::json& snapshot) {
+    auto load_i64 = [&](const char* key, std::atomic<int64_t>& target) {
+        if (snapshot.contains(key)) target.store(snapshot[key].get<int64_t>(), std::memory_order_relaxed);
+    };
+    auto load_i32 = [&](const char* key, std::atomic<int>& target) {
+        if (snapshot.contains(key)) target.store(snapshot[key].get<int>(), std::memory_order_relaxed);
+    };
+    auto load_dbl = [&](const char* key, std::atomic<double>& target) {
+        if (snapshot.contains(key)) target.store(snapshot[key].get<double>(), std::memory_order_relaxed);
+    };
+
+    load_i64("optimization_attempts",           optimization_attempts_);
+    load_i64("optimization_successes",          optimization_successes_);
+    load_i64("optimization_failures",           optimization_failures_);
+    load_dbl("optimization_total_duration_ms",  optimization_total_duration_ms_);
+    load_i64("optimization_total_iterations",   optimization_total_iterations_);
+    load_i64("ab_test_starts",                  ab_test_starts_);
+    load_i64("ab_test_completions",             ab_test_completions_);
+    load_i64("ab_test_observations",            ab_test_observations_);
+    load_i32("active_ab_tests",                 active_ab_tests_);
+    load_i64("prompt_executions",               prompt_executions_);
+    load_i64("prompt_successes",                prompt_successes_);
+    load_i64("prompt_failures",                 prompt_failures_);
+    load_dbl("prompt_total_latency_ms",         prompt_total_latency_ms_);
+    load_i64("feedback_total",                  feedback_total_);
+    load_i64("feedback_positive",               feedback_positive_);
+    load_i64("feedback_negative",               feedback_negative_);
+    load_i64("hallucination_detections",        hallucination_detections_);
+    load_i64("failed_queries",                  failed_queries_);
+    load_i64("version_commits",                 version_commits_);
+    load_i64("version_rollbacks",               version_rollbacks_);
+    load_i64("branch_creations",                branch_creations_);
+    load_i64("merge_operations",                merge_operations_);
+    load_i64("merge_successes",                 merge_successes_);
+    load_i64("integration_before_calls",        integration_before_calls_);
+    load_i64("integration_after_calls",         integration_after_calls_);
+    load_i64("background_worker_cycles",        background_worker_cycles_);
+    load_dbl("background_worker_total_duration_ms", background_worker_total_duration_ms_);
+}
+
+// ============================================================================
+// Alerting
+// ============================================================================
+
+void PromptEngineeringMetrics::setAlertConfig(const AlertConfig& cfg) {
+    std::lock_guard<std::mutex> lock(metrics_mutex_);
+    alert_config_ = cfg;
+}
+
+void PromptEngineeringMetrics::setAlertCallback(AlertCallback cb) {
+    std::lock_guard<std::mutex> lock(metrics_mutex_);
+    alert_callback_ = std::move(cb);
 }
 
 } // namespace prompt_engineering

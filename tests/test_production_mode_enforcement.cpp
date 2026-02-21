@@ -1,9 +1,48 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_production_mode_enforcement.cpp               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:33                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     406                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "core/security_initialization.h"
 #include "core/production_mode.h"
 #include "core/config_validator.h"
 #include "core/concerns/concerns_context.h"
 #include <cstdlib>
+
+#ifdef _WIN32
+static int setenv(const char* name, const char* value, int overwrite) {
+    if (!overwrite && std::getenv(name) != nullptr) {
+        return 0;
+    }
+    return _putenv_s(name, value ? value : "");
+}
+
+static int unsetenv(const char* name) {
+    return _putenv_s(name, "");
+}
+#endif
 
 using namespace themis;
 using namespace themis::core;

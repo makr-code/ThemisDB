@@ -1,0 +1,426 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_health_checks.cpp                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     426                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * @file test_health_checks.cpp
+ * @brief Tests for health, liveness and readiness check endpoints
+ *
+ * Validates the MonitoringApiHandler liveness and readiness probes introduced
+ * as part of the Server Production Readiness initiative.
+ */
+
+#include <gtest/gtest.h>
+#include <boost/beast/http.hpp>
+#include <nlohmann/json.hpp>
+#include <atomic>
+#include <chrono>
+#include <memory>
+
+#include "server/monitoring_api_handler.h"
+#include "core/concerns/concerns_context.h"
+#include "core/concerns/noop_implementations.h"
+#include "core/concerns/lifecycle.h"
+
+namespace http = boost::beast::http;
+using json = nlohmann::json;
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+static http::request<http::string_body> make_get(const std::string& target) {
+    http::request<http::string_body> req{http::verb::get, target, 11};
+    req.set(http::field::host, "localhost");
+    req.prepare_payload();
+    return req;
+}
+
+// Minimal MonitoringApiHandler factory that requires no storage
+static std::unique_ptr<themis::server::MonitoringApiHandler> make_handler(
+    const std::atomic<bool>* is_running = nullptr,
+    const std::atomic<uint64_t>* active_requests = nullptr
+) {
+    static std::atomic<uint64_t> req_count{0};
+    static std::atomic<uint64_t> err_count{0};
+    static auto start = std::chrono::steady_clock::now();
+
+    return std::make_unique<themis::server::MonitoringApiHandler>(
+        nullptr,  // no storage
+        nullptr,  // no auth
+        &req_count,
+        &err_count,
+        &start,
+        nullptr,  // no secondary index
+        nullptr,  // no schema manager
+        nullptr,  // no sharding metrics
+        is_running,
+        active_requests
+    );
+}
+
+// Factory that injects a ConcernsContext
+static std::unique_ptr<themis::server::MonitoringApiHandler> make_handler_with_concerns(
+    std::shared_ptr<themis::core::concerns::ConcernsContext> concerns,
+    const std::atomic<bool>* is_running = nullptr
+) {
+    static std::atomic<uint64_t> req_count{0};
+    static std::atomic<uint64_t> err_count{0};
+    static auto start = std::chrono::steady_clock::now();
+
+    return std::make_unique<themis::server::MonitoringApiHandler>(
+        nullptr,  // no storage
+        nullptr,  // no auth
+        &req_count,
+        &err_count,
+        &start,
+        nullptr,  // no secondary index
+        nullptr,  // no schema manager
+        nullptr,  // no sharding metrics
+        is_running,
+        nullptr,  // no active_requests
+        nullptr,  // no active_connections
+        std::move(concerns)
+    );
+}
+
+// ---------------------------------------------------------------------------
+// Liveness Tests
+// ---------------------------------------------------------------------------
+
+class LivenessTest : public ::testing::Test {};
+
+TEST_F(LivenessTest, ReturnsAliveWhenRunningIsTrue) {
+    std::atomic<bool> running{true};
+    auto handler = make_handler(&running);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "alive");
+    EXPECT_TRUE(body["checks"]["server_running"]);
+}
+
+TEST_F(LivenessTest, Returns503WhenRunningIsFalse) {
+    std::atomic<bool> running{false};
+    auto handler = make_handler(&running);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "dead");
+    EXPECT_FALSE(body["checks"]["server_running"]);
+}
+
+TEST_F(LivenessTest, ReturnsAliveWhenIsRunningIsNull) {
+    // When no is_running pointer supplied, assume alive (e.g. lightweight usage)
+    auto handler = make_handler(nullptr);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "alive");
+}
+
+TEST_F(LivenessTest, ResponseBodyIsJson) {
+    auto handler = make_handler();
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res[http::field::content_type], "application/json");
+    EXPECT_NO_THROW(json::parse(res.body()));
+}
+
+TEST_F(LivenessTest, ResponseContainsChecksObject) {
+    auto handler = make_handler();
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    auto body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("checks"));
+    ASSERT_TRUE(body["checks"].is_object());
+}
+
+TEST_F(LivenessTest, TransitionFromAliveToDeadReflectedImmediately) {
+    std::atomic<bool> running{true};
+    auto handler = make_handler(&running);
+
+    // Alive
+    auto res1 = handler->handleLiveness(make_get("/health/live"));
+    EXPECT_EQ(res1.result(), http::status::ok);
+
+    // Now stop
+    running.store(false);
+
+    auto res2 = handler->handleLiveness(make_get("/health/live"));
+    EXPECT_EQ(res2.result(), http::status::service_unavailable);
+}
+
+// ---------------------------------------------------------------------------
+// Readiness Tests
+// ---------------------------------------------------------------------------
+
+class ReadinessTest : public ::testing::Test {};
+
+TEST_F(ReadinessTest, ReturnsReadyWhenRunningAndNoStorage) {
+    // No storage configured: treated as ready (lightweight deployment)
+    std::atomic<bool> running{true};
+    auto handler = make_handler(&running);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "ready");
+}
+
+TEST_F(ReadinessTest, Returns503WhenNotRunning) {
+    std::atomic<bool> running{false};
+    auto handler = make_handler(&running);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "not_ready");
+}
+
+TEST_F(ReadinessTest, ResponseBodyIsJson) {
+    auto handler = make_handler();
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res[http::field::content_type], "application/json");
+    EXPECT_NO_THROW(json::parse(res.body()));
+}
+
+TEST_F(ReadinessTest, ResponseContainsChecksObject) {
+    auto handler = make_handler();
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    auto body = json::parse(res.body());
+    ASSERT_TRUE(body.contains("checks"));
+    ASSERT_TRUE(body["checks"].is_object());
+}
+
+TEST_F(ReadinessTest, ChecksContainServerRunningField) {
+    auto handler = make_handler();
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body["checks"].contains("server_running"));
+}
+
+TEST_F(ReadinessTest, ChecksContainStorageAvailableField) {
+    auto handler = make_handler();
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body["checks"].contains("storage_available"));
+}
+
+// ---------------------------------------------------------------------------
+// Health Check (existing /health endpoint) Tests
+// ---------------------------------------------------------------------------
+
+class HealthCheckTest : public ::testing::Test {};
+
+TEST_F(HealthCheckTest, ReturnsHealthyStatus) {
+    auto handler = make_handler();
+
+    auto res = handler->handleHealthCheck(make_get("/health"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "healthy");
+}
+
+TEST_F(HealthCheckTest, ResponseContainsUptimeSeconds) {
+    auto handler = make_handler();
+
+    auto res = handler->handleHealthCheck(make_get("/health"));
+
+    auto body = json::parse(res.body());
+    EXPECT_TRUE(body.contains("uptime_seconds"));
+    EXPECT_GE(body["uptime_seconds"].get<int64_t>(), 0);
+}
+
+TEST_F(HealthCheckTest, ResponseBodyIsJson) {
+    auto handler = make_handler();
+
+    auto res = handler->handleHealthCheck(make_get("/health"));
+
+    EXPECT_EQ(res[http::field::content_type], "application/json");
+    EXPECT_NO_THROW(json::parse(res.body()));
+}
+
+// ---------------------------------------------------------------------------
+// ConcernsContext integration tests
+// ---------------------------------------------------------------------------
+
+using namespace themis::core::concerns;
+
+class ConcernsLivenessTest : public ::testing::Test {};
+
+TEST_F(ConcernsLivenessTest, LivenessIncludesConcernsSectionWhenContextProvided) {
+    auto ctx = ConcernsContext::createNoOp();
+    auto handler = make_handler_with_concerns(ctx);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    ASSERT_TRUE(body["checks"].contains("concerns"));
+    auto& concerns = body["checks"]["concerns"];
+    EXPECT_TRUE(concerns.contains("logger"));
+    EXPECT_TRUE(concerns.contains("tracer"));
+    EXPECT_TRUE(concerns.contains("metrics"));
+    EXPECT_TRUE(concerns.contains("cache"));
+}
+
+TEST_F(ConcernsLivenessTest, LivenessReturns200WhenAllConcernsHealthy) {
+    auto ctx = ConcernsContext::createNoOp();
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "alive");
+    EXPECT_TRUE(body["checks"]["concerns"]["logger"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["tracer"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["metrics"]["ok"].get<bool>());
+    EXPECT_TRUE(body["checks"]["concerns"]["cache"]["ok"].get<bool>());
+}
+
+TEST_F(ConcernsLivenessTest, LivenessReturns503WhenConcernUnhealthy) {
+    // Create a context where the logger reports unhealthy
+    class UnhealthyLogger : public NoOpLogger {
+    public:
+        ProbeResult isHealthy() const override {
+            return ProbeResult::unhealthy("sink unreachable");
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<UnhealthyLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<NoOpCache>()
+    );
+
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "dead");
+    EXPECT_FALSE(body["checks"]["concerns"]["logger"]["ok"].get<bool>());
+    EXPECT_EQ(body["checks"]["concerns"]["logger"]["message"], "sink unreachable");
+}
+
+TEST_F(ConcernsLivenessTest, LivenessWithoutContextHasNoConcernsSection) {
+    auto handler = make_handler();
+
+    auto res = handler->handleLiveness(make_get("/health/live"));
+
+    auto body = json::parse(res.body());
+    EXPECT_FALSE(body["checks"].contains("concerns"));
+}
+
+class ConcernsReadinessTest : public ::testing::Test {};
+
+TEST_F(ConcernsReadinessTest, ReadinessIncludesConcernsSectionWhenContextProvided) {
+    auto ctx = ConcernsContext::createNoOp();
+    auto handler = make_handler_with_concerns(ctx);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    ASSERT_TRUE(body["checks"].contains("concerns"));
+    auto& concerns = body["checks"]["concerns"];
+    EXPECT_TRUE(concerns.contains("logger"));
+    EXPECT_TRUE(concerns.contains("tracer"));
+    EXPECT_TRUE(concerns.contains("metrics"));
+    EXPECT_TRUE(concerns.contains("cache"));
+}
+
+TEST_F(ConcernsReadinessTest, ReadinessReturns200WhenAllConcernsReady) {
+    auto ctx = ConcernsContext::createNoOp();
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::ok);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "ready");
+}
+
+TEST_F(ConcernsReadinessTest, ReadinessReturns503WhenConcernNotReady) {
+    class UnhealthyCache : public NoOpCache {
+    public:
+        ProbeResult isHealthy() const override {
+            return ProbeResult::unhealthy("cache backend unavailable");
+        }
+    };
+
+    auto ctx = ConcernsContext::createCustom(
+        std::make_unique<NoOpLogger>(),
+        std::make_unique<NoOpTracer>(),
+        std::make_unique<NoOpMetrics>(),
+        std::make_unique<UnhealthyCache>()
+    );
+
+    std::atomic<bool> running{true};
+    auto handler = make_handler_with_concerns(ctx, &running);
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    EXPECT_EQ(res.result(), http::status::service_unavailable);
+    auto body = json::parse(res.body());
+    EXPECT_EQ(body["status"], "not_ready");
+    EXPECT_FALSE(body["checks"]["concerns"]["cache"]["ok"].get<bool>());
+    EXPECT_EQ(body["checks"]["concerns"]["cache"]["message"], "cache backend unavailable");
+}
+
+TEST_F(ConcernsReadinessTest, ReadinessWithoutContextHasNoConcernsSection) {
+    auto handler = make_handler();
+
+    auto res = handler->handleReadiness(make_get("/health/ready"));
+
+    auto body = json::parse(res.body());
+    EXPECT_FALSE(body["checks"].contains("concerns"));
+}

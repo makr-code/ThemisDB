@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rag_judge.h                                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     505                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file rag_judge.h
  * @brief LLM-as-Judge for RAG System Quality Evaluation
@@ -148,6 +174,12 @@ struct RAGJudgeConfig {
     bool enable_claim_verification = true;       ///< Verify each claim
     bool enable_citation_check = true;           ///< Check source attribution
     size_t max_claims_to_verify = 10;          ///< Limit for performance
+    
+    // NEW: Quality Control Integration
+    bool use_llm_judge_client = false;           ///< Use new LLM Judge Client (requires InferenceEngineEnhanced)
+    bool use_nli_verifier = true;                ///< Use NLI model for claim verification
+    bool use_geval_scoring = false;              ///< Use G-Eval probabilistic scoring
+    bool use_quality_control_pipeline = false;   ///< Use full QC pipeline instead of basic judge
     
     // Performance
     bool cache_evaluations = true;               ///< Cache results for identical inputs
@@ -330,6 +362,11 @@ private:
     bool verifyClaimAgainstDocuments(
         const std::string& claim,
         const std::vector<RetrievedDocument>& documents
+    );
+    std::vector<std::string> tokenizeForMatching(const std::string& text);
+    double calculateTermOverlap(
+        const std::vector<std::string>& terms1,
+        const std::vector<std::string>& terms2
     );
     
     std::string generateEvaluationPrompt(

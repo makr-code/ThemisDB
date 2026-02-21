@@ -146,7 +146,7 @@ Enumeration of resolution strategies.
 - **FIRST_WRITE_WINS**: Useful for audit scenarios where first value matters
 - **NODE_PRIORITY**: Useful in multi-datacenter setups with primary regions
 - **MANUAL**: For critical data requiring human review
-- **CRDT_MERGE**: Future - for automatic convergent merging
+- **CRDT_MERGE**: LWW-Register-per-field merge – fields from both snapshots are unioned, with the newer snapshot's value winning on conflicts.
 
 ---
 
@@ -185,53 +185,117 @@ auto winner = resolver.resolve(*local, *remote);
 
 ---
 
-## Planned APIs (Future Versions)
+## Implemented APIs (v1.1.0+)
 
-### v1.1.0: System-Versioned Tables
+All classes listed here are fully implemented and tested.
+
+### System-Versioned Tables
 ```cpp
-// Not yet available - planned for v1.1.0
-namespace themisdb {
-namespace temporal {
+#include "temporal/system_versioned_table.h"
 
-class SystemVersionedTable {
-public:
-    SystemVersionedTable(const std::string& table_name);
-    
-    Result<bool> insert(const Document& doc);
-    Result<bool> update(const std::string& key, const Document& updates);
-    Result<bool> deleteRow(const std::string& key);
-    
-    Result<std::vector<Document>> getHistory(
-        const std::string& key,
-        const TimeRange& range
-    );
-};
+SystemVersionedTable employees("employees");
 
-}}
+employees.insert("emp1", {{"name", "Alice"}, {"dept", "Eng"}});
+employees.update("emp1", {{"dept", "Arch"}});         // closes old version, opens new
+auto current  = employees.getCurrent("emp1");         // current version
+auto asOf     = employees.getAsOf("emp1", t_past);    // version at a past time
+auto history  = employees.getHistory("emp1");         // all versions
+auto snapshot = employees.scan(t_past);               // all rows as of t_past
+
+// Physically remove historical data
+employees.purgeHistoricalVersions("emp1", [&](const auto& v) {
+    return v.sys_time.end < cutoff;
+});
 ```
 
-### v1.2.0: Time-Travel Queries
+### Time-Travel Queries
 ```cpp
-// Not yet available - planned for v1.2.0
-namespace themisdb {
-namespace temporal {
+#include "temporal/temporal_query_engine.h"
 
-class TemporalQueryEngine {
-public:
-    Result<std::vector<Document>> queryAsOf(
-        const std::string& table_name,
-        const std::string& query,
-        const Timestamp& as_of_time
-    );
-    
-    Result<std::vector<Document>> queryFromTo(
-        const std::string& table_name,
-        const std::string& query,
-        const TimeRange& range
-    );
-};
+// AS-OF query across all keys
+auto rows = TemporalQueryEngine::queryAsOf(table, timestamp);
 
-}}
+// Range query [from, to)
+auto range_rows = TemporalQueryEngine::queryFromTo(table, from, to);
+
+// Temporal join: employees as of 2024 ⋈ departments as of 2024
+auto joined = TemporalQueryEngine::joinAsOf(
+    employees, departments, timestamp,
+    [](const auto& emp, const auto& dept) {
+        return emp.data["dept_id"] == dept.data["id"];
+    });
+```
+
+### Bi-Temporal Tables
+```cpp
+#include "temporal/bi_temporal.h"
+
+BiTemporalTable contracts("contracts");
+contracts.insertWithValidTime("c1", {{"amount", 1000}}, {valid_from, valid_to});
+auto rows = contracts.queryBiTemporal("c1", sys_as_of, valid_at);
+auto overlaps = contracts.findOverlaps("c1");
+```
+
+### Temporal Index
+```cpp
+#include "temporal/temporal_index.h"
+
+TemporalIndex idx("employees_sys_time");
+idx.insert({"emp1", {t_start, t_end}, payload});
+auto at_t = idx.queryPoint(t);
+auto range = idx.queryRange(t_from, t_to);
+```
+
+### Retention Policies
+```cpp
+#include "temporal/retention_manager.h"
+
+RetentionManager mgr;
+RetentionPolicy p;
+p.type                  = RetentionType::TIME_BASED;
+p.retention_period      = std::chrono::hours(24 * 365);
+p.archive_before_delete = true;
+mgr.setPolicy("employees", p);
+auto stats = mgr.enforceRetention(employees);
+
+// Background scheduler – runs every hour
+mgr.scheduleTable(employees, std::chrono::hours(1));
+mgr.startScheduler();   // non-blocking
+// ...
+mgr.stopScheduler();
+```
+
+### Temporal Aggregation
+```cpp
+#include "temporal/temporal_aggregator.h"
+
+TemporalAggregator agg;
+AggregationSpec spec;
+spec.window_type    = WindowType::TUMBLING;
+spec.window_size_ms = 3600'000;          // 1-hour buckets
+spec.func           = AggregateFunc::SUM;
+spec.measure_field  = "revenue";
+auto results = agg.aggregate(sales, spec, from, to);
+```
+
+### Snapshot Isolation
+```cpp
+#include "temporal/snapshot_manager.h"
+
+TemporalSnapshotManager smgr;
+auto handle = smgr.createSnapshot({{"employees", &employees}, {"depts", &depts}});
+auto rows   = smgr.querySnapshot(handle, "employees");
+smgr.releaseSnapshot(handle);
+```
+
+### Conflict Resolution & Audit Trail
+```cpp
+#include "temporal/temporal_conflict_resolver.h"
+
+TemporalConflictResolver resolver(ConflictPolicy::CRDT_MERGE);
+auto winner = resolver.resolve(local, remote);
+auto log    = resolver.exportAuditLog();   // JSON array with full history
+auto hist   = resolver.getConflictHistory();
 ```
 
 ---
@@ -388,21 +452,23 @@ See `tests/temporal/` for comprehensive test suite.
 
 ## Migration Guide
 
-### From v1.0 to v1.1 (Future)
-When v1.1 is released with system-versioned tables:
+### From v1.0 to v1.1+
 
-1. Update includes:
+All temporal classes that were listed as "planned" in v1.0 are now available:
+
 ```cpp
-// Old (v1.0)
-#include "temporal/temporal_conflict_resolver.h"
-
-// New (v1.1)
-#include "temporal/temporal_conflict_resolver.h"
-#include "temporal/system_versioned_table.h"  // New
+// v1.1+: include the new headers
+#include "temporal/temporal_conflict_resolver.h"  // unchanged
+#include "temporal/system_versioned_table.h"       // NEW
+#include "temporal/temporal_query_engine.h"        // NEW
+#include "temporal/temporal_index.h"               // NEW
+#include "temporal/retention_manager.h"            // NEW
+#include "temporal/bi_temporal.h"                  // NEW
+#include "temporal/snapshot_manager.h"             // NEW
+#include "temporal/temporal_aggregator.h"          // NEW
 ```
 
-2. Existing conflict resolution code remains compatible
-3. New features are opt-in
+Existing conflict-resolution code is fully compatible; new features are opt-in.
 
 ---
 
@@ -431,5 +497,5 @@ When v1.1 is released with system-versioned tables:
 ---
 
 *Last Updated: February 2026*  
-*API Version: v1.0.0*  
-*ABI Version: 1.0*
+*API Version: v1.1.0*  
+*ABI Version: 1.1*

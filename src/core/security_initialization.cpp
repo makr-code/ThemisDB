@@ -1,8 +1,35 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            security_initialization.cpp                        ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   83.0/100                                       ║
+    • Total Lines:     309                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "core/security_initialization.h"
 #include "core/production_mode.h"
 #include "core/config_validator.h"
 #include "security/mock_key_provider.h"
 #include "security/vault_key_provider.h"
+#include "security/hsm_provider.h"
 #include "security/hsm_key_provider_adapter.h"
 #include <fstream>
 #include <sstream>
@@ -256,7 +283,19 @@ IKeyProviderPtr SecurityLayerBuilder::createKeyProvider(
             }
             
             try {
-                return std::make_shared<HSMKeyProviderAdapter>(library_path, slot_id, pin);
+                security::HSMConfig hsm_config;
+                hsm_config.library_path = library_path;
+                if (!slot_id.empty()) {
+                    hsm_config.slot_id = static_cast<uint32_t>(std::stoul(slot_id));
+                }
+                hsm_config.pin = pin;
+
+                auto hsm = std::make_shared<security::HSMProvider>(hsm_config);
+                if (!hsm->initialize()) {
+                    throw std::runtime_error("HSM provider initialization failed");
+                }
+
+                return std::make_shared<security::HSMKeyProviderAdapter>(hsm);
             } catch (const std::exception& e) {
                 throw std::runtime_error("Failed to initialize HSM key provider: " + std::string(e.what()));
             }

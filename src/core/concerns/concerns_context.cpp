@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            concerns_context.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:01                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     157                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "core/concerns/concerns_context.h"
 #include "core/concerns/spdlog_logger_adapter.h"
 #include "core/concerns/otel_tracer_adapter.h"
@@ -6,6 +32,7 @@
 #include "core/concerns/noop_implementations.h"
 #include "core/production_mode.h"
 #include "core/config_validator.h"
+#include "observability/metrics_collector.h"
 #include "utils/logger.h"
 
 namespace themis {
@@ -41,8 +68,10 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     auto logLevel = ILogger::levelFromString(config.logLevel);
     utils::Logger::init(config.logFile, static_cast<utils::Logger::Level>(
         static_cast<int>(logLevel)));
-    auto logger = std::make_unique<SpdlogLoggerAdapter>();
-    logger->setPattern(config.logPattern);
+    auto logger = std::make_unique<SpdlogLoggerAdapter>(nullptr, config.jsonLogging);
+    if (!config.jsonLogging) {
+        logger->setPattern(config.logPattern);
+    }
 
     // Initialize tracer
     std::unique_ptr<ITracer> tracer;
@@ -63,6 +92,9 @@ std::shared_ptr<ConcernsContext> ConcernsContext::create(const Config& config) {
     // Initialize metrics
     std::unique_ptr<IMetrics> metrics;
     if (config.metricsEnabled) {
+        if (config.maxMetricCardinality > 0) {
+            observability::MetricsCollector::getInstance().setCardinalityLimit(config.maxMetricCardinality);
+        }
         metrics = std::make_unique<PrometheusMetricsAdapter>();
     } else {
         if (production_mode) {

@@ -1,4 +1,30 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            transaction_manager.h                              ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     417                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 #include <string>
 #include <string_view>
@@ -12,20 +38,19 @@
 #include <condition_variable>
 #include <deque>
 #include "storage/rocksdb_wrapper.h"
+#include "transaction/lock_manager.h"
+#include "transaction/isolation_level.h"
 
 namespace themis {
 
 class BaseEntity;
+
+// Forward declaration for Phase 8 crash recovery
+namespace transaction { class CrashRecoveryManager; }
 class SecondaryIndexManager;
 class GraphIndexManager;
 class VectorIndexManager;
 class Saga;
-
-/// Isolation levels for transactions
-enum class IsolationLevel {
-    ReadCommitted,  // Default: only committed data visible
-    Snapshot        // Snapshot isolation (point-in-time consistency)
-};
 
 /// TransactionManager: ACID-ähnliche, atomare Multi-Layer-Updates via RocksDB WriteBatch
 ///
@@ -92,6 +117,34 @@ public:
         // Abschluss
         Status commit();
         void rollback();
+
+        // ── Savepoints ───────────────────────────────────────────────────────
+
+        /**
+         * @brief Record a savepoint at the current write position.
+         *
+         * Savepoints are stacked (LIFO).  Multiple calls to setSavePoint()
+         * create multiple nested savepoints.
+         *
+         * Returns an error if the transaction is not active.
+         */
+        Status setSavePoint();
+
+        /**
+         * @brief Rollback all writes since the most recent setSavePoint().
+         *
+         * Pops the latest savepoint.  Returns an error if there is no
+         * outstanding savepoint or the transaction is not active.
+         */
+        Status rollbackToSavePoint();
+
+        /**
+         * @brief Discard (commit) the most recent savepoint without undoing writes.
+         *
+         * Returns an error if there is no outstanding savepoint or the
+         * transaction is not active.
+         */
+        Status popSavePoint();
         
         // SAGA support
         Saga& getSaga() { return *saga_; }
@@ -166,12 +219,31 @@ public:
     void cleanupOldTransactions(std::chrono::seconds max_age = std::chrono::hours(1));
     
     // Deadlock detection
+
+    /// Victim-selection policy for deadlock resolution.
+    /// When a cycle is detected one transaction is aborted to break the deadlock.
+    enum class DeadlockVictimPolicy {
+        YOUNGEST,  ///< Abort the transaction with the highest (newest) ID (default)
+        OLDEST,    ///< Abort the transaction with the lowest (oldest) ID
+        LEAST_EXPENSIVE, ///< Abort the transaction that holds the fewest locks
+    };
+
     struct DeadlockInfo {
         std::vector<TransactionId> cycle;  // Transaction IDs involved in deadlock
         std::chrono::system_clock::time_point detected_at;
         TransactionId victim_id;  // Transaction chosen to abort
+        DeadlockVictimPolicy policy_used{DeadlockVictimPolicy::YOUNGEST};
     };
-    
+
+    /// Aggregate metrics for deadlock events.
+    struct DeadlockMetrics {
+        uint64_t total_detected{0};     ///< Total deadlock cycles detected
+        uint64_t total_resolved{0};     ///< Successfully resolved (victim aborted)
+        double   avg_cycle_length{0.0}; ///< Average number of transactions per cycle
+        uint64_t max_cycle_length{0};   ///< Largest cycle seen
+        DeadlockVictimPolicy active_policy{DeadlockVictimPolicy::YOUNGEST};
+    };
+
     /**
      * @brief Enable or disable deadlock detection
      * 
@@ -185,7 +257,17 @@ public:
      * @param timeout_ms timeout in milliseconds
      */
     void setDeadlockTimeout(std::chrono::milliseconds timeout_ms);
-    
+
+    /**
+     * @brief Set the victim-selection policy for deadlock resolution.
+     */
+    void setDeadlockVictimPolicy(DeadlockVictimPolicy policy);
+
+    /**
+     * @brief Get current victim-selection policy.
+     */
+    DeadlockVictimPolicy getDeadlockVictimPolicy() const;
+
     /**
      * @brief Get recent deadlocks
      * 
@@ -201,12 +283,75 @@ public:
      */
     uint64_t getDeadlockCount() const { return total_deadlocks_.load(std::memory_order_relaxed); }
 
+    /**
+     * @brief Get detailed deadlock metrics.
+     */
+    DeadlockMetrics getDeadlockMetrics() const;
+
+    /// Access the shared LockManager for external lock operations.
+    LockManager& getLockManager() { return lock_manager_; }
+    const LockManager& getLockManager() const { return lock_manager_; }
+
+    // ── Phase 8: Durability & Crash-Recovery ─────────────────────────────────
+
+    /**
+     * @brief Enable transaction WAL (Write-Ahead Log) for crash recovery.
+     *
+     * Once enabled, every beginTransaction / commit / rollback call is logged
+     * to the WAL file so that a subsequent recover() call can undo any
+     * in-flight transactions that were active when the process crashed.
+     *
+     * @param wal_path      Path to the WAL file (created if absent).
+     * @param sync_on_write fsync after every WAL append (safe but slower).
+     */
+    void enableCrashRecovery(const std::string& wal_path,
+                              bool sync_on_write = true);
+
+    /**
+     * @brief Check whether the WAL contains in-flight transactions that
+     *        need to be recovered.
+     *
+     * Should be called at startup before the first beginTransaction().
+     * Returns false if WAL is disabled or clean.
+     */
+    bool needsCrashRecovery() const;
+
+    /**
+     * @brief Perform crash recovery.
+     *
+     * Scans the WAL file, identifies uncommitted transactions, and undoes
+     * their operations by writing old values back to the database.
+     * A CHECKPOINT is appended so the next startup skips already-recovered
+     * entries.
+     *
+     * @return Result summary (in-flight count, rolled-back count, etc.).
+     */
+    transaction::CrashRecoveryManager::RecoveryResult crashRecover();
+
+    /**
+     * @brief Access the underlying CrashRecoveryManager (for testing/monitoring).
+     *
+     * Returns nullptr when crash recovery is disabled.
+     */
+    transaction::CrashRecoveryManager* getCrashRecoveryManager() {
+        return crash_recovery_mgr_.get();
+    }
+    const transaction::CrashRecoveryManager* getCrashRecoveryManager() const {
+        return crash_recovery_mgr_.get();
+    }
+
 private:
     RocksDBWrapper& db_;
     SecondaryIndexManager& secIdx_;
     GraphIndexManager& graphIdx_;
     VectorIndexManager& vecIdx_;
-    
+
+    // Shared lock manager (Phase 1: Lock Management)
+    LockManager lock_manager_;
+
+    // Phase 8: WAL-based crash recovery
+    std::unique_ptr<transaction::CrashRecoveryManager> crash_recovery_mgr_;
+
     // Session management
     mutable std::mutex sessions_mutex_;
     std::unordered_map<TransactionId, std::shared_ptr<Transaction>> active_transactions_;
@@ -233,6 +378,13 @@ private:
     std::atomic<bool> deadlock_detection_enabled_{false};
     std::atomic<uint64_t> deadlock_timeout_ms_{1000};
     std::atomic<uint64_t> total_deadlocks_{0};
+
+    // Victim selection policy (stored as underlying int for atomic access)
+    std::atomic<int> victim_policy_{static_cast<int>(DeadlockVictimPolicy::YOUNGEST)};
+
+    // Cumulative deadlock metrics
+    std::atomic<uint64_t> deadlock_total_cycle_len_{0};  // sum of all cycle lengths
+    std::atomic<uint64_t> deadlock_max_cycle_len_{0};    // largest cycle seen
     
     // Lock tracking for deadlock detection
     struct LockInfo {

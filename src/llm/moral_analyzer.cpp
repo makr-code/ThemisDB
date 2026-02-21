@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            moral_analyzer.cpp                                 ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:03                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   96.0/100                                       ║
+    • Total Lines:     1380                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/moral_analyzer.h"
 #include <sstream>
 #include <algorithm>
@@ -700,11 +726,9 @@ MoralAnalyzer::retrieveSimilarScenarios(
 
 MoralAnalyzer::Status MoralAnalyzer::storeDecision(
     const EthicalDecision& decision,
-    const std::vector<float>& scenario_embedding
+    const std::vector<float>& scenario_embedding,
+    const std::string& user_id
 ) {
-    // NOTE: In production, pass user_id as parameter for proper audit attribution
-    // For now, use system identifier (can be customized in production deployment)
-    std::string user_id = "ethics_system";  // TODO: Accept as parameter
     
     // 1. GRAPH STORAGE: Store full decision structure with reasoning chains
     BaseEntity decision_entity(decision.decision_id);

@@ -1,4 +1,30 @@
-﻿#pragma once
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http_server.h                                      ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:49                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     944                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+#pragma once
 
 // Windows compatibility
 #ifndef NOMINMAX
@@ -48,6 +74,7 @@
 #include "server/content_api_handler.h"
 #include "server/changefeed_api_handler.h"
 #include "server/saga_api_handler.h"
+#include "server/geo_topology_api_handler.h"
 #include "server/cache_api_handler.h"
 #include "server/pii_api_handler.h"
 #include "server/retention_api_handler.h"
@@ -65,7 +92,14 @@ namespace themis { namespace server { class FeedbackAPIHandler; } }
 #endif
 #include "server/error_api_handler.h"
 #include "server/schema_api_handler.h"
+#include "metadata/statistics_collector.h"
+#include "metadata/schema_constraints.h"
+#include "metadata/schema_version_manager.h"
+#include "metadata/index_recommender.h"
+#include "metadata/schema_audit_log.h"
+#include "metadata/schema_consistency_checker.h"
 #include "server/transaction_api_handler.h"
+#include "server/distributed_txn_api_handler.h"
 #include "server/wal_api_handler.h"
 #include "server/health_error_service.h"
 #include "server/rate_limiter.h"
@@ -114,6 +148,7 @@ class PITRApiHandler;
 class BranchApiHandler;
 class MergeApiHandler;
 class SnapshotApiHandler;  // Moved here to match namespace
+class MvccApiHandler;
 }
 
 namespace sharding {
@@ -164,7 +199,10 @@ public:
         uint16_t port = 8080;
         size_t num_threads = std::thread::hardware_concurrency();
         size_t max_request_size_mb = 10;
+        size_t max_header_size_bytes = 8192; // 8 KB default max header size
         uint32_t request_timeout_ms = 30000; // 30 seconds default
+        uint32_t graceful_shutdown_timeout_ms = 30000; // 30 second drain timeout
+        size_t max_connections = 0; // 0 = unlimited; enforce max concurrent TCP connections
         // Feature flags
         bool feature_semantic_cache = false;
         bool feature_llm_store = false;
@@ -265,9 +303,48 @@ public:
      */
     bool isRunning() const { return running_; }
 
+    /**
+     * @brief Hot-reload TLS certificate and private key without downtime (SIGHUP)
+     *
+     * Reloads certificate/key files from the paths stored in Config. New TLS
+     * sessions will use the fresh certificate; existing sessions are unaffected.
+     * Thread-safe: protected by ssl_ctx_mutex_.
+     *
+     * @return true if reload succeeded, false if TLS is not enabled or reload failed
+     */
+    bool reloadTls();
+
     // Test helper: expose content manager metrics (nullable)
     const themis::content::ContentManager::Metrics* contentMetrics() const {
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
+    }
+
+    /**
+     * @brief Inject a ConcernsContext for lifecycle management and health probes.
+     *
+     * When set before calling start(), the server will:
+     *  - forward the context to MonitoringApiHandler so that /health/live and
+     *    /health/ready report per-concern health;
+     *  - call concerns->shutdown() during stop() after all other teardown is done.
+     *
+     * This method is idempotent: calling it multiple times replaces the previous
+     * context.  It is safe to call only from the thread that owns the server
+     * (before start()).
+     *
+     * @param concerns Shared ownership of the ConcernsContext to use.
+     */
+    void setConcerns(std::shared_ptr<core::concerns::ConcernsContext> concerns) {
+        concerns_ = std::move(concerns);
+        // Forward to MonitoringApiHandler if it has already been constructed
+        // (i.e. setConcerns() is called after the constructor ran).
+        if (monitoring_api_) {
+            monitoring_api_->setConcerns(concerns_);
+        }
+    }
+
+    /// @return the current ConcernsContext (may be nullptr).
+    std::shared_ptr<core::concerns::ConcernsContext> getConcerns() const {
+        return concerns_;
     }
 
 #ifdef THEMIS_ENABLE_WEBSOCKET
@@ -287,6 +364,7 @@ private:
     class Session : public std::enable_shared_from_this<Session> {
     public:
         Session(tcp::socket socket, HttpServer* server);
+        ~Session();
         void start();
 
     private:
@@ -295,18 +373,22 @@ private:
         void processRequest();
         void doWrite();
         void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
+        void armReadTimer();
+        void cancelReadTimer();
 
         tcp::socket socket_;
         HttpServer* server_;
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
+        net::steady_timer read_timer_; // enforces request_timeout_ms
     };
 
     // SSL Session class for handling TLS connections
     class SslSession : public std::enable_shared_from_this<SslSession> {
     public:
         SslSession(tcp::socket socket, boost::asio::ssl::context& ssl_ctx, HttpServer* server);
+        ~SslSession();
         void start();
 
     private:
@@ -318,12 +400,15 @@ private:
         void doWrite();
         void onWrite(bool close, beast::error_code ec, std::size_t bytes_transferred);
         void doShutdown();
+        void armReadTimer();
+        void cancelReadTimer();
 
         beast::ssl_stream<tcp::socket> stream_;
         HttpServer* server_;
         beast::flat_buffer buffer_;
         http::request<http::string_body> request_;
         http::response<http::string_body> response_;
+        net::steady_timer read_timer_; // enforces request_timeout_ms
     };
 
     // Request routing
@@ -479,6 +564,19 @@ private:
     http::response<http::string_body> handleSchemaPut(const http::request<http::string_body>& req);
     http::response<http::string_body> handleSchemaPatch(const http::request<http::string_body>& req);
 
+    // Metadata extended endpoints
+    http::response<http::string_body> handleMetadataInformationSchema(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataGetStats(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataCollectStats(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataGetConstraints(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataIndexRecommendations(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataAuditLog(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataSchemaImport(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleMetadataBatchValidate(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaVersionHistory(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaCreateVersion(const http::request<http::string_body>& req);
+    http::response<http::string_body> handleSchemaDiff(const http::request<http::string_body>& req);
+
     // Utility methods
     http::response<http::string_body> makeResponse(
         http::status status,
@@ -575,6 +673,9 @@ private:
     std::unique_ptr<transaction::SnapshotManager> snapshot_manager_;
     std::unique_ptr<server::SnapshotApiHandler> snapshot_api_handler_;
     
+    // MVCC API Handler (per-record versioning + HLC)
+    std::unique_ptr<server::MvccApiHandler> mvcc_api_handler_;
+    
     // Diff Engine and API Handler (Phase 2 MVCC features)
     std::unique_ptr<analytics::DiffEngine> diff_engine_;
     std::unique_ptr<DiffApiHandler> diff_api_handler_;
@@ -636,9 +737,14 @@ private:
     
     // Spatial API Handler
     std::unique_ptr<themis::server::SpatialApiHandler> spatial_api_;
+
+    // Geo Topology API Handler
+    std::unique_ptr<themis::server::GeoTopologyApiHandler> geo_topology_api_;
     
     // Monitoring API Handler
     std::unique_ptr<themis::server::MonitoringApiHandler> monitoring_api_;
+    // Cross-cutting concerns (lifecycle hooks + health probes); optional.
+    std::shared_ptr<core::concerns::ConcernsContext> concerns_;
     // Query API Handler
     std::unique_ptr<themis::server::QueryApiHandler> query_api_;
     // Policy API Handler
@@ -691,6 +797,9 @@ private:
     // Transaction API Handler
     std::unique_ptr<themis::server::TransactionApiHandler> transaction_api_;
     
+    // Distributed (cross-shard) Transaction API Handler
+    std::unique_ptr<themis::server::DistributedTxnApiHandler> distributed_txn_api_;
+    
     // WAL API Handler
     std::unique_ptr<themis::server::WALApiHandler> wal_api_;
     
@@ -713,6 +822,13 @@ private:
     // Schema API Handler
     std::unique_ptr<themis::server::SchemaApiHandler> schema_api_handler_;
     std::unique_ptr<SchemaManager> schema_manager_;
+    // Metadata sub-components owned alongside SchemaApiHandler
+    std::unique_ptr<StatisticsCollector>      stats_collector_;
+    std::unique_ptr<SchemaConstraints>        schema_constraints_;
+    std::unique_ptr<SchemaVersionManager>     schema_version_mgr_;
+    std::unique_ptr<IndexRecommender>         index_recommender_;
+    std::unique_ptr<SchemaAuditLog>           schema_audit_log_;
+    std::unique_ptr<SchemaConsistencyChecker> schema_consistency_checker_;
     
     // Adaptive Index Manager (Sprint C)
     std::shared_ptr<AdaptiveIndexManager> adaptive_index_;
@@ -744,6 +860,7 @@ private:
     net::io_context ioc_;
     tcp::acceptor acceptor_;
     std::unique_ptr<boost::asio::ssl::context> ssl_ctx_; // SSL context for TLS connections
+    mutable std::mutex ssl_ctx_mutex_; // Protects ssl_ctx_ during hot-reload
     
     // Thread pool
     std::vector<std::thread> threads_;
@@ -752,6 +869,8 @@ private:
     // Metrics
     std::atomic<uint64_t> request_count_{0};
     std::atomic<uint64_t> error_count_{0};
+    std::atomic<uint64_t> active_requests_{0}; // In-flight request counter for graceful shutdown
+    std::atomic<uint64_t> active_connections_{0}; // Open TCP connections
     std::chrono::steady_clock::time_point start_time_;
 
     // Audit rate limiting state

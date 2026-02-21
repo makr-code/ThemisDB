@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            input_validator.h                                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     74                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 2                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -11,8 +37,14 @@ class InputValidator {
 public:
     explicit InputValidator(std::string schema_dir);
 
-    // Basic JSON schema stub validation: checks required keys and basic types from a simple stub schema
-    // Returns std::nullopt if valid, otherwise an error message
+    // JSON schema validation against a JSON Schema Draft-7 file.
+    // Loads the schema from <schema_dir>/<schema_name>.json and validates `payload` against it.
+    // Supported keywords:
+    //   Top-level:   type ("object"), required, properties, additionalProperties
+    //   Per property: type (string/object/number/integer/boolean/array/null),
+    //                 enum, minLength, maxLength, pattern,
+    //                 minimum, maximum, exclusiveMinimum, exclusiveMaximum
+    // Returns std::nullopt if valid (or if no schema file is found), otherwise an error message.
     std::optional<std::string> validateJsonStub(
         const nlohmann::json& payload,
         const std::string& schema_name

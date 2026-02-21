@@ -70,9 +70,25 @@ if(THEMIS_ENABLE_LLM)
         ../src/rag/cot_evaluator.cpp
         ../src/rag/geval_evaluator.cpp
         
+        # RAG Enhancement: Quality Control Pipeline (Phase 5)
+        ../src/rag/llm_judge_client.cpp
+        ../src/rag/nli_faithfulness_verifier.cpp
+        ../src/rag/quality_control_pipeline.cpp
+        ../src/rag/quality_control_factory.cpp
+        
+        # RAG Enhancement: Continuous Learning Integration (Phase 6)
+        ../src/rag/continuous_learning_client.cpp
+        
+        # RAG Enhancement: Production Integration (Phase 7 - Future Works)
+        ../src/rag/onnx_model_loader.cpp
+        ../src/rag/http_metrics_client.cpp
+        
         # LoRA Cross-Shard Synchronization (Automatic Replication & Consistency)
         ../src/llm/lora_framework/adapter_consistency_checker.cpp
         ../src/llm/lora_framework/adapter_sync_manager.cpp
+
+        # LoRA Adapter Provenance, Snapshots, and Merkle-chained Audit Log
+        ../src/llm/lora_framework/lora_provenance.cpp
         
         # NOTE: content_manager_llm.cpp commented out - requires ContentManager implementation
         # ../src/content/content_manager_llm.cpp

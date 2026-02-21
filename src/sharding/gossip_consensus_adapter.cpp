@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gossip_consensus_adapter.cpp                       ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     402                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -221,14 +247,45 @@ bool GossipConsensusAdapter::transferLeadership(const std::string& /*target_node
     return true;
 }
 
-bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& /*snapshot_data*/) {
-    spdlog::warn("Gossip snapshot not yet implemented");
-    return false;
+bool GossipConsensusAdapter::takeSnapshot(const nlohmann::json& snapshot_data) {
+    if (!running_.load()) {
+        spdlog::warn("takeSnapshot: Gossip not running");
+        return false;
+    }
+
+    const uint64_t snap_index = commit_index_.load();
+    // Gossip is termless; use 0 for term
+
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = snap_index;
+        snapshot_term_  = 0;
+    }
+
+    spdlog::info("GossipConsensusAdapter::takeSnapshot: snapshot at index={}", snap_index);
+    return true;
 }
 
-bool GossipConsensusAdapter::restoreSnapshot(const nlohmann::json& /*snapshot_data*/) {
-    spdlog::warn("Gossip snapshot restore not yet implemented");
-    return false;
+bool GossipConsensusAdapter::restoreSnapshot(const nlohmann::json& snapshot_data) {
+    if (snapshot_data.is_null() || snapshot_data.empty()) {
+        spdlog::error("GossipConsensusAdapter::restoreSnapshot: snapshot_data is null or empty");
+        return false;
+    }
+
+    uint64_t restored_index = 0;
+    if (snapshot_data.contains("_snapshot_index"))
+        restored_index = snapshot_data["_snapshot_index"].get<uint64_t>();
+
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        snapshot_data_  = snapshot_data;
+        snapshot_index_ = restored_index;
+        snapshot_term_  = 0;  // Gossip has no term concept
+    }
+
+    spdlog::info("GossipConsensusAdapter::restoreSnapshot: restored at index={}", restored_index);
+    return true;
 }
 
 ConsensusStats GossipConsensusAdapter::getStats() const {
@@ -247,7 +304,13 @@ ConsensusStats GossipConsensusAdapter::getStats() const {
 
 nlohmann::json GossipConsensusAdapter::getStatus() const {
     auto stats = getStats();
-    
+
+    uint64_t snap_index = 0;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        snap_index = snapshot_index_;
+    }
+
     return {
         {"type", "Gossip"},
         {"node_id", node_id_},
@@ -256,7 +319,9 @@ nlohmann::json GossipConsensusAdapter::getStatus() const {
         {"state", static_cast<int>(stats.state)},
         {"commit_index", stats.commit_index},
         {"cluster_size", stats.cluster_size},
-        {"total_operations", stats.total_operations}
+        {"total_operations", stats.total_operations},
+        {"snapshot_index", snap_index},
+        {"snapshot_term",  0u}
     };
 }
 

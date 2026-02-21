@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            vector_auto_buffer.cpp                             ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     452                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "index/vector_auto_buffer.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -11,9 +37,9 @@ size_t VectorAutoBuffer::BufferedOp::estimateVectorSize(const BaseEntity& entity
     // Estimate size of vector data in entity
     // Assumes typical embedding field is a float array
     try {
-        auto& data = entity.getData();
-        if (data.contains("embedding") && data["embedding"].is_array()) {
-            return data["embedding"].size() * sizeof(float);
+        auto embedding = entity.extractVector("embedding");
+        if (embedding.has_value()) {
+            return embedding->size() * sizeof(float);
         }
     } catch (...) {
         // Fallback estimate
@@ -390,10 +416,19 @@ void VectorAutoBuffer::flushThread() {
 
 VectorAutoBufferStats VectorAutoBuffer::getStats() const {
     std::lock_guard<std::mutex> lock(buffers_mutex_);
-    
-    VectorAutoBufferStats stats = stats_;
+
+    VectorAutoBufferStats stats;
+    stats.vectors_buffered.store(stats_.vectors_buffered.load());
+    stats.vectors_flushed.store(stats_.vectors_flushed.load());
+    stats.flush_count.store(stats_.flush_count.load());
+    stats.auto_flush_count.store(stats_.auto_flush_count.load());
+    stats.manual_flush_count.store(stats_.manual_flush_count.load());
+    stats.size_triggered_flush.store(stats_.size_triggered_flush.load());
+    stats.time_triggered_flush.store(stats_.time_triggered_flush.load());
+    stats.buffer_overflow_count.store(stats_.buffer_overflow_count.load());
     stats.current_buffer_size = stats_.current_buffer_size;
     stats.current_buffer_memory = stats_.current_buffer_memory;
+    stats.last_flush_time = stats_.last_flush_time;
     
     return stats;
 }

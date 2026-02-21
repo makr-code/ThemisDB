@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            audit_logger.h                                     ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     407                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -5,6 +31,7 @@
 #include <vector>
 #include <fstream>
 #include <mutex>
+#include <optional>
 #include <nlohmann/json.hpp>
 
 #include "security/encryption.h"
@@ -69,6 +96,8 @@ enum class SecurityEventType {
     DATA_WRITE,
     DATA_DELETE,
     BULK_EXPORT,
+    BULK_IMPORT,            ///< Large-scale data import started (e.g. pg_dump)
+    BULK_IMPORT_COMPLETED,  ///< Large-scale data import finished; includes stats payload
     
     // Graph & Vector Operations (Phase 1 - Knowledge Graph Protection)
     GRAPH_TRAVERSAL,        // BFS/DFS traversal operations
@@ -149,6 +178,10 @@ struct AuditLoggerConfig {
     uint16_t siem_port = 514; // Default: syslog (514). Configure based on siem_type: Splunk HEC (8088), Elastic (9200)
     std::string splunk_token; // Splunk HEC token
     std::string elastic_index = "themisdb-audit"; // Elasticsearch index
+    /// Path to a CA bundle file (PEM) used for TLS verification when
+    /// siem_type is "splunk".  If empty, libcurl uses its system default
+    /// bundle.  Set this explicitly in production to pin the expected CA.
+    std::string siem_ca_bundle_path;
     
     // Task Scheduler SIEM settings
     bool enable_task_scheduler_audit = true;
@@ -230,6 +263,71 @@ public:
      * @return Number of entries purged
      */
     size_t purgeOldEntries(std::chrono::system_clock::time_point older_than);
+
+    // -----------------------------------------------------------------------
+    // Phase 3 – Audit Search & Compliance Reporting
+    // -----------------------------------------------------------------------
+
+    /**
+     * @brief Search criteria for audit log queries.
+     */
+    struct SearchQuery {
+        /// Only return entries at or after this timestamp (optional).
+        std::optional<std::chrono::system_clock::time_point> from;
+        /// Only return entries before this timestamp (optional).
+        std::optional<std::chrono::system_clock::time_point> to;
+        /// Filter by user_id field (empty = any).
+        std::string user_id;
+        /// Filter by action/event type keyword (empty = any).
+        std::string action;
+        /// Filter by resource field prefix (empty = any).
+        std::string resource_prefix;
+        /// Maximum number of results to return (0 = unlimited).
+        size_t max_results = 0;
+    };
+
+    /**
+     * @brief Search audit log entries matching the given criteria.
+     *
+     * Reads the log file sequentially and returns every plaintext record
+     * that satisfies all specified filters.  Encrypted entries are included
+     * as-is (payload.type == "ciphertext") without attempting decryption.
+     *
+     * @param query  Search parameters.
+     * @return       Matching entries in chronological order.
+     */
+    std::vector<AuditLogEntry> searchEntries(const SearchQuery& query) const;
+
+    /**
+     * @brief Compliance report for a given time window.
+     */
+    struct ComplianceReport {
+        std::chrono::system_clock::time_point from;
+        std::chrono::system_clock::time_point to;
+        uint64_t total_events = 0;
+        uint64_t security_events = 0;
+        uint64_t data_access_events = 0;
+        uint64_t authentication_events = 0;
+        uint64_t key_management_events = 0;
+        uint64_t pii_events = 0;
+        bool chain_intact = false;
+        nlohmann::json event_counts_by_type;   ///< map<string, int>
+        nlohmann::json top_users;              ///< map<user_id, count>
+    };
+
+    /**
+     * @brief Generate a compliance report for the specified time window.
+     *
+     * Aggregates event counts, identifies top users, and verifies chain
+     * integrity across the window.
+     *
+     * @param from  Start of the reporting period.
+     * @param to    End of the reporting period.
+     * @return      Populated ComplianceReport.
+     */
+    ComplianceReport generateComplianceReport(
+        std::chrono::system_clock::time_point from,
+        std::chrono::system_clock::time_point to);
     
     /**
      * @brief Get the configured log file path
@@ -268,7 +366,7 @@ private:
     std::shared_ptr<VCCPKIClient> pki_;
     AuditLoggerConfig cfg_;
 
-    std::mutex file_mu_;
+    mutable std::mutex file_mu_;
     
     // Hash chain state (for tamper-proofing)
     std::string last_hash_;

@@ -1,25 +1,63 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            cron_parser.h                                      ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:51                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     201                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file cron_parser.h
  * @brief Cron expression parser and evaluator for task scheduling
- * 
- * Implements standard 5-field cron syntax:
- * - Minute (0-59)
- * - Hour (0-23)
- * - Day of month (1-31)
- * - Month (1-12)
- * - Day of week (0-6, Sunday=0)
- * 
+ *
+ * Implements standard 5-field cron syntax (minute hour day month weekday)
+ * and an optional 6-field form with an additional year field
+ * (minute hour day month weekday year).
+ *
  * Supported syntax:
  * - Wildcards: * (any value)
  * - Ranges: 0-5 (values from 0 to 5)
  * - Lists: 1,3,5 (specific values)
  * - Steps: *\/15 (every 15 units), 0-30/5 (every 5 from 0 to 30)
- * 
+ *
+ * Special expressions:
+ * - @yearly / @annually  – once a year  ("0 0 1 1 *")
+ * - @monthly             – once a month ("0 0 1 * *")
+ * - @weekly              – once a week  ("0 0 * * 0")
+ * - @daily / @midnight   – once a day   ("0 0 * * *")
+ * - @hourly              – once an hour ("0 * * * *")
+ * - @reboot              – at startup   (never fires via getNextExecution)
+ *
+ * Timezone support:
+ * Use the getNextExecution(from, tz_offset_seconds) overload to schedule
+ * tasks relative to a fixed-offset timezone (e.g. UTC+1 = +3600 seconds).
+ *
  * Examples:
- * - "0 9-17 * * 1-5" = Weekdays 9-17h every hour
- * - "*\/15 * * * *" = Every 15 minutes
- * - "0 0 1 * *" = First day of month at midnight
- * - "30 2 * * 0" = Every Sunday at 2:30 AM
+ * - "0 9-17 * * 1-5"      = Weekdays 9-17h every hour
+ * - "*\/15 * * * *"        = Every 15 minutes
+ * - "0 0 1 * *"           = First day of month at midnight
+ * - "30 2 * * 0"          = Every Sunday at 2:30 AM
+ * - "@daily"              = Every day at midnight
+ * - "@hourly"             = Every hour on the hour
+ * - "0 9 * * 1 2025"      = Every Monday at 9:00 in 2025 only (6-field)
  */
 
 #ifndef THEMIS_CRON_PARSER_H
@@ -50,32 +88,53 @@ class CronExpression {
 public:
     /**
      * @brief Parse a cron expression string
-     * @param expression Cron expression (5 fields: minute hour day month weekday)
+     * @param expression Cron expression (5 fields: minute hour day month weekday,
+     *                   or 6 fields: minute hour day month weekday year)
      * @return Parsed cron expression or error
      */
     static std::optional<CronExpression> parse(const std::string& expression);
-    
+
     /**
      * @brief Validate a cron expression without parsing
-     * @param expression Cron expression to validate
+     * @param expression Cron expression to validate (5 or 6 fields)
      * @return Validation result with error details
      */
     static CronValidationResult validate(const std::string& expression);
-    
+
     /**
-     * @brief Calculate the next execution time from a given time point
+     * @brief Calculate the next execution time from a given time point (local time).
      * @param from Starting time point
      * @return Next execution time, or nullopt if no valid next time exists
      */
     std::optional<std::chrono::system_clock::time_point> getNextExecution(
         const std::chrono::system_clock::time_point& from) const;
-    
+
     /**
-     * @brief Check if a given time matches the cron expression
+     * @brief Calculate the next execution time interpreted in a fixed-offset timezone.
+     *
+     * The cron expression fields are evaluated in the timezone defined by
+     * @p tz_offset_seconds (positive = east of UTC, e.g. +3600 for UTC+1).
+     * The returned time point is always in UTC.
+     *
+     * @param from               Starting time point (UTC)
+     * @param tz_offset_seconds  UTC offset of the target timezone in seconds
+     * @return Next execution time (UTC), or nullopt if no valid next time exists
+     */
+    std::optional<std::chrono::system_clock::time_point> getNextExecution(
+        const std::chrono::system_clock::time_point& from,
+        std::chrono::seconds tz_offset_seconds) const;
+
+    /**
+     * @brief Check if a given time matches the cron expression (local time).
      * @param time Time point to check
      * @return True if time matches the expression
      */
     bool matches(const std::chrono::system_clock::time_point& time) const;
+
+    /**
+     * @brief Returns true if this expression was parsed with a year constraint (6-field form).
+     */
+    bool hasYearConstraint() const { return !years_.empty(); }
     
     /**
      * @brief Get human-readable description of the cron expression
@@ -90,19 +149,30 @@ public:
     const std::string& getExpression() const { return expression_; }
 
 private:
+    // 5-field constructor (no year constraint)
     CronExpression(const std::string& expression,
                    std::set<int> minutes,
                    std::set<int> hours,
                    std::set<int> days,
                    std::set<int> months,
                    std::set<int> weekdays);
-    
+
+    // 6-field constructor (with year constraint)
+    CronExpression(const std::string& expression,
+                   std::set<int> minutes,
+                   std::set<int> hours,
+                   std::set<int> days,
+                   std::set<int> months,
+                   std::set<int> weekdays,
+                   std::set<int> years);
+
     std::string expression_;
     std::set<int> minutes_;   // 0-59
     std::set<int> hours_;     // 0-23
     std::set<int> days_;      // 1-31
     std::set<int> months_;    // 1-12
     std::set<int> weekdays_;  // 0-6 (Sunday=0)
+    std::set<int> years_;     // empty = any year; non-empty = specific years (1970-2199)
     
     // Helper methods for parsing
     static std::optional<std::set<int>> parseField(

@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_shard_resilience.cpp                          ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:40                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     462                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 
@@ -88,9 +114,11 @@ TEST_F(ShardResilienceTest, SplitBrainPrevention) {
     
     // Wait for detection
     std::this_thread::sleep_for(200ms);
-    
-    // With split-brain detection enabled, should detect the issue
-    // (actual split-brain logic depends on quorum calculations)
+
+    // With split-brain detection enabled and one of three nodes unreachable,
+    // detector should flag split-brain and emit at least one partition event.
+    EXPECT_TRUE(partition_detected);
+    EXPECT_TRUE(detector.isSplitBrainDetected());
     
     detector.stop();
 }
@@ -170,6 +198,8 @@ TEST_F(ShardResilienceTest, CascadeFailureHandling) {
     }
     
     EXPECT_EQ(detector.getNetworkHealth(), NetworkHealth::HEALTHY);
+
+    detector.start();
     
     // Simulate cascade failure: multiple nodes fail
     detector.recordFailure("node2");
@@ -180,11 +210,16 @@ TEST_F(ShardResilienceTest, CascadeFailureHandling) {
     
     detector.recordFailure("node4");
     detector.recordFailure("node4");
+
+    // Give background health loop time to update network state
+    std::this_thread::sleep_for(150ms);
     
     // Should detect degraded or partitioned state
     NetworkHealth health = detector.getNetworkHealth();
     EXPECT_TRUE(health == NetworkHealth::DEGRADED || 
                 health == NetworkHealth::PARTITIONED);
+
+    detector.stop();
 }
 
 TEST_F(ShardResilienceTest, QuorumWithMultipleFailures) {
@@ -328,9 +363,10 @@ TEST_F(ShardResilienceTest, PartitionHistoryTracking) {
     // Check if partition history is maintained
     auto history = detector.getPartitionHistory();
     
-    // History tracking depends on implementation
-    // Just verify the method works
-    EXPECT_TRUE(history.empty() || !history.empty());
+    // Partition history is populated by the running health-check loop.
+    // Without start(), failures alone must not produce partition events.
+    EXPECT_TRUE(history.empty());
+    EXPECT_FALSE(detector.isSplitBrainDetected());
 }
 
 TEST_F(ShardResilienceTest, CombinedPartitionAndQuorum) {
@@ -366,11 +402,12 @@ TEST_F(ShardResilienceTest, CombinedPartitionAndQuorum) {
     // Try quorum operation with only reachable nodes
     auto operation = [](const std::string&) { return true; };
     auto result = qm.executeWrite(operation, reachable_nodes);
-    
-    // Should succeed if we have 3+ reachable nodes
-    if (reachable_nodes.size() >= 2) {
-        EXPECT_TRUE(result.success);
-    }
+
+    // Two nodes failed, so exactly three nodes remain reachable.
+    EXPECT_EQ(reachable_nodes.size(), 3);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.acks_required, 2);
+    EXPECT_EQ(result.acks_received, 3);
 }
 
 TEST_F(ShardResilienceTest, NetworkHealthTransitions) {

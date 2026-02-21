@@ -508,30 +508,62 @@ themis_shard_health_status{shard_id="raid0-3"} 0
 - Single copy of data per key
 
 #### RAID 1 (Strong Consistency)
+
+Writes across RAID-1 mirrors use the ThemisDB Two-Phase Commit (2PC) protocol.
+Each Raft-leader shard runs a `TwoPhaseCommitParticipant`; the `DistributedTransactionCoordinator`
+orchestrates PREPARE and COMMIT across all participants atomically.
+
 ```cpp
-class RAID1Coordinator {
-public:
-    bool write(const std::string& key, const std::string& value) {
-        // Two-phase commit
-        // Phase 1: Prepare
-        bool primary_prepared = primary_->prepare(key, value);
-        bool secondary_prepared = secondary_->prepare(key, value);
-        
-        if (!primary_prepared || !secondary_prepared) {
-            // Abort transaction
-            primary_->abort();
-            secondary_->abort();
-            return false;
-        }
-        
-        // Phase 2: Commit
-        primary_->commit();
-        secondary_->commit();
-        
-        return true;
+#include "sharding/two_phase_commit_participant.h"
+#include "sharding/distributed_transaction.h"
+#include "sharding/truetime.h"
+
+// ── Shard-side setup (runs once per Raft-group leader) ───────────────────────
+
+TwoPhaseCommitParticipant::Config pcfg;
+pcfg.prepare_timeout_ms = 10000;
+pcfg.sync_wal_writes    = true;   // Durability
+
+// Callbacks wired to the storage engine
+auto participant = std::make_shared<TwoPhaseCommitParticipant>(
+    "raid1-primary", pcfg,
+    // validate & acquire row locks in PREPARE phase
+    [&storage](const std::string& txn_id, const nlohmann::json& ops) {
+        return storage.validateAndLock(txn_id, ops);
+    },
+    // apply operations in COMMIT phase
+    [&storage](const std::string& txn_id, const nlohmann::json& ops, int64_t ts) {
+        return storage.applyWithTimestamp(txn_id, ops, ts);
+    },
+    // release locks after COMMIT or ABORT
+    [&storage](const std::string& txn_id) {
+        storage.releaseLocks(txn_id);
     }
-};
+);
+rpc_server.setRequestHandler(participant.get()); // attach to RPC listener
+
+// ── Coordinator-side setup (runs on the client / routing tier) ───────────────
+
+auto truetime    = std::make_shared<TrueTime>();
+auto coordinator = std::make_shared<DistributedTransactionCoordinator>(truetime);
+
+// Begin a transaction across the two RAID-1 mirrors
+std::string txn_id = coordinator->beginTransaction({"raid1-primary", "raid1-secondary"});
+
+// Stage per-shard write operations
+coordinator->addOperation(txn_id, "raid1-primary",   {{"type","update"},{"key","k1"},{"value","v1"}});
+coordinator->addOperation(txn_id, "raid1-secondary", {{"type","update"},{"key","k1"},{"value","v1"}});
+
+// commit() runs Phase 1 (PREPARE) then Phase 2 (COMMIT or ABORT) atomically
+bool ok = coordinator->commit(txn_id);
+// ok == true  → both mirrors have applied the write; WAL flushed on both
+// ok == false → one mirror rejected; coordinator sent ABORT to both (no change)
 ```
+
+For crash-recovery semantics, in-doubt transactions (PREPARE logged but no COMMIT/ABORT)
+are automatically resolved by the coordinator's `recoverTransactions()` on restart.
+See [`docs/DISTRIBUTED_TRANSACTIONS.md`](../../DISTRIBUTED_TRANSACTIONS.md) for
+the full protocol description, REST API reference (`/dtxn/*`), and configuration options.
 
 #### RAID 5 (Read-Your-Writes Consistency)
 - Writes complete only after all stripes (including parity) are written
@@ -848,6 +880,7 @@ docker stats themis-raid1-primary themis-raid1-secondary
 ## References
 
 ### Internal Documentation
+- [DISTRIBUTED_TRANSACTIONS.md](../../DISTRIBUTED_TRANSACTIONS.md) – 2PC protocol, REST API reference, configuration
 - [DOCKER_RAID_IMPLEMENTATION_SUMMARY.md](../benchmarks/DOCKER_RAID_IMPLEMENTATION_SUMMARY.md)
 - [RAID_SHARDING_QUICKSTART.md](../benchmarks/RAID_SHARDING_QUICKSTART.md)
 - [PROMETHEUS_INTEGRATION_COMPLETE.md](../PROMETHEUS_INTEGRATION_COMPLETE.md)

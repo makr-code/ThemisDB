@@ -1,10 +1,38 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_gguf_loader.cpp                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:25                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   81.0/100                                       ║
+    • Total Lines:     517                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include <gtest/gtest.h>
 #include "llm/gguf_loader.h"
+#include "llm/grammar.h"
 #include "llm/lora_framework/gguf_converter.h"
 #include "llm/lora_framework/quantized_model.h"
 #include <vector>
 #include <cstring>
 #include <fstream>
+#include <filesystem>
 
 using namespace themis::llm;
 using namespace themis::llm::lora;
@@ -297,6 +325,192 @@ TEST_F(GGUFLoaderTest, QuantizedModelIntegration) {
     Tensor dequantized = model.dequantize_layer("layer.weight");
     EXPECT_EQ(dequantized.shape(), size_t_shape);
     EXPECT_EQ(dequantized.size(), 64);
+}
+
+// ===== Unsupported Format Rejection Tests (Q1 implementation) =====
+
+TEST_F(GGUFLoaderTest, IsFormatSupported_SupportedTypes) {
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::F32));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::F16));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q4_K));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q8_0));
+}
+
+TEST_F(GGUFLoaderTest, IsFormatSupported_UnsupportedTypes) {
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q4_0));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q4_1));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_0));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_1));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q8_1));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_K));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q6_K));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q2_K));
+    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q3_K));
+}
+
+// Helper: write a minimal valid GGUF v3 binary with one tensor of the given type.
+// The tensor data section is left empty (zero bytes) — the test only checks
+// whether parseFile() rejects the unsupported type before trying to read data.
+static std::vector<uint8_t> makeMockGGUF(GGMLType tensor_type) {
+    // GGUF v3 header:
+    //   magic (4) + version (4) + tensor_count (8) + kv_count (8) = 24 bytes
+    // One tensor info entry:
+    //   name_len (8) + name (5 "w.one") + n_dims (4) + dim[0] (8) + type (4) + offset (8) = 37 bytes
+    // Data section: empty (tensor offset 0, size determined by shape)
+    
+    std::vector<uint8_t> buf;
+    
+    auto appendRaw = [&](const void* data, size_t size) {
+        const auto* p = static_cast<const uint8_t*>(data);
+        buf.insert(buf.end(), p, p + size);
+    };
+    
+    // Magic
+    buf.insert(buf.end(), {'G', 'G', 'U', 'F'});
+    
+    // Version = 3
+    uint32_t version = 3;
+    appendRaw(&version, 4);
+    
+    // tensor_count = 1
+    uint64_t tensor_count = 1;
+    appendRaw(&tensor_count, 8);
+    
+    // kv_count = 0
+    uint64_t kv_count = 0;
+    appendRaw(&kv_count, 8);
+    
+    // Tensor info: name "w.one"
+    uint64_t name_len = 5;
+    appendRaw(&name_len, 8);
+    buf.insert(buf.end(), {'w', '.', 'o', 'n', 'e'});
+    
+    // n_dims = 1
+    uint32_t n_dims = 1;
+    appendRaw(&n_dims, 4);
+    
+    // dim[0] = 32  (one block for Q-types with 32 el/block, irrelevant for rejection test)
+    uint64_t dim = 32;
+    appendRaw(&dim, 8);
+    
+    // tensor type
+    uint32_t type_raw = static_cast<uint32_t>(tensor_type);
+    appendRaw(&type_raw, 4);
+    
+    // tensor data offset = 0
+    uint64_t tensor_offset = 0;
+    appendRaw(&tensor_offset, 8);
+    
+    // Data section: align to 32 bytes, then add minimal placeholder bytes
+    size_t current = buf.size();
+    size_t aligned = ((current + 31) / 32) * 32;
+    buf.resize(aligned + 64, 0);  // 64 bytes of zero data
+    
+    return buf;
+}
+
+// RAII wrapper that deletes a file on scope exit (ensures cleanup even when
+// test assertions fail mid-test).
+struct ScopedTempFile {
+    std::filesystem::path path;
+    explicit ScopedTempFile(const std::string& suffix) {
+        path = std::filesystem::temp_directory_path() / ("themis_gguf_test_" + suffix);
+    }
+    ~ScopedTempFile() {
+        std::error_code ec;
+        std::filesystem::remove(path, ec);  // ignore error (file may not exist)
+    }
+    // Write bytes to the file
+    void write(const std::vector<uint8_t>& data) const {
+        std::ofstream f(path, std::ios::binary);
+        f.write(reinterpret_cast<const char*>(data.data()),
+                static_cast<std::streamsize>(data.size()));
+    }
+    std::string str() const { return path.string(); }
+};
+
+TEST_F(GGUFLoaderTest, ParseFile_RejectsUnsupportedFormat_Q4_0) {
+    ScopedTempFile tmp("q4_0_unsupported.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q4_0));
+    
+    GGUFLoader loader;
+    EXPECT_FALSE(loader.parseFile(tmp.str()));
+    
+    const std::string& err = loader.getLastError();
+    EXPECT_FALSE(err.empty());
+    // Error should name the format and provide a recovery suggestion
+    EXPECT_NE(err.find("Q4_0"), std::string::npos);
+    EXPECT_NE(err.find("Supported formats"), std::string::npos);
+}
+
+TEST_F(GGUFLoaderTest, ParseFile_RejectsUnsupportedFormat_Q5_K) {
+    ScopedTempFile tmp("q5k_unsupported.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q5_K));
+    
+    GGUFLoader loader;
+    EXPECT_FALSE(loader.parseFile(tmp.str()));
+    EXPECT_FALSE(loader.getLastError().empty());
+    EXPECT_NE(loader.getLastError().find("Q5_K"), std::string::npos);
+}
+
+TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ4_K_M) {
+    // A mock GGUF with Q4_K_M (supported) should pass format validation and
+    // proceed to the data-offset parsing stage (fails later only if data is
+    // malformed, which is acceptable — the format rejection gate has passed).
+    ScopedTempFile tmp("q4km_supported.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q4_K));
+    
+    GGUFLoader loader;
+    // parseFile() may still return false here because the mock file has no real
+    // tensor data, but the failure must NOT be due to an unsupported format.
+    loader.parseFile(tmp.str());
+    // If it failed, the error must not mention "Unsupported quantization format"
+    EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
+}
+
+TEST_F(GGUFLoaderTest, GetLastError_ClearedBetweenCalls) {
+    // Error state should reset between parseFile() calls
+    ScopedTempFile tmp_bad("q4_0_clear.gguf");
+    ScopedTempFile tmp_good("q4km_clear.gguf");
+    tmp_bad.write(makeMockGGUF(GGMLType::Q4_0));
+    tmp_good.write(makeMockGGUF(GGMLType::Q4_K));
+    
+    GGUFLoader loader;
+    EXPECT_FALSE(loader.parseFile(tmp_bad.str()));
+    EXPECT_FALSE(loader.getLastError().empty());
+    
+    // Second call should clear the previous error
+    loader.parseFile(tmp_good.str());
+    // After parsing a supported-format file the error should be cleared
+    // (there may be a different error about malformed data, but not the
+    // unsupported-format error from the first call)
+    EXPECT_EQ(loader.getLastError().find("Q4_0"), std::string::npos);
+}
+
+// ===== Grammar Error Path Tests (Q1 implementation) =====
+
+TEST(GrammarTest, EmptyEBNFSetsError) {
+    Grammar g("", "root");
+    EXPECT_FALSE(g.isValid());
+    EXPECT_FALSE(g.getError().empty());
+    EXPECT_NE(g.getError().find("empty"), std::string::npos);
+}
+
+TEST(GrammarTest, EmptyStartSymbolSetsError) {
+    Grammar g("root ::= \"hello\"", "");
+    EXPECT_FALSE(g.isValid());
+    EXPECT_FALSE(g.getError().empty());
+    EXPECT_NE(g.getError().find("empty"), std::string::npos);
+}
+
+TEST(GrammarTest, ModelAwareConstructor_NullModel_SetsError) {
+    // Passing a null model to the model-aware constructor must produce a hard
+    // error — not a silent fallback to unconstrained generation.
+    Grammar g("root ::= \"hello\"", "root", nullptr);
+    EXPECT_FALSE(g.isValid());
+    EXPECT_FALSE(g.getError().empty());
+    // The error must explain the null model problem
+    EXPECT_NE(g.getError().find("null"), std::string::npos);
 }
 
 // Main test runner

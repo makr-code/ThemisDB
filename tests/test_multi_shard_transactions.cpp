@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_multi_shard_transactions.cpp                  ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:32                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     593                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file test_multi_shard_transactions.cpp
  * @brief Multi-shard transaction tests for distributed consistency
@@ -40,6 +66,28 @@ public:
     };
     
     explicit MockShard(int id) : shard_id_(id), state_(State::IDLE) {}
+
+    MockShard(const MockShard&) = delete;
+    MockShard& operator=(const MockShard&) = delete;
+
+    MockShard(MockShard&& other) noexcept
+        : shard_id_(other.shard_id_),
+          state_(other.state_),
+          prepared_tx_(std::move(other.prepared_tx_)),
+          committed_count_(other.committed_count_.load()),
+          aborted_count_(other.aborted_count_.load()) {}
+
+    MockShard& operator=(MockShard&& other) noexcept {
+        if (this != &other) {
+            std::scoped_lock lock(mutex_, other.mutex_);
+            shard_id_ = other.shard_id_;
+            state_ = other.state_;
+            prepared_tx_ = std::move(other.prepared_tx_);
+            committed_count_.store(other.committed_count_.load());
+            aborted_count_.store(other.aborted_count_.load());
+        }
+        return *this;
+    }
     
     bool prepare(const std::string& tx_id) {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -104,6 +152,7 @@ private:
 TEST(MultiShardTransactionTest, BasicTwoPhaseCommit) {
     constexpr int NUM_SHARDS = 5;
     std::vector<MockShard> shards;
+    shards.reserve(NUM_SHARDS);
     
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
@@ -148,6 +197,7 @@ TEST(MultiShardTransactionTest, BasicTwoPhaseCommit) {
 TEST(MultiShardTransactionTest, RollbackOnPrepareFailure) {
     constexpr int NUM_SHARDS = 4;
     std::vector<MockShard> shards;
+    shards.reserve(NUM_SHARDS);
     
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
@@ -198,6 +248,7 @@ TEST(MultiShardTransactionTest, ConcurrentTransactions) {
     constexpr int NUM_TRANSACTIONS = 20;
     
     std::vector<MockShard> shards;
+    shards.reserve(NUM_SHARDS);
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }
@@ -322,6 +373,7 @@ TEST(MultiShardTransactionTest, CrossShardReadConsistency) {
 TEST(MultiShardTransactionTest, CoordinatorFailureDuringCommit) {
     constexpr int NUM_SHARDS = 4;
     std::vector<MockShard> shards;
+    shards.reserve(NUM_SHARDS);
     
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
@@ -362,6 +414,7 @@ TEST(MultiShardTransactionTest, ParticipantTimeoutHandling) {
     constexpr int TIMEOUT_MS = 100;
     
     std::vector<MockShard> shards;
+    shards.reserve(NUM_SHARDS);
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);
     }
@@ -417,6 +470,7 @@ TEST(MultiShardTransactionTest, ParticipantTimeoutHandling) {
 TEST(MultiShardTransactionTest, DeadlockDetection) {
     constexpr int NUM_SHARDS = 2;
     std::vector<MockShard> shards;
+    shards.reserve(NUM_SHARDS);
     
     for (int i = 0; i < NUM_SHARDS; ++i) {
         shards.emplace_back(i);

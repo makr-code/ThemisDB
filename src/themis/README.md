@@ -4,6 +4,15 @@
 
 This directory contains the implementation code for ThemisDB's core framework and foundation layer. These implementations provide the runtime behavior for build configuration, edition management, licensing, module loading, and the wire protocol server.
 
+## Relevant Interfaces
+
+| Interface / File | Role |
+|-----------------|------|
+| `themis_db.cpp` | Main ThemisDB orchestration class |
+| `query_router.cpp` | Query dispatch to appropriate engine |
+| `module_coordinator.cpp` | Inter-module coordination and dependency management |
+| `lifecycle_manager.cpp` | Startup and shutdown sequencing |
+
 ## Scope
 
 **In Scope:**

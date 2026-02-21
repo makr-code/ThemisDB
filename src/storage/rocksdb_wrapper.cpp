@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            rocksdb_wrapper.cpp                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   90.0/100                                       ║
+    • Total Lines:     2133                                           ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "storage/rocksdb_wrapper.h"
 #include "utils/logger.h"
 #include "utils/expected.h"
@@ -1104,6 +1130,39 @@ bool RocksDBWrapper::TransactionWrapper::prepare() {
     }
 }
 
+void RocksDBWrapper::TransactionWrapper::setSavePoint() {
+    if (!txn_ || state_ != State::Active) return;
+    txn_->SetSavePoint();
+}
+
+bool RocksDBWrapper::TransactionWrapper::rollbackToSavePoint() {
+    if (!txn_ || state_ != State::Active) return false;
+    rocksdb::Status s = txn_->RollbackToSavePoint();
+    if (s.IsNotFound()) {
+        THEMIS_WARN("TransactionWrapper::rollbackToSavePoint: no savepoint to roll back to");
+        return false;
+    }
+    if (!s.ok()) {
+        THEMIS_ERROR("TransactionWrapper::rollbackToSavePoint failed: {}", s.ToString());
+        return false;
+    }
+    return true;
+}
+
+bool RocksDBWrapper::TransactionWrapper::popSavePoint() {
+    if (!txn_ || state_ != State::Active) return false;
+    rocksdb::Status s = txn_->PopSavePoint();
+    if (s.IsNotFound()) {
+        THEMIS_WARN("TransactionWrapper::popSavePoint: no savepoint to pop");
+        return false;
+    }
+    if (!s.ok()) {
+        THEMIS_ERROR("TransactionWrapper::popSavePoint failed: {}", s.ToString());
+        return false;
+    }
+    return true;
+}
+
 std::unique_ptr<RocksDBWrapper::TransactionWrapper> RocksDBWrapper::beginTransaction(TransactionIsolationLevel isolation) {
     return std::make_unique<TransactionWrapper>(this, isolation);
 }
@@ -1379,6 +1438,11 @@ uint64_t RocksDBWrapper::getApproximateSize() const {
     
     // TODO: Implement proper size calculation
     return 0;
+}
+
+uint64_t RocksDBWrapper::getLatestSequenceNumber() const {
+    if (!db_) return 0;
+    return db_->GetLatestSequenceNumber();
 }
 
 bool RocksDBWrapper::createCheckpoint(const std::string& checkpoint_dir) {

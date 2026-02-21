@@ -1,3 +1,29 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            feedback_collector.h                               ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:08:45                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     366                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bb8fd581f  2026-02-21  Prompt Engineering Module: Production-Readiness (Validati... ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file feedback_collector.h
  * @brief Feedback collection system for prompt quality improvement
@@ -63,6 +89,7 @@ struct FeedbackEntry {
     nlohmann::json metadata;             ///< Additional context
     double severity = 0.5;               ///< Severity score (0.0-1.0)
     std::chrono::system_clock::time_point timestamp;  ///< When recorded
+    std::string checksum;                ///< FNV-1a 64-bit audit checksum of key fields
     
     /**
      * @brief Convert entry to JSON
@@ -73,6 +100,11 @@ struct FeedbackEntry {
      * @brief Parse entry from JSON
      */
     static FeedbackEntry fromJson(const nlohmann::json& j);
+
+    /**
+     * @brief Compute a simple audit checksum over key fields
+     */
+    std::string computeChecksum() const;
 };
 
 /**
@@ -236,6 +268,39 @@ public:
     size_t clearFeedback(const std::string& prompt_id);
     
     /**
+     * @brief Get feedback entries for a specific prompt (paginated)
+     * 
+     * Supports efficient chunked access to large feedback archives.
+     * 
+     * @param prompt_id Prompt template ID
+     * @param offset Number of entries to skip (0-based)
+     * @param page_size Maximum entries per page (0 = all remaining)
+     * @param type_filter Optional filter by feedback type
+     * @return Vector of feedback entries for the requested page
+     */
+    std::vector<FeedbackEntry> getFeedbackPaged(
+        const std::string& prompt_id,
+        size_t offset,
+        size_t page_size,
+        std::optional<FeedbackType> type_filter = std::nullopt
+    ) const;
+
+    /**
+     * @brief Detect outlier feedback entries by severity
+     * 
+     * Returns entries whose severity deviates more than @p z_threshold
+     * standard deviations from the mean.
+     * 
+     * @param prompt_id Prompt template ID
+     * @param z_threshold Z-score threshold (default 2.0)
+     * @return Vector of outlier entries
+     */
+    std::vector<FeedbackEntry> detectOutliers(
+        const std::string& prompt_id,
+        double z_threshold = 2.0
+    ) const;
+
+    /**
      * @brief Get summary across all prompts
      * @return JSON object with aggregate statistics
      */
@@ -252,6 +317,8 @@ private:
     rocksdb::ColumnFamilyHandle* cf_ = nullptr;
     
     static constexpr const char* KEY_PREFIX = "feedback:";
+    /// Secondary time-based index prefix: "idx:time:{prompt_id}:{ts_us}:{id}" → entry_key
+    static constexpr const char* IDX_TIME_PREFIX = "idx:time:";
     
     /**
      * @brief Generate unique feedback ID
@@ -259,14 +326,27 @@ private:
     std::string generateId() const;
     
     /**
-     * @brief Persist feedback to RocksDB
+     * @brief Persist feedback to RocksDB (primary key + time-based secondary index)
      */
     void persist(const FeedbackEntry& entry);
+
+    /**
+     * @brief Remove primary record and its secondary index entry from RocksDB
+     */
+    void deleteFromDB(const FeedbackEntry& entry);
     
     /**
      * @brief Load feedback from RocksDB
      */
     void loadFromDB();
+    
+    /**
+     * @brief Build a zero-padded microsecond timestamp string for use in index keys
+     *
+     * The zero-padding ensures lexicographic order equals chronological order.
+     */
+    static std::string formatTimestampKey(
+        const std::chrono::system_clock::time_point& tp);
     
     /**
      * @brief Calculate feedback statistics

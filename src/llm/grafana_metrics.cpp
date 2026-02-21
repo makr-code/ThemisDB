@@ -1,4 +1,31 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            grafana_metrics.cpp                                ║
+  Version:         0.0.8                                              ║
+  Last Modified:   2026-02-21 12:09:02                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   79.0/100                                       ║
+    • Total Lines:     1346                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • bdb82d096  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 7f2db8dcb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 84d1fada6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2563a40d8  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/grafana_metrics.h"
+#include <httplib.h>
 #include <spdlog/spdlog.h>
 #include <map>
 #include <string>
@@ -7,6 +34,7 @@
 #include <algorithm>
 #include <numeric>
 #include <fstream>
+#include <thread>
 
 namespace themis {
 namespace llm {
@@ -232,8 +260,15 @@ std::string PrometheusExporter::serializeMetric(const std::string& name, const M
 
 // LLMMetricsCollector Implementation
 LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter)
-    : exporter_(exporter) {
+    : exporter_(exporter), config_{} {
     spdlog::debug("LLMMetricsCollector initialized");
+    initializeMetrics();
+}
+
+LLMMetricsCollector::LLMMetricsCollector(PrometheusExporter* exporter, const Config& config)
+    : exporter_(exporter), config_(config) {
+    spdlog::debug("LLMMetricsCollector initialized (lock_contention_threshold_ms={})",
+                  config_.lock_contention_threshold_ms);
     initializeMetrics();
 }
 
@@ -432,6 +467,14 @@ void LLMMetricsCollector::initializeMetrics() {
         {"error_type", "component"}
     });
     
+    // Backpressure metrics
+    exporter_->registerMetric({
+        "llm_backpressure_drops_total",
+        "Total inference requests rejected due to queue depth limit (backpressure)",
+        PrometheusExporter::MetricType::COUNTER,
+        {}
+    });
+    
     // Initialize extended context and RoPE/YARN metrics (v1.4.0+)
     initializeExtendedContextMetrics();
 }
@@ -522,6 +565,10 @@ void LLMMetricsCollector::recordPreemptions(size_t count) {
 
 void LLMMetricsCollector::recordSchedulingLatency(double latency_ms) {
     exporter_->observeHistogram("llm_scheduling_latency_ms", latency_ms);
+}
+
+void LLMMetricsCollector::recordBackpressureDrop() {
+    exporter_->incrementCounter("llm_backpressure_drops_total");
 }
 
 void LLMMetricsCollector::recordQuantizationFormat(const std::string& model_id, const std::string& format) {
@@ -633,13 +680,7 @@ void LLMMetricsCollector::recordLoRAAdapterSwitch(const std::string& model_id,
 void LLMMetricsCollector::recordContextLockWait(const std::string& model_id, double wait_time_ms) {
     exporter_->observeHistogram("llm_context_lock_wait_ms", wait_time_ms, {{"model_id", model_id}});
     
-    // Track lock contention events with configurable threshold
-    // TODO: Make threshold configurable via config (default: 100ms)
-    // Higher thresholds (200-500ms) recommended for distributed systems
-    // Lower thresholds (50-100ms) for local/high-performance deployments
-    constexpr double CONTENTION_THRESHOLD_MS = 100.0;
-    
-    if (wait_time_ms > CONTENTION_THRESHOLD_MS) {
+    if (wait_time_ms > config_.lock_contention_threshold_ms) {
         exporter_->incrementCounter("llm_context_lock_contention_total", {{"model_id", model_id}});
     }
 }
@@ -836,7 +877,7 @@ void LLMMetricsCollector::initializeExtendedContextMetrics() {
     
     exporter_->registerMetric({
         "llm_context_lock_contention_total",
-        "Total number of context lock contention events (wait > 100ms)",
+        "Total number of context lock contention events (wait exceeds configured threshold)",
         PrometheusExporter::MetricType::COUNTER,
         {"model_id"}
     });
@@ -1021,9 +1062,17 @@ bool GrafanaDashboardGenerator::saveDashboard(const std::string& filepath) const
 }
 
 
+// MetricsServer::Impl — holds the httplib server and its listener thread.
+// Defined here (not in the header) to keep <httplib.h> out of grafana_metrics.h.
+struct MetricsServer::Impl {
+    httplib::Server svr;
+    std::thread     thread;
+};
+
 // MetricsServer Implementation
 MetricsServer::MetricsServer(const ServerConfig& config, PrometheusExporter* exporter)
-    : config_(config), exporter_(exporter), running_(false) {
+    : config_(config), exporter_(exporter), running_(false),
+      impl_(std::make_unique<Impl>()) {
     spdlog::debug("MetricsServer initialized");
 }
 
@@ -1036,14 +1085,117 @@ bool MetricsServer::start() {
         spdlog::warn("MetricsServer already running");
         return true;
     }
-    
+
+    // Register GET routes -----------------------------------------------
+    // /metrics
+    impl_->svr.Get(config_.metrics_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            res.set_content(exporter_->handleMetricsRequest(), "text/plain; version=0.0.4");
+        });
+
+    // /health
+    impl_->svr.Get(config_.health_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.health_path, body);
+            res.set_content(body, "application/json");
+        });
+
+    // /ready
+    impl_->svr.Get(config_.ready_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.ready_path, body);
+            const int status = (body.find("\"ready\"") != std::string::npos) ? 200 : 503;
+            res.status = status;
+            res.set_content(body, "application/json");
+        });
+
+    // /models
+    impl_->svr.Get(config_.models_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.models_path, body);
+            res.set_content(body, "application/json");
+        });
+
+    // /dashboard
+    impl_->svr.Get(config_.dashboard_path.c_str(),
+        [](const httplib::Request& /*req*/, httplib::Response& res) {
+            res.set_content("{\"message\":\"Dashboard endpoint\"}", "application/json");
+        });
+
+    // Register POST routes -----------------------------------------------
+    // POST /admin/models/reload
+    impl_->svr.Post(config_.admin_reload_path.c_str(),
+        [this](const httplib::Request& req, httplib::Response& res) {
+            std::string body;
+            handlePost(config_.admin_reload_path, req.body, body);
+            res.set_content(body, "application/json");
+        });
+
+    // POST /admin/prompt/simulate
+    impl_->svr.Post(config_.admin_simulate_path.c_str(),
+        [this](const httplib::Request& req, httplib::Response& res) {
+            std::string body;
+            handlePost(config_.admin_simulate_path, req.body, body);
+            res.set_content(body, "application/json");
+        });
+
+    // GET /admin/sessions — list active inference sessions
+    impl_->svr.Get(config_.admin_sessions_path.c_str(),
+        [this](const httplib::Request& /*req*/, httplib::Response& res) {
+            std::string body;
+            handleRequest(config_.admin_sessions_path, body);
+            res.set_content(body, "application/json");
+        });
+
+    // DELETE /admin/sessions/:id — cancel/remove a specific session
+    // httplib captures the :id segment in req.matches[1].
+    std::string delete_sessions_pattern = config_.admin_sessions_path + "/(.+)";
+    impl_->svr.Delete(delete_sessions_pattern.c_str(),
+        [this](const httplib::Request& req, httplib::Response& res) {
+            // matches[0] = full path, matches[1] = :id
+            const std::string session_id =
+                req.matches.size() > 1 ? std::string(req.matches[1]) : "";
+            std::string body;
+            handleDelete(config_.admin_sessions_path, session_id, body);
+            res.set_content(body, "application/json");
+        });
+
+    // CORS: add Access-Control-Allow-Origin header to every response
+    if (config_.enable_cors) {
+        impl_->svr.set_post_routing_handler(
+            [](const httplib::Request& /*req*/, httplib::Response& res) {
+                res.set_header("Access-Control-Allow-Origin", "*");
+            });
+    }
+
+    // Start listening on a background thread
+    const std::string host = config_.host;
+    const int         port = config_.port;
+
+    impl_->thread = std::thread([this, host, port]() {
+        spdlog::info("MetricsServer listening on {}:{}", host, port);
+        if (!impl_->svr.listen(host.c_str(), port)) {
+            spdlog::error("MetricsServer failed to listen on {}:{}", host, port);
+        }
+    });
+
+    // Give the server a moment to bind before we report success.
+    // httplib::Server::is_running() becomes true once listen() has bound.
+    for (int i = 0; i < 50 && !impl_->svr.is_running(); ++i) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    if (!impl_->svr.is_running()) {
+        spdlog::error("MetricsServer did not start within 500 ms on {}:{}", host, port);
+        impl_->thread.detach();
+        return false;
+    }
+
     running_ = true;
-    spdlog::info("Metrics Server started: {}:{}", config_.host, config_.port);
-    
-    // Note: In a real implementation, this would start an HTTP server
-    // For now, we provide a functional interface that can be called programmatically
-    // The metrics can be accessed via getMetricsURL() and exporter_->handleMetricsRequest()
-    
+    spdlog::info("MetricsServer started — metrics at {}", getMetricsURL());
     return true;
 }
 
@@ -1051,9 +1203,14 @@ void MetricsServer::stop() {
     if (!running_) {
         return;
     }
-    
+
+    impl_->svr.stop();
+    if (impl_->thread.joinable()) {
+        impl_->thread.join();
+    }
+
     running_ = false;
-    spdlog::info("Metrics Server stopped");
+    spdlog::info("MetricsServer stopped");
 }
 
 bool MetricsServer::isRunning() const {
@@ -1068,11 +1225,117 @@ std::string MetricsServer::getDashboardURL() const {
     return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.dashboard_path;
 }
 
+std::string MetricsServer::getHealthURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.health_path;
+}
+
+std::string MetricsServer::getReadyURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.ready_path;
+}
+
+std::string MetricsServer::getModelsURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.models_path;
+}
+
+std::string MetricsServer::getAdminReloadURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_reload_path;
+}
+
+std::string MetricsServer::getAdminSimulateURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_simulate_path;
+}
+
+std::string MetricsServer::getAdminSessionsURL() const {
+    return "http://" + config_.host + ":" + std::to_string(config_.port) + config_.admin_sessions_path;
+}
+
 void MetricsServer::handleRequest(const std::string& path, std::string& response) {
     if (path == config_.metrics_path) {
         response = exporter_->handleMetricsRequest();
     } else if (path == config_.dashboard_path) {
         response = "{\"message\": \"Dashboard endpoint\"}";
+    } else if (path == config_.health_path) {
+        // Liveness: server is alive as long as the MetricsServer object exists.
+        if (running_) {
+            response = "{\"status\":\"ok\"}";
+        } else {
+            response = "{\"status\":\"stopped\"}";
+        }
+    } else if (path == config_.ready_path) {
+        // Readiness: server is ready when running AND exporter is non-null.
+        if (running_ && exporter_ != nullptr) {
+            response = "{\"status\":\"ready\"}";
+        } else {
+            response = "{\"status\":\"not_ready\"}";
+        }
+    } else if (path == config_.models_path) {
+        // Model list: delegate to the registered callback if present; otherwise
+        // return an empty JSON array so callers get a valid (if empty) response.
+        if (model_info_cb_) {
+            response = model_info_cb_();
+        } else {
+            response = "[]";
+        }
+    } else if (path == config_.admin_sessions_path) {
+        // Session list: delegate to the registered callback if present.
+        if (session_list_cb_) {
+            response = session_list_cb_();
+        } else {
+            response = "[]";
+        }
+    } else {
+        response = "404 Not Found";
+    }
+}
+
+void MetricsServer::handlePost(const std::string& path,
+                               const std::string& body,
+                               std::string& response) {
+    // Default responses when no callback is registered — extracted to
+    // constants so both branches stay consistent and are easy to update.
+    static constexpr const char* k_reload_not_impl =
+        R"({"status":"not_implemented","message":"No reload callback registered. Wire setReloadCallback() to LlamaWrapper::loadModel()."})";
+    static constexpr const char* k_simulate_not_impl =
+        R"({"status":"not_implemented","message":"No simulate callback registered. Wire setSimulateCallback() to PromptPolicy::apply() + tokenizer.estimateTokens()."})";
+
+    if (path == config_.admin_reload_path) {
+        // POST /admin/models/reload — trigger a hot-reload of the requested
+        // model.  The caller provides the model ID (or file path) in the body.
+        if (reload_cb_) {
+            response = reload_cb_(body);
+        } else {
+            response = k_reload_not_impl;
+        }
+    } else if (path == config_.admin_simulate_path) {
+        // POST /admin/prompt/simulate — dry-run policy check + tokenization.
+        // Body: JSON {"prompt":"<text>","model_id":"<optional>"}
+        if (simulate_cb_) {
+            response = simulate_cb_(body);
+        } else {
+            response = k_simulate_not_impl;
+        }
+    } else {
+        response = "404 Not Found";
+    }
+}
+
+void MetricsServer::handleDelete(const std::string& path,
+                                 const std::string& resource_id,
+                                 std::string& response) {
+    static constexpr const char* k_sessions_delete_not_impl =
+        R"({"status":"not_implemented","message":"No session-delete callback registered. Wire setSessionDeleteCallback() to ContinuousBatchScheduler::cancelRequest()."})";
+
+    if (path == config_.admin_sessions_path) {
+        // DELETE /admin/sessions/{id} — cancel or remove the named session.
+        if (resource_id.empty()) {
+            response = R"({"status":"error","message":"session_id is required"})";
+            return;
+        }
+        if (session_delete_cb_) {
+            response = session_delete_cb_(resource_id);
+        } else {
+            response = k_sessions_delete_not_impl;
+        }
     } else {
         response = "404 Not Found";
     }
