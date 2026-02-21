@@ -1,3 +1,5 @@
+<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
+
 # Search Module Roadmap
 
 ## Current Status
@@ -36,6 +38,39 @@ v1.2.0+ – Production-ready hybrid search. BM25 full-text, HNSW vector semantic
 - [ ] Spelling correction suggestions
 
 ### Long-term (6-12 months)
+- [ ] Neural sparse retrieval (SPLADE / BERT-based)
+- [ ] Cross-lingual semantic search (multilingual embeddings)
+- [ ] Personalized ranking based on user interaction history
+- [ ] Distributed search across shards with result merging
+- [ ] Autocomplete / type-ahead query suggestions
+
+## Implementation Phases
+
+### Phase 1: Hybrid Search & BM25 Engine (Status: Completed ✅)
+- [x] `HybridSearch` – Reciprocal Rank Fusion (RRF) merging of BM25 and vector results
+- [x] BM25 ranking with configurable k1 and b parameters
+- [x] Term frequency and document frequency analysis with field-length normalization
+- [x] HNSW semantic vector indexing (Cosine, Dot Product, L2)
+- [x] Score normalization across search types
+- [x] Fuzzy matching (edit distance), phonetic search (Soundex, Metaphone)
+- [x] Stemming, stop-word filtering, synonym expansion, and phrase search
+- [x] Text-only, vector-only, and hybrid search modes with 85%+ recall@10
+- [x] `QueryParser` – natural language query parsing
+- [x] `ResultRanker` – configurable score aggregation
+
+### Phase 2: LLM Query Rewriting & Faceted Search (Status: In Progress 🚧)
+- [~] LLM-based query rewriting for improved recall
+- [~] Faceted search with dynamic facet counting
+- [~] Highlight / snippet generation for matched terms
+
+### Phase 3: Multi-Field Boosting & Search Analytics (Status: Planned 📋)
+- [ ] Multi-field boosting (title > body > tags)
+- [ ] Negative keyword filtering (`NOT` operator)
+- [ ] Configurable re-ranking with LLM feedback loop
+- [ ] Search analytics (top queries, zero-result queries)
+- [ ] Spelling correction suggestions
+
+### Phase 4: Neural Retrieval & Distributed Search (Status: Planned 📋)
 - [ ] Neural sparse retrieval (SPLADE / BERT-based)
 - [ ] Cross-lingual semantic search (multilingual embeddings)
 - [ ] Personalized ranking based on user interaction history
