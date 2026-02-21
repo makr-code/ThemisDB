@@ -1,3 +1,28 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            query_plan_visualizer.cpp                          ║
+  Version:         0.0.1                                              ║
+  Last Modified:   2026-02-21 19:43:07                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     336                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • fd89293cc  2026-02-21  fix(query): address code-review feedback – rename helper,... ║
+    • 96eb8b81b  2026-02-21  fix(query): code audit – 5 issues fixed in query_plan_vis... ║
+    • 55c3d58bd  2026-02-21  fix(query): escape DOT label special characters in toDOT ... ║
+    • 1b8d26881  2026-02-21  feat(query): implement query plan visualization API (EXPL... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Query plan visualization implementation
 // Provides EXPLAIN / EXPLAIN ANALYZE output in text, JSON, and DOT formats.
 

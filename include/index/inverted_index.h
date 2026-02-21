@@ -3,17 +3,18 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            inverted_index.h                                   ║
-  Version:         0.0.1                                              ║
-  Last Modified:   2026-02-21 19:28:50                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 19:42:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     196                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+    • Total Lines:     219                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
+    • 03329d86d  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
     • 4fc3321fa  2026-02-21  fix(index): audit — fix fuzzy-search key parser and upser... ║
     • d80551ba8  2026-02-21  feat(index): implement standalone InvertedIndex class for... ║
 ╠═════════════════════════════════════════════════════════════════════╣
