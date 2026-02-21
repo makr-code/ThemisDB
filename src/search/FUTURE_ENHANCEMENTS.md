@@ -1,10 +1,28 @@
 # Search Module - Future Enhancements
 
+## Delivered in v1.4.0
+
+The following production-readiness improvements were delivered in v1.4.0:
+
+- Configurable vector metric (COSINE / DOT / L2) — was hardcoded to COSINE
+- Strict config validation with `std::invalid_argument` on bad parameters
+- Hard resource limits (`max_k`, `max_candidates`) to bound memory / latency
+- Score normalization edge-case fixes (range == 0 / single-result)
+- Linear-combination pre-normalization (scores always in [0,1] before weighting)
+- `SearchStats` struct for graceful degradation and partial-result detection
+- Thread-safety and exception-safety documentation
+- `normalizeScores` promoted to `public static` for testability
+- Comprehensive test suite: `test_hybrid_search.cpp`, `test_rrf_fusion.cpp`,
+  `test_score_normalization.cpp`, `test_hybrid_search_integration.cpp`
+- `benchmark_hybrid_search.cpp` for algorithmic performance measurement
+
+---
+
 ## Planned Features
 
 ### Query Expansion and Rewriting
 **Priority:** High  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 Automatically expand and rewrite queries for better results.
 
@@ -46,7 +64,7 @@ public:
 
 ### Advanced Fuzzy Matching
 **Priority:** Medium  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 Enhanced fuzzy search with phonetic algorithms.
 
@@ -93,7 +111,7 @@ Machine learning-based result ranking.
 
 ### Search Analytics
 **Priority:** High  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 Track and analyze search performance.
 
@@ -108,7 +126,7 @@ Track and analyze search performance.
 
 ### Faceted Search
 **Priority:** High  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 Multi-dimensional filtering and navigation.
 
@@ -138,7 +156,7 @@ Real-time query suggestions.
 
 ## Performance Roadmap
 
-### v1.4.0 Targets
+### v1.5.0 Targets (previously v1.4.0)
 - Query expansion overhead: <20%
 - Fuzzy search: Within 2x of exact search
 - Faceted search: <50ms for 10 facets
@@ -159,5 +177,5 @@ Real-time query suggestions.
 ---
 
 *Last Updated: February 2026*  
-*Module Version: v1.3.0*  
-*Next Review: v1.4.0 Release*
+*Module Version: v1.4.0*  
+*Next Review: v1.5.0 Release*

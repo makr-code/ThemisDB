@@ -4,7 +4,7 @@
 
 ### Query Expansion API
 **Priority:** High  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 ```cpp
 // search/query_expander.h
@@ -38,7 +38,7 @@ struct ExpandedQuery {
 
 ### Fuzzy Search API
 **Priority:** Medium  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 ```cpp
 // search/fuzzy_matcher.h
@@ -65,7 +65,7 @@ public:
 
 ### Faceted Search API
 **Priority:** High  
-**Target Version:** v1.4.0
+**Target Version:** v1.5.0
 
 ```cpp
 // search/faceted_search.h
@@ -97,4 +97,5 @@ public:
 ---
 
 *Last Updated: February 2026*  
-*Target API Version: v1.4.0*
+*Current API Version: v1.4.0*  
+*Next Target: v1.5.0*

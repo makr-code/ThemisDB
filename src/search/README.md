@@ -117,23 +117,34 @@ config.k_vector = 50;              // Vector candidates
 config.use_rrf = true;             // Use Reciprocal Rank Fusion
 config.rrf_k = 60.0;               // RRF constant
 config.normalize_scores = true;
+config.max_k = 10000;              // Hard upper bound for k
+config.max_candidates = 10000;     // Hard upper bound for k_bm25 / k_vector
+config.default_table  = "documents";
+config.default_column = "content";
+config.vector_metric = VectorIndexManager::Metric::COSINE; // or DOT / L2
 
-// Create hybrid search instance
+// Constructor throws std::invalid_argument for invalid config
 HybridSearch hybrid_search(
     fulltext_index_manager,
     vector_index_manager,
     config
 );
 
-// Perform hybrid search
+// Perform hybrid search (never throws)
 std::string text_query = "machine learning algorithms";
 std::vector<float> query_vector = embeddings_model.encode(text_query);
 
+HybridSearch::SearchStats stats;
 auto results = hybrid_search.search(
     text_query,
     query_vector.data(),
-    query_vector.size()
+    query_vector.size(),
+    &stats  // optional: receive per-source diagnostics
 );
+
+if (stats.partial_result) {
+    // One backend failed; results are degraded but not empty
+}
 
 // Process results
 for (const auto& result : results) {
@@ -194,10 +205,14 @@ auto results = vector_mgr.search(
 
 ## Thread Safety
 
-- Thread-safe search operations for concurrent queries
-- Read-heavy optimization with shared locks
-- Atomic index updates
-- Safe for high-concurrency workloads
+A single `HybridSearch` instance is **not thread-safe**. `search()` and `setConfig()`
+must not be called concurrently on the same instance. Callers that share an instance
+across threads must provide their own synchronization (e.g. a mutex). The recommended
+pattern is one `HybridSearch` instance per thread; the class is lightweight (Config +
+two non-owning index pointers) and cheap to construct.
+
+The underlying index managers (`SecondaryIndexManager`, `VectorIndexManager`) may have
+their own thread-safety guarantees — consult their documentation.
 
 ## Dependencies
 
@@ -219,7 +234,10 @@ For detailed implementation documentation, see:
 
 - **v1.2.0**: Hybrid search with RRF for RAG optimization
 - **v1.3.0**: Real BM25 and vector index integration
-- **v1.4.0**: Planned - Query expansion and fuzzy matching
+- **v1.4.0**: Configurable vector metric (COSINE/DOT/L2), strict config validation,
+  resource limits (`max_k`, `max_candidates`), score normalization edge-case fixes,
+  linear-combination pre-normalization, `SearchStats` for partial-result detection,
+  thread-safety and exception-safety documentation, expanded test coverage
 - **v1.5.0**: Planned - Multi-modal search (text + image)
 
 ## Examples
@@ -257,17 +275,12 @@ HybridSearch vector_only(fulltext_idx, vector_idx, config);
 
 ### With Filters
 ```cpp
-// Add geospatial filter
-auto results = hybrid.searchWithFilters(
-    "restaurants",
-    query_vector,
-    vector_dim,
-    {
-        {"city", "San Francisco"},
-        {"rating", ">= 4.0"}
-    },
-    GeoFilter{latitude, longitude, radius_km}
-);
+// Post-filter results in application code after search()
+auto results = hybrid.search("restaurants", query_vector, vector_dim);
+results.erase(std::remove_if(results.begin(), results.end(),
+    [](const HybridSearch::Result& r) {
+        return r.hybrid_score < 0.5; // keep only high-confidence results
+    }), results.end());
 ```
 
 ## Best Practices
