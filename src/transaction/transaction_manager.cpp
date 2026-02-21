@@ -179,6 +179,10 @@ void TransactionManager::deadlockDetectorLoop() {
         }
         
         if (!deadlock_detector_running_.load(std::memory_order_relaxed)) break;
+
+        // Roll back any transactions that have exceeded their timeout
+        timeoutExpiredTransactions();
+
         if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) continue;
         
         // Check for deadlocks
@@ -346,6 +350,7 @@ TransactionManager::TransactionId TransactionManager::generateTransactionId() {
 TransactionManager::TransactionId TransactionManager::beginTransaction(IsolationLevel isolation) {
     auto txn_id = generateTransactionId();
     auto txn = std::make_shared<Transaction>(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    applyDefaultTimeout(*txn);
     
     {
         std::lock_guard<std::mutex> lock(sessions_mutex_);
@@ -564,7 +569,9 @@ TransactionManager::Transaction TransactionManager::begin(IsolationLevel isolati
     updateStatsWithSeqLock([this]() {
         total_begun_.fetch_add(1, std::memory_order_relaxed);
     });
-    return Transaction(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    Transaction txn(txn_id, db_, secIdx_, graphIdx_, vecIdx_, isolation);
+    applyDefaultTimeout(txn);
+    return txn;
 }
 
 // ==== Transaction ==== 
@@ -623,6 +630,7 @@ TransactionManager::Transaction::Transaction(Transaction&& other) noexcept
       vecIdx_(other.vecIdx_), isolation_(other.isolation_), start_time_(other.start_time_),
       mvcc_txn_(std::move(other.mvcc_txn_)), saga_(std::move(other.saga_)), 
       finished_(other.finished_.load(std::memory_order_acquire)),
+      timeout_ms_(other.timeout_ms_.load(std::memory_order_acquire)),
       savepoints_(std::move(other.savepoints_)) {
     other.finished_.store(true, std::memory_order_release);
 }
@@ -638,6 +646,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
         mvcc_txn_ = std::move(other.mvcc_txn_);
         saga_ = std::move(other.saga_);
         savepoints_ = std::move(other.savepoints_);
+        timeout_ms_.store(other.timeout_ms_.load(std::memory_order_acquire), std::memory_order_release);
         finished_.store(other.finished_.load(std::memory_order_acquire), std::memory_order_release);
         other.finished_.store(true, std::memory_order_release);
     }
@@ -646,6 +655,7 @@ TransactionManager::Transaction& TransactionManager::Transaction::operator=(Tran
 
 TransactionManager::Status TransactionManager::Transaction::putEntity(std::string_view table, const BaseEntity& entity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("putEntity: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("putEntity: transaction timed out");
     
     // Serialize entity
     auto serialized = entity.serialize();
@@ -667,6 +677,7 @@ TransactionManager::Status TransactionManager::Transaction::putEntity(std::strin
 
 TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::string_view table, std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("eraseEntity: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("eraseEntity: transaction timed out");
     
     std::string key = std::string("entity:") + std::string(table) + ":" + std::string(pk);
     
@@ -686,6 +697,7 @@ TransactionManager::Status TransactionManager::Transaction::eraseEntity(std::str
 
 TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEntity& edgeEntity) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addEdge: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("addEdge: transaction timed out");
     
     // Graph edges stored with MVCC
     std::string edge_key = "graph:edge:" + edgeEntity.getPrimaryKey();
@@ -706,6 +718,7 @@ TransactionManager::Status TransactionManager::Transaction::addEdge(const BaseEn
 
 TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::string_view edgeId) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("deleteEdge: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("deleteEdge: transaction timed out");
     
     std::string edge_key = "graph:edge:" + std::string(edgeId);
     
@@ -724,6 +737,7 @@ TransactionManager::Status TransactionManager::Transaction::deleteEdge(std::stri
 
 TransactionManager::Status TransactionManager::Transaction::addVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("addVector: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("addVector: transaction timed out");
     
     // Add SAGA compensating action for vector cache
     std::string pk = entity.getPrimaryKey();
@@ -752,6 +766,7 @@ TransactionManager::Status TransactionManager::Transaction::addVector(const Base
 
 TransactionManager::Status TransactionManager::Transaction::updateVector(const BaseEntity& entity, std::string_view vectorField) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("updateVector: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("updateVector: transaction timed out");
     
     // Capture old vector for compensation (MVCC: read before write)
     std::string pk = entity.getPrimaryKey();
@@ -794,6 +809,7 @@ TransactionManager::Status TransactionManager::Transaction::updateVector(const B
 
 TransactionManager::Status TransactionManager::Transaction::removeVector(std::string_view pk) {
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) return Status::Error("removeVector: keine aktive Transaktion");
+    if (isTimedOut()) return Status::Error("removeVector: transaction timed out");
     
     // Capture old vector before removal for compensation
     std::string pk_str(pk);
@@ -841,6 +857,14 @@ TransactionManager::Status TransactionManager::Transaction::commit() {
     
     if (!mvcc_txn_ || !mvcc_txn_->isActive()) {
         return Status::Error("commit: keine aktive Transaktion");
+    }
+
+    // Timeout check: refuse commit on an expired transaction
+    if (isTimedOut()) {
+        THEMIS_WARN("Transaction {} timed out ({} ms), aborting commit", id_, getDurationMs());
+        mvcc_txn_->rollback();
+        saga_->compensate();
+        return Status::Error("commit: transaction timed out");
     }
     
     THEMIS_DEBUG("Committing MVCC transaction {} with {} SAGA steps (duration: {} ms)", 
@@ -1001,6 +1025,45 @@ bool TransactionManager::Transaction::hasSavepoint(std::string_view name) const 
     std::string sname(name);
     return std::any_of(savepoints_.begin(), savepoints_.end(),
                        [&sname](const SavepointEntry& e) { return e.name == sname; });
+}
+
+// ── Transaction timeout ───────────────────────────────────────────────────────
+
+void TransactionManager::applyDefaultTimeout(Transaction& txn) const {
+    uint64_t tms = default_transaction_timeout_ms_.load(std::memory_order_relaxed);
+    if (tms > 0) {
+        txn.setTimeout(std::chrono::milliseconds(tms));
+    }
+}
+
+void TransactionManager::setDefaultTransactionTimeout(std::chrono::milliseconds timeout) {
+    default_transaction_timeout_ms_.store(
+        static_cast<uint64_t>(timeout.count()), std::memory_order_relaxed);
+    THEMIS_INFO("Default transaction timeout set to {} ms", timeout.count());
+}
+
+std::chrono::milliseconds TransactionManager::getDefaultTransactionTimeout() const {
+    return std::chrono::milliseconds(
+        default_transaction_timeout_ms_.load(std::memory_order_relaxed));
+}
+
+void TransactionManager::timeoutExpiredTransactions() {
+    // Collect IDs of timed-out transactions while holding the lock (read-only scan),
+    // then release the lock before calling rollbackTransaction() to avoid re-entrancy.
+    std::vector<TransactionId> expired;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        for (const auto& [id, txn] : active_transactions_) {
+            if (txn && !txn->isFinished() && txn->isTimedOut()) {
+                expired.push_back(id);
+            }
+        }
+    }
+    for (TransactionId id : expired) {
+        THEMIS_WARN("Transaction {} exceeded its timeout — auto-rolling back", id);
+        rollbackTransaction(id);
+        total_timed_out_.fetch_add(1, std::memory_order_relaxed);
+    }
 }
 
 } // namespace themis

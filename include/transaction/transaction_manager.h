@@ -101,6 +101,40 @@ public:
         uint64_t getDurationMs() const;
         bool isFinished() const { return finished_.load(std::memory_order_acquire); }
 
+        // ── Transaction timeout ───────────────────────────────────────────────
+
+        /**
+         * @brief Set a timeout for this transaction.
+         *
+         * Once the transaction has been active for longer than @p timeout,
+         * all further write operations and commit() will return an error,
+         * and the background monitor in TransactionManager will automatically
+         * roll it back.
+         *
+         * @param timeout  Maximum lifetime; pass 0 to disable the timeout.
+         */
+        void setTimeout(std::chrono::milliseconds timeout) {
+            timeout_ms_.store(timeout.count(), std::memory_order_relaxed);
+        }
+
+        /**
+         * @brief Return the configured timeout (0 = no timeout).
+         */
+        std::chrono::milliseconds getTimeout() const {
+            return std::chrono::milliseconds(timeout_ms_.load(std::memory_order_relaxed));
+        }
+
+        /**
+         * @brief Return true if the transaction has exceeded its timeout.
+         *
+         * Always returns false when no timeout is set (timeout == 0).
+         */
+        bool isTimedOut() const {
+            uint64_t tms = timeout_ms_.load(std::memory_order_relaxed);
+            if (tms == 0) return false;
+            return getDurationMs() >= tms;
+        }
+
         // Relational
         Status putEntity(std::string_view table, const BaseEntity& entity);
         Status eraseEntity(std::string_view table, std::string_view pk);
@@ -209,6 +243,7 @@ public:
         std::unique_ptr<class RocksDBWrapper::TransactionWrapper> mvcc_txn_; // MVCC Transaction
         std::unique_ptr<Saga> saga_; // SAGA pattern for compensating actions
         std::atomic<bool> finished_{false};  // Race condition fix: atomic to prevent double commit/rollback
+        std::atomic<uint64_t> timeout_ms_{0}; ///< 0 = no timeout
 
         struct SavepointEntry {
             std::string name;
@@ -225,6 +260,37 @@ public:
     
     // Direct transaction (legacy API)
     Transaction begin(IsolationLevel isolation = IsolationLevel::ReadCommitted);
+
+    // ── Transaction timeout ───────────────────────────────────────────────────
+
+    /**
+     * @brief Set the default timeout applied to every new transaction.
+     *
+     * When a non-zero timeout is set, every transaction created via
+     * beginTransaction() or begin() has its timeout pre-configured to this
+     * value.  Existing active transactions are not affected.
+     *
+     * The background monitor in the TransactionManager automatically rolls
+     * back any active transaction that has exceeded its timeout.
+     *
+     * @param timeout  Default timeout; pass 0 ms to disable (no timeout).
+     */
+    void setDefaultTransactionTimeout(std::chrono::milliseconds timeout);
+
+    /**
+     * @brief Return the currently configured default transaction timeout.
+     *
+     * Returns 0 ms when no default timeout is set.
+     */
+    std::chrono::milliseconds getDefaultTransactionTimeout() const;
+
+    /**
+     * @brief Return the number of transactions automatically rolled back
+     *        due to timeout since the manager was created.
+     */
+    uint64_t getTimeoutCount() const {
+        return total_timed_out_.load(std::memory_order_relaxed);
+    }
     
     // Statistics
     struct Stats {
@@ -418,6 +484,7 @@ private:
     std::atomic<uint64_t> total_begun_{0};
     std::atomic<uint64_t> total_committed_{0};
     std::atomic<uint64_t> total_aborted_{0};
+    std::atomic<uint64_t> total_timed_out_{0}; ///< transactions auto-rolled-back due to timeout
     
     // SOLUTION 2B: Sequence lock for consistent lock-free statistics reads
     mutable std::atomic<uint64_t> stats_sequence_{0};
@@ -427,6 +494,11 @@ private:
     
     // Helper to update statistics with sequence lock protocol
     void updateStatsWithSeqLock(std::function<void()> update);
+
+    // Transaction timeout
+    std::atomic<uint64_t> default_transaction_timeout_ms_{0}; ///< 0 = no default timeout
+    void timeoutExpiredTransactions(); ///< roll back active transactions that exceeded their timeout
+    void applyDefaultTimeout(Transaction& txn) const; ///< apply default timeout if configured
     
     // Deadlock detection state
     std::atomic<bool> deadlock_detection_enabled_{false};

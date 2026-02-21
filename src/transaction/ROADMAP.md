@@ -21,6 +21,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [x] SnapshotManager – named snapshots/tags for PITR
 - [x] Changefeed integration for CDC
 - [x] Transaction savepoints – named partial rollback (`createSavepoint`, `rollbackToSavepoint`, `releaseSavepoint`, `getSavepoints`, `hasSavepoint`)
+- [x] Transaction timeout with automatic rollback (`setTimeout`, `isTimedOut`, `setDefaultTransactionTimeout`, `getTimeoutCount`)
 
 ## In Progress 🚧
 - [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
@@ -30,7 +31,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ### Short-term (Next 3-6 months)
 - [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
-- [ ] Transaction timeout with automatic rollback
+- [x] Transaction timeout with automatic rollback
 - [ ] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [ ] Per-tenant transaction isolation namespace
@@ -66,7 +67,7 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
 - [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
-- [ ] Transaction timeout with automatic rollback
+- [x] Transaction timeout with automatic rollback
 - [ ] Bulk transaction API (batch insert/update without per-row overhead)
 - [ ] Transaction explain (show locks acquired, MVCC version chain)
 - [ ] Per-tenant transaction isolation namespace
