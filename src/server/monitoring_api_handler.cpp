@@ -926,20 +926,19 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "# TYPE vccdb_qps gauge\n";
         out += "vccdb_qps " + std::to_string(qps) + "\n";
 
-        // Auth metrics (if available)
-        // TODO: Re-enable when AuthMiddleware provides metrics interface
-        // if (auth_) {
-        //     const auto& m = auth_->getMetrics();
-        //     out += "# HELP themis_authz_success_total Successful authorizations\n";
-        //     out += "# TYPE themis_authz_success_total counter\n";
-        //     out += "themis_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
-        //     out += "# HELP themis_authz_denied_total Denied authorizations (forbidden)\n";
-        //     out += "# TYPE themis_authz_denied_total counter\n";
-        //     out += "themis_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
-        //     out += "# HELP themis_authz_invalid_token_total Invalid or missing tokens\n";
-        //     out += "# TYPE themis_authz_invalid_token_total counter\n";
-        //     out += "themis_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
-        // }
+        // Auth metrics
+        if (auth_) {
+            const auto& m = auth_->getMetrics();
+            out += "# HELP themis_authz_success_total Successful authorizations\n";
+            out += "# TYPE themis_authz_success_total counter\n";
+            out += "themis_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
+            out += "# HELP themis_authz_denied_total Denied authorizations (forbidden)\n";
+            out += "# TYPE themis_authz_denied_total counter\n";
+            out += "themis_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
+            out += "# HELP themis_authz_invalid_token_total Invalid or missing tokens\n";
+            out += "# TYPE themis_authz_invalid_token_total counter\n";
+            out += "themis_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
+        }
 
         out += "# HELP rocksdb_block_cache_usage_bytes RocksDB block cache usage in bytes\n";
         out += "# TYPE rocksdb_block_cache_usage_bytes gauge\n";

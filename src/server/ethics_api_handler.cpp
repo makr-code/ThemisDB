@@ -27,6 +27,8 @@
 #include "server/ethics_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "query/query_engine.h"
+#include "query/aql_parser.h"
+#include "query/aql_translator.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -439,19 +441,66 @@ nlohmann::json EthicsApiHandler::executeAQL(
     if (!query_engine_) {
         throw std::runtime_error("QueryEngine not available");
     }
-    
-    // Execute AQL via QueryEngine
-    // TODO: Replace with actual QueryEngine::execute() call when available
-    // For now, return stub response
-    
-    nlohmann::json result = {
-        {"success", true},
-        {"message", "AQL execution not yet fully integrated"},
-        {"query", aql_query},
-        {"bind_vars", bind_vars}
-    };
-    
-    return result;
+
+    // Substitute bind parameters (@name → value literal) for simple string/number vars.
+    // Each placeholder is replaced exactly once, left-to-right, to prevent re-substitution.
+    std::string resolved_query = aql_query;
+    for (auto it = bind_vars.begin(); it != bind_vars.end(); ++it) {
+        const std::string placeholder = "@" + it.key();
+        std::string replacement;
+        if (it.value().is_string()) {
+            // Escape embedded single quotes to prevent AQL injection
+            std::string raw = it.value().get<std::string>();
+            std::string escaped;
+            escaped.reserve(raw.size());
+            for (char c : raw) {
+                if (c == '\'') { escaped += "''"; } else { escaped += c; }
+            }
+            replacement = "'" + escaped + "'";
+        } else {
+            replacement = it.value().dump();
+        }
+        // Replace all occurrences, advancing past each replacement to avoid re-substitution
+        size_t pos = 0;
+        while ((pos = resolved_query.find(placeholder, pos)) != std::string::npos) {
+            resolved_query.replace(pos, placeholder.size(), replacement);
+            pos += replacement.size(); // skip over newly inserted replacement text
+        }
+    }
+
+    // Parse the AQL query
+    query::AQLParser parser;
+    auto parse_result = parser.parse(resolved_query);
+    if (!parse_result.has_value()) {
+        throw std::runtime_error("AQL parse error: " + parse_result.error().message());
+    }
+
+    // Translate the AST to a QueryEngine query
+    auto translation = query::AQLTranslator::translate(*parse_result);
+    if (!translation.success) {
+        throw std::runtime_error("AQL translation error: " + translation.error_message);
+    }
+
+    // Execute and return results as JSON array
+    nlohmann::json rows = nlohmann::json::array();
+
+    if (translation.disjunctive.has_value()) {
+        auto result = query_engine_->executeOrEntities(translation.disjunctive.value());
+        if (result.has_value()) {
+            for (const auto& entity : result.value()) {
+                rows.push_back(nlohmann::json::parse(entity.toJson()));
+            }
+        }
+    } else {
+        auto result = query_engine_->executeAndEntities(translation.query);
+        if (result.has_value()) {
+            for (const auto& entity : result.value()) {
+                rows.push_back(nlohmann::json::parse(entity.toJson()));
+            }
+        }
+    }
+
+    return nlohmann::json{{"results", rows}, {"count", rows.size()}};
 }
 
 std::string EthicsApiHandler::extractQueryParam(

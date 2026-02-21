@@ -152,6 +152,7 @@ private:
     // COPY protocol state
     bool copyInProgress_ = false;
     std::vector<std::string> copyBuffer_;
+    std::string copyTableName_;   // table name extracted from COPY … FROM STDIN
     
     // Prepared statements and portals
     struct PreparedStatement {

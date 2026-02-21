@@ -176,9 +176,10 @@ public:
         const std::string& host,
         uint16_t port,
         HttpServer* server,
+        SSL_CTX* ssl_ctx,
         uint32_t max_idle_timeout_ms = 30000
     );
-    
+
     ~Http3Handler();
 
     /**

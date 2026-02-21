@@ -29,12 +29,16 @@
 #include "server/http3_session.h"
 #include "server/http_server.h"
 #include "utils/logger.h"
+#include <boost/beast/http.hpp>
 #include <ngtcp2/ngtcp2_crypto_openssl.h>
 #include <cstring>
 #include <random>
 
 namespace themis {
 namespace server {
+
+namespace beast = boost::beast;
+namespace http = beast::http;
 
 // ============================================================================
 // Helper Functions
@@ -66,12 +70,13 @@ Http3Handler::Http3Handler(
     const std::string& host,
     uint16_t port,
     HttpServer* server,
+    SSL_CTX* ssl_ctx,
     uint32_t max_idle_timeout_ms
 )
     : ioc_(ioc)
     , socket_(ioc, udp::endpoint(net::ip::make_address(host), port))
     , server_(server)
-    , ssl_ctx_(nullptr)
+    , ssl_ctx_(ssl_ctx)
     , max_idle_timeout_ms_(max_idle_timeout_ms)
     , cleanup_timer_(ioc)
 {
@@ -435,14 +440,68 @@ void Http3Session::processStream(int64_t stream_id) {
     if (it == streams_.end() || !it->second.headers_complete) {
         return;
     }
-    
+
     auto& stream = it->second;
-    
+
     THEMIS_INFO("HTTP/3 Processing: {} {}", stream.method, stream.path);
-    
-    // Create simple response
-    std::string response_body = R"({"status":"ok","message":"HTTP/3 request received","protocol":"h3"})";
-    send Response(stream_id, 200, response_body, {{"content-type", "application/json"}});
+
+    // Convert HTTP/3 request to Boost.Beast HTTP/1.1 request format
+    // This allows us to reuse all existing HttpServer handlers
+    http::request<http::string_body> req;
+
+    // Set method
+    if (stream.method == "GET") {
+        req.method(http::verb::get);
+    } else if (stream.method == "POST") {
+        req.method(http::verb::post);
+    } else if (stream.method == "PUT") {
+        req.method(http::verb::put);
+    } else if (stream.method == "DELETE") {
+        req.method(http::verb::delete_);
+    } else if (stream.method == "PATCH") {
+        req.method(http::verb::patch);
+    } else if (stream.method == "HEAD") {
+        req.method(http::verb::head);
+    } else if (stream.method == "OPTIONS") {
+        req.method(http::verb::options);
+    } else {
+        THEMIS_WARN("HTTP/3 unsupported method: {}", stream.method);
+        sendResponse(stream_id, 405, R"({"error":"Method not allowed"})",
+                     {{"content-type", "application/json"}});
+        return;
+    }
+
+    // Set target (path)
+    req.target(stream.path);
+
+    // Set HTTP version
+    req.version(11); // HTTP/1.1 for internal routing
+
+    // Copy headers (skip HTTP/3 pseudo-headers already parsed above)
+    for (const auto& [name, value] : stream.headers) {
+        req.set(name, value);
+    }
+
+    // Set authority as Host header if present
+    if (!stream.authority.empty()) {
+        req.set(http::field::host, stream.authority);
+    }
+
+    // Set body
+    req.body() = stream.body;
+    req.prepare_payload();
+
+    // Route the request using HttpServer's existing routing logic
+    auto response = server_->routeRequest(req);
+
+    // Convert response headers to HTTP/3 format
+    std::unordered_map<std::string, std::string> response_headers;
+    for (const auto& header : response) {
+        response_headers[std::string(header.name_string())] = std::string(header.value());
+    }
+
+    // Send HTTP/3 response
+    sendResponse(stream_id, response.result_int(), response.body(), response_headers);
 }
 
 void Http3Session::sendResponse(int64_t stream_id, int status,

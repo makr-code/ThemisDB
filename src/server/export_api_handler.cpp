@@ -26,9 +26,12 @@
 
 #include "server/export_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
+#include "storage/base_entity.h"
 #include "index/secondary_index.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -91,9 +94,96 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         exporters::ExportOptions export_options;
         export_options.output_path = output_path;
         
-        // TODO: Query database using AQL query
-        // For now, return placeholder response indicating implementation is ready
-        std::vector<BaseEntity> entities;  // Would be populated from query
+        // Query database: scan all entities and apply filter conditions
+        // derived from the same parameters used to build the AQL query
+        std::vector<BaseEntity> entities;
+        {
+            // Build a set of field→value filters from the request parameters
+            // (mirrors the conditions built by buildAqlQuery)
+            std::vector<std::pair<std::string, std::string>> filters;
+            auto add_filter = [&](const char* field) {
+                if (request_json.contains(field) && request_json[field].is_string()) {
+                    filters.emplace_back(field, request_json[field].get<std::string>());
+                }
+            };
+            add_filter("theme");    // stored as "category"
+            add_filter("domain");
+            add_filter("subject");
+
+            // Numeric min_rating handled separately
+            std::optional<double> min_rating;
+            if (request_json.contains("min_rating") &&
+                request_json["min_rating"].is_number()) {
+                min_rating = request_json["min_rating"].get<double>();
+            }
+
+            // Optional date range
+            std::optional<std::string> from_date, to_date;
+            if (request_json.contains("from_date") &&
+                request_json["from_date"].is_string()) {
+                from_date = request_json["from_date"].get<std::string>();
+            }
+            if (request_json.contains("to_date") &&
+                request_json["to_date"].is_string()) {
+                to_date = request_json["to_date"].get<std::string>();
+            }
+
+            // Apply max_records cap to avoid unbounded exports
+            constexpr size_t MAX_EXPORT_RECORDS = 100000;
+            size_t record_count = 0;
+
+            storage_->scanAll([&](std::string_view key, std::string_view value) -> bool {
+                if (record_count >= MAX_EXPORT_RECORDS) { return false; }
+
+                // Deserialize entity
+                BaseEntity entity;
+                try {
+                    entity = BaseEntity::fromJson(key, value);
+                } catch (...) {
+                    return true; // skip malformed records
+                }
+
+                // Apply filters: check JSON fields
+                try {
+                    auto doc = nlohmann::json::parse(entity.toJson());
+
+                    // String equality filters
+                    for (const auto& [field, val] : filters) {
+                        // "theme" is stored as "category" in the entity
+                        const std::string& doc_field =
+                            (field == "theme") ? "category" : field;
+                        if (doc.contains(doc_field)) {
+                            if (doc[doc_field].is_string() &&
+                                doc[doc_field].get<std::string>() != val) {
+                                return true; // filtered out
+                            }
+                        }
+                    }
+
+                    // Numeric rating filter
+                    if (min_rating.has_value() && doc.contains("rating") &&
+                        doc["rating"].is_number()) {
+                        if (doc["rating"].get<double>() < *min_rating) {
+                            return true;
+                        }
+                    }
+
+                    // Date range filter (lexicographic comparison on ISO 8601)
+                    if ((from_date.has_value() || to_date.has_value()) &&
+                        doc.contains("created_at") && doc["created_at"].is_string()) {
+                        const std::string& dt = doc["created_at"].get<std::string>();
+                        if (from_date.has_value() && dt < *from_date) { return true; }
+                        if (to_date.has_value()   && dt > *to_date)   { return true; }
+                    }
+                } catch (...) {
+                    return true; // skip malformed records
+                }
+
+                entities.push_back(std::move(entity));
+                ++record_count;
+                return true; // continue scan
+            });
+        }
         
         // Perform export
         auto stats = exporter->exportEntities(entities, export_options);
@@ -112,10 +202,26 @@ http::response<http::string_body> ExportApiHandler::handleExportJsonlLlm(
         http::response<http::string_body> res{http::status::ok, req.version()};
         res.set(http::field::content_type, "application/x-ndjson");
         
-        // Add filename based on theme and date range
+        // Build a safe filename: strip all characters that could break the
+        // Content-Disposition header value or inject HTTP header fields.
+        // Allow only alphanumeric, hyphen, underscore, and period.
+        auto sanitize_filename_part = [](const std::string& raw) -> std::string {
+            std::string safe;
+            safe.reserve(raw.size());
+            std::copy_if(raw.begin(), raw.end(), std::back_inserter(safe),
+                [](unsigned char c) {
+                    return std::isalnum(c) || c == '-' || c == '_' || c == '.';
+                });
+            return safe;
+        };
+
         std::string filename = "export_" + export_id;
-        if (request_json.contains("theme")) {
-            filename += "_" + request_json["theme"].get<std::string>();
+        if (request_json.contains("theme") && request_json["theme"].is_string()) {
+            const std::string safe_theme =
+                sanitize_filename_part(request_json["theme"].get<std::string>());
+            if (!safe_theme.empty()) {
+                filename += "_" + safe_theme;
+            }
         }
         filename += ".jsonl";
         
