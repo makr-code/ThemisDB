@@ -188,6 +188,70 @@ TEST_F(RequestValidationMiddlewareTest, NumericMinimumViolation) {
     EXPECT_FALSE(r.valid);
 }
 
+TEST_F(RequestValidationMiddlewareTest, NumericMaximumViolation) {
+    nlohmann::json schema = {
+        {"type", "object"},
+        {"properties", {
+            {"score", {{"type", "integer"}, {"minimum", 0}, {"maximum", 100}}}
+        }}
+    };
+    mw_.registerSchema("POST", "/api/v1/score", schema);
+    nlohmann::json over  = {{"score", 101}};
+    nlohmann::json under = {{"score", 50}};
+    EXPECT_FALSE(mw_.validate("POST", "/api/v1/score", over).valid);
+    EXPECT_TRUE(mw_.validate("POST", "/api/v1/score", under).valid);
+}
+
+TEST_F(RequestValidationMiddlewareTest, ExclusiveMinimumViolation) {
+    nlohmann::json schema = {
+        {"type", "object"},
+        {"properties", {
+            {"value", {{"type", "number"}, {"exclusiveMinimum", 0.0}}}
+        }}
+    };
+    mw_.registerSchema("POST", "/api/v1/exclusive", schema);
+    // 0 should fail (must be strictly > 0), 0.001 should pass
+    EXPECT_FALSE(mw_.validate("POST", "/api/v1/exclusive", nlohmann::json{{"value", 0}}).valid);
+    EXPECT_TRUE(mw_.validate("POST", "/api/v1/exclusive", nlohmann::json{{"value", 0.001}}).valid);
+}
+
+TEST_F(RequestValidationMiddlewareTest, ExclusiveMaximumViolation) {
+    nlohmann::json schema = {
+        {"type", "object"},
+        {"properties", {
+            {"ratio", {{"type", "number"}, {"exclusiveMaximum", 1.0}}}
+        }}
+    };
+    mw_.registerSchema("POST", "/api/v1/ratio", schema);
+    EXPECT_FALSE(mw_.validate("POST", "/api/v1/ratio", nlohmann::json{{"ratio", 1.0}}).valid);
+    EXPECT_TRUE(mw_.validate("POST", "/api/v1/ratio", nlohmann::json{{"ratio", 0.99}}).valid);
+}
+
+TEST_F(RequestValidationMiddlewareTest, EnumViolation) {
+    nlohmann::json schema = {
+        {"type", "object"},
+        {"properties", {
+            {"status", {{"type", "string"}, {"enum", {"active", "inactive", "pending"}}}}
+        }}
+    };
+    mw_.registerSchema("POST", "/api/v1/item", schema);
+    EXPECT_TRUE(mw_.validate("POST", "/api/v1/item", nlohmann::json{{"status", "active"}}).valid);
+    EXPECT_FALSE(mw_.validate("POST", "/api/v1/item", nlohmann::json{{"status", "deleted"}}).valid);
+}
+
+TEST_F(RequestValidationMiddlewareTest, PatternViolation) {
+    nlohmann::json schema = {
+        {"type", "object"},
+        {"properties", {
+            {"code", {{"type", "string"}, {"pattern", "^[A-Z]{3}-[0-9]{4}$"}}}
+        }}
+    };
+    mw_.registerSchema("POST", "/api/v1/code", schema);
+    EXPECT_TRUE(mw_.validate("POST", "/api/v1/code", nlohmann::json{{"code", "ABC-1234"}}).valid);
+    EXPECT_FALSE(mw_.validate("POST", "/api/v1/code", nlohmann::json{{"code", "abc-1234"}}).valid);
+    EXPECT_FALSE(mw_.validate("POST", "/api/v1/code", nlohmann::json{{"code", "AB-12"}}).valid);
+}
+
 TEST_F(RequestValidationMiddlewareTest, AdditionalPropertyRejected) {
     mw_.registerSchema("POST", "/api/v1/strict", strictSchema());
     nlohmann::json body = {{"name", "Alice"}, {"extra", "disallowed"}};
