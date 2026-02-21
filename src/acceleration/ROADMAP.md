@@ -35,7 +35,7 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 
 ### Phase 1: Design / API-Vertrag
 - [I] Define backend capability contract (feature matrix, precision modes, fallback order) (Target: Q2 2026) (Issue: #1380)
-- [I] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
+- [P] Freeze kernel invocation interfaces for ANN + geospatial operations (Target: Q2 2026) (Issue: #1381)
 - [I] Define error taxonomy for device selection, kernel launch and validation failures (Target: Q2 2026) (Issue: #1382)
 
 ### Phase 2: Core-Implementierung
@@ -74,11 +74,11 @@ Pre-production hardening — backend surface is broad, but production-grade kern
 - [x] Added documentation cross-references (`CUDA_BACKEND.md`, `VULKAN_BACKEND.md`)
 
 ### Phase 2: CUDA and Vulkan Kernel Implementation (Status: In Progress)
-- [!] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`) (Issue: #1461)
-- [!] Implement Vulkan compute shaders for cross-platform GPU pipeline (Issue: #1462)
-- [I] Implement runtime device capability detection (`acceleration/device_manager.cpp`) (Issue: #1463)
-- [!] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`) (Issue: #1464)
-- [!] Integrate with geo module GPU backend via `GeoAccelerationBridge` (Issue: #1455)
+- [~] Implement CUDA kernels for HNSW ANN search (`cuda/ann_kernels.cu`)
+- [~] Implement Vulkan compute shaders for cross-platform GPU pipeline
+- [~] Implement runtime device capability detection (`acceleration/device_manager.cpp`)
+- [P] Implement geo CUDA kernels for distance and containment (`cuda/geo_kernels.cu`)
+- [ ] Integrate with geo module GPU backend via `GeoAccelerationBridge`
 
 ### Phase 3: Extended Hardware and Advanced Features (Status: Planned)
 - [!] Add ROCm/HIP backend for AMD GPU acceleration (`hip/ann_kernels.hip`) (Issue: #1456)

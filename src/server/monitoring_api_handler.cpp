@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            monitoring_api_handler.cpp                         ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.16                                             ║
+  Last Modified:   2026-02-21 17:20:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     1560                                           ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     1559                                           ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -926,20 +926,19 @@ http::response<http::string_body> MonitoringApiHandler::handleMetrics(
         out += "# TYPE vccdb_qps gauge\n";
         out += "vccdb_qps " + std::to_string(qps) + "\n";
 
-        // Auth metrics (if available)
-        // TODO: Re-enable when AuthMiddleware provides metrics interface
-        // if (auth_) {
-        //     const auto& m = auth_->getMetrics();
-        //     out += "# HELP themis_authz_success_total Successful authorizations\n";
-        //     out += "# TYPE themis_authz_success_total counter\n";
-        //     out += "themis_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
-        //     out += "# HELP themis_authz_denied_total Denied authorizations (forbidden)\n";
-        //     out += "# TYPE themis_authz_denied_total counter\n";
-        //     out += "themis_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
-        //     out += "# HELP themis_authz_invalid_token_total Invalid or missing tokens\n";
-        //     out += "# TYPE themis_authz_invalid_token_total counter\n";
-        //     out += "themis_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
-        // }
+        // Auth metrics
+        if (auth_) {
+            const auto& m = auth_->getMetrics();
+            out += "# HELP themis_authz_success_total Successful authorizations\n";
+            out += "# TYPE themis_authz_success_total counter\n";
+            out += "themis_authz_success_total " + std::to_string(m.authz_success_total.load()) + "\n";
+            out += "# HELP themis_authz_denied_total Denied authorizations (forbidden)\n";
+            out += "# TYPE themis_authz_denied_total counter\n";
+            out += "themis_authz_denied_total " + std::to_string(m.authz_denied_total.load()) + "\n";
+            out += "# HELP themis_authz_invalid_token_total Invalid or missing tokens\n";
+            out += "# TYPE themis_authz_invalid_token_total counter\n";
+            out += "themis_authz_invalid_token_total " + std::to_string(m.authz_invalid_token_total.load()) + "\n";
+        }
 
         out += "# HELP rocksdb_block_cache_usage_bytes RocksDB block cache usage in bytes\n";
         out += "# TYPE rocksdb_block_cache_usage_bytes gauge\n";

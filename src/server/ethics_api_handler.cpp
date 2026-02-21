@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            ethics_api_handler.cpp                             ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.16                                             ║
+  Last Modified:   2026-02-21 17:20:26                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   86.0/100                                       ║
-    • Total Lines:     487                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 2                             ║
+    • Quality Score:   93.0/100                                       ║
+    • Total Lines:     536                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -27,6 +27,8 @@
 #include "server/ethics_api_handler.h"
 #include "storage/rocksdb_wrapper.h"
 #include "query/query_engine.h"
+#include "query/aql_parser.h"
+#include "query/aql_translator.h"
 #include "server/auth_middleware.h"
 #include "utils/logger.h"
 #include "utils/tracing.h"
@@ -439,19 +441,66 @@ nlohmann::json EthicsApiHandler::executeAQL(
     if (!query_engine_) {
         throw std::runtime_error("QueryEngine not available");
     }
-    
-    // Execute AQL via QueryEngine
-    // TODO: Replace with actual QueryEngine::execute() call when available
-    // For now, return stub response
-    
-    nlohmann::json result = {
-        {"success", true},
-        {"message", "AQL execution not yet fully integrated"},
-        {"query", aql_query},
-        {"bind_vars", bind_vars}
-    };
-    
-    return result;
+
+    // Substitute bind parameters (@name → value literal) for simple string/number vars.
+    // Each placeholder is replaced exactly once, left-to-right, to prevent re-substitution.
+    std::string resolved_query = aql_query;
+    for (auto it = bind_vars.begin(); it != bind_vars.end(); ++it) {
+        const std::string placeholder = "@" + it.key();
+        std::string replacement;
+        if (it.value().is_string()) {
+            // Escape embedded single quotes to prevent AQL injection
+            std::string raw = it.value().get<std::string>();
+            std::string escaped;
+            escaped.reserve(raw.size());
+            for (char c : raw) {
+                if (c == '\'') { escaped += "''"; } else { escaped += c; }
+            }
+            replacement = "'" + escaped + "'";
+        } else {
+            replacement = it.value().dump();
+        }
+        // Replace all occurrences, advancing past each replacement to avoid re-substitution
+        size_t pos = 0;
+        while ((pos = resolved_query.find(placeholder, pos)) != std::string::npos) {
+            resolved_query.replace(pos, placeholder.size(), replacement);
+            pos += replacement.size(); // skip over newly inserted replacement text
+        }
+    }
+
+    // Parse the AQL query
+    query::AQLParser parser;
+    auto parse_result = parser.parse(resolved_query);
+    if (!parse_result.has_value()) {
+        throw std::runtime_error("AQL parse error: " + parse_result.error().message());
+    }
+
+    // Translate the AST to a QueryEngine query
+    auto translation = query::AQLTranslator::translate(*parse_result);
+    if (!translation.success) {
+        throw std::runtime_error("AQL translation error: " + translation.error_message);
+    }
+
+    // Execute and return results as JSON array
+    nlohmann::json rows = nlohmann::json::array();
+
+    if (translation.disjunctive.has_value()) {
+        auto result = query_engine_->executeOrEntities(translation.disjunctive.value());
+        if (result.has_value()) {
+            for (const auto& entity : result.value()) {
+                rows.push_back(nlohmann::json::parse(entity.toJson()));
+            }
+        }
+    } else {
+        auto result = query_engine_->executeAndEntities(translation.query);
+        if (result.has_value()) {
+            for (const auto& entity : result.value()) {
+                rows.push_back(nlohmann::json::parse(entity.toJson()));
+            }
+        }
+    }
+
+    return nlohmann::json{{"results", rows}, {"count", rows.size()}};
 }
 
 std::string EthicsApiHandler::extractQueryParam(

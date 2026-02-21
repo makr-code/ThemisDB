@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway.cpp                                    ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.16                                             ║
+  Last Modified:   2026-02-21 17:20:25                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   92.0/100                                       ║
-    • Total Lines:     701                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   94.0/100                                       ║
+    • Total Lines:     835                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -28,6 +28,7 @@
 #include "server/api_version_config.h"
 #include "server/rate_limiter_v2.h"
 #include "core/error_codes.h"
+#include "sharding/urn.h"
 #include <chrono>
 #include <ctime>
 #include <sstream>
@@ -60,6 +61,9 @@ namespace {
 }
 
 namespace themis::server {
+
+// Prefix used to identify entity-by-key paths (for shard routing)
+static constexpr std::string_view kEntitiesPrefix = "/entities/";
 
 APIGateway::APIGateway(
     const Config& config,
@@ -164,12 +168,75 @@ http::response<http::string_body> APIGateway::handleRequest(
                 
             case RouteTarget::SHARD:
                 distributed_requests_++;
-                // Extract shard ID from request path/URN
-                // For now, fallback to local execution if extraction fails
                 if (shard_router_) {
-                    // TODO: Extract URN from request and route to appropriate shard
-                    // For now, use local execution as fallback
-                    response = executeLocal(req, local_handler);
+                    // Extract entity key from path: /entities/{key}
+                    const std::string_view target_sv = req.target();
+                    auto pos = target_sv.find(kEntitiesPrefix);
+                    if (pos != std::string_view::npos) {
+                        auto key_sv = target_sv.substr(pos + kEntitiesPrefix.size());
+                        // Strip query string if present
+                        auto qpos = key_sv.find('?');
+                        if (qpos != std::string_view::npos) { key_sv = key_sv.substr(0, qpos); }
+                        const std::string raw_key(key_sv);
+
+                        // Try to parse as URN (urn:themis:…); fall back to local otherwise
+                        auto urn_opt = sharding::URN::parse(raw_key);
+                        if (urn_opt.has_value()) {
+                            const auto& urn = *urn_opt;
+                            const auto method = req.method();
+                            if (method == http::verb::get) {
+                                auto data = shard_router_->get(urn);
+                                if (data.has_value()) {
+                                    response = makeResponse(http::status::ok,
+                                        data->dump(), req);
+                                } else {
+                                    response = makeErrorResponse(http::status::not_found,
+                                        "Entity not found: " + raw_key, req);
+                                }
+                            } else if (method == http::verb::put ||
+                                       method == http::verb::post) {
+                                nlohmann::json body;
+                                if (!req.body().empty()) {
+                                    try {
+                                        body = nlohmann::json::parse(req.body());
+                                    } catch (const nlohmann::json::exception& je) {
+                                        response = makeErrorResponse(
+                                            http::status::bad_request,
+                                            std::string("Invalid JSON body: ") + je.what(), req);
+                                        break;
+                                    }
+                                }
+                                bool ok = shard_router_->put(urn, body);
+                                if (ok) {
+                                    response = makeResponse(http::status::ok,
+                                        R"({"status":"ok"})", req);
+                                } else {
+                                    response = makeErrorResponse(
+                                        http::status::internal_server_error,
+                                        "Failed to write to shard", req);
+                                }
+                            } else if (method == http::verb::delete_) {
+                                bool ok = shard_router_->del(urn);
+                                if (ok) {
+                                    response = makeResponse(http::status::ok,
+                                        R"({"status":"deleted"})", req);
+                                } else {
+                                    response = makeErrorResponse(
+                                        http::status::internal_server_error,
+                                        "Failed to delete from shard", req);
+                                }
+                            } else {
+                                response = makeErrorResponse(
+                                    http::status::method_not_allowed,
+                                    "Method not allowed for shard routing", req);
+                            }
+                        } else {
+                            // Key is not a URN — execute locally
+                            response = executeLocal(req, local_handler);
+                        }
+                    } else {
+                        response = executeLocal(req, local_handler);
+                    }
                 } else {
                     response = executeLocal(req, local_handler);
                 }
@@ -491,20 +558,74 @@ http::response<http::string_body> APIGateway::executeRemote(
     }
     
     try {
-        // Execute request on remote shard via shard router
-        // Note: This requires full URN extraction and routing logic
-        // which depends on the specific request format
-        
-        // For now, this is a placeholder for future implementation
-        // In production, this would:
-        // 1. Extract URN or entity ID from request
-        // 2. Resolve to shard location via URN resolver
-        // 3. Execute request via remote executor
-        // 4. Record success/failure in circuit breaker
-        
-        spdlog::warn("Remote shard execution called but not fully implemented");
-        return makeErrorResponse(http::status::internal_server_error,
-                                "Remote shard execution requires additional configuration", req);
+        // Extract entity key / URN from the request path
+        const std::string_view target_sv = req.target();
+        auto pos = target_sv.find(kEntitiesPrefix);
+        if (pos == std::string_view::npos) {
+            return makeErrorResponse(http::status::bad_request,
+                "Remote shard routing requires an /entities/{urn} path", req);
+        }
+
+        auto key_sv = target_sv.substr(pos + kEntitiesPrefix.size());
+        auto qpos = key_sv.find('?');
+        if (qpos != std::string_view::npos) { key_sv = key_sv.substr(0, qpos); }
+        const std::string raw_key(key_sv);
+
+        auto urn_opt = sharding::URN::parse(raw_key);
+        if (!urn_opt.has_value()) {
+            return makeErrorResponse(http::status::bad_request,
+                "Could not parse URN from path: " + raw_key, req);
+        }
+        const auto& urn = *urn_opt;
+
+        http::response<http::string_body> response;
+        const auto method = req.method();
+
+        if (method == http::verb::get) {
+            auto data = shard_router_->get(urn);
+            if (data.has_value()) {
+                response = makeResponse(http::status::ok, data->dump(), req);
+            } else {
+                response = makeErrorResponse(http::status::not_found,
+                    "Entity not found on shard: " + raw_key, req);
+            }
+        } else if (method == http::verb::put || method == http::verb::post) {
+            nlohmann::json body;
+            if (!req.body().empty()) {
+                try {
+                    body = nlohmann::json::parse(req.body());
+                } catch (const nlohmann::json::exception& je) {
+                    return makeErrorResponse(http::status::bad_request,
+                        std::string("Invalid JSON body: ") + je.what(), req);
+                }
+            }
+            bool ok = shard_router_->put(urn, body);
+            if (ok) {
+                response = makeResponse(http::status::ok, R"({"status":"ok"})", req);
+            } else {
+                response = makeErrorResponse(http::status::internal_server_error,
+                    "Failed to write entity to remote shard", req);
+            }
+        } else if (method == http::verb::delete_) {
+            bool ok = shard_router_->del(urn);
+            if (ok) {
+                response = makeResponse(http::status::ok, R"({"status":"deleted"})", req);
+            } else {
+                response = makeErrorResponse(http::status::internal_server_error,
+                    "Failed to delete entity from remote shard", req);
+            }
+        } else {
+            return makeErrorResponse(http::status::method_not_allowed,
+                "Method not allowed for shard routing", req);
+        }
+
+        // Record success in circuit breaker
+        if (config_.enable_circuit_breaker) {
+            auto cb = getCircuitBreaker(shard_id);
+            cb->recordSuccess();
+        }
+
+        return response;
         
     } catch (const std::exception& e) {
         spdlog::error("Remote execution failed: {}", e.what());
@@ -581,6 +702,19 @@ http::response<http::string_body> APIGateway::makeErrorResponse(
     response.prepare_payload();
     response.keep_alive(req.keep_alive());
     
+    return response;
+}
+
+http::response<http::string_body> APIGateway::makeResponse(
+    http::status status,
+    const std::string& body,
+    const http::request<http::string_body>& req
+) {
+    http::response<http::string_body> response{status, req.version()};
+    response.set(http::field::content_type, "application/json");
+    response.body() = body;
+    response.prepare_payload();
+    response.keep_alive(req.keep_alive());
     return response;
 }
 

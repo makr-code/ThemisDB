@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            vector_api_handler.cpp                             ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:42                                ║
+  Version:         0.0.16                                             ║
+  Last Modified:   2026-02-21 17:20:27                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   93.0/100                                       ║
-    • Total Lines:     685                                            ║
+    • Total Lines:     744                                            ║
     • Open Issues:     TODOs: 1, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 49e69250a  2026-02-21  feat(index): HNSW incremental re-index without full rebui... ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -615,6 +615,65 @@ http::response<http::string_body> VectorApiHandler::handleIndexStats(
 
     } catch (const std::exception& e) {
         THEMIS_ERROR("Vector stats error: {}", e.what());
+        return makeErrorResponse(http::status::internal_server_error, e.what(), req);
+    }
+}
+
+http::response<http::string_body> VectorApiHandler::handleIncrementalReindex(
+    const http::request<http::string_body>& req
+) {
+    if (auth_) {
+        std::string path_only = std::string(req.target());
+        auto qpos = path_only.find('?');
+        if (qpos != std::string::npos) path_only = path_only.substr(0, qpos);
+        if (auto resp = requireAccess(req, "index:write", "vector.incremental-reindex", path_only))
+            return *resp;
+    }
+    auto span = Tracer::startSpan("handleVectorIncrementalReindex");
+    span.setAttribute("http.method", "POST");
+    span.setAttribute("http.path", "/vector/index/incremental-reindex");
+
+    try {
+        float rebuild_threshold = 0.20f;
+        std::string vector_field = "embedding";
+
+        if (!req.body().empty()) {
+            auto body = json::parse(req.body());
+            if (body.contains("rebuild_threshold"))
+                rebuild_threshold = body["rebuild_threshold"].get<float>();
+            if (body.contains("vector_field"))
+                vector_field = body["vector_field"].get<std::string>();
+        }
+
+        auto [status, stats] = vector_index_->incrementalReindex(rebuild_threshold, vector_field);
+
+        if (!status.ok) {
+            THEMIS_ERROR("Incremental reindex failed: {}", status.message);
+            span.setStatus(false, status.message);
+            return makeErrorResponse(http::status::internal_server_error, status.message, req);
+        }
+
+        json response = {
+            {"success",                  true},
+            {"added",                    stats.added},
+            {"removed",                  stats.removed},
+            {"updated",                  stats.updated},
+            {"unchanged",                stats.unchanged},
+            {"total_scanned",            stats.total_scanned},
+            {"full_rebuild_triggered",   stats.full_rebuild_triggered},
+            {"vector_count",             vector_index_->getVectorCount()}
+        };
+
+        THEMIS_INFO("Incremental reindex: added={} removed={} updated={} unchanged={} scanned={}",
+                    stats.added, stats.removed, stats.updated, stats.unchanged, stats.total_scanned);
+        span.setStatus(true);
+        return makeResponse(http::status::ok, response.dump(), req);
+
+    } catch (const json::exception& e) {
+        return makeErrorResponse(http::status::bad_request,
+                                 "Invalid JSON: " + std::string(e.what()), req);
+    } catch (const std::exception& e) {
+        THEMIS_ERROR("Incremental reindex exception: {}", e.what());
         return makeErrorResponse(http::status::internal_server_error, e.what(), req);
     }
 }

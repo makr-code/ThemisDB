@@ -261,8 +261,13 @@ set(THEMIS_QUERY_SOURCES
     # Analytics
     ../src/analytics/olap.cpp
     ../src/analytics/process_mining.cpp
+    ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
     ../src/analytics/diff_engine.cpp
+    ../src/analytics/cep_engine.cpp
+    ../src/analytics/streaming_window.cpp
+    ../src/analytics/incremental_view.cpp
+    ../src/analytics/anomaly_detection.cpp
     
     # AQL handlers
     ../src/aql/llm_aql_handler.cpp
@@ -328,6 +333,7 @@ set(THEMIS_SECURITY_SOURCES
     ../src/auth/gssapi_authenticator.cpp
     ../src/auth/mfa_authenticator.cpp
     ../src/server/auth_middleware.cpp
+    ../src/server/request_validation_middleware.cpp
     
     # Governance
     ../src/governance/policy_engine.cpp
@@ -617,6 +623,7 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/http_server.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/transaction_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/auth_middleware.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/request_validation_middleware.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/diff_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/snapshot_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/pitr_api_handler.cpp>

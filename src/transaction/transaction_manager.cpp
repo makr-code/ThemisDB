@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            transaction_manager.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:44                                ║
+  Version:         0.0.16                                             ║
+  Last Modified:   2026-02-21 17:20:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   95.0/100                                       ║
-    • Total Lines:     944                                            ║
+    • Total Lines:     1011                                           ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 397f3a597  2026-02-21  Refactor header includes and documentation updates across... ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 234245ceb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • f70e93ab6  2026-02-21  Add TwoPhaseCommitCoordinator for cross-shard transaction... ║
+    • b8b369411  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -178,6 +178,10 @@ void TransactionManager::deadlockDetectorLoop() {
         }
         
         if (!deadlock_detector_running_.load(std::memory_order_relaxed)) break;
+
+        // Check for timed-out transactions (independent of deadlock detection flag)
+        abortTimedOutTransactions();
+
         if (!deadlock_detection_enabled_.load(std::memory_order_relaxed)) continue;
         
         // Check for deadlocks
@@ -460,6 +464,7 @@ TransactionManager::Stats TransactionManager::getStats() const {
     stats.total_begun = total_begun_.load(std::memory_order_relaxed);
     stats.total_committed = total_committed_.load(std::memory_order_relaxed);
     stats.total_aborted = total_aborted_.load(std::memory_order_relaxed);
+    stats.total_timed_out = total_timed_out_.load(std::memory_order_relaxed);
     stats.active_count = active_transactions_.size();
     
     // Calculate average and max duration
@@ -499,6 +504,7 @@ TransactionManager::Stats TransactionManager::getStatsLockFree() const {
         stats.total_begun = total_begun_.load(std::memory_order_relaxed);
         stats.total_committed = total_committed_.load(std::memory_order_relaxed);
         stats.total_aborted = total_aborted_.load(std::memory_order_relaxed);
+        stats.total_timed_out = total_timed_out_.load(std::memory_order_relaxed);
         
         // For map sizes, we need a quick lock (cannot be done lock-free)
         // This is acceptable as the lock is held very briefly
@@ -554,6 +560,67 @@ void TransactionManager::cleanupOldTransactions(std::chrono::seconds max_age) {
             ++it;
         }
     }
+}
+
+// ── Transaction Timeout / Auto-Rollback ──────────────────────────────────────
+
+void TransactionManager::setTransactionTimeout(std::chrono::milliseconds timeout_ms) {
+    const uint64_t prev = transaction_timeout_ms_.exchange(
+        static_cast<uint64_t>(timeout_ms.count()),
+        std::memory_order_relaxed);
+
+    // Only log on transitions between disabled (0) and enabled, or value changes
+    if (prev != static_cast<uint64_t>(timeout_ms.count())) {
+        if (timeout_ms.count() == 0) {
+            THEMIS_DEBUG("TransactionManager: transaction timeout disabled");
+        } else {
+            THEMIS_DEBUG("TransactionManager: transaction timeout set to {} ms",
+                        timeout_ms.count());
+        }
+    }
+}
+
+std::chrono::milliseconds TransactionManager::getTransactionTimeout() const {
+    return std::chrono::milliseconds(
+        transaction_timeout_ms_.load(std::memory_order_relaxed));
+}
+
+uint64_t TransactionManager::getTimedOutCount() const {
+    return total_timed_out_.load(std::memory_order_relaxed);
+}
+
+size_t TransactionManager::abortTimedOutTransactions() {
+    const uint64_t timeout_ms = transaction_timeout_ms_.load(std::memory_order_relaxed);
+    if (timeout_ms == 0) return 0;   // feature disabled
+
+    const auto now = std::chrono::system_clock::now();
+    const auto limit = std::chrono::milliseconds(timeout_ms);
+
+    // Collect IDs of transactions that have exceeded the timeout.
+    // We hold sessions_mutex_ briefly to snapshot candidate IDs, then
+    // release it before calling rollbackTransaction (which re-acquires it
+    // via moveToCompleted) to avoid a nested-lock deadlock.
+    std::vector<TransactionId> expired;
+    {
+        std::lock_guard<std::mutex> lock(sessions_mutex_);
+        for (const auto& [id, txn] : active_transactions_) {
+            if (txn->isFinished()) continue;  // already decided
+            auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - txn->getStartTime());
+            if (elapsed >= limit) {
+                expired.push_back(id);
+            }
+        }
+    }
+
+    for (TransactionId id : expired) {
+        THEMIS_WARN("TransactionManager: aborting timed-out transaction {} ({}ms limit)",
+                    id, timeout_ms);
+        rollbackTransaction(id);
+        total_timed_out_.fetch_add(1, std::memory_order_relaxed);
+    }
+
+    return expired.size();
 }
 
 // Direct transaction (legacy API)
