@@ -66,7 +66,9 @@ struct LoRADataSelectionConfig {
     size_t target_samples = 5000; ///< Total samples to select
 
     // ---- Audit ----
-    bool audit = true;            ///< Record provenance audit entry
+    bool        audit          = true;   ///< Record provenance audit entry
+    /// Path to append JSON Lines audit records.  Empty = no file persistence.
+    std::string audit_log_path = "logs/lora_data_selection_audit.jsonl";
 
     LoRADataSelectionConfig() = default;
 

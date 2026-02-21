@@ -59,6 +59,7 @@ lora_data_selection:
 
   # -- Audit & Provenance --
   audit: true                    # Record selection provenance (hash + timestamp + IDs)
+  audit_log_path: "logs/lora_data_selection_audit.jsonl"  # Append-only JSONL audit file
 
 # ============================================================================
 # LoRA hyperparameters

@@ -10,6 +10,10 @@
 #include <gtest/gtest.h>
 #include "training/lora_data_selection.h"
 
+#include <chrono>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -953,4 +957,116 @@ TEST_F(CLODataSelectionIntegrationTest, SetDataSelectionConfig_LiveReload) {
     new_cfg.target_samples = 999;
     pipeline.setConfig(new_cfg);
     EXPECT_EQ(pipeline.getConfig().target_samples, 999u);
+}
+
+// ============================================================================
+// Audit JSONL persistence
+// ============================================================================
+
+class AuditPersistenceTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        // Use a unique temp file for each test to avoid cross-test interference.
+        // std::filesystem::temp_directory_path() is portable (C++17).
+        namespace fs = std::filesystem;
+        audit_path_ = (fs::temp_directory_path() /
+                       ("test_audit_" +
+                        std::to_string(std::chrono::system_clock::now()
+                            .time_since_epoch().count()) + ".jsonl"))
+                      .string();
+        cfg_.audit          = true;
+        cfg_.audit_log_path = audit_path_;
+        cfg_.min_length_tokens = 1;
+        cfg_.required_language = "";
+    }
+
+    void TearDown() override {
+        std::remove(audit_path_.c_str());
+    }
+
+    std::string readFile(const std::string& path) {
+        std::ifstream f(path);
+        if (!f.is_open()) return "";
+        std::ostringstream buf;
+        buf << f.rdbuf();
+        return buf.str();
+    }
+
+    std::string audit_path_;
+    LoRADataSelectionConfig cfg_;
+};
+
+TEST_F(AuditPersistenceTest, RunAppendsJSONLFile) {
+    DataSelectionPipeline pipeline(cfg_);
+    auto result = pipeline.run({});
+    ASSERT_TRUE(result.success);
+
+    std::string content = readFile(audit_path_);
+    EXPECT_FALSE(content.empty()) << "Audit JSONL file should not be empty";
+    // Each appended line starts with '{'
+    EXPECT_EQ(content.front(), '{');
+}
+
+TEST_F(AuditPersistenceTest, RunAppendsValidJSONL) {
+    DataSelectionPipeline pipeline(cfg_);
+    pipeline.run({});
+
+    std::string content = readFile(audit_path_);
+    // Strip trailing newline
+    if (!content.empty() && content.back() == '\n')
+        content.pop_back();
+
+    EXPECT_EQ(content.front(), '{');
+    EXPECT_EQ(content.back(), '}');
+    EXPECT_NE(content.find("\"pipeline_version\""), std::string::npos);
+    EXPECT_NE(content.find("\"config_hash\""),      std::string::npos);
+    EXPECT_NE(content.find("\"timestamp\""),         std::string::npos);
+}
+
+TEST_F(AuditPersistenceTest, MultipleRunsAppendMultipleLines) {
+    DataSelectionPipeline pipeline(cfg_);
+    pipeline.run({});
+    pipeline.run({});
+    pipeline.run({});
+
+    std::string content = readFile(audit_path_);
+    // Count lines (each non-empty line is one JSON record)
+    int lines = 0;
+    std::istringstream iss(content);
+    std::string line;
+    while (std::getline(iss, line)) {
+        if (!line.empty()) ++lines;
+    }
+    EXPECT_EQ(lines, 3);
+}
+
+TEST_F(AuditPersistenceTest, AuditDisabledDoesNotWriteFile) {
+    cfg_.audit = false;
+    DataSelectionPipeline pipeline(cfg_);
+    pipeline.run({});
+
+    std::ifstream f(audit_path_);
+    EXPECT_FALSE(f.is_open()) << "File should not be created when audit=false";
+}
+
+TEST_F(AuditPersistenceTest, EmptyAuditLogPathDoesNotCreateFile) {
+    cfg_.audit_log_path = "";
+    DataSelectionPipeline pipeline(cfg_);
+    pipeline.run({});
+    // No file should have been created at the empty path (no crash)
+    SUCCEED();
+}
+
+TEST_F(AuditPersistenceTest, LoadFromYAML_AuditLogPathParsed) {
+    std::string src_path = __FILE__;
+    auto sep = src_path.rfind('/');
+    std::string repo_root = (sep != std::string::npos)
+                           ? src_path.substr(0, sep - std::string("tests").size())
+                           : "./";
+    const std::string config_path = repo_root + "config/lora/LoRATrainerConfig.yaml";
+
+    LoRADataSelectionConfig cfg;
+    ASSERT_NO_THROW(cfg = LoRADataSelectionConfig::loadFromYAML(config_path));
+    EXPECT_TRUE(cfg.audit);
+    EXPECT_EQ(cfg.audit_log_path, "logs/lora_data_selection_audit.jsonl");
 }

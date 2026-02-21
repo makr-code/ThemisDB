@@ -8,11 +8,16 @@
 #include <cmath>
 #include <fstream>
 #include <map>
+#include <mutex>
 #include <numeric>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 #include <unordered_set>
+
+#if !defined(_WIN32) && !defined(_WIN64)
+#  include <sys/stat.h>   // mkdir
+#endif
 
 namespace themis {
 namespace training {
@@ -219,6 +224,47 @@ static std::string hashConfig(const LoRADataSelectionConfig& cfg) {
     std::ostringstream hex;
     hex << std::hex << h;
     return hex.str();
+}
+
+/**
+ * @brief Append a JSONL audit record to @p path (thread-safe).
+ *
+ * Creates parent directories if they don't exist (best-effort, POSIX and
+ * Windows).  If the append fails, the error is swallowed so the caller's
+ * pipeline result is not affected.
+ */
+static void appendAuditJSONL(const std::string& path,
+                              const std::string& jsonl_line) {
+    if (path.empty()) return;
+
+    // Create parent directories (best-effort, POSIX + Windows)
+    auto slash = path.rfind('/');
+    if (slash != std::string::npos) {
+        std::string dir = path.substr(0, slash);
+        // Walk and create each segment
+        for (size_t i = 1; i <= dir.size(); ++i) {
+            if (i == dir.size() || dir[i] == '/') {
+                std::string seg = dir.substr(0, i);
+#if defined(_WIN32) || defined(_WIN64)
+                (void)_mkdir(seg.c_str());  // Windows: no mode argument
+#else
+                mkdir(seg.c_str(), 0755);
+#endif
+            }
+        }
+    }
+
+    // Global mutex for concurrent callers writing to the same file.
+    // Using a file-path-keyed mutex would be ideal; a single process-wide
+    // mutex is simpler and safe for all practical use cases here.
+    static std::mutex s_audit_mutex;
+    std::lock_guard<std::mutex> lk(s_audit_mutex);
+
+    std::ofstream ofs(path, std::ios::app | std::ios::out);
+    if (ofs.is_open()) {
+        ofs << jsonl_line << '\n';
+    }
+    // Silently ignore failures so pipeline results are unaffected
 }
 
 } // namespace detail
@@ -543,7 +589,16 @@ DataSelectionPipeline::~DataSelectionPipeline() = default;
 DataSelectionResult DataSelectionPipeline::run(
         const std::vector<DataSample>& input_samples,
         SelectionProgressCallback callback) {
-    return impl_->run(input_samples, std::move(callback));
+    auto result = impl_->run(input_samples, std::move(callback));
+
+    // Persist audit trail to JSONL file when audit is enabled and a path is set.
+    if (result.success && impl_->getConfig().audit &&
+            !impl_->getConfig().audit_log_path.empty()) {
+        detail::appendAuditJSONL(impl_->getConfig().audit_log_path,
+                                 result.audit_entry.toJSONL());
+    }
+
+    return result;
 }
 
 std::vector<DataSample> DataSelectionPipeline::filterByQuality(
@@ -634,6 +689,7 @@ static void applyScalar(LoRADataSelectionConfig& cfg,
         else if (key == "hard_ratio")          cfg.hard_ratio               = std::stod(val);
         else if (key == "target_samples")      cfg.target_samples           = std::stoull(val);
         else if (key == "audit")               cfg.audit                    = (val == "true");
+        else if (key == "audit_log_path")      cfg.audit_log_path           = val;
     } catch (const std::invalid_argument& e) {
         throw std::runtime_error(
             "LoRADataSelectionConfig: invalid value for key '" + key +
