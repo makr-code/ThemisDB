@@ -143,6 +143,39 @@ public:
     // Index aus Storage aufbauen (scannt Prefix objectName:) — optional
     Status rebuildFromStorage();
 
+    // ===== Incremental Re-indexing =====
+
+    /// Statistics returned by incrementalReindex().
+    struct IncrementalReindexStats {
+        size_t added     = 0; ///< Vectors added to HNSW (new in storage)
+        size_t removed   = 0; ///< Vectors marked deleted in HNSW (gone from storage)
+        size_t updated   = 0; ///< Vectors updated in-place in HNSW (data changed)
+        size_t unchanged = 0; ///< Vectors already up-to-date (no action taken)
+        size_t total_scanned = 0; ///< Total storage entries scanned
+        bool   full_rebuild_triggered = false; ///< True when auto full-rebuild ran
+    };
+
+    /// Incremental re-index: sync the HNSW index with current storage state
+    /// without performing a full rebuild.
+    ///
+    /// Compares in-memory index state against storage and:
+    ///   - Adds new vectors found in storage but missing from index
+    ///   - Marks deleted vectors present in index but removed from storage
+    ///   - Updates vectors whose data has changed in storage
+    ///   - Skips unchanged vectors (preserves HNSW graph connectivity)
+    ///
+    /// If the ratio of soft-deleted HNSW labels exceeds @p rebuild_threshold,
+    /// a full rebuild is triggered automatically and
+    /// IncrementalReindexStats::full_rebuild_triggered is set to true.
+    ///
+    /// @param rebuild_threshold  Deleted-label fraction that triggers full rebuild (0.0–1.0).
+    ///                           Pass 0 to disable automatic full rebuild.
+    /// @param vectorField        Name of the vector field in entities (default "embedding").
+    /// @return {Status, IncrementalReindexStats}
+    std::pair<Status, IncrementalReindexStats> incrementalReindex(
+        float rebuild_threshold = 0.20f,
+        std::string_view vectorField = "embedding");
+
     // Persistenz (optional, nur wenn HNSW aktiv): speichert Index + Mapping + Metadaten im Verzeichnis
     Status saveIndex(const std::string& directory) const;
     Status loadIndex(const std::string& directory);
