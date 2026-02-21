@@ -286,8 +286,8 @@ TEST_F(VulkanBackendTest, OrthogonalVectorsMaximumDistance) {
     );
     
     ASSERT_EQ(distances.size(), 1);
-    // L2 distance between orthogonal unit vectors should be sqrt(2)
-    EXPECT_NEAR(distances[0], std::sqrt(2.0f), 0.01f);
+    // Squared L2 distance between orthogonal unit vectors: (1-0)^2 + (0-1)^2 = 2
+    EXPECT_NEAR(distances[0], 2.0f, 0.01f);
 }
 
 // ===== Memory Management Tests =====
