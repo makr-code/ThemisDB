@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
+# When building directly from the cmake/ subdirectory (e.g. cmake -S cmake),
+# THEMIS_ROOT_DIR is not yet set.  Default it to the parent of this file.
+if(NOT THEMIS_ROOT_DIR)
+    get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
+endif()
+
 # VERSION ist Single-Source-of-Truth: zwingend aus Datei lesen
 if(NOT EXISTS "${THEMIS_ROOT_DIR}/VERSION")
     message(FATAL_ERROR "VERSION file not found at project root. Please create and set semantic version (e.g., 1.2.3).")
@@ -1493,6 +1499,7 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
+    ../src/updates/update_state_machine.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
