@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            content_api_handler.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:51                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   93.0/100                                       ║
-    • Total Lines:     846                                            ║
-    • Open Issues:     TODOs: 1, Stubs: 1                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     879                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -114,8 +114,41 @@ http::response<http::string_body> ContentApiHandler::handleImport(
         if (body.contains("blob")) {
             blob = body["blob"].get<std::string>();
         } else if (body.contains("blob_base64")) {
-            // Simple base64 decode (minimal implementation - consider using proper library)
-            blob = body["blob_base64"].get<std::string>(); // TODO: actual base64 decode
+            // Decode base64 to binary, then treat as UTF-8 string
+            const std::string& encoded = body["blob_base64"].get<std::string>();
+            static const int kBase64DecodeTable[256] = {
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,62,-1,-1,-1,63,
+                52,53,54,55,56,57,58,59,60,61,-1,-1,-1, 0,-1,-1,
+                -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,
+                15,16,17,18,19,20,21,22,23,24,25,-1,-1,-1,-1,-1,
+                -1,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
+                41,42,43,44,45,46,47,48,49,50,51,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+            };
+            std::string decoded;
+            decoded.reserve((encoded.size() * 3) / 4);
+            int val = 0, valb = -8;
+            for (unsigned char c : encoded) {
+                if (c == '=') break;
+                int d = kBase64DecodeTable[c];
+                if (d == -1) continue;
+                val = (val << 6) + d;
+                valb += 6;
+                if (valb >= 0) {
+                    decoded.push_back(static_cast<char>((val >> valb) & 0xFF));
+                    valb -= 8;
+                }
+            }
+            blob = std::move(decoded);
         }
         
         // Call ContentManager::importContent with structured JSON spec

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            input_validator.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:44                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:54                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   90.0/100                                       ║
-    • Total Lines:     296                                            ║
+    • Total Lines:     304                                            ║
     • Open Issues:     TODOs: 0, Stubs: 2                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -191,26 +191,23 @@ static std::optional<std::string> validatePropertyConstraints(
     return std::nullopt;
 }
 
-std::optional<std::string> InputValidator::validateJsonStub(
+// static
+std::optional<std::string> InputValidator::validateJson(
     const nlohmann::json& payload,
-    const std::string& schema_name
-) const {
-    auto schema = loadSchema(schema_name);
-    if (!schema.has_value()) {
-        return std::nullopt; // no schema file present -> accept
-    }
+    const nlohmann::json& schema
+) {
     try {
-        if (!schema->is_object()) return std::string("invalid schema format");
-        if (schema->contains("type") && (*schema)["type"].is_string()) {
-            if ((*schema)["type"].get<std::string>() != "object") {
+        if (!schema.is_object()) return std::string("invalid schema format");
+        if (schema.contains("type") && schema["type"].is_string()) {
+            if (schema["type"].get<std::string>() != "object") {
                 return std::string("only top-level object schemas are supported");
             }
         }
         if (!payload.is_object()) return std::string("payload must be object");
 
         // --- required fields ---
-        if (schema->contains("required") && (*schema)["required"].is_array()) {
-            for (const auto& k : (*schema)["required"]) {
+        if (schema.contains("required") && schema["required"].is_array()) {
+            for (const auto& k : schema["required"]) {
                 if (!k.is_string()) continue;
                 auto key = k.get<std::string>();
                 if (!payload.contains(key)) {
@@ -220,9 +217,9 @@ std::optional<std::string> InputValidator::validateJsonStub(
         }
 
         // --- per-property constraints ---
-        if (schema->contains("properties") && (*schema)["properties"].is_object()) {
-            for (auto it = (*schema)["properties"].begin();
-                 it != (*schema)["properties"].end(); ++it) {
+        if (schema.contains("properties") && schema["properties"].is_object()) {
+            for (auto it = schema["properties"].begin();
+                 it != schema["properties"].end(); ++it) {
                 const std::string key = it.key();
                 const auto& prop = it.value();
                 if (!payload.contains(key)) continue;
@@ -233,11 +230,11 @@ std::optional<std::string> InputValidator::validateJsonStub(
         }
 
         // --- additionalProperties: false ---
-        if (schema->contains("additionalProperties") &&
-            schema->at("additionalProperties").is_boolean() &&
-            !schema->at("additionalProperties").get<bool>()) {
-            if (schema->contains("properties") && (*schema)["properties"].is_object()) {
-                const auto& props = (*schema)["properties"];
+        if (schema.contains("additionalProperties") &&
+            schema.at("additionalProperties").is_boolean() &&
+            !schema.at("additionalProperties").get<bool>()) {
+            if (schema.contains("properties") && schema["properties"].is_object()) {
+                const auto& props = schema["properties"];
                 for (const auto& [key, _] : payload.items()) {
                     if (!props.contains(key)) {
                         return "additional property not allowed: '" + key + "'";
@@ -250,6 +247,17 @@ std::optional<std::string> InputValidator::validateJsonStub(
     } catch (...) {
         return std::string("schema validation error");
     }
+}
+
+std::optional<std::string> InputValidator::validateJsonStub(
+    const nlohmann::json& payload,
+    const std::string& schema_name
+) const {
+    auto schema = loadSchema(schema_name);
+    if (!schema.has_value()) {
+        return std::nullopt; // no schema file present -> accept
+    }
+    return validateJson(payload, *schema);
 }
 
 std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::json& payload) const {

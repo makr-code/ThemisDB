@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            api_gateway_example.cpp                            ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:08                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:29                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     311                                            ║
+    • Total Lines:     368                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 2c738eadf  2026-02-21  Add versioning headers to OpenAPI spec and deprecation us... ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -283,6 +283,62 @@ void example_error_handling() {
 }
 
 /**
+ * @brief Example 8: API Versioning and Deprecation Headers
+ *
+ * Shows how to:
+ * - Register a deprecated endpoint so the gateway emits
+ *   Deprecation, Sunset (RFC 8594), and Link headers automatically.
+ * - Use Accept-Version to request a specific API version.
+ */
+void example_api_versioning() {
+    std::cout << "\n=== Example 8: API Versioning and Deprecation Headers ===\n";
+
+    auto auth = std::make_shared<AuthMiddleware>();
+    auto rate_limiter = std::make_shared<RateLimiter>();
+    auto load_shedder = std::make_shared<LoadShedder>();
+
+    APIGateway::Config config;
+    config.gateway_id = "versioning-demo-gateway";
+    config.datacenter = "dc1";
+    config.enable_api_versioning = true;   // default: true
+    config.enforce_version_check = false;  // permissive mode
+
+    auto gateway = std::make_shared<APIGateway>(
+        config, auth, rate_limiter, load_shedder
+    );
+
+    // Register that /api/v1/old-endpoint is deprecated
+    APIDeprecationInfo dep_info;
+    dep_info.deprecated_in = APIVersion{1, 0, 0};
+    dep_info.removed_in    = APIVersion{2, 0, 0};
+    dep_info.deprecation_date = std::chrono::system_clock::now();
+    dep_info.removal_date     = std::chrono::system_clock::now()
+                                + std::chrono::hours(24 * 730); // 730 days (~2 years, matches DEPRECATION_PERIOD_DAYS)
+    dep_info.reason              = "Replaced by /api/v2/old-endpoint";
+    dep_info.migration_guide_url = "https://docs.themisdb.com/migration/v1-to-v2";
+    dep_info.alternative         = "/api/v2/old-endpoint";
+
+    gateway->registerDeprecation("/api/v1/old-endpoint", dep_info);
+
+    std::cout << "Registered deprecation for /api/v1/old-endpoint\n";
+    std::cout << "  Deprecated in : " << dep_info.deprecated_in.toString() << "\n";
+    std::cout << "  Removed in    : " << dep_info.removed_in.toString() << "\n";
+    std::cout << "  Migration guide: " << dep_info.migration_guide_url << "\n";
+
+    std::cout << "\nWhen a client calls GET /api/v1/old-endpoint, the gateway adds:\n";
+    std::cout << "  Deprecation: true; deprecated-version=\"v1.0.0\"; removal-version=\"v2.0.0\"\n";
+    std::cout << "  Sunset: <RFC 8594 HTTP-date two years from now>\n";
+    std::cout << "  Link: <https://docs.themisdb.com/migration/v1-to-v2>; rel=\"deprecation\"\n";
+    std::cout << "  API-Version: v1.4.1\n";
+
+    std::cout << "\nClients can request a specific version via Accept-Version header:\n";
+    std::cout << "  Accept-Version: v1.3.0  -> API-Version: v1.3.0 in response\n";
+    std::cout << "  Accept-Version: v1      -> resolves to latest v1.x.y\n";
+    std::cout << "  Accept-Version: latest  -> current stable version\n";
+    std::cout << "  (omitted)               -> current stable version\n";
+}
+
+/**
  * @brief Main function
  */
 int main() {
@@ -299,6 +355,7 @@ int main() {
         example_cross_shard_joins();
         example_monitoring();
         example_error_handling();
+        example_api_versioning();
         
         std::cout << "\n=== All examples completed successfully ===\n";
         

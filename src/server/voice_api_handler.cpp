@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            voice_api_handler.cpp                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:42                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     708                                            ║
-    • Open Issues:     TODOs: 2, Stubs: 1                             ║
+    • Total Lines:     763                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -605,17 +605,72 @@ std::optional<json> VoiceApiHandler::parseRequestBody(
 }
 
 std::vector<uint8_t> VoiceApiHandler::decodeBase64(const std::string& encoded) {
-    // TODO: Implement base64 decoding
-    // For now, return empty vector to avoid crashes
-    // Real implementation should use a base64 library (e.g., Boost.Beast base64)
-    return std::vector<uint8_t>();
+    static const int T[256] = {
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,62,-1,-1,-1,63,
+        52,53,54,55,56,57,58,59,60,61,-1,-1,-1, 0,-1,-1,
+        -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,
+        15,16,17,18,19,20,21,22,23,24,25,-1,-1,-1,-1,-1,
+        -1,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
+        41,42,43,44,45,46,47,48,49,50,51,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    };
+    std::vector<uint8_t> out;
+    out.reserve((encoded.size() * 3) / 4);
+    int val = 0, valb = -8;
+    for (unsigned char c : encoded) {
+        if (c == '=') break;
+        int d = T[c];
+        if (d == -1) continue;
+        val = (val << 6) + d;
+        valb += 6;
+        if (valb >= 0) {
+            out.push_back(static_cast<uint8_t>((val >> valb) & 0xFF));
+            valb -= 8;
+        }
+    }
+    return out;
 }
 
 std::string VoiceApiHandler::encodeBase64(const std::vector<uint8_t>& data) {
-    // TODO: Implement base64 encoding
-    // For now, return empty string to avoid crashes
-    // Real implementation should use a base64 library (e.g., Boost.Beast base64)
-    return "";
+    static const char b64_table[] =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::string out;
+    out.reserve(((data.size() + 2) / 3) * 4);
+    size_t i = 0;
+    while (i + 3 <= data.size()) {
+        uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
+                   | (static_cast<uint32_t>(data[i + 1]) << 8)
+                   |  static_cast<uint32_t>(data[i + 2]);
+        out.push_back(b64_table[(n >> 18) & 63]);
+        out.push_back(b64_table[(n >> 12) & 63]);
+        out.push_back(b64_table[(n >>  6) & 63]);
+        out.push_back(b64_table[ n        & 63]);
+        i += 3;
+    }
+    if (i + 1 == data.size()) {
+        uint32_t n = static_cast<uint32_t>(data[i]) << 16;
+        out.push_back(b64_table[(n >> 18) & 63]);
+        out.push_back(b64_table[(n >> 12) & 63]);
+        out.push_back('=');
+        out.push_back('=');
+    } else if (i + 2 == data.size()) {
+        uint32_t n = (static_cast<uint32_t>(data[i]) << 16)
+                   | (static_cast<uint32_t>(data[i + 1]) << 8);
+        out.push_back(b64_table[(n >> 18) & 63]);
+        out.push_back(b64_table[(n >> 12) & 63]);
+        out.push_back(b64_table[(n >>  6) & 63]);
+        out.push_back('=');
+    }
+    return out;
 }
 
 std::vector<uint8_t> VoiceApiHandler::downloadAudioFromUrl(const std::string& url) {

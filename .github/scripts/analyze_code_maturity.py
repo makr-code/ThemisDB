@@ -599,6 +599,39 @@ def generate_report(
 
 
 # ---------------------------------------------------------------------------
+# Badge-Generierung
+# ---------------------------------------------------------------------------
+
+def generate_badges(root: Path, results: List[Dict[str, Any]]) -> None:
+    """Generiert Shields.io-kompatible JSON-Badge-Dateien in .github/badges/."""
+    badges_dir = root / '.github' / 'badges'
+    badges_dir.mkdir(parents=True, exist_ok=True)
+
+    total_lines = sum(r.get('total_lines', 0) for r in results)
+    file_count  = len(results)
+
+    loc_badge = {
+        'schemaVersion': 1,
+        'label':         'lines of code',
+        'message':       f'{total_lines:,}',
+        'color':         'blue',
+    }
+    fc_badge = {
+        'schemaVersion': 1,
+        'label':         'files',
+        'message':       str(file_count),
+        'color':         'green',
+    }
+
+    (badges_dir / 'lines-of-code.json').write_text(
+        json.dumps(loc_badge, indent=2) + '\n', encoding='utf-8'
+    )
+    (badges_dir / 'file-count.json').write_text(
+        json.dumps(fc_badge, indent=2) + '\n', encoding='utf-8'
+    )
+
+
+# ---------------------------------------------------------------------------
 # Haupt-Routine
 # ---------------------------------------------------------------------------
 
@@ -694,6 +727,10 @@ def main() -> int:
     # Versions-Tracking speichern
     save_version_tracking(tracking_path, tracking)
     print('✅ Version data saved')
+
+    # Shields.io Badge-Dateien generieren
+    generate_badges(root, results)
+    print('✅ Badges updated')
 
     return 0
 

@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            pki_api_handler.cpp                                ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:41                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:52                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
-    • Quality Score:   85.0/100                                       ║
-    • Total Lines:     444                                            ║
-    • Open Issues:     TODOs: 0, Stubs: 3                             ║
+    • Quality Score:   95.0/100                                       ║
+    • Total Lines:     475                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a9a9edcf2  2026-02-21  server: Phase 2 – HTTP/3 hardening, GraphQL endpoint, API... ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -367,15 +367,30 @@ nlohmann::json PkiApiHandler::eidasVerify(const nlohmann::json& body) {
 
 nlohmann::json PkiApiHandler::listCertificates() {
     try {
-        // Placeholder: In production, integrate with certificate store
-        // Could use OpenSSL's X509_STORE or HSM certificate enumeration
-        
-        THEMIS_INFO("PKI API: Listing certificates (stub implementation)");
-        
-        return {
-            {"certificates", nlohmann::json::array()},
-            {"message", "Certificate enumeration not yet implemented"}
-        };
+        nlohmann::json certs_array = nlohmann::json::array();
+
+        if (hsm_provider_) {
+            // Enumerate HSM keys and attach their certificates
+            auto keys = hsm_provider_->listKeys();
+            for (const auto& k : keys) {
+                nlohmann::json entry = {
+                    {"label",     k.label},
+                    {"id",        k.id},
+                    {"algorithm", k.algorithm},
+                    {"key_size",  k.key_size},
+                    {"can_sign",  k.can_sign}
+                };
+                // Attach PEM certificate if one is stored in the HSM for this key
+                auto cert_pem = hsm_provider_->getCertificate(k.label);
+                if (cert_pem.has_value()) {
+                    entry["certificate_pem"] = *cert_pem;
+                }
+                certs_array.push_back(std::move(entry));
+            }
+        }
+
+        THEMIS_INFO("PKI API: Listed {} certificates", certs_array.size());
+        return {{"success", true}, {"certificates", certs_array}, {"count", certs_array.size()}};
 
     } catch (const std::exception& ex) {
         THEMIS_ERROR("PKI API listCertificates failed: {}", ex.what());
@@ -385,15 +400,31 @@ nlohmann::json PkiApiHandler::listCertificates() {
 
 nlohmann::json PkiApiHandler::getCertificate(const std::string& cert_id) {
     try {
-        // Placeholder: In production, retrieve from certificate store
-        
-        THEMIS_INFO("PKI API: Getting certificate {} (stub implementation)", cert_id);
-        
-        return {
-            {"error", "Not Found"},
-            {"message", "Certificate retrieval not yet implemented"},
-            {"status_code", 404}
-        };
+        if (!hsm_provider_) {
+            return {{"error","Service Unavailable"},{"message","HSM provider not configured"},{"status_code",503}};
+        }
+
+        // cert_id may be a key label or a hex key id
+        // Try by label first (most common case)
+        auto cert_pem = hsm_provider_->getCertificate(cert_id);
+        if (!cert_pem.has_value()) {
+            // Fall back: find key whose id matches cert_id
+            auto keys = hsm_provider_->listKeys();
+            for (const auto& k : keys) {
+                if (k.id == cert_id) {
+                    cert_pem = hsm_provider_->getCertificate(k.label);
+                    break;
+                }
+            }
+        }
+
+        if (!cert_pem.has_value()) {
+            THEMIS_WARN("PKI API: Certificate not found for id={}", cert_id);
+            return {{"error","Not Found"},{"message","Certificate not found"},{"status_code",404}};
+        }
+
+        THEMIS_INFO("PKI API: Retrieved certificate for id={}", cert_id);
+        return {{"success", true}, {"certificate_pem", *cert_pem}, {"cert_id", cert_id}};
 
     } catch (const std::exception& ex) {
         THEMIS_ERROR("PKI API getCertificate failed: {}", ex.what());

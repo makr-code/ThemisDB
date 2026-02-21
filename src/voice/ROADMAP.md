@@ -20,22 +20,22 @@ v1.x – Functional voice assistant system. VoiceAssistant orchestrator with Whi
 - [x] Key point and summary extraction
 
 ## In Progress 🚧
-- [ ] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026)
-- [ ] Wake-word detection for hands-free activation (Target: Q2 2026)
-- [ ] Multi-speaker diarization improvements (Target: Q3 2026)
+- [~] Real-time streaming STT (word-by-word transcription as audio arrives) (Target: Q2 2026)
+- [~] Wake-word detection for hands-free activation (Target: Q2 2026)
+- [~] Multi-speaker diarization improvements (Target: Q3 2026)
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] Voice command macros (user-defined shortcuts to AQL queries)
-- [ ] Language detection and automatic locale switching
-- [ ] Noise suppression preprocessing (RNNoise integration)
-- [ ] WebSocket audio streaming endpoint for browser clients
-- [ ] Voice session playback and search in stored transcripts
+- [I] Voice command macros (user-defined shortcuts to AQL queries) (Issue: #1981)
+- [I] Language detection and automatic locale switching (Issue: #2011)
+- [I] Noise suppression preprocessing (RNNoise integration) (Issue: #2041)
+- [I] WebSocket audio streaming endpoint for browser clients (Issue: #2070)
+- [I] Voice session playback and search in stored transcripts (Issue: #2077)
 
 ### Long-term (6-12 months)
-- [ ] Multi-language TTS (German, French, Spanish voices)
-- [ ] Emotion / sentiment detection from voice tone
+- [I] Multi-language TTS (German, French, Spanish voices) (Issue: #2127)
+- [I] Emotion / sentiment detection from voice tone (Issue: #2132)
 - [ ] Voice biometric authentication (speaker verification)
 - [ ] Real-time meeting transcription with action-item extraction
 - [ ] Integration with telephony systems (SIP / WebRTC)

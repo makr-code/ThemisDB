@@ -1,14 +1,43 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_transaction_timeout.cpp                       ║
+  Version:         0.0.6                                              ║
+  Last Modified:   2026-02-21 19:00:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     296                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e178371a5  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Copyright 2025 ThemisDB
 // Licensed under MIT License
 //
-// Tests for transaction timeout with automatic rollback:
-//   - setTimeout / getTimeout / isTimedOut on Transaction
-//   - commit() rejected when transaction is timed out
-//   - write ops rejected when transaction is timed out
-//   - setDefaultTransactionTimeout / getDefaultTransactionTimeout on TransactionManager
-//   - default timeout is applied to every new transaction
-//   - timeoutExpiredTransactions() auto-rolls-back expired active transactions
-//   - getTimeoutCount() counter increments correctly
+// Tests for transaction timeout / automatic rollback.
+//
+// Covers:
+//   - Default timeout is disabled (0 ms)
+//   - setTransactionTimeout / getTransactionTimeout round-trip
+//   - abortTimedOutTransactions() with timeout disabled → 0 aborted
+//   - abortTimedOutTransactions() manually sweeps expired transactions
+//   - Transaction committed before timeout is not aborted
+//   - Auto-abort via background detector loop
+//   - getTimedOutCount() tracks count correctly
+//   - Stats.total_timed_out reflects count
 
 #include <gtest/gtest.h>
 #include "transaction/transaction_manager.h"

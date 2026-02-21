@@ -25,7 +25,8 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ## In Progress 🚧
 - [I] Serializable isolation level (full SSI via predicate locking) (Target: Q2 2026) (Issue: #1439)
-- [I] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
+- [x] Two-phase commit (2PC) coordinator for cross-shard transactions (Target: Q2 2026) (Issue: #1440)
+- [I] Transaction savepoints (partial rollback within a transaction) (Target: Q3 2026) (Issue: #1441)
 
 ## Planned Features 📋
 
@@ -37,11 +38,11 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [ ] Per-tenant transaction isolation namespace
 
 ### Long-term (6-12 months)
-- [ ] Distributed SAGA orchestration across multiple nodes
-- [ ] Global transaction manager for multi-region ACID guarantees
-- [ ] Calvin protocol for deterministic distributed transactions
-- [ ] Time-travel queries against snapshot history
-- [ ] Branch merge conflict resolution UI
+- [?] Distributed SAGA orchestration across multiple nodes
+- [?] Global transaction manager for multi-region ACID guarantees
+- [?] Calvin protocol for deterministic distributed transactions
+- [?] Time-travel queries against snapshot history
+- [?] Branch merge conflict resolution UI
 
 ## Implementation Phases
 
@@ -62,8 +63,8 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 
 ### Phase 2: Serializable Isolation & Two-Phase Commit (Status: In Progress 🚧)
 - [~] Serializable isolation level (full SSI via predicate locking)
-- [~] Two-phase commit (2PC) coordinator for cross-shard transactions
-- [x] Transaction savepoints (partial rollback within a transaction)
+- [x] Two-phase commit (2PC) coordinator for cross-shard transactions
+- [~] Transaction savepoints (partial rollback within a transaction)
 
 ### Phase 3: OCC Mode & Bulk API (Status: Planned 📋)
 - [ ] Optimistic concurrency control (OCC) mode as alternative to pessimistic locking
@@ -80,17 +81,17 @@ v1.x – Production-grade ACID transaction engine built on RocksDB. MVCC, SAGA p
 - [ ] Branch merge conflict resolution UI
 
 ## Production Readiness Checklist
-- [ ] Unit tests coverage > 80%
-- [ ] Integration tests (commit, rollback, SAGA compensation, deadlock detection)
-- [ ] Performance benchmarks (TPS, lock contention, MVCC overhead)
-- [ ] Security audit (transaction isolation boundary, SAGA compensating action safety)
-- [ ] Documentation complete
-- [ ] API stability guaranteed
+- [?] Unit tests coverage > 80%
+- [?] Integration tests (commit, rollback, SAGA compensation, deadlock detection)
+- [?] Performance benchmarks (TPS, lock contention, MVCC overhead)
+- [?] Security audit (transaction isolation boundary, SAGA compensating action safety)
+- [?] Documentation complete
+- [?] API stability guaranteed
 
 ## Known Issues & Limitations
 - Individual `Transaction` objects are NOT thread-safe; use from a single thread.
 - Serializable isolation is not yet implemented; ReadCommitted and Snapshot only.
-- 2PC for cross-shard distributed transactions is planned for v1.5.0.
+- 2PC coordinator for cross-shard transactions is implemented in `themis::sharding::TwoPhaseCommitCoordinator` (v1.5.0).
 
 ## Breaking Changes
 - `TransactionManager` public API is stable from v1.x.

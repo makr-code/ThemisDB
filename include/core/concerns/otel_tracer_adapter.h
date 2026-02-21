@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            otel_tracer_adapter.h                              ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:12                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:34                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   100.0/100                                      ║
-    • Total Lines:     194                                            ║
+    • Total Lines:     204                                            ║
     • Open Issues:     TODOs: 0, Stubs: 1                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • e27261dc4  2026-02-21  fix(core): audit fixes – double-init bug, const_cast remo... ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -100,7 +100,11 @@ public:
             return span_.isValid();
         }
 
+        /// Explicitly end the span on destruction (RAII guarantee).
+        ~OtelSpanAdapter() override { span_.end(); }
+
         themis::Tracer::Span& getSpan() { return span_; }
+        const themis::Tracer::Span& getSpan() const { return span_; }
 
     private:
         themis::Tracer::Span span_;
@@ -128,7 +132,7 @@ public:
         std::unique_ptr<OtelSpanAdapter> span_ptr;
         if (otelParent) {
             span_ptr = std::make_unique<OtelSpanAdapter>(
-                themis::Tracer::startChildSpan(name, const_cast<OtelSpanAdapter*>(otelParent)->getSpan())
+                themis::Tracer::startChildSpan(name, otelParent->getSpan())
             );
         } else {
             span_ptr = std::make_unique<OtelSpanAdapter>(themis::Tracer::startSpan(name));
@@ -142,6 +146,12 @@ public:
     }
 
     bool initialize(const std::string& serviceName, const std::string& endpoint) override {
+        if (initialized_) {
+            // Already successfully initialized; avoid re-calling the global
+            // Tracer which would return false (already initialized) and trip
+            // the circuit breaker erroneously.
+            return true;
+        }
         bool ok = themis::Tracer::initialize(serviceName, endpoint);
         if (ok) {
             circuit_breaker_->recordSuccess();

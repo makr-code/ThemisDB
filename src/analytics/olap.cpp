@@ -3,22 +3,22 @@
 ║ ThemisDB - Hybrid Database System                                   ║
 ╠═════════════════════════════════════════════════════════════════════╣
   File:            olap.cpp                                           ║
-  Version:         0.0.12                                             ║
-  Last Modified:   2026-02-21 14:17:32                                ║
+  Version:         0.0.19                                             ║
+  Last Modified:   2026-02-21 18:59:46                                ║
   Author:          unknown                                            ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Quality Metrics:                                                    ║
     • Maturity Level:  🟢 PRODUCTION-READY                             ║
     • Quality Score:   80.0/100                                       ║
-    • Total Lines:     1232                                           ║
+    • Total Lines:     1363                                           ║
     • Open Issues:     TODOs: 0, Stubs: 4                             ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Revision History:                                                   ║
-    • 8efb1d2fe  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 31ccce9fb  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • ea0163e87  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 171dcc258  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
-    • 3b2027fce  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
+    • c3f305f42  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
@@ -29,6 +29,7 @@
 #include <cmath>
 #include <numeric>
 #include <chrono>
+#include <sstream>
 #include <unordered_set>
 #include <map>
 #include <limits>
@@ -937,6 +938,131 @@ public:
     OLAPResult cached_result;
     std::chrono::system_clock::time_point last_refresh;
     bool is_initialized = false;
+
+    // Per-group incremental aggregate state for delta maintenance.
+    // Key = '\0'-separated dimension values; Value = map of measure_name → AggState.
+    using Row = std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>;
+
+    struct AggState {
+        int64_t count = 0;
+        double  sum   = 0.0;
+        std::multiset<double> sorted;   // for MIN/MAX
+        double  wf_mean = 0.0;          // Welford mean
+        double  wf_m2   = 0.0;          // Welford M2
+
+        void add(double v, int sign) {
+            if (sign > 0) {
+                ++count; sum += v;
+                sorted.insert(v);
+                double delta = v - wf_mean;
+                wf_mean += delta / static_cast<double>(count);
+                wf_m2   += delta * (v - wf_mean);
+            } else if (sign < 0 && count > 0) {
+                --count; sum -= v;
+                auto it = sorted.find(v);
+                if (it != sorted.end()) sorted.erase(it);
+                if (count > 0) {
+                    double old_mean = wf_mean;
+                    double new_mean = (wf_mean * static_cast<double>(count + 1) - v)
+                                      / static_cast<double>(count);
+                    wf_m2 -= (v - old_mean) * (v - new_mean);
+                    if (wf_m2 < 0.0) wf_m2 = 0.0;
+                    wf_mean = new_mean;
+                } else {
+                    wf_mean = 0.0; wf_m2 = 0.0;
+                }
+            }
+        }
+        double result(Measure::Function f, double pct = 0.0) const {
+            if (count == 0) return 0.0;
+            switch (f) {
+                case Measure::Function::Count:    return static_cast<double>(count);
+                case Measure::Function::Sum:      return sum;
+                case Measure::Function::Avg:      return sum / static_cast<double>(count);
+                case Measure::Function::Min:      return sorted.empty() ? 0.0 : *sorted.begin();
+                case Measure::Function::Max:      return sorted.empty() ? 0.0 : *sorted.rbegin();
+                case Measure::Function::StdDev:   return (count >= 2) ? std::sqrt(wf_m2 / static_cast<double>(count - 1)) : 0.0;
+                case Measure::Function::Variance: return (count >= 2) ? wf_m2 / static_cast<double>(count - 1) : 0.0;
+                default: return sum;
+            }
+        }
+    };
+
+    // group_key → (measure_name → AggState)
+    std::map<std::string, std::unordered_map<std::string, AggState>> groups;
+
+    static std::string makeGroupKey(const Row& row,
+                                    const std::vector<Dimension>& dims) {
+        std::string key;
+        for (const auto& d : dims) {
+            auto it = row.find(d.name);
+            if (it != row.end()) {
+                if (auto* s = std::get_if<std::string>(&it->second)) key += *s;
+                else if (auto* i = std::get_if<int64_t>(&it->second)) key += std::to_string(*i);
+                else if (auto* dv = std::get_if<double>(&it->second)) key += std::to_string(*dv);
+            }
+            key += '\0';
+        }
+        return key;
+    }
+
+    static double fieldToDouble(const std::variant<std::nullptr_t, bool, int64_t, double, std::string>& v) {
+        if (auto* d = std::get_if<double>(&v))   return *d;
+        if (auto* i = std::get_if<int64_t>(&v))  return static_cast<double>(*i);
+        if (auto* b = std::get_if<bool>(&v))      return *b ? 1.0 : 0.0;
+        return 0.0;
+    }
+
+    void applyDelta(const Row& row, int sign, const std::vector<Dimension>& dims,
+                    const std::vector<Measure>& measures) {
+        std::string gk = makeGroupKey(row, dims);
+        auto& group = groups[gk];
+        for (const auto& m : measures) {
+            auto& state = group[m.name];
+            double v = 0.0;
+            auto it = row.find(m.field);
+            if (it != row.end()) v = fieldToDouble(it->second);
+            state.add(v, sign);
+        }
+        // Remove empty groups after deletion
+        if (sign < 0) {
+            auto git = groups.find(gk);
+            if (git != groups.end()) {
+                bool empty = true;
+                for (const auto& [n, s] : git->second)
+                    if (s.count > 0) { empty = false; break; }
+                if (empty) groups.erase(git);
+            }
+        }
+    }
+
+    // Rebuild OLAPResult from current groups
+    OLAPResult buildResult(const std::vector<Dimension>& dims,
+                           const std::vector<Measure>& measures) const {
+        OLAPResult r;
+        for (const auto& d : dims)  r.columns.push_back(d.name);
+        for (const auto& m : measures) r.columns.push_back(m.name);
+
+        for (const auto& [gk, agg_map] : groups) {
+            OLAPResult::Row row;
+            // Decode group key
+            std::istringstream iss(gk);
+            std::string token;
+            for (const auto& d : dims) {
+                std::getline(iss, token, '\0');
+                row.values[d.name] = token;
+            }
+            for (const auto& m : measures) {
+                auto it = agg_map.find(m.name);
+                if (it != agg_map.end()) {
+                    row.values[m.name] = it->second.result(m.function, m.percentile_value);
+                }
+            }
+            r.rows.push_back(std::move(row));
+        }
+        r.total_rows = static_cast<int64_t>(r.rows.size());
+        return r;
+    }
 };
 
 MaterializedView::MaterializedView(const Definition& def) 
@@ -961,10 +1087,15 @@ void MaterializedView::refresh() {
 void MaterializedView::incrementalRefresh(
     const std::vector<std::unordered_map<std::string, std::variant<std::nullptr_t, bool, int64_t, double, std::string>>>& changes
 ) {
-    // For now, just do a full refresh
-    // A real implementation would merge changes incrementally
-    (void)changes;
-    refresh();
+    // Delta maintenance: apply each change row as an INSERT to the incremental
+    // aggregate state, then rebuild the cached OLAPResult from current groups.
+    // This avoids a full re-scan of the source collection.
+    for (const auto& row : changes) {
+        impl_->applyDelta(row, +1, definition_.dimensions, definition_.measures);
+    }
+    impl_->cached_result = impl_->buildResult(definition_.dimensions, definition_.measures);
+    impl_->last_refresh  = std::chrono::system_clock::now();
+    impl_->is_initialized = true;
 }
 
 OLAPResult MaterializedView::query(

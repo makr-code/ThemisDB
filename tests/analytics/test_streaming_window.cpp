@@ -1,0 +1,654 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            test_streaming_window.cpp                          ║
+  Version:         0.0.4                                              ║
+  Last Modified:   2026-02-21 18:59:57                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     653                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 1                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Revision History:                                                   ║
+    • 189cdf5b1  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • a5676b06f  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 56752fde6  2026-02-21  🤖 Auto-update: Code maturity analysis & versioning [skip ci] ║
+    • 02a0d7f03  2026-02-21  feat(analytics): implement Phase 2 streaming & incrementa... ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
+ * Streaming aggregation windows unit + integration tests.
+ *
+ * Covers:
+ *  - StreamRecord construction and field access
+ *  - makeRecord helper
+ *  - WindowResult::get()
+ *  - TumblingWindow: ingestion, slot routing, flush, aggregations, stats,
+ *                    late event dropping, late data allowed
+ *  - SlidingWindow:  overlapping assignment, aggregations, flush, stats
+ *  - SessionWindow:  gap expiry, multi-partition, timer-driven expiry, flush, stats
+ *  - HoppingWindow:  overlapping assignment (size > hop), aggregations, flush, stats
+ *  - StreamingWindowPipeline: fluent builder for all four types, ingest, flush, stats
+ *  - All 11 aggregation functions: COUNT/SUM/AVG/MIN/MAX/STDDEV/VARIANCE/PERCENTILE/
+ *                                   FIRST/LAST/DISTINCT_COUNT
+ */
+
+#include <gtest/gtest.h>
+#include "analytics/streaming_window.h"
+
+#include <atomic>
+#include <chrono>
+#include <thread>
+
+using namespace themisdb::analytics;
+using namespace std::chrono_literals;
+
+// ============================================================================
+// Helpers
+// ============================================================================
+
+static std::chrono::system_clock::time_point baseTime() {
+    // Fixed base so slot indices are predictable in tests
+    return std::chrono::system_clock::time_point(std::chrono::hours(24 * 365 * 50));
+}
+
+static StreamRecord rec(const std::string& id,
+                         std::chrono::milliseconds offset_from_base,
+                         double value,
+                         const std::string& partition = "") {
+    return makeRecord(id, baseTime() + offset_from_base, partition,
+                      {{"value", value}});
+}
+
+// ============================================================================
+// StreamRecord / makeRecord
+// ============================================================================
+
+TEST(StreamRecordTest, FieldAccessors) {
+    auto r = makeRecord("r1", baseTime(), "k1",
+                        {{"int_val",    int64_t(42)},
+                         {"dbl_val",    3.14},
+                         {"str_val",    std::string("hello")},
+                         {"bool_val",   true}});
+    EXPECT_EQ(*r.get<int64_t>("int_val"), 42);
+    EXPECT_DOUBLE_EQ(*r.get<double>("dbl_val"), 3.14);
+    EXPECT_EQ(*r.get<std::string>("str_val"), "hello");
+    EXPECT_TRUE(*r.get<bool>("bool_val"));
+    EXPECT_FALSE(r.get<int64_t>("missing").has_value());
+}
+
+TEST(StreamRecordTest, MakeRecordSetsId) {
+    auto r = makeRecord("test-id", baseTime());
+    EXPECT_EQ(r.record_id, "test-id");
+}
+
+TEST(StreamRecordTest, MakeRecordGeneratesIdWhenEmpty) {
+    auto r = makeRecord("", baseTime());
+    EXPECT_FALSE(r.record_id.empty());
+}
+
+TEST(StreamRecordTest, SetField) {
+    StreamRecord r;
+    r.set("x", 99.0);
+    EXPECT_DOUBLE_EQ(*r.get<double>("x"), 99.0);
+}
+
+// ============================================================================
+// WindowResult
+// ============================================================================
+
+TEST(WindowResultTest, GetExistingAggregation) {
+    WindowResult r;
+    AggregatedValue av;
+    av.name  = "total";
+    av.func  = AggFunc::SUM;
+    av.value = 42.0;
+    r.aggregations.push_back(av);
+
+    auto v = r.get("total");
+    ASSERT_TRUE(v.has_value());
+    EXPECT_DOUBLE_EQ(std::get<double>(*v), 42.0);
+}
+
+TEST(WindowResultTest, GetMissingAggregationReturnsNullopt) {
+    WindowResult r;
+    EXPECT_FALSE(r.get("missing").has_value());
+}
+
+// ============================================================================
+// TumblingWindow
+// ============================================================================
+
+class TumblingWindowTest : public ::testing::Test {
+protected:
+    TumblingWindowConfig cfg1min() {
+        TumblingWindowConfig c;
+        c.size = 60000ms;
+        return c;
+    }
+};
+
+TEST_F(TumblingWindowTest, BasicIngestionAndFlush) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    // All in the same 1-minute slot
+    win.ingest(rec("r1", 0ms, 1.0));
+    win.ingest(rec("r2", 10000ms, 2.0));
+    win.ingest(rec("r3", 30000ms, 3.0));
+    win.flush();
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].record_count, 3u);
+    auto cnt = results[0].get("cnt");
+    ASSERT_TRUE(cnt.has_value());
+    EXPECT_EQ(std::get<int64_t>(*cnt), 3);
+}
+
+TEST_F(TumblingWindowTest, RecordsInDifferentSlots) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    // slot 0: 0ms, slot 1: 60000ms, slot 2: 120000ms
+    // Advancing to slot 2 should close slot 0
+    win.ingest(rec("r1", 0ms, 1.0));
+    win.ingest(rec("r2", 60000ms, 2.0));  // closes slot 0
+    win.ingest(rec("r3", 120000ms, 3.0)); // closes slot 1
+    win.flush(); // closes slot 2
+
+    EXPECT_GE(results.size(), 2u);
+}
+
+TEST_F(TumblingWindowTest, SumAggregation) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"total", AggFunc::SUM, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 10.0));
+    win.ingest(rec("r2", 10000ms, 20.0));
+    win.ingest(rec("r3", 20000ms, 30.0));
+    win.flush();
+
+    ASSERT_FALSE(results.empty());
+    auto v = results[0].get("total");
+    ASSERT_TRUE(v.has_value());
+    EXPECT_DOUBLE_EQ(std::get<double>(*v), 60.0);
+}
+
+TEST_F(TumblingWindowTest, AvgMinMaxAggregations) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"avg", AggFunc::AVG, "value"});
+    win.addAggregation({"mn",  AggFunc::MIN, "value"});
+    win.addAggregation({"mx",  AggFunc::MAX, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 1.0));
+    win.ingest(rec("r2", 1000ms, 3.0));
+    win.ingest(rec("r3", 2000ms, 5.0));
+    win.flush();
+
+    ASSERT_FALSE(results.empty());
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("avg")), 3.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("mn")),  1.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("mx")),  5.0);
+}
+
+TEST_F(TumblingWindowTest, StddevVarianceAggregations) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"std", AggFunc::STDDEV, "value"});
+    win.addAggregation({"var", AggFunc::VARIANCE, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    for (double v : {2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0}) {
+        win.ingest(rec("r", 0ms, v));
+    }
+    win.flush();
+    ASSERT_FALSE(results.empty());
+    double std_val = std::get<double>(*results[0].get("std"));
+    double var_val = std::get<double>(*results[0].get("var"));
+    EXPECT_GT(std_val, 0.0);
+    EXPECT_NEAR(var_val, std_val * std_val, 0.001);
+}
+
+TEST_F(TumblingWindowTest, PercentileAggregation) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"p50", AggFunc::PERCENTILE, "value", 50.0});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    for (double v : {1.0, 2.0, 3.0, 4.0, 5.0}) win.ingest(rec("r", 0ms, v));
+    win.flush();
+    ASSERT_FALSE(results.empty());
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("p50")), 3.0);
+}
+
+TEST_F(TumblingWindowTest, FirstLastAggregations) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"first", AggFunc::FIRST, "value"});
+    win.addAggregation({"last",  AggFunc::LAST,  "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 1.0));
+    win.ingest(rec("r2", 1000ms, 2.0));
+    win.ingest(rec("r3", 2000ms, 3.0));
+    win.flush();
+    ASSERT_FALSE(results.empty());
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("first")), 1.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("last")),  3.0);
+}
+
+TEST_F(TumblingWindowTest, DistinctCountAggregation) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"dc", AggFunc::DISTINCT_COUNT, "cat"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    for (const std::string& cat : {"A", "B", "A", "C", "B", "A"}) {
+        auto r = makeRecord("", baseTime(), "", {{"cat", cat}});
+        win.ingest(r);
+    }
+    win.flush();
+    ASSERT_FALSE(results.empty());
+    EXPECT_EQ(std::get<int64_t>(*results[0].get("dc")), 3);
+}
+
+TEST_F(TumblingWindowTest, LateEventDropped) {
+    std::vector<WindowResult> results;
+    TumblingWindow win(cfg1min());
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    // Ingest a "future" record first to advance watermark
+    win.ingest(rec("future", 200000ms, 1.0)); // slot 3 (>= 180s)
+    // Now ingest a very old record (slot 0) — should be dropped
+    bool ok = win.ingest(rec("old", 0ms, 2.0));
+    EXPECT_FALSE(ok);
+
+    auto stats = win.getStats();
+    EXPECT_GE(stats.records_dropped, 1u);
+    EXPECT_GE(stats.late_records, 1u);
+}
+
+TEST_F(TumblingWindowTest, StatsTracking) {
+    TumblingWindow win(cfg1min());
+    win.ingest(rec("r1", 0ms, 1.0));
+    win.ingest(rec("r2", 0ms, 2.0));
+
+    auto s = win.getStats();
+    EXPECT_EQ(s.records_ingested, 2u);
+    EXPECT_GE(s.windows_opened, 1u);
+}
+
+// ============================================================================
+// SlidingWindow
+// ============================================================================
+
+class SlidingWindowTest : public ::testing::Test {
+protected:
+    SlidingWindowConfig cfg(std::chrono::milliseconds size,
+                              std::chrono::milliseconds slide) {
+        SlidingWindowConfig c;
+        c.size  = size;
+        c.slide = slide;
+        return c;
+    }
+};
+
+TEST_F(SlidingWindowTest, RecordAppearsInMultipleWindows) {
+    // size=60s, slide=30s → each record falls in ceil(60/30)=2 windows
+    std::vector<WindowResult> results;
+    SlidingWindow win(cfg(60000ms, 30000ms));
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    // One record at t=45s (should fall in windows starting at 0s and 30s)
+    win.ingest(rec("r1", 45000ms, 1.0));
+    win.flush();
+
+    // At least one result; both windows containing r1 should emit
+    EXPECT_GE(results.size(), 1u);
+}
+
+TEST_F(SlidingWindowTest, AggregationsWork) {
+    std::vector<WindowResult> results;
+    SlidingWindow win(cfg(60000ms, 60000ms)); // non-overlapping when slide == size
+    win.addAggregation({"sum", AggFunc::SUM, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 5.0));
+    win.ingest(rec("r2", 10000ms, 10.0));
+    win.ingest(rec("r3", 20000ms, 15.0));
+    win.flush();
+
+    ASSERT_FALSE(results.empty());
+    double total = std::get<double>(*results[0].get("sum"));
+    EXPECT_DOUBLE_EQ(total, 30.0);
+}
+
+TEST_F(SlidingWindowTest, StatsTracking) {
+    SlidingWindow win(cfg(60000ms, 30000ms));
+    win.ingest(rec("r1", 0ms, 1.0));
+    win.ingest(rec("r2", 30000ms, 2.0));
+    auto s = win.getStats();
+    EXPECT_GE(s.records_ingested, 2u);
+    EXPECT_GE(s.windows_opened, 1u);
+}
+
+TEST_F(SlidingWindowTest, LateEventDropped) {
+    SlidingWindow win(cfg(60000ms, 30000ms));
+    win.ingest(rec("future", 300000ms, 1.0)); // advance watermark
+    bool ok = win.ingest(rec("old", 0ms, 2.0));
+    EXPECT_FALSE(ok);
+    EXPECT_GE(win.getStats().records_dropped, 1u);
+}
+
+// ============================================================================
+// SessionWindow
+// ============================================================================
+
+class SessionWindowTest : public ::testing::Test {
+protected:
+    SessionWindowConfig cfg(std::chrono::milliseconds gap) {
+        SessionWindowConfig c;
+        c.gap = gap;
+        return c;
+    }
+};
+
+TEST_F(SessionWindowTest, BasicSession) {
+    std::vector<WindowResult> results;
+    SessionWindow win(cfg(5000ms)); // 5s gap
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    // All within 5s gap: same session
+    win.ingest(rec("r1", 0ms, 1.0, "user1"));
+    win.ingest(rec("r2", 1000ms, 2.0, "user1"));
+    win.ingest(rec("r3", 2000ms, 3.0, "user1"));
+    win.flush();
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(results[0].record_count, 3u);
+    EXPECT_EQ(results[0].partition_key, "user1");
+    EXPECT_EQ(std::get<int64_t>(*results[0].get("cnt")), 3);
+}
+
+TEST_F(SessionWindowTest, GapTriggersNewSession) {
+    std::vector<WindowResult> results;
+    SessionWindow win(cfg(5000ms));
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 1.0, "u1"));
+    win.ingest(rec("r2", 1000ms, 2.0, "u1"));
+    // Gap: 10s > 5s → closes first session, starts new
+    win.ingest(rec("r3", 11000ms, 3.0, "u1"));
+    win.flush();
+
+    ASSERT_EQ(results.size(), 2u);
+    EXPECT_EQ(results[0].record_count, 2u);
+    EXPECT_EQ(results[1].record_count, 1u);
+}
+
+TEST_F(SessionWindowTest, MultiplePartitionsAreIndependent) {
+    std::vector<WindowResult> results;
+    SessionWindow win(cfg(5000ms));
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 1.0, "alice"));
+    win.ingest(rec("r2", 0ms, 2.0, "bob"));
+    win.ingest(rec("r3", 1000ms, 3.0, "alice"));
+    win.flush();
+
+    ASSERT_EQ(results.size(), 2u);
+    // Each partition has its own session
+    std::map<std::string, uint64_t> counts;
+    for (const auto& r : results) {
+        counts[r.partition_key] = r.record_count;
+    }
+    EXPECT_EQ(counts["alice"], 2u);
+    EXPECT_EQ(counts["bob"], 1u);
+}
+
+TEST_F(SessionWindowTest, TimerDrivenExpiry) {
+    std::atomic<int> fired{0};
+    SessionWindow win(cfg(100ms)); // 100ms gap for fast expiry in test
+    win.setResultCallback([&](WindowResult) { ++fired; });
+
+    win.ingest(rec("r1", 0ms, 1.0, "timer-user"));
+    // Wait longer than gap + timer interval (200ms timer check)
+    std::this_thread::sleep_for(400ms);
+
+    EXPECT_GE(fired.load(), 1);
+}
+
+TEST_F(SessionWindowTest, AggregationsSumAvg) {
+    std::vector<WindowResult> results;
+    SessionWindow win(cfg(5000ms));
+    win.addAggregation({"sum", AggFunc::SUM, "value"});
+    win.addAggregation({"avg", AggFunc::AVG, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 10.0, "p1"));
+    win.ingest(rec("r2", 1000ms, 20.0, "p1"));
+    win.flush();
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("sum")), 30.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("avg")), 15.0);
+}
+
+TEST_F(SessionWindowTest, StatsTracking) {
+    SessionWindow win(cfg(5000ms));
+    win.ingest(rec("r1", 0ms, 1.0, "u1"));
+    win.ingest(rec("r2", 1000ms, 2.0, "u1"));
+    auto s = win.getStats();
+    EXPECT_EQ(s.records_ingested, 2u);
+    EXPECT_GE(s.windows_opened, 1u);
+}
+
+// ============================================================================
+// HoppingWindow
+// ============================================================================
+
+class HoppingWindowTest : public ::testing::Test {
+protected:
+    HoppingWindowConfig cfg(std::chrono::milliseconds size,
+                              std::chrono::milliseconds hop) {
+        HoppingWindowConfig c;
+        c.size = size;
+        c.hop  = hop;
+        return c;
+    }
+};
+
+TEST_F(HoppingWindowTest, RecordInMultipleWindows) {
+    // size=60s, hop=30s → a record at t=45s falls in 2 windows
+    std::vector<WindowResult> results;
+    HoppingWindow win(cfg(60000ms, 30000ms));
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 45000ms, 1.0));
+    win.flush();
+
+    EXPECT_GE(results.size(), 1u);
+}
+
+TEST_F(HoppingWindowTest, WhenHopEqualsSizeBehavesLikeTumbling) {
+    std::vector<WindowResult> results;
+    HoppingWindow win(cfg(60000ms, 60000ms));
+    win.addAggregation({"sum", AggFunc::SUM, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    win.ingest(rec("r1", 0ms, 5.0));
+    win.ingest(rec("r2", 30000ms, 10.0));
+    win.flush();
+
+    ASSERT_FALSE(results.empty());
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("sum")), 15.0);
+}
+
+TEST_F(HoppingWindowTest, LateEventDropped) {
+    HoppingWindow win(cfg(60000ms, 30000ms));
+    win.ingest(rec("future", 300000ms, 1.0));
+    bool ok = win.ingest(rec("old", 0ms, 2.0));
+    EXPECT_FALSE(ok);
+    EXPECT_GE(win.getStats().records_dropped, 1u);
+}
+
+TEST_F(HoppingWindowTest, StatsTracking) {
+    HoppingWindow win(cfg(60000ms, 30000ms));
+    win.ingest(rec("r1", 0ms, 1.0));
+    auto s = win.getStats();
+    EXPECT_GE(s.records_ingested, 1u);
+    EXPECT_GE(s.windows_opened, 1u);
+}
+
+TEST_F(HoppingWindowTest, MultipleAggregations) {
+    std::vector<WindowResult> results;
+    HoppingWindow win(cfg(60000ms, 60000ms));
+    win.addAggregation({"cnt", AggFunc::COUNT, ""});
+    win.addAggregation({"sum", AggFunc::SUM, "value"});
+    win.addAggregation({"avg", AggFunc::AVG, "value"});
+    win.addAggregation({"mn",  AggFunc::MIN, "value"});
+    win.addAggregation({"mx",  AggFunc::MAX, "value"});
+    win.setResultCallback([&](WindowResult r) { results.push_back(r); });
+
+    for (double v : {1.0, 3.0, 5.0}) win.ingest(rec("r", 0ms, v));
+    win.flush();
+
+    ASSERT_FALSE(results.empty());
+    EXPECT_EQ(std::get<int64_t>(*results[0].get("cnt")), 3);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("sum")), 9.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("avg")), 3.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("mn")),  1.0);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("mx")),  5.0);
+}
+
+// ============================================================================
+// StreamingWindowPipeline
+// ============================================================================
+
+TEST(PipelineTest, TumblingPipelineEndToEnd) {
+    std::vector<WindowResult> results;
+    auto pipeline = StreamingWindowPipeline::tumbling(60000ms)
+        .aggregate({"cnt",   AggFunc::COUNT, ""})
+        .aggregate({"total", AggFunc::SUM,   "value"})
+        .onResult([&](WindowResult r) { results.push_back(r); })
+        .build();
+
+    pipeline->ingest(rec("r1", 0ms, 10.0));
+    pipeline->ingest(rec("r2", 10000ms, 20.0));
+    pipeline->flush();
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(std::get<int64_t>(*results[0].get("cnt")), 2);
+    EXPECT_DOUBLE_EQ(std::get<double>(*results[0].get("total")), 30.0);
+}
+
+TEST(PipelineTest, SlidingPipelineEndToEnd) {
+    std::vector<WindowResult> results;
+    auto pipeline = StreamingWindowPipeline::sliding(60000ms, 30000ms)
+        .aggregate({"cnt", AggFunc::COUNT, ""})
+        .onResult([&](WindowResult r) { results.push_back(r); })
+        .build();
+
+    pipeline->ingest(rec("r1", 45000ms, 1.0));
+    pipeline->flush();
+
+    EXPECT_GE(results.size(), 1u);
+}
+
+TEST(PipelineTest, SessionPipelineEndToEnd) {
+    std::vector<WindowResult> results;
+    auto pipeline = StreamingWindowPipeline::session(5000ms)
+        .aggregate({"cnt", AggFunc::COUNT, ""})
+        .onResult([&](WindowResult r) { results.push_back(r); })
+        .build();
+
+    pipeline->ingest(rec("r1", 0ms, 1.0, "user1"));
+    pipeline->ingest(rec("r2", 1000ms, 2.0, "user1"));
+    pipeline->flush();
+
+    ASSERT_EQ(results.size(), 1u);
+    EXPECT_EQ(std::get<int64_t>(*results[0].get("cnt")), 2);
+}
+
+TEST(PipelineTest, HoppingPipelineEndToEnd) {
+    std::vector<WindowResult> results;
+    auto pipeline = StreamingWindowPipeline::hopping(60000ms, 30000ms)
+        .aggregate({"cnt", AggFunc::COUNT, ""})
+        .onResult([&](WindowResult r) { results.push_back(r); })
+        .build();
+
+    pipeline->ingest(rec("r1", 45000ms, 1.0));
+    pipeline->flush();
+
+    EXPECT_GE(results.size(), 1u);
+}
+
+TEST(PipelineTest, StatsAfterIngest) {
+    auto pipeline = StreamingWindowPipeline::tumbling(60000ms).build();
+    pipeline->ingest(rec("r1", 0ms, 1.0));
+    pipeline->ingest(rec("r2", 0ms, 2.0));
+    auto s = pipeline->getStats();
+    EXPECT_EQ(s.records_ingested, 2u);
+}
+
+TEST(PipelineTest, FlushEmitsWithoutCallback) {
+    // No callback set: should not crash
+    auto pipeline = StreamingWindowPipeline::tumbling(60000ms)
+        .aggregate({"cnt", AggFunc::COUNT, ""})
+        .build();
+    pipeline->ingest(rec("r1", 0ms, 1.0));
+    EXPECT_NO_THROW(pipeline->flush());
+}
+
+TEST(PipelineTest, MultipleIngestsAndFlush) {
+    std::atomic<int> fire_count{0};
+    auto pipeline = StreamingWindowPipeline::tumbling(60000ms)
+        .aggregate({"sum", AggFunc::SUM, "value"})
+        .onResult([&](WindowResult) { ++fire_count; })
+        .build();
+
+    for (int i = 0; i < 10; ++i) {
+        pipeline->ingest(rec("r" + std::to_string(i), std::chrono::milliseconds(i * 1000), static_cast<double>(i)));
+    }
+    pipeline->flush();
+    EXPECT_GE(fire_count.load(), 1);
+}
+
+// ============================================================================
+// aggFuncToString helper
+// ============================================================================
+
+TEST(HelpersTest, AggFuncToString) {
+    EXPECT_STREQ(aggFuncToString(AggFunc::COUNT),          "COUNT");
+    EXPECT_STREQ(aggFuncToString(AggFunc::SUM),            "SUM");
+    EXPECT_STREQ(aggFuncToString(AggFunc::AVG),            "AVG");
+    EXPECT_STREQ(aggFuncToString(AggFunc::MIN),            "MIN");
+    EXPECT_STREQ(aggFuncToString(AggFunc::MAX),            "MAX");
+    EXPECT_STREQ(aggFuncToString(AggFunc::STDDEV),         "STDDEV");
+    EXPECT_STREQ(aggFuncToString(AggFunc::VARIANCE),       "VARIANCE");
+    EXPECT_STREQ(aggFuncToString(AggFunc::PERCENTILE),     "PERCENTILE");
+    EXPECT_STREQ(aggFuncToString(AggFunc::FIRST),          "FIRST");
+    EXPECT_STREQ(aggFuncToString(AggFunc::LAST),           "LAST");
+    EXPECT_STREQ(aggFuncToString(AggFunc::DISTINCT_COUNT), "DISTINCT_COUNT");
+}

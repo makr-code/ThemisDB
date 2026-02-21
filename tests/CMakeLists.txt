@@ -161,9 +161,7 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_adaptive_cache_fuzz\\.cpp$"
     ".*test_adaptive_cache_integration\\.cpp$"
     ".*test_adaptive_cache_phase1\\.cpp$"
-    ".*test_backend_errors\\.cpp$"
     ".*test_continuous_learning_client\\.cpp$"
-    ".*test_error_codes\\.cpp$"
     ".*test_geval\\.cpp$"
     ".*test_metrics\\.cpp$"
     ".*test_onnx_model_loader\\.cpp$"
@@ -221,7 +219,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_bao\\.cpp$"
     ".*test_bwtree\\.cpp$"
     ".*test_diskann\\.cpp$"
-    ".*test_api_version\\.cpp$"
     ".*test_nli_verifier\\.cpp$"
     ".*test_continuous_learning_orchestrator\\.cpp$"
     ".*test_gpu_stream_manager\\.cpp$"
@@ -233,7 +230,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_replication_ha\\.cpp$"
     ".*test_real_embeddings\\.cpp$"
     ".*test_adapter_sync\\.cpp$"
-    ".*test_api_routing\\.cpp$"
     ".*test_fewshot_optimizer\\.cpp$"
     ".*test_flash_attention_correctness\\.cpp$"
     ".*test_geo_topology_api_handler\\.cpp$"
@@ -250,7 +246,6 @@ list(APPEND TEST_EXCLUDE_PATTERNS
     ".*test_rag_ethics\\.cpp$"
     ".*test_resource_limits_comprehensive\\.cpp$"
     ".*test_secret_manager_comprehensive\\.cpp$"
-    ".*test_two_phase_commit\\.cpp$"
     ".*test_policy_change_auditing\\.cpp$"
     ".*test_workload_driven_cache\\.cpp$"
     ".*test_gpu_alerts\\.cpp$"
@@ -1204,6 +1199,24 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_tracing_production.cpp")
         TIMEOUT 60
     )
     message(STATUS "  Tracing Production: Baggage, SamplingStrategy, W3C propagation")
+endif()
+
+# Phase 2 – OpenTelemetry tracer adapter unit tests
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_otel_tracer_adapter.cpp")
+    message(STATUS "Adding OtelTracerAdapter unit tests (Phase 2)")
+    add_executable(test_otel_tracer_adapter test_otel_tracer_adapter.cpp)
+    target_link_libraries(test_otel_tracer_adapter PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(test_otel_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(NAME OtelTracerAdapterTests COMMAND test_otel_tracer_adapter)
+    set_tests_properties(OtelTracerAdapterTests PROPERTIES
+        LABELS "core;tracing;otel;circuit-breaker;phase2;unit"
+        TIMEOUT 60
+    )
+    message(STATUS "  OtelTracerAdapter: adapter construction, span lifecycle, circuit-breaker, health")
 endif()
 
 # Phase 2 – Sampling strategy unit tests (replaces stub)

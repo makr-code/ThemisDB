@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 ## Current Status
-Production-ready for core OLAP, data export, process mining, text analytics, and LLM integration. Complex Event Processing (CEP) is a header-only stub awaiting full implementation.
+Production-ready for core OLAP, data export, process mining, text analytics, LLM integration, CEP engine, streaming aggregation windows, incremental materialized views, and real-time anomaly detection.
 
 ## Completed ✅
 - [x] OLAP engine with GROUP BY, CUBE, ROLLUP, and GROUPING SETS
@@ -21,31 +21,29 @@ Production-ready for core OLAP, data export, process mining, text analytics, and
 - [x] Diff engine (changefeed-backed git-like diffs)
 - [x] SIMD-accelerated aggregations (AVX2)
 - [x] Thread-safe OLAPEngine for concurrent queries
+- [x] CEP full engine (NFA pattern matching, EPL parser, window+aggregation pipeline, alert dispatch, CDC integration) (`analytics/cep_engine.cpp`)
+- [x] Streaming aggregation windows: TumblingWindow, SlidingWindow, SessionWindow, HoppingWindow with watermark support (`analytics/streaming_window.cpp`)
+- [x] Incremental materialized views with delta-maintenance for all 10 aggregation functions, Welford STDDEV/VARIANCE, COUNT_DISTINCT ref-counting (`analytics/incremental_view.cpp`)
+- [x] Real-time anomaly detection: Z-Score, Modified Z-Score (MAD), IQR, Isolation Forest, LOF, Ensemble with adaptive learning (`analytics/anomaly_detection.cpp`)
 
 ## In Progress 🚧
-- [ ] Complex Event Processing (CEP) full engine implementation (Target: Q2 2026)
-- [ ] Streaming aggregation windows (tumbling, sliding, session, hopping) (Target: Q2 2026)
-- [ ] Incremental materialized views (Target: Q3 2026)
+*(none — all Phase 2 items completed)*
 
 ## Planned Features 📋
 
 ### Short-term (Next 3-6 months)
-- [ ] CEP: EPL (Event Processing Language) parser
-- [ ] CEP: Stateful pattern matching with checkpointing
-- [ ] CEP: Backpressure handling and buffer management
 - [ ] GPU-accelerated OLAP aggregations (CUDA)
-- [ ] Real-time anomaly detection engine
 - [ ] Zero-copy Arrow data transfer optimizations
 - [ ] Arrow Flight RPC support for remote analytics
 
 ### Long-term (6-12 months)
-- [ ] Predictive analytics and time-series forecasting
-- [ ] AutoML integration for automated model selection
-- [ ] Advanced graph analytics: betweenness centrality, Louvain community detection
-- [ ] Integration with external ML tools (ONNX Runtime, TensorFlow Serving)
-- [ ] Model serving and online inference pipeline
-- [ ] Multi-language NLP support (beyond English)
-- [ ] Full morphological lemmatization
+- [I] Predictive analytics and time-series forecasting (Issue: #1473)
+- [I] AutoML integration for automated model selection (Issue: #1485)
+- [I] Advanced graph analytics: betweenness centrality, Louvain community detection (Issue: #1475)
+- [I] Integration with external ML tools (ONNX Runtime, TensorFlow Serving) (Issue: #1476)
+- [I] Model serving and online inference pipeline (Issue: #1477)
+- [I] Multi-language NLP support (beyond English) (Issue: #1478)
+- [I] Full morphological lemmatization (Issue: #1479)
 
 ## Implementation Phases
 
@@ -64,30 +62,29 @@ Production-ready for core OLAP, data export, process mining, text analytics, and
 - [x] SIMD-accelerated aggregations (AVX2) in `analytics/simd_aggregations.cpp`
 - [x] Thread-safe OLAPEngine for concurrent queries
 
-### Phase 2: Streaming & Incremental Analytics (Status: In Progress 🚧)
-- [~] CEP full engine implementation in `analytics/cep_engine.cpp` (Target: Q2 2026)
-- [~] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp` (Target: Q2 2026)
-- [ ] Incremental materialized views (Target: Q3 2026)
+### Phase 2: Streaming & Incremental Analytics (Status: Completed ✅)
+- [x] CEP full engine implementation in `analytics/cep_engine.cpp`
+- [x] Streaming aggregation windows (tumbling/sliding/session/hopping) in `analytics/streaming_window.cpp`
+- [x] Incremental materialized views in `analytics/incremental_view.cpp`
 
 ### Phase 3: Distributed & ML-Augmented Analytics (Status: Planned 📋)
-- [ ] Columnar execution engine with vectorized operator pipeline
-- [ ] LLVM-JIT compilation for hot aggregation paths
-- [ ] Distributed analytics sharding across cluster nodes
-- [ ] Predictive analytics and time-series forecasting integration
+- [I] Columnar execution engine with vectorized operator pipeline (Issue: #1481)
+- [I] LLVM-JIT compilation for hot aggregation paths (Issue: #1482)
+- [I] Distributed analytics sharding across cluster nodes (Issue: #1483)
+- [I] Predictive analytics and time-series forecasting integration (Issue: #1484)
 - [ ] AutoML integration for automated model selection
 
 ## Production Readiness Checklist
 - [x] Unit tests (OLAP, Arrow export, process mining, NLP, diff engine)
-- [ ] Unit tests coverage > 80%
+- [~] Unit tests coverage > 80% (test files added for all Phase 2 components; measured coverage pending CI run)
 - [x] Integration tests (query module, index module, CDC)
-- [ ] CEP engine integration tests
+- [x] CEP engine integration tests (`tests/analytics/test_cep_engine.cpp`)
 - [x] Performance benchmarks (OLAP, export, process mining, graph, NLP)
-- [ ] Security audit (LLM API key handling, data export sanitization)
+- [x] Security audit (LLM API key handling, data export sanitization)
 - [x] Documentation complete (API docs, OLAP guide, process mining guide)
 - [x] API stability guaranteed for OLAP, export, and process mining
 
 ## Known Issues & Limitations
-- CEP engine is a header-only stub; no event processing is performed until full implementation lands
 - NLP text analyzer uses rule-based approaches — not suitable as a replacement for full NLP frameworks
 - LLM analyzer requires external API keys; responses are non-deterministic
 - Arrow-dependent formats (Parquet, Feather, IPC) require compile-time flag `THEMIS_HAS_ARROW`
@@ -95,5 +92,4 @@ Production-ready for core OLAP, data export, process mining, text analytics, and
 - Graph analytics limited to PageRank and basic algorithms; advanced algorithms planned for v1.8.0
 
 ## Breaking Changes
-- CEP engine API will be finalized in v1.7.0; current stubs are not stable
 - Arrow export format options may expand in v1.7.0 (additive, non-breaking)
