@@ -270,8 +270,9 @@ std::vector<CaptionCue> VoiceAccessibility::mergeSortCues(const std::vector<Capt
 
     // Fix overlapping timestamps: ensure end_ms >= start_ms + 1 and no overlap with next
     for (size_t i = 0; i < sorted.size(); ++i) {
+        static constexpr int64_t DEFAULT_MIN_CUE_DURATION_MS = 1000;
         if (sorted[i].end_ms <= sorted[i].start_ms) {
-            sorted[i].end_ms = sorted[i].start_ms + 1000;
+            sorted[i].end_ms = sorted[i].start_ms + DEFAULT_MIN_CUE_DURATION_MS;
         }
         if (i + 1 < sorted.size() && sorted[i].end_ms > sorted[i + 1].start_ms) {
             sorted[i].end_ms = sorted[i + 1].start_ms;

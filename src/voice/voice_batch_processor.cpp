@@ -353,7 +353,8 @@ float VoiceBatchProcessor::computeNoiseFloor(
     float sum = 0.0f;
     for (size_t i = 0; i < n; ++i) sum += frame_rms[i];
     float floor = sum / static_cast<float>(n);
-    return (floor > 0.0f) ? floor : 1e-7f; // Avoid divide-by-zero
+    static constexpr float MIN_NOISE_FLOOR = 1e-7f; // Minimum value to avoid divide-by-zero in SNR
+    return (floor > 0.0f) ? floor : MIN_NOISE_FLOOR;
 }
 
 std::vector<float> VoiceBatchProcessor::rawToFloat(const std::vector<uint8_t>& data) const {

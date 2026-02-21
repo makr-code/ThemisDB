@@ -78,7 +78,9 @@ std::optional<CachedModel> VoiceModelCache::get(
         while (freed < needed) {
             size_t before = current_memory_bytes_;
             if (!evictLRUOne()) break;
-            freed += before - current_memory_bytes_; // track actual bytes freed by eviction
+            // current_memory_bytes_ is only decremented inside evictLRUOne() while the
+            // same mutex is held, so before >= current_memory_bytes_ is guaranteed here.
+            freed += before - current_memory_bytes_;
         }
     }
 

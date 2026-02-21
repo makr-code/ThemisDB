@@ -1687,7 +1687,6 @@ TEST(ModelCachePhase10, CacheHitMiss) {
     auto res2 = cache.get("hot-model", "", "tts");
     EXPECT_TRUE(res2.has_value());
     EXPECT_EQ(cache.getStats().cache_hits, 1u);   // exactly one hit after the insert+get
-    EXPECT_GE(cache.getStats().cache_hits, 1u);
 }
 
 TEST(ModelCachePhase10, EvictLRU) {
