@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            demo_encryption.cpp                                ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   65.0/100                                       ║
+    • Total Lines:     471                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "storage/rocksdb_wrapper.h"
 #include "security/mock_key_provider.h"
 #include "security/vault_key_provider.h"

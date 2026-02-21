@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_security_checker.h                             ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:10                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   50.0/100                                       ║
+    • Total Lines:     149                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 13                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include "security/hsm_provider.h"

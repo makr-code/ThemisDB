@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_llm_judge_integration.cpp                    ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   78.0/100                                       ║
+    • Total Lines:     447                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * @file bench_llm_judge_integration.cpp
  * @brief Performance benchmarks for LLMJudgeIntegration

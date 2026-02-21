@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            production_validator.cpp                           ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:13                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🔴 ALPHA                                        ║
+    • Quality Score:   23.0/100                                       ║
+    • Total Lines:     998                                            ║
+    • Open Issues:     TODOs: 27, Stubs: 0                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🚧 Early Development                                         ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "llm/production_validator.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>

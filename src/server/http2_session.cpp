@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            http2_session.cpp                                  ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   98.0/100                                       ║
+    • Total Lines:     620                                            ║
+    • Open Issues:     TODOs: 1, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifdef THEMIS_ENABLE_HTTP2
 
 #include "server/http2_session.h"

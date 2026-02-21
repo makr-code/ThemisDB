@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            gorilla.h                                          ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     92                                             ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #ifndef THEMIS_GORILLA_H
 #define THEMIS_GORILLA_H
 
@@ -77,6 +96,11 @@ public:
     explicit GorillaDecoder(const std::vector<uint8_t>& data);
     std::optional<std::pair<int64_t,double>> next();
 
+    /// Returns true if a decode error was encountered (truncated/corrupt data)
+    bool hasError() const { return error_; }
+    /// Returns total number of successfully decoded points
+    size_t decodedCount() const { return decoded_count_; }
+
 private:
     bool first_ {true};
     int64_t prev_ts_ {0};
@@ -85,6 +109,8 @@ private:
     int prev_leading_ {64};
     int prev_trailing_ {64};
     BitReader br_;
+    bool error_ {false};
+    size_t decoded_count_ {0};
 };
 
 } // namespace themis

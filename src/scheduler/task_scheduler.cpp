@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            task_scheduler.cpp                                 ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   85.0/100                                       ║
+    • Total Lines:     1862                                           ║
+    • Open Issues:     TODOs: 9, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "scheduler/task_scheduler.h"
 #include "scheduler/event_trigger.h"
 #include "scheduler/task_audit_manager.h"

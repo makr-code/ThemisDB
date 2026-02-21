@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            DashboardViewModel.cs                              ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   79.0/100                                       ║
+    • Total Lines:     179                                            ║
+    • Open Issues:     TODOs: 8, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 using Themis.DocumentManager.Services;
 using Themis.DocumentManager.Application.Common.Interfaces;
 using Themis.DocumentManager.Features.Graph.Services;

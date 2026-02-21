@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            DsmLocalDataStore.cs                               ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟠 BETA                                         ║
+    • Quality Score:   43.0/100                                       ║
+    • Total Lines:     338                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 12                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 🔧 In Progress                                               ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

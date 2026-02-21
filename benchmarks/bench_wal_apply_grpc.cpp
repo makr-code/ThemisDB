@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            bench_wal_apply_grpc.cpp                           ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:08                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   70.0/100                                       ║
+    • Total Lines:     181                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 6                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #if __has_include("sharding/shard_rpc.grpc.pb.h")
 
 #include <benchmark/benchmark.h>

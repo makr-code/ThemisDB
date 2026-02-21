@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            error_registry.h                                   ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:11                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟢 PRODUCTION-READY                             ║
+    • Quality Score:   100.0/100                                      ║
+    • Total Lines:     235                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 0                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ✅ Production Ready                                          ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #pragma once
 
 #include <string>
@@ -114,6 +133,7 @@ enum class ErrorCode {
     ERR_API_UNAUTHORIZED = 6201,
     ERR_API_RATE_LIMIT = 6202,
     ERR_API_INTERNAL_ERROR = 6203,
+    ERR_API_RESOURCE_EXHAUSTED = 6204,
     
     // Plugin Errors (6300-6399)
     ERR_PLUGIN_NOT_FOUND = 6300,
@@ -203,7 +223,32 @@ public:
     std::vector<ErrorMetadata> getErrorsByCategory(const std::string& category) const;
     std::vector<ErrorMetadata> searchErrors(const std::string& query) const;
     std::vector<std::string> getAllCategories() const;
-    
+
+    /**
+     * @brief Get the recovery hint (solution) for a given error code.
+     *
+     * Convenience shorthand for `getError(code).solution`.
+     * Returns an empty string for unknown error codes.
+     */
+    std::string getRecoveryHint(ErrorCode code) const;
+
+    /**
+     * @brief Format an error message using its template and the provided args.
+     *
+     * Safe wrapper around fmt::vformat.  Falls back to the raw template if
+     * formatting fails (e.g., mismatched argument count).
+     */
+    template<typename... Args>
+    std::string formatError(ErrorCode code, Args&&... args) const {
+        auto metadata = getError(code);
+        try {
+            return fmt::vformat(metadata.message_template,
+                                fmt::make_format_args(args...));
+        } catch (...) {
+            return metadata.message_template;
+        }
+    }
+
     json toJSON() const;
     
 private:

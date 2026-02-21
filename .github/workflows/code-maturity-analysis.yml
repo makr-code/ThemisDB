@@ -1,0 +1,58 @@
+name: Code Maturity Analysis & Auto-Versioning
+
+# Triggert bei Push von Source-Dateien auf relevante Branches
+on:
+  push:
+    paths:
+      - '**.cpp'
+      - '**.h'
+      - '**.hpp'
+      - '**.py'
+      - '**.cs'
+      - '**.php'
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+
+permissions:
+  contents: write  # Für automatischen Commit
+
+jobs:
+  analyze-and-version:
+    name: Code Maturity Analysis & Auto-Versioning
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Vollständige Git-Historie für Autor-Tracking
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install gitpython pyyaml
+
+      - name: Run code maturity analysis
+        run: |
+          python .github/scripts/analyze_code_maturity.py --root .
+
+      - name: Configure Git bot user
+        run: |
+          git config user.name 'ThemisDB Version Bot'
+          git config user.email 'bot@themisdb.local'
+
+      - name: Commit updated files
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "🤖 Auto-update: Code maturity analysis & versioning [skip ci]"
+            git push
+          fi

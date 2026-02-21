@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_provider.cpp                                   ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:14                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  ⚫ DRAFT                                        ║
+    • Quality Score:   0.0/100                                        ║
+    • Total Lines:     196                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 27                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: 📝 Draft / Stub                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 // Clean minimal stub implementation of HSMProvider.
 // Provides deterministic, nicht-kryptographische Operationen fuer Developer-Fallback.
 // Wird nur eingebaut, wenn THEMIS_ENABLE_HSM_REAL NICHT definiert ist.

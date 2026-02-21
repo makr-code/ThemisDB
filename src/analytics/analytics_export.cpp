@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            analytics_export.cpp                               ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:12                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   70.0/100                                       ║
+    • Total Lines:     660                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 6                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 #include "analytics/analytics_export.h"
 #include <fstream>
 #include <sstream>

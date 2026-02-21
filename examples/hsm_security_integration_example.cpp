@@ -1,3 +1,22 @@
+/*
+╔═════════════════════════════════════════════════════════════════════╗
+║ ThemisDB - Hybrid Database System                                   ║
+╠═════════════════════════════════════════════════════════════════════╣
+  File:            hsm_security_integration_example.cpp               ║
+  Version:         0.0.2                                              ║
+  Last Modified:   2026-02-21 07:18:09                                ║
+  Author:          unknown                                            ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Quality Metrics:                                                    ║
+    • Maturity Level:  🟡 RELEASE-CANDIDATE                            ║
+    • Quality Score:   66.0/100                                       ║
+    • Total Lines:     172                                            ║
+    • Open Issues:     TODOs: 0, Stubs: 8                             ║
+╠═════════════════════════════════════════════════════════════════════╣
+  Status: ⚠️  Needs Work                                              ║
+╚═════════════════════════════════════════════════════════════════════╝
+ */
+
 /**
  * Example: HSM Security Integration in Server
  * 
