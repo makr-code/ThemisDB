@@ -177,6 +177,7 @@ public:
         uint64_t total_begun;
         uint64_t total_committed;
         uint64_t total_aborted;
+        uint64_t total_timed_out;  ///< Transactions rolled back due to timeout
         uint64_t active_count;
         uint64_t avg_duration_ms;
         uint64_t max_duration_ms;
@@ -217,6 +218,42 @@ public:
     
     // Cleanup old completed transactions (after 1 hour by default)
     void cleanupOldTransactions(std::chrono::seconds max_age = std::chrono::hours(1));
+
+    // ── Transaction Timeout / Auto-Rollback ───────────────────────────────────
+
+    /**
+     * @brief Set a global timeout for all new and active transactions.
+     *
+     * Any transaction that has been active for longer than @p timeout_ms
+     * without committing will be automatically rolled back by the background
+     * detector thread.
+     *
+     * Set to 0 (default) to disable automatic rollback on timeout.
+     *
+     * @param timeout_ms  Maximum transaction lifetime in milliseconds; 0 = disabled.
+     */
+    void setTransactionTimeout(std::chrono::milliseconds timeout_ms);
+
+    /**
+     * @brief Return the currently configured transaction timeout.
+     * @return Configured timeout in milliseconds (0 = disabled).
+     */
+    std::chrono::milliseconds getTransactionTimeout() const;
+
+    /**
+     * @brief Return the number of transactions rolled back due to timeout.
+     */
+    uint64_t getTimedOutCount() const;
+
+    /**
+     * @brief Abort any active transactions that have exceeded the configured timeout.
+     *
+     * Called automatically from the background detector thread.  Can also be
+     * called manually (e.g. from a dedicated timeout-sweeper).
+     *
+     * @return Number of transactions aborted in this sweep.
+     */
+    size_t abortTimedOutTransactions();
     
     // Deadlock detection
 
@@ -364,6 +401,7 @@ private:
     std::atomic<uint64_t> total_begun_{0};
     std::atomic<uint64_t> total_committed_{0};
     std::atomic<uint64_t> total_aborted_{0};
+    std::atomic<uint64_t> total_timed_out_{0};     ///< Incremented by abortTimedOutTransactions()
     
     // SOLUTION 2B: Sequence lock for consistent lock-free statistics reads
     mutable std::atomic<uint64_t> stats_sequence_{0};
@@ -377,6 +415,9 @@ private:
     // Deadlock detection state
     std::atomic<bool> deadlock_detection_enabled_{false};
     std::atomic<uint64_t> deadlock_timeout_ms_{1000};
+
+    // Transaction timeout (0 = disabled)
+    std::atomic<uint64_t> transaction_timeout_ms_{0};
     std::atomic<uint64_t> total_deadlocks_{0};
 
     // Victim selection policy (stored as underlying int for atomic access)
