@@ -574,8 +574,19 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"summary", "List entities"},
                         {"operationId", "listEntities"},
                         {"tags", json::array({"entities"})},
+                        {"parameters", json::array({
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
+                        })},
                         {"responses", {
-                            {"200", {{"description", "Entity list"}}},
+                            {"200", {
+                                {"description", "Entity list"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}},
+                                    {"Deprecation", {{"$ref","#/components/headers/Deprecation"}}},
+                                    {"Sunset",      {{"$ref","#/components/headers/Sunset"}}},
+                                    {"Link",        {{"$ref","#/components/headers/Link"}}}
+                                }}
+                            }},
                             {"401", {{"description", "Unauthorized"}}}
                         }}
                     }},
@@ -583,12 +594,20 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"summary", "Create entity"},
                         {"operationId", "createEntity"},
                         {"tags", json::array({"entities"})},
+                        {"parameters", json::array({
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
+                        })},
                         {"requestBody", {
                             {"required", true},
                             {"content", {{"application/json", {{"schema", {{"type","object"}}}}}}}
                         }},
                         {"responses", {
-                            {"201", {{"description", "Entity created"}}},
+                            {"201", {
+                                {"description", "Entity created"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
+                                }}
+                            }},
                             {"400", {{"description", "Bad request"}}},
                             {"413", {{"description", "Payload too large"}}}
                         }}
@@ -600,10 +619,19 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"operationId", "getEntity"},
                         {"tags", json::array({"entities"})},
                         {"parameters", json::array({
-                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}},
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
                         })},
                         {"responses", {
-                            {"200", {{"description", "Entity found"}}},
+                            {"200", {
+                                {"description", "Entity found"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}},
+                                    {"Deprecation", {{"$ref","#/components/headers/Deprecation"}}},
+                                    {"Sunset",      {{"$ref","#/components/headers/Sunset"}}},
+                                    {"Link",        {{"$ref","#/components/headers/Link"}}}
+                                }}
+                            }},
                             {"404", {{"description", "Not found"}}}
                         }}
                     }},
@@ -612,11 +640,17 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"operationId", "upsertEntity"},
                         {"tags", json::array({"entities"})},
                         {"parameters", json::array({
-                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}},
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
                         })},
                         {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
                         {"responses", {
-                            {"200", {{"description", "Entity updated"}}},
+                            {"200", {
+                                {"description", "Entity updated"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
+                                }}
+                            }},
                             {"201", {{"description", "Entity created"}}}
                         }}
                     }},
@@ -625,10 +659,16 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"operationId", "deleteEntity"},
                         {"tags", json::array({"entities"})},
                         {"parameters", json::array({
-                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}}
+                            json{{"name","key"},{"in","path"},{"required",true},{"schema",{{"type","string"}}}},
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
                         })},
                         {"responses", {
-                            {"200", {{"description", "Entity deleted"}}},
+                            {"200", {
+                                {"description", "Entity deleted"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
+                                }}
+                            }},
                             {"404", {{"description", "Not found"}}}
                         }}
                     }}
@@ -638,9 +678,17 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"summary", "Execute a query"},
                         {"operationId", "postQuery"},
                         {"tags", json::array({"query"})},
+                        {"parameters", json::array({
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
+                        })},
                         {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
                         {"responses", {
-                            {"200", {{"description", "Query results"}}},
+                            {"200", {
+                                {"description", "Query results"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
+                                }}
+                            }},
                             {"400", {{"description", "Bad query"}}}
                         }}
                     }}
@@ -650,9 +698,17 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                         {"summary", "Execute an AQL (ThemisDB Query Language) query"},
                         {"operationId", "postAqlQuery"},
                         {"tags", json::array({"query"})},
+                        {"parameters", json::array({
+                            json{{"$ref","#/components/parameters/AcceptVersion"}}
+                        })},
                         {"requestBody", {{"required",true},{"content",{{"application/json",{{"schema",{{"type","object"}}}}}}}}},
                         {"responses", {
-                            {"200", {{"description", "AQL query results"}}},
+                            {"200", {
+                                {"description", "AQL query results"},
+                                {"headers", {
+                                    {"API-Version", {{"$ref","#/components/headers/API-Version"}}}
+                                }}
+                            }},
                             {"400", {{"description", "AQL syntax error"}}}
                         }}
                     }}
@@ -692,6 +748,38 @@ http::response<http::string_body> MonitoringApiHandler::handleOpenApi(
                                 }}
                             }}
                         }}
+                    }}
+                }},
+                {"headers", {
+                    {"API-Version", {
+                        {"description", "The API version used to process this request (e.g. v1.4.1). "
+                                        "Clients may request a specific version via Accept-Version."},
+                        {"schema", {{"type","string"},{"example","v1.4.1"}}}
+                    }},
+                    {"Deprecation", {
+                        {"description", "Present when the accessed endpoint is deprecated. "
+                                        "Format: 'true; deprecated-version=\"v1.0.0\"; removal-version=\"v2.0.0\"'"},
+                        {"schema", {{"type","string"},{"example","true; deprecated-version=\"v1.0.0\"; removal-version=\"v2.0.0\""}}}
+                    }},
+                    {"Sunset", {
+                        {"description", "RFC 8594 Sunset header. The HTTP-date at which the deprecated "
+                                        "endpoint will be removed (e.g. 'Wed, 24 Jan 2028 06:00:00 GMT')."},
+                        {"schema", {{"type","string"},{"example","Wed, 24 Jan 2028 06:00:00 GMT"}}}
+                    }},
+                    {"Link", {
+                        {"description", "Link to the migration guide for the deprecated endpoint. "
+                                        "Format: '<url>; rel=\"deprecation\"'"},
+                        {"schema", {{"type","string"},{"example","<https://docs.themisdb.com/migration/v1-to-v2>; rel=\"deprecation\""}}}
+                    }}
+                }},
+                {"parameters", {
+                    {"AcceptVersion", {
+                        {"name", "Accept-Version"},
+                        {"in", "header"},
+                        {"required", false},
+                        {"description", "Request a specific API version (e.g. v1.4.0, v1.4, v1, latest). "
+                                        "If omitted, the current stable version is used."},
+                        {"schema", {{"type","string"},{"example","v1.4.0"}}}
                     }}
                 }},
                 {"securitySchemes", {
