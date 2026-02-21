@@ -164,6 +164,12 @@ public:
          * create multiple nested savepoints.
          *
          * Returns an error if the transaction is not active.
+         *
+         * @warning Do NOT mix this anonymous stack API with the named savepoint
+         *          API (createSavepoint / rollbackToSavepoint / releaseSavepoint).
+         *          Both share the same underlying RocksDB savepoint stack.  Using
+         *          both on the same Transaction will corrupt the named-savepoint
+         *          bookkeeping and produce undefined behaviour.
          */
         Status setSavePoint();
 
@@ -172,6 +178,8 @@ public:
          *
          * Pops the latest savepoint.  Returns an error if there is no
          * outstanding savepoint or the transaction is not active.
+         *
+         * @warning Do not mix with the named savepoint API. See setSavePoint().
          */
         Status rollbackToSavePoint();
 
@@ -180,6 +188,8 @@ public:
          *
          * Returns an error if there is no outstanding savepoint or the
          * transaction is not active.
+         *
+         * @warning Do not mix with the named savepoint API. See setSavePoint().
          */
         Status popSavePoint();
 
